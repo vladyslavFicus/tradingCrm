@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { compose } from 'redux';
+import moment from 'moment';
 import { Field, reduxForm } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
-import { InputField } from '../../../../components/ReduxForm';
+import { get, isEqual } from 'lodash';
+import { InputField, DateTimeField } from '../../../../components/ReduxForm';
 import {
   attributeLabels,
   rewardTemplateTypes,
@@ -14,41 +17,69 @@ import NodeBuilder from '../NodeBuilder';
 import { BonusView } from '../Bonus';
 import { FreeSpinView } from '../FreeSpin';
 import { WageringView } from '../Wagering';
+import DepositFulfillmentView from '../DepositFulfillmentView';
 import { createValidator } from '../../../../utils/validator';
 import Permissions from '../../../../utils/permissions';
 import permissions from '../../../../config/permissions';
 import './Form.scss';
+import withReduxFormValues from '../../../../components/HighOrder/withReduxFormValues';
 
 const CAMPAIGN_NAME_MAX_LENGTH = 100;
 
 class Form extends Component {
   static propTypes = {
+    change: PropTypes.func.isRequired,
     reset: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func,
     pristine: PropTypes.bool,
     submitting: PropTypes.bool,
     form: PropTypes.string.isRequired,
-    currentValues: PropTypes.shape({
+    formValues: PropTypes.shape({
       name: PropTypes.string,
     }),
     disabled: PropTypes.bool,
   };
-
+  static contextTypes = {
+    permissions: PropTypes.array.isRequired,
+  };
   static defaultProps = {
     disabled: false,
     handleSubmit: null,
     pristine: false,
     submitting: false,
-    currentValues: {},
+    formValues: {},
   };
 
-  static contextTypes = {
-    permissions: PropTypes.array.isRequired,
+  endDateValidator = fromAttribute => (current) => {
+    const { formValues } = this.props;
+
+    return formValues && current.isSameOrAfter(moment().subtract(1, 'd')) && (
+        formValues[fromAttribute]
+          ? current.isSameOrAfter(moment(formValues[fromAttribute]))
+          : true
+      );
   };
 
-  componentWillReceiveProps({ disabled }) {
-    if (disabled && !this.props.disabled) {
+  componentWillReceiveProps({ disabled: nextDisabled, formValues: nextFormValues }) {
+    const { disabled, formValues, change } = this.props;
+
+    if (!isEqual(formValues.fulfillments, nextFormValues.fulfillments)) {
+      nextFormValues.fulfillments.forEach((fulfillment, index) => {
+        if (fulfillment.uuid) {
+          const prevFulfillment = formValues.fulfillments[index];
+          const isSameObject = (
+            !!prevFulfillment && Object.keys(prevFulfillment).length === Object.keys(fulfillment).length
+          );
+
+          if (isSameObject && !isEqual(prevFulfillment, fulfillment)) {
+            change(`fulfillments[${index}].uuid`, null);
+          }
+        }
+      });
+    }
+
+    if (nextDisabled && !disabled) {
       this.props.reset();
     }
   }
@@ -58,7 +89,7 @@ class Form extends Component {
 
     return items.filter(({ type }) =>
       new Permissions(permissions[`${type}${prefix}`].CREATE &&
-       permissions[`${type}${prefix}`].VIEW).check(currentPermissions))
+        permissions[`${type}${prefix}`].VIEW).check(currentPermissions))
       .reduce((acc, { type, component }) => ({ ...acc, [type]: component }), {});
   };
 
@@ -68,7 +99,7 @@ class Form extends Component {
       onSubmit,
       pristine,
       submitting,
-      currentValues,
+      formValues,
       form,
       reset,
       disabled,
@@ -115,10 +146,34 @@ class Form extends Component {
             />
             <div className="form-group__note">
               {
-                currentValues && currentValues.name
-                  ? currentValues.name.length
+                formValues && formValues.name
+                  ? formValues.name.length
                   : 0
               }/{CAMPAIGN_NAME_MAX_LENGTH}
+            </div>
+            <div className="col-md-6">
+              <div className="form-group">
+                <label>{I18n.t('CAMPAIGNS.SETTINGS.LABEL.CAMPAIGN_PERIOD')}</label>
+                <div className="range-group">
+                  <Field
+                    utc
+                    name="startDate"
+                    component={DateTimeField}
+                    isValidDate={() => true}
+                    position="vertical"
+                    disabled={disabled}
+                  />
+                  <span className="range-group__separator">-</span>
+                  <Field
+                    utc
+                    name="endDate"
+                    component={DateTimeField}
+                    isValidDate={this.endDateValidator('startDate')}
+                    position="vertical"
+                    disabled={disabled}
+                  />
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -132,6 +187,7 @@ class Form extends Component {
             components={
               this.getAllowedNodes([
                 { type: fulfilmentTypes.WAGERING, component: WageringView },
+                { type: fulfilmentTypes.DEPOSIT, component: DepositFulfillmentView },
               ], '_FULFILLMENT')
             }
             typeLabels={fulfilmentTypesLabels}
@@ -156,9 +212,30 @@ class Form extends Component {
   }
 }
 
-export default reduxForm({
-  enableReinitialize: true,
-  validate: createValidator({
-    name: ['required', 'string'],
-  }, attributeLabels, false),
-})(Form);
+export default compose(
+  reduxForm({
+    enableReinitialize: true,
+    validate: (values) => {
+      const rules = {
+        name: ['required', 'string'],
+      };
+
+      const fulfillments = get(values, 'fulfillments', []);
+
+      if (fulfillments.length > 0) {
+        rules.fulfillments = {};
+      }
+
+      fulfillments.forEach((fulfillment, index) => {
+        if (fulfillment.type === fulfilmentTypes.DEPOSIT) {
+          rules.fulfillments[index] = {
+            numDeposit: ['required'],
+          };
+        }
+      });
+
+      return createValidator(rules, attributeLabels, false)(values);
+    },
+  }),
+  withReduxFormValues,
+)(Form);

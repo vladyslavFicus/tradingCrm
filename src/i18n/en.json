@@ -1725,7 +1725,7 @@
     "CAMPAIGN_NAME": "Campaign name",
     "FREE_SPIN_TEMPLATE": "Free spin template",
     "BONUS_TEMPLATE": "Bonus template",
-    "WAGERING_FULFILLMENT" :"Wagering fulfillment",
+    "WAGERING_FULFILLMENT": "Wagering fulfillment",
     "SELECT_REWARD": "-- Select reward --",
     "SELECT_FULFILLMENT": "-- Select fulfillment --",
     "FREE_SPIN": {
@@ -1756,7 +1756,58 @@
       "CHOOSE_CURRENCY": "-- Choose currency--",
       "CHOOSE_AGGREGATOR": "-- Choose aggregator--",
       "CHOOSE_PROVIDER": "-- Choose provider--",
-      "CHOOSE_PAGE_CODE": "-- Choose page code--"
+      "CHOOSE_PAGE_CODE": "-- Choose page code--",
+      "WAGERING": "Wagering",
+      "CAPPING": "Capping",
+      "MONEY_PRIORITY": "Money priority"
+    },
+    "CAMPAIGN_NAME": "Campaign name",
+    "DEPOSIT_FULFILLMENT": "Deposit fulfillment",
+    "SETTINGS": {
+      "FULFILLMENTS": {
+        "DEPOSIT": {
+          "DEPOSIT_AMOUNT_RANGE": "Deposit amount range",
+          "DEPOSIT_NUMBER_LABEL": "Deposit number",
+          "SELECT_DEPOSIT_NUMBER": "-- Select deposit number --",
+          "NUMBER_OPTION": "deposit",
+          "RESTRICTED_PAYMENT_METHODS": "Excluded payment methods"
+        },
+        "WAGERING": {
+          "LABEL": {
+            "AMOUNT_TO_WAGER": "Amount to wage"
+          }
+        }
+      },
+      "REWARDS": {
+        "BONUS": {
+          "LABEL": {
+            "NAME": "",
+            "BONUS_REWARD": "",
+            "GRANT": "",
+            "CAPPING": "",
+            "MULTIPLIER": "",
+            "MONEY_TYPE_PRIOR": "",
+            "MAX_BET": "",
+            "MAX_GRANTED_AMOUNT": "",
+            "LIFE_TIME": "",
+            "WAGERING_REQUIREMENT": "",
+            "LOCK_AMOUNT_STRATEGY": "",
+            "PLACEHOLDERS": {
+              "DAYS": "",
+              "NOT_SET": ""
+            },
+            "MIN_PRIZE": ""
+          }
+        },
+        "CREATE_BONUS_MODAL": {
+          "TITLE": ""
+        }
+      }
+    },
+    "REWARDS": {
+      "FREE_SPIN": {
+        "LIFE_TIME": ""
+      }
     }
   },
   "MULTI_CURRENCY_MODAL": {

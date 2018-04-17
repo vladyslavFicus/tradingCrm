@@ -16,12 +16,13 @@ const fulfilmentTypes = keyMirror({
 });
 
 const rewardTypesLabels = {
-  [rewardTemplateTypes.BONUS]: 'CAMPAIGNS.BONUS_TEMPLATE',
-  [rewardTemplateTypes.FREE_SPIN]: 'CAMPAIGNS.FREE_SPIN_TEMPLATE',
+  [rewardTemplateTypes.BONUS]: I18n.t('CAMPAIGNS.BONUS_TEMPLATE'),
+  [rewardTemplateTypes.FREE_SPIN]: I18n.t('CAMPAIGNS.FREE_SPIN_TEMPLATE'),
 };
 
 const fulfilmentTypesLabels = {
-  [fulfilmentTypes.WAGERING]: 'CAMPAIGNS.WAGERING_FULFILLMENT',
+  [fulfilmentTypes.WAGERING]: I18n.t('CAMPAIGNS.WAGERING_FULFILLMENT'),
+  [fulfilmentTypes.DEPOSIT]: I18n.t('CAMPAIGNS.DEPOSIT_FULFILLMENT'),
 };
 
 export {

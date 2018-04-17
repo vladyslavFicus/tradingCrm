@@ -106,12 +106,12 @@ function createFreeSpinTemplate(type) {
 }
 
 function assignFreeSpinTemplate(type) {
-  return (uuid, aggregatorId, data) => (dispatch, getState) => {
+  return (uuid, data) => (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `free_spin_template/templates/${aggregatorId}/${uuid}/assign`,
+        endpoint: `free_spin_template/templates/${uuid}/assign`,
         method: 'POST',
         headers: {
           Accept: 'application/json',

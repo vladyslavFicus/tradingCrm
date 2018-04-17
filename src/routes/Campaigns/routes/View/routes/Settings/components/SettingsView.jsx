@@ -1,14 +1,15 @@
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import { I18n } from 'react-redux-i18n';
 import { get } from 'lodash';
-import PropTypes from '../../../../../../constants/propTypes';
-import Form from '../../../../components/Form';
-import { statuses } from '../../../../../../constants/bonus-campaigns';
-import asyncForEach from '../../../../../../utils/asyncForEach';
-import Permissions from '../../../../../../utils/permissions';
-import permissions from '../../../../../../config/permissions';
+import PropTypes from '../../../../../../../constants/propTypes';
+import Form from '../../../../../components/Form';
+import { statuses } from '../../../../../../../constants/bonus-campaigns';
+import asyncForEach from '../../../../../../../utils/asyncForEach';
+import { fulfilmentTypes as fulfillmentTypes } from '../../../../../constants';
+import Permissions from '../../../../../../../utils/permissions';
+import permissions from '../../../../../../../config/permissions';
 
-class SettingsView extends PureComponent {
+class SettingsView extends Component {
   static propTypes = {
     updateCampaign: PropTypes.func.isRequired,
     notify: PropTypes.func.isRequired,
@@ -30,6 +31,7 @@ class SettingsView extends PureComponent {
       updateCampaign,
       notify,
       addWageringFulfillment,
+      addDepositFulfillment,
       campaign: {
         campaign: {
           data,
@@ -43,11 +45,19 @@ class SettingsView extends PureComponent {
     const newFulfillments = formData.fulfillments.filter(({ uuid }) => !uuid);
 
     await asyncForEach(newFulfillments, async (fulfillment) => {
-      const waggeringResponse = await addWageringFulfillment({
-        variables: fulfillment,
-      });
+      let uuid = null;
 
-      const uuid = get(waggeringResponse, 'data.wageringFulfillment.add.data.uuid');
+      if (fulfillment.type === fulfillmentTypes.WAGERING) {
+        const response = await addWageringFulfillment({
+          variables: fulfillment,
+        });
+        uuid = get(response, 'data.wageringFulfillment.add.data.uuid');
+      } else if (fulfillment.type === fulfillmentTypes.DEPOSIT) {
+        const response = await addDepositFulfillment({
+          variables: fulfillment,
+        });
+        uuid = get(response, 'data.depositFulfillment.add.data.uuid');
+      }
 
       if (uuid) {
         fulfillments.push(uuid);
@@ -81,6 +91,8 @@ class SettingsView extends PureComponent {
             state,
             fulfillments,
             rewards,
+            startDate,
+            endDate,
           },
         },
       },
@@ -96,6 +108,8 @@ class SettingsView extends PureComponent {
           name,
           fulfillments,
           rewards,
+          startDate,
+          endDate,
         }}
         fulfillments={fulfillments}
         form="settings"

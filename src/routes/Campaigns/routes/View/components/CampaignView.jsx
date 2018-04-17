@@ -1,8 +1,8 @@
 import React, { PureComponent } from 'react';
-import Tabs from '../../../../components/Tabs';
-import { newBonusCampaignTabs } from '../../../../config/menu';
-import PropTypes from '../../../../constants/propTypes';
-import Header from './components/Header';
+import Tabs from '../../../../../components/Tabs';
+import { newBonusCampaignTabs } from '../../../../../config/menu';
+import PropTypes from '../../../../../constants/propTypes';
+import Header from './Header';
 
 class CampaignView extends PureComponent {
   static propTypes = {
