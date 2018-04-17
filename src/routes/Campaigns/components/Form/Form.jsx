@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
+import moment from 'moment';
 import { Field, reduxForm } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
 import { get, isEqual } from 'lodash';
-import { InputField } from '../../../../components/ReduxForm';
+import { InputField, DateTimeField } from '../../../../components/ReduxForm';
 import {
   attributeLabels,
   rewardTemplateTypes,
@@ -48,6 +49,16 @@ class Form extends Component {
     pristine: false,
     submitting: false,
     formValues: {},
+  };
+
+  endDateValidator = fromAttribute => (current) => {
+    const { formValues } = this.props;
+
+    return formValues && current.isSameOrAfter(moment().subtract(1, 'd')) && (
+        formValues[fromAttribute]
+          ? current.isSameOrAfter(moment(formValues[fromAttribute]))
+          : true
+      );
   };
 
   componentWillReceiveProps({ disabled: nextDisabled, formValues: nextFormValues }) {
@@ -125,7 +136,7 @@ class Form extends Component {
           </div>
           <hr />
           <div className="row">
-            <div className="col-md-7">
+            <div className="col-md-6">
               <Field
                 id={`${form}Name`}
                 name="name"
@@ -141,6 +152,30 @@ class Form extends Component {
                     ? formValues.name.length
                     : 0
                 }/{CAMPAIGN_NAME_MAX_LENGTH}
+              </div>
+            </div>
+            <div className="col-md-6">
+              <div className="form-group">
+                <label>{I18n.t('CAMPAIGNS.SETTINGS.LABEL.CAMPAIGN_PERIOD')}</label>
+                <div className="range-group">
+                  <Field
+                    utc
+                    name="startDate"
+                    component={DateTimeField}
+                    isValidDate={() => true}
+                    position="vertical"
+                    disabled={disabled}
+                  />
+                  <span className="range-group__separator">-</span>
+                  <Field
+                    utc
+                    name="endDate"
+                    component={DateTimeField}
+                    isValidDate={this.endDateValidator('startDate')}
+                    position="vertical"
+                    disabled={disabled}
+                  />
+                </div>
               </div>
             </div>
           </div>

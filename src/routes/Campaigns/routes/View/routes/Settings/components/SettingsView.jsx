@@ -91,6 +91,8 @@ class SettingsView extends Component {
             state,
             fulfillments,
             rewards,
+            startDate,
+            endDate,
           },
         },
       },
@@ -106,6 +108,8 @@ class SettingsView extends Component {
           name,
           fulfillments,
           rewards,
+          startDate,
+          endDate,
         }}
         fulfillments={fulfillments}
         form="settings"
