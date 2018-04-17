@@ -134,7 +134,7 @@ class Form extends Component {
         </div>
         <hr />
         <div className="row">
-          <div className="col-md-7">
+          <div className="col-md-6">
             <Field
               id={`${form}Name`}
               name="name"
@@ -151,28 +151,28 @@ class Form extends Component {
                   : 0
               }/{CAMPAIGN_NAME_MAX_LENGTH}
             </div>
-            <div className="col-md-6">
-              <div className="form-group">
-                <label>{I18n.t('CAMPAIGNS.SETTINGS.LABEL.CAMPAIGN_PERIOD')}</label>
-                <div className="range-group">
-                  <Field
-                    utc
-                    name="startDate"
-                    component={DateTimeField}
-                    isValidDate={() => true}
-                    position="vertical"
-                    disabled={disabled}
-                  />
-                  <span className="range-group__separator">-</span>
-                  <Field
-                    utc
-                    name="endDate"
-                    component={DateTimeField}
-                    isValidDate={this.endDateValidator('startDate')}
-                    position="vertical"
-                    disabled={disabled}
-                  />
-                </div>
+          </div>
+          <div className="col-md-4">
+            <div className="form-group">
+              <label>{I18n.t('CAMPAIGNS.SETTINGS.LABEL.CAMPAIGN_PERIOD')}</label>
+              <div className="range-group">
+                <Field
+                  utc
+                  name="startDate"
+                  component={DateTimeField}
+                  isValidDate={() => true}
+                  position="vertical"
+                  disabled={disabled}
+                />
+                <span className="range-group__separator">-</span>
+                <Field
+                  utc
+                  name="endDate"
+                  component={DateTimeField}
+                  isValidDate={this.endDateValidator('startDate')}
+                  position="vertical"
+                  disabled={disabled}
+                />
               </div>
             </div>
           </div>
