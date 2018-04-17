@@ -392,11 +392,11 @@ class ProfileLayout extends Component {
   };
 
   handleSubmitNote = async (data) => {
-    const { updateNote, addNote } = this.props;
+    const { updateNote, addNote, auth: { fullName } } = this.props;
     const { noteChangedCallback } = this.state;
 
     if (data.uuid) {
-      const updatedNote = await updateNote({ variables: { ...data } });
+      const updatedNote = await updateNote({ variables: { ...data, author: fullName } });
 
       this.handlePopoverHide();
 
