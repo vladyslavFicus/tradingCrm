@@ -41,6 +41,7 @@ export default store => next => (action) => {
           window.Raven.setUserContext({
             uuid: auth.uuid,
             token: auth.token,
+            ...jwtDecode(auth.token),
           });
         }
       }

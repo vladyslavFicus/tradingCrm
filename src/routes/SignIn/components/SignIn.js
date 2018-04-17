@@ -150,7 +150,7 @@ class SignIn extends Component {
 
           this.redirectToNextPage();
         } else {
-          throw new SubmissionError({ _error: action.payload.response.error || action.payload.message });
+          throw new SubmissionError({ _error: get(action.payload, 'response.error', action.payload.message) });
         }
       }
     });

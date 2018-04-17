@@ -67,6 +67,7 @@ const statuses = keyMirror({
   ACTIVE: null,
   BLOCKED: null,
   SUSPENDED: null,
+  PERMANENT_SUSPENDED: null,
   COOLOFF: null,
 });
 const actions = keyMirror({
@@ -153,6 +154,14 @@ const statusActions = {
       reasons,
       permission: permissions.USER_PROFILE.PROLONG,
     },
+    {
+      action: actions.REMOVE,
+      label: 'Remove',
+      reasons,
+      permission: permissions.USER_PROFILE.REMOVE,
+    },
+  ],
+  [statuses.PERMANENT_SUSPENDED]: [
     {
       action: actions.REMOVE,
       label: 'Remove',
