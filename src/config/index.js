@@ -144,7 +144,7 @@ function getGraphQLRoot() {
 }
 
 function getLogo() {
-  const brands = ['redbox', 'slottica', 'loki', 'vulcanprestige'];
+  const brands = ['redbox', 'slottica', 'loki', 'vulcanprestige', 'vulcanneon'];
   let brandId = _.get(window, 'app.brandId');
 
   if (brandId) {
@@ -152,7 +152,7 @@ function getLogo() {
   }
 
   if (brands.indexOf(brandId) > -1) {
-    return `/img/brand/logo/${brandId}.svg`;
+    return `/img/brand/logo/${brandId}${'.svg' || '.jpg'}`;
   }
 
   return '/img/logoNewAge.png';
