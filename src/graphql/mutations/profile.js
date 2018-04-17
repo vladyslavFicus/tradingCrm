@@ -100,23 +100,26 @@ const resumeMutation = gql`mutation resume(
 const suspendProlong = gql`mutation suspendProlong(
   $playerUUID: String!,
   $reason: String!,
-  $durationAmount: String!,
-  $durationUnit: String!,
+  $duration: SuspendDuration,
+  $permanent: Boolean,
   $comment: String
 ) {
   profile {
     suspendProlong(
       playerUUID: $playerUUID,
       reason: $reason,
-      durationAmount: $durationAmount,
-      durationUnit: $durationUnit,
+      duration: $duration,
+      permanent: $permanent,
       comment: $comment
       ) {
       data {
         playerUUID
         profileStatus
+        profileStatusAuthor
+        profileStatusPermanent
         profileStatusReason
         profileStatusDate
+        suspendEndDate
       }
       error {
         error
@@ -144,23 +147,26 @@ const changePassword = gql`mutation changePassword($playerUUID: String!, $passwo
 const suspendMutation = gql`mutation suspend(
   $playerUUID: String!,
   $reason: String!,
-  $durationAmount: String!,
-  $durationUnit: String!,
+  $duration: SuspendDuration,
+  $permanent: Boolean,
   $comment: String
 ){
   profile {
     suspend(
       playerUUID: $playerUUID,
       reason: $reason,
-      durationAmount: $durationAmount,
-      durationUnit: $durationUnit,
+      duration: $duration,
+      permanent: $permanent,
       comment: $comment
       ) {
       data {
         playerUUID
         profileStatus
+        profileStatusAuthor
+        profileStatusPermanent
         profileStatusReason
         profileStatusDate
+        suspendEndDate
       }
       error {
         error

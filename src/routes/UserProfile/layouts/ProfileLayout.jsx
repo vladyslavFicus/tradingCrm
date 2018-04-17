@@ -7,7 +7,11 @@ import Tabs from '../../../components/Tabs';
 import Modal from '../../../components/Modal';
 import Permissions from '../../../utils/permissions';
 import { actions as walletActions } from '../../../constants/wallet';
-import { actions as statusActions, statusActions as userStatuses } from '../../../constants/user';
+import {
+  actions as statusActions,
+  statusActions as userStatuses,
+  statuses as playerProfileStatuses,
+} from '../../../constants/user';
 import Header from '../components/Header';
 import NotePopover from '../../../components/NotePopover';
 import { targetTypes } from '../../../constants/note';
@@ -181,13 +185,22 @@ class ProfileLayout extends Component {
   }
 
   get availableStatuses() {
-    const { playerProfile: { playerProfile } } = this.props;
+    const { playerProfile } = this.props;
+    let profileStatus = get(playerProfile, 'playerProfile.data.profileStatus');
 
-    if (!playerProfile) {
+    if (!profileStatus) {
       return [];
     }
 
-    return userStatuses[playerProfile.data.profileStatus]
+    if (profileStatus === playerProfileStatuses.SUSPENDED) {
+      const permanent = get(playerProfile, 'playerProfile.data.profileStatusPermanent', false);
+
+      if (permanent) {
+        profileStatus = playerProfileStatuses.PERMANENT_SUSPENDED;
+      }
+    }
+
+    return userStatuses[profileStatus]
       .filter(action => (new Permissions([action.permission]))
         .check(this.context.permissions));
   }
@@ -578,11 +591,27 @@ class ProfileLayout extends Component {
       case statusActions.REMOVE:
         await resumeMutation({ variables: data });
         break;
-      case statusActions.SUSPEND:
-        await suspendMutation({ variables: data });
+      case statusActions.SUSPEND: {
+        const { durationAmount, durationUnit, ...variables } = data;
+        let duration;
+
+        if (durationAmount && durationUnit) {
+          duration = { amount: durationAmount, unit: durationUnit };
+        }
+
+        await suspendMutation({ variables: { ...variables, duration } });
+      }
         break;
-      case statusActions.PROLONG:
-        await suspendProlong({ variables: data });
+      case statusActions.PROLONG: {
+        const { durationAmount, durationUnit, ...variables } = data;
+        let duration;
+
+        if (durationAmount && durationUnit) {
+          duration = { amount: durationAmount, unit: durationUnit };
+        }
+
+        await suspendProlong({ variables: { ...variables, duration } });
+      }
         break;
       default:
         break;

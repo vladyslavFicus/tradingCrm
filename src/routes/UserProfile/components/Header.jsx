@@ -159,7 +159,10 @@ class Header extends Component {
         languageCode,
         lastName,
         withdrawableAmount,
+        profileStatusAuthor,
+        profileStatusDate,
         profileStatusReason,
+        suspendEndDate,
         profileStatus,
         profileVerified,
         totalBalance,
@@ -273,6 +276,9 @@ class Header extends Component {
           <div className="header-block header-block_account">
             <PlayerStatus
               locale={locale}
+              statusDate={profileStatusDate}
+              statusAuthor={profileStatusAuthor}
+              endDate={suspendEndDate}
               status={profileStatus}
               reason={profileStatusReason}
               onChange={this.handleStatusChange}
