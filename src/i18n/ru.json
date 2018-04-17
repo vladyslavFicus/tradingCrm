@@ -1740,7 +1740,7 @@
   "CAMPAIGNS": {
     "FREE_SPIN_TEMPLATE": "Фри-спин шаблон",
     "BONUS_TEMPLATE": "Бонус шаблон",
-    "WAGERING_FULFILLMENT" :"Фулфилмент ставок",
+    "WAGERING_FULFILLMENT": "Фулфилмент ставок",
     "SELECT_REWARD": "-- Выбрать награду --",
     "SELECT_FULFILLMENT": "-- Выбрать условие --",
     "FREE_SPIN": {
@@ -1771,7 +1771,58 @@
       "CHOOSE_CURRENCY": "-- Выберите валюту --",
       "CHOOSE_AGGREGATOR": "-- Выберите агрегатора--",
       "CHOOSE_PROVIDER": "-- Выберите провайдера--",
-      "CHOOSE_PAGE_CODE": "-- Выберите код страницы--"
+      "CHOOSE_PAGE_CODE": "-- Выберите код страницы--",
+      "WAGERING": "Отыгрыш",
+      "CAPPING": "Capping",
+      "MONEY_PRIORITY": "Приор. денег"
+    },
+    "CAMPAIGN_NAME": "Название кампании",
+    "DEPOSIT_FULFILLMENT": "Депозит",
+    "SETTINGS": {
+      "FULFILLMENTS": {
+        "DEPOSIT": {
+          "DEPOSIT_AMOUNT_RANGE": "Диапозон депозита",
+          "DEPOSIT_NUMBER_LABEL": "Номер депозита",
+          "SELECT_DEPOSIT_NUMBER": "-- Выберите номер депозита --",
+          "NUMBER_OPTION": "депозит",
+          "RESTRICTED_PAYMENT_METHODS": "Исключенные платежные методы"
+        },
+        "WAGERING": {
+          "LABEL": {
+            "AMOUNT_TO_WAGER": "Сумма"
+          }
+        }
+      },
+      "REWARDS": {
+        "BONUS": {
+          "LABEL": {
+            "NAME": "Название",
+            "BONUS_REWARD": "Бонус",
+            "GRANT": "",
+            "CAPPING": "",
+            "MULTIPLIER": "",
+            "MONEY_TYPE_PRIOR": "",
+            "MAX_BET": "",
+            "MAX_GRANTED_AMOUNT": "",
+            "LIFE_TIME": "",
+            "WAGERING_REQUIREMENT": "",
+            "LOCK_AMOUNT_STRATEGY": "",
+            "PLACEHOLDERS": {
+              "DAYS": "",
+              "NOT_SET": ""
+            },
+            "MIN_PRIZE": ""
+          }
+        },
+        "CREATE_BONUS_MODAL": {
+          "TITLE": ""
+        }
+      }
+    },
+    "REWARDS": {
+      "FREE_SPIN": {
+        "LIFE_TIME": ""
+      }
     }
   },
   "MULTI_CURRENCY_MODAL": {

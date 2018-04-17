@@ -213,7 +213,7 @@ class FreeSpinsView extends Component {
 
       if (action && !action.error) {
         const { uuid } = action.payload;
-        await assignFreeSpinTemplate(uuid, aggregatorId, {
+        await assignFreeSpinTemplate(uuid, {
           playerUUID,
           currency,
           startDate,
