@@ -1729,6 +1729,10 @@
     "SELECT_REWARD": "-- Select reward --",
     "SELECT_FULFILLMENT": "-- Select fulfillment --",
     "FREE_SPIN": {
+      "CREATE": {
+        "ERROR_TITLE": "Free spin creation error",
+        "SUCCESS_TITLE": "Fee spin created successfully"
+      },
       "PROVIDER": "Provider",
       "AGGREGATOR": "Aggregator",
       "GAMES": "Games",

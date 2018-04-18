@@ -34,11 +34,13 @@ class CreateBonusModal extends PureComponent {
         }),
       }),
     }).isRequired,
+    formValues: PropTypes.object,
     onSave: PropTypes.func,
   };
 
   static defaultProps = {
     onSave: null,
+    formValues: {},
   };
 
   componentWillReceiveProps({ isOpen }) {

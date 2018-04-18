@@ -1745,6 +1745,10 @@
     "SELECT_REWARD": "-- Выбрать награду --",
     "SELECT_FULFILLMENT": "-- Выбрать условие --",
     "FREE_SPIN": {
+      "CREATE": {
+        "ERROR_TITLE": "Ошибка создания фри спина",
+        "SUCCESS_TITLE": "Фри спин создан успешно"
+      },
       "PROVIDER": "Провайдер",
       "AGGREGATOR": "Агрегатор",
       "GAMES": "Игры",
@@ -1777,7 +1781,6 @@
       "CAPPING": "Capping",
       "MONEY_PRIORITY": "Приор. денег"
     },
-    "CAMPAIGN_NAME": "Название кампании",
     "DEPOSIT_FULFILLMENT": "Депозит",
     "SETTINGS": {
       "FULFILLMENTS": {

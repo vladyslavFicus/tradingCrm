@@ -22,7 +22,9 @@ export default (values, {
     betPerLineAmounts: ['required'],
     comment: ['string'],
     betMultiplier: ['integer', 'required'],
-    bonusTemplateUUID: ['required', 'string'],
+    bonusTemplateUUID: {
+      uuid: ['required', 'string'],
+    },
   };
 
   rules = fields.reduce((acc, curr) => ({ ...acc, [curr]: rules[curr] }), {});
