@@ -10,16 +10,6 @@ class WageringView extends PureComponent {
   static propTypes = {
     uuid: PropTypes.string,
     name: PropTypes.string.isRequired,
-    optionCurrencies: PropTypes.shape({
-      options: PropTypes.shape({
-        signUp: PropTypes.shape({
-          currency: PropTypes.shape({
-            list: PropTypes.arrayOf(PropTypes.string),
-            base: PropTypes.PropTypes.string,
-          }),
-        }),
-      }),
-    }).isRequired,
     wagering: PropTypes.shape({
       wagering: PropTypes.shape({
         data: PropTypes.shape({
@@ -40,16 +30,10 @@ class WageringView extends PureComponent {
       uuid,
       name,
       wagering,
-      optionCurrencies: {
-        options,
-      },
     } = this.props;
 
     const data = get(wagering, 'wagering.data', {});
     const loading = get(wagering, 'loading', true);
-
-    const currencies = get(options, 'signUp.post.currency.list', []);
-    const baseCurrency = get(options, 'signUp.post.currency.base', '');
 
     return (
       <Choose>
@@ -85,8 +69,6 @@ class WageringView extends PureComponent {
           <MultiCurrencyValue
             label={I18n.t(attributeLabels.amountToWager)}
             baseName={`${name}.amounts`}
-            baseCurrency={baseCurrency}
-            currencies={currencies}
           />
         </Otherwise>
       </Choose>

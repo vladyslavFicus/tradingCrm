@@ -1,13 +1,11 @@
-import { compose } from 'redux';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withMultiCurrencyModal } from '../../../components/HighOrder';
+import { get } from 'lodash';
 import MultiCurrencyField from './MultiCurrencyField';
 import { floatNormalize } from '../../../utils/inputNormalize';
 
 class MultiCurrencyValue extends Component {
   static propTypes = {
-    currencies: PropTypes.arrayOf(PropTypes.string),
     baseCurrency: PropTypes.string,
     baseName: PropTypes.string,
     modals: PropTypes.shape({
@@ -17,6 +15,16 @@ class MultiCurrencyValue extends Component {
       }),
     }).isRequired,
     label: PropTypes.string,
+    optionCurrencies: PropTypes.shape({
+      options: PropTypes.shape({
+        signUp: PropTypes.shape({
+          currency: PropTypes.shape({
+            list: PropTypes.arrayOf(PropTypes.string),
+          }),
+        }),
+      }),
+    }),
+    formValues: PropTypes.object.isRequired,
   };
 
   static defaultProps = {
@@ -24,60 +32,79 @@ class MultiCurrencyValue extends Component {
     baseCurrency: '',
     baseName: 'amounts',
     label: 'Amount',
+    optionCurrencies: { options: {}, loading: true },
   };
 
   static contextTypes = {
     _reduxForm: PropTypes.object,
   };
 
-  state = {
-    currencies: [{
-      amount: 0,
-      currency: this.props.baseCurrency,
-    }],
-  };
+  get secondaryCurrencies() {
+    const { optionCurrencies: { options } } = this.props;
+
+    return get(options, 'signUp.post.currency.rates', []);
+  }
+
+  get baseCurrency() {
+    const { optionCurrencies: { options } } = this.props;
+
+    return get(options, 'signUp.post.currency.base', '');
+  }
+
+  get baseCurrencyValue() {
+    return get(this.props.formValues, `${this.props.baseName}.amounts[0].amount`, 0);
+  }
+
+  get currencies() {
+    return get(this.props.formValues, `${this.props.baseName}`, []);
+  }
 
   setFields = (currencies) => {
     const { _reduxForm: { autofill } } = this.context;
 
-    this.setState({
-      currencies,
-    }, () => {
-      autofill(this.props.baseName, this.state.currencies);
-    });
+    autofill(this.props.baseName, currencies);
   };
 
-  handleChangeBaseCurrencyAmount = ({ target: { value } }) => {
-    const currencies = this.state.currencies;
+  handleChangeBaseCurrencyAmount = ({ target: { value } } = { target: { value: '' } }) => {
+    const currencies = [];
+    const baseCurrencyValue = value || this.baseCurrencyValue;
+
     currencies[0] = {
       amount: floatNormalize(value),
-      currency: this.props.baseCurrency,
+      currency: this.baseCurrency,
     };
+
+    this.secondaryCurrencies.forEach(({ amount, currency }, index) => {
+      currencies[index + 1] = {
+        amount: floatNormalize(amount * baseCurrencyValue).toFixed(2),
+        currency,
+      };
+    });
 
     this.setFields(currencies);
   };
 
   handleSubmitMultiCurrencyForm = (currencies) => {
-    this.setFields(currencies);
-
     this.props.modals.multiCurrencyModal.hide();
+    this.setFields(currencies);
   };
 
   handleOpenModal = () => {
     const {
       modals,
-      baseCurrency,
-      currencies,
       label,
     } = this.props;
+    const currencies = this.currencies;
+
+    if (currencies.length <= 1) {
+      this.handleChangeBaseCurrencyAmount();
+    }
 
     modals.multiCurrencyModal.show({
       onSubmit: this.handleSubmitMultiCurrencyForm,
-      baseCurrency,
-      currencies,
       label,
       initialValues: {
-        amounts: this.state.currencies,
+        amounts: this.currencies,
       },
     });
   };
@@ -87,12 +114,16 @@ class MultiCurrencyValue extends Component {
       baseName,
       baseCurrency,
       label,
+      optionCurrencies: {
+        loading,
+      },
     } = this.props;
 
     return (
       <MultiCurrencyField
         name={`${baseName}[0]`}
         label={label}
+        disabled={loading}
         currency={baseCurrency}
         onChange={this.handleChangeBaseCurrencyAmount}
         iconRightClassName="nas nas-currencies_icon"
@@ -102,6 +133,4 @@ class MultiCurrencyValue extends Component {
   }
 }
 
-export default compose(
-  withMultiCurrencyModal,
-)(MultiCurrencyValue);
+export default MultiCurrencyValue;

@@ -13,16 +13,6 @@ class DepositFulfillmentView extends Component {
     disabled: PropTypes.bool.isRequired,
     uuid: PropTypes.string,
     name: PropTypes.string.isRequired,
-    optionCurrencies: PropTypes.shape({
-      options: PropTypes.shape({
-        signUp: PropTypes.shape({
-          currency: PropTypes.shape({
-            list: PropTypes.arrayOf(PropTypes.string),
-            base: PropTypes.PropTypes.string,
-          }),
-        }),
-      }),
-    }).isRequired,
     depositFulfillment: PropTypes.shape({
       depositFulfillment: PropTypes.shape({
         data: PropTypes.shape({
@@ -107,14 +97,10 @@ class DepositFulfillmentView extends Component {
       name,
       disabled,
       depositFulfillment,
-      optionCurrencies,
       paymentMethods: paymentMethodsData,
       locale,
     } = this.props;
     const loading = get(depositFulfillment, 'loading', true);
-
-    const currencies = get(optionCurrencies, 'options.signUp.post.currency.list', []);
-    const baseCurrency = get(optionCurrencies, 'options.signUp.post.currency.base', '');
     const paymentMethods = get(paymentMethodsData, 'paymentMethods.data', []);
 
     return (
@@ -130,14 +116,10 @@ class DepositFulfillmentView extends Component {
               <div className="range-group">
                 <MultiCurrencyValue
                   baseName={`${name}.minAmount`}
-                  baseCurrency={baseCurrency}
-                  currencies={currencies}
                 />
                 <span className="range-group__separator">-</span>
                 <MultiCurrencyValue
                   baseName={`${name}.maxAmount`}
-                  baseCurrency={baseCurrency}
-                  currencies={currencies}
                 />
               </div>
             </div>
