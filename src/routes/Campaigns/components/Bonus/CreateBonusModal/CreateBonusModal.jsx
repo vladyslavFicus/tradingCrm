@@ -1,11 +1,11 @@
 import React, { PureComponent } from 'react';
-import { get } from 'lodash';
+import { get, mapValues, isEmpty } from 'lodash';
 import PropTypes from 'prop-types';
-import { Field } from 'redux-form';
+import { Field, SubmissionError } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import {
-  InputField, SelectField, MultiCurrencyValue, CustomValueFieldVertical,
+  InputField, SelectField, MultiCurrencyValue, TypeValueField,
 } from '../../../../../components/ReduxForm';
 import renderLabel from '../../../../../utils/renderLabel';
 import { attributeLabels, attributePlaceholders, wageringRequirementTypes } from '../constants';
@@ -79,17 +79,24 @@ class CreateBonusModal extends PureComponent {
       data.wageringRequirementType = formData.wageringRequirement.type || customValueFieldTypes.ABSOLUTE;
     }
 
-    const action = await addBonus({ variables: data });
-    const error = get(action, 'data.bonusTemplate.add.error');
+    const response = await addBonus({ variables: data });
+    const { error, fields_errors } = get(response, 'data.bonusTemplate.add.error') || {};
 
-    notify({
-      level: error ? 'error' : 'success',
-      title: 'Title',
-      message: 'Message',
-    });
+    if (!isEmpty(fields_errors)) {
+      const fieldsErrors = mapValues(fields_errors, 'error');
+
+      throw new SubmissionError({ ...fieldsErrors });
+    } else if (error) {
+      notify({
+        level: 'error',
+        title: I18n.t('CAMPAIGN.FREE_SPIN.CREATE.ERROR_TITLE'),
+        message: I18n.t(error),
+      });
+      throw new SubmissionError({ _error: error });
+    }
 
     if (!error) {
-      const uuid = get(action, 'data.bonusTemplate.add.data.uuid');
+      const uuid = get(response, 'data.bonusTemplate.add.data.uuid');
 
       if (onSave) {
         onSave(uuid);
@@ -130,7 +137,7 @@ class CreateBonusModal extends PureComponent {
             <div className="row">
               <div className="col-md-6">
                 <Field
-                  component={CustomValueFieldVertical}
+                  component={TypeValueField}
                   name="prize"
                   label={
                     <span>
@@ -142,7 +149,7 @@ class CreateBonusModal extends PureComponent {
               </div>
               <div className="col-md-6">
                 <Field
-                  component={CustomValueFieldVertical}
+                  component={TypeValueField}
                   name="capping"
                   label={
                     <span>
@@ -157,7 +164,7 @@ class CreateBonusModal extends PureComponent {
             <div className="row">
               <div className="col-7">
                 <Field
-                  component={CustomValueFieldVertical}
+                  component={TypeValueField}
                   name="grantRatio"
                   label={I18n.t(attributeLabels.grant)}
                 />
@@ -174,7 +181,7 @@ class CreateBonusModal extends PureComponent {
             <div className="row">
               <div className="col-7">
                 <Field
-                  component={CustomValueFieldVertical}
+                  component={TypeValueField}
                   name="wageringRequirement"
                   label={I18n.t(attributeLabels.wageringRequirement)}
                 >

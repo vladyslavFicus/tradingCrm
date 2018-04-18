@@ -9,17 +9,19 @@ export default (values, {
   },
 }) => {
   const fields = get(freeSpinOptions, `[${aggregatorId}].fields`, []);
-
   let rules = {
     freeSpinsAmount: ['integer', 'min:0', 'required'],
     freeSpinLifeTime: ['integer', 'min:0', 'required'],
     linesPerSpin: ['integer', 'required'],
-    betPerLine: ['numeric', 'min:0', 'required'],
+    betPerLineAmounts: {
+      0: {
+        amount: ['required', 'numeric', 'greater:0'],
+      },
+    },
     pageCode: ['required', 'string'],
     betLevel: ['required', 'integer'],
     coinSize: ['required', 'integer'],
     rhfpBet: ['required', 'integer'],
-    betPerLineAmounts: ['required'],
     comment: ['string'],
     betMultiplier: ['integer', 'required'],
     bonusTemplateUUID: {

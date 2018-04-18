@@ -12,9 +12,7 @@ const renderFields = ({
   children,
   id,
   label,
-  value,
   name,
-  type,
   valueFieldProps,
   ...props
 }) => {
@@ -74,40 +72,23 @@ const renderFields = ({
   );
 };
 
-const CustomValueFieldVertical = (props) => {
-  const {
-    input: { name },
-    meta: { touched, error },
-    ...rest
-  } = props;
-
-  return (
-    <div className="form-group">
-      <label>{rest.label}</label>
-      <Fields names={[`${name}.value`, `${name}.type`]} component={renderFields} name={name} {...rest} />
-
-    </div>
-  );
-};
-
-CustomValueFieldVertical.propTypes = {
+renderFields.propTypes = {
   id: PropTypes.string,
+  name: PropTypes.string.isRequired,
   label: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
   typeValues: PropTypes.array,
   valueInputClassName: PropTypes.string,
   typeInputClassName: PropTypes.string,
   disabled: PropTypes.bool,
   valueFieldProps: PropTypes.object,
-  input: PropTypes.shape({
-    name: PropTypes.string,
-  }).isRequired,
   meta: PropTypes.shape({
     touched: PropTypes.bool,
     error: PropTypes.object,
   }),
   children: PropTypes.node,
 };
-CustomValueFieldVertical.defaultProps = {
+
+renderFields.defaultProps = {
   valueInputClassName: '',
   typeInputClassName: '',
   disabled: false,
@@ -118,4 +99,24 @@ CustomValueFieldVertical.defaultProps = {
   children: null,
 };
 
-export default CustomValueFieldVertical;
+const TypeValueField = (props) => {
+  const {
+    input: { name },
+    ...rest
+  } = props;
+
+  return (
+    <div className="form-group">
+      <label>{rest.label}</label>
+      <Fields names={[`${name}.value`, `${name}.type`]} component={renderFields} name={name} {...rest} />
+    </div>
+  );
+};
+
+TypeValueField.propTypes = {
+  input: PropTypes.shape({
+    name: PropTypes.string,
+  }).isRequired,
+};
+
+export default TypeValueField;
