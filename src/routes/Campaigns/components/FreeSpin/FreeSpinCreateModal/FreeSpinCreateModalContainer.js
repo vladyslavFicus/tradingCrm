@@ -1,4 +1,4 @@
-import { compose, graphql } from 'react-apollo';
+import { compose, graphql, withApollo } from 'react-apollo';
 import { reduxForm, getFormValues } from 'redux-form';
 import { connect } from 'react-redux';
 import update from 'react-addons-update';
@@ -17,6 +17,7 @@ import validator from './validator';
 const FORM_NAME = 'addFreeSpinTemplate';
 
 export default compose(
+  withApollo,
   withNotifications,
   connect((state) => {
     const {

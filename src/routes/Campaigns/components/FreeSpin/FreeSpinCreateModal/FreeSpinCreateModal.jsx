@@ -11,6 +11,7 @@ import { attributeLabels, attributePlaceholders } from '../constants';
 import Amount, { Currency } from '../../../../../components/Amount';
 import BonusView from '../../Bonus/BonusView';
 import { statuses as freeSpinTemplateStatuses } from '../../../../../constants/free-spin-template';
+import { freeSpinTemplateQuery } from '../../../../../graphql/queries/campaigns';
 import {
   SelectField,
   InputField,
@@ -56,6 +57,9 @@ class FreeSpinCreateModal extends Component {
     isOpen: PropTypes.bool.isRequired,
     bonusTemplateUUID: PropTypes.object,
     notify: PropTypes.func.isRequired,
+    client: PropTypes.shape({
+      query: PropTypes.func.isRequired,
+    }).isRequired,
   };
 
   static defaultProps = {
@@ -74,13 +78,23 @@ class FreeSpinCreateModal extends Component {
     if (this.props.isOpen && !isOpen) {
       this.props.destroy();
     }
+
+    if (this.pollingFreeSpinTemplate) {
+      this.stopPollingFreeSpinTemplate();
+    }
+  }
+
+  componentWillUnmount() {
+    if (this.pollingFreeSpinTemplate) {
+      this.stopPollingFreeSpinTemplate();
+    }
   }
 
   get gameData() {
     const { gameId, games } = this.props;
     const gameList = get(games, 'games.content', []);
 
-    return gameList.find(i => i.internalGameId === gameId) || {
+    return gameList.find(i => i.gameId === gameId) || {
       betLevels: [],
       coinSizes: [],
       lines: [],
@@ -130,6 +144,26 @@ class FreeSpinCreateModal extends Component {
     this.setField('bonusTemplateUUID.uuid', uuid);
   }
 
+  stopPollingFreeSpinTemplate = () => {
+    clearInterval(this.pollingFreeSpinTemplate);
+    this.pollingFreeSpinTemplate = null;
+  };
+
+  startPollingFreeSpinTemplate = (aggregatorId, uuid) => new Promise((resolve) => {
+    this.pollingFreeSpinTemplate = setInterval(async () => {
+      const fs = await this.props.client.query({
+        query: freeSpinTemplateQuery,
+        variables: { aggregatorId, uuid },
+      });
+
+      const status = get(fs, 'data.freeSpinTemplate.data.status');
+      if (status === freeSpinTemplateStatuses.CREATED || status === freeSpinTemplateStatuses.FAILED) {
+        this.stopPollingFreeSpinTemplate();
+        resolve({ success: status === freeSpinTemplateStatuses.CREATED });
+      }
+    }, 100);
+  });
+
   handleSubmit = async ({ betPerLine, currency, bonusTemplateUUID: { uuid: bonusTemplateUUID }, ...data }) => {
     const { addFreeSpinTemplate, onSave, onCloseModal, destroy, notify } = this.props;
     const variables = { ...data, bonusTemplateUUID };
@@ -165,23 +199,32 @@ class FreeSpinCreateModal extends Component {
       notify({
         level: 'error',
         title: I18n.t('CAMPAIGN.FREE_SPIN.CREATE.ERROR_TITLE'),
-        message: I18n.t('CAMPAIGN.FREE_SPIN.CREATE.FAILED'),
       });
-      throw new SubmissionError({ _error: 'CAMPAIGN.FREE_SPIN.CREATE.FAILED' });
-    }
+      throw new SubmissionError();
+    } else if (status === freeSpinTemplateStatuses.PENDING) {
+      const polling = await this.startPollingFreeSpinTemplate(variables.aggregatorId, uuid);
 
-    if (onSave) {
-      onSave(uuid);
+      if (!polling.success) {
+        notify({
+          level: 'error',
+          title: I18n.t('CAMPAIGN.FREE_SPIN.CREATE.ERROR_TITLE'),
+        });
+        throw new SubmissionError();
+      }
     }
 
     notify({
       level: 'success',
       title: I18n.t('CAMPAIGN.FREE_SPIN.CREATE.SUCCESS_TITLE'),
-      message: I18n.t('CAMPAIGN.FREE_SPIN.CREATE.SUCCESS_MESSAGE'),
     });
 
-    onCloseModal();
     destroy();
+
+    if (onSave) {
+      onSave(uuid);
+    }
+
+    onCloseModal();
   };
 
   renderPrice = () => {
@@ -323,7 +366,7 @@ class FreeSpinCreateModal extends Component {
                 >
                   <option value="">{I18n.t('PLAYER_PROFILE.FREE_SPIN.MODAL_CREATE.CHOOSE_GAME')}</option>
                   {gameList.map(item => (
-                    <option key={item.internalGameId} value={item.internalGameId}>
+                    <option key={item.internalGameId} value={item.gameId}>
                       {`${item.fullGameName} (${item.gameId})`}
                     </option>
                   ))}
