@@ -2,7 +2,6 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { I18n } from 'react-redux-i18n';
 import classNames from 'classnames';
-import { set } from 'lodash';
 import { SelectField } from '../../../../components/ReduxForm';
 
 class NodeBuilder extends PureComponent {
