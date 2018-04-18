@@ -257,6 +257,12 @@ export default compose(
             numDeposit: ['required'],
           };
         }
+
+        if (fulfillment.type === fulfilmentTypes.WAGERING) {
+          rules.fulfillments[index] = {
+            'amounts[0].amount': ['required', 'numeric', 'greater:0'],
+          };
+        }
       });
 
       return createValidator(rules, attributeLabels, false)(values);
