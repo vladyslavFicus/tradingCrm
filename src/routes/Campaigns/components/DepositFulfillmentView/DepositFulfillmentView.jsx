@@ -93,10 +93,12 @@ class DepositFulfillmentView extends Component {
               <label>{I18n.t('CAMPAIGNS.SETTINGS.FULFILLMENTS.DEPOSIT.DEPOSIT_AMOUNT_RANGE')}</label>
               <div className="range-group">
                 <MultiCurrencyValue
+                  disabled={disabled}
                   baseName={`${name}.minAmount`}
                 />
                 <span className="range-group__separator">-</span>
                 <MultiCurrencyValue
+                  disabled={disabled}
                   baseName={`${name}.maxAmount`}
                 />
               </div>
