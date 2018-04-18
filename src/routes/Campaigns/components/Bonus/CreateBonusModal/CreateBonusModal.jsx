@@ -1,11 +1,11 @@
 import React, { PureComponent } from 'react';
-import { get } from 'lodash';
+import { get, mapValues, isEmpty } from 'lodash';
 import PropTypes from 'prop-types';
-import { Field } from 'redux-form';
+import { Field, SubmissionError } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import {
-  InputField, SelectField, CustomValueFieldVertical, MultiCurrencyValue,
+  InputField, SelectField, MultiCurrencyValue, TypeValueField,
 } from '../../../../../components/ReduxForm';
 import renderLabel from '../../../../../utils/renderLabel';
 import { attributeLabels, attributePlaceholders, wageringRequirementTypes } from '../constants';
@@ -25,15 +25,6 @@ class CreateBonusModal extends PureComponent {
     onCloseModal: PropTypes.func.isRequired,
     isOpen: PropTypes.bool.isRequired,
     destroy: PropTypes.func.isRequired,
-    optionCurrencies: PropTypes.shape({
-      options: PropTypes.shape({
-        signUp: PropTypes.shape({
-          currency: PropTypes.shape({
-            list: PropTypes.arrayOf(PropTypes.string),
-          }),
-        }),
-      }),
-    }).isRequired,
     formValues: PropTypes.object,
     onSave: PropTypes.func,
   };
@@ -64,58 +55,48 @@ class CreateBonusModal extends PureComponent {
       claimable: !!formData.claimable,
       bonusLifeTime: formData.bonusLifeTime,
       moneyTypePriority: formData.moneyTypePriority,
+      maxBet: formData.maxBet,
+      maxGrantAmount: formData.maxGrantAmount,
     };
 
-    const currency = formData.currency;
-
     ['grantRatio', 'capping', 'prize'].forEach((key) => {
-      if (formData[key] && formData[key].value) {
-        if (formData[key].type !== customValueFieldTypes.PERCENTAGE) {
-          data[`${key}Absolute`] = [{
-            amount: formData[key].value,
-            currency,
-          }];
-        } else {
-          data[`${key}Percentage`] = formData[key].value;
-        }
-      }
-    });
-
-    ['maxBet', 'maxGrantAmount'].forEach((key) => {
-      if (formData[key]) {
-        data[key] = [{
-          amount: formData[key],
-          currency,
-        }];
+      if (formData[key].type !== customValueFieldTypes.PERCENTAGE) {
+        data[`${key}Absolute`] = formData[key].value;
+      } else {
+        data[`${key}Percentage`] = formData[key].percentage;
       }
     });
 
     if (formData.wageringRequirement) {
       if (
-        formData.wageringRequirement.type !== customValueFieldTypes.PERCENTAGE
+        formData.wageringRequirement.type === customValueFieldTypes.ABSOLUTE
       ) {
-        data.wageringRequirementAbsolute = [{
-          amount: formData.wageringRequirement.value,
-          currency,
-        }];
+        data.wageringRequirementAbsolute = formData.wageringRequirement.value;
       } else {
-        data.wageringRequirementPercentage = formData.wageringRequirement.value;
+        data.wageringRequirementPercentage = formData.wageringRequirement.percentage;
       }
 
       data.wageringRequirementType = formData.wageringRequirement.type || customValueFieldTypes.ABSOLUTE;
     }
 
-    const action = await addBonus({ variables: data });
-    const error = get(action, 'data.bonusTemplate.add.error');
+    const response = await addBonus({ variables: data });
+    const { error, fields_errors } = get(response, 'data.bonusTemplate.add.error') || {};
 
-    notify({
-      level: error ? 'error' : 'success',
-      title: 'Title',
-      message: 'Message',
-    });
+    if (!isEmpty(fields_errors)) {
+      const fieldsErrors = mapValues(fields_errors, 'error');
+
+      throw new SubmissionError({ ...fieldsErrors });
+    } else if (error) {
+      notify({
+        level: 'error',
+        title: I18n.t('CAMPAIGN.FREE_SPIN.CREATE.ERROR_TITLE'),
+        message: I18n.t(error),
+      });
+      throw new SubmissionError({ _error: error });
+    }
 
     if (!error) {
-      const uuid = get(action, 'data.bonusTemplate.add.data.uuid');
+      const uuid = get(response, 'data.bonusTemplate.add.data.uuid');
 
       if (onSave) {
         onSave(uuid);
@@ -131,39 +112,16 @@ class CreateBonusModal extends PureComponent {
       handleSubmit,
       onCloseModal,
       isOpen,
-      optionCurrencies: {
-        options,
-      },
       formValues,
     } = this.props;
 
-    const currencies = get(options, 'signUp.post.currency.list', []);
     const grantRatioType = get(formValues, 'grantRatio.type');
 
     return (
       <Modal toggle={onCloseModal} isOpen={isOpen}>
         <ModalHeader toggle={onCloseModal}>{I18n.t(modalAttributeLabels.title)}</ModalHeader>
-
         <form onSubmit={handleSubmit(this.handleSubmitBonusForm)}>
           <ModalBody>
-            <div className="row">
-              <div className="col-md-6">
-                <Field
-                  name="currency"
-                  label={I18n.t('COMMON.CURRENCY')}
-                  type="select"
-                  component={SelectField}
-                  position="vertical"
-                >
-                  <option value="">{I18n.t('BONUS_CAMPAIGNS.SETTINGS.CHOOSE_CURRENCY')}</option>
-                  {currencies.map(item => (
-                    <option key={item} value={item}>
-                      {item}
-                    </option>
-                  ))}
-                </Field>
-              </div>
-            </div>
             <div className="row">
               <div className="col-md-8">
                 <Field
@@ -179,7 +137,7 @@ class CreateBonusModal extends PureComponent {
             <div className="row">
               <div className="col-md-6">
                 <Field
-                  component={CustomValueFieldVertical}
+                  component={TypeValueField}
                   name="prize"
                   label={
                     <span>
@@ -191,7 +149,7 @@ class CreateBonusModal extends PureComponent {
               </div>
               <div className="col-md-6">
                 <Field
-                  component={CustomValueFieldVertical}
+                  component={TypeValueField}
                   name="capping"
                   label={
                     <span>
@@ -206,7 +164,7 @@ class CreateBonusModal extends PureComponent {
             <div className="row">
               <div className="col-7">
                 <Field
-                  component={CustomValueFieldVertical}
+                  component={TypeValueField}
                   name="grantRatio"
                   label={I18n.t(attributeLabels.grant)}
                 />
@@ -215,7 +173,7 @@ class CreateBonusModal extends PureComponent {
                 <div className="col-5">
                   <MultiCurrencyValue
                     label={I18n.t(attributeLabels.maxGrantedAmount)}
-                    baseName="maxGrantedAmount"
+                    baseName="maxGrantAmount"
                   />
                 </div>
               </If>
@@ -223,7 +181,7 @@ class CreateBonusModal extends PureComponent {
             <div className="row">
               <div className="col-7">
                 <Field
-                  component={CustomValueFieldVertical}
+                  component={TypeValueField}
                   name="wageringRequirement"
                   label={I18n.t(attributeLabels.wageringRequirement)}
                 >
@@ -283,14 +241,9 @@ class CreateBonusModal extends PureComponent {
             </div>
             <div className="row">
               <div className="col-4">
-                <Field
-                  name="maxBet"
-                  type="text"
-                  placeholder="0"
+                <MultiCurrencyValue
+                  baseName="maxBet"
                   label={I18n.t(attributeLabels.maxBet)}
-                  component={InputField}
-                  position="vertical"
-                  iconRightClassName="nas nas-currencies_icon"
                 />
               </div>
               <div className="col-4 form-row_with-placeholder-right">
