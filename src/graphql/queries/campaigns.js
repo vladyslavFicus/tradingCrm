@@ -42,10 +42,7 @@ const campaignQuery = gql`query campaign($campaignUUID: String!){
         type
         uuid
       }
-      fulfillments {
-        type
-        uuid
-      }
+      fulfillments
     }
     error {
       error
