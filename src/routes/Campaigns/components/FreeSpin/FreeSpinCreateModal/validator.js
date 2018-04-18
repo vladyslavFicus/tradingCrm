@@ -31,7 +31,6 @@ export default (values, {
 
   return createValidator({
     ...rules,
-    currency: ['string', 'required'],
     name: ['string', 'required'],
     providerId: ['string', 'required'],
     gameId: ['string', 'required'],

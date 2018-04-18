@@ -8,12 +8,13 @@ import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { floatNormalize, intNormalize } from '../../../../../utils/inputNormalize';
 import normalizeNumber from '../../../../../utils/normalizeNumber';
 import { attributeLabels, attributePlaceholders } from '../constants';
-import Amount, { Currency } from '../../../../../components/Amount';
+import Amount from '../../../../../components/Amount';
 import BonusView from '../../Bonus/BonusView';
 import { statuses as freeSpinTemplateStatuses } from '../../../../../constants/free-spin-template';
 import { freeSpinTemplateQuery } from '../../../../../graphql/queries/campaigns';
 import {
   SelectField,
+  MultiCurrencyValue,
   InputField,
 } from '../../../../../components/ReduxForm';
 import './FreeSpinCreateModal.scss';
@@ -154,6 +155,7 @@ class FreeSpinCreateModal extends Component {
       const fs = await this.props.client.query({
         query: freeSpinTemplateQuery,
         variables: { aggregatorId, uuid },
+        fetchPolicy: 'network-only',
       });
 
       const status = get(fs, 'data.freeSpinTemplate.data.status');
@@ -164,19 +166,9 @@ class FreeSpinCreateModal extends Component {
     }, 100);
   });
 
-  handleSubmit = async ({ betPerLine, currency, bonusTemplateUUID: { uuid: bonusTemplateUUID }, ...data }) => {
+  handleSubmit = async ({ betPerLine, bonusTemplateUUID: { uuid: bonusTemplateUUID }, ...data }) => {
     const { addFreeSpinTemplate, onSave, onCloseModal, destroy, notify } = this.props;
     const variables = { ...data, bonusTemplateUUID };
-
-    if (betPerLine) {
-      variables.betPerLineAmounts = [
-        {
-          currency,
-          amount: betPerLine,
-        },
-      ];
-    }
-
     const response = await addFreeSpinTemplate({ variables });
     const { error, fields_errors } = get(response, 'data.freeSpinTemplate.add.error') || {};
 
@@ -228,8 +220,10 @@ class FreeSpinCreateModal extends Component {
   };
 
   renderPrice = () => {
-    const { baseCurrency: currency } = this;
-    const { currentValues: { betPerLine, linesPerSpin, freeSpinsAmount } } = this.props;
+    const { baseCurrency: currency } = this.currency;
+    const { currentValues: { betPerLineAmounts, linesPerSpin, freeSpinsAmount } } = this.props;
+    const betPerLine = get(betPerLineAmounts, '[0].amount', 0);
+
     const betPrice = betPerLine
       ? parseFloat(betPerLine) : 0;
     const linesPS = linesPerSpin
@@ -276,13 +270,13 @@ class FreeSpinCreateModal extends Component {
       aggregatorId,
       games,
     } = this.props;
-    const { currencies, baseCurrency } = this.currency;
     const { aggregatorOptions } = this;
+    const { baseCurrency } = this.currency;
     const providers = get(aggregatorOptions, `[${aggregatorId}].providers`, []);
     const fields = get(aggregatorOptions, `[${aggregatorId}].fields`);
     const gameList = get(games, 'games.content', []);
     const { gameData: { betLevels, coinSizes, lines, pageCodes } } = this;
-    const showPriceWidget = fields &&
+    const showPriceWidget = baseCurrency && fields &&
       fields.indexOf('linesPerSpin') !== -1 &&
       fields.indexOf('betPerLineAmounts') !== -1;
 
@@ -291,24 +285,6 @@ class FreeSpinCreateModal extends Component {
         <ModalHeader toggle={onCloseModal}>{I18n.t('CAMPAIGNS.FREE_SPIN.HEADER')}</ModalHeader>
         <form id="fs-form" onSubmit={handleSubmit(this.handleSubmit)}>
           <ModalBody>
-            <div className="row">
-              <div className="col-md-6">
-                <Field
-                  name="currency"
-                  label={I18n.t('COMMON.CURRENCY')}
-                  type="select"
-                  component={SelectField}
-                  position="vertical"
-                >
-                  <option value="">{I18n.t('CAMPAIGNS.FREE_SPIN.CHOOSE_CURRENCY')}</option>
-                  {currencies.map(item => (
-                    <option key={item} value={item}>
-                      {item}
-                    </option>
-                  ))}
-                </Field>
-              </div>
-            </div>
             <Field
               name={'name'}
               type="text"
@@ -323,6 +299,7 @@ class FreeSpinCreateModal extends Component {
                 <Field
                   name="aggregatorId"
                   id="aggregatorId"
+                  disabled={!Object.keys(aggregatorOptions).length}
                   label={I18n.t(attributeLabels.aggregatorId)}
                   position="vertical"
                   component={SelectField}
@@ -407,19 +384,9 @@ class FreeSpinCreateModal extends Component {
                   <div className="row">
                     <If condition={fields.indexOf('betPerLineAmounts') !== -1}>
                       <div className="col-6">
-                        <Field
-                          name="betPerLine"
-                          type="number"
-                          id="betPerLine"
-                          step="any"
+                        <MultiCurrencyValue
+                          baseName="betPerLineAmounts"
                           label={I18n.t(attributeLabels.betPerLine)}
-                          labelClassName="form-label"
-                          position="vertical"
-                          component={InputField}
-                          normalize={floatNormalize}
-                          placeholder={'0.00'}
-                          showErrorMessage={false}
-                          inputAddon={<Currency code={baseCurrency} />}
                         />
                       </div>
                     </If>

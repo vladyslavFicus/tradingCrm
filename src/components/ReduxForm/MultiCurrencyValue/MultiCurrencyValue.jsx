@@ -24,11 +24,12 @@ class MultiCurrencyValue extends Component {
         }),
       }),
     }),
-    formValues: PropTypes.object.isRequired,
+    formValues: PropTypes.object,
   };
 
   static defaultProps = {
     currencies: [],
+    formValues: {},
     baseCurrency: '',
     baseName: 'amounts',
     label: 'Amount',
