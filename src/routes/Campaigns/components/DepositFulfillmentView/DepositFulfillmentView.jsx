@@ -72,9 +72,9 @@ class DepositFulfillmentView extends Component {
 
       if (data) {
         const { _reduxForm: { initialize } } = this.context;
-        const value = { ...deepRemoveKeyByRegex(data, /^__/), type };
+        const initialValue = set({ ...formValues }, name, { ...deepRemoveKeyByRegex(data, /^__/), type });
 
-        initialize(set({ ...formValues }, name, value));
+        initialize(initialValue, true, { keepDirty: true });
       }
     }
   }
