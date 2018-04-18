@@ -58,16 +58,13 @@ class Form extends Component {
   componentWillReceiveProps({ disabled: nextDisabled, formValues: nextFormValues }) {
     const { disabled, formValues, change } = this.props;
 
-    if (!isEqual(formValues.fulfillments, nextFormValues.fulfillments)) {
+    if (!isEqual(formValues.fulfillments, nextFormValues.fulfillments, true)) {
       nextFormValues.fulfillments.forEach((fulfillment, index) => {
         if (fulfillment.uuid) {
           const prevFulfillment = formValues.fulfillments.find(i => i.uuid === fulfillment.uuid);
-          const isSameObject = (
-            prevFulfillment && Object.keys(prevFulfillment).length === Object.keys(fulfillment).length
-          );
 
-          if (prevFulfillment && isSameObject && !isEqual(prevFulfillment, fulfillment)) {
-            change(`fulfillments[${index}].uuid`, undefined);
+          if (prevFulfillment && !isEqual(prevFulfillment, fulfillment, true)) {
+            change(`fulfillments[${index}].uuid`, null);
           }
         }
       });
@@ -239,7 +236,6 @@ export default compose(
   withNotifications,
   reduxForm({
     enableReinitialize: true,
-    keepDirtyOnReinitialize: true,
     validate: (values) => {
       const rules = {
         name: ['required', 'string'],
