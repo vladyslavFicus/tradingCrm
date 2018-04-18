@@ -406,14 +406,15 @@ class NewLayout extends Component {
   }
 }
 
-const mapStateToProps = ({
-  userPanels,
-  auth,
-  app,
-  permissions: { data: permissions },
-  i18n: { locale },
-  settings,
-}) => {
+const mapStateToProps = (state) => {
+  const {
+    userPanels,
+    auth,
+    app,
+    permissions: { data: permissions },
+    i18n: { locale },
+    settings,
+  } = state;
   const userPanelsByManager = userPanels.items.filter(userTab =>
     userTab.auth &&
     userTab.auth.brandId === auth.brandId &&

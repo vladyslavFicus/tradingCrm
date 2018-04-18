@@ -10,6 +10,7 @@ import Placeholder, { DefaultLoadingPlaceholder } from '../../../../components/P
 
 class DepositFulfillmentView extends Component {
   static propTypes = {
+    initialize: PropTypes.func.isRequired,
     disabled: PropTypes.bool.isRequired,
     uuid: PropTypes.string,
     name: PropTypes.string.isRequired,
@@ -47,11 +48,6 @@ class DepositFulfillmentView extends Component {
     }),
     locale: PropTypes.string.isRequired,
   };
-  static contextTypes = {
-    _reduxForm: PropTypes.shape({
-      autofill: PropTypes.func.isRequired,
-    }).isRequired,
-  };
   static defaultProps = {
     uuid: null,
     depositFulfillment: {},
@@ -59,45 +55,13 @@ class DepositFulfillmentView extends Component {
   };
 
   componentWillReceiveProps({ depositFulfillment: nextDepositFulfillment }) {
-    const { uuid, name, depositFulfillment } = this.props;
+    const { uuid, initialize, depositFulfillment } = this.props;
 
     const loading = get(depositFulfillment, 'loading', true);
     const nextLoading = get(nextDepositFulfillment, 'loading', true);
 
     if (uuid && loading && !nextLoading) {
-      const data = get(nextDepositFulfillment, 'depositFulfillment.data', null);
-
-      if (data) {
-        const { _reduxForm: { autofill } } = this.context;
-
-        Object.keys(data).forEach((key) => {
-          let nextData = data[key];
-
-          if (key !== '__typename') {
-            if (typeof nextData === 'object' && nextData !== null) {
-              if (!Array.isArray(nextData)) {
-                nextData = { ...nextData };
-
-                nextData[key].__typename = undefined;
-              } else {
-                nextData = nextData.map((item) => {
-                  let nextItem = item;
-
-                  if (typeof nextItem === 'object' && nextItem !== null) {
-                    nextItem = { ...nextItem };
-
-                    nextItem.__typename = undefined;
-                  }
-
-                  return nextItem;
-                });
-              }
-            }
-
-            autofill(`${name}.${key}`, nextData);
-          }
-        });
-      }
+      initialize(get(nextDepositFulfillment, 'depositFulfillment.data', null));
     }
   }
 
