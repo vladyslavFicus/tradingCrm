@@ -5,7 +5,7 @@ import { Field } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import {
-  InputField, SelectField, CustomValueFieldVertical, MultiCurrencyValue,
+  InputField, SelectField, MultiCurrencyValue, CustomValueFieldVertical,
 } from '../../../../../components/ReduxForm';
 import renderLabel from '../../../../../utils/renderLabel';
 import { attributeLabels, attributePlaceholders, wageringRequirementTypes } from '../constants';
@@ -64,6 +64,8 @@ class CreateBonusModal extends PureComponent {
       claimable: !!formData.claimable,
       bonusLifeTime: formData.bonusLifeTime,
       moneyTypePriority: formData.moneyTypePriority,
+      maxBet: formData.maxBet,
+      maxGrantAmount: formData.maxGrantAmount,
     };
 
     const currency = formData.currency;
@@ -78,15 +80,6 @@ class CreateBonusModal extends PureComponent {
         } else {
           data[`${key}Percentage`] = formData[key].value;
         }
-      }
-    });
-
-    ['maxBet', 'maxGrantAmount'].forEach((key) => {
-      if (formData[key]) {
-        data[key] = [{
-          amount: formData[key],
-          currency,
-        }];
       }
     });
 
@@ -215,7 +208,7 @@ class CreateBonusModal extends PureComponent {
                 <div className="col-5">
                   <MultiCurrencyValue
                     label={I18n.t(attributeLabels.maxGrantedAmount)}
-                    baseName="maxGrantedAmount"
+                    baseName="maxGrantAmount"
                   />
                 </div>
               </If>
@@ -283,14 +276,9 @@ class CreateBonusModal extends PureComponent {
             </div>
             <div className="row">
               <div className="col-4">
-                <Field
-                  name="maxBet"
-                  type="text"
-                  placeholder="0"
+                <MultiCurrencyValue
+                  baseName="maxBet"
                   label={I18n.t(attributeLabels.maxBet)}
-                  component={InputField}
-                  position="vertical"
-                  iconRightClassName="nas nas-currencies_icon"
                 />
               </div>
               <div className="col-4 form-row_with-placeholder-right">
