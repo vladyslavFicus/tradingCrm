@@ -6,7 +6,6 @@ import createRequestAction from '../../../../../utils/createRequestAction';
 const KEY = 'filters';
 const FETCH_GAME_PROVIDERS = createRequestAction(`${KEY}/fetch-game-providers`);
 
-
 const actionHandlers = {
   [FETCH_GAME_PROVIDERS.SUCCESS]: (state, { payload }) => ({
     ...state,

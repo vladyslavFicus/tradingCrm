@@ -215,6 +215,7 @@ class Form extends Component {
 export default compose(
   reduxForm({
     enableReinitialize: true,
+    keepDirtyOnReinitialize: true,
     validate: (values) => {
       const rules = {
         name: ['required', 'string'],

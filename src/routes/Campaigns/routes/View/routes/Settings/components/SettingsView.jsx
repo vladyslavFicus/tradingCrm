@@ -8,6 +8,7 @@ import asyncForEach from '../../../../../../../utils/asyncForEach';
 import { fulfilmentTypes as fulfillmentTypes } from '../../../../../constants';
 import Permissions from '../../../../../../../utils/permissions';
 import permissions from '../../../../../../../config/permissions';
+import deepRemoveKeyByRegex from '../../../../../../../utils/deepKeyPrefixRemove';
 
 class SettingsView extends Component {
   static propTypes = {
@@ -106,8 +107,8 @@ class SettingsView extends Component {
         disabled={disabled}
         initialValues={{
           name,
-          fulfillments,
-          rewards,
+          fulfillments: deepRemoveKeyByRegex(fulfillments, /^__/),
+          rewards: deepRemoveKeyByRegex(rewards, /^__/),
           startDate,
           endDate,
         }}

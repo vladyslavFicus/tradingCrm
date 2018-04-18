@@ -15,7 +15,6 @@ class NodeBuilder extends PureComponent {
     fields: PropTypes.object.isRequired,
     typeLabels: PropTypes.object.isRequired,
   };
-
   static defaultProps = {
     className: '',
     disabled: false,
@@ -82,6 +81,7 @@ class NodeBuilder extends PureComponent {
               disabled,
               onChangeUUID: uuid => this.handleChangeUUID(index, uuid, field.type),
               name: `${name}[${index}]`,
+              type: field.type,
               uuid: field.uuid,
             })}
           </div>
