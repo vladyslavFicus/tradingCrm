@@ -25,15 +25,6 @@ class CreateBonusModal extends PureComponent {
     onCloseModal: PropTypes.func.isRequired,
     isOpen: PropTypes.bool.isRequired,
     destroy: PropTypes.func.isRequired,
-    optionCurrencies: PropTypes.shape({
-      options: PropTypes.shape({
-        signUp: PropTypes.shape({
-          currency: PropTypes.shape({
-            list: PropTypes.arrayOf(PropTypes.string),
-          }),
-        }),
-      }),
-    }).isRequired,
     formValues: PropTypes.object,
     onSave: PropTypes.func,
   };
@@ -68,31 +59,21 @@ class CreateBonusModal extends PureComponent {
       maxGrantAmount: formData.maxGrantAmount,
     };
 
-    const currency = formData.currency;
-
     ['grantRatio', 'capping', 'prize'].forEach((key) => {
-      if (formData[key] && formData[key].value) {
-        if (formData[key].type !== customValueFieldTypes.PERCENTAGE) {
-          data[`${key}Absolute`] = [{
-            amount: formData[key].value,
-            currency,
-          }];
-        } else {
-          data[`${key}Percentage`] = formData[key].value;
-        }
+      if (formData[key].type !== customValueFieldTypes.PERCENTAGE) {
+        data[`${key}Absolute`] = formData[key].value;
+      } else {
+        data[`${key}Percentage`] = formData[key].percentage;
       }
     });
 
     if (formData.wageringRequirement) {
       if (
-        formData.wageringRequirement.type !== customValueFieldTypes.PERCENTAGE
+        formData.wageringRequirement.type === customValueFieldTypes.ABSOLUTE
       ) {
-        data.wageringRequirementAbsolute = [{
-          amount: formData.wageringRequirement.value,
-          currency,
-        }];
+        data.wageringRequirementAbsolute = formData.wageringRequirement.value;
       } else {
-        data.wageringRequirementPercentage = formData.wageringRequirement.value;
+        data.wageringRequirementPercentage = formData.wageringRequirement.percentage;
       }
 
       data.wageringRequirementType = formData.wageringRequirement.type || customValueFieldTypes.ABSOLUTE;
@@ -124,39 +105,16 @@ class CreateBonusModal extends PureComponent {
       handleSubmit,
       onCloseModal,
       isOpen,
-      optionCurrencies: {
-        options,
-      },
       formValues,
     } = this.props;
 
-    const currencies = get(options, 'signUp.post.currency.list', []);
     const grantRatioType = get(formValues, 'grantRatio.type');
 
     return (
       <Modal toggle={onCloseModal} isOpen={isOpen}>
         <ModalHeader toggle={onCloseModal}>{I18n.t(modalAttributeLabels.title)}</ModalHeader>
-
         <form onSubmit={handleSubmit(this.handleSubmitBonusForm)}>
           <ModalBody>
-            <div className="row">
-              <div className="col-md-6">
-                <Field
-                  name="currency"
-                  label={I18n.t('COMMON.CURRENCY')}
-                  type="select"
-                  component={SelectField}
-                  position="vertical"
-                >
-                  <option value="">{I18n.t('BONUS_CAMPAIGNS.SETTINGS.CHOOSE_CURRENCY')}</option>
-                  {currencies.map(item => (
-                    <option key={item} value={item}>
-                      {item}
-                    </option>
-                  ))}
-                </Field>
-              </div>
-            </div>
             <div className="row">
               <div className="col-md-8">
                 <Field

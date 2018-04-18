@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Field, FormSection, Fields } from 'redux-form';
+import { get } from 'lodash';
+import { Field, Fields } from 'redux-form';
 import renderLabel from '../../utils/renderLabel';
 import { InputField, SelectField, MultiCurrencyValue } from '../../components/ReduxForm';
 import { customValueFieldTypesLabels, customValueFieldTypes } from '../../constants/form';
@@ -11,46 +12,54 @@ const renderFields = ({
   children,
   id,
   label,
+  value,
+  name,
   type,
   valueFieldProps,
-}) => (
-  <div className="row no-gutters">
-    <div className="col-4 pr-2">
-      <Choose>
-        <When condition={type.input.value !== customValueFieldTypes.ABSOLUTE}>
-          <Field
-            id={`${id}Value`}
-            name="value"
-            showErrorMessage={false}
-            disabled={disabled}
-            placeholder={typeof label === 'string' ? label : null}
-            component={InputField}
-            type="text"
-            position="vertical"
-            {...valueFieldProps}
-          />
-        </When>
-        <Otherwise>
-          <MultiCurrencyValue
-            name="value"
-            label=""
-            placeholder={typeof label === 'string' ? label : null}
-          />
-        </Otherwise>
-      </Choose>
-    </div>
-    <div className="col">
-      <Field
-        id={`${id}Type`}
-        name="type"
-        className="form-control"
-        showErrorMessage={false}
-        component={SelectField}
-        disabled={disabled}
-        position="vertical"
-      >
-        {
-          children ||
+  ...props
+}) => {
+  const typeField = get(props, `${name}.type`);
+  const valueField = get(props, `${name}.value`);
+
+  return (
+    <div className="row no-gutters">
+      <div className="col-4 pr-2">
+        <Choose>
+          <When condition={typeField.input.value !== customValueFieldTypes.ABSOLUTE}>
+            <Field
+              id={`${id}Value`}
+              name={`${name}.percentage`}
+              showErrorMessage={false}
+              disabled={disabled}
+              placeholder={typeof label === 'string' ? label : null}
+              component={InputField}
+              type="text"
+              position="vertical"
+              {...valueFieldProps}
+            />
+          </When>
+          <Otherwise>
+            <MultiCurrencyValue
+              baseName={valueField.input.name}
+              label=""
+              showErrorMessage={false}
+              placeholder={typeof label === 'string' ? label : null}
+            />
+          </Otherwise>
+        </Choose>
+      </div>
+      <div className="col">
+        <Field
+          id={`${id}Type`}
+          name={typeField.input.name}
+          className="form-control"
+          showErrorMessage={false}
+          component={SelectField}
+          disabled={disabled}
+          position="vertical"
+        >
+          {
+            children ||
               typeValues.map(key =>
                 (
                   <option key={key} value={key}>
@@ -58,11 +67,12 @@ const renderFields = ({
                   </option>
                 )
               )
-        }
-      </Field>
+          }
+        </Field>
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 const CustomValueFieldVertical = (props) => {
   const {
@@ -72,20 +82,11 @@ const CustomValueFieldVertical = (props) => {
   } = props;
 
   return (
-    <FormSection name={name} className="form-group">
+    <div className="form-group">
       <label>{rest.label}</label>
-      <Fields names={['value', 'type']} component={renderFields} {...rest} />
-      <If condition={touched && error && error.value}>
-        <div className="form-control-feedback">
-          {error.value}
-        </div>
-      </If>
-      <If condition={touched && error && error.type}>
-        <div className="form-control-feedback">
-          {error.type}
-        </div>
-      </If>
-    </FormSection>
+      <Fields names={[`${name}.value`, `${name}.type`]} component={renderFields} name={name} {...rest} />
+
+    </div>
   );
 };
 
