@@ -10,6 +10,7 @@ import normalizeNumber from '../../../../../utils/normalizeNumber';
 import { attributeLabels, attributePlaceholders } from '../constants';
 import Amount, { Currency } from '../../../../../components/Amount';
 import BonusView from '../../Bonus/BonusView';
+import { statuses as freeSpinTemplateStatuses } from '../../../../../constants/free-spin-template';
 import {
   SelectField,
   InputField,
@@ -54,6 +55,7 @@ class FreeSpinCreateModal extends Component {
     }),
     isOpen: PropTypes.bool.isRequired,
     bonusTemplateUUID: PropTypes.object,
+    notify: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -129,7 +131,7 @@ class FreeSpinCreateModal extends Component {
   }
 
   handleSubmit = async ({ betPerLine, currency, bonusTemplateUUID: { uuid: bonusTemplateUUID }, ...data }) => {
-    const { addFreeSpinTemplate, onSave, onCloseModal, destroy } = this.props;
+    const { addFreeSpinTemplate, onSave, onCloseModal, destroy, notify } = this.props;
     const variables = { ...data, bonusTemplateUUID };
 
     if (betPerLine) {
@@ -144,17 +146,39 @@ class FreeSpinCreateModal extends Component {
     const response = await addFreeSpinTemplate({ variables });
     const { error, fields_errors } = get(response, 'data.freeSpinTemplate.add.error') || {};
 
-    if (error || fields_errors) {
+    if (fields_errors) {
       const fieldsErrors = mapValues(fields_errors, 'error');
 
-      throw new SubmissionError({ _error: error, ...fieldsErrors });
+      throw new SubmissionError({ ...fieldsErrors });
+    } else if (error) {
+      notify({
+        level: 'error',
+        title: I18n.t('CAMPAIGN.FREE_SPIN.CREATE.ERROR_TITLE'),
+        message: I18n.t(error),
+      });
+      throw new SubmissionError({ _error: error });
     }
 
-    const { uuid } = get(response, 'data.freeSpinTemplate.add.data');
+    const { uuid, status } = get(response, 'data.freeSpinTemplate.add.data');
+
+    if (status === freeSpinTemplateStatuses.FAILED) {
+      notify({
+        level: 'error',
+        title: I18n.t('CAMPAIGN.FREE_SPIN.CREATE.ERROR_TITLE'),
+        message: I18n.t('CAMPAIGN.FREE_SPIN.CREATE.FAILED'),
+      });
+      throw new SubmissionError({ _error: 'CAMPAIGN.FREE_SPIN.CREATE.FAILED' });
+    }
 
     if (onSave) {
       onSave(uuid);
     }
+
+    notify({
+      level: 'success',
+      title: I18n.t('CAMPAIGN.FREE_SPIN.CREATE.SUCCESS_TITLE'),
+      message: I18n.t('CAMPAIGN.FREE_SPIN.CREATE.SUCCESS_MESSAGE'),
+    });
 
     onCloseModal();
     destroy();

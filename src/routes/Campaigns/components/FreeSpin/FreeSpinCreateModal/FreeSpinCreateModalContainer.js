@@ -11,11 +11,13 @@ import {
 import { freeSpinTemplateMutation } from '../../../../../graphql/mutations/campaigns';
 import { gameListQuery } from '../../../../../graphql/queries/games';
 import FreeSpinCreateModal from './FreeSpinCreateModal';
+import { withNotifications } from '../../../../../components/HighOrder';
 import validator from './validator';
 
 const FORM_NAME = 'addFreeSpinTemplate';
 
 export default compose(
+  withNotifications,
   connect((state) => {
     const {
       aggregatorId,
