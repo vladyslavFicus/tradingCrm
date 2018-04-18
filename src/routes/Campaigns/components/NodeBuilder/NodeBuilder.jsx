@@ -4,7 +4,6 @@ import { I18n } from 'react-redux-i18n';
 import classNames from 'classnames';
 import { set } from 'lodash';
 import { SelectField } from '../../../../components/ReduxForm';
-import deepRemoveKeyByRegex from '../../../../utils/deepKeyPrefixRemove';
 
 class NodeBuilder extends PureComponent {
   static propTypes = {
@@ -16,12 +15,6 @@ class NodeBuilder extends PureComponent {
     components: PropTypes.object.isRequired,
     fields: PropTypes.object.isRequired,
     typeLabels: PropTypes.object.isRequired,
-  };
-  static contextTypes = {
-    _reduxForm: PropTypes.shape({
-      initialize: PropTypes.func.isRequired,
-      values: PropTypes.object.isRequired,
-    }).isRequired,
   };
   static defaultProps = {
     className: '',
@@ -49,17 +42,6 @@ class NodeBuilder extends PureComponent {
 
   handleRemoveNode = (index) => {
     this.props.fields.remove(index);
-  };
-
-  handleInitialization = (name, data) => {
-    if (data) {
-      const { _reduxForm: { initialize, values: formValues } } = this.context;
-      const values = deepRemoveKeyByRegex(formValues);
-
-      set(values, name, deepRemoveKeyByRegex(data));
-
-      initialize(values);
-    }
   };
 
   render() {
@@ -97,10 +79,10 @@ class NodeBuilder extends PureComponent {
               </If>
             </div>
             {React.createElement(components[field.type], {
-              initialize: (data) => this.handleInitialization(),
               disabled,
               onChangeUUID: uuid => this.handleChangeUUID(index, uuid, field.type),
               name: `${name}[${index}]`,
+              type: field.type,
               uuid: field.uuid,
             })}
           </div>

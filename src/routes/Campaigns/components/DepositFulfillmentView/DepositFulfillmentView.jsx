@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { get } from 'lodash';
+import { get, set } from 'lodash';
 import { I18n } from 'react-redux-i18n';
 import { Field } from 'redux-form';
 import { MultiCurrencyValue, SelectField } from '../../../../components/ReduxForm';
@@ -7,13 +7,14 @@ import PropTypes from '../../../../constants/propTypes';
 import ordinalizeNumber from '../../../../utils/ordinalizeNumber';
 import ExcludedPaymentMethods from './ExcludedPaymentMethods';
 import Placeholder, { DefaultLoadingPlaceholder } from '../../../../components/Placeholder';
+import deepRemoveKeyByRegex from '../../../../utils/deepKeyPrefixRemove';
 
 class DepositFulfillmentView extends Component {
   static propTypes = {
-    initialize: PropTypes.func.isRequired,
     disabled: PropTypes.bool.isRequired,
     uuid: PropTypes.string,
     name: PropTypes.string.isRequired,
+    type: PropTypes.string.isRequired,
     optionCurrencies: PropTypes.shape({
       options: PropTypes.shape({
         signUp: PropTypes.shape({
@@ -47,6 +48,12 @@ class DepositFulfillmentView extends Component {
       }),
     }),
     locale: PropTypes.string.isRequired,
+    formValues: PropTypes.object.isRequired,
+  };
+  static contextTypes = {
+    _reduxForm: PropTypes.shape({
+      initialize: PropTypes.func.isRequired,
+    }).isRequired,
   };
   static defaultProps = {
     uuid: null,
@@ -55,13 +62,20 @@ class DepositFulfillmentView extends Component {
   };
 
   componentWillReceiveProps({ depositFulfillment: nextDepositFulfillment }) {
-    const { uuid, initialize, depositFulfillment } = this.props;
+    const { uuid, name, type, depositFulfillment, formValues } = this.props;
 
     const loading = get(depositFulfillment, 'loading', true);
     const nextLoading = get(nextDepositFulfillment, 'loading', true);
 
     if (uuid && loading && !nextLoading) {
-      initialize(get(nextDepositFulfillment, 'depositFulfillment.data', null));
+      const data = get(nextDepositFulfillment, 'depositFulfillment.data', null);
+
+      if (data) {
+        const { _reduxForm: { initialize } } = this.context;
+        const value = { ...deepRemoveKeyByRegex(data, /^__/), type };
+
+        initialize(set({ ...formValues }, name, value));
+      }
     }
   }
 
