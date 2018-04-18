@@ -1824,6 +1824,10 @@
       "FREE_SPIN": {
         "LIFE_TIME": ""
       }
+    },
+    "NODE_VALIDATION": {
+      "FULFILLMENTS": "Требуется выбрать хотя бы одно условие",
+      "REWARDS": "Требуется выбрать хотя бы одну награду"
     }
   },
   "MULTI_CURRENCY_MODAL": {

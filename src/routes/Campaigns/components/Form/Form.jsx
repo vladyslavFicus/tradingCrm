@@ -2,11 +2,14 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import moment from 'moment';
-import { Field, reduxForm } from 'redux-form';
+import { Field, reduxForm, SubmissionError } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
 import { get, isEqual } from 'lodash';
 import { InputField, DateTimeField } from '../../../../components/ReduxForm';
 import {
+  nodeGroups,
+  nodeGroupsAlias,
+  nodeGroupValidateMessage,
   attributeLabels,
   rewardTemplateTypes,
   rewardTypesLabels,
@@ -22,7 +25,7 @@ import { createValidator } from '../../../../utils/validator';
 import Permissions from '../../../../utils/permissions';
 import permissions from '../../../../config/permissions';
 import './Form.scss';
-import { withReduxFormValues } from '../../../../components/HighOrder';
+import { withReduxFormValues, withNotifications } from '../../../../components/HighOrder';
 
 const CAMPAIGN_NAME_MAX_LENGTH = 100;
 
@@ -30,6 +33,7 @@ class Form extends Component {
   static propTypes = {
     change: PropTypes.func.isRequired,
     reset: PropTypes.func.isRequired,
+    notify: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func,
     pristine: PropTypes.bool,
@@ -93,10 +97,29 @@ class Form extends Component {
     );
   };
 
+  handleSubmit = (formData) => {
+    let valid = true;
+
+    [nodeGroups.FULFILLMENTS, nodeGroups.REWARDS].forEach((nodeGroup) => {
+      if (!formData[nodeGroupsAlias[nodeGroup]].length) {
+        this.props.notify({
+          level: 'error',
+          title: I18n.t(nodeGroupValidateMessage[nodeGroup]),
+        });
+        valid = false;
+      }
+    });
+
+    if (!valid) {
+      throw new SubmissionError({});
+    }
+
+    return this.props.onSubmit(formData);
+  };
+
   render() {
     const {
       handleSubmit,
-      onSubmit,
       pristine,
       submitting,
       formValues,
@@ -106,7 +129,7 @@ class Form extends Component {
     } = this.props;
 
     return (
-      <form id={form} onSubmit={handleSubmit(onSubmit)} className="container-fluid campaigns-form">
+      <form id={form} onSubmit={handleSubmit(this.handleSubmit)} className="container-fluid campaigns-form">
         <div className="row">
           <div className="col-auto campaigns-form__title">
             {I18n.t('BONUS_CAMPAIGNS.SETTINGS.CAMPAIGN_SETTINGS')}
@@ -213,6 +236,7 @@ class Form extends Component {
 }
 
 export default compose(
+  withNotifications,
   reduxForm({
     enableReinitialize: true,
     keepDirtyOnReinitialize: true,

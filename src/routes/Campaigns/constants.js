@@ -15,6 +15,21 @@ const fulfilmentTypes = keyMirror({
   DEPOSIT: null,
 });
 
+const nodeGroups = keyMirror({
+  FULFILLMENTS: null,
+  REWARDS: null,
+});
+
+const nodeGroupsAlias = {
+  [nodeGroups.FULFILLMENTS]: 'fulfillments',
+  [nodeGroups.REWARDS]: 'rewards',
+};
+
+const nodeGroupValidateMessage = {
+  [nodeGroups.FULFILLMENTS]: I18n.t('CAMPAIGNS.NODE_VALIDATION.FULFILLMENTS'),
+  [nodeGroups.REWARDS]: I18n.t('CAMPAIGNS.NODE_VALIDATION.REWARDS'),
+};
+
 const rewardTypesLabels = {
   [rewardTemplateTypes.BONUS]: I18n.t('CAMPAIGNS.BONUS_TEMPLATE'),
   [rewardTemplateTypes.FREE_SPIN]: I18n.t('CAMPAIGNS.FREE_SPIN_TEMPLATE'),
@@ -31,6 +46,9 @@ export {
   fulfilmentTypes,
   rewardTypesLabels,
   fulfilmentTypesLabels,
+  nodeGroups,
+  nodeGroupsAlias,
+  nodeGroupValidateMessage,
 };
 
 export default attributeLabels;
