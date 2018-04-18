@@ -64,10 +64,7 @@ const updateMutation = gql`mutation update(
           type
           uuid
         }
-        fulfillments {
-          type
-          uuid
-        }
+        fulfillments
         startDate
         endDate
       }
