@@ -61,13 +61,13 @@ class Form extends Component {
     if (!isEqual(formValues.fulfillments, nextFormValues.fulfillments)) {
       nextFormValues.fulfillments.forEach((fulfillment, index) => {
         if (fulfillment.uuid) {
-          const prevFulfillment = formValues.fulfillments[index];
+          const prevFulfillment = formValues.fulfillments.find(i => i.uuid === fulfillment.uuid);
           const isSameObject = (
-            !!prevFulfillment && Object.keys(prevFulfillment).length === Object.keys(fulfillment).length
+            prevFulfillment && Object.keys(prevFulfillment).length === Object.keys(fulfillment).length
           );
 
-          if (isSameObject && !isEqual(prevFulfillment, fulfillment)) {
-            change(`fulfillments[${index}].uuid`, null);
+          if (prevFulfillment && isSameObject && !isEqual(prevFulfillment, fulfillment)) {
+            change(`fulfillments[${index}].uuid`, undefined);
           }
         }
       });
