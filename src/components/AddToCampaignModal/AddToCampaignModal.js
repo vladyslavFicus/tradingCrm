@@ -107,7 +107,7 @@ class AddToCampaignModal extends PureComponent {
             >
               {options.map(campaign => (
                 <option key={campaign.uuid} value={campaign.uuid} campaign={campaign}>
-                  {`${campaign.campaignName} - ${campaign.state}`}
+                  {`${campaign.name} - ${campaign.state}`}
                 </option>
               ))}
             </Field>
