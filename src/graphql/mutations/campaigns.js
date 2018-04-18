@@ -82,12 +82,16 @@ const createMutation = gql`mutation create(
   $name: String!,
   $fulfillments: [String]!,
   $rewards: [String]!
+  $startDate: String
+  $endDate: String
 ) {
   campaign {
     create(
-      name: $name,
-      fulfillments: $fulfillments,
-      rewards: $rewards,
+      name: $name
+      fulfillments: $fulfillments
+      rewards: $rewards
+      startDate: $startDate
+      endDate: $endDate
     ) {
       data {
         _id
