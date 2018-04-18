@@ -1808,6 +1808,10 @@
       "FREE_SPIN": {
         "LIFE_TIME": ""
       }
+    },
+    "NODE_VALIDATION": {
+      "FULFILLMENTS": "Please add at least one fulfilment",
+      "REWARDS": "Please add at least one reward"
     }
   },
   "MULTI_CURRENCY_MODAL": {

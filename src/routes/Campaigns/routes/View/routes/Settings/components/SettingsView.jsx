@@ -1,11 +1,17 @@
 import React, { Component } from 'react';
 import { I18n } from 'react-redux-i18n';
 import { get } from 'lodash';
+import { SubmissionError } from 'redux-form';
 import PropTypes from '../../../../../../../constants/propTypes';
 import Form from '../../../../../components/Form';
 import { statuses } from '../../../../../../../constants/bonus-campaigns';
 import asyncForEach from '../../../../../../../utils/asyncForEach';
-import { fulfilmentTypes as fulfillmentTypes } from '../../../../../constants';
+import {
+  fulfilmentTypes as fulfillmentTypes,
+  nodeGroups,
+  nodeGroupsAlias,
+  nodeGroupValidateMessage,
+} from '../../../../../constants';
 import Permissions from '../../../../../../../utils/permissions';
 import permissions from '../../../../../../../config/permissions';
 
@@ -26,6 +32,24 @@ class SettingsView extends Component {
     permissions: PropTypes.array.isRequired,
   };
 
+  nodeGroupsValidate = (formData) => {
+    let valid = true;
+
+    [nodeGroups.FULFILLMENTS, nodeGroups.REWARDS].forEach((nodeGroup) => {
+      if (!formData[nodeGroupsAlias[nodeGroup]].length) {
+        this.props.notify({
+          level: 'error',
+          title: I18n.t(nodeGroupValidateMessage[nodeGroup]),
+        });
+        valid = false;
+      }
+    });
+
+    if (!valid) {
+      throw new SubmissionError();
+    }
+  };
+
   handleUpdateCampaign = async (formData) => {
     const {
       updateCampaign,
@@ -38,6 +62,8 @@ class SettingsView extends Component {
         },
       },
     } = this.props;
+
+    this.nodeGroupsValidate(formData);
 
     const fulfillments = formData.fulfillments
       .filter(({ uuid }) => uuid)
