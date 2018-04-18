@@ -73,7 +73,7 @@ class BonusView extends PureComponent {
     return (
       <div className="campaigns-template">
         <div className="row">
-          <div className="col-8">
+          <div className="col">
             <Choose>
               <When condition={!isViewMode}>
                 <Field

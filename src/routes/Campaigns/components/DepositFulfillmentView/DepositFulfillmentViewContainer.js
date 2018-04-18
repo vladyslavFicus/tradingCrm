@@ -33,21 +33,13 @@ export default compose(
       },
     },
   }),
-  graphql(currencyQuery, {
-    name: 'optionCurrencies',
-    options: {
-      variables: {
-        brandId: getBrandId(),
-      },
-    },
-  }),
   graphql(depositFulfillmentQuery, {
     options: ({ uuid }) => ({
       variables: {
         uuid,
       },
     }),
-    skip: ({ uuid, optionCurrencies: { loading } }) => !uuid || loading,
+    skip: ({ uuid }) => !uuid,
     name: 'depositFulfillment',
   }),
 )(DepositFulfillmentView);

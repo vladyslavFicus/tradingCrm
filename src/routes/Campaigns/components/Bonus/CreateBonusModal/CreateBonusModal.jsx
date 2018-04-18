@@ -136,7 +136,6 @@ class CreateBonusModal extends PureComponent {
     } = this.props;
 
     const currencies = get(options, 'signUp.post.currency.list', []);
-    const baseCurrency = get(options, 'signUp.post.currency.base', '');
     const grantRatioType = get(formValues, 'grantRatio.type');
 
     return (
@@ -215,8 +214,6 @@ class CreateBonusModal extends PureComponent {
                   <MultiCurrencyValue
                     label={I18n.t(attributeLabels.maxGrantedAmount)}
                     baseName="maxGrantedAmount"
-                    baseCurrency={baseCurrency}
-                    currencies={currencies}
                   />
                 </div>
               </If>

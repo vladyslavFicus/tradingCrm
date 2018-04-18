@@ -1,3 +1,3 @@
-import MultiCurrencyValue from './MultiCurrencyValue';
+import MultiCurrencyValueContainer from './MultiCurrencyValueContainer';
 
-export default MultiCurrencyValue;
+export default MultiCurrencyValueContainer;

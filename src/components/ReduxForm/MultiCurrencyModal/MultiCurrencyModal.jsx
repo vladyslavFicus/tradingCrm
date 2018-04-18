@@ -23,56 +23,68 @@ class MultiCurrencyModal extends PureComponent {
     }),
     onCloseModal: PropTypes.func.isRequired,
     isOpen: PropTypes.bool.isRequired,
-    destroy: PropTypes.func.isRequired,
+    reset: PropTypes.func.isRequired,
     label: PropTypes.string,
+    formValues: PropTypes.object,
   };
 
   static defaultProps = {
     label: '',
-    optionCurrencies: { options: {} },
+    formValues: {},
+    optionCurrencies: { options: {}, loading: true },
   };
 
   componentWillReceiveProps({ isOpen }) {
     if (this.props.isOpen && !isOpen) {
-      this.props.destroy();
+      this.props.reset();
     }
   }
 
-  handleChange = (currency, index) => ({ target: { value } }) => {
-    const currencyFieldName = `amounts[${index}].currency`;
-    const currencyCode = value ? currency : '';
+  get baseCurrency() {
+    const { optionCurrencies: { options } } = this.props;
 
-    this.props.change(currencyFieldName, currencyCode);
+    return get(options, 'signUp.post.currency.base', '');
+  }
+
+  get secondaryCurrencies() {
+    const { optionCurrencies: { options } } = this.props;
+
+    return get(options, 'signUp.post.currency.rates', []);
+  }
+
+  get baseCurrencyValue() {
+    return get(this.props.formValues, 'amounts[0].amount', 0);
+  }
+
+  handleChangeBase = ({ target: { value } } = { target: { value: '' } }) => {
+    const baseCurrencyCode = this.baseCurrency;
+    const baseCurrencyValue = value || this.baseCurrencyValue;
+
+    this.secondaryCurrencies.forEach(({ amount, currency }, index) => {
+      this.props.change(`amounts[${index + 1}].currency`, currency);
+      this.props.change(`amounts[${index + 1}].amount`, (amount * baseCurrencyValue).toFixed(2));
+    });
+
+    this.props.change('amounts[0].currency', baseCurrencyCode);
   };
 
   handleSubmit = ({ amounts }) => {
     this.props.onSubmit(amounts);
   };
 
-  renderField = (currency, index = 0) => (
-    <MultiCurrencyField
-      key={currency}
-      name={`amounts[${index}]`}
-      currency={currency}
-      onChange={this.handleChange(currency, index)}
-    />
-  );
-
   render() {
     const {
       handleSubmit,
       onCloseModal,
       isOpen,
-      optionCurrencies: {
-        refetch,
-        options,
-      },
       label,
-      formValues,
+      optionCurrencies: {
+        loading,
+      },
     } = this.props;
-    const secondaryCurrencies = get(options, 'signUp.post.currency.rates', []);
-    const baseCurrency = get(options, 'signUp.post.currency.base', '');
-    const baseCurrencyValue = get(formValues, 'amounts[0].amount', 0);
+    const secondaryCurrencies = this.secondaryCurrencies;
+    const baseCurrency = this.baseCurrency;
+    const baseCurrencyValue = this.baseCurrencyValue;
 
     return (
       <Modal toggle={onCloseModal} isOpen={isOpen} className="currency-calc-modal">
@@ -92,15 +104,12 @@ class MultiCurrencyModal extends PureComponent {
                     {baseCurrency}
                   </div>
                   <div className="currency-calc-modal__input-input">
-                    {this.renderField(baseCurrency)}
-                  </div>
-                  <div className="currency-calc-modal__input-button">
-                    <button type="button" onClick={() => refetch()} className="btn btn-primary-outline">
-                      {I18n.t(attributeLabels.recalc)}
-                    </button>
-                    <div className="currency-calc-modal__input-warning">
-                      {I18n.t(attributeLabels.recalcWarning)}
-                    </div>
+                    <MultiCurrencyField
+                      name={'amounts[0]'}
+                      disabled={loading}
+                      currency={baseCurrency}
+                      onChange={this.handleChangeBase}
+                    />
                   </div>
                 </If>
               </div>
@@ -122,7 +131,12 @@ class MultiCurrencyModal extends PureComponent {
                         <td className="currency-calc-modal__output-content"><b>{currency}</b></td>
                         <td className="currency-calc-modal__output-content">{amount}</td>
                         <td className="currency-calc-modal__output-content">{(amount * baseCurrencyValue).toFixed(2)}</td>
-                        <td>{this.renderField(currency, index + 1)}</td>
+                        <td>
+                          <MultiCurrencyField
+                            name={`amounts[${index + 1}]`}
+                            currency={currency}
+                          />
+                        </td>
                       </tr>
                     ))
                   }

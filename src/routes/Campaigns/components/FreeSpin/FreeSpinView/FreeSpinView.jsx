@@ -73,7 +73,7 @@ export default class FreeSpinView extends PureComponent {
     return (
       <div className="campaigns-template">
         <div className="row">
-          <div className="col-8">
+          <div className="col">
             <Field
               name={`${name}.uuid`}
               id={`${name}-uuid`}
