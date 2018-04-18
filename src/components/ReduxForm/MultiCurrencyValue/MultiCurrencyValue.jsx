@@ -6,6 +6,7 @@ import { floatNormalize } from '../../../utils/inputNormalize';
 
 class MultiCurrencyValue extends Component {
   static propTypes = {
+    disabled: PropTypes.bool,
     baseCurrency: PropTypes.string,
     baseName: PropTypes.string,
     modals: PropTypes.shape({
@@ -28,6 +29,7 @@ class MultiCurrencyValue extends Component {
   };
 
   static defaultProps = {
+    disabled: false,
     currencies: [],
     formValues: {},
     baseCurrency: '',
@@ -118,13 +120,14 @@ class MultiCurrencyValue extends Component {
       optionCurrencies: {
         loading,
       },
+      disabled,
     } = this.props;
 
     return (
       <MultiCurrencyField
         name={`${baseName}[0]`}
         label={label}
-        disabled={loading}
+        disabled={disabled || loading}
         currency={baseCurrency}
         onChange={this.handleChangeBaseCurrencyAmount}
         iconRightClassName="nas nas-currencies_icon"
