@@ -95,21 +95,10 @@ const sidebarTopMenu = [
     permissions: new Permissions(permissions.PROMOTION.LIST),
   },
   {
-    label: I18n.t('SIDEBAR.TOP_MENU.NEW_CAMPAIGNS'),
+    label: I18n.t('SIDEBAR.TOP_MENU.CAMPAIGNS'),
     icon: 'fa fa-calendar-check-o ',
-    isOpen: false,
-    items: [
-      {
-        label: I18n.t('SIDEBAR.TOP_MENU.NEW_CAMPAIGNS_FULFILLMENTS'),
-        url: '/campaigns/fulfilments',
-        permissions: new Permissions(permissions.WAGERING_FULFILLMENT.LIST),
-      },
-      {
-        label: I18n.t('SIDEBAR.TOP_MENU.CAMPAIGNS'),
-        url: '/campaigns',
-        permissions: new Permissions(permissions.CAMPAIGNS.LIST),
-      },
-    ],
+    url: '/campaigns',
+    permissions: new Permissions(permissions.CAMPAIGNS.LIST),
   },
   {
     label: I18n.t('SIDEBAR.TOP_MENU.SETTINGS'),
