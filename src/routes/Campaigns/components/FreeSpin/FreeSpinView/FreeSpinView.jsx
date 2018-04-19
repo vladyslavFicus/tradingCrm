@@ -2,13 +2,15 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { I18n } from 'react-redux-i18n';
 import { Field } from 'redux-form';
+import { I18n } from 'react-redux-i18n';
 import { get } from 'lodash';
 import { TextRow } from 'react-placeholder/lib/placeholders';
+import { attributeLabels } from '../constants';
 import { NasSelectField } from '../../../../../components/ReduxForm';
 import Placeholder from '../../../../../components/Placeholder';
 import BonusView from '../../Bonus/BonusView';
 import Uuid from '../../../../../components/Uuid';
-import { attributeLabels } from '../constants';
+import Amount from '../../../../../components/Amount';
 
 export default class FreeSpinView extends PureComponent {
   static propTypes = {
@@ -53,6 +55,46 @@ export default class FreeSpinView extends PureComponent {
     const { modals: { createFreeSpin }, onChangeUUID } = this.props;
 
     createFreeSpin.show({ onSave: onChangeUUID });
+  };
+
+  renderPrice = () => {
+    const {
+      freeSpinTemplate: {
+        freeSpinTemplate,
+      },
+    } = this.props;
+
+    const { betPerLineAmounts, linesPerSpin, freeSpinsAmount } = get(freeSpinTemplate, 'data', {});
+    const betPerLine = get(betPerLineAmounts, '[0].amount', 0);
+    const currency = get(betPerLineAmounts, '[0].currency', 0);
+    const betPrice = betPerLine ? parseFloat(betPerLine) : 0;
+    const linesPS = linesPerSpin ? parseFloat(linesPerSpin) : 0;
+    const FSAmount = freeSpinsAmount ? parseInt(freeSpinsAmount, 10) : 0;
+
+    return (
+      <div className="col-4 mt-3">
+        <div className="row no-gutters">
+          <div className="col-6 pr-2">
+            <div className="free-spin-card">
+              <div className="free-spin-card-values">
+                <Amount {...{ amount: betPrice * linesPS, currency }} />
+              </div>
+              <div className="free-spin-card-values">{currency}</div>
+              <div className="free-spin-card-label">{I18n.t(attributeLabels.spinValue)}</div>
+            </div>
+          </div>
+          <div className="col-6">
+            <div className="free-spin-card">
+              <div className="free-spin-card-values">
+                <Amount {...{ amount: betPrice * linesPS * FSAmount, currency }} />
+              </div>
+              <div className="free-spin-card-values">{currency}</div>
+              <div className="free-spin-card-label">{I18n.t(attributeLabels.totalValue)}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
   };
 
   render() {
@@ -130,7 +172,7 @@ export default class FreeSpinView extends PureComponent {
             )}
           >
             <div>
-              <div className="row no-gutters mt-3 campaigns-template__bordered-block">
+              <div className="row mt-3 no-gutters campaigns-template__bordered-block">
                 <div className="col-4">
                   {I18n.t(attributeLabels.providerId)}
                   <div className="campaigns-template__value">
@@ -150,64 +192,41 @@ export default class FreeSpinView extends PureComponent {
                   </div>
                 </div>
               </div>
-              <div className="row no-gutters my-3">
-                <div className="col-7">
-                  <div className="row">
-                    <div className="col">
-                      {I18n.t(attributeLabels.freeSpins)}
-                      <div className="campaigns-template__value">
-                        {fsTemplate.freeSpinsAmount}
-                      </div>
-                    </div>
-                    <div className="col">
-                      {I18n.t(attributeLabels.lifeTime)}
-                      <div className="campaigns-template__value">
-                        {fsTemplate.freeSpinLifeTime}
-                      </div>
-                    </div>
+              <div className="no-gutters row">
+                <div className="col-4 mt-3">
+                  {I18n.t(attributeLabels.freeSpins)}
+                  <div className="campaigns-template__value">
+                    {fsTemplate.freeSpinsAmount}
                   </div>
                 </div>
-                <div className="col-5">
-                  <div className="row no-gutters">
-                    <div className="col-6 pr-2">
-                      <div className="free-spin-card">
-                        <div className="free-spin-card-values">Props</div>
-                        <div className="free-spin-card-values">Props</div>
-                        <div className="free-spin-card-label">spinValue</div>
-                      </div>
-                    </div>
-                    <div className="col-6">
-                      <div className="free-spin-card">
-                        <div className="free-spin-card-values">Props</div>
-                        <div className="free-spin-card-values">Props</div>
-                        <div className="free-spin-card-label">totalValue</div>
-                      </div>
-                    </div>
+                <div className="col-4 mt-3">
+                  {I18n.t(attributeLabels.lifeTime)}
+                  <div className="campaigns-template__value">
+                    {fsTemplate.freeSpinLifeTime}
                   </div>
                 </div>
-              </div>
-              <div className="row no-gutters">
+                <If condition={fsTemplate.linesPerSpin && fsTemplate.betPerLineAmounts}>
+                  {this.renderPrice()}
+                </If>
                 <If condition={fsTemplate.linesPerSpin}>
-                  <div className="col-4">
+                  <div className="col-4 mt-3">
                     {I18n.t(attributeLabels.linesPerSpin)}
                     <div className="campaigns-template__value">
                       {fsTemplate.linesPerSpin}
                     </div>
                   </div>
                 </If>
-                <If condition={fsTemplate.betPerLine}>
-                  <div className="col-4">
+                <If condition={fsTemplate.betPerLineAmounts}>
+                  <div className="col-4 mt-3">
                     {I18n.t(attributeLabels.betPerLine)}
                     <div className="campaigns-template__value">
-                      {fsTemplate.betPerLine}
+                      <Amount {...fsTemplate.betPerLineAmounts[0]} />
                     </div>
                   </div>
                 </If>
-              </div>
-              <If condition={fsTemplate.coinSize || fsTemplate.betLevel || fsTemplate.pageCode}>
-                <div className="row no-gutters my-3">
+                <If condition={fsTemplate.coinSize || fsTemplate.betLevel || fsTemplate.pageCode}>
                   <If condition={fsTemplate.coinSize}>
-                    <div className="col-4">
+                    <div className="col-4 mt-3">
                       {I18n.t(attributeLabels.coinSize)}
                       <div className="campaigns-template__value">
                         {fsTemplate.coinSize}
@@ -215,7 +234,7 @@ export default class FreeSpinView extends PureComponent {
                     </div>
                   </If>
                   <If condition={fsTemplate.betLevel}>
-                    <div className="col-4">
+                    <div className="col-4 mt-3">
                       {I18n.t(attributeLabels.betLevel)}
                       <div className="campaigns-template__value">
                         {fsTemplate.betLevel}
@@ -223,19 +242,17 @@ export default class FreeSpinView extends PureComponent {
                     </div>
                   </If>
                   <If condition={fsTemplate.pageCode}>
-                    <div className="col-4">
+                    <div className="col-4 mt-3">
                       {I18n.t(attributeLabels.pageCode)}
                       <div className="campaigns-template__value">
                         {fsTemplate.pageCode}
                       </div>
                     </div>
                   </If>
-                </div>
-              </If>
-              <If condition={fsTemplate.betMultiplier || fsTemplate.rhfpBet || fsTemplate.comment}>
-                <div className="row no-gutters">
+                </If>
+                <If condition={fsTemplate.betMultiplier || fsTemplate.rhfpBet || fsTemplate.comment}>
                   <If condition={fsTemplate.betMultiplier}>
-                    <div className="col-4">
+                    <div className="col-4 mt-3">
                       Bet Per Line
                       <div className="campaigns-template__value">
                         {fsTemplate.betMultiplier}
@@ -243,7 +260,7 @@ export default class FreeSpinView extends PureComponent {
                     </div>
                   </If>
                   <If condition={fsTemplate.rhfpBet}>
-                    <div className="col-4">
+                    <div className="col-4 mt-3">
                       Bet level
                       <div className="campaigns-template__value">
                         {fsTemplate.rhfpBet}
@@ -251,18 +268,20 @@ export default class FreeSpinView extends PureComponent {
                     </div>
                   </If>
                   <If condition={fsTemplate.comment}>
-                    <div className="col-4">
+                    <div className="col-4 mt-3">
                       Comment
                       <div className="campaigns-template__value">
                         {fsTemplate.comment}
                       </div>
                     </div>
                   </If>
-                </div>
-              </If>
-              <If condition={fsTemplate.bonusTemplateUUID}>
-                <BonusView uuid={fsTemplate.bonusTemplateUUID} isViewMode />
-              </If>
+                </If>
+              </div>
+              <div className="mt-3">
+                <If condition={fsTemplate.bonusTemplateUUID}>
+                  <BonusView uuid={fsTemplate.bonusTemplateUUID} isViewMode />
+                </If>
+              </div>
             </div>
           </Placeholder>
         </If>
