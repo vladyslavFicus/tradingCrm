@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { I18n } from 'react-redux-i18n';
 import { Field } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
 import { get } from 'lodash';
