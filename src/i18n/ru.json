@@ -1477,11 +1477,11 @@
     "SAVE_NEW_CAMPAIGN": "Сохранить новую кампанию",
     "WAGERING_FULFILMENTS": {
       "ADD": {
-        "ADD_BUTTON": "Добавить wagering fulfilment"
+        "ADD_BUTTON": "Добавить вейджер"
       },
       "LIST": {
-        "CREATE_BUTTON": "Создать wagering fulfilment",
-        "TITLE": "Wagering fulfilment"
+        "CREATE_BUTTON": "Создать вейджер",
+        "TITLE": "Вейджер"
       }
     }
   },
@@ -1875,8 +1875,8 @@
       },
       "NOTIFICATIONS": {
         "UPDATE_TITLE": "Обновление бонус-кампании",
-        "UNSUCCESSFULLY": "Не удалось сохранить компанию",
-        "SUCCESSFULLY": "Компания сохранена успешно",
+        "UNSUCCESSFULLY": "Не удалось сохранить кампанию",
+        "SUCCESSFULLY": "Кампания сохранена успешно",
         "ADD_CAMPAIGN": "Создание бонус-кампании"
       }
     },
@@ -1888,11 +1888,11 @@
     },
     "WAGERING_FULFILMENTS": {
       "ADD": {
-        "ADD_BUTTON": "Добавить wagering fulfilment"
+        "ADD_BUTTON": "Добавить вейджер"
       },
       "LIST": {
-        "CREATE_BUTTON": "Создать wagering fulfilment",
-        "TITLE": "Wagering fulfilment"
+        "CREATE_BUTTON": "Создать вейджер",
+        "TITLE": "Вейджер"
       }
     }
   },

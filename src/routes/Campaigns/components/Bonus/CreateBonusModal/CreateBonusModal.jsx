@@ -240,7 +240,7 @@ class CreateBonusModal extends PureComponent {
               <If condition={grantRatioType === customValueFieldTypes.PERCENTAGE}>
                 <div className="col-5">
                   <MultiCurrencyValue
-                    label={I18n.t(attributeLabels.maxGrantedAmount)}
+                    label={I18n.t(attributeLabels.maxGrantAmount)}
                     baseName="maxGrantAmount"
                   />
                 </div>
