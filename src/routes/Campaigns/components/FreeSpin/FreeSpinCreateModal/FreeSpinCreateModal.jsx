@@ -221,24 +221,21 @@ class FreeSpinCreateModal extends Component {
 
   renderPrice = () => {
     const { baseCurrency: currency } = this.currency;
-    const { currentValues: { betPerLineAmounts, linesPerSpin, freeSpinsAmount } } = this.props;
+    const { currentValues: { betPerLineAmounts, ...currentValues } } = this.props;
     const betPerLine = get(betPerLineAmounts, '[0].amount', 0);
 
-    const betPrice = betPerLine
-      ? parseFloat(betPerLine) : 0;
-    const linesPS = linesPerSpin
-      ? parseFloat(linesPerSpin) : 0;
+    const betPrice = betPerLine ? parseFloat(betPerLine) : 0;
+    const linesPerSpin = currentValues.linesPerSpin ? parseFloat(currentValues.linesPerSpin) : 0;
 
-    const FSAmount = freeSpinsAmount
-      ? parseInt(freeSpinsAmount, 10) : 0;
+    const freeSpinsAmount = currentValues.freeSpinsAmount ? parseInt(currentValues.freeSpinsAmount, 10) : 0;
     const spinValue = { amount: 0, currency };
     const totalValue = { amount: 0, currency };
 
-    if (!isNaN(betPrice) && !isNaN(linesPS)) {
-      spinValue.amount = betPrice * linesPS;
+    if (!isNaN(betPrice) && !isNaN(linesPerSpin)) {
+      spinValue.amount = betPrice * linesPerSpin;
     }
-    if (!isNaN(betPrice) && !isNaN(linesPS) && !isNaN(FSAmount)) {
-      totalValue.amount = betPrice * linesPS * FSAmount;
+    if (!isNaN(betPrice) && !isNaN(linesPerSpin) && !isNaN(freeSpinsAmount)) {
+      totalValue.amount = betPrice * linesPerSpin * freeSpinsAmount;
     }
 
     return (
