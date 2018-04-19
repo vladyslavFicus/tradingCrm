@@ -30,7 +30,7 @@ export default compose(
       const currencies = get(optionCurrencies, 'options.signUp.post.currency.list', []);
 
       for (let i = 0; i < currencies.length; i += 1) {
-        rules[`amounts[${i}].amount`] = ['required', 'numeric', 'min: 0'];
+        rules[`amounts[${i}].amount`] = ['required', 'numeric', 'min:1'];
       }
 
       return createValidator(rules, false)(values);

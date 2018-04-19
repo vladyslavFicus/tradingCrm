@@ -1789,7 +1789,9 @@
           "DEPOSIT_NUMBER_LABEL": "Номер депозита",
           "SELECT_DEPOSIT_NUMBER": "-- Выберите номер депозита --",
           "NUMBER_OPTION": "депозит",
-          "RESTRICTED_PAYMENT_METHODS": "Исключенные платежные методы"
+          "RESTRICTED_PAYMENT_METHODS": "Исключенные платежные методы",
+          "MIN_AMOUNT": "Мин. сумма",
+          "MAX_AMOUNT": "Макс. сумма"
         },
         "WAGERING": {
           "LABEL": {
@@ -1821,6 +1823,9 @@
         "CREATE_BONUS_MODAL": {
           "TITLE": ""
         }
+      },
+      "LABEL": {
+        "CAMPAIGN_PERIOD": ""
       }
     },
     "REWARDS": {

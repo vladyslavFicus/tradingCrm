@@ -251,6 +251,8 @@ export default compose(
         if (fulfillment.type === fulfilmentTypes.DEPOSIT) {
           rules.fulfillments[index] = {
             numDeposit: ['required'],
+            'minAmount[0].amount': ['numeric', 'min:1'],
+            'maxAmount[0].amount': ['numeric', 'min:1', `greaterOrSame:fulfillments[${index}].minAmount[0].amount`],
           };
         }
 
