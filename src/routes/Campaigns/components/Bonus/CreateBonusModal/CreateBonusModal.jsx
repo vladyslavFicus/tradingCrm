@@ -97,7 +97,7 @@ class CreateBonusModal extends PureComponent {
     } else if (error) {
       notify({
         level: 'error',
-        title: I18n.t('CAMPAIGN.FREE_SPIN.CREATE.ERROR_TITLE'),
+        title: I18n.t('CAMPAIGNS.FREE_SPIN.CREATE.ERROR_TITLE'),
         message: I18n.t(error),
       });
       throw new SubmissionError({ _error: error });
@@ -128,7 +128,9 @@ class CreateBonusModal extends PureComponent {
 
     return (
       <Modal toggle={onCloseModal} isOpen={isOpen}>
-        <ModalHeader toggle={onCloseModal}>{I18n.t(modalAttributeLabels.title)}</ModalHeader>
+        <ModalHeader toggle={onCloseModal}>
+          {I18n.t(modalAttributeLabels.title)}
+        </ModalHeader>
         <form onSubmit={handleSubmit(this.handleSubmitBonusForm)}>
           <ModalBody>
             <div className="row">
@@ -238,7 +240,7 @@ class CreateBonusModal extends PureComponent {
               <If condition={grantRatioType === customValueFieldTypes.PERCENTAGE}>
                 <div className="col-5">
                   <MultiCurrencyValue
-                    label={I18n.t(attributeLabels.maxGrantedAmount)}
+                    label={I18n.t(attributeLabels.maxGrantAmount)}
                     baseName="maxGrantAmount"
                   />
                 </div>
@@ -292,7 +294,7 @@ class CreateBonusModal extends PureComponent {
                 <Field
                   name="moneyTypePriority"
                   type="text"
-                  label={I18n.t(attributeLabels.moneyPrior)}
+                  label={I18n.t(attributeLabels.moneyPriority)}
                   component={SelectField}
                   position="vertical"
                 >

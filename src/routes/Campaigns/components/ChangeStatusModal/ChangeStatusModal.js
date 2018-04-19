@@ -66,7 +66,7 @@ class ChangeStatusModal extends Component {
       {
         customReason &&
         <option value="custom">
-          {I18n.t('BONUS_CAMPAIGNS.CHANGE_STATUS_MODAL.CUSTOM_REASON_OPTION')}
+          {I18n.t('COMMON.CUSTOM_REASON_OPTION')}
         </option>
       }
     </Field>
@@ -92,12 +92,12 @@ class ChangeStatusModal extends Component {
       <Modal isOpen={isOpen} toggle={onCloseModal} className={className}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <ModalHeader toggle={onCloseModal}>
-            {I18n.t('BONUS_CAMPAIGNS.CHANGE_STATUS_MODAL.TITLE')}
+            {I18n.t('CAMPAIGNS.CHANGE_STATUS_MODAL.TITLE')}
           </ModalHeader>
           <ModalBody>
             <div className="text-center margin-vertical-20">
               <span className="font-weight-700">
-                {I18n.t('BONUS_CAMPAIGNS.CHANGE_STATUS_MODAL.ACTION_TEXT', {
+                {I18n.t('CAMPAIGNS.CHANGE_STATUS_MODAL.ACTION_TEXT', {
                   title: campaign.campaignName,
                   action: renderLabel(action, actionLabels).toLowerCase(),
                 })}
@@ -105,7 +105,7 @@ class ChangeStatusModal extends Component {
               {' - '}
               <Uuid uuid={campaign.uuid} uuidPrefix="CA" />
               {' - '}
-              <span className="font-weight-700">{I18n.t('BONUS_CAMPAIGNS.CHANGE_STATUS_MODAL.ENTITY_NAME')}</span>
+              <span className="font-weight-700">{I18n.t('CAMPAIGNS.CHANGE_STATUS_MODAL.ENTITY_NAME')}</span>
             </div>
 
             {reasons && Object.keys(reasons).length > 0 && this.renderReasonsSelect(reasons, customReason)}
@@ -114,7 +114,7 @@ class ChangeStatusModal extends Component {
               currentValues && currentValues.reason === CUSTOM_REASON &&
               <Field
                 name="customReason"
-                placeholder={I18n.t('BONUS_CAMPAIGNS.CHANGE_STATUS_MODAL.CUSTOM_REASON_PLACEHOLDER')}
+                placeholder={I18n.t('CAMPAIGNS.CHANGE_STATUS_MODAL.CUSTOM_REASON_PLACEHOLDER')}
                 label={''}
                 position="vertical"
                 component={TextAreaField}
@@ -124,7 +124,7 @@ class ChangeStatusModal extends Component {
 
           <ModalFooter>
             <button className="btn btn-default-outline mr-auto" onClick={onCloseModal}>
-              {I18n.t('BONUS_CAMPAIGNS.CHANGE_STATUS_MODAL.CANCEL_BUTTON')}
+              {I18n.t('CAMPAIGNS.CHANGE_STATUS_MODAL.CANCEL_BUTTON')}
             </button>
             <button
               disabled={invalid}

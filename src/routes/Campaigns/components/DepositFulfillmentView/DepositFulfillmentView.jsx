@@ -10,7 +10,6 @@ import ExcludedPaymentMethods from './ExcludedPaymentMethods';
 class DepositFulfillmentView extends PureComponent {
   static propTypes = {
     disabled: PropTypes.bool.isRequired,
-    uuid: PropTypes.string,
     name: PropTypes.string.isRequired,
     paymentMethods: PropTypes.shape({
       paymentMethods: PropTypes.shape({
@@ -24,7 +23,6 @@ class DepositFulfillmentView extends PureComponent {
   };
 
   static defaultProps = {
-    uuid: null,
     paymentMethods: {},
   };
 

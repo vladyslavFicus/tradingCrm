@@ -19,26 +19,25 @@
   }
 }
 
-.add-campaign {
+.campaign-node {
+  position: relative;
+  margin-bottom: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  background-color: #f2f2f2;
+  color: #333;
+  input[type="checkbox"] {
+    margin-right: 2px;
+    vertical-align: middle;
+  }
+
   &-setting {
     justify-content: center;
     .form-group {
       margin-right: 10px;
       margin-bottom: 0;
-    }
-  }
-  &-container {
-    position: relative;
-    margin-bottom: 20px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 3px;
-    background-color: #f2f2f2;
-    color: #333;
-    input[type="checkbox"] {
-      margin-right: 2px;
-      vertical-align: middle;
     }
   }
   &-label {

@@ -66,7 +66,7 @@ class CancelModal extends Component {
         {
           customReason &&
           <option value="custom">
-            {I18n.t('PLAYER_PROFILE.FREE_SPIN.MODAL_CANCEL.CUSTOM_REASON_OPTION')}
+            {I18n.t('COMMON.CUSTOM_REASON_OPTION')}
           </option>
         }
       </Field>

@@ -85,7 +85,7 @@ class Create extends Component {
           className="btn btn-primary text-uppercase"
           type="submit"
         >
-          {I18n.t('BONUS_CAMPAIGNS.WAGERING_FULFILMENTS.ADD.ADD_BUTTON')}
+          {I18n.t('CAMPAIGNS.WAGERING_FULFILMENTS.ADD.ADD_BUTTON')}
         </button>
 
       </form>

@@ -143,7 +143,7 @@ class FreeSpinCreateModal extends Component {
 
   handleChangeBonusUUID = (uuid) => {
     this.setField('bonusTemplateUUID.uuid', uuid);
-  }
+  };
 
   stopPollingFreeSpinTemplate = () => {
     clearInterval(this.pollingFreeSpinTemplate);
@@ -179,7 +179,7 @@ class FreeSpinCreateModal extends Component {
     } else if (error) {
       notify({
         level: 'error',
-        title: I18n.t('CAMPAIGN.FREE_SPIN.CREATE.ERROR_TITLE'),
+        title: I18n.t('CAMPAIGNS.FREE_SPIN.CREATE.ERROR_TITLE'),
         message: I18n.t(error),
       });
       throw new SubmissionError({ _error: error });
@@ -190,7 +190,7 @@ class FreeSpinCreateModal extends Component {
     if (status === freeSpinTemplateStatuses.FAILED) {
       notify({
         level: 'error',
-        title: I18n.t('CAMPAIGN.FREE_SPIN.CREATE.ERROR_TITLE'),
+        title: I18n.t('CAMPAIGNS.FREE_SPIN.CREATE.ERROR_TITLE'),
       });
       throw new SubmissionError();
     } else if (status === freeSpinTemplateStatuses.PENDING) {
@@ -199,7 +199,7 @@ class FreeSpinCreateModal extends Component {
       if (!polling.success) {
         notify({
           level: 'error',
-          title: I18n.t('CAMPAIGN.FREE_SPIN.CREATE.ERROR_TITLE'),
+          title: I18n.t('CAMPAIGNS.FREE_SPIN.CREATE.ERROR_TITLE'),
         });
         throw new SubmissionError({});
       }
@@ -207,7 +207,7 @@ class FreeSpinCreateModal extends Component {
 
     notify({
       level: 'success',
-      title: I18n.t('CAMPAIGN.FREE_SPIN.CREATE.SUCCESS_TITLE'),
+      title: I18n.t('CAMPAIGNS.FREE_SPIN.CREATE.SUCCESS_TITLE'),
     });
 
     destroy();
@@ -287,7 +287,7 @@ class FreeSpinCreateModal extends Component {
               type="text"
               id={'freeSpinName'}
               placeholder=""
-              label={'Name'}
+              label={I18n.t('CAMPAIGNS.FREE_SPIN.NAME')}
               component={InputField}
               position="vertical"
             />
@@ -401,7 +401,9 @@ class FreeSpinCreateModal extends Component {
                           showErrorMessage={false}
                           disabled={!lines.length}
                         >
-                          <option value="">{I18n.t('PLAYER_PROFILE.FREE_SPIN.MODAL_CREATE.CHOOSE_LINES_PER_SPIN')}</option>
+                          <option value="">
+                            {I18n.t('PLAYER_PROFILE.FREE_SPIN.MODAL_CREATE.CHOOSE_LINES_PER_SPIN')}
+                          </option>
                           {lines.map(item => (
                             <option key={item} value={item}>
                               {item}

@@ -78,8 +78,8 @@ class SettingsView extends Component {
 
     notify({
       level: error ? 'error' : 'success',
-      title: I18n.t('BONUS_CAMPAIGNS.VIEW.NOTIFICATIONS.UPDATE_TITLE'),
-      message: I18n.t(`BONUS_CAMPAIGNS.VIEW.NOTIFICATIONS.${error ? 'UNSUCCESSFULLY' : 'SUCCESSFULLY'}`),
+      title: I18n.t('CAMPAIGNS.VIEW.NOTIFICATIONS.UPDATE_TITLE'),
+      message: I18n.t(`CAMPAIGNS.VIEW.NOTIFICATIONS.${error ? 'UNSUCCESSFULLY' : 'SUCCESSFULLY'}`),
     });
   };
 

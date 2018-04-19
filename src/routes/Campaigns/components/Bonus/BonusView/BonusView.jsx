@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { I18n } from 'react-redux-i18n';
 import { get } from 'lodash';
 import { Field } from 'redux-form';
 import { TextRow } from 'react-placeholder/lib/placeholders';
@@ -8,6 +9,7 @@ import Placeholder from '../../../../../components/Placeholder';
 import Amount from '../../../../../components/Amount';
 import Uuid from '../../../../../components/Uuid';
 import { customValueFieldTypes } from '../../../../../constants/form';
+import { attributeLabels, attributePlaceholders } from '../constants';
 
 class BonusView extends PureComponent {
   static propTypes = {
@@ -80,7 +82,7 @@ class BonusView extends PureComponent {
                   name={`${name}.uuid`}
                   id={`${name}-uuid`}
                   disabled={disabled}
-                  label="Bonus templates"
+                  label={I18n.t(attributeLabels.templates)}
                   component={NasSelectField}
                   showErrorMessage={false}
                   position="vertical"
@@ -114,7 +116,7 @@ class BonusView extends PureComponent {
                 type="button"
                 onClick={this.handleOpenCreateModal}
               >
-              Add bonus template
+                {I18n.t(attributeLabels.addBonusTemplate)}
               </button>
             </div>
           </If>
@@ -133,7 +135,7 @@ class BonusView extends PureComponent {
             <div>
               <div className="row no-gutters mt-3 campaigns-template__bordered-block">
                 <div className="col-4">
-                  Grant Amount
+                  {I18n.t(attributeLabels.grant)}
                   <div className="campaigns-template__value">
                     <Choose>
                       <When condition={template.grantRatioAbsolute}>
@@ -147,7 +149,7 @@ class BonusView extends PureComponent {
                 </div>
                 <If condition={template.maxGrantAmount}>
                   <div className="col-4">
-                    Max. grant amount
+                    {I18n.t(attributeLabels.maxGrantAmount)}
                     <div className="campaigns-template__value">
                       <Amount {...template.maxGrantAmount[0]} />
                     </div>
@@ -156,7 +158,7 @@ class BonusView extends PureComponent {
               </div>
               <div className="row no-gutters my-3">
                 <div className="col-4">
-                  Wagering
+                  {I18n.t(attributeLabels.wageringRequirement)}
                   <div className="campaigns-template__value">
                     <Choose>
                       <When condition={template.wageringRequirementAbsolute ||
@@ -178,7 +180,7 @@ class BonusView extends PureComponent {
                   </div>
                 </div>
                 <div className="col-4">
-                  Money type priority
+                  {I18n.t(attributeLabels.moneyPriority)}
                   <div className="campaigns-template__value">
                     {template.moneyTypePriority}
                   </div>
@@ -186,19 +188,19 @@ class BonusView extends PureComponent {
               </div>
               <div className="row no-gutters">
                 <div className="col-4">
-                  Max bet
+                  {I18n.t(attributeLabels.maxBet)}
                   <div className="campaigns-template__value">
                     {template.maxBet && <Amount {...template.maxBet[0]} />}
                   </div>
                 </div>
                 <div className="col-4">
-                  Life time
+                  {I18n.t(attributeLabels.bonusLifeTime)}
                   <div className="campaigns-template__value">
-                    {template.bonusLifeTime}
+                    {`${template.bonusLifeTime} ${I18n.t(attributePlaceholders.days)}`}
                   </div>
                 </div>
                 <div className="col-4">
-                  Withdrawal lock
+                  {I18n.t(attributeLabels.lockAmountStrategy)}
                   <div className="campaigns-template__value">
                     {template.lockAmountStrategy}
                   </div>
@@ -206,7 +208,7 @@ class BonusView extends PureComponent {
               </div>
               <div className="row no-gutters my-3">
                 <div className="col-4">
-                  Prize
+                  {I18n.t(attributeLabels.prize)}
                   <div className="campaigns-template__value">
                     <Choose>
                       <When condition={template.prizeAbsolute || template.prizePercentage !== null}>
@@ -226,7 +228,7 @@ class BonusView extends PureComponent {
                   </div>
                 </div>
                 <div className="col-4">
-                  Capping
+                  {I18n.t(attributeLabels.capping)}
                   <div className="campaigns-template__value">
                     <Choose>
                       <When condition={template.cappingAbsolute || template.cappingPercentage !== null}>
@@ -246,14 +248,14 @@ class BonusView extends PureComponent {
                   </div>
                 </div>
                 <div className="col-4">
-                  Claimable
+                  {I18n.t(attributeLabels.claimable)}
                   <div className="campaigns-template__value">
                     <Choose>
                       <When condition={template.claimable}>
-                        Yes
+                        {I18n.t('COMMON.YES')}
                       </When>
                       <Otherwise>
-                        No
+                        {I18n.t('COMMON.NO')}
                       </Otherwise>
                     </Choose>
                   </div>

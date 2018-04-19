@@ -7,11 +7,11 @@ const Header = () => (
     <div className="panel-heading-row">
       <div className="panel-heading-row__info">
         <div className="panel-heading-row__info-title" id="campaign-name">
-          {I18n.t('BONUS_CAMPAIGNS.NEW_CAMPAIGN')}
+          {I18n.t('CAMPAIGNS.NEW_CAMPAIGN')}
         </div>
         <div className="panel-heading-row__info-ids">
           <span className="short__uuid">
-            <span className="copy-clipboard-container">{I18n.t('BONUS_CAMPAIGNS.SAVE_NEW_CAMPAIGN')}</span>
+            <span className="copy-clipboard-container">{I18n.t('CAMPAIGNS.SAVE_NEW_CAMPAIGN')}</span>
           </span>
         </div>
       </div>
@@ -19,7 +19,7 @@ const Header = () => (
     <div className="layout-quick-overview">
       <div className="header-block">
         <div className="header-block-title">
-          {I18n.t('BONUS_CAMPAIGNS.STATUS_DROPDOWN.TITLE')}
+          {I18n.t('CAMPAIGNS.STATUS_DROPDOWN.TITLE')}
         </div>
         <div className="bonus-campaign-status__status color-black">
           {I18n.t(statuses.DRAFT)}

@@ -78,7 +78,7 @@ class PaymentActionReasonModal extends Component {
         {
           customReason &&
           <option value="custom">
-            {I18n.t('PAYMENT_ACTION_REASON_MODAL.CUSTOM_REASON_OPTION')}
+            {I18n.t('COMMON.CUSTOM_REASON_OPTION')}
           </option>
         }
       </Field>

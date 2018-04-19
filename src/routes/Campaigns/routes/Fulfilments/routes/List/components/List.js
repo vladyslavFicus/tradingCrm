@@ -60,13 +60,13 @@ class List extends Component {
       <Card>
         <Title>
           <span className="font-size-20 mr-auto">
-            {I18n.t('BONUS_CAMPAIGNS.WAGERING_FULFILMENTS.LIST.TITLE')}
+            {I18n.t('CAMPAIGNS.WAGERING_FULFILMENTS.LIST.TITLE')}
           </span>
           <Link
             className="btn btn-primary-outline"
             to="/campaigns/fulfilments/create"
           >
-            {I18n.t('BONUS_CAMPAIGNS.WAGERING_FULFILMENTS.LIST.CREATE_BUTTON')}
+            {I18n.t('CAMPAIGNS.WAGERING_FULFILMENTS.LIST.CREATE_BUTTON')}
           </Link>
         </Title>
         <Content>

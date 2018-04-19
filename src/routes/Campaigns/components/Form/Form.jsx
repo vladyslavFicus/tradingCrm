@@ -129,7 +129,7 @@ class Form extends Component {
       <form id={form} onSubmit={handleSubmit(this.handleSubmit)} className="container-fluid campaigns-form">
         <div className="row">
           <div className="col-auto campaigns-form__title">
-            {I18n.t('BONUS_CAMPAIGNS.SETTINGS.CAMPAIGN_SETTINGS')}
+            {I18n.t('CAMPAIGNS.SETTINGS.CAMPAIGN_SETTINGS')}
           </div>
           <If condition={!pristine}>
             <div className="col-auto ml-auto">
