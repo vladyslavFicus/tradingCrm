@@ -7,24 +7,30 @@ export default (values) => {
     lockAmountStrategy: ['required', 'string'],
     moneyTypePriority: ['required', 'string'],
     wagerWinMultiplier: ['required', 'numeric'],
-    'maxBet[0].amount': ['required', 'numeric', 'greater:0'],
+    'maxBet[0].amount': ['required', 'numeric', 'min:1', 'max: 1000000'],
     bonusLifeTime: ['required', 'integer'],
   };
 
-  ['prize', 'grantRatio', 'wageringRequirement', 'capping'].forEach((field) => {
+  ['grantRatio', 'wageringRequirement'].forEach((field) => {
     if (values[field].type === customValueFieldTypes.ABSOLUTE) {
-      rules[`${field}.value[0].amount`] = ['required', 'numeric', 'greater:0'];
+      rules[`${field}.absolute[0].amount`] = ['required', 'numeric', 'min:1', 'max: 1000000'];
     } else {
       rules[`${field}.percentage`] = ['required', 'numeric', 'greater:0'];
     }
   });
 
+  if (values.prizeCapingType === customValueFieldTypes.ABSOLUTE) {
+    rules['capping.absolute[0].amount'] = ['numeric', 'min:1', 'max: 1000000'];
+    rules['prize.absolute[0].amount'] = ['numeric', 'min:1', 'max: 1000000'];
+  } else {
+    rules['capping.percentage'] = ['required', 'numeric', 'greater:0'];
+    rules['prize.percentage'] = ['required', 'numeric', 'greater:0'];
+  }
 
-  return createValidator({
-    ...rules,
-    name: ['string', 'required'],
-    providerId: ['string', 'required'],
-    gameId: ['string', 'required'],
-    aggregatorId: ['string', 'required'],
-  }, {}, false)(values);
+
+  if (values.grantRatio.type === customValueFieldTypes.PERCENTAGE) {
+    rules['maxGrantAmount[0].amount'] = ['required', 'numeric', 'greater:0'];
+  }
+
+  return createValidator(rules, {}, false)(values);
 };

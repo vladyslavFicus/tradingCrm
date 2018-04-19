@@ -21,7 +21,7 @@ import './FreeSpinCreateModal.scss';
 
 class FreeSpinCreateModal extends Component {
   static propTypes = {
-    destroy: PropTypes.func.isRequired,
+    reset: PropTypes.func.isRequired,
     currentValues: PropTypes.object.isRequired,
     onSave: PropTypes.func,
     gameId: PropTypes.string,
@@ -77,11 +77,11 @@ class FreeSpinCreateModal extends Component {
 
   componentWillReceiveProps({ isOpen }) {
     if (this.props.isOpen && !isOpen) {
-      this.props.destroy();
-    }
+      this.props.reset();
 
-    if (this.pollingFreeSpinTemplate) {
-      this.stopPollingFreeSpinTemplate();
+      if (this.pollingFreeSpinTemplate) {
+        this.stopPollingFreeSpinTemplate();
+      }
     }
   }
 
@@ -201,7 +201,7 @@ class FreeSpinCreateModal extends Component {
           level: 'error',
           title: I18n.t('CAMPAIGNS.FREE_SPIN.CREATE.ERROR_TITLE'),
         });
-        throw new SubmissionError();
+        throw new SubmissionError({});
       }
     }
 

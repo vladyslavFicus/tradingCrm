@@ -24,7 +24,7 @@ class MultiCurrencyModal extends PureComponent {
     onCloseModal: PropTypes.func.isRequired,
     isOpen: PropTypes.bool.isRequired,
     reset: PropTypes.func.isRequired,
-    label: PropTypes.string,
+    label: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
     formValues: PropTypes.object,
   };
 
@@ -130,7 +130,9 @@ class MultiCurrencyModal extends PureComponent {
                       <tr key={currency}>
                         <td className="currency-calc-modal__output-content"><b>{currency}</b></td>
                         <td className="currency-calc-modal__output-content">{amount}</td>
-                        <td className="currency-calc-modal__output-content">{(amount * baseCurrencyValue).toFixed(2)}</td>
+                        <td className="currency-calc-modal__output-content">
+                          {(amount * baseCurrencyValue).toFixed(2)}
+                        </td>
                         <td>
                           <MultiCurrencyField
                             name={`amounts[${index + 1}]`}

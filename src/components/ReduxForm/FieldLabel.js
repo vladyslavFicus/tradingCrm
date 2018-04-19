@@ -27,7 +27,7 @@ const FieldLabel = (props) => {
     : <Wrapper className={wrapperClassName}>{node}</Wrapper>;
 };
 FieldLabel.propTypes = {
-  label: PropTypes.string,
+  label: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   addon: PropTypes.oneOfType([PropTypes.element, PropTypes.bool]),
   labelClassName: PropTypes.string,
   wrapperTag: PropTypes.string,

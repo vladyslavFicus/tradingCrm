@@ -71,25 +71,29 @@ const bonusTemplateQuery = gql`query bonusTemplate($uuid: String!) {
   bonusTemplate(uuid: $uuid) {
     data {
      name
-     uuid,
-     moneyTypePriority,
-     claimable,
-     lockAmountStrategy,
-     bonusLifeTime,
-     prizePercentage,
+     uuid
+     moneyTypePriority
+     claimable
+     lockAmountStrategy
+     bonusLifeTime
+     prizePercentage
      prizeAbsolute {
-      amount,
-      currency,
-     },
-     cappingPercentage,
+      amount
+      currency
+     }
+     maxGrantAmount {
+      amount
+      currency
+     }
+     cappingPercentage
      cappingAbsolute {
-      amount,
-      currency,
-     },
-     grantRatioPercentage,
+      amount
+      currency
+     }
+     grantRatioPercentage
      grantRatioAbsolute{
-      amount,
-      currency,
+      amount
+      currency
      },
      maxBet{
       amount,

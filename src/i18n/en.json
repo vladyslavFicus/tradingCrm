@@ -1773,7 +1773,9 @@
           "DEPOSIT_NUMBER_LABEL": "Deposit number",
           "SELECT_DEPOSIT_NUMBER": "-- Select deposit number --",
           "NUMBER_OPTION": "deposit",
-          "RESTRICTED_PAYMENT_METHODS": "Excluded payment methods"
+          "RESTRICTED_PAYMENT_METHODS": "Excluded payment methods",
+          "MIN_AMOUNT": "Min. amount",
+          "MAX_AMOUNT": "Max. amount"
         },
         "WAGERING": {
           "LABEL": {

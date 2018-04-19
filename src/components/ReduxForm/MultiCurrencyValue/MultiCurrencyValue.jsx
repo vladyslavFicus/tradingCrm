@@ -16,7 +16,7 @@ class MultiCurrencyValue extends Component {
         hide: PropTypes.func.isRequired,
       }),
     }).isRequired,
-    label: PropTypes.string,
+    label: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
     optionCurrencies: PropTypes.shape({
       options: PropTypes.shape({
         signUp: PropTypes.shape({

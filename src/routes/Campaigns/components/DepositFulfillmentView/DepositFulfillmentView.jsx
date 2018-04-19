@@ -42,13 +42,17 @@ class DepositFulfillmentView extends PureComponent {
             <label>{I18n.t('CAMPAIGNS.SETTINGS.FULFILLMENTS.DEPOSIT.DEPOSIT_AMOUNT_RANGE')}</label>
             <div className="range-group">
               <MultiCurrencyValue
+                label={I18n.t('CAMPAIGNS.SETTINGS.FULFILLMENTS.DEPOSIT.MIN_AMOUNT')}
                 disabled={disabled}
                 baseName={`${name}.minAmount`}
+                showErrorMessage={false}
               />
               <span className="range-group__separator">-</span>
               <MultiCurrencyValue
+                label={I18n.t('CAMPAIGNS.SETTINGS.FULFILLMENTS.DEPOSIT.MAX_AMOUNT')}
                 disabled={disabled}
                 baseName={`${name}.maxAmount`}
+                showErrorMessage={false}
               />
             </div>
           </div>
@@ -62,6 +66,7 @@ class DepositFulfillmentView extends PureComponent {
               position="vertical"
               disabled={disabled}
               label={I18n.t('CAMPAIGNS.SETTINGS.FULFILLMENTS.DEPOSIT.DEPOSIT_NUMBER_LABEL')}
+              showErrorMessage={false}
             >
               <option value="">{I18n.t('CAMPAIGNS.SETTINGS.FULFILLMENTS.DEPOSIT.SELECT_DEPOSIT_NUMBER')}</option>
               {[...new Array(10)].map((_, i) => (

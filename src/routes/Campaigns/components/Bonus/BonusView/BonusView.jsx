@@ -147,6 +147,64 @@ class BonusView extends PureComponent {
                     </Choose>
                   </div>
                 </div>
+                <If condition={template.maxGrantAmount}>
+                  <div className="col-4">
+                    Max. grant amount
+                    <div className="campaigns-template__value">
+                      <Amount {...template.maxGrantAmount[0]} />
+                    </div>
+                  </div>
+                </If>
+              </div>
+              <div className="row no-gutters my-3">
+                <div className="col-4">
+                  {I18n.t(attributeLabels.wageringRequirement)}
+                  <div className="campaigns-template__value">
+                    <Choose>
+                      <When condition={template.wageringRequirementAbsolute ||
+                         template.wageringRequirementPercentage !== null}
+                      >
+                        <Choose>
+                          <When condition={template.wageringRequirementType === customValueFieldTypes.ABSOLUTE}>
+                            <Amount {...template.wageringRequirementAbsolute[0]} />
+                          </When>
+                          <Otherwise>
+                            {template.wageringRequirementPercentage}%
+                          </Otherwise>
+                        </Choose>
+                      </When>
+                      <Otherwise>
+                        -
+                      </Otherwise>
+                    </Choose>
+                  </div>
+                </div>
+                <div className="col-4">
+                  {I18n.t(attributeLabels.moneyPriority)}
+                  <div className="campaigns-template__value">
+                    {template.moneyTypePriority}
+                  </div>
+                </div>
+              </div>
+              <div className="row no-gutters">
+                <div className="col-4">
+                  {I18n.t(attributeLabels.maxBet)}
+                  <div className="campaigns-template__value">
+                    {template.maxBet && <Amount {...template.maxBet[0]} />}
+                  </div>
+                </div>
+                <div className="col-4">
+                  {I18n.t(attributeLabels.bonusLifeTime)}
+                  <div className="campaigns-template__value">
+                    {`${template.bonusLifeTime} ${I18n.t(attributePlaceholders.days)}`}
+                  </div>
+                </div>
+                <div className="col-4">
+                  {I18n.t(attributeLabels.lockAmountStrategy)}
+                  <div className="campaigns-template__value">
+                    {template.lockAmountStrategy}
+                  </div>
+                </div>
               </div>
               <div className="row no-gutters my-3">
                 <div className="col-4">
@@ -187,59 +245,6 @@ class BonusView extends PureComponent {
                         -
                       </Otherwise>
                     </Choose>
-                  </div>
-                </div>
-                <div className="col-4">
-                  {I18n.t(attributeLabels.moneyPriority)}
-                  <div className="campaigns-template__value">
-                    {template.moneyTypePriority}
-                  </div>
-                </div>
-              </div>
-              <div className="row no-gutters">
-                <div className="col-4">
-                  {I18n.t(attributeLabels.wageringRequirement)}
-                  <div className="campaigns-template__value">
-                    <Choose>
-                      <When
-                        condition={
-                          template.wageringRequirementAbsolute ||
-                          template.wageringRequirementPercentage !== null
-                        }
-                      >
-                        <Choose>
-                          <When condition={template.wageringRequirementType === customValueFieldTypes.ABSOLUTE}>
-                            <Amount {...template.wageringRequirementAbsolute[0]} />
-                          </When>
-                          <Otherwise>
-                            {template.wageringRequirementPercentage}%
-                          </Otherwise>
-                        </Choose>
-                      </When>
-                      <Otherwise>
-                        -
-                      </Otherwise>
-                    </Choose>
-                  </div>
-                </div>
-                <div className="col-4">
-                  {I18n.t(attributeLabels.lockAmountStrategy)}
-                  <div className="campaigns-template__value">
-                    {template.lockAmountStrategy}
-                  </div>
-                </div>
-                <div className="col-4">
-                  {I18n.t(attributeLabels.bonusLifeTime)}
-                  <div className="campaigns-template__value">
-                    {`${template.bonusLifeTime} ${I18n.t(attributePlaceholders.days)}`}
-                  </div>
-                </div>
-              </div>
-              <div className="row no-gutters my-3">
-                <div className="col-4">
-                  {I18n.t(attributeLabels.maxBet)}
-                  <div className="campaigns-template__value">
-                    {template.maxBet && <Amount {...template.maxBet[0]} />}
                   </div>
                 </div>
                 <div className="col-4">

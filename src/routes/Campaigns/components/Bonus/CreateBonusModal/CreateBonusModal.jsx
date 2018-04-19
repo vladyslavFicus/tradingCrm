@@ -15,7 +15,7 @@ import {
   lockAmountStrategy,
   lockAmountStrategyLabels,
 } from '../../../../../constants/bonus-campaigns';
-import { customValueFieldTypes } from '../../../../../constants/form';
+import { customValueFieldTypes, customValueFieldTypesLabels } from '../../../../../constants/form';
 import { attributeLabels as modalAttributeLabels } from './constants';
 
 class CreateBonusModal extends PureComponent {
@@ -24,7 +24,7 @@ class CreateBonusModal extends PureComponent {
     handleSubmit: PropTypes.func.isRequired,
     onCloseModal: PropTypes.func.isRequired,
     isOpen: PropTypes.bool.isRequired,
-    destroy: PropTypes.func.isRequired,
+    reset: PropTypes.func.isRequired,
     formValues: PropTypes.object,
     onSave: PropTypes.func,
   };
@@ -36,7 +36,7 @@ class CreateBonusModal extends PureComponent {
 
   componentWillReceiveProps({ isOpen }) {
     if (this.props.isOpen && !isOpen) {
-      this.props.destroy();
+      this.props.reset();
     }
   }
 
@@ -59,25 +59,33 @@ class CreateBonusModal extends PureComponent {
       maxGrantAmount: formData.maxGrantAmount,
     };
 
-    ['grantRatio', 'capping', 'prize'].forEach((key) => {
-      if (formData[key].type !== customValueFieldTypes.PERCENTAGE) {
-        data[`${key}Absolute`] = formData[key].value;
+    ['grantRatio', 'wageringRequirement'].forEach((key) => {
+      if (formData[key].type === customValueFieldTypes.ABSOLUTE) {
+        data[`${key}Absolute`] = formData[key].absolute;
       } else {
         data[`${key}Percentage`] = formData[key].percentage;
       }
     });
 
-    if (formData.wageringRequirement) {
-      if (
-        formData.wageringRequirement.type === customValueFieldTypes.ABSOLUTE
-      ) {
-        data.wageringRequirementAbsolute = formData.wageringRequirement.value;
-      } else {
-        data.wageringRequirementPercentage = formData.wageringRequirement.percentage;
+    if (formData.prizeCapingType === customValueFieldTypes.ABSOLUTE) {
+      if (formData.capping) {
+        data.cappingAbsolute = formData.capping.absolute;
       }
 
-      data.wageringRequirementType = formData.wageringRequirement.type || customValueFieldTypes.ABSOLUTE;
+      if (formData.prize) {
+        data.prizeAbsolute = formData.prize.absolute;
+      }
+    } else {
+      if (formData.capping) {
+        data.cappingPercentage = formData.capping.percentage;
+      }
+
+      if (formData.prize) {
+        data.prizePercentage = formData.prize.percentage;
+      }
     }
+
+    data.wageringRequirementType = formData.wageringRequirement.type;
 
     const response = await addBonus({ variables: data });
     const { error, fields_errors } = get(response, 'data.bonusTemplate.add.error') || {};
@@ -116,6 +124,7 @@ class CreateBonusModal extends PureComponent {
     } = this.props;
 
     const grantRatioType = get(formValues, 'grantRatio.type');
+    const prizeCapingType = get(formValues, 'prizeCapingType');
 
     return (
       <Modal toggle={onCloseModal} isOpen={isOpen}>
@@ -137,30 +146,87 @@ class CreateBonusModal extends PureComponent {
               </div>
             </div>
             <div className="row">
-              <div className="col-md-6">
+              <div className="col-md-4">
                 <Field
-                  component={TypeValueField}
-                  name="prize"
-                  label={
-                    <span>
-                      {I18n.t('CAMPAIGNS.SETTINGS.REWARDS.BONUS.LABEL.MIN_PRIZE')}{' '}
-                      <span className="label-additional">{I18n.t('COMMON.OPTIONAL')}</span>
-                    </span>
-                  }
-                />
+                  name="prizeCapingType"
+                  label={I18n.t(attributeLabels.prizeCapingType)}
+                  type="select"
+                  component={SelectField}
+                  position="vertical"
+                >
+                  {Object.keys(customValueFieldTypes).map(key =>
+                    (
+                      <option key={key} value={key}>
+                        {renderLabel(key, customValueFieldTypesLabels)}
+                      </option>
+                    )
+                  )}
+                </Field>
               </div>
-              <div className="col-md-6">
-                <Field
-                  component={TypeValueField}
-                  name="capping"
-                  label={
-                    <span>
-                      {I18n.t(attributeLabels.capping)}{' '}
-                      <span className="label-additional">{I18n.t('COMMON.OPTIONAL')}</span>
-                    </span>
-                  }
-                />
-              </div>
+              <Choose>
+                <When condition={prizeCapingType === customValueFieldTypes.PERCENTAGE}>
+                  <div className="col-md-4">
+                    <Field
+                      name="prize.percentage"
+                      showErrorMessage={false}
+                      placeholder="0"
+                      component={InputField}
+                      label={
+                        <span>
+                          {I18n.t('CAMPAIGNS.SETTINGS.REWARDS.BONUS.LABEL.MIN_PRIZE')}{' '}
+                          <span className="label-additional">{I18n.t('COMMON.OPTIONAL')}</span>
+                        </span>
+                      }
+                      type="text"
+                      position="vertical"
+                    />
+                  </div>
+                  <div className="col-md-4">
+                    <Field
+                      name="capping.percentage"
+                      showErrorMessage={false}
+                      placeholder="0"
+                      component={InputField}
+                      label={
+                        <span>
+                          {I18n.t('CAMPAIGNS.SETTINGS.REWARDS.BONUS.LABEL.CAPPING')}{' '}
+                          <span className="label-additional">{I18n.t('COMMON.OPTIONAL')}</span>
+                        </span>
+                      }
+                      type="text"
+                      position="vertical"
+                    />
+                  </div>
+                </When>
+                <Otherwise>
+                  <div className="col-md-4">
+                    <MultiCurrencyValue
+                      baseName="prize.absolute"
+                      label={
+                        <span>
+                          {I18n.t('CAMPAIGNS.SETTINGS.REWARDS.BONUS.LABEL.MIN_PRIZE')}{' '}
+                          <span className="label-additional">{I18n.t('COMMON.OPTIONAL')}</span>
+                        </span>
+                      }
+                      showErrorMessage={false}
+                      placeholder="0.0"
+                    />
+                  </div>
+                  <div className="col-md-4">
+                    <MultiCurrencyValue
+                      baseName="capping.absolute"
+                      label={
+                        <span>
+                          {I18n.t('CAMPAIGNS.SETTINGS.REWARDS.BONUS.LABEL.CAPPING')}{' '}
+                          <span className="label-additional">{I18n.t('COMMON.OPTIONAL')}</span>
+                        </span>
+                      }
+                      showErrorMessage={false}
+                      placeholder="0.0"
+                    />
+                  </div>
+                </Otherwise>
+              </Choose>
             </div>
             <hr />
             <div className="row">
@@ -268,7 +334,6 @@ class CreateBonusModal extends PureComponent {
               /> {I18n.t('COMMON.CLAIMABLE')}
             </div>
           </ModalBody>
-
           <ModalFooter>
             <div className="row">
               <div className="col-7">
