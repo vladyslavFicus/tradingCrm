@@ -1825,7 +1825,7 @@
         }
       },
       "LABEL": {
-        "CAMPAIGN_PERIOD": ""
+        "CAMPAIGN_PERIOD": "Период кампании"
       }
     },
     "REWARDS": {
