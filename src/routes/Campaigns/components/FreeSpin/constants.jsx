@@ -2,6 +2,9 @@ import I18n from '../../../../utils/fake-i18n';
 
 const attributeLabels = {
   lifeTime: I18n.t('CAMPAIGNS.REWARDS.FREE_SPIN.LIFE_TIME'),
+  addFreeSpin: I18n.t('CAMPAIGNS.REWARDS.FREE_SPIN.ADD_FREE_SPIN'),
+  template: I18n.t('CAMPAIGNS.REWARDS.FREE_SPIN.TEMPLATE'),
+  status: I18n.t('CAMPAIGNS.REWARDS.FREE_SPIN.STATUS'),
   providerId: I18n.t('CAMPAIGNS.FREE_SPIN.PROVIDER'),
   aggregatorId: I18n.t('CAMPAIGNS.FREE_SPIN.AGGREGATOR'),
   gameId: I18n.t('CAMPAIGNS.FREE_SPIN.GAMES'),

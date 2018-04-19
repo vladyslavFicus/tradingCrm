@@ -60,9 +60,9 @@ class NodeBuilder extends PureComponent {
     return (
       <div className={classNames(className)}>
         <For each="field" index="index" of={fields.getAll()}>
-          <div key={index} className="container-fluid add-campaign-container">
+          <div key={index} className="container-fluid campaign-node">
             <div className="row align-items-center">
-              <div className="col text-truncate add-campaign-label">
+              <div className="col text-truncate campaign-node-label">
                 {I18n.t(typeLabels[field.type])}
               </div>
               <If condition={!disabled}>
@@ -70,7 +70,7 @@ class NodeBuilder extends PureComponent {
                   <button
                     type="button"
                     onClick={() => this.handleRemoveNode(index)}
-                    className="btn-transparent add-campaign-remove"
+                    className="btn-transparent campaign-node-remove"
                   >
                     &times;
                   </button>
@@ -87,7 +87,7 @@ class NodeBuilder extends PureComponent {
           </div>
         </For>
         <If condition={!disabled && types.length}>
-          <div className="row no-gutters py-5 add-campaign-setting">
+          <div className="row no-gutters py-5 campaign-node-setting">
             <div className="col-5">
               <SelectField
                 position="vertical"

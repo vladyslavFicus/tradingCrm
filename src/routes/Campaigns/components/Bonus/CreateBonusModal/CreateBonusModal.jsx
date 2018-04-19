@@ -89,7 +89,7 @@ class CreateBonusModal extends PureComponent {
     } else if (error) {
       notify({
         level: 'error',
-        title: I18n.t('CAMPAIGN.FREE_SPIN.CREATE.ERROR_TITLE'),
+        title: I18n.t('CAMPAIGNS.FREE_SPIN.CREATE.ERROR_TITLE'),
         message: I18n.t(error),
       });
       throw new SubmissionError({ _error: error });
@@ -119,7 +119,9 @@ class CreateBonusModal extends PureComponent {
 
     return (
       <Modal toggle={onCloseModal} isOpen={isOpen}>
-        <ModalHeader toggle={onCloseModal}>{I18n.t(modalAttributeLabels.title)}</ModalHeader>
+        <ModalHeader toggle={onCloseModal}>
+          {I18n.t(modalAttributeLabels.title)}
+        </ModalHeader>
         <form onSubmit={handleSubmit(this.handleSubmitBonusForm)}>
           <ModalBody>
             <div className="row">
@@ -226,7 +228,7 @@ class CreateBonusModal extends PureComponent {
                 <Field
                   name="moneyTypePriority"
                   type="text"
-                  label={I18n.t(attributeLabels.moneyPrior)}
+                  label={I18n.t(attributeLabels.moneyPriority)}
                   component={SelectField}
                   position="vertical"
                 >
@@ -275,7 +277,7 @@ class CreateBonusModal extends PureComponent {
                   className="btn btn-primary ml-2"
                   id="create-new-operator-submit-button"
                 >
-                  Save
+                  {I18n.t('COMMON.SAVE')}
                 </button>
               </div>
             </div>

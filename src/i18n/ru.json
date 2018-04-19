@@ -548,7 +548,6 @@
         "CHOOSE_AGGREGATOR": "-- Выберите --"
       },
       "MODAL_CANCEL": {
-        "CUSTOM_REASON_OPTION": "Другая причина",
         "TITLE": "Отмена Free spins",
         "ACTION_TEXT": "Вы собираетесь отменить \"%{title}\"",
         "ENTITY_NAME": "free spins",
@@ -747,7 +746,10 @@
     "NONE": "Ни одного",
     "REMOVE": "Удалить",
     "CLAIMABLE": "Claimable",
-    "CURRENCY": "Валюта"
+    "CURRENCY": "Валюта",
+    "YES": "Да",
+    "NO": "Нет",
+    "CUSTOM_REASON_OPTION": "Другая"
   },
   "FILES": {
     "UPLOAD_MODAL": {
@@ -1339,7 +1341,6 @@
       "NO_SELECTED_LINKED_CAMPAIGN": "Не выбрана связанная кампания"
     },
     "CHANGE_STATUS_MODAL": {
-      "CUSTOM_REASON_OPTION": "Другая",
       "CUSTOM_REASON_PLACEHOLDER": "Причина",
       "CANCEL_BUTTON": "Отмена",
       "TITLE": "Смена статуса бонусной кампании",
@@ -1577,7 +1578,6 @@
     }
   },
   "PAYMENT_ACTION_REASON_MODAL": {
-    "CUSTOM_REASON_OPTION": "Другая",
     "REASON_DROPDOWN": {
       "CONSTANTS": {
         "REASON_LABEL": "Причина",
@@ -1802,39 +1802,103 @@
           "LABEL": {
             "NAME": "Название",
             "BONUS_REWARD": "Бонус",
-            "GRANT": "",
-            "CAPPING": "",
-            "MULTIPLIER": "",
-            "MONEY_TYPE_PRIOR": "",
-            "MAX_BET": "",
-            "MAX_GRANTED_AMOUNT": "",
-            "LIFE_TIME": "",
-            "WAGERING_REQUIREMENT": "",
-            "LOCK_AMOUNT_STRATEGY": "",
+            "GRANT": "Выдано",
+            "CAPPING": "Capping",
+            "MULTIPLIER": "Множитель",
+            "MAX_BET": "Макс. ставка",
+            "MAX_GRANTED_AMOUNT": "Макс. сумма бонусов",
+            "LIFE_TIME": "Время жизни",
+            "WAGERING_REQUIREMENT": "Условия отыгрыша",
+            "LOCK_AMOUNT_STRATEGY": "Стратегия блок. денег",
             "PLACEHOLDERS": {
-              "DAYS": "",
-              "NOT_SET": ""
+              "DAYS": "дней",
+              "NOT_SET": "Не задано"
             },
-            "MIN_PRIZE": ""
-          }
+            "MIN_PRIZE": "Мин. цена",
+            "MONEY_TYPE_PRIORITY": "Приоритет использования денег",
+            "BONUS_LIFE_TIME": "Время жизни бонуса",
+            "CLAIMABLE": "Claimable",
+            "PRIZE": "Цена"
+          },
+          "TEMPLATES": "Шаблоны",
+          "ADD_BONUS_TEMPLATE": "Создать новый шаблон"
         },
         "CREATE_BONUS_MODAL": {
-          "TITLE": ""
+          "TITLE": "Создать фриспин"
         }
+      },
+      "CAMPAIGN_SETTINGS": "Настройки кампании",
+      "LABEL": {
+        "CAMPAIGN_PERIOD": "Период кампании"
       }
     },
     "REWARDS": {
       "FREE_SPIN": {
-        "LIFE_TIME": ""
+        "LIFE_TIME": "Время жизни",
+        "ADD_FREE_SPIN": "Добавить фриспин",
+        "TEMPLATE": "Шаблон",
+        "STATUS": "Статус"
       }
     },
     "NODE_VALIDATION": {
       "FULFILLMENTS": "Требуется выбрать хотя бы одно условие",
       "REWARDS": "Требуется выбрать хотя бы одну награду"
+    },
+    "CHANGE_STATUS_MODAL": {
+      "CUSTOM_REASON_PLACEHOLDER": "Причина",
+      "CANCEL_BUTTON": "Отмена",
+      "TITLE": "Смена статуса бонусной кампании",
+      "ACTION_TEXT": "Вы собираетесь %{action} \"%{title}\"",
+      "ENTITY_NAME": "кампания"
+    },
+    "STATUS_DROPDOWN": {
+      "TITLE": "Статус"
+    },
+    "NEW_CAMPAIGN": "Новая кампания",
+    "SAVE_NEW_CAMPAIGN": "Сохранить кампанию",
+    "TITLE": "Бонусные кампании",
+    "BUTTON_CREATE_CAMPAIGN": "+ Добавить кампанию",
+    "GRID_VIEW": {
+      "CAMPAIGN": "Кампания",
+      "CREATED": "Создано",
+      "STATUS": "Статус",
+      "DATE_TIME_AT": "в %{time}"
+    },
+    "VIEW": {
+      "DETAILS": {
+        "LABEL": {
+          "CREATED": "Создано"
+        }
+      },
+      "NOTIFICATIONS": {
+        "UPDATE_TITLE": "Обновление бонус-кампании",
+        "UNSUCCESSFULLY": "Не удалось сохранить компанию",
+        "SUCCESSFULLY": "Компания сохранена успешно",
+        "ADD_CAMPAIGN": "Создание бонус-кампании"
+      }
+    },
+    "STATUS_DROPDOWN_MODAL": {
+      "CONSTANTS": {
+        "REASON_LABEL": "Причина",
+        "CUSTOM_REASON_LABEL": "Причина"
+      }
+    },
+    "WAGERING_FULFILMENTS": {
+      "ADD": {
+        "ADD_BUTTON": "Добавить wagering fulfilment"
+      },
+      "LIST": {
+        "CREATE_BUTTON": "Создать wagering fulfilment",
+        "TITLE": "Wagering fulfilment"
+      }
     }
   },
   "MULTI_CURRENCY_MODAL": {
     "TITLE": "Значения в остальных валютах",
-    "CUSTOMIZED": "Подобранное значение"
+    "CUSTOMIZED": "Подобранное значение",
+    "RATE": "Курс",
+    "CALCULATED": "Посчитано",
+    "RECALC": "Посчитать",
+    "RECALC_WARNING": "Предупреждение"
   }
 }

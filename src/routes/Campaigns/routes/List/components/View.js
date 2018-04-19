@@ -69,7 +69,7 @@ class View extends Component {
           {date.format('DD.MM.YYYY')}
         </div>
         <div className="font-size-11">
-          {I18n.t('BONUS_CAMPAIGNS.GRID_VIEW.DATE_TIME_AT', { time: date.format('HH:mm') })}
+          {I18n.t('CAMPAIGNS.GRID_VIEW.DATE_TIME_AT', { time: date.format('HH:mm') })}
         </div>
       </div>
     );
@@ -89,13 +89,13 @@ class View extends Component {
       <Card>
         <Title>
           <span className="font-size-20 mr-auto" id="campaigns-page-title">
-            {I18n.t('BONUS_CAMPAIGNS.TITLE')}
+            {I18n.t('CAMPAIGNS.TITLE')}
           </span>
           <Link
             className="btn btn-primary-outline"
             to="/campaigns/create"
           >
-            {I18n.t('BONUS_CAMPAIGNS.BUTTON_CREATE_CAMPAIGN')}
+            {I18n.t('CAMPAIGNS.BUTTON_CREATE_CAMPAIGN')}
           </Link>
         </Title>
 
@@ -112,17 +112,17 @@ class View extends Component {
           >
             <GridColumn
               name="campaign"
-              header={I18n.t('BONUS_CAMPAIGNS.GRID_VIEW.CAMPAIGN')}
+              header={I18n.t('CAMPAIGNS.GRID_VIEW.CAMPAIGN')}
               render={this.renderCampaign}
             />
             <GridColumn
               name="creationDate"
-              header={I18n.t('BONUS_CAMPAIGNS.GRID_VIEW.CREATED')}
+              header={I18n.t('CAMPAIGNS.GRID_VIEW.CREATED')}
               render={this.renderDate('creationDate')}
             />
             <GridColumn
               name="status"
-              header={I18n.t('BONUS_CAMPAIGNS.GRID_VIEW.STATUS')}
+              header={I18n.t('CAMPAIGNS.GRID_VIEW.STATUS')}
               render={this.renderStatus}
             />
           </GridView>

@@ -76,7 +76,7 @@ class Header extends Component {
           </div>
           <div className="header-block">
             <div className="header-block-title">
-              {I18n.t('BONUS_CAMPAIGNS.VIEW.DETAILS.LABEL.CREATED')}
+              {I18n.t('CAMPAIGNS.VIEW.DETAILS.LABEL.CREATED')}
             </div>
             <div className="header-block-middle">
               {moment.utc(creationDate).local().fromNow()}

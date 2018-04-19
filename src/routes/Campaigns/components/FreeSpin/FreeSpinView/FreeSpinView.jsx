@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { I18n } from 'react-redux-i18n';
 import { Field } from 'redux-form';
 import { get } from 'lodash';
 import { TextRow } from 'react-placeholder/lib/placeholders';
@@ -7,6 +8,7 @@ import { NasSelectField } from '../../../../../components/ReduxForm';
 import Placeholder from '../../../../../components/Placeholder';
 import BonusView from '../../Bonus/BonusView';
 import Uuid from '../../../../../components/Uuid';
+import { attributeLabels } from '../constants';
 
 export default class FreeSpinView extends PureComponent {
   static propTypes = {
@@ -78,7 +80,7 @@ export default class FreeSpinView extends PureComponent {
               name={`${name}.uuid`}
               id={`${name}-uuid`}
               disabled={disabled}
-              label="Free-spin template"
+              label={I18n.t(attributeLabels.template)}
               component={NasSelectField}
               showErrorMessage={false}
               position="vertical"
@@ -107,7 +109,7 @@ export default class FreeSpinView extends PureComponent {
                 type="button"
                 onClick={this.handleOpenModal}
               >
-                Add free spin template
+                {I18n.t(attributeLabels.addFreeSpin)}
               </button>
             </div>
           </If>
@@ -130,19 +132,19 @@ export default class FreeSpinView extends PureComponent {
             <div>
               <div className="row no-gutters mt-3 campaigns-template__bordered-block">
                 <div className="col-4">
-                  Provider
+                  {I18n.t(attributeLabels.providerId)}
                   <div className="campaigns-template__value">
                     {fsTemplate.providerId}
                   </div>
                 </div>
                 <div className="col-4">
-                  Game
+                  {I18n.t(attributeLabels.gameId)}
                   <div className="campaigns-template__value">
                     {fsTemplate.gameId}
                   </div>
                 </div>
                 <div className="col-4">
-                  status
+                  {I18n.t(attributeLabels.status)}
                   <div className="campaigns-template__value">
                     {fsTemplate.status}
                   </div>
@@ -152,13 +154,13 @@ export default class FreeSpinView extends PureComponent {
                 <div className="col-7">
                   <div className="row">
                     <div className="col">
-                      Free-spins
+                      {I18n.t(attributeLabels.freeSpins)}
                       <div className="campaigns-template__value">
                         {fsTemplate.freeSpinsAmount}
                       </div>
                     </div>
                     <div className="col">
-                      Life Time
+                      {I18n.t(attributeLabels.lifeTime)}
                       <div className="campaigns-template__value">
                         {fsTemplate.freeSpinLifeTime}
                       </div>
@@ -187,7 +189,7 @@ export default class FreeSpinView extends PureComponent {
               <div className="row no-gutters">
                 <If condition={fsTemplate.linesPerSpin}>
                   <div className="col-4">
-                    lines per spin
+                    {I18n.t(attributeLabels.linesPerSpin)}
                     <div className="campaigns-template__value">
                       {fsTemplate.linesPerSpin}
                     </div>
@@ -195,7 +197,7 @@ export default class FreeSpinView extends PureComponent {
                 </If>
                 <If condition={fsTemplate.betPerLine}>
                   <div className="col-4">
-                    Bet per line
+                    {I18n.t(attributeLabels.betPerLine)}
                     <div className="campaigns-template__value">
                       {fsTemplate.betPerLine}
                     </div>
@@ -206,7 +208,7 @@ export default class FreeSpinView extends PureComponent {
                 <div className="row no-gutters my-3">
                   <If condition={fsTemplate.coinSize}>
                     <div className="col-4">
-                      Coin size
+                      {I18n.t(attributeLabels.coinSize)}
                       <div className="campaigns-template__value">
                         {fsTemplate.coinSize}
                       </div>
@@ -214,7 +216,7 @@ export default class FreeSpinView extends PureComponent {
                   </If>
                   <If condition={fsTemplate.betLevel}>
                     <div className="col-4">
-                      Bet level
+                      {I18n.t(attributeLabels.betLevel)}
                       <div className="campaigns-template__value">
                         {fsTemplate.betLevel}
                       </div>
@@ -222,7 +224,7 @@ export default class FreeSpinView extends PureComponent {
                   </If>
                   <If condition={fsTemplate.pageCode}>
                     <div className="col-4">
-                      Page code
+                      {I18n.t(attributeLabels.pageCode)}
                       <div className="campaigns-template__value">
                         {fsTemplate.pageCode}
                       </div>

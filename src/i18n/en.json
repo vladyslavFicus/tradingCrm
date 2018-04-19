@@ -542,7 +542,6 @@
         "CHOOSE_AGGREGATOR": "-- Choose --"
       },
       "MODAL_CANCEL": {
-        "CUSTOM_REASON_OPTION": "Other",
         "TITLE": "Free spins cancelation",
         "ACTION_TEXT": "You are about to %{action} the \"%{title}\"",
         "ENTITY_NAME": "free spins",
@@ -741,7 +740,10 @@
     "NONE": "None",
     "REMOVE": "Remove",
     "CLAIMABLE": "Claimable",
-    "CURRENCY": "Currency"
+    "CURRENCY": "Currency",
+    "YES": "Yes",
+    "NO": "No",
+    "CUSTOM_REASON_OPTION": "Other"
   },
   "FILES": {
     "UPLOAD_MODAL": {
@@ -1328,7 +1330,6 @@
       "NO_SELECTED_LINKED_CAMPAIGN": "No selected linked campaign"
     },
     "CHANGE_STATUS_MODAL": {
-      "CUSTOM_REASON_OPTION": "Other",
       "CUSTOM_REASON_PLACEHOLDER": "Custom reason",
       "CANCEL_BUTTON": "Cancel",
       "TITLE": "Change bonus campaign status",
@@ -1561,7 +1562,6 @@
     }
   },
   "PAYMENT_ACTION_REASON_MODAL": {
-    "CUSTOM_REASON_OPTION": "Other",
     "REASON_DROPDOWN": {
       "CONSTANTS": {
         "REASON_LABEL": "Reason",
@@ -1737,7 +1737,7 @@
       "AGGREGATOR": "Aggregator",
       "GAMES": "Games",
       "GAME_TYPE": "Game type",
-      "NAME": "Name",
+      "NAME": "Free spin",
       "FREE_SPINS": "Free spins",
       "FREE_SPIN_REWARD": "Free spin reward",
       "BET_PER_LINE": "Bet per line",
@@ -1784,41 +1784,106 @@
       "REWARDS": {
         "BONUS": {
           "LABEL": {
-            "NAME": "",
-            "BONUS_REWARD": "",
-            "GRANT": "",
-            "CAPPING": "",
-            "MULTIPLIER": "",
-            "MONEY_TYPE_PRIOR": "",
-            "MAX_BET": "",
-            "MAX_GRANTED_AMOUNT": "",
-            "LIFE_TIME": "",
-            "WAGERING_REQUIREMENT": "",
-            "LOCK_AMOUNT_STRATEGY": "",
+            "NAME": "Bonus",
+            "BONUS_REWARD": "Bonus reward",
+            "GRANT": "Grant",
+            "CAPPING": "Capping",
+            "MULTIPLIER": "Multiplier",
+            "MONEY_TYPE_PRIOR": "Money priority",
+            "MAX_BET": "Max. bet",
+            "MAX_GRANTED_AMOUNT": "Max. granted amount",
+            "LIFE_TIME": "Life time",
+            "WAGERING_REQUIREMENT": "Wagering",
+            "LOCK_AMOUNT_STRATEGY": "Lock strategy",
             "PLACEHOLDERS": {
-              "DAYS": "",
-              "NOT_SET": ""
+              "DAYS": "days",
+              "NOT_SET": "not set"
             },
-            "MIN_PRIZE": ""
-          }
+            "MIN_PRIZE": "Min. prize",
+            "MONEY_TYPE_PRIORITY": "Money priority",
+            "BONUS_LIFE_TIME": "Bonus life time",
+            "CLAIMABLE": "Claimable",
+            "PRIZE": "Prize"
+          },
+          "TEMPLATES": "Bonus templates",
+          "ADD_BONUS_TEMPLATE": "Add bonus template"
         },
         "CREATE_BONUS_MODAL": {
-          "TITLE": ""
+          "TITLE": "Create bonus template"
         }
+      },
+      "CAMPAIGN_SETTINGS": "Campaign settings",
+      "LABEL": {
+        "CAMPAIGN_PERIOD": "Campaign period"
       }
     },
     "REWARDS": {
       "FREE_SPIN": {
-        "LIFE_TIME": ""
+        "LIFE_TIME": "Life time",
+        "ADD_FREE_SPIN": "Add free spin",
+        "TEMPLATE": "Template",
+        "STATUS": "Status"
       }
     },
     "NODE_VALIDATION": {
       "FULFILLMENTS": "Please add at least one fulfilment",
       "REWARDS": "Please add at least one reward"
+    },
+    "CHANGE_STATUS_MODAL": {
+      "CUSTOM_REASON_PLACEHOLDER": "Custom reason",
+      "CANCEL_BUTTON": "Cancel",
+      "TITLE": "Change bonus campaign status",
+      "ACTION_TEXT": "You are about to %{action} the %{title}",
+      "ENTITY_NAME": "campaign"
+    },
+    "STATUS_DROPDOWN": {
+      "TITLE": "Status"
+    },
+    "NEW_CAMPAIGN": "Новая кампания",
+    "SAVE_NEW_CAMPAIGN": "Сохранить новую кампанию",
+    "TITLE": "Bonus campaigns",
+    "BUTTON_CREATE_CAMPAIGN": "+ Add campaign",
+    "GRID_VIEW": {
+      "DATE_TIME_AT": "at %{time}",
+      "CAMPAIGN": "Campaign",
+      "CREATED": "Created",
+      "STATUS": "Status"
+    },
+    "VIEW": {
+      "DETAILS": {
+        "LABEL": {
+          "CREATED": "Created"
+        }
+      },
+      "NOTIFICATIONS": {
+        "UPDATE_TITLE": "Update bonus campaign",
+        "UNSUCCESSFULLY": "Failed to save the сampaign",
+        "SUCCESSFULLY": "Сampaign saved successfully",
+        "ADD_CAMPAIGN": ""
+      }
+    },
+    "STATUS_DROPDOWN_MODAL": {
+      "CONSTANTS": {
+        "REASON_LABEL": "Reason",
+        "CUSTOM_REASON_LABEL": "Custom reason"
+      }
+    },
+    "WAGERING_FULFILMENTS": {
+      "ADD": {
+        "ADD_BUTTON": "Add wagering fulfilment"
+      },
+      "LIST": {
+        "CREATE_BUTTON": "Create wagering fulfilment",
+        "TITLE": "Wagering fulfilment"
+      }
     }
   },
   "MULTI_CURRENCY_MODAL": {
     "TITLE": "Value in different currencies",
-    "CUSTOMIZED": "Customized"
+    "CUSTOMIZED": "Customized",
+    "RATE": "Rate",
+    "CALCULATED": "Calculated",
+    "RECALC": "Recalculate",
+    "RECALC_WARNING": "Warning"
   }
 }

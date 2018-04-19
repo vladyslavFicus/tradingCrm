@@ -94,7 +94,7 @@ class StatusDropDown extends Component {
     const label = (
       <div className="dropdown-tab">
         <div className="header-block-title">
-          {I18n.t('BONUS_CAMPAIGNS.STATUS_DROPDOWN.TITLE')}
+          {I18n.t('CAMPAIGNS.STATUS_DROPDOWN.TITLE')}
         </div>
 
         <BonusCampaignStatus campaign={campaign} />
