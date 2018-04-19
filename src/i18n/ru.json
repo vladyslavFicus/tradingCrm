@@ -1820,7 +1820,8 @@
             "MONEY_TYPE_PRIORITY": "Приоритет использования денег",
             "BONUS_LIFE_TIME": "Время жизни бонуса",
             "CLAIMABLE": "Claimable",
-            "PRIZE": "Цена"
+            "PRIZE": "Цена",
+            "PRIZE_CAPPING_TYPE": "Тип цены"
           },
           "TEMPLATES": "Шаблоны",
           "ADD_BONUS_TEMPLATE": "Создать новый шаблон"
@@ -1901,6 +1902,6 @@
     "RATE": "Курс",
     "CALCULATED": "Посчитано",
     "RECALC": "Посчитать",
-    "RECALC_WARNING": "Предупреждение"
+    "RECALC_WARNING": "Перерасчет сбросит все текущие значения"
   }
 }

@@ -1802,10 +1802,11 @@
               "NOT_SET": "not set"
             },
             "MIN_PRIZE": "Min. prize",
-            "MONEY_TYPE_PRIORITY": "Money priority",
+            "MONEY_TYPE_PRIORITY": "Money type priority",
             "BONUS_LIFE_TIME": "Bonus life time",
             "CLAIMABLE": "Claimable",
-            "PRIZE": "Prize"
+            "PRIZE": "Prize",
+            "PRIZE_CAPPING_TYPE": "Prize capping type"
           },
           "TEMPLATES": "Bonus templates",
           "ADD_BONUS_TEMPLATE": "Add bonus template"
@@ -1841,8 +1842,8 @@
     "STATUS_DROPDOWN": {
       "TITLE": "Status"
     },
-    "NEW_CAMPAIGN": "Новая кампания",
-    "SAVE_NEW_CAMPAIGN": "Сохранить новую кампанию",
+    "NEW_CAMPAIGN": "New campaign",
+    "SAVE_NEW_CAMPAIGN": "Save new campaign",
     "TITLE": "Bonus campaigns",
     "BUTTON_CREATE_CAMPAIGN": "+ Add campaign",
     "GRID_VIEW": {
@@ -1861,7 +1862,7 @@
         "UPDATE_TITLE": "Update bonus campaign",
         "UNSUCCESSFULLY": "Failed to save the сampaign",
         "SUCCESSFULLY": "Сampaign saved successfully",
-        "ADD_CAMPAIGN": ""
+        "ADD_CAMPAIGN": "Add campaign"
       }
     },
     "STATUS_DROPDOWN_MODAL": {
@@ -1886,6 +1887,6 @@
     "RATE": "Rate",
     "CALCULATED": "Calculated",
     "RECALC": "Recalculate",
-    "RECALC_WARNING": "Warning"
+    "RECALC_WARNING": "Recalculation will reset all customized values"
   }
 }
