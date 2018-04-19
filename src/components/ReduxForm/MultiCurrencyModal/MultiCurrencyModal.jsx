@@ -130,7 +130,9 @@ class MultiCurrencyModal extends PureComponent {
                       <tr key={currency}>
                         <td className="currency-calc-modal__output-content"><b>{currency}</b></td>
                         <td className="currency-calc-modal__output-content">{amount}</td>
-                        <td className="currency-calc-modal__output-content">{(amount * baseCurrencyValue).toFixed(2)}</td>
+                        <td className="currency-calc-modal__output-content">
+                          {(amount * baseCurrencyValue).toFixed(2)}
+                        </td>
                         <td>
                           <MultiCurrencyField
                             name={`amounts[${index + 1}]`}
