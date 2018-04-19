@@ -21,15 +21,13 @@ class WageringView extends PureComponent {
     } = this.props;
 
     return (
-      <div>
-        <div className="row">
-          <div className="col-6 form-group">
-            <MultiCurrencyValue
-              label={I18n.t(attributeLabels.amountToWager)}
-              baseName={`${name}.amounts`}
-              disabled={disabled}
-            />
-          </div>
+      <div className="row">
+        <div className="col-6 form-group">
+          <MultiCurrencyValue
+            label={I18n.t(attributeLabels.amountToWager)}
+            baseName={`${name}.amounts`}
+            disabled={disabled}
+          />
         </div>
       </div>
     );

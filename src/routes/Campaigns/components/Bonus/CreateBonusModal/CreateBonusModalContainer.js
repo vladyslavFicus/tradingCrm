@@ -40,13 +40,8 @@ export default compose(
     validate: validator,
     initialValues: {
       claimable: false,
-      prize: {
-        type: customValueFieldTypes.ABSOLUTE,
-      },
+      prizeCapingType: customValueFieldTypes.ABSOLUTE,
       grantRatio: {
-        type: customValueFieldTypes.ABSOLUTE,
-      },
-      capping: {
         type: customValueFieldTypes.ABSOLUTE,
       },
       wageringRequirement: {

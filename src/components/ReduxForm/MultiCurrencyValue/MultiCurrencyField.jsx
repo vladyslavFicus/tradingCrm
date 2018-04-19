@@ -26,7 +26,7 @@ const MultiCurrencyField = ({ label, name, ...rest }) => (
 );
 
 MultiCurrencyField.propTypes = {
-  label: PropTypes.string,
+  label: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   name: PropTypes.string.isRequired,
   onChange: PropTypes.func,
   onIconClick: PropTypes.func,
