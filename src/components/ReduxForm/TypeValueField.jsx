@@ -38,7 +38,7 @@ const renderFields = ({
           </When>
           <Otherwise>
             <MultiCurrencyValue
-              baseName={valueField.input.name}
+              baseName={`${name}.absolute`}
               label=""
               showErrorMessage={false}
               placeholder={typeof label === 'string' ? label : null}

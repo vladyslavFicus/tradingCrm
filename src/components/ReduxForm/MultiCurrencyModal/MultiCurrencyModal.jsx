@@ -24,7 +24,7 @@ class MultiCurrencyModal extends PureComponent {
     onCloseModal: PropTypes.func.isRequired,
     isOpen: PropTypes.bool.isRequired,
     reset: PropTypes.func.isRequired,
-    label: PropTypes.string,
+    label: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
     formValues: PropTypes.object,
   };
 
