@@ -150,7 +150,6 @@ class BonusView extends PureComponent {
                 <If condition={template.maxGrantAmount}>
                   <div className="col-4">
                     {I18n.t(attributeLabels.maxGrantAmount)}
-                    Max. grant amount
                     <div className="campaigns-template__value">
                       <Amount {...template.maxGrantAmount[0]} />
                     </div>
