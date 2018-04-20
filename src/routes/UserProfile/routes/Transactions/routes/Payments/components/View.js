@@ -190,7 +190,7 @@ class View extends Component {
       currency: currencyCode,
     };
 
-    if (inputParams.type !== paymentTypes.Withdraw) {
+    if (inputParams.type !== paymentTypes.WITHDRAW) {
       delete params.paymentMethod;
     }
 
@@ -200,7 +200,7 @@ class View extends Component {
       const errors = [action.payload.response.error];
 
       if (
-        inputParams.type === paymentTypes.Confiscate &&
+        inputParams.type === paymentTypes.CONFISCATE &&
         action.payload.response.error === 'error.payment.withdrawable.limit'
       ) {
         const activeBonusAction = await fetchActiveBonus(playerUUID);

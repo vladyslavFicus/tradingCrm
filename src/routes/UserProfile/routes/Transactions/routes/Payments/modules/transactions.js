@@ -156,11 +156,11 @@ function addPayment(playerUUID, { type, ...inputData }) {
       device: await getFingerprint(),
     };
 
-    if (type === paymentTypes.Deposit) {
+    if (type === paymentTypes.DEPOSIT) {
       return dispatch(manualDeposit(playerUUID, data));
-    } else if (type === paymentTypes.Withdraw) {
+    } else if (type === paymentTypes.WITHDRAW) {
       return dispatch(manualWithdraw(playerUUID, data));
-    } else if (type === paymentTypes.Confiscate) {
+    } else if (type === paymentTypes.CONFISCATE) {
       return dispatch(confiscate(playerUUID, data));
     }
 

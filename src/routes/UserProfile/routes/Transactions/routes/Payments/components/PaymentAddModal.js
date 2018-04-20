@@ -117,7 +117,7 @@ class PaymentAddModal extends Component {
     const { playerLimits } = this.props;
     let method = type.toLowerCase();
 
-    if (method === paymentTypes.Confiscate) {
+    if (method === paymentTypes.CONFISCATE) {
       method = 'withdraw';
     }
 
@@ -128,7 +128,7 @@ class PaymentAddModal extends Component {
     const { currentValues } = this.props;
     const { availablePaymentAccounts } = this.state;
 
-    if (!currentValues || currentValues.type !== paymentTypes.Withdraw) {
+    if (!currentValues || currentValues.type !== paymentTypes.WITHDRAW) {
       return null;
     }
 
@@ -302,7 +302,7 @@ const FORM_NAME = 'createPaymentForm';
 const Form = reduxForm({
   form: FORM_NAME,
   initialValues: {
-    type: paymentTypes.Deposit,
+    type: paymentTypes.DEPOSIT,
   },
   validate: (data) => {
     const rules = {
@@ -310,7 +310,7 @@ const Form = reduxForm({
       amount: 'required|numeric',
     };
 
-    if (data.type === paymentTypes.Withdraw) {
+    if (data.type === paymentTypes.WITHDRAW) {
       rules.paymentAccountUuid = 'required|string';
     }
 
