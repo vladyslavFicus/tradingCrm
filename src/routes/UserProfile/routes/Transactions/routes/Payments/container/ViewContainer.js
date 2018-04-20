@@ -33,6 +33,7 @@ const mapActions = {
   resetNote: viewActionCreators.resetNote,
   resetAll: viewActionCreators.resetAll,
   locationChange: locationActionCreators.locationChange,
+  fetchActiveBonus: viewActionCreators.fetchActiveBonus,
 };
 
 export default connect(mapStateToProps, mapActions)(View);
