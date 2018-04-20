@@ -27,7 +27,8 @@ if (window) {
       errorType: errorTypes.INTERNAL,
     };
 
-    const stack = e.error.stack;
+    const stack = e.error ? e.error.stack : null;
+
     if (stack) {
       error.stack = `\n${stack}`;
     }
