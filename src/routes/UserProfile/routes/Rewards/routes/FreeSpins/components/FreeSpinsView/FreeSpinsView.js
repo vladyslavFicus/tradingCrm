@@ -71,7 +71,6 @@ class FreeSpinsView extends Component {
     onAddNoteClick: PropTypes.func.isRequired,
     onEditNoteClick: PropTypes.func.isRequired,
     setNoteChangedCallback: PropTypes.func.isRequired,
-    refreshPinnedNotes: PropTypes.func.isRequired,
     onAddNote: PropTypes.func.isRequired,
     addNotification: PropTypes.func.isRequired,
     cacheChildrenComponent: PropTypes.func.isRequired,
@@ -243,10 +242,7 @@ class FreeSpinsView extends Component {
       throw new SubmissionError({ _error: action.payload.response.error });
     } else {
       if (unsavedNote) {
-        await this.context.onAddNote({ ...unsavedNote, targetUUID: action.payload.uuid });
-        if (unsavedNote.pinned) {
-          this.context.refreshPinnedNotes();
-        }
+        await this.context.onAddNote({ variables: { ...unsavedNote, targetUUID: action.payload.uuid } });
       }
 
       resetNote();
