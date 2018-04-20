@@ -213,7 +213,7 @@ class View extends Component {
       throw new SubmissionError({ _error: errors });
     } else {
       if (unsavedNote) {
-        await this.context.onAddNote({ ...unsavedNote, targetUUID: action.payload.paymentId });
+        await this.context.onAddNote({ variables: { ...unsavedNote, targetUUID: action.payload.paymentId } });
       }
 
       resetNote();
