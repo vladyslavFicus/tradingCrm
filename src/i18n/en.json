@@ -1498,10 +1498,7 @@
         "inactive": "Payment method inactive"
       },
       "withdrawable": {
-        "limit": "Exceeded withdrawable amount",
-        "bonus": {
-          "disable": "To unlock locked amount, disable active player bonus"
-        }
+        "limit": "Exceeded withdrawable amount"
       }
     },
     "profile": {

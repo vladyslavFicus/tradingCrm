@@ -92,15 +92,15 @@ const paymentActions = {
 };
 
 const types = keyMirror({
-  DEPOSIT: null,
-  WITHDRAW: null,
-  CONFISCATE: null,
+  Deposit: null,
+  Withdraw: null,
+  Confiscate: null,
 });
 
 const manualTypesLabels = {
-  [types.DEPOSIT]: 'Manual deposit',
-  [types.WITHDRAW]: 'Manual withdraw',
-  [types.CONFISCATE]: 'Confiscate',
+  [types.Deposit]: 'Manual deposit',
+  [types.Withdraw]: 'Manual withdraw',
+  [types.Confiscate]: 'Confiscate',
 };
 
 const statusesLabels = {
@@ -127,19 +127,19 @@ const methodsStatusesLabels = {
 };
 
 const typesLabels = {
-  [types.DEPOSIT]: 'Deposit',
-  [types.WITHDRAW]: 'Withdraw',
-  [types.CONFISCATE]: 'Confiscate',
+  [types.Deposit]: 'Deposit',
+  [types.Withdraw]: 'Withdraw',
+  [types.Confiscate]: 'Confiscate',
 };
 
 const typesProps = {
-  [types.DEPOSIT]: {
+  [types.Deposit]: {
     className: 'text-uppercase font-weight-700 color-primary',
   },
-  [types.WITHDRAW]: {
+  [types.Withdraw]: {
     className: 'text-uppercase font-weight-700 color-danger',
   },
-  [types.CONFISCATE]: {
+  [types.Confiscate]: {
     className: 'text-uppercase font-weight-700 color-danger',
   },
 };

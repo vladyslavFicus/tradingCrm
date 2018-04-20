@@ -3,7 +3,6 @@ import createReducer from '../../../../../../../utils/createReducer';
 import createRequestAction from '../../../../../../../utils/createRequestAction';
 import buildQueryString from '../../../../../../../utils/buildQueryString';
 import { sourceActionCreators as noteSourceActionCreators } from '../../../../../../../redux/modules/note';
-import { sourceActionCreators as bonusActionCreators } from '../../../../../../../redux/modules/bonus';
 import { sourceActionCreators as paymentSourceActionCreators } from '../../../../../../../redux/modules/payment';
 import { targetTypes } from '../../../../../../../constants/note';
 import { types as paymentTypes } from '../../../../../../../constants/payment';
@@ -11,7 +10,6 @@ import getFingerprint from '../../../../../../../utils/fingerPrint';
 
 const KEY = 'user/payments';
 const FETCH_ENTITIES = createRequestAction(`${KEY}/fetch-payments`);
-const FETCH_ACTIVE_BONUS = createRequestAction(`${KEY}/fetch-active-bonus`);
 const FETCH_PAYMENT_STATUSES = createRequestAction(`${KEY}/fetch-payment-statuses`);
 const CHANGE_PAYMENT_STATUS = createRequestAction(`${KEY}/change-payment-status`);
 const FETCH_NOTES = createRequestAction(`${KEY}/fetch-notes`);
@@ -26,8 +24,6 @@ const RESET_TRANSACTIONS = `${KEY}/reset`;
 const fetchPaymentStatuses = paymentSourceActionCreators.fetchPaymentStatuses(FETCH_PAYMENT_STATUSES);
 const changePaymentStatus = paymentSourceActionCreators.changePaymentStatus(CHANGE_PAYMENT_STATUS);
 const fetchPaymentAccounts = paymentSourceActionCreators.fetchPaymentAccounts(FETCH_PAYMENT_ACCOUNTS);
-
-const fetchActiveBonus = bonusActionCreators.fetchActiveBonus(FETCH_ACTIVE_BONUS);
 
 const fetchNotesFn = noteSourceActionCreators.fetchNotesByType(FETCH_NOTES);
 const mapNotesToTransactions = (transactions, notes) => {
@@ -156,11 +152,11 @@ function addPayment(playerUUID, { type, ...inputData }) {
       device: await getFingerprint(),
     };
 
-    if (type === paymentTypes.DEPOSIT) {
+    if (type === paymentTypes.Deposit) {
       return dispatch(manualDeposit(playerUUID, data));
-    } else if (type === paymentTypes.WITHDRAW) {
+    } else if (type === paymentTypes.Withdraw) {
       return dispatch(manualWithdraw(playerUUID, data));
-    } else if (type === paymentTypes.CONFISCATE) {
+    } else if (type === paymentTypes.Confiscate) {
       return dispatch(confiscate(playerUUID, data));
     }
 
@@ -285,7 +281,6 @@ const actionCreators = {
   manageNote,
   resetNote,
   resetTransactions,
-  fetchActiveBonus,
 };
 
 export {

@@ -71,7 +71,6 @@ class View extends Component {
       receivedAt: PropTypes.number,
     }).isRequired,
     locale: PropTypes.string.isRequired,
-    fetchActiveBonus: PropTypes.func.isRequired,
     subTabRoutes: PropTypes.arrayOf(PropTypes.subTabRouteEntity).isRequired,
   };
   static defaultProps = {
@@ -182,7 +181,6 @@ class View extends Component {
       currencyCode,
       resetNote,
       transactions: { newPaymentNote: unsavedNote },
-      fetchActiveBonus,
     } = this.props;
 
     const params = {
@@ -190,27 +188,14 @@ class View extends Component {
       currency: currencyCode,
     };
 
-    if (inputParams.type !== paymentTypes.WITHDRAW) {
+    if (inputParams.type !== paymentTypes.Withdraw) {
       delete params.paymentMethod;
     }
 
     const action = await addPayment(playerUUID, params);
 
     if (action && action.error) {
-      const errors = [action.payload.response.error];
-
-      if (
-        inputParams.type === paymentTypes.CONFISCATE &&
-        action.payload.response.error === 'error.payment.withdrawable.limit'
-      ) {
-        const activeBonusAction = await fetchActiveBonus(playerUUID);
-
-        if (activeBonusAction && !activeBonusAction.error && activeBonusAction.payload.totalElements) {
-          errors.push('error.payment.withdrawable.bonus.disable');
-        }
-      }
-
-      throw new SubmissionError({ _error: errors });
+      throw new SubmissionError({ _error: action.payload.response.error });
     } else {
       if (unsavedNote) {
         await this.context.onAddNote({ variables: { ...unsavedNote, targetUUID: action.payload.paymentId } });

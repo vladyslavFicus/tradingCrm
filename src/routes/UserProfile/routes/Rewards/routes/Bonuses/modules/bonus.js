@@ -1,9 +1,7 @@
 import { CALL_API } from 'redux-api-middleware';
 import createReducer from '../../../../../../../utils/createReducer';
+import buildQueryString from '../../../../../../../utils/buildQueryString';
 import createRequestAction from '../../../../../../../utils/createRequestAction';
-import {
-  sourceActionCreators as bonusActionCreators,
-} from '../../../../../../../redux/modules/bonus';
 
 const KEY = 'user-bonus';
 const FETCH_ACTIVE_BONUS = createRequestAction(`${KEY}/fetch-active-bonus`);
@@ -11,7 +9,25 @@ const ACCEPT_BONUS = createRequestAction(`${KEY}/accept-bonus`);
 const CANCEL_BONUS = createRequestAction(`${KEY}/cancel-bonus`);
 const PERMIT_BONUS_CONVERSION = createRequestAction(`${KEY}/permit-bonus-conversion`);
 
-const fetchActiveBonus = bonusActionCreators.fetchActiveBonus(FETCH_ACTIVE_BONUS);
+function fetchActiveBonus(playerUUID) {
+  return (dispatch, getState) => {
+    const { auth: { token, logged } } = getState();
+
+    return dispatch({
+      [CALL_API]: {
+        endpoint: `bonus/bonuses/${playerUUID}?${buildQueryString({ states: 'IN_PROGRESS' })}`,
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        types: [FETCH_ACTIVE_BONUS.REQUEST, FETCH_ACTIVE_BONUS.SUCCESS, FETCH_ACTIVE_BONUS.FAILURE],
+        bailout: !logged,
+      },
+    });
+  };
+}
 
 function acceptBonus(bonusUUID, playerUUID) {
   return (dispatch, getState) => {
