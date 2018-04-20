@@ -26,9 +26,9 @@ const paymentStatusNames = {
 };
 
 const paymentTypesNames = {
-  [paymentTypes.Deposit]: 'deposit',
-  [paymentTypes.Withdraw]: 'withdraw',
-  [paymentTypes.Confiscate]: 'confiscate',
+  [paymentTypes.DEPOSIT]: 'deposit',
+  [paymentTypes.WITHDRAW]: 'withdraw',
+  [paymentTypes.CONFISCATE]: 'confiscate',
 };
 
 export {
