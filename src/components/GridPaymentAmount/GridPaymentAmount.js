@@ -7,7 +7,7 @@ import { types as paymentTypes } from '../../constants/payment';
 import { UncontrolledTooltip } from '../Reactstrap/Uncontrolled';
 
 const GridPaymentInfo = ({ payment }) => {
-  const negativeOperation = [paymentTypes.WITHDRAW, paymentTypes.CONFISCATE].indexOf(payment.paymentType) !== -1;
+  const negativeOperation = [paymentTypes.Withdraw, paymentTypes.Confiscate].indexOf(payment.paymentType) !== -1;
   const className = classNames('font-weight-700', { 'color-danger': negativeOperation });
 
   return (

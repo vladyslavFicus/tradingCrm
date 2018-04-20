@@ -89,7 +89,7 @@ class PaymentDetailModal extends Component {
     const { onClose, payment: { status, paymentType } } = this.props;
     let actions = null;
 
-    if (paymentType === paymentsTypes.WITHDRAW && status === paymentStatuses.PENDING) {
+    if (paymentType === paymentsTypes.Withdraw && status === paymentStatuses.PENDING) {
       actions = (
         <span>
           <PermissionContent permissions={permissions.PAYMENTS.APPROVE_WITHDRAW}>
@@ -111,7 +111,7 @@ class PaymentDetailModal extends Component {
       );
     }
 
-    if (paymentType === paymentsTypes.DEPOSIT && status === paymentStatuses.COMPLETED) {
+    if (paymentType === paymentsTypes.Deposit && status === paymentStatuses.COMPLETED) {
       actions = (
         <span>
           <PermissionContent permissions={permissions.PAYMENTS.CHARGEBACK_DEPOSIT}>
@@ -152,7 +152,7 @@ class PaymentDetailModal extends Component {
       className,
       onNoteClick,
     } = this.props;
-    const isWithdraw = payment.paymentType === paymentsTypes.WITHDRAW;
+    const isWithdraw = payment.paymentType === paymentsTypes.Withdraw;
 
     return (
       <Modal isOpen toggle={onClose} className={classNames(className, 'payment-detail-modal')}>
