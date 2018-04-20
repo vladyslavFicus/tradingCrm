@@ -46,7 +46,7 @@ class CreateBonusModal extends PureComponent {
       notify,
       onSave,
       onCloseModal,
-      destroy,
+      reset,
     } = this.props;
 
     const data = {
@@ -111,7 +111,7 @@ class CreateBonusModal extends PureComponent {
       }
 
       onCloseModal();
-      destroy();
+      reset();
     }
   };
 

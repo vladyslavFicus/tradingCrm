@@ -167,7 +167,7 @@ class FreeSpinCreateModal extends Component {
   });
 
   handleSubmit = async ({ betPerLine, bonusTemplateUUID: { uuid: bonusTemplateUUID }, ...data }) => {
-    const { addFreeSpinTemplate, onSave, onCloseModal, destroy, notify } = this.props;
+    const { addFreeSpinTemplate, onSave, onCloseModal, reset, notify } = this.props;
     const variables = { ...data, bonusTemplateUUID };
     const response = await addFreeSpinTemplate({ variables });
     const { error, fields_errors } = get(response, 'data.freeSpinTemplate.add.error') || {};
@@ -210,7 +210,7 @@ class FreeSpinCreateModal extends Component {
       title: I18n.t('CAMPAIGNS.FREE_SPIN.CREATE.SUCCESS_TITLE'),
     });
 
-    destroy();
+    reset();
 
     if (onSave) {
       onSave(uuid);
