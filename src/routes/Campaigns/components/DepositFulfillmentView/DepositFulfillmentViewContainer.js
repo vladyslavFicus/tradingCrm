@@ -1,7 +1,6 @@
 import gql from 'graphql-tag';
 import { graphql, compose } from 'react-apollo';
 import { connect } from 'react-redux';
-import { depositFulfillmentQuery } from '.././../../../graphql/queries/campaigns';
 import DepositFulfillmentView from './DepositFulfillmentView';
 import { methodStatuses } from '../../../../constants/payment';
 
