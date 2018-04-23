@@ -15,14 +15,12 @@ import BonusGridFilter from '../BonusGridFilter';
 import ViewModal from '../ViewModal';
 import BonusType from '../BonusType';
 import BonusStatus from '../BonusStatus';
-import CreateModal from '../CreateModal/CreateModal';
 import shallowEqual from '../../../../../../../../utils/shallowEqual';
 import { mapResponseErrorToField } from '../CreateModal/constants';
 import recognizeFieldError from '../../../../../../../../utils/recognizeFieldError';
 import StickyNavigation from '../../../../../../components/StickyNavigation';
 
 const modalInitialState = { name: null, params: {} };
-const MODAL_CREATE = 'create-modal';
 const MODAL_VIEW = 'view-modal';
 
 class View extends Component {
@@ -37,6 +35,7 @@ class View extends Component {
       id: PropTypes.string,
     }).isRequired,
     fetchActiveBonus: PropTypes.func.isRequired,
+    addBonusTemplate: PropTypes.func.isRequired,
     fetchBonusTemplates: PropTypes.func.isRequired,
     fetchBonusTemplate: PropTypes.func.isRequired,
     assignBonusTemplate: PropTypes.func.isRequired,
@@ -44,6 +43,12 @@ class View extends Component {
     locale: PropTypes.string.isRequired,
     subTabRoutes: PropTypes.arrayOf(PropTypes.subTabRouteEntity).isRequired,
     templates: PropTypes.array,
+    modals: PropTypes.shape({
+      createManualBonus: PropTypes.shape({
+        show: PropTypes.func.isRequired,
+        hide: PropTypes.func.isRequired,
+      }),
+    }).isRequired,
   };
   static defaultProps = {
     templates: [],
@@ -208,8 +213,20 @@ class View extends Component {
     return action;
   };
 
-  handleCreateManualBonusClick = () => {
-    this.handleModalOpen(MODAL_CREATE);
+  handleCreateManualBonusClick = async () => {
+    const {
+      modals,
+      fetchBonusTemplates,
+      fetchBonusTemplate,
+      playerProfile: { data: { currencyCode: currency } },
+    } = this.props;
+
+    modals.createManualBonus.show({
+      onSubmit: this.handleSubmitManualBonus,
+      fetchBonusTemplate,
+      fetchBonusTemplates,
+      currency,
+    });
   };
 
   handleSubmitManualBonus = async (isCustomTemplate, formData) => {
@@ -221,6 +238,8 @@ class View extends Component {
       },
       params: { id: playerUUID },
       assignBonusTemplate,
+      addBonusTemplate,
+      modals,
     } = this.props;
 
     let bonusTemplateUUID = !isCustomTemplate ? formData.templateUUID : null;
@@ -229,7 +248,10 @@ class View extends Component {
       const action = await this.props.createBonusTemplate(formData);
 
       if (action && !action.error) {
-        bonusTemplateUUID = action.payload.uuid;
+        const { uuid, name } = action.payload;
+
+        bonusTemplateUUID = uuid;
+        addBonusTemplate(name, uuid);
       } else if (action.error && action.payload.response) {
         if (get(action, 'payload.response.fields_errors', false)) {
           const errors = Object.keys(action.payload.response.fields_errors).reduce((res, name) => ({
@@ -258,7 +280,8 @@ class View extends Component {
         grantedAmount: grantedAmount.amount,
       });
 
-      this.handleModalClose(this.handleRefresh);
+      modals.createManualBonus.hide();
+      this.handleRefresh();
 
       return assignBonusTemplateAction;
     }
@@ -351,9 +374,6 @@ class View extends Component {
       playerProfile: { data: playerProfile },
       locale,
       subTabRoutes,
-      fetchBonusTemplates,
-      fetchBonusTemplate,
-      templates,
     } = this.props;
 
     return (
@@ -431,17 +451,6 @@ class View extends Component {
             />
           </GridView>
         </div>
-        {
-          modal.name === MODAL_CREATE &&
-          <CreateModal
-            onSubmit={this.handleSubmitManualBonus}
-            onClose={this.handleModalClose}
-            fetchBonusTemplates={fetchBonusTemplates}
-            fetchBonusTemplate={fetchBonusTemplate}
-            templates={templates}
-            currency={playerProfile.currencyCode}
-          />
-        }
         {
           modal.name === MODAL_VIEW &&
           <ViewModal
