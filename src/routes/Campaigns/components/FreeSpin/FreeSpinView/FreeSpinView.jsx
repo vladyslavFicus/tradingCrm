@@ -63,7 +63,7 @@ export default class FreeSpinView extends PureComponent {
       },
     } = this.props;
 
-    const { betPerLineAmounts, linesPerSpin, freeSpinsAmount } = get(freeSpinTemplate, 'data', {});
+    const { betPerLineAmounts, linesPerSpin, freeSpinsAmount, game } = get(freeSpinTemplate, 'data', {});
     const betPerLine = get(betPerLineAmounts, '[0].amount', 0);
     const currency = get(betPerLineAmounts, '[0].currency', 0);
     const betPrice = betPerLine ? parseFloat(betPerLine) : 0;
@@ -112,6 +112,7 @@ export default class FreeSpinView extends PureComponent {
 
     const fsTemplates = freeSpinTemplates || [];
     const fsTemplate = get(freeSpinTemplate, 'data', {});
+    const gameName = get(fsTemplate, 'game.data.fullGameName', '-');
 
     return (
       <div className="campaigns-template">
@@ -181,8 +182,16 @@ export default class FreeSpinView extends PureComponent {
                 <div className="col-4">
                   {I18n.t(attributeLabels.gameId)}
                   <div className="campaigns-template__value">
-                    {fsTemplate.gameId}
+                    {gameName}
                   </div>
+                  <If condition={fsTemplate.gameId}>
+                    <Uuid
+                      className="mt-5"
+                      length={16}
+                      uuidPartsCount={4}
+                      uuid={fsTemplate.internalGameId || fsTemplate.gameId}
+                    />
+                  </If>
                 </div>
                 <div className="col-4">
                   {I18n.t(attributeLabels.status)}

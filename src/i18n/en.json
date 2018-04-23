@@ -1739,6 +1739,7 @@
       "PROVIDER": "Provider",
       "AGGREGATOR": "Aggregator",
       "GAMES": "Games",
+      "GAME": "Game",
       "GAME_TYPE": "Game type",
       "NAME": "Name",
       "FREE_SPINS": "Free spins",

@@ -106,6 +106,9 @@ const bonusTemplateQuery = gql`query bonusTemplate($uuid: String!) {
       currency,
      }
     }
+    error {
+      error
+    }
   }
 }`;
 
@@ -116,8 +119,16 @@ const freeSpinTemplateQuery = gql`query freeSpinTemplate($uuid: String!, $aggreg
       name
       uuid
       gameId
-      providerId
       internalGameId
+      providerId
+      game {
+        data {
+          fullGameName
+        }
+        error {
+          error
+        }
+      }
       freeSpinLifeTime
       coinSize
       linesPerSpin
