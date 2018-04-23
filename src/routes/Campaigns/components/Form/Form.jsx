@@ -202,8 +202,8 @@ class Form extends Component {
             name="fulfillments"
             disabled={disabled}
             className="col-6"
-            nodeSelectLabel="CAMPAIGNS.SELECT_FULFILLMENT"
-            nodeButtonLabel="CAMPAIGNS.ADD_FULFILLMENT"
+            nodeSelectLabel={I18n.t("CAMPAIGNS.SETTINGS.FULFILLMENTS.SELECT_FULFILLMENT")}
+            nodeButtonLabel={I18n.t("CAMPAIGNS.SETTINGS.FULFILLMENTS.ADD_FULFILLMENT")}
             components={
               this.getAllowedNodes([
                 { type: fulfilmentTypes.WAGERING, component: WageringView },
@@ -216,8 +216,8 @@ class Form extends Component {
             name="rewards"
             disabled={disabled}
             className="col-6"
-            nodeSelectLabel="CAMPAIGNS.SELECT_REWARD"
-            nodeButtonLabel="CAMPAIGNS.ADD_REWARD"
+            nodeSelectLabel={I18n.t("CAMPAIGNS.SETTINGS.REWARDS.SELECT_REWARD")}
+            nodeButtonLabel={I18n.t("CAMPAIGNS.SETTINGS.REWARDS.ADD_REWARD")}
             components={
               this.getAllowedNodes([
                 { type: rewardTemplateTypes.BONUS, component: BonusView },
