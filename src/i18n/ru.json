@@ -1800,7 +1800,9 @@
           "LABEL": {
             "AMOUNT_TO_WAGER": "Сумма"
           }
-        }
+        },
+        "SELECT_FULFILLMENT": "Выбрать условие",
+        "ADD_FULFILLMENT": "Добавить условие"
       },
       "REWARDS": {
         "BONUS": {
@@ -1831,7 +1833,9 @@
         },
         "CREATE_BONUS_MODAL": {
           "TITLE": "Создать фриспин"
-        }
+        },
+        "SELECT_REWARD": "Выбрать награду",
+        "ADD_REWARD": "Добавить награду"
       },
       "CAMPAIGN_SETTINGS": "Настройки кампании",
       "LABEL": {

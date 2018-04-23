@@ -1784,7 +1784,9 @@
           "LABEL": {
             "AMOUNT_TO_WAGER": "Amount to wage"
           }
-        }
+        },
+        "SELECT_FULFILLMENT": "Select fulfillment",
+        "ADD_FULFILLMENT": "Add fulfillment"
       },
       "REWARDS": {
         "BONUS": {
@@ -1816,7 +1818,9 @@
         },
         "CREATE_BONUS_MODAL": {
           "TITLE": "Create bonus template"
-        }
+        },
+        "SELECT_REWARD": "Select reward",
+        "ADD_REWARD": "Add reward"
       },
       "CAMPAIGN_SETTINGS": "Campaign settings",
       "LABEL": {
