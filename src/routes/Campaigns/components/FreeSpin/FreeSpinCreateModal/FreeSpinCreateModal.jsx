@@ -167,8 +167,12 @@ class FreeSpinCreateModal extends Component {
   });
 
   handleSubmit = async ({ betPerLine, bonusTemplateUUID: { uuid: bonusTemplateUUID }, ...data }) => {
-    const { addFreeSpinTemplate, onSave, onCloseModal, reset, notify } = this.props;
-    const variables = { ...data, bonusTemplateUUID };
+    const { addFreeSpinTemplate, onSave, onCloseModal, reset, notify, games } = this.props;
+    const internalGameId = (
+      get(games, 'games.content', [])
+        .find(({ gameId }) => gameId === data.gameId) || {}
+    ).internalGameId;
+    const variables = { ...data, bonusTemplateUUID, internalGameId };
     const response = await addFreeSpinTemplate({ variables });
     const { error, fields_errors } = get(response, 'data.freeSpinTemplate.add.error') || {};
 

@@ -117,6 +117,7 @@ const freeSpinTemplateQuery = gql`query freeSpinTemplate($uuid: String!, $aggreg
       uuid
       gameId
       providerId
+      internalGameId
       freeSpinLifeTime
       coinSize
       linesPerSpin
