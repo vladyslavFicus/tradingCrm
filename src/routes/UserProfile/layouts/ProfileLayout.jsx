@@ -240,11 +240,13 @@ class ProfileLayout extends Component {
       notes,
       fetchFiles,
       params,
+      locks,
     } = this.props;
 
     if (!profile.isLoading) {
       await playerProfile.refetch();
       await notes.refetch();
+      await locks.refetch();
       await fetchFiles(params.id);
 
       if (needForceUpdate &&
