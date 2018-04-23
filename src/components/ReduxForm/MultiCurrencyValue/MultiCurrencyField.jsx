@@ -4,7 +4,7 @@ import { Field } from 'redux-form';
 import { InputField } from '../../../components/ReduxForm';
 import { floatNormalize } from '../../../utils/inputNormalize';
 
-const MultiCurrencyField = ({ label, name, ...rest }) => (
+const MultiCurrencyField = ({ label, name, id, ...rest }) => (
   <div>
     <Field
       name={`${name}.amount`}
@@ -12,9 +12,9 @@ const MultiCurrencyField = ({ label, name, ...rest }) => (
       type="number"
       normalize={floatNormalize}
       component={InputField}
-      inputClassName="form-control disable-number-arrows"
       placeholder="0.0"
       position="vertical"
+      id={id}
       {...rest}
     />
     <Field
@@ -31,6 +31,7 @@ MultiCurrencyField.propTypes = {
   onChange: PropTypes.func,
   onIconClick: PropTypes.func,
   iconRightClassName: PropTypes.string,
+  id: PropTypes.string,
 };
 
 MultiCurrencyField.defaultProps = {
@@ -38,6 +39,7 @@ MultiCurrencyField.defaultProps = {
   onIconClick: null,
   onChange: null,
   iconRightClassName: '',
+  id: null,
 };
 
 export default MultiCurrencyField;

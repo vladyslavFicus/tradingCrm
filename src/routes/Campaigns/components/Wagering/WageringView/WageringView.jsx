@@ -10,10 +10,6 @@ class WageringView extends PureComponent {
     disabled: PropTypes.bool.isRequired,
   };
 
-  static defaultProps = {
-    uuid: null,
-  };
-
   render() {
     const {
       name,
@@ -22,11 +18,12 @@ class WageringView extends PureComponent {
 
     return (
       <div className="row">
-        <div className="col-6 form-group">
+        <div className="col-7">
           <MultiCurrencyValue
             label={I18n.t(attributeLabels.amountToWager)}
             baseName={`${name}.amounts`}
             disabled={disabled}
+            id="qa-new-campaign-wagering-select"
           />
         </div>
       </div>
