@@ -19,8 +19,24 @@ export default compose(
   }),
   graphql(activateMutation, {
     name: 'activateMutation',
+    options: ({ params: { id: campaignUUID } }) => ({
+      refetchQueries: [{
+        query: campaignQuery,
+        variables: {
+          campaignUUID,
+        },
+      }],
+    }),
   }),
   graphql(cancelMutation, {
     name: 'cancelMutation',
+    options: ({ params: { id: campaignUUID } }) => ({
+      refetchQueries: [{
+        query: campaignQuery,
+        variables: {
+          campaignUUID,
+        },
+      }],
+    }),
   })
 )(CampaignView);
