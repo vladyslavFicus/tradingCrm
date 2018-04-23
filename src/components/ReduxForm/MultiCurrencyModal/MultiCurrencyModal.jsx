@@ -90,71 +90,75 @@ class MultiCurrencyModal extends PureComponent {
       <Modal toggle={onCloseModal} isOpen={isOpen} className="currency-calc-modal">
         <ModalHeader toggle={onCloseModal}>
           <i className="nas nas-currencies_icon" />
-          <span className="currency-calc-modal-header">{I18n.t(attributeLabels.title)}</span>
+          <span className="currency-calc-modal__title">{I18n.t(attributeLabels.title)}</span>
         </ModalHeader>
-        <form onSubmit={handleSubmit(this.handleSubmit)}>
-          <ModalBody>
-            <div className="currency-calc-modal__input">
-              <div className="currency-calc-modal__input-label">
-                {label}
-              </div>
-              <div className="currency-calc-modal__input-wrapper">
-                <If condition={baseCurrency}>
-                  <div className="currency-calc-modal__input-currency">
-                    {baseCurrency}
-                  </div>
-                  <div className="currency-calc-modal__input-input">
-                    <MultiCurrencyField
-                      name={'amounts[0]'}
-                      disabled={loading}
-                      currency={baseCurrency}
-                      onChange={this.handleChangeBase}
-                    />
-                  </div>
-                </If>
-              </div>
+        <ModalBody tag="form" onSubmit={handleSubmit(this.handleSubmit)} id="currency-calc-modal-form">
+          <div className="currency-calc-modal__input-wrapper">
+            <div className="currency-calc-modal__input-label">
+              {label}
             </div>
-            <div className="currency-calc-modal__output">
-              <table className="table table-responsive">
-                <thead>
-                  <tr>
-                    <th className="currency-calc-modal__output-header">{I18n.t('COMMON.CURRENCY')}</th>
-                    <th className="currency-calc-modal__output-header">{I18n.t(attributeLabels.rate)}</th>
-                    <th className="currency-calc-modal__output-header">{I18n.t(attributeLabels.calculated)}</th>
-                    <th className="currency-calc-modal__output-header">{I18n.t(attributeLabels.customized)}</th>
+            <If condition={baseCurrency}>
+              <div className="row no-gutters">
+                <div className="col-auto currency-calc-modal__input-currency">
+                  {baseCurrency}
+                </div>
+                <div className="col-4 px-3">
+                  <MultiCurrencyField
+                    name={'amounts[0]'}
+                    disabled={loading}
+                    currency={baseCurrency}
+                    onChange={this.handleChangeBase}
+                    className="mb-0"
+                  />
+                </div>
+              </div>
+            </If>
+          </div>
+          <div className="currency-calc-modal__output-wrapper">
+            <table className="table table-responsive">
+              <thead>
+                <tr>
+                  <th>{I18n.t('COMMON.CURRENCY')}</th>
+                  <th>{I18n.t(attributeLabels.rate)}</th>
+                  <th>{I18n.t(attributeLabels.calculated)}</th>
+                  <th>{I18n.t(attributeLabels.customized)}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {secondaryCurrencies.map(({ currency, amount }, index) => (
+                  <tr key={currency}>
+                    <td>{currency}</td>
+                    <td>{amount}</td>
+                    <td>{(amount * baseCurrencyValue).toFixed(2)}</td>
+                    <td>
+                      <MultiCurrencyField
+                        name={`amounts[${index + 1}]`}
+                        currency={currency}
+                        className="mb-0"
+                      />
+                    </td>
                   </tr>
-                </thead>
-                <tbody>
-                  {
-                    secondaryCurrencies.map(({ currency, amount }, index) => (
-                      <tr key={currency}>
-                        <td className="currency-calc-modal__output-content"><b>{currency}</b></td>
-                        <td className="currency-calc-modal__output-content">{amount}</td>
-                        <td className="currency-calc-modal__output-content">
-                          {(amount * baseCurrencyValue).toFixed(2)}
-                        </td>
-                        <td>
-                          <MultiCurrencyField
-                            name={`amounts[${index + 1}]`}
-                            currency={currency}
-                          />
-                        </td>
-                      </tr>
-                    ))
-                  }
-                </tbody>
-              </table>
-            </div>
-          </ModalBody>
-          <ModalFooter>
-            <button className="btn btn-default-outline margin-right-10" onClick={onCloseModal}>
-              {I18n.t('COMMON.BUTTONS.CANCEL')}
-            </button>
-            <button className="btn btn-primary" type="submit">
-              {I18n.t('COMMON.BUTTONS.CONFIRM')}
-            </button>
-          </ModalFooter>
-        </form>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </ModalBody>
+        <ModalFooter>
+          <button
+            type="button"
+            className="btn btn-default-outline"
+            onClick={onCloseModal}
+          >
+            {I18n.t('COMMON.BUTTONS.CANCEL')}
+          </button>
+          <button
+            type="submit"
+            className="btn btn-primary"
+            form="currency-calc-modal-form"
+          >
+            {I18n.t('COMMON.BUTTONS.CONFIRM')}
+          </button>
+        </ModalFooter>
       </Modal>
     );
   }

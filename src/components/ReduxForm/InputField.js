@@ -36,7 +36,7 @@ class InputField extends Component {
     onIconClick: PropTypes.func,
   };
   static defaultProps = {
-    className: 'form-group',
+    className: null,
     label: null,
     labelAddon: null,
     inputClassName: 'form-control',
@@ -66,7 +66,7 @@ class InputField extends Component {
     } = props;
 
     return (
-      <div className={classNames(`${className} row`, { 'has-danger': touched && error })}>
+      <div className={classNames('form-group row', { className }, { 'has-danger': touched && error })}>
         <FieldLabel
           label={label}
           labelClassName={labelClassName}
@@ -99,7 +99,7 @@ class InputField extends Component {
     } = props;
 
     return (
-      <div className={classNames(className, { 'has-danger': touched && error })}>
+      <div className={classNames('form-group', className, { 'has-danger': touched && error })}>
         <FieldLabel
           label={label}
           labelClassName={labelClassName}
