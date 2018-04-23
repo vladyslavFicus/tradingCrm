@@ -36,6 +36,7 @@ export default (values, {
     name: ['string', 'required'],
     providerId: ['string', 'required'],
     gameId: ['string', 'required'],
+    internalGameId: ['string'],
     aggregatorId: ['string', 'required'],
   }, translateLabels(attributeLabels), false)(values);
 };
