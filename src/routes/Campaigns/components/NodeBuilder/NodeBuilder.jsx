@@ -87,7 +87,7 @@ class NodeBuilder extends PureComponent {
           </div>
         </For>
         <If condition={!disabled && types.length}>
-          <div className="row no-gutters py-5 campaign-node-setting">
+          <div className="form-row py-5 justify-content-center">
             <div className="col-5">
               <SelectField
                 position="vertical"
@@ -96,6 +96,7 @@ class NodeBuilder extends PureComponent {
                   onChange: this.handleSelectNode,
                 }}
                 component={SelectField}
+                id={`qa-new-campaign-${name}-select`}
               >
                 <option value="">{I18n.t(nodeSelectLabel)}</option>
                 {
@@ -110,8 +111,8 @@ class NodeBuilder extends PureComponent {
             <div className="col-auto">
               <button
                 type="button"
-                className="btn"
-                id="add-rewards"
+                className="btn btn-default-outline"
+                id={`qa-new-campaign-${name}-add-btn`}
                 disabled={!type}
                 onClick={this.handleAddNode}
               >

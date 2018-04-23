@@ -27,6 +27,7 @@ class MultiCurrencyValue extends Component {
       }),
     }),
     formValues: PropTypes.object,
+    id: PropTypes.string,
   };
 
   static defaultProps = {
@@ -38,6 +39,7 @@ class MultiCurrencyValue extends Component {
     baseName: 'amounts',
     label: 'Amount',
     optionCurrencies: { options: {}, loading: true },
+    id: null,
   };
 
   static contextTypes = {
@@ -124,6 +126,7 @@ class MultiCurrencyValue extends Component {
       },
       disabled,
       showErrorMessage,
+      id,
     } = this.props;
 
     return (
@@ -136,6 +139,7 @@ class MultiCurrencyValue extends Component {
         onChange={this.handleChangeBaseCurrencyAmount}
         iconRightClassName="nas nas-currencies_icon"
         onIconClick={this.handleOpenModal}
+        id={id}
       />
     );
   }
