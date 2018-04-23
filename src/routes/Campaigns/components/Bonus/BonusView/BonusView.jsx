@@ -67,6 +67,12 @@ class BonusView extends PureComponent {
       bonusTemplate,
     } = this.props;
 
+    const error = get(bonusTemplate, 'bonusTemplate.error.error');
+
+    if (error) {
+      return <span>{error}</span>;
+    }
+
     const bonusTemplates = shortBonusTemplates || [];
     const template = get(bonusTemplate, 'bonusTemplate.data', {});
     const loading = get(bonusTemplate, 'loading', true);
