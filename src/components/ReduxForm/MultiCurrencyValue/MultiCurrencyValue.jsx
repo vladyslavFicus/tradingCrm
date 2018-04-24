@@ -102,10 +102,12 @@ class MultiCurrencyValue extends Component {
     const {
       modals,
       label,
+      optionCurrencies: { options },
     } = this.props;
-    const currencies = this.currencies;
+    const formCurrencies = this.currencies;
+    const allCurrencies = get(options, 'signUp.post.currency.list', []);
 
-    if (currencies.length <= 1) {
+    if (formCurrencies.length !== allCurrencies.length) {
       this.handleChangeBaseCurrencyAmount();
     }
 
