@@ -213,7 +213,7 @@ class View extends Component {
     return action;
   };
 
-  handleCreateManualBonusClick = async () => {
+  handleCreateManualBonusClick = () => {
     const {
       modals,
       fetchBonusTemplates,

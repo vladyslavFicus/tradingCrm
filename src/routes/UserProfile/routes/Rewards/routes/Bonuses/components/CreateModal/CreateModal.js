@@ -344,7 +344,6 @@ class CreateModal extends Component {
                 id={`${formName}-prize`}
                 name="prize"
                 disabled={!customTemplate}
-                showErrorMessage={false}
                 placeholder="0"
                 component={InputField}
                 label={this.renderCappingPrizeLabel(attributeLabels.prize)}
@@ -358,7 +357,6 @@ class CreateModal extends Component {
                 id={`${formName}-capping`}
                 name="capping"
                 disabled={!customTemplate}
-                showErrorMessage={false}
                 placeholder="0"
                 component={InputField}
                 label={this.renderCappingPrizeLabel(attributeLabels.capping)}
