@@ -66,7 +66,7 @@ class NodeBuilder extends PureComponent {
                 {I18n.t(typeLabels[field.type])}
               </div>
               <If condition={!disabled}>
-                <div className="col-auto text-right">
+                <div className="col-auto">
                   <button
                     type="button"
                     onClick={() => this.handleRemoveNode(index)}
@@ -96,7 +96,7 @@ class NodeBuilder extends PureComponent {
                   onChange: this.handleSelectNode,
                 }}
                 component={SelectField}
-                id={`qa-new-campaign-${name}-select`}
+                id={`${name}-select`}
               >
                 <option value="">{I18n.t(nodeSelectLabel)}</option>
                 {
@@ -112,7 +112,7 @@ class NodeBuilder extends PureComponent {
               <button
                 type="button"
                 className="btn btn-default-outline"
-                id={`qa-new-campaign-${name}-add-btn`}
+                id={`${name}-add-btn`}
                 disabled={!type}
                 onClick={this.handleAddNode}
               >

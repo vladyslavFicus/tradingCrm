@@ -5,7 +5,7 @@ import { InputField } from '../../../components/ReduxForm';
 import { floatNormalize } from '../../../utils/inputNormalize';
 
 const MultiCurrencyField = ({ label, name, id, className, ...rest }) => (
-  <div>
+  <div className={className}>
     <Field
       name={`${name}.amount`}
       label={label}
@@ -15,7 +15,6 @@ const MultiCurrencyField = ({ label, name, id, className, ...rest }) => (
       placeholder="0.0"
       position="vertical"
       id={id}
-      className={className}
       {...rest}
     />
     <Field

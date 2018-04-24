@@ -20,14 +20,12 @@
 }
 
 .campaign-node {
-  position: relative;
   margin-bottom: 20px;
   padding-top: 10px;
   padding-bottom: 10px;
   border: 1px solid #ccc;
   border-radius: 3px;
   background-color: #f2f2f2;
-  color: #333;
   input[type="checkbox"] {
     margin-right: 2px;
     vertical-align: middle;
@@ -35,7 +33,6 @@
   &-label {
     font-size: 16px;
     font-weight: 700;
-    color: #333;
   }
   &-remove {
     padding: 0;

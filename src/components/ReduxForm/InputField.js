@@ -66,7 +66,7 @@ class InputField extends Component {
     } = props;
 
     return (
-      <div className={classNames('form-group row', { className }, { 'has-danger': touched && error })}>
+      <div className={classNames('form-group row', className, { 'has-danger': touched && error })}>
         <FieldLabel
           label={label}
           labelClassName={labelClassName}
