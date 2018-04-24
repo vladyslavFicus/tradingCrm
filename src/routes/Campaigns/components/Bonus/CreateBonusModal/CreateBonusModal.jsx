@@ -115,6 +115,13 @@ class CreateBonusModal extends PureComponent {
     }
   };
 
+  renderCappingPrizeLabel = label => (
+    <div>
+      {I18n.t(label)}{' '}
+      <span className="label-additional">{I18n.t('COMMON.OPTIONAL')}</span>
+    </div>
+  );
+
   render() {
     const {
       handleSubmit,
@@ -168,12 +175,7 @@ class CreateBonusModal extends PureComponent {
                   showErrorMessage={false}
                   placeholder="0"
                   component={InputField}
-                  label={
-                    <div>
-                      {I18n.t('CAMPAIGNS.SETTINGS.REWARDS.BONUS.LABEL.MIN_PRIZE')}{' '}
-                      <span className="label-additional">{I18n.t('COMMON.OPTIONAL')}</span>
-                    </div>
-                  }
+                  label={this.renderCappingPrizeLabel(attributeLabels.prize)}
                   type="text"
                   position="vertical"
                   className="col-md-4"
@@ -184,12 +186,7 @@ class CreateBonusModal extends PureComponent {
                   showErrorMessage={false}
                   placeholder="0"
                   component={InputField}
-                  label={
-                    <div>
-                      {I18n.t('CAMPAIGNS.SETTINGS.REWARDS.BONUS.LABEL.CAPPING')}{' '}
-                      <span className="label-additional">{I18n.t('COMMON.OPTIONAL')}</span>
-                    </div>
-                  }
+                  label={this.renderCappingPrizeLabel(attributeLabels.capping)}
                   type="text"
                   position="vertical"
                   className="col-md-4"
@@ -199,12 +196,7 @@ class CreateBonusModal extends PureComponent {
               <Otherwise>
                 <MultiCurrencyValue
                   baseName="prize.absolute"
-                  label={
-                    <div>
-                      {I18n.t('CAMPAIGNS.SETTINGS.REWARDS.BONUS.LABEL.MIN_PRIZE')}{' '}
-                      <span className="label-additional">{I18n.t('COMMON.OPTIONAL')}</span>
-                    </div>
-                  }
+                  label={this.renderCappingPrizeLabel(attributeLabels.prize)}
                   showErrorMessage={false}
                   placeholder="0.0"
                   className="col-md-4"
@@ -212,12 +204,7 @@ class CreateBonusModal extends PureComponent {
                 />
                 <MultiCurrencyValue
                   baseName="capping.absolute"
-                  label={
-                    <div>
-                      {I18n.t('CAMPAIGNS.SETTINGS.REWARDS.BONUS.LABEL.CAPPING')}{' '}
-                      <span className="label-additional">{I18n.t('COMMON.OPTIONAL')}</span>
-                    </div>
-                  }
+                  label={this.renderCappingPrizeLabel(attributeLabels.capping)}
                   showErrorMessage={false}
                   placeholder="0.0"
                   className="col-md-4"
