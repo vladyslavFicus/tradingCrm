@@ -23,7 +23,7 @@ class WageringView extends PureComponent {
             label={I18n.t(attributeLabels.amountToWager)}
             baseName={`${name}.amounts`}
             disabled={disabled}
-            id="qa-new-campaign-wagering-select"
+            id="campaign-wagering-select"
           />
         </div>
       </div>

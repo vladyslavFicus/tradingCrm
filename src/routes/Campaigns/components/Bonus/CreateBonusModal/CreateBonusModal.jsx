@@ -140,7 +140,7 @@ class CreateBonusModal extends PureComponent {
               component={InputField}
               position="vertical"
               className="col-md-8"
-              id="qa-new-campaign-create-bonus-modal-name"
+              id="campaign-create-bonus-modal-name"
             />
           </div>
           <div className="row">
@@ -151,7 +151,7 @@ class CreateBonusModal extends PureComponent {
               component={SelectField}
               position="vertical"
               className="col-md-4"
-              id="qa-new-campaign-create-bonus-modal-prize-caping-type"
+              id="campaign-create-bonus-modal-prize-caping-type"
             >
               {Object.keys(customValueFieldTypes).map(key =>
                 (
@@ -177,7 +177,7 @@ class CreateBonusModal extends PureComponent {
                   type="text"
                   position="vertical"
                   className="col-md-4"
-                  id="qa-new-campaign-create-bonus-modal-min-prize-percentage"
+                  id="campaign-create-bonus-modal-min-prize-percentage"
                 />
                 <Field
                   name="capping.percentage"
@@ -193,7 +193,7 @@ class CreateBonusModal extends PureComponent {
                   type="text"
                   position="vertical"
                   className="col-md-4"
-                  id="qa-new-campaign-create-bonus-modal-capping-percentage"
+                  id="campaign-create-bonus-modal-capping-percentage"
                 />
               </When>
               <Otherwise>
@@ -208,7 +208,7 @@ class CreateBonusModal extends PureComponent {
                   showErrorMessage={false}
                   placeholder="0.0"
                   className="col-md-4"
-                  id="qa-new-campaign-create-bonus-modal-min-prize-absolute"
+                  id="campaign-create-bonus-modal-min-prize-absolute"
                 />
                 <MultiCurrencyValue
                   baseName="capping.absolute"
@@ -221,7 +221,7 @@ class CreateBonusModal extends PureComponent {
                   showErrorMessage={false}
                   placeholder="0.0"
                   className="col-md-4"
-                  id="qa-new-campaign-create-bonus-modal-capping-absolute"
+                  id="campaign-create-bonus-modal-capping-absolute"
                 />
               </Otherwise>
             </Choose>
@@ -233,14 +233,14 @@ class CreateBonusModal extends PureComponent {
               name="grantRatio"
               label={I18n.t(attributeLabels.grant)}
               className="col-md-7"
-              id="qa-new-campaign-create-bonus-modal-grant-ratio"
+              id="campaign-create-bonus-modal-grant-ratio"
             />
             <If condition={grantRatioType === customValueFieldTypes.PERCENTAGE}>
               <MultiCurrencyValue
                 label={I18n.t(attributeLabels.maxGrantAmount)}
                 baseName="maxGrantAmount"
                 className="col-md-5"
-                id="qa-new-campaign-create-bonus-modal-max-granted-amount"
+                id="campaign-create-bonus-modal-max-granted-amount"
               />
             </If>
           </div>
@@ -250,7 +250,7 @@ class CreateBonusModal extends PureComponent {
               name="wageringRequirement"
               label={I18n.t(attributeLabels.wageringRequirement)}
               className="col-md-7"
-              id="qa-new-campaign-create-bonus-modal-wagering"
+              id="campaign-create-bonus-modal-wagering"
             >
               {Object.keys(wageringRequirementTypes).map(key =>
                 <option key={key} value={key}>{key}</option>
@@ -265,7 +265,7 @@ class CreateBonusModal extends PureComponent {
               component={SelectField}
               position="vertical"
               className="col-md-7"
-              id="qa-new-campaign-create-bonus-modal-lock-amount-strategy"
+              id="campaign-create-bonus-modal-lock-amount-strategy"
             >
               <option value="">{I18n.t('COMMON.SELECT_OPTION.DEFAULT')}</option>
               {Object.keys(lockAmountStrategy).map(key => (
@@ -284,7 +284,7 @@ class CreateBonusModal extends PureComponent {
               component={InputField}
               position="vertical"
               className="col-md-4"
-              id="qa-new-campaign-create-bonus-modal-wager-win-multiplier"
+              id="campaign-create-bonus-modal-wager-win-multiplier"
             />
             <Field
               name="moneyTypePriority"
@@ -293,7 +293,7 @@ class CreateBonusModal extends PureComponent {
               component={SelectField}
               position="vertical"
               className="col-md-5"
-              id="qa-new-campaign-create-bonus-modal-money-type-priority"
+              id="campaign-create-bonus-modal-money-type-priority"
             >
               <option value="">{I18n.t('COMMON.SELECT_OPTION.DEFAULT')}</option>
               {Object.keys(moneyTypeUsage).map(key => (
@@ -308,7 +308,7 @@ class CreateBonusModal extends PureComponent {
               baseName="maxBet"
               label={I18n.t(attributeLabels.maxBet)}
               className="col-md-4"
-              id="qa-new-campaign-create-bonus-modal-max-bet"
+              id="campaign-create-bonus-modal-max-bet"
             />
             <div className="col-md-4 form-row_with-placeholder-right">
               <Field
@@ -318,7 +318,7 @@ class CreateBonusModal extends PureComponent {
                 label={I18n.t(attributeLabels.lifeTime)}
                 component={InputField}
                 position="vertical"
-                id="qa-new-campaign-create-bonus-modal-bonus-life-time"
+                id="campaign-create-bonus-modal-bonus-life-time"
               />
               <span className="right-placeholder">{I18n.t(attributePlaceholders.days)}</span>
             </div>
@@ -328,7 +328,7 @@ class CreateBonusModal extends PureComponent {
               name="claimable"
               type="checkbox"
               component="input"
-              id="qa-new-campaign-create-bonus-modal-claimable-checkbox"
+              id="campaign-create-bonus-modal-claimable-checkbox"
             /> {I18n.t('COMMON.CLAIMABLE')}
           </div>
         </ModalBody>

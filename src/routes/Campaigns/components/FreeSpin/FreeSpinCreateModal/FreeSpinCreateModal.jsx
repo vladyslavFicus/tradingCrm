@@ -289,7 +289,7 @@ class FreeSpinCreateModal extends Component {
             name={'name'}
             type="text"
             placeholder=""
-            id="qa-new-campaign-freespin-create-modal-name"
+            id="campaign-freespin-create-modal-name"
             label={I18n.t('CAMPAIGNS.FREE_SPIN.NAME')}
             component={InputField}
             position="vertical"
@@ -303,7 +303,7 @@ class FreeSpinCreateModal extends Component {
               component={SelectField}
               showErrorMessage={false}
               className="col-md-4"
-              id="qa-new-campaign-freespin-create-modal-aggregator-id"
+              id="campaign-freespin-create-modal-aggregator-id"
             >
               <option value="">{I18n.t('CAMPAIGNS.FREE_SPIN.CHOOSE_AGGREGATOR')}</option>
               {Object.keys(aggregatorOptions).map(item => (
@@ -321,7 +321,7 @@ class FreeSpinCreateModal extends Component {
               showErrorMessage={false}
               onChange={this.handleChangeProvider}
               className="col-md-4"
-              id="qa-new-campaign-freespin-create-modal-provider-id"
+              id="campaign-freespin-create-modal-provider-id"
             >
               <option value="">{I18n.t('CAMPAIGNS.FREE_SPIN.CHOOSE_PROVIDER')}</option>
               {providers.map(item => (
@@ -337,7 +337,7 @@ class FreeSpinCreateModal extends Component {
               position="vertical"
               component={SelectField}
               className="col-md-4"
-              id="qa-new-campaign-freespin-create-modal-game-id"
+              id="campaign-freespin-create-modal-game-id"
             >
               <option value="">{I18n.t('PLAYER_PROFILE.FREE_SPIN.MODAL_CREATE.CHOOSE_GAME')}</option>
               {gameList.map(item => (
@@ -361,7 +361,7 @@ class FreeSpinCreateModal extends Component {
                     position="vertical"
                     showErrorMessage={false}
                     className="col-md-6"
-                    id="qa-new-campaign-freespin-create-modal-freespins-amount"
+                    id="campaign-freespin-create-modal-freespins-amount"
                   />
                   <div className="form-row_with-placeholder-right col-md-6">
                     <Field
@@ -372,7 +372,7 @@ class FreeSpinCreateModal extends Component {
                       label={I18n.t(attributeLabels.freeSpinLifeTime)}
                       component={InputField}
                       position="vertical"
-                      id="qa-new-campaign-freespin-create-modal-freespin-lifetime"
+                      id="campaign-freespin-create-modal-freespin-lifetime"
                     />
                     <span className="right-placeholder">{I18n.t(attributePlaceholders.days)}</span>
                   </div>
@@ -381,7 +381,7 @@ class FreeSpinCreateModal extends Component {
                       baseName="betPerLineAmounts"
                       label={I18n.t(attributeLabels.betPerLine)}
                       className="col-md-6"
-                      id="qa-new-campaign-freespin-create-modal-bet-perline"
+                      id="campaign-freespin-create-modal-bet-perline"
                     />
                   </If>
                   <If condition={fields.indexOf('linesPerSpin') !== -1}>
@@ -395,7 +395,7 @@ class FreeSpinCreateModal extends Component {
                       showErrorMessage={false}
                       disabled={!lines.length}
                       className="col-md-6"
-                      id="qa-new-campaign-freespin-create-modal-lines-per-spin"
+                      id="campaign-freespin-create-modal-lines-per-spin"
                     >
                       <option value="">
                         {I18n.t('PLAYER_PROFILE.FREE_SPIN.MODAL_CREATE.CHOOSE_LINES_PER_SPIN')}
@@ -424,7 +424,7 @@ class FreeSpinCreateModal extends Component {
                   position="vertical"
                   disabled={betLevels.length <= 1}
                   className="col-md-6"
-                  id="qa-new-campaign-freespin-create-modal-bet-level"
+                  id="campaign-freespin-create-modal-bet-level"
                 >
                   {betLevels.map(item => <option key={item} value={item}>{item}</option>)}
                 </Field>
@@ -439,7 +439,7 @@ class FreeSpinCreateModal extends Component {
                   position="vertical"
                   disabled={coinSizes.length <= 1}
                   className="col-md-6"
-                  id="qa-new-campaign-freespin-create-modal-coin-size"
+                  id="campaign-freespin-create-modal-coin-size"
                 >
                   {coinSizes.map(item => <option key={item} value={item}>{item}</option>)}
                 </Field>
@@ -453,7 +453,7 @@ class FreeSpinCreateModal extends Component {
                   position="vertical"
                   disabled={!pageCodes.length}
                   className="col-md-6"
-                  id="qa-new-campaign-freespin-create-modal-page-code"
+                  id="campaign-freespin-create-modal-page-code"
                 >
                   <option value="">{I18n.t('CAMPAIGNS.FREE_SPIN.CHOOSE_PAGE_CODE')}</option>
                   {pageCodes.map(item => <option key={item.value} value={item.value}>{I18n.t(item.label)}</option>)}
@@ -470,7 +470,7 @@ class FreeSpinCreateModal extends Component {
                   normalize={floatNormalize}
                   showErrorMessage={false}
                   className="col-md-6"
-                  id="qa-new-campaign-freespin-create-modal-bet-multiplier"
+                  id="campaign-freespin-create-modal-bet-multiplier"
                 />
               </If>
               <If condition={fields.indexOf('rhfpBet') !== -1}>
@@ -483,7 +483,7 @@ class FreeSpinCreateModal extends Component {
                   component={InputField}
                   position="vertical"
                   className="col-md-6"
-                  id="qa-new-campaign-freespin-create-modal-rhfp-bet"
+                  id="campaign-freespin-create-modal-rhfp-bet"
                 />
               </If>
               <If condition={fields.indexOf('comment') !== -1}>
@@ -495,7 +495,7 @@ class FreeSpinCreateModal extends Component {
                   component={InputField}
                   position="vertical"
                   className="col-md-6"
-                  id="qa-new-campaign-freespin-create-modal-comment"
+                  id="campaign-freespin-create-modal-comment"
                 />
               </If>
             </div>

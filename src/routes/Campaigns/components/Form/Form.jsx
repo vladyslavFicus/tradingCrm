@@ -183,7 +183,7 @@ class Form extends Component {
                   isValidDate={() => true}
                   position="vertical"
                   disabled={disabled}
-                  id="qa-new-campaign-start-date"
+                  id="campaign-start-date"
                 />
                 <span className="range-group__separator">-</span>
                 <Field
@@ -193,7 +193,7 @@ class Form extends Component {
                   isValidDate={this.endDateValidator('startDate')}
                   position="vertical"
                   disabled={disabled}
-                  id="qa-new-campaign-end-date"
+                  id="campaign-end-date"
                 />
               </div>
             </div>
