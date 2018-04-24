@@ -96,7 +96,7 @@ class NodeBuilder extends PureComponent {
                   onChange: this.handleSelectNode,
                 }}
                 component={SelectField}
-                id={`campaign-${name}-select`}
+                id={`${name}-select`}
               >
                 <option value="">{I18n.t(nodeSelectLabel)}</option>
                 {
@@ -112,7 +112,7 @@ class NodeBuilder extends PureComponent {
               <button
                 type="button"
                 className="btn btn-default-outline"
-                id={`campaign-${name}-add-btn`}
+                id={`${name}-add-btn`}
                 disabled={!type}
                 onClick={this.handleAddNode}
               >
