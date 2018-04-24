@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { get } from 'lodash';
 import MultiCurrencyField from './MultiCurrencyField';
 import { floatNormalize } from '../../../utils/inputNormalize';
+import MultiCurrencyPopover from '../../../components/MultiCurrencyPopover';
 
 class MultiCurrencyValue extends Component {
   static propTypes = {
@@ -42,6 +43,10 @@ class MultiCurrencyValue extends Component {
     optionCurrencies: { options: {}, loading: true },
     id: null,
     className: null,
+  };
+
+  state = {
+    isPopoverOpen: false,
   };
 
   static contextTypes = {
@@ -120,6 +125,18 @@ class MultiCurrencyValue extends Component {
     });
   };
 
+  handleTogglePopover = () => {
+    this.setState({ isPopoverOpen: !this.state.isPopoverOpen });
+  };
+
+  handleOpenPopover = () => {
+    this.setState({ isPopoverOpen: true });
+  };
+
+  handleClosePopover = () => {
+    this.setState({ isPopoverOpen: false });
+  };
+
   render() {
     const {
       baseName,
@@ -130,23 +147,27 @@ class MultiCurrencyValue extends Component {
       },
       disabled,
       showErrorMessage,
-      id,
       className,
     } = this.props;
+    const { isPopoverOpen } = this.state;
+    const targetId = baseName.replace('.', '-').replace('[', '').replace(']', '');
 
     return (
-      <MultiCurrencyField
-        name={`${baseName}[0]`}
-        label={label}
-        showErrorMessage={showErrorMessage}
-        disabled={disabled || loading}
-        currency={baseCurrency}
-        onChange={this.handleChangeBaseCurrencyAmount}
-        iconRightClassName="nas nas-currencies_icon"
-        onIconClick={this.handleOpenModal}
-        id={id}
-        className={className}
-      />
+      <div>
+        <MultiCurrencyField
+          name={`${baseName}[0]`}
+          label={label}
+          showErrorMessage={showErrorMessage}
+          disabled={disabled || loading}
+          currency={baseCurrency}
+          onChange={this.handleChangeBaseCurrencyAmount}
+          iconRightClassName="nas nas-currencies_icon"
+          onIconClick={this.handleOpenModal}
+          id={targetId}
+          className={className}
+        />
+        <MultiCurrencyPopover id={`${targetId}-right-icon`} isOpen toggle={this.handleTogglePopover} />
+      </div>
     );
   }
 }

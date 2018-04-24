@@ -34,6 +34,8 @@ class InputField extends Component {
     labelClassName: PropTypes.string,
     id: PropTypes.string,
     onIconClick: PropTypes.func,
+    onIconRightMouseLeave: PropTypes.func,
+    onIconRightMouseEnter: PropTypes.func,
   };
   static defaultProps = {
     className: null,
@@ -53,6 +55,8 @@ class InputField extends Component {
     labelClassName: null,
     id: null,
     onIconClick: null,
+    onIconRightMouseEnter: null,
+    onIconRightMouseLeave: null,
   };
 
   renderHorizontal = (props) => {
@@ -130,9 +134,11 @@ class InputField extends Component {
       meta: { touched, error },
       placeholder,
       label,
+      id,
       iconLeftClassName,
       iconRightClassName,
-      id,
+      onIconRightMouseLeave,
+      onIconRightMouseEnter,
       onIconClick,
     } = props;
 
@@ -162,7 +168,13 @@ class InputField extends Component {
           {inputField}
           {
             !!iconRightClassName &&
-            <i className={classNames('input-right-icon', iconRightClassName)} onClick={onIconClick} />
+            <i
+              className={classNames('input-right-icon', iconRightClassName)}
+              id={`${id}-right-icon`}
+              onMouseLeave={onIconRightMouseLeave}
+              onMouseEnter={onIconRightMouseEnter}
+              onClick={onIconClick}
+            />
           }
         </div>
       );
