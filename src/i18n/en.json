@@ -311,7 +311,8 @@
           "WAGERING_REQUIREMENT": "Wagering requirement",
           "LIFE_TIME": "Life time",
           "CUSTOM_TEMPLATE": "Custom template",
-          "TEMPLATE": "Template"
+          "TEMPLATE": "Template",
+          "PRIZE_CAPPING_TYPE": "Prize capping type"
         },
         "LOCK_AMOUNT_STRATEGY": {
           "LOCK_ALL": "Lock all",

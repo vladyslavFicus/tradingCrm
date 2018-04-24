@@ -317,7 +317,8 @@
           "WAGERING_REQUIREMENT": "Условия отыгрыша",
           "LIFE_TIME": "Время жизни",
           "CUSTOM_TEMPLATE": "Новый шаблон",
-          "TEMPLATE": "Шаблон"
+          "TEMPLATE": "Шаблон",
+          "PRIZE_CAPPING_TYPE": "Тип цены"
         },
         "LOCK_AMOUNT_STRATEGY": {
           "LOCK_ALL": "Заблокировать все средства",
