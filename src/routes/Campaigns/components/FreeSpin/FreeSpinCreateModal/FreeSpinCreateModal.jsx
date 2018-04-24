@@ -286,7 +286,7 @@ class FreeSpinCreateModal extends Component {
         <ModalHeader toggle={onCloseModal}>{I18n.t('CAMPAIGNS.FREE_SPIN.HEADER')}</ModalHeader>
         <ModalBody tag="form" onSubmit={handleSubmit(this.handleSubmit)} id="free-spin-create-modal-form">
           <Field
-            name={'name'}
+            name="name"
             type="text"
             placeholder=""
             id="campaign-freespin-create-modal-name"
