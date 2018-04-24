@@ -1897,5 +1897,11 @@
     "CALCULATED": "Calculated",
     "RECALC": "Recalculate",
     "RECALC_WARNING": "Recalculation will reset all customized values"
+  },
+  "MULTI_CURRENCY_POPOVER": {
+    "TITLE": "Value in all currencies",
+    "CURRENCY": "Currency",
+    "RATE": "Rate",
+    "VALUE": "Value"
   }
 }
