@@ -282,265 +282,241 @@ class FreeSpinCreateModal extends Component {
       fields.indexOf('betPerLineAmounts') !== -1;
 
     return (
-      <Modal className="create-operator-modal" toggle={onCloseModal} isOpen={isOpen}>
+      <Modal toggle={onCloseModal} isOpen={isOpen}>
         <ModalHeader toggle={onCloseModal}>{I18n.t('CAMPAIGNS.FREE_SPIN.HEADER')}</ModalHeader>
-        <form id="fs-form" onSubmit={handleSubmit(this.handleSubmit)}>
-          <ModalBody>
+        <ModalBody tag="form" onSubmit={handleSubmit(this.handleSubmit)} id="free-spin-create-modal-form">
+          <Field
+            name={'name'}
+            type="text"
+            placeholder=""
+            id="qa-new-campaign-freespin-create-modal-name"
+            label={I18n.t('CAMPAIGNS.FREE_SPIN.NAME')}
+            component={InputField}
+            position="vertical"
+          />
+          <div className="row">
             <Field
-              name={'name'}
-              type="text"
-              id={'freeSpinName'}
-              placeholder=""
-              label={I18n.t('CAMPAIGNS.FREE_SPIN.NAME')}
-              component={InputField}
+              name="aggregatorId"
+              disabled={!Object.keys(aggregatorOptions).length}
+              label={I18n.t(attributeLabels.aggregatorId)}
               position="vertical"
-            />
+              component={SelectField}
+              showErrorMessage={false}
+              className="col-md-4"
+              id="qa-new-campaign-freespin-create-modal-aggregator-id"
+            >
+              <option value="">{I18n.t('CAMPAIGNS.FREE_SPIN.CHOOSE_AGGREGATOR')}</option>
+              {Object.keys(aggregatorOptions).map(item => (
+                <option key={item} value={item}>
+                  {item}
+                </option>
+              ))}
+            </Field>
+            <Field
+              name="providerId"
+              label={I18n.t(attributeLabels.providerId)}
+              position="vertical"
+              disabled={!providers.length}
+              component={SelectField}
+              showErrorMessage={false}
+              onChange={this.handleChangeProvider}
+              className="col-md-4"
+              id="qa-new-campaign-freespin-create-modal-provider-id"
+            >
+              <option value="">{I18n.t('CAMPAIGNS.FREE_SPIN.CHOOSE_PROVIDER')}</option>
+              {providers.map(item => (
+                <option key={item} value={item}>
+                  {item}
+                </option>
+              ))}
+            </Field>
+            <Field
+              name="gameId"
+              label={I18n.t(attributeLabels.gameId)}
+              disabled={!gameList.length}
+              position="vertical"
+              component={SelectField}
+              className="col-md-4"
+              id="qa-new-campaign-freespin-create-modal-game-id"
+            >
+              <option value="">{I18n.t('PLAYER_PROFILE.FREE_SPIN.MODAL_CREATE.CHOOSE_GAME')}</option>
+              {gameList.map(item => (
+                <option key={item.internalGameId} value={item.gameId}>
+                  {`${item.fullGameName} (${item.gameId})`}
+                </option>
+              ))}
+            </Field>
+          </div>
+          <If condition={fields}>
             <div className="row">
-              <div className="col-4">
-                <Field
-                  name="aggregatorId"
-                  id="aggregatorId"
-                  disabled={!Object.keys(aggregatorOptions).length}
-                  label={I18n.t(attributeLabels.aggregatorId)}
-                  position="vertical"
-                  component={SelectField}
-                  showErrorMessage={false}
-                >
-                  <option value="">{I18n.t('CAMPAIGNS.FREE_SPIN.CHOOSE_AGGREGATOR')}</option>
-                  {Object.keys(aggregatorOptions).map(item => (
-                    <option key={item} value={item}>
-                      {item}
-                    </option>
-                  ))}
-                </Field>
-              </div>
-              <div className="col-4">
-                <Field
-                  name="providerId"
-                  id="providerId"
-                  label={I18n.t(attributeLabels.providerId)}
-                  position="vertical"
-                  disabled={!providers.length}
-                  component={SelectField}
-                  showErrorMessage={false}
-                  onChange={this.handleChangeProvider}
-                >
-                  <option value="">{I18n.t('CAMPAIGNS.FREE_SPIN.CHOOSE_PROVIDER')}</option>
-                  {providers.map(item => (
-                    <option key={item} value={item}>
-                      {item}
-                    </option>
-                  ))}
-                </Field>
-              </div>
-              <div className="col-4">
-                <Field
-                  name="gameId"
-                  label={I18n.t(attributeLabels.gameId)}
-                  id="gameId"
-                  disabled={!gameList.length}
-                  position="vertical"
-                  component={SelectField}
-                >
-                  <option value="">{I18n.t('PLAYER_PROFILE.FREE_SPIN.MODAL_CREATE.CHOOSE_GAME')}</option>
-                  {gameList.map(item => (
-                    <option key={item.internalGameId} value={item.gameId}>
-                      {`${item.fullGameName} (${item.gameId})`}
-                    </option>
-                  ))}
-                </Field>
-              </div>
-            </div>
-            <If condition={fields}>
-              <div className="row">
-                <div className={classNames({ 'col-12': !showPriceWidget, 'col-7': showPriceWidget })}>
-                  <div className="row">
-                    <div className="col-6">
-                      <Field
-                        name="freeSpinsAmount"
-                        type="number"
-                        id="freeSpinsAmount"
-                        placeholder="0"
-                        label={I18n.t(attributeLabels.freeSpins)}
-                        component={InputField}
-                        normalize={floatNormalize}
-                        position="vertical"
-                        showErrorMessage={false}
-                      />
-                    </div>
-                    <div className="form-row_with-placeholder-right col-6">
-                      <Field
-                        name="freeSpinLifeTime"
-                        id="freeSpinLifeTime"
-                        type="text"
-                        placeholder="0"
-                        normalize={intNormalize}
-                        label={I18n.t(attributeLabels.freeSpinLifeTime)}
-                        component={InputField}
-                        position="vertical"
-                      />
-                      <span className="right-placeholder">{I18n.t(attributePlaceholders.days)}</span>
-                    </div>
-                  </div>
-                  <div className="row">
-                    <If condition={fields.indexOf('betPerLineAmounts') !== -1}>
-                      <div className="col-6">
-                        <MultiCurrencyValue
-                          baseName="betPerLineAmounts"
-                          label={I18n.t(attributeLabels.betPerLine)}
-                        />
-                      </div>
-                    </If>
-                    <If condition={fields.indexOf('linesPerSpin') !== -1}>
-                      <div className="col-6">
-                        <Field
-                          name="linesPerSpin"
-                          id="linesPerSpin"
-                          type="number"
-                          label={I18n.t(attributeLabels.linesPerSpin)}
-                          labelClassName="form-label"
-                          position="vertical"
-                          component={SelectField}
-                          normalize={floatNormalize}
-                          showErrorMessage={false}
-                          disabled={!lines.length}
-                        >
-                          <option value="">
-                            {I18n.t('PLAYER_PROFILE.FREE_SPIN.MODAL_CREATE.CHOOSE_LINES_PER_SPIN')}
-                          </option>
-                          {lines.map(item => (
-                            <option key={item} value={item}>
-                              {item}
-                            </option>
-                          ))}
-                        </Field>
-                      </div>
-                    </If>
-                  </div>
-                </div>
-                <If condition={showPriceWidget}>
-                  <div className="col-5">
-                    {this.renderPrice()}
-                  </div>
-                </If>
-                <If condition={fields.indexOf('betLevel') !== -1}>
-                  <div className="col-6">
+              <div className={classNames({ 'col-12': !showPriceWidget, 'col-7': showPriceWidget })}>
+                <div className="row">
+                  <Field
+                    name="freeSpinsAmount"
+                    type="number"
+                    placeholder="0"
+                    label={I18n.t(attributeLabels.freeSpins)}
+                    component={InputField}
+                    normalize={floatNormalize}
+                    position="vertical"
+                    showErrorMessage={false}
+                    className="col-md-6"
+                    id="qa-new-campaign-freespin-create-modal-freespins-amount"
+                  />
+                  <div className="form-row_with-placeholder-right col-md-6">
                     <Field
-                      name="betLevel"
-                      id="betLevel"
-                      label={I18n.t(attributeLabels.betLevel)}
-                      type="select"
-                      parse={normalizeNumber}
-                      component={SelectField}
-                      position="vertical"
-                      disabled={betLevels.length <= 1}
-                    >
-                      {betLevels
-                        .map(item => <option key={item} value={item}>{item}</option>)}
-                    </Field>
-                  </div>
-                </If>
-                <If condition={fields.indexOf('coinSize') !== -1}>
-                  <div className="col-6">
-                    <Field
-                      name="coinSize"
-                      id="coinSize"
-                      label={I18n.t(attributeLabels.coinSize)}
-                      type="select"
-                      parse={normalizeNumber}
-                      component={SelectField}
-                      position="vertical"
-                      disabled={coinSizes.length <= 1}
-                    >
-                      {coinSizes
-                        .map(item => <option key={item} value={item}>{item}</option>)}
-                    </Field>
-                  </div>
-                </If>
-                <If condition={fields.indexOf('pageCode') !== -1}>
-                  <div className="col-6">
-                    <Field
-                      name="pageCode"
-                      id="pageCode"
-                      label={I18n.t(attributeLabels.pageCode)}
-                      type="select"
-                      component={SelectField}
-                      position="vertical"
-                      disabled={!pageCodes.length}
-                    >
-                      <option value="">{I18n.t('CAMPAIGNS.FREE_SPIN.CHOOSE_PAGE_CODE')}</option>
-                      {pageCodes.map(item => <option key={item.value} value={item.value}>{I18n.t(item.label)}</option>)}
-                    </Field>
-                  </div>
-                </If>
-                <If condition={fields.indexOf('betMultiplier') !== -1}>
-                  <div className="col-6">
-                    <Field
-                      name="betMultiplier"
-                      type="number"
-                      id="betMultiplier"
-                      step="any"
-                      label={I18n.t(attributeLabels.betMultiplier)}
-                      labelClassName="form-label"
-                      position="vertical"
-                      component={InputField}
-                      normalize={floatNormalize}
-                      showErrorMessage={false}
-                    />
-                  </div>
-                </If>
-                <If condition={fields.indexOf('rhfpBet') !== -1}>
-                  <div className="col-6">
-                    <Field
-                      name="rhfpBet"
-                      type="number"
-                      id="rhfpBet"
+                      name="freeSpinLifeTime"
+                      type="text"
                       placeholder="0"
                       normalize={intNormalize}
-                      label={I18n.t(attributeLabels.rhfpBet)}
+                      label={I18n.t(attributeLabels.freeSpinLifeTime)}
                       component={InputField}
                       position="vertical"
+                      id="qa-new-campaign-freespin-create-modal-freespin-lifetime"
                     />
+                    <span className="right-placeholder">{I18n.t(attributePlaceholders.days)}</span>
                   </div>
-                </If>
-                <If condition={fields.indexOf('comment') !== -1}>
-                  <div className="col-6">
+                  <If condition={fields.indexOf('betPerLineAmounts') !== -1}>
+                    <MultiCurrencyValue
+                      baseName="betPerLineAmounts"
+                      label={I18n.t(attributeLabels.betPerLine)}
+                      className="col-md-6"
+                      id="qa-new-campaign-freespin-create-modal-bet-perline"
+                    />
+                  </If>
+                  <If condition={fields.indexOf('linesPerSpin') !== -1}>
                     <Field
-                      name="comment"
-                      type="text"
-                      id="comment"
-                      placeholder=""
-                      label={I18n.t(attributeLabels.comment)}
-                      component={InputField}
+                      name="linesPerSpin"
+                      type="number"
+                      label={I18n.t(attributeLabels.linesPerSpin)}
                       position="vertical"
-                    />
-                  </div>
-                </If>
+                      component={SelectField}
+                      normalize={floatNormalize}
+                      showErrorMessage={false}
+                      disabled={!lines.length}
+                      className="col-md-6"
+                      id="qa-new-campaign-freespin-create-modal-lines-per-spin"
+                    >
+                      <option value="">
+                        {I18n.t('PLAYER_PROFILE.FREE_SPIN.MODAL_CREATE.CHOOSE_LINES_PER_SPIN')}
+                      </option>
+                      {lines.map(item => (
+                        <option key={item} value={item}>
+                          {item}
+                        </option>
+                      ))}
+                    </Field>
+                  </If>
+                </div>
               </div>
-              <If condition={fields.indexOf('bonusTemplateUUID') !== -1} >
-                <BonusView
-                  onChangeUUID={this.handleChangeBonusUUID}
-                  uuid={bonusTemplateUUID.uuid}
-                  name="bonusTemplateUUID"
+              <If condition={showPriceWidget}>
+                <div className="col-5">
+                  {this.renderPrice()}
+                </div>
+              </If>
+              <If condition={fields.indexOf('betLevel') !== -1}>
+                <Field
+                  name="betLevel"
+                  label={I18n.t(attributeLabels.betLevel)}
+                  type="select"
+                  parse={normalizeNumber}
+                  component={SelectField}
+                  position="vertical"
+                  disabled={betLevels.length <= 1}
+                  className="col-md-6"
+                  id="qa-new-campaign-freespin-create-modal-bet-level"
+                >
+                  {betLevels.map(item => <option key={item} value={item}>{item}</option>)}
+                </Field>
+              </If>
+              <If condition={fields.indexOf('coinSize') !== -1}>
+                <Field
+                  name="coinSize"
+                  label={I18n.t(attributeLabels.coinSize)}
+                  type="select"
+                  parse={normalizeNumber}
+                  component={SelectField}
+                  position="vertical"
+                  disabled={coinSizes.length <= 1}
+                  className="col-md-6"
+                  id="qa-new-campaign-freespin-create-modal-coin-size"
+                >
+                  {coinSizes.map(item => <option key={item} value={item}>{item}</option>)}
+                </Field>
+              </If>
+              <If condition={fields.indexOf('pageCode') !== -1}>
+                <Field
+                  name="pageCode"
+                  label={I18n.t(attributeLabels.pageCode)}
+                  type="select"
+                  component={SelectField}
+                  position="vertical"
+                  disabled={!pageCodes.length}
+                  className="col-md-6"
+                  id="qa-new-campaign-freespin-create-modal-page-code"
+                >
+                  <option value="">{I18n.t('CAMPAIGNS.FREE_SPIN.CHOOSE_PAGE_CODE')}</option>
+                  {pageCodes.map(item => <option key={item.value} value={item.value}>{I18n.t(item.label)}</option>)}
+                </Field>
+              </If>
+              <If condition={fields.indexOf('betMultiplier') !== -1}>
+                <Field
+                  name="betMultiplier"
+                  type="number"
+                  step="any"
+                  label={I18n.t(attributeLabels.betMultiplier)}
+                  position="vertical"
+                  component={InputField}
+                  normalize={floatNormalize}
+                  showErrorMessage={false}
+                  className="col-md-6"
+                  id="qa-new-campaign-freespin-create-modal-bet-multiplier"
                 />
               </If>
-            </If>
-          </ModalBody>
-          <ModalFooter>
-            <div className="row">
-              <div className="col-7">
-                <button
-                  type="submit"
-                  className="btn btn-primary ml-2"
-                  id="create-new-operator-submit-button"
-                  form="fs-form"
-                >
-                  {I18n.t('COMMON.SAVE')}
-                </button>
-              </div>
+              <If condition={fields.indexOf('rhfpBet') !== -1}>
+                <Field
+                  name="rhfpBet"
+                  type="number"
+                  placeholder="0"
+                  normalize={intNormalize}
+                  label={I18n.t(attributeLabels.rhfpBet)}
+                  component={InputField}
+                  position="vertical"
+                  className="col-md-6"
+                  id="qa-new-campaign-freespin-create-modal-rhfp-bet"
+                />
+              </If>
+              <If condition={fields.indexOf('comment') !== -1}>
+                <Field
+                  name="comment"
+                  type="text"
+                  placeholder=""
+                  label={I18n.t(attributeLabels.comment)}
+                  component={InputField}
+                  position="vertical"
+                  className="col-md-6"
+                  id="qa-new-campaign-freespin-create-modal-comment"
+                />
+              </If>
             </div>
-          </ModalFooter>
-        </form>
+            <If condition={fields.indexOf('bonusTemplateUUID') !== -1} >
+              <BonusView
+                onChangeUUID={this.handleChangeBonusUUID}
+                uuid={bonusTemplateUUID.uuid}
+                name="bonusTemplateUUID"
+              />
+            </If>
+          </If>
+        </ModalBody>
+        <ModalFooter>
+          <button
+            type="submit"
+            className="btn btn-primary"
+            form="free-spin-create-modal-form"
+          >
+            {I18n.t('COMMON.SAVE')}
+          </button>
+        </ModalFooter>
       </Modal>
     );
   }

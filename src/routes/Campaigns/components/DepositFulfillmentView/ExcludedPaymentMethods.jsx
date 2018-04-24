@@ -33,14 +33,13 @@ const ExcludedPaymentMethods = ({ paymentMethods, disabled, name }, { _reduxForm
           component={NasSelectField}
           position="vertical"
           multiple
+          id="qa-new-campaign-deposit-ful-excluded"
         >
-          {
-            paymentMethods.map(paymentMethod => (
-              <option key={paymentMethod.uuid} value={paymentMethod.methodName.toUpperCase()}>
-                {paymentMethod.methodName}
-              </option>
-            ))
-          }
+          {paymentMethods.map(paymentMethod => (
+            <option key={paymentMethod.uuid} value={paymentMethod.methodName.toUpperCase()}>
+              {paymentMethod.methodName}
+            </option>
+          ))}
         </Field>
       </Otherwise>
     </Choose>

@@ -86,7 +86,7 @@ class BonusView extends PureComponent {
               <When condition={!isViewMode}>
                 <Field
                   name={`${name}.uuid`}
-                  id={`${name}-uuid`}
+                  id="qa-new-campaign-bonus-templates-select"
                   disabled={disabled}
                   label={I18n.t(attributeLabels.templates)}
                   component={NasSelectField}
@@ -121,6 +121,7 @@ class BonusView extends PureComponent {
                 className="btn btn-primary text-uppercase margin-top-20"
                 type="button"
                 onClick={this.handleOpenCreateModal}
+                id="qa-new-campaign-bonus-templates-add-btn"
               >
                 {I18n.t(attributeLabels.addBonusTemplate)}
               </button>

@@ -183,6 +183,7 @@ class Form extends Component {
                   isValidDate={() => true}
                   position="vertical"
                   disabled={disabled}
+                  id="qa-new-campaign-start-date"
                 />
                 <span className="range-group__separator">-</span>
                 <Field
@@ -192,6 +193,7 @@ class Form extends Component {
                   isValidDate={this.endDateValidator('startDate')}
                   position="vertical"
                   disabled={disabled}
+                  id="qa-new-campaign-end-date"
                 />
               </div>
             </div>
@@ -202,8 +204,8 @@ class Form extends Component {
             name="fulfillments"
             disabled={disabled}
             className="col-6"
-            nodeSelectLabel={I18n.t("CAMPAIGNS.SETTINGS.FULFILLMENTS.SELECT_FULFILLMENT")}
-            nodeButtonLabel={I18n.t("CAMPAIGNS.SETTINGS.FULFILLMENTS.ADD_FULFILLMENT")}
+            nodeSelectLabel={I18n.t('CAMPAIGNS.SETTINGS.FULFILLMENTS.SELECT_FULFILLMENT')}
+            nodeButtonLabel={I18n.t('CAMPAIGNS.SETTINGS.FULFILLMENTS.ADD_FULFILLMENT')}
             components={
               this.getAllowedNodes([
                 { type: fulfilmentTypes.WAGERING, component: WageringView },
@@ -216,8 +218,8 @@ class Form extends Component {
             name="rewards"
             disabled={disabled}
             className="col-6"
-            nodeSelectLabel={I18n.t("CAMPAIGNS.SETTINGS.REWARDS.SELECT_REWARD")}
-            nodeButtonLabel={I18n.t("CAMPAIGNS.SETTINGS.REWARDS.ADD_REWARD")}
+            nodeSelectLabel={I18n.t('CAMPAIGNS.SETTINGS.REWARDS.SELECT_REWARD')}
+            nodeButtonLabel={I18n.t('CAMPAIGNS.SETTINGS.REWARDS.ADD_REWARD')}
             components={
               this.getAllowedNodes([
                 { type: rewardTemplateTypes.BONUS, component: BonusView },

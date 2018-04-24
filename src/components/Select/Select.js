@@ -20,6 +20,7 @@ class Select extends PureComponent {
     optionsHeader: PropTypes.func,
     singleOptionComponent: PropTypes.func,
     disabled: PropTypes.bool,
+    id: PropTypes.string,
   };
   static defaultProps = {
     onChange: null,
@@ -31,6 +32,7 @@ class Select extends PureComponent {
     optionsHeader: null,
     singleOptionComponent: null,
     disabled: false,
+    id: null,
   };
 
   constructor(props) {
@@ -352,6 +354,7 @@ class Select extends PureComponent {
       optionsHeader,
       singleOptionComponent,
       disabled,
+      id,
     } = this.props;
 
     const OptionsHeaderComponent = optionsHeader;
@@ -367,7 +370,7 @@ class Select extends PureComponent {
     });
 
     return (
-      <div className={className}>
+      <div className={className} id={id}>
         {this.renderLabel()}
 
         <div className={selectBlockClassName}>

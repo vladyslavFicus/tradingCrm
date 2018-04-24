@@ -66,7 +66,7 @@ class NodeBuilder extends PureComponent {
                 {I18n.t(typeLabels[field.type])}
               </div>
               <If condition={!disabled}>
-                <div className="col-auto text-right">
+                <div className="col-auto">
                   <button
                     type="button"
                     onClick={() => this.handleRemoveNode(index)}

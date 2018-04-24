@@ -131,224 +131,216 @@ class CreateBonusModal extends PureComponent {
         <ModalHeader toggle={onCloseModal}>
           {I18n.t(modalAttributeLabels.title)}
         </ModalHeader>
-        <form onSubmit={handleSubmit(this.handleSubmitBonusForm)}>
-          <ModalBody>
-            <div className="row">
-              <div className="col-md-8">
+        <ModalBody id="create-bonus-modal-form" tag="form" onSubmit={handleSubmit(this.handleSubmitBonusForm)}>
+          <div className="row">
+            <Field
+              name="name"
+              type="text"
+              label={I18n.t(attributeLabels.name)}
+              component={InputField}
+              position="vertical"
+              className="col-md-8"
+              id="qa-new-campaign-create-bonus-modal-name"
+            />
+          </div>
+          <div className="row">
+            <Field
+              name="prizeCapingType"
+              label={I18n.t(attributeLabels.prizeCapingType)}
+              type="select"
+              component={SelectField}
+              position="vertical"
+              className="col-md-4"
+              id="qa-new-campaign-create-bonus-modal-prize-caping-type"
+            >
+              {Object.keys(customValueFieldTypes).map(key =>
+                (
+                  <option key={key} value={key}>
+                    {renderLabel(key, customValueFieldTypesLabels)}
+                  </option>
+                )
+              )}
+            </Field>
+            <Choose>
+              <When condition={prizeCapingType === customValueFieldTypes.PERCENTAGE}>
                 <Field
-                  name="name"
-                  type="text"
-                  placeholder=""
-                  label={I18n.t(attributeLabels.name)}
-                  component={InputField}
-                  position="vertical"
-                />
-              </div>
-            </div>
-            <div className="row">
-              <div className="col-md-4">
-                <Field
-                  name="prizeCapingType"
-                  label={I18n.t(attributeLabels.prizeCapingType)}
-                  type="select"
-                  component={SelectField}
-                  position="vertical"
-                >
-                  {Object.keys(customValueFieldTypes).map(key =>
-                    (
-                      <option key={key} value={key}>
-                        {renderLabel(key, customValueFieldTypesLabels)}
-                      </option>
-                    )
-                  )}
-                </Field>
-              </div>
-              <Choose>
-                <When condition={prizeCapingType === customValueFieldTypes.PERCENTAGE}>
-                  <div className="col-md-4">
-                    <Field
-                      name="prize.percentage"
-                      showErrorMessage={false}
-                      placeholder="0"
-                      component={InputField}
-                      label={
-                        <span>
-                          {I18n.t('CAMPAIGNS.SETTINGS.REWARDS.BONUS.LABEL.MIN_PRIZE')}{' '}
-                          <span className="label-additional">{I18n.t('COMMON.OPTIONAL')}</span>
-                        </span>
-                      }
-                      type="text"
-                      position="vertical"
-                    />
-                  </div>
-                  <div className="col-md-4">
-                    <Field
-                      name="capping.percentage"
-                      showErrorMessage={false}
-                      placeholder="0"
-                      component={InputField}
-                      label={
-                        <span>
-                          {I18n.t('CAMPAIGNS.SETTINGS.REWARDS.BONUS.LABEL.CAPPING')}{' '}
-                          <span className="label-additional">{I18n.t('COMMON.OPTIONAL')}</span>
-                        </span>
-                      }
-                      type="text"
-                      position="vertical"
-                    />
-                  </div>
-                </When>
-                <Otherwise>
-                  <div className="col-md-4">
-                    <MultiCurrencyValue
-                      baseName="prize.absolute"
-                      label={
-                        <span>
-                          {I18n.t('CAMPAIGNS.SETTINGS.REWARDS.BONUS.LABEL.MIN_PRIZE')}{' '}
-                          <span className="label-additional">{I18n.t('COMMON.OPTIONAL')}</span>
-                        </span>
-                      }
-                      showErrorMessage={false}
-                      placeholder="0.0"
-                    />
-                  </div>
-                  <div className="col-md-4">
-                    <MultiCurrencyValue
-                      baseName="capping.absolute"
-                      label={
-                        <span>
-                          {I18n.t('CAMPAIGNS.SETTINGS.REWARDS.BONUS.LABEL.CAPPING')}{' '}
-                          <span className="label-additional">{I18n.t('COMMON.OPTIONAL')}</span>
-                        </span>
-                      }
-                      showErrorMessage={false}
-                      placeholder="0.0"
-                    />
-                  </div>
-                </Otherwise>
-              </Choose>
-            </div>
-            <hr />
-            <div className="row">
-              <div className="col-7">
-                <Field
-                  component={TypeValueField}
-                  name="grantRatio"
-                  label={I18n.t(attributeLabels.grant)}
-                />
-              </div>
-              <If condition={grantRatioType === customValueFieldTypes.PERCENTAGE}>
-                <div className="col-5">
-                  <MultiCurrencyValue
-                    label={I18n.t(attributeLabels.maxGrantAmount)}
-                    baseName="maxGrantAmount"
-                  />
-                </div>
-              </If>
-            </div>
-            <div className="row">
-              <div className="col-7">
-                <Field
-                  component={TypeValueField}
-                  name="wageringRequirement"
-                  label={I18n.t(attributeLabels.wageringRequirement)}
-                >
-                  {
-                    Object.keys(wageringRequirementTypes).map(key =>
-                      <option key={key} value={key}>{key}</option>
-                    )
-                  }
-                </Field>
-              </div>
-            </div>
-            <div className="row">
-              <div className="col-7">
-                <Field
-                  name="lockAmountStrategy"
-                  label={I18n.t(attributeLabels.lockAmountStrategy)}
-                  type="select"
-                  component={SelectField}
-                  position="vertical"
-                >
-                  <option value="">{I18n.t('COMMON.SELECT_OPTION.DEFAULT')}</option>
-                  {Object.keys(lockAmountStrategy).map(key => (
-                    <option key={key} value={key}>
-                      {renderLabel(key, lockAmountStrategyLabels)}
-                    </option>
-                  ))}
-                </Field>
-              </div>
-            </div>
-            <div className="row">
-              <div className="col-4">
-                <Field
-                  name="wagerWinMultiplier"
-                  type="text"
-                  placeholder="0.00"
-                  label={I18n.t(attributeLabels.multiplier)}
-                  component={InputField}
-                  position="vertical"
-                />
-              </div>
-              <div className="col-5">
-                <Field
-                  name="moneyTypePriority"
-                  type="text"
-                  label={I18n.t(attributeLabels.moneyPriority)}
-                  component={SelectField}
-                  position="vertical"
-                >
-                  <option value="">{I18n.t('COMMON.SELECT_OPTION.DEFAULT')}</option>
-                  {Object.keys(moneyTypeUsage).map(key => (
-                    <option key={key} value={key}>
-                      {renderLabel(key, moneyTypeUsageLabels)}
-                    </option>
-                  ))}
-                </Field>
-              </div>
-            </div>
-            <div className="row">
-              <div className="col-4">
-                <MultiCurrencyValue
-                  baseName="maxBet"
-                  label={I18n.t(attributeLabels.maxBet)}
-                />
-              </div>
-              <div className="col-4 form-row_with-placeholder-right">
-                <Field
-                  name="bonusLifeTime"
-                  type="text"
+                  name="prize.percentage"
+                  showErrorMessage={false}
                   placeholder="0"
-                  label={I18n.t(attributeLabels.lifeTime)}
                   component={InputField}
+                  label={
+                    <div>
+                      {I18n.t('CAMPAIGNS.SETTINGS.REWARDS.BONUS.LABEL.MIN_PRIZE')}{' '}
+                      <span className="label-additional">{I18n.t('COMMON.OPTIONAL')}</span>
+                    </div>
+                  }
+                  type="text"
                   position="vertical"
+                  className="col-md-4"
+                  id="qa-new-campaign-create-bonus-modal-min-prize-percentage"
                 />
-                <span className="right-placeholder">{I18n.t(attributePlaceholders.days)}</span>
-              </div>
-            </div>
-            <div className="form-group">
+                <Field
+                  name="capping.percentage"
+                  showErrorMessage={false}
+                  placeholder="0"
+                  component={InputField}
+                  label={
+                    <div>
+                      {I18n.t('CAMPAIGNS.SETTINGS.REWARDS.BONUS.LABEL.CAPPING')}{' '}
+                      <span className="label-additional">{I18n.t('COMMON.OPTIONAL')}</span>
+                    </div>
+                  }
+                  type="text"
+                  position="vertical"
+                  className="col-md-4"
+                  id="qa-new-campaign-create-bonus-modal-capping-percentage"
+                />
+              </When>
+              <Otherwise>
+                <MultiCurrencyValue
+                  baseName="prize.absolute"
+                  label={
+                    <div>
+                      {I18n.t('CAMPAIGNS.SETTINGS.REWARDS.BONUS.LABEL.MIN_PRIZE')}{' '}
+                      <span className="label-additional">{I18n.t('COMMON.OPTIONAL')}</span>
+                    </div>
+                  }
+                  showErrorMessage={false}
+                  placeholder="0.0"
+                  className="col-md-4"
+                  id="qa-new-campaign-create-bonus-modal-min-prize-absolute"
+                />
+                <MultiCurrencyValue
+                  baseName="capping.absolute"
+                  label={
+                    <div>
+                      {I18n.t('CAMPAIGNS.SETTINGS.REWARDS.BONUS.LABEL.CAPPING')}{' '}
+                      <span className="label-additional">{I18n.t('COMMON.OPTIONAL')}</span>
+                    </div>
+                  }
+                  showErrorMessage={false}
+                  placeholder="0.0"
+                  className="col-md-4"
+                  id="qa-new-campaign-create-bonus-modal-capping-absolute"
+                />
+              </Otherwise>
+            </Choose>
+          </div>
+          <hr />
+          <div className="row">
+            <Field
+              component={TypeValueField}
+              name="grantRatio"
+              label={I18n.t(attributeLabels.grant)}
+              className="col-md-7"
+              id="qa-new-campaign-create-bonus-modal-grant-ratio"
+            />
+            <If condition={grantRatioType === customValueFieldTypes.PERCENTAGE}>
+              <MultiCurrencyValue
+                label={I18n.t(attributeLabels.maxGrantAmount)}
+                baseName="maxGrantAmount"
+                className="col-md-5"
+                id="qa-new-campaign-create-bonus-modal-max-granted-amount"
+              />
+            </If>
+          </div>
+          <div className="row">
+            <Field
+              component={TypeValueField}
+              name="wageringRequirement"
+              label={I18n.t(attributeLabels.wageringRequirement)}
+              className="col-md-7"
+              id="qa-new-campaign-create-bonus-modal-wagering"
+            >
+              {Object.keys(wageringRequirementTypes).map(key =>
+                <option key={key} value={key}>{key}</option>
+              )}
+            </Field>
+          </div>
+          <div className="row">
+            <Field
+              name="lockAmountStrategy"
+              label={I18n.t(attributeLabels.lockAmountStrategy)}
+              type="select"
+              component={SelectField}
+              position="vertical"
+              className="col-md-7"
+              id="qa-new-campaign-create-bonus-modal-lock-amount-strategy"
+            >
+              <option value="">{I18n.t('COMMON.SELECT_OPTION.DEFAULT')}</option>
+              {Object.keys(lockAmountStrategy).map(key => (
+                <option key={key} value={key}>
+                  {renderLabel(key, lockAmountStrategyLabels)}
+                </option>
+              ))}
+            </Field>
+          </div>
+          <div className="row">
+            <Field
+              name="wagerWinMultiplier"
+              type="text"
+              placeholder="0.00"
+              label={I18n.t(attributeLabels.multiplier)}
+              component={InputField}
+              position="vertical"
+              className="col-md-4"
+              id="qa-new-campaign-create-bonus-modal-wager-win-multiplier"
+            />
+            <Field
+              name="moneyTypePriority"
+              type="text"
+              label={I18n.t(attributeLabels.moneyPriority)}
+              component={SelectField}
+              position="vertical"
+              className="col-md-5"
+              id="qa-new-campaign-create-bonus-modal-money-type-priority"
+            >
+              <option value="">{I18n.t('COMMON.SELECT_OPTION.DEFAULT')}</option>
+              {Object.keys(moneyTypeUsage).map(key => (
+                <option key={key} value={key}>
+                  {renderLabel(key, moneyTypeUsageLabels)}
+                </option>
+              ))}
+            </Field>
+          </div>
+          <div className="row">
+            <MultiCurrencyValue
+              baseName="maxBet"
+              label={I18n.t(attributeLabels.maxBet)}
+              className="col-md-4"
+              id="qa-new-campaign-create-bonus-modal-max-bet"
+            />
+            <div className="col-md-4 form-row_with-placeholder-right">
               <Field
-                name="claimable"
-                type="checkbox"
-                component="input"
-              /> {I18n.t('COMMON.CLAIMABLE')}
+                name="bonusLifeTime"
+                type="text"
+                placeholder="0"
+                label={I18n.t(attributeLabels.lifeTime)}
+                component={InputField}
+                position="vertical"
+                id="qa-new-campaign-create-bonus-modal-bonus-life-time"
+              />
+              <span className="right-placeholder">{I18n.t(attributePlaceholders.days)}</span>
             </div>
-          </ModalBody>
-          <ModalFooter>
-            <div className="row">
-              <div className="col-7">
-                <button
-                  type="submit"
-                  className="btn btn-primary ml-2"
-                  id="create-new-operator-submit-button"
-                >
-                  {I18n.t('COMMON.SAVE')}
-                </button>
-              </div>
-            </div>
-          </ModalFooter>
-
-        </form>
+          </div>
+          <div className="form-group">
+            <Field
+              name="claimable"
+              type="checkbox"
+              component="input"
+              id="qa-new-campaign-create-bonus-modal-claimable-checkbox"
+            /> {I18n.t('COMMON.CLAIMABLE')}
+          </div>
+        </ModalBody>
+        <ModalFooter>
+          <button
+            type="submit"
+            className="btn btn-primary"
+            form="create-bonus-modal-form"
+          >
+            {I18n.t('COMMON.SAVE')}
+          </button>
+        </ModalFooter>
       </Modal>
     );
   }

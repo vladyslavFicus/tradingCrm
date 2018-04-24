@@ -120,12 +120,12 @@ export default class FreeSpinView extends PureComponent {
           <div className="col">
             <Field
               name={`${name}.uuid`}
-              id={`${name}-uuid`}
               disabled={disabled}
               label={I18n.t(attributeLabels.template)}
               component={NasSelectField}
               showErrorMessage={false}
               position="vertical"
+              id="qa-new-campaign-freespin-templates-select"
             >
               {fsTemplates.map(item => (
                 <option key={item.uuid} value={item.uuid}>
@@ -150,6 +150,7 @@ export default class FreeSpinView extends PureComponent {
                 className="btn btn-primary text-uppercase margin-top-20"
                 type="button"
                 onClick={this.handleOpenModal}
+                id="qa-new-campaign-freespin-templates-add-btn"
               >
                 {I18n.t(attributeLabels.addFreeSpin)}
               </button>

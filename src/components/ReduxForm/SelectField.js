@@ -28,6 +28,7 @@ class SelectField extends Component {
     inputButton: PropTypes.any,
     showInputButton: PropTypes.bool,
     id: PropTypes.string,
+    className: PropTypes.string,
   };
   static defaultProps = {
     id: null,
@@ -47,6 +48,7 @@ class SelectField extends Component {
       touched: false,
       error: '',
     },
+    className: null,
   };
 
   renderInput = (props) => {
@@ -109,10 +111,11 @@ class SelectField extends Component {
       labelClassName,
       meta: { touched, error },
       showErrorMessage,
+      className,
     } = props;
 
     return (
-      <div className={classNames('form-group', { 'has-danger': touched && error })}>
+      <div className={classNames('form-group', className, { 'has-danger': touched && error })}>
         <FieldLabel
           label={label}
           labelClassName={labelClassName}
@@ -137,10 +140,11 @@ class SelectField extends Component {
       labelClassName,
       meta: { touched, error },
       showErrorMessage,
+      className,
     } = props;
 
     return (
-      <div className={classNames('form-group row', { 'has-danger': touched && error })}>
+      <div className={classNames('form-group row', className, { 'has-danger': touched && error })}>
         <FieldLabel
           label={label}
           labelClassName={labelClassName}

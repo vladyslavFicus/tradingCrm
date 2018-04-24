@@ -31,6 +31,7 @@ class NasSelectField extends Component {
     showInputButton: PropTypes.bool,
     optionsHeader: PropTypes.func,
     singleOptionComponent: PropTypes.func,
+    id: PropTypes.string,
   };
   static defaultProps = {
     position: 'horizontal',
@@ -48,6 +49,7 @@ class NasSelectField extends Component {
     showInputButton: false,
     optionsHeader: null,
     singleOptionComponent: null,
+    id: null,
   };
 
   renderInput = (props) => {
@@ -65,6 +67,7 @@ class NasSelectField extends Component {
       placeholder,
       optionsHeader,
       singleOptionComponent,
+      id,
     } = props;
 
     let inputField = (
@@ -76,6 +79,7 @@ class NasSelectField extends Component {
         disabled={disabled}
         multiple={multiple}
         className={classNames(inputClassName, { 'has-danger': touched && error })}
+        id={id}
       >
         {children}
       </Select>
