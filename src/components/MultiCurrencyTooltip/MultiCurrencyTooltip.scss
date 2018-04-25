@@ -1,40 +1,47 @@
-.multi-currency-popover {
+.tooltip-inner.multi-currency-tooltip {
   position: relative;
+  margin-left: 10px;
+  padding: 0;
   border: 1px solid #ccc;
   border-radius: 3px;
+  background-color: #fff;
+  text-align: inherit;
   &::before,
   &::after {
     content: '';
     position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
+    top: 50%;
+    transform: translateY(-50%);
     display: block;
     width: 0;
     height: 0;
   }
   &::before {
-    top: -11px;
-    border-left: 11px solid transparent;
-    border-right: 11px solid transparent;
-    border-bottom: 11px solid #fff;
+    left: -11px;
+    border-top: 11px solid transparent;
+    border-bottom: 11px solid transparent;
+    border-right: 11px solid #fff;
     z-index: 0;
   }
   &::after {
-    top: -12px;
-    border-left: 12px solid transparent;
-    border-right: 12px solid transparent;
-    border-bottom: 12px solid #ccc;
+    left: -12px;
+    border-top: 12px solid transparent;
+    border-bottom: 12px solid transparent;
+    border-right: 12px solid #ccc;
     z-index: -1;
   }
-  .popover-title {
-    margin: 0;
+}
+
+.multi-currency-tooltip {
+  &__header {
+    padding: 10px;
     border-bottom: 1px solid #ccc;
     font-size: 14px;
     font-weight: 700;
-    background-color: transparent;
+    color: #333;
   }
-  .popover-content {
-    padding: 0 0 5px;
+  &__content {
+    padding-bottom: 5px;
   }
   .table {
     margin-bottom: 0;
@@ -50,6 +57,7 @@
     padding-top: 5px;
     padding-bottom: 5px;
     font-size: 14px;
+    color: #333;
     line-height: normal;
   }
   .table tbody tr td:first-child {

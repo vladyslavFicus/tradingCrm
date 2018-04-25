@@ -38,7 +38,6 @@ const CustomValueFieldVertical = (props) => {
           <Field
             id={`${id}Type`}
             name="type"
-            className="form-control"
             showErrorMessage={false}
             component={SelectField}
             disabled={disabled}
