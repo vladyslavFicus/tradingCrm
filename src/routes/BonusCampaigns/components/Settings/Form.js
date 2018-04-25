@@ -144,9 +144,7 @@ class Form extends Component {
       }
 
       if (isNoFulfilment || isProfileCompleted) {
-        ['capping', 'conversionPrize'].forEach((field) => {
-          change(`${field}.type`, customValueFieldTypes.ABSOLUTE);
-        });
+        change('prizeCapingType', customValueFieldTypes.ABSOLUTE);
       }
     }
     addNode(nodeGroup, node);

@@ -8,7 +8,7 @@ import {
 } from '../../../../../../../components/ReduxForm';
 import renderLabel from '../../../../../../../utils/renderLabel';
 import { attributeLabels, attributePlaceholders } from '../Bonus/constants';
-import { customValueFieldTypes } from '../../../../../../../constants/form';
+import { customValueFieldTypes, customValueFieldTypesLabels } from '../../../../../../../constants/form';
 import { floatNormalize } from '../../../../../../../utils/inputNormalize';
 import {
   lockAmountStrategy,
@@ -25,7 +25,6 @@ class Bonus extends Component {
     disabled: PropTypes.bool,
     remove: PropTypes.func,
     bonusTemplates: PropTypes.arrayOf(PropTypes.bonusTemplateListEntity),
-    change: PropTypes.func.isRequired,
     handleChangeBonusTemplateData: PropTypes.func.isRequired,
     customTemplate: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]).isRequired,
     onToggleCustomTemplate: PropTypes.func.isRequired,
@@ -47,11 +46,17 @@ class Bonus extends Component {
 
     autofill(this.buildFieldName('grantRatio.type'), customValueFieldTypes.ABSOLUTE);
     autofill(this.buildFieldName('wageringRequirement.type'), customValueFieldTypes.ABSOLUTE);
-    autofill(this.buildFieldName('capping.type'), customValueFieldTypes.ABSOLUTE);
-    autofill(this.buildFieldName('prize.type'), customValueFieldTypes.ABSOLUTE);
+    autofill(this.buildFieldName('prizeCapingType'), customValueFieldTypes.ABSOLUTE);
   }
 
   buildFieldName = name => `${this.props.nodePath}.${name}`;
+
+  renderCappingPrizeLabel = label => (
+    <span>
+      {I18n.t(label)}{' '}
+      <span className="label-additional">{I18n.t('COMMON.OPTIONAL')}</span>
+    </span>
+  );
 
   render() {
     const {
@@ -261,30 +266,47 @@ class Bonus extends Component {
           </div>
         </div>
         <div className="row">
-          <div className="col-6">
+          <div className="col-md-4">
             <Field
-              disabled={disabled || !customTemplate}
+              name={this.buildFieldName('prizeCapingType')}
+              label={I18n.t(attributeLabels.prizeCapingType)}
+              type="select"
+              component={SelectField}
+              position="vertical"
+            >
+              {Object.keys(customValueFieldTypes).map(key =>
+                (
+                  <option key={key} value={key}>
+                    {renderLabel(key, customValueFieldTypesLabels)}
+                  </option>
+                )
+              )}
+            </Field>
+          </div>
+          <div className="col-md-4">
+            <Field
               id={`${form}Capping`}
               name={this.buildFieldName('capping')}
-              label={I18n.t(attributeLabels.capping)}
-              valueFieldProps={{
-                type: 'number',
-                normalize: floatNormalize,
-              }}
-              component={CustomValueFieldVertical}
+              disabled={disabled || !customTemplate}
+              placeholder="0"
+              component={InputField}
+              label={this.renderCappingPrizeLabel(attributeLabels.capping)}
+              type="number"
+              position="vertical"
+              normalize={floatNormalize}
             />
           </div>
-          <div className="col-6">
+          <div className="col-md-4">
             <Field
-              disabled={disabled || !customTemplate}
               id={`${form}Prize`}
               name={this.buildFieldName('prize')}
-              label={I18n.t(attributeLabels.prize)}
-              valueFieldProps={{
-                type: 'number',
-                normalize: floatNormalize,
-              }}
-              component={CustomValueFieldVertical}
+              disabled={disabled || !customTemplate}
+              placeholder="0"
+              component={InputField}
+              label={this.renderCappingPrizeLabel(attributeLabels.prize)}
+              type="number"
+              position="vertical"
+              normalize={floatNormalize}
             />
           </div>
         </div>

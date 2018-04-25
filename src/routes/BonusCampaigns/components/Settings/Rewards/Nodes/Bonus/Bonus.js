@@ -9,7 +9,8 @@ import {
 import renderLabel from '../../../../../../../utils/renderLabel';
 import { attributeLabels, attributePlaceholders } from './constants';
 import { moneyTypeUsage, moneyTypeUsageLabels } from '../../../../../../../constants/bonus-campaigns';
-import { customValueFieldTypes } from '../../../../../../../constants/form';
+import { customValueFieldTypes, customValueFieldTypesLabels } from '../../../../../../../constants/form';
+import { floatNormalize } from '../../../../../../../utils/inputNormalize';
 
 class Bonus extends Component {
   static propTypes = {
@@ -47,6 +48,13 @@ class Bonus extends Component {
   }
 
   buildFieldName = name => `${this.props.nodePath}.${name}`;
+
+  renderCappingPrizeLabel = label => (
+    <span>
+      {I18n.t(label)}{' '}
+      <span className="label-additional">{I18n.t('COMMON.OPTIONAL')}</span>
+    </span>
+  );
 
   render() {
     const {
@@ -99,34 +107,47 @@ class Bonus extends Component {
           </div>
         </div>
         <div className="row">
-          <div className="col-md-6">
+          <div className="col-md-4">
+            <Field
+              name="prizeCapingType"
+              label={I18n.t(attributeLabels.prizeCapingType)}
+              type="select"
+              component={SelectField}
+              position="vertical"
+            >
+              {typeValues.map(key =>
+                (
+                  <option key={key} value={key}>
+                    {renderLabel(key, customValueFieldTypesLabels)}
+                  </option>
+                )
+              )}
+            </Field>
+          </div>
+          <div className="col-md-4">
             <Field
               id={`${form}ConversionPrize`}
-              component={CustomValueFieldVertical}
               name="conversionPrize"
-              label={
-                <span>
-                  {I18n.t('BONUS_CAMPAIGNS.SETTINGS.LABEL.MIN_PRIZE')}{' '}
-                  <span className="label-additional">{I18n.t('COMMON.OPTIONAL')}</span>
-                </span>
-              }
-              typeValues={typeValues}
               disabled={disabled}
+              placeholder="0"
+              component={InputField}
+              label={this.renderCappingPrizeLabel(attributeLabels.prize)}
+              type="number"
+              position="vertical"
+              normalize={floatNormalize}
             />
           </div>
-          <div className="col-md-6">
+          <div className="col-md-4">
             <Field
               id={`${form}Capping`}
-              component={CustomValueFieldVertical}
               name="capping"
-              label={
-                <span>
-                  {I18n.t(attributeLabels.capping)}{' '}
-                  <span className="label-additional">{I18n.t('COMMON.OPTIONAL')}</span>
-                </span>
-              }
-              typeValues={typeValues}
               disabled={disabled}
+              placeholder="0"
+              component={InputField}
+              label={this.renderCappingPrizeLabel(attributeLabels.capping)}
+              type="number"
+              position="vertical"
+              normalize={floatNormalize}
             />
           </div>
         </div>

@@ -24,17 +24,12 @@ export default (values, props) => {
     currency: 'required',
     startDate: 'required',
     endDate: 'required|nextDate:startDate',
-    capping: {
-      value: ['numeric', 'customTypeValue.value'],
-      type: [`in:${allowedCustomValueTypes.join()}`],
-    },
+    capping: ['numeric', 'min:0'],
+    conversionPrize: ['numeric', 'min:0'],
+    prizeCapingType: ['string', `in:${allowedCustomValueTypes.join()}`],
     optInPeriod: ['numeric', 'min:1'],
     optInPeriodTimeUnit: [`in:${Object.keys(optInPeriods).join()}`],
     linkedCampaignUUID: ['string'],
-    conversionPrize: {
-      value: ['numeric', 'customTypeValue.value'],
-      type: [`in:${allowedCustomValueTypes.join()}`],
-    },
     country: `in:,${Object.keys(countries).join()}`,
     fulfillments: {
       deposit: {
@@ -77,14 +72,9 @@ export default (values, props) => {
             type: ['string'],
             value: ['numeric', 'max:1000000'],
           },
-          capping: {
-            type: ['string'],
-            value: ['numeric', 'min:0'],
-          },
-          prize: {
-            type: ['string'],
-            value: ['numeric', 'min:0'],
-          },
+          capping: ['string', 'min:0'],
+          prize: ['string', 'min:0'],
+          prizeCapingType: ['string'],
         },
       },
     },
@@ -157,14 +147,14 @@ export default (values, props) => {
     rules.rewards.freeSpin.bonus.wageringRequirement.type.push('required');
     rules.rewards.freeSpin.bonus.grantRatio.value.push('required');
 
-    const prize = get(freeSpinBonus, 'prize.value');
+    const prize = get(freeSpinBonus, 'prize');
     if (prize && !isNaN(parseFloat(prize).toFixed(2))) {
-      rules.rewards.freeSpin.bonus.capping.value.push('greaterThan:rewards.freeSpin.bonus.prize.value');
+      rules.rewards.freeSpin.bonus.capping.push('greaterThan:rewards.freeSpin.bonus.prize');
     }
 
-    const capping = get(freeSpinBonus, 'capping.value');
+    const capping = get(freeSpinBonus, 'capping');
     if (capping && !isNaN(parseFloat(capping).toFixed(2))) {
-      rules.rewards.freeSpin.bonus.prize.value.push('lessThan:rewards.freeSpin.bonus.capping.value');
+      rules.rewards.freeSpin.bonus.prize.push('lessThan:rewards.freeSpin.bonus.capping');
     }
   }
 

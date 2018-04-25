@@ -1408,7 +1408,8 @@
         "COIN_SIZE": "Coin size",
         "RHFP_BET": "Rhfp bet",
         "BET_MULTIPLIER": "Bet multiplier",
-        "COMMENT": "Comment"
+        "COMMENT": "Comment",
+        "PRIZE_CAPPING_TYPE": "Prize & Capping type"
       },
       "FREE_SPIN": {
         "ADD_REWARDS": "Add rewards",
