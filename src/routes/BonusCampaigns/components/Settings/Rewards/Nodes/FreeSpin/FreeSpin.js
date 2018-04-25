@@ -216,7 +216,23 @@ class FreeSpin extends Component {
         this.setField('bonus.maxGrantAmount', get(action.payload, 'maxGrantAmount.currencies[0].amount', ''));
       }
 
-      ['wageringRequirement', 'grantRatio', 'capping', 'prize'].forEach((key) => {
+      ['capping', 'prize'].forEach((key) => {
+        const field = action.payload[key];
+
+        if (field) {
+          this.setField('bonus.prizeCapingType', field.ratioType);
+
+          const formatValue = field.ratioType === customValueFieldTypes.ABSOLUTE
+            ? get(field, 'value.currencies[0].amount', '')
+            : get(field, 'percentage', '');
+
+          this.setField(`bonus.${key}`, formatValue);
+        } else {
+          this.setField(`bonus.${key}`, '');
+        }
+      });
+
+      ['wageringRequirement', 'grantRatio'].forEach((key) => {
         const type = `bonus.${key}.type`;
         const value = `bonus.${key}.value`;
         const field = action.payload[key];

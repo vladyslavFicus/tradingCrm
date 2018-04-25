@@ -81,12 +81,7 @@ class Settings extends Component {
     games: [],
     freeSpinTemplates: [],
     bonusCampaignForm: {
-      capping: {
-        type: customValueFieldTypes.ABSOLUTE,
-      },
-      conversionPrize: {
-        type: customValueFieldTypes.ABSOLUTE,
-      },
+      prizeCapingType: customValueFieldTypes.ABSOLUTE,
     },
     bonusTemplates: [],
     aggregators: {},
@@ -279,7 +274,30 @@ class Settings extends Component {
             delete bonus.maxGrantAmount;
           }
 
-          ['wageringRequirement', 'grantRatio', 'capping', 'prize'].forEach((key) => {
+          ['capping', 'prize'].forEach((key) => {
+            if (bonus[key]) {
+              const value = bonus.prizeCapingType === customValueFieldTypes.ABSOLUTE ? {
+                value: {
+                  currencies: [{
+                    amount: bonus[key],
+                    currency,
+                  }],
+                },
+              } : {
+                percentage: bonus[key],
+              };
+
+              bonus = {
+                ...bonus,
+                [key]: {
+                  ratioType: bonus.prizeCapingType,
+                  ...value,
+                },
+              };
+            }
+          });
+
+          ['wageringRequirement', 'grantRatio'].forEach((key) => {
             if (bonus[key]) {
               if (bonus[key].value) {
                 const value = bonus[key].type === customValueFieldTypes.ABSOLUTE ? {
@@ -386,6 +404,18 @@ class Settings extends Component {
         ...rewardsFreeSpinData,
       };
     }
+
+    ['capping', 'conversionPrize'].forEach((key) => {
+      if (data[key]) {
+        data = {
+          ...data,
+          [key]: {
+            type: data.prizeCapingType,
+            value: data[key],
+          },
+        };
+      }
+    });
 
     return handleSubmit(data);
   };

@@ -318,7 +318,7 @@
           "LIFE_TIME": "Время жизни",
           "CUSTOM_TEMPLATE": "Новый шаблон",
           "TEMPLATE": "Шаблон",
-          "PRIZE_CAPPING_TYPE": "Тип цены"
+          "PRIZE_CAPPING_TYPE": "Тип приза и капинга"
         },
         "LOCK_AMOUNT_STRATEGY": {
           "LOCK_ALL": "Заблокировать все средства",
@@ -1420,7 +1420,8 @@
         "COIN_SIZE": "Размер монеты",
         "RHFP_BET": "Rhfp bet",
         "BET_MULTIPLIER": "Множитель ставок",
-        "COMMENT": "Комментарий"
+        "COMMENT": "Комментарий",
+        "PRIZE_CAPPING_TYPE": "Тип приза и капинга"
       },
       "FREE_SPIN": {
         "ADD_REWARDS": "Добавить награду",
