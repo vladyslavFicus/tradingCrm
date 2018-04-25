@@ -15,24 +15,16 @@ class MultiCurrencyView extends Component {
   };
 
   state = {
-    isPopoverOpen: false,
+    isTooltipOpen: false,
   };
 
   handleTogglePopover = () => {
     this.setState({ isPopoverOpen: !this.state.isPopoverOpen });
   };
 
-  handleOpenPopover = () => {
-    this.setState({ isPopoverOpen: true });
-  };
-
-  handleClosePopover = () => {
-    this.setState({ isPopoverOpen: false });
-  };
-
   render() {
     const { values, rates, id } = this.props;
-    const { isPopoverOpen } = this.state;
+    const { isTooltipOpen } = this.state;
 
     return (
       <div>
@@ -43,7 +35,7 @@ class MultiCurrencyView extends Component {
             id={`${id}-right-icon`}
             values={values}
             rates={rates}
-            isOpen={isPopoverOpen}
+            isOpen={isTooltipOpen}
             toggle={this.handleTogglePopover}
           />
         </If>

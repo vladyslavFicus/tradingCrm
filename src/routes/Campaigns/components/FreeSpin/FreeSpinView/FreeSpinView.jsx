@@ -246,7 +246,7 @@ export default class FreeSpinView extends PureComponent {
                   <div className="col-4 mt-3">
                     {I18n.t(attributeLabels.betPerLine)}
                     <div className="campaigns-template__value">
-                      <MultiCurrencyView values={fsTemplate.betPerLineAmounts} rates={this.rates} />
+                      <MultiCurrencyView id={`${name}-betPerLineAmounts`} values={fsTemplate.betPerLineAmounts} rates={this.rates} />
                     </div>
                   </div>
                 </If>

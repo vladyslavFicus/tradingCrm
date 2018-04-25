@@ -49,7 +49,7 @@ class MultiCurrencyValue extends Component {
   };
 
   state = {
-    isPopoverOpen: false,
+    isTooltipOpen: false,
   };
 
   get secondaryCurrencies() {
@@ -140,12 +140,12 @@ class MultiCurrencyValue extends Component {
       showErrorMessage,
       className,
     } = this.props;
-    const { isPopoverOpen } = this.state;
-    const targetId = baseName.replace('.', '-').replace('[', '').replace(']', '');
+    const { isTooltipOpen } = this.state;
+    const targetId = baseName.replace(/[[\]]/g, '');
     const rates = this.secondaryCurrencies;
 
     return (
-      <div>
+      <div className={className}>
         <MultiCurrencyField
           name={`${baseName}[0]`}
           label={label}
@@ -156,14 +156,13 @@ class MultiCurrencyValue extends Component {
           iconRightClassName="nas nas-currencies_icon"
           onIconClick={this.handleOpenModal}
           id={targetId}
-          className={className}
         />
         <If condition={rates.length}>
           <MultiCurrencyTooltip
             id={`${targetId}-right-icon`}
             values={this.currencies}
             rates={this.secondaryCurrencies}
-            isOpen={isPopoverOpen}
+            isOpen={isTooltipOpen}
             toggle={this.handleTogglePopover}
           />
         </If>
