@@ -3,7 +3,7 @@ import { types as limitTypes } from './limits';
 import { countryStrategies } from './bonus-campaigns';
 
 PropTypes.price = PropTypes.shape({
-  amount: PropTypes.number,
+  amount: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   currency: PropTypes.string,
 });
 PropTypes.status = PropTypes.shape({

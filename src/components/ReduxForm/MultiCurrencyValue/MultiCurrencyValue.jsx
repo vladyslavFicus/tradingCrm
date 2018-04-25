@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { get } from 'lodash';
 import MultiCurrencyField from './MultiCurrencyField';
 import { floatNormalize } from '../../../utils/inputNormalize';
-import MultiCurrencyPopover from '../../../components/MultiCurrencyPopover';
+import MultiCurrencyTooltip from '../../../components/MultiCurrencyTooltip';
 
 class MultiCurrencyValue extends Component {
   static propTypes = {
@@ -28,7 +28,6 @@ class MultiCurrencyValue extends Component {
       }),
     }),
     formValues: PropTypes.object,
-    id: PropTypes.string,
     className: PropTypes.string,
   };
 
@@ -45,12 +44,12 @@ class MultiCurrencyValue extends Component {
     className: null,
   };
 
-  state = {
-    isPopoverOpen: false,
-  };
-
   static contextTypes = {
     _reduxForm: PropTypes.object,
+  };
+
+  state = {
+    isPopoverOpen: false,
   };
 
   get secondaryCurrencies() {
@@ -129,14 +128,6 @@ class MultiCurrencyValue extends Component {
     this.setState({ isPopoverOpen: !this.state.isPopoverOpen });
   };
 
-  handleOpenPopover = () => {
-    this.setState({ isPopoverOpen: true });
-  };
-
-  handleClosePopover = () => {
-    this.setState({ isPopoverOpen: false });
-  };
-
   render() {
     const {
       baseName,
@@ -151,6 +142,7 @@ class MultiCurrencyValue extends Component {
     } = this.props;
     const { isPopoverOpen } = this.state;
     const targetId = baseName.replace('.', '-').replace('[', '').replace(']', '');
+    const rates = this.secondaryCurrencies;
 
     return (
       <div>
@@ -166,7 +158,15 @@ class MultiCurrencyValue extends Component {
           id={targetId}
           className={className}
         />
-        <MultiCurrencyPopover id={`${targetId}-right-icon`} isOpen toggle={this.handleTogglePopover} />
+        <If condition={rates.length}>
+          <MultiCurrencyTooltip
+            id={`${targetId}-right-icon`}
+            values={this.currencies}
+            rates={this.secondaryCurrencies}
+            isOpen={isPopoverOpen}
+            toggle={this.handleTogglePopover}
+          />
+        </If>
       </div>
     );
   }

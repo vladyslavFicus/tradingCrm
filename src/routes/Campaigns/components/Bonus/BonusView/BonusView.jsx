@@ -8,6 +8,7 @@ import { NasSelectField } from '../../../../../components/ReduxForm';
 import Placeholder from '../../../../../components/Placeholder';
 import Amount from '../../../../../components/Amount';
 import Uuid from '../../../../../components/Uuid';
+import MultiCurrencyView from '../../../../../components/MultiCurrencyView';
 import { customValueFieldTypes } from '../../../../../constants/form';
 import { attributeLabels, attributePlaceholders } from '../constants';
 
@@ -36,6 +37,15 @@ class BonusView extends PureComponent {
         hide: PropTypes.func.isRequired,
       }),
     }).isRequired,
+    optionCurrencies: PropTypes.shape({
+      options: PropTypes.shape({
+        signUp: PropTypes.shape({
+          currency: PropTypes.shape({
+            list: PropTypes.arrayOf(PropTypes.string),
+          }),
+        }),
+      }),
+    }),
     disabled: PropTypes.bool,
     isViewMode: PropTypes.bool,
   };
@@ -46,8 +56,15 @@ class BonusView extends PureComponent {
     isViewMode: false,
     name: '',
     bonusTemplate: {},
+    optionCurrencies: { options: {}, loading: true },
     disabled: false,
   };
+
+  get rates() {
+    const { optionCurrencies: { options } } = this.props;
+
+    return get(options, 'signUp.post.currency.rates', []);
+  }
 
   handleOpenCreateModal = () => {
     const { modals, onChangeUUID } = this.props;
@@ -73,6 +90,7 @@ class BonusView extends PureComponent {
       return <span>{error}</span>;
     }
 
+    const rates = this.rates;
     const bonusTemplates = shortBonusTemplates || [];
     const template = get(bonusTemplate, 'bonusTemplate.data', {});
     const loading = get(bonusTemplate, 'loading', true);
@@ -197,7 +215,7 @@ class BonusView extends PureComponent {
                 <div className="col-4">
                   {I18n.t(attributeLabels.maxBet)}
                   <div className="campaigns-template__value">
-                    {template.maxBet && <Amount {...template.maxBet[0]} />}
+                    {template.maxBet && <MultiCurrencyView values={template.maxBet} rates={rates} />}
                   </div>
                 </div>
                 <div className="col-4">

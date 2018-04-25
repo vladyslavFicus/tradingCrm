@@ -1,11 +1,12 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { I18n } from 'react-redux-i18n';
 import { Tooltip } from 'reactstrap';
+import { get } from 'lodash';
+import PropTypes from '../../constants/propTypes';
 import attributeLabels from './constants';
-import './MultiCurrencyPopover.scss';
+import './MultiCurrencyTooltip.scss';
 
-const MultiCurrencyPopover = ({ placement, isOpen, id, toggle }) => (
+const MultiCurrencyTooltip = ({ placement, values, rates, isOpen, id, toggle }) => (
   <Tooltip
     placement={placement}
     isOpen={isOpen}
@@ -23,26 +24,30 @@ const MultiCurrencyPopover = ({ placement, isOpen, id, toggle }) => (
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>rur</td>
-          <td>69,500</td>
-          <td>6950,00</td>
-        </tr>
+        <For each="rate" of={rates}>
+          <tr key={rate.currency}>
+            <td>{rate.currency}</td>
+            <td>{rate.amount}</td>
+            <td>{get(values.find(({ currency }) => currency === rate.currency), 'amount', 0)}</td>
+          </tr>
+        </For>
       </tbody>
     </table>
   </Tooltip>
 );
 
-MultiCurrencyPopover.propTypes = {
+MultiCurrencyTooltip.propTypes = {
+  rates: PropTypes.arrayOf(PropTypes.price).isRequired,
+  values: PropTypes.arrayOf(PropTypes.price).isRequired,
   isOpen: PropTypes.bool,
   placement: PropTypes.string,
   id: PropTypes.string.isRequired,
   toggle: PropTypes.func,
 };
-MultiCurrencyPopover.defaultProps = {
+MultiCurrencyTooltip.defaultProps = {
   isOpen: false,
   toggle: null,
-  placement: 'bottom-end',
+  placement: 'bottom',
 };
 
-export default MultiCurrencyPopover;
+export default MultiCurrencyTooltip;
