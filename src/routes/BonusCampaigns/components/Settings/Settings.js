@@ -199,7 +199,6 @@ class Settings extends Component {
   };
 
   handleSubmit = async (formData) => {
-    console.log('formData', formData);
     const {
       createFreeSpinTemplate,
       createBonusTemplate,
@@ -417,8 +416,6 @@ class Settings extends Component {
         };
       }
     });
-
-    console.log('data', data);
 
     return handleSubmit(data);
   };
