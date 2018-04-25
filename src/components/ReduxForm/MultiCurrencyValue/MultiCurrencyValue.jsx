@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { get } from 'lodash';
 import MultiCurrencyField from './MultiCurrencyField';
 import { floatNormalize } from '../../../utils/inputNormalize';
+import MultiCurrencyTooltip from '../../../components/MultiCurrencyTooltip';
 
 class MultiCurrencyValue extends Component {
   static propTypes = {
@@ -27,7 +28,6 @@ class MultiCurrencyValue extends Component {
       }),
     }),
     formValues: PropTypes.object,
-    id: PropTypes.string,
     className: PropTypes.string,
   };
 
@@ -46,6 +46,10 @@ class MultiCurrencyValue extends Component {
 
   static contextTypes = {
     _reduxForm: PropTypes.object,
+  };
+
+  state = {
+    isTooltipOpen: false,
   };
 
   get secondaryCurrencies() {
@@ -120,6 +124,10 @@ class MultiCurrencyValue extends Component {
     });
   };
 
+  handleTogglePopover = () => {
+    this.setState({ isTooltipOpen: !this.state.isTooltipOpen });
+  };
+
   render() {
     const {
       baseName,
@@ -130,23 +138,35 @@ class MultiCurrencyValue extends Component {
       },
       disabled,
       showErrorMessage,
-      id,
       className,
     } = this.props;
+    const { isTooltipOpen } = this.state;
+    const targetId = baseName.replace(/[[\]]/g, '');
+    const rates = this.secondaryCurrencies;
 
     return (
-      <MultiCurrencyField
-        name={`${baseName}[0]`}
-        label={label}
-        showErrorMessage={showErrorMessage}
-        disabled={disabled || loading}
-        currency={baseCurrency}
-        onChange={this.handleChangeBaseCurrencyAmount}
-        iconRightClassName="nas nas-currencies_icon"
-        onIconClick={this.handleOpenModal}
-        id={id}
-        className={className}
-      />
+      <div className={className}>
+        <MultiCurrencyField
+          name={`${baseName}[0]`}
+          label={label}
+          showErrorMessage={showErrorMessage}
+          disabled={disabled || loading}
+          currency={baseCurrency}
+          onChange={this.handleChangeBaseCurrencyAmount}
+          iconRightClassName="nas nas-currencies_icon"
+          onIconClick={this.handleOpenModal}
+          id={targetId}
+        />
+        <If condition={rates.length}>
+          <MultiCurrencyTooltip
+            id={`${targetId}-right-icon`}
+            values={this.currencies}
+            rates={this.secondaryCurrencies}
+            isOpen={isTooltipOpen}
+            toggle={this.handleTogglePopover}
+          />
+        </If>
+      </div>
     );
   }
 }

@@ -130,9 +130,9 @@ class InputField extends Component {
       meta: { touched, error },
       placeholder,
       label,
+      id,
       iconLeftClassName,
       iconRightClassName,
-      id,
       onIconClick,
     } = props;
 
@@ -162,7 +162,11 @@ class InputField extends Component {
           {inputField}
           {
             !!iconRightClassName &&
-            <i className={classNames('input-right-icon', iconRightClassName)} onClick={onIconClick} />
+            <i
+              className={classNames('input-right-icon', iconRightClassName)}
+              id={`${id}-right-icon`}
+              onClick={onIconClick}
+            />
           }
         </div>
       );

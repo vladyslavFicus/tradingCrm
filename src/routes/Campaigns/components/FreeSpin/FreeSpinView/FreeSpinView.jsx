@@ -6,6 +6,7 @@ import { get } from 'lodash';
 import { TextRow } from 'react-placeholder/lib/placeholders';
 import { attributeLabels } from '../constants';
 import { NasSelectField } from '../../../../../components/ReduxForm';
+import MultiCurrencyView from '../../../../../components/MultiCurrencyView';
 import Placeholder from '../../../../../components/Placeholder';
 import BonusView from '../../Bonus/BonusView';
 import Uuid from '../../../../../components/Uuid';
@@ -34,6 +35,15 @@ export default class FreeSpinView extends PureComponent {
         }),
       }),
     }),
+    optionCurrencies: PropTypes.shape({
+      options: PropTypes.shape({
+        signUp: PropTypes.shape({
+          currency: PropTypes.shape({
+            list: PropTypes.arrayOf(PropTypes.string),
+          }),
+        }),
+      }),
+    }),
     disabled: PropTypes.bool,
   };
 
@@ -41,6 +51,7 @@ export default class FreeSpinView extends PureComponent {
     freeSpinTemplate: {
       loading: true,
     },
+    optionCurrencies: { options: {}, loading: true },
     uuid: null,
     disabled: false,
   };
@@ -49,6 +60,12 @@ export default class FreeSpinView extends PureComponent {
     _reduxForm: PropTypes.object,
     fields: PropTypes.object,
   };
+
+  get rates() {
+    const { optionCurrencies: { options } } = this.props;
+
+    return get(options, 'signUp.post.currency.rates', []);
+  }
 
   handleOpenModal = () => {
     const { modals: { createFreeSpin }, onChangeUUID } = this.props;
@@ -63,7 +80,7 @@ export default class FreeSpinView extends PureComponent {
       },
     } = this.props;
 
-    const { betPerLineAmounts, linesPerSpin, freeSpinsAmount, game } = get(freeSpinTemplate, 'data', {});
+    const { betPerLineAmounts, linesPerSpin, freeSpinsAmount } = get(freeSpinTemplate, 'data', {});
     const betPerLine = get(betPerLineAmounts, '[0].amount', 0);
     const currency = get(betPerLineAmounts, '[0].currency', 0);
     const betPrice = betPerLine ? parseFloat(betPerLine) : 0;
@@ -229,7 +246,7 @@ export default class FreeSpinView extends PureComponent {
                   <div className="col-4 mt-3">
                     {I18n.t(attributeLabels.betPerLine)}
                     <div className="campaigns-template__value">
-                      <Amount {...fsTemplate.betPerLineAmounts[0]} />
+                      <MultiCurrencyView id={`${name}-betPerLineAmounts`} values={fsTemplate.betPerLineAmounts} rates={this.rates} />
                     </div>
                   </div>
                 </If>
