@@ -1813,7 +1813,7 @@
             "BONUS_LIFE_TIME": "Bonus life time",
             "CLAIMABLE": "Claimable",
             "PRIZE": "Prize",
-            "PRIZE_CAPPING_TYPE": "Prize capping type"
+            "PRIZE_CAPPING_TYPE": "Prize & Capping type"
           },
           "TEMPLATES": "Bonus templates",
           "ADD_BONUS_TEMPLATE": "Add bonus template"
