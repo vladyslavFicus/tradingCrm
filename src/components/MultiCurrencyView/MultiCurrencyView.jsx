@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import MultiCurrencyTooltip from '../MultiCurrencyTooltip';
 import Amount from '../Amount';
+import './MultiCurrencyView.scss';
 
 class MultiCurrencyView extends Component {
   static propTypes = {
@@ -27,9 +28,9 @@ class MultiCurrencyView extends Component {
     const { isTooltipOpen } = this.state;
 
     return (
-      <div>
-        <Amount {...values[0]} /> <i id={`${id}-right-icon`} className="nas nas-currencies_icon" />
-
+      <div className="multi-currency-view">
+        <Amount {...values[0]} />
+        <i id={`${id}-right-icon`} className="nas nas-currencies_icon multi-currency-view__icon" />
         <If condition={rates.length}>
           <MultiCurrencyTooltip
             id={`${id}-right-icon`}
