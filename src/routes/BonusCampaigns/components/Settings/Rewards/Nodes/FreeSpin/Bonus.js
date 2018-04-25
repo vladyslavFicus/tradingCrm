@@ -52,10 +52,10 @@ class Bonus extends Component {
   buildFieldName = name => `${this.props.nodePath}.${name}`;
 
   renderCappingPrizeLabel = label => (
-    <span>
+    <div>
       {I18n.t(label)}{' '}
       <span className="label-additional">{I18n.t('COMMON.OPTIONAL')}</span>
-    </span>
+    </div>
   );
 
   render() {
