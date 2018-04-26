@@ -47,8 +47,8 @@ const actionHandlers = {
       .filter(i => (
         i.grantRatio
         && i.grantRatio.ratioType === customValueFieldTypes.ABSOLUTE
-        && i.grantRatio.value && Array.isArray(i.grantRatio.value.currencies)
-        && i.grantRatio.value.currencies.some(c => c.currency === state.currency)
+        && i.grantRatio.value
+        && i.grantRatio.value.some(c => c.currency === state.currency)
       ))
       .map(i => ({ uuid: i.uuid, name: i.name })),
     isLoading: false,

@@ -271,7 +271,7 @@ class View extends Component {
       }
     }
 
-    const grantedAmount = formData.grantRatio.value.currencies.find(c => c.currency === currency);
+    const grantedAmount = formData.grantRatio.value.find(c => c.currency === currency);
 
     if (grantedAmount) {
       const assignBonusTemplateAction = await assignBonusTemplate(bonusTemplateUUID, {

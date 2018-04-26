@@ -75,8 +75,8 @@ class CreateModal extends Component {
       } = action.payload;
 
       change('name', name);
-      const grantAmount = findCurrencyAmount(get(grantRatio, 'value.currencies'), currency);
-      const maxBetAmount = findCurrencyAmount(get(maxBet, 'currencies'), currency);
+      const grantAmount = findCurrencyAmount(grantRatio, currency);
+      const maxBetAmount = findCurrencyAmount(maxBet, currency);
 
       if (grantAmount) {
         change('grantRatio', grantAmount);
@@ -93,7 +93,7 @@ class CreateModal extends Component {
           change('prizeCapingType', field.ratioType);
 
           const formatValue = field.ratioType === customValueFieldTypes.ABSOLUTE
-            ? findCurrencyAmount(get(field, 'value.currencies'), currency)
+            ? findCurrencyAmount(get(field, 'value'), currency)
             : get(field, 'percentage', '');
 
           change(key, formatValue);
@@ -106,7 +106,7 @@ class CreateModal extends Component {
         change('wageringRequirement.type', wageringRequirement.ratioType);
 
         const formatValue = wageringRequirement.ratioType === customValueFieldTypes.ABSOLUTE
-          ? findCurrencyAmount(get(wageringRequirement, 'value.currencies'), currency)
+          ? findCurrencyAmount(get(wageringRequirement, 'value'), currency)
           : get(wageringRequirement, 'percentage', '');
 
         change('wageringRequirement.value', formatValue);
@@ -139,23 +139,19 @@ class CreateModal extends Component {
     }
 
     if (data.maxBet) {
-      formData.maxBet = {
-        currencies: [{
-          amount: data.maxBet,
-          currency,
-        }],
-      };
+      formData.maxBet = [{
+        amount: data.maxBet,
+        currency,
+      }];
     }
 
 
     if (data.grantRatio) {
       formData.grantRatio = {
-        value: {
-          currencies: [{
-            amount: data.grantRatio,
-            currency,
-          }],
-        },
+        value: [{
+          amount: data.grantRatio,
+          currency,
+        }],
         ratioType: customValueFieldTypes.ABSOLUTE,
       };
     }
@@ -163,12 +159,10 @@ class CreateModal extends Component {
     if (data.wageringRequirement && data.wageringRequirement.type) {
       const amount = formData.wageringRequirement.value;
       const value = formData.wageringRequirement.type === customValueFieldTypes.ABSOLUTE ? {
-        value: {
-          currencies: [{
-            amount,
-            currency,
-          }],
-        },
+        value: [{
+          amount,
+          currency,
+        }],
       } : {
         percentage: amount,
       };
@@ -182,12 +176,10 @@ class CreateModal extends Component {
     ['capping', 'prize'].forEach((key) => {
       if (data[key]) {
         const value = formData.prizeCapingType === customValueFieldTypes.ABSOLUTE ? {
-          value: {
-            currencies: [{
-              amount: formData[key],
-              currency,
-            }],
-          },
+          value: [{
+            amount: formData[key],
+            currency,
+          }],
         } : {
           percentage: formData[key],
         };

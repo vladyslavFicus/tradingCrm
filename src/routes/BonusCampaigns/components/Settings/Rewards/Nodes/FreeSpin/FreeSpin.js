@@ -277,10 +277,17 @@ class FreeSpin extends Component {
   };
 
   handleChangeGame = (gameId) => {
+    const { aggregators: aggregatorsMap } = this.props;
+    const { _reduxForm: { values: { rewards } } } = this.context;
+    const currentValues = get(rewards, 'freeSpin', {});
+    const fields = get(aggregatorsMap, `${currentValues.aggregatorId}.fields`, []);
+
     const game = this.state.currentGames.find(i => i.gameId === gameId);
 
     if (game) {
       this.setField('gameId', game.gameId);
+      this.setField('clientId', fields.indexOf('clientId') !== -1 ? game.clientId : '');
+      this.setField('moduleId', fields.indexOf('moduleId') !== -1 ? game.moduleId : '');
 
       if (game.aggregatorId === aggregators.softgamings && game.gameInfoType !== GAME_TYPES.DESKTOP_AND_MOBILE) {
         const { pageCode, mobilePageCode } = parse(game.startGameUrl, { ignoreQueryPrefix: true });
@@ -330,11 +337,10 @@ class FreeSpin extends Component {
 
   handleChangeAggregator = (aggregatorId) => {
     this.setField('aggregatorId', aggregatorId);
-
     [
-      'providerId', 'gameId', 'betLevel', 'rhfpBet',
-      'coinSize', 'betMultiplier', 'freeSpinLifeTime', 'comment',
-      'freeSpinsAmount', 'betPerLine', 'linesPerSpin',
+      'providerId', 'gameId', 'betLevel', 'rhfpBet', 'displayLine1', 'clientId',
+      'coinSize', 'betMultiplier', 'freeSpinLifeTime', 'comment', 'nearestCost',
+      'freeSpinsAmount', 'betPerLine', 'linesPerSpin', 'displayLine2', 'moduleId',
     ].forEach(key => this.setField(key));
   };
 
@@ -504,7 +510,6 @@ class FreeSpin extends Component {
               </Field>
             </div>
             <If condition={currentValues.aggregatorId === aggregators.netent}>
-
               <div className="col-6">
                 <Field
                   name={this.buildFieldName('betLevel')}
@@ -534,6 +539,73 @@ class FreeSpin extends Component {
               </div>
             </If>
           </div>
+        </div>
+      );
+    }
+
+    if (currentValues.aggregatorId === aggregators.microgaming) {
+      return (
+        <div className="row">
+          <Field
+            name={this.buildFieldName('freeSpinsAmount')}
+            type="number"
+            id={`${form}freeSpinsAmount`}
+            placeholder="0"
+            className="col-6"
+            label={I18n.t(attributeLabels.freeSpins)}
+            component={InputField}
+            normalize={floatNormalize}
+            position="vertical"
+            disabled={!customTemplate}
+            showErrorMessage={false}
+          />
+          <div className="form-row_with-placeholder-right col-6">
+            <Field
+              name={this.buildFieldName('freeSpinLifeTime')}
+              id={`${form}freeSpinLifeTime`}
+              type="text"
+              placeholder="0"
+              normalize={intNormalize}
+              label={I18n.t(attributeLabels.freeSpinLifeTime)}
+              component={InputField}
+              position="vertical"
+              disabled={!customTemplate}
+            />
+            <span className="right-placeholder">{I18n.t(attributePlaceholders.days)}</span>
+          </div>
+          <Field
+            name={this.buildFieldName('nearestCost')}
+            type="number"
+            id={`${form}nearestCost`}
+            placeholder="0"
+            label={I18n.t(attributeLabels.nearestCost)}
+            component={InputField}
+            className="col-6"
+            normalize={floatNormalize}
+            position="vertical"
+            disabled={!customTemplate}
+            showErrorMessage={false}
+          />
+          <Field
+            name={this.buildFieldName('displayLine1')}
+            id={`${form}displayLine1`}
+            className="col-6"
+            type="text"
+            label={I18n.t(attributeLabels.displayLine1)}
+            component={InputField}
+            position="vertical"
+            disabled={!customTemplate}
+          />
+          <Field
+            name={this.buildFieldName('displayLine2')}
+            id={`${form}displayLine2`}
+            type="text"
+            className="col-6"
+            label={I18n.t(attributeLabels.displayLine2)}
+            component={InputField}
+            position="vertical"
+            disabled={!customTemplate}
+          />
         </div>
       );
     }
