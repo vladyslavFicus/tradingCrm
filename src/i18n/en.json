@@ -1414,6 +1414,9 @@
       "FREE_SPIN": {
         "ADD_REWARDS": "Add rewards",
         "SELECT_REWARDS": "Select rewards",
+        "NEAREST_COST": "Nearest cost",
+        "DISPLAY_LINE1": "Display line 1",
+        "DISPLAY_LINE2": "Display line 2",
         "BET_PER_LINE": "Bet per line",
         "TEMPLATE": "Template",
         "CHOOSE_TEMPLATE": "-- Choose template --",

@@ -1426,6 +1426,9 @@
       "FREE_SPIN": {
         "ADD_REWARDS": "Добавить награду",
         "SELECT_REWARDS": "-- Выбрать награду --",
+        "NEAREST_COST": "Ближайшая стоимость",
+        "DISPLAY_LINE1": "Линия 1",
+        "DISPLAY_LINE2": "Линия 2",
         "BET_PER_LINE": "Бет за линию",
         "CHOOSE_TEMPLATE": "-- Выбрать шаблон --",
         "TEMPLATE": "Шаблон",
