@@ -57,6 +57,7 @@ export default (values, props) => {
         linesPerSpin: ['integer'],
         betPerLine: ['numeric', 'min:0'],
         count: ['numeric'],
+        nearestCost: ['numeric'],
         lifeTime: ['numeric'],
         bonus: {
           name: ['string'],
@@ -120,7 +121,7 @@ export default (values, props) => {
     }
 
     [
-      'name', 'providerId', 'gameId', 'aggregatorId',
+      'name', 'providerId', 'gameId', 'aggregatorId', 'nearestCost',
       'freeSpinsAmount', 'linesPerSpin', 'betPerLine', 'count', 'lifeTime',
     ]
       .map(field => rules.rewards.freeSpin[field].push('required'));
