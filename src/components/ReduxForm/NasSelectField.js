@@ -32,10 +32,12 @@ class NasSelectField extends Component {
     optionsHeader: PropTypes.func,
     singleOptionComponent: PropTypes.func,
     id: PropTypes.string,
+    className: PropTypes.string,
   };
   static defaultProps = {
     position: 'horizontal',
     placeholder: null,
+    className: '',
     labelTag: 'label',
     labelClassName: 'form-label',
     labelAddon: null,
@@ -116,13 +118,14 @@ class NasSelectField extends Component {
       label,
       labelTag,
       labelClassName,
+      className,
       labelAddon,
       meta: { touched, error },
       showErrorMessage,
     } = props;
 
     return (
-      <div className={classNames('form-group', { 'has-danger': touched && error })}>
+      <div className={classNames('form-group', className, { 'has-danger': touched && error })}>
         {React.createElement(labelTag, { className: labelClassName }, <div>{label}{labelAddon}</div>)}
         {this.renderInput(props)}
         {
