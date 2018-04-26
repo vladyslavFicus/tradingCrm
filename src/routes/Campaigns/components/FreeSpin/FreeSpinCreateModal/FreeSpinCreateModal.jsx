@@ -91,8 +91,8 @@ class FreeSpinCreateModal extends Component {
     }
   }
 
-  get gameData() {
-    const { gameId, games } = this.props;
+  getGame(gameId) {
+    const { games } = this.props;
     const gameList = get(games, 'games.content', []);
 
     return gameList.find(i => i.gameId === gameId) || {
@@ -139,6 +139,14 @@ class FreeSpinCreateModal extends Component {
     if (fields.indexOf('coinSize') !== -1) {
       this.setField('coinSize', 1);
     }
+  };
+
+  handleChangeGame = ({ target: { value } }) => {
+    const { clientId, moduleId } = this.getGame(value);
+    const fields = get(this.aggregatorOptions, `[${this.props.aggregatorId}].fields`);
+
+    this.setField('clientId', fields.indexOf('clientId') !== -1 ? clientId : null);
+    this.setField('moduleId', fields.indexOf('moduleId') !== -1 ? moduleId : null);
   };
 
   handleChangeBonusUUID = (uuid) => {
@@ -270,13 +278,14 @@ class FreeSpinCreateModal extends Component {
       bonusTemplateUUID,
       aggregatorId,
       games,
+      gameId,
     } = this.props;
     const { aggregatorOptions } = this;
     const { baseCurrency } = this.currency;
     const providers = get(aggregatorOptions, `[${aggregatorId}].providers`, []);
     const fields = get(aggregatorOptions, `[${aggregatorId}].fields`);
     const gameList = get(games, 'games.content', []);
-    const { gameData: { betLevels, coinSizes, lines, pageCodes } } = this;
+    const { betLevels, coinSizes, lines, pageCodes } = this.getGame(gameId);
     const showPriceWidget = baseCurrency && fields &&
       fields.indexOf('linesPerSpin') !== -1 &&
       fields.indexOf('betPerLineAmounts') !== -1;
@@ -335,6 +344,7 @@ class FreeSpinCreateModal extends Component {
               label={I18n.t(attributeLabels.gameId)}
               disabled={!gameList.length}
               position="vertical"
+              onChange={this.handleChangeGame}
               component={SelectField}
               className="col-md-4"
               id="campaign-freespin-create-modal-game-id"
@@ -359,7 +369,6 @@ class FreeSpinCreateModal extends Component {
                     component={InputField}
                     normalize={floatNormalize}
                     position="vertical"
-                    showErrorMessage={false}
                     className="col-md-6"
                     id="campaign-freespin-create-modal-freespins-amount"
                   />
@@ -496,6 +505,44 @@ class FreeSpinCreateModal extends Component {
                   position="vertical"
                   className="col-md-6"
                   id="campaign-freespin-create-modal-comment"
+                />
+              </If>
+              <If condition={fields.indexOf('nearestCost') !== -1}>
+                <Field
+                  name="nearestCost"
+                  type="number"
+                  step="any"
+                  placeholder="0"
+                  label={I18n.t(attributeLabels.nearestCost)}
+                  position="vertical"
+                  component={InputField}
+                  normalize={floatNormalize}
+                  className="col-md-6"
+                  id="campaign-freespin-create-modal-nearestCost"
+                />
+              </If>
+              <If condition={fields.indexOf('displayLine1') !== -1}>
+                <Field
+                  name="displayLine1"
+                  type="text"
+                  placeholder=""
+                  label={I18n.t(attributeLabels.displayLine1)}
+                  component={InputField}
+                  position="vertical"
+                  className="col-md-6"
+                  id="campaign-freespin-create-modal-displayLine1"
+                />
+              </If>
+              <If condition={fields.indexOf('displayLine2') !== -1}>
+                <Field
+                  name="displayLine2"
+                  type="text"
+                  placeholder=""
+                  label={I18n.t(attributeLabels.displayLine2)}
+                  component={InputField}
+                  position="vertical"
+                  className="col-md-6"
+                  id="campaign-freespin-create-modal-displayLine2"
                 />
               </If>
             </div>

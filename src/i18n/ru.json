@@ -1773,6 +1773,9 @@
       "PAGE_CODE": "Код страницы",
       "COMMENT": "Комментарий",
       "BET_MULTIPLIER": "Множитель ставок",
+      "NEAREST_COST": "Ближайшая стоимость",
+      "DISPLAY_LINE1": "Линия 1",
+      "DISPLAY_LINE2": "Линия 2",
       "RHFP_BET": "Rhfp ставка",
       "BONUS_TEMPLATE": "Бонус шаблон",
       "PLACEHOLDERS": {
