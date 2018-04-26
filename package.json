@@ -37,7 +37,7 @@
     "fingerprintjs2": "^1.5.1",
     "graphql": "^0.12.3",
     "graphql-tag": "^2.8.0",
-    "gsap": "^1.20.3",
+    "gsap": "1.20.4",
     "history": "2.0.0",
     "humanize-duration": "^3.10.1",
     "jwt-decode": "^2.2.0",
