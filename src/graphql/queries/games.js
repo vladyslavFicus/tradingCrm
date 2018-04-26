@@ -25,6 +25,8 @@ const gameListQuery = gql`query GameListView(
       internalGameId
       startGameUrl
       gameId
+      clientId
+      moduleId
       pageCodes {
         label
         value

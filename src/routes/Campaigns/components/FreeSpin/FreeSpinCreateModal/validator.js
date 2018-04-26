@@ -23,6 +23,11 @@ export default (values, {
     coinSize: ['required', 'integer'],
     rhfpBet: ['required', 'integer'],
     comment: ['string'],
+    clientId: ['string', 'required'],
+    moduleId: ['string', 'required'],
+    nearestCost: ['numeric', 'required'],
+    displayLine1: ['string', 'max:255'],
+    displayLine2: ['string', 'max:255'],
     betMultiplier: ['integer', 'required'],
     bonusTemplateUUID: {
       uuid: ['required', 'string'],

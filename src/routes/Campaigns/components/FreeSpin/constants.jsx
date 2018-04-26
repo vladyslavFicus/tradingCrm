@@ -27,6 +27,9 @@ const attributeLabels = {
   comment: I18n.t('CAMPAIGNS.FREE_SPIN.COMMENT'),
   betMultiplier: I18n.t('CAMPAIGNS.FREE_SPIN.BET_MULTIPLIER'),
   rhfpBet: I18n.t('CAMPAIGNS.FREE_SPIN.RHFP_BET'),
+  nearestCost: I18n.t('CAMPAIGNS.FREE_SPIN.NEAREST_COST'),
+  displayLine1: I18n.t('CAMPAIGNS.FREE_SPIN.DISPLAY_LINE1'),
+  displayLine2: I18n.t('CAMPAIGNS.FREE_SPIN.DISPLAY_LINE2'),
   bonusTemplate: I18n.t('CAMPAIGNS.FREE_SPIN.BONUS_TEMPLATE'),
 };
 

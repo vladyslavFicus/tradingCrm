@@ -140,6 +140,9 @@ const freeSpinTemplateQuery = gql`query freeSpinTemplate($uuid: String!, $aggreg
       betLevel
       pageCode
       status
+      displayLine1
+      displayLine2
+      nearestCost
       betPerLineAmounts {
         amount
         currency

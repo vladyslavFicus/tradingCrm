@@ -6,7 +6,6 @@ import { Field } from 'redux-form';
 import { TextRow } from 'react-placeholder/lib/placeholders';
 import { NasSelectField } from '../../../../../components/ReduxForm';
 import Placeholder from '../../../../../components/Placeholder';
-import Amount from '../../../../../components/Amount';
 import Uuid from '../../../../../components/Uuid';
 import MultiCurrencyView from '../../../../../components/MultiCurrencyView';
 import { customValueFieldTypes } from '../../../../../constants/form';
@@ -109,6 +108,7 @@ class BonusView extends PureComponent {
                   label={I18n.t(attributeLabels.templates)}
                   component={NasSelectField}
                   showErrorMessage={false}
+                  className="mb-0"
                   position="vertical"
                 >
                   {bonusTemplates.map(item => (
@@ -117,21 +117,21 @@ class BonusView extends PureComponent {
                     </option>
                   ))}
                 </Field>
-                <If condition={template.uuid}>
-                  <div className="form-group__note">
-                    <Uuid
-                      length={16}
-                      uuidPartsCount={3}
-                      uuid={template.uuid}
-                      uuidPrefix="BT"
-                    />
-                  </div>
-                </If>
               </When>
               <Otherwise>
                 {initialBonusTemplates ? initialBonusTemplates.name : ''}
               </Otherwise>
             </Choose>
+            <If condition={template.uuid}>
+              <div className="form-group__note mt-0">
+                <Uuid
+                  length={16}
+                  uuidPartsCount={3}
+                  uuid={template.uuid}
+                  uuidPrefix="BT"
+                />
+              </div>
+            </If>
           </div>
           <If condition={!disabled && !isViewMode}>
             <div className="col-auto">

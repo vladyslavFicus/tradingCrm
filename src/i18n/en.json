@@ -1757,6 +1757,9 @@
       "PAGE_CODE": "Page code",
       "COMMENT": "Comment",
       "BET_MULTIPLIER": "Bet multiplier",
+      "NEAREST_COST": "Nearest cost",
+      "DISPLAY_LINE1": "Display line 1",
+      "DISPLAY_LINE2": "Display line 2",
       "RHFP_BET": "Rhfp bet",
       "BONUS_TEMPLATE": "Bonus template",
       "PLACEHOLDERS": {
