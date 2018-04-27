@@ -75,7 +75,7 @@ class CreateModal extends Component {
       } = action.payload;
 
       change('name', name);
-      const grantAmount = findCurrencyAmount(grantRatio, currency);
+      const grantAmount = findCurrencyAmount(get(grantRatio, 'value'), currency);
       const maxBetAmount = findCurrencyAmount(maxBet, currency);
 
       if (grantAmount) {
@@ -217,7 +217,6 @@ class CreateModal extends Component {
     } = this.props;
 
     const { customTemplate } = this.state;
-
     const currentUuid = get(formValues, 'templateUUID', false);
 
     return (
