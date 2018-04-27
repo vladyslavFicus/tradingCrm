@@ -48,8 +48,8 @@ class Header extends Component {
 
     return (
       <div>
-        <div className="panel-heading-row">
-          <div className="panel-heading-row__info">
+        <div className="row no-gutters panel-heading-row">
+          <div className="col panel-heading-row__info">
             <div
               className="panel-heading-row__info-title"
               id="operators-account-name"
@@ -60,7 +60,7 @@ class Header extends Component {
               {!!uuid && <Uuid uuid={uuid} />} {country && ` - ${country}`}
             </span>
           </div>
-          <div className="panel-heading-row__actions">
+          <div className="col-auto panel-heading-row__actions">
             {
               operatorStatus === statuses.INACTIVE &&
               <PermissionContent permissions={permissions.OPERATORS.OPERATOR_SEND_INVITATION}>

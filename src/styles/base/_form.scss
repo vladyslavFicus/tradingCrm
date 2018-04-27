@@ -142,16 +142,6 @@ label {
     font-weight: 300;
     color: #999;
   }
-  .label-action {
-    position: absolute;
-    top: 0;
-    right: 0;
-    font-weight: 300;
-    input[type="checkbox"] {
-      margin-right: 2px;
-      vertical-align: middle;
-    }
-  }
 }
 
 .label-clear {
@@ -466,10 +456,6 @@ label {
   }
 }
 
-.input-group .form-control {
-  z-index: 0;
-}
-
 .form-check-label:hover {
   cursor: pointer;
 }
@@ -492,4 +478,20 @@ input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
+}
+
+.input-group {
+  .form-control,
+  .form-control:focus {
+    z-index: 0;
+  }
+  &-addon {
+    background-color: #fff;
+    font-size: 14px;
+    color: #999;
+  }
+  &.disabled &-addon {
+    background-color: #f6f6f6;
+    color: #9b9b9b;
+  }
 }

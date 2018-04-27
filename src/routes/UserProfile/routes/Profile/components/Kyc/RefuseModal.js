@@ -4,7 +4,7 @@ import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { getFormValues, Field, reduxForm } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
 import renderLabel from '../../../../../../utils/renderLabel';
-import { SelectField } from '../../../../../../components/ReduxForm';
+import { SelectField, CheckBox } from '../../../../../../components/ReduxForm';
 import PropTypes from '../../../../../../constants/propTypes';
 import { createValidator } from '../../../../../../utils/validator';
 import { categories as kycCategories, refuseRequestReasons } from '../../../../../../constants/kyc';
@@ -111,13 +111,13 @@ class RefuseModal extends Component {
         <div className="col-md-12">
           <div className="text-center">
             <Field
+              className="d-inline-block"
               id={`${type}-reject-reason-checkbox`}
               name={type}
-              component="input"
+              component={CheckBox}
               type="checkbox"
+              label={attributeLabels[type]}
             />
-            {' '}
-            <label htmlFor={`${type}-reject-reason-checkbox`}>{attributeLabels[type]}</label>
           </div>
           {
             selectedValues && selectedValues[type] &&

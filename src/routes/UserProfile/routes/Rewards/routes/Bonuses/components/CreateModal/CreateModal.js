@@ -5,7 +5,7 @@ import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Field } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
 import {
-  InputField, SelectField, NasSelectField, CustomValueFieldVertical,
+  InputField, SelectField, NasSelectField, CustomValueFieldVertical, CheckBox,
 } from '../../../../../../../../components/ReduxForm';
 import renderLabel from '../../../../../../../../utils/renderLabel';
 import { moneyTypeUsageLabels } from '../../../../../../../../constants/bonus';
@@ -264,14 +264,15 @@ class CreateModal extends Component {
               </If>
             </div>
             <div className="col-6 margin-top-40">
-              <label>
-                <input
-                  type="checkbox"
-                  onChange={this.toggleCustomTemplate}
-                  checked={customTemplate}
-                  id={`${formName}-custom-template`}
-                /> {I18n.t(attributeLabels.customTemplate)}
-              </label>
+              <Field
+                id={`${formName}-custom-template`}
+                name="custom-template-checkbox"
+                component={CheckBox}
+                type="checkbox"
+                onChange={this.toggleCustomTemplate}
+                checked={customTemplate}
+                label={I18n.t(attributeLabels.customTemplate)}
+              />
             </div>
           </div>
 
@@ -433,15 +434,14 @@ class CreateModal extends Component {
               />
             </div>
           </div>
-
-          <label>
-            <Field
-              name="claimable"
-              type="checkbox"
-              component="input"
-              disabled={!customTemplate}
-            /> {I18n.t('COMMON.CLAIMABLE')}
-          </label>
+          <Field
+            id="bonuses-create-modal-claimable"
+            name="claimable"
+            component={CheckBox}
+            type="checkbox"
+            disabled={!customTemplate}
+            label={I18n.t('COMMON.CLAIMABLE')}
+          />
         </ModalBody>
         <ModalFooter>
           <button

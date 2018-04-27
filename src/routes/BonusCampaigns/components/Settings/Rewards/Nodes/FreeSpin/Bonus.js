@@ -4,7 +4,7 @@ import { get } from 'lodash';
 import { I18n } from 'react-redux-i18n';
 import PropTypes from '../../../../../../../constants/propTypes';
 import {
-  InputField, SelectField, CustomValueFieldVertical, NasSelectField,
+  InputField, SelectField, CustomValueFieldVertical, NasSelectField, CheckBox,
 } from '../../../../../../../components/ReduxForm';
 import renderLabel from '../../../../../../../utils/renderLabel';
 import { attributeLabels, attributePlaceholders } from '../Bonus/constants';
@@ -96,7 +96,7 @@ class Bonus extends Component {
 
         <If condition={!disabled}>
           <div className="row">
-            <div className="col-8">
+            <div className="col">
               <Field
                 name={this.buildFieldName('templateUUID')}
                 id={`${form}TemplateUUID`}
@@ -123,15 +123,16 @@ class Bonus extends Component {
                 </div>
               </If>
             </div>
-            <div className="col-4 margin-top-40">
-              <label>
-                <input
-                  type="checkbox"
-                  id={`${form}BonusCustomTemplate`}
-                  onChange={onToggleCustomTemplate}
-                  checked={!!customTemplate}
-                /> Custom Template
-              </label>
+            <div className="col-auto margin-top-40">
+              <Field
+                name="bonus-campaigns-rewards-freespin-bonus-toggle"
+                type="checkbox"
+                component={CheckBox}
+                id={`${form}BonusCustomTemplate`}
+                onChange={onToggleCustomTemplate}
+                checked={!!customTemplate}
+                label="Custom Template"
+              />
             </div>
           </div>
         </If>
@@ -310,14 +311,14 @@ class Bonus extends Component {
             />
           </div>
         </div>
-        <div className="form-group">
-          <Field
-            name={this.buildFieldName('claimable')}
-            type="checkbox"
-            component="input"
-            disabled={disabled || !customTemplate}
-          /> {I18n.t('COMMON.CLAIMABLE')}
-        </div>
+        <Field
+          name={this.buildFieldName('claimable')}
+          type="checkbox"
+          component={CheckBox}
+          id="bonus-campaigns-rewards-freespin-bonus-claimable"
+          disabled={disabled || !customTemplate}
+          label={I18n.t('COMMON.CLAIMABLE')}
+        />
       </div>
     );
   }

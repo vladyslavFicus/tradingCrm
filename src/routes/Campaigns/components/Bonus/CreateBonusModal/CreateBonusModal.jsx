@@ -5,7 +5,7 @@ import { Field, SubmissionError } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import {
-  InputField, SelectField, MultiCurrencyValue, TypeValueField,
+  InputField, SelectField, MultiCurrencyValue, TypeValueField, CheckBox,
 } from '../../../../../components/ReduxForm';
 import renderLabel from '../../../../../utils/renderLabel';
 import { attributeLabels, attributePlaceholders, wageringRequirementTypes } from '../constants';
@@ -310,14 +310,13 @@ class CreateBonusModal extends PureComponent {
               <span className="right-placeholder">{I18n.t(attributePlaceholders.days)}</span>
             </div>
           </div>
-          <div className="form-group">
-            <Field
-              name="claimable"
-              type="checkbox"
-              component="input"
-              id="campaign-create-bonus-modal-claimable-checkbox"
-            /> {I18n.t('COMMON.CLAIMABLE')}
-          </div>
+          <Field
+            id="campaign-create-bonus-modal-claimable-checkbox"
+            name="claimable"
+            component={CheckBox}
+            type="checkbox"
+            label={I18n.t('COMMON.CLAIMABLE')}
+          />
         </ModalBody>
         <ModalFooter>
           <button

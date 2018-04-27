@@ -8,6 +8,7 @@ import NasSelectField from './NasSelectField';
 import DateRangePicker from './DateRangePicker';
 import MultiCurrencyValue from './MultiCurrencyValue';
 import TypeValueField from './TypeValueField';
+import CheckBox from './CheckBox';
 
 export {
   CustomValueField,
@@ -20,4 +21,5 @@ export {
   DateRangePicker,
   MultiCurrencyValue,
   TypeValueField,
+  CheckBox,
 };
