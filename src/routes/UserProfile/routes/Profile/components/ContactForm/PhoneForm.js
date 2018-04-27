@@ -96,7 +96,6 @@ class PhoneForm extends Component {
               component={SelectField}
               position="vertical"
               label={attributeLabels.phoneCode}
-              className="form-control"
               disabled={disabled}
             >
               <option value="">{I18n.t('COMMON.SELECT_OPTION.DEFAULT')}</option>

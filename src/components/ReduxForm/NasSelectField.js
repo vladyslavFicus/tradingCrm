@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import Select from '../Select';
+import FieldLabel from './FieldLabel';
 
 class NasSelectField extends Component {
   static propTypes = {
@@ -12,7 +13,6 @@ class NasSelectField extends Component {
     }).isRequired,
     label: PropTypes.oneOfType([PropTypes.string, PropTypes.element]).isRequired,
     placeholder: PropTypes.string,
-    labelTag: PropTypes.string,
     labelClassName: PropTypes.string,
     labelAddon: PropTypes.element,
     children: PropTypes.node.isRequired,
@@ -38,8 +38,7 @@ class NasSelectField extends Component {
     position: 'horizontal',
     placeholder: null,
     className: '',
-    labelTag: 'label',
-    labelClassName: 'form-label',
+    labelClassName: null,
     labelAddon: null,
     showErrorMessage: true,
     disabled: false,
@@ -89,12 +88,22 @@ class NasSelectField extends Component {
 
     if (inputAddon) {
       inputField = (
-        <div className="input-group">
-          {inputAddonPosition === 'right' && inputField}
-          <span className="input-group-addon">
-            {inputAddon}
-          </span>
-          {inputAddonPosition === 'left' && inputField}
+        <div className={classNames('input-group', { disabled })}>
+          <If condition={inputAddonPosition === 'left'}>
+            <div className="input-group-prepend">
+              <span className="input-group-text input-group-addon">
+                {inputAddon}
+              </span>
+            </div>
+          </If>
+          {inputField}
+          <If condition={inputAddonPosition === 'right'}>
+            <div className="input-group-append">
+              <span className="input-group-text input-group-addon">
+                {inputAddon}
+              </span>
+            </div>
+          </If>
         </div>
       );
     }
@@ -116,7 +125,6 @@ class NasSelectField extends Component {
   renderVertical = (props) => {
     const {
       label,
-      labelTag,
       labelClassName,
       className,
       labelAddon,
@@ -126,15 +134,18 @@ class NasSelectField extends Component {
 
     return (
       <div className={classNames('form-group', className, { 'has-danger': touched && error })}>
-        {React.createElement(labelTag, { className: labelClassName }, <div>{label}{labelAddon}</div>)}
+        <FieldLabel
+          label={label}
+          addon={labelAddon}
+          className={labelClassName}
+        />
         {this.renderInput(props)}
-        {
-          showErrorMessage && touched && error &&
+        <If condition={showErrorMessage && touched && error}>
           <div className="form-control-feedback">
             <i className="nas nas-field_alert_icon" />
             {error}
           </div>
-        }
+        </If>
       </div>
     );
   };
@@ -142,27 +153,22 @@ class NasSelectField extends Component {
   renderHorizontal = (props) => {
     const {
       label,
-      labelTag,
-      labelClassName,
-      labelAddon,
       meta: { touched, error },
       showErrorMessage,
+      className,
     } = props;
 
     return (
-      <div className={classNames('form-group row', { 'has-danger': touched && error })}>
-        <div className="col-md-3">
-          {React.createElement(labelTag, { className: labelClassName }, <div>{label}{labelAddon}</div>)}
-        </div>
+      <div className={classNames('form-group row', className, { 'has-danger': touched && error })}>
+        <label className="col-md-3">{label}</label>
         <div className="col-md-9">
           {this.renderInput(props)}
-          {
-            showErrorMessage && touched && error &&
+          <If condition={showErrorMessage && touched && error}>
             <div className="form-control-feedback">
               <i className="nas nas-field_alert_icon" />
               {error}
             </div>
-          }
+          </If>
         </div>
       </div>
     );

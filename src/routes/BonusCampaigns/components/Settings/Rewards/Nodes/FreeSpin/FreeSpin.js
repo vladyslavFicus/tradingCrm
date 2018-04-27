@@ -5,7 +5,7 @@ import { I18n } from 'react-redux-i18n';
 import { parse } from 'qs';
 import PropTypes from '../../../../../../../constants/propTypes';
 import { statuses as freeSpinTemplate } from '../../../../../../../constants/free-spin-template';
-import { InputField, SelectField, NasSelectField } from '../../../../../../../components/ReduxForm';
+import { InputField, SelectField, NasSelectField, CheckBox } from '../../../../../../../components/ReduxForm';
 import { attributeLabels, GAME_TYPES } from './constants';
 import Amount, { Currency } from '../../../../../../../components/Amount';
 import { customValueFieldTypes } from '../../../../../../../constants/form';
@@ -810,7 +810,7 @@ class FreeSpin extends Component {
         </div>
         <If condition={!disabled}>
           <div className="row">
-            <div className="col-8">
+            <div className="col">
               <Field
                 name={this.buildFieldName('templateUUID')}
                 id={`${form}TemplateUUID`}
@@ -837,15 +837,16 @@ class FreeSpin extends Component {
                 </div>
               </If>
             </div>
-            <div className="col-4 margin-top-40">
-              <label>
-                <input
-                  type="checkbox"
-                  id={`${form}CustomTemplate`}
-                  onChange={onToggleFreeSpinCustomTemplate}
-                  checked={customTemplate}
-                /> Custom Template
-              </label>
+            <div className="col-auto margin-top-40">
+              <Field
+                id={`${form}CustomTemplate`}
+                name={`${form}CustomTemplate`}
+                component={CheckBox}
+                type="checkbox"
+                onChange={onToggleFreeSpinCustomTemplate}
+                checked={customTemplate}
+                label="Custom Template"
+              />
             </div>
           </div>
         </If>

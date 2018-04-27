@@ -65,8 +65,8 @@ class Header extends Component {
 
     return (
       <div>
-        <div className="panel-heading-row">
-          <div className="panel-heading-row__info">
+        <div className="row no-gutters panel-heading-row">
+          <div className="col panel-heading-row__info">
             <div className="panel-heading-row__info-title" id="campaign-name">
               {campaignName}
             </div>
@@ -80,7 +80,7 @@ class Header extends Component {
               </span>
             </div>
           </div>
-          <div className="panel-heading-row__actions">
+          <div className="col-auto panel-heading-row__actions">
             {
               allowUpload &&
               <span>

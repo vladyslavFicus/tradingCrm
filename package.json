@@ -30,6 +30,7 @@
     "apollo-utilities": "^1.0.4",
     "babel-plugin-inline-react-svg": "^0.5.2",
     "bc-countries": "^2.0.0",
+    "bootstrap": "^4.1.0",
     "classnames": "^2.2.5",
     "country-list": "^1.1.0",
     "eslint-plugin-jsx-control-statements": "^2.2.0",

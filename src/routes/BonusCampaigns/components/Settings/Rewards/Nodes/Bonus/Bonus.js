@@ -4,7 +4,7 @@ import { Field } from 'redux-form';
 import { get } from 'lodash';
 import { I18n } from 'react-redux-i18n';
 import {
-  InputField, SelectField, CustomValueFieldVertical,
+  InputField, SelectField, CustomValueFieldVertical, CheckBox,
 } from '../../../../../../../components/ReduxForm';
 import renderLabel from '../../../../../../../utils/renderLabel';
 import { attributeLabels, attributePlaceholders } from './constants';
@@ -230,14 +230,14 @@ class Bonus extends Component {
             <span className="right-placeholder">{I18n.t(attributePlaceholders.days)}</span>
           </div>
         </div>
-        <div className="form-group">
-          <Field
-            name={this.buildFieldName('claimable')}
-            type="checkbox"
-            component="input"
-            disabled={disabled}
-          /> {I18n.t('COMMON.CLAIMABLE')}
-        </div>
+        <Field
+          name={this.buildFieldName('claimable')}
+          type="checkbox"
+          component={CheckBox}
+          id="bonus-campaigns-bonus-node-claimable"
+          label={I18n.t('COMMON.CLAIMABLE')}
+          disabled={disabled}
+        />
       </div>
     );
   }
