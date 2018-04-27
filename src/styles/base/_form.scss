@@ -47,7 +47,7 @@
         border-top-right-radius: 3px;
         border-top-left-radius: 3px;
       }
-      .select-search-bar {
+      .select-search-box {
         border-top-right-radius: 3px;
         border-top-left-radius: 3px;
       }
@@ -214,26 +214,6 @@ label {
   }
 }
 
-.input-with-icon {
-  position: relative;
-  &__left .form-control {
-    padding-left: 30px;
-  }
-  &__right .form-control {
-    padding-right: 30px;
-  }
-  .input-left-icon {
-    position: absolute;
-    top: 12px;
-    left: 8px;
-  }
-  .input-right-icon {
-    position: absolute;
-    top: 12px;
-    right: 8px;
-  }
-}
-
 .control {
   display: block;
   position: relative;
@@ -394,28 +374,6 @@ label {
   transition: all .2s;
 }
 
-.select-search-bar {
-  padding: 10px 5px;
-  border-right: 1px solid #9b9b9b;
-  border-left: 1px solid #9b9b9b;
-  background-color: #eee;
-  .form-control {
-    height: 29px;
-    padding-bottom: 3px;
-    font-size: 13px;
-  }
-  .input-left-icon {
-    top: 18px;
-    left: 12px;
-    font-size: 13px;
-  }
-  .input-right-icon {
-    top: 18px;
-    right: 12px;
-    font-size: 13px;
-  }
-}
-
 .clear-selected-options {
   position: absolute;
   top: 0;
@@ -491,6 +449,19 @@ input[type=number]::-webkit-outer-spin-button {
     color: #999;
   }
   &.disabled &-addon {
+    background-color: #f6f6f6;
+    color: #9b9b9b;
+  }
+  .rdt {
+    flex: 1 1 auto;
+    width: 1%;
+    z-index: 0;
+    .form-control {
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+  }
+  &.disabled .rdt .form-control {
     background-color: #f6f6f6;
     color: #9b9b9b;
   }
