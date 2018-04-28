@@ -49,82 +49,68 @@ class AddressForm extends PureComponent {
     } = this.props;
 
     return (
-      <div>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="row margin-bottom-20">
-            <div className="col-xl-6 personal-form-heading">
-              {I18n.t('PLAYER_PROFILE.PROFILE.ADDRESS.TITLE')}
-            </div>
-
-            <div className="col-xl-6 text-right">
-              {
-                !pristine && !submitting && !disabled &&
-                <button className="btn btn-sm btn-primary" type="submit" id="profile-address-info-save-btn">
-                  {I18n.t('COMMON.SAVE_CHANGES')}
-                </button>
-              }
-            </div>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <div className="row margin-bottom-20">
+          <div className="col personal-form-heading">
+            {I18n.t('PLAYER_PROFILE.PROFILE.ADDRESS.TITLE')}
           </div>
-          <div className="form-row">
-            <div className="form-row__medium">
-              <Field
-                name="country"
-                label={attributeLabels.country}
-                type="text"
-                position="vertical"
-                wrapperClassName="col-lg-4"
-                component={NasSelectField}
-                disabled={disabled}
-              >
-                {
-                  uniqBy(countries, 'countryCode').map(item =>
-                    (
-                      <option key={`${item.countryCode}-${item.phoneCode}`} value={item.countryCode}>
-                        {item.countryName}
-                      </option>
-                    )
-                  )
-                }
-              </Field>
-            </div>
-            <div className="form-row__medium">
-              <Field
-                name="city"
-                label={attributeLabels.city}
-                type="text"
-                component={InputField}
-                position="vertical"
-                showErrorMessage
-                disabled={disabled}
-              />
-            </div>
-            <div className="form-row__small">
-              <Field
-                name="postCode"
-                label={attributeLabels.postCode}
-                type="text"
-                component={InputField}
-                position="vertical"
-                showErrorMessage
-                disabled={disabled}
-              />
-            </div>
+          <div className="col-auto">
+            <If condition={!pristine && !submitting && !disabled}>
+              <button className="btn btn-sm btn-primary" type="submit" id="profile-address-info-save-btn">
+                {I18n.t('COMMON.SAVE_CHANGES')}
+              </button>
+            </If>
           </div>
-          <div className="filter-row">
-            <div className="filter-row__big">
-              <Field
-                name="address"
-                label={attributeLabels.address}
-                component={TextAreaField}
-                position="vertical"
-                showErrorMessage
-                disabled={disabled}
-                id="profile-address-textarea"
-              />
-            </div>
-          </div>
-        </form>
-      </div>
+        </div>
+        <div className="row">
+          <Field
+            name="country"
+            label={attributeLabels.country}
+            type="text"
+            position="vertical"
+            className="col-lg-4"
+            component={NasSelectField}
+            disabled={disabled}
+          >
+            {
+              uniqBy(countries, 'countryCode').map(item =>
+                (
+                  <option key={`${item.countryCode}-${item.phoneCode}`} value={item.countryCode}>
+                    {item.countryName}
+                  </option>
+                )
+              )
+            }
+          </Field>
+          <Field
+            name="city"
+            label={attributeLabels.city}
+            type="text"
+            component={InputField}
+            position="vertical"
+            disabled={disabled}
+            className="col-lg-4"
+          />
+          <Field
+            name="postCode"
+            label={attributeLabels.postCode}
+            type="text"
+            component={InputField}
+            position="vertical"
+            disabled={disabled}
+            className="col-lg-3"
+          />
+        </div>
+        <Field
+          name="address"
+          label={attributeLabels.address}
+          component={TextAreaField}
+          position="vertical"
+          showErrorMessage
+          disabled={disabled}
+          id="profile-address-textarea"
+        />
+      </form>
     );
   }
 }

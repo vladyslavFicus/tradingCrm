@@ -65,42 +65,6 @@
   }
 }
 
-.form-row {
-  margin-right: -1rem;
-  margin-left: -1rem;
-  &__big {
-    flex: 0 0 350px;
-    min-width: 1px;
-    padding-right: 1rem;
-    padding-left: 1rem;
-  }
-  &__medium {
-    flex: 0 0 250px;
-    min-width: 1px;
-    padding-right: 1rem;
-    padding-left: 1rem;
-  }
-  &__small {
-    flex: 0 0 150px;
-    min-width: 1px;
-    padding-right: 1rem;
-    padding-left: 1rem;
-  }
-  &__multiplier {
-    flex: 0;
-    align-self: center;
-    margin-right: -4px;
-    margin-left: -4px;
-    padding-top: 18px;
-    font-size: 14px;
-    color: #999;
-  }
-  &__action {
-    align-self: center;
-    padding-left: 0;
-  }
-}
-
 .form-group {
   position: relative;
   margin-bottom: 20px;
