@@ -18,12 +18,6 @@ import profile, {
   initialState as profileInitialState,
 } from './profile';
 
-import accumulatedBalances, {
-  actionCreators as accumulatedBalancesActionCreators,
-  actionTypes as accumulatedBalancesActionTypes,
-  initialState as accumulatedBalancesInitialState,
-} from './accumulatedBalances';
-
 import playerLimits, {
   actionCreators as playerLimitsActionCreators,
   actionTypes as playerLimitsActionTypes,
@@ -38,7 +32,6 @@ import uploading, {
 
 const actionCreators = {
   ...profileActionCreators,
-  ...accumulatedBalancesActionCreators,
   ...notesActionCreators,
   ...playerLimitsActionCreators,
   ...uploadingActionCreators,
@@ -46,7 +39,6 @@ const actionCreators = {
 };
 const actionTypes = {
   ...profileActionTypes,
-  ...accumulatedBalancesActionTypes,
   ...notesActionTypes,
   ...playerLimitsActionTypes,
   ...uploadingActionTypes,
@@ -55,7 +47,6 @@ const actionTypes = {
 const initialState = {
   files: filesInitialState,
   profile: profileInitialState,
-  accumulatedBalances: accumulatedBalancesInitialState,
   notes: notesInitialState,
   playerLimits: playerLimitsInitialState,
   uploading: uploadingInitialState,
@@ -69,7 +60,6 @@ export {
 export default combineReducers({
   files,
   profile,
-  accumulatedBalances,
   notes,
   playerLimits,
   uploading,

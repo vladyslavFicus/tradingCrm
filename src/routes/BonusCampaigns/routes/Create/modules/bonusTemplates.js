@@ -3,9 +3,9 @@ import createRequestAction from '../../../../../utils/createRequestAction';
 
 import {
   sourceActionCreators as bonusTemplatesActionCreators,
-} from '../../../../../redux/modules/bonusTemplates';
+} from '../../../../../redux/modules/campaigns/bonusTemplates';
 
-const KEY = 'bonus-campaign/create/settings';
+const KEY = 'bonus-campaign/create/bonus-templates';
 const FETCH_BONUS_TEMPLATES = createRequestAction(`${KEY}/fetch-bonus-templates`);
 const FETCH_BONUS_TEMPLATE = createRequestAction(`${KEY}/fetch-bonus-template`);
 const CREATE_BONUS_TEMPLATE = createRequestAction(`${KEY}/create-bonus-template`);

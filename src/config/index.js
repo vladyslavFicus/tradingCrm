@@ -1,7 +1,6 @@
 import _ from 'lodash';
 
 const config = _.merge({
-  version: __APP_VERSION__,
   availableTags: [],
   components: {
     Currency: {
@@ -140,8 +139,12 @@ function getAvailableLanguages() {
   return config.nas.brand.locale.languages || [];
 }
 
+function getGraphQLRoot() {
+  return config.nas.graphqlRoot;
+}
+
 function getLogo() {
-  const brands = ['redbox', 'slottica', 'loki', 'vulcanprestige'];
+  const brands = ['redbox', 'slottica', 'loki', 'vulcanprestige', 'vulcanneon'];
   let brandId = _.get(window, 'app.brandId');
 
   if (brandId) {
@@ -163,8 +166,12 @@ function getDomain() {
   return `${location.protocol}//${location.hostname}${location.port ? `:${location.port}` : ''}`;
 }
 
+function getBrandId() {
+  return window.app.brandId;
+}
 export {
   getApiRoot,
+  getBrandId,
   getErrorApiUrl,
   getLogo,
   getAvailableTags,
@@ -173,6 +180,7 @@ export {
   getVersion,
   getApiVersion,
   getDomain,
+  getGraphQLRoot,
 };
 
 export default config;

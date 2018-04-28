@@ -36,6 +36,14 @@ export default store => next => (action) => {
         if (window.app.brandId !== tokenData.brandId) {
           window.app.brandId = tokenData.brandId;
         }
+
+        if (window.Raven) {
+          window.Raven.setUserContext({
+            uuid: auth.uuid,
+            token: auth.token,
+            ...jwtDecode(auth.token),
+          });
+        }
       }
 
       const isAuthRehydrate = !!action.payload.language;

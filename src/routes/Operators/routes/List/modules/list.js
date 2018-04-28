@@ -1,4 +1,5 @@
 import { CALL_API } from 'redux-api-middleware';
+import get from 'lodash/get';
 import createRequestAction from '../../../../../utils/createRequestAction';
 import buildQueryString from '../../../../../utils/buildQueryString';
 import createReducer from '../../../../../utils/createReducer';
@@ -103,7 +104,7 @@ const actionHandlers = {
     },
     isLoading: false,
     receivedAt: endRequestTime,
-    noResults: payload.content.length === 0,
+    noResults: !get(payload, 'content.length'),
   }),
   [FETCH_ENTITIES.FAILURE]: (state, { payload, meta: { endRequestTime } }) => ({
     ...state,

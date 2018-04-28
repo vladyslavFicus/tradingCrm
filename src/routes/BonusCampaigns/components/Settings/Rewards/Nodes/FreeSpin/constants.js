@@ -22,6 +22,15 @@ const attributeLabels = {
   count: I18n.t('BONUS_CAMPAIGNS.REWARDS.BONUS.COUNT'),
   pageCode: I18n.t('BONUS_CAMPAIGNS.REWARDS.BONUS.PAGE_CODE'),
   betLevel: I18n.t('BONUS_CAMPAIGNS.REWARDS.BONUS.BET_LEVEL'),
+  comment: I18n.t('BONUS_CAMPAIGNS.REWARDS.BONUS.COMMENT'),
+  betMultiplier: I18n.t('BONUS_CAMPAIGNS.REWARDS.BONUS.BET_MULTIPLIER'),
+  coinSize: I18n.t('BONUS_CAMPAIGNS.REWARDS.BONUS.COIN_SIZE'),
+  rhfpBet: I18n.t('BONUS_CAMPAIGNS.REWARDS.BONUS.RHFP_BET'),
+  freeSpinLifeTime: I18n.t('BONUS_CAMPAIGNS.REWARDS.FREE_SPIN_LIFE_TIME'),
+  nearestCost: I18n.t('BONUS_CAMPAIGNS.REWARDS.FREE_SPIN.NEAREST_COST'),
+  displayLine1: I18n.t('BONUS_CAMPAIGNS.REWARDS.FREE_SPIN.DISPLAY_LINE1'),
+  displayLine2: I18n.t('BONUS_CAMPAIGNS.REWARDS.FREE_SPIN.DISPLAY_LINE2'),
+  bonusTemplate: I18n.t('CAMPAIGNS.FREE_SPIN.BONUS_TEMPLATE'),
 };
 
 const attributePlaceholders = {
@@ -49,16 +58,10 @@ const wageringRequirementTypes = keyMirror({
   BONUS_PLUS_DEPOSIT: null,
 });
 
-const aggregatorsMap = {
-  igromat: ['novomatic', 'igrosoft'],
-  softgamings: ['betsoft', 'amaticdirect', 'habanero', 'netent'],
-};
-
 export {
   attributeLabels,
   attributePlaceholders,
   wageringRequirementTypes,
-  aggregatorsMap,
   GAME_TYPES,
   HARDCODED_PROVIDERS,
 };

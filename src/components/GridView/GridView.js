@@ -20,15 +20,12 @@ class GridView extends Component {
     dataSource: PropTypes.array.isRequired,
     activePage: PropTypes.number,
     totalPages: PropTypes.number,
+    last: PropTypes.bool,
     summaryRow: PropTypes.object,
     rowClassName: PropTypes.func,
     lazyLoad: PropTypes.bool,
     locale: PropTypes.string,
     showNoResults: PropTypes.bool,
-    auth: PropTypes.shape({
-      brandId: PropTypes.string.isRequired,
-      uuid: PropTypes.string.isRequired,
-    }),
   };
   static defaultProps = {
     tableClassName: null,
@@ -44,7 +41,7 @@ class GridView extends Component {
     rowClassName: null,
     lazyLoad: false,
     showNoResults: false,
-    auth: {},
+    last: true,
   };
 
   state = {
@@ -128,12 +125,17 @@ class GridView extends Component {
   });
 
   handlePageChange = (eventKey) => {
-    const { totalPages, activePage, onPageChange } = this.props;
+    const {
+      totalPages,
+      activePage,
+      onPageChange,
+      last,
+    } = this.props;
 
-    if (typeof onPageChange === 'function') {
-      if (totalPages > activePage) {
-        onPageChange(eventKey, this.state.filters);
-      }
+    const hasMore = totalPages && activePage ? totalPages > activePage : !last;
+
+    if (typeof onPageChange === 'function' && hasMore) {
+      onPageChange(eventKey, this.state.filters);
     }
   };
 
@@ -154,7 +156,7 @@ class GridView extends Component {
   );
 
   renderLoader = columns => (
-    <tr className="infinite-preloader">
+    <tr key="loader" className="infinite-preloader">
       <td colSpan={columns.length}>
         <img src="/img/infinite_preloader.svg" alt="preloader" />
       </td>
@@ -167,16 +169,18 @@ class GridView extends Component {
       lazyLoad,
       totalPages,
       activePage,
+      last,
     } = this.props;
 
     const rows = dataSource.map((data, key) => this.renderRow(key, columns, data));
+    const hasMore = totalPages && activePage ? totalPages > activePage : !last;
 
     if (lazyLoad) {
       return (
         <InfiniteScroll
           loadMore={() => this.handlePageChange(activePage + 1)}
           element="tbody"
-          hasMore={totalPages > activePage}
+          hasMore={hasMore}
           loader={this.renderLoader(columns)}
         >
           {rows}
@@ -188,7 +192,7 @@ class GridView extends Component {
   };
 
   renderRow = (key, columns, data) => {
-    const { onRowClick, auth } = this.props;
+    const { onRowClick } = this.props;
 
     return (
       <tr
@@ -196,7 +200,7 @@ class GridView extends Component {
         className={this.getRowClassName(data)}
         onClick={() => {
           if (typeof onRowClick === 'function') {
-            onRowClick({ ...data, auth });
+            onRowClick(data);
           }
         }}
       >

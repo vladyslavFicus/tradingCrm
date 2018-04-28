@@ -70,20 +70,21 @@ class Settings extends Component {
     fetchBonusTemplates: PropTypes.func.isRequired,
     fetchBonusTemplate: PropTypes.func.isRequired,
     bonusTemplates: PropTypes.arrayOf(PropTypes.bonusTemplateListEntity),
+    fetchGameAggregators: PropTypes.func.isRequired,
+    aggregators: PropTypes.shape({
+      fields: PropTypes.arrayOf(PropTypes.string),
+      providers: PropTypes.arrayOf(PropTypes.string),
+    }),
   };
 
   static defaultProps = {
     games: [],
     freeSpinTemplates: [],
     bonusCampaignForm: {
-      capping: {
-        type: customValueFieldTypes.ABSOLUTE,
-      },
-      conversionPrize: {
-        type: customValueFieldTypes.ABSOLUTE,
-      },
+      prizeCapingType: customValueFieldTypes.ABSOLUTE,
     },
     bonusTemplates: [],
+    aggregators: {},
   };
 
   static contextTypes = {
@@ -119,9 +120,9 @@ class Settings extends Component {
 
   pollingFreeSpinTemplate = null;
 
-  startPollingFreeSpinTemplate = uuid => new Promise((resolve) => {
+  startPollingFreeSpinTemplate = (uuid, aggregatorId) => new Promise((resolve) => {
     this.pollingFreeSpinTemplate = setInterval(async () => {
-      const action = await this.props.fetchFreeSpinTemplate(uuid);
+      const action = await this.props.fetchFreeSpinTemplate(uuid, aggregatorId);
 
       if (action && !action.error) {
         const { status } = action.payload;
@@ -138,9 +139,7 @@ class Settings extends Component {
     this.pollingFreeSpinTemplate = null;
   };
 
-  prepareWageringWinMultiplier = ({ value, type }) => {
-    return type !== customValueFieldTypes.ABSOLUTE ? Math.min(value / 100, 500) : 1;
-  };
+  prepareWageringWinMultiplier = ({ value, type }) => (type !== customValueFieldTypes.ABSOLUTE ? Math.min(value / 100, 500) : 1);
 
   handleCurrencyAmountModalOpen = (action) => {
     this.handleOpenModal(CURRENCY_AMOUNT_MODAL, {
@@ -275,7 +274,30 @@ class Settings extends Component {
             delete bonus.maxGrantAmount;
           }
 
-          ['wageringRequirement', 'grantRatio', 'capping', 'prize'].forEach((key) => {
+          ['capping', 'prize'].forEach((key) => {
+            if (bonus[key]) {
+              const value = bonus.prizeCapingType === customValueFieldTypes.ABSOLUTE ? {
+                value: {
+                  currencies: [{
+                    amount: bonus[key],
+                    currency,
+                  }],
+                },
+              } : {
+                percentage: bonus[key],
+              };
+
+              bonus = {
+                ...bonus,
+                [key]: {
+                  ratioType: bonus.prizeCapingType,
+                  ...value,
+                },
+              };
+            }
+          });
+
+          ['wageringRequirement', 'grantRatio'].forEach((key) => {
             if (bonus[key]) {
               if (bonus[key].value) {
                 const value = bonus[key].type === customValueFieldTypes.ABSOLUTE ? {
@@ -340,11 +362,13 @@ class Settings extends Component {
 
         if (createAction && !createAction.error) {
           this.handleToggleFreeSpinTemplate();
-          rewardsFreeSpinData.templateUUID = createAction.payload.uuid;
-          addFreeSpinTemplate(rewardsFreeSpin.name, rewardsFreeSpinData.templateUUID);
-          changeForm('rewards.freeSpin.templateUUID', rewardsFreeSpinData.templateUUID);
+          const { uuid, aggregatorId } = createAction.payload;
 
-          const polling = await this.startPollingFreeSpinTemplate(rewardsFreeSpinData.templateUUID);
+          rewardsFreeSpinData.templateUUID = uuid;
+          addFreeSpinTemplate(rewardsFreeSpin.name, uuid);
+          changeForm('rewards.freeSpin.templateUUID', uuid);
+
+          const polling = await this.startPollingFreeSpinTemplate(rewardsFreeSpinData.templateUUID, aggregatorId);
 
           if (!polling.success) {
             this.context.addNotification({
@@ -381,6 +405,18 @@ class Settings extends Component {
       };
     }
 
+    ['capping', 'conversionPrize'].forEach((key) => {
+      if (data[key]) {
+        data = {
+          ...data,
+          [key]: {
+            type: data.prizeCapingType,
+            value: data[key],
+          },
+        };
+      }
+    });
+
     return handleSubmit(data);
   };
 
@@ -412,6 +448,8 @@ class Settings extends Component {
       fetchPaymentMethods,
       form,
       paymentMethods,
+      fetchGameAggregators,
+      aggregators,
     } = this.props;
 
     return (
@@ -429,6 +467,7 @@ class Settings extends Component {
           onSubmit={this.handleSubmit}
           toggleModal={this.handleCurrencyAmountModalOpen}
           games={games}
+          aggregators={aggregators}
           freeSpinTemplates={freeSpinTemplates}
           bonusTemplates={bonusTemplates}
           form={form}
@@ -445,6 +484,7 @@ class Settings extends Component {
           onToggleFreeSpinCustomTemplate={this.handleToggleFreeSpinTemplate}
           bonusCustomTemplate={customBonusTemplate}
           onToggleBonusCustomTemplate={this.handleToggleBonusTemplate}
+          fetchGameAggregators={fetchGameAggregators}
         />
         {
           modal.name === CURRENCY_AMOUNT_MODAL &&

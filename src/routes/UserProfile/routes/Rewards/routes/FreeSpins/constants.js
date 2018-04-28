@@ -9,6 +9,7 @@ const aggregators = keyMirror({
   microgaming: null,
   netent: null,
   softgamings: null,
+  oryx: null,
 });
 
 export {

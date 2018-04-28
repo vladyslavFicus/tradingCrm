@@ -4,11 +4,11 @@ import { get } from 'lodash';
 import { I18n } from 'react-redux-i18n';
 import PropTypes from '../../../../../../../constants/propTypes';
 import {
-  InputField, SelectField, CustomValueFieldVertical, NasSelectField,
+  InputField, SelectField, CustomValueFieldVertical, NasSelectField, CheckBox,
 } from '../../../../../../../components/ReduxForm';
 import renderLabel from '../../../../../../../utils/renderLabel';
 import { attributeLabels, attributePlaceholders } from '../Bonus/constants';
-import { customValueFieldTypes } from '../../../../../../../constants/form';
+import { customValueFieldTypes, customValueFieldTypesLabels } from '../../../../../../../constants/form';
 import { floatNormalize } from '../../../../../../../utils/inputNormalize';
 import {
   lockAmountStrategy,
@@ -25,7 +25,6 @@ class Bonus extends Component {
     disabled: PropTypes.bool,
     remove: PropTypes.func,
     bonusTemplates: PropTypes.arrayOf(PropTypes.bonusTemplateListEntity),
-    change: PropTypes.func.isRequired,
     handleChangeBonusTemplateData: PropTypes.func.isRequired,
     customTemplate: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]).isRequired,
     onToggleCustomTemplate: PropTypes.func.isRequired,
@@ -47,11 +46,17 @@ class Bonus extends Component {
 
     autofill(this.buildFieldName('grantRatio.type'), customValueFieldTypes.ABSOLUTE);
     autofill(this.buildFieldName('wageringRequirement.type'), customValueFieldTypes.ABSOLUTE);
-    autofill(this.buildFieldName('capping.type'), customValueFieldTypes.ABSOLUTE);
-    autofill(this.buildFieldName('prize.type'), customValueFieldTypes.ABSOLUTE);
+    autofill(this.buildFieldName('prizeCapingType'), customValueFieldTypes.ABSOLUTE);
   }
 
   buildFieldName = name => `${this.props.nodePath}.${name}`;
+
+  renderCappingPrizeLabel = label => (
+    <div>
+      {I18n.t(label)}{' '}
+      <span className="label-additional">{I18n.t('COMMON.OPTIONAL')}</span>
+    </div>
+  );
 
   render() {
     const {
@@ -91,7 +96,7 @@ class Bonus extends Component {
 
         <If condition={!disabled}>
           <div className="row">
-            <div className="col-8">
+            <div className="col">
               <Field
                 name={this.buildFieldName('templateUUID')}
                 id={`${form}TemplateUUID`}
@@ -118,15 +123,16 @@ class Bonus extends Component {
                 </div>
               </If>
             </div>
-            <div className="col-4 margin-top-40">
-              <label>
-                <input
-                  type="checkbox"
-                  id={`${form}BonusCustomTemplate`}
-                  onChange={onToggleCustomTemplate}
-                  checked={!!customTemplate}
-                /> Custom Template
-              </label>
+            <div className="col-auto margin-top-40">
+              <Field
+                name="bonus-campaigns-rewards-freespin-bonus-toggle"
+                type="checkbox"
+                component={CheckBox}
+                id={`${form}BonusCustomTemplate`}
+                onChange={onToggleCustomTemplate}
+                checked={!!customTemplate}
+                label="Custom Template"
+              />
             </div>
           </div>
         </If>
@@ -148,10 +154,11 @@ class Bonus extends Component {
 
         <div className="row">
           <div className="col-7">
-            <CustomValueFieldVertical
+            <Field
+              component={CustomValueFieldVertical}
               disabled={disabled || !customTemplate}
               id={`${form}BonusGrantRatio`}
-              basename={this.buildFieldName('grantRatio')}
+              name={this.buildFieldName('grantRatio')}
               label={I18n.t(attributeLabels.grant)}
               valueFieldProps={{
                 type: 'number',
@@ -175,11 +182,11 @@ class Bonus extends Component {
             </div>
           }
         </div>
-
-        <CustomValueFieldVertical
+        <Field
           disabled={disabled || !customTemplate}
           id={`${form}BonusWageringRequirement`}
-          basename={this.buildFieldName('wageringRequirement')}
+          component={CustomValueFieldVertical}
+          name={this.buildFieldName('wageringRequirement')}
           label={I18n.t(attributeLabels.wageringRequirement)}
           valueFieldProps={{
             type: 'number',
@@ -191,8 +198,7 @@ class Bonus extends Component {
               <option key={key} value={key}>{key}</option>
             )
           }
-        </CustomValueFieldVertical>
-
+        </Field>
         <div className="row">
           <div className="col-6">
             <Field
@@ -231,7 +237,6 @@ class Bonus extends Component {
             </Field>
           </div>
         </div>
-
         <div className="row">
           <div className="col-6">
             <Field
@@ -261,42 +266,59 @@ class Bonus extends Component {
             <span className="right-placeholder">{I18n.t(attributePlaceholders.days)}</span>
           </div>
         </div>
-
         <div className="row">
-          <div className="col-6">
-            <CustomValueFieldVertical
-              disabled={disabled || !customTemplate}
+          <div className="col-md-4">
+            <Field
+              name={this.buildFieldName('prizeCapingType')}
+              label={I18n.t(attributeLabels.prizeCapingType)}
+              type="select"
+              component={SelectField}
+              position="vertical"
+            >
+              {Object.keys(customValueFieldTypes).map(key =>
+                (
+                  <option key={key} value={key}>
+                    {renderLabel(key, customValueFieldTypesLabels)}
+                  </option>
+                )
+              )}
+            </Field>
+          </div>
+          <div className="col-md-4">
+            <Field
               id={`${form}Capping`}
-              basename={this.buildFieldName('capping')}
-              label={I18n.t(attributeLabels.capping)}
-              valueFieldProps={{
-                type: 'number',
-                normalize: floatNormalize,
-              }}
-            />
-          </div>
-          <div className="col-6">
-            <CustomValueFieldVertical
+              name={this.buildFieldName('capping')}
               disabled={disabled || !customTemplate}
+              placeholder="0"
+              component={InputField}
+              label={this.renderCappingPrizeLabel(attributeLabels.capping)}
+              type="number"
+              position="vertical"
+              normalize={floatNormalize}
+            />
+          </div>
+          <div className="col-md-4">
+            <Field
               id={`${form}Prize`}
-              basename={this.buildFieldName('prize')}
-              label={I18n.t(attributeLabels.prize)}
-              valueFieldProps={{
-                type: 'number',
-                normalize: floatNormalize,
-              }}
+              name={this.buildFieldName('prize')}
+              disabled={disabled || !customTemplate}
+              placeholder="0"
+              component={InputField}
+              label={this.renderCappingPrizeLabel(attributeLabels.prize)}
+              type="number"
+              position="vertical"
+              normalize={floatNormalize}
             />
           </div>
         </div>
-
-        <div className="form-group">
-          <Field
-            name={this.buildFieldName('claimable')}
-            type="checkbox"
-            component="input"
-            disabled={disabled || !customTemplate}
-          /> {I18n.t('COMMON.CLAIMABLE')}
-        </div>
+        <Field
+          name={this.buildFieldName('claimable')}
+          type="checkbox"
+          component={CheckBox}
+          id="bonus-campaigns-rewards-freespin-bonus-claimable"
+          disabled={disabled || !customTemplate}
+          label={I18n.t('COMMON.CLAIMABLE')}
+        />
       </div>
     );
   }

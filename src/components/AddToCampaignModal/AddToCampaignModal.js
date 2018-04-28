@@ -4,7 +4,7 @@ import { Field, reduxForm } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
 import PropTypes from '../../constants/propTypes';
 import { createValidator, translateLabels } from '../../utils/validator';
-import { NasSelectField } from '../../components/ReduxForm';
+import { NasSelectField, CheckBox } from '../../components/ReduxForm';
 import { attributeLabels, attributePlaceholders } from './constants';
 import SelectCampaignOption from './SelectCampaignOption';
 import SelectCampaignOptionsHeader from './SelectCampaignOptionsHeader';
@@ -79,66 +79,60 @@ class AddToCampaignModal extends PureComponent {
 
     return (
       <Modal className="add-to-campaign-modal" toggle={onClose} isOpen>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <ModalHeader toggle={onClose}>
-            {title}
-          </ModalHeader>
-          <ModalBody>
-            <div className="add-to-campaign-modal__header">{message}</div>
-            <Field
-              name="campaignUuid"
-              label={I18n.t(attributeLabels.campaignUuid)}
-              labelClassName="form-label clearfix"
-              labelTag="div"
-              labelAddon={
-                <div className="pull-right">
-                  <label>
-                    <input type="checkbox" onClick={this.handleOnlyActiveCampaignsClick} />
-                    {' '}
-                    {I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.MODALS.ADD_TO_CAMPAIGN.ACTIVE_ONLY')}
-                  </label>
-                </div>
-              }
-              component={NasSelectField}
-              position="vertical"
-              placeholder={I18n.t(attributePlaceholders.campaignUuid)}
-              optionsHeader={SelectCampaignOptionsHeader}
-              singleOptionComponent={SelectCampaignOption}
-            >
-              {options.map(campaign => (
-                <option key={campaign.uuid} value={campaign.uuid} campaign={campaign}>
-                  {`${campaign.campaignName} - ${campaign.state}`}
-                </option>
-              ))}
-            </Field>
-
-          </ModalBody>
-          <ModalFooter>
-            <button
-              className="btn btn-default-outline"
-              disabled={submitting}
-              type="reset"
-              onClick={onClose}
-            >
-              {I18n.t('COMMON.CANCEL')}
-            </button>
-            <button
-              type="submit"
-              className="btn btn-primary"
-              disabled={pristine || submitting || invalid}
-            >
-              {I18n.t('COMMON.CONFIRM')}
-            </button>
-          </ModalFooter>
-        </form>
+        <ModalHeader toggle={onClose}>{title}</ModalHeader>
+        <ModalBody id="add-to-campaign-modal-form" tag="form" onSubmit={handleSubmit(onSubmit)}>
+          <div className="add-to-campaign-modal__header">{message}</div>
+          <Field
+            name="campaignUuid"
+            label={I18n.t(attributeLabels.campaignUuid)}
+            labelAddon={
+              <Field
+                id="add-to-camp-modal-checkbox"
+                name="add-to-camp-modal-checkbox"
+                component={CheckBox}
+                type="checkbox"
+                onChange={this.handleOnlyActiveCampaignsClick}
+                label={I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.MODALS.ADD_TO_CAMPAIGN.ACTIVE_ONLY')}
+              />
+            }
+            component={NasSelectField}
+            position="vertical"
+            placeholder={I18n.t(attributePlaceholders.campaignUuid)}
+            optionsHeader={SelectCampaignOptionsHeader}
+            singleOptionComponent={SelectCampaignOption}
+          >
+            {options.map(campaign => (
+              <option key={campaign.uuid} value={campaign.uuid} campaign={campaign}>
+                {`${campaign.name} - ${campaign.state}`}
+              </option>
+            ))}
+          </Field>
+        </ModalBody>
+        <ModalFooter>
+          <button
+            className="btn btn-default-outline"
+            disabled={submitting}
+            type="reset"
+            onClick={onClose}
+          >
+            {I18n.t('COMMON.CANCEL')}
+          </button>
+          <button
+            type="submit"
+            className="btn btn-primary"
+            disabled={pristine || submitting || invalid}
+            form="add-to-campaign-modal-form"
+          >
+            {I18n.t('COMMON.CONFIRM')}
+          </button>
+        </ModalFooter>
       </Modal>
     );
   }
 }
 
-const FORM_NAME = 'addToCampaignModal';
 export default reduxForm({
-  form: FORM_NAME,
+  form: 'addToCampaignModal',
   validate: createValidator({
     campaignUuid: ['required'],
   }, translateLabels(attributeLabels), false),

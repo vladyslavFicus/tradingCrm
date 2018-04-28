@@ -10,16 +10,13 @@ import Card, { Content } from '../../../../components/Card';
 class Notes extends Component {
   static propTypes = {
     notes: PropTypes.shape({
-      entities: PropTypes.shape({
-        content: PropTypes.array,
-      }),
-      isLoading: PropTypes.bool,
-    }),
+      content: PropTypes.arrayOf(PropTypes.shape({
+        author: PropTypes.string,
+        lastEditorUUID: PropTypes.string,
+        targetUUID: PropTypes.string,
+      })),
+    }).isRequired,
     onEditNoteClick: PropTypes.func.isRequired,
-  };
-
-  static defaultProps = {
-    notes: { entities: { content: [] }, isLoading: false },
   };
 
   renderItem = item => (
@@ -56,18 +53,20 @@ class Notes extends Component {
   renderItemId = item => <Uuid uuid={item.targetUUID} uuidPrefix={entitiesPrefixes[item.targetType]} />;
 
   render() {
-    const { notes: { entities: notesEntities } } = this.props;
+    const { notes } = this.props;
 
     return (
       <div className="account-details__pinned-notes">
         <span className="account-details__label">
           {I18n.t('PLAYER_PROFILE.PINNED_NOTES.TITLE')}
         </span>
-        <Card>
-          <Content>
-            {notesEntities.content.map(this.renderItem)}
-          </Content>
-        </Card>
+        <If condition={notes.content}>
+          <Card>
+            <Content>
+              { notes.content.map(this.renderItem)}
+            </Content>
+          </Card>
+        </If>
       </div>
     );
   }

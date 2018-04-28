@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { SubmissionError } from 'redux-form';
+import { get } from 'lodash';
 import PropTypes from '../../../constants/propTypes';
 import Preloader from '../../../components/Preloader';
 import { Brands, Departments } from '../../../components/Brands';
@@ -81,7 +82,7 @@ class BrandsView extends Component {
           router.replace('/');
         } else {
           throw new SubmissionError({
-            _error: action.payload.response.error || action.payload.message,
+            _error: get(action.payload, 'response.error', action.payload.message),
           });
         }
       }

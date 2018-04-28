@@ -5,11 +5,13 @@ import { I18n } from 'react-redux-i18n';
 import { parse } from 'qs';
 import PropTypes from '../../../../../../../constants/propTypes';
 import { statuses as freeSpinTemplate } from '../../../../../../../constants/free-spin-template';
-import { InputField, SelectField, NasSelectField } from '../../../../../../../components/ReduxForm';
-import { attributeLabels, aggregatorsMap, GAME_TYPES } from './constants';
+import { InputField, SelectField, NasSelectField, CheckBox } from '../../../../../../../components/ReduxForm';
+import { attributeLabels, GAME_TYPES } from './constants';
 import Amount, { Currency } from '../../../../../../../components/Amount';
 import { customValueFieldTypes } from '../../../../../../../constants/form';
 import { floatNormalize, intNormalize } from '../../../../../../../utils/inputNormalize';
+import normalizeNumber from '../../../../../../../utils/normalizeNumber';
+import { attributePlaceholders } from '../Bonus/constants';
 import Bonus from './Bonus';
 import { aggregators } from '../../../../../../../routes/UserProfile/routes/Rewards/routes/FreeSpins/constants';
 import Uuid from '../../../../../../../components/Uuid';
@@ -32,6 +34,11 @@ class FreeSpin extends Component {
     onToggleFreeSpinCustomTemplate: PropTypes.func.isRequired,
     bonusCustomTemplate: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]).isRequired,
     onToggleBonusCustomTemplate: PropTypes.func.isRequired,
+    fetchGameAggregators: PropTypes.func.isRequired,
+    aggregators: PropTypes.shape({
+      fields: PropTypes.arrayOf(PropTypes.string),
+      providers: PropTypes.arrayOf(PropTypes.string),
+    }),
   };
 
   static defaultProps = {
@@ -40,6 +47,7 @@ class FreeSpin extends Component {
     freeSpinTemplates: [],
     bonusTemplates: [],
     typeValues: [],
+    aggregators: {},
   };
 
   static contextTypes = {
@@ -52,12 +60,19 @@ class FreeSpin extends Component {
   };
 
   async componentDidMount() {
-    const { fetchGames, fetchFreeSpinTemplates, fetchBonusTemplates } = this.props;
+    const {
+      fetchGames,
+      fetchFreeSpinTemplates,
+      fetchBonusTemplates,
+      fetchGameAggregators,
+    } = this.props;
 
     const { _reduxForm: { values: { rewards } } } = this.context;
     const templateUUID = get(rewards, 'freeSpin.templateUUID');
     const action = await fetchGames();
+
     await fetchFreeSpinTemplates({ status: freeSpinTemplate.CREATED }, true);
+    await fetchGameAggregators();
     await fetchBonusTemplates({ status: freeSpinTemplate.CREATED }, true);
 
     if (action && !action.error && templateUUID) {
@@ -79,7 +94,7 @@ class FreeSpin extends Component {
         });
       }
 
-      if (mobilePageCode) {
+      if (mobilePageCode && pageCode !== mobilePageCode) {
         pageCodes.push({
           label: 'PLAYER_PROFILE.FREE_SPIN.MODAL_CREATE.GAME_TYPES.MOBILE',
           value: mobilePageCode,
@@ -100,9 +115,15 @@ class FreeSpin extends Component {
   setField = (field, value = '') => this.props.change(this.buildFieldName(field), value);
 
   loadTemplateData = async (templateUUID) => {
-    const { fetchFreeSpinTemplate } = this.props;
+    const { fetchFreeSpinTemplate, freeSpinTemplates } = this.props;
 
-    const action = await fetchFreeSpinTemplate(templateUUID);
+    const template = freeSpinTemplates.find(i => i.uuid === templateUUID);
+
+    if (!template) {
+      return null;
+    }
+
+    const action = await fetchFreeSpinTemplate(templateUUID, template.aggregatorId);
     if (action && !action.error) {
       const {
         name,
@@ -113,8 +134,13 @@ class FreeSpin extends Component {
         betPerLineAmounts,
         linesPerSpin,
         bonusTemplateUUID,
-        count,
+        coinSize,
+        betMultiplier,
         pageCode,
+        comment,
+        betLevel,
+        freeSpinLifeTime,
+        rhfpBet,
       } = action.payload;
 
       let { betPerLine } = action.payload;
@@ -127,11 +153,30 @@ class FreeSpin extends Component {
 
       this.handleChangeAggregator(aggregatorId);
       this.handleChangeProvider(providerId);
-      this.setField('gameId', gameId);
+      this.handleChangeGame(gameId);
+
+      if (freeSpinLifeTime) {
+        this.setField('freeSpinLifeTime', freeSpinLifeTime);
+      }
+
+      if (aggregatorId === aggregators.oryx) {
+        this.setField('freeSpinsAmount', freeSpinsAmount);
+        this.setField('betMultiplier', betMultiplier);
+        this.setField('coinSize', coinSize);
+        this.setField('rhfpBet', rhfpBet);
+      }
+
+      if (aggregatorId === aggregators.netent) {
+        this.setField('coinSize', coinSize);
+        this.setField('betLevel', betLevel);
+        this.setField('comment', comment || '');
+        this.setField('freeSpinsAmount', freeSpinsAmount);
+      }
 
       if (aggregatorId === aggregators.softgamings) {
-        this.setField('count', count);
+        this.setField('freeSpinsAmount', freeSpinsAmount);
         this.setField('pageCode', pageCode);
+        this.setField('betLevel', betLevel);
       } else {
         this.setField('freeSpinsAmount', freeSpinsAmount);
         this.setField('betPerLine', betPerLine);
@@ -171,7 +216,23 @@ class FreeSpin extends Component {
         this.setField('bonus.maxGrantAmount', get(action.payload, 'maxGrantAmount.currencies[0].amount', ''));
       }
 
-      ['wageringRequirement', 'grantRatio', 'capping', 'prize'].forEach((key) => {
+      ['capping', 'prize'].forEach((key) => {
+        const field = action.payload[key];
+
+        if (field) {
+          this.setField('bonus.prizeCapingType', field.ratioType);
+
+          const formatValue = field.ratioType === customValueFieldTypes.ABSOLUTE
+            ? get(field, 'value.currencies[0].amount', '')
+            : get(field, 'percentage', '');
+
+          this.setField(`bonus.${key}`, formatValue);
+        } else {
+          this.setField(`bonus.${key}`, '');
+        }
+      });
+
+      ['wageringRequirement', 'grantRatio'].forEach((key) => {
         const type = `bonus.${key}.type`;
         const value = `bonus.${key}.value`;
         const field = action.payload[key];
@@ -216,10 +277,17 @@ class FreeSpin extends Component {
   };
 
   handleChangeGame = (gameId) => {
+    const { aggregators: aggregatorsMap } = this.props;
+    const { _reduxForm: { values: { rewards } } } = this.context;
+    const currentValues = get(rewards, 'freeSpin', {});
+    const fields = get(aggregatorsMap, `${currentValues.aggregatorId}.fields`, []);
+
     const game = this.state.currentGames.find(i => i.gameId === gameId);
 
     if (game) {
       this.setField('gameId', game.gameId);
+      this.setField('clientId', fields.indexOf('clientId') !== -1 ? game.clientId : '');
+      this.setField('moduleId', fields.indexOf('moduleId') !== -1 ? game.moduleId : '');
 
       if (game.aggregatorId === aggregators.softgamings && game.gameInfoType !== GAME_TYPES.DESKTOP_AND_MOBILE) {
         const { pageCode, mobilePageCode } = parse(game.startGameUrl, { ignoreQueryPrefix: true });
@@ -246,8 +314,13 @@ class FreeSpin extends Component {
     this.setField('gameId', null);
     const currentValues = get(rewards, 'freeSpin', {});
 
-    if (currentValues.aggregatorId === aggregators.softgamings && providerId !== 'netent') {
+    if (currentValues.aggregatorId === aggregators.netent ||
+      (currentValues.aggregatorId === aggregators.softgamings && providerId !== 'netent')) {
       this.setField('betLevel', 1);
+    }
+
+    if (currentValues.aggregatorId === aggregators.netent || currentValues.aggregatorId === aggregators.oryx) {
+      this.setField('coinSize', 1);
     }
 
     const currentGames = this.props.games.filter(
@@ -264,10 +337,10 @@ class FreeSpin extends Component {
 
   handleChangeAggregator = (aggregatorId) => {
     this.setField('aggregatorId', aggregatorId);
-
     [
-      'providerId', 'gameId', 'betLevel',
-      'count', 'freeSpinsAmount', 'betPerLine', 'linesPerSpin',
+      'providerId', 'gameId', 'betLevel', 'rhfpBet', 'displayLine1', 'clientId',
+      'coinSize', 'betMultiplier', 'freeSpinLifeTime', 'comment', 'nearestCost',
+      'freeSpinsAmount', 'betPerLine', 'linesPerSpin', 'displayLine2', 'moduleId',
     ].forEach(key => this.setField(key));
   };
 
@@ -282,6 +355,10 @@ class FreeSpin extends Component {
       return null;
     }
 
+    const betLevels = get(gameData, 'betLevels', []).length > 1 ? gameData.betLevels : [1];
+    const coinSizes = get(gameData, 'coinSizes', []).length > 1 ? gameData.coinSizes : [1];
+
+
     if (currentValues.aggregatorId === aggregators.softgamings) {
       return (
         <div>
@@ -289,11 +366,11 @@ class FreeSpin extends Component {
           <div className="row">
             <div className="col-6">
               <Field
-                name={this.buildFieldName('count')}
+                name={this.buildFieldName('freeSpinsAmount')}
                 type="number"
                 id={`${form}Count`}
                 placeholder="0"
-                label={I18n.t(attributeLabels.count)}
+                label={I18n.t(attributeLabels.freeSpins)}
                 component={InputField}
                 normalize={intNormalize}
                 position="vertical"
@@ -318,17 +395,217 @@ class FreeSpin extends Component {
             <div className="col-6">
               <Field
                 name={this.buildFieldName('betLevel')}
-                type="number"
                 id={`${form}betLevel`}
-                placeholder="0"
-                disabled={!customTemplate || currentValues.providerId !== 'netent'}
                 label={I18n.t(attributeLabels.betLevel)}
-                component={InputField}
-                normalize={intNormalize}
+                type="select"
+                parse={normalizeNumber}
+                component={SelectField}
                 position="vertical"
+                disabled={!customTemplate || betLevels.length === 1}
+              >
+                {betLevels
+                  .map(item => <option key={item} value={item}>{item}</option>)}
+              </Field>
+            </div>
+            <div className="form-row_with-placeholder-right col-6">
+              <Field
+                name={this.buildFieldName('freeSpinLifeTime')}
+                id={`${form}freeSpinLifeTime`}
+                type="text"
+                placeholder="0"
+                normalize={intNormalize}
+                label={I18n.t(attributeLabels.freeSpinLifeTime)}
+                component={InputField}
+                position="vertical"
+                disabled={!customTemplate}
               />
+              <span className="right-placeholder">{I18n.t(attributePlaceholders.days)}</span>
             </div>
           </div>
+        </div>
+      );
+    }
+
+    if (
+      currentValues.aggregatorId === aggregators.oryx ||
+      currentValues.aggregatorId === aggregators.netent
+    ) {
+      return (
+        <div>
+          <hr />
+          <div className="row">
+            <div className="col-6">
+              <Field
+                name={this.buildFieldName('freeSpinsAmount')}
+                type="number"
+                id={`${form}freeSpinsAmount`}
+                placeholder="0"
+                label={I18n.t(attributeLabels.freeSpins)}
+                component={InputField}
+                normalize={floatNormalize}
+                position="vertical"
+                disabled={!customTemplate}
+                showErrorMessage={false}
+              />
+            </div>
+            <div className="form-row_with-placeholder-right col-6">
+              <Field
+                name={this.buildFieldName('freeSpinLifeTime')}
+                id={`${form}freeSpinLifeTime`}
+                type="text"
+                placeholder="0"
+                normalize={intNormalize}
+                label={I18n.t(attributeLabels.freeSpinLifeTime)}
+                component={InputField}
+                position="vertical"
+                disabled={!customTemplate}
+              />
+              <span className="right-placeholder">{I18n.t(attributePlaceholders.days)}</span>
+            </div>
+          </div>
+          <If condition={currentValues.aggregatorId === aggregators.oryx}>
+            <div className="row">
+              <div className="col-6">
+                <Field
+                  name={this.buildFieldName('betMultiplier')}
+                  type="number"
+                  id={`${form}betMultiplier`}
+                  placeholder="0"
+                  normalize={intNormalize}
+                  label={I18n.t(attributeLabels.betMultiplier)}
+                  component={InputField}
+                  position="vertical"
+                  disabled={!customTemplate}
+                />
+              </div>
+              <div className="col-6">
+                <Field
+                  name={this.buildFieldName('rhfpBet')}
+                  type="number"
+                  id={`${form}rhfpBet`}
+                  placeholder="0"
+                  normalize={intNormalize}
+                  label={I18n.t(attributeLabels.rhfpBet)}
+                  component={InputField}
+                  position="vertical"
+                  disabled={!customTemplate}
+                />
+              </div>
+            </div>
+          </If>
+          <div className="row">
+            <div className="col-6">
+              <Field
+                name={this.buildFieldName('coinSize')}
+                id={`${form}coinSize`}
+                label={I18n.t(attributeLabels.coinSize)}
+                type="select"
+                parse={normalizeNumber}
+                component={SelectField}
+                position="vertical"
+                disabled={!customTemplate || coinSizes.length === 1}
+              >
+                {coinSizes
+                  .map(item => <option key={item} value={item}>{item}</option>)}
+              </Field>
+            </div>
+            <If condition={currentValues.aggregatorId === aggregators.netent}>
+              <div className="col-6">
+                <Field
+                  name={this.buildFieldName('betLevel')}
+                  id={`${form}betLevel`}
+                  label={I18n.t(attributeLabels.betLevel)}
+                  type="select"
+                  parse={normalizeNumber}
+                  component={SelectField}
+                  position="vertical"
+                  disabled={!customTemplate || betLevels.length === 1}
+                >
+                  {betLevels
+                    .map(item => <option key={item} value={item}>{item}</option>)}
+                </Field>
+              </div>
+              <div className="col-12">
+                <Field
+                  name={this.buildFieldName('comment')}
+                  type="text"
+                  id={`${form}Comment`}
+                  placeholder=""
+                  label={I18n.t(attributeLabels.comment)}
+                  component={InputField}
+                  position="vertical"
+                  disabled={!customTemplate}
+                />
+              </div>
+            </If>
+          </div>
+        </div>
+      );
+    }
+
+    if (currentValues.aggregatorId === aggregators.microgaming) {
+      return (
+        <div className="row">
+          <Field
+            name={this.buildFieldName('freeSpinsAmount')}
+            type="number"
+            id={`${form}freeSpinsAmount`}
+            placeholder="0"
+            className="col-6"
+            label={I18n.t(attributeLabels.freeSpins)}
+            component={InputField}
+            normalize={floatNormalize}
+            position="vertical"
+            disabled={!customTemplate}
+            showErrorMessage={false}
+          />
+          <div className="form-row_with-placeholder-right col-6">
+            <Field
+              name={this.buildFieldName('freeSpinLifeTime')}
+              id={`${form}freeSpinLifeTime`}
+              type="text"
+              placeholder="0"
+              normalize={intNormalize}
+              label={I18n.t(attributeLabels.freeSpinLifeTime)}
+              component={InputField}
+              position="vertical"
+              disabled={!customTemplate}
+            />
+            <span className="right-placeholder">{I18n.t(attributePlaceholders.days)}</span>
+          </div>
+          <Field
+            name={this.buildFieldName('nearestCost')}
+            type="number"
+            id={`${form}nearestCost`}
+            placeholder="0"
+            label={I18n.t(attributeLabels.nearestCost)}
+            component={InputField}
+            className="col-6"
+            normalize={floatNormalize}
+            position="vertical"
+            disabled={!customTemplate}
+            showErrorMessage={false}
+          />
+          <Field
+            name={this.buildFieldName('displayLine1')}
+            id={`${form}displayLine1`}
+            className="col-6"
+            type="text"
+            label={I18n.t(attributeLabels.displayLine1)}
+            component={InputField}
+            position="vertical"
+            disabled={!customTemplate}
+          />
+          <Field
+            name={this.buildFieldName('displayLine2')}
+            id={`${form}displayLine2`}
+            type="text"
+            className="col-6"
+            label={I18n.t(attributeLabels.displayLine2)}
+            component={InputField}
+            position="vertical"
+            disabled={!customTemplate}
+          />
         </div>
       );
     }
@@ -338,18 +615,36 @@ class FreeSpin extends Component {
         <hr />
         <div className="row">
           <div className="col-7">
-            <Field
-              name={this.buildFieldName('freeSpinsAmount')}
-              type="number"
-              id={`${form}FreeSpinsAmount`}
-              aplaceholder="0"
-              label={I18n.t(attributeLabels.freeSpins)}
-              component={InputField}
-              normalize={floatNormalize}
-              position="vertical"
-              disabled={!customTemplate}
-              showErrorMessage={false}
-            />
+            <div className="row">
+              <div className="col-6">
+                <Field
+                  name={this.buildFieldName('freeSpinsAmount')}
+                  type="number"
+                  id={`${form}FreeSpinsAmount`}
+                  placeholder="0"
+                  label={I18n.t(attributeLabels.freeSpins)}
+                  component={InputField}
+                  normalize={floatNormalize}
+                  position="vertical"
+                  disabled={!customTemplate}
+                  showErrorMessage={false}
+                />
+              </div>
+              <div className="form-row_with-placeholder-right col-6">
+                <Field
+                  name={this.buildFieldName('freeSpinLifeTime')}
+                  id={`${form}freeSpinLifeTime`}
+                  type="text"
+                  placeholder="0"
+                  normalize={intNormalize}
+                  label={I18n.t(attributeLabels.freeSpinLifeTime)}
+                  component={InputField}
+                  position="vertical"
+                  disabled={disabled}
+                />
+                <span className="right-placeholder">{I18n.t(attributePlaceholders.days)}</span>
+              </div>
+            </div>
             <div className="row margin-top-15">
               <div className="col-6">
                 <Field
@@ -465,13 +760,14 @@ class FreeSpin extends Component {
       bonusCustomTemplate,
       onToggleBonusCustomTemplate,
       onToggleFreeSpinCustomTemplate,
+      aggregators: aggregatorsMap,
     } = this.props;
 
     const { _reduxForm: { form, values: { rewards } } } = this.context;
     const currentValues = get(rewards, 'freeSpin', {});
     const { currentGames } = this.state;
 
-    const availableProviders = currentValues.aggregatorId ? aggregatorsMap[currentValues.aggregatorId] : [];
+    const availableProviders = get(aggregatorsMap, `${currentValues.aggregatorId}.providers`, []);
     const currentUuid = get(currentValues, 'templateUUID', false);
 
     return (
@@ -514,7 +810,7 @@ class FreeSpin extends Component {
         </div>
         <If condition={!disabled}>
           <div className="row">
-            <div className="col-8">
+            <div className="col">
               <Field
                 name={this.buildFieldName('templateUUID')}
                 id={`${form}TemplateUUID`}
@@ -541,15 +837,16 @@ class FreeSpin extends Component {
                 </div>
               </If>
             </div>
-            <div className="col-4 margin-top-40">
-              <label>
-                <input
-                  type="checkbox"
-                  id={`${form}CustomTemplate`}
-                  onChange={onToggleFreeSpinCustomTemplate}
-                  checked={customTemplate}
-                /> Custom Template
-              </label>
+            <div className="col-auto margin-top-40">
+              <Field
+                id={`${form}CustomTemplate`}
+                name={`${form}CustomTemplate`}
+                component={CheckBox}
+                type="checkbox"
+                onChange={onToggleFreeSpinCustomTemplate}
+                checked={customTemplate}
+                label="Custom Template"
+              />
             </div>
           </div>
         </If>

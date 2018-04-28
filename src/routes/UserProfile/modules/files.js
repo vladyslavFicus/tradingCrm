@@ -2,7 +2,7 @@ import { CALL_API } from 'redux-api-middleware';
 import fetch from '../../../utils/fetch';
 import { getApiRoot } from '../../../config';
 import { actions, categories } from '../../../constants/files';
-import { sourceActionCreators as filesSourceActionCreators } from '../../../redux/modules/files';
+import { sourceActionCreators as filesSourceActionCreators } from '../../../redux/modules/profile/files';
 import createReducer from '../../../utils/createReducer';
 import createRequestAction from '../../../utils/createRequestAction';
 import downloadBlob from '../../../utils/downloadBlob';

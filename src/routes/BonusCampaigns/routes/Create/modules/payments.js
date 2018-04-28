@@ -2,7 +2,7 @@ import createRequestAction from '../../../../../utils/createRequestAction';
 import createReducer from '../../../../../utils/createReducer';
 import { sourceActionCreators as paymentsActionCreators } from '../../../../../redux/modules/payment';
 
-const KEY = 'bonus-campaign/view/fetch-campaigns';
+const KEY = 'bonus-campaign/create/payments';
 const FETCH_PAYMENT_METHODS = createRequestAction(`${KEY}/fetch-payment-methods`);
 
 const fetchPaymentMethods = paymentsActionCreators.fetchPaymentMethods(FETCH_PAYMENT_METHODS);

@@ -147,6 +147,37 @@ class List extends Component {
     }
   };
 
+  handleLoadOperatorMiniProfile = async (uuid) => {
+    const { fetchOperatorMiniProfile, fetchAuthorities } = this.props;
+
+    const action = await fetchOperatorMiniProfile(uuid);
+
+    if (!action || action.error) {
+      return {
+        error: true,
+        payload: action ? action.payload : null,
+      };
+    }
+
+    const payload = { ...action.payload };
+
+    const authoritiesAction = await fetchAuthorities(uuid);
+
+    if (!authoritiesAction || authoritiesAction.error) {
+      return {
+        error: true,
+        payload: authoritiesAction ? authoritiesAction.payload : null,
+      };
+    }
+
+    payload.authorities = authoritiesAction.payload;
+
+    return {
+      error: false,
+      payload,
+    };
+  };
+
   renderStatus = data => (
     <div>
       <div
@@ -176,7 +207,7 @@ class List extends Component {
         <MiniProfile
           target={data.uuid}
           type={miniProfileTypes.OPERATOR}
-          dataSource={this.props.fetchOperatorMiniProfile}
+          dataSource={this.handleLoadOperatorMiniProfile}
         >
           <Uuid uuid={data.uuid} />
         </MiniProfile>

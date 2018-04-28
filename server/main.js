@@ -8,6 +8,8 @@ const project = require('../project.config');
 const compress = require('compression');
 const proxy = require('express-http-proxy');
 
+logger.info(`App version: ${project.globals.__APP_VERSION__}`);
+
 const app = express();
 app.use(compress());
 
@@ -18,9 +20,18 @@ if (project.env === 'development') {
   const compiler = webpack(webpackConfig);
   const appConfig = require('./application.config');
 
+  appConfig.version = project.globals.__APP_VERSION__;
+
   if (process.env.API_ROOT) {
     _.set(appConfig, 'nas.brand.api.url', process.env.API_ROOT);
   }
+
+  _.set(
+    appConfig,
+    'nas.graphqlRoot',
+    process.env.GRAPHQL_ROOT || `${_.get(appConfig, 'nas.brand.api.url')}/graphql/gql`
+  );
+
   if (process.env.BRAND_ID) {
     _.set(appConfig, 'nas.brand.name', process.env.BRAND_ID);
   }

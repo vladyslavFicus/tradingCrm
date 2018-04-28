@@ -1,5 +1,5 @@
+import keyMirror from 'keymirror';
 import I18n from '../../../../../../../../utils/fake-i18n';
-import { lockAmountStrategy } from '../../../../../../../../constants/bonus-campaigns';
 
 const attributeLabels = {
   playerUUID: I18n.t('PLAYER_PROFILE.BONUS.MODAL_CREATE.LABELS.PLAYER_UUID'),
@@ -13,6 +13,7 @@ const attributeLabels = {
   createdDate: I18n.t('PLAYER_PROFILE.BONUS.MODAL_CREATE.LABELS.CREATED_DATE'),
   expirationDate: I18n.t('PLAYER_PROFILE.BONUS.MODAL_CREATE.LABELS.EXPIRATION_DATE'),
   prize: I18n.t('PLAYER_PROFILE.BONUS.MODAL_CREATE.LABELS.PRIZE'),
+  prizeCapingType: I18n.t('PLAYER_PROFILE.BONUS.MODAL_CREATE.LABELS.PRIZE_CAPPING_TYPE'),
   capping: I18n.t('PLAYER_PROFILE.BONUS.MODAL_CREATE.LABELS.CAPPING'),
   optIn: I18n.t('PLAYER_PROFILE.BONUS.MODAL_CREATE.LABELS.OPT_IN'),
   converted: I18n.t('PLAYER_PROFILE.BONUS.MODAL_CREATE.LABELS.CONVERTED'),
@@ -29,6 +30,20 @@ const attributeLabels = {
   template: I18n.t('PLAYER_PROFILE.BONUS.MODAL_CREATE.LABELS.TEMPLATE'),
 };
 
+const wageringRequirementCustomValueFieldTypes = keyMirror({
+  ABSOLUTE: null,
+  BONUS: null,
+});
+
+const wageringRequirementCustomValueFieldTypesLabels = {
+  [wageringRequirementCustomValueFieldTypes.ABSOLUTE]: I18n.t(
+    'PLAYER_PROFILE.BONUS.MODAL_CREATE.WAGERING_REQUIREMENT_CUSTOM_VALUE_TYPE.ABSOLUTE'
+  ),
+  [wageringRequirementCustomValueFieldTypes.BONUS]: I18n.t(
+    'PLAYER_PROFILE.BONUS.MODAL_CREATE.WAGERING_REQUIREMENT_CUSTOM_VALUE_TYPE.PERCENTAGE'
+  ),
+};
+
 const mapResponseErrorToField = {
   'already-exists': 'name',
 };
@@ -36,4 +51,5 @@ const mapResponseErrorToField = {
 export {
   attributeLabels,
   mapResponseErrorToField,
+  wageringRequirementCustomValueFieldTypesLabels,
 };

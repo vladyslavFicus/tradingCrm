@@ -66,7 +66,7 @@ class ChangeStatusModal extends Component {
         {
           customReason &&
           <option value="custom">
-            {I18n.t('BONUS_CAMPAIGNS.CHANGE_STATUS_MODAL.CUSTOM_REASON_OPTION')}
+            {I18n.t('COMMON.CUSTOM_REASON_OPTION')}
           </option>
         }
       </Field>

@@ -8,7 +8,7 @@ const SelectCampaignOption = props => (
   <div className="row add-to-campaign-modal__campaign" onClick={props.onClick}>
     <div className="col-md-4">
       <div className="font-weight-700 add-to-campaign-modal__campaign-name">
-        {props.campaign.campaignName}
+        {props.campaign.name}
       </div>
       <div className="font-size-11">
         <Uuid uuid={props.campaign.uuid} uuidPrefix="CA" />

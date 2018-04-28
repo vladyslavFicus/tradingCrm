@@ -16,7 +16,8 @@
       "PLAYERS_KYC_REQUEST": "KYC requests",
       "SETTINGS": "Settings",
       "NEW_CAMPAIGNS": "New campaigns",
-      "NEW_CAMPAIGNS_FULFILLMENTS": "Fulfillments"
+      "NEW_CAMPAIGNS_FULFILLMENTS": "Fulfillments",
+      "CAMPAIGNS": "[NEW] Campaigns"
     },
     "BOTTOM_MENU": {
       "SUPPORT": "Support"
@@ -233,6 +234,7 @@
       "PENDING_STATUS": "Pending",
       "TITLE": "Game Activity",
       "GRID_VIEW": {
+        "JACKPOT": "Jackpot",
         "GAME_ROUND": "Game round",
         "GAME": "Game",
         "BET_DATE": "Bet date",
@@ -309,7 +311,8 @@
           "WAGERING_REQUIREMENT": "Wagering requirement",
           "LIFE_TIME": "Life time",
           "CUSTOM_TEMPLATE": "Custom template",
-          "TEMPLATE": "Template"
+          "TEMPLATE": "Template",
+          "PRIZE_CAPPING_TYPE": "Prize capping type"
         },
         "LOCK_AMOUNT_STRATEGY": {
           "LOCK_ALL": "Lock all",
@@ -540,7 +543,6 @@
         "CHOOSE_AGGREGATOR": "-- Choose --"
       },
       "MODAL_CANCEL": {
-        "CUSTOM_REASON_OPTION": "Other",
         "TITLE": "Free spins cancelation",
         "ACTION_TEXT": "You are about to %{action} the \"%{title}\"",
         "ENTITY_NAME": "free spins",
@@ -739,7 +741,10 @@
     "NONE": "None",
     "REMOVE": "Remove",
     "CLAIMABLE": "Claimable",
-    "CURRENCY": "Currency"
+    "CURRENCY": "Currency",
+    "YES": "Yes",
+    "NO": "No",
+    "CUSTOM_REASON_OPTION": "Other"
   },
   "FILES": {
     "UPLOAD_MODAL": {
@@ -891,6 +896,10 @@
         "LABEL": "Withdrawal lock",
         "LOCK_ALL": "Lock all money",
         "LOCK_PARTIAL": "Lock deposited amount"
+      },
+      "REWARD_TYPE": {
+        "BONUS": "Bonus",
+        "FREE_SPIN": "Free-spin"
       }
     },
     "GAMING_ACTIVITY": {
@@ -1322,7 +1331,6 @@
       "NO_SELECTED_LINKED_CAMPAIGN": "No selected linked campaign"
     },
     "CHANGE_STATUS_MODAL": {
-      "CUSTOM_REASON_OPTION": "Other",
       "CUSTOM_REASON_PLACEHOLDER": "Custom reason",
       "CANCEL_BUTTON": "Cancel",
       "TITLE": "Change bonus campaign status",
@@ -1396,11 +1404,19 @@
         "PRIZE": "Prize",
         "COUNT": "Count",
         "PAGE_CODE": "Page code",
-        "BET_LEVEL": "Bet level"
+        "BET_LEVEL": "Bet level",
+        "COIN_SIZE": "Coin size",
+        "RHFP_BET": "Rhfp bet",
+        "BET_MULTIPLIER": "Bet multiplier",
+        "COMMENT": "Comment",
+        "PRIZE_CAPPING_TYPE": "Prize & Capping type"
       },
       "FREE_SPIN": {
         "ADD_REWARDS": "Add rewards",
         "SELECT_REWARDS": "Select rewards",
+        "NEAREST_COST": "Nearest cost",
+        "DISPLAY_LINE1": "Display line 1",
+        "DISPLAY_LINE2": "Display line 2",
         "BET_PER_LINE": "Bet per line",
         "TEMPLATE": "Template",
         "CHOOSE_TEMPLATE": "-- Choose template --",
@@ -1426,7 +1442,8 @@
       },
       "BONUS_TEMPLATE": {
         "CREATION_ERROR": "Bonus template creation error"
-      }
+      },
+      "FREE_SPIN_LIFE_TIME": "Free spin life time"
     },
     "CURRENCY_CALC_MODAL": {
       "HEADER": "Value in different currencies",
@@ -1486,7 +1503,10 @@
         "inactive": "Payment method inactive"
       },
       "withdrawable": {
-        "limit": "Exceeded withdrawable amount"
+        "limit": "Exceeded withdrawable amount",
+        "bonus": {
+          "disable": "To unlock locked amount, disable active player bonus"
+        }
       }
     },
     "profile": {
@@ -1550,7 +1570,6 @@
     }
   },
   "PAYMENT_ACTION_REASON_MODAL": {
-    "CUSTOM_REASON_OPTION": "Other",
     "REASON_DROPDOWN": {
       "CONSTANTS": {
         "REASON_LABEL": "Reason",
@@ -1709,5 +1728,187 @@
       "TITLE": "Permission denied",
       "REASON": "You do not have permission to access this section"
     }
+  },
+  "CAMPAIGNS": {
+    "CAMPAIGN_NAME": "Campaign name",
+    "FREE_SPIN_TEMPLATE": "Free spin template",
+    "BONUS_TEMPLATE": "Bonus template",
+    "WAGERING_FULFILLMENT": "Wagering fulfillment",
+    "SELECT_REWARD": "-- Select reward --",
+    "SELECT_FULFILLMENT": "-- Select fulfillment --",
+    "FREE_SPIN": {
+      "CREATE": {
+        "ERROR_TITLE": "Free spin creation error",
+        "SUCCESS_TITLE": "Fee spin created successfully"
+      },
+      "PROVIDER": "Provider",
+      "AGGREGATOR": "Aggregator",
+      "GAMES": "Games",
+      "GAME": "Game",
+      "GAME_TYPE": "Game type",
+      "NAME": "Name",
+      "FREE_SPINS": "Free spins",
+      "FREE_SPIN_REWARD": "Free spin reward",
+      "BET_PER_LINE": "Bet per line",
+      "FREE_SPIN_LIFE_TIME": "Free spin life time",
+      "PRIZE": "Prize",
+      "SPIN_VALUE": "Spin value",
+      "TOTAL_VALUE": "Total value",
+      "LINES_PER_SPIN": "Lines per spin",
+      "BET_LEVEL": "Bet level",
+      "COIN_SIZE": "Coin size",
+      "PAGE_CODE": "Page code",
+      "COMMENT": "Comment",
+      "BET_MULTIPLIER": "Bet multiplier",
+      "NEAREST_COST": "Nearest cost",
+      "DISPLAY_LINE1": "Display line 1",
+      "DISPLAY_LINE2": "Display line 2",
+      "RHFP_BET": "Rhfp bet",
+      "BONUS_TEMPLATE": "Bonus template",
+      "PLACEHOLDERS": {
+        "DAYS": "Days"
+      },
+      "HEADER": "Free spin template",
+      "CHOOSE_CURRENCY": "-- Choose currency--",
+      "CHOOSE_AGGREGATOR": "-- Choose aggregator--",
+      "CHOOSE_PROVIDER": "-- Choose provider--",
+      "CHOOSE_PAGE_CODE": "-- Choose page code--",
+      "WAGERING": "Wagering",
+      "CAPPING": "Capping",
+      "MONEY_PRIORITY": "Money priority"
+    },
+    "DEPOSIT_FULFILLMENT": "Deposit fulfillment",
+    "SETTINGS": {
+      "FULFILLMENTS": {
+        "DEPOSIT": {
+          "DEPOSIT_AMOUNT_RANGE": "Deposit amount range",
+          "DEPOSIT_NUMBER_LABEL": "Deposit number",
+          "SELECT_DEPOSIT_NUMBER": "-- Select deposit number --",
+          "NUMBER_OPTION": "deposit",
+          "RESTRICTED_PAYMENT_METHODS": "Excluded payment methods",
+          "MIN_AMOUNT": "Min. amount",
+          "MAX_AMOUNT": "Max. amount"
+        },
+        "WAGERING": {
+          "LABEL": {
+            "AMOUNT_TO_WAGER": "Amount to wage"
+          }
+        },
+        "SELECT_FULFILLMENT": "Select fulfillment",
+        "ADD_FULFILLMENT": "Add fulfillment"
+      },
+      "REWARDS": {
+        "BONUS": {
+          "LABEL": {
+            "NAME": "Bonus",
+            "BONUS_REWARD": "Bonus reward",
+            "GRANT": "Grant",
+            "CAPPING": "Capping",
+            "MULTIPLIER": "Multiplier",
+            "MONEY_TYPE_PRIOR": "Money priority",
+            "MAX_BET": "Max. bet",
+            "MAX_GRANTED_AMOUNT": "Max. granted amount",
+            "LIFE_TIME": "Life time",
+            "WAGERING_REQUIREMENT": "Wagering",
+            "LOCK_AMOUNT_STRATEGY": "Lock strategy",
+            "PLACEHOLDERS": {
+              "DAYS": "days",
+              "NOT_SET": "not set"
+            },
+            "MIN_PRIZE": "Min. prize",
+            "MONEY_TYPE_PRIORITY": "Money type priority",
+            "BONUS_LIFE_TIME": "Bonus life time",
+            "CLAIMABLE": "Claimable",
+            "PRIZE": "Prize",
+            "PRIZE_CAPPING_TYPE": "Prize & Capping type"
+          },
+          "TEMPLATES": "Bonus templates",
+          "ADD_BONUS_TEMPLATE": "Add bonus template"
+        },
+        "CREATE_BONUS_MODAL": {
+          "TITLE": "Create bonus template"
+        },
+        "SELECT_REWARD": "Select reward",
+        "ADD_REWARD": "Add reward"
+      },
+      "CAMPAIGN_SETTINGS": "Campaign settings",
+      "LABEL": {
+        "CAMPAIGN_PERIOD": "Campaign period"
+      }
+    },
+    "REWARDS": {
+      "FREE_SPIN": {
+        "LIFE_TIME": "Life time",
+        "ADD_FREE_SPIN": "Add free spin",
+        "TEMPLATE": "Template",
+        "STATUS": "Status"
+      }
+    },
+    "NODE_VALIDATION": {
+      "FULFILLMENTS": "Please add at least one fulfilment",
+      "REWARDS": "Please add at least one reward"
+    },
+    "CHANGE_STATUS_MODAL": {
+      "CUSTOM_REASON_PLACEHOLDER": "Custom reason",
+      "CANCEL_BUTTON": "Cancel",
+      "TITLE": "Change bonus campaign status",
+      "ACTION_TEXT": "You are about to %{action} the %{title}",
+      "ENTITY_NAME": "campaign"
+    },
+    "STATUS_DROPDOWN": {
+      "TITLE": "Status"
+    },
+    "NEW_CAMPAIGN": "New campaign",
+    "SAVE_NEW_CAMPAIGN": "Save new campaign",
+    "TITLE": "Bonus campaigns",
+    "BUTTON_CREATE_CAMPAIGN": "+ Add campaign",
+    "GRID_VIEW": {
+      "DATE_TIME_AT": "at %{time}",
+      "CAMPAIGN": "Campaign",
+      "CREATED": "Created",
+      "STATUS": "Status"
+    },
+    "VIEW": {
+      "DETAILS": {
+        "LABEL": {
+          "CREATED": "Created"
+        }
+      },
+      "NOTIFICATIONS": {
+        "UPDATE_TITLE": "Update bonus campaign",
+        "UNSUCCESSFULLY": "Failed to save the сampaign",
+        "SUCCESSFULLY": "Сampaign saved successfully",
+        "ADD_CAMPAIGN": "Add campaign"
+      }
+    },
+    "STATUS_DROPDOWN_MODAL": {
+      "CONSTANTS": {
+        "REASON_LABEL": "Reason",
+        "CUSTOM_REASON_LABEL": "Custom reason"
+      }
+    },
+    "WAGERING_FULFILMENTS": {
+      "ADD": {
+        "ADD_BUTTON": "Add wagering fulfilment"
+      },
+      "LIST": {
+        "CREATE_BUTTON": "Create wagering fulfilment",
+        "TITLE": "Wagering fulfilment"
+      }
+    }
+  },
+  "MULTI_CURRENCY_MODAL": {
+    "TITLE": "Value in different currencies",
+    "CUSTOMIZED": "Customized",
+    "RATE": "Rate",
+    "CALCULATED": "Calculated",
+    "RECALC": "Recalculate",
+    "RECALC_WARNING": "Recalculation will reset all customized values"
+  },
+  "MULTI_CURRENCY_POPOVER": {
+    "TITLE": "Value in all currencies",
+    "CURRENCY": "Currency",
+    "RATE": "Rate",
+    "VALUE": "Value"
   }
 }

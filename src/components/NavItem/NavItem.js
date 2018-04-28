@@ -42,22 +42,25 @@ class NavItem extends Component {
 
     if (this.submenu) {
       if ((isOpen && isSidebarOpen) && (!prevProps.isOpen || prevProps.isSidebarOpen === false)) {
-        this.tl.play();
+        this.navItemAnimation.play();
       } else if ((prevProps.isOpen && !isOpen) || (prevProps.isSidebarOpen && isSidebarOpen === false)) {
-        this.tl.reverse();
+        this.navItemAnimation.reverse();
       }
     }
   }
 
   initAnimation = () => {
-    const tl = new TimelineLite({ paused: true });
+    const navItemAnimation = new TimelineLite({ paused: true });
     const submenuDomNode = findDOMNode(this.submenu);
 
-    tl.fromTo(submenuDomNode, 0.15, { height: 0 }, { height: submenuDomNode.scrollHeight, ease: Power1.easeOut })
+    navItemAnimation.fromTo(submenuDomNode, 0.15, { height: 0 }, {
+      height: submenuDomNode.scrollHeight,
+      ease: Power1.easeOut,
+    })
       .fromTo(this.icon, 0.15, { rotation: 0 }, { rotation: 180 }, 0)
       .fromTo(submenuDomNode, 0.15, { autoAlpha: 0 }, { autoAlpha: 1 });
 
-    this.tl = tl;
+    this.navItemAnimation = navItemAnimation;
   };
 
   render() {

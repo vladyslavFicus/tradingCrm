@@ -1,6 +1,6 @@
 import { CALL_API } from 'redux-api-middleware';
 import jwtDecode from 'jwt-decode';
-import { actionCreators as optionsActionCreators } from './options';
+import { actionCreators as optionsActionCreators } from './profile/options';
 
 function updateProfile(type) {
   return (uuid, data) => (dispatch, getState) => {

@@ -11,6 +11,7 @@ const fetchZookeeperConfig = require('./fetch-zookeeper-config');
  * ==================
  */
 const { NAS_PROJECT, NGINX_CONF_OUTPUT } = process.env;
+const APP_VERSION = fs.readFileSync(`${__dirname}/../build/VERSION`, { encoding: 'UTF-8' });
 const APP_NAME = 'backoffice';
 const REQUIRED_CONFIG_PARAM = 'nas.brand.api.url';
 const consolePrefix = '[startup.js]: ';
@@ -95,7 +96,18 @@ async function processConfig() {
     }
   });
 
-  return { nas: { brand } };
+  return {
+    version: APP_VERSION,
+    nas: { brand, graphqlRoot: `${projectConfig.hrzn.api_url}/graphql/gql` },
+    sentry: {
+      dsn: 'https://b14abe232a0745fb974390113d879259@sentry.io/233061',
+      options: {
+        release: APP_VERSION,
+        environment: APP_VERSION === 'dev' ? 'development' : NAS_PROJECT,
+        tags: { platformVersion: nginxConfig.version },
+      },
+    },
+  };
 }
 
 function saveConfig(config) {

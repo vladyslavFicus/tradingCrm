@@ -3,6 +3,7 @@ import { Field } from 'redux-form';
 import { difference } from 'lodash';
 import keyMirror from 'keymirror';
 import { I18n } from 'react-redux-i18n';
+import { withRouter } from 'react-router';
 import PropTypes from '../../../../../constants/propTypes';
 import { nodeTypes, nodeTypesLabels } from './constants';
 import { Bonus as BonusNode, FreeSpin as FreeSpinNode } from './Nodes';
@@ -19,6 +20,9 @@ const ALL_NODES = [nodeTypes.bonus, nodeTypes.freeSpin];
 class Container extends Component {
   static propTypes = {
     disabled: PropTypes.bool,
+    params: PropTypes.shape({
+      id: PropTypes.string,
+    }),
     activeNodes: PropTypes.array,
     change: PropTypes.func.isRequired,
     allowedCustomValueTypes: PropTypes.array.isRequired,
@@ -38,6 +42,11 @@ class Container extends Component {
     onToggleFreeSpinCustomTemplate: PropTypes.func.isRequired,
     bonusCustomTemplate: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]).isRequired,
     onToggleBonusCustomTemplate: PropTypes.func.isRequired,
+    fetchGameAggregators: PropTypes.func.isRequired,
+    aggregators: PropTypes.shape({
+      fields: PropTypes.arrayOf(PropTypes.string),
+      providers: PropTypes.arrayOf(PropTypes.string),
+    }),
   };
 
   static defaultProps = {
@@ -46,6 +55,11 @@ class Container extends Component {
     games: [],
     freeSpinTemplates: [],
     bonusTemplates: [],
+    aggregators: {},
+  };
+
+  static defaultProps = {
+    params: {},
   };
 
   static contextTypes = {
@@ -84,6 +98,7 @@ class Container extends Component {
       allowedCustomValueTypes,
       disabled,
       games,
+      aggregators,
       change,
       freeSpinTemplates,
       baseCurrency,
@@ -98,6 +113,10 @@ class Container extends Component {
       onToggleFreeSpinCustomTemplate,
       bonusCustomTemplate,
       onToggleBonusCustomTemplate,
+      fetchGameAggregators,
+      params: {
+        id: campaignId,
+      },
     } = this.props;
 
     const bonusNodePath = `${nodeGroupTypes.rewards}.${nodeTypes.bonus}`;
@@ -117,11 +136,13 @@ class Container extends Component {
       case nodeTypes.freeSpin:
         return (
           <FreeSpinNode
+            key={campaignId || 'freeSpinTempalte'}
             currencies={currencies}
             typeValues={allowedCustomValueTypes}
             remove={() => this.handleRemoveNode(nodeTypes.freeSpin)}
             nodePath={freeSpinNodePath}
             games={games}
+            aggregators={aggregators}
             change={change}
             freeSpinTemplates={freeSpinTemplates}
             bonusTemplates={bonusTemplates}
@@ -136,6 +157,7 @@ class Container extends Component {
             onToggleFreeSpinCustomTemplate={onToggleFreeSpinCustomTemplate}
             bonusCustomTemplate={bonusCustomTemplate}
             onToggleBonusCustomTemplate={onToggleBonusCustomTemplate}
+            fetchGameAggregators={fetchGameAggregators}
           />
         );
       default:
@@ -197,4 +219,4 @@ class Container extends Component {
   }
 }
 
-export default Container;
+export default withRouter(Container);

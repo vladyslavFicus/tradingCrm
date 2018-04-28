@@ -1,44 +1,39 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 
-const FieldLabel = (props) => {
-  const {
-    label,
-    labelClassName,
-    addon,
-    wrapperTag,
-    wrapperClassName,
-  } = props;
+const FieldLabel = ({ label, addon, className }) => (
+  <Choose>
+    <When condition={label}>
+      <Choose>
+        <When condition={addon}>
+          <div className={classNames('row no-gutters', className)}>
+            <label className="col">{label}</label>
+            <div className="col-auto pl-1">
+              {addon}
+            </div>
+          </div>
+        </When>
+        <Otherwise>
+          <label>{label}</label>
+        </Otherwise>
+      </Choose>
+    </When>
+    <Otherwise>
+      {null}
+    </Otherwise>
+  </Choose>
+);
 
-  if (!label) {
-    return null;
-  }
-
-  const Wrapper = wrapperTag;
-  const node = (
-    <div>
-      <label className={labelClassName}>{label}</label>
-      {addon}
-    </div>
-  );
-
-  return !Wrapper
-    ? node
-    : <Wrapper className={wrapperClassName}>{node}</Wrapper>;
-};
 FieldLabel.propTypes = {
-  label: PropTypes.string,
-  addon: PropTypes.element,
-  labelClassName: PropTypes.string,
-  wrapperTag: PropTypes.string,
-  wrapperClassName: PropTypes.string,
+  label: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+  addon: PropTypes.oneOfType([PropTypes.element, PropTypes.bool]),
+  className: PropTypes.string,
 };
 FieldLabel.defaultProps = {
   label: null,
   addon: null,
-  labelClassName: '',
-  wrapperTag: null,
-  wrapperClassName: '',
+  className: null,
 };
 
 export default FieldLabel;

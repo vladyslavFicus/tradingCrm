@@ -27,9 +27,14 @@ if (window) {
       errorType: errorTypes.INTERNAL,
     };
 
-    const stack = e.error.stack;
+    const stack = e.error ? e.error.stack : null;
+
     if (stack) {
       error.stack = `\n${stack}`;
+    }
+
+    if (window.Raven) {
+      window.Raven.captureException(e);
     }
 
     sendError(error);
@@ -48,13 +53,7 @@ createStore({}, (store) => {
   let render = () => {
     const routes = require('./routes/index').default(store);
 
-    ReactDOM.render(
-      <AppContainer
-        store={store}
-        routes={routes}
-      />,
-      MOUNT_NODE
-    );
+    ReactDOM.render(<AppContainer store={store} routes={routes} />, MOUNT_NODE);
   };
 
   if (__DEV__) {

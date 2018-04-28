@@ -118,33 +118,20 @@ class View extends Component {
   };
 
   handleAddToCampaignClick = async () => {
-    const { fetchCampaigns, params: { id }, profile: { currency } } = this.props;
+    const { fetchCampaigns, params: { id } } = this.props;
 
-    const currentPlayerCampaignsActions = await fetchCampaigns({ playerUUID: id });
+    const campaignsActions = await fetchCampaigns(id);
 
-    if (!currentPlayerCampaignsActions || currentPlayerCampaignsActions.error) {
+    if (!campaignsActions || campaignsActions.error) {
       this.context.addNotification({
         level: 'error',
         title: I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.NOTIFICATIONS.FETCH_CAMPAIGNS_ERROR.TITLE'),
         message: I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.NOTIFICATIONS.FETCH_CAMPAIGNS_ERROR.MESSAGE'),
       });
     } else {
-      const currentCampaigns = currentPlayerCampaignsActions.payload.content.map(i => i.id);
-
-      const campaignsActions = await fetchCampaigns({ currency });
-
-      if (!campaignsActions || campaignsActions.error) {
-        this.context.addNotification({
-          level: 'error',
-          title: I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.NOTIFICATIONS.FETCH_CAMPAIGNS_ERROR.TITLE'),
-          message: I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.NOTIFICATIONS.FETCH_CAMPAIGNS_ERROR.MESSAGE'),
-        });
-      } else {
-        this.handleOpenModal(ADD_TO_CAMPAIGN_MODAL, {
-          campaigns: campaignsActions.payload.content
-            .filter(i => currentCampaigns.indexOf(i.id) === -1 && i.currency === currency),
-        });
-      }
+      this.handleOpenModal(ADD_TO_CAMPAIGN_MODAL, {
+        campaigns: campaignsActions.payload.content,
+      });
     }
   };
 

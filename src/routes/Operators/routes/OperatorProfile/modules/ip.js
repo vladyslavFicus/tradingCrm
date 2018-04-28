@@ -1,5 +1,5 @@
 import createRequestAction from '../../../../../utils/createRequestAction';
-import { sourceActionCreators as ipActionCreators } from '../../../../../redux/modules/ip';
+import { sourceActionCreators as ipActionCreators } from '../../../../../redux/modules/auth/ip';
 import createReducer from '../../../../../utils/createReducer';
 
 const KEY = 'operator/ip';

@@ -37,7 +37,7 @@ class PaymentAddModal extends Component {
       type: PropTypes.string,
     }),
     note: PropTypes.noteEntity,
-    error: PropTypes.string,
+    error: PropTypes.arrayOf(PropTypes.string),
     playerLimits: PropTypes.shape({
       entities: PropTypes.arrayOf(PropTypes.playerLimitEntity).isRequired,
       deposit: PropTypes.shape({
@@ -58,7 +58,7 @@ class PaymentAddModal extends Component {
     pristine: false,
     currentValues: {},
     note: null,
-    error: '',
+    error: [],
   };
   static contextTypes = {
     onAddNoteClick: PropTypes.func.isRequired,
@@ -200,7 +200,7 @@ class PaymentAddModal extends Component {
       invalid,
       playerProfile,
       note,
-      error,
+      error: errors,
     } = this.props;
 
     const filteredPaymentTypes = Object.keys(paymentTypes).filter(type => !this.isPaymentMethodDisabled(type));
@@ -211,12 +211,15 @@ class PaymentAddModal extends Component {
           {I18n.t('PLAYER_PROFILE.TRANSACTIONS.MODAL_CREATE.TITLE')}
         </ModalHeader>
         <ModalBody tag="form" id="new-transaction" className="container-fluid" onSubmit={handleSubmit(onSubmit)}>
-          {
-            error &&
-            <div className="alert alert-warning">
-              {I18n.t(error)}
-            </div>
-          }
+
+          <If condition={errors.length}>
+            <For each="error" index="index" of={errors}>
+              <div key={index} className="alert alert-warning">
+                {I18n.t(error)}
+              </div>
+            </For>
+          </If>
+
           <div className="row">
             <div className="col-4">
               <Field

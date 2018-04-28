@@ -82,7 +82,7 @@ const actionHandlers = {
       return state;
     }
 
-    const existIndex = state.items.findIndex(item => item.uuid === action.payload.uuid);
+    const existIndex = panelsByManager.findIndex(item => item.uuid === action.payload.uuid);
 
     if (existIndex > -1) {
       const item = state.items.find(i => i.uuid === action.payload.uuid);

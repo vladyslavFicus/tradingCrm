@@ -28,6 +28,7 @@ class SelectField extends Component {
     inputButton: PropTypes.any,
     showInputButton: PropTypes.bool,
     id: PropTypes.string,
+    className: PropTypes.string,
   };
   static defaultProps = {
     id: null,
@@ -47,6 +48,7 @@ class SelectField extends Component {
       touched: false,
       error: '',
     },
+    className: null,
   };
 
   renderInput = (props) => {
@@ -78,12 +80,22 @@ class SelectField extends Component {
 
     if (inputAddon) {
       inputField = (
-        <div className="input-group">
-          {inputAddonPosition === 'right' && inputField}
-          <span className="input-group-addon">
-            {inputAddon}
-          </span>
-          {inputAddonPosition === 'left' && inputField}
+        <div className={classNames('input-group', { disabled })}>
+          <If condition={inputAddonPosition === 'left'}>
+            <div className="input-group-prepend">
+              <span className="input-group-text input-group-addon">
+                {inputAddon}
+              </span>
+            </div>
+          </If>
+          {inputField}
+          <If condition={inputAddonPosition === 'right'}>
+            <div className="input-group-append">
+              <span className="input-group-text input-group-addon">
+                {inputAddon}
+              </span>
+            </div>
+          </If>
         </div>
       );
     }
@@ -109,23 +121,23 @@ class SelectField extends Component {
       labelClassName,
       meta: { touched, error },
       showErrorMessage,
+      className,
     } = props;
 
     return (
-      <div className={classNames('form-group', { 'has-danger': touched && error })}>
+      <div className={classNames('form-group', className, { 'has-danger': touched && error })}>
         <FieldLabel
           label={label}
-          labelClassName={labelClassName}
           addon={labelAddon}
+          className={labelClassName}
         />
         {this.renderInput(props)}
-        {
-          showErrorMessage && touched && error &&
+        <If condition={showErrorMessage && touched && error}>
           <div className="form-control-feedback">
             <i className="nas nas-field_alert_icon" />
             {error}
           </div>
-        }
+        </If>
       </div>
     );
   };
@@ -133,30 +145,22 @@ class SelectField extends Component {
   renderHorizontal = (props) => {
     const {
       label,
-      labelAddon,
-      labelClassName,
       meta: { touched, error },
       showErrorMessage,
+      className,
     } = props;
 
     return (
-      <div className={classNames('form-group row', { 'has-danger': touched && error })}>
-        <FieldLabel
-          label={label}
-          labelClassName={labelClassName}
-          addon={labelAddon}
-          wrapperTag="div"
-          wrapperClassName="col-md-3"
-        />
+      <div className={classNames('form-group row', className, { 'has-danger': touched && error })}>
+        <label className="col-md-3">{label}</label>
         <div className="col-md-9">
           {this.renderInput(props)}
-          {
-            showErrorMessage && touched && error &&
+          <If condition={showErrorMessage && touched && error}>
             <div className="form-control-feedback">
               <i className="nas nas-field_alert_icon" />
               {error}
             </div>
-          }
+          </If>
         </div>
       </div>
     );

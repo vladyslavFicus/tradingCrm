@@ -1,10 +1,10 @@
 import { connect } from 'react-redux';
+import { get } from 'lodash';
 import View from '../components/View';
 import { actionCreators } from '../../../modules';
 import { actionCreators as settingsActionCreators } from '../modules';
 import { actionCreators as campaignsActionCreators } from '../modules/campaigns';
 import { actionCreators as paymentsActionCreators } from '../modules/payments';
-import { customValueFieldTypes } from '../../../../../../../constants/form';
 import { fulfilmentTypes, rewardTypes } from '../../../../../../../constants/bonus-campaigns';
 
 const mapFulfillmentsToForm = (data) => {
@@ -65,6 +65,7 @@ const mapStateToProps = ({
     freeSpinTemplates: { data: freeSpinTemplates },
     bonusTemplates: { data: bonusTemplates },
     payments: { list: paymentMethods },
+    options: { data: aggregators },
   },
   options: { data: { currencyCodes, baseCurrency } },
   i18n: { locale },
@@ -78,14 +79,9 @@ const mapStateToProps = ({
     optInPeriod: data.optInPeriod,
     optInPeriodTimeUnit: data.optInPeriodTimeUnit,
     linkedCampaignUUID: data.linkedCampaignUUID,
-    conversionPrize: data.conversionPrize || {
-      value: null,
-      type: customValueFieldTypes.ABSOLUTE,
-    },
-    capping: data.capping || {
-      value: null,
-      type: customValueFieldTypes.ABSOLUTE,
-    },
+    conversionPrize: get(data, 'conversionPrize.value', null),
+    capping: get(data, 'capping.value', null),
+    prizeCapingType: get(data, 'capping.type', null) || get(data, 'conversionPrize.type', null),
     optIn: data.optIn,
     maxBet: data.maxBet,
     maxGrantedAmount: data.maxGrantedAmount,
@@ -111,6 +107,7 @@ const mapStateToProps = ({
     freeSpinTemplates,
     bonusTemplates,
     paymentMethods,
+    aggregators,
     locale,
   };
 };
@@ -129,6 +126,7 @@ const mapActions = {
   fetchFreeSpinTemplate: settingsActionCreators.fetchFreeSpinTemplate,
   fetchBonusTemplate: settingsActionCreators.fetchBonusTemplate,
   fetchGames: settingsActionCreators.fetchGames,
+  fetchGameAggregators: settingsActionCreators.fetchGameAggregators,
   fetchCampaigns: campaignsActionCreators.fetchCampaigns,
   fetchCampaign: campaignsActionCreators.fetchCampaign,
   fetchPaymentMethods: paymentsActionCreators.fetchPaymentMethods,

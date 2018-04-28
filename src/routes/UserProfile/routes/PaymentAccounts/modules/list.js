@@ -5,7 +5,7 @@ import { sourceActionCreators as noteSourceActionCreators } from '../../../../..
 import { sourceActionCreators as paymentSourceActionCreators } from '../../../../../redux/modules/payment';
 import { targetTypes } from '../../../../../constants/note';
 import buildQueryString from '../../../../../utils/buildQueryString';
-import { sourceActionCreators as filesSourceActionCreators } from '../../../../../redux/modules/files';
+import { sourceActionCreators as filesSourceActionCreators } from '../../../../../redux/modules/profile/files';
 import { actions as filesActions } from '../../../../../constants/files';
 import { accountStatuses as paymentAccountStatuses } from '../../../../../constants/payment';
 

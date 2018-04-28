@@ -2,6 +2,7 @@ import I18n from '../../../../../../../utils/fake-i18n';
 
 const attributeLabels = {
   name: I18n.t('BONUS_CAMPAIGNS.REWARDS.BONUS.NAME'),
+  prizeCapingType: I18n.t('BONUS_CAMPAIGNS.REWARDS.BONUS.PRIZE_CAPPING_TYPE'),
   bonusReward: I18n.t('BONUS_CAMPAIGNS.REWARDS.BONUS.BONUS_REWARD'),
   grant: I18n.t('BONUS_CAMPAIGNS.REWARDS.BONUS.GRANT'),
   limits: I18n.t('BONUS_CAMPAIGNS.REWARDS.BONUS.LIMITS'),

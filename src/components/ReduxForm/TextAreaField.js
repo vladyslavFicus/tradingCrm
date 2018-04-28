@@ -140,12 +140,22 @@ class TextAreaField extends Component {
 
     if (inputAddon) {
       inputField = (
-        <div className="input-group">
-          {inputAddonPosition === 'right' && inputField}
-          <span className="input-group-addon">
-            {inputAddon}
-          </span>
-          {inputAddonPosition === 'left' && inputField}
+        <div className={classNames('input-group', { disabled })}>
+          <If condition={inputAddonPosition === 'left'}>
+            <div className="input-group-prepend">
+              <span className="input-group-text input-group-addon">
+                {inputAddon}
+              </span>
+            </div>
+          </If>
+          {inputField}
+          <If condition={inputAddonPosition === 'right'}>
+            <div className="input-group-append">
+              <span className="input-group-text input-group-addon">
+                {inputAddon}
+              </span>
+            </div>
+          </If>
         </div>
       );
     }

@@ -95,16 +95,10 @@ const sidebarTopMenu = [
     permissions: new Permissions(permissions.PROMOTION.LIST),
   },
   {
-    label: I18n.t('SIDEBAR.TOP_MENU.NEW_CAMPAIGNS'),
+    label: I18n.t('SIDEBAR.TOP_MENU.CAMPAIGNS'),
     icon: 'fa fa-calendar-check-o ',
-    isOpen: false,
-    items: [
-      {
-        label: I18n.t('SIDEBAR.TOP_MENU.NEW_CAMPAIGNS_FULFILLMENTS'),
-        url: '/new-bonus-campaigns/fulfilments',
-        permissions: new Permissions(permissions.WAGERING_FULFILLMENT.LIST),
-      },
-    ],
+    url: '/campaigns',
+    permissions: new Permissions(permissions.CAMPAIGNS.LIST),
   },
   {
     label: I18n.t('SIDEBAR.TOP_MENU.SETTINGS'),
@@ -133,6 +127,9 @@ const bonusCampaignTabs = [
   { label: 'Settings', url: '/bonus-campaigns/view/:id/settings' },
   { label: 'Feed', url: '/bonus-campaigns/view/:id/feed' },
 ];
+const newBonusCampaignTabs = [
+  { label: 'Settings', url: '/campaigns/view/:id/settings' },
+];
 const operatorProfileTabs = [
   { label: 'Profile', url: '/operators/:id/profile' },
   { label: 'Feed', url: '/operators/:id/feed' },
@@ -142,6 +139,7 @@ export {
   userProfileTabs,
   operatorProfileTabs,
   bonusCampaignTabs,
+  newBonusCampaignTabs,
   sidebarTopMenu,
   sidebarBottomMenu,
 };

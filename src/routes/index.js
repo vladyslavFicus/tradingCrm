@@ -19,7 +19,7 @@ import UsersRoute from './Users';
 import OperatorsRoute from './Operators';
 import TransactionsRoute from './Transactions';
 import BonusCampaignsRoute from './BonusCampaigns';
-import NewBonusCampaigns from './NewBonusCampaigns';
+import Campaigns from './Campaigns';
 import NotFoundRoute from './NotFound';
 import LogoutRoute from './Logout';
 import ReportsRoute from './Reports';
@@ -55,7 +55,7 @@ export default store => ({
             OperatorsRoute(store),
             TransactionsRoute(store),
             BonusCampaignsRoute(store),
-            NewBonusCampaigns(store),
+            Campaigns(store),
             LogoutRoute(store),
             ReportsRoute(store),
             SettingsRoute(store),

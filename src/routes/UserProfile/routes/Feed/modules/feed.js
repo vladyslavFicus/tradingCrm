@@ -8,6 +8,7 @@ import buildQueryString from '../../../../../utils/buildQueryString';
 import createRequestAction from '../../../../../utils/createRequestAction';
 import shallowEqual from '../../../../../utils/shallowEqual';
 import downloadBlob from '../../../../../utils/downloadBlob';
+import parseJson from '../../../../../utils/parseJson';
 
 const KEY = 'user/feed/feed';
 const FETCH_FEED = createRequestAction(`${KEY}/fetch-feed`);
@@ -88,7 +89,7 @@ function exportFeed(playerUUID, filters = { page: 0 }) {
 const mapAuditEntities = entities => entities.map(
   entity => (
     typeof entity.details === 'string'
-      ? { ...entity, details: JSON.parse(entity.details) }
+      ? { ...entity, details: parseJson(entity.details) }
       : entity
   )
 );

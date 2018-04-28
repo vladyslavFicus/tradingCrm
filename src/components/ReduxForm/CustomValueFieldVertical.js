@@ -1,113 +1,101 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Field } from 'redux-form';
-import classNames from 'classnames';
-import { get } from 'lodash';
+import { Field, FormSection } from 'redux-form';
 import renderLabel from '../../utils/renderLabel';
+import { InputField, SelectField } from '../../components/ReduxForm';
 import { customValueFieldTypesLabels, customValueFieldTypes } from '../../constants/form';
 
-const CustomValueFieldVertical = (props, { _reduxForm: { syncErrors: errors, meta } }) => {
+const CustomValueFieldVertical = (props) => {
   const {
     id,
-    basename,
     label,
+    input: { name },
+    meta: { touched, error },
     disabled,
-    valueInputClassName,
-    typeInputClassName,
     typeValues,
     children,
     valueFieldProps,
   } = props;
 
-  const typeError = get(errors, `${basename}.type`) && get(meta, `${basename}.type.touched`);
-  const valueError = get(errors, `${basename}.value`) && get(meta, `${basename}.value.touched`);
-
-  const classList = {
-    formGroup: classNames('form-group', {
-      'has-danger': !!valueError || !!typeError,
-    }),
-    valueInput: classNames('form-control', valueInputClassName, {
-      'has-danger': !!valueError,
-    }),
-    typeInput: classNames('form-control', typeInputClassName, {
-      'has-danger': !!typeError,
-    }),
-  };
-
   return (
-    <div className={classList.formGroup}>
-      <label>
-        {label}
-      </label>
+    <FormSection name={name} className="form-group">
+      <label>{label}</label>
       <div className="row no-gutters">
-        <div className="col-4 pr-3">
+        <div className="col-4 pr-2">
           <Field
             id={`${id}Value`}
-            name={`${basename}.value`}
+            name="value"
+            showErrorMessage={false}
             disabled={disabled}
             placeholder={typeof label === 'string' ? label : null}
-            component="input"
+            component={InputField}
             type="text"
-            className={classList.valueInput}
+            position="vertical"
             {...valueFieldProps}
           />
         </div>
         <div className="col">
           <Field
             id={`${id}Type`}
-            name={`${basename}.type`}
-            className={classList.typeInput}
-            component="select"
+            name="type"
+            showErrorMessage={false}
+            component={SelectField}
             disabled={disabled}
+            position="vertical"
           >
             {
               children ||
-                typeValues.map(key =>
-                  (
-                    <option key={key} value={key}>
-                      {renderLabel(key, customValueFieldTypesLabels)}
-                    </option>
-                  )
+              typeValues.map(key =>
+                (
+                  <option key={key} value={key}>
+                    {renderLabel(key, customValueFieldTypesLabels)}
+                  </option>
                 )
+              )
             }
           </Field>
         </div>
       </div>
-      {!!errors[`${basename}.value`] && <div className="form-control-feedback">
-        {errors[`${basename}.value`]}
-      </div>}
-      {!!errors[`${basename}.type`] && <div className="form-control-feedback">
-        {errors[`${basename}.type`]}
-      </div>}
-    </div>
+      <If condition={touched && error && error.value}>
+        <div className="form-control-feedback">
+          {error.value}
+        </div>
+      </If>
+      <If condition={touched && error && error.type}>
+        <div className="form-control-feedback">
+          {error.type}
+        </div>
+      </If>
+    </FormSection>
   );
 };
 
 CustomValueFieldVertical.propTypes = {
   id: PropTypes.string,
-  basename: PropTypes.string.isRequired,
   label: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
   typeValues: PropTypes.array,
   valueInputClassName: PropTypes.string,
   typeInputClassName: PropTypes.string,
   disabled: PropTypes.bool,
   valueFieldProps: PropTypes.object,
+  input: PropTypes.shape({
+    name: PropTypes.string,
+  }).isRequired,
+  meta: PropTypes.shape({
+    touched: PropTypes.bool,
+    error: PropTypes.object,
+  }),
   children: PropTypes.node,
 };
-
 CustomValueFieldVertical.defaultProps = {
   valueInputClassName: '',
   typeInputClassName: '',
-  errors: {},
   disabled: false,
   id: null,
+  meta: {},
   typeValues: Object.keys(customValueFieldTypes),
   valueFieldProps: {},
   children: null,
-};
-
-CustomValueFieldVertical.contextTypes = {
-  _reduxForm: PropTypes.object,
 };
 
 export default CustomValueFieldVertical;

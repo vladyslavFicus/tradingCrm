@@ -54,6 +54,10 @@ function greaterThanValidator(inputValue, requirement, attribute) {
   return true;
 }
 
+function greaterValidator(inputValue, requirement) {
+  return Number(inputValue) > requirement;
+}
+
 function lessOrSameValidator(inputValue, requirement, attribute) {
   const value = Number(inputValue);
 
@@ -116,6 +120,7 @@ function customValueTypeValidator(inputValue, requirement, attribute) {
 Validator.register('nextDate', nextDateValidator, 'The :attribute must be equal or bigger');
 Validator.register('lessThan', lessThanValidator, 'The :attribute must be less');
 Validator.register('greaterThan', greaterThanValidator, 'The :attribute must be greater');
+Validator.register('greater', greaterValidator, 'The :attribute must be greater than :greater');
 Validator.register('lessOrSame', lessOrSameValidator, 'The :attribute must be less');
 Validator.register('greaterOrSame', greaterOrSameValidator, 'The :attribute must be greater');
 Validator.register('customTypeValue.value', customValueTypeValidator, 'The :attribute must be a valid CustomType');

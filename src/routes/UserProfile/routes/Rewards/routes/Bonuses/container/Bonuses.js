@@ -1,7 +1,10 @@
 import { connect } from 'react-redux';
+import { compose } from 'react-apollo';
 import { actionCreators } from '../modules';
 import { actionCreators as profileActionCreators } from '../../../../../modules/profile';
 import List from '../components/View';
+import { withModals } from '../../../../../../../components/HighOrder';
+import CreateManualBonusModal from '../components/CreateModal';
 
 const mapStateToProps = ({
   profile: { profile },
@@ -32,6 +35,10 @@ const mapActions = {
   permitBonusConversion: actionCreators.permitBonusConversion,
   fetchActiveBonus: actionCreators.fetchActiveBonus,
   fetchProfile: profileActionCreators.fetchProfile,
+  addBonusTemplate: actionCreators.addBonusTemplate,
 };
 
-export default connect(mapStateToProps, mapActions)(List);
+export default compose(
+  withModals({ createManualBonus: CreateManualBonusModal }),
+  connect(mapStateToProps, mapActions),
+)(List);

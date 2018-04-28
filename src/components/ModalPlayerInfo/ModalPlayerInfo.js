@@ -8,7 +8,11 @@ import Uuid from '../Uuid';
 
 class ModalPlayerInfo extends Component {
   static propTypes = {
-    playerProfile: PropTypes.userProfile.isRequired,
+    playerProfile: PropTypes.userProfile,
+  };
+
+  static defaultProps = {
+    playerProfile: null,
   };
 
   renderPlayerInfo = profile => (
@@ -56,6 +60,10 @@ class ModalPlayerInfo extends Component {
 
   render() {
     const { playerProfile } = this.props;
+
+    if (!playerProfile) {
+      return null;
+    }
 
     return (
       <div className="modal-header-tabs">

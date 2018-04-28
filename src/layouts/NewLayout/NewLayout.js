@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
+import { compose } from 'redux';
 import { SubmissionError } from 'redux-form';
 import { connect } from 'react-redux';
 import { I18n } from 'react-redux-i18n';
 import _ from 'lodash';
 import { getAvailableLanguages } from '../../config';
 import PropTypes from '../../constants/propTypes';
+import { withModals } from '../../components/HighOrder';
+import MultiCurrencyModal from '../../components/ReduxForm/MultiCurrencyModal';
 import { actionCreators as authActionCreators } from '../../redux/modules/auth';
 import { actionCreators as languageActionCreators } from '../../redux/modules/language';
 import { actionCreators as noteActionCreators } from '../../redux/modules/note';
@@ -86,6 +89,12 @@ class NewLayout extends Component {
     menuItemClick: PropTypes.func.isRequired,
     activePanelIndex: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
     initSidebar: PropTypes.func.isRequired,
+    modals: PropTypes.shape({
+      multiCurrencyModal: PropTypes.shape({
+        show: PropTypes.func.isRequired,
+        hide: PropTypes.func.isRequired,
+      }),
+    }).isRequired,
   };
   static defaultProps = {
     permissions: [],
@@ -120,6 +129,12 @@ class NewLayout extends Component {
       onShowMiniProfile: PropTypes.func.isRequired,
       onHideMiniProfile: PropTypes.func.isRequired,
     }),
+    modals: PropTypes.shape({
+      multiCurrencyModal: PropTypes.shape({
+        show: PropTypes.func.isRequired,
+        hide: PropTypes.func.isRequired,
+      }),
+    }).isRequired,
   };
   static contextTypes = {
     addNotification: PropTypes.func.isRequired,
@@ -142,6 +157,7 @@ class NewLayout extends Component {
       addPanel,
       removePanel,
       settings,
+      modals,
     } = this.props;
 
     return {
@@ -153,6 +169,7 @@ class NewLayout extends Component {
       locale,
       addPanel,
       removePanel,
+      modals,
       notes: {
         onAddNote: this.props.addNote,
         onEditNote: this.props.editNote,
@@ -389,14 +406,15 @@ class NewLayout extends Component {
   }
 }
 
-const mapStateToProps = ({
-  userPanels,
-  auth,
-  app,
-  permissions: { data: permissions },
-  i18n: { locale },
-  settings,
-}) => {
+const mapStateToProps = (state) => {
+  const {
+    userPanels,
+    auth,
+    app,
+    permissions: { data: permissions },
+    i18n: { locale },
+    settings,
+  } = state;
   const userPanelsByManager = userPanels.items.filter(userTab =>
     userTab.auth &&
     userTab.auth.brandId === auth.brandId &&
@@ -419,7 +437,7 @@ const mapStateToProps = ({
   };
 };
 
-export default connect(mapStateToProps, {
+const mapActionCreators = {
   changeDepartment: authActionCreators.changeDepartment,
   addPanel: userPanelsActionCreators.add,
   removePanel: userPanelsActionCreators.remove,
@@ -433,4 +451,9 @@ export default connect(mapStateToProps, {
   menuItemClick: appActionCreators.menuItemClick,
   initSidebar: appActionCreators.initSidebar,
   updateOperatorProfile: authActionCreators.updateProfile,
-})(NewLayout);
+};
+
+export default compose(
+  connect(mapStateToProps, mapActionCreators),
+  withModals({ multiCurrencyModal: MultiCurrencyModal }),
+)(NewLayout);

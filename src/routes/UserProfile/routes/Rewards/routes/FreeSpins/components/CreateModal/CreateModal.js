@@ -5,7 +5,7 @@ import { I18n } from 'react-redux-i18n';
 import moment from 'moment';
 import { connect } from 'react-redux';
 import PropTypes from '../../../../../../../../constants/propTypes';
-import { InputField, DateTimeField, SelectField } from '../../../../../../../../components/ReduxForm';
+import { InputField, DateTimeField, SelectField, CheckBox } from '../../../../../../../../components/ReduxForm';
 import { createValidator, translateLabels } from '../../../../../../../../utils/validator';
 import { attributeLabels } from './constants';
 import Amount, { Currency } from '../../../../../../../../components/Amount';
@@ -362,15 +362,15 @@ class CreateModal extends Component {
           <ModalBody>
             <div className="row">
               <div className="col-md-6">
-                <div className="form-group">
-                  <label>
-                    <input
-                      type="checkbox"
-                      onChange={this.toggleUseTemplate}
-                      checked={useTemplate}
-                    /> {I18n.t(attributeLabels.useTemplate)}
-                  </label>
-                </div>
+                <Field
+                  name="rewards-freespins-create-modal-templates-checkbox"
+                  type="checkbox"
+                  component={CheckBox}
+                  id="rewards-freespins-create-modal-templates"
+                  label={I18n.t(attributeLabels.useTemplate)}
+                  onChange={this.toggleUseTemplate}
+                  checked={useTemplate}
+                />
                 <Field
                   name="templateUUID"
                   label={I18n.t(attributeLabels.template)}
@@ -582,13 +582,14 @@ class CreateModal extends Component {
                 </Field>
               </div>
             </div>
-            <div className="form-group">
-              <Field
-                name="claimable"
-                type="checkbox"
-                component="input"
-              /> {I18n.t('COMMON.CLAIMABLE')}
-            </div>
+            <Field
+              name="claimable"
+              type="checkbox"
+              component={CheckBox}
+              id="rewards-freespins-create-modal-claimable"
+              label={I18n.t('COMMON.CLAIMABLE')}
+
+            />
             <div className="row">
               <div className="col-md-12 text-center">
                 <NoteButton

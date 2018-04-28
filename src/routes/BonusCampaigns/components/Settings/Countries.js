@@ -4,7 +4,7 @@ import { I18n } from 'react-redux-i18n';
 import { Field } from 'redux-form';
 import { get } from 'lodash';
 import countryList from '../../../../utils/countryList';
-import { NasSelectField } from '../../../../components/ReduxForm';
+import { NasSelectField, CheckBox } from '../../../../components/ReduxForm';
 import { targetTypes } from '../../../../constants/bonus-campaigns';
 
 class Countries extends Component {
@@ -50,32 +50,28 @@ class Countries extends Component {
     }
 
     return (
-      <div className="col-6">
-        <Field
-          name="countries"
-          label={
-            <span>
-              {label}
-              <span className="label-action">
-                <Field
-                  name="excludeCountries"
-                  type="checkbox"
-                  component="input"
-                />
-                {I18n.t('BONUS_CAMPAIGNS.SETTINGS.LABEL.EXCLUDE')}
-              </span>
-            </span>
-          }
-          component={NasSelectField}
-          position="vertical"
-          multiple
-        >
-          {Object
-            .keys(countryList)
-            .map(key => <option key={key} value={key}>{countryList[key]}</option>)
-          }
-        </Field>
-      </div>
+      <Field
+        name="countries"
+        label={label}
+        labelAddon={
+          <Field
+            id="countries-exclude-checkbox"
+            name="excludeCountries"
+            component={CheckBox}
+            type="checkbox"
+            label={I18n.t('BONUS_CAMPAIGNS.SETTINGS.LABEL.EXCLUDE')}
+          />
+        }
+        component={NasSelectField}
+        position="vertical"
+        multiple
+        className="col-6"
+      >
+        {Object
+          .keys(countryList)
+          .map(key => <option key={key} value={key}>{countryList[key]}</option>)
+        }
+      </Field>
     );
   }
 }

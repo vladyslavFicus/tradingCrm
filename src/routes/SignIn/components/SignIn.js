@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { SubmissionError } from 'redux-form';
+import { get } from 'lodash';
 import PropTypes from '../../../constants/propTypes';
 import SignInForm from './SignInForm';
 import Preloader from '../../../components/Preloader';
@@ -93,7 +94,8 @@ class SignIn extends Component {
           }
         });
       } else {
-        const error = action.payload.response.error ? action.payload.response.error : action.payload.message;
+        const error = get(action, 'payload.response.error', action.payload.message);
+
         console.info(`Sign in failure, reason: ${error}`);
 
         throw new SubmissionError({ _error: error });
@@ -148,7 +150,7 @@ class SignIn extends Component {
 
           this.redirectToNextPage();
         } else {
-          throw new SubmissionError({ _error: action.payload.response.error || action.payload.message });
+          throw new SubmissionError({ _error: get(action.payload, 'response.error', action.payload.message) });
         }
       }
     });

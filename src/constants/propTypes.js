@@ -3,7 +3,7 @@ import { types as limitTypes } from './limits';
 import { countryStrategies } from './bonus-campaigns';
 
 PropTypes.price = PropTypes.shape({
-  amount: PropTypes.number,
+  amount: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   currency: PropTypes.string,
 });
 PropTypes.status = PropTypes.shape({
@@ -354,10 +354,7 @@ PropTypes.bonusCampaignEntity = PropTypes.shape({
   authorUUID: PropTypes.string,
   bonusLifeTime: PropTypes.number,
   campaignName: PropTypes.string,
-  campaignRatio: PropTypes.customValue,
   uuid: PropTypes.string,
-  capping: PropTypes.customValue,
-  conversionPrize: PropTypes.customValue,
   creationDate: PropTypes.string,
   optInPeriod: PropTypes.oneOfType([PropTypes.object, PropTypes.number]),
   optInPeriodTimeUnit: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
@@ -380,6 +377,12 @@ PropTypes.bonusCampaignEntity = PropTypes.shape({
   statusChangedDate: PropTypes.string,
   targetType: PropTypes.string,
   wagerWinMultiplier: PropTypes.number,
+});
+PropTypes.newBonusCampaignEntity = PropTypes.shape({
+  uuid: PropTypes.string,
+  state: PropTypes.string,
+  name: PropTypes.string,
+  authorUUID: PropTypes.string,
 });
 PropTypes.freeSpinEntity = PropTypes.shape({
   aggregatorId: PropTypes.string.isRequired,
