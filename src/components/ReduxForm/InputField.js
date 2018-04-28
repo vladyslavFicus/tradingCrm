@@ -32,6 +32,7 @@ class InputField extends Component {
     labelClassName: PropTypes.string,
     id: PropTypes.string,
     onIconClick: PropTypes.func,
+    helpText: PropTypes.node,
   };
   static defaultProps = {
     className: null,
@@ -49,6 +50,7 @@ class InputField extends Component {
     labelClassName: null,
     id: null,
     onIconClick: null,
+    helpText: null,
   };
 
   renderHorizontal = (props) => {
@@ -57,6 +59,7 @@ class InputField extends Component {
       className,
       meta: { touched, error },
       showErrorMessage,
+      helpText,
     } = props;
 
     return (
@@ -64,6 +67,11 @@ class InputField extends Component {
         <label className="col-md-3">{label}</label>
         <div className="col-md-9">
           {this.renderInput(props)}
+          <If condition={helpText}>
+            <div className="form-group-help">
+              {helpText}
+            </div>
+          </If>
           <If condition={showErrorMessage && touched && error}>
             <div className="form-control-feedback">
               <i className="nas nas-field_alert_icon" />
@@ -83,6 +91,7 @@ class InputField extends Component {
       className,
       meta: { touched, error },
       showErrorMessage,
+      helpText,
     } = props;
 
     return (
@@ -93,6 +102,11 @@ class InputField extends Component {
           className={labelClassName}
         />
         {this.renderInput(props)}
+        <If condition={helpText}>
+          <div className="form-group-help">
+            {helpText}
+          </div>
+        </If>
         <If condition={showErrorMessage && touched && error}>
           <div className="form-control-feedback">
             <i className="nas nas-field_alert_icon" />

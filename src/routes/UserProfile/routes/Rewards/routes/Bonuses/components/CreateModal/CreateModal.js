@@ -226,34 +226,32 @@ class CreateModal extends Component {
         </ModalHeader>
         <ModalBody tag="form" onSubmit={handleSubmit(this.handleSubmit)} id="create-manual-modal">
           <div className="row">
-            <div className="col-6">
-              <Field
-                name="templateUUID"
-                label={I18n.t(attributeLabels.template)}
-                labelClassName="form-label"
-                position="vertical"
-                component={NasSelectField}
-                showErrorMessage={false}
-                onChange={this.handleChangeTemplate}
-                disabled={customTemplate}
-                placeholder={I18n.t('BONUS_CAMPAIGNS.REWARDS.FREE_SPIN.CHOOSE_TEMPLATE')}
-              >
-                {templates.map(item => (
-                  <option key={item.uuid} value={item.uuid}>
-                    {item.name}
-                  </option>
-                ))}
-              </Field>
-              <If condition={!customTemplate && currentUuid}>
-                <div className="form-group__note mb-2">
+            <Field
+              name="templateUUID"
+              label={I18n.t(attributeLabels.template)}
+              position="vertical"
+              component={NasSelectField}
+              showErrorMessage={false}
+              onChange={this.handleChangeTemplate}
+              disabled={customTemplate}
+              placeholder={I18n.t('BONUS_CAMPAIGNS.REWARDS.FREE_SPIN.CHOOSE_TEMPLATE')}
+              className="col-6"
+              helpText={
+                <If condition={!customTemplate && currentUuid}>
                   <Uuid
                     uuid={currentUuid}
                     uuidPartsCount={3}
                     length={18}
                   />
-                </div>
-              </If>
-            </div>
+                </If>
+              }
+            >
+              {templates.map(item => (
+                <option key={item.uuid} value={item.uuid}>
+                  {item.name}
+                </option>
+              ))}
+            </Field>
             <div className="col-6 margin-top-40">
               <Field
                 id={`${formName}-custom-template`}

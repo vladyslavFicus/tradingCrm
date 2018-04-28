@@ -372,19 +372,19 @@ class FreeSpinCreateModal extends Component {
                     className="col-md-6"
                     id="campaign-freespin-create-modal-freespins-amount"
                   />
-                  <div className="form-row_with-placeholder-right col-md-6">
-                    <Field
-                      name="freeSpinLifeTime"
-                      type="text"
-                      placeholder="0"
-                      normalize={intNormalize}
-                      label={I18n.t(attributeLabels.freeSpinLifeTime)}
-                      component={InputField}
-                      position="vertical"
-                      id="campaign-freespin-create-modal-freespin-lifetime"
-                    />
-                    <span className="right-placeholder">{I18n.t(attributePlaceholders.days)}</span>
-                  </div>
+                  <Field
+                    name="freeSpinLifeTime"
+                    type="text"
+                    placeholder="0"
+                    normalize={intNormalize}
+                    label={I18n.t(attributeLabels.freeSpinLifeTime)}
+                    component={InputField}
+                    position="vertical"
+                    id="campaign-freespin-create-modal-freespin-lifetime"
+                    className="col-md-6"
+                    inputAddon={I18n.t(attributePlaceholders.days)}
+                    inputAddonPosition="right"
+                  />
                   <If condition={fields.indexOf('betPerLineAmounts') !== -1}>
                     <MultiCurrencyValue
                       baseName="betPerLineAmounts"

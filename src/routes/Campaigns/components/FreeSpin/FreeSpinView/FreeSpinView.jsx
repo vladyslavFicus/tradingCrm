@@ -134,37 +134,36 @@ export default class FreeSpinView extends PureComponent {
     return (
       <div className="campaigns-template">
         <div className="row">
-          <div className="col">
-            <Field
-              name={`${name}.uuid`}
-              disabled={disabled}
-              label={I18n.t(attributeLabels.template)}
-              component={NasSelectField}
-              showErrorMessage={false}
-              position="vertical"
-              id="campaign-freespin-templates-select"
-            >
-              {fsTemplates.map(item => (
-                <option key={item.uuid} value={item.uuid}>
-                  {item.name}
-                </option>
-              ))}
-            </Field>
-            <If condition={fsTemplate.uuid}>
-              <div className="form-group__note">
+          <Field
+            name={`${name}.uuid`}
+            disabled={disabled}
+            label={I18n.t(attributeLabels.template)}
+            component={NasSelectField}
+            showErrorMessage={false}
+            position="vertical"
+            id="campaign-freespin-templates-select"
+            className="col"
+            helpText={
+              <If condition={fsTemplate.uuid}>
                 <Uuid
                   length={16}
                   uuidPartsCount={4}
                   uuid={fsTemplate.uuid}
                   uuidPrefix="FS"
                 />
-              </div>
-            </If>
-          </div>
+              </If>
+            }
+          >
+            {fsTemplates.map(item => (
+              <option key={item.uuid} value={item.uuid}>
+                {item.name}
+              </option>
+            ))}
+          </Field>
           <If condition={!disabled}>
-            <div className="col-auto">
+            <div className="col-auto margin-top-20">
               <button
-                className="btn btn-primary text-uppercase margin-top-20"
+                className="btn btn-primary text-uppercase"
                 type="button"
                 onClick={this.handleOpenModal}
                 id="campaign-freespin-templates-add-btn"

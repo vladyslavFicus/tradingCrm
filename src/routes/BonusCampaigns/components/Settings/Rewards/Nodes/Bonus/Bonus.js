@@ -218,19 +218,19 @@ class Bonus extends Component {
             inputAddon={<i className="nas nas-currencies_icon" />}
             inputAddonPosition="right"
           />
-          <div className="col-4 form-row_with-placeholder-right">
-            <Field
-              name={this.buildFieldName('bonusLifeTime')}
-              id={`${form}bonusLifeTime`}
-              type="text"
-              placeholder="0"
-              label={I18n.t(attributeLabels.lifeTime)}
-              component={InputField}
-              position="vertical"
-              disabled={disabled}
-            />
-            <span className="right-placeholder">{I18n.t(attributePlaceholders.days)}</span>
-          </div>
+          <Field
+            name={this.buildFieldName('bonusLifeTime')}
+            id={`${form}bonusLifeTime`}
+            type="text"
+            placeholder="0"
+            label={I18n.t(attributeLabels.lifeTime)}
+            component={InputField}
+            position="vertical"
+            disabled={disabled}
+            className="col-4"
+            inputAddon={I18n.t(attributePlaceholders.days)}
+            inputAddonPosition="right"
+          />
         </div>
         <Field
           name={this.buildFieldName('claimable')}

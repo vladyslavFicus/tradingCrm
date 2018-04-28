@@ -33,6 +33,7 @@ class NasSelectField extends Component {
     singleOptionComponent: PropTypes.func,
     id: PropTypes.string,
     className: PropTypes.string,
+    helpText: PropTypes.node,
   };
   static defaultProps = {
     position: 'horizontal',
@@ -51,6 +52,7 @@ class NasSelectField extends Component {
     optionsHeader: null,
     singleOptionComponent: null,
     id: null,
+    helpText: null,
   };
 
   renderInput = (props) => {
@@ -130,6 +132,7 @@ class NasSelectField extends Component {
       labelAddon,
       meta: { touched, error },
       showErrorMessage,
+      helpText,
     } = props;
 
     return (
@@ -140,6 +143,11 @@ class NasSelectField extends Component {
           className={labelClassName}
         />
         {this.renderInput(props)}
+        <If condition={helpText}>
+          <div className="form-group-help">
+            {helpText}
+          </div>
+        </If>
         <If condition={showErrorMessage && touched && error}>
           <div className="form-control-feedback">
             <i className="nas nas-field_alert_icon" />
@@ -156,6 +164,7 @@ class NasSelectField extends Component {
       meta: { touched, error },
       showErrorMessage,
       className,
+      helpText,
     } = props;
 
     return (
@@ -163,6 +172,11 @@ class NasSelectField extends Component {
         <label className="col-md-3">{label}</label>
         <div className="col-md-9">
           {this.renderInput(props)}
+          <If condition={helpText}>
+            <div className="form-group-help">
+              {helpText}
+            </div>
+          </If>
           <If condition={showErrorMessage && touched && error}>
             <div className="form-control-feedback">
               <i className="nas nas-field_alert_icon" />

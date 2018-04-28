@@ -407,20 +407,20 @@ class FreeSpin extends Component {
                   .map(item => <option key={item} value={item}>{item}</option>)}
               </Field>
             </div>
-            <div className="form-row_with-placeholder-right col-6">
-              <Field
-                name={this.buildFieldName('freeSpinLifeTime')}
-                id={`${form}freeSpinLifeTime`}
-                type="text"
-                placeholder="0"
-                normalize={intNormalize}
-                label={I18n.t(attributeLabels.freeSpinLifeTime)}
-                component={InputField}
-                position="vertical"
-                disabled={!customTemplate}
-              />
-              <span className="right-placeholder">{I18n.t(attributePlaceholders.days)}</span>
-            </div>
+            <Field
+              name={this.buildFieldName('freeSpinLifeTime')}
+              id={`${form}freeSpinLifeTime`}
+              type="text"
+              placeholder="0"
+              normalize={intNormalize}
+              label={I18n.t(attributeLabels.freeSpinLifeTime)}
+              component={InputField}
+              position="vertical"
+              disabled={!customTemplate}
+              className="col-6"
+              inputAddon={I18n.t(attributePlaceholders.days)}
+              inputAddonPosition="right"
+            />
           </div>
         </div>
       );
@@ -448,20 +448,20 @@ class FreeSpin extends Component {
                 showErrorMessage={false}
               />
             </div>
-            <div className="form-row_with-placeholder-right col-6">
-              <Field
-                name={this.buildFieldName('freeSpinLifeTime')}
-                id={`${form}freeSpinLifeTime`}
-                type="text"
-                placeholder="0"
-                normalize={intNormalize}
-                label={I18n.t(attributeLabels.freeSpinLifeTime)}
-                component={InputField}
-                position="vertical"
-                disabled={!customTemplate}
-              />
-              <span className="right-placeholder">{I18n.t(attributePlaceholders.days)}</span>
-            </div>
+            <Field
+              name={this.buildFieldName('freeSpinLifeTime')}
+              id={`${form}freeSpinLifeTime`}
+              type="text"
+              placeholder="0"
+              normalize={intNormalize}
+              label={I18n.t(attributeLabels.freeSpinLifeTime)}
+              component={InputField}
+              position="vertical"
+              disabled={!customTemplate}
+              className="col-6"
+              inputAddon={I18n.t(attributePlaceholders.days)}
+              inputAddonPosition="right"
+            />
           </div>
           <If condition={currentValues.aggregatorId === aggregators.oryx}>
             <div className="row">
@@ -559,20 +559,20 @@ class FreeSpin extends Component {
             disabled={!customTemplate}
             showErrorMessage={false}
           />
-          <div className="form-row_with-placeholder-right col-6">
-            <Field
-              name={this.buildFieldName('freeSpinLifeTime')}
-              id={`${form}freeSpinLifeTime`}
-              type="text"
-              placeholder="0"
-              normalize={intNormalize}
-              label={I18n.t(attributeLabels.freeSpinLifeTime)}
-              component={InputField}
-              position="vertical"
-              disabled={!customTemplate}
-            />
-            <span className="right-placeholder">{I18n.t(attributePlaceholders.days)}</span>
-          </div>
+          <Field
+            name={this.buildFieldName('freeSpinLifeTime')}
+            id={`${form}freeSpinLifeTime`}
+            type="text"
+            placeholder="0"
+            normalize={intNormalize}
+            label={I18n.t(attributeLabels.freeSpinLifeTime)}
+            component={InputField}
+            position="vertical"
+            disabled={!customTemplate}
+            className="col-6"
+            inputAddon={I18n.t(attributePlaceholders.days)}
+            inputAddonPosition="right"
+          />
           <Field
             name={this.buildFieldName('nearestCost')}
             type="number"
@@ -630,20 +630,20 @@ class FreeSpin extends Component {
                   showErrorMessage={false}
                 />
               </div>
-              <div className="form-row_with-placeholder-right col-6">
-                <Field
-                  name={this.buildFieldName('freeSpinLifeTime')}
-                  id={`${form}freeSpinLifeTime`}
-                  type="text"
-                  placeholder="0"
-                  normalize={intNormalize}
-                  label={I18n.t(attributeLabels.freeSpinLifeTime)}
-                  component={InputField}
-                  position="vertical"
-                  disabled={disabled}
-                />
-                <span className="right-placeholder">{I18n.t(attributePlaceholders.days)}</span>
-              </div>
+              <Field
+                name={this.buildFieldName('freeSpinLifeTime')}
+                id={`${form}freeSpinLifeTime`}
+                type="text"
+                placeholder="0"
+                normalize={intNormalize}
+                label={I18n.t(attributeLabels.freeSpinLifeTime)}
+                component={InputField}
+                position="vertical"
+                disabled={disabled}
+                className="col-6"
+                inputAddon={I18n.t(attributePlaceholders.days)}
+                inputAddonPosition="right"
+              />
             </div>
             <div className="row margin-top-15">
               <div className="col-6">
@@ -810,33 +810,32 @@ class FreeSpin extends Component {
         </div>
         <If condition={!disabled}>
           <div className="row">
-            <div className="col">
-              <Field
-                name={this.buildFieldName('templateUUID')}
-                id={`${form}TemplateUUID`}
-                label={I18n.t(attributeLabels.template)}
-                component={NasSelectField}
-                showErrorMessage={false}
-                position="vertical"
-                disabled={!!customTemplate}
-                onChange={this.handleChangeTemplate}
-              >
-                {freeSpinTemplates.map(item => (
-                  <option key={item.uuid} value={item.uuid}>
-                    {item.name}
-                  </option>
-                ))}
-              </Field>
-              <If condition={!customTemplate && currentUuid}>
-                <div className="form-group__note mb-2">
+            <Field
+              name={this.buildFieldName('templateUUID')}
+              id={`${form}TemplateUUID`}
+              label={I18n.t(attributeLabels.template)}
+              component={NasSelectField}
+              showErrorMessage={false}
+              position="vertical"
+              disabled={!!customTemplate}
+              onChange={this.handleChangeTemplate}
+              className="col"
+              helpText={
+                <If condition={!customTemplate && currentUuid}>
                   <Uuid
                     uuid={currentUuid}
                     uuidPartsCount={4}
                     length={22}
                   />
-                </div>
-              </If>
-            </div>
+                </If>
+              }
+            >
+              {freeSpinTemplates.map(item => (
+                <option key={item.uuid} value={item.uuid}>
+                  {item.name}
+                </option>
+              ))}
+            </Field>
             <div className="col-auto margin-top-40">
               <Field
                 id={`${form}CustomTemplate`}

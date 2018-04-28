@@ -7,7 +7,6 @@ import Form from './Form';
 import { statuses } from '../../../../constants/bonus-campaigns';
 import PropTypes from '../../../../constants/propTypes';
 import { statuses as freeSpinTemplateStatuses } from '../../../../constants/free-spin-template';
-import CurrencyCalculationModal from '../../components/CurrencyCalculationModal';
 import recognizeFieldError from '../../../../utils/recognizeFieldError';
 import AddToCampaignModal from '../../../../components/AddToCampaignModal';
 import { customValueFieldTypes } from '../../../../constants/form';
@@ -486,13 +485,6 @@ class Settings extends Component {
           onToggleBonusCustomTemplate={this.handleToggleBonusTemplate}
           fetchGameAggregators={fetchGameAggregators}
         />
-        {
-          modal.name === CURRENCY_AMOUNT_MODAL &&
-          <CurrencyCalculationModal
-            {...modal.params}
-            onHide={this.handleCloseModal}
-          />
-        }
         {
           modal.name === CHOOSE_CAMPAIGN_MODAL &&
           <AddToCampaignModal
