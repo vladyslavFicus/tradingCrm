@@ -145,12 +145,9 @@ label {
 }
 
 .label-clear {
-  position: absolute;
-  top: 3px;
-  right: -1px;
-  padding: 2px;
+  padding: 0;
   border: 0;
-  background: 0;
+  background: none;
   font-size: 13px;
   opacity: 0.6;
   &:before {
