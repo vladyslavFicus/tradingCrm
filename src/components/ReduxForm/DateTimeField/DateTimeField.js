@@ -3,8 +3,8 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import DateTime from 'react-datetime';
-import '../../styles/components/DateTime.scss';
-import FieldLabel from './FieldLabel';
+import './DateTimeField.scss';
+import FieldLabel from '../FieldLabel';
 
 const ISO_FORMAT_DATE = 'YYYY-MM-DD';
 const ISO_FORMAT_TIME = 'HH:mm:ss';
@@ -36,13 +36,14 @@ class DateTimeField extends Component {
     showErrorMessage: PropTypes.bool,
     closeOnSelect: PropTypes.bool,
     withTime: PropTypes.bool,
+    timePresets: PropTypes.bool,
   };
   static defaultProps = {
     id: null,
     label: null,
     labelAddon: null,
-    labelClassName: 'form-control-label',
-    className: 'form-group',
+    labelClassName: null,
+    className: null,
     pickerClassName: '',
     dateFormat: 'DD.MM.YYYY',
     timeFormat: 'HH:mm',
@@ -53,6 +54,7 @@ class DateTimeField extends Component {
     showErrorMessage: true,
     closeOnSelect: true,
     withTime: false,
+    timePresets: false,
   };
 
   constructor(props) {
@@ -165,11 +167,11 @@ class DateTimeField extends Component {
     } = props;
 
     return (
-      <div className={classNames(className, { 'has-danger': touched && error })}>
+      <div className={classNames('form-group', className, { 'has-danger': touched && error })}>
         <FieldLabel
           label={label}
-          labelClassName={labelClassName}
           addon={labelAddon}
+          className={labelClassName}
         />
         {this.renderInput(props)}
         {
@@ -186,22 +188,14 @@ class DateTimeField extends Component {
   renderHorizontal = (props) => {
     const {
       label,
-      labelClassName,
-      labelAddon,
       className,
       meta: { touched, error },
       showErrorMessage,
     } = props;
 
     return (
-      <div className={classNames(`${className} row`, { 'has-danger': touched && error })}>
-        <FieldLabel
-          label={label}
-          labelClassName={labelClassName}
-          addon={labelAddon}
-          wrapperTag="div"
-          wrapperClassName="col-md-3"
-        />
+      <div className={classNames('form-group row', className, { 'has-danger': touched && error })}>
+        <label className="col-md-3">{label}</label>
         <div className="col-md-9">
           {this.renderInput(props)}
           {

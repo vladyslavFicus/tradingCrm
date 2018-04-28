@@ -69,21 +69,25 @@ class DateRangePicker extends React.Component {
     const { startDate, endDate } = this.state;
 
     return (
-      <ul className="presetsBlock">
-        <li>{I18n.t('DATE_PICKER.PERIOD_RESETS.TITLE')}</li>
-        {presets.map(({ text, start, end }) => {
-          const isSelected = isSameDay(start, startDate) && isSameDay(end, endDate);
-          return (
-            <li
-              key={text}
-              className={classNames({ active: isSelected })}
-              onClick={this.handlePresetClick(start, end)}
-            >
-              {I18n.t(text)}
-            </li>
-          );
-        })}
-      </ul>
+      <div className="presetsBlock">
+        <div className="presetsBlock__title">
+          {I18n.t('DATE_PICKER.PERIOD_RESETS.TITLE')}
+        </div>
+        <ul>
+          {presets.map(({ text, start, end }) => {
+            const isSelected = isSameDay(start, startDate) && isSameDay(end, endDate);
+            return (
+              <li
+                key={text}
+                className={classNames({ active: isSelected })}
+                onClick={this.handlePresetClick(start, end)}
+              >
+                {I18n.t(text)}
+              </li>
+            );
+          })}
+        </ul>
+      </div>
     );
   };
 
@@ -103,7 +107,7 @@ class DateRangePicker extends React.Component {
     ]);
 
     return (
-      <div className="nasDateRangePicker">
+      <div className="date-range-picker">
         <DateRangePickerController
           {...props}
           renderCalendarInfo={this.renderDatePresets}
@@ -114,7 +118,10 @@ class DateRangePicker extends React.Component {
           endDate={endDate}
           navPrev={<i className="fa fa-angle-left" />}
           navNext={<i className="fa fa-angle-right" />}
-          small
+          noBorder
+          daySize={41}
+          transitionDuration={0}
+          anchorDirection="right"
         />
         <Field
           name={start}
