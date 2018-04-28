@@ -65,7 +65,7 @@ class FilesFilterForm extends Component {
                 placeholder={'File name, File ID'}
                 component={InputField}
                 position="vertical"
-                iconLeftClassName="nas nas-search_icon"
+                inputAddon={<i className="nas nas-search_icon" />}
               />
             </div>
             <div className="filter-row__small">

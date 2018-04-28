@@ -29,8 +29,6 @@ class InputField extends Component {
       touched: PropTypes.bool,
       error: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
     }).isRequired,
-    iconLeftClassName: PropTypes.string,
-    iconRightClassName: PropTypes.string,
     labelClassName: PropTypes.string,
     id: PropTypes.string,
     onIconClick: PropTypes.func,
@@ -48,8 +46,6 @@ class InputField extends Component {
     inputAddon: null,
     inputAddonPosition: 'left',
     inputButton: null,
-    iconLeftClassName: '',
-    iconRightClassName: '',
     labelClassName: null,
     id: null,
     onIconClick: null,
@@ -121,8 +117,6 @@ class InputField extends Component {
       placeholder,
       label,
       id,
-      iconLeftClassName,
-      iconRightClassName,
       onIconClick,
     } = props;
 
@@ -137,37 +131,12 @@ class InputField extends Component {
       />
     );
 
-    if (iconLeftClassName || iconRightClassName) {
-      inputField = (
-        <div
-          className={classNames('input-with-icon', {
-            'input-with-icon__left': !!iconLeftClassName,
-            'input-with-icon__right': !!iconRightClassName,
-          })}
-        >
-          {
-            !!iconLeftClassName &&
-            <i className={classNames('input-left-icon', iconLeftClassName)} onClick={onIconClick} />
-          }
-          {inputField}
-          {
-            !!iconRightClassName &&
-            <i
-              className={classNames('input-right-icon', iconRightClassName)}
-              id={`${id}-right-icon`}
-              onClick={onIconClick}
-            />
-          }
-        </div>
-      );
-    }
-
     if (inputAddon) {
       inputField = (
         <div className={classNames('input-group', { disabled })}>
           <If condition={inputAddonPosition === 'left'}>
             <div className="input-group-prepend">
-              <span className="input-group-text input-group-addon">
+              <span className="input-group-text input-group-addon" onClick={onIconClick}>
                 {inputAddon}
               </span>
             </div>
@@ -175,7 +144,15 @@ class InputField extends Component {
           {inputField}
           <If condition={inputAddonPosition === 'right'}>
             <div className="input-group-append">
-              <span className="input-group-text input-group-addon">
+              <span
+                className="input-group-text input-group-addon"
+                onClick={onIconClick}
+                id={
+                  <If condition={id}>
+                    {`${id}-right-icon`}
+                  </If>
+                }
+              >
                 {inputAddon}
               </span>
             </div>

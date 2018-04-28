@@ -32,8 +32,6 @@ class DateTimeField extends Component {
     dateFormat: PropTypes.string,
     timeFormat: PropTypes.string,
     position: PropTypes.oneOf(['horizontal', 'vertical']),
-    iconLeftClassName: PropTypes.string,
-    iconRightClassName: PropTypes.string,
     utc: PropTypes.bool,
     showErrorMessage: PropTypes.bool,
     closeOnSelect: PropTypes.bool,
@@ -50,8 +48,6 @@ class DateTimeField extends Component {
     dateFormat: 'DD.MM.YYYY',
     timeFormat: 'HH:mm',
     position: 'horizontal',
-    iconLeftClassName: '',
-    iconRightClassName: 'nas nas-calendar_icon',
     utc: false,
     disabled: false,
     placeholder: '',
@@ -128,48 +124,36 @@ class DateTimeField extends Component {
       isValidDate,
       dateFormat,
       timeFormat,
-      iconLeftClassName,
-      iconRightClassName,
       timePresets,
       closeOnSelect,
       withTime,
     } = this.props;
 
-    let inputField = (
-      <DateTime
-        className={pickerClassName}
-        dateFormat={dateFormat}
-        timeFormat={timeFormat}
-        onChange={this.handleChange}
-        value={this.getValue()}
-        inputProps={{
-          id,
-          disabled,
-          placeholder,
-        }}
-        isValidDate={isValidDate}
-        closeOnSelect={closeOnSelect}
-        timePresets={timePresets}
-        withTime={withTime}
-      />
-    );
-
-    if (iconLeftClassName || iconRightClassName) {
-      inputField = (
-        <div
-          className={classNames('input-with-icon', {
-            'input-with-icon__left': !!iconLeftClassName,
-            'input-with-icon__right': !!iconRightClassName,
-          })}
-        >
-          {!!iconLeftClassName && <i className={classNames('input-left-icon', iconLeftClassName)} />}
-          {inputField}
-          {!!iconRightClassName && <i className={classNames('input-right-icon', iconRightClassName)} />}
+    return (
+      <div className={classNames('input-group', { disabled })}>
+        <DateTime
+          className={pickerClassName}
+          dateFormat={dateFormat}
+          timeFormat={timeFormat}
+          onChange={this.handleChange}
+          value={this.getValue()}
+          inputProps={{
+            id,
+            disabled,
+            placeholder,
+          }}
+          isValidDate={isValidDate}
+          closeOnSelect={closeOnSelect}
+          timePresets={timePresets}
+          withTime={withTime}
+        />
+        <div className="input-group-append">
+          <span className="input-group-text input-group-addon">
+            <i className="nas nas-calendar_icon" />
+          </span>
         </div>
-      );
-    }
-
-    return inputField;
+      </div>
+    );
   };
 
   renderVertical = (props) => {

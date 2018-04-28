@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Popover, PopoverContent, TabContent, TabPane, Nav, NavItem, NavLink, Input } from 'reactstrap';
+import { Popover, PopoverContent, TabContent, TabPane, Nav, NavItem, NavLink } from 'reactstrap';
 import classNames from 'classnames';
 import keyMirror from 'keymirror';
 import { I18n } from 'react-redux-i18n';
@@ -201,9 +201,9 @@ class AvailabilityPopover extends Component {
             }
           </Nav>
           <TabContent activeTab={activeTab}>
-            <div className="input-with-icon input-with-icon__left">
-              <i className="input-left-icon nas nas-search_icon" />
-              <Input
+            <div className="availability-popover-search">
+              <i className="nas nas-search_icon" />
+              <input
                 onChange={this.handleSearch}
                 className="form-control"
                 value={search}

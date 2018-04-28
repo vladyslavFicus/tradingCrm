@@ -73,7 +73,7 @@ class FreeSpinsFilterForm extends Component {
                 placeholder={I18n.t(attributePlaceholders.searchBy)}
                 component={InputField}
                 position="vertical"
-                iconLeftClassName="nas nas-search_icon"
+                inputAddon={<i className="nas nas-search_icon" />}
               />
             </div>
             <div className="filter-row__medium">
