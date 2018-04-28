@@ -116,19 +116,6 @@ label {
     box-shadow: 0 0 4px 0 rgba(74, 144, 226, 0.5);
     border-color: #4990e2;
   }
-  &::-webkit-input-placeholder {
-    color: #cfcfcf;
-    font-weight: 300;
-  }
-  &::-moz-placeholder {
-    @extend .form-control::-webkit-input-placeholder;
-  }
-  &:-moz-placeholder {
-    @extend .form-control::-webkit-input-placeholder;
-  }
-  &:-ms-input-placeholder {
-    @extend .form-control::-webkit-input-placeholder;
-  }
   &:disabled {
     background-color: #f6f6f6;
     border-color: #cfcfcf;
@@ -359,6 +346,27 @@ label {
 }
 ::-webkit-outer-spin-button {
   -webkit-appearance: none;
+}
+::-webkit-input-placeholder {
+  color: #cfcfcf;
+  font-weight: 300;
+}
+::-moz-placeholder {
+  color: #cfcfcf;
+  font-weight: 300;
+  opacity: 1;
+}
+:-ms-input-placeholder {
+  color: #cfcfcf;
+  font-weight: 300;
+}
+:-moz-placeholder {
+  color: #cfcfcf;
+  font-weight: 300;
+}
+::placeholder {
+  color: #cfcfcf;
+  font-weight: 300;
 }
 
 .input-group {
