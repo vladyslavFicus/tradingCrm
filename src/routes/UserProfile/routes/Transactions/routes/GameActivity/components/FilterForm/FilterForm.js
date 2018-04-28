@@ -10,7 +10,6 @@ import { moneyTypeLabels } from '../../../../../../../../constants/gaming-activi
 import { InputField, SelectField, DateTimeField } from '../../../../../../../../components/ReduxForm';
 import filterFormAttributeLabels from '../../constants';
 import { startDateValidator, endDateValidator } from '../../utils';
-import './FilterForm.scss';
 
 const FORM_NAME = 'userGameActivityFilter';
 const validate = (values) => {

@@ -121,6 +121,7 @@ class DateRangePicker extends React.Component {
           noBorder
           daySize={41}
           transitionDuration={0}
+          anchorDirection="right"
         />
         <Field
           name={start}
