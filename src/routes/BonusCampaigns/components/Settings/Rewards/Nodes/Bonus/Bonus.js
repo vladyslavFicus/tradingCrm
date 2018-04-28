@@ -170,7 +170,8 @@ class Bonus extends Component {
               component={InputField}
               position="vertical"
               disabled={disabled}
-              iconRightClassName="nas nas-currencies_icon"
+              inputAddon={<i className="nas nas-currencies_icon" />}
+              inputAddonPosition="right"
             />
           }
         </div>
@@ -214,7 +215,8 @@ class Bonus extends Component {
             component={InputField}
             position="vertical"
             disabled={disabled}
-            iconRightClassName="nas nas-currencies_icon"
+            inputAddon={<i className="nas nas-currencies_icon" />}
+            inputAddonPosition="right"
           />
           <div className="col-4 form-row_with-placeholder-right">
             <Field

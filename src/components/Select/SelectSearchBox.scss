@@ -1,0 +1,24 @@
+.select-search-box {
+  position: relative;
+  padding: 10px 5px;
+  border-right: 1px solid #9b9b9b;
+  border-left: 1px solid #9b9b9b;
+  background-color: #eee;
+  input {
+    height: 29px;
+    padding-right: 25px;
+    padding-left: 25px;
+    font-size: 13px;
+  }
+  i {
+    position: absolute;
+    top: 18px;
+    font-size: 13px;
+  }
+  &__icon-left {
+    left: 12px;
+  }
+  &__icon-right {
+    right: 12px;
+  }
+}

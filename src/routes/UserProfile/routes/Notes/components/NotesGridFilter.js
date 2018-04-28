@@ -72,7 +72,7 @@ class NotesGridFilter extends Component {
                 placeholder={I18n.t(attributeLabels.searchValue)}
                 component={InputField}
                 position="vertical"
-                iconLeftClassName="nas nas-search_icon"
+                inputAddon={<i className="nas nas-search_icon" />}
               />
             </div>
             <div className="filter-row__medium">

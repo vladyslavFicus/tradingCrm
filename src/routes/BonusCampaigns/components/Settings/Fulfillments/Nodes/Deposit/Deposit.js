@@ -88,10 +88,10 @@ class Deposit extends Component {
                 type="text"
                 placeholder={I18n.t('BONUS_CAMPAIGNS.SETTINGS.LABEL.MIN_AMOUNT_PLACEHOLDER')}
                 component={InputField}
-                showErrorMessage
                 position="vertical"
                 disabled={disabled}
-                iconRightClassName="nas nas-currencies_icon"
+                inputAddon={<i className="nas nas-currencies_icon" />}
+                inputAddonPosition="right"
               />
               <span className="range-group__separator">-</span>
               <Field
@@ -101,7 +101,8 @@ class Deposit extends Component {
                 component={InputField}
                 position="vertical"
                 disabled={disabled}
-                iconRightClassName="nas nas-currencies_icon"
+                inputAddon={<i className="nas nas-currencies_icon" />}
+                inputAddonPosition="right"
               />
             </div>
           </div>

@@ -39,25 +39,6 @@
     }
   }
 
-  .input-with-icon {
-    padding: 14px 10px 0;
-  }
-
-  .input-with-icon .input-left-icon {
-    top: 20px;
-    left: 18px;
-    font-size: 13px;
-    &:before {
-      color: #a7a7a7;
-    }
-  }
-
-  .form-control {
-    height: 25px;
-    font-size: 13px;
-    color: #999;
-  }
-
   .tab-pane {
     max-height: 150px;
     padding: 0 10px 14px;
@@ -72,5 +53,24 @@
 
   .tab-name {
     color: #09f;
+  }
+}
+
+.availability-popover-search {
+  position: relative;
+  padding-top: 14px;
+  padding-right: 10px;
+  padding-left: 10px;
+  i {
+    position: absolute;
+    top: 23px;
+    left: 18px;
+    font-size: 13px;
+  }
+  input {
+    height: 29px;
+    padding-left: 25px;
+    font-size: 13px;
+    color: #999;
   }
 }
