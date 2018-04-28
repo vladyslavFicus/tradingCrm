@@ -6,7 +6,6 @@ export default (values) => {
     name: ['required', 'string'],
     lockAmountStrategy: ['required', 'string'],
     moneyTypePriority: ['required', 'string'],
-    wagerWinMultiplier: ['required', 'numeric'],
     'maxBet[0].amount': ['required', 'numeric', 'min:1', 'max: 1000000'],
     bonusLifeTime: ['required', 'integer'],
   };

@@ -251,7 +251,7 @@ class CreateBonusModal extends PureComponent {
               type="select"
               component={SelectField}
               position="vertical"
-              className="col-md-7"
+              className="col-md-6"
               id="campaign-create-bonus-modal-lock-amount-strategy"
             >
               <option value="">{I18n.t('COMMON.SELECT_OPTION.DEFAULT')}</option>
@@ -261,25 +261,13 @@ class CreateBonusModal extends PureComponent {
                 </option>
               ))}
             </Field>
-          </div>
-          <div className="row">
-            <Field
-              name="wagerWinMultiplier"
-              type="text"
-              placeholder="0.00"
-              label={I18n.t(attributeLabels.multiplier)}
-              component={InputField}
-              position="vertical"
-              className="col-md-4"
-              id="campaign-create-bonus-modal-wager-win-multiplier"
-            />
             <Field
               name="moneyTypePriority"
               type="text"
               label={I18n.t(attributeLabels.moneyPriority)}
               component={SelectField}
               position="vertical"
-              className="col-md-5"
+              className="col-md-6"
               id="campaign-create-bonus-modal-money-type-priority"
             >
               <option value="">{I18n.t('COMMON.SELECT_OPTION.DEFAULT')}</option>
