@@ -414,28 +414,11 @@ label {
   }
 }
 
-.form-check-label:hover {
-  cursor: pointer;
-}
-
-.double-group {
-  display: flex;
- .form-group {
-   flex: 0 0 70px;
-   min-width: 0;
-   margin-bottom: 0;
- }
-  &-large {
-    flex: 1 0 auto;
-    min-width: 0;
-    margin-left: 10px;
-  }
-}
-
-input[type=number]::-webkit-inner-spin-button,
-input[type=number]::-webkit-outer-spin-button {
+::-webkit-inner-spin-button {
   -webkit-appearance: none;
-  margin: 0;
+}
+::-webkit-outer-spin-button {
+  -webkit-appearance: none;
 }
 
 .input-group {
