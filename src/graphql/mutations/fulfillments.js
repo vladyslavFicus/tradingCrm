@@ -41,7 +41,31 @@ const addDepositFulfillment = gql`mutation addDepositFulfillment(
   }
 }`;
 
+const updateDepositFulfillment = gql`mutation updateDepositFulfillment(
+  $uuid: String!,
+  $minAmount: [InputMoney]!,
+  $maxAmount: [InputMoney]!,
+  $numDeposit: Int,
+  $excludedPaymentMethods: [String]
+) {
+  depositFulfillment {
+    update (
+      uuid: $uuid,
+      minAmount: $minAmount,
+      maxAmount: $maxAmount,
+      numDeposit: $numDeposit,
+      excludedPaymentMethods: $excludedPaymentMethods
+    ) {
+      data {
+        _id,
+        uuid
+      }
+    }
+  }
+}`;
+
 export {
   addWageringFulfillment,
   addDepositFulfillment,
+  updateDepositFulfillment,
 };

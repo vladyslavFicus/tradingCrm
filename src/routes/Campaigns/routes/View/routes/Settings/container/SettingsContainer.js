@@ -1,7 +1,11 @@
 import { graphql, compose } from 'react-apollo';
 import { campaignQuery } from '.././../../../../../../graphql/queries/campaigns';
 import { updateMutation } from '.././../../../../../../graphql/mutations/campaigns';
-import { addDepositFulfillment, addWageringFulfillment } from '.././../../../../../../graphql/mutations/fulfillments';
+import {
+  addDepositFulfillment,
+  addWageringFulfillment,
+  updateDepositFulfillment,
+} from '.././../../../../../../graphql/mutations/fulfillments';
 import { withNotifications } from '../../../../../../../components/HighOrder';
 import SettingsView from '../components/SettingsView';
 
@@ -20,6 +24,9 @@ export default compose(
   }),
   graphql(addDepositFulfillment, {
     name: 'addDepositFulfillment',
+  }),
+  graphql(updateDepositFulfillment, {
+    name: 'updateDepositFulfillment',
   }),
   graphql(updateMutation, {
     name: 'updateCampaign',

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { I18n } from 'react-redux-i18n';
-import { get } from 'lodash';
+import { get, isEqual } from 'lodash';
 import PropTypes from '../../../../../../../constants/propTypes';
 import Form from '../../../../../components/Form';
 import { statuses } from '../../../../../../../constants/bonus-campaigns';
@@ -29,10 +29,21 @@ class SettingsView extends Component {
 
   handleUpdateCampaign = async (formData) => {
     const {
+      campaign: {
+        campaign: {
+          data: {
+            fulfillments: initialFulfillments,
+          },
+        },
+      },
+    } = this.props;
+
+    const {
       updateCampaign,
       notify,
       addWageringFulfillment,
       addDepositFulfillment,
+      updateDepositFulfillment,
       campaign: {
         campaign: {
           data,
@@ -62,6 +73,22 @@ class SettingsView extends Component {
 
       if (uuid) {
         fulfillments.push(uuid);
+      }
+    });
+
+    const currentDepositFulfillments = formData.fulfillments
+      .filter(({ type, uuid }) => type === fulfillmentTypes.DEPOSIT && uuid);
+
+    await asyncForEach(currentDepositFulfillments, async (currentDepositFulfillment) => {
+      const initialFulfillment = initialFulfillments.find(({ uuid }) => uuid === currentDepositFulfillment.uuid);
+
+      if (!isEqual(initialFulfillment, currentDepositFulfillment)) {
+        await updateDepositFulfillment({
+          variables: {
+            uuid: currentDepositFulfillment.uuid,
+            ...currentDepositFulfillment,
+          },
+        });
       }
     });
 

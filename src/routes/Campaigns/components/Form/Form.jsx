@@ -60,7 +60,7 @@ class Form extends Component {
 
     if (!isEqual(formValues.fulfillments, nextFormValues.fulfillments, true)) {
       nextFormValues.fulfillments.forEach((fulfillment, index) => {
-        if (fulfillment.uuid) {
+        if (fulfillment.uuid && fulfillment.type === fulfilmentTypes.WAGERING) {
           const prevFulfillment = formValues.fulfillments.find(i => i.uuid === fulfillment.uuid);
 
           if (prevFulfillment && !isEqual(prevFulfillment, fulfillment, true)) {
