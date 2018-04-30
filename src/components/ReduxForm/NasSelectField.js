@@ -14,7 +14,10 @@ class NasSelectField extends Component {
     label: PropTypes.oneOfType([PropTypes.string, PropTypes.element]).isRequired,
     placeholder: PropTypes.string,
     labelClassName: PropTypes.string,
-    labelAddon: PropTypes.element,
+    labelAddon: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.node,
+    ]),
     children: PropTypes.node.isRequired,
     position: PropTypes.oneOf(['horizontal', 'vertical']),
     showErrorMessage: PropTypes.bool,
@@ -25,10 +28,11 @@ class NasSelectField extends Component {
       error: PropTypes.string,
     }).isRequired,
     inputClassName: PropTypes.string,
-    inputAddon: PropTypes.element,
+    inputAddon: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.node,
+    ]),
     inputAddonPosition: PropTypes.oneOf(['left', 'right']),
-    inputButton: PropTypes.any,
-    showInputButton: PropTypes.bool,
     optionsHeader: PropTypes.func,
     singleOptionComponent: PropTypes.func,
     id: PropTypes.string,
@@ -46,9 +50,7 @@ class NasSelectField extends Component {
     multiple: false,
     inputAddon: null,
     inputAddonPosition: 'left',
-    inputButton: null,
     inputClassName: 'form-control select-block',
-    showInputButton: false,
     optionsHeader: null,
     singleOptionComponent: null,
     id: null,
@@ -59,8 +61,6 @@ class NasSelectField extends Component {
     const {
       inputAddon,
       inputAddonPosition,
-      inputButton,
-      showInputButton,
       input,
       disabled,
       inputClassName,
@@ -106,17 +106,6 @@ class NasSelectField extends Component {
               </span>
             </div>
           </If>
-        </div>
-      );
-    }
-
-    if (inputButton) {
-      inputField = (
-        <div className="input-group">
-          {inputField}
-          <span className="input-group-btn">
-            {showInputButton && inputButton}
-          </span>
         </div>
       );
     }

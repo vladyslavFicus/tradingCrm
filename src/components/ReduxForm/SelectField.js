@@ -11,7 +11,10 @@ class SelectField extends Component {
       onChange: PropTypes.func,
     }).isRequired,
     label: PropTypes.string,
-    labelAddon: PropTypes.any,
+    labelAddon: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.node,
+    ]),
     labelClassName: PropTypes.string,
     children: PropTypes.node.isRequired,
     position: PropTypes.oneOf(['horizontal', 'vertical']),
@@ -23,10 +26,11 @@ class SelectField extends Component {
       error: PropTypes.string,
     }),
     inputClassName: PropTypes.string,
-    inputAddon: PropTypes.element,
+    inputAddon: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.node,
+    ]),
     inputAddonPosition: PropTypes.oneOf(['left', 'right']),
-    inputButton: PropTypes.any,
-    showInputButton: PropTypes.bool,
     id: PropTypes.string,
     className: PropTypes.string,
     helpText: PropTypes.node,
@@ -39,9 +43,7 @@ class SelectField extends Component {
     multiple: false,
     inputAddon: null,
     inputAddonPosition: 'left',
-    inputButton: null,
     inputClassName: 'form-control',
-    showInputButton: false,
     label: null,
     labelAddon: null,
     labelClassName: '',
@@ -57,8 +59,6 @@ class SelectField extends Component {
     const {
       inputAddon,
       inputAddonPosition,
-      inputButton,
-      showInputButton,
       input,
       disabled,
       inputClassName,
@@ -98,17 +98,6 @@ class SelectField extends Component {
               </span>
             </div>
           </If>
-        </div>
-      );
-    }
-
-    if (inputButton) {
-      inputField = (
-        <div className="input-group">
-          {inputField}
-          <span className="input-group-btn">
-            {showInputButton && inputButton}
-          </span>
         </div>
       );
     }
