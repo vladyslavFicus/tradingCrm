@@ -110,6 +110,16 @@ class BonusView extends PureComponent {
                   showErrorMessage={false}
                   className="mb-0"
                   position="vertical"
+                  helpText={
+                    <If condition={template.uuid}>
+                      <Uuid
+                        length={16}
+                        uuidPartsCount={3}
+                        uuid={template.uuid}
+                        uuidPrefix="BT"
+                      />
+                    </If>
+                  }
                 >
                   {bonusTemplates.map(item => (
                     <option key={item.uuid} value={item.uuid}>
@@ -122,16 +132,6 @@ class BonusView extends PureComponent {
                 {initialBonusTemplates ? initialBonusTemplates.name : ''}
               </Otherwise>
             </Choose>
-            <If condition={template.uuid}>
-              <div className="form-group__note mt-0">
-                <Uuid
-                  length={16}
-                  uuidPartsCount={3}
-                  uuid={template.uuid}
-                  uuidPrefix="BT"
-                />
-              </div>
-            </If>
           </div>
           <If condition={!disabled && !isViewMode}>
             <div className="col-auto">

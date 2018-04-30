@@ -29,6 +29,7 @@ class SelectField extends Component {
     showInputButton: PropTypes.bool,
     id: PropTypes.string,
     className: PropTypes.string,
+    helpText: PropTypes.node,
   };
   static defaultProps = {
     id: null,
@@ -49,6 +50,7 @@ class SelectField extends Component {
       error: '',
     },
     className: null,
+    helpText: null,
   };
 
   renderInput = (props) => {
@@ -122,6 +124,7 @@ class SelectField extends Component {
       meta: { touched, error },
       showErrorMessage,
       className,
+      helpText,
     } = props;
 
     return (
@@ -132,6 +135,11 @@ class SelectField extends Component {
           className={labelClassName}
         />
         {this.renderInput(props)}
+        <If condition={helpText}>
+          <div className="form-group-help">
+            {helpText}
+          </div>
+        </If>
         <If condition={showErrorMessage && touched && error}>
           <div className="form-control-feedback">
             <i className="nas nas-field_alert_icon" />
@@ -148,6 +156,7 @@ class SelectField extends Component {
       meta: { touched, error },
       showErrorMessage,
       className,
+      helpText,
     } = props;
 
     return (
@@ -155,6 +164,11 @@ class SelectField extends Component {
         <label className="col-md-3">{label}</label>
         <div className="col-md-9">
           {this.renderInput(props)}
+          <If condition={helpText}>
+            <div className="form-group-help">
+              {helpText}
+            </div>
+          </If>
           <If condition={showErrorMessage && touched && error}>
             <div className="form-control-feedback">
               <i className="nas nas-field_alert_icon" />

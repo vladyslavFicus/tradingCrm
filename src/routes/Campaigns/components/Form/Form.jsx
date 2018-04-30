@@ -163,14 +163,17 @@ class Form extends Component {
               type="text"
               component={InputField}
               position="vertical"
+              helpText={
+                <Choose>
+                  <When condition={formValues && formValues.name}>
+                    {formValues.name.length}/{CAMPAIGN_NAME_MAX_LENGTH}
+                  </When>
+                  <Otherwise>
+                    0/{CAMPAIGN_NAME_MAX_LENGTH}
+                  </Otherwise>
+                </Choose>
+              }
             />
-            <div className="form-group__note">
-              {
-                formValues && formValues.name
-                  ? formValues.name.length
-                  : 0
-              }/{CAMPAIGN_NAME_MAX_LENGTH}
-            </div>
           </div>
           <div className="col-md-4">
             <div className="form-group">

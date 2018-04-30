@@ -74,16 +74,16 @@ class EmailForm extends Component {
             <Field
               name="email"
               label={attributeLabels.email}
-              labelAddon={(
-                profileStatus !== playerStatuses.INACTIVE &&
-                <div className="verification-label color-success font-size-12">
-                  <i className="fa fa-check-circle-o" /> {I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.VERIFIED')}
-                </div>
-              )}
+              labelAddon={
+                <If condition={profileStatus !== playerStatuses.INACTIVE}>
+                  <div className="color-success font-size-12">
+                    <i className="fa fa-check-circle-o" /> {I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.VERIFIED')}
+                  </div>
+                </If>
+              }
               type="text"
               component={InputField}
               position="vertical"
-              showErrorMessage
             />
           </div>
           {

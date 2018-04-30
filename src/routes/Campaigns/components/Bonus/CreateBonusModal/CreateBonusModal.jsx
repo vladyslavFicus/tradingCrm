@@ -285,18 +285,18 @@ class CreateBonusModal extends PureComponent {
               className="col-md-4"
               id="campaign-create-bonus-modal-max-bet"
             />
-            <div className="col-md-4 form-row_with-placeholder-right">
-              <Field
-                name="bonusLifeTime"
-                type="text"
-                placeholder="0"
-                label={I18n.t(attributeLabels.lifeTime)}
-                component={InputField}
-                position="vertical"
-                id="campaign-create-bonus-modal-bonus-life-time"
-              />
-              <span className="right-placeholder">{I18n.t(attributePlaceholders.days)}</span>
-            </div>
+            <Field
+              name="bonusLifeTime"
+              type="text"
+              placeholder="0"
+              label={I18n.t(attributeLabels.lifeTime)}
+              component={InputField}
+              position="vertical"
+              id="campaign-create-bonus-modal-bonus-life-time"
+              className="col-md-4"
+              inputAddon={I18n.t(attributePlaceholders.days)}
+              inputAddonPosition="right"
+            />
           </div>
           <Field
             id="campaign-create-bonus-modal-claimable-checkbox"

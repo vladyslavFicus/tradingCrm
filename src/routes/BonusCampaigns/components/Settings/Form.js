@@ -249,14 +249,17 @@ class Form extends Component {
                 component={InputField}
                 position="vertical"
                 disabled={disabled}
+                helpText={
+                  <Choose>
+                    <When condition={currentValues && currentValues.campaignName}>
+                      {currentValues.campaignName.length}/{CAMPAIGN_NAME_MAX_LENGTH}
+                    </When>
+                    <Otherwise>
+                      0/{CAMPAIGN_NAME_MAX_LENGTH}
+                    </Otherwise>
+                  </Choose>
+                }
               />
-              <div className="form-group__note">
-                {
-                  currentValues && currentValues.campaignName
-                    ? currentValues.campaignName.length
-                    : 0
-                }/{CAMPAIGN_NAME_MAX_LENGTH}
-              </div>
             </div>
             <div className="col-md-4">
               <div className="form-group">

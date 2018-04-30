@@ -110,12 +110,13 @@ class PhoneForm extends Component {
               showErrorMessage
               label={attributeLabels.phone}
               position="vertical"
-              labelAddon={(
-                !isPhoneDirty && profile.phoneNumberVerified ?
-                  <div className="verification-label color-success font-size-12">
+              labelAddon={
+                <If condition={!isPhoneDirty && profile.phoneNumberVerified}>
+                  <div className="color-success font-size-12">
                     <i className="fa fa-check-circle-o" /> {I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.VERIFIED')}
-                  </div> : null
-              )}
+                  </div>
+                </If>
+              }
               disabled={disabled}
             />
           </div>

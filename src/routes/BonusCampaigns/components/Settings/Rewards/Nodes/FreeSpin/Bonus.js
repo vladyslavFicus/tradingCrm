@@ -96,33 +96,32 @@ class Bonus extends Component {
 
         <If condition={!disabled}>
           <div className="row">
-            <div className="col">
-              <Field
-                name={this.buildFieldName('templateUUID')}
-                id={`${form}TemplateUUID`}
-                label={I18n.t(attributeLabels.template)}
-                component={NasSelectField}
-                showErrorMessage={false}
-                position="vertical"
-                disabled={customTemplate}
-                onChange={handleChangeBonusTemplateData}
-              >
-                {bonusTemplates.map(item => (
-                  <option key={item.uuid} value={item.uuid}>
-                    {item.name}
-                  </option>
-                ))}
-              </Field>
-              <If condition={currentUuid}>
-                <div className="form-group__note mb-2">
+            <Field
+              name={this.buildFieldName('templateUUID')}
+              id={`${form}TemplateUUID`}
+              label={I18n.t(attributeLabels.template)}
+              component={NasSelectField}
+              showErrorMessage={false}
+              position="vertical"
+              disabled={customTemplate}
+              onChange={handleChangeBonusTemplateData}
+              className="col"
+              helpText={
+                <If condition={currentUuid}>
                   <Uuid
                     uuid={currentUuid}
                     uuidPartsCount={3}
                     length={18}
                   />
-                </div>
-              </If>
-            </div>
+                </If>
+              }
+            >
+              {bonusTemplates.map(item => (
+                <option key={item.uuid} value={item.uuid}>
+                  {item.name}
+                </option>
+              ))}
+            </Field>
             <div className="col-auto margin-top-40">
               <Field
                 name="bonus-campaigns-rewards-freespin-bonus-toggle"
@@ -251,20 +250,20 @@ class Bonus extends Component {
               normalize={floatNormalize}
             />
           </div>
-          <div className="col-6 form-row_with-placeholder-right">
-            <Field
-              name={this.buildFieldName('bonusLifeTime')}
-              id={`${form}BonusLifeTime`}
-              type="number"
-              placeholder="0"
-              normalize={floatNormalize}
-              label={I18n.t(attributeLabels.lifeTime)}
-              component={InputField}
-              position="vertical"
-              disabled={disabled || !customTemplate}
-            />
-            <span className="right-placeholder">{I18n.t(attributePlaceholders.days)}</span>
-          </div>
+          <Field
+            name={this.buildFieldName('bonusLifeTime')}
+            id={`${form}BonusLifeTime`}
+            type="number"
+            placeholder="0"
+            normalize={floatNormalize}
+            label={I18n.t(attributeLabels.lifeTime)}
+            component={InputField}
+            position="vertical"
+            disabled={disabled || !customTemplate}
+            className="col-6"
+            inputAddon={I18n.t(attributePlaceholders.days)}
+            inputAddonPosition="right"
+          />
         </div>
         <div className="row">
           <div className="col-md-4">

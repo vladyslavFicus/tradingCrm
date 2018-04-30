@@ -99,37 +99,22 @@
     align-self: center;
     padding-left: 0;
   }
-  &_with-placeholder-right {
-    position: relative;
-    label {
-      white-space: nowrap;
-    }
-    .form-control {
-      padding-right: 45px;
-    }
-    .right-placeholder {
-      position: absolute;
-      top: 30px;
-      right: 22px;
-      font-size: 14px;
-      color: #999;
-    }
-  }
 }
 
 .form-group {
   position: relative;
   margin-bottom: 20px;
-  &__note {
-    margin-top: -15px;
-    font-size: 12px;
-    color: #999;
-  }
   &.has-danger {
     .form-control {
       border-color: #d0011b;
     }
   }
+}
+
+.form-group-help {
+  margin-top: 2px;
+  font-size: 12px;
+  color: #999;
 }
 
 label {
@@ -390,12 +375,6 @@ label {
   .nas-clear_icon:before {
     color: #d0011b;
   }
-}
-
-.verification-label {
-  position: absolute;
-  top: 0;
-  right: 0;
 }
 
 .has-danger .form-control-feedback {
