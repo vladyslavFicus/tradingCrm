@@ -59,43 +59,40 @@ class EmailForm extends Component {
       <form onSubmit={handleSubmit(onSubmit)}>
         <PermissionContent permissions={permissions.USER_PROFILE.UPDATE_EMAIL}>
           <div className="row">
-            <div className="col-xl-6 ml-auto">
-              {
-                dirty && !submitting && valid && !disabled &&
+            <div className="col-auto ml-auto">
+              <If condition={dirty && !submitting && valid && !disabled}>
                 <button className="btn btn-sm btn-primary" type="submit">
                   {I18n.t('COMMON.SAVE_CHANGES')}
                 </button>
-              }
+              </If>
             </div>
           </div>
         </PermissionContent>
         <div className="form-row">
-          <div className="form-row__big">
-            <Field
-              name="email"
-              label={attributeLabels.email}
-              labelAddon={
-                <If condition={profileStatus !== playerStatuses.INACTIVE}>
-                  <div className="color-success font-size-12">
-                    <i className="fa fa-check-circle-o" /> {I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.VERIFIED')}
-                  </div>
-                </If>
-              }
-              type="text"
-              component={InputField}
-              position="vertical"
-            />
-          </div>
-          {
-            profileStatus === playerStatuses.INACTIVE &&
+          <Field
+            name="email"
+            label={attributeLabels.email}
+            labelAddon={
+              <If condition={profileStatus !== playerStatuses.INACTIVE}>
+                <div className="color-success font-size-12">
+                  <i className="fa fa-check-circle-o" /> {I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.VERIFIED')}
+                </div>
+              </If>
+            }
+            type="text"
+            component={InputField}
+            position="vertical"
+            className="col-6"
+          />
+          <If condition={profileStatus === playerStatuses.INACTIVE}>
             <PermissionContent permissions={permissions.USER_PROFILE.VERIFY_EMAIL}>
-              <div className="form-row__small form-row__action">
+              <div className="col-auto mt-4">
                 <button type="button" className="btn btn-success-outline" onClick={this.handleVerifyEmailClick}>
                   {I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.VERIFY_EMAIL')}
                 </button>
               </div>
             </PermissionContent>
-          }
+          </If>
         </div>
       </form>
     );

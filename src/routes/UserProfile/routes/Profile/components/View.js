@@ -479,7 +479,7 @@ class View extends Component {
 
         <div className="tab-content">
           <Card>
-            <div className="card-body row panel-body__wrapper">
+            <div className="card-body row">
               <div className="col-md-8 with-right-border">
                 <PersonalForm
                   initialValues={personalData}
@@ -512,7 +512,7 @@ class View extends Component {
           </Card>
 
           <Card>
-            <div className="card-body row panel-body__wrapper">
+            <div className="card-body row">
               <div className="col-md-8 with-right-border">
                 <AddressForm
                   meta={{
@@ -549,7 +549,7 @@ class View extends Component {
           </Card>
 
           <Card>
-            <div className="card-body row panel-body__wrapper">
+            <div className="card-body row">
               <div className="col-md-8 with-right-border">
                 <ContactForm
                   profile={data}

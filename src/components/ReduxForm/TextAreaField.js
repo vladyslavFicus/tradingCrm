@@ -16,8 +16,6 @@ class TextAreaField extends Component {
     placeholder: PropTypes.string,
     inputAddon: PropTypes.element,
     inputAddonPosition: PropTypes.oneOf(['left', 'right']),
-    inputButton: PropTypes.any,
-    showInputButton: PropTypes.bool,
     position: PropTypes.oneOf(['horizontal', 'vertical']),
     showErrorMessage: PropTypes.bool,
     disabled: PropTypes.bool,
@@ -32,7 +30,6 @@ class TextAreaField extends Component {
     label: null,
     labelAddon: null,
     inputClassName: 'form-control',
-    showInputButton: false,
     position: 'horizontal',
     showErrorMessage: true,
     disabled: false,
@@ -115,8 +112,6 @@ class TextAreaField extends Component {
     const {
       inputAddon,
       inputAddonPosition,
-      inputButton,
-      showInputButton,
       input,
       disabled,
       inputClassName,
@@ -156,17 +151,6 @@ class TextAreaField extends Component {
               </span>
             </div>
           </If>
-        </div>
-      );
-    }
-
-    if (inputButton) {
-      inputField = (
-        <div className="input-group">
-          {inputField}
-          <span className="input-group-btn">
-            {showInputButton && inputButton}
-          </span>
         </div>
       );
     }

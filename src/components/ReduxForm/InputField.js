@@ -14,13 +14,17 @@ class InputField extends Component {
       PropTypes.string,
       PropTypes.element,
     ]),
-    labelAddon: PropTypes.any,
+    labelAddon: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.node,
+    ]),
     inputClassName: PropTypes.string,
     placeholder: PropTypes.string,
-    inputAddon: PropTypes.element,
+    inputAddon: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.node,
+    ]),
     inputAddonPosition: PropTypes.oneOf(['left', 'right']),
-    inputButton: PropTypes.any,
-    showInputButton: PropTypes.bool,
     type: PropTypes.string.isRequired,
     position: PropTypes.oneOf(['horizontal', 'vertical']),
     showErrorMessage: PropTypes.bool,
@@ -39,14 +43,12 @@ class InputField extends Component {
     label: null,
     labelAddon: null,
     inputClassName: 'form-control',
-    showInputButton: false,
     position: 'horizontal',
     showErrorMessage: true,
     disabled: false,
     placeholder: null,
     inputAddon: null,
     inputAddonPosition: 'left',
-    inputButton: null,
     labelClassName: null,
     id: null,
     onIconClick: null,
@@ -121,8 +123,6 @@ class InputField extends Component {
     const {
       inputAddon,
       inputAddonPosition,
-      inputButton,
-      showInputButton,
       input,
       disabled,
       type,
@@ -171,17 +171,6 @@ class InputField extends Component {
               </span>
             </div>
           </If>
-        </div>
-      );
-    }
-
-    if (inputButton) {
-      inputField = (
-        <div className="input-group">
-          {inputField}
-          <span className="input-group-btn">
-            {showInputButton && inputButton}
-          </span>
         </div>
       );
     }

@@ -76,60 +76,54 @@ class PhoneForm extends Component {
     return (
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="row margin-bottom-20">
-          <div className="col-xl-6 personal-form-heading">
+          <div className="col personal-form-heading">
             {I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.TITLE')}
           </div>
-
-          <div className="col-xl-6 text-right">
-            {
-              dirty && !submitting && valid && !disabled &&
+          <div className="col-auto">
+            <If condition={dirty && !submitting && valid && !disabled}>
               <button className="btn btn-sm btn-primary" type="submit">
                 {I18n.t('COMMON.SAVE_CHANGES')}
               </button>
-            }
+            </If>
           </div>
         </div>
         <div className="form-row">
-          <div className="form-row__small">
-            <Field
-              name="phoneCode"
-              component={SelectField}
-              position="vertical"
-              label={attributeLabels.phoneCode}
-              disabled={disabled}
-            >
-              <option value="">{I18n.t('COMMON.SELECT_OPTION.DEFAULT')}</option>
-              {phoneCodes.map(code => <option key={code} value={code}>+{code}</option>)}
-            </Field>
-          </div>
-          <div className="form-row__big">
-            <Field
-              name="phone"
-              type="text"
-              component={InputField}
-              showErrorMessage
-              label={attributeLabels.phone}
-              position="vertical"
-              labelAddon={
-                <If condition={!isPhoneDirty && profile.phoneNumberVerified}>
-                  <div className="color-success font-size-12">
-                    <i className="fa fa-check-circle-o" /> {I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.VERIFIED')}
-                  </div>
-                </If>
-              }
-              disabled={disabled}
-            />
-          </div>
-          {
-            isPhoneVerifiable &&
+          <Field
+            name="phoneCode"
+            component={SelectField}
+            position="vertical"
+            label={attributeLabels.phoneCode}
+            disabled={disabled}
+            className="col-2"
+          >
+            <option value="">{I18n.t('COMMON.SELECT_OPTION.DEFAULT')}</option>
+            {phoneCodes.map(code => <option key={code} value={code}>+{code}</option>)}
+          </Field>
+          <Field
+            name="phone"
+            type="text"
+            component={InputField}
+            label={attributeLabels.phone}
+            position="vertical"
+            labelAddon={
+              <If condition={!isPhoneDirty && profile.phoneNumberVerified}>
+                <div className="color-success font-size-12">
+                  <i className="fa fa-check-circle-o" /> {I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.VERIFIED')}
+                </div>
+              </If>
+            }
+            disabled={disabled}
+            className="col-4"
+          />
+          <If condition={isPhoneVerifiable}>
             <PermissionContent permissions={permissions.USER_PROFILE.VERIFY_PHONE}>
-              <div className="form-row__small form-row__action">
+              <div className="col-auto mt-4">
                 <button type="button" className="btn btn-success-outline" onClick={this.handleVerifyPhoneClick}>
                   {I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.VERIFY_PHONE')}
                 </button>
               </div>
             </PermissionContent>
-          }
+          </If>
         </div>
       </form>
     );
