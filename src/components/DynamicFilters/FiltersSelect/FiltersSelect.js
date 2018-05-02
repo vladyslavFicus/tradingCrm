@@ -120,12 +120,13 @@ class FiltersSelect extends Component {
     return (
       <div className="filter-row__advanced-select">
         <button
-          className={classNames('filters-select', { 'filters-select_active': opened })}
+          className={classNames(
+            'nas nas-add_filter_icon filters-select',
+            { 'filters-select_active': opened },
+          )}
           onClick={this.handleIconClick}
           type="button"
-        >
-          <i className="nas nas-add_filter_icon" />
-        </button>
+        />
         <div className={className}>
           <div className={selectBlockClassName}>
             {

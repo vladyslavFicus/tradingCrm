@@ -1,15 +1,10 @@
-import React from 'react';
-import '../../styles/style.scss';
+import PropTypes from 'prop-types';
 import './BaseLayout.scss';
 
-export const BaseLayout = ({ children }) => (
-  <div style={{ height: '100%' }}>
-    {children}
-  </div>
-);
+const BaseLayout = ({ children }) => children;
 
 BaseLayout.propTypes = {
-  children: React.PropTypes.element.isRequired,
+  children: PropTypes.node.isRequired,
 };
 
 export default BaseLayout;

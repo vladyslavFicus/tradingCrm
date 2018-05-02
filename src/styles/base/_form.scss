@@ -106,12 +106,9 @@ label {
   border: 0;
   background: none;
   font-size: 13px;
-  opacity: 0.6;
-  &:before {
-    color: #d0011b;
-  }
+  color: rgba(208, 1, 27, 0.6);
   &:hover {
-    opacity: 1;
+    color: #d0011b;
   }
 }
 
@@ -198,7 +195,7 @@ label {
   &.with-option {
     font-weight: 600;
     color: #4a4a4a;
-    .select-icon:before {
+    .select-icon {
       color: #9b9b9b;
     }
   }
@@ -302,6 +299,8 @@ label {
   right: 10px;
   cursor: pointer;
   transition: all .2s;
+  font-size: 16px;
+  color: #cfcfcf;
 }
 
 .clear-selected-options {
@@ -309,32 +308,24 @@ label {
   top: 0;
   right: 0;
   padding: 0;
-  background: transparent;
   border: none;
+  background: transparent;
+  text-transform: uppercase;
   font-size: 11px;
   color: #d0011b;
-  text-transform: uppercase;
-  &:focus {
-    outline: none;
-  }
-  .nas-clear_icon {
+  i {
     font-size: 11px;
-  }
-  .nas-clear_icon:before {
-    color: #d0011b;
   }
 }
 
 .form-control-feedback {
   font-size: 12px;
-
-  .nas-field_alert_icon {
+  color: #d0011b;
+  i {
     position: relative;
     top: 2px;
-    padding-right: 5px;
-    &:before {
-      color: #d0011b;
-    }
+    margin-right: 5px;
+    font-size: 16px;
   }
 }
 
@@ -372,10 +363,13 @@ label {
     z-index: 0;
   }
   &-addon {
-    cursor: pointer;
     background-color: #fff;
-    font-size: 14px;
-    color: #999;
+    color: #cfcfcf;
+    transition: color .2s linear;
+    &:hover {
+      cursor: pointer;
+      color: #4a4a4a;
+    }
   }
   .rdt {
     flex: 1 1 auto;
