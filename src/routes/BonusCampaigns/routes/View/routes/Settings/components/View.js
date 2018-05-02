@@ -27,7 +27,7 @@ class View extends Component {
       conversionPrize: PropTypes.bonusCampaignEntity.conversionPrize,
       capping: PropTypes.bonusCampaignEntity.capping,
       optIn: PropTypes.bonusCampaignEntity.optIn,
-      fulfilmentType: PropTypes.bonusCampaignEntity.fulfilmentType,
+      fulfillmentType: PropTypes.bonusCampaignEntity.fulfillmentType,
       minAmount: PropTypes.bonusCampaignEntity.minAmount,
       maxAmount: PropTypes.bonusCampaignEntity.maxAmount,
     }).isRequired,

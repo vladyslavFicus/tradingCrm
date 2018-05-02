@@ -1,11 +1,11 @@
 import React, { PureComponent } from 'react';
 import { I18n } from 'react-redux-i18n';
 import { get } from 'lodash';
-import PropTypes from '../../../../constants/propTypes';
-import Header from './components/Header';
-import Form from '../../components/Form';
-import asyncForEach from '../../../../utils/asyncForEach';
-import { fulfilmentTypes as fulfillmentTypes } from '../../constants';
+import PropTypes from '../../../../../constants/propTypes';
+import Header from './Header';
+import Form from '../../../components/Form';
+import asyncForEach from '../../../../../utils/asyncForEach';
+import { fulfillmentTypes as fulfillmentTypes } from '../../../constants';
 
 class CampaignCreate extends PureComponent {
   static propTypes = {

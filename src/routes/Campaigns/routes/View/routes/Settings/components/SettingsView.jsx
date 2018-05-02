@@ -5,7 +5,7 @@ import PropTypes from '../../../../../../../constants/propTypes';
 import Form from '../../../../../components/Form';
 import { statuses } from '../../../../../../../constants/bonus-campaigns';
 import asyncForEach from '../../../../../../../utils/asyncForEach';
-import { fulfilmentTypes as fulfillmentTypes } from '../../../../../constants';
+import { fulfillmentTypes } from '../../../../../constants';
 import Permissions from '../../../../../../../utils/permissions';
 import permissions from '../../../../../../../config/permissions';
 import deepRemoveKeyByRegex from '../../../../../../../utils/deepKeyPrefixRemove';
@@ -84,10 +84,7 @@ class SettingsView extends Component {
 
       if (!isEqual(initialFulfillment, currentDepositFulfillment)) {
         await updateDepositFulfillment({
-          variables: {
-            uuid: currentDepositFulfillment.uuid,
-            ...currentDepositFulfillment,
-          },
+          variables: currentDepositFulfillment,
         });
       }
     });

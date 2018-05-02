@@ -10,7 +10,13 @@ import './BonusCampaignStatus.scss';
 
 class BonusCampaignStatus extends Component {
   static propTypes = {
-    campaign: PropTypes.bonusCampaignEntity.isRequired,
+    campaign: PropTypes.shape({
+      state: PropTypes.string.isRequired,
+      stateReason: PropTypes.string,
+      statusChangedDate: PropTypes.string,
+      startDate: PropTypes.string,
+      statusChangedAuthorUUID: PropTypes.string,
+    }).isRequired,
     blockName: PropTypes.string,
     showAdditionalInfo: PropTypes.bool,
   };

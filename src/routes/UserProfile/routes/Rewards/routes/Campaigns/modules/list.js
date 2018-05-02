@@ -8,7 +8,7 @@ const FETCH_ENTITIES = createRequestAction(`${KEY}/fetch-entities`);
 const FETCH_ACTIVE_CAMPAIGN_LIST = createRequestAction(`${KEY}/fetch-active-campaigns`);
 const FETCH_AVAILABLE_CAMPAIGN_LIST = createRequestAction(`${KEY}/fetch-available-campaigns`);
 
-function fetchCampaignListCreator(fulfilmentType, actionType) {
+function fetchCampaignListCreator(fulfillmentType, actionType) {
   return filters => (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
 
@@ -21,7 +21,7 @@ function fetchCampaignListCreator(fulfilmentType, actionType) {
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `promotion/campaigns/${filters.playerUUID}/${fulfilmentType}?${buildQueryString(queryParams)}`,
+        endpoint: `promotion/campaigns/${filters.playerUUID}/${fulfillmentType}?${buildQueryString(queryParams)}`,
         method: 'GET',
         headers: {
           Accept: 'application/json',

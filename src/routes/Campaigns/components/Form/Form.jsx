@@ -13,8 +13,8 @@ import {
   attributeLabels,
   rewardTemplateTypes,
   rewardTypesLabels,
-  fulfilmentTypes,
-  fulfilmentTypesLabels,
+  fulfillmentTypes,
+  fulfillmentTypesLabels,
 } from '../../constants';
 import NodeBuilder from '../NodeBuilder';
 import { BonusView } from '../Bonus';
@@ -60,7 +60,7 @@ class Form extends Component {
 
     if (!isEqual(formValues.fulfillments, nextFormValues.fulfillments, true)) {
       nextFormValues.fulfillments.forEach((fulfillment, index) => {
-        if (fulfillment.uuid && fulfillment.type === fulfilmentTypes.WAGERING) {
+        if (fulfillment.uuid && fulfillment.type === fulfillmentTypes.WAGERING) {
           const prevFulfillment = formValues.fulfillments.find(i => i.uuid === fulfillment.uuid);
 
           if (prevFulfillment && !isEqual(prevFulfillment, fulfillment, true)) {
@@ -208,11 +208,11 @@ class Form extends Component {
             nodeButtonLabel={I18n.t('CAMPAIGNS.SETTINGS.FULFILLMENTS.ADD_FULFILLMENT')}
             components={
               this.getAllowedNodes([
-                { type: fulfilmentTypes.WAGERING, component: WageringView },
-                { type: fulfilmentTypes.DEPOSIT, component: DepositFulfillmentView },
+                { type: fulfillmentTypes.WAGERING, component: WageringView },
+                { type: fulfillmentTypes.DEPOSIT, component: DepositFulfillmentView },
               ], '_FULFILLMENT')
             }
-            typeLabels={fulfilmentTypesLabels}
+            typeLabels={fulfillmentTypesLabels}
           />
           <NodeBuilder
             name="rewards"
@@ -250,7 +250,7 @@ export default compose(
       }
 
       fulfillments.forEach((fulfillment, index) => {
-        if (fulfillment.type === fulfilmentTypes.DEPOSIT) {
+        if (fulfillment.type === fulfillmentTypes.DEPOSIT) {
           rules.fulfillments[index] = {
             numDeposit: ['required'],
             'minAmount[0].amount': ['numeric', 'min:1'],
@@ -258,7 +258,7 @@ export default compose(
           };
         }
 
-        if (fulfillment.type === fulfilmentTypes.WAGERING) {
+        if (fulfillment.type === fulfillmentTypes.WAGERING) {
           rules.fulfillments[index] = {
             'amounts[0].amount': ['required', 'numeric', 'greater:0'],
           };

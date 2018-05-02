@@ -3,11 +3,11 @@ import List from '../components/List';
 import { actionCreators } from '../../../modules';
 
 const mapStateToProps = ({
-  wageringFulfilments,
+  wageringFulfillments,
   i18n: { locale },
 }) => ({
   locale,
-  wageringFulfilments,
+  wageringFulfillments,
 });
 
 const mapActions = {

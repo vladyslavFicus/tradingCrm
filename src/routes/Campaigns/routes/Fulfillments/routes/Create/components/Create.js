@@ -30,7 +30,7 @@ class Create extends Component {
     const action = await this.props.createEntity(data);
 
     if (action && !action.error) {
-      this.context.router.push('/campaigns/fulfilments');
+      this.context.router.push('/campaigns/fulfillments');
     }
   };
 
@@ -85,7 +85,7 @@ class Create extends Component {
           className="btn btn-primary text-uppercase"
           type="submit"
         >
-          {I18n.t('CAMPAIGNS.WAGERING_FULFILMENTS.ADD.ADD_BUTTON')}
+          {I18n.t('CAMPAIGNS.WAGERING_FULFILLMENTS.ADD.ADD_BUTTON')}
         </button>
 
       </form>
@@ -94,7 +94,7 @@ class Create extends Component {
 }
 
 export default reduxForm({
-  form: 'createWageringFulfilment',
+  form: 'createWageringFulfillment',
   validate: (values, { currencies }) => {
     const rules = {};
 

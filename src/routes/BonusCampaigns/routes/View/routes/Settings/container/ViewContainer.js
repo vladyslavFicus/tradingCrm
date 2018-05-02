@@ -5,12 +5,12 @@ import { actionCreators } from '../../../modules';
 import { actionCreators as settingsActionCreators } from '../modules';
 import { actionCreators as campaignsActionCreators } from '../modules/campaigns';
 import { actionCreators as paymentsActionCreators } from '../modules/payments';
-import { fulfilmentTypes, rewardTypes } from '../../../../../../../constants/bonus-campaigns';
+import { fulfillmentTypes, rewardTypes } from '../../../../../../../constants/bonus-campaigns';
 
 const mapFulfillmentsToForm = (data) => {
   let result = {};
 
-  if (data.fulfilmentType === fulfilmentTypes.DEPOSIT) {
+  if (data.fulfillmentType === fulfillmentTypes.DEPOSIT) {
     result = {
       deposit: {
         minAmount: data.minAmount,
@@ -20,11 +20,11 @@ const mapFulfillmentsToForm = (data) => {
         restrictedPaymentMethods: data.restrictedPaymentMethods,
       },
     };
-  } else if (data.fulfilmentType === fulfilmentTypes.PROFILE_COMPLETED) {
+  } else if (data.fulfillmentType === fulfillmentTypes.PROFILE_COMPLETED) {
     result = {
       profileCompleted: true,
     };
-  } else if (data.fulfilmentType === fulfilmentTypes.WITHOUT_FULFILMENT) {
+  } else if (data.fulfillmentType === fulfillmentTypes.WITHOUT_FULFILLMENT) {
     result = {
       noFulfillments: true,
     };
@@ -85,7 +85,7 @@ const mapStateToProps = ({
     optIn: data.optIn,
     maxBet: data.maxBet,
     maxGrantedAmount: data.maxGrantedAmount,
-    fulfilmentType: data.fulfilmentType,
+    fulfillmentType: data.fulfillmentType,
     excludeCountries: data.excludeCountries,
     countries: data.countries || [],
     promoCode: data.promoCode,

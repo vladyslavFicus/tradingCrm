@@ -363,7 +363,7 @@ PropTypes.bonusCampaignEntity = PropTypes.shape({
   grantedSum: PropTypes.number,
   grantedTotal: PropTypes.number,
   endDate: PropTypes.string,
-  fulfilmentType: PropTypes.string,
+  fulfillmentType: PropTypes.string,
   countryStrategy: PropTypes.oneOf([
     countryStrategies.INCLUDE,
     countryStrategies.EXCLUDE,
@@ -520,7 +520,7 @@ PropTypes.department = PropTypes.shape({
   role: PropTypes.string,
   image: PropTypes.string.isRequired,
 });
-PropTypes.wageringFulfilmentEntity = PropTypes.shape({
+PropTypes.wageringFulfillmentEntity = PropTypes.shape({
   uuid: PropTypes.string.isRequired,
   amounts: PropTypes.arrayOf(PropTypes.price),
 });
