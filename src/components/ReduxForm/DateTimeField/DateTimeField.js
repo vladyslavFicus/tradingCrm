@@ -118,7 +118,9 @@ class DateTimeField extends Component {
   };
 
   handleInputFieldFocus = () => {
-    this.inputBody.focus();
+    if (this.inputNode) {
+      this.inputNode.focus();
+    }
   };
 
   renderInput = () => {
@@ -147,7 +149,7 @@ class DateTimeField extends Component {
             id,
             disabled,
             placeholder,
-            ref: (node) => { this.inputBody = node; },
+            ref: (node) => { this.inputNode = node; },
           }}
           isValidDate={isValidDate}
           closeOnSelect={closeOnSelect}

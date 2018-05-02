@@ -56,7 +56,9 @@ class InputField extends Component {
   handleInputFieldFocus = () => {
     const { onIconClick } = this.props;
 
-    this.inputBody.focus();
+    if (this.inputNode) {
+      this.inputNode.focus();
+    }
 
     if (onIconClick) {
       onIconClick();
@@ -173,7 +175,7 @@ class InputField extends Component {
         type={type}
         className="form-control"
         placeholder={placeholder !== null ? placeholder : label}
-        ref={(node) => { this.inputBody = node; }}
+        ref={(node) => { this.inputNode = node; }}
       />
     );
 
