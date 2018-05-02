@@ -3,7 +3,7 @@ import { get } from 'lodash';
 import createReducer from '../../../../../utils/createReducer';
 import createRequestAction from '../../../../../utils/createRequestAction';
 import {
-  fulfilmentTypes,
+  fulfillmentTypes,
   rewardTypes,
   countryStrategies,
 } from '../../../../../constants/bonus-campaigns';
@@ -20,14 +20,14 @@ const ADD_NODE = `${KEY}/add-fulfillment-node`;
 const RESET_ALL_NODES = `${KEY}/reset-all-nodes`;
 const CREATE_CAMPAIGN = createRequestAction(`${KEY}/create-campaign`);
 
-function mapFulfillmentNode(fulfilmentType) {
+function mapFulfillmentNode(fulfillmentType) {
   const node = null;
 
-  if (fulfilmentType === fulfilmentTypes.PROFILE_COMPLETED) {
+  if (fulfillmentType === fulfillmentTypes.PROFILE_COMPLETED) {
     return fulfillmentNodeTypes.profileCompleted;
-  } else if (fulfilmentType === fulfilmentTypes.DEPOSIT) {
+  } else if (fulfillmentType === fulfillmentTypes.DEPOSIT) {
     return fulfillmentNodeTypes.deposit;
-  } else if (fulfilmentType === fulfilmentTypes.WITHOUT_FULFILMENT) {
+  } else if (fulfillmentType === fulfillmentTypes.WITHOUT_FULFILLMENT) {
     return fulfillmentNodeTypes.noFulfillments;
   }
 
@@ -70,7 +70,7 @@ function createCampaign(data) {
       endpointParams = {
         ...endpointParams,
         ...fulfillmentDeposit,
-        fulfilmentType: fulfilmentTypes.DEPOSIT,
+        fulfillmentType: fulfillmentTypes.DEPOSIT,
       };
     }
 
@@ -78,7 +78,7 @@ function createCampaign(data) {
     if (fulfillmentProfileCompleted) {
       endpointParams = {
         ...endpointParams,
-        fulfilmentType: fulfilmentTypes.PROFILE_COMPLETED,
+        fulfillmentType: fulfillmentTypes.PROFILE_COMPLETED,
       };
     }
 
@@ -86,7 +86,7 @@ function createCampaign(data) {
     if (fulfillmentNoFulfillments) {
       endpointParams = {
         ...endpointParams,
-        fulfilmentType: fulfilmentTypes.WITHOUT_FULFILMENT,
+        fulfillmentType: fulfillmentTypes.WITHOUT_FULFILLMENT,
       };
     }
 
@@ -193,7 +193,7 @@ const actionHandlers = {
     },
     nodeGroups: {
       ...state.nodeGroups,
-      [nodeGroupTypes.fulfillments]: [mapFulfillmentNode(payload.fulfilmentType)],
+      [nodeGroupTypes.fulfillments]: [mapFulfillmentNode(payload.fulfillmentType)],
       [nodeGroupTypes.rewards]: [mapRewardNode(payload.campaignType)],
     },
   }),
@@ -228,7 +228,7 @@ const actionHandlers = {
     ...state,
     nodeGroups: {
       ...state.nodeGroups,
-      [nodeGroupTypes.fulfillments]: state.data.fulfilmentType ? [mapFulfillmentNode(state.data.fulfilmentType)] : [],
+      [nodeGroupTypes.fulfillments]: state.data.fulfillmentType ? [mapFulfillmentNode(state.data.fulfillmentType)] : [],
       [nodeGroupTypes.rewards]: state.data.campaignType ? [mapRewardNode(state.data.campaignType)] : [],
     },
   }),

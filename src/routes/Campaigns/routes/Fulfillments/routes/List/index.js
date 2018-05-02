@@ -4,11 +4,11 @@ export default store => ({
   getComponent(nextState, cb) {
     require.ensure([], (require) => {
       injectReducer(store, {
-        key: 'wageringFulfilments',
+        key: 'wageringFulfillments',
         reducer: require('../../modules').default,
       });
 
       cb(null, require('./container/ListContainer').default);
-    }, 'wagering-fulfilments-list');
+    }, 'wagering-fulfillments-list');
   },
 });

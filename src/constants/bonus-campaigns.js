@@ -85,29 +85,29 @@ const statusActions = {
   [statuses.PENDING]: [cancelAction],
   [statuses.ACTIVE]: [cancelAction],
 };
-const fulfilmentTypes = keyMirror({
+const fulfillmentTypes = keyMirror({
   DEPOSIT: null,
   PROFILE_COMPLETED: null,
-  WITHOUT_FULFILMENT: null,
+  WITHOUT_FULFILLMENT: null,
 });
 const rewardTypes = keyMirror({
   BONUS: null,
   FREE_SPIN: null,
 });
-const fulfilmentTypesLabels = {
-  [fulfilmentTypes.DEPOSIT]: I18n.t('CONSTANTS.BONUS_CAMPAIGN.CAMPAIGN_TYPE.DEPOSIT'),
-  [fulfilmentTypes.PROFILE_COMPLETED]: I18n.t('CONSTANTS.BONUS_CAMPAIGN.CAMPAIGN_TYPE.PROFILE_COMPLETED'),
-  [fulfilmentTypes.WITHOUT_FULFILMENT]: I18n.t('CONSTANTS.BONUS_CAMPAIGN.CAMPAIGN_TYPE.WITHOUT_FULFILMENT'),
+const fulfillmentTypesLabels = {
+  [fulfillmentTypes.DEPOSIT]: I18n.t('CONSTANTS.BONUS_CAMPAIGN.CAMPAIGN_TYPE.DEPOSIT'),
+  [fulfillmentTypes.PROFILE_COMPLETED]: I18n.t('CONSTANTS.BONUS_CAMPAIGN.CAMPAIGN_TYPE.PROFILE_COMPLETED'),
+  [fulfillmentTypes.WITHOUT_FULFILLMENT]: I18n.t('CONSTANTS.BONUS_CAMPAIGN.CAMPAIGN_TYPE.WITHOUT_FULFILLMENT'),
 };
 const rewardTypesLabels = {
   [rewardTypes.BONUS]: I18n.t('CONSTANTS.BONUS_CAMPAIGN.REWARD_TYPE.BONUS'),
   [rewardTypes.FREE_SPIN]: I18n.t('CONSTANTS.BONUS_CAMPAIGN.REWARD_TYPE.FREE_SPIN'),
 };
 
-const customValueFieldTypesByFulfilmentType = {
-  [fulfilmentTypes.DEPOSIT]: [customValueFieldTypes.PERCENTAGE, customValueFieldTypes.ABSOLUTE],
-  [fulfilmentTypes.PROFILE_COMPLETED]: [customValueFieldTypes.ABSOLUTE],
-  [fulfilmentTypes.WITHOUT_FULFILMENT]: [customValueFieldTypes.ABSOLUTE],
+const customValueFieldTypesByFulfillmentType = {
+  [fulfillmentTypes.DEPOSIT]: [customValueFieldTypes.PERCENTAGE, customValueFieldTypes.ABSOLUTE],
+  [fulfillmentTypes.PROFILE_COMPLETED]: [customValueFieldTypes.ABSOLUTE],
+  [fulfillmentTypes.WITHOUT_FULFILLMENT]: [customValueFieldTypes.ABSOLUTE],
 };
 
 const optInSelect = {
@@ -128,13 +128,13 @@ export {
   statusesReasons,
   statusesLabels,
   statusesClassNames,
-  fulfilmentTypes,
+  fulfillmentTypes,
   rewardTypes,
   rewardTypesLabels,
-  fulfilmentTypesLabels,
+  fulfillmentTypesLabels,
   targetTypes,
   targetTypesLabels,
-  customValueFieldTypesByFulfilmentType,
+  customValueFieldTypesByFulfillmentType,
   moneyTypeUsage,
   moneyTypeUsageLabels,
   optInSelect,

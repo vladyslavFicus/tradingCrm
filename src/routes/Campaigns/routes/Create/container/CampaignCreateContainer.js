@@ -2,7 +2,7 @@ import { graphql, compose } from 'react-apollo';
 import { createMutation } from '.././../../../../graphql/mutations/campaigns';
 import { addWageringFulfillment, addDepositFulfillment } from '.././../../../../graphql/mutations/fulfillments';
 import { withNotifications } from '../../../../../components/HighOrder';
-import CampaignCreate from '../CampaignCreate';
+import CampaignCreate from '../components/CampaignCreate';
 
 export default compose(
   withNotifications,

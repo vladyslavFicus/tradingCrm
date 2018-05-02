@@ -2,7 +2,7 @@ import { CALL_API } from 'redux-api-middleware';
 import createReducer from '../../../../../utils/createReducer';
 import createRequestAction from '../../../../../utils/createRequestAction';
 
-const KEY = 'bonusCampaigns/wagering-fulfilments';
+const KEY = 'bonusCampaigns/wagering-fulfillments';
 const FETCH_ENTITIES = createRequestAction(`${KEY}/fetch-entities`);
 const CREATE_ENTITIES = createRequestAction(`${KEY}/create-entities`);
 const DELETE_ENTITIES = createRequestAction(`${KEY}/delete-entities`);

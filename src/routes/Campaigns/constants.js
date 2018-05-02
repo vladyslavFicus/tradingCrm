@@ -10,7 +10,7 @@ const rewardTemplateTypes = keyMirror({
   FREE_SPIN: null,
 });
 
-const fulfilmentTypes = keyMirror({
+const fulfillmentTypes = keyMirror({
   WAGERING: null,
   DEPOSIT: null,
 });
@@ -35,17 +35,17 @@ const rewardTypesLabels = {
   [rewardTemplateTypes.FREE_SPIN]: I18n.t('CAMPAIGNS.FREE_SPIN_TEMPLATE'),
 };
 
-const fulfilmentTypesLabels = {
-  [fulfilmentTypes.WAGERING]: I18n.t('CAMPAIGNS.WAGERING_FULFILLMENT'),
-  [fulfilmentTypes.DEPOSIT]: I18n.t('CAMPAIGNS.DEPOSIT_FULFILLMENT'),
+const fulfillmentTypesLabels = {
+  [fulfillmentTypes.WAGERING]: I18n.t('CAMPAIGNS.WAGERING_FULFILLMENT'),
+  [fulfillmentTypes.DEPOSIT]: I18n.t('CAMPAIGNS.DEPOSIT_FULFILLMENT'),
 };
 
 export {
   attributeLabels,
   rewardTemplateTypes,
-  fulfilmentTypes,
+  fulfillmentTypes,
   rewardTypesLabels,
-  fulfilmentTypesLabels,
+  fulfillmentTypesLabels,
   nodeGroups,
   nodeGroupsAlias,
   nodeGroupValidateMessage,

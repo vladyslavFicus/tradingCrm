@@ -5,7 +5,7 @@ import createRequestAction from '../../../../../utils/createRequestAction';
 import {
   actions,
   statusesReasons,
-  fulfilmentTypes,
+  fulfillmentTypes,
   rewardTypes,
   countryStrategies,
 } from '../../../../../constants/bonus-campaigns';
@@ -29,14 +29,14 @@ const ADD_NODE = `${KEY}/add-fulfillment-node`;
 
 const fetchCampaign = bonusCampaignActionCreators.fetchCampaign(FETCH_CAMPAIGN);
 
-function mapFulfillmentNode(fulfilmentType) {
+function mapFulfillmentNode(fulfillmentType) {
   const node = null;
 
-  if (fulfilmentType === fulfilmentTypes.PROFILE_COMPLETED) {
+  if (fulfillmentType === fulfillmentTypes.PROFILE_COMPLETED) {
     return fulfillmentNodeTypes.profileCompleted;
-  } else if (fulfilmentType === fulfilmentTypes.DEPOSIT) {
+  } else if (fulfillmentType === fulfillmentTypes.DEPOSIT) {
     return fulfillmentNodeTypes.deposit;
-  } else if (fulfilmentType === fulfilmentTypes.WITHOUT_FULFILMENT) {
+  } else if (fulfillmentType === fulfillmentTypes.WITHOUT_FULFILLMENT) {
     return fulfillmentNodeTypes.noFulfillments;
   }
 
@@ -151,7 +151,7 @@ function updateCampaign(uuid, data) {
       endpointParams = {
         ...endpointParams,
         ...fulfillmentDeposit,
-        fulfilmentType: fulfilmentTypes.DEPOSIT,
+        fulfillmentType: fulfillmentTypes.DEPOSIT,
       };
     }
 
@@ -159,7 +159,7 @@ function updateCampaign(uuid, data) {
     if (fulfillmentProfileCompleted) {
       endpointParams = {
         ...endpointParams,
-        fulfilmentType: fulfilmentTypes.PROFILE_COMPLETED,
+        fulfillmentType: fulfillmentTypes.PROFILE_COMPLETED,
       };
     }
 
@@ -167,7 +167,7 @@ function updateCampaign(uuid, data) {
     if (fulfillmentNoFulfillments) {
       endpointParams = {
         ...endpointParams,
-        fulfilmentType: fulfilmentTypes.WITHOUT_FULFILMENT,
+        fulfillmentType: fulfillmentTypes.WITHOUT_FULFILLMENT,
       };
     }
 
@@ -353,7 +353,7 @@ const actionHandlers = {
     },
     nodeGroups: {
       ...state.nodeGroups,
-      [nodeGroupTypes.fulfillments]: [mapFulfillmentNode(payload.fulfilmentType)],
+      [nodeGroupTypes.fulfillments]: [mapFulfillmentNode(payload.fulfillmentType)],
       [nodeGroupTypes.rewards]: [mapRewardNode(payload.campaignType)],
     },
   }),
@@ -398,7 +398,7 @@ const actionHandlers = {
     ...state,
     nodeGroups: {
       ...state.nodeGroups,
-      [nodeGroupTypes.fulfillments]: [mapFulfillmentNode(state.data.fulfilmentType)],
+      [nodeGroupTypes.fulfillments]: [mapFulfillmentNode(state.data.fulfillmentType)],
       [nodeGroupTypes.rewards]: [mapRewardNode(state.data.campaignType)],
     },
   }),

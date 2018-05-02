@@ -864,7 +864,7 @@
       "CAMPAIGN_TYPE": {
         "DEPOSIT": "Deposit",
         "PROFILE_COMPLETED": "Profile completed",
-        "WITHOUT_FULFILMENT": "Without fulfilment"
+        "WITHOUT_FULFILLMENT": "Without fulfillment"
       },
       "STATUSES": {
         "DRAFT": "Draft",
@@ -1179,7 +1179,7 @@
     "TITLE": "Bonus campaigns",
     "FILTER_FORM": {
       "SEARCH_BY": "Search by",
-      "FULFILLMENT_TYPE": "Fulfilment type",
+      "FULFILLMENT_TYPE": "Fulfillment type",
       "STATUS": "Status",
       "OPT_IN": "Type",
       "CREATION_DATE": "Creation date range",
@@ -1468,13 +1468,13 @@
     },
     "NEW_CAMPAIGN": "New campaign",
     "SAVE_NEW_CAMPAIGN": "Save new campaign",
-    "WAGERING_FULFILMENTS": {
+    "WAGERING_FULFILLMENTS": {
       "ADD": {
-        "ADD_BUTTON": "Add wagering fulfilment"
+        "ADD_BUTTON": "Add wagering fulfillment"
       },
       "LIST": {
-        "CREATE_BUTTON": "Create wagering fulfilment",
-        "TITLE": "Wagering fulfilment"
+        "CREATE_BUTTON": "Create wagering fulfillment",
+        "TITLE": "Wagering fulfillment"
       }
     }
   },
@@ -1845,7 +1845,7 @@
       }
     },
     "NODE_VALIDATION": {
-      "FULFILLMENTS": "Please add at least one fulfilment",
+      "FULFILLMENTS": "Please add at least one fulfillment",
       "REWARDS": "Please add at least one reward"
     },
     "CHANGE_STATUS_MODAL": {
@@ -1887,13 +1887,13 @@
         "CUSTOM_REASON_LABEL": "Custom reason"
       }
     },
-    "WAGERING_FULFILMENTS": {
+    "WAGERING_FULFILLMENTS": {
       "ADD": {
-        "ADD_BUTTON": "Add wagering fulfilment"
+        "ADD_BUTTON": "Add wagering fulfillment"
       },
       "LIST": {
-        "CREATE_BUTTON": "Create wagering fulfilment",
-        "TITLE": "Wagering fulfilment"
+        "CREATE_BUTTON": "Create wagering fulfillment",
+        "TITLE": "Wagering fulfillment"
       }
     }
   },

@@ -870,7 +870,7 @@
       "CAMPAIGN_TYPE": {
         "DEPOSIT": "Пополнение",
         "PROFILE_COMPLETED": "Профиль заполнен",
-        "WITHOUT_FULFILMENT": "Без условий"
+        "WITHOUT_FULFILLMENT": "Без условий"
       },
       "STATUSES": {
         "DRAFT": "Черновик",
@@ -1480,7 +1480,7 @@
     },
     "NEW_CAMPAIGN": "Новая кампания",
     "SAVE_NEW_CAMPAIGN": "Сохранить новую кампанию",
-    "WAGERING_FULFILMENTS": {
+    "WAGERING_FULFILLMENTS": {
       "ADD": {
         "ADD_BUTTON": "Добавить вейджер"
       },
@@ -1902,7 +1902,7 @@
         "CUSTOM_REASON_LABEL": "Причина"
       }
     },
-    "WAGERING_FULFILMENTS": {
+    "WAGERING_FULFILLMENTS": {
       "ADD": {
         "ADD_BUTTON": "Добавить вейджер"
       },

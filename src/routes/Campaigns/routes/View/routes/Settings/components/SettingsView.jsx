@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { I18n } from 'react-redux-i18n';
-import { get } from 'lodash';
+import { get, isEqual } from 'lodash';
 import PropTypes from '../../../../../../../constants/propTypes';
 import Form from '../../../../../components/Form';
 import { statuses } from '../../../../../../../constants/bonus-campaigns';
 import asyncForEach from '../../../../../../../utils/asyncForEach';
-import { fulfilmentTypes as fulfillmentTypes } from '../../../../../constants';
+import { fulfillmentTypes } from '../../../../../constants';
 import Permissions from '../../../../../../../utils/permissions';
 import permissions from '../../../../../../../config/permissions';
 import deepRemoveKeyByRegex from '../../../../../../../utils/deepKeyPrefixRemove';
@@ -29,10 +29,21 @@ class SettingsView extends Component {
 
   handleUpdateCampaign = async (formData) => {
     const {
+      campaign: {
+        campaign: {
+          data: {
+            fulfillments: initialFulfillments,
+          },
+        },
+      },
+    } = this.props;
+
+    const {
       updateCampaign,
       notify,
       addWageringFulfillment,
       addDepositFulfillment,
+      updateDepositFulfillment,
       campaign: {
         campaign: {
           data,
@@ -45,23 +56,36 @@ class SettingsView extends Component {
       .map(({ uuid }) => uuid);
     const newFulfillments = formData.fulfillments.filter(({ uuid }) => !uuid);
 
-    await asyncForEach(newFulfillments, async (fulfillment) => {
+    await asyncForEach(newFulfillments, async ({ type, ...fulfillment }) => {
       let uuid = null;
 
-      if (fulfillment.type === fulfillmentTypes.WAGERING) {
-        const response = await addWageringFulfillment({
-          variables: fulfillment,
-        });
+      if (type === fulfillmentTypes.WAGERING) {
+        const response = await addWageringFulfillment({ variables: fulfillment });
+
         uuid = get(response, 'data.wageringFulfillment.add.data.uuid');
-      } else if (fulfillment.type === fulfillmentTypes.DEPOSIT) {
-        const response = await addDepositFulfillment({
-          variables: fulfillment,
-        });
+      } else if (type === fulfillmentTypes.DEPOSIT) {
+        const response = await addDepositFulfillment({ variables: fulfillment });
+
         uuid = get(response, 'data.depositFulfillment.add.data.uuid');
       }
 
       if (uuid) {
         fulfillments.push(uuid);
+      }
+    });
+
+    const currentDepositFulfillments = formData.fulfillments
+      .filter(({ type, uuid }) => type === fulfillmentTypes.DEPOSIT && uuid);
+
+    await asyncForEach(currentDepositFulfillments, async (currentDepositFulfillment) => {
+      const initialFulfillment = initialFulfillments.find(({ uuid }) => uuid === currentDepositFulfillment.uuid);
+
+      if (!isEqual(initialFulfillment, currentDepositFulfillment)) {
+        const { minAmount, maxAmount, numDeposit, excludedPaymentMethods, uuid } = currentDepositFulfillment;
+
+        await updateDepositFulfillment({
+          variables: { minAmount, maxAmount, numDeposit, excludedPaymentMethods, uuid },
+        });
       }
     });
 

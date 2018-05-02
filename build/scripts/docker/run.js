@@ -24,6 +24,16 @@ const defaultHealth = {
   config: { status: STATUS.DOWN },
 };
 
+function parseJSON(data, defaultValue = null) {
+  try {
+    return JSON.parse(data);
+  } catch (e) {
+    console.warn(`Invalid json data: ${data}`);
+
+    return defaultValue;
+  }
+}
+
 const INDEX_HTML_PATH = '/opt/build/index.html';
 
 /**
@@ -51,7 +61,9 @@ function fetchHealth(apiUrl) {
       Accept: 'application/json',
       'Content-Type': 'application/json',
     },
-  }).then(response => response.json());
+  })
+    .then(response => response.text())
+    .then(response => parseJSON(response));
 }
 
 async function compileNginxConfig(environmentConfig) {

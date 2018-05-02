@@ -57,7 +57,7 @@ class Form extends Component {
       conversionPrize: PropTypes.bonusCampaignEntity.conversionPrize,
       capping: PropTypes.bonusCampaignEntity.capping,
       optIn: PropTypes.bonusCampaignEntity.optIn,
-      fulfilmentType: PropTypes.bonusCampaignEntity.fulfilmentType,
+      fulfillmentType: PropTypes.bonusCampaignEntity.fulfillmentType,
       excludeCountries: PropTypes.bonusCampaignEntity.excludeCountries,
     }),
     disabled: PropTypes.bool,
@@ -136,14 +136,14 @@ class Form extends Component {
     const { change, addNode } = this.props;
 
     if (nodeGroup === nodeGroupTypes.fulfillments) {
-      const isNoFulfilment = node === fulfillmentNodeTypes.noFulfillments;
+      const isNoFulfillment = node === fulfillmentNodeTypes.noFulfillments;
       const isProfileCompleted = node === fulfillmentNodeTypes.profileCompleted;
 
-      if (isNoFulfilment) {
+      if (isNoFulfillment) {
         change('optIn', true);
       }
 
-      if (isNoFulfilment || isProfileCompleted) {
+      if (isNoFulfillment || isProfileCompleted) {
         change('prizeCapingType', customValueFieldTypes.ABSOLUTE);
       }
     }

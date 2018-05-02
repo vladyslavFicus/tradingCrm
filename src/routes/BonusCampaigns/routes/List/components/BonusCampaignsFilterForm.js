@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { I18n } from 'react-redux-i18n';
 import moment from 'moment';
 import { createValidator, translateLabels } from '../../../../../utils/validator';
-import { fulfilmentTypesLabels, statusesLabels, fulfilmentTypes } from '../../../../../constants/bonus-campaigns';
+import { fulfillmentTypesLabels, statusesLabels, fulfillmentTypes } from '../../../../../constants/bonus-campaigns';
 import renderLabel from '../../../../../utils/renderLabel';
 import { attributeLabels, placeholders } from '../constants';
 import { InputField, SelectField, DateTimeField } from '../../../../../components/ReduxForm';
@@ -78,7 +78,7 @@ class BonusCampaignsFilterForm extends Component {
     const fulfillmentType = e.target.value;
 
     change('fulfillmentType', fulfillmentType);
-    if (fulfillmentType === fulfilmentTypes.DEPOSIT) {
+    if (fulfillmentType === fulfillmentTypes.DEPOSIT) {
       fetchDepositNumbers();
     }
   };
@@ -126,13 +126,13 @@ class BonusCampaignsFilterForm extends Component {
                 <option value="">{I18n.t('COMMON.ANY')}</option>
                 {types.map(item => (
                   <option key={item} value={item}>
-                    {renderLabel(item, fulfilmentTypesLabels)}
+                    {renderLabel(item, fulfillmentTypesLabels)}
                   </option>
                 ))}
               </Field>
             </div>
             {
-              currentValues.fulfillmentType === fulfilmentTypes.DEPOSIT &&
+              currentValues.fulfillmentType === fulfillmentTypes.DEPOSIT &&
               <div className="filter-row__small">
                 <Field
                   name="depositNumber"

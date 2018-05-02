@@ -8,8 +8,8 @@ import Amount from '../../../../../../../components/Amount';
 
 class List extends Component {
   static propTypes = {
-    wageringFulfilments: PropTypes.shape({
-      entities: PropTypes.arrayOf(PropTypes.wageringFulfilmentEntity),
+    wageringFulfillments: PropTypes.shape({
+      entities: PropTypes.arrayOf(PropTypes.wageringFulfillmentEntity),
       noResults: PropTypes.bool,
     }).isRequired,
     deleteEntity: PropTypes.func.isRequired,
@@ -52,7 +52,7 @@ class List extends Component {
 
   render() {
     const {
-      wageringFulfilments: { entities, noResults },
+      wageringFulfillments: { entities, noResults },
       locale,
     } = this.props;
 
@@ -60,13 +60,13 @@ class List extends Component {
       <Card>
         <Title>
           <span className="font-size-20 mr-auto">
-            {I18n.t('CAMPAIGNS.WAGERING_FULFILMENTS.LIST.TITLE')}
+            {I18n.t('CAMPAIGNS.WAGERING_FULFILLMENTS.LIST.TITLE')}
           </span>
           <Link
             className="btn btn-primary-outline"
-            to="/campaigns/fulfilments/create"
+            to="/campaigns/fulfillments/create"
           >
-            {I18n.t('CAMPAIGNS.WAGERING_FULFILMENTS.LIST.CREATE_BUTTON')}
+            {I18n.t('CAMPAIGNS.WAGERING_FULFILLMENTS.LIST.CREATE_BUTTON')}
           </Link>
         </Title>
         <Content>
