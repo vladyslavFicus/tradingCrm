@@ -31,7 +31,6 @@ const CAMPAIGN_NAME_MAX_LENGTH = 100;
 
 class Form extends Component {
   static propTypes = {
-    change: PropTypes.func.isRequired,
     reset: PropTypes.func.isRequired,
     notify: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
@@ -55,23 +54,11 @@ class Form extends Component {
     formValues: {},
   };
 
-  componentWillReceiveProps({ disabled: nextDisabled, formValues: nextFormValues }) {
-    const { disabled, formValues, change } = this.props;
-
-    if (!isEqual(formValues.fulfillments, nextFormValues.fulfillments, true)) {
-      nextFormValues.fulfillments.forEach((fulfillment, index) => {
-        if (fulfillment.uuid && fulfillment.type === fulfillmentTypes.WAGERING) {
-          const prevFulfillment = formValues.fulfillments.find(i => i.uuid === fulfillment.uuid);
-
-          if (prevFulfillment && !isEqual(prevFulfillment, fulfillment, true)) {
-            change(`fulfillments[${index}].uuid`, null);
-          }
-        }
-      });
-    }
+  componentWillReceiveProps({ disabled: nextDisabled }) {
+    const { reset, disabled } = this.props;
 
     if (nextDisabled && !disabled) {
-      this.props.reset();
+      reset();
     }
   }
 

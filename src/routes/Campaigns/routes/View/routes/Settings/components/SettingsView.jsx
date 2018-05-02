@@ -56,18 +56,16 @@ class SettingsView extends Component {
       .map(({ uuid }) => uuid);
     const newFulfillments = formData.fulfillments.filter(({ uuid }) => !uuid);
 
-    await asyncForEach(newFulfillments, async (fulfillment) => {
+    await asyncForEach(newFulfillments, async ({ type, ...fulfillment }) => {
       let uuid = null;
 
-      if (fulfillment.type === fulfillmentTypes.WAGERING) {
-        const response = await addWageringFulfillment({
-          variables: fulfillment,
-        });
+      if (type === fulfillmentTypes.WAGERING) {
+        const response = await addWageringFulfillment({ variables: fulfillment });
+
         uuid = get(response, 'data.wageringFulfillment.add.data.uuid');
-      } else if (fulfillment.type === fulfillmentTypes.DEPOSIT) {
-        const response = await addDepositFulfillment({
-          variables: fulfillment,
-        });
+      } else if (type === fulfillmentTypes.DEPOSIT) {
+        const response = await addDepositFulfillment({ variables: fulfillment });
+
         uuid = get(response, 'data.depositFulfillment.add.data.uuid');
       }
 
@@ -83,8 +81,10 @@ class SettingsView extends Component {
       const initialFulfillment = initialFulfillments.find(({ uuid }) => uuid === currentDepositFulfillment.uuid);
 
       if (!isEqual(initialFulfillment, currentDepositFulfillment)) {
+        const { minAmount, maxAmount, numDeposit, excludedPaymentMethods, uuid } = currentDepositFulfillment;
+
         await updateDepositFulfillment({
-          variables: currentDepositFulfillment,
+          variables: { minAmount, maxAmount, numDeposit, excludedPaymentMethods, uuid },
         });
       }
     });
