@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 import { I18n } from 'react-redux-i18n';
 import { get, isEmpty } from 'lodash';
-import { InputField, SelectField, DateTimeField } from '../../../../components/ReduxForm';
+import { InputField, SelectField, DateTimeField, RangeGroup } from '../../../../components/ReduxForm';
 import PropTypes from '../../../../constants/propTypes';
 import {
   targetTypes,
@@ -261,32 +261,29 @@ class Form extends Component {
                 }
               />
             </div>
-            <div className="col-md-4">
-              <div className="form-group">
-                <label>{I18n.t('BONUS_CAMPAIGNS.SETTINGS.LABEL.CAMPAIGN_PERIOD')}</label>
-                <div className="range-group">
-                  <Field
-                    utc
-                    name="startDate"
-                    id={`${form}StartDate`}
-                    component={DateTimeField}
-                    isValidDate={() => true}
-                    position="vertical"
-                    disabled={disabled}
-                  />
-                  <span className="range-group__separator">-</span>
-                  <Field
-                    utc
-                    name="endDate"
-                    id={`${form}EndDate`}
-                    component={DateTimeField}
-                    isValidDate={this.endDateValidator('startDate')}
-                    position="vertical"
-                    disabled={disabled}
-                  />
-                </div>
-              </div>
-            </div>
+            <RangeGroup
+              className="col-md-4"
+              label={I18n.t('BONUS_CAMPAIGNS.SETTINGS.LABEL.CAMPAIGN_PERIOD')}
+            >
+              <Field
+                utc
+                name="startDate"
+                id={`${form}StartDate`}
+                component={DateTimeField}
+                isValidDate={() => true}
+                position="vertical"
+                disabled={disabled}
+              />
+              <Field
+                utc
+                name="endDate"
+                id={`${form}EndDate`}
+                component={DateTimeField}
+                isValidDate={this.endDateValidator('startDate')}
+                position="vertical"
+                disabled={disabled}
+              />
+            </RangeGroup>
           </div>
         </div>
         <div className="container-fluid my-3">

@@ -6,7 +6,7 @@ import { I18n } from 'react-redux-i18n';
 import { createValidator, translateLabels } from '../../../../../utils/validator';
 import { filterLabels } from '../../../../../constants/kyc';
 import { multiselectStatuses } from '../constants';
-import { DateTimeField, NasSelectField } from '../../../../../components/ReduxForm';
+import { DateTimeField, NasSelectField, RangeGroup } from '../../../../../components/ReduxForm';
 
 class KycGridFilter extends Component {
   static propTypes = {
@@ -65,31 +65,27 @@ class KycGridFilter extends Component {
       <div className="well">
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="filter-row">
-            <div className="filter-row__big">
-              <div className="form-group">
-                <label>{I18n.t('KYC_REQUESTS.FILTER.DATE_RANGE')}</label>
-                <div className="range-group">
-                  <Field
-                    utc
-                    name="from"
-                    placeholder={I18n.t(filterLabels.from)}
-                    component={DateTimeField}
-                    position="vertical"
-                    isValidDate={this.startDateValidator('to')}
-                  />
-
-                  <span className="range-group__separator">-</span>
-                  <Field
-                    utc
-                    name="to"
-                    placeholder={I18n.t(filterLabels.to)}
-                    component={DateTimeField}
-                    position="vertical"
-                    isValidDate={this.endDateValidator('from')}
-                  />
-                </div>
-              </div>
-            </div>
+            <RangeGroup
+              className="filter-row__big"
+              label={I18n.t('KYC_REQUESTS.FILTER.DATE_RANGE')}
+            >
+              <Field
+                utc
+                name="from"
+                placeholder={I18n.t(filterLabels.from)}
+                component={DateTimeField}
+                position="vertical"
+                isValidDate={this.startDateValidator('to')}
+              />
+              <Field
+                utc
+                name="to"
+                placeholder={I18n.t(filterLabels.to)}
+                component={DateTimeField}
+                position="vertical"
+                isValidDate={this.endDateValidator('from')}
+              />
+            </RangeGroup>
             <div className="filter-row__medium">
               <Field
                 name="statuses"

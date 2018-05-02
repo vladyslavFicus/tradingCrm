@@ -7,7 +7,7 @@ import { createValidator } from '../../../../../../../../utils/validator';
 import renderLabel from '../../../../../../../../utils/renderLabel';
 import PropTypes from '../../../../../../../../constants/propTypes';
 import { moneyTypeLabels } from '../../../../../../../../constants/gaming-activity';
-import { InputField, SelectField, DateTimeField } from '../../../../../../../../components/ReduxForm';
+import { InputField, SelectField, DateTimeField, RangeGroup } from '../../../../../../../../components/ReduxForm';
 import filterFormAttributeLabels from '../../constants';
 import { startDateValidator, endDateValidator } from '../../utils';
 
@@ -175,37 +175,34 @@ class FilterForm extends Component {
                 ))}
               </Field>
             </div>
-            <div className="filter-row__big">
-              <div className="form-group">
-                <label>{I18n.t('PLAYER_PROFILE.GAME_ACTIVITY.FILTER_FORM.ACTIVITY_DATE_RANGE')}</label>
-                <div className="range-group">
-                  <Field
-                    utc
-                    withTime
-                    timePresets
-                    name="startDate"
-                    placeholder={I18n.t(filterFormAttributeLabels.startDate)}
-                    component={DateTimeField}
-                    isValidDate={startDateValidator(currentValues)}
-                    position="vertical"
-                    showErrorMessage={false}
-                    pickerClassName="left-side"
-                  />
-                  <span className="range-group__separator">-</span>
-                  <Field
-                    utc
-                    withTime
-                    timePresets
-                    name="endDate"
-                    placeholder={I18n.t(filterFormAttributeLabels.endDate)}
-                    component={DateTimeField}
-                    isValidDate={endDateValidator(currentValues)}
-                    position="vertical"
-                    showErrorMessage={false}
-                  />
-                </div>
-              </div>
-            </div>
+            <RangeGroup
+              className="filter-row__big"
+              label={I18n.t('PLAYER_PROFILE.GAME_ACTIVITY.FILTER_FORM.ACTIVITY_DATE_RANGE')}
+            >
+              <Field
+                utc
+                withTime
+                timePresets
+                name="startDate"
+                placeholder={I18n.t(filterFormAttributeLabels.startDate)}
+                component={DateTimeField}
+                isValidDate={startDateValidator(currentValues)}
+                position="vertical"
+                showErrorMessage={false}
+                pickerClassName="left-side"
+              />
+              <Field
+                utc
+                withTime
+                timePresets
+                name="endDate"
+                placeholder={I18n.t(filterFormAttributeLabels.endDate)}
+                component={DateTimeField}
+                isValidDate={endDateValidator(currentValues)}
+                position="vertical"
+                showErrorMessage={false}
+              />
+            </RangeGroup>
             <div className="filter-row__button-block">
               <div className="button-block-container">
                 <button

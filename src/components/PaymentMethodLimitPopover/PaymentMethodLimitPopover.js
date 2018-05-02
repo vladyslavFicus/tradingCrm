@@ -4,9 +4,10 @@ import { reduxForm, Field } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
 import PropTypes from '../../constants/propTypes';
 import { createValidator } from '../../utils/validator';
-import { InputField } from '../../components/ReduxForm';
+import { InputField, RangeGroup } from '../../components/ReduxForm';
 import PaymentMethodLimitPopoverStyle from './PaymentMethodLimitPopover.scss';
 import { Currency } from '../../components/Amount';
+import {DateTimeField} from "../ReduxForm";
 
 const attributeLabels = {
   min: I18n.t('COMMON.MIN'),
@@ -107,25 +108,26 @@ class PaymentMethodLimitPopover extends Component {
               {this.renderLimitDisableOptions()}
             </div>
             <div className="payment-limit-popover__body">
-              <Field
-                name="min"
-                label={attributeLabels.min}
-                type="text"
-                position="vertical"
-                showErrorMessage={false}
-                component={InputField}
-                inputAddon={<Currency code={currencyCode} />}
-              />
-              <span className="range-group__separator">-</span>
-              <Field
-                name="max"
-                label={attributeLabels.max}
-                type="text"
-                position="vertical"
-                showErrorMessage={false}
-                component={InputField}
-                inputAddon={<Currency code={currencyCode} />}
-              />
+              <RangeGroup className="mb-0" dividerClassName="payment-limit-popover__divider">
+                <Field
+                  name="min"
+                  label={attributeLabels.min}
+                  type="text"
+                  position="vertical"
+                  showErrorMessage={false}
+                  component={InputField}
+                  inputAddon={<Currency code={currencyCode} />}
+                />
+                <Field
+                  name="max"
+                  label={attributeLabels.max}
+                  type="text"
+                  position="vertical"
+                  showErrorMessage={false}
+                  component={InputField}
+                  inputAddon={<Currency code={currencyCode} />}
+                />
+              </RangeGroup>
               <button
                 type="submit"
                 className="btn btn-primary"

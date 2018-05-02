@@ -6,7 +6,7 @@ import { I18n } from 'react-redux-i18n';
 import { createValidator, translateLabels } from '../../../../../../utils/validator';
 import PropTypes from '../../../../../../constants/propTypes';
 import { typesLabels } from '../../../../../../constants/devices';
-import { SelectField, DateTimeField } from '../../../../../../components/ReduxForm';
+import { SelectField, DateTimeField, RangeGroup } from '../../../../../../components/ReduxForm';
 import { attributeLabels } from './constants';
 import renderLabel from '../../../../../../utils/renderLabel';
 
@@ -93,30 +93,27 @@ class FilterForm extends Component {
                 ))}
               </Field>
             </div>
-            <div className="filter-row__big">
-              <div className="form-group">
-                <label>{I18n.t('PLAYER_PROFILE.DEVICES.FILTER.LOGIN_DATE_RANGE')}</label>
-                <div className="range-group">
-                  <Field
-                    utc
-                    name="signInDateFrom"
-                    placeholder={I18n.t(attributeLabels.signInDateFrom)}
-                    component={DateTimeField}
-                    isValidDate={this.startDateValidator('signInDateTo')}
-                    position="vertical"
-                  />
-                  <span className="range-group__separator">-</span>
-                  <Field
-                    utc
-                    name="signInDateTo"
-                    placeholder={I18n.t(attributeLabels.signInDateTo)}
-                    component={DateTimeField}
-                    isValidDate={this.endDateValidator('signInDateFrom')}
-                    position="vertical"
-                  />
-                </div>
-              </div>
-            </div>
+            <RangeGroup
+              className="filter-row__big"
+              label={I18n.t('PLAYER_PROFILE.DEVICES.FILTER.LOGIN_DATE_RANGE')}
+            >
+              <Field
+                utc
+                name="signInDateFrom"
+                placeholder={I18n.t(attributeLabels.signInDateFrom)}
+                component={DateTimeField}
+                isValidDate={this.startDateValidator('signInDateTo')}
+                position="vertical"
+              />
+              <Field
+                utc
+                name="signInDateTo"
+                placeholder={I18n.t(attributeLabels.signInDateTo)}
+                component={DateTimeField}
+                isValidDate={this.endDateValidator('signInDateFrom')}
+                position="vertical"
+              />
+            </RangeGroup>
             <div className="filter-row__button-block">
               <div className="button-block-container">
                 <button
