@@ -70,7 +70,7 @@ function createCampaign(data) {
       endpointParams = {
         ...endpointParams,
         ...fulfillmentDeposit,
-        fulfillmentType: fulfillmentTypes.DEPOSIT,
+        fulfilmentType: fulfillmentTypes.DEPOSIT,
       };
     }
 
@@ -78,7 +78,7 @@ function createCampaign(data) {
     if (fulfillmentProfileCompleted) {
       endpointParams = {
         ...endpointParams,
-        fulfillmentType: fulfillmentTypes.PROFILE_COMPLETED,
+        fulfilmentType: fulfillmentTypes.PROFILE_COMPLETED,
       };
     }
 
@@ -86,7 +86,7 @@ function createCampaign(data) {
     if (fulfillmentNoFulfillments) {
       endpointParams = {
         ...endpointParams,
-        fulfillmentType: fulfillmentTypes.WITHOUT_FULFILLMENT,
+        fulfilmentType: fulfillmentTypes.WITHOUT_FULFILLMENT,
       };
     }
 
@@ -193,7 +193,7 @@ const actionHandlers = {
     },
     nodeGroups: {
       ...state.nodeGroups,
-      [nodeGroupTypes.fulfillments]: [mapFulfillmentNode(payload.fulfillmentType)],
+      [nodeGroupTypes.fulfillments]: [mapFulfillmentNode(payload.fulfilmentType)],
       [nodeGroupTypes.rewards]: [mapRewardNode(payload.campaignType)],
     },
   }),
@@ -228,7 +228,7 @@ const actionHandlers = {
     ...state,
     nodeGroups: {
       ...state.nodeGroups,
-      [nodeGroupTypes.fulfillments]: state.data.fulfillmentType ? [mapFulfillmentNode(state.data.fulfillmentType)] : [],
+      [nodeGroupTypes.fulfillments]: state.data.fulfilmentType ? [mapFulfillmentNode(state.data.fulfilmentType)] : [],
       [nodeGroupTypes.rewards]: state.data.campaignType ? [mapRewardNode(state.data.campaignType)] : [],
     },
   }),

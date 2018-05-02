@@ -20,7 +20,7 @@ const Information = (props) => {
       capping,
       wagerWinMultiplier,
       campaignRatio,
-      fulfillmentType,
+      fulfilmentType,
     },
   } = props;
 
@@ -59,7 +59,7 @@ const Information = (props) => {
               <Content>
                 <div>
                   <strong>{I18n.t('BONUS_CAMPAIGNS.VIEW.DETAILS.LABEL.FULFILLMENT_TYPE')}:</strong>{' '}
-                  {renderLabel(fulfillmentType, fulfillmentTypesLabels)}
+                  {renderLabel(fulfilmentType, fulfillmentTypesLabels)}
                 </div>
                 <div>
                   <strong>{I18n.t('BONUS_CAMPAIGNS.VIEW.DETAILS.LABEL.RATIO')}:</strong> {' '}

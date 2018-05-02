@@ -36,7 +36,7 @@ class Settings extends Component {
       conversionPrize: PropTypes.bonusCampaignEntity.conversionPrize,
       capping: PropTypes.bonusCampaignEntity.capping,
       optIn: PropTypes.bonusCampaignEntity.optIn,
-      fulfillmentType: PropTypes.bonusCampaignEntity.fulfillmentType,
+      fulfilmentType: PropTypes.bonusCampaignEntity.fulfillmentType,
       minAmount: PropTypes.bonusCampaignEntity.minAmount,
       maxAmount: PropTypes.bonusCampaignEntity.maxAmount,
     }),

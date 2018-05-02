@@ -151,7 +151,7 @@ function updateCampaign(uuid, data) {
       endpointParams = {
         ...endpointParams,
         ...fulfillmentDeposit,
-        fulfillmentType: fulfillmentTypes.DEPOSIT,
+        fulfilmentType: fulfillmentTypes.DEPOSIT,
       };
     }
 
@@ -159,7 +159,7 @@ function updateCampaign(uuid, data) {
     if (fulfillmentProfileCompleted) {
       endpointParams = {
         ...endpointParams,
-        fulfillmentType: fulfillmentTypes.PROFILE_COMPLETED,
+        fulfilmentType: fulfillmentTypes.PROFILE_COMPLETED,
       };
     }
 
@@ -167,7 +167,7 @@ function updateCampaign(uuid, data) {
     if (fulfillmentNoFulfillments) {
       endpointParams = {
         ...endpointParams,
-        fulfillmentType: fulfillmentTypes.WITHOUT_FULFILLMENT,
+        fulfilmentType: fulfillmentTypes.WITHOUT_FULFILLMENT,
       };
     }
 
@@ -353,7 +353,7 @@ const actionHandlers = {
     },
     nodeGroups: {
       ...state.nodeGroups,
-      [nodeGroupTypes.fulfillments]: [mapFulfillmentNode(payload.fulfillmentType)],
+      [nodeGroupTypes.fulfillments]: [mapFulfillmentNode(payload.fulfilmentType)],
       [nodeGroupTypes.rewards]: [mapRewardNode(payload.campaignType)],
     },
   }),
@@ -398,7 +398,7 @@ const actionHandlers = {
     ...state,
     nodeGroups: {
       ...state.nodeGroups,
-      [nodeGroupTypes.fulfillments]: [mapFulfillmentNode(state.data.fulfillmentType)],
+      [nodeGroupTypes.fulfillments]: [mapFulfillmentNode(state.data.fulfilmentType)],
       [nodeGroupTypes.rewards]: [mapRewardNode(state.data.campaignType)],
     },
   }),
