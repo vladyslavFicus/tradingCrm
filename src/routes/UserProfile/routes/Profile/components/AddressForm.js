@@ -105,8 +105,6 @@ class AddressForm extends PureComponent {
           name="address"
           label={attributeLabels.address}
           component={TextAreaField}
-          position="vertical"
-          showErrorMessage
           disabled={disabled}
           id="profile-address-textarea"
         />

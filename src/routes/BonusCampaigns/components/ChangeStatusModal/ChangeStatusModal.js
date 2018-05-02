@@ -115,8 +115,6 @@ class ChangeStatusModal extends Component {
               <Field
                 name="customReason"
                 placeholder={I18n.t('BONUS_CAMPAIGNS.CHANGE_STATUS_MODAL.CUSTOM_REASON_PLACEHOLDER')}
-                label={''}
-                position="vertical"
                 component={TextAreaField}
               />
             }

@@ -18,7 +18,6 @@ class InputField extends Component {
       PropTypes.string,
       PropTypes.node,
     ]),
-    inputClassName: PropTypes.string,
     placeholder: PropTypes.string,
     inputAddon: PropTypes.oneOfType([
       PropTypes.string,
@@ -42,7 +41,6 @@ class InputField extends Component {
     className: null,
     label: null,
     labelAddon: null,
-    inputClassName: 'form-control',
     position: 'horizontal',
     showErrorMessage: true,
     disabled: false,
@@ -55,6 +53,18 @@ class InputField extends Component {
     helpText: null,
   };
 
+  handleInputFieldFocus = () => {
+    const { onIconClick } = this.props;
+
+    if (this.inputNode) {
+      this.inputNode.focus();
+    }
+
+    if (onIconClick) {
+      onIconClick();
+    }
+  };
+
   renderHorizontal = (props) => {
     const {
       label,
@@ -62,25 +72,39 @@ class InputField extends Component {
       meta: { touched, error },
       showErrorMessage,
       helpText,
+      disabled,
     } = props;
 
+    const groupClassName = classNames(
+      'form-group row',
+      className,
+      { 'has-danger': touched && error },
+      { 'is-disabled': disabled },
+    );
+
     return (
-      <div className={classNames('form-group row', className, { 'has-danger': touched && error })}>
+      <div className={groupClassName}>
         <label className="col-md-3">{label}</label>
         <div className="col-md-9">
           {this.renderInput(props)}
-          <If condition={helpText}>
-            <div className="form-group-help">
-              {helpText}
-            </div>
-          </If>
-          <If condition={showErrorMessage && touched && error}>
-            <div className="form-control-feedback">
-              <i className="nas nas-field_alert_icon" />
-              {error}
-            </div>
-          </If>
         </div>
+        <If condition={helpText || (showErrorMessage && touched && error)}>
+          <div className="col-12">
+            <div className="form-row">
+              <If condition={showErrorMessage && touched && error}>
+                <div className="col form-control-feedback">
+                  <i className="nas nas-field_alert_icon" />
+                  {error}
+                </div>
+              </If>
+              <If condition={helpText}>
+                <div className="col form-group-help">
+                  {helpText}
+                </div>
+              </If>
+            </div>
+          </div>
+        </If>
       </div>
     );
   };
@@ -94,25 +118,37 @@ class InputField extends Component {
       meta: { touched, error },
       showErrorMessage,
       helpText,
+      disabled,
     } = props;
 
+    const groupClassName = classNames(
+      'form-group',
+      className,
+      { 'has-danger': touched && error },
+      { 'is-disabled': disabled },
+    );
+
     return (
-      <div className={classNames('form-group', className, { 'has-danger': touched && error })}>
+      <div className={groupClassName}>
         <FieldLabel
           label={label}
           addon={labelAddon}
           className={labelClassName}
         />
         {this.renderInput(props)}
-        <If condition={helpText}>
-          <div className="form-group-help">
-            {helpText}
-          </div>
-        </If>
-        <If condition={showErrorMessage && touched && error}>
-          <div className="form-control-feedback">
-            <i className="nas nas-field_alert_icon" />
-            {error}
+        <If condition={helpText || (showErrorMessage && touched && error)}>
+          <div className="form-row">
+            <If condition={showErrorMessage && touched && error}>
+              <div className="col form-control-feedback">
+                <i className="nas nas-field_alert_icon" />
+                {error}
+              </div>
+            </If>
+            <If condition={helpText}>
+              <div className="col form-group-help">
+                {helpText}
+              </div>
+            </If>
           </div>
         </If>
       </div>
@@ -126,12 +162,9 @@ class InputField extends Component {
       input,
       disabled,
       type,
-      inputClassName,
-      meta: { touched, error },
       placeholder,
       label,
       id,
-      onIconClick,
     } = props;
 
     let inputField = (
@@ -140,17 +173,18 @@ class InputField extends Component {
         id={id}
         disabled={disabled}
         type={type}
-        className={classNames(inputClassName, { 'has-danger': touched && error })}
+        className="form-control"
         placeholder={placeholder !== null ? placeholder : label}
+        ref={(node) => { this.inputNode = node; }}
       />
     );
 
     if (inputAddon) {
       inputField = (
-        <div className={classNames('input-group', { disabled })}>
+        <div className="input-group">
           <If condition={inputAddonPosition === 'left'}>
             <div className="input-group-prepend">
-              <span className="input-group-text input-group-addon" onClick={onIconClick}>
+              <span className="input-group-text input-group-addon" onClick={this.handleInputFieldFocus}>
                 {inputAddon}
               </span>
             </div>
@@ -160,7 +194,7 @@ class InputField extends Component {
             <div className="input-group-append">
               <span
                 className="input-group-text input-group-addon"
-                onClick={onIconClick}
+                onClick={this.handleInputFieldFocus}
                 id={
                   <If condition={id}>
                     {`${id}-right-icon`}
