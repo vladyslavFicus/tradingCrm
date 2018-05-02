@@ -28,7 +28,9 @@ export default compose(
         aggregatorId: freeSpinTemplates.find(({ uuid: id }) => id === uuid).aggregatorId,
       },
     }),
-    skip: ({ uuid, freeSpinTemplates: { loading } }) => !uuid || loading,
+    skip: ({ uuid, freeSpinTemplates: { loading, freeSpinTemplates } }) => (
+      !uuid || loading || !freeSpinTemplates.find(({ uuid: id }) => id === uuid)
+    ),
     name: 'freeSpinTemplate',
   }),
 )(FreeSpinView);
