@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Scrollbars from 'react-custom-scrollbars';
-import { TimelineLite, Power1 } from 'gsap';
+import { TimelineLite as TimeLineLite } from 'gsap';
 import Nav from '../Nav';
 import PropTypes from '../../constants/propTypes';
 import './Sidebar.scss';
@@ -24,8 +24,8 @@ class Sidebar extends Component {
     init();
     menuItemClick();
 
-    const sidebarAnimation = new TimelineLite({ paused: true });
-    sidebarAnimation.fromTo(this.sidebar, 0.15, { width: '60px' }, { width: '240px', ease: Power1.easeOut });
+    const sidebarAnimation = new TimeLineLite({ paused: true });
+    sidebarAnimation.fromTo(this.sidebar, 0.15, { width: '60px' }, { width: '240px' });
 
     this.sidebarAnimation = sidebarAnimation;
   }

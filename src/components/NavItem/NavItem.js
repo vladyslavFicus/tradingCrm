@@ -3,7 +3,7 @@ import { findDOMNode } from 'react-dom';
 import classNames from 'classnames';
 import { I18n } from 'react-redux-i18n';
 import { Link } from 'react-router';
-import { TimelineLite, Power1 } from 'gsap';
+import TimelineLite from 'gsap/TimelineLite';
 import SubNav from '../SubNav';
 import PropTypes from '../../constants/propTypes';
 
@@ -53,10 +53,7 @@ class NavItem extends Component {
     const navItemAnimation = new TimelineLite({ paused: true });
     const submenuDomNode = findDOMNode(this.submenu);
 
-    navItemAnimation.fromTo(submenuDomNode, 0.15, { height: 0 }, {
-      height: submenuDomNode.scrollHeight,
-      ease: Power1.easeOut,
-    })
+    navItemAnimation.fromTo(submenuDomNode, 0.15, { height: 0 }, { height: submenuDomNode.scrollHeight })
       .fromTo(this.icon, 0.15, { rotation: 0 }, { rotation: 180 }, 0)
       .fromTo(submenuDomNode, 0.15, { autoAlpha: 0 }, { autoAlpha: 1 });
 
