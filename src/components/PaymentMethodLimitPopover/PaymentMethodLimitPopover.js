@@ -113,7 +113,6 @@ class PaymentMethodLimitPopover extends Component {
                 type="text"
                 position="vertical"
                 showErrorMessage={false}
-                inputClassName="form-control input-sm"
                 component={InputField}
                 inputAddon={<Currency code={currencyCode} />}
               />
@@ -124,7 +123,6 @@ class PaymentMethodLimitPopover extends Component {
                 type="text"
                 position="vertical"
                 showErrorMessage={false}
-                inputClassName="form-control input-sm"
                 component={InputField}
                 inputAddon={<Currency code={currencyCode} />}
               />
