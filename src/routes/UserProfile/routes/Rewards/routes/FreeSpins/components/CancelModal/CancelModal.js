@@ -112,10 +112,7 @@ class CancelModal extends Component {
               <Field
                 name="customReason"
                 placeholder={I18n.t('PLAYER_PROFILE.FREE_SPIN.MODAL_CANCEL.CUSTOM_REASON_PLACEHOLDER')}
-                label={''}
-                position="vertical"
                 component={TextAreaField}
-                rows={3}
               />
             }
           </ModalBody>

@@ -27,7 +27,6 @@ class NasSelectField extends Component {
       touched: PropTypes.bool,
       error: PropTypes.string,
     }).isRequired,
-    inputClassName: PropTypes.string,
     inputAddon: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.node,
@@ -50,7 +49,6 @@ class NasSelectField extends Component {
     multiple: false,
     inputAddon: null,
     inputAddonPosition: 'left',
-    inputClassName: 'form-control select-block',
     optionsHeader: null,
     singleOptionComponent: null,
     id: null,
@@ -63,8 +61,6 @@ class NasSelectField extends Component {
       inputAddonPosition,
       input,
       disabled,
-      inputClassName,
-      meta: { touched, error },
       children,
       multiple,
       placeholder,
@@ -81,7 +77,6 @@ class NasSelectField extends Component {
         singleOptionComponent={singleOptionComponent}
         disabled={disabled}
         multiple={multiple}
-        className={classNames(inputClassName, { 'has-danger': touched && error })}
         id={id}
       >
         {children}
@@ -90,7 +85,7 @@ class NasSelectField extends Component {
 
     if (inputAddon) {
       inputField = (
-        <div className={classNames('input-group', { disabled })}>
+        <div className="input-group">
           <If condition={inputAddonPosition === 'left'}>
             <div className="input-group-prepend">
               <span className="input-group-text input-group-addon">
@@ -122,25 +117,37 @@ class NasSelectField extends Component {
       meta: { touched, error },
       showErrorMessage,
       helpText,
+      disabled,
     } = props;
 
+    const groupClassName = classNames(
+      'form-group',
+      className,
+      { 'has-danger': touched && error },
+      { 'is-disabled': disabled },
+    );
+
     return (
-      <div className={classNames('form-group', className, { 'has-danger': touched && error })}>
+      <div className={groupClassName}>
         <FieldLabel
           label={label}
           addon={labelAddon}
           className={labelClassName}
         />
         {this.renderInput(props)}
-        <If condition={helpText}>
-          <div className="form-group-help">
-            {helpText}
-          </div>
-        </If>
-        <If condition={showErrorMessage && touched && error}>
-          <div className="form-control-feedback">
-            <i className="nas nas-field_alert_icon" />
-            {error}
+        <If condition={helpText || (showErrorMessage && touched && error)}>
+          <div className="form-row">
+            <If condition={showErrorMessage && touched && error}>
+              <div className="col form-control-feedback">
+                <i className="nas nas-field_alert_icon" />
+                {error}
+              </div>
+            </If>
+            <If condition={helpText}>
+              <div className="col form-group-help">
+                {helpText}
+              </div>
+            </If>
           </div>
         </If>
       </div>
@@ -154,22 +161,36 @@ class NasSelectField extends Component {
       showErrorMessage,
       className,
       helpText,
+      disabled,
     } = props;
 
+    const groupClassName = classNames(
+      'form-group row',
+      className,
+      { 'has-danger': touched && error },
+      { 'is-disabled': disabled },
+    );
+
     return (
-      <div className={classNames('form-group row', className, { 'has-danger': touched && error })}>
+      <div className={groupClassName}>
         <label className="col-md-3">{label}</label>
         <div className="col-md-9">
           {this.renderInput(props)}
-          <If condition={helpText}>
-            <div className="form-group-help">
-              {helpText}
-            </div>
-          </If>
-          <If condition={showErrorMessage && touched && error}>
-            <div className="form-control-feedback">
-              <i className="nas nas-field_alert_icon" />
-              {error}
+          <If condition={helpText || (showErrorMessage && touched && error)}>
+            <div className="col-12">
+              <div className="form-row">
+                <If condition={showErrorMessage && touched && error}>
+                  <div className="col form-control-feedback">
+                    <i className="nas nas-field_alert_icon" />
+                    {error}
+                  </div>
+                </If>
+                <If condition={helpText}>
+                  <div className="col form-group-help">
+                    {helpText}
+                  </div>
+                </If>
+              </div>
             </div>
           </If>
         </div>

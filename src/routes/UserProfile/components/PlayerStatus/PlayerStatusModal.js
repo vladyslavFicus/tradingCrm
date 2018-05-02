@@ -109,7 +109,6 @@ class PlayerStatusModal extends Component {
               placeholder="Comment..."
               label={attributeLabels.comment}
               component={TextAreaField}
-              position="vertical"
             />
           </ModalBody>
 
