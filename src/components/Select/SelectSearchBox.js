@@ -4,7 +4,7 @@ import './SelectSearchBox.scss';
 
 const SelectSearchBox = ({ placeholder, query, onChange }) => (
   <div className="select-search-box">
-    <i className="nas nas-search_icon select-search-box__icon-left" />
+    <i className="icon icon-search select-search-box__icon-left" />
     <input
       type="text"
       className="form-control"
@@ -13,7 +13,7 @@ const SelectSearchBox = ({ placeholder, query, onChange }) => (
       value={query}
     />
     <If condition={!!query}>
-      <i className="nas nas-clear_icon select-search-box__icon-right" onClick={() => onChange(null)} />
+      <i className="icon icon-times select-search-box__icon-right" onClick={() => onChange(null)} />
     </If>
   </div>
 );

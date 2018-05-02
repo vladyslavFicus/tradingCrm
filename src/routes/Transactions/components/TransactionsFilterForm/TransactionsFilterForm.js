@@ -96,7 +96,7 @@ class TransactionsFilterForm extends Component {
                 placeholder={I18n.t(attributePlaceholders.keyword)}
                 component={InputField}
                 position="vertical"
-                inputAddon={<i className="nas nas-search_icon" />}
+                inputAddon={<i className="icon icon-search" />}
                 id="transactions-list-filters-search"
               />
             </div>

@@ -153,7 +153,7 @@ class MultiCurrencyValue extends Component {
           disabled={disabled || loading}
           currency={baseCurrency}
           onChange={this.handleChangeBaseCurrencyAmount}
-          inputAddon={<i className="nas nas-currencies_icon multi-currency-icon" />}
+          inputAddon={<i className="icon icon-currencies multi-currency-icon" />}
           inputAddonPosition="right"
           onIconClick={this.handleOpenModal}
           id={targetId}

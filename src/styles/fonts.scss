@@ -1,17 +1,17 @@
 @import url(https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700&subset=cyrillic-ext);
 
 @font-face {
-  font-family: 'NAS-Font';
+  font-family: 'backoffice';
   src:
-    url('../../public/fonts/NAS-Font.ttf') format('truetype'),
-    url('../../public/fonts/NAS-Font.woff') format('woff'),
-    url('../../public/fonts/NAS-Font.svg') format('svg');
+    url('../../public/fonts/backoffice.ttf?sdzjzm') format('truetype'),
+    url('../../public/fonts/backoffice.woff?sdzjzm') format('woff'),
+    url('../../public/fonts/backoffice.svg?sdzjzm#backoffice') format('svg');
   font-weight: normal;
   font-style: normal;
 }
 
-.nas {
-  font-family: 'NAS-Font' !important;
+[class^="icon-"], [class*=" icon-"] {
+  font-family: 'backoffice' !important;
   speak: none;
   font-style: normal;
   font-weight: normal;
@@ -23,52 +23,25 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.nas-currencies_icon:before {
+.icon-currencies:before {
   content: "\e900";
 }
-.nas-add_filter_icon:before {
+.icon-filter:before {
   content: "\e901";
 }
-.nas-calendar_arrow_left:before {
-  content: "\e902";
-}
-.nas-calendar_arrow_right:before {
-  content: "\e903";
-}
-.nas-calendar_icon:before {
+.icon-calendar:before {
   content: "\e904";
 }
-.nas-case_sensetive_switch_icon:before {
-  content: "\e905";
-}
-.nas-check_box_checked:before {
-  content: "\e906";
-}
-.nas-check_box:before {
-  content: "\e907";
-}
-.nas-clear_icon:before {
+.icon-times:before {
   content: "\e908";
 }
-.nas-currency_euro_icon:before {
-  content: "\e909";
-}
-.nas-dropdown_arrow_icon:before {
+.icon-arrow-down:before {
   content: "\e90a";
 }
-.nas-field_alert_icon:before {
+.icon-alert:before {
   content: "\e90b";
 }
-.nas-radio_button_checked:before {
-  content: "\e90c";
-}
-.nas-radio_button_hover:before {
-  content: "\e90d";
-}
-.nas-radio_button_idle:before {
-  content: "\e90e";
-}
-.nas-search_icon:before {
+.icon-search:before {
   content: "\e90f";
 }
 

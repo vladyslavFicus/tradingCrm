@@ -132,7 +132,7 @@ class SelectField extends Component {
           <div className="form-row">
             <If condition={showErrorMessage && touched && error}>
               <div className="col form-control-feedback">
-                <i className="nas nas-field_alert_icon" />
+                <i className="icon icon-alert" />
                 {error}
               </div>
             </If>
@@ -174,7 +174,7 @@ class SelectField extends Component {
               <div className="form-row">
                 <If condition={showErrorMessage && touched && error}>
                   <div className="col form-control-feedback">
-                    <i className="nas nas-field_alert_icon" />
+                    <i className="icon icon-alert" />
                     {error}
                   </div>
                 </If>
