@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { I18n } from 'react-redux-i18n';
 import moment from 'moment';
 import Uuid from '../Uuid';
-import PropTypes from '../../constants/propTypes';
 import renderLabel from '../../utils/renderLabel';
 import { statuses, statusesClassNames, statusesLabels, statusesReasons } from '../../constants/bonus-campaigns';
 import './BonusCampaignStatus.scss';
