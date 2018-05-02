@@ -65,8 +65,6 @@ function createCampaign(data) {
       endpointParams.capping = null;
     }
 
-    console.log(endpointParams);
-
     const fulfillmentDeposit = get(endpointParams, 'fulfillments.deposit');
     if (fulfillmentDeposit) {
       endpointParams = {
