@@ -24,7 +24,7 @@ const mapFulfillmentsToForm = (data) => {
     result = {
       profileCompleted: true,
     };
-  } else if (data.fulfilmentType === fulfillmentTypes.WITHOUT_FULFILLMENT) {
+  } else if (data.fulfilmentType === fulfillmentTypes.WITHOUT_FULFILMENT) {
     result = {
       noFulfillments: true,
     };

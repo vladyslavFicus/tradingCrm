@@ -88,7 +88,7 @@ const statusActions = {
 const fulfillmentTypes = keyMirror({
   DEPOSIT: null,
   PROFILE_COMPLETED: null,
-  WITHOUT_FULFILLMENT: null,
+  WITHOUT_FULFILMENT: null,
 });
 const rewardTypes = keyMirror({
   BONUS: null,
@@ -97,7 +97,7 @@ const rewardTypes = keyMirror({
 const fulfillmentTypesLabels = {
   [fulfillmentTypes.DEPOSIT]: I18n.t('CONSTANTS.BONUS_CAMPAIGN.CAMPAIGN_TYPE.DEPOSIT'),
   [fulfillmentTypes.PROFILE_COMPLETED]: I18n.t('CONSTANTS.BONUS_CAMPAIGN.CAMPAIGN_TYPE.PROFILE_COMPLETED'),
-  [fulfillmentTypes.WITHOUT_FULFILLMENT]: I18n.t('CONSTANTS.BONUS_CAMPAIGN.CAMPAIGN_TYPE.WITHOUT_FULFILLMENT'),
+  [fulfillmentTypes.WITHOUT_FULFILMENT]: I18n.t('CONSTANTS.BONUS_CAMPAIGN.CAMPAIGN_TYPE.WITHOUT_FULFILLMENT'),
 };
 const rewardTypesLabels = {
   [rewardTypes.BONUS]: I18n.t('CONSTANTS.BONUS_CAMPAIGN.REWARD_TYPE.BONUS'),
@@ -107,7 +107,7 @@ const rewardTypesLabels = {
 const customValueFieldTypesByFulfillmentType = {
   [fulfillmentTypes.DEPOSIT]: [customValueFieldTypes.PERCENTAGE, customValueFieldTypes.ABSOLUTE],
   [fulfillmentTypes.PROFILE_COMPLETED]: [customValueFieldTypes.ABSOLUTE],
-  [fulfillmentTypes.WITHOUT_FULFILLMENT]: [customValueFieldTypes.ABSOLUTE],
+  [fulfillmentTypes.WITHOUT_FULFILMENT]: [customValueFieldTypes.ABSOLUTE],
 };
 
 const optInSelect = {

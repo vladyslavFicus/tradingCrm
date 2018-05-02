@@ -27,7 +27,7 @@ function mapFulfillmentNode(fulfillmentType) {
     return fulfillmentNodeTypes.profileCompleted;
   } else if (fulfillmentType === fulfillmentTypes.DEPOSIT) {
     return fulfillmentNodeTypes.deposit;
-  } else if (fulfillmentType === fulfillmentTypes.WITHOUT_FULFILLMENT) {
+  } else if (fulfillmentType === fulfillmentTypes.WITHOUT_FULFILMENT) {
     return fulfillmentNodeTypes.noFulfillments;
   }
 
@@ -86,7 +86,7 @@ function createCampaign(data) {
     if (fulfillmentNoFulfillments) {
       endpointParams = {
         ...endpointParams,
-        fulfilmentType: fulfillmentTypes.WITHOUT_FULFILLMENT,
+        fulfilmentType: fulfillmentTypes.WITHOUT_FULFILMENT,
       };
     }
 
