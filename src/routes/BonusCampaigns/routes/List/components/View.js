@@ -134,7 +134,7 @@ class View extends Component {
   renderFulfillmentType = data => (
     <div>
       <div className="text-uppercase font-weight-700">
-        {renderLabel(data.fulfillmentType, fulfillmentTypesLabels)}
+        {renderLabel(data.fulfilmentType, fulfillmentTypesLabels)}
       </div>
       <div className="font-size-11">{data.optIn ? I18n.t('COMMON.OPT_IN') : I18n.t('COMMON.NON_OPT_IN')}</div>
     </div>

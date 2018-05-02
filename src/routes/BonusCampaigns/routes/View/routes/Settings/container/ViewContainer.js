@@ -10,7 +10,7 @@ import { fulfillmentTypes, rewardTypes } from '../../../../../../../constants/bo
 const mapFulfillmentsToForm = (data) => {
   let result = {};
 
-  if (data.fulfillmentType === fulfillmentTypes.DEPOSIT) {
+  if (data.fulfilmentType === fulfillmentTypes.DEPOSIT) {
     result = {
       deposit: {
         minAmount: data.minAmount,
@@ -20,11 +20,11 @@ const mapFulfillmentsToForm = (data) => {
         restrictedPaymentMethods: data.restrictedPaymentMethods,
       },
     };
-  } else if (data.fulfillmentType === fulfillmentTypes.PROFILE_COMPLETED) {
+  } else if (data.fulfilmentType === fulfillmentTypes.PROFILE_COMPLETED) {
     result = {
       profileCompleted: true,
     };
-  } else if (data.fulfillmentType === fulfillmentTypes.WITHOUT_FULFILLMENT) {
+  } else if (data.fulfilmentType === fulfillmentTypes.WITHOUT_FULFILLMENT) {
     result = {
       noFulfillments: true,
     };
@@ -85,7 +85,7 @@ const mapStateToProps = ({
     optIn: data.optIn,
     maxBet: data.maxBet,
     maxGrantedAmount: data.maxGrantedAmount,
-    fulfillmentType: data.fulfillmentType,
+    fulfilmentType: data.fulfilmentType,
     excludeCountries: data.excludeCountries,
     countries: data.countries || [],
     promoCode: data.promoCode,
