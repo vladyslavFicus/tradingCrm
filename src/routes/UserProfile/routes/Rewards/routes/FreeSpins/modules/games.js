@@ -45,14 +45,14 @@ const actionHandlers = {
 
     const newState = {
       ...state,
-      games: content.map(i => ({
+      games: Array.isArray(content) ? content.map(i => ({
         ...i,
         lines: i.lines ? parseNumbersRange(i.lines) : [],
         coins: i.coins ? parseNumbersRange(i.coins) : [],
         coinSizes: i.coinSizes ? parseNumbersRange(i.coinSizes) : [],
         betLevels: i.betLevel ? parseNumbersRange(i.betLevel) : [],
         coinValueLevels: i.coinValueLevel ? parseNumbersRange(i.coinValueLevel) : [],
-      })),
+      })) : [],
       isLoading: false,
       receivedAt: endRequestTime,
     };
