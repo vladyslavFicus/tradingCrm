@@ -209,11 +209,11 @@ class FreeSpin extends Component {
       this.setField('bonus.name', name);
       this.setField('bonus.moneyTypePriority', moneyTypePriority);
       this.setField('bonus.lockAmountStrategy', lockAmountStrategy);
-      this.setField('bonus.maxBet', get(action.payload, 'maxBet.currencies[0].amount', ''));
+      this.setField('bonus.maxBet', get(action.payload, 'maxBet[0].amount', ''));
       this.setField('bonus.bonusLifeTime', bonusLifeTime);
 
       if (maxGrantAmount) {
-        this.setField('bonus.maxGrantAmount', get(action.payload, 'maxGrantAmount.currencies[0].amount', ''));
+        this.setField('bonus.maxGrantAmount', get(action.payload, 'maxGrantAmount[0].amount', ''));
       }
 
       ['capping', 'prize'].forEach((key) => {
@@ -223,7 +223,7 @@ class FreeSpin extends Component {
           this.setField('bonus.prizeCapingType', field.ratioType);
 
           const formatValue = field.ratioType === customValueFieldTypes.ABSOLUTE
-            ? get(field, 'value.currencies[0].amount', '')
+            ? get(field, 'value[0].amount', '')
             : get(field, 'percentage', '');
 
           this.setField(`bonus.${key}`, formatValue);
@@ -241,7 +241,7 @@ class FreeSpin extends Component {
           this.setField(type, field.ratioType);
 
           const formatValue = field.ratioType === customValueFieldTypes.ABSOLUTE
-            ? get(field, 'value.currencies[0].amount', '')
+            ? get(field, 'value[0].amount', '')
             : get(field, 'percentage', '');
 
           this.setField(value, formatValue);
