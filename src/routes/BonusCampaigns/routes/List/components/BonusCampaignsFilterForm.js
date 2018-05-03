@@ -8,7 +8,7 @@ import { createValidator, translateLabels } from '../../../../../utils/validator
 import { fulfillmentTypesLabels, statusesLabels, fulfillmentTypes } from '../../../../../constants/bonus-campaigns';
 import renderLabel from '../../../../../utils/renderLabel';
 import { attributeLabels, placeholders } from '../constants';
-import { InputField, SelectField, DateTimeField } from '../../../../../components/ReduxForm';
+import { InputField, SelectField, DateTimeField, RangeGroup } from '../../../../../components/ReduxForm';
 import ordinalizeNumber from '../../../../../utils/ordinalizeNumber';
 
 const FORM_NAME = 'bonusCampaignsFilter';
@@ -111,7 +111,7 @@ class BonusCampaignsFilterForm extends Component {
                 placeholder={I18n.t(placeholders.searchBy)}
                 component={InputField}
                 position="vertical"
-                inputAddon={<i className="nas nas-search_icon" />}
+                inputAddon={<i className="icon icon-search" />}
                 id="campaigns-filters-search"
               />
             </div>
@@ -180,54 +180,48 @@ class BonusCampaignsFilterForm extends Component {
                 <option value="false">{I18n.t('COMMON.NON_OPT_IN')}</option>
               </Field>
             </div>
-            <div className="filter-row__big">
-              <div className="form-group">
-                <label>{I18n.t(attributeLabels.creationDate)}</label>
-                <div className="range-group">
-                  <Field
-                    utc
-                    name="creationDateFrom"
-                    component={DateTimeField}
-                    showErrorMessage
-                    isValidDate={this.startDateValidator('creationDateTo')}
-                    position="vertical"
-                  />
-                  <span className="range-group__separator">-</span>
-                  <Field
-                    utc
-                    name="creationDateTo"
-                    component={DateTimeField}
-                    showErrorMessage
-                    isValidDate={this.endDateValidator('creationDateFrom')}
-                    position="vertical"
-                  />
-                </div>
-              </div>
-            </div>
-            <div className="filter-row__big">
-              <div className="form-group">
-                <label>{I18n.t(attributeLabels.activityDate)}</label>
-                <div className="range-group">
-                  <Field
-                    utc
-                    name="activityDateFrom"
-                    placeholder={attributeLabels.startDate}
-                    component={DateTimeField}
-                    isValidDate={this.startDateValidator('activityDateTo')}
-                    position="vertical"
-                  />
-                  <span className="range-group__separator">-</span>
-                  <Field
-                    utc
-                    name="activityDateTo"
-                    placeholder={attributeLabels.endDate}
-                    component={DateTimeField}
-                    isValidDate={this.endDateValidator('activityDateFrom')}
-                    position="vertical"
-                  />
-                </div>
-              </div>
-            </div>
+            <RangeGroup
+              className="filter-row__big"
+              label={I18n.t(attributeLabels.creationDate)}
+            >
+              <Field
+                utc
+                name="creationDateFrom"
+                component={DateTimeField}
+                showErrorMessage
+                isValidDate={this.startDateValidator('creationDateTo')}
+                position="vertical"
+              />
+              <Field
+                utc
+                name="creationDateTo"
+                component={DateTimeField}
+                showErrorMessage
+                isValidDate={this.endDateValidator('creationDateFrom')}
+                position="vertical"
+              />
+            </RangeGroup>
+            <RangeGroup
+              className="filter-row__big"
+              label={I18n.t(attributeLabels.activityDate)}
+            >
+              <Field
+                utc
+                name="activityDateFrom"
+                placeholder={attributeLabels.startDate}
+                component={DateTimeField}
+                isValidDate={this.startDateValidator('activityDateTo')}
+                position="vertical"
+              />
+              <Field
+                utc
+                name="activityDateTo"
+                placeholder={attributeLabels.endDate}
+                component={DateTimeField}
+                isValidDate={this.endDateValidator('activityDateFrom')}
+                position="vertical"
+              />
+            </RangeGroup>
             <div className="filter-row__button-block">
               <div className="button-block-container">
                 <button

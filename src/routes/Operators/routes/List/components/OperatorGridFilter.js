@@ -68,7 +68,7 @@ class OperatorGridFilter extends Component {
               placeholder={I18n.t(attributeLabels.keyword)}
               component={InputField}
               position="vertical"
-              inputAddon={<i className="nas nas-search_icon" />}
+              inputAddon={<i className="icon icon-search" />}
               id="operators-list-filters-search"
             />
           </div>

@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 import { I18n } from 'react-redux-i18n';
 import { reduxForm, Field, getFormValues } from 'redux-form';
-import { InputField, SelectField, DateTimeField } from '../../../../../../../components/ReduxForm';
+import { InputField, SelectField, DateTimeField, RangeGroup } from '../../../../../../../components/ReduxForm';
 import { statusesLabels, typesLabels, assignLabels } from '../../../../../../../constants/bonus';
 import { attributeLabels } from '../constants';
 import { createValidator, translateLabels } from '../../../../../../../utils/validator';
@@ -25,6 +25,9 @@ class BonusGridFilter extends Component {
       endDate: PropTypes.string,
     }),
     invalid: PropTypes.bool.isRequired,
+  };
+  static defaultProps = {
+    currentValues: {},
   };
 
   startDateValidator = (current) => {
@@ -68,7 +71,7 @@ class BonusGridFilter extends Component {
                 placeholder={I18n.t(attributeLabels.keyword)}
                 component={InputField}
                 position="vertical"
-                inputAddon={<i className="nas nas-search_icon" />}
+                inputAddon={<i className="icon icon-search" />}
               />
             </div>
             <div className="filter-row__medium">
@@ -116,30 +119,27 @@ class BonusGridFilter extends Component {
                 ))}
               </Field>
             </div>
-            <div className="filter-row__big">
-              <div className="form-group">
-                <label>Availability date range</label>
-                <div className="range-group">
-                  <Field
-                    name="startDate"
-                    placeholder={I18n.t(attributeLabels.startDate)}
-                    component={DateTimeField}
-                    timeFormat={null}
-                    isValidDate={this.startDateValidator}
-                    position="vertical"
-                  />
-                  <span className="range-group__separator">-</span>
-                  <Field
-                    name="endDate"
-                    placeholder={I18n.t(attributeLabels.endDate)}
-                    component={DateTimeField}
-                    timeFormat={null}
-                    isValidDate={this.endDateValidator}
-                    position="vertical"
-                  />
-                </div>
-              </div>
-            </div>
+            <RangeGroup
+              className="filter-row__big"
+              label={I18n.t(attributeLabels.availabilityDateRange)}
+            >
+              <Field
+                name="startDate"
+                placeholder={I18n.t(attributeLabels.startDate)}
+                component={DateTimeField}
+                timeFormat={null}
+                isValidDate={this.startDateValidator}
+                position="vertical"
+              />
+              <Field
+                name="endDate"
+                placeholder={I18n.t(attributeLabels.endDate)}
+                component={DateTimeField}
+                timeFormat={null}
+                isValidDate={this.endDateValidator}
+                position="vertical"
+              />
+            </RangeGroup>
             <div className="filter-row__button-block">
               <div className="button-block-container">
                 <button

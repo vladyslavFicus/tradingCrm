@@ -6,7 +6,7 @@ import { I18n } from 'react-redux-i18n';
 import moment from 'moment';
 import { createValidator, translateLabels } from '../../../../../../../../utils/validator';
 import { attributeLabels, attributePlaceholders } from './constants';
-import { InputField, SelectField, DateTimeField } from '../../../../../../../../components/ReduxForm';
+import { InputField, SelectField, DateTimeField, RangeGroup } from '../../../../../../../../components/ReduxForm';
 
 class FreeSpinsFilterForm extends Component {
   static propTypes = {
@@ -27,6 +27,14 @@ class FreeSpinsFilterForm extends Component {
     }),
     games: PropTypes.arrayOf(PropTypes.string).isRequired,
     providers: PropTypes.arrayOf(PropTypes.string).isRequired,
+  };
+  static defaultProps = {
+    reset: null,
+    handleSubmit: null,
+    submitting: false,
+    pristine: false,
+    disabled: false,
+    currentValues: {},
   };
 
   startDateValidator = toAttribute => (current) => {
@@ -73,7 +81,7 @@ class FreeSpinsFilterForm extends Component {
                 placeholder={I18n.t(attributePlaceholders.searchBy)}
                 component={InputField}
                 position="vertical"
-                inputAddon={<i className="nas nas-search_icon" />}
+                inputAddon={<i className="icon icon-search" />}
               />
             </div>
             <div className="filter-row__medium">
@@ -106,28 +114,25 @@ class FreeSpinsFilterForm extends Component {
                 ))}
               </Field>
             </div>
-            <div className="filter-row__big">
-              <div className="form-group">
-                <label>{I18n.t(attributeLabels.availabilityDateRange)}</label>
-                <div className="range-group">
-                  <Field
-                    name="startDate"
-                    placeholder={I18n.t(attributeLabels.startDate)}
-                    component={DateTimeField}
-                    isValidDate={this.startDateValidator('endDate')}
-                    position="vertical"
-                  />
-                  <span className="range-group__separator">-</span>
-                  <Field
-                    name="endDate"
-                    placeholder={I18n.t(attributeLabels.endDate)}
-                    component={DateTimeField}
-                    isValidDate={this.endDateValidator('startDate')}
-                    position="vertical"
-                  />
-                </div>
-              </div>
-            </div>
+            <RangeGroup
+              className="filter-row__big"
+              label={I18n.t(attributeLabels.availabilityDateRange)}
+            >
+              <Field
+                name="startDate"
+                placeholder={I18n.t(attributeLabels.startDate)}
+                component={DateTimeField}
+                isValidDate={this.startDateValidator('endDate')}
+                position="vertical"
+              />
+              <Field
+                name="endDate"
+                placeholder={I18n.t(attributeLabels.endDate)}
+                component={DateTimeField}
+                isValidDate={this.endDateValidator('startDate')}
+                position="vertical"
+              />
+            </RangeGroup>
             <div className="filter-row__button-block">
               <div className="button-block-container">
                 <button

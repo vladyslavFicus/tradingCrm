@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import { get } from 'lodash';
 import { I18n } from 'react-redux-i18n';
 import { Field } from 'redux-form';
-import { MultiCurrencyValue, SelectField } from '../../../../components/ReduxForm';
+import { MultiCurrencyValue, SelectField, RangeGroup } from '../../../../components/ReduxForm';
 import PropTypes from '../../../../constants/propTypes';
 import ordinalizeNumber from '../../../../utils/ordinalizeNumber';
 import ExcludedPaymentMethods from './ExcludedPaymentMethods';
@@ -38,24 +38,23 @@ class DepositFulfillmentView extends PureComponent {
     return (
       <div>
         <div className="row">
-          <div className="col-6 form-group">
-            <label>{I18n.t('CAMPAIGNS.SETTINGS.FULFILLMENTS.DEPOSIT.DEPOSIT_AMOUNT_RANGE')}</label>
-            <div className="range-group">
-              <MultiCurrencyValue
-                disabled={disabled}
-                baseName={`${name}.minAmount`}
-                showErrorMessage={false}
-                id="campaign-deposit-ful-min-amount"
-              />
-              <span className="range-group__separator">-</span>
-              <MultiCurrencyValue
-                disabled={disabled}
-                baseName={`${name}.maxAmount`}
-                showErrorMessage={false}
-                id="campaign-deposit-ful-max-amount"
-              />
-            </div>
-          </div>
+          <RangeGroup
+            className="col-6"
+            label={I18n.t('CAMPAIGNS.SETTINGS.FULFILLMENTS.DEPOSIT.DEPOSIT_AMOUNT_RANGE')}
+          >
+            <MultiCurrencyValue
+              disabled={disabled}
+              baseName={`${name}.minAmount`}
+              showErrorMessage={false}
+              id="campaign-deposit-ful-min-amount"
+            />
+            <MultiCurrencyValue
+              disabled={disabled}
+              baseName={`${name}.maxAmount`}
+              showErrorMessage={false}
+              id="campaign-deposit-ful-max-amount"
+            />
+          </RangeGroup>
         </div>
         <div className="row">
           <div className="col-5">

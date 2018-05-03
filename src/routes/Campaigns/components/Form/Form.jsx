@@ -4,8 +4,8 @@ import { compose } from 'redux';
 import moment from 'moment';
 import { Field, reduxForm, SubmissionError } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
-import { get, isEqual } from 'lodash';
-import { InputField, DateTimeField } from '../../../../components/ReduxForm';
+import { get } from 'lodash';
+import { InputField, DateTimeField, RangeGroup } from '../../../../components/ReduxForm';
 import {
   nodeGroups,
   nodeGroupsAlias,
@@ -162,32 +162,29 @@ class Form extends Component {
               }
             />
           </div>
-          <div className="col-md-4">
-            <div className="form-group">
-              <label>{I18n.t('CAMPAIGNS.SETTINGS.LABEL.CAMPAIGN_PERIOD')}</label>
-              <div className="range-group">
-                <Field
-                  utc
-                  name="startDate"
-                  component={DateTimeField}
-                  isValidDate={() => true}
-                  position="vertical"
-                  disabled={disabled}
-                  id="campaign-start-date"
-                />
-                <span className="range-group__separator">-</span>
-                <Field
-                  utc
-                  name="endDate"
-                  component={DateTimeField}
-                  isValidDate={this.endDateValidator('startDate')}
-                  position="vertical"
-                  disabled={disabled}
-                  id="campaign-end-date"
-                />
-              </div>
-            </div>
-          </div>
+          <RangeGroup
+            className="col-md-4"
+            label={I18n.t('CAMPAIGNS.SETTINGS.LABEL.CAMPAIGN_PERIOD')}
+          >
+            <Field
+              utc
+              name="startDate"
+              component={DateTimeField}
+              isValidDate={() => true}
+              position="vertical"
+              disabled={disabled}
+              id="campaign-start-date"
+            />
+            <Field
+              utc
+              name="endDate"
+              component={DateTimeField}
+              isValidDate={this.endDateValidator('startDate')}
+              position="vertical"
+              disabled={disabled}
+              id="campaign-end-date"
+            />
+          </RangeGroup>
         </div>
         <div className="row mt-2">
           <NodeBuilder

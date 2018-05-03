@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
@@ -21,9 +21,7 @@ class PermissionLayout extends Component {
   }
 
   render() {
-    return (
-      <div>{this.props.children}</div>
-    );
+    return this.props.children;
   }
 }
 

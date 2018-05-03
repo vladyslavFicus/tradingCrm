@@ -10,6 +10,7 @@ import { types as modalsTypes } from '../../constants/modals';
 import ConfirmActionModal from '../../components/Modal/ConfirmActionModal';
 import { actionCreators as modalActionCreators } from '../../redux/modules/modal';
 import parseJson from '../../utils/parseJson';
+import '../../styles/style.scss';
 
 class CoreLayout extends Component {
   static propTypes = {

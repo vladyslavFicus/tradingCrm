@@ -5,7 +5,9 @@ import { I18n } from 'react-redux-i18n';
 import moment from 'moment';
 import { connect } from 'react-redux';
 import PropTypes from '../../../../../../../../constants/propTypes';
-import { InputField, DateTimeField, SelectField, CheckBox } from '../../../../../../../../components/ReduxForm';
+import {
+  InputField, DateTimeField, SelectField, CheckBox, RangeGroup,
+} from '../../../../../../../../components/ReduxForm';
 import { createValidator, translateLabels } from '../../../../../../../../utils/validator';
 import { attributeLabels } from './constants';
 import Amount, { Currency } from '../../../../../../../../components/Amount';
@@ -403,28 +405,25 @@ class CreateModal extends Component {
               </div>
             </div>
             <div className="row">
-              <div className="col-md-10">
-                <div className="form-group">
-                  <label>{I18n.t(attributeLabels.availabilityDateRange)}</label>
-                  <div className="range-group">
-                    <Field
-                      name="startDate"
-                      placeholder={I18n.t(attributeLabels.startDate)}
-                      component={DateTimeField}
-                      position="vertical"
-                      isValidDate={this.startDateValidator('endDate')}
-                    />
-                    <span className="range-group__separator">-</span>
-                    <Field
-                      name="endDate"
-                      placeholder={I18n.t(attributeLabels.endDate)}
-                      component={DateTimeField}
-                      position="vertical"
-                      isValidDate={this.endDateValidator('startDate')}
-                    />
-                  </div>
-                </div>
-              </div>
+              <RangeGroup
+                className="col-md-10"
+                label={I18n.t(attributeLabels.availabilityDateRange)}
+              >
+                <Field
+                  name="startDate"
+                  placeholder={I18n.t(attributeLabels.startDate)}
+                  component={DateTimeField}
+                  position="vertical"
+                  isValidDate={this.startDateValidator('endDate')}
+                />
+                <Field
+                  name="endDate"
+                  placeholder={I18n.t(attributeLabels.endDate)}
+                  component={DateTimeField}
+                  position="vertical"
+                  isValidDate={this.endDateValidator('startDate')}
+                />
+              </RangeGroup>
             </div>
             <div className="row">
               <div className="col-md-4">

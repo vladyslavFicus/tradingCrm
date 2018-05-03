@@ -13,7 +13,6 @@ class SelectMultipleOptions extends PureComponent {
   static propTypes = {
     headerText: PropTypes.string.isRequired,
     className: PropTypes.string,
-    optionClassName: PropTypes.string,
     onChange: PropTypes.func.isRequired,
     options: PropTypes.arrayOf(OptionPropType),
     selectedOptions: PropTypes.arrayOf(OptionPropType),
@@ -28,7 +27,6 @@ class SelectMultipleOptions extends PureComponent {
     headerButtonText: null,
     headerButtonOnClick: null,
     className: 'select-block__options',
-    optionClassName: 'control control--checkbox select-block_menu-checkbox',
     options: [],
     selectedOptions: [],
   };
@@ -56,7 +54,6 @@ class SelectMultipleOptions extends PureComponent {
       options,
       selectedOptions,
       className,
-      optionClassName,
       headerText,
       headerButtonClassName,
       headerButtonIconClassName,
@@ -83,9 +80,10 @@ class SelectMultipleOptions extends PureComponent {
           const isActive = selectedOptions.indexOf(option) > -1;
           const optionProps = {
             key: option.key,
-            className: classNames(optionClassName, {
-              'is-selected': isActive,
-            }),
+            className: classNames(
+              'custom-control custom-checkbox select-block-option',
+              { 'is-selected': isActive },
+            ),
           };
 
           if (isActive) {
@@ -93,13 +91,18 @@ class SelectMultipleOptions extends PureComponent {
           }
 
           return (
-            <label {...optionProps}>
-              {option.label}
-              <input type="checkbox" checked={isActive} onChange={e => this.handleChange(e, option)} />
-              <div className={classNames('control__indicator', { 'is-checked': isActive })}>
-                <i className="nas nas-check_box" />
-              </div>
-            </label>
+            <div {...optionProps}>
+              <input
+                type="checkbox"
+                className="custom-control-input"
+                id={option.label}
+                checked={isActive}
+                onChange={e => this.handleChange(e, option)}
+              />
+              <label className="custom-control-label" htmlFor={option.label}>
+                {option.label}
+              </label>
+            </div>
           );
         })}
       </div>

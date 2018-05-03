@@ -12,7 +12,7 @@ import {
   initiatorsLabels,
   statusesLabels,
 } from '../../../../constants/payment';
-import { InputField, DateTimeField, NasSelectField } from '../../../../components/ReduxForm';
+import { InputField, DateTimeField, NasSelectField, RangeGroup } from '../../../../components/ReduxForm';
 import { attributeLabels, attributePlaceholders } from './constants';
 import renderLabel from '../../../../utils/renderLabel';
 
@@ -96,7 +96,7 @@ class TransactionsFilterForm extends Component {
                 placeholder={I18n.t(attributePlaceholders.keyword)}
                 component={InputField}
                 position="vertical"
-                inputAddon={<i className="nas nas-search_icon" />}
+                inputAddon={<i className="icon icon-search" />}
                 id="transactions-list-filters-search"
               />
             </div>
@@ -160,52 +160,46 @@ class TransactionsFilterForm extends Component {
                 ))}
               </Field>
             </div>
-            <div className="filter-row__medium">
-              <div className="form-group">
-                <label>{I18n.t(attributeLabels.amount)}</label>
-                <div className="range-group">
-                  <Field
-                    name="amountLowerBound"
-                    type="text"
-                    placeholder="0.00"
-                    component={InputField}
-                    position="vertical"
-                  />
-                  <span className="range-group__separator">-</span>
-                  <Field
-                    name="amountUpperBound"
-                    type="text"
-                    placeholder="0.00"
-                    component={InputField}
-                    position="vertical"
-                  />
-                </div>
-              </div>
-            </div>
-            <div className="filter-row__medium">
-              <div className="form-group">
-                <label>{I18n.t(attributeLabels.creationDateRange)}</label>
-                <div className="range-group">
-                  <Field
-                    utc
-                    name="startDate"
-                    placeholder={I18n.t(attributeLabels.startDate)}
-                    component={DateTimeField}
-                    isValidDate={this.startDateValidator}
-                    position="vertical"
-                  />
-                  <span className="range-group__separator">-</span>
-                  <Field
-                    utc
-                    name="endDate"
-                    placeholder={I18n.t(attributeLabels.endDate)}
-                    component={DateTimeField}
-                    isValidDate={this.endDateValidator}
-                    position="vertical"
-                  />
-                </div>
-              </div>
-            </div>
+            <RangeGroup
+              className="filter-row__medium"
+              label={I18n.t(attributeLabels.amount)}
+            >
+              <Field
+                name="amountLowerBound"
+                type="text"
+                placeholder="0.00"
+                component={InputField}
+                position="vertical"
+              />
+              <Field
+                name="amountUpperBound"
+                type="text"
+                placeholder="0.00"
+                component={InputField}
+                position="vertical"
+              />
+            </RangeGroup>
+            <RangeGroup
+              className="filter-row__medium"
+              label={I18n.t(attributeLabels.creationDateRange)}
+            >
+              <Field
+                utc
+                name="startDate"
+                placeholder={I18n.t(attributeLabels.startDate)}
+                component={DateTimeField}
+                isValidDate={this.startDateValidator}
+                position="vertical"
+              />
+              <Field
+                utc
+                name="endDate"
+                placeholder={I18n.t(attributeLabels.endDate)}
+                component={DateTimeField}
+                isValidDate={this.endDateValidator}
+                position="vertical"
+              />
+            </RangeGroup>
             <div className="filter-row__button-block">
               <div className="button-block-container">
                 <button

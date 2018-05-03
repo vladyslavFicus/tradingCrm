@@ -7,7 +7,7 @@ import { filterFormAttributeLabels as attributeLabels } from '../constants';
 import { createValidator, translateLabels } from '../../../../../../../utils/validator';
 import PropTypes from '../../../../../../../constants/propTypes';
 import { typesLabels } from '../../../../../../../constants/audit';
-import { InputField, SelectField, DateTimeField } from '../../../../../../../components/ReduxForm';
+import { InputField, SelectField, DateTimeField, RangeGroup } from '../../../../../../../components/ReduxForm';
 
 class FeedFilterForm extends Component {
   static propTypes = {
@@ -67,7 +67,7 @@ class FeedFilterForm extends Component {
                 placeholder={I18n.t('OPERATOR_PROFILE.FEED.FILTER_FORM.SEARCH_BY_PLACEHOLDER')}
                 component={InputField}
                 position="vertical"
-                inputAddon={<i className="nas nas-search_icon" />}
+                inputAddon={<i className="icon icon-search" />}
               />
             </div>
             <div className="filter-row__medium">
@@ -85,30 +85,25 @@ class FeedFilterForm extends Component {
                 ))}
               </Field>
             </div>
-            <div className="filter-row__big">
-              <div className="form-group">
-                <label>
-                  {I18n.t('OPERATOR_PROFILE.FEED.FILTER_FORM.ACTION_DATE_RANGE')}
-                </label>
-                <div className="range-group">
-                  <Field
-                    name="creationDateFrom"
-                    placeholder={I18n.t(attributeLabels.creationDateFrom)}
-                    component={DateTimeField}
-                    isValidDate={this.startDateValidator}
-                    position="vertical"
-                  />
-                  <span className="range-group__separator">-</span>
-                  <Field
-                    name="creationDateTo"
-                    placeholder={I18n.t(attributeLabels.creationDateTo)}
-                    component={DateTimeField}
-                    isValidDate={this.endDateValidator}
-                    position="vertical"
-                  />
-                </div>
-              </div>
-            </div>
+            <RangeGroup
+              className="filter-row__big"
+              label={I18n.t('OPERATOR_PROFILE.FEED.FILTER_FORM.ACTION_DATE_RANGE')}
+            >
+              <Field
+                name="creationDateFrom"
+                placeholder={I18n.t(attributeLabels.creationDateFrom)}
+                component={DateTimeField}
+                isValidDate={this.startDateValidator}
+                position="vertical"
+              />
+              <Field
+                name="creationDateTo"
+                placeholder={I18n.t(attributeLabels.creationDateTo)}
+                component={DateTimeField}
+                isValidDate={this.endDateValidator}
+                position="vertical"
+              />
+            </RangeGroup>
             <div className="filter-row__button-block">
               <div className="button-block-container">
                 <button

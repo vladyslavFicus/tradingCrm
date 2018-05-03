@@ -27,19 +27,19 @@ describe('(Component) SelectSearchBox', () => {
     expect(_wrapper.find('input').props().value).to.equal(_props.query);
   });
 
-  it('renders without an <i.nas-clear_icon> when props "query" is empty', () => {
+  it('renders without an <i.icon-times> when props "query" is empty', () => {
     _props.query = '';
     _wrapper = shallow(<SelectSearchBox {..._props} />);
 
-    expect(_wrapper.find('i.nas-clear_icon')).to.not.exist();
+    expect(_wrapper.find('i.icon-times')).to.not.exist();
   });
 
-  it('renders with the <i.nas-clear_icon> when props "query" not empty', () => {
-    expect(_wrapper.find('i.nas-clear_icon')).to.exist();
+  it('renders with the <i.icon-times> when props "query" not empty', () => {
+    expect(_wrapper.find('i.icon-times')).to.exist();
   });
 
-  it('calls "onChange" with "null" when <i.nas-clear_icon> clicked', () => {
-    _wrapper.find('i.nas-clear_icon').simulate('click');
+  it('calls "onChange" with "null" when <i.icon-times> clicked', () => {
+    _wrapper.find('i.icon-times').simulate('click');
 
     expect(_spies.onChange.calledWith(null)).to.equal(true);
   });

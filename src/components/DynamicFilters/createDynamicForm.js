@@ -6,10 +6,9 @@ import { v4 } from 'uuid';
 import { I18n } from 'react-redux-i18n';
 import FilterItem from './FilterItem';
 import FilterField from './FilterField';
-import { InputField, SelectField, DateTimeField, NasSelectField } from '../ReduxForm';
+import { InputField, SelectField, DateTimeField, NasSelectField, RangeGroup } from '../ReduxForm';
 import { TYPES } from './constants';
 import AvailableFiltersSelect from './FiltersSelect';
-import RangeFormGroup from './RangeFormGroup';
 import { actionCreators } from './reduxModule';
 
 const TYPES_COMPONENTS = {
@@ -163,7 +162,7 @@ class DynamicForm extends Component {
     const { className } = this.props;
     const removeButton = filter.default ? null : (
       <button
-        className="nas nas-clear_icon label-clear"
+        className="icon icon-times label-clear"
         onClick={() => this.handleRemoveFilter(filter.uuid)}
         type="button"
       />
@@ -197,9 +196,9 @@ class DynamicForm extends Component {
       }
 
       input = (
-        <RangeFormGroup label={filter.label} labelAddon={removeButton}>
+        <RangeGroup label={filter.label} labelAddon={removeButton}>
           {input}
-        </RangeFormGroup>
+        </RangeGroup>
       );
     }
 
