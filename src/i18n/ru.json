@@ -352,7 +352,8 @@
           "STATES": "Статус",
           "TYPE": "Тип",
           "START_DATE": "Дата старта",
-          "END_DATE": "Дата конца"
+          "END_DATE": "Дата конца",
+          "DATE_RANGE": "Временной период"
         }
       },
       "PERMIT_BONUS_CONVERSION": "Подтвердить конвертацию"

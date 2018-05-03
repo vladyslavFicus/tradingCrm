@@ -346,7 +346,8 @@
           "STATES": "Bonus status",
           "TYPE": "Bonus type",
           "START_DATE": "Start date",
-          "END_DATE": "End date"
+          "END_DATE": "End date",
+          "DATE_RANGE": "Availability date range"
         }
       },
       "PERMIT_BONUS_CONVERSION": "Permit conversion"

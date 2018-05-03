@@ -177,7 +177,7 @@ class FilterForm extends Component {
             </div>
             <RangeGroup
               className="filter-row__big"
-              label={I18n.t('PLAYER_PROFILE.GAME_ACTIVITY.FILTER_FORM.ACTIVITY_DATE_RANGE')}
+              label={I18n.t(filterFormAttributeLabels.dateRange)}
             >
               <Field
                 utc

@@ -7,7 +7,6 @@ import { createValidator } from '../../utils/validator';
 import { InputField, RangeGroup } from '../../components/ReduxForm';
 import PaymentMethodLimitPopoverStyle from './PaymentMethodLimitPopover.scss';
 import { Currency } from '../../components/Amount';
-import {DateTimeField} from "../ReduxForm";
 
 const attributeLabels = {
   min: I18n.t('COMMON.MIN'),

@@ -121,7 +121,7 @@ class BonusGridFilter extends Component {
             </div>
             <RangeGroup
               className="filter-row__big"
-              label="Availability date range"
+              label={I18n.t(attributeLabels.availabilityDateRange)}
             >
               <Field
                 name="startDate"

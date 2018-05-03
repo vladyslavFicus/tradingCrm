@@ -15,7 +15,6 @@ import {
 import { InputField, DateTimeField, NasSelectField, RangeGroup } from '../../../../components/ReduxForm';
 import { attributeLabels, attributePlaceholders } from './constants';
 import renderLabel from '../../../../utils/renderLabel';
-import {filterLabels} from "../../../../constants/kyc";
 
 class TransactionsFilterForm extends Component {
   static propTypes = {
