@@ -124,20 +124,12 @@
 }
 
 .range-group {
-  display: flex;
-  .form-group,
-  .form-control {
-    flex: 1 0 0;
-    min-width: 1px;
+  &__divider {
+    margin-top: 7px;
+    color: #9b9b9b;
   }
   .form-group {
     margin-bottom: 0;
-  }
-  &__separator {
-    flex: 0 0 20px;
-    padding-top: 8px;
-    text-align: center;
-    color: #9b9b9b;
   }
 }
 

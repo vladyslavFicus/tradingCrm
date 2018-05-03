@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { I18n } from 'react-redux-i18n';
 import { Field } from 'redux-form';
-import { InputField, SelectField } from '../../../../../../../components/ReduxForm';
+import { InputField, SelectField, RangeGroup } from '../../../../../../../components/ReduxForm';
 import renderLabel from '../../../../../../../utils/renderLabel';
 import { lockAmountStrategyLabels } from '../../../../../../../constants/bonus-campaigns';
 import ordinalizeNumber from '../../../../../../../utils/ordinalizeNumber';
@@ -80,32 +80,31 @@ class Deposit extends Component {
           </div>
         </div>
         <div className="row">
-          <div className="col-6 form-group">
-            <label>{I18n.t('BONUS_CAMPAIGNS.FULFILLMENTS.DEPOSIT_AMOUNT_RANGE')}</label>
-            <div className="range-group">
-              <Field
-                name={this.buildFieldName('minAmount')}
-                type="text"
-                placeholder={I18n.t('BONUS_CAMPAIGNS.SETTINGS.LABEL.MIN_AMOUNT_PLACEHOLDER')}
-                component={InputField}
-                position="vertical"
-                disabled={disabled}
-                inputAddon={<i className="icon icon-currencies multi-currency-icon" />}
-                inputAddonPosition="right"
-              />
-              <span className="range-group__separator">-</span>
-              <Field
-                name={this.buildFieldName('maxAmount')}
-                type="text"
-                placeholder={I18n.t('BONUS_CAMPAIGNS.SETTINGS.LABEL.MAX_AMOUNT_PLACEHOLDER')}
-                component={InputField}
-                position="vertical"
-                disabled={disabled}
-                inputAddon={<i className="icon icon-currencies multi-currency-icon" />}
-                inputAddonPosition="right"
-              />
-            </div>
-          </div>
+          <RangeGroup
+            className="col-6"
+            label={I18n.t('BONUS_CAMPAIGNS.FULFILLMENTS.DEPOSIT_AMOUNT_RANGE')}
+          >
+            <Field
+              name={this.buildFieldName('minAmount')}
+              type="text"
+              placeholder={I18n.t('BONUS_CAMPAIGNS.SETTINGS.LABEL.MIN_AMOUNT_PLACEHOLDER')}
+              component={InputField}
+              position="vertical"
+              disabled={disabled}
+              inputAddon={<i className="icon icon-currencies multi-currency-icon" />}
+              inputAddonPosition="right"
+            />
+            <Field
+              name={this.buildFieldName('maxAmount')}
+              type="text"
+              placeholder={I18n.t('BONUS_CAMPAIGNS.SETTINGS.LABEL.MAX_AMOUNT_PLACEHOLDER')}
+              component={InputField}
+              position="vertical"
+              disabled={disabled}
+              inputAddon={<i className="icon icon-currencies multi-currency-icon" />}
+              inputAddonPosition="right"
+            />
+          </RangeGroup>
         </div>
         <div className="row">
           <div className="col-5">

@@ -9,6 +9,7 @@ import DateRangePicker from './DateRangePicker';
 import MultiCurrencyValue from './MultiCurrencyValue';
 import TypeValueField from './TypeValueField';
 import CheckBox from './CheckBox';
+import RangeGroup from './RangeGroup';
 
 export {
   CustomValueField,
@@ -22,4 +23,5 @@ export {
   MultiCurrencyValue,
   TypeValueField,
   CheckBox,
+  RangeGroup,
 };

@@ -25,11 +25,8 @@
     display: flex;
     padding: 10px;
   }
-  .range-group__separator {
-    padding-top: 28px;
-  }
-  .form-group {
-    margin-bottom: 0;
+  &__divider {
+    margin-top: 28px;
   }
   .btn {
     align-self: flex-end;
