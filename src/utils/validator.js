@@ -66,9 +66,10 @@ function lessOrSameValidator(inputValue, requirement, attribute) {
 
     return false;
   }
+
   const greaterValue = Number(_.get(this.validator.input, requirement));
 
-  if (greaterValue === 0 || value <= greaterValue) {
+  if (greaterValue !== 0 && value > greaterValue) {
     const targetAttributeLabel = this.validator.messages._getAttributeName(requirement);
     const currentAttributeLabel = this.validator.messages._getAttributeName(attribute);
 

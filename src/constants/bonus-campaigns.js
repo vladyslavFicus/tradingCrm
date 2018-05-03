@@ -56,10 +56,12 @@ const moneyTypeUsageLabels = {
 const lockAmountStrategy = keyMirror({
   LOCK_ALL: null,
   LOCK_PARTIAL: null,
+  LOCK_BONUS: null,
 });
 const lockAmountStrategyLabels = {
   [lockAmountStrategy.LOCK_ALL]: I18n.t('CONSTANTS.BONUS_CAMPAIGN.LOCK_AMOUNT_STRATEGY.LOCK_ALL'),
   [lockAmountStrategy.LOCK_PARTIAL]: I18n.t('CONSTANTS.BONUS_CAMPAIGN.LOCK_AMOUNT_STRATEGY.LOCK_PARTIAL'),
+  [lockAmountStrategy.LOCK_BONUS]: I18n.t('CONSTANTS.BONUS_CAMPAIGN.LOCK_AMOUNT_STRATEGY.LOCK_BONUS'),
 };
 
 const cancelAction = {

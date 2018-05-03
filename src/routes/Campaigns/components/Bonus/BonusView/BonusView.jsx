@@ -10,6 +10,8 @@ import Uuid from '../../../../../components/Uuid';
 import MultiCurrencyView from '../../../../../components/MultiCurrencyView';
 import { customValueFieldTypes } from '../../../../../constants/form';
 import { attributeLabels, attributePlaceholders } from '../constants';
+import renderLabel from '../../../../../utils/renderLabel';
+import { lockAmountStrategyLabels, moneyTypeUsageLabels } from '../../../../../constants/bonus-campaigns';
 
 class BonusView extends PureComponent {
   static propTypes = {
@@ -164,7 +166,11 @@ class BonusView extends PureComponent {
                   <div className="campaigns-template__value">
                     <Choose>
                       <When condition={template.grantRatioAbsolute}>
-                        <MultiCurrencyView id={`${name}-grantRatioAbsolute`} values={template.grantRatioAbsolute} rates={rates} />
+                        <MultiCurrencyView
+                          id={`${name}-grantRatioAbsolute`}
+                          values={template.grantRatioAbsolute}
+                          rates={rates}
+                        />
                       </When>
                       <Otherwise>
                         {template.grantRatioPercentage}%
@@ -186,12 +192,16 @@ class BonusView extends PureComponent {
                   {I18n.t(attributeLabels.wageringRequirement)}
                   <div className="campaigns-template__value">
                     <Choose>
-                      <When condition={template.wageringRequirementAbsolute ||
-                         template.wageringRequirementPercentage !== null}
+                      <When
+                        condition={template.wageringRequirementAbsolute || template.wageringRequirementPercentage !== null}
                       >
                         <Choose>
                           <When condition={template.wageringRequirementType === customValueFieldTypes.ABSOLUTE}>
-                            <MultiCurrencyView id={`${name}-wageringRequirementAbsolute`} values={template.wageringRequirementAbsolute} rates={rates} />
+                            <MultiCurrencyView
+                              id={`${name}-wageringRequirementAbsolute`}
+                              values={template.wageringRequirementAbsolute}
+                              rates={rates}
+                            />
                           </When>
                           <Otherwise>
                             {template.wageringRequirementPercentage}%
@@ -207,7 +217,7 @@ class BonusView extends PureComponent {
                 <div className="col-4">
                   {I18n.t(attributeLabels.moneyPriority)}
                   <div className="campaigns-template__value">
-                    {template.moneyTypePriority}
+                    {renderLabel(template.moneyTypePriority, moneyTypeUsageLabels)}
                   </div>
                 </div>
               </div>
@@ -215,7 +225,8 @@ class BonusView extends PureComponent {
                 <div className="col-4">
                   {I18n.t(attributeLabels.maxBet)}
                   <div className="campaigns-template__value">
-                    {template.maxBet && <MultiCurrencyView id={`${name}-maxBet`} values={template.maxBet} rates={rates} />}
+                    {template.maxBet &&
+                    <MultiCurrencyView id={`${name}-maxBet`} values={template.maxBet} rates={rates} />}
                   </div>
                 </div>
                 <div className="col-4">
@@ -227,7 +238,7 @@ class BonusView extends PureComponent {
                 <div className="col-4">
                   {I18n.t(attributeLabels.lockAmountStrategy)}
                   <div className="campaigns-template__value">
-                    {template.lockAmountStrategy}
+                    {renderLabel(template.lockAmountStrategy, lockAmountStrategyLabels)}
                   </div>
                 </div>
               </div>
@@ -239,7 +250,11 @@ class BonusView extends PureComponent {
                       <When condition={template.prizeAbsolute || template.prizePercentage !== null}>
                         <Choose>
                           <When condition={template.prizeAbsolute}>
-                            <MultiCurrencyView id={`${name}-prizeAbsolute`} values={template.prizeAbsolute} rates={rates} />
+                            <MultiCurrencyView
+                              id={`${name}-prizeAbsolute`}
+                              values={template.prizeAbsolute}
+                              rates={rates}
+                            />
                           </When>
                           <Otherwise>
                             {template.prizePercentage}%
@@ -259,7 +274,11 @@ class BonusView extends PureComponent {
                       <When condition={template.cappingAbsolute || template.cappingPercentage !== null}>
                         <Choose>
                           <When condition={template.cappingAbsolute}>
-                            <MultiCurrencyView id={`${name}-cappingAbsolute`} values={template.cappingAbsolute} rates={rates} />
+                            <MultiCurrencyView
+                              id={`${name}-cappingAbsolute`}
+                              values={template.cappingAbsolute}
+                              rates={rates}
+                            />
                           </When>
                           <Otherwise>
                             {template.cappingPercentage}%
