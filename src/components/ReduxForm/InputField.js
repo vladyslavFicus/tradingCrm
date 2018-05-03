@@ -53,18 +53,6 @@ class InputField extends Component {
     helpText: null,
   };
 
-  handleInputFieldFocus = () => {
-    const { onIconClick } = this.props;
-
-    if (this.inputNode) {
-      this.inputNode.focus();
-    }
-
-    if (onIconClick) {
-      onIconClick();
-    }
-  };
-
   renderHorizontal = (props) => {
     const {
       label,
@@ -93,7 +81,7 @@ class InputField extends Component {
             <div className="form-row">
               <If condition={showErrorMessage && touched && error}>
                 <div className="col form-control-feedback">
-                  <i className="nas nas-field_alert_icon" />
+                  <i className="icon icon-alert" />
                   {error}
                 </div>
               </If>
@@ -140,7 +128,7 @@ class InputField extends Component {
           <div className="form-row">
             <If condition={showErrorMessage && touched && error}>
               <div className="col form-control-feedback">
-                <i className="nas nas-field_alert_icon" />
+                <i className="icon icon-alert" />
                 {error}
               </div>
             </If>
@@ -165,6 +153,7 @@ class InputField extends Component {
       placeholder,
       label,
       id,
+      onIconClick,
     } = props;
 
     let inputField = (
@@ -175,7 +164,6 @@ class InputField extends Component {
         type={type}
         className="form-control"
         placeholder={placeholder !== null ? placeholder : label}
-        ref={(node) => { this.inputNode = node; }}
       />
     );
 
@@ -184,7 +172,13 @@ class InputField extends Component {
         <div className="input-group">
           <If condition={inputAddonPosition === 'left'}>
             <div className="input-group-prepend">
-              <span className="input-group-text input-group-addon" onClick={this.handleInputFieldFocus}>
+              <span
+                className={classNames(
+                  'input-group-text input-group-addon',
+                  { clickable: onIconClick },
+                )}
+                onClick={onIconClick}
+              >
                 {inputAddon}
               </span>
             </div>
@@ -193,8 +187,11 @@ class InputField extends Component {
           <If condition={inputAddonPosition === 'right'}>
             <div className="input-group-append">
               <span
-                className="input-group-text input-group-addon"
-                onClick={this.handleInputFieldFocus}
+                className={classNames(
+                  'input-group-text input-group-addon',
+                  { clickable: onIconClick },
+                )}
+                onClick={onIconClick}
                 id={
                   <If condition={id}>
                     {`${id}-right-icon`}

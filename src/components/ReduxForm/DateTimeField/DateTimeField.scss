@@ -358,3 +358,12 @@
   font-size: 25px;
   color: #9b9b9b;
 }
+
+.date-time-icon {
+  font-size: 16px;
+  transition: color .2s linear;
+  &:hover {
+    cursor: pointer;
+    color: #4a4a4a;
+  }
+}

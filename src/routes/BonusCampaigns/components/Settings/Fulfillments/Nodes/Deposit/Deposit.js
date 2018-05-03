@@ -90,7 +90,7 @@ class Deposit extends Component {
                 component={InputField}
                 position="vertical"
                 disabled={disabled}
-                inputAddon={<i className="nas nas-currencies_icon" />}
+                inputAddon={<i className="icon icon-currencies multi-currency-icon" />}
                 inputAddonPosition="right"
               />
               <span className="range-group__separator">-</span>
@@ -101,7 +101,7 @@ class Deposit extends Component {
                 component={InputField}
                 position="vertical"
                 disabled={disabled}
-                inputAddon={<i className="nas nas-currencies_icon" />}
+                inputAddon={<i className="icon icon-currencies multi-currency-icon" />}
                 inputAddonPosition="right"
               />
             </div>

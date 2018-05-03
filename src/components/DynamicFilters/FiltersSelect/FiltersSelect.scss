@@ -3,17 +3,13 @@
   height: 39px;
   border: 1px solid #999;
   border-radius: 3px;
-  line-height: 43px;
+  line-height: 36px;
   background-color: #fff;
+  font-size: 21px;
+  color: #4a4a4a;
   &_active,
   &:active,
   &:hover {
     background-color: #f4f4f4;
-  }
-  .nas {
-    font-size: 21px;
-    &::before {
-      color: #4a4a4a;
-    }
   }
 }

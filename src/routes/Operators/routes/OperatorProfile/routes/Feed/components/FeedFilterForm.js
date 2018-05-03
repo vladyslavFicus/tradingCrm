@@ -67,7 +67,7 @@ class FeedFilterForm extends Component {
                 placeholder={I18n.t('OPERATOR_PROFILE.FEED.FILTER_FORM.SEARCH_BY_PLACEHOLDER')}
                 component={InputField}
                 position="vertical"
-                inputAddon={<i className="nas nas-search_icon" />}
+                inputAddon={<i className="icon icon-search" />}
               />
             </div>
             <div className="filter-row__medium">

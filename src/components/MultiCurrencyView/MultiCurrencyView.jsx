@@ -30,7 +30,7 @@ class MultiCurrencyView extends Component {
     return (
       <div className="multi-currency-view">
         <Amount {...values[0]} />
-        <i id={`${id}-right-icon`} className="nas nas-currencies_icon multi-currency-view__icon" />
+        <i id={`${id}-right-icon`} className="icon icon-currencies multi-currency-view__icon" />
         <If condition={rates.length}>
           <MultiCurrencyTooltip
             id={`${id}-right-icon`}

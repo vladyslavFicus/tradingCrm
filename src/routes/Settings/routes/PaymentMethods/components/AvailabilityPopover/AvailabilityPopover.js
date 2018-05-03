@@ -202,7 +202,7 @@ class AvailabilityPopover extends Component {
           </Nav>
           <TabContent activeTab={activeTab}>
             <div className="availability-popover-search">
-              <i className="nas nas-search_icon" />
+              <i className="icon icon-search" />
               <input
                 onChange={this.handleSearch}
                 className="form-control"
