@@ -89,7 +89,7 @@ class MultiCurrencyModal extends PureComponent {
     return (
       <Modal toggle={onCloseModal} isOpen={isOpen} className="currency-calc-modal">
         <ModalHeader toggle={onCloseModal}>
-          <i className="nas nas-currencies_icon" />
+          <i className="icon icon-currencies" />
           <span className="currency-calc-modal__title">{I18n.t(attributeLabels.title)}</span>
         </ModalHeader>
         <ModalBody tag="form" onSubmit={handleSubmit(this.handleSubmit)} id="currency-calc-modal-form">

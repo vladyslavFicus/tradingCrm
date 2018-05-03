@@ -272,7 +272,7 @@ class Select extends PureComponent {
       className="select-block__selected-options"
       headerText="selected options"
       headerButtonClassName="clear-selected-options"
-      headerButtonIconClassName="nas nas-clear_icon"
+      headerButtonIconClassName="icon icon-times"
       headerButtonText="Clear"
       headerButtonOnClick={this.handleResetSelectedOptions}
       options={options}
@@ -312,7 +312,7 @@ class Select extends PureComponent {
 
     return (
       <div className="form-control select-block__label" onClick={this.handleInputClick}>
-        <i className="nas nas-dropdown_arrow_icon select-icon" />
+        <i className="icon icon-arrow-down select-icon" />
         {placeholder}
       </div>
     );

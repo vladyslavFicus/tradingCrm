@@ -1,8 +1,12 @@
-import React, { Component } from 'react';
-import '../../styles/style.scss';
+import { Component } from 'react';
+import PropTypes from 'prop-types';
 import './BlackLayout.scss';
 
 class BlackLayout extends Component {
+  static propTypes = {
+    children: PropTypes.element.isRequired,
+  };
+
   componentWillMount() {
     document.body.classList.add('black-layout');
   }
@@ -17,9 +21,5 @@ class BlackLayout extends Component {
     return children;
   }
 }
-
-BlackLayout.propTypes = {
-  children: React.PropTypes.element.isRequired,
-};
 
 export default BlackLayout;

@@ -159,10 +159,10 @@ class DateTimeField extends Component {
         <div className="input-group-append">
           <button
             type="button"
-            className="input-group-text input-group-addon"
+            className="input-group-text input-group-addon date-time-icon"
             onClick={this.handleInputFieldFocus}
           >
-            <i className="nas nas-calendar_icon" />
+            <i className="icon icon-calendar" />
           </button>
         </div>
       </div>
@@ -200,7 +200,7 @@ class DateTimeField extends Component {
           <div className="form-row">
             <If condition={showErrorMessage && touched && error}>
               <div className="col form-control-feedback">
-                <i className="nas nas-field_alert_icon" />
+                <i className="icon icon-alert" />
                 {error}
               </div>
             </If>
@@ -242,7 +242,7 @@ class DateTimeField extends Component {
               <div className="form-row">
                 <If condition={showErrorMessage && touched && error}>
                   <div className="col form-control-feedback">
-                    <i className="nas nas-field_alert_icon" />
+                    <i className="icon icon-alert" />
                     {error}
                   </div>
                 </If>

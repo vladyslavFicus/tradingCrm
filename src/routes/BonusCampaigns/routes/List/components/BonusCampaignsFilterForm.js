@@ -111,7 +111,7 @@ class BonusCampaignsFilterForm extends Component {
                 placeholder={I18n.t(placeholders.searchBy)}
                 component={InputField}
                 position="vertical"
-                inputAddon={<i className="nas nas-search_icon" />}
+                inputAddon={<i className="icon icon-search" />}
                 id="campaigns-filters-search"
               />
             </div>

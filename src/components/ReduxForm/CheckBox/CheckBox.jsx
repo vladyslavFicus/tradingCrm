@@ -26,7 +26,7 @@ const CheckBox = (props) => {
       </label>
       <If condition={touched && error}>
         <div className="form-control-feedback">
-          <i className="nas nas-field_alert_icon" />
+          <i className="icon icon-alert" />
           {error}
         </div>
       </If>

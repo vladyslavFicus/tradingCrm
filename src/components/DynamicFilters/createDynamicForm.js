@@ -162,7 +162,7 @@ class DynamicForm extends Component {
     const { className } = this.props;
     const removeButton = filter.default ? null : (
       <button
-        className="nas nas-clear_icon label-clear"
+        className="icon icon-times label-clear"
         onClick={() => this.handleRemoveFilter(filter.uuid)}
         type="button"
       />
