@@ -30,7 +30,7 @@ node('build') {
 
     def isBuildDocker = env.BRANCH_NAME == 'master' && !thisJobParams.skipDeploy
 
-    docker.image('node:9-slim').inside('-v /home/jenkins:/home/jenkins') {
+    docker.image('kkarczmarczyk/node-yarn:6.7').inside('-v /home/jenkins:/home/jenkins') {
         stage('install dependencies') {
             sh """
               export HOME=/home/jenkins
