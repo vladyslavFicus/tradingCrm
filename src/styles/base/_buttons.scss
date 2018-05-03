@@ -121,6 +121,16 @@
     padding-bottom: 4px;
     font-size: 13px;
   }
+  &.active {
+    background: #fff;
+    border-color: #4990e2;
+    box-shadow: 0 0 4px 0 rgba(74, 144, 226, 0.5);
+    position: relative;
+    z-index: 2;
+  }
+  &-secondary:not(:disabled):not(.disabled).active:focus {
+    box-shadow: none;
+  }
 }
 
 .btn:disabled,
