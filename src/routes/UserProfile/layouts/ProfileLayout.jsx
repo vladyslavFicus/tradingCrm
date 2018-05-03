@@ -208,7 +208,7 @@ class ProfileLayout extends Component {
   get availableTags() {
     const { playerProfile: { playerProfile }, availableTagsByDepartment } = this.props;
 
-    if (!playerProfile) {
+    if (!playerProfile || !playerProfile.data) {
       return [];
     }
 

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { I18n } from 'react-redux-i18n';
 import moment from 'moment';
 import { SubmissionError } from 'redux-form';
+import { get } from 'lodash';
 import PropTypes from '../../../../../../../../constants/propTypes';
 import GridView, { GridColumn } from '../../../../../../../../components/GridView';
 import Uuid from '../../../../../../../../components/Uuid';
@@ -166,7 +167,7 @@ class View extends Component {
     const action = await addPromoCodeToPlayer(id, promoCode);
 
     if (!action || action.error) {
-      throw new SubmissionError({ promoCode: I18n.t(action.payload.response.error) });
+      throw new SubmissionError({ promoCode: I18n.t(get(action, 'payload.response.error', 'error.internal')) });
     } else {
       this.context.addNotification({
         level: 'success',
