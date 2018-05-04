@@ -659,7 +659,8 @@
       "CREATE_AND_OPEN": "Создать и открыть",
       "SAVE_NEW_PASSWORD": "Сохранить новый пароль",
       "SAVE": "Сохранить",
-      "EXPORT_AS_CSV": "Экспортировать как CSV"
+      "EXPORT_AS_CSV": "Экспортировать как CSV",
+      "UPDATE": "Обновить"
     },
     "ACTIONS": {
       "ON": "Вкл",
@@ -756,7 +757,10 @@
     "CURRENCY": "Валюта",
     "YES": "Да",
     "NO": "Нет",
-    "CUSTOM_REASON_OPTION": "Другая"
+    "CUSTOM_REASON_OPTION": "Другая",
+    "NOTE": "Заметка",
+    "CREATED": "Создано",
+    "LAST_CHANGED": "Последнее изменение"
   },
   "FILES": {
     "UPLOAD_MODAL": {

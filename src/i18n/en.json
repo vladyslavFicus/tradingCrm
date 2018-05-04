@@ -653,7 +653,8 @@
       "CREATE_AND_OPEN": "Create & open",
       "SAVE_NEW_PASSWORD": "Save new password",
       "SAVE": "Save",
-      "EXPORT_AS_CSV": "Export as CSV"
+      "EXPORT_AS_CSV": "Export as CSV",
+      "UPDATE": "Update"
     },
     "ACTIONS": {
       "ON": "Turn on",
@@ -750,7 +751,10 @@
     "CURRENCY": "Currency",
     "YES": "Yes",
     "NO": "No",
-    "CUSTOM_REASON_OPTION": "Other"
+    "CUSTOM_REASON_OPTION": "Other",
+    "NOTE": "Note",
+    "CREATED": "Created",
+    "LAST_CHANGED": "Last changed"
   },
   "FILES": {
     "UPLOAD_MODAL": {

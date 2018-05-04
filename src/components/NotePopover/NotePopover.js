@@ -1,16 +1,17 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Popover, PopoverContent } from 'reactstrap';
+import { Popover, PopoverHeader, PopoverBody } from 'reactstrap';
 import { reduxForm, Field, getFormValues } from 'redux-form';
-import classNames from 'classnames';
 import moment from 'moment';
 import { I18n } from 'react-redux-i18n';
+import classNames from 'classnames';
 import ReactSwitch from '../../components/ReactSwitch';
 import PropTypes from '../../constants/propTypes';
 import { createValidator } from '../../utils/validator';
 import { entitiesPrefixes } from '../../constants/uuid';
-import NotePopoverStyle from './NotePopover.scss';
+import './NotePopover.scss';
 import Uuid from '../Uuid';
+import { TextAreaField } from '../../components/ReduxForm';
 
 const MAX_CONTENT_LENGTH = 500;
 const FORM_NAME = 'notePopoverForm';
@@ -47,10 +48,12 @@ class NotePopover extends Component {
     invalid: PropTypes.bool,
     pristine: PropTypes.bool,
     toggle: PropTypes.func,
+    hideArrow: PropTypes.bool,
+    className: PropTypes.string,
   };
   static defaultProps = {
     item: null,
-    defaultTitleLabel: 'Note',
+    defaultTitleLabel: I18n.t('COMMON.NOTE'),
     placement: 'bottom',
     isOpen: false,
     onSubmitSuccess: null,
@@ -63,6 +66,8 @@ class NotePopover extends Component {
     invalid: false,
     pristine: false,
     toggle: null,
+    hideArrow: false,
+    className: null,
   };
 
   handleHide = (ignoreChanges = false) => {
@@ -132,57 +137,60 @@ class NotePopover extends Component {
     );
   };
 
-  renderMessageField = ({ input, disabled, meta: { touched, error } }) => (
-    <div className={classNames('form-group', { 'has-danger': touched && error })}>
-      <textarea
-        rows="3"
-        {...input}
-        className="form-control"
-        disabled={disabled}
-      />
-    </div>
-  );
-
   renderTitle = () => {
     const { defaultTitleLabel, item } = this.props;
 
     if (!item) {
-      return defaultTitleLabel;
+      return (
+        <div className="note-popover__title">
+          {defaultTitleLabel}
+        </div>
+      );
     }
 
     return (
-      <div className="popover-title__container">
-        {
-          item.lastEditionDate && item.creationDate &&
-          <div className="popover-title__label">
-            {
-              item.lastEditionDate === item.creationDate
-                ? 'Created'
-                : 'Last changed'
-            }
+      <PopoverHeader tag="div" className="note-popover__header">
+        <If condition={item.lastEditionDate && item.creationDate}>
+          <div className="note-popover__subtitle">
+            <Choose>
+              <When condition={item.lastEditionDate === item.creationDate}>
+                {I18n.t('COMMON.CREATED')}
+              </When>
+              <Otherwise>
+                {I18n.t('COMMON.LAST_CHANGED')}
+              </Otherwise>
+            </Choose>
           </div>
-        }
-        <div className="popover-title__author">
-          by <span className="font-weight-700"><Uuid uuid={item.lastEditorUUID} /></span>
+        </If>
+        <div className="note-popover__author">
+          {I18n.t('COMMON.AUTHOR_BY')}
+          {' '}
+          <Uuid uuid={item.lastEditorUUID} className="font-weight-700" />
         </div>
-        {
-          item.lastEditionDate &&
-          <div className="popover-title__date">
-            {
-              item.lastEditionDate
-                ? moment.utc(item.lastEditionDate).local().format('DD.MM.YYYY HH:mm:ss')
-                : I18n.t('COMMON.UNKNOWN_TIME')
-            } {I18n.t('COMMON.TO')} {!!item.targetUUID && this.renderItemId(item)}
-            <button
-              type="reset"
-              onClick={() => this.handleDelete(item)}
-              className="btn-transparent color-danger popover-title__trash-btn"
-            >
-              <i className="fa fa-trash" />
-            </button>
+        <If condition={item.lastEditionDate}>
+          <div className="row no-gutters note-popover__subtitle">
+            <div className="col-auto">
+              <Choose>
+                <When condition={item.lastEditionDate}>
+                  {moment.utc(item.lastEditionDate).local().format('DD.MM.YYYY HH:mm:ss')}
+                </When>
+                <Otherwise>
+                  {I18n.t('COMMON.UNKNOWN_TIME')}
+                </Otherwise>
+              </Choose>
+              {' '}
+              {I18n.t('COMMON.TO')} {!!item.targetUUID && this.renderItemId(item)}
+            </div>
+            <div className="col-auto ml-auto">
+              <button
+                type="reset"
+                onClick={() => this.handleDelete(item)}
+                className="fa fa-trash color-danger note-popover__delete-btn"
+              />
+            </div>
           </div>
-        }
-      </div>
+        </If>
+      </PopoverHeader>
     );
   };
 
@@ -200,67 +208,68 @@ class NotePopover extends Component {
       submitting,
       invalid,
       pristine,
+      hideArrow,
+      className,
     } = this.props;
 
     return (
       <Popover
-        cssModule={NotePopoverStyle}
         placement={placement}
         isOpen={isOpen}
         toggle={this.handleHide}
         target={target}
-        className="note-popover"
+        className={classNames('note-popover', className)}
+        container={target}
+        hideArrow={hideArrow}
       >
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="popover-title">
-            {this.renderTitle()}
+        <PopoverBody tag="form" onSubmit={handleSubmit(onSubmit)}>
+          {this.renderTitle()}
+          <Field
+            name="content"
+            component={TextAreaField}
+            position="vertical"
+            showErrorMessage={false}
+          />
+          <div className="row no-gutters align-items-center">
+            <div className="col-auto">
+              <div className="font-size-11">
+                <span className="font-weight-700">
+                  {currentValues && currentValues.content ? currentValues.content.length : 0}
+                </span>/{MAX_CONTENT_LENGTH}
+              </div>
+              <Field
+                name="pinned"
+                wrapperClassName="display-block font-size-12 margin-top-5"
+                label="Pin"
+                component={this.renderSwitchField}
+              />
+            </div>
+            <div className="col text-right">
+              <button
+                type="reset"
+                className="btn btn-default-outline btn-sm margin-right-10"
+                onClick={() => this.handleHide(true)}
+              >
+                {I18n.t('COMMON.BUTTONS.CANCEL')}
+              </button>
+
+              <button
+                type="submit"
+                className="btn btn-primary btn-sm text-uppercase font-weight-700"
+                disabled={pristine || submitting || invalid}
+              >
+                <Choose>
+                  <When condition={item && item.uuid}>
+                    {I18n.t('COMMON.BUTTONS.UPDATE')}
+                  </When>
+                  <Otherwise>
+                    {I18n.t('COMMON.BUTTONS.SAVE')}
+                  </Otherwise>
+                </Choose>
+              </button>
+            </div>
           </div>
-          <PopoverContent>
-            <div className="row">
-              <div className="col-md-12">
-                <Field
-                  name="content"
-                  component={this.renderMessageField}
-                />
-              </div>
-            </div>
-
-            <div className="row">
-              <div className="col-md-4">
-                <div className="font-size-11">
-                  <span className="font-weight-700">
-                    {currentValues && currentValues.content ? currentValues.content.length : 0}
-                  </span>/{MAX_CONTENT_LENGTH}
-                </div>
-
-                <Field
-                  name="pinned"
-                  wrapperClassName="display-block font-size-12 margin-top-5"
-                  label="Pin"
-                  component={this.renderSwitchField}
-                />
-              </div>
-
-              <div className="col-md-8 text-right margin-top-10">
-                <button
-                  type="reset"
-                  className="btn btn-default-outline btn-sm margin-right-10"
-                  onClick={() => this.handleHide(true)}
-                >
-                  Cancel
-                </button>
-
-                <button
-                  type="submit"
-                  className="btn btn-primary btn-sm text-uppercase font-weight-700"
-                  disabled={pristine || submitting || invalid}
-                >
-                  {item && item.uuid ? 'Update' : 'Save'}
-                </button>
-              </div>
-            </div>
-          </PopoverContent>
-        </form>
+        </PopoverBody>
       </Popover>
     );
   }

@@ -103,7 +103,7 @@ class Container extends Component {
 
     return (
       <span
-        className="mini-profile-show-button"
+        className="d-inline-block"
         id={`id-${target}`}
         ref={(node) => {
           this.target = node;
