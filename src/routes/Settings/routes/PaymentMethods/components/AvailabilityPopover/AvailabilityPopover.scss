@@ -1,57 +1,46 @@
 .availability-popover {
-  max-width: 350px;
-  border: 1px solid #f2f2f2;
-
-  .popover-content {
+  max-width: none;
+  border-color: #f2f2f2;
+  border-radius: 0;
+  z-index: 1;
+  .popover-body {
     padding: 0;
   }
-
-  .nav-tabs {
-    display: flex;
+  &__nav {
     background-color: #f2f2f2;
-    .nav-item {
-      flex: 1 0 auto;
-      margin: 0;
-      text-align: center;
-    }
-    .nav-link {
-      padding-top: .75em;
-      padding-bottom: .75em;
-      border: 0;
-      border-radius: 0;
-      border-top: 3px solid transparent;
-      font-size: 14px;
-      font-weight: 700;
-      color: #333;
-      cursor: pointer;
-      &:hover {
-        color: #333;
-      }
-    }
-    .active {
+  }
+  &__nav-item {
+    flex: auto;
+    text-align: center;
+  }
+  &__nav-tab {
+    border-top: 3px solid transparent;
+    border-right: 0;
+    border-left: 0;
+    border-radius: 0;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: 700;
+    color: #333;
+    &.active {
       border-top-color: #09f;
       background-color: #fff;
-      color: #09f;
-      &:hover {
-        border-top-color: #09f;
-        color: #09f;
-      }
     }
   }
-
-  .tab-pane {
+  a:not([href]):not([tabindex]).active {
+    color: #09f;
+  }
+  &__tab {
     max-height: 150px;
-    padding: 0 10px 14px;
-    overflow-x: hidden;
+    padding: 14px 10px;
     overflow-y: auto;
     font-size: 14px;
     color: #333;
-    &__limit-amount {
-      color: #999;
-    }
   }
-
-  .tab-name {
+  &__tab-value {
+    color: #999;
+  }
+  &__tab-name {
     color: #09f;
   }
 }

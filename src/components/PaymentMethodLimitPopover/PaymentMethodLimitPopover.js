@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { Popover, PopoverContent } from 'reactstrap';
+import { Popover, PopoverBody } from 'reactstrap';
 import { reduxForm, Field } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
+import classNames from 'classnames';
 import PropTypes from '../../constants/propTypes';
 import { createValidator } from '../../utils/validator';
 import { InputField, RangeGroup } from '../../components/ReduxForm';
-import PaymentMethodLimitPopoverStyle from './PaymentMethodLimitPopover.scss';
+import './PaymentMethodLimitPopover.scss';
 import { Currency } from '../../components/Amount';
 
 const attributeLabels = {
@@ -35,15 +36,16 @@ class PaymentMethodLimitPopover extends Component {
     toggle: PropTypes.func,
     handleSubmit: PropTypes.func,
     currencyCode: PropTypes.string,
+    className: PropTypes.string,
   };
-
   static defaultProps = {
-    placement: 'bottom left',
+    placement: 'bottom-start',
     submitting: false,
     pristine: false,
     toggle: null,
     handleSubmit: null,
     currencyCode: null,
+    className: null,
   };
 
   handleSubmit = (data) => {
@@ -61,22 +63,25 @@ class PaymentMethodLimitPopover extends Component {
       limitType,
     } = this.props;
 
-    const option = limitDisabled ?
-      <span
-        className="color-success"
-        onClick={() => onEnable(methodUUID, limitUUID)}
-      >
-        {I18n.t('PAYMENT_METHOD_LIMIT_POPOVER.ENABLE_LIMIT_TYPE', { type: limitType })}
-      </span> :
-      <span
-        className="payment-limit-popover__title_disable-action"
-        onClick={() => onDisable(methodUUID, limitUUID)}
-      >
-        {I18n.t('PAYMENT_METHOD_LIMIT_POPOVER.DISABLE_LIMIT_TYPE', { type: limitType })}
-      </span>;
-
     return (
-      <h4>{option}</h4>
+      <Choose>
+        <When condition={limitDisabled}>
+          <button
+            className="payment-limit-popover__title-action color-success"
+            onClick={() => onEnable(methodUUID, limitUUID)}
+          >
+            {I18n.t('PAYMENT_METHOD_LIMIT_POPOVER.ENABLE_LIMIT_TYPE', { type: limitType })}
+          </button>
+        </When>
+        <Otherwise>
+          <button
+            className="payment-limit-popover__title-action color-danger"
+            onClick={() => onDisable(methodUUID, limitUUID)}
+          >
+            {I18n.t('PAYMENT_METHOD_LIMIT_POPOVER.DISABLE_LIMIT_TYPE', { type: limitType })}
+          </button>
+        </Otherwise>
+      </Choose>
     );
   };
 
@@ -90,24 +95,26 @@ class PaymentMethodLimitPopover extends Component {
       invalid,
       pristine,
       currencyCode,
+      className,
     } = this.props;
 
     return (
       <Popover
-        cssModule={PaymentMethodLimitPopoverStyle}
         placement={placement}
         isOpen
         toggle={toggle}
         target={target}
-        className="payment-limit-popover"
+        className={classNames('payment-limit-popover', className)}
+        hideArrow
+        container={target}
       >
-        <form onSubmit={handleSubmit(this.handleSubmit)}>
-          <PopoverContent>
-            <div className="payment-limit-popover__title">
-              {this.renderLimitDisableOptions()}
-            </div>
-            <div className="payment-limit-popover__body">
-              <RangeGroup className="mb-0" dividerClassName="payment-limit-popover__divider">
+        <PopoverBody tag="form" onSubmit={handleSubmit(this.handleSubmit)}>
+          <div className="payment-limit-popover__title">
+            {this.renderLimitDisableOptions()}
+          </div>
+          <div className="container-fluid payment-limit-popover__body">
+            <div className="row no-gutters align-items-end">
+              <RangeGroup className="col mb-0" dividerClassName="payment-limit-popover__separator">
                 <Field
                   name="min"
                   label={attributeLabels.min}
@@ -127,16 +134,18 @@ class PaymentMethodLimitPopover extends Component {
                   inputAddon={<Currency code={currencyCode} />}
                 />
               </RangeGroup>
-              <button
-                type="submit"
-                className="btn btn-primary"
-                disabled={pristine || submitting || invalid}
-              >
-                {I18n.t('COMMON.SAVE')}
-              </button>
+              <div className="col-auto">
+                <button
+                  type="submit"
+                  className="btn btn-primary"
+                  disabled={pristine || submitting || invalid}
+                >
+                  {I18n.t('COMMON.SAVE')}
+                </button>
+              </div>
             </div>
-          </PopoverContent>
-        </form>
+          </div>
+        </PopoverBody>
       </Popover>
     );
   }

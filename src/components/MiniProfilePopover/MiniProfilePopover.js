@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Popover, PopoverContent } from 'reactstrap';
+import { Popover, PopoverBody } from 'reactstrap';
 import { types as miniProfileTypes } from '../../constants/miniProfile';
 import {
   TransactionMiniProfile,
@@ -63,10 +63,12 @@ class MiniProfilePopover extends Component {
         isOpen
         target={target}
         className="mini-profile-popover"
+        container={target}
+        hideArrow
       >
-        <PopoverContent>
+        <PopoverBody>
           {popoverContent}
-        </PopoverContent>
+        </PopoverBody>
       </Popover>
     );
   }

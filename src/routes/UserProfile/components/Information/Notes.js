@@ -6,6 +6,7 @@ import { entities, entitiesPrefixes } from '../../../../constants/uuid';
 import PopoverButton from '../../../../components/PopoverButton';
 import Uuid from '../../../../components/Uuid';
 import Card, { Content } from '../../../../components/Card';
+import './Notes.scss';
 
 class Notes extends Component {
   static propTypes = {
@@ -21,10 +22,18 @@ class Notes extends Component {
 
   renderItem = item => (
     <PopoverButton
-      className="panel"
+      className="notes-button"
       key={item.uuid}
       id={`profile-pinned-note-${item.uuid}`}
-      onClick={id => this.props.onEditNoteClick(id, item, { placement: 'left' })}
+      onClick={id => this.props.onEditNoteClick(
+        id,
+        item,
+        {
+          placement: 'bottom-start',
+          hideArrow: true,
+          className: 'notes-button__popover',
+        }
+      )}
     >
       <div className="note-content">
         <div className="note-content__author">
