@@ -77,7 +77,7 @@ class StatusDropDown extends Component {
         aria-expanded={dropDownOpen}
       >
         {label}
-        <i className="fa fa-angle-down layout-quick-overview__menu-caret" />
+        <i className="fa fa-angle-down" />
       </DropdownToggle>
 
       <DropdownMenu>

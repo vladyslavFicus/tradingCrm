@@ -128,9 +128,6 @@
     position: relative;
     z-index: 2;
   }
-  &-secondary:not(:disabled):not(.disabled).active:focus {
-    box-shadow: none;
-  }
 }
 
 .btn:disabled,
@@ -148,4 +145,10 @@
   background: #fff;
   color: #CDCDCD;
   border-color: #CDCDCD;
+}
+
+.btn-secondary:not(:disabled):not(.disabled).active:focus,
+.btn-secondary:not(:disabled):not(.disabled):active:focus,
+.show>.btn-secondary.dropdown-toggle:focus {
+  box-shadow: none;
 }

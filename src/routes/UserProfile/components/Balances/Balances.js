@@ -32,7 +32,6 @@ class Balances extends Component {
         onClick={this.toggle}
         data-toggle="dropdown"
         aria-expanded={dropDownOpen}
-        className="btn-transparent-text text-left cursor-pointer"
       >
         {label}
       </DropdownToggle>

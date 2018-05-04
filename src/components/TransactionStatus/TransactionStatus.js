@@ -43,7 +43,7 @@ class TransactionStatus extends Component {
   renderDropDown = (label, statusHistory, dropDownOpen) => (
     <Dropdown isOpen={dropDownOpen} toggle={this.toggle} className="status-dropdown">
       <DropdownToggle
-        tag="div"
+        tag="button"
         onClick={this.toggle}
         data-toggle="dropdown"
         aria-expanded={dropDownOpen}
