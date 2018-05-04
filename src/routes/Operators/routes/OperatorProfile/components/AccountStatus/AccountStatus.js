@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { Dropdown, DropdownMenu, DropdownItem } from 'reactstrap';
+import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import AccountStatusModal from './AccountStatusModal';
 import { statuses } from '../../../../../../constants/user';
 
@@ -59,7 +59,15 @@ class AccountStatus extends Component {
 
   renderDropDown = (label, availableStatuses, dropDownOpen) => (
     <Dropdown isOpen={dropDownOpen} toggle={this.toggle} onClick={this.toggle}>
-      {label}
+      <DropdownToggle
+        tag="div"
+        onClick={this.toggle}
+        data-toggle="dropdown"
+        aria-expanded={dropDownOpen}
+      >
+        {label}
+        <i className="fa fa-angle-down layout-quick-overview__menu-caret" />
+      </DropdownToggle>
 
       <DropdownMenu>
         {

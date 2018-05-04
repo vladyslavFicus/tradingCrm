@@ -33,7 +33,6 @@
     "bootstrap": "^4.1.0",
     "classnames": "^2.2.5",
     "country-list": "^1.1.0",
-    "eslint-plugin-jsx-control-statements": "^2.2.0",
     "filesize": "^3.5.10",
     "fingerprintjs2": "^1.5.1",
     "graphql": "^0.12.3",
