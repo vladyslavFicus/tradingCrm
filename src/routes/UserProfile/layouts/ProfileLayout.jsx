@@ -323,7 +323,7 @@ class ProfileLayout extends Component {
 
   handleSubmitUploadModal = async (data) => {
     const { fileChangedCallback } = this.state;
-
+    const { auth: { fullName } } = this.props;
     const action = await this.props.saveFiles(this.props.params.id, data);
     let hasPinnedNotes = false;
 
@@ -333,7 +333,7 @@ class ProfileLayout extends Component {
           if (!hasPinnedNotes && file.note.pinned) {
             hasPinnedNotes = true;
           }
-          return this.props.addNote({ ...file.note, targetUUID: file.fileUUID });
+          return this.props.addNote({ variables: { ...file.note, targetUUID: file.fileUUID, author: fullName } });
         }
 
         return false;
@@ -418,7 +418,7 @@ class ProfileLayout extends Component {
       return updatedNote;
     }
 
-    await addNote({ variables: { ...data } });
+    await addNote({ variables: { ...data, author: fullName } });
 
     this.handlePopoverHide();
 
@@ -462,9 +462,9 @@ class ProfileLayout extends Component {
   };
 
   handleSubmitNewPassword = async ({ password }) => {
-    const { changePassword, notify } = this.props;
+    const { changePassword, notify, params: { id: playerUUID } } = this.props;
 
-    const response = await changePassword({ variables: { password } });
+    const response = await changePassword({ variables: { password, playerUUID } });
     const success = get(response, 'data.profile.changePassword.success');
 
     notify({
@@ -511,7 +511,8 @@ class ProfileLayout extends Component {
   };
 
   handleDeleteTag = (id) => {
-    this.props.removeTag({ variables: { id: parseInt(id, 10) } });
+    const { params: { id: playerUUID } } = this.props;
+    this.props.removeTag({ variables: { id: parseInt(id, 10), playerUUID } });
   };
 
   handleChangePlayerLimitState = ({ action, ...data }) => {
@@ -635,6 +636,9 @@ class ProfileLayout extends Component {
       uploadModalInitialValues,
       config,
       updateNote,
+      params: {
+        id,
+      },
       locks,
       locale,
       userProfileTabs,
@@ -766,7 +770,7 @@ class ProfileLayout extends Component {
           modal.name === MODAL_SHARE_PROFILE && playerProfile &&
           <ShareLinkModal
             onClose={this.handleCloseModal}
-            playerUUID={playerProfile.playerUUID}
+            playerUUID={id}
           />
         }
         {
@@ -777,7 +781,7 @@ class ProfileLayout extends Component {
             modalTitle={I18n.t('PLAYER_PROFILE.PROFILE.RESET_PASSWORD_MODAL.TITLE')}
             actionText={I18n.t('PLAYER_PROFILE.PROFILE.RESET_PASSWORD_MODAL.TEXT')}
             fullName={`${playerProfile.firstName} ${playerProfile.lastName}`}
-            uuid={playerProfile.playerUUID}
+            uuid={id}
             submitButtonLabel={I18n.t('PLAYER_PROFILE.PROFILE.RESET_PASSWORD_MODAL.BUTTON_ACTION')}
           />
         }
