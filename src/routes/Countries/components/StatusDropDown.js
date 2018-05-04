@@ -1,5 +1,6 @@
-import React, { Component, PropTypes } from 'react';
-import { Dropdown, DropdownMenu, DropdownItem } from 'reactstrap';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import classNames from 'classnames';
 import { I18n } from 'react-redux-i18n';
 import { accessTypesActions, accessTypesColor, accessTypeLabels } from '../../../constants/countries';
@@ -33,23 +34,24 @@ class StatusDropDown extends Component {
 
     return (
       <Dropdown isOpen={dropDownOpen} toggle={this.toggle}>
-        <span onClick={this.toggle} className="cursor-pointer">
+        <DropdownToggle
+          tag="div"
+          onClick={this.toggle}
+          data-toggle="dropdown"
+          aria-expanded={dropDownOpen}
+        >
           {label}
-        </span>
+        </DropdownToggle>
         <DropdownMenu>
-          {
-            accessTypesActions[status].map(item => (
-              <DropdownItem
-                onClick={() => this.props.onStatusChange(item.action)}
-                className="text-uppercase"
-                key={item.label}
-              >
-                <div className={'font-weight-700'}>
-                  {I18n.t(item.label)}
-                </div>
-              </DropdownItem>
-            ))
-          }
+          {accessTypesActions[status].map(item => (
+            <DropdownItem
+              onClick={() => this.props.onStatusChange(item.action)}
+              className="text-uppercase font-weight-700"
+              key={item.label}
+            >
+              {I18n.t(item.label)}
+            </DropdownItem>
+          ))}
         </DropdownMenu>
       </Dropdown>
     );

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Dropdown, DropdownMenu, DropdownItem } from 'reactstrap';
+import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import classNames from 'classnames';
 import { I18n } from 'react-redux-i18n';
 import {
@@ -39,23 +39,24 @@ class StatusDropDown extends Component {
 
     return (
       <Dropdown isOpen={dropDownOpen} toggle={this.toggle} className="status-dropdown">
-        <span onClick={this.toggle} className="cursor-pointer">
+        <DropdownToggle
+          tag="div"
+          onClick={this.toggle}
+          data-toggle="dropdown"
+          aria-expanded={dropDownOpen}
+        >
           {label}
-        </span>
+        </DropdownToggle>
         <DropdownMenu>
-          {
-            accountStatusActions[status].map(item => (
-              <DropdownItem
-                onClick={() => onStatusChange(item.action)}
-                className="text-uppercase"
-                key={item.label}
-              >
-                <div className={'font-weight-700'}>
-                  {I18n.t(item.label)}
-                </div>
-              </DropdownItem>
-            ))
-          }
+          {accountStatusActions[status].map(item => (
+            <DropdownItem
+              onClick={() => onStatusChange(item.action)}
+              className="text-uppercase font-weight-700"
+              key={item.label}
+            >
+              {I18n.t(item.label)}
+            </DropdownItem>
+          ))}
         </DropdownMenu>
       </Dropdown>
     );

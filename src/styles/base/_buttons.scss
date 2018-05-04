@@ -121,6 +121,13 @@
     padding-bottom: 4px;
     font-size: 13px;
   }
+  &.active {
+    background: #fff;
+    border-color: #4990e2;
+    box-shadow: 0 0 4px 0 rgba(74, 144, 226, 0.5);
+    position: relative;
+    z-index: 2;
+  }
 }
 
 .btn:disabled,
@@ -138,4 +145,10 @@
   background: #fff;
   color: #CDCDCD;
   border-color: #CDCDCD;
+}
+
+.btn-secondary:not(:disabled):not(.disabled).active:focus,
+.btn-secondary:not(:disabled):not(.disabled):active:focus,
+.show>.btn-secondary.dropdown-toggle:focus {
+  box-shadow: none;
 }
