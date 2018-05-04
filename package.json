@@ -144,7 +144,7 @@
     "karma-webpack": "^2.0.4",
     "karma-webpack-with-fast-source-maps": "^1.10.2",
     "mocha": "4.0.1",
-    "node-sass": "^4.7.2",
+    "node-sass": "4.9.0",
     "node-zookeeper-client": "^0.2.2",
     "nodemon": "^1.8.1",
     "normalize": "^0.3.1",
