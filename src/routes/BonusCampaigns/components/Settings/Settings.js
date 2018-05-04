@@ -246,12 +246,10 @@ class Settings extends Component {
           if (bonus.maxBet) {
             bonus = {
               ...bonus,
-              maxBet: {
-                currencies: [{
-                  amount: bonus.maxBet,
-                  currency,
-                }],
-              },
+              maxBet: [{
+                amount: bonus.maxBet,
+                currency,
+              }],
             };
           }
 
@@ -262,12 +260,10 @@ class Settings extends Component {
           ) {
             bonus = {
               ...bonus,
-              maxGrantAmount: {
-                currencies: [{
-                  amount: bonus.maxGrantAmount,
-                  currency,
-                }],
-              },
+              maxGrantAmount: [{
+                amount: bonus.maxGrantAmount,
+                currency,
+              }],
             };
           } else {
             delete bonus.maxGrantAmount;
@@ -276,12 +272,10 @@ class Settings extends Component {
           ['capping', 'prize'].forEach((key) => {
             if (bonus[key]) {
               const value = bonus.prizeCapingType === customValueFieldTypes.ABSOLUTE ? {
-                value: {
-                  currencies: [{
-                    amount: bonus[key],
-                    currency,
-                  }],
-                },
+                value: [{
+                  amount: bonus[key],
+                  currency,
+                }],
               } : {
                 percentage: bonus[key],
               };
@@ -300,12 +294,10 @@ class Settings extends Component {
             if (bonus[key]) {
               if (bonus[key].value) {
                 const value = bonus[key].type === customValueFieldTypes.ABSOLUTE ? {
-                  value: {
-                    currencies: [{
-                      amount: bonus[key].value,
-                      currency,
-                    }],
-                  },
+                  value: [{
+                    amount: bonus[key].value,
+                    currency,
+                  }],
                 } : {
                   percentage: bonus[key].value,
                 };

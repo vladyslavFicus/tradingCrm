@@ -48,8 +48,29 @@ const mapResponseErrorToField = {
   'already-exists': 'name',
 };
 
+const moneyTypeUsage = keyMirror({
+  REAL_MONEY_FIRST: null,
+  BONUS_MONEY_FIRST: null,
+});
+const moneyTypeUsageLabels = {
+  [moneyTypeUsage.REAL_MONEY_FIRST]: I18n.t('PLAYER_PROFILE.BONUS.MODAL_CREATE.MONEY_TYPE_USAGE.REAL_MONEY'),
+  [moneyTypeUsage.BONUS_MONEY_FIRST]: I18n.t('PLAYER_PROFILE.BONUS.MODAL_CREATE.MONEY_TYPE_USAGE.BONUS_MONEY'),
+};
+const lockAmountStrategy = keyMirror({
+  LOCK_ALL: null,
+  LOCK_BONUS: null,
+});
+const lockAmountStrategyLabels = {
+  [lockAmountStrategy.LOCK_ALL]: I18n.t('PLAYER_PROFILE.BONUS.MODAL_CREATE.LOCK_AMOUNT_STRATEGY.LOCK_ALL'),
+  [lockAmountStrategy.LOCK_BONUS]: I18n.t('PLAYER_PROFILE.BONUS.MODAL_CREATE.LOCK_AMOUNT_STRATEGY.LOCK_BONUS'),
+};
+
 export {
   attributeLabels,
   mapResponseErrorToField,
   wageringRequirementCustomValueFieldTypesLabels,
+  moneyTypeUsage,
+  moneyTypeUsageLabels,
+  lockAmountStrategy,
+  lockAmountStrategyLabels,
 };

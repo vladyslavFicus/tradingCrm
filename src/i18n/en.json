@@ -316,7 +316,12 @@
         },
         "LOCK_AMOUNT_STRATEGY": {
           "LOCK_ALL": "Lock all",
-          "LOCK_PARTIAL": "Lock bonus money"
+          "LOCK_PARTIAL": "Lock bonus + deposited money",
+          "LOCK_BONUS": "Lock bonus money"
+        },
+        "MONEY_TYPE_USAGE": {
+          "REAL_MONEY": "Real money first",
+          "BONUS_MONEY": "Bonus money first"
         }
       },
       "CANCEL_BONUS": "Cancel bonus",
@@ -896,7 +901,8 @@
       "LOCK_AMOUNT_STRATEGY": {
         "LABEL": "Withdrawal lock",
         "LOCK_ALL": "Lock all money",
-        "LOCK_PARTIAL": "Lock deposited amount"
+        "LOCK_PARTIAL": "Lock bonus + deposited money",
+        "LOCK_BONUS": "Lock bonus money"
       },
       "REWARD_TYPE": {
         "BONUS": "Bonus",
@@ -1824,7 +1830,7 @@
             "PRIZE_CAPPING_TYPE": "Prize & Capping type"
           },
           "TEMPLATES": "Bonus templates",
-          "ADD_BONUS_TEMPLATE": "Add bonus template"
+          "ADD_BONUS_TEMPLATE": "Create template"
         },
         "CREATE_BONUS_MODAL": {
           "TITLE": "Create bonus template"
@@ -1840,7 +1846,7 @@
     "REWARDS": {
       "FREE_SPIN": {
         "LIFE_TIME": "Life time",
-        "ADD_FREE_SPIN": "Add free spin",
+        "ADD_FREE_SPIN": "Create template",
         "TEMPLATE": "Template",
         "STATUS": "Status"
       }

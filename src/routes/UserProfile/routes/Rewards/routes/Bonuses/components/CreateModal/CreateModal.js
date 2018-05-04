@@ -8,15 +8,16 @@ import {
   InputField, SelectField, NasSelectField, CustomValueFieldVertical, CheckBox,
 } from '../../../../../../../../components/ReduxForm';
 import renderLabel from '../../../../../../../../utils/renderLabel';
-import { moneyTypeUsageLabels } from '../../../../../../../../constants/bonus';
 import { customValueFieldTypes, customValueFieldTypesLabels } from '../../../../../../../../constants/form';
-import { attributeLabels, wageringRequirementCustomValueFieldTypesLabels } from './constants';
-import { floatNormalize } from '../../../../../../../../utils/inputNormalize';
 import {
+  attributeLabels,
   lockAmountStrategy,
   lockAmountStrategyLabels,
   moneyTypeUsage,
-} from '../../../../../../../../constants/bonus-campaigns';
+  moneyTypeUsageLabels,
+  wageringRequirementCustomValueFieldTypesLabels,
+} from './constants';
+import { floatNormalize } from '../../../../../../../../utils/inputNormalize';
 import { Currency } from '../../../../../../../../components/Amount';
 import findCurrencyAmount from '../../utils/findCurrencyAmount';
 import Uuid from '../../../../../../../../components/Uuid';
@@ -145,7 +146,6 @@ class CreateModal extends Component {
       }];
     }
 
-
     if (data.grantRatio) {
       formData.grantRatio = {
         value: [{
@@ -253,15 +253,19 @@ class CreateModal extends Component {
               ))}
             </Field>
             <div className="col-6 margin-top-40">
-              <Field
-                id={`${formName}-custom-template`}
-                name="custom-template-checkbox"
-                component={CheckBox}
-                type="checkbox"
-                onChange={this.toggleCustomTemplate}
-                checked={customTemplate}
-                label={I18n.t(attributeLabels.customTemplate)}
-              />
+              <div className="custom-control custom-checkbox text-left">
+                <input
+                  id={`${formName}-custom-template`}
+                  name="custom-template-checkbox"
+                  className="custom-control-input"
+                  type="checkbox"
+                  onChange={this.toggleCustomTemplate}
+                  checked={customTemplate}
+                />
+                <label className="custom-control-label" htmlFor={`${formName}-custom-template`}>
+                  {I18n.t(attributeLabels.customTemplate)}
+                </label>
+              </div>
             </div>
           </div>
 

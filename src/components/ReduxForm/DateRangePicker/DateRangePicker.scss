@@ -8,41 +8,44 @@
   align-items: center;
   width: 100%;
   height: 39px;
-  padding-right: 30px;
   border: 1px solid #cfcfcf;
-  border-radius: .25rem;
-  font-size: 15px;
-  color: #495057;
+  border-radius: 3px;
 }
 
 .DateRangePickerInput_calendarIcon {
-  position: absolute;
-  top: 5px;
-  right: 6px;
-  margin: 0;
-  padding: 2px;
-}
-
-.DateRangePickerInput_calendarIcon_svg {
-  width: 16px;
-  height: 16px;
-  fill: #cfcfcf;
+  padding: 0;
+  margin-right: 8px;
+  margin-left: auto;
+  font-size: 18px;
+  color: #9b9b9b;
+  &:hover {
+    color: #000;
+  }
 }
 
 .DateInput {
   width: 100px;
+  position: static;
 }
 
 .DateInput_input {
-  padding: 0 0 0 15px;
-  border: none;
+  padding: 0 10px;
+  border-bottom: none;
   font-size: 15px;
-  line-height: 1.8;
+  font-weight: 600;
+  line-height: normal;
+  color: #4a4a4a;
 }
 
 .DateInput_fang {
-  top: 29px !important;
+  top: 34px !important;
+  left: auto;
+  right: 6px;
   z-index: 1;
+}
+
+.DateRangePickerInput_arrow {
+  color: #9b9b9b;
 }
 
 .DateRangePicker_picker {

@@ -3,7 +3,6 @@ import onEnterStack from '../utils/onEnterStack';
 import requireAuth from '../utils/requireAuth';
 import CoreLayout from '../layouts/CoreLayout';
 import NewLayout from '../layouts/NewLayout';
-import BaseLayout from '../layouts/BaseLayout';
 import BlackLayout from '../layouts/BlackLayout';
 import PermissionLayout from '../layouts/PermissionLayout';
 /**
@@ -44,27 +43,22 @@ export default store => ({
         BrandsRoute(store),
       ],
     }, requireAuth(store)),
-    {
-      component: BaseLayout,
+    onEnterStack({
+      component: NewLayout,
       childRoutes: [
-        onEnterStack({
-          component: NewLayout,
-          childRoutes: [
-            DashboardRoute(store),
-            UsersRoute(store),
-            OperatorsRoute(store),
-            TransactionsRoute(store),
-            BonusCampaignsRoute(store),
-            Campaigns(store),
-            LogoutRoute(store),
-            ReportsRoute(store),
-            SettingsRoute(store),
-            CountriesRoute(store),
-            OperatorProfileRoute(store),
-          ],
-        }, requireAuth(store)),
+        DashboardRoute(store),
+        UsersRoute(store),
+        OperatorsRoute(store),
+        TransactionsRoute(store),
+        BonusCampaignsRoute(store),
+        Campaigns(store),
+        LogoutRoute(store),
+        ReportsRoute(store),
+        SettingsRoute(store),
+        CountriesRoute(store),
+        OperatorProfileRoute(store),
       ],
-    },
+    }, requireAuth(store)),
     onEnterStack({
       component: PermissionLayout,
       childRoutes: [

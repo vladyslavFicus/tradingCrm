@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
 import { SubmissionError } from 'redux-form';
+import { get } from 'lodash';
 import ViewForm from './ViewForm';
 import LoggedForbidden from '../LoggedForbidden';
 
@@ -22,9 +23,7 @@ class View extends Component {
     if (action) {
       if (action.error) {
         throw new SubmissionError({
-          _error: action.payload.response.error
-            ? action.payload.response.error
-            : action.payload.message,
+          _error: get(action, 'payload.response.error', action.payload.message),
         });
       }
 

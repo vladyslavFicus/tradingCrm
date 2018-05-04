@@ -2,7 +2,7 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import SelectMultipleOptions from '../../../src/components/Select/SelectMultipleOptions';
 
-const optionClassName = 'select-multiple-options__option';
+const optionClassName = 'select-block-option';
 const options = [
   { key: '1', label: '1', value: 1 },
   { key: '2', label: '2', value: 2 },
@@ -42,6 +42,6 @@ describe('(Component) SelectMultipleOptions', () => {
   });
 
   it('renders with options passed by prop "options"', () => {
-    expect(_wrapper.find(`label.${_props.optionClassName}`)).to.have.length(_props.options.length);
+    expect(_wrapper.find(`div.${_props.optionClassName}`)).to.have.length(_props.options.length);
   });
 });
