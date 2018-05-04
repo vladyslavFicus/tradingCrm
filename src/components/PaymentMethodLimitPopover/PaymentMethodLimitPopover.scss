@@ -1,6 +1,6 @@
 .payment-limit-popover {
   max-width: 400px;
-  margin-top: 20px;
+  margin-top: 0;
   border-color: #f2f2f2;
   border-radius: 0;
   box-shadow: 4px 4px 6px rgba(0, 0, 0, 0.3);
@@ -26,6 +26,6 @@
     cursor: default;
   }
   &__separator {
-    padding-top: 28px;
+    margin-top: 28px;
   }
 }

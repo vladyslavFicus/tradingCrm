@@ -280,7 +280,7 @@ class ProfileLayout extends Component {
       popover: {
         name: NOTE_POPOVER,
         params: {
-          placement: 'left bottom',
+          placement: 'bottom',
           ...params,
           target,
           initialValues: {
@@ -428,7 +428,7 @@ class ProfileLayout extends Component {
   };
 
   handlePopoverHide = () => {
-    this.setState({ popover: { ...popoverInitialState } });
+    this.setState({ popover: { name: null, params: {} } });
   };
 
   handleResetPasswordClick = () => {

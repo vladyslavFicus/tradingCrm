@@ -219,7 +219,6 @@ class NotePopover extends Component {
         toggle={this.handleHide}
         target={target}
         className={classNames('note-popover', className)}
-        container={target}
         hideArrow={hideArrow}
       >
         <PopoverBody tag="form" onSubmit={handleSubmit(onSubmit)}>
@@ -246,7 +245,7 @@ class NotePopover extends Component {
             </div>
             <div className="col text-right">
               <button
-                type="reset"
+                type="button"
                 className="btn btn-default-outline btn-sm margin-right-10"
                 onClick={() => this.handleHide(true)}
               >

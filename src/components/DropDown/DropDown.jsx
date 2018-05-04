@@ -46,7 +46,7 @@ class DropDown extends Component {
     const { isOpen } = this.state;
 
     return (
-      <Dropdown className={className} isOpen={isOpen} toggle={this.toggleState}>
+      <Dropdown className={className} isOpen={isOpen} toggle={this.toggleState} setActiveFromChild>
         <DropdownToggle
           className={toggleClassName}
           tag="button"

@@ -114,7 +114,7 @@ class PaymentMethodLimitPopover extends Component {
           </div>
           <div className="container-fluid payment-limit-popover__body">
             <div className="row no-gutters align-items-end">
-              <RangeGroup className="col mb-0" dividerClassName="payment-limit-popover__separator">
+              <RangeGroup className="col mb-0 pr-2" dividerClassName="payment-limit-popover__separator">
                 <Field
                   name="min"
                   label={attributeLabels.min}
