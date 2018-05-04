@@ -49,9 +49,7 @@ const saveHealth = (health) => {
 function processError(error) {
   log(error);
 
-  saveHealth(defaultHealth).then(() => {
-    process.exit(1);
-  });
+  process.exit(1);
 }
 
 function fetchHealth(apiUrl) {

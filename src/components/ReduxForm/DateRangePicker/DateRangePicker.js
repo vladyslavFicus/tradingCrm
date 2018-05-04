@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import momentPropTypes from 'react-moment-proptypes';
 import moment from 'moment';
-import omit from 'lodash/omit';
+import { omit } from 'lodash';
 import { Field } from 'redux-form';
 import { DateRangePickerPhrases } from 'react-dates/lib/defaultPhrases';
 import { DateRangePickerShape, isInclusivelyAfterDay, isSameDay } from 'react-dates/lib';
@@ -122,6 +122,8 @@ class DateRangePicker extends React.Component {
           daySize={41}
           transitionDuration={0}
           anchorDirection="right"
+          customInputIcon={<i className="fa fa-calendar" />}
+          inputIconPosition="after"
         />
         <Field
           name={start}

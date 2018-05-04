@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Dropdown, DropdownMenu, DropdownItem } from 'reactstrap';
+import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import classNames from 'classnames';
 import { I18n } from 'react-redux-i18n';
 import Amount from '../../../../components/Amount';
@@ -27,7 +27,14 @@ class Balances extends Component {
 
   renderDropDown = (label, { walletCurrencyWithdraws, walletCurrencyDeposits, withdrawableAmount }, dropDownOpen) => (
     <Dropdown isOpen={dropDownOpen} toggle={this.toggle} onClick={this.toggle}>
-      {label}
+      <DropdownToggle
+        tag="div"
+        onClick={this.toggle}
+        data-toggle="dropdown"
+        aria-expanded={dropDownOpen}
+      >
+        {label}
+      </DropdownToggle>
       <DropdownMenu>
         <div className="dropdown-menu__content">
           <DropdownItem>

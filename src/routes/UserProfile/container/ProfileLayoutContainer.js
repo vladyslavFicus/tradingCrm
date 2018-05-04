@@ -112,17 +112,32 @@ export default compose(
   }),
   graphql(changePassword, {
     name: 'changePassword',
-    options: ({ params: { id: playerUUID } }) => ({
-      variables: {
-        playerUUID,
-      },
-    }),
   }),
   graphql(resumeMutation, {
     name: 'resumeMutation',
   }),
   graphql(unblockMutation, {
     name: 'unblockMutation',
+  }),
+  graphql(addNoteMutation, {
+    name: 'addNote',
+    options: ({ auth: { fullName }, params: { id: playerUUID } }) => ({
+      variables: {
+        author: fullName,
+      },
+      refetchQueries: [{
+        query: notesQuery,
+        variables: {
+          playerUUID,
+          pinned: true,
+        },
+      }, {
+        query: notesQuery,
+        variables: {
+          playerUUID,
+        },
+      }],
+    }),
   }),
   graphql(updateNoteMutation, {
     name: 'updateNote',
@@ -166,9 +181,6 @@ export default compose(
       },
     }),
     options: ({ params: { id: playerUUID } }) => ({
-      variables: {
-        playerUUID,
-      },
       update: (proxy, { data: { tag: { add: { data, error } } } }) => {
         if (!error) {
           const {
@@ -186,9 +198,6 @@ export default compose(
   graphql(removeTagMutation, {
     name: 'removeTag',
     options: ({ params: { id: playerUUID } }) => ({
-      variables: {
-        playerUUID,
-      },
       update: (proxy, { data: { tag: { remove: { data, error } } } }) => {
         if (error) {
           return;
@@ -291,26 +300,6 @@ export default compose(
           });
         }
       },
-    }),
-  }),
-  graphql(addNoteMutation, {
-    name: 'addNote',
-    options: ({ auth: { fullName }, params: { id: playerUUID } }) => ({
-      variables: {
-        author: fullName,
-      },
-      refetchQueries: [{
-        query: notesQuery,
-        variables: {
-          playerUUID,
-          pinned: true,
-        },
-      }, {
-        query: notesQuery,
-        variables: {
-          playerUUID,
-        },
-      }],
     }),
   }),
   graphql(removeNoteMutation, {
