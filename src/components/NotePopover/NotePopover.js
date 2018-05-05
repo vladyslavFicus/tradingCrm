@@ -50,6 +50,7 @@ class NotePopover extends Component {
     toggle: PropTypes.func,
     hideArrow: PropTypes.bool,
     className: PropTypes.string,
+    id: PropTypes.string,
   };
   static defaultProps = {
     item: null,
@@ -68,10 +69,17 @@ class NotePopover extends Component {
     toggle: null,
     hideArrow: false,
     className: null,
+    id: null,
   };
 
   handleHide = (ignoreChanges = false) => {
-    const { isOpen, toggle, currentValues, item } = this.props;
+    const {
+      isOpen,
+      toggle,
+      currentValues,
+      item,
+    } = this.props;
+
     const shouldClose = isOpen && (
       ignoreChanges || (
         !item
@@ -119,20 +127,20 @@ class NotePopover extends Component {
       );
   };
 
-  renderSwitchField = ({ input, label, wrapperClassName }) => {
+  renderSwitchField = ({ input, label, wrapperClassName, id }) => {
     const onClick = () => input.onChange(!input.value);
 
     return (
-      <span className={wrapperClassName}>
+      <div className={wrapperClassName}>
         <ReactSwitch
           on={input.value}
           onClick={onClick}
+          id={id}
         />
-        {' '}
-        <button type="button" className="btn-transparent" onClick={onClick}>
+        <button type="button" className="note-popover__pin-label" onClick={onClick}>
           {label}
         </button>
-      </span>
+      </div>
     );
   };
 
@@ -209,6 +217,7 @@ class NotePopover extends Component {
       pristine,
       hideArrow,
       className,
+      id,
     } = this.props;
 
     return (
@@ -225,8 +234,8 @@ class NotePopover extends Component {
           <Field
             name="content"
             component={TextAreaField}
-            position="vertical"
             showErrorMessage={false}
+            id={id ? `${id}-textarea` : null}
           />
           <div className="row no-gutters align-items-center">
             <div className="col-auto">
@@ -237,9 +246,10 @@ class NotePopover extends Component {
               </div>
               <Field
                 name="pinned"
-                wrapperClassName="display-block font-size-12 margin-top-5"
+                wrapperClassName="margin-top-5"
                 label="Pin"
                 component={this.renderSwitchField}
+                id={id ? `${id}-pin-btn` : null}
               />
             </div>
             <div className="col text-right">

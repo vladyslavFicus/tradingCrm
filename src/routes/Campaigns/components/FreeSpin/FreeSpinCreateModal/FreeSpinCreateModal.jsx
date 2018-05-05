@@ -560,6 +560,7 @@ class FreeSpinCreateModal extends Component {
             type="submit"
             className="btn btn-primary"
             form="free-spin-create-modal-form"
+            id="campaign-freespin-create-modal-save-btn"
           >
             {I18n.t('COMMON.SAVE')}
           </button>

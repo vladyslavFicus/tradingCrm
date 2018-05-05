@@ -311,6 +311,7 @@ class CreateBonusModal extends PureComponent {
             type="submit"
             className="btn btn-primary"
             form="create-bonus-modal-form"
+            id="campaign-create-bonus-modal-save-btn"
           >
             {I18n.t('COMMON.SAVE')}
           </button>

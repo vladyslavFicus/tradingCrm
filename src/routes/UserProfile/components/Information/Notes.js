@@ -31,6 +31,7 @@ class Notes extends Component {
           placement: 'bottom-start',
           hideArrow: true,
           className: 'notes-button__popover',
+          id,
         }
       )}
     >

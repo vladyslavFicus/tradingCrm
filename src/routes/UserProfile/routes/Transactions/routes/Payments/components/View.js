@@ -135,7 +135,7 @@ class View extends Component {
     if (note) {
       this.context.onEditNoteClick(target, note, { placement: 'left' });
     } else {
-      this.context.onAddNoteClick(data.paymentId, targetTypes.PAYMENT)(target, { placement: 'left' });
+      this.context.onAddNoteClick(data.paymentId, targetTypes.PAYMENT)(target, { placement: 'left', id: data.paymentId });
     }
   };
 
