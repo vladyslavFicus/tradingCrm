@@ -164,9 +164,13 @@
     vertical-align: middle;
     cursor: default;
   }
-  &-show-button {
-    width: max-content,
-  }
 }
 
-
+.mini-profile-popover {
+  min-width: 325px;
+  max-width: none;
+  z-index: 1;
+  .popover-body {
+    padding: 0;
+  }
+}

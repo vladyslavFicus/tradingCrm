@@ -12,6 +12,7 @@ import AvailabilityPopover from './AvailabilityPopover';
 import PopoverButton from '../../../../../components/PopoverButton';
 import PropTypes from '../../../../../constants/propTypes';
 import StatusDropDown from './StatusDropDown';
+import './List.scss';
 
 const DragHandle = SortableHandle(({ order }) => <span className="drag-item">:: {order}</span>);
 const PAYMENT_METHOD_LIMIT_POPOVER = 'payment-method-limit-popover';
@@ -35,9 +36,10 @@ class List extends Component {
   };
   static defaultProps = {
     paymentMethods: [],
-  }
+  };
 
   state = {
+    activePopoverUUID: null,
     popover: { ...popoverInitialState },
     filters: {},
   };
@@ -56,6 +58,7 @@ class List extends Component {
 
   handleSetLimitClick = (target, params = {}) => {
     this.setState({
+      activePopoverUUID: `${params.type}-${params.methodUUID}`,
       popover: {
         name: PAYMENT_METHOD_LIMIT_POPOVER,
         params: {
@@ -119,7 +122,7 @@ class List extends Component {
   };
 
   handlePopoverHide = () => {
-    this.setState({ popover: { ...popoverInitialState } });
+    this.setState({ activePopoverUUID: null, popover: { ...popoverInitialState } });
   };
 
   handleSortEnd = async (orderParams) => {
@@ -140,7 +143,9 @@ class List extends Component {
   );
 
   renderLimitRepresentation = (data, column) => {
-    const { disabled, available, min, max, currencyCode } = data[column.name];
+    const {
+      disabled, available, min, max, currencyCode,
+    } = data[column.name];
 
     if (!available) {
       return <span className="color-warning">{I18n.t('PAYMENT.METHODS.LIMITS.NOT_AVAILABLE')}</span>;
@@ -190,10 +195,13 @@ class List extends Component {
             ? I18n.t('PAYMENT_METHOD_LIMIT_POPOVER.DEPOSITS')
             : I18n.t('PAYMENT_METHOD_LIMIT_POPOVER.WITHDRAWALS'),
         })}
-        className="payment-method-toggle"
+        className={classNames(
+          'payment-method-toggle',
+          { open: `${column.name}-${data.uuid}` === this.state.activePopoverUUID },
+        )}
       >
         {this.renderLimitRepresentation(data, column)}
-        <i className="fa fa-angle-down" />
+        <i className="fa fa-angle-down payment-method-toggle__caret" />
       </PopoverButton>
     );
   };
@@ -251,14 +259,12 @@ class List extends Component {
               header="Deposit"
               render={this.renderLimit}
               className="font-weight-700"
-              headerClassName="payment-method-table-header"
             />
             <GridColumn
               name="withdrawLimit"
               header="Withdrawal"
               render={this.renderLimit}
               className="font-weight-700"
-              headerClassName="payment-method-table-header"
             />
             {
               !filters.countryCode &&

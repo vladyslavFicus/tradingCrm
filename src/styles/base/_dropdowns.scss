@@ -1,5 +1,4 @@
 .show>.dropdown-menu {
-  display: block;
   animation: dropdown-slide-bottom .15s both .05s ease-in-out;
 }
 
@@ -12,4 +11,15 @@
     opacity: 1;
     transform: translate3d(0, 0, 0);
   }
+}
+
+.dropdown-menu-right {
+  right: 0 !important;
+  left: auto !important;
+}
+
+.dropdown-item:focus,
+.dropdown-item:hover {
+  background-color: initial;
+  color: initial;
 }

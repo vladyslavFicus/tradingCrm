@@ -192,7 +192,7 @@ class Header extends Component {
 
     return (
       <div>
-        <Sticky top={0} bottomBoundary={0} innerZ="5">
+        <Sticky top={0} bottomBoundary={0} innerZ="2">
           <div className="panel-heading-row">
             <HeaderPlayerPlaceholder ready={loaded}>
               <div className="panel-heading-row__info">
