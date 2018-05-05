@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { compose } from 'redux';
 import { SubmissionError } from 'redux-form';
 import { connect } from 'react-redux';
@@ -15,7 +15,7 @@ import { actionCreators as userPanelsActionCreators } from '../../redux/modules/
 import { actionCreators as appActionCreators } from '../../redux/modules/app';
 import NotePopover from '../../components/NotePopover';
 import MiniProfilePopover from '../../components/MiniProfilePopover';
-import Navbar from '../../components/Navbar';
+import Header from '../../components/Header';
 import Sidebar from '../../components/Sidebar';
 import UsersPanel from '../../components/UsersPanel';
 import MyProfileSidebar from '../../components/MyProfileSidebar';
@@ -343,10 +343,9 @@ class NewLayout extends Component {
     } = this.props;
 
     return (
-      <div>
-        <Navbar
+      <Fragment>
+        <Header
           router={router}
-          showSearch={false}
           languages={languages}
           onLocaleChange={onLocaleChange}
           onToggleProfile={this.onToggleProfile}
@@ -401,7 +400,7 @@ class NewLayout extends Component {
           />
         }
 
-      </div>
+      </Fragment>
     );
   }
 }

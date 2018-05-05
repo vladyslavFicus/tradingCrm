@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { I18n } from 'react-redux-i18n';
 import NotificationContainer from 'react-notification-system';
@@ -95,7 +95,7 @@ class CoreLayout extends Component {
     const { children, modal, closeModal } = this.props;
 
     return (
-      <div>
+      <Fragment>
         {children}
 
         {window.showDebugPanel && <DebugPanel />}
@@ -125,7 +125,7 @@ class CoreLayout extends Component {
             actionText={I18n.t('MODALS.NEW_API_VERSION.MESSAGE')}
           />
         }
-      </div>
+      </Fragment>
     );
   }
 }
