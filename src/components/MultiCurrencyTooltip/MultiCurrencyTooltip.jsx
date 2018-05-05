@@ -13,6 +13,7 @@ const MultiCurrencyTooltip = ({ placement, values, rates, isOpen, id, toggle }) 
     target={id}
     toggle={toggle}
     className="multi-currency-tooltip"
+    hideArrow
   >
     <div className="multi-currency-tooltip__header">
       {I18n.t(attributeLabels.title)}
@@ -49,7 +50,7 @@ MultiCurrencyTooltip.propTypes = {
 MultiCurrencyTooltip.defaultProps = {
   isOpen: false,
   toggle: null,
-  placement: 'right',
+  placement: 'bottom',
 };
 
 export default MultiCurrencyTooltip;

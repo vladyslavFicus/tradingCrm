@@ -1,38 +1,40 @@
-.tooltip-inner.multi-currency-tooltip {
-  position: relative;
-  margin-left: 10px;
+.multi-currency-tooltip {
+  margin-top: 10px;
   padding: 0;
   border: 1px solid #ccc;
   border-radius: 3px;
-  background-color: #fff;
   text-align: inherit;
+  .tooltip-inner {
+    position: relative;
+    max-width: 400px;
+    padding: 0;
+    background-color: #fff;
+    text-align: left;
+  }
   &::before,
   &::after {
     content: '';
     position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
+    left: 50%;
+    transform: translateX(-50%);
     display: block;
     width: 0;
     height: 0;
   }
   &::before {
-    left: -11px;
-    border-top: 11px solid transparent;
-    border-bottom: 11px solid transparent;
-    border-right: 11px solid #fff;
+    top: -11px;
+    border-right: 11px solid transparent;
+    border-left: 11px solid transparent;
+    border-bottom: 11px solid #fff;
     z-index: 0;
   }
   &::after {
-    left: -12px;
-    border-top: 12px solid transparent;
-    border-bottom: 12px solid transparent;
-    border-right: 12px solid #ccc;
+    top: -12px;
+    border-right: 12px solid transparent;
+    border-left: 12px solid transparent;
+    border-bottom: 12px solid #ccc;
     z-index: -1;
   }
-}
-
-.multi-currency-tooltip {
   &__header {
     padding: 10px;
     border-bottom: 1px solid #ccc;
@@ -41,10 +43,8 @@
     color: #333;
   }
   &__content {
-    padding-bottom: 5px;
-  }
-  .table {
     margin-bottom: 0;
+    padding-bottom: 5px;
   }
   .table thead th {
     padding-bottom: 2px;

@@ -29,12 +29,12 @@ class MultiCurrencyValue extends Component {
     }),
     formValues: PropTypes.object,
     className: PropTypes.string,
+    id: PropTypes.string,
   };
 
   static defaultProps = {
     disabled: false,
     showErrorMessage: true,
-    currencies: [],
     formValues: {},
     baseCurrency: '',
     baseName: 'amounts',
@@ -124,7 +124,7 @@ class MultiCurrencyValue extends Component {
     });
   };
 
-  handleTogglePopover = () => {
+  handleToggleTooltip = () => {
     this.setState({ isTooltipOpen: !this.state.isTooltipOpen });
   };
 
@@ -139,9 +139,9 @@ class MultiCurrencyValue extends Component {
       disabled,
       showErrorMessage,
       className,
+      id,
     } = this.props;
     const { isTooltipOpen } = this.state;
-    const targetId = baseName.replace(/[[\]]/g, '');
     const rates = this.secondaryCurrencies;
 
     return (
@@ -156,15 +156,15 @@ class MultiCurrencyValue extends Component {
           inputAddon={<i className="icon icon-currencies multi-currency-icon" />}
           inputAddonPosition="right"
           onIconClick={this.handleOpenModal}
-          id={targetId}
+          id={id}
         />
         <If condition={rates.length}>
           <MultiCurrencyTooltip
-            id={`${targetId}-right-icon`}
+            id={`${id}-right-icon`}
             values={this.currencies}
             rates={this.secondaryCurrencies}
             isOpen={isTooltipOpen}
-            toggle={this.handleTogglePopover}
+            toggle={this.handleToggleTooltip}
           />
         </If>
       </div>

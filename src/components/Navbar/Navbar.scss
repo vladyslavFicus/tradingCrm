@@ -20,7 +20,7 @@
   .dropdown-menu {
     min-width: 100%;
     position: absolute;
-    top: 100%;
+    top: 100% !important;
     margin-top: 0;
     padding-top: 0;
     padding-bottom: 0;
@@ -73,7 +73,7 @@
     }
     .dropdown-menu {
       right: 0;
-      left: auto;
+      left: auto !important;
     }
   }
   .form-inline {

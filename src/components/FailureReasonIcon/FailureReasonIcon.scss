@@ -14,9 +14,7 @@
 .failure-reason-popover {
   max-width: 310px;
   padding: 10px;
-  border: 1px solid rgba(0,0,0,.2);
   border-radius: 5px;
-  background-color: #fff;
   box-shadow: 5px 3px 5px rgba(0, 0, 0, 0.09);
   z-index: 1;
   &__header {
@@ -24,7 +22,6 @@
     padding: 0;
     border-bottom: none;
     background-color: transparent;
-    font-weight: 400;
     line-height: 1.2;
     color: #666;
   }

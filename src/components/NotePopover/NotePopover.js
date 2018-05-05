@@ -126,11 +126,10 @@ class NotePopover extends Component {
       <span className={wrapperClassName}>
         <ReactSwitch
           on={input.value}
-          className="vertical-align-middle"
           onClick={onClick}
         />
         {' '}
-        <button type="button" className="btn-transparent text-middle cursor-pointer" onClick={onClick}>
+        <button type="button" className="btn-transparent" onClick={onClick}>
           {label}
         </button>
       </span>
