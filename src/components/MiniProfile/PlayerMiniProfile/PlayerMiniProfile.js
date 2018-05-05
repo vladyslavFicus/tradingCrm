@@ -30,13 +30,10 @@ const PlayerMiniProfile = ({ data }) => {
         <div className="mini-profile-ids">
           <span className="mini-profile-username">{data.username}</span>
           {' - '}
-          {
-            !!data.playerUUID &&
-            <Uuid
-              uuid={data.playerUUID}
-              uuidPrefix={data.playerUUID.indexOf('PLAYER') === -1 ? 'PL' : null}
-            />
-          }
+          <Uuid
+            uuid={data.playerUUID}
+            uuidPrefix={data.playerUUID.indexOf('PLAYER') === -1 ? 'PL' : null}
+          />
           {` - ${data.languageCode}`}
         </div>
         {
@@ -94,7 +91,31 @@ const PlayerMiniProfile = ({ data }) => {
 };
 
 PlayerMiniProfile.propTypes = {
-  data: PropTypes.userProfile.isRequired,
+  data: PropTypes.shape({
+    playerUUID: PropTypes.string.isRequired,
+    username: PropTypes.string.isRequired,
+    languageCode: PropTypes.string.isRequired,
+    kycCompleted: PropTypes.string.isRequired,
+    fullName: PropTypes.string.isRequired,
+    age: PropTypes.number.isRequired,
+    profileStatus: PropTypes.string.isRequired,
+    profileStatusReason: PropTypes.string,
+    balances: PropTypes.shape({
+      total: PropTypes.price.isRequired,
+    }).isRequired,
+    tags: PropTypes.arrayOf(PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      tag: PropTypes.string.isRequired,
+      priority: PropTypes.string.isRequired,
+    })),
+    signInIps: PropTypes.arrayOf(PropTypes.shape({
+      sessionStart: PropTypes.string.isRequired,
+    })),
+    lastDeposit: PropTypes.shape({
+      transactionDate: PropTypes.string.isRequired,
+    }).isRequired,
+    registrationDate: PropTypes.string.isRequired,
+  }).isRequired,
 };
 
 export default PlayerMiniProfile;

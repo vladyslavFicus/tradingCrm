@@ -9,7 +9,6 @@ describe('(Component) PlayerMiniProfile', () => {
   let _props, _wrapper;
 
   const playerUUID = 'PLAYER-3fd80a6e-931d-43b4-9f71-e639b9ea8045';
-
   const playerUUIDContainer = <Uuid uuid={playerUUID} />;
 
   beforeEach(() => {
@@ -17,9 +16,9 @@ describe('(Component) PlayerMiniProfile', () => {
       data: {
         signInIps: [],
         profileStatus: userStatuses.ACTIVE,
-        username: "",
+        username: '',
         playerUUID,
-        profileStatusReason: "",
+        profileStatusReason: '',
         kycCompleted: false,
         balances: {
           bonus: { amount: 0, currency: currencyCodes.EUR },
@@ -28,8 +27,8 @@ describe('(Component) PlayerMiniProfile', () => {
           withdrawable: { amount: 0, currency: currencyCodes.EUR },
         },
         tags: [
-          {id: 14430, priority: 'neutral', tag: 'tag2'},
-          {id: 14431, priority: 'negative', tag: 'tag2'},
+          { id: 14430, priority: 'neutral', tag: 'tag2' },
+          { id: 14431, priority: 'negative', tag: 'tag2' },
         ],
       }
     };
@@ -46,7 +45,7 @@ describe('(Component) PlayerMiniProfile', () => {
         ..._props.data,
         kycCompleted: true,
       }
-    }
+    };
     _wrapper = shallow(<PlayerMiniProfile {..._props} />);
     expect(_wrapper.find('i.fa.fa-check')).to.exist();
   });
@@ -59,7 +58,7 @@ describe('(Component) PlayerMiniProfile', () => {
   it('renders with tags passed by prop "data.tags"', () => {
     _props.data.tags.map(tag => {
       expect(_wrapper.find(`span.mini-profile-tag_${tag.priority}`)).to.exist();
-    })
+    });
   });
 
   it('renders reason according to player status', () => {
@@ -84,17 +83,5 @@ describe('(Component) PlayerMiniProfile', () => {
 
   it('renders with UUID', () => {
     expect(_wrapper).to.contain(playerUUIDContainer);
-  });
-
-  it('do not renders UUID', () => {
-    _props = {
-      data: {
-        ..._props.data,
-        playerUUID: null,
-      }
-    };
-    _wrapper = shallow(<PlayerMiniProfile {..._props} />);
-
-    expect(_wrapper).to.not.contain(playerUUIDContainer);
   });
 });
