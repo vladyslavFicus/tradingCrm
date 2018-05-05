@@ -39,7 +39,7 @@ class NasSelectField extends Component {
     helpText: PropTypes.node,
   };
   static defaultProps = {
-    position: 'horizontal',
+    position: 'vertical',
     placeholder: null,
     className: '',
     labelClassName: null,

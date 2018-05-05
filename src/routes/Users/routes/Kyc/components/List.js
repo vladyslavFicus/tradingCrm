@@ -24,7 +24,7 @@ class List extends Component {
     fetchEntities: PropTypes.func.isRequired,
     fetchPlayerMiniProfile: PropTypes.func.isRequired,
     list: PropTypes.pageableState(PropTypes.kycRequestEntity).isRequired,
-    filterValues: PropTypes.object.isRequired,
+    filterValues: PropTypes.object,
     reset: PropTypes.func.isRequired,
     locale: PropTypes.string.isRequired,
     auth: PropTypes.shape({

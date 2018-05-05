@@ -81,150 +81,130 @@ class FilterForm extends Component {
     } = this.props;
 
     return (
-      <div className="well">
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="filter-row">
-            <div className="filter-row__big">
-              <Field
-                name="keyword"
-                type="text"
-                label={I18n.t(filterFormAttributeLabels.keyword)}
-                placeholder={I18n.t('PLAYER_PROFILE.GAME_ACTIVITY.FILTER_FORM.KEYWORD_INPUT_PLACEHOLDER')}
-                component={InputField}
-                position="vertical"
-                inputAddon={<i className="icon icon-search" />}
-              />
-            </div>
-            <div className="filter-row__medium">
-              <Field
-                name="aggregators"
-                label={I18n.t(filterFormAttributeLabels.aggregators)}
-                component={SelectField}
-                position="vertical"
-              >
-                <option value="">Any</option>
-                {aggregators.map(item => (
-                  <option key={item} value={item}>
-                    {item}
-                  </option>
-                ))}
-              </Field>
-            </div>
-            <div className="filter-row__medium">
-              <Field
-                name="providers"
-                label={I18n.t(filterFormAttributeLabels.providers)}
-                component={SelectField}
-                position="vertical"
-              >
-                <option value="">{I18n.t('COMMON.ANY')}</option>
-                {providers.map(item => (
-                  <option key={item} value={item}>
-                    {item}
-                  </option>
-                ))}
-              </Field>
-            </div>
-            <div className="filter-row__medium">
-              <Field
-                name="games"
-                label={I18n.t(filterFormAttributeLabels.games)}
-                component={SelectField}
-                position="vertical"
-              >
-                <option value="">{I18n.t('COMMON.ANY')}</option>
-                {games.map((item) => {
-                  const game = gamesList
-                    .find(i => i.internalGameId === item || i.gameId === item);
+      <form className="filter-row" onSubmit={handleSubmit(onSubmit)}>
+        <Field
+          name="keyword"
+          type="text"
+          label={I18n.t(filterFormAttributeLabels.keyword)}
+          placeholder={I18n.t('PLAYER_PROFILE.GAME_ACTIVITY.FILTER_FORM.KEYWORD_INPUT_PLACEHOLDER')}
+          component={InputField}
+          inputAddon={<i className="icon icon-search" />}
+          className="filter-row__big"
+        />
+        <Field
+          name="aggregators"
+          label={I18n.t(filterFormAttributeLabels.aggregators)}
+          component={SelectField}
+          className="filter-row__medium"
+        >
+          <option value="">Any</option>
+          {aggregators.map(item => (
+            <option key={item} value={item}>
+              {item}
+            </option>
+          ))}
+        </Field>
+        <Field
+          name="providers"
+          label={I18n.t(filterFormAttributeLabels.providers)}
+          component={SelectField}
+          className="filter-row__medium"
+        >
+          <option value="">{I18n.t('COMMON.ANY')}</option>
+          {providers.map(item => (
+            <option key={item} value={item}>
+              {item}
+            </option>
+          ))}
+        </Field>
+        <Field
+          name="games"
+          label={I18n.t(filterFormAttributeLabels.games)}
+          component={SelectField}
+          className="filter-row__medium"
+        >
+          <option value="">{I18n.t('COMMON.ANY')}</option>
+          {games.map((item) => {
+            const game = gamesList
+              .find(i => i.internalGameId === item || i.gameId === item);
 
-                  return (
-                    <option key={item} value={item}>
-                      {game ? game.fullGameName : item}
-                    </option>
-                  );
-                })}
-              </Field>
-            </div>
-            <div className="filter-row__small">
-              <Field
-                name="betTypes"
-                label={I18n.t(filterFormAttributeLabels.betTypes)}
-                component={SelectField}
-                position="vertical"
-              >
-                <option value="">{I18n.t('COMMON.ANY')}</option>
-                {Object.keys(moneyTypeLabels).map(item => (
-                  <option key={item} value={item}>
-                    {renderLabel(item, moneyTypeLabels)}
-                  </option>
-                ))}
-              </Field>
-            </div>
-            <div className="filter-row__small">
-              <Field
-                name="winTypes"
-                label={I18n.t(filterFormAttributeLabels.winTypes)}
-                component={SelectField}
-                position="vertical"
-              >
-                <option value="">{I18n.t('COMMON.ANY')}</option>
-                {Object.keys(moneyTypeLabels).map(item => (
-                  <option key={item} value={item}>
-                    {renderLabel(item, moneyTypeLabels)}
-                  </option>
-                ))}
-              </Field>
-            </div>
-            <RangeGroup
-              className="filter-row__big"
-              label={I18n.t(filterFormAttributeLabels.dateRange)}
-            >
-              <Field
-                utc
-                withTime
-                timePresets
-                name="startDate"
-                placeholder={I18n.t(filterFormAttributeLabels.startDate)}
-                component={DateTimeField}
-                isValidDate={startDateValidator(currentValues)}
-                position="vertical"
-                showErrorMessage={false}
-                pickerClassName="left-side"
-              />
-              <Field
-                utc
-                withTime
-                timePresets
-                name="endDate"
-                placeholder={I18n.t(filterFormAttributeLabels.endDate)}
-                component={DateTimeField}
-                isValidDate={endDateValidator(currentValues)}
-                position="vertical"
-                showErrorMessage={false}
-              />
-            </RangeGroup>
-            <div className="filter-row__button-block">
-              <div className="button-block-container">
-                <button
-                  disabled={submitting}
-                  className="btn btn-default"
-                  onClick={this.handleReset}
-                  type="reset"
-                >
-                  {I18n.t('COMMON.RESET')}
-                </button>
-                <button
-                  disabled={submitting}
-                  className="btn btn-primary"
-                  type="submit"
-                >
-                  {I18n.t('COMMON.APPLY')}
-                </button>
-              </div>
-            </div>
-          </div>
-        </form>
-      </div>
+            return (
+              <option key={item} value={item}>
+                {game ? game.fullGameName : item}
+              </option>
+            );
+          })}
+        </Field>
+        <Field
+          name="betTypes"
+          label={I18n.t(filterFormAttributeLabels.betTypes)}
+          component={SelectField}
+          className="filter-row__small"
+        >
+          <option value="">{I18n.t('COMMON.ANY')}</option>
+          {Object.keys(moneyTypeLabels).map(item => (
+            <option key={item} value={item}>
+              {renderLabel(item, moneyTypeLabels)}
+            </option>
+          ))}
+        </Field>
+        <Field
+          name="winTypes"
+          label={I18n.t(filterFormAttributeLabels.winTypes)}
+          component={SelectField}
+          className="filter-row__small"
+        >
+          <option value="">{I18n.t('COMMON.ANY')}</option>
+          {Object.keys(moneyTypeLabels).map(item => (
+            <option key={item} value={item}>
+              {renderLabel(item, moneyTypeLabels)}
+            </option>
+          ))}
+        </Field>
+        <RangeGroup
+          className="filter-row__dates"
+          label={I18n.t(filterFormAttributeLabels.dateRange)}
+        >
+          <Field
+            utc
+            withTime
+            timePresets
+            name="startDate"
+            placeholder={I18n.t(filterFormAttributeLabels.startDate)}
+            component={DateTimeField}
+            isValidDate={startDateValidator(currentValues)}
+            showErrorMessage={false}
+            pickerClassName="left-side"
+          />
+          <Field
+            utc
+            withTime
+            timePresets
+            name="endDate"
+            placeholder={I18n.t(filterFormAttributeLabels.endDate)}
+            component={DateTimeField}
+            isValidDate={endDateValidator(currentValues)}
+            showErrorMessage={false}
+          />
+        </RangeGroup>
+        <div className="filter-row__button-block">
+          <button
+            disabled={submitting}
+            className="btn btn-default"
+            onClick={this.handleReset}
+            type="reset"
+          >
+            {I18n.t('COMMON.RESET')}
+          </button>
+          <button
+            disabled={submitting}
+            className="btn btn-primary"
+            type="submit"
+          >
+            {I18n.t('COMMON.APPLY')}
+          </button>
+        </div>
+      </form>
     );
   }
 }

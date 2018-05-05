@@ -48,7 +48,7 @@ class DateTimeField extends Component {
     pickerClassName: '',
     dateFormat: 'DD.MM.YYYY',
     timeFormat: 'HH:mm',
-    position: 'horizontal',
+    position: 'vertical',
     utc: false,
     disabled: false,
     placeholder: '',

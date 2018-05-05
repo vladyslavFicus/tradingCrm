@@ -91,62 +91,52 @@ class DepartmentsForm extends Component {
         </If>
 
         <If condition={this.state.show}>
-          <form onSubmit={handleSubmit(this.handleSubmitAndHide)}>
-            <div className="filter-row">
-              <div className="filter-row__medium">
-                <Field
-                  name="department"
-                  label={I18n.t(attributeLabels.department)}
-                  type="text"
-                  component={SelectField}
-                  position="vertical"
-                >
-                  <option value="">{I18n.t('COMMON.SELECT_OPTION.DEFAULT')}</option>
-                  {
-                    availableDepartments.map(item => (
-                      <option key={item} value={item}>
-                        {renderLabel(item, departmentsLabels)}
-                      </option>
-                    ))
-                  }
-                </Field>
-              </div>
-              <div className="filter-row__medium">
-                <Field
-                  name="role"
-                  label={I18n.t(attributeLabels.role)}
-                  type="text"
-                  component={SelectField}
-                  position="vertical"
-                >
-                  <option value="">{I18n.t('COMMON.SELECT_OPTION.DEFAULT')}</option>
-                  {
-                    availableRoles.map(item => (
-                      <option key={item} value={item}>
-                        {renderLabel(item, rolesLabels)}
-                      </option>
-                    ))
-                  }
-                </Field>
-              </div>
-              <div className="filter-row__button-block">
-                <div className="button-block-container">
-                  <button
-                    disabled={submitting || invalid}
-                    className="btn btn-primary"
-                    type="submit"
-                  >
-                    {I18n.t('COMMON.SAVE')}
-                  </button>
-                  <button
-                    onClick={this.toggleShow}
-                    className="btn btn-default"
-                    type="reset"
-                  >
-                    {I18n.t('COMMON.CANCEL')}
-                  </button>
-                </div>
-              </div>
+          <form className="filter-row" onSubmit={handleSubmit(this.handleSubmitAndHide)}>
+            <Field
+              name="department"
+              label={I18n.t(attributeLabels.department)}
+              type="text"
+              component={SelectField}
+              className="filter-row__medium"
+            >
+              <option value="">{I18n.t('COMMON.SELECT_OPTION.DEFAULT')}</option>
+              {
+                availableDepartments.map(item => (
+                  <option key={item} value={item}>
+                    {renderLabel(item, departmentsLabels)}
+                  </option>
+                ))
+              }
+            </Field>
+            <Field
+              name="role"
+              label={I18n.t(attributeLabels.role)}
+              type="text"
+              component={SelectField}
+              className="filter-row__medium"
+            >
+              <option value="">{I18n.t('COMMON.SELECT_OPTION.DEFAULT')}</option>
+              {availableRoles.map(item => (
+                <option key={item} value={item}>
+                  {renderLabel(item, rolesLabels)}
+                </option>
+              ))}
+            </Field>
+            <div className="filter-row__button-block">
+              <button
+                disabled={submitting || invalid}
+                className="btn btn-primary"
+                type="submit"
+              >
+                {I18n.t('COMMON.SAVE')}
+              </button>
+              <button
+                onClick={this.toggleShow}
+                className="btn btn-default"
+                type="reset"
+              >
+                {I18n.t('COMMON.CANCEL')}
+              </button>
             </div>
           </form>
         </If>
