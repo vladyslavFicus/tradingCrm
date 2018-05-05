@@ -56,76 +56,64 @@ class FeedFilterForm extends Component {
     } = this.props;
 
     return (
-      <div className="well">
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="filter-row">
-            <div className="filter-row__big">
-              <Field
-                name="searchBy"
-                type="text"
-                label={I18n.t(attributeLabels.searchBy)}
-                placeholder={I18n.t('OPERATOR_PROFILE.FEED.FILTER_FORM.SEARCH_BY_PLACEHOLDER')}
-                component={InputField}
-                position="vertical"
-                inputAddon={<i className="icon icon-search" />}
-              />
-            </div>
-            <div className="filter-row__medium">
-              <Field
-                name="actionType"
-                label={I18n.t(attributeLabels.actionType)}
-                component={SelectField}
-                position="vertical"
-              >
-                <option value="">{I18n.t('OPERATOR_PROFILE.FEED.FILTER_FORM.ACTION_TYPE_EMPTY_OPTION')}</option>
-                {availableTypes.map(type => (
-                  <option key={type} value={type}>
-                    {typesLabels[type] ? I18n.t(typesLabels[type]) : type}
-                  </option>
-                ))}
-              </Field>
-            </div>
-            <RangeGroup
-              className="filter-row__big"
-              label={I18n.t('OPERATOR_PROFILE.FEED.FILTER_FORM.ACTION_DATE_RANGE')}
-            >
-              <Field
-                name="creationDateFrom"
-                placeholder={I18n.t(attributeLabels.creationDateFrom)}
-                component={DateTimeField}
-                isValidDate={this.startDateValidator}
-                position="vertical"
-              />
-              <Field
-                name="creationDateTo"
-                placeholder={I18n.t(attributeLabels.creationDateTo)}
-                component={DateTimeField}
-                isValidDate={this.endDateValidator}
-                position="vertical"
-              />
-            </RangeGroup>
-            <div className="filter-row__button-block">
-              <div className="button-block-container">
-                <button
-                  disabled={submitting}
-                  className="btn btn-default"
-                  onClick={this.handleReset}
-                  type="reset"
-                >
-                  {I18n.t('COMMON.RESET')}
-                </button>
-                <button
-                  disabled={submitting}
-                  className="btn btn-primary"
-                  type="submit"
-                >
-                  {I18n.t('COMMON.APPLY')}
-                </button>
-              </div>
-            </div>
-          </div>
-        </form>
-      </div>
+      <form className="filter-row" onSubmit={handleSubmit(onSubmit)}>
+        <Field
+          name="searchBy"
+          type="text"
+          label={I18n.t(attributeLabels.searchBy)}
+          placeholder={I18n.t('OPERATOR_PROFILE.FEED.FILTER_FORM.SEARCH_BY_PLACEHOLDER')}
+          component={InputField}
+          inputAddon={<i className="icon icon-search" />}
+          className="filter-row__big"
+        />
+        <Field
+          name="actionType"
+          label={I18n.t(attributeLabels.actionType)}
+          component={SelectField}
+          className="filter-row__medium"
+        >
+          <option value="">{I18n.t('OPERATOR_PROFILE.FEED.FILTER_FORM.ACTION_TYPE_EMPTY_OPTION')}</option>
+          {availableTypes.map(type => (
+            <option key={type} value={type}>
+              {typesLabels[type] ? I18n.t(typesLabels[type]) : type}
+            </option>
+          ))}
+        </Field>
+        <RangeGroup
+          className="filter-row__dates"
+          label={I18n.t('OPERATOR_PROFILE.FEED.FILTER_FORM.ACTION_DATE_RANGE')}
+        >
+          <Field
+            name="creationDateFrom"
+            placeholder={I18n.t(attributeLabels.creationDateFrom)}
+            component={DateTimeField}
+            isValidDate={this.startDateValidator}
+          />
+          <Field
+            name="creationDateTo"
+            placeholder={I18n.t(attributeLabels.creationDateTo)}
+            component={DateTimeField}
+            isValidDate={this.endDateValidator}
+          />
+        </RangeGroup>
+        <div className="filter-row__button-block">
+          <button
+            disabled={submitting}
+            className="btn btn-default"
+            onClick={this.handleReset}
+            type="reset"
+          >
+            {I18n.t('COMMON.RESET')}
+          </button>
+          <button
+            disabled={submitting}
+            className="btn btn-primary"
+            type="submit"
+          >
+            {I18n.t('COMMON.APPLY')}
+          </button>
+        </div>
+      </form>
     );
   }
 }

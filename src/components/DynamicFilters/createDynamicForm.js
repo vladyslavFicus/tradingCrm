@@ -222,33 +222,31 @@ class DynamicForm extends Component {
     const { currentFilters, availableFilters } = this.state;
 
     return (
-      <form onSubmit={handleSubmit(this.handleSubmit)}>
-        <div className={className}>
-          {currentFilters.map(this.renderFilter)}
+      <form className={className} onSubmit={handleSubmit(this.handleSubmit)}>
+        {currentFilters.map(this.renderFilter)}
 
-          <div className={`${className}__button-block`}>
-            <div className="button-block-container">
-              <AvailableFiltersSelect
-                onChange={this.handleAddFilter}
-                options={availableFilters}
-              />
-              <button
-                disabled={submitting || (allowReset && pristine)}
-                className="btn btn-default"
-                onClick={this.handleReset}
-                type="reset"
-              >
-                {I18n.t('COMMON.RESET')}
-              </button>
-              <button
-                id="users-list-apply-button"
-                disabled={submitting || (allowSubmit && pristine) || invalid}
-                className="btn btn-primary"
-                type="submit"
-              >
-                {I18n.t('COMMON.APPLY')}
-              </button>
-            </div>
+        <div className={`${className}__button-block`}>
+          <div className="button-block-container">
+            <AvailableFiltersSelect
+              onChange={this.handleAddFilter}
+              options={availableFilters}
+            />
+            <button
+              disabled={submitting || (allowReset && pristine)}
+              className="btn btn-default"
+              onClick={this.handleReset}
+              type="reset"
+            >
+              {I18n.t('COMMON.RESET')}
+            </button>
+            <button
+              id="users-list-apply-button"
+              disabled={submitting || (allowSubmit && pristine) || invalid}
+              className="btn btn-primary"
+              type="submit"
+            >
+              {I18n.t('COMMON.APPLY')}
+            </button>
           </div>
         </div>
       </form>

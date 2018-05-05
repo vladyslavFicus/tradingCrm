@@ -45,7 +45,7 @@ class UserGridFilter extends Component {
       registrationDateTo: PropTypes.string,
       balanceFrom: PropTypes.string,
       balanceTo: PropTypes.string,
-    }).isRequired,
+    }),
     disabled: PropTypes.bool,
     onReset: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
@@ -59,21 +59,7 @@ class UserGridFilter extends Component {
     countries: PropTypes.object.isRequired,
   };
   static defaultProps = {
-    currentValues: {
-      keyword: '',
-      countries: [],
-      currency: '',
-      ageFrom: '',
-      ageTo: '',
-      affiliateId: '',
-      status: '',
-      tags: '',
-      segments: '',
-      registrationDateFrom: '',
-      registrationDateTo: '',
-      balanceFrom: '',
-      balanceTo: '',
-    },
+    currentValues: {},
     disabled: false,
   };
 
@@ -104,114 +90,112 @@ class UserGridFilter extends Component {
     } = this.props;
 
     return (
-      <div className="well">
-        <DynamicFilters
-          allowSubmit={disabled}
-          allowReset={disabled}
-          onSubmit={onSubmit}
-          onReset={onReset}
-          tags={tags}
-          currencies={currencies}
-          countries={countries}
-        >
-          <FilterItem label={filterLabels.searchValue} size={SIZES.big} type={TYPES.input} default>
-            <FilterField
-              id="users-list-search-field"
-              name="searchValue"
-              placeholder="Name, login, phone, email..."
-              type="text"
-            />
-          </FilterItem>
+      <DynamicFilters
+        allowSubmit={disabled}
+        allowReset={disabled}
+        onSubmit={onSubmit}
+        onReset={onReset}
+        tags={tags}
+        currencies={currencies}
+        countries={countries}
+      >
+        <FilterItem label={filterLabels.searchValue} size={SIZES.big} type={TYPES.input} default>
+          <FilterField
+            id="users-list-search-field"
+            name="searchValue"
+            placeholder="Name, login, phone, email..."
+            type="text"
+          />
+        </FilterItem>
 
-          <FilterItem label={filterLabels.country} size={SIZES.medium} type={TYPES.nas_select} default>
-            <FilterField name="countries" multiple>
-              {Object
-                .keys(countries)
-                .map(key => <option key={key} value={key}>{countries[key]}</option>)
-              }
-            </FilterField>
-          </FilterItem>
+        <FilterItem label={filterLabels.country} size={SIZES.medium} type={TYPES.nas_select} default>
+          <FilterField name="countries" multiple>
+            {Object
+              .keys(countries)
+              .map(key => <option key={key} value={key}>{countries[key]}</option>)
+            }
+          </FilterField>
+        </FilterItem>
 
-          <FilterItem label={filterLabels.city} size={SIZES.small} type={TYPES.input} default>
-            <FilterField name="city" type="text" />
-          </FilterItem>
+        <FilterItem label={filterLabels.city} size={SIZES.small} type={TYPES.input} default>
+          <FilterField name="city" type="text" />
+        </FilterItem>
 
-          <FilterItem label={filterLabels.age} size={SIZES.small} type={TYPES.range_input} default>
-            <FilterField name="ageFrom" type="text" />
-            <FilterField name="ageTo" type="text" />
-          </FilterItem>
+        <FilterItem label={filterLabels.age} size={SIZES.small} type={TYPES.range_input} default>
+          <FilterField name="ageFrom" type="text" />
+          <FilterField name="ageTo" type="text" />
+        </FilterItem>
 
-          <FilterItem label={filterLabels.balance} size={SIZES.small} type={TYPES.range_input} default>
-            <FilterField name="balanceFrom" type="text" />
-            <FilterField name="balanceTo" type="text" />
-          </FilterItem>
+        <FilterItem label={filterLabels.balance} size={SIZES.small} type={TYPES.range_input} default>
+          <FilterField name="balanceFrom" type="text" />
+          <FilterField name="balanceTo" type="text" />
+        </FilterItem>
 
-          <FilterItem label={filterLabels.currencies} size={SIZES.small} type={TYPES.select}>
-            <FilterField name="currencies">
-              <option value="">{I18n.t('COMMON.ANY')}</option>
-              {currencies.map(currency => (
-                <option key={currency} value={currency}>
-                  {currency}
+        <FilterItem label={filterLabels.currencies} size={SIZES.small} type={TYPES.select}>
+          <FilterField name="currencies">
+            <option value="">{I18n.t('COMMON.ANY')}</option>
+            {currencies.map(currency => (
+              <option key={currency} value={currency}>
+                {currency}
+              </option>
+            ))}
+          </FilterField>
+        </FilterItem>
+
+        <FilterItem label={filterLabels.affiliateId} size={SIZES.medium} type={TYPES.input}>
+          <FilterField name="affiliateId" type="text" />
+        </FilterItem>
+
+        <FilterItem label={filterLabels.status} size={SIZES.small} type={TYPES.select}>
+          <FilterField name="statuses">
+            <option value="">{I18n.t('COMMON.ANY')}</option>
+            {Object.keys(statusesLabels).map(status => (
+              <option key={status} value={status}>
+                {statusesLabels[status]}
+              </option>
+            ))}
+          </FilterField>
+        </FilterItem>
+
+        <FilterItem label={filterLabels.tags} size={SIZES.small} type={TYPES.select}>
+          <FilterField name="tags">
+            <option value="">{I18n.t('COMMON.ANY')}</option>
+            {
+              tags.length > 0 &&
+              tags.map(tag => (
+                <option key={`${tag.value}`} value={tag.value}>
+                  {tag.label}
                 </option>
-              ))}
-            </FilterField>
-          </FilterItem>
+              ))
+            }
+          </FilterField>
+        </FilterItem>
 
-          <FilterItem label={filterLabels.affiliateId} size={SIZES.medium} type={TYPES.input}>
-            <FilterField name="affiliateId" type="text" />
-          </FilterItem>
+        <FilterItem label={filterLabels.segments} size={SIZES.small} type={TYPES.select}>
+          <FilterField name="segments">
+            <option value="">{I18n.t('COMMON.ANY')}</option>
+          </FilterField>
+        </FilterItem>
 
-          <FilterItem label={filterLabels.status} size={SIZES.small} type={TYPES.select}>
-            <FilterField name="statuses">
-              <option value="">{I18n.t('COMMON.ANY')}</option>
-              {Object.keys(statusesLabels).map(status => (
-                <option key={status} value={status}>
-                  {statusesLabels[status]}
-                </option>
-              ))}
-            </FilterField>
-          </FilterItem>
-
-          <FilterItem label={filterLabels.tags} size={SIZES.small} type={TYPES.select}>
-            <FilterField name="tags">
-              <option value="">{I18n.t('COMMON.ANY')}</option>
-              {
-                tags.length > 0 &&
-                tags.map(tag => (
-                  <option key={`${tag.value}`} value={tag.value}>
-                    {tag.label}
-                  </option>
-                ))
-              }
-            </FilterField>
-          </FilterItem>
-
-          <FilterItem label={filterLabels.segments} size={SIZES.small} type={TYPES.select}>
-            <FilterField name="segments">
-              <option value="">{I18n.t('COMMON.ANY')}</option>
-            </FilterField>
-          </FilterItem>
-
-          <FilterItem label={filterLabels.registrationDate} size={SIZES.big} type={TYPES.range_date}>
-            <FilterField
-              utc
-              name="registrationDateFrom"
-              isValidDate={this.startDateValidator('registrationDateTo')}
-              timePresets
-              withTime
-              closeOnSelect={false}
-            />
-            <FilterField
-              utc
-              name="registrationDateTo"
-              isValidDate={this.endDateValidator('registrationDateFrom')}
-              timePresets
-              withTime
-              closeOnSelect={false}
-            />
-          </FilterItem>
-        </DynamicFilters>
-      </div>
+        <FilterItem label={filterLabels.registrationDate} size={SIZES.big} type={TYPES.range_date}>
+          <FilterField
+            utc
+            name="registrationDateFrom"
+            isValidDate={this.startDateValidator('registrationDateTo')}
+            timePresets
+            withTime
+            closeOnSelect={false}
+          />
+          <FilterField
+            utc
+            name="registrationDateTo"
+            isValidDate={this.endDateValidator('registrationDateFrom')}
+            timePresets
+            withTime
+            closeOnSelect={false}
+          />
+        </FilterItem>
+      </DynamicFilters>
     );
   }
 }

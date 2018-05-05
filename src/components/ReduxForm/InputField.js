@@ -41,7 +41,7 @@ class InputField extends Component {
     className: null,
     label: null,
     labelAddon: null,
-    position: 'horizontal',
+    position: 'vertical',
     showErrorMessage: true,
     disabled: false,
     placeholder: null,

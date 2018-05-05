@@ -85,144 +85,124 @@ class TransactionsFilterForm extends Component {
     } = this.props;
 
     return (
-      <div className="well">
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="filter-row">
-            <div className="filter-row__big">
-              <Field
-                name="keyword"
-                type="text"
-                label={I18n.t(attributeLabels.keyword)}
-                placeholder={I18n.t(attributePlaceholders.keyword)}
-                component={InputField}
-                position="vertical"
-                inputAddon={<i className="icon icon-search" />}
-                id="transactions-list-filters-search"
-              />
-            </div>
-            <div className="filter-row__medium">
-              <Field
-                name="initiatorType"
-                label={I18n.t(attributeLabels.initiatorType)}
-                position="vertical"
-                component={NasSelectField}
-              >
-                {Object.keys(initiatorsLabels).map(assign => (
-                  <option key={assign} value={assign}>
-                    {initiatorsLabels[assign]}
-                  </option>
-                ))}
-              </Field>
-            </div>
-            {
-              filterByType &&
-              <div className="filter-row__medium">
-                <Field
-                  name="type"
-                  label={I18n.t(attributeLabels.type)}
-                  position="vertical"
-                  component={NasSelectField}
-                >
-                  {Object.keys(typesLabels).map(type => (
-                    <option key={type} value={type}>
-                      {typesLabels[type]}
-                    </option>
-                  ))}
-                </Field>
-              </div>
-            }
-            <div className="filter-row__medium">
-              <Field
-                name="statuses"
-                label={I18n.t(attributeLabels.statuses)}
-                position="vertical"
-                component={NasSelectField}
-                multiple
-              >
-                {statuses.map(status => (
-                  <option key={status} value={status}>
-                    {renderLabel(status, statusesLabels)}
-                  </option>
-                ))}
-              </Field>
-            </div>
-            <div className="filter-row__medium">
-              <Field
-                name="paymentMethod"
-                label={I18n.t(attributeLabels.paymentMethod)}
-                position="vertical"
-                component={NasSelectField}
-              >
-                {paymentMethods.map(method => (
-                  <option key={method.uuid} value={method.methodName}>
-                    {renderLabel(method.methodName, methodsLabels)}
-                  </option>
-                ))}
-              </Field>
-            </div>
-            <RangeGroup
-              className="filter-row__medium"
-              label={I18n.t(attributeLabels.amount)}
-            >
-              <Field
-                name="amountLowerBound"
-                type="text"
-                placeholder="0.00"
-                component={InputField}
-                position="vertical"
-              />
-              <Field
-                name="amountUpperBound"
-                type="text"
-                placeholder="0.00"
-                component={InputField}
-                position="vertical"
-              />
-            </RangeGroup>
-            <RangeGroup
-              className="filter-row__medium"
-              label={I18n.t(attributeLabels.creationDateRange)}
-            >
-              <Field
-                utc
-                name="startDate"
-                placeholder={I18n.t(attributeLabels.startDate)}
-                component={DateTimeField}
-                isValidDate={this.startDateValidator}
-                position="vertical"
-              />
-              <Field
-                utc
-                name="endDate"
-                placeholder={I18n.t(attributeLabels.endDate)}
-                component={DateTimeField}
-                isValidDate={this.endDateValidator}
-                position="vertical"
-              />
-            </RangeGroup>
-            <div className="filter-row__button-block">
-              <div className="button-block-container">
-                <button
-                  disabled={submitting || (disabled && pristine)}
-                  className="btn btn-default"
-                  onClick={this.handleReset}
-                  type="reset"
-                >
-                  {I18n.t('COMMON.RESET')}
-                </button>
-                <button
-                  disabled={submitting || (disabled && pristine) || invalid}
-                  className="btn btn-primary"
-                  type="submit"
-                  id="transactions-list-filters-apply-button"
-                >
-                  {I18n.t('COMMON.APPLY')}
-                </button>
-              </div>
-            </div>
-          </div>
-        </form>
-      </div>
+      <form className="filter-row" onSubmit={handleSubmit(onSubmit)}>
+        <Field
+          name="keyword"
+          type="text"
+          label={I18n.t(attributeLabels.keyword)}
+          placeholder={I18n.t(attributePlaceholders.keyword)}
+          component={InputField}
+          inputAddon={<i className="icon icon-search" />}
+          id="transactions-list-filters-search"
+          className="filter-row__big"
+        />
+        <Field
+          name="initiatorType"
+          label={I18n.t(attributeLabels.initiatorType)}
+          component={NasSelectField}
+          className="filter-row__medium"
+        >
+          {Object.keys(initiatorsLabels).map(assign => (
+            <option key={assign} value={assign}>
+              {initiatorsLabels[assign]}
+            </option>
+          ))}
+        </Field>
+        <If condition={filterByType}>
+          <Field
+            name="type"
+            label={I18n.t(attributeLabels.type)}
+            component={NasSelectField}
+            className="filter-row__medium"
+          >
+            {Object.keys(typesLabels).map(type => (
+              <option key={type} value={type}>
+                {typesLabels[type]}
+              </option>
+            ))}
+          </Field>
+        </If>
+        <Field
+          name="statuses"
+          label={I18n.t(attributeLabels.statuses)}
+          component={NasSelectField}
+          multiple
+          className="filter-row__medium"
+        >
+          {statuses.map(status => (
+            <option key={status} value={status}>
+              {renderLabel(status, statusesLabels)}
+            </option>
+          ))}
+        </Field>
+        <Field
+          name="paymentMethod"
+          label={I18n.t(attributeLabels.paymentMethod)}
+          component={NasSelectField}
+          className="filter-row__medium"
+        >
+          {paymentMethods.map(method => (
+            <option key={method.uuid} value={method.methodName}>
+              {renderLabel(method.methodName, methodsLabels)}
+            </option>
+          ))}
+        </Field>
+        <RangeGroup
+          className="filter-row__medium"
+          label={I18n.t(attributeLabels.amount)}
+        >
+          <Field
+            name="amountLowerBound"
+            type="text"
+            placeholder="0.00"
+            component={InputField}
+          />
+          <Field
+            name="amountUpperBound"
+            type="text"
+            placeholder="0.00"
+            component={InputField}
+          />
+        </RangeGroup>
+        <RangeGroup
+          className="filter-row__medium"
+          label={I18n.t(attributeLabels.creationDateRange)}
+        >
+          <Field
+            utc
+            name="startDate"
+            placeholder={I18n.t(attributeLabels.startDate)}
+            component={DateTimeField}
+            isValidDate={this.startDateValidator}
+            pickerClassName="left-side"
+          />
+          <Field
+            utc
+            name="endDate"
+            placeholder={I18n.t(attributeLabels.endDate)}
+            component={DateTimeField}
+            isValidDate={this.endDateValidator}
+          />
+        </RangeGroup>
+        <div className="filter-row__button-block">
+          <button
+            disabled={submitting || (disabled && pristine)}
+            className="btn btn-default"
+            onClick={this.handleReset}
+            type="reset"
+          >
+            {I18n.t('COMMON.RESET')}
+          </button>
+          <button
+            disabled={submitting || (disabled && pristine) || invalid}
+            className="btn btn-primary"
+            type="submit"
+            id="transactions-list-filters-apply-button"
+          >
+            {I18n.t('COMMON.APPLY')}
+          </button>
+        </div>
+      </form>
     );
   }
 }

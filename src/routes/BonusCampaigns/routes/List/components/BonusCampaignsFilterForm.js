@@ -100,152 +100,128 @@ class BonusCampaignsFilterForm extends Component {
     } = this.props;
 
     return (
-      <div className="well">
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="filter-row">
-            <div className="filter-row__big">
-              <Field
-                name="searchBy"
-                type="text"
-                label={I18n.t(attributeLabels.searchBy)}
-                placeholder={I18n.t(placeholders.searchBy)}
-                component={InputField}
-                position="vertical"
-                inputAddon={<i className="icon icon-search" />}
-                id="campaigns-filters-search"
-              />
-            </div>
-            <div className="filter-row__medium">
-              <Field
-                name="fulfillmentType"
-                label={I18n.t(attributeLabels.fulfillmentType)}
-                component={SelectField}
-                position="vertical"
-                onChange={this.handleChangeFulfillmentType}
-              >
-                <option value="">{I18n.t('COMMON.ANY')}</option>
-                {types.map(item => (
-                  <option key={item} value={item}>
-                    {renderLabel(item, fulfillmentTypesLabels)}
-                  </option>
-                ))}
-              </Field>
-            </div>
-            {
-              currentValues.fulfillmentType === fulfillmentTypes.DEPOSIT &&
-              <div className="filter-row__small">
-                <Field
-                  name="depositNumber"
-                  label={I18n.t(attributeLabels.depositNumber)}
-                  component={SelectField}
-                  position="vertical"
-                >
-                  <option value="">{I18n.t('COMMON.ANY')}</option>
-                  {depositNumbers.map(i => (
-                    <option key={i} value={i}>
-                      {`
-                        ${ordinalizeNumber(i, locale)}
-                        ${I18n.t('BONUS_CAMPAIGNS.FILTER_FORM.DEPOSIT_NUMBER_OPTION')}
-                      `}
-                    </option>
-                  ))}
-                </Field>
-              </div>
-            }
-            <div className="filter-row__small">
-              <Field
-                name="state"
-                label={I18n.t(attributeLabels.state)}
-                component={SelectField}
-                position="vertical"
-              >
-                <option value="">{I18n.t('COMMON.ANY')}</option>
-                {statuses.map(item => (
-                  <option key={item} value={item}>
-                    {renderLabel(item, statusesLabels)}
-                  </option>
-                ))}
-              </Field>
-            </div>
-            <div className="filter-row__small">
-              <Field
-                name="optIn"
-                label={I18n.t(attributeLabels.optIn)}
-                component={SelectField}
-                position="vertical"
-                labelClassName={null}
-              >
-                <option value="">{I18n.t('COMMON.ANY')}</option>
-                <option value="true">{I18n.t('COMMON.OPT_IN')}</option>
-                <option value="false">{I18n.t('COMMON.NON_OPT_IN')}</option>
-              </Field>
-            </div>
-            <RangeGroup
-              className="filter-row__big"
-              label={I18n.t(attributeLabels.creationDate)}
-            >
-              <Field
-                utc
-                name="creationDateFrom"
-                component={DateTimeField}
-                showErrorMessage
-                isValidDate={this.startDateValidator('creationDateTo')}
-                position="vertical"
-              />
-              <Field
-                utc
-                name="creationDateTo"
-                component={DateTimeField}
-                showErrorMessage
-                isValidDate={this.endDateValidator('creationDateFrom')}
-                position="vertical"
-              />
-            </RangeGroup>
-            <RangeGroup
-              className="filter-row__big"
-              label={I18n.t(attributeLabels.activityDate)}
-            >
-              <Field
-                utc
-                name="activityDateFrom"
-                placeholder={attributeLabels.startDate}
-                component={DateTimeField}
-                isValidDate={this.startDateValidator('activityDateTo')}
-                position="vertical"
-              />
-              <Field
-                utc
-                name="activityDateTo"
-                placeholder={attributeLabels.endDate}
-                component={DateTimeField}
-                isValidDate={this.endDateValidator('activityDateFrom')}
-                position="vertical"
-              />
-            </RangeGroup>
-            <div className="filter-row__button-block">
-              <div className="button-block-container">
-                <button
-                  disabled={submitting || (disabled && pristine) || isLoading}
-                  className="btn btn-default"
-                  onClick={this.handleReset}
-                  type="reset"
-                >
-                  {I18n.t('COMMON.RESET')}
-                </button>
-                <button
-                  disabled={submitting || (disabled && pristine) || invalid || isLoading}
-                  className="btn btn-primary"
-                  type="submit"
-                  id="campaigns-filters-submit"
-                >
-                  {isLoading && <i className="fa fa-refresh fa-spin" />} {' '}
-                  {I18n.t('COMMON.APPLY')}
-                </button>
-              </div>
-            </div>
-          </div>
-        </form>
-      </div>
+      <form className="filter-row" onSubmit={handleSubmit(onSubmit)}>
+        <Field
+          name="searchBy"
+          type="text"
+          label={I18n.t(attributeLabels.searchBy)}
+          placeholder={I18n.t(placeholders.searchBy)}
+          component={InputField}
+          inputAddon={<i className="icon icon-search" />}
+          id="campaigns-filters-search"
+          className="filter-row__big"
+        />
+        <Field
+          name="fulfillmentType"
+          label={I18n.t(attributeLabels.fulfillmentType)}
+          component={SelectField}
+          onChange={this.handleChangeFulfillmentType}
+          className="filter-row__medium"
+        >
+          <option value="">{I18n.t('COMMON.ANY')}</option>
+          {types.map(item => (
+            <option key={item} value={item}>
+              {renderLabel(item, fulfillmentTypesLabels)}
+            </option>
+          ))}
+        </Field>
+        <If condition={currentValues.fulfillmentType === fulfillmentTypes.DEPOSIT}>
+          <Field
+            name="depositNumber"
+            label={I18n.t(attributeLabels.depositNumber)}
+            component={SelectField}
+            className="filter-row__small"
+          >
+            <option value="">{I18n.t('COMMON.ANY')}</option>
+            {depositNumbers.map(i => (
+              <option key={i} value={i}>
+                {`
+                  ${ordinalizeNumber(i, locale)}
+                  ${I18n.t('BONUS_CAMPAIGNS.FILTER_FORM.DEPOSIT_NUMBER_OPTION')}
+                `}
+              </option>
+            ))}
+          </Field>
+        </If>
+        <Field
+          name="state"
+          label={I18n.t(attributeLabels.state)}
+          component={SelectField}
+          className="filter-row__small"
+        >
+          <option value="">{I18n.t('COMMON.ANY')}</option>
+          {statuses.map(item => (
+            <option key={item} value={item}>
+              {renderLabel(item, statusesLabels)}
+            </option>
+          ))}
+        </Field>
+        <Field
+          name="optIn"
+          label={I18n.t(attributeLabels.optIn)}
+          component={SelectField}
+          className="filter-row__small"
+        >
+          <option value="">{I18n.t('COMMON.ANY')}</option>
+          <option value="true">{I18n.t('COMMON.OPT_IN')}</option>
+          <option value="false">{I18n.t('COMMON.NON_OPT_IN')}</option>
+        </Field>
+        <RangeGroup
+          className="filter-row__dates"
+          label={I18n.t(attributeLabels.creationDate)}
+        >
+          <Field
+            utc
+            name="creationDateFrom"
+            component={DateTimeField}
+            isValidDate={this.startDateValidator('creationDateTo')}
+          />
+          <Field
+            utc
+            name="creationDateTo"
+            component={DateTimeField}
+            isValidDate={this.endDateValidator('creationDateFrom')}
+          />
+        </RangeGroup>
+        <RangeGroup
+          className="filter-row__dates"
+          label={I18n.t(attributeLabels.activityDate)}
+        >
+          <Field
+            utc
+            name="activityDateFrom"
+            placeholder={attributeLabels.startDate}
+            component={DateTimeField}
+            isValidDate={this.startDateValidator('activityDateTo')}
+          />
+          <Field
+            utc
+            name="activityDateTo"
+            placeholder={attributeLabels.endDate}
+            component={DateTimeField}
+            isValidDate={this.endDateValidator('activityDateFrom')}
+          />
+        </RangeGroup>
+        <div className="filter-row__button-block">
+          <button
+            disabled={submitting || (disabled && pristine) || isLoading}
+            className="btn btn-default"
+            onClick={this.handleReset}
+            type="reset"
+          >
+            {I18n.t('COMMON.RESET')}
+          </button>
+          <button
+            disabled={submitting || (disabled && pristine) || invalid || isLoading}
+            className="btn btn-primary"
+            type="submit"
+            id="campaigns-filters-submit"
+          >
+            {isLoading && <i className="fa fa-refresh fa-spin" />} {' '}
+            {I18n.t('COMMON.APPLY')}
+          </button>
+        </div>
+      </form>
     );
   }
 }
@@ -253,18 +229,20 @@ class BonusCampaignsFilterForm extends Component {
 const FilterForm = reduxForm({
   form: FORM_NAME,
   touchOnChange: true,
-  validate: (values, props) => createValidator({
-    searchBy: 'string',
-    fulfillmentType: ['string', `in:,${props.types.join()}`],
-    optIn: 'string',
-    state: 'string',
-    depositNumber: ['numeric', 'min:1', 'max:10'],
-    creationDateFrom: 'regex:/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/',
-    creationDateTo: 'regex:/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/',
-    activityDateFrom: 'regex:/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/',
-    activityDateTo: 'regex:/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/',
-  },
-  translateLabels(attributeLabels), false)(values),
+  validate: (values, props) => createValidator(
+    {
+      searchBy: 'string',
+      fulfillmentType: ['string', `in:,${props.types.join()}`],
+      optIn: 'string',
+      state: 'string',
+      depositNumber: ['numeric', 'min:1', 'max:10'],
+      creationDateFrom: 'regex:/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/',
+      creationDateTo: 'regex:/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/',
+      activityDateFrom: 'regex:/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/',
+      activityDateTo: 'regex:/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/',
+    },
+    translateLabels(attributeLabels), false
+  )(values),
 })(BonusCampaignsFilterForm);
 
 export default connect(state => ({
