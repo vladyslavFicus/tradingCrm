@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Dropdown, DropdownMenu, DropdownItem } from 'reactstrap';
+import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import classNames from 'classnames';
 import { I18n } from 'react-redux-i18n';
 import Uuid from '../../components/Uuid';
@@ -60,24 +60,25 @@ class FileStatusDropDown extends Component {
 
     return (
       <Dropdown isOpen={dropDownOpen} toggle={this.toggle} className="status-dropdown">
-        <span onClick={this.toggle} className="cursor-pointer">
+        <DropdownToggle
+          tag="div"
+          onClick={this.toggle}
+          data-toggle="dropdown"
+          aria-expanded={dropDownOpen}
+          className="cursor-pointer"
+        >
           {label}
-        </span>
+        </DropdownToggle>
         <DropdownMenu>
-          {
-            actions
-              .map(item => (
-                <DropdownItem
-                  onClick={() => onStatusChange(item.action)}
-                  className={classNames('text-uppercase', actionsColorNames[item.action])}
-                  key={item.label}
-                >
-                  <div className="font-weight-700">
-                    {item.label}
-                  </div>
-                </DropdownItem>
-              ))
-          }
+          {actions.map(item => (
+            <DropdownItem
+              onClick={() => onStatusChange(item.action)}
+              className={classNames('text-uppercase font-weight-700', actionsColorNames[item.action])}
+              key={item.label}
+            >
+              {item.label}
+            </DropdownItem>
+          ))}
         </DropdownMenu>
       </Dropdown>
     );

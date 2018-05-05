@@ -9,9 +9,6 @@
   z-index: 2;
 
   .nav {
-    display: block;
-    overflow: hidden;
-
     &:first-child {
       padding-bottom: 15px;
     }
@@ -21,7 +18,6 @@
       position: relative;
       font-size: 15px;
       color: #ccc;
-      white-space: nowrap;
       cursor: pointer;
 
       & + .nav-item {
@@ -36,10 +32,12 @@
     }
 
     &-link {
+      display: block;
       width: 100%;
       padding: 0;
       position: relative;
       color: inherit;
+      white-space: nowrap;
       &:focus,
       &:hover {
         color: #fff;
@@ -68,6 +66,7 @@
     display: block;
     width: 100%;
     position: relative;
+    top: 0;
     border: none;
     border-radius: 0;
     padding: 0;

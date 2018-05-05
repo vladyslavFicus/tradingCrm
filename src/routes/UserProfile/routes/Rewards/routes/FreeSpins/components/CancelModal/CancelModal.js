@@ -94,7 +94,7 @@ class CancelModal extends Component {
             {I18n.t('PLAYER_PROFILE.FREE_SPIN.MODAL_CANCEL.TITLE')}
           </ModalHeader>
           <ModalBody>
-            <div className="text-center margin-vertical-20">
+            <div className="text-center my-4">
               <span className="font-weight-700">
                 {I18n.t('PLAYER_PROFILE.FREE_SPIN.MODAL_CANCEL.ACTION_TEXT', {
                   title: item.name,

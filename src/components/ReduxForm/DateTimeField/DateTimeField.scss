@@ -61,10 +61,10 @@
   &::after {
     border-bottom-color: #cfcfcf;
   }
-}
-
-.month_or_year::after {
-  border-bottom-color: #27b9ed;
+  &.month_or_year::before,
+  &.month_or_year::after {
+    border-bottom-color: #27b9ed;
+  }
 }
 
 .dayTimeContainer {

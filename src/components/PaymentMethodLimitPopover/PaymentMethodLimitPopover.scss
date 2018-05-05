@@ -1,71 +1,31 @@
-@import "../../styles/variables";
-
 .payment-limit-popover {
-  .popover-content {
-    max-width: 370px;
+  max-width: 400px;
+  margin-top: 0;
+  border-color: #f2f2f2;
+  border-radius: 0;
+  box-shadow: 4px 4px 6px rgba(0, 0, 0, 0.3);
+  z-index: 1;
+  .popover-body {
     padding: 0;
-    border: 1px solid #f2f2f2;
-    box-shadow: 4px 4px 6px rgba(0, 0, 0, 0.247058823529412);
-    background-color: #fff;
   }
   &__title {
     padding: 10px;
     border-bottom: 2px solid #f7f7f7;
-    &_disable-action {
-      color: #990000;
-    }
-  }
-  h4 {
-    margin-bottom: 0;
     font-size: 14px;
     font-weight: 700;
-    cursor: pointer;
+    line-height: normal;
+    cursor: default;
+  }
+  &__title-action {
+    padding: 0;
+    border: 0;
+    background-color: transparent;
   }
   &__body {
-    display: flex;
     padding: 10px;
+    cursor: default;
   }
-  &__divider {
+  &__separator {
     margin-top: 28px;
   }
-  .btn {
-    align-self: flex-end;
-    margin-left: 15px;
-  }
-}
-
-.payment-method-toggle {
-  position: relative;
-  padding: 10px 35px 10px 10px;
-  cursor: pointer;
-  &.show {
-    background-color: #f2f2f2;
-    .fa-angle-down {
-      display: inline-block;
-      transform: rotate(180deg);
-    }
-  }
-  &:hover {
-    .fa-angle-down {
-      display: inline-block;
-    }
-  }
-  .fa-angle-down {
-    display: none;
-    position: absolute;
-    top: 12px;
-    right: 14px;
-    transition: all .2s ease-in-out;
-    &:before {
-      color: #a8a8a8;
-    }
-  }
-}
-
-.popover.bs-tether-element-attached-left {
-  margin-left: 0;
-}
-
-.data-grid-layout thead th.payment-method-table-header {
-  padding-left: calc(.75em + 10px);
 }

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Dropdown, DropdownMenu, DropdownItem } from 'reactstrap';
+import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import classNames from 'classnames';
 import moment from 'moment';
 import { I18n } from 'react-redux-i18n';
@@ -98,7 +98,14 @@ class PlayerStatus extends Component {
 
   renderDropDown = (label, availableStatuses, dropDownOpen) => (
     <Dropdown isOpen={dropDownOpen} toggle={this.toggle} onClick={this.toggle}>
-      {label}
+      <DropdownToggle
+        tag="div"
+        onClick={this.toggle}
+        data-toggle="dropdown"
+        aria-expanded={dropDownOpen}
+      >
+        {label}
+      </DropdownToggle>
 
       <DropdownMenu>
         {
@@ -163,14 +170,6 @@ class PlayerStatus extends Component {
             {I18n.t('COMMON.DATE_UNTIL', { date: moment.utc(endDate).local().format('DD.MM.YYYY') })}
           </div>
         }
-        {
-          (status === statuses.BLOCKED || status === statuses.SUSPENDED) &&
-          <FailureReasonIcon
-            reason={reason}
-            statusDate={moment.utc(statusDate).local().format('YYYY-MM-DD HH:mm:ss')}
-            statusAuthor={statusAuthor}
-          />
-        }
       </div>
     );
 
@@ -181,12 +180,18 @@ class PlayerStatus extends Component {
     return (
       <div className={dropDownClassName}>
         {this.renderDropDown(label, availableStatuses, dropDownOpen, modal)}
-
+        <If condition={status === statuses.BLOCKED || status === statuses.SUSPENDED}>
+          <FailureReasonIcon
+            reason={reason}
+            statusDate={moment.utc(statusDate).local().format('YYYY-MM-DD HH:mm:ss')}
+            statusAuthor={statusAuthor}
+          />
+        </If>
         {
           availableStatuses.length > 0 && modal.show &&
           <PlayerStatusModal
             locale={locale}
-            title={'Change account status'}
+            title="Change account status"
             {...modal.params}
             onSubmit={this.handleSubmit}
             onHide={this.handleModalHide}

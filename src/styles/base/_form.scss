@@ -116,7 +116,10 @@
   height: 39px;
   padding-top: 5px;
   border-color: #cfcfcf;
+  border-radius: 3px;
   font-size: 15px;
+  font-weight: 600;
+  color: #4a4a4a;
   &:focus {
     box-shadow: 0 0 4px 0 rgba(74, 144, 226, 0.5);
     border-color: #4990e2;
@@ -290,24 +293,24 @@
   -webkit-appearance: none;
 }
 ::-webkit-input-placeholder {
-  color: #cfcfcf;
+  color: #9b9b9b;
   font-weight: 300;
 }
 ::-moz-placeholder {
-  color: #cfcfcf;
+  color: #9b9b9b;
   font-weight: 300;
   opacity: 1;
 }
 :-ms-input-placeholder {
-  color: #cfcfcf;
+  color: #9b9b9b;
   font-weight: 300;
 }
 :-moz-placeholder {
-  color: #cfcfcf;
+  color: #9b9b9b;
   font-weight: 300;
 }
 ::placeholder {
-  color: #cfcfcf;
+  color: #9b9b9b;
   font-weight: 300;
 }
 

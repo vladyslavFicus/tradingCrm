@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Dropdown, DropdownMenu, DropdownItem } from 'reactstrap';
+import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import classNames from 'classnames';
 import {
   methodStatusActions, methodStatusesColor, methodsStatusesLabels,
@@ -38,23 +38,25 @@ class StatusDropDown extends Component {
 
     return (
       <Dropdown isOpen={dropDownOpen} toggle={this.toggle}>
-        <span onClick={this.toggle} className="cursor-pointer">
+        <DropdownToggle
+          tag="div"
+          onClick={this.toggle}
+          data-toggle="dropdown"
+          aria-expanded={dropDownOpen}
+          className="cursor-pointer"
+        >
           {label}
-        </span>
+        </DropdownToggle>
         <DropdownMenu>
-          {
-            methodStatusActions[status].map(item => (
-              <DropdownItem
-                onClick={() => this.props.onStatusChange(item.action)}
-                className="text-uppercase"
-                key={item.label}
-              >
-                <div className={'font-weight-700'}>
-                  {item.label}
-                </div>
-              </DropdownItem>
-            ))
-          }
+          {methodStatusActions[status].map(item => (
+            <DropdownItem
+              onClick={() => this.props.onStatusChange(item.action)}
+              className="text-uppercase font-weight-700"
+              key={item.label}
+            >
+              {item.label}
+            </DropdownItem>
+          ))}
         </DropdownMenu>
       </Dropdown>
     );

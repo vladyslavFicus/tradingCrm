@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import classNames from 'classnames';
 import moment from 'moment';
-import { Dropdown, DropdownMenu } from 'reactstrap';
+import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import { I18n } from 'react-redux-i18n';
 import _ from 'lodash';
 import PropTypes from '../../constants/propTypes';
@@ -42,30 +42,35 @@ class TransactionStatus extends Component {
 
   renderDropDown = (label, statusHistory, dropDownOpen) => (
     <Dropdown isOpen={dropDownOpen} toggle={this.toggle} className="status-dropdown">
-      <button className="btn-transparent-text text-left" onClick={this.toggle}>{label}</button>
+      <DropdownToggle
+        tag="button"
+        onClick={this.toggle}
+        data-toggle="dropdown"
+        aria-expanded={dropDownOpen}
+        className="btn-transparent-text text-left cursor-pointer"
+      >
+        {label}
+      </DropdownToggle>
       <DropdownMenu>
-        {
-          statusHistory.map(status => (
-            <div className="dropdown-item text-uppercase" key={status.reference}>
-              <div className={classNames(statusesColor[status.paymentStatus], 'font-weight-700')}>
-                {status.paymentStatus}
-              </div>
-              <div className="font-size-11">
-                {moment.utc(status.creationTime).local().format('DD.MM.YYYY - HH:mm:ss')}
-              </div>
-              <div className="font-size-11">
-                {`${I18n.t('COMMON.AUTHOR_BY')} ${status.initiatorType}`}
-                {
-                  (status.initiatorType === initiators.PLAYER || status.initiatorType === initiators.OPERATOR) &&
-                    <span>
-                      {' '}
-                      <Uuid uuid={status.initiatorId} />
-                    </span>
-                }
-              </div>
+        {statusHistory.map(status => (
+          <DropdownItem key={status.reference} className="text-uppercase">
+            <div className={classNames(statusesColor[status.paymentStatus], 'font-weight-700')}>
+              {status.paymentStatus}
             </div>
-          ))
-        }
+            <div className="font-size-11">
+              {moment.utc(status.creationTime).local().format('DD.MM.YYYY - HH:mm:ss')}
+            </div>
+            <div className="font-size-11">
+              {`${I18n.t('COMMON.AUTHOR_BY')} ${status.initiatorType}`}
+              <If
+                condition={status.initiatorType === initiators.PLAYER || status.initiatorType === initiators.OPERATOR}
+              >
+                {' '}
+                <Uuid uuid={status.initiatorId} />
+              </If>
+            </div>
+          </DropdownItem>
+        ))}
       </DropdownMenu>
     </Dropdown>
   );

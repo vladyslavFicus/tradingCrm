@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Dropdown, DropdownMenu } from 'reactstrap';
+import { Dropdown, DropdownToggle, DropdownMenu } from 'reactstrap';
 import classNames from 'classnames';
 import { I18n } from 'react-redux-i18n';
 import PropTypes from '../../../../constants/propTypes';
@@ -139,7 +139,13 @@ class PlayerLimits extends Component {
     return (
       <div className={className}>
         <Dropdown isOpen={dropDownOpen} toggle={this.toggle} onClick={this.toggle}>
-          <div className="header-block_player-limits-tab">
+          <DropdownToggle
+            tag="div"
+            onClick={this.toggle}
+            data-toggle="dropdown"
+            aria-expanded={dropDownOpen}
+            className="header-block_player-limits-tab"
+          >
             <div className="header-block-title">Locks</div>
             <PermissionContent permissions={permissions.USER_PROFILE.GET_PAYMENT_LOCKS}>
               <div>
@@ -150,7 +156,7 @@ class PlayerLimits extends Component {
             <PermissionContent permissions={permissions.USER_PROFILE.GET_LOGIN_LOCK}>
               {this.renderStatus('Login', login.locked)}
             </PermissionContent>
-          </div>
+          </DropdownToggle>
 
           <DropdownMenu>
             <div className="header-block_player-limits_btn-group">
