@@ -254,10 +254,6 @@ PropTypes.userPanelItem = PropTypes.shape({
   username: PropTypes.string.isRequired,
   uuid: PropTypes.string.isRequired,
 });
-PropTypes.navbarNavItem = PropTypes.shape({
-  label: PropTypes.any.isRequired,
-  onClick: PropTypes.func,
-});
 PropTypes.auditEntity = PropTypes.shape({
   authorFullName: PropTypes.string.isRequired,
   authorUuid: PropTypes.string.isRequired,

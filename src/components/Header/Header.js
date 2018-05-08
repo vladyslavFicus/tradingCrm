@@ -3,11 +3,11 @@ import classNames from 'classnames';
 import { IndexLink } from 'react-router';
 import PropTypes from '../../constants/propTypes';
 import DepartmentsDropDown from '../DepartmentsDropDown';
-import NavbarNav from '../NavbarNav';
+import HeaderNav from '../HeaderNav';
 import { getLogo } from '../../config';
-import './Navbar.scss';
+import './Header.scss';
 
-class Navbar extends Component {
+class Header extends Component {
   static propTypes = {
     showSearch: PropTypes.bool,
     router: PropTypes.shape({
@@ -16,7 +16,7 @@ class Navbar extends Component {
     onToggleProfile: PropTypes.func.isRequired,
   };
   static defaultProps = {
-    showSearch: true,
+    showSearch: false,
   };
   static contextTypes = {
     user: PropTypes.shape({
@@ -31,7 +31,6 @@ class Navbar extends Component {
 
   state = {
     searchFieldActive: false,
-    searchOverlayActive: false,
   };
 
   get indexLink() {
@@ -54,73 +53,62 @@ class Navbar extends Component {
 
   render() {
     const { user } = this.context;
-    const { searchFieldActive, searchOverlayActive } = this.state;
+    const { searchFieldActive } = this.state;
     const { showSearch } = this.props;
 
     return (
       <header className="header">
-        <IndexLink className="navbar-brand" to={this.indexLink}>
-          <img src={getLogo()} alt="current-casino-logo" />
+        <IndexLink className="header__brand" to={this.indexLink}>
+          <img className="img-fluid" src={getLogo()} alt="current-casino-logo" />
         </IndexLink>
-        <div className="department">
-          <DepartmentsDropDown
-            onChange={this.handleChangeDepartment}
-            current={user.authorities.find(authority => authority.department === user.department)}
-            authorities={user.authorities.filter(authority => authority.department !== user.department)}
-          />
-        </div>
-        {
-          showSearch &&
-          <form className="form-inline">
+        <DepartmentsDropDown
+          onChange={this.handleChangeDepartment}
+          current={user.authorities.find(authority => authority.department === user.department)}
+          authorities={user.authorities.filter(authority => authority.department !== user.department)}
+        />
+        <If condition={showSearch}>
+          <form className="search">
             <i className="fa fa-search" />
             <input
-              className="form-control"
+              className="form-control search__input"
               type="text"
               placeholder="Type to search"
               onClick={this.handleSearchFieldClick}
             />
-
             <div className={classNames('search-overlay', { open: searchFieldActive })}>
               <div className="search-overlay__content">
+                <input
+                  className="form-control search-overlay__input"
+                  type="text"
+                  placeholder="Search..."
+                  ref={(node) => {
+                    this.searchInput = node;
+                  }}
+                />
                 <button
                   type="button"
-                  className={classNames('overlay-close', { closed: searchOverlayActive })}
+                  className="search-overlay__close"
                   onClick={this.handleOverlayClick}
-                >&#10005;</button>
-                <div className="form-inline">
-                  <input
-                    className="form-control"
-                    type="text"
-                    placeholder="Search..."
-                    autoFocus
-                    ref={(node) => {
-                      this.searchInput = node;
-                    }}
-                  />
-                </div>
+                >
+                  &times;
+                </button>
               </div>
             </div>
           </form>
-        }
-
-        <div className="header__right-nav">
-          <NavbarNav
-            label={<i className="fa fa-user" />}
-            items={[
-
-              { label: 'My profile', onClick: () => this.props.onToggleProfile() },
-              {
-                label: 'Logout',
-                onClick: () => this.props.router.replace('/logout'),
-                id: 'profile-logout-button',
-              },
-            ]}
-            dropdownToggleId="profile-logout-toggle"
-          />
-        </div>
+        </If>
+        <HeaderNav
+          items={[
+            { label: 'My profile', onClick: () => this.props.onToggleProfile() },
+            {
+              label: 'Logout',
+              onClick: () => this.props.router.replace('/logout'),
+              id: 'profile-logout-button',
+            },
+          ]}
+        />
       </header>
     );
   }
 }
 
-export default Navbar;
+export default Header;
