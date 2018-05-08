@@ -1,16 +1,14 @@
 import { CALL_API } from 'redux-api-middleware';
 import createReducer from '../../../../../../../utils/createReducer';
 import createRequestAction from '../../../../../../../utils/createRequestAction';
-import timestamp from '../../../../../../../utils/timestamp';
 import buildQueryString from '../../../../../../../utils/buildQueryString';
 
 const KEY = 'player/bonus-campaign/list';
 const FETCH_ENTITIES = createRequestAction(`${KEY}/fetch-entities`);
 const FETCH_ACTIVE_CAMPAIGN_LIST = createRequestAction(`${KEY}/fetch-active-campaigns`);
 const FETCH_AVAILABLE_CAMPAIGN_LIST = createRequestAction(`${KEY}/fetch-available-campaigns`);
-const DECLINE_CAMPAIGN = createRequestAction(`${KEY}/decline-campaign`);
 
-function fetchCampaignListCreator(campaignType, actionType) {
+function fetchCampaignListCreator(fulfillmentType, actionType) {
   return filters => (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
 
@@ -23,7 +21,7 @@ function fetchCampaignListCreator(campaignType, actionType) {
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `promotion/campaigns/${filters.playerUUID}/${campaignType}?${buildQueryString(queryParams)}`,
+        endpoint: `promotion/campaigns/${filters.playerUUID}/${fulfillmentType}?${buildQueryString(queryParams)}`,
         method: 'GET',
         headers: {
           Accept: 'application/json',
@@ -95,27 +93,6 @@ function fetchPlayerCampaigns(filters) {
   };
 }
 
-function declineCampaign(id, playerUUID, returnToList = false) {
-  return (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
-    const optoutType = returnToList ? 'return_to_list' : 'ignore_campaign';
-
-    return dispatch({
-      [CALL_API]: {
-        endpoint: `/promotion/campaigns/${id}/optout/${playerUUID}?optoutType=${optoutType}`,
-        method: 'PUT',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        types: [DECLINE_CAMPAIGN.REQUEST, DECLINE_CAMPAIGN.SUCCESS, DECLINE_CAMPAIGN.FAILURE],
-        bailout: !logged,
-      },
-    });
-  };
-}
-
 const actionHandlers = {
   [FETCH_ENTITIES.REQUEST]: state => ({
     ...state,
@@ -123,27 +100,27 @@ const actionHandlers = {
     error: null,
     noResults: false,
   }),
-  [FETCH_ENTITIES.SUCCESS]: (state, action) => ({
+  [FETCH_ENTITIES.SUCCESS]: (state, { payload, meta: { endRequestTime } }) => ({
     ...state,
     entities: {
       ...state.entities,
-      ...action.payload,
-      content: action.payload.number === 0
-        ? action.payload.content
+      ...payload,
+      content: payload.number === 0
+        ? payload.content
         : [
           ...state.entities.content,
-          ...action.payload.content,
+          ...payload.content,
         ],
     },
     isLoading: false,
-    receivedAt: timestamp(),
-    noResults: action.payload.content.length === 0,
+    receivedAt: endRequestTime,
+    noResults: payload.content.length === 0,
   }),
-  [FETCH_ENTITIES.FAILURE]: (state, action) => ({
+  [FETCH_ENTITIES.FAILURE]: (state, { payload, meta: { endRequestTime } }) => ({
     ...state,
     isLoading: false,
-    error: action.payload,
-    receivedAt: timestamp(),
+    error: payload,
+    receivedAt: endRequestTime,
   }),
 };
 const initialState = {
@@ -168,7 +145,6 @@ const actionTypes = {
 };
 const actionCreators = {
   fetchPlayerCampaigns,
-  declineCampaign,
 };
 
 export {

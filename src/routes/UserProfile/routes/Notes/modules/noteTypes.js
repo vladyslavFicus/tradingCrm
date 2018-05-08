@@ -1,7 +1,6 @@
 import { CALL_API } from 'redux-api-middleware';
 import createReducer from '../../../../../utils/createReducer';
 import createRequestAction from '../../../../../utils/createRequestAction';
-import timestamp from '../../../../../utils/timestamp';
 
 const KEY = 'user/notes/target-types';
 const FETCH_NOTE_TYPES = createRequestAction(`${KEY}/fetch-note-types`);
@@ -42,17 +41,17 @@ const actionHandlers = {
     isLoading: true,
     error: null,
   }),
-  [FETCH_NOTE_TYPES.SUCCESS]: (state, action) => ({
+  [FETCH_NOTE_TYPES.SUCCESS]: (state, { payload, meta: { endRequestTime } }) => ({
     ...state,
-    data: Object.values(action.payload),
+    data: Object.values(payload),
     isLoading: false,
-    receivedAt: timestamp(),
+    receivedAt: endRequestTime,
   }),
-  [FETCH_NOTE_TYPES.FAILURE]: (state, action) => ({
+  [FETCH_NOTE_TYPES.FAILURE]: (state, { payload, meta: { endRequestTime } }) => ({
     ...state,
     isLoading: false,
-    error: action.payload,
-    receivedAt: timestamp(),
+    error: payload,
+    receivedAt: endRequestTime,
   }),
 };
 const actionTypes = {

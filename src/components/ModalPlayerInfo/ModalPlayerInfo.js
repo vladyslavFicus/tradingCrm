@@ -8,7 +8,11 @@ import Uuid from '../Uuid';
 
 class ModalPlayerInfo extends Component {
   static propTypes = {
-    playerProfile: PropTypes.userProfile.isRequired,
+    playerProfile: PropTypes.userProfile,
+  };
+
+  static defaultProps = {
+    playerProfile: null,
   };
 
   renderPlayerInfo = profile => (
@@ -21,7 +25,7 @@ class ModalPlayerInfo extends Component {
         {!!profile.birthDate && <span>({moment().diff(profile.birthDate, 'years')})</span>}
       </div>
       <div className="font-size-11">
-        {profile.login}
+        {profile.username}
         {' - '}
         <Uuid
           uuid={profile.playerUUID}
@@ -56,6 +60,10 @@ class ModalPlayerInfo extends Component {
 
   render() {
     const { playerProfile } = this.props;
+
+    if (!playerProfile) {
+      return null;
+    }
 
     return (
       <div className="modal-header-tabs">

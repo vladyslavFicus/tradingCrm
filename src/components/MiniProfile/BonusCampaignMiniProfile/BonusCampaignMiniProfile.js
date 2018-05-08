@@ -7,7 +7,8 @@ import {
   statuses,
   statusesLabels,
   targetTypesLabels,
-  campaignTypesLabels,
+  rewardTypesLabels,
+  fulfillmentTypesLabels,
 } from '../../../constants/bonus-campaigns';
 import { customValueFieldTypes } from '../../../constants/form';
 import Uuid from '../../Uuid';
@@ -25,7 +26,7 @@ const BonusCampaignMiniProfile = (props) => {
       creationDate,
       currency,
       endDate,
-      campaignType,
+      fulfillmentType,
       optIn,
       startDate,
       state,
@@ -35,6 +36,7 @@ const BonusCampaignMiniProfile = (props) => {
       statusChangedAuthorUUID,
       totalOptInPlayers,
       totalSelectedPlayers,
+      campaignType,
     },
   } = props;
 
@@ -119,7 +121,7 @@ const BonusCampaignMiniProfile = (props) => {
           <div className="info-block-label">{I18n.t('MINI_PROFILE.FULFILLMENT')}</div>
           <div className="info-block-content">
             <div className="info-block-heading">
-              {renderLabel(campaignType, campaignTypesLabels)}
+              {renderLabel(fulfillmentType, fulfillmentTypesLabels)}
             </div>
           </div>
         </div>
@@ -127,19 +129,17 @@ const BonusCampaignMiniProfile = (props) => {
           <div className="info-block-label">{I18n.t('MINI_PROFILE.REWARD')}</div>
           <div className="info-block-content">
             <div className="info-block-heading">
-              {I18n.t('MINI_PROFILE.BONUS')}
+              {renderLabel(campaignType, rewardTypesLabels)}
             </div>
             <div className="info-block-description">
-              {
-                campaignRatio.type === customValueFieldTypes.ABSOLUTE &&
-                <Amount amount={campaignRatio.value} currency={currency} />
-              }
-              {
-                campaignRatio.type === customValueFieldTypes.PERCENTAGE &&
-                <span>
+              <If condition={campaignRatio}>
+                <If condition={campaignRatio.type === customValueFieldTypes.ABSOLUTE}>
+                  <Amount amount={campaignRatio.value} currency={currency} />
+                </If>
+                <If condition={campaignRatio.type === customValueFieldTypes.PERCENTAGE}>
                   {`${campaignRatio.value} %`}
-                </span>
-              }
+                </If>
+              </If>
             </div>
           </div>
         </div>

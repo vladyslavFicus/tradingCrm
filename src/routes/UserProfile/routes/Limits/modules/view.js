@@ -141,23 +141,19 @@ function fetchLimits(uuid, fetchNotes = fetchNotesFn) {
 function setPlayingSessionLimit(playerUUID, type, data) {
   return (dispatch, getState) => {
     const {
-      auth: { token, logged },
-      profile: { accumulatedBalances: { data: { real: { currency: currencyCode } } } },
+      auth: { token, logged, brandId },
     } = getState();
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `/playing-session/${playerUUID}/limits/${type}`,
+        endpoint: `/playing-session/${playerUUID}/limits/${type}?brandId=${brandId}`,
         method: 'POST',
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({
-          ...data,
-          currencyCode,
-        }),
+        body: JSON.stringify(data),
         types: [SET_LIMIT.REQUEST, SET_LIMIT.SUCCESS, SET_LIMIT.FAILURE],
         bailout: !logged,
       },
@@ -169,7 +165,6 @@ function setDepositLimit(playerUUID, data) {
   return (dispatch, getState) => {
     const {
       auth: { token, logged },
-      profile: { accumulatedBalances: { data: { real: { currency: currencyCode } } } },
     } = getState();
 
     return dispatch({
@@ -181,10 +176,7 @@ function setDepositLimit(playerUUID, data) {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({
-          ...data,
-          currencyCode,
-        }),
+        body: JSON.stringify(data),
         types: [SET_LIMIT.REQUEST, SET_LIMIT.SUCCESS, SET_LIMIT.FAILURE],
         bailout: !logged,
       },

@@ -1,101 +1,74 @@
 import createReducer from '../../utils/createReducer';
-import I18n from '../../utils/fake-i18n';
-import { actionTypes as windowActionTypes } from './window';
+import Permissions from '../../utils/permissions';
+import { sidebarTopMenu, sidebarBottomMenu } from '../../config/menu';
 
 const KEY = 'app';
-const SET_SCROLL_TO_TOP = `${KEY}/set-scroll-to-top`;
-const TOGGLE_MENU_TAP = `${KEY}/toggle-menu-tap`;
-const MENU_CLICK = `${KEY}/menu-click`;
+const TOGGLE_MENU_TAB = `${KEY}/toggle-menu-tab`;
+const MENU_ITEM_CLICK = `${KEY}/menu-item-click`;
+const INIT_SIDEBAR = `${KEY}/init-sidebar`;
 
 const initialState = {
-  showScrollToTop: false,
-  isInitializedScroll: false,
-  sidebarTopMenu: [
-    {
-      label: I18n.t('SIDEBAR.TOP_MENU.PLAYERS'),
-      icon: 'fa fa-users',
-      isOpen: false,
-      items: [
-        { label: I18n.t('SIDEBAR.TOP_MENU.PLAYERS_SEARCH'), url: '/users/list' },
-        { label: I18n.t('SIDEBAR.TOP_MENU.PLAYERS_KYC_REQUEST'), url: '/users/kyc-requests' },
-      ],
-    },
-    {
-      label: I18n.t('SIDEBAR.TOP_MENU.OPERATORS'),
-      icon: 'fa fa-eye',
-      url: '/operators/list',
-    },
-    {
-      label: I18n.t('SIDEBAR.TOP_MENU.TRANSACTIONS'),
-      icon: 'fa fa-credit-card',
-      isOpen: false,
-      items: [
-        { label: I18n.t('SIDEBAR.TOP_MENU.PAYMENTS'), url: '/transactions' },
-        { label: I18n.t('SIDEBAR.TOP_MENU.OPEN_LOOP'), url: '/transactions/open-loops' },
-      ],
-    },
-    {
-      label: I18n.t('SIDEBAR.TOP_MENU.BONUS_CAMPAIGNS'),
-      icon: 'fa fa-gift',
-      url: '/bonus-campaigns',
-    },
-    {
-      label: I18n.t('SIDEBAR.TOP_MENU.SETTINGS'),
-      icon: 'fa fa-gear',
-      isOpen: false,
-      items: [
-        { label: I18n.t('SIDEBAR.TOP_MENU.GAMES'), url: '/settings/games' },
-        { label: I18n.t('SIDEBAR.TOP_MENU.PAYMENT_METHODS'), url: '/settings/paymentMethods' },
-      ],
-    },
-  ],
-  sidebarBottomMenu: [
-    { label: I18n.t('SIDEBAR.BOTTOM_MENU.SUPPORT'), icon: 'fa fa-life-ring', url: '#' },
-  ],
+  sidebarTopMenu: [],
+  sidebarBottomMenu,
 };
 
-function setIsShowScrollTop(payload) {
+function toggleMenuTab(index) {
   return {
-    type: SET_SCROLL_TO_TOP,
-    payload,
-  };
-}
-
-function toggleMenuTap(index) {
-  return {
-    type: TOGGLE_MENU_TAP,
+    type: TOGGLE_MENU_TAB,
     payload: index,
   };
 }
 
-function menuClick() {
+function menuItemClick() {
   return {
-    type: MENU_CLICK,
+    type: MENU_ITEM_CLICK,
+  };
+}
+
+function initSidebar(userPermissions) {
+  return {
+    type: INIT_SIDEBAR,
+    payload: userPermissions,
   };
 }
 
 const actionCreators = {
-  setIsShowScrollTop,
-  toggleMenuTap,
-  menuClick,
+  initSidebar,
+  toggleMenuTab,
+  menuItemClick,
 };
+
 const actionTypes = {
-  SET_SCROLL_TO_TOP,
-  TOGGLE_MENU_TAP,
-  MENU_CLICK,
+  TOGGLE_MENU_TAB,
+  MENU_ITEM_CLICK,
 };
 const actionHandlers = {
-  [SET_SCROLL_TO_TOP]: (state, action) => ({
-    ...state,
-    showScrollToTop: action.payload,
-    isInitializedScroll: state.isInitializedScroll || action.payload,
-  }),
-  [windowActionTypes.SHOW_SCROLL_TO_TOP]: (state, action) => ({
-    ...state,
-    showScrollToTop: action.payload,
-    isInitializedScroll: state.isInitializedScroll || action.payload,
-  }),
-  [TOGGLE_MENU_TAP]: (state, action) => {
+  [INIT_SIDEBAR]: (state, { payload: currentPermissions }) => {
+    const permissionMenu = sidebarTopMenu.reduce((result, item) => {
+      if (item.items) {
+        const subItems = item.items.filter(
+          i => !(i.permissions instanceof Permissions) || i.permissions.check(currentPermissions)
+        );
+
+        if (subItems.length) {
+          result.push({
+            ...item,
+            items: subItems,
+          });
+        }
+      } else if (!(item.permissions instanceof Permissions) || item.permissions.check(currentPermissions)) {
+        result.push(item);
+      }
+
+      return result;
+    }, []);
+
+    return {
+      ...state,
+      sidebarTopMenu: permissionMenu,
+    };
+  },
+  [TOGGLE_MENU_TAB]: (state, action) => {
     const newSidebarTopMenu = [...state.sidebarTopMenu];
     const index = action.payload;
 
@@ -103,14 +76,26 @@ const actionHandlers = {
       ...state,
       sidebarTopMenu: newSidebarTopMenu.map((menuItem, menuItemIndex) => ({
         ...menuItem,
-        isOpen: menuItemIndex !== index || !menuItem.isOpen,
+        isOpen: !(menuItemIndex !== index || menuItem.isOpen),
       })),
     };
   },
-  [MENU_CLICK]: state => ({
-    ...state,
-    sidebarTopMenu: state.sidebarTopMenu.map(menuItem => (menuItem.items ? { ...menuItem, isOpen: false } : menuItem)),
-  }),
+  [MENU_ITEM_CLICK]: (state) => {
+    const newSidebarTopMenu = [...state.sidebarTopMenu];
+
+    return {
+      ...state,
+      sidebarTopMenu: newSidebarTopMenu.map((menuItem) => {
+        const { items } = menuItem;
+        const isSubMenu = !!(items && items.length);
+
+        return {
+          ...menuItem,
+          isOpen: isSubMenu && !!items.find(subMenuItem => subMenuItem.url === location.pathname),
+        };
+      }),
+    };
+  },
 };
 
 export {

@@ -2,11 +2,10 @@ import { CALL_API } from 'redux-api-middleware';
 import moment from 'moment';
 import createReducer from '../../../utils/createReducer';
 import createRequestAction from '../../../utils/createRequestAction';
-import timestamp from '../../../utils/timestamp';
 import { actions, statuses as userStatuses } from '../../../constants/user';
 import { statuses as kycStatuses, categories as kycCategories } from '../../../constants/kyc';
-import { actionCreators as usersActionCreators } from '../../../redux/modules/users';
-import config from '../../../config';
+import { actionCreators as profileActionCreators } from '../../../redux/modules/profile';
+import { actionCreators as authActionCreators } from '../../../redux/modules/auth';
 
 const KEY = 'user-profile/view';
 const FETCH_PROFILE = createRequestAction(`${KEY}/fetch-profile`);
@@ -20,6 +19,7 @@ const RESET_PASSWORD_REQUEST = createRequestAction(`${KEY}/reset-password-reques
 const RESET_PASSWORD_CONFIRM = createRequestAction(`${KEY}/reset-password-confirm`);
 const FETCH_RESET_PASSWORD_TOKEN = createRequestAction(`${KEY}/fetch-reset-password-token`);
 const ACTIVATE_PROFILE = createRequestAction(`${KEY}/activate-profile`);
+const CHANGE_PASSWORD = createRequestAction(`${KEY}/change-password`);
 
 const SUSPEND_PROFILE = createRequestAction(`${KEY}/suspend-profile`);
 const PROLONG_PROFILE = createRequestAction(`${KEY}/prolong-profile`);
@@ -79,9 +79,9 @@ const initialState = {
     registrationDate: null,
     tags: [],
     kycCompleted: false,
-    balance: { amount: 0, currency: config.nas.currencies.base },
-    realBalance: { amount: 0, currency: config.nas.currencies.base },
-    bonusBalance: { amount: 0, currency: config.nas.currencies.base },
+    balance: { amount: 0, currency: 'EUR' },
+    realBalance: { amount: 0, currency: 'EUR' },
+    bonusBalance: { amount: 0, currency: 'EUR' },
     kycAddressStatus: null,
     kycPersonalStatus: null,
     kycRequest: null,
@@ -102,11 +102,36 @@ const initialState = {
   },
 };
 
-const fetchProfile = usersActionCreators.fetchProfile(FETCH_PROFILE);
-const resetPassword = usersActionCreators.passwordResetRequest(RESET_PASSWORD_REQUEST);
-const resetPasswordConfirm = usersActionCreators.passwordResetConfirm(RESET_PASSWORD_CONFIRM);
-const fetchResetPasswordToken = usersActionCreators.fetchResetPasswordToken(FETCH_RESET_PASSWORD_TOKEN);
-const activateProfile = usersActionCreators.profileActivateRequest(ACTIVATE_PROFILE);
+const fetchProfile = profileActionCreators.fetchProfile(FETCH_PROFILE);
+const activateProfile = profileActionCreators.profileActivateRequest(ACTIVATE_PROFILE);
+
+const resetPassword = authActionCreators.passwordResetRequest(RESET_PASSWORD_REQUEST);
+const resetPasswordConfirm = authActionCreators.passwordResetConfirm(RESET_PASSWORD_CONFIRM);
+
+function changePassword(uuid, password) {
+  return (dispatch, getState) => {
+    const { auth: { token, logged } } = getState();
+
+    return dispatch({
+      [CALL_API]: {
+        endpoint: `auth/credentials/${uuid}/password`,
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ password }),
+        types: [
+          CHANGE_PASSWORD.REQUEST,
+          CHANGE_PASSWORD.SUCCESS,
+          CHANGE_PASSWORD.FAILURE,
+        ],
+        bailout: !logged,
+      },
+    });
+  };
+}
 
 function updateProfile(uuid, data) {
   return (dispatch, getState) => {
@@ -581,13 +606,13 @@ function changeStatus({ action, ...data }) {
   };
 }
 
-function optimisticKycRequestActionReducer(state, action) {
+function optimisticKycRequestActionReducer(state, { payload, meta: { endRequestTime } }) {
   const {
     date,
     status,
     authorUUID,
     kycRequestReason,
-  } = action.payload;
+  } = payload;
   return {
     ...state,
     data: {
@@ -611,18 +636,18 @@ function optimisticKycRequestActionReducer(state, action) {
         requestDate: date,
       },
       isLoading: false,
-      receivedAt: timestamp(),
+      receivedAt: endRequestTime,
     },
   };
 }
 
-function optimisticVerifyKycActionReducer(state, action) {
+function optimisticVerifyKycActionReducer(state, { payload, meta: { endRequestTime } }) {
   const {
     type,
     date,
     authorUUID,
     status,
-  } = action.payload;
+  } = payload;
 
   const otherKycStatus = type === 'kycPersonalStatus' ? 'kycAddressStatus' : 'kycPersonalStatus';
   const kycCompleted = state.data[otherKycStatus] && state.data[otherKycStatus].status === kycStatuses.VERIFIED;
@@ -639,17 +664,17 @@ function optimisticVerifyKycActionReducer(state, action) {
         status,
       },
       isLoading: false,
-      receivedAt: timestamp(),
+      receivedAt: endRequestTime,
     },
   };
 }
 
-function optimisticVerifyKycAllActionReducer(state, action) {
+function optimisticVerifyKycAllActionReducer(state, { payload, meta: { endRequestTime } }) {
   const {
     date,
     authorUUID,
     status,
-  } = action.payload;
+  } = payload;
 
   const verifiedStatusEntity = {
     reason: '',
@@ -665,19 +690,19 @@ function optimisticVerifyKycAllActionReducer(state, action) {
       kycAddressStatus: verifiedStatusEntity,
       kycPersonalStatus: verifiedStatusEntity,
       isLoading: false,
-      receivedAt: timestamp(),
+      receivedAt: endRequestTime,
     },
   };
 }
 
-function optimisticRefuseKycActionReducer(state, action) {
+function optimisticRefuseKycActionReducer(state, { payload, meta: { endRequestTime } }) {
   const {
     type,
     date,
     authorUUID,
     status,
     reason,
-  } = action.payload;
+  } = payload;
 
   return {
     ...state,
@@ -692,32 +717,32 @@ function optimisticRefuseKycActionReducer(state, action) {
       },
       kycCompleted: false,
       isLoading: false,
-      receivedAt: timestamp(),
+      receivedAt: endRequestTime,
     },
   };
 }
 
-function successUpdateStatusReducer(state, action) {
+function successUpdateStatusReducer(state, { payload, meta: { endRequestTime } }) {
   return {
     ...state,
     data: {
       ...state.data,
-      ...action.payload,
+      ...payload,
     },
     isLoading: false,
-    receivedAt: timestamp(),
+    receivedAt: endRequestTime,
   };
 }
 
-function successUpdateProfileReducer(state, action) {
+function successUpdateProfileReducer(state, { payload, meta: { endRequestTime } }) {
   return {
     ...state,
     data: {
       ...state.data,
-      ...action.payload,
+      ...payload,
     },
     isLoading: false,
-    receivedAt: timestamp(),
+    receivedAt: endRequestTime,
   };
 }
 
@@ -866,20 +891,20 @@ const actionHandlers = {
     isLoading: true,
     error: null,
   }),
-  [FETCH_PROFILE.SUCCESS]: (state, action) => ({
+  [FETCH_PROFILE.SUCCESS]: (state, { payload, meta: { endRequestTime } }) => ({
     ...state,
     data: {
       ...state.data,
-      ...action.payload,
+      ...payload,
     },
     isLoading: false,
-    receivedAt: timestamp(),
+    receivedAt: endRequestTime,
   }),
-  [FETCH_PROFILE.FAILURE]: (state, action) => ({
+  [FETCH_PROFILE.FAILURE]: (state, { payload, meta: { endRequestTime } }) => ({
     ...state,
     isLoading: false,
-    error: action.payload,
-    receivedAt: timestamp(),
+    error: payload,
+    receivedAt: endRequestTime,
   }),
   [UPDATE_PROFILE.SUCCESS]: successUpdateProfileReducer,
   [BLOCK_PROFILE.SUCCESS]: successUpdateProfileReducer,
@@ -893,20 +918,20 @@ const actionHandlers = {
     isLoading: true,
     error: null,
   }),
-  [SUBMIT_KYC.SUCCESS]: (state, action) => ({
+  [SUBMIT_KYC.SUCCESS]: (state, { payload, meta: { endRequestTime } }) => ({
     ...state,
     data: {
       ...state.data,
-      ...action.payload,
+      ...payload,
     },
     isLoading: false,
-    receivedAt: timestamp(),
+    receivedAt: endRequestTime,
   }),
-  [SUBMIT_KYC.FAILURE]: (state, action) => ({
+  [SUBMIT_KYC.FAILURE]: (state, { payload, meta: { endRequestTime } }) => ({
     ...state,
     isLoading: false,
-    error: action.payload,
-    receivedAt: timestamp(),
+    error: payload,
+    receivedAt: endRequestTime,
   }),
   [VERIFY_DATA.SUCCESS]: optimisticVerifyKycActionReducer,
   [REFUSE_DATA.SUCCESS]: optimisticRefuseKycActionReducer,
@@ -960,7 +985,6 @@ const actionCreators = {
   updateEmail,
   resetPassword,
   resetPasswordConfirm,
-  fetchResetPasswordToken,
   activateProfile,
   updateSubscription,
   changeStatus,
@@ -972,6 +996,7 @@ const actionCreators = {
   manageKycNote,
   resetNote,
   fetchKycReasons,
+  changePassword,
 };
 
 export {

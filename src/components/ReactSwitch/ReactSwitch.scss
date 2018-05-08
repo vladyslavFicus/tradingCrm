@@ -1,12 +1,14 @@
 .react-switch {
-  cursor:pointer;
-  display:inline-block;
+  position: relative;
+  display: inline-block;
   width: 29px;
   height: 15px;
-  left: 2px;
-  background-color: rgba(153, 153, 153, 1);
+  margin-right: 5px;
+  padding: 0;
   border: none;
   border-radius: 8px;
+  background-color: rgba(153, 153, 153, 1);
+  vertical-align: middle;
 
   &.on {
     background-color:green;
@@ -20,15 +22,14 @@
   }
 
   .switch-toggle {
-    background:#fff;
-    position:relative;
-    transition:left .2s ease-in-out;
+    position: absolute;
+    top: 50%;
+    left: 3px;
+    transform: translateY(-50%);
     width: 9px;
     height: 9px;
-    border: none;
-    box-shadow: none;
-    left: 3px;
     border-radius: 50%;
-    top: 3px;
+    background-color: #fff;
+    transition: left .2s ease-in-out;
   }
 }

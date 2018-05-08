@@ -1,16 +1,16 @@
 import { CALL_API } from 'redux-api-middleware';
-import timestamp from '../../../../../utils/timestamp';
+import get from 'lodash/get';
 import createRequestAction from '../../../../../utils/createRequestAction';
 import buildQueryString from '../../../../../utils/buildQueryString';
-import { getBrand } from '../../../../../config';
+import createReducer from '../../../../../utils/createReducer';
 
-const KEY = 'operators';
+const KEY = 'operators/list';
 const CREATE_OPERATOR = createRequestAction(`${KEY}/create-operator`);
 const FETCH_ENTITIES = createRequestAction(`${KEY}/entities`);
 
 function createOperator(data) {
   return (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
+    const { auth: { token, logged, brandId } } = getState();
 
     return dispatch({
       [CALL_API]: {
@@ -24,7 +24,7 @@ function createOperator(data) {
         body: JSON.stringify({
           ...data,
           sendMail: !!data.sendMail,
-          brandId: getBrand(),
+          brandId,
         }),
         types: [
           CREATE_OPERATOR.REQUEST,
@@ -64,38 +64,6 @@ function fetchEntities(filters = {}) {
   };
 }
 
-const actionHandlers = {
-  [FETCH_ENTITIES.REQUEST]: (state, action) => ({
-    ...state,
-    filters: { ...action.meta.filters },
-    isLoading: true,
-    error: null,
-    noResults: false,
-  }),
-  [FETCH_ENTITIES.SUCCESS]: (state, action) => ({
-    ...state,
-    entities: {
-      ...state.entities,
-      ...action.payload,
-      content: action.payload.number === 0
-        ? action.payload.content
-        : [
-          ...state.entities.content,
-          ...action.payload.content,
-        ],
-    },
-    isLoading: false,
-    receivedAt: timestamp(),
-    noResults: action.payload.content.length === 0,
-  }),
-  [FETCH_ENTITIES.FAILURE]: (state, action) => ({
-    ...state,
-    isLoading: false,
-    error: action.payload,
-    receivedAt: timestamp(),
-  }),
-};
-
 const initialState = {
   entities: {
     first: null,
@@ -114,21 +82,49 @@ const initialState = {
   receivedAt: null,
   noResults: false,
 };
-function reducer(state = initialState, action) {
-  const handler = actionHandlers[action.type];
-
-  return handler ? handler(state, action) : state;
-}
-
+const actionHandlers = {
+  [FETCH_ENTITIES.REQUEST]: (state, action) => ({
+    ...state,
+    filters: { ...action.meta.filters },
+    isLoading: true,
+    error: null,
+    noResults: false,
+  }),
+  [FETCH_ENTITIES.SUCCESS]: (state, { payload, meta: { endRequestTime } }) => ({
+    ...state,
+    entities: {
+      ...state.entities,
+      ...payload,
+      content: payload.number === 0
+        ? payload.content
+        : [
+          ...state.entities.content,
+          ...payload.content,
+        ],
+    },
+    isLoading: false,
+    receivedAt: endRequestTime,
+    noResults: !get(payload, 'content.length'),
+  }),
+  [FETCH_ENTITIES.FAILURE]: (state, { payload, meta: { endRequestTime } }) => ({
+    ...state,
+    isLoading: false,
+    error: payload,
+    receivedAt: endRequestTime,
+  }),
+};
 const actionTypes = {
   FETCH_ENTITIES,
 };
-
 const actionCreators = {
   fetchEntities,
   createOperator,
 };
 
-export { actionCreators, actionTypes, initialState };
+export {
+  actionCreators,
+  actionTypes,
+  initialState,
+};
 
-export default reducer;
+export default createReducer(initialState, actionHandlers);

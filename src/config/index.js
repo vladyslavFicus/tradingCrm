@@ -1,15 +1,7 @@
 import _ from 'lodash';
 
 const config = _.merge({
-  version: __APP_VERSION__,
-  availableDepartments: [],
-  availableRoles: [],
   availableTags: [],
-  providers: {
-    stakelogic: 'Stakelogic',
-    netent: 'Netent',
-    igromat: 'Igromat',
-  },
   components: {
     Currency: {
       currencies: {},
@@ -39,13 +31,15 @@ const config = _.merge({
   },
   nas: {
     brand: {
-      name: '',
       api: {
+        version: 'latest',
         url: '',
       },
-      departments: [],
       tags: {},
-      roles: [],
+      currencies: {
+        base: 'EUR',
+        supported: [],
+      },
     },
     validation: {
       password: null,
@@ -68,8 +62,11 @@ const config = _.merge({
     url: '',
   },
   middlewares: {
-    unauthorized: [401, 403],
-    persist: { whitelist: ['auth', 'userPanels', 'language', 'settings'], keyPrefix: 'nas:' },
+    unauthorized: [401],
+    persist: {
+      whitelist: ['auth', 'userPanels', 'language', 'settings', 'dynamicFilters'],
+      keyPrefix: 'nas:',
+    },
     crossTabPersist: { whitelist: ['auth'], keyPrefix: 'nas:' },
   },
   modules: {
@@ -96,22 +93,6 @@ if (config.nas.validation && config.nas.brand) {
   if (config.nas.brand.password.pattern) {
     config.nas.validation.password = new RegExp(config.nas.brand.password.pattern, 'g');
   }
-}
-
-if (config.nas.brand.departments) {
-  config.availableDepartments = config.nas.brand.departments;
-  config.availableDepartments.splice(config.availableDepartments.indexOf('PLAYER'), 1);
-  config.availableDepartments = config.availableDepartments.map(item => ({
-    value: item,
-    label: item,
-  }));
-}
-
-if (config.nas.brand.roles) {
-  config.availableRoles = config.nas.brand.roles.map(item => ({
-    value: item,
-    label: item,
-  }));
 }
 
 if (config.nas.brand.tags && config.nas.brand.tags.priorities) {
@@ -150,16 +131,31 @@ function getErrorApiUrl() {
   return '/log';
 }
 
-function getBrand() {
-  return config.nas.brand.name;
+function getApiVersion() {
+  return window.nas.nas.brand.api.version || config.nas.brand.api.version;
 }
 
 function getAvailableLanguages() {
   return config.nas.brand.locale.languages || [];
 }
 
+function getGraphQLRoot() {
+  return config.nas.graphqlRoot;
+}
+
 function getLogo() {
-  return /vslots/.test(getApiRoot()) ? '/img/vslots-logo.png' : '/img/logoNewAge.png';
+  const brands = ['redbox', 'slottica', 'loki', 'vulcanprestige', 'vulcanneon'];
+  let brandId = _.get(window, 'app.brandId');
+
+  if (brandId) {
+    brandId = brandId.replace(/(_\w+)/, '');
+  }
+
+  if (brands.indexOf(brandId) > -1) {
+    return `/img/brand/logo/${brandId}.svg`;
+  }
+
+  return '/img/logoNewAge.png';
 }
 
 function getVersion() {
@@ -170,16 +166,21 @@ function getDomain() {
   return `${location.protocol}//${location.hostname}${location.port ? `:${location.port}` : ''}`;
 }
 
+function getBrandId() {
+  return window.app.brandId;
+}
 export {
   getApiRoot,
-  getBrand,
+  getBrandId,
   getErrorApiUrl,
   getLogo,
   getAvailableTags,
   getLimitPeriods,
   getAvailableLanguages,
   getVersion,
+  getApiVersion,
   getDomain,
+  getGraphQLRoot,
 };
 
 export default config;

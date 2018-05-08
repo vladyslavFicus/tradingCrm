@@ -2,27 +2,27 @@ import React, { Component } from 'react';
 import { I18n } from 'react-redux-i18n';
 import moment from 'moment';
 import { SubmissionError } from 'redux-form';
-import Sticky from 'react-stickynode';
+import { get } from 'lodash';
 import PropTypes from '../../../../../../../../constants/propTypes';
 import GridView, { GridColumn } from '../../../../../../../../components/GridView';
 import Uuid from '../../../../../../../../components/Uuid';
 import renderLabel from '../../../../../../../../utils/renderLabel';
 import {
-  campaignTypesLabels,
+  fulfillmentTypesLabels,
   statuses as bonusCampaignStatuses,
   targetTypesLabels,
+  targetTypes,
 } from '../../../../../../../../constants/bonus-campaigns';
 import IframeLink from '../../../../../../../../components/IframeLink';
-import SubTabNavigation from '../../../../../../../../components/SubTabNavigation';
-import { routes as subTabRoutes } from '../../../../constants';
 import CampaignsFilterForm from '../CampaignsFilterForm';
 import ConfirmActionModal from '../../../../../../../../components/Modal/ConfirmActionModal';
-import AddToCampaignModal from '../AddToCampaignModal';
+import AddToCampaignModal from '../../../../../../../../components/AddToCampaignModal';
 import AddPromoCodeModal from '../AddPromoCodeModal';
 import PermissionContent from '../../../../../../../../components/PermissionContent';
 import permissions from '../../../../../../../../config/permissions';
+import StickyNavigation from '../../../../../../components/StickyNavigation';
 
-const CAMPAIGN_DECLINE_MODAL = 'campaign-decline-modal';
+const CAMPAIGN_ACTION_MODAL = 'campaign-action-modal';
 const ADD_TO_CAMPAIGN_MODAL = 'add-to-campaign-modal';
 const ADD_PROMO_CODE_MODAL = 'add-promo-code-modal';
 const modalInitialState = {
@@ -36,6 +36,8 @@ class View extends Component {
     profile: PropTypes.userProfile.isRequired,
     fetchPlayerCampaigns: PropTypes.func.isRequired,
     declineCampaign: PropTypes.func.isRequired,
+    optInCampaign: PropTypes.func.isRequired,
+    unTargetCampaign: PropTypes.func.isRequired,
     fetchCampaigns: PropTypes.func.isRequired,
     addPlayerToCampaign: PropTypes.func.isRequired,
     addPromoCodeToPlayer: PropTypes.func.isRequired,
@@ -43,6 +45,7 @@ class View extends Component {
       id: PropTypes.string,
     }).isRequired,
     locale: PropTypes.string.isRequired,
+    subTabRoutes: PropTypes.arrayOf(PropTypes.subTabRouteEntity).isRequired,
   };
   static contextTypes = {
     cacheChildrenComponent: PropTypes.func.isRequired,
@@ -72,6 +75,10 @@ class View extends Component {
     });
   };
 
+  handlePageChanged = (page) => {
+    this.setState({ page: page - 1 }, this.handleRefresh);
+  };
+
   handleOpenModal = (name, params) => {
     this.setState({
       modal: {
@@ -89,10 +96,6 @@ class View extends Component {
     });
   };
 
-  handleDeclineClick = (uuid, returnToList = false) => {
-    this.handleOpenModal(CAMPAIGN_DECLINE_MODAL, { uuid, returnToList });
-  };
-
   handleFiltersChanged = (filters = {}) => {
     this.setState({ filters, page: 0 }, this.handleRefresh);
   };
@@ -101,50 +104,35 @@ class View extends Component {
     this.setState({ filters: {}, page: 0 }, this.handleRefresh);
   };
 
-  handleDeclineCampaign = async () => {
-    const { modal: { params: { uuid, returnToList } } } = this.state;
+  handleActionClick = params => this.handleOpenModal(CAMPAIGN_ACTION_MODAL, params);
 
-    const {
-      declineCampaign,
-      params: { id: playerUUID },
-    } = this.props;
+  handleActionCampaign = async () => {
+    const { modal: { params: { action, ...params } } } = this.state;
+    const { params: { id: playerUUID } } = this.props;
 
-    const action = await declineCampaign(uuid, playerUUID, returnToList);
+    const actionResult = await action({ ...params, playerUUID });
     this.handleCloseModal();
 
-    if (action && !action.error) {
+    if (actionResult && !actionResult.error) {
       this.handleRefresh();
     }
   };
 
   handleAddToCampaignClick = async () => {
-    const { fetchCampaigns, params: { id }, profile: { currency } } = this.props;
+    const { fetchCampaigns, params: { id } } = this.props;
 
-    const currentPlayerCampaignsActions = await fetchCampaigns({ playerUUID: id });
+    const campaignsActions = await fetchCampaigns(id);
 
-    if (!currentPlayerCampaignsActions || currentPlayerCampaignsActions.error) {
+    if (!campaignsActions || campaignsActions.error) {
       this.context.addNotification({
         level: 'error',
         title: I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.NOTIFICATIONS.FETCH_CAMPAIGNS_ERROR.TITLE'),
         message: I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.NOTIFICATIONS.FETCH_CAMPAIGNS_ERROR.MESSAGE'),
       });
     } else {
-      const currentCampaigns = currentPlayerCampaignsActions.payload.content.map(i => i.id);
-
-      const campaignsActions = await fetchCampaigns({ currency });
-
-      if (!campaignsActions || campaignsActions.error) {
-        this.context.addNotification({
-          level: 'error',
-          title: I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.NOTIFICATIONS.FETCH_CAMPAIGNS_ERROR.TITLE'),
-          message: I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.NOTIFICATIONS.FETCH_CAMPAIGNS_ERROR.MESSAGE'),
-        });
-      } else {
-        this.handleOpenModal(ADD_TO_CAMPAIGN_MODAL, {
-          campaigns: campaignsActions.payload.content
-            .filter(i => currentCampaigns.indexOf(i.id) === -1 && i.currency === currency),
-        });
-      }
+      this.handleOpenModal(ADD_TO_CAMPAIGN_MODAL, {
+        campaigns: campaignsActions.payload.content,
+      });
     }
   };
 
@@ -179,10 +167,16 @@ class View extends Component {
     const action = await addPromoCodeToPlayer(id, promoCode);
 
     if (!action || action.error) {
-      throw new SubmissionError({ promoCode: I18n.t(action.payload.response.error) });
-    }
+      throw new SubmissionError({ promoCode: I18n.t(get(action, 'payload.response.error', 'error.internal')) });
+    } else {
+      this.context.addNotification({
+        level: 'success',
+        title: I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.NOTIFICATIONS.SUCCESS_ADD_PROMO_CODE.TITLE'),
+        message: I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.NOTIFICATIONS.SUCCESS_ADD_PROMO_CODE.MESSAGE'),
+      });
 
-    this.handleCloseModal();
+      this.handleCloseModal(this.handleRefresh);
+    }
   };
 
   renderCampaign = data => (
@@ -205,7 +199,7 @@ class View extends Component {
   renderBonusType = data => (
     <div>
       <div className="text-uppercase font-weight-700">
-        {renderLabel(data.campaignType, campaignTypesLabels)}
+        {renderLabel(data.fulfillmentType, fulfillmentTypesLabels)}
       </div>
       <div className="font-size-10">{data.optIn ? I18n.t('COMMON.OPT_IN') : I18n.t('COMMON.NON_OPT_IN')}</div>
     </div>
@@ -242,63 +236,113 @@ class View extends Component {
     </div>
   );
 
-  renderActions = (data) => {
-    if (!data.optedIn || data.state !== bonusCampaignStatuses.ACTIVE) {
+  renderActions = ({ state, optedIn, uuid, targetType }) => {
+    const {
+      declineCampaign,
+      optInCampaign,
+      unTargetCampaign,
+    } = this.props;
+
+    if (state !== bonusCampaignStatuses.ACTIVE) {
       return null;
     }
 
     return (
       <div className="text-center">
-        <button
-          key="optOutButton"
-          type="button"
-          className="btn btn-sm btn-danger margin-bottom-5"
-          onClick={() => this.handleDeclineClick(data.uuid, true)}
-        >
-          {I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.OPT_OUT')}
-        </button>
-        <button
-          key="declineButton"
-          type="button"
-          className="btn btn-sm btn-danger display-inline"
-          onClick={() => this.handleDeclineClick(data.uuid)}
-        >
-          {I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.DECLINE')}
-        </button>
+        {
+          optedIn ?
+            <div>
+              <button
+                key="optOutButton"
+                type="button"
+                className="btn btn-danger margin-right-10"
+                onClick={() => this.handleActionClick({
+                  action: declineCampaign,
+                  id: uuid,
+                  returnToList: true,
+                })}
+              >
+                {I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.OPT_OUT')}
+              </button>
+              <button
+                key="declineButton"
+                type="button"
+                className="btn btn-danger"
+                onClick={() => this.handleActionClick({
+                  action: declineCampaign,
+                  id: uuid,
+                })}
+              >
+                {I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.DECLINE')}
+              </button>
+            </div>
+            :
+            <div>
+              {
+                targetType !== targetTypes.ALL &&
+                <button
+                  key="unTargetButton"
+                  type="button"
+                  className="btn btn-danger margin-right-10"
+                  onClick={() => this.handleActionClick({
+                    action: unTargetCampaign,
+                    id: uuid,
+                  })}
+                >
+                  {I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.UN_TARGET')}
+                </button>
+              }
+              <button
+                key="optInButton"
+                type="button"
+                className="btn btn-success"
+                onClick={() => this.handleActionClick({
+                  action: optInCampaign,
+                  id: uuid,
+                })}
+              >
+                {I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.OPT_IN')}
+              </button>
+            </div>
+        }
       </div>
     );
   };
 
   render() {
     const { filters, modal } = this.state;
-    const { list: { entities, noResults }, profile, locale } = this.props;
+
+    const {
+      list: { entities, noResults },
+      profile,
+      locale,
+      subTabRoutes,
+    } = this.props;
+
     const allowActions = Object.keys(filters).filter(i => filters[i]).length > 0;
 
     return (
       <div>
-        <Sticky top=".panel-heading-row" bottomBoundary={0} innerZ="2">
-          <div className="tab-header">
-            <SubTabNavigation links={subTabRoutes} />
-            <div className="tab-header__actions">
-              <PermissionContent permissions={permissions.USER_PROFILE.ADD_TO_CAMPAIGN}>
-                <button
-                  className="btn btn-primary-outline margin-left-15 btn-sm"
-                  onClick={this.handleAddToCampaignClick}
-                >
-                  {I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.ADD_TO_CAMPAIGN_BUTTON')}
-                </button>
-              </PermissionContent>
-              <PermissionContent permissions={permissions.USER_PROFILE.ADD_TO_CAMPAIGN}>
-                <button
-                  className="btn btn-primary-outline margin-left-15 btn-sm"
-                  onClick={() => this.handleOpenModal(ADD_PROMO_CODE_MODAL)}
-                >
-                  {I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.ADD_PROMO_CODE_BUTTON')}
-                </button>
-              </PermissionContent>
-            </div>
+        <StickyNavigation links={subTabRoutes}>
+          <div>
+            <PermissionContent permissions={permissions.USER_PROFILE.ADD_TO_CAMPAIGN}>
+              <button
+                className="btn btn-primary-outline margin-left-15 btn-sm"
+                onClick={this.handleAddToCampaignClick}
+              >
+                {I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.ADD_TO_CAMPAIGN_BUTTON')}
+              </button>
+            </PermissionContent>
+            <PermissionContent permissions={permissions.USER_PROFILE.ADD_PROMO_CODE_TO_PLAYER}>
+              <button
+                className="btn btn-primary-outline margin-left-15 btn-sm"
+                onClick={() => this.handleOpenModal(ADD_PROMO_CODE_MODAL)}
+              >
+                {I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.ADD_PROMO_CODE_BUTTON')}
+              </button>
+            </PermissionContent>
           </div>
-        </Sticky>
+        </StickyNavigation>
 
         <CampaignsFilterForm
           onSubmit={this.handleFiltersChanged}
@@ -311,6 +355,7 @@ class View extends Component {
             onPageChange={this.handlePageChanged}
             activePage={entities.number + 1}
             totalPages={entities.totalPages}
+            lazyLoad
             locale={locale}
             showNoResults={noResults}
           >
@@ -342,15 +387,14 @@ class View extends Component {
               name="actions"
               header=""
               render={this.renderActions}
-              headerStyle={{ width: '10%' }}
+              headerStyle={{ width: '240px' }}
             />
           </GridView>
         </div>
-
         {
-          modal.name === CAMPAIGN_DECLINE_MODAL &&
+          modal.name === CAMPAIGN_ACTION_MODAL &&
           <ConfirmActionModal
-            onSubmit={this.handleDeclineCampaign}
+            onSubmit={this.handleActionCampaign}
             onClose={this.handleCloseModal}
           />
         }
@@ -360,7 +404,12 @@ class View extends Component {
             {...modal.params}
             onClose={this.handleCloseModal}
             onSubmit={this.handleAddToCampaign}
-            fullName={profile.fullName}
+            title={I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.MODALS.ADD_TO_CAMPAIGN.TITLE')}
+            message={
+              I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.MODALS.ADD_TO_CAMPAIGN.ACTION', {
+                fullName: profile.fullName,
+              })
+            }
           />
         }
         {
@@ -372,7 +421,6 @@ class View extends Component {
             fullName={profile.fullName}
           />
         }
-
       </div>
     );
   }

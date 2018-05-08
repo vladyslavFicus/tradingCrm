@@ -53,87 +53,78 @@ class PersonalForm extends Component {
     } = this.props;
 
     return (
-      <form className="padding-bottom-20" onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <div className="row margin-bottom-20">
-          <div className="col-xl-6">
-            <span className="personal-form-heading">{I18n.t('PLAYER_PROFILE.PROFILE.PERSONAL.TITLE')}</span>
+          <div className="col personal-form-heading">
+            {I18n.t('PLAYER_PROFILE.PROFILE.PERSONAL.TITLE')}
           </div>
           <PermissionContent permissions={permissions.USER_PROFILE.UPDATE_PROFILE}>
-            <div className="col-xl-6 text-right">
-              {
-                !pristine && !submitting && !disabled && valid &&
+            <div className="col-auto">
+              <If condition={!pristine && !submitting && !disabled && valid}>
                 <button className="btn btn-sm btn-primary" type="submit" id="profile-personal-info-save-btn">
                   {I18n.t('COMMON.SAVE_CHANGES')}
                 </button>
-              }
+              </If>
             </div>
           </PermissionContent>
         </div>
-        <div className="form-row">
-          <div className="form-row__medium">
-            <Field
-              name="firstName"
-              label={attributeLabels.firstName}
-              type="text"
-              component={InputField}
-              position="vertical"
-              showErrorMessage
-              disabled={disabled}
-              id="users-profile-first-name"
-            />
-          </div>
-          <div className="form-row__medium">
-            <Field
-              name="lastName"
-              label={attributeLabels.lastName}
-              type="text"
-              component={InputField}
-              position="vertical"
-              showErrorMessage
-              disabled={disabled}
-              id="users-profile-last-name"
-            />
-          </div>
+        <div className="row">
+          <Field
+            name="firstName"
+            label={attributeLabels.firstName}
+            type="text"
+            component={InputField}
+            position="vertical"
+            disabled={disabled}
+            id="users-profile-first-name"
+            className="col-lg-4"
+          />
+          <Field
+            name="lastName"
+            label={attributeLabels.lastName}
+            type="text"
+            component={InputField}
+            position="vertical"
+            disabled={disabled}
+            id="users-profile-last-name"
+            className="col-lg-4"
+          />
         </div>
-        <div className="form-row">
-          <div className="form-row__medium">
-            <Field
-              name="identifier"
-              label={attributeLabels.identifier}
-              type="text"
-              component={InputField}
-              position="vertical"
-              showErrorMessage
-              disabled={disabled}
-            />
-          </div>
-          <div className="form-row__medium">
-            <Field
-              name="birthDate"
-              label={attributeLabels.birthDate}
-              component={DateTimeField}
-              timeFormat={null}
-              disabled={disabled}
-              position="vertical"
-              isValidDate={this.ageValidator}
-            />
-          </div>
-          <div className="form-row__medium">
-            <Field
-              name="gender"
-              label={attributeLabels.gender}
-              type="text"
-              component={SelectField}
-              position="vertical"
-              disabled={disabled}
-            >
-              {genders.map(item => (
-                <option key={item} value={item}>
-                  {item}
-                </option>
-              ))}
-            </Field>
-          </div>
+        <div className="row">
+          <Field
+            name="identifier"
+            label={attributeLabels.identifier}
+            type="text"
+            component={InputField}
+            position="vertical"
+            disabled={disabled}
+            className="col-lg"
+          />
+          <Field
+            name="birthDate"
+            label={attributeLabels.birthDate}
+            component={DateTimeField}
+            timeFormat={null}
+            disabled={disabled}
+            position="vertical"
+            isValidDate={this.ageValidator}
+            className="col-lg"
+          />
+          <Field
+            name="gender"
+            label={attributeLabels.gender}
+            type="text"
+            component={SelectField}
+            position="vertical"
+            disabled={disabled}
+            className="col-lg"
+          >
+            {genders.map(item => (
+              <option key={item} value={item}>
+                {item}
+              </option>
+            ))}
+          </Field>
         </div>
       </form>
     );

@@ -1,69 +1,65 @@
 import { CALL_API } from 'redux-api-middleware';
-import _ from 'lodash';
+import { get } from 'lodash';
 import createReducer from '../../../../../utils/createReducer';
-import timestamp from '../../../../../utils/timestamp';
 import createRequestAction from '../../../../../utils/createRequestAction';
-import { actions, statusesReasons, campaignTypes, countryStrategies } from '../../../../../constants/bonus-campaigns';
+import {
+  actions,
+  statusesReasons,
+  fulfillmentTypes,
+  rewardTypes,
+  countryStrategies,
+} from '../../../../../constants/bonus-campaigns';
 import buildFormData from '../../../../../utils/buildFormData';
-import { nodeGroupTypes } from '../routes/Settings/constants';
-import { nodeTypes as fulfillmentNodeTypes } from '../routes/Settings/components/Fulfillments/constants';
-import { nodeTypes as rewardNodeTypes } from '../routes/Settings/components/Rewards/constants';
+import { nodeGroupTypes } from '../../../components/Settings/constants';
+import { nodeTypes as fulfillmentNodeTypes } from '../../../components/Settings/Fulfillments/constants';
+import { nodeTypes as rewardNodeTypes } from '../../../components/Settings/Rewards/constants';
+import { sourceActionCreators as bonusCampaignActionCreators } from '../../../../../redux/modules/campaigns';
 import deleteFromArray from '../../../../../utils/deleteFromArray';
 
-const KEY = 'campaign';
+const KEY = 'campaign/view';
 const CAMPAIGN_UPDATE = createRequestAction(`${KEY}/campaign-update`);
 const CAMPAIGN_CLONE = createRequestAction(`${KEY}/campaign-clone`);
 const FETCH_CAMPAIGN = createRequestAction(`${KEY}/campaign-fetch`);
 const CHANGE_CAMPAIGN_STATE = createRequestAction(`${KEY}/change-campaign-state`);
 const UPLOAD_PLAYERS_FILE = createRequestAction(`${KEY}/upload-file`);
 const REMOVE_PLAYERS = createRequestAction(`${KEY}/remove-players`);
-const REVERT = createRequestAction(`${KEY}/revert-form`);
-const REMOVE_FULFILLMENT_NODE = `${KEY}/remove-fulfillment-node`;
-const ADD_FULFILLMENT_NODE = `${KEY}/add-fulfillment-node`;
+const REVERT = `${KEY}/revert-form`;
+const REMOVE_NODE = `${KEY}/remove-node`;
+const ADD_NODE = `${KEY}/add-fulfillment-node`;
 
-function mapFulfillmentNode(campaignType) {
+const fetchCampaign = bonusCampaignActionCreators.fetchCampaign(FETCH_CAMPAIGN);
+
+function mapFulfillmentNode(fulfillmentType) {
   const node = null;
 
-  if (campaignType === campaignTypes.PROFILE_COMPLETED) {
+  if (fulfillmentType === fulfillmentTypes.PROFILE_COMPLETED) {
     return fulfillmentNodeTypes.profileCompleted;
-  } else if ([campaignTypes.DEPOSIT, campaignTypes.FIRST_DEPOSIT].indexOf(campaignType) > -1) {
+  } else if (fulfillmentType === fulfillmentTypes.DEPOSIT) {
     return fulfillmentNodeTypes.deposit;
-  } else if (campaignType === campaignTypes.WITHOUT_FULFILMENT) {
+  } else if (fulfillmentType === fulfillmentTypes.WITHOUT_FULFILMENT) {
     return fulfillmentNodeTypes.noFulfillments;
   }
 
   return node;
 }
 
-function fetchCampaign(uuid) {
-  return (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
+function mapRewardNode(campaignType) {
+  const node = null;
 
-    return dispatch({
-      [CALL_API]: {
-        endpoint: `promotion/campaigns/${uuid}`,
-        method: 'GET',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        types: [
-          FETCH_CAMPAIGN.REQUEST,
-          FETCH_CAMPAIGN.SUCCESS,
-          FETCH_CAMPAIGN.FAILURE,
-        ],
-        bailout: !logged,
-      },
-    });
-  };
+  if (campaignType === rewardTypes.FREE_SPIN) {
+    return rewardNodeTypes.freeSpin;
+  } if (campaignType === rewardTypes.BONUS) {
+    return rewardNodeTypes.bonus;
+  }
+
+  return node;
 }
 
 function activateCampaign(uuid) {
   return async (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
 
-    await dispatch({
+    const action = await dispatch({
       [CALL_API]: {
         endpoint: `promotion/campaigns/${uuid}/activate`,
         method: 'POST',
@@ -81,7 +77,11 @@ function activateCampaign(uuid) {
       },
     });
 
-    return dispatch(fetchCampaign(uuid));
+    if (action && !action.error) {
+      await dispatch(fetchCampaign(uuid));
+    }
+
+    return action;
   };
 }
 
@@ -139,58 +139,55 @@ function updateCampaign(uuid, data) {
       ...data,
       countryStrategy: data.excludeCountries ? countryStrategies.EXCLUDE : countryStrategies.INCLUDE,
     };
-    if (
-      endpointParams.conversionPrize &&
-      (endpointParams.conversionPrize.value === undefined || endpointParams.conversionPrize.value === null)
-    ) {
+    if (endpointParams.conversionPrize && !endpointParams.conversionPrize.value) {
       endpointParams.conversionPrize = null;
     }
-    if (
-      endpointParams.capping &&
-      (endpointParams.capping.value === undefined || endpointParams.capping.value === null)
-    ) {
+    if (endpointParams.capping && !endpointParams.capping.value) {
       endpointParams.capping = null;
     }
 
-    const fulfillmentDeposit = _.get(endpointParams, 'fulfillments.deposit');
+    const fulfillmentDeposit = get(endpointParams, 'fulfillments.deposit');
     if (fulfillmentDeposit) {
       endpointParams = {
         ...endpointParams,
         ...fulfillmentDeposit,
-        campaignType: campaignTypes.DEPOSIT,
+        fulfilmentType: fulfillmentTypes.DEPOSIT,
       };
-
-      if (fulfillmentDeposit.firstDeposit) {
-        endpointParams.campaignType = campaignTypes.FIRST_DEPOSIT;
-      }
     }
 
-    const fulfillmentProfileCompleted = _.get(endpointParams, 'fulfillments.profileCompleted');
+    const fulfillmentProfileCompleted = get(endpointParams, 'fulfillments.profileCompleted');
     if (fulfillmentProfileCompleted) {
       endpointParams = {
         ...endpointParams,
-        campaignType: campaignTypes.PROFILE_COMPLETED,
+        fulfilmentType: fulfillmentTypes.PROFILE_COMPLETED,
       };
     }
 
-    const fulfillmentNoFulfillments = _.get(endpointParams, 'fulfillments.noFulfillments');
+    const fulfillmentNoFulfillments = get(endpointParams, 'fulfillments.noFulfillments');
     if (fulfillmentNoFulfillments) {
       endpointParams = {
         ...endpointParams,
-        campaignType: campaignTypes.WITHOUT_FULFILMENT,
+        fulfilmentType: fulfillmentTypes.WITHOUT_FULFILMENT,
       };
     }
 
-    const rewardBonus = _.get(endpointParams, 'rewards.bonus');
+    const rewardBonus = get(endpointParams, 'rewards.bonus');
     if (rewardBonus) {
       endpointParams = {
         ...endpointParams,
         ...rewardBonus,
+        campaignType: rewardTypes.BONUS,
       };
     }
 
+    const rewardFreeSpin = get(endpointParams, 'rewards.freeSpin');
+
+    if (rewardFreeSpin) {
+      endpointParams.campaignType = rewardTypes.FREE_SPIN;
+      delete endpointParams.campaignRatio;
+    }
+
     delete endpointParams.excludeCountries;
-    delete endpointParams.firstDeposit;
     delete endpointParams.fulfillments;
     delete endpointParams.rewards;
 
@@ -206,7 +203,7 @@ function updateCampaign(uuid, data) {
         body: JSON.stringify(endpointParams),
         types: [
           CAMPAIGN_UPDATE.REQUEST,
-          { type: CAMPAIGN_UPDATE.SUCCESS, payload: data },
+          CAMPAIGN_UPDATE.SUCCESS,
           CAMPAIGN_UPDATE.FAILURE,
         ],
       },
@@ -296,7 +293,7 @@ function revert() {
 
 function removeNode(nodeGroup, node) {
   return {
-    type: REMOVE_FULFILLMENT_NODE,
+    type: REMOVE_NODE,
     nodeGroup,
     node,
   };
@@ -304,11 +301,22 @@ function removeNode(nodeGroup, node) {
 
 function addNode(nodeGroup, node) {
   return {
-    type: ADD_FULFILLMENT_NODE,
+    type: ADD_NODE,
     nodeGroup,
     node,
   };
 }
+
+const initialState = {
+  data: {},
+  nodeGroups: {
+    [nodeGroupTypes.fulfillments]: [],
+    [nodeGroupTypes.rewards]: [],
+  },
+  error: null,
+  isLoading: false,
+  receivedAt: null,
+};
 
 const actionHandlers = {
   [CAMPAIGN_UPDATE.REQUEST]: state => ({
@@ -316,17 +324,17 @@ const actionHandlers = {
     error: null,
     isLoading: true,
   }),
-  [CAMPAIGN_UPDATE.SUCCESS]: (state, action) => ({
+  [CAMPAIGN_UPDATE.SUCCESS]: (state, { payload, meta: { endRequestTime } }) => ({
     ...state,
-    data: { ...state.data, ...action.payload },
+    data: { ...state.data, ...payload },
     isLoading: false,
-    receivedAt: timestamp(),
+    receivedAt: endRequestTime,
   }),
-  [CAMPAIGN_UPDATE.FAILURE]: (state, action) => ({
+  [CAMPAIGN_UPDATE.FAILURE]: (state, { error, meta: { endRequestTime } }) => ({
     ...state,
-    error: action.error,
+    error,
     isLoading: false,
-    receivedAt: timestamp(),
+    receivedAt: endRequestTime,
   }),
 
   [FETCH_CAMPAIGN.REQUEST]: state => ({
@@ -334,25 +342,26 @@ const actionHandlers = {
     error: null,
     isLoading: true,
   }),
-  [FETCH_CAMPAIGN.SUCCESS]: (state, action) => ({
+  [FETCH_CAMPAIGN.SUCCESS]: (state, { payload, meta: { endRequestTime } }) => ({
     ...state,
-    receivedAt: timestamp(),
+    receivedAt: endRequestTime,
     isLoading: false,
     data: {
       ...state.data,
-      ...action.payload,
-      excludeCountries: action.payload.countryStrategy === countryStrategies.EXCLUDE,
+      ...payload,
+      excludeCountries: payload.countryStrategy === countryStrategies.EXCLUDE,
     },
     nodeGroups: {
       ...state.nodeGroups,
-      [nodeGroupTypes.fulfillments]: [mapFulfillmentNode(action.payload.campaignType)],
+      [nodeGroupTypes.fulfillments]: [mapFulfillmentNode(payload.fulfilmentType)],
+      [nodeGroupTypes.rewards]: [mapRewardNode(payload.campaignType)],
     },
   }),
-  [FETCH_CAMPAIGN.FAILURE]: (state, action) => ({
+  [FETCH_CAMPAIGN.FAILURE]: (state, { error, meta: { endRequestTime } }) => ({
     ...state,
-    error: action.error,
+    error,
     isLoading: false,
-    receivedAt: timestamp(),
+    receivedAt: endRequestTime,
   }),
   [UPLOAD_PLAYERS_FILE.SUCCESS]: (state, action) => ({
     ...state,
@@ -368,14 +377,14 @@ const actionHandlers = {
       totalSelectedPlayers: 0,
     },
   }),
-  [REMOVE_FULFILLMENT_NODE]: (state, action) => ({
+  [REMOVE_NODE]: (state, action) => ({
     ...state,
     nodeGroups: {
       ...state.nodeGroups,
-      [action.nodeGroup]: deleteFromArray(state.nodeGroups.fulfillments, action.node),
+      [action.nodeGroup]: deleteFromArray(state.nodeGroups[action.nodeGroup], action.node),
     },
   }),
-  [ADD_FULFILLMENT_NODE]: (state, action) => ({
+  [ADD_NODE]: (state, action) => ({
     ...state,
     nodeGroups: {
       ...state.nodeGroups,
@@ -389,19 +398,10 @@ const actionHandlers = {
     ...state,
     nodeGroups: {
       ...state.nodeGroups,
-      [nodeGroupTypes.fulfillments]: [mapFulfillmentNode(state.data.campaignType)],
+      [nodeGroupTypes.fulfillments]: [mapFulfillmentNode(state.data.fulfilmentType)],
+      [nodeGroupTypes.rewards]: [mapRewardNode(state.data.campaignType)],
     },
   }),
-};
-const initialState = {
-  data: {},
-  nodeGroups: {
-    [nodeGroupTypes.fulfillments]: [],
-    [nodeGroupTypes.rewards]: [rewardNodeTypes.bonus],
-  },
-  error: null,
-  isLoading: false,
-  receivedAt: null,
 };
 const actionTypes = {
   CAMPAIGN_UPDATE,

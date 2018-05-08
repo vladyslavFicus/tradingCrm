@@ -37,7 +37,7 @@ class PaymentAddModal extends Component {
       type: PropTypes.string,
     }),
     note: PropTypes.noteEntity,
-    error: PropTypes.string,
+    error: PropTypes.arrayOf(PropTypes.string),
     playerLimits: PropTypes.shape({
       entities: PropTypes.arrayOf(PropTypes.playerLimitEntity).isRequired,
       deposit: PropTypes.shape({
@@ -58,7 +58,7 @@ class PaymentAddModal extends Component {
     pristine: false,
     currentValues: {},
     note: null,
-    error: '',
+    error: [],
   };
   static contextTypes = {
     onAddNoteClick: PropTypes.func.isRequired,
@@ -137,7 +137,7 @@ class PaymentAddModal extends Component {
       : I18n.t('PLAYER_PROFILE.TRANSACTIONS.MODAL_CREATE.CHOOSE_PAYMENT_ACCOUNT_LABEL');
 
     return (
-      <div className="col-md-5">
+      <div className="col">
         <Field
           name="paymentAccountUuid"
           label={attributeLabels.paymentAccount}
@@ -170,20 +170,22 @@ class PaymentAddModal extends Component {
     }
 
     return (
-      <div className="mx-auto text-center width-400 font-weight-700">
-        {I18n.t('PLAYER_PROFILE.TRANSACTIONS.MODAL_CREATE.ACTION_TEXT', {
-          action: paymentTypesLabels[currentValues.type],
-        })}
-        {' '}
-        <Amount
-          amount={currentValues.amount}
-          currency={currencyCode}
-        />
-        {' '}
-        {I18n.t('PLAYER_PROFILE.TRANSACTIONS.MODAL_CREATE.ACTION_TEXT_ACCOUNT', {
-          fullName,
-          uuid: shortify(playerUUID),
-        })}
+      <div className="row mb-3">
+        <div className="col-9 mx-auto text-center font-weight-700">
+          {I18n.t('PLAYER_PROFILE.TRANSACTIONS.MODAL_CREATE.ACTION_TEXT', {
+            action: paymentTypesLabels[currentValues.type],
+          })}
+          {' '}
+          <Amount
+            amount={currentValues.amount}
+            currency={currencyCode}
+          />
+          {' '}
+          {I18n.t('PLAYER_PROFILE.TRANSACTIONS.MODAL_CREATE.ACTION_TEXT_ACCOUNT', {
+            fullName,
+            uuid: shortify(playerUUID),
+          })}
+        </div>
       </div>
     );
   };
@@ -198,81 +200,79 @@ class PaymentAddModal extends Component {
       invalid,
       playerProfile,
       note,
-      error,
+      error: errors,
     } = this.props;
 
     const filteredPaymentTypes = Object.keys(paymentTypes).filter(type => !this.isPaymentMethodDisabled(type));
 
     return (
-      <Modal className="payment-create-modal" toggle={onClose} isOpen>
+      <Modal toggle={onClose} isOpen>
         <ModalHeader toggle={onClose}>
           {I18n.t('PLAYER_PROFILE.TRANSACTIONS.MODAL_CREATE.TITLE')}
         </ModalHeader>
+        <ModalBody tag="form" id="new-transaction" className="container-fluid" onSubmit={handleSubmit(onSubmit)}>
 
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <ModalBody>
-            {
-              error &&
-              <div className="alert alert-warning">
+          <If condition={errors.length}>
+            <For each="error" index="index" of={errors}>
+              <div key={index} className="alert alert-warning">
                 {I18n.t(error)}
               </div>
-            }
-            <div className="row">
-              <div className="col-md-4">
-                <Field
-                  name="type"
-                  type="text"
-                  label={attributeLabels.type}
-                  showErrorMessage={false}
-                  component={SelectField}
-                  position="vertical"
-                >
-                  <option value="">{I18n.t('COMMON.SELECT_OPTION.DEFAULT')}</option>
-                  {filteredPaymentTypes.map(type => (
-                    <option key={type} value={type}>
-                      {paymentTypesLabels[type]}
-                    </option>
-                  ))}
-                </Field>
-              </div>
+            </For>
+          </If>
 
-              <div className="col-md-3">
-                <Field
-                  name="amount"
-                  label={attributeLabels.amount}
-                  type="text"
-                  placeholder="0.00"
-                  inputAddon={<Currency code={playerProfile.currencyCode} />}
-                  currencyCode={playerProfile.currencyCode}
-                  showErrorMessage={false}
-                  position="vertical"
-                  component={InputField}
-                />
-              </div>
-
-              {this.renderPaymentAccountField()}
+          <div className="row">
+            <div className="col-4">
+              <Field
+                name="type"
+                type="text"
+                label={attributeLabels.type}
+                showErrorMessage={false}
+                component={SelectField}
+                position="vertical"
+              >
+                <option value="">{I18n.t('COMMON.SELECT_OPTION.DEFAULT')}</option>
+                {filteredPaymentTypes.map(type => (
+                  <option key={type} value={type}>
+                    {paymentTypesLabels[type]}
+                  </option>
+                ))}
+              </Field>
             </div>
-            <div className="row">
-              {this.renderInfoBlock()}
-            </div>
-            <div className="text-center">
-              <NoteButton
-                id="add-transaction-item-note-button"
-                note={note}
-                onClick={this.handleNoteClick}
+            <div className="col-3">
+              <Field
+                name="amount"
+                label={attributeLabels.amount}
+                type="text"
+                placeholder="0.00"
+                inputAddon={<Currency code={playerProfile.currencyCode} />}
+                currencyCode={playerProfile.currencyCode}
+                showErrorMessage={false}
+                position="vertical"
+                component={InputField}
               />
             </div>
-          </ModalBody>
-          <ModalFooter>
+            {this.renderPaymentAccountField()}
+          </div>
+          {this.renderInfoBlock()}
+          <div className="text-center">
+            <NoteButton
+              id="add-transaction-item-note-button"
+              note={note}
+              onClick={this.handleNoteClick}
+            />
+          </div>
+        </ModalBody>
+        <ModalFooter>
+          <div className="container-fluid">
             <div className="row">
-              <div className="col-sm-6 text-muted font-size-12 text-left">
+              <div className="col text-muted font-size-12 text-left">
                 <span className="font-weight-700">
                   {I18n.t('PLAYER_PROFILE.TRANSACTIONS.MODAL_CREATE.ATTENTION_UNDONE_ACTION_LABEL')}
                 </span>
                 {': '}
                 {I18n.t('PLAYER_PROFILE.TRANSACTIONS.MODAL_CREATE.ATTENTION_UNDONE_ACTION')}
               </div>
-              <div className="col-sm-6 text-right">
+              <div className="col">
                 <button
                   type="reset"
                   className="btn btn-default-outline text-uppercase"
@@ -284,13 +284,14 @@ class PaymentAddModal extends Component {
                   disabled={pristine || submitting || invalid}
                   type="submit"
                   className="btn btn-primary text-uppercase margin-left-5"
+                  form="new-transaction"
                 >
                   {I18n.t('COMMON.CONFIRM')}
                 </button>
               </div>
             </div>
-          </ModalFooter>
-        </form>
+          </div>
+        </ModalFooter>
       </Modal>
     );
   }

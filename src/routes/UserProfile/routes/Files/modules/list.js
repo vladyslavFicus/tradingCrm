@@ -1,10 +1,9 @@
 import createReducer from '../../../../../utils/createReducer';
 import createRequestAction from '../../../../../utils/createRequestAction';
-import timestamp from '../../../../../utils/timestamp';
 import { targetTypes } from '../../../../../constants/note';
 import { actions as filesActions } from '../../../../../constants/files';
 import { sourceActionCreators as noteSourceActionCreators } from '../../../../../redux/modules/note';
-import { sourceActionCreators as filesSourceActionCreators } from '../../../../../redux/modules/files';
+import { sourceActionCreators as filesSourceActionCreators } from '../../../../../redux/modules/profile/files';
 
 const KEY = 'user/files/files';
 const FETCH_FILES = createRequestAction(`${KEY}/fetch-files`);
@@ -89,27 +88,27 @@ const actionHandlers = {
     error: null,
     noResults: false,
   }),
-  [FETCH_FILES.SUCCESS]: (state, action) => ({
+  [FETCH_FILES.SUCCESS]: (state, { payload, meta: { endRequestTime } }) => ({
     ...state,
     entities: {
       ...state.entities,
-      ...action.payload,
-      content: action.payload.number === 0
-        ? action.payload.content
+      ...payload,
+      content: payload.number === 0
+        ? payload.content
         : [
           ...state.entities.content,
-          ...action.payload.content,
+          ...payload.content,
         ],
     },
     isLoading: false,
-    receivedAt: timestamp(),
-    noResults: action.payload.content.length === 0,
+    receivedAt: endRequestTime,
+    noResults: payload.content.length === 0,
   }),
-  [FETCH_FILES.FAILURE]: (state, action) => ({
+  [FETCH_FILES.FAILURE]: (state, { payload, meta: { endRequestTime } }) => ({
     ...state,
     isLoading: false,
-    error: action.payload,
-    receivedAt: timestamp(),
+    error: payload,
+    receivedAt: endRequestTime,
   }),
   [FETCH_NOTES.SUCCESS]: (state, action) => ({
     ...state,

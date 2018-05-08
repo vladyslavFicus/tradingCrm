@@ -1,8 +1,6 @@
 import { CALL_API } from 'redux-api-middleware';
-import timestamp from '../../../../../utils/timestamp';
 import createRequestAction from '../../../../../utils/createRequestAction';
 import createReducer from '../../../../../utils/createReducer';
-import { getBrand } from '../../../../../config';
 
 const KEY = 'operator/authorities';
 const FETCH_ENTITIES = createRequestAction(`${KEY}/fetch-entities`);
@@ -35,7 +33,7 @@ function fetchAuthority(operatorUUID) {
 
 function addAuthority(operatorUUID, data) {
   return (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
+    const { auth: { token, logged, brandId } } = getState();
 
     return dispatch({
       [CALL_API]: {
@@ -46,7 +44,7 @@ function addAuthority(operatorUUID, data) {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ ...data, brandId: getBrand() }),
+        body: JSON.stringify({ ...data, brandId }),
         types: [
           ADD_ENTITIES.REQUEST,
           ADD_ENTITIES.SUCCESS,
@@ -54,14 +52,13 @@ function addAuthority(operatorUUID, data) {
         ],
         bailout: !logged,
       },
-    })
-      .then(() => dispatch(fetchAuthority(operatorUUID)));
+    });
   };
 }
 
 function deleteAuthority(operatorUUID, department, role) {
   return (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
+    const { auth: { token, logged, brandId } } = getState();
 
     return dispatch({
       [CALL_API]: {
@@ -75,7 +72,7 @@ function deleteAuthority(operatorUUID, department, role) {
         body: JSON.stringify({
           department,
           role,
-          brandId: getBrand(),
+          brandId,
         }),
         types: [
           DELETE_ENTITIES.REQUEST,
@@ -84,8 +81,7 @@ function deleteAuthority(operatorUUID, department, role) {
         ],
         bailout: !logged,
       },
-    })
-      .then(() => dispatch(fetchAuthority(operatorUUID)));
+    });
   };
 }
 
@@ -95,17 +91,17 @@ const actionHandlers = {
     isLoading: true,
     error: null,
   }),
-  [FETCH_ENTITIES.SUCCESS]: (state, action) => ({
+  [FETCH_ENTITIES.SUCCESS]: (state, { payload, meta: { endRequestTime } }) => ({
     ...state,
-    data: action.payload,
+    data: payload,
     isLoading: false,
-    receivedAt: timestamp(),
+    receivedAt: endRequestTime,
   }),
-  [FETCH_ENTITIES.FAILURE]: (state, action) => ({
+  [FETCH_ENTITIES.FAILURE]: (state, { payload, meta: { endRequestTime } }) => ({
     ...state,
     isLoading: false,
-    error: action.payload,
-    receivedAt: timestamp(),
+    error: payload,
+    receivedAt: endRequestTime,
   }),
 };
 const initialState = {

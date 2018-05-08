@@ -83,18 +83,25 @@ const actionHandlers = {
     activeIndex: state.activeIndex !== action.payload ? action.payload : null,
   }),
   [ADD]: (state, action) => {
-    if (state.items.length >= 5) {
+    const panelsByManager = state.items.filter(panel =>
+      panel.auth &&
+      panel.auth.brandId === action.payload.auth.brandId &&
+      panel.auth.uuid === action.payload.auth.uuid
+    );
+
+    if (panelsByManager.length >= 5) {
       return state;
     }
 
-    const existIndex = state.items.findIndex(item => item.uuid === action.payload.uuid);
+    const existIndex = panelsByManager.findIndex(item => item.uuid === action.payload.uuid);
 
     if (existIndex > -1) {
-      const newState = { ...state, activeIndex: existIndex };
-      if (action.payload.path && newState.items[existIndex].path !== action.payload.path) {
+      const item = state.items.find(i => i.uuid === action.payload.uuid);
+      const newState = { ...state, activeIndex: item.uuid };
+
+      if (action.payload.path && item.path !== action.payload.path) {
         newState.items[existIndex].path = action.payload.path;
       }
-
       return newState;
     }
 
@@ -109,29 +116,30 @@ const actionHandlers = {
         },
       ],
     };
-    newState.activeIndex = newState.items.length - 1;
+    newState.activeIndex = action.payload.uuid;
 
     return newState;
   },
   [REMOVE]: (state, action) => {
-    if (!state.items[action.payload]) {
+    const newState = { ...state, items: [...state.items] };
+
+    const indexForRemove = newState.items.findIndex(p => p.uuid === action.payload);
+
+    if (indexForRemove === -1) {
       return state;
     }
 
-    const newState = { ...state, items: [...state.items] };
-    newState.items.splice(action.payload, 1);
+    newState.items.splice(indexForRemove, 1);
 
     if (newState.activeIndex === action.payload) {
       newState.activeIndex = null;
-    } else {
-      newState.activeIndex = newState.items.indexOf(state.items[state.activeIndex]);
     }
 
     return newState;
   },
   [RESET]: () => ({ ...initialState }),
   [windowActionTypes.VIEW_PLAYER_PROFILE]: (state, action) => {
-    const { uuid, firstName, lastName, login } = action.payload;
+    const { uuid, firstName, lastName, username } = action.payload;
 
     const index = state.items.findIndex(item => item.uuid === uuid);
 
@@ -152,8 +160,8 @@ const actionHandlers = {
       fullName,
     };
 
-    if (login) {
-      newItem.login = login;
+    if (username) {
+      newItem.username = username;
     }
 
     newState.items[index] = newItem;
@@ -180,7 +188,10 @@ const actionHandlers = {
 
     return newState;
   },
-  [authActionTypes.LOGOUT.SUCCESS]: () => ({ ...initialState }),
+  [authActionTypes.LOGOUT.SUCCESS]: state => ({
+    ...state,
+    activeIndex: null,
+  }),
   [REPLACE]: (state, action) => {
     const newState = {
       items: state.items.filter(item => action.payload.oldData.indexOf(item) === -1),

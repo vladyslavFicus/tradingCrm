@@ -69,6 +69,16 @@ class ViewModal extends Component {
 
         {this.renderTotalToWagerAmount(data)}
       </div>
+      <If condition={data.maxBet}>
+        <div className="modal-footer-tabs__item">
+          <div className="modal-tab-label">
+          Max bet
+          </div>
+          <div className="modal-footer-tabs__amount">
+            {data.maxBet}
+          </div>
+        </div>
+      </If>
     </div>
   );
 

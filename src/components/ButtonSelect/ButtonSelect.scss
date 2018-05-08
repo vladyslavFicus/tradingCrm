@@ -18,6 +18,10 @@
       display: block;
     }
   }
+
+  .Select.is-focused >.Select-control {
+    background: #6a7a84;
+  }
 }
 
 .Select {

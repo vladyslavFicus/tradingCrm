@@ -9,7 +9,7 @@ const attributeLabels = {
   endDate: I18n.t('BONUS_CAMPAIGNS.SETTINGS.LABEL.END_DATE'),
   capping: I18n.t('BONUS_CAMPAIGNS.SETTINGS.LABEL.CAPPING'),
   'capping.value': I18n.t('BONUS_CAMPAIGNS.SETTINGS.LABEL.CAPPING'),
-  campaignType: I18n.t('BONUS_CAMPAIGNS.SETTINGS.LABEL.CAMPAIGN_TYPE'),
+  fulfilmentType: I18n.t('BONUS_CAMPAIGNS.SETTINGS.LABEL.CAMPAIGN_TYPE'),
   campaignRatio: I18n.t('BONUS_CAMPAIGNS.SETTINGS.LABEL.CAMPAIGN_RATIO'),
   conversionPrize: I18n.t('BONUS_CAMPAIGNS.SETTINGS.LABEL.CONVERSION_PRIZE'),
   promoCode: I18n.t('BONUS_CAMPAIGNS.SETTINGS.LABEL.PROMO_CODE'),
@@ -23,30 +23,44 @@ const attributeLabels = {
   emailVerificationFulfillment: I18n.t('BONUS_CAMPAIGNS.FULFILLMENTS.EMAIL_VERIFICATION_FULFILLMENT'),
   phoneVerificationFulfillment: I18n.t('BONUS_CAMPAIGNS.FULFILLMENTS.PHONE_VERIFICATION_FULFILLMENT'),
   addReward: I18n.t('BONUS_CAMPAIGNS.REWARDS.ADD_REWARD'),
+  optInPeriod: I18n.t('BONUS_CAMPAIGNS.SETTINGS.LABEL.OPT_IN_PERIOD'),
   'fulfillments.deposit.minAmount': I18n.t('BONUS_CAMPAIGNS.FULFILLMENTS.DEPOSIT.MIN_AMOUNT'),
   'fulfillments.deposit.maxAmount': I18n.t('BONUS_CAMPAIGNS.FULFILLMENTS.DEPOSIT.MAX_AMOUNT'),
   'fulfillments.deposit.lockAmountStrategy': I18n.t('BONUS_CAMPAIGNS.FULFILLMENTS.DEPOSIT.LOCK_AMOUNT_STRATEGY'),
   'rewards.bonus.campaignRatio.value': I18n.t('BONUS_CAMPAIGNS.REWARDS.BONUS.CAMPAIGN_RATIO.VALUE'),
   'rewards.bonus.campaignRatio.type': I18n.t('BONUS_CAMPAIGNS.REWARDS.BONUS.CAMPAIGN_RATIO.TYPE'),
   'rewards.bonus.wagerWinMultiplier': I18n.t('BONUS_CAMPAIGNS.REWARDS.BONUS.MULTIPLIER'),
-  'rewards.bonus.bonusLifetime ': I18n.t('BONUS_CAMPAIGNS.REWARDS.BONUS.BONUS_LIFE_TIME'),
+  'rewards.bonus.bonusLifeTime ': I18n.t('BONUS_CAMPAIGNS.REWARDS.BONUS.BONUS_LIFE_TIME'),
   'rewards.bonus.moneyTypePriority ': I18n.t('BONUS_CAMPAIGNS.REWARDS.BONUS.MONEY_TYPE_PRIORITY'),
 };
-
-const nodeGroupTypes = keyMirror({
-  fulfillments: null,
-  rewards: null,
-});
 
 const attributePlaceholders = {
   minAmount: I18n.t('BONUS_CAMPAIGNS.SETTINGS.LABEL.MIN_AMOUNT_PLACEHOLDER'),
   maxAmount: I18n.t('BONUS_CAMPAIGNS.SETTINGS.LABEL.MAX_AMOUNT_PLACEHOLDER'),
 };
 
+const optInPeriods = keyMirror({
+  HOURS: null,
+  DAYS: null,
+  WEEKS: null,
+});
+
+const mapResponseErrorToField = {
+  'promo-code': 'promoCode',
+};
+
+const optInPeriodsLabels = {
+  [optInPeriods.HOURS]: I18n.t('COMMON.HOURS'),
+  [optInPeriods.DAYS]: I18n.t('COMMON.DAYS'),
+  [optInPeriods.WEEKS]: I18n.t('COMMON.WEEKS'),
+};
+
 export {
   attributeLabels,
-  nodeGroupTypes,
   attributePlaceholders,
+  optInPeriods,
+  optInPeriodsLabels,
+  mapResponseErrorToField,
 };
 
 export default attributeLabels;

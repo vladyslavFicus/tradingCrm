@@ -2,7 +2,6 @@ import { CALL_API } from 'redux-api-middleware';
 import createReducer from '../../../../../../../utils/createReducer';
 import createRequestAction from '../../../../../../../utils/createRequestAction';
 import buildQueryString from '../../../../../../../utils/buildQueryString';
-import timestamp from '../../../../../../../utils/timestamp';
 import parseNumbersRange from '../../../../../../../utils/parseNumbersRange';
 
 const KEY = 'user/bonus-free-spin/games';
@@ -41,19 +40,21 @@ const actionHandlers = {
     isLoading: true,
     error: null,
   }),
-  [FETCH_GAMES.SUCCESS]: (state, action) => {
-    const { content } = action.payload;
+  [FETCH_GAMES.SUCCESS]: (state, { payload, meta: { endRequestTime } }) => {
+    const { content } = payload;
 
     const newState = {
       ...state,
-      games: content.map(i => ({
+      games: Array.isArray(content) ? content.map(i => ({
         ...i,
         lines: i.lines ? parseNumbersRange(i.lines) : [],
         coins: i.coins ? parseNumbersRange(i.coins) : [],
         coinSizes: i.coinSizes ? parseNumbersRange(i.coinSizes) : [],
-      })),
+        betLevels: i.betLevel ? parseNumbersRange(i.betLevel) : [],
+        coinValueLevels: i.coinValueLevel ? parseNumbersRange(i.coinValueLevel) : [],
+      })) : [],
       isLoading: false,
-      receivedAt: timestamp(),
+      receivedAt: endRequestTime,
     };
 
     newState.providers = content

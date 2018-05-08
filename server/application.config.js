@@ -1,9 +1,7 @@
 module.exports = {
-  version: Date.now(),
   logstash: { url: 'http://hrzn01-dev-elk.nas.local:12202' },
   nas: {
     brand: {
-      name: 'hrzn_dev2',
       password: { pattern: '^((?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%_]).{6,32})$' },
       fx_rate: { cron: '0 0 17 * * *' },
       validation: { password: '^((?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%_]).{6,32})$' },
@@ -11,8 +9,6 @@ module.exports = {
         defaultLanguage: 'en',
         languages: ['en', 'ru'],
       },
-      departments: ['PLAYER', 'CS', 'RFP', 'MARKETING', 'ADMINISTRATION'],
-      roles: ['ROLE4', 'ROLE3', 'ROLE2', 'ROLE1'],
       tags: {
         priorities: {
           neutral: {
@@ -37,8 +33,8 @@ module.exports = {
         general: '--',
         countries: ['AD', 'AE', 'AF', 'AG', 'AI', 'AL', 'AM', 'AO', 'AQ'],
       },
+      currencies: { base: '', supported: [] },
     },
-    currencies: { base: 'EUR', supported: ['EUR', 'USD', 'SEK', 'NOK', 'RUB'] },
   },
   components: {
     Currency: {

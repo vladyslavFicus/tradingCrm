@@ -26,6 +26,18 @@ class List extends Component {
     exportEntities: PropTypes.func.isRequired,
     locale: PropTypes.string.isRequired,
     onPlayerClick: PropTypes.func.isRequired,
+    tags: PropTypes.arrayOf(PropTypes.shape({
+      label: PropTypes.string.isRequired,
+      value: PropTypes.string.isRequired,
+      priority: PropTypes.string.isRequired,
+      department: PropTypes.string.isRequired,
+    })).isRequired,
+    currencies: PropTypes.arrayOf(PropTypes.string).isRequired,
+    countries: PropTypes.object.isRequired,
+    auth: PropTypes.shape({
+      brandId: PropTypes.string.isRequired,
+      uuid: PropTypes.string.isRequired,
+    }).isRequired,
   };
   static contextTypes = {
     miniProfile: PropTypes.shape({
@@ -47,6 +59,7 @@ class List extends Component {
       this.setState({ page: page - 1 }, () => this.handleRefresh());
     }
   };
+
   handleRefresh = () => this.props.fetchESEntities({
     ...this.state.filters,
     page: this.state.page,
@@ -84,6 +97,7 @@ class List extends Component {
     <GridPlayerInfo
       fetchPlayerProfile={this.props.fetchPlayerMiniProfile}
       profile={data}
+      auth={this.props.auth}
     />
   );
 
@@ -134,8 +148,18 @@ class List extends Component {
     </div>
   );
 
+  handlePlayerClick = (data) => {
+    this.props.onPlayerClick({ ...data, auth: this.props.auth });
+  };
+
   render() {
-    const { list: { entities, exporting, noResults }, locale, onPlayerClick } = this.props;
+    const {
+      list: { entities, exporting, noResults },
+      locale,
+      tags,
+      currencies,
+      countries,
+    } = this.props;
     const { filters } = this.state;
     const allowActions = Object
       .keys(filters)
@@ -161,6 +185,9 @@ class List extends Component {
           onSubmit={this.handleFiltersChanged}
           onReset={this.handleFilterReset}
           disabled={!allowActions}
+          tags={tags}
+          currencies={currencies}
+          countries={countries}
         />
 
         <Content>
@@ -173,7 +200,7 @@ class List extends Component {
             lazyLoad
             locale={locale}
             showNoResults={noResults}
-            onRowClick={onPlayerClick}
+            onRowClick={this.handlePlayerClick}
           >
             <GridColumn
               name="id"

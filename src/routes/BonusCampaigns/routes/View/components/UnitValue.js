@@ -1,12 +1,17 @@
-import React, { Component, PropTypes } from 'react';
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 import Amount from '../../../../../components/Amount';
 import { customValueFieldTypes } from '../../../../../constants/form';
 
-class UnitValue extends Component {
+class UnitValue extends PureComponent {
   static propTypes = {
     type: PropTypes.string.isRequired,
-    value: PropTypes.number.isRequired,
+    value: PropTypes.number,
     currency: PropTypes.string.isRequired,
+  };
+
+  static defaultProps = {
+    value: 0,
   };
 
   render() {

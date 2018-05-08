@@ -1,9 +1,9 @@
 import { CALL_API } from 'redux-api-middleware';
 import createReducer from '../../../../../../../utils/createReducer';
 import createRequestAction from '../../../../../../../utils/createRequestAction';
-import timestamp from '../../../../../../../utils/timestamp';
 import buildQueryString from '../../../../../../../utils/buildQueryString';
 import { sourceActionCreators as noteSourceActionCreators } from '../../../../../../../redux/modules/note';
+import { sourceActionCreators as bonusActionCreators } from '../../../../../../../redux/modules/bonus';
 import { sourceActionCreators as paymentSourceActionCreators } from '../../../../../../../redux/modules/payment';
 import { targetTypes } from '../../../../../../../constants/note';
 import { types as paymentTypes } from '../../../../../../../constants/payment';
@@ -11,6 +11,7 @@ import getFingerprint from '../../../../../../../utils/fingerPrint';
 
 const KEY = 'user/payments';
 const FETCH_ENTITIES = createRequestAction(`${KEY}/fetch-payments`);
+const FETCH_ACTIVE_BONUS = createRequestAction(`${KEY}/fetch-active-bonus`);
 const FETCH_PAYMENT_STATUSES = createRequestAction(`${KEY}/fetch-payment-statuses`);
 const CHANGE_PAYMENT_STATUS = createRequestAction(`${KEY}/change-payment-status`);
 const FETCH_NOTES = createRequestAction(`${KEY}/fetch-notes`);
@@ -25,6 +26,8 @@ const RESET_TRANSACTIONS = `${KEY}/reset`;
 const fetchPaymentStatuses = paymentSourceActionCreators.fetchPaymentStatuses(FETCH_PAYMENT_STATUSES);
 const changePaymentStatus = paymentSourceActionCreators.changePaymentStatus(CHANGE_PAYMENT_STATUS);
 const fetchPaymentAccounts = paymentSourceActionCreators.fetchPaymentAccounts(FETCH_PAYMENT_ACCOUNTS);
+
+const fetchActiveBonus = bonusActionCreators.fetchActiveBonus(FETCH_ACTIVE_BONUS);
 
 const fetchNotesFn = noteSourceActionCreators.fetchNotesByType(FETCH_NOTES);
 const mapNotesToTransactions = (transactions, notes) => {
@@ -223,27 +226,27 @@ const actionHandlers = {
     isFailed: false,
     noResults: false,
   }),
-  [FETCH_ENTITIES.SUCCESS]: (state, action) => ({
+  [FETCH_ENTITIES.SUCCESS]: (state, { payload, meta: { endRequestTime } }) => ({
     ...state,
     entities: {
       ...state.entities,
-      ...action.payload,
-      content: action.payload.number === 0
-        ? action.payload.content
+      ...payload,
+      content: payload.number === 0
+        ? payload.content
         : [
           ...state.entities.content,
-          ...action.payload.content,
+          ...payload.content,
         ],
     },
     isLoading: false,
-    receivedAt: timestamp(),
-    noResults: action.payload.content.length === 0,
+    receivedAt: endRequestTime,
+    noResults: payload.content.length === 0,
   }),
-  [FETCH_ENTITIES.FAILURE]: (state, action) => ({
+  [FETCH_ENTITIES.FAILURE]: (state, { payload, meta: { endRequestTime } }) => ({
     ...state,
     isLoading: false,
-    error: action.payload,
-    receivedAt: timestamp(),
+    error: payload,
+    receivedAt: endRequestTime,
   }),
   [FETCH_NOTES.SUCCESS]: (state, action) => ({
     ...state,
@@ -282,6 +285,7 @@ const actionCreators = {
   manageNote,
   resetNote,
   resetTransactions,
+  fetchActiveBonus,
 };
 
 export {

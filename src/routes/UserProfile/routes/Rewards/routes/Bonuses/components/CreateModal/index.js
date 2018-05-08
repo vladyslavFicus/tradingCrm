@@ -1,3 +1,3 @@
-import CreateModal from './CreateModal';
+import CreateModalContainer from './CreateModalContainer';
 
-export default CreateModal;
+export default CreateModalContainer;

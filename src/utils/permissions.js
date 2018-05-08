@@ -81,5 +81,7 @@ class Permissions {
   getCompiled = () => this.__permissions;
 }
 
-export { CONDITIONS };
+export {
+  CONDITIONS,
+};
 export default Permissions;

@@ -16,15 +16,24 @@ const withPlayerClick = (WrappedComponent) => {
     };
 
     handlePlayerClick = (data) => {
+      const {
+        auth,
+        firstName,
+        lastName,
+        username,
+        playerUUID,
+      } = data;
+
       if (this.context.settings.playerProfileViewType === playerProfileViewTypes.page) {
         this.context.router.push(`/users/${data.playerUUID}/profile`);
       } else {
         const panelData = {
-          fullName: (data.firstName || data.lastName)
-            ? [data.firstName, data.lastName].filter(v => v).join(' ')
+          fullName: (firstName || lastName)
+            ? [firstName, lastName].filter(v => v).join(' ')
             : I18n.t('PLAYER_PROFILE.PROFILE.HEADER.NO_FULLNAME'),
-          login: data.login,
-          uuid: data.playerUUID,
+          username,
+          uuid: playerUUID,
+          auth,
         };
 
         this.context.addPanel(panelData);

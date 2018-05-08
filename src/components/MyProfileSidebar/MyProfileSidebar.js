@@ -7,8 +7,7 @@ import PropTypes from '../../constants/propTypes';
 import { InputField, SelectField } from '../ReduxForm';
 import { createValidator } from '../../utils/validator';
 import { attributeLabels } from './constants';
-
-export const formName = 'my-profile-side-bar';
+import './MyProfileSidebar.scss';
 
 const validator = createValidator({
   phoneNumber: 'numeric',
@@ -63,44 +62,43 @@ class MyProfileSidebar extends Component {
           { slideInRight: isOpen, slideOutRight: initialized && !isOpen }
         )}
       >
-        <header className="my-profile__header">
+        <div className="my-profile__header">
           {I18n.t('MY_PROFILE_SIDEBAR.MY_PROFILE')}
-        </header>
-        <div className="my-profile__sections">
-          <section className="my-profile__personal-details">
-            <h1 className="my-profile__heading">{I18n.t('MY_PROFILE_SIDEBAR.DETAILS')}</h1>
-            <form onSubmit={handleSubmit(onSubmit)}>
-              <div className="form-group">
-                <Field
-                  name="phoneNumber"
-                  label={I18n.t(attributeLabels.phoneNumber)}
-                  type="text"
-                  component={InputField}
-                  position="vertical"
-                  showErrorMessage
-                />
-              </div>
-              <div className="form-group">
-                <Field
-                  name="language"
-                  label={I18n.t(attributeLabels.language)}
-                  component={SelectField}
-                  position="vertical"
-                >
-                  {languages.map(lang => (
-                    <option key={lang} value={lang}>
-                      {lang}
-                    </option>
-                  ))}
-                </Field>
-              </div>
-              <div className="text-right">
-                <button disabled={submitting} className="btn btn-primary btn-sm" type="submit">
-                  {I18n.t('MY_PROFILE_SIDEBAR.SAVE_BUTTON')}
-                </button>
-              </div>
-            </form>
-          </section>
+        </div>
+        <div className="my-profile__content">
+          <div className="my-profile__content-heading">
+            {I18n.t('MY_PROFILE_SIDEBAR.DETAILS')}
+          </div>
+          <form className="my-profile__personal-details" onSubmit={handleSubmit(onSubmit)}>
+            <Field
+              name="phoneNumber"
+              label={I18n.t(attributeLabels.phoneNumber)}
+              type="text"
+              component={InputField}
+              position="vertical"
+            />
+            <Field
+              name="language"
+              label={I18n.t(attributeLabels.language)}
+              component={SelectField}
+              position="vertical"
+            >
+              {languages.map(lang => (
+                <option key={lang} value={lang}>
+                  {lang}
+                </option>
+              ))}
+            </Field>
+            <div className="text-right">
+              <button
+                type="submit"
+                className="btn btn-primary btn-sm font-weight-700"
+                disabled={submitting}
+              >
+                {I18n.t('MY_PROFILE_SIDEBAR.SAVE_BUTTON')}
+              </button>
+            </div>
+          </form>
         </div>
       </div>
     );
@@ -108,6 +106,6 @@ class MyProfileSidebar extends Component {
 }
 
 export default reduxForm({
-  form: formName,
+  form: 'my-profile-side-bar',
   validate: validator,
 })(onClickOutside(MyProfileSidebar));

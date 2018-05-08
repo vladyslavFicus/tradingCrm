@@ -6,9 +6,9 @@ import { I18n } from 'react-redux-i18n';
 import moment from 'moment';
 import { createValidator, translateLabels } from '../../../../../../../../utils/validator';
 import renderLabel from '../../../../../../../../utils/renderLabel';
-import { campaignTypesLabels } from '../../../../../../../../constants/bonus-campaigns';
+import { fulfillmentTypesLabels } from '../../../../../../../../constants/bonus-campaigns';
 import { attributeLabels, attributePlaceholders } from './constants';
-import { InputField, SelectField, DateTimeField } from '../../../../../../../../components/ReduxForm';
+import { InputField, SelectField, DateTimeField, RangeGroup } from '../../../../../../../../components/ReduxForm';
 
 class CampaignsFilterForm extends Component {
   static propTypes = {
@@ -68,81 +68,66 @@ class CampaignsFilterForm extends Component {
     } = this.props;
 
     return (
-      <div className="well">
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="filter-row">
-            <div className="filter-row__big">
-              <Field
-                name="searchBy"
-                type="text"
-                label={I18n.t(attributeLabels.searchBy)}
-                placeholder={I18n.t(attributePlaceholders.searchBy)}
-                component={InputField}
-                position="vertical"
-                iconLeftClassName="nas nas-search_icon"
-              />
-            </div>
-            <div className="filter-row__medium">
-              <Field
-                name="bonusType"
-                label={I18n.t(attributeLabels.bonusType)}
-                component={SelectField}
-                position="vertical"
-              >
-                <option value="">{I18n.t('COMMON.ANY')}</option>
-                {Object.keys(campaignTypesLabels).map(item => (
-                  <option key={item} value={item}>
-                    {renderLabel(item, campaignTypesLabels)}
-                  </option>
-                ))}
-              </Field>
-            </div>
-            <div className="filter-row__big">
-              <div className="form-group">
-                <label>{I18n.t(attributeLabels.availabilityDateRange)}</label>
-                <div className="range-group">
-                  <Field
-                    utc
-                    name="activityDateFrom"
-                    placeholder={I18n.t(attributeLabels.activityDateFrom)}
-                    component={DateTimeField}
-                    isValidDate={this.startDateValidator('activityDateTo')}
-                    position="vertical"
-                  />
-                  <span className="range-group__separator">-</span>
-                  <Field
-                    utc
-                    name="activityDateTo"
-                    placeholder={I18n.t(attributeLabels.activityDateTo)}
-                    component={DateTimeField}
-                    isValidDate={this.endDateValidator('activityDateFrom')}
-                    position="vertical"
-                  />
-                </div>
-              </div>
-            </div>
-            <div className="filter-row__button-block">
-              <div className="button-block-container">
-                <button
-                  disabled={submitting || (disabled && pristine)}
-                  className="btn btn-default"
-                  onClick={this.handleReset}
-                  type="reset"
-                >
-                  {I18n.t('COMMON.RESET')}
-                </button>
-                <button
-                  disabled={submitting || (disabled && pristine)}
-                  className="btn btn-primary"
-                  type="submit"
-                >
-                  {I18n.t('COMMON.APPLY')}
-                </button>
-              </div>
-            </div>
-          </div>
-        </form>
-      </div>
+      <form className="filter-row" onSubmit={handleSubmit(onSubmit)}>
+        <Field
+          name="searchBy"
+          type="text"
+          label={I18n.t(attributeLabels.searchBy)}
+          placeholder={I18n.t(attributePlaceholders.searchBy)}
+          component={InputField}
+          inputAddon={<i className="icon icon-search" />}
+          className="filter-row__big"
+        />
+        <Field
+          name="bonusType"
+          label={I18n.t(attributeLabels.bonusType)}
+          component={SelectField}
+          className="filter-row__medium"
+        >
+          <option value="">{I18n.t('COMMON.ANY')}</option>
+          {Object.keys(fulfillmentTypesLabels).map(item => (
+            <option key={item} value={item}>
+              {renderLabel(item, fulfillmentTypesLabels)}
+            </option>
+          ))}
+        </Field>
+        <RangeGroup
+          className="filter-row__dates"
+          label={I18n.t(attributeLabels.availabilityDateRange)}
+        >
+          <Field
+            utc
+            name="activityDateFrom"
+            placeholder={I18n.t(attributeLabels.activityDateFrom)}
+            component={DateTimeField}
+            isValidDate={this.startDateValidator('activityDateTo')}
+          />
+          <Field
+            utc
+            name="activityDateTo"
+            placeholder={I18n.t(attributeLabels.activityDateTo)}
+            component={DateTimeField}
+            isValidDate={this.endDateValidator('activityDateFrom')}
+          />
+        </RangeGroup>
+        <div className="filter-row__button-block">
+          <button
+            disabled={submitting || (disabled && pristine)}
+            className="btn btn-default"
+            onClick={this.handleReset}
+            type="reset"
+          >
+            {I18n.t('COMMON.RESET')}
+          </button>
+          <button
+            disabled={submitting || (disabled && pristine)}
+            className="btn btn-primary"
+            type="submit"
+          >
+            {I18n.t('COMMON.APPLY')}
+          </button>
+        </div>
+      </form>
     );
   }
 }

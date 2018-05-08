@@ -1,0 +1,71 @@
+.multi-currency-tooltip {
+  margin-top: 10px;
+  padding: 0;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  text-align: inherit;
+  .tooltip-inner {
+    position: relative;
+    max-width: 400px;
+    padding: 0;
+    background-color: #fff;
+    text-align: left;
+  }
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    display: block;
+    width: 0;
+    height: 0;
+  }
+  &::before {
+    top: -11px;
+    border-right: 11px solid transparent;
+    border-left: 11px solid transparent;
+    border-bottom: 11px solid #fff;
+    z-index: 0;
+  }
+  &::after {
+    top: -12px;
+    border-right: 12px solid transparent;
+    border-left: 12px solid transparent;
+    border-bottom: 12px solid #ccc;
+    z-index: -1;
+  }
+  &__header {
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+    font-size: 14px;
+    font-weight: 700;
+    color: #333;
+  }
+  &__content {
+    margin-bottom: 0;
+    padding-bottom: 5px;
+  }
+  .table thead th {
+    padding-bottom: 2px;
+    text-transform: uppercase;
+    font-size: 12px;
+    font-weight: 400;
+    color: #999;
+  }
+  .table tbody td {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    font-size: 14px;
+    color: #333;
+    line-height: normal;
+  }
+  .table tbody tr td:first-child {
+    text-transform: uppercase;
+    font-weight: 700;
+  }
+  .table tbody tr td:last-child {
+    font-weight: 700;
+    color: #0099CC;
+  }
+}

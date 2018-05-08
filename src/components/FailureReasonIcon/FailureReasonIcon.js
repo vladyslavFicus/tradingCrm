@@ -1,8 +1,7 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { I18n } from 'react-redux-i18n';
-import { Popover, PopoverTitle, PopoverContent } from 'reactstrap';
-import onClickOutside from 'react-onclickoutside';
+import { Popover, PopoverHeader, PopoverBody } from 'reactstrap';
 import Uuid from '../Uuid';
 import './FailureReasonIcon.scss';
 
@@ -11,74 +10,71 @@ class FailureReasonIcon extends Component {
     reason: PropTypes.string,
     statusDate: PropTypes.string,
     statusAuthor: PropTypes.string,
+    id: PropTypes.string,
   };
   static defaultProps = {
     reason: null,
     statusDate: null,
     statusAuthor: null,
+    id: 'failure-reason-icon',
   };
   state = {
     popoverOpen: false,
   };
 
-  togglePopoverOpen = (e) => {
-    e.stopPropagation();
-
+  togglePopoverOpen = () => {
     this.setState({ popoverOpen: !this.state.popoverOpen });
   };
 
-  handleClickOutside = () => {
-    this.setState({ popoverOpen: false });
-  };
-
-  renderPopoverContent() {
+  renderPopoverContent(id) {
     const { statusAuthor, statusDate, reason } = this.props;
+    const { popoverOpen } = this.state;
 
     return (
       <Popover
         className="failure-reason-popover"
         placement="right"
-        isOpen={this.state.popoverOpen}
-        target="failure-reason-icon"
+        isOpen={popoverOpen}
+        target={id}
+        toggle={this.togglePopoverOpen}
       >
-        <PopoverTitle>
+        <PopoverHeader tag="div" className="failure-reason-popover__header">
           <div className="failure-reason-popover__title">
             {I18n.t('COMMON.AUTHOR_BY')}
             {' '}
-            {
-              !!statusAuthor &&
-              <span className="font-weight-700">
-                <Uuid
-                  uuid={statusAuthor}
-                  uuidPrefix={statusAuthor.indexOf('OPERATOR') === -1 ? 'OP' : null}
-                />
-              </span>
-            }
+            <If condition={!!statusAuthor}>
+              <Uuid
+                uuid={statusAuthor}
+                uuidPrefix={statusAuthor.indexOf('OPERATOR') === -1 ? 'OP' : null}
+                className="font-weight-700"
+              />
+            </If>
           </div>
           <div className="failure-reason-popover__date">
             {statusDate}
           </div>
-        </PopoverTitle>
-        <PopoverContent>
-          <div className="failure-reason-popover__textfield">
-            {I18n.t(reason)}
-          </div>
-        </PopoverContent>
+        </PopoverHeader>
+        <PopoverBody className="failure-reason-popover__body">
+          {I18n.t(reason)}
+        </PopoverBody>
       </Popover>
     );
   }
 
   render() {
+    const { id } = this.props;
+
     return (
-      <div onClick={this.togglePopoverOpen}>
-        <span
-          id="failure-reason-icon"
-          className="failure-reason-icon failure-reason-icon_account-status"
+      <Fragment>
+        <button
+          id={id}
+          className="failure-reason-icon"
+          onClick={this.togglePopoverOpen}
         />
-        {this.renderPopoverContent()}
-      </div>
+        {this.renderPopoverContent(id)}
+      </Fragment>
     );
   }
 }
 
-export default onClickOutside(FailureReasonIcon);
+export default FailureReasonIcon;

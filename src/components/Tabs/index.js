@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 
-class Tabs extends Component {
+class Tabs extends PureComponent {
   static propTypes = {
     location: PropTypes.shape({
       pathname: PropTypes.string.isRequired,
@@ -12,11 +12,12 @@ class Tabs extends Component {
       url: PropTypes.string.isRequired,
     })),
     params: PropTypes.shape({
-      id: PropTypes.string.isRequired,
-    }).isRequired,
+      id: PropTypes.string,
+    }),
   };
   static defaultProps = {
     items: [],
+    params: {},
   };
   static contextTypes = {
     permissions: PropTypes.arrayOf(PropTypes.string).isRequired,

@@ -1,6 +1,5 @@
 import { CALL_API } from 'redux-api-middleware';
 import createRequestAction from '../../../../../utils/createRequestAction';
-import timestamp from '../../../../../utils/timestamp';
 import { sourceActionCreators as operatorSourceActionCreators } from '../../../../../redux/modules/operator';
 import createReducer from '../../../../../utils/createReducer';
 
@@ -46,11 +45,11 @@ function changeStatus(data) {
   };
 }
 
-const successFetchProfileReducer = (state, action) => ({
+const successFetchProfileReducer = (state, { payload, meta: { endRequestTime } }) => ({
   ...state,
-  data: action.payload,
+  data: payload,
   isLoading: false,
-  receivedAt: timestamp(),
+  receivedAt: endRequestTime,
 });
 
 const actionHandlers = {
@@ -60,11 +59,11 @@ const actionHandlers = {
     error: null,
   }),
   [PROFILE.SUCCESS]: successFetchProfileReducer,
-  [PROFILE.FAILURE]: (state, action) => ({
+  [PROFILE.FAILURE]: (state, { payload, meta: { endRequestTime } }) => ({
     ...state,
     isLoading: false,
-    error: action.payload,
-    receivedAt: timestamp(),
+    error: payload,
+    receivedAt: endRequestTime,
   }),
   [UPDATE_PROFILE.SUCCESS]: successFetchProfileReducer,
 };

@@ -76,10 +76,35 @@ function fetchPaymentAccounts(type) {
   };
 }
 
+function fetchPaymentMethods(type) {
+  return () => (dispatch, getState) => {
+    const { auth: { token, logged } } = getState();
+
+    return dispatch({
+      [CALL_API]: {
+        endpoint: '/payment/methods',
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        types: [
+          type.REQUEST,
+          type.SUCCESS,
+          type.FAILURE,
+        ],
+        bailout: !logged,
+      },
+    });
+  };
+}
+
 const sourceActionCreators = {
   changePaymentStatus,
   fetchPaymentStatuses,
   fetchPaymentAccounts,
+  fetchPaymentMethods,
 };
 
 export {

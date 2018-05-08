@@ -4,14 +4,18 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>NAS Dashboard</title>
-
   <link href="/favicon.ico" rel="shortcut icon">
-
-  <link rel="stylesheet" href="/styles/bootstrap.min.css">
-
+  <script src="/vendor/raven/raven-v3-24-0.min.js" crossorigin="anonymous"></script>
   <script type="application/javascript" src="/config.js"></script>
+  <script>
+    if (window.nas.sentry && window.Raven) {
+      Raven
+        .config(window.nas.sentry.dsn, window.nas.sentry.options)
+        .install();
+    }
+  </script>
 </head>
 <body>
-  <div id="root" style="height: 100%"></div>
+  <div id="root"></div>
 </body>
 </html>

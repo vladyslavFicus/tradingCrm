@@ -13,6 +13,9 @@ if (window) {
   window.reduxLocked = false;
   window.reduxLockedQueue = [];
   window.activeConnections = [];
+  window.app = {
+    brandId: null,
+  };
 
   if (typeof location.origin === 'undefined') {
     window.location.origin = `${window.location.protocol}//${window.location.host}`;
@@ -24,9 +27,14 @@ if (window) {
       errorType: errorTypes.INTERNAL,
     };
 
-    const stack = e.error.stack;
+    const stack = e.error ? e.error.stack : null;
+
     if (stack) {
       error.stack = `\n${stack}`;
+    }
+
+    if (window.Raven) {
+      window.Raven.captureException(e);
     }
 
     sendError(error);
@@ -39,20 +47,13 @@ if (window) {
   };
 }
 
-const initialState = window.___INITIAL_STATE__;
-createStore(initialState, (store) => {
+createStore({}, (store) => {
   const MOUNT_NODE = document.getElementById('root');
 
   let render = () => {
     const routes = require('./routes/index').default(store);
 
-    ReactDOM.render(
-      <AppContainer
-        store={store}
-        routes={routes}
-      />,
-      MOUNT_NODE
-    );
+    ReactDOM.render(<AppContainer store={store} routes={routes} />, MOUNT_NODE);
   };
 
   if (__DEV__) {

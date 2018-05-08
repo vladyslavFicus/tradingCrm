@@ -4,13 +4,18 @@ import { actionCreators } from '../modules';
 import { paymentActions, chargebackReasons, rejectReasons } from '../../../../../constants/payment';
 import { actionCreators as miniProfileActionCreators } from '../../../../../redux/modules/miniProfile';
 
-const mapStateToProps = ({ transactions, i18n: { locale } }) => ({
+const mapStateToProps = ({
+  transactions,
+  i18n: { locale },
+  auth: { brandId, uuid },
+}) => ({
   ...transactions,
   locale,
   paymentActionReasons: {
     [paymentActions.REJECT]: rejectReasons,
     [paymentActions.CHARGEBACK]: chargebackReasons,
   },
+  auth: { brandId, uuid },
 });
 
 const mapActions = {

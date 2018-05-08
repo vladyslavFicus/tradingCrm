@@ -1,5 +1,6 @@
 import { CALL_API } from 'redux-api-middleware';
-import { getBrand } from '../../config';
+import jwtDecode from 'jwt-decode';
+import { actionCreators as optionsActionCreators } from './profile/options';
 
 function updateProfile(type) {
   return (uuid, data) => (dispatch, getState) => {
@@ -31,11 +32,11 @@ function updateProfile(type) {
 
 function passwordResetRequest(type) {
   return uuid => (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
+    const { auth: { token, logged, brandId } } = getState();
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `auth/password/${getBrand()}/${uuid}/reset/request`,
+        endpoint: `auth/password/${brandId}/${uuid}/reset/request`,
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -49,7 +50,7 @@ function passwordResetRequest(type) {
         ],
         bailout: !logged,
       },
-    })
+    });
   };
 }
 
@@ -78,22 +79,26 @@ function sendInvitationRequest(type) {
 }
 
 function passwordResetConfirm(type) {
-  return ({ password, token }) => dispatch => dispatch({
-    [CALL_API]: {
-      endpoint: '/operator/public/operators/activate',
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
+  return ({ password, token }) => (dispatch, getState) => {
+    const { auth: { brandId } } = getState();
+
+    return dispatch({
+      [CALL_API]: {
+        endpoint: `/operator/public/operators/activate?brandId=${brandId}`,
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ password, token }),
+        types: [
+          type.REQUEST,
+          type.SUCCESS,
+          type.FAILURE,
+        ],
       },
-      body: JSON.stringify({ password, token }),
-      types: [
-        type.REQUEST,
-        type.SUCCESS,
-        type.FAILURE,
-      ],
-    },
-  });
+    });
+  };
 }
 
 function fetchProfile(type) {
@@ -122,7 +127,15 @@ function fetchProfile(type) {
 
 function fetchAuthorities(type) {
   return (uuid, outsideToken = null) => (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
+    const { auth: { token: authToken, logged } } = getState();
+    const token = outsideToken || authToken;
+    let brandId = null;
+
+    const decodedToken = jwtDecode(token);
+
+    if (decodedToken) {
+      brandId = decodedToken.brandId;
+    }
 
     return dispatch({
       [CALL_API]: {
@@ -131,16 +144,17 @@ function fetchAuthorities(type) {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${outsideToken || token}`,
+          Authorization: `Bearer ${token}`,
         },
         types: [
           type.REQUEST,
           type.SUCCESS,
           type.FAILURE,
         ],
-        bailout: !logged && !outsideToken,
+        bailout: !logged && !token,
       },
-    });
+    })
+      .then(() => dispatch(optionsActionCreators.fetchSignUp(brandId)));
   };
 }
 

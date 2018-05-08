@@ -21,7 +21,7 @@ const profilePathnameRegExp = new RegExp(`^\\/${PLAYER_PROFILE_ROUTE_PREFIX}\\/(
 export default store => ({
   path: `${PLAYER_PROFILE_ROUTE_PREFIX}/:id`,
   onEnter: ({ location }, replace, cb) => {
-    const { settings } = store.getState();
+    const { settings, auth: { brandId, uuid } } = store.getState();
 
     if (settings.playerProfileViewType === playerProfileViewTypes.frame) {
       if (!window.isFrame) {
@@ -33,6 +33,8 @@ export default store => ({
             login: '',
             uuid: playerUUID,
             path: location.pathname.replace(`/${PLAYER_PROFILE_ROUTE_PREFIX}/${playerUUID}/`, ''),
+            brandId,
+            authorId: uuid,
           }));
           replace({ pathname: `/${PLAYER_PROFILE_ROUTE_PREFIX}/list`, state: { ignoreByUsersPanel: true } });
         }
@@ -54,7 +56,7 @@ export default store => ({
       })
       .then((action) => {
         if (action && !action.error) {
-          return import(/* webpackChunkName: "playerProfileRoute" */ './container/UserProfile');
+          return import(/* webpackChunkName: "playerProfileRoute" */ './container/ProfileLayoutContainer');
         }
 
         return import(/* webpackChunkName: "notFoundRoute" */ '../NotFound/container/Container');

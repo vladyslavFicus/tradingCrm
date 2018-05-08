@@ -3,12 +3,14 @@
   "extends": [
     "standard",
     "standard-react",
-    "airbnb"
+    "airbnb",
+    "plugin:jsx-control-statements/recommended"
   ],
   "plugins": [
     "babel",
     "react",
-    "promise"
+    "promise",
+    "jsx-control-statements"
   ],
   "env": {
     "browser": true
@@ -59,6 +61,9 @@
         "exports": "always-multiline",
         "functions": "ignore"
       }
-    ]
+    ],
+    "no-return-assign": "off",
+    "radix": 0,
+    "react/jsx-no-undef": [2, { "allowGlobals": true }]
   }
 }

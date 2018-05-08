@@ -24,10 +24,12 @@ const statusesReasons = keyMirror({
 const targetTypes = keyMirror({
   ALL: null,
   TARGET_LIST: null,
+  LINKED_CAMPAIGN: null,
 });
 const targetTypesLabels = {
   [targetTypes.ALL]: I18n.t('CONSTANTS.BONUS_CAMPAIGN.TARGET_TYPES.ALL'),
   [targetTypes.TARGET_LIST]: I18n.t('CONSTANTS.BONUS_CAMPAIGN.TARGET_TYPES.TARGET_LIST'),
+  [targetTypes.LINKED_CAMPAIGN]: I18n.t('CONSTANTS.BONUS_CAMPAIGN.TARGET_TYPES.LINKED_CAMPAIGN'),
 };
 const statusesLabels = {
   [statuses.DRAFT]: I18n.t('CONSTANTS.BONUS_CAMPAIGN.STATUSES.DRAFT'),
@@ -54,10 +56,12 @@ const moneyTypeUsageLabels = {
 const lockAmountStrategy = keyMirror({
   LOCK_ALL: null,
   LOCK_PARTIAL: null,
+  LOCK_BONUS: null,
 });
 const lockAmountStrategyLabels = {
   [lockAmountStrategy.LOCK_ALL]: I18n.t('CONSTANTS.BONUS_CAMPAIGN.LOCK_AMOUNT_STRATEGY.LOCK_ALL'),
   [lockAmountStrategy.LOCK_PARTIAL]: I18n.t('CONSTANTS.BONUS_CAMPAIGN.LOCK_AMOUNT_STRATEGY.LOCK_PARTIAL'),
+  [lockAmountStrategy.LOCK_BONUS]: I18n.t('CONSTANTS.BONUS_CAMPAIGN.LOCK_AMOUNT_STRATEGY.LOCK_BONUS'),
 };
 
 const cancelAction = {
@@ -83,28 +87,33 @@ const statusActions = {
   [statuses.PENDING]: [cancelAction],
   [statuses.ACTIVE]: [cancelAction],
 };
-const campaignTypes = keyMirror({
-  FIRST_DEPOSIT: null,
+const fulfillmentTypes = keyMirror({
   DEPOSIT: null,
   PROFILE_COMPLETED: null,
   WITHOUT_FULFILMENT: null,
 });
-const campaignTypesLabels = {
-  [campaignTypes.FIRST_DEPOSIT]: I18n.t('CONSTANTS.BONUS_CAMPAIGN.CAMPAIGN_TYPE.FIRST_DEPOSIT'),
-  [campaignTypes.DEPOSIT]: I18n.t('CONSTANTS.BONUS_CAMPAIGN.CAMPAIGN_TYPE.DEPOSIT'),
-  [campaignTypes.PROFILE_COMPLETED]: I18n.t('CONSTANTS.BONUS_CAMPAIGN.CAMPAIGN_TYPE.PROFILE_COMPLETED'),
-  [campaignTypes.WITHOUT_FULFILMENT]: I18n.t('CONSTANTS.BONUS_CAMPAIGN.CAMPAIGN_TYPE.WITHOUT_FULFILMENT'),
+const rewardTypes = keyMirror({
+  BONUS: null,
+  FREE_SPIN: null,
+});
+const fulfillmentTypesLabels = {
+  [fulfillmentTypes.DEPOSIT]: I18n.t('CONSTANTS.BONUS_CAMPAIGN.CAMPAIGN_TYPE.DEPOSIT'),
+  [fulfillmentTypes.PROFILE_COMPLETED]: I18n.t('CONSTANTS.BONUS_CAMPAIGN.CAMPAIGN_TYPE.PROFILE_COMPLETED'),
+  [fulfillmentTypes.WITHOUT_FULFILMENT]: I18n.t('CONSTANTS.BONUS_CAMPAIGN.CAMPAIGN_TYPE.WITHOUT_FULFILLMENT'),
+};
+const rewardTypesLabels = {
+  [rewardTypes.BONUS]: I18n.t('CONSTANTS.BONUS_CAMPAIGN.REWARD_TYPE.BONUS'),
+  [rewardTypes.FREE_SPIN]: I18n.t('CONSTANTS.BONUS_CAMPAIGN.REWARD_TYPE.FREE_SPIN'),
 };
 
-const customValueFieldTypesByCampaignType = {
-  [campaignTypes.FIRST_DEPOSIT]: [customValueFieldTypes.PERCENTAGE, customValueFieldTypes.ABSOLUTE],
-  [campaignTypes.DEPOSIT]: [customValueFieldTypes.PERCENTAGE, customValueFieldTypes.ABSOLUTE],
-  [campaignTypes.PROFILE_COMPLETED]: [customValueFieldTypes.ABSOLUTE],
-  [campaignTypes.WITHOUT_FULFILMENT]: [customValueFieldTypes.ABSOLUTE],
+const customValueFieldTypesByFulfillmentType = {
+  [fulfillmentTypes.DEPOSIT]: [customValueFieldTypes.PERCENTAGE, customValueFieldTypes.ABSOLUTE],
+  [fulfillmentTypes.PROFILE_COMPLETED]: [customValueFieldTypes.ABSOLUTE],
+  [fulfillmentTypes.WITHOUT_FULFILMENT]: [customValueFieldTypes.ABSOLUTE],
 };
 
 const optInSelect = {
-  true: I18n.t('COMMON.OPT_IN'),
+  true: I18n.t('BONUS_CAMPAIGNS.SETTINGS.LABEL.OPT_IN_REQUIRED'),
   false: I18n.t('COMMON.NON_OPT_IN'),
 };
 
@@ -121,11 +130,13 @@ export {
   statusesReasons,
   statusesLabels,
   statusesClassNames,
-  campaignTypes,
-  campaignTypesLabels,
+  fulfillmentTypes,
+  rewardTypes,
+  rewardTypesLabels,
+  fulfillmentTypesLabels,
   targetTypes,
   targetTypesLabels,
-  customValueFieldTypesByCampaignType,
+  customValueFieldTypesByFulfillmentType,
   moneyTypeUsage,
   moneyTypeUsageLabels,
   optInSelect,

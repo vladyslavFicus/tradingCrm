@@ -8,14 +8,15 @@ class UsersPanelItem extends Component {
   static propTypes = {
     active: PropTypes.bool,
     fullName: PropTypes.string.isRequired,
-    login: PropTypes.string.isRequired,
     uuid: PropTypes.string.isRequired,
     color: PropTypes.string.isRequired,
     onClick: PropTypes.func.isRequired,
     onRemoveClick: PropTypes.func.isRequired,
+    login: PropTypes.string.isRequired,
   };
   static defaultProps = {
     active: false,
+    login: '',
   };
 
   handleRemoveClick = (e) => {

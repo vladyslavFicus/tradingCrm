@@ -1,16 +1,22 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { I18n } from 'react-redux-i18n';
 import moment from 'moment';
 import Uuid from '../Uuid';
-import PropTypes from '../../constants/propTypes';
 import renderLabel from '../../utils/renderLabel';
 import { statuses, statusesClassNames, statusesLabels, statusesReasons } from '../../constants/bonus-campaigns';
 import './BonusCampaignStatus.scss';
 
 class BonusCampaignStatus extends Component {
   static propTypes = {
-    campaign: PropTypes.bonusCampaignEntity.isRequired,
+    campaign: PropTypes.shape({
+      state: PropTypes.string.isRequired,
+      stateReason: PropTypes.string,
+      statusChangedDate: PropTypes.string,
+      startDate: PropTypes.string,
+      statusChangedAuthorUUID: PropTypes.string,
+    }).isRequired,
     blockName: PropTypes.string,
     showAdditionalInfo: PropTypes.bool,
   };

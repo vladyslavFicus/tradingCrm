@@ -1,14 +1,11 @@
 import React, { Component } from 'react';
 import { I18n } from 'react-redux-i18n';
 import { SubmissionError } from 'redux-form';
-import Sticky from 'react-stickynode';
 import FreeSpinMainInfo from '../FreeSpinMainInfo';
 import PropTypes from '../../../../../../../../constants/propTypes';
 import GridView, { GridColumn } from '../../../../../../../../components/GridView';
 import { targetTypes } from '../../../../../../../../constants/note';
 import { statuses, actions } from '../../../../../../../../constants/free-spin';
-import SubTabNavigation from '../../../../../../../../components/SubTabNavigation';
-import { routes as subTabRoutes } from '../../../../constants';
 import Amount from '../../../../../../../../components/Amount';
 import FreeSpinStatus from '../../../../../../../../components/FreeSpinStatus';
 import NoteButton from '../../../../../../../../components/NoteButton';
@@ -18,7 +15,11 @@ import CreateModal from '../CreateModal';
 import CancelModal from '../CancelModal';
 import ViewModal from '../ViewModal';
 import shallowEqual from '../../../../../../../../utils/shallowEqual';
+import recognizeFieldError from '../../../../../../../../utils/recognizeFieldError';
 import FreeSpinGameInfo from '../FreeSpinGameInfo';
+import { aggregators, mapResponseErrorToField } from '../../constants';
+import { moneyTypeUsage } from '../../../../../../../../constants/bonus';
+import StickyNavigation from '../../../../../../components/StickyNavigation';
 
 const modalInitialState = { name: null, params: {} };
 const MODAL_CREATE = 'create-modal';
@@ -55,12 +56,21 @@ class FreeSpinsView extends Component {
       id: PropTypes.string,
     }).isRequired,
     locale: PropTypes.string.isRequired,
+    fetchFreeSpinTemplates: PropTypes.func.isRequired,
+    fetchFreeSpinTemplate: PropTypes.func.isRequired,
+    createFreeSpinTemplate: PropTypes.func.isRequired,
+    assignFreeSpinTemplate: PropTypes.func.isRequired,
+    templates: PropTypes.arrayOf(PropTypes.freeSpinListEntity),
+    subTabRoutes: PropTypes.arrayOf(PropTypes.subTabRouteEntity).isRequired,
   };
+  static defaultProps = {
+    templates: [],
+  };
+
   static contextTypes = {
     onAddNoteClick: PropTypes.func.isRequired,
     onEditNoteClick: PropTypes.func.isRequired,
     setNoteChangedCallback: PropTypes.func.isRequired,
-    refreshPinnedNotes: PropTypes.func.isRequired,
     onAddNote: PropTypes.func.isRequired,
     addNotification: PropTypes.func.isRequired,
     cacheChildrenComponent: PropTypes.func.isRequired,
@@ -105,6 +115,10 @@ class FreeSpinsView extends Component {
     } else {
       this.context.onAddNoteClick(data.uuid, targetTypes.FREE_SPIN)(target, { placement: 'left' });
     }
+  };
+
+  handlePageChanged = (page) => {
+    this.setState({ page: page - 1 }, this.handleRefresh);
   };
 
   handleRefresh = () => {
@@ -164,26 +178,71 @@ class FreeSpinsView extends Component {
       initialValues: {
         currencyCode: this.props.currency,
         playerUUID: this.props.params.id,
+        moneyTypePriority: moneyTypeUsage.REAL_MONEY_FIRST,
       },
     });
   };
 
   handleSubmitNewFreeSpin = async (data) => {
+    const { aggregatorId, startDate, endDate } = data;
+
     const {
       createFreeSpin,
+      createFreeSpinTemplate,
+      assignFreeSpinTemplate,
       resetNote,
+      currency,
+      params: { id: playerUUID },
       list: { newEntityNote: unsavedNote },
     } = this.props;
-    const action = await createFreeSpin(data);
+
+    let action;
+    if (aggregatorId === aggregators.igromat) {
+      const { moduleId, clientId, betPerLine, ...freeSpinTemplateData } = data;
+      action = await createFreeSpinTemplate({
+        claimable: false,
+        ...freeSpinTemplateData,
+        betPerLineAmounts: [
+          {
+            amount: betPerLine,
+            currency,
+          },
+        ],
+      });
+
+      if (action && !action.error) {
+        const { uuid } = action.payload;
+        await assignFreeSpinTemplate(uuid, {
+          playerUUID,
+          currency,
+          startDate,
+          endDate,
+        });
+      } else if (action.error && action.payload.response) {
+        if (action.payload.response.fields_errors) {
+          const errors = Object.keys(action.payload.response.fields_errors).reduce((res, name) => ({
+            ...res,
+            [name]: I18n.t(action.payload.response.fields_errors[name].error),
+          }), {});
+          throw new SubmissionError(errors);
+        } else if (action.payload.response.error) {
+          const fieldError = recognizeFieldError(action.payload.response.error, mapResponseErrorToField);
+          if (fieldError) {
+            throw new SubmissionError(fieldError);
+          } else {
+            throw new SubmissionError({ __error: I18n.t(action.payload.response.error) });
+          }
+        }
+      }
+    } else {
+      action = await createFreeSpin(data);
+    }
 
     if (action && action.error) {
       throw new SubmissionError({ _error: action.payload.response.error });
     } else {
       if (unsavedNote) {
-        await this.context.onAddNote({ ...unsavedNote, targetUUID: action.payload.uuid });
-        if (unsavedNote.pinned) {
-          this.context.refreshPinnedNotes();
-        }
+        await this.context.onAddNote({ variables: { ...unsavedNote, targetUUID: action.payload.uuid } });
       }
 
       resetNote();
@@ -288,31 +347,32 @@ class FreeSpinsView extends Component {
       manageNote,
       cancelReasons,
       locale,
+      fetchFreeSpinTemplates,
+      fetchFreeSpinTemplate,
+      templates,
+      subTabRoutes,
     } = this.props;
     const allowActions = Object.keys(filters).filter(i => filters[i]).length > 0;
 
     return (
       <div>
-        <Sticky top=".panel-heading-row" bottomBoundary={0} innerZ="2">
-          <div className="tab-header">
-            <SubTabNavigation links={subTabRoutes} />
-            <div className="tab-header__actions">
-              <button
-                disabled={exporting || !allowActions}
-                className="btn btn-default-outline btn-sm"
-                onClick={this.handleExportButtonClick}
-              >
-                {I18n.t('PLAYER_PROFILE.FREE_SPINS.EXPORT_BUTTON')}
-              </button>
-              <button
-                className="btn btn-primary-outline margin-left-15 btn-sm"
-                onClick={this.handleCreateButtonClick}
-              >
-                {I18n.t('PLAYER_PROFILE.FREE_SPINS.MANUAL_FREE_SPIN_BUTTON')}
-              </button>
-            </div>
+        <StickyNavigation links={subTabRoutes}>
+          <div>
+            <button
+              disabled={exporting || !allowActions}
+              className="btn btn-default-outline btn-sm"
+              onClick={this.handleExportButtonClick}
+            >
+              {I18n.t('PLAYER_PROFILE.FREE_SPINS.EXPORT_BUTTON')}
+            </button>
+            <button
+              className="btn btn-primary-outline margin-left-15 btn-sm"
+              onClick={this.handleCreateButtonClick}
+            >
+              {I18n.t('PLAYER_PROFILE.FREE_SPINS.MANUAL_FREE_SPIN_BUTTON')}
+            </button>
           </div>
-        </Sticky>
+        </StickyNavigation>
 
         <FreeSpinsFilterForm
           providers={providersFilterValues}
@@ -327,6 +387,7 @@ class FreeSpinsView extends Component {
             onPageChange={this.handlePageChanged}
             activePage={entities.number + 1}
             totalPages={entities.totalPages}
+            lazyLoad
             locale={locale}
             showNoResults={noResults}
           >
@@ -373,6 +434,9 @@ class FreeSpinsView extends Component {
             providers={providers}
             note={newEntityNote}
             onManageNote={manageNote}
+            templates={templates}
+            fetchFreeSpinTemplates={fetchFreeSpinTemplates}
+            fetchFreeSpinTemplate={fetchFreeSpinTemplate}
           />
         }
         {

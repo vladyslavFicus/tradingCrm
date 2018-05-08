@@ -28,12 +28,17 @@ class OperatorProfileLayout extends Component {
     changeStatus: PropTypes.func.isRequired,
     onResetPassword: PropTypes.func.isRequired,
     onSendInvitation: PropTypes.func.isRequired,
+    fetchAuthority: PropTypes.func.isRequired,
   };
 
   state = {
     modal: { ...modalInitialState },
     informationShown: true,
   };
+
+  componentDidMount() {
+    this.props.fetchAuthority(this.props.params.id);
+  }
 
   handleToggleInformationBlock = () => {
     this.setState({ informationShown: !this.state.informationShown });
@@ -90,6 +95,7 @@ class OperatorProfileLayout extends Component {
       data,
       availableStatuses,
       changeStatus,
+      authorities: { data: authorities },
     } = this.props;
 
     const {
@@ -122,7 +128,10 @@ class OperatorProfileLayout extends Component {
           </div>
 
           <Collapse isOpen={informationShown}>
-            <Information data={data} />
+            <Information
+              data={data}
+              authorities={authorities}
+            />
           </Collapse>
         </div>
         <div className="layout-content">

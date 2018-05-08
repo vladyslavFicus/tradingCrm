@@ -3,6 +3,7 @@ import I18n from '../../../../utils/fake-i18n';
 const attributeLabels = {
   searchBy: I18n.t('BONUS_CAMPAIGNS.FILTER_FORM.SEARCH_BY'),
   fulfillmentType: I18n.t('BONUS_CAMPAIGNS.FILTER_FORM.FULFILLMENT_TYPE'),
+  depositNumber: I18n.t('BONUS_CAMPAIGNS.FILTER_FORM.DEPOSIT_NUMBER'),
   state: I18n.t('BONUS_CAMPAIGNS.FILTER_FORM.STATUS'),
   optIn: I18n.t('BONUS_CAMPAIGNS.FILTER_FORM.OPT_IN'),
   creationDate: I18n.t('BONUS_CAMPAIGNS.FILTER_FORM.CREATION_DATE'),

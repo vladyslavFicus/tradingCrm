@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Popover, PopoverContent, TabContent, TabPane, Nav, NavItem, NavLink, Input } from 'reactstrap';
+import { Popover, PopoverBody, TabContent, TabPane, Nav, NavItem, NavLink } from 'reactstrap';
 import classNames from 'classnames';
 import keyMirror from 'keymirror';
 import { I18n } from 'react-redux-i18n';
 import fakeI18n from '../../../../../../utils/fake-i18n';
 import Amount from '../../../../../../components/Amount';
-import AvailabilityPopoverStyle from './AvailabilityPopover.scss';
+import './AvailabilityPopover.scss';
 
 const tabs = keyMirror({
   DEPOSIT: null,
@@ -27,7 +27,6 @@ class AvailabilityPopover extends Component {
     toggle: PropTypes.func,
     countries: PropTypes.object,
   };
-
   static defaultProps = {
     placement: 'left',
     toggle: null,
@@ -141,16 +140,16 @@ class AvailabilityPopover extends Component {
     const tabListElements = [];
     Object.keys(tabCountries).map((letter, key) => {
       tabListElements.push(
-        <div key={[`${key}-${letter}`]}>
-          <span className="font-weight-700">{letter}</span>
+        <div className="font-weight-700" key={[`${key}-${letter}`]}>
+          {letter}
         </div>
       );
 
       tabCountries[letter].map((country) => {
         tabListElements.push(
           <div key={[`${key}-${country}`]}>
-            <span className="font-weight-700">{country}</span> {'- '}
-            <span className="tab-pane__limit-amount">{this.renderLimit(country)}</span>
+            <span className="font-weight-700 margin-right-5">{country}</span>
+            <span className="availability-popover__tab-value">{this.renderLimit(country)}</span>
           </div>
         );
       });
@@ -162,7 +161,7 @@ class AvailabilityPopover extends Component {
           dangerouslySetInnerHTML={{
             __html: I18n.t('PAYMENT.METHODS.AVAILABILITY.NO_RESULT_BY_SEARCH', {
               search: `<span class="font-weight-700">${search}</span>`,
-              tabName: `<span class="tab-name">${I18n.t(tabsLabels[activeTab])}</span>`,
+              tabName: `<span class="availability-popover__tab-name">${I18n.t(tabsLabels[activeTab])}</span>`,
             }),
           }}
         />
@@ -178,32 +177,31 @@ class AvailabilityPopover extends Component {
 
     return (
       <Popover
-        cssModule={AvailabilityPopoverStyle}
         placement={placement}
         isOpen
         toggle={toggle}
         target={target}
         className="availability-popover"
+        container={target}
+        hideArrow
       >
-        <PopoverContent>
-          <Nav tabs>
-            {
-              Object.keys(tabs).map(tab => (
-                <NavItem key={tab}>
-                  <NavLink
-                    className={classNames({ active: activeTab === tab })}
-                    onClick={() => { this.toggleTab(tab); }}
-                  >
-                    {I18n.t(tabsLabels[tab])}
-                  </NavLink>
-                </NavItem>
-              ))
-            }
+        <PopoverBody>
+          <Nav className="availability-popover__nav">
+            {Object.keys(tabs).map(tab => (
+              <NavItem className="availability-popover__nav-item" key={tab}>
+                <NavLink
+                  className={classNames('availability-popover__nav-tab', { active: activeTab === tab })}
+                  onClick={() => { this.toggleTab(tab); }}
+                >
+                  {I18n.t(tabsLabels[tab])}
+                </NavLink>
+              </NavItem>
+            ))}
           </Nav>
           <TabContent activeTab={activeTab}>
-            <div className="input-with-icon input-with-icon__left">
-              <i className="input-left-icon nas nas-search_icon" />
-              <Input
+            <div className="availability-popover-search">
+              <i className="icon icon-search" />
+              <input
                 onChange={this.handleSearch}
                 className="form-control"
                 value={search}
@@ -211,12 +209,11 @@ class AvailabilityPopover extends Component {
                 placeholder={I18n.t('PAYMENT.METHODS.AVAILABILITY.SEARCH_PLACEHOLDER')}
               />
             </div>
-            <hr />
-            <TabPane tabId={activeTab}>
+            <TabPane className="availability-popover__tab" tabId={activeTab}>
               {this.renderTabListElements()}
             </TabPane>
           </TabContent>
-        </PopoverContent>
+        </PopoverBody>
       </Popover>
     );
   }

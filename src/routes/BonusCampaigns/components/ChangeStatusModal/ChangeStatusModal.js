@@ -66,7 +66,7 @@ class ChangeStatusModal extends Component {
         {
           customReason &&
           <option value="custom">
-            {I18n.t('BONUS_CAMPAIGNS.CHANGE_STATUS_MODAL.CUSTOM_REASON_OPTION')}
+            {I18n.t('COMMON.CUSTOM_REASON_OPTION')}
           </option>
         }
       </Field>
@@ -95,7 +95,7 @@ class ChangeStatusModal extends Component {
             {I18n.t('BONUS_CAMPAIGNS.CHANGE_STATUS_MODAL.TITLE')}
           </ModalHeader>
           <ModalBody>
-            <div className="text-center margin-vertical-20">
+            <div className="text-center my-4">
               <span className="font-weight-700">
                 {I18n.t('BONUS_CAMPAIGNS.CHANGE_STATUS_MODAL.ACTION_TEXT', {
                   title: campaign.campaignName,
@@ -115,8 +115,6 @@ class ChangeStatusModal extends Component {
               <Field
                 name="customReason"
                 placeholder={I18n.t('BONUS_CAMPAIGNS.CHANGE_STATUS_MODAL.CUSTOM_REASON_PLACEHOLDER')}
-                label={''}
-                position="vertical"
                 component={TextAreaField}
               />
             }

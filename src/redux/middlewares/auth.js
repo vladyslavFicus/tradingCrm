@@ -1,9 +1,9 @@
+import jwtDecode from 'jwt-decode';
 import { REHYDRATE } from 'redux-persist/constants';
 import {
   actionTypes as authActionTypes,
   actionCreators as authActionCreators,
 } from '../modules/auth';
-import { actionCreators as permissionsActionCreators } from '../modules/permissions';
 
 const triggerActions = {
   start: [
@@ -25,8 +25,25 @@ export default store => next => (action) => {
 
     if (triggerActions.start.indexOf(action.type) > -1) {
       let auth = action.payload;
+
       if (action.type === REHYDRATE) {
         auth = action.payload.auth;
+      }
+
+      if (auth && auth.token) {
+        const tokenData = jwtDecode(auth.token);
+
+        if (window.app.brandId !== tokenData.brandId) {
+          window.app.brandId = tokenData.brandId;
+        }
+
+        if (window.Raven) {
+          window.Raven.setUserContext({
+            uuid: auth.uuid,
+            token: auth.token,
+            ...jwtDecode(auth.token),
+          });
+        }
       }
 
       const isAuthRehydrate = !!action.payload.language;
@@ -34,6 +51,8 @@ export default store => next => (action) => {
         store.dispatch(authActionCreators.fetchProfile(auth.uuid, auth.token));
         store.dispatch(authActionCreators.fetchAuthorities(auth.uuid, auth.token));
       }
+    } else if (triggerActions.stop.indexOf(action.type) > -1) {
+      window.app.brandId = null;
     }
   }
 

@@ -18,7 +18,7 @@ class ViewLayout extends Component {
   static propTypes = {
     params: PropTypes.shape({
       id: PropTypes.string,
-    }),
+    }).isRequired,
     location: PropTypes.object,
     children: PropTypes.node,
     data: PropTypes.bonusCampaignEntity.isRequired,

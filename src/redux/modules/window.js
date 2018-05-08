@@ -4,8 +4,6 @@ const CHANGE_LOCALE = `${KEY}/change-locale-message`;
 const NOTIFICATION = `${KEY}/notification-message`;
 const NAVIGATE_TO = `${KEY}/navigate-to`;
 const VIEW_PLAYER_PROFILE = `${KEY}/view-player-profile`;
-const SHOW_SCROLL_TO_TOP = `${KEY}/show-scroll-to-top`;
-const SCROLL_TO_TOP = `${KEY}/scroll-to-top`;
 const CLOSE_PROFILE_TAB = `${KEY}/close-profile-tab`;
 const OPERATOR_ACTIVITY = `${KEY}/operator-activity`;
 
@@ -43,19 +41,6 @@ function viewPlayerProfile(payload) {
   };
 }
 
-function showScrollToTop(isShow) {
-  return {
-    type: SHOW_SCROLL_TO_TOP,
-    payload: isShow,
-  };
-}
-
-function scrollToTop() {
-  return {
-    type: SCROLL_TO_TOP,
-  };
-}
-
 function closeProfileTab(userUUID) {
   return {
     type: CLOSE_PROFILE_TAB,
@@ -72,8 +57,6 @@ const actionTypes = {
   CHANGE_LOCALE,
   LOGOUT,
   NAVIGATE_TO,
-  SHOW_SCROLL_TO_TOP,
-  SCROLL_TO_TOP,
   VIEW_PLAYER_PROFILE,
   CLOSE_PROFILE_TAB,
   OPERATOR_ACTIVITY,
@@ -84,8 +67,6 @@ const actionCreators = {
   notify,
   navigateTo,
   viewPlayerProfile,
-  showScrollToTop,
-  scrollToTop,
   closeProfileTab,
   operatorActivity,
 };

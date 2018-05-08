@@ -25,6 +25,8 @@
     padding-top: 5px;
     padding-bottom: 5px;
     border-bottom: none;
+    border-top-right-radius: 0;
+    border-top-left-radius: 0;
     background-color: #dff2ff;
     .close {
       margin: 0;
@@ -114,7 +116,7 @@
     width: 605px;
   }
   .view-bonus-modal {
-    width: 750px;
+    width: 900px;
   }
   &-tab-label {
     margin-bottom: 3px;
@@ -126,7 +128,6 @@
 
 .modal-header-tabs {
   display: flex;
-  flex-flow: row nowrap;
   justify-content: space-between;
   &__item {
     min-width: 0;
@@ -145,7 +146,6 @@
 
 .modal-body-tabs {
   display: flex;
-  flex-flow: row nowrap;
   margin-top: 20px;
   margin-bottom: 20px;
   &__item {
@@ -155,7 +155,6 @@
 
 .modal-footer-tabs {
   display: flex;
-  flex-flow: row nowrap;
   justify-content: center;
   margin-right: -15px;
   margin-bottom: 20px;

@@ -127,7 +127,7 @@ class UploadModal extends Component {
                 }),
               }}
             />
-            <div className="margin-vertical-20">
+            <div className="my-4">
               {this.renderFiles()}
             </div>
             <div className="row">

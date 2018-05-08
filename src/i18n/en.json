@@ -14,7 +14,10 @@
       "COUNTRIES": "Countries",
       "PLAYERS_SEARCH": "Players' search",
       "PLAYERS_KYC_REQUEST": "KYC requests",
-      "SETTINGS": "Settings"
+      "SETTINGS": "Settings",
+      "NEW_CAMPAIGNS": "New campaigns",
+      "NEW_CAMPAIGNS_FULFILLMENTS": "Fulfillments",
+      "CAMPAIGNS": "[NEW] Campaigns"
     },
     "BOTTOM_MENU": {
       "SUPPORT": "Support"
@@ -110,7 +113,7 @@
           "SUSPECTED_IDENTITY_THEFT": "Suspected Identity Theft"
         },
         "CONSTANTS": {
-          "REASON_LABEL": ""
+          "REASON_LABEL": "Reason"
         }
       },
       "KYC_STATUS_TITLE": {
@@ -231,6 +234,7 @@
       "PENDING_STATUS": "Pending",
       "TITLE": "Game Activity",
       "GRID_VIEW": {
+        "JACKPOT": "Jackpot",
         "GAME_ROUND": "Game round",
         "GAME": "Game",
         "BET_DATE": "Bet date",
@@ -251,6 +255,12 @@
         "BONUS_ROUND_CARD": "Card",
         "BONUS_ROUND_FREESPIN": "Bonus round freespin",
         "ADJUSTMENT": "Adjustment"
+      },
+      "NOTIFICATIONS": {
+        "INVALID_DATE_RANGE": {
+          "TITLE": "Too wide date range",
+          "MESSAGE": "The maximum date range of 14 days is exceeded"
+        }
       }
     },
     "MARKETING": {
@@ -276,7 +286,7 @@
     "BONUS": {
       "MODAL_CREATE": {
         "TITLE": "Manual bonus",
-        "CHOOSE_CURRENCY": "-- Choose currency --",
+        "CHOOSE_CURRENCY": "-- Choose --",
         "LABELS": {
           "PLAYER_UUID": "Player UUID",
           "LABEL": "Name",
@@ -294,11 +304,24 @@
           "WAGERED": "Wagered",
           "MONEY_TYPE_PRIORITY": "Wagering",
           "LOCK_AMOUNT_STRATEGY": "Withdrawal lock",
-          "CLAIMABLE": "Claimable"
+          "CLAIMABLE": "Claimable",
+          "MAX_BET": "Max Bet",
+          "NAME": "Name",
+          "MAX_GRANTED_AMOUNT": "Max granted amount",
+          "WAGERING_REQUIREMENT": "Wagering requirement",
+          "LIFE_TIME": "Life time",
+          "CUSTOM_TEMPLATE": "Custom template",
+          "TEMPLATE": "Template",
+          "PRIZE_CAPPING_TYPE": "Prize capping type"
         },
         "LOCK_AMOUNT_STRATEGY": {
           "LOCK_ALL": "Lock all",
-          "LOCK_PARTIAL": "Lock bonus money"
+          "LOCK_PARTIAL": "Lock bonus + deposited money",
+          "LOCK_BONUS": "Lock bonus money"
+        },
+        "MONEY_TYPE_USAGE": {
+          "REAL_MONEY": "Real money first",
+          "BONUS_MONEY": "Bonus money first"
         }
       },
       "CANCEL_BONUS": "Cancel bonus",
@@ -328,9 +351,11 @@
           "STATES": "Bonus status",
           "TYPE": "Bonus type",
           "START_DATE": "Start date",
-          "END_DATE": "End date"
+          "END_DATE": "End date",
+          "DATE_RANGE": "Availability date range"
         }
-      }
+      },
+      "PERMIT_BONUS_CONVERSION": "Permit conversion"
     },
     "NOTIFICATIONS": {
       "COPY_FULL_UUID": {
@@ -418,10 +443,16 @@
         "FAILURE_ADD_PLAYER_TO_CAMPAIGN": {
           "TITLE": "Error",
           "MESSAGE": "Could not add player to campaign."
+        },
+        "SUCCESS_ADD_PROMO_CODE": {
+          "TITLE": "Success",
+          "MESSAGE": "Player was successfully added to campaign`s target by promo code"
         }
       },
       "ADD_TO_CAMPAIGN_BUTTON": "+ Add to Campaign",
-      "ADD_PROMO_CODE_BUTTON": "+ Add promo code"
+      "ADD_PROMO_CODE_BUTTON": "+ Add promo code",
+      "OPT_IN": "Opt-in",
+      "UN_TARGET": "Untarget"
     },
     "FREE_SPINS": {
       "BONUS_SETTINGS": {
@@ -470,14 +501,21 @@
       "MANUAL_FREE_SPIN_BUTTON": "+ Manual free spin",
       "NOTIFICATIONS": {
         "CANCEL_FREE_SPIN_ERROR": "Failed to cancel free spins"
-      }
+      },
+      "FREE_SPIN_TEMPLATE": "Free spin template",
+      "BONUS_TEMPLATE": "Bonus template"
     },
     "FREE_SPIN": {
       "MODAL_CREATE": {
         "TITLE": "Create free spin",
         "CHOOSE_PROVIDER": "-- Choose --",
         "CHOOSE_GAME": "-- Choose --",
+        "CHOOSE_GAME_TYPE": "-- Choose --",
         "CHOOSE_LINES_PER_SPIN": "-- Choose --",
+        "GAME_TYPES": {
+          "MOBILE": "Mobile",
+          "DESKTOP": "Desktop"
+        },
         "ATTRIBUTES_LABELS": {
           "NAME": "Name",
           "START_DATE": "Start date",
@@ -494,16 +532,23 @@
           "BONUS_LIFE_TIME": "Bonus life time",
           "MONEY_TYPE_PRIORITY": "Wagering",
           "COIN_SIZE": "Coin price",
-          "NUMBER_OF_COINS": "Number of coins"
+          "NUMBER_OF_COINS": "Number of coins",
+          "BET_LEVEL": "Bet level",
+          "COIN_VALUE_LEVEL": "Coin value level",
+          "APPROXE_BET_VALUE": "Approx. bet value",
+          "CUSTOM_TEMPLATE": "Custom template",
+          "TEMPLATE": "Template",
+          "USE_TEMPLATE": "Use template"
         },
         "FREE_SPIN_VALUE": "Free spin value",
         "TOTAL_VALUE": "Total value",
         "CHOOSE_COIN_SIZE": "-- Choose --",
         "CHOOSE_NUMBER_OF_COINS": "-- Choose --",
-        "BUTTON": "Create Free-spin"
+        "BUTTON": "Create Free-spin",
+        "CHOOSE_PAGE_CODE": "-- Choose --",
+        "CHOOSE_AGGREGATOR": "-- Choose --"
       },
       "MODAL_CANCEL": {
-        "CUSTOM_REASON_OPTION": "Other",
         "TITLE": "Free spins cancelation",
         "ACTION_TEXT": "You are about to %{action} the \"%{title}\"",
         "ENTITY_NAME": "free spins",
@@ -608,7 +653,8 @@
       "CREATE_AND_OPEN": "Create & open",
       "SAVE_NEW_PASSWORD": "Save new password",
       "SAVE": "Save",
-      "EXPORT_AS_CSV": "Export as CSV"
+      "EXPORT_AS_CSV": "Export as CSV",
+      "UPDATE": "Update"
     },
     "ACTIONS": {
       "ON": "Turn on",
@@ -631,10 +677,17 @@
         "TITLE": "Copied",
         "MESSAGE": "Full UUID has been copied to clipboard"
       },
+      "PERMISSION_DENIED": {
+        "TITLE": "Error",
+        "MESSAGE": "Permission denied"
+      },
       "COPY_FULL_IP": {
         "MESSAGE": "IP address has been copied to clipboard"
       },
-      "COPY_PROFILE_LINK": "Profile link has been copied to your clipboard"
+      "COPY_PROFILE_LINK": "Profile link has been copied to your clipboard",
+      "COPY_INTERNAL_GAME_ID": {
+        "MESSAGE": "Internal game id has been copied to clipboard"
+      }
     },
     "OR": "Or",
     "TO": "to",
@@ -688,7 +741,20 @@
     "PLAYER_LIABILITY_REPORT": "Player liability report",
     "PAYMENTS": "Payments",
     "ALL_ACTIONS": "All actions",
-    "REASON": "Reason"
+    "REASON": "Reason",
+    "HOURS": "Hours",
+    "DAYS": "Days",
+    "WEEKS": "Weeks",
+    "NONE": "None",
+    "REMOVE": "Remove",
+    "CLAIMABLE": "Claimable",
+    "CURRENCY": "Currency",
+    "YES": "Yes",
+    "NO": "No",
+    "CUSTOM_REASON_OPTION": "Other",
+    "NOTE": "Note",
+    "CREATED": "Created",
+    "LAST_CHANGED": "Last changed"
   },
   "FILES": {
     "UPLOAD_MODAL": {
@@ -806,10 +872,9 @@
     },
     "BONUS_CAMPAIGN": {
       "CAMPAIGN_TYPE": {
-        "FIRST_DEPOSIT": "First deposit",
         "DEPOSIT": "Deposit",
         "PROFILE_COMPLETED": "Profile completed",
-        "WITHOUT_FULFILMENT": "Without fulfilment"
+        "WITHOUT_FULFILLMENT": "Without fulfillment"
       },
       "STATUSES": {
         "DRAFT": "Draft",
@@ -820,7 +885,8 @@
       },
       "TARGET_TYPES": {
         "ALL": "All players",
-        "TARGET_LIST": "Selected players"
+        "TARGET_LIST": "Selected players",
+        "LINKED_CAMPAIGN": "Linked campaign"
       },
       "STATUS_ACTIONS": {
         "ACTIVATE_CAMPAIGN": "Activate campaign",
@@ -837,8 +903,14 @@
         "BONUS_MONEY": "Bonus money first"
       },
       "LOCK_AMOUNT_STRATEGY": {
+        "LABEL": "Withdrawal lock",
         "LOCK_ALL": "Lock all money",
-        "LOCK_PARTIAL": "Lock deposited amount"
+        "LOCK_PARTIAL": "Lock bonus + deposited money",
+        "LOCK_BONUS": "Lock bonus money"
+      },
+      "REWARD_TYPE": {
+        "BONUS": "Bonus",
+        "FREE_SPIN": "Free-spin"
       }
     },
     "GAMING_ACTIVITY": {
@@ -893,7 +965,8 @@
         "CS": "Customer service",
         "RFP": "Risk Fraud & Payment",
         "MARKETING": "Marketing",
-        "ADMINISTRATION": "Administration"
+        "ADMINISTRATION": "Administration",
+        "BI": "Business intelligence"
       }
     },
     "BONUS_CAMPAIGNS": {
@@ -1077,6 +1150,9 @@
     "FILE": {
       "INVALID_FILE_EXTENSION": "Invalid file extension",
       "INVALID_FILE_SIZE": "Invalid file size"
+    },
+    "DATE": {
+      "INVALID_DATE": "\"%{attributeName}\" is invalid"
     }
   },
   "COUNTRIES": {
@@ -1114,7 +1190,7 @@
     "TITLE": "Bonus campaigns",
     "FILTER_FORM": {
       "SEARCH_BY": "Search by",
-      "FULFILLMENT_TYPE": "Fulfilment type",
+      "FULFILLMENT_TYPE": "Fulfillment type",
       "STATUS": "Status",
       "OPT_IN": "Type",
       "CREATION_DATE": "Creation date range",
@@ -1123,7 +1199,9 @@
       "CREATION_DATE_TO": "Creation date to",
       "ACTIVITY_DATE_FROM": "Activity date from",
       "ACTIVITY_DATE_TO": "Activity date to",
-      "SEARCH_BY_PLACEHOLDER": "Campaign, Operator"
+      "SEARCH_BY_PLACEHOLDER": "Campaign, Operator",
+      "DEPOSIT_NUMBER_OPTION": "deposit",
+      "DEPOSIT_NUMBER": "Deposit number"
     },
     "BUTTON_CREATE_CAMPAIGN": "+ Add campaign",
     "VIEW": {
@@ -1158,12 +1236,15 @@
       "NOTIFICATIONS": {
         "UPDATE_TITLE": "Update bonus campaign",
         "ADD_PLAYERS": "Add players",
+        "UNSUCCESSFULLY": "Failed to save the сampaign",
+        "SUCCESSFULLY": "Сampaign saved successfully",
         "ADD_CAMPAIGN": "Add campaign",
         "CAMPAIGN_COPIED": "Campaign copied"
       },
       "BUTTON": {
         "ADD_PLAYERS": "+ Add players"
-      }
+      },
+      "CHANGE_STATUS_ERROR": "Change status failure"
     },
     "CREATE_MODAL": {
       "TITLE": "New bonus campaign",
@@ -1214,17 +1295,20 @@
         "DESCRIPTION": "Description",
         "BASE_CURRENCY": "Base currency",
         "MIN_PRIZE": "Min. prize",
-        "TYPE": "Type",
+        "OPT_IN_REQUIRED": "Opt-in required",
         "AFFILIATES": "Affiliates",
         "EXCLUDE": "Exclude",
         "COUNTRIES": "Countries",
         "START_DATE": "Start date",
         "END_DATE": "End date",
         "LOCK_AMOUNT_STRATEGY_LABEL": "Lock strategy",
-        "PROMO_CODE": "Promo code"
+        "PROMO_CODE": "Promo code",
+        "OPT_IN_PERIOD": "Opt-in timeout",
+        "CHOOSE_CAMPAIGN": "Choose campaign",
+        "EXCLUDED_COUNTRIES": "Excluded countries"
       },
-      "CHOOSE_CURRENCY": "-- Choose currency --",
-      "CHOOSE_TARGET_TYPE": "-- Choose target type --",
+      "CHOOSE_CURRENCY": "-- Choose --",
+      "CHOOSE_TARGET_TYPE": "-- Choose --",
       "TARGET": "Target",
       "CAMPAIGN_SETTINGS": "Campaign settings",
       "FULFILLMENTS": "Fulfillments",
@@ -1235,7 +1319,8 @@
           "ADD_FULFILLMENT": "Add fulfillment"
         },
         "DEPOSIT": {
-          "LABEL": "Deposit"
+          "LABEL": "Deposit",
+          "NUMBER_OPTION": "deposit"
         },
         "PROFILE_COMPLETED": {
           "LABEL": "Profile completed"
@@ -1243,11 +1328,20 @@
         "SELECT_FULFILLMENT": "-- Select fulfillment --",
         "NO_FULFILLMENTS": {
           "LABEL": "No fulfillments"
+        },
+        "DEPOSIT_NUMBER_LABEL": "Deposits number",
+        "RESTRICTED_PAYMENT_METHODS": "Restricted payment methods"
+      },
+      "SELECT_OPT_IN_PERIOD": "- Period -",
+      "MODAL": {
+        "CHOOSE_CAMPAIGN": {
+          "TITLE": "Choose campaign",
+          "MESSAGE": "Only the players who have successfully converted the bonus from the selected campaign will become targets of the campaign you are setiing up."
         }
-      }
+      },
+      "NO_SELECTED_LINKED_CAMPAIGN": "No selected linked campaign"
     },
     "CHANGE_STATUS_MODAL": {
-      "CUSTOM_REASON_OPTION": "Other",
       "CUSTOM_REASON_PLACEHOLDER": "Custom reason",
       "CANCEL_BUTTON": "Cancel",
       "TITLE": "Change bonus campaign status",
@@ -1289,33 +1383,10 @@
     },
     "REWARDS": {
       "ADD_REWARD": "Add reward",
-      "FREE_SPINS": "Free-spins",
-      "BONUS_REWARD": "Bonus reward",
-      "GRANT": "Grant",
-      "LIMITS": "Limits",
-      "MULTIPLIER": "Multiplier",
-      "MULTIPLIERS_TYPE": "Multipliers type",
       "DEPOSIT": "Deposit",
       "BONUS_DEPOSIT": "Bonus + deposit",
-      "MONEY_TYPE_PRIOR": "Money type priority",
       "REAL_MONEY_FIRST": "Real money first",
       "BONUS_MONEY_FIRST": "Bonus money first",
-      "BM_BET_LIMIT": "BM bet limit",
-      "LIFE_TIME": "Life time",
-      "CUSTOM_CONTRIB_RATE": "Custom contribution rate",
-      "FREE_SPIN_REWARD": "Free spin reward",
-      "PROVIDER": "Provider",
-      "GAMES": "Games",
-      "LINES": "Lines",
-      "COINS": "Coins",
-      "COIN_VALUE": "Coin value",
-      "PER_LINE": "Per line",
-      "SPIN_VALUE": "Spin value",
-      "TOTAL_VALUE": "Total value",
-      "PLACEHOLDERS": {
-        "DAYS": "days",
-        "NOT_SET": "Not set"
-      },
       "BONUS": {
         "CAMPAIGN_RATIO": {
           "VALUE": "Ratio",
@@ -1323,8 +1394,67 @@
         },
         "MULTIPLIER": "Multiplier",
         "BONUS_LIFE_TIME": "Lifetime",
-        "MONEY_TYPE_PRIORITY": "Wagering type"
-      }
+        "MONEY_TYPE_PRIORITY": "Wagering type",
+        "BONUS_REWARD": "Bonus reward",
+        "GRANT": "Grant",
+        "LIMITS": "Limits",
+        "MULTIPLIERS_TYPE": "Multipliers type",
+        "MONEY_TYPE_PRIOR": "Money type priority",
+        "LIFE_TIME": "Lifetime",
+        "PLACEHOLDERS": {
+          "DAYS": "days",
+          "NOT_SET": "Not set"
+        },
+        "MAX_BET": "Max bet",
+        "MAX_GRANTED_AMOUNT": "Max granted amount",
+        "NAME": "Name",
+        "TEMPLATE": "Template",
+        "WAGERING_REQUIREMENT": "Wagering requirement",
+        "LOCK_AMOUNT_STRATEGY": "Lock amount strategy",
+        "CAPPING": "Capping",
+        "PRIZE": "Prize",
+        "COUNT": "Count",
+        "PAGE_CODE": "Page code",
+        "BET_LEVEL": "Bet level",
+        "COIN_SIZE": "Coin size",
+        "RHFP_BET": "Rhfp bet",
+        "BET_MULTIPLIER": "Bet multiplier",
+        "COMMENT": "Comment",
+        "PRIZE_CAPPING_TYPE": "Prize & Capping type"
+      },
+      "FREE_SPIN": {
+        "ADD_REWARDS": "Add rewards",
+        "SELECT_REWARDS": "Select rewards",
+        "NEAREST_COST": "Nearest cost",
+        "DISPLAY_LINE1": "Display line 1",
+        "DISPLAY_LINE2": "Display line 2",
+        "BET_PER_LINE": "Bet per line",
+        "TEMPLATE": "Template",
+        "CHOOSE_TEMPLATE": "-- Choose template --",
+        "PRIZE": "Prize",
+        "WAGERING": "Wagering",
+        "CAPPING": "Capping",
+        "CREATION_ERROR": "Free spin creation error",
+        "MONEY_PRIORITY": "Money type priority",
+        "FREE_SPIN_REWARD": "Free spin reward",
+        "FREE_SPINS": "Free spins",
+        "SPIN_VALUE": "Spin value",
+        "TOTAL_VALUE": "Total value",
+        "NAME": "Title",
+        "PROVIDER": "Providers",
+        "GAMES": "Games",
+        "GAME_TYPE": "Game type",
+        "LIFE_TIME": "Lifetime",
+        "PLACEHOLDERS": {
+          "DAYS": "days",
+          "NOT_SET": "Not set"
+        },
+        "AGGREGATOR": "Aggregator"
+      },
+      "BONUS_TEMPLATE": {
+        "CREATION_ERROR": "Bonus template creation error"
+      },
+      "FREE_SPIN_LIFE_TIME": "Free spin life time"
     },
     "CURRENCY_CALC_MODAL": {
       "HEADER": "Value in different currencies",
@@ -1343,6 +1473,20 @@
       "MODAL_TEXT": "You are about to remove all players from the target of this campaign.",
       "SUCCESS_NOTIFICATION": "All players were successfully removed",
       "ERROR_NOTIFICATION": "Failed to remove all players"
+    },
+    "VIEW_TABS": {
+      "SETTINGS": "Settings"
+    },
+    "NEW_CAMPAIGN": "New campaign",
+    "SAVE_NEW_CAMPAIGN": "Save new campaign",
+    "WAGERING_FULFILLMENTS": {
+      "ADD": {
+        "ADD_BUTTON": "Add wagering fulfillment"
+      },
+      "LIST": {
+        "CREATE_BUTTON": "Create wagering fulfillment",
+        "TITLE": "Wagering fulfillment"
+      }
     }
   },
   "PROFILE": {
@@ -1368,6 +1512,12 @@
     "payment": {
       "method": {
         "inactive": "Payment method inactive"
+      },
+      "withdrawable": {
+        "limit": "Exceeded withdrawable amount",
+        "bonus": {
+          "disable": "To unlock locked amount, disable active player bonus"
+        }
       }
     },
     "profile": {
@@ -1380,8 +1530,17 @@
     "campaign": {
       "command": {
         "byPromoCode": {
+          "alreadyPresent": "Promo code already added to this player",
+          "notAllow": "Invalid promo code"
+        },
+        "activate": {
           "notAllow": "Not allow"
         }
+      }
+    },
+    "template": {
+      "name": {
+        "already-exists": "Name already exist"
       }
     }
   },
@@ -1422,7 +1581,6 @@
     }
   },
   "PAYMENT_ACTION_REASON_MODAL": {
-    "CUSTOM_REASON_OPTION": "Other",
     "REASON_DROPDOWN": {
       "CONSTANTS": {
         "REASON_LABEL": "Reason",
@@ -1505,6 +1663,24 @@
           "COUNTRY": "Country",
           "PHONE": "Phone"
         }
+      }
+    },
+    "NOTIFICATIONS": {
+      "DELETE_AUTHORITY_ERROR": {
+        "TITLE": "Failure on removing",
+        "MESSAGE": "Removing of department has failed"
+      },
+      "GET_AUTHORITIES_ERROR": {
+        "TITLE": "Loading failure",
+        "MESSAGE": "Departments and roles loading has failed"
+      },
+      "GET_OPERATORS_AUTHORITIES_ERROR": {
+        "TITLE": "Loading failure",
+        "MESSAGE": "Operator’s departments and roles loading has failed"
+      },
+      "ADD_AUTHORITY_ERROR": {
+        "TITLE": "Failure on adding",
+        "MESSAGE": "Adding of department has failed"
       }
     }
   },

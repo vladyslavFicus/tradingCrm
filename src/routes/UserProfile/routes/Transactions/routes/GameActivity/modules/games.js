@@ -1,16 +1,15 @@
 import { CALL_API } from 'redux-api-middleware';
 import createReducer from '../../../../../../../utils/createReducer';
 import createRequestAction from '../../../../../../../utils/createRequestAction';
-import timestamp from '../../../../../../../utils/timestamp';
 import buildQueryString from '../../../../../../../utils/buildQueryString';
 
 const KEY = 'user/game-activity/games';
 const FETCH_GAMES = createRequestAction(`${KEY}/fetch-games`);
 
-const mapGames = items => items.reduce((result, item) => ({
+const mapGames = items => items.reduce((result, item) => [
   ...result,
-  [item.gameId]: item.fullGameName,
-}), {});
+  { gameId: item.gameId, internalGameId: item.internalGameId, fullGameName: item.fullGameName },
+], []);
 
 function fetchGames() {
   return (dispatch, getState) => {
@@ -33,7 +32,7 @@ function fetchGames() {
 }
 
 const initialState = {
-  entities: {},
+  entities: [],
   error: null,
   isLoading: false,
   receivedAt: null,
@@ -44,17 +43,17 @@ const actionHandlers = {
     isLoading: true,
     error: null,
   }),
-  [FETCH_GAMES.SUCCESS]: (state, action) => ({
+  [FETCH_GAMES.SUCCESS]: (state, { payload, meta: { endRequestTime } }) => ({
     ...state,
-    entities: mapGames(action.payload.content),
+    entities: mapGames(payload.content),
     isLoading: false,
-    receivedAt: timestamp(),
+    receivedAt: endRequestTime,
   }),
-  [FETCH_GAMES.FAILURE]: (state, action) => ({
+  [FETCH_GAMES.FAILURE]: (state, { payload, meta: { endRequestTime } }) => ({
     ...state,
     isLoading: false,
-    error: action.payload,
-    receivedAt: timestamp(),
+    error: payload,
+    receivedAt: endRequestTime,
   }),
 };
 const actionTypes = {

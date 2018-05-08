@@ -1,9 +1,9 @@
 import { CALL_API } from 'redux-api-middleware';
 import moment from 'moment';
 import _ from 'lodash';
+import fetch from '../../../../../utils/fetch';
 import createReducer from '../../../../../utils/createReducer';
 import createRequestAction from '../../../../../utils/createRequestAction';
-import timestamp from '../../../../../utils/timestamp';
 import buildQueryString from '../../../../../utils/buildQueryString';
 import { sourceActionCreators as noteSourceActionCreators } from '../../../../../redux/modules/note';
 import { sourceActionCreators as paymentSourceActionCreators } from '../../../../../redux/modules/payment';
@@ -97,26 +97,30 @@ function exportEntities(filters = {}) {
     const { auth: { token, logged } } = getState();
 
     if (!logged) {
-      return dispatch({ type: EXPORT_ENTITIES.FAILED });
+      return dispatch({ type: EXPORT_ENTITIES.FAILURE, error: true });
     }
 
     const queryString = buildQueryString(
       _.omitBy({ page: 0, ...filters }, val => !val)
     );
 
-    const response = await fetch(`${getApiRoot()}/payment/payments?${queryString}`, {
-      method: 'GET',
-      headers: {
-        Accept: 'text/csv',
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    try {
+      const response = await fetch(`${getApiRoot()}/payment/payments?${queryString}`, {
+        method: 'GET',
+        headers: {
+          Accept: 'text/csv',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
-    const blobData = await response.blob();
-    downloadBlob(`transactions-export-${moment().format('YYYY-MM-DD-HH-mm-ss')}.csv`, blobData);
+      const blobData = await response.blob();
+      downloadBlob(`transactions-export-${moment().format('YYYY-MM-DD-HH-mm-ss')}.csv`, blobData);
 
-    return dispatch({ type: EXPORT_ENTITIES.SUCCESS });
+      return dispatch({ type: EXPORT_ENTITIES.SUCCESS });
+    } catch (payload) {
+      return dispatch({ type: EXPORT_ENTITIES.FAILURE, error: true, payload });
+    }
   };
 }
 
@@ -153,24 +157,24 @@ const actionHandlers = {
     error: null,
     noResults: false,
   }),
-  [FETCH_ENTITIES.SUCCESS]: (state, action) => ({
+  [FETCH_ENTITIES.SUCCESS]: (state, { payload, meta: { endRequestTime } }) => ({
     ...state,
     entities: {
       ...state.entities,
-      ...action.payload,
-      content: action.payload.number === 0
-        ? mapTransactions(action.payload.content)
-        : mergeEntities(state.entities.content, mapTransactions(action.payload.content)),
+      ...payload,
+      content: payload.number === 0
+        ? mapTransactions(payload.content)
+        : mergeEntities(state.entities.content, mapTransactions(payload.content)),
     },
     isLoading: false,
-    receivedAt: timestamp(),
-    noResults: action.payload.content.length === 0,
+    receivedAt: endRequestTime,
+    noResults: payload.content.length === 0,
   }),
-  [FETCH_ENTITIES.FAILURE]: (state, action) => ({
+  [FETCH_ENTITIES.FAILURE]: (state, { payload, meta: { endRequestTime } }) => ({
     ...state,
     isLoading: false,
-    error: action.payload,
-    receivedAt: timestamp(),
+    error: payload,
+    receivedAt: endRequestTime,
   }),
   [FETCH_NOTES.SUCCESS]: (state, action) => ({
     ...state,

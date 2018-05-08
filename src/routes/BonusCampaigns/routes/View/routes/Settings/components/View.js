@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import { I18n } from 'react-redux-i18n';
 import { SubmissionError } from 'redux-form';
-import Form from './Form';
-import { statuses } from '../../../../../../../constants/bonus-campaigns';
+import SettingsForm from '../../../../../components/Settings';
 import PropTypes from '../../../../../../../constants/propTypes';
-import CurrencyCalculationModal from '../../../../../components/CurrencyCalculationModal';
+import recognizeFieldError from '../../../../../../../utils/recognizeFieldError';
+import { mapResponseErrorToField } from '../constants';
 
-const CURRENCY_AMOUNT_MODAL = 'currency-amount-modal';
 const modalInitialState = {
   name: null,
   params: {},
@@ -23,12 +22,12 @@ class View extends Component {
       endDate: PropTypes.bonusCampaignEntity.endDate,
       wagerWinMultiplier: PropTypes.bonusCampaignEntity.wagerWinMultiplier,
       promoCode: PropTypes.bonusCampaignEntity.promoCode,
-      bonusLifetime: PropTypes.bonusCampaignEntity.bonusLifetime,
+      bonusLifeTime: PropTypes.bonusCampaignEntity.bonusLifeTime,
       campaignRatio: PropTypes.bonusCampaignEntity.campaignRatio,
       conversionPrize: PropTypes.bonusCampaignEntity.conversionPrize,
       capping: PropTypes.bonusCampaignEntity.capping,
       optIn: PropTypes.bonusCampaignEntity.optIn,
-      campaignType: PropTypes.bonusCampaignEntity.campaignType,
+      fulfilmentType: PropTypes.bonusCampaignEntity.fulfillmentType,
       minAmount: PropTypes.bonusCampaignEntity.minAmount,
       maxAmount: PropTypes.bonusCampaignEntity.maxAmount,
     }).isRequired,
@@ -41,10 +40,40 @@ class View extends Component {
     revert: PropTypes.func.isRequired,
     removeNode: PropTypes.func.isRequired,
     addNode: PropTypes.func.isRequired,
+    fetchGames: PropTypes.func.isRequired,
+    addFreeSpinTemplate: PropTypes.func.isRequired,
+    createFreeSpinTemplate: PropTypes.func.isRequired,
+    addBonusTemplate: PropTypes.func.isRequired,
+    createBonusTemplate: PropTypes.func.isRequired,
+    fetchFreeSpinTemplates: PropTypes.func.isRequired,
     nodeGroups: PropTypes.shape({
       fulfillments: PropTypes.array.isRequired,
       rewards: PropTypes.array.isRequired,
     }).isRequired,
+    games: PropTypes.array,
+    freeSpinTemplates: PropTypes.array,
+    fetchFreeSpinTemplate: PropTypes.func.isRequired,
+    fetchCampaigns: PropTypes.func.isRequired,
+    fetchCampaign: PropTypes.func.isRequired,
+    paymentMethods: PropTypes.array.isRequired,
+    fetchPaymentMethods: PropTypes.func.isRequired,
+    baseCurrency: PropTypes.string.isRequired,
+    fetchBonusTemplates: PropTypes.func.isRequired,
+    fetchBonusTemplate: PropTypes.func.isRequired,
+    bonusTemplates: PropTypes.arrayOf(PropTypes.bonusTemplateListEntity),
+    fetchGameAggregators: PropTypes.func.isRequired,
+    aggregators: PropTypes.shape({
+      fields: PropTypes.arrayOf(PropTypes.string),
+      providers: PropTypes.arrayOf(PropTypes.string),
+    }),
+  };
+
+  static defaultProps = {
+    games: [],
+    freeSpinTemplates: [],
+    paymentMethods: [],
+    bonusTemplates: [],
+    aggregators: {},
   };
 
   static contextTypes = {
@@ -53,63 +82,40 @@ class View extends Component {
 
   state = {
     modal: { ...modalInitialState },
-  };
-
-  handleCurrencyAmountModalOpen = (action) => {
-    this.handleOpenModal(CURRENCY_AMOUNT_MODAL, {
-      initialValues: {
-        action: action.action,
-        reasons: action.reasons,
-      },
-      ...action,
-    });
-  };
-
-  handleOpenModal = (name, params) => {
-    this.setState({
-      modal: {
-        name,
-        params,
-      },
-    });
-  };
-
-  handleModalHide = (e, callback) => {
-    this.setState({ modal: { ...modalInitialState } }, () => {
-      if (typeof callback === 'function') {
-        callback();
-      }
-    });
+    linkedCampaign: null,
   };
 
   handleSubmit = async (data) => {
-    const { params, updateCampaign } = this.props;
-    const action = await updateCampaign(params.id, data);
+    const { updateCampaign, params: { id } } = this.props;
+    const updateAction = await updateCampaign(id, data);
 
-    if (action) {
+    if (updateAction) {
       this.context.addNotification({
-        level: action.error ? 'error' : 'success',
+        level: updateAction.error ? 'error' : 'success',
         title: I18n.t('BONUS_CAMPAIGNS.VIEW.NOTIFICATIONS.UPDATE_TITLE'),
-        message: `${I18n.t('COMMON.ACTIONS.UPDATED')} ${action.error ? I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY') :
-          I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
+        message: I18n.t(`BONUS_CAMPAIGNS.VIEW.NOTIFICATIONS.${updateAction.error ? 'UNSUCCESSFULLY' : 'SUCCESSFULLY'}`),
       });
 
-      if (action.error && action.payload.response.fields_errors) {
-        const errors = Object.keys(action.payload.response.fields_errors).reduce((res, name) => ({
+      if (updateAction.error && updateAction.payload.response.fields_errors) {
+        const errors = Object.keys(updateAction.payload.response.fields_errors).reduce((res, name) => ({
           ...res,
-          [name]: I18n.t(action.payload.response.fields_errors[name].error),
+          [name]: I18n.t(updateAction.payload.response.fields_errors[name].error),
         }), {});
         throw new SubmissionError(errors);
-      } else if (action.payload.response && action.payload.response.error) {
-        throw new SubmissionError({ __error: I18n.t(action.payload.response.error) });
+      } else if (updateAction.payload.response && updateAction.payload.response.error) {
+        const fieldError = recognizeFieldError(updateAction.payload.response.error, mapResponseErrorToField);
+        if (fieldError) {
+          throw new SubmissionError(fieldError);
+        } else {
+          throw new SubmissionError({ __error: I18n.t(updateAction.payload.response.error) });
+        }
       }
     }
 
-    return action;
+    return updateAction;
   };
 
   render() {
-    const { modal } = this.state;
     const {
       bonusCampaign,
       bonusCampaignForm,
@@ -119,30 +125,59 @@ class View extends Component {
       nodeGroups,
       removeNode,
       addNode,
+      games,
+      aggregators,
+      freeSpinTemplates,
+      bonusTemplates,
+      paymentMethods,
+      fetchFreeSpinTemplate,
+      fetchFreeSpinTemplates,
+      fetchBonusTemplates,
+      fetchBonusTemplate,
+      fetchGames,
+      fetchPaymentMethods,
+      fetchCampaigns,
+      fetchCampaign,
+      addFreeSpinTemplate,
+      createFreeSpinTemplate,
+      addBonusTemplate,
+      createBonusTemplate,
+      baseCurrency,
+      fetchGameAggregators,
     } = this.props;
 
     return (
-      <div>
-        <Form
-          locale={locale}
-          currencies={currencies}
-          disabled={bonusCampaign.state !== statuses.DRAFT}
-          initialValues={bonusCampaignForm}
-          removeNode={removeNode}
-          addNode={addNode}
-          nodeGroups={nodeGroups}
-          revert={revert}
-          onSubmit={this.handleSubmit}
-          toggleModal={this.handleCurrencyAmountModalOpen}
-        />
-        {
-          modal.name === CURRENCY_AMOUNT_MODAL &&
-          <CurrencyCalculationModal
-            {...modal.params}
-            onHide={this.handleModalHide}
-          />
-        }
-      </div>
+      <SettingsForm
+        addFreeSpinTemplate={addFreeSpinTemplate}
+        createFreeSpinTemplate={createFreeSpinTemplate}
+        addBonusTemplate={addBonusTemplate}
+        createBonusTemplate={createBonusTemplate}
+        fetchGames={fetchGames}
+        fetchPaymentMethods={fetchPaymentMethods}
+        paymentMethods={paymentMethods}
+        fetchFreeSpinTemplates={fetchFreeSpinTemplates}
+        fetchBonusTemplates={fetchBonusTemplates}
+        fetchBonusTemplate={fetchBonusTemplate}
+        fetchFreeSpinTemplate={fetchFreeSpinTemplate}
+        freeSpinTemplates={freeSpinTemplates}
+        bonusTemplates={bonusTemplates}
+        games={games}
+        aggregators={aggregators}
+        fetchCampaigns={fetchCampaigns}
+        fetchCampaign={fetchCampaign}
+        handleSubmit={this.handleSubmit}
+        addNode={addNode}
+        removeNode={removeNode}
+        nodeGroups={nodeGroups}
+        revert={revert}
+        bonusCampaign={bonusCampaign}
+        bonusCampaignForm={bonusCampaignForm}
+        locale={locale}
+        form="bonusCampaignUpdate"
+        currencies={currencies}
+        baseCurrency={baseCurrency}
+        fetchGameAggregators={fetchGameAggregators}
+      />
     );
   }
 }

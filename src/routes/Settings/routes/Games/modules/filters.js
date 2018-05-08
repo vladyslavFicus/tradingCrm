@@ -1,74 +1,55 @@
 import { CALL_API } from 'redux-api-middleware';
 import createReducer from '../../../../../utils/createReducer';
+import { type, withLines } from '../../../../../constants/games';
 import createRequestAction from '../../../../../utils/createRequestAction';
-import timestamp from '../../../../../utils/timestamp';
-import { type, gameProvider, withLines } from '../../../../../constants/games';
 
-const KEY = 'games/filters';
-const FETCH_CATEGORIES = createRequestAction(`${KEY}/fetch-categories`);
+const KEY = 'filters';
+const FETCH_GAME_PROVIDERS = createRequestAction(`${KEY}/fetch-game-providers`);
 
-function fetchCategories() {
-  return (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
+const actionHandlers = {
+  [FETCH_GAME_PROVIDERS.SUCCESS]: (state, { payload }) => ({
+    ...state,
+    data: {
+      ...state.data,
+      gameProvider: payload,
+    },
+    isLoading: true,
+    error: null,
+    noResults: false,
+  }),
+};
 
-    return dispatch({
-      [CALL_API]: {
-        endpoint: '/game_info/public/categories',
-        method: 'GET',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        types: [
-          FETCH_CATEGORIES.REQUEST,
-          FETCH_CATEGORIES.SUCCESS,
-          FETCH_CATEGORIES.FAILURE,
-        ],
-        bailout: !logged,
+function fetchGameProviders() {
+  return {
+    [CALL_API]: {
+      endpoint: 'game_info/public/available/providerIds',
+      method: 'OPTIONS',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
       },
-    });
+      types: [
+        FETCH_GAME_PROVIDERS.REQUEST,
+        FETCH_GAME_PROVIDERS.SUCCESS,
+        FETCH_GAME_PROVIDERS.FAILURE,
+      ],
+    },
   };
 }
 
 const initialState = {
   data: {
-    categories: [],
     withLines,
     type,
-    gameProvider,
+    gameProvider: [],
   },
   error: null,
   isLoading: false,
   receivedAt: null,
 };
-const actionHandlers = {
-  [FETCH_CATEGORIES.REQUEST]: state => ({
-    ...state,
-    isLoading: true,
-    error: null,
-  }),
-  [FETCH_CATEGORIES.SUCCESS]: (state, action) => ({
-    ...state,
-    data: {
-      ...state.data,
-      categories: action.payload,
-    },
-    isLoading: false,
-    receivedAt: timestamp(),
-  }),
-  [FETCH_CATEGORIES.FAILURE]: (state, action) => ({
-    ...state,
-    error: action.payload,
-    isLoading: false,
-    receivedAt: timestamp(),
-  }),
-};
-const actionTypes = {
-  FETCH_CATEGORIES,
-};
+const actionTypes = {};
 const actionCreators = {
-  fetchCategories,
+  fetchGameProviders,
 };
 
 export {

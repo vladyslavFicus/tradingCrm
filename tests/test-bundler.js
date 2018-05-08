@@ -1,15 +1,19 @@
 import chai from 'chai';
 import sinon from 'sinon';
+import { configure } from 'enzyme';
+import Adapter from 'enzyme-adapter-react-16';
 import dirtyChai from 'dirty-chai';
 import sinonChai from 'sinon-chai';
 import chaiEnzyme from 'chai-enzyme';
-import 'normalize.js';
+import '../src/normalize';
 import appConfig from '../server/application.config';
 
 // Mocha / Chai
 // ------------------------------------
 mocha.setup({ ui: 'bdd' });
 chai.should();
+
+configure({ adapter: new Adapter() });
 
 global.chai = chai;
 global.expect = chai.expect;

@@ -6,7 +6,7 @@ export default store => ({
     require.ensure([], (require) => {
       injectReducer(store, { key: 'games', reducer: require('./modules').default });
 
-      cb(null, require('./container/ViewContainer').default);
+      cb(null, require('./container/GameListContainer').default);
     }, 'games-list');
   },
 });

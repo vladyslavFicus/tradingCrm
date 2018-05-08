@@ -2,21 +2,20 @@ import React, { Component } from 'react';
 import moment from 'moment';
 import classNames from 'classnames';
 import { I18n } from 'react-redux-i18n';
-import Sticky from 'react-stickynode';
 import PropTypes from '../../../../../../../constants/propTypes';
 import GridView, { GridColumn } from '../../../../../../../components/GridView';
 import Amount from '../../../../../../../components/Amount';
 import Uuid from '../../../../../../../components/Uuid';
 import FilterForm from './FilterForm';
 import GameRoundType from './GameRoundType/GameRoundType';
-import SubTabNavigation from '../../../../../../../components/SubTabNavigation';
-import { routes as subTabRoutes } from '../../../constants';
+import StickyNavigation from '../../../../../components/StickyNavigation';
+import './View.scss';
 
 class View extends Component {
   static propTypes = {
     activity: PropTypes.pageableState(PropTypes.gamingActivityEntity).isRequired,
     games: PropTypes.shape({
-      entities: PropTypes.object.isRequired,
+      entities: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
       isLoading: PropTypes.bool.isRequired,
       receivedAt: PropTypes.number.isRequired,
     }).isRequired,
@@ -29,18 +28,15 @@ class View extends Component {
       isLoading: PropTypes.bool.isRequired,
       receivedAt: PropTypes.number.isRequired,
     }).isRequired,
-    gameCategories: PropTypes.shape({
-      entities: PropTypes.object.isRequired,
-      isLoading: PropTypes.bool.isRequired,
-      receivedAt: PropTypes.number.isRequired,
-    }).isRequired,
-    providers: PropTypes.object.isRequired,
     params: PropTypes.shape({
       id: PropTypes.string.isRequired,
     }).isRequired,
     fetchGameActivity: PropTypes.func.isRequired,
     exportGameActivity: PropTypes.func.isRequired,
     locale: PropTypes.string.isRequired,
+    subTabRoutes: PropTypes.arrayOf(PropTypes.subTabRouteEntity).isRequired,
+    filterErrors: PropTypes.objectOf(PropTypes.string).isRequired,
+    notify: PropTypes.func.isRequired,
   };
   static contextTypes = {
     cacheChildrenComponent: PropTypes.func.isRequired,
@@ -81,10 +77,20 @@ class View extends Component {
   };
 
   handleExportClick = () => {
-    this.props.exportGameActivity(this.props.params.id, {
-      ...this.state.filters,
-      page: this.state.page,
-    });
+    const { filterErrors, notify } = this.props;
+
+    if (filterErrors.startDate && filterErrors.endDate) {
+      notify({
+        level: 'error',
+        title: I18n.t('PLAYER_PROFILE.GAME_ACTIVITY.NOTIFICATIONS.INVALID_DATE_RANGE.TITLE'),
+        message: I18n.t('PLAYER_PROFILE.GAME_ACTIVITY.NOTIFICATIONS.INVALID_DATE_RANGE.MESSAGE'),
+      });
+    } else {
+      this.props.exportGameActivity(this.props.params.id, {
+        ...this.state.filters,
+        page: this.state.page,
+      });
+    }
   };
 
   renderGameRound = data => (
@@ -105,24 +111,23 @@ class View extends Component {
   );
 
   renderGame = (data) => {
-    const { games: { entities: games }, providers } = this.props;
+    const { games: { entities: games } } = this.props;
+    const game = games.find(item => item.internalGameId === data.internalGameId || item.gameId === data.gameId);
 
     return (
       <div>
         <div className="font-weight-700">
-          {
-            data.gameId && games[data.gameId]
-              ? games[data.gameId]
-              : data.gameId
-          }
+          <Choose>
+            <When condition={game}>{game.fullGameName}</When>
+            <When condition={data.internalGameId}>{data.internalGameId}</When>
+            <When condition={data.gameId}>{data.gameId}</When>
+          </Choose>
         </div>
-        <div className="font-size-11 text-uppercase">
-          {
-            data.gameProviderId && providers[data.gameProviderId]
-              ? providers[data.gameProviderId]
-              : data.gameProviderId
-          }
-        </div>
+        <If condition={data.gameProviderId}>
+          <div className="font-size-11 text-uppercase">
+            {data.gameProviderId}
+          </div>
+        </If>
       </div>
     );
   };
@@ -153,7 +158,7 @@ class View extends Component {
 
     if (data[real] && data[real].amount && data[bonus] && data[bonus].amount) {
       sources = (
-        <div>
+        <div className="game-activity__amount">
           <div className="font-size-11 color-primary">
             RM <Amount {...data[real]} />
           </div>
@@ -164,13 +169,13 @@ class View extends Component {
       );
     } else if (data[real] && data[real].amount) {
       sources = (
-        <div className="font-size-11 color-primary">
+        <div className="game-activity__amount font-size-11 color-primary">
           RM
         </div>
       );
     } else if (data[bonus] && data[bonus].amount) {
       sources = (
-        <div className="font-size-11 color-danger">
+        <div className="game-activity__amount font-size-11 color-danger">
           BM
         </div>
       );
@@ -178,7 +183,7 @@ class View extends Component {
 
     return (
       <div>
-        <Amount {...data[total]} className="font-weight-700" tag="div" />
+        <Amount {...data[total]} className="game-activity__amount font-weight-700" tag="div" />
         {sources}
       </div>
     );
@@ -188,6 +193,15 @@ class View extends Component {
     <div>
       {this.renderAmount('totalBetAmount', 'realBetAmount', 'bonusBetAmount')(data)}
       <GameRoundType gameRound={data} />
+    </div>
+  );
+
+  renderWinAmount = data => (
+    <div>
+      {this.renderAmount('totalWinAmount', 'realWinAmount', 'bonusWinAmount')(data)}
+      <If condition={data.jackpot}>
+        <span className="game-activity__jackpot">{I18n.t('PLAYER_PROFILE.GAME_ACTIVITY.GRID_VIEW.JACKPOT')}</span>
+      </If>
     </div>
   );
 
@@ -217,33 +231,27 @@ class View extends Component {
         data: { games, aggregators, providers },
       },
       games: { entities: gamesList },
-      gameCategories: {
-        entities: gameCategories,
-      },
       locale,
+      subTabRoutes,
     } = this.props;
 
     return (
       <div>
-        <Sticky top=".panel-heading-row" bottomBoundary={0} innerZ="2">
-          <div className="tab-header">
-            <div className="tab-header__heading">
-              <SubTabNavigation links={subTabRoutes} />
-            </div>
-            <div className="tab-header__actions">
-              <button disabled={exporting} className="btn btn-sm btn-default-outline" onClick={this.handleExportClick}>
-                {I18n.t('COMMON.EXPORT')}
-              </button>
-            </div>
-          </div>
-        </Sticky>
+        <StickyNavigation links={subTabRoutes}>
+          <button
+            disabled={exporting}
+            className="btn btn-sm btn-default-outline"
+            onClick={this.handleExportClick}
+          >
+            {I18n.t('COMMON.EXPORT')}
+          </button>
+        </StickyNavigation>
 
         <FilterForm
           providers={providers}
           aggregators={aggregators}
           games={games}
           gamesList={gamesList}
-          gameCategories={gameCategories}
           onSubmit={this.handleFiltersChanged}
         />
 
@@ -254,7 +262,7 @@ class View extends Component {
             activePage={entities.number + 1}
             totalPages={entities.totalPages}
             lazyLoad
-            rowClassName={data => classNames({ 'round-rollback-row': data.rollback })}
+            rowClassName={data => classNames({ 'round-rollback-row': data.rollback, 'game-activity__row--jackpot': data.jackpot })}
             locale={locale}
             showNoResults={noResults}
           >
@@ -286,7 +294,7 @@ class View extends Component {
             <GridColumn
               name="winAmount"
               header={I18n.t('PLAYER_PROFILE.GAME_ACTIVITY.GRID_VIEW.WIN_AMOUNT')}
-              render={this.renderAmount('totalWinAmount', 'realWinAmount', 'bonusWinAmount')}
+              render={this.renderWinAmount}
             />
             <GridColumn
               name="winDate"

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import FieldLabel from './FieldLabel';
 
 class InputField extends Component {
   static propTypes = {
@@ -13,112 +14,131 @@ class InputField extends Component {
       PropTypes.string,
       PropTypes.element,
     ]),
-    labelAddon: PropTypes.any,
-    inputClassName: PropTypes.string,
+    labelAddon: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.node,
+    ]),
     placeholder: PropTypes.string,
-    inputAddon: PropTypes.element,
+    inputAddon: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.node,
+    ]),
     inputAddonPosition: PropTypes.oneOf(['left', 'right']),
-    inputButton: PropTypes.any,
-    showInputButton: PropTypes.bool,
     type: PropTypes.string.isRequired,
     position: PropTypes.oneOf(['horizontal', 'vertical']),
     showErrorMessage: PropTypes.bool,
     disabled: PropTypes.bool,
     meta: PropTypes.shape({
       touched: PropTypes.bool,
-      error: PropTypes.string,
+      error: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
     }).isRequired,
-    iconLeftClassName: PropTypes.string,
-    iconRightClassName: PropTypes.string,
     labelClassName: PropTypes.string,
     id: PropTypes.string,
     onIconClick: PropTypes.func,
+    helpText: PropTypes.node,
   };
   static defaultProps = {
-    className: 'form-group',
+    className: null,
     label: null,
     labelAddon: null,
-    inputClassName: 'form-control',
-    showInputButton: false,
-    position: 'horizontal',
+    position: 'vertical',
     showErrorMessage: true,
     disabled: false,
     placeholder: null,
     inputAddon: null,
     inputAddonPosition: 'left',
-    inputButton: null,
-    iconLeftClassName: '',
-    iconRightClassName: '',
     labelClassName: null,
     id: null,
     onIconClick: null,
-  };
-
-  renderLabel = (props) => {
-    const {
-      label,
-      labelClassName,
-      labelAddon,
-      position,
-    } = props;
-
-    if (!label) {
-      return null;
-    }
-
-    const labelNode = (
-      !labelAddon
-        ? <label className={labelClassName}>{label}</label>
-        : <label className={labelClassName}>{label} {labelAddon}</label>
-    );
-
-    return position === 'vertical'
-      ? labelNode
-      : <div className="col-md-3">{labelNode}</div>;
+    helpText: null,
   };
 
   renderHorizontal = (props) => {
     const {
+      label,
       className,
       meta: { touched, error },
       showErrorMessage,
+      helpText,
+      disabled,
     } = props;
 
+    const groupClassName = classNames(
+      'form-group row',
+      className,
+      { 'has-danger': touched && error },
+      { 'is-disabled': disabled },
+    );
+
     return (
-      <div className={classNames(`${className} row`, { 'has-danger': touched && error })}>
-        {this.renderLabel(props)}
+      <div className={groupClassName}>
+        <label className="col-md-3">{label}</label>
         <div className="col-md-9">
           {this.renderInput(props)}
-          {
-            showErrorMessage && touched && error &&
-            <div className="form-control-feedback">
-              <i className="nas nas-field_alert_icon" />
-              {error}
-            </div>
-          }
         </div>
+        <If condition={helpText || (showErrorMessage && touched && error)}>
+          <div className="col-12">
+            <div className="form-row">
+              <If condition={showErrorMessage && touched && error}>
+                <div className="col form-control-feedback">
+                  <i className="icon icon-alert" />
+                  {error}
+                </div>
+              </If>
+              <If condition={helpText}>
+                <div className="col form-group-help">
+                  {helpText}
+                </div>
+              </If>
+            </div>
+          </div>
+        </If>
       </div>
     );
   };
 
   renderVertical = (props) => {
     const {
+      label,
+      labelClassName,
+      labelAddon,
       className,
       meta: { touched, error },
       showErrorMessage,
+      helpText,
+      disabled,
     } = props;
 
+    const groupClassName = classNames(
+      'form-group',
+      className,
+      { 'has-danger': touched && error },
+      { 'is-disabled': disabled },
+    );
+
     return (
-      <div className={classNames(className, { 'has-danger': touched && error })}>
-        {this.renderLabel(props)}
+      <div className={groupClassName}>
+        <FieldLabel
+          label={label}
+          addon={labelAddon}
+          className={labelClassName}
+        />
         {this.renderInput(props)}
-        {
-          showErrorMessage && touched && error &&
-          <div className="form-control-feedback">
-            <i className="nas nas-field_alert_icon" />
-            {error}
+        <If condition={helpText || (showErrorMessage && touched && error)}>
+          <div className="form-row">
+            <If condition={showErrorMessage && touched && error}>
+              <div className="col form-control-feedback">
+                <i className="icon icon-alert" />
+                {error}
+              </div>
+            </If>
+            <If condition={helpText}>
+              <div className="col form-group-help">
+                {helpText}
+              </div>
+            </If>
           </div>
-        }
+        </If>
       </div>
     );
   };
@@ -127,17 +147,11 @@ class InputField extends Component {
     const {
       inputAddon,
       inputAddonPosition,
-      inputButton,
-      showInputButton,
       input,
       disabled,
       type,
-      inputClassName,
-      meta: { touched, error },
       placeholder,
       label,
-      iconLeftClassName,
-      iconRightClassName,
       id,
       onIconClick,
     } = props;
@@ -148,49 +162,46 @@ class InputField extends Component {
         id={id}
         disabled={disabled}
         type={type}
-        className={classNames(inputClassName, { 'has-danger': touched && error })}
+        className="form-control"
         placeholder={placeholder !== null ? placeholder : label}
       />
     );
 
-    if (iconLeftClassName || iconRightClassName) {
-      inputField = (
-        <div
-          className={classNames('input-with-icon', {
-            'input-with-icon__left': !!iconLeftClassName,
-            'input-with-icon__right': !!iconRightClassName,
-          })}
-        >
-          {
-            !!iconLeftClassName &&
-            <i className={classNames('input-left-icon', iconLeftClassName)} onClick={onIconClick} />
-          }
-          {inputField}
-          {
-            !!iconRightClassName &&
-            <i className={classNames('input-right-icon', iconRightClassName)} onClick={onIconClick} />
-          }
-        </div>
-      );
-    }
-
     if (inputAddon) {
       inputField = (
         <div className="input-group">
-          {inputAddonPosition === 'right' && inputField}
-          <div className="input-group-addon">
-            {inputAddon}
-          </div>
-          {inputAddonPosition === 'left' && inputField}
-        </div>
-      );
-    }
-
-    if (inputButton) {
-      inputField = (
-        <div className="form-control-with-button">
+          <If condition={inputAddonPosition === 'left'}>
+            <div className="input-group-prepend">
+              <span
+                className={classNames(
+                  'input-group-text input-group-addon',
+                  { clickable: onIconClick },
+                )}
+                onClick={onIconClick}
+              >
+                {inputAddon}
+              </span>
+            </div>
+          </If>
           {inputField}
-          {showInputButton && inputButton}
+          <If condition={inputAddonPosition === 'right'}>
+            <div className="input-group-append">
+              <span
+                className={classNames(
+                  'input-group-text input-group-addon',
+                  { clickable: onIconClick },
+                )}
+                onClick={onIconClick}
+                id={
+                  <If condition={id}>
+                    {`${id}-right-icon`}
+                  </If>
+                }
+              >
+                {inputAddon}
+              </span>
+            </div>
+          </If>
         </div>
       );
     }

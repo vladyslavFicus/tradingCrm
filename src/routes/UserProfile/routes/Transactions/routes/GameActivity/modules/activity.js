@@ -1,9 +1,9 @@
 import { CALL_API } from 'redux-api-middleware';
 import moment from 'moment';
 import _ from 'lodash';
+import fetch from '../../../../../../../utils/fetch';
 import { getApiRoot } from '../../../../../../../config';
 import createReducer from '../../../../../../../utils/createReducer';
-import timestamp from '../../../../../../../utils/timestamp';
 import buildQueryString from '../../../../../../../utils/buildQueryString';
 import createRequestAction from '../../../../../../../utils/createRequestAction';
 import shallowEqual from '../../../../../../../utils/shallowEqual';
@@ -59,24 +59,28 @@ function exportGameActivity(playerUUID, filters = { page: 0 }) {
     const { auth: { token, logged } } = getState();
 
     if (!logged) {
-      return dispatch({ type: EXPORT_ACTIVITY.FAILED });
+      return dispatch({ type: EXPORT_ACTIVITY.FAILURE, error: true });
     }
 
     const queryString = buildQueryString(_.omitBy(mapListArrayValues(filters, arrayedFilters), val => !val));
     const requestUrl = `${getApiRoot()}/gaming_activity/gaming/activity/${playerUUID}?${queryString}`;
-    const response = await fetch(requestUrl, {
-      method: 'GET',
-      headers: {
-        Accept: 'text/csv',
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    try {
+      const response = await fetch(requestUrl, {
+        method: 'GET',
+        headers: {
+          Accept: 'text/csv, application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
-    const blobData = await response.blob();
-    downloadBlob(`player-game-activity-${playerUUID}-${moment().format('YYYY-MM-DD-HH-mm-ss')}.csv`, blobData);
+      const blobData = await response.blob();
+      downloadBlob(`player-game-activity-${playerUUID}-${moment().format('YYYY-MM-DD-HH-mm-ss')}.csv`, blobData);
 
-    return dispatch({ type: EXPORT_ACTIVITY.SUCCESS });
+      return dispatch({ type: EXPORT_ACTIVITY.SUCCESS });
+    } catch (payload) {
+      return dispatch({ type: EXPORT_ACTIVITY.FAILURE, error: true, payload });
+    }
   };
 }
 
@@ -89,27 +93,27 @@ const actionHandlers = {
     exporting: state.exporting && shallowEqual(action.meta.filters, state.filters),
     noResults: false,
   }),
-  [FETCH_ACTIVITY.SUCCESS]: (state, action) => ({
+  [FETCH_ACTIVITY.SUCCESS]: (state, { payload, meta: { endRequestTime } }) => ({
     ...state,
     entities: {
       ...state.entities,
-      ...action.payload,
-      content: action.payload.number === 0
-        ? action.payload.content
+      ...payload,
+      content: payload.number === 0
+        ? payload.content
         : [
           ...state.entities.content,
-          ...action.payload.content,
+          ...payload.content,
         ],
     },
     isLoading: false,
-    receivedAt: timestamp(),
-    noResults: action.payload.content.length === 0,
+    receivedAt: endRequestTime,
+    noResults: payload.content.length === 0,
   }),
-  [FETCH_ACTIVITY.FAILURE]: (state, action) => ({
+  [FETCH_ACTIVITY.FAILURE]: (state, { payload, meta: { endRequestTime } }) => ({
     ...state,
     isLoading: false,
-    error: action.payload,
-    receivedAt: timestamp(),
+    error: payload,
+    receivedAt: endRequestTime,
   }),
   [EXPORT_ACTIVITY.REQUEST]: state => ({
     ...state,

@@ -1,4 +1,5 @@
 const ip = require('ip');
+const { v4 } = require('uuid');
 
 const NODE_ENV = process.env.NODE_ENV || 'development';
 const PORT = process.env.PORT || 3000;
@@ -17,12 +18,12 @@ module.exports = {
   /** The base path for all projects assets (relative to the website root) */
   publicPath: NODE_ENV === 'development' ? `http://${ip.address()}:${PORT}/` : '/',
   /** Whether to generate sourcemaps */
-  sourcemaps: false,
+  sourcemaps: NODE_ENV !== 'development',
   /** A hash map of keys that the compiler should treat as external to the project */
   externals: {},
   /** A hash map of variables and their values to expose globally */
   globals: {
-    __APP_VERSION__: Date.now(),
+    __APP_VERSION__: NODE_ENV === 'development' ? 'dev' : v4(),
   },
   /** Whether to enable verbose logging */
   verbose: false,

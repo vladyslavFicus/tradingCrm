@@ -6,6 +6,8 @@ const logger = require('../lib/logger');
 const webpackConfig = require('../webpack.config');
 const project = require('../../project.config');
 
+logger.info(`App version: ${project.globals.__APP_VERSION__}`);
+
 const runWebpackCompiler = webpackConfig =>
   new Promise((resolve, reject) => {
     webpack(webpackConfig).run((err, stats) => {
@@ -46,7 +48,13 @@ const compile = () => Promise.resolve()
     }
     logger.success(`Compiler finished successfully! See ./${project.outDir}.`);
   })
-  .catch(err => {
+  .then(() => {
+    const filePath = path.resolve(project.basePath, project.outDir, 'VERSION');
+    logger.info(`Create file with app version (./${project.outDir}/VERSION)`);
+
+    fs.writeFileSync(filePath, project.globals.__APP_VERSION__);
+  })
+  .catch((err) => {
     logger.error('Compiler encountered errors.', err);
     process.exit(1);
   });

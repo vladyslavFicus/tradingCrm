@@ -1,6 +1,6 @@
 import createRequestAction from '../../utils/createRequestAction';
 import { sourceActionCreators as operatorSourceActionCreators } from './operator';
-import { actionCreators as userSourceActionCreators } from './users';
+import { actionCreators as userSourceActionCreators } from './profile';
 
 const KEY = 'mini-profile-fetch';
 const FETCH_OPERATOR_PROFILE = createRequestAction(`${KEY}/fetch-operator-profile`);

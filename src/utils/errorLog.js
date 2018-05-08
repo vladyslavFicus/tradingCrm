@@ -1,5 +1,6 @@
 import keyMirror from 'keymirror';
-import config, { getErrorApiUrl, getBrand, getVersion } from '../config';
+import fetch from '../utils/fetch';
+import config, { getErrorApiUrl, getVersion } from '../config';
 import Storage from '../utils/storage';
 
 const errorTypes = keyMirror({
@@ -20,7 +21,7 @@ const sendError = (params) => {
 
   let body = {
     ...params,
-    brand: getBrand(),
+    brand: window.app.brandId,
     version: getVersion(),
   };
 

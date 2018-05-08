@@ -1,7 +1,6 @@
 import { CALL_API } from 'redux-api-middleware';
 import createReducer from '../../../utils/createReducer';
 import createRequestAction from '../../../utils/createRequestAction';
-import timestamp from '../../../utils/timestamp';
 import { actions, authors, types } from '../../../constants/wallet';
 
 const KEY = 'user-profile/player-limits';
@@ -149,29 +148,29 @@ const actionHandlers = {
     isLoading: true,
     error: null,
   }),
-  [CHECK_LOCK.SUCCESS]: (state, action) => ({
+  [CHECK_LOCK.SUCCESS]: (state, { payload, meta: { endRequestTime } }) => ({
     ...state,
-    entities: action.payload,
+    entities: payload,
     deposit: {
-      locked: action.payload.some(i => i.type.toLowerCase() === types.DEPOSIT),
-      canUnlock: action.payload.some(i => (
+      locked: payload.some(i => i.type.toLowerCase() === types.DEPOSIT),
+      canUnlock: payload.some(i => (
         i.author === authors.OPERATOR && i.type.toLowerCase() === types.DEPOSIT
       )),
     },
     withdraw: {
-      locked: action.payload.some(i => i.type.toLowerCase() === types.WITHDRAW),
-      canUnlock: action.payload.some(i => (
+      locked: payload.some(i => i.type.toLowerCase() === types.WITHDRAW),
+      canUnlock: payload.some(i => (
         i.author === authors.OPERATOR && i.type.toLowerCase() === types.WITHDRAW
       )),
     },
     isLoading: false,
-    receivedAt: timestamp(),
+    receivedAt: endRequestTime,
   }),
-  [CHECK_LOCK.FAILURE]: (state, action) => ({
+  [CHECK_LOCK.FAILURE]: (state, { payload, meta: { endRequestTime } }) => ({
     ...state,
     isLoading: false,
-    error: action.payload,
-    receivedAt: timestamp(),
+    error: payload,
+    receivedAt: endRequestTime,
   }),
   [CHECK_LOGIN_LOCK.SUCCESS]: (state, action) => ({
     ...state,

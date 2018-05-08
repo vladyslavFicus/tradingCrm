@@ -1,9 +1,9 @@
 import { CALL_API } from 'redux-api-middleware';
 import _ from 'lodash';
 import moment from 'moment';
+import fetch from '../../../../../../../utils/fetch';
 import createReducer from '../../../../../../../utils/createReducer';
 import createRequestAction from '../../../../../../../utils/createRequestAction';
-import timestamp from '../../../../../../../utils/timestamp';
 import buildQueryString from '../../../../../../../utils/buildQueryString';
 import { sourceActionCreators as noteSourceActionCreators } from '../../../../../../../redux/modules/note';
 import { targetTypes } from '../../../../../../../constants/note';
@@ -31,20 +31,28 @@ const mapEntities = async (dispatch, pageable) => {
 
   const newPageable = { ...pageable };
 
-  newPageable.content = newPageable.content.map(item => {
+  newPageable.content = newPageable.content.map((item) => {
     let betPrice = item.betPerLine;
+    let linesPerSpin = item.linesPerSpin
+      ? parseFloat(item.linesPerSpin) : 0;
 
     if (item.providerId === aggregators.microgaming) {
       const coinSize = (item.coinSize ? parseFloat(item.coinSize) : 0) || 0;
       const numberOfCoins = (item.numberOfCoins ? parseInt(item.numberOfCoins, 10) : 0) || 0;
 
       betPrice = coinSize * numberOfCoins;
+    } else if (item.aggregatorId === aggregators.netent) {
+      const betLevel = (item.betLevel ? parseFloat(item.betLevel) : 0) || 0;
+      const coinValueLevel = (item.coinValueLevel ? parseInt(item.coinValueLevel, 10) : 0) || 0;
+
+      linesPerSpin = 1;
+      betPrice = betLevel * coinValueLevel;
     }
 
     return {
       ...item,
-      spinValue: { amount: betPrice * item.linesPerSpin, currency: item.currencyCode },
-      totalValue: { amount: betPrice * item.linesPerSpin * item.freeSpinsAmount, currency: item.currencyCode },
+      spinValue: { amount: betPrice * linesPerSpin, currency: item.currencyCode },
+      totalValue: { amount: betPrice * linesPerSpin * item.freeSpinsAmount, currency: item.currencyCode },
       betPerLine: { amount: betPrice, currency: item.currencyCode },
       winning: { amount: item.winning, currency: item.currencyCode },
       prize: item.prize ? { amount: item.prize, currency: item.currencyCode } : null,
@@ -117,7 +125,7 @@ function exportFreeSpins(filters = {}) {
     const { auth: { token, logged } } = getState();
 
     if (!logged) {
-      return dispatch({ type: EXPORT_ENTITIES.FAILED });
+      return dispatch({ type: EXPORT_ENTITIES.FAILURE, error: true });
     }
 
     const queryParams = {
@@ -131,19 +139,23 @@ function exportFreeSpins(filters = {}) {
       _.omitBy(queryParams, val => !val),
     );
 
-    const response = await fetch(`${getApiRoot()}/free_spin/free-spins/${filters.playerUUID}?${queryString}`, {
-      method: 'GET',
-      headers: {
-        Accept: 'text/csv',
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    try {
+      const response = await fetch(`${getApiRoot()}/free_spin/free-spins/${filters.playerUUID}?${queryString}`, {
+        method: 'GET',
+        headers: {
+          Accept: 'text/csv',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
-    const blobData = await response.blob();
-    downloadBlob(`player-free-spins-${moment().format('YYYY-MM-DD-HH-mm-ss')}.csv`, blobData);
+      const blobData = await response.blob();
+      downloadBlob(`player-free-spins-${moment().format('YYYY-MM-DD-HH-mm-ss')}.csv`, blobData);
 
-    return dispatch({ type: EXPORT_ENTITIES.SUCCESS });
+      return dispatch({ type: EXPORT_ENTITIES.SUCCESS });
+    } catch (payload) {
+      return dispatch({ type: EXPORT_ENTITIES.FAILURE, error: true, payload });
+    }
   };
 }
 
@@ -253,27 +265,27 @@ const actionHandlers = {
     error: null,
     noResults: false,
   }),
-  [FETCH_ENTITIES.SUCCESS]: (state, action) => ({
+  [FETCH_ENTITIES.SUCCESS]: (state, { payload, meta: { endRequestTime } }) => ({
     ...state,
     entities: {
       ...state.entities,
-      ...action.payload,
-      content: action.payload.number === 0
-        ? action.payload.content
+      ...payload,
+      content: payload.number === 0
+        ? payload.content
         : [
           ...state.entities.content,
-          ...action.payload.content,
+          ...payload.content,
         ],
     },
     isLoading: false,
-    receivedAt: timestamp(),
-    noResults: action.payload.content.length === 0,
+    receivedAt: endRequestTime,
+    noResults: payload.content.length === 0,
   }),
-  [FETCH_ENTITIES.FAILURE]: (state, action) => ({
+  [FETCH_ENTITIES.FAILURE]: (state, { payload, meta: { endRequestTime } }) => ({
     ...state,
     isLoading: false,
-    error: action.payload,
-    receivedAt: timestamp(),
+    error: payload,
+    receivedAt: endRequestTime,
   }),
   [MANAGE_NOTE]: (state, action) => ({
     ...state,

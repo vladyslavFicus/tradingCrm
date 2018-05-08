@@ -1,9 +1,9 @@
 import moment from 'moment';
 import _ from 'lodash';
+import fetch from '../../../../../utils/fetch';
 import createReducer from '../../../../../utils/createReducer';
-import timestamp from '../../../../../utils/timestamp';
 import createRequestAction from '../../../../../utils/createRequestAction';
-import { actionCreators as usersActionCreators } from '../../../../../redux/modules/users';
+import { actionCreators as profileActionCreators } from '../../../../../redux/modules/profile';
 import { getApiRoot } from '../../../../../config';
 import buildQueryString from '../../../../../utils/buildQueryString';
 import downloadBlob from '../../../../../utils/downloadBlob';
@@ -14,6 +14,11 @@ const KEY = 'users';
 const FETCH_ENTITIES = createRequestAction(`${KEY}/fetch-entities`);
 const EXPORT_ENTITIES = createRequestAction(`${KEY}/export-entities`);
 const RESET = `${KEY}/reset`;
+
+const emptyBalance = {
+  amount: 0,
+  currency: 'EUR',
+};
 
 function mapProfile(item) {
   return {
@@ -30,10 +35,17 @@ function mapProfile(item) {
 
       return 0;
     }) : item.signInIps,
+    balance: item.realMoneyBalance || item.bonusBalance ? {
+      amount: (
+        (item.realMoneyBalance ? item.realMoneyBalance.amount : 0)
+        + (item.bonusBalance ? item.bonusBalance.amount : 0)
+      ),
+      currency: item.currency || emptyBalance.currency,
+    } : emptyBalance,
   };
 }
 
-const fetchESEntities = usersActionCreators.fetchESEntities(FETCH_ENTITIES);
+const fetchESEntities = profileActionCreators.fetchESEntities(FETCH_ENTITIES);
 
 function reset() {
   return {
@@ -46,26 +58,30 @@ function exportEntities(filters = {}) {
     const { auth: { token, logged } } = getState();
 
     if (!logged) {
-      return dispatch({ type: EXPORT_ENTITIES.FAILED });
+      return dispatch({ type: EXPORT_ENTITIES.FAILURE, error: true });
     }
 
     const queryString = buildQueryString(
       _.omitBy({ page: 0, ...filters }, val => !val)
     );
 
-    const response = await fetch(`${getApiRoot()}/profile/profiles?${queryString}`, {
-      method: 'GET',
-      headers: {
-        Accept: 'text/csv',
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    try {
+      const response = await fetch(`${getApiRoot()}/profile/profiles?${queryString}`, {
+        method: 'GET',
+        headers: {
+          Accept: 'text/csv',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
-    const blobData = await response.blob();
-    downloadBlob(`users-export-${moment().format('YYYY-MM-DD-HH-mm-ss')}.csv`, blobData);
+      const blobData = await response.blob();
+      downloadBlob(`users-export-${moment().format('YYYY-MM-DD-HH-mm-ss')}.csv`, blobData);
 
-    return dispatch({ type: EXPORT_ENTITIES.SUCCESS });
+      return dispatch({ type: EXPORT_ENTITIES.SUCCESS });
+    } catch (payload) {
+      return dispatch({ type: EXPORT_ENTITIES.FAILURE, error: true, payload });
+    }
   };
 }
 
@@ -97,27 +113,27 @@ const actionHandlers = {
     exporting: state.exporting && shallowEqual(action.meta.filters, state.filters),
     noResults: false,
   }),
-  [FETCH_ENTITIES.SUCCESS]: (state, action) => ({
+  [FETCH_ENTITIES.SUCCESS]: (state, { payload, meta: { endRequestTime } }) => ({
     ...state,
     entities: {
       ...state.entities,
-      ...action.payload,
-      content: action.payload.number === 0
-        ? action.payload.content.map(mapProfile)
+      ...payload,
+      content: payload.number === 0
+        ? payload.content.map(mapProfile)
         : [
           ...state.entities.content,
-          ...action.payload.content.map(mapProfile),
+          ...payload.content.map(mapProfile),
         ],
     },
     isLoading: false,
-    receivedAt: timestamp(),
-    noResults: action.payload.content.length === 0,
+    receivedAt: endRequestTime,
+    noResults: payload.content.length === 0,
   }),
-  [FETCH_ENTITIES.FAILURE]: (state, action) => ({
+  [FETCH_ENTITIES.FAILURE]: (state, { payload, meta: { endRequestTime } }) => ({
     ...state,
     isLoading: false,
-    error: action.payload,
-    receivedAt: timestamp(),
+    error: payload,
+    receivedAt: endRequestTime,
   }),
   [EXPORT_ENTITIES.REQUEST]: state => ({
     ...state,

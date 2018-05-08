@@ -13,15 +13,15 @@ class Navbar extends Component {
     router: PropTypes.shape({
       replace: PropTypes.func.isRequired,
     }).isRequired,
-    onLocaleChange: PropTypes.func.isRequired,
     onToggleProfile: PropTypes.func.isRequired,
-    languages: PropTypes.arrayOf(PropTypes.string).isRequired,
   };
   static defaultProps = {
     showSearch: true,
   };
   static contextTypes = {
     user: PropTypes.shape({
+      brandId: PropTypes.string.isRequired,
+      departmentsByBrand: PropTypes.objectOf(PropTypes.objectOf(PropTypes.string)).isRequired,
       department: PropTypes.string,
       authorities: PropTypes.arrayOf(PropTypes.authorityEntity),
     }),
@@ -34,6 +34,10 @@ class Navbar extends Component {
     searchOverlayActive: false,
   };
 
+  get indexLink() {
+    return Object.keys(this.context.user.departmentsByBrand).length > 1 ? '/brands' : '/';
+  }
+
   handleSearchFieldClick = () => {
     this.setState({ searchFieldActive: true }, () => {
       this.searchInput.focus();
@@ -44,19 +48,23 @@ class Navbar extends Component {
     this.setState({ searchFieldActive: false });
   };
 
+  handleChangeDepartment = (department) => {
+    this.context.changeDepartment(department, this.context.user.brandId);
+  };
+
   render() {
-    const { user, changeDepartment } = this.context;
+    const { user } = this.context;
     const { searchFieldActive, searchOverlayActive } = this.state;
     const { showSearch } = this.props;
 
     return (
       <header className="header">
-        <IndexLink className="navbar-brand" href={'/'}>
+        <IndexLink className="navbar-brand" to={this.indexLink}>
           <img src={getLogo()} alt="current-casino-logo" />
         </IndexLink>
         <div className="department">
           <DepartmentsDropDown
-            onChange={changeDepartment}
+            onChange={this.handleChangeDepartment}
             current={user.authorities.find(authority => authority.department === user.department)}
             authorities={user.authorities.filter(authority => authority.department !== user.department)}
           />

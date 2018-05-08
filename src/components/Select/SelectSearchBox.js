@@ -1,35 +1,48 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
+import './SelectSearchBox.scss';
 
-const SelectSearchBox = (props) => {
-  const { placeholder, query, onChange } = props;
-  const className = classNames('select-search-bar input-with-icon input-with-icon__left', {
-    'input-with-icon__right': !!query,
-  });
+class SelectSearchBox extends Component {
+  static propTypes = {
+    placeholder: PropTypes.string,
+    query: PropTypes.string,
+    onChange: PropTypes.func.isRequired,
+  };
+  static defaultProps = {
+    placeholder: 'Search',
+    query: '',
+  };
 
-  return (
-    <div className={className}>
-      <i className="nas nas-search_icon input-left-icon" />
-      <input
-        type="text"
-        className="form-control"
-        placeholder={placeholder}
-        onChange={onChange}
-        value={query}
-      />
-      {!!query && <i className="nas nas-clear_icon input-right-icon" onClick={() => onChange(null)} />}
-    </div>
-  );
+  render() {
+    const { placeholder, query, onChange } = this.props;
+
+    return (
+      <div className="select-search-box">
+        <i className="icon icon-search select-search-box__icon-left" />
+        <input
+          type="text"
+          className="form-control"
+          placeholder={placeholder}
+          onChange={onChange}
+          value={query}
+        />
+        <If condition={!!query}>
+          <i className="icon icon-times select-search-box__icon-right" onClick={() => onChange(null)} />
+        </If>
+      </div>
+    );
+  }
+}
+
+const filterOptionsByQuery = (query, options) => {
+  if (query === '') {
+    return options;
+  }
+  const lowerCasedQuery = query.toLowerCase();
+
+  return options.filter(option => option.label.toLowerCase().indexOf(lowerCasedQuery) > -1);
 };
-SelectSearchBox.propTypes = {
-  placeholder: PropTypes.string,
-  query: PropTypes.string,
-  onChange: PropTypes.func.isRequired,
-};
-SelectSearchBox.defaultProps = {
-  placeholder: 'Search',
-  query: '',
-};
+
+export { filterOptionsByQuery };
 
 export default SelectSearchBox;

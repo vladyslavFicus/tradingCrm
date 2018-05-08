@@ -92,14 +92,12 @@ class View extends Component {
     sendKycRequestVerification: PropTypes.func.isRequired,
     verifyKycAll: PropTypes.func.isRequired,
     fetchKycReasons: PropTypes.func.isRequired,
-    fetchMeta: PropTypes.func.isRequired,
     canUpdateProfile: PropTypes.bool,
   };
   static contextTypes = {
     addNotification: PropTypes.func.isRequired,
     showImages: PropTypes.func.isRequired,
     onAddNote: PropTypes.func.isRequired,
-    refreshPinnedNotes: PropTypes.func.isRequired,
   };
   static defaultProps = {
     canUpdateProfile: false,
@@ -109,8 +107,11 @@ class View extends Component {
     modal: { ...modalInitialState },
   };
 
-  componentDidMount() {
-    this.props.fetchKycReasons();
+  async componentDidMount() {
+    const kycReasonsAction = await this.props.fetchKycReasons();
+
+    console.info('kycReasonsAction');
+    console.info(kycReasonsAction ? JSON.stringify(kycReasonsAction.payload) : kycReasonsAction);
   }
 
   onManageKycNote = type => (data) => {
@@ -192,10 +193,7 @@ class View extends Component {
           message,
         });
       } else if (unsavedNote) {
-        this.context.onAddNote({ ...unsavedNote, targetUUID: playerUUID });
-        if (unsavedNote.pinned) {
-          this.context.refreshPinnedNotes();
-        }
+        this.context.onAddNote({ variables: { ...unsavedNote, targetUUID: playerUUID } });
       }
     }
 
@@ -231,10 +229,7 @@ class View extends Component {
 
     if (action && !action.error) {
       if (unsavedNote) {
-        this.context.onAddNote({ ...unsavedNote, targetUUID: playerUUID });
-        if (unsavedNote.pinned) {
-          this.context.refreshPinnedNotes();
-        }
+        this.context.onAddNote({ variables: { ...unsavedNote, targetUUID: playerUUID } });
       }
     }
 
@@ -255,10 +250,7 @@ class View extends Component {
 
     if (action && !action.error) {
       if (unsavedNote) {
-        this.context.onAddNote({ ...unsavedNote, targetUUID: playerUUID });
-        if (unsavedNote.pinned) {
-          this.context.refreshPinnedNotes();
-        }
+        this.context.onAddNote({ variables: { ...unsavedNote, targetUUID: playerUUID } });
       }
     }
 
@@ -277,10 +269,7 @@ class View extends Component {
 
     if (action && !action.error) {
       if (unsavedNote) {
-        this.context.onAddNote({ ...unsavedNote, targetUUID: playerUUID });
-        if (unsavedNote.pinned) {
-          this.context.refreshPinnedNotes();
-        }
+        this.context.onAddNote({ variables: { ...unsavedNote, targetUUID: playerUUID } });
       }
     }
 
@@ -447,7 +436,6 @@ class View extends Component {
       addressData,
       contactData,
       downloadFile,
-      fetchMeta,
       locale,
       canUpdateProfile,
     } = this.props;
@@ -491,7 +479,7 @@ class View extends Component {
 
         <div className="tab-content">
           <Card>
-            <div className="card-body row panel-body__wrapper">
+            <div className="card-body row">
               <div className="col-md-8 with-right-border">
                 <PersonalForm
                   initialValues={personalData}
@@ -524,7 +512,7 @@ class View extends Component {
           </Card>
 
           <Card>
-            <div className="card-body row panel-body__wrapper">
+            <div className="card-body row">
               <div className="col-md-8 with-right-border">
                 <AddressForm
                   meta={{
@@ -561,10 +549,9 @@ class View extends Component {
           </Card>
 
           <Card>
-            <div className="card-body row panel-body__wrapper">
+            <div className="card-body row">
               <div className="col-md-8 with-right-border">
                 <ContactForm
-                  fetchMeta={fetchMeta}
                   profile={data}
                   phoneCodes={metaData.phoneCodes}
                   contactData={contactData}
@@ -575,7 +562,6 @@ class View extends Component {
                   disabled={!canUpdateProfile}
                 />
               </div>
-              <div className="col-md-4" />
             </div>
           </Card>
 

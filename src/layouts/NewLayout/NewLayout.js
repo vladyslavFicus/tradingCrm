@@ -1,17 +1,18 @@
 import React, { Component } from 'react';
+import { compose } from 'redux';
 import { SubmissionError } from 'redux-form';
 import { connect } from 'react-redux';
 import { I18n } from 'react-redux-i18n';
-import classNames from 'classnames';
 import _ from 'lodash';
 import { getAvailableLanguages } from '../../config';
 import PropTypes from '../../constants/propTypes';
+import { withModals } from '../../components/HighOrder';
+import MultiCurrencyModal from '../../components/ReduxForm/MultiCurrencyModal';
 import { actionCreators as authActionCreators } from '../../redux/modules/auth';
 import { actionCreators as languageActionCreators } from '../../redux/modules/language';
 import { actionCreators as noteActionCreators } from '../../redux/modules/note';
 import { actionCreators as userPanelsActionCreators } from '../../redux/modules/user-panels';
 import { actionCreators as appActionCreators } from '../../redux/modules/app';
-import { actionCreators as windowActionCreators } from '../../redux/modules/window';
 import NotePopover from '../../components/NotePopover';
 import MiniProfilePopover from '../../components/MiniProfilePopover';
 import Navbar from '../../components/Navbar';
@@ -19,6 +20,7 @@ import Sidebar from '../../components/Sidebar';
 import UsersPanel from '../../components/UsersPanel';
 import MyProfileSidebar from '../../components/MyProfileSidebar';
 import parserErrorsFromServer from '../../utils/parseErrorsFromServer';
+import BackToTop from '../../components/BackToTop';
 import './NewLayout.scss';
 
 const NOTE_POPOVER = 'note-popover';
@@ -44,7 +46,6 @@ class NewLayout extends Component {
       uuid: PropTypes.string,
     }).isRequired,
     app: PropTypes.shape({
-      showScrollToTop: PropTypes.bool.isRequired,
       sidebarTopMenu: PropTypes.arrayOf(PropTypes.shape({
         label: PropTypes.string.isRequired,
         icon: PropTypes.string.isRequired,
@@ -75,6 +76,7 @@ class NewLayout extends Component {
     changeDepartment: PropTypes.func.isRequired,
     activeUserPanel: PropTypes.userPanelItem,
     userPanels: PropTypes.arrayOf(PropTypes.userPanelItem).isRequired,
+    userPanelsByManager: PropTypes.arrayOf(PropTypes.userPanelItem).isRequired,
     addPanel: PropTypes.func.isRequired,
     removePanel: PropTypes.func.isRequired,
     resetPanels: PropTypes.func.isRequired,
@@ -83,11 +85,16 @@ class NewLayout extends Component {
     editNote: PropTypes.func.isRequired,
     deleteNote: PropTypes.func.isRequired,
     updateOperatorProfile: PropTypes.func.isRequired,
-    setIsShowScrollTop: PropTypes.func.isRequired,
-    toggleMenuTap: PropTypes.func.isRequired,
-    menuClick: PropTypes.func.isRequired,
-    activePanelIndex: PropTypes.number,
-    replaceData: PropTypes.func.isRequired,
+    toggleMenuTab: PropTypes.func.isRequired,
+    menuItemClick: PropTypes.func.isRequired,
+    activePanelIndex: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
+    initSidebar: PropTypes.func.isRequired,
+    modals: PropTypes.shape({
+      multiCurrencyModal: PropTypes.shape({
+        show: PropTypes.func.isRequired,
+        hide: PropTypes.func.isRequired,
+      }),
+    }).isRequired,
   };
   static defaultProps = {
     permissions: [],
@@ -122,9 +129,22 @@ class NewLayout extends Component {
       onShowMiniProfile: PropTypes.func.isRequired,
       onHideMiniProfile: PropTypes.func.isRequired,
     }),
+    modals: PropTypes.shape({
+      multiCurrencyModal: PropTypes.shape({
+        show: PropTypes.func.isRequired,
+        hide: PropTypes.func.isRequired,
+      }),
+    }).isRequired,
   };
   static contextTypes = {
     addNotification: PropTypes.func.isRequired,
+  };
+
+  state = {
+    noteChangedCallback: null,
+    popover: { ...popoverInitialState },
+    miniProfilePopover: { ...popoverInitialState },
+    isOpenProfile: false,
   };
 
   getChildContext() {
@@ -137,6 +157,7 @@ class NewLayout extends Component {
       addPanel,
       removePanel,
       settings,
+      modals,
     } = this.props;
 
     return {
@@ -148,6 +169,7 @@ class NewLayout extends Component {
       locale,
       addPanel,
       removePanel,
+      modals,
       notes: {
         onAddNote: this.props.addNote,
         onEditNote: this.props.editNote,
@@ -163,19 +185,12 @@ class NewLayout extends Component {
     };
   }
 
-  state = {
-    noteChangedCallback: null,
-    popover: { ...popoverInitialState },
-    miniProfilePopover: { ...popoverInitialState },
-    isOpenProfile: false,
-  };
-
   componentWillMount() {
-    window.addEventListener('scroll', this.handleScrollWindow);
-  }
+    const { userPanels, resetPanels } = this.props;
 
-  componentWillUnmount() {
-    window.removeEventListener('scroll', this.handleScrollWindow);
+    if (userPanels.some(panel => !panel.auth)) {
+      resetPanels();
+    }
   }
 
   onProfileSubmit = async ({ language, ...nextData }) => {
@@ -213,28 +228,8 @@ class NewLayout extends Component {
     this.setState({ noteChangedCallback: cb });
   };
 
-  handleScrollWindow = () => {
-    const { app: { showScrollToTop }, setIsShowScrollTop } = this.props;
-
-    if (document.body.scrollTop > 100 && !showScrollToTop) {
-      setIsShowScrollTop(true);
-    } else if (showScrollToTop && document.body.scrollTop < 100) {
-      setIsShowScrollTop(false);
-    }
-  };
-
-  handleScrollToTop = () => {
-    const { activePanelIndex } = this.props;
-    const frames = document.querySelectorAll('iframe.user-panel-content-frame');
-    const currentFrame = frames[activePanelIndex];
-
-    if (activePanelIndex !== null && currentFrame) {
-      currentFrame
-        .contentWindow
-        .postMessage(JSON.stringify(windowActionCreators.scrollToTop()), window.location.origin);
-    } else {
-      window.scrollTo(0, 0);
-    }
+  initSidebar = () => {
+    this.props.initSidebar(this.props.permissions);
   };
 
   handleAddNoteClick = (target, item, params = {}) => {
@@ -327,10 +322,7 @@ class NewLayout extends Component {
   };
 
   handleUserPanelClick = (index) => {
-    const shouldScrollShow = !!index || document.body.scrollTop > 100 || document.documentElement.scrollTop > 100;
-
     this.props.setActivePanel(index);
-    this.props.setIsShowScrollTop(shouldScrollShow);
   };
 
   render() {
@@ -338,16 +330,16 @@ class NewLayout extends Component {
     const {
       children,
       router,
-      userPanels,
+      userPanelsByManager: userPanels,
       activeUserPanel,
       removePanel,
       onLocaleChange,
       languages,
-      app: { showScrollToTop, isInitializedScroll, sidebarTopMenu, sidebarBottomMenu },
+      app: { sidebarTopMenu, sidebarBottomMenu },
       locale,
       user,
-      toggleMenuTap,
-      menuClick,
+      toggleMenuTab,
+      menuItemClick,
       replaceData,
     } = this.props;
 
@@ -362,10 +354,11 @@ class NewLayout extends Component {
         />
 
         <Sidebar
+          init={this.initSidebar}
           topMenu={sidebarTopMenu}
           bottomMenu={sidebarBottomMenu}
-          menuClick={menuClick}
-          onOpenTab={toggleMenuTap}
+          menuItemClick={menuItemClick}
+          onToggleTab={toggleMenuTab}
         />
 
         <main className="content-container">{children}</main>
@@ -390,19 +383,7 @@ class NewLayout extends Component {
           onReplace={replaceData}
         />
 
-        <div className={classNames('floating-buttons', { 'bottom-60': userPanels.length > 0 })}>
-          <button
-            className={
-              classNames('floating-buttons__circle', {
-                rollIn: showScrollToTop,
-                rollOut: isInitializedScroll && !showScrollToTop,
-              })
-            }
-            onClick={this.handleScrollToTop}
-          >
-            <i className="fa fa-caret-up" />
-          </button>
-        </div>
+        <BackToTop positionChange={userPanels.length > 0} />
 
         {
           popover.name === NOTE_POPOVER &&
@@ -427,36 +408,38 @@ class NewLayout extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  settings: state.settings,
-  user: state.auth,
-  permissions: state.permissions.data,
-  activeUserPanel: state.userPanels.items[state.userPanels.activeIndex] || null,
-  userPanels: state.userPanels.items,
-  activePanelIndex: state.userPanels.activeIndex,
-  locale: state.i18n.locale,
-  languages: getAvailableLanguages(),
-  app: {
-    ...state.app,
-    sidebarTopMenu: state.app.sidebarTopMenu.map(menuItem => {
-      const { items } = menuItem;
+const mapStateToProps = (state) => {
+  const {
+    userPanels,
+    auth,
+    app,
+    permissions: { data: permissions },
+    i18n: { locale },
+    settings,
+  } = state;
+  const userPanelsByManager = userPanels.items.filter(userTab =>
+    userTab.auth &&
+    userTab.auth.brandId === auth.brandId &&
+    userTab.auth.uuid === auth.uuid
+  );
 
-      if (items) {
-        const currentMenu = items.find(subMenuItem => subMenuItem.url === location.pathname);
+  const activeUserPanel = userPanels.items.find(p => p.uuid === userPanels.activeIndex);
 
-        if (currentMenu) {
-          menuItem.isOpen = true;
-        }
-      } else {
-        menuItem.isOpen = false;
-      }
+  return {
+    app,
+    settings,
+    user: auth,
+    permissions,
+    userPanels: userPanels.items,
+    userPanelsByManager,
+    activeUserPanel: activeUserPanel || null,
+    activePanelIndex: userPanels.activeIndex,
+    locale,
+    languages: getAvailableLanguages(),
+  };
+};
 
-      return menuItem;
-    }),
-  },
-});
-
-export default connect(mapStateToProps, {
+const mapActionCreators = {
   changeDepartment: authActionCreators.changeDepartment,
   addPanel: userPanelsActionCreators.add,
   removePanel: userPanelsActionCreators.remove,
@@ -467,8 +450,13 @@ export default connect(mapStateToProps, {
   editNote: noteActionCreators.editNote,
   deleteNote: noteActionCreators.deleteNote,
   onLocaleChange: languageActionCreators.setLocale,
-  setIsShowScrollTop: appActionCreators.setIsShowScrollTop,
-  toggleMenuTap: appActionCreators.toggleMenuTap,
-  menuClick: appActionCreators.menuClick,
+  toggleMenuTab: appActionCreators.toggleMenuTab,
+  menuItemClick: appActionCreators.menuItemClick,
+  initSidebar: appActionCreators.initSidebar,
   updateOperatorProfile: authActionCreators.updateProfile,
-})(NewLayout);
+};
+
+export default compose(
+  connect(mapStateToProps, mapActionCreators),
+  withModals({ multiCurrencyModal: MultiCurrencyModal }),
+)(NewLayout);

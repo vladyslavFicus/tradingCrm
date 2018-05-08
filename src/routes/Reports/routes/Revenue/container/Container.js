@@ -12,7 +12,7 @@ const mapStateToProps = ({ revenueReport, ...state }) => ({
     values: valuesSelector(state, 'startDate', 'endDate') || {},
   },
   ...revenueReport,
-  currency: config.nas.currencies.base,
+  currency: 'EUR',
 });
 const mapActions = {
   onDownload: actionCreators.downloadReport,

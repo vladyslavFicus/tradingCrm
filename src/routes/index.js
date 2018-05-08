@@ -3,7 +3,6 @@ import onEnterStack from '../utils/onEnterStack';
 import requireAuth from '../utils/requireAuth';
 import CoreLayout from '../layouts/CoreLayout';
 import NewLayout from '../layouts/NewLayout';
-import BaseLayout from '../layouts/BaseLayout';
 import BlackLayout from '../layouts/BlackLayout';
 import PermissionLayout from '../layouts/PermissionLayout';
 /**
@@ -19,12 +18,13 @@ import UsersRoute from './Users';
 import OperatorsRoute from './Operators';
 import TransactionsRoute from './Transactions';
 import BonusCampaignsRoute from './BonusCampaigns';
-import TermsRoute from './Terms';
+import Campaigns from './Campaigns';
 import NotFoundRoute from './NotFound';
 import LogoutRoute from './Logout';
 import ReportsRoute from './Reports';
 import SettingsRoute from './Settings';
 import CountriesRoute from './Countries';
+import BrandsRoute from './Brands';
 
 export default store => ({
   component: CoreLayout,
@@ -37,27 +37,28 @@ export default store => ({
         ResetPasswordRoute(store),
       ],
     },
-    {
-      component: BaseLayout,
+    onEnterStack({
+      component: BlackLayout,
       childRoutes: [
-        onEnterStack({
-          component: NewLayout,
-          childRoutes: [
-            DashboardRoute(store),
-            UsersRoute(store),
-            OperatorsRoute(store),
-            TransactionsRoute(store),
-            BonusCampaignsRoute(store),
-            TermsRoute(store),
-            LogoutRoute(store),
-            ReportsRoute(store),
-            SettingsRoute(store),
-            CountriesRoute(store),
-            OperatorProfileRoute(store),
-          ],
-        }, requireAuth(store)),
+        BrandsRoute(store),
       ],
-    },
+    }, requireAuth(store)),
+    onEnterStack({
+      component: NewLayout,
+      childRoutes: [
+        DashboardRoute(store),
+        UsersRoute(store),
+        OperatorsRoute(store),
+        TransactionsRoute(store),
+        BonusCampaignsRoute(store),
+        Campaigns(store),
+        LogoutRoute(store),
+        ReportsRoute(store),
+        SettingsRoute(store),
+        CountriesRoute(store),
+        OperatorProfileRoute(store),
+      ],
+    }, requireAuth(store)),
     onEnterStack({
       component: PermissionLayout,
       childRoutes: [

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import onClickOutside from 'react-onclickoutside';
 import shallowEqual from '../../utils/shallowEqual';
-import SelectSearchBox from './SelectSearchBox';
+import SelectSearchBox, { filterOptionsByQuery } from './SelectSearchBox';
 import SelectSingleOptions from './SelectSingleOptions';
 import SelectMultipleOptions from './SelectMultipleOptions';
 import deleteFromArray from '../../utils/deleteFromArray';
@@ -20,6 +20,7 @@ class Select extends PureComponent {
     optionsHeader: PropTypes.func,
     singleOptionComponent: PropTypes.func,
     disabled: PropTypes.bool,
+    id: PropTypes.string,
   };
   static defaultProps = {
     onChange: null,
@@ -31,6 +32,7 @@ class Select extends PureComponent {
     optionsHeader: null,
     singleOptionComponent: null,
     disabled: false,
+    id: null,
   };
 
   constructor(props) {
@@ -73,7 +75,7 @@ class Select extends PureComponent {
 
       this.setState({
         originalOptions: options,
-        options: this.filterOptionsByQuery(query, [...options]),
+        options: filterOptionsByQuery(query, [...options]),
         selectedOptions,
         originalSelectedOptions: selectedOptions,
       });
@@ -86,7 +88,7 @@ class Select extends PureComponent {
       this.setState({
         options: this.filterSelectedOptions(originalOptions, originalSelectedOptions, nextProps.multiple),
         originalSelectedOptions,
-        selectedOptions: this.filterOptionsByQuery(query, originalSelectedOptions),
+        selectedOptions: filterOptionsByQuery(query, originalSelectedOptions),
       });
     }
   }
@@ -157,7 +159,7 @@ class Select extends PureComponent {
       this.setState({
         options: this.filterSelectedOptions(originalOptions, originalSelectedOptions, multiple),
         originalSelectedOptions: newOriginalSelectedOptions,
-        selectedOptions: this.filterOptionsByQuery(query, newOriginalSelectedOptions),
+        selectedOptions: filterOptionsByQuery(query, newOriginalSelectedOptions),
       });
     }
   };
@@ -226,8 +228,8 @@ class Select extends PureComponent {
     } else {
       this.setState({
         query: e.target.value,
-        options: this.filterOptionsByQuery(e.target.value, this.state.originalOptions),
-        selectedOptions: this.filterOptionsByQuery(e.target.value, this.state.originalSelectedOptions),
+        options: filterOptionsByQuery(e.target.value, this.state.originalOptions),
+        selectedOptions: filterOptionsByQuery(e.target.value, this.state.originalSelectedOptions),
       });
     }
   };
@@ -265,21 +267,12 @@ class Select extends PureComponent {
       : options
   );
 
-  filterOptionsByQuery = (query, options) => {
-    if (query === '') {
-      return options;
-    }
-    const lowerCasedQuery = query.toLowerCase();
-
-    return options.filter(option => option.label.toLowerCase().indexOf(lowerCasedQuery) > -1);
-  };
-
   renderSelectedOptions = (options, selectedOptions) => (
     <SelectMultipleOptions
       className="select-block__selected-options"
       headerText="selected options"
       headerButtonClassName="clear-selected-options"
-      headerButtonIconClassName="nas nas-clear_icon"
+      headerButtonIconClassName="icon icon-times"
       headerButtonText="Clear"
       headerButtonOnClick={this.handleResetSelectedOptions}
       options={options}
@@ -319,7 +312,7 @@ class Select extends PureComponent {
 
     return (
       <div className="form-control select-block__label" onClick={this.handleInputClick}>
-        <i className="nas nas-dropdown_arrow_icon select-icon" />
+        <i className="icon icon-arrow-down select-icon" />
         {placeholder}
       </div>
     );
@@ -361,6 +354,7 @@ class Select extends PureComponent {
       optionsHeader,
       singleOptionComponent,
       disabled,
+      id,
     } = this.props;
 
     const OptionsHeaderComponent = optionsHeader;
@@ -376,7 +370,7 @@ class Select extends PureComponent {
     });
 
     return (
-      <div className={className}>
+      <div className={className} id={id}>
         {this.renderLabel()}
 
         <div className={selectBlockClassName}>
@@ -395,7 +389,7 @@ class Select extends PureComponent {
             {
               !!query && options.length === 0 &&
               <div className="text-muted font-size-10 margin-10">
-                Options by query {`"${query}"`} not found...
+                Options by query "{query}" not found...
               </div>
             }
             {this.renderOptions(options, originalSelectedOptions, toSelectOptions, multiple, singleOptionComponent)}

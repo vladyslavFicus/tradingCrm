@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { SubmissionError } from 'redux-form';
+import { get } from 'lodash';
+import PropTypes from '../../../constants/propTypes';
 import SignInForm from './SignInForm';
-import SignInBrands from './SignInBrands';
-import SignInDepartments from './SignInDepartments';
-import Preloader from './Preloader';
-import PropTypes from '../propTypes';
+import Preloader from '../../../components/Preloader';
+import { Brands, Departments } from '../../../components/Brands';
+import Copyrights from '../../../components/Copyrights';
 
 class SignIn extends Component {
   static propTypes = {
@@ -21,6 +22,7 @@ class SignIn extends Component {
     selectBrand: PropTypes.func.isRequired,
     reset: PropTypes.func.isRequired,
     changeDepartment: PropTypes.func.isRequired,
+    setDepartmentsByBrand: PropTypes.func.isRequired,
     fetchProfile: PropTypes.func.isRequired,
     fetchAuthorities: PropTypes.func.isRequired,
     brand: PropTypes.brand,
@@ -28,6 +30,11 @@ class SignIn extends Component {
     fullName: PropTypes.string,
     brands: PropTypes.arrayOf(PropTypes.brand).isRequired,
     departments: PropTypes.arrayOf(PropTypes.department).isRequired,
+    data: PropTypes.shape({
+      uuid: PropTypes.string,
+      token: PropTypes.string,
+      departmentsByBrand: PropTypes.objectOf(PropTypes.objectOf(PropTypes.string)),
+    }).isRequired,
   };
   static defaultProps = {
     brand: null,
@@ -87,7 +94,8 @@ class SignIn extends Component {
           }
         });
       } else {
-        const error = action.payload.response.error ? action.payload.response.error : action.payload.message;
+        const error = get(action, 'payload.response.error', action.payload.message);
+
         console.info(`Sign in failure, reason: ${error}`);
 
         throw new SubmissionError({ _error: error });
@@ -97,10 +105,24 @@ class SignIn extends Component {
     return action;
   };
 
+  handleSelectBrand = (brand) => {
+    if (brand) {
+      const { data: { departmentsByBrand, token, uuid } } = this.props;
+      const departments = Object.keys(departmentsByBrand[brand.brand]);
+
+      if (departments.length === 1) {
+        return this.handleSelectDepartment(brand.brand, departments[0], token, uuid);
+      }
+    }
+
+    return this.props.selectBrand(brand);
+  };
+
   handleSelectDepartment = async (brand, department, requestToken = null, requestUuid = null) => {
     const {
       changeDepartment,
-      data: { token: dataToken, uuid: dataUuid },
+      data: { token: dataToken, uuid: dataUuid, departmentsByBrand },
+      setDepartmentsByBrand,
       fetchAuthorities,
       fetchProfile,
       reset,
@@ -110,6 +132,10 @@ class SignIn extends Component {
 
     this.setState({ loading: true, logged: false }, async () => {
       const action = await changeDepartment(department, brand, token);
+
+      if (action && !action.error) {
+        setDepartmentsByBrand(departmentsByBrand);
+      }
 
       this.resetStateTimeout = setTimeout(() => this.setState({ loading: false }, () => {
         reset();
@@ -124,11 +150,7 @@ class SignIn extends Component {
 
           this.redirectToNextPage();
         } else {
-          throw new SubmissionError({
-            _error: action.payload.response.error
-              ? action.payload.response.error
-              : action.payload.message,
-          });
+          throw new SubmissionError({ _error: get(action.payload, 'response.error', action.payload.message) });
         }
       }
     });
@@ -142,6 +164,7 @@ class SignIn extends Component {
       location.query && location.query.returnUrl
       && !/sign\-in/.test(location.query.returnUrl)
       && !/logout/.test(location.query.returnUrl)
+      && !/brands/.test(location.query.returnUrl)
     ) {
       nextUrl = location.query.returnUrl;
     }
@@ -160,7 +183,7 @@ class SignIn extends Component {
     } = this.props;
 
     return (
-      <div className="form-page-container" style={{ height: '100%' }}>
+      <div className="form-page-container">
         <Preloader show={loading} />
         <div className="wrapper">
           <div className="form-page">
@@ -173,15 +196,15 @@ class SignIn extends Component {
               onSubmit={this.handleSubmit}
             />
 
-            <SignInBrands
+            <Brands
               logged={logged}
               activeBrand={brand}
               username={fullName}
               brands={brands}
-              onSelect={selectBrand}
+              onSelect={this.handleSelectBrand}
             />
 
-            <SignInDepartments
+            <Departments
               logged={logged && !!brand}
               brand={brand}
               canGoBack={brands.length > 1}
@@ -193,7 +216,7 @@ class SignIn extends Component {
           </div>
         </div>
 
-        <div className="form-page__copyright">Copyright © {(new Date()).getFullYear()} by Newage</div>
+        <Copyrights />
       </div>
     );
   }

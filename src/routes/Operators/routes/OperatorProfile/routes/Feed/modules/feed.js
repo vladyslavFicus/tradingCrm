@@ -1,13 +1,14 @@
 import { CALL_API } from 'redux-api-middleware';
 import moment from 'moment';
 import _ from 'lodash';
+import fetch from '../../../../../../../utils/fetch';
 import { getApiRoot } from '../../../../../../../config';
 import createReducer from '../../../../../../../utils/createReducer';
-import timestamp from '../../../../../../../utils/timestamp';
 import buildQueryString from '../../../../../../../utils/buildQueryString';
 import createRequestAction from '../../../../../../../utils/createRequestAction';
 import shallowEqual from '../../../../../../../utils/shallowEqual';
 import downloadBlob from '../../../../../../../utils/downloadBlob';
+import parseJson from '../../../../../../../utils/parseJson';
 
 const KEY = 'operator/feed/feed';
 const FETCH_FEED = createRequestAction(`${KEY}/fetch-feed`);
@@ -65,30 +66,35 @@ function exportFeed(operatorUUID, filters = { page: 0 }) {
     const { auth: { token, logged } } = getState();
 
     if (!logged) {
-      return dispatch({ type: EXPORT_FEED.FAILED });
+      return dispatch({ type: EXPORT_FEED.FAILURE, error: true });
     }
 
     const queryString = buildQueryString(_.omitBy(mapListArrayValues(filters, arrayedFilters), val => !val));
     const requestUrl = `${getApiRoot()}/audit/audit/logs/${operatorUUID}?${queryString}&sort=creationDate,desc`;
-    const response = await fetch(requestUrl, {
-      method: 'GET',
-      headers: {
-        Accept: 'text/csv',
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-    });
 
-    const blobData = await response.blob();
-    downloadBlob(`operator-audit-log-${operatorUUID}-${moment().format('DD-MM-YYYY-HH-mm-ss')}.csv`, blobData);
+    try {
+      const response = await fetch(requestUrl, {
+        method: 'GET',
+        headers: {
+          Accept: 'text/csv',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
-    return dispatch({ type: EXPORT_FEED.SUCCESS });
+      const blobData = await response.blob();
+      downloadBlob(`operator-audit-log-${operatorUUID}-${moment().format('DD-MM-YYYY-HH-mm-ss')}.csv`, blobData);
+
+      return dispatch({ type: EXPORT_FEED.SUCCESS });
+    } catch (payload) {
+      return dispatch({ type: EXPORT_FEED.FAILURE, error: true, payload });
+    }
   };
 }
 
 const mapAuditEntities = entities => entities.map((entity) => {
   if (typeof entity.details === 'string') {
-    const details = JSON.parse(entity.details);
+    const details = parseJson(entity.details);
 
     if (Object.keys(details)) {
       rangeAttributes.forEach((rangeAttribute) => {
@@ -117,28 +123,27 @@ const actionHandlers = {
     exporting: state.exporting && shallowEqual(action.meta.filters, state.filters),
     noResults: false,
   }),
-  [FETCH_FEED.SUCCESS]: (state, action) => ({
+  [FETCH_FEED.SUCCESS]: (state, { payload, meta: { endRequestTime } }) => ({
     ...state,
     entities: {
       ...state.entities,
-      ...action.payload,
-      ...action.payload,
-      content: action.payload.number === 0
-        ? mapAuditEntities(action.payload.content)
+      ...payload,
+      content: payload.number === 0
+        ? mapAuditEntities(payload.content)
         : [
           ...state.entities.content,
-          ...mapAuditEntities(action.payload.content),
+          ...mapAuditEntities(payload.content),
         ],
     },
     isLoading: false,
-    receivedAt: timestamp(),
-    noResults: action.payload.content.length === 0,
+    receivedAt: endRequestTime,
+    noResults: payload.content.length === 0,
   }),
-  [FETCH_FEED.FAILURE]: (state, action) => ({
+  [FETCH_FEED.FAILURE]: (state, { payload, meta: { endRequestTime } }) => ({
     ...state,
     isLoading: false,
-    error: action.payload,
-    receivedAt: timestamp(),
+    error: payload,
+    receivedAt: endRequestTime,
   }),
   [EXPORT_FEED.REQUEST]: state => ({
     ...state,

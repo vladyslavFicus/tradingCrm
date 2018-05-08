@@ -3,7 +3,7 @@ import { types as limitTypes } from './limits';
 import { countryStrategies } from './bonus-campaigns';
 
 PropTypes.price = PropTypes.shape({
-  amount: PropTypes.number,
+  amount: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   currency: PropTypes.string,
 });
 PropTypes.status = PropTypes.shape({
@@ -120,7 +120,7 @@ PropTypes.limitEntity = PropTypes.shape({
 PropTypes.bonusEntity = PropTypes.shape({
   amountToWage: PropTypes.price,
   balance: PropTypes.price,
-  bonusLifetime: PropTypes.oneOfType([PropTypes.number, PropTypes.object]),
+  bonusLifeTime: PropTypes.oneOfType([PropTypes.number, PropTypes.object]),
   bonusType: PropTypes.string,
   bonusUUID: PropTypes.string,
   campaignUUID: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
@@ -203,6 +203,7 @@ PropTypes.userProfile = PropTypes.shape({
   token: PropTypes.string,
   tokenExpirationDate: PropTypes.string,
   login: PropTypes.string,
+  username: PropTypes.string,
   playerUUID: PropTypes.string.isRequired,
   signInIps: PropTypes.arrayOf(PropTypes.ipEntity),
   balances: PropTypes.shape({
@@ -221,7 +222,6 @@ PropTypes.dropDownOption = PropTypes.shape({
   value: PropTypes.string.isRequired,
 });
 PropTypes.operatorProfile = PropTypes.shape({
-  authorities: PropTypes.arrayOf(PropTypes.authorityEntity).isRequired,
   country: PropTypes.any,
   email: PropTypes.string,
   firstName: PropTypes.string,
@@ -251,7 +251,7 @@ PropTypes.navItem = PropTypes.shape({
 });
 PropTypes.userPanelItem = PropTypes.shape({
   fullName: PropTypes.string.isRequired,
-  login: PropTypes.string.isRequired,
+  username: PropTypes.string.isRequired,
   uuid: PropTypes.string.isRequired,
 });
 PropTypes.navbarNavItem = PropTypes.shape({
@@ -351,32 +351,38 @@ PropTypes.customValue = PropTypes.shape({
   value: PropTypes.number.isRequired,
 });
 PropTypes.bonusCampaignEntity = PropTypes.shape({
-  authorUUID: PropTypes.string.isRequired,
-  bonusLifetime: PropTypes.number.isRequired,
-  campaignName: PropTypes.string.isRequired,
-  campaignRatio: PropTypes.customValue.isRequired,
-  uuid: PropTypes.string.isRequired,
-  capping: PropTypes.customValue,
-  conversionPrize: PropTypes.customValue,
-  creationDate: PropTypes.string.isRequired,
-  currency: PropTypes.string.isRequired,
-  grantedSum: PropTypes.number.isRequired,
-  grantedTotal: PropTypes.number.isRequired,
-  endDate: PropTypes.string.isRequired,
-  campaignType: PropTypes.string.isRequired,
+  authorUUID: PropTypes.string,
+  bonusLifeTime: PropTypes.number,
+  campaignName: PropTypes.string,
+  uuid: PropTypes.string,
+  creationDate: PropTypes.string,
+  optInPeriod: PropTypes.oneOfType([PropTypes.object, PropTypes.number]),
+  optInPeriodTimeUnit: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
+  linkedCampaignUUID: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
+  currency: PropTypes.string,
+  grantedSum: PropTypes.number,
+  grantedTotal: PropTypes.number,
+  endDate: PropTypes.string,
+  fulfillmentType: PropTypes.string,
   countryStrategy: PropTypes.oneOf([
     countryStrategies.INCLUDE,
     countryStrategies.EXCLUDE,
-  ]).isRequired,
+  ]),
   countries: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-  optIn: PropTypes.bool.isRequired,
-  claimable: PropTypes.bool.isRequired,
-  startDate: PropTypes.string.isRequired,
-  state: PropTypes.string.isRequired,
+  optIn: PropTypes.bool,
+  claimable: PropTypes.bool,
+  startDate: PropTypes.string,
+  state: PropTypes.string,
   stateReason: PropTypes.string,
   statusChangedDate: PropTypes.string,
-  targetType: PropTypes.string.isRequired,
-  wagerWinMultiplier: PropTypes.number.isRequired,
+  targetType: PropTypes.string,
+  wagerWinMultiplier: PropTypes.number,
+});
+PropTypes.newBonusCampaignEntity = PropTypes.shape({
+  uuid: PropTypes.string,
+  state: PropTypes.string,
+  name: PropTypes.string,
+  authorUUID: PropTypes.string,
 });
 PropTypes.freeSpinEntity = PropTypes.shape({
   aggregatorId: PropTypes.string.isRequired,
@@ -392,7 +398,6 @@ PropTypes.freeSpinEntity = PropTypes.shape({
   gameId: PropTypes.string.isRequired,
   gameName: PropTypes.string,
   linesPerSpin: PropTypes.number.isRequired,
-  multiplier: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
   playerUUID: PropTypes.string.isRequired,
   prize: PropTypes.price,
@@ -407,6 +412,14 @@ PropTypes.freeSpinEntity = PropTypes.shape({
   uuid: PropTypes.string.isRequired,
   playedCount: PropTypes.number.isRequired,
   winning: PropTypes.price.isRequired,
+});
+PropTypes.freeSpinListEntity = PropTypes.shape({
+  uuid: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+});
+PropTypes.bonusTemplateListEntity = PropTypes.shape({
+  uuid: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
 });
 PropTypes.gameEntity = PropTypes.shape({
   aggregatorId: PropTypes.string.isRequired,
@@ -489,6 +502,32 @@ PropTypes.meta = PropTypes.shape({
     phoneCode: PropTypes.string,
     currencyCode: PropTypes.string,
   }).isRequired,
+});
+PropTypes.brand = PropTypes.shape({
+  id: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  image: PropTypes.shape({
+    src: PropTypes.string.isRequired,
+    style: PropTypes.shape({
+      width: PropTypes.string,
+      height: PropTypes.string,
+    }),
+  }).isRequired,
+});
+PropTypes.department = PropTypes.shape({
+  id: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  role: PropTypes.string,
+  image: PropTypes.string.isRequired,
+});
+PropTypes.wageringFulfillmentEntity = PropTypes.shape({
+  uuid: PropTypes.string.isRequired,
+  amounts: PropTypes.arrayOf(PropTypes.price),
+});
+PropTypes.subTabRouteEntity = PropTypes.shape({
+  url: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+  permissions: PropTypes.object.isRequired,
 });
 
 export default PropTypes;

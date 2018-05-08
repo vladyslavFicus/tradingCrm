@@ -1,0 +1,9 @@
+.multi-currency-view {
+  display: inline-flex;
+  align-items: center;
+  &__icon {
+    display: inline-block;
+    margin-left: 8px;
+    font-size: 20px;
+  }
+}

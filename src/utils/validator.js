@@ -54,6 +54,10 @@ function greaterThanValidator(inputValue, requirement, attribute) {
   return true;
 }
 
+function greaterValidator(inputValue, requirement) {
+  return Number(inputValue) > requirement;
+}
+
 function lessOrSameValidator(inputValue, requirement, attribute) {
   const value = Number(inputValue);
 
@@ -62,9 +66,21 @@ function lessOrSameValidator(inputValue, requirement, attribute) {
 
     return false;
   }
+
   const greaterValue = Number(_.get(this.validator.input, requirement));
 
-  return greaterValue === 0 || value <= greaterValue;
+  if (greaterValue !== 0 && value > greaterValue) {
+    const targetAttributeLabel = this.validator.messages._getAttributeName(requirement);
+    const currentAttributeLabel = this.validator.messages._getAttributeName(attribute);
+
+    this.validator.errors.add(attribute,
+      `The "${currentAttributeLabel}" must be less than or same "${targetAttributeLabel}"`
+    );
+
+    return false;
+  }
+
+  return true;
 }
 
 function greaterOrSameValidator(inputValue, requirement, attribute) {
@@ -116,6 +132,7 @@ function customValueTypeValidator(inputValue, requirement, attribute) {
 Validator.register('nextDate', nextDateValidator, 'The :attribute must be equal or bigger');
 Validator.register('lessThan', lessThanValidator, 'The :attribute must be less');
 Validator.register('greaterThan', greaterThanValidator, 'The :attribute must be greater');
+Validator.register('greater', greaterValidator, 'The :attribute must be greater than :greater');
 Validator.register('lessOrSame', lessOrSameValidator, 'The :attribute must be less');
 Validator.register('greaterOrSame', greaterOrSameValidator, 'The :attribute must be greater');
 Validator.register('customTypeValue.value', customValueTypeValidator, 'The :attribute must be a valid CustomType');
@@ -130,7 +147,10 @@ const createValidator = (rules, attributeLabels = {}, multipleErrors = true) => 
   validation.setAttributeNames(attributeLabels);
 
   if (validation.fails()) {
-    return multipleErrors ? validation.errors.all() : getFirstErrors(validation.errors.all());
+    const flattenErrors = multipleErrors ? validation.errors.all() : getFirstErrors(validation.errors.all());
+    const nestedErrors = _.zipObjectDeep(Object.keys(flattenErrors), Object.values(flattenErrors));
+
+    return nestedErrors;
   }
 
   return {};

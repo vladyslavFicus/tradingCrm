@@ -6,7 +6,7 @@
       "PAYMENTS": "Платежи",
       "TRANSACTIONS": "Транзакции",
       "PAYMENT_METHODS": "Платежные методы",
-      "BONUS_CAMPAIGNS": "Бонусные программы",
+      "BONUS_CAMPAIGNS": "Бонусные кампании",
       "PLAYER_LIABILITY": "Обязательства",
       "REVENUE": "Доход",
       "OPEN_LOOP": "Open loop",
@@ -14,7 +14,10 @@
       "COUNTRIES": "Страны",
       "PLAYERS_SEARCH": "Поиск игроков",
       "PLAYERS_KYC_REQUEST": "KYC запросы",
-      "SETTINGS": "Настройки"
+      "SETTINGS": "Настройки",
+      "NEW_CAMPAIGNS": "Новые кампании",
+      "NEW_CAMPAIGNS_FULFILLMENTS": "Fulfillments",
+      "CAMPAIGNS": "[NEW] Кампании"
     },
     "BOTTOM_MENU": {
       "SUPPORT": "Поддержка"
@@ -237,6 +240,7 @@
       "PENDING_STATUS": "Ожидает",
       "TITLE": "Игровая активность",
       "GRID_VIEW": {
+        "JACKPOT": "Джекпот",
         "GAME_ROUND": "Раунд",
         "GAME": "Игра",
         "BET_DATE": "Дата ставки",
@@ -257,6 +261,12 @@
         "BONUS_ROUND_CARD": "Карта",
         "BONUS_ROUND_FREESPIN": "Бонус раунд фриспин",
         "ADJUSTMENT": "Подгонка"
+      },
+      "NOTIFICATIONS": {
+        "INVALID_DATE_RANGE": {
+          "TITLE": "Диапазон дат превышен",
+          "MESSAGE": "Максимальный диапазон дат - 14 дней"
+        }
       }
     },
     "MARKETING": {
@@ -300,11 +310,24 @@
           "WAGERED": "Wagered",
           "MONEY_TYPE_PRIORITY": "Приор. исп. денег",
           "LOCK_AMOUNT_STRATEGY": "Блок. вывода средств",
-          "CLAIMABLE": "Требовать подтверждения"
+          "CLAIMABLE": "Требовать подтверждения",
+          "MAX_BET": "Макс. ставка",
+          "NAME": "Название",
+          "MAX_GRANTED_AMOUNT": "Макс. сумма бонусов",
+          "WAGERING_REQUIREMENT": "Условия отыгрыша",
+          "LIFE_TIME": "Время жизни",
+          "CUSTOM_TEMPLATE": "Новый шаблон",
+          "TEMPLATE": "Шаблон",
+          "PRIZE_CAPPING_TYPE": "Тип приза и капинга"
         },
         "LOCK_AMOUNT_STRATEGY": {
           "LOCK_ALL": "Заблокировать все средства",
-          "LOCK_PARTIAL": "Заблокировать бонусные деньги"
+          "LOCK_PARTIAL": "Заблокировать бонусные и депозитные деньги",
+          "LOCK_BONUS": "Заблокировать бонусные деньги"
+        },
+        "MONEY_TYPE_USAGE": {
+          "REAL_MONEY": "Реальные деньги",
+          "BONUS_MONEY": "Бонусные деньги"
         }
       },
       "CANCEL_BONUS": "Отменить бонус",
@@ -334,9 +357,11 @@
           "STATES": "Статус",
           "TYPE": "Тип",
           "START_DATE": "Дата старта",
-          "END_DATE": "Дата конца"
+          "END_DATE": "Дата конца",
+          "DATE_RANGE": "Временной период"
         }
-      }
+      },
+      "PERMIT_BONUS_CONVERSION": "Подтвердить конвертацию"
     },
     "NOTIFICATIONS": {
       "COPY_FULL_UUID": {
@@ -424,10 +449,16 @@
         "FAILURE_ADD_PLAYER_TO_CAMPAIGN": {
           "TITLE": "Ошибка",
           "MESSAGE": "Не удалось добавить игрока в кампанию"
+        },
+        "SUCCESS_ADD_PROMO_CODE": {
+          "TITLE": "Успешно",
+          "MESSAGE": "Игрок был успешно добавлен в кампанию по промо-коду"
         }
       },
       "ADD_TO_CAMPAIGN_BUTTON": "+ Добавить в Кампанию",
-      "ADD_PROMO_CODE_BUTTON": "+ Добавить промо-код"
+      "ADD_PROMO_CODE_BUTTON": "+ Добавить промо-код",
+      "OPT_IN": "Opt-in",
+      "UN_TARGET": "Отвязать"
     },
     "FREE_SPINS": {
       "BONUS_SETTINGS": {
@@ -476,14 +507,21 @@
       "MANUAL_FREE_SPIN_BUTTON": "+ Добавить free spin",
       "NOTIFICATIONS": {
         "CANCEL_FREE_SPIN_ERROR": "Не удалось отменить free spins"
-      }
+      },
+      "FREE_SPIN_TEMPLATE": "Фри-спин шаблон",
+      "BONUS_TEMPLATE": "Бонус шаблон"
     },
     "FREE_SPIN": {
       "MODAL_CREATE": {
         "TITLE": "Добавление free spin",
         "CHOOSE_PROVIDER": "-- Выберите --",
         "CHOOSE_GAME": "-- Выберите --",
+        "CHOOSE_GAME_TYPE": "-- Выберите --",
         "CHOOSE_LINES_PER_SPIN": "-- Выберите --",
+        "GAME_TYPES": {
+          "MOBILE": "Мобильная",
+          "DESKTOP": "Десктопная"
+        },
         "ATTRIBUTES_LABELS": {
           "NAME": "Название",
           "START_DATE": "Дата начала",
@@ -500,16 +538,23 @@
           "BONUS_LIFE_TIME": "Время жизни бонуса",
           "MONEY_TYPE_PRIORITY": "Приоритет использования денег",
           "COIN_SIZE": "Стоимость коина",
-          "NUMBER_OF_COINS": "Коинов на линию"
+          "NUMBER_OF_COINS": "Коинов на линию",
+          "BET_LEVEL": "Уровень ставки",
+          "COIN_VALUE_LEVEL": "Уровень стоимости монет",
+          "APPROXE_BET_VALUE": "Прим. значение ставки",
+          "CUSTOM_TEMPLATE": "Новый шаблон",
+          "TEMPLATE": "Шаблон",
+          "USE_TEMPLATE": "Использовать шаблон"
         },
         "FREE_SPIN_VALUE": "Стоимость spin",
         "TOTAL_VALUE": "Сумма spin",
         "CHOOSE_COIN_SIZE": "-- Выберите --",
         "CHOOSE_NUMBER_OF_COINS": "-- Выберите --",
-        "BUTTON": "Создать Free-spin"
+        "BUTTON": "Создать Free-spin",
+        "CHOOSE_PAGE_CODE": "-- Выберите --",
+        "CHOOSE_AGGREGATOR": "-- Выберите --"
       },
       "MODAL_CANCEL": {
-        "CUSTOM_REASON_OPTION": "Другая причина",
         "TITLE": "Отмена Free spins",
         "ACTION_TEXT": "Вы собираетесь отменить \"%{title}\"",
         "ENTITY_NAME": "free spins",
@@ -614,7 +659,8 @@
       "CREATE_AND_OPEN": "Создать и открыть",
       "SAVE_NEW_PASSWORD": "Сохранить новый пароль",
       "SAVE": "Сохранить",
-      "EXPORT_AS_CSV": "Экспортировать как CSV"
+      "EXPORT_AS_CSV": "Экспортировать как CSV",
+      "UPDATE": "Обновить"
     },
     "ACTIONS": {
       "ON": "Вкл",
@@ -637,10 +683,17 @@
         "TITLE": "Скопировано",
         "MESSAGE": "Полный UUID был скопирован в буфер обмена"
       },
+      "PERMISSION_DENIED": {
+        "TITLE": "Ошибка",
+        "MESSAGE": "Доступ запрещен"
+      },
       "COPY_FULL_IP": {
         "MESSAGE": "IP адресс был скопирован в буфер обмена"
       },
-      "COPY_PROFILE_LINK": "Ссылка на профиль была скопирована в ваш буфер обмена"
+      "COPY_PROFILE_LINK": "Ссылка на профиль была скопирована в ваш буфер обмена",
+      "COPY_INTERNAL_GAME_ID": {
+        "MESSAGE": "Внутрений game id был скопирован в буфер обмена"
+      }
     },
     "OR": "Или",
     "TO": "по",
@@ -694,7 +747,20 @@
     "PLAYER_LIABILITY_REPORT": "Отчет об ответственности игрока",
     "PAYMENTS": "Платежи",
     "ALL_ACTIONS": "Все действия",
-    "REASON": "Причина"
+    "REASON": "Причина",
+    "HOURS": "Часы",
+    "DAYS": "Дни",
+    "WEEKS": "Недели",
+    "NONE": "Ни одного",
+    "REMOVE": "Удалить",
+    "CLAIMABLE": "Claimable",
+    "CURRENCY": "Валюта",
+    "YES": "Да",
+    "NO": "Нет",
+    "CUSTOM_REASON_OPTION": "Другая",
+    "NOTE": "Заметка",
+    "CREATED": "Создано",
+    "LAST_CHANGED": "Последнее изменение"
   },
   "FILES": {
     "UPLOAD_MODAL": {
@@ -812,10 +878,9 @@
     },
     "BONUS_CAMPAIGN": {
       "CAMPAIGN_TYPE": {
-        "FIRST_DEPOSIT": "Первое пополнение",
         "DEPOSIT": "Пополнение",
         "PROFILE_COMPLETED": "Профиль заполнен",
-        "WITHOUT_FULFILMENT": "Без условий"
+        "WITHOUT_FULFILLMENT": "Без условий"
       },
       "STATUSES": {
         "DRAFT": "Черновик",
@@ -826,7 +891,8 @@
       },
       "TARGET_TYPES": {
         "ALL": "Все игроки",
-        "TARGET_LIST": "Выбранные игроки"
+        "TARGET_LIST": "Выбранные игроки",
+        "LINKED_CAMPAIGN": "Связанная кампания"
       },
       "STATUS_ACTIONS": {
         "ACTIVATE_CAMPAIGN": "Активировать кампанию",
@@ -843,8 +909,14 @@
         "BONUS_MONEY": "Бонусные деньги"
       },
       "LOCK_AMOUNT_STRATEGY": {
+        "LABEL": "Блок вывода",
         "LOCK_ALL": "Заблокировать все средства",
-        "LOCK_PARTIAL": "Заблокировать сумму пополнения"
+        "LOCK_PARTIAL": "Заблокировать бонусные и депозитные деньги",
+        "LOCK_BONUS": "Заблокировать бонусные деньги"
+      },
+      "REWARD_TYPE": {
+        "BONUS": "Бонус",
+        "FREE_SPIN": "Free-spin"
       }
     },
     "GAMING_ACTIVITY": {
@@ -899,7 +971,8 @@
         "CS": "Обслуживание клиентов",
         "RFP": "Risk Fraud & Payment",
         "MARKETING": "Маркетинг",
-        "ADMINISTRATION": "Администрация"
+        "ADMINISTRATION": "Администрация",
+        "BI": "Бизнес аналитика"
       }
     },
     "BONUS_CAMPAIGNS": {
@@ -1087,6 +1160,9 @@
     "FILE": {
       "INVALID_FILE_EXTENSION": "Некорректное расширение файла",
       "INVALID_FILE_SIZE": "Некорректное размер файла"
+    },
+    "DATE": {
+      "INVALID_DATE": "\"%{attributeName}\" некорректная"
     }
   },
   "COUNTRIES": {
@@ -1135,7 +1211,9 @@
       "CREATION_DATE_TO": "Конечная дата создания",
       "ACTIVITY_DATE_FROM": "Начальная дата активности",
       "ACTIVITY_DATE_TO": "Конечная дата активности",
-      "SEARCH_BY_PLACEHOLDER": "Кампания, Оператор"
+      "SEARCH_BY_PLACEHOLDER": "Кампания, Оператор",
+      "DEPOSIT_NUMBER_OPTION": "депозит",
+      "DEPOSIT_NUMBER": "Номер депозита"
     },
     "BUTTON_CREATE_CAMPAIGN": "+ Добавить кампанию",
     "VIEW": {
@@ -1170,11 +1248,14 @@
         "UPDATE_TITLE": "Обновление бонус-кампании",
         "ADD_PLAYERS": "Добавить игроков",
         "ADD_CAMPAIGN": "Создание бонус-кампании",
+        "UNSUCCESSFULLY": "Не удалось сохранить компанию",
+        "SUCCESSFULLY": "Компания сохранена успешно",
         "CAMPAIGN_COPIED": "Кампания скопирована"
       },
       "BUTTON": {
         "ADD_PLAYERS": "+ Добавить игроков"
-      }
+      },
+      "CHANGE_STATUS_ERROR": "Ошибка смены статуса"
     },
     "CREATE_MODAL": {
       "TITLE": "Новая бонус-кампания",
@@ -1209,7 +1290,7 @@
     "SETTINGS": {
       "LABEL": {
         "CAMPAIGN_NAME": "Название кампании (Внутреннее)",
-        "TARGET_TYPE": "Тип",
+        "TARGET_TYPE": "Тип таргета",
         "CURRENCY": "Валюта",
         "CAPPING": "Capping",
         "CAMPAIGN_RATIO": "Коэффициент",
@@ -1225,18 +1306,21 @@
         "DESCRIPTION": "Описание",
         "BASE_CURRENCY": "Базовая валюта",
         "MIN_PRIZE": "Мин. приз",
-        "TYPE": "Тип",
+        "OPT_IN_REQUIRED": "Opt-in обязателен",
         "AFFILIATES": "Филиалы",
         "EXCLUDE": "Исключить",
         "COUNTRIES": "Страны",
         "START_DATE": "Дата начала",
         "END_DATE": "Дата окончания",
         "LOCK_AMOUNT_STRATEGY_LABEL": "Стратегия блок. денег",
-        "PROMO_CODE": "Промо-код"
+        "PROMO_CODE": "Промо-код",
+        "OPT_IN_PERIOD": "Opt-in период",
+        "CHOOSE_CAMPAIGN": "Выбрать кампанию",
+        "EXCLUDED_COUNTRIES": "Исключенные страны"
       },
-      "CHOOSE_CURRENCY": "-- Выберите валюту --",
-      "CHOOSE_TARGET_TYPE": "-- Выберите тип --",
-      "TARGET": "Тип",
+      "CHOOSE_CURRENCY": "-- Выбрать --",
+      "CHOOSE_TARGET_TYPE": "-- Выбрать --",
+      "TARGET": "Таргет",
       "CAMPAIGN_SETTINGS": "Настройки кампании",
       "FULFILLMENTS": "Фулфилменты",
       "REWARDS": "Вознаграждения",
@@ -1246,7 +1330,8 @@
           "ADD_FULFILLMENT": "Добавить условие"
         },
         "DEPOSIT": {
-          "LABEL": "Депозит"
+          "LABEL": "Депозит",
+          "NUMBER_OPTION": "депозит"
         },
         "PROFILE_COMPLETED": {
           "LABEL": "Профиль заполнен"
@@ -1254,11 +1339,20 @@
         "SELECT_FULFILLMENT": "-- Выбрать условие --",
         "NO_FULFILLMENTS": {
           "LABEL": "Без условий"
+        },
+        "DEPOSIT_NUMBER_LABEL": "Номер депозита",
+        "RESTRICTED_PAYMENT_METHODS": "Исключить платежные методы"
+      },
+      "SELECT_OPT_IN_PERIOD": "- Период -",
+      "MODAL": {
+        "CHOOSE_CAMPAIGN": {
+          "TITLE": "Выберите кампанию",
+          "MESSAGE": "Только игроки, которые успешно конвертировали бонус из выбранной кампании, станут объектами кампании, которую вы настраиваете."
         }
-      }
+      },
+      "NO_SELECTED_LINKED_CAMPAIGN": "Не выбрана связанная кампания"
     },
     "CHANGE_STATUS_MODAL": {
-      "CUSTOM_REASON_OPTION": "Другая",
       "CUSTOM_REASON_PLACEHOLDER": "Причина",
       "CANCEL_BUTTON": "Отмена",
       "TITLE": "Смена статуса бонусной кампании",
@@ -1300,42 +1394,79 @@
     },
     "REWARDS": {
       "ADD_REWARD": "Добавить награду",
-      "FREE_SPINS": "Free-spins",
-      "BONUS_REWARD": "Бонусная награда",
-      "GRANT": "Грант",
-      "LIMITS": "Лимиты",
-      "MULTIPLIER": "Множитель",
-      "MULTIPLIERS_TYPE": "Тип множителя",
       "DEPOSIT": "Депозит",
       "BONUS_DEPOSIT": "Бонус + депозит",
-      "MONEY_TYPE_PRIOR": "Денежный приоритет",
       "REAL_MONEY_FIRST": "Сначала реальные деньги",
       "BONUS_MONEY_FIRST": "Сначала бонусные деньги",
-      "BM_BET_LIMIT": "Предел BM",
-      "LIFE_TIME": "Длительность",
-      "CUSTOM_CONTRIB_RATE": "Пользовательская ставка",
-      "FREE_SPIN_REWARD": "Free spin награда",
-      "PROVIDER": "Провайдер",
-      "GAMES": "Игры",
-      "LINES": "Линии",
-      "COINS": "Coins",
-      "COIN_VALUE": "Стоимость coin",
-      "PER_LINE": "За линию",
-      "SPIN_VALUE": "Spin значениe",
-      "TOTAL_VALUE": "Общее значение",
-      "PLACEHOLDERS": {
-        "DAYS": "дней",
-        "NOT_SET": "Не задано"
-      },
       "BONUS": {
         "CAMPAIGN_RATIO": {
           "VALUE": "Коэффициент",
           "TYPE": "Тип"
         },
-        "MULTIPLIER": "Multiplier",
+        "MULTIPLIER": "Множитель",
         "BONUS_LIFE_TIME": "Время жизни",
-        "MONEY_TYPE_PRIORITY": "Приоритет использования денег"
-      }
+        "MONEY_TYPE_PRIORITY": "Приоритет использования денег",
+        "BONUS_REWARD": "Бонусная награда",
+        "GRANT": "Грант",
+        "LIMITS": "Лимиты",
+        "MULTIPLIERS_TYPE": "Тип множителя",
+        "MONEY_TYPE_PRIOR": "Денежный приоритет",
+        "LIFE_TIME": "Длительность",
+        "PLACEHOLDERS": {
+          "DAYS": "дней",
+          "NOT_SET": "Не задано"
+        },
+        "MAX_BET": "Макс. ставка",
+        "MAX_GRANTED_AMOUNT": "Макс. сумма бонусов",
+        "NAME": "Название",
+        "TEMPLATE": "Шаблон",
+        "WAGERING_REQUIREMENT": "Wagering requirement",
+        "LOCK_AMOUNT_STRATEGY": "Lock amount strategy",
+        "CAPPING": "Capping",
+        "PRIZE": "Приз",
+        "COUNT": "Кол-во",
+        "PAGE_CODE": "Код страницы",
+        "BET_LEVEL": "Уровень ставки",
+        "BET_MULTIPLAYER": "Множитель ставок",
+        "COIN_SIZE": "Размер монеты",
+        "RHFP_BET": "Rhfp bet",
+        "BET_MULTIPLIER": "Множитель ставок",
+        "COMMENT": "Комментарий",
+        "PRIZE_CAPPING_TYPE": "Тип приза и капинга"
+      },
+      "FREE_SPIN": {
+        "ADD_REWARDS": "Добавить награду",
+        "SELECT_REWARDS": "-- Выбрать награду --",
+        "NEAREST_COST": "Ближайшая стоимость",
+        "DISPLAY_LINE1": "Линия 1",
+        "DISPLAY_LINE2": "Линия 2",
+        "BET_PER_LINE": "Бет за линию",
+        "CHOOSE_TEMPLATE": "-- Выбрать шаблон --",
+        "TEMPLATE": "Шаблон",
+        "PRIZE": "Приз",
+        "CREATION_ERROR": "Ошибка создания фри спина",
+        "WAGERING": "Wagering",
+        "CAPPING": "Capping",
+        "MONEY_PRIORITY": "Приоритет",
+        "FREE_SPIN_REWARD": "Фри спин",
+        "FREE_SPINS": "Фри спины",
+        "SPIN_VALUE": "Spin значениe",
+        "TOTAL_VALUE": "Общее значение",
+        "NAME": "Название",
+        "PROVIDER": "Провайдеры",
+        "GAMES": "Игры",
+        "GAME_TYPE": "Тип игры",
+        "LIFE_TIME": "Длительность",
+        "PLACEHOLDERS": {
+          "DAYS": "дней",
+          "NOT_SET": "Не задано"
+        },
+        "AGGREGATOR": "Агрегатор"
+      },
+      "BONUS_TEMPLATE": {
+        "CREATION_ERROR": "Ошибка создания бонус шаблона"
+      },
+      "FREE_SPIN_LIFE_TIME": "Время жизни спина"
     },
     "CURRENCY_CALC_MODAL": {
       "HEADER": "Стоимость в разных валютах",
@@ -1354,6 +1485,20 @@
       "MODAL_TEXT": "Вы собираетесь удалить всех игроков из цели этой кампании.",
       "SUCCESS_NOTIFICATION": "Все игроки были успешно удалены",
       "ERROR_NOTIFICATION": "Не удалось удалить всех игроков"
+    },
+    "VIEW_TABS": {
+      "SETTINGS": "Настройки"
+    },
+    "NEW_CAMPAIGN": "Новая кампания",
+    "SAVE_NEW_CAMPAIGN": "Сохранить новую кампанию",
+    "WAGERING_FULFILLMENTS": {
+      "ADD": {
+        "ADD_BUTTON": "Добавить вейджер"
+      },
+      "LIST": {
+        "CREATE_BUTTON": "Создать вейджер",
+        "TITLE": "Вейджер"
+      }
     }
   },
   "BONUS_CAMPAIGN_STATUS": {
@@ -1371,6 +1516,9 @@
       "invalid": {
         "payment": {
           "operation": "Невалидная платежная операция"
+        },
+        "campaign": {
+          "promo-code": "Невалидный промокод"
         }
       },
       "email": {
@@ -1380,6 +1528,12 @@
     "payment": {
       "method": {
         "inactive": "Платежный метод неактивен"
+      },
+      "withdrawable": {
+        "limit": "Превышение суммы",
+        "bonus": {
+          "disable": "Нужно деактивировать активные бонусы"
+        }
       }
     },
     "profile": {
@@ -1388,6 +1542,22 @@
     },
     "user": {
       "logon-attempts-limit-reached": "5 неудачных попыток входа"
+    },
+    "campaign": {
+      "command": {
+        "byPromoCode": {
+          "alreadyPresent": "Промокод уже привязан к этому игроку",
+          "notAllow": "Невалидный промокод"
+        },
+        "activate": {
+          "notAllow": "Не разрешено"
+        }
+      }
+    },
+    "template": {
+      "name": {
+        "already-exists": "Имя уже существует"
+      }
     }
   },
   "NOTE_BUTTON": {
@@ -1427,7 +1597,6 @@
     }
   },
   "PAYMENT_ACTION_REASON_MODAL": {
-    "CUSTOM_REASON_OPTION": "Другая",
     "REASON_DROPDOWN": {
       "CONSTANTS": {
         "REASON_LABEL": "Причина",
@@ -1510,6 +1679,24 @@
           "COUNTRY": "Страна",
           "PHONE": "Телефон"
         }
+      }
+    },
+    "NOTIFICATIONS": {
+      "DELETE_AUTHORITY_ERROR": {
+        "TITLE": "Ошибка при удалении",
+        "MESSAGE": "При удалении департамента произошла ошибка"
+      },
+      "GET_AUTHORITIES_ERROR": {
+        "TITLE": "Ошибка загрузки",
+        "MESSAGE": "При загрузки департаментов и ролей произошла ошибка"
+      },
+      "GET_OPERATORS_AUTHORITIES_ERROR": {
+        "TITLE": "Ошибка загрузки",
+        "MESSAGE": "При загрузки департаментов и ролей оператора произошла ошибка"
+      },
+      "ADD_AUTHORITY_ERROR": {
+        "TITLE": "Ошибка добавления",
+        "MESSAGE": "При добавлении департамента произошла ошибка"
       }
     }
   },

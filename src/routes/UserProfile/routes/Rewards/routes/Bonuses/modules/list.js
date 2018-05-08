@@ -1,16 +1,13 @@
 import { CALL_API } from 'redux-api-middleware';
 import createReducer from '../../../../../../../utils/createReducer';
 import createRequestAction from '../../../../../../../utils/createRequestAction';
-import timestamp from '../../../../../../../utils/timestamp';
 import buildQueryString from '../../../../../../../utils/buildQueryString';
 import { sourceActionCreators as noteSourceActionCreators } from '../../../../../../../redux/modules/note';
 import { targetTypes } from '../../../../../../../constants/note';
-import { types as bonusTypes } from '../../../../../../../constants/bonus';
 
 const KEY = 'user/bonuses/list';
 const FETCH_ENTITIES = createRequestAction(`${KEY}/entities`);
 const FETCH_NOTES = createRequestAction(`${KEY}/fetch-notes`);
-const CREATE_BONUS = createRequestAction(`${KEY}/create`);
 
 const fetchNotes = noteSourceActionCreators.fetchNotesByType(FETCH_NOTES);
 const mapEntities = async (dispatch, pageable) => {
@@ -97,31 +94,6 @@ function fetchEntities(filters = {}) {
   };
 }
 
-function createBonus(data) {
-  return (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
-
-    return dispatch({
-      [CALL_API]: {
-        endpoint: 'bonus/bonuses',
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ ...data, bonusType: bonusTypes.Manual, optIn: data.optIn || false }),
-        types: [
-          CREATE_BONUS.REQUEST,
-          CREATE_BONUS.SUCCESS,
-          CREATE_BONUS.FAILURE,
-        ],
-        bailout: !logged,
-      },
-    });
-  };
-}
-
 const initialState = {
   entities: {
     first: false,
@@ -148,27 +120,27 @@ const actionHandlers = {
     error: null,
     noResults: false,
   }),
-  [FETCH_ENTITIES.SUCCESS]: (state, action) => ({
+  [FETCH_ENTITIES.SUCCESS]: (state, { payload, meta: { endRequestTime } }) => ({
     ...state,
     entities: {
       ...state.entities,
-      ...action.payload,
-      content: action.payload.number === 0
-        ? action.payload.content
+      ...payload,
+      content: payload.number === 0
+        ? payload.content
         : [
           ...state.entities.content,
-          ...action.payload.content,
+          ...payload.content,
         ],
     },
     isLoading: false,
-    receivedAt: timestamp(),
-    noResults: action.payload.content.length === 0,
+    receivedAt: endRequestTime,
+    noResults: payload.content.length === 0,
   }),
-  [FETCH_ENTITIES.FAILURE]: (state, action) => ({
+  [FETCH_ENTITIES.FAILURE]: (state, { payload, meta: { endRequestTime } }) => ({
     ...state,
     isLoading: false,
-    error: action.payload,
-    receivedAt: timestamp(),
+    error: payload,
+    receivedAt: endRequestTime,
   }),
 };
 const actionTypes = {
@@ -178,7 +150,6 @@ const actionTypes = {
 const actionCreators = {
   fetchEntities,
   fetchNotes,
-  createBonus,
 };
 
 export {

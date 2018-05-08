@@ -18,6 +18,7 @@ class ListView extends Component {
     itemClassName: PropTypes.string,
     locale: PropTypes.string.isRequired,
     showNoResults: PropTypes.bool,
+    last: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -29,6 +30,7 @@ class ListView extends Component {
     activePage: 0,
     totalPages: null,
     itemClassName: '',
+    last: true,
   };
 
   state = {
@@ -36,21 +38,39 @@ class ListView extends Component {
   };
 
   shouldComponentUpdate(nextProps) {
-    if (!this.props.lazyLoad) {
+    const {
+      lazyLoad,
+      dataSource,
+      locale,
+      showNoResults,
+    } = this.props;
+
+    if (!lazyLoad) {
       return true;
     }
 
-    return !shallowEqual(nextProps.dataSource, this.props.dataSource)
-      || (nextProps.locale !== this.props.locale) || nextProps.showNoResults !== this.props.showNoResults;
+    return !shallowEqual(nextProps.dataSource, dataSource)
+      || (nextProps.locale !== locale) || nextProps.showNoResults !== showNoResults;
   }
 
   onFiltersChanged() {
     this.props.onFiltersChanged(this.state.filters);
   }
 
-  handlePageChange(eventKey) {
-    this.props.onPageChange(eventKey, this.state.filters);
-  }
+  handlePageChange = (eventKey) => {
+    const {
+      totalPages,
+      activePage,
+      onPageChange,
+      last,
+    } = this.props;
+
+    const hasMore = totalPages && activePage ? totalPages > activePage : !last;
+
+    if (typeof onPageChange === 'function' && hasMore) {
+      onPageChange(eventKey, this.state.filters);
+    }
+  };
 
   renderItems = () => {
     const {
@@ -58,15 +78,17 @@ class ListView extends Component {
       lazyLoad,
       totalPages,
       activePage,
+      last,
     } = this.props;
 
     const items = dataSource.map((data, key) => this.renderItem(key, data));
+    const hasMore = totalPages && activePage ? totalPages > activePage : !last;
 
     return lazyLoad ?
       <InfiniteScroll
         loadMore={() => this.handlePageChange(activePage + 1)}
         element="div"
-        hasMore={totalPages > activePage}
+        hasMore={hasMore}
       >
         {items}
       </InfiniteScroll> : <div>{items}</div>;
@@ -113,7 +135,11 @@ class ListView extends Component {
   }
 
   render() {
-    const { showNoResults, locale } = this.props;
+    const {
+      showNoResults,
+      locale,
+      lazyLoad,
+    } = this.props;
 
     if (showNoResults) {
       return <NotFoundContent locale={locale} />;
@@ -122,7 +148,7 @@ class ListView extends Component {
     return (
       <div>
         {this.renderItems()}
-        {!this.props.lazyLoad && this.renderPagination()}
+        {!lazyLoad && this.renderPagination()}
       </div>
     );
   }

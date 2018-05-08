@@ -17,6 +17,11 @@ class Information extends Component {
     notes: PropTypes.object.isRequired,
   };
 
+  static defaultProps = {
+    data: {},
+    notes: {},
+  };
+
   render() {
     const {
       data,

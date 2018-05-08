@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from '../../../../../../constants/propTypes';
-import './ContactForm.scss';
 import PhoneForm from './PhoneForm';
 import EmailForm from './EmailForm';
 
@@ -17,17 +16,12 @@ class ContactForm extends Component {
     phoneCodes: PropTypes.arrayOf(PropTypes.string).isRequired,
     onVerifyPhoneClick: PropTypes.func.isRequired,
     onVerifyEmailClick: PropTypes.func.isRequired,
-    fetchMeta: PropTypes.func.isRequired,
     disabled: PropTypes.bool,
   };
   static defaultProps = {
     contactData: {},
     disabled: false,
   };
-
-  componentDidMount() {
-    this.props.fetchMeta();
-  }
 
   render() {
     const {
@@ -42,7 +36,7 @@ class ContactForm extends Component {
     } = this.props;
 
     return (
-      <div className="col-md-12">
+      <div>
         <PhoneForm
           disabled={disabled}
           profile={profile}

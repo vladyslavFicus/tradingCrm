@@ -73,7 +73,7 @@ class UsersPanel extends Component {
                 frameBorder={0}
                 src={`/users/${item.uuid}/${item.path || 'profile'}`}
                 style={{
-                  height: active && active.uuid === item.uuid ? 'calc(100% - 74px)' : '0',
+                  height: active && active.uuid === item.uuid ? 'calc(100% - 80px)' : '0',
                   margin: active && active.uuid === item.uuid ? '0 auto' : '0',
                   borderTop: active && active.uuid === item.uuid ? '' : '0',
                 }}
@@ -82,13 +82,13 @@ class UsersPanel extends Component {
           })}
         </div>
         <div className={footerClassName}>
-          {availableItems.map((item, index) => (
+          {availableItems.map(item => (
             <UsersPanelItem
               active={active && active.uuid === item.uuid}
               key={item.uuid}
               {...item}
-              onClick={() => onItemClick(active && active.uuid === item.uuid ? null : index)}
-              onRemoveClick={() => onRemove(index)}
+              onClick={() => onItemClick(active && active.uuid === item.uuid ? null : item.uuid)}
+              onRemoveClick={() => onRemove(item.uuid)}
             />
           ))}
 

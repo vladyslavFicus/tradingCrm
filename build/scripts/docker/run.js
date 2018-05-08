@@ -1,5 +1,6 @@
 const process = require('process');
 const fs = require('fs');
+const fetch = require('isomorphic-fetch');
 const ymlReader = require('yamljs');
 const _ = require('lodash');
 const fetchZookeeperConfig = require('./fetch-zookeeper-config');
@@ -9,7 +10,8 @@ const fetchZookeeperConfig = require('./fetch-zookeeper-config');
  *  Vars
  * ==================
  */
-const { NAS_PROJECT, NAS_ENV, NGINX_CONF_OUTPUT } = process.env;
+const { NAS_PROJECT, NGINX_CONF_OUTPUT } = process.env;
+const APP_VERSION = fs.readFileSync(`${__dirname}/../build/VERSION`, { encoding: 'UTF-8' });
 const APP_NAME = 'backoffice';
 const REQUIRED_CONFIG_PARAM = 'nas.brand.api.url';
 const consolePrefix = '[startup.js]: ';
@@ -22,33 +24,56 @@ const defaultHealth = {
   config: { status: STATUS.DOWN },
 };
 
+function parseJSON(data, defaultValue = null) {
+  try {
+    return JSON.parse(data);
+  } catch (e) {
+    console.warn(`Invalid json data: ${data}`);
+
+    return defaultValue;
+  }
+}
+
+const INDEX_HTML_PATH = '/opt/build/index.html';
+
 /**
  * ==================
  *  Utils
  * ==================
  */
 const log = data => console.log(consolePrefix, data);
-const saveHealth = health => new Promise((resolve) => {
-  fs.writeFile('/opt/health.json', JSON.stringify(health), { encoding: 'utf8' }, () => {
-    resolve();
-  });
-});
+const saveHealth = (health) => {
+  fs.writeFileSync('/opt/health.json', JSON.stringify(health), { encoding: 'utf8' });
+};
 
 function processError(error) {
   log(error);
 
-  saveHealth(defaultHealth).then(() => {
-    process.exit(1);
-  });
+  process.exit(1);
 }
 
-function compileNginxConfig(environmentConfig) {
+function fetchHealth(apiUrl) {
+  return fetch(`${apiUrl}/health`, {
+    method: 'GET',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+  })
+    .then(response => response.text())
+    .then(response => parseJSON(response));
+}
+
+async function compileNginxConfig(environmentConfig) {
   let config = fs.readFileSync('/opt/docker/nginx.conf.tpl', { encoding: 'UTF-8' });
+  const health = await fetchHealth(environmentConfig.hrzn.api_url);
+  const version = health && health.version ? health.version : '';
 
   const params = {
     logstashUrl: environmentConfig.logstash
       ? environmentConfig.logstash.url
       : '',
+    version,
   };
 
   if (config) {
@@ -58,29 +83,42 @@ function compileNginxConfig(environmentConfig) {
   }
 
   fs.writeFileSync(NGINX_CONF_OUTPUT, config);
+
+  return params;
 }
 
-function processConfig() {
+async function processConfig() {
   const projectConfig = ymlReader.load(`/${APP_NAME}/lib/etc/application-${NAS_PROJECT}.yml`);
-  const environmentConfig = ymlReader.load(`/${APP_NAME}/lib/etc/application-${NAS_ENV}.yml`);
 
-  return fetchZookeeperConfig({ projectConfig })
-    .then((config) => {
-      compileNginxConfig(projectConfig);
+  const config = await fetchZookeeperConfig({ projectConfig });
+  const nginxConfig = await compileNginxConfig(projectConfig);
 
-      return _.merge(
-        config,
-        { nas: environmentConfig.nas },
-        {
-          nas: {
-            brand: Object.assign({
-              api: { url: projectConfig.hrzn.api_url },
-              name: NAS_ENV,
-            }, projectConfig.brand),
-          },
-        },
-      );
-    });
+  const brand = Object.assign({
+    api: {
+      url: projectConfig.hrzn.api_url,
+      version: nginxConfig && nginxConfig.version ? nginxConfig.version : '',
+    },
+  }, projectConfig.brand);
+
+  Object.keys(config.nas.brand).forEach((item) => {
+    if (['currencies', 'password', 'tags', 'locale'].indexOf(item) > -1) {
+      brand[item] = config.nas.brand[item];
+    }
+  });
+
+  return {
+    version: APP_VERSION,
+    nas: { brand, graphqlRoot: `${projectConfig.hrzn.api_url}/graphql/gql` },
+    sentry: {
+      dsn: 'https://b14abe232a0745fb974390113d879259@sentry.io/233061',
+      options: {
+        release: APP_VERSION,
+        environment: APP_VERSION === 'dev' ? 'development' : NAS_PROJECT,
+        tags: { platformVersion: nginxConfig.version },
+        ignoreErrors: ['Submit Validation Failed'],
+      },
+    },
+  };
 }
 
 function saveConfig(config) {
@@ -99,7 +137,19 @@ if (!NAS_PROJECT) {
   throw new Error('"NAS_PROJECT" is required environment variable');
 }
 
-log('NAS_PROJECT:', NAS_PROJECT);
+const readConfigSrcPath = () => {
+  const indexHtml = fs.readFileSync(INDEX_HTML_PATH).toString();
+  const re = new RegExp('(config.js.*?)"');
+  return indexHtml.match(re)[1];
+};
+
+const writeRandomConfigSrcPath = () => {
+  let result = fs.readFileSync(INDEX_HTML_PATH).toString();
+
+  result = result.replace(readConfigSrcPath(), `config.js?${Math.random().toString(36).slice(2)}`);
+
+  fs.writeFileSync(INDEX_HTML_PATH, result);
+};
 
 processConfig()
   .then(config => saveConfig(config).then(() => {
@@ -109,6 +159,10 @@ processConfig()
     if (apiUrl) {
       health.config.status = STATUS.UP;
       health.status = STATUS.UP;
+
+      log('health', health);
+
+      writeRandomConfigSrcPath();
 
       return saveHealth(health);
     }

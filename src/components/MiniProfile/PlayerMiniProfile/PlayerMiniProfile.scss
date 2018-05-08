@@ -88,7 +88,6 @@
   }
   .info-block {
     display: flex;
-    flex-flow: row nowrap;
     align-items: baseline;
     color: #4a4a4a;
     & + .info-block {
@@ -165,9 +164,13 @@
     vertical-align: middle;
     cursor: default;
   }
-  &-show-button {
-    width: max-content,
-  }
 }
 
-
+.mini-profile-popover {
+  min-width: 325px;
+  max-width: none;
+  z-index: 1;
+  .popover-body {
+    padding: 0;
+  }
+}

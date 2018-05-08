@@ -10,13 +10,15 @@ import apiUrl from '../redux/middlewares/apiUrl';
 import authMiddleware from '../redux/middlewares/auth';
 import apiToken from '../redux/middlewares/apiToken';
 import apiErrors from '../redux/middlewares/apiErrors';
+import apiVersion from '../redux/middlewares/apiVersion';
+import requestTime from '../redux/middlewares/requestTime';
 import catcher from '../redux/middlewares/catcher';
 import { actionCreators as locationActionCreators } from '../redux/modules/location';
 import { actionCreators as languageActionCreators } from '../redux/modules/language';
 import unauthorized from '../redux/middlewares/unauthorized';
 import config from '../config';
 import translations from '../i18n';
-import { actionCreators as permissionsActionCreators } from '../redux/modules/permissions';
+import { actionCreators as permissionsActionCreators } from '../redux/modules/auth/permissions';
 
 export default (initialState = {}, onComplete) => {
   const middleware = [
@@ -26,15 +28,20 @@ export default (initialState = {}, onComplete) => {
     apiToken,
   ];
 
+  middleware.push(
+    apiMiddleware,
+    unauthorized(config.middlewares.unauthorized),
+  );
+
   if (window.isFrame) {
     middleware.push(require('../redux/middlewares/window').default);
   }
 
   middleware.push(
-    apiMiddleware,
-    unauthorized(config.middlewares.unauthorized),
     authMiddleware,
-    apiErrors
+    apiErrors,
+    apiVersion,
+    requestTime
   );
 
   // ======================================================
@@ -61,6 +68,21 @@ export default (initialState = {}, onComplete) => {
       ...enhancers
     )
   );
+
+  store.subscribe(() => {
+    const { auth, language, settings } = store.getState();
+
+    Raven.setExtraContext({ language });
+    Raven.setExtraContext({ settings });
+
+    if (auth.logged) {
+      Raven.setExtraContext({
+        uuid: auth.uuid,
+        brandId: auth.brandId,
+        department: auth.department,
+      });
+    }
+  });
 
   const persist = persistStore(store, config.middlewares.persist, async () => {
     const { auth: { logged, token } } = store.getState();
