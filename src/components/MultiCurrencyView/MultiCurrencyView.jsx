@@ -26,14 +26,15 @@ class MultiCurrencyView extends Component {
   render() {
     const { values, rates, id } = this.props;
     const { isTooltipOpen } = this.state;
+    const targetId = id.replace(/[[\]]/g, '');
 
     return (
       <div className="multi-currency-view">
         <Amount {...values[0]} />
-        <i id={`${id}-right-icon`} className="icon icon-currencies multi-currency-view__icon" />
+        <i id={`${targetId}-right-icon`} className="icon icon-currencies multi-currency-view__icon" />
         <If condition={rates.length}>
           <MultiCurrencyTooltip
-            id={`${id}-right-icon`}
+            id={`${targetId}-right-icon`}
             values={values}
             rates={rates}
             isOpen={isTooltipOpen}
