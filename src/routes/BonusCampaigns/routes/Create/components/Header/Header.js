@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { I18n } from 'react-redux-i18n';
 import { statuses } from '../../../../../../constants/bonus-campaigns';
 
 const Header = () => (
-  <div>
+  <Fragment>
     <div className="panel-heading-row">
       <div className="panel-heading-row__info">
         <div className="panel-heading-row__info-title" id="campaign-name">
@@ -53,7 +53,7 @@ const Header = () => (
         </div>
       </div>
     </div>
-  </div>
+  </Fragment>
 );
 
 export default Header;

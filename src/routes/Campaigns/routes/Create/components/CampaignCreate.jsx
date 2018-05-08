@@ -5,7 +5,7 @@ import PropTypes from '../../../../../constants/propTypes';
 import Header from './Header';
 import Form from '../../../components/Form';
 import asyncForEach from '../../../../../utils/asyncForEach';
-import { fulfillmentTypes as fulfillmentTypes } from '../../../constants';
+import { fulfillmentTypes } from '../../../constants';
 
 class CampaignCreate extends PureComponent {
   static propTypes = {
@@ -76,19 +76,15 @@ class CampaignCreate extends PureComponent {
 
   render() {
     return (
-      <div className="layout layout_not-iframe">
-        <div className="layout-info">
+      <div className="profile">
+        <div className="profile__info">
           <Header />
         </div>
-        <div className="layout-content">
-          <div className="nav-tabs-horizontal">
-            <Form
-              form="createCampaign"
-              initialValues={{ rewards: [], fulfillments: [] }}
-              onSubmit={this.handleCreateCampaign}
-            />
-          </div>
-        </div>
+        <Form
+          form="createCampaign"
+          initialValues={{ rewards: [], fulfillments: [] }}
+          onSubmit={this.handleCreateCampaign}
+        />
       </div>
     );
   }

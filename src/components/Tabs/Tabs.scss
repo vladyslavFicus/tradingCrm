@@ -1,0 +1,30 @@
+.tabs {
+  display: flex;
+  margin: -45px 25px 0;
+  padding-left: 0;
+  list-style: none;
+  &__item {
+    display: inline-block;
+    padding: 10px 20px;
+    border-top: 3px solid transparent;
+    font-size: 15px;
+    font-weight: 700;
+    color: #495057;
+    &:focus {
+      outline: none;
+      color: #01a8fe;
+    }
+    &:hover {
+      color: #495057;
+    }
+    &.active {
+      border-top-color: #01a8fe;
+      background-color: #fff;
+      color: #01a8fe;
+      box-shadow: 0 15px 0 0 #fff, 0 0 0 0 #fff, 0 0 15px -4px rgba(0,0,0,.15), 0 0 15px -4px rgba(0,0,0,.15);
+      &:hover {
+        color: #01a8fe;
+      }
+    }
+  }
+}
