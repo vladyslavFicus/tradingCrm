@@ -62,80 +62,68 @@ class FilterForm extends Component {
     } = this.props;
 
     return (
-      <div className="well">
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="filter-row">
-            <div className="filter-row__medium">
-              <Field
-                name="deviceType"
-                label={I18n.t(attributeLabels.type)}
-                component={SelectField}
-                position="vertical"
-              >
-                <option value="">{I18n.t('COMMON.ANY')}</option>
-                {deviceType.map(item => (
-                  <option key={item} value={item}>
-                    {renderLabel(item, typesLabels)}
-                  </option>
-                ))}
-              </Field>
-            </div>
-            <div className="filter-row__medium">
-              <Field
-                name="operatingSystem"
-                label={I18n.t(attributeLabels.operatingSystem)}
-                component={SelectField}
-                position="vertical"
-              >
-                <option value="">{I18n.t('COMMON.ANY')}</option>
-                {operatingSystem.map(item => (
-                  <option key={item} value={item}>{item}</option>
-                ))}
-              </Field>
-            </div>
-            <RangeGroup
-              className="filter-row__big"
-              label={I18n.t('PLAYER_PROFILE.DEVICES.FILTER.LOGIN_DATE_RANGE')}
-            >
-              <Field
-                utc
-                name="signInDateFrom"
-                placeholder={I18n.t(attributeLabels.signInDateFrom)}
-                component={DateTimeField}
-                isValidDate={this.startDateValidator('signInDateTo')}
-                position="vertical"
-              />
-              <Field
-                utc
-                name="signInDateTo"
-                placeholder={I18n.t(attributeLabels.signInDateTo)}
-                component={DateTimeField}
-                isValidDate={this.endDateValidator('signInDateFrom')}
-                position="vertical"
-              />
-            </RangeGroup>
-            <div className="filter-row__button-block">
-              <div className="button-block-container">
-                <button
-                  disabled={submitting}
-                  className="btn btn-default"
-                  onClick={this.handleReset}
-                  type="reset"
-                >
-                  {I18n.t('COMMON.RESET')}
-                </button>
-                <button
-                  disabled={submitting || invalid}
-                  className="btn btn-primary"
-                  type="submit"
-                >
-                  {I18n.t('COMMON.APPLY')}
-                </button>
-              </div>
-            </div>
-          </div>
-        </form>
-      </div>
+      <form className="filter-row" onSubmit={handleSubmit(onSubmit)}>
+        <Field
+          name="deviceType"
+          label={I18n.t(attributeLabels.type)}
+          component={SelectField}
+          className="filter-row__medium"
+        >
+          <option value="">{I18n.t('COMMON.ANY')}</option>
+          {deviceType.map(item => (
+            <option key={item} value={item}>
+              {renderLabel(item, typesLabels)}
+            </option>
+          ))}
+        </Field>
+        <Field
+          name="operatingSystem"
+          label={I18n.t(attributeLabels.operatingSystem)}
+          component={SelectField}
+          className="filter-row__medium"
+        >
+          <option value="">{I18n.t('COMMON.ANY')}</option>
+          {operatingSystem.map(item => (
+            <option key={item} value={item}>{item}</option>
+          ))}
+        </Field>
+        <RangeGroup
+          className="filter-row__dates"
+          label={I18n.t('PLAYER_PROFILE.DEVICES.FILTER.LOGIN_DATE_RANGE')}
+        >
+          <Field
+            utc
+            name="signInDateFrom"
+            placeholder={I18n.t(attributeLabels.signInDateFrom)}
+            component={DateTimeField}
+            isValidDate={this.startDateValidator('signInDateTo')}
+          />
+          <Field
+            utc
+            name="signInDateTo"
+            placeholder={I18n.t(attributeLabels.signInDateTo)}
+            component={DateTimeField}
+            isValidDate={this.endDateValidator('signInDateFrom')}
+          />
+        </RangeGroup>
+        <div className="filter-row__button-block">
+          <button
+            disabled={submitting}
+            className="btn btn-default"
+            onClick={this.handleReset}
+            type="reset"
+          >
+            {I18n.t('COMMON.RESET')}
+          </button>
+          <button
+            disabled={submitting || invalid}
+            className="btn btn-primary"
+            type="submit"
+          >
+            {I18n.t('COMMON.APPLY')}
+          </button>
+        </div>
+      </form>
     );
   }
 }

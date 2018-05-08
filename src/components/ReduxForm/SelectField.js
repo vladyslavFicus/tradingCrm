@@ -36,7 +36,7 @@ class SelectField extends Component {
   };
   static defaultProps = {
     id: null,
-    position: 'horizontal',
+    position: 'vertical',
     showErrorMessage: true,
     disabled: false,
     multiple: false,

@@ -66,12 +66,6 @@ button:focus,
   font-weight: normal;
 }
 
-.well {
-  min-height: 20px;
-  padding: 20px;
-  background-color: #f2f4f8;
-}
-
 .line-height-1 {
   line-height: 1;
 }
@@ -161,12 +155,6 @@ small {
   border-right: 1px solid rgba(0, 0, 0, 0.1);
 }
 
-.profile-tab-container .well {
-  margin-bottom: 25px;
-  padding: 25px;
-  border: none;
-}
-
 .table-hovered tbody tr:hover {
   background-color: #fcfcfc;
   cursor: pointer;
@@ -174,4 +162,8 @@ small {
 
 .multi-currency-icon {
   font-size: 20px;
+}
+
+.tooltip.show {
+  opacity: 1;
 }

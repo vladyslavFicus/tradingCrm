@@ -14,7 +14,7 @@ class KycGridFilter extends Component {
       from: PropTypes.string,
       to: PropTypes.string,
       status: PropTypes.string,
-    }).isRequired,
+    }),
     submitting: PropTypes.bool.isRequired,
     pristine: PropTypes.bool.isRequired,
     handleSubmit: PropTypes.func.isRequired,
@@ -24,11 +24,7 @@ class KycGridFilter extends Component {
     invalid: PropTypes.bool.isRequired,
   };
   static defaultProps = {
-    filterValues: {
-      from: '',
-      to: '',
-      status: '',
-    },
+    filterValues: {},
   };
 
   startDateValidator = toAttribute => (current) => {
@@ -62,66 +58,56 @@ class KycGridFilter extends Component {
     } = this.props;
 
     return (
-      <div className="well">
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="filter-row">
-            <RangeGroup
-              className="filter-row__big"
-              label={I18n.t('KYC_REQUESTS.FILTER.DATE_RANGE')}
-            >
-              <Field
-                utc
-                name="from"
-                placeholder={I18n.t(filterLabels.from)}
-                component={DateTimeField}
-                position="vertical"
-                isValidDate={this.startDateValidator('to')}
-              />
-              <Field
-                utc
-                name="to"
-                placeholder={I18n.t(filterLabels.to)}
-                component={DateTimeField}
-                position="vertical"
-                isValidDate={this.endDateValidator('from')}
-              />
-            </RangeGroup>
-            <div className="filter-row__medium">
-              <Field
-                name="statuses"
-                label={I18n.t(filterLabels.status)}
-                component={NasSelectField}
-                position="vertical"
-                multiple
-              >
-                {Object
-                  .keys(multiselectStatuses)
-                  .map(key => <option key={key} value={key}>{I18n.t(multiselectStatuses[key])}</option>)
-                }
-              </Field>
-            </div>
-            <div className="filter-row__button-block">
-              <div className="button-block-container">
-                <button
-                  disabled={submitting || pristine}
-                  className="btn btn-default"
-                  onClick={this.handleReset}
-                  type="reset"
-                >
-                  {I18n.t('COMMON.RESET')}
-                </button>
-                <button
-                  disabled={submitting || pristine || invalid}
-                  className="btn btn-primary"
-                  type="submit"
-                >
-                  {I18n.t('COMMON.APPLY')}
-                </button>
-              </div>
-            </div>
-          </div>
-        </form>
-      </div>
+      <form className="filter-row" onSubmit={handleSubmit(onSubmit)}>
+        <RangeGroup
+          className="filter-row__dates"
+          label={I18n.t('KYC_REQUESTS.FILTER.DATE_RANGE')}
+        >
+          <Field
+            utc
+            name="from"
+            placeholder={I18n.t(filterLabels.from)}
+            component={DateTimeField}
+            isValidDate={this.startDateValidator('to')}
+            pickerClassName="left-side"
+          />
+          <Field
+            utc
+            name="to"
+            placeholder={I18n.t(filterLabels.to)}
+            component={DateTimeField}
+            isValidDate={this.endDateValidator('from')}
+          />
+        </RangeGroup>
+        <Field
+          name="statuses"
+          label={I18n.t(filterLabels.status)}
+          component={NasSelectField}
+          multiple
+          className="filter-row__medium"
+        >
+          {Object.keys(multiselectStatuses).map(key => (
+            <option key={key} value={key}>{I18n.t(multiselectStatuses[key])}</option>
+          ))}
+        </Field>
+        <div className="filter-row__button-block">
+          <button
+            disabled={submitting || pristine}
+            className="btn btn-default"
+            onClick={this.handleReset}
+            type="reset"
+          >
+            {I18n.t('COMMON.RESET')}
+          </button>
+          <button
+            disabled={submitting || pristine || invalid}
+            className="btn btn-primary"
+            type="submit"
+          >
+            {I18n.t('COMMON.APPLY')}
+          </button>
+        </div>
+      </form>
     );
   }
 }

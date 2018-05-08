@@ -29,61 +29,49 @@ class MethodsGridFilter extends Component {
     const { submitting, handleSubmit, onSubmit } = this.props;
 
     return (
-      <div className="well">
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="filter-row">
-            <div className="filter-row__small">
-              <Field
-                name="countryCode"
-                label={I18n.t(attributeLabels.country)}
-                labelClassName="form-label"
-                component={SelectField}
-                position="vertical"
-              >
-                <option value="">- General -</option>
-                {Object.keys(countries).map(key =>
-                  <option key={key} value={key}>{countries[key]}</option>
-                )}
-              </Field>
-            </div>
-            <div className="filter-row__small">
-              <Field
-                name="status"
-                label={I18n.t(attributeLabels.status)}
-                labelClassName="form-label"
-                component={SelectField}
-                position="vertical"
-              >
-                <option value="">{I18n.t('PAYMENT_METHODS.FILTER_FORM.LABELS.ALL_STATUSES')}</option>
-                {Object.keys(methodsStatusesLabels).map(status => (
-                  <option key={status} value={status}>
-                    {methodsStatusesLabels[status]}
-                  </option>
-                ))}
-              </Field>
-            </div>
-            <div className="filter-row__button-block">
-              <div className="button-block-container">
-                <button
-                  disabled={submitting}
-                  className="btn btn-default"
-                  onClick={this.handleReset}
-                  type="reset"
-                >
-                  {I18n.t('COMMON.RESET')}
-                </button>
-                <button
-                  disabled={submitting}
-                  className="btn btn-primary"
-                  type="submit"
-                >
-                  {I18n.t('COMMON.APPLY')}
-                </button>
-              </div>
-            </div>
-          </div>
-        </form>
-      </div>
+      <form className="filter-row" onSubmit={handleSubmit(onSubmit)}>
+        <Field
+          name="countryCode"
+          label={I18n.t(attributeLabels.country)}
+          component={SelectField}
+          className="filter-row__small"
+        >
+          <option value="">- General -</option>
+          {Object.keys(countries).map(key => (
+            <option key={key} value={key}>{countries[key]}</option>
+          ))}
+        </Field>
+        <Field
+          name="status"
+          label={I18n.t(attributeLabels.status)}
+          component={SelectField}
+          className="filter-row__small"
+        >
+          <option value="">{I18n.t('PAYMENT_METHODS.FILTER_FORM.LABELS.ALL_STATUSES')}</option>
+          {Object.keys(methodsStatusesLabels).map(status => (
+            <option key={status} value={status}>
+              {methodsStatusesLabels[status]}
+            </option>
+          ))}
+        </Field>
+        <div className="filter-row__button-block">
+          <button
+            disabled={submitting}
+            className="btn btn-default"
+            onClick={this.handleReset}
+            type="reset"
+          >
+            {I18n.t('COMMON.RESET')}
+          </button>
+          <button
+            disabled={submitting}
+            className="btn btn-primary"
+            type="submit"
+          >
+            {I18n.t('COMMON.APPLY')}
+          </button>
+        </div>
+      </form>
     );
   }
 }

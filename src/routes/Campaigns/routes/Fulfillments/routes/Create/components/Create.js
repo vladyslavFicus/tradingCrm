@@ -51,43 +51,34 @@ class Create extends Component {
     } = this.props;
 
     return (
-      <form
-        className="form-horizontal campaign-settings"
-        onSubmit={handleSubmit(this.handleSubmit)}
-      >
-        <div>
-          {currencies.map((currency, index) => (
-            <div
-              key={currency}
-              className="filter-row"
-            >
-              <Field
-                name={`amounts[${index}].amount`}
-                type="number"
-                normalize={floatNormalize}
-                label={baseCurrency === currency ? `${currency} (Base)` : currency}
-                component={InputField}
-                placeholder="0.0"
-                position="vertical"
-                onChange={this.handleChange(currency)}
-              />
-              <Field
-                name={`amounts[${index}].currency`}
-                hidden
-                type="text"
-                component="input"
-              />
-            </div>
-          ))}
+      <form className="filter-row" onSubmit={handleSubmit(this.handleSubmit)}>
+        {currencies.map((currency, index) => (
+          <div key={currency} className="filter-row__medium">
+            <Field
+              name={`amounts[${index}].amount`}
+              type="number"
+              normalize={floatNormalize}
+              label={baseCurrency === currency ? `${currency} (Base)` : currency}
+              component={InputField}
+              placeholder="0.0"
+              onChange={this.handleChange(currency)}
+            />
+            <Field
+              name={`amounts[${index}].currency`}
+              hidden
+              type="text"
+              component="input"
+            />
+          </div>
+        ))}
+        <div className="filter-row__button-block">
+          <button
+            className="btn btn-primary text-uppercase"
+            type="submit"
+          >
+            {I18n.t('CAMPAIGNS.WAGERING_FULFILLMENTS.ADD.ADD_BUTTON')}
+          </button>
         </div>
-
-        <button
-          className="btn btn-primary text-uppercase"
-          type="submit"
-        >
-          {I18n.t('CAMPAIGNS.WAGERING_FULFILLMENTS.ADD.ADD_BUTTON')}
-        </button>
-
       </form>
     );
   }
