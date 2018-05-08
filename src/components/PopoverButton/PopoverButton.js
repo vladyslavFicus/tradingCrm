@@ -5,10 +5,16 @@ class PopoverButton extends Component {
   static propTypes = {
     id: PropTypes.string.isRequired,
     onClick: PropTypes.func.isRequired,
+    children: PropTypes.node,
+  };
+  static defaultProps = {
+    children: null,
   };
 
   handleClick = () => {
-    this.props.onClick(this.props.id);
+    const { onClick, id } = this.props;
+
+    onClick(id, { id });
   };
 
   render() {
@@ -23,7 +29,3 @@ class PopoverButton extends Component {
 }
 
 export default PopoverButton;
-
-PopoverButton.propTypes = {
-  children: PropTypes.node,
-};
