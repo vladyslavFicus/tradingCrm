@@ -1,9 +1,10 @@
-import React, { Component } from 'react';
-import Sticky from 'react-stickynode';
+import React, { Component, Fragment } from 'react';
+import { I18n } from 'react-redux-i18n';
 import PropTypes from '../../../../../constants/propTypes';
 import ListView from '../../../../../components/ListView';
 import FeedItem from '../../../../../components/FeedItem';
 import FeedFilterForm from './FeedFilterForm';
+import TabHeader from '../../../../../components/TabHeader';
 
 class View extends Component {
   static propTypes = {
@@ -16,13 +17,11 @@ class View extends Component {
     params: PropTypes.object,
     locale: PropTypes.string.isRequired,
   };
-
+  static defaultProps = {
+    params: {},
+  };
   static contextTypes = {
     cacheChildrenComponent: PropTypes.func.isRequired,
-  };
-
-  static defaultProps = {
-    isLoading: false,
   };
 
   state = {
@@ -71,27 +70,24 @@ class View extends Component {
     } = this.props;
 
     return (
-      <div>
-        <Sticky top=".panel-heading-row" bottomBoundary={0} innerZ="2">
-          <div className="tab-header">
-            <div className="tab-header__heading">Feed</div>
-            <div className="tab-header__actions">
-              <button disabled={exporting} className="btn btn-sm btn-default-outline" onClick={this.handleExportClick}>
-                Export
-              </button>
-            </div>
-          </div>
-        </Sticky>
-
+      <Fragment>
+        <TabHeader title="Feed">
+          <button
+            disabled={exporting}
+            className="btn btn-sm btn-default-outline"
+            onClick={this.handleExportClick}
+          >
+            {I18n.t('COMMON.EXPORT')}
+          </button>
+        </TabHeader>
         <FeedFilterForm
           availableTypes={availableTypes}
           onSubmit={this.handleFiltersChanged}
         />
-
-        <div className="margin-top-20 tab-content">
+        <div className="tab-wrapper">
           <ListView
             dataSource={entities.content}
-            itemClassName="padding-bottom-20"
+            itemClassName="mb-4"
             onPageChange={this.handlePageChanged}
             render={(item, key) => {
               const options = {
@@ -123,7 +119,7 @@ class View extends Component {
             showNoResults={noResults}
           />
         </div>
-      </div>
+      </Fragment>
     );
   }
 }

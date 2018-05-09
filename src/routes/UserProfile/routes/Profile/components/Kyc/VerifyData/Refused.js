@@ -24,7 +24,7 @@ const Refused = (props) => {
             })}
           </div>
         </div>
-        <div className="padding-bottom-20">
+        <div className="pb-4">
           <div className="font-weight-700 text-uppercase">
             {I18n.t('COMMON.REASON')}:
           </div>

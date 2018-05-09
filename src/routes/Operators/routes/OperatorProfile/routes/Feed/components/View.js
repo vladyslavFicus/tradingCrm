@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { I18n } from 'react-redux-i18n';
 import PropTypes from '../../../../../../../constants/propTypes';
 import ListView from '../../../../../../../components/ListView';
@@ -17,9 +17,6 @@ class View extends Component {
       id: PropTypes.string,
     }).isRequired,
     locale: PropTypes.string.isRequired,
-  };
-  static defaultProps = {
-    isLoading: false,
   };
 
   state = {
@@ -72,13 +69,18 @@ class View extends Component {
     } = this.props;
 
     return (
-      <div>
-        <div className="tab-header">
-          <div className="tab-header__heading">
+      <Fragment>
+        <div className="row no-gutters tab-header">
+          <div className="col tab-header__title">
             {I18n.t('OPERATOR_PROFILE.FEED.TITLE')}
           </div>
-          <div className="tab-header__actions">
-            <button disabled={exporting} className="btn btn-sm btn-default-outline" onClick={this.handleExportClick}>
+          <div className="col-auto">
+            <button
+              type="button"
+              disabled={exporting}
+              className="btn btn-default-outline btn-sm"
+              onClick={this.handleExportClick}
+            >
               {I18n.t('COMMON.EXPORT')}
             </button>
           </div>
@@ -89,10 +91,10 @@ class View extends Component {
           onSubmit={this.handleFiltersChanged}
         />
 
-        <div className="tab-content">
+        <div className="tab-wrapper">
           <ListView
             dataSource={entities.content}
-            itemClassName="padding-bottom-20"
+            itemClassName="mb-4"
             onPageChange={this.handlePageChanged}
             render={(item, key) => {
               const options = {
@@ -124,7 +126,7 @@ class View extends Component {
             showNoResults={noResults}
           />
         </div>
-      </div>
+      </Fragment>
     );
   }
 }

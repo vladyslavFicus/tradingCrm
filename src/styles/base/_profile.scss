@@ -14,37 +14,6 @@
   }
 }
 
-.tab-content {
-  padding: 0 25px 25px;
-}
-
-.tab-header {
-  display: flex;
-  align-items: center;
-  padding: 20px 25px;
-  background-color: #fff;
-  transition: all .2s ease;
-  &__heading {
-    font-size: 20px;
-    color: #333;
-  }
-  &__actions {
-    margin-left: auto;
-  }
-  &__label {
-    font-size: 16px;
-    color: #333;
-  }
-}
-
-.sticky-outer-wrapper.active {
-  .tab-header {
-    padding-top: 10px;
-    padding-bottom: 10px;
-    box-shadow: 0 3px 6px 0 rgba(0,0,0,.1);
-  }
-}
-
 .hide-details-block {
   display: flex;
   align-items: center;

@@ -5,7 +5,8 @@ import { notesQuery } from '.././../../../../graphql/queries/notes';
 
 const mapStateToProps = ({
   userNotes: { noteTypes },
-  i18n: { locale } }) => ({
+  i18n: { locale },
+}) => ({
   noteTypes,
   locale,
 });

@@ -1,11 +1,10 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import moment from 'moment';
 import classNames from 'classnames';
 import { I18n } from 'react-redux-i18n';
 import PropTypes from '../../../../../constants/propTypes';
 import FileUpload from '../../../../../components/FileUpload';
 import GridView, { GridColumn } from '../../../../../components/GridView';
-import { shortify } from '../../../../../utils/uuid';
 import { shortifyInMiddle } from '../../../../../utils/stringFormat';
 import StatusDropDown from '../../../../../components/FileStatusDropDown';
 import PermissionContent from '../../../../../components/PermissionContent';
@@ -51,50 +50,46 @@ class Documents extends Component {
       && canViewFile;
 
     return (
-      <div>
-        <div>
-          <span
-            title={data.realName}
-            className={classNames('font-weight-700', { 'cursor-pointer': isClickable })}
-            onClick={
-              isClickable
-                ? () => this.props.onDocumentClick(data)
-                : null
-            }
-          >
-            {shortifyInMiddle(data.realName, 30)}
-          </span>
-          {' - '}
-          <Uuid uuid={data.uuid} />
-          {' '}
-          {
-            canViewFile &&
-            <button className="btn-transparent" onClick={e => this.handleDownloadFile(e, data)}>
-              <i className="fa fa-download" />
-            </button>
+      <Fragment>
+        <button
+          className={classNames('btn-transparent-text', { 'cursor-default': !isClickable })}
+          onClick={
+            isClickable
+              ? () => this.props.onDocumentClick(data)
+              : null
           }
-          <PermissionContent permissions={permissions.USER_PROFILE.DELETE_FILE}>
-            <button className="btn-transparent color-danger" onClick={e => this.handleDeleteFileClick(e, data)}>
-              <i className="fa fa-trash" />
-            </button>
-          </PermissionContent>
-        </div>
-        <span className="font-size-10 color-default">
+        >
+          {shortifyInMiddle(data.realName, 30)}
+        </button>
+        {' - '}
+        <Uuid uuid={data.uuid} />
+        {' '}
+        <If condition={canViewFile}>
+          <button
+            className="fa fa-download btn-transparent"
+            onClick={e => this.handleDownloadFile(e, data)}
+          />
+        </If>
+        <PermissionContent permissions={permissions.USER_PROFILE.DELETE_FILE}>
+          <button
+            className="fa fa-trash btn-transparent color-danger"
+            onClick={e => this.handleDeleteFileClick(e, data)}
+          />
+        </PermissionContent>
+        <small className="d-block">
           {I18n.t('COMMON.AUTHOR_BY')} <Uuid uuid={data.author} />
-        </span>
-      </div>
+        </small>
+      </Fragment>
     );
   };
 
   renderDateTime = data => (
-    <div>
+    <Fragment>
       <div className="font-weight-700">
         {moment.utc(data.uploadDate).local().format('DD.MM.YYYY')}
       </div>
-      <span className="font-size-10 color-default">
-        at {moment.utc(data.uploadDate).local().format('HH:mm')}
-      </span>
-    </div>
+      <small>at {moment.utc(data.uploadDate).local().format('HH:mm')}</small>
+    </Fragment>
   );
 
   renderStatus = data => (
@@ -109,9 +104,8 @@ class Documents extends Component {
     const canViewFile = viewFilePermission.check(this.context.permissions);
 
     return (
-      <div>
-        {
-          files.length > 0 &&
+      <Fragment>
+        <If condition={files.length > 0}>
           <PermissionContent permissions={permissions.USER_PROFILE.VIEW_FILES}>
             <GridView
               dataSource={files}
@@ -134,8 +128,7 @@ class Documents extends Component {
               />
             </GridView>
           </PermissionContent>
-        }
-
+        </If>
         <PermissionContent permissions={permissions.USER_PROFILE.UPLOAD_FILE}>
           <div className="text-center">
             <FileUpload
@@ -145,7 +138,7 @@ class Documents extends Component {
             />
           </div>
         </PermissionContent>
-      </div>
+      </Fragment>
     );
   }
 }

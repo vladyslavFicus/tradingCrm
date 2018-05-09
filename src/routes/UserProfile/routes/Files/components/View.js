@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
-import Sticky from 'react-stickynode';
+import React, { Component, Fragment } from 'react';
 import PropTypes from '../../../../../constants/propTypes';
 import { targetTypes } from '../../../../../constants/note';
 import { targetTypes as fileTargetTypes } from '../../../../../components/Files/constants';
 import FilesFilterForm from './FilesFilterForm';
 import CommonFileGridView from '../../../components/CommonFileGridView';
+import TabHeader from '../../../../../components/TabHeader';
 
 class View extends Component {
   static propTypes = {
@@ -103,28 +103,22 @@ class View extends Component {
     } = this.props;
 
     return (
-      <div>
-        <Sticky top=".panel-heading-row" bottomBoundary={0} innerZ="2">
-          <div className="tab-header">
-            <div className="tab-header__heading">Files</div>
-            <div className="tab-header__actions">
-              <button
-                className="btn btn-sm btn-primary-outline"
-                onClick={() => this.context.onUploadFileClick({
-                  targetType: fileTargetTypes.FILES,
-                })}
-              >
-                + Upload file
-              </button>
-            </div>
-          </div>
-        </Sticky>
-
+      <Fragment>
+        <TabHeader title="Files">
+          <button
+            type="button"
+            className="btn btn-sm btn-primary-outline"
+            onClick={() => this.context.onUploadFileClick({
+              targetType: fileTargetTypes.FILES,
+            })}
+          >
+            + Upload file
+          </button>
+        </TabHeader>
         <FilesFilterForm
           onSubmit={this.handleFiltersChanged}
         />
-
-        <div className="tab-content">
+        <div className="tab-wrapper">
           <CommonFileGridView
             dataSource={entities.content}
             totalPages={entities.totalPages}
@@ -139,7 +133,7 @@ class View extends Component {
             showNoResults={noResults}
           />
         </div>
-      </div>
+      </Fragment>
     );
   }
 }
