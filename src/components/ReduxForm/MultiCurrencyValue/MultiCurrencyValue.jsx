@@ -143,6 +143,7 @@ class MultiCurrencyValue extends Component {
     } = this.props;
     const { isTooltipOpen } = this.state;
     const rates = this.secondaryCurrencies;
+    const targetId = id.replace(/[[\]]/g, '');
 
     return (
       <div className={className}>
@@ -156,11 +157,11 @@ class MultiCurrencyValue extends Component {
           inputAddon={<i className="icon icon-currencies multi-currency-icon" />}
           inputAddonPosition="right"
           onIconClick={this.handleOpenModal}
-          id={id}
+          id={targetId}
         />
         <If condition={rates.length}>
           <MultiCurrencyTooltip
-            id={`${id}-right-icon`}
+            id={`${targetId}-right-icon`}
             values={this.currencies}
             rates={this.secondaryCurrencies}
             isOpen={isTooltipOpen}
