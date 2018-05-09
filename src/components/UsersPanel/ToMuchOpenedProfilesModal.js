@@ -3,54 +3,61 @@ import PropTypes from 'prop-types';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { I18n } from 'react-redux-i18n';
 import { shortify } from '../../utils/uuid';
+import deleteFromArray from '../../utils/deleteFromArray';
+
+const initialState = {
+  itemsToRemove: [],
+};
 
 class ToMuchOpenedProfilesModal extends Component {
   static propTypes = {
     items: PropTypes.array.isRequired,
-    newPlayer: PropTypes.object.isRequired,
     onClose: PropTypes.func.isRequired,
-    onReplace: PropTypes.func.isRequired,
+    onSubmit: PropTypes.func.isRequired,
+    isOpen: PropTypes.bool.isRequired,
   };
 
-  state = {
-    selectedItems: [],
+  state = { ...initialState };
+
+  handleClose = () => {
+    this.setState({ ...initialState });
+    this.props.onClose();
   };
 
   handleTabChecked = (e) => {
-    const { items } = this.props;
-    const { selectedItems } = this.state;
-    const selectedItem = items[e.target.value];
+    const { itemsToRemove } = this.state;
+    const selectedItem = this.props.items[e.target.value];
 
     if (selectedItem) {
-      if (e.target.checked) {
-        this.setState({ selectedItems: [...selectedItems, selectedItem] });
-      } else {
-        const index = selectedItems.indexOf(selectedItem);
-
-        if (index > -1) {
-          const newSelectedItems = [...selectedItems];
-          newSelectedItems.splice(index, 1);
-
-          this.setState({ selectedItems: newSelectedItems });
-        }
-      }
+      this.setState({
+        itemsToRemove: e.target.checked
+          ? [...itemsToRemove, selectedItem]
+          : deleteFromArray(itemsToRemove, selectedItem),
+      });
     }
   };
 
   handleSubmit = () => {
-    const { selectedItems } = this.state;
-    const { onReplace, newPlayer } = this.props;
+    const { itemsToRemove } = this.state;
+    const { onSubmit } = this.props;
 
-    onReplace(selectedItems, [newPlayer]);
+    onSubmit(itemsToRemove);
   };
 
   render() {
-    const { items, newPlayer, onClose } = this.props;
-    const { selectedItems } = this.state;
+    const { items, isOpen } = this.props;
+    const { itemsToRemove } = this.state;
+
+    const currentItems = items.slice(0, 5);
+    const [newItem] = items.slice(-1);
 
     return (
-      <Modal className="modal-danger modal-to-much-opened-profiles" toggle={onClose} isOpen>
-        <ModalHeader toggle={onClose}>
+      <Modal
+        className="modal-danger modal-to-much-opened-profiles"
+        toggle={this.handleClose}
+        isOpen={isOpen}
+      >
+        <ModalHeader toggle={this.handleClose}>
           {I18n.t('TO_MUCH_OPENED_PROFILES_MODAL.TITLE')}
         </ModalHeader>
 
@@ -60,27 +67,31 @@ class ToMuchOpenedProfilesModal extends Component {
           </div>
           <div className="margin-top-10 text-center font-weight-700 line-height-1">
             {I18n.t('TO_MUCH_OPENED_PROFILES_MODAL.FIRST_TEXT')}
-            {newPlayer.fullName} - <span className="font-weight-400">{shortify(newPlayer.uuid, 'PL')}</span>
+            {newItem.fullName} - <span className="font-weight-400">{shortify(newItem.uuid, 'PL')}</span>
             <br />
             {I18n.t('TO_MUCH_OPENED_PROFILES_MODAL.SECOND_TEXT')}
           </div>
           <div className="margin-top-20">
             {
-              items.map((tab, index) => (
-                <div className={`users-panel-footer__tab tab-${tab.color}`} key={tab.uuid}>
+              currentItems.map((item, index) => (
+                <div className={`users-panel-footer__tab tab-${item.color}`} key={item.uuid}>
                   <div className="users-panel-footer__tab__block">
                     <div className="users-panel-footer__tab__name">
-                      {tab.fullName}
+                      {item.fullName}
                     </div>
                     <div className="users-panel-footer__tab__info">
-                      {`${tab.login} - ${shortify(tab.uuid, 'PL')}`}
+                      {`${item.username} - ${shortify(item.uuid, 'PL')}`}
                     </div>
                   </div>
-                  <div className="checkbox custom-checkbox">
-                    <label>
-                      <input type="checkbox" onChange={this.handleTabChecked} value={index} />
-                      <i className="nas nas-check_box custom-checkbox-icon" />
-                    </label>
+                  <div className="custom-control custom-checkbox">
+                    <input
+                      id={`${index}item`}
+                      onChange={this.handleTabChecked}
+                      value={index}
+                      type="checkbox"
+                      className="custom-control-input"
+                    />
+                    <label className="custom-control-label" htmlFor={`${index}item`} />
                   </div>
                 </div>
               ))
@@ -92,14 +103,14 @@ class ToMuchOpenedProfilesModal extends Component {
           <button
             type="reset"
             className="btn btn-default-outline margin-right-5"
-            onClick={onClose}
+            onClick={this.handleClose}
           >
             {I18n.t('COMMON.BUTTONS.CANCEL')}
           </button>
           <button
             type="submit"
             className="btn btn-danger"
-            disabled={selectedItems.length === 0}
+            disabled={!itemsToRemove.length}
             onClick={this.handleSubmit}
           >
             {I18n.t('TO_MUCH_OPENED_PROFILES_MODAL.CLOSE_SELECTED_BUTTON')}

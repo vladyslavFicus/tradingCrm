@@ -172,29 +172,3 @@ small {
 .tooltip.show {
   opacity: 1;
 }
-
-.custom-checkbox {
-  margin-bottom: 0;
-  cursor: pointer;
-  label {
-    padding-left: 0;
-  }
-  label input[type="checkbox"] {
-    position: absolute;
-    opacity: 0;
-    z-index: -1;
-  }
-  &-icon {
-    display: inline-block;
-    position: relative;
-    top: 3px;
-    margin-right: 5px;
-    &:hover:before {
-      content: "\e905";
-    }
-    input[type="checkbox"]:checked ~ &:before {
-      content: "\e905";
-      color: #2A7DEA;
-    }
-  }
-}

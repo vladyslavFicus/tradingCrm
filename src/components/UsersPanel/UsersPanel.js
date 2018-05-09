@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
+import { compose } from 'redux';
 import classNames from 'classnames';
 import UsersPanelItem from '../UsersPanelItem';
 import PropTypes from '../../constants/propTypes';
 import './UsersPanel.scss';
+import { withModals } from '../../components/HighOrder';
 import ToMuchOpenedProfilesModal from './ToMuchOpenedProfilesModal';
+
+const MAX_ACTIVE_TAB = 5;
 
 class UsersPanel extends Component {
   static propTypes = {
@@ -13,6 +17,13 @@ class UsersPanel extends Component {
     onClose: PropTypes.func.isRequired,
     onRemove: PropTypes.func.isRequired,
     onReplace: PropTypes.func.isRequired,
+    modals: PropTypes.shape({
+      choosePanelsModal: PropTypes.shape({
+        show: PropTypes.func.isRequired,
+        hide: PropTypes.func.isRequired,
+        isOpen: PropTypes.bool.isRequired,
+      }),
+    }).isRequired,
   };
   static defaultProps = {
     active: null,
@@ -24,32 +35,73 @@ class UsersPanel extends Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.active && !this.props.active) {
+  componentWillReceiveProps({ active: nextActive, items: nextItems }) {
+    const {
+      modals: { choosePanelsModal },
+      items,
+      onReplace,
+      active,
+    } = this.props;
+
+    if (nextActive && !active) {
       document.body.classList.add('user-panel-open');
     }
 
-    if (this.props.active && !nextProps.active) {
+    if (active && !nextActive) {
       document.body.classList.remove('user-panel-open');
+    }
+
+    if (nextItems.length > MAX_ACTIVE_TAB && !choosePanelsModal.isOpen) {
+      choosePanelsModal.show({
+        onSubmit: this.handleReplace,
+        onClose: this.handleCancelReplace,
+        onReplace,
+        items,
+      });
+    }
+
+    if (items.length > MAX_ACTIVE_TAB && nextItems.length <= MAX_ACTIVE_TAB && choosePanelsModal.isOpen) {
+      choosePanelsModal.hide();
     }
   }
 
-  handleCancelClick = () => this.props.onRemove(this.props.items.length - 1);
+  handleReplace = (selectedItems) => {
+    const { onReplace, modals } = this.props;
+
+    onReplace(selectedItems);
+    modals.choosePanelsModal.hide();
+  };
+
+  handleCancelReplace = () => {
+    const { items, onRemove, modals } = this.props;
+
+    const [newItem] = items.slice(-1);
+    onRemove(newItem.uuid);
+    modals.choosePanelsModal.hide();
+  };
 
   render() {
-    const { active, items, onClose, onRemove, onItemClick, onReplace } = this.props;
-    const availableItems = items.slice(0, 5);
-    const [newPlayer] = items.slice(-1);
+    const {
+      active,
+      items,
+      onClose,
+      onRemove,
+      onItemClick,
+    } = this.props;
 
-    if (!availableItems.length) {
+    const currentItems = items.slice(0, 5);
+
+    if (!currentItems.length) {
       return null;
     }
 
-    const activeIndex = availableItems.indexOf(active);
+    const activeIndex = currentItems.indexOf(active);
     const blockClassName = classNames('users-panel', { 'users-panel-opened': !!active });
-    const footerActiveClassName = `with-border-${availableItems[activeIndex] && availableItems[activeIndex].color
-      ? availableItems[activeIndex].color
+
+    const footerActiveClassName = `with-border-${currentItems[activeIndex] && currentItems[activeIndex].color
+      ? currentItems[activeIndex].color
       : undefined}`;
+
     const footerClassName = classNames('users-panel-footer', {
       'with-border': !!active,
       [footerActiveClassName]: !!active,
@@ -58,7 +110,7 @@ class UsersPanel extends Component {
     return (
       <div className={blockClassName}>
         <div className="users-panel-content" style={{ visibility: active ? 'visible' : 'hidden' }}>
-          {availableItems.map((item) => {
+          {currentItems.map((item) => {
             const className = classNames(
               'user-panel-content-frame',
               active && active.color ? `user-panel-content-frame-${active.color}` : ''
@@ -82,7 +134,7 @@ class UsersPanel extends Component {
           })}
         </div>
         <div className={footerClassName}>
-          {availableItems.map(item => (
+          {currentItems.map(item => (
             <UsersPanelItem
               active={active && active.uuid === item.uuid}
               key={item.uuid}
@@ -96,19 +148,11 @@ class UsersPanel extends Component {
             &times;
           </button>
         </div>
-        {
-          items.length > 5 &&
-          <ToMuchOpenedProfilesModal
-            isOpen
-            items={availableItems}
-            newPlayer={newPlayer}
-            onClose={this.handleCancelClick}
-            onReplace={onReplace}
-          />
-        }
       </div>
     );
   }
 }
 
-export default UsersPanel;
+export default compose(
+  withModals({ choosePanelsModal: ToMuchOpenedProfilesModal }),
+)(UsersPanel);

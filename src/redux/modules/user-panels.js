@@ -63,13 +63,10 @@ function reset() {
   };
 }
 
-function replaceData(oldData, newData) {
+function replace(items) {
   return {
     type: REPLACE,
-    payload: {
-      oldData,
-      newData,
-    },
+    payload: items,
   };
 }
 
@@ -88,10 +85,6 @@ const actionHandlers = {
       panel.auth.brandId === action.payload.auth.brandId &&
       panel.auth.uuid === action.payload.auth.uuid
     );
-
-    if (panelsByManager.length >= 5) {
-      return state;
-    }
 
     const existIndex = panelsByManager.findIndex(item => item.uuid === action.payload.uuid);
 
@@ -139,7 +132,12 @@ const actionHandlers = {
   },
   [RESET]: () => ({ ...initialState }),
   [windowActionTypes.VIEW_PLAYER_PROFILE]: (state, action) => {
-    const { uuid, firstName, lastName, username } = action.payload;
+    const {
+      uuid,
+      firstName,
+      lastName,
+      username,
+    } = action.payload;
 
     const index = state.items.findIndex(item => item.uuid === uuid);
 
@@ -183,7 +181,8 @@ const actionHandlers = {
     if (newState.activeIndex === currentUserTabIndex) {
       newState.activeIndex = null;
     } else {
-      newState.activeIndex = newState.items.indexOf(state.items[state.activeIndex]);
+      const activeItem = newState.items.find(item => item.uuid === state.activeIndex);
+      newState.activeIndex = activeItem ? activeItem.uuid : null;
     }
 
     return newState;
@@ -194,16 +193,12 @@ const actionHandlers = {
   }),
   [REPLACE]: (state, action) => {
     const newState = {
-      items: state.items.filter(item => action.payload.oldData.indexOf(item) === -1),
+      items: state.items.filter(item => action.payload.indexOf(item) === -1),
       activeIndex: null,
     };
 
-    newState.items.push(...action.payload.newData.map(item => ({
-      ...item,
-      path: item.path || 'profile',
-    })));
-
-    newState.activeIndex = newState.items.length - 1;
+    const [newItem] = state.items.slice(-1);
+    newState.activeIndex = newItem.uuid;
 
     return newState;
   },
@@ -254,7 +249,7 @@ const actionCreators = {
   remove,
   reset,
   setActive,
-  replaceData,
+  replace,
 };
 
 export {
