@@ -88,7 +88,7 @@ class UsersPanel extends Component {
       onItemClick,
     } = this.props;
 
-    const currentItems = items.slice(0, 5);
+    const currentItems = items.slice(0, MAX_ACTIVE_TAB);
 
     if (!currentItems.length) {
       return null;

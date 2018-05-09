@@ -67,7 +67,7 @@ class ReplaceTabsModal extends Component {
           </div>
           <div className="margin-top-10 text-center font-weight-700 line-height-1">
             {I18n.t('TO_MUCH_OPENED_PROFILES_MODAL.FIRST_TEXT')}
-            {newItem.fullName} - <span className="font-weight-400">{shortify(newItem.uuid, 'PL')}</span>
+            {newItem.fullName} - <span className="font-weight-400">{shortify(newItem.uuid)}</span>
             <br />
             {I18n.t('TO_MUCH_OPENED_PROFILES_MODAL.SECOND_TEXT')}
           </div>
