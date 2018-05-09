@@ -5,7 +5,7 @@ import UsersPanelItem from '../UsersPanelItem';
 import PropTypes from '../../constants/propTypes';
 import './UsersPanel.scss';
 import { withModals } from '../../components/HighOrder';
-import ToMuchOpenedProfilesModal from './ToMuchOpenedProfilesModal';
+import ReplaceTabsModal from './ReplaceTabsModal';
 
 const MAX_ACTIVE_TAB = 5;
 
@@ -18,7 +18,7 @@ class UsersPanel extends Component {
     onRemove: PropTypes.func.isRequired,
     onReplace: PropTypes.func.isRequired,
     modals: PropTypes.shape({
-      choosePanelsModal: PropTypes.shape({
+      replaceTabsModal: PropTypes.shape({
         show: PropTypes.func.isRequired,
         hide: PropTypes.func.isRequired,
         isOpen: PropTypes.bool.isRequired,
@@ -37,7 +37,7 @@ class UsersPanel extends Component {
 
   componentWillReceiveProps({ active: nextActive, items: nextItems }) {
     const {
-      modals: { choosePanelsModal },
+      modals: { replaceTabsModal },
       items,
       onReplace,
       active,
@@ -51,8 +51,8 @@ class UsersPanel extends Component {
       document.body.classList.remove('user-panel-open');
     }
 
-    if (nextItems.length > MAX_ACTIVE_TAB && !choosePanelsModal.isOpen) {
-      choosePanelsModal.show({
+    if (nextItems.length > MAX_ACTIVE_TAB && !replaceTabsModal.isOpen) {
+      replaceTabsModal.show({
         onSubmit: this.handleReplace,
         onClose: this.handleCancelReplace,
         onReplace,
@@ -60,8 +60,8 @@ class UsersPanel extends Component {
       });
     }
 
-    if (items.length > MAX_ACTIVE_TAB && nextItems.length <= MAX_ACTIVE_TAB && choosePanelsModal.isOpen) {
-      choosePanelsModal.hide();
+    if (items.length > MAX_ACTIVE_TAB && nextItems.length <= MAX_ACTIVE_TAB && replaceTabsModal.isOpen) {
+      replaceTabsModal.hide();
     }
   }
 
@@ -69,7 +69,7 @@ class UsersPanel extends Component {
     const { onReplace, modals } = this.props;
 
     onReplace(selectedItems);
-    modals.choosePanelsModal.hide();
+    modals.replaceTabsModal.hide();
   };
 
   handleCancelReplace = () => {
@@ -77,7 +77,7 @@ class UsersPanel extends Component {
 
     const [newItem] = items.slice(-1);
     onRemove(newItem.uuid);
-    modals.choosePanelsModal.hide();
+    modals.replaceTabsModal.hide();
   };
 
   render() {
@@ -154,5 +154,5 @@ class UsersPanel extends Component {
 }
 
 export default compose(
-  withModals({ choosePanelsModal: ToMuchOpenedProfilesModal }),
+  withModals({ replaceTabsModal: ReplaceTabsModal }),
 )(UsersPanel);

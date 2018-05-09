@@ -9,7 +9,7 @@ const initialState = {
   itemsToRemove: [],
 };
 
-class ToMuchOpenedProfilesModal extends Component {
+class ReplaceTabsModal extends Component {
   static propTypes = {
     items: PropTypes.array.isRequired,
     onClose: PropTypes.func.isRequired,
@@ -121,4 +121,4 @@ class ToMuchOpenedProfilesModal extends Component {
   }
 }
 
-export default ToMuchOpenedProfilesModal;
+export default ReplaceTabsModal;
