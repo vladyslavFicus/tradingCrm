@@ -4,6 +4,7 @@ import { Popover, PopoverBody, TabContent, TabPane, Nav, NavItem, NavLink } from
 import classNames from 'classnames';
 import keyMirror from 'keymirror';
 import { I18n } from 'react-redux-i18n';
+import { Scrollbars } from 'react-custom-scrollbars';
 import fakeI18n from '../../../../../../utils/fake-i18n';
 import Amount from '../../../../../../components/Amount';
 import './AvailabilityPopover.scss';
@@ -28,7 +29,7 @@ class AvailabilityPopover extends Component {
     countries: PropTypes.object,
   };
   static defaultProps = {
-    placement: 'left',
+    placement: 'left-start',
     toggle: null,
     countries: {},
   };
@@ -183,7 +184,6 @@ class AvailabilityPopover extends Component {
         target={target}
         className="availability-popover"
         container={target}
-        hideArrow
       >
         <PopoverBody>
           <Nav className="availability-popover__nav">
@@ -210,7 +210,17 @@ class AvailabilityPopover extends Component {
               />
             </div>
             <TabPane className="availability-popover__tab" tabId={activeTab}>
-              {this.renderTabListElements()}
+              <Scrollbars
+                autoHeight
+                autoHeightMax={150}
+                hideTracksWhenNotNeeded
+                thumbSize={30}
+                renderTrackHorizontal={props => <div {...props} style={{ display: 'none' }} />}
+                renderThumbHorizontal={props => <div {...props} style={{ display: 'none' }} />}
+                renderThumbVertical={props => <div {...props} style={{ backgroundColor: '#cbcbcb' }} />}
+              >
+                {this.renderTabListElements()}
+              </Scrollbars>
             </TabPane>
           </TabContent>
         </PopoverBody>

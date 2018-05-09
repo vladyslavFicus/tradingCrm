@@ -4344,9 +4344,9 @@ handlebars@^4.0.1:
   optionalDependencies:
     uglify-js "^2.6"
 
-happypack@5.0.0:
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/happypack/-/happypack-5.0.0.tgz#59606b6161acfbd69e99072e5c63f5d165e48b0e"
+happypack@4.0.1:
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/happypack/-/happypack-4.0.1.tgz#d71a6520d13c1ddf6cc5ca040cfe22711cba5209"
   dependencies:
     async "1.5.0"
     json-stringify-safe "5.0.1"
@@ -7857,7 +7857,7 @@ react-copy-to-clipboard@^5.0.0:
     copy-to-clipboard "^3"
     prop-types "^15.5.8"
 
-react-custom-scrollbars@^4.1.2:
+react-custom-scrollbars@^4.2.1:
   version "4.2.1"
   resolved "https://registry.yarnpkg.com/react-custom-scrollbars/-/react-custom-scrollbars-4.2.1.tgz#830fd9502927e97e8a78c2086813899b2a8b66db"
   dependencies:
@@ -7887,12 +7887,12 @@ react-dates@15.5.1:
   resolved "https://codeload.github.com/newageio/react-datetime/tar.gz/509e5996723db8469c9fca9b5e544c41751cad62"
   dependencies:
     classnames "^2.2.5"
-    moment "2.22.1"
-    object-assign "4.1.1"
+    moment "^2.19.2"
+    object-assign "^3.0.0"
     prop-types "^15.6.0"
-    react "16.3.2"
-    react-dom "16.3.2"
-    react-onclickoutside "6.7.1"
+    react "^0.14.6"
+    react-dom "^0.14.6"
+    react-onclickoutside "^6.7.0"
 
 react-deep-force-update@^2.1.1:
   version "2.1.1"
