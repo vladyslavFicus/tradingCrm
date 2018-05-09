@@ -13,11 +13,7 @@ function createWithModals(modals) {
         return Object.keys(modals)
           .reduce((acc, curr) => ({
             ...acc,
-            [curr]: {
-              show: modalData => this.handleOpen(curr, modalData),
-              hide: () => this.handleClose(curr),
-              isOpen: this.state[curr].isOpen,
-            },
+            [curr]: { show: modalData => this.handleOpen(curr, modalData), hide: () => this.handleClose(curr) },
           }), {});
       }
 

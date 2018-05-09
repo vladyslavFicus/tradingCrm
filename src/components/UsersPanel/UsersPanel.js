@@ -21,7 +21,6 @@ class UsersPanel extends Component {
       replaceTabsModal: PropTypes.shape({
         show: PropTypes.func.isRequired,
         hide: PropTypes.func.isRequired,
-        isOpen: PropTypes.bool.isRequired,
       }),
     }).isRequired,
   };
@@ -51,7 +50,7 @@ class UsersPanel extends Component {
       document.body.classList.remove('user-panel-open');
     }
 
-    if (nextItems.length > MAX_ACTIVE_TAB && !replaceTabsModal.isOpen) {
+    if (items.length <= MAX_ACTIVE_TAB && nextItems.length > MAX_ACTIVE_TAB) {
       replaceTabsModal.show({
         onSubmit: this.handleReplace,
         onClose: this.handleCancelReplace,
@@ -60,7 +59,7 @@ class UsersPanel extends Component {
       });
     }
 
-    if (items.length > MAX_ACTIVE_TAB && nextItems.length <= MAX_ACTIVE_TAB && replaceTabsModal.isOpen) {
+    if (items.length > MAX_ACTIVE_TAB && nextItems.length <= MAX_ACTIVE_TAB) {
       replaceTabsModal.hide();
     }
   }
