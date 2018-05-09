@@ -1728,6 +1728,215 @@
       }
     }
   },
+  "ADVANCED_OPTIONS": {
+    "FILTERS_NOT_FOUND": "Фильтры не найдены",
+    "NO_OPTIONS_AVAILABLE": "Нет доступных фильтров"
+  },
+  "DATE_PICKER": {
+    "PERIOD_RESETS": {
+      "PREVIOUS_WEEK": "Предыдущая неделя",
+      "THIS_WEEK": "Текущая неделя",
+      "PREVIOUS_MONTH": "Предыдущий месяц",
+      "THIS_MONTH": "Текущий месяц",
+      "LAST_7_DAYS": "Последние 7 дней",
+      "LAST_14_DAYS": "Последние 14 дней",
+      "THIS_YEAR": "Последний год",
+      "TITLE": "Диапазон"
+    }
+  },
+  "MODALS": {
+    "NEW_API_VERSION": {
+      "TITLE": "Обновите версию клиента",
+      "MESSAGE": "Для обновления версии клиента, подтвердите действие"
+    }
+  },
+  "DASHBOARD": {
+    "PERMISSION_DENIED": {
+      "TITLE": "Доступ запрещен",
+      "REASON": "У вас нет разрешения на доступ к этому разделу"
+    }
+  },
+  "CAMPAIGNS": {
+    "CAMPAIGN_NAME": "Название кампании",
+    "FREE_SPIN_TEMPLATE": "Фри-спин шаблон",
+    "BONUS_TEMPLATE": "Бонус шаблон",
+    "WAGERING_FULFILLMENT": "Фулфилмент ставок",
+    "SELECT_REWARD": "-- Выбрать награду --",
+    "SELECT_FULFILLMENT": "-- Выбрать условие --",
+    "FREE_SPIN": {
+      "CREATE": {
+        "ERROR_TITLE": "Ошибка создания фри спина",
+        "SUCCESS_TITLE": "Фри спин создан успешно"
+      },
+      "PROVIDER": "Провайдер",
+      "AGGREGATOR": "Агрегатор",
+      "GAMES": "Игры",
+      "GAME": "Игра",
+      "GAME_TYPE": "Тип игры",
+      "NAME": "Название",
+      "FREE_SPINS": "Фри спины",
+      "FREE_SPIN_REWARD": "Фри спин",
+      "BET_PER_LINE": "Бет за линию",
+      "FREE_SPIN_LIFE_TIME": "Время жизни спина",
+      "PRIZE": "Приз",
+      "SPIN_VALUE": "Стоимость спина",
+      "TOTAL_VALUE": "Общее значение",
+      "LINES_PER_SPIN": "Линий в спине",
+      "BET_LEVEL": "Уровень ставки",
+      "COIN_SIZE": "Размер монеты",
+      "PAGE_CODE": "Код страницы",
+      "COMMENT": "Комментарий",
+      "BET_MULTIPLIER": "Множитель ставок",
+      "NEAREST_COST": "Ближайшая стоимость",
+      "DISPLAY_LINE1": "Линия 1",
+      "DISPLAY_LINE2": "Линия 2",
+      "RHFP_BET": "Rhfp ставка",
+      "BONUS_TEMPLATE": "Бонус шаблон",
+      "PLACEHOLDERS": {
+        "DAYS": "Дни"
+      },
+      "HEADER": "Шаблон фри спина",
+      "CHOOSE_CURRENCY": "-- Выберите валюту --",
+      "CHOOSE_AGGREGATOR": "-- Выберите агрегатора--",
+      "CHOOSE_PROVIDER": "-- Выберите провайдера--",
+      "CHOOSE_PAGE_CODE": "-- Выберите код страницы--",
+      "WAGERING": "Отыгрыш",
+      "CAPPING": "Capping",
+      "MONEY_PRIORITY": "Приор. денег"
+    },
+    "DEPOSIT_FULFILLMENT": "Депозит",
+    "SETTINGS": {
+      "FULFILLMENTS": {
+        "DEPOSIT": {
+          "DEPOSIT_AMOUNT_RANGE": "Диапозон депозита",
+          "DEPOSIT_NUMBER_LABEL": "Номер депозита",
+          "SELECT_DEPOSIT_NUMBER": "-- Выберите номер депозита --",
+          "NUMBER_OPTION": "депозит",
+          "RESTRICTED_PAYMENT_METHODS": "Исключенные платежные методы",
+          "MIN_AMOUNT": "Мин. сумма",
+          "MAX_AMOUNT": "Макс. сумма"
+        },
+        "WAGERING": {
+          "LABEL": {
+            "AMOUNT_TO_WAGER": "Сумма"
+          }
+        },
+        "SELECT_FULFILLMENT": "Выбрать условие",
+        "ADD_FULFILLMENT": "Добавить условие"
+      },
+      "REWARDS": {
+        "BONUS": {
+          "LABEL": {
+            "NAME": "Название",
+            "BONUS_REWARD": "Бонус",
+            "GRANT": "Выдано",
+            "CAPPING": "Capping",
+            "MULTIPLIER": "Множитель",
+            "MAX_BET": "Макс. ставка",
+            "MAX_GRANTED_AMOUNT": "Макс. сумма бонусов",
+            "LIFE_TIME": "Время жизни",
+            "WAGERING_REQUIREMENT": "Условия отыгрыша",
+            "LOCK_AMOUNT_STRATEGY": "Стратегия блок. денег",
+            "PLACEHOLDERS": {
+              "DAYS": "дней",
+              "NOT_SET": "Не задано"
+            },
+            "MIN_PRIZE": "Мин. цена",
+            "MONEY_TYPE_PRIORITY": "Приоритет использования денег",
+            "BONUS_LIFE_TIME": "Время жизни бонуса",
+            "CLAIMABLE": "Claimable",
+            "PRIZE": "Цена",
+            "PRIZE_CAPPING_TYPE": "Тип приза и капинга"
+          },
+          "TEMPLATES": "Шаблоны",
+          "ADD_BONUS_TEMPLATE": "Создать шаблон"
+        },
+        "CREATE_BONUS_MODAL": {
+          "TITLE": "Создать фриспин"
+        },
+        "SELECT_REWARD": "Выбрать награду",
+        "ADD_REWARD": "Добавить награду"
+      },
+      "CAMPAIGN_SETTINGS": "Настройки кампании",
+      "LABEL": {
+        "CAMPAIGN_PERIOD": "Период кампании"
+      }
+    },
+    "REWARDS": {
+      "FREE_SPIN": {
+        "LIFE_TIME": "Время жизни",
+        "ADD_FREE_SPIN": "Создать шаблон",
+        "TEMPLATE": "Шаблон",
+        "STATUS": "Статус"
+      }
+    },
+    "NODE_VALIDATION": {
+      "FULFILLMENTS": "Требуется выбрать хотя бы одно условие",
+      "REWARDS": "Требуется выбрать хотя бы одну награду"
+    },
+    "CHANGE_STATUS_MODAL": {
+      "CUSTOM_REASON_PLACEHOLDER": "Причина",
+      "CANCEL_BUTTON": "Отмена",
+      "TITLE": "Смена статуса бонусной кампании",
+      "ACTION_TEXT": "Вы собираетесь %{action} \"%{title}\"",
+      "ENTITY_NAME": "кампания"
+    },
+    "STATUS_DROPDOWN": {
+      "TITLE": "Статус"
+    },
+    "NEW_CAMPAIGN": "Новая кампания",
+    "SAVE_NEW_CAMPAIGN": "Сохранить кампанию",
+    "TITLE": "Бонусные кампании",
+    "BUTTON_CREATE_CAMPAIGN": "+ Добавить кампанию",
+    "GRID_VIEW": {
+      "CAMPAIGN": "Кампания",
+      "CREATED": "Создано",
+      "STATUS": "Статус",
+      "DATE_TIME_AT": "в %{time}"
+    },
+    "VIEW": {
+      "DETAILS": {
+        "LABEL": {
+          "CREATED": "Создано"
+        }
+      },
+      "NOTIFICATIONS": {
+        "UPDATE_TITLE": "Обновление бонус-кампании",
+        "UNSUCCESSFULLY": "Не удалось сохранить кампанию",
+        "SUCCESSFULLY": "Кампания сохранена успешно",
+        "ADD_CAMPAIGN": "Создание бонус-кампании"
+      }
+    },
+    "STATUS_DROPDOWN_MODAL": {
+      "CONSTANTS": {
+        "REASON_LABEL": "Причина",
+        "CUSTOM_REASON_LABEL": "Причина"
+      }
+    },
+    "WAGERING_FULFILLMENTS": {
+      "ADD": {
+        "ADD_BUTTON": "Добавить вейджер"
+      },
+      "LIST": {
+        "CREATE_BUTTON": "Создать вейджер",
+        "TITLE": "Вейджер"
+      }
+    }
+  },
+  "MULTI_CURRENCY_MODAL": {
+    "TITLE": "Значения в остальных валютах",
+    "CUSTOMIZED": "Подобранное значение",
+    "RATE": "Курс",
+    "CALCULATED": "Посчитано",
+    "RECALC": "Посчитать",
+    "RECALC_WARNING": "Перерасчет сбросит все текущие значения"
+  },
+  "MULTI_CURRENCY_POPOVER": {
+    "TITLE": "Значение во всех валютах",
+    "CURRENCY": "Валюта",
+    "RATE": "Коэффициент",
+    "VALUE": "Стоимость"
+  },
   "TO_MUCH_OPENED_PROFILES_MODAL": {
     "TITLE": "Слишком много открытых профилей",
     "HEADING": "Достигнуто максимальное количество одновременно открытых профилей.",
