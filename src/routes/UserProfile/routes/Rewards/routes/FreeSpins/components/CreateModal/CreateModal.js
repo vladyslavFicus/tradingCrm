@@ -76,7 +76,7 @@ class CreateModal extends Component {
   };
 
   componentDidMount() {
-    this.props.fetchFreeSpinTemplates();
+    this.props.fetchFreeSpinTemplates({}, true);
   }
 
   getNotePopoverParams = () => ({
@@ -147,16 +147,17 @@ class CreateModal extends Component {
     }
   };
 
-  handleChangeTemplate = (e) => {
-    const templateUUID = e.target.value;
+  handleChangeTemplate = ({ target: { value: templateUUID } }) => {
     this.props.change('templateUUID', templateUUID);
 
     this.loadTemplateData(templateUUID);
   };
 
   loadTemplateData = async (templateUUID) => {
-    const { fetchFreeSpinTemplate, change } = this.props;
-    const action = await fetchFreeSpinTemplate(templateUUID);
+    const { fetchFreeSpinTemplate, templates, change } = this.props;
+
+    const templateData = templates.find(i => i.uuid === templateUUID);
+    const action = await fetchFreeSpinTemplate(templateUUID, templateData.aggregatorId);
 
     if (action && !action.error) {
       const {
@@ -188,8 +189,7 @@ class CreateModal extends Component {
     }
   };
 
-  toggleUseTemplate = (e) => {
-    const target = e.target;
+  toggleUseTemplate = ({ target }) => {
     const value = target.type === 'checkbox' ? target.checked : target.value;
 
     if (value) {
@@ -277,7 +277,7 @@ class CreateModal extends Component {
           labelClassName="form-label"
           position="vertical"
           component={InputField}
-          placeholder={'0.00'}
+          placeholder="0.00"
           showErrorMessage
           disabled={!currentValues || !currentValues.providerId || !currentValues.gameId}
           inputAddon={<Currency code={currency} />}
@@ -346,6 +346,7 @@ class CreateModal extends Component {
       note,
       templates,
     } = this.props;
+
     const {
       currentLines,
       currentGames,
@@ -517,7 +518,7 @@ class CreateModal extends Component {
                   type="text"
                   component={InputField}
                   position="vertical"
-                  placeholder={'0.00'}
+                  placeholder="0.00"
                   inputAddon={<Currency code={currency} />}
                   showErrorMessage={false}
                 />
@@ -530,7 +531,7 @@ class CreateModal extends Component {
                   type="text"
                   component={InputField}
                   position="vertical"
-                  placeholder={'0.00'}
+                  placeholder="0.00"
                   inputAddon={<Currency code={currency} />}
                   showErrorMessage={false}
                 />
@@ -546,7 +547,7 @@ class CreateModal extends Component {
                   normalize={floatNormalize}
                   component={InputField}
                   position="vertical"
-                  placeholder={''}
+                  placeholder=""
                   showErrorMessage={false}
                 />
               </div>
@@ -559,7 +560,7 @@ class CreateModal extends Component {
                   normalize={floatNormalize}
                   component={InputField}
                   position="vertical"
-                  placeholder={''}
+                  placeholder=""
                   showErrorMessage={false}
                 />
               </div>
