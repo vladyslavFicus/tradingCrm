@@ -212,30 +212,6 @@ if (!window.isFrame) {
 
     return { ...state, activeIndex: null };
   };
-} else {
-  actionHandlers[locationActionTypes.LOCATION_CHANGE] = (state, action) => {
-    const { pathname } = action.payload;
-    const [, playerUUID] = pathname.match(profilePathnameRegExp);
-
-    if (!playerUUID) {
-      return state;
-    }
-
-    const playerIndex = state.items.findIndex(item => item.uuid === playerUUID);
-
-    if (playerIndex === -1) {
-      return state;
-    }
-
-    const newState = { ...state, items: [...state.items] };
-
-    newState.items[playerIndex] = {
-      ...state.items[playerIndex],
-      path: pathname.replace(`/${PROFILE_ROUTE_PREFIX}/${playerUUID}/`, ''),
-    };
-
-    return newState;
-  };
 }
 const actionTypes = {
   ADD,
