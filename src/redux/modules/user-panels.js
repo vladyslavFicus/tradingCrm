@@ -12,8 +12,9 @@ const ADD = `${KEY}/add`;
 const REMOVE = `${KEY}/remove`;
 const SET_ACTIVE = `${KEY}/set-active`;
 const RESET = `${KEY}/reset`;
+const REPLACE = `${KEY}/replace`;
 
-function getColor(usedColors, colors = ['orange', 'green', 'purple', 'blue', 'pink']) {
+function getColor(usedColors, colors = ['orange', 'green', 'purple', 'blue', 'pink', 'carrot']) {
   if (!Array.isArray(colors) || !colors.length) {
     throw new Error('No available colors');
   }
@@ -62,6 +63,13 @@ function reset() {
   };
 }
 
+function replace(items) {
+  return {
+    type: REPLACE,
+    payload: items,
+  };
+}
+
 const initialState = {
   items: [],
   activeIndex: null,
@@ -77,10 +85,6 @@ const actionHandlers = {
       panel.auth.brandId === action.payload.auth.brandId &&
       panel.auth.uuid === action.payload.auth.uuid
     );
-
-    if (panelsByManager.length >= 5) {
-      return state;
-    }
 
     const existIndex = panelsByManager.findIndex(item => item.uuid === action.payload.uuid);
 
@@ -128,7 +132,12 @@ const actionHandlers = {
   },
   [RESET]: () => ({ ...initialState }),
   [windowActionTypes.VIEW_PLAYER_PROFILE]: (state, action) => {
-    const { uuid, firstName, lastName, username } = action.payload;
+    const {
+      uuid,
+      firstName,
+      lastName,
+      username,
+    } = action.payload;
 
     const index = state.items.findIndex(item => item.uuid === uuid);
 
@@ -172,7 +181,8 @@ const actionHandlers = {
     if (newState.activeIndex === currentUserTabIndex) {
       newState.activeIndex = null;
     } else {
-      newState.activeIndex = newState.items.indexOf(state.items[state.activeIndex]);
+      const activeItem = newState.items.find(item => item.uuid === state.activeIndex);
+      newState.activeIndex = activeItem ? activeItem.uuid : null;
     }
 
     return newState;
@@ -181,6 +191,17 @@ const actionHandlers = {
     ...state,
     activeIndex: null,
   }),
+  [REPLACE]: (state, action) => {
+    const newState = {
+      items: state.items.filter(item => action.payload.indexOf(item) === -1),
+      activeIndex: null,
+    };
+
+    const [newItem] = state.items.slice(-1);
+    newState.activeIndex = newItem.uuid;
+
+    return newState;
+  },
 };
 
 if (!window.isFrame) {
@@ -221,12 +242,14 @@ const actionTypes = {
   REMOVE,
   RESET,
   SET_ACTIVE,
+  REPLACE,
 };
 const actionCreators = {
   add,
   remove,
   reset,
   setActive,
+  replace,
 };
 
 export {

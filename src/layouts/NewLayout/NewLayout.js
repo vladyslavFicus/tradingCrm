@@ -81,6 +81,7 @@ class NewLayout extends Component {
     removePanel: PropTypes.func.isRequired,
     resetPanels: PropTypes.func.isRequired,
     setActivePanel: PropTypes.func.isRequired,
+    replace: PropTypes.func.isRequired,
     addNote: PropTypes.func.isRequired,
     editNote: PropTypes.func.isRequired,
     deleteNote: PropTypes.func.isRequired,
@@ -194,7 +195,12 @@ class NewLayout extends Component {
   }
 
   onProfileSubmit = async ({ language, ...nextData }) => {
-    const { user: { uuid, data }, locale, onLocaleChange, updateOperatorProfile } = this.props;
+    const {
+      user: { uuid, data },
+      locale,
+      onLocaleChange,
+      updateOperatorProfile,
+    } = this.props;
 
     if (language !== locale) {
       onLocaleChange(language);
@@ -340,6 +346,7 @@ class NewLayout extends Component {
       user,
       toggleMenuTab,
       menuItemClick,
+      replace,
     } = this.props;
 
     return (
@@ -378,6 +385,7 @@ class NewLayout extends Component {
           onItemClick={this.handleUserPanelClick}
           onRemove={removePanel}
           onClose={this.handleCloseTabs}
+          onReplace={replace}
         />
 
         <BackToTop positionChange={userPanels.length > 0} />
@@ -442,6 +450,7 @@ const mapActionCreators = {
   removePanel: userPanelsActionCreators.remove,
   resetPanels: userPanelsActionCreators.reset,
   setActivePanel: userPanelsActionCreators.setActive,
+  replace: userPanelsActionCreators.replace,
   addNote: noteActionCreators.addNote,
   editNote: noteActionCreators.editNote,
   deleteNote: noteActionCreators.deleteNote,

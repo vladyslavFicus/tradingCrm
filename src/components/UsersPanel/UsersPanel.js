@@ -1,8 +1,13 @@
 import React, { Component } from 'react';
+import { compose } from 'redux';
 import classNames from 'classnames';
 import UsersPanelItem from '../UsersPanelItem';
 import PropTypes from '../../constants/propTypes';
 import './UsersPanel.scss';
+import { withModals } from '../../components/HighOrder';
+import ReplaceTabsModal from './ReplaceTabsModal';
+
+const MAX_ACTIVE_TAB = 5;
 
 class UsersPanel extends Component {
   static propTypes = {
@@ -11,6 +16,13 @@ class UsersPanel extends Component {
     onItemClick: PropTypes.func.isRequired,
     onClose: PropTypes.func.isRequired,
     onRemove: PropTypes.func.isRequired,
+    onReplace: PropTypes.func.isRequired,
+    modals: PropTypes.shape({
+      replaceTabsModal: PropTypes.shape({
+        show: PropTypes.func.isRequired,
+        hide: PropTypes.func.isRequired,
+      }),
+    }).isRequired,
   };
   static defaultProps = {
     active: null,
@@ -22,33 +34,85 @@ class UsersPanel extends Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.active && !this.props.active) {
+  componentWillReceiveProps({ active: nextActive, items: nextItems }) {
+    const {
+      modals: { replaceTabsModal },
+      items,
+      onReplace,
+      active,
+    } = this.props;
+
+    if (nextActive && !active) {
       document.body.classList.add('user-panel-open');
     }
 
-    if (this.props.active && !nextProps.active) {
+    if (active && !nextActive) {
       document.body.classList.remove('user-panel-open');
+    }
+
+    if (
+      (items.length <= MAX_ACTIVE_TAB && nextItems.length > MAX_ACTIVE_TAB) ||
+      (!replaceTabsModal.isOpen && items.length > MAX_ACTIVE_TAB)
+    ) {
+      replaceTabsModal.show({
+        onSubmit: this.handleReplace,
+        onClose: this.handleCancelReplace,
+        onReplace,
+        items,
+      });
+    }
+
+    if (items.length > MAX_ACTIVE_TAB && nextItems.length <= MAX_ACTIVE_TAB) {
+      replaceTabsModal.hide();
     }
   }
 
-  render() {
-    const { active, items, onClose, onRemove, onItemClick } = this.props;
+  handleReplace = (selectedItems) => {
+    const { onReplace, modals } = this.props;
 
-    if (!items.length) {
+    onReplace(selectedItems);
+    modals.replaceTabsModal.hide();
+  };
+
+  handleCancelReplace = () => {
+    const { items, onRemove, modals } = this.props;
+
+    const [newItem] = items.slice(-1);
+    onRemove(newItem.uuid);
+    modals.replaceTabsModal.hide();
+  };
+
+  render() {
+    const {
+      active,
+      items,
+      onClose,
+      onRemove,
+      onItemClick,
+    } = this.props;
+
+    const currentItems = items.slice(0, MAX_ACTIVE_TAB);
+
+    if (!currentItems.length) {
       return null;
     }
 
+    const activeIndex = currentItems.indexOf(active);
     const blockClassName = classNames('users-panel', { 'users-panel-opened': !!active });
+
+    const footerActiveClassName = `with-border-${currentItems[activeIndex] && currentItems[activeIndex].color
+      ? currentItems[activeIndex].color
+      : undefined}`;
+
     const footerClassName = classNames('users-panel-footer', {
       'with-border': !!active,
-      [`with-border-${active && active.color ? active.color : undefined}`]: !!active,
+      [footerActiveClassName]: !!active,
     });
 
     return (
       <div className={blockClassName}>
         <div className="users-panel-content" style={{ visibility: active ? 'visible' : 'hidden' }}>
-          {items.map((item) => {
+          {currentItems.map((item) => {
             const className = classNames(
               'user-panel-content-frame',
               active && active.color ? `user-panel-content-frame-${active.color}` : ''
@@ -72,7 +136,7 @@ class UsersPanel extends Component {
           })}
         </div>
         <div className={footerClassName}>
-          {items.map(item => (
+          {currentItems.map(item => (
             <UsersPanelItem
               active={active && active.uuid === item.uuid}
               key={item.uuid}
@@ -91,4 +155,6 @@ class UsersPanel extends Component {
   }
 }
 
-export default UsersPanel;
+export default compose(
+  withModals({ replaceTabsModal: ReplaceTabsModal }),
+)(UsersPanel);
