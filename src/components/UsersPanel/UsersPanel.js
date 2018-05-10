@@ -50,7 +50,10 @@ class UsersPanel extends Component {
       document.body.classList.remove('user-panel-open');
     }
 
-    if (items.length <= MAX_ACTIVE_TAB && nextItems.length > MAX_ACTIVE_TAB) {
+    if (
+      (items.length <= MAX_ACTIVE_TAB && nextItems.length > MAX_ACTIVE_TAB) ||
+      (!replaceTabsModal.isOpen && items.length > MAX_ACTIVE_TAB)
+    ) {
       replaceTabsModal.show({
         onSubmit: this.handleReplace,
         onClose: this.handleCancelReplace,

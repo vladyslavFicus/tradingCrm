@@ -4,6 +4,7 @@ import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { I18n } from 'react-redux-i18n';
 import { shortify } from '../../utils/uuid';
 import deleteFromArray from '../../utils/deleteFromArray';
+import Uuid from '../../components/Uuid';
 
 const initialState = {
   itemsToRemove: [],
@@ -67,7 +68,7 @@ class ReplaceTabsModal extends Component {
           </div>
           <div className="margin-top-10 text-center font-weight-700 line-height-1">
             {I18n.t('TO_MUCH_OPENED_PROFILES_MODAL.FIRST_TEXT')}
-            {newItem.fullName} - <span className="font-weight-400">{shortify(newItem.uuid)}</span>
+            {newItem.fullName} - <span className="font-weight-400"><Uuid uuid={newItem.uuid} /></span>s
             <br />
             {I18n.t('TO_MUCH_OPENED_PROFILES_MODAL.SECOND_TEXT')}
           </div>
