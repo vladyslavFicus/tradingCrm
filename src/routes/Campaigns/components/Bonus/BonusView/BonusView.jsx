@@ -119,6 +119,7 @@ class BonusView extends PureComponent {
                         uuidPartsCount={3}
                         uuid={template.uuid}
                         uuidPrefix="BT"
+                        className="d-block text-left"
                       />
                     </If>
                   }
@@ -136,9 +137,9 @@ class BonusView extends PureComponent {
             </Choose>
           </div>
           <If condition={!disabled && !isViewMode}>
-            <div className="col-auto">
+            <div className="col-auto margin-top-20">
               <button
-                className="btn btn-primary text-uppercase margin-top-20"
+                className="btn btn-primary text-uppercase"
                 type="button"
                 onClick={this.handleOpenCreateModal}
                 id="campaign-bonus-templates-add-btn"

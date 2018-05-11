@@ -826,6 +826,7 @@ class FreeSpin extends Component {
                     uuid={currentUuid}
                     uuidPartsCount={4}
                     length={22}
+                    className="d-block text-left"
                   />
                 </If>
               }

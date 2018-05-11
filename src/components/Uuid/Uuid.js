@@ -52,8 +52,9 @@ class Uuid extends Component {
         notificationLevel={notificationLevel}
         notificationTitle={notificationTitle}
         notificationMessage={notificationMessage}
+        className={className}
       >
-        <span className={className}>{shortify(uuid, uuidPrefix, uuidPartsCount)}</span>
+        <span>{shortify(uuid, uuidPrefix, uuidPartsCount)}</span>
       </CopyToClipboard>
     );
   }

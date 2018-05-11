@@ -150,6 +150,7 @@ export default class FreeSpinView extends PureComponent {
                   uuidPartsCount={4}
                   uuid={fsTemplate.uuid}
                   uuidPrefix="FS"
+                  className="d-block text-left"
                 />
               </If>
             }
