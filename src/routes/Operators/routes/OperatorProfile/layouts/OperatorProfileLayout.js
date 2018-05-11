@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Collapse } from 'reactstrap';
 import { I18n } from 'react-redux-i18n';
 import Information from '../components/Information';
 import Tabs from '../../../../../components/Tabs';
@@ -7,6 +6,7 @@ import { operatorProfileTabs } from '../../../../../config/menu';
 import Header from '../components/Header';
 import PropTypes from '../../../../../constants/propTypes';
 import ConfirmActionModal from '../../../../../components/Modal/ConfirmActionModal';
+import HideDetails from '../../../../../components/HideDetails';
 
 const RESET_PASSWORD_MODAL = 'operator-password-reset-modal';
 const SEND_INVITE_MODAL = 'operator-send-invite-modal';
@@ -32,16 +32,11 @@ class OperatorProfileLayout extends Component {
 
   state = {
     modal: { ...modalInitialState },
-    informationShown: true,
   };
 
   componentDidMount() {
     this.props.fetchAuthority(this.props.params.id);
   }
-
-  handleToggleInformationBlock = () => {
-    this.setState({ informationShown: !this.state.informationShown });
-  };
 
   handleResetPasswordClick = async () => {
     this.handleOpenModal(RESET_PASSWORD_MODAL);
@@ -97,10 +92,6 @@ class OperatorProfileLayout extends Component {
       authorities: { data: authorities },
     } = this.props;
 
-    const {
-      informationShown,
-    } = this.state;
-
     return (
       <div className="profile">
         <div className="profile__info">
@@ -111,27 +102,12 @@ class OperatorProfileLayout extends Component {
             onSendInvitationClick={this.handleSendInvitationClick}
             onStatusChange={changeStatus}
           />
-          <div className="hide-details-block">
-            <div className="hide-details-block_divider" />
-            <button
-              className="hide-details-block_text btn-transparent"
-              onClick={this.handleToggleInformationBlock}
-            >
-              {informationShown ?
-                I18n.t('COMMON.DETAILS_COLLAPSE.HIDE') :
-                I18n.t('COMMON.DETAILS_COLLAPSE.SHOW')
-              }
-            </button>
-
-            <div className="hide-details-block_divider" />
-          </div>
-
-          <Collapse isOpen={informationShown}>
+          <HideDetails>
             <Information
               data={data}
               authorities={authorities}
             />
-          </Collapse>
+          </HideDetails>
         </div>
         <Tabs
           items={operatorProfileTabs}
