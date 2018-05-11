@@ -1,6 +1,5 @@
 import React, { Component, Fragment } from 'react';
 import ImageViewer from 'react-images';
-import { Collapse } from 'reactstrap';
 import { get } from 'lodash';
 import { I18n } from 'react-redux-i18n';
 import Tabs from '../../../components/Tabs';
@@ -167,7 +166,6 @@ class ProfileLayout extends Component {
     imageViewer: { ...imageViewerInitialState },
     noteChangedCallback: null,
     fileChangedCallback: null,
-    informationShown: true,
   };
 
   getChildContext() {
@@ -271,10 +269,6 @@ class ProfileLayout extends Component {
 
   handleCloseModal = () => {
     this.setState({ modal: { ...modalInitialState } });
-  };
-
-  handleToggleInformationBlock = () => {
-    this.setState({ informationShown: !this.state.informationShown });
   };
 
   handleAddNoteClick = (targetUUID, targetType) => (target, params = {}) => {
@@ -626,7 +620,7 @@ class ProfileLayout extends Component {
   };
 
   render() {
-    const { modal, popover, informationShown, imageViewer: imageViewerState } = this.state;
+    const { modal, popover, imageViewer: imageViewerState } = this.state;
     const {
       playerProfile: { playerProfile, loading },
       children,
@@ -681,11 +675,7 @@ class ProfileLayout extends Component {
             onChangePasswordClick={this.handleChangePasswordClick}
             onShareProfileClick={this.handleShareProfileClick}
           />
-          <HideDetails
-            onClick={this.handleToggleInformationBlock}
-            informationShown={informationShown}
-          />
-          <Collapse isOpen={informationShown}>
+          <HideDetails>
             <Information
               data={profile}
               ips={get(profile, 'signInIps', [])}
@@ -693,7 +683,7 @@ class ProfileLayout extends Component {
               onEditNoteClick={this.handleEditNoteClick}
               notes={notes}
             />
-          </Collapse>
+          </HideDetails>
         </div>
         <Tabs
           items={userProfileTabs}

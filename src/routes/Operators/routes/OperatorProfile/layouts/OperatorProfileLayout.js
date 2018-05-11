@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Collapse } from 'reactstrap';
 import { I18n } from 'react-redux-i18n';
 import Information from '../components/Information';
 import Tabs from '../../../../../components/Tabs';
@@ -34,16 +33,11 @@ class OperatorProfileLayout extends Component {
 
   state = {
     modal: { ...modalInitialState },
-    informationShown: true,
   };
 
   componentDidMount() {
     this.props.fetchAuthority(this.props.params.id);
   }
-
-  handleToggleInformationBlock = () => {
-    this.setState({ informationShown: !this.state.informationShown });
-  };
 
   handleResetPasswordClick = async () => {
     this.handleOpenModal(RESET_PASSWORD_MODAL);
@@ -99,10 +93,6 @@ class OperatorProfileLayout extends Component {
       authorities: { data: authorities },
     } = this.props;
 
-    const {
-      informationShown,
-    } = this.state;
-
     return (
       <div className="profile">
         <div className="profile__info">
@@ -113,16 +103,12 @@ class OperatorProfileLayout extends Component {
             onSendInvitationClick={this.handleSendInvitationClick}
             onStatusChange={changeStatus}
           />
-          <HideDetails
-            onClick={this.handleToggleInformationBlock}
-            informationShown={informationShown}
-          />
-          <Collapse isOpen={informationShown}>
+          <HideDetails>
             <Information
               data={data}
               authorities={authorities}
             />
-          </Collapse>
+          </HideDetails>
         </div>
         <Tabs
           items={operatorProfileTabs}

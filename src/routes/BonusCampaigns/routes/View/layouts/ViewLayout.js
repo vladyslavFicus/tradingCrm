@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { I18n } from 'react-redux-i18n';
-import { Collapse } from 'reactstrap';
 import Tabs from '../../../../../components/Tabs';
 import { bonusCampaignTabs } from '../../../../../config/menu';
 import PropTypes from '../../../../../constants/propTypes';
@@ -40,7 +39,6 @@ class ViewLayout extends Component {
   };
 
   state = {
-    informationShown: true,
     modal: { ...modalInitialState },
   };
 
@@ -59,10 +57,6 @@ class ViewLayout extends Component {
         cb();
       }
     });
-  };
-
-  handleToggleInformationBlock = () => {
-    this.setState({ informationShown: !this.state.informationShown });
   };
 
   handleUploadFile = async (errors, file) => {
@@ -119,7 +113,7 @@ class ViewLayout extends Component {
   };
 
   render() {
-    const { informationShown, modal } = this.state;
+    const { modal } = this.state;
     const {
       data: bonusCampaignData,
       location,
@@ -140,13 +134,9 @@ class ViewLayout extends Component {
             cloneCampaign={this.handleCloneCampaign}
             removeAllPlayers={this.handleRemovePlayersClick}
           />
-          <HideDetails
-            onClick={this.handleToggleInformationBlock}
-            informationShown={informationShown}
-          />
-          <Collapse isOpen={informationShown}>
+          <HideDetails>
             <Information data={bonusCampaignData} />
-          </Collapse>
+          </HideDetails>
         </div>
         <Tabs
           items={bonusCampaignTabs}
