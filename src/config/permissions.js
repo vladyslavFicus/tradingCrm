@@ -64,10 +64,10 @@ export default {
     PLAYER_CAMPAIGN_AVAILABLE_LIST: 'promotion;GET;/campaigns/{playerUUID}/available',
   },
   CAMPAIGNS: {
-    LIST: 'campaign;GET;/campaigns',
-    CREATE: 'campaign;POST;/campaigns',
-    UPDATE: 'campaign;PUT;/campaigns/{uuid}',
-    VIEW: 'campaign;GET;/campaigns/{uuid}',
+    LIST: 'campaign;GET;/',
+    CREATE: 'campaign;POST;/',
+    UPDATE: 'campaign;PUT;/{uuid}',
+    VIEW: 'campaign;GET;/{uuid}',
   },
   WAGERING_FULFILLMENT: {
     LIST: 'wagering_fulfillment;GET;/',
