@@ -349,7 +349,7 @@ class View extends Component {
           onReset={this.handleFilterReset}
           disabled={!allowActions}
         />
-        <div className="tab-content">
+        <div className="tab-wrapper">
           <GridView
             dataSource={entities.content}
             onPageChange={this.handlePageChanged}

@@ -1,31 +1,32 @@
 import React from 'react';
 import { Link, withRouter } from 'react-router';
 import { I18n } from 'react-redux-i18n';
+import { Nav, NavItem } from 'reactstrap';
 import PropTypes from '../../constants/propTypes';
-import './SubTabNavigation.scss';
+import './TabHeaderNav.scss';
 
-const SubTabNavigation = ({ params: { id }, links }) => (
-  <div className="sub-tab-nav">
+const TabHeaderNav = ({ params: { id }, links }) => (
+  <Nav className="col tab-header-nav">
     {links.map((item, index) => (
-      <span key={item.url}>
+      <NavItem key={item.url}>
         {index > 0 && ' / '}
         <Link
-          className="sub-tab-nav__link"
+          className="tab-header-nav__item"
           to={item.url.replace(/:id/, id)}
-          activeClassName="sub-tab-nav__link_active"
+          activeClassName="tab-header-nav__item--active"
         >
           {I18n.t(item.label)}
         </Link>
-      </span>
+      </NavItem>
     ))}
-  </div>
+  </Nav>
 );
 
-SubTabNavigation.propTypes = {
+TabHeaderNav.propTypes = {
   params: PropTypes.shape({
     id: PropTypes.string.isRequired,
   }).isRequired,
   links: PropTypes.arrayOf(PropTypes.subTabRouteEntity).isRequired,
 };
 
-export default withRouter(SubTabNavigation);
+export default withRouter(TabHeaderNav);

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import moment from 'moment';
 import classNames from 'classnames';
 import { SubmissionError } from 'redux-form';
@@ -100,6 +100,8 @@ class Header extends Component {
     loaded: PropTypes.bool,
     onChangePasswordClick: PropTypes.func.isRequired,
     onShareProfileClick: PropTypes.func.isRequired,
+    profileStatusDate: PropTypes.string,
+    profileStatusAuthor: PropTypes.string,
   };
 
   static defaultProps = {
@@ -191,7 +193,7 @@ class Header extends Component {
     const fullName = [firstName, lastName].filter(i => i).join(' ');
 
     return (
-      <div>
+      <Fragment>
         <Sticky top={0} bottomBoundary={0} innerZ="2">
           <div className="panel-heading-row">
             <HeaderPlayerPlaceholder ready={loaded}>
@@ -322,7 +324,7 @@ class Header extends Component {
               on {moment.utc(registrationDate).local().format('DD.MM.YYYY')}</div>
           </div>
         </div>
-      </div>
+      </Fragment>
     );
   }
 }

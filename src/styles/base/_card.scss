@@ -1,8 +1,7 @@
 .card {
-  margin-bottom: 25px;
   border-radius: 5px;
-  &:last-child {
-    margin-bottom: 0;
+  &:not(:last-child) {
+    margin-bottom: 25px;
   }
   &.no-borders {
     border: 0;

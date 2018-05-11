@@ -1,13 +1,13 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import moment from 'moment';
 import { I18n } from 'react-redux-i18n';
-import Sticky from 'react-stickynode';
 import NotesGridFilter from './NotesGridFilter';
 import ListView from '../../../../../components/ListView';
 import PropTypes from '../../../../../constants/propTypes';
 import PopoverButton from '../../../../../components/PopoverButton';
 import { entities, entitiesPrefixes } from '../../../../../constants/uuid';
 import Uuid from '../../../../../components/Uuid';
+import TabHeader from '../../../../../components/TabHeader';
 
 class View extends Component {
   static propTypes = {
@@ -21,15 +21,12 @@ class View extends Component {
           lastEditorUUID: PropTypes.string,
           targetUUID: PropTypes.string,
         })),
-      }).isRequired,
+      }),
     }).isRequired,
     noteTypes: PropTypes.shape({
       data: PropTypes.arrayOf(PropTypes.string).isRequired,
     }).isRequired,
     locale: PropTypes.string.isRequired,
-  };
-  static defaultProps = {
-    isLoading: false,
   };
   static contextTypes = {
     onAddNoteClick: PropTypes.func.isRequired,
@@ -99,57 +96,53 @@ class View extends Component {
   };
 
   renderItem = data => (
-    <div className="padding-bottom-20">
-      <div className="feed-item">
-        <div className="feed-item_avatar">
-          <div className="feed-item_avatar-letter feed-item_avatar-letter_blue">o</div>
-        </div>
-        <div className="feed-item_info">
-          <div className="feed-item_cheading">
-            <div className="color-secondary">
-              {
-                data.author &&
-                <span className="font-weight-700 feed-item_author">{`${data.author} - `}</span>
-              }
-              {
-                data.lastEditorUUID &&
-                <span>
-                  <Uuid uuid={data.lastEditorUUID} uuidPrefix={entitiesPrefixes[entities.operator]} />
-                </span>
-              }
-            </div>
-            <div className="font-size-11 color-secondary">
-              {
-                data.lastEditionDate
-                  ? moment.utc(data.lastEditionDate).local().format('DD.MM.YYYY HH:mm:ss')
-                  : I18n.t('COMMON.UNKNOWN_TIME')
-              }
-              {' '}
-              {I18n.t('COMMON.TO')}
-              {' '}
-              <Uuid uuid={data.targetUUID} uuidPrefix={entitiesPrefixes[data.targetType]} />
-            </div>
+    <div className="feed-item margin-bottom-20">
+      <div className="feed-item_avatar">
+        <div className="feed-item_avatar-letter feed-item_avatar-letter_blue">o</div>
+      </div>
+      <div className="feed-item_info">
+        <div className="feed-item_cheading">
+          <div className="color-secondary">
+            {
+              data.author &&
+              <span className="font-weight-700 feed-item_author">{`${data.author} - `}</span>
+            }
+            {
+              data.lastEditorUUID &&
+              <Uuid uuid={data.lastEditorUUID} uuidPrefix={entitiesPrefixes[entities.operator]} />
+            }
           </div>
-          <div className="note panel margin-top-5">
-            <div className="feed-item_content padding-10">
-              <div className="row">
-                <div className="col-md-11">
-                  {data.content}
-                  {
-                    data.pinned &&
-                    <div className="padding-top-10">
-                      <span className="badge badge-info text-uppercase font-size-11">Pinned Note</span>
-                    </div>
-                  }
-                </div>
-                <div className="col-md-1 text-right">
-                  <PopoverButton
-                    id={`note-item-${data.uuid}`}
-                    onClick={id => this.handleNoteClick(id, data)}
-                  >
-                    <i className="note-icon note-with-text" />
-                  </PopoverButton>
-                </div>
+          <div className="font-size-11 color-secondary">
+            {
+              data.lastEditionDate
+                ? moment.utc(data.lastEditionDate).local().format('DD.MM.YYYY HH:mm:ss')
+                : I18n.t('COMMON.UNKNOWN_TIME')
+            }
+            {' '}
+            {I18n.t('COMMON.TO')}
+            {' '}
+            <Uuid uuid={data.targetUUID} uuidPrefix={entitiesPrefixes[data.targetType]} />
+          </div>
+        </div>
+        <div className="note panel margin-top-5">
+          <div className="feed-item_content">
+            <div className="row">
+              <div className="col-md-11">
+                {data.content}
+                {
+                  data.pinned &&
+                  <div className="pt-2">
+                    <span className="badge badge-info text-uppercase font-size-11">Pinned Note</span>
+                  </div>
+                }
+              </div>
+              <div className="col-md-1 text-right">
+                <PopoverButton
+                  id={`note-item-${data.uuid}`}
+                  onClick={id => this.handleNoteClick(id, data)}
+                >
+                  <i className="note-icon note-with-text" />
+                </PopoverButton>
               </div>
             </div>
           </div>
@@ -172,22 +165,15 @@ class View extends Component {
     }
 
     return (
-      <div>
-        <Sticky top=".panel-heading-row" bottomBoundary={0} innerZ="2">
-          <div className="tab-header">
-            <div className="tab-header__heading">Notes</div>
-          </div>
-        </Sticky>
-
+      <Fragment>
+        <TabHeader title="Notes" />
         <NotesGridFilter
           onSubmit={this.handleFiltersChanged}
           availableTypes={availableTypes}
         />
-
-        <div className="tab-content">
+        <div className="tab-wrapper">
           <ListView
             dataSource={notes.content}
-            itemClassName="note-item"
             onPageChange={this.handlePageChanged}
             render={this.renderItem}
             activePage={notes.number + 1}
@@ -198,7 +184,7 @@ class View extends Component {
             showNoResults={!loading && !notes.content.length}
           />
         </div>
-      </div>
+      </Fragment>
     );
   }
 }

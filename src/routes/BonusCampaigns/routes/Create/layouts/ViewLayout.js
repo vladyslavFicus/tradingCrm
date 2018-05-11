@@ -18,8 +18,8 @@ class ViewLayout extends Component {
     const { informationShown } = this.state;
 
     return (
-      <div className="layout layout_not-iframe">
-        <div className="layout-info">
+      <div className="profile">
+        <div className="profile__info">
           <Header />
 
           <div className="hide-details-block">
@@ -40,19 +40,7 @@ class ViewLayout extends Component {
             <Information />
           </Collapse>
         </div>
-
-        <div className="layout-content">
-          <div className="nav-tabs-horizontal">
-            <ul className="nav nav-tabs">
-              <li className="nav-item">
-                <span className="nav-link active">
-                  {I18n.t('BONUS_CAMPAIGNS.VIEW_TABS.SETTINGS')}
-                </span>
-              </li>
-            </ul>
-            <Settings />
-          </div>
-        </div>
+        <Settings />
       </div>
     );
   }

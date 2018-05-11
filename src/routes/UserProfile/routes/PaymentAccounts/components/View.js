@@ -1,8 +1,7 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import moment from 'moment';
 import _ from 'lodash';
 import { I18n } from 'react-redux-i18n';
-import Sticky from 'react-stickynode';
 import { targetTypes as noteTargetTypes } from '../../../../../constants/note';
 import { accountStatuses as paymentAccountStatuses } from '../../../../../constants/payment';
 import PropTypes from '../../../../../constants/propTypes';
@@ -14,6 +13,7 @@ import { targetTypes as fileTargetTypes } from '../../../../../components/Files/
 import Amount from '../../../../../components/Amount';
 import StatusDropDown from './StatusDropDown';
 import PaymentAccount from '../../../../../components/PaymentAccount';
+import TabHeader from '../../../../../components/TabHeader';
 
 class View extends Component {
   static propTypes = {
@@ -30,6 +30,10 @@ class View extends Component {
     changePaymentAccountStatus: PropTypes.func.isRequired,
     noResults: PropTypes.bool.isRequired,
     locale: PropTypes.string.isRequired,
+  };
+  static defaultProps = {
+    params: null,
+    currencyCode: '',
   };
   static contextTypes = {
     onAddNoteClick: PropTypes.func.isRequired,
@@ -257,16 +261,9 @@ class View extends Component {
     const { openUUID } = this.state;
 
     return (
-      <div>
-        <Sticky top=".panel-heading-row" bottomBoundary={0} innerZ="2">
-          <div className="tab-header">
-            <div className="tab-header__heading">
-              {I18n.t('PLAYER_PROFILE.PAYMENT_ACCOUNT.TITLE')}
-            </div>
-          </div>
-        </Sticky>
-
-        <div className="tab-content">
+      <Fragment>
+        <TabHeader title={I18n.t('PLAYER_PROFILE.PAYMENT_ACCOUNT.TITLE')} />
+        <div className="tab-wrapper">
           <CollapseGridView
             dataSource={_.values(paymentAccounts)}
             openUUID={openUUID}
@@ -319,7 +316,7 @@ class View extends Component {
             />
           </CollapseGridView>
         </div>
-      </div>
+      </Fragment>
     );
   }
 }

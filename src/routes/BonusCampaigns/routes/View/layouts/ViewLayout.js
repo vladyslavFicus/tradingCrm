@@ -129,8 +129,8 @@ class ViewLayout extends Component {
     } = this.props;
 
     return (
-      <div className="layout layout_not-iframe">
-        <div className="layout-info">
+      <div className="profile">
+        <div className="profile__info">
           <Header
             onChangeCampaignState={onChangeCampaignState}
             availableStatusActions={availableStatusActions}
@@ -158,17 +158,12 @@ class ViewLayout extends Component {
             <Information data={bonusCampaignData} />
           </Collapse>
         </div>
-
-        <div className="layout-content">
-          <div className="nav-tabs-horizontal">
-            <Tabs
-              items={bonusCampaignTabs}
-              location={location}
-              params={params}
-            />
-            {children}
-          </div>
-        </div>
+        <Tabs
+          items={bonusCampaignTabs}
+          location={location}
+          params={params}
+        />
+        {children}
         {
           modal.name === REMOVE_PLAYERS &&
           <ConfirmActionModal

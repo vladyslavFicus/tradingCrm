@@ -1,8 +1,7 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { I18n } from 'react-redux-i18n';
 import classNames from 'classnames';
 import moment from 'moment';
-import Sticky from 'react-stickynode';
 import { typesLabels, typesColor, types } from '../../../../../constants/devices';
 import PropTypes from '../../../../../constants/propTypes';
 import GridView, { GridColumn } from '../../../../../components/GridView';
@@ -10,6 +9,7 @@ import DevicesFilterForm from './FilterForm';
 import renderLabel from '../../../../../utils/renderLabel';
 import Uuid from '../../../../../components/Uuid';
 import IpFlag from '../../../../../components/IpFlag';
+import TabHeader from '../../../../../components/TabHeader';
 
 class View extends Component {
   static propTypes = {
@@ -28,7 +28,9 @@ class View extends Component {
     list: PropTypes.pageableState(PropTypes.userDeviceEntity).isRequired,
     locale: PropTypes.string.isRequired,
   };
-
+  static defaultProps = {
+    params: {},
+  };
   static contextTypes = {
     cacheChildrenComponent: PropTypes.func.isRequired,
   };
@@ -71,7 +73,7 @@ class View extends Component {
   renderType = data => (
     <div className={typesColor[data.deviceType]}>
       <i
-        className={classNames('fa font-size-20 padding-right-10', {
+        className={classNames('fa font-size-20 pr-2', {
           'fa-mobile': data.deviceType === types.MOBILE,
           'fa-desktop': data.deviceType === types.DESKTOP,
           'fa-default': data.deviceType === types.UNKNOWN,
@@ -118,23 +120,15 @@ class View extends Component {
     const { filters } = this.state;
 
     return (
-      <div>
-        <Sticky top=".panel-heading-row" bottomBoundary={0} innerZ="2">
-          <div className="tab-header">
-            <div className="tab-header__heading">
-              {I18n.t('PLAYER_PROFILE.DEVICES.TITLE')}
-            </div>
-          </div>
-        </Sticky>
-
+      <Fragment>
+        <TabHeader title={I18n.t('PLAYER_PROFILE.DEVICES.TITLE')} />
         <DevicesFilterForm
           deviceType={deviceType}
           operatingSystem={operatingSystem}
           onSubmit={this.handleFiltersChanged}
           initialValues={filters}
         />
-
-        <div className="tab-content">
+        <div className="tab-wrapper">
           <GridView
             dataSource={entities.content}
             onPageChange={this.handlePageChanged}
@@ -181,7 +175,7 @@ class View extends Component {
             />
           </GridView>
         </div>
-      </div>
+      </Fragment>
     );
   }
 }

@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
-import Sticky from 'react-stickynode';
+import React, { Component, Fragment } from 'react';
 import CancelLimitModal from './CancelLimitModal';
 import CreateLimitModal from './CreateLimitModal';
 import CommonGridView from './CommonGridView';
 import { targetTypes } from '../../../../../constants/note';
 import { types as limitTypes } from '../../../../../constants/limits';
 import PropTypes from '../../../../../constants/propTypes';
+import TabHeader from '../../../../../components/TabHeader';
 
 const CANCEL_LIMIT_MODAL = 'cancel-limit';
 const CREATE_LIMIT_MODAL = 'create-limit';
@@ -25,6 +25,10 @@ class View extends Component {
     setLimit: PropTypes.func.isRequired,
     limitPeriods: PropTypes.limitPeriodEntity,
     locale: PropTypes.string.isRequired,
+  };
+  static defaultProps = {
+    list: [],
+    limitPeriods: null,
   };
   static contextTypes = {
     onAddNoteClick: PropTypes.func.isRequired,
@@ -147,19 +151,17 @@ class View extends Component {
     const { list, limitPeriods, locale } = this.props;
 
     return (
-      <div>
-        <Sticky top=".panel-heading-row" bottomBoundary={0} innerZ="2">
-          <div className="tab-header">
-            <div className="tab-header__heading">Limits</div>
-            <div className="tab-header__actions">
-              <button className="btn btn-sm btn-primary-outline" onClick={this.handleOpenCreateLimitModal}>
-                + New limit
-              </button>
-            </div>
-          </div>
-        </Sticky>
-
-        <div className="tab-content">
+      <Fragment>
+        <TabHeader title="Limits">
+          <button
+            type="button"
+            className="btn btn-sm btn-primary-outline"
+            onClick={this.handleOpenCreateLimitModal}
+          >
+            + New limit
+          </button>
+        </TabHeader>
+        <div className="tab-wrapper">
           <CommonGridView
             dataSource={list}
             onOpenCancelLimitModal={this.handleOpenCancelLimitModal}
@@ -190,7 +192,7 @@ class View extends Component {
             isOpen
           />
         }
-      </div>
+      </Fragment>
     );
   }
 }

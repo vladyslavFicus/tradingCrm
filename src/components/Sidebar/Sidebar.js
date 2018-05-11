@@ -72,18 +72,6 @@ class Sidebar extends Component {
     this.props.onToggleTab(index);
   };
 
-  renderTrackHorizontal = props => (
-    <div {...props} className="track-vertical" style={{ display: 'none' }} />
-  );
-
-  renderThumbHorizontal = props => (
-    <div {...props} className="thumb-vertical" style={{ display: 'none' }} />
-  );
-
-  renderThumbVertical = (style, ...props) => (
-    <div className="scroll-bar" {...props} style={{ ...style, backgroundColor: 'rgba(223,228,237,0.25)' }} />
-  );
-
   render() {
     const { topMenu, bottomMenu, onToggleTab } = this.props;
     const { isOpen } = this.state;
@@ -96,9 +84,9 @@ class Sidebar extends Component {
         onMouseLeave={this.close}
       >
         <Scrollbars
-          renderTrackHorizontal={this.renderTrackHorizontal}
-          renderThumbHorizontal={this.renderThumbHorizontal}
-          renderThumbVertical={this.renderThumbVertical}
+          renderTrackHorizontal={props => <div {...props} style={{ display: 'none' }} />}
+          renderThumbHorizontal={props => <div {...props} style={{ display: 'none' }} />}
+          renderThumbVertical={props => <div {...props} style={{ backgroundColor: 'rgba(223, 228, 237, 0.25)' }} />}
           style={{ height: 'calc(100% - 85px)' }}
         >
           <Nav

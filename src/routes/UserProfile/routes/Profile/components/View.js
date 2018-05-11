@@ -1,7 +1,6 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { I18n } from 'react-redux-i18n';
 import classNames from 'classnames';
-import Sticky from 'react-stickynode';
 import { SubmissionError } from 'redux-form';
 import PropTypes from '../../../../../constants/propTypes';
 import PersonalForm from './PersonalForm';
@@ -26,7 +25,8 @@ import './View.scss';
 import PermissionContent from '../../../../../components/PermissionContent';
 import { CONDITIONS } from '../../../../../utils/permissions';
 import permissions from '../../../../../config/permissions';
-import Card from '../../../../../components/Card/Card';
+import Card from '../../../../../components/Card';
+import TabHeader from '../../../../../components/TabHeader';
 
 const REFUSE_MODAL = 'refuse-modal';
 const VERIFY_MODAL = 'verify-modal';
@@ -403,7 +403,7 @@ class View extends Component {
     }
 
     return (
-      <div>
+      <Fragment>
         {I18n.t('PLAYER_PROFILE.PROFILE.TITLE')} {' - '}
         <span
           id={`profile-status-${kycUserStatusCode.toLowerCase().split('_').join('-')}`}
@@ -411,7 +411,7 @@ class View extends Component {
         >
           {renderLabel(kycUserStatusCode, kycUserStatusesLabels)}
         </span>
-      </div>
+      </Fragment>
     );
   };
 
@@ -445,39 +445,32 @@ class View extends Component {
     }
 
     return (
-      <div>
-        <Sticky top=".panel-heading-row" bottomBoundary={0} innerZ="2">
-          <div className="tab-header">
-            <div className="tab-header__heading">{this.renderKycStatusTitle()}</div>
-            <div className="tab-header__actions">
-              {
-                !data.kycCompleted && !!data.kycRequest &&
-                <PermissionContent permissions={permissions.USER_PROFILE.KYC_VERIFY_ALL}>
-                  <button
-                    id="verify-all-identities-button"
-                    type="button"
-                    className="btn btn-sm btn-success-outline margin-right-10"
-                    onClick={this.handleOpenVerifyKycAllModal}
-                  >
-                    {I18n.t('PLAYER_PROFILE.PROFILE.KYC_VERIFICATION_ALL')}
-                  </button>
-                </PermissionContent>
-              }
-              <PermissionContent permissions={permissions.USER_PROFILE.REQUEST_KYC}>
-                <button
-                  id="request-kyc-button"
-                  type="button"
-                  className="btn btn-sm btn-primary-outline"
-                  onClick={this.handleOpenRequestKycVerificationModal}
-                >
-                  {I18n.t('PLAYER_PROFILE.PROFILE.REQUEST_KYC_VERIFICATION')}
-                </button>
-              </PermissionContent>
-            </div>
-          </div>
-        </Sticky>
-
-        <div className="tab-content">
+      <Fragment>
+        <TabHeader title={this.renderKycStatusTitle()}>
+          <If condition={!data.kycCompleted && !!data.kycRequest}>
+            <PermissionContent permissions={permissions.USER_PROFILE.KYC_VERIFY_ALL}>
+              <button
+                id="verify-all-identities-button"
+                type="button"
+                className="btn btn-sm btn-success-outline margin-right-10"
+                onClick={this.handleOpenVerifyKycAllModal}
+              >
+                {I18n.t('PLAYER_PROFILE.PROFILE.KYC_VERIFICATION_ALL')}
+              </button>
+            </PermissionContent>
+          </If>
+          <PermissionContent permissions={permissions.USER_PROFILE.REQUEST_KYC}>
+            <button
+              id="request-kyc-button"
+              type="button"
+              className="btn btn-sm btn-primary-outline"
+              onClick={this.handleOpenRequestKycVerificationModal}
+            >
+              {I18n.t('PLAYER_PROFILE.PROFILE.REQUEST_KYC_VERIFICATION')}
+            </button>
+          </PermissionContent>
+        </TabHeader>
+        <div className="tab-wrapper">
           <Card>
             <div className="card-body row">
               <div className="col-md-8 with-right-border">
@@ -510,7 +503,6 @@ class View extends Component {
               </div>
             </div>
           </Card>
-
           <Card>
             <div className="card-body row">
               <div className="col-md-8 with-right-border">
@@ -547,7 +539,6 @@ class View extends Component {
               </div>
             </div>
           </Card>
-
           <Card>
             <div className="card-body row">
               <div className="col-md-8 with-right-border">
@@ -564,61 +555,61 @@ class View extends Component {
               </div>
             </div>
           </Card>
-
-          {
-            modal.name === REFUSE_MODAL &&
-            <RefuseModal
-              note={refuse}
-              {...modal.params}
-              profile={data}
-              onSubmit={this.handleRefuse}
-              onClose={this.handleCloseModal}
-              onManageNote={this.onManageKycNote(kycNoteTypes.refuse)}
-            />
-          }
-
-          {
-            modal.name === VERIFY_MODAL &&
-            <SimpleConfirmationModal
-              note={verify}
-              {...modal.params}
-              form="verifyModal"
-              profile={data}
-              onSubmit={this.handleVerify}
-              onClose={this.handleCloseModal}
-              onManageNote={this.onManageKycNote(kycNoteTypes.verify)}
-            />
-          }
-
-          {
-            modal.name === REQUEST_KYC_VERIFICATION_MODAL &&
-            <RequestKycVerificationModal
-              note={kycRequest}
-              locale={locale}
-              title={I18n.t('PLAYER_PROFILE.PROFILE.SEND_KYC_REQUEST.TITLE')}
-              show
-              {...modal.params}
-              onSubmit={this.handleRequestKycVerify}
-              onClose={this.handleCloseModal}
-              onManageNote={this.onManageKycNote(kycNoteTypes.kycRequest)}
-            />
-          }
-
-          {
-            modal.name === KYC_VERIFY_ALL_MODAL &&
-            <SimpleConfirmationModal
-              note={verifyAll}
-              form="verifyAllModal"
-              locale={locale}
-              {...modal.params}
-              profile={data}
-              onSubmit={this.handleKycVerifyAll}
-              onClose={this.handleCloseModal}
-              onManageNote={this.onManageKycNote(kycNoteTypes.verifyAll)}
-            />
-          }
         </div>
-      </div>
+
+        {
+          modal.name === REFUSE_MODAL &&
+          <RefuseModal
+            note={refuse}
+            {...modal.params}
+            profile={data}
+            onSubmit={this.handleRefuse}
+            onClose={this.handleCloseModal}
+            onManageNote={this.onManageKycNote(kycNoteTypes.refuse)}
+          />
+        }
+
+        {
+          modal.name === VERIFY_MODAL &&
+          <SimpleConfirmationModal
+            note={verify}
+            {...modal.params}
+            form="verifyModal"
+            profile={data}
+            onSubmit={this.handleVerify}
+            onClose={this.handleCloseModal}
+            onManageNote={this.onManageKycNote(kycNoteTypes.verify)}
+          />
+        }
+
+        {
+          modal.name === REQUEST_KYC_VERIFICATION_MODAL &&
+          <RequestKycVerificationModal
+            note={kycRequest}
+            locale={locale}
+            title={I18n.t('PLAYER_PROFILE.PROFILE.SEND_KYC_REQUEST.TITLE')}
+            show
+            {...modal.params}
+            onSubmit={this.handleRequestKycVerify}
+            onClose={this.handleCloseModal}
+            onManageNote={this.onManageKycNote(kycNoteTypes.kycRequest)}
+          />
+        }
+
+        {
+          modal.name === KYC_VERIFY_ALL_MODAL &&
+          <SimpleConfirmationModal
+            note={verifyAll}
+            form="verifyAllModal"
+            locale={locale}
+            {...modal.params}
+            profile={data}
+            onSubmit={this.handleKycVerifyAll}
+            onClose={this.handleCloseModal}
+            onManageNote={this.onManageKycNote(kycNoteTypes.verifyAll)}
+          />
+        }
+      </Fragment>
     );
   }
 }

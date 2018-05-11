@@ -103,8 +103,8 @@ class OperatorProfileLayout extends Component {
     } = this.state;
 
     return (
-      <div className="layout layout_not-iframe">
-        <div className="layout-info">
+      <div className="profile">
+        <div className="profile__info">
           <Header
             data={data}
             availableStatuses={availableStatuses}
@@ -134,18 +134,14 @@ class OperatorProfileLayout extends Component {
             />
           </Collapse>
         </div>
-        <div className="layout-content">
-          <div className="nav-tabs-horizontal">
-            <Tabs
-              items={operatorProfileTabs}
-              location={location}
-              params={params}
-            />
-            <Card noBorders>
-              {children}
-            </Card>
-          </div>
-        </div>
+        <Tabs
+          items={operatorProfileTabs}
+          location={location}
+          params={params}
+        />
+        <Card noBorders>
+          {children}
+        </Card>
         {
           modal.name === RESET_PASSWORD_MODAL &&
           <ConfirmActionModal
