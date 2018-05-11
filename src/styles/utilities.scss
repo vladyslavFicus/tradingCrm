@@ -1,3 +1,7 @@
+* {
+  min-width: 0;
+}
+
 html {
   height: 100%;
   font-size: 14px;
@@ -48,11 +52,6 @@ select.form-control:not([size]):not([multiple]) {
 a:hover {
   cursor: pointer;
   text-decoration: none;
-}
-
-button {
-  font: inherit;
-  color: inherit;
 }
 
 button:hover,

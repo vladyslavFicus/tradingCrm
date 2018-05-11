@@ -3,6 +3,7 @@ $green: #009900;
 $purple: #6600ff;
 $blue: #0066ff;
 $pink: #cc00ff;
+$carrot: #b93703;
 
 .users-panel {
   &-content {
@@ -59,6 +60,9 @@ $pink: #cc00ff;
     &.with-border-pink {
       border-top-color: $pink;
     }
+    &.with-border-carrot {
+      border-top-color: $carrot;
+    }
   }
   &-opened {
     .users-panel-content {
@@ -71,7 +75,6 @@ $pink: #cc00ff;
       border-top: 5px solid transparent;
       border-top-left-radius: 3px;
       border-top-right-radius: 3px;
-
       &-orange {
         border-top-color: $orange;
       }
@@ -86,6 +89,9 @@ $pink: #cc00ff;
       }
       &-pink {
         border-top-color: $pink;
+      }
+      &-carrot {
+        border-top-color: $carrot;
       }
     }
   }

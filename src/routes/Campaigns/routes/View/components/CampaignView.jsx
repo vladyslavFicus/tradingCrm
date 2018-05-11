@@ -38,28 +38,21 @@ class CampaignView extends PureComponent {
     const { data: campaignData } = campaign;
 
     return (
-      <div className="layout layout_not-iframe">
-        <div className="layout-info">
+      <div className="profile">
+        <div className="profile__info">
           <Header
             data={campaignData}
             activateMutation={activateMutation}
             cancelMutation={cancelMutation}
           />
-          <div className="hide-details-block">
-            <div className="hide-details-block_divider" />
-          </div>
+          <hr />
         </div>
-
-        <div className="layout-content">
-          <div className="nav-tabs-horizontal">
-            <Tabs
-              items={newBonusCampaignTabs}
-              location={location}
-              params={params}
-            />
-            {children}
-          </div>
-        </div>
+        <Tabs
+          items={newBonusCampaignTabs}
+          location={location}
+          params={params}
+        />
+        {children}
       </div>
     );
   }

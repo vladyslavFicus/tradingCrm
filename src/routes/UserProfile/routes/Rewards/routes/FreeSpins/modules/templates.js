@@ -33,6 +33,7 @@ const actionHandlers = {
     data: payload.map(i => ({
       uuid: i.uuid,
       name: i.name,
+      aggregatorId: i.aggregatorId,
     })),
     isLoading: false,
     receivedAt: endRequestTime,

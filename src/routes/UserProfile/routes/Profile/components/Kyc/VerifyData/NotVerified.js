@@ -20,7 +20,7 @@ const NotVerified = (props) => {
           <i className="fa fa-exclamation-triangle" /> {' '}
           {I18n.t('PLAYER_PROFILE.PROFILE.KYC_VERIFICATION.TYPE_NOT_VERIFIED', { title })}
         </div>
-        <div className="padding-top-20 font-size-11 color-default text-uppercase">
+        <div className="pt-4 font-size-11 color-default text-uppercase">
           {I18n.t('PLAYER_PROFILE.PROFILE.KYC_VERIFICATION.REQUEST_STATUS')}
         </div>
         <div className="color-primary font-size-16">
@@ -29,7 +29,7 @@ const NotVerified = (props) => {
         <div className="font-size-11 color-default">
           {I18n.t('COMMON.SINCE', { date: moment.utc(status.statusDate).local().format('DD.MM.YYYY \\a\\t HH:mm') })}
         </div>
-        <div className="font-size-12 padding-top-20">
+        <div className="font-size-12 pt-4">
           {I18n.t('PLAYER_PROFILE.PROFILE.KYC_VERIFICATION.WAITING_FOR_DOCS_DESCRIPTION')}
         </div>
       </div>

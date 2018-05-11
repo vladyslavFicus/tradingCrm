@@ -91,7 +91,7 @@ export default (values, props) => {
 
   const fulfillmentDeposit = get(values, 'fulfillments.deposit');
   if (fulfillmentDeposit) {
-    const minAmount = fulfillmentDeposit.minAmount;
+    const { minAmount } = fulfillmentDeposit;
 
     if (minAmount && !isNaN(parseFloat(minAmount).toFixed(2))) {
       rules.fulfillments.deposit.maxAmount.push('greaterOrSame:fulfillments.deposit.minAmount');
@@ -140,8 +140,10 @@ export default (values, props) => {
     const freeSpinBonusType = get(freeSpinBonus, 'wageringRequirement.type');
     if (freeSpinBonusType !== customValueFieldTypes.ABSOLUTE) {
       rules.rewards.freeSpin.bonus.wageringRequirement.value.push('min:100');
+      rules.rewards.freeSpin.bonus.wageringRequirement.value.push('max:10000');
     } else {
-      rules.rewards.freeSpin.bonus.wageringRequirement.value.push('min:1');
+      rules.rewards.freeSpin.bonus.wageringRequirement.value.push('greater:0');
+      rules.rewards.freeSpin.bonus.wageringRequirement.value.push('max:1000000');
     }
 
     rules.rewards.freeSpin.bonus.wageringRequirement.value.push('required');

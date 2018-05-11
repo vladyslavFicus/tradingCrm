@@ -1923,6 +1923,13 @@
     "RATE": "Rate",
     "VALUE": "Value"
   },
+  "TO_MUCH_OPENED_PROFILES_MODAL": {
+    "TITLE": "To much opened profiles",
+    "HEADING": "The maximum amount of simultaneously opened profiles is reached.",
+    "FIRST_TEXT": "To open the profile of",
+    "SECOND_TEXT": "you have to close at least 1 opened profile.",
+    "CLOSE_SELECTED_BUTTON": "Close selected profiles"
+  },
   "CMS_GAMES": {
     "GRID_VIEW": {
       "STATUS": {

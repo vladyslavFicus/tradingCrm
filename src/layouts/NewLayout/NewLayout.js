@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { compose } from 'redux';
 import { SubmissionError } from 'redux-form';
 import { connect } from 'react-redux';
@@ -15,7 +15,7 @@ import { actionCreators as userPanelsActionCreators } from '../../redux/modules/
 import { actionCreators as appActionCreators } from '../../redux/modules/app';
 import NotePopover from '../../components/NotePopover';
 import MiniProfilePopover from '../../components/MiniProfilePopover';
-import Navbar from '../../components/Navbar';
+import Header from '../../components/Header';
 import Sidebar from '../../components/Sidebar';
 import UsersPanel from '../../components/UsersPanel';
 import MyProfileSidebar from '../../components/MyProfileSidebar';
@@ -81,6 +81,7 @@ class NewLayout extends Component {
     removePanel: PropTypes.func.isRequired,
     resetPanels: PropTypes.func.isRequired,
     setActivePanel: PropTypes.func.isRequired,
+    replace: PropTypes.func.isRequired,
     addNote: PropTypes.func.isRequired,
     editNote: PropTypes.func.isRequired,
     deleteNote: PropTypes.func.isRequired,
@@ -194,7 +195,12 @@ class NewLayout extends Component {
   }
 
   onProfileSubmit = async ({ language, ...nextData }) => {
-    const { user: { uuid, data }, locale, onLocaleChange, updateOperatorProfile } = this.props;
+    const {
+      user: { uuid, data },
+      locale,
+      onLocaleChange,
+      updateOperatorProfile,
+    } = this.props;
 
     if (language !== locale) {
       onLocaleChange(language);
@@ -340,13 +346,13 @@ class NewLayout extends Component {
       user,
       toggleMenuTab,
       menuItemClick,
+      replace,
     } = this.props;
 
     return (
-      <div>
-        <Navbar
+      <Fragment>
+        <Header
           router={router}
-          showSearch={false}
           languages={languages}
           onLocaleChange={onLocaleChange}
           onToggleProfile={this.onToggleProfile}
@@ -379,6 +385,7 @@ class NewLayout extends Component {
           onItemClick={this.handleUserPanelClick}
           onRemove={removePanel}
           onClose={this.handleCloseTabs}
+          onReplace={replace}
         />
 
         <BackToTop positionChange={userPanels.length > 0} />
@@ -401,7 +408,7 @@ class NewLayout extends Component {
           />
         }
 
-      </div>
+      </Fragment>
     );
   }
 }
@@ -443,6 +450,7 @@ const mapActionCreators = {
   removePanel: userPanelsActionCreators.remove,
   resetPanels: userPanelsActionCreators.reset,
   setActivePanel: userPanelsActionCreators.setActive,
+  replace: userPanelsActionCreators.replace,
   addNote: noteActionCreators.addNote,
   editNote: noteActionCreators.editNote,
   deleteNote: noteActionCreators.deleteNote,

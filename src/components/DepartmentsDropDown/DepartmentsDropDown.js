@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import classNames from 'classnames';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import { I18n } from 'react-redux-i18n';
 import PropTypes from '../../constants/propTypes';
@@ -10,10 +9,10 @@ class DepartmentsDropDown extends Component {
   static propTypes = {
     authorities: PropTypes.arrayOf(PropTypes.authorityEntity).isRequired,
     current: PropTypes.authorityEntity,
-    toggleId: PropTypes.string,
+    onChange: PropTypes.func.isRequired,
   };
   static defaultProps = {
-    toggleId: 'department-toggle',
+    current: {},
   };
 
   state = {
@@ -32,43 +31,63 @@ class DepartmentsDropDown extends Component {
 
   render() {
     const { active } = this.state;
-    const { current, authorities } = this.props;
+    const {
+      current,
+      authorities,
+      onChange,
+    } = this.props;
 
     if (!current) {
       return null;
     }
 
-    const currentDepartmentNode = (
-      <div className="department__current">
-        {this.renderLabel(current.department, departmentsLabels)}
-        {' '}
-        <div className="role">
-          {this.renderLabel(current.role, rolesLabels)}
-        </div>
-        {authorities.length > 0 && <i className={classNames('fa fa-angle-down', { 'arrow-up': active })} />}
-      </div>
-    );
-
-    if (!authorities.length) {
-      return currentDepartmentNode;
-    }
-
     return (
-      <Dropdown isOpen={active} toggle={this.handleToggleState}>
-        <DropdownToggle className="dropdown-btn" id={this.props.toggleId}>
-          {currentDepartmentNode}
-        </DropdownToggle>
-        <DropdownMenu>
-          {authorities.map(authority => (
-            <DropdownItem key={authority.department} onClick={() => this.props.onChange(authority.department)}>
-              <div>{this.renderLabel(authority.department, departmentsLabels)}</div>
-              <span className="role">
-                {this.renderLabel(authority.role, rolesLabels)}
-              </span>
-            </DropdownItem>
-          ))}
-        </DropdownMenu>
-      </Dropdown>
+      <Choose>
+        <When condition={!authorities.length}>
+          <div className="departments-dropdown-menu">
+            <div className="departments-dropdown-menu__toggle">
+              <div className="departments-dropdown-menu__department">
+                {this.renderLabel(current.department, departmentsLabels)}
+              </div>
+              <div className="departments-dropdown-menu__role">
+                {this.renderLabel(current.role, rolesLabels)}
+              </div>
+            </div>
+          </div>
+        </When>
+        <Otherwise>
+          <Dropdown className="departments-dropdown-menu" isOpen={active} toggle={this.handleToggleState}>
+            <DropdownToggle
+              className="departments-dropdown-menu__toggle"
+              tag="button"
+              onClick={this.handleToggleState}
+              data-toggle="dropdown"
+              aria-expanded={active}
+              id="department-toggle"
+            >
+              <div className="departments-dropdown-menu__department">
+                {this.renderLabel(current.department, departmentsLabels)}
+              </div>
+              <div className="departments-dropdown-menu__role">
+                {this.renderLabel(current.role, rolesLabels)}
+              </div>
+              <i className="fa fa-angle-down departments-dropdown-menu__caret" />
+            </DropdownToggle>
+            <DropdownMenu>
+              {authorities.map(authority => (
+                <DropdownItem key={authority.department} onClick={() => onChange(authority.department)}>
+                  <div className="departments-dropdown-menu__item-department">
+                    {this.renderLabel(authority.department, departmentsLabels)}
+                  </div>
+                  <div className="departments-dropdown-menu__role">
+                    {this.renderLabel(authority.role, rolesLabels)}
+                  </div>
+                </DropdownItem>
+              ))}
+            </DropdownMenu>
+          </Dropdown>
+        </Otherwise>
+      </Choose>
     );
   }
 }

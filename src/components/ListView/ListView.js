@@ -1,7 +1,7 @@
+import React, { Component, Fragment } from 'react';
+import PropTypes from 'prop-types';
 import { Pagination } from 'react-bootstrap';
 import InfiniteScroll from 'react-infinite-scroller';
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import shallowEqual from '../../utils/shallowEqual';
 import NotFoundContent from '../../components/NotFoundContent';
 
@@ -11,7 +11,6 @@ class ListView extends Component {
     lazyLoad: PropTypes.bool,
     dataSource: PropTypes.array.isRequired,
     defaultFilters: PropTypes.object,
-    onFiltersChanged: PropTypes.func,
     onPageChange: PropTypes.func,
     activePage: PropTypes.number,
     totalPages: PropTypes.number,
@@ -20,16 +19,14 @@ class ListView extends Component {
     showNoResults: PropTypes.bool,
     last: PropTypes.bool,
   };
-
   static defaultProps = {
     defaultFilters: {},
     lazyLoad: false,
     showNoResults: false,
-    onFiltersChanged: null,
     onPageChange: null,
     activePage: 0,
     totalPages: null,
-    itemClassName: '',
+    itemClassName: null,
     last: true,
   };
 
@@ -51,10 +48,6 @@ class ListView extends Component {
 
     return !shallowEqual(nextProps.dataSource, dataSource)
       || (nextProps.locale !== locale) || nextProps.showNoResults !== showNoResults;
-  }
-
-  onFiltersChanged() {
-    this.props.onFiltersChanged(this.state.filters);
   }
 
   handlePageChange = (eventKey) => {
@@ -116,21 +109,19 @@ class ListView extends Component {
     }
 
     return (
-      <div>
-        <Pagination
-          prev
-          next
-          first
-          last
-          ellipsis
-          boundaryLinks
-          items={totalPages}
-          maxButtons={5}
-          activePage={activePage}
-          onSelect={this.handlePageChange}
-          className="b3-pagination"
-        />
-      </div>
+      <Pagination
+        prev
+        next
+        first
+        last
+        ellipsis
+        boundaryLinks
+        items={totalPages}
+        maxButtons={5}
+        activePage={activePage}
+        onSelect={this.handlePageChange}
+        className="b3-pagination"
+      />
     );
   }
 
@@ -146,10 +137,10 @@ class ListView extends Component {
     }
 
     return (
-      <div>
+      <Fragment>
         {this.renderItems()}
         {!lazyLoad && this.renderPagination()}
-      </div>
+      </Fragment>
     );
   }
 }

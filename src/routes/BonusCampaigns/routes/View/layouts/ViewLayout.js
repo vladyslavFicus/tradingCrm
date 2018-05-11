@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { I18n } from 'react-redux-i18n';
-import { Collapse } from 'reactstrap';
 import Tabs from '../../../../../components/Tabs';
 import { bonusCampaignTabs } from '../../../../../config/menu';
 import PropTypes from '../../../../../constants/propTypes';
 import Header from '../components/Header';
 import Information from '../components/Information';
 import ConfirmActionModal from '../../../../../components/Modal/ConfirmActionModal';
+import HideDetails from '../../../../../components/HideDetails';
 
 const REMOVE_PLAYERS = 'remove-players-modal';
 const modalInitialState = {
@@ -39,7 +39,6 @@ class ViewLayout extends Component {
   };
 
   state = {
-    informationShown: true,
     modal: { ...modalInitialState },
   };
 
@@ -58,10 +57,6 @@ class ViewLayout extends Component {
         cb();
       }
     });
-  };
-
-  handleToggleInformationBlock = () => {
-    this.setState({ informationShown: !this.state.informationShown });
   };
 
   handleUploadFile = async (errors, file) => {
@@ -118,7 +113,7 @@ class ViewLayout extends Component {
   };
 
   render() {
-    const { informationShown, modal } = this.state;
+    const { modal } = this.state;
     const {
       data: bonusCampaignData,
       location,
@@ -129,8 +124,8 @@ class ViewLayout extends Component {
     } = this.props;
 
     return (
-      <div className="layout layout_not-iframe">
-        <div className="layout-info">
+      <div className="profile">
+        <div className="profile__info">
           <Header
             onChangeCampaignState={onChangeCampaignState}
             availableStatusActions={availableStatusActions}
@@ -139,36 +134,16 @@ class ViewLayout extends Component {
             cloneCampaign={this.handleCloneCampaign}
             removeAllPlayers={this.handleRemovePlayersClick}
           />
-
-          <div className="hide-details-block">
-            <div className="hide-details-block_divider" />
-            <button
-              className="hide-details-block_text btn-transparent"
-              onClick={this.handleToggleInformationBlock}
-            >
-              {informationShown ?
-                I18n.t('COMMON.DETAILS_COLLAPSE.HIDE') :
-                I18n.t('COMMON.DETAILS_COLLAPSE.SHOW')
-              }
-            </button>
-            <div className="hide-details-block_divider" />
-          </div>
-
-          <Collapse isOpen={informationShown}>
+          <HideDetails>
             <Information data={bonusCampaignData} />
-          </Collapse>
+          </HideDetails>
         </div>
-
-        <div className="layout-content">
-          <div className="nav-tabs-horizontal">
-            <Tabs
-              items={bonusCampaignTabs}
-              location={location}
-              params={params}
-            />
-            {children}
-          </div>
-        </div>
+        <Tabs
+          items={bonusCampaignTabs}
+          location={location}
+          params={params}
+        />
+        {children}
         {
           modal.name === REMOVE_PLAYERS &&
           <ConfirmActionModal

@@ -393,7 +393,7 @@ class View extends Component {
           {...availableFilters}
         />
 
-        <div className="tab-content">
+        <div className="tab-wrapper">
           <GridView
             dataSource={entities.content}
             onPageChange={this.handlePageChanged}

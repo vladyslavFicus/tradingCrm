@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 
 function createWithModals(modals) {
   return function withModals(WrappedComponent) {
@@ -13,7 +13,11 @@ function createWithModals(modals) {
         return Object.keys(modals)
           .reduce((acc, curr) => ({
             ...acc,
-            [curr]: { show: modalData => this.handleOpen(curr, modalData), hide: () => this.handleClose(curr) },
+            [curr]: {
+              show: modalData => this.handleOpen(curr, modalData),
+              hide: () => this.handleClose(curr),
+              isOpen: this.state[curr].isOpen,
+            },
           }), {});
       }
 
@@ -27,7 +31,7 @@ function createWithModals(modals) {
 
       render() {
         return (
-          <div>
+          <Fragment>
             <WrappedComponent {...this.props} modals={this.modalProps} />
             <For of={Object.keys(modals)} each="modal">
               <If condition={!this.state[modal].initial}>
@@ -39,7 +43,7 @@ function createWithModals(modals) {
                 })}
               </If>
             </For>
-          </div>
+          </Fragment>
         );
       }
     };

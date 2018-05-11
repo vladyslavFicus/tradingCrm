@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { I18n } from 'react-redux-i18n';
 import moment from 'moment';
 import PropTypes from '../../../../../../constants/propTypes';
@@ -52,7 +52,7 @@ class Header extends Component {
       : [];
 
     return (
-      <div>
+      <Fragment>
         <div className="panel-heading-row">
           <div className="panel-heading-row__info">
             <div className="panel-heading-row__info-title" id="campaign-name">
@@ -94,7 +94,7 @@ class Header extends Component {
             }
           </div>
         </div>
-      </div>
+      </Fragment>
     );
   }
 }
