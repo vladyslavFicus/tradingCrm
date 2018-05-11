@@ -5,7 +5,6 @@ import classNames from 'classnames';
 import Switch from '../../../../../components/Forms/Switch';
 import { marketingTypes } from './constants';
 import { statuses } from '../../../../../constants/user';
-import Card, { Content } from '../../../../../components/Card';
 import { withNotifications } from '../../../../../components/HighOrder';
 import Permissions from '../../../../../utils/permissions';
 import permissions from '../../../../../config/permissions';
@@ -67,8 +66,8 @@ class Additional extends Component {
         <span className="account-details__label">
           {I18n.t('PLAYER_PROFILE.PROFILE.ADDITIONAL.TITLE')}
         </span>
-        <Card>
-          <Content>
+        <div className="card">
+          <div className="card-body">
             <span className="account-details__additional-info__label">
               {I18n.t('PLAYER_PROFILE.MARKETING.TITLE')}
             </span>
@@ -118,8 +117,8 @@ class Additional extends Component {
                 </div>
               </div>
             </div>
-          </Content>
-        </Card>
+          </div>
+        </div>
       </div>
     );
   }
