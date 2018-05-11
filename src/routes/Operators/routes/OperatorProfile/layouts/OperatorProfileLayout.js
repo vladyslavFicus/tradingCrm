@@ -8,6 +8,7 @@ import Header from '../components/Header';
 import PropTypes from '../../../../../constants/propTypes';
 import Card from '../../../../../components/Card';
 import ConfirmActionModal from '../../../../../components/Modal/ConfirmActionModal';
+import HideDetails from '../../../../../components/HideDetails';
 
 const RESET_PASSWORD_MODAL = 'operator-password-reset-modal';
 const SEND_INVITE_MODAL = 'operator-send-invite-modal';
@@ -112,21 +113,10 @@ class OperatorProfileLayout extends Component {
             onSendInvitationClick={this.handleSendInvitationClick}
             onStatusChange={changeStatus}
           />
-          <div className="hide-details-block">
-            <div className="hide-details-block_divider" />
-            <button
-              className="hide-details-block_text btn-transparent"
-              onClick={this.handleToggleInformationBlock}
-            >
-              {informationShown ?
-                I18n.t('COMMON.DETAILS_COLLAPSE.HIDE') :
-                I18n.t('COMMON.DETAILS_COLLAPSE.SHOW')
-              }
-            </button>
-
-            <div className="hide-details-block_divider" />
-          </div>
-
+          <HideDetails
+            onClick={this.handleToggleInformationBlock}
+            informationShown={informationShown}
+          />
           <Collapse isOpen={informationShown}>
             <Information
               data={data}

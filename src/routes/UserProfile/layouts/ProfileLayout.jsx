@@ -27,6 +27,7 @@ import ShareLinkModal from '../components/ShareLinkModal';
 import ConfirmActionModal from '../../../components/Modal/ConfirmActionModal';
 import BackToTop from '../../../components/BackToTop';
 import Card from '../../../components/Card';
+import HideDetails from '../../../components/HideDetails';
 
 const NOTE_POPOVER = 'note-popover';
 const popoverInitialState = {
@@ -680,16 +681,10 @@ class ProfileLayout extends Component {
             onChangePasswordClick={this.handleChangePasswordClick}
             onShareProfileClick={this.handleShareProfileClick}
           />
-          <div className="hide-details-block">
-            <div className="hide-details-block_divider" />
-            <button
-              className="hide-details-block_text btn-transparent"
-              onClick={this.handleToggleInformationBlock}
-            >
-              {informationShown ? I18n.t('COMMON.DETAILS_COLLAPSE.HIDE') : I18n.t('COMMON.DETAILS_COLLAPSE.SHOW')}
-            </button>
-            <div className="hide-details-block_divider" />
-          </div>
+          <HideDetails
+            onClick={this.handleToggleInformationBlock}
+            informationShown={informationShown}
+          />
           <Collapse isOpen={informationShown}>
             <Information
               data={profile}

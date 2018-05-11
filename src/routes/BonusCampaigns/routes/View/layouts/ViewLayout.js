@@ -7,6 +7,7 @@ import PropTypes from '../../../../../constants/propTypes';
 import Header from '../components/Header';
 import Information from '../components/Information';
 import ConfirmActionModal from '../../../../../components/Modal/ConfirmActionModal';
+import HideDetails from '../../../../../components/HideDetails';
 
 const REMOVE_PLAYERS = 'remove-players-modal';
 const modalInitialState = {
@@ -139,21 +140,10 @@ class ViewLayout extends Component {
             cloneCampaign={this.handleCloneCampaign}
             removeAllPlayers={this.handleRemovePlayersClick}
           />
-
-          <div className="hide-details-block">
-            <div className="hide-details-block_divider" />
-            <button
-              className="hide-details-block_text btn-transparent"
-              onClick={this.handleToggleInformationBlock}
-            >
-              {informationShown ?
-                I18n.t('COMMON.DETAILS_COLLAPSE.HIDE') :
-                I18n.t('COMMON.DETAILS_COLLAPSE.SHOW')
-              }
-            </button>
-            <div className="hide-details-block_divider" />
-          </div>
-
+          <HideDetails
+            onClick={this.handleToggleInformationBlock}
+            informationShown={informationShown}
+          />
           <Collapse isOpen={informationShown}>
             <Information data={bonusCampaignData} />
           </Collapse>

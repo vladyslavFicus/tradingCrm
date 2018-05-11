@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { I18n } from 'react-redux-i18n';
 import { Collapse } from 'reactstrap';
 import Header from '../components/Header';
 import Information from '../components/Information';
 import Settings from '../components/Settings';
+import HideDetails from '../../../../../components/HideDetails';
 
 class ViewLayout extends Component {
   state = {
@@ -21,21 +21,10 @@ class ViewLayout extends Component {
       <div className="profile">
         <div className="profile__info">
           <Header />
-
-          <div className="hide-details-block">
-            <div className="hide-details-block_divider" />
-            <button
-              className="hide-details-block_text btn-transparent"
-              onClick={this.handleToggleInformationBlock}
-            >
-              {informationShown ?
-                I18n.t('COMMON.DETAILS_COLLAPSE.HIDE') :
-                I18n.t('COMMON.DETAILS_COLLAPSE.SHOW')
-              }
-            </button>
-            <div className="hide-details-block_divider" />
-          </div>
-
+          <HideDetails
+            onClick={this.handleToggleInformationBlock}
+            informationShown={informationShown}
+          />
           <Collapse isOpen={informationShown}>
             <Information />
           </Collapse>
