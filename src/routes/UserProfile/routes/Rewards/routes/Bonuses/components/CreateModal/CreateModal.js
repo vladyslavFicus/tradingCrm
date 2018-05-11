@@ -242,6 +242,7 @@ class CreateModal extends Component {
                     uuid={currentUuid}
                     uuidPartsCount={3}
                     length={18}
+                    className="d-block text-left"
                   />
                 </If>
               }

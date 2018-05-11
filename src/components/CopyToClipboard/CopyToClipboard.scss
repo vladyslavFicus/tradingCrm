@@ -1,20 +1,18 @@
-span.copy-clipboard-container {
-  &.highlight {
-    @keyframes highlights {
-      0% {
-        background: rgba(176, 235, 191, 0.8);
-      }
-      100% {
-        background: none;
-      }
-    }
-
-    animation: highlights 0.4s 2 forwards;
-    -webkit-animation: highlights 0.4s 2 forwards;
-  }
-
-  &:hover {
+.copy-clipboard-container {
+  > span:hover {
     border-bottom: 1px dashed rgba(187, 184, 203, 0.5);
     cursor: pointer;
+  }
+  &.highlight > span {
+    animation: highlights 0.4s 2 forwards;
+  }
+}
+
+@keyframes highlights {
+  from {
+    background: rgba(176, 235, 191, 0.8);
+  }
+  to {
+    background: none;
   }
 }
