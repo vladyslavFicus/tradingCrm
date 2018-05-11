@@ -3,7 +3,6 @@ import { I18n } from 'react-redux-i18n';
 import { get } from 'lodash';
 import classNames from 'classnames';
 import PropTypes from '../../../../../constants/propTypes';
-import Card, { Title, Content } from '../../../../../components/Card';
 import CmsGridView, { CmsGridViewColumn } from '../../../../../components/CmsGridView';
 import Uuid from '../../../../../components/Uuid';
 import {
@@ -161,12 +160,12 @@ class CmsGamesView extends Component {
       .filter(i => (filters[i] && Array.isArray(filters[i]) && filters[i].length > 0) || filters[i]).length > 0;
 
     return (
-      <Card>
-        <Title>
+      <div className="card">
+        <div className="card-heading">
           <span className="font-size-20 mr-auto" id="cms-games-list-header">
             {I18n.t('CMS_GAMES.TITLE')}
           </span>
-        </Title>
+        </div>
 
         <Choose>
           <When condition={providersLoading}>
@@ -187,8 +186,7 @@ class CmsGamesView extends Component {
           </Otherwise>
         </Choose>
 
-
-        <Content>
+        <div className="card-body">
           <Choose>
             <When condition={loading}>
               <Loader />
@@ -239,8 +237,8 @@ class CmsGamesView extends Component {
               </CmsGridView>
             </Otherwise>
           </Choose>
-        </Content>
-      </Card>
+        </div>
+      </div>
     );
   }
 }
