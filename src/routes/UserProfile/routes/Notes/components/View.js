@@ -63,8 +63,8 @@ class View extends Component {
     }, this.handleRefresh());
   };
 
-  handleRefresh = () => {
-    this.props.notes.refetch({
+  handleRefresh = async () => {
+    const response = await this.props.notes.refetch({
       searchValue: undefined,
       targetType: undefined,
       from: undefined,
@@ -73,6 +73,8 @@ class View extends Component {
       page: this.state.page,
       size: this.state.size,
     });
+
+    console.log(response);
   };
 
   handleFiltersChanged = (filters = {}) => {

@@ -17,7 +17,8 @@
       "SETTINGS": "Настройки",
       "NEW_CAMPAIGNS": "Новые кампании",
       "NEW_CAMPAIGNS_FULFILLMENTS": "Fulfillments",
-      "CAMPAIGNS": "[NEW] Кампании"
+      "CAMPAIGNS": "[NEW] Кампании",
+      "CMS_GAMES": "[CMS] Игры"
     },
     "BOTTOM_MENU": {
       "SUPPORT": "Поддержка"
@@ -1936,5 +1937,39 @@
     "CURRENCY": "Валюта",
     "RATE": "Коэффициент",
     "VALUE": "Стоимость"
+  },
+  "CMS_GAMES": {
+    "GRID_VIEW": {
+      "STATUS": {
+        "INACTIVE": "Неактивная",
+        "ACTIVE": "Активная"
+      },
+      "FREE_SPINS_STATUS": {
+        "NOT_AVAILABLE": "Недоступны",
+        "AVAILABLE": "Доступны / Неактивны",
+        "ACTIVE": "Доступны / Активны"
+      },
+      "PLATFORM": {
+        "DESKTOP": "Desktop",
+        "MOBILE": "Mobile",
+        "DESKTOP_AND_MOBILE": "Desktop & mobile"
+      },
+      "HEADER": {
+        "GAME": "Игра",
+        "PROVIDER": "Провайдер",
+        "PLATFORM": "Платформа",
+        "TECHNOLOGY": "Технология",
+        "FREE_SPINS_STATUS": "Free-spins",
+        "STATUS": "Статус"
+      }
+    },
+    "GRID_VIEW_FILTER": {
+      "PROVIDER": "Провайдер",
+      "PLATFORM": "Платформа",
+      "TECHNOLOGY": "Технология",
+      "FREE_SPINS_STATUS": "Доступность free-spins",
+      "STATUS": "Статус"
+    },
+    "TITLE": "CMS Список игр"
   }
 }

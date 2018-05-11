@@ -7,6 +7,7 @@ import GridColumn from './GridColumn';
 import shallowEqual from '../../utils/shallowEqual';
 import NotFoundContent from '../../components/NotFoundContent';
 import PermissionContent from '../PermissionContent';
+import GridViewLoader from '../GridViewLoader';
 
 class GridView extends Component {
   static propTypes = {
@@ -155,14 +156,6 @@ class GridView extends Component {
       : null
   );
 
-  renderLoader = columns => (
-    <tr key="loader" className="infinite-preloader">
-      <td colSpan={columns.length}>
-        <img src="/img/infinite_preloader.svg" alt="preloader" />
-      </td>
-    </tr>
-  );
-
   renderBody = (columns) => {
     const {
       dataSource,
@@ -181,7 +174,7 @@ class GridView extends Component {
           loadMore={() => this.handlePageChange(activePage + 1)}
           element="tbody"
           hasMore={hasMore}
-          loader={this.renderLoader(columns)}
+          loader={<GridViewLoader key="loader" className="infinite-preloader" colSpan={columns.length} />}
         >
           {rows}
         </InfiniteScroll>
@@ -231,11 +224,11 @@ class GridView extends Component {
 
     return (
       <tfoot>
-        <tr>
-          {columns.map(({ props }, key) =>
-            <td key={key}>{summaryRow[props.name]}</td>
-          )}
-        </tr>
+      <tr>
+        {columns.map(({ props }, key) =>
+          <td key={key}>{summaryRow[props.name]}</td>
+        )}
+      </tr>
       </tfoot>
     );
   }
@@ -292,8 +285,8 @@ class GridView extends Component {
       <div className="table-responsive">
         <table className={classNames('table data-grid-layout', tableClassName)}>
           <thead className={headerClassName}>
-            {this.renderHead(this.recognizeHeaders(grids))}
-            {this.renderFilters(this.recognizeFilters(grids))}
+          {this.renderHead(this.recognizeHeaders(grids))}
+          {this.renderFilters(this.recognizeFilters(grids))}
           </thead>
           {this.renderBody(grids)}
           {this.renderFooter(grids)}
