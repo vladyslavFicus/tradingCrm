@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { SortableHandle } from 'react-sortable-hoc';
 import classNames from 'classnames';
 import { I18n } from 'react-redux-i18n';
-import Card, { Title, Content } from '../../../../../components/Card';
 import SortableGridView from '../../../../../components/GridView/SortableGridView';
 import { GridColumn } from '../../../../../components/GridView';
 import Amount from '../../../../../components/Amount';
@@ -229,16 +228,16 @@ class List extends Component {
     const { popover, filters } = this.state;
 
     return (
-      <Card>
-        <Title>
-          <span className="font-size-20">Payment methods</span>
-        </Title>
+      <div className="card">
+        <div className="card-heading font-size-20">
+          Payment methods
+        </div>
 
         <MethodGridFilter
           onSubmit={this.handleFiltersChanged}
         />
 
-        <Content>
+        <div className="card-body">
           <SortableGridView
             dataSource={paymentMethods}
             onSortEnd={this.handleSortEnd}
@@ -286,7 +285,7 @@ class List extends Component {
               />
             }
           </SortableGridView>
-        </Content>
+        </div>
 
         {
           popover.name === PAYMENT_METHOD_LIMIT_POPOVER &&
@@ -309,7 +308,7 @@ class List extends Component {
             {...popover.params}
           />
         }
-      </Card>
+      </div>
     );
   }
 }

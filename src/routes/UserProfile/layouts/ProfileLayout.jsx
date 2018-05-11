@@ -25,7 +25,6 @@ import ChangePasswordModal from '../../../components/ChangePasswordModal';
 import ShareLinkModal from '../components/ShareLinkModal';
 import ConfirmActionModal from '../../../components/Modal/ConfirmActionModal';
 import BackToTop from '../../../components/BackToTop';
-import Card from '../../../components/Card';
 import HideDetails from '../../../components/HideDetails';
 
 const NOTE_POPOVER = 'note-popover';
@@ -690,9 +689,9 @@ class ProfileLayout extends Component {
           location={location}
           params={params}
         />
-        <Card noBorders>
+        <div className="card no-borders">
           {children}
-        </Card>
+        </div>
         {
           popover.name === NOTE_POPOVER &&
           <NotePopover
