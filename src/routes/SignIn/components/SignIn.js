@@ -8,7 +8,6 @@ import { Brands, Departments } from '../../../components/Brands';
 import Copyrights from '../../../components/Copyrights';
 import history from '../../../router/history';
 
-
 class SignIn extends Component {
   static propTypes = {
     location: PropTypes.shape({

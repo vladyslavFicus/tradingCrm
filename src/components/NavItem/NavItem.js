@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { findDOMNode } from 'react-dom';
 import classNames from 'classnames';
 import { I18n } from 'react-redux-i18n';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import TimelineLite from 'gsap/TimelineLite';
 import SubNav from '../SubNav';
 import PropTypes from '../../constants/propTypes';

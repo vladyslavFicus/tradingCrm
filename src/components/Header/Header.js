@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import classNames from 'classnames';
-import { IndexLink } from 'react-router';
+import { Link } from 'react-router-dom';
 import PropTypes from '../../constants/propTypes';
 import DepartmentsDropDown from '../DepartmentsDropDown';
 import HeaderNav from '../HeaderNav';
@@ -58,9 +58,9 @@ class Header extends Component {
 
     return (
       <header className="header">
-        <IndexLink className="header__brand" to={this.indexLink}>
+        <Link className="header__brand" to={this.indexLink}>
           <img className="img-fluid" src={getLogo()} alt="current-casino-logo" />
-        </IndexLink>
+        </Link>
         <DepartmentsDropDown
           onChange={this.handleChangeDepartment}
           current={user.authorities.find(authority => authority.department === user.department)}

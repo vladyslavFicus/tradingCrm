@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Route as DomRoute, matchPath, withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { Route as DomRoute, matchPath, withRouter, Redirect } from 'react-router-dom';
 
 class Route extends Component {
   static propTypes = {
     disableScroll: PropTypes.bool,
+    checkAuth: PropTypes.bool,
     location: PropTypes.object.isRequired,
     history: PropTypes.object.isRequired,
     path: PropTypes.oneOfType([
@@ -21,6 +23,7 @@ class Route extends Component {
   static defaultProps = {
     path: undefined,
     disableScroll: false,
+    checkAuth: false,
   };
 
   async componentDidMount() {
@@ -63,10 +66,16 @@ class Route extends Component {
 
 
   render() {
-    const { disableScroll, ...props } = this.props;
+    const {
+      disableScroll, checkAuth, logged, ...props
+    } = this.props;
+
+    if (checkAuth && !logged) {
+      return <Redirect to="/sign-in" />;
+    }
 
     return <DomRoute {...props} />;
   }
 }
 
-export default withRouter(Route);
+export default withRouter(connect(({ auth: { logged } }) => ({ logged }))(Route));

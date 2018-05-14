@@ -10,13 +10,14 @@ export default function asyncRoute(getComponent, getReducers, key) {
       }),
     };
 
-    state = {
-      reducersLoaded: false,
-      RouteComponent: null,
-      shouldLoadReducers: !!getReducers,
-    };
+    constructor(props) {
+      super(props);
+      this.state = {
+        reducersLoaded: false,
+        RouteComponent: null,
+        shouldLoadReducers: !!getReducers,
+      };
 
-    componentWillMount() {
       const { reducersLoaded, shouldLoadReducers } = this.state;
       const shouldLoad = !reducersLoaded && shouldLoadReducers;
 
