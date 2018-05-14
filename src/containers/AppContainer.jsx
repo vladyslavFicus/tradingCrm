@@ -3,10 +3,11 @@ import PropTypes from 'prop-types';
 import { Router } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import ApolloProvider from '../graphql/ApolloProvider';
+import IndexRoute from '../routes/IndexRoute';
+import history from '../router/history';
 
 class AppContainer extends Component {
   static propTypes = {
-    routes: PropTypes.object.isRequired,
     store: PropTypes.object.isRequired,
   };
 
@@ -16,8 +17,8 @@ class AppContainer extends Component {
     return (
       <Provider store={store}>
         <ApolloProvider>
-          <Router>
-            {containerRoutes}
+          <Router history={history} >
+            <IndexRoute />
           </Router>
         </ApolloProvider>
       </Provider>

@@ -1,6 +1,5 @@
 import { applyMiddleware, compose, createStore } from 'redux';
 import { apiMiddleware } from 'redux-api-middleware';
-import { browserHistory } from 'react-router';
 import thunk from 'redux-thunk';
 import { persistStore, autoRehydrate } from 'redux-persist';
 import { loadTranslations, syncTranslationWithStore } from 'react-redux-i18n';
@@ -106,8 +105,6 @@ export default (initialState = {}, onComplete) => {
   crosstabSync(persist, config.middlewares.crossTabPersist);
 
   store.asyncReducers = {};
-  store.unsubscribeHistory = browserHistory
-    .listen(locationActionCreators.updateLocation(store));
 
   if (module.hot) {
     module.hot.accept('./reducers', () => {

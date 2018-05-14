@@ -1,4 +1,3 @@
-import { browserHistory } from 'react-router';
 import { CALL_API, isValidRSAA } from 'redux-api-middleware';
 import getSignInUrl from '../../utils/getSignInUrl';
 import { actionTypes as authActionTypes } from '../modules/auth';
