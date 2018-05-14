@@ -1,3 +1,3 @@
-import IndexRoute from './components/IndexRoute';
+import IndexRouteContainer from './containers/IndexRouteContainer';
 
-export default IndexRoute;
+export default IndexRouteContainer;

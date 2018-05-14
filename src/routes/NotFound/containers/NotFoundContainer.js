@@ -6,4 +6,3 @@ const mapStateToProps = ({ i18n: { locale } }) => ({
 });
 
 export default connect(mapStateToProps)(NotFound);
-

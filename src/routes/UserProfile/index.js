@@ -59,7 +59,7 @@ export default store => ({
           return import(/* webpackChunkName: "playerProfileRoute" */ './container/ProfileLayoutContainer');
         }
 
-        return import(/* webpackChunkName: "notFoundRoute" */ '../NotFound/container/Container');
+        return import(/* webpackChunkName: "notFoundRoute" */ '../NotFound/containers/NotFoundContainer');
       })
       .then((component) => {
         cb(null, component.default);

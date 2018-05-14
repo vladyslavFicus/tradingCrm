@@ -17,7 +17,7 @@ export default store => ({
       const { operatorProfile: { view: operatorProfile } } = store.getState();
 
       if (operatorProfile && operatorProfile.error) {
-        return cb(null, require('../../../NotFound/container/Container').default);
+        return cb(null, require('../../../NotFound/containers/NotFoundContainer').default);
       }
 
       cb(null, require('./container/ViewContainer').default);

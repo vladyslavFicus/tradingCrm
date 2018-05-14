@@ -1,12 +1,14 @@
-import React, { Component, Fragment } from 'react';
-import { Switch, withRouter } from 'react-router-dom';
+import React, { PureComponent } from 'react';
+import { Switch, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { get } from 'lodash';
 import { AppRoute, Route } from '../../../router';
-import NotFoundContent from '../../../components/NotFoundContent';
+import NotFound from '../../../routes/NotFound';
+import CoreLayout from '../../../layouts/CoreLayout';
+import BlackLayout from '../../../layouts/BlackLayout';
 import SignIn from '../../SignIn';
 
-class IndexRoute extends Component {
+class IndexRoute extends PureComponent {
   static propTypes = {
     location: PropTypes.shape({
       pathname: PropTypes.string.isRequired,
@@ -15,34 +17,29 @@ class IndexRoute extends Component {
       }),
       query: PropTypes.object,
     }).isRequired,
-    match: PropTypes.shape({
-      path: PropTypes.string.isRequired,
-    }).isRequired,
+    logged: PropTypes.bool.isRequired,
   };
 
   render() {
-    const { location } = this.props;
+    const { location, logged } = this.props;
     const isNotFound = get(location, 'query.isNotFound');
 
     return (
-      <Fragment>
-        <Choose>
-          <When condition={!isNotFound}>
-            <Switch>
-              <AppRoute
-                path="/"
-                exact
-                component={SignIn}
-              />
-            </Switch>
-          </When>
-          <Otherwise>
-            <Route component={NotFoundContent} />
-          </Otherwise>
-        </Choose>
-      </Fragment>
+      <CoreLayout>
+        <Switch>
+          <If condition={isNotFound}>
+            <Route component={NotFound} />
+          </If>
+          <If condition={logged}>
+            <Redirect from="/(sign-in|set-password|reset-password)" to="/" />
+          </If>
+          <AppRoute path="/users" layout={BlackLayout} component={() => <h1>TODO USERS ROUTE</h1>} auth />
+          <AppRoute path="/sign-in" layout={BlackLayout} component={SignIn} />
+          <Route component={NotFound} />
+        </Switch>
+      </CoreLayout>
     );
   }
 }
 
-export default withRouter(IndexRoute);
+export default IndexRoute;

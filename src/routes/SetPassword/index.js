@@ -5,7 +5,7 @@ export default store => ({
   getComponent({ location: { query } }, cb) {
     require.ensure([], (require) => {
       if (!query.token) {
-        return cb(null, require('../../routes/NotFound/container/Container').default);
+        return cb(null, require('../../routes/NotFound/containers/NotFoundContainer').default);
       }
 
       injectReducer(store, { key: 'passwordResetView', reducer: require('./modules').default });

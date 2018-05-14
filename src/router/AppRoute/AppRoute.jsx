@@ -33,4 +33,3 @@ AppRoute.defaultProps = {
 };
 
 export default AppRoute;
-

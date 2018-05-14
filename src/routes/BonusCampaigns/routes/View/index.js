@@ -25,7 +25,7 @@ export default store => ({
     require.ensure([], (require) => {
       const bonusCampaign = store.getState().bonusCampaignView;
       if (bonusCampaign && bonusCampaign.error) {
-        return cb(null, require('../../../NotFound/container/Container').default);
+        return cb(null, require('../../../NotFound/containers/NotFoundContainer').default);
       }
 
       cb(null, require('./container/ViewContainer').default);
