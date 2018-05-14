@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { I18n } from 'react-redux-i18n';
-import Card, { Title, Content } from '../../../components/Card';
 import CountriesGridFilter from './CountriesGridFilter';
 import GridView, { GridViewColumn } from '../../../components/GridView';
 import StatusDropDown from './StatusDropDown';
@@ -56,17 +55,17 @@ class List extends Component {
 
     return (
       <div className="page-content-inner">
-        <Card>
-          <Title>
-            <span className="font-size-20">{I18n.t('COUNTRIES.TITLE')}</span>
-          </Title>
+        <div className="card">
+          <div className="card-heading font-size-20">
+            {I18n.t('COUNTRIES.TITLE')}
+          </div>
 
           <CountriesGridFilter
             onSubmit={this.handleFiltersChanged}
             locale={this.props.locale}
           />
 
-          <Content>
+          <div className="card-body">
             <GridView
               dataSource={entities.content}
               onPageChange={this.handlePageChanged}
@@ -88,8 +87,8 @@ class List extends Component {
                 render={this.renderStatus}
               />
             </GridView>
-          </Content>
-        </Card>
+          </div>
+        </div>
       </div>
     );
   }

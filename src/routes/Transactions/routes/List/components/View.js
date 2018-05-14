@@ -3,7 +3,6 @@ import moment from 'moment';
 import { I18n } from 'react-redux-i18n';
 import TransactionsFilterForm from '../../../components/TransactionsFilterForm';
 import PropTypes from '../../../../../constants/propTypes';
-import Card, { Title, Content } from '../../../../../components/Card';
 import GridView, { GridColumn } from '../../../../../components/GridView';
 import {
   methodsLabels,
@@ -310,8 +309,8 @@ class View extends Component {
     const allowActions = Object.keys(filters).filter(i => filters[i]).length > 0;
 
     return (
-      <Card>
-        <Title>
+      <div className="card">
+        <div className="card-heading">
           <span className="font-size-20" id="transactions-list-header">
             {I18n.t('COMMON.PAYMENTS')}
           </span>
@@ -323,7 +322,7 @@ class View extends Component {
           >
             {I18n.t('COMMON.EXPORT')}
           </button>
-        </Title>
+        </div>
 
         <TransactionsFilterForm
           onSubmit={this.handleFiltersChanged}
@@ -333,7 +332,7 @@ class View extends Component {
           filterByType
         />
 
-        <Content>
+        <div className="card-body">
           <GridView
             dataSource={entities.content}
             onPageChange={this.handlePageChanged}
@@ -421,8 +420,8 @@ class View extends Component {
               onNoteClick={this.handleNoteClick}
             />
           }
-        </Content>
-      </Card>
+        </div>
+      </div>
     );
   }
 }

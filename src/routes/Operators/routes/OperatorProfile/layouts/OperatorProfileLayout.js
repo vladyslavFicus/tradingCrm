@@ -5,7 +5,6 @@ import Tabs from '../../../../../components/Tabs';
 import { operatorProfileTabs } from '../../../../../config/menu';
 import Header from '../components/Header';
 import PropTypes from '../../../../../constants/propTypes';
-import Card from '../../../../../components/Card';
 import ConfirmActionModal from '../../../../../components/Modal/ConfirmActionModal';
 import HideDetails from '../../../../../components/HideDetails';
 
@@ -115,9 +114,9 @@ class OperatorProfileLayout extends Component {
           location={location}
           params={params}
         />
-        <Card noBorders>
+        <div className="card no-borders">
           {children}
-        </Card>
+        </div>
         {
           modal.name === RESET_PASSWORD_MODAL &&
           <ConfirmActionModal

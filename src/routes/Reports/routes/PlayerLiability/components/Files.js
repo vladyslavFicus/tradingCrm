@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import GridView, { GridViewColumn } from '../../../../../components/GridView';
-import Card, { Title, Content } from '../../../../../components/Card';
 import PermissionContent from '../../../../../components/PermissionContent';
 import permissions from '../../../../../config/permissions';
 
@@ -47,12 +46,12 @@ class Files extends Component {
     const { entities } = this.props;
 
     return (
-      <Card>
-        <Title>
-          <span className="font-size-20">Report files</span>
-        </Title>
+      <div className="card">
+        <div className="card-heading font-size-20">
+          Report files
+        </div>
 
-        <Content>
+        <div className="card-boy">
           <div className="row">
             <div className="col-sm-4">
               <GridView
@@ -80,8 +79,8 @@ class Files extends Component {
               </GridView>
             </div>
           </div>
-        </Content>
-      </Card>
+        </div>
+      </div>
     );
   }
 }

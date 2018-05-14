@@ -4,7 +4,6 @@ import moment from 'moment';
 import { Link } from 'react-router';
 import BonusCampaignsFilterForm from './BonusCampaignsFilterForm';
 import PropTypes from '../../../../../constants/propTypes';
-import Card, { Title, Content } from '../../../../../components/Card';
 import GridView, { GridColumn } from '../../../../../components/GridView';
 import renderLabel from '../../../../../utils/renderLabel';
 import {
@@ -189,8 +188,8 @@ class View extends Component {
     const allowActions = Object.keys(filters).filter(i => filters[i]).length > 0;
 
     return (
-      <Card>
-        <Title>
+      <div className="card">
+        <div className="card-heading">
           <span className="font-size-20 mr-auto" id="campaigns-page-title">
             {I18n.t('BONUS_CAMPAIGNS.TITLE')}
           </span>
@@ -209,7 +208,7 @@ class View extends Component {
           >
             {I18n.t('BONUS_CAMPAIGNS.BUTTON_CREATE_CAMPAIGN')}
           </Link>
-        </Title>
+        </div>
 
         <BonusCampaignsFilterForm
           onSubmit={this.handleFiltersChanged}
@@ -223,7 +222,7 @@ class View extends Component {
           isLoading={isLoading}
         />
 
-        <Content>
+        <div className="card-body">
           <GridView
             locale={locale}
             dataSource={entities.content}
@@ -281,8 +280,8 @@ class View extends Component {
               render={this.renderStatus}
             />
           </GridView>
-        </Content>
-      </Card>
+        </div>
+      </div>
     );
   }
 }

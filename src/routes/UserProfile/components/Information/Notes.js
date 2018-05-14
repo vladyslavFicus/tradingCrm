@@ -5,7 +5,6 @@ import { I18n } from 'react-redux-i18n';
 import { entities, entitiesPrefixes } from '../../../../constants/uuid';
 import PopoverButton from '../../../../components/PopoverButton';
 import Uuid from '../../../../components/Uuid';
-import Card, { Content } from '../../../../components/Card';
 
 class Notes extends Component {
   static propTypes = {
@@ -70,11 +69,11 @@ class Notes extends Component {
           {I18n.t('PLAYER_PROFILE.PINNED_NOTES.TITLE')}
         </span>
         <If condition={notes.content}>
-          <Card>
-            <Content>
-              { notes.content.map(this.renderItem)}
-            </Content>
-          </Card>
+          <div className="card">
+            <div className="card-body">
+              {notes.content.map(this.renderItem)}
+            </div>
+          </div>
         </If>
       </div>
     );

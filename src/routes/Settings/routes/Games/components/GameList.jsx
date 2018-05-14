@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { I18n } from 'react-redux-i18n';
 import PropTypes from '../../../../../constants/propTypes';
-import Card, { Title, Content } from '../../../../../components/Card';
 import FileUpload from '../../../../../components/FileUpload';
 import GridView, { GridColumn } from '../../../../../components/GridView';
 import GameStatus from './GameStatus';
@@ -136,8 +135,8 @@ class View extends Component {
     const allowActions = Object.keys(filters).filter(i => filters[i]).length > 0;
 
     return (
-      <Card>
-        <Title>
+      <div className="card">
+        <div className="card-heading">
           <span className="font-size-20 mr-auto" id="operators-list-header">
             {I18n.t('GAMES.TITLE')}
           </span>
@@ -167,7 +166,7 @@ class View extends Component {
           >
             {I18n.t('GAMES.RESET_BUTTON')}
           </button>
-        </Title>
+        </div>
 
         <GamesGridFilter
           onSubmit={this.handleFiltersChanged}
@@ -176,7 +175,7 @@ class View extends Component {
           {...availableFilters}
         />
 
-        <Content>
+        <div className="card-body">
           <GridView
             locale={locale}
             dataSource={entities.content}
@@ -216,8 +215,8 @@ class View extends Component {
               render={data => <GameStatus status={data} />}
             />
           </GridView>
-        </Content>
-      </Card>
+        </div>
+      </div>
     );
   }
 }

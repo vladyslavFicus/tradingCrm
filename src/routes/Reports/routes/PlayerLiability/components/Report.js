@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { I18n } from 'react-redux-i18n';
 import GridView, { GridViewColumn } from '../../../../../components/GridView';
-import Card, { Title, Content } from '../../../../../components/Card';
 import Amount from '../../../../../components/Amount';
 
 class Report extends Component {
@@ -33,8 +32,8 @@ class Report extends Component {
     const { entities } = this.props;
 
     return (
-      <Card>
-        <Title>
+      <div className="card">
+        <div className="card-heading">
           <span className="font-size-20">
             {I18n.t('COMMON.PLAYER_LIABILITY_REPORT')}
           </span>
@@ -42,9 +41,9 @@ class Report extends Component {
           <button className="btn btn-primary ml-auto" onClick={this.handleExportClick}>
             {I18n.t('COMMON.BUTTONS.EXPORT_AS_CSV')}
           </button>
-        </Title>
+        </div>
 
-        <Content>
+        <div className="card-body">
           <GridView
             dataSource={entities.content}
             onFiltersChanged={this.handleFiltersChanged}
@@ -87,8 +86,8 @@ class Report extends Component {
               render={this.renderAmountColumn}
             />
           </GridView>
-        </Content>
-      </Card>
+        </div>
+      </div>
     );
   }
 }

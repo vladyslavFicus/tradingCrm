@@ -5,7 +5,6 @@ import PersonalInformationItem from '../../../../components/Information/Personal
 import PropTypes from '../../../../constants/propTypes';
 import { statuses as kycStatuses } from '../../../../constants/kyc';
 import { statuses as userStatuses } from '../../../../constants/user';
-import Card, { Content } from '../../../../components/Card';
 
 const Personal = (props) => {
   const {
@@ -31,8 +30,8 @@ const Personal = (props) => {
       <span className="account-details__label">
         {I18n.t('PLAYER_PROFILE.PROFILE.PERSONAL.TITLE')}
       </span>
-      <Card>
-        <Content>
+      <div className="card">
+        <div className="card-body">
           <PersonalInformationItem
             label="Date of birth"
             value={birthDate ? moment(birthDate).format('DD.MM.YYYY') : null}
@@ -76,8 +75,8 @@ const Personal = (props) => {
             label="B-TAG"
             value={btag || <span className="color-default">no b-tag</span>}
           />
-        </Content>
-      </Card>
+        </div>
+      </div>
     </div>
   );
 };
