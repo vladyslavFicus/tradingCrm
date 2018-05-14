@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { applyRouterMiddleware, browserHistory, Router } from 'react-router';
-import { useScroll } from 'react-router-scroll';
+import { Router } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import ApolloProvider from '../graphql/ApolloProvider';
 
@@ -17,16 +16,7 @@ class AppContainer extends Component {
     return (
       <Provider store={store}>
         <ApolloProvider>
-          <Router
-            history={browserHistory}
-            render={applyRouterMiddleware(useScroll((prevRouterProps, { routes, location }) => {
-              if (routes.some(route => route.ignoreScrollBehavior)) {
-                return false;
-              }
-
-              return prevRouterProps && location.pathname !== prevRouterProps.location.pathname;
-            }))}
-          >
+          <Router>
             {containerRoutes}
           </Router>
         </ApolloProvider>
