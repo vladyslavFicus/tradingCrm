@@ -5,6 +5,8 @@ import TransactionsFilterForm from '../../../components/TransactionsFilterForm';
 import PropTypes from '../../../../../constants/propTypes';
 import GridView, { GridViewColumn } from '../../../../../components/GridView';
 import {
+  types as paymentTypes,
+  customTypes as customPaymentTypes,
   methodsLabels,
   typesLabels,
   typesProps,
@@ -207,8 +209,12 @@ class View extends Component {
   );
 
   renderType = (data) => {
-    const label = typesLabels[data.paymentType] || data.paymentType;
-    const props = typesProps[data.paymentType] || {};
+    const type = data.paymentType === paymentTypes.Confiscate && data.tip
+      ? customPaymentTypes.Tip
+      : data.paymentType;
+
+    const label = typesLabels[type] || type;
+    const props = typesProps[type] || {};
 
     return (
       <div>
