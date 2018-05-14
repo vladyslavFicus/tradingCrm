@@ -1,4 +1,3 @@
-import gql from 'graphql-tag';
 import { compose, graphql } from 'react-apollo';
 import CmsGamesView from '../components/CmsGamesView';
 import { getBrandId } from '../../../../../config';
