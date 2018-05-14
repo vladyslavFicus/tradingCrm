@@ -34,8 +34,8 @@ class List extends Component {
     currencies: PropTypes.arrayOf(PropTypes.string).isRequired,
     countries: PropTypes.object.isRequired,
     auth: PropTypes.shape({
-      brandId: PropTypes.string.isRequired,
-      uuid: PropTypes.string.isRequired,
+      brandId: PropTypes.string,
+      uuid: PropTypes.string,
     }).isRequired,
   };
   static contextTypes = {
@@ -92,6 +92,10 @@ class List extends Component {
     this.setState({ filters: {}, page: 0 });
   };
 
+  handlePlayerClick = (data) => {
+    this.props.onPlayerClick({ ...data, auth: this.props.auth });
+  };
+
   renderUserInfo = data => (
     <GridPlayerInfo
       fetchPlayerProfile={this.props.fetchPlayerMiniProfile}
@@ -146,10 +150,6 @@ class List extends Component {
       }
     </div>
   );
-
-  handlePlayerClick = (data) => {
-    this.props.onPlayerClick({ ...data, auth: this.props.auth });
-  };
 
   render() {
     const {

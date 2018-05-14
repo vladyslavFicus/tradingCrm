@@ -22,7 +22,6 @@ class GridPlayerInfo extends Component {
   };
   static defaultProps = {
     id: null,
-    onClick: null,
     mainInfoClassName: 'font-weight-700',
     clickable: true,
   };
