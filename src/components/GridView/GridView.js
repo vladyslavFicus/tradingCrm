@@ -198,7 +198,7 @@ class GridView extends Component {
   };
 
   renderColumn(key, column, data) {
-    const gridColumn = this.getGridColumn(column);
+    const gridColumn = getGridColumn(column);
     let content = null;
 
     if (typeof gridColumn.render === 'function') {
