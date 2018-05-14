@@ -5,7 +5,7 @@ import moment from 'moment';
 import _ from 'lodash';
 import KycGridFilter from './KycGridFilter';
 import PropTypes from '../../../../../constants/propTypes';
-import GridView, { GridColumn } from '../../../../../components/GridView';
+import GridView, { GridViewColumn } from '../../../../../components/GridView';
 import GridPlayerInfo from '../../../../../components/GridPlayerInfo';
 import Uuid from '../../../../../components/Uuid';
 import {
@@ -187,22 +187,22 @@ class List extends Component {
             lazyLoad
             showNoResults={noResults}
           >
-            <GridColumn
+            <GridViewColumn
               name="id"
               header={I18n.t('COMMON.PLAYER')}
               render={this.renderUserInfo}
             />
-            <GridColumn
+            <GridViewColumn
               name="initiated"
               header={I18n.t('KYC_REQUESTS.GRID_VIEW.INITIATED')}
               render={this.renderInitiated}
             />
-            <GridColumn
+            <GridViewColumn
               name="identityStatus"
               header={I18n.t('KYC_REQUESTS.GRID_VIEW.IDENTITY_STATUS')}
               render={this.renderStatus('kycPersonalStatus')}
             />
-            <GridColumn
+            <GridViewColumn
               name="addressStatus"
               header={I18n.t('KYC_REQUESTS.GRID_VIEW.ADDRESS_STATUS')}
               render={this.renderStatus('kycAddressStatus')}

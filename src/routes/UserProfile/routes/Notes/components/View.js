@@ -60,17 +60,15 @@ class View extends Component {
     }, this.handleRefresh());
   };
 
-  handleRefresh = () => {
-    this.props.notes.refetch({
-      searchValue: undefined,
-      targetType: undefined,
-      from: undefined,
-      to: undefined,
-      ...this.state.filters,
-      page: this.state.page,
-      size: this.state.size,
-    });
-  };
+  handleRefresh = () => this.props.notes.refetch({
+    searchValue: undefined,
+    targetType: undefined,
+    from: undefined,
+    to: undefined,
+    ...this.state.filters,
+    page: this.state.page,
+    size: this.state.size,
+  });
 
   handleFiltersChanged = (filters = {}) => {
     this.setState({ filters, page: 0 }, () => this.handleRefresh());

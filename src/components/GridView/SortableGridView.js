@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { SortableContainer, SortableElement, arrayMove } from 'react-sortable-hoc';
 import classNames from 'classnames';
-import GridColumn from '../GridView/GridColumn';
+import GridColumn from './GridViewColumn';
 import shallowEqual from '../../utils/shallowEqual';
 
 const SortableItem = SortableElement(({ data, index, columns }) => (

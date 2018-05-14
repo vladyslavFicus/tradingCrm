@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import moment from 'moment';
 import { SubmissionError } from 'redux-form';
 import PropTypes from '../../../../../../../constants/propTypes';
-import GridView, { GridColumn } from '../../../../../../../components/GridView';
+import GridView, { GridViewColumn } from '../../../../../../../components/GridView';
 import {
   types as paymentTypes,
   methodsLabels,
@@ -403,7 +403,7 @@ class View extends Component {
             locale={locale}
             showNoResults={noResults}
           >
-            <GridColumn
+            <GridViewColumn
               name="paymentId"
               header="Transaction"
               render={this.renderTransactionId}

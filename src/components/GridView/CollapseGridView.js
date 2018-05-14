@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import GridColumn from './GridColumn';
+import GridColumn from './GridViewColumn';
 import NotFoundContent from '../../components/NotFoundContent';
 
 class CollapseGridView extends Component {

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { I18n } from 'react-redux-i18n';
 import CountriesGridFilter from './CountriesGridFilter';
-import GridView, { GridColumn } from '../../../components/GridView';
+import GridView, { GridViewColumn } from '../../../components/GridView';
 import StatusDropDown from './StatusDropDown';
 import { accessTypes } from '../../../constants/countries';
 import PropTypes from '../../../constants/propTypes';
@@ -74,13 +74,13 @@ class List extends Component {
               locale={this.props.locale}
               lazyLoad
             >
-              <GridColumn
+              <GridViewColumn
                 name="countryName"
                 header={I18n.t('COUNTRIES.GRID.LABEL.COUNTRY')}
                 className="font-weight-700"
                 headerStyle={{ width: '350px' }}
               />
-              <GridColumn
+              <GridViewColumn
                 name="access"
                 header={I18n.t('COUNTRIES.GRID.LABEL.ACCESS')}
                 className="text-uppercase"
