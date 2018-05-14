@@ -4,7 +4,7 @@ import moment from 'moment';
 import { Link } from 'react-router';
 import BonusCampaignsFilterForm from './BonusCampaignsFilterForm';
 import PropTypes from '../../../../../constants/propTypes';
-import GridView, { GridColumn } from '../../../../../components/GridView';
+import GridView, { GridViewColumn } from '../../../../../components/GridView';
 import renderLabel from '../../../../../utils/renderLabel';
 import {
   fulfillmentTypesLabels,
@@ -232,49 +232,49 @@ class View extends Component {
             lazyLoad
             showNoResults={noResults}
           >
-            <GridColumn
+            <GridViewColumn
               name="campaign"
               header={I18n.t('BONUS_CAMPAIGNS.GRID_VIEW.CAMPAIGN')}
               render={this.renderCampaign}
             />
 
-            <GridColumn
+            <GridViewColumn
               name="targetType"
               header={I18n.t('BONUS_CAMPAIGNS.GRID_VIEW.TYPE')}
               render={this.renderType}
             />
 
-            <GridColumn
+            <GridViewColumn
               name="fulfillmentType"
               header={I18n.t('BONUS_CAMPAIGNS.GRID_VIEW.FULFILLMENT_TYPE')}
               render={this.renderFulfillmentType}
             />
 
-            <GridColumn
+            <GridViewColumn
               name="createdDate"
               header={I18n.t('BONUS_CAMPAIGNS.GRID_VIEW.CREATED')}
               render={this.renderDate('creationDate')}
             />
 
-            <GridColumn
+            <GridViewColumn
               name="startDate"
               header={I18n.t('BONUS_CAMPAIGNS.GRID_VIEW.START_DATE')}
               render={this.renderDate('startDate')}
             />
 
-            <GridColumn
+            <GridViewColumn
               name="endDate"
               header={I18n.t('BONUS_CAMPAIGNS.GRID_VIEW.END_DATE')}
               render={this.renderDate('endDate')}
             />
 
-            <GridColumn
+            <GridViewColumn
               name="granted"
               header={I18n.t('BONUS_CAMPAIGNS.GRID_VIEW.GRANTED')}
               render={this.renderGranted}
             />
 
-            <GridColumn
+            <GridViewColumn
               name="status"
               header={I18n.t('BONUS_CAMPAIGNS.GRID_VIEW.STATUS')}
               render={this.renderStatus}

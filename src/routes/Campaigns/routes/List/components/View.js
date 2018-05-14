@@ -4,7 +4,7 @@ import { I18n } from 'react-redux-i18n';
 import { Link } from 'react-router';
 import Uuid from '../../../../../components/Uuid';
 import PropTypes from '../../../../../constants/propTypes';
-import GridView, { GridColumn } from '../../../../../components/GridView';
+import GridView, { GridViewColumn } from '../../../../../components/GridView';
 import BonusCampaignStatus from '../../../../../components/BonusCampaignStatus';
 
 class View extends Component {
@@ -109,17 +109,17 @@ class View extends Component {
             last={campaigns.last}
             lazyLoad
           >
-            <GridColumn
+            <GridViewColumn
               name="campaign"
               header={I18n.t('CAMPAIGNS.GRID_VIEW.CAMPAIGN')}
               render={this.renderCampaign}
             />
-            <GridColumn
+            <GridViewColumn
               name="creationDate"
               header={I18n.t('CAMPAIGNS.GRID_VIEW.CREATED')}
               render={this.renderDate('creationDate')}
             />
-            <GridColumn
+            <GridViewColumn
               name="status"
               header={I18n.t('CAMPAIGNS.GRID_VIEW.STATUS')}
               render={this.renderStatus}

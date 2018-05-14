@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router';
 import { I18n } from 'react-redux-i18n';
 import PropTypes from '../../../../../../../constants/propTypes';
-import GridView, { GridColumn } from '../../../../../../../components/GridView';
+import GridView, { GridViewColumn } from '../../../../../../../components/GridView';
 import Amount from '../../../../../../../components/Amount';
 
 class List extends Component {
@@ -75,12 +75,12 @@ class List extends Component {
             locale={locale}
             showNoResults={noResults}
           >
-            <GridColumn
+            <GridViewColumn
               name="uuid"
               header="ID"
               render={this.renderUUID}
             />
-            <GridColumn
+            <GridViewColumn
               name="actions"
               header="Actions"
               render={this.renderActions}

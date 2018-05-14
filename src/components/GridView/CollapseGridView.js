@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import GridColumn from './GridViewColumn';
+import GridViewColumn from './GridViewColumn';
 import NotFoundContent from '../../components/NotFoundContent';
 
 class CollapseGridView extends Component {
@@ -122,7 +122,7 @@ class CollapseGridView extends Component {
       return null;
     }
 
-    const grids = React.Children.toArray(this.props.children).filter(child => child.type === GridColumn);
+    const grids = React.Children.toArray(this.props.children).filter(child => child.type === GridViewColumn);
 
     return (
       <div className="table-responsive">

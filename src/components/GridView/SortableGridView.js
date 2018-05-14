@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { SortableContainer, SortableElement, arrayMove } from 'react-sortable-hoc';
 import classNames from 'classnames';
-import GridColumn from './GridViewColumn';
+import GridViewColumn from './GridViewColumn';
 import shallowEqual from '../../utils/shallowEqual';
 
 const SortableItem = SortableElement(({ data, index, columns }) => (
@@ -100,7 +100,7 @@ class SortableGridView extends Component {
 
     const { dataSource } = this.state;
 
-    const columns = React.Children.toArray(this.props.children).filter(child => child.type === GridColumn);
+    const columns = React.Children.toArray(this.props.children).filter(child => child.type === GridViewColumn);
 
     return (
       <table className={classNames('table data-grid-layout', tableClassName)}>

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { I18n } from 'react-redux-i18n';
 import PropTypes from '../../../../../constants/propTypes';
 import FileUpload from '../../../../../components/FileUpload';
-import GridView, { GridColumn } from '../../../../../components/GridView';
+import GridView, { GridViewColumn } from '../../../../../components/GridView';
 import GameStatus from './GameStatus';
 import GamesGridFilter from './GamesGridFilter';
 import { withLines } from '../../../../../constants/games';
@@ -185,31 +185,31 @@ class View extends Component {
             lazyLoad
             showNoResults={noResults}
           >
-            <GridColumn
+            <GridViewColumn
               name="game"
               header={I18n.t('GAMES.GRID.GAME')}
               render={this.renderGame}
             />
 
-            <GridColumn
+            <GridViewColumn
               name="provider"
               header={I18n.t('GAMES.GRID.PROVIDER')}
               render={this.renderProvider}
             />
 
-            <GridColumn
+            <GridViewColumn
               name="platform"
               header={I18n.t('GAMES.GRID.PLATFORM')}
               render={this.renderPlatform}
             />
 
-            <GridColumn
+            <GridViewColumn
               name="freeSpins"
               header={I18n.t('GAMES.GRID.FREE_SPINS')}
               render={this.renderFreeSpins}
             />
 
-            <GridColumn
+            <GridViewColumn
               name="gameStatus"
               header={I18n.t('GAMES.GRID.STATUS')}
               render={data => <GameStatus status={data} />}

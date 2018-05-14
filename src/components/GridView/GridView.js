@@ -3,7 +3,7 @@ import InfiniteScroll from 'react-infinite-scroller';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import GridColumn from './GridViewColumn';
+import GridViewColumn from './GridViewColumn';
 import shallowEqual from '../../utils/shallowEqual';
 import NotFoundContent from '../../components/NotFoundContent';
 import PermissionContent from '../PermissionContent';
@@ -274,7 +274,7 @@ class GridView extends Component {
 
     const grids = React.Children
       .toArray(this.props.children)
-      .filter(child => child.type === GridColumn || child.type === PermissionContent);
+      .filter(child => child.type === GridViewColumn || child.type === PermissionContent);
 
     return (
       <div className="table-responsive">

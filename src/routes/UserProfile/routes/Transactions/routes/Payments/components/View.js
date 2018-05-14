@@ -408,46 +408,46 @@ class View extends Component {
               header="Transaction"
               render={this.renderTransactionId}
             />
-            <GridColumn
+            <GridViewColumn
               name="paymentType"
               header="Type"
               render={this.renderType}
             />
-            <GridColumn
+            <GridViewColumn
               name="amount"
               header="Amount"
               render={this.renderAmount}
             />
-            <GridColumn
+            <GridViewColumn
               name="creationTime"
               header="DATE & TIME"
               render={this.renderDateTime}
             />
-            <GridColumn
+            <GridViewColumn
               name="country"
               header="Ip"
               headerClassName="text-center"
               className="text-center"
               render={this.renderIP}
             />
-            <GridColumn
+            <GridViewColumn
               name="paymentMethod"
               header="Method"
               render={this.renderMethod}
             />
-            <GridColumn
+            <GridViewColumn
               name="mobile"
               header="Device"
               headerClassName="text-center"
               className="text-center"
               render={this.renderDevice}
             />
-            <GridColumn
+            <GridViewColumn
               name="status"
               header="Status"
               render={this.renderStatus}
             />
-            <GridColumn
+            <GridViewColumn
               name="actions"
               header=""
               render={this.renderActions}

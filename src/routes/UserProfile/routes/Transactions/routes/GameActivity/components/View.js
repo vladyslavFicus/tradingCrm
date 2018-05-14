@@ -3,7 +3,7 @@ import moment from 'moment';
 import classNames from 'classnames';
 import { I18n } from 'react-redux-i18n';
 import PropTypes from '../../../../../../../constants/propTypes';
-import GridView, { GridColumn } from '../../../../../../../components/GridView';
+import GridView, { GridViewColumn } from '../../../../../../../components/GridView';
 import Amount from '../../../../../../../components/Amount';
 import Uuid from '../../../../../../../components/Uuid';
 import FilterForm from './FilterForm';
@@ -266,37 +266,37 @@ class View extends Component {
             locale={locale}
             showNoResults={noResults}
           >
-            <GridColumn
+            <GridViewColumn
               name="gameRound"
               header={I18n.t('PLAYER_PROFILE.GAME_ACTIVITY.GRID_VIEW.GAME_ROUND')}
               render={this.renderGameRound}
             />
-            <GridColumn
+            <GridViewColumn
               name="game"
               header={I18n.t('PLAYER_PROFILE.GAME_ACTIVITY.GRID_VIEW.GAME')}
               render={this.renderGame}
             />
-            <GridColumn
+            <GridViewColumn
               name="betDate"
               header={I18n.t('PLAYER_PROFILE.GAME_ACTIVITY.GRID_VIEW.BET_DATE')}
               render={this.renderDate('betDate')}
             />
-            <GridColumn
+            <GridViewColumn
               name="betAmount"
               header={I18n.t('PLAYER_PROFILE.GAME_ACTIVITY.GRID_VIEW.BET_AMOUNT')}
               render={this.renderBetAmount}
             />
-            <GridColumn
+            <GridViewColumn
               name="winDate"
               header={I18n.t('PLAYER_PROFILE.GAME_ACTIVITY.GRID_VIEW.WIN_DATE')}
               render={this.renderDate('winDate', true)}
             />
-            <GridColumn
+            <GridViewColumn
               name="winAmount"
               header={I18n.t('PLAYER_PROFILE.GAME_ACTIVITY.GRID_VIEW.WIN_AMOUNT')}
               render={this.renderWinAmount}
             />
-            <GridColumn
+            <GridViewColumn
               name="winDate"
               header={I18n.t('PLAYER_PROFILE.GAME_ACTIVITY.GRID_VIEW.BALANCE')}
               render={this.renderBalance}
