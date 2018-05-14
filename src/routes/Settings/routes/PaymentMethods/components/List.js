@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import { I18n } from 'react-redux-i18n';
 import Card, { Title, Content } from '../../../../../components/Card';
 import SortableGridView from '../../../../../components/GridView/SortableGridView';
-import { GridColumn } from '../../../../../components/GridView';
+import { GridViewColumn } from '../../../../../components/GridView';
 import Amount from '../../../../../components/Amount';
 import MethodGridFilter from './MethodsGridFilter';
 import LimitPopover from '../../../../../components/PaymentMethodLimitPopover';
@@ -243,24 +243,24 @@ class List extends Component {
             dataSource={paymentMethods}
             onSortEnd={this.handleSortEnd}
           >
-            <GridColumn
+            <GridViewColumn
               name="order"
               header="Order"
               className="font-weight-700"
               render={data => <DragHandle order={data.order} />}
             />
-            <GridColumn
+            <GridViewColumn
               name="methodName"
               header="Payment Method"
               className="font-weight-700 text-uppercase"
             />
-            <GridColumn
+            <GridViewColumn
               name="depositLimit"
               header="Deposit"
               render={this.renderLimit}
               className="font-weight-700"
             />
-            <GridColumn
+            <GridViewColumn
               name="withdrawLimit"
               header="Withdrawal"
               render={this.renderLimit}
@@ -268,7 +268,7 @@ class List extends Component {
             />
             {
               !filters.countryCode &&
-              <GridColumn
+              <GridViewColumn
                 name="availability"
                 header="Availability"
                 className="text-center"
@@ -278,7 +278,7 @@ class List extends Component {
             }
             {
               !filters.countryCode &&
-              <GridColumn
+              <GridViewColumn
                 name="status"
                 header="Status"
                 render={this.renderStatus}

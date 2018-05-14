@@ -3,11 +3,12 @@ import InfiniteScroll from 'react-infinite-scroller';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import GridColumn from './GridColumn';
+import GridColumn from './GridViewColumn';
 import shallowEqual from '../../utils/shallowEqual';
 import NotFoundContent from '../../components/NotFoundContent';
 import PermissionContent from '../PermissionContent';
-import GridViewLoader from '../GridViewLoader';
+import GridViewLoader from './GridViewLoader';
+import { getGridColumn } from './utils';
 
 class GridView extends Component {
   static propTypes = {
@@ -79,14 +80,8 @@ class GridView extends Component {
     return className;
   };
 
-  getGridColumn = child => (
-    child.type === PermissionContent && child.props.children.type === GridColumn
-      ? child.props.children.props
-      : child.props
-  );
-
   recognizeHeaders = grids => grids.map((child) => {
-    const gridColumn = this.getGridColumn(child);
+    const gridColumn = getGridColumn(child);
 
     const config = {
       children: typeof gridColumn.header === 'function'
@@ -106,7 +101,7 @@ class GridView extends Component {
   });
 
   recognizeFilters = grids => grids.map((child) => {
-    const gridColumn = this.getGridColumn(child);
+    const gridColumn = getGridColumn(child);
 
     if (typeof gridColumn.filter === 'function') {
       const config = { children: gridColumn.filter(this.setFilters) };

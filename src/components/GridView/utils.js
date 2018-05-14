@@ -1,8 +1,8 @@
-import CmsGridViewColumn from './CmsGridViewColumn';
+import GridViewColumn from './GridViewColumn';
 import PermissionContent from '../PermissionContent';
 
 const getGridColumn = child => (
-  child.type === PermissionContent && child.props.children.type === CmsGridViewColumn
+  child.type === PermissionContent && child.props.children.type === GridViewColumn
     ? child.props.children.props
     : child.props
 );

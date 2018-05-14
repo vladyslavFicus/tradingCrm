@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { getGridColumn } from './utils';
 
-class CmsGridViewHeader extends Component {
+class GridViewHeader extends Component {
   static propTypes = {};
   static defaultProps = {};
 
@@ -38,4 +38,4 @@ class CmsGridViewHeader extends Component {
   }
 }
 
-export default CmsGridViewHeader;
+export default GridViewHeader;

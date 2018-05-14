@@ -3,7 +3,7 @@ import { I18n } from 'react-redux-i18n';
 import { get } from 'lodash';
 import classNames from 'classnames';
 import PropTypes from '../../../../../constants/propTypes';
-import CmsGridView, { CmsGridViewColumn } from '../../../../../components/CmsGridView';
+import { OffsetGridView, GridViewColumn } from '../../../../../components/GridView';
 import Uuid from '../../../../../components/Uuid';
 import {
   freeSpinsStatusLabels,
@@ -192,7 +192,7 @@ class CmsGamesView extends Component {
               <Loader />
             </When>
             <Otherwise>
-              <CmsGridView
+              <OffsetGridView
                 keyName="internalGameId"
                 limit={limit}
                 offset={offset}
@@ -200,41 +200,41 @@ class CmsGamesView extends Component {
                 hasMore={hasMore}
                 onLoadMore={this.handleLoadGames}
               >
-                <CmsGridViewColumn
+                <GridViewColumn
                   name="game"
                   header={I18n.t('CMS_GAMES.GRID_VIEW.HEADER.GAME')}
                   render={this.renderGame}
                 />
 
-                <CmsGridViewColumn
+                <GridViewColumn
                   name="provider"
                   header={I18n.t('CMS_GAMES.GRID_VIEW.HEADER.PROVIDER')}
                   render={this.renderProvider}
                 />
 
-                <CmsGridViewColumn
+                <GridViewColumn
                   name="platform"
                   header={I18n.t('CMS_GAMES.GRID_VIEW.HEADER.PLATFORM')}
                   render={this.renderPlatform}
                 />
 
-                <CmsGridViewColumn
+                <GridViewColumn
                   name="technology"
                   header={I18n.t('CMS_GAMES.GRID_VIEW.HEADER.TECHNOLOGY')}
                   render={this.renderTechnology}
                 />
 
-                <CmsGridViewColumn
+                <GridViewColumn
                   name="freeSpins"
                   header={I18n.t('CMS_GAMES.GRID_VIEW.HEADER.FREE_SPINS_STATUS')}
                   render={this.renderFreeSpinsStatus}
                 />
-                <CmsGridViewColumn
+                <GridViewColumn
                   name="freeSpins"
                   header={I18n.t('CMS_GAMES.GRID_VIEW.HEADER.STATUS')}
                   render={this.renderStatus}
                 />
-              </CmsGridView>
+              </OffsetGridView>
             </Otherwise>
           </Choose>
         </div>

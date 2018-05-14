@@ -7,7 +7,7 @@ import { get } from 'lodash';
 import PropTypes from '../../../../../../../../constants/propTypes';
 import Amount from '../../../../../../../../components/Amount';
 import NoteButton from '../../../../../../../../components/NoteButton';
-import GridView, { GridColumn } from '../../../../../../../../components/GridView';
+import GridView, { GridViewColumn } from '../../../../../../../../components/GridView';
 import { statuses } from '../../../../../../../../constants/bonus';
 import { targetTypes } from '../../../../../../../../constants/note';
 import Uuid from '../../../../../../../../components/Uuid';
@@ -402,49 +402,49 @@ class View extends Component {
             locale={locale}
             showNoResults={noResults}
           >
-            <GridColumn
+            <GridViewColumn
               name="mainInfo"
               header={I18n.t('PLAYER_PROFILE.BONUS.GRID_VIEW.BONUS')}
               render={this.renderMainInfo}
             />
 
-            <GridColumn
+            <GridViewColumn
               name="available"
               header={I18n.t('PLAYER_PROFILE.BONUS.GRID_VIEW.AVAILABLE')}
               render={this.renderAvailablePeriod}
             />
 
-            <GridColumn
+            <GridViewColumn
               name="granted"
               header={I18n.t('PLAYER_PROFILE.BONUS.GRID_VIEW.GRANTED')}
               render={this.renderGrantedAmount}
             />
 
-            <GridColumn
+            <GridViewColumn
               name="wagered"
               header={I18n.t('PLAYER_PROFILE.BONUS.GRID_VIEW.WAGERED')}
               render={this.renderWageredAmount}
             />
 
-            <GridColumn
+            <GridViewColumn
               name="toWager"
               header={I18n.t('PLAYER_PROFILE.BONUS.GRID_VIEW.TO_WAGER')}
               render={this.renderToWagerAmount}
             />
 
-            <GridColumn
+            <GridViewColumn
               name="type"
               header={I18n.t('PLAYER_PROFILE.BONUS.GRID_VIEW.BONUS_TYPE')}
               render={data => <BonusType bonus={data} />}
             />
 
-            <GridColumn
+            <GridViewColumn
               name="status"
               header={I18n.t('PLAYER_PROFILE.BONUS.GRID_VIEW.BONUS_STATUS')}
               render={data => <BonusStatus id="bonuses-list" bonus={data} />}
             />
 
-            <GridColumn
+            <GridViewColumn
               name="actions"
               header=""
               render={this.renderActions}

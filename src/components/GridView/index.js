@@ -1,7 +1,12 @@
 import GridView from './GridView';
-import GridColumn from './GridColumn';
+import GridViewColumn from './GridViewColumn';
+import OffsetGridView from './OffsetGridView';
+import GridViewLoader from './GridViewLoader';
 
 export {
-  GridColumn,
+  OffsetGridView,
+  GridViewColumn,
+  GridViewLoader,
 };
+
 export default GridView;

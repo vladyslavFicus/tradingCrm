@@ -4,7 +4,7 @@ import moment from 'moment';
 import { I18n } from 'react-redux-i18n';
 import UserGridFilter from './UserGridFilter';
 import PropTypes from '../../../../../constants/propTypes';
-import GridView, { GridColumn } from '../../../../../components/GridView';
+import GridView, { GridViewColumn } from '../../../../../components/GridView';
 import Card, { Title, Content } from '../../../../../components/Card';
 import Amount from '../../../../../components/Amount';
 import GridPlayerInfo from '../../../../../components/GridPlayerInfo';
@@ -202,32 +202,32 @@ class List extends Component {
             showNoResults={noResults}
             onRowClick={this.handlePlayerClick}
           >
-            <GridColumn
+            <GridViewColumn
               name="id"
               header="Player"
               render={this.renderUserInfo}
             />
-            <GridColumn
+            <GridViewColumn
               name="location"
               header="Location"
               render={this.renderLocation}
             />
-            <GridColumn
+            <GridViewColumn
               name="affiliateId"
               header="Affiliate"
               render={this.renderAffiliate}
             />
-            <GridColumn
+            <GridViewColumn
               name="registrationDate"
               header="Registered"
               render={this.renderRegistered}
             />
-            <GridColumn
+            <GridViewColumn
               name="balance"
               header="Balance"
               render={this.renderBalance}
             />
-            <GridColumn
+            <GridViewColumn
               name="profileStatus"
               header="Status"
               render={this.renderStatus}

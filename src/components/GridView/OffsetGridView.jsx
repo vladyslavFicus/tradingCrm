@@ -3,12 +3,12 @@ import InfiniteScroll from 'react-infinite-scroller';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import PermissionContent from '../PermissionContent';
-import CmsGridViewRow from './CmsGridViewRow';
-import CmsGridViewColumn from './CmsGridViewColumn';
-import GridViewLoader from '../GridViewLoader';
-import CmsGridViewHeader from './CmsGridViewHeader';
+import GridViewRow from './GridViewRow';
+import GridViewColumn from './GridViewColumn';
+import GridViewLoader from './GridViewLoader';
+import GridViewHeader from './GridViewHeader';
 
-class CmsGridView extends Component {
+class OffsetGridView extends Component {
   static propTypes = {
     keyName: PropTypes.string.isRequired,
     rows: PropTypes.array,
@@ -37,7 +37,7 @@ class CmsGridView extends Component {
 
     const columns = React.Children
       .toArray(props.children)
-      .filter(child => child.type === CmsGridViewColumn || child.type === PermissionContent);
+      .filter(child => child.type === GridViewColumn || child.type === PermissionContent);
 
     this.state = {
       columns,
@@ -65,7 +65,7 @@ class CmsGridView extends Component {
     } = this.props;
 
     const children = rows.map(data => (
-      <CmsGridViewRow
+      <GridViewRow
         key={data[keyName]}
         className={rowClassName}
         columns={columns}
@@ -79,7 +79,7 @@ class CmsGridView extends Component {
           <thead className={headerClassName}>
             <tr>
               {columns.map((item, key) => (
-                <CmsGridViewHeader key={key} {...item} />
+                <GridViewHeader key={key} {...item} />
               ))}
             </tr>
           </thead>
@@ -104,4 +104,4 @@ class CmsGridView extends Component {
   }
 }
 
-export default CmsGridView;
+export default OffsetGridView;

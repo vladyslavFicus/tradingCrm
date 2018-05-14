@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const CmsGridViewColumn = ({ children }) => (
+const GridViewColumn = ({ children }) => (
   <td>{children}</td>
 );
 
-CmsGridViewColumn.propTypes = {
+GridViewColumn.propTypes = {
   name: PropTypes.string.isRequired,
   header: PropTypes.string,
   headerClassName: PropTypes.string,
@@ -15,7 +15,7 @@ CmsGridViewColumn.propTypes = {
   style: PropTypes.object,
   children: PropTypes.any,
 };
-CmsGridViewColumn.defaultProps = {
+GridViewColumn.defaultProps = {
   header: null,
   headerClassName: null,
   headerStyle: null,
@@ -25,4 +25,4 @@ CmsGridViewColumn.defaultProps = {
   children: null,
 };
 
-export default CmsGridViewColumn;
+export default GridViewColumn;

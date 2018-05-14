@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import CmsGridViewRowColumn from './CmsGridViewRowColumn';
+import GridViewRowColumn from './GridViewRowColumn';
 
-const CmsGridViewRow = (props) => {
+const GridViewRow = (props) => {
   const {
     className,
     columns,
@@ -28,7 +28,7 @@ const CmsGridViewRow = (props) => {
   return (
     <tr className={rowClassName} onClick={handleRowClick}>
       <For each="column" index="columnKey" of={columns}>
-        <CmsGridViewRowColumn
+        <GridViewRowColumn
           key={columnKey}
           column={column}
           data={data}
@@ -38,15 +38,15 @@ const CmsGridViewRow = (props) => {
   );
 };
 
-CmsGridViewRow.propTypes = {
+GridViewRow.propTypes = {
   className: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
   columns: PropTypes.arrayOf(PropTypes.element).isRequired,
   data: PropTypes.object.isRequired,
   onRowClick: PropTypes.func,
 };
-CmsGridViewRow.defaultProps = {
+GridViewRow.defaultProps = {
   className: null,
   onRowClick: null,
 };
 
-export default CmsGridViewRow;
+export default GridViewRow;

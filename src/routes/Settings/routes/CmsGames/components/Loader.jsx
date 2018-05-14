@@ -1,5 +1,5 @@
 import React from 'react';
-import GridViewLoader from '../../../../../components/GridViewLoader';
+import {GridViewLoader} from '../../../../../components/GridView';
 
 const Loader = () => (
   <div className="table-responsive">

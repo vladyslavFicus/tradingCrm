@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { getGridColumn } from './utils';
 
-const CmsGridViewRowColumn = ({ column, data }) => {
+const GridViewRowColumn = ({ column, data }) => {
   const gridColumn = getGridColumn(column);
   let content = null;
 
@@ -15,9 +15,9 @@ const CmsGridViewRowColumn = ({ column, data }) => {
   return <td className={gridColumn.className}>{content}</td>;
 };
 
-CmsGridViewRowColumn.propTypes = {
+GridViewRowColumn.propTypes = {
   column: PropTypes.element.isRequired,
   data: PropTypes.object.isRequired,
 };
 
-export default CmsGridViewRowColumn;
+export default GridViewRowColumn;

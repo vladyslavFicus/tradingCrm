@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import GridView, { GridColumn } from '../../../../../components/GridView';
+import GridView, { GridViewColumn } from '../../../../../components/GridView';
 import { types } from '../../../../../constants/revenue-report';
 import Amount from '../../../../../components/Amount';
 
@@ -56,54 +56,54 @@ class PreviewGrid extends Component {
         totalPages={totalPages}
         defaultFilters={filters}
       >
-        <GridColumn
+        <GridViewColumn
           name="Country"
           header="Country"
           headerStyle={{ width: '10%' }}
           render={(data, column) => <small>{data[column.name]}</small>}
         />
-        <GridColumn
+        <GridViewColumn
           name="EU"
           header="EU"
           render={this.renderEuColumn}
         />
-        <GridColumn
+        <GridViewColumn
           name="Hold_Bonus_Total"
           header="Hold Bonus Total"
           headerStyle={{ width: '10%' }}
           render={this.renderAmountColumn}
         />
-        <GridColumn
+        <GridViewColumn
           name="Hold_RM_Total"
           header="Hold RM Total"
           headerStyle={{ width: '10%' }}
           render={this.renderAmountColumn}
         />
-        <GridColumn
+        <GridViewColumn
           name="stakelogic_Hold_Bonus_Total"
           header="Stakelogic Hold Bonus Total"
           headerStyle={{ width: '10%' }}
           render={this.renderAmountColumn}
         />
-        <GridColumn
+        <GridViewColumn
           name="stakelogic_RM_Total"
           header="Stakelogic RM Total"
           headerStyle={{ width: '10%' }}
           render={this.renderAmountColumn}
         />
-        <GridColumn
+        <GridViewColumn
           name="Total_BMC"
           header="Total BMC"
           headerStyle={{ width: '10%' }}
           render={this.renderAmountColumn}
         />
-        <GridColumn
+        <GridViewColumn
           name="unknown_Hold_Bonus_Total"
           header="Unknown Hold Bonus Total"
           headerStyle={{ width: '10%' }}
           render={this.renderAmountColumn}
         />
-        <GridColumn
+        <GridViewColumn
           name="unknown_RM_Total"
           header="Unknown RM Total"
           headerStyle={{ width: '10%' }}
@@ -133,59 +133,59 @@ class PreviewGrid extends Component {
         totalPages={totalPages}
         defaultFilters={filters}
       >
-        <GridColumn
+        <GridViewColumn
           name="PLAYER_UUID"
           header="PLAYER_UUID"
           headerStyle={{ width: '10%' }}
         />
-        <GridColumn
+        <GridViewColumn
           name="Country"
           header="Country"
           headerStyle={{ width: '10%' }}
           render={(data, column) => <small>{data[column.name]}</small>}
         />
-        <GridColumn
+        <GridViewColumn
           name="EU"
           header="EU"
           render={this.renderEuColumn}
         />
-        <GridColumn
+        <GridViewColumn
           name="Hold_Bonus_Total"
           header="Hold Bonus Total"
           headerStyle={{ width: '10%' }}
           render={this.renderAmountColumn}
         />
-        <GridColumn
+        <GridViewColumn
           name="Hold_RM_Total"
           header="Hold RM Total"
           headerStyle={{ width: '10%' }}
           render={this.renderAmountColumn}
         />
-        <GridColumn
+        <GridViewColumn
           name="stakelogic_Hold_Bonus_Total"
           header="Stakelogic Hold Bonus Total"
           headerStyle={{ width: '10%' }}
           render={this.renderAmountColumn}
         />
-        <GridColumn
+        <GridViewColumn
           name="stakelogic_RM_Total"
           header="Stakelogic RM Total"
           headerStyle={{ width: '10%' }}
           render={this.renderAmountColumn}
         />
-        <GridColumn
+        <GridViewColumn
           name="Total_BMC"
           header="Total BMC"
           headerStyle={{ width: '10%' }}
           render={this.renderAmountColumn}
         />
-        <GridColumn
+        <GridViewColumn
           name="unknown_Hold_Bonus_Total"
           header="Unknown Hold Bonus Total"
           headerStyle={{ width: '10%' }}
           render={this.renderAmountColumn}
         />
-        <GridColumn
+        <GridViewColumn
           name="unknown_RM_Total"
           header="Unknown RM Total"
           headerStyle={{ width: '10%' }}
