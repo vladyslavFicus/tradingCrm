@@ -1,18 +1,8 @@
 import React, { Component, Fragment } from 'react';
-import { compose } from 'redux';
 import { SubmissionError } from 'redux-form';
-import { connect } from 'react-redux';
 import { I18n } from 'react-redux-i18n';
 import _ from 'lodash';
-import { getAvailableLanguages } from '../../config';
 import PropTypes from '../../constants/propTypes';
-import { withModals } from '../../components/HighOrder';
-import MultiCurrencyModal from '../../components/ReduxForm/MultiCurrencyModal';
-import { actionCreators as authActionCreators } from '../../redux/modules/auth';
-import { actionCreators as languageActionCreators } from '../../redux/modules/language';
-import { actionCreators as noteActionCreators } from '../../redux/modules/note';
-import { actionCreators as userPanelsActionCreators } from '../../redux/modules/user-panels';
-import { actionCreators as appActionCreators } from '../../redux/modules/app';
 import NotePopover from '../../components/NotePopover';
 import MiniProfilePopover from '../../components/MiniProfilePopover';
 import Header from '../../components/Header';
@@ -21,7 +11,7 @@ import UsersPanel from '../../components/UsersPanel';
 import MyProfileSidebar from '../../components/MyProfileSidebar';
 import parserErrorsFromServer from '../../utils/parseErrorsFromServer';
 import BackToTop from '../../components/BackToTop';
-import './NewLayout.scss';
+import './MainLayout.scss';
 
 const NOTE_POPOVER = 'note-popover';
 const MINI_PROFILE_POPOVER = 'mini-profile-popover';
@@ -30,7 +20,7 @@ const popoverInitialState = {
   params: {},
 };
 
-class NewLayout extends Component {
+class MainLayout extends Component {
   static propTypes = {
     children: PropTypes.any.isRequired,
     locale: PropTypes.string.isRequired,
@@ -42,6 +32,10 @@ class NewLayout extends Component {
       errorParams: PropTypes.object.isRequired,
     }).isRequired,
     user: PropTypes.shape({
+      brandId: PropTypes.string,
+      departmentsByBrand: PropTypes.objectOf(PropTypes.objectOf(PropTypes.string)),
+      department: PropTypes.string,
+      authorities: PropTypes.arrayOf(PropTypes.authorityEntity),
       token: PropTypes.string,
       uuid: PropTypes.string,
     }).isRequired,
@@ -347,15 +341,18 @@ class NewLayout extends Component {
       toggleMenuTab,
       menuItemClick,
       replace,
+      changeDepartment,
     } = this.props;
 
     return (
       <Fragment>
         <Header
+          user={user}
           router={router}
           languages={languages}
           onLocaleChange={onLocaleChange}
           onToggleProfile={this.onToggleProfile}
+          onDepartmentChange={changeDepartment}
         />
 
         <Sidebar
@@ -407,61 +404,9 @@ class NewLayout extends Component {
             {...miniProfilePopover.params}
           />
         }
-
       </Fragment>
     );
   }
 }
 
-const mapStateToProps = (state) => {
-  const {
-    userPanels,
-    auth,
-    app,
-    permissions: { data: permissions },
-    i18n: { locale },
-    settings,
-  } = state;
-  const userPanelsByManager = userPanels.items.filter(userTab =>
-    userTab.auth &&
-    userTab.auth.brandId === auth.brandId &&
-    userTab.auth.uuid === auth.uuid
-  );
-
-  const activeUserPanel = userPanels.items.find(p => p.uuid === userPanels.activeIndex);
-
-  return {
-    app,
-    settings,
-    user: auth,
-    permissions,
-    userPanels: userPanels.items,
-    userPanelsByManager,
-    activeUserPanel: activeUserPanel || null,
-    activePanelIndex: userPanels.activeIndex,
-    locale,
-    languages: getAvailableLanguages(),
-  };
-};
-
-const mapActionCreators = {
-  changeDepartment: authActionCreators.changeDepartment,
-  addPanel: userPanelsActionCreators.add,
-  removePanel: userPanelsActionCreators.remove,
-  resetPanels: userPanelsActionCreators.reset,
-  setActivePanel: userPanelsActionCreators.setActive,
-  replace: userPanelsActionCreators.replace,
-  addNote: noteActionCreators.addNote,
-  editNote: noteActionCreators.editNote,
-  deleteNote: noteActionCreators.deleteNote,
-  onLocaleChange: languageActionCreators.setLocale,
-  toggleMenuTab: appActionCreators.toggleMenuTab,
-  menuItemClick: appActionCreators.menuItemClick,
-  initSidebar: appActionCreators.initSidebar,
-  updateOperatorProfile: authActionCreators.updateProfile,
-};
-
-export default compose(
-  connect(mapStateToProps, mapActionCreators),
-  withModals({ multiCurrencyModal: MultiCurrencyModal }),
-)(NewLayout);
+export default MainLayout;

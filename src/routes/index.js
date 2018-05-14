@@ -2,7 +2,7 @@
 import onEnterStack from '../utils/onEnterStack';
 import requireAuth from '../utils/requireAuth';
 import CoreLayout from '../layouts/CoreLayout';
-import NewLayout from '../layouts/NewLayout';
+import MainLayout from '../layouts/MainLayout';
 import BlackLayout from '../layouts/BlackLayout';
 import PermissionLayout from '../layouts/PermissionLayout';
 /**
@@ -44,7 +44,7 @@ export default store => ({
       ],
     }, requireAuth(store)),
     onEnterStack({
-      component: NewLayout,
+      component: MainLayout,
       childRoutes: [
         DashboardRoute(store),
         UsersRoute(store),
