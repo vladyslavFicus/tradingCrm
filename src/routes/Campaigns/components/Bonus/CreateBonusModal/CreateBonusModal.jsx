@@ -4,10 +4,9 @@ import PropTypes from 'prop-types';
 import { Field, SubmissionError } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import {
-  InputField, SelectField, MultiCurrencyValue, TypeValueField, CheckBox,
-} from '../../../../../components/ReduxForm';
+import { InputField, SelectField, MultiCurrencyValue, TypeValueField, CheckBox } from '../../../../../components/ReduxForm';
 import renderLabel from '../../../../../utils/renderLabel';
+import stopPropagation from '../../../../../utils/stopPropagation';
 import { attributeLabels, attributePlaceholders, wageringRequirementTypes } from '../constants';
 import {
   moneyTypeUsage,
@@ -138,7 +137,11 @@ class CreateBonusModal extends PureComponent {
         <ModalHeader toggle={onCloseModal}>
           {I18n.t(modalAttributeLabels.title)}
         </ModalHeader>
-        <ModalBody id="create-bonus-modal-form" tag="form" onSubmit={handleSubmit(this.handleSubmitBonusForm)}>
+        <ModalBody
+          id="create-bonus-modal-form"
+          tag="form"
+          onSubmit={e => stopPropagation(e, handleSubmit(this.handleSubmitBonusForm))}
+        >
           <div className="row">
             <Field
               name="name"
@@ -165,8 +168,7 @@ class CreateBonusModal extends PureComponent {
                   <option key={key} value={key}>
                     {renderLabel(key, customValueFieldTypesLabels)}
                   </option>
-                )
-              )}
+                ))}
             </Field>
             <Choose>
               <When condition={prizeCapingType === customValueFieldTypes.PERCENTAGE}>
@@ -240,8 +242,7 @@ class CreateBonusModal extends PureComponent {
               id="campaign-create-bonus-modal-wagering"
             >
               {Object.keys(wageringRequirementTypes).map(key =>
-                <option key={key} value={key}>{key}</option>
-              )}
+                <option key={key} value={key}>{key}</option>)}
             </Field>
           </div>
           <div className="row">
