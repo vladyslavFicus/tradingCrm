@@ -117,4 +117,7 @@ export default {
     DELETE_NOTE: 'note;DELETE;/notes/{noteId}',
     VIEW_NOTES: 'note;GET;/notes',
   },
+  CMS_GAMES: {
+    VIEW_LIST: 'cms_game;GET;/',
+  },
 };
