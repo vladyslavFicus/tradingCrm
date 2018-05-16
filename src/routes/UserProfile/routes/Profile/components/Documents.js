@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import { I18n } from 'react-redux-i18n';
 import PropTypes from '../../../../../constants/propTypes';
 import FileUpload from '../../../../../components/FileUpload';
-import GridView, { GridColumn } from '../../../../../components/GridView';
+import GridView, { GridViewColumn } from '../../../../../components/GridView';
 import { shortifyInMiddle } from '../../../../../utils/stringFormat';
 import StatusDropDown from '../../../../../components/FileStatusDropDown';
 import PermissionContent from '../../../../../components/PermissionContent';
@@ -111,17 +111,17 @@ class Documents extends Component {
               dataSource={files}
               totalPages={0}
             >
-              <GridColumn
+              <GridViewColumn
                 name="realName"
                 header="File"
                 render={data => this.renderFile(data, canViewFile)}
               />
-              <GridColumn
+              <GridViewColumn
                 name="uploadDate"
                 header="Date & Time"
                 render={this.renderDateTime}
               />
-              <GridColumn
+              <GridViewColumn
                 name="status"
                 header="Status"
                 render={this.renderStatus}

@@ -3,15 +3,14 @@ import PropTypes from 'prop-types';
 import { I18n } from 'react-redux-i18n';
 import renderLabel from '../../../../../../../utils/renderLabel';
 import { departmentsLabels, rolesLabels } from '../../../../../../../constants/operators';
-import Card, { Content } from '../../../../../../../components/Card';
 
 const Departments = ({ authorities }) => (
   <div className="account-details__additional-info">
     <span className="account-details__label">
       {I18n.t('OPERATOR_PROFILE.DETAILS.LABEL.ADDITIONAL_INFORMATION')}
     </span>
-    <Card>
-      <Content>
+    <div className="card">
+      <div className="card-body">
         <span className="account-details__additional-info__label">
           {I18n.t('OPERATOR_PROFILE.DETAILS.LABEL.DEPARTMENTS')}
         </span>
@@ -34,8 +33,8 @@ const Departments = ({ authorities }) => (
             }
           </div>
         }
-      </Content>
-    </Card>
+      </div>
+    </div>
   </div>
 );
 

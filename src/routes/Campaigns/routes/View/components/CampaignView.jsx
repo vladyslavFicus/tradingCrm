@@ -45,9 +45,7 @@ class CampaignView extends PureComponent {
             activateMutation={activateMutation}
             cancelMutation={cancelMutation}
           />
-          <div className="hide-details-block">
-            <div className="hide-details-block_divider" />
-          </div>
+          <hr />
         </div>
         <Tabs
           items={newBonusCampaignTabs}

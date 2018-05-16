@@ -59,7 +59,7 @@
     "react-dates": "15.5.1",
     "react-datetime": "github:newageio/react-datetime",
     "react-dom": "^16.3.2",
-    "react-images": "^0.5.5",
+    "react-images": "github:newageio/react-images",
     "react-infinite-scroller": "^1.0.15",
     "react-notification-system": "^0.2.15",
     "react-onclickoutside": "^6.5.0",

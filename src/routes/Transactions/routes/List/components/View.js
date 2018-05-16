@@ -3,9 +3,10 @@ import moment from 'moment';
 import { I18n } from 'react-redux-i18n';
 import TransactionsFilterForm from '../../../components/TransactionsFilterForm';
 import PropTypes from '../../../../../constants/propTypes';
-import Card, { Title, Content } from '../../../../../components/Card';
-import GridView, { GridColumn } from '../../../../../components/GridView';
+import GridView, { GridViewColumn } from '../../../../../components/GridView';
 import {
+  types as paymentTypes,
+  customTypes as customPaymentTypes,
   methodsLabels,
   typesLabels,
   typesProps,
@@ -208,8 +209,12 @@ class View extends Component {
   );
 
   renderType = (data) => {
-    const label = typesLabels[data.paymentType] || data.paymentType;
-    const props = typesProps[data.paymentType] || {};
+    const type = data.paymentType === paymentTypes.Confiscate && data.tip
+      ? customPaymentTypes.Tip
+      : data.paymentType;
+
+    const label = typesLabels[type] || type;
+    const props = typesProps[type] || {};
 
     return (
       <div>
@@ -310,8 +315,8 @@ class View extends Component {
     const allowActions = Object.keys(filters).filter(i => filters[i]).length > 0;
 
     return (
-      <Card>
-        <Title>
+      <div className="card">
+        <div className="card-heading">
           <span className="font-size-20" id="transactions-list-header">
             {I18n.t('COMMON.PAYMENTS')}
           </span>
@@ -323,7 +328,7 @@ class View extends Component {
           >
             {I18n.t('COMMON.EXPORT')}
           </button>
-        </Title>
+        </div>
 
         <TransactionsFilterForm
           onSubmit={this.handleFiltersChanged}
@@ -333,7 +338,7 @@ class View extends Component {
           filterByType
         />
 
-        <Content>
+        <div className="card-body">
           <GridView
             dataSource={entities.content}
             onPageChange={this.handlePageChanged}
@@ -343,57 +348,57 @@ class View extends Component {
             locale={locale}
             showNoResults={noResults}
           >
-            <GridColumn
+            <GridViewColumn
               name="paymentId"
               header="Transaction"
               render={this.renderTransactionId}
             />
-            <GridColumn
+            <GridViewColumn
               name="profile"
               header="Player"
               render={this.renderPlayer}
             />
-            <GridColumn
+            <GridViewColumn
               name="paymentType"
               header="Type"
               render={this.renderType}
             />
-            <GridColumn
+            <GridViewColumn
               name="amount"
               header="Amount"
               render={this.renderAmount}
             />
-            <GridColumn
+            <GridViewColumn
               name="creationTime"
               header="DATE & TIME"
               render={this.renderDateTime}
             />
-            <GridColumn
+            <GridViewColumn
               name="country"
               header="Ip"
               headerClassName="text-center"
               className="text-center"
               render={this.renderIP}
             />
-            <GridColumn
+            <GridViewColumn
               name="paymentMethod"
               header="Method"
               render={this.renderMethod}
             />
-            <GridColumn
+            <GridViewColumn
               name="mobile"
               header="Device"
               headerClassName="text-center"
               className="text-center"
               render={this.renderDevice}
             />
-            <GridColumn
+            <GridViewColumn
               name="status"
               header="Status"
               className="text-uppercase"
               render={this.renderStatus}
             />
-            <GridColumn
+            <GridViewColumn
               name="actions"
               header=""
               render={this.renderActions}
@@ -421,8 +426,8 @@ class View extends Component {
               onNoteClick={this.handleNoteClick}
             />
           }
-        </Content>
-      </Card>
+        </div>
+      </div>
     );
   }
 }

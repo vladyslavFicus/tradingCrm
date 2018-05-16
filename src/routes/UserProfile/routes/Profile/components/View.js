@@ -25,7 +25,6 @@ import './View.scss';
 import PermissionContent from '../../../../../components/PermissionContent';
 import { CONDITIONS } from '../../../../../utils/permissions';
 import permissions from '../../../../../config/permissions';
-import Card from '../../../../../components/Card';
 import TabHeader from '../../../../../components/TabHeader';
 
 const REFUSE_MODAL = 'refuse-modal';
@@ -471,7 +470,7 @@ class View extends Component {
           </PermissionContent>
         </TabHeader>
         <div className="tab-wrapper">
-          <Card>
+          <div className="card">
             <div className="card-body row">
               <div className="col-md-8 with-right-border">
                 <PersonalForm
@@ -502,8 +501,8 @@ class View extends Component {
                 />
               </div>
             </div>
-          </Card>
-          <Card>
+          </div>
+          <div className="card">
             <div className="card-body row">
               <div className="col-md-8 with-right-border">
                 <AddressForm
@@ -538,8 +537,8 @@ class View extends Component {
                 />
               </div>
             </div>
-          </Card>
-          <Card>
+          </div>
+          <div className="card">
             <div className="card-body row">
               <div className="col-md-8 with-right-border">
                 <ContactForm
@@ -554,7 +553,7 @@ class View extends Component {
                 />
               </div>
             </div>
-          </Card>
+          </div>
         </div>
 
         {

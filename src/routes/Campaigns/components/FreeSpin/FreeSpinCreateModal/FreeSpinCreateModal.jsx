@@ -7,6 +7,7 @@ import classNames from 'classnames';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { floatNormalize, intNormalize } from '../../../../../utils/inputNormalize';
 import normalizeNumber from '../../../../../utils/normalizeNumber';
+import stopPropagation from '../../../../../utils/stopPropagation';
 import { attributeLabels, attributePlaceholders } from '../constants';
 import Amount from '../../../../../components/Amount';
 import BonusView from '../../Bonus/BonusView';
@@ -175,7 +176,9 @@ class FreeSpinCreateModal extends Component {
   });
 
   handleSubmit = async ({ betPerLine, bonusTemplateUUID: { uuid: bonusTemplateUUID }, ...data }) => {
-    const { addFreeSpinTemplate, onSave, onCloseModal, reset, notify, games } = this.props;
+    const {
+      addFreeSpinTemplate, onSave, onCloseModal, reset, notify, games,
+    } = this.props;
     const internalGameId = (
       get(games, 'games.content', [])
         .find(({ gameId }) => gameId === data.gameId) || {}
@@ -272,10 +275,10 @@ class FreeSpinCreateModal extends Component {
 
   render() {
     const {
-      handleSubmit,
       onCloseModal,
       isOpen,
       bonusTemplateUUID,
+      handleSubmit,
       aggregatorId,
       games,
       gameId,
@@ -285,7 +288,9 @@ class FreeSpinCreateModal extends Component {
     const providers = get(aggregatorOptions, `[${aggregatorId}].providers`, []);
     const fields = get(aggregatorOptions, `[${aggregatorId}].fields`);
     const gameList = get(games, 'games.content', []);
-    const { betLevels, coinSizes, lines, pageCodes } = this.getGame(gameId);
+    const {
+      betLevels, coinSizes, lines, pageCodes,
+    } = this.getGame(gameId);
     const showPriceWidget = baseCurrency && fields &&
       fields.indexOf('linesPerSpin') !== -1 &&
       fields.indexOf('betPerLineAmounts') !== -1;
@@ -293,7 +298,11 @@ class FreeSpinCreateModal extends Component {
     return (
       <Modal toggle={onCloseModal} isOpen={isOpen}>
         <ModalHeader toggle={onCloseModal}>{I18n.t('CAMPAIGNS.FREE_SPIN.HEADER')}</ModalHeader>
-        <ModalBody tag="form" onSubmit={handleSubmit(this.handleSubmit)} id="free-spin-create-modal-form">
+        <ModalBody
+          tag="form"
+          onSubmit={e => stopPropagation(e, handleSubmit(this.handleSubmit))}
+          id="free-spin-create-modal-form"
+        >
           <Field
             name="name"
             type="text"

@@ -54,6 +54,7 @@ class Header extends Component {
         currency,
         state,
         targetType,
+        parentCampaignUUID,
       },
       data,
       availableStatusActions,
@@ -71,13 +72,20 @@ class Header extends Component {
               {campaignName}
             </div>
             <div className="panel-heading-row__info-ids">
-              <span className="short__uuid">
+              <div className="short__uuid">
                 <Uuid uuid={uuid} uuidPrefix="CA" />
                 {' - '}
                 {I18n.t('BONUS_CAMPAIGNS.VIEW.DETAILS.LABEL.MONEY_TYPE_PRIORITY', {
                   priority: renderLabel(moneyTypePriority, moneyTypeUsageLabels),
                 })}
-              </span>
+              </div>
+              <If condition={parentCampaignUUID}>
+                <div className="short__uuid">
+                  {I18n.t('BONUS_CAMPAIGNS.VIEW.DETAILS.CLONE_OF')}
+                  {' '}
+                  <Uuid uuid={parentCampaignUUID} uuidPrefix="CA" />
+                </div>
+              </If>
             </div>
           </div>
           <div className="col-auto panel-heading-row__actions">

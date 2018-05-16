@@ -5,7 +5,7 @@ import { I18n } from 'react-redux-i18n';
 import { targetTypes as noteTargetTypes } from '../../../../../constants/note';
 import { accountStatuses as paymentAccountStatuses } from '../../../../../constants/payment';
 import PropTypes from '../../../../../constants/propTypes';
-import { GridColumn } from '../../../../../components/GridView';
+import { GridViewColumn } from '../../../../../components/GridView';
 import NoteButton from '../../../../../components/NoteButton';
 import CollapseGridView from '../../../../../components/GridView/CollapseGridView';
 import CommonFileGridView from '../../../components/CommonFileGridView';
@@ -273,43 +273,43 @@ class View extends Component {
             locale={locale}
             showNoResults={noResults}
           >
-            <GridColumn
+            <GridViewColumn
               name="paymentMethod"
               header={I18n.t('PLAYER_PROFILE.PAYMENT_ACCOUNT.COLUMN.PAYMENT_ACCOUNT')}
               render={this.renderPaymentAccount}
             />
-            <GridColumn
+            <GridViewColumn
               name="dateAdded"
               header={I18n.t('PLAYER_PROFILE.PAYMENT_ACCOUNT.COLUMN.DATE_ADDED')}
               render={this.renderAddDate}
             />
-            <GridColumn
+            <GridViewColumn
               name="lastPayment"
               header={I18n.t('PLAYER_PROFILE.PAYMENT_ACCOUNT.COLUMN.LAST_PAYMENT')}
               render={this.renderLastPaymentDate}
             />
-            <GridColumn
+            <GridViewColumn
               name="totalWithdraws"
               header={I18n.t('PLAYER_PROFILE.PAYMENT_ACCOUNT.COLUMN.WITHDRAWS')}
               render={this.renderAggregateAmount}
             />
-            <GridColumn
+            <GridViewColumn
               name="totalDeposits"
               header={I18n.t('PLAYER_PROFILE.PAYMENT_ACCOUNT.COLUMN.DEPOSITS')}
               render={this.renderAggregateAmount}
             />
-            <GridColumn
+            <GridViewColumn
               name="Status"
               header={I18n.t('PLAYER_PROFILE.PAYMENT_ACCOUNT.COLUMN.STATUS')}
               className="text-uppercase"
               render={this.renderStatus}
             />
-            <GridColumn
+            <GridViewColumn
               name="Files"
               header={I18n.t('PLAYER_PROFILE.PAYMENT_ACCOUNT.COLUMN.FILES')}
               render={this.renderFiles}
             />
-            <GridColumn
+            <GridViewColumn
               name="notes"
               header={I18n.t('PLAYER_PROFILE.PAYMENT_ACCOUNT.COLUMN.NOTE')}
               render={this.renderNotes}

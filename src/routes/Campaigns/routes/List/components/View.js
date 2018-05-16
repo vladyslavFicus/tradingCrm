@@ -4,8 +4,7 @@ import { I18n } from 'react-redux-i18n';
 import { Link } from 'react-router-dom';
 import Uuid from '../../../../../components/Uuid';
 import PropTypes from '../../../../../constants/propTypes';
-import Card, { Title, Content } from '../../../../../components/Card';
-import GridView, { GridColumn } from '../../../../../components/GridView';
+import GridView, { GridViewColumn } from '../../../../../components/GridView';
 import BonusCampaignStatus from '../../../../../components/BonusCampaignStatus';
 
 class View extends Component {
@@ -86,8 +85,8 @@ class View extends Component {
     }
 
     return (
-      <Card>
-        <Title>
+      <div className="card">
+        <div className="card-heading">
           <span className="font-size-20 mr-auto" id="campaigns-page-title">
             {I18n.t('CAMPAIGNS.TITLE')}
           </span>
@@ -97,9 +96,9 @@ class View extends Component {
           >
             {I18n.t('CAMPAIGNS.BUTTON_CREATE_CAMPAIGN')}
           </Link>
-        </Title>
+        </div>
 
-        <Content>
+        <div className="card-body">
           <GridView
             locale={locale}
             dataSource={campaigns.content}
@@ -110,24 +109,24 @@ class View extends Component {
             last={campaigns.last}
             lazyLoad
           >
-            <GridColumn
+            <GridViewColumn
               name="campaign"
               header={I18n.t('CAMPAIGNS.GRID_VIEW.CAMPAIGN')}
               render={this.renderCampaign}
             />
-            <GridColumn
+            <GridViewColumn
               name="creationDate"
               header={I18n.t('CAMPAIGNS.GRID_VIEW.CREATED')}
               render={this.renderDate('creationDate')}
             />
-            <GridColumn
+            <GridViewColumn
               name="status"
               header={I18n.t('CAMPAIGNS.GRID_VIEW.STATUS')}
               render={this.renderStatus}
             />
           </GridView>
-        </Content>
-      </Card>
+        </div>
+      </div>
     );
   }
 }

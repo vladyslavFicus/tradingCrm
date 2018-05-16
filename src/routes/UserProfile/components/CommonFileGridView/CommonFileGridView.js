@@ -6,7 +6,7 @@ import classNames from 'classnames';
 import { shortifyInMiddle } from '../../../../utils/stringFormat';
 import { categoriesLabels } from '../../../../constants/files';
 import { targetTypes } from '../../../../constants/note';
-import GridView, { GridColumn } from '../../../../components/GridView';
+import GridView, { GridViewColumn } from '../../../../components/GridView';
 import FileStatusDropDown from '../../../../components/FileStatusDropDown';
 import NoteButton from '../../../../components/NoteButton';
 import Uuid from '../../../../components/Uuid';
@@ -124,33 +124,33 @@ class CommonFileGridView extends Component {
       <GridView
         {...rest}
       >
-        <GridColumn
+        <GridViewColumn
           name="fileName"
           header={I18n.t('FILES.GRID.COLUMN.NAME')}
           render={this.renderFileName}
         />
-        <GridColumn
+        <GridViewColumn
           name="actions"
           header=""
           headerClassName="width-60"
           render={this.renderActions}
         />
-        <GridColumn
+        <GridViewColumn
           name="date"
           header={I18n.t('FILES.GRID.COLUMN.DATE_TIME')}
           render={this.renderDate('uploadDate')}
         />
-        <GridColumn
+        <GridViewColumn
           name="category"
           header={I18n.t('FILES.GRID.COLUMN.CATEGORY')}
           render={this.renderCategory}
         />
-        <GridColumn
+        <GridViewColumn
           name="status"
           header={I18n.t('FILES.GRID.COLUMN.STATUS')}
           render={this.renderStatus}
         />
-        <GridColumn
+        <GridViewColumn
           name="note"
           header={I18n.t('FILES.GRID.COLUMN.NOTE')}
           render={this.renderNote}

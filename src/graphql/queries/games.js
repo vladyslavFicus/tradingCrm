@@ -36,6 +36,44 @@ const gameListQuery = gql`query GameListView(
   }
 }`;
 
+const cmsProvidersQuery = gql`query GamesProviders{ cmsProviders { name } }`;
+
+const cmsGamesQuery = gql`query GamesView(
+    $brandId: String!,
+    $platform: CmsGamePlatform,
+    $technology: CmsGameTechnology,
+    $freeSpinsStatus: CmsGameFreeSpinsStatus,
+    $status: CmsGameStatus,
+    $offset: Int!,
+    $limit: Int!
+  ) {
+  cmsGames(
+    brandId: $brandId,
+    platform: $platform,
+    technology: $technology,
+    freeSpinsStatus: $freeSpinsStatus,
+    status: $status,
+    limit: $limit,
+    offset: $offset
+  ) {
+    internalGameId
+    title
+    alias
+    aggregator {
+      name
+    }
+    provider {
+      name
+    }
+    platform
+    technology
+    freeSpinsStatus
+    status
+  }
+}`;
+
 export {
   gameListQuery,
+  cmsGamesQuery,
+  cmsProvidersQuery,
 };
