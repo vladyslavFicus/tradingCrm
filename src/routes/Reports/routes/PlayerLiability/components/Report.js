@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { I18n } from 'react-redux-i18n';
-import GridView, { GridColumn } from '../../../../../components/GridView';
-import Card, { Title, Content } from '../../../../../components/Card';
+import GridView, { GridViewColumn } from '../../../../../components/GridView';
 import Amount from '../../../../../components/Amount';
 
 class Report extends Component {
@@ -33,8 +32,8 @@ class Report extends Component {
     const { entities } = this.props;
 
     return (
-      <Card>
-        <Title>
+      <div className="card">
+        <div className="card-heading">
           <span className="font-size-20">
             {I18n.t('COMMON.PLAYER_LIABILITY_REPORT')}
           </span>
@@ -42,9 +41,9 @@ class Report extends Component {
           <button className="btn btn-primary ml-auto" onClick={this.handleExportClick}>
             {I18n.t('COMMON.BUTTONS.EXPORT_AS_CSV')}
           </button>
-        </Title>
+        </div>
 
-        <Content>
+        <div className="card-body">
           <GridView
             dataSource={entities.content}
             onFiltersChanged={this.handleFiltersChanged}
@@ -52,43 +51,43 @@ class Report extends Component {
             activePage={entities.number + 1}
             totalPages={entities.totalPages}
           >
-            <GridColumn
+            <GridViewColumn
               name="id"
               header="ID"
               headerStyle={{ width: '10%' }}
               render={(data, column) => <small>{data[column.name]}</small>}
             />
-            <GridColumn
+            <GridViewColumn
               name="playerUUID"
               header="Player"
               headerStyle={{ width: '20%' }}
             />
-            <GridColumn
+            <GridViewColumn
               name="country"
               header="Country"
               headerStyle={{ width: '10%' }}
             />
-            <GridColumn
+            <GridViewColumn
               name="balance"
               header="Balance"
               headerStyle={{ width: '15%' }}
               render={this.renderAmountColumn}
             />
-            <GridColumn
+            <GridViewColumn
               name="realMoneyBalance"
               header="Real money balance"
               headerStyle={{ width: '15%' }}
               render={this.renderAmountColumn}
             />
-            <GridColumn
+            <GridViewColumn
               name="bonusBalance"
               header="Bonus balance"
               headerStyle={{ width: '15%' }}
               render={this.renderAmountColumn}
             />
           </GridView>
-        </Content>
-      </Card>
+        </div>
+      </div>
     );
   }
 }

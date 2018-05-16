@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Card, { Title, Content } from '../../../../../components/Card';
 import PreviewGrid from './PreviewGrid';
 import Form from './Form';
 import PermissionContent from '../../../../../components/PermissionContent';
@@ -28,13 +27,13 @@ class View extends Component {
     } = this.props;
 
     return (
-      <Card>
-        <Title>
-          <span className="font-size-20">Revenue report</span>
-        </Title>
+      <div className="card">
+        <div className="card-heading font-size-20">
+          Revenue report
+        </div>
 
         <PermissionContent permissions={permissions.REPORTS.PLAYER_LIABILITY_VIEW}>
-          <Content>
+          <div className="card-body">
             <Form
               fields={form.values}
               errors={form.errors}
@@ -53,9 +52,9 @@ class View extends Component {
                 currency={currency}
               />
             }
-          </Content>
+          </div>
         </PermissionContent>
-      </Card>
+      </div>
     );
   }
 }

@@ -23,11 +23,9 @@ class DepartmentsDropDown extends Component {
     this.setState({ active: !this.state.active });
   };
 
-  renderLabel = (entityValue, labels) => {
-    return entityValue && labels[entityValue]
-      ? I18n.t(labels[entityValue])
-      : entityValue;
-  };
+  renderLabel = (entityValue, labels) => (entityValue && labels[entityValue]
+    ? I18n.t(labels[entityValue])
+    : entityValue);
 
   render() {
     const { active } = this.state;

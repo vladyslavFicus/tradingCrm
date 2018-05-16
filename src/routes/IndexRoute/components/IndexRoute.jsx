@@ -6,10 +6,12 @@ import { AppRoute, Route } from '../../../router';
 import NotFound from '../../../routes/NotFound';
 import CoreLayout from '../../../layouts/CoreLayout';
 import BlackLayout from '../../../layouts/BlackLayout';
-import NewLayout from '../../../layouts/NewLayout';
+import MainLayout from '../../../layouts/MainLayout';
 import SignIn from '../../SignIn';
 import Logout from '../../Logout';
 import Players from '../../Players';
+import SetPassword from '../../SetPassword';
+import ResetPassword from '../../ResetPassword';
 
 class IndexRoute extends PureComponent {
   static propTypes = {
@@ -42,9 +44,11 @@ class IndexRoute extends PureComponent {
               <Redirect exact from="/" to="/sign-in" />
             </Otherwise>
           </Choose>
-          <AppRoute path="/players" layout={NewLayout} component={Players} checkAuth />
+          <AppRoute path="/players" layout={MainLayout} component={Players} checkAuth />
           <Route path="/logout" component={Logout} checkAuth />
           <AppRoute path="/sign-in" layout={BlackLayout} component={SignIn} />
+          <AppRoute path="/set-password" layout={BlackLayout} component={SetPassword} />
+          <AppRoute path="/reset-password" layout={BlackLayout} component={ResetPassword} />
           <Route component={NotFound} />
         </Switch>
       </CoreLayout>

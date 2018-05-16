@@ -97,6 +97,10 @@ const types = keyMirror({
   Confiscate: null,
 });
 
+const customTypes = keyMirror({
+  Tip: null,
+});
+
 const manualTypesLabels = {
   [types.Deposit]: 'Manual deposit',
   [types.Withdraw]: 'Manual withdraw',
@@ -130,6 +134,7 @@ const typesLabels = {
   [types.Deposit]: 'Deposit',
   [types.Withdraw]: 'Withdraw',
   [types.Confiscate]: 'Confiscate',
+  [customTypes.Tip]: 'Tip',
 };
 
 const typesProps = {
@@ -141,6 +146,9 @@ const typesProps = {
   },
   [types.Confiscate]: {
     className: 'text-uppercase font-weight-700 color-danger',
+  },
+  [customTypes.Tip]: {
+    className: 'text-uppercase font-weight-700 color-secondary',
   },
 };
 
@@ -175,6 +183,7 @@ export {
   methodsStatusesLabels,
   methodsLabels,
   types,
+  customTypes,
   manualTypesLabels,
   typesLabels,
   typesProps,

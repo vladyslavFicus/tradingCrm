@@ -5,7 +5,6 @@ import PropTypes from '../../../../../../constants/propTypes';
 import UnitValue from '../UnitValue';
 import { targetTypesLabels, fulfillmentTypesLabels } from '../../../../../../constants/bonus-campaigns';
 import renderLabel from '../../../../../../utils/renderLabel';
-import Card, { Content } from '../../../../../../components/Card';
 
 const Information = (props) => {
   const {
@@ -32,8 +31,8 @@ const Information = (props) => {
             <span className="account-details__label">
               {I18n.t('BONUS_CAMPAIGNS.VIEW.DETAILS.LABEL.TARGET')}
             </span>
-            <Card>
-              <Content>
+            <div className="card">
+              <div className="card-body">
                 <div>
                   <strong>{I18n.t('BONUS_CAMPAIGNS.VIEW.DETAILS.LABEL.TARGET_TYPE')}:</strong>{' '}
                   {renderLabel(targetType, targetTypesLabels)}
@@ -46,8 +45,8 @@ const Information = (props) => {
                   <strong>{I18n.t('BONUS_CAMPAIGNS.VIEW.DETAILS.LABEL.PLAYERS_OPT_IN')}:</strong>{' '}
                   {totalOptInPlayers}
                 </div>
-              </Content>
-            </Card>
+              </div>
+            </div>
           </div>
         </div>
         <div className="col-md-3">
@@ -55,8 +54,8 @@ const Information = (props) => {
             <span className="account-details__label">
               {I18n.t('BONUS_CAMPAIGNS.VIEW.DETAILS.LABEL.REWARD_PARAMS')}
             </span>
-            <Card>
-              <Content>
+            <div className="card">
+              <div className="card-body">
                 <div>
                   <strong>{I18n.t('BONUS_CAMPAIGNS.VIEW.DETAILS.LABEL.FULFILLMENT_TYPE')}:</strong>{' '}
                   {renderLabel(fulfilmentType, fulfillmentTypesLabels)}
@@ -95,8 +94,8 @@ const Information = (props) => {
                     <UnitValue {...capping} currency={currency} />
                   </div>
                 }
-              </Content>
-            </Card>
+              </div>
+            </div>
           </div>
         </div>
       </div>

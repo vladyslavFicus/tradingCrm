@@ -1,7 +1,7 @@
 import { asyncRoute } from '../../../../router';
 
 export default asyncRoute(
-  () => import(/* webpackChunkName: "ListContainer" */ './containers/ListContainer'),
-  () => import(/* webpackChunkName: "ListReducers" */ './modules/list'),
+  () => import(/* webpackChunkName: "PlayersListContainer" */ './containers/ListContainer'),
+  () => import(/* webpackChunkName: "PlayersListReducer" */ './modules/list'),
   'usersList'
 );

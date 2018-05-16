@@ -7,7 +7,6 @@ import { departmentsLabels, rolesLabels } from '../../../../../../../constants/o
 import renderLabel from '../../../../../../../utils/renderLabel';
 import PermissionContent from '../../../../../../../components/PermissionContent';
 import permissions from '../../../../../../../config/permissions';
-import Card, { Content } from '../../../../../../../components/Card';
 
 const manageDepartmentsPermissions = [
   permissions.OPERATORS.ADD_AUTHORITY,
@@ -110,9 +109,9 @@ class View extends Component {
     } = this.props;
 
     return (
-      <Content>
-        <Card>
-          <Content>
+      <div className="card-body">
+        <div className="card">
+          <div className="card-body">
             <If condition={profileLoaded}>
               <PersonalForm
                 initialValues={{
@@ -125,11 +124,11 @@ class View extends Component {
                 onSubmit={this.handleSubmit}
               />
             </If>
-          </Content>
-        </Card>
+          </div>
+        </div>
         <PermissionContent permissions={manageDepartmentsPermissions}>
-          <Card>
-            <Content>
+          <div className="card">
+            <div className="card-body">
               <div className="personal-form-heading margin-bottom-20">
                 {I18n.t('OPERATORS.PROFILE.DEPARTMENTS.LABEL')}
               </div>
@@ -155,10 +154,10 @@ class View extends Component {
                 authorities={authorities}
                 departmentsRoles={departmentsRoles}
               />
-            </Content>
-          </Card>
+            </div>
+          </div>
         </PermissionContent>
-      </Content>
+      </div>
     );
   }
 }

@@ -5,8 +5,7 @@ import moment from 'moment';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import { I18n } from 'react-redux-i18n';
-import Card, { Title, Content } from '../../../../../components/Card';
-import GridView, { GridColumn } from '../../../../../components/GridView';
+import GridView, { GridViewColumn } from '../../../../../components/GridView';
 import OperatorGridFilter from './OperatorGridFilter';
 import {
   statusColorNames as operatorStatusColorNames,
@@ -245,8 +244,8 @@ class List extends Component {
     } = this.props;
 
     return (
-      <Card>
-        <Title>
+      <div className="card">
+        <div className="card-heading">
           <span className="font-size-20" id="operators-list-header">
             {I18n.t('OPERATORS.HEADING')}
           </span>
@@ -258,7 +257,7 @@ class List extends Component {
           >
             {I18n.t('OPERATORS.CREATE_OPERATOR_BUTTON')}
           </button>
-        </Title>
+        </div>
 
         <OperatorGridFilter
           onSubmit={this.handleFiltersChanged}
@@ -266,7 +265,7 @@ class List extends Component {
           filterValues={filterValues}
         />
 
-        <Content>
+        <div className="card-body">
           <GridView
             dataSource={entities.content}
             onPageChange={this.handlePageChanged}
@@ -276,29 +275,29 @@ class List extends Component {
             locale={locale}
             showNoResults={noResults}
           >
-            <GridColumn
+            <GridViewColumn
               name="uuid"
               header="Operator"
               render={this.renderOperator}
             />
-            <GridColumn
+            <GridViewColumn
               name="country"
               header="Country"
               render={this.renderCountry}
             />
-            <GridColumn
+            <GridViewColumn
               name="registered"
               header="Registered"
               render={this.renderRegistered}
             />
-            <GridColumn
+            <GridViewColumn
               name="status"
               header="Status"
               render={this.renderStatus}
             />
           </GridView>
-        </Content>
-      </Card>
+        </div>
+      </div>
     );
   }
 }

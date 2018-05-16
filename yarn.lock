@@ -7963,9 +7963,9 @@ react-i18nify@^1.11.8:
     moment "^2.22.1"
     prop-types "^15.6.1"
 
-react-images@^0.5.5:
+"react-images@github:newageio/react-images":
   version "0.5.17"
-  resolved "https://registry.yarnpkg.com/react-images/-/react-images-0.5.17.tgz#6f76fd03b370176bead7d22cec06afe82fe1cec0"
+  resolved "https://codeload.github.com/newageio/react-images/tar.gz/b652219255b35a1d26291f69fcbdb15e571d2745"
   dependencies:
     aphrodite "^0.5.0"
     prop-types "^15.6.0"

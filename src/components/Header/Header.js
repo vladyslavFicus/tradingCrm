@@ -12,19 +12,17 @@ class Header extends Component {
   static propTypes = {
     showSearch: PropTypes.bool,
     onToggleProfile: PropTypes.func.isRequired,
+    user: PropTypes.shape({
+      logged: PropTypes.bool.isRequired,
+      brandId: PropTypes.string,
+      departmentsByBrand: PropTypes.objectOf(PropTypes.objectOf(PropTypes.string)),
+      department: PropTypes.string,
+      authorities: PropTypes.arrayOf(PropTypes.authorityEntity),
+    }).isRequired,
+    onDepartmentChange: PropTypes.func.isRequired,
   };
   static defaultProps = {
     showSearch: false,
-  };
-  static contextTypes = {
-    user: PropTypes.shape({
-      brandId: PropTypes.string.isRequired,
-      departmentsByBrand: PropTypes.objectOf(PropTypes.objectOf(PropTypes.string)).isRequired,
-      department: PropTypes.string,
-      authorities: PropTypes.arrayOf(PropTypes.authorityEntity),
-    }),
-    changeDepartment: PropTypes.func.isRequired,
-    locale: PropTypes.string.isRequired,
   };
 
   state = {
@@ -32,7 +30,7 @@ class Header extends Component {
   };
 
   get indexLink() {
-    return Object.keys(this.context.user.departmentsByBrand).length > 1 ? '/brands' : '/';
+    return this.props.user && Object.keys(this.props.user.departmentsByBrand).length > 1 ? '/brands' : '/';
   }
 
   handleSearchFieldClick = () => {
@@ -46,24 +44,25 @@ class Header extends Component {
   };
 
   handleChangeDepartment = (department) => {
-    this.context.changeDepartment(department, this.context.user.brandId);
+    this.props.onDepartmentChange(department, this.props.user.brandId);
   };
 
   render() {
-    const { user } = this.context;
     const { searchFieldActive } = this.state;
-    const { showSearch } = this.props;
+    const { showSearch, user } = this.props;
 
     return (
       <header className="header">
         <Link className="header__brand" to={this.indexLink}>
           <img className="img-fluid" src={getLogo()} alt="current-casino-logo" />
         </Link>
-        <DepartmentsDropDown
-          onChange={this.handleChangeDepartment}
-          current={user.authorities.find(authority => authority.department === user.department)}
-          authorities={user.authorities.filter(authority => authority.department !== user.department)}
-        />
+        <If condition={user.logged}>
+          <DepartmentsDropDown
+            onChange={this.handleChangeDepartment}
+            current={user.authorities.find(authority => authority.department === user.department)}
+            authorities={user.authorities.filter(authority => authority.department !== user.department)}
+          />
+        </If>
         <If condition={showSearch}>
           <form className="search">
             <i className="fa fa-search" />

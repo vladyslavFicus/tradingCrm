@@ -1,6 +1,5 @@
 import React from 'react';
 import { I18n } from 'react-redux-i18n';
-import Card, { Content } from '../../../../../../components/Card';
 
 const Information = () => (
   <div className="account-details">
@@ -10,8 +9,8 @@ const Information = () => (
           <span className="account-details__label">
             {I18n.t('BONUS_CAMPAIGNS.VIEW.DETAILS.LABEL.TARGET')}
           </span>
-          <Card>
-            <Content>
+          <div className="card">
+            <div className="card-body">
               <div>
                 <strong>{I18n.t('BONUS_CAMPAIGNS.VIEW.DETAILS.LABEL.TARGET_TYPE')}:</strong>{' '}-
               </div>
@@ -23,8 +22,8 @@ const Information = () => (
                 <strong>{I18n.t('BONUS_CAMPAIGNS.VIEW.DETAILS.LABEL.PLAYERS_OPT_IN')}:</strong>{' '}
                 0
               </div>
-            </Content>
-          </Card>
+            </div>
+          </div>
         </div>
       </div>
       <div className="col-md-3">
@@ -32,8 +31,8 @@ const Information = () => (
           <span className="account-details__label">
             {I18n.t('BONUS_CAMPAIGNS.VIEW.DETAILS.LABEL.REWARD_PARAMS')}
           </span>
-          <Card>
-            <Content>
+          <div className="card">
+            <div className="card-body">
               <div>
                 <strong>{I18n.t('BONUS_CAMPAIGNS.VIEW.DETAILS.LABEL.FULFILLMENT_TYPE')}:</strong>{' '}
                 -
@@ -58,8 +57,8 @@ const Information = () => (
                 <strong>{I18n.t('BONUS_CAMPAIGNS.VIEW.DETAILS.LABEL.CAMPAIGN_END')}:</strong>{' '}
                 -
               </div>
-            </Content>
-          </Card>
+            </div>
+          </div>
         </div>
       </div>
     </div>
