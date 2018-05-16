@@ -67,11 +67,6 @@ class NewLayout extends Component {
         })),
       })).isRequired,
     }).isRequired,
-    router: PropTypes.shape({
-      push: PropTypes.func.isRequired,
-      replace: PropTypes.func.isRequired,
-    }).isRequired,
-    location: PropTypes.object.isRequired,
     permissions: PropTypes.array,
     changeDepartment: PropTypes.func.isRequired,
     activeUserPanel: PropTypes.userPanelItem,
@@ -112,7 +107,6 @@ class NewLayout extends Component {
       token: PropTypes.string,
       uuid: PropTypes.string,
     }).isRequired,
-    location: PropTypes.object,
     permissions: PropTypes.array,
     changeDepartment: PropTypes.func.isRequired,
     locale: PropTypes.string.isRequired,
@@ -151,7 +145,6 @@ class NewLayout extends Component {
   getChildContext() {
     const {
       user,
-      location,
       permissions,
       changeDepartment,
       locale,
@@ -164,7 +157,6 @@ class NewLayout extends Component {
     return {
       settings,
       user,
-      location,
       permissions,
       changeDepartment,
       locale,
@@ -335,7 +327,6 @@ class NewLayout extends Component {
     const { popover, miniProfilePopover, isOpenProfile } = this.state;
     const {
       children,
-      router,
       userPanelsByManager: userPanels,
       activeUserPanel,
       removePanel,
@@ -352,7 +343,6 @@ class NewLayout extends Component {
     return (
       <Fragment>
         <Header
-          router={router}
           languages={languages}
           onLocaleChange={onLocaleChange}
           onToggleProfile={this.onToggleProfile}
@@ -425,8 +415,7 @@ const mapStateToProps = (state) => {
   const userPanelsByManager = userPanels.items.filter(userTab =>
     userTab.auth &&
     userTab.auth.brandId === auth.brandId &&
-    userTab.auth.uuid === auth.uuid
-  );
+    userTab.auth.uuid === auth.uuid);
 
   const activeUserPanel = userPanels.items.find(p => p.uuid === userPanels.activeIndex);
 

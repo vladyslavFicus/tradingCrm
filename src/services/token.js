@@ -1,8 +1,8 @@
 import { CALL_API, isValidRSAA } from 'redux-api-middleware';
 import jwtDecode from 'jwt-decode';
 import { v4 } from 'uuid';
-import { browserHistory } from 'react-router';
 import _ from 'lodash';
+import history from '../router/history';
 import timestamp from '../utils/timestamp';
 import { actionCreators as authActionCreators, actionTypes as authActionTypes } from '../redux/modules/auth';
 import goToSignInPage from '../utils/getSignInUrl';
@@ -45,39 +45,35 @@ const changeReduxLockState = (value, detail = {}) => {
 
   for (let i = 0; i < window.frames.length; i++) {
     if ((/^PLAYER-/).test(window.frames[0].frameElement.id)) {
-      locks.push(
-        new Promise((resolve) => {
-          let timeout = null;
-          const uuid = v4();
-          const requestEventName = value ? LOCK_EVENT_NAME : UNLOCK_EVENT_NAME;
-          const responseEventName = `${requestEventName}ed#${uuid}`;
-          const listener = (e) => {
-            if (timeout) {
-              clearTimeout(timeout);
-              timeout = null;
-            }
+      locks.push(new Promise((resolve) => {
+        let timeout = null;
+        const uuid = v4();
+        const requestEventName = value ? LOCK_EVENT_NAME : UNLOCK_EVENT_NAME;
+        const responseEventName = `${requestEventName}ed#${uuid}`;
+        const listener = (e) => {
+          if (timeout) {
+            clearTimeout(timeout);
+            timeout = null;
+          }
 
-            window.removeEventListener(responseEventName, listener);
+          window.removeEventListener(responseEventName, listener);
 
-            resolve(!!e);
-          };
-          window.addEventListener(responseEventName, listener);
+          resolve(!!e);
+        };
+        window.addEventListener(responseEventName, listener);
 
-          console.info(`Send event "${requestEventName}" to iframe#${i} - ${window.frames[0].frameElement.id}`);
+        console.info(`Send event "${requestEventName}" to iframe#${i} - ${window.frames[0].frameElement.id}`);
 
-          window.frames[i].window.dispatchEvent(
-            new CustomEvent(requestEventName, {
-              detail: {
-                ...detail,
-                value,
-                uuid,
-              },
-            })
-          );
+        window.frames[i].window.dispatchEvent(new CustomEvent(requestEventName, {
+          detail: {
+            ...detail,
+            value,
+            uuid,
+          },
+        }));
 
-          timeout = setTimeout(listener, UNLOCK_EVENT_RESPONSE_TIMEOUT);
-        })
-      );
+        timeout = setTimeout(listener, UNLOCK_EVENT_RESPONSE_TIMEOUT);
+      }));
     }
   }
 
@@ -98,7 +94,7 @@ const logout = (store) => {
   const signInUrl = goToSignInPage(store.getState().location);
 
   if (signInUrl) {
-    browserHistory.push(signInUrl);
+    history.push(signInUrl);
   }
 };
 

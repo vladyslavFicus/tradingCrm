@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { I18n } from 'react-redux-i18n';
 import moment from 'moment';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import BonusCampaignsFilterForm from './BonusCampaignsFilterForm';
 import PropTypes from '../../../../../constants/propTypes';
 import Card, { Title, Content } from '../../../../../components/Card';
@@ -179,7 +179,9 @@ class View extends Component {
   render() {
     const {
       fetchDepositNumbers,
-      campaigns: { entities, exporting, noResults, isLoading },
+      campaigns: {
+ entities, exporting, noResults, isLoading 
+},
       locale,
       types: { list },
       depositNumbers: { list: depositNumbers },

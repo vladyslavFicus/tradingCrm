@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, withRouter } from 'react-router';
+import { Link, withRouter } from 'react-router-dom';
 import { I18n } from 'react-redux-i18n';
 import { Nav, NavItem } from 'reactstrap';
 import PropTypes from '../../constants/propTypes';

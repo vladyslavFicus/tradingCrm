@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { SubmissionError } from 'redux-form';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import moment from 'moment';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
@@ -84,7 +84,9 @@ class List extends Component {
   };
 
   handleSubmitNewOperator = async ({ department, role, ...data }) => {
-    const { onSubmitNewOperator, router, modals, addAuthority, notify } = this.props;
+    const {
+ onSubmitNewOperator, router, modals, addAuthority, notify
+} = this.props;
     const action = await onSubmitNewOperator({ ...data, department, role });
 
     if (action.error) {

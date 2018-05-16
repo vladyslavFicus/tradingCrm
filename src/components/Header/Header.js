@@ -5,14 +5,12 @@ import PropTypes from '../../constants/propTypes';
 import DepartmentsDropDown from '../DepartmentsDropDown';
 import HeaderNav from '../HeaderNav';
 import { getLogo } from '../../config';
+import history from '../../router/history';
 import './Header.scss';
 
 class Header extends Component {
   static propTypes = {
     showSearch: PropTypes.bool,
-    router: PropTypes.shape({
-      replace: PropTypes.func.isRequired,
-    }).isRequired,
     onToggleProfile: PropTypes.func.isRequired,
   };
   static defaultProps = {
@@ -101,7 +99,7 @@ class Header extends Component {
             { label: 'My profile', onClick: () => this.props.onToggleProfile() },
             {
               label: 'Logout',
-              onClick: () => this.props.router.replace('/logout'),
+              onClick: () => history.replace('/logout'),
               id: 'profile-logout-button',
             },
           ]}

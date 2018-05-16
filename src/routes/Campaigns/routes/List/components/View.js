@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import moment from 'moment';
 import { I18n } from 'react-redux-i18n';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import Uuid from '../../../../../components/Uuid';
 import PropTypes from '../../../../../constants/propTypes';
 import Card, { Title, Content } from '../../../../../components/Card';
