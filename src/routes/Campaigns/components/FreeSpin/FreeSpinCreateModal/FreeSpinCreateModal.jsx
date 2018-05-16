@@ -92,18 +92,6 @@ class FreeSpinCreateModal extends Component {
     }
   }
 
-  getGame(gameId) {
-    const { games } = this.props;
-    const gameList = get(games, 'games.content', []);
-
-    return gameList.find(i => i.gameId === gameId) || {
-      betLevels: [],
-      coinSizes: [],
-      lines: [],
-      pageCodes: [],
-    };
-  }
-
   get currency() {
     const {
       optionCurrencies: {
@@ -125,6 +113,18 @@ class FreeSpinCreateModal extends Component {
     } = this.props;
 
     return freeSpinOptions || {};
+  }
+
+  getGame(gameId) {
+    const { games } = this.props;
+    const gameList = get(games, 'games.content', []);
+
+    return gameList.find(i => i.gameId === gameId) || {
+      betLevels: [],
+      coinSizes: [],
+      lines: [],
+      pageCodes: [],
+    };
   }
 
   setField = (field, value = '') => this.context._reduxForm.autofill(field, value);
@@ -400,6 +400,33 @@ class FreeSpinCreateModal extends Component {
                       label={I18n.t(attributeLabels.betPerLine)}
                       className="col-md-6"
                       id="campaign-freespin-create-modal-bet-perline"
+                    />
+                  </If>
+                  <If condition={fields.indexOf('denomination') !== -1}>
+                    <Field
+                      name="denomination"
+                      type="number"
+                      step="any"
+                      label={I18n.t(attributeLabels.denomination)}
+                      position="vertical"
+                      component={InputField}
+                      normalize={floatNormalize}
+                      showErrorMessage={false}
+                      className="col-md-6"
+                      id="campaign-freespin-create-modal-denomination"
+                    />
+                  </If>
+                  <If condition={fields.indexOf('coins') !== -1}>
+                    <Field
+                      name="coins"
+                      type="number"
+                      placeholder="0"
+                      label={I18n.t(attributeLabels.coins)}
+                      component={InputField}
+                      normalize={intNormalize}
+                      position="vertical"
+                      className="col-md-6"
+                      id="campaign-freespin-create-modal-coins"
                     />
                   </If>
                   <If condition={fields.indexOf('linesPerSpin') !== -1}>

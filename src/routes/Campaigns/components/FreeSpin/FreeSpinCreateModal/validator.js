@@ -12,6 +12,8 @@ export default (values, {
   let rules = {
     freeSpinsAmount: ['integer', 'min:0', 'required'],
     freeSpinLifeTime: ['integer', 'min:0', 'required'],
+    denomination: ['numeric', 'min:0', 'required'],
+    coins: ['integer', 'min:0', 'required'],
     linesPerSpin: ['integer', 'required'],
     betPerLineAmounts: {
       0: {

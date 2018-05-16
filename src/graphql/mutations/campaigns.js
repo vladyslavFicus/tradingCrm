@@ -123,6 +123,8 @@ const freeSpinTemplateMutation = gql`mutation freeSpinTemplateMutation(
   $pageCode: String
   $betLevel: Int
   $betPerLineAmounts: [InputMoney]
+  $denomination: Float
+  $coins: Int
   $bonusTemplateUUID: String
   $displayLine1: String
   $displayLine2: String
@@ -153,6 +155,8 @@ const freeSpinTemplateMutation = gql`mutation freeSpinTemplateMutation(
     nearestCost: $nearestCost
     clientId:  $clientId
     moduleId: $moduleId
+    denomination: $denomination
+    coins: $coins
     ) {
       data {
         aggregatorId

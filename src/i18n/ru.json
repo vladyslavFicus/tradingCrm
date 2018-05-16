@@ -1776,6 +1776,8 @@
       "GAME": "Игра",
       "GAME_TYPE": "Тип игры",
       "NAME": "Название",
+      "DENOMINATION": "Деноминация",
+      "COINS": "Монеты",
       "FREE_SPINS": "Фри спины",
       "FREE_SPIN_REWARD": "Фри спин",
       "BET_PER_LINE": "Бет за линию",

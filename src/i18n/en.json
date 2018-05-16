@@ -1765,6 +1765,8 @@
       "BET_PER_LINE": "Bet per line",
       "FREE_SPIN_LIFE_TIME": "Free spin life time",
       "PRIZE": "Prize",
+      "DENOMINATION": "Denomination",
+      "COINS": "Coins",
       "SPIN_VALUE": "Spin value",
       "TOTAL_VALUE": "Total value",
       "LINES_PER_SPIN": "Lines per spin",
