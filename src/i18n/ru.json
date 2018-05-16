@@ -1243,7 +1243,8 @@
           "EDIT_CONTENT": "Редактировать"
         },
         "GRANTED_TO": "для %{count} игроков",
-        "GRANTED_TO_1": "для %{count} игрока"
+        "GRANTED_TO_1": "для %{count} игрока",
+        "CLONE_OF": "Склонировано из"
       },
       "NOTIFICATIONS": {
         "UPDATE_TITLE": "Обновление бонус-кампании",

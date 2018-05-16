@@ -1232,7 +1232,8 @@
         },
         "GRANTED_TO": "to %{count} Players",
         "GRANTED_TO_0": "to %{count} Players",
-        "GRANTED_TO_1": "to %{count} Player"
+        "GRANTED_TO_1": "to %{count} Player",
+        "CLONE_OF": "Clone of"
       },
       "NOTIFICATIONS": {
         "UPDATE_TITLE": "Update bonus campaign",
