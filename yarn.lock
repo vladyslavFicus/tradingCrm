@@ -7903,7 +7903,7 @@ react-dates@15.5.1:
 
 "react-datetime@github:newageio/react-datetime":
   version "1.0.3"
-  resolved "https://codeload.github.com/newageio/react-datetime/tar.gz/509e5996723db8469c9fca9b5e544c41751cad62"
+  resolved "https://codeload.github.com/newageio/react-datetime/tar.gz/2ef487e6a35cc462c0d6658820288bd7be98bb70"
   dependencies:
     classnames "^2.2.5"
     moment "2.22.1"
