@@ -2,10 +2,14 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Route as DomRoute, matchPath, withRouter, Redirect } from 'react-router-dom';
+import Forbidden from '../../routes/Forbidden';
+import Permissions from '../../utils/permissions';
+import { routePermissions } from './config';
 
 class Route extends Component {
   static propTypes = {
     disableScroll: PropTypes.bool,
+    logged: PropTypes.bool.isRequired,
     checkAuth: PropTypes.bool,
     location: PropTypes.object.isRequired,
     history: PropTypes.object.isRequired,
@@ -18,11 +22,13 @@ class Route extends Component {
         search: PropTypes.string,
       }),
     ]),
+    permissions: PropTypes.arrayOf(PropTypes.string),
   };
 
   static defaultProps = {
     path: undefined,
     disableScroll: false,
+    permissions: [],
     checkAuth: false,
   };
 
@@ -64,11 +70,24 @@ class Route extends Component {
     }
   }
 
+  get isValidPermissions() {
+    const {
+      path,
+      permissions,
+    } = this.props;
+    const currentRoutePermissions = routePermissions[path];
+
+    return !currentRoutePermissions || new Permissions([currentRoutePermissions]).check(permissions);
+  }
 
   render() {
     const {
       disableScroll, checkAuth, logged, ...props
     } = this.props;
+
+    if (!this.isValidPermissions) {
+      return <Forbidden />;
+    }
 
     if (checkAuth && !logged) {
       return <Redirect to="/sign-in" />;
@@ -78,4 +97,4 @@ class Route extends Component {
   }
 }
 
-export default withRouter(connect(({ auth: { logged } }) => ({ logged }))(Route));
+export default withRouter(connect(({ auth: { logged }, permissions: { data: permissions } }) => ({ logged, permissions }))(Route));

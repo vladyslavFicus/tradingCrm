@@ -45,7 +45,7 @@ export default store => ({
   },
   getComponent(nextState, cb) {
     if (!requiredPermissions.check(store.getState().permissions.data)) {
-      return cb(null, require('../Forbidden/container/Container').default);
+      return cb(null, require('../Forbidden/containers/ForbiddenContainer').default);
     }
 
     import(/* webpackChunkName: "profileReducer" */ './modules')
