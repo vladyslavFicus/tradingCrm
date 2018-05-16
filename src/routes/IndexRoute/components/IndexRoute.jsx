@@ -6,7 +6,10 @@ import { AppRoute, Route } from '../../../router';
 import NotFound from '../../../routes/NotFound';
 import CoreLayout from '../../../layouts/CoreLayout';
 import BlackLayout from '../../../layouts/BlackLayout';
+import NewLayout from '../../../layouts/NewLayout';
 import SignIn from '../../SignIn';
+import Logout from '../../Logout';
+import Players from '../../Players';
 
 class IndexRoute extends PureComponent {
   static propTypes = {
@@ -30,10 +33,17 @@ class IndexRoute extends PureComponent {
           <If condition={isNotFound}>
             <Route component={NotFound} />
           </If>
-          <If condition={logged}>
-            <Redirect from="/(sign-in|set-password|reset-password)" to="/" />
-          </If>
-          <AppRoute path="/users" layout={BlackLayout} component={() => <h1>TODO USERS ROUTE</h1>} auth />
+          <Choose>
+            <When condition={logged}>
+              <Redirect from="/(sign-in|set-password|reset-password)" to="/" />
+              <Redirect exact from="/" to="/players" />
+            </When>
+            <Otherwise>
+              <Redirect exact from="/" to="/sign-in" />
+            </Otherwise>
+          </Choose>
+          <AppRoute path="/players" layout={NewLayout} component={Players} checkAuth />
+          <Route path="/logout" component={Logout} checkAuth />
           <AppRoute path="/sign-in" layout={BlackLayout} component={SignIn} />
           <Route component={NotFound} />
         </Switch>

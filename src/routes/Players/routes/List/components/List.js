@@ -20,8 +20,10 @@ class List extends Component {
     fetchPlayerMiniProfile: PropTypes.func.isRequired,
     list: PropTypes.pageableState(PropTypes.userProfile).isRequired,
     reset: PropTypes.func.isRequired,
-    params: PropTypes.shape({
-      id: PropTypes.string,
+    match: PropTypes.shape({
+      params: PropTypes.shape({
+        id: PropTypes.string,
+      }).isRequired,
     }).isRequired,
     exportEntities: PropTypes.func.isRequired,
     locale: PropTypes.string.isRequired,
@@ -63,13 +65,13 @@ class List extends Component {
   handleRefresh = () => this.props.fetchESEntities({
     ...this.state.filters,
     page: this.state.page,
-    playerUUID: this.props.params.id,
+    playerUUID: this.props.match.params.id,
   });
 
   handleExport = () => this.props.exportEntities({
     ...this.state.filters,
     page: this.state.page,
-    playerUUID: this.props.params.id,
+    playerUUID: this.props.match.params.id,
   });
 
   handleFiltersChanged = (data = {}) => {

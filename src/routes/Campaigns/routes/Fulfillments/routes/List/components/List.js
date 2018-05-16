@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import { I18n } from 'react-redux-i18n';
 import PropTypes from '../../../../../../../constants/propTypes';
 import Card, { Title, Content } from '../../../../../../../components/Card';
@@ -46,7 +46,9 @@ class List extends Component {
         onClick={this.handleDelete(uuid)}
         className="btn btn-danger"
         type="button"
-      >{I18n.t('COMMON.REMOVE')}</button>
+      >
+        {I18n.t('COMMON.REMOVE')}
+      </button>
     </div>
   );
 

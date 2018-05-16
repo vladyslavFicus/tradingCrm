@@ -1,4 +1,4 @@
-import { browserHistory } from 'react-router';
+import history from '../../router/history';
 import { actionTypes } from '../modules/auth';
 import { actionTypes as windowActionTypes, actionCreators as windowActionCreators } from '../modules/window';
 import getSignInUrl from '../../utils/getSignInUrl';
@@ -21,7 +21,7 @@ export default (codes = [401]) => {
         const signInUrl = getSignInUrl(location);
 
         if ((!action.meta || !action.meta.ignoreByAuthMiddleware) && signInUrl) {
-          browserHistory.push(signInUrl);
+          history.push(signInUrl);
         }
       }
     }

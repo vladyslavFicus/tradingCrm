@@ -1,11 +1,3 @@
-import { actionCreators as authActionCreators } from '../../redux/modules/auth';
+import LogoutContainer from './container/LogoutContainer';
 
-export default store => ({
-  path: 'logout',
-  async onEnter(nextState, replace, cb) {
-    await store.dispatch(authActionCreators.logout());
-    replace('/sign-in');
-
-    cb();
-  },
-});
+export default LogoutContainer;

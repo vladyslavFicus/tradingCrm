@@ -14,7 +14,6 @@ import ResetPasswordRoute from './ResetPassword';
 import UserProfileRoute from './UserProfile';
 import OperatorProfileRoute from './Operators/routes/OperatorProfile';
 import DashboardRoute from './Dashboard';
-import UsersRoute from './Users';
 import OperatorsRoute from './Operators';
 import TransactionsRoute from './Transactions';
 import BonusCampaignsRoute from './BonusCampaigns';
@@ -47,7 +46,6 @@ export default store => ({
       component: NewLayout,
       childRoutes: [
         DashboardRoute(store),
-        UsersRoute(store),
         OperatorsRoute(store),
         TransactionsRoute(store),
         BonusCampaignsRoute(store),
