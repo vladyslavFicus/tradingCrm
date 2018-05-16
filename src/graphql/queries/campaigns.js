@@ -32,6 +32,7 @@ const campaignQuery = gql`query campaign($campaignUUID: String!){
       _id
       uuid
       name
+      optIn
       state
       excludeCountries
       authorUUID

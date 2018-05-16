@@ -8,7 +8,7 @@ import GridView, { GridViewColumn } from '../../../../../../../../components/Gri
 import Uuid from '../../../../../../../../components/Uuid';
 import renderLabel from '../../../../../../../../utils/renderLabel';
 import {
-  fulfillmentTypesLabels,
+  rewardTypesLabels,
   statuses as bonusCampaignStatuses,
   targetTypesLabels,
   targetTypes,
@@ -199,7 +199,7 @@ class View extends Component {
   renderBonusType = data => (
     <div>
       <div className="text-uppercase font-weight-700">
-        {renderLabel(data.fulfillmentType, fulfillmentTypesLabels)}
+        {renderLabel(data.campaignType, rewardTypesLabels)}
       </div>
       <div className="font-size-10">{data.optIn ? I18n.t('COMMON.OPT_IN') : I18n.t('COMMON.NON_OPT_IN')}</div>
     </div>

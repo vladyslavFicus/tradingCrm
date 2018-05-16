@@ -1846,7 +1846,9 @@
       },
       "CAMPAIGN_SETTINGS": "Campaign settings",
       "LABEL": {
-        "CAMPAIGN_PERIOD": "Campaign period"
+        "CAMPAIGN_PERIOD": "Campaign period",
+        "OPT_IN": "Type",
+        "OPT_IN_REQUIRED": "Opt-in required"
       }
     },
     "REWARDS": {
