@@ -1,12 +1,7 @@
-import { injectReducer } from '../../../../store/reducers';
+import { asyncRoute } from '../../../../router';
 
-export default store => ({
-  path: 'kyc-requests',
-  getComponent(nextState, cb) {
-    require.ensure([], (require) => {
-      injectReducer(store, { key: 'kycRequests', reducer: require('./modules/list').default });
-
-      cb(null, require('./container/Container').default);
-    }, 'kyc-requests');
-  },
-});
+export default asyncRoute(
+  () => import(/* webpackChunkName: "PlayersKycContainer" */ './containers/KycContainer'),
+  () => import(/* webpackChunkName: "PlayersKycReducer" */ './modules/list'),
+  'kycRequests'
+);

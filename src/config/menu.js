@@ -66,12 +66,12 @@ const sidebarTopMenu = [
     items: [
       {
         label: I18n.t('SIDEBAR.TOP_MENU.PLAYERS_SEARCH'),
-        url: '/users/list',
+        url: '/players/list',
         permissions: new Permissions(permissions.USER_PROFILE.PROFILES_LIST),
       },
       {
         label: I18n.t('SIDEBAR.TOP_MENU.PLAYERS_KYC_REQUEST'),
-        url: '/users/kyc-requests',
+        url: '/players/kyc-requests',
         permissions: new Permissions(permissions.USER_PROFILE.KYC_LIST),
       },
     ],
