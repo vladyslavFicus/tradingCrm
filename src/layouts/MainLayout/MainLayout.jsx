@@ -188,6 +188,14 @@ class MainLayout extends Component {
     }
   }
 
+  componentDidMount() {
+    this.mounted = true;
+  }
+
+  componentWillUnmount() {
+    this.mounted = false;
+  }
+
   onProfileSubmit = async ({ language, ...nextData }) => {
     const {
       user: { uuid, data },
@@ -221,11 +229,19 @@ class MainLayout extends Component {
   };
 
   onToggleProfile = () => {
-    this.setState({ isOpenProfile: !this.state.isOpenProfile });
+    this.updateState({ isOpenProfile: !this.state.isOpenProfile });
   };
 
   setNoteChangedCallback = (cb) => {
-    this.setState({ noteChangedCallback: cb });
+    this.updateState({ noteChangedCallback: cb });
+  };
+
+  mounted = false;
+
+  updateState = (...args) => {
+    if (this.mounted) {
+      this.setState(...args);
+    }
   };
 
   initSidebar = () => {
@@ -233,7 +249,7 @@ class MainLayout extends Component {
   };
 
   handleAddNoteClick = (target, item, params = {}) => {
-    this.setState({
+    this.updateState({
       popover: {
         name: NOTE_POPOVER,
         params: {
@@ -249,7 +265,7 @@ class MainLayout extends Component {
   };
 
   handleEditNoteClick = (target, item, params = {}) => {
-    this.setState({
+    this.updateState({
       popover: {
         name: NOTE_POPOVER,
         params: {
@@ -292,11 +308,11 @@ class MainLayout extends Component {
   };
 
   handlePopoverHide = () => {
-    this.setState({ popover: { ...popoverInitialState } });
+    this.updateState({ popover: { ...popoverInitialState } });
   };
 
   handleHideMiniProfile = (callback) => {
-    this.setState({ miniProfilePopover: { ...popoverInitialState } }, () => {
+    this.updateState({ miniProfilePopover: { ...popoverInitialState } }, () => {
       if (typeof callback === 'function') {
         callback();
       }
@@ -304,7 +320,7 @@ class MainLayout extends Component {
   };
 
   handleShowMiniProfile = (target, params, type, popoverMouseEvents) => {
-    this.setState({
+    this.updateState({
       miniProfilePopover: {
         name: MINI_PROFILE_POPOVER,
         params: {
