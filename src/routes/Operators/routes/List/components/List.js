@@ -85,8 +85,8 @@ class List extends Component {
 
   handleSubmitNewOperator = async ({ department, role, ...data }) => {
     const {
- onSubmitNewOperator, router, modals, addAuthority, notify
-} = this.props;
+      onSubmitNewOperator, router, modals, addAuthority, notify,
+    } = this.props;
     const action = await onSubmitNewOperator({ ...data, department, role });
 
     if (action.error) {

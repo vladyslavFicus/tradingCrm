@@ -236,8 +236,8 @@ class CreateBonusModal extends PureComponent {
               className="col-md-7"
               id="campaign-create-bonus-modal-wagering"
             >
-              {Object.keys(wageringRequirementTypes).map(key =>
-                <option key={key} value={key}>{key}</option>)}
+              {Object.keys(wageringRequirementTypes)
+                .map(key => <option key={key} value={key}>{key}</option>)}
             </Field>
           </div>
           <div className="row">

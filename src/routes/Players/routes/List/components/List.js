@@ -20,7 +20,6 @@ class List extends Component {
     fetchPlayerMiniProfile: PropTypes.func.isRequired,
     list: PropTypes.pageableState(PropTypes.userProfile).isRequired,
     reset: PropTypes.func.isRequired,
-
     match: PropTypes.shape({
       params: PropTypes.shape({
         id: PropTypes.string,
@@ -73,7 +72,6 @@ class List extends Component {
     ...this.state.filters,
     page: this.state.page,
     playerUUID: this.props.match.params.id,
-
   });
 
   handleFiltersChanged = (data = {}) => {

@@ -46,7 +46,8 @@ class List extends Component {
         onClick={this.handleDelete(uuid)}
         className="btn btn-danger"
         type="button"
-      >{I18n.t('COMMON.REMOVE')}
+      >
+        {I18n.t('COMMON.REMOVE')}
       </button>
     </div>
   );

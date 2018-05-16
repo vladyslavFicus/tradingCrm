@@ -89,7 +89,12 @@ class View extends Component {
 
   renderCampaign = data => (
     <div id={`bonus-campaign-${data.uuid}`}>
-      <Link to={`/bonus-campaigns/view/${data.uuid}`} className="font-weight-700">{data.campaignName}</Link>
+      <Link
+        to={`/bonus-campaigns/view/${data.uuid}`}
+        className="font-weight-700"
+      >
+        {data.campaignName}
+      </Link>
       <div className="font-size-11">
         <MiniProfile
           target={data.uuid}
@@ -180,8 +185,8 @@ class View extends Component {
     const {
       fetchDepositNumbers,
       campaigns: {
- entities, exporting, noResults, isLoading 
-},
+        entities, exporting, noResults, isLoading,
+      },
       locale,
       types: { list },
       depositNumbers: { list: depositNumbers },
