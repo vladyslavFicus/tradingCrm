@@ -28,6 +28,7 @@ import permissions from '../../../../config/permissions';
 import './Form.scss';
 import { withReduxFormValues, withNotifications } from '../../../../components/HighOrder';
 import renderLabel from '../../../../utils/renderLabel';
+import normalizeBoolean from '../../../../utils/normalizeBoolean';
 
 const CAMPAIGN_NAME_MAX_LENGTH = 100;
 
@@ -196,6 +197,7 @@ class Form extends Component {
               type="select"
               id="campaign-opt-in"
               component={SelectField}
+              normalize={normalizeBoolean}
               position="vertical"
             >
               {Object.keys(optInSelect).map(key => (
