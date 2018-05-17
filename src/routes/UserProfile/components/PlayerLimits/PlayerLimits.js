@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { Dropdown, DropdownToggle, DropdownMenu } from 'reactstrap';
 import classNames from 'classnames';
 import { I18n } from 'react-redux-i18n';
@@ -148,10 +148,10 @@ class PlayerLimits extends Component {
           >
             <div className="header-block-title">Locks</div>
             <PermissionContent permissions={permissions.USER_PROFILE.GET_PAYMENT_LOCKS}>
-              <div>
+              <Fragment>
                 {this.renderStatus('Deposit', this.isPaymentLocked('DEPOSIT'))}
                 {this.renderStatus('Withdrawal', this.isPaymentLocked('WITHDRAW'))}
-              </div>
+              </Fragment>
             </PermissionContent>
             <PermissionContent permissions={permissions.USER_PROFILE.GET_LOGIN_LOCK}>
               {this.renderStatus('Login', login.locked)}
@@ -159,28 +159,32 @@ class PlayerLimits extends Component {
           </DropdownToggle>
 
           <DropdownMenu>
-            <div className="header-block_player-limits_btn-group">
+            <div className="row no-gutters header-block_player-limits_btn-group">
               <PermissionContent permissions={permissions.USER_PROFILE.LOCK_DEPOSIT}>
-                <PlayerLimitButton
-                  className="btn btn-danger-outline margin-right-10"
-                  canUnlock={this.canLocked('DEPOSIT')}
-                  label="deposit"
-                  onClick={() => this.handleActionClick(
-                    types.DEPOSIT,
-                    this.canLocked('DEPOSIT') ? actions.UNLOCK : actions.LOCK
-                  )}
-                />
+                <div className="col pr-2">
+                  <PlayerLimitButton
+                    className="btn btn-danger-outline w-100"
+                    canUnlock={this.canLocked('DEPOSIT')}
+                    label="deposit"
+                    onClick={() => this.handleActionClick(
+                      types.DEPOSIT,
+                      this.canLocked('DEPOSIT') ? actions.UNLOCK : actions.LOCK
+                    )}
+                  />
+                </div>
               </PermissionContent>
               <PermissionContent permissions={permissions.USER_PROFILE.LOCK_WITHDRAW}>
-                <PlayerLimitButton
-                  className="btn btn-danger-outline"
-                  canUnlock={this.canLocked('WITHDRAW')}
-                  label="withdrawal"
-                  onClick={() => this.handleActionClick(
-                    types.WITHDRAW,
-                    this.canLocked('WITHDRAW') ? actions.UNLOCK : actions.LOCK
-                  )}
-                />
+                <div className="col">
+                  <PlayerLimitButton
+                    className="btn btn-danger-outline w-100"
+                    canUnlock={this.canLocked('WITHDRAW')}
+                    label="withdrawal"
+                    onClick={() => this.handleActionClick(
+                      types.WITHDRAW,
+                      this.canLocked('WITHDRAW') ? actions.UNLOCK : actions.LOCK
+                    )}
+                  />
+                </div>
               </PermissionContent>
             </div>
             {
