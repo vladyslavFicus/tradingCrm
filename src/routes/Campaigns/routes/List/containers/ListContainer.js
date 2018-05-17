@@ -1,7 +1,7 @@
 import { graphql, compose } from 'react-apollo';
 import { connect } from 'react-redux';
 import { campaignsQuery } from '.././../../../../graphql/queries/campaigns';
-import View from '../components/View';
+import List from '../components/List';
 
 const mapStateToProps = ({ i18n: { locale } }) => ({ locale });
 
@@ -49,4 +49,4 @@ export default compose(
       },
     }),
   }),
-)(View);
+)(List);

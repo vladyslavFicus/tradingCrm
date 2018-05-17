@@ -24,7 +24,7 @@ class Logout extends Component {
       return null;
     }
 
-    return <Redirect to="/sign-in" />;
+    return <Redirect to="/" />;
   }
 }
 

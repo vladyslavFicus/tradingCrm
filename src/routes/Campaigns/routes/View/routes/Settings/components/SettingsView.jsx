@@ -81,10 +81,14 @@ class SettingsView extends Component {
       const initialFulfillment = initialFulfillments.find(({ uuid }) => uuid === currentDepositFulfillment.uuid);
 
       if (!isEqual(initialFulfillment, currentDepositFulfillment)) {
-        const { minAmount, maxAmount, numDeposit, excludedPaymentMethods, uuid } = currentDepositFulfillment;
+        const {
+ minAmount, maxAmount, numDeposit, excludedPaymentMethods, uuid 
+} = currentDepositFulfillment;
 
         await updateDepositFulfillment({
-          variables: { minAmount, maxAmount, numDeposit, excludedPaymentMethods, uuid },
+          variables: {
+ minAmount, maxAmount, numDeposit, excludedPaymentMethods, uuid 
+},
         });
       }
     });

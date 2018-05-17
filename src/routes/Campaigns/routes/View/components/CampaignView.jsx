@@ -1,17 +1,23 @@
 import React, { PureComponent } from 'react';
+import { Switch, Redirect } from 'react-router-dom';
+import { Route } from '../../../../../router';
 import Tabs from '../../../../../components/Tabs';
 import { newBonusCampaignTabs } from '../../../../../config/menu';
 import PropTypes from '../../../../../constants/propTypes';
 import Header from './Header';
+import Settings from '../routes/Settings';
 
 class CampaignView extends PureComponent {
   static propTypes = {
     activateMutation: PropTypes.func.isRequired,
     cancelMutation: PropTypes.func.isRequired,
     location: PropTypes.object.isRequired,
-    children: PropTypes.node.isRequired,
-    params: PropTypes.shape({
-      id: PropTypes.string,
+    match: PropTypes.shape({
+      params: PropTypes.shape({
+        id: PropTypes.string,
+      }).isRequired,
+      path: PropTypes.string.isRequired,
+      url: PropTypes.string.isRequired,
     }).isRequired,
     campaign: PropTypes.shape({
       loading: PropTypes.bool.isRequired,
@@ -24,9 +30,7 @@ class CampaignView extends PureComponent {
   render() {
     const {
       location,
-      params,
-      children,
-      campaign: { campaign },
+      match: { params, path, url }, campaign: { campaign },
       activateMutation,
       cancelMutation,
     } = this.props;
@@ -52,7 +56,10 @@ class CampaignView extends PureComponent {
           location={location}
           params={params}
         />
-        {children}
+        <Switch>
+          <Route path={`${path}/settings`} component={Settings} />
+          <Redirect form={path} to={`${url}/settings`} />
+        </Switch>
       </div>
     );
   }
