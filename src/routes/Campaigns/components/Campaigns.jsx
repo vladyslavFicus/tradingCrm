@@ -11,7 +11,7 @@ const Campaigns = ({ match: { path, url } }) => (
     <Route path={`${path}/list`} component={List} />
     <Route path={`${path}/view/:id`} component={View} />
     <Route path={`${path}/create`} component={Create} />
-    <Redirect from={path} to={`${url}/list`} />
+    <Redirect to={`${url}/list`} />
   </Switch>
 );
 
