@@ -222,13 +222,14 @@ class BonusView extends PureComponent {
               </div>
             </div>
             <div className="row no-gutters">
-              <div className="col-4">
-                {I18n.t(attributeLabels.maxBet)}
-                <div className="campaigns-template__value">
-                  {template.maxBet &&
-                  <MultiCurrencyView id={`${name}-maxBet`} values={template.maxBet} rates={rates} />}
+              <If condition={template.maxBet}>
+                <div className="col-4">
+                  {I18n.t(attributeLabels.maxBet)}
+                  <div className="campaigns-template__value">
+                    <MultiCurrencyView id={`${name}-maxBet`} values={template.maxBet} rates={rates} />
+                  </div>
                 </div>
-              </div>
+              </If>
               <div className="col-4">
                 {I18n.t(attributeLabels.bonusLifeTime)}
                 <div className="campaigns-template__value">
