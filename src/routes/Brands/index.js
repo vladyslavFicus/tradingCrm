@@ -1,17 +1,4 @@
-export default store => ({
-  path: 'brands',
-  onEnter(nextState, replace, cb) {
-    const { auth: { departmentsByBrand } } = store.getState();
+import { asyncRoute } from '../../router';
 
-    if (Object.keys(departmentsByBrand).length < 2) {
-      replace('/');
-    }
+export default asyncRoute(() => import(/* webpackChunkName: "Brands" */ './container/BrandsContainer'));
 
-    cb();
-  },
-  getComponent(nextState, cb) {
-    require.ensure([], (require) => {
-      cb(null, require('./containers/BrandsContainer').default);
-    }, 'brands');
-  },
-});

@@ -82,13 +82,13 @@ class SettingsView extends Component {
 
       if (!isEqual(initialFulfillment, currentDepositFulfillment)) {
         const {
- minAmount, maxAmount, numDeposit, excludedPaymentMethods, uuid 
-} = currentDepositFulfillment;
+          minAmount, maxAmount, numDeposit, excludedPaymentMethods, uuid,
+        } = currentDepositFulfillment;
 
         await updateDepositFulfillment({
           variables: {
- minAmount, maxAmount, numDeposit, excludedPaymentMethods, uuid 
-},
+            minAmount, maxAmount, numDeposit, excludedPaymentMethods, uuid,
+          },
         });
       }
     });
@@ -117,6 +117,7 @@ class SettingsView extends Component {
         campaign: {
           data: {
             name,
+            optIn,
             state,
             fulfillments,
             rewards,
@@ -135,6 +136,7 @@ class SettingsView extends Component {
         disabled={disabled}
         initialValues={{
           name,
+          optIn,
           fulfillments: deepRemoveKeyByRegex(fulfillments, /^__/),
           rewards: deepRemoveKeyByRegex(rewards, /^__/),
           startDate,

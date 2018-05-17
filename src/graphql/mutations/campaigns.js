@@ -43,6 +43,7 @@ const cancelMutation = gql`mutation cancel(
 const updateMutation = gql`mutation update(
   $uuid: String!
   $name: String!
+  $optIn: Boolean!
   $fulfillments: [String]!
   $rewards: [String]!
   $startDate: String
@@ -52,6 +53,7 @@ const updateMutation = gql`mutation update(
     update(
       uuid: $uuid
       name: $name
+      optIn: $optIn
       fulfillments: $fulfillments
       rewards: $rewards
       startDate: $startDate
@@ -60,6 +62,7 @@ const updateMutation = gql`mutation update(
       data {
         _id
         name
+        optIn
         rewards {
           type
           uuid
@@ -77,6 +80,7 @@ const updateMutation = gql`mutation update(
 
 const createMutation = gql`mutation create(
   $name: String!,
+  $optIn: Boolean!,
   $fulfillments: [String]!,
   $rewards: [String]!
   $startDate: String
@@ -85,6 +89,7 @@ const createMutation = gql`mutation create(
   campaign {
     create(
       name: $name
+      optIn: $optIn
       fulfillments: $fulfillments
       rewards: $rewards
       startDate: $startDate
@@ -118,6 +123,8 @@ const freeSpinTemplateMutation = gql`mutation freeSpinTemplateMutation(
   $pageCode: String
   $betLevel: Int
   $betPerLineAmounts: [InputMoney]
+  $denomination: Float
+  $coins: Int
   $bonusTemplateUUID: String
   $displayLine1: String
   $displayLine2: String
@@ -148,6 +155,8 @@ const freeSpinTemplateMutation = gql`mutation freeSpinTemplateMutation(
     nearestCost: $nearestCost
     clientId:  $clientId
     moduleId: $moduleId
+    denomination: $denomination
+    coins: $coins
     ) {
       data {
         aggregatorId

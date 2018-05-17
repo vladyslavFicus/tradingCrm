@@ -22,18 +22,18 @@ class Header extends Component {
     switch (action) {
       case actions.ACTIVATE:
         await activateMutation({
- variables: {
-          campaignUUID,
-        } 
-});
+          variables: {
+            campaignUUID,
+          },
+        });
         break;
       case actions.CANCEL:
         await cancelMutation({
- variables: {
-          campaignUUID,
-          reason,
-        } 
-});
+          variables: {
+            campaignUUID,
+            reason,
+          },
+        });
         break;
       default:
         break;

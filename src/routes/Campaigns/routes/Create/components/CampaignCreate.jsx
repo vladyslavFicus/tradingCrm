@@ -77,7 +77,11 @@ class CampaignCreate extends PureComponent {
         </div>
         <Form
           form="createCampaign"
-          initialValues={{ rewards: [], fulfillments: [] }}
+          initialValues={{
+            optIn: false,
+            rewards: [],
+            fulfillments: [],
+          }}
           onSubmit={this.handleCreateCampaign}
         />
       </div>

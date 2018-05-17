@@ -32,6 +32,7 @@ const campaignQuery = gql`query campaign($campaignUUID: String!){
       _id
       uuid
       name
+      optIn
       state
       excludeCountries
       authorUUID
@@ -119,6 +120,8 @@ const freeSpinTemplateQuery = gql`query freeSpinTemplate($uuid: String!, $aggreg
       name
       uuid
       gameId
+      denomination
+      coins
       internalGameId
       providerId
       game {

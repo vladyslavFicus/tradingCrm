@@ -9,7 +9,10 @@ import BlackLayout from '../../../layouts/BlackLayout';
 import MainLayout from '../../../layouts/MainLayout';
 import SignIn from '../../SignIn';
 import Logout from '../../Logout';
+import Brands from '../../Brands';
 import Players from '../../Players';
+import Transactions from '../../Transactions';
+import Settings from '../../Settings';
 import SetPassword from '../../SetPassword';
 import ResetPassword from '../../ResetPassword';
 import Campaigns from '../../Campaigns';
@@ -46,8 +49,11 @@ class IndexRoute extends PureComponent {
             </Otherwise>
           </Choose>
           {/* Private */}
+          <AppRoute path="/brands" layout={BlackLayout} component={Brands} checkAuth />
           <AppRoute path="/players" layout={MainLayout} component={Players} checkAuth />
           <AppRoute path="/campaigns" layout={MainLayout} component={Campaigns} checkAuth />
+          <AppRoute path="/transactions" layout={MainLayout} component={Transactions} checkAuth />
+          <AppRoute path="/settings" layout={MainLayout} component={Settings} checkAuth />
           <Route path="/logout" component={Logout} checkAuth />
           {/* Public */}
           <AppRoute path="/sign-in" layout={BlackLayout} component={SignIn} />

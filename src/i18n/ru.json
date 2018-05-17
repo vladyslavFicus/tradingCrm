@@ -1776,6 +1776,8 @@
       "GAME": "Игра",
       "GAME_TYPE": "Тип игры",
       "NAME": "Название",
+      "DENOMINATION": "Деноминация",
+      "COINS": "Монеты",
       "FREE_SPINS": "Фри спины",
       "FREE_SPIN_REWARD": "Фри спин",
       "BET_PER_LINE": "Бет за линию",
@@ -1861,7 +1863,9 @@
       },
       "CAMPAIGN_SETTINGS": "Настройки кампании",
       "LABEL": {
-        "CAMPAIGN_PERIOD": "Период кампании"
+        "CAMPAIGN_PERIOD": "Период кампании",
+        "OPT_IN": "Тип",
+        "OPT_IN_REQUIRED": "Opt-in обязателен"
       }
     },
     "REWARDS": {
