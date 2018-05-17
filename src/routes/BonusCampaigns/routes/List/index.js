@@ -1,7 +1,7 @@
 import { asyncRoute } from '../../../../router';
 
 export default asyncRoute(
-  () => import(/* webpackChunkName: "CampaignListContainer" */ './containers/ListContainer'),
-  () => import(/* webpackChunkName: "CampaignListReducers" */ './modules'),
+  () => import(/* webpackChunkName: "BonusCampaignListContainer" */ './containers/ListContainer'),
+  () => import(/* webpackChunkName: "BonusCampaignListReducers" */ './modules'),
   'bonusCampaigns'
 );

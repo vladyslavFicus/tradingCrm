@@ -9,7 +9,7 @@ import Create from '../routes/Create';
 const BonusCampaigns = ({ match: { path, url } }) => (
   <Switch>
     <Route path={`${path}/list`} component={List} />
-    <Route path={`${path}/view/:id`} component={View} />
+    <Route path={`${path}/view/:id`} render={props => <View key={props.match.params.id} {...props} />} />
     <Route path={`${path}/create`} component={Create} />
     <Redirect to={`${url}/list`} />
   </Switch>
