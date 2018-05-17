@@ -276,6 +276,22 @@ export default class FreeSpinView extends PureComponent {
                     </div>
                   </If>
                 </If>
+                <If condition={fsTemplate.denomination}>
+                  <div className="col-4 mt-3">
+                    {I18n.t(attributeLabels.denomination)}
+                    <div className="campaigns-template__value">
+                      {fsTemplate.denomination}
+                    </div>
+                  </div>
+                </If>
+                <If condition={fsTemplate.coins}>
+                  <div className="col-4 mt-3">
+                    {I18n.t(attributeLabels.coins)}
+                    <div className="campaigns-template__value">
+                      {fsTemplate.coins}
+                    </div>
+                  </div>
+                </If>
                 <If condition={fsTemplate.betMultiplier || fsTemplate.rhfpBet || fsTemplate.comment}>
                   <If condition={fsTemplate.betMultiplier}>
                     <div className="col-4 mt-3">

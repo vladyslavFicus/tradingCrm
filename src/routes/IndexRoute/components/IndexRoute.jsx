@@ -9,7 +9,10 @@ import BlackLayout from '../../../layouts/BlackLayout';
 import MainLayout from '../../../layouts/MainLayout';
 import SignIn from '../../SignIn';
 import Logout from '../../Logout';
+import Brands from '../../Brands';
 import Players from '../../Players';
+import Transactions from '../../Transactions';
+import Settings from '../../Settings';
 import SetPassword from '../../SetPassword';
 import ResetPassword from '../../ResetPassword';
 
@@ -44,7 +47,10 @@ class IndexRoute extends PureComponent {
               <Redirect exact from="/" to="/sign-in" />
             </Otherwise>
           </Choose>
+          <AppRoute path="/brands" layout={BlackLayout} component={Brands} checkAuth />
           <AppRoute path="/players" layout={MainLayout} component={Players} checkAuth />
+          <AppRoute path="/transactions" layout={MainLayout} component={Transactions} checkAuth />
+          <AppRoute path="/settings" layout={MainLayout} component={Settings} checkAuth />
           <Route path="/logout" component={Logout} checkAuth />
           <AppRoute path="/sign-in" layout={BlackLayout} component={SignIn} />
           <AppRoute path="/set-password" layout={BlackLayout} component={SetPassword} />
