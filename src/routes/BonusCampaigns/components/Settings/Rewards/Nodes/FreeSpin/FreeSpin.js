@@ -138,6 +138,11 @@ class FreeSpin extends Component {
         betMultiplier,
         pageCode,
         comment,
+        coins,
+        denomination,
+        displayLine2,
+        displayLine1,
+        nearestCost,
         betLevel,
         freeSpinLifeTime,
         rhfpBet,
@@ -164,6 +169,20 @@ class FreeSpin extends Component {
         this.setField('betMultiplier', betMultiplier);
         this.setField('coinSize', coinSize);
         this.setField('rhfpBet', rhfpBet);
+      }
+
+      if (aggregatorId === aggregators.microgaming) {
+        this.setField('freeSpinsAmount', freeSpinsAmount);
+        this.setField('nearestCost', nearestCost);
+        this.setField('displayLine1', displayLine1);
+        this.setField('displayLine2', displayLine2);
+      }
+
+      if (aggregatorId === aggregators.playngo) {
+        this.setField('freeSpinsAmount', freeSpinsAmount);
+        this.setField('denomination', denomination);
+        this.setField('coins', coins);
+        this.setField('linesPerSpin', linesPerSpin);
       }
 
       if (aggregatorId === aggregators.netent) {
@@ -323,9 +342,7 @@ class FreeSpin extends Component {
       this.setField('coinSize', 1);
     }
 
-    const currentGames = this.props.games.filter(
-      i => i.gameProviderId === providerId && i.aggregatorId === currentValues.aggregatorId
-    );
+    const currentGames = this.props.games.filter(i => i.gameProviderId === providerId && i.aggregatorId === currentValues.aggregatorId);
     console.info(`Selected provider: ${providerId}`);
     console.info(`Games count: ${currentGames.length}`);
 
@@ -338,8 +355,8 @@ class FreeSpin extends Component {
   handleChangeAggregator = (aggregatorId) => {
     this.setField('aggregatorId', aggregatorId);
     [
-      'providerId', 'gameId', 'betLevel', 'rhfpBet', 'displayLine1', 'clientId',
-      'coinSize', 'betMultiplier', 'freeSpinLifeTime', 'comment', 'nearestCost',
+      'providerId', 'gameId', 'betLevel', 'rhfpBet', 'displayLine1', 'clientId', 'denomination',
+      'coinSize', 'betMultiplier', 'freeSpinLifeTime', 'comment', 'nearestCost', 'coins',
       'freeSpinsAmount', 'betPerLine', 'linesPerSpin', 'displayLine2', 'moduleId',
     ].forEach(key => this.setField(key));
   };
@@ -610,6 +627,91 @@ class FreeSpin extends Component {
       );
     }
 
+    if (currentValues.aggregatorId === aggregators.playngo) {
+      return (
+        <div className="row">
+          <Field
+            name={this.buildFieldName('freeSpinsAmount')}
+            type="number"
+            id={`${form}freeSpinsAmount`}
+            placeholder="0"
+            className="col-6"
+            label={I18n.t(attributeLabels.freeSpins)}
+            component={InputField}
+            normalize={floatNormalize}
+            position="vertical"
+            disabled={!customTemplate}
+            showErrorMessage={false}
+          />
+          <Field
+            name={this.buildFieldName('freeSpinLifeTime')}
+            id={`${form}freeSpinLifeTime`}
+            type="text"
+            placeholder="0"
+            normalize={intNormalize}
+            label={I18n.t(attributeLabels.freeSpinLifeTime)}
+            component={InputField}
+            position="vertical"
+            disabled={!customTemplate}
+            className="col-6"
+            inputAddon={I18n.t(attributePlaceholders.days)}
+            inputAddonPosition="right"
+          />
+          <Field
+            name={this.buildFieldName('denomination')}
+            type="number"
+            id={`${form}denomination`}
+            placeholder="0"
+            label={I18n.t(attributeLabels.denomination)}
+            component={InputField}
+            className="col-6"
+            normalize={floatNormalize}
+            position="vertical"
+            disabled={!customTemplate}
+            showErrorMessage={false}
+          />
+          <Field
+            name={this.buildFieldName('linesPerSpin')}
+            id={`${form}LinesPerSpin`}
+            type="number"
+            className="col-6"
+            label="lines per spin"
+            labelClassName="form-label"
+            position="vertical"
+            component={SelectField}
+            normalize={floatNormalize}
+            showErrorMessage={false}
+            disabled={
+                    disabled ||
+                    !customTemplate ||
+                    !currentValues ||
+                    !currentValues.providerId ||
+                    !currentValues.gameId
+                  }
+          >
+            <option value="">{I18n.t('PLAYER_PROFILE.FREE_SPIN.MODAL_CREATE.CHOOSE_LINES_PER_SPIN')}</option>
+            {currentLines.map(item => (
+              <option key={item} value={item}>
+                {item}
+              </option>
+            ))}
+          </Field>
+          <Field
+            name={this.buildFieldName('coins')}
+            type="number"
+            className="col-6"
+            id={`${form}coins`}
+            placeholder="0"
+            label={I18n.t(attributeLabels.coins)}
+            component={InputField}
+            normalize={intNormalize}
+            position="vertical"
+            disabled={!customTemplate}
+            showErrorMessage={false}
+          />
+        </div>
+      );
+    }
     return (
       <div>
         <hr />
@@ -684,7 +786,7 @@ class FreeSpin extends Component {
                   position="vertical"
                   component={InputField}
                   normalize={floatNormalize}
-                  placeholder={'0.00'}
+                  placeholder="0.00"
                   showErrorMessage={false}
                   disabled={
                     disabled ||

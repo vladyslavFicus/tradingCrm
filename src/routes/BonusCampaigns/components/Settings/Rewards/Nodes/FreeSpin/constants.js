@@ -31,6 +31,8 @@ const attributeLabels = {
   displayLine1: I18n.t('BONUS_CAMPAIGNS.REWARDS.FREE_SPIN.DISPLAY_LINE1'),
   displayLine2: I18n.t('BONUS_CAMPAIGNS.REWARDS.FREE_SPIN.DISPLAY_LINE2'),
   bonusTemplate: I18n.t('CAMPAIGNS.FREE_SPIN.BONUS_TEMPLATE'),
+  denomination: I18n.t('CAMPAIGNS.FREE_SPIN.DENOMINATION'),
+  coins: I18n.t('CAMPAIGNS.FREE_SPIN.COINS'),
 };
 
 const attributePlaceholders = {

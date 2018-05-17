@@ -10,6 +10,7 @@ const aggregators = keyMirror({
   netent: null,
   softgamings: null,
   oryx: null,
+  playngo: null,
 });
 
 export {
