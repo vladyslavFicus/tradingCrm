@@ -6,6 +6,7 @@ const routePermissions = {
   '/campaigns/list': permissions.CAMPAIGNS.LIST,
   '/campaigns/view/:id': permissions.CAMPAIGNS.VIEW,
   '/campaigns/create': permissions.CAMPAIGNS.CREATE,
+  '/bonus-campaigns/list': permissions.PROMOTION.LIST,
 };
 
 export { routePermissions };
