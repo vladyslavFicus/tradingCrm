@@ -755,7 +755,16 @@
     "CUSTOM_REASON_OPTION": "Other",
     "NOTE": "Note",
     "CREATED": "Created",
-    "LAST_CHANGED": "Last changed"
+    "LAST_CHANGED": "Last changed",
+    "PAYMENT": {
+      "TYPE": {
+        "TIP": "Tip",
+        "CASH_BACK": "Cashback",
+        "DEPOSIT": "Deposit",
+        "WITHDRAW": "Withdraw",
+        "CONFISCATE": "Confiscate"
+      }
+    }
   },
   "FILES": {
     "UPLOAD_MODAL": {

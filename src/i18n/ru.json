@@ -761,7 +761,16 @@
     "CUSTOM_REASON_OPTION": "Другая",
     "NOTE": "Заметка",
     "CREATED": "Создано",
-    "LAST_CHANGED": "Последнее изменение"
+    "LAST_CHANGED": "Последнее изменение",
+    "PAYMENT": {
+      "TYPE": {
+        "TIP": "Чаевые",
+        "CASH_BACK": "Cashback",
+        "DEPOSIT": "Депозит",
+        "WITHDRAW": "Вывод",
+        "CONFISCATE": "Конфискация"
+      }
+    }
   },
   "FILES": {
     "UPLOAD_MODAL": {

@@ -1,15 +1,14 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import moment from 'moment';
 import { I18n } from 'react-redux-i18n';
 import TransactionsFilterForm from '../../../components/TransactionsFilterForm';
 import PropTypes from '../../../../../constants/propTypes';
 import GridView, { GridViewColumn } from '../../../../../components/GridView';
 import {
-  types as paymentTypes,
   customTypes as customPaymentTypes,
   methodsLabels,
   typesLabels,
-  typesProps,
+  typesProps, customTypesLabels, customTypesProps,
 } from '../../../../../constants/payment';
 import PaymentDetailModal from '../../../../../components/PaymentDetailModal';
 import PaymentActionReasonModal from '../../../../../components/PaymentActionReasonModal';
@@ -208,25 +207,23 @@ class View extends Component {
       : <Uuid uuid={data.playerUUID} uuidPrefix={data.playerUUID.indexOf('PLAYER') === -1 ? 'PL' : null} />
   );
 
-  renderType = (data) => {
-    const type = data.paymentType === paymentTypes.Confiscate && data.tip
-      ? customPaymentTypes.Tip
-      : data.paymentType;
-
-    const label = typesLabels[type] || type;
-    const props = typesProps[type] || {};
-
-    return (
-      <div>
-        <div {...props}>{label}</div>
-        <span className="font-size-11 text-uppercase">
-          {data.paymentSystemRefs.map((SystemRef, index) => (
-            <div key={[`${SystemRef}-${index}`]}>{SystemRef}</div>
-          ))}
-        </span>
+  renderType = data => (
+    <Fragment>
+      <Choose>
+        <When condition={data.transactionTag && data.transactionTag !== customPaymentTypes.NORMAL}>
+          <div {...customTypesProps[data.transactionTag]}>{renderLabel(data.transactionTag, customTypesLabels)}</div>
+        </When>
+        <Otherwise>
+          <div {...typesProps[data.paymentType]}>{renderLabel(data.paymentType, typesLabels)}</div>
+        </Otherwise>
+      </Choose>
+      <div className="font-size-11 text-uppercase">
+        {data.paymentSystemRefs.map((SystemRef, index) => (
+          <div key={`${SystemRef}-${index}`}>{SystemRef}</div>
+        ))}
       </div>
-    );
-  };
+    </Fragment>
+  );
 
   renderAmount = data => <GridPaymentAmount payment={data} />;
 

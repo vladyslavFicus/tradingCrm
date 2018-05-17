@@ -98,8 +98,24 @@ const types = keyMirror({
 });
 
 const customTypes = keyMirror({
-  Tip: null,
+  NORMAL: null,
+  TIP: null,
+  CASH_BACK: null,
 });
+
+const customTypesLabels = {
+  [customTypes.TIP]: I18n.t('COMMON.PAYMENT.TYPE.TIP'),
+  [customTypes.CASH_BACK]: I18n.t('COMMON.PAYMENT.TYPE.CASH_BACK'),
+};
+
+const customTypesProps = {
+  [customTypes.TIP]: {
+    className: 'text-uppercase font-weight-700 color-secondary',
+  },
+  [customTypes.CASH_BACK]: {
+    className: 'text-uppercase font-weight-700 color-primary',
+  },
+};
 
 const manualTypesLabels = {
   [types.Deposit]: 'Manual deposit',
@@ -131,10 +147,9 @@ const methodsStatusesLabels = {
 };
 
 const typesLabels = {
-  [types.Deposit]: 'Deposit',
-  [types.Withdraw]: 'Withdraw',
-  [types.Confiscate]: 'Confiscate',
-  [customTypes.Tip]: 'Tip',
+  [types.Deposit]: I18n.t('COMMON.PAYMENT.TYPE.DEPOSIT'),
+  [types.Withdraw]: I18n.t('COMMON.PAYMENT.TYPE.WITHDRAW'),
+  [types.Confiscate]: I18n.t('COMMON.PAYMENT.TYPE.CONFISCATE'),
 };
 
 const typesProps = {
@@ -146,9 +161,6 @@ const typesProps = {
   },
   [types.Confiscate]: {
     className: 'text-uppercase font-weight-700 color-danger',
-  },
-  [customTypes.Tip]: {
-    className: 'text-uppercase font-weight-700 color-secondary',
   },
 };
 
@@ -184,6 +196,8 @@ export {
   methodsLabels,
   types,
   customTypes,
+  customTypesLabels,
+  customTypesProps,
   manualTypesLabels,
   typesLabels,
   typesProps,
