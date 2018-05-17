@@ -49,9 +49,6 @@ class View extends Component {
     resetAll: PropTypes.func.isRequired,
     paymentActionReasons: PropTypes.paymentActionReasons.isRequired,
     locale: PropTypes.string.isRequired,
-    params: PropTypes.shape({
-      id: PropTypes.string,
-    }).isRequired,
     exportEntities: PropTypes.func.isRequired,
     fetchPlayerMiniProfile: PropTypes.func.isRequired,
     auth: PropTypes.shape({
@@ -185,7 +182,6 @@ class View extends Component {
   handleExport = () => this.props.exportEntities({
     ...this.state.filters,
     page: this.state.page,
-    playerUUID: this.props.params.id,
   });
 
   renderTransactionId = data => (
