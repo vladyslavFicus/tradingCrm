@@ -9,7 +9,7 @@ const mapStateToProps = ({ i18n: { locale } }) => ({ locale });
 export default compose(
   connect(mapStateToProps),
   graphql(campaignQuery, {
-    options: ({ params: { id: campaignUUID } }) => ({
+    options: ({ match: { params: { id: campaignUUID } } }) => ({
       fetchPolicy: 'network-only',
       variables: {
         campaignUUID,
@@ -19,7 +19,7 @@ export default compose(
   }),
   graphql(activateMutation, {
     name: 'activateMutation',
-    options: ({ params: { id: campaignUUID } }) => ({
+    options: ({ match: { params: { id: campaignUUID } } }) => ({
       refetchQueries: [{
         query: campaignQuery,
         variables: {
@@ -30,7 +30,7 @@ export default compose(
   }),
   graphql(cancelMutation, {
     name: 'cancelMutation',
-    options: ({ params: { id: campaignUUID } }) => ({
+    options: ({ match: { params: { id: campaignUUID } } }) => ({
       refetchQueries: [{
         query: campaignQuery,
         variables: {

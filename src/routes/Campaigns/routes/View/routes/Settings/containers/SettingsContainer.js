@@ -12,7 +12,7 @@ import SettingsView from '../components/SettingsView';
 export default compose(
   withNotifications,
   graphql(campaignQuery, {
-    options: ({ params: { id: campaignUUID } }) => ({
+    options: ({ match: { params: { id: campaignUUID } } }) => ({
       variables: {
         campaignUUID,
       },

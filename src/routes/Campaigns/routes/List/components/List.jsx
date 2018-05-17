@@ -7,7 +7,7 @@ import PropTypes from '../../../../../constants/propTypes';
 import GridView, { GridViewColumn } from '../../../../../components/GridView';
 import BonusCampaignStatus from '../../../../../components/BonusCampaignStatus';
 
-class View extends Component {
+class List extends Component {
   static propTypes = {
     locale: PropTypes.string.isRequired,
     campaigns: PropTypes.shape({
@@ -131,4 +131,4 @@ class View extends Component {
   }
 }
 
-export default View;
+export default List;
