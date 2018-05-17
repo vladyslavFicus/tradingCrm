@@ -7,6 +7,8 @@ import Header from '../components/Header';
 import PropTypes from '../../../../../constants/propTypes';
 import ConfirmActionModal from '../../../../../components/Modal/ConfirmActionModal';
 import HideDetails from '../../../../../components/HideDetails';
+import Edit from '../routes/Edit';
+import Feed from '../routes/Feed';
 
 const RESET_PASSWORD_MODAL = 'operator-password-reset-modal';
 const SEND_INVITE_MODAL = 'operator-send-invite-modal';
@@ -17,17 +19,20 @@ const modalInitialState = {
 
 class OperatorProfileLayout extends Component {
   static propTypes = {
-    params: PropTypes.shape({
-      id: PropTypes.string,
+    match: PropTypes.shape({
+      params: PropTypes.shape({
+        id: PropTypes.string,
+      }).isRequired,
     }).isRequired,
     location: PropTypes.object.isRequired,
-    children: PropTypes.node.isRequired,
     data: PropTypes.operatorProfile.isRequired,
     availableStatuses: PropTypes.array.isRequired,
     changeStatus: PropTypes.func.isRequired,
     onResetPassword: PropTypes.func.isRequired,
     onSendInvitation: PropTypes.func.isRequired,
     fetchAuthority: PropTypes.func.isRequired,
+    fetchProfile: PropTypes.func.isRequired,
+    authorities: PropTypes.object.isRequired,
   };
 
   state = {
@@ -35,7 +40,9 @@ class OperatorProfileLayout extends Component {
   };
 
   componentDidMount() {
-    this.props.fetchAuthority(this.props.params.id);
+    const { fetchProfile, fetchAuthority, match: { params: { id } } } = this.props;
+    fetchProfile(id);
+    fetchAuthority(id);
   }
 
   handleResetPasswordClick = async () => {
@@ -84,8 +91,7 @@ class OperatorProfileLayout extends Component {
     const { modal } = this.state;
     const {
       location,
-      params,
-      children,
+      match: { params },
       data,
       availableStatuses,
       changeStatus,
@@ -114,9 +120,7 @@ class OperatorProfileLayout extends Component {
           location={location}
           params={params}
         />
-        <div className="card no-borders">
-          {children}
-        </div>
+        <div className="card no-borders" />
         {
           modal.name === RESET_PASSWORD_MODAL &&
           <ConfirmActionModal

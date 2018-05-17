@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { I18n } from 'react-redux-i18n';
+import { Switch, Redirect } from 'react-router-dom';
+import { Route } from '../../../../../router';
 import Tabs from '../../../../../components/Tabs';
 import { bonusCampaignTabs } from '../../../../../config/menu';
 import PropTypes from '../../../../../constants/propTypes';
@@ -7,6 +9,9 @@ import Header from '../components/Header';
 import Information from '../components/Information';
 import ConfirmActionModal from '../../../../../components/Modal/ConfirmActionModal';
 import HideDetails from '../../../../../components/HideDetails';
+import history from '../../../../../router/history';
+import Settings from '../routes/Settings';
+import Feed from '../routes/Feed';
 
 const REMOVE_PLAYERS = 'remove-players-modal';
 const modalInitialState = {
@@ -16,11 +21,13 @@ const modalInitialState = {
 
 class ViewLayout extends Component {
   static propTypes = {
-    params: PropTypes.shape({
-      id: PropTypes.string,
+    match: PropTypes.shape({
+      params: PropTypes.shape({
+        id: PropTypes.string,
+      }).isRequired,
     }).isRequired,
-    location: PropTypes.object,
-    children: PropTypes.node,
+    fetchCampaign: PropTypes.func.isRequired,
+    location: PropTypes.object.isRequired,
     data: PropTypes.bonusCampaignEntity.isRequired,
     availableStatusActions: PropTypes.arrayOf(PropTypes.object),
     onChangeCampaignState: PropTypes.func.isRequired,
@@ -33,14 +40,16 @@ class ViewLayout extends Component {
   };
   static contextTypes = {
     addNotification: PropTypes.func.isRequired,
-    router: PropTypes.shape({
-      push: PropTypes.func.isRequired,
-    }).isRequired,
   };
 
   state = {
     modal: { ...modalInitialState },
   };
+
+  componentDidMount() {
+    const { match: { params: { id } }, fetchCampaign } = this.props;
+    fetchCampaign(id);
+  }
 
   handleOpenModal = (name, params) => {
     this.setState({
@@ -60,7 +69,7 @@ class ViewLayout extends Component {
   };
 
   handleUploadFile = async (errors, file) => {
-    const { params: { id: uuid }, uploadFile } = this.props;
+    const { match: { params: { id: uuid } }, uploadFile } = this.props;
     const action = await uploadFile(uuid, file);
 
     if (action) {
@@ -85,7 +94,7 @@ class ViewLayout extends Component {
       });
 
       if (!action.error) {
-        this.context.router.push(`/bonus-campaigns/view/${action.payload.campaignUUID}/settings`);
+        history.push(`/bonus-campaigns/view/${action.payload.campaignUUID}/settings`);
       }
     }
   };
@@ -117,11 +126,14 @@ class ViewLayout extends Component {
     const {
       data: bonusCampaignData,
       location,
-      params,
-      children,
+      match: { params, path, url },
       availableStatusActions,
       onChangeCampaignState,
     } = this.props;
+
+    if (!bonusCampaignData.uuid) {
+      return null;
+    }
 
     return (
       <div className="profile">
@@ -143,7 +155,11 @@ class ViewLayout extends Component {
           location={location}
           params={params}
         />
-        {children}
+        <Switch>
+          <Route path={`${path}/settings`} component={Settings} />
+          <Route path={`${path}/feed`} component={Feed} />
+          <Redirect to={`${url}/settings`} />
+        </Switch>
         {
           modal.name === REMOVE_PLAYERS &&
           <ConfirmActionModal

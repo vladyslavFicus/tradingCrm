@@ -4,8 +4,6 @@ const attributeLabels = {
   reason: I18n.t('COMMON.REASON'),
 };
 
-export {
-  attributeLabels,
-};
+export { attributeLabels };
 
 export default attributeLabels;

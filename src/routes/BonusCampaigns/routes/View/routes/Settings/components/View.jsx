@@ -32,8 +32,10 @@ class View extends Component {
       maxAmount: PropTypes.bonusCampaignEntity.maxAmount,
     }).isRequired,
     currencies: PropTypes.arrayOf(PropTypes.string).isRequired,
-    params: PropTypes.shape({
-      id: PropTypes.string,
+    match: PropTypes.shape({
+      params: PropTypes.shape({
+        id: PropTypes.string,
+      }).isRequired,
     }).isRequired,
     updateCampaign: PropTypes.func.isRequired,
     locale: PropTypes.string.isRequired,
@@ -86,7 +88,7 @@ class View extends Component {
   };
 
   handleSubmit = async (data) => {
-    const { updateCampaign, params: { id } } = this.props;
+    const { updateCampaign, match: { params: { id } } } = this.props;
     const updateAction = await updateCampaign(id, data);
 
     if (updateAction) {

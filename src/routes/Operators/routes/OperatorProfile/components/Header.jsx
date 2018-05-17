@@ -105,7 +105,7 @@ class Header extends Component {
                       {
                         statusChangeAuthor &&
                         <div className="header-block-small">
-                          {I18n.t('COMMON.AUTHOR_BY')} <Uuid uuid={statusChangeAuthor} uuidPrefix={'OP'} />
+                          {I18n.t('COMMON.AUTHOR_BY')} <Uuid uuid={statusChangeAuthor} uuidPrefix="OP" />
                         </div>
                       }
                       {

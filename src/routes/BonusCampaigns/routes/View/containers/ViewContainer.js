@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import ViewLayout from '../layouts/ViewLayout';
+import View from '../components/View';
 import { actionCreators } from '../modules';
 import { statusActions } from '../../../../../constants/bonus-campaigns';
 
@@ -17,4 +17,5 @@ export default connect(mapStateToProps, {
   onChangeCampaignState: actionCreators.changeCampaignState,
   cloneCampaign: actionCreators.cloneCampaign,
   removeAllPlayers: actionCreators.removeAllPlayers,
-})(ViewLayout);
+})(View);
+

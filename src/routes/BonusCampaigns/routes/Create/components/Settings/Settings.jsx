@@ -6,6 +6,7 @@ import { mapResponseErrorToField } from '../../constants';
 import recognizeFieldError from '../../../../../../utils/recognizeFieldError';
 import SettingsForm from '../../../../components/Settings';
 import { statuses } from '../../../../../../constants/bonus-campaigns';
+import history from '../../../../../../router/history';
 
 class Settings extends Component {
   static propTypes = {
@@ -53,9 +54,6 @@ class Settings extends Component {
 
   static contextTypes = {
     addNotification: PropTypes.func.isRequired,
-    router: PropTypes.shape({
-      push: PropTypes.func.isRequired,
-    }).isRequired,
   };
 
   componentWillMount() {
@@ -92,7 +90,7 @@ class Settings extends Component {
           }
         }
       } else {
-        this.context.router.push(`/bonus-campaigns/view/${createAction.payload.campaignUUID}/settings`);
+        history.push(`/bonus-campaigns/view/${createAction.payload.campaignUUID}/settings`);
       }
     }
 

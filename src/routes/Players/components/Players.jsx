@@ -9,7 +9,7 @@ const Players = ({ match: { path, url } }) => (
   <Switch>
     <Route path={`${path}/list`} component={List} />
     <Route path={`${path}/kyc-requests`} component={Kyc} />
-    <Redirect from={path} to={`${url}/list`} />
+    <Redirect to={`${url}/list`} />
   </Switch>
 );
 

@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { actionCreators } from '../modules';
-import View from '../components/View';
+import List from '../components/List';
 import { statuses } from '../../../../../constants/bonus-campaigns';
 
 const mapStateToProps = ({
@@ -23,4 +23,5 @@ const mapActions = {
   fetchDepositNumbers: actionCreators.fetchDepositNumbers,
 };
 
-export default connect(mapStateToProps, mapActions)(View);
+export default connect(mapStateToProps, mapActions)(List);
+

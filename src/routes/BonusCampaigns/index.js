@@ -1,12 +1,5 @@
-import ListRoute from './routes/List';
-import ViewRoute from './routes/View';
-import CreateRoute from './routes/Create';
+import { asyncRoute } from '../../router';
 
-export default store => ({
-  path: '/bonus-campaigns',
-  indexRoute: ListRoute(store),
-  childRoutes: [
-    ViewRoute(store),
-    CreateRoute(store),
-  ],
-});
+export default asyncRoute(() =>
+  import(/* webpackChunkName: "Campaigns" */ './components/BonusCampaigns'));
+

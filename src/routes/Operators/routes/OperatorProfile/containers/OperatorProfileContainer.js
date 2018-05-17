@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import OperatorProfileLayout from '../layouts/OperatorProfileLayout';
+import OperatorProfile from '../components/OperatorProfile';
 import { actionCreators } from '../modules';
 import { statusActions } from '../../../../../constants/operators';
 
@@ -26,6 +26,8 @@ const mapActions = {
   onResetPassword: actionCreators.resetPassword,
   onSendInvitation: actionCreators.sendInvitation,
   fetchAuthority: actionCreators.fetchAuthority,
+  fetchProfile: actionCreators.fetchProfile,
 };
 
-export default connect(mapStateToProps, mapActions)(OperatorProfileLayout);
+export default connect(mapStateToProps, mapActions)(OperatorProfile);
+
