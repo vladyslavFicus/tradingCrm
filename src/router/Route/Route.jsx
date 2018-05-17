@@ -77,7 +77,7 @@ class Route extends Component {
     } = this.props;
     const currentRoutePermissions = routePermissions[path];
 
-    return !currentRoutePermissions || new Permissions([currentRoutePermissions]).check(permissions);
+    return !currentRoutePermissions || new Permissions(currentRoutePermissions).check(permissions);
   }
 
   render() {

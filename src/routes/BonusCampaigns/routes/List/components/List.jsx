@@ -17,7 +17,7 @@ import Uuid from '../../../../../components/Uuid';
 import { types as miniProfileTypes } from '../../../../../constants/miniProfile';
 import MiniProfile from '../../../../../components/MiniProfile';
 
-class View extends Component {
+class List extends Component {
   static propTypes = {
     campaigns: PropTypes.pageableState(PropTypes.bonusCampaignEntity).isRequired,
     types: PropTypes.shape({
@@ -293,4 +293,4 @@ class View extends Component {
   }
 }
 
-export default View;
+export default List;

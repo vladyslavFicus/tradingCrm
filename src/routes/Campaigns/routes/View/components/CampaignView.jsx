@@ -58,7 +58,7 @@ class CampaignView extends PureComponent {
         />
         <Switch>
           <Route path={`${path}/settings`} component={Settings} />
-          <Redirect from={path} to={`${url}/settings`} />
+          <Redirect to={`${url}/settings`} />
         </Switch>
       </div>
     );
