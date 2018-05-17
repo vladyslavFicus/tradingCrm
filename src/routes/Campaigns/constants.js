@@ -40,6 +40,11 @@ const fulfillmentTypesLabels = {
   [fulfillmentTypes.DEPOSIT]: I18n.t('CAMPAIGNS.DEPOSIT_FULFILLMENT'),
 };
 
+const optInSelect = {
+  true: I18n.t('CAMPAIGNS.SETTINGS.LABEL.OPT_IN_REQUIRED'),
+  false: I18n.t('COMMON.NON_OPT_IN'),
+};
+
 export {
   attributeLabels,
   rewardTemplateTypes,
@@ -49,6 +54,7 @@ export {
   nodeGroups,
   nodeGroupsAlias,
   nodeGroupValidateMessage,
+  optInSelect,
 };
 
 export default attributeLabels;
