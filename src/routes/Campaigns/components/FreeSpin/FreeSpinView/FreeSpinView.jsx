@@ -189,7 +189,7 @@ class FreeSpinView extends PureComponent {
               </div>
             )}
           >
-            <div className="row mt-3 no-gutters campaigns-template__bordered-block" id="campaigns-template_freespin">
+            <div className="row mt-3 no-gutters campaigns-template__bordered-block" id="campaigns-freespin-template">
               <div className="col-4">
                 {I18n.t(attributeLabels.providerId)}
                 <div className="campaigns-template__value">

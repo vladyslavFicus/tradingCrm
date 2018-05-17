@@ -160,7 +160,7 @@ class BonusView extends PureComponent {
               </div>
             )}
           >
-            <div className="row no-gutters mt-3 campaigns-template__bordered-block" id="campaigns-template_bonus">
+            <div className="row no-gutters mt-3 campaigns-template__bordered-block" id="campaigns-bonus-template">
               <div className="col-4">
                 {I18n.t(attributeLabels.grant)}
                 <div className="campaigns-template__value">
