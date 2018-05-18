@@ -100,7 +100,7 @@ class ViewLayout extends Component {
   };
 
   handleRemovePlayersClick = () => {
-    const { params: { id: uuid } } = this.props;
+    const { match: { params: { id: uuid } } } = this.props;
 
     this.handleOpenModal(REMOVE_PLAYERS, { uuid });
   };

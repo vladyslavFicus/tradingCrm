@@ -13,8 +13,10 @@ class View extends Component {
     }).isRequired,
     fetchFeed: PropTypes.func.isRequired,
     exportFeed: PropTypes.func.isRequired,
-    params: PropTypes.shape({
-      id: PropTypes.string,
+    match: PropTypes.shape({
+      params: PropTypes.shape({
+        id: PropTypes.string,
+      }).isRequired,
     }).isRequired,
     locale: PropTypes.string.isRequired,
   };
@@ -25,11 +27,12 @@ class View extends Component {
   };
 
   componentDidMount() {
+    this.props.fetchFeed(this.props.match.params.id);
     this.handleFiltersChanged();
   }
 
   handleRefresh = () => {
-    this.props.fetchFeed(this.props.params.id, {
+    this.props.fetchFeed(this.props.match.params.id, {
       ...this.state.filters,
       page: this.state.page,
     });
@@ -49,7 +52,7 @@ class View extends Component {
   };
 
   handleExportClick = () => {
-    this.props.exportFeed(this.props.params.id, {
+    this.props.exportFeed(this.props.match.params.id, {
       ...this.state.filters,
       page: this.state.page,
     });

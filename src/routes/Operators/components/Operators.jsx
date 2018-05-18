@@ -5,19 +5,19 @@ import { Switch, Route } from '../../../router';
 import List from '../routes/List';
 import OperatorProfile from '../routes/OperatorProfile';
 
-const Campaigns = ({ match: { path, url } }) => (
+const Operators = ({ match: { path, url } }) => (
   <Switch>
     <Route path={`${path}/list`} component={List} />
-    <Route path={`${path}/:id/profile`} component={OperatorProfile} />
+    <Route path={`${path}/:id`} component={OperatorProfile} />
     <Redirect to={`${url}/list`} />
   </Switch>
 );
 
-Campaigns.propTypes = {
+Operators.propTypes = {
   match: PropTypes.shape({
     path: PropTypes.string.isRequired,
     url: PropTypes.string.isRequired,
   }).isRequired,
 };
 
-export default Campaigns;
+export default Operators;

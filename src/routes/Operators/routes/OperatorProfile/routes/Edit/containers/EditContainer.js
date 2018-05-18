@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { get } from 'lodash';
-import View from '../components/View';
+import Edit from '../components/Edit';
 import { actionCreators } from '../../../modules';
 import { actionCreators as authoritiesActionCreators } from '../../../../../../../redux/modules/auth/authorities';
 import { withNotifications } from '../../../../../../../components/HighOrder';
@@ -23,4 +23,5 @@ const mapActions = {
 export default compose(
   withNotifications,
   connect(mapStateToProps, mapActions),
-)(View);
+)(Edit);
+

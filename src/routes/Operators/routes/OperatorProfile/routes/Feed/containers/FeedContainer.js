@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import View from '../components/View';
+import Feed from '../components/Feed';
 import { actionCreators } from '../modules';
 
 const mapStateToProps = ({ operatorFeed, i18n: { locale } }) => ({
@@ -7,4 +7,5 @@ const mapStateToProps = ({ operatorFeed, i18n: { locale } }) => ({
   locale,
 });
 
-export default connect(mapStateToProps, actionCreators)(View);
+export default connect(mapStateToProps, actionCreators)(Feed);
+

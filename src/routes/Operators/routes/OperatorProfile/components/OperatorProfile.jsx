@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { I18n } from 'react-redux-i18n';
+import { Switch, Redirect } from 'react-router-dom';
+import { Route } from '../../../../../router';
 import Information from '../components/Information';
 import Tabs from '../../../../../components/Tabs';
 import { operatorProfileTabs } from '../../../../../config/menu';
@@ -41,6 +43,7 @@ class OperatorProfileLayout extends Component {
 
   componentDidMount() {
     const { fetchProfile, fetchAuthority, match: { params: { id } } } = this.props;
+
     fetchProfile(id);
     fetchAuthority(id);
   }
@@ -52,8 +55,10 @@ class OperatorProfileLayout extends Component {
   handleResetPasswordSubmit = async () => {
     const {
       onResetPassword,
-      params: {
-        id: operatorUUID,
+      match: {
+        params: {
+          id: operatorUUID,
+        },
       },
     } = this.props;
 
@@ -91,7 +96,7 @@ class OperatorProfileLayout extends Component {
     const { modal } = this.state;
     const {
       location,
-      match: { params },
+      match: { params, path, url },
       data,
       availableStatuses,
       changeStatus,
@@ -120,7 +125,13 @@ class OperatorProfileLayout extends Component {
           location={location}
           params={params}
         />
-        <div className="card no-borders" />
+        <div className="card no-borders" >
+          <Switch>
+            <Route path={`${path}/profile`} component={Edit} />
+            <Route path={`${path}/feed`} component={Feed} />
+            <Redirect to={`${url}/profile`} />
+          </Switch>
+        </div>
         {
           modal.name === RESET_PASSWORD_MODAL &&
           <ConfirmActionModal
