@@ -17,7 +17,8 @@
       "SETTINGS": "Настройки",
       "NEW_CAMPAIGNS": "Новые кампании",
       "NEW_CAMPAIGNS_FULFILLMENTS": "Fulfillments",
-      "CAMPAIGNS": "[NEW] Кампании"
+      "CAMPAIGNS": "[NEW] Кампании",
+      "CMS_GAMES": "[CMS] Игры"
     },
     "BOTTOM_MENU": {
       "SUPPORT": "Поддержка"
@@ -760,7 +761,16 @@
     "CUSTOM_REASON_OPTION": "Другая",
     "NOTE": "Заметка",
     "CREATED": "Создано",
-    "LAST_CHANGED": "Последнее изменение"
+    "LAST_CHANGED": "Последнее изменение",
+    "PAYMENT": {
+      "TYPE": {
+        "TIP": "Чаевые",
+        "CASH_BACK": "Cashback",
+        "DEPOSIT": "Депозит",
+        "WITHDRAW": "Вывод",
+        "CONFISCATE": "Конфискация"
+      }
+    }
   },
   "FILES": {
     "UPLOAD_MODAL": {
@@ -1242,7 +1252,8 @@
           "EDIT_CONTENT": "Редактировать"
         },
         "GRANTED_TO": "для %{count} игроков",
-        "GRANTED_TO_1": "для %{count} игрока"
+        "GRANTED_TO_1": "для %{count} игрока",
+        "CLONE_OF": "Склонировано из"
       },
       "NOTIFICATIONS": {
         "UPDATE_TITLE": "Обновление бонус-кампании",
@@ -1774,6 +1785,8 @@
       "GAME": "Игра",
       "GAME_TYPE": "Тип игры",
       "NAME": "Название",
+      "DENOMINATION": "Деноминация",
+      "COINS": "Монеты",
       "FREE_SPINS": "Фри спины",
       "FREE_SPIN_REWARD": "Фри спин",
       "BET_PER_LINE": "Бет за линию",
@@ -1859,7 +1872,9 @@
       },
       "CAMPAIGN_SETTINGS": "Настройки кампании",
       "LABEL": {
-        "CAMPAIGN_PERIOD": "Период кампании"
+        "CAMPAIGN_PERIOD": "Период кампании",
+        "OPT_IN": "Тип",
+        "OPT_IN_REQUIRED": "Opt-in обязателен"
       }
     },
     "REWARDS": {
@@ -1943,5 +1958,39 @@
     "FIRST_TEXT": "Чтобы открыть профиль",
     "SECOND_TEXT": "вам нужно закрыть хотя бы один из уже открытых профилей.",
     "CLOSE_SELECTED_BUTTON": "Закрыть выбранные профили"
+  },
+  "CMS_GAMES": {
+    "GRID_VIEW": {
+      "STATUS": {
+        "INACTIVE": "Неактивная",
+        "ACTIVE": "Активная"
+      },
+      "FREE_SPINS_STATUS": {
+        "NOT_AVAILABLE": "Недоступны",
+        "AVAILABLE": "Доступны / Неактивны",
+        "ACTIVE": "Доступны / Активны"
+      },
+      "PLATFORM": {
+        "DESKTOP": "Desktop",
+        "MOBILE": "Mobile",
+        "DESKTOP_AND_MOBILE": "Desktop & mobile"
+      },
+      "HEADER": {
+        "GAME": "Игра",
+        "PROVIDER": "Провайдер",
+        "PLATFORM": "Платформа",
+        "TECHNOLOGY": "Технология",
+        "FREE_SPINS_STATUS": "Free-spins",
+        "STATUS": "Статус"
+      }
+    },
+    "GRID_VIEW_FILTER": {
+      "PROVIDER": "Провайдер",
+      "PLATFORM": "Платформа",
+      "TECHNOLOGY": "Технология",
+      "FREE_SPINS_STATUS": "Доступность free-spins",
+      "STATUS": "Статус"
+    },
+    "TITLE": "CMS Список игр"
   }
 }

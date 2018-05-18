@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import moment from 'moment';
 import { typesLabels, typesColor, types } from '../../../../../constants/devices';
 import PropTypes from '../../../../../constants/propTypes';
-import GridView, { GridColumn } from '../../../../../components/GridView';
+import GridView, { GridViewColumn } from '../../../../../components/GridView';
 import DevicesFilterForm from './FilterForm';
 import renderLabel from '../../../../../utils/renderLabel';
 import Uuid from '../../../../../components/Uuid';
@@ -137,38 +137,38 @@ class View extends Component {
             locale={locale}
             showNoResults={noResults}
           >
-            <GridColumn
+            <GridViewColumn
               name="deviceId"
               header={I18n.t('PLAYER_PROFILE.DEVICES.GRID_VIEW.DEVICE_ID')}
               render={this.renderDeviceId}
             />
 
-            <GridColumn
+            <GridViewColumn
               name="deviceType"
               header={I18n.t('PLAYER_PROFILE.DEVICES.GRID_VIEW.TYPE')}
               className="text-uppercase"
               render={this.renderType}
             />
 
-            <GridColumn
+            <GridViewColumn
               name="operatingSystem"
               header={I18n.t('PLAYER_PROFILE.DEVICES.GRID_VIEW.OPERATING_SYSTEM')}
               className="font-weight-700"
             />
 
-            <GridColumn
+            <GridViewColumn
               name="lastSignInCountryCode"
               header={I18n.t('PLAYER_PROFILE.DEVICES.GRID_VIEW.LAST_IP')}
               render={this.renderLastIp}
             />
 
-            <GridColumn
+            <GridViewColumn
               name="lastSignInDate"
               header={I18n.t('PLAYER_PROFILE.DEVICES.GRID_VIEW.LAST_LOGIN')}
               render={this.renderLastLogin}
             />
 
-            <GridColumn
+            <GridViewColumn
               name="totalSignIn"
               header={I18n.t('PLAYER_PROFILE.DEVICES.GRID_VIEW.TOTAL_LOGIN')}
               className="font-weight-700"

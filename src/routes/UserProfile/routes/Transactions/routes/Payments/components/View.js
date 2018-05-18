@@ -1,13 +1,16 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import moment from 'moment';
 import { SubmissionError } from 'redux-form';
 import PropTypes from '../../../../../../../constants/propTypes';
-import GridView, { GridColumn } from '../../../../../../../components/GridView';
+import GridView, { GridViewColumn } from '../../../../../../../components/GridView';
 import {
   types as paymentTypes,
   methodsLabels,
   typesLabels,
   typesProps,
+  customTypes,
+  customTypesLabels,
+  customTypesProps,
 } from '../../../../../../../constants/payment';
 import TransactionStatus from '../../../../../../../components/TransactionStatus';
 import { targetTypes } from '../../../../../../../constants/note';
@@ -135,16 +138,17 @@ class View extends Component {
     if (note) {
       this.context.onEditNoteClick(target, note, { placement: 'left' });
     } else {
-      this.context.onAddNoteClick(data.paymentId, targetTypes.PAYMENT)(target, { placement: 'left', id: data.paymentId });
+      this.context.onAddNoteClick(data.paymentId, targetTypes.PAYMENT)(target, {
+        placement: 'left',
+        id: data.paymentId,
+      });
     }
   };
 
-  handleRefresh = () => this.props.fetchEntities(
-    this.props.params.id, {
-      ...this.state.filters,
-      page: this.state.page,
-    },
-  );
+  handleRefresh = () => this.props.fetchEntities(this.props.params.id, {
+    ...this.state.filters,
+    page: this.state.page,
+  },);
 
   handlePageChanged = (page) => {
     if (!this.props.transactions.isLoading) {
@@ -165,7 +169,9 @@ class View extends Component {
   handleChangePaymentStatus = (action, playerUUID, paymentId, options = {}) => {
     const { onChangePaymentStatus } = this.props;
 
-    return onChangePaymentStatus({ action, playerUUID, paymentId, options })
+    return onChangePaymentStatus({
+      action, playerUUID, paymentId, options,
+    })
       .then(this.handleRefresh)
       .then(this.handleCloseModal);
   };
@@ -272,21 +278,23 @@ class View extends Component {
     />
   );
 
-  renderType = (data) => {
-    const label = typesLabels[data.paymentType] || data.paymentType;
-    const props = typesProps[data.paymentType] || {};
-
-    return (
-      <div>
-        <div {...props}> {label} </div>
-        <div className="font-size-11 text-uppercase">
-          {data.paymentSystemRefs.map((SystemRef, index) => (
-            <div key={`${SystemRef}-${index}`}>{SystemRef}</div>
-          ))}
-        </div>
+  renderType = data => (
+    <Fragment>
+      <Choose>
+        <When condition={data.transactionTag && data.transactionTag !== customTypes.NORMAL}>
+          <div {...customTypesProps[data.transactionTag]}>{renderLabel(data.transactionTag, customTypesLabels)}</div>
+        </When>
+        <Otherwise>
+          <div {...typesProps[data.paymentType]}>{renderLabel(data.paymentType, typesLabels)}</div>
+        </Otherwise>
+      </Choose>
+      <div className="font-size-11 text-uppercase">
+        {data.paymentSystemRefs.map((SystemRef, index) => (
+          <div key={`${SystemRef}-${index}`}>{SystemRef}</div>
+        ))}
       </div>
-    );
-  };
+    </Fragment>
+  );
 
   renderAmount = data => <GridPaymentAmount payment={data} />;
 
@@ -403,51 +411,51 @@ class View extends Component {
             locale={locale}
             showNoResults={noResults}
           >
-            <GridColumn
+            <GridViewColumn
               name="paymentId"
               header="Transaction"
               render={this.renderTransactionId}
             />
-            <GridColumn
+            <GridViewColumn
               name="paymentType"
               header="Type"
               render={this.renderType}
             />
-            <GridColumn
+            <GridViewColumn
               name="amount"
               header="Amount"
               render={this.renderAmount}
             />
-            <GridColumn
+            <GridViewColumn
               name="creationTime"
               header="DATE & TIME"
               render={this.renderDateTime}
             />
-            <GridColumn
+            <GridViewColumn
               name="country"
               header="Ip"
               headerClassName="text-center"
               className="text-center"
               render={this.renderIP}
             />
-            <GridColumn
+            <GridViewColumn
               name="paymentMethod"
               header="Method"
               render={this.renderMethod}
             />
-            <GridColumn
+            <GridViewColumn
               name="mobile"
               header="Device"
               headerClassName="text-center"
               className="text-center"
               render={this.renderDevice}
             />
-            <GridColumn
+            <GridViewColumn
               name="status"
               header="Status"
               render={this.renderStatus}
             />
-            <GridColumn
+            <GridViewColumn
               name="actions"
               header=""
               render={this.renderActions}

@@ -7,6 +7,7 @@ import classNames from 'classnames';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { floatNormalize, intNormalize } from '../../../../../utils/inputNormalize';
 import normalizeNumber from '../../../../../utils/normalizeNumber';
+import stopPropagation from '../../../../../utils/stopPropagation';
 import { attributeLabels, attributePlaceholders } from '../constants';
 import Amount from '../../../../../components/Amount';
 import BonusView from '../../Bonus/BonusView';
@@ -91,18 +92,6 @@ class FreeSpinCreateModal extends Component {
     }
   }
 
-  getGame(gameId) {
-    const { games } = this.props;
-    const gameList = get(games, 'games.content', []);
-
-    return gameList.find(i => i.gameId === gameId) || {
-      betLevels: [],
-      coinSizes: [],
-      lines: [],
-      pageCodes: [],
-    };
-  }
-
   get currency() {
     const {
       optionCurrencies: {
@@ -124,6 +113,18 @@ class FreeSpinCreateModal extends Component {
     } = this.props;
 
     return freeSpinOptions || {};
+  }
+
+  getGame(gameId) {
+    const { games } = this.props;
+    const gameList = get(games, 'games.content', []);
+
+    return gameList.find(i => i.gameId === gameId) || {
+      betLevels: [],
+      coinSizes: [],
+      lines: [],
+      pageCodes: [],
+    };
   }
 
   setField = (field, value = '') => this.context._reduxForm.autofill(field, value);
@@ -175,7 +176,9 @@ class FreeSpinCreateModal extends Component {
   });
 
   handleSubmit = async ({ betPerLine, bonusTemplateUUID: { uuid: bonusTemplateUUID }, ...data }) => {
-    const { addFreeSpinTemplate, onSave, onCloseModal, reset, notify, games } = this.props;
+    const {
+      addFreeSpinTemplate, onSave, onCloseModal, reset, notify, games,
+    } = this.props;
     const internalGameId = (
       get(games, 'games.content', [])
         .find(({ gameId }) => gameId === data.gameId) || {}
@@ -272,10 +275,10 @@ class FreeSpinCreateModal extends Component {
 
   render() {
     const {
-      handleSubmit,
       onCloseModal,
       isOpen,
       bonusTemplateUUID,
+      handleSubmit,
       aggregatorId,
       games,
       gameId,
@@ -285,7 +288,9 @@ class FreeSpinCreateModal extends Component {
     const providers = get(aggregatorOptions, `[${aggregatorId}].providers`, []);
     const fields = get(aggregatorOptions, `[${aggregatorId}].fields`);
     const gameList = get(games, 'games.content', []);
-    const { betLevels, coinSizes, lines, pageCodes } = this.getGame(gameId);
+    const {
+      betLevels, coinSizes, lines, pageCodes,
+    } = this.getGame(gameId);
     const showPriceWidget = baseCurrency && fields &&
       fields.indexOf('linesPerSpin') !== -1 &&
       fields.indexOf('betPerLineAmounts') !== -1;
@@ -293,7 +298,11 @@ class FreeSpinCreateModal extends Component {
     return (
       <Modal toggle={onCloseModal} isOpen={isOpen}>
         <ModalHeader toggle={onCloseModal}>{I18n.t('CAMPAIGNS.FREE_SPIN.HEADER')}</ModalHeader>
-        <ModalBody tag="form" onSubmit={handleSubmit(this.handleSubmit)} id="free-spin-create-modal-form">
+        <ModalBody
+          tag="form"
+          onSubmit={e => stopPropagation(e, handleSubmit(this.handleSubmit))}
+          id="free-spin-create-modal-form"
+        >
           <Field
             name="name"
             type="text"
@@ -391,6 +400,33 @@ class FreeSpinCreateModal extends Component {
                       label={I18n.t(attributeLabels.betPerLine)}
                       className="col-md-6"
                       id="campaign-freespin-create-modal-bet-perline"
+                    />
+                  </If>
+                  <If condition={fields.indexOf('denomination') !== -1}>
+                    <Field
+                      name="denomination"
+                      type="number"
+                      step="any"
+                      label={I18n.t(attributeLabels.denomination)}
+                      position="vertical"
+                      component={InputField}
+                      normalize={floatNormalize}
+                      showErrorMessage={false}
+                      className="col-md-6"
+                      id="campaign-freespin-create-modal-denomination"
+                    />
+                  </If>
+                  <If condition={fields.indexOf('coins') !== -1}>
+                    <Field
+                      name="coins"
+                      type="number"
+                      placeholder="0"
+                      label={I18n.t(attributeLabels.coins)}
+                      component={InputField}
+                      normalize={intNormalize}
+                      position="vertical"
+                      className="col-md-6"
+                      id="campaign-freespin-create-modal-coins"
                     />
                   </If>
                   <If condition={fields.indexOf('linesPerSpin') !== -1}>

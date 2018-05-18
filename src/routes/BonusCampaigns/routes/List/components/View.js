@@ -4,8 +4,7 @@ import moment from 'moment';
 import { Link } from 'react-router';
 import BonusCampaignsFilterForm from './BonusCampaignsFilterForm';
 import PropTypes from '../../../../../constants/propTypes';
-import Card, { Title, Content } from '../../../../../components/Card';
-import GridView, { GridColumn } from '../../../../../components/GridView';
+import GridView, { GridViewColumn } from '../../../../../components/GridView';
 import renderLabel from '../../../../../utils/renderLabel';
 import {
   fulfillmentTypesLabels,
@@ -189,8 +188,8 @@ class View extends Component {
     const allowActions = Object.keys(filters).filter(i => filters[i]).length > 0;
 
     return (
-      <Card>
-        <Title>
+      <div className="card">
+        <div className="card-heading">
           <span className="font-size-20 mr-auto" id="campaigns-page-title">
             {I18n.t('BONUS_CAMPAIGNS.TITLE')}
           </span>
@@ -209,7 +208,7 @@ class View extends Component {
           >
             {I18n.t('BONUS_CAMPAIGNS.BUTTON_CREATE_CAMPAIGN')}
           </Link>
-        </Title>
+        </div>
 
         <BonusCampaignsFilterForm
           onSubmit={this.handleFiltersChanged}
@@ -223,7 +222,7 @@ class View extends Component {
           isLoading={isLoading}
         />
 
-        <Content>
+        <div className="card-body">
           <GridView
             locale={locale}
             dataSource={entities.content}
@@ -233,56 +232,56 @@ class View extends Component {
             lazyLoad
             showNoResults={noResults}
           >
-            <GridColumn
+            <GridViewColumn
               name="campaign"
               header={I18n.t('BONUS_CAMPAIGNS.GRID_VIEW.CAMPAIGN')}
               render={this.renderCampaign}
             />
 
-            <GridColumn
+            <GridViewColumn
               name="targetType"
               header={I18n.t('BONUS_CAMPAIGNS.GRID_VIEW.TYPE')}
               render={this.renderType}
             />
 
-            <GridColumn
+            <GridViewColumn
               name="fulfillmentType"
               header={I18n.t('BONUS_CAMPAIGNS.GRID_VIEW.FULFILLMENT_TYPE')}
               render={this.renderFulfillmentType}
             />
 
-            <GridColumn
+            <GridViewColumn
               name="createdDate"
               header={I18n.t('BONUS_CAMPAIGNS.GRID_VIEW.CREATED')}
               render={this.renderDate('creationDate')}
             />
 
-            <GridColumn
+            <GridViewColumn
               name="startDate"
               header={I18n.t('BONUS_CAMPAIGNS.GRID_VIEW.START_DATE')}
               render={this.renderDate('startDate')}
             />
 
-            <GridColumn
+            <GridViewColumn
               name="endDate"
               header={I18n.t('BONUS_CAMPAIGNS.GRID_VIEW.END_DATE')}
               render={this.renderDate('endDate')}
             />
 
-            <GridColumn
+            <GridViewColumn
               name="granted"
               header={I18n.t('BONUS_CAMPAIGNS.GRID_VIEW.GRANTED')}
               render={this.renderGranted}
             />
 
-            <GridColumn
+            <GridViewColumn
               name="status"
               header={I18n.t('BONUS_CAMPAIGNS.GRID_VIEW.STATUS')}
               render={this.renderStatus}
             />
           </GridView>
-        </Content>
-      </Card>
+        </div>
+      </div>
     );
   }
 }

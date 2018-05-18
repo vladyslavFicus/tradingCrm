@@ -106,6 +106,11 @@ const sidebarTopMenu = [
     isOpen: false,
     items: [
       {
+        label: I18n.t('SIDEBAR.TOP_MENU.CMS_GAMES'),
+        url: '/settings/cms-games',
+        permissions: new Permissions(permissions.CMS_GAMES.VIEW_LIST),
+      },
+      {
         label: I18n.t('SIDEBAR.TOP_MENU.GAMES'),
         url: '/settings/games',
         permissions: new Permissions(permissions.GAME_INFO.GET_GAME_LIST_CSV),

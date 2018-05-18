@@ -4,8 +4,7 @@ import moment from 'moment';
 import { I18n } from 'react-redux-i18n';
 import UserGridFilter from './UserGridFilter';
 import PropTypes from '../../../../../constants/propTypes';
-import GridView, { GridColumn } from '../../../../../components/GridView';
-import Card, { Title, Content } from '../../../../../components/Card';
+import GridView, { GridViewColumn } from '../../../../../components/GridView';
 import Amount from '../../../../../components/Amount';
 import GridPlayerInfo from '../../../../../components/GridPlayerInfo';
 import {
@@ -35,8 +34,8 @@ class List extends Component {
     currencies: PropTypes.arrayOf(PropTypes.string).isRequired,
     countries: PropTypes.object.isRequired,
     auth: PropTypes.shape({
-      brandId: PropTypes.string.isRequired,
-      uuid: PropTypes.string.isRequired,
+      brandId: PropTypes.string,
+      uuid: PropTypes.string,
     }).isRequired,
   };
   static contextTypes = {
@@ -91,6 +90,10 @@ class List extends Component {
   handleFilterReset = () => {
     this.props.reset();
     this.setState({ filters: {}, page: 0 });
+  };
+
+  handlePlayerClick = (data) => {
+    this.props.onPlayerClick({ ...data, auth: this.props.auth });
   };
 
   renderUserInfo = data => (
@@ -148,10 +151,6 @@ class List extends Component {
     </div>
   );
 
-  handlePlayerClick = (data) => {
-    this.props.onPlayerClick({ ...data, auth: this.props.auth });
-  };
-
   render() {
     const {
       list: { entities, exporting, noResults },
@@ -166,8 +165,8 @@ class List extends Component {
       .filter(i => (filters[i] && Array.isArray(filters[i]) && filters[i].length > 0) || filters[i]).length > 0;
 
     return (
-      <Card>
-        <Title>
+      <div className="card">
+        <div className="card-heading">
           <span className="font-size-20" id="users-list-header">
             {I18n.t('COMMON.PLAYERS')}
           </span>
@@ -179,7 +178,7 @@ class List extends Component {
           >
             {I18n.t('COMMON.EXPORT')}
           </button>
-        </Title>
+        </div>
 
         <UserGridFilter
           onSubmit={this.handleFiltersChanged}
@@ -190,7 +189,7 @@ class List extends Component {
           countries={countries}
         />
 
-        <Content>
+        <div className="card-body">
           <GridView
             tableClassName="table-hovered"
             dataSource={entities.content}
@@ -202,39 +201,39 @@ class List extends Component {
             showNoResults={noResults}
             onRowClick={this.handlePlayerClick}
           >
-            <GridColumn
+            <GridViewColumn
               name="id"
               header="Player"
               render={this.renderUserInfo}
             />
-            <GridColumn
+            <GridViewColumn
               name="location"
               header="Location"
               render={this.renderLocation}
             />
-            <GridColumn
+            <GridViewColumn
               name="affiliateId"
               header="Affiliate"
               render={this.renderAffiliate}
             />
-            <GridColumn
+            <GridViewColumn
               name="registrationDate"
               header="Registered"
               render={this.renderRegistered}
             />
-            <GridColumn
+            <GridViewColumn
               name="balance"
               header="Balance"
               render={this.renderBalance}
             />
-            <GridColumn
+            <GridViewColumn
               name="profileStatus"
               header="Status"
               render={this.renderStatus}
             />
           </GridView>
-        </Content>
-      </Card>
+        </div>
+      </div>
     );
   }
 }

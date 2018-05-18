@@ -17,7 +17,8 @@
       "SETTINGS": "Settings",
       "NEW_CAMPAIGNS": "New campaigns",
       "NEW_CAMPAIGNS_FULFILLMENTS": "Fulfillments",
-      "CAMPAIGNS": "[NEW] Campaigns"
+      "CAMPAIGNS": "[NEW] Campaigns",
+      "CMS_GAMES": "[CMS] Games"
     },
     "BOTTOM_MENU": {
       "SUPPORT": "Support"
@@ -754,7 +755,16 @@
     "CUSTOM_REASON_OPTION": "Other",
     "NOTE": "Note",
     "CREATED": "Created",
-    "LAST_CHANGED": "Last changed"
+    "LAST_CHANGED": "Last changed",
+    "PAYMENT": {
+      "TYPE": {
+        "TIP": "Tip",
+        "CASH_BACK": "Cashback",
+        "DEPOSIT": "Deposit",
+        "WITHDRAW": "Withdraw",
+        "CONFISCATE": "Confiscate"
+      }
+    }
   },
   "FILES": {
     "UPLOAD_MODAL": {
@@ -1231,7 +1241,8 @@
         },
         "GRANTED_TO": "to %{count} Players",
         "GRANTED_TO_0": "to %{count} Players",
-        "GRANTED_TO_1": "to %{count} Player"
+        "GRANTED_TO_1": "to %{count} Player",
+        "CLONE_OF": "Clone of"
       },
       "NOTIFICATIONS": {
         "UPDATE_TITLE": "Update bonus campaign",
@@ -1763,6 +1774,8 @@
       "BET_PER_LINE": "Bet per line",
       "FREE_SPIN_LIFE_TIME": "Free spin life time",
       "PRIZE": "Prize",
+      "DENOMINATION": "Denomination",
+      "COINS": "Coins",
       "SPIN_VALUE": "Spin value",
       "TOTAL_VALUE": "Total value",
       "LINES_PER_SPIN": "Lines per spin",
@@ -1844,7 +1857,9 @@
       },
       "CAMPAIGN_SETTINGS": "Campaign settings",
       "LABEL": {
-        "CAMPAIGN_PERIOD": "Campaign period"
+        "CAMPAIGN_PERIOD": "Campaign period",
+        "OPT_IN": "Type",
+        "OPT_IN_REQUIRED": "Opt-in required"
       }
     },
     "REWARDS": {
@@ -1928,5 +1943,39 @@
     "FIRST_TEXT": "To open the profile of",
     "SECOND_TEXT": "you have to close at least 1 opened profile.",
     "CLOSE_SELECTED_BUTTON": "Close selected profiles"
+  },
+  "CMS_GAMES": {
+    "GRID_VIEW": {
+      "STATUS": {
+        "INACTIVE": "Inactive",
+        "ACTIVE": "Active"
+      },
+      "FREE_SPINS_STATUS": {
+        "NOT_AVAILABLE": "Not available",
+        "AVAILABLE": "Available / Inactive",
+        "ACTIVE": "Available / Active"
+      },
+      "PLATFORM": {
+        "DESKTOP": "Desktop",
+        "MOBILE": "Mobile",
+        "DESKTOP_AND_MOBILE": "Desktop & mobile"
+      },
+      "HEADER": {
+        "GAME": "Game",
+        "PROVIDER": "Provider",
+        "PLATFORM": "Platform",
+        "TECHNOLOGY": "Technology",
+        "FREE_SPINS_STATUS": "Free-spins",
+        "STATUS": "Status"
+      }
+    },
+    "GRID_VIEW_FILTER": {
+      "PROVIDER": "Provider",
+      "PLATFORM": "Platform",
+      "TECHNOLOGY": "Technology",
+      "FREE_SPINS_STATUS": "Free-spin availability",
+      "STATUS": "Status"
+    },
+    "TITLE": "CMS Game list"
   }
 }

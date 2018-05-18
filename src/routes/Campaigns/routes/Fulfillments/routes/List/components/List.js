@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router';
 import { I18n } from 'react-redux-i18n';
 import PropTypes from '../../../../../../../constants/propTypes';
-import Card, { Title, Content } from '../../../../../../../components/Card';
-import GridView, { GridColumn } from '../../../../../../../components/GridView';
+import GridView, { GridViewColumn } from '../../../../../../../components/GridView';
 import Amount from '../../../../../../../components/Amount';
 
 class List extends Component {
@@ -41,13 +40,13 @@ class List extends Component {
   );
 
   renderActions = ({ uuid }) => (
-    <div>
-      <button
-        onClick={this.handleDelete(uuid)}
-        className="btn btn-danger"
-        type="button"
-      >{I18n.t('COMMON.REMOVE')}</button>
-    </div>
+    <button
+      onClick={this.handleDelete(uuid)}
+      className="btn btn-danger"
+      type="button"
+    >
+      {I18n.t('COMMON.REMOVE')}
+    </button>
   );
 
   render() {
@@ -57,8 +56,8 @@ class List extends Component {
     } = this.props;
 
     return (
-      <Card>
-        <Title>
+      <div className="card">
+        <div className="card-heading">
           <span className="font-size-20 mr-auto">
             {I18n.t('CAMPAIGNS.WAGERING_FULFILLMENTS.LIST.TITLE')}
           </span>
@@ -68,27 +67,27 @@ class List extends Component {
           >
             {I18n.t('CAMPAIGNS.WAGERING_FULFILLMENTS.LIST.CREATE_BUTTON')}
           </Link>
-        </Title>
-        <Content>
+        </div>
+        <div className="card-body">
           <GridView
             dataSource={entities}
             totalPages={1}
             locale={locale}
             showNoResults={noResults}
           >
-            <GridColumn
+            <GridViewColumn
               name="uuid"
               header="ID"
               render={this.renderUUID}
             />
-            <GridColumn
+            <GridViewColumn
               name="actions"
               header="Actions"
               render={this.renderActions}
             />
           </GridView>
-        </Content>
-      </Card>
+        </div>
+      </div>
     );
   }
 }

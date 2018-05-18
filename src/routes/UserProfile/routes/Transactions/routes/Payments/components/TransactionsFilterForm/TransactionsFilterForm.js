@@ -113,9 +113,9 @@ class TransactionsFilterForm extends Component {
           component={NasSelectField}
           className="filter-row__medium"
         >
-          {Object.keys(typesLabels).map(type => (
+          {Object.keys(types).map(type => (
             <option key={type} value={type}>
-              {typesLabels[type]}
+              {renderLabel(type, typesLabels)}
             </option>
           ))}
         </Field>

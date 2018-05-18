@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import moment from 'moment';
 import { I18n } from 'react-redux-i18n';
 import Uuid from '../../../../../components/Uuid';
-import GridView, { GridColumn } from '../../../../../components/GridView';
+import GridView, { GridViewColumn } from '../../../../../components/GridView';
 import {
   typesLabels, types, statuses, statusesColor, statusesLabels, amountTypes,
 } from '../../../../../constants/limits';
@@ -210,31 +210,31 @@ class CommonGridView extends Component {
           locale={locale}
           showNoResults={dataSource.length === 0}
         >
-          <GridColumn
+          <GridViewColumn
             name="type"
             header="Limit Type"
             render={this.renderType}
           />
 
-          <GridColumn
+          <GridViewColumn
             name="creationDate"
             header="Set On"
             render={this.renderCreationDate}
           />
 
-          <GridColumn
+          <GridViewColumn
             name="durationSeconds"
             header="Period"
             render={this.renderPeriod}
           />
 
-          <GridColumn
+          <GridViewColumn
             name="durationLimit"
             header="Amount/Value"
             render={this.renderLimit}
           />
 
-          <GridColumn
+          <GridViewColumn
             name="status"
             header="Status"
             render={this.renderStatus}
@@ -242,7 +242,7 @@ class CommonGridView extends Component {
 
           {
             !insideModal &&
-            <GridColumn
+            <GridViewColumn
               name="notes"
               header="Note"
               render={this.renderNotes}
@@ -251,7 +251,7 @@ class CommonGridView extends Component {
 
           {
             !insideModal &&
-            <GridColumn
+            <GridViewColumn
               name="actions"
               header=""
               render={this.renderActions}

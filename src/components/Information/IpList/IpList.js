@@ -1,18 +1,28 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { I18n } from 'react-redux-i18n';
 import PropTypes from '../../../constants/propTypes';
 import CopyToClipboard from '../../CopyToClipboard';
-import Card, { Content } from '../../Card';
 
-const IpList = ({ label, ips, notificationLevel, notificationTitle, notificationMessage, notify }) => (
-  <div className="account-details__network">
-    <span className="account-details__label">{label}</span>
-    <Card>
-      <Content>
-        <Choose>
-          <When condition={ips && ips.length > 0}>
-            {
-              ips.map(item => (
+const IpList = (props) => {
+  const {
+    label,
+    ips,
+    notificationLevel,
+    notificationTitle,
+    notificationMessage,
+    notify,
+  } = props;
+
+  return (
+    <Fragment>
+      <div className="account-details__label">
+        {label}
+      </div>
+      <div className="card">
+        <div className="card-body">
+          <Choose>
+            <When condition={ips && ips.length > 0}>
+              {ips.map(item => (
                 <div className="ip-container" key={item.ip}>
                   <i
                     className={`fs-icon fs-${item.country.toLowerCase()}`}
@@ -28,17 +38,17 @@ const IpList = ({ label, ips, notificationLevel, notificationTitle, notification
                     <span>{item.ip}</span>
                   </CopyToClipboard>
                 </div>
-              ))
-            }
-          </When>
-          <Otherwise>
-            {''}
-          </Otherwise>
-        </Choose>
-      </Content>
-    </Card>
-  </div>
-);
+              ))}
+            </When>
+            <Otherwise>
+              {''}
+            </Otherwise>
+          </Choose>
+        </div>
+      </div>
+    </Fragment>
+  );
+};
 
 IpList.propTypes = {
   label: PropTypes.string.isRequired,
@@ -48,7 +58,6 @@ IpList.propTypes = {
   notificationTitle: PropTypes.string,
   notificationMessage: PropTypes.string,
 };
-
 IpList.defaultProps = {
   ips: [],
   notificationLevel: 'info',

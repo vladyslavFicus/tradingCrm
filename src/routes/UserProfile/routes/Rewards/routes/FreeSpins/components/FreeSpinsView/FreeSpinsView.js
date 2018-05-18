@@ -3,7 +3,7 @@ import { I18n } from 'react-redux-i18n';
 import { SubmissionError } from 'redux-form';
 import FreeSpinMainInfo from '../FreeSpinMainInfo';
 import PropTypes from '../../../../../../../../constants/propTypes';
-import GridView, { GridColumn } from '../../../../../../../../components/GridView';
+import GridView, { GridViewColumn } from '../../../../../../../../components/GridView';
 import { targetTypes } from '../../../../../../../../constants/note';
 import { statuses, actions } from '../../../../../../../../constants/free-spin';
 import Amount from '../../../../../../../../components/Amount';
@@ -384,32 +384,32 @@ class FreeSpinsView extends Component {
             locale={locale}
             showNoResults={noResults}
           >
-            <GridColumn
+            <GridViewColumn
               name="freeSpin"
               header={I18n.t('PLAYER_PROFILE.FREE_SPINS.GRID_VIEW.FREE_SPIN')}
               render={this.renderFreeSpin}
             />
-            <GridColumn
+            <GridViewColumn
               name="game"
               header={I18n.t('PLAYER_PROFILE.FREE_SPINS.GRID_VIEW.GAME')}
               render={this.renderGame}
             />
-            <GridColumn
+            <GridViewColumn
               name="availability"
               header={I18n.t('PLAYER_PROFILE.FREE_SPINS.GRID_VIEW.AVAILABILITY')}
               render={this.renderAvailable}
             />
-            <GridColumn
+            <GridViewColumn
               name="granted"
               header={I18n.t('PLAYER_PROFILE.FREE_SPINS.GRID_VIEW.GRANTED')}
               render={this.renderGranted}
             />
-            <GridColumn
+            <GridViewColumn
               name="status"
               header={I18n.t('PLAYER_PROFILE.FREE_SPINS.GRID_VIEW.STATUS')}
               render={this.renderStatus}
             />
-            <GridColumn
+            <GridViewColumn
               name="note"
               header={I18n.t('PLAYER_PROFILE.FREE_SPINS.GRID_VIEW.NOTE')}
               render={this.renderNote}

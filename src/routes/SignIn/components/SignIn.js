@@ -46,9 +46,15 @@ class SignIn extends Component {
     logged: false,
   };
 
+  mounted = false;
+
   componentDidMount() {
+    this.mounted = true;
+
     setTimeout(() => {
-      this.setState({ loading: false });
+      if (this.mounted) {
+        this.setState({ loading: false });
+      }
     }, 300);
   }
 
@@ -61,6 +67,8 @@ class SignIn extends Component {
   }
 
   componentWillUnmount() {
+    this.mounted = false;
+
     if (this.resetStateTimeout) {
       clearTimeout(this.resetStateTimeout);
 
@@ -80,19 +88,21 @@ class SignIn extends Component {
       if (!action.error) {
         console.info('Sign in successful');
 
-        this.setState({ logged: true }, () => {
-          const { departmentsByBrand, token, uuid } = action.payload;
-          const brands = Object.keys(departmentsByBrand);
-          console.info(`Logged with ${brands.length} brands`);
+        if (this.mounted) {
+          this.setState({ logged: true }, () => {
+            const { departmentsByBrand, token, uuid } = action.payload;
+            const brands = Object.keys(departmentsByBrand);
+            console.info(`Logged with ${brands.length} brands`);
 
-          if (brands.length === 1) {
-            const departments = Object.keys(departmentsByBrand[brands[0]]);
+            if (brands.length === 1) {
+              const departments = Object.keys(departmentsByBrand[brands[0]]);
 
-            if (departments.length === 1) {
-              return this.handleSelectDepartment(brands[0], departments[0], token, uuid);
+              if (departments.length === 1) {
+                return this.handleSelectDepartment(brands[0], departments[0], token, uuid);
+              }
             }
-          }
-        });
+          });
+        }
       } else {
         const error = get(action, 'payload.response.error', action.payload.message);
 
@@ -130,30 +140,36 @@ class SignIn extends Component {
     const token = requestToken || dataToken;
     const uuid = requestUuid || dataUuid;
 
-    this.setState({ loading: true, logged: false }, async () => {
-      const action = await changeDepartment(department, brand, token);
+    if (this.mounted) {
+      this.setState({ loading: true, logged: false }, async () => {
+        const action = await changeDepartment(department, brand, token);
 
-      if (action && !action.error) {
-        setDepartmentsByBrand(departmentsByBrand);
-      }
-
-      this.resetStateTimeout = setTimeout(() => this.setState({ loading: false }, () => {
-        reset();
-      }), 2000);
-
-      if (action) {
-        if (!action.error) {
-          await Promise.all([
-            fetchProfile(uuid, action.payload.token),
-            fetchAuthorities(uuid, action.payload.token),
-          ]);
-
-          this.redirectToNextPage();
-        } else {
-          throw new SubmissionError({ _error: get(action.payload, 'response.error', action.payload.message) });
+        if (action && !action.error) {
+          setDepartmentsByBrand(departmentsByBrand);
         }
-      }
-    });
+
+        this.resetStateTimeout = setTimeout(() => {
+          if (this.mounted) {
+            this.setState({ loading: false }, () => {
+              reset();
+            });
+          }
+        }, 2000);
+
+        if (action) {
+          if (!action.error) {
+            await Promise.all([
+              fetchProfile(uuid, action.payload.token),
+              fetchAuthorities(uuid, action.payload.token),
+            ]);
+
+            this.redirectToNextPage();
+          } else {
+            throw new SubmissionError({ _error: get(action.payload, 'response.error', action.payload.message) });
+          }
+        }
+      });
+    }
   };
 
   redirectToNextPage = () => {

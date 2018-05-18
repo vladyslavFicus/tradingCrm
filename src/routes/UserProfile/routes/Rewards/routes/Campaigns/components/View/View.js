@@ -4,11 +4,11 @@ import moment from 'moment';
 import { SubmissionError } from 'redux-form';
 import { get } from 'lodash';
 import PropTypes from '../../../../../../../../constants/propTypes';
-import GridView, { GridColumn } from '../../../../../../../../components/GridView';
+import GridView, { GridViewColumn } from '../../../../../../../../components/GridView';
 import Uuid from '../../../../../../../../components/Uuid';
 import renderLabel from '../../../../../../../../utils/renderLabel';
 import {
-  fulfillmentTypesLabels,
+  rewardTypesLabels,
   statuses as bonusCampaignStatuses,
   targetTypesLabels,
   targetTypes,
@@ -199,7 +199,7 @@ class View extends Component {
   renderBonusType = data => (
     <div>
       <div className="text-uppercase font-weight-700">
-        {renderLabel(data.fulfillmentType, fulfillmentTypesLabels)}
+        {renderLabel(data.campaignType, rewardTypesLabels)}
       </div>
       <div className="font-size-10">{data.optIn ? I18n.t('COMMON.OPT_IN') : I18n.t('COMMON.NON_OPT_IN')}</div>
     </div>
@@ -359,31 +359,31 @@ class View extends Component {
             locale={locale}
             showNoResults={noResults}
           >
-            <GridColumn
+            <GridViewColumn
               name="campaign"
               header={I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.GRID_VIEW.CAMPAIGN')}
               render={this.renderCampaign}
             />
 
-            <GridColumn
+            <GridViewColumn
               name="available"
               header={I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.GRID_VIEW.AVAILABLE')}
               render={this.renderAvailable}
             />
 
-            <GridColumn
+            <GridViewColumn
               name="bonusType"
               header={I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.GRID_VIEW.BONUS_TYPE')}
               render={this.renderBonusType}
             />
 
-            <GridColumn
+            <GridViewColumn
               name="optInStatus"
               header={I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.GRID_VIEW.OPT_IN_STATUS')}
               render={this.renderOptInStatus}
             />
 
-            <GridColumn
+            <GridViewColumn
               name="actions"
               header=""
               render={this.renderActions}

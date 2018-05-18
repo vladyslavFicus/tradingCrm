@@ -1,6 +1,5 @@
 import React, { Component, Fragment } from 'react';
 import ImageViewer from 'react-images';
-import { Collapse } from 'reactstrap';
 import { get } from 'lodash';
 import { I18n } from 'react-redux-i18n';
 import Tabs from '../../../components/Tabs';
@@ -26,7 +25,7 @@ import ChangePasswordModal from '../../../components/ChangePasswordModal';
 import ShareLinkModal from '../components/ShareLinkModal';
 import ConfirmActionModal from '../../../components/Modal/ConfirmActionModal';
 import BackToTop from '../../../components/BackToTop';
-import Card from '../../../components/Card';
+import HideDetails from '../../../components/HideDetails';
 
 const NOTE_POPOVER = 'note-popover';
 const popoverInitialState = {
@@ -166,7 +165,6 @@ class ProfileLayout extends Component {
     imageViewer: { ...imageViewerInitialState },
     noteChangedCallback: null,
     fileChangedCallback: null,
-    informationShown: true,
   };
 
   getChildContext() {
@@ -270,10 +268,6 @@ class ProfileLayout extends Component {
 
   handleCloseModal = () => {
     this.setState({ modal: { ...modalInitialState } });
-  };
-
-  handleToggleInformationBlock = () => {
-    this.setState({ informationShown: !this.state.informationShown });
   };
 
   handleAddNoteClick = (targetUUID, targetType) => (target, params = {}) => {
@@ -625,7 +619,7 @@ class ProfileLayout extends Component {
   };
 
   render() {
-    const { modal, popover, informationShown, imageViewer: imageViewerState } = this.state;
+    const { modal, popover, imageViewer: imageViewerState } = this.state;
     const {
       playerProfile: { playerProfile, loading },
       children,
@@ -680,17 +674,7 @@ class ProfileLayout extends Component {
             onChangePasswordClick={this.handleChangePasswordClick}
             onShareProfileClick={this.handleShareProfileClick}
           />
-          <div className="hide-details-block">
-            <div className="hide-details-block_divider" />
-            <button
-              className="hide-details-block_text btn-transparent"
-              onClick={this.handleToggleInformationBlock}
-            >
-              {informationShown ? I18n.t('COMMON.DETAILS_COLLAPSE.HIDE') : I18n.t('COMMON.DETAILS_COLLAPSE.SHOW')}
-            </button>
-            <div className="hide-details-block_divider" />
-          </div>
-          <Collapse isOpen={informationShown}>
+          <HideDetails>
             <Information
               data={profile}
               ips={get(profile, 'signInIps', [])}
@@ -698,16 +682,16 @@ class ProfileLayout extends Component {
               onEditNoteClick={this.handleEditNoteClick}
               notes={notes}
             />
-          </Collapse>
+          </HideDetails>
         </div>
         <Tabs
           items={userProfileTabs}
           location={location}
           params={params}
         />
-        <Card noBorders>
+        <div className="card no-borders">
           {children}
-        </Card>
+        </div>
         {
           popover.name === NOTE_POPOVER &&
           <NotePopover

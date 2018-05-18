@@ -15,7 +15,7 @@ class CopyToClipboard extends Component {
     notify: PropTypes.bool,
   };
   static defaultProps = {
-    className: 'copy-clipboard-container',
+    className: null,
     notify: false,
     notificationLevel: 'info',
     notificationTitle: 'Copied',
@@ -68,8 +68,14 @@ class CopyToClipboard extends Component {
     const { className, children, text } = this.props;
     const { highlight } = this.state;
 
+    const mainClassName = classNames(
+      'copy-clipboard-container',
+      className,
+      { highlight },
+    );
+
     return (
-      <span onClick={this.handleClick} className={classNames(className, { highlight })}>
+      <span onClick={this.handleClick} className={mainClassName}>
         <ClipboardContainer text={text} onCopy={this.handleCopy}>
           {children}
         </ClipboardContainer>

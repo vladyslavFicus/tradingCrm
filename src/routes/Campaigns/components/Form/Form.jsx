@@ -5,7 +5,7 @@ import moment from 'moment';
 import { Field, reduxForm, SubmissionError } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
 import { get } from 'lodash';
-import { InputField, DateTimeField, RangeGroup } from '../../../../components/ReduxForm';
+import { InputField, SelectField, DateTimeField, RangeGroup } from '../../../../components/ReduxForm';
 import {
   nodeGroups,
   nodeGroupsAlias,
@@ -15,6 +15,7 @@ import {
   rewardTypesLabels,
   fulfillmentTypes,
   fulfillmentTypesLabels,
+  optInSelect,
 } from '../../constants';
 import NodeBuilder from '../NodeBuilder';
 import { BonusView } from '../Bonus';
@@ -26,6 +27,8 @@ import Permissions from '../../../../utils/permissions';
 import permissions from '../../../../config/permissions';
 import './Form.scss';
 import { withReduxFormValues, withNotifications } from '../../../../components/HighOrder';
+import renderLabel from '../../../../utils/renderLabel';
+import normalizeBoolean from '../../../../utils/normalizeBoolean';
 
 const CAMPAIGN_NAME_MAX_LENGTH = 100;
 
@@ -185,6 +188,25 @@ class Form extends Component {
               id="campaign-end-date"
             />
           </RangeGroup>
+        </div>
+        <div className="row">
+          <div className="col-3">
+            <Field
+              name="optIn"
+              label={I18n.t('CAMPAIGNS.SETTINGS.LABEL.OPT_IN')}
+              type="select"
+              id="campaign-opt-in"
+              component={SelectField}
+              normalize={normalizeBoolean}
+              position="vertical"
+            >
+              {Object.keys(optInSelect).map(key => (
+                <option key={key} value={key}>
+                  {renderLabel(key, optInSelect)}
+                </option>
+              ))}
+            </Field>
+          </div>
         </div>
         <div className="row mt-2">
           <NodeBuilder
