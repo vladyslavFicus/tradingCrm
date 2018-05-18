@@ -56,19 +56,22 @@ const cmsGamesQuery = gql`query GamesView(
     limit: $limit,
     offset: $offset
   ) {
-    internalGameId
-    title
-    alias
-    aggregator {
-      name
+    offset
+    content {
+      internalGameId
+      title
+      alias
+      aggregator {
+        name
+      }
+      provider {
+        name
+      }
+      platform
+      technology
+      freeSpinsStatus
+      status
     }
-    provider {
-      name
-    }
-    platform
-    technology
-    freeSpinsStatus
-    status
   }
 }`;
 

@@ -1223,7 +1223,8 @@
       "ACTIVITY_DATE_TO": "Конечная дата активности",
       "SEARCH_BY_PLACEHOLDER": "Кампания, Оператор",
       "DEPOSIT_NUMBER_OPTION": "депозит",
-      "DEPOSIT_NUMBER": "Номер депозита"
+      "DEPOSIT_NUMBER": "Номер депозита",
+      "PROMO_CODE": "Промокод"
     },
     "BUTTON_CREATE_CAMPAIGN": "+ Добавить кампанию",
     "VIEW": {
