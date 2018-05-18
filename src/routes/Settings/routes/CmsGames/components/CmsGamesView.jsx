@@ -87,7 +87,7 @@ class CmsGamesView extends Component {
   };
 
   handleFilterReset = () => {
-    this.handleFiltersChanged(null);
+    this.handleFiltersChanged();
   };
 
   handleLoadGames = async ({ limit, offset }) => {
