@@ -17,8 +17,6 @@ import { aggregators, mapResponseErrorToField } from '../../constants';
 import { moneyTypeUsage } from '../../../../../../../../constants/bonus';
 import StickyNavigation from '../../../../../../components/StickyNavigation';
 
-const modalInitialState = { name: null, params: {} };
-
 class FreeSpinsView extends Component {
   static propTypes = {
     list: PropTypes.shape({
@@ -75,7 +73,6 @@ class FreeSpinsView extends Component {
   };
 
   state = {
-    modal: { ...modalInitialState },
     filters: {},
     page: 0,
   };
@@ -263,7 +260,11 @@ class FreeSpinsView extends Component {
   };
 
   handleCancelFreeSpin = async ({ uuid, reason }) => {
-    const { cancelFreeSpin, params } = this.props;
+    const {
+      cancelFreeSpin,
+      params,
+      modals: { createFreeSpinModal },
+    } = this.props;
     const action = await cancelFreeSpin(params.id, uuid, reason);
 
     if (action) {
@@ -278,17 +279,10 @@ class FreeSpinsView extends Component {
       }
     }
 
-    this.handleModalClose(this.handleRefresh);
+    createFreeSpinModal.hide();
+    this.handleRefresh();
 
     return action;
-  };
-
-  handleModalClose = (callback) => {
-    this.setState({ modal: { ...modalInitialState } }, () => {
-      if (typeof callback === 'function') {
-        callback();
-      }
-    });
   };
 
   handleExportButtonClick = () => this.props.exportFreeSpins({
