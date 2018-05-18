@@ -1,7 +1,7 @@
 import React from 'react';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Switch } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { Switch, Route } from '../../../router';
+import { Route } from '../../../router';
 import List from '../routes/List';
 import OperatorProfile from '../routes/OperatorProfile';
 

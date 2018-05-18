@@ -22,7 +22,7 @@ const withPlayerClick = WrappedComponent => class OpenProfile extends Component 
       } = data;
 
       if (this.context.settings.playerProfileViewType === playerProfileViewTypes.page) {
-        history.push(`/users/${data.playerUUID}/profile`);
+        history.push(`/players/${data.playerUUID}/profile`);
       } else {
         const panelData = {
           fullName: (firstName || lastName)

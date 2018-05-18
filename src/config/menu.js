@@ -5,12 +5,12 @@ import Permissions, { CONDITIONS } from '../utils/permissions';
 const userProfileTabs = [
   {
     label: 'Profile',
-    url: '/users/:id/profile',
+    url: '/players/:id/profile',
     permissions: new Permissions(permissions.USER_PROFILE.PROFILE_VIEW),
   },
   {
     label: 'Transactions',
-    url: '/users/:id/transactions',
+    url: '/players/:id/transactions',
     permissions: new Permissions([
       permissions.PAYMENTS.PLAYER_PAYMENTS_LIST,
       permissions.GAMING_ACTIVITY.PLAYER_GAMING_ACTIVITY,
@@ -18,7 +18,7 @@ const userProfileTabs = [
   },
   {
     label: 'Rewards',
-    url: '/users/:id/rewards',
+    url: '/players/:id/rewards',
     permissions: new Permissions([
       permissions.BONUS.PLAYER_BONUSES_LIST,
       permissions.FREE_SPIN.PLAYER_FREE_SPIN_LIST,
@@ -28,32 +28,32 @@ const userProfileTabs = [
   },
   {
     label: 'Payment acc.',
-    url: '/users/:id/paymentAccounts',
+    url: '/players/:id/paymentAccounts',
     permissions: new Permissions(permissions.PAYMENT.PLAYER_ACCOUNT_LIST),
   },
   {
     label: 'Limits',
-    url: '/users/:id/limits',
+    url: '/players/:id/limits',
     permissions: new Permissions(permissions.PAYMENT.PLAYER_LIMITS_LIST),
   },
   {
     label: 'Files',
-    url: '/users/:id/files',
+    url: '/players/:id/files',
     permissions: new Permissions(permissions.USER_PROFILE.VIEW_FILES),
   },
   {
     label: 'Devices',
-    url: '/users/:id/devices',
+    url: '/players/:id/devices',
     permissions: new Permissions(permissions.USER_PROFILE.PROFILE_DEVICES_VIEW),
   },
   {
     label: 'Notes',
-    url: '/users/:id/notes',
+    url: '/players/:id/notes',
     permissions: new Permissions(permissions.NOTE.NOTES_LIST),
   },
   {
     label: 'Feed',
-    url: '/users/:id/feed',
+    url: '/players/:id/feed',
     permissions: new Permissions(permissions.AUDIT.PLAYER_AUDIT_LOGS),
   },
 ];

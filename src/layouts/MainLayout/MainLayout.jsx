@@ -335,6 +335,10 @@ class MainLayout extends Component {
   };
 
   render() {
+    if (window.isFrame) {
+      return this.props.children;
+    }
+
     const { popover, miniProfilePopover, isOpenProfile } = this.state;
     const {
       children,
