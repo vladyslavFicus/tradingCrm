@@ -297,6 +297,7 @@ PropTypes.paymentEntity = PropTypes.shape({
   reason: PropTypes.any,
   status: PropTypes.string.isRequired,
   success: PropTypes.bool,
+  transactionTag: PropTypes.string,
   updateTime: PropTypes.string,
   userAgent: PropTypes.string.isRequired,
 });
