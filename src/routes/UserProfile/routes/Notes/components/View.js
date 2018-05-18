@@ -70,7 +70,7 @@ class View extends Component {
       page: this.state.page,
       size: this.state.size,
     });
-  }
+  };
 
   handleFiltersChanged = (filters = {}) => {
     this.setState({ filters, page: 0 }, () => this.handleRefresh());

@@ -34,21 +34,24 @@ class CmsGamesView extends Component {
       refetch: PropTypes.func.isRequired,
       onLoadMore: PropTypes.func.isRequired,
       loading: PropTypes.bool,
-      cmsGames: PropTypes.arrayOf(PropTypes.shape({
-        internalGameId: PropTypes.string.isRequired,
-        title: PropTypes.string.isRequired,
-        alias: PropTypes.string.isRequired,
-        aggregator: PropTypes.shape({
-          name: PropTypes.string.isRequired,
-        }).isRequired,
-        provider: PropTypes.shape({
-          name: PropTypes.string.isRequired,
-        }).isRequired,
-        platform: PropTypes.string.isRequired,
-        technology: PropTypes.string.isRequired,
-        freeSpinsStatus: PropTypes.string.isRequired,
-        status: PropTypes.string.isRequired,
-      })),
+      cmsGames: PropTypes.shape({
+        offset: PropTypes.number.isRequired,
+        content: PropTypes.arrayOf(PropTypes.shape({
+          internalGameId: PropTypes.string.isRequired,
+          title: PropTypes.string.isRequired,
+          alias: PropTypes.string.isRequired,
+          aggregator: PropTypes.shape({
+            name: PropTypes.string.isRequired,
+          }).isRequired,
+          provider: PropTypes.shape({
+            name: PropTypes.string.isRequired,
+          }).isRequired,
+          platform: PropTypes.string.isRequired,
+          technology: PropTypes.string.isRequired,
+          freeSpinsStatus: PropTypes.string.isRequired,
+          status: PropTypes.string.isRequired,
+        })).isRequired,
+      }),
     }),
   };
   static defaultProps = {
@@ -63,21 +66,29 @@ class CmsGamesView extends Component {
   };
 
   state = {
+    filters: {},
     hasMore: true,
   };
 
-  handleFiltersChanged = (filters = {}) => {
-    return this.props.games.refetch({
-      ...filters,
-      limit: this.props.games.variables.limit,
-      offset: 0,
+  handleRefresh = () => {
+    this.props.games.refetch({
+      provider: undefined,
+      platform: undefined,
+      technology: undefined,
+      freeSpinsStatus: undefined,
+      status: undefined,
+      ...this.state.filters,
+      offset: this.state.offset,
     });
   };
 
-  handleFilterReset = () => this.props.games.refetch({
-    limit: this.props.games.variables.limit,
-    offset: 0,
-  });
+  handleFiltersChanged = (filters = {}) => {
+    this.setState({ filters, offset: 0 }, this.handleRefresh);
+  };
+
+  handleFilterReset = () => {
+    this.handleFiltersChanged();
+  };
 
   handleLoadGames = async ({ limit, offset }) => {
     const { games: { onLoadMore, variables, loading } } = this.props;
@@ -85,7 +96,7 @@ class CmsGamesView extends Component {
     if (!loading) {
       const response = await onLoadMore({ ...variables, limit, offset });
 
-      const nextGames = get(response, 'data.cmsGames', []);
+      const nextGames = get(response, 'data.cmsGames.content', []);
 
       this.setState({ hasMore: nextGames.length > 0 });
     }
@@ -195,8 +206,8 @@ class CmsGamesView extends Component {
               <OffsetGridView
                 keyName="internalGameId"
                 limit={limit}
-                offset={offset}
-                rows={cmsGames}
+                offset={get(cmsGames, 'offset')}
+                rows={get(cmsGames, 'content')}
                 hasMore={hasMore}
                 onLoadMore={this.handleLoadGames}
               >

@@ -15,7 +15,7 @@ const languages = getAvailableLanguages();
 const mapStateToProps = (state) => {
   const {
     userPanels,
-    auth,
+    auth: { lastActivity, ...auth },
     app,
     permissions: { data: permissions },
     i18n: { locale },
