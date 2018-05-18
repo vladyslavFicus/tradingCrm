@@ -71,7 +71,7 @@ createStore({}, (store) => {
         }
       };
 
-      module.hot.accept('./routes/index', () =>
+      module.hot.accept(() =>
         setImmediate(() => {
           ReactDOM.unmountComponentAtNode(MOUNT_NODE);
           render();
