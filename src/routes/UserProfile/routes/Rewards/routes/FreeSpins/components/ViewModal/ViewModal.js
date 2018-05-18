@@ -17,7 +17,7 @@ class ViewModal extends Component {
     })).isRequired,
     item: PropTypes.freeSpinEntity.isRequired,
     isOpen: PropTypes.bool,
-    onClose: PropTypes.func.isRequired,
+    onCloseModal: PropTypes.func.isRequired,
   };
   static defaultProps = {
     isOpen: false,
@@ -49,11 +49,17 @@ class ViewModal extends Component {
   );
 
   render() {
-    const { item, actions, onClose, ...rest } = this.props;
+    const {
+      item,
+      actions,
+      isOpen,
+      onCloseModal,
+      ...rest
+    } = this.props;
 
     return (
-      <Modal className="view-free-spin-modal" toggle={onClose} {...rest}>
-        <ModalHeader toggle={onClose}>
+      <Modal isOpen={isOpen} className="view-free-spin-modal" toggle={onCloseModal} {...rest}>
+        <ModalHeader toggle={onCloseModal}>
           {I18n.t('PLAYER_PROFILE.FREE_SPINS.VIEW_MODAL.TITLE')}
         </ModalHeader>
         <ModalBody>
@@ -64,6 +70,13 @@ class ViewModal extends Component {
           {this.renderNote(item)}
         </ModalBody>
         <ModalFooter>
+          <button
+            onClick={onCloseModal}
+            className="btn btn-default-outline"
+          >
+            {I18n.t('COMMON.CLOSE')}
+          </button>
+
           {actions.map(action => (
             <button key={action.children} {...action} />
           ))}

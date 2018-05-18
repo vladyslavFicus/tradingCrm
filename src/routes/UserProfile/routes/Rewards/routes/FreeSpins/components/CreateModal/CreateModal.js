@@ -28,7 +28,6 @@ class CreateModal extends Component {
     submitting: PropTypes.bool,
     invalid: PropTypes.bool.isRequired,
     onSubmit: PropTypes.func.isRequired,
-    onClose: PropTypes.func.isRequired,
     currency: PropTypes.string.isRequired,
     currentValues: PropTypes.shape({
       name: PropTypes.string,
@@ -41,7 +40,7 @@ class CreateModal extends Component {
       freeSpinsAmount: PropTypes.string,
       bonusLifeTime: PropTypes.string,
       multiplier: PropTypes.string,
-    }).isRequired,
+    }),
     providers: PropTypes.arrayOf(PropTypes.string).isRequired,
     games: PropTypes.arrayOf(PropTypes.gameEntity).isRequired,
     onManageNote: PropTypes.func.isRequired,
@@ -49,6 +48,8 @@ class CreateModal extends Component {
     templates: PropTypes.arrayOf(PropTypes.freeSpinListEntity),
     fetchFreeSpinTemplates: PropTypes.func.isRequired,
     fetchFreeSpinTemplate: PropTypes.func.isRequired,
+    onCloseModal: PropTypes.func.isRequired,
+    isOpen: PropTypes.bool.isRequired,
   };
   static defaultProps = {
     pristine: false,
@@ -336,7 +337,6 @@ class CreateModal extends Component {
   render() {
     const {
       handleSubmit,
-      onClose,
       pristine,
       submitting,
       invalid,
@@ -345,6 +345,8 @@ class CreateModal extends Component {
       providers,
       note,
       templates,
+      isOpen,
+      onCloseModal,
     } = this.props;
 
     const {
@@ -357,9 +359,9 @@ class CreateModal extends Component {
     );
 
     return (
-      <Modal className="create-free-spin-modal" toggle={onClose} isOpen>
+      <Modal className="create-free-spin-modal" toggle={onCloseModal} isOpen={isOpen}>
         <form onSubmit={handleSubmit(this.handleSubmit)}>
-          <ModalHeader toggle={onClose}>
+          <ModalHeader toggle={onCloseModal}>
             {I18n.t('PLAYER_PROFILE.FREE_SPIN.MODAL_CREATE.TITLE')}
           </ModalHeader>
           <ModalBody>
@@ -606,7 +608,7 @@ class CreateModal extends Component {
               className="btn btn-default-outline mr-auto"
               disabled={submitting}
               type="reset"
-              onClick={onClose}
+              onClick={onCloseModal}
             >
               {I18n.t('COMMON.CANCEL')}
             </button>

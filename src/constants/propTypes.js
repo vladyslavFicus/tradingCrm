@@ -525,5 +525,9 @@ PropTypes.subTabRouteEntity = PropTypes.shape({
   label: PropTypes.string.isRequired,
   permissions: PropTypes.object.isRequired,
 });
+PropTypes.modalType = PropTypes.shape({
+  show: PropTypes.func.isRequired,
+  hide: PropTypes.func.isRequired,
+});
 
 export default PropTypes;

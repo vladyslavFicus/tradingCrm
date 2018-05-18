@@ -1,7 +1,12 @@
 import { connect } from 'react-redux';
+import { compose } from 'redux';
 import { actionCreators } from '../modules';
 import FreeSpinsView from '../components/FreeSpinsView';
 import config from '../../../../../../../config';
+import ViewModal from '../components/ViewModal';
+import CancelModal from '../components/CancelModal';
+import CreateModal from '../components/CreateModal';
+import { withModals } from '../../../../../../../components/HighOrder';
 
 const mapStateToProps = ({
   userBonusFreeSpinsList: {
@@ -41,4 +46,11 @@ const mapActions = {
   assignFreeSpinTemplate: actionCreators.assignFreeSpinTemplate,
 };
 
-export default connect(mapStateToProps, mapActions)(FreeSpinsView);
+export default compose(
+  withModals({
+    freeSpinInfoModal: ViewModal,
+    cancelFreeSpinModal: CancelModal,
+    createFreeSpinModal: CreateModal,
+  }),
+  connect(mapStateToProps, mapActions),
+)(FreeSpinsView);

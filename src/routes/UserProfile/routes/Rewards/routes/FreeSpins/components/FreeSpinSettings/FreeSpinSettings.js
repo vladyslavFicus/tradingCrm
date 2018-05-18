@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { I18n } from 'react-redux-i18n';
 import PropTypes from '../../../../../../../../constants/propTypes';
 import Amount from '../../../../../../../../components/Amount';
@@ -14,9 +14,14 @@ class FreeSpinSettings extends Component {
     return (
       <div>
         <div>
-          {I18n.t('PLAYER_PROFILE.FREE_SPINS.FREE_SPIN_SETTINGS.LINES')}
-          {': '}
-          <span className="font-weight-700">{freeSpin.linesPerSpin}</span>
+          {
+            freeSpin.linesPerSpin &&
+            <Fragment>
+              {I18n.t('PLAYER_PROFILE.FREE_SPINS.FREE_SPIN_SETTINGS.LINES')}
+              {': '}
+              <span className="font-weight-700">{freeSpin.linesPerSpin}</span>
+            </Fragment>
+          }
         </div>
         <div>
           {I18n.t('PLAYER_PROFILE.FREE_SPINS.FREE_SPIN_SETTINGS.BET_PER_LINE')}

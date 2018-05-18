@@ -466,7 +466,7 @@
         "DATE_TO": "to %{time}"
       },
       "FREE_SPIN_SETTINGS": {
-        "LINES": "Line",
+        "LINES": "Lines per spin",
         "BET_PER_LINE": "Bet per line",
         "SPIN_VALUE": "Spin value"
       },
