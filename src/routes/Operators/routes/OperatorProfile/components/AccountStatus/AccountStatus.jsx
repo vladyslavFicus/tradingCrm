@@ -16,10 +16,14 @@ const initialState = {
 class AccountStatus extends Component {
   static propTypes = {
     label: PropTypes.any.isRequired,
-    profileStatus: PropTypes.string.isRequired,
+    profileStatus: PropTypes.string,
     availableStatuses: PropTypes.array.isRequired,
     onStatusChange: PropTypes.func.isRequired,
   };
+
+  static defaultProps ={
+    profileStatus: '',
+  }
 
   state = { ...initialState };
 
@@ -105,7 +109,7 @@ class AccountStatus extends Component {
         {
           availableStatuses.length > 0 && modal.show &&
           <AccountStatusModal
-            title={'Change account status'}
+            title="Change account status"
             {...modal.params}
             onSubmit={this.handleSubmit}
             onHide={this.handleModalHide}

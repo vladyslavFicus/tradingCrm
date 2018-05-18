@@ -1,12 +1,7 @@
-import { injectReducer } from '../../../../store/reducers';
+import { asyncRoute } from '../../../../router';
 
-export default store => ({
-  path: 'list',
-  getComponent(nextState, cb) {
-    require.ensure([], (require) => {
-      injectReducer(store, { key: 'operatorsList', reducer: require('./modules/list').default });
-
-      cb(null, require('./container/Container').default);
-    }, 'operators-list');
-  },
-});
+export default asyncRoute(
+  () => import(/* webpackChunkName: "OperatorsListContainer" */ './containers/ListContainer'),
+  () => import(/* webpackChunkName: "OperatorsListReducers" */ './modules/list'),
+  'operatorsList'
+);

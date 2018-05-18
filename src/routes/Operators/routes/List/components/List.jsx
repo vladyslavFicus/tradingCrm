@@ -5,6 +5,7 @@ import moment from 'moment';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import { I18n } from 'react-redux-i18n';
+import history from '../../../../../router/history';
 import GridView, { GridViewColumn } from '../../../../../components/GridView';
 import OperatorGridFilter from './OperatorGridFilter';
 import {
@@ -27,7 +28,6 @@ class List extends Component {
     isLoading: PropTypes.bool,
     onSubmitNewOperator: PropTypes.func.isRequired,
     fetchEntities: PropTypes.func.isRequired,
-    router: PropTypes.object,
     filterValues: PropTypes.object,
     list: PropTypes.object,
     locale: PropTypes.string.isRequired,
@@ -38,7 +38,6 @@ class List extends Component {
   };
   static defaultProps = {
     isLoading: false,
-    router: null,
     filterValues: null,
     list: null,
   };
@@ -84,7 +83,7 @@ class List extends Component {
 
   handleSubmitNewOperator = async ({ department, role, ...data }) => {
     const {
-      onSubmitNewOperator, router, modals, addAuthority, notify,
+      onSubmitNewOperator, modals, addAuthority, notify,
     } = this.props;
     const action = await onSubmitNewOperator({ ...data, department, role });
 
@@ -116,7 +115,7 @@ class List extends Component {
       });
     }
 
-    router.push(`/operators/${uuid}/profile`);
+    history.push(`/operators/${uuid}/profile`);
   };
 
   handleOpenCreateModal = async () => {

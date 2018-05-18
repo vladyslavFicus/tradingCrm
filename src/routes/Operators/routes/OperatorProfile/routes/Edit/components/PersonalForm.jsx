@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Field, reduxForm } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
@@ -7,7 +7,7 @@ import { createValidator, translateLabels } from '../../../../../../../utils/val
 import { personalFormAttributeLabels as attributeLabels } from './constants';
 import countries from '../../../../../../../utils/countryList';
 
-class PersonalForm extends Component {
+class PersonalForm extends PureComponent {
   static propTypes = {
     handleSubmit: PropTypes.func,
     onSubmit: PropTypes.func.isRequired,

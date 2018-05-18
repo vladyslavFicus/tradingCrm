@@ -16,8 +16,10 @@ const manageDepartmentsPermissions = [
 class View extends Component {
   static propTypes = {
     updateProfile: PropTypes.func.isRequired,
-    params: PropTypes.shape({
-      id: PropTypes.string,
+    match: PropTypes.shape({
+      params: PropTypes.shape({
+        id: PropTypes.string.isRequired,
+      }).isRequired,
     }).isRequired,
     profile: PropTypes.shape({
       data: PropTypes.operatorProfile,
@@ -40,10 +42,12 @@ class View extends Component {
     this.props.fetchAuthoritiesOptions();
   }
 
-  handleSubmit = data => this.props.updateProfile(this.props.params.id, data);
+  handleSubmit = data => this.props.updateProfile(this.props.match.params.id, data);
 
   handleDeleteAuthority = async (department, role) => {
-    const { params: { id: operatorUUID }, fetchAuthority, deleteAuthority, notify } = this.props;
+    const {
+      match: { params: { id: operatorUUID } }, fetchAuthority, deleteAuthority, notify,
+    } = this.props;
     const deleteAuthorityAction = await deleteAuthority(operatorUUID, department, role);
 
     if (deleteAuthorityAction.error) {
@@ -72,7 +76,9 @@ class View extends Component {
   };
 
   handleAddAuthority = async (data) => {
-    const { params: { id: operatorUUID }, fetchAuthority, addAuthority, notify } = this.props;
+    const {
+      match: { params: { id: operatorUUID } }, fetchAuthority, addAuthority, notify,
+    } = this.props;
 
     const addAuthorityAction = await addAuthority(operatorUUID, data);
 

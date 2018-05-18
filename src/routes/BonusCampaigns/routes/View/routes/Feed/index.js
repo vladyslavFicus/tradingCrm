@@ -1,8 +1,4 @@
-export default () => ({
-  path: 'feed',
-  getComponent(nextState, cb) {
-    require.ensure([], (require) => {
-      cb(null, require('./components/View').default);
-    }, 'bonus-campaign-feed');
-  },
-});
+import { asyncRoute } from '../../../../../../router';
+
+export default asyncRoute(() => import(/* webpackChunkName: "BonusCampaignFeed" */ './components/Feed'));
+

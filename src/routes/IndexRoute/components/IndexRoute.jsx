@@ -17,6 +17,7 @@ import SetPassword from '../../SetPassword';
 import ResetPassword from '../../ResetPassword';
 import Campaigns from '../../Campaigns';
 import BonusCampaigns from '../../BonusCampaigns';
+import Operators from '../../Operators';
 
 class IndexRoute extends PureComponent {
   static propTypes = {
@@ -56,6 +57,7 @@ class IndexRoute extends PureComponent {
           <AppRoute path="/campaigns" layout={MainLayout} component={Campaigns} checkAuth />
           <AppRoute path="/transactions" layout={MainLayout} component={Transactions} checkAuth />
           <AppRoute path="/settings" layout={MainLayout} component={Settings} checkAuth />
+          <AppRoute path="/operators" layout={MainLayout} component={Operators} checkAuth />
           <Route path="/logout" component={Logout} checkAuth />
           {/* Public */}
           <AppRoute path="/sign-in" layout={BlackLayout} component={SignIn} />

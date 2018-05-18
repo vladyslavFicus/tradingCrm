@@ -8,7 +8,9 @@ import { SelectField } from '../../../../../../components/ReduxForm';
 import renderLabel from '../../../../../../utils/renderLabel';
 import { attributeLabels } from './constants';
 
-const AccountStatusModal = ({ action, reasons, title, onHide, onSubmit, handleSubmit, invalid }) => (
+const AccountStatusModal = ({
+  action, reasons, title, onHide, onSubmit, handleSubmit, invalid,
+}) => (
   <Modal isOpen toggle={onHide}>
     <form onSubmit={handleSubmit(onSubmit)}>
       {
