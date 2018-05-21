@@ -8,6 +8,7 @@ import PopoverButton from '../../../../../../../components/PopoverButton';
 import { entities, entitiesPrefixes } from '../../../../../../../constants/uuid';
 import Uuid from '../../../../../../../components/Uuid';
 import TabHeader from '../../../../../../../components/TabHeader';
+import history from '../../../../../../../router/history';
 
 class View extends Component {
   static propTypes = {
@@ -42,7 +43,6 @@ class View extends Component {
   };
 
   state = {
-    filters: {},
     page: 0,
     size: 10,
   };
@@ -67,21 +67,11 @@ class View extends Component {
     }, this.handleRefresh());
   };
 
-  handleRefresh = () => {
-    this.props.notes.refetch({
-      searchValue: undefined,
-      targetType: undefined,
-      from: undefined,
-      to: undefined,
-      ...this.state.filters,
-      page: this.state.page,
-      size: this.state.size,
-    });
+  handleRefresh = (filters = {}) => {
+    history.replace({ query: { filters } });
   }
 
-  handleFiltersChanged = (filters = {}) => {
-    this.setState({ filters, page: 0 }, () => this.handleRefresh());
-  };
+  handleFiltersChanged = (filters = {}) => this.handleRefresh(filters);
 
   handlePageChanged = () => {
     const {
