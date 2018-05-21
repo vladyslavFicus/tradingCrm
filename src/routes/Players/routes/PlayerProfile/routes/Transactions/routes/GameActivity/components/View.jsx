@@ -8,7 +8,6 @@ import Amount from '../../../../../../../../../components/Amount';
 import Uuid from '../../../../../../../../../components/Uuid';
 import FilterForm from './FilterForm';
 import GameRoundType from './GameRoundType/GameRoundType';
-import StickyNavigation from '../../../../../components/StickyNavigation';
 import './View.scss';
 
 class View extends Component {
@@ -36,7 +35,6 @@ class View extends Component {
     fetchGameActivity: PropTypes.func.isRequired,
     exportGameActivity: PropTypes.func.isRequired,
     locale: PropTypes.string.isRequired,
-    subTabRoutes: PropTypes.arrayOf(PropTypes.subTabRouteEntity).isRequired,
     filterErrors: PropTypes.objectOf(PropTypes.string).isRequired,
     notify: PropTypes.func.isRequired,
     fetchFilters: PropTypes.func.isRequired,
@@ -44,6 +42,7 @@ class View extends Component {
   };
   static contextTypes = {
     cacheChildrenComponent: PropTypes.func.isRequired,
+    setRenderActions: PropTypes.func.isRequired,
   };
 
   state = {
@@ -57,15 +56,30 @@ class View extends Component {
   }
 
   componentDidMount() {
-    const { fetchGames, fetchFilters, match: { params: { id } } } = this.props;
+    const {
+      fetchGames,
+      fetchFilters,
+      activity: { exporting },
+      match: { params: { id } },
+    } = this.props;
 
     fetchGames();
     fetchFilters(id);
+    this.context.setRenderActions(() => (
+      <button
+        disabled={exporting}
+        className="btn btn-sm btn-default-outline"
+        onClick={this.handleExportClick}
+      >
+        {I18n.t('COMMON.EXPORT')}
+      </button>
+    ));
   }
 
 
   componentWillUnmount() {
     this.context.cacheChildrenComponent(null);
+    this.context.setRenderActions(null);
   }
 
   handleRefresh = () => {
@@ -235,27 +249,16 @@ class View extends Component {
 
   render() {
     const {
-      activity: { entities, exporting, noResults },
+      activity: { entities, noResults },
       filters: {
         data: { games, aggregators, providers },
       },
       games: { entities: gamesList },
       locale,
-      subTabRoutes,
     } = this.props;
 
     return (
       <div>
-        <StickyNavigation links={subTabRoutes}>
-          <button
-            disabled={exporting}
-            className="btn btn-sm btn-default-outline"
-            onClick={this.handleExportClick}
-          >
-            {I18n.t('COMMON.EXPORT')}
-          </button>
-        </StickyNavigation>
-
         <FilterForm
           providers={providers}
           aggregators={aggregators}

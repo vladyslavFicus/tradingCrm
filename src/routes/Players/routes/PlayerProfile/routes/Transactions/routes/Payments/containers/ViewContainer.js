@@ -7,7 +7,6 @@ import { actionCreators as locationActionCreators } from '../../../../../../../.
 const mapStateToProps = ({
   userTransactions,
   profile: { profile, playerLimits },
-  userTransactionsSubTabs: { tabs: subTabRoutes },
   i18n: { locale },
 }) => ({
   ...userTransactions,
@@ -15,7 +14,6 @@ const mapStateToProps = ({
   currencyCode: profile.data.currencyCode,
   playerProfile: profile.data,
   playerLimits,
-  subTabRoutes,
   paymentActionReasons: {
     [paymentActions.REJECT]: rejectReasons,
     [paymentActions.CHARGEBACK]: chargebackReasons,

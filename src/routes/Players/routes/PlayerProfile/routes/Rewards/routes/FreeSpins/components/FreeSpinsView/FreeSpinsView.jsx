@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { I18n } from 'react-redux-i18n';
 import { SubmissionError } from 'redux-form';
 import FreeSpinMainInfo from '../FreeSpinMainInfo';
@@ -19,7 +19,6 @@ import recognizeFieldError from '../../../../../../../../../../utils/recognizeFi
 import FreeSpinGameInfo from '../FreeSpinGameInfo';
 import { aggregators, mapResponseErrorToField } from '../../constants';
 import { moneyTypeUsage } from '../../../../../../../../../../constants/bonus';
-import StickyNavigation from '../../../../../../components/StickyNavigation';
 
 const modalInitialState = { name: null, params: {} };
 const MODAL_CREATE = 'create-modal';
@@ -63,7 +62,6 @@ class FreeSpinsView extends Component {
     createFreeSpinTemplate: PropTypes.func.isRequired,
     assignFreeSpinTemplate: PropTypes.func.isRequired,
     templates: PropTypes.arrayOf(PropTypes.freeSpinListEntity),
-    subTabRoutes: PropTypes.arrayOf(PropTypes.subTabRouteEntity).isRequired,
   };
   static defaultProps = {
     templates: [],
@@ -76,6 +74,7 @@ class FreeSpinsView extends Component {
     onAddNote: PropTypes.func.isRequired,
     addNotification: PropTypes.func.isRequired,
     cacheChildrenComponent: PropTypes.func.isRequired,
+    setRenderActions: PropTypes.func.isRequired,
   };
 
   state = {
@@ -93,6 +92,24 @@ class FreeSpinsView extends Component {
     this.handleRefresh();
     this.props.fetchGames();
     this.props.fetchFilters(this.props.match.params.id);
+
+    this.context.setRenderActions(() => (
+      <Fragment>
+        <button
+          disabled={this.props.list.exporting}
+          className="btn btn-default-outline btn-sm"
+          onClick={this.handleExportButtonClick}
+        >
+          {I18n.t('PLAYER_PROFILE.FREE_SPINS.EXPORT_BUTTON')}
+        </button>
+        <button
+          className="btn btn-primary-outline margin-left-15 btn-sm"
+          onClick={this.handleCreateButtonClick}
+        >
+          {I18n.t('PLAYER_PROFILE.FREE_SPINS.MANUAL_FREE_SPIN_BUTTON')}
+        </button>
+      </Fragment>
+    ));
   }
 
   componentWillReceiveProps(nextProps) {
@@ -110,6 +127,7 @@ class FreeSpinsView extends Component {
   componentWillUnmount() {
     this.context.setNoteChangedCallback(null);
     this.context.cacheChildrenComponent(null);
+    this.context.setRenderActions(null);
   }
 
   handleNoteClick = (target, note, data) => {
@@ -345,7 +363,7 @@ class FreeSpinsView extends Component {
     const { modal, filters } = this.state;
     const {
       list: {
-        entities, exporting, newEntityNote, noResults,
+        entities, newEntityNote, noResults, exporting,
       },
       filters: { data: { games: gamesFilterValues, providers: providersFilterValues } },
       providers,
@@ -357,30 +375,12 @@ class FreeSpinsView extends Component {
       fetchFreeSpinTemplates,
       fetchFreeSpinTemplate,
       templates,
-      subTabRoutes,
     } = this.props;
     const allowActions = Object.keys(filters).filter(i => filters[i]).length > 0;
 
     return (
-      <div>
-        <StickyNavigation links={subTabRoutes}>
-          <div>
-            <button
-              disabled={exporting || !allowActions}
-              className="btn btn-default-outline btn-sm"
-              onClick={this.handleExportButtonClick}
-            >
-              {I18n.t('PLAYER_PROFILE.FREE_SPINS.EXPORT_BUTTON')}
-            </button>
-            <button
-              className="btn btn-primary-outline margin-left-15 btn-sm"
-              onClick={this.handleCreateButtonClick}
-            >
-              {I18n.t('PLAYER_PROFILE.FREE_SPINS.MANUAL_FREE_SPIN_BUTTON')}
-            </button>
-          </div>
-        </StickyNavigation>
-
+      <Fragment>
+        {console.log(exporting)}
         <FreeSpinsFilterForm
           providers={providersFilterValues}
           games={gamesFilterValues}
@@ -463,7 +463,7 @@ class FreeSpinsView extends Component {
             onClose={this.handleModalClose}
           />
         }
-      </div>
+      </Fragment>
     );
   }
 }

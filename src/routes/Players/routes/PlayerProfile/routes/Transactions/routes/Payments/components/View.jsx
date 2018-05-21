@@ -21,7 +21,6 @@ import renderLabel from '../../../../../../../../../utils/renderLabel';
 import GridPaymentInfo from '../../../../../../../../../components/GridPaymentInfo';
 import GridPaymentAmount from '../../../../../../../../../components/GridPaymentAmount';
 import IpFlag from '../../../../../../../../../components/IpFlag';
-import StickyNavigation from '../../../../../components/StickyNavigation';
 
 const MODAL_PAYMENT_DETAIL = 'payment-detail';
 const MODAL_PAYMENT_ACTION_REASON = 'payment-action-reason';
@@ -74,7 +73,6 @@ class View extends Component {
     }).isRequired,
     locale: PropTypes.string.isRequired,
     fetchActiveBonus: PropTypes.func.isRequired,
-    subTabRoutes: PropTypes.arrayOf(PropTypes.subTabRouteEntity).isRequired,
   };
   static defaultProps = {
     newPaymentNote: null,
@@ -86,6 +84,7 @@ class View extends Component {
     onEditNoteClick: PropTypes.func.isRequired,
     setNoteChangedCallback: PropTypes.func.isRequired,
     cacheChildrenComponent: PropTypes.func.isRequired,
+    setRenderActions: PropTypes.func.isRequired,
   };
 
   state = {
@@ -125,12 +124,19 @@ class View extends Component {
         });
       }
     }
+
+    this.context.setRenderActions(() => (
+      <button className="btn btn-sm btn-primary-outline" onClick={this.handleOpenAddPaymentModal}>
+            + Add transaction
+      </button>
+    ));
   }
 
   componentWillUnmount() {
     this.context.setNoteChangedCallback(null);
     this.context.cacheChildrenComponent(null);
     this.props.resetAll();
+    this.context.setRenderActions(null);
   }
 
   handleNoteClick = (target, note, data) => {
@@ -377,16 +383,10 @@ class View extends Component {
       playerProfile,
       playerLimits,
       locale,
-      subTabRoutes,
     } = this.props;
 
     return (
       <div>
-        <StickyNavigation links={subTabRoutes}>
-          <button className="btn btn-sm btn-primary-outline" onClick={this.handleOpenAddPaymentModal}>
-            + Add transaction
-          </button>
-        </StickyNavigation>
 
         <TransactionsFilterForm
           onSubmit={this.handleFiltersChanged}

@@ -7,11 +7,9 @@ import { withNotifications } from '../../../../../../../../../components/HighOrd
 
 const mapStateToProps = state => ({
   userGamingActivity,
-  userTransactionsSubTabs: { tabs: subTabRoutes },
   i18n,
 }) => ({
   ...userGamingActivity,
-  subTabRoutes,
   ...i18n,
   filterErrors: getFormSyncErrors('userGameActivityFilter')(state),
 });

@@ -135,9 +135,7 @@ function exportFreeSpins(filters = {}) {
       sort: 'startDate,desc',
     };
 
-    const queryString = buildQueryString(
-      _.omitBy(queryParams, val => !val),
-    );
+    const queryString = buildQueryString(_.omitBy(queryParams, val => !val));
 
     try {
       const response = await fetch(`${getApiRoot()}/free_spin/free-spins/${filters.playerUUID}?${queryString}`, {
