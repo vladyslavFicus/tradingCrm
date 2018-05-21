@@ -250,8 +250,8 @@ PropTypes.navItem = PropTypes.shape({
   items: PropTypes.arrayOf(PropTypes.navSubItem),
 });
 PropTypes.userPanelItem = PropTypes.shape({
-  fullName: PropTypes.string.isRequired,
-  username: PropTypes.string.isRequired,
+  fullName: PropTypes.string,
+  username: PropTypes.string,
   uuid: PropTypes.string.isRequired,
 });
 PropTypes.auditEntity = PropTypes.shape({

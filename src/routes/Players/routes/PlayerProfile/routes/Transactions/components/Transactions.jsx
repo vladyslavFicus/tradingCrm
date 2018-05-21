@@ -68,7 +68,7 @@ class Transactions extends PureComponent {
           </If>
         </StickyNavigation>
         <Switch>
-          <Route path={`${path}/payments`} component={Payments} />
+          <Route path={`${path}/payments/:paymentUUID?`} component={Payments} />
           <Route path={`${path}/game-activity`} component={GameActivity} />
           <Redirect to={redirectUrl} />
         </Switch>

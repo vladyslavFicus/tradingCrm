@@ -338,7 +338,7 @@ class View extends Component {
             {data.paymentAccount}
           </span>
         }
-      </div>
+        </div>
   );
 
   renderDevice = (data) => {
