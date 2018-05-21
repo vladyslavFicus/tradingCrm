@@ -7,8 +7,9 @@ export default compose(
   graphql(cmsProvidersQuery, { name: 'providers' }),
   graphql(cmsGamesQuery, {
     name: 'games',
-    options: () => ({
+    options: ({ location: { query } }) => ({
       variables: {
+        ...query ? query.filters : {},
         limit: 25,
         offset: 0,
         brandId: getBrandId(),

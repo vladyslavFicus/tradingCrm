@@ -15,10 +15,11 @@ const mapStateToProps = ({
 export default compose(
   connect(mapStateToProps, noteTypesActionCreators),
   graphql(notesQuery, {
-    options: ({ match: { params: { id: playerUUID } } }) => ({
+    options: ({ match: { params: { id: playerUUID } }, location: { query } }) => ({
       fetchPolicy: 'cache-and-network',
       variables: {
         playerUUID,
+        ...query ? query.filters : {},
         size: 10,
         page: 0,
       },
