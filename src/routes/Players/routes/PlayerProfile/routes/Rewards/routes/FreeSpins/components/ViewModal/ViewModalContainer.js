@@ -1,8 +1,8 @@
 import { graphql, compose } from 'react-apollo';
 import { connect } from 'react-redux';
 import ViewModal from './ViewModal';
-import { freeSpinQuery } from '../../../../../../../../graphql/queries/freeSpin';
-import { currencyQuery } from '../../../../../../../../graphql/queries/options';
+import { freeSpinQuery } from '../../../../../../../../../../graphql/queries/freeSpin';
+import { currencyQuery } from '../../../../../../../../../../graphql/queries/options';
 
 export default compose(
   connect(({ auth: { brandId } }) => ({ brandId })),

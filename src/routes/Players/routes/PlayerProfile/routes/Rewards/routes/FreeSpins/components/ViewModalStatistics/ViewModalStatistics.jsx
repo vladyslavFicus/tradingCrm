@@ -26,7 +26,7 @@ class ViewModalStatistics extends Component {
           <div className="modal-tab-label">
             {I18n.t('PLAYER_PROFILE.FREE_SPINS.VIEW_MODAL.STATISTICS_GRANTED_TITLE')}
           </div>
-          <span className="modal-footer-tabs__amount"> -0\
+          <span className="modal-footer-tabs__amount">
             {I18n.t('PLAYER_PROFILE.FREE_SPINS.VIEW_MODAL.STATISTICS_GRANTED_COUNT', { count: freeSpinsAmount })}
           </span>
         </div>
