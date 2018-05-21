@@ -1,4 +1,4 @@
-import { browserHistory } from 'react-router';
+import history from '../router/history';
 import { actionTypes as windowActionTypes } from '../redux/modules/window';
 import parseJson from '../utils/parseJson';
 
@@ -13,7 +13,7 @@ export default (store) => {
             if (action.type === windowActionTypes.OPERATOR_ACTIVITY) {
               window.dispatchEvent(new CustomEvent('mousemove'));
             } else if (action.type === windowActionTypes.NAVIGATE_TO) {
-              browserHistory.push(action.payload);
+              history.push(action.payload);
             } else {
               store.dispatch(action);
             }

@@ -13,7 +13,7 @@ import { floatNormalize, intNormalize } from '../../../../../../../utils/inputNo
 import normalizeNumber from '../../../../../../../utils/normalizeNumber';
 import { attributePlaceholders } from '../Bonus/constants';
 import Bonus from './Bonus';
-import { aggregators } from '../../../../../../../routes/UserProfile/routes/Rewards/routes/FreeSpins/constants';
+import { aggregators } from '../../../../../../../routes/Players/routes/PlayerProfile/routes/Rewards/routes/FreeSpins/constants';
 import Uuid from '../../../../../../../components/Uuid';
 
 class FreeSpin extends Component {
@@ -639,7 +639,6 @@ class FreeSpin extends Component {
             label={I18n.t(attributeLabels.freeSpins)}
             component={InputField}
             normalize={floatNormalize}
-            position="vertical"
             disabled={!customTemplate}
             showErrorMessage={false}
           />
@@ -651,7 +650,6 @@ class FreeSpin extends Component {
             normalize={intNormalize}
             label={I18n.t(attributeLabels.freeSpinLifeTime)}
             component={InputField}
-            position="vertical"
             disabled={!customTemplate}
             className="col-6"
             inputAddon={I18n.t(attributePlaceholders.days)}
@@ -666,7 +664,6 @@ class FreeSpin extends Component {
             component={InputField}
             className="col-6"
             normalize={floatNormalize}
-            position="vertical"
             disabled={!customTemplate}
             showErrorMessage={false}
           />
@@ -676,8 +673,6 @@ class FreeSpin extends Component {
             type="number"
             className="col-6"
             label="lines per spin"
-            labelClassName="form-label"
-            position="vertical"
             component={SelectField}
             normalize={floatNormalize}
             showErrorMessage={false}
@@ -705,7 +700,6 @@ class FreeSpin extends Component {
             label={I18n.t(attributeLabels.coins)}
             component={InputField}
             normalize={intNormalize}
-            position="vertical"
             disabled={!customTemplate}
             showErrorMessage={false}
           />
@@ -727,7 +721,6 @@ class FreeSpin extends Component {
                   label={I18n.t(attributeLabels.freeSpins)}
                   component={InputField}
                   normalize={floatNormalize}
-                  position="vertical"
                   disabled={!customTemplate}
                   showErrorMessage={false}
                 />
@@ -740,7 +733,6 @@ class FreeSpin extends Component {
                 normalize={intNormalize}
                 label={I18n.t(attributeLabels.freeSpinLifeTime)}
                 component={InputField}
-                position="vertical"
                 disabled={disabled}
                 className="col-6"
                 inputAddon={I18n.t(attributePlaceholders.days)}
@@ -755,7 +747,6 @@ class FreeSpin extends Component {
                   type="number"
                   label="lines per spin"
                   labelClassName="form-label"
-                  position="vertical"
                   component={SelectField}
                   normalize={floatNormalize}
                   showErrorMessage={false}
@@ -783,7 +774,6 @@ class FreeSpin extends Component {
                   step="any"
                   label={I18n.t(attributeLabels.betPerLine)}
                   labelClassName="form-label"
-                  position="vertical"
                   component={InputField}
                   normalize={floatNormalize}
                   placeholder="0.00"

@@ -1,8 +1,4 @@
-export default () => ({
-  path: 'profile',
-  getComponent(nextState, cb) {
-    require.ensure([], (require) => {
-      cb(null, require('./container/ViewContainer').default);
-    }, 'operator-profile-view');
-  },
-});
+import { asyncRoute } from '../../../../../../router';
+
+export default asyncRoute(() => import(/* webpackChunkName: "OperatorEditContainer" */ './containers/EditContainer'));
+

@@ -1,5 +1,5 @@
-import { browserHistory } from 'react-router';
 import _ from 'lodash';
+import history from '../router/history';
 import { actionCreators as authActionCreators, actionTypes as authActionTypes } from '../redux/modules/auth';
 import { actionCreators as windowActionCreators } from '../redux/modules/window';
 import timestamp from '../utils/timestamp';
@@ -20,7 +20,7 @@ const logout = (store) => {
     const returnUrl = location && location.pathname && !/(sign-in)/.test(location.pathname)
       ? location.pathname
       : '';
-    browserHistory.push(`/sign-in${returnUrl ? `?returnUrl=${returnUrl}` : ''}`);
+    history.push(`/sign-in${returnUrl ? `?returnUrl=${returnUrl}` : ''}`);
   }
 };
 export default ({ store, delay = 1200 }) => {

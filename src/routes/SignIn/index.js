@@ -1,11 +1,7 @@
-import { injectReducer } from '../../store/reducers';
+import { asyncRoute } from '../../router';
 
-export default store => ({
-  path: 'sign-in',
-  getComponent(nextState, cb) {
-    require.ensure([], (require) => {
-      injectReducer(store, { key: 'signIn', reducer: require('./modules/signIn').default });
-      cb(null, require('./containers/SignInContainer').default);
-    }, 'sign-in');
-  },
-});
+export default asyncRoute(
+  () => import(/* webpackChunkName: "SignInContainer" */ './containers/SignInContainer'),
+  () => import(/* webpackChunkName: "SignInReducers" */ './modules/signIn'),
+  'signIn'
+);

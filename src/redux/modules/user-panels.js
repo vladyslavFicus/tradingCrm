@@ -1,11 +1,7 @@
 import { I18n } from 'react-redux-i18n';
-import { actionTypes as locationActionTypes } from './location';
 import createReducer from '../../utils/createReducer';
 import { actionTypes as windowActionTypes } from '../modules/window';
 import { actionTypes as authActionTypes } from './auth';
-
-const PROFILE_ROUTE_PREFIX = 'users';
-const profilePathnameRegExp = new RegExp(`^\\/${PROFILE_ROUTE_PREFIX}\\/([^\\/]+)\\/?.*`, 'i');
 
 const KEY = 'user-panels';
 const ADD = `${KEY}/add`;
@@ -83,8 +79,7 @@ const actionHandlers = {
     const panelsByManager = state.items.filter(panel =>
       panel.auth &&
       panel.auth.brandId === action.payload.auth.brandId &&
-      panel.auth.uuid === action.payload.auth.uuid
-    );
+      panel.auth.uuid === action.payload.auth.uuid);
 
     const existIndex = panelsByManager.findIndex(item => item.uuid === action.payload.uuid);
 
@@ -204,15 +199,6 @@ const actionHandlers = {
   },
 };
 
-if (!window.isFrame) {
-  actionHandlers[locationActionTypes.LOCATION_CHANGE] = (state, action) => {
-    if (action.payload && action.payload.state && action.payload.state.ignoreByUsersPanel) {
-      return state;
-    }
-
-    return { ...state, activeIndex: null };
-  };
-}
 const actionTypes = {
   ADD,
   REMOVE,

@@ -1,8 +1,4 @@
-export default () => ({
-  path: '*',
-  getComponent(nextState, cb) {
-    require.ensure([], (require) => {
-      cb(null, require('./container/Container').default);
-    }, 'not-found');
-  },
-});
+import { asyncRoute } from '../../router';
+
+export default asyncRoute(() =>
+  import(/* webpackChunkName: "NotFoundContainer" */ './containers/NotFoundContainer'));

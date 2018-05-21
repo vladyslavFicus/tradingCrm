@@ -1211,7 +1211,8 @@
       "ACTIVITY_DATE_TO": "Activity date to",
       "SEARCH_BY_PLACEHOLDER": "Campaign, Operator",
       "DEPOSIT_NUMBER_OPTION": "deposit",
-      "DEPOSIT_NUMBER": "Deposit number"
+      "DEPOSIT_NUMBER": "Deposit number",
+      "PROMO_CODE": "Promocode"
     },
     "BUTTON_CREATE_CAMPAIGN": "+ Add campaign",
     "VIEW": {

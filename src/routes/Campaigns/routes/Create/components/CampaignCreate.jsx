@@ -6,6 +6,7 @@ import Header from './Header';
 import Form from '../../../components/Form';
 import asyncForEach from '../../../../../utils/asyncForEach';
 import { fulfillmentTypes } from '../../../constants';
+import history from '../../../../../router/history';
 
 class CampaignCreate extends PureComponent {
   static propTypes = {
@@ -13,12 +14,6 @@ class CampaignCreate extends PureComponent {
     addWageringFulfillment: PropTypes.func.isRequired,
     addDepositFulfillment: PropTypes.func.isRequired,
     createCampaign: PropTypes.func.isRequired,
-  };
-
-  static contextTypes = {
-    router: PropTypes.shape({
-      push: PropTypes.func.isRequired,
-    }).isRequired,
   };
 
   handleCreateCampaign = async (formData) => {
@@ -70,7 +65,7 @@ class CampaignCreate extends PureComponent {
     if (!error) {
       const { uuid } = get(action, 'data.campaign.create.data');
 
-      this.context.router.push(`/campaigns/view/${uuid}/settings`);
+      history.push(`/campaigns/view/${uuid}/settings`);
     }
   };
 

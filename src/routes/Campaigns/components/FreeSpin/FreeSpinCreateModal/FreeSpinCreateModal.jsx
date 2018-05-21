@@ -310,14 +310,12 @@ class FreeSpinCreateModal extends Component {
             id="campaign-freespin-create-modal-name"
             label={I18n.t('CAMPAIGNS.FREE_SPIN.NAME')}
             component={InputField}
-            position="vertical"
           />
           <div className="row">
             <Field
               name="aggregatorId"
               disabled={!Object.keys(aggregatorOptions).length}
               label={I18n.t(attributeLabels.aggregatorId)}
-              position="vertical"
               component={SelectField}
               showErrorMessage={false}
               className="col-md-4"
@@ -333,7 +331,6 @@ class FreeSpinCreateModal extends Component {
             <Field
               name="providerId"
               label={I18n.t(attributeLabels.providerId)}
-              position="vertical"
               disabled={!providers.length}
               component={SelectField}
               showErrorMessage={false}
@@ -352,7 +349,6 @@ class FreeSpinCreateModal extends Component {
               name="gameId"
               label={I18n.t(attributeLabels.gameId)}
               disabled={!gameList.length}
-              position="vertical"
               onChange={this.handleChangeGame}
               component={SelectField}
               className="col-md-4"
@@ -377,7 +373,6 @@ class FreeSpinCreateModal extends Component {
                     label={I18n.t(attributeLabels.freeSpins)}
                     component={InputField}
                     normalize={floatNormalize}
-                    position="vertical"
                     className="col-md-6"
                     id="campaign-freespin-create-modal-freespins-amount"
                   />
@@ -388,7 +383,6 @@ class FreeSpinCreateModal extends Component {
                     normalize={intNormalize}
                     label={I18n.t(attributeLabels.freeSpinLifeTime)}
                     component={InputField}
-                    position="vertical"
                     id="campaign-freespin-create-modal-freespin-lifetime"
                     className="col-md-6"
                     inputAddon={I18n.t(attributePlaceholders.days)}
@@ -408,7 +402,6 @@ class FreeSpinCreateModal extends Component {
                       type="number"
                       step="any"
                       label={I18n.t(attributeLabels.denomination)}
-                      position="vertical"
                       component={InputField}
                       normalize={floatNormalize}
                       showErrorMessage={false}
@@ -424,7 +417,6 @@ class FreeSpinCreateModal extends Component {
                       label={I18n.t(attributeLabels.coins)}
                       component={InputField}
                       normalize={intNormalize}
-                      position="vertical"
                       className="col-md-6"
                       id="campaign-freespin-create-modal-coins"
                     />
@@ -434,7 +426,6 @@ class FreeSpinCreateModal extends Component {
                       name="linesPerSpin"
                       type="number"
                       label={I18n.t(attributeLabels.linesPerSpin)}
-                      position="vertical"
                       component={SelectField}
                       normalize={floatNormalize}
                       showErrorMessage={false}
@@ -466,7 +457,6 @@ class FreeSpinCreateModal extends Component {
                   type="select"
                   parse={normalizeNumber}
                   component={SelectField}
-                  position="vertical"
                   disabled={betLevels.length <= 1}
                   className="col-md-6"
                   id="campaign-freespin-create-modal-bet-level"
@@ -481,7 +471,6 @@ class FreeSpinCreateModal extends Component {
                   type="select"
                   parse={normalizeNumber}
                   component={SelectField}
-                  position="vertical"
                   disabled={coinSizes.length <= 1}
                   className="col-md-6"
                   id="campaign-freespin-create-modal-coin-size"
@@ -495,7 +484,6 @@ class FreeSpinCreateModal extends Component {
                   label={I18n.t(attributeLabels.pageCode)}
                   type="select"
                   component={SelectField}
-                  position="vertical"
                   disabled={!pageCodes.length}
                   className="col-md-6"
                   id="campaign-freespin-create-modal-page-code"
@@ -510,7 +498,6 @@ class FreeSpinCreateModal extends Component {
                   type="number"
                   step="any"
                   label={I18n.t(attributeLabels.betMultiplier)}
-                  position="vertical"
                   component={InputField}
                   normalize={floatNormalize}
                   showErrorMessage={false}
@@ -526,7 +513,6 @@ class FreeSpinCreateModal extends Component {
                   normalize={intNormalize}
                   label={I18n.t(attributeLabels.rhfpBet)}
                   component={InputField}
-                  position="vertical"
                   className="col-md-6"
                   id="campaign-freespin-create-modal-rhfp-bet"
                 />
@@ -538,7 +524,6 @@ class FreeSpinCreateModal extends Component {
                   placeholder=""
                   label={I18n.t(attributeLabels.comment)}
                   component={InputField}
-                  position="vertical"
                   className="col-md-6"
                   id="campaign-freespin-create-modal-comment"
                 />
@@ -550,7 +535,6 @@ class FreeSpinCreateModal extends Component {
                   step="any"
                   placeholder="0"
                   label={I18n.t(attributeLabels.nearestCost)}
-                  position="vertical"
                   component={InputField}
                   normalize={floatNormalize}
                   className="col-md-6"
@@ -564,7 +548,6 @@ class FreeSpinCreateModal extends Component {
                   placeholder=""
                   label={I18n.t(attributeLabels.displayLine1)}
                   component={InputField}
-                  position="vertical"
                   className="col-md-6"
                   id="campaign-freespin-create-modal-displayLine1"
                 />
@@ -576,7 +559,6 @@ class FreeSpinCreateModal extends Component {
                   placeholder=""
                   label={I18n.t(attributeLabels.displayLine2)}
                   component={InputField}
-                  position="vertical"
                   className="col-md-6"
                   id="campaign-freespin-create-modal-displayLine2"
                 />

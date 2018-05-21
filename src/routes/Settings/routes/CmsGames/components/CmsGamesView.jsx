@@ -17,6 +17,7 @@ import {
 import renderLabel from '../../../../../utils/renderLabel';
 import CmsGamesGridViewFilter from './CmsGamesGridViewFilter';
 import Loader from './Loader';
+import history from '../../../../../router/history';
 
 class CmsGamesView extends Component {
   static propTypes = {
@@ -34,21 +35,24 @@ class CmsGamesView extends Component {
       refetch: PropTypes.func.isRequired,
       onLoadMore: PropTypes.func.isRequired,
       loading: PropTypes.bool,
-      cmsGames: PropTypes.arrayOf(PropTypes.shape({
-        internalGameId: PropTypes.string.isRequired,
-        title: PropTypes.string.isRequired,
-        alias: PropTypes.string.isRequired,
-        aggregator: PropTypes.shape({
-          name: PropTypes.string.isRequired,
-        }).isRequired,
-        provider: PropTypes.shape({
-          name: PropTypes.string.isRequired,
-        }).isRequired,
-        platform: PropTypes.string.isRequired,
-        technology: PropTypes.string.isRequired,
-        freeSpinsStatus: PropTypes.string.isRequired,
-        status: PropTypes.string.isRequired,
-      })),
+      cmsGames: PropTypes.shape({
+        offset: PropTypes.number.isRequired,
+        content: PropTypes.arrayOf(PropTypes.shape({
+          internalGameId: PropTypes.string.isRequired,
+          title: PropTypes.string.isRequired,
+          alias: PropTypes.string.isRequired,
+          aggregator: PropTypes.shape({
+            name: PropTypes.string.isRequired,
+          }).isRequired,
+          provider: PropTypes.shape({
+            name: PropTypes.string.isRequired,
+          }).isRequired,
+          platform: PropTypes.string.isRequired,
+          technology: PropTypes.string.isRequired,
+          freeSpinsStatus: PropTypes.string.isRequired,
+          status: PropTypes.string.isRequired,
+        })).isRequired,
+      }),
     }),
   };
   static defaultProps = {
@@ -66,18 +70,9 @@ class CmsGamesView extends Component {
     hasMore: true,
   };
 
-  handleFiltersChanged = (filters = {}) => {
-    return this.props.games.refetch({
-      ...filters,
-      limit: this.props.games.variables.limit,
-      offset: 0,
-    });
-  };
+  handleFiltersChanged = (filters = {}) => history.replace({ query: { filters } });
 
-  handleFilterReset = () => this.props.games.refetch({
-    limit: this.props.games.variables.limit,
-    offset: 0,
-  });
+  handleFilterReset = () => history.replace({ query: { filters: {} } });
 
   handleLoadGames = async ({ limit, offset }) => {
     const { games: { onLoadMore, variables, loading } } = this.props;
@@ -85,7 +80,7 @@ class CmsGamesView extends Component {
     if (!loading) {
       const response = await onLoadMore({ ...variables, limit, offset });
 
-      const nextGames = get(response, 'data.cmsGames', []);
+      const nextGames = get(response, 'data.cmsGames.content', []);
 
       this.setState({ hasMore: nextGames.length > 0 });
     }
@@ -195,8 +190,8 @@ class CmsGamesView extends Component {
               <OffsetGridView
                 keyName="internalGameId"
                 limit={limit}
-                offset={offset}
-                rows={cmsGames}
+                offset={get(cmsGames, 'offset')}
+                rows={get(cmsGames, 'content')}
                 hasMore={hasMore}
                 onLoadMore={this.handleLoadGames}
               >

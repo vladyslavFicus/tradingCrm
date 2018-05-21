@@ -1,8 +1,8 @@
-import { browserHistory } from 'react-router';
 import { CALL_API, isValidRSAA } from 'redux-api-middleware';
 import getSignInUrl from '../../utils/getSignInUrl';
 import { actionTypes as authActionTypes } from '../modules/auth';
 import { actionCreators as windowActionCreators } from '../modules/window';
+import history from '../../router/history';
 
 export default store => next => (action) => {
   if (isValidRSAA(action)) {
@@ -21,7 +21,7 @@ export default store => next => (action) => {
       const signInUrl = getSignInUrl(store.getState().location);
 
       if (signInUrl) {
-        browserHistory.push(signInUrl);
+        history.push(signInUrl);
 
         return;
       }

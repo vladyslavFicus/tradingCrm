@@ -3,7 +3,7 @@ import { Field } from 'redux-form';
 import { difference } from 'lodash';
 import keyMirror from 'keymirror';
 import { I18n } from 'react-redux-i18n';
-import { withRouter } from 'react-router';
+import { withRouter } from 'react-router-dom';
 import PropTypes from '../../../../../constants/propTypes';
 import { nodeTypes, nodeTypesLabels } from './constants';
 import { Bonus as BonusNode, FreeSpin as FreeSpinNode } from './Nodes';
@@ -174,8 +174,7 @@ class Container extends Component {
     return (
       <div className="col-6">
         {activeNodes.map(node =>
-          <div key={node}>{this.renderNode(node)}</div>
-        )}
+          <div key={node}>{this.renderNode(node)}</div>)}
         {
           (availableNodes.length > 0 && !activeNodes.length) &&
           <div className="row no-gutters py-5 add-campaign-setting">
