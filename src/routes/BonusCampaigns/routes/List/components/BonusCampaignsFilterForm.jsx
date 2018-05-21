@@ -10,6 +10,7 @@ import renderLabel from '../../../../../utils/renderLabel';
 import { attributeLabels, placeholders } from '../constants';
 import { InputField, SelectField, DateTimeField, RangeGroup } from '../../../../../components/ReduxForm';
 import ordinalizeNumber from '../../../../../utils/ordinalizeNumber';
+import normalizePromoCode from '../../../../../utils/normalizePromoCode';
 
 const FORM_NAME = 'bonusCampaignsFilter';
 
@@ -202,6 +203,17 @@ class BonusCampaignsFilterForm extends Component {
             isValidDate={this.endDateValidator('activityDateFrom')}
           />
         </RangeGroup>
+
+        <Field
+          name="promoCode"
+          type="text"
+          label={I18n.t(attributeLabels.promoCode)}
+          placeholder=""
+          component={InputField}
+          id="campaigns-filters-promocode"
+          className="filter-row__small"
+          normalize={normalizePromoCode}
+        />
         <div className="filter-row__button-block">
           <button
             disabled={submitting || (disabled && pristine) || isLoading}

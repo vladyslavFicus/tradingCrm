@@ -755,7 +755,16 @@
     "CUSTOM_REASON_OPTION": "Other",
     "NOTE": "Note",
     "CREATED": "Created",
-    "LAST_CHANGED": "Last changed"
+    "LAST_CHANGED": "Last changed",
+    "PAYMENT": {
+      "TYPE": {
+        "TIP": "Tip",
+        "CASH_BACK": "Cashback",
+        "DEPOSIT": "Deposit",
+        "WITHDRAW": "Withdraw",
+        "CONFISCATE": "Confiscate"
+      }
+    }
   },
   "FILES": {
     "UPLOAD_MODAL": {
@@ -1202,7 +1211,8 @@
       "ACTIVITY_DATE_TO": "Activity date to",
       "SEARCH_BY_PLACEHOLDER": "Campaign, Operator",
       "DEPOSIT_NUMBER_OPTION": "deposit",
-      "DEPOSIT_NUMBER": "Deposit number"
+      "DEPOSIT_NUMBER": "Deposit number",
+      "PROMO_CODE": "Promocode"
     },
     "BUTTON_CREATE_CAMPAIGN": "+ Add campaign",
     "VIEW": {

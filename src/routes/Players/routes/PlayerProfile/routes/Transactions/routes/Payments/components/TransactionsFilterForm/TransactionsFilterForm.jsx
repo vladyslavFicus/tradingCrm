@@ -118,9 +118,9 @@ class TransactionsFilterForm extends Component {
           component={NasSelectField}
           className="filter-row__medium"
         >
-          {Object.keys(typesLabels).map(type => (
+          {Object.keys(types).map(type => (
             <option key={type} value={type}>
-              {typesLabels[type]}
+              {renderLabel(type, typesLabels)}
             </option>
           ))}
         </Field>
@@ -176,6 +176,7 @@ class TransactionsFilterForm extends Component {
             placeholder={I18n.t(attributeLabels.startDate)}
             component={DateTimeField}
             isValidDate={this.startDateValidator}
+            pickerClassName="left-side"
           />
           <Field
             utc

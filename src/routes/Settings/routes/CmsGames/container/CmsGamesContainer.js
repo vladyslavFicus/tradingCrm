@@ -31,10 +31,16 @@ export default compose(
 
             return {
               ...prev,
-              cmsGames: [
+              ...fetchMoreResult,
+              cmsGames: {
                 ...prev.cmsGames,
                 ...fetchMoreResult.cmsGames,
-              ],
+                offset: fetchMoreResult.cmsGames.offset,
+                content: [
+                  ...prev.cmsGames.content,
+                  ...fetchMoreResult.cmsGames.content,
+                ],
+              },
             };
           },
         }),

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import moment from 'moment';
 import { SubmissionError } from 'redux-form';
 import PropTypes from '../../../../../../../../../constants/propTypes';
@@ -7,6 +7,9 @@ import {
   types as paymentTypes,
   methodsLabels,
   typesLabels,
+  customTypesProps,
+  customTypes,
+  customTypesLabels,
   typesProps,
 } from '../../../../../../../../../constants/payment';
 import TransactionStatus from '../../../../../../../../../components/TransactionStatus';
@@ -143,7 +146,10 @@ class View extends Component {
     if (note) {
       this.context.onEditNoteClick(target, note, { placement: 'left' });
     } else {
-      this.context.onAddNoteClick(data.paymentId, targetTypes.PAYMENT)(target, { placement: 'left', id: data.paymentId });
+      this.context.onAddNoteClick(data.paymentId, targetTypes.PAYMENT)(target, {
+        placement: 'left',
+        id: data.paymentId,
+      });
     }
   };
 
@@ -280,21 +286,23 @@ class View extends Component {
     />
   );
 
-  renderType = (data) => {
-    const label = typesLabels[data.paymentType] || data.paymentType;
-    const props = typesProps[data.paymentType] || {};
-
-    return (
-      <div>
-        <div {...props}> {label} </div>
-        <div className="font-size-11 text-uppercase">
-          {data.paymentSystemRefs.map((SystemRef, index) => (
-            <div key={`${SystemRef}-${index}`}>{SystemRef}</div>
-          ))}
-        </div>
+  renderType = data => (
+    <Fragment>
+      <Choose>
+        <When condition={data.transactionTag && data.transactionTag !== customTypes.NORMAL}>
+          <div {...customTypesProps[data.transactionTag]}>{renderLabel(data.transactionTag, customTypesLabels)}</div>
+        </When>
+        <Otherwise>
+          <div {...typesProps[data.paymentType]}>{renderLabel(data.paymentType, typesLabels)}</div>
+        </Otherwise>
+      </Choose>
+      <div className="font-size-11 text-uppercase">
+        {data.paymentSystemRefs.map((SystemRef, index) => (
+          <div key={`${SystemRef}-${index}`}>{SystemRef}</div>
+        ))}
       </div>
-    );
-  };
+    </Fragment>
+  );
 
   renderAmount = data => <GridPaymentAmount payment={data} />;
 
@@ -331,7 +339,7 @@ class View extends Component {
             {data.paymentAccount}
           </span>
         }
-      </div>
+        </div>
   );
 
   renderDevice = (data) => {
