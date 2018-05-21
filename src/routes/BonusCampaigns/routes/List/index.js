@@ -1,14 +1,7 @@
-import { injectReducer } from '../../../../store/reducers';
+import { asyncRoute } from '../../../../router';
 
-export default store => ({
-  getComponent(nextState, cb) {
-    require.ensure([], (require) => {
-      injectReducer(store, {
-        key: 'bonusCampaigns',
-        reducer: require('./modules').default,
-      });
-
-      cb(null, require('./container/ViewContainer').default);
-    }, 'bonus-campaign-list');
-  },
-});
+export default asyncRoute(
+  () => import(/* webpackChunkName: "BonusCampaignListContainer" */ './containers/ListContainer'),
+  () => import(/* webpackChunkName: "BonusCampaignListReducers" */ './modules'),
+  'bonusCampaigns'
+);

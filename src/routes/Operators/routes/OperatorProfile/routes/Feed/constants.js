@@ -7,6 +7,4 @@ const filterFormAttributeLabels = {
   creationDateTo: I18n.t('OPERATOR_PROFILE.FEED.FILTER_FORM.SEARCH_BY_LABEL'),
 };
 
-export {
-  filterFormAttributeLabels,
-};
+export { filterFormAttributeLabels };

@@ -1,5 +1,3 @@
-import routes from './routes';
+import { asyncRoute } from '../../router';
 
-export default store => ({
-  childRoutes: routes(store),
-});
+export default asyncRoute(() => import(/* webpackChunkName: "Transactions" */ './components/Transactions'));

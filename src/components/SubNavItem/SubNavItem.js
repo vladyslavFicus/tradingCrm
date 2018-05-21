@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import { I18n } from 'react-redux-i18n';
 import PropTypes from '../../constants/propTypes';
 

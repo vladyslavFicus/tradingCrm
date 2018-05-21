@@ -2,17 +2,14 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { I18n } from 'react-redux-i18n';
 import { playerProfileViewTypes } from '../constants';
+import history from '../router/history';
 
-const withPlayerClick = (WrappedComponent) => {
-  return class OpenProfile extends Component {
+const withPlayerClick = WrappedComponent => class OpenProfile extends Component {
     static contextTypes = {
       settings: PropTypes.shape({
         playerProfileViewType: PropTypes.oneOf(['page', 'frame']).isRequired,
       }).isRequired,
       addPanel: PropTypes.func.isRequired,
-      router: PropTypes.shape({
-        push: PropTypes.func.isRequired,
-      }).isRequired,
     };
 
     handlePlayerClick = (data) => {
@@ -25,7 +22,7 @@ const withPlayerClick = (WrappedComponent) => {
       } = data;
 
       if (this.context.settings.playerProfileViewType === playerProfileViewTypes.page) {
-        this.context.router.push(`/users/${data.playerUUID}/profile`);
+        history.push(`/players/${data.playerUUID}/profile`);
       } else {
         const panelData = {
           fullName: (firstName || lastName)
@@ -43,7 +40,6 @@ const withPlayerClick = (WrappedComponent) => {
     render() {
       return <WrappedComponent {...this.props} onPlayerClick={this.handlePlayerClick} />;
     }
-  };
 };
 
 export default withPlayerClick;

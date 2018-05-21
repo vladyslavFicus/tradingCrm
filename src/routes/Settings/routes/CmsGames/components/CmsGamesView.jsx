@@ -17,6 +17,7 @@ import {
 import renderLabel from '../../../../../utils/renderLabel';
 import CmsGamesGridViewFilter from './CmsGamesGridViewFilter';
 import Loader from './Loader';
+import history from '../../../../../router/history';
 
 class CmsGamesView extends Component {
   static propTypes = {
@@ -66,29 +67,12 @@ class CmsGamesView extends Component {
   };
 
   state = {
-    filters: {},
     hasMore: true,
   };
 
-  handleRefresh = () => {
-    this.props.games.refetch({
-      provider: undefined,
-      platform: undefined,
-      technology: undefined,
-      freeSpinsStatus: undefined,
-      status: undefined,
-      ...this.state.filters,
-      offset: this.state.offset,
-    });
-  };
+  handleFiltersChanged = (filters = {}) => history.replace({ query: { filters } });
 
-  handleFiltersChanged = (filters = {}) => {
-    this.setState({ filters, offset: 0 }, this.handleRefresh);
-  };
-
-  handleFilterReset = () => {
-    this.handleFiltersChanged();
-  };
+  handleFilterReset = () => history.replace({ query: { filters: {} } });
 
   handleLoadGames = async ({ limit, offset }) => {
     const { games: { onLoadMore, variables, loading } } = this.props;

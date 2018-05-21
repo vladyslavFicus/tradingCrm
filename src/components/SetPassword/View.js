@@ -1,24 +1,26 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router';
+import { parse } from 'qs';
 import { SubmissionError } from 'redux-form';
 import { get } from 'lodash';
 import ViewForm from './ViewForm';
 import LoggedForbidden from '../LoggedForbidden';
+import history from '../../router/history';
 
 class View extends Component {
   static propTypes = {
     logged: PropTypes.bool.isRequired,
     onSubmit: PropTypes.func.isRequired,
     logout: PropTypes.func.isRequired,
-    router: PropTypes.shape({
-      replace: PropTypes.func.isRequired,
-    }).isRequired,
   };
 
   handleSubmit = async (data) => {
-    const { location: { query } } = this.props;
-    const action = await this.props.onSubmit({ ...data, token: query.token });
+    const { location: { search } } = this.props;
+    const { token } = parse(search, {
+      ignoreQueryPrefix: true,
+    });
+
+    const action = await this.props.onSubmit({ ...data, token });
 
     if (action) {
       if (action.error) {
@@ -27,7 +29,7 @@ class View extends Component {
         });
       }
 
-      return this.props.router.replace('/');
+      return history.replace('/');
     }
 
     throw new SubmissionError({ _error: 'Something went wrong...' });
@@ -66,4 +68,4 @@ class View extends Component {
   }
 }
 
-export default withRouter(View);
+export default View;

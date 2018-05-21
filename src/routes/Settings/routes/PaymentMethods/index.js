@@ -1,12 +1,7 @@
-import { injectReducer } from '../../../../store/reducers';
+import { asyncRoute } from '../../../../router';
 
-export default store => ({
-  path: 'paymentMethods',
-  getComponent(nextState, cb) {
-    injectReducer(store, { key: 'paymentMethodsList', reducer: require('./modules').default });
-
-    require.ensure([], (require) => {
-      cb(null, require('./container/ViewContainer').default);
-    }, 'methods-list');
-  },
-});
+export default asyncRoute(
+  () => import(/* webpackChunkName: "PaymentMethodsContainer" */ './container/PaymentMethodsContainer'),
+  () => import(/* webpackChunkName: "PaymentMethodsReducer" */ './modules'),
+  'paymentMethodsList'
+);

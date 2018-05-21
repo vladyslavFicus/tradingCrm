@@ -1,8 +1,5 @@
-export default () => ({
-  path: 'settings',
-  getComponent(nextState, cb) {
-    require.ensure([], (require) => {
-      cb(null, require('./container/SettingsContainer').default);
-    }, 'campaign-settings');
-  },
-});
+import { asyncRoute } from '../../../../../../router';
+
+export default asyncRoute(() =>
+  import(/* webpackChunkName: "CampaignSettingsContainer" */ './containers/SettingsContainer'));
+

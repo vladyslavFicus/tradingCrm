@@ -51,9 +51,7 @@ createStore({}, (store) => {
   const MOUNT_NODE = document.getElementById('root');
 
   let render = () => {
-    const routes = require('./routes/index').default(store);
-
-    ReactDOM.render(<AppContainer store={store} routes={routes} />, MOUNT_NODE);
+    ReactDOM.render(<AppContainer store={store} />, MOUNT_NODE);
   };
 
   if (__DEV__) {
@@ -73,12 +71,11 @@ createStore({}, (store) => {
         }
       };
 
-      module.hot.accept('./routes/index', () =>
+      module.hot.accept(() =>
         setImmediate(() => {
           ReactDOM.unmountComponentAtNode(MOUNT_NODE);
           render();
-        })
-      );
+        }));
     }
   }
 

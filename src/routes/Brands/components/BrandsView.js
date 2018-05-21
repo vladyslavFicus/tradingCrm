@@ -1,27 +1,22 @@
 import React, { Component } from 'react';
 import { SubmissionError } from 'redux-form';
+import { Redirect } from 'react-router-dom';
 import { get } from 'lodash';
 import PropTypes from '../../../constants/propTypes';
 import Preloader from '../../../components/Preloader';
 import { Brands, Departments } from '../../../components/Brands';
 import Copyrights from '../../../components/Copyrights';
 import { mapBrands, mapDepartments } from '../../../utils/brands';
+import history from '../../../router/history';
 
 class BrandsView extends Component {
   static propTypes = {
-    router: PropTypes.shape({
-      replace: PropTypes.func.isRequired,
-    }).isRequired,
     departmentsByBrand: PropTypes.objectOf(PropTypes.objectOf(PropTypes.string)).isRequired,
     token: PropTypes.string.isRequired,
     uuid: PropTypes.string.isRequired,
     fullName: PropTypes.string.isRequired,
     changeDepartment: PropTypes.func.isRequired,
     fetchAuthorities: PropTypes.func.isRequired,
-  };
-  static defaultProps = {
-    brand: null,
-    fullName: null,
   };
 
   constructor(props) {
@@ -36,18 +31,30 @@ class BrandsView extends Component {
   }
 
   componentDidMount() {
+    this.mounted = true;
+
     setTimeout(() => {
-      this.setState({ loading: false });
+      this.updateState({ loading: false });
     }, 300);
   }
 
   componentWillUnmount() {
+    this.mounted = false;
+
     if (this.resetStateTimeout) {
       clearTimeout(this.resetStateTimeout);
 
       this.resetStateTimeout = null;
     }
   }
+
+  mounted = false;
+
+  updateState = (...args) => {
+    if (this.mounted) {
+      this.setState(...args);
+    }
+  };
 
   resetStateTimeout = null;
 
@@ -64,22 +71,27 @@ class BrandsView extends Component {
       }
     }
 
-    return this.setState({ brand, departments });
+    return this.updateState({ brand, departments });
   };
 
   handleSelectDepartment = async (brand, department) => {
-    const { router, changeDepartment, fetchAuthorities, token, uuid } = this.props;
+    const {
+      changeDepartment,
+      fetchAuthorities,
+      token,
+      uuid,
+    } = this.props;
 
-    this.setState({ loading: true }, async () => {
+    this.updateState({ loading: true }, async () => {
       const action = await changeDepartment(department, brand, token);
 
-      this.resetStateTimeout = setTimeout(() => this.setState({ loading: false }), 2000);
+      this.resetStateTimeout = setTimeout(() => this.updateState({ loading: false }), 2000);
 
       if (action) {
         if (!action.error) {
           await fetchAuthorities(uuid, action.payload.token);
 
-          router.replace('/');
+          history.replace('/');
         } else {
           throw new SubmissionError({
             _error: get(action.payload, 'response.error', action.payload.message),
@@ -90,8 +102,17 @@ class BrandsView extends Component {
   };
 
   render() {
-    const { loading, brand, brands, departments } = this.state;
+    const {
+      loading,
+      brand,
+      brands,
+      departments,
+    } = this.state;
     const { fullName } = this.props;
+
+    if (brands.length < 2) {
+      return <Redirect to="/" />;
+    }
 
     return (
       <div className="form-page-container">

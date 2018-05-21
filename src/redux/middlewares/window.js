@@ -1,4 +1,4 @@
-import { actionTypes as profileActionTypes } from '../../routes/UserProfile/modules/profile';
+import { actionTypes as profileActionTypes } from '../../routes/Players/routes/PlayerProfile/modules/profile';
 import { actionCreators as windowActionCreators } from '../modules/window';
 
 const config = {

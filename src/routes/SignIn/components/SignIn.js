@@ -6,12 +6,10 @@ import SignInForm from './SignInForm';
 import Preloader from '../../../components/Preloader';
 import { Brands, Departments } from '../../../components/Brands';
 import Copyrights from '../../../components/Copyrights';
+import history from '../../../router/history';
 
 class SignIn extends Component {
   static propTypes = {
-    router: PropTypes.shape({
-      replace: PropTypes.func.isRequired,
-    }).isRequired,
     location: PropTypes.shape({
       query: PropTypes.shape({
         returnUrl: PropTypes.string,
@@ -173,7 +171,7 @@ class SignIn extends Component {
   };
 
   redirectToNextPage = () => {
-    const { location, router } = this.props;
+    const { location } = this.props;
     let nextUrl = '/';
 
     if (
@@ -185,7 +183,7 @@ class SignIn extends Component {
       nextUrl = location.query.returnUrl;
     }
 
-    router.replace(nextUrl);
+    history.replace(nextUrl);
   };
 
   render() {

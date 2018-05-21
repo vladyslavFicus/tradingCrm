@@ -61,11 +61,6 @@ class MainLayout extends Component {
         })),
       })).isRequired,
     }).isRequired,
-    router: PropTypes.shape({
-      push: PropTypes.func.isRequired,
-      replace: PropTypes.func.isRequired,
-    }).isRequired,
-    location: PropTypes.object.isRequired,
     permissions: PropTypes.array,
     changeDepartment: PropTypes.func.isRequired,
     activeUserPanel: PropTypes.userPanelItem,
@@ -145,7 +140,6 @@ class MainLayout extends Component {
   getChildContext() {
     const {
       user,
-      location,
       permissions,
       changeDepartment,
       locale,
@@ -158,7 +152,6 @@ class MainLayout extends Component {
     return {
       settings,
       user,
-      location,
       permissions,
       changeDepartment,
       locale,
@@ -342,10 +335,13 @@ class MainLayout extends Component {
   };
 
   render() {
+    if (window.isFrame) {
+      return this.props.children;
+    }
+
     const { popover, miniProfilePopover, isOpenProfile } = this.state;
     const {
       children,
-      router,
       userPanelsByManager: userPanels,
       activeUserPanel,
       removePanel,
@@ -364,7 +360,6 @@ class MainLayout extends Component {
       <Fragment>
         <Header
           user={user}
-          router={router}
           languages={languages}
           onLocaleChange={onLocaleChange}
           onToggleProfile={this.onToggleProfile}

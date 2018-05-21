@@ -1,6 +1,3 @@
-import childRoutes from './routes';
+import { asyncRoute } from '../../router';
 
-export default store => ({
-  path: 'settings',
-  childRoutes: childRoutes(store),
-});
+export default asyncRoute(() => import(/* webpackChunkName: "Settings" */ './components/Settings'));

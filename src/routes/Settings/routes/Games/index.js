@@ -1,12 +1,7 @@
-import { injectReducer } from '../../../../store/reducers';
+import { asyncRoute } from '../../../../router';
 
-export default store => ({
-  path: 'games',
-  getComponent(nextState, cb) {
-    require.ensure([], (require) => {
-      injectReducer(store, { key: 'games', reducer: require('./modules').default });
-
-      cb(null, require('./container/GameListContainer').default);
-    }, 'games-list');
-  },
-});
+export default asyncRoute(
+  () => import(/* webpackChunkName: "GamesListContainer" */ './container/GamesListContainer'),
+  () => import(/* webpackChunkName: "GamesListReducer" */ './modules'),
+  'games'
+);

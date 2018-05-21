@@ -1,18 +1,16 @@
 import React, { Component } from 'react';
 import classNames from 'classnames';
-import { IndexLink } from 'react-router';
+import { Link } from 'react-router-dom';
 import PropTypes from '../../constants/propTypes';
 import DepartmentsDropDown from '../DepartmentsDropDown';
 import HeaderNav from '../HeaderNav';
 import { getLogo } from '../../config';
+import history from '../../router/history';
 import './Header.scss';
 
 class Header extends Component {
   static propTypes = {
     showSearch: PropTypes.bool,
-    router: PropTypes.shape({
-      replace: PropTypes.func.isRequired,
-    }).isRequired,
     onToggleProfile: PropTypes.func.isRequired,
     user: PropTypes.shape({
       logged: PropTypes.bool.isRequired,
@@ -55,9 +53,9 @@ class Header extends Component {
 
     return (
       <header className="header">
-        <IndexLink className="header__brand" to={this.indexLink}>
+        <Link className="header__brand" to={this.indexLink}>
           <img className="img-fluid" src={getLogo()} alt="current-casino-logo" />
-        </IndexLink>
+        </Link>
         <If condition={user.logged}>
           <DepartmentsDropDown
             onChange={this.handleChangeDepartment}
@@ -100,7 +98,7 @@ class Header extends Component {
             { label: 'My profile', onClick: () => this.props.onToggleProfile() },
             {
               label: 'Logout',
-              onClick: () => this.props.router.replace('/logout'),
+              onClick: () => history.replace('/logout'),
               id: 'profile-logout-button',
             },
           ]}
