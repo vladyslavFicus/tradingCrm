@@ -7,7 +7,7 @@ import './UsersPanelItem.scss';
 class UsersPanelItem extends Component {
   static propTypes = {
     active: PropTypes.bool,
-    fullName: PropTypes.string.isRequired,
+    fullName: PropTypes.string,
     uuid: PropTypes.string.isRequired,
     color: PropTypes.string.isRequired,
     onClick: PropTypes.func.isRequired,
@@ -17,6 +17,7 @@ class UsersPanelItem extends Component {
   static defaultProps = {
     active: false,
     login: '',
+    fullName: '',
   };
 
   handleRemoveClick = (e) => {

@@ -12,7 +12,6 @@ import apiErrors from '../redux/middlewares/apiErrors';
 import apiVersion from '../redux/middlewares/apiVersion';
 import requestTime from '../redux/middlewares/requestTime';
 import catcher from '../redux/middlewares/catcher';
-import { actionCreators as locationActionCreators } from '../redux/modules/location';
 import { actionCreators as languageActionCreators } from '../redux/modules/language';
 import unauthorized from '../redux/middlewares/unauthorized';
 import config from '../config';

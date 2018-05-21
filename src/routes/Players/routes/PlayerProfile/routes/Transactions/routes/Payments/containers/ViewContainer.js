@@ -2,7 +2,6 @@ import { connect } from 'react-redux';
 import View from '../components/View';
 import { actionCreators as viewActionCreators } from '../modules';
 import { paymentActions, chargebackReasons, rejectReasons } from '../../../../../../../../../constants/payment';
-import { actionCreators as locationActionCreators } from '../../../../../../../../../redux/modules/location';
 
 const mapStateToProps = ({
   userTransactions,
@@ -30,7 +29,6 @@ const mapActions = {
   manageNote: viewActionCreators.manageNote,
   resetNote: viewActionCreators.resetNote,
   resetAll: viewActionCreators.resetAll,
-  locationChange: locationActionCreators.locationChange,
   fetchActiveBonus: viewActionCreators.fetchActiveBonus,
 };
 

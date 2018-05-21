@@ -24,6 +24,7 @@ import renderLabel from '../../../../../../../../../utils/renderLabel';
 import GridPaymentInfo from '../../../../../../../../../components/GridPaymentInfo';
 import GridPaymentAmount from '../../../../../../../../../components/GridPaymentAmount';
 import IpFlag from '../../../../../../../../../components/IpFlag';
+import history from '../../../../../../../../../router/history';
 
 const MODAL_PAYMENT_DETAIL = 'payment-detail';
 const MODAL_PAYMENT_ACTION_REASON = 'payment-action-reason';
@@ -103,10 +104,9 @@ class View extends Component {
   async componentDidMount() {
     const {
       match: { params: { id: playerUUID, paymentUUID } },
-      location,
       fetchFilters,
       fetchEntities,
-      locationChange,
+      location,
     } = this.props;
 
     fetchFilters(playerUUID);
@@ -121,8 +121,7 @@ class View extends Component {
           payment: action.payload.content[0],
           onClose: () => {
             this.handleCloseModal();
-
-            locationChange({ pathname: location.pathname.replace(`/${paymentUUID}`, '') });
+            history.replace(location.pathname.replace(`/${paymentUUID}`, ''));
           },
         });
       }
