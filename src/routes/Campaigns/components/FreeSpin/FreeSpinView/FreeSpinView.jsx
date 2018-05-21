@@ -189,7 +189,7 @@ class FreeSpinView extends PureComponent {
               </div>
             )}
           >
-            <div className="row mt-3 no-gutters campaigns-template__bordered-block" id="campaigns-freespin-template">
+            <div className="row no-gutters my-3 campaigns-template__bordered-block" id="campaigns-freespin-template">
               <div className="col-4">
                 {I18n.t(attributeLabels.providerId)}
                 <div className="campaigns-template__value">
@@ -217,14 +217,14 @@ class FreeSpinView extends PureComponent {
                 </div>
               </div>
             </div>
-            <div className="no-gutters row">
-              <div className="col-4 mt-3">
+            <div className="row no-gutters">
+              <div className="col-4">
                 {I18n.t(attributeLabels.freeSpins)}
                 <div className="campaigns-template__value">
                   {fsTemplate.freeSpinsAmount}
                 </div>
               </div>
-              <div className="col-4 mt-3">
+              <div className="col-4">
                 {I18n.t(attributeLabels.lifeTime)}
                 <div className="campaigns-template__value">
                   {fsTemplate.freeSpinLifeTime}
@@ -233,6 +233,8 @@ class FreeSpinView extends PureComponent {
               <If condition={fsTemplate.linesPerSpin && fsTemplate.betPerLineAmounts}>
                 {this.renderPrice()}
               </If>
+            </div>
+            <div className="row no-gutters">
               <If condition={fsTemplate.linesPerSpin}>
                 <div className="col-4 mt-3">
                   {I18n.t(attributeLabels.linesPerSpin)}
@@ -245,35 +247,37 @@ class FreeSpinView extends PureComponent {
                 <div className="col-4 mt-3">
                   {I18n.t(attributeLabels.betPerLine)}
                   <div className="campaigns-template__value">
-                    <MultiCurrencyView id={`${name}-betPerLineAmounts`} values={fsTemplate.betPerLineAmounts} rates={this.rates} />
+                    <MultiCurrencyView
+                      id={`${name}-betPerLineAmounts`}
+                      values={fsTemplate.betPerLineAmounts}
+                      rates={this.rates}
+                    />
                   </div>
                 </div>
               </If>
-              <If condition={fsTemplate.coinSize || fsTemplate.betLevel || fsTemplate.pageCode}>
-                <If condition={fsTemplate.coinSize}>
-                  <div className="col-4 mt-3">
-                    {I18n.t(attributeLabels.coinSize)}
-                    <div className="campaigns-template__value">
-                      {fsTemplate.coinSize}
-                    </div>
+              <If condition={fsTemplate.coinSize}>
+                <div className="col-4 mt-3">
+                  {I18n.t(attributeLabels.coinSize)}
+                  <div className="campaigns-template__value">
+                    {fsTemplate.coinSize}
                   </div>
-                </If>
-                <If condition={fsTemplate.betLevel}>
-                  <div className="col-4 mt-3">
-                    {I18n.t(attributeLabels.betLevel)}
-                    <div className="campaigns-template__value">
-                      {fsTemplate.betLevel}
-                    </div>
+                </div>
+              </If>
+              <If condition={fsTemplate.betLevel}>
+                <div className="col-4 mt-3">
+                  {I18n.t(attributeLabels.betLevel)}
+                  <div className="campaigns-template__value">
+                    {fsTemplate.betLevel}
                   </div>
-                </If>
-                <If condition={fsTemplate.pageCode}>
-                  <div className="col-4 mt-3">
-                    {I18n.t(attributeLabels.pageCode)}
-                    <div className="campaigns-template__value">
-                      {fsTemplate.pageCode}
-                    </div>
+                </div>
+              </If>
+              <If condition={fsTemplate.pageCode}>
+                <div className="col-4 mt-3">
+                  {I18n.t(attributeLabels.pageCode)}
+                  <div className="campaigns-template__value">
+                    {fsTemplate.pageCode}
                   </div>
-                </If>
+                </div>
               </If>
               <If condition={fsTemplate.denomination}>
                 <div className="col-4 mt-3">
@@ -291,56 +295,53 @@ class FreeSpinView extends PureComponent {
                   </div>
                 </div>
               </If>
-              <If condition={fsTemplate.betMultiplier || fsTemplate.rhfpBet || fsTemplate.comment}>
-                <If condition={fsTemplate.betMultiplier}>
-                  <div className="col-4 mt-3">
-                    {I18n.t(attributeLabels.betMultiplier)}
-                    <div className="campaigns-template__value">
-                      {fsTemplate.betMultiplier}
-                    </div>
+              <If condition={fsTemplate.betMultiplier}>
+                <div className="col-4 mt-3">
+                  {I18n.t(attributeLabels.betMultiplier)}
+                  <div className="campaigns-template__value">
+                    {fsTemplate.betMultiplier}
                   </div>
-                </If>
-                <If condition={fsTemplate.rhfpBet}>
-                  <div className="col-4 mt-3">
-                    {I18n.t(attributeLabels.rhfpBet)}
-                    <div className="campaigns-template__value">
-                      {fsTemplate.rhfpBet}
-                    </div>
+                </div>
+              </If>
+              <If condition={fsTemplate.rhfpBet}>
+                <div className="col-4 mt-3">
+                  {I18n.t(attributeLabels.rhfpBet)}
+                  <div className="campaigns-template__value">
+                    {fsTemplate.rhfpBet}
                   </div>
-                </If>
-                <If condition={fsTemplate.comment}>
-                  <div className="col-4 mt-3">
-                    {I18n.t(attributeLabels.comment)}
-                    <div className="campaigns-template__value">
-                      {fsTemplate.comment}
-                    </div>
+                </div>
+              </If>
+              <If condition={fsTemplate.comment}>
+                <div className="col-4 mt-3">
+                  {I18n.t(attributeLabels.comment)}
+                  <div className="campaigns-template__value">
+                    {fsTemplate.comment}
                   </div>
-                </If>
-
-                <If condition={fsTemplate.nearestCost}>
-                  <div className="col-4 mt-3">
-                    {I18n.t(attributeLabels.nearestCost)}
-                    <div className="campaigns-template__value">
-                      {fsTemplate.nearestCost}
-                    </div>
+                </div>
+              </If>
+              <If condition={fsTemplate.nearestCost}>
+                <div className="col-4 mt-3">
+                  {I18n.t(attributeLabels.nearestCost)}
+                  <div className="campaigns-template__value">
+                    {fsTemplate.nearestCost}
                   </div>
-                </If>
-                <If condition={fsTemplate.displayLine1}>
-                  <div className="col-4 mt-3">
-                    {I18n.t(attributeLabels.displayLine1)}
-                    <div className="campaigns-template__value">
-                      {fsTemplate.displayLine1}
-                    </div>
+                </div>
+              </If>
+              <If condition={fsTemplate.displayLine1}>
+                <div className="col-4 mt-3">
+                  {I18n.t(attributeLabels.displayLine1)}
+                  <div className="campaigns-template__value">
+                    {fsTemplate.displayLine1}
                   </div>
-                </If>
-                <If condition={fsTemplate.displayLine2}>
-                  <div className="col-4 mt-3">
-                    {I18n.t(attributeLabels.displayLine2)}
-                    <div className="campaigns-template__value">
-                      {fsTemplate.displayLine2}
-                    </div>
+                </div>
+              </If>
+              <If condition={fsTemplate.displayLine2}>
+                <div className="col-4 mt-3">
+                  {I18n.t(attributeLabels.displayLine2)}
+                  <div className="campaigns-template__value">
+                    {fsTemplate.displayLine2}
                   </div>
-                </If>
+                </div>
               </If>
             </div>
             <div className="mt-3">
