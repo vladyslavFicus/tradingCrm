@@ -22,7 +22,7 @@ class PlayerProfile extends PureComponent {
     uuid: PropTypes.string.isRequired,
   };
 
-  compondetDidMount() {
+  componentDidMount() {
     const {
       location,
       match: { params: { id } },
