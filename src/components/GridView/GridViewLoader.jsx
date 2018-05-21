@@ -1,10 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import ShortLoader from '../ShortLoader';
 
 const GridViewLoader = ({ className, colSpan }) => (
   <tr className={className}>
     <td colSpan={colSpan}>
-      <img src="/img/infinite_preloader.svg" alt="preloader" />
+      <ShortLoader />
     </td>
   </tr>
 );

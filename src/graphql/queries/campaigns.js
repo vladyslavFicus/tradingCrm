@@ -3,11 +3,29 @@ import gql from 'graphql-tag';
 const campaignsQuery = gql`query campaigns(
   $size: Int,
   $page: Int,
-  ){
+  $searchBy: String,
+  $status: String,
+  $fulfilmentType: String,
+  $campaignType: String,
+  $optIn: Boolean,
+  $creationDateFrom: String,
+  $creationDateTo: String,
+  $activityDateFrom: String,
+  $activityDateTo: String
+){
   campaigns(
     size: $size,
     page: $page,
-    ){
+    searchBy: $searchBy,
+    status: $status,
+    fulfilmentType: $fulfilmentType,
+    campaignType: $campaignType,
+    optIn: $optIn,
+    creationDateFrom: $creationDateFrom,
+    creationDateTo: $creationDateTo,
+    activityDateFrom: $activityDateFrom,
+    activityDateTo: $activityDateTo
+  ) {
     number,
     page,
     totalElements,
