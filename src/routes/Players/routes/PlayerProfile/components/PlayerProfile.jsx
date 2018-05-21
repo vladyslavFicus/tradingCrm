@@ -16,6 +16,7 @@ class PlayerProfile extends PureComponent {
       playerProfileViewType: PropTypes.string.isRequired,
     }).isRequired,
     auth: PropTypes.object.isRequired,
+    location: PropTypes.object.isRequired,
   };
 
   static contextTypes = {
@@ -26,6 +27,7 @@ class PlayerProfile extends PureComponent {
     const {
       match: { params: { id } },
       auth,
+      location: { pathname },
       settings,
     } = this.props;
 
@@ -33,6 +35,7 @@ class PlayerProfile extends PureComponent {
       this.context.addPanel({
         uuid: id,
         auth,
+        path: pathname.replace(`/players/${id}/`, ''),
       });
     }
   }
