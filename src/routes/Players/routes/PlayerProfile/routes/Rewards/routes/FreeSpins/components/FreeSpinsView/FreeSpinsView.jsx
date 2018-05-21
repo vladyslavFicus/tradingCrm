@@ -380,7 +380,6 @@ class FreeSpinsView extends Component {
 
     return (
       <Fragment>
-        {console.log(exporting)}
         <FreeSpinsFilterForm
           providers={providersFilterValues}
           games={gamesFilterValues}
