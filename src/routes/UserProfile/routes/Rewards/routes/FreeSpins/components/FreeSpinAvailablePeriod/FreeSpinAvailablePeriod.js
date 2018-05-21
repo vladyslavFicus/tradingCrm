@@ -7,9 +7,6 @@ class FreeSpinAvailablePeriod extends Component {
   static propTypes = {
     freeSpin: PropTypes.freeSpinEntity.isRequired,
   };
-  static defaultProps = {
-    onClick: null,
-  };
 
   render() {
     const { freeSpin } = this.props;

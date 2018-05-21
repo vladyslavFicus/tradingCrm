@@ -91,7 +91,7 @@ class BonusView extends PureComponent {
       return <span>{error}</span>;
     }
 
-    const rates = this.rates;
+    const { rates } = this;
     const bonusTemplates = shortBonusTemplates || [];
     const template = get(bonusTemplate, 'bonusTemplate.data', {});
     const loading = get(bonusTemplate, 'loading', true);
@@ -193,7 +193,10 @@ class BonusView extends PureComponent {
                 <div className="campaigns-template__value">
                   <Choose>
                     <When
-                      condition={template.wageringRequirementAbsolute || template.wageringRequirementPercentage !== null}
+                      condition={
+                        template.wageringRequirementAbsolute ||
+                        template.wageringRequirementPercentage !== null
+                      }
                     >
                       <Choose>
                         <When condition={template.wageringRequirementType === customValueFieldTypes.ABSOLUTE}>

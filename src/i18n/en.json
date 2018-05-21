@@ -1977,5 +1977,24 @@
       "STATUS": "Status"
     },
     "TITLE": "CMS Game list"
+  },
+  "FREE_SPIN": {
+    "BONUS": {
+      "GRANT": "Grant",
+      "MAX_GRANT_AMOUNT": "Max. grant amount",
+      "WAGERING_REQUIREMENT": "Wagering requirement",
+      "MONEY_PRIORITY": "Money priority",
+      "MAX_BET": "Max. bet",
+      "BONUS_LIFETIME": "Bonus lifetime",
+      "LIFE_TIME_DAYS": "%{count} days",
+      "LOCK_AMOUNT_STRATEGY": "Lock amount strategy",
+      "PRIZE": "Prize",
+      "CAPPING": "Capping",
+      "CLAIMABLE": "Claimable"
+    },
+    "FREE_SPIN_AMOUNT": "Free spin amount",
+    "COIN_SIZE": "Coin size",
+    "BET_MULTIPLIER": "Multiplier",
+    "RHFP_BET": "Rhfp bet"
   }
 }

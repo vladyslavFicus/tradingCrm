@@ -9,30 +9,72 @@ class FreeSpinSettings extends Component {
   };
 
   render() {
-    const { freeSpin } = this.props;
+    const {
+      freeSpin: {
+        betPrice,
+        linesPerSpin,
+        currencyCode,
+        coinSize,
+        betMultiplier,
+        rhfpBet,
+        freeSpinsAmount,
+      },
+    } = this.props;
 
     return (
       <div>
-        <div>
-          {
-            freeSpin.linesPerSpin &&
-            <Fragment>
-              {I18n.t('PLAYER_PROFILE.FREE_SPINS.FREE_SPIN_SETTINGS.LINES')}
-              {': '}
-              <span className="font-weight-700">{freeSpin.linesPerSpin}</span>
-            </Fragment>
-          }
-        </div>
-        <div>
-          {I18n.t('PLAYER_PROFILE.FREE_SPINS.FREE_SPIN_SETTINGS.BET_PER_LINE')}
-          {': '}
-          <Amount className="font-weight-700" {...freeSpin.betPerLine} />
-        </div>
-        <div>
-          {I18n.t('PLAYER_PROFILE.FREE_SPINS.FREE_SPIN_SETTINGS.SPIN_VALUE')}
-          {': '}
-          <Amount className="font-weight-700" {...freeSpin.spinValue} />
-        </div>
+        {
+          freeSpinsAmount &&
+          <div>
+            {I18n.t('FREE_SPIN.FREE_SPIN_AMOUNT')} {': '}
+            {freeSpinsAmount}
+          </div>
+        }
+        {
+          coinSize &&
+          <div>
+            {I18n.t('FREE_SPIN.COIN_SIZE')} {': '}
+            {coinSize}
+          </div>
+        }
+        {
+          betMultiplier &&
+          <div>
+            {I18n.t('FREE_SPIN.BET_MULTIPLIER')} {': '}
+            {betMultiplier}
+          </div>
+        }
+        {
+          rhfpBet &&
+          <div>
+            {I18n.t('FREE_SPIN.RHFP_BET')} {': '}
+            {rhfpBet}
+          </div>
+        }
+        {
+          !!linesPerSpin &&
+          <Fragment>
+            {I18n.t('PLAYER_PROFILE.FREE_SPINS.FREE_SPIN_SETTINGS.LINES')}
+            {': '}
+            <span className="font-weight-700">{linesPerSpin}</span>
+          </Fragment>
+        }
+        {
+          betPrice &&
+          <div>
+            {I18n.t('PLAYER_PROFILE.FREE_SPINS.FREE_SPIN_SETTINGS.BET_PER_LINE')}
+            {': '}
+            <Amount className="font-weight-700" amount={betPrice} currency={currencyCode} />
+          </div>
+        }
+        {
+          betPrice && linesPerSpin &&
+          <div>
+            {I18n.t('PLAYER_PROFILE.FREE_SPINS.FREE_SPIN_SETTINGS.SPIN_VALUE')}
+            {': '}
+            <Amount className="font-weight-700" amount={betPrice * linesPerSpin} currency={currencyCode} />
+          </div>
+        }
       </div>
     );
   }

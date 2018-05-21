@@ -137,7 +137,9 @@ class FreeSpinsView extends Component {
     }
 
     freeSpinInfoModal.show({
-      item,
+      playerUUID: item.playerUUID,
+      uuid: item.uuid,
+      note: item.note,
       actions: modalActions,
     });
   };
@@ -201,11 +203,17 @@ class FreeSpinsView extends Component {
       currency,
       params: { id: playerUUID },
       list: { newEntityNote: unsavedNote },
+      modals: { createFreeSpinModal },
     } = this.props;
 
     let action;
     if (aggregatorId === aggregators.igromat) {
-      const { moduleId, clientId, betPerLine, ...freeSpinTemplateData } = data;
+      const {
+        moduleId,
+        clientId,
+        betPerLine,
+        ...freeSpinTemplateData
+      } = data;
       action = await createFreeSpinTemplate({
         claimable: false,
         ...freeSpinTemplateData,
@@ -253,7 +261,8 @@ class FreeSpinsView extends Component {
       }
 
       resetNote();
-      this.handleModalClose(this.handleRefresh);
+      createFreeSpinModal.hide();
+      this.handleRefresh();
     }
 
     return action;
