@@ -171,6 +171,7 @@ class TransactionsFilterForm extends Component {
             placeholder={I18n.t(attributeLabels.startDate)}
             component={DateTimeField}
             isValidDate={this.startDateValidator}
+            pickerClassName="left-side"
           />
           <Field
             utc
