@@ -14,14 +14,12 @@ const mapStateToProps = ({
     templates: { data: templates },
   },
   i18n: { locale },
-  userRewardsSubTabs: { tabs: subTabRoutes },
 }) => ({
   list,
   playerProfile: profile,
   bonus,
   templates,
   locale,
-  subTabRoutes,
 });
 
 const mapActions = {

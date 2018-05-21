@@ -18,7 +18,6 @@ import BonusStatus from '../BonusStatus';
 import shallowEqual from '../../../../../../../../../../utils/shallowEqual';
 import { mapResponseErrorToField } from '../CreateModal/constants';
 import recognizeFieldError from '../../../../../../../../../../utils/recognizeFieldError';
-import StickyNavigation from '../../../../../../components/StickyNavigation';
 
 const modalInitialState = { name: null, params: {} };
 const MODAL_VIEW = 'view-modal';
@@ -43,7 +42,6 @@ class View extends Component {
     assignBonusTemplate: PropTypes.func.isRequired,
     acceptBonus: PropTypes.func.isRequired,
     locale: PropTypes.string.isRequired,
-    subTabRoutes: PropTypes.arrayOf(PropTypes.subTabRouteEntity).isRequired,
     templates: PropTypes.array,
     modals: PropTypes.shape({
       createManualBonus: PropTypes.shape({
@@ -60,6 +58,7 @@ class View extends Component {
     onEditNoteClick: PropTypes.func.isRequired,
     setNoteChangedCallback: PropTypes.func.isRequired,
     cacheChildrenComponent: PropTypes.func.isRequired,
+    setRenderActions: PropTypes.func.isRequired,
   };
 
   state = {
@@ -75,6 +74,15 @@ class View extends Component {
 
   componentDidMount() {
     this.context.setNoteChangedCallback(this.handleRefresh);
+    this.context.setRenderActions(() => (
+      <button
+        className="btn btn-sm btn-primary-outline"
+        onClick={this.handleCreateManualBonusClick}
+        id="add-manual-bonus-button"
+      >
+        {I18n.t('PLAYER_PROFILE.BONUS.MANUAL_BONUS_BUTTON')}
+      </button>
+    ));
   }
 
   componentWillReceiveProps(nextProps) {
@@ -92,6 +100,7 @@ class View extends Component {
   componentWillUnmount() {
     this.context.setNoteChangedCallback(null);
     this.context.cacheChildrenComponent(null);
+    this.context.setRenderActions(null);
   }
 
   getNotePopoverParams = () => ({
@@ -375,21 +384,10 @@ class View extends Component {
       list: { entities, noResults },
       playerProfile: { data: playerProfile },
       locale,
-      subTabRoutes,
     } = this.props;
 
     return (
       <div>
-        <StickyNavigation links={subTabRoutes}>
-          <button
-            className="btn btn-sm btn-primary-outline"
-            onClick={this.handleCreateManualBonusClick}
-            id="add-manual-bonus-button"
-          >
-            {I18n.t('PLAYER_PROFILE.BONUS.MANUAL_BONUS_BUTTON')}
-          </button>
-        </StickyNavigation>
-
         <BonusGridFilter
           onSubmit={this.handleFiltersChanged}
         />

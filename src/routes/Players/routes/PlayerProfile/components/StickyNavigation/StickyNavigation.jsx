@@ -15,8 +15,12 @@ const StickyNavigation = ({ links, children }) => (
 );
 
 StickyNavigation.propTypes = {
-  children: PropTypes.node.isRequired,
+  children: PropTypes.node,
   links: PropTypes.arrayOf(PropTypes.subTabRouteEntity).isRequired,
+};
+
+StickyNavigation.defaultProps = {
+  children: null,
 };
 
 export default StickyNavigation;

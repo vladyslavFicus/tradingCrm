@@ -13,7 +13,6 @@ const mapStateToProps = ({
   profile: { profile },
   i18n: { locale },
   options: { data: { baseCurrency } },
-  userRewardsSubTabs: { tabs: subTabRoutes },
 }) => ({
   filters,
   list,
@@ -23,7 +22,6 @@ const mapStateToProps = ({
   locale,
   currency: profile.data.currencyCode || baseCurrency,
   cancelReasons: config.modules.freeSpin.cancelReasons,
-  subTabRoutes,
 });
 const mapActions = {
   fetchFreeSpins: actionCreators.fetchFreeSpins,

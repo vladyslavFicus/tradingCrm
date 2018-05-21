@@ -1,17 +1,15 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import { Switch, Redirect } from 'react-router-dom';
-import { isEmpty } from 'lodash';
+import Permissions from '../../../../../../../utils/permissions';
 import { Route } from '../../../../../../../router';
 import PropTypes from '../../../../../../../constants/propTypes';
 import GameActivity from '../routes/GameActivity';
+import StickyNavigation from '../../../components/StickyNavigation';
 import Payments from '../routes/Payments';
 import { routes } from '../constants';
 
 class Transactions extends PureComponent {
   static propTypes = {
-    userTransactionsSubTabs: PropTypes.shape({
-      tabs: PropTypes.arrayOf(PropTypes.object),
-    }).isRequired,
     currentPermissions: PropTypes.array.isRequired,
     match: PropTypes.shape({
       params: PropTypes.shape({
@@ -20,25 +18,42 @@ class Transactions extends PureComponent {
       path: PropTypes.string.isRequired,
       url: PropTypes.string.isRequired,
     }).isRequired,
-    initSubTabs: PropTypes.func.isRequired,
   };
 
-  componentDidMount() {
-    const { currentPermissions, initSubTabs, match: { url } } = this.props;
+  static childContextTypes = {
+    setRenderActions: PropTypes.func.isRequired,
+  };
 
-    initSubTabs(currentPermissions, routes.map(i => ({ ...i, url: `${url}${i.url}` })));
+  state = {
+    renderActions: null,
+  };
+
+  getChildContext() {
+    return {
+      setRenderActions: this.setRenderActions,
+    };
   }
+
+  get tabs() {
+    const { currentPermissions, match: { url } } = this.props;
+
+    return routes
+      .map(i => ({ ...i, url: `${url}${i.url}` }))
+      .filter(i => !(i.permissions instanceof Permissions) || i.permissions.check(currentPermissions));
+  }
+
+  setRenderActions = renderActions => this.setState({ renderActions });
 
   render() {
     const {
-      userTransactionsSubTabs,
       match: { path },
     } = this.props;
-
+    const { renderActions } = this.state;
+    const { tabs } = this;
     let redirectUrl = '';
 
-    if (userTransactionsSubTabs && !isEmpty(userTransactionsSubTabs.tabs)) {
-      [{ url: redirectUrl }] = userTransactionsSubTabs.tabs;
+    if (tabs && tabs.length) {
+      [{ url: redirectUrl }] = tabs;
     }
 
     if (!redirectUrl) {
@@ -46,11 +61,18 @@ class Transactions extends PureComponent {
     }
 
     return (
-      <Switch>
-        <Route path={`${path}/payments`} component={Payments} />
-        <Route path={`${path}/game-activity`} component={GameActivity} />
-        <Redirect to={redirectUrl} />
-      </Switch>
+      <Fragment>
+        <StickyNavigation links={tabs}>
+          <If condition={renderActions}>
+            {renderActions()}
+          </If>
+        </StickyNavigation>
+        <Switch>
+          <Route path={`${path}/payments`} component={Payments} />
+          <Route path={`${path}/game-activity`} component={GameActivity} />
+          <Redirect to={redirectUrl} />
+        </Switch>
+      </Fragment>
     );
   }
 }

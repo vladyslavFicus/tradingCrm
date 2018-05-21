@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { I18n } from 'react-redux-i18n';
 import moment from 'moment';
 import { SubmissionError } from 'redux-form';
@@ -20,7 +20,6 @@ import AddToCampaignModal from '../../../../../../../../../../components/AddToCa
 import AddPromoCodeModal from '../AddPromoCodeModal';
 import PermissionContent from '../../../../../../../../../../components/PermissionContent';
 import permissions from '../../../../../../../../../../config/permissions';
-import StickyNavigation from '../../../../../../components/StickyNavigation';
 
 const CAMPAIGN_ACTION_MODAL = 'campaign-action-modal';
 const ADD_TO_CAMPAIGN_MODAL = 'add-to-campaign-modal';
@@ -47,11 +46,11 @@ class View extends Component {
       }).isRequired,
     }).isRequired,
     locale: PropTypes.string.isRequired,
-    subTabRoutes: PropTypes.arrayOf(PropTypes.subTabRouteEntity).isRequired,
   };
   static contextTypes = {
     cacheChildrenComponent: PropTypes.func.isRequired,
     addNotification: PropTypes.func.isRequired,
+    setRenderActions: PropTypes.func.isRequired,
   };
 
   state = {
@@ -63,10 +62,31 @@ class View extends Component {
   componentDidMount() {
     this.handleRefresh();
     this.context.cacheChildrenComponent(this);
+    this.context.setRenderActions(() => (
+      <Fragment>
+        <PermissionContent permissions={permissions.USER_PROFILE.ADD_TO_CAMPAIGN}>
+          <button
+            className="btn btn-primary-outline margin-left-15 btn-sm"
+            onClick={this.handleAddToCampaignClick}
+          >
+            {I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.ADD_TO_CAMPAIGN_BUTTON')}
+          </button>
+        </PermissionContent>
+        <PermissionContent permissions={permissions.USER_PROFILE.ADD_PROMO_CODE_TO_PLAYER}>
+          <button
+            className="btn btn-primary-outline margin-left-15 btn-sm"
+            onClick={() => this.handleOpenModal(ADD_PROMO_CODE_MODAL)}
+          >
+            {I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.ADD_PROMO_CODE_BUTTON')}
+          </button>
+        </PermissionContent>
+      </Fragment>
+    ));
   }
 
   componentWillUnmount() {
     this.context.cacheChildrenComponent(null);
+    this.context.setRenderActions(null);
   }
 
   handleRefresh = () => {
@@ -320,34 +340,12 @@ class View extends Component {
       list: { entities, noResults },
       profile,
       locale,
-      subTabRoutes,
     } = this.props;
 
     const allowActions = Object.keys(filters).filter(i => filters[i]).length > 0;
 
     return (
       <div>
-        <StickyNavigation links={subTabRoutes}>
-          <div>
-            <PermissionContent permissions={permissions.USER_PROFILE.ADD_TO_CAMPAIGN}>
-              <button
-                className="btn btn-primary-outline margin-left-15 btn-sm"
-                onClick={this.handleAddToCampaignClick}
-              >
-                {I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.ADD_TO_CAMPAIGN_BUTTON')}
-              </button>
-            </PermissionContent>
-            <PermissionContent permissions={permissions.USER_PROFILE.ADD_PROMO_CODE_TO_PLAYER}>
-              <button
-                className="btn btn-primary-outline margin-left-15 btn-sm"
-                onClick={() => this.handleOpenModal(ADD_PROMO_CODE_MODAL)}
-              >
-                {I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.ADD_PROMO_CODE_BUTTON')}
-              </button>
-            </PermissionContent>
-          </div>
-        </StickyNavigation>
-
         <CampaignsFilterForm
           onSubmit={this.handleFiltersChanged}
           onReset={this.handleFilterReset}
