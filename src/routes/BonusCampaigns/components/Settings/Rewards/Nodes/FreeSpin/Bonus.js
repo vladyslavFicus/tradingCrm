@@ -32,7 +32,6 @@ class Bonus extends Component {
 
   static defaultProps = {
     disabled: false,
-    limits: true,
     remove: null,
     bonusTemplates: [],
   };

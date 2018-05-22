@@ -99,7 +99,7 @@ class CreateModal extends Component {
         }
       });
 
-      const wageringRequirement = action.payload.wageringRequirement;
+      const { payload: { wageringRequirement } } = action;
 
       if (wageringRequirement) {
         change('wageringRequirement.type', wageringRequirement.ratioType);
@@ -118,8 +118,7 @@ class CreateModal extends Component {
     }
   };
 
-  toggleCustomTemplate = (e) => {
-    const target = e.target;
+  toggleCustomTemplate = ({ target }) => {
     const value = target.type === 'checkbox' ? target.checked : target.value;
 
     if (value) {

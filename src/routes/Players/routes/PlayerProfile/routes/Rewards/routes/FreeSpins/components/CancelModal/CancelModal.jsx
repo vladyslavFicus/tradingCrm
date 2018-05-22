@@ -18,17 +18,18 @@ class CancelModal extends Component {
     item: PropTypes.freeSpinEntity.isRequired,
     action: PropTypes.string,
     reasons: PropTypes.object,
-    onClose: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func,
     customReason: PropTypes.bool,
     currentValues: PropTypes.shape({
       reason: PropTypes.string,
       customReason: PropTypes.string,
-    }).isRequired,
+    }),
     pristine: PropTypes.bool,
     submitting: PropTypes.bool,
     invalid: PropTypes.bool.isRequired,
+    isOpen: PropTypes.bool.isRequired,
+    onCloseModal: PropTypes.func.isRequired,
   };
   static defaultProps = {
     handleSubmit: null,
@@ -77,7 +78,6 @@ class CancelModal extends Component {
     const {
       action,
       reasons,
-      onClose,
       handleSubmit,
       customReason,
       currentValues,
@@ -85,12 +85,14 @@ class CancelModal extends Component {
       submitting,
       pristine,
       invalid,
+      isOpen,
+      onCloseModal,
     } = this.props;
 
     return (
-      <Modal className="modal-danger" isOpen toggle={onClose}>
+      <Modal className="modal-danger" isOpen={isOpen} toggle={onCloseModal}>
         <form onSubmit={handleSubmit(this.handleSubmit)}>
-          <ModalHeader toggle={onClose}>
+          <ModalHeader toggle={onCloseModal}>
             {I18n.t('PLAYER_PROFILE.FREE_SPIN.MODAL_CANCEL.TITLE')}
           </ModalHeader>
           <ModalBody>
@@ -119,8 +121,9 @@ class CancelModal extends Component {
 
           <ModalFooter>
             <button
+              type="button"
               className="btn btn-default-outline mr-auto"
-              onClick={onClose}
+              onClick={onCloseModal}
             >
               {I18n.t('PLAYER_PROFILE.FREE_SPIN.MODAL_CANCEL.CLOSE_BUTTON')}
             </button>

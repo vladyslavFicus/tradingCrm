@@ -1,3 +1,3 @@
-import ViewModal from './ViewModal';
+import ViewModalContainer from './ViewModalContainer';
 
-export default ViewModal;
+export default ViewModalContainer;

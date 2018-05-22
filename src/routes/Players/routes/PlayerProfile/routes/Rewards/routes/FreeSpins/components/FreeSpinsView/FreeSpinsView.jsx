@@ -11,19 +11,10 @@ import FreeSpinStatus from '../../../../../../../../../../components/FreeSpinSta
 import NoteButton from '../../../../../../../../../../components/NoteButton';
 import FreeSpinAvailablePeriod from '../FreeSpinAvailablePeriod';
 import FreeSpinsFilterForm from '../FreeSpinsFilterForm';
-import CreateModal from '../CreateModal';
-import CancelModal from '../CancelModal';
-import ViewModal from '../ViewModal';
-import shallowEqual from '../../../../../../../../../../utils/shallowEqual';
 import recognizeFieldError from '../../../../../../../../../../utils/recognizeFieldError';
 import FreeSpinGameInfo from '../FreeSpinGameInfo';
 import { aggregators, mapResponseErrorToField } from '../../constants';
 import { moneyTypeUsage } from '../../../../../../../../../../constants/bonus';
-
-const modalInitialState = { name: null, params: {} };
-const MODAL_CREATE = 'create-modal';
-const MODAL_CANCEL = 'cancel-modal';
-const MODAL_VIEW = 'view-modal';
 
 class FreeSpinsView extends Component {
   static propTypes = {
@@ -62,6 +53,11 @@ class FreeSpinsView extends Component {
     createFreeSpinTemplate: PropTypes.func.isRequired,
     assignFreeSpinTemplate: PropTypes.func.isRequired,
     templates: PropTypes.arrayOf(PropTypes.freeSpinListEntity),
+    modals: PropTypes.shape({
+      freeSpinInfoModal: PropTypes.modalType,
+      cancelFreeSpinModal: PropTypes.modalType,
+      createFreeSpinModal: PropTypes.modalType,
+    }).isRequired,
   };
   static defaultProps = {
     templates: [],
@@ -78,7 +74,6 @@ class FreeSpinsView extends Component {
   };
 
   state = {
-    modal: { ...modalInitialState },
     filters: {},
     page: 0,
   };
@@ -110,18 +105,6 @@ class FreeSpinsView extends Component {
         </button>
       </Fragment>
     ));
-  }
-
-  componentWillReceiveProps(nextProps) {
-    const { modal: { name, params } } = this.state;
-
-    if (name === MODAL_VIEW && params.item && params.item.uuid) {
-      const nextItem = nextProps.list.entities.content.find(i => i.uuid === params.item.uuid);
-
-      if (nextItem && !shallowEqual(nextItem, params.item)) {
-        this.setState({ modal: { ...this.state.modal, params: { ...this.state.modal.params, item: nextItem } } });
-      }
-    }
   }
 
   componentWillUnmount() {
@@ -162,13 +145,9 @@ class FreeSpinsView extends Component {
   };
 
   handleRowClick = (item) => {
-    const modalActions = [
-      {
-        children: I18n.t('COMMON.CLOSE'),
-        onClick: this.handleModalClose,
-        className: 'btn btn-default-outline',
-      },
-    ];
+    const { modals: { freeSpinInfoModal } } = this.props;
+
+    const modalActions = [];
 
     if ([statuses.CANCELED, statuses.PLAYED, statuses.FAILED].indexOf(item.status) === -1) {
       modalActions.push({
@@ -178,29 +157,59 @@ class FreeSpinsView extends Component {
       });
     }
 
-    this.handleModalOpen(MODAL_VIEW, {
-      item,
+    freeSpinInfoModal.show({
+      playerUUID: item.playerUUID,
+      uuid: item.uuid,
+      note: item.note,
       actions: modalActions,
     });
   };
 
   handleCancelClick = item => () => {
-    this.handleModalOpen(MODAL_CANCEL, {
+    const {
+      modals: { cancelFreeSpinModal },
+      cancelReasons,
+    } = this.props;
+
+    cancelFreeSpinModal.show({
       item,
       action: actions.CANCEL,
       initialValues: {
         uuid: item.uuid,
       },
+      reasons: cancelReasons,
+      onSubmit: this.handleCancelFreeSpin,
     });
   };
 
   handleCreateButtonClick = () => {
-    this.handleModalOpen(MODAL_CREATE, {
+    const {
+      modals: { createFreeSpinModal },
+      list: { newEntityNote },
+      providers,
+      games,
+      currency,
+      manageNote,
+      fetchFreeSpinTemplates,
+      fetchFreeSpinTemplate,
+      templates,
+    } = this.props;
+
+    createFreeSpinModal.show({
       initialValues: {
         currencyCode: this.props.currency,
         playerUUID: this.props.match.params.id,
         moneyTypePriority: moneyTypeUsage.REAL_MONEY_FIRST,
       },
+      onSubmit: this.handleSubmitNewFreeSpin,
+      currency,
+      games,
+      providers,
+      templates,
+      note: newEntityNote,
+      onManageNote: manageNote,
+      fetchFreeSpinTemplates,
+      fetchFreeSpinTemplate,
     });
   };
 
@@ -215,13 +224,12 @@ class FreeSpinsView extends Component {
       currency,
       match: { params: { id: playerUUID } },
       list: { newEntityNote: unsavedNote },
+      modals: { createFreeSpinModal },
     } = this.props;
 
     let action;
     if (aggregatorId === aggregators.igromat) {
-      const {
-        moduleId, clientId, betPerLine, ...freeSpinTemplateData
-      } = data;
+      const { moduleId, clientId, betPerLine, ...freeSpinTemplateData } = data;
       action = await createFreeSpinTemplate({
         claimable: false,
         ...freeSpinTemplateData,
@@ -269,14 +277,19 @@ class FreeSpinsView extends Component {
       }
 
       resetNote();
-      this.handleModalClose(this.handleRefresh);
+      createFreeSpinModal.hide();
+      this.handleRefresh();
     }
 
     return action;
   };
 
   handleCancelFreeSpin = async ({ uuid, reason }) => {
-    const { cancelFreeSpin, match: { params } } = this.props;
+    const {
+      cancelFreeSpin,
+      match: { params },
+      modals: { createFreeSpinModal },
+    } = this.props;
     const action = await cancelFreeSpin(params.id, uuid, reason);
 
     if (action) {
@@ -291,26 +304,10 @@ class FreeSpinsView extends Component {
       }
     }
 
-    this.handleModalClose(this.handleRefresh);
+    createFreeSpinModal.hide();
+    this.handleRefresh();
 
     return action;
-  };
-
-  handleModalOpen = (name, params) => {
-    this.setState({
-      modal: {
-        name,
-        params,
-      },
-    });
-  };
-
-  handleModalClose = (callback) => {
-    this.setState({ modal: { ...modalInitialState } }, () => {
-      if (typeof callback === 'function') {
-        callback();
-      }
-    });
   };
 
   handleExportButtonClick = () => this.props.exportFreeSpins({
@@ -360,21 +357,13 @@ class FreeSpinsView extends Component {
   );
 
   render() {
-    const { modal, filters } = this.state;
+    const { filters } = this.state;
     const {
       list: {
-        entities, newEntityNote, noResults, exporting,
+        entities, noResults,
       },
       filters: { data: { games: gamesFilterValues, providers: providersFilterValues } },
-      providers,
-      games,
-      currency,
-      manageNote,
-      cancelReasons,
       locale,
-      fetchFreeSpinTemplates,
-      fetchFreeSpinTemplate,
-      templates,
     } = this.props;
     const allowActions = Object.keys(filters).filter(i => filters[i]).length > 0;
 
@@ -429,39 +418,6 @@ class FreeSpinsView extends Component {
             />
           </GridView>
         </div>
-        {
-          modal.name === MODAL_CREATE &&
-          <CreateModal
-            {...modal.params}
-            onSubmit={this.handleSubmitNewFreeSpin}
-            onClose={this.handleModalClose}
-            currency={currency}
-            games={games}
-            providers={providers}
-            note={newEntityNote}
-            onManageNote={manageNote}
-            templates={templates}
-            fetchFreeSpinTemplates={fetchFreeSpinTemplates}
-            fetchFreeSpinTemplate={fetchFreeSpinTemplate}
-          />
-        }
-        {
-          modal.name === MODAL_CANCEL &&
-          <CancelModal
-            {...modal.params}
-            onSubmit={this.handleCancelFreeSpin}
-            onClose={this.handleModalClose}
-            reasons={cancelReasons}
-          />
-        }
-        {
-          modal.name === MODAL_VIEW &&
-          <ViewModal
-            isOpen
-            {...modal.params}
-            onClose={this.handleModalClose}
-          />
-        }
       </Fragment>
     );
   }

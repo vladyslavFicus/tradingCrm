@@ -542,7 +542,7 @@
           "MULTIPLIER": "Множитель",
           "BONUS_LIFE_TIME": "Время жизни бонуса",
           "MONEY_TYPE_PRIORITY": "Приоритет использования денег",
-          "COIN_SIZE": "Стоимость коина",
+          "COIN_SIZE": "Размер монеты",
           "NUMBER_OF_COINS": "Коинов на линию",
           "BET_LEVEL": "Уровень ставки",
           "COIN_VALUE_LEVEL": "Уровень стоимости монет",
@@ -758,7 +758,7 @@
     "WEEKS": "Недели",
     "NONE": "Ни одного",
     "REMOVE": "Удалить",
-    "CLAIMABLE": "Claimable",
+    "CLAIMABLE": "Требовать подтверждения",
     "CURRENCY": "Валюта",
     "YES": "Да",
     "NO": "Нет",
@@ -1450,7 +1450,7 @@
         "MAX_GRANTED_AMOUNT": "Макс. сумма бонусов",
         "NAME": "Название",
         "TEMPLATE": "Шаблон",
-        "WAGERING_REQUIREMENT": "Wagering requirement",
+        "WAGERING_REQUIREMENT": "Условия отыгрыша",
         "LOCK_AMOUNT_STRATEGY": "Lock amount strategy",
         "CAPPING": "Capping",
         "PRIZE": "Приз",
@@ -1459,7 +1459,7 @@
         "BET_LEVEL": "Уровень ставки",
         "BET_MULTIPLAYER": "Множитель ставок",
         "COIN_SIZE": "Размер монеты",
-        "RHFP_BET": "Rhfp bet",
+        "RHFP_BET": "Rhfp ставка",
         "BET_MULTIPLIER": "Множитель ставок",
         "COMMENT": "Комментарий",
         "PRIZE_CAPPING_TYPE": "Тип приза и капинга"
@@ -1876,7 +1876,7 @@
             "MIN_PRIZE": "Мин. цена",
             "MONEY_TYPE_PRIORITY": "Приоритет использования денег",
             "BONUS_LIFE_TIME": "Время жизни бонуса",
-            "CLAIMABLE": "Claimable",
+            "CLAIMABLE": "Требовать подтверждения",
             "PRIZE": "Цена",
             "PRIZE_CAPPING_TYPE": "Тип приза и капинга"
           },
@@ -2034,5 +2034,24 @@
       "STATUS": "Статус"
     },
     "TITLE": "CMS Список игр"
+  },
+  "FREE_SPIN": {
+    "BONUS": {
+      "GRANT": "",
+      "MAX_GRANT_AMOUNT": "Макс. сумма бонусов",
+      "WAGERING_REQUIREMENT": "Условия отыгрыша",
+      "MONEY_PRIORITY": "Приоритет",
+      "MAX_BET": "Макс. ставка",
+      "BONUS_LIFETIME": "Время жизни",
+      "LIFE_TIME_DAYS": "%{days} дней",
+      "LOCK_AMOUNT_STRATEGY": "Стратегия блок. денег",
+      "PRIZE": "Приз",
+      "CAPPING": "Capping",
+      "CLAIMABLE": "Требовать подтверждения"
+    },
+    "FREE_SPIN_AMOUNT": "Кол-во фри-спинов",
+    "COIN_SIZE": "Размер монеты",
+    "BET_MULTIPLIER": "Множитель ставок",
+    "RHFP_BET": "Rhfp ставка"
   }
 }
