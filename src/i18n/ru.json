@@ -332,7 +332,7 @@
         },
         "WAGERING_REQUIREMENT_CUSTOM_VALUE_TYPE": {
           "ABSOLUTE": "Абсолютное",
-          "PERCENTAGE": "Проценты"
+          "PERCENTAGE": "Процентое"
         }
       },
       "CANCEL_BONUS": "Отменить бонус",
