@@ -2,19 +2,19 @@ import { compose, graphql, withApollo } from 'react-apollo';
 import { reduxForm, getFormValues } from 'redux-form';
 import { connect } from 'react-redux';
 import update from 'react-addons-update';
-import { getBrandId } from '../../../../../config';
-import { currencyQuery } from '../../../../../graphql/queries/options';
+import { getBrandId } from '../../../../../../../../../../../config';
+import { currencyQuery } from '../../../../../../../../../../../graphql/queries/options';
 import {
   freeSpinTemplateOptionsQuery,
   freeSpinTemplatesQuery,
-} from '../../../../../graphql/queries/campaigns';
-import { freeSpinTemplateMutation } from '../../../../../graphql/mutations/campaigns';
-import { gameListQuery } from '../../../../../graphql/queries/games';
+} from '../../../../../../../../../../../graphql/queries/campaigns';
+import { freeSpinTemplateMutation } from '../../../../../../../../../../../graphql/mutations/campaigns';
+import { gameListQuery } from '../../../../../../../../../../../graphql/queries/games';
 import FreeSpinCreateModal from './FreeSpinCreateModal';
-import { withNotifications } from '../../../../../components/HighOrder';
+import { withNotifications } from '../../../../../../../../../../../components/HighOrder';
 import validator from './validator';
 
-const FORM_NAME = 'addFreeSpinTemplate';
+const FORM_NAME = 'manualFreeSpinModal';
 
 export default compose(
   withApollo,

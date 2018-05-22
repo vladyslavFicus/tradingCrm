@@ -501,7 +501,8 @@
       "EXPORT_BUTTON": "Export",
       "MANUAL_FREE_SPIN_BUTTON": "+ Manual free spin",
       "NOTIFICATIONS": {
-        "CANCEL_FREE_SPIN_ERROR": "Failed to cancel free spins"
+        "CANCEL_FREE_SPIN_ERROR": "Failed to cancel free spins",
+        "ASSIGN_FREE_SPIN_TO_PLAYER": "Assign free spin to player"
       },
       "FREE_SPIN_TEMPLATE": "Free spin template",
       "BONUS_TEMPLATE": "Bonus template"
