@@ -4,6 +4,7 @@ import { Switch, Redirect } from 'react-router-dom';
 import { Route } from '../../../../../router';
 import Information from '../components/Information';
 import Tabs from '../../../../../components/Tabs';
+import NotFound from '../../../../../routes/NotFound';
 import { operatorProfileTabs } from '../../../../../config/menu';
 import Header from '../components/Header';
 import PropTypes from '../../../../../constants/propTypes';
@@ -102,6 +103,10 @@ class OperatorProfileLayout extends Component {
       changeStatus,
       authorities: { data: authorities },
     } = this.props;
+
+    if (!data.isLoading && !data.uuid) {
+      return <NotFound />;
+    }
 
     return (
       <div className="profile">
