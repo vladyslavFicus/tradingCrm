@@ -8,7 +8,6 @@ const freeSpinQuery = gql`query freeSpin($playerUUID: String!, $uuid: String!){
       name
       authorUUID
       freeSpinTemplateUUID
-      freeSpinTemplateUUID
       bonusTemplateUUID
       providerId
       gameName

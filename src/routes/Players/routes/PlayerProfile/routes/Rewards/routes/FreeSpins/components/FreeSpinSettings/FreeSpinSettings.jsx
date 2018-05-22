@@ -1,4 +1,4 @@
-import React, { PureComponent, Fragment } from 'react';
+import React, { PureComponent } from 'react';
 import { I18n } from 'react-redux-i18n';
 import PropTypes from '../../../../../../../../../../constants/propTypes';
 import Amount from '../../../../../../../../../../components/Amount';
@@ -23,58 +23,51 @@ class FreeSpinSettings extends PureComponent {
 
     return (
       <div>
-        {
-          freeSpinsAmount &&
+        <If condition={freeSpinsAmount}>
           <div>
             {I18n.t('FREE_SPIN.FREE_SPIN_AMOUNT')} {': '}
             {freeSpinsAmount}
           </div>
-        }
-        {
-          coinSize &&
+        </If>
+        <If condition={coinSize}>
           <div>
             {I18n.t('FREE_SPIN.COIN_SIZE')} {': '}
             {coinSize}
           </div>
-        }
-        {
-          betMultiplier &&
+        </If>
+        <If condition={betMultiplier}>
           <div>
             {I18n.t('FREE_SPIN.BET_MULTIPLIER')} {': '}
             {betMultiplier}
           </div>
-        }
-        {
-          rhfpBet &&
+        </If>
+        <If condition={rhfpBet}>
           <div>
             {I18n.t('FREE_SPIN.RHFP_BET')} {': '}
             {rhfpBet}
           </div>
-        }
-        {
-          !!linesPerSpin &&
-          <Fragment>
+        </If>
+        <If condition={linesPerSpin}>
+          <div>
             {I18n.t('PLAYER_PROFILE.FREE_SPINS.FREE_SPIN_SETTINGS.LINES')}
             {': '}
             <span className="font-weight-700">{linesPerSpin}</span>
-          </Fragment>
-        }
-        {
-          betPrice &&
+          </div>
+        </If>
+        <If condition={betPrice}>
           <div>
             {I18n.t('PLAYER_PROFILE.FREE_SPINS.FREE_SPIN_SETTINGS.BET_PER_LINE')}
             {': '}
             <Amount className="font-weight-700" amount={betPrice} currency={currencyCode} />
           </div>
-        }
-        {
-          betPrice && linesPerSpin &&
+        </If>
+        <If condition={betPrice && linesPerSpin}>
           <div>
             {I18n.t('PLAYER_PROFILE.FREE_SPINS.FREE_SPIN_SETTINGS.SPIN_VALUE')}
             {': '}
             <Amount className="font-weight-700" amount={betPrice * linesPerSpin} currency={currencyCode} />
           </div>
-        }
+        </If>
       </div>
     );
   }
