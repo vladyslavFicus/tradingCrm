@@ -36,6 +36,12 @@ class OperatorProfileLayout extends Component {
     fetchAuthority: PropTypes.func.isRequired,
     fetchProfile: PropTypes.func.isRequired,
     authorities: PropTypes.object.isRequired,
+    isLoading: PropTypes.bool.isRequired,
+    error: PropTypes.any,
+  };
+
+  static defaultProps={
+    error: null,
   };
 
   state = {
@@ -99,13 +105,19 @@ class OperatorProfileLayout extends Component {
       location,
       match: { params, path, url },
       data,
+      isLoading,
+      error,
       availableStatuses,
       changeStatus,
       authorities: { data: authorities },
     } = this.props;
 
-    if (!data.isLoading && !data.uuid) {
+    if (error) {
       return <NotFound />;
+    }
+
+    if (isLoading) {
+      return null;
     }
 
     return (
