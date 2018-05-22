@@ -12,12 +12,12 @@ class AppContainer extends Component {
   };
 
   render() {
-    const { routes: containerRoutes, store } = this.props;
+    const { store } = this.props;
 
     return (
       <Provider store={store}>
         <ApolloProvider>
-          <Router history={history} >
+          <Router history={history}>
             <IndexRoute />
           </Router>
         </ApolloProvider>

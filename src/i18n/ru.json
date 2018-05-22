@@ -329,6 +329,10 @@
         "MONEY_TYPE_USAGE": {
           "REAL_MONEY": "Реальные деньги",
           "BONUS_MONEY": "Бонусные деньги"
+        },
+        "WAGERING_REQUIREMENT_CUSTOM_VALUE_TYPE": {
+          "ABSOLUTE": "Абсолютное",
+          "PERCENTAGE": "Проценты"
         }
       },
       "CANCEL_BONUS": "Отменить бонус",
@@ -1041,6 +1045,20 @@
       "ROUTES": {
         "PAYMENTS": "Платежи",
         "GAMING_ACTIVITY": "Игровая активность"
+      }
+    },
+    "CAMPAIGNS": {
+      "STATUSES": {
+        "ACTIVE": "Активная",
+        "DRAFT": "Черновик"
+      },
+      "FULFILLMENT_TYPES": {
+        "WAGERING": "Ставки",
+        "DEPOSIT": "Депозит"
+      },
+      "REWARD_TYPES": {
+        "BONUS": "Бонус",
+        "FREE_SPIN": "Фри-спины"
       }
     }
   },
@@ -1936,6 +1954,29 @@
       "LIST": {
         "CREATE_BUTTON": "Создать вейджер",
         "TITLE": "Вейджер"
+      }
+    },
+    "LIST": {
+      "GRID_VIEW_FILTER": {
+        "SEARCH_BY": {
+          "LABEL": "Поиск по",
+          "PLACEHOLDER": "Название, uuid"
+        },
+        "STATUS": {
+          "LABEL": "Статус"
+        },
+        "FULFILLMENT_TYPE": {
+          "LABEL": "Условие"
+        },
+        "CAMPAIGN_TYPE": {
+          "LABEL": "Вознаграждение"
+        },
+        "CREATION_DATE": {
+          "LABEL": "Диапазон даты создания"
+        },
+        "ACTIVITY_DATE": {
+          "LABEL": "Диапазон даты активности"
+        }
       }
     }
   },

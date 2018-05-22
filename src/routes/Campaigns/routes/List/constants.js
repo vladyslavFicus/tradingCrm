@@ -1,12 +1,16 @@
-import keyMirror from 'keymirror';
 import I18n from '../../../../utils/fake-i18n';
 
 const filterLabels = {
-  searchBy: I18n.t('CMS_GAMES.GRID_VIEW_FILTER.SEARCH_BY.LABEL'),
+  searchBy: I18n.t('CAMPAIGNS.LIST.GRID_VIEW_FILTER.SEARCH_BY.LABEL'),
+  status: I18n.t('CAMPAIGNS.LIST.GRID_VIEW_FILTER.STATUS.LABEL'),
+  fulfillmentType: I18n.t('CAMPAIGNS.LIST.GRID_VIEW_FILTER.FULFILLMENT_TYPE.LABEL'),
+  campaignType: I18n.t('CAMPAIGNS.LIST.GRID_VIEW_FILTER.CAMPAIGN_TYPE.LABEL'),
+  creationDate: I18n.t('CAMPAIGNS.LIST.GRID_VIEW_FILTER.CREATION_DATE.LABEL'),
+  activityDate: I18n.t('CAMPAIGNS.LIST.GRID_VIEW_FILTER.ACTIVITY_DATE.LABEL'),
 };
 
 const filterPlaceholders = {
-  searchBy: I18n.t('CMS_GAMES.GRID_VIEW_FILTER.SEARCH_BY.PLACEHOLDER'),
+  searchBy: I18n.t('CAMPAIGNS.LIST.GRID_VIEW_FILTER.SEARCH_BY.PLACEHOLDER'),
 };
 
 export {

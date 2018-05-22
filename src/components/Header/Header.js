@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import classNames from 'classnames';
-import { Link } from 'react-router-dom';
 import PropTypes from '../../constants/propTypes';
 import DepartmentsDropDown from '../DepartmentsDropDown';
 import HeaderNav from '../HeaderNav';
-import { getLogo } from '../../config';
+import Logo from '../Logo';
 import history from '../../router/history';
 import './Header.scss';
 
@@ -53,10 +52,9 @@ class Header extends Component {
 
     return (
       <header className="header">
-        <Link className="header__brand" to={this.indexLink}>
-          <img className="img-fluid" src={getLogo()} alt="current-casino-logo" />
-        </Link>
-        <If condition={user.logged}>
+        <Logo className="header__brand" to={this.indexLink} />
+
+        <If condition={user.logged && user.authorities.length > 0}>
           <DepartmentsDropDown
             onChange={this.handleChangeDepartment}
             current={user.authorities.find(authority => authority.department === user.department)}

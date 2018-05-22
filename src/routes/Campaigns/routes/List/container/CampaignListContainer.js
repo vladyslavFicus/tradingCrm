@@ -9,18 +9,15 @@ export default compose(
   connect(mapStateToProps),
   graphql(campaignsQuery, {
     name: 'campaigns',
-    options: () => ({
+    options: ({ location: { query } }) => ({
       fetchPolicy: 'cache-and-network',
       variables: {
+        ...query ? query.filters : {},
         size: 10,
         page: 0,
       },
     }),
-    props: ({
-      campaigns: {
-        campaigns, fetchMore, ...rest
-      },
-    }) => ({
+    props: ({ campaigns: { campaigns, fetchMore, ...rest } }) => ({
       campaigns: {
         ...rest,
         campaigns,

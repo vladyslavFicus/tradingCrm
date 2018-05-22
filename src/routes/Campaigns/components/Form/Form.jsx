@@ -87,7 +87,7 @@ class Form extends Component {
   handleSubmit = (formData) => {
     let valid = true;
 
-    [nodeGroups.FULFILLMENTS, nodeGroups.REWARDS].forEach((nodeGroup) => {
+    [nodeGroups.REWARDS].forEach((nodeGroup) => {
       if (!formData[nodeGroupsAlias[nodeGroup]].length) {
         this.props.notify({
           level: 'error',
@@ -199,6 +199,7 @@ class Form extends Component {
               component={SelectField}
               normalize={normalizeBoolean}
               position="vertical"
+              disabled={disabled}
             >
               {Object.keys(optInSelect).map(key => (
                 <option key={key} value={key}>

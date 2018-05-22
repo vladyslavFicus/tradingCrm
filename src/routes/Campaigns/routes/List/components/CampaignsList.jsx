@@ -13,6 +13,11 @@ import ShortLoader from '../../../../../components/ShortLoader';
 class CampaignsList extends Component {
   static propTypes = {
     locale: PropTypes.string.isRequired,
+    location: PropTypes.shape({
+      query: PropTypes.shape({
+        filters: PropTypes.objectOf(PropTypes.string),
+      }),
+    }).isRequired,
     campaigns: PropTypes.shape({
       refetch: PropTypes.func.isRequired,
       loading: PropTypes.bool.isRequired,
@@ -85,9 +90,10 @@ class CampaignsList extends Component {
   render() {
     const {
       location: { query },
-      campaigns: { campaigns, loading, variables: { size, page, ...filters } },
+      campaigns: { campaigns, loading },
       locale,
     } = this.props;
+    const filters = query ? query.filters : {};
     const allowActions = Object
       .keys(filters)
       .filter(i => (filters[i] && Array.isArray(filters[i]) && filters[i].length > 0) || filters[i]).length > 0;
@@ -125,7 +131,7 @@ class CampaignsList extends Component {
                 onPageChange={this.handlePageChanged}
                 activePage={campaigns.number + 1}
                 totalPages={campaigns.totalPages}
-                showNoResults={false}
+                showNoResults={Object.keys(filters).length > 0 && campaigns.content.length === 0}
                 last={campaigns.last}
                 lazyLoad
               >
