@@ -1,16 +1,25 @@
 import React, { Component } from 'react';
 import moment from 'moment';
-import { I18n } from 'react-redux-i18n';
 import { Link } from 'react-router-dom';
+import { I18n } from 'react-redux-i18n';
+import history from '../../../../../router/history';
 import Uuid from '../../../../../components/Uuid';
 import PropTypes from '../../../../../constants/propTypes';
 import GridView, { GridViewColumn } from '../../../../../components/GridView';
 import BonusCampaignStatus from '../../../../../components/BonusCampaignStatus';
+import CampaignGridViewFilter from './CampaignGridViewFilter';
+import ShortLoader from '../../../../../components/ShortLoader';
 
-class List extends Component {
+class CampaignsList extends Component {
   static propTypes = {
     locale: PropTypes.string.isRequired,
+    location: PropTypes.shape({
+      query: PropTypes.shape({
+        filters: PropTypes.objectOf(PropTypes.string),
+      }),
+    }).isRequired,
     campaigns: PropTypes.shape({
+      refetch: PropTypes.func.isRequired,
       loading: PropTypes.bool.isRequired,
       loadMoreCampaigns: PropTypes.func.isRequired,
       campaigns: PropTypes.shape({
@@ -18,6 +27,10 @@ class List extends Component {
       }),
     }).isRequired,
   };
+
+  handleFiltersChanged = (filters = {}) => history.replace({ query: { filters } });
+
+  handleFilterReset = () => history.replace({ query: { filters: {} } });
 
   handlePageChanged = () => {
     const {
@@ -76,13 +89,14 @@ class List extends Component {
 
   render() {
     const {
-      campaigns: { campaigns },
+      location: { query },
+      campaigns: { campaigns, loading },
       locale,
     } = this.props;
-
-    if (!campaigns) {
-      return null;
-    }
+    const filters = query ? query.filters : {};
+    const allowActions = Object
+      .keys(filters)
+      .filter(i => (filters[i] && Array.isArray(filters[i]) && filters[i].length > 0) || filters[i]).length > 0;
 
     return (
       <div className="card">
@@ -98,37 +112,51 @@ class List extends Component {
           </Link>
         </div>
 
+        <CampaignGridViewFilter
+          onSubmit={this.handleFiltersChanged}
+          onReset={this.handleFilterReset}
+          initialValues={filters}
+          disabled={!allowActions || loading}
+        />
+
         <div className="card-body">
-          <GridView
-            locale={locale}
-            dataSource={campaigns.content}
-            onPageChange={this.handlePageChanged}
-            activePage={campaigns.number + 1}
-            totalPages={campaigns.totalPages}
-            showNoResults={false}
-            last={campaigns.last}
-            lazyLoad
-          >
-            <GridViewColumn
-              name="campaign"
-              header={I18n.t('CAMPAIGNS.GRID_VIEW.CAMPAIGN')}
-              render={this.renderCampaign}
-            />
-            <GridViewColumn
-              name="creationDate"
-              header={I18n.t('CAMPAIGNS.GRID_VIEW.CREATED')}
-              render={this.renderDate('creationDate')}
-            />
-            <GridViewColumn
-              name="status"
-              header={I18n.t('CAMPAIGNS.GRID_VIEW.STATUS')}
-              render={this.renderStatus}
-            />
-          </GridView>
+          <Choose>
+            <When condition={loading}>
+              <ShortLoader />
+            </When>
+            <Otherwise>
+              <GridView
+                locale={locale}
+                dataSource={campaigns.content}
+                onPageChange={this.handlePageChanged}
+                activePage={campaigns.number + 1}
+                totalPages={campaigns.totalPages}
+                showNoResults={Object.keys(filters).length > 0 && campaigns.content.length === 0}
+                last={campaigns.last}
+                lazyLoad
+              >
+                <GridViewColumn
+                  name="campaign"
+                  header={I18n.t('CAMPAIGNS.GRID_VIEW.CAMPAIGN')}
+                  render={this.renderCampaign}
+                />
+                <GridViewColumn
+                  name="creationDate"
+                  header={I18n.t('CAMPAIGNS.GRID_VIEW.CREATED')}
+                  render={this.renderDate('creationDate')}
+                />
+                <GridViewColumn
+                  name="status"
+                  header={I18n.t('CAMPAIGNS.GRID_VIEW.STATUS')}
+                  render={this.renderStatus}
+                />
+              </GridView>
+            </Otherwise>
+          </Choose>
         </div>
       </div>
     );
   }
 }
 
-export default List;
+export default CampaignsList;

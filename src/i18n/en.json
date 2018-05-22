@@ -323,6 +323,10 @@
         "MONEY_TYPE_USAGE": {
           "REAL_MONEY": "Real money first",
           "BONUS_MONEY": "Bonus money first"
+        },
+        "WAGERING_REQUIREMENT_CUSTOM_VALUE_TYPE": {
+          "ABSOLUTE": "Absolute",
+          "PERCENTAGE": "Percentage"
         }
       },
       "CANCEL_BONUS": "Cancel bonus",
@@ -1035,6 +1039,20 @@
       "ROUTES": {
         "PAYMENTS": "Payments",
         "GAMING_ACTIVITY": "Gaming activity"
+      }
+    },
+    "CAMPAIGNS": {
+      "STATUSES": {
+        "ACTIVE": "Active",
+        "DRAFT": "Draft"
+      },
+      "FULFILLMENT_TYPES": {
+        "WAGERING": "Wagering",
+        "DEPOSIT": "Deposit"
+      },
+      "REWARD_TYPES": {
+        "BONUS": "Bonus",
+        "FREE_SPIN": "Free-spin"
       }
     }
   },
@@ -1921,6 +1939,29 @@
       "LIST": {
         "CREATE_BUTTON": "Create wagering fulfillment",
         "TITLE": "Wagering fulfillment"
+      }
+    },
+    "LIST": {
+      "GRID_VIEW_FILTER": {
+        "SEARCH_BY": {
+          "LABEL": "Search by",
+          "PLACEHOLDER": "Name, uuid, ..."
+        },
+        "STATUS": {
+          "LABEL": "Status"
+        },
+        "FULFILLMENT_TYPE": {
+          "LABEL": "Fulfillment type"
+        },
+        "CAMPAIGN_TYPE": {
+          "LABEL": "Campaign type"
+        },
+        "CREATION_DATE": {
+          "LABEL": "Creation date range"
+        },
+        "ACTIVITY_DATE": {
+          "LABEL": "Activity date range"
+        }
       }
     }
   },

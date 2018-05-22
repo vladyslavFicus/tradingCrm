@@ -1,7 +1,7 @@
 import { graphql, compose } from 'react-apollo';
 import { connect } from 'react-redux';
 import { campaignsQuery } from '.././../../../../graphql/queries/campaigns';
-import List from '../components/List';
+import CampaignsList from '../components/CampaignsList';
 
 const mapStateToProps = ({ i18n: { locale } }) => ({ locale });
 
@@ -9,18 +9,15 @@ export default compose(
   connect(mapStateToProps),
   graphql(campaignsQuery, {
     name: 'campaigns',
-    options: () => ({
+    options: ({ location: { query } }) => ({
       fetchPolicy: 'cache-and-network',
       variables: {
+        ...query ? query.filters : {},
         size: 10,
         page: 0,
       },
     }),
-    props: ({
-      campaigns: {
-        campaigns, fetchMore, ...rest
-      },
-    }) => ({
+    props: ({ campaigns: { campaigns, fetchMore, ...rest } }) => ({
       campaigns: {
         ...rest,
         campaigns,
@@ -49,4 +46,4 @@ export default compose(
       },
     }),
   }),
-)(List);
+)(CampaignsList);

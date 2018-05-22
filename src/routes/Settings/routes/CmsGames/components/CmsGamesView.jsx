@@ -16,7 +16,7 @@ import {
 } from '../constants';
 import renderLabel from '../../../../../utils/renderLabel';
 import CmsGamesGridViewFilter from './CmsGamesGridViewFilter';
-import Loader from './Loader';
+import ShortLoader from '../../../../../components/ShortLoader';
 import history from '../../../../../router/history';
 
 class CmsGamesView extends Component {
@@ -164,7 +164,7 @@ class CmsGamesView extends Component {
 
         <Choose>
           <When condition={providersLoading}>
-            <Loader />
+            <ShortLoader />
           </When>
           <Otherwise>
             <CmsGamesGridViewFilter
@@ -184,7 +184,7 @@ class CmsGamesView extends Component {
         <div className="card-body">
           <Choose>
             <When condition={loading}>
-              <Loader />
+              <ShortLoader />
             </When>
             <Otherwise>
               <OffsetGridView
