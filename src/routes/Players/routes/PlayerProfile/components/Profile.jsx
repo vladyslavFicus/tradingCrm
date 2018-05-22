@@ -5,6 +5,7 @@ import { I18n } from 'react-redux-i18n';
 import { Switch, Redirect } from 'react-router-dom';
 import Tabs from '../../../../../components/Tabs';
 import Modal from '../../../../../components/Modal';
+import NotFound from '../../../../../routes/NotFound';
 import Permissions from '../../../../../utils/permissions';
 import { actions as walletActions } from '../../../../../constants/wallet';
 import {
@@ -637,6 +638,10 @@ class Profile extends Component {
   };
 
   render() {
+    if (get(this.props, 'playerProfile.playerProfile.error')) {
+      return <NotFound />;
+    }
+
     const { modal, popover, imageViewer: imageViewerState } = this.state;
     const {
       playerProfile: { playerProfile, loading },

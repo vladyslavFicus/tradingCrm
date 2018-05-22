@@ -4,6 +4,7 @@ import { Switch, Redirect } from 'react-router-dom';
 import { Route } from '../../../../../router';
 import Information from '../components/Information';
 import Tabs from '../../../../../components/Tabs';
+import NotFound from '../../../../../routes/NotFound';
 import { operatorProfileTabs } from '../../../../../config/menu';
 import Header from '../components/Header';
 import PropTypes from '../../../../../constants/propTypes';
@@ -35,6 +36,12 @@ class OperatorProfileLayout extends Component {
     fetchAuthority: PropTypes.func.isRequired,
     fetchProfile: PropTypes.func.isRequired,
     authorities: PropTypes.object.isRequired,
+    isLoading: PropTypes.bool.isRequired,
+    error: PropTypes.any,
+  };
+
+  static defaultProps={
+    error: null,
   };
 
   state = {
@@ -98,10 +105,20 @@ class OperatorProfileLayout extends Component {
       location,
       match: { params, path, url },
       data,
+      isLoading,
+      error,
       availableStatuses,
       changeStatus,
       authorities: { data: authorities },
     } = this.props;
+
+    if (error) {
+      return <NotFound />;
+    }
+
+    if (isLoading) {
+      return null;
+    }
 
     return (
       <div className="profile">

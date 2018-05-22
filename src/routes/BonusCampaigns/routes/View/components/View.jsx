@@ -9,6 +9,7 @@ import Header from '../components/Header';
 import Information from '../components/Information';
 import ConfirmActionModal from '../../../../../components/Modal/ConfirmActionModal';
 import HideDetails from '../../../../../components/HideDetails';
+import NotFound from '../../../../../routes/NotFound';
 import history from '../../../../../router/history';
 import Settings from '../routes/Settings';
 import Feed from '../routes/Feed';
@@ -34,9 +35,12 @@ class ViewLayout extends Component {
     cloneCampaign: PropTypes.func.isRequired,
     uploadFile: PropTypes.func.isRequired,
     removeAllPlayers: PropTypes.func.isRequired,
+    error: PropTypes.any,
   };
+
   static defaultProps = {
     availableStatusActions: [],
+    error: null,
   };
   static contextTypes = {
     addNotification: PropTypes.func.isRequired,
@@ -128,8 +132,13 @@ class ViewLayout extends Component {
       location,
       match: { params, path, url },
       availableStatusActions,
+      error,
       onChangeCampaignState,
     } = this.props;
+
+    if (error) {
+      return <NotFound />;
+    }
 
     if (!bonusCampaignData.uuid) {
       return null;

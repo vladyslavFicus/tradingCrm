@@ -6,6 +6,7 @@ import { newBonusCampaignTabs } from '../../../../../config/menu';
 import PropTypes from '../../../../../constants/propTypes';
 import Header from './Header';
 import Settings from '../routes/Settings';
+import NotFound from '../../../../../routes/NotFound';
 
 class CampaignView extends PureComponent {
   static propTypes = {
@@ -22,7 +23,7 @@ class CampaignView extends PureComponent {
     campaign: PropTypes.shape({
       loading: PropTypes.bool.isRequired,
       campaign: PropTypes.shape({
-        data: PropTypes.newBonusCampaignEntity.isRequired,
+        data: PropTypes.newBonusCampaignEntity,
       }),
     }).isRequired,
   };
@@ -37,6 +38,10 @@ class CampaignView extends PureComponent {
 
     if (!campaign) {
       return null;
+    }
+
+    if (campaign.error) {
+      return <NotFound />;
     }
 
     const { data: campaignData } = campaign;

@@ -44,7 +44,7 @@ class View extends Component {
       }).isRequired,
     }).isRequired,
     profile: PropTypes.shape({
-      data: PropTypes.userProfile.isRequired,
+      data: PropTypes.object.isRequired,
       kycReasons: PropTypes.shape({
         refuse: PropTypes.array,
         request: PropTypes.array,
