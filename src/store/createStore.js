@@ -17,6 +17,8 @@ import unauthorized from '../redux/middlewares/unauthorized';
 import config from '../config';
 import translations from '../i18n';
 import { actionCreators as permissionsActionCreators } from '../redux/modules/auth/permissions';
+import { actionCreators as userPanelsActionCreators } from '../redux/modules/user-panels';
+import history from '../router/history';
 
 export default (initialState = {}, onComplete) => {
   const middleware = [
@@ -92,6 +94,14 @@ export default (initialState = {}, onComplete) => {
 
     if (logged && token) {
       await store.dispatch(permissionsActionCreators.fetchPermissions(token));
+    }
+
+    if (!window.isFrame) {
+      history.listen(() => {
+        if (store.getState().userPanels.activeIndex) {
+          store.dispatch(userPanelsActionCreators.setActive(null));
+        }
+      });
     }
 
     syncTranslationWithStore(store);
