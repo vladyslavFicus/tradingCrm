@@ -136,7 +136,7 @@ class ViewLayout extends Component {
       onChangeCampaignState,
     } = this.props;
 
-    if (error) {
+    if (!bonusCampaignData.uuid && error) {
       return <NotFound />;
     }
 
