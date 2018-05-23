@@ -11,14 +11,14 @@ export default (codes = [401]) => {
     );
 
   return ({ dispatch, getState }) => next => (action) => {
-    const { auth, location } = getState();
+    const { auth } = getState();
 
     if (isValidMiddlewareAction({ auth }, action)) {
       if (window.isFrame) {
         window.dispatchAction(windowActionCreators.logout());
       } else {
         dispatch({ type: actionTypes.LOGOUT.SUCCESS });
-        const signInUrl = getSignInUrl(location);
+        const signInUrl = getSignInUrl();
 
         if ((!action.meta || !action.meta.ignoreByAuthMiddleware) && signInUrl) {
           history.push(signInUrl);

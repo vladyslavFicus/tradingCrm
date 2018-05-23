@@ -1,9 +1,7 @@
-export default (location) => {
-  let returnUrl = '';
+import history from '../router/history';
 
-  if (location && typeof location === 'object' && location.pathname) {
-    returnUrl = location.pathname;
-  }
+export default () => {
+  let returnUrl = history.location.pathname;
 
   if (returnUrl === '/' || returnUrl === '/logout') {
     returnUrl = '';

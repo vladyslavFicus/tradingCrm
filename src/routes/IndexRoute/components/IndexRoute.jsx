@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import { Switch, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { parse } from 'qs';
 import { AppRoute, Route } from '../../../router';
 import NotFound from '../../../routes/NotFound';
 import CoreLayout from '../../../layouts/CoreLayout';
@@ -21,17 +22,25 @@ import Operators from '../../Operators';
 class IndexRoute extends PureComponent {
   static propTypes = {
     logged: PropTypes.bool.isRequired,
+    location: PropTypes.shape({
+      search: PropTypes.string,
+    }).isRequired,
   };
 
   render() {
-    const { logged } = this.props;
+    const { logged, location } = this.props;
+    const search = parse(location.search, {
+      ignoreQueryPrefix: true,
+    });
+    const returnUrl = (search && search.returnUrl) ? search.returnUrl : '/';
 
     return (
       <CoreLayout>
         <Switch>
           <Choose>
             <When condition={logged}>
-              <Redirect from="/(sign-in|set-password|reset-password)" to="/" />
+              <Redirect from="/sign-in" to={returnUrl} />
+              <Redirect from="/(set-password|reset-password)" to="/" />
               <Redirect exact from="/" to="/players" />
             </When>
             <Otherwise>

@@ -6,16 +6,9 @@ import SignInForm from './SignInForm';
 import Preloader from '../../../components/Preloader';
 import { Brands, Departments } from '../../../components/Brands';
 import Copyrights from '../../../components/Copyrights';
-import history from '../../../router/history';
 
 class SignIn extends Component {
   static propTypes = {
-    location: PropTypes.shape({
-      query: PropTypes.shape({
-        returnUrl: PropTypes.string,
-        spec: PropTypes.string,
-      }),
-    }).isRequired,
     signIn: PropTypes.func.isRequired,
     selectBrand: PropTypes.func.isRequired,
     reset: PropTypes.func.isRequired,
@@ -160,30 +153,12 @@ class SignIn extends Component {
               fetchProfile(uuid, action.payload.token),
               fetchAuthorities(uuid, action.payload.token),
             ]);
-
-            this.redirectToNextPage();
           } else {
             throw new SubmissionError({ _error: get(action.payload, 'response.error', action.payload.message) });
           }
         }
       });
     }
-  };
-
-  redirectToNextPage = () => {
-    const { location } = this.props;
-    let nextUrl = '/';
-
-    if (
-      location.query && location.query.returnUrl
-      && !/sign\-in/.test(location.query.returnUrl)
-      && !/logout/.test(location.query.returnUrl)
-      && !/brands/.test(location.query.returnUrl)
-    ) {
-      nextUrl = location.query.returnUrl;
-    }
-
-    history.replace(nextUrl);
   };
 
   render() {
