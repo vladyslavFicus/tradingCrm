@@ -88,6 +88,9 @@ export default compose(
   }),
   reduxForm({
     form: FORM_NAME,
+    initialValues: {
+      claimable: false,
+    },
     shouldError: ({ props }) => !props.touched,
     validate: validator,
   }),

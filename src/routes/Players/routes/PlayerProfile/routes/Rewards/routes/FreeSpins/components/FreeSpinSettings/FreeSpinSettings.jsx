@@ -18,6 +18,7 @@ class FreeSpinSettings extends PureComponent {
         betMultiplier,
         rhfpBet,
         freeSpinsAmount,
+        claimable,
       },
     } = this.props;
 
@@ -66,6 +67,20 @@ class FreeSpinSettings extends PureComponent {
             {I18n.t('PLAYER_PROFILE.FREE_SPINS.FREE_SPIN_SETTINGS.SPIN_VALUE')}
             {': '}
             <Amount className="font-weight-700" amount={betPrice * linesPerSpin} currency={currencyCode} />
+          </div>
+        </If>
+        <If condition={claimable}>
+          <div>
+            {I18n.t('PLAYER_PROFILE.FREE_SPINS.FREE_SPIN_SETTINGS.CLAIMABLE')}
+            {': '}
+            <Choose>
+              <When condition={claimable}>
+                {I18n.t('COMMON.YES')}
+              </When>
+              <Otherwise>
+                {I18n.t('COMMON.NO')}
+              </Otherwise>
+            </Choose>
           </div>
         </If>
       </div>

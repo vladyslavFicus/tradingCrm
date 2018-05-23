@@ -20,7 +20,6 @@ import { attributeLabels } from '../constants';
 
 class FreeSpinAssignModal extends PureComponent {
   static propTypes = {
-    name: PropTypes.string.isRequired,
     uuid: PropTypes.string,
     freeSpinTemplates: PropTypes.shape({
       freeSpinTemplates: PropTypes.arrayOf(PropTypes.shape({
@@ -154,7 +153,6 @@ class FreeSpinAssignModal extends PureComponent {
       freeSpinTemplates: {
         freeSpinTemplates,
       },
-      name,
       freeSpinTemplate: {
         loading,
         freeSpinTemplate,

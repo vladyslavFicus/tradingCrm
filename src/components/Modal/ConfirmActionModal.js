@@ -7,13 +7,14 @@ import { shortify } from '../../utils/uuid';
 class ConfirmActionModal extends Component {
   static propTypes = {
     onSubmit: PropTypes.func.isRequired,
-    onClose: PropTypes.func.isRequired,
+    onCloseModal: PropTypes.func.isRequired,
     modalTitle: PropTypes.string,
     actionText: PropTypes.string,
     submitButtonLabel: PropTypes.string,
     fullName: PropTypes.string,
     uuid: PropTypes.string,
     additionalText: PropTypes.string,
+    isOpen: PropTypes.bool.isRequired,
   };
   static defaultProps = {
     modalTitle: 'Confirm action',
@@ -27,18 +28,19 @@ class ConfirmActionModal extends Component {
   render() {
     const {
       onSubmit,
-      onClose,
+      onCloseModal,
       modalTitle,
       actionText,
       fullName,
       uuid,
       submitButtonLabel,
       additionalText,
+      isOpen,
     } = this.props;
 
     return (
-      <Modal isOpen toggle={onClose} className="modal-danger">
-        <ModalHeader toggle={onClose}>{modalTitle}</ModalHeader>
+      <Modal isOpen={isOpen} toggle={onCloseModal} className="modal-danger">
+        <ModalHeader toggle={onCloseModal}>{modalTitle}</ModalHeader>
         <ModalBody>
           <div className="text-center font-weight-700">
             <div>{actionText}</div>
@@ -52,7 +54,7 @@ class ConfirmActionModal extends Component {
 
         <ModalFooter>
           <button
-            onClick={onClose}
+            onClick={onCloseModal}
             className="btn btn-default-outline mr-auto"
           >
             {I18n.t('COMMON.CANCEL')}

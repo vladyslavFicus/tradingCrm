@@ -1,13 +1,16 @@
 import { connect } from 'react-redux';
+import { graphql } from 'react-apollo';
 import { compose } from 'redux';
 import { actionCreators } from '../modules';
 import FreeSpinsView from '../components/FreeSpinsView';
 import config from '../../../../../../../../../config';
-import { withModals } from '../../../../../../../../../components/HighOrder';
+import { withModals, withNotifications } from '../../../../../../../../../components/HighOrder';
 import ViewModal from '../components/ViewModal';
 import CancelModal from '../components/CancelModal';
 import FreeSpinCreateModal from '../components/ManualFreeSpin/FreeSpinCreateModal';
 import FreeSpinAssignModal from '../components/ManualFreeSpin/FreeSpinAssignModal';
+import ConfirmActionModal from '../../../../../../../../../components/Modal/ConfirmActionModal';
+import { claimFreeSpinMutation } from '.././../../../../../../../../graphql/mutations/freeSpinTemplate';
 
 const mapStateToProps = ({
   userBonusFreeSpinsList: {
@@ -51,6 +54,11 @@ export default compose(
     cancelFreeSpinModal: CancelModal,
     createFreeSpinModal: FreeSpinCreateModal,
     assignFreeSpinModal: FreeSpinAssignModal,
+    confirmActionModal: ConfirmActionModal,
   }),
   connect(mapStateToProps, mapActions),
+  graphql(claimFreeSpinMutation, {
+    name: 'claimFreeSpinTemplateMutation',
+  }),
+  withNotifications,
 )(FreeSpinsView);

@@ -473,7 +473,8 @@
       "FREE_SPIN_SETTINGS": {
         "LINES": "Lines per spin",
         "BET_PER_LINE": "Bet per line",
-        "SPIN_VALUE": "Spin value"
+        "SPIN_VALUE": "Spin value",
+        "CLAIMABLE": "Claimable"
       },
       "CANCEL_FREE_SPIN": "Cancel free spin",
       "GRID_VIEW": {
@@ -485,7 +486,8 @@
         "GRANTED": "Granted",
         "STATUS": "Status",
         "NOTE": "Note",
-        "GAME": "Provider & game"
+        "GAME": "Provider & game",
+        "ACTIONS": "Actions"
       },
       "VIEW_MODAL": {
         "FREE_SPIN": "Free spin",
@@ -506,10 +508,12 @@
       "MANUAL_FREE_SPIN_BUTTON": "+ Manual free spin",
       "NOTIFICATIONS": {
         "CANCEL_FREE_SPIN_ERROR": "Failed to cancel free spins",
-        "ASSIGN_FREE_SPIN_TO_PLAYER": "Assign free spin to player"
+        "ASSIGN_FREE_SPIN_TO_PLAYER": "Assign free spin to player",
+        "CLAIM_FREE_SPIN_TO_PLAYER": "Claim free spin to player"
       },
       "FREE_SPIN_TEMPLATE": "Free spin template",
-      "BONUS_TEMPLATE": "Bonus template"
+      "BONUS_TEMPLATE": "Bonus template",
+      "CLAIM": "Claim"
     },
     "FREE_SPIN": {
       "MODAL_CREATE": {
@@ -769,7 +773,8 @@
         "WITHDRAW": "Withdraw",
         "CONFISCATE": "Confiscate"
       }
-    }
+    },
+    "SUCCESS": "Success"
   },
   "FILES": {
     "UPLOAD_MODAL": {

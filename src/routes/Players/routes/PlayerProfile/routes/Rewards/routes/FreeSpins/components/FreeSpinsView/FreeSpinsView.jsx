@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { I18n } from 'react-redux-i18n';
+import { get } from 'lodash';
 import { SubmissionError } from 'redux-form';
 import FreeSpinMainInfo from '../FreeSpinMainInfo';
 import PropTypes from '../../../../../../../../../../constants/propTypes';
@@ -12,12 +13,14 @@ import NoteButton from '../../../../../../../../../../components/NoteButton';
 import FreeSpinAvailablePeriod from '../FreeSpinAvailablePeriod';
 import FreeSpinsFilterForm from '../FreeSpinsFilterForm';
 import FreeSpinGameInfo from '../FreeSpinGameInfo';
+import { statuses as freeSpinTemplateStatuses } from '../../../../../../../../../../constants/free-spin-template';
 
 class FreeSpinsView extends Component {
   static propTypes = {
     list: PropTypes.shape({
       entities: PropTypes.pageable(PropTypes.freeSpinEntity),
       newEntityNote: PropTypes.noteEntity,
+      exporting: PropTypes.bool,
     }).isRequired,
     filters: PropTypes.shape({
       data: PropTypes.shape({
@@ -55,7 +58,9 @@ class FreeSpinsView extends Component {
       cancelFreeSpinModal: PropTypes.modalType,
       createFreeSpinModal: PropTypes.modalType,
       assignFreeSpinModal: PropTypes.modalType,
+      confirmActionModal: PropTypes.modalType,
     }).isRequired,
+    claimFreeSpinTemplateMutation: PropTypes.func.isRequired,
   };
   static defaultProps = {
     templates: [],
@@ -254,6 +259,43 @@ class FreeSpinsView extends Component {
     page: this.state.page,
   });
 
+  claimFreeSpin = data => async () => {
+    const {
+      claimFreeSpinTemplateMutation,
+      notify,
+      modals: { confirmActionModal },
+    } = this.props;
+
+    const action = await claimFreeSpinTemplateMutation({ variables: data });
+
+    const error = get(action, 'data.freeSpinTemplate.claim.error');
+
+    notify({
+      level: error ? 'error' : 'success',
+      title: I18n.t('PLAYER_PROFILE.FREE_SPINS.NOTIFICATIONS.CLAIM_FREE_SPIN_TO_PLAYER'),
+      message: error ? I18n.t('COMMON.ERROR') : I18n.t('COMMON.SUCCESS'),
+    });
+
+    if (!error) {
+      this.handleRefresh();
+    }
+
+    confirmActionModal.hide();
+  };
+
+  openConfirmClaimFreeSpinModal = data => () => {
+    const { modals: { confirmActionModal } } = this.props;
+
+    confirmActionModal.show({
+      onSubmit: this.claimFreeSpin({
+        uuid: data.uuid,
+        currency: data.currencyCode,
+        playerUUID: data.playerUUID,
+        freeSpinUUID: data.uuid,
+      }),
+    });
+  };
+
   renderFreeSpin = data => (
     <FreeSpinMainInfo freeSpin={data} onClick={this.handleRowClick} />
   );
@@ -293,6 +335,17 @@ class FreeSpinsView extends Component {
       onClick={this.handleNoteClick}
       targetEntity={data}
     />
+  );
+
+  renderActions = data => (
+    <If condition={data.status === freeSpinTemplateStatuses.INACTIVE}>
+      <button
+        className="btn btn-sm"
+        onClick={this.openConfirmClaimFreeSpinModal(data)}
+      >
+        {I18n.t('PLAYER_PROFILE.FREE_SPINS.CLAIM')}
+      </button>
+    </If>
   );
 
   render() {
@@ -354,6 +407,11 @@ class FreeSpinsView extends Component {
               name="note"
               header={I18n.t('PLAYER_PROFILE.FREE_SPINS.GRID_VIEW.NOTE')}
               render={this.renderNote}
+            />
+            <GridViewColumn
+              name="actions"
+              header={I18n.t('PLAYER_PROFILE.FREE_SPINS.GRID_VIEW.ACTIONS')}
+              render={this.renderActions}
             />
           </GridView>
         </div>

@@ -5,6 +5,7 @@ const statuses = keyMirror({
   CREATED: null,
   FAILED: null,
   DISABLED: null,
+  INACTIVE: null,
 });
 
 export {
