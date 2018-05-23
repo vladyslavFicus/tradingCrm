@@ -90,7 +90,7 @@ class Route extends Component {
     }
 
     if (checkAuth && !logged) {
-      return <Redirect to="/sign-in" />;
+      return <Redirect to={{ pathname: '/sign-in', search: `returnUrl=${props.location.pathname}` }} />;
     }
 
     return <DomRoute {...props} />;
