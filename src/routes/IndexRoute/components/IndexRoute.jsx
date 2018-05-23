@@ -55,7 +55,7 @@ class IndexRoute extends PureComponent {
           <AppRoute path="/transactions" layout={MainLayout} component={Transactions} checkAuth />
           <AppRoute path="/settings" layout={MainLayout} component={Settings} checkAuth />
           <AppRoute path="/operators" layout={MainLayout} component={Operators} checkAuth />
-          <Route path="/logout" component={Logout} checkAuth />
+          <Route path="/logout" component={Logout} />
           {/* Public */}
           <AppRoute path="/sign-in" layout={BlackLayout} component={SignIn} />
           <AppRoute path="/set-password" layout={BlackLayout} component={SetPassword} />
