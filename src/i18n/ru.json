@@ -1848,11 +1848,11 @@
         "DEPOSIT": {
           "DEPOSIT_AMOUNT_RANGE": "Диапозон депозита",
           "DEPOSIT_NUMBER_LABEL": "Номер депозита",
-          "SELECT_DEPOSIT_NUMBER": "-- Выберите номер депозита --",
           "NUMBER_OPTION": "депозит",
           "RESTRICTED_PAYMENT_METHODS": "Исключенные платежные методы",
           "MIN_AMOUNT": "Мин. сумма",
-          "MAX_AMOUNT": "Макс. сумма"
+          "MAX_AMOUNT": "Макс. сумма",
+          "ANY_NUMBER": "Любой депозит"
         },
         "WAGERING": {
           "LABEL": {

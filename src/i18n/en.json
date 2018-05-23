@@ -1832,11 +1832,11 @@
         "DEPOSIT": {
           "DEPOSIT_AMOUNT_RANGE": "Deposit amount range",
           "DEPOSIT_NUMBER_LABEL": "Deposit number",
-          "SELECT_DEPOSIT_NUMBER": "-- Select deposit number --",
           "NUMBER_OPTION": "deposit",
           "RESTRICTED_PAYMENT_METHODS": "Excluded payment methods",
           "MIN_AMOUNT": "Min. amount",
-          "MAX_AMOUNT": "Max. amount"
+          "MAX_AMOUNT": "Max. amount",
+          "ANY_NUMBER": "Any deposit"
         },
         "WAGERING": {
           "LABEL": {

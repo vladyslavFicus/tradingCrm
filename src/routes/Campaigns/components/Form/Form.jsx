@@ -301,7 +301,6 @@ export default compose(
       fulfillments.forEach((fulfillment, index) => {
         if (fulfillment.type === fulfillmentTypes.DEPOSIT) {
           rules.fulfillments[index] = {
-            numDeposit: ['required'],
             'minAmount[0].amount': ['numeric', 'min:1'],
             'maxAmount[0].amount': ['numeric', 'min:1', `greaterOrSame:fulfillments[${index}].minAmount[0].amount`],
           };

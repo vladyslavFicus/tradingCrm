@@ -68,7 +68,7 @@ class DepositFulfillmentView extends PureComponent {
               showErrorMessage={false}
               id="campaign-deposit-ful-number"
             >
-              <option value="">{I18n.t('CAMPAIGNS.SETTINGS.FULFILLMENTS.DEPOSIT.SELECT_DEPOSIT_NUMBER')}</option>
+              <option value="">{I18n.t('CAMPAIGNS.SETTINGS.FULFILLMENTS.DEPOSIT.ANY_NUMBER')}</option>
               {[...new Array(10)].map((_, i) => (
                 <option key={i} value={i + 1}>
                   {`
