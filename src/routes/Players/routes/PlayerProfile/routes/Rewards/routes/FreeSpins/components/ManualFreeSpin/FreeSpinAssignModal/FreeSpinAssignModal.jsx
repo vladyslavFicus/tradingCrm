@@ -22,7 +22,6 @@ class FreeSpinAssignModal extends PureComponent {
   static propTypes = {
     name: PropTypes.string.isRequired,
     uuid: PropTypes.string,
-    onChangeUUID: PropTypes.func.isRequired,
     freeSpinTemplates: PropTypes.shape({
       freeSpinTemplates: PropTypes.arrayOf(PropTypes.shape({
         uuid: PropTypes.string,
