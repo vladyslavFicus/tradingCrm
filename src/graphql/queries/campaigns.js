@@ -6,7 +6,7 @@ const campaignsQuery = gql`query campaigns(
   $searchBy: String,
   $status: String,
   $fulfilmentType: String,
-  $campaignType: String,
+  $targetType: String,
   $optIn: Boolean,
   $creationDateFrom: String,
   $creationDateTo: String,
@@ -19,7 +19,7 @@ const campaignsQuery = gql`query campaigns(
     searchBy: $searchBy,
     status: $status,
     fulfilmentType: $fulfilmentType,
-    campaignType: $campaignType,
+    targetType: $targetType,
     optIn: $optIn,
     creationDateFrom: $creationDateFrom,
     creationDateTo: $creationDateTo,
@@ -50,6 +50,7 @@ const campaignQuery = gql`query campaign($campaignUUID: String!){
       _id
       uuid
       name
+      targetType
       optIn
       state
       excludeCountries

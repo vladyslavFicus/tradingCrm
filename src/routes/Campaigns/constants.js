@@ -2,7 +2,9 @@ import keyMirror from 'keymirror';
 import I18n from '../../utils/fake-i18n';
 
 const attributeLabels = {
-  campaignName: I18n.t('CAMPAIGNS.CAMPAIGN_NAME'),
+  campaignName: I18n.t('CAMPAIGNS.SETTINGS.LABEL.CAMPAIGN_NAME'),
+  targetType: I18n.t('CAMPAIGNS.SETTINGS.LABEL.TARGET_TYPE'),
+  optIn: I18n.t('CAMPAIGNS.SETTINGS.LABEL.OPT_IN'),
 };
 
 const rewardTemplateTypes = keyMirror({

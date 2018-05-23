@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import { I18n } from 'react-redux-i18n';
 import PropTypes from '../../../../constants/propTypes';
 import ChangeStatusModal from '../ChangeStatusModal';
-import { statuses } from '../../../../constants/bonus-campaigns';
+import { statuses } from '../../../../constants/campaigns';
 import BonusCampaignStatus from '../../../../components/BonusCampaignStatus';
 import { withModals } from '../../../../components/HighOrder';
 
@@ -93,9 +93,8 @@ class StatusDropDown extends Component {
   render() {
     const { dropDownOpen } = this.state;
     const { campaign, availableStatusActions } = this.props;
-    const dropDownClassName = classNames('dropdown-highlight', {
-      'cursor-pointer': status !== statuses.SUSPENDED && status !== statuses.INACTIVE,
-      'no-dropdown': status !== statuses.ACTIVE,
+    const dropDownClassName = classNames('dropdown-highlight cursor-pointer', {
+      'no-dropdown': campaign.state !== statuses.ACTIVE,
       'dropdown-open': dropDownOpen,
     });
     const label = (

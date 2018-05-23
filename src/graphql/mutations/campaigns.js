@@ -80,6 +80,7 @@ const updateMutation = gql`mutation update(
 
 const createMutation = gql`mutation create(
   $name: String!,
+  $targetType: String!,
   $optIn: Boolean!,
   $fulfillments: [String]!,
   $rewards: [String]!
@@ -89,6 +90,7 @@ const createMutation = gql`mutation create(
   campaign {
     create(
       name: $name
+      targetType: $targetType
       optIn: $optIn
       fulfillments: $fulfillments
       rewards: $rewards
@@ -173,10 +175,30 @@ const freeSpinTemplateMutation = gql`mutation freeSpinTemplateMutation(
   }
 }`;
 
+const removeAllPlayersMutation = gql`mutation removeAllPlayers(
+  $campaignUUID: String!,
+) {
+  campaign {
+    removeAllPlayers(
+      campaignUUID: $campaignUUID
+      ) {
+      data {
+        _id,
+        name,
+        state
+      }
+      error {
+        error
+      }
+    }
+  }
+}`;
+
 export {
   activateMutation,
   cancelMutation,
   freeSpinTemplateMutation,
   updateMutation,
   createMutation,
+  removeAllPlayersMutation,
 };

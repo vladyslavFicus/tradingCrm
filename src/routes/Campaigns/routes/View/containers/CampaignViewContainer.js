@@ -1,13 +1,21 @@
 import { graphql, compose } from 'react-apollo';
 import { connect } from 'react-redux';
 import { campaignQuery } from '.././../../../../graphql/queries/campaigns';
-import { activateMutation, cancelMutation } from '.././../../../../graphql/mutations/campaigns';
+import {
+  activateMutation,
+  cancelMutation,
+  removeAllPlayersMutation
+} from '.././../../../../graphql/mutations/campaigns';
+import { actionCreators } from '../modules';
 import CampaignView from '../components/CampaignView';
 
 const mapStateToProps = ({ i18n: { locale } }) => ({ locale });
+const mapActions = {
+  uploadPlayersFile: actionCreators.uploadPlayersFile,
+};
 
 export default compose(
-  connect(mapStateToProps),
+  connect(mapStateToProps, mapActions),
   graphql(campaignQuery, {
     options: ({ match: { params: { id: campaignUUID } } }) => ({
       fetchPolicy: 'network-only',
@@ -30,6 +38,17 @@ export default compose(
   }),
   graphql(cancelMutation, {
     name: 'cancelMutation',
+    options: ({ match: { params: { id: campaignUUID } } }) => ({
+      refetchQueries: [{
+        query: campaignQuery,
+        variables: {
+          campaignUUID,
+        },
+      }],
+    }),
+  }),
+  graphql(removeAllPlayersMutation, {
+    name: 'removeAllPlayers',
     options: ({ match: { params: { id: campaignUUID } } }) => ({
       refetchQueries: [{
         query: campaignQuery,

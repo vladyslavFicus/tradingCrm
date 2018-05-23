@@ -1054,6 +1054,11 @@
       "REWARD_TYPES": {
         "BONUS": "Bonus",
         "FREE_SPIN": "Free-spin"
+      },
+      "TARGET_TYPES": {
+        "ALL": "All players",
+        "TARGET_LIST": "Selected players",
+        "LINKED_CAMPAIGN": "Linked campaign completion"
       }
     }
   },
@@ -1839,7 +1844,8 @@
           }
         },
         "SELECT_FULFILLMENT": "Select fulfillment",
-        "ADD_FULFILLMENT": "Add fulfillment"
+        "ADD_FULFILLMENT": "Add fulfillment",
+        "TITLE": "Fulfillments"
       },
       "REWARDS": {
         "BONUS": {
@@ -1873,14 +1879,19 @@
           "TITLE": "Create bonus template"
         },
         "SELECT_REWARD": "Select reward",
-        "ADD_REWARD": "Add reward"
+        "ADD_REWARD": "Add reward",
+        "TITLE": "Rewards"
       },
       "CAMPAIGN_SETTINGS": "Campaign settings",
       "LABEL": {
         "CAMPAIGN_PERIOD": "Campaign period",
         "OPT_IN": "Type",
-        "OPT_IN_REQUIRED": "Opt-in required"
-      }
+        "OPT_IN_REQUIRED": "Opt-in required",
+        "CAMPAIGN_NAME": "Campaign name (Internal)",
+        "TARGET_TYPE": "Target type"
+      },
+      "TARGET": "Target type",
+      "CHOOSE_TARGET_TYPE": "-- Choose target type --"
     },
     "REWARDS": {
       "FREE_SPIN": {
@@ -1924,7 +1935,16 @@
         "UPDATE_TITLE": "Update bonus campaign",
         "UNSUCCESSFULLY": "Failed to save the сampaign",
         "SUCCESSFULLY": "Сampaign saved successfully",
-        "ADD_CAMPAIGN": "Add campaign"
+        "ADD_CAMPAIGN": "Add campaign",
+        "ADD_PLAYERS": "Add players to campaign",
+        "REMOVE_ALL_PLAYERS": {
+          "TITLE": "Remove all players",
+          "ERROR": "Error while removing players",
+          "SUCCESS": "All players removed"
+        }
+      },
+      "BUTTON": {
+        "ADD_PLAYERS": "+ Add players"
       }
     },
     "STATUS_DROPDOWN_MODAL": {
@@ -1946,7 +1966,7 @@
       "GRID_VIEW_FILTER": {
         "SEARCH_BY": {
           "LABEL": "Search by",
-          "PLACEHOLDER": "Name, uuid, ..."
+          "PLACEHOLDER": "Campaign, operator"
         },
         "STATUS": {
           "LABEL": "Status"
@@ -1962,8 +1982,14 @@
         },
         "ACTIVITY_DATE": {
           "LABEL": "Activity date range"
+        },
+        "TARGET_TYPE": {
+          "LABEL": "Target type"
         }
       }
+    },
+    "REMOVE_PLAYERS": {
+      "BUTTON": "Remove all players"
     }
   },
   "MULTI_CURRENCY_MODAL": {

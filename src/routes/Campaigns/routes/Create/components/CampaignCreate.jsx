@@ -7,6 +7,7 @@ import Form from '../../../components/Form';
 import asyncForEach from '../../../../../utils/asyncForEach';
 import { fulfillmentTypes } from '../../../constants';
 import history from '../../../../../router/history';
+import { targetTypes } from '../../../../../constants/campaigns';
 
 class CampaignCreate extends PureComponent {
   static propTypes = {
@@ -78,6 +79,7 @@ class CampaignCreate extends PureComponent {
         <Form
           form="createCampaign"
           initialValues={{
+            targetType: targetTypes.ALL,
             optIn: false,
             rewards: [],
             fulfillments: [],

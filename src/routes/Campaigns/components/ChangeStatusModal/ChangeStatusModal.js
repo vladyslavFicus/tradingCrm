@@ -98,7 +98,7 @@ class ChangeStatusModal extends Component {
             <div className="text-center my-4">
               <span className="font-weight-700">
                 {I18n.t('CAMPAIGNS.CHANGE_STATUS_MODAL.ACTION_TEXT', {
-                  title: campaign.campaignName,
+                  title: campaign.name,
                   action: renderLabel(action, actionLabels).toLowerCase(),
                 })}
               </span>
