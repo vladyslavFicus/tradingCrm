@@ -5,7 +5,6 @@ import _ from 'lodash';
 import history from '../router/history';
 import timestamp from '../utils/timestamp';
 import { actionCreators as authActionCreators, actionTypes as authActionTypes } from '../redux/modules/auth';
-import getSignInUrl from '../utils/getSignInUrl';
 
 const LOCK_EVENT_NAME = 'redux.lock';
 const UNLOCK_EVENT_NAME = 'redux.unlock';
@@ -90,12 +89,6 @@ function unlockRedux(token) {
 
 const logout = (store) => {
   store.dispatch({ type: authActionTypes.LOGOUT.SUCCESS });
-
-  const signInUrl = getSignInUrl();
-
-  if (signInUrl) {
-    history.push(signInUrl);
-  }
 };
 
 function clearRefreshTokenTask() {

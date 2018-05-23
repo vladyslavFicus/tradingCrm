@@ -1,5 +1,4 @@
 import { CALL_API, isValidRSAA } from 'redux-api-middleware';
-import getSignInUrl from '../../utils/getSignInUrl';
 import { actionTypes as authActionTypes } from '../modules/auth';
 import { actionCreators as windowActionCreators } from '../modules/window';
 import history from '../../router/history';
@@ -18,13 +17,6 @@ export default store => next => (action) => {
       }
 
       store.dispatch({ type: authActionTypes.LOGOUT.SUCCESS });
-      const signInUrl = getSignInUrl();
-
-      if (signInUrl) {
-        history.push(signInUrl);
-
-        return;
-      }
     }
   }
 
