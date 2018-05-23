@@ -18,7 +18,7 @@ export default store => next => (action) => {
       }
 
       store.dispatch({ type: authActionTypes.LOGOUT.SUCCESS });
-      const signInUrl = getSignInUrl(store.getState().location);
+      const signInUrl = getSignInUrl();
 
       if (signInUrl) {
         history.push(signInUrl);
