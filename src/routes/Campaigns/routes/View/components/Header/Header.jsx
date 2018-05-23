@@ -5,12 +5,19 @@ import PropTypes from '../../../../../../constants/propTypes';
 import Uuid from '../../../../../../components/Uuid';
 import StatusDropDown from '../../../../components/StatusDropDown';
 import { actions, statusActions } from '../../../../../../constants/bonus-campaigns';
+import FileUpload from '../../../../../../components/FileUpload';
+import { statuses, targetTypes } from '../../../../../../constants/campaigns';
 
 class Header extends Component {
   static propTypes = {
     activateMutation: PropTypes.func.isRequired,
     cancelMutation: PropTypes.func.isRequired,
+    uploadPlayersFile: PropTypes.func.isRequired,
+    removeAllPlayers: PropTypes.func.isRequired,
     data: PropTypes.newBonusCampaignEntity.isRequired,
+  };
+  static contextTypes = {
+    addNotification: PropTypes.func.isRequired,
   };
 
   handleChangeCampaignState = async ({ id: campaignUUID, action, reason }) => {
@@ -40,20 +47,53 @@ class Header extends Component {
     }
   };
 
+  handleUploadFile = async (errors, file) => {
+    const { data: { uuid }, uploadPlayersFile } = this.props;
+    const action = await uploadPlayersFile(uuid, file);
+
+    if (action) {
+      this.context.addNotification({
+        level: action.error ? 'error' : 'success',
+        title: I18n.t('CAMPAIGNS.VIEW.NOTIFICATIONS.ADD_PLAYERS'),
+        message: `${I18n.t('COMMON.ACTIONS.UPLOADED')} ${action.error ? I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY') :
+          I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
+      });
+    }
+  };
+
+  handleRemoveAllPlayers = async () => {
+    const { data: { uuid: campaignUUID }, removeAllPlayers } = this.props;
+    const response = await removeAllPlayers({ variables: { campaignUUID } });
+
+    if (response) {
+      this.context.addNotification({
+        level: response.error ? 'error' : 'success',
+        title: I18n.t('CAMPAIGNS.VIEW.NOTIFICATIONS.REMOVE_ALL_PLAYERS.TITLE'),
+        message: response.error
+          ? I18n.t('CAMPAIGNS.VIEW.NOTIFICATIONS.REMOVE_ALL_PLAYERS.ERROR')
+          : I18n.t('CAMPAIGNS.VIEW.NOTIFICATIONS.REMOVE_ALL_PLAYERS.SUCCESS'),
+      });
+    }
+  };
+
   render() {
     const {
       data: {
         name: campaignName,
+        targetType,
         uuid,
         creationDate,
         authorUUID,
+        state,
       },
       data,
     } = this.props;
 
-    const availableStatusActions = data && statusActions[data.state]
-      ? statusActions[data.state]
+    const availableStatusActions = data && statusActions[state]
+      ? statusActions[state]
       : [];
+    const allowUpload = [statuses.DRAFT, statuses.PENDING, statuses.ACTIVE].indexOf(state) !== -1
+      && targetType === targetTypes.TARGET_LIST;
 
     return (
       <Fragment>
@@ -67,6 +107,25 @@ class Header extends Component {
                 <Uuid uuid={uuid} uuidPrefix="CA" />
               </span>
             </div>
+          </div>
+          <div className="col-auto panel-heading-row__actions">
+            <If condition={allowUpload}>
+              <span>
+                <button
+                  className="btn btn-sm btn-default-outline margin-right-10"
+                  onClick={this.handleRemoveAllPlayers}
+                >
+                  {I18n.t('CAMPAIGNS.REMOVE_PLAYERS.BUTTON')}
+                </button>
+
+                <FileUpload
+                  label={I18n.t('CAMPAIGNS.VIEW.BUTTON.ADD_PLAYERS')}
+                  allowedTypes={['text/csv', 'application/vnd.ms-excel']}
+                  onChosen={this.handleUploadFile}
+                  className="btn btn-info-outline"
+                />
+              </span>
+            </If>
           </div>
         </div>
 

@@ -11,7 +11,7 @@ import { filterLabels, filterPlaceholders } from '../constants';
 import {
   statusesLabels,
   fulfillmentTypesLabels,
-  rewardTypesLabels,
+  targetTypesLabels,
 } from '../../../../../constants/campaigns';
 
 const FORM_NAME = 'campaignGridViewFilter';
@@ -22,7 +22,7 @@ const DynamicFilters = createDynamicForm({
     searchBy: 'string',
     status: 'string',
     fulfillmentType: 'string',
-    campaignType: 'string',
+    targetType: 'string',
     creationDateFrom: 'regex:/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/',
     creationDateTo: 'regex:/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/',
     activityDateFrom: 'regex:/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/',
@@ -106,12 +106,12 @@ class CampaignGridViewFilter extends Component {
           </FilterField>
         </FilterItem>
 
-        <FilterItem label={I18n.t(filterLabels.campaignType)} size={SIZES.small} type={TYPES.select} default>
-          <FilterField name="campaignType">
+        <FilterItem label={I18n.t(filterLabels.targetType)} size={SIZES.small} type={TYPES.select} default>
+          <FilterField name="targetType">
             <option value="">{I18n.t('COMMON.ANY')}</option>
-            {Object.keys(rewardTypesLabels).map(rewardType => (
-              <option key={rewardType} value={rewardType}>
-                {renderLabel(rewardType, rewardTypesLabels)}
+            {Object.keys(targetTypesLabels).map(targetType => (
+              <option key={targetType} value={targetType}>
+                {renderLabel(targetType, targetTypesLabels)}
               </option>
             ))}
           </FilterField>

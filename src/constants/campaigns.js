@@ -28,6 +28,16 @@ const rewardTypesLabels = {
   [rewardTypes.FREE_SPIN]: I18n.t('CONSTANTS.CAMPAIGNS.REWARD_TYPES.FREE_SPIN'),
 };
 
+const targetTypes = keyMirror({
+  ALL: null,
+  TARGET_LIST: null,
+  LINKED_CAMPAIGN: null,
+});
+const targetTypesLabels = {
+  [targetTypes.ALL]: I18n.t('CONSTANTS.CAMPAIGNS.TARGET_TYPES.ALL'),
+  [targetTypes.TARGET_LIST]: I18n.t('CONSTANTS.CAMPAIGNS.TARGET_TYPES.TARGET_LIST'),
+};
+
 export {
   statuses,
   statusesLabels,
@@ -35,4 +45,6 @@ export {
   fulfillmentTypesLabels,
   rewardTypes,
   rewardTypesLabels,
+  targetTypes,
+  targetTypesLabels,
 };

@@ -29,6 +29,7 @@ import './Form.scss';
 import { withReduxFormValues, withNotifications } from '../../../../components/HighOrder';
 import renderLabel from '../../../../utils/renderLabel';
 import normalizeBoolean from '../../../../utils/normalizeBoolean';
+import { targetTypesLabels } from '../../../../constants/campaigns';
 
 const CAMPAIGN_NAME_MAX_LENGTH = 100;
 
@@ -116,128 +117,165 @@ class Form extends Component {
     } = this.props;
 
     return (
-      <form id={form} onSubmit={handleSubmit(this.handleSubmit)} className="container-fluid campaigns-form">
-        <div className="row">
-          <div className="col-auto campaigns-form__title">
-            {I18n.t('CAMPAIGNS.SETTINGS.CAMPAIGN_SETTINGS')}
-          </div>
-          <If condition={!pristine}>
-            <div className="col-auto ml-auto">
-              <button
-                disabled={submitting}
-                onClick={reset}
-                className="btn btn-default-outline text-uppercase mr-3"
-                type="button"
-              >
-                {I18n.t('COMMON.REVERT_CHANGES')}
-              </button>
-              <button
-                disabled={submitting}
-                className="btn btn-primary text-uppercase"
-                type="submit"
-                id="bonus-campaign-save-button"
-              >
-                {I18n.t('COMMON.SAVE_CHANGES')}
-              </button>
+      <form id={form} onSubmit={handleSubmit(this.handleSubmit)} className="campaigns-form">
+        <div className="container-fluid">
+          <div className="row">
+            <div className="col-auto campaigns-form__title">
+              {I18n.t('CAMPAIGNS.SETTINGS.CAMPAIGN_SETTINGS')}
             </div>
-          </If>
-        </div>
-        <hr />
-        <div className="row">
-          <div className="col-md-6">
-            <Field
-              id={`${form}Name`}
-              name="name"
-              disabled={disabled || submitting}
-              label={I18n.t(attributeLabels.campaignName)}
-              type="text"
-              component={InputField}
-              position="vertical"
-              helpText={
-                <Choose>
-                  <When condition={formValues && formValues.name}>
-                    {formValues.name.length}/{CAMPAIGN_NAME_MAX_LENGTH}
-                  </When>
-                  <Otherwise>
-                    0/{CAMPAIGN_NAME_MAX_LENGTH}
-                  </Otherwise>
-                </Choose>
-              }
-            />
+            <If condition={!pristine}>
+              <div className="col-auto ml-auto">
+                <button
+                  disabled={submitting}
+                  onClick={reset}
+                  className="btn btn-default-outline text-uppercase mr-3"
+                  type="button"
+                >
+                  {I18n.t('COMMON.REVERT_CHANGES')}
+                </button>
+                <button
+                  disabled={submitting}
+                  className="btn btn-primary text-uppercase"
+                  type="submit"
+                  id="bonus-campaign-save-button"
+                >
+                  {I18n.t('COMMON.SAVE_CHANGES')}
+                </button>
+              </div>
+            </If>
           </div>
-          <RangeGroup
-            className="col-md-4"
-            label={I18n.t('CAMPAIGNS.SETTINGS.LABEL.CAMPAIGN_PERIOD')}
-          >
-            <Field
-              utc
-              name="startDate"
-              component={DateTimeField}
-              isValidDate={() => true}
-              position="vertical"
-              disabled={disabled}
-              id="campaign-start-date"
-            />
-            <Field
-              utc
-              name="endDate"
-              component={DateTimeField}
-              isValidDate={this.endDateValidator('startDate')}
-              position="vertical"
-              disabled={disabled}
-              id="campaign-end-date"
-            />
-          </RangeGroup>
-        </div>
-        <div className="row">
-          <div className="col-3">
-            <Field
-              name="optIn"
-              label={I18n.t('CAMPAIGNS.SETTINGS.LABEL.OPT_IN')}
-              type="select"
-              id="campaign-opt-in"
-              component={SelectField}
-              normalize={normalizeBoolean}
-              position="vertical"
-              disabled={disabled}
+          <hr />
+          <div className="row">
+            <div className="col-md-6">
+              <Field
+                id={`${form}Name`}
+                name="name"
+                disabled={disabled || submitting}
+                label={I18n.t(attributeLabels.campaignName)}
+                type="text"
+                component={InputField}
+                position="vertical"
+                helpText={
+                  <Choose>
+                    <When condition={formValues && formValues.name}>
+                      {formValues.name.length}/{CAMPAIGN_NAME_MAX_LENGTH}
+                    </When>
+                    <Otherwise>
+                      0/{CAMPAIGN_NAME_MAX_LENGTH}
+                    </Otherwise>
+                  </Choose>
+                }
+              />
+            </div>
+            <RangeGroup
+              className="col-md-4"
+              label={I18n.t('CAMPAIGNS.SETTINGS.LABEL.CAMPAIGN_PERIOD')}
             >
-              {Object.keys(optInSelect).map(key => (
-                <option key={key} value={key}>
-                  {renderLabel(key, optInSelect)}
-                </option>
-              ))}
-            </Field>
+              <Field
+                utc
+                name="startDate"
+                component={DateTimeField}
+                isValidDate={() => true}
+                position="vertical"
+                disabled={disabled}
+                id="campaign-start-date"
+              />
+              <Field
+                utc
+                name="endDate"
+                component={DateTimeField}
+                isValidDate={this.endDateValidator('startDate')}
+                position="vertical"
+                disabled={disabled}
+                id="campaign-end-date"
+              />
+            </RangeGroup>
           </div>
         </div>
-        <div className="row mt-2">
-          <NodeBuilder
-            name="fulfillments"
-            disabled={disabled}
-            className="col-6"
-            nodeSelectLabel={I18n.t('CAMPAIGNS.SETTINGS.FULFILLMENTS.SELECT_FULFILLMENT')}
-            nodeButtonLabel={I18n.t('CAMPAIGNS.SETTINGS.FULFILLMENTS.ADD_FULFILLMENT')}
-            components={
-              this.getAllowedNodes([
-                { type: fulfillmentTypes.WAGERING, component: WageringView },
-                { type: fulfillmentTypes.DEPOSIT, component: DepositFulfillmentView },
-              ], '_FULFILLMENT')
-            }
-            typeLabels={fulfillmentTypesLabels}
-          />
-          <NodeBuilder
-            name="rewards"
-            disabled={disabled}
-            className="col-6"
-            nodeSelectLabel={I18n.t('CAMPAIGNS.SETTINGS.REWARDS.SELECT_REWARD')}
-            nodeButtonLabel={I18n.t('CAMPAIGNS.SETTINGS.REWARDS.ADD_REWARD')}
-            components={
-              this.getAllowedNodes([
-                { type: rewardTemplateTypes.BONUS, component: BonusView },
-                { type: rewardTemplateTypes.FREE_SPIN, component: FreeSpinView },
-              ], '_TEMPLATE')
-            }
-            typeLabels={rewardTypesLabels}
-          />
+        <div className="container-fluid my-3">
+          <div className="text-truncate campaigns-form__title">
+            {I18n.t('CAMPAIGNS.SETTINGS.TARGET')}
+          </div>
+          <hr />
+          <div className="row">
+            <div className="col-3">
+              <Field
+                name="targetType"
+                label={I18n.t(attributeLabels.targetType)}
+                type="select"
+                disabled={disabled}
+                id={`${form}TargetType`}
+                position="vertical"
+                component={SelectField}
+                onChange={this.handleChangeTargetType}
+              >
+                {Object.keys(targetTypesLabels).map(targetType => (
+                  <option key={targetType} value={targetType}>
+                    {renderLabel(targetType, targetTypesLabels)}
+                  </option>
+                ))}
+              </Field>
+            </div>
+            <div className="col-3">
+              <Field
+                name="optIn"
+                label={I18n.t(attributeLabels.optIn)}
+                type="select"
+                id="campaign-opt-in"
+                component={SelectField}
+                normalize={normalizeBoolean}
+                position="vertical"
+                disabled={disabled}
+              >
+                {Object.keys(optInSelect).map(key => (
+                  <option key={key} value={key}>
+                    {renderLabel(key, optInSelect)}
+                  </option>
+                ))}
+              </Field>
+            </div>
+          </div>
+        </div>
+        <div className="container-fluid">
+          <div className="row">
+            <div className="col-6 text-truncate campaigns-form__title">
+              {I18n.t('CAMPAIGNS.SETTINGS.FULFILLMENTS.TITLE')}
+            </div>
+            <div className="col-6 text-truncate campaigns-form__title">
+              {I18n.t('CAMPAIGNS.SETTINGS.REWARDS.TITLE')}
+            </div>
+          </div>
+          <hr />
+          <div className="row">
+            <NodeBuilder
+              name="fulfillments"
+              disabled={disabled}
+              className="col-6"
+              nodeSelectLabel={I18n.t('CAMPAIGNS.SETTINGS.FULFILLMENTS.SELECT_FULFILLMENT')}
+              nodeButtonLabel={I18n.t('CAMPAIGNS.SETTINGS.FULFILLMENTS.ADD_FULFILLMENT')}
+              components={
+                this.getAllowedNodes([
+                  { type: fulfillmentTypes.WAGERING, component: WageringView },
+                  { type: fulfillmentTypes.DEPOSIT, component: DepositFulfillmentView },
+                ], '_FULFILLMENT')
+              }
+              typeLabels={fulfillmentTypesLabels}
+            />
+            <NodeBuilder
+              name="rewards"
+              disabled={disabled}
+              className="col-6"
+              nodeSelectLabel={I18n.t('CAMPAIGNS.SETTINGS.REWARDS.SELECT_REWARD')}
+              nodeButtonLabel={I18n.t('CAMPAIGNS.SETTINGS.REWARDS.ADD_REWARD')}
+              components={
+                this.getAllowedNodes([
+                  { type: rewardTemplateTypes.BONUS, component: BonusView },
+                  { type: rewardTemplateTypes.FREE_SPIN, component: FreeSpinView },
+                ], '_TEMPLATE')
+              }
+              typeLabels={rewardTypesLabels}
+            />
+          </div>
         </div>
       </form>
     );
@@ -251,6 +289,7 @@ export default compose(
     validate: (values) => {
       const rules = {
         name: ['required', 'string'],
+        targetType: ['required', 'string'],
       };
 
       const fulfillments = get(values, 'fulfillments', []);

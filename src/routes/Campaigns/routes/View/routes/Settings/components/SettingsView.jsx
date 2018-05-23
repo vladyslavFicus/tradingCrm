@@ -117,6 +117,7 @@ class SettingsView extends Component {
         campaign: {
           data: {
             name,
+            targetType,
             optIn,
             state,
             fulfillments,
@@ -136,6 +137,7 @@ class SettingsView extends Component {
         disabled={disabled}
         initialValues={{
           name,
+          targetType,
           optIn,
           fulfillments: deepRemoveKeyByRegex(fulfillments, /^__/),
           rewards: deepRemoveKeyByRegex(rewards, /^__/),

@@ -332,7 +332,7 @@
         },
         "WAGERING_REQUIREMENT_CUSTOM_VALUE_TYPE": {
           "ABSOLUTE": "Абсолютное",
-          "PERCENTAGE": "Процентое"
+          "PERCENTAGE": "Процентное"
         }
       },
       "CANCEL_BONUS": "Отменить бонус",
@@ -1060,6 +1060,11 @@
       "REWARD_TYPES": {
         "BONUS": "Бонус",
         "FREE_SPIN": "Фри-спины"
+      },
+      "TARGET_TYPES": {
+        "ALL": "Все игроки",
+        "TARGET_LIST": "Выбранные игроки",
+        "LINKED_CAMPAIGN": "Выполнение связанной кампании"
       }
     }
   },
@@ -1855,7 +1860,8 @@
           }
         },
         "SELECT_FULFILLMENT": "Выбрать условие",
-        "ADD_FULFILLMENT": "Добавить условие"
+        "ADD_FULFILLMENT": "Добавить условие",
+        "TITLE": "Условия"
       },
       "REWARDS": {
         "BONUS": {
@@ -1888,14 +1894,19 @@
           "TITLE": "Создать фриспин"
         },
         "SELECT_REWARD": "Выбрать награду",
-        "ADD_REWARD": "Добавить награду"
+        "ADD_REWARD": "Добавить награду",
+        "TITLE": "Награда"
       },
       "CAMPAIGN_SETTINGS": "Настройки кампании",
       "LABEL": {
         "CAMPAIGN_PERIOD": "Период кампании",
         "OPT_IN": "Тип",
-        "OPT_IN_REQUIRED": "Opt-in обязателен"
-      }
+        "OPT_IN_REQUIRED": "Opt-in обязателен",
+        "CAMPAIGN_NAME": "Название кампании (Внутренее)",
+        "TARGET_TYPE": "Тип кампании"
+      },
+      "TARGET": "Цель",
+      "CHOOSE_TARGET_TYPE": "-- Выберите тип цели --"
     },
     "REWARDS": {
       "FREE_SPIN": {
@@ -1939,7 +1950,16 @@
         "UPDATE_TITLE": "Обновление бонус-кампании",
         "UNSUCCESSFULLY": "Не удалось сохранить кампанию",
         "SUCCESSFULLY": "Кампания сохранена успешно",
-        "ADD_CAMPAIGN": "Создание бонус-кампании"
+        "ADD_CAMPAIGN": "Создание бонус-кампании",
+        "ADD_PLAYERS": "Добавление игроков",
+        "REMOVE_ALL_PLAYERS": {
+          "TITLE": "Удаление игроков",
+          "ERROR": "Не удалось удалить игроков из кампании",
+          "SUCCESS": "Игроки успешно удалены"
+        }
+      },
+      "BUTTON": {
+        "ADD_PLAYERS": "+ Добавить игроков"
       }
     },
     "STATUS_DROPDOWN_MODAL": {
@@ -1977,8 +1997,14 @@
         },
         "ACTIVITY_DATE": {
           "LABEL": "Диапазон даты активности"
+        },
+        "TARGET_TYPE": {
+          "LABEL": "Цель"
         }
       }
+    },
+    "REMOVE_PLAYERS": {
+      "BUTTON": "Удалить всех игроков"
     }
   },
   "MULTI_CURRENCY_MODAL": {

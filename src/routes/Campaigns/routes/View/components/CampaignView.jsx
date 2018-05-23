@@ -12,6 +12,8 @@ class CampaignView extends PureComponent {
   static propTypes = {
     activateMutation: PropTypes.func.isRequired,
     cancelMutation: PropTypes.func.isRequired,
+    uploadPlayersFile: PropTypes.func.isRequired,
+    removeAllPlayers: PropTypes.func.isRequired,
     location: PropTypes.object.isRequired,
     match: PropTypes.shape({
       params: PropTypes.shape({
@@ -34,6 +36,8 @@ class CampaignView extends PureComponent {
       match: { params, path, url }, campaign: { campaign },
       activateMutation,
       cancelMutation,
+      uploadPlayersFile,
+      removeAllPlayers,
     } = this.props;
 
     if (!campaign) {
@@ -53,6 +57,8 @@ class CampaignView extends PureComponent {
             data={campaignData}
             activateMutation={activateMutation}
             cancelMutation={cancelMutation}
+            uploadPlayersFile={uploadPlayersFile}
+            removeAllPlayers={removeAllPlayers}
           />
           <hr />
         </div>
