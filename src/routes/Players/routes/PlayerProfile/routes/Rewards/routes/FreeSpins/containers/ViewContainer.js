@@ -6,7 +6,8 @@ import config from '../../../../../../../../../config';
 import { withModals } from '../../../../../../../../../components/HighOrder';
 import ViewModal from '../components/ViewModal';
 import CancelModal from '../components/CancelModal';
-import CreateModal from '../components/CreateModal';
+import FreeSpinCreateModal from '../components/ManualFreeSpin/FreeSpinCreateModal';
+import FreeSpinAssignModal from '../components/ManualFreeSpin/FreeSpinAssignModal';
 
 const mapStateToProps = ({
   userBonusFreeSpinsList: {
@@ -48,7 +49,8 @@ export default compose(
   withModals({
     freeSpinInfoModal: ViewModal,
     cancelFreeSpinModal: CancelModal,
-    createFreeSpinModal: CreateModal,
+    createFreeSpinModal: FreeSpinCreateModal,
+    assignFreeSpinModal: FreeSpinAssignModal,
   }),
   connect(mapStateToProps, mapActions),
 )(FreeSpinsView);

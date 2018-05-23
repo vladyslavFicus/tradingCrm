@@ -11,10 +11,7 @@ import FreeSpinStatus from '../../../../../../../../../../components/FreeSpinSta
 import NoteButton from '../../../../../../../../../../components/NoteButton';
 import FreeSpinAvailablePeriod from '../FreeSpinAvailablePeriod';
 import FreeSpinsFilterForm from '../FreeSpinsFilterForm';
-import recognizeFieldError from '../../../../../../../../../../utils/recognizeFieldError';
 import FreeSpinGameInfo from '../FreeSpinGameInfo';
-import { aggregators, mapResponseErrorToField } from '../../constants';
-import { moneyTypeUsage } from '../../../../../../../../../../constants/bonus';
 
 class FreeSpinsView extends Component {
   static propTypes = {
@@ -57,6 +54,7 @@ class FreeSpinsView extends Component {
       freeSpinInfoModal: PropTypes.modalType,
       cancelFreeSpinModal: PropTypes.modalType,
       createFreeSpinModal: PropTypes.modalType,
+      assignFreeSpinModal: PropTypes.modalType,
     }).isRequired,
   };
   static defaultProps = {
@@ -183,102 +181,43 @@ class FreeSpinsView extends Component {
   };
 
   handleCreateButtonClick = () => {
-    const {
-      modals: { createFreeSpinModal },
-      list: { newEntityNote },
-      providers,
-      games,
-      currency,
-      manageNote,
-      fetchFreeSpinTemplates,
-      fetchFreeSpinTemplate,
-      templates,
-    } = this.props;
+    const { modals: { assignFreeSpinModal } } = this.props;
 
-    createFreeSpinModal.show({
-      initialValues: {
-        currencyCode: this.props.currency,
-        playerUUID: this.props.match.params.id,
-        moneyTypePriority: moneyTypeUsage.REAL_MONEY_FIRST,
-      },
-      onSubmit: this.handleSubmitNewFreeSpin,
-      currency,
-      games,
-      providers,
-      templates,
-      note: newEntityNote,
-      onManageNote: manageNote,
-      fetchFreeSpinTemplates,
-      fetchFreeSpinTemplate,
+    assignFreeSpinModal.show({
+      onSubmit: this.handleAssignFreeSpin,
     });
   };
 
-  handleSubmitNewFreeSpin = async (data) => {
-    const { aggregatorId, startDate, endDate } = data;
-
+  handleAssignFreeSpin = async (data) => {
     const {
-      createFreeSpin,
-      createFreeSpinTemplate,
-      assignFreeSpinTemplate,
-      resetNote,
-      currency,
+      modals: { assignFreeSpinModal },
       match: { params: { id: playerUUID } },
-      list: { newEntityNote: unsavedNote },
-      modals: { createFreeSpinModal },
+      currency,
+      assignFreeSpinTemplate,
     } = this.props;
 
-    let action;
-    if (aggregatorId === aggregators.igromat) {
-      const { moduleId, clientId, betPerLine, ...freeSpinTemplateData } = data;
-      action = await createFreeSpinTemplate({
-        claimable: false,
-        ...freeSpinTemplateData,
-        betPerLineAmounts: [
-          {
-            amount: betPerLine,
-            currency,
-          },
-        ],
+    const { uuid, startDate, endDate } = data;
+
+    const action = await assignFreeSpinTemplate(uuid, {
+      playerUUID,
+      currency,
+      startDate,
+      endDate,
+    });
+
+    if (action) {
+      this.context.addNotification({
+        title: I18n.t('PLAYER_PROFILE.FREE_SPINS.NOTIFICATIONS.ASSIGN_FREE_SPIN_TO_PLAYER'),
+        message: action.error ? I18n.t('COMMON.ERROR') : I18n.t('COMMON.SUCCESS'),
+        level: action.error ? 'error' : 'success',
       });
 
-      if (action && !action.error) {
-        const { uuid } = action.payload;
-        await assignFreeSpinTemplate(uuid, {
-          playerUUID,
-          currency,
-          startDate,
-          endDate,
-        });
-      } else if (action.error && action.payload.response) {
-        if (action.payload.response.fields_errors) {
-          const errors = Object.keys(action.payload.response.fields_errors).reduce((res, name) => ({
-            ...res,
-            [name]: I18n.t(action.payload.response.fields_errors[name].error),
-          }), {});
-          throw new SubmissionError(errors);
-        } else if (action.payload.response.error) {
-          const fieldError = recognizeFieldError(action.payload.response.error, mapResponseErrorToField);
-          if (fieldError) {
-            throw new SubmissionError(fieldError);
-          } else {
-            throw new SubmissionError({ __error: I18n.t(action.payload.response.error) });
-          }
-        }
+      if (action.error) {
+        throw new SubmissionError({ _error: action.payload.response.error });
+      } else {
+        assignFreeSpinModal.hide({});
+        this.handleRefresh();
       }
-    } else {
-      action = await createFreeSpin(data);
-    }
-
-    if (action && action.error) {
-      throw new SubmissionError({ _error: action.payload.response.error });
-    } else {
-      if (unsavedNote) {
-        await this.context.onAddNote({ variables: { ...unsavedNote, targetUUID: action.payload.uuid } });
-      }
-
-      resetNote();
-      createFreeSpinModal.hide();
-      this.handleRefresh();
     }
 
     return action;
