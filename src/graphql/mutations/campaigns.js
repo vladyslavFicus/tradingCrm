@@ -183,9 +183,7 @@ const removeAllPlayersMutation = gql`mutation removeAllPlayers(
       campaignUUID: $campaignUUID
       ) {
       data {
-        _id,
-        name,
-        state
+        uuid
       }
       error {
         error
