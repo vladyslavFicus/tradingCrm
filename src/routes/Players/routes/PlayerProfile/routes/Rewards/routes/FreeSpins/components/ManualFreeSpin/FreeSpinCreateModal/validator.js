@@ -34,6 +34,7 @@ export default (values, {
     bonusTemplateUUID: {
       uuid: ['required', 'string'],
     },
+    claimable: ['boolean'],
   };
 
   rules = fields.reduce((acc, curr) => ({ ...acc, [curr]: rules[curr] }), {});
