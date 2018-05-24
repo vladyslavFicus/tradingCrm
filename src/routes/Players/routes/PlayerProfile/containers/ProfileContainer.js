@@ -3,7 +3,7 @@ import { graphql, compose } from 'react-apollo';
 import update from 'react-addons-update';
 import { withRouter } from 'react-router-dom';
 import { actionCreators } from '../modules';
-import { withNotifications } from '../../../../../components/HighOrder';
+import { withNotifications, withModals } from '../../../../../components/HighOrder';
 import { actionCreators as filesActionCreators } from '../modules/files';
 import Profile from '../components/Profile';
 import config, { getAvailableTags } from '../../../../../config';
@@ -11,6 +11,7 @@ import Permissions from '../../../../../utils/permissions';
 import { userProfileTabs } from '../../../../../config/menu';
 import { profileQuery, locksQuery } from '.././../../../../graphql/queries/profile';
 import { notesQuery } from '.././../../../../graphql/queries/notes';
+import ConfirmActionModal from '../../../../../components/Modal/ConfirmActionModal';
 import {
   updateSubscription,
   blockMutation,
@@ -90,6 +91,9 @@ const mapActions = {
 
 export default compose(
   withRouter,
+  withModals({
+    confirmActionModal: ConfirmActionModal,
+  }),
   connect(mapStateToProps, mapActions),
   graphql(blockMutation, {
     name: 'blockMutation',

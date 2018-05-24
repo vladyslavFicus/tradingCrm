@@ -25,7 +25,6 @@ import {
 } from '../../../../../components/Files';
 import ChangePasswordModal from '../../../../../components/ChangePasswordModal';
 import ShareLinkModal from '../components/ShareLinkModal';
-import ConfirmActionModal from '../../../../../components/Modal/ConfirmActionModal';
 import BackToTop from '../../../../../components/BackToTop';
 import HideDetails from '../../../../../components/HideDetails';
 import {
@@ -52,7 +51,6 @@ const MODAL_UPLOAD_FILE = 'upload-modal';
 const MODAL_DELETE_FILE = 'delete-modal';
 const MODAL_CHANGE_PASSWORD = 'change-password-modal';
 const MODAL_SHARE_PROFILE = 'share-profile-modal';
-const MODAL_RESET_PASSWORD = 'reset-password-modal';
 const modalInitialState = {
   name: null,
   params: {},
@@ -149,6 +147,9 @@ class Profile extends Component {
     fetchProfile: PropTypes.func.isRequired,
     userProfileTabs: PropTypes.array.isRequired,
     availableTagsByDepartment: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.string)).isRequired,
+    modals: PropTypes.shape({
+      confirmActionModal: PropTypes.modalType,
+    }).isRequired,
   };
   static defaultProps = {
     lastIp: null,
@@ -446,13 +447,27 @@ class Profile extends Component {
   };
 
   handleResetPasswordClick = () => {
-    this.handleOpenModal(MODAL_RESET_PASSWORD);
+    const {
+      playerProfile: { playerProfile },
+      match: { params: { id } },
+      modals: { confirmActionModal },
+    } = this.props;
+
+    confirmActionModal.show({
+      uuid: id,
+      onSubmit: this.handleResetPassword,
+      modalTitle: I18n.t('PLAYER_PROFILE.PROFILE.RESET_PASSWORD_MODAL.TITLE'),
+      actionText: I18n.t('PLAYER_PROFILE.PROFILE.RESET_PASSWORD_MODAL.TEXT'),
+      fullName: `${playerProfile.firstName} ${playerProfile.lastName}`,
+      submitButtonLabel: I18n.t('PLAYER_PROFILE.PROFILE.RESET_PASSWORD_MODAL.BUTTON_ACTION'),
+    });
   };
 
   handleResetPassword = async () => {
     const {
       notify,
       passwordResetRequest,
+      modals: { confirmActionModal },
     } = this.props;
 
     const response = await passwordResetRequest();
@@ -465,7 +480,7 @@ class Profile extends Component {
         message: I18n.t('PLAYER_PROFILE.PROFILE.RESET_PASSWORD_MODAL.SUCCESS_NOTIFICATION_TEXT'),
       });
 
-      this.handleCloseModal();
+      confirmActionModal.hide();
     } else {
       notify({
         level: 'error',
@@ -791,18 +806,6 @@ class Profile extends Component {
           <ShareLinkModal
             onClose={this.handleCloseModal}
             playerUUID={id}
-          />
-        }
-        {
-          modal.name === MODAL_RESET_PASSWORD && playerProfile &&
-          <ConfirmActionModal
-            onSubmit={this.handleResetPassword}
-            onClose={this.handleCloseModal}
-            modalTitle={I18n.t('PLAYER_PROFILE.PROFILE.RESET_PASSWORD_MODAL.TITLE')}
-            actionText={I18n.t('PLAYER_PROFILE.PROFILE.RESET_PASSWORD_MODAL.TEXT')}
-            fullName={`${playerProfile.firstName} ${playerProfile.lastName}`}
-            uuid={id}
-            submitButtonLabel={I18n.t('PLAYER_PROFILE.PROFILE.RESET_PASSWORD_MODAL.BUTTON_ACTION')}
           />
         }
         <ImageViewer

@@ -17,6 +17,7 @@ import {
   SelectField,
   MultiCurrencyValue,
   InputField,
+  CheckBox,
 } from '../../../../../../../../../../../components/ReduxForm';
 import './FreeSpinCreateModal.scss';
 
@@ -544,6 +545,15 @@ class FreeSpinCreateModal extends Component {
                   className="col-md-6"
                 />
               </If>
+              <div className="form-group col-md-6">
+                <Field
+                  name="claimable"
+                  component={CheckBox}
+                  type="checkbox"
+                  className="margin-top-40"
+                  label={I18n.t('COMMON.CLAIMABLE')}
+                />
+              </div>
             </div>
             <If condition={fields.indexOf('bonusTemplateUUID') !== -1} >
               <BonusView

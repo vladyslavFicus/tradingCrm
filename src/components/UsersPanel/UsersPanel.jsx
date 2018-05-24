@@ -55,13 +55,17 @@ class UsersPanel extends Component {
     ) {
       replaceTabsModal.show({
         onSubmit: this.handleReplace,
-        onClose: this.handleCancelReplace,
+        onCloseCallback: this.handleCancelReplace,
         onReplace,
         items,
       });
     }
 
-    if (items.length > MAX_ACTIVE_TAB && nextItems.length <= MAX_ACTIVE_TAB) {
+    if (
+      items.length > MAX_ACTIVE_TAB &&
+      nextItems.length <= MAX_ACTIVE_TAB &&
+      replaceTabsModal.isOpen
+    ) {
       replaceTabsModal.hide();
     }
   }
@@ -74,11 +78,10 @@ class UsersPanel extends Component {
   };
 
   handleCancelReplace = () => {
-    const { items, onRemove, modals } = this.props;
+    const { items, onRemove } = this.props;
 
     const [newItem] = items.slice(-1);
     onRemove(newItem.uuid);
-    modals.replaceTabsModal.hide();
   };
 
   render() {

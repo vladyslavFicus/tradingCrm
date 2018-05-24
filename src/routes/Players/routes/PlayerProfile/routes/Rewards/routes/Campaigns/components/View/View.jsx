@@ -15,13 +15,11 @@ import {
 } from '../../../../../../../../../../constants/bonus-campaigns';
 import IframeLink from '../../../../../../../../../../components/IframeLink';
 import CampaignsFilterForm from '../CampaignsFilterForm';
-import ConfirmActionModal from '../../../../../../../../../../components/Modal/ConfirmActionModal';
 import AddToCampaignModal from '../../../../../../../../../../components/AddToCampaignModal';
 import AddPromoCodeModal from '../AddPromoCodeModal';
 import PermissionContent from '../../../../../../../../../../components/PermissionContent';
 import permissions from '../../../../../../../../../../config/permissions';
 
-const CAMPAIGN_ACTION_MODAL = 'campaign-action-modal';
 const ADD_TO_CAMPAIGN_MODAL = 'add-to-campaign-modal';
 const ADD_PROMO_CODE_MODAL = 'add-promo-code-modal';
 const modalInitialState = {
@@ -46,6 +44,9 @@ class View extends Component {
       }).isRequired,
     }).isRequired,
     locale: PropTypes.string.isRequired,
+    modals: PropTypes.shape({
+      confirmActionModal: PropTypes.modalType,
+    }).isRequired,
   };
   static contextTypes = {
     cacheChildrenComponent: PropTypes.func.isRequired,
@@ -126,16 +127,24 @@ class View extends Component {
     this.setState({ filters: {}, page: 0 }, this.handleRefresh);
   };
 
-  handleActionClick = params => this.handleOpenModal(CAMPAIGN_ACTION_MODAL, params);
+  handleActionClick = (params) => {
+    const { modals: { confirmActionModal } } = this.props;
 
-  handleActionCampaign = async () => {
-    const { modal: { params: { action, ...params } } } = this.state;
-    const { match: { params: { id: playerUUID } } } = this.props;
+    confirmActionModal.show({
+      onSubmit: this.handleActionCampaign(params),
+    });
+  };
+
+  handleActionCampaign = ({ action, ...params }) => async () => {
+    const {
+      match: { params: { id: playerUUID } },
+      modals: { confirmActionModal },
+    } = this.props;
 
     const actionResult = await action({ ...params, playerUUID });
-    this.handleCloseModal();
 
     if (actionResult && !actionResult.error) {
+      confirmActionModal.hide();
       this.handleRefresh();
     }
   };
@@ -393,13 +402,6 @@ class View extends Component {
             />
           </GridView>
         </div>
-        {
-          modal.name === CAMPAIGN_ACTION_MODAL &&
-          <ConfirmActionModal
-            onSubmit={this.handleActionCampaign}
-            onClose={this.handleCloseModal}
-          />
-        }
         {
           modal.name === ADD_TO_CAMPAIGN_MODAL &&
           <AddToCampaignModal

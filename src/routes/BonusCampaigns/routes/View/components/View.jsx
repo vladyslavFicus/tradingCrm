@@ -7,18 +7,11 @@ import { bonusCampaignTabs } from '../../../../../config/menu';
 import PropTypes from '../../../../../constants/propTypes';
 import Header from '../components/Header';
 import Information from '../components/Information';
-import ConfirmActionModal from '../../../../../components/Modal/ConfirmActionModal';
 import HideDetails from '../../../../../components/HideDetails';
 import NotFound from '../../../../../routes/NotFound';
 import history from '../../../../../router/history';
 import Settings from '../routes/Settings';
 import Feed from '../routes/Feed';
-
-const REMOVE_PLAYERS = 'remove-players-modal';
-const modalInitialState = {
-  name: null,
-  params: {},
-};
 
 class ViewLayout extends Component {
   static propTypes = {
@@ -36,6 +29,10 @@ class ViewLayout extends Component {
     uploadFile: PropTypes.func.isRequired,
     removeAllPlayers: PropTypes.func.isRequired,
     error: PropTypes.any,
+    modals: PropTypes.shape({
+      confirmActionModal: PropTypes.modalType,
+    }).isRequired,
+    notify: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -46,38 +43,22 @@ class ViewLayout extends Component {
     addNotification: PropTypes.func.isRequired,
   };
 
-  state = {
-    modal: { ...modalInitialState },
-  };
-
   componentDidMount() {
     const { match: { params: { id } }, fetchCampaign } = this.props;
     fetchCampaign(id);
   }
 
-  handleOpenModal = (name, params) => {
-    this.setState({
-      modal: {
-        name,
-        params,
-      },
-    });
-  };
-
-  handleCloseModal = (cb) => {
-    this.setState({ modal: { ...modalInitialState } }, () => {
-      if (typeof cb === 'function') {
-        cb();
-      }
-    });
-  };
-
   handleUploadFile = async (errors, file) => {
-    const { match: { params: { id: uuid } }, uploadFile } = this.props;
+    const {
+      match: { params: { id: uuid } },
+      uploadFile,
+      notify,
+    } = this.props;
+
     const action = await uploadFile(uuid, file);
 
     if (action) {
-      this.context.addNotification({
+      notify({
         level: action.error ? 'error' : 'success',
         title: I18n.t('BONUS_CAMPAIGNS.VIEW.NOTIFICATIONS.ADD_PLAYERS'),
         message: `${I18n.t('COMMON.ACTIONS.UPLOADED')} ${action.error ? I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY') :
@@ -87,16 +68,17 @@ class ViewLayout extends Component {
   };
 
   handleCloneCampaign = async (uuid) => {
-    const action = await this.props.cloneCampaign(uuid);
+    const { notify, cloneCampaign } = this.props;
+
+    const action = await cloneCampaign(uuid);
 
     if (action) {
-      this.context.addNotification({
+      notify({
         level: action.error ? 'error' : 'success',
         title: I18n.t('BONUS_CAMPAIGNS.VIEW.NOTIFICATIONS.CAMPAIGN_COPIED'),
         message: `${I18n.t('COMMON.NOTIFICATIONS.COPIED')} ${action.error ? I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY') :
           I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
       });
-
       if (!action.error) {
         history.push(`/bonus-campaigns/view/${action.payload.campaignUUID}/settings`);
       }
@@ -104,19 +86,28 @@ class ViewLayout extends Component {
   };
 
   handleRemovePlayersClick = () => {
-    const { match: { params: { id: uuid } } } = this.props;
+    const {
+      match: { params: { id: uuid } },
+      modals: { confirmActionModal },
+    } = this.props;
 
-    this.handleOpenModal(REMOVE_PLAYERS, { uuid });
+    confirmActionModal.show({
+      onSubmit: this.handleRemovePlayers(uuid),
+      modalTitle: I18n.t('BONUS_CAMPAIGNS.REMOVE_PLAYERS.BUTTON'),
+      actionText: I18n.t('BONUS_CAMPAIGNS.REMOVE_PLAYERS.MODAL_TEXT'),
+    });
   };
 
-  handleRemovePlayers = async () => {
-    const { modal: { params: { uuid } } } = this.state;
+  handleRemovePlayers = uuid => async () => {
+    const { modals: { confirmActionModal } } = this.state;
+    const { removeAllPlayers, notify } = this.props;
 
-    const action = await this.props.removeAllPlayers(uuid);
-    this.handleCloseModal();
+    const action = await removeAllPlayers(uuid);
 
     if (action) {
-      this.context.addNotification({
+      confirmActionModal.hide();
+
+      notify({
         level: action.error ? 'error' : 'success',
         title: I18n.t('BONUS_CAMPAIGNS.REMOVE_PLAYERS.BUTTON'),
         message: action.error ? I18n.t('BONUS_CAMPAIGNS.REMOVE_PLAYERS.ERROR_NOTIFICATION') :
@@ -126,7 +117,6 @@ class ViewLayout extends Component {
   };
 
   render() {
-    const { modal } = this.state;
     const {
       data: bonusCampaignData,
       location,
@@ -169,15 +159,6 @@ class ViewLayout extends Component {
           <Route path={`${path}/feed`} component={Feed} />
           <Redirect to={`${url}/settings`} />
         </Switch>
-        {
-          modal.name === REMOVE_PLAYERS &&
-          <ConfirmActionModal
-            onSubmit={this.handleRemovePlayers}
-            onClose={this.handleCloseModal}
-            modalTitle={I18n.t('BONUS_CAMPAIGNS.REMOVE_PLAYERS.BUTTON')}
-            actionText={I18n.t('BONUS_CAMPAIGNS.REMOVE_PLAYERS.MODAL_TEXT')}
-          />
-        }
       </div>
     );
   }

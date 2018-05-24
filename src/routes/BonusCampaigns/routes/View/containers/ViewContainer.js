@@ -1,7 +1,10 @@
 import { connect } from 'react-redux';
+import { compose } from 'redux';
 import View from '../components/View';
 import { actionCreators } from '../modules';
 import { statusActions } from '../../../../../constants/bonus-campaigns';
+import ConfirmActionModal from '../../../../../components/Modal/ConfirmActionModal';
+import { withModals, withNotifications } from '../../../../../components/HighOrder';
 
 const mapStateToProps = ({ bonusCampaignView, i18n: { locale } }) => ({
   ...bonusCampaignView,
@@ -10,12 +13,20 @@ const mapStateToProps = ({ bonusCampaignView, i18n: { locale } }) => ({
     ? statusActions[bonusCampaignView.data.state]
     : [],
 });
-export default connect(mapStateToProps, {
+
+const mapActions = {
   fetchCampaign: actionCreators.fetchCampaign,
   updateCampaign: actionCreators.updateCampaign,
   uploadFile: actionCreators.uploadPlayersFile,
   onChangeCampaignState: actionCreators.changeCampaignState,
   cloneCampaign: actionCreators.cloneCampaign,
   removeAllPlayers: actionCreators.removeAllPlayers,
-})(View);
+};
 
+export default compose(
+  withModals({
+    confirmActionModal: ConfirmActionModal,
+  }),
+  connect(mapStateToProps, mapActions),
+  withNotifications,
+)(View);

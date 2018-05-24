@@ -1,3 +1,3 @@
-import PlayerLimits from './PlayerLimits';
+import PlayerLimitsContainer from './PlayerLimitsContainer';
 
-export default PlayerLimits;
+export default PlayerLimitsContainer;

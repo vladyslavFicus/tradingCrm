@@ -408,6 +408,7 @@ PropTypes.freeSpinEntity = PropTypes.shape({
   uuid: PropTypes.string,
   playedCount: PropTypes.number,
   winning: PropTypes.price,
+  claimable: PropTypes.bool,
 });
 PropTypes.freeSpinListEntity = PropTypes.shape({
   uuid: PropTypes.string.isRequired,
