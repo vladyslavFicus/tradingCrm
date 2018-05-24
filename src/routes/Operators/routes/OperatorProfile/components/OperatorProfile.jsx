@@ -8,17 +8,9 @@ import NotFound from '../../../../../routes/NotFound';
 import { operatorProfileTabs } from '../../../../../config/menu';
 import Header from '../components/Header';
 import PropTypes from '../../../../../constants/propTypes';
-import ConfirmActionModal from '../../../../../components/Modal/ConfirmActionModal';
 import HideDetails from '../../../../../components/HideDetails';
 import Edit from '../routes/Edit';
 import Feed from '../routes/Feed';
-
-const RESET_PASSWORD_MODAL = 'operator-password-reset-modal';
-const SEND_INVITE_MODAL = 'operator-send-invite-modal';
-const modalInitialState = {
-  name: null,
-  params: {},
-};
 
 class OperatorProfileLayout extends Component {
   static propTypes = {
@@ -38,14 +30,13 @@ class OperatorProfileLayout extends Component {
     authorities: PropTypes.object.isRequired,
     isLoading: PropTypes.bool.isRequired,
     error: PropTypes.any,
+    modals: PropTypes.shape({
+      confirmActionModal: PropTypes.modalType,
+    }).isRequired,
   };
 
   static defaultProps={
     error: null,
-  };
-
-  state = {
-    modal: { ...modalInitialState },
   };
 
   componentDidMount() {
@@ -55,12 +46,26 @@ class OperatorProfileLayout extends Component {
     fetchAuthority(id);
   }
 
-  handleResetPasswordClick = async () => {
-    this.handleOpenModal(RESET_PASSWORD_MODAL);
+  handleResetPasswordClick = () => {
+    const {
+      data,
+      modals: { confirmActionModal },
+    } = this.props;
+
+    confirmActionModal.show({
+      onSubmit: this.handleResetPasswordSubmit,
+      modalTitle: I18n.t('OPERATOR_PROFILE.MODALS.RESET_PASSWORD.TITLE'),
+      actionText: I18n.t('OPERATOR_PROFILE.MODALS.RESET_PASSWORD.ACTION_TEXT'),
+      fullName: [data.firstName, data.lastName].join(' '),
+      uuid: data.uuid,
+      additionalText: I18n.t('OPERATOR_PROFILE.MODALS.RESET_PASSWORD.ACTION_TARGET'),
+      submitButtonLabel: I18n.t('OPERATOR_PROFILE.MODALS.RESET_PASSWORD.CONFIRM_ACTION'),
+    });
   };
 
   handleResetPasswordSubmit = async () => {
     const {
+      modals: { confirmActionModal },
       onResetPassword,
       match: {
         params: {
@@ -71,18 +76,35 @@ class OperatorProfileLayout extends Component {
 
     await onResetPassword(operatorUUID);
 
-    this.handleCloseModal();
+    confirmActionModal.hide();
   };
 
   handleSendInvitationClick = async () => {
-    this.handleOpenModal(SEND_INVITE_MODAL);
+    const {
+      data,
+      modals: { confirmActionModal },
+    } = this.props;
+
+    confirmActionModal.show({
+      onSubmit: this.handleSendInvitationSubmit,
+      modalTitle: I18n.t('OPERATOR_PROFILE.MODALS.SEND_INVITATION.TITLE'),
+      actionText: I18n.t('OPERATOR_PROFILE.MODALS.SEND_INVITATION.ACTION_TEXT'),
+      fullName: [data.firstName, data.lastName].join(' '),
+      uuid: data.uuid,
+      submitButtonLabel: I18n.t('OPERATOR_PROFILE.MODALS.SEND_INVITATION.CONFIRM_ACTION'),
+    });
   };
 
   handleSendInvitationSubmit = async () => {
-    const { data, onSendInvitation } = this.props;
+    const {
+      data,
+      onSendInvitation,
+      modals: { confirmActionModal },
+    } = this.props;
 
     await onSendInvitation(data.uuid);
-    this.handleCloseModal();
+
+    confirmActionModal.hide();
   };
 
   handleOpenModal = (name, params) => {
@@ -95,12 +117,7 @@ class OperatorProfileLayout extends Component {
     });
   };
 
-  handleCloseModal = () => {
-    this.setState({ modal: { ...modalInitialState } });
-  };
-
   render() {
-    const { modal } = this.state;
     const {
       location,
       match: { params, path, url },
@@ -149,32 +166,6 @@ class OperatorProfileLayout extends Component {
             <Redirect to={`${url}/profile`} />
           </Switch>
         </div>
-        {
-          modal.name === RESET_PASSWORD_MODAL &&
-          <ConfirmActionModal
-            onSubmit={this.handleResetPasswordSubmit}
-            onClose={this.handleCloseModal}
-            modalTitle={I18n.t('OPERATOR_PROFILE.MODALS.RESET_PASSWORD.TITLE')}
-            actionText={I18n.t('OPERATOR_PROFILE.MODALS.RESET_PASSWORD.ACTION_TEXT')}
-            fullName={[data.firstName, data.lastName].join(' ')}
-            uuid={data.uuid}
-            additionalText={I18n.t('OPERATOR_PROFILE.MODALS.RESET_PASSWORD.ACTION_TARGET')}
-            submitButtonLabel={I18n.t('OPERATOR_PROFILE.MODALS.RESET_PASSWORD.CONFIRM_ACTION')}
-          />
-        }
-
-        {
-          modal.name === SEND_INVITE_MODAL &&
-          <ConfirmActionModal
-            onSubmit={this.handleSendInvitationSubmit}
-            onClose={this.handleCloseModal}
-            modalTitle={I18n.t('OPERATOR_PROFILE.MODALS.SEND_INVITATION.TITLE')}
-            actionText={I18n.t('OPERATOR_PROFILE.MODALS.SEND_INVITATION.ACTION_TEXT')}
-            fullName={[data.firstName, data.lastName].join(' ')}
-            uuid={data.uuid}
-            submitButtonLabel={I18n.t('OPERATOR_PROFILE.MODALS.SEND_INVITATION.CONFIRM_ACTION')}
-          />
-        }
       </div>
     );
   }

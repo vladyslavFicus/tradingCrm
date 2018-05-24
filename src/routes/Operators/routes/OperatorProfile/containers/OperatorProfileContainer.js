@@ -1,7 +1,10 @@
 import { connect } from 'react-redux';
+import { compose } from 'redux';
 import OperatorProfile from '../components/OperatorProfile';
 import { actionCreators } from '../modules';
 import { statusActions } from '../../../../../constants/operators';
+import { withModals } from '../../../../../components/HighOrder';
+import ConfirmActionModal from '../../../../../components/Modal/ConfirmActionModal';
 
 const mapStateToProps = (state) => {
   const {
@@ -29,5 +32,9 @@ const mapActions = {
   fetchProfile: actionCreators.fetchProfile,
 };
 
-export default connect(mapStateToProps, mapActions)(OperatorProfile);
-
+export default compose(
+  withModals({
+    confirmActionModal: ConfirmActionModal,
+  }),
+  connect(mapStateToProps, mapActions),
+)(OperatorProfile);

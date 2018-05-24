@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
+import { compose } from 'redux';
 import { I18n } from 'react-redux-i18n';
 import NotificationContainer from 'react-notification-system';
 import PropTypes from '../../constants/propTypes';
@@ -9,6 +10,7 @@ import DebugPanel from '../../components/DebugPanel';
 import { types as modalsTypes } from '../../constants/modals';
 import ConfirmActionModal from '../../components/Modal/ConfirmActionModal';
 import { actionCreators as modalActionCreators } from '../../redux/modules/modal';
+import { withModals } from '../../components/HighOrder';
 import parseJson from '../../utils/parseJson';
 import '../../styles/style.scss';
 
@@ -26,6 +28,9 @@ class CoreLayout extends Component {
       level: PropTypes.string,
     })),
     removeNotification: PropTypes.func.isRequired,
+    modals: PropTypes.shape({
+      confirmActionModal: PropTypes.modalType,
+    }).isRequired,
   };
 
   static defaultProps = {
@@ -64,8 +69,12 @@ class CoreLayout extends Component {
     }
   }
 
-  componentWillReceiveProps({ notifications: nextNotifications }) {
-    const { notifications: currentNotifications } = this.props;
+  componentWillReceiveProps({ notifications: nextNotifications, modal: { name: nextModalName } }) {
+    const {
+      notifications: currentNotifications,
+      modals: { confirmActionModal },
+      closeModal,
+    } = this.props;
     const haveNewNotifications = nextNotifications
       .some(({ id }) => currentNotifications.findIndex(notification => notification.id === id) === -1);
 
@@ -73,6 +82,18 @@ class CoreLayout extends Component {
       nextNotifications.forEach(({ message, title, ...notification }) => {
         this.handleNotify({ message: I18n.t(message), title: I18n.t(title), ...notification });
         this.props.removeNotification(notification.id);
+      });
+    }
+
+    if (
+      nextModalName === modalsTypes.NEW_API_VERSION &&
+      !confirmActionModal.isOpen
+    ) {
+      confirmActionModal.show({
+        onSubmit: this.handleReloadPage,
+        onCloseCallback: closeModal,
+        modalTitle: I18n.t('MODALS.NEW_API_VERSION.TITLE'),
+        actionText: I18n.t('MODALS.NEW_API_VERSION.MESSAGE'),
       });
     }
   }
@@ -92,7 +113,7 @@ class CoreLayout extends Component {
 
   render() {
     const { isFrameVersion } = this.state;
-    const { children, modal, closeModal } = this.props;
+    const { children } = this.props;
 
     return (
       <Fragment>
@@ -116,24 +137,23 @@ class CoreLayout extends Component {
             }}
           />
         }
-        {
-          modal && modal.name === modalsTypes.NEW_API_VERSION &&
-          <ConfirmActionModal
-            onSubmit={this.handleReloadPage}
-            onClose={closeModal}
-            modalTitle={I18n.t('MODALS.NEW_API_VERSION.TITLE')}
-            actionText={I18n.t('MODALS.NEW_API_VERSION.MESSAGE')}
-          />
-        }
       </Fragment>
     );
   }
 }
 
-export default connect(({ modal, notifications }) => ({
+const mapStateToProps = ({ modal, notifications }) => ({
   modal,
   notifications,
-}), {
+});
+const mapActions = {
   closeModal: modalActionCreators.close,
   removeNotification: notificationCreators.remove,
-})(CoreLayout);
+};
+
+export default compose(
+  withModals({
+    confirmActionModal: ConfirmActionModal,
+  }),
+  connect(mapStateToProps, mapActions),
+)(CoreLayout);

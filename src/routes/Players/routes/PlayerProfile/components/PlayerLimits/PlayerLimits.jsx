@@ -5,7 +5,6 @@ import { I18n } from 'react-redux-i18n';
 import PropTypes from '../../../../../../constants/propTypes';
 import { types, actions, reasons } from '../../../../../../constants/wallet';
 import PlayerLimitsModal from './PlayerLimitsModal';
-import ConfirmActionModal from '../../../../../../components/Modal/ConfirmActionModal';
 import './PlayerLimits.scss';
 import permissions from '../../../../../../config/permissions';
 import PermissionContent from '../../../../../../components/PermissionContent';
@@ -13,7 +12,6 @@ import PlayerLimitButton from './PlayerLimitButton';
 import PlayerLimit from './PlayerLimit';
 
 const PLAYER_LIMITS_MODAL = 'player-limits-modal';
-const PLAYER_LOGIN_LIMIT_MODAL = 'player-login-limit-modal';
 const modalInitialState = {
   name: null,
   params: {},
@@ -36,6 +34,9 @@ class PlayerLimits extends Component {
     }),
     onChange: PropTypes.func.isRequired,
     unlockLogin: PropTypes.func.isRequired,
+    modals: PropTypes.shape({
+      confirmActionModal: PropTypes.modalType,
+    }).isRequired,
   };
 
   static defaultProps = {
@@ -81,7 +82,15 @@ class PlayerLimits extends Component {
     this.handleModalHide(null, () => this.props.onChange(data));
   };
 
-  handleUnlockLogin = () => this.handleModalHide(null, () => this.props.unlockLogin());
+  handleUnlockLogin = () => {
+    const {
+      modals: { confirmActionModal },
+      unlockLogin,
+    } = this.props;
+
+    unlockLogin();
+    confirmActionModal.hide();
+  };
 
   handleOpenModal = (name, params) => {
     this.setState({
@@ -93,7 +102,19 @@ class PlayerLimits extends Component {
   };
 
   handleUnlockLoginClick = () => {
-    this.handleOpenModal(PLAYER_LOGIN_LIMIT_MODAL);
+    const {
+      modals: { confirmActionModal },
+      profile,
+    } = this.props;
+
+    confirmActionModal.show({
+      onSubmit: this.handleUnlockLogin,
+      modalTitle: I18n.t('PLAYER_PROFILE.LOCKS.LOGIN.MODAL.TITLE'),
+      actionText: I18n.t('PLAYER_PROFILE.LOCKS.LOGIN.MODAL.ACTION_TEXT'),
+      fullName: profile.fullName,
+      uuid: profile.playerUUID,
+      submitButtonLabel: I18n.t('PLAYER_PROFILE.LOCKS.LOGIN.MODAL.SUBMIT_BUTTON_LABEL'),
+    });
   };
 
   isPaymentLocked = (type) => {
@@ -222,7 +243,6 @@ class PlayerLimits extends Component {
             }
           </DropdownMenu>
         </Dropdown>
-
         {
           modal.name === PLAYER_LIMITS_MODAL &&
           <PlayerLimitsModal
@@ -230,18 +250,6 @@ class PlayerLimits extends Component {
             onSubmit={this.handleSubmit}
             onHide={this.handleModalHide}
             profile={profile}
-          />
-        }
-        {
-          modal.name === PLAYER_LOGIN_LIMIT_MODAL &&
-          <ConfirmActionModal
-            onSubmit={this.handleUnlockLogin}
-            onClose={this.handleModalHide}
-            modalTitle={I18n.t('PLAYER_PROFILE.LOCKS.LOGIN.MODAL.TITLE')}
-            actionText={I18n.t('PLAYER_PROFILE.LOCKS.LOGIN.MODAL.ACTION_TEXT')}
-            fullName={profile.fullName}
-            uuid={profile.playerUUID}
-            submitButtonLabel={I18n.t('PLAYER_PROFILE.LOCKS.LOGIN.MODAL.SUBMIT_BUTTON_LABEL')}
           />
         }
       </div>

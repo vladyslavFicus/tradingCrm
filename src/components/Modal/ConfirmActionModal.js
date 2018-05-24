@@ -15,6 +15,7 @@ class ConfirmActionModal extends Component {
     uuid: PropTypes.string,
     additionalText: PropTypes.string,
     isOpen: PropTypes.bool.isRequired,
+    onCloseCallback: PropTypes.func,
   };
   static defaultProps = {
     modalTitle: 'Confirm action',
@@ -23,12 +24,22 @@ class ConfirmActionModal extends Component {
     fullName: '',
     uuid: null,
     additionalText: null,
+    onCloseCallback: null,
+  };
+
+  handleClose = () => {
+    const { onCloseModal, onCloseCallback } = this.props;
+
+    onCloseModal();
+
+    if (typeof onCloseCallback === 'function') {
+      onCloseCallback();
+    }
   };
 
   render() {
     const {
       onSubmit,
-      onCloseModal,
       modalTitle,
       actionText,
       fullName,
@@ -39,8 +50,8 @@ class ConfirmActionModal extends Component {
     } = this.props;
 
     return (
-      <Modal isOpen={isOpen} toggle={onCloseModal} className="modal-danger">
-        <ModalHeader toggle={onCloseModal}>{modalTitle}</ModalHeader>
+      <Modal isOpen={isOpen} toggle={this.handleClose} className="modal-danger">
+        <ModalHeader toggle={this.handleClose}>{modalTitle}</ModalHeader>
         <ModalBody>
           <div className="text-center font-weight-700">
             <div>{actionText}</div>
@@ -54,7 +65,7 @@ class ConfirmActionModal extends Component {
 
         <ModalFooter>
           <button
-            onClick={onCloseModal}
+            onClick={this.handleClose}
             className="btn btn-default-outline mr-auto"
           >
             {I18n.t('COMMON.CANCEL')}

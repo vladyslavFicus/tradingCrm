@@ -8,6 +8,7 @@ export default (store) => {
 
   return next => (action) => {
     if (
+      !window.isFrame &&
       action && action.error && regExp.test(action.type)
       && action.payload && action.payload.status === 426
     ) {

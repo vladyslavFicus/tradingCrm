@@ -13,16 +13,18 @@ const initialState = {
 class ReplaceTabsModal extends Component {
   static propTypes = {
     items: PropTypes.array.isRequired,
-    onClose: PropTypes.func.isRequired,
+    onCloseCallback: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
     isOpen: PropTypes.bool.isRequired,
+    onCloseModal: PropTypes.func.isRequired,
   };
 
   state = { ...initialState };
 
   handleClose = () => {
     this.setState({ ...initialState });
-    this.props.onClose();
+    this.props.onCloseModal();
+    this.props.onCloseCallback();
   };
 
   handleTabChecked = (e) => {

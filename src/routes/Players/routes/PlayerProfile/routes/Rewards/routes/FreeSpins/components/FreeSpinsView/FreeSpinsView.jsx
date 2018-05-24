@@ -61,6 +61,7 @@ class FreeSpinsView extends Component {
       confirmActionModal: PropTypes.modalType,
     }).isRequired,
     claimFreeSpinTemplateMutation: PropTypes.func.isRequired,
+    notify: PropTypes.func.isRequired,
   };
   static defaultProps = {
     templates: [],
@@ -71,7 +72,6 @@ class FreeSpinsView extends Component {
     onEditNoteClick: PropTypes.func.isRequired,
     setNoteChangedCallback: PropTypes.func.isRequired,
     onAddNote: PropTypes.func.isRequired,
-    addNotification: PropTypes.func.isRequired,
     cacheChildrenComponent: PropTypes.func.isRequired,
     setRenderActions: PropTypes.func.isRequired,
   };
@@ -199,6 +199,7 @@ class FreeSpinsView extends Component {
       match: { params: { id: playerUUID } },
       currency,
       assignFreeSpinTemplate,
+      notify,
     } = this.props;
 
     const { uuid, startDate, endDate } = data;
@@ -211,7 +212,7 @@ class FreeSpinsView extends Component {
     });
 
     if (action) {
-      this.context.addNotification({
+      notify({
         title: I18n.t('PLAYER_PROFILE.FREE_SPINS.NOTIFICATIONS.ASSIGN_FREE_SPIN_TO_PLAYER'),
         message: action.error ? I18n.t('COMMON.ERROR') : I18n.t('COMMON.SUCCESS'),
         level: action.error ? 'error' : 'success',
@@ -232,13 +233,14 @@ class FreeSpinsView extends Component {
     const {
       cancelFreeSpin,
       match: { params },
-      modals: { createFreeSpinModal },
+      modals: { cancelFreeSpinModal },
+      notify,
     } = this.props;
     const action = await cancelFreeSpin(params.id, uuid, reason);
 
     if (action) {
       if (action.error) {
-        this.context.addNotification({
+        notify({
           title: I18n.t('COMMON.ERROR'),
           message: I18n.t('PLAYER_PROFILE.FREE_SPINS.NOTIFICATIONS.CANCEL_FREE_SPIN_ERROR'),
           level: 'error',
@@ -248,7 +250,7 @@ class FreeSpinsView extends Component {
       }
     }
 
-    createFreeSpinModal.hide();
+    cancelFreeSpinModal.hide();
     this.handleRefresh();
 
     return action;

@@ -1,6 +1,9 @@
 import { connect } from 'react-redux';
+import { compose } from 'redux';
 import { actionCreators } from '../modules';
 import View from '../components/View';
+import ConfirmActionModal from '../../../../../../../../../components/Modal/ConfirmActionModal';
+import { withModals } from '../../../../../../../../../components/HighOrder';
 
 const mapStateToProps = ({
   profile: { profile: { data: profile } },
@@ -21,4 +24,9 @@ const mapActions = {
   addPromoCodeToPlayer: actionCreators.addPromoCodeToPlayer,
 };
 
-export default connect(mapStateToProps, mapActions)(View);
+export default compose(
+  withModals({
+    confirmActionModal: ConfirmActionModal,
+  }),
+  connect(mapStateToProps, mapActions),
+)(View);
