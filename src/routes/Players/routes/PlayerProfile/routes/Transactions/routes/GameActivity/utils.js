@@ -1,24 +1,21 @@
 import moment from 'moment';
 
 const startDateValidator = currentValues => (current) => {
-  const valid = current.isSameOrBefore();
-
-  if (currentValues && currentValues.endDate) {
-    return valid && current.isSameOrAfter(moment(currentValues.endDate).subtract(2, 'w'))
-      && current.isSameOrBefore(moment(currentValues.endDate));
+  if (!current.isSameOrBefore()) {
+    return false;
   }
 
-  return valid;
+  return currentValues && currentValues.endDate ?
+    current.isSameOrBefore(moment(currentValues.endDate)) : true;
 };
 const endDateValidator = currentValues => (current) => {
-  const valid = current.isSameOrBefore();
-
-  if (currentValues && currentValues.startDate) {
-    return valid && current.isSameOrBefore(moment(currentValues.startDate).add(2, 'w'))
-      && current.isSameOrAfter(moment(currentValues.startDate));
+  if (!current.isSameOrBefore()) {
+    return false;
   }
 
-  return valid;
+  return currentValues && currentValues.startDate
+    ? current.isSameOrAfter(moment(currentValues.startDate))
+    : true;
 };
 
 export {
