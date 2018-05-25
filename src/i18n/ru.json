@@ -515,11 +515,13 @@
       "NOTIFICATIONS": {
         "CANCEL_FREE_SPIN_ERROR": "Не удалось отменить free spins",
         "ASSIGN_FREE_SPIN_TO_PLAYER": "Присвоить фри-спин игроку",
-        "CLAIM_FREE_SPIN_TO_PLAYER": "Требовать фри-спин у игрока"
+        "CLAIM_FREE_SPIN_TO_PLAYER": "Требовать фри-спин у игрока",
+        "DECLINE_FREE_SPIN_TO_PLAYER": "Отклонить фри-спин"
       },
       "FREE_SPIN_TEMPLATE": "Фри-спин шаблон",
       "BONUS_TEMPLATE": "Бонус шаблон",
-      "CLAIM": "Забрать фри-спин"
+      "CLAIM": "Забрать фри-спин",
+      "DECLINE": "Отклонить"
     },
     "FREE_SPIN": {
       "MODAL_CREATE": {

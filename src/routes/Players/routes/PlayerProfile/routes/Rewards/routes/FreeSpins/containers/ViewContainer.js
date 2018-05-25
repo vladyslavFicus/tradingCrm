@@ -11,6 +11,7 @@ import FreeSpinCreateModal from '../components/ManualFreeSpin/FreeSpinCreateModa
 import FreeSpinAssignModal from '../components/ManualFreeSpin/FreeSpinAssignModal';
 import ConfirmActionModal from '../../../../../../../../../components/Modal/ConfirmActionModal';
 import { claimFreeSpinMutation } from '.././../../../../../../../../graphql/mutations/freeSpinTemplate';
+import { declineFreeSpinMutation } from '.././../../../../../../../../graphql/mutations/freeSpin';
 
 const mapStateToProps = ({
   userBonusFreeSpinsList: {
@@ -59,6 +60,9 @@ export default compose(
   connect(mapStateToProps, mapActions),
   graphql(claimFreeSpinMutation, {
     name: 'claimFreeSpinTemplateMutation',
+  }),
+  graphql(declineFreeSpinMutation, {
+    name: 'declineFreeSpinMutation',
   }),
   withNotifications,
 )(FreeSpinsView);

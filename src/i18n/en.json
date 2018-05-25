@@ -509,11 +509,13 @@
       "NOTIFICATIONS": {
         "CANCEL_FREE_SPIN_ERROR": "Failed to cancel free spins",
         "ASSIGN_FREE_SPIN_TO_PLAYER": "Assign free spin to player",
-        "CLAIM_FREE_SPIN_TO_PLAYER": "Claim free spin to player"
+        "CLAIM_FREE_SPIN_TO_PLAYER": "Claim free spin to player",
+        "DECLINE_FREE_SPIN_TO_PLAYER": "Decline free spin"
       },
       "FREE_SPIN_TEMPLATE": "Free spin template",
       "BONUS_TEMPLATE": "Bonus template",
-      "CLAIM": "Claim"
+      "CLAIM": "Claim",
+      "DECLINE": "Decline"
     },
     "FREE_SPIN": {
       "MODAL_CREATE": {
