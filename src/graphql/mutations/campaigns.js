@@ -48,6 +48,9 @@ const updateMutation = gql`mutation update(
   $rewards: [String]!
   $startDate: String
   $endDate: String
+  $countries: [String]
+  $excludeCountries: Boolean
+  $targetType: String!
 ) {
   campaign {
     update(
@@ -58,6 +61,9 @@ const updateMutation = gql`mutation update(
       rewards: $rewards
       startDate: $startDate
       endDate: $endDate
+      countries: $countries
+      excludeCountries: $excludeCountries
+      targetType: $targetType
     ) {
       data {
         _id
@@ -70,6 +76,9 @@ const updateMutation = gql`mutation update(
         fulfillments
         startDate
         endDate
+        targetType
+        countries
+        excludeCountries
       }
       error {
         error

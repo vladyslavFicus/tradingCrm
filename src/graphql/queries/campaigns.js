@@ -63,6 +63,8 @@ const campaignQuery = gql`query campaign($campaignUUID: String!){
         uuid
       }
       fulfillments
+      countries
+      excludeCountries
     }
     error {
       error
