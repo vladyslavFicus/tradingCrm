@@ -6,13 +6,13 @@ export default (values) => {
     name: ['required', 'string'],
     lockAmountStrategy: ['required', 'string'],
     moneyTypePriority: ['required', 'string'],
-    'maxBet[0].amount': ['required', 'numeric', 'min:1', 'max: 1000000'],
+    'maxBet[0].amount': ['numeric', 'greater:0', 'max: 1000000'],
     bonusLifeTime: ['required', 'integer'],
   };
 
   ['grantRatio', 'wageringRequirement'].forEach((field) => {
     if (values[field].type === customValueFieldTypes.ABSOLUTE) {
-      rules[`${field}.absolute[0].amount`] = ['required', 'numeric', 'min:1', 'max: 1000000'];
+      rules[`${field}.absolute[0].amount`] = ['required', 'numeric', 'greater:0', 'max: 1000000'];
     } else {
       rules[`${field}.percentage`] = ['required', 'numeric', 'greater:0'];
     }
@@ -25,7 +25,6 @@ export default (values) => {
     rules['capping.percentage'] = ['required', 'numeric', 'greater:0'];
     rules['prize.percentage'] = ['required', 'numeric', 'greater:0', 'lessOrSame:capping.percentage'];
   }
-
 
   if (values.grantRatio.type === customValueFieldTypes.PERCENTAGE) {
     rules['maxGrantAmount[0].amount'] = ['required', 'numeric', 'greater:0'];
