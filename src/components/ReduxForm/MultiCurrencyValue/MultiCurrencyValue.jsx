@@ -52,6 +52,18 @@ class MultiCurrencyValue extends Component {
     isTooltipOpen: false,
   };
 
+  componentDidUpdate() {
+    const {
+      optionCurrencies: { options },
+    } = this.props;
+    const formCurrencies = this.currencies;
+    const allCurrencies = get(options, 'signUp.post.currency.list', []);
+
+    if (this.baseCurrencyValue && formCurrencies.length !== allCurrencies.length) {
+      this.handleChangeBaseCurrencyAmount();
+    }
+  }
+
   get secondaryCurrencies() {
     const { optionCurrencies: { options } } = this.props;
 
@@ -65,7 +77,7 @@ class MultiCurrencyValue extends Component {
   }
 
   get baseCurrencyValue() {
-    return get(this.props.formValues, `${this.props.baseName}.amounts[0].amount`, 0);
+    return get(this.props.formValues, `${this.props.baseName}[0].amount`, 0);
   }
 
   get currencies() {
@@ -83,7 +95,7 @@ class MultiCurrencyValue extends Component {
     const baseCurrencyValue = value || this.baseCurrencyValue;
 
     currencies[0] = {
-      amount: floatNormalize(value),
+      amount: floatNormalize(baseCurrencyValue),
       currency: this.baseCurrency,
     };
 

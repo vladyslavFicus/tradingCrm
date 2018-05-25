@@ -4,7 +4,13 @@ import PropTypes from 'prop-types';
 import { Field, SubmissionError } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import { InputField, SelectField, MultiCurrencyValue, TypeValueField, CheckBox } from '../../../../../components/ReduxForm';
+import {
+  InputField,
+  SelectField,
+  MultiCurrencyValue,
+  TypeValueField,
+  CheckBox,
+} from '../../../../../components/ReduxForm';
 import renderLabel from '../../../../../utils/renderLabel';
 import stopPropagation from '../../../../../utils/stopPropagation';
 import { attributeLabels, attributePlaceholders, wageringRequirementTypes } from '../constants';
@@ -33,11 +39,17 @@ class CreateBonusModal extends PureComponent {
     formValues: {},
   };
 
+  static contextTypes = {
+    _reduxForm: PropTypes.object,
+  };
+
   componentWillReceiveProps({ isOpen }) {
     if (this.props.isOpen && !isOpen) {
       this.props.reset();
     }
   }
+
+  setField = (field, value = '') => this.context._reduxForm.autofill(field, value);
 
   handleSubmitBonusForm = async (formData) => {
     const {
@@ -114,6 +126,20 @@ class CreateBonusModal extends PureComponent {
     }
   };
 
+  handlePrizeCappingType = (e) => {
+    const { formValues } = this.props;
+
+    if (e.target.value === customValueFieldTypes.ABSOLUTE) {
+      this.setField('capping.absolute', [{ amount: get(formValues, 'capping.percentage', 0) }]);
+      this.setField('prize.absolute', [{ amount: get(formValues, 'prize.percentage', 0) }]);
+    }
+
+    if (e.target.value === customValueFieldTypes.PERCENTAGE) {
+      this.setField('capping.percentage', get(formValues, 'capping.absolute[0].amount'));
+      this.setField('prize.percentage', get(formValues, 'prize.absolute[0].amount'));
+    }
+  }
+
   renderCappingPrizeLabel = label => (
     <div>
       {I18n.t(label)}{' '}
@@ -128,7 +154,6 @@ class CreateBonusModal extends PureComponent {
       isOpen,
       formValues,
     } = this.props;
-
     const grantRatioType = get(formValues, 'grantRatio.type');
     const prizeCapingType = get(formValues, 'prizeCapingType');
 
@@ -159,6 +184,7 @@ class CreateBonusModal extends PureComponent {
               label={I18n.t(attributeLabels.prizeCapingType)}
               type="select"
               component={SelectField}
+              onChange={this.handlePrizeCappingType}
               position="vertical"
               className="col-md-4"
               id="campaign-create-bonus-modal-prize-caping-type"
