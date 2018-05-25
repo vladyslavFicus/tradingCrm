@@ -61,6 +61,7 @@ class FreeSpinsView extends Component {
       confirmActionModal: PropTypes.modalType,
     }).isRequired,
     claimFreeSpinTemplateMutation: PropTypes.func.isRequired,
+    declineFreeSpinMutation: PropTypes.func.isRequired,
     notify: PropTypes.func.isRequired,
   };
   static defaultProps = {
@@ -285,6 +286,30 @@ class FreeSpinsView extends Component {
     confirmActionModal.hide();
   };
 
+  declineFreeSpin = data => async () => {
+    const {
+      declineFreeSpinMutation,
+      notify,
+      modals: { confirmActionModal },
+    } = this.props;
+
+    const action = await declineFreeSpinMutation({ variables: data });
+
+    const error = get(action, 'data.freeSpin.decline.error');
+
+    notify({
+      level: error ? 'error' : 'success',
+      title: I18n.t('PLAYER_PROFILE.FREE_SPINS.NOTIFICATIONS.DECLINE_FREE_SPIN_TO_PLAYER'),
+      message: error ? I18n.t('COMMON.ERROR') : I18n.t('COMMON.SUCCESS'),
+    });
+
+    if (!error) {
+      this.handleRefresh();
+    }
+
+    confirmActionModal.hide();
+  };
+
   openConfirmClaimFreeSpinModal = data => () => {
     const { modals: { confirmActionModal } } = this.props;
 
@@ -294,6 +319,17 @@ class FreeSpinsView extends Component {
         currency: data.currencyCode,
         playerUUID: data.playerUUID,
         freeSpinUUID: data.uuid,
+      }),
+    });
+  };
+
+  openConfirmDeclineFreeSpinModal = data => () => {
+    const { modals: { confirmActionModal } } = this.props;
+
+    confirmActionModal.show({
+      onSubmit: this.declineFreeSpin({
+        uuid: data.uuid,
+        playerUUID: data.playerUUID,
       }),
     });
   };
@@ -346,6 +382,12 @@ class FreeSpinsView extends Component {
         onClick={this.openConfirmClaimFreeSpinModal(data)}
       >
         {I18n.t('PLAYER_PROFILE.FREE_SPINS.CLAIM')}
+      </button>
+      <button
+        className="btn btn-sm margin-left-10"
+        onClick={this.openConfirmDeclineFreeSpinModal(data)}
+      >
+        {I18n.t('PLAYER_PROFILE.FREE_SPINS.DECLINE')}
       </button>
     </If>
   );
