@@ -732,15 +732,15 @@ class Profile extends Component {
         />
         <div className="card no-borders">
           <Switch>
-            <Route path={`${path}/profile`} component={ProfileView} />
-            <Route path={`${path}/notes`} component={Notes} />
-            <Route path={`${path}/limits`} component={Limits} />
-            <Route path={`${path}/files`} component={Files} />
-            <Route path={`${path}/feed`} component={Feed} />
-            <Route path={`${path}/paymentAccounts`} component={PaymentAccounts} />
-            <Route path={`${path}/devices`} component={Devices} />
-            <Route path={`${path}/rewards`} component={Rewards} />
-            <Route path={`${path}/transactions`} component={Transactions} />
+            <Route disableScroll path={`${path}/profile`} component={ProfileView} />
+            <Route disableScroll path={`${path}/notes`} component={Notes} />
+            <Route disableScroll path={`${path}/limits`} component={Limits} />
+            <Route disableScroll path={`${path}/files`} component={Files} />
+            <Route disableScroll path={`${path}/feed`} component={Feed} />
+            <Route disableScroll path={`${path}/paymentAccounts`} component={PaymentAccounts} />
+            <Route disableScroll path={`${path}/devices`} component={Devices} />
+            <Route disableScroll path={`${path}/rewards`} component={Rewards} />
+            <Route disableScroll path={`${path}/transactions`} component={Transactions} />
             <Redirect to={`${url}/profile`} />
           </Switch>
         </div>
