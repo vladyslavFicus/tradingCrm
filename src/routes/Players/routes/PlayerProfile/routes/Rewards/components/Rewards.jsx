@@ -69,9 +69,9 @@ class Rewards extends PureComponent {
           </If>
         </StickyNavigation>
         <Switch>
-          <Route path={`${path}/bonuses`} component={Bonuses} />
-          <Route path={`${path}/free-spins`} component={FreeSpins} />
-          <Route path={`${path}/campaigns`} component={Campaigns} />
+          <Route disableScroll path={`${path}/bonuses`} component={Bonuses} />
+          <Route disableScroll path={`${path}/free-spins`} component={FreeSpins} />
+          <Route disableScroll path={`${path}/campaigns`} component={Campaigns} />
           <Redirect to={redirectUrl} />
         </Switch>
       </Fragment>
