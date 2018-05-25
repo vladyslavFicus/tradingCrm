@@ -343,6 +343,19 @@ class FreeSpinView extends PureComponent {
                   </div>
                 </div>
               </If>
+              <div className="col-4">
+                {I18n.t(attributeLabels.claimable)}
+                <div className="campaigns-template__value">
+                  <Choose>
+                    <When condition={fsTemplate.claimable}>
+                      {I18n.t('COMMON.YES')}
+                    </When>
+                    <Otherwise>
+                      {I18n.t('COMMON.NO')}
+                    </Otherwise>
+                  </Choose>
+                </div>
+              </div>
             </div>
             <div className="mt-3">
               <If condition={fsTemplate.bonusTemplateUUID}>

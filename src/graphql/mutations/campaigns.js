@@ -133,6 +133,7 @@ const freeSpinTemplateMutation = gql`mutation freeSpinTemplateMutation(
   $nearestCost: Float
   $moduleId: String
   $clientId: String
+  $claimable: Boolean
   ) {
   freeSpinTemplate {
     add (
@@ -159,6 +160,7 @@ const freeSpinTemplateMutation = gql`mutation freeSpinTemplateMutation(
     moduleId: $moduleId
     denomination: $denomination
     coins: $coins
+    claimable: $claimable
     ) {
       data {
         aggregatorId
