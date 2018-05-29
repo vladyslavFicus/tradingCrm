@@ -78,6 +78,7 @@ class FreeSpin extends Component {
     if (action && !action.error && templateUUID) {
       this.loadTemplateData(templateUUID);
     }
+    this.setField('claimable', false);
   }
 
   get pageCodes() {
@@ -146,6 +147,7 @@ class FreeSpin extends Component {
         betLevel,
         freeSpinLifeTime,
         rhfpBet,
+        claimable,
       } = action.payload;
 
       let { betPerLine } = action.payload;
@@ -155,6 +157,7 @@ class FreeSpin extends Component {
       }
 
       this.setField('name', name);
+      this.setField('claimable', claimable);
 
       this.handleChangeAggregator(aggregatorId);
       this.handleChangeProvider(providerId);
@@ -1016,6 +1019,13 @@ class FreeSpin extends Component {
           </div>
         </div>
         {this.renderAdditionalFields()}
+        <Field
+          name={this.buildFieldName('claimable')}
+          type="checkbox"
+          component={CheckBox}
+          disabled={disabled || !customTemplate}
+          label={I18n.t('COMMON.CLAIMABLE')}
+        />
         <If condition={customTemplate || (!customTemplate && get(currentValues, 'bonus.templateUUID', false))}>
           <hr />
           <Bonus

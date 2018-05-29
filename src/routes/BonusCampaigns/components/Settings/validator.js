@@ -61,6 +61,7 @@ export default (values, props) => {
         denomination: ['numeric'],
         coins: ['integer'],
         lifeTime: ['numeric'],
+        claimable: ['boolean'],
         bonus: {
           name: ['string'],
           bonusLifeTime: ['integer', 'min:1', 'max:230'],
@@ -78,6 +79,7 @@ export default (values, props) => {
           capping: ['numeric', 'min:0'],
           prize: ['numeric', 'min:0'],
           prizeCapingType: ['string'],
+          claimable: ['boolean'],
         },
       },
     },
