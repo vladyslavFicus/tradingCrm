@@ -105,7 +105,7 @@ config.module.rules.push({
 });
 
 config.module.rules.push({
-  test: /\.(js| jsx)$/,
+  test: /\.(js|jsx)$/,
   loader: 'webpack-enhanced-brand-loader',
   exclude: (absPath) => {
     const relativePathToBase = path.relative(project.basePath, absPath);
