@@ -221,7 +221,6 @@ class CreateBonusModal extends PureComponent {
                   showErrorMessage={false}
                   placeholder="0.0"
                   className="col-md-4"
-                  id="player-rewards-free-spin-bonus-prize"
                 />
                 <MultiCurrencyValue
                   baseName="capping.absolute"
@@ -229,7 +228,6 @@ class CreateBonusModal extends PureComponent {
                   showErrorMessage={false}
                   placeholder="0.0"
                   className="col-md-4"
-                  id="player-rewards-free-spin-bonus-capping"
                 />
               </Otherwise>
             </Choose>
@@ -247,7 +245,6 @@ class CreateBonusModal extends PureComponent {
                 label={I18n.t(attributeLabels.maxGrantAmount)}
                 baseName="maxGrantAmount"
                 className="col-md-5"
-                id="player-rewards-free-spin-bonus-max-grant-amount"
               />
             </If>
           </div>
@@ -299,7 +296,6 @@ class CreateBonusModal extends PureComponent {
               baseName="maxBet"
               label={I18n.t(attributeLabels.maxBet)}
               className="col-md-4"
-              id="player-rewards-bonus-max-bet"
             />
             <Field
               name="bonusLifeTime"

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { v4 } from 'uuid';
 import PropTypes from 'prop-types';
 import { get } from 'lodash';
 import MultiCurrencyField from './MultiCurrencyField';
@@ -29,10 +30,11 @@ class MultiCurrencyValue extends Component {
     }),
     formValues: PropTypes.object,
     className: PropTypes.string,
-    id: PropTypes.string.isRequired,
+    id: PropTypes.string,
   };
 
   static defaultProps = {
+    id: null,
     disabled: false,
     showErrorMessage: true,
     formValues: {},
@@ -88,6 +90,8 @@ class MultiCurrencyValue extends Component {
 
     autofill(this.props.baseName, currencies);
   };
+
+  id = this.props.id ? this.props.id.replace(/[[\]]/g, '') : v4().replace(/[0-9]/g, '');
 
   handleChangeBaseCurrencyAmount = ({ target: { value } } = { target: { value: '' } }) => {
     const currencies = [];
@@ -150,11 +154,9 @@ class MultiCurrencyValue extends Component {
       disabled,
       showErrorMessage,
       className,
-      id,
     } = this.props;
     const { isTooltipOpen } = this.state;
     const rates = this.secondaryCurrencies;
-    const targetId = id.replace(/[[\]]/g, '');
 
     return (
       <div className={className}>
@@ -168,11 +170,11 @@ class MultiCurrencyValue extends Component {
           inputAddon={<i className="icon icon-currencies multi-currency-icon" />}
           inputAddonPosition="right"
           onIconClick={this.handleOpenModal}
-          id={targetId}
+          id={this.id}
         />
         <If condition={rates.length}>
           <MultiCurrencyTooltip
-            id={`${targetId}-right-icon`}
+            id={`${this.id}-right-icon`}
             values={this.currencies}
             rates={this.secondaryCurrencies}
             isOpen={isTooltipOpen}
