@@ -48,48 +48,46 @@ const config = {
   },
   plugins: [
     new webpack.DefinePlugin(Object.assign({
-      'process.env': { NODE_ENV: JSON.stringify(project.env) },
+      'process.env': {
+        NODE_ENV: JSON.stringify(project.env),
+      },
       __DEV__,
       __TEST__,
       __PROD__,
     }, project.globals)),
     new HappyPack({
       threads: 4,
-      loaders: [
-        {
-          loader: 'babel-loader',
-          query: {
-            plugins: [
-              'babel-plugin-transform-class-properties',
-              'babel-plugin-syntax-dynamic-import',
-              'jsx-control-statements',
-              [
-                'babel-plugin-transform-runtime',
-                {
-                  helpers: true,
-                  polyfill: false, // we polyfill needed features in src/normalize.js
-                  regenerator: true,
-                },
-              ],
-              [
-                'babel-plugin-transform-object-rest-spread',
-                {
-                  useBuiltIns: true, // we polyfill Object.assign in src/normalize.js
-                },
-              ],
+      loaders: [{
+        loader: 'babel-loader',
+        query: {
+          plugins: [
+            'babel-plugin-transform-class-properties',
+            'babel-plugin-syntax-dynamic-import',
+            'jsx-control-statements', [
+              'babel-plugin-transform-runtime',
+              {
+                helpers: true,
+                polyfill: false, // we polyfill needed features in src/normalize.js
+                regenerator: true,
+              },
             ],
-            presets: [
-              'babel-preset-react',
-              ['babel-preset-env', {
-                targets: {
-                  ie9: true,
-                },
-                uglify: true,
-              }],
+            [
+              'babel-plugin-transform-object-rest-spread',
+              {
+                useBuiltIns: true, // we polyfill Object.assign in src/normalize.js
+              },
             ],
-          },
+          ],
+          presets: [
+            'babel-preset-react', ['babel-preset-env', {
+              targets: {
+                ie9: true,
+              },
+              uglify: true,
+            }],
+          ],
         },
-      ],
+      }],
     }),
   ],
 };
@@ -107,7 +105,7 @@ config.module.rules.push({
 });
 
 config.module.rules.push({
-  test: /\.(js|jsx)$/,
+  test: /\.(jsx)$/,
   loader: 'webpack-enhanced-brand-loader',
   options: {
     brand: company,
@@ -126,37 +124,36 @@ config.module.rules.push({
   test: /\.(sass|scss)$/,
   loader: extractStyles.extract({
     fallback: 'style-loader',
-    use: [
-      {
-        loader: 'css-loader',
-        options: {
-          sourceMap: project.sourcemaps,
-          minimize: {
-            autoprefixer: {
-              add: true,
-              remove: true,
-              browsers: ['last 2 versions'],
-            },
-            discardComments: {
-              removeAll: true,
-            },
-            discardUnused: false,
-            mergeIdents: false,
-            reduceIdents: false,
-            safe: true,
-            sourcemap: project.sourcemaps,
+    use: [{
+      loader: 'css-loader',
+      options: {
+        sourceMap: project.sourcemaps,
+        minimize: {
+          autoprefixer: {
+            add: true,
+            remove: true,
+            browsers: ['last 2 versions'],
           },
+          discardComments: {
+            removeAll: true,
+          },
+          discardUnused: false,
+          mergeIdents: false,
+          reduceIdents: false,
+          safe: true,
+          sourcemap: project.sourcemaps,
         },
       },
-      {
-        loader: 'fast-sass-loader',
-        options: {
-          sourceMap: project.sourcemaps,
-          includePaths: [
-            inProjectSrc('styles'),
-          ],
-        },
+    },
+    {
+      loader: 'fast-sass-loader',
+      options: {
+        sourceMap: project.sourcemaps,
+        includePaths: [
+          inProjectSrc('styles'),
+        ],
       },
+    },
     ],
   }),
   include: [
@@ -168,11 +165,9 @@ config.module.rules.push({
   test: /\.css$/,
   loader: extractStyles.extract({
     fallback: 'style-loader',
-    use: [
-      {
-        loader: 'raw-loader',
-      },
-    ],
+    use: [{
+      loader: 'raw-loader',
+    }],
   }),
 });
 config.plugins.push(extractStyles);
@@ -189,7 +184,8 @@ config.module.rules.push({
 
 // Fonts
 // ------------------------------------
-;[
+;
+[
   ['woff', 'application/font-woff'],
   ['woff2', 'application/font-woff2'],
   ['otf', 'font/opentype'],
@@ -237,7 +233,9 @@ if (!__TEST__) {
     bundles.unshift('vendor');
     config.entry.vendor = project.vendors;
   }
-  config.plugins.push(new webpack.optimize.CommonsChunkPlugin({ names: bundles }));
+  config.plugins.push(new webpack.optimize.CommonsChunkPlugin({
+    names: bundles,
+  }));
 }
 
 // Production Optimizations
