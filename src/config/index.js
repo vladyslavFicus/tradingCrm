@@ -144,7 +144,7 @@ function getGraphQLRoot() {
 }
 
 function getLogo() {
-  const brands = ['redbox', 'slottica', 'loki', 'vulcanprestige', 'vulcanneon'];
+  const brands = ['redbox', 'slottica', 'loki', 'vulcanprestige', 'vulcanneon', 'vulcangold'];
   let brandId = _.get(window, 'app.brandId');
 
   if (brandId) {
