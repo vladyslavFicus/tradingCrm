@@ -315,10 +315,10 @@ class FreeSpinsView extends Component {
 
     confirmActionModal.show({
       onSubmit: this.claimFreeSpin({
-        uuid: data.uuid,
+        freeSpinUUID: data.uuid,
         currency: data.currencyCode,
         playerUUID: data.playerUUID,
-        freeSpinUUID: data.uuid,
+        templateUUID: data.freeSpinTemplateUUID,
       }),
     });
   };

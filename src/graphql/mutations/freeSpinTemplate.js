@@ -1,16 +1,16 @@
 import gql from 'graphql-tag';
 
 const claimFreeSpinMutation = gql`mutation claimFreeSpinTemplate(
-  $uuid: String!
-  $playerUUID: String!
   $freeSpinUUID: String!
+  $templateUUID: String!
+  $playerUUID: String!
   $currency: String!
 ) {
   freeSpinTemplate {
     claim(
-      playerUUID: $playerUUID
-      uuid: $uuid
       freeSpinUUID: $freeSpinUUID
+      templateUUID: $templateUUID
+      playerUUID: $playerUUID
       currency: $currency
       ) {
       data {
