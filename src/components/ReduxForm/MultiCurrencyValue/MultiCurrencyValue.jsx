@@ -29,7 +29,7 @@ class MultiCurrencyValue extends Component {
     }),
     formValues: PropTypes.object,
     className: PropTypes.string,
-    id: PropTypes.string,
+    id: PropTypes.string.isRequired,
   };
 
   static defaultProps = {
@@ -40,7 +40,6 @@ class MultiCurrencyValue extends Component {
     baseName: 'amounts',
     label: null,
     optionCurrencies: { options: {}, loading: true },
-    id: null,
     className: null,
   };
 

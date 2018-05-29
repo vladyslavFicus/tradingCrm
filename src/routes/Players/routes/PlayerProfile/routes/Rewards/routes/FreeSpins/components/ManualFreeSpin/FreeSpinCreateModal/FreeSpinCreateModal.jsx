@@ -388,6 +388,7 @@ class FreeSpinCreateModal extends Component {
                       baseName="betPerLineAmounts"
                       label={I18n.t(attributeLabels.betPerLine)}
                       className="col-md-6"
+                      id="player-rewards-freespin-create-modal-bet-perline"
                     />
                   </If>
                   <If condition={fields.indexOf('denomination') !== -1}>
