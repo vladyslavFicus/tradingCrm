@@ -74,7 +74,7 @@ class SimpleConfirmationModal extends Component {
       form,
     } = this.props;
 
-    const submitButtonId = submitButtonLabel.split(' ').join('-').toLowerCase();
+    const submitButtonId = submitButtonLabel.split(' ').join('-').replace(/&/, 'and').toLowerCase();
 
     return (
       <Modal isOpen toggle={onClose} className={className}>
