@@ -29,7 +29,9 @@ import './Form.scss';
 import { withReduxFormValues, withNotifications } from '../../../../components/HighOrder';
 import renderLabel from '../../../../utils/renderLabel';
 import normalizeBoolean from '../../../../utils/normalizeBoolean';
-import { targetTypesLabels } from '../../../../constants/campaigns';
+import countries from '../../../../utils/countryList';
+import { targetTypes, targetTypesLabels } from '../../../../constants/campaigns';
+import Countries from '../Countries';
 
 const CAMPAIGN_NAME_MAX_LENGTH = 100;
 
@@ -207,9 +209,8 @@ class Form extends Component {
                 id={`${form}TargetType`}
                 position="vertical"
                 component={SelectField}
-                onChange={this.handleChangeTargetType}
               >
-                {Object.keys(targetTypesLabels).map(targetType => (
+                {Object.keys(targetTypes).map(targetType => (
                   <option key={targetType} value={targetType}>
                     {renderLabel(targetType, targetTypesLabels)}
                   </option>
@@ -234,6 +235,12 @@ class Form extends Component {
                 ))}
               </Field>
             </div>
+          </div>
+          <div className="row">
+            <Countries
+              disabled={disabled}
+              formValues={formValues}
+            />
           </div>
         </div>
         <div className="container-fluid">
@@ -289,7 +296,9 @@ export default compose(
     validate: (values) => {
       const rules = {
         name: ['required', 'string'],
-        targetType: ['required', 'string'],
+        targetType: ['required', 'string', `in:${Object.keys(targetTypes).join()}`],
+        countries: `in:,${Object.keys(countries).join()}`,
+        excludeCountries: ['boolean'],
       };
 
       const fulfillments = get(values, 'fulfillments', []);

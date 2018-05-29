@@ -30,7 +30,7 @@ export default (values, props) => {
     optInPeriod: ['numeric', 'min:1'],
     optInPeriodTimeUnit: [`in:${Object.keys(optInPeriods).join()}`],
     linkedCampaignUUID: ['string'],
-    country: `in:,${Object.keys(countries).join()}`,
+    countries: `in:,${Object.keys(countries).join()}`,
     fulfillments: {
       deposit: {
         minAmount: ['numeric', 'min:0'],

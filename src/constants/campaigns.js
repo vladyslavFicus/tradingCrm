@@ -31,7 +31,6 @@ const rewardTypesLabels = {
 const targetTypes = keyMirror({
   ALL: null,
   TARGET_LIST: null,
-  LINKED_CAMPAIGN: null,
 });
 const targetTypesLabels = {
   [targetTypes.ALL]: I18n.t('CONSTANTS.CAMPAIGNS.TARGET_TYPES.ALL'),
