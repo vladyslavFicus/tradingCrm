@@ -13,6 +13,7 @@ const inProjectSrc = file => inProject(project.srcDir, file);
 const __DEV__ = project.env === 'development';
 const __TEST__ = project.env === 'test';
 const __PROD__ = project.env === 'production';
+const company = project.company !== 'nas' ? project.company : '';
 
 const config = {
   entry: {
@@ -103,6 +104,14 @@ config.module.rules.push({
     return /node_modules/.test(relativePathToBase);
   },
   use: 'happypack/loader',
+});
+
+config.module.rules.push({
+  test: /\.(js|jsx)$/,
+  loader: 'webpack-enhanced-brand-loader',
+  options: {
+    brand: company,
+  },
 });
 
 // Styles

@@ -81,6 +81,7 @@
     "redux-thunk": "^2.2.0",
     "uuid": "^3.1.0",
     "validatorjs": "^3.13.5",
+    "webpack-enhanced-brand-loader": "^1.2.1",
     "whatwg-fetch": "^2.0.3"
   },
   "devDependencies": {
