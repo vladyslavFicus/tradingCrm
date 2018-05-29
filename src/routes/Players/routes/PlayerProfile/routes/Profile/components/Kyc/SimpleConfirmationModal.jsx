@@ -74,42 +74,42 @@ class SimpleConfirmationModal extends Component {
       form,
     } = this.props;
 
+    const submitButtonId = submitButtonLabel.split(' ').join('-').toLowerCase();
+
     return (
       <Modal isOpen toggle={onClose} className={className}>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <ModalHeader toggle={onClose}>{modalTitle}</ModalHeader>
-          <ModalBody>
-            <div className="text-center mx-auto width-300">
-              <strong> {actionText} </strong>
-              {' - '}
-              <Uuid uuid={playerUUID} uuidPrefix="PL" />
-            </div>
-
-            <div className="text-center margin-top-20">
-              <NoteButton
-                id={`${form}-verify-kyc-note-button`}
-                note={note}
-                onClick={this.handleNoteClick}
-              />
-            </div>
-          </ModalBody>
-
-          <ModalFooter>
-            <button
-              onClick={onClose}
-              className="btn btn-default-outline mr-auto"
-            >
-              {I18n.t('COMMON.CANCEL')}
-            </button>
-            {' '}
-            <button
-              type="submit"
-              className="btn btn-danger-outline"
-            >
-              {submitButtonLabel}
-            </button>
-          </ModalFooter>
-        </form>
+        <ModalHeader toggle={onClose}>{modalTitle}</ModalHeader>
+        <ModalBody id="simple-confirmation-modal-form" tag="form" onSubmit={handleSubmit(onSubmit)}>
+          <div className="text-center mx-auto width-300">
+            <strong>{actionText}</strong>
+            {' - '}
+            <Uuid uuid={playerUUID} uuidPrefix="PL" />
+          </div>
+          <div className="text-center margin-top-20">
+            <NoteButton
+              id={`${form}-verify-kyc-note-button`}
+              note={note}
+              onClick={this.handleNoteClick}
+            />
+          </div>
+        </ModalBody>
+        <ModalFooter>
+          <button
+            type="button"
+            onClick={onClose}
+            className="btn btn-default-outline mr-auto"
+          >
+            {I18n.t('COMMON.CANCEL')}
+          </button>
+          <button
+            type="submit"
+            form="simple-confirmation-modal-form"
+            className="btn btn-danger-outline"
+            id={`kyc-${submitButtonId}-btn`}
+          >
+            {submitButtonLabel}
+          </button>
+        </ModalFooter>
       </Modal>
     );
   }
