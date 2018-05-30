@@ -3,7 +3,7 @@ const path = require('path');
 const chalk = require('chalk');
 const webpack = require('webpack');
 const logger = require('../lib/logger');
-const webpackConfig = require('../webpack.config');
+const webpackConfig = require('../config/webpack.prod');
 const project = require('../../project.config');
 
 logger.info(`App version: ${project.globals.__APP_VERSION__}`);
