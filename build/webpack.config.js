@@ -48,9 +48,7 @@ const config = {
   },
   plugins: [
     new webpack.DefinePlugin(Object.assign({
-      'process.env': {
-        NODE_ENV: JSON.stringify(project.env),
-      },
+      'process.env.NODE_ENV': JSON.stringify(project.env),
       __DEV__,
       __TEST__,
       __PROD__,
