@@ -14,7 +14,6 @@ const FETCH_AUTHORITIES = createRequestAction(`${KEY}/fetch-authorities`);
 const CHANGE_AUTHORITY = createRequestAction(`${KEY}/change-authorities`);
 const REFRESH_TOKEN = createRequestAction(`${KEY}/refresh-token`);
 const LOGOUT = createRequestAction(`${KEY}/logout`);
-const SET_LAST_ACTIVITY = `${KEY}/set-last-activity`;
 const SET_DEPARTMENTS_BY_BRAND = `${KEY}/set-departments-by-brand`;
 
 const fetchProfile = operatorSourceActionCreators.fetchProfile(FETCH_PROFILE);
@@ -185,13 +184,6 @@ function successSignInReducer(state, action) {
   };
 }
 
-function setLastActivity(time) {
-  return {
-    type: SET_LAST_ACTIVITY,
-    payload: { timestamp: time },
-  };
-}
-
 function setDepartmentsByBrand(payload) {
   return {
     type: SET_DEPARTMENTS_BY_BRAND,
@@ -201,7 +193,6 @@ function setDepartmentsByBrand(payload) {
 
 const initialState = {
   brandId: null,
-  lastActivity: null,
   refreshingToken: false,
   authorities: [],
   department: null,
@@ -255,10 +246,6 @@ const actionHandlers = {
     refreshingToken: false,
   }),
   [LOGOUT.SUCCESS]: () => ({ ...initialState }),
-  [SET_LAST_ACTIVITY]: (state, action) => ({
-    ...state,
-    lastActivity: action.payload.timestamp,
-  }),
   [SET_DEPARTMENTS_BY_BRAND]: (state, { payload }) => ({
     ...state,
     departmentsByBrand: payload,
@@ -271,7 +258,6 @@ const actionTypes = {
   REFRESH_TOKEN,
   LOGOUT,
   UPDATE_PROFILE,
-  SET_LAST_ACTIVITY,
   SET_DEPARTMENTS_BY_BRAND,
 };
 const actionCreators = {
@@ -281,7 +267,6 @@ const actionCreators = {
   changeDepartment,
   logout,
   refreshToken,
-  setLastActivity,
   resetPasswordConfirm,
   updateProfile,
   setDepartmentsByBrand,
