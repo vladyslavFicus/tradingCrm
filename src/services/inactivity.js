@@ -4,7 +4,9 @@ import { actionCreators as authActionCreators, actionTypes as authActionTypes } 
 import { actionCreators as windowActionCreators } from '../redux/modules/window';
 import timestamp from '../utils/timestamp';
 
-const events = 'mousemove';
+const STORAGE_KEY = 'last-activity';
+const ACTIVITY_EVENTS = 'mousemove';
+
 const logout = (store) => {
   const { auth } = store.getState();
 
@@ -14,7 +16,7 @@ const logout = (store) => {
     store.dispatch({ type: authActionTypes.LOGOUT.SUCCESS });
   }
 
-  const location = history.location;
+  const { location } = history;
 
   if (
     (location && location.pathname && !/(sign-in)/.test(location.pathname))
@@ -25,33 +27,46 @@ const logout = (store) => {
     history.push(`/sign-in${returnUrl ? `?returnUrl=${returnUrl}` : ''}`);
   }
 };
+
+function updateLastActivity() {
+  window.localStorage.setItem(STORAGE_KEY, timestamp());
+}
+
 export default ({ store, delay = 1200 }) => {
   if (window.isFrame) {
     const activityUpdate = _.debounce(() => {
       window.dispatchAction(windowActionCreators.operatorActivity());
     }, 200);
 
-    window.addEventListener(events, activityUpdate);
+    window.addEventListener(ACTIVITY_EVENTS, activityUpdate);
   } else {
     let timeout = null;
     let logged = false;
-    let lastActivity = null;
+
     const deleteTimeout = () => {
       if (timeout) {
         clearTimeout(timeout);
         timeout = null;
       }
     };
+
     const createTimeout = () => {
       deleteTimeout();
 
       timeout = setTimeout(() => logout(store), delay * 1000);
     };
+
     const activityUpdate = _.debounce(() => {
-      store.dispatch(authActionCreators.setLastActivity(timestamp()));
+      updateLastActivity();
 
       createTimeout();
     }, 200);
+
+    const updateStorage = (e) => {
+      if (e.key === STORAGE_KEY && e.oldValue !== e.newValue) {
+        createTimeout();
+      }
+    };
 
     store.subscribe(() => {
       const { auth } = store.getState();
@@ -59,20 +74,16 @@ export default ({ store, delay = 1200 }) => {
       if (logged !== auth.logged) {
         if (auth.logged) {
           logged = true;
-          window.addEventListener(events, activityUpdate);
+
+          window.addEventListener(ACTIVITY_EVENTS, activityUpdate);
+          window.addEventListener('storage', updateStorage);
         } else {
           logged = false;
-          window.removeEventListener(events, activityUpdate);
+
+          window.removeEventListener(ACTIVITY_EVENTS, activityUpdate);
+          window.removeEventListener('storage', updateStorage);
 
           deleteTimeout();
-        }
-      }
-
-      if (auth.logged) {
-        if (lastActivity !== auth.lastActivity) {
-          lastActivity = auth.lastActivity;
-
-          createTimeout();
         }
       }
     });
