@@ -99,8 +99,11 @@ class ViewLayout extends Component {
   };
 
   handleRemovePlayers = uuid => async () => {
-    const { modals: { confirmActionModal } } = this.state;
-    const { removeAllPlayers, notify } = this.props;
+    const {
+      removeAllPlayers,
+      notify,
+      modals: { confirmActionModal },
+    } = this.props;
 
     const action = await removeAllPlayers(uuid);
 
