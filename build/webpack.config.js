@@ -3,7 +3,7 @@ const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const UglifyJsParallelPlugin = require('webpack-uglify-parallel');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const HappyPack = require('happypack');
 const project = require('../project.config');
 
@@ -48,9 +48,7 @@ const config = {
   },
   plugins: [
     new webpack.DefinePlugin(Object.assign({
-      'process.env': {
-        NODE_ENV: JSON.stringify(project.env),
-      },
+      'process.env.NODE_ENV': JSON.stringify(project.env),
       __DEV__,
       __TEST__,
       __PROD__,
@@ -185,11 +183,11 @@ config.module.rules.push({
   options: {
     limit: 8192,
   },
-})
+});
 
 // Fonts
 // ------------------------------------
-;
+
 [
   ['woff', 'application/font-woff'],
   ['woff2', 'application/font-woff2'],
@@ -251,21 +249,29 @@ if (__PROD__) {
       minimize: true,
       debug: false,
     }),
-    new UglifyJsParallelPlugin({
-      workers: os.cpus().length > 2 ? 2 : 1,
+    new UglifyJsPlugin({
+      parallel: os.cpus().length > 2 ? 2 : 1,
       sourceMap: !!config.devtool,
-      comments: false,
-      compress: {
-        warnings: false,
-        screw_ie8: true,
-        conditionals: true,
-        unused: true,
-        comparisons: true,
-        sequences: true,
-        dead_code: true,
-        evaluate: true,
-        if_return: true,
-        join_vars: true,
+      uglifyOptions: {
+        ecma: 8,
+        compress: {
+          unused: true,
+          dead_code: true,
+          pure_getters: false,
+          warnings: false,
+          conditionals: true,
+          comparisons: true,
+          sequences: true,
+          evaluate: true,
+          join_vars: true,
+          if_return: true,
+        },
+        output: {
+          comments: false,
+        },
+        mangle: {
+          safari10: true,
+        },
       },
     })
   );

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import DateTime from 'react-datetime';
+import DateTime from 'newage-react-datetime';
 import './DateTimeField.scss';
 import FieldLabel from '../FieldLabel';
 
