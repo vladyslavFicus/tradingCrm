@@ -104,18 +104,18 @@ config.module.rules.push({
   use: 'happypack/loader',
 });
 
-// config.module.rules.push({
-//   test: /\.(js|jsx)$/,
-//   loader: 'webpack-enhanced-brand-loader',
-//   exclude: (absPath) => {
-//     const relativePathToBase = path.relative(project.basePath, absPath);
+config.module.rules.push({
+  test: /\.(js|jsx)$/,
+  loader: 'webpack-enhanced-brand-loader',
+  exclude: (absPath) => {
+    const relativePathToBase = path.relative(project.basePath, absPath);
 
-//     return /node_modules/.test(relativePathToBase);
-//   },
-//   options: {
-//     brand: company,
-//   },
-// });
+    return /node_modules/.test(relativePathToBase);
+  },
+  options: {
+    brand: company,
+  },
+});
 
 // Styles
 // ------------------------------------
@@ -185,11 +185,11 @@ config.module.rules.push({
   options: {
     limit: 8192,
   },
-})
+});
 
 // Fonts
 // ------------------------------------
-;
+
 [
   ['woff', 'application/font-woff'],
   ['woff2', 'application/font-woff2'],
