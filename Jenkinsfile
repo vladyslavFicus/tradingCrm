@@ -71,18 +71,32 @@ node('build') {
           if (isBuildDocker) {
             def commitId = sh(script: 'git rev-parse HEAD', returnStdout: true)
             println "@@@@ ${commitId}"
+            if (it == 'nas') {
+              sh """docker build --label "org.label-schema.name=${service}" \
+                    --label "org.label-schema.vendor=New Age Solutions" \
+                    --label "org.label-schema.schema-version=1.0" \
+                    --label "org.label-schema.hrzn.clientIds=${companyList.join(',')}" \
+                    --label "org.label-schema.vcs-ref=${commitId}" \
+                    -t devregistry.newage.io/hrzn/${service}:latest .
+                """
+            }
             sh """docker build --label "org.label-schema.name=${service}" \
---label "org.label-schema.vendor=New Age Solutions" \
---label "org.label-schema.schema-version=1.0" \
---label "org.label-schema.hrzn.clientIds=${companyList.join(',')}" \
---label "org.label-schema.vcs-ref=${commitId}" \
--t devregistry.newage.io/hrzn/${service}_${it}:latest .
-"""
+                    --label "org.label-schema.vendor=New Age Solutions" \
+                    --label "org.label-schema.schema-version=1.0" \
+                    --label "org.label-schema.hrzn.clientIds=${companyList.join(',')}" \
+                    --label "org.label-schema.vcs-ref=${commitId}" \
+                    -t devregistry.newage.io/hrzn/${service}_${it}:latest .
+                """
           }
         }
 
         stage("upload for ${it}") {
           if (isBuildDocker) {
+            if (it == 'nas') {
+              sh "docker push devregistry.newage.io/hrzn/${service}:latest"
+              sh "docker rmi devregistry.newage.io/hrzn/${service}:latest"
+            }
+
             sh "docker push devregistry.newage.io/hrzn/${service}_${it}:latest"
             sh "docker rmi devregistry.newage.io/hrzn/${service}_${it}:latest"
           }
