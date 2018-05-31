@@ -62,7 +62,7 @@ const prodConfig = {
               options: {
                 sourceMap: project.sourcemaps,
                 includePaths: [
-                  path.join(SRC_DIR, project.main),
+                  path.join(SRC_DIR, 'styles'),
                 ],
                 exclude: /node_modules/,
               },
