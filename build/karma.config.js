@@ -1,5 +1,5 @@
 const argv = require('yargs').argv;
-const webpackConfig = require('./webpack.config');
+const webpackConfig = require('./config/webpack.prod');
 
 const TEST_BUNDLER = './tests/test-bundler.js';
 
