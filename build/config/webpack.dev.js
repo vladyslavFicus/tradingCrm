@@ -9,7 +9,7 @@ const SRC_DIR = path.resolve(project.basePath, 'src');
 
 module.exports = merge(common, {
   mode: 'development',
-  devtool: 'source-map',
+  devtool: false,
   entry: [
     `webpack-hot-middleware/client.js?path=${project.publicPath}__webpack_hmr`,
   ],
@@ -38,7 +38,7 @@ module.exports = merge(common, {
             loader: 'css-loader',
             options: {
               options: {
-                sourceMap: true,
+                sourceMap: false,
                 minimize: {
                   autoprefixer: {
                     add: true,
