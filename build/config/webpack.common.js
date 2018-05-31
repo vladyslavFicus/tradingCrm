@@ -40,13 +40,24 @@ module.exports = {
       },
       // images
       {
-        test: /\.(png|ico|gif|svg|jpe?g)(\?[a-z0-9]+)?$/,
-        use: 'url-loader',
+        test: /\.(png|ico|gif|jpe?g)(\?[a-z0-9]+)?$/,
+        use: {
+          loader: 'url-loader',
+          options: {
+            limit: 8192,
+          },
+        },
       },
       // fonts
       {
-        test: /\.(woff|woff2|eot|ttf|otf)$/,
-        use: ['url-loader'],
+        test: /\.(woff|woff2|eot|ttf|svg|otf)$/,
+        use: [{
+          loader: 'url-loader',
+          options: {
+            name: 'fonts/[name].[ext]',
+            limit: 10000,
+          },
+        }],
       },
     ],
   },
