@@ -87,7 +87,7 @@ const prodConfig = {
       new UglifyJsPlugin({
         cache: true,
         parallel: true,
-        sourceMap: true,
+        sourceMap: project.sourcemaps,
         uglifyOptions: {
           ecma: 8,
           compress: {
