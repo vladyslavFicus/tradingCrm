@@ -23,8 +23,13 @@ const RewardPlan = ({ title, available, amount, onOpen }) => (
 RewardPlan.propTypes = {
   title: PropTypes.string.isRequired,
   onOpen: PropTypes.func.isRequired,
-  amount: PropTypes.number.isRequired,
-  available: PropTypes.oneOfType([PropTypes.bool, PropTypes.object, PropTypes.string]).isRequired,
+  amount: PropTypes.number,
+  available: PropTypes.oneOfType([PropTypes.bool, PropTypes.object, PropTypes.string]),
+};
+
+RewardPlan.defaultProps = {
+  available: false,
+  amount: 0,
 };
 
 export default RewardPlan;
