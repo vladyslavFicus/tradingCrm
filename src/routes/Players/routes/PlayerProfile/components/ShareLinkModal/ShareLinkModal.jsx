@@ -11,7 +11,7 @@ class ShareLinkModal extends Component {
     playerUUID: PropTypes.string.isRequired,
     notificationLevel: PropTypes.oneOf(['info', 'warning', 'success']),
     notificationTitle: PropTypes.string,
-    notificationMessage: PropTypes.string.isRequired,
+    notificationMessage: PropTypes.string,
   };
   static defaultProps = {
     notificationLevel: 'success',

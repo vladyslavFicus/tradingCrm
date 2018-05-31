@@ -3,30 +3,30 @@ import ImageViewer from 'react-images';
 import { get } from 'lodash';
 import { I18n } from 'react-redux-i18n';
 import { Switch, Redirect } from 'react-router-dom';
-import Tabs from '../../../../../components/Tabs';
-import Modal from '../../../../../components/Modal';
-import NotFound from '../../../../../routes/NotFound';
-import Permissions from '../../../../../utils/permissions';
-import { actions as walletActions } from '../../../../../constants/wallet';
+import Tabs from '../../../../../../components/Tabs/index';
+import Modal from '../../../../../../components/Modal/index';
+import NotFound from '../../../../../NotFound/index';
+import Permissions from '../../../../../../utils/permissions';
+import { actions as walletActions } from '../../../../../../constants/wallet';
 import {
   actions as statusActions,
   statusActions as userStatuses,
   statuses as playerProfileStatuses,
-} from '../../../../../constants/user';
-import Header from '../components/Header';
-import NotePopover from '../../../../../components/NotePopover';
-import { targetTypes } from '../../../../../constants/note';
-import Information from '../components/Information';
-import PropTypes from '../../../../../constants/propTypes';
-import getFileBlobUrl from '../../../../../utils/getFileBlobUrl';
+} from '../../../../../../constants/user';
+import Header from '../Header/index';
+import NotePopover from '../../../../../../components/NotePopover/index';
+import { targetTypes } from '../../../../../../constants/note';
+import Information from '../Information/index';
+import PropTypes from '../../../../../../constants/propTypes';
+import getFileBlobUrl from '../../../../../../utils/getFileBlobUrl';
 import {
   UploadModal as UploadFileModal,
   DeleteModal as DeleteFileModal,
-} from '../../../../../components/Files';
-import ChangePasswordModal from '../../../../../components/ChangePasswordModal';
-import ShareLinkModal from '../components/ShareLinkModal';
-import BackToTop from '../../../../../components/BackToTop';
-import HideDetails from '../../../../../components/HideDetails';
+} from '../../../../../../components/Files/index';
+import ChangePasswordModal from '../../../../../../components/ChangePasswordModal/index';
+import ShareLinkModal from '../ShareLinkModal/index';
+import BackToTop from '../../../../../../components/BackToTop/index';
+import HideDetails from '../../../../../../components/HideDetails/index';
 import {
   ProfileView,
   Notes,
@@ -37,8 +37,8 @@ import {
   PaymentAccounts,
   Transactions,
   Rewards,
-} from '../routes';
-import { Route } from '../../../../../router';
+} from '../../routes/index';
+import { Route } from '../../../../../../router/index';
 
 const NOTE_POPOVER = 'note-popover';
 const popoverInitialState = {
