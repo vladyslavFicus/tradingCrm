@@ -64,11 +64,14 @@ const prodConfig = {
                 includePaths: [
                   path.join(SRC_DIR, 'styles'),
                 ],
-                exclude: /node_modules/,
               },
             },
           ],
         }),
+        include: [
+          SRC_DIR,
+        ],
+        exclude: /node_modules/,
       },
     ],
   },
