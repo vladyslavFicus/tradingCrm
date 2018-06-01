@@ -3,11 +3,13 @@ import gql from 'graphql-tag';
 const lotteryMutation = gql`mutation updateLottery(
   $playerUUID: String!
   $amount: Float!
+  $isActive: Boolean!
 ) {
   rewardPlan {
     update(
       playerUUID: $playerUUID
       amount: $amount
+      isActive: $isActive
       type: "lottery"
       ) {
       data {
@@ -28,11 +30,13 @@ const lotteryMutation = gql`mutation updateLottery(
 const bonusMutation = gql`mutation updateBonus(
   $playerUUID: String!
   $amount: Float!
+  $isActive: Boolean!
 ) {
   rewardPlan {
     update(
       playerUUID: $playerUUID
       amount: $amount
+      isActive: $isActive
       type: "bonus"
       ) {
       data {
@@ -53,11 +57,13 @@ const bonusMutation = gql`mutation updateBonus(
 const runesMutation = gql`mutation updateRunes(
   $playerUUID: String!
   $amount: Float!
+  $isActive: Boolean!
 ) {
   rewardPlan {
     update(
       playerUUID: $playerUUID
       amount: $amount
+      isActive: $isActive
       type: "runes"
       ) {
       data {
@@ -78,11 +84,13 @@ const runesMutation = gql`mutation updateRunes(
 const freeSpinsMutation = gql`mutation updateFreeSpins(
   $playerUUID: String!
   $amount: Float!
+  $isActive: Boolean!
 ) {
   rewardPlan {
     update(
       playerUUID: $playerUUID
       amount: $amount
+      isActive: $isActive
       type: "freeSpins"
       ) {
       data {
@@ -103,11 +111,13 @@ const freeSpinsMutation = gql`mutation updateFreeSpins(
 const cashBacksMutation = gql`mutation updateCashBacks(
   $playerUUID: String!
   $amount: Float!
+  $isActive: Boolean!
 ) {
   rewardPlan {
     update(
       playerUUID: $playerUUID
       amount: $amount
+      isActive: $isActive
       type: "cashBacks"
       ) {
       data {

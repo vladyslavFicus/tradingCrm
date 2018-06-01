@@ -222,6 +222,12 @@
       "SELF_EXCLUSION_REASONS": {
         "USER_REQUEST": "Запрос клиента",
         "OTHER": "Другая"
+      },
+      "ACTIVE_PLAN": {
+        "TITLE": "Активный план"
+      },
+      "PENDING_PAYOUTS": {
+        "TITLE": "Ожидающие платежи"
       }
     },
     "GAME_ACTIVITY": {
@@ -782,7 +788,11 @@
         "CONFISCATE": "Конфискация"
       }
     },
-    "SUCCESS": "Успешно"
+    "SUCCESS": "Успешно",
+    "NOT_AVAILABLE": "Не доступно",
+    "SUBMIT": "Принять",
+    "AMOUNT": "Количество",
+    "SUCCESS_UPDATE": "Удачное обновление"
   },
   "FILES": {
     "UPLOAD_MODAL": {
@@ -1552,6 +1562,45 @@
     "LAST_LOGIN": {
       "TITLE": "Последний вход",
       "FROM_COUNTRY": " из %{country}"
+    },
+    "REWARD_PLAN": {
+      "TITLE": {
+        "LOTTERY": "Лотерейные билеты",
+        "BONUS": "Бонус",
+        "RUNES": "Лояльность",
+        "CASH_BACKS": "Кешбэк",
+        "FREE_SPINS": "Фри-спинов"
+      },
+      "MODAL": {
+        "LOTTERY": {
+          "TITLE": "Ожидаемые выплаты лотерейных билетов",
+          "INPUT_LABEL": "Количество",
+          "ACTION_TEXT": "Вы собираетесь изменить ожидающие выплаты лотерейных билетов"
+        },
+        "BONUS": {
+          "TITLE": "Ожидаемая выплата бонуса",
+          "INPUT_LABEL": "Количество",
+          "ACTION_TEXT": "Вы собираетесь изменить ожидающую выплату бонуса"
+        },
+        "RUNES": {
+          "TITLE": "Лояльность",
+          "INPUT_LABEL": "Количество",
+          "ACTION_TEXT": "Вы собираетесь изменить баллы лояльности"
+        },
+        "CASH_BACKS": {
+          "TITLE": "Ожидаемая выплата кешбэка",
+          "INPUT_LABEL": "Количество",
+          "ACTION_TEXT": "Вы собираетесь изменить ожидаемую выплату кешбэка"
+        },
+        "FREE_SPINS": {
+          "TITLE": "Ожидание выплаты фри-спинов",
+          "INPUT_LABEL": "Количество",
+          "ACTION_TEXT": "Вы собираетесь изменить ожидающие выплаты фри-спинов"
+        }
+      },
+      "NOTIFICATION": {
+        "UPDATE_MESSAGE": "Значение обновлено"
+      }
     }
   },
   "error": {

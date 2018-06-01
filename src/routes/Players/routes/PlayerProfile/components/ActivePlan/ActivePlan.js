@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { I18n } from 'react-redux-i18n';
 import { get } from 'lodash';
 import RewardPlan from '../RewardPlan';
 import PropTypes from '../../../../../../constants/propTypes';
@@ -26,24 +27,25 @@ class ActivePlan extends Component {
     activeRewardPlan: {},
   };
 
-  handleOpenChangeModal = () => {
+  handleOpenUpdateAmountModal = () => {
     const {
       activeRewardPlan,
       modals: { rewardPlanModal },
     } = this.props;
 
-    const amount = get(activeRewardPlan, `rewardPlan.data.${typesKeys[types.LOTTERY]}.amount`, 0);
+    const rewardPlan = get(activeRewardPlan, `rewardPlan.data.${typesKeys[types.LOTTERY]}`);
 
     rewardPlanModal.show({
       onSubmit: this.handleChangePlan,
       initialValues: {
-        amount,
+        amount: rewardPlan.amount,
+        isActive: rewardPlan.isActive,
       },
       modalStaticData: modalStaticData[types.LOTTERY],
     });
   };
 
-  handleChangePlan = async ({ amount }) => {
+  handleChangePlan = async (data) => {
     const {
       modals: { rewardPlanModal },
       lotteryMutation,
@@ -57,7 +59,7 @@ class ActivePlan extends Component {
 
     const action = await lotteryMutation({
       variables: {
-        amount,
+        ...data,
         playerUUID,
       },
     });
@@ -66,7 +68,7 @@ class ActivePlan extends Component {
 
     notify({
       level: error ? 'error' : 'success',
-      title: 'Change lottery tickets',
+      title: I18n.t('PROFILE.REWARD_PLAN.NOTIFICATION.UPDATE_MESSAGE'),
     });
 
     rewardPlanModal.hide();
@@ -85,13 +87,15 @@ class ActivePlan extends Component {
 
     return (
       <div className="header-block">
-        <div className="header-block-title">Active plan</div>
+        <div className="header-block-title">
+          {I18n.t('PLAYER_PROFILE.PROFILE.ACTIVE_PLAN.TITLE')}
+        </div>
         <If condition={!loading}>
           <RewardPlan
             title="Lottery tickets"
             available={available}
             amount={amount}
-            onOpen={this.handleOpenChangeModal}
+            onOpen={this.handleOpenUpdateAmountModal}
           />
         </If>
       </div>

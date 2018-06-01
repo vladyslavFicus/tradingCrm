@@ -31,7 +31,7 @@ class PendingPayouts extends Component {
     pendingPayouts: {},
   };
 
-  handleOpenChangeModal = type => () => {
+  handleOpenUpdateAmountModal = type => () => {
     const {
       pendingPayouts,
       modals: {
@@ -39,18 +39,19 @@ class PendingPayouts extends Component {
       },
     } = this.props;
 
-    const amount = get(pendingPayouts, `rewardPlan.data.${typesKeys[type]}.amount`, 0);
+    const rewardPlan = get(pendingPayouts, `rewardPlan.data.${typesKeys[type]}`);
 
     rewardPlanModal.show({
       onSubmit: this.handleChangePlan(type),
       initialValues: {
-        amount,
+        amount: rewardPlan.amount,
+        isActive: rewardPlan.isActive,
       },
       modalStaticData: modalStaticData[type],
     });
   };
 
-  handleChangePlan = type => async ({ amount }) => {
+  handleChangePlan = type => async (data) => {
     const {
       bonusMutation,
       cashBacksMutation,
@@ -68,7 +69,7 @@ class PendingPayouts extends Component {
     } = this.props;
 
     const variables = {
-      amount,
+      ...data,
       playerUUID,
     };
 
@@ -96,7 +97,7 @@ class PendingPayouts extends Component {
 
     notify({
       level: userId && !error ? 'success' : 'error',
-      title: error || !userId ? I18n.t('COMMON.FAIL_UPDATE') : I18n.t('COMMON.SUCCESS_UPDATE'),
+      title: I18n.t('PROFILE.REWARD_PLAN.NOTIFICATION.UPDATE_MESSAGE'),
     });
 
     rewardPlanModal.hide();
@@ -118,7 +119,9 @@ class PendingPayouts extends Component {
 
     return (
       <Fragment>
-        <div className="account-details__label">PENDING PAYOUTS</div>
+        <div className="account-details__label">
+          {I18n.t('PLAYER_PROFILE.PROFILE.PENDING_PAYOUTS.TITLE')}
+        </div>
         <div className="card">
           <If condition={!loading}>
             <div className="card-body">
@@ -126,25 +129,25 @@ class PendingPayouts extends Component {
                 title={I18n.t(typesTitle.BONUS)}
                 available={available}
                 amount={bonusAmount}
-                onOpen={this.handleOpenChangeModal(types.BONUS)}
+                onOpen={this.handleOpenUpdateAmountModal(types.BONUS)}
               />
               <RewardPlan
                 title={I18n.t(typesTitle.CASH_BACKS)}
                 available={available}
                 amount={cashBacksAmount}
-                onOpen={this.handleOpenChangeModal(types.CASH_BACKS)}
+                onOpen={this.handleOpenUpdateAmountModal(types.CASH_BACKS)}
               />
               <RewardPlan
                 title={I18n.t(typesTitle.FREE_SPINS)}
                 available={available}
                 amount={freeSpinsAmount}
-                onOpen={this.handleOpenChangeModal(types.FREE_SPINS)}
+                onOpen={this.handleOpenUpdateAmountModal(types.FREE_SPINS)}
               />
               <RewardPlan
                 title={I18n.t(typesTitle.RUNES)}
                 available={available}
                 amount={runesAmount}
-                onOpen={this.handleOpenChangeModal(types.RUNES)}
+                onOpen={this.handleOpenUpdateAmountModal(types.RUNES)}
               />
             </div>
           </If>

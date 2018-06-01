@@ -47,10 +47,10 @@ class RewardPlanModal extends Component {
     return (
       <Modal isOpen={isOpen} toggle={onCloseModal} className="modal-danger">
         <form onSubmit={handleSubmit(onSubmit)}>
-          <ModalHeader toggle={onCloseModal}>{title}</ModalHeader>
+          <ModalHeader toggle={onCloseModal}>{I18n.t(title)}</ModalHeader>
           <ModalBody>
             <div className="text-center font-weight-700">
-              <div className="margin-bottom-10">{actionText}</div>
+              <div className="margin-bottom-10">{I18n.t(actionText)}</div>
             </div>
             <Field
               name="amount"
@@ -59,6 +59,12 @@ class RewardPlanModal extends Component {
               label={I18n.t(inputLabel)}
               component={InputField}
               position="vertical"
+            />
+            <Field
+              name="isActive"
+              hidden="hidden"
+              type="text"
+              component="input"
             />
           </ModalBody>
           <ModalFooter>
@@ -88,5 +94,6 @@ export default reduxForm({
   enableReinitialize: true,
   validate: createValidator({
     amount: ['required', 'numeric'],
+    isActive: ['required', 'boolean'],
   }, translateLabels(attributeLabels), false),
 })(RewardPlanModal);

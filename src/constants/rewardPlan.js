@@ -18,38 +18,38 @@ const typesKeys = {
 };
 
 const typesTitle = {
-  [types.LOTTERY]: I18n.t('LOTTERY'),
-  [types.BONUS]: I18n.t('BONUS'),
-  [types.RUNES]: I18n.t('RUNES'),
-  [types.CASH_BACKS]: I18n.t('CASH_BACKS'),
-  [types.FREE_SPINS]: I18n.t('FREE_SPINS'),
+  [types.LOTTERY]: I18n.t('PROFILE.REWARD_PLAN.TITLE.LOTTERY'),
+  [types.BONUS]: I18n.t('PROFILE.REWARD_PLAN.TITLE.BONUS'),
+  [types.RUNES]: I18n.t('PROFILE.REWARD_PLAN.TITLE.RUNES'),
+  [types.CASH_BACKS]: I18n.t('PROFILE.REWARD_PLAN.TITLE.CASH_BACKS'),
+  [types.FREE_SPINS]: I18n.t('PROFILE.REWARD_PLAN.TITLE.FREE_SPINS'),
 };
 
 const modalStaticData = {
   [types.LOTTERY]: {
-    title: 'Pending lottery tickets payout',
-    inputLabel: 'Lottery amount',
-    actionText: 'You are about to amend pending lottery tickets payout',
+    title: I18n.t('PROFILE.REWARD_PLAN.MODAL.LOTTERY.TITLE'),
+    inputLabel: I18n.t('PROFILE.REWARD_PLAN.MODAL.LOTTERY.INPUT_LABEL'),
+    actionText: I18n.t('PROFILE.REWARD_PLAN.MODAL.LOTTERY.ACTION_TEXT'),
   },
   [types.BONUS]: {
-    title: 'Pending bonus payout',
-    inputLabel: 'Bonus amount',
-    actionText: 'You are about to amend pending bonus payout',
+    title: I18n.t('PROFILE.REWARD_PLAN.MODAL.BONUS.TITLE'),
+    inputLabel: I18n.t('PROFILE.REWARD_PLAN.MODAL.BONUS.INPUT_LABEL'),
+    actionText: I18n.t('PROFILE.REWARD_PLAN.MODAL.BONUS.ACTION_TEXT'),
   },
   [types.RUNES]: {
-    title: 'Loyalty points',
-    inputLabel: 'Loyalty Points',
-    actionText: 'You are about to amend loyalty points',
+    title: I18n.t('PROFILE.REWARD_PLAN.MODAL.RUNES.TITLE'),
+    inputLabel: I18n.t('PROFILE.REWARD_PLAN.MODAL.RUNES.INPUT_LABEL'),
+    actionText: I18n.t('PROFILE.REWARD_PLAN.MODAL.RUNES.ACTION_TEXT'),
   },
   [types.CASH_BACKS]: {
-    title: 'Pending cashback payout',
-    inputLabel: 'Cashback amount',
-    actionText: 'You are about to amend pending cashback payout',
+    title: I18n.t('PROFILE.REWARD_PLAN.MODAL.CASH_BACKS.TITLE'),
+    inputLabel: I18n.t('PROFILE.REWARD_PLAN.MODAL.CASH_BACKS.INPUT_LABEL'),
+    actionText: I18n.t('PROFILE.REWARD_PLAN.MODAL.CASH_BACKS.ACTION_TEXT'),
   },
   [types.FREE_SPINS]: {
-    title: 'Pending freespins payout',
-    inputLabel: 'Freespins amount',
-    actionText: 'You are about to amend pending freespins payout',
+    title: I18n.t('PROFILE.REWARD_PLAN.MODAL.FREE_SPINS.TITLE'),
+    inputLabel: I18n.t('PROFILE.REWARD_PLAN.MODAL.FREE_SPINS.INPUT_LABEL'),
+    actionText: I18n.t('PROFILE.REWARD_PLAN.MODAL.FREE_SPINS.ACTION_TEXT'),
   },
 };
 
