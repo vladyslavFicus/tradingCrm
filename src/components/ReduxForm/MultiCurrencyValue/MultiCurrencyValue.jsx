@@ -53,14 +53,11 @@ class MultiCurrencyValue extends Component {
     isTooltipOpen: false,
   };
 
-  componentDidUpdate() {
-    const {
-      optionCurrencies: { options },
-    } = this.props;
+  componentWillReceiveProps({ optionCurrencies: { options: nextOptions, loading: nextOptionsLoading } }) {
     const formCurrencies = this.currencies;
-    const allCurrencies = get(options, 'signUp.post.currency.list', []);
+    const allCurrencies = get(nextOptions, 'signUp.post.currency.list', []);
 
-    if (this.baseCurrencyValue && formCurrencies.length !== allCurrencies.length) {
+    if (!nextOptionsLoading && this.baseCurrencyValue && formCurrencies.length !== allCurrencies.length) {
       this.handleChangeBaseCurrencyAmount();
     }
   }
@@ -169,7 +166,7 @@ class MultiCurrencyValue extends Component {
           onChange={this.handleChangeBaseCurrencyAmount}
           inputAddon={<i className="icon icon-currencies multi-currency-icon" />}
           inputAddonPosition="right"
-          onIconClick={this.handleOpenModal}
+          onIconClick={disabled ? null : this.handleOpenModal}
           id={this.id}
         />
         <If condition={rates.length}>
