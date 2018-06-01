@@ -16,21 +16,33 @@ class BackToTop extends Component {
   };
 
   componentDidMount() {
+    this.mounted = true;
+
     window.addEventListener('scroll', this.handleScroll);
   }
 
   componentWillUnmount() {
+    this.mounted = false;
+
     window.removeEventListener('scroll', this.handleScroll);
   }
+
+  mounted = false;
+
+  updateState = (...args) => {
+    if (this.mounted) {
+      this.setState(...args);
+    }
+  };
 
   handleScroll = () => {
     if (
       document.documentElement.scrollTop > document.documentElement.clientHeight ||
       document.body.scrollTop > document.body.clientHeight
     ) {
-      this.setState({ isVisible: true });
+      this.updateState({ isVisible: true });
     } else {
-      this.setState({ isVisible: false });
+      this.updateState({ isVisible: false });
     }
   };
 
