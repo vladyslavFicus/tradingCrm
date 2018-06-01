@@ -531,7 +531,7 @@ PropTypes.modalType = PropTypes.shape({
   hide: PropTypes.func.isRequired,
 });
 PropTypes.rewardPlanAmount = PropTypes.shape({
-  amount: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  amount: PropTypes.number,
   isActive: PropTypes.bool,
 });
 
