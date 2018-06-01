@@ -19,6 +19,7 @@ import AddToCampaignModal from '../../../../../../../../../../components/AddToCa
 import AddPromoCodeModal from '../AddPromoCodeModal';
 import PermissionContent from '../../../../../../../../../../components/PermissionContent';
 import permissions from '../../../../../../../../../../config/permissions';
+import { sourceTypes } from '../../../../../../../../../../constants/campaign-aggregator';
 
 const ADD_TO_CAMPAIGN_MODAL = 'add-to-campaign-modal';
 const ADD_PROMO_CODE_MODAL = 'add-promo-code-modal';
@@ -89,6 +90,16 @@ class View extends Component {
     this.context.cacheChildrenComponent(null);
     this.context.setRenderActions(null);
   }
+
+  getCampaignUrl = (sourceType, uuid) => {
+    if (sourceType === sourceTypes.PROMOTION) {
+      return `/bonus-campaign/view/${uuid}/settings`;
+    } else if (sourceType === sourceTypes.CAMPAIGN) {
+      return `/campaign/view/${uuid}/settings`;
+    }
+
+    return null;
+  };
 
   handleRefresh = () => {
     this.props.fetchPlayerCampaigns({
@@ -210,19 +221,19 @@ class View extends Component {
     }
   };
 
-  renderCampaign = data => (
-    <div id={`bonus-campaign-${data.uuid}`}>
+  renderCampaign = ({ uuid, name, targetType, sourceType }) => (
+    <div id={`bonus-campaign-${uuid}`}>
       <IframeLink
         className="font-weight-700 color-black"
-        to={`/bonus-campaigns/view/${data.uuid}/settings`}
+        to={this.getCampaignUrl(sourceType, uuid)}
       >
-        {data.campaignName}
+        {name}
       </IframeLink>
       <div className="font-size-10">
-        {renderLabel(data.targetType, targetTypesLabels)}
+        <Uuid uuid={uuid} />
       </div>
       <div className="font-size-10">
-        <Uuid uuid={data.uuid} uuidPrefix="CA" />
+        {renderLabel(targetType, targetTypesLabels)}
       </div>
     </div>
   );
@@ -237,16 +248,21 @@ class View extends Component {
   );
 
   renderAvailable = data => (
-    <div>
-      <div className="font-weight-700">
-        {moment.utc(data.startDate).local().format('DD.MM.YYYY HH:mm')}
-      </div>
+    <Fragment>
+      <Choose>
+        <When condition={data.startDate}>
+          <div className="font-weight-700">
+            {moment.utc(data.startDate).local().format('DD.MM.YYYY HH:mm')}
+          </div>
+        </When>
+        <Otherwise>-</Otherwise>
+      </Choose>
       <div className="font-size-10">
         {I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.GRID_VIEW.DATE_TO', {
-          time: moment.utc(data.endDate).local().format('DD.MM.YYYY HH:mm'),
+          time: data.endDate ? moment.utc(data.endDate).local().format('DD.MM.YYYY HH:mm') : '-',
         })}
       </div>
-    </div>
+    </Fragment>
   );
 
   renderOptInStatus = data => (
@@ -267,9 +283,7 @@ class View extends Component {
     </div>
   );
 
-  renderActions = ({
-    state, optedIn, uuid, targetType,
-  }) => {
+  renderActions = ({ state, optedIn, uuid, targetType, sourceType }) => {
     const {
       declineCampaign,
       optInCampaign,
@@ -332,6 +346,7 @@ class View extends Component {
                 onClick={() => this.handleActionClick({
                   action: optInCampaign,
                   id: uuid,
+                  sourceType: sourceType ? sourceType.toLowerCase() : null,
                 })}
               >
                 {I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.OPT_IN')}

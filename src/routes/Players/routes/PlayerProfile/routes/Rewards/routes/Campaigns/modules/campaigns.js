@@ -82,14 +82,14 @@ function addPromoCodeToPlayer(playerUUID, promoCode) {
   };
 }
 
-function declineCampaign({ id, playerUUID, returnToList = false }) {
+function declineCampaign({ id, sourceType, playerUUID, returnToList = false }) {
   return (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
     const optoutType = returnToList ? 'return_to_list' : 'ignore_campaign';
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `/promotion/campaigns/${id}/optout/${playerUUID}?optoutType=${optoutType}`,
+        endpoint: `/campaign_aggregator/${sourceType}/${id}/optout/${playerUUID}?optoutType=${optoutType}`,
         method: 'PUT',
         headers: {
           Accept: 'application/json',
@@ -103,13 +103,13 @@ function declineCampaign({ id, playerUUID, returnToList = false }) {
   };
 }
 
-function optInCampaign({ id, playerUUID }) {
+function optInCampaign({ id, sourceType, playerUUID }) {
   return (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `/promotion/campaigns/${id}/optin/${playerUUID}`,
+        endpoint: `/campaign_aggregator/${sourceType}/${id}/optin/${playerUUID}`,
         method: 'PUT',
         headers: {
           Accept: 'application/json',
