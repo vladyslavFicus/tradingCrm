@@ -3,9 +3,7 @@ import { withRouter } from 'react-router-dom';
 import PendingPayouts from './PendingPayouts';
 import { withNotifications, withModals } from '../../../../../../../components/HighOrder';
 import { pendingPayoutsQuery } from '../../../../../../../graphql/queries/rewardPlan';
-import {
-  bonusMutation, runesMutation, freeSpinsMutation, cashBacksMutation,
-} from '../../../../../../../graphql/mutations/rewardPlan';
+import { pendingPayoutsMutation } from '../../../../../../../graphql/mutations/rewardPlan';
 import RewardPlanModal from '../../RewardPlanModal';
 
 export default compose(
@@ -27,17 +25,8 @@ export default compose(
       },
     }),
   }),
-  graphql(bonusMutation, {
-    name: 'bonusMutation',
-  }),
-  graphql(runesMutation, {
-    name: 'runesMutation',
-  }),
-  graphql(freeSpinsMutation, {
-    name: 'freeSpinsMutation',
-  }),
-  graphql(cashBacksMutation, {
-    name: 'cashBacksMutation',
+  graphql(pendingPayoutsMutation, {
+    name: 'pendingPayoutsMutation',
   }),
   withNotifications,
 )(PendingPayouts);

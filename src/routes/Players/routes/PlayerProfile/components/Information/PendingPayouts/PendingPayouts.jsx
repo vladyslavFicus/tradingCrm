@@ -8,6 +8,7 @@ import {
   typesKeys,
   typesTitle,
   modalStaticData,
+  pendingPayoutsTypes,
 } from '../../../../../../../constants/rewardPlan';
 
 class PendingPayouts extends Component {
@@ -15,10 +16,12 @@ class PendingPayouts extends Component {
     modals: PropTypes.shape({
       rewardPlanModal: PropTypes.modalType,
     }).isRequired,
+    pendingPayoutsMutation: PropTypes.func.isRequired,
     pendingPayouts: PropTypes.shape({
       loading: PropTypes.bool.isRequired,
       rewardPlan: PropTypes.shape({
         data: PropTypes.shape({
+          pendingPayoutsMutation: PropTypes.rewardPlanAmount,
           bonus: PropTypes.rewardPlanAmount,
           cashBacks: PropTypes.rewardPlanAmount,
           runes: PropTypes.rewardPlanAmount,
@@ -51,12 +54,8 @@ class PendingPayouts extends Component {
     });
   };
 
-  handleChangePlan = type => async (data) => {
+  handleChangePlan = type => async (formData) => {
     const {
-      bonusMutation,
-      cashBacksMutation,
-      freeSpinsMutation,
-      runesMutation,
       modals: {
         rewardPlanModal,
       },
@@ -66,31 +65,25 @@ class PendingPayouts extends Component {
           id: playerUUID,
         },
       },
+      pendingPayoutsMutation,
     } = this.props;
 
-    const variables = {
-      ...data,
-      playerUUID,
-    };
+    const includeParams = {};
 
-    let action = {};
+    pendingPayoutsTypes.forEach((key) => {
+      includeParams[typesKeys[key]] = false;
+    });
 
-    switch (type) {
-      case types.BONUS:
-        action = await bonusMutation({ variables });
-        break;
-      case types.CASH_BACKS:
-        action = await cashBacksMutation({ variables });
-        break;
-      case types.FREE_SPINS:
-        action = await freeSpinsMutation({ variables });
-        break;
-      case types.RUNES:
-        action = await runesMutation({ variables });
-        break;
-      default:
-        break;
-    }
+    includeParams[typesKeys[type]] = true;
+
+    const action = await pendingPayoutsMutation({
+      variables: {
+        ...formData,
+        type: typesKeys[type],
+        ...includeParams,
+        playerUUID,
+      },
+    });
 
     const error = get(action, 'data.rewardPlan.update.error');
     const userId = get(action, 'data.rewardPlan.update.data.userId');

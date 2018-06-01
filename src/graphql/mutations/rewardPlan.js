@@ -27,102 +27,41 @@ const lotteryMutation = gql`mutation updateLottery(
   }
 }`;
 
-const bonusMutation = gql`mutation updateBonus(
+const pendingPayoutsMutation = gql`mutation updatePendingPayout(
   $playerUUID: String!
   $amount: Float!
   $isActive: Boolean!
+  $type: String!
+  $bonus: Boolean!
+  $runes: Boolean!
+  $cashBacks: Boolean!
+  $freeSpins: Boolean!
 ) {
   rewardPlan {
     update(
       playerUUID: $playerUUID
       amount: $amount
       isActive: $isActive
-      type: "bonus"
+      type: $type
       ) {
       data {
         userId
-        bonus {
+        bonus @include(if: $bonus) {
           _id
           amount
           isActive
         }
-      }
-      error {
-        error
-      }
-    }
-  }
-}`;
-
-const runesMutation = gql`mutation updateRunes(
-  $playerUUID: String!
-  $amount: Float!
-  $isActive: Boolean!
-) {
-  rewardPlan {
-    update(
-      playerUUID: $playerUUID
-      amount: $amount
-      isActive: $isActive
-      type: "runes"
-      ) {
-      data {
-        userId
-        runes {
+        runes @include(if: $runes) {
           _id
           amount
           isActive
         }
-      }
-      error {
-        error
-      }
-    }
-  }
-}`;
-
-const freeSpinsMutation = gql`mutation updateFreeSpins(
-  $playerUUID: String!
-  $amount: Float!
-  $isActive: Boolean!
-) {
-  rewardPlan {
-    update(
-      playerUUID: $playerUUID
-      amount: $amount
-      isActive: $isActive
-      type: "freeSpins"
-      ) {
-      data {
-        userId
-        freeSpins {
+        cashBacks @include(if: $cashBacks) {
           _id
           amount
           isActive
         }
-      }
-      error {
-        error
-      }
-    }
-  }
-}`;
-
-const cashBacksMutation = gql`mutation updateCashBacks(
-  $playerUUID: String!
-  $amount: Float!
-  $isActive: Boolean!
-) {
-  rewardPlan {
-    update(
-      playerUUID: $playerUUID
-      amount: $amount
-      isActive: $isActive
-      type: "cashBacks"
-      ) {
-      data {
-        userId
-        cashBacks {
+        freeSpins @include(if: $freeSpins) {
           _id
           amount
           isActive
@@ -137,8 +76,5 @@ const cashBacksMutation = gql`mutation updateCashBacks(
 
 export {
   lotteryMutation,
-  bonusMutation,
-  runesMutation,
-  freeSpinsMutation,
-  cashBacksMutation,
+  pendingPayoutsMutation,
 };

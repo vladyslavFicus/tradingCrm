@@ -45,7 +45,7 @@ class ActivePlan extends Component {
     });
   };
 
-  handleChangePlan = async (data) => {
+  handleChangePlan = async (formData) => {
     const {
       modals: { rewardPlanModal },
       lotteryMutation,
@@ -59,7 +59,9 @@ class ActivePlan extends Component {
 
     const action = await lotteryMutation({
       variables: {
-        ...data,
+        ...formData,
+        type: typesKeys[types.LOTTERY],
+        [typesKeys[types.LOTTERY]]: true,
         playerUUID,
       },
     });
