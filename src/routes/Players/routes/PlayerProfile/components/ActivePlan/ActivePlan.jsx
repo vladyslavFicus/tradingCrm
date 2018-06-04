@@ -112,7 +112,7 @@ class ActivePlan extends Component {
             title="Lottery tickets"
             available={available}
             amount={amount}
-            onOpen={this.handleOpenUpdateAmountModal}
+            onClick={this.handleOpenUpdateAmountModal}
           />
         </If>
       </div>

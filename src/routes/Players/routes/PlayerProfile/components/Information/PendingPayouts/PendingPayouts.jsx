@@ -137,25 +137,25 @@ class PendingPayouts extends Component {
                 title={I18n.t(typesTitle.BONUS)}
                 available={available}
                 amount={bonusAmount}
-                onOpen={this.handleOpenUpdateAmountModal(types.BONUS)}
+                onClick={this.handleOpenUpdateAmountModal(types.BONUS)}
               />
               <RewardPlan
                 title={I18n.t(typesTitle.CASH_BACKS)}
                 available={available}
                 amount={cashBacksAmount}
-                onOpen={this.handleOpenUpdateAmountModal(types.CASH_BACKS)}
+                onClick={this.handleOpenUpdateAmountModal(types.CASH_BACKS)}
               />
               <RewardPlan
                 title={I18n.t(typesTitle.FREE_SPINS)}
                 available={available}
                 amount={freeSpinsAmount}
-                onOpen={this.handleOpenUpdateAmountModal(types.FREE_SPINS)}
+                onClick={this.handleOpenUpdateAmountModal(types.FREE_SPINS)}
               />
               <RewardPlan
                 title={I18n.t(typesTitle.RUNES)}
                 available={available}
                 amount={runesAmount}
-                onOpen={this.handleOpenUpdateAmountModal(types.RUNES)}
+                onClick={this.handleOpenUpdateAmountModal(types.RUNES)}
               />
             </div>
           </If>

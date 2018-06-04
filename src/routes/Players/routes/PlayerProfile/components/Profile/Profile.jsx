@@ -3,9 +3,9 @@ import ImageViewer from 'react-images';
 import { get } from 'lodash';
 import { I18n } from 'react-redux-i18n';
 import { Switch, Redirect } from 'react-router-dom';
-import Tabs from '../../../../../../components/Tabs/index';
-import Modal from '../../../../../../components/Modal/index';
-import NotFound from '../../../../../NotFound/index';
+import Tabs from '../../../../../../components/Tabs';
+import Modal from '../../../../../../components/Modal';
+import NotFound from '../../../../../NotFound';
 import Permissions from '../../../../../../utils/permissions';
 import { actions as walletActions } from '../../../../../../constants/wallet';
 import {
@@ -13,20 +13,20 @@ import {
   statusActions as userStatuses,
   statuses as playerProfileStatuses,
 } from '../../../../../../constants/user';
-import Header from '../Header/index';
-import NotePopover from '../../../../../../components/NotePopover/index';
+import Header from '../Header';
+import NotePopover from '../../../../../../components/NotePopover';
 import { targetTypes } from '../../../../../../constants/note';
-import Information from '../Information/index';
+import Information from '../Information';
 import PropTypes from '../../../../../../constants/propTypes';
 import getFileBlobUrl from '../../../../../../utils/getFileBlobUrl';
 import {
   UploadModal as UploadFileModal,
   DeleteModal as DeleteFileModal,
-} from '../../../../../../components/Files/index';
-import ChangePasswordModal from '../../../../../../components/ChangePasswordModal/index';
-import ShareLinkModal from '../ShareLinkModal/index';
-import BackToTop from '../../../../../../components/BackToTop/index';
-import HideDetails from '../../../../../../components/HideDetails/index';
+} from '../../../../../../components/Files';
+import ChangePasswordModal from '../../../../../../components/ChangePasswordModal';
+import ShareLinkModal from '../ShareLinkModal';
+import BackToTop from '../../../../../../components/BackToTop';
+import HideDetails from '../../../../../../components/HideDetails';
 import {
   ProfileView,
   Notes,
@@ -37,8 +37,8 @@ import {
   PaymentAccounts,
   Transactions,
   Rewards,
-} from '../../routes/index';
-import { Route } from '../../../../../../router/index';
+} from '../../routes';
+import { Route } from '../../../../../../router';
 
 const NOTE_POPOVER = 'note-popover';
 const popoverInitialState = {

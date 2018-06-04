@@ -2,14 +2,14 @@ import React, { Fragment } from 'react';
 import { I18n } from 'react-redux-i18n';
 import PropTypes from 'prop-types';
 
-const RewardPlan = ({ title, available, amount, onOpen }) => (
+const RewardPlan = ({ title, available, amount, onClick }) => (
   <Fragment>
     <div className="reward-plan-middle">{title}</div>
     <Choose>
       <When condition={available}>
         <div className="reward-plan-small">{amount}</div>
         <i
-          onClick={onOpen}
+          onClick={onClick}
           className="font-size-16 cursor-pointer fa fa-edit float-right"
         />
       </When>
@@ -22,7 +22,7 @@ const RewardPlan = ({ title, available, amount, onOpen }) => (
 
 RewardPlan.propTypes = {
   title: PropTypes.string.isRequired,
-  onOpen: PropTypes.func.isRequired,
+  onClick: PropTypes.func.isRequired,
   amount: PropTypes.number,
   available: PropTypes.oneOfType([PropTypes.bool, PropTypes.object, PropTypes.string]),
 };
