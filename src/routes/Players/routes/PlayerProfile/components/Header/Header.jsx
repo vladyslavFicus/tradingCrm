@@ -4,21 +4,22 @@ import classNames from 'classnames';
 import { SubmissionError } from 'redux-form';
 import Sticky from 'react-stickynode';
 import { I18n } from 'react-redux-i18n';
-import PropTypes from '../../../../../constants/propTypes';
-import PlayerStatus from './PlayerStatus';
-import ActionsDropDown from '../../../../../components/ActionsDropDown';
-import Balances from './Balances';
-import ProfileTags from '../../../../../components/ProfileTags';
-import Amount from '../../../../../components/Amount';
-import PopoverButton from '../../../../../components/PopoverButton';
-import permissions from '../../../../../config/permissions';
-import Permissions, { CONDITIONS } from '../../../../../utils/permissions';
-import PlayerLimits from './PlayerLimits';
-import ProfileLastLogin from '../../../../../components/ProfileLastLogin';
-import Uuid from '../../../../../components/Uuid';
-import HeaderPlayerPlaceholder from './HeaderPlayerPlaceholder';
-import { statuses } from '../../../../../constants/user';
-import PermissionContent from '../../../../../components/PermissionContent';
+import PropTypes from '../../../../../../constants/propTypes';
+import PlayerStatus from '../PlayerStatus';
+import ActionsDropDown from '../../../../../../components/ActionsDropDown';
+import Balances from '../Balances';
+import ProfileTags from '../../../../../../components/ProfileTags';
+import Amount from '../../../../../../components/Amount';
+import PopoverButton from '../../../../../../components/PopoverButton';
+import permissions from '../../../../../../config/permissions';
+import Permissions, { CONDITIONS } from '../../../../../../utils/permissions';
+import PlayerLimits from '../PlayerLimits';
+import ProfileLastLogin from '../../../../../../components/ProfileLastLogin';
+import Uuid from '../../../../../../components/Uuid';
+import HeaderPlayerPlaceholder from '../HeaderPlayerPlaceholder';
+import { statuses } from '../../../../../../constants/user';
+import PermissionContent from '../../../../../../components/PermissionContent';
+import ActivePlan from '../ActivePlan';
 
 const sendActivationLinkPermission = new Permissions([permissions.USER_PROFILE.SEND_ACTIVATION_LINK]);
 const playerLimitsPermission = [
@@ -324,6 +325,9 @@ class Header extends Component {
               on {moment.utc(registrationDate).local().format('DD.MM.YYYY')}
             </div>
           </div>
+          <ActivePlan
+            playerUUID={playerUUID}
+          />
         </div>
       </Fragment>
     );
