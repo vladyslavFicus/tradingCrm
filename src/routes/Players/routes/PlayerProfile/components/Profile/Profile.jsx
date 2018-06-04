@@ -448,7 +448,7 @@ class Profile extends Component {
 
   handleResetPasswordClick = () => {
     const {
-      playerplayerProfileProfile: {
+      playerProfile: {
         playerProfile: {
           data: {
             firstName,
