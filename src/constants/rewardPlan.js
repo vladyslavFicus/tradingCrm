@@ -1,20 +1,11 @@
-import keyMirror from 'keymirror';
 import I18n from '../utils/fake-i18n';
 
-const types = keyMirror({
-  LOTTERY: null,
-  BONUS: null,
-  RUNES: null,
-  CASH_BACKS: null,
-  FREE_SPINS: null,
-});
-
-const typesKeys = {
-  [types.LOTTERY]: 'lottery',
-  [types.BONUS]: 'bonus',
-  [types.RUNES]: 'runes',
-  [types.CASH_BACKS]: 'cashBacks',
-  [types.FREE_SPINS]: 'freeSpins',
+const types = {
+  LOTTERY: 'lottery',
+  BONUS: 'bonus',
+  RUNES: 'runes',
+  CASH_BACKS: 'cashBacks',
+  FREE_SPINS: 'freeSpins',
 };
 
 const pendingPayoutsTypes = [
@@ -62,7 +53,6 @@ const modalStaticData = {
 
 export {
   types,
-  typesKeys,
   typesTitle,
   modalStaticData,
   pendingPayoutsTypes,

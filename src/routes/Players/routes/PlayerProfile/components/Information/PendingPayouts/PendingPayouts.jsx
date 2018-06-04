@@ -5,7 +5,6 @@ import PropTypes from '../../../../../../../constants/propTypes';
 import RewardPlan from '../../RewardPlan';
 import {
   types,
-  typesKeys,
   typesTitle,
   modalStaticData,
   pendingPayoutsTypes,
@@ -50,7 +49,7 @@ class PendingPayouts extends Component {
       },
     } = this.props;
 
-    const rewardPlan = get(pendingPayouts, `rewardPlan.data.${typesKeys[type]}`);
+    const rewardPlan = get(pendingPayouts, `rewardPlan.data.${type}`);
 
     rewardPlanModal.show({
       onSubmit: this.handleChangePlan(type),
@@ -79,15 +78,15 @@ class PendingPayouts extends Component {
     const includeParams = {};
 
     pendingPayoutsTypes.forEach((key) => {
-      includeParams[typesKeys[key]] = false;
+      includeParams[key] = false;
     });
 
-    includeParams[typesKeys[type]] = true;
+    includeParams[type] = true;
 
     const action = await pendingPayoutsMutation({
       variables: {
         ...formData,
-        type: typesKeys[type],
+        type,
         ...includeParams,
         playerUUID,
       },
@@ -119,10 +118,10 @@ class PendingPayouts extends Component {
       return false;
     }
 
-    const bonusAmount = get(pendingPayouts, `rewardPlan.data.${typesKeys[types.BONUS]}.amount`);
-    const runesAmount = get(pendingPayouts, `rewardPlan.data.${typesKeys[types.RUNES]}.amount`);
-    const cashBacksAmount = get(pendingPayouts, `rewardPlan.data.${typesKeys[types.CASH_BACKS]}.amount`);
-    const freeSpinsAmount = get(pendingPayouts, `rewardPlan.data.${typesKeys[types.FREE_SPINS]}.amount`);
+    const bonusAmount = get(pendingPayouts, `rewardPlan.data.${types.BONUS}.amount`);
+    const runesAmount = get(pendingPayouts, `rewardPlan.data.${types.RUNES}.amount`);
+    const cashBacksAmount = get(pendingPayouts, `rewardPlan.data.${types.CASH_BACKS}.amount`);
+    const freeSpinsAmount = get(pendingPayouts, `rewardPlan.data.${types.FREE_SPINS}.amount`);
     const available = get(pendingPayouts, 'rewardPlan.data.userId');
 
     return (

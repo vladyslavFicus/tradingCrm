@@ -5,7 +5,6 @@ import RewardPlan from '../RewardPlan';
 import PropTypes from '../../../../../../constants/propTypes';
 import {
   types,
-  typesKeys,
   modalStaticData,
 } from '../../../../../../constants/rewardPlan';
 
@@ -41,7 +40,7 @@ class ActivePlan extends Component {
       modals: { rewardPlanModal },
     } = this.props;
 
-    const rewardPlan = get(activeRewardPlan, `rewardPlan.data.${typesKeys[types.LOTTERY]}`);
+    const rewardPlan = get(activeRewardPlan, `rewardPlan.data.${types.LOTTERY}`);
 
     rewardPlanModal.show({
       onSubmit: this.handleChangePlan,
@@ -68,8 +67,8 @@ class ActivePlan extends Component {
     const action = await lotteryMutation({
       variables: {
         ...formData,
-        type: typesKeys[types.LOTTERY],
-        [typesKeys[types.LOTTERY]]: true,
+        type: types.LOTTERY,
+        [types.LOTTERY]: true,
         playerUUID,
       },
     });
