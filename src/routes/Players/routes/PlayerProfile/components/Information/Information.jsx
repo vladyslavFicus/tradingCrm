@@ -56,7 +56,7 @@ class Information extends PureComponent {
             playerUUID={data.playerUUID}
           />
           <PermissionContent permissions={permissions.NOTES.VIEW_NOTES}>
-            <div className="col-md-3">
+            <div className="col">
               <Notes
                 notes={notes}
                 onEditNoteClick={onEditNoteClick}
