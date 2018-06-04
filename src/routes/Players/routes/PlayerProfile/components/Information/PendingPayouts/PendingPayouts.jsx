@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { I18n } from 'react-redux-i18n';
 import { get } from 'lodash';
 import PropTypes from '../../../../../../../constants/propTypes';
@@ -18,7 +18,7 @@ class PendingPayouts extends Component {
     }).isRequired,
     pendingPayoutsMutation: PropTypes.func.isRequired,
     pendingPayouts: PropTypes.shape({
-      loading: PropTypes.bool.isRequired,
+      loading: PropTypes.bool,
       rewardPlan: PropTypes.shape({
         data: PropTypes.shape({
           pendingPayoutsMutation: PropTypes.rewardPlanAmount,
@@ -29,9 +29,17 @@ class PendingPayouts extends Component {
         }),
       }),
     }),
+    isDwhApiEnable: PropTypes.shape({
+      options: PropTypes.shape({
+        signUp: PropTypes.shape({
+          isDwhApiEnable: PropTypes.bool,
+        }),
+      }),
+    }),
   };
   static defaultProps = {
     pendingPayouts: {},
+    isDwhApiEnable: {},
   };
 
   handleOpenUpdateAmountModal = type => () => {
@@ -102,7 +110,14 @@ class PendingPayouts extends Component {
       pendingPayouts: {
         loading,
       },
+      isDwhApiEnable,
     } = this.props;
+
+    const dwhApiEnable = get(isDwhApiEnable, 'options.signUp.isDwhApiEnable', false);
+
+    if (!dwhApiEnable) {
+      return false;
+    }
 
     const bonusAmount = get(pendingPayouts, `rewardPlan.data.${typesKeys[types.BONUS]}.amount`);
     const runesAmount = get(pendingPayouts, `rewardPlan.data.${typesKeys[types.RUNES]}.amount`);
@@ -111,7 +126,7 @@ class PendingPayouts extends Component {
     const available = get(pendingPayouts, 'rewardPlan.data.userId');
 
     return (
-      <Fragment>
+      <div className="col-md-2">
         <div className="account-details__label">
           {I18n.t('PLAYER_PROFILE.PROFILE.PENDING_PAYOUTS.TITLE')}
         </div>
@@ -145,7 +160,7 @@ class PendingPayouts extends Component {
             </div>
           </If>
         </div>
-      </Fragment>
+      </div>
     );
   }
 }

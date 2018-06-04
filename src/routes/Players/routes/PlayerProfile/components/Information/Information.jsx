@@ -52,9 +52,7 @@ class Information extends PureComponent {
           <div className="col-md-2">
             <IpList label={I18n.t('PLAYER_PROFILE.IP_LIST.TITLE')} ips={ips} />
           </div>
-          <div className="col-md-2">
-            <PendingPayouts />
-          </div>
+          <PendingPayouts />
           <PermissionContent permissions={permissions.NOTES.VIEW_NOTES}>
             <div className="col-md-3">
               <Notes

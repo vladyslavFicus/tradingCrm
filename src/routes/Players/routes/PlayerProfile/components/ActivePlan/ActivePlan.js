@@ -15,16 +15,24 @@ class ActivePlan extends Component {
       rewardPlanModal: PropTypes.modalType,
     }).isRequired,
     activeRewardPlan: PropTypes.shape({
-      loading: PropTypes.bool.isRequired,
+      loading: PropTypes.bool,
       rewardPlan: PropTypes.shape({
         data: PropTypes.shape({
           lottery: PropTypes.rewardPlanAmount,
         }),
       }),
     }),
+    isDwhApiEnable: PropTypes.shape({
+      options: PropTypes.shape({
+        signUp: PropTypes.shape({
+          isDwhApiEnable: PropTypes.bool,
+        }),
+      }),
+    }),
   };
   static defaultProps = {
     activeRewardPlan: {},
+    isDwhApiEnable: {},
   };
 
   handleOpenUpdateAmountModal = () => {
@@ -82,7 +90,14 @@ class ActivePlan extends Component {
       activeRewardPlan: {
         loading,
       },
+      isDwhApiEnable,
     } = this.props;
+
+    const dwhApiEnable = get(isDwhApiEnable, 'options.signUp.isDwhApiEnable', false);
+
+    if (!dwhApiEnable) {
+      return false;
+    }
 
     const amount = get(activeRewardPlan, 'rewardPlan.data.lottery.amount');
     const available = get(activeRewardPlan, 'rewardPlan.data.userId', false);
