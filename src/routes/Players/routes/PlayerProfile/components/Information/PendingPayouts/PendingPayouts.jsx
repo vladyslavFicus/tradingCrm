@@ -122,7 +122,7 @@ class PendingPayouts extends Component {
     const runesAmount = get(pendingPayouts, `rewardPlan.data.${types.RUNES}.amount`);
     const cashBacksAmount = get(pendingPayouts, `rewardPlan.data.${types.CASH_BACKS}.amount`);
     const freeSpinsAmount = get(pendingPayouts, `rewardPlan.data.${types.FREE_SPINS}.amount`);
-    const available = get(pendingPayouts, 'rewardPlan.data.userId', false);
+    const available = !!get(pendingPayouts, 'rewardPlan.data.userId', false);
 
     return (
       <div className="col-md-2">
@@ -133,25 +133,25 @@ class PendingPayouts extends Component {
           <If condition={!loading}>
             <div className="card-body">
               <RewardPlan
-                title={I18n.t(typesTitle.BONUS)}
+                title={I18n.t(typesTitle.bonus)}
                 available={available}
                 amount={bonusAmount}
                 onClick={this.handleOpenUpdateAmountModal(types.BONUS)}
               />
               <RewardPlan
-                title={I18n.t(typesTitle.CASH_BACKS)}
+                title={I18n.t(typesTitle.cashBacks)}
                 available={available}
                 amount={cashBacksAmount}
                 onClick={this.handleOpenUpdateAmountModal(types.CASH_BACKS)}
               />
               <RewardPlan
-                title={I18n.t(typesTitle.FREE_SPINS)}
+                title={I18n.t(typesTitle.freeSpins)}
                 available={available}
                 amount={freeSpinsAmount}
                 onClick={this.handleOpenUpdateAmountModal(types.FREE_SPINS)}
               />
               <RewardPlan
-                title={I18n.t(typesTitle.RUNES)}
+                title={I18n.t(typesTitle.runes)}
                 available={available}
                 amount={runesAmount}
                 onClick={this.handleOpenUpdateAmountModal(types.RUNES)}

@@ -17,9 +17,9 @@ const currencyQuery = gql`query signUpOptions($brandId: String!) {
   }
 }`;
 
-const isDwhApiEnableQuery = gql`query servicesOptions($brandId: String!) {
+const isDwhApiEnableQuery = gql`query servicesOptions {
   options {
-    services(brandId: $brandId) {
+    services {
       isDwhApiEnable
     }
   }

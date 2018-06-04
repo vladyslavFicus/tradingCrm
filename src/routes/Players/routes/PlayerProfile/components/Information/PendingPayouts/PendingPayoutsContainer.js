@@ -18,9 +18,6 @@ export default compose(
     name: 'isDwhApiEnable',
     options: {
       fetchPolicy: 'network-only',
-      variables: {
-        brandId: getBrandId(),
-      },
     },
   }),
   graphql(pendingPayoutsQuery, {
@@ -30,7 +27,9 @@ export default compose(
         playerUUID,
       },
     }),
-    skip: ({ isDwhApiEnable }) => !get(isDwhApiEnable, 'options.services.isDwhApiEnable', false),
+    skip: ({ isDwhApiEnable, playerUUID }) => (
+      !playerUUID || !get(isDwhApiEnable, 'options.services.isDwhApiEnable', false)
+    ),
   }),
   graphql(pendingPayoutsMutation, {
     name: 'pendingPayoutsMutation',
