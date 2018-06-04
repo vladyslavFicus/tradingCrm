@@ -25,13 +25,7 @@ export default compose(
   }),
   graphql(activePlanQuery, {
     name: 'activeRewardPlan',
-    options: ({
-      match: {
-        params: {
-          id: playerUUID,
-        },
-      },
-    }) => ({
+    options: ({ playerUUID }) => ({
       variables: {
         playerUUID,
       },

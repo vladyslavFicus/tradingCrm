@@ -325,7 +325,9 @@ class Header extends Component {
               on {moment.utc(registrationDate).local().format('DD.MM.YYYY')}
             </div>
           </div>
-          <ActivePlan />
+          <ActivePlan
+            playerUUID={playerUUID}
+          />
         </div>
       </Fragment>
     );

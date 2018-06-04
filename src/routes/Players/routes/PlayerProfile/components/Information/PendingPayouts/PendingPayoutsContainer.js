@@ -25,13 +25,7 @@ export default compose(
   }),
   graphql(pendingPayoutsQuery, {
     name: 'pendingPayouts',
-    options: ({
-      match: {
-        params: {
-          id: playerUUID,
-        },
-      },
-    }) => ({
+    options: ({ playerUUID }) => ({
       variables: {
         playerUUID,
       },
