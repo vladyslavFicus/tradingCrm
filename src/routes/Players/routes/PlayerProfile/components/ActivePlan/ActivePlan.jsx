@@ -92,7 +92,7 @@ class ActivePlan extends Component {
       isDwhApiEnable,
     } = this.props;
 
-    const dwhApiEnable = get(isDwhApiEnable, 'options.signUp.isDwhApiEnable', false);
+    const dwhApiEnable = get(isDwhApiEnable, 'options.services.isDwhApiEnable', false);
 
     if (!dwhApiEnable) {
       return false;

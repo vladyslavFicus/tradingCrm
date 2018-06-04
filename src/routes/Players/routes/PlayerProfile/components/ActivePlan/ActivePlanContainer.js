@@ -30,7 +30,7 @@ export default compose(
         playerUUID,
       },
     }),
-    skip: ({ isDwhApiEnable }) => !get(isDwhApiEnable, 'options.signUp.isDwhApiEnable', false),
+    skip: ({ isDwhApiEnable }) => !get(isDwhApiEnable, 'options.services.isDwhApiEnable', false),
   }),
   graphql(lotteryMutation, {
     name: 'lotteryMutation',
