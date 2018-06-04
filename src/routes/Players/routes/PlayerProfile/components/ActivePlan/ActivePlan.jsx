@@ -99,7 +99,7 @@ class ActivePlan extends Component {
     }
 
     const amount = get(activeRewardPlan, 'rewardPlan.data.lottery.amount');
-    const available = get(activeRewardPlan, 'rewardPlan.data.userId', false);
+    const available = !!get(activeRewardPlan, 'rewardPlan.data.userId', false);
 
     return (
       <div className="header-block">
