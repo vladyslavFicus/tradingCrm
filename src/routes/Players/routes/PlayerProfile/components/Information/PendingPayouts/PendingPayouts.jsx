@@ -122,7 +122,7 @@ class PendingPayouts extends Component {
     const runesAmount = get(pendingPayouts, `rewardPlan.data.${types.RUNES}.amount`);
     const cashBacksAmount = get(pendingPayouts, `rewardPlan.data.${types.CASH_BACKS}.amount`);
     const freeSpinsAmount = get(pendingPayouts, `rewardPlan.data.${types.FREE_SPINS}.amount`);
-    const available = get(pendingPayouts, 'rewardPlan.data.userId');
+    const available = get(pendingPayouts, 'rewardPlan.data.userId', false);
 
     return (
       <div className="col-md-2">

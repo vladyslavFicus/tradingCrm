@@ -24,11 +24,10 @@ RewardPlan.propTypes = {
   title: PropTypes.string.isRequired,
   onClick: PropTypes.func.isRequired,
   amount: PropTypes.number,
-  available: PropTypes.oneOfType([PropTypes.bool, PropTypes.object, PropTypes.string]),
+  available: PropTypes.bool.isRequired,
 };
 
 RewardPlan.defaultProps = {
-  available: false,
   amount: 0,
 };
 
