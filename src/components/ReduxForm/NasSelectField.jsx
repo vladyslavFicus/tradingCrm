@@ -31,6 +31,7 @@ class NasSelectField extends Component {
       PropTypes.string,
       PropTypes.node,
     ]),
+    searchable: PropTypes.bool,
     inputAddonPosition: PropTypes.oneOf(['left', 'right']),
     optionsHeader: PropTypes.func,
     singleOptionComponent: PropTypes.func,
@@ -48,6 +49,7 @@ class NasSelectField extends Component {
     disabled: false,
     multiple: false,
     inputAddon: null,
+    searchable: true,
     inputAddonPosition: 'left',
     optionsHeader: null,
     singleOptionComponent: null,
@@ -65,6 +67,7 @@ class NasSelectField extends Component {
       multiple,
       placeholder,
       optionsHeader,
+      searchable,
       singleOptionComponent,
       id,
     } = props;
@@ -73,6 +76,7 @@ class NasSelectField extends Component {
       <Select
         {...input}
         placeholder={placeholder}
+        searchable={searchable}
         optionsHeader={optionsHeader}
         singleOptionComponent={singleOptionComponent}
         disabled={disabled}

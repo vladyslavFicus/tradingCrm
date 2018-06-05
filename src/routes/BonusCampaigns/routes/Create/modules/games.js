@@ -5,7 +5,6 @@ import buildQueryString from '../../../../../utils/buildQueryString';
 import parseNumbersRange from '../../../../../utils/parseNumbersRange';
 import { getBrandId } from '../../../../../config';
 
-
 const KEY = 'bonus-campaign/create/games';
 const FETCH_GAMES = createRequestAction(`${KEY}/fetch-games`);
 

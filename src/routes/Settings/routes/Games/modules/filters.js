@@ -4,7 +4,6 @@ import { type, withLines } from '../../../../../constants/games';
 import createRequestAction from '../../../../../utils/createRequestAction';
 import { getBrandId } from '../../../../../config';
 
-
 const KEY = 'filters';
 const FETCH_GAME_PROVIDERS = createRequestAction(`${KEY}/fetch-game-providers`);
 

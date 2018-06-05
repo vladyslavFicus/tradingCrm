@@ -1,7 +1,7 @@
 export default params => Object
   .keys(params)
   .filter(value => params[value] !== '')
-  .map(key => {
+  .map((key) => {
     const value = params[key];
 
     if (typeof value === 'object') {

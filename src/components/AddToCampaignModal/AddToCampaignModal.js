@@ -60,8 +60,7 @@ class AddToCampaignModal extends PureComponent {
         activeOnly,
         options: campaigns
           .filter(campaign => (activeOnly ? campaign.state === bonusCampaignStatuses.ACTIVE : true)),
-      })
-    );
+      }));
   };
 
   render() {

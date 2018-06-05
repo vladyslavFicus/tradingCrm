@@ -654,6 +654,7 @@
     "EXPORT": "Export",
     "FROM": "From",
     "EMAIL": "Email",
+    "IMPORT": "Import",
     "PHONE": "Phone",
     "DEPARTMENT": "Department",
     "ROLE": "Role",
@@ -1178,6 +1179,18 @@
     "EXPORT_BUTTON": "Export",
     "UPLOAD_FILE_BUTTON": "Import",
     "RESET_BUTTON": "Reset games",
+    "AGGREGATOR": "Aggregator",
+    "IMPORT_MODAL": {
+      "HEADER": "Import games",
+      "NOTIFICATIONS": {
+        "SUCCESSFULLY": "Import successful",
+        "UNSUCCESSFULLY": "Import failed"
+      },
+      "FILE": "File",
+      "AGGREGATOR": {
+        "ALL": "All"
+      }
+    },
     "GRID": {
       "GAME": "Game",
       "PROVIDER": "Provider",

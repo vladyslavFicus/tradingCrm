@@ -4,7 +4,6 @@ import buildQueryString from '../../../../../utils/buildQueryString';
 import createReducer from '../../../../../utils/createReducer';
 import { getBrandId } from '../../../../../config';
 
-
 const KEY = 'games';
 const FETCH_GAMES = createRequestAction(`${KEY}/fetch-games`);
 const RESET_SERVER_GAMES = createRequestAction(`${KEY}/reset-server-games`);
@@ -26,8 +25,6 @@ function fetchGames(filters = {}) {
   return {
     [CALL_API]: {
       endpoint: `game_info/public/games?${buildQueryString({ page: 0, brandId: getBrandId(), ...filters })}`,
-
-
       method: 'GET',
       headers: {
         Accept: 'application/json',

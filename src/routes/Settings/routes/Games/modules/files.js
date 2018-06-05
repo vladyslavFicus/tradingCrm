@@ -4,8 +4,9 @@ import createReducer from '../../../../../utils/createReducer';
 import createRequestAction from '../../../../../utils/createRequestAction';
 import buildFormData from '../../../../../utils/buildFormData';
 import downloadBlob from '../../../../../utils/downloadBlob';
-import { getApiRoot } from '../../../../../config';
+import { getApiRoot, getBrandId } from '../../../../../config';
 import asyncFileUpload from '../../../../../utils/asyncFileUpload';
+import buildQueryString from '../../../../../utils/buildQueryString';
 
 const KEY = 'games/list/files';
 const UPLOAD_FILE = createRequestAction(`${KEY}/upload-file`);
@@ -21,7 +22,7 @@ function updateProgress(id, progress) {
   };
 }
 
-function uploadFile(file, errors = []) {
+function uploadFile(file, aggregatorId = '', errors = []) {
   return async (dispatch, getState) => {
     const { auth: { token } } = getState();
     const id = v4();
@@ -32,7 +33,7 @@ function uploadFile(file, errors = []) {
     }
 
     try {
-      const uploadUrl = `${getApiRoot()}/game_info/games`;
+      const uploadUrl = `${getApiRoot()}/game_info/games?${buildQueryString({ brandId: getBrandId(), aggregatorId })}`;
       const xhr = asyncFileUpload(uploadUrl, {
         method: 'PUT',
         headers: {
@@ -79,8 +80,6 @@ function downloadFile(name = 'games.csv') {
         Authorization: `Bearer ${token}`,
       },
     });
-
-    console.log(response);
 
     const blobData = await response.blob();
     downloadBlob(name, blobData);

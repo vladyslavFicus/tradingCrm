@@ -1,20 +1,19 @@
 import { connect } from 'react-redux';
+import { compose } from 'redux';
 import GameList from '../components/GameList';
+import ImportGamesModal from '../components/ImportGamesModal';
+import { withModals } from '../../../../../components/HighOrder';
 import { actionCreators } from '../modules';
 
-const mapStateToProps = (state) => {
-  const { games: { games, filters, files }, i18n: { locale } } = state;
+const mapStateToProps = ({ games: { games, filters, files }, i18n: { locale } }) => ({
+  games,
+  filters,
+  files,
+  locale,
+});
 
-  return {
-    games,
-    filters,
-    files,
-    locale,
-  };
-};
 const mapActions = {
   downloadFile: actionCreators.downloadFile,
-  uploadFile: actionCreators.uploadFile,
   clearAll: actionCreators.clearAll,
   fetchGames: actionCreators.fetchGames,
   resetServerGames: actionCreators.resetServerGames,
@@ -22,4 +21,9 @@ const mapActions = {
   getFilterProviders: actionCreators.fetchGameProviders,
 };
 
-export default connect(mapStateToProps, mapActions)(GameList);
+export default compose(
+  connect(mapStateToProps, mapActions),
+  withModals({
+    importModal: ImportGamesModal,
+  })
+)(GameList);
