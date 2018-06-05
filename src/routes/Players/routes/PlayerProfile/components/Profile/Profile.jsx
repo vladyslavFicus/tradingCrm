@@ -448,7 +448,14 @@ class Profile extends Component {
 
   handleResetPasswordClick = () => {
     const {
-      playerProfile: { playerProfile },
+      playerProfile: {
+        playerProfile: {
+          data: {
+            firstName,
+            lastName,
+          },
+        },
+      },
       match: { params: { id } },
       modals: { confirmActionModal },
     } = this.props;
@@ -458,7 +465,7 @@ class Profile extends Component {
       onSubmit: this.handleResetPassword,
       modalTitle: I18n.t('PLAYER_PROFILE.PROFILE.RESET_PASSWORD_MODAL.TITLE'),
       actionText: I18n.t('PLAYER_PROFILE.PROFILE.RESET_PASSWORD_MODAL.TEXT'),
-      fullName: `${playerProfile.firstName} ${playerProfile.lastName}`,
+      fullName: `${firstName} ${lastName}`,
       submitButtonLabel: I18n.t('PLAYER_PROFILE.PROFILE.RESET_PASSWORD_MODAL.BUTTON_ACTION'),
     });
   };
