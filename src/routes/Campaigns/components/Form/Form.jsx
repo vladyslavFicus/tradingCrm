@@ -238,7 +238,6 @@ class Form extends Component {
                 ))}
               </Field>
             </div>
-
             <If condition={formValues.optIn}>
               <div className="col-3">
                 <div className="form-group">
