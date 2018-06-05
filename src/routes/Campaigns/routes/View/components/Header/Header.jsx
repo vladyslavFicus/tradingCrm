@@ -8,6 +8,10 @@ import { actions, statusActions } from '../../../../../../constants/bonus-campai
 import FileUpload from '../../../../../../components/FileUpload';
 import { statuses, targetTypes } from '../../../../../../constants/campaigns';
 import ActionsDropDown from '../../../../../../components/ActionsDropDown';
+import Permissions from '../../../../../../utils/permissions';
+import permissions from '../../../../../../config/permissions';
+
+const cloneCampaignPermission = new Permissions([permissions.CAMPAIGNS.CLONE]);
 
 class Header extends Component {
   static propTypes = {
@@ -20,6 +24,7 @@ class Header extends Component {
   };
   static contextTypes = {
     addNotification: PropTypes.func.isRequired,
+    permissions: PropTypes.arrayOf(PropTypes.string).isRequired,
   };
 
   handleChangeCampaignState = async ({ id: campaignUUID, action, reason }) => {
@@ -92,6 +97,8 @@ class Header extends Component {
       data,
     } = this.props;
 
+    const { permissions: currentPermissions } = this.context;
+
     const availableStatusActions = data && statusActions[state]
       ? statusActions[state]
       : [];
@@ -135,6 +142,7 @@ class Header extends Component {
                   {
                     label: I18n.t('BONUS_CAMPAIGNS.OPTIONS.CLONE_LABEL'),
                     onClick: cloneCampaign,
+                    visible: cloneCampaignPermission.check(currentPermissions),
                   },
                 ]}
               />
