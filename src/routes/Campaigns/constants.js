@@ -47,6 +47,18 @@ const optInSelect = {
   false: I18n.t('COMMON.NON_OPT_IN'),
 };
 
+const optInPeriods = keyMirror({
+  HOURS: null,
+  DAYS: null,
+  WEEKS: null,
+});
+
+const optInPeriodsLabels = {
+  [optInPeriods.HOURS]: I18n.t('COMMON.HOURS'),
+  [optInPeriods.DAYS]: I18n.t('COMMON.DAYS'),
+  [optInPeriods.WEEKS]: I18n.t('COMMON.WEEKS'),
+};
+
 export {
   attributeLabels,
   rewardTemplateTypes,
@@ -57,6 +69,8 @@ export {
   nodeGroupsAlias,
   nodeGroupValidateMessage,
   optInSelect,
+  optInPeriods,
+  optInPeriodsLabels,
 };
 
 export default attributeLabels;

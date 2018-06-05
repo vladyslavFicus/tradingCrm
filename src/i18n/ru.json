@@ -1965,7 +1965,9 @@
         "TARGET_TYPE": "Тип кампании"
       },
       "TARGET": "Цель",
-      "CHOOSE_TARGET_TYPE": "-- Выберите тип цели --"
+      "CHOOSE_TARGET_TYPE": "-- Выберите тип цели --",
+      "OPT_IN_PERIOD": "Opt-in период",
+      "SELECT_OPT_IN_PERIOD": "- Период -"
     },
     "REWARDS": {
       "FREE_SPIN": {
