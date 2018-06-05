@@ -2,6 +2,7 @@ import { CALL_API } from 'redux-api-middleware';
 import createReducer from '../../../../../../../../../utils/createReducer';
 import createRequestAction from '../../../../../../../../../utils/createRequestAction';
 import buildQueryString from '../../../../../../../../../utils/buildQueryString';
+import { getBrandId } from '../../../../../../../../../config';
 
 const KEY = 'user/game-activity/games';
 const FETCH_GAMES = createRequestAction(`${KEY}/fetch-games`);
@@ -17,7 +18,7 @@ function fetchGames() {
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `/game_info/public/games?${buildQueryString({ size: 9999 })}`,
+        endpoint: `/game_info/public/games?${buildQueryString({ brandId: getBrandId(), size: 9999 })}`,
         method: 'GET',
         headers: {
           Accept: 'application/json',

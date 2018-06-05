@@ -659,6 +659,7 @@
     "APPLY": "Применить",
     "EXPORT": "Экспорт",
     "FROM": "С",
+    "IMPORT": "Импорт",
     "EMAIL": "E-mail",
     "PHONE": "Телефон",
     "DEPARTMENT": "Департамент",
@@ -1191,6 +1192,18 @@
     "EXPORT_BUTTON": "Экспорт",
     "UPLOAD_FILE_BUTTON": "Импорт",
     "RESET_BUTTON": "Сбросить список игр",
+    "AGGREGATOR": "Агрегатор",
+    "IMPORT_MODAL": {
+      "FILE": "Файл",
+      "NOTIFICATIONS": {
+        "SUCCESSFULLY": "Импорт прошел удачно",
+        "UNSUCCESSFULLY": "Импорт прошел неудачно"
+      },
+      "HEADER": "Импорт игр",
+      "AGGREGATOR": {
+        "ALL": "Все"
+      }
+    },
     "GRID": {
       "GAME": "Игра",
       "PROVIDER": "Провайдер",

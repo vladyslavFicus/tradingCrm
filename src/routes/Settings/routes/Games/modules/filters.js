@@ -2,6 +2,7 @@ import { CALL_API } from 'redux-api-middleware';
 import createReducer from '../../../../../utils/createReducer';
 import { type, withLines } from '../../../../../constants/games';
 import createRequestAction from '../../../../../utils/createRequestAction';
+import { getBrandId } from '../../../../../config';
 
 const KEY = 'filters';
 const FETCH_GAME_PROVIDERS = createRequestAction(`${KEY}/fetch-game-providers`);
@@ -22,7 +23,7 @@ const actionHandlers = {
 function fetchGameProviders() {
   return {
     [CALL_API]: {
-      endpoint: 'game_info/public/available/providerIds',
+      endpoint: `game_info/public/available/providerIds?brandId=${getBrandId()}`,
       method: 'OPTIONS',
       headers: {
         Accept: 'application/json',
