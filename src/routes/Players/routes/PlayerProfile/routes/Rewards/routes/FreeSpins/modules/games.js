@@ -3,6 +3,8 @@ import createReducer from '../../../../../../../../../utils/createReducer';
 import createRequestAction from '../../../../../../../../../utils/createRequestAction';
 import buildQueryString from '../../../../../../../../../utils/buildQueryString';
 import parseNumbersRange from '../../../../../../../../../utils/parseNumbersRange';
+import { getBrandId } from '../../../../../../../../../config';
+
 
 const KEY = 'user/bonus-free-spin/games';
 const FETCH_GAMES = createRequestAction(`${KEY}/fetch-games`);
@@ -13,7 +15,7 @@ function fetchGames() {
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `/game_info/public/games?${buildQueryString({ size: 9999, withLines: true })}`,
+        endpoint: `/game_info/public/games?${buildQueryString({ size: 9999, brandId: getBrandId(), withLines: true })}`,
         method: 'GET',
         headers: {
           Accept: 'application/json',

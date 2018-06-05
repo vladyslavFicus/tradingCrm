@@ -2,6 +2,8 @@ import { CALL_API } from 'redux-api-middleware';
 import createRequestAction from '../../../../../utils/createRequestAction';
 import buildQueryString from '../../../../../utils/buildQueryString';
 import createReducer from '../../../../../utils/createReducer';
+import { getBrandId } from '../../../../../config';
+
 
 const KEY = 'games';
 const FETCH_GAMES = createRequestAction(`${KEY}/fetch-games`);
@@ -23,7 +25,9 @@ const mergeEntities = (stored, fetched) => {
 function fetchGames(filters = {}) {
   return {
     [CALL_API]: {
-      endpoint: `game_info/public/games?${buildQueryString({ page: 0, ...filters })}`,
+      endpoint: `game_info/public/games?${buildQueryString({ page: 0, brandId: getBrandId(), ...filters })}`,
+
+
       method: 'GET',
       headers: {
         Accept: 'application/json',
