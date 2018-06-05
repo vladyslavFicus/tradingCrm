@@ -229,7 +229,7 @@ class PlayerLimits extends Component {
                     <div className="limits-info_container">
                       <PlayerLimit
                         label="Login"
-                        reason={I18n.t(login.reason)}
+                        reason={login.reason ? I18n.t(login.reason) : null}
                         unlockButtonLabel="Login"
                         unlockButtonClassName="btn btn-danger-outline limits-info_tab-button"
                         onUnlockButtonClick={this.handleUnlockLoginClick}

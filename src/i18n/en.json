@@ -855,7 +855,10 @@
         "CS": "Customer service",
         "RFP": "Risk Fraud & Payment",
         "MARKETING": "Marketing",
-        "ADMINISTRATION": "Administration"
+        "ADMINISTRATION": "Administration",
+        "E2E": "E2E",
+        "BI": "BI",
+        "IGROMAT": "Igromat"
       },
       "ROLES": {
         "ROLE1": "Executive",

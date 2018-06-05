@@ -6,7 +6,7 @@ import { actionCreators } from '../modules';
 import { withNotifications, withModals } from '../../../../../components/HighOrder';
 import { actionCreators as filesActionCreators } from '../modules/files';
 import Profile from '../components/Profile';
-import config, { getAvailableTags } from '../../../../../config';
+import config, { getAvailableTags, getBrandId } from '../../../../../config';
 import Permissions from '../../../../../utils/permissions';
 import { userProfileTabs } from '../../../../../config/menu';
 import { profileQuery, locksQuery } from '../../../../../graphql/queries/profile';
@@ -129,7 +129,7 @@ export default compose(
     }) => ({
       variables: {
         playerUUID,
-        brandId: window.app.brandId,
+        brandId: getBrandId(),
       },
     }),
   }),

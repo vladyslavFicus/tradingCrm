@@ -1,9 +1,7 @@
 module.exports = {
-  logstash: { url: 'http://hrzn01-dev-elk.nas.local:12202' },
   nas: {
     brand: {
       password: { pattern: '^((?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%_]).{6,32})$' },
-      fx_rate: { cron: '0 0 17 * * *' },
       validation: { password: '^((?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%_]).{6,32})$' },
       locale: {
         defaultLanguage: 'en',

@@ -2,6 +2,18 @@ import { CALL_API } from 'redux-api-middleware';
 import createReducer from '../../../utils/createReducer';
 import createRequestAction from '../../../utils/createRequestAction';
 
+const mapAuthoritiesOptions = (payload) => {
+  if (payload.post && payload.post.departmentRole) {
+    const nextPayload = { ...payload };
+
+    delete nextPayload.post.departmentRole.PLAYER;
+
+    return nextPayload;
+  }
+
+  return payload;
+};
+
 const KEY = 'authorities';
 const ADD_AUTHORITY = createRequestAction(`${KEY}/add-authority`);
 const DELETE_AUTHORITY = createRequestAction(`${KEY}/delete-authority`);
@@ -113,7 +125,11 @@ const initialState = {
 };
 const actionHandlers = {
   [FETCH_AUTHORITIES_OPTIONS.REQUEST]: state => ({ ...state, isLoading: true }),
-  [FETCH_AUTHORITIES_OPTIONS.SUCCESS]: (state, action) => ({ ...state, isLoading: false, data: action.payload }),
+  [FETCH_AUTHORITIES_OPTIONS.SUCCESS]: (state, action) => ({
+    ...state,
+    isLoading: false,
+    data: mapAuthoritiesOptions(action.payload),
+  }),
   [FETCH_AUTHORITIES_OPTIONS.FAILURE]: (state, action) => ({ ...state, isLoading: false, error: action.payload }),
 };
 const actionTypes = {
