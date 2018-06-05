@@ -1,5 +1,4 @@
 import { CALL_API } from 'redux-api-middleware';
-import { get } from 'lodash';
 import createRequestAction from '../../../../../utils/createRequestAction';
 import buildFormData from '../../../../../utils/buildFormData';
 

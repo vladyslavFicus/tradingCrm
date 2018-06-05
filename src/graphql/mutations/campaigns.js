@@ -203,6 +203,19 @@ const removeAllPlayersMutation = gql`mutation removeAllPlayers(
   }
 }`;
 
+const cloneMutation = gql`mutation clone($uuid: String!) {
+  campaign {
+    clone(uuid: $uuid) {
+      data {
+        uuid
+      }
+      error {
+        error
+      }
+    }
+  }
+}`;
+
 export {
   activateMutation,
   cancelMutation,
@@ -210,4 +223,5 @@ export {
   updateMutation,
   createMutation,
   removeAllPlayersMutation,
+  cloneMutation,
 };

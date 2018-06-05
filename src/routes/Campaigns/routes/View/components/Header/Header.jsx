@@ -7,6 +7,7 @@ import StatusDropDown from '../../../../components/StatusDropDown';
 import { actions, statusActions } from '../../../../../../constants/bonus-campaigns';
 import FileUpload from '../../../../../../components/FileUpload';
 import { statuses, targetTypes } from '../../../../../../constants/campaigns';
+import ActionsDropDown from '../../../../../../components/ActionsDropDown';
 
 class Header extends Component {
   static propTypes = {
@@ -14,6 +15,7 @@ class Header extends Component {
     cancelMutation: PropTypes.func.isRequired,
     uploadPlayersFile: PropTypes.func.isRequired,
     removeAllPlayers: PropTypes.func.isRequired,
+    cloneCampaign: PropTypes.func.isRequired,
     data: PropTypes.newBonusCampaignEntity.isRequired,
   };
   static contextTypes = {
@@ -86,6 +88,7 @@ class Header extends Component {
         authorUUID,
         state,
       },
+      cloneCampaign,
       data,
     } = this.props;
 
@@ -126,6 +129,16 @@ class Header extends Component {
                 />
               </span>
             </If>
+            <span className="margin-left-10">
+              <ActionsDropDown
+                items={[
+                  {
+                    label: I18n.t('BONUS_CAMPAIGNS.OPTIONS.CLONE_LABEL'),
+                    onClick: cloneCampaign,
+                  },
+                ]}
+              />
+            </span>
           </div>
         </div>
 
