@@ -16,6 +16,8 @@ import {
   fulfillmentTypes,
   fulfillmentTypesLabels,
   optInSelect,
+  optInPeriods,
+  optInPeriodsLabels,
 } from '../../constants';
 import NodeBuilder from '../NodeBuilder';
 import { BonusView } from '../Bonus';
@@ -31,6 +33,7 @@ import renderLabel from '../../../../utils/renderLabel';
 import normalizeBoolean from '../../../../utils/normalizeBoolean';
 import countries from '../../../../utils/countryList';
 import { targetTypes, targetTypesLabels } from '../../../../constants/campaigns';
+import { intNormalize } from '../../../../utils/inputNormalize';
 import Countries from '../Countries';
 
 const CAMPAIGN_NAME_MAX_LENGTH = 100;
@@ -235,6 +238,49 @@ class Form extends Component {
                 ))}
               </Field>
             </div>
+
+            <If condition={formValues.optIn}>
+              <div className="col-3">
+                <div className="form-group">
+                  <label>{I18n.t('CAMPAIGNS.SETTINGS.OPT_IN_PERIOD')}</label>
+                  <div className="form-row">
+                    <div className="col-4">
+                      <Field
+                        name="optInPeriod"
+                        id="campaign-opt-in-period"
+                        type="number"
+                        placeholder=""
+                        disabled={disabled}
+                        component={InputField}
+                        normalize={intNormalize}
+                        position="vertical"
+                      />
+                    </div>
+                    <div className="col">
+                      <Field
+                        name="optInPeriodTimeUnit"
+                        id="campaign-opt-in-period-time-unit"
+                        type="select"
+                        component={SelectField}
+                        position="vertical"
+                        disabled={disabled}
+                      >
+                        <option value="">
+                          {I18n.t('CAMPAIGNS.SETTINGS.SELECT_OPT_IN_PERIOD')}
+                        </option>
+                        {
+                          Object.keys(optInPeriods).map(period => (
+                            <option key={period} value={period}>
+                              {renderLabel(period, optInPeriodsLabels)}
+                            </option>
+                          ))
+                        }
+                      </Field>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </If>
           </div>
           <div className="row">
             <Countries
@@ -299,12 +345,18 @@ export default compose(
         targetType: ['required', 'string', `in:${Object.keys(targetTypes).join()}`],
         countries: `in:,${Object.keys(countries).join()}`,
         excludeCountries: ['boolean'],
+        optInPeriod: ['numeric', 'min:1'],
+        optInPeriodTimeUnit: [`in:${Object.keys(optInPeriods).join()}`],
       };
 
       const fulfillments = get(values, 'fulfillments', []);
 
       if (fulfillments.length > 0) {
         rules.fulfillments = {};
+      }
+
+      if (values.optInPeriod) {
+        rules.optInPeriodTimeUnit.push('required');
       }
 
       fulfillments.forEach((fulfillment, index) => {
