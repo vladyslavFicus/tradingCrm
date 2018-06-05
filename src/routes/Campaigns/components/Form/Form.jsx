@@ -243,39 +243,35 @@ class Form extends Component {
                 <div className="form-group">
                   <label>{I18n.t('CAMPAIGNS.SETTINGS.OPT_IN_PERIOD')}</label>
                   <div className="form-row">
-                    <div className="col-4">
-                      <Field
-                        name="optInPeriod"
-                        id="campaign-opt-in-period"
-                        type="number"
-                        placeholder=""
-                        disabled={disabled}
-                        component={InputField}
-                        normalize={intNormalize}
-                        position="vertical"
-                      />
-                    </div>
-                    <div className="col">
-                      <Field
-                        name="optInPeriodTimeUnit"
-                        id="campaign-opt-in-period-time-unit"
-                        type="select"
-                        component={SelectField}
-                        position="vertical"
-                        disabled={disabled}
-                      >
-                        <option value="">
-                          {I18n.t('CAMPAIGNS.SETTINGS.SELECT_OPT_IN_PERIOD')}
-                        </option>
-                        {
-                          Object.keys(optInPeriods).map(period => (
-                            <option key={period} value={period}>
-                              {renderLabel(period, optInPeriodsLabels)}
-                            </option>
-                          ))
-                        }
-                      </Field>
-                    </div>
+                    <Field
+                      name="optInPeriod"
+                      id="campaign-opt-in-period"
+                      type="number"
+                      placeholder=""
+                      disabled={disabled}
+                      component={InputField}
+                      normalize={intNormalize}
+                      className="col-4"
+                    />
+                    <Field
+                      name="optInPeriodTimeUnit"
+                      id="campaign-opt-in-period-time-unit"
+                      type="select"
+                      component={SelectField}
+                      disabled={disabled}
+                      className="col"
+                    >
+                      <option value="">
+                        {I18n.t('CAMPAIGNS.SETTINGS.SELECT_OPT_IN_PERIOD')}
+                      </option>
+                      {
+                        Object.keys(optInPeriods).map(period => (
+                          <option key={period} value={period}>
+                            {renderLabel(period, optInPeriodsLabels)}
+                          </option>
+                        ))
+                      }
+                    </Field>
                   </div>
                 </div>
               </div>
@@ -356,6 +352,10 @@ export default compose(
 
       if (values.optInPeriod) {
         rules.optInPeriodTimeUnit.push('required');
+      }
+
+      if (values.optInPeriodTimeUnit) {
+        rules.optInPeriod.push('required');
       }
 
       fulfillments.forEach((fulfillment, index) => {
