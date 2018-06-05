@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import { SubmissionError } from 'redux-form';
 import { get } from 'lodash';
+import jwtDecode from 'jwt-decode';
 import PropTypes from '../../../constants/propTypes';
 import SignInForm from './SignInForm';
 import Preloader from '../../../components/Preloader';
 import { Brands, Departments } from '../../../components/Brands';
 import Copyrights from '../../../components/Copyrights';
+import sentry from '../../../utils/sentry';
 
 class SignIn extends Component {
   static propTypes = {
@@ -84,6 +86,13 @@ class SignIn extends Component {
             const { departmentsByBrand, token, uuid } = action.payload;
             const brands = Object.keys(departmentsByBrand);
             console.info(`Logged with ${brands.length} brands`);
+
+            sentry.setUserContext({
+              uuid,
+              token,
+              departmentsByBrand,
+              ...jwtDecode(action.payload.token),
+            });
 
             if (brands.length === 1) {
               const departments = Object.keys(departmentsByBrand[brands[0]]);

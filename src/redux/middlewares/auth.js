@@ -4,6 +4,8 @@ import {
   actionTypes as authActionTypes,
   actionCreators as authActionCreators,
 } from '../modules/auth';
+import sentry from '../../utils/sentry';
+import { getBrandId, setBrandId } from '../../config';
 
 const triggerActions = {
   start: [
@@ -33,17 +35,15 @@ export default store => next => (action) => {
       if (auth && auth.token) {
         const tokenData = jwtDecode(auth.token);
 
-        if (window.app.brandId !== tokenData.brandId) {
-          window.app.brandId = tokenData.brandId;
+        if (getBrandId() !== tokenData.brandId) {
+          setBrandId(tokenData.brandId);
         }
 
-        if (window.Raven) {
-          window.Raven.setUserContext({
-            uuid: auth.uuid,
-            token: auth.token,
-            ...jwtDecode(auth.token),
-          });
-        }
+        sentry.setUserContext({
+          uuid: auth.uuid,
+          token: auth.token,
+          ...jwtDecode(auth.token),
+        });
       }
 
       const isAuthRehydrate = !!action.payload.language;
@@ -52,7 +52,7 @@ export default store => next => (action) => {
         store.dispatch(authActionCreators.fetchAuthorities(auth.uuid, auth.token));
       }
     } else if (triggerActions.stop.indexOf(action.type) > -1) {
-      window.app.brandId = null;
+      setBrandId(null);
     }
   }
 

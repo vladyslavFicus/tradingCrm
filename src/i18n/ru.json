@@ -861,7 +861,10 @@
         "CS": "Обслуживание клиентов",
         "RFP": "Risk Fraud & Payment",
         "MARKETING": "Маркетинг",
-        "ADMINISTRATION": "Администрация"
+        "ADMINISTRATION": "Администрация",
+        "E2E": "E2E",
+        "BI": "BI",
+        "IGROMAT": "Igromat"
       },
       "ROLES": {
         "ROLE1": "Executive",
@@ -2120,7 +2123,7 @@
   },
   "FREE_SPIN": {
     "BONUS": {
-      "GRANT": "",
+      "GRANT": "Сумма бонусов",
       "MAX_GRANT_AMOUNT": "Макс. сумма бонусов",
       "WAGERING_REQUIREMENT": "Условия отыгрыша",
       "MONEY_PRIORITY": "Приоритет",

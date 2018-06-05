@@ -1,4 +1,4 @@
-import { sendError, errorTypes } from './utils/errorLog';
+import sentry from './utils/sentry';
 
 export default () => {
   if (window) {
@@ -10,28 +10,11 @@ export default () => {
       brandId: null,
     };
 
-    if (typeof location.origin === 'undefined') {
+    if (typeof window.location.origin === 'undefined') {
       window.location.origin = `${window.location.protocol}//${window.location.host}`;
     }
 
-    window.addEventListener('error', (e) => {
-      const error = {
-        message: `${errorTypes.INTERNAL} error - ${e.message}`,
-        errorType: errorTypes.INTERNAL,
-      };
-
-      const stack = e.error ? e.error.stack : null;
-
-      if (stack) {
-        error.stack = `\n${stack}`;
-      }
-
-      if (window.Raven) {
-        window.Raven.captureException(e);
-      }
-
-      sendError(error);
-    });
+    window.addEventListener('error', sentry.captureException);
 
     window.dispatchAction = (action) => {
       if (window.isFrame) {

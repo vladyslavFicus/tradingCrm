@@ -70,9 +70,6 @@ async function compileNginxConfig(environmentConfig) {
   const version = health && health.version ? health.version : '';
 
   const params = {
-    logstashUrl: environmentConfig.logstash
-      ? environmentConfig.logstash.url
-      : '',
     version,
   };
 

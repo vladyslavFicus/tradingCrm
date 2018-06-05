@@ -19,6 +19,7 @@ import translations from '../i18n';
 import { actionCreators as permissionsActionCreators } from '../redux/modules/auth/permissions';
 import { actionCreators as userPanelsActionCreators } from '../redux/modules/user-panels';
 import history from '../router/history';
+import sentry from '../utils/sentry';
 
 export default (initialState = {}, onComplete) => {
   const middleware = [
@@ -72,11 +73,11 @@ export default (initialState = {}, onComplete) => {
   store.subscribe(() => {
     const { auth, language, settings } = store.getState();
 
-    Raven.setExtraContext({ language });
-    Raven.setExtraContext({ settings });
+    sentry.setExtraContext({ language });
+    sentry.setExtraContext({ settings });
 
     if (auth.logged) {
-      Raven.setExtraContext({
+      sentry.setExtraContext({
         uuid: auth.uuid,
         brandId: auth.brandId,
         department: auth.department,
