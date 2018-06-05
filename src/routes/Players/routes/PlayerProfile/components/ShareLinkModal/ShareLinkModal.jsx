@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { I18n } from 'react-redux-i18n';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import CopyToClipboard from 'react-copy-to-clipboard';
+import CopyToClipboard from '../../../../../../components/CopyToClipboard';
 import { getDomain } from '../../../../../../config';
 
 class ShareLinkModal extends Component {
@@ -11,7 +11,7 @@ class ShareLinkModal extends Component {
     playerUUID: PropTypes.string.isRequired,
     notificationLevel: PropTypes.oneOf(['info', 'warning', 'success']),
     notificationTitle: PropTypes.string,
-    notificationMessage: PropTypes.string.isRequired,
+    notificationMessage: PropTypes.string,
   };
   static defaultProps = {
     notificationLevel: 'success',
@@ -22,23 +22,14 @@ class ShareLinkModal extends Component {
     addNotification: PropTypes.func.isRequired,
   };
 
-  handleCopy = () => {
-    const { addNotification } = this.context;
+  render() {
     const {
+      onClose,
+      playerUUID,
       notificationLevel,
       notificationTitle,
       notificationMessage,
     } = this.props;
-
-    addNotification({
-      level: notificationLevel,
-      title: notificationTitle,
-      message: notificationMessage,
-    });
-  };
-
-  render() {
-    const { onClose, playerUUID } = this.props;
 
     const inputValue = `${getDomain()}/player/${playerUUID}/profile`;
 
@@ -61,7 +52,13 @@ class ShareLinkModal extends Component {
               />
             </div>
             <div className="col-sm-3">
-              <CopyToClipboard text={inputValue} onCopy={this.handleCopy}>
+              <CopyToClipboard
+                notify
+                text={inputValue}
+                notificationLevel={notificationLevel}
+                notificationTitle={notificationTitle}
+                notificationMessage={notificationMessage}
+              >
                 <button className="btn btn-primary-outline share-profile-modal__copy-button">
                   {I18n.t('SHARE_LINK_MODAL.COPY_LINK')}
                 </button>
