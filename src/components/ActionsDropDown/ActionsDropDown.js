@@ -7,7 +7,7 @@ const ActionsDropDown = ({ items }) => {
   const visibleItems = items.filter(item => item.visible === undefined || item.visible);
 
   if (!visibleItems.length) {
-    return false;
+    return null;
   }
 
   return (
