@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { I18n } from 'react-redux-i18n';
 import ClipboardContainer from 'react-copy-to-clipboard';
 import classNames from 'classnames';
 import './CopyToClipboard.scss';
@@ -10,7 +11,7 @@ class CopyToClipboard extends Component {
     text: PropTypes.string.isRequired,
     children: PropTypes.node.isRequired,
     notificationLevel: PropTypes.oneOf(['info', 'warning', 'success']),
-    notificationTitle: PropTypes.string,
+    notificationTitle: PropTypes.string.isRequired,
     notificationMessage: PropTypes.string.isRequired,
     notify: PropTypes.bool,
   };
@@ -18,8 +19,6 @@ class CopyToClipboard extends Component {
     className: null,
     notify: false,
     notificationLevel: 'info',
-    notificationTitle: 'Copied',
-    notificationMessage: 'Copied to your clipboard',
   };
   static contextTypes = {
     addNotification: PropTypes.func.isRequired,
@@ -54,8 +53,8 @@ class CopyToClipboard extends Component {
     if (notify) {
       addNotification({
         level: notificationLevel,
-        title: notificationTitle,
-        message: notificationMessage,
+        title: I18n.t(notificationTitle),
+        message: I18n.t(notificationMessage),
       });
     }
   };
