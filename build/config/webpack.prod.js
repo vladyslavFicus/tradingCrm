@@ -17,8 +17,8 @@ const prodConfig = {
   output: {
     path: path.resolve(project.basePath, project.outDir),
     publicPath: project.publicPath,
-    filename: '[name].[chunkhash].js',
-    chunkFilename: '[name].[chunkhash].js',
+    filename: '[name].js?[chunkhash]',
+    chunkFilename: '[name].js?[chunkhash]',
   },
   module: {
     rules: [
