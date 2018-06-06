@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import classNames from 'classnames';
 import { I18n } from 'react-redux-i18n';
 import PropTypes from '../../../../../../../../../../constants/propTypes';
@@ -19,10 +19,11 @@ class FreeSpinMainInfo extends PureComponent {
     const handleClick = onClick ? () => onClick(freeSpin) : onClick;
 
     return (
-      <div>
+      <Fragment>
         <div
           className={classNames('font-weight-700', { 'cursor-pointer': isClickable })}
           onClick={handleClick}
+          id={`${freeSpin.uuid}-name`}
         >
           {freeSpin.name}
         </div>
@@ -33,21 +34,19 @@ class FreeSpinMainInfo extends PureComponent {
           </span>
           <Uuid uuid={freeSpin.authorUUID} />
         </div>
-        {
-          freeSpin.freeSpinTemplateUUID &&
+        <If condition={freeSpin.freeSpinTemplateUUID}>
           <div className="font-size-11">
             {I18n.t('PLAYER_PROFILE.FREE_SPINS.FREE_SPIN_TEMPLATE')} {' - '}
             <Uuid uuidPartsCount={4} length={22} uuid={freeSpin.freeSpinTemplateUUID} />
           </div>
-        }
-        {
-          freeSpin.bonusTemplateUUID &&
+        </If>
+        <If condition={freeSpin.bonusTemplateUUID}>
           <div className="font-size-11">
             {I18n.t('PLAYER_PROFILE.FREE_SPINS.BONUS_TEMPLATE')} {' - '}
             <Uuid uuidPartsCount={3} length={18} uuid={freeSpin.bonusTemplateUUID} />
           </div>
-        }
-      </div>
+        </If>
+      </Fragment>
     );
   }
 }

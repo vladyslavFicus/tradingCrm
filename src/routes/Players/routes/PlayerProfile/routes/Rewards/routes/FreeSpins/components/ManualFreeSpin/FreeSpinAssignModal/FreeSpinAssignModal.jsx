@@ -177,7 +177,7 @@ class FreeSpinAssignModal extends PureComponent {
         <ModalBody
           tag="form"
           onSubmit={e => stopPropagation(e, handleSubmit(onSubmit))}
-          id="assign-free-spin-modal"
+          id="assign-free-spin-modal-form"
         >
           <div className="campaigns-template">
             <div className="row">
@@ -187,7 +187,6 @@ class FreeSpinAssignModal extends PureComponent {
                 label={I18n.t(attributeLabels.template)}
                 component={NasSelectField}
                 showErrorMessage={false}
-                position="vertical"
                 className="col"
                 helpText={
                   <If condition={fsTemplate.uuid}>
@@ -200,6 +199,7 @@ class FreeSpinAssignModal extends PureComponent {
                     />
                   </If>
                 }
+                id="assign-free-spin-modal-select"
               >
                 {fsTemplates.map(item => (
                   <option key={item.uuid} value={item.uuid}>
@@ -229,19 +229,17 @@ class FreeSpinAssignModal extends PureComponent {
                     name="startDate"
                     placeholder={I18n.t(attributeLabels.startDate)}
                     component={DateTimeField}
-                    position="vertical"
                     isValidDate={this.startDateValidator('endDate')}
+                    id="assign-free-spin-modal-startdate"
                   />
                   <Field
                     name="endDate"
                     placeholder={I18n.t(attributeLabels.endDate)}
                     component={DateTimeField}
-                    position="vertical"
                     isValidDate={this.endDateValidator('startDate')}
+                    id="assign-free-spin-modal-enddate"
                   />
                 </RangeGroup>
-              </div>
-              <div className="row">
                 <Field
                   name="freeSpinsAmount"
                   type="number"
@@ -250,6 +248,7 @@ class FreeSpinAssignModal extends PureComponent {
                   component={InputField}
                   normalize={intNormalize}
                   className="col-md-6"
+                  id="assign-free-spin-modal-freespins-amount"
                 />
               </div>
               <Placeholder
@@ -447,7 +446,8 @@ class FreeSpinAssignModal extends PureComponent {
           <button
             type="submit"
             className="btn btn-primary"
-            form="assign-free-spin-modal"
+            form="assign-free-spin-modal-form"
+            id="assign-free-spin-modal-save"
           >
             {I18n.t('COMMON.SAVE')}
           </button>
