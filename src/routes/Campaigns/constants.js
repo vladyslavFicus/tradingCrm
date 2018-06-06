@@ -5,6 +5,7 @@ const attributeLabels = {
   campaignName: I18n.t('CAMPAIGNS.SETTINGS.LABEL.CAMPAIGN_NAME'),
   targetType: I18n.t('CAMPAIGNS.SETTINGS.LABEL.TARGET_TYPE'),
   optIn: I18n.t('CAMPAIGNS.SETTINGS.LABEL.OPT_IN'),
+  promoCode: I18n.t('CAMPAIGNS.SETTINGS.LABEL.PROMO_CODE'),
 };
 
 const rewardTemplateTypes = keyMirror({

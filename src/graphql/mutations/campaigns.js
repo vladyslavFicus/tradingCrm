@@ -51,6 +51,9 @@ const updateMutation = gql`mutation update(
   $countries: [String]
   $excludeCountries: Boolean
   $targetType: String!
+  $optInPeriod: Int
+  $optInPeriodTimeUnit: String
+  $promoCode: String
 ) {
   campaign {
     update(
@@ -64,6 +67,9 @@ const updateMutation = gql`mutation update(
       countries: $countries
       excludeCountries: $excludeCountries
       targetType: $targetType
+      optInPeriod: $optInPeriod
+      optInPeriodTimeUnit: $optInPeriodTimeUnit
+      promoCode: $promoCode
     ) {
       data {
         _id
@@ -79,6 +85,9 @@ const updateMutation = gql`mutation update(
         targetType
         countries
         excludeCountries
+        optInPeriod
+        optInPeriodTimeUnit
+        promoCode
       }
       error {
         error
@@ -95,6 +104,9 @@ const createMutation = gql`mutation create(
   $rewards: [String]!
   $startDate: String
   $endDate: String
+  $optInPeriod: Int
+  $optInPeriodTimeUnit: String
+  $promoCode: String
 ) {
   campaign {
     create(
@@ -105,6 +117,9 @@ const createMutation = gql`mutation create(
       rewards: $rewards
       startDate: $startDate
       endDate: $endDate
+      optInPeriod: $optInPeriod
+      optInPeriodTimeUnit: $optInPeriodTimeUnit
+      promoCode: $promoCode
     ) {
       data {
         _id
