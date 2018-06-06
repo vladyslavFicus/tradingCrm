@@ -68,7 +68,7 @@ const updateMutation = gql`mutation update(
       excludeCountries: $excludeCountries
       targetType: $targetType
       optInPeriod: $optInPeriod
-      optInPeriodTimeUnit :$optInPeriodTimeUnit
+      optInPeriodTimeUnit: $optInPeriodTimeUnit
       promoCode: $promoCode
     ) {
       data {
@@ -118,7 +118,7 @@ const createMutation = gql`mutation create(
       startDate: $startDate
       endDate: $endDate
       optInPeriod: $optInPeriod
-      optInPeriodTimeUnit :$optInPeriodTimeUnit
+      optInPeriodTimeUnit: $optInPeriodTimeUnit
       promoCode: $promoCode
     ) {
       data {
