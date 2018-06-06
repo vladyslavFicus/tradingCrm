@@ -246,31 +246,33 @@ class Header extends Component {
               >
                 <i className={classNames('fa fa-refresh', { 'fa-spin': isLoadingProfile })} />
               </button>
-              <ActionsDropDown
-                items={[
-                  {
-                    id: 'reset-password-option',
-                    label: I18n.t('PLAYER_PROFILE.PROFILE.ACTIONS_DROPDOWN.RESET_PASSWORD'),
-                    onClick: onResetPasswordClick,
-                  },
-                  {
-                    label: I18n.t('PLAYER_PROFILE.PROFILE.ACTIONS_DROPDOWN.SEND_ACTIVATION_LINK'),
-                    onClick: onProfileActivateClick,
-                    visible: (
-                      sendActivationLinkPermission.check(currentPermissions)
-                      && profileStatus === statuses.INACTIVE
-                    ),
-                  },
-                  {
-                    label: I18n.t('PLAYER_PROFILE.PROFILE.ACTIONS_DROPDOWN.CHANGE_PASSWORD'),
-                    onClick: onChangePasswordClick,
-                  },
-                  {
-                    label: I18n.t('PLAYER_PROFILE.PROFILE.ACTIONS_DROPDOWN.SHARE_PROFILE'),
-                    onClick: onShareProfileClick,
-                  },
-                ]}
-              />
+              <If condition={!isLoadingProfile}>
+                <ActionsDropDown
+                  items={[
+                    {
+                      id: 'reset-password-option',
+                      label: I18n.t('PLAYER_PROFILE.PROFILE.ACTIONS_DROPDOWN.RESET_PASSWORD'),
+                      onClick: onResetPasswordClick,
+                    },
+                    {
+                      label: I18n.t('PLAYER_PROFILE.PROFILE.ACTIONS_DROPDOWN.SEND_ACTIVATION_LINK'),
+                      onClick: onProfileActivateClick,
+                      visible: (
+                        sendActivationLinkPermission.check(currentPermissions)
+                        && profileStatus === statuses.INACTIVE
+                      ),
+                    },
+                    {
+                      label: I18n.t('PLAYER_PROFILE.PROFILE.ACTIONS_DROPDOWN.CHANGE_PASSWORD'),
+                      onClick: onChangePasswordClick,
+                    },
+                    {
+                      label: I18n.t('PLAYER_PROFILE.PROFILE.ACTIONS_DROPDOWN.SHARE_PROFILE'),
+                      onClick: onShareProfileClick,
+                    },
+                  ]}
+                />
+              </If>
             </div>
           </div>
         </Sticky>
