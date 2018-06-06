@@ -13,7 +13,7 @@ function uploadPlayersFile(uuid, file) {
     return dispatch({
       [CALL_API]: {
         endpoint: `/campaign/${uuid}/player-list`,
-        method: 'POST',
+        method: 'PUT',
         headers: {
           Authorization: `Bearer ${token}`,
         },
