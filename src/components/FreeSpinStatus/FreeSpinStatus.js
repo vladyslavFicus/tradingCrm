@@ -21,6 +21,7 @@ const FreeSpinStatus = (props) => {
       startDate,
       statusChangedAuthorUUID,
       winning,
+      uuid,
     },
   } = props;
 
@@ -28,7 +29,10 @@ const FreeSpinStatus = (props) => {
 
   return (
     <Fragment>
-      <div className={classNames('text-uppercase font-weight-700', className)}>
+      <div
+        className={classNames('text-uppercase font-weight-700', className)}
+        id={`${uuid}-status`}
+      >
         {renderLabel(status, statusesLabels)}
         <If condition={reason || error}>
           <FailedStatusIcon id={`${id}-status`}>
