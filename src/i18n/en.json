@@ -1947,7 +1947,8 @@
         "OPT_IN": "Type",
         "OPT_IN_REQUIRED": "Opt-in required",
         "CAMPAIGN_NAME": "Campaign name (Internal)",
-        "TARGET_TYPE": "Target type"
+        "TARGET_TYPE": "Target type",
+        "PROMO_CODE": "Promo code"
       },
       "TARGET": "Target type",
       "CHOOSE_TARGET_TYPE": "-- Choose target type --",

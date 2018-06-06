@@ -31,6 +31,7 @@ import './Form.scss';
 import { withReduxFormValues, withNotifications } from '../../../../components/HighOrder';
 import renderLabel from '../../../../utils/renderLabel';
 import normalizeBoolean from '../../../../utils/normalizeBoolean';
+import normalizePromoCode from '../../../../utils/normalizePromoCode';
 import countries from '../../../../utils/countryList';
 import { targetTypes, targetTypesLabels } from '../../../../constants/campaigns';
 import { intNormalize } from '../../../../utils/inputNormalize';
@@ -276,6 +277,17 @@ class Form extends Component {
                 </div>
               </div>
             </If>
+            <If condition={formValues.targetType === targetTypes.TARGET_LIST}>
+              <Field
+                name="promoCode"
+                type="text"
+                label={I18n.t(attributeLabels.promoCode)}
+                component={InputField}
+                normalize={normalizePromoCode}
+                disabled={disabled}
+                className="col-3"
+              />
+            </If>
           </div>
           <div className="row">
             <Countries
@@ -342,6 +354,7 @@ export default compose(
         excludeCountries: ['boolean'],
         optInPeriod: ['numeric', 'min:1'],
         optInPeriodTimeUnit: [`in:${Object.keys(optInPeriods).join()}`],
+        promoCode: ['string'],
       };
 
       const fulfillments = get(values, 'fulfillments', []);
