@@ -1706,7 +1706,14 @@
     "HEADER_DEVICE": "Устройство",
     "HEADER_STATUS": "Статус",
     "HEADER_AMOUNT": "Сумма",
-    "HEADER_PAYMENT_METHOD": "Платежный счет"
+    "HEADER_PAYMENT_METHOD": "Платежный счет",
+    "ACTIONS": {
+      "MARK_AS_CHARGEBACK": "Отметить как возврат"
+    },
+    "PLAYER_NOT_FOUND": {
+      "TITLE": "Игрок не найден!",
+      "DESCRIPTION": "Некоторые функции могут быть недоступны"
+    }
   },
   "MINI_PROFILE": {
     "PLAYER": "Игрок",
