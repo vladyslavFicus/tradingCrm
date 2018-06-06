@@ -5,6 +5,7 @@ const attributeLabels = {
   campaignName: I18n.t('CAMPAIGNS.SETTINGS.LABEL.CAMPAIGN_NAME'),
   targetType: I18n.t('CAMPAIGNS.SETTINGS.LABEL.TARGET_TYPE'),
   optIn: I18n.t('CAMPAIGNS.SETTINGS.LABEL.OPT_IN'),
+  promoCode: I18n.t('CAMPAIGNS.SETTINGS.LABEL.PROMO_CODE'),
 };
 
 const rewardTemplateTypes = keyMirror({
@@ -47,6 +48,18 @@ const optInSelect = {
   false: I18n.t('COMMON.NON_OPT_IN'),
 };
 
+const optInPeriods = keyMirror({
+  HOURS: null,
+  DAYS: null,
+  WEEKS: null,
+});
+
+const optInPeriodsLabels = {
+  [optInPeriods.HOURS]: I18n.t('COMMON.HOURS'),
+  [optInPeriods.DAYS]: I18n.t('COMMON.DAYS'),
+  [optInPeriods.WEEKS]: I18n.t('COMMON.WEEKS'),
+};
+
 export {
   attributeLabels,
   rewardTemplateTypes,
@@ -57,6 +70,8 @@ export {
   nodeGroupsAlias,
   nodeGroupValidateMessage,
   optInSelect,
+  optInPeriods,
+  optInPeriodsLabels,
 };
 
 export default attributeLabels;

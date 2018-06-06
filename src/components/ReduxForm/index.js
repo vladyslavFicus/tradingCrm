@@ -10,6 +10,7 @@ import MultiCurrencyValue from './MultiCurrencyValue';
 import TypeValueField from './TypeValueField';
 import CheckBox from './CheckBox';
 import RangeGroup from './RangeGroup';
+import FileInput from './FileInput';
 
 export {
   CustomValueField,
@@ -24,4 +25,5 @@ export {
   TypeValueField,
   CheckBox,
   RangeGroup,
+  FileInput,
 };

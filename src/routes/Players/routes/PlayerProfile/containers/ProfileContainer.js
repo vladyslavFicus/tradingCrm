@@ -6,11 +6,11 @@ import { actionCreators } from '../modules';
 import { withNotifications, withModals } from '../../../../../components/HighOrder';
 import { actionCreators as filesActionCreators } from '../modules/files';
 import Profile from '../components/Profile';
-import config, { getAvailableTags } from '../../../../../config';
+import config, { getAvailableTags, getBrandId } from '../../../../../config';
 import Permissions from '../../../../../utils/permissions';
 import { userProfileTabs } from '../../../../../config/menu';
-import { profileQuery, locksQuery } from '.././../../../../graphql/queries/profile';
-import { notesQuery } from '.././../../../../graphql/queries/notes';
+import { profileQuery, locksQuery } from '../../../../../graphql/queries/profile';
+import { notesQuery } from '../../../../../graphql/queries/notes';
 import ConfirmActionModal from '../../../../../components/Modal/ConfirmActionModal';
 import {
   updateSubscription,
@@ -21,9 +21,9 @@ import {
   unblockMutation,
   passwordResetRequest,
   changePassword,
-} from '.././../../../../graphql/mutations/profile';
-import { lockMutation, unlockMutation } from '.././../../../../graphql/mutations/payment';
-import { unlockLoginMutation } from '.././../../../../graphql/mutations/auth';
+} from '../../../../../graphql/mutations/profile';
+import { lockMutation, unlockMutation } from '../../../../../graphql/mutations/payment';
+import { unlockLoginMutation } from '../../../../../graphql/mutations/auth';
 import {
   updateNoteMutation,
   removeNoteMutation,
@@ -31,8 +31,8 @@ import {
   removeNotes,
   removeNote,
   addNote,
-} from '.././../../../../graphql/mutations/note';
-import { removeTagMutation, addTagMutation } from '.././../../../../graphql/mutations/tag';
+} from '../../../../../graphql/mutations/note';
+import { removeTagMutation, addTagMutation } from '../../../../../graphql/mutations/tag';
 
 const mapStateToProps = (state) => {
   const {
@@ -129,7 +129,7 @@ export default compose(
     }) => ({
       variables: {
         playerUUID,
-        brandId: window.app.brandId,
+        brandId: getBrandId(),
       },
     }),
   }),

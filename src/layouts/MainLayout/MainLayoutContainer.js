@@ -1,5 +1,6 @@
 import { compose } from 'redux';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import { getAvailableLanguages } from '../../config';
 import { withModals } from '../../components/HighOrder';
 import MultiCurrencyModal from '../../components/ReduxForm/MultiCurrencyModal';
@@ -63,4 +64,5 @@ const mapActionCreators = {
 export default compose(
   connect(mapStateToProps, mapActionCreators),
   withModals({ multiCurrencyModal: MultiCurrencyModal }),
+  withRouter,
 )(MainLayout);

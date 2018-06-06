@@ -222,6 +222,12 @@
       "SELF_EXCLUSION_REASONS": {
         "USER_REQUEST": "Запрос клиента",
         "OTHER": "Другая"
+      },
+      "ACTIVE_PLAN": {
+        "TITLE": "Активный план"
+      },
+      "PENDING_PAYOUTS": {
+        "TITLE": "Ожидающие платежи"
       }
     },
     "GAME_ACTIVITY": {
@@ -653,6 +659,7 @@
     "APPLY": "Применить",
     "EXPORT": "Экспорт",
     "FROM": "С",
+    "IMPORT": "Импорт",
     "EMAIL": "E-mail",
     "PHONE": "Телефон",
     "DEPARTMENT": "Департамент",
@@ -782,7 +789,11 @@
         "CONFISCATE": "Конфискация"
       }
     },
-    "SUCCESS": "Успешно"
+    "SUCCESS": "Успешно",
+    "NOT_AVAILABLE": "Не доступно",
+    "SUBMIT": "Принять",
+    "AMOUNT": "Количество",
+    "SUCCESS_UPDATE": "Удачное обновление"
   },
   "FILES": {
     "UPLOAD_MODAL": {
@@ -851,7 +862,10 @@
         "CS": "Обслуживание клиентов",
         "RFP": "Risk Fraud & Payment",
         "MARKETING": "Маркетинг",
-        "ADMINISTRATION": "Администрация"
+        "ADMINISTRATION": "Администрация",
+        "E2E": "E2E",
+        "BI": "BI",
+        "IGROMAT": "Igromat"
       },
       "ROLES": {
         "ROLE1": "Executive",
@@ -1178,6 +1192,18 @@
     "EXPORT_BUTTON": "Экспорт",
     "UPLOAD_FILE_BUTTON": "Импорт",
     "RESET_BUTTON": "Сбросить список игр",
+    "AGGREGATOR": "Агрегатор",
+    "IMPORT_MODAL": {
+      "FILE": "Файл",
+      "NOTIFICATIONS": {
+        "SUCCESSFULLY": "Импорт прошел удачно",
+        "UNSUCCESSFULLY": "Импорт прошел неудачно"
+      },
+      "HEADER": "Импорт игр",
+      "AGGREGATOR": {
+        "ALL": "Все"
+      }
+    },
     "GRID": {
       "GAME": "Игра",
       "PROVIDER": "Провайдер",
@@ -1552,6 +1578,45 @@
     "LAST_LOGIN": {
       "TITLE": "Последний вход",
       "FROM_COUNTRY": " из %{country}"
+    },
+    "REWARD_PLAN": {
+      "TITLE": {
+        "LOTTERY": "Лотерейные билеты",
+        "BONUS": "Бонус",
+        "RUNES": "Лояльность",
+        "CASH_BACKS": "Кешбэк",
+        "FREE_SPINS": "Фри-спинов"
+      },
+      "MODAL": {
+        "LOTTERY": {
+          "TITLE": "Ожидаемые выплаты лотерейных билетов",
+          "INPUT_LABEL": "Количество",
+          "ACTION_TEXT": "Вы собираетесь изменить ожидающие выплаты лотерейных билетов"
+        },
+        "BONUS": {
+          "TITLE": "Ожидаемая выплата бонуса",
+          "INPUT_LABEL": "Количество",
+          "ACTION_TEXT": "Вы собираетесь изменить ожидающую выплату бонуса"
+        },
+        "RUNES": {
+          "TITLE": "Лояльность",
+          "INPUT_LABEL": "Количество",
+          "ACTION_TEXT": "Вы собираетесь изменить баллы лояльности"
+        },
+        "CASH_BACKS": {
+          "TITLE": "Ожидаемая выплата кешбэка",
+          "INPUT_LABEL": "Количество",
+          "ACTION_TEXT": "Вы собираетесь изменить ожидаемую выплату кешбэка"
+        },
+        "FREE_SPINS": {
+          "TITLE": "Ожидание выплаты фри-спинов",
+          "INPUT_LABEL": "Количество",
+          "ACTION_TEXT": "Вы собираетесь изменить ожидающие выплаты фри-спинов"
+        }
+      },
+      "NOTIFICATION": {
+        "UPDATE_MESSAGE": "Значение обновлено"
+      }
     }
   },
   "error": {
@@ -1910,10 +1975,13 @@
         "OPT_IN": "Тип",
         "OPT_IN_REQUIRED": "Opt-in обязателен",
         "CAMPAIGN_NAME": "Название кампании (Внутренее)",
-        "TARGET_TYPE": "Тип кампании"
+        "TARGET_TYPE": "Тип кампании",
+        "PROMO_CODE": "Промо-код"
       },
       "TARGET": "Цель",
-      "CHOOSE_TARGET_TYPE": "-- Выберите тип цели --"
+      "CHOOSE_TARGET_TYPE": "-- Выберите тип цели --",
+      "OPT_IN_PERIOD": "Opt-in период",
+      "SELECT_OPT_IN_PERIOD": "- Период -"
     },
     "REWARDS": {
       "FREE_SPIN": {
@@ -2071,7 +2139,7 @@
   },
   "FREE_SPIN": {
     "BONUS": {
-      "GRANT": "",
+      "GRANT": "Сумма бонусов",
       "MAX_GRANT_AMOUNT": "Макс. сумма бонусов",
       "WAGERING_REQUIREMENT": "Условия отыгрыша",
       "MONEY_PRIORITY": "Приоритет",

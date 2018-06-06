@@ -102,7 +102,8 @@ class FreeSpinsView extends Component {
           {I18n.t('PLAYER_PROFILE.FREE_SPINS.EXPORT_BUTTON')}
         </button>
         <button
-          className="btn btn-primary-outline margin-left-15 btn-sm"
+          id="add-manual-freespin-button"
+          className="btn btn-primary-outline btn-sm margin-left-15"
           onClick={this.handleCreateButtonClick}
         >
           {I18n.t('PLAYER_PROFILE.FREE_SPINS.MANUAL_FREE_SPIN_BUTTON')}

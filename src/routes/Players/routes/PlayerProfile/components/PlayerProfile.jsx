@@ -1,9 +1,8 @@
 import React, { PureComponent } from 'react';
 import { Redirect } from 'react-router-dom';
-import { I18n } from 'react-redux-i18n';
 import PropTypes from 'prop-types';
 import { playerProfileViewTypes } from '../../../../../constants';
-import Profile from '../containers/ProfileContainer';
+import ProfileContainer from '../containers/ProfileContainer';
 
 class PlayerProfile extends PureComponent {
   static propTypes = {
@@ -45,7 +44,7 @@ class PlayerProfile extends PureComponent {
     return (
       <Choose>
         <When condition={settings.playerProfileViewType !== playerProfileViewTypes.frame || window.isFrame}>
-          <Profile />
+          <ProfileContainer />
         </When>
         <Otherwise>
           <Redirect to="/players/list" />

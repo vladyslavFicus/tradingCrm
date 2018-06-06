@@ -33,7 +33,7 @@ node('build') {
       docker.image('node:9').inside('-v /home/jenkins:/home/jenkins') {
         stage('install dependencies') {
             sh """
-              npm rebuild node-sass --no-bin-links
+              yarn add --force node-sass
               export HOME=/home/jenkins
               yarn
             """

@@ -85,6 +85,9 @@ class MainLayout extends Component {
         hide: PropTypes.func.isRequired,
       }),
     }).isRequired,
+    history: PropTypes.shape({
+      location: PropTypes.object.isRequired,
+    }).isRequired,
   };
   static defaultProps = {
     permissions: [],
@@ -130,12 +133,36 @@ class MainLayout extends Component {
     addNotification: PropTypes.func.isRequired,
   };
 
-  state = {
-    noteChangedCallback: null,
-    popover: { ...popoverInitialState },
-    miniProfilePopover: { ...popoverInitialState },
-    isOpenProfile: false,
-  };
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (nextProps.history.location !== prevState.location) {
+      return {
+        location: nextProps.history.location,
+        noteChangedCallback: null,
+        popover: { ...popoverInitialState },
+        miniProfilePopover: { ...popoverInitialState },
+      };
+    }
+
+    return null;
+  }
+
+  constructor(props, context) {
+    super(props, context);
+
+    const { userPanels, resetPanels, history: { location } } = props;
+
+    this.state = {
+      location,
+      noteChangedCallback: null,
+      popover: { ...popoverInitialState },
+      miniProfilePopover: { ...popoverInitialState },
+      isOpenProfile: false,
+    };
+
+    if (userPanels.some(panel => !panel.auth)) {
+      resetPanels();
+    }
+  }
 
   getChildContext() {
     const {
@@ -171,14 +198,6 @@ class MainLayout extends Component {
         onHideMiniProfile: this.handleHideMiniProfile,
       },
     };
-  }
-
-  componentWillMount() {
-    const { userPanels, resetPanels } = this.props;
-
-    if (userPanels.some(panel => !panel.auth)) {
-      resetPanels();
-    }
   }
 
   componentDidMount() {

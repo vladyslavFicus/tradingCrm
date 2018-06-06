@@ -7,6 +7,7 @@ import Additional from './Additional';
 import Notes from './Notes';
 import PermissionContent from '../../../../../../components/PermissionContent';
 import permissions from '../../../../../../config/permissions';
+import PendingPayouts from './PendingPayouts';
 
 class Information extends PureComponent {
   static propTypes = {
@@ -34,7 +35,7 @@ class Information extends PureComponent {
     return (
       <div className="account-details">
         <div className="row">
-          <div className="col-md-4">
+          <div className="col-md-3">
             <Personal data={data} />
           </div>
           <div className="col-md-2">
@@ -51,8 +52,11 @@ class Information extends PureComponent {
           <div className="col-md-2">
             <IpList label={I18n.t('PLAYER_PROFILE.IP_LIST.TITLE')} ips={ips} />
           </div>
+          <PendingPayouts
+            playerUUID={data.playerUUID}
+          />
           <PermissionContent permissions={permissions.NOTES.VIEW_NOTES}>
-            <div className="col-md-4">
+            <div className="col">
               <Notes
                 notes={notes}
                 onEditNoteClick={onEditNoteClick}

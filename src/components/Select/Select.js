@@ -73,7 +73,7 @@ class Select extends PureComponent {
         ? options.filter(option => value.indexOf(option.value) > -1)
         : [options.find(option => option.value === value)].filter(option => option);
 
-      this.setState({
+      this.updateState({
         originalOptions: options,
         options: filterOptionsByQuery(query, [...options]),
         selectedOptions,
@@ -85,7 +85,7 @@ class Select extends PureComponent {
       const originalSelectedOptions = nextProps.multiple
         ? originalOptions.filter(option => nextProps.value.indexOf(option.value) > -1)
         : [originalOptions.find(option => option.value === nextProps.value)].filter(option => option);
-      this.setState({
+      this.updateState({
         options: this.filterSelectedOptions(originalOptions, originalSelectedOptions, nextProps.multiple),
         originalSelectedOptions,
         selectedOptions: filterOptionsByQuery(query, originalSelectedOptions),
@@ -98,6 +98,12 @@ class Select extends PureComponent {
   }
 
   mounted = false;
+
+  updateState = (...args) => {
+    if (this.mounted) {
+      this.setState(...args);
+    }
+  };
 
   shallowEqual = (current, next) => {
     const currentType = typeof current;
@@ -137,15 +143,15 @@ class Select extends PureComponent {
   };
 
   handleSelectSingleOption = (option) => {
-    this.setState({ toSelectOptions: [option] }, this.handleClose);
+    this.updateState({ toSelectOptions: [option] }, this.handleClose);
   };
 
   handleSelectMultipleOptions = (options) => {
-    this.setState({ toSelectOptions: options });
+    this.updateState({ toSelectOptions: options });
   };
 
   handleResetSelectedOptions = () => {
-    this.setState({ toSelectOptions: [], selectedOptions: [], originalSelectedOptions: [] });
+    this.updateState({ toSelectOptions: [], selectedOptions: [], originalSelectedOptions: [] });
   };
 
   handleDeleteSelectedOption = (options) => {
@@ -156,7 +162,7 @@ class Select extends PureComponent {
       .reduce((res, option) => deleteFromArray(res, option), originalSelectedOptions);
 
     if (originalSelectedOptions.length !== newOriginalSelectedOptions.length) {
-      this.setState({
+      this.updateState({
         options: this.filterSelectedOptions(originalOptions, originalSelectedOptions, multiple),
         originalSelectedOptions: newOriginalSelectedOptions,
         selectedOptions: filterOptionsByQuery(query, newOriginalSelectedOptions),
@@ -166,7 +172,7 @@ class Select extends PureComponent {
 
   handleOpen = () => {
     if (!this.state.opened) {
-      this.setState({ opened: true }, () => {
+      this.updateState({ opened: true }, () => {
         if (this.optionsContainerRef) {
           const { multiple } = this.props;
 
@@ -196,37 +202,35 @@ class Select extends PureComponent {
       : [...toSelectOptions];
     newValue = newValue.map(option => option.value);
 
-    this.setState({ opened: false }, () => {
+    this.updateState({ opened: false }, () => {
       requestAnimationFrame(() => {
-        if (this.mounted) {
-          this.setState({
-            query: '',
-            options: originalOptions,
-            toSelectOptions: [],
-            selectedOptions: [...originalSelectedOptions],
-          }, () => {
-            if (!shallowEqual(previousValue, newValue)) {
-              if (multiple) {
-                this.props.onChange(newValue);
-              } else if (newValue.length > 0) {
-                this.props.onChange(newValue[0]);
-              }
+        this.updateState({
+          query: '',
+          options: originalOptions,
+          toSelectOptions: [],
+          selectedOptions: [...originalSelectedOptions],
+        }, () => {
+          if (!shallowEqual(previousValue, newValue)) {
+            if (multiple) {
+              this.props.onChange(newValue);
+            } else if (newValue.length > 0) {
+              this.props.onChange(newValue[0]);
             }
-          });
-        }
+          }
+        });
       });
     });
   };
 
   handleSearch = (e) => {
     if (e === null) {
-      this.setState({
+      this.updateState({
         query: '',
         options: this.state.originalOptions,
         selectedOptions: this.state.originalSelectedOptions,
       });
     } else {
-      this.setState({
+      this.updateState({
         query: e.target.value,
         options: filterOptionsByQuery(e.target.value, this.state.originalOptions),
         selectedOptions: filterOptionsByQuery(e.target.value, this.state.originalSelectedOptions),

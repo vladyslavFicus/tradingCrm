@@ -51,7 +51,7 @@ const brandsConfig = {
   },
   [brands.vulcangold]: {
     name: 'Vulcan gold',
-    image: { src: '/img/vulcangold_brand_logo.svg', style: { width: '160px' } },
+    image: { src: '/img/vulcangold_brand_logo.svg', style: { width: '120px' } },
   },
 };
 const departmentsConfig = {

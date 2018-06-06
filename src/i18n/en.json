@@ -216,6 +216,12 @@
       "SELF_EXCLUSION_REASONS": {
         "USER_REQUEST": "User request",
         "OTHER": "Other"
+      },
+      "ACTIVE_PLAN": {
+        "TITLE": "Active plan"
+      },
+      "PENDING_PAYOUTS": {
+        "TITLE": "Pending payouts"
       }
     },
     "GAME_ACTIVITY": {
@@ -648,6 +654,7 @@
     "EXPORT": "Export",
     "FROM": "From",
     "EMAIL": "Email",
+    "IMPORT": "Import",
     "PHONE": "Phone",
     "DEPARTMENT": "Department",
     "ROLE": "Role",
@@ -776,7 +783,11 @@
         "CONFISCATE": "Confiscate"
       }
     },
-    "SUCCESS": "Success"
+    "SUCCESS": "Success",
+    "NOT_AVAILABLE": "Not available",
+    "SUBMIT": "Submit",
+    "AMOUNT": "Amount",
+    "SUCCESS_UPDATE": "Success update"
   },
   "FILES": {
     "UPLOAD_MODAL": {
@@ -845,7 +856,10 @@
         "CS": "Customer service",
         "RFP": "Risk Fraud & Payment",
         "MARKETING": "Marketing",
-        "ADMINISTRATION": "Administration"
+        "ADMINISTRATION": "Administration",
+        "E2E": "E2E",
+        "BI": "BI",
+        "IGROMAT": "Igromat"
       },
       "ROLES": {
         "ROLE1": "Executive",
@@ -1168,6 +1182,18 @@
     "EXPORT_BUTTON": "Export",
     "UPLOAD_FILE_BUTTON": "Import",
     "RESET_BUTTON": "Reset games",
+    "AGGREGATOR": "Aggregator",
+    "IMPORT_MODAL": {
+      "HEADER": "Import games",
+      "NOTIFICATIONS": {
+        "SUCCESSFULLY": "Import successful",
+        "UNSUCCESSFULLY": "Import failed"
+      },
+      "FILE": "File",
+      "AGGREGATOR": {
+        "ALL": "All"
+      }
+    },
     "GRID": {
       "GAME": "Game",
       "PROVIDER": "Provider",
@@ -1536,6 +1562,45 @@
     "LAST_LOGIN": {
       "TITLE": "Last login",
       "FROM_COUNTRY": " from %{country}"
+    },
+    "REWARD_PLAN": {
+      "TITLE": {
+        "LOTTERY": "Lottery tickets",
+        "BONUS": "Bonus",
+        "RUNES": "Loyalty points",
+        "CASH_BACKS": "Cashback",
+        "FREE_SPINS": "Free-spins"
+      },
+      "MODAL": {
+        "LOTTERY": {
+          "TITLE": "Pending lottery tickets payout",
+          "INPUT_LABEL": "Lottery amount",
+          "ACTION_TEXT": "You are about to amend pending lottery tickets payout"
+        },
+        "BONUS": {
+          "TITLE": "Pending bonus payout",
+          "INPUT_LABEL": "Bonus amount",
+          "ACTION_TEXT": "You are about to amend pending bonus payout"
+        },
+        "RUNES": {
+          "TITLE": "Loyalty points",
+          "INPUT_LABEL": "Loyalty Points",
+          "ACTION_TEXT": "You are about to amend loyalty points"
+        },
+        "CASH_BACKS": {
+          "TITLE": "Pending cashback payout",
+          "INPUT_LABEL": "Cashback amount",
+          "ACTION_TEXT": "You are about to amend pending cashback payout"
+        },
+        "FREE_SPINS": {
+          "TITLE": "Pending freespins payout",
+          "INPUT_LABEL": "Freespins amount",
+          "ACTION_TEXT": "You are about to amend pending freespins payout"
+        }
+      },
+      "NOTIFICATION": {
+        "UPDATE_MESSAGE": "Update amount of reward plan"
+      }
     }
   },
   "error": {
@@ -1895,10 +1960,13 @@
         "OPT_IN": "Type",
         "OPT_IN_REQUIRED": "Opt-in required",
         "CAMPAIGN_NAME": "Campaign name (Internal)",
-        "TARGET_TYPE": "Target type"
+        "TARGET_TYPE": "Target type",
+        "PROMO_CODE": "Promo code"
       },
       "TARGET": "Target type",
-      "CHOOSE_TARGET_TYPE": "-- Choose target type --"
+      "CHOOSE_TARGET_TYPE": "-- Choose target type --",
+      "OPT_IN_PERIOD": "Opt-in timeout",
+      "SELECT_OPT_IN_PERIOD": "- Period -"
     },
     "REWARDS": {
       "FREE_SPIN": {

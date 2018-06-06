@@ -530,5 +530,9 @@ PropTypes.modalType = PropTypes.shape({
   show: PropTypes.func.isRequired,
   hide: PropTypes.func.isRequired,
 });
+PropTypes.rewardPlanAmount = PropTypes.shape({
+  amount: PropTypes.number,
+  isActive: PropTypes.bool,
+});
 
 export default PropTypes;

@@ -68,6 +68,7 @@ export default {
     CREATE: 'campaign;POST;/',
     UPDATE: 'campaign;PUT;/{uuid}',
     VIEW: 'campaign;GET;/{uuid}',
+    CLONE: 'campaign;POST;/{uuid}/clone',
   },
   WAGERING_FULFILLMENT: {
     LIST: 'wagering_fulfillment;GET;/',

@@ -31,12 +31,6 @@ server {
     try_files /../health.json =503;
   }
 
-  location /log {
-    proxy_pass       {{logstashUrl}};
-    proxy_set_header Host      $host;
-    proxy_set_header X-Real-IP $remote_addr;
-  }
-
   location / {
     try_files $uri $uri/ /index.html;
   }

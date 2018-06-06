@@ -4,21 +4,22 @@ import classNames from 'classnames';
 import { SubmissionError } from 'redux-form';
 import Sticky from 'react-stickynode';
 import { I18n } from 'react-redux-i18n';
-import PropTypes from '../../../../../constants/propTypes';
-import PlayerStatus from './PlayerStatus';
-import ActionsDropDown from '../../../../../components/ActionsDropDown';
-import Balances from './Balances';
-import ProfileTags from '../../../../../components/ProfileTags';
-import Amount from '../../../../../components/Amount';
-import PopoverButton from '../../../../../components/PopoverButton';
-import permissions from '../../../../../config/permissions';
-import Permissions, { CONDITIONS } from '../../../../../utils/permissions';
-import PlayerLimits from './PlayerLimits';
-import ProfileLastLogin from '../../../../../components/ProfileLastLogin';
-import Uuid from '../../../../../components/Uuid';
-import HeaderPlayerPlaceholder from './HeaderPlayerPlaceholder';
-import { statuses } from '../../../../../constants/user';
-import PermissionContent from '../../../../../components/PermissionContent';
+import PropTypes from '../../../../../../constants/propTypes';
+import PlayerStatus from '../PlayerStatus';
+import ActionsDropDown from '../../../../../../components/ActionsDropDown';
+import Balances from '../Balances';
+import ProfileTags from '../../../../../../components/ProfileTags';
+import Amount from '../../../../../../components/Amount';
+import PopoverButton from '../../../../../../components/PopoverButton';
+import permissions from '../../../../../../config/permissions';
+import Permissions, { CONDITIONS } from '../../../../../../utils/permissions';
+import PlayerLimits from '../PlayerLimits';
+import ProfileLastLogin from '../../../../../../components/ProfileLastLogin';
+import Uuid from '../../../../../../components/Uuid';
+import HeaderPlayerPlaceholder from '../HeaderPlayerPlaceholder';
+import { statuses } from '../../../../../../constants/user';
+import PermissionContent from '../../../../../../components/PermissionContent';
+import ActivePlan from '../ActivePlan';
 
 const sendActivationLinkPermission = new Permissions([permissions.USER_PROFILE.SEND_ACTIVATION_LINK]);
 const playerLimitsPermission = [
@@ -245,31 +246,33 @@ class Header extends Component {
               >
                 <i className={classNames('fa fa-refresh', { 'fa-spin': isLoadingProfile })} />
               </button>
-              <ActionsDropDown
-                items={[
-                  {
-                    id: 'reset-password-option',
-                    label: I18n.t('PLAYER_PROFILE.PROFILE.ACTIONS_DROPDOWN.RESET_PASSWORD'),
-                    onClick: onResetPasswordClick,
-                  },
-                  {
-                    label: I18n.t('PLAYER_PROFILE.PROFILE.ACTIONS_DROPDOWN.SEND_ACTIVATION_LINK'),
-                    onClick: onProfileActivateClick,
-                    visible: (
-                      sendActivationLinkPermission.check(currentPermissions)
-                      && profileStatus === statuses.INACTIVE
-                    ),
-                  },
-                  {
-                    label: I18n.t('PLAYER_PROFILE.PROFILE.ACTIONS_DROPDOWN.CHANGE_PASSWORD'),
-                    onClick: onChangePasswordClick,
-                  },
-                  {
-                    label: I18n.t('PLAYER_PROFILE.PROFILE.ACTIONS_DROPDOWN.SHARE_PROFILE'),
-                    onClick: onShareProfileClick,
-                  },
-                ]}
-              />
+              <If condition={!isLoadingProfile}>
+                <ActionsDropDown
+                  items={[
+                    {
+                      id: 'reset-password-option',
+                      label: I18n.t('PLAYER_PROFILE.PROFILE.ACTIONS_DROPDOWN.RESET_PASSWORD'),
+                      onClick: onResetPasswordClick,
+                    },
+                    {
+                      label: I18n.t('PLAYER_PROFILE.PROFILE.ACTIONS_DROPDOWN.SEND_ACTIVATION_LINK'),
+                      onClick: onProfileActivateClick,
+                      visible: (
+                        sendActivationLinkPermission.check(currentPermissions)
+                        && profileStatus === statuses.INACTIVE
+                      ),
+                    },
+                    {
+                      label: I18n.t('PLAYER_PROFILE.PROFILE.ACTIONS_DROPDOWN.CHANGE_PASSWORD'),
+                      onClick: onChangePasswordClick,
+                    },
+                    {
+                      label: I18n.t('PLAYER_PROFILE.PROFILE.ACTIONS_DROPDOWN.SHARE_PROFILE'),
+                      onClick: onShareProfileClick,
+                    },
+                  ]}
+                />
+              </If>
             </div>
           </div>
         </Sticky>
@@ -324,6 +327,9 @@ class Header extends Component {
               on {moment.utc(registrationDate).local().format('DD.MM.YYYY')}
             </div>
           </div>
+          <ActivePlan
+            playerUUID={playerUUID}
+          />
         </div>
       </Fragment>
     );

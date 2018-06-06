@@ -58,9 +58,6 @@ const config = _.merge({
       defaultLanguage: 'en',
     },
   },
-  logstash: {
-    url: '',
-  },
   middlewares: {
     unauthorized: [401],
     persist: {
@@ -127,10 +124,6 @@ function getApiRoot() {
   return '/api';
 }
 
-function getErrorApiUrl() {
-  return '/log';
-}
-
 function getApiVersion() {
   return window.nas.nas.brand.api.version || config.nas.brand.api.version;
 }
@@ -143,9 +136,17 @@ function getGraphQLRoot() {
   return config.nas.graphqlRoot;
 }
 
+function getBrandId() {
+  return _.get(window, 'app.brandId');
+}
+
+function setBrandId(brandId) {
+  window.app.brandId = brandId;
+}
+
 function getLogo() {
   const brands = ['redbox', 'slottica', 'loki', 'vulcanprestige', 'vulcanneon', 'vulcangold'];
-  let brandId = _.get(window, 'app.brandId');
+  let brandId = getBrandId();
 
   if (brandId) {
     brandId = brandId.replace(/(_\w+)/, '');
@@ -163,16 +164,19 @@ function getVersion() {
 }
 
 function getDomain() {
-  return `${location.protocol}//${location.hostname}${location.port ? `:${location.port}` : ''}`;
+  if (window && window.location) {
+    const { protocol, hostname, port } = window.location;
+
+    return `${protocol}//${hostname}${port ? `:${port}` : ''}`;
+  }
+
+  return '';
 }
 
-function getBrandId() {
-  return window.app.brandId;
-}
 export {
   getApiRoot,
   getBrandId,
-  getErrorApiUrl,
+  setBrandId,
   getLogo,
   getAvailableTags,
   getLimitPeriods,

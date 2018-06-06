@@ -7,6 +7,11 @@ import StatusDropDown from '../../../../components/StatusDropDown';
 import { actions, statusActions } from '../../../../../../constants/bonus-campaigns';
 import FileUpload from '../../../../../../components/FileUpload';
 import { statuses, targetTypes } from '../../../../../../constants/campaigns';
+import ActionsDropDown from '../../../../../../components/ActionsDropDown';
+import Permissions from '../../../../../../utils/permissions';
+import permissions from '../../../../../../config/permissions';
+
+const cloneCampaignPermission = new Permissions([permissions.CAMPAIGNS.CLONE]);
 
 class Header extends Component {
   static propTypes = {
@@ -14,10 +19,12 @@ class Header extends Component {
     cancelMutation: PropTypes.func.isRequired,
     uploadPlayersFile: PropTypes.func.isRequired,
     removeAllPlayers: PropTypes.func.isRequired,
+    cloneCampaign: PropTypes.func.isRequired,
     data: PropTypes.newBonusCampaignEntity.isRequired,
   };
   static contextTypes = {
     addNotification: PropTypes.func.isRequired,
+    permissions: PropTypes.arrayOf(PropTypes.string).isRequired,
   };
 
   handleChangeCampaignState = async ({ id: campaignUUID, action, reason }) => {
@@ -86,8 +93,11 @@ class Header extends Component {
         authorUUID,
         state,
       },
+      cloneCampaign,
       data,
     } = this.props;
+
+    const { permissions: currentPermissions } = this.context;
 
     const availableStatusActions = data && statusActions[state]
       ? statusActions[state]
@@ -126,6 +136,17 @@ class Header extends Component {
                 />
               </span>
             </If>
+            <span className="margin-left-10">
+              <ActionsDropDown
+                items={[
+                  {
+                    label: I18n.t('BONUS_CAMPAIGNS.OPTIONS.CLONE_LABEL'),
+                    onClick: cloneCampaign,
+                    visible: cloneCampaignPermission.check(currentPermissions),
+                  },
+                ]}
+              />
+            </span>
           </div>
         </div>
 

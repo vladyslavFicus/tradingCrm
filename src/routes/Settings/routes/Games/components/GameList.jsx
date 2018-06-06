@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { I18n } from 'react-redux-i18n';
 import PropTypes from '../../../../../constants/propTypes';
-import FileUpload from '../../../../../components/FileUpload';
 import GridView, { GridViewColumn } from '../../../../../components/GridView';
 import GameStatus from './GameStatus';
 import GamesGridFilter from './GamesGridFilter';
@@ -23,7 +22,6 @@ class View extends Component {
     }).isRequired,
     fetchGames: PropTypes.func.isRequired,
     games: PropTypes.pageableState(PropTypes.gameEntity).isRequired,
-    uploadFile: PropTypes.func.isRequired,
     downloadFile: PropTypes.func.isRequired,
     clearAll: PropTypes.func.isRequired,
     resetServerGames: PropTypes.func.isRequired,
@@ -35,6 +33,11 @@ class View extends Component {
         withLines: PropTypes.object.isRequired,
         type: PropTypes.object.isRequired,
         gameProvider: PropTypes.arrayOf(PropTypes.string).isRequired,
+      }).isRequired,
+    }).isRequired,
+    modals: PropTypes.shape({
+      importModal: PropTypes.shape({
+        show: PropTypes.func.isRequired,
       }).isRequired,
     }).isRequired,
   };
@@ -57,8 +60,8 @@ class View extends Component {
     this.props.downloadFile();
   };
 
-  handleUploadFile = (errors, file) => {
-    this.props.uploadFile(file, errors);
+  handleUploadFile = () => {
+    this.props.modals.importModal.show();
   };
 
   handleRefresh = () => this.props.fetchGames({
@@ -149,15 +152,13 @@ class View extends Component {
             {I18n.t('GAMES.EXPORT_BUTTON')}
           </button>
           <span className="mx-3">
-            <FileUpload
+            <button
               disabled={disabled}
-              label={I18n.t('GAMES.UPLOAD_FILE_BUTTON')}
-              allowedSize={5}
-              allowedTypes={['text/csv', 'application/vnd.ms-excel']}
-              incorrectFileType={I18n.t('ERRORS.FILE.INVALID_FILE_EXTENSION')}
-              incorrectFileSize={I18n.t('ERRORS.FILE.INVALID_FILE_SIZE')}
-              onChosen={this.handleUploadFile}
-            />
+              className="btn btn-default-outline"
+              onClick={this.handleUploadFile}
+            >
+              {I18n.t('GAMES.UPLOAD_FILE_BUTTON')}
+            </button>
           </span>
           <button
             disabled={disabled}
