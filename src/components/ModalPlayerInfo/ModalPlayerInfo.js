@@ -61,34 +61,39 @@ class ModalPlayerInfo extends Component {
   render() {
     const { playerProfile } = this.props;
 
-    if (!playerProfile) {
-      return null;
-    }
-
     return (
-      <div className="modal-header-tabs">
-        <div className="modal-header-tabs__item">
-          <div className="modal-tab-label">
-            {I18n.t('COMMON.PLAYER')}
+      <Choose>
+        <When condition={!playerProfile}>
+          <div className="alert alert-danger" role="alert">
+            <span className="font-weight-700">
+              {I18n.t('PAYMENT_DETAILS_MODAL.PLAYER_NOT_FOUND.TITLE')}
+            </span> {' '}
+            <span>{I18n.t('PAYMENT_DETAILS_MODAL.PLAYER_NOT_FOUND.DESCRIPTION')}</span>
           </div>
-
-          {this.renderPlayerInfo(playerProfile)}
-        </div>
-        <div className="modal-header-tabs__item">
-          <div className="modal-tab-label">
-            {I18n.t('COMMON.ACCOUNT_STATUS')}
+        </When>
+        <Otherwise>
+          <div className="modal-header-tabs">
+            <div className="modal-header-tabs__item">
+              <div className="modal-tab-label">
+                {I18n.t('COMMON.PLAYER')}
+              </div>
+              {this.renderPlayerInfo(playerProfile)}
+            </div>
+            <div className="modal-header-tabs__item">
+              <div className="modal-tab-label">
+                {I18n.t('COMMON.ACCOUNT_STATUS')}
+              </div>
+              {this.renderPlayerStatus(playerProfile)}
+            </div>
+            <div className="modal-header-tabs__item">
+              <div className="modal-tab-label">
+                {I18n.t('COMMON.BALANCE')}
+              </div>
+              {this.renderBalance(playerProfile.balances)}
+            </div>
           </div>
-
-          {this.renderPlayerStatus(playerProfile)}
-        </div>
-        <div className="modal-header-tabs__item">
-          <div className="modal-tab-label">
-            {I18n.t('COMMON.BALANCE')}
-          </div>
-
-          {this.renderBalance(playerProfile.balances)}
-        </div>
-      </div>
+        </Otherwise>
+      </Choose>
     );
   }
 }

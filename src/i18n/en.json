@@ -1703,7 +1703,14 @@
     "HEADER_DEVICE": "Device",
     "HEADER_STATUS": "Status",
     "HEADER_AMOUNT": "Amount",
-    "HEADER_PAYMENT_METHOD": "Payment account"
+    "HEADER_PAYMENT_METHOD": "Payment account",
+    "ACTIONS": {
+      "MARK_AS_CHARGEBACK": "Mark as chargeback"
+    },
+    "PLAYER_NOT_FOUND": {
+      "TITLE": "Player not found!",
+      "DESCRIPTION": "Some actions will be unavailable"
+    }
   },
   "MINI_PROFILE": {
     "PLAYER": "Player",

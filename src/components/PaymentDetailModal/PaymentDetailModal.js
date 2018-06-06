@@ -86,8 +86,20 @@ class PaymentDetailModal extends Component {
     });
   };
 
-  renderFooter = () => {
-    const { onClose, payment: { status, paymentType, transactionTag } } = this.props;
+  renderActions = () => {
+    const {
+      payment: {
+        status,
+        paymentType,
+        transactionTag,
+      },
+      playerProfile,
+    } = this.props;
+
+    if (!playerProfile) {
+      return null;
+    }
+
     let actions = null;
 
     if (paymentType === paymentsTypes.Withdraw && status === paymentStatuses.PENDING) {
@@ -119,11 +131,8 @@ class PaymentDetailModal extends Component {
       actions = (
         <span>
           <PermissionContent permissions={permissions.PAYMENTS.CHARGEBACK_DEPOSIT}>
-            <Button
-              color="danger"
-              onClick={this.handleChargebackClick}
-            >
-              Mark as chargeback
+            <Button color="danger" onClick={this.handleChargebackClick}>
+              {I18n.t('PAYMENT_DETAILS_MODAL.ACTIONS.MARK_AS_CHARGEBACK')}
             </Button>
           </PermissionContent>
         </span>
@@ -131,20 +140,9 @@ class PaymentDetailModal extends Component {
     }
 
     return (
-      <ModalFooter>
-        <Button
-          onClick={onClose}
-          className="mr-auto"
-        >
-          {I18n.t('COMMON.DEFER')}
-        </Button>
-        {
-          actions &&
-          <span className="payment-details-actions">
-            {actions}
-          </span>
-        }
-      </ModalFooter>
+      <span className="payment-details-actions">
+        {actions}
+      </span>
     );
   };
 
@@ -252,8 +250,15 @@ class PaymentDetailModal extends Component {
             />
           </div>
         </ModalBody>
-
-        {this.renderFooter()}
+        <ModalFooter>
+          <Button
+            onClick={onClose}
+            className="mr-auto"
+          >
+            {I18n.t('COMMON.DEFER')}
+          </Button>
+          {this.renderActions()}
+        </ModalFooter>
       </Modal>
     );
   }
