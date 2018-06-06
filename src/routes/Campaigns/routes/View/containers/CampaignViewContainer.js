@@ -4,10 +4,12 @@ import { campaignQuery } from '.././../../../../graphql/queries/campaigns';
 import {
   activateMutation,
   cancelMutation,
-  removeAllPlayersMutation
+  removeAllPlayersMutation,
+  cloneMutation,
 } from '.././../../../../graphql/mutations/campaigns';
 import { actionCreators } from '../modules';
 import CampaignView from '../components/CampaignView';
+import { withNotifications } from '../../../../../components/HighOrder';
 
 const mapStateToProps = ({ i18n: { locale } }) => ({ locale });
 const mapActions = {
@@ -57,5 +59,9 @@ export default compose(
         },
       }],
     }),
-  })
+  }),
+  graphql(cloneMutation, {
+    name: 'cloneMutation',
+  }),
+  withNotifications,
 )(CampaignView);
