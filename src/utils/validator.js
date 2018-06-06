@@ -1,6 +1,7 @@
 import Validator from 'validatorjs';
 import { I18n } from 'react-redux-i18n';
 import _ from 'lodash';
+import moment from 'moment';
 
 function nextDateValidator(value, requirement) {
   return value >= this.validator.input[requirement];
@@ -25,6 +26,32 @@ function lessThanValidator(inputValue, requirement, attribute) {
     );
 
     return false;
+  }
+
+  return true;
+}
+
+function daysRangeBetweenValidator(value, requirement, attribute) {
+  const [requirementAttribute, daysCriteria] = requirement.split(':');
+
+  const requirementValue = this.validator.input[requirementAttribute];
+
+  if (requirementValue && requirementAttribute && daysCriteria) {
+    const daysDifferenceValue = moment(value).diff(moment(requirementValue), 'days');
+    const daysDifferenceCriteria = Number(daysCriteria);
+
+    const currentAttributeLabel = this.validator.messages._getAttributeName(attribute);
+    const targetAttributeLabel = this.validator.messages._getAttributeName(requirementAttribute);
+
+    if (daysDifferenceValue >= daysDifferenceCriteria) {
+      this.validator.errors.add(
+        attribute,
+        `The difference between "${currentAttributeLabel}" and "${targetAttributeLabel}" 
+        must not be greater than ${daysDifferenceCriteria} days`
+      );
+
+      return false;
+    }
   }
 
   return true;
@@ -132,6 +159,7 @@ function customValueTypeValidator(inputValue, requirement, attribute) {
 Validator.register('nextDate', nextDateValidator, 'The :attribute must be equal or bigger');
 Validator.register('lessThan', lessThanValidator, 'The :attribute must be less');
 Validator.register('greaterThan', greaterThanValidator, 'The :attribute must be greater');
+Validator.register('daysRangeBetween', daysRangeBetweenValidator, '');
 Validator.register('greater', greaterValidator, 'The :attribute must be greater than :greater');
 Validator.register('lessOrSame', lessOrSameValidator, 'The :attribute must be less');
 Validator.register('greaterOrSame', greaterOrSameValidator, 'The :attribute must be greater');
