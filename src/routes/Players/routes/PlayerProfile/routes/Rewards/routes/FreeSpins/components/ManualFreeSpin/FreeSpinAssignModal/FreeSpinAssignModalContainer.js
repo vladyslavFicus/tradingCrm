@@ -17,6 +17,7 @@ export default compose(
   connect(({ auth: { brandId } }) => ({ brandId })),
   reduxForm({
     form: FORM_NAME,
+    touchOnChange: true,
     validate: validator,
   }),
   withReduxFormValues,
