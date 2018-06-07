@@ -102,11 +102,12 @@ class SignInForm extends Component {
         />
         <div className="form-page__form_submit">
           <button
+            type="submit"
             id="sign-in-submit-button"
             className="btn btn-primary form-page__form_btn"
             disabled={submitting}
           >
-            {I18n.t('SET_PASSWORD.LOGIN')}
+            {I18n.t('SIGN_IN.LOGIN')}
           </button>
         </div>
       </form>
