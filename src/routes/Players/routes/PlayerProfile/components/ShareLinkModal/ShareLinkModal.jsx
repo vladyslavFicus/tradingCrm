@@ -31,7 +31,7 @@ class ShareLinkModal extends Component {
       notificationMessage,
     } = this.props;
 
-    const inputValue = `${getDomain()}/player/${playerUUID}/profile`;
+    const inputValue = `${getDomain()}/players/${playerUUID}/profile`;
 
     return (
       <Modal className="share-profile-modal" toggle={onClose} isOpen>
@@ -67,7 +67,11 @@ class ShareLinkModal extends Component {
           </div>
         </ModalBody>
         <ModalFooter>
-          <button className="btn btn-default-outline" onClick={onClose}>
+          <button
+            type="button"
+            className="btn btn-default-outline"
+            onClick={onClose}
+          >
             {I18n.t('COMMON.CLOSE')}
           </button>
         </ModalFooter>
