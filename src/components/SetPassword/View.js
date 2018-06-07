@@ -5,7 +5,6 @@ import { SubmissionError } from 'redux-form';
 import { get } from 'lodash';
 import ViewForm from './ViewForm';
 import LoggedForbidden from '../LoggedForbidden';
-import history from '../../router/history';
 
 class View extends Component {
   static propTypes = {
@@ -28,8 +27,6 @@ class View extends Component {
           _error: get(action, 'payload.response.error', action.payload.message),
         });
       }
-
-      return history.replace('/');
     }
 
     throw new SubmissionError({ _error: 'Something went wrong...' });
@@ -54,15 +51,14 @@ class View extends Component {
             <div className="form-page__logo">
               <img src="/img/horizon-logo.svg" alt="logo" />
             </div>
-
             <ViewForm
               onSubmit={this.handleSubmit}
             />
-
           </div>
         </div>
-
-        <div className="form-page__copyright">Copyright © {(new Date()).getFullYear()} by Newage</div>
+        <div className="form-page__copyright">
+          Copyright © {(new Date()).getFullYear()} by Newage
+        </div>
       </div>
     );
   }

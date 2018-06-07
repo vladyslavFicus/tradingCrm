@@ -1,21 +1,16 @@
 import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import classNames from 'classnames';
-import { createValidator } from '../../../utils/validator';
+import { I18n } from 'react-redux-i18n';
+import { createValidator, translateLabels } from '../../../utils/validator';
 import { InputField } from '../../../components/ReduxForm';
 import PropTypes from '../../../constants/propTypes';
-
-const attributeLabels = {
-  email: 'Email',
-  password: 'Password',
-  department: 'Department',
-};
+import attributeLabels from './constants';
 
 const validator = createValidator({
   email: 'required',
   password: 'required|min:6',
-  department: 'required',
-}, attributeLabels, false);
+}, translateLabels(attributeLabels), false);
 
 class SignInForm extends Component {
   static propTypes = {
@@ -28,7 +23,6 @@ class SignInForm extends Component {
   static defaultProps = {
     handleSubmit: null,
     submitting: false,
-    pristine: false,
     error: null,
   };
 
@@ -82,52 +76,41 @@ class SignInForm extends Component {
     });
 
     return (
-      <div className={className}>
-        <form
-          name="form-validation"
-          className="form-horizontal"
-          onSubmit={handleSubmit(this.handleSubmit)}
-        >
-          {
-            error &&
-            <div className="alert alert-warning">
-              {error}
-            </div>
-          }
-          <div className="form-page__form_input">
-            <Field
-              id="sign-in-email-field"
-              name="login"
-              type="text"
-              label="Email"
-              component={InputField}
-              position="vertical"
-              placeholder={attributeLabels.email}
-            />
-
+      <form
+        name="form-validation"
+        className={className}
+        onSubmit={handleSubmit(this.handleSubmit)}
+      >
+        <If condition={error}>
+          <div className="alert alert-warning">
+            {error}
           </div>
-          <div className="form-page__form_input">
-            <Field
-              id="sign-in-password-field"
-              name="password"
-              type="password"
-              label="Password"
-              component={InputField}
-              position="vertical"
-              placeholder={attributeLabels.password}
-            />
-          </div>
-          <div className="form-page__form_submit">
-            <button
-              id="sign-in-submit-button"
-              className="btn btn-primary form-page_btn"
-              disabled={submitting}
-            >
-              Login
-            </button>
-          </div>
-        </form>
-      </div>
+        </If>
+        <Field
+          id="sign-in-email-field"
+          name="login"
+          type="text"
+          label={I18n.t(attributeLabels.email)}
+          component={InputField}
+        />
+        <Field
+          id="sign-in-password-field"
+          name="password"
+          type="password"
+          label={I18n.t(attributeLabels.password)}
+          component={InputField}
+        />
+        <div className="form-page__form_submit">
+          <button
+            type="submit"
+            id="sign-in-submit-button"
+            className="btn btn-primary form-page__form_btn"
+            disabled={submitting}
+          >
+            {I18n.t('SIGN_IN.LOGIN')}
+          </button>
+        </div>
+      </form>
     );
   }
 }

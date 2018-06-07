@@ -1,16 +1,13 @@
-import React, { Component } from 'react';
+import React  from 'react';
 import PropTypes from 'prop-types';
 import { Field, reduxForm } from 'redux-form';
-import { createValidator } from '../../utils/validator';
-import config from '../../config';
+import { I18n } from 'react-redux-i18n';
+import { Link } from 'react-router-dom';
+import { createValidator, translateLabels } from '../../utils/validator';
 import { InputField } from '../../components/ReduxForm';
+import attributeLabels from './constants';
 
 const formName = 'resetPasswordForm';
-const attributeLabels = {
-  title: 'Set your password',
-  password: 'Password',
-  repeatPassword: 'Repeat password',
-};
 
 const validator = createValidator({
   password: ['required', 'regex:^.{6,32}$'],
@@ -18,83 +15,96 @@ const validator = createValidator({
     'required',
     'same:password',
   ],
-}, attributeLabels, false);
+}, translateLabels(attributeLabels), false);
 
-class ViewForm extends Component {
-  static propTypes = {
-    handleSubmit: PropTypes.func,
-    pristine: PropTypes.bool,
-    submitting: PropTypes.bool,
-    onSubmit: PropTypes.func.isRequired,
-    error: PropTypes.string,
-    disabled: PropTypes.bool,
-  };
+const ViewForm = (props) => {
+  const {
+    handleSubmit,
+    pristine,
+    submitting,
+    onSubmit,
+    error,
+    disabled,
+    valid,
+    submitSucceeded,
+  } = props;
 
-  static defaultProps = {
-    disabled: false,
-  };
-
-  render() {
-    const {
-      handleSubmit,
-      pristine,
-      submitting,
-      onSubmit,
-      error,
-      disabled,
-      valid,
-    } = this.props;
-
-    return (
-      <div className="form-page__form fadeInUp">
+  return (
+    <Choose>
+      <When condition={submitSucceeded}>
+        <div className="form-page__success fadeInUp">
+          <div className="form-page__success-title">
+            {I18n.t('SET_PASSWORD.PASSWORD_SETTLED')}
+          </div>
+          <Link
+            to="/"
+            className="btn btn-primary-outline"
+          >
+            {I18n.t('SET_PASSWORD.LOGIN')}
+          </Link>
+        </div>
+      </When>
+      <Otherwise>
         <form
           name="form-validation"
-          className="form-horizontal"
+          className="form-page__form fadeInUp"
           onSubmit={handleSubmit(onSubmit)}
         >
-          {
-            error &&
+          <If condition={error}>
             <div className="alert alert-warning">
               {error}
             </div>
-          }
-          <h2>{attributeLabels.title}</h2>
-          <div className="form-page__form_input">
-            <Field
-              name="password"
-              label={attributeLabels.password}
-              type="password"
-              disabled={disabled}
-              component={InputField}
-              position="vertical"
-              placeholder={attributeLabels.password}
-            />
-          </div>
-          <div className="form-page__form_input">
-            <Field
-              name="repeatPassword"
-              label={attributeLabels.repeatPassword}
-              type="password"
-              disabled={disabled}
-              component={InputField}
-              position="vertical"
-              placeholder={attributeLabels.repeatPassword}
-            />
-          </div>
+          </If>
+          <h2>
+            {I18n.t('SET_PASSWORD.TITLE')}
+          </h2>
+          <Field
+            name="password"
+            label={I18n.t(attributeLabels.password)}
+            type="password"
+            disabled={disabled}
+            component={InputField}
+          />
+          <Field
+            name="repeatPassword"
+            label={I18n.t(attributeLabels.repeatPassword)}
+            type="password"
+            disabled={disabled}
+            component={InputField}
+          />
           <div className="form-page__form_submit">
             <button
               type="submit"
-              className="btn btn-primary form-page_btn"
+              className="btn btn-primary form-page__form_btn"
               disabled={pristine || submitting || disabled || !valid}
             >
-              Submit
+              {I18n.t('COMMON.SUBMIT')}
             </button>
           </div>
         </form>
-      </div>
-    );
-  }
-}
+      </Otherwise>
+    </Choose>
+  );
+};
+
+ViewForm.propTypes = {
+  handleSubmit: PropTypes.func,
+  pristine: PropTypes.bool,
+  submitting: PropTypes.bool,
+  onSubmit: PropTypes.func.isRequired,
+  error: PropTypes.string,
+  disabled: PropTypes.bool,
+  valid: PropTypes.bool,
+  submitSucceeded: PropTypes.bool.isRequired,
+};
+ViewForm.defaultProps = {
+  handleSubmit: null,
+  pristine: false,
+  submitting: false,
+  error: null,
+  disabled: false,
+  valid: false,
+};
 
 export default reduxForm({
   form: formName,
