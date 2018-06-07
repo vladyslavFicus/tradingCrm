@@ -6,15 +6,15 @@ import { withNotifications, withModals } from '../../../../../../components/High
 import { activePlanQuery } from '../../../../../../graphql/queries/rewardPlan';
 import { lotteryMutation } from '../../../../../../graphql/mutations/rewardPlan';
 import RewardPlanModal from '../RewardPlanModal';
-import { isDwhApiEnableQuery } from '../../../../../../graphql/queries/options';
+import { servicesQuery } from '../../../../../../graphql/queries/options';
 
 export default compose(
   withRouter,
   withModals({
     rewardPlanModal: RewardPlanModal,
   }),
-  graphql(isDwhApiEnableQuery, {
-    name: 'isDwhApiEnable',
+  graphql(servicesQuery, {
+    name: 'optionServices',
     options: {
       fetchPolicy: 'network-only',
     },
@@ -26,8 +26,10 @@ export default compose(
         playerUUID,
       },
     }),
-    skip: ({ isDwhApiEnable, playerUUID }) => (
-      !playerUUID || !get(isDwhApiEnable, 'options.services.isDwhApiEnable', false)
+    skip: ({ playerUUID, optionServices }) => (
+      !playerUUID ||
+      optionServices.loading ||
+      get(optionServices, 'options.services', []).indexOf('dwh') === -1
     ),
   }),
   graphql(lotteryMutation, {
