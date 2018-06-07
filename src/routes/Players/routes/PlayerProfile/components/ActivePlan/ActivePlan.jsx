@@ -7,6 +7,7 @@ import {
   types,
   modalStaticData,
 } from '../../../../../../constants/rewardPlan';
+import { services } from '../../../../../../constants/services';
 
 class ActivePlan extends Component {
   static propTypes = {
@@ -21,17 +22,15 @@ class ActivePlan extends Component {
         }),
       }),
     }),
-    isDwhApiEnable: PropTypes.shape({
+    optionServices: PropTypes.shape({
       options: PropTypes.shape({
-        signUp: PropTypes.shape({
-          isDwhApiEnable: PropTypes.bool,
-        }),
+        services: PropTypes.arrayOf(PropTypes.string),
       }),
     }),
   };
   static defaultProps = {
     activeRewardPlan: {},
-    isDwhApiEnable: {},
+    optionServices: {},
   };
 
   handleOpenUpdateAmountModal = () => {
@@ -89,10 +88,10 @@ class ActivePlan extends Component {
       activeRewardPlan: {
         loading,
       },
-      isDwhApiEnable,
+      optionServices,
     } = this.props;
 
-    const dwhApiEnable = get(isDwhApiEnable, 'options.services.isDwhApiEnable', false);
+    const dwhApiEnable = get(optionServices, 'options.services', []).indexOf(services.dwh) > -1;
 
     if (!dwhApiEnable) {
       return false;

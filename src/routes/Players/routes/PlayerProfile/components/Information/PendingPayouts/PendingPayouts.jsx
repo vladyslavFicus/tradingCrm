@@ -9,6 +9,7 @@ import {
   modalStaticData,
   pendingPayoutsTypes,
 } from '../../../../../../../constants/rewardPlan';
+import { services } from '../../../../../../../constants/services';
 
 class PendingPayouts extends Component {
   static propTypes = {
@@ -28,17 +29,15 @@ class PendingPayouts extends Component {
         }),
       }),
     }),
-    isDwhApiEnable: PropTypes.shape({
+    optionServices: PropTypes.shape({
       options: PropTypes.shape({
-        signUp: PropTypes.shape({
-          isDwhApiEnable: PropTypes.bool,
-        }),
+        services: PropTypes.arrayOf(PropTypes.string),
       }),
     }),
   };
   static defaultProps = {
     pendingPayouts: {},
-    isDwhApiEnable: {},
+    optionServices: {},
   };
 
   handleOpenUpdateAmountModal = type => () => {
@@ -109,10 +108,10 @@ class PendingPayouts extends Component {
       pendingPayouts: {
         loading,
       },
-      isDwhApiEnable,
+      optionServices,
     } = this.props;
 
-    const dwhApiEnable = get(isDwhApiEnable, 'options.services.isDwhApiEnable', false);
+    const dwhApiEnable = get(optionServices, 'options.services', []).indexOf(services.dwh) > -1;
 
     if (!dwhApiEnable) {
       return false;
