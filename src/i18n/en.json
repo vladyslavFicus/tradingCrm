@@ -2147,5 +2147,17 @@
     "COIN_SIZE": "Coin size",
     "BET_MULTIPLIER": "Multiplier",
     "RHFP_BET": "Rhfp bet"
+  },
+  "SET_PASSWORD": {
+    "TITLE": "Set your password",
+    "PASSWORD": "Password",
+    "REPEAT_PASSWORD": "Repeat password",
+    "PASSWORD_SETTLED": "You have successfully settled new password",
+    "LOGIN": "Login"
+  },
+  "SIGN_IN": {
+    "EMAIL": "Email",
+    "PASSWORD": "Password",
+    "LOGIN": "Login"
   }
 }

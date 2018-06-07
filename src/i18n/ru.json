@@ -2162,5 +2162,17 @@
     "COIN_SIZE": "Размер монеты",
     "BET_MULTIPLIER": "Множитель ставок",
     "RHFP_BET": "Rhfp ставка"
+  },
+  "SET_PASSWORD": {
+    "TITLE": "Введите свой пароль",
+    "PASSWORD": "Пароль",
+    "REPEAT_PASSWORD": "Повторите пароль",
+    "PASSWORD_SETTLED": "Вы успешно установили новый пароль",
+    "LOGIN": "Войти"
+  },
+  "SIGN_IN": {
+    "EMAIL": "Почта",
+    "PASSWORD": "Пароль",
+    "LOGIN": "Войти"
   }
 }

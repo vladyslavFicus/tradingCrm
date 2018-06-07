@@ -5,13 +5,13 @@ import { I18n } from 'react-redux-i18n';
 import onClickOutside from 'react-onclickoutside';
 import PropTypes from '../../constants/propTypes';
 import { InputField, SelectField } from '../ReduxForm';
-import { createValidator } from '../../utils/validator';
+import { createValidator, translateLabels } from '../../utils/validator';
 import { attributeLabels } from './constants';
 import './MyProfileSidebar.scss';
 
 const validator = createValidator({
   phoneNumber: 'numeric',
-}, attributeLabels, false);
+}, translateLabels(attributeLabels), false);
 
 class MyProfileSidebar extends Component {
   static propTypes = {

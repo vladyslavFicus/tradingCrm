@@ -55,23 +55,19 @@
     text-align: center;
   }
   &__form {
-    width: 420px;
+    max-width: 420px;
     margin: 50px auto;
     padding: 30px 45px;
-    border-radius: 5px;
-    border-left: 5px solid #4990e2;
     border-right: 5px solid #4990e2;
-    background-color: rgba(255, 255, 255, 0.95);
-    box-shadow: 0 6px 18px 0 rgba(0, 0, 0, 0.7);
-    form {
-      width: 100%;
-    }
+    border-left: 5px solid #4990e2;
+    border-radius: 5px;
+    background-color: #f2f2f2;
     &_submit {
       margin-top: 30px;
       text-align: right;
     }
-    .btn {
-      width: 137px;
+    &_btn {
+      min-width: 137px;
       transition: opacity 0s, visibility 0s;
       text-transform: uppercase;
     }
@@ -274,6 +270,16 @@
       top: 0;
     }
   }
+  &__success {
+    margin-top: 100px;
+    margin-bottom: 50px;
+    text-align: center;
+  }
+  &__success-title {
+    margin-bottom: 20px;
+    font-size: 23px;
+    color: #f2f2f2;
+  }
 }
 
 .chosen {
@@ -320,8 +326,6 @@
   animation: fadeOutLeft .5s;
 }
 
-
-/*ANIMATION*/
 @-webkit-keyframes fadeInUp {
   from {
     opacity: 0;
