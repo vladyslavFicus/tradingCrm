@@ -3,6 +3,7 @@ import { I18n } from 'react-redux-i18n';
 import { get } from 'lodash';
 import PropTypes from '../../../../../../../constants/propTypes';
 import RewardPlan from '../../RewardPlan';
+import Amount from '../../../../../../../components/Amount';
 import {
   types,
   typesTitle,
@@ -34,6 +35,7 @@ class PendingPayouts extends Component {
         services: PropTypes.arrayOf(PropTypes.string),
       }),
     }),
+    currency: PropTypes.string.isRequired,
   };
   static defaultProps = {
     pendingPayouts: {},
@@ -109,6 +111,7 @@ class PendingPayouts extends Component {
         loading,
       },
       optionServices,
+      currency,
     } = this.props;
 
     const dwhApiEnable = get(optionServices, 'options.services', []).indexOf(services.dwh) > -1;
@@ -117,10 +120,10 @@ class PendingPayouts extends Component {
       return false;
     }
 
-    const bonusAmount = get(pendingPayouts, `rewardPlan.data.${types.BONUS}.amount`);
-    const runesAmount = get(pendingPayouts, `rewardPlan.data.${types.RUNES}.amount`);
-    const cashBacksAmount = get(pendingPayouts, `rewardPlan.data.${types.CASH_BACKS}.amount`);
-    const freeSpinsAmount = get(pendingPayouts, `rewardPlan.data.${types.FREE_SPINS}.amount`);
+    const bonusAmount = get(pendingPayouts, `rewardPlan.data.${types.BONUS}.amount`, 0);
+    const runesAmount = get(pendingPayouts, `rewardPlan.data.${types.RUNES}.amount`, 0);
+    const cashBacksAmount = get(pendingPayouts, `rewardPlan.data.${types.CASH_BACKS}.amount`, 0);
+    const freeSpinsAmount = get(pendingPayouts, `rewardPlan.data.${types.FREE_SPINS}.amount`, 0);
     const available = !!get(pendingPayouts, 'rewardPlan.data.userId', false);
 
     return (
@@ -134,13 +137,13 @@ class PendingPayouts extends Component {
               <RewardPlan
                 title={I18n.t(typesTitle.bonus)}
                 available={available}
-                amount={bonusAmount}
+                amount={<Amount amount={bonusAmount} currency={currency} />}
                 onClick={this.handleOpenUpdateAmountModal(types.BONUS)}
               />
               <RewardPlan
                 title={I18n.t(typesTitle.cashBacks)}
                 available={available}
-                amount={cashBacksAmount}
+                amount={<Amount amount={cashBacksAmount} currency={currency} />}
                 onClick={this.handleOpenUpdateAmountModal(types.CASH_BACKS)}
               />
               <RewardPlan

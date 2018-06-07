@@ -97,7 +97,7 @@ class ActivePlan extends Component {
       return false;
     }
 
-    const amount = get(activeRewardPlan, 'rewardPlan.data.lottery.amount');
+    const amount = get(activeRewardPlan, 'rewardPlan.data.lottery.amount', 0);
     const available = !!get(activeRewardPlan, 'rewardPlan.data.userId', false);
 
     return (

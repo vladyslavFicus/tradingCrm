@@ -1,4 +1,5 @@
 import { graphql, compose } from 'react-apollo';
+import { connect } from 'react-redux';
 import { get } from 'lodash';
 import { withRouter } from 'react-router-dom';
 import PendingPayouts from './PendingPayouts';
@@ -8,11 +9,19 @@ import { pendingPayoutsMutation } from '../../../../../../../graphql/mutations/r
 import RewardPlanModal from '../../RewardPlanModal';
 import { servicesQuery } from '../../../../../../../graphql/queries/options';
 
+const mapStateToProps = ({
+  profile: { profile },
+  options: { data: { baseCurrency } },
+}) => ({
+  currency: profile.data.currencyCode || baseCurrency,
+});
+
 export default compose(
   withRouter,
   withModals({
     rewardPlanModal: RewardPlanModal,
   }),
+  connect(mapStateToProps),
   graphql(servicesQuery, {
     name: 'optionServices',
     options: {
