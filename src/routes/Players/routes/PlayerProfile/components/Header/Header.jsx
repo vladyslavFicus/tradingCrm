@@ -18,8 +18,10 @@ import ProfileLastLogin from '../../../../../../components/ProfileLastLogin';
 import Uuid from '../../../../../../components/Uuid';
 import HeaderPlayerPlaceholder from '../HeaderPlayerPlaceholder';
 import { statuses } from '../../../../../../constants/user';
+import { services } from '../../../../../../constants/services';
 import PermissionContent from '../../../../../../components/PermissionContent';
 import ActivePlan from '../ActivePlan';
+import ServiceContent from '../../../../../../components/ServiceContent';
 
 const sendActivationLinkPermission = new Permissions([permissions.USER_PROFILE.SEND_ACTIVATION_LINK]);
 const playerLimitsPermission = [
@@ -327,9 +329,9 @@ class Header extends Component {
               on {moment.utc(registrationDate).local().format('DD.MM.YYYY')}
             </div>
           </div>
-          <ActivePlan
-            playerUUID={playerUUID}
-          />
+          <ServiceContent service={services.dwh}>
+            <ActivePlan playerUUID={playerUUID} />
+          </ServiceContent>
         </div>
       </Fragment>
     );

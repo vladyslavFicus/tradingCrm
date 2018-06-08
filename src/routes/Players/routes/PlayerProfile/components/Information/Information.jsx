@@ -8,6 +8,8 @@ import Notes from './Notes';
 import PermissionContent from '../../../../../../components/PermissionContent';
 import permissions from '../../../../../../config/permissions';
 import PendingPayouts from './PendingPayouts';
+import { services } from '../../../../../../constants/services';
+import ServiceContent from '../../../../../../components/ServiceContent';
 
 class Information extends PureComponent {
   static propTypes = {
@@ -52,9 +54,9 @@ class Information extends PureComponent {
           <div className="col-md-2">
             <IpList label={I18n.t('PLAYER_PROFILE.IP_LIST.TITLE')} ips={ips} />
           </div>
-          <PendingPayouts
-            playerUUID={data.playerUUID}
-          />
+          <ServiceContent service={services.dwh}>
+            <PendingPayouts playerUUID={data.playerUUID} />
+          </ServiceContent>
           <PermissionContent permissions={permissions.NOTES.VIEW_NOTES}>
             <div className="col">
               <Notes
