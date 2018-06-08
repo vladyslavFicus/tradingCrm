@@ -124,6 +124,9 @@ class SettingsView extends Component {
             rewards,
             startDate,
             endDate,
+            promoCode,
+            optInPeriod,
+            optInPeriodTimeUnit,
           },
         },
       },
@@ -143,6 +146,9 @@ class SettingsView extends Component {
           rewards: deepRemoveKeyByRegex(rewards, /^__/),
           startDate,
           endDate,
+          promoCode,
+          optInPeriod,
+          optInPeriodTimeUnit,
         }}
         fulfillments={fulfillments}
         form="settings"
