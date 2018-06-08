@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 class ServiceContent extends Component {
   static propTypes = {
-    children: PropTypes.any.isRequired,
+    children: PropTypes.node.isRequired,
     optionServices: PropTypes.shape({
       options: PropTypes.shape({
         services: PropTypes.arrayOf(PropTypes.string),
