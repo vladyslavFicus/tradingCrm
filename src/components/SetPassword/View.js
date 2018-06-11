@@ -28,8 +28,6 @@ class View extends Component {
         });
       }
     }
-
-    throw new SubmissionError({ _error: 'Something went wrong...' });
   };
 
   render() {
@@ -51,9 +49,7 @@ class View extends Component {
             <div className="form-page__logo">
               <img src="/img/horizon-logo.svg" alt="logo" />
             </div>
-            <ViewForm
-              onSubmit={this.handleSubmit}
-            />
+            <ViewForm onSubmit={this.handleSubmit} />
           </div>
         </div>
         <div className="form-page__copyright">

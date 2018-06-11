@@ -13,6 +13,7 @@ class View extends Component {
       data: PropTypes.arrayOf(PropTypes.string).isRequired,
     }).isRequired,
     fetchFeed: PropTypes.func.isRequired,
+    fetchFeedTypes: PropTypes.func.isRequired,
     exportFeed: PropTypes.func.isRequired,
     match: PropTypes.shape({
       params: PropTypes.shape({
@@ -32,7 +33,13 @@ class View extends Component {
   };
 
   componentWillMount() {
+    const {
+      fetchFeedTypes,
+      match: { params: { id: playerUUID } },
+    } = this.props;
+
     this.handleFiltersChanged();
+    fetchFeedTypes(playerUUID);
     this.context.cacheChildrenComponent(this);
   }
 
