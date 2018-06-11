@@ -373,7 +373,7 @@ export default compose(
         excludeCountries: ['boolean'],
         optInPeriod: ['numeric', 'min:1'],
         optInPeriodTimeUnit: [`in:${Object.keys(optInPeriods).join()}`],
-        promoCode: ['string'],
+        promoCode: ['string', 'min:4'],
       };
 
       const fulfillments = get(values, 'fulfillments', []);

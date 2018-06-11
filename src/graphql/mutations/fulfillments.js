@@ -19,7 +19,7 @@ const addWageringFulfillment = gql`mutation addWageringFulfillment(
 }`;
 const addDepositFulfillment = gql`mutation addDepositFulfillment(
   $minAmount: [InputMoney]!,
-  $maxAmount: [InputMoney]!,
+  $maxAmount: [InputMoney],
   $numDeposit: Int,
   $excludedPaymentMethods: [String]
 ) {
@@ -44,7 +44,7 @@ const addDepositFulfillment = gql`mutation addDepositFulfillment(
 const updateDepositFulfillment = gql`mutation updateDepositFulfillment(
   $uuid: String!,
   $minAmount: [InputMoney]!,
-  $maxAmount: [InputMoney]!,
+  $maxAmount: [InputMoney],
   $numDeposit: Int,
   $excludedPaymentMethods: [String]
 ) {

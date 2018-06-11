@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import PlayerProfile from '../components/PlayerProfile';
+import Profile from '../components/Profile';
 
 export default connect(({
   settings,
@@ -7,5 +7,5 @@ export default connect(({
 }) => ({
   settings,
   auth,
-}))(PlayerProfile);
+}))(Profile);
 

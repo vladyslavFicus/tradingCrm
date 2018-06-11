@@ -5,7 +5,7 @@ import classNames from 'classnames';
 const OptionPropType = PropTypes.shape({
   key: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.object]).isRequired,
 });
 
 class SelectSingleOptions extends PureComponent {
@@ -24,6 +24,7 @@ class SelectSingleOptions extends PureComponent {
     options: [],
     selectedOption: undefined,
     optionComponent: null,
+    bindActiveOption: null,
   };
 
   render() {
@@ -60,9 +61,16 @@ class SelectSingleOptions extends PureComponent {
             optionProps.onClick = () => onChange(option);
           }
 
-          return OptionCustomComponent
-            ? <OptionCustomComponent {...optionProps} />
-            : <div {...optionProps}>{option.label}</div>;
+          return (
+            <Choose>
+              <When condition={OptionCustomComponent}>
+                <OptionCustomComponent {...optionProps} />
+              </When>
+              <Otherwise>
+                <div {...optionProps}>{option.label}</div>
+              </Otherwise>
+            </Choose>
+          );
         })}
       </div>
     );

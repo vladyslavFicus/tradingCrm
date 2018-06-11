@@ -417,7 +417,11 @@
         "AVAILABLE": "Available",
         "PRIORITY": "Priority",
         "BONUS_TYPE": "Bonus type",
-        "OPT_IN_STATUS": "Opt-in status"
+        "OPT_IN_STATUS": "Opt-in status",
+        "TARGET_TYPE": "Target",
+        "FULFILLMENTS": "Fulfillments",
+        "REWARDS": "Rewards",
+        "PLAYER_STATUS": "Opt-in status"
       },
       "OPTED_IN": "Opted-in",
       "NOT_OPTED_IN": "Not opted-in",
@@ -463,7 +467,17 @@
       "ADD_TO_CAMPAIGN_BUTTON": "+ Add to Campaign",
       "ADD_PROMO_CODE_BUTTON": "+ Add promo code",
       "OPT_IN": "Opt-in",
-      "UN_TARGET": "Untarget"
+      "UN_TARGET": "Untarget",
+      "FULFILLMENT": {
+        "NO_FULFILLMENT": "No fulfillment",
+        "DEPOSIT": "Deposit",
+        "WAGERING": "Wagering",
+        "PROFILE_COMPLETION": "Profile completion"
+      },
+      "REWARDS": {
+        "BONUS": "Bonus",
+        "FREE_SPIN": "Free-spin"
+      }
     },
     "FREE_SPINS": {
       "BONUS_SETTINGS": {
@@ -787,7 +801,8 @@
     "NOT_AVAILABLE": "Not available",
     "SUBMIT": "Submit",
     "AMOUNT": "Amount",
-    "SUCCESS_UPDATE": "Success update"
+    "SUCCESS_UPDATE": "Success update",
+    "PERMANENT": "Permanent"
   },
   "FILES": {
     "UPLOAD_MODAL": {

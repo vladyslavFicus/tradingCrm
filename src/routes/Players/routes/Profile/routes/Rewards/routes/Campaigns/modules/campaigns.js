@@ -4,11 +4,11 @@ import buildQueryString from '../../../../../../../../../utils/buildQueryString'
 
 const KEY = 'player/bonus-campaign/campaigns';
 const FETCH_CAMPAIGNS = createRequestAction(`${KEY}/fetch-campaigns`);
-const ADD_PLAYER_TO_CAMPAIGN = createRequestAction(`${KEY}/add-player-to-campaign`);
 const ADD_PROMO_CODE_TO_PLAYER = createRequestAction(`${KEY}/add-promo-code-to-player`);
-const DECLINE_CAMPAIGN = createRequestAction(`${KEY}/decline-campaign`);
 const OPT_IN_CAMPAIGN = createRequestAction(`${KEY}/opt-in-campaign`);
-const UN_TARGET_CAMPAIGN = createRequestAction(`${KEY}/un-target-campaign`);
+const OPT_OUT_CAMPAIGN = createRequestAction(`${KEY}/opt-out-campaign`);
+const ADD_PLAYER_TO_CAMPAIGN = createRequestAction(`${KEY}/add-player-to-campaign`);
+const DELETE_PLAYER_FROM_CAMPAIGN = createRequestAction(`${KEY}/un-target-campaign`);
 
 function fetchCampaigns(playerUUID) {
   return (dispatch, getState) => {
@@ -16,7 +16,7 @@ function fetchCampaigns(playerUUID) {
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `promotion/campaigns/${playerUUID}/accessible?${buildQueryString({ size: 99999 })}`,
+        endpoint: `campaign_aggregator/accessible/${playerUUID}?${buildQueryString({ size: 99999 })}`,
         method: 'GET',
         headers: {
           Accept: 'application/json',
@@ -34,37 +34,13 @@ function fetchCampaigns(playerUUID) {
   };
 }
 
-function addPlayerToCampaign(uuid, playerUUID) {
-  return (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
-
-    return dispatch({
-      [CALL_API]: {
-        endpoint: `promotion/campaigns/${uuid}/players-list/${playerUUID}`,
-        method: 'PUT',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        types: [
-          ADD_PLAYER_TO_CAMPAIGN.REQUEST,
-          ADD_PLAYER_TO_CAMPAIGN.SUCCESS,
-          ADD_PLAYER_TO_CAMPAIGN.FAILURE,
-        ],
-        bailout: !logged,
-      },
-    });
-  };
-}
-
 function addPromoCodeToPlayer(playerUUID, promoCode) {
   return (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `promotion/campaigns/${playerUUID}/by-promo-code/${promoCode}`,
+        endpoint: `campaign_aggregator/players/${playerUUID}/promo-codes/${promoCode}`,
         method: 'PUT',
         headers: {
           Accept: 'application/json',
@@ -82,34 +58,13 @@ function addPromoCodeToPlayer(playerUUID, promoCode) {
   };
 }
 
-function declineCampaign({ id, playerUUID, returnToList = false }) {
-  return (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
-    const optoutType = returnToList ? 'return_to_list' : 'ignore_campaign';
-
-    return dispatch({
-      [CALL_API]: {
-        endpoint: `/promotion/campaigns/${id}/optout/${playerUUID}?optoutType=${optoutType}`,
-        method: 'PUT',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        types: [DECLINE_CAMPAIGN.REQUEST, DECLINE_CAMPAIGN.SUCCESS, DECLINE_CAMPAIGN.FAILURE],
-        bailout: !logged,
-      },
-    });
-  };
-}
-
-function optInCampaign({ id, playerUUID }) {
+function optInCampaign({ uuid, sourceType, playerUUID }) {
   return (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `/promotion/campaigns/${id}/optin/${playerUUID}`,
+        endpoint: `campaign_aggregator/${sourceType}/${uuid}/optin/${playerUUID}`,
         method: 'PUT',
         headers: {
           Accept: 'application/json',
@@ -123,20 +78,69 @@ function optInCampaign({ id, playerUUID }) {
   };
 }
 
-function unTargetCampaign({ id, playerUUID }) {
+function optOutCampaign({ uuid, sourceType, playerUUID, returnToList = false }) {
+  return (dispatch, getState) => {
+    const { auth: { token, logged } } = getState();
+    const optoutType = returnToList ? 'RETURN_TO_LIST' : 'IGNORE_CAMPAIGN';
+
+    return dispatch({
+      [CALL_API]: {
+        endpoint: `campaign_aggregator/${sourceType}/${uuid}/optout/${playerUUID}?optoutType=${optoutType}`,
+        method: 'PUT',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        types: [OPT_OUT_CAMPAIGN.REQUEST, OPT_OUT_CAMPAIGN.SUCCESS, OPT_OUT_CAMPAIGN.FAILURE],
+        bailout: !logged,
+      },
+    });
+  };
+}
+
+function addPlayerToCampaign({ uuid, sourceType, playerUUID }) {
   return (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `/promotion/campaigns/${id}/players-list/${playerUUID}`,
+        endpoint: `campaign_aggregator/${sourceType}/${uuid}/players/${playerUUID}`,
+        method: 'PUT',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        types: [
+          ADD_PLAYER_TO_CAMPAIGN.REQUEST,
+          ADD_PLAYER_TO_CAMPAIGN.SUCCESS,
+          ADD_PLAYER_TO_CAMPAIGN.FAILURE,
+        ],
+        bailout: !logged,
+      },
+    });
+  };
+}
+
+function deletePlayerFromCampaign({ uuid, sourceType, playerUUID }) {
+  return (dispatch, getState) => {
+    const { auth: { token, logged } } = getState();
+
+    return dispatch({
+      [CALL_API]: {
+        endpoint: `campaign_aggregator/${sourceType}/${uuid}/players/${playerUUID}`,
         method: 'DELETE',
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
-        types: [UN_TARGET_CAMPAIGN.REQUEST, UN_TARGET_CAMPAIGN.SUCCESS, UN_TARGET_CAMPAIGN.FAILURE],
+        types: [
+          DELETE_PLAYER_FROM_CAMPAIGN.REQUEST,
+          DELETE_PLAYER_FROM_CAMPAIGN.SUCCESS,
+          DELETE_PLAYER_FROM_CAMPAIGN.FAILURE,
+        ],
         bailout: !logged,
       },
     });
@@ -145,16 +149,18 @@ function unTargetCampaign({ id, playerUUID }) {
 
 const actionTypes = {
   FETCH_CAMPAIGNS,
+  OPT_IN_CAMPAIGN,
+  OPT_OUT_CAMPAIGN,
   ADD_PLAYER_TO_CAMPAIGN,
-  DECLINE_CAMPAIGN,
+  DELETE_PLAYER_FROM_CAMPAIGN,
 };
 const actionCreators = {
   fetchCampaigns,
   addPlayerToCampaign,
   addPromoCodeToPlayer,
-  declineCampaign,
   optInCampaign,
-  unTargetCampaign,
+  optOutCampaign,
+  deletePlayerFromCampaign,
 };
 
 export {

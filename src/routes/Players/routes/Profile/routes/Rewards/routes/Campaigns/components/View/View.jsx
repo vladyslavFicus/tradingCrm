@@ -8,7 +8,6 @@ import GridView, { GridViewColumn } from '../../../../../../../../../../componen
 import Uuid from '../../../../../../../../../../components/Uuid';
 import renderLabel from '../../../../../../../../../../utils/renderLabel';
 import {
-  rewardTypesLabels,
   statuses as bonusCampaignStatuses,
   targetTypesLabels,
   targetTypes,
@@ -19,6 +18,9 @@ import AddToCampaignModal from '../../../../../../../../../../components/AddToCa
 import AddPromoCodeModal from '../AddPromoCodeModal';
 import PermissionContent from '../../../../../../../../../../components/PermissionContent';
 import permissions from '../../../../../../../../../../config/permissions';
+import { sourceTypes, playerStatuses } from '../../../../../../../../../../constants/campaign-aggregator';
+import ActionsDropDown from '../../../../../../../../../../components/ActionsDropDown';
+import CountItems from '../CountItems';
 
 const ADD_TO_CAMPAIGN_MODAL = 'add-to-campaign-modal';
 const ADD_PROMO_CODE_MODAL = 'add-promo-code-modal';
@@ -32,11 +34,11 @@ class View extends Component {
     list: PropTypes.pageableState(PropTypes.bonusCampaignEntity).isRequired,
     profile: PropTypes.userProfile.isRequired,
     fetchPlayerCampaigns: PropTypes.func.isRequired,
-    declineCampaign: PropTypes.func.isRequired,
+    optOutCampaign: PropTypes.func.isRequired,
     optInCampaign: PropTypes.func.isRequired,
-    unTargetCampaign: PropTypes.func.isRequired,
-    fetchCampaigns: PropTypes.func.isRequired,
     addPlayerToCampaign: PropTypes.func.isRequired,
+    deletePlayerFromCampaign: PropTypes.func.isRequired,
+    fetchCampaigns: PropTypes.func.isRequired,
     addPromoCodeToPlayer: PropTypes.func.isRequired,
     match: PropTypes.shape({
       params: PropTypes.shape({
@@ -89,6 +91,16 @@ class View extends Component {
     this.context.cacheChildrenComponent(null);
     this.context.setRenderActions(null);
   }
+
+  getCampaignUrl = (sourceType, uuid) => {
+    if (sourceType === sourceTypes.PROMOTION) {
+      return `/bonus-campaign/view/${uuid}/settings`;
+    } else if (sourceType === sourceTypes.CAMPAIGN) {
+      return `/campaign/view/${uuid}/settings`;
+    }
+
+    return null;
+  };
 
   handleRefresh = () => {
     this.props.fetchPlayerCampaigns({
@@ -150,9 +162,9 @@ class View extends Component {
   };
 
   handleAddToCampaignClick = async () => {
-    const { fetchCampaigns, match: { params: { id } } } = this.props;
+    const { fetchCampaigns, match: { params: { id: playerUUID } } } = this.props;
 
-    const campaignsActions = await fetchCampaigns(id);
+    const campaignsActions = await fetchCampaigns(playerUUID);
 
     if (!campaignsActions || campaignsActions.error) {
       this.context.addNotification({
@@ -167,10 +179,10 @@ class View extends Component {
     }
   };
 
-  handleAddToCampaign = async ({ campaignUuid }) => {
-    const { match: { params: { id } }, addPlayerToCampaign } = this.props;
+  handleAddToCampaign = async ({ campaign: { uuid, sourceType } }) => {
+    const { match: { params: { id: playerUUID } }, addPlayerToCampaign } = this.props;
 
-    const addPlayerToCampaignAction = await addPlayerToCampaign(campaignUuid, id);
+    const addPlayerToCampaignAction = await addPlayerToCampaign({ uuid, sourceType, playerUUID });
 
     if (addPlayerToCampaignAction) {
       let level = 'success';
@@ -194,8 +206,8 @@ class View extends Component {
   };
 
   handleAddPromoCode = async ({ promoCode }) => {
-    const { match: { params: { id } }, addPromoCodeToPlayer } = this.props;
-    const action = await addPromoCodeToPlayer(id, promoCode);
+    const { match: { params: { id: playerUUID } }, addPromoCodeToPlayer } = this.props;
+    const action = await addPromoCodeToPlayer(playerUUID, promoCode);
 
     if (!action || action.error) {
       throw new SubmissionError({ promoCode: I18n.t(get(action, 'payload.response.error', 'error.internal')) });
@@ -210,136 +222,157 @@ class View extends Component {
     }
   };
 
-  renderCampaign = data => (
-    <div id={`bonus-campaign-${data.uuid}`}>
+  renderCampaign = ({ uuid, name, targetType, sourceType }) => (
+    <div id={`bonus-campaign-${uuid}`}>
       <IframeLink
         className="font-weight-700 color-black"
-        to={`/bonus-campaigns/view/${data.uuid}/settings`}
+        to={this.getCampaignUrl(sourceType, uuid)}
       >
-        {data.campaignName}
+        {name}
       </IframeLink>
       <div className="font-size-10">
-        {renderLabel(data.targetType, targetTypesLabels)}
+        <Uuid uuid={uuid} />
       </div>
-      <div className="font-size-10">
-        <Uuid uuid={data.uuid} uuidPrefix="CA" />
-      </div>
-    </div>
-  );
-
-  renderBonusType = data => (
-    <div>
-      <div className="text-uppercase font-weight-700">
-        {renderLabel(data.campaignType, rewardTypesLabels)}
-      </div>
-      <div className="font-size-10">{data.optIn ? I18n.t('COMMON.OPT_IN') : I18n.t('COMMON.NON_OPT_IN')}</div>
     </div>
   );
 
   renderAvailable = data => (
-    <div>
-      <div className="font-weight-700">
-        {moment.utc(data.startDate).local().format('DD.MM.YYYY HH:mm')}
-      </div>
-      <div className="font-size-10">
-        {I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.GRID_VIEW.DATE_TO', {
-          time: moment.utc(data.endDate).local().format('DD.MM.YYYY HH:mm'),
-        })}
-      </div>
-    </div>
+    <Fragment>
+      <Choose>
+        <When condition={data.startDate || data.endDate}>
+          <Choose>
+            <When condition={data.startDate}>
+              <div className="font-weight-700">
+                {moment.utc(data.startDate).local().format('DD.MM.YYYY HH:mm')}
+              </div>
+            </When>
+            <Otherwise>-</Otherwise>
+          </Choose>
+          <div className="font-size-10">
+            {I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.GRID_VIEW.DATE_TO', {
+              time: data.endDate ? moment.utc(data.endDate).local().format('DD.MM.YYYY HH:mm') : '-',
+            })}
+          </div>
+        </When>
+        <Otherwise>{I18n.t('COMMON.PERMANENT')}</Otherwise>
+      </Choose>
+    </Fragment>
   );
 
-  renderOptInStatus = data => (
-    <div>
+  renderTargetType = ({ targetType, optIn }) => (
+    <Fragment>
+      <div className="font-weight-700 color-black">
+        {renderLabel(targetType, targetTypesLabels)}
+      </div>
+      <div className="font-size-10">{optIn ? I18n.t('COMMON.OPT_IN') : I18n.t('COMMON.NON_OPT_IN')}</div>
+    </Fragment>
+  );
+
+  renderPlayerStatus = ({ playerStatus, optInDate }) => (
+    <Fragment>
       <div className="text-uppercase font-weight-700">
-        {
-          data.optedIn
-            ? <span className="text-success">{I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.OPTED_IN')}</span>
-            : I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.NOT_OPTED_IN')
-        }
+        <Choose>
+          <When condition={playerStatus === playerStatuses.OPT_IN}>
+            <span className="text-success">{I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.OPTED_IN')}</span>
+          </When>
+          <Otherwise>
+            {I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.NOT_OPTED_IN')}
+          </Otherwise>
+        </Choose>
       </div>
-      {
-        data.optInDate &&
+      <If condition={optInDate}>
         <div className="font-size-10">
-          {I18n.t('COMMON.DATE_ON', { date: moment.utc(data.optInDate).local().format('DD.MM.YYYY HH:mm') })}
+          {I18n.t('COMMON.DATE_ON', { date: moment.utc(optInDate).local().format('DD.MM.YYYY HH:mm') })}
         </div>
-      }
+      </If>
+    </Fragment>
+  );
+
+  renderFulfillments = ({ fulfillments }) => (
+    <div className="font-weight-700 color-black">
+      <Choose>
+        <When condition={fulfillments.length === 0}>
+          {I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.FULFILLMENT.NO_FULFILLMENT')}
+        </When>
+        <Otherwise>
+          <CountItems
+            items={fulfillments}
+            prefixOptions={{
+              'DEPOSIT-FULFILLMENT': I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.FULFILLMENT.DEPOSIT'),
+              'WAGERING-FULFILLMENT': I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.FULFILLMENT.WAGERING'),
+              'PROFILE-COMPLETION-FULFILLMENT': I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.FULFILLMENT.PROFILE_COMPLETION'),
+            }}
+          />
+        </Otherwise>
+      </Choose>
     </div>
   );
 
-  renderActions = ({
-    state, optedIn, uuid, targetType,
-  }) => {
+  renderRewards = ({ rewards }) => (
+    <div className="font-weight-700 color-black">
+      <CountItems
+        items={rewards}
+        prefixOptions={{
+          'BONUS-TPL': I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.REWARDS.BONUS'),
+          'FREE-SPIN-TPL': I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.REWARDS.FREE_SPIN'),
+        }}
+      />
+    </div>
+  );
+
+  renderActions = ({ state, playerStatus, uuid, targetType, sourceType: originalSourceType }) => {
     const {
-      declineCampaign,
+      optOutCampaign,
       optInCampaign,
-      unTargetCampaign,
+      deletePlayerFromCampaign,
     } = this.props;
+    const items = [];
+    const sourceType = originalSourceType ? originalSourceType.toLowerCase() : null;
 
     if (state !== bonusCampaignStatuses.ACTIVE) {
       return null;
     }
 
-    return (
-      <div className="text-center">
-        {
-          optedIn ?
-            <div>
-              <button
-                key="optOutButton"
-                type="button"
-                className="btn btn-danger margin-right-10"
-                onClick={() => this.handleActionClick({
-                  action: declineCampaign,
-                  id: uuid,
-                  returnToList: true,
-                })}
-              >
-                {I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.OPT_OUT')}
-              </button>
-              <button
-                key="declineButton"
-                type="button"
-                className="btn btn-danger"
-                onClick={() => this.handleActionClick({
-                  action: declineCampaign,
-                  id: uuid,
-                })}
-              >
-                {I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.DECLINE')}
-              </button>
-            </div>
-            :
-            <div>
-              {
-                targetType !== targetTypes.ALL &&
-                <button
-                  key="unTargetButton"
-                  type="button"
-                  className="btn btn-danger margin-right-10"
-                  onClick={() => this.handleActionClick({
-                    action: unTargetCampaign,
-                    id: uuid,
-                  })}
-                >
-                  {I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.UN_TARGET')}
-                </button>
-              }
-              <button
-                key="optInButton"
-                type="button"
-                className="btn btn-success"
-                onClick={() => this.handleActionClick({
-                  action: optInCampaign,
-                  id: uuid,
-                })}
-              >
-                {I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.OPT_IN')}
-              </button>
-            </div>
-        }
-      </div>
-    );
+    if (playerStatus === playerStatuses.OPT_IN) {
+      items.push({
+        label: I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.OPT_OUT'),
+        onClick: () => this.handleActionClick({
+          action: optOutCampaign,
+          uuid,
+          sourceType,
+          returnToList: true,
+        }),
+      }, {
+        label: I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.DECLINE'),
+        onClick: () => this.handleActionClick({
+          action: optOutCampaign,
+          uuid,
+          sourceType,
+        }),
+      });
+    } else {
+      if (targetType !== targetTypes.ALL) {
+        items.push({
+          label: I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.UN_TARGET'),
+          onClick: () => this.handleActionClick({
+            action: deletePlayerFromCampaign,
+            uuid,
+            sourceType,
+          }),
+        });
+      }
+
+      items.push({
+        label: I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.OPT_IN'),
+        onClick: () => this.handleActionClick({
+          action: optInCampaign,
+          uuid,
+          sourceType,
+        }),
+      });
+    }
+
+    return <ActionsDropDown items={items} />;
   };
 
   render() {
@@ -383,22 +416,33 @@ class View extends Component {
             />
 
             <GridViewColumn
-              name="bonusType"
-              header={I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.GRID_VIEW.BONUS_TYPE')}
-              render={this.renderBonusType}
+              name="targetType"
+              header={I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.GRID_VIEW.TARGET_TYPE')}
+              render={this.renderTargetType}
             />
 
             <GridViewColumn
-              name="optInStatus"
-              header={I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.GRID_VIEW.OPT_IN_STATUS')}
-              render={this.renderOptInStatus}
+              name="fulfillments"
+              header={I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.GRID_VIEW.FULFILLMENTS')}
+              render={this.renderFulfillments}
+            />
+
+            <GridViewColumn
+              name="rewards"
+              header={I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.GRID_VIEW.REWARDS')}
+              render={this.renderRewards}
+            />
+
+            <GridViewColumn
+              name="playerStatus"
+              header={I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.GRID_VIEW.PLAYER_STATUS')}
+              render={this.renderPlayerStatus}
             />
 
             <GridViewColumn
               name="actions"
               header=""
               render={this.renderActions}
-              headerStyle={{ width: '240px' }}
             />
           </GridView>
         </div>

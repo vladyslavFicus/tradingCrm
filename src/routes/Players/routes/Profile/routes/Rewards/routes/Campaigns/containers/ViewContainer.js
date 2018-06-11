@@ -14,19 +14,10 @@ const mapStateToProps = ({
   locale,
   profile,
 });
-const mapActions = {
-  fetchPlayerCampaigns: actionCreators.fetchPlayerCampaigns,
-  declineCampaign: actionCreators.declineCampaign,
-  optInCampaign: actionCreators.optInCampaign,
-  unTargetCampaign: actionCreators.unTargetCampaign,
-  fetchCampaigns: actionCreators.fetchCampaigns,
-  addPlayerToCampaign: actionCreators.addPlayerToCampaign,
-  addPromoCodeToPlayer: actionCreators.addPromoCodeToPlayer,
-};
 
 export default compose(
   withModals({
     confirmActionModal: ConfirmActionModal,
   }),
-  connect(mapStateToProps, mapActions),
+  connect(mapStateToProps, actionCreators),
 )(View);
