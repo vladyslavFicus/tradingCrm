@@ -1,15 +1,12 @@
 import gql from 'graphql-tag';
 
 const activePlanQuery = gql`query activePlanQuery($playerUUID: String!){
-  rewardPlan(playerUUID: $playerUUID) {
+  activeRewardPlan(playerUUID: $playerUUID) {
     data {
-      userId
-      lottery {
-        _id
-        amount
-        isActive
-      }
-    } 
+      _id
+      amount
+      type
+    }
     error {
       error
     }
@@ -17,28 +14,12 @@ const activePlanQuery = gql`query activePlanQuery($playerUUID: String!){
 }`;
 
 const pendingPayoutsQuery = gql`query pendingPayoutsQuery($playerUUID: String!){
-  rewardPlan(playerUUID: $playerUUID) {
+  pendingRewardPlan(playerUUID: $playerUUID) {
     data {
-      userId
-      runes {
+      plans {
         _id
         amount
-        isActive
-      }
-      cashBacks {
-        _id
-        amount
-        isActive
-      }
-      freeSpins {
-        _id
-        amount
-        isActive
-      }
-      bonus {
-        _id
-        amount
-        isActive
+        type
       }
     } 
     error {

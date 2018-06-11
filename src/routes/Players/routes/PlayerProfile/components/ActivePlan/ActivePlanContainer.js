@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom';
 import ActivePlan from './ActivePlan';
 import { withNotifications, withModals } from '../../../../../../components/HighOrder';
 import { activePlanQuery } from '../../../../../../graphql/queries/rewardPlan';
-import { lotteryMutation } from '../../../../../../graphql/mutations/rewardPlan';
+import { activePlanMutation } from '../../../../../../graphql/mutations/rewardPlan';
 import RewardPlanModal from '../RewardPlanModal';
 import { servicesQuery } from '../../../../../../graphql/queries/options';
 
@@ -32,8 +32,8 @@ export default compose(
       get(optionServices, 'options.services', []).indexOf('dwh') === -1
     ),
   }),
-  graphql(lotteryMutation, {
-    name: 'lotteryMutation',
+  graphql(activePlanMutation, {
+    name: 'activePlanMutation',
   }),
   withNotifications,
 )(ActivePlan);
