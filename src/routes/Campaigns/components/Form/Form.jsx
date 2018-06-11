@@ -52,6 +52,7 @@ class Form extends Component {
       name: PropTypes.string,
     }),
     disabled: PropTypes.bool,
+    change: PropTypes.func.isRequired,
   };
   static contextTypes = {
     permissions: PropTypes.array.isRequired,
@@ -89,6 +90,22 @@ class Form extends Component {
         ? current.isSameOrAfter(moment(formValues[fromAttribute]))
         : true
     );
+  };
+
+  clearFields = (fields) => {
+    fields.forEach(field => this.props.change(field, null));
+  };
+
+  handleChangeTargetType = ({ target: { value } }) => {
+    if (value === targetTypes.TARGET_LIST) {
+      this.clearFields(['countries', 'excludeCountries']);
+    }
+  };
+
+  handleChangeOptIn = ({ target: { value } }) => {
+    if (value === 'false') {
+      this.clearFields(['optInPeriod', 'optInPeriodTimeUnit']);
+    }
   };
 
   handleSubmit = (formData) => {
@@ -213,6 +230,7 @@ class Form extends Component {
                 id={`${form}TargetType`}
                 position="vertical"
                 component={SelectField}
+                onChange={this.handleChangeTargetType}
               >
                 {Object.keys(targetTypes).map(targetType => (
                   <option key={targetType} value={targetType}>
@@ -231,6 +249,7 @@ class Form extends Component {
                 normalize={normalizeBoolean}
                 position="vertical"
                 disabled={disabled}
+                onChange={this.handleChangeOptIn}
               >
                 {Object.keys(optInSelect).map(key => (
                   <option key={key} value={key}>
