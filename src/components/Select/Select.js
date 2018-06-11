@@ -14,7 +14,7 @@ class Select extends PureComponent {
     onChange: PropTypes.func,
     placeholder: PropTypes.string,
     multiple: PropTypes.bool,
-    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.array]),
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.array, PropTypes.object]),
     showSearch: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
     searchPlaceholder: PropTypes.string,
     optionsHeader: PropTypes.func,

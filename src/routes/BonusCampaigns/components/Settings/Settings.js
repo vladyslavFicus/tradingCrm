@@ -185,7 +185,7 @@ class Settings extends Component {
     }
   };
 
-  handleSubmitLinkedCampaign = async (data) => {
+  handleSubmitLinkedCampaign = async ({ campaign: data }) => {
     const { fetchCampaign, changeForm } = this.props;
 
     const action = await fetchCampaign(data.campaignUuid);

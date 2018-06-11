@@ -423,7 +423,11 @@
         "AVAILABLE": "Доступен",
         "PRIORITY": "Приоритет",
         "BONUS_TYPE": "Тип бонуса",
-        "OPT_IN_STATUS": "Opt-in статус"
+        "OPT_IN_STATUS": "Opt-in статус",
+        "TARGET_TYPE": "Таргет",
+        "FULFILLMENTS": "Условия",
+        "REWARDS": "Вознаграждения",
+        "PLAYER_STATUS": "Opt-in статус"
       },
       "OPTED_IN": "Opted-in",
       "NOT_OPTED_IN": "Not opted-in",
@@ -469,7 +473,17 @@
       "ADD_TO_CAMPAIGN_BUTTON": "+ Добавить в Кампанию",
       "ADD_PROMO_CODE_BUTTON": "+ Добавить промо-код",
       "OPT_IN": "Opt-in",
-      "UN_TARGET": "Отвязать"
+      "UN_TARGET": "Отвязать",
+      "FULFILLMENT": {
+        "NO_FULFILLMENT": "Без условий",
+        "DEPOSIT": "Депозит",
+        "WAGERING": "Ставки",
+        "PROFILE_COMPLETION": "Заполнение профиля"
+      },
+      "REWARDS": {
+        "BONUS": "Бонус",
+        "FREE_SPIN": "Фри-спин"
+      }
     },
     "FREE_SPINS": {
       "BONUS_SETTINGS": {
@@ -793,7 +807,8 @@
     "NOT_AVAILABLE": "Не доступно",
     "SUBMIT": "Принять",
     "AMOUNT": "Количество",
-    "SUCCESS_UPDATE": "Удачное обновление"
+    "SUCCESS_UPDATE": "Удачное обновление",
+    "PERMANENT": "Постоянный"
   },
   "FILES": {
     "UPLOAD_MODAL": {

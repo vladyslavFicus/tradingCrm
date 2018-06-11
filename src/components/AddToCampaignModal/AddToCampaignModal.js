@@ -82,8 +82,8 @@ class AddToCampaignModal extends PureComponent {
         <ModalBody id="add-to-campaign-modal-form" tag="form" onSubmit={handleSubmit(onSubmit)}>
           <div className="add-to-campaign-modal__header">{message}</div>
           <Field
-            name="campaignUuid"
-            label={I18n.t(attributeLabels.campaignUuid)}
+            name="campaign"
+            label={I18n.t(attributeLabels.campaign)}
             labelAddon={
               <Field
                 id="add-to-camp-modal-checkbox"
@@ -96,12 +96,12 @@ class AddToCampaignModal extends PureComponent {
             }
             component={NasSelectField}
             position="vertical"
-            placeholder={I18n.t(attributePlaceholders.campaignUuid)}
+            placeholder={I18n.t(attributePlaceholders.campaign)}
             optionsHeader={SelectCampaignOptionsHeader}
             singleOptionComponent={SelectCampaignOption}
           >
             {options.map(campaign => (
-              <option key={campaign.uuid} value={campaign.uuid} campaign={campaign}>
+              <option key={campaign.uuid} value={campaign} campaign={campaign}>
                 {`${campaign.name} - ${campaign.state}`}
               </option>
             ))}
@@ -133,6 +133,6 @@ class AddToCampaignModal extends PureComponent {
 export default reduxForm({
   form: 'addToCampaignModal',
   validate: createValidator({
-    campaignUuid: ['required'],
+    campaign: ['required'],
   }, translateLabels(attributeLabels), false),
 })(AddToCampaignModal);

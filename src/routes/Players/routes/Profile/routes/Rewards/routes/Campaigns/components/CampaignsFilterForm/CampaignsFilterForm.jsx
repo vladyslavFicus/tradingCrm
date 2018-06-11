@@ -5,10 +5,8 @@ import { connect } from 'react-redux';
 import { I18n } from 'react-redux-i18n';
 import moment from 'moment';
 import { createValidator, translateLabels } from '../../../../../../../../../../utils/validator';
-import renderLabel from '../../../../../../../../../../utils/renderLabel';
-import { fulfillmentTypesLabels } from '../../../../../../../../../../constants/bonus-campaigns';
 import { attributeLabels, attributePlaceholders } from './constants';
-import { InputField, SelectField, DateTimeField, RangeGroup } from '../../../../../../../../../../components/ReduxForm';
+import { InputField, DateTimeField, RangeGroup } from '../../../../../../../../../../components/ReduxForm';
 
 class CampaignsFilterForm extends Component {
   static propTypes = {
@@ -78,19 +76,6 @@ class CampaignsFilterForm extends Component {
           inputAddon={<i className="icon icon-search" />}
           className="filter-row__big"
         />
-        <Field
-          name="bonusType"
-          label={I18n.t(attributeLabels.bonusType)}
-          component={SelectField}
-          className="filter-row__medium"
-        >
-          <option value="">{I18n.t('COMMON.ANY')}</option>
-          {Object.keys(fulfillmentTypesLabels).map(item => (
-            <option key={item} value={item}>
-              {renderLabel(item, fulfillmentTypesLabels)}
-            </option>
-          ))}
-        </Field>
         <RangeGroup
           className="filter-row__dates"
           label={I18n.t(attributeLabels.availabilityDateRange)}
@@ -137,7 +122,6 @@ const FilterForm = reduxForm({
   form: FORM_NAME,
   validate: createValidator({
     searchBy: 'string',
-    bonusType: 'string',
     activityDateFrom: 'string',
     activityDateTo: 'string',
   }, translateLabels(attributeLabels), false),

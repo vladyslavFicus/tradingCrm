@@ -13,7 +13,7 @@ import { floatNormalize, intNormalize } from '../../../../../../../utils/inputNo
 import normalizeNumber from '../../../../../../../utils/normalizeNumber';
 import { attributePlaceholders } from '../Bonus/constants';
 import Bonus from './Bonus';
-import { aggregators } from '../../../../../../../routes/Players/routes/PlayerProfile/routes/Rewards/routes/FreeSpins/constants';
+import { aggregators } from '../../../../../../../routes/Players/routes/Profile/routes/Rewards/routes/FreeSpins/constants';
 import Uuid from '../../../../../../../components/Uuid';
 
 class FreeSpin extends Component {
