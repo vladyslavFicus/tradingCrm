@@ -23,19 +23,23 @@ class Sidebar extends Component {
   };
 
   componentDidMount() {
-    const { init, menuItemClick } = this.props;
-    const { permissions, services } = this.context;
-
-    init(permissions, services);
-    menuItemClick();
-
     const sidebarAnimation = new TimeLineLite({ paused: true });
     sidebarAnimation.fromTo(this.sidebar, 0.15, { width: '60px' }, { width: '240px' });
 
     this.sidebarAnimation = sidebarAnimation;
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentWillReceiveProps(_, { services: nextServices }) {
+    const { services, permissions } = this.context;
+    if (!services.length && nextServices.length) {
+      const { init, menuItemClick } = this.props;
+
+      init(permissions, nextServices);
+      menuItemClick();
+    }
+  }
+
+  componentDidUpdate(_, prevState) {
     const { isOpen } = this.state;
     const { topMenu } = this.props;
 

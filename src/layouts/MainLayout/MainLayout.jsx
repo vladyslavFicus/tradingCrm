@@ -379,10 +379,7 @@ class MainLayout extends Component {
       replace,
       changeDepartment,
       initSidebar,
-      optionServices,
     } = this.props;
-
-    const services = get(optionServices, 'options.services', []);
 
     return (
       <Fragment>
@@ -394,15 +391,13 @@ class MainLayout extends Component {
           onDepartmentChange={changeDepartment}
         />
 
-        <If condition={services.length}>
-          <Sidebar
-            init={initSidebar}
-            topMenu={sidebarTopMenu}
-            bottomMenu={sidebarBottomMenu}
-            menuItemClick={menuItemClick}
-            onToggleTab={toggleMenuTab}
-          />
-        </If>
+        <Sidebar
+          init={initSidebar}
+          topMenu={sidebarTopMenu}
+          bottomMenu={sidebarBottomMenu}
+          menuItemClick={menuItemClick}
+          onToggleTab={toggleMenuTab}
+        />
 
         <main className="content-container">{children}</main>
 
