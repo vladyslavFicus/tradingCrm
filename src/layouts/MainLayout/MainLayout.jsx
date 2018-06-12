@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { SubmissionError } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
-import _ from 'lodash';
+import { get, isEqualWith } from 'lodash';
 import PropTypes from '../../constants/propTypes';
 import NotePopover from '../../components/NotePopover';
 import MiniProfilePopover from '../../components/MiniProfilePopover';
@@ -88,11 +88,17 @@ class MainLayout extends Component {
     history: PropTypes.shape({
       location: PropTypes.object.isRequired,
     }).isRequired,
+    optionServices: PropTypes.shape({
+      options: PropTypes.shape({
+        services: PropTypes.arrayOf(PropTypes.string),
+      }),
+    }),
   };
   static defaultProps = {
     permissions: [],
     activeUserPanel: null,
     activePanelIndex: null,
+    optionServices: {},
   };
   static childContextTypes = {
     settings: PropTypes.shape({
@@ -128,6 +134,7 @@ class MainLayout extends Component {
         hide: PropTypes.func.isRequired,
       }),
     }).isRequired,
+    services: PropTypes.arrayOf(PropTypes.string),
   };
   static contextTypes = {
     addNotification: PropTypes.func.isRequired,
@@ -174,6 +181,7 @@ class MainLayout extends Component {
       removePanel,
       settings,
       modals,
+      optionServices,
     } = this.props;
 
     return {
@@ -185,6 +193,7 @@ class MainLayout extends Component {
       addPanel,
       removePanel,
       modals,
+      services: get(optionServices, 'options.services', []),
       notes: {
         onAddNote: this.props.addNote,
         onEditNote: this.props.editNote,
@@ -220,7 +229,7 @@ class MainLayout extends Component {
       onLocaleChange(language);
     }
 
-    if (!_.isEqualWith(data, nextData)) {
+    if (!isEqualWith(data, nextData)) {
       const action = await updateOperatorProfile(uuid, nextData);
 
       if (action) {
@@ -254,10 +263,6 @@ class MainLayout extends Component {
     if (this.mounted) {
       this.setState(...args);
     }
-  };
-
-  initSidebar = () => {
-    this.props.initSidebar(this.props.permissions);
   };
 
   handleAddNoteClick = (target, item, params = {}) => {
@@ -373,7 +378,11 @@ class MainLayout extends Component {
       menuItemClick,
       replace,
       changeDepartment,
+      initSidebar,
+      optionServices,
     } = this.props;
+
+    const services = get(optionServices, 'options.services', []);
 
     return (
       <Fragment>
@@ -385,13 +394,15 @@ class MainLayout extends Component {
           onDepartmentChange={changeDepartment}
         />
 
-        <Sidebar
-          init={this.initSidebar}
-          topMenu={sidebarTopMenu}
-          bottomMenu={sidebarBottomMenu}
-          menuItemClick={menuItemClick}
-          onToggleTab={toggleMenuTab}
-        />
+        <If condition={services.length}>
+          <Sidebar
+            init={initSidebar}
+            topMenu={sidebarTopMenu}
+            bottomMenu={sidebarBottomMenu}
+            menuItemClick={menuItemClick}
+            onToggleTab={toggleMenuTab}
+          />
+        </If>
 
         <main className="content-container">{children}</main>
 

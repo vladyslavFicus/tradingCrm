@@ -13,6 +13,10 @@ class Sidebar extends Component {
     menuItemClick: PropTypes.func.isRequired,
     init: PropTypes.func.isRequired,
   };
+  static contextTypes = {
+    services: PropTypes.arrayOf(PropTypes.string),
+    permissions: PropTypes.arrayOf(PropTypes.string).isRequired,
+  };
 
   state = {
     isOpen: false,
@@ -20,8 +24,9 @@ class Sidebar extends Component {
 
   componentDidMount() {
     const { init, menuItemClick } = this.props;
+    const { permissions, services } = this.context;
 
-    init();
+    init(permissions, services);
     menuItemClick();
 
     const sidebarAnimation = new TimeLineLite({ paused: true });

@@ -1,6 +1,7 @@
 import permissions from './permissions';
 import I18n from '../utils/fake-i18n';
 import Permissions, { CONDITIONS } from '../utils/permissions';
+import { services } from '../constants/services';
 
 const userProfileTabs = [
   {
@@ -67,11 +68,13 @@ const sidebarTopMenu = [
       {
         label: I18n.t('SIDEBAR.TOP_MENU.PLAYERS_SEARCH'),
         url: '/players/list',
+        service: services.profile,
         permissions: new Permissions(permissions.USER_PROFILE.PROFILES_LIST),
       },
       {
         label: I18n.t('SIDEBAR.TOP_MENU.PLAYERS_KYC_REQUEST'),
         url: '/players/kyc-requests',
+        service: services.profile,
         permissions: new Permissions(permissions.USER_PROFILE.KYC_LIST),
       },
     ],
@@ -80,24 +83,28 @@ const sidebarTopMenu = [
     label: I18n.t('SIDEBAR.TOP_MENU.OPERATORS'),
     icon: 'fa fa-eye',
     url: '/operators/list',
+    service: services.operator,
     permissions: new Permissions(permissions.OPERATORS.OPERATORS_LIST_VIEW),
   },
   {
     label: I18n.t('SIDEBAR.TOP_MENU.PAYMENTS'),
     icon: 'fa fa-credit-card',
     url: '/transactions/list',
+    service: services.payment,
     permissions: new Permissions(permissions.PAYMENTS.LIST),
   },
   {
     label: I18n.t('SIDEBAR.TOP_MENU.BONUS_CAMPAIGNS'),
     icon: 'fa fa-gift',
     url: '/bonus-campaigns',
+    service: services.promotion,
     permissions: new Permissions(permissions.PROMOTION.LIST),
   },
   {
     label: I18n.t('SIDEBAR.TOP_MENU.CAMPAIGNS'),
     icon: 'fa fa-calendar-check-o ',
     url: '/campaigns',
+    service: services.campaign,
     permissions: new Permissions(permissions.CAMPAIGNS.LIST),
   },
   {
@@ -108,16 +115,19 @@ const sidebarTopMenu = [
       {
         label: I18n.t('SIDEBAR.TOP_MENU.CMS_GAMES'),
         url: '/settings/cms-games',
+        service: services.cms,
         permissions: new Permissions(permissions.CMS_GAMES.VIEW_LIST),
       },
       {
         label: I18n.t('SIDEBAR.TOP_MENU.GAMES'),
         url: '/settings/games',
+        service: services.game_info,
         permissions: new Permissions(permissions.GAME_INFO.GET_GAME_LIST_CSV),
       },
       {
         label: I18n.t('SIDEBAR.TOP_MENU.PAYMENT_METHODS'),
         url: '/settings/paymentMethods',
+        service: services.payment,
         permissions: new Permissions(permissions.PAYMENT.PAYMENT_METHODS_LIST),
       },
     ],

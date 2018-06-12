@@ -25,10 +25,13 @@ function menuItemClick() {
   };
 }
 
-function initSidebar(userPermissions) {
+function initSidebar(userPermissions, services) {
   return {
     type: INIT_SIDEBAR,
-    payload: userPermissions,
+    payload: {
+      userPermissions,
+      services,
+    },
   };
 }
 
@@ -43,11 +46,12 @@ const actionTypes = {
   MENU_ITEM_CLICK,
 };
 const actionHandlers = {
-  [INIT_SIDEBAR]: (state, { payload: currentPermissions }) => {
+  [INIT_SIDEBAR]: (state, { payload: { userPermissions: currentPermissions, services } }) => {
     const permissionMenu = sidebarTopMenu.reduce((result, item) => {
       if (item.items) {
         const subItems = item.items.filter(
-          i => !(i.permissions instanceof Permissions) || i.permissions.check(currentPermissions)
+          i => (!(i.permissions instanceof Permissions) || i.permissions.check(currentPermissions)) &&
+          (!i.service || services.includes(i.service))
         );
 
         if (subItems.length) {
@@ -56,7 +60,10 @@ const actionHandlers = {
             items: subItems,
           });
         }
-      } else if (!(item.permissions instanceof Permissions) || item.permissions.check(currentPermissions)) {
+      } else if (
+        (!(item.permissions instanceof Permissions) || item.permissions.check(currentPermissions)) &&
+        (!item.service || services.includes(item.service))
+      ) {
         result.push(item);
       }
 
