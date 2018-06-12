@@ -220,8 +220,8 @@
       "ACTIVE_PLAN": {
         "TITLE": "Active plan"
       },
-      "PENDING_PAYOUTS": {
-        "TITLE": "Pending payouts"
+      "REWARD_PLANS": {
+        "TITLE": "Reward plans"
       }
     },
     "GAME_ACTIVITY": {

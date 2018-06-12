@@ -91,7 +91,7 @@ class PendingPayouts extends Component {
     const { currency } = this.props;
     const { type } = data;
 
-    const amount = [types.bonus, types.cashBacks].includes(type)
+    const amount = [types.BONUS, types.CASH_BACKS].includes(type)
       ? <Amount amount={data.amount} currency={currency} />
       : data.amount;
 
@@ -126,7 +126,7 @@ class PendingPayouts extends Component {
     return (
       <div className="col-md-2">
         <div className="account-details__label">
-          {I18n.t('PLAYER_PROFILE.PROFILE.PENDING_PAYOUTS.TITLE')}
+          {I18n.t('PLAYER_PROFILE.PROFILE.REWARD_PLANS.TITLE')}
         </div>
         <div className="card">
           <div className="card-body">
