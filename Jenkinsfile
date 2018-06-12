@@ -77,15 +77,15 @@ yarn test:jenkins
 --label "org.label-schema.vendor=New Age Solutions" \
 --label "org.label-schema.schema-version=1.0" \
 --label "org.label-schema.vcs-ref=${commitId}" \
--t devregistry.newage.io/hrzn/${service}:latest .
+-t registry.newage.io/hrzn/${service}:latestdev .
 """
         }
     }
 
     stage('upload') {
         if (isBuildDocker) {
-            sh "docker push devregistry.newage.io/hrzn/${service}:latest"
-            sh "docker rmi devregistry.newage.io/hrzn/${service}:latest"
+            sh "docker push registry.newage.io/hrzn/${service}:latestdev"
+            sh "docker rmi registry.newage.io/hrzn/${service}:latestdev"
         }
     }
 
