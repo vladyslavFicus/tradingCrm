@@ -116,7 +116,9 @@ class ActivePlan extends Component {
             </If>
           </When>
           <Otherwise>
-            {I18n.t('COMMON.NOT_AVAILABLE')}
+            <div className="header-block-middle">
+              {I18n.t('COMMON.NOT_AVAILABLE')}
+            </div>
           </Otherwise>
         </Choose>
       </div>
