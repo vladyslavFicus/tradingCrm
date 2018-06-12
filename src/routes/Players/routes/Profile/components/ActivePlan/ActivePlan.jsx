@@ -4,7 +4,7 @@ import { get } from 'lodash';
 import RewardPlan from '../RewardPlan';
 import PropTypes from '../../../../../../constants/propTypes';
 import {
-  types,
+  typesTitle,
   modalStaticData,
 } from '../../../../../../constants/rewardPlan';
 import { services } from '../../../../../../constants/services';
@@ -17,9 +17,7 @@ class ActivePlan extends Component {
     activeRewardPlan: PropTypes.shape({
       loading: PropTypes.bool,
       rewardPlan: PropTypes.shape({
-        data: PropTypes.shape({
-          lottery: PropTypes.rewardPlanAmount,
-        }),
+        data: PropTypes.object,
       }),
     }),
     optionServices: PropTypes.shape({
@@ -27,6 +25,7 @@ class ActivePlan extends Component {
         services: PropTypes.arrayOf(PropTypes.string),
       }),
     }),
+    activePlanMutation: PropTypes.func.isRequired,
   };
   static defaultProps = {
     activeRewardPlan: {},
@@ -39,22 +38,21 @@ class ActivePlan extends Component {
       modals: { rewardPlanModal },
     } = this.props;
 
-    const rewardPlan = get(activeRewardPlan, `rewardPlan.data.${types.LOTTERY}`);
+    const { amount, type } = get(activeRewardPlan, 'activeRewardPlan.data');
 
     rewardPlanModal.show({
-      onSubmit: this.handleChangePlan,
+      onSubmit: this.handleChangePlan(type),
       initialValues: {
-        amount: rewardPlan.amount,
-        isActive: rewardPlan.isActive,
+        amount,
       },
-      modalStaticData: modalStaticData[types.LOTTERY],
+      modalStaticData: modalStaticData[type],
     });
   };
 
-  handleChangePlan = async (formData) => {
+  handleChangePlan = type => async ({ amount }) => {
     const {
       modals: { rewardPlanModal },
-      lotteryMutation,
+      activePlanMutation,
       notify,
       match: {
         params: {
@@ -63,16 +61,16 @@ class ActivePlan extends Component {
       },
     } = this.props;
 
-    const action = await lotteryMutation({
+    const action = await activePlanMutation({
       variables: {
-        ...formData,
-        type: types.LOTTERY,
-        [types.LOTTERY]: true,
+        amount,
+        type,
+        isActive: true,
         playerUUID,
       },
     });
 
-    const error = get(action, 'data.rewardPlan.update.error');
+    const error = get(action, 'data.activeRewardPlan.update.error');
 
     notify({
       level: error ? 'error' : 'success',
@@ -97,22 +95,32 @@ class ActivePlan extends Component {
       return false;
     }
 
-    const amount = get(activeRewardPlan, 'rewardPlan.data.lottery.amount', 0);
-    const available = !!get(activeRewardPlan, 'rewardPlan.data.userId', false);
+    const error = get(activeRewardPlan, 'activeRewardPlan.error.error', false);
+    const amount = get(activeRewardPlan, 'activeRewardPlan.data.amount', 0);
+    const type = get(activeRewardPlan, 'activeRewardPlan.data.type');
 
     return (
       <div className="header-block">
         <div className="header-block-title">
           {I18n.t('PLAYER_PROFILE.PROFILE.ACTIVE_PLAN.TITLE')}
         </div>
-        <If condition={!loading}>
-          <RewardPlan
-            title="Lottery tickets"
-            available={available}
-            amount={amount}
-            onClick={this.handleOpenUpdateAmountModal}
-          />
-        </If>
+        <Choose>
+          <When condition={!error}>
+            <If condition={!loading && type}>
+              <RewardPlan
+                title={typesTitle[type]}
+                available
+                amount={amount}
+                onClick={this.handleOpenUpdateAmountModal}
+              />
+            </If>
+          </When>
+          <Otherwise>
+            <div className="header-block-middle">
+              {I18n.t('COMMON.NOT_AVAILABLE')}
+            </div>
+          </Otherwise>
+        </Choose>
       </div>
     );
   }

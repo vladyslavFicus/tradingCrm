@@ -60,12 +60,6 @@ class RewardPlanModal extends Component {
               component={InputField}
               position="vertical"
             />
-            <Field
-              name="isActive"
-              hidden="hidden"
-              type="text"
-              component="input"
-            />
           </ModalBody>
           <ModalFooter>
             <button
@@ -94,6 +88,5 @@ export default reduxForm({
   enableReinitialize: true,
   validate: createValidator({
     amount: ['required', 'numeric'],
-    isActive: ['required', 'boolean'],
   }, translateLabels(attributeLabels), false),
 })(RewardPlanModal);

@@ -8,13 +8,6 @@ const types = {
   FREE_SPINS: 'freeSpins',
 };
 
-const pendingPayoutsTypes = [
-  types.BONUS,
-  types.RUNES,
-  types.CASH_BACKS,
-  types.FREE_SPINS,
-];
-
 const typesTitle = {
   [types.LOTTERY]: I18n.t('PROFILE.REWARD_PLAN.TITLE.LOTTERY'),
   [types.BONUS]: I18n.t('PROFILE.REWARD_PLAN.TITLE.BONUS'),
@@ -55,5 +48,4 @@ export {
   types,
   typesTitle,
   modalStaticData,
-  pendingPayoutsTypes,
 };
