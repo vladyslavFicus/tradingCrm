@@ -24,7 +24,7 @@ function mapProfile(item) {
   return {
     ...item,
     kycCompleted: item.kycPersonalStatus && item.kycPersonalStatus.status === statuses.VERIFIED
-    && item.kycAddressStatus && item.kycAddressStatus.status === statuses.VERIFIED,
+      && item.kycAddressStatus && item.kycAddressStatus.status === statuses.VERIFIED,
     age: moment().diff(item.birthDate, 'years'),
     signInIps: item.signInIps ? Object.values(item.signInIps).sort((a, b) => {
       if (a.sessionStart > b.sessionStart) {
@@ -41,7 +41,7 @@ function mapProfile(item) {
         + (item.bonusBalance ? item.bonusBalance.amount : 0)
       ),
       currency: item.currency || emptyBalance.currency,
-    } : emptyBalance,
+    } : { ...emptyBalance, currency: item.currency || emptyBalance.currency },
   };
 }
 

@@ -97,7 +97,9 @@ async function processConfig() {
     },
   }, projectConfig.brand);
 
-  Object.keys(config.nas.brand).forEach((item) => {
+  const cfg = _.get(config, 'nas.brand', {});
+
+  Object.keys(cfg).forEach((item) => {
     if (['currencies', 'password', 'tags', 'locale'].indexOf(item) > -1) {
       brand[item] = config.nas.brand[item];
     }

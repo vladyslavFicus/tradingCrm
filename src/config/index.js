@@ -42,7 +42,7 @@ const config = _.merge({
       },
     },
     validation: {
-      password: null,
+      password: '*',
     },
     limits: {
       deposit: { cooloff: '7 DAYS', periods: ['24 HOURS', '7 DAYS', '30 DAYS'] },
@@ -86,30 +86,30 @@ const config = _.merge({
   },
 }, (window.nas || {}));
 
-if (config.nas.validation && config.nas.brand) {
-  if (config.nas.brand.password.pattern) {
+if (config.nas.brand) {
+  if (config.nas.brand.password && config.nas.brand.password.pattern) {
     config.nas.validation.password = new RegExp(config.nas.brand.password.pattern, 'g');
   }
-}
 
-if (config.nas.brand.tags && config.nas.brand.tags.priorities) {
-  config.nas.brand.tags = Object
-    .keys(config.nas.brand.tags.priorities)
-    .reduce((result, priority) => {
-      Object.keys(config.nas.brand.tags.priorities[priority])
-        .forEach((tag) => {
-          config.nas.brand.tags.priorities[priority][tag].departments.forEach((department) => {
-            result.push({
-              label: tag,
-              value: tag,
-              priority,
-              department,
+  if (config.nas.brand.tags && config.nas.brand.tags.priorities) {
+    config.nas.brand.tags = Object
+      .keys(config.nas.brand.tags.priorities)
+      .reduce((result, priority) => {
+        Object.keys(config.nas.brand.tags.priorities[priority])
+          .forEach((tag) => {
+            config.nas.brand.tags.priorities[priority][tag].departments.forEach((department) => {
+              result.push({
+                label: tag,
+                value: tag,
+                priority,
+                department,
+              });
             });
           });
-        });
 
-      return result;
-    }, []);
+        return result;
+      }, []);
+  }
 }
 
 function getAvailableTags(department) {
@@ -125,11 +125,11 @@ function getApiRoot() {
 }
 
 function getApiVersion() {
-  return window.nas.nas.brand.api.version || config.nas.brand.api.version;
+  return _.get(window, 'nas.brand.api.version', _.get(config, 'nas.brand.api.version'));
 }
 
 function getAvailableLanguages() {
-  return config.nas.brand.locale.languages || [];
+  return _.get(config, 'nas.brand.locale.languages', []);
 }
 
 function getGraphQLRoot() {
