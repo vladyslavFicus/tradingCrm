@@ -2,7 +2,6 @@ import { CALL_API, isValidRSAA } from 'redux-api-middleware';
 import jwtDecode from 'jwt-decode';
 import { v4 } from 'uuid';
 import _ from 'lodash';
-import history from '../router/history';
 import timestamp from '../utils/timestamp';
 import { actionCreators as authActionCreators, actionTypes as authActionTypes } from '../redux/modules/auth';
 
