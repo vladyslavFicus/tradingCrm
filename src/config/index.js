@@ -145,7 +145,7 @@ function setBrandId(brandId) {
 }
 
 function getLogo() {
-  const brands = ['redbox', 'slottica', 'loki', 'vulcanprestige', 'vulcanneon', 'vulcangold'];
+  const brands = ['redbox', 'slottica', 'loki', 'vulcanprestige', 'vulcanneon', 'vulcangold', 'gslots'];
   let brandId = getBrandId();
 
   if (brandId) {
