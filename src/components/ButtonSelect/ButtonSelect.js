@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import ReactSelect from 'react-select';
 import classNames from 'classnames';
 import onClickOutside from 'react-onclickoutside';
-import 'react-select/dist/react-select.css';
+import 'react-select/dist/react-select.min.css';
 import './ButtonSelect.scss';
 
 class ButtonSelect extends Component {

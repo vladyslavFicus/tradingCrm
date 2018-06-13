@@ -1,7 +1,7 @@
 const webpack = require('webpack');
 const path = require('path');
 const merge = require('webpack-merge');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CompressionWebpackPlugin = require('compression-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
@@ -25,41 +25,39 @@ const prodConfig = {
       // sass
       {
         test: /\.(sass|scss)$/,
-        use: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: [
-            {
-              loader: 'css-loader',
-              options: {
-                sourceMap: project.sourcemaps,
-                minimize: {
-                  autoprefixer: {
-                    add: true,
-                    remove: true,
-                    browsers: ['last 2 versions'],
-                  },
-                  discardComments: {
-                    removeAll: true,
-                  },
-                  discardUnused: false,
-                  mergeIdents: false,
-                  reduceIdents: false,
-                  safe: true,
-                  sourcemap: project.sourcemaps,
+        use: [
+          MiniCssExtractPlugin.loader,
+          {
+            loader: 'css-loader',
+            options: {
+              sourceMap: project.sourcemaps,
+              minimize: {
+                autoprefixer: {
+                  add: true,
+                  remove: true,
+                  browsers: ['last 2 versions'],
                 },
+                discardComments: {
+                  removeAll: true,
+                },
+                discardUnused: false,
+                mergeIdents: false,
+                reduceIdents: false,
+                safe: true,
+                sourcemap: project.sourcemaps,
               },
             },
-            {
-              loader: 'fast-sass-loader',
-              options: {
-                sourceMap: project.sourcemaps,
-                includePaths: [
-                  path.join(SRC_DIR, 'styles'),
-                ],
-              },
+          },
+          {
+            loader: 'fast-sass-loader',
+            options: {
+              sourceMap: project.sourcemaps,
+              includePaths: [
+                path.join(SRC_DIR, 'styles'),
+              ],
             },
-          ],
-        }),
+          },
+        ],
         include: [
           SRC_DIR,
         ],
@@ -68,10 +66,7 @@ const prodConfig = {
       // css
       {
         test: /\.css$/,
-        use: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: ['raw-loader'],
-        }),
+        use: [MiniCssExtractPlugin.loader, 'css-loader'],
       },
     ],
   },
@@ -79,6 +74,11 @@ const prodConfig = {
     runtimeChunk: false,
     splitChunks: {
       cacheGroups: {
+        styles: {
+          name: 'main',
+          test: /\.css$/,
+          enforce: true,
+        },
         commons: {
           test: /[\\/]node_modules[\\/]/,
           name: 'vendors',
@@ -121,9 +121,8 @@ const prodConfig = {
       root: project.basePath,
     }),
     new webpack.optimize.OccurrenceOrderPlugin(),
-    new ExtractTextPlugin({
+    new MiniCssExtractPlugin({
       filename: 'styles/[name].css?[hash]',
-      allChunks: true,
     }),
     new CompressionWebpackPlugin({
       asset: '[path].gz[query]',
