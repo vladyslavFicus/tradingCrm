@@ -22,14 +22,6 @@ const prodConfig = {
   },
   module: {
     rules: [
-      // css
-      {
-        test: /\.css$/,
-        use: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: ['raw-loader'],
-        }),
-      },
       // sass
       {
         test: /\.(sass|scss)$/,
@@ -72,6 +64,14 @@ const prodConfig = {
           SRC_DIR,
         ],
         exclude: /node_modules/,
+      },
+      // css
+      {
+        test: /\.css$/,
+        use: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: ['raw-loader'],
+        }),
       },
     ],
   },
@@ -122,7 +122,7 @@ const prodConfig = {
     }),
     new webpack.optimize.OccurrenceOrderPlugin(),
     new ExtractTextPlugin({
-      filename: 'styles/[name].[hash].css',
+      filename: 'styles/[name].css?[hash]',
       allChunks: true,
     }),
     new CompressionWebpackPlugin({
