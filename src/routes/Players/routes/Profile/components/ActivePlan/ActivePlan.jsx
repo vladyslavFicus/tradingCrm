@@ -4,10 +4,12 @@ import { get } from 'lodash';
 import RewardPlan from '../RewardPlan';
 import PropTypes from '../../../../../../constants/propTypes';
 import {
+  types,
   typesTitle,
   modalStaticData,
 } from '../../../../../../constants/rewardPlan';
 import { services } from '../../../../../../constants/services';
+import Amount from '../../../../../../components/Amount';
 
 class ActivePlan extends Component {
   static propTypes = {
@@ -25,6 +27,7 @@ class ActivePlan extends Component {
         services: PropTypes.arrayOf(PropTypes.string),
       }),
     }),
+    currency: PropTypes.string.isRequired,
     activePlanMutation: PropTypes.func.isRequired,
   };
   static defaultProps = {
@@ -87,6 +90,7 @@ class ActivePlan extends Component {
         loading,
       },
       optionServices,
+      currency,
     } = this.props;
 
     const dwhApiEnable = get(optionServices, 'options.services', []).indexOf(services.dwh) > -1;
@@ -99,6 +103,10 @@ class ActivePlan extends Component {
     const amount = get(activeRewardPlan, 'activeRewardPlan.data.amount', 0);
     const type = get(activeRewardPlan, 'activeRewardPlan.data.type');
 
+    const formatAmount = [types.BONUS, types.CASH_BACKS].includes(type)
+      ? <Amount amount={amount} currency={currency} />
+      : amount;
+
     return (
       <div className="header-block">
         <div className="header-block-title">
@@ -110,7 +118,7 @@ class ActivePlan extends Component {
               <RewardPlan
                 title={typesTitle[type]}
                 available
-                amount={amount}
+                amount={formatAmount}
                 onClick={this.handleOpenUpdateAmountModal}
               />
             </If>

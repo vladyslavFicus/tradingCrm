@@ -226,8 +226,8 @@
       "ACTIVE_PLAN": {
         "TITLE": "Активный план"
       },
-      "PENDING_PAYOUTS": {
-        "TITLE": "Ожидающие платежи"
+      "REWARD_PLANS": {
+        "TITLE": "План вознаграждения"
       }
     },
     "GAME_ACTIVITY": {
