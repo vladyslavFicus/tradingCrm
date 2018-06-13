@@ -5,7 +5,7 @@ import { withRouter } from 'react-router-dom';
 import PendingPayouts from './PendingPayouts';
 import { withNotifications, withModals } from '../../../../../../../components/HighOrder';
 import { pendingPayoutsQuery } from '../../../../../../../graphql/queries/rewardPlan';
-import { pendingPayoutsMutation } from '../../../../../../../graphql/mutations/rewardPlan';
+import { pendingPlanMutation } from '../../../../../../../graphql/mutations/rewardPlan';
 import RewardPlanModal from '../../RewardPlanModal';
 import { servicesQuery } from '../../../../../../../graphql/queries/options';
 
@@ -41,8 +41,8 @@ export default compose(
       get(optionServices, 'options.services', []).indexOf('dwh') === -1
     ),
   }),
-  graphql(pendingPayoutsMutation, {
-    name: 'pendingPayoutsMutation',
+  graphql(pendingPlanMutation, {
+    name: 'pendingPlanMutation',
   }),
   withNotifications,
 )(PendingPayouts);

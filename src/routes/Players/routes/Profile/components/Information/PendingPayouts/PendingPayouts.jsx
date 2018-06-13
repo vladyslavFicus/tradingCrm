@@ -8,7 +8,6 @@ import {
   types,
   typesTitle,
   modalStaticData,
-  pendingPayoutsTypes,
 } from '../../../../../../../constants/rewardPlan';
 import { services } from '../../../../../../../constants/services';
 
@@ -17,17 +16,11 @@ class PendingPayouts extends Component {
     modals: PropTypes.shape({
       rewardPlanModal: PropTypes.modalType,
     }).isRequired,
-    pendingPayoutsMutation: PropTypes.func.isRequired,
+    pendingPlanMutation: PropTypes.func.isRequired,
     pendingPayouts: PropTypes.shape({
       loading: PropTypes.bool,
       rewardPlan: PropTypes.shape({
-        data: PropTypes.shape({
-          pendingPayoutsMutation: PropTypes.rewardPlanAmount,
-          bonus: PropTypes.rewardPlanAmount,
-          cashBacks: PropTypes.rewardPlanAmount,
-          runes: PropTypes.rewardPlanAmount,
-          freeSpins: PropTypes.rewardPlanAmount,
-        }),
+        data: PropTypes.object,
       }),
     }),
     optionServices: PropTypes.shape({
@@ -50,19 +43,18 @@ class PendingPayouts extends Component {
       },
     } = this.props;
 
-    const rewardPlan = get(pendingPayouts, `rewardPlan.data.${type}`);
+    const { amount } = get(pendingPayouts, 'pendingRewardPlan.data.plans').find(item => item.type === type);
 
     rewardPlanModal.show({
       onSubmit: this.handleChangePlan(type),
       initialValues: {
-        amount: rewardPlan.amount,
-        isActive: rewardPlan.isActive,
+        amount,
       },
       modalStaticData: modalStaticData[type],
     });
   };
 
-  handleChangePlan = type => async (formData) => {
+  handleChangePlan = type => async ({ amount }) => {
     const {
       modals: {
         rewardPlanModal,
@@ -73,35 +65,44 @@ class PendingPayouts extends Component {
           id: playerUUID,
         },
       },
-      pendingPayoutsMutation,
+      pendingPlanMutation,
     } = this.props;
 
-    const includeParams = {};
-
-    pendingPayoutsTypes.forEach((key) => {
-      includeParams[key] = false;
-    });
-
-    includeParams[type] = true;
-
-    const action = await pendingPayoutsMutation({
+    const action = await pendingPlanMutation({
       variables: {
-        ...formData,
+        amount,
         type,
-        ...includeParams,
+        isActive: false,
         playerUUID,
       },
     });
 
-    const error = get(action, 'data.rewardPlan.update.error');
-    const userId = get(action, 'data.rewardPlan.update.data.userId');
+    const error = get(action, 'data.pendingRewardPlan.update.error');
 
     notify({
-      level: userId && !error ? 'success' : 'error',
+      level: !error ? 'success' : 'error',
       title: I18n.t('PROFILE.REWARD_PLAN.NOTIFICATION.UPDATE_MESSAGE'),
     });
 
     rewardPlanModal.hide();
+  };
+
+  renderPlan = (data) => {
+    const { currency } = this.props;
+    const { type } = data;
+
+    const amount = [types.BONUS, types.CASH_BACKS].includes(type)
+      ? <Amount amount={data.amount} currency={currency} />
+      : data.amount;
+
+    return (
+      <RewardPlan
+        title={typesTitle[data.type]}
+        available
+        amount={amount}
+        onClick={this.handleOpenUpdateAmountModal(type)}
+      />
+    );
   };
 
   render() {
@@ -111,7 +112,6 @@ class PendingPayouts extends Component {
         loading,
       },
       optionServices,
-      currency,
     } = this.props;
 
     const dwhApiEnable = get(optionServices, 'options.services', []).indexOf(services.dwh) > -1;
@@ -120,46 +120,34 @@ class PendingPayouts extends Component {
       return false;
     }
 
-    const bonusAmount = get(pendingPayouts, `rewardPlan.data.${types.BONUS}.amount`, 0);
-    const runesAmount = get(pendingPayouts, `rewardPlan.data.${types.RUNES}.amount`, 0);
-    const cashBacksAmount = get(pendingPayouts, `rewardPlan.data.${types.CASH_BACKS}.amount`, 0);
-    const freeSpinsAmount = get(pendingPayouts, `rewardPlan.data.${types.FREE_SPINS}.amount`, 0);
-    const available = !!get(pendingPayouts, 'rewardPlan.data.userId', false);
+    const error = get(pendingPayouts, 'pendingRewardPlan.error.error', false);
+    const plans = get(pendingPayouts, 'pendingRewardPlan.data.plans', []);
 
     return (
       <div className="col-md-2">
         <div className="account-details__label">
-          {I18n.t('PLAYER_PROFILE.PROFILE.PENDING_PAYOUTS.TITLE')}
+          {I18n.t('PLAYER_PROFILE.PROFILE.REWARD_PLANS.TITLE')}
         </div>
         <div className="card">
-          <If condition={!loading}>
-            <div className="card-body">
-              <RewardPlan
-                title={I18n.t(typesTitle.bonus)}
-                available={available}
-                amount={<Amount amount={bonusAmount} currency={currency} />}
-                onClick={this.handleOpenUpdateAmountModal(types.BONUS)}
-              />
-              <RewardPlan
-                title={I18n.t(typesTitle.cashBacks)}
-                available={available}
-                amount={<Amount amount={cashBacksAmount} currency={currency} />}
-                onClick={this.handleOpenUpdateAmountModal(types.CASH_BACKS)}
-              />
-              <RewardPlan
-                title={I18n.t(typesTitle.freeSpins)}
-                available={available}
-                amount={freeSpinsAmount}
-                onClick={this.handleOpenUpdateAmountModal(types.FREE_SPINS)}
-              />
-              <RewardPlan
-                title={I18n.t(typesTitle.runes)}
-                available={available}
-                amount={runesAmount}
-                onClick={this.handleOpenUpdateAmountModal(types.RUNES)}
-              />
-            </div>
-          </If>
+          <div className="card-body">
+            <Choose>
+              <When condition={!error}>
+                <If condition={!loading}>
+                  <For each="plan" index="index" of={plans}>
+                    <div key={index}>
+                      {this.renderPlan(plan)}
+                    </div>
+                  </For>
+                </If>
+              </When>
+              <Otherwise>
+                <div className="header-block-middle">
+                  {I18n.t('COMMON.NOT_AVAILABLE')}
+                </div>
+              </Otherwise>
+            </Choose>
+          </div>
+
         </div>
       </div>
     );

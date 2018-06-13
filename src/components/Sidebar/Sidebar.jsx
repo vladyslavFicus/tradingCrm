@@ -13,24 +13,33 @@ class Sidebar extends Component {
     menuItemClick: PropTypes.func.isRequired,
     init: PropTypes.func.isRequired,
   };
+  static contextTypes = {
+    services: PropTypes.arrayOf(PropTypes.string),
+    permissions: PropTypes.arrayOf(PropTypes.string).isRequired,
+  };
 
   state = {
     isOpen: false,
   };
 
   componentDidMount() {
-    const { init, menuItemClick } = this.props;
-
-    init();
-    menuItemClick();
-
     const sidebarAnimation = new TimeLineLite({ paused: true });
     sidebarAnimation.fromTo(this.sidebar, 0.15, { width: '60px' }, { width: '240px' });
 
     this.sidebarAnimation = sidebarAnimation;
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentWillReceiveProps(_, { services: nextServices }) {
+    const { services, permissions } = this.context;
+    if (!services.length && nextServices.length) {
+      const { init, menuItemClick } = this.props;
+
+      init(permissions, nextServices);
+      menuItemClick();
+    }
+  }
+
+  componentDidUpdate(_, prevState) {
     const { isOpen } = this.state;
     const { topMenu } = this.props;
 
