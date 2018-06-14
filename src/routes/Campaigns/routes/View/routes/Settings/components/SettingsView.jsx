@@ -27,17 +27,7 @@ class SettingsView extends Component {
     permissions: PropTypes.array.isRequired,
   };
 
-  handleUpdateCampaign = async (formData) => {
-    const {
-      campaign: {
-        campaign: {
-          data: {
-            fulfillments: initialFulfillments,
-          },
-        },
-      },
-    } = this.props;
-
+  handleUpdateCampaign = async (values) => {
     const {
       updateCampaign,
       notify,
@@ -46,10 +36,14 @@ class SettingsView extends Component {
       updateDepositFulfillment,
       campaign: {
         campaign: {
+          data: {
+            fulfillments: initialFulfillments,
+          },
           data,
         },
       },
     } = this.props;
+    const formData = Object.keys(values).reduce((res, key) => ({ ...res, [key]: values[key] || undefined }), {});
 
     const fulfillments = formData.fulfillments
       .filter(({ uuid }) => uuid)
