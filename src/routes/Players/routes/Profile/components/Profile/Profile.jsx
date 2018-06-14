@@ -169,6 +169,8 @@ class Profile extends Component {
     onDeleteFileClick: PropTypes.func.isRequired,
     showImages: PropTypes.func.isRequired,
     cacheChildrenComponent: PropTypes.func.isRequired,
+    registerUpdateCacheListener: PropTypes.func.isRequired,
+    unRegisterUpdateCacheListener: PropTypes.func.isRequired,
   };
 
   state = {
@@ -192,6 +194,8 @@ class Profile extends Component {
       onDeleteFileClick: this.handleDeleteFileClick,
       showImages: this.showImages,
       cacheChildrenComponent: this.cacheChildrenComponent,
+      registerUpdateCacheListener: this.registerUpdateCacheListener,
+      unRegisterUpdateCacheListener: this.unRegisterUpdateCacheListener,
     };
   }
 
@@ -250,6 +254,26 @@ class Profile extends Component {
     this.children = component;
   };
 
+  cacheChildrenComponents = [];
+
+  registerUpdateCacheListener = (componentName, handler) => {
+    this.cacheChildrenComponents.push({
+      name: componentName,
+      update: handler,
+    });
+  };
+
+  unRegisterUpdateCacheListener = (componentName) => {
+    const { cacheChildrenComponents } = this;
+
+    if (cacheChildrenComponents.length) {
+      const index = cacheChildrenComponents.findIndex(component => component.name === componentName);
+      if (index > -1) {
+        cacheChildrenComponents.splice(index, 1);
+      }
+    }
+  };
+
   handleLoadProfile = async (needForceUpdate = false) => {
     const {
       playerProfile,
@@ -267,6 +291,10 @@ class Profile extends Component {
       await notes.refetch();
       await locks.refetch();
       await fetchFiles(params.id);
+
+      this.cacheChildrenComponents.forEach((component) => {
+        component.update();
+      });
 
       if (needForceUpdate &&
         this.children &&
