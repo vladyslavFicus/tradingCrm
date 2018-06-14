@@ -48,17 +48,18 @@ class CampaignView extends PureComponent {
     } = this.props;
 
     const response = await cloneMutation({ variables: { uuid } });
+    const clone = get(response, 'data.campaign.clone');
 
-    if (response) {
+    if (clone) {
       notify({
-        level: response.error ? 'error' : 'success',
+        level: clone.error ? 'error' : 'success',
         title: I18n.t('BONUS_CAMPAIGNS.VIEW.NOTIFICATIONS.CAMPAIGN_COPIED'),
-        message: `${I18n.t('COMMON.NOTIFICATIONS.COPIED')} ${response.error ? I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY') :
+        message: `${I18n.t('COMMON.NOTIFICATIONS.COPIED')} ${clone.error ? I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY') :
           I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
       });
 
-      if (!response.error) {
-        const campaignUUID = get(response, 'data.campaign.clone.data.uuid');
+      if (!clone.error) {
+        const campaignUUID = get(clone, 'data.campaign.clone.data.uuid');
         history.push(`/campaigns/view/${campaignUUID}/settings`);
       }
     }
