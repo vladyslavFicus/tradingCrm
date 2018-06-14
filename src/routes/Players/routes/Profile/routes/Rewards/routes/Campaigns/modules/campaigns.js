@@ -64,7 +64,7 @@ function optInCampaign({ uuid, sourceType, playerUUID }) {
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `campaign_aggregator/${sourceType}/${uuid}/optin/${playerUUID}`,
+        endpoint: `campaign_aggregator/${sourceType.toLowerCase()}/${uuid}/optin/${playerUUID}`,
         method: 'PUT',
         headers: {
           Accept: 'application/json',
@@ -85,7 +85,7 @@ function optOutCampaign({ uuid, sourceType, playerUUID, returnToList = false }) 
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `campaign_aggregator/${sourceType}/${uuid}/optout/${playerUUID}?optoutType=${optoutType}`,
+        endpoint: `campaign_aggregator/${sourceType.toLowerCase()}/${uuid}/optout/${playerUUID}?optoutType=${optoutType}`,
         method: 'PUT',
         headers: {
           Accept: 'application/json',
@@ -105,7 +105,7 @@ function addPlayerToCampaign({ uuid, sourceType, playerUUID }) {
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `campaign_aggregator/${sourceType}/${uuid}/players/${playerUUID}`,
+        endpoint: `campaign_aggregator/${sourceType.toLowerCase()}/${uuid}/players/${playerUUID}`,
         method: 'PUT',
         headers: {
           Accept: 'application/json',
@@ -129,7 +129,7 @@ function deletePlayerFromCampaign({ uuid, sourceType, playerUUID }) {
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `campaign_aggregator/${sourceType}/${uuid}/players/${playerUUID}`,
+        endpoint: `campaign_aggregator/${sourceType.toLowerCase()}/${uuid}/players/${playerUUID}`,
         method: 'DELETE',
         headers: {
           Accept: 'application/json',
