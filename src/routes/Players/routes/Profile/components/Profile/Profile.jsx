@@ -268,6 +268,7 @@ class Profile extends Component {
 
     if (cacheChildrenComponents.length) {
       const index = cacheChildrenComponents.findIndex(component => component.name === componentName);
+
       if (index > -1) {
         cacheChildrenComponents.splice(index, 1);
       }
