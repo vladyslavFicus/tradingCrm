@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { graphql, compose } from 'react-apollo';
-import View from '../components/View';
+import Limits from '../components/Limits';
 import { actionCreators } from '../modules';
 import { getLimitPeriods } from '../../../../../../../config';
 import { realBaseCurrencyQuery } from '.././../../../../../../graphql/queries/profile';
@@ -36,4 +36,4 @@ export default compose(
     }),
     name: 'realBaseCurrency',
   }),
-)(View);
+)(Limits);

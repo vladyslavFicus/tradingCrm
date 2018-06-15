@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import View from '../components/View';
+import Devices from '../components/Devices';
 import { actionCreators } from '../modules/list';
 import { actionCreators as deviceTypesActionCreators } from '../modules';
 
@@ -12,4 +12,4 @@ const mapActions = {
   fetchFilters: deviceTypesActionCreators.fetchFilters,
 };
 
-export default connect(mapStateToProps, mapActions)(View);
+export default connect(mapStateToProps, mapActions)(Devices);

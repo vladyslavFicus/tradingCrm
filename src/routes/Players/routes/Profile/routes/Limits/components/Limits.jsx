@@ -14,7 +14,7 @@ const modalInitialState = {
   params: {},
 };
 
-class View extends Component {
+class Limits extends Component {
   static propTypes = {
     match: PropTypes.shape({
       params: PropTypes.shape({
@@ -36,7 +36,8 @@ class View extends Component {
     onAddNoteClick: PropTypes.func.isRequired,
     onEditNoteClick: PropTypes.func.isRequired,
     setNoteChangedCallback: PropTypes.func.isRequired,
-    cacheChildrenComponent: PropTypes.func.isRequired,
+    registerUpdateCacheListener: PropTypes.func.isRequired,
+    unRegisterUpdateCacheListener: PropTypes.func.isRequired,
   };
 
   state = {
@@ -44,7 +45,12 @@ class View extends Component {
   };
 
   componentWillMount() {
-    this.context.cacheChildrenComponent(this);
+    const {
+      context: { registerUpdateCacheListener },
+      constructor: { name },
+    } = this;
+
+    registerUpdateCacheListener(name, this.handleRefresh);
   }
 
   componentDidMount() {
@@ -53,8 +59,16 @@ class View extends Component {
   }
 
   componentWillUnmount() {
-    this.context.setNoteChangedCallback(null);
-    this.context.cacheChildrenComponent(null);
+    const {
+      context: {
+        unRegisterUpdateCacheListener,
+        setNoteChangedCallback,
+      },
+      constructor: { name },
+    } = this;
+
+    setNoteChangedCallback(null);
+    unRegisterUpdateCacheListener(name);
   }
 
   handleRefresh = () => this.props.fetchEntities(this.props.match.params.id);
@@ -201,4 +215,4 @@ class View extends Component {
   }
 }
 
-export default View;
+export default Limits;

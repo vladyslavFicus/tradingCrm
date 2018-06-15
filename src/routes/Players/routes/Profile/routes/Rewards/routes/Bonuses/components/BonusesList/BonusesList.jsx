@@ -22,7 +22,7 @@ import recognizeFieldError from '../../../../../../../../../../utils/recognizeFi
 const modalInitialState = { name: null, params: {} };
 const MODAL_VIEW = 'view-modal';
 
-class View extends Component {
+class BonusesList extends Component {
   static propTypes = {
     list: PropTypes.pageableState(PropTypes.bonusEntity).isRequired,
     playerProfile: PropTypes.shape({ data: PropTypes.userProfile }).isRequired,
@@ -57,7 +57,8 @@ class View extends Component {
     onAddNoteClick: PropTypes.func.isRequired,
     onEditNoteClick: PropTypes.func.isRequired,
     setNoteChangedCallback: PropTypes.func.isRequired,
-    cacheChildrenComponent: PropTypes.func.isRequired,
+    registerUpdateCacheListener: PropTypes.func.isRequired,
+    unRegisterUpdateCacheListener: PropTypes.func.isRequired,
     setRenderActions: PropTypes.func.isRequired,
   };
 
@@ -68,8 +69,14 @@ class View extends Component {
   };
 
   componentWillMount() {
-    this.handleRefresh();
-    this.context.cacheChildrenComponent(this);
+    const {
+      context: { registerUpdateCacheListener },
+      constructor: { name },
+      handleRefresh,
+    } = this;
+
+    handleRefresh();
+    registerUpdateCacheListener(name, this.handleRefresh);
   }
 
   componentDidMount() {
@@ -98,9 +105,18 @@ class View extends Component {
   }
 
   componentWillUnmount() {
-    this.context.setNoteChangedCallback(null);
-    this.context.cacheChildrenComponent(null);
-    this.context.setRenderActions(null);
+    const {
+      context: {
+        unRegisterUpdateCacheListener,
+        setRenderActions,
+        setNoteChangedCallback,
+      },
+      constructor: { name },
+    } = this;
+
+    setNoteChangedCallback(null);
+    setRenderActions(null);
+    unRegisterUpdateCacheListener(name);
   }
 
   getNotePopoverParams = () => ({
@@ -465,4 +481,4 @@ class View extends Component {
   }
 }
 
-export default View;
+export default BonusesList;

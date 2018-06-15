@@ -6,7 +6,7 @@ import FeedItem from '../../../../../../../components/FeedItem';
 import FeedFilterForm from './FeedFilterForm';
 import TabHeader from '../../../../../../../components/TabHeader';
 
-class View extends Component {
+class Feed extends Component {
   static propTypes = {
     feed: PropTypes.pageableState(PropTypes.auditEntity).isRequired,
     feedTypes: PropTypes.shape({
@@ -24,7 +24,8 @@ class View extends Component {
   };
 
   static contextTypes = {
-    cacheChildrenComponent: PropTypes.func.isRequired,
+    registerUpdateCacheListener: PropTypes.func.isRequired,
+    unRegisterUpdateCacheListener: PropTypes.func.isRequired,
   };
 
   state = {
@@ -34,17 +35,26 @@ class View extends Component {
 
   componentWillMount() {
     const {
-      fetchFeedTypes,
-      match: { params: { id: playerUUID } },
-    } = this.props;
+      context: { registerUpdateCacheListener },
+      constructor: { name },
+      props: {
+        fetchFeedTypes,
+        match: { params: { id: playerUUID } },
+      },
+    } = this;
 
     this.handleFiltersChanged();
     fetchFeedTypes(playerUUID);
-    this.context.cacheChildrenComponent(this);
+    registerUpdateCacheListener(name, this.handleRefresh);
   }
 
   componentWillUnmount() {
-    this.context.cacheChildrenComponent(null);
+    const {
+      context: { unRegisterUpdateCacheListener },
+      constructor: { name },
+    } = this;
+
+    unRegisterUpdateCacheListener(name);
   }
 
   handleRefresh = () => {
@@ -133,4 +143,4 @@ class View extends Component {
   }
 }
 
-export default View;
+export default Feed;

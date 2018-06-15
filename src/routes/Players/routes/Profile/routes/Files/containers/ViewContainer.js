@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import View from '../components/View';
+import Files from '../components/Files';
 import { actionCreators as filesActionCreators } from '../../../modules/files';
 import { actionCreators } from '../modules/list';
 import { getApiRoot } from '../../../../../../../config';
@@ -16,4 +16,4 @@ const mapActions = {
   downloadFile: filesActionCreators.downloadFile,
 };
 
-export default connect(mapStateToProps, mapActions)(View);
+export default connect(mapStateToProps, mapActions)(Files);

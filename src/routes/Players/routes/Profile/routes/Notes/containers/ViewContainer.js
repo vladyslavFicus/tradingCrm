@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { graphql, compose } from 'react-apollo';
-import View from '../components/View';
+import Notes from '../components/Notes';
 import { notesQuery } from '.././../../../../../../graphql/queries/notes';
 import { actionCreators as noteTypesActionCreators } from '../modules/noteTypes';
 
@@ -58,4 +58,4 @@ export default compose(
     }),
     name: 'notes',
   })
-)(View);
+)(Notes);

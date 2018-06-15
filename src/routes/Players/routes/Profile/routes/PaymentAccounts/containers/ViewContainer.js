@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import View from '../components/View';
+import PaymentAccounts from '../components/PaymentAccounts';
 import { actionCreators } from '../modules';
 import { actionCreators as filesActionCreators } from '../../../modules/files';
 import { getApiRoot } from '../../../../../../../config';
@@ -24,4 +24,4 @@ const mapActions = {
   changePaymentAccountStatus: actionCreators.changePaymentAccountStatus,
 };
 
-export default connect(mapStateToProps, mapActions)(View);
+export default connect(mapStateToProps, mapActions)(PaymentAccounts);

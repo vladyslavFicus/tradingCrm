@@ -34,18 +34,22 @@ class ActivePlan extends Component {
   };
 
   componentWillMount() {
-    const { registerUpdateCacheListener } = this.context;
-    const { activeRewardPlan: { refetch } } = this.props;
-    const { name: componentName } = this.constructor;
+    const {
+      context: { registerUpdateCacheListener },
+      constructor: { name },
+      props: { activeRewardPlan: { refetch } },
+    } = this;
 
-    registerUpdateCacheListener(componentName, refetch);
+    registerUpdateCacheListener(name, refetch);
   }
 
   componentWillUnmount() {
-    const { unRegisterUpdateCacheListener } = this.context;
-    const { name: componentName } = this.constructor;
+    const {
+      context: { unRegisterUpdateCacheListener },
+      constructor: { name },
+    } = this;
 
-    unRegisterUpdateCacheListener(componentName);
+    unRegisterUpdateCacheListener(name);
   }
 
   handleOpenUpdateAmountModal = () => {

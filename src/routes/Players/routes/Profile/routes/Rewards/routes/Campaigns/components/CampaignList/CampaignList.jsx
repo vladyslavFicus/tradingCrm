@@ -29,7 +29,7 @@ const modalInitialState = {
   params: {},
 };
 
-class View extends Component {
+class CampaignList extends Component {
   static propTypes = {
     list: PropTypes.pageableState(PropTypes.bonusCampaignEntity).isRequired,
     profile: PropTypes.userProfile.isRequired,
@@ -51,9 +51,10 @@ class View extends Component {
     }).isRequired,
   };
   static contextTypes = {
-    cacheChildrenComponent: PropTypes.func.isRequired,
     addNotification: PropTypes.func.isRequired,
     setRenderActions: PropTypes.func.isRequired,
+    registerUpdateCacheListener: PropTypes.func.isRequired,
+    unRegisterUpdateCacheListener: PropTypes.func.isRequired,
   };
 
   state = {
@@ -62,9 +63,17 @@ class View extends Component {
     page: 0,
   };
 
+  componentWillMount() {
+    const {
+      context: { registerUpdateCacheListener },
+      constructor: { name },
+    } = this;
+
+    registerUpdateCacheListener(name, this.handleRefresh);
+  }
+
   componentDidMount() {
     this.handleRefresh();
-    this.context.cacheChildrenComponent(this);
     this.context.setRenderActions(() => (
       <Fragment>
         <PermissionContent permissions={permissions.USER_PROFILE.ADD_TO_CAMPAIGN}>
@@ -88,8 +97,16 @@ class View extends Component {
   }
 
   componentWillUnmount() {
-    this.context.cacheChildrenComponent(null);
-    this.context.setRenderActions(null);
+    const {
+      context: {
+        unRegisterUpdateCacheListener,
+        setRenderActions,
+      },
+      constructor: { name },
+    } = this;
+
+    setRenderActions(null);
+    unRegisterUpdateCacheListener(name);
   }
 
   getCampaignUrl = (sourceType, uuid) => {
@@ -222,7 +239,7 @@ class View extends Component {
     }
   };
 
-  renderCampaign = ({ uuid, name, targetType, sourceType }) => (
+  renderCampaign = ({ uuid, name, sourceType }) => (
     <div id={`bonus-campaign-${uuid}`}>
       <IframeLink
         className="font-weight-700 color-black"
@@ -474,4 +491,4 @@ class View extends Component {
   }
 }
 
-export default View;
+export default CampaignList;

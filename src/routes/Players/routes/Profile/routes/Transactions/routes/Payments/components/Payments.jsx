@@ -34,7 +34,7 @@ const defaultModalState = {
   params: {},
 };
 
-class View extends Component {
+class Payments extends Component {
   static propTypes = {
     transactions: PropTypes.pageableState(PropTypes.paymentEntity).isRequired,
     filters: PropTypes.shape({
@@ -87,8 +87,9 @@ class View extends Component {
     onAddNote: PropTypes.func.isRequired,
     onEditNoteClick: PropTypes.func.isRequired,
     setNoteChangedCallback: PropTypes.func.isRequired,
-    cacheChildrenComponent: PropTypes.func.isRequired,
     setRenderActions: PropTypes.func.isRequired,
+    registerUpdateCacheListener: PropTypes.func.isRequired,
+    unRegisterUpdateCacheListener: PropTypes.func.isRequired,
   };
 
   state = {
@@ -98,7 +99,12 @@ class View extends Component {
   };
 
   componentWillMount() {
-    this.context.cacheChildrenComponent(this);
+    const {
+      context: { registerUpdateCacheListener },
+      constructor: { name },
+    } = this;
+
+    registerUpdateCacheListener(name, this.handleRefresh);
   }
 
   async componentDidMount() {
@@ -135,10 +141,20 @@ class View extends Component {
   }
 
   componentWillUnmount() {
-    this.context.setNoteChangedCallback(null);
-    this.context.cacheChildrenComponent(null);
-    this.props.resetAll();
-    this.context.setRenderActions(null);
+    const {
+      context: {
+        unRegisterUpdateCacheListener,
+        setNoteChangedCallback,
+        setRenderActions,
+      },
+      constructor: { name },
+      props: { resetAll },
+    } = this;
+
+    resetAll();
+    setRenderActions(null);
+    setNoteChangedCallback(null);
+    unRegisterUpdateCacheListener(name);
   }
 
   handleNoteClick = (target, note, data) => {
@@ -504,4 +520,4 @@ class View extends Component {
   }
 }
 
-export default View;
+export default Payments;

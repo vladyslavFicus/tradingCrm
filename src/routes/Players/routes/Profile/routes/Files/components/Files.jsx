@@ -6,7 +6,7 @@ import FilesFilterForm from './FilesFilterForm';
 import CommonFileGridView from '../../../components/CommonFileGridView';
 import TabHeader from '../../../../../../../components/TabHeader';
 
-class View extends Component {
+class Files extends Component {
   static propTypes = {
     filesUrl: PropTypes.string.isRequired,
     files: PropTypes.pageableState(PropTypes.fileEntity).isRequired,
@@ -28,7 +28,8 @@ class View extends Component {
     setFileChangedCallback: PropTypes.func.isRequired,
     onDeleteFileClick: PropTypes.func.isRequired,
     showImages: PropTypes.func.isRequired,
-    cacheChildrenComponent: PropTypes.func.isRequired,
+    registerUpdateCacheListener: PropTypes.func.isRequired,
+    unRegisterUpdateCacheListener: PropTypes.func.isRequired,
   };
   state = {
     filters: {},
@@ -36,7 +37,12 @@ class View extends Component {
   };
 
   componentWillMount() {
-    this.context.cacheChildrenComponent(this);
+    const {
+      context: { registerUpdateCacheListener },
+      constructor: { name },
+    } = this;
+
+    registerUpdateCacheListener(name, this.handleRefresh);
   }
 
   componentDidMount() {
@@ -46,9 +52,18 @@ class View extends Component {
   }
 
   componentWillUnmount() {
-    this.context.setNoteChangedCallback(null);
-    this.context.setFileChangedCallback(null);
-    this.context.cacheChildrenComponent(null);
+    const {
+      context: {
+        unRegisterUpdateCacheListener,
+        setNoteChangedCallback,
+        setFileChangedCallback,
+      },
+      constructor: { name },
+    } = this;
+
+    setNoteChangedCallback(null);
+    setFileChangedCallback(null);
+    unRegisterUpdateCacheListener(name);
   }
 
   getNotePopoverParams = () => ({
@@ -140,4 +155,4 @@ class View extends Component {
   }
 }
 
-export default View;
+export default Files;

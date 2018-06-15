@@ -168,7 +168,6 @@ class Profile extends Component {
     setFileChangedCallback: PropTypes.func.isRequired,
     onDeleteFileClick: PropTypes.func.isRequired,
     showImages: PropTypes.func.isRequired,
-    cacheChildrenComponent: PropTypes.func.isRequired,
     registerUpdateCacheListener: PropTypes.func.isRequired,
     unRegisterUpdateCacheListener: PropTypes.func.isRequired,
   };
@@ -193,7 +192,6 @@ class Profile extends Component {
       setFileChangedCallback: this.setFileChangedCallback,
       onDeleteFileClick: this.handleDeleteFileClick,
       showImages: this.showImages,
-      cacheChildrenComponent: this.cacheChildrenComponent,
       registerUpdateCacheListener: this.registerUpdateCacheListener,
       unRegisterUpdateCacheListener: this.unRegisterUpdateCacheListener,
     };
@@ -250,10 +248,6 @@ class Profile extends Component {
     this.setState({ fileChangedCallback: cb });
   };
 
-  cacheChildrenComponent = (component) => {
-    this.children = component;
-  };
-
   cacheChildrenComponents = [];
 
   registerUpdateCacheListener = (componentName, handler) => {
@@ -293,14 +287,10 @@ class Profile extends Component {
       await locks.refetch();
       await fetchFiles(params.id);
 
-      this.cacheChildrenComponents.forEach((component) => {
-        component.update();
-      });
-
-      if (needForceUpdate &&
-        this.children &&
-        typeof this.children.handleRefresh === 'function') {
-        this.children.handleRefresh();
+      if (needForceUpdate) {
+        this.cacheChildrenComponents.forEach((component) => {
+          component.update();
+        });
       }
     }
   };
