@@ -36,19 +36,22 @@ class Files extends Component {
     page: 0,
   };
 
-  componentWillMount() {
+  componentDidMount() {
     const {
-      context: { registerUpdateCacheListener },
+      context: {
+        registerUpdateCacheListener,
+        setNoteChangedCallback,
+        setFileChangedCallback
+      },
       constructor: { name },
+      handleRefresh,
     } = this;
 
-    registerUpdateCacheListener(name, this.handleRefresh);
-  }
 
-  componentDidMount() {
-    this.context.setNoteChangedCallback(this.handleRefresh);
-    this.context.setFileChangedCallback(this.handleRefresh);
-    this.handleRefresh();
+    handleRefresh();
+    setNoteChangedCallback(handleRefresh);
+    setFileChangedCallback(handleRefresh);
+    registerUpdateCacheListener(name, handleRefresh);
   }
 
   componentWillUnmount() {

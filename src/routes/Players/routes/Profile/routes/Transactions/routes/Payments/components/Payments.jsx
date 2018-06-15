@@ -98,43 +98,47 @@ class Payments extends Component {
     modal: defaultModalState,
   };
 
-  componentWillMount() {
-    const {
-      context: { registerUpdateCacheListener },
-      constructor: { name },
-    } = this;
-
-    registerUpdateCacheListener(name, this.handleRefresh);
-  }
-
   async componentDidMount() {
     const {
-      match: { params: { id: playerUUID, paymentUUID } },
-      fetchFilters,
-      fetchEntities,
-      location,
-    } = this.props;
+      context: {
+        registerUpdateCacheListener,
+        setNoteChangedCallback,
+        setRenderActions,
+      },
+      constructor: { name },
+      handleRefresh,
+      handleOpenDetailModal,
+      handleCloseModal,
+      handleOpenAddPaymentModal,
+      props: {
+        match: { params: { id: playerUUID, paymentUUID } },
+        fetchFilters,
+        fetchEntities,
+        location,
+      },
+    } = this;
 
+    handleRefresh();
+    registerUpdateCacheListener(name, handleRefresh);
     fetchFilters(playerUUID);
-    this.handleRefresh();
-    this.context.setNoteChangedCallback(this.handleRefresh);
+    setNoteChangedCallback(handleRefresh);
 
     if (paymentUUID) {
       const action = await fetchEntities(playerUUID, { keyword: paymentUUID });
 
       if (action && !action.error && action.payload.content.length > 0) {
-        this.handleOpenDetailModal({
+        handleOpenDetailModal({
           payment: action.payload.content[0],
           onClose: () => {
-            this.handleCloseModal();
+            handleCloseModal();
             history.replace(location.pathname.replace(`/${paymentUUID}`, ''));
           },
         });
       }
     }
 
-    this.context.setRenderActions(() => (
-      <button className="btn btn-sm btn-primary-outline" onClick={this.handleOpenAddPaymentModal}>
+    setRenderActions(() => (
+      <button className="btn btn-sm btn-primary-outline" onClick={handleOpenAddPaymentModal}>
             + Add transaction
       </button>
     ));

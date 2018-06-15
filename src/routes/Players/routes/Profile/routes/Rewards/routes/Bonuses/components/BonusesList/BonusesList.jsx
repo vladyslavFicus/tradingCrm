@@ -68,28 +68,30 @@ class BonusesList extends Component {
     page: 0,
   };
 
-  componentWillMount() {
+  componentDidMount() {
     const {
-      context: { registerUpdateCacheListener },
+      context: {
+        registerUpdateCacheListener,
+        setNoteChangedCallback,
+        setRenderActions,
+      },
       constructor: { name },
       handleRefresh,
+      handleCreateManualBonusClick,
     } = this;
 
     handleRefresh();
-    registerUpdateCacheListener(name, this.handleRefresh);
-  }
-
-  componentDidMount() {
-    this.context.setNoteChangedCallback(this.handleRefresh);
-    this.context.setRenderActions(() => (
+    setNoteChangedCallback(handleRefresh);
+    setRenderActions(() => (
       <button
         className="btn btn-sm btn-primary-outline"
-        onClick={this.handleCreateManualBonusClick}
+        onClick={handleCreateManualBonusClick}
         id="add-manual-bonus-button"
       >
         {I18n.t('PLAYER_PROFILE.BONUS.MANUAL_BONUS_BUTTON')}
       </button>
     ));
+    registerUpdateCacheListener(name, handleRefresh);
   }
 
   componentWillReceiveProps(nextProps) {

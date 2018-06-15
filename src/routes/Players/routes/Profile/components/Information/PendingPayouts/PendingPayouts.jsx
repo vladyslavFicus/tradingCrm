@@ -34,12 +34,14 @@ class PendingPayouts extends Component {
     unRegisterUpdateCacheListener: PropTypes.func.isRequired,
   };
 
-  componentWillMount() {
-    const { registerUpdateCacheListener } = this.context;
-    const { pendingPayouts: { refetch } } = this.props;
-    const { name: componentName } = this.constructor;
+  componentDidMount() {
+    const {
+      context: { registerUpdateCacheListener },
+      constructor: { name },
+      props: { pendingPayouts: { refetch } },
+    } = this;
 
-    registerUpdateCacheListener(componentName, refetch);
+    registerUpdateCacheListener(name, refetch);
   }
 
   componentWillUnmount() {

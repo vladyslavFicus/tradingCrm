@@ -41,18 +41,20 @@ class Devices extends Component {
     filters: {},
   };
 
-  componentWillMount() {
+  componentDidMount() {
     const {
       context: { registerUpdateCacheListener },
       constructor: { name },
+      handleRefresh,
+      props: {
+        fetchFilters,
+        match: { params: { id } },
+      },
     } = this;
 
-    registerUpdateCacheListener(name, this.handleRefresh);
-  }
-
-  componentDidMount() {
-    this.handleRefresh();
-    this.props.fetchFilters(this.props.match.params.id);
+    handleRefresh();
+    fetchFilters(id);
+    registerUpdateCacheListener(name, handleRefresh);
   }
 
   componentWillUnmount() {

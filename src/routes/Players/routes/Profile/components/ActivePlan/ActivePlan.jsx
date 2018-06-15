@@ -33,7 +33,7 @@ class ActivePlan extends Component {
     unRegisterUpdateCacheListener: PropTypes.func.isRequired,
   };
 
-  componentWillMount() {
+  componentDidMount() {
     const {
       context: { registerUpdateCacheListener },
       constructor: { name },

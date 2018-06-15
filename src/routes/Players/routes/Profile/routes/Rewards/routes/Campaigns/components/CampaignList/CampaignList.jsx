@@ -63,23 +63,26 @@ class CampaignList extends Component {
     page: 0,
   };
 
-  componentWillMount() {
+  componentDidMount() {
     const {
-      context: { registerUpdateCacheListener },
+      context: {
+        registerUpdateCacheListener,
+        setRenderActions,
+      },
       constructor: { name },
+      handleRefresh,
+      handleAddToCampaignClick,
+      handleOpenModal,
     } = this;
 
-    registerUpdateCacheListener(name, this.handleRefresh);
-  }
-
-  componentDidMount() {
-    this.handleRefresh();
-    this.context.setRenderActions(() => (
+    handleRefresh();
+    registerUpdateCacheListener(name, handleRefresh);
+    setRenderActions(() => (
       <Fragment>
         <PermissionContent permissions={permissions.USER_PROFILE.ADD_TO_CAMPAIGN}>
           <button
             className="btn btn-primary-outline margin-left-15 btn-sm"
-            onClick={this.handleAddToCampaignClick}
+            onClick={handleAddToCampaignClick}
           >
             {I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.ADD_TO_CAMPAIGN_BUTTON')}
           </button>
@@ -87,7 +90,7 @@ class CampaignList extends Component {
         <PermissionContent permissions={permissions.USER_PROFILE.ADD_PROMO_CODE_TO_PLAYER}>
           <button
             className="btn btn-primary-outline margin-left-15 btn-sm"
-            onClick={() => this.handleOpenModal(ADD_PROMO_CODE_MODAL)}
+            onClick={() => handleOpenModal(ADD_PROMO_CODE_MODAL)}
           >
             {I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.ADD_PROMO_CODE_BUTTON')}
           </button>

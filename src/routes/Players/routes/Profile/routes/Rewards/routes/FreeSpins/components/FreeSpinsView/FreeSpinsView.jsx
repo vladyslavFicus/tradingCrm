@@ -83,34 +83,44 @@ class FreeSpinsView extends Component {
     page: 0,
   };
 
-  componentWillMount() {
+  componentDidMount() {
     const {
-      context: { registerUpdateCacheListener },
+      context: {
+        registerUpdateCacheListener,
+        setNoteChangedCallback,
+        setRenderActions,
+      },
       constructor: { name },
+      props: {
+        fetchGames,
+        fetchFilters,
+        match: { params: { id } },
+        list: { exporting },
+      },
+      handleRefresh,
+      handleExportButtonClick,
+      handleCreateButtonClick,
     } = this;
 
-    registerUpdateCacheListener(name, this.handleRefresh);
-  }
+    handleRefresh();
+    registerUpdateCacheListener(name, handleRefresh);
+    setNoteChangedCallback(handleRefresh);
+    fetchGames();
+    fetchFilters(id);
 
-  componentDidMount() {
-    this.context.setNoteChangedCallback(this.handleRefresh);
-    this.handleRefresh();
-    this.props.fetchGames();
-    this.props.fetchFilters(this.props.match.params.id);
-
-    this.context.setRenderActions(() => (
+    setRenderActions(() => (
       <Fragment>
         <button
-          disabled={this.props.list.exporting}
+          disabled={exporting}
           className="btn btn-default-outline btn-sm"
-          onClick={this.handleExportButtonClick}
+          onClick={handleExportButtonClick}
         >
           {I18n.t('PLAYER_PROFILE.FREE_SPINS.EXPORT_BUTTON')}
         </button>
         <button
           id="add-manual-freespin-button"
           className="btn btn-primary-outline btn-sm margin-left-15"
-          onClick={this.handleCreateButtonClick}
+          onClick={handleCreateButtonClick}
         >
           {I18n.t('PLAYER_PROFILE.FREE_SPINS.MANUAL_FREE_SPIN_BUTTON')}
         </button>

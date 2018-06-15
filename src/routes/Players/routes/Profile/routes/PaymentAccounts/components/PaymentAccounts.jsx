@@ -51,19 +51,22 @@ class PaymentAccounts extends Component {
     openUUID: null,
   };
 
-  componentWillMount() {
+  componentDidMount() {
     const {
-      context: { registerUpdateCacheListener },
+      context: {
+        registerUpdateCacheListener,
+        setNoteChangedCallback,
+        setFileChangedCallback,
+      },
       constructor: { name },
+      handleRefresh,
+      handleRefreshFiles,
     } = this;
 
-    registerUpdateCacheListener(name, this.handleRefresh);
-  }
-
-  componentDidMount() {
-    this.context.setNoteChangedCallback(this.handleRefresh);
-    this.context.setFileChangedCallback(this.handleRefreshFiles);
-    this.handleRefresh();
+    handleRefresh();
+    setNoteChangedCallback(handleRefresh);
+    setFileChangedCallback(handleRefreshFiles);
+    registerUpdateCacheListener(name, handleRefresh);
   }
 
   componentWillUnmount() {

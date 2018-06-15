@@ -51,32 +51,33 @@ class GameActivity extends Component {
     page: 0,
   };
 
-  componentWillMount() {
+  componentDidMount() {
     const {
-      context: { registerUpdateCacheListener },
+      context: {
+        registerUpdateCacheListener,
+        setRenderActions,
+      },
       constructor: { name },
       handleFiltersChanged,
+      handleRefresh,
+      handleExportClick,
+      props: {
+        fetchGames,
+        fetchFilters,
+        activity: { exporting },
+        match: { params: { id } },
+      },
     } = this;
 
     handleFiltersChanged();
-    registerUpdateCacheListener(name, this.handleRefresh);
-  }
-
-  componentDidMount() {
-    const {
-      fetchGames,
-      fetchFilters,
-      activity: { exporting },
-      match: { params: { id } },
-    } = this.props;
-
+    registerUpdateCacheListener(name, handleRefresh);
     fetchGames();
     fetchFilters(id);
-    this.context.setRenderActions(() => (
+    setRenderActions(() => (
       <button
         disabled={exporting}
         className="btn btn-sm btn-default-outline"
-        onClick={this.handleExportClick}
+        onClick={handleExportClick}
       >
         {I18n.t('COMMON.EXPORT')}
       </button>

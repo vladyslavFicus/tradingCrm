@@ -44,18 +44,19 @@ class Limits extends Component {
     modal: { ...modalInitialState },
   };
 
-  componentWillMount() {
+  componentDidMount() {
     const {
-      context: { registerUpdateCacheListener },
+      context: {
+        registerUpdateCacheListener,
+        setNoteChangedCallback,
+      },
       constructor: { name },
+      handleRefresh,
     } = this;
 
-    registerUpdateCacheListener(name, this.handleRefresh);
-  }
-
-  componentDidMount() {
-    this.handleRefresh();
-    this.context.setNoteChangedCallback(this.handleRefresh);
+    handleRefresh();
+    setNoteChangedCallback(handleRefresh);
+    registerUpdateCacheListener(name, handleRefresh);
   }
 
   componentWillUnmount() {

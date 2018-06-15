@@ -43,21 +43,24 @@ class Notes extends Component {
     unRegisterUpdateCacheListener: PropTypes.func.isRequired,
   };
 
-  componentWillMount() {
+  componentDidMount() {
     const {
-      context: { registerUpdateCacheListener },
+      context: {
+        registerUpdateCacheListener,
+        setNoteChangedCallback,
+      },
       constructor: { name },
       props: {
         notes: { refetch },
+        fetchNoteTypes,
+        match: { params: { id } },
       },
+      handleRefresh,
     } = this;
 
+    fetchNoteTypes(id);
+    setNoteChangedCallback(handleRefresh);
     registerUpdateCacheListener(name, refetch);
-  }
-
-  componentDidMount() {
-    this.context.setNoteChangedCallback(this.handleRefresh);
-    this.props.fetchNoteTypes(this.props.match.params.id);
   }
 
   componentWillUnmount() {

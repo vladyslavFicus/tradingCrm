@@ -33,7 +33,7 @@ class Feed extends Component {
     page: 0,
   };
 
-  componentWillMount() {
+  componentDidMount() {
     const {
       context: { registerUpdateCacheListener },
       constructor: { name },
@@ -41,11 +41,13 @@ class Feed extends Component {
         fetchFeedTypes,
         match: { params: { id: playerUUID } },
       },
+      handleRefresh,
+      handleFiltersChanged,
     } = this;
 
-    this.handleFiltersChanged();
+    handleFiltersChanged();
     fetchFeedTypes(playerUUID);
-    registerUpdateCacheListener(name, this.handleRefresh);
+    registerUpdateCacheListener(name, handleRefresh);
   }
 
   componentWillUnmount() {
