@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import View from '../components/View';
+import Payments from '../components/Payments';
 import { actionCreators as viewActionCreators } from '../modules';
 import { paymentActions, chargebackReasons, rejectReasons } from '../../../../../../../../../constants/payment';
 
@@ -32,4 +32,4 @@ const mapActions = {
   fetchActiveBonus: viewActionCreators.fetchActiveBonus,
 };
 
-export default connect(mapStateToProps, mapActions)(View);
+export default connect(mapStateToProps, mapActions)(Payments);

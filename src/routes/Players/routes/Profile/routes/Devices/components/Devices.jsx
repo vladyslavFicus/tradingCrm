@@ -11,7 +11,7 @@ import Uuid from '../../../../../../../components/Uuid';
 import IpFlag from '../../../../../../../components/IpFlag';
 import TabHeader from '../../../../../../../components/TabHeader';
 
-class View extends Component {
+class Devices extends Component {
   static propTypes = {
     fetchEntities: PropTypes.func.isRequired,
     match: PropTypes.shape({
@@ -33,20 +33,37 @@ class View extends Component {
   };
 
   static contextTypes = {
-    cacheChildrenComponent: PropTypes.func.isRequired,
+    registerUpdateCacheListener: PropTypes.func.isRequired,
+    unRegisterUpdateCacheListener: PropTypes.func.isRequired,
   };
 
   state = {
     filters: {},
   };
 
-  componentWillMount() {
-    this.context.cacheChildrenComponent(this);
+  componentDidMount() {
+    const {
+      context: { registerUpdateCacheListener },
+      constructor: { name },
+      handleRefresh,
+      props: {
+        fetchFilters,
+        match: { params: { id } },
+      },
+    } = this;
+
+    handleRefresh();
+    fetchFilters(id);
+    registerUpdateCacheListener(name, handleRefresh);
   }
 
-  componentDidMount() {
-    this.handleRefresh();
-    this.props.fetchFilters(this.props.match.params.id);
+  componentWillUnmount() {
+    const {
+      context: { unRegisterUpdateCacheListener },
+      constructor: { name },
+    } = this;
+
+    unRegisterUpdateCacheListener(name);
   }
 
   handleRefresh = () => {
@@ -182,4 +199,4 @@ class View extends Component {
   }
 }
 
-export default View;
+export default Devices;

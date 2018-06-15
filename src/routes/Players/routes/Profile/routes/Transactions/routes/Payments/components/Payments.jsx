@@ -34,7 +34,7 @@ const defaultModalState = {
   params: {},
 };
 
-class View extends Component {
+class Payments extends Component {
   static propTypes = {
     transactions: PropTypes.pageableState(PropTypes.paymentEntity).isRequired,
     filters: PropTypes.shape({
@@ -87,8 +87,9 @@ class View extends Component {
     onAddNote: PropTypes.func.isRequired,
     onEditNoteClick: PropTypes.func.isRequired,
     setNoteChangedCallback: PropTypes.func.isRequired,
-    cacheChildrenComponent: PropTypes.func.isRequired,
     setRenderActions: PropTypes.func.isRequired,
+    registerUpdateCacheListener: PropTypes.func.isRequired,
+    unRegisterUpdateCacheListener: PropTypes.func.isRequired,
   };
 
   state = {
@@ -97,48 +98,67 @@ class View extends Component {
     modal: defaultModalState,
   };
 
-  componentWillMount() {
-    this.context.cacheChildrenComponent(this);
-  }
-
   async componentDidMount() {
     const {
-      match: { params: { id: playerUUID, paymentUUID } },
-      fetchFilters,
-      fetchEntities,
-      location,
-    } = this.props;
+      context: {
+        registerUpdateCacheListener,
+        setNoteChangedCallback,
+        setRenderActions,
+      },
+      constructor: { name },
+      handleRefresh,
+      handleOpenDetailModal,
+      handleCloseModal,
+      handleOpenAddPaymentModal,
+      props: {
+        match: { params: { id: playerUUID, paymentUUID } },
+        fetchFilters,
+        fetchEntities,
+        location,
+      },
+    } = this;
 
+    handleRefresh();
+    registerUpdateCacheListener(name, handleRefresh);
     fetchFilters(playerUUID);
-    this.handleRefresh();
-    this.context.setNoteChangedCallback(this.handleRefresh);
+    setNoteChangedCallback(handleRefresh);
 
     if (paymentUUID) {
       const action = await fetchEntities(playerUUID, { keyword: paymentUUID });
 
       if (action && !action.error && action.payload.content.length > 0) {
-        this.handleOpenDetailModal({
+        handleOpenDetailModal({
           payment: action.payload.content[0],
           onClose: () => {
-            this.handleCloseModal();
+            handleCloseModal();
             history.replace(location.pathname.replace(`/${paymentUUID}`, ''));
           },
         });
       }
     }
 
-    this.context.setRenderActions(() => (
-      <button className="btn btn-sm btn-primary-outline" onClick={this.handleOpenAddPaymentModal}>
+    setRenderActions(() => (
+      <button className="btn btn-sm btn-primary-outline" onClick={handleOpenAddPaymentModal}>
             + Add transaction
       </button>
     ));
   }
 
   componentWillUnmount() {
-    this.context.setNoteChangedCallback(null);
-    this.context.cacheChildrenComponent(null);
-    this.props.resetAll();
-    this.context.setRenderActions(null);
+    const {
+      context: {
+        unRegisterUpdateCacheListener,
+        setNoteChangedCallback,
+        setRenderActions,
+      },
+      constructor: { name },
+      props: { resetAll },
+    } = this;
+
+    resetAll();
+    setRenderActions(null);
+    setNoteChangedCallback(null);
+    unRegisterUpdateCacheListener(name);
   }
 
   handleNoteClick = (target, note, data) => {
@@ -504,4 +524,4 @@ class View extends Component {
   }
 }
 
-export default View;
+export default Payments;

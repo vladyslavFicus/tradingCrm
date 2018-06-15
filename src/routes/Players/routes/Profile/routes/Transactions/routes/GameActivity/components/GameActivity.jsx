@@ -8,9 +8,9 @@ import Amount from '../../../../../../../../../components/Amount';
 import Uuid from '../../../../../../../../../components/Uuid';
 import FilterForm from './FilterForm';
 import GameRoundType from './GameRoundType/GameRoundType';
-import './View.scss';
+import './GameActivity.scss';
 
-class View extends Component {
+class GameActivity extends Component {
   static propTypes = {
     activity: PropTypes.pageableState(PropTypes.gamingActivityEntity).isRequired,
     games: PropTypes.shape({
@@ -41,8 +41,9 @@ class View extends Component {
     fetchGames: PropTypes.func.isRequired,
   };
   static contextTypes = {
-    cacheChildrenComponent: PropTypes.func.isRequired,
     setRenderActions: PropTypes.func.isRequired,
+    registerUpdateCacheListener: PropTypes.func.isRequired,
+    unRegisterUpdateCacheListener: PropTypes.func.isRequired,
   };
 
   state = {
@@ -50,36 +51,50 @@ class View extends Component {
     page: 0,
   };
 
-  componentWillMount() {
-    this.handleFiltersChanged();
-    this.context.cacheChildrenComponent(this);
-  }
-
   componentDidMount() {
     const {
-      fetchGames,
-      fetchFilters,
-      activity: { exporting },
-      match: { params: { id } },
-    } = this.props;
+      context: {
+        registerUpdateCacheListener,
+        setRenderActions,
+      },
+      constructor: { name },
+      handleFiltersChanged,
+      handleRefresh,
+      handleExportClick,
+      props: {
+        fetchGames,
+        fetchFilters,
+        activity: { exporting },
+        match: { params: { id } },
+      },
+    } = this;
 
+    handleFiltersChanged();
+    registerUpdateCacheListener(name, handleRefresh);
     fetchGames();
     fetchFilters(id);
-    this.context.setRenderActions(() => (
+    setRenderActions(() => (
       <button
         disabled={exporting}
         className="btn btn-sm btn-default-outline"
-        onClick={this.handleExportClick}
+        onClick={handleExportClick}
       >
         {I18n.t('COMMON.EXPORT')}
       </button>
     ));
   }
 
-
   componentWillUnmount() {
-    this.context.cacheChildrenComponent(null);
-    this.context.setRenderActions(null);
+    const {
+      context: {
+        unRegisterUpdateCacheListener,
+        setRenderActions,
+      },
+      constructor: { name },
+    } = this;
+
+    setRenderActions(null);
+    unRegisterUpdateCacheListener(name);
   }
 
   handleRefresh = () => {
@@ -274,7 +289,9 @@ class View extends Component {
             activePage={entities.number + 1}
             totalPages={entities.totalPages}
             lazyLoad
-            rowClassName={data => classNames({ 'round-rollback-row': data.rollback, 'game-activity__row--jackpot': data.jackpot })}
+            rowClassName={data => classNames({
+              'round-rollback-row': data.rollback, 'game-activity__row--jackpot': data.jackpot,
+            })}
             locale={locale}
             showNoResults={noResults}
           >
@@ -320,4 +337,4 @@ class View extends Component {
   }
 }
 
-export default View;
+export default GameActivity;

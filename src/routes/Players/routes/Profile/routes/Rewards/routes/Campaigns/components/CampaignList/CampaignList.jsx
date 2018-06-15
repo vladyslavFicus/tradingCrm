@@ -29,7 +29,7 @@ const modalInitialState = {
   params: {},
 };
 
-class View extends Component {
+class CampaignList extends Component {
   static propTypes = {
     list: PropTypes.pageableState(PropTypes.bonusCampaignEntity).isRequired,
     profile: PropTypes.userProfile.isRequired,
@@ -51,9 +51,10 @@ class View extends Component {
     }).isRequired,
   };
   static contextTypes = {
-    cacheChildrenComponent: PropTypes.func.isRequired,
     addNotification: PropTypes.func.isRequired,
     setRenderActions: PropTypes.func.isRequired,
+    registerUpdateCacheListener: PropTypes.func.isRequired,
+    unRegisterUpdateCacheListener: PropTypes.func.isRequired,
   };
 
   state = {
@@ -63,14 +64,25 @@ class View extends Component {
   };
 
   componentDidMount() {
-    this.handleRefresh();
-    this.context.cacheChildrenComponent(this);
-    this.context.setRenderActions(() => (
+    const {
+      context: {
+        registerUpdateCacheListener,
+        setRenderActions,
+      },
+      constructor: { name },
+      handleRefresh,
+      handleAddToCampaignClick,
+      handleOpenModal,
+    } = this;
+
+    handleRefresh();
+    registerUpdateCacheListener(name, handleRefresh);
+    setRenderActions(() => (
       <Fragment>
         <PermissionContent permissions={permissions.USER_PROFILE.ADD_TO_CAMPAIGN}>
           <button
             className="btn btn-primary-outline margin-left-15 btn-sm"
-            onClick={this.handleAddToCampaignClick}
+            onClick={handleAddToCampaignClick}
           >
             {I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.ADD_TO_CAMPAIGN_BUTTON')}
           </button>
@@ -78,7 +90,7 @@ class View extends Component {
         <PermissionContent permissions={permissions.USER_PROFILE.ADD_PROMO_CODE_TO_PLAYER}>
           <button
             className="btn btn-primary-outline margin-left-15 btn-sm"
-            onClick={() => this.handleOpenModal(ADD_PROMO_CODE_MODAL)}
+            onClick={() => handleOpenModal(ADD_PROMO_CODE_MODAL)}
           >
             {I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.ADD_PROMO_CODE_BUTTON')}
           </button>
@@ -88,8 +100,16 @@ class View extends Component {
   }
 
   componentWillUnmount() {
-    this.context.cacheChildrenComponent(null);
-    this.context.setRenderActions(null);
+    const {
+      context: {
+        unRegisterUpdateCacheListener,
+        setRenderActions,
+      },
+      constructor: { name },
+    } = this;
+
+    setRenderActions(null);
+    unRegisterUpdateCacheListener(name);
   }
 
   getCampaignUrl = (sourceType, uuid) => {
@@ -222,7 +242,7 @@ class View extends Component {
     }
   };
 
-  renderCampaign = ({ uuid, name, targetType, sourceType }) => (
+  renderCampaign = ({ uuid, name, sourceType }) => (
     <div id={`bonus-campaign-${uuid}`}>
       <IframeLink
         className="font-weight-700 color-black"
@@ -474,4 +494,4 @@ class View extends Component {
   }
 }
 
-export default View;
+export default CampaignList;

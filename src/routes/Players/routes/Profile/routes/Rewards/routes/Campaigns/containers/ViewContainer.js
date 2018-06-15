@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { actionCreators } from '../modules';
-import View from '../components/View';
+import CampaignList from '../components/CampaignList';
 import ConfirmActionModal from '../../../../../../../../../components/Modal/ConfirmActionModal';
 import { withModals } from '../../../../../../../../../components/HighOrder';
 
@@ -20,4 +20,4 @@ export default compose(
     confirmActionModal: ConfirmActionModal,
   }),
   connect(mapStateToProps, actionCreators),
-)(View);
+)(CampaignList);

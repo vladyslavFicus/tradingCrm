@@ -73,8 +73,9 @@ class FreeSpinsView extends Component {
     onEditNoteClick: PropTypes.func.isRequired,
     setNoteChangedCallback: PropTypes.func.isRequired,
     onAddNote: PropTypes.func.isRequired,
-    cacheChildrenComponent: PropTypes.func.isRequired,
     setRenderActions: PropTypes.func.isRequired,
+    registerUpdateCacheListener: PropTypes.func.isRequired,
+    unRegisterUpdateCacheListener: PropTypes.func.isRequired,
   };
 
   state = {
@@ -82,29 +83,44 @@ class FreeSpinsView extends Component {
     page: 0,
   };
 
-  componentWillMount() {
-    this.context.cacheChildrenComponent(this);
-  }
-
   componentDidMount() {
-    this.context.setNoteChangedCallback(this.handleRefresh);
-    this.handleRefresh();
-    this.props.fetchGames();
-    this.props.fetchFilters(this.props.match.params.id);
+    const {
+      context: {
+        registerUpdateCacheListener,
+        setNoteChangedCallback,
+        setRenderActions,
+      },
+      constructor: { name },
+      props: {
+        fetchGames,
+        fetchFilters,
+        match: { params: { id } },
+        list: { exporting },
+      },
+      handleRefresh,
+      handleExportButtonClick,
+      handleCreateButtonClick,
+    } = this;
 
-    this.context.setRenderActions(() => (
+    handleRefresh();
+    registerUpdateCacheListener(name, handleRefresh);
+    setNoteChangedCallback(handleRefresh);
+    fetchGames();
+    fetchFilters(id);
+
+    setRenderActions(() => (
       <Fragment>
         <button
-          disabled={this.props.list.exporting}
+          disabled={exporting}
           className="btn btn-default-outline btn-sm"
-          onClick={this.handleExportButtonClick}
+          onClick={handleExportButtonClick}
         >
           {I18n.t('PLAYER_PROFILE.FREE_SPINS.EXPORT_BUTTON')}
         </button>
         <button
           id="add-manual-freespin-button"
           className="btn btn-primary-outline btn-sm margin-left-15"
-          onClick={this.handleCreateButtonClick}
+          onClick={handleCreateButtonClick}
         >
           {I18n.t('PLAYER_PROFILE.FREE_SPINS.MANUAL_FREE_SPIN_BUTTON')}
         </button>
@@ -113,9 +129,18 @@ class FreeSpinsView extends Component {
   }
 
   componentWillUnmount() {
-    this.context.setNoteChangedCallback(null);
-    this.context.cacheChildrenComponent(null);
-    this.context.setRenderActions(null);
+    const {
+      context: {
+        unRegisterUpdateCacheListener,
+        setRenderActions,
+        setNoteChangedCallback,
+      },
+      constructor: { name },
+    } = this;
+
+    setNoteChangedCallback(null);
+    setRenderActions(null);
+    unRegisterUpdateCacheListener(name);
   }
 
   handleNoteClick = (target, note, data) => {

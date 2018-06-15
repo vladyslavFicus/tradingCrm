@@ -10,7 +10,7 @@ import Uuid from '../../../../../../../components/Uuid';
 import TabHeader from '../../../../../../../components/TabHeader';
 import history from '../../../../../../../router/history';
 
-class View extends Component {
+class Notes extends Component {
   static propTypes = {
     notes: PropTypes.shape({
       refetch: PropTypes.func.isRequired,
@@ -39,37 +39,46 @@ class View extends Component {
     onAddNoteClick: PropTypes.func.isRequired,
     onEditNoteClick: PropTypes.func.isRequired,
     setNoteChangedCallback: PropTypes.func.isRequired,
-    cacheChildrenComponent: PropTypes.func.isRequired,
+    registerUpdateCacheListener: PropTypes.func.isRequired,
+    unRegisterUpdateCacheListener: PropTypes.func.isRequired,
   };
-
-  state = {
-    page: 0,
-    size: 10,
-  };
-
-  componentWillMount() {
-    this.context.cacheChildrenComponent(this);
-  }
 
   componentDidMount() {
-    this.context.setNoteChangedCallback(this.handleNoteChanged);
-    this.props.fetchNoteTypes(this.props.match.params.id);
+    const {
+      context: {
+        registerUpdateCacheListener,
+        setNoteChangedCallback,
+      },
+      constructor: { name },
+      props: {
+        notes: { refetch },
+        fetchNoteTypes,
+        match: { params: { id } },
+      },
+      handleRefresh,
+    } = this;
+
+    fetchNoteTypes(id);
+    setNoteChangedCallback(handleRefresh);
+    registerUpdateCacheListener(name, refetch);
   }
 
   componentWillUnmount() {
-    this.context.setNoteChangedCallback(null);
-    this.context.cacheChildrenComponent(null);
-  }
+    const {
+      context: {
+        unRegisterUpdateCacheListener,
+        setNoteChangedCallback,
+      },
+      constructor: { name },
+    } = this;
 
-  handleNoteChanged = () => {
-    this.setState({
-      page: 0,
-    }, this.handleRefresh());
-  };
+    setNoteChangedCallback(null);
+    unRegisterUpdateCacheListener(name);
+  }
 
   handleRefresh = (filters = {}) => {
     history.replace({ query: { filters } });
-  }
+  };
 
   handleFiltersChanged = (filters = {}) => this.handleRefresh(filters);
 
@@ -186,4 +195,4 @@ class View extends Component {
   }
 }
 
-export default View;
+export default Notes;

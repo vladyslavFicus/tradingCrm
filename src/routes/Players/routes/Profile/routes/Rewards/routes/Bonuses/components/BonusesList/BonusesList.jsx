@@ -22,7 +22,7 @@ import recognizeFieldError from '../../../../../../../../../../utils/recognizeFi
 const modalInitialState = { name: null, params: {} };
 const MODAL_VIEW = 'view-modal';
 
-class View extends Component {
+class BonusesList extends Component {
   static propTypes = {
     list: PropTypes.pageableState(PropTypes.bonusEntity).isRequired,
     playerProfile: PropTypes.shape({ data: PropTypes.userProfile }).isRequired,
@@ -57,7 +57,8 @@ class View extends Component {
     onAddNoteClick: PropTypes.func.isRequired,
     onEditNoteClick: PropTypes.func.isRequired,
     setNoteChangedCallback: PropTypes.func.isRequired,
-    cacheChildrenComponent: PropTypes.func.isRequired,
+    registerUpdateCacheListener: PropTypes.func.isRequired,
+    unRegisterUpdateCacheListener: PropTypes.func.isRequired,
     setRenderActions: PropTypes.func.isRequired,
   };
 
@@ -67,22 +68,30 @@ class View extends Component {
     page: 0,
   };
 
-  componentWillMount() {
-    this.handleRefresh();
-    this.context.cacheChildrenComponent(this);
-  }
-
   componentDidMount() {
-    this.context.setNoteChangedCallback(this.handleRefresh);
-    this.context.setRenderActions(() => (
+    const {
+      context: {
+        registerUpdateCacheListener,
+        setNoteChangedCallback,
+        setRenderActions,
+      },
+      constructor: { name },
+      handleRefresh,
+      handleCreateManualBonusClick,
+    } = this;
+
+    handleRefresh();
+    setNoteChangedCallback(handleRefresh);
+    setRenderActions(() => (
       <button
         className="btn btn-sm btn-primary-outline"
-        onClick={this.handleCreateManualBonusClick}
+        onClick={handleCreateManualBonusClick}
         id="add-manual-bonus-button"
       >
         {I18n.t('PLAYER_PROFILE.BONUS.MANUAL_BONUS_BUTTON')}
       </button>
     ));
+    registerUpdateCacheListener(name, handleRefresh);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -98,9 +107,18 @@ class View extends Component {
   }
 
   componentWillUnmount() {
-    this.context.setNoteChangedCallback(null);
-    this.context.cacheChildrenComponent(null);
-    this.context.setRenderActions(null);
+    const {
+      context: {
+        unRegisterUpdateCacheListener,
+        setRenderActions,
+        setNoteChangedCallback,
+      },
+      constructor: { name },
+    } = this;
+
+    setNoteChangedCallback(null);
+    setRenderActions(null);
+    unRegisterUpdateCacheListener(name);
   }
 
   getNotePopoverParams = () => ({
@@ -465,4 +483,4 @@ class View extends Component {
   }
 }
 
-export default View;
+export default BonusesList;

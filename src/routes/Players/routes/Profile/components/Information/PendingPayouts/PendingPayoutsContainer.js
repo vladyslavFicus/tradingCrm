@@ -7,7 +7,6 @@ import { withNotifications, withModals } from '../../../../../../../components/H
 import { pendingPayoutsQuery } from '../../../../../../../graphql/queries/rewardPlan';
 import { pendingPlanMutation } from '../../../../../../../graphql/mutations/rewardPlan';
 import RewardPlanModal from '../../RewardPlanModal';
-import { servicesQuery } from '../../../../../../../graphql/queries/options';
 
 const mapStateToProps = ({
   profile: { profile },
@@ -22,24 +21,13 @@ export default compose(
     rewardPlanModal: RewardPlanModal,
   }),
   connect(mapStateToProps),
-  graphql(servicesQuery, {
-    name: 'optionServices',
-    options: {
-      fetchPolicy: 'network-only',
-    },
-  }),
   graphql(pendingPayoutsQuery, {
     name: 'pendingPayouts',
-    options: ({ playerUUID }) => ({
+    options: ({ match: { params: { id: playerUUID } } }) => ({
       variables: {
         playerUUID,
       },
     }),
-    skip: ({ playerUUID, optionServices }) => (
-      !playerUUID ||
-      optionServices.loading ||
-      get(optionServices, 'options.services', []).indexOf('dwh') === -1
-    ),
   }),
   graphql(pendingPlanMutation, {
     name: 'pendingPlanMutation',

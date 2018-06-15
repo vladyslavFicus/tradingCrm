@@ -23,17 +23,33 @@ class PendingPayouts extends Component {
         data: PropTypes.object,
       }),
     }),
-    optionServices: PropTypes.shape({
-      options: PropTypes.shape({
-        services: PropTypes.arrayOf(PropTypes.string),
-      }),
-    }),
     currency: PropTypes.string.isRequired,
   };
   static defaultProps = {
     pendingPayouts: {},
-    optionServices: {},
   };
+
+  static contextTypes = {
+    registerUpdateCacheListener: PropTypes.func.isRequired,
+    unRegisterUpdateCacheListener: PropTypes.func.isRequired,
+  };
+
+  componentDidMount() {
+    const {
+      context: { registerUpdateCacheListener },
+      constructor: { name },
+      props: { pendingPayouts: { refetch } },
+    } = this;
+
+    registerUpdateCacheListener(name, refetch);
+  }
+
+  componentWillUnmount() {
+    const { unRegisterUpdateCacheListener } = this.context;
+    const { name: componentName } = this.constructor;
+
+    unRegisterUpdateCacheListener(componentName);
+  }
 
   handleOpenUpdateAmountModal = type => () => {
     const {
@@ -111,14 +127,7 @@ class PendingPayouts extends Component {
       pendingPayouts: {
         loading,
       },
-      optionServices,
     } = this.props;
-
-    const dwhApiEnable = get(optionServices, 'options.services', []).indexOf(services.dwh) > -1;
-
-    if (!dwhApiEnable) {
-      return false;
-    }
 
     const error = get(pendingPayouts, 'pendingRewardPlan.error.error', false);
     const plans = get(pendingPayouts, 'pendingRewardPlan.data.plans', []);

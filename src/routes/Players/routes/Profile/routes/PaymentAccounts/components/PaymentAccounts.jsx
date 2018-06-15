@@ -15,7 +15,7 @@ import StatusDropDown from './StatusDropDown';
 import PaymentAccount from '../../../../../../../components/PaymentAccount';
 import TabHeader from '../../../../../../../components/TabHeader';
 
-class View extends Component {
+class PaymentAccounts extends Component {
   static propTypes = {
     match: PropTypes.shape({
       params: PropTypes.shape({
@@ -44,26 +44,44 @@ class View extends Component {
     setFileChangedCallback: PropTypes.func.isRequired,
     onDeleteFileClick: PropTypes.func.isRequired,
     showImages: PropTypes.func.isRequired,
-    cacheChildrenComponent: PropTypes.func.isRequired,
+    registerUpdateCacheListener: PropTypes.func.isRequired,
+    unRegisterUpdateCacheListener: PropTypes.func.isRequired,
   };
   state = {
     openUUID: null,
   };
 
-  componentWillMount() {
-    this.context.cacheChildrenComponent(this);
-  }
-
   componentDidMount() {
-    this.context.setNoteChangedCallback(this.handleRefresh);
-    this.context.setFileChangedCallback(this.handleRefreshFiles);
-    this.handleRefresh();
+    const {
+      context: {
+        registerUpdateCacheListener,
+        setNoteChangedCallback,
+        setFileChangedCallback,
+      },
+      constructor: { name },
+      handleRefresh,
+      handleRefreshFiles,
+    } = this;
+
+    handleRefresh();
+    setNoteChangedCallback(handleRefresh);
+    setFileChangedCallback(handleRefreshFiles);
+    registerUpdateCacheListener(name, handleRefresh);
   }
 
   componentWillUnmount() {
-    this.context.setNoteChangedCallback(null);
-    this.context.setFileChangedCallback(null);
-    this.context.cacheChildrenComponent(null);
+    const {
+      context: {
+        unRegisterUpdateCacheListener,
+        setNoteChangedCallback,
+        setFileChangedCallback,
+      },
+      constructor: { name },
+    } = this;
+
+    setFileChangedCallback(null);
+    setNoteChangedCallback(null);
+    unRegisterUpdateCacheListener(name);
   }
 
   handleRefresh = () => this.props.fetchEntities(this.props.match.params.id);
@@ -322,4 +340,4 @@ class View extends Component {
   }
 }
 
-export default View;
+export default PaymentAccounts;

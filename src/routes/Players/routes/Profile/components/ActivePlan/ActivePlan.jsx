@@ -8,7 +8,6 @@ import {
   typesTitle,
   modalStaticData,
 } from '../../../../../../constants/rewardPlan';
-import { services } from '../../../../../../constants/services';
 import Amount from '../../../../../../components/Amount';
 
 class ActivePlan extends Component {
@@ -22,18 +21,36 @@ class ActivePlan extends Component {
         data: PropTypes.object,
       }),
     }),
-    optionServices: PropTypes.shape({
-      options: PropTypes.shape({
-        services: PropTypes.arrayOf(PropTypes.string),
-      }),
-    }),
     currency: PropTypes.string.isRequired,
     activePlanMutation: PropTypes.func.isRequired,
   };
   static defaultProps = {
     activeRewardPlan: {},
-    optionServices: {},
   };
+
+  static contextTypes = {
+    registerUpdateCacheListener: PropTypes.func.isRequired,
+    unRegisterUpdateCacheListener: PropTypes.func.isRequired,
+  };
+
+  componentDidMount() {
+    const {
+      context: { registerUpdateCacheListener },
+      constructor: { name },
+      props: { activeRewardPlan: { refetch } },
+    } = this;
+
+    registerUpdateCacheListener(name, refetch);
+  }
+
+  componentWillUnmount() {
+    const {
+      context: { unRegisterUpdateCacheListener },
+      constructor: { name },
+    } = this;
+
+    unRegisterUpdateCacheListener(name);
+  }
 
   handleOpenUpdateAmountModal = () => {
     const {
@@ -89,15 +106,8 @@ class ActivePlan extends Component {
       activeRewardPlan: {
         loading,
       },
-      optionServices,
       currency,
     } = this.props;
-
-    const dwhApiEnable = get(optionServices, 'options.services', []).indexOf(services.dwh) > -1;
-
-    if (!dwhApiEnable) {
-      return false;
-    }
 
     const error = get(activeRewardPlan, 'activeRewardPlan.error.error', false);
     const amount = get(activeRewardPlan, 'activeRewardPlan.data.amount', 0);

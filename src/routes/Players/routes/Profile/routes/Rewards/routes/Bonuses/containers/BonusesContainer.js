@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import { compose } from 'react-apollo';
 import { actionCreators } from '../modules';
 import { actionCreators as profileActionCreators } from '../../../../../modules/profile';
-import List from '../components/View';
+import BonusesList from '../components/BonusesList';
 import { withModals } from '../../../../../../../../../components/HighOrder';
 import CreateManualBonusModal from '../components/CreateModal';
 
@@ -39,4 +39,4 @@ const mapActions = {
 export default compose(
   withModals({ createManualBonus: CreateManualBonusModal }),
   connect(mapStateToProps, mapActions),
-)(List);
+)(BonusesList);

@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import View from '../components/View';
+import Feed from '../components/Feed';
 import { actionCreators } from '../modules';
 
 const mapStateToProps = state => ({
@@ -7,4 +7,4 @@ const mapStateToProps = state => ({
   ...state.i18n,
 });
 
-export default connect(mapStateToProps, actionCreators)(View);
+export default connect(mapStateToProps, actionCreators)(Feed);
