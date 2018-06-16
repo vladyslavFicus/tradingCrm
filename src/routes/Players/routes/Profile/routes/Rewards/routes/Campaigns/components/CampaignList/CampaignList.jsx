@@ -114,9 +114,9 @@ class CampaignList extends Component {
 
   getCampaignUrl = (sourceType, uuid) => {
     if (sourceType === sourceTypes.PROMOTION) {
-      return `/bonus-campaign/view/${uuid}/settings`;
+      return `/bonus-campaigns/view/${uuid}/settings`;
     } else if (sourceType === sourceTypes.CAMPAIGN) {
-      return `/campaign/view/${uuid}/settings`;
+      return `/campaigns/view/${uuid}/settings`;
     }
 
     return null;

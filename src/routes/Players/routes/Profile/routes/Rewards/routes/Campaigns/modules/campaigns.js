@@ -8,7 +8,7 @@ const ADD_PROMO_CODE_TO_PLAYER = createRequestAction(`${KEY}/add-promo-code-to-p
 const OPT_IN_CAMPAIGN = createRequestAction(`${KEY}/opt-in-campaign`);
 const OPT_OUT_CAMPAIGN = createRequestAction(`${KEY}/opt-out-campaign`);
 const ADD_PLAYER_TO_CAMPAIGN = createRequestAction(`${KEY}/add-player-to-campaign`);
-const DELETE_PLAYER_FROM_CAMPAIGN = createRequestAction(`${KEY}/un-target-campaign`);
+const DELETE_PLAYER_FROM_CAMPAIGN = createRequestAction(`${KEY}/delete-player-from-campaign`);
 
 function fetchCampaigns(playerUUID) {
   return (dispatch, getState) => {
