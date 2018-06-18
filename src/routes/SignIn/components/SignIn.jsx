@@ -20,7 +20,6 @@ class SignIn extends Component {
     fetchAuthorities: PropTypes.func.isRequired,
     brand: PropTypes.brand,
     logged: PropTypes.bool.isRequired,
-    fullName: PropTypes.string,
     brands: PropTypes.arrayOf(PropTypes.brand).isRequired,
     departments: PropTypes.arrayOf(PropTypes.department).isRequired,
     data: PropTypes.shape({
@@ -31,7 +30,6 @@ class SignIn extends Component {
   };
   static defaultProps = {
     brand: null,
-    fullName: null,
   };
 
   state = {
@@ -176,7 +174,6 @@ class SignIn extends Component {
       brand,
       brands,
       departments,
-      fullName,
       selectBrand,
     } = this.props;
 
@@ -197,7 +194,6 @@ class SignIn extends Component {
             <Brands
               logged={logged}
               activeBrand={brand}
-              username={fullName}
               brands={brands}
               onSelect={this.handleSelectBrand}
             />
@@ -206,7 +202,6 @@ class SignIn extends Component {
               logged={logged && !!brand}
               brand={brand}
               canGoBack={brands.length > 1}
-              username={fullName}
               departments={departments}
               onSelect={({ id }) => this.handleSelectDepartment(brand.brand, id)}
               onBackClick={() => selectBrand(null)}

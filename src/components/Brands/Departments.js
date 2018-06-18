@@ -11,12 +11,10 @@ class Departments extends Component {
     onSelect: PropTypes.func.isRequired,
     onBackClick: PropTypes.func.isRequired,
     canGoBack: PropTypes.bool,
-    username: PropTypes.string,
     brand: PropTypes.brand,
   };
   static defaultProps = {
     canGoBack: false,
-    username: null,
     brand: null,
   };
 
@@ -53,7 +51,7 @@ class Departments extends Component {
 
   render() {
     const { step, departments } = this.state;
-    const { onSelect, onBackClick, canGoBack, username, brand } = this.props;
+    const { onSelect, onBackClick, canGoBack, brand } = this.props;
 
     if (!step) {
       return null;
@@ -68,8 +66,8 @@ class Departments extends Component {
     return (
       <div className={className}>
         {
-          !canGoBack && username
-            ? <div className="form-page__multibrand_heading"><Greeting username={username} /></div>
+          !canGoBack
+            ? <div className="form-page__multibrand_heading"><Greeting /></div>
             : (
               <div className="form-page__department_return" onClick={onBackClick}>
                 All <span className="return-label">brands</span>
