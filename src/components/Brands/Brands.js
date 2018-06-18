@@ -8,13 +8,11 @@ class Brands extends Component {
   static propTypes = {
     activeBrand: PropTypes.brand,
     logged: PropTypes.bool.isRequired,
-    username: PropTypes.string,
     brands: PropTypes.arrayOf(PropTypes.brand).isRequired,
     onSelect: PropTypes.func.isRequired,
   };
   static defaultProps = {
     activeBrand: null,
-    username: null,
   };
 
   constructor(props) {
@@ -85,7 +83,6 @@ class Brands extends Component {
   render() {
     const { step, reverseStep, activeBrand } = this.state;
     const {
-      username,
       brands,
       onSelect,
     } = this.props;
@@ -107,12 +104,9 @@ class Brands extends Component {
 
     return (
       <div className={className}>
-        {
-          username &&
-          <div className={headingClassName}>
-            <Greeting username={username} />
-          </div>
-        }
+        <div className={headingClassName}>
+          <Greeting />
+        </div>
         <div className={callToActionClassName}>
           Please, choose the brand
         </div>

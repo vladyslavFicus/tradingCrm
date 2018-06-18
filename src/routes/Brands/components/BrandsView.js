@@ -14,7 +14,6 @@ class BrandsView extends Component {
     departmentsByBrand: PropTypes.objectOf(PropTypes.objectOf(PropTypes.string)).isRequired,
     token: PropTypes.string.isRequired,
     uuid: PropTypes.string.isRequired,
-    fullName: PropTypes.string.isRequired,
     changeDepartment: PropTypes.func.isRequired,
     fetchAuthorities: PropTypes.func.isRequired,
   };
@@ -108,7 +107,6 @@ class BrandsView extends Component {
       brands,
       departments,
     } = this.state;
-    const { fullName } = this.props;
 
     if (brands.length < 2) {
       return <Redirect to="/" />;
@@ -126,7 +124,6 @@ class BrandsView extends Component {
             <Brands
               logged
               activeBrand={brand}
-              username={fullName}
               brands={brands}
               onSelect={this.handleSelectBrand}
             />
@@ -135,7 +132,6 @@ class BrandsView extends Component {
               logged={!!brand}
               brand={brand}
               canGoBack={brands.length > 1}
-              username={fullName}
               departments={departments}
               onSelect={({ id }) => this.handleSelectDepartment(brand.brand, id)}
               onBackClick={() => this.handleSelectBrand(null)}
