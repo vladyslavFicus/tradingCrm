@@ -1,5 +1,6 @@
-import { Component } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import config from '../../config/index';
 import './BlackLayout.scss';
 
 class BlackLayout extends Component {
@@ -17,8 +18,15 @@ class BlackLayout extends Component {
 
   render() {
     const { children } = this.props;
+    const backgroundClassName = config.markets === 'crm'
+      ? 'crm-background'
+      : 'casino-background';
 
-    return children;
+    return (
+      <div className={backgroundClassName}>
+        {children}
+      </div>
+    );
   }
 }
 
