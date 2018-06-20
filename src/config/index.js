@@ -7,7 +7,7 @@ const config = _.merge({
       currencies: {},
     },
   },
-  markets: 'crm',
+  market: 'casino',
   player: {
     files: {
       maxSize: 2,
