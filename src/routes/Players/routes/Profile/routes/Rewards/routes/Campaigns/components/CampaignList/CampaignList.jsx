@@ -167,6 +167,41 @@ class CampaignList extends Component {
     });
   };
 
+  handleResetPlayerClick = uuid => () => {
+    const { modals: { confirmActionModal } } = this.props;
+
+    confirmActionModal.show({
+      onSubmit: this.handleResetPlayer(uuid),
+    });
+  };
+
+  handleResetPlayer = uuid => async () => {
+    const {
+      resetPlayer,
+      profile: { playerUUID },
+      modals: { confirmActionModal },
+      notify,
+    } = this.props;
+
+    const response = await resetPlayer({
+      variables: {
+        campaignUUID: uuid,
+        playerUUID,
+      },
+    });
+
+    const error = get(response, 'data.campaign.resetPlayer.error');
+
+    notify({
+      level: error ? 'error' : 'success',
+      title: I18n.t('BONUS_CAMPAIGNS.VIEW.NOTIFICATIONS.RESET_PLAYER'),
+      message: `${I18n.t('COMMON.NOTIFICATIONS.COPIED')} ${error ? I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY') :
+        I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
+    });
+
+    confirmActionModal.hide();
+  };
+
   handleActionCampaign = ({ action, ...params }) => async () => {
     const {
       match: { params: { id: playerUUID } },
@@ -389,6 +424,13 @@ class CampaignList extends Component {
           uuid,
           sourceType,
         }),
+      });
+    }
+
+    if (originalSourceType === sourceTypes.CAMPAIGN) {
+      items.push({
+        label: I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.RESET_PLAYER'),
+        onClick: this.handleResetPlayerClick(uuid),
       });
     }
 

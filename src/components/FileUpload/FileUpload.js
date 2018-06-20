@@ -6,6 +6,8 @@ class FileUpload extends Component {
   static propTypes = {
     onChosen: PropTypes.func.isRequired,
     allowedSize: PropTypes.number,
+    incorrectFileSize: PropTypes.string,
+    invalidFileType: PropTypes.string,
     allowedTypes: PropTypes.array,
     singleMode: PropTypes.bool,
   };
