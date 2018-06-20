@@ -2,7 +2,6 @@ module.exports = {
   nas: {
     brand: {
       password: { pattern: '^((?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%_]).{6,32})$' },
-      validation: { password: '^((?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%_]).{6,32})$' },
       locale: {
         defaultLanguage: 'en',
         languages: ['en', 'ru'],
@@ -51,4 +50,5 @@ module.exports = {
     unauthorized: [401],
     persist: { whitelist: ['auth', 'userPanels', 'language', 'settings'], keyPrefix: 'nas:' },
   },
+  market: 'casino',
 };

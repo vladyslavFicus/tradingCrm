@@ -1,25 +1,24 @@
-import { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
+import config from '../../config/index';
 import './BlackLayout.scss';
 
-class BlackLayout extends Component {
-  static propTypes = {
-    children: PropTypes.element.isRequired,
-  };
+const BlackLayout = ({
+  children,
+}) => (
+  <div
+    className={classNames(
+      { 'casino-background': config.market === 'casino' },
+      { 'crm-background': config.market === 'crm' },
+    )}
+  >
+    {children}
+  </div>
+);
 
-  componentWillMount() {
-    document.body.classList.add('black-layout');
-  }
-
-  componentWillUnmount() {
-    document.body.classList.remove('black-layout');
-  }
-
-  render() {
-    const { children } = this.props;
-
-    return children;
-  }
-}
+BlackLayout.propTypes = {
+  children: PropTypes.element.isRequired,
+};
 
 export default BlackLayout;
