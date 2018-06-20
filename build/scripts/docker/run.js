@@ -10,7 +10,7 @@ const fetchZookeeperConfig = require('./fetch-zookeeper-config');
  *  Vars
  * ==================
  */
-const { NAS_PROJECT, NGINX_CONF_OUTPUT } = process.env;
+const { NAS_PROJECT, NAS_MARKET, NGINX_CONF_OUTPUT } = process.env;
 const APP_VERSION = fs.readFileSync(`${__dirname}/../build/VERSION`, { encoding: 'UTF-8' });
 const APP_NAME = 'backoffice';
 const REQUIRED_CONFIG_PARAM = 'nas.brand.api.url';
@@ -107,6 +107,7 @@ async function processConfig() {
 
   return {
     version: APP_VERSION,
+    market: NAS_MARKET || 'casino',
     nas: { brand, graphqlRoot: `${projectConfig.hrzn.api_url}/graphql/gql` },
     sentry: {
       dsn: 'https://b14abe232a0745fb974390113d879259@sentry.io/233061',

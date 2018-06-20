@@ -18,7 +18,7 @@ class BlackLayout extends Component {
 
   render() {
     const { children } = this.props;
-    const backgroundClassName = config.markets === 'crm'
+    const backgroundClassName = config.market === 'crm'
       ? 'crm-background'
       : 'casino-background';
 

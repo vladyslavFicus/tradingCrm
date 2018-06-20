@@ -32,8 +32,8 @@ if (project.env === 'development') {
     process.env.GRAPHQL_ROOT || `${_.get(appConfig, 'nas.brand.api.url')}/graphql/gql`
   );
 
-  if (process.env.BRAND_ID) {
-    _.set(appConfig, 'nas.brand.name', process.env.BRAND_ID);
+  if (process.env.NAS_MARKET) {
+    _.set(appConfig, 'market', process.env.NAS_MARKET);
   }
 
   app.use('/api', proxy(_.get(appConfig, 'nas.brand.api.url')));
