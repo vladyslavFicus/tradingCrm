@@ -53,6 +53,8 @@ const updateMutation = gql`mutation update(
   $targetType: String!
   $optInPeriod: Int
   $optInPeriodTimeUnit: String
+  $fulfillmentPeriod: Int
+  $fulfillmentPeriodTimeUnit: String
   $promoCode: String
 ) {
   campaign {
@@ -69,6 +71,8 @@ const updateMutation = gql`mutation update(
       targetType: $targetType
       optInPeriod: $optInPeriod
       optInPeriodTimeUnit: $optInPeriodTimeUnit
+      fulfillmentPeriod: $fulfillmentPeriod
+      fulfillmentPeriodTimeUnit: $fulfillmentPeriodTimeUnit
       promoCode: $promoCode
     ) {
       data {
@@ -97,15 +101,17 @@ const updateMutation = gql`mutation update(
 }`;
 
 const createMutation = gql`mutation create(
-  $name: String!,
-  $targetType: String!,
-  $optIn: Boolean!,
-  $fulfillments: [String]!,
+  $name: String!
+  $targetType: String!
+  $optIn: Boolean!
+  $fulfillments: [String]!
   $rewards: [String]!
   $startDate: String
   $endDate: String
   $optInPeriod: Int
   $optInPeriodTimeUnit: String
+  $fulfillmentPeriod: Int
+  $fulfillmentPeriodTimeUnit: String
   $promoCode: String
 ) {
   campaign {
@@ -119,6 +125,8 @@ const createMutation = gql`mutation create(
       endDate: $endDate
       optInPeriod: $optInPeriod
       optInPeriodTimeUnit: $optInPeriodTimeUnit
+      fulfillmentPeriod: $fulfillmentPeriod
+      fulfillmentPeriodTimeUnit: $fulfillmentPeriodTimeUnit
       promoCode: $promoCode
     ) {
       data {

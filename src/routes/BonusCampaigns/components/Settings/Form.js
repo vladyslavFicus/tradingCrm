@@ -367,7 +367,7 @@ class Form extends Component {
                         position="vertical"
                         disabled={disabled}
                       >
-                        <option value="">{I18n.t('BONUS_CAMPAIGNS.SETTINGS.SELECT_OPT_IN_PERIOD')}</option>
+                        <option value="">{I18n.t('BONUS_CAMPAIGNS.SETTINGS.SELECT_PERIOD')}</option>
                         {
                           Object.keys(optInPeriods).map(period => (
                             <option key={period} value={period}>

@@ -1429,7 +1429,7 @@
         "DEPOSIT_NUMBER_LABEL": "Номер депозита",
         "RESTRICTED_PAYMENT_METHODS": "Исключить платежные методы"
       },
-      "SELECT_OPT_IN_PERIOD": "- Период -",
+      "SELECT_PERIOD": "- Период -",
       "MODAL": {
         "CHOOSE_CAMPAIGN": {
           "TITLE": "Выберите кампанию",
@@ -2005,7 +2005,9 @@
       "TARGET": "Цель",
       "CHOOSE_TARGET_TYPE": "-- Выберите тип цели --",
       "OPT_IN_PERIOD": "Opt-in период",
-      "SELECT_OPT_IN_PERIOD": "- Период -"
+      "SELECT_PERIOD": "- Период -",
+      "FULFILLMENT_PERIOD": "Период условия",
+      "PERIOD": "Период"
     },
     "REWARDS": {
       "FREE_SPIN": {
