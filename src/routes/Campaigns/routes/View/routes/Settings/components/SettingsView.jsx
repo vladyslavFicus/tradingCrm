@@ -45,7 +45,7 @@ class SettingsView extends Component {
     } = this.props;
     const formData = Object.keys(values).reduce((res, key) => ({
       ...res,
-      [key]: values[key] !== '' ? values[key] : undefined,
+      [key]: (values[key] || typeof values[key] === 'boolean') ? values[key] : undefined,
     }), {});
 
     const fulfillments = formData.fulfillments
