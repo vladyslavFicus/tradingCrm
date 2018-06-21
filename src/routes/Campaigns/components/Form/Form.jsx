@@ -16,15 +16,15 @@ import {
   fulfillmentTypes,
   fulfillmentTypesLabels,
   optInSelect,
-  optInPeriods,
-  optInPeriodsLabels,
+  periods,
+  periodsLabels,
 } from '../../constants';
 import NodeBuilder from '../NodeBuilder';
 import { BonusView } from '../Bonus';
 import { FreeSpinView } from '../FreeSpin';
 import { WageringView } from '../Wagering';
 import DepositFulfillmentView from '../DepositFulfillmentView';
-import { createValidator } from '../../../../utils/validator';
+import { createValidator, translateLabels } from '../../../../utils/validator';
 import Permissions from '../../../../utils/permissions';
 import permissions from '../../../../config/permissions';
 import './Form.scss';
@@ -261,7 +261,7 @@ class Form extends Component {
             <If condition={formValues.optIn}>
               <div className="col-3">
                 <div className="form-group">
-                  <label>{I18n.t('CAMPAIGNS.SETTINGS.OPT_IN_PERIOD')}</label>
+                  <label>{I18n.t(attributeLabels.optInPeriod)}</label>
                   <div className="form-row">
                     <Field
                       name="optInPeriod"
@@ -282,12 +282,12 @@ class Form extends Component {
                       className="col"
                     >
                       <option value="">
-                        {I18n.t('CAMPAIGNS.SETTINGS.SELECT_OPT_IN_PERIOD')}
+                        {I18n.t('CAMPAIGNS.SETTINGS.SELECT_PERIOD')}
                       </option>
                       {
-                        Object.keys(optInPeriods).map(period => (
+                        Object.keys(periods).map(period => (
                           <option key={period} value={period}>
-                            {renderLabel(period, optInPeriodsLabels)}
+                            {renderLabel(period, periodsLabels)}
                           </option>
                         ))
                       }
@@ -296,6 +296,42 @@ class Form extends Component {
                 </div>
               </div>
             </If>
+            <div className="col-3">
+              <div className="form-group">
+                <label>{I18n.t(attributeLabels.fulfillmentPeriod)}</label>
+                <div className="form-row">
+                  <Field
+                    name="fulfillmentPeriod"
+                    id="campaign-fulfillment-period"
+                    type="number"
+                    placeholder=""
+                    disabled={disabled}
+                    component={InputField}
+                    normalize={intNormalize}
+                    className="col-4"
+                  />
+                  <Field
+                    name="fulfillmentPeriodTimeUnit"
+                    id="campaign-fulfillment-period-time-unit"
+                    type="select"
+                    component={SelectField}
+                    disabled={disabled}
+                    className="col"
+                  >
+                    <option value="">
+                      {I18n.t('CAMPAIGNS.SETTINGS.SELECT_PERIOD')}
+                    </option>
+                    {
+                      Object.keys(periods).map(period => (
+                        <option key={period} value={period}>
+                          {renderLabel(period, periodsLabels)}
+                        </option>
+                      ))
+                    }
+                  </Field>
+                </div>
+              </div>
+            </div>
           </div>
           <div className="row">
             <Countries
@@ -373,8 +409,11 @@ export default compose(
         countries: `in:,${Object.keys(countries).join()}`,
         excludeCountries: ['boolean'],
         optInPeriod: ['numeric', 'min:1'],
-        optInPeriodTimeUnit: [`in:${Object.keys(optInPeriods).join()}`],
+        fulfillmentPeriod: ['numeric', 'min:1'],
+        optInPeriodTimeUnit: [`in:${Object.keys(periods).join()}`],
+        fulfillmentPeriodTimeUnit: [`in:${Object.keys(periods).join()}`],
         promoCode: ['string', 'min:4'],
+        optIn: ['boolean', 'required'],
       };
 
       const fulfillments = get(values, 'fulfillments', []);
@@ -389,6 +428,14 @@ export default compose(
 
       if (values.optInPeriodTimeUnit) {
         rules.optInPeriod.push('required');
+      }
+
+      if (values.fulfillmentPeriod) {
+        rules.fulfillmentPeriodTimeUnit.push('required');
+      }
+
+      if (values.fulfillmentPeriodTimeUnit) {
+        rules.fulfillmentPeriod.push('required');
       }
 
       fulfillments.forEach((fulfillment, index) => {
@@ -406,7 +453,7 @@ export default compose(
         }
       });
 
-      return createValidator(rules, attributeLabels, false)(values);
+      return createValidator(rules, translateLabels(attributeLabels), false)(values);
     },
   }),
   withReduxFormValues,

@@ -43,7 +43,10 @@ class SettingsView extends Component {
         },
       },
     } = this.props;
-    const formData = Object.keys(values).reduce((res, key) => ({ ...res, [key]: values[key] || undefined }), {});
+    const formData = Object.keys(values).reduce((res, key) => ({
+      ...res,
+      [key]: values[key] !== '' ? values[key] : undefined,
+    }), {});
 
     const fulfillments = formData.fulfillments
       .filter(({ uuid }) => uuid)
@@ -123,6 +126,8 @@ class SettingsView extends Component {
             optInPeriodTimeUnit,
             countries,
             excludeCountries,
+            fulfillmentPeriod,
+            fulfillmentPeriodTimeUnit,
           },
         },
       },
@@ -147,6 +152,8 @@ class SettingsView extends Component {
           promoCode,
           optInPeriod,
           optInPeriodTimeUnit,
+          fulfillmentPeriod,
+          fulfillmentPeriodTimeUnit,
         }}
         fulfillments={fulfillments}
         form="settings"

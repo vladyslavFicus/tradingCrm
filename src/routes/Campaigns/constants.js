@@ -6,6 +6,10 @@ const attributeLabels = {
   targetType: I18n.t('CAMPAIGNS.SETTINGS.LABEL.TARGET_TYPE'),
   optIn: I18n.t('CAMPAIGNS.SETTINGS.LABEL.OPT_IN'),
   promoCode: I18n.t('CAMPAIGNS.SETTINGS.LABEL.PROMO_CODE'),
+  fulfillmentPeriod: I18n.t('CAMPAIGNS.SETTINGS.FULFILLMENT_PERIOD'),
+  fulfillmentPeriodTimeUnit: I18n.t('CAMPAIGNS.SETTINGS.PERIOD'),
+  optInPeriod: I18n.t('CAMPAIGNS.SETTINGS.OPT_IN_PERIOD'),
+  optInPeriodTimeUnit: I18n.t('CAMPAIGNS.SETTINGS.PERIOD'),
 };
 
 const rewardTemplateTypes = keyMirror({
@@ -48,16 +52,16 @@ const optInSelect = {
   false: I18n.t('COMMON.NON_OPT_IN'),
 };
 
-const optInPeriods = keyMirror({
+const periods = keyMirror({
   HOURS: null,
   DAYS: null,
   WEEKS: null,
 });
 
-const optInPeriodsLabels = {
-  [optInPeriods.HOURS]: I18n.t('COMMON.HOURS'),
-  [optInPeriods.DAYS]: I18n.t('COMMON.DAYS'),
-  [optInPeriods.WEEKS]: I18n.t('COMMON.WEEKS'),
+const periodsLabels = {
+  [periods.HOURS]: I18n.t('COMMON.HOURS'),
+  [periods.DAYS]: I18n.t('COMMON.DAYS'),
+  [periods.WEEKS]: I18n.t('COMMON.WEEKS'),
 };
 
 export {
@@ -70,8 +74,8 @@ export {
   nodeGroupsAlias,
   nodeGroupValidateMessage,
   optInSelect,
-  optInPeriods,
-  optInPeriodsLabels,
+  periods,
+  periodsLabels,
 };
 
 export default attributeLabels;

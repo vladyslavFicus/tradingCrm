@@ -60,6 +60,8 @@ const campaignQuery = gql`query campaign($campaignUUID: String!){
       endDate
       optInPeriod
       optInPeriodTimeUnit
+      fulfillmentPeriod
+      fulfillmentPeriodTimeUnit
       promoCode
       rewards {
         type
