@@ -31,7 +31,7 @@ class FileUpload extends Component {
     const { label, singleMode, className } = this.props;
 
     return (
-      <label className={classNames(className, 'btn btn-default-outline btn-file')}>
+      <label className={classNames('btn btn-default-outline btn-file', className)}>
         <input
           type="file"
           onClick={this.handleClick}

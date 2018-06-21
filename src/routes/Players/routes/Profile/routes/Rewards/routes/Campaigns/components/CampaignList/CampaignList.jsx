@@ -195,8 +195,7 @@ class CampaignList extends Component {
     notify({
       level: error ? 'error' : 'success',
       title: I18n.t('BONUS_CAMPAIGNS.VIEW.NOTIFICATIONS.RESET_PLAYER'),
-      message: `${I18n.t('COMMON.NOTIFICATIONS.COPIED')} ${error ? I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY') :
-        I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
+      message: `${error ? I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY') : I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
     });
 
     confirmActionModal.hide();

@@ -296,6 +296,13 @@ class Form extends Component {
                 </div>
               </div>
             </If>
+          </div>
+          <div className="row">
+            <Countries
+              className="col-3"
+              disabled={disabled}
+              formValues={formValues}
+            />
             <If condition={formValues.targetType === targetTypes.TARGET_LIST}>
               <Field
                 name="promoCode"
@@ -307,12 +314,6 @@ class Form extends Component {
                 className="col-3"
               />
             </If>
-          </div>
-          <div className="row">
-            <Countries
-              disabled={disabled}
-              formValues={formValues}
-            />
           </div>
         </div>
         <div className="container-fluid">

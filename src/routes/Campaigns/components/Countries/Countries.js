@@ -14,13 +14,19 @@ class Countries extends Component {
       countries: PropTypes.arrayOf(PropTypes.string),
       excludeCountries: PropTypes.bool,
     }),
+    className: PropTypes.string,
   };
   static defaultProps = {
     formValues: {},
+    className: '',
   };
 
   render() {
-    const { formValues, disabled } = this.props;
+    const {
+      formValues,
+      disabled,
+      className,
+    } = this.props;
     const targetType = get(formValues, 'targetType');
 
     if (targetType !== targetTypes.ALL) {
@@ -36,7 +42,7 @@ class Countries extends Component {
 
     if (disabled) {
       return (
-        <div className="col-6">
+        <div className={className}>
           <div className="form-group">
             <label>{label}</label>
             <div className="select-disabled-container">
@@ -67,7 +73,7 @@ class Countries extends Component {
         component={NasSelectField}
         position="vertical"
         multiple
-        className="col-6"
+        className={className}
       >
         {Object
           .keys(countryList)
