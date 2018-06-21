@@ -60,7 +60,7 @@ class CampaignView extends PureComponent {
       });
 
       if (!clone.error) {
-        const campaignUUID = get(clone, 'data.campaign.clone.data.uuid');
+        const campaignUUID = get(clone, 'data.uuid');
         history.push(`/campaigns/view/${campaignUUID}/settings`);
       }
     }
