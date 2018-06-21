@@ -483,7 +483,8 @@
       "REWARDS": {
         "BONUS": "Бонус",
         "FREE_SPIN": "Фри-спин"
-      }
+      },
+      "RESET_PLAYER": "Сброс игрока"
     },
     "FREE_SPINS": {
       "BONUS_SETTINGS": {
@@ -1334,7 +1335,8 @@
         "ADD_CAMPAIGN": "Создание бонус-кампании",
         "UNSUCCESSFULLY": "Не удалось сохранить компанию",
         "SUCCESSFULLY": "Компания сохранена успешно",
-        "CAMPAIGN_COPIED": "Кампания скопирована"
+        "CAMPAIGN_COPIED": "Кампания скопирована",
+        "RESET_PLAYER": "Сброс игрока"
       },
       "BUTTON": {
         "ADD_PLAYERS": "+ Добавить игроков"
@@ -2053,10 +2055,12 @@
           "TITLE": "Удаление игроков",
           "ERROR": "Не удалось удалить игроков из кампании",
           "SUCCESS": "Игроки успешно удалены"
-        }
+        },
+        "RESET_PLAYERS": "Сброс игроков"
       },
       "BUTTON": {
-        "ADD_PLAYERS": "+ Добавить игроков"
+        "ADD_PLAYERS": "+ Добавить игроков",
+        "ADD_RESET_PLAYERS": "+ Сбросить игроков"
       }
     },
     "STATUS_DROPDOWN_MODAL": {

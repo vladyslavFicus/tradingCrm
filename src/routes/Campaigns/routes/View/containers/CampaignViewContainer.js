@@ -14,6 +14,7 @@ import { withNotifications } from '../../../../../components/HighOrder';
 const mapStateToProps = ({ i18n: { locale } }) => ({ locale });
 const mapActions = {
   uploadPlayersFile: actionCreators.uploadPlayersFile,
+  uploadResetPlayersFile: actionCreators.uploadResetPlayersFile,
 };
 
 export default compose(

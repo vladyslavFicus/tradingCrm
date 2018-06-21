@@ -4,6 +4,7 @@ import buildFormData from '../../../../../utils/buildFormData';
 
 const KEY = 'campaign/view';
 const UPLOAD_PLAYERS_FILE = createRequestAction(`${KEY}/upload-file`);
+const UPLOAD_RESET_PLAYERS_FILE = createRequestAction(`${KEY}/upload-reset-file`);
 
 function uploadPlayersFile(uuid, file) {
   return (dispatch, getState) => {
@@ -31,11 +32,39 @@ function uploadPlayersFile(uuid, file) {
   };
 }
 
+function uploadResetPlayersFile(uuid, file) {
+  return (dispatch, getState) => {
+    const { auth: { token, logged } } = getState();
+
+    return dispatch({
+      [CALL_API]: {
+        endpoint: `/campaign/${uuid}/reset-player-states`,
+        method: 'PUT',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: buildFormData({ file }),
+        types: [
+          {
+            type: UPLOAD_RESET_PLAYERS_FILE.REQUEST,
+            payload: { file },
+          },
+          UPLOAD_RESET_PLAYERS_FILE.SUCCESS,
+          UPLOAD_RESET_PLAYERS_FILE.FAILURE,
+        ],
+        bailout: !logged,
+      },
+    });
+  };
+}
+
 const actionTypes = {
   UPLOAD_PLAYERS_FILE,
+  UPLOAD_RESET_PLAYERS_FILE,
 };
 const actionCreators = {
   uploadPlayersFile,
+  uploadResetPlayersFile,
 };
 
 export {

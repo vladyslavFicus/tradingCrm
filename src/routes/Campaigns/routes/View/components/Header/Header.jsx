@@ -54,15 +54,29 @@ class Header extends Component {
     }
   };
 
-  handleUploadFile = async (errors, file) => {
+  handleAddPlayersUpload = async (errors, file) => {
     const { data: { uuid }, uploadPlayersFile } = this.props;
-    const action = await uploadPlayersFile(uuid, file);
+    const response = await uploadPlayersFile(uuid, file);
 
-    if (action) {
+    if (response) {
       this.context.addNotification({
-        level: action.error ? 'error' : 'success',
+        level: response.error ? 'error' : 'success',
         title: I18n.t('CAMPAIGNS.VIEW.NOTIFICATIONS.ADD_PLAYERS'),
-        message: `${I18n.t('COMMON.ACTIONS.UPLOADED')} ${action.error ? I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY') :
+        message: `${I18n.t('COMMON.ACTIONS.UPLOADED')} ${response.error ? I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY') :
+          I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
+      });
+    }
+  };
+
+  handleResetPlayersUpload = async (errors, file) => {
+    const { data: { uuid }, uploadResetPlayersFile } = this.props;
+    const response = await uploadResetPlayersFile(uuid, file);
+
+    if (response) {
+      this.context.addNotification({
+        level: response.error ? 'error' : 'success',
+        title: I18n.t('CAMPAIGNS.VIEW.NOTIFICATIONS.RESET_PLAYERS'),
+        message: `${I18n.t('COMMON.ACTIONS.UPLOADED')} ${response.error ? I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY') :
           I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
       });
     }
@@ -104,6 +118,7 @@ class Header extends Component {
       : [];
     const allowUpload = [statuses.DRAFT, statuses.PENDING, statuses.ACTIVE].indexOf(state) !== -1
       && targetType === targetTypes.TARGET_LIST;
+    const allowReset = state === statuses.ACTIVE;
 
     return (
       <Fragment>
@@ -131,10 +146,17 @@ class Header extends Component {
                 <FileUpload
                   label={I18n.t('CAMPAIGNS.VIEW.BUTTON.ADD_PLAYERS')}
                   allowedTypes={['text/csv', 'application/vnd.ms-excel']}
-                  onChosen={this.handleUploadFile}
-                  className="btn btn-info-outline"
+                  onChosen={this.handleAddPlayersUpload}
                 />
               </span>
+            </If>
+            <If condition={allowReset}>
+              <FileUpload
+                label={I18n.t('CAMPAIGNS.VIEW.BUTTON.ADD_RESET_PLAYERS')}
+                allowedTypes={['text/csv', 'application/vnd.ms-excel']}
+                onChosen={this.handleResetPlayersUpload}
+                className="margin-left-10"
+              />
             </If>
             <span className="margin-left-10">
               <ActionsDropDown

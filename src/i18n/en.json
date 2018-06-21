@@ -477,7 +477,8 @@
       "REWARDS": {
         "BONUS": "Bonus",
         "FREE_SPIN": "Free-spin"
-      }
+      },
+      "RESET_PLAYER": "Reset player"
     },
     "FREE_SPINS": {
       "BONUS_SETTINGS": {
@@ -1323,7 +1324,8 @@
         "UNSUCCESSFULLY": "Failed to save the сampaign",
         "SUCCESSFULLY": "Сampaign saved successfully",
         "ADD_CAMPAIGN": "Add campaign",
-        "CAMPAIGN_COPIED": "Campaign copied"
+        "CAMPAIGN_COPIED": "Campaign copied",
+        "RESET_PLAYER": "Reset player"
       },
       "BUTTON": {
         "ADD_PLAYERS": "+ Add players"
@@ -2038,10 +2040,12 @@
           "TITLE": "Remove all players",
           "ERROR": "Error while removing players",
           "SUCCESS": "All players removed"
-        }
+        },
+        "RESET_PLAYERS": "Reset players"
       },
       "BUTTON": {
-        "ADD_PLAYERS": "+ Add players"
+        "ADD_PLAYERS": "+ Add players",
+        "ADD_RESET_PLAYERS": "+ Reset players"
       }
     },
     "STATUS_DROPDOWN_MODAL": {

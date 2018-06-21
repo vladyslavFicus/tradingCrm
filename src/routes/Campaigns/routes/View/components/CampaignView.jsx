@@ -18,6 +18,7 @@ class CampaignView extends PureComponent {
     uploadPlayersFile: PropTypes.func.isRequired,
     removeAllPlayers: PropTypes.func.isRequired,
     cloneMutation: PropTypes.func.isRequired,
+    uploadResetPlayersFile: PropTypes.func.isRequired,
     location: PropTypes.object.isRequired,
     match: PropTypes.shape({
       params: PropTypes.shape({
@@ -72,6 +73,7 @@ class CampaignView extends PureComponent {
       activateMutation,
       cancelMutation,
       uploadPlayersFile,
+      uploadResetPlayersFile,
       removeAllPlayers,
     } = this.props;
 
@@ -93,6 +95,7 @@ class CampaignView extends PureComponent {
             activateMutation={activateMutation}
             cancelMutation={cancelMutation}
             uploadPlayersFile={uploadPlayersFile}
+            uploadResetPlayersFile={uploadResetPlayersFile}
             removeAllPlayers={removeAllPlayers}
             cloneCampaign={this.handleCloneCampaign}
           />
