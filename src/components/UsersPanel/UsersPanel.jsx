@@ -125,11 +125,11 @@ class UsersPanel extends Component {
                 <div className="users-panel-title">
                   <div className="header-text" >Player Profile</div>
                   <div
-                    className="icon-minimize"
+                    className="icon-minimize-popup-profile"
                     onClick={() => onItemClick(null)}
                   />
                   <div
-                    className="icon-close"
+                    className="icon-close-popup-profile"
                     onClick={() => onRemove(item.uuid)}
                   />
                 </div>
