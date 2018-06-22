@@ -124,7 +124,6 @@ class FreeSpinCreateModal extends Component {
       coinSizes: [],
       lines: [],
       pageCodes: [],
-      coins: [],
     };
   }
 
@@ -145,12 +144,15 @@ class FreeSpinCreateModal extends Component {
   };
 
   handleChangeGame = ({ target: { value } }) => {
-    const { clientId, moduleId, coins } = this.getGame(value);
+    const { clientId, moduleId, coinsMin, coinsMax } = this.getGame(value);
     const fields = get(this.aggregatorOptions, `[${this.props.aggregatorId}].fields`);
 
     this.setField('clientId', fields.indexOf('clientId') !== -1 ? clientId : null);
     this.setField('moduleId', fields.indexOf('moduleId') !== -1 ? moduleId : null);
-    this.setField('coins', fields.indexOf('coins') !== -1 && coins.length === 1 ? [coins] : null);
+
+    if (fields.indexOf('coins') !== -1) {
+      this.setField('coins', coinsMin === coinsMax ? coinsMin : null);
+    }
   };
 
   handleChangeBonusUUID = (uuid) => {
@@ -292,7 +294,7 @@ class FreeSpinCreateModal extends Component {
     const fields = get(aggregatorOptions, `[${aggregatorId}].fields`);
     const gameList = get(games, 'games.content', []);
     const {
-      betLevels, coinSizes, lines, pageCodes, coins,
+      betLevels, coinSizes, lines, pageCodes, coinsMin, coinsMax,
     } = this.getGame(gameId);
     const showPriceWidget = baseCurrency && fields &&
       fields.indexOf('linesPerSpin') !== -1 &&
@@ -419,7 +421,7 @@ class FreeSpinCreateModal extends Component {
                       placeholder="0"
                       label={I18n.t(attributeLabels.coins)}
                       component={InputField}
-                      disabled={coins.length === 1}
+                      disabled={coinsMin === coinsMax}
                       normalize={intNormalize}
                       className="col-md-6"
                       id="campaign-freespin-create-modal-coins"

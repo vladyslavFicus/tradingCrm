@@ -1,4 +1,4 @@
-import { get, head, last } from 'lodash';
+import { get } from 'lodash';
 import { createValidator, translateLabels } from '../../../../../utils/validator';
 import { attributeLabels } from '../constants';
 
@@ -39,13 +39,11 @@ export default (values, {
     claimable: ['boolean'],
   };
 
-
   if (gameId) {
-    const { coins } = get(games, 'games.content', []).find(i => i.gameId === gameId);
-    if (coins.length >= 2) {
-      rules.coins.push(`min:${head(coins)}`);
-      rules.coins.push(`max:${last(coins)}`);
-    }
+    const { coinsMin, coinsMax } = get(games, 'games.content', []).find(i => i.gameId === gameId);
+
+    rules.coins.push(`min:${coinsMin}`);
+    rules.coins.push(`max:${coinsMax}`);
   }
 
   rules = fields.reduce((acc, curr) => ({ ...acc, [curr]: rules[curr] }), {});
