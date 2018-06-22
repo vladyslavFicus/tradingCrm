@@ -3,9 +3,9 @@
 @font-face {
   font-family: 'backoffice';
   src:
-    url('../../public/fonts/backoffice.ttf?sdzjzm') format('truetype'),
-    url('../../public/fonts/backoffice.woff?sdzjzm') format('woff'),
-    url('../../public/fonts/backoffice.svg?sdzjzm#backoffice') format('svg');
+    url('../../public/fonts/backoffice.ttf?gdzjzm') format('truetype'),
+    url('../../public/fonts/backoffice.woff?gdzjzm') format('woff'),
+    url('../../public/fonts/backoffice.svg?gdzjzm#backoffice') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -23,11 +23,17 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-currencies:before {
+.icon-minimize:before {
   content: "\e900";
 }
-.icon-filter:before {
+.icon-close:before {
+  content: "\e903";
+}
+.icon-currencies:before {
   content: "\e901";
+}
+.icon-filter:before {
+  content: "\e902";
 }
 .icon-calendar:before {
   content: "\e904";

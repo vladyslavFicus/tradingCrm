@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import classNames from 'classnames';
 import UsersPanelItem from '../UsersPanelItem';
 import PropTypes from '../../constants/propTypes';
@@ -121,19 +121,32 @@ class UsersPanel extends Component {
             );
 
             return (
-              <iframe
-                id={item.uuid}
-                key={item.uuid}
-                title={item.uuid}
-                className={className}
-                frameBorder={0}
-                src={`/players/${item.uuid}/${item.path || 'profile'}`}
-                style={{
-                  height: active && active.uuid === item.uuid ? 'calc(100% - 80px)' : '0',
-                  margin: active && active.uuid === item.uuid ? '0 auto' : '0',
-                  borderTop: active && active.uuid === item.uuid ? '' : '0',
-                }}
-              />
+              <Fragment key={item.uuid}>
+                <div className="users-panel-title">
+                  <div className="header-text" >Player Profile</div>
+                  <div
+                    className="icon-minimize"
+                    onClick={() => onItemClick(null)}
+                  />
+                  <div
+                    className="icon-close"
+                    onClick={() => onRemove(item.uuid)}
+                  />
+                </div>
+                <iframe
+                  id={item.uuid}
+                  title={item.uuid}
+                  className={className}
+                  frameBorder={0}
+                  src={`/players/${item.uuid}/${item.path || 'profile'}`}
+                  style={{
+                    /* 166px = 48px header + 60px title + 54px footer + 4px footer border - 5px iframe border-top */
+                    height: active && active.uuid === item.uuid ? 'calc(100vh - 160px)' : '0',
+                    margin: active && active.uuid === item.uuid ? '0 auto' : '0',
+                    borderTop: active && active.uuid === item.uuid ? '' : '0',
+                  }}
+                />
+              </Fragment>
             );
           })}
         </div>
