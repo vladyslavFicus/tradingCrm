@@ -7,13 +7,15 @@ export default (values, {
   freeSpinOptions: {
     freeSpinOptions,
   },
+  gameId,
+  games,
 }) => {
   const fields = get(freeSpinOptions, `[${aggregatorId}].fields`, []);
   let rules = {
     freeSpinsAmount: ['integer', 'min:0', 'required'],
     freeSpinLifeTime: ['integer', 'min:0', 'required'],
     denomination: ['numeric', 'min:0', 'required'],
-    coins: ['integer', 'min:0', 'required'],
+    coins: ['integer', 'required'],
     linesPerSpin: ['integer', 'required'],
     betPerLineAmounts: {
       0: {
@@ -22,7 +24,7 @@ export default (values, {
     },
     pageCode: ['required', 'string'],
     betLevel: ['required', 'integer'],
-    coinSize: ['required', 'integer'],
+    coinSize: ['required', 'numeric'],
     rhfpBet: ['required', 'integer'],
     comment: ['string'],
     clientId: ['string', 'required'],
@@ -36,6 +38,13 @@ export default (values, {
     },
     claimable: ['boolean'],
   };
+
+  if (gameId) {
+    const { coinsMin, coinsMax } = get(games, 'games.content', []).find(i => i.gameId === gameId);
+
+    rules.coins.push(`min:${coinsMin}`);
+    rules.coins.push(`max:${coinsMax}`);
+  }
 
   rules = fields.reduce((acc, curr) => ({ ...acc, [curr]: rules[curr] }), {});
 
