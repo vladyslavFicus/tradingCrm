@@ -6,7 +6,6 @@ import { get, mapValues } from 'lodash';
 import classNames from 'classnames';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { floatNormalize, intNormalize } from '../../../../../utils/inputNormalize';
-import normalizeNumber from '../../../../../utils/normalizeNumber';
 import stopPropagation from '../../../../../utils/stopPropagation';
 import { attributeLabels, attributePlaceholders } from '../constants';
 import Amount from '../../../../../components/Amount';
@@ -125,6 +124,7 @@ class FreeSpinCreateModal extends Component {
       coinSizes: [],
       lines: [],
       pageCodes: [],
+      coins: [],
     };
   }
 
@@ -133,6 +133,7 @@ class FreeSpinCreateModal extends Component {
   handleChangeProvider = () => {
     const fields = get(this.aggregatorOptions, `[${this.props.aggregatorId}].fields`);
     this.setField('gameId', null);
+    this.setField('coins', null);
 
     if (fields.indexOf('betLevel') !== -1) {
       this.setField('betLevel', 1);
@@ -144,11 +145,12 @@ class FreeSpinCreateModal extends Component {
   };
 
   handleChangeGame = ({ target: { value } }) => {
-    const { clientId, moduleId } = this.getGame(value);
+    const { clientId, moduleId, coins } = this.getGame(value);
     const fields = get(this.aggregatorOptions, `[${this.props.aggregatorId}].fields`);
 
     this.setField('clientId', fields.indexOf('clientId') !== -1 ? clientId : null);
     this.setField('moduleId', fields.indexOf('moduleId') !== -1 ? moduleId : null);
+    this.setField('coins', fields.indexOf('coins') !== -1 && coins.length === 1 ? [coins] : null);
   };
 
   handleChangeBonusUUID = (uuid) => {
@@ -290,7 +292,7 @@ class FreeSpinCreateModal extends Component {
     const fields = get(aggregatorOptions, `[${aggregatorId}].fields`);
     const gameList = get(games, 'games.content', []);
     const {
-      betLevels, coinSizes, lines, pageCodes,
+      betLevels, coinSizes, lines, pageCodes, coins,
     } = this.getGame(gameId);
     const showPriceWidget = baseCurrency && fields &&
       fields.indexOf('linesPerSpin') !== -1 &&
@@ -417,6 +419,7 @@ class FreeSpinCreateModal extends Component {
                       placeholder="0"
                       label={I18n.t(attributeLabels.coins)}
                       component={InputField}
+                      disabled={coins.length === 1}
                       normalize={intNormalize}
                       className="col-md-6"
                       id="campaign-freespin-create-modal-coins"
@@ -456,7 +459,7 @@ class FreeSpinCreateModal extends Component {
                   name="betLevel"
                   label={I18n.t(attributeLabels.betLevel)}
                   type="select"
-                  parse={normalizeNumber}
+                  parse={intNormalize}
                   component={SelectField}
                   disabled={betLevels.length <= 1}
                   className="col-md-6"
@@ -470,7 +473,7 @@ class FreeSpinCreateModal extends Component {
                   name="coinSize"
                   label={I18n.t(attributeLabels.coinSize)}
                   type="select"
-                  parse={normalizeNumber}
+                  parse={floatNormalize}
                   component={SelectField}
                   disabled={coinSizes.length <= 1}
                   className="col-md-6"
