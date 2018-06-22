@@ -803,7 +803,8 @@
     "SUBMIT": "Submit",
     "AMOUNT": "Amount",
     "SUCCESS_UPDATE": "Success update",
-    "PERMANENT": "Permanent"
+    "PERMANENT": "Permanent",
+    "COMMENT": "Comment"
   },
   "FILES": {
     "UPLOAD_MODAL": {

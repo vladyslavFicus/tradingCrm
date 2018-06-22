@@ -809,7 +809,8 @@
     "SUBMIT": "Принять",
     "AMOUNT": "Количество",
     "SUCCESS_UPDATE": "Удачное обновление",
-    "PERMANENT": "Постоянный"
+    "PERMANENT": "Постоянный",
+    "COMMENT": "Комментарий"
   },
   "FILES": {
     "UPLOAD_MODAL": {

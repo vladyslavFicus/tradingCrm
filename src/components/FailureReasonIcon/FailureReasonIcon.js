@@ -11,12 +11,14 @@ class FailureReasonIcon extends Component {
     statusDate: PropTypes.string,
     statusAuthor: PropTypes.string,
     id: PropTypes.string,
+    profileStatusComment: PropTypes.string,
   };
   static defaultProps = {
     reason: null,
     statusDate: null,
     statusAuthor: null,
     id: 'failure-reason-icon',
+    profileStatusComment: '',
   };
   state = {
     popoverOpen: false,
@@ -27,7 +29,12 @@ class FailureReasonIcon extends Component {
   };
 
   renderPopoverContent(id) {
-    const { statusAuthor, statusDate, reason } = this.props;
+    const {
+      statusAuthor,
+      statusDate,
+      reason,
+      profileStatusComment,
+    } = this.props;
     const { popoverOpen } = this.state;
 
     return (
@@ -55,7 +62,14 @@ class FailureReasonIcon extends Component {
           </div>
         </PopoverHeader>
         <PopoverBody className="failure-reason-popover__body">
-          {I18n.t(reason)}
+          <div>
+            <span className="font-weight-700">{I18n.t('COMMON.REASON')}:</span> {I18n.t(reason)}
+          </div>
+          <If condition={profileStatusComment}>
+            <div>
+              <span className="font-weight-700">{I18n.t('COMMON.COMMENT')}:</span> {profileStatusComment}
+            </div>
+          </If>
         </PopoverBody>
       </Popover>
     );
