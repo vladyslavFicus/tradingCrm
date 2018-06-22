@@ -809,7 +809,9 @@
     "SUBMIT": "Принять",
     "AMOUNT": "Количество",
     "SUCCESS_UPDATE": "Удачное обновление",
-    "PERMANENT": "Постоянный"
+    "PERMANENT": "Постоянный",
+    "CRM_USER_DEFINITION": "Профиль клиента",
+    "CASINO_USER_DEFINITION": "Профиль игрока"
   },
   "FILES": {
     "UPLOAD_MODAL": {

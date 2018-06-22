@@ -1,10 +1,12 @@
 import React, { Component, Fragment } from 'react';
 import classNames from 'classnames';
+import { I18n } from 'react-redux-i18n';
 import UsersPanelItem from '../UsersPanelItem';
 import PropTypes from '../../constants/propTypes';
 import './UsersPanel.scss';
 import { withModals } from '../../components/HighOrder';
 import ReplaceTabsModal from './ReplaceTabsModal';
+import config from '../../config';
 
 const MAX_ACTIVE_TAB = 5;
 
@@ -111,6 +113,8 @@ class UsersPanel extends Component {
       [footerActiveClassName]: !!active,
     });
 
+    const iframeTitle = config.market === 'crm' ? 'CRM' : 'CASINO';
+
     return (
       <div className={blockClassName}>
         <div className="users-panel-content" style={{ visibility: active ? 'visible' : 'hidden' }}>
@@ -123,7 +127,9 @@ class UsersPanel extends Component {
             return (
               <Fragment key={item.uuid}>
                 <div className="users-panel-title">
-                  <div className="header-text" >Player Profile</div>
+                  <div className="header-text" >
+                    {I18n.t(`COMMON.${iframeTitle}_USER_DEFINITION`)}
+                  </div>
                   <div
                     className="icon-minimize-popup-profile"
                     onClick={() => onItemClick(null)}

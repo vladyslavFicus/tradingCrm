@@ -9,7 +9,7 @@ const BlackLayout = ({
 }) => (
   <div
     className={classNames(
-      { 'casino-background': config.market !== 'casino' },
+      { 'casino-background': config.market !== 'crm' },
       { 'crm-background': config.market === 'crm' },
     )}
   >
