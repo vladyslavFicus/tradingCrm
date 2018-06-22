@@ -62,9 +62,7 @@ class FailureReasonIcon extends Component {
           </div>
         </PopoverHeader>
         <PopoverBody className="failure-reason-popover__body">
-          <div>
-            <span className="font-weight-700">{I18n.t('COMMON.REASON')}:</span> {I18n.t(reason)}
-          </div>
+          <span className="font-weight-700">{I18n.t('COMMON.REASON')}:</span> {I18n.t(reason)}
           <If condition={profileStatusComment}>
             <div>
               <span className="font-weight-700">{I18n.t('COMMON.COMMENT')}:</span> {profileStatusComment}
