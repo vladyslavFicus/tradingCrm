@@ -19,9 +19,9 @@ export default compose(
       fetchPolicy: 'cache-and-network',
       variables: {
         playerUUID,
-        ...query ? query.filters : {},
         size: 10,
         page: 0,
+        ...query ? query.filters : {},
       },
     }),
     props: ({
