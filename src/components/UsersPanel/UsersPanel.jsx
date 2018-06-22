@@ -146,7 +146,7 @@ class UsersPanel extends Component {
                   frameBorder={0}
                   src={`/players/${item.uuid}/${item.path || 'profile'}`}
                   style={{
-                    /* 166px = 48px header + 60px title + 54px footer + 4px footer border - 5px iframe border-top */
+                    /* 160px = 48px header + 60px title + 54px footer + 4px footer border - 5px iframe border-top */
                     height: active && active.uuid === item.uuid ? 'calc(100vh - 160px)' : '0',
                     margin: active && active.uuid === item.uuid ? '0 auto' : '0',
                     borderTop: active && active.uuid === item.uuid ? '' : '0',
