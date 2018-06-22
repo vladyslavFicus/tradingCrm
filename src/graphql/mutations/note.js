@@ -120,16 +120,11 @@ const removeNote = (proxy, variables, uuid) => {
   }
 };
 
-const removeNotes = (proxy, playerUUID, uuid) => {
-  removeNote(proxy, { playerUUID, pinned: true }, uuid);
-  removeNote(proxy, { playerUUID }, uuid);
-};
 
 export {
   updateNoteMutation,
   addNoteMutation,
   removeNoteMutation,
-  removeNotes,
   removeNote,
   addNote,
 };

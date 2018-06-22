@@ -28,7 +28,6 @@ import {
   updateNoteMutation,
   removeNoteMutation,
   addNoteMutation,
-  removeNotes,
   removeNote,
   addNote,
 } from '../../../../../graphql/mutations/note';
@@ -153,6 +152,7 @@ export default compose(
           id: playerUUID,
         },
       },
+      location: { query },
     }) => ({
       variables: {
         author: fullName,
@@ -167,6 +167,9 @@ export default compose(
         query: notesQuery,
         variables: {
           playerUUID,
+          size: 10,
+          page: 0,
+          ...query ? query.filters : {},
         },
       }],
     }),
@@ -554,6 +557,7 @@ export default compose(
           id: playerUUID,
         },
       },
+      location: { query },
     }) => ({
       update: (proxy, {
         data: {
@@ -566,7 +570,13 @@ export default compose(
           },
         },
       }) => {
-        removeNotes(proxy, playerUUID, uuid);
+        removeNote(proxy, { playerUUID, pinned: true }, uuid);
+        removeNote(proxy, {
+          playerUUID,
+          size: 10,
+          page: 0,
+          ...query ? query.filters : {},
+        }, uuid);
       },
     }),
   }),
