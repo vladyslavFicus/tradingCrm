@@ -11,13 +11,14 @@ $carrot: #b93703;
     align-items: center;
     height: 60px;
     width: 94%;
-    margin: 0px auto;
+    margin-left: auto;
+    margin-right: auto;
     .header-text {
       color: #fff;
       font-size: 22px;
       margin-right: auto;
     }
-    div[class^='icon-'] {
+    .user-panel-icon {
       margin-left: 20px;
       color: #9b9b9b;
       font-size: 22px;
@@ -33,7 +34,7 @@ $carrot: #b93703;
     iframe {
       display: block;
       position: relative;
-      top: 0px;
+      top: 0;
     }
   }
   &-footer {

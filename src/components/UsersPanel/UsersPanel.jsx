@@ -131,11 +131,11 @@ class UsersPanel extends Component {
                     {I18n.t(`COMMON.${iframeTitle}_USER_DEFINITION`)}
                   </div>
                   <div
-                    className="icon-minimize-popup-profile"
+                    className="user-panel-icon icon-minimize-popup-profile"
                     onClick={() => onItemClick(null)}
                   />
                   <div
-                    className="icon-close-popup-profile"
+                    className="user-panel-icon icon-close-popup-profile"
                     onClick={() => onRemove(item.uuid)}
                   />
                 </div>
@@ -146,7 +146,6 @@ class UsersPanel extends Component {
                   frameBorder={0}
                   src={`/players/${item.uuid}/${item.path || 'profile'}`}
                   style={{
-                    /* 160px = 48px header + 60px title + 54px footer + 4px footer border - 5px iframe border-top */
                     height: active && active.uuid === item.uuid ? 'calc(100vh - 160px)' : '0',
                     margin: active && active.uuid === item.uuid ? '0 auto' : '0',
                     borderTop: active && active.uuid === item.uuid ? '' : '0',
