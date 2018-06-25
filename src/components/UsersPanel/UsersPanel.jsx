@@ -116,6 +116,19 @@ class UsersPanel extends Component {
     return (
       <div className={blockClassName}>
         <div className="users-panel-content" style={{ visibility: active ? 'visible' : 'hidden' }}>
+          <div className="users-panel-title">
+            <div className="header-text" >
+              {config.market === 'crm' ? I18n.t('COMMON.CRM_USER_DEFINITION') : I18n.t('COMMON.CASINO_USER_DEFINITION')}
+            </div>
+            <div
+              className="user-panel-icon icon-minimize-popup-profile"
+              onClick={() => onItemClick(null)}
+            />
+            <div
+              className="user-panel-icon icon-close-popup-profile"
+              onClick={() => onRemove(active.uuid)}
+            />
+          </div>
           {currentItems.map((item) => {
             const className = classNames(
               'user-panel-content-frame',
@@ -123,33 +136,19 @@ class UsersPanel extends Component {
             );
 
             return (
-              <Fragment key={item.uuid}>
-                <div className="users-panel-title">
-                  <div className="header-text" >
-                    {config.market === 'crm' ? I18n.t('COMMON.CRM_USER_DEFINITION') : I18n.t('COMMON.CASINO_USER_DEFINITION')}
-                  </div>
-                  <div
-                    className="user-panel-icon icon-minimize-popup-profile"
-                    onClick={() => onItemClick(null)}
-                  />
-                  <div
-                    className="user-panel-icon icon-close-popup-profile"
-                    onClick={() => onRemove(item.uuid)}
-                  />
-                </div>
-                <iframe
-                  id={item.uuid}
-                  title={item.uuid}
-                  className={className}
-                  frameBorder={0}
-                  src={`/players/${item.uuid}/${item.path || 'profile'}`}
-                  style={{
-                    height: active && active.uuid === item.uuid ? 'calc(100vh - 160px)' : '0',
-                    margin: active && active.uuid === item.uuid ? '0 auto' : '0',
-                    borderTop: active && active.uuid === item.uuid ? '' : '0',
-                  }}
-                />
-              </Fragment>
+              <iframe
+                id={item.uuid}
+                key={item.uuid}
+                title={item.uuid}
+                className={className}
+                frameBorder={0}
+                src={`/players/${item.uuid}/${item.path || 'profile'}`}
+                style={{
+                  height: active && active.uuid === item.uuid ? 'calc(100vh - 160px)' : '0',
+                  margin: active && active.uuid === item.uuid ? '0 auto' : '0',
+                  borderTop: active && active.uuid === item.uuid ? '' : '0',
+                }}
+              />
             );
           })}
         </div>
