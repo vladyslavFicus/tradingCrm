@@ -113,8 +113,6 @@ class UsersPanel extends Component {
       [footerActiveClassName]: !!active,
     });
 
-    const iframeTitle = config.market === 'crm' ? 'CRM' : 'CASINO';
-
     return (
       <div className={blockClassName}>
         <div className="users-panel-content" style={{ visibility: active ? 'visible' : 'hidden' }}>
@@ -128,7 +126,7 @@ class UsersPanel extends Component {
               <Fragment key={item.uuid}>
                 <div className="users-panel-title">
                   <div className="header-text" >
-                    {I18n.t(`COMMON.${iframeTitle}_USER_DEFINITION`)}
+                    {config.market === 'crm' ? I18n.t('COMMON.CRM_USER_DEFINITION') : I18n.t('COMMON.CASINO_USER_DEFINITION')}
                   </div>
                   <div
                     className="user-panel-icon icon-minimize-popup-profile"
