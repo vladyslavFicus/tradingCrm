@@ -65,6 +65,7 @@
     "no-return-assign": "off",
     "radix": 0,
     "react/jsx-no-undef": [2, { "allowGlobals": true }],
-    "object-curly-newline": "off"
+    "object-curly-newline": "off",
+    "function-paren-newline": ["error", "consistent"]
   }
 }

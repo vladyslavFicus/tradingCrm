@@ -1,0 +1,39 @@
+.panel-body {
+  &__content-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  &__content {
+    flex: 1 0 auto;
+  }
+  &__buttons {
+    flex: 0 0 auto;
+    text-align: right;
+  }
+}
+
+.client-wrap {
+  display: flex;
+  flex-direction: row;
+  .client-small-col {
+    flex: 1 1 auto;
+  }
+  .client-big-col {
+    flex: 2 1 auto;
+    display: flex;
+    flex-direction: column;
+    .card {
+      margin-right: 20px;
+    }
+  }
+  .card-body {
+    padding: 1.25rem;
+    .btn-verified {
+      border-radius: 2.5px;
+      border: solid 1px rgba(37, 154, 53, 0.15);
+      color: #259a35;
+      width: 100%;
+    }
+  }
+}

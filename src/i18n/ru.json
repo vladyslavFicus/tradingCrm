@@ -72,6 +72,7 @@
       "CONTACTS": {
         "TITLE": "Контакты",
         "VERIFIED": "Подтвержден",
+        "VERIFY": "Подтвердить",
         "VERIFY_PHONE": "Подтвердить телефон",
         "VERIFY_EMAIL": "Подтвердить email",
         "LABEL": {
@@ -676,6 +677,7 @@
     "FROM": "С",
     "IMPORT": "Импорт",
     "EMAIL": "E-mail",
+    "SKYPE": "Скайп",
     "PHONE": "Телефон",
     "DEPARTMENT": "Департамент",
     "ROLE": "Роль",
@@ -809,7 +811,16 @@
     "SUBMIT": "Принять",
     "AMOUNT": "Количество",
     "SUCCESS_UPDATE": "Удачное обновление",
-    "PERMANENT": "Постоянный"
+    "PERMANENT": "Постоянный",
+    "CRM_USER_DEFINITION": "Профиль клиента",
+    "CASINO_USER_DEFINITION": "Профиль игрока",
+    "LANGUAGE_NAME": {
+      "EN": "Ангийский",
+      "RU": "Русский",
+      "ES": "Испанский",
+      "DE": "Немецкий",
+      "IT": "Италийский"
+    }
   },
   "FILES": {
     "UPLOAD_MODAL": {
@@ -2195,5 +2206,10 @@
     "EMAIL": "Почта",
     "PASSWORD": "Пароль",
     "LOGIN": "Войти"
+  },
+  "CLIENT_PROFILE": {
+    "PROFILE": {
+      "TITLE": "Профиль"
+    }
   }
 }

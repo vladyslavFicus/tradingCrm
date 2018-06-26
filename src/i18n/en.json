@@ -72,6 +72,7 @@
       "CONTACTS": {
         "TITLE": "Contacts",
         "VERIFIED": "Verified",
+        "VERIFY": "Verify",
         "VERIFY_PHONE": "Verify phone",
         "VERIFY_EMAIL": "Verify email",
         "LABEL": {
@@ -669,6 +670,7 @@
     "EXPORT": "Export",
     "FROM": "From",
     "EMAIL": "Email",
+    "SKYPE": "Skype",
     "IMPORT": "Import",
     "PHONE": "Phone",
     "DEPARTMENT": "Department",
@@ -803,7 +805,16 @@
     "SUBMIT": "Submit",
     "AMOUNT": "Amount",
     "SUCCESS_UPDATE": "Success update",
-    "PERMANENT": "Permanent"
+    "PERMANENT": "Permanent",
+    "CRM_USER_DEFINITION": "Client profile",
+    "CASINO_USER_DEFINITION": "Player profile",
+    "LANGUAGE_NAME": {
+      "EN": "English",
+      "RU": "Russian",
+      "ES": "Spanish",
+      "DE": "German",
+      "IT": "Italian"
+    }
   },
   "FILES": {
     "UPLOAD_MODAL": {
@@ -2180,5 +2191,10 @@
     "EMAIL": "Email",
     "PASSWORD": "Password",
     "LOGIN": "Login"
+  },
+  "CLIENT_PROFILE": {
+    "PROFILE": {
+      "TITLE": "Profile"
+    }
   }
 }
