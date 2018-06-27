@@ -149,7 +149,7 @@ const freeSpinTemplateMutation = gql`mutation freeSpinTemplateMutation(
   $internalGameId: String!
   $comment: String
   $betMultiplier: Int
-  $coinSize: Int
+  $coinSize: Float
   $freeSpinLifeTime: Int!
   $freeSpinsAmount: Int!
   $linesPerSpin: Int
