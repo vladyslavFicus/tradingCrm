@@ -249,6 +249,8 @@ class CampaignList extends Component {
         message = I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.NOTIFICATIONS.FAILURE_ADD_PLAYER_TO_CAMPAIGN.MESSAGE');
       }
 
+      console.info('Add to campaign', level, title, message);
+
       this.context.addNotification({
         level,
         title,
