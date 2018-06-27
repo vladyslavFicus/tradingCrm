@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import PropTypes from '../../../../../../../../constants/propTypes';
 import PhoneForm from './PhoneForm';
 import EmailForm from './EmailForm';
@@ -37,7 +37,7 @@ class ContactForm extends PureComponent {
     } = this.props;
 
     return (
-      <div>
+      <Fragment>
         <PhoneForm
           disabled={disabled}
           profile={profile}
@@ -62,7 +62,7 @@ class ContactForm extends PureComponent {
           disabled={disabled}
           onSubmit={onSubmitEmail}
         />
-      </div>
+      </Fragment>
     );
   }
 }

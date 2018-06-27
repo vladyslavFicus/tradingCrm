@@ -421,54 +421,56 @@ class View extends Component {
     return (
       <Fragment>
         <TabHeader title={I18n.t('CLIENT_PROFILE.PROFILE.TITLE')} />
-        <div className="tab-wrapper client-wrap">
-          <div className="client-big-col">
-            <div className="card">
-              <div className="container-fluid">
-                <div className="card-body row">
-                  <div className="col-md-12">
-                    <PersonalForm
-                      initialValues={personalData}
-                      onSubmit={this.handleSubmitKYC(kycTypes.personal)}
-                      disabled={!canUpdateProfile}
-                    />
+        <div className="tab-wrapper">
+          <div className="client-flex-wrapper">
+            <div className="client-big-col">
+              <div className="card">
+                <div className="container-fluid">
+                  <div className="card-body row">
+                    <div className="col-md-12">
+                      <PersonalForm
+                        initialValues={personalData}
+                        onSubmit={this.handleSubmitKYC(kycTypes.personal)}
+                        disabled={!canUpdateProfile}
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="card">
+                <div className="container-fluid">
+                  <div className="card-body row">
+                    <div className="col-md-12">
+                      <AddressForm
+                        meta={{
+                          countries: metaData.countries,
+                          countryCodes: metaData.countryCodes,
+                        }}
+                        initialValues={addressData}
+                        onSubmit={this.handleSubmitKYC(kycTypes.address)}
+                        disabled={!canUpdateProfile}
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-            <div className="card">
-              <div className="container-fluid">
-                <div className="card-body row">
-                  <div className="col-md-12">
-                    <AddressForm
-                      meta={{
-                        countries: metaData.countries,
-                        countryCodes: metaData.countryCodes,
-                      }}
-                      initialValues={addressData}
-                      onSubmit={this.handleSubmitKYC(kycTypes.address)}
-                      disabled={!canUpdateProfile}
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="client-small-col">
-            <div className="card">
-              <div className="container-fluid">
-                <div className="card-body row">
-                  <div className="col-md-12">
-                    <ContactForm
-                      profile={data}
-                      phoneCodes={metaData.phoneCodes}
-                      contactData={contactData}
-                      onSubmitPhone={this.handleUpdatePhone}
-                      onSubmitEmail={this.handleUpdateEmail}
-                      onVerifyPhoneClick={this.handleVerifyPhone}
-                      onVerifyEmailClick={this.handleVerifyEmail}
-                      disabled={!canUpdateProfile}
-                    />
+            <div className="client-small-col">
+              <div className="card">
+                <div className="container-fluid">
+                  <div className="card-body row">
+                    <div className="col-md-12">
+                      <ContactForm
+                        profile={data}
+                        phoneCodes={metaData.phoneCodes}
+                        contactData={contactData}
+                        onSubmitPhone={this.handleUpdatePhone}
+                        onSubmitEmail={this.handleUpdateEmail}
+                        onVerifyPhoneClick={this.handleVerifyPhone}
+                        onVerifyEmailClick={this.handleVerifyEmail}
+                        disabled={!canUpdateProfile}
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
