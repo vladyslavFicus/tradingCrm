@@ -8,7 +8,10 @@ import shallowEqual from '../../utils/shallowEqual';
 import NotFoundContent from '../../components/NotFoundContent';
 import PermissionContent from '../PermissionContent';
 import GridViewLoader from './GridViewLoader';
-import { getGridColumn } from './utils';
+import {
+  getGridColumn,
+  multiselectStateSvgPaths,
+} from './utils';
 
 class GridView extends Component {
   static propTypes = {
@@ -48,15 +51,17 @@ class GridView extends Component {
 
   state = {
     filters: this.props.defaultFilters || {},
+    activeCheckboxIds: [],
   };
 
-  shouldComponentUpdate(nextProps) {
+  shouldComponentUpdate(nextProps, nextState) {
     if (!nextProps.lazyLoad) {
       return true;
     }
 
     return !shallowEqual(nextProps.dataSource, this.props.dataSource)
-      || (nextProps.locale !== this.props.locale) || nextProps.showNoResults !== this.props.showNoResults;
+      || (nextProps.locale !== this.props.locale) || nextProps.showNoResults !== this.props.showNoResults
+      || (this.state.activeCheckboxIds.length !== nextState.activeCheckboxIds.length);
   }
 
   onFiltersChanged = () => {
@@ -119,6 +124,25 @@ class GridView extends Component {
 
     return null;
   });
+
+  handleSelectRow = (e) => {
+    e.stopPropagation();
+
+    const activeCheckboxIds = [...this.state.activeCheckboxIds];
+
+    const rowId = e.target.id;
+    const index = activeCheckboxIds.findIndex(item => item === rowId);
+
+    if (index === -1) {
+      activeCheckboxIds.push(rowId);
+    } else {
+      activeCheckboxIds.splice(index, 1);
+    }
+
+    this.setState({
+      activeCheckboxIds,
+    });
+  }
 
   handlePageChange = (eventKey) => {
     const {
@@ -198,8 +222,17 @@ class GridView extends Component {
   };
 
   renderColumn(key, column, data) {
+    const { activeCheckboxIds } = this.state;
+
+    const { active, hover, inactive } = multiselectStateSvgPaths;
+
     const gridColumn = getGridColumn(column);
     let content = null;
+    const keys = key.split('-');
+    const isRowSelected = activeCheckboxIds.find(item => item === keys[0]);
+
+    // will become prop
+    const multiselect = true;
 
     if (typeof gridColumn.render === 'function') {
       content = gridColumn.render.call(null, data, gridColumn, this.state.filters);
@@ -209,6 +242,17 @@ class GridView extends Component {
 
     return (
       <td className={gridColumn.className} key={key}>
+        { multiselect && keys[1] === '0' && (
+          <img
+            id={keys[0]}
+            className="grid-select-checkbox"
+            src={isRowSelected ? active : inactive}
+            onClick={this.handleSelectRow}
+            onMouseEnter={!isRowSelected && ((e) => { e.target.src = hover; })}
+            onMouseLeave={!isRowSelected && ((e) => { e.target.src = inactive; })}
+            alt="grid-select"
+          />
+        )}
         {content}
       </td>
     );
