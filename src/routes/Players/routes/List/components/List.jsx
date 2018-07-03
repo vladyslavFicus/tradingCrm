@@ -49,11 +49,16 @@ class List extends Component {
   state = {
     filters: {},
     page: 0,
+    selectedAmount: 0,
   };
 
   componentWillUnmount() {
     this.handleFilterReset();
   }
+
+  // temporary solution
+  // suggestions are welcome
+  gridRef = React.createRef();
 
   handlePageChanged = (page) => {
     if (!this.props.list.isLoading) {
@@ -86,17 +91,36 @@ class List extends Component {
       filters.statuses = [filters.statuses];
     }
 
-    this.setState({ filters, page: 0 }, () => this.handleRefresh());
+    this.setState({ filters, page: 0, selectedAmount: 0 }, () => {
+      this.gridRef.current.handleResetSelectedRows();
+      this.handleRefresh();
+    });
   };
 
   handleFilterReset = () => {
     this.props.reset();
-    this.setState({ filters: {}, page: 0 });
+    this.gridRef.current.handleResetSelectedRows();
+    this.setState({ filters: {}, page: 0, selectedAmount: 0 });
   };
 
   handlePlayerClick = (data) => {
     this.props.onPlayerClick({ ...data, auth: this.props.auth });
   };
+
+  handleUpdateSelectedRowAmount = (condition) => {
+    const { entities } = this.props.list;
+    let { selectedAmount: amount } = this.state;
+
+    if (typeof condition === 'string') {
+      amount = condition === 'none' ? 0 : entities.totalElements;
+    } else {
+      amount = condition ? amount += 1 : amount -= 1;
+    }
+
+    this.setState({
+      selectedAmount: amount,
+    });
+  }
 
   renderUserInfo = data => (
     <GridPlayerInfo
@@ -111,7 +135,7 @@ class List extends Component {
   );
 
   renderAffiliate = data => (
-    <div>{data.affiliateId ? data.affiliateId : 'Empty'}</div>
+    <div>{data.affiliateId || 'Empty'}</div>
   );
 
   renderRegistered = data => (
@@ -161,7 +185,12 @@ class List extends Component {
       currencies,
       countries,
     } = this.props;
-    const { filters } = this.state;
+
+    const {
+      filters,
+      selectedAmount,
+    } = this.state;
+
     const allowActions = Object
       .keys(filters)
       .filter(i => (filters[i] && Array.isArray(filters[i]) && filters[i].length > 0) || filters[i]).length > 0;
@@ -169,17 +198,73 @@ class List extends Component {
     return (
       <div className="card">
         <div className="card-heading">
-          <span className="font-size-20" id="users-list-header">
-            {I18n.t('COMMON.PLAYERS')}
-          </span>
+          <Choose>
+            <When condition={entities.totalPages !== 0}>
+              <span className="font-size-20 height-55 users-list-header">
+                <div>
+                  <strong>{entities.totalElements} </strong>
+                  {I18n.t('COMMON.PLAYERS_FOUND')}
+                </div>
+                <div className="font-size-14">
+                  <strong>{selectedAmount} </strong>
+                  {I18n.t('COMMON.PLAYERS_SELECTED')}
+                </div>
+              </span>
+            </When>
+            <Otherwise>
+              <span className="font-size-20" id="users-list-header">
+                {I18n.t('COMMON.PLAYERS')}
+              </span>
+            </Otherwise>
+          </Choose>
 
-          <button
-            disabled={exporting || !allowActions}
-            className="btn btn-default-outline ml-auto"
-            onClick={this.handleExport}
-          >
-            {I18n.t('COMMON.EXPORT')}
-          </button>
+          <If condition={entities.totalPages !== 0 && selectedAmount !== 0}>
+            <div className="grid-bulk-menu ml-auto">
+              <span>Bulk actions</span>
+              <button
+                disabled={exporting || !allowActions}
+                className="btn btn-default-outline"
+                // onClick={this.handleSales}
+              >
+                {I18n.t('COMMON.SALES')}
+              </button>
+              <button
+                disabled={exporting || !allowActions}
+                className="btn btn-default-outline"
+                // onClick={this.handleRetention}
+              >
+                {I18n.t('COMMON.RETENTION')}
+              </button>
+              <button
+                disabled={exporting || !allowActions}
+                className="btn btn-default-outline"
+                // onClick={this.handleCompliance}
+              >
+                {I18n.t('COMMON.COMPLIANCE')}
+              </button>
+              <button
+                disabled={exporting || !allowActions}
+                className="btn btn-default-outline"
+                // onClick={this.handleMove}
+              >
+                {I18n.t('COMMON.MOVE')}
+              </button>
+              <button
+                disabled={exporting || !allowActions}
+                className="btn btn-default-outline"
+                // onClick={this.changeStatus}
+              >
+                {I18n.t('COMMON.CHANGE_STATUS')}
+              </button>
+              <button
+                disabled={exporting || !allowActions}
+                className="btn btn-default-outline"
+                // onClick={this.handleExportSelected}
+              >
+                {I18n.t('COMMON.EXPORT_SELECTED')}
+              </button>
+            </div>
+          </If>
         </div>
 
         <UserGridFilter
@@ -191,7 +276,7 @@ class List extends Component {
           countries={countries}
         />
 
-        <div className="card-body">
+        <div className="card-body card-grid-multiselect">
           <GridView
             tableClassName="table-hovered"
             dataSource={entities.content}
@@ -199,6 +284,9 @@ class List extends Component {
             activePage={entities.number + 1}
             totalPages={entities.totalPages}
             lazyLoad
+            multiselect
+            onRowSelectAmountChange={this.handleUpdateSelectedRowAmount}
+            ref={this.gridRef}
             locale={locale}
             showNoResults={noResults}
             onRowClick={this.handlePlayerClick}

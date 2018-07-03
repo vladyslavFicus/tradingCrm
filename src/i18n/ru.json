@@ -811,7 +811,15 @@
     "SUCCESS_UPDATE": "Удачное обновление",
     "PERMANENT": "Постоянный",
     "CRM_USER_DEFINITION": "Профиль клиента",
-    "CASINO_USER_DEFINITION": "Профиль игрока"
+    "CASINO_USER_DEFINITION": "Профиль игрока",
+    "SALES": "",
+    "RETENTION": "",
+    "COMPLIANCE": "",
+    "MOVE": "Переместить",
+    "CHANGE_STATUS": "Поменять статус",
+    "EXPORT_SELECTED": "Экстпортировать выбранные",
+    "PLAYERS_FOUND": "Игроков найдено",
+    "PLAYERS_SELECTED": "Игроков выбрано"
   },
   "FILES": {
     "UPLOAD_MODAL": {

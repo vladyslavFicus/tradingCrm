@@ -805,7 +805,15 @@
     "SUCCESS_UPDATE": "Success update",
     "PERMANENT": "Permanent",
     "CRM_USER_DEFINITION": "Client profile",
-    "CASINO_USER_DEFINITION": "Player profile"
+    "CASINO_USER_DEFINITION": "Player profile",
+    "SALES": "Sales",
+    "RETENTION": "Retention",
+    "COMPLIANCE": "Compliance",
+    "MOVE": "Move",
+    "CHANGE_STATUS": "Change status",
+    "EXPORT_SELECTED": "Export selected",
+    "PLAYERS_FOUND": "Players found",
+    "PLAYERS_SELECTED": "Players selected"
   },
   "FILES": {
     "UPLOAD_MODAL": {

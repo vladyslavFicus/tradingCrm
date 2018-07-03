@@ -7,13 +7,4 @@ const getGridColumn = child => (
     : child.props
 );
 
-const multiselectStateSvgPaths = {
-  active: '/img/checkbox-active.svg',
-  hover: '/img/checkbox-hover.svg',
-  inactive: '/img/checkbox-inactive.svg',
-};
-
-export {
-  getGridColumn,
-  multiselectStateSvgPaths,
-};
+export { getGridColumn };

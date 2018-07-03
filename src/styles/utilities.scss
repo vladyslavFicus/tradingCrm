@@ -131,11 +131,6 @@ small {
   border: none;
 }
 
-.grid-select-checkbox {
-  position: absolute;
-  left: -.85rem;
-}
-
 .round-rollback-row td {
   color: #FF0000;
 }
@@ -175,4 +170,76 @@ small {
 
 .tooltip.show {
   opacity: 1;
+}
+
+.users-list-header div:last-child {
+  color: #5187bd;
+}
+
+.table.multiselect {
+  thead tr th {
+    padding-top: 0;
+    padding-bottom: 0;
+    line-height: 2.5rem;
+  }
+  tbody tr.selected {
+    background-color: rgba(81, 135, 189, 0.1);
+  }
+  tbody tr {
+    border-bottom: solid 1px #eeeeee;
+    &:first-child {
+      border-top: solid 1px #eeeeee;
+    }
+  }
+  tr th, tr td {
+    padding-left: 25px;
+    padding-right: 25px;
+  }
+}
+
+.grid-select-checkbox {
+  position: absolute;
+  cursor: pointer;
+  left: -.85rem;
+  display: inline-block;
+  width: 25px;
+  height: 25px;
+  background-image: url('/img/grid-checkbox-sprite.svg');
+  background-repeat: no-repeat;
+  background-position: -50px 0;
+  &:hover {
+    background-position-x: -25px;
+  }
+  &.active {
+    background-position-x: 0;
+  }
+  &.header-unselect {
+    &:hover {
+      background-position-x: -75px;
+    }
+    background-position-x: -100px;
+  }
+}
+
+.grid-bulk-menu {
+  border-radius: 5px;
+  background-color: rgba(81, 135, 189, 0.05);
+  border: solid 1px #5187bd;
+  padding: 10px 20px;
+  font-size: 13px;
+  span {
+    text-transform: uppercase;
+    color: #5187bd;
+    margin-right: 15px;
+    position: relative;
+    top: 2px;
+  }
+  button {
+    margin-right: 15px;
+    padding: 5px 10px;
+  };
+}
+
+.card-grid-multiselect {
+  padding: 25px 0px !important;
 }
