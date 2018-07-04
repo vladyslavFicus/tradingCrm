@@ -811,7 +811,8 @@
     "SUCCESS_UPDATE": "Удачное обновление",
     "PERMANENT": "Постоянный",
     "CRM_USER_DEFINITION": "Профиль клиента",
-    "CASINO_USER_DEFINITION": "Профиль игрока"
+    "CASINO_USER_DEFINITION": "Профиль игрока",
+    "COMMENT": "Комментарий"
   },
   "FILES": {
     "UPLOAD_MODAL": {

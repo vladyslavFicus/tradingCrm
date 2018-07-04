@@ -35,6 +35,7 @@ class PlayerStatus extends Component {
     onChange: PropTypes.func.isRequired,
     locale: PropTypes.string.isRequired,
     statusDate: PropTypes.string,
+    profileStatusComment: PropTypes.string,
     statusAuthor: PropTypes.string,
   };
   static defaultProps = {
@@ -43,6 +44,7 @@ class PlayerStatus extends Component {
     status: null,
     statusDate: null,
     statusAuthor: null,
+    profileStatusComment: '',
   };
   static contextTypes = {
     permissions: PropTypes.arrayOf(PropTypes.string).isRequired,
@@ -151,7 +153,9 @@ class PlayerStatus extends Component {
       statusAuthor,
       endDate,
       locale,
+      profileStatusComment,
     } = this.props;
+
     const { dropDownOpen, modal } = this.state;
     const canChangeStatus = changeStatusPermissions.check(this.context.permissions);
     const dropDownClassName = classNames('dropdown-highlight', {
@@ -187,6 +191,7 @@ class PlayerStatus extends Component {
             reason={reason}
             statusDate={moment.utc(statusDate).local().format('YYYY-MM-DD HH:mm:ss')}
             statusAuthor={statusAuthor}
+            profileStatusComment={profileStatusComment}
           />
         </If>
         {
