@@ -1,10 +1,12 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import classNames from 'classnames';
+import { I18n } from 'react-redux-i18n';
 import UsersPanelItem from '../UsersPanelItem';
 import PropTypes from '../../constants/propTypes';
 import './UsersPanel.scss';
 import { withModals } from '../../components/HighOrder';
 import ReplaceTabsModal from './ReplaceTabsModal';
+import config from '../../config';
 
 const MAX_ACTIVE_TAB = 5;
 
@@ -114,6 +116,19 @@ class UsersPanel extends Component {
     return (
       <div className={blockClassName}>
         <div className="users-panel-content" style={{ visibility: active ? 'visible' : 'hidden' }}>
+          <div className="users-panel-title">
+            <div className="header-text" >
+              {config.market === 'crm' ? I18n.t('COMMON.CRM_USER_DEFINITION') : I18n.t('COMMON.CASINO_USER_DEFINITION')}
+            </div>
+            <div
+              className="user-panel-icon icon-minimize-popup-profile"
+              onClick={() => onItemClick(null)}
+            />
+            <div
+              className="user-panel-icon icon-close-popup-profile"
+              onClick={() => onRemove(active.uuid)}
+            />
+          </div>
           {currentItems.map((item) => {
             const className = classNames(
               'user-panel-content-frame',
@@ -129,7 +144,7 @@ class UsersPanel extends Component {
                 frameBorder={0}
                 src={`/players/${item.uuid}/${item.path || 'profile'}`}
                 style={{
-                  height: active && active.uuid === item.uuid ? 'calc(100% - 80px)' : '0',
+                  height: active && active.uuid === item.uuid ? 'calc(100vh - 160px)' : '0',
                   margin: active && active.uuid === item.uuid ? '0 auto' : '0',
                   borderTop: active && active.uuid === item.uuid ? '' : '0',
                 }}

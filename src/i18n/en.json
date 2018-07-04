@@ -804,6 +804,8 @@
     "AMOUNT": "Amount",
     "SUCCESS_UPDATE": "Success update",
     "PERMANENT": "Permanent",
+    "CRM_USER_DEFINITION": "Client profile",
+    "CASINO_USER_DEFINITION": "Player profile",
     "COMMENT": "Comment"
   },
   "FILES": {

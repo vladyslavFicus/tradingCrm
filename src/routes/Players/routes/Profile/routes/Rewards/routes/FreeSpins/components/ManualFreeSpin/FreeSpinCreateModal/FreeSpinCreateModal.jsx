@@ -459,7 +459,7 @@ class FreeSpinCreateModal extends Component {
                   name="coinSize"
                   label={I18n.t(attributeLabels.coinSize)}
                   type="select"
-                  parse={normalizeNumber}
+                  parse={floatNormalize}
                   component={SelectField}
                   disabled={coinSizes.length <= 1}
                   className="col-md-6"

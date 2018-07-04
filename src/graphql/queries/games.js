@@ -21,6 +21,8 @@ const gameListQuery = gql`query GameListView(
     content {
       betLevels
       coinSizes
+      coinsMin
+      coinsMax
       lines
       internalGameId
       startGameUrl

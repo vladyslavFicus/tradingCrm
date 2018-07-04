@@ -22,7 +22,7 @@ export default (values, {
     },
     pageCode: ['required', 'string'],
     betLevel: ['required', 'integer'],
-    coinSize: ['required', 'integer'],
+    coinSize: ['required', 'numeric'],
     rhfpBet: ['required', 'integer'],
     comment: ['string'],
     clientId: ['string', 'required'],
