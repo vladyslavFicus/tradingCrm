@@ -1583,7 +1583,8 @@
       "MODAL": {
         "TITLE": "Upload players",
         "LABEL": {
-          "TYPE": "Upload type"
+          "TYPE": "Upload type",
+          "STATUS": "Upload status"
         },
         "DESCRIPTION": {
           "ADD_PLAYER": "Players from the uploaded list will be added to campaign’s target. Those players who are already in the target of this campaign will be ignored",

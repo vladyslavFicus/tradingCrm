@@ -161,8 +161,8 @@ class UploadPlayersModal extends Component {
               </div>
               <If condition={file}>
                 <div className="col-md-3">
-                  <div className="form-group">
-                    <label>Upload status</label>
+                  <div className="form-group">K
+                    <label>{I18n.t(attributeLabels.status)}</label>
                     <div className="margin-top-10">
                       <Choose>
                         <When condition={errors.length}>
