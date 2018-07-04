@@ -49,16 +49,14 @@ class List extends Component {
   state = {
     filters: {},
     page: 0,
-    selectedAmount: 0,
+    selectedRows: [],
+    allRowsSelected: false,
+    touchedRowsIds: [],
   };
 
   componentWillUnmount() {
     this.handleFilterReset();
   }
-
-  // temporary solution
-  // suggestions are welcome
-  gridRef = React.createRef();
 
   handlePageChanged = (page) => {
     if (!this.props.list.isLoading) {
@@ -91,34 +89,56 @@ class List extends Component {
       filters.statuses = [filters.statuses];
     }
 
-    this.setState({ filters, page: 0, selectedAmount: 0 }, () => {
-      this.gridRef.current.handleResetSelectedRows();
-      this.handleRefresh();
-    });
+    this.setState({
+      filters,
+      page: 0,
+      allRowsSelected: false,
+      selectedRows: [],
+      touchedRowsIds: [],
+    }, () => this.handleRefresh());
   };
 
   handleFilterReset = () => {
     this.props.reset();
-    this.gridRef.current.handleResetSelectedRows();
-    this.setState({ filters: {}, page: 0, selectedAmount: 0 });
+    this.setState({
+      filters: {},
+      page: 0,
+      allRowsSelected: false,
+      selectedRows: [],
+      touchedRowsIds: [],
+    });
   };
 
   handlePlayerClick = (data) => {
     this.props.onPlayerClick({ ...data, auth: this.props.auth });
   };
 
-  handleUpdateSelectedRowAmount = (condition) => {
-    const { entities } = this.props.list;
-    let { selectedAmount: amount } = this.state;
+  handleSelectedRow = (condition, index, touchedRowsIds) => {
+    const { list: { entities } } = this.props;
+    const selectedRows = [...this.state.selectedRows];
 
-    if (typeof condition === 'string') {
-      amount = condition === 'none' ? 0 : entities.totalElements;
+    if (condition) {
+      selectedRows.push(entities.content[index].playerUUID);
     } else {
-      amount = condition ? amount += 1 : amount -= 1;
+      selectedRows.splice(index, 1);
     }
 
     this.setState({
-      selectedAmount: amount,
+      selectedRows,
+      touchedRowsIds,
+    });
+  }
+
+  handleAllRowsSelect = () => {
+    const { list: { entities } } = this.props;
+    const { allRowsSelected } = this.state;
+
+    this.setState({
+      allRowsSelected: !allRowsSelected,
+      touchedRowsIds: [],
+      selectedRows: allRowsSelected
+        ? []
+        : [...Array.from(Array(entities.totalElements).keys())],
     });
   }
 
@@ -188,7 +208,9 @@ class List extends Component {
 
     const {
       filters,
-      selectedAmount,
+      allRowsSelected,
+      selectedRows,
+      touchedRowsIds,
     } = this.state;
 
     const allowActions = Object
@@ -206,7 +228,7 @@ class List extends Component {
                   {I18n.t('COMMON.PLAYERS_FOUND')}
                 </div>
                 <div className="font-size-14">
-                  <strong>{selectedAmount} </strong>
+                  <strong>{selectedRows.length} </strong>
                   {I18n.t('COMMON.PLAYERS_SELECTED')}
                 </div>
               </span>
@@ -218,7 +240,7 @@ class List extends Component {
             </Otherwise>
           </Choose>
 
-          <If condition={entities.totalPages !== 0 && selectedAmount !== 0}>
+          <If condition={entities.totalPages !== 0 && selectedRows.length !== 0}>
             <div className="grid-bulk-menu ml-auto">
               <span>Bulk actions</span>
               <button
@@ -285,8 +307,11 @@ class List extends Component {
             totalPages={entities.totalPages}
             lazyLoad
             multiselect
-            onRowSelectAmountChange={this.handleUpdateSelectedRowAmount}
-            ref={this.gridRef}
+            selectedRows={selectedRows}
+            allRowsSelected={allRowsSelected}
+            touchedRowsIds={touchedRowsIds}
+            onAllRowsSelect={this.handleAllRowsSelect}
+            onRowSelect={this.handleSelectedRow}
             locale={locale}
             showNoResults={noResults}
             onRowClick={this.handlePlayerClick}

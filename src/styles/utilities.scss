@@ -176,31 +176,36 @@ small {
   color: #5187bd;
 }
 
-.table.multiselect {
+.multiselect {
   thead tr th {
     padding-top: 0;
     padding-bottom: 0;
     line-height: 2.5rem;
+    .grid-select-checkbox {
+      top: 0px;
+    }
   }
   tbody tr.selected {
     background-color: rgba(81, 135, 189, 0.1);
   }
   tbody tr {
-    border-bottom: solid 1px #eeeeee;
+    border-bottom: solid 1px #eee;
     &:first-child {
-      border-top: solid 1px #eeeeee;
+      border-top: solid 1px #eee;
     }
   }
   tr th, tr td {
     padding-left: 25px;
     padding-right: 25px;
+    position: relative;
   }
 }
 
 .grid-select-checkbox {
   position: absolute;
   cursor: pointer;
-  left: -.85rem;
+  left: -11px;
+  top: 7px;
   display: inline-block;
   width: 25px;
   height: 25px;
@@ -214,10 +219,10 @@ small {
     background-position-x: 0;
   }
   &.header-unselect {
+    background-position-x: -100px;
     &:hover {
       background-position-x: -75px;
     }
-    background-position-x: -100px;
   }
 }
 

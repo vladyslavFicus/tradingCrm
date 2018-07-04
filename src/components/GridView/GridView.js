@@ -30,7 +30,10 @@ class GridView extends Component {
     showNoResults: PropTypes.bool,
     multiselect: PropTypes.bool,
     resetSelectedRows: PropTypes.bool,
-    onRowSelectAmountChange: PropTypes.func,
+    allRowsSelected: PropTypes.bool,
+    touchedRowsIds: PropTypes.array,
+    onAllRowsSelect: PropTypes.func,
+    onRowSelect: PropTypes.func,
   };
   static defaultProps = {
     tableClassName: null,
@@ -49,24 +52,25 @@ class GridView extends Component {
     last: true,
     multiselect: false,
     resetSelectedRows: false,
-    onRowSelectAmountChange: null,
+    allRowsSelected: false,
+    touchedRowsIds: [],
+    onAllRowsSelect: null,
+    onRowSelect: null,
   };
 
   state = {
     filters: this.props.defaultFilters || {},
-    allRowsSelected: false,
-    touchedRowsIds: [],
   };
 
-  shouldComponentUpdate(nextProps, nextState) {
+  shouldComponentUpdate(nextProps) {
     if (!nextProps.lazyLoad) {
       return true;
     }
 
     return !shallowEqual(nextProps.dataSource, this.props.dataSource)
       || (nextProps.locale !== this.props.locale) || nextProps.showNoResults !== this.props.showNoResults
-      || (this.state.touchedRowsIds.length !== nextState.touchedRowsIds.length)
-      || (this.state.allRowsSelected !== nextState.allRowsSelected);
+      || (this.props.touchedRowsIds.length !== nextProps.touchedRowsIds.length)
+      || (this.props.allRowsSelected !== nextProps.allRowsSelected);
   }
 
   onFiltersChanged = () => {
@@ -94,7 +98,7 @@ class GridView extends Component {
     const {
       touchedRowsIds,
       allRowsSelected,
-    } = this.state;
+    } = this.props;
 
     if (touchedRowsIds.length === 0) {
       return allRowsSelected;
@@ -102,7 +106,7 @@ class GridView extends Component {
 
     const isRowTouched = touchedRowsIds.findIndex(item => item === rowId);
     return allRowsSelected ? isRowTouched === -1 : isRowTouched !== -1;
-  }
+  };
 
   recognizeHeaders = grids => grids.map((child) => {
     const gridColumn = getGridColumn(child);
@@ -144,45 +148,23 @@ class GridView extends Component {
     return null;
   });
 
-  handleResetSelectedRows = () => {
-    this.setState({
-      allRowsSelected: false,
-      touchedRowsIds: [],
-    });
-  }
-
-  handleSelectAllRows = () => {
-    const { allRowsSelected } = this.state;
-
-    this.props.onRowSelectAmountChange(allRowsSelected ? 'none' : 'all');
-
-    this.setState({
-      allRowsSelected: !allRowsSelected,
-      touchedRowsIds: [],
-    });
-  }
-
   handleSelectRow = (e) => {
     e.stopPropagation();
 
-    const touchedRowsIds = [...this.state.touchedRowsIds];
-    const { allRowsSelected } = this.state;
+    const touchedRowsIds = [...this.props.touchedRowsIds];
+    const { allRowsSelected } = this.props;
 
-    const rowId = e.target.id.split('-')[1];
-    const index = touchedRowsIds.findIndex(item => item === rowId);
+    const [, rowIndex] = e.target.id.split('-');
+    const index = touchedRowsIds.findIndex(item => item === rowIndex);
 
     if (index === -1) {
-      touchedRowsIds.push(rowId);
-      this.props.onRowSelectAmountChange(!allRowsSelected);
+      touchedRowsIds.push(rowIndex);
+      this.props.onRowSelect(!allRowsSelected, rowIndex, touchedRowsIds);
     } else {
       touchedRowsIds.splice(index, 1);
-      this.props.onRowSelectAmountChange(allRowsSelected);
+      this.props.onRowSelect(allRowsSelected, index, touchedRowsIds);
     }
-
-    this.setState({
-      touchedRowsIds,
-    });
-  }
+  };
 
   handlePageChange = (eventKey) => {
     const {
@@ -208,10 +190,10 @@ class GridView extends Component {
               <span
                 className={classNames(
                   'grid-select-checkbox',
-                  { 'header-unselect': (this.state.allRowsSelected && this.state.touchedRowsIds.length !== 0) },
-                  { active: (this.state.allRowsSelected && this.state.touchedRowsIds.length === 0) }
+                  { 'header-unselect': (this.props.allRowsSelected && this.props.touchedRowsIds.length !== 0) },
+                  { active: (this.props.allRowsSelected && this.props.touchedRowsIds.length === 0) }
                 )}
-                onClick={this.handleSelectAllRows}
+                onClick={this.props.onAllRowsSelect}
               />
               {item.children}
             </th>
@@ -264,7 +246,6 @@ class GridView extends Component {
 
   renderRow = (key, columns, data) => {
     const { onRowClick } = this.props;
-
     return (
       <tr
         key={key}
@@ -303,7 +284,7 @@ class GridView extends Component {
 
     return (
       <td className={gridColumn.className} key={key}>
-        { multiselect && keys[1] === '0' && (
+        <If condition={multiselect && keys[1] === '0'}>
           <span
             className={classNames(
               'grid-select-checkbox',
@@ -312,7 +293,7 @@ class GridView extends Component {
             onClick={this.handleSelectRow}
             id={`checkbox-${keys[0]}`}
           />
-        )}
+        </If>
         {content}
       </td>
     );
@@ -391,7 +372,7 @@ class GridView extends Component {
           className={classNames(
             'table data-grid-layout',
             tableClassName,
-            { multiselect }
+            { multiselect },
           )}
         >
           <thead className={headerClassName}>
