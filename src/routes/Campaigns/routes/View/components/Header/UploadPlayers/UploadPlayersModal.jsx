@@ -3,21 +3,27 @@ import fileSize from 'filesize';
 import PropTypes from 'prop-types';
 import { get } from 'lodash';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import { compose } from 'redux';
-import { Field, reduxForm } from 'redux-form';
+import { Field } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
-import { withReduxFormValues } from '../../../../../../../components/HighOrder';
 import { SelectField } from '../../../../../../../components/ReduxForm';
 import FileUpload from '../../../../../../../components/FileUpload';
-import { createValidator, translateLabels } from '../../../../../../../utils/validator';
 import renderLabel from '../../../../../../../utils/renderLabel';
-import { attributeLabels, typesLabels, typesActionDescription } from './constants';
+import {
+  attributeLabels,
+  typesLabels,
+  typesActionDescription,
+  types as uploadTypes,
+} from './constants';
 import { shortifyInMiddle } from '../../../../../../../utils/stringFormat';
+
+const initialState = {
+  file: null,
+  errors: [],
+};
 
 class UploadPlayersModal extends Component {
   static propTypes = {
     onCloseModal: PropTypes.func.isRequired,
-    onSubmit: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func,
     invalid: PropTypes.bool.isRequired,
     isOpen: PropTypes.bool.isRequired,
@@ -25,6 +31,7 @@ class UploadPlayersModal extends Component {
       type: PropTypes.string,
     }),
     types: PropTypes.arrayOf(PropTypes.string),
+    reset: PropTypes.func.isRequired,
   };
   static defaultProps = {
     handleSubmit: null,
@@ -32,10 +39,7 @@ class UploadPlayersModal extends Component {
     types: [],
   };
 
-  state = {
-    file: null,
-    errors: [],
-  };
+  state = { ...initialState };
 
   handleUploadFile = (errors, file) => {
     this.setState({
@@ -44,11 +48,54 @@ class UploadPlayersModal extends Component {
     });
   };
 
-  handleSubmit = (data) => {
-    const { onSubmit } = this.props;
+  resetForm = () => {
+    const { reset } = this.props;
+
+    this.setState({ ...initialState });
+    reset();
+  };
+
+  handleClose = () => {
+    const { onCloseModal } = this.props;
+
+    this.resetForm();
+    onCloseModal();
+  };
+
+  handleSubmit = async ({ type }) => {
+    const {
+      uploadPlayersFile,
+      uploadResetPlayersFile,
+      campaignUuid,
+      onCloseModal,
+      notify,
+    } = this.props;
     const { file } = this.state;
 
-    onSubmit({ ...data, file });
+    let response = {};
+
+    switch (type) {
+      case uploadTypes.UPLOAD_PLAYERS:
+        response = await uploadPlayersFile(campaignUuid, file);
+        break;
+      case uploadTypes.RESET_PLAYERS:
+        response = await uploadResetPlayersFile(campaignUuid, file);
+        break;
+      default:
+        return null;
+    }
+
+    if (response) {
+      notify({
+        title: I18n.t(typesLabels[type]),
+        level: response.error ? 'error' : 'success',
+        message: `${I18n.t('COMMON.ACTIONS.UPLOADED')} ${response.error ? I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY') :
+          I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
+      });
+    }
+
+    this.resetForm();
+    onCloseModal();
   };
 
   renderTypes = () => {
@@ -72,7 +119,6 @@ class UploadPlayersModal extends Component {
 
   render() {
     const {
-      onCloseModal,
       handleSubmit,
       isOpen,
       invalid,
@@ -83,9 +129,9 @@ class UploadPlayersModal extends Component {
     const type = get(formValues, 'type');
 
     return (
-      <Modal isOpen={isOpen} toggle={onCloseModal}>
+      <Modal isOpen={isOpen} toggle={this.handleClose}>
         <form onSubmit={handleSubmit(this.handleSubmit)}>
-          <ModalHeader toggle={onCloseModal}>
+          <ModalHeader toggle={this.handleClose}>
             {I18n.t(attributeLabels.title)}
           </ModalHeader>
           <ModalBody>
@@ -143,7 +189,7 @@ class UploadPlayersModal extends Component {
             <button
               type="button"
               className="btn btn-default-outline mr-auto"
-              onClick={onCloseModal}
+              onClick={this.handleClose}
             >
               {I18n.t('CAMPAIGNS.CHANGE_STATUS_MODAL.CANCEL_BUTTON')}
             </button>
@@ -161,13 +207,4 @@ class UploadPlayersModal extends Component {
   }
 }
 
-export default compose(
-  reduxForm({
-    form: 'uploadPlayersModal',
-    validate: createValidator({
-      type: ['required', 'string'],
-    }, translateLabels(attributeLabels), false),
-    enableReinitialize: true,
-  }),
-  withReduxFormValues,
-)(UploadPlayersModal);
+export default UploadPlayersModal;
