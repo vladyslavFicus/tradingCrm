@@ -819,7 +819,8 @@
     "CHANGE_STATUS": "Поменять статус",
     "EXPORT_SELECTED": "Экспортировать выбранные",
     "PLAYERS_FOUND": "Игроков найдено",
-    "PLAYERS_SELECTED": "Игроков выбрано"
+    "PLAYERS_SELECTED": "Игроков выбрано",
+    "COMMENT": "Комментарий"
   },
   "FILES": {
     "UPLOAD_MODAL": {

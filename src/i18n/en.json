@@ -813,7 +813,8 @@
     "CHANGE_STATUS": "Change status",
     "EXPORT_SELECTED": "Export selected",
     "PLAYERS_FOUND": "Players found",
-    "PLAYERS_SELECTED": "Players selected"
+    "PLAYERS_SELECTED": "Players selected",
+    "COMMENT": "Comment"
   },
   "FILES": {
     "UPLOAD_MODAL": {
