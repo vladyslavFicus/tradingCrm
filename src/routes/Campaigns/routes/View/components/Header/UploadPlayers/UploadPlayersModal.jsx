@@ -141,7 +141,11 @@ class UploadPlayersModal extends Component {
           </ModalBody>
 
           <ModalFooter>
-            <button className="btn btn-default-outline mr-auto" onClick={onCloseModal}>
+            <button
+              type="button"
+              className="btn btn-default-outline mr-auto"
+              onClick={onCloseModal}
+            >
               {I18n.t('CAMPAIGNS.CHANGE_STATUS_MODAL.CANCEL_BUTTON')}
             </button>
             <button
