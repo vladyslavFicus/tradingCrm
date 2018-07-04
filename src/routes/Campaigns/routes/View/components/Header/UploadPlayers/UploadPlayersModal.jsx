@@ -191,7 +191,7 @@ class UploadPlayersModal extends Component {
               className="btn btn-default-outline mr-auto"
               onClick={this.handleClose}
             >
-              {I18n.t('CAMPAIGNS.CHANGE_STATUS_MODAL.CANCEL_BUTTON')}
+              {I18n.t('COMMON.CANCEL')}
             </button>
             <button
               disabled={invalid || !file || errors.length}
