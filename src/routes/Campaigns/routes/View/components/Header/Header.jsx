@@ -9,8 +9,8 @@ import { statuses, targetTypes } from '../../../../../../constants/campaigns';
 import ActionsDropDown from '../../../../../../components/ActionsDropDown';
 import Permissions from '../../../../../../utils/permissions';
 import permissions from '../../../../../../config/permissions';
-import UploadPlayers from './UploadPlayers';
-import { types as uploadPlayersTypes } from './UploadPlayers/constants';
+import UploadPlayersButton from './UploadPlayersButton';
+import { types as uploadPlayersTypes } from './UploadPlayersButton/constants';
 
 const cloneCampaignPermission = new Permissions([permissions.CAMPAIGNS.CLONE]);
 
@@ -127,7 +127,7 @@ class Header extends Component {
                 </button>
               </span>
             </If>
-            <UploadPlayers
+            <UploadPlayersButton
               types={allowUploadTypes}
               campaignUuid={uuid}
             />

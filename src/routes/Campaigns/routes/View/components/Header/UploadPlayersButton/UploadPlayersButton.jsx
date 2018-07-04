@@ -6,7 +6,7 @@ import { withModals } from '../../../../../../../components/HighOrder';
 import UploadPlayersModal from './UploadPlayersModalContainer';
 import { attributeLabels } from './constants';
 
-class UploadPlayers extends Component {
+class UploadPlayersButton extends Component {
   static propTypes = {
     types: PropTypes.arrayOf(PropTypes.string),
     campaignUuid: PropTypes.string.isRequired,
@@ -52,4 +52,4 @@ class UploadPlayers extends Component {
 
 export default compose(
   withModals({ uploadPlayerModal: UploadPlayersModal }),
-)(UploadPlayers);
+)(UploadPlayersButton);
