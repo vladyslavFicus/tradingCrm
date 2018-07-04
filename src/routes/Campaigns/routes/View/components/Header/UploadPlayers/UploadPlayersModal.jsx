@@ -59,7 +59,6 @@ class UploadPlayersModal extends Component {
         name="type"
         label={I18n.t(attributeLabels.type)}
         component={SelectField}
-        position="vertical"
       >
         <option value="">{I18n.t('COMMON.SELECT_OPTION.UPLOAD_TYPE')}</option>
         {types.map(type => (

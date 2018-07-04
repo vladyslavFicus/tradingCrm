@@ -78,6 +78,7 @@ class UploadPlayers extends Component {
 
     return (
       <button
+        type="button"
         className="btn btn-sm btn-default-outline margin-right-10"
         onClick={this.handleClickUpload}
       >
