@@ -1,0 +1,35 @@
+import keyMirror from 'keymirror';
+import I18n from '../../../../../../../utils/fake-i18n';
+
+const types = keyMirror({
+  UPLOAD_PLAYERS: null,
+  RESET_PLAYERS: null,
+  SOFT_RESET_PLAYERS: null,
+});
+
+const typesLabels = {
+  [types.UPLOAD_PLAYERS]: I18n.t('BONUS_CAMPAIGNS.UPLOAD_PLAYERS.NOTIFICATION.ADD_PLAYER'),
+  [types.RESET_PLAYERS]: I18n.t('BONUS_CAMPAIGNS.UPLOAD_PLAYERS.NOTIFICATION.RESET_PLAYER'),
+  [types.SOFT_RESET_PLAYERS]: I18n.t('BONUS_CAMPAIGNS.UPLOAD_PLAYERS.NOTIFICATION.SOFT_RESET_PLAYER'),
+};
+
+const typesActionDescription = {
+  [types.UPLOAD_PLAYERS]: I18n.t('BONUS_CAMPAIGNS.UPLOAD_PLAYERS.MODAL.DESCRIPTION.ADD_PLAYER'),
+  [types.RESET_PLAYERS]: I18n.t('BONUS_CAMPAIGNS.UPLOAD_PLAYERS.MODAL.DESCRIPTION.RESET_PLAYER'),
+  [types.SOFT_RESET_PLAYERS]: I18n.t('BONUS_CAMPAIGNS.UPLOAD_PLAYERS.MODAL.DESCRIPTION.SOFT_RESET_PLAYER'),
+};
+
+const attributeLabels = {
+  title: I18n.t('BONUS_CAMPAIGNS.UPLOAD_PLAYERS.MODAL.TITLE'),
+  type: I18n.t('BONUS_CAMPAIGNS.UPLOAD_PLAYERS.MODAL.LABEL.TYPE'),
+  uploadPlayers: I18n.t('BONUS_CAMPAIGNS.UPLOAD_PLAYERS.UPLOAD_PLAYERS'),
+};
+
+export {
+  attributeLabels,
+  types,
+  typesLabels,
+  typesActionDescription,
+};
+
+export default attributeLabels;

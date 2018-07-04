@@ -7,18 +7,13 @@ import {
   removeAllPlayersMutation,
   cloneMutation,
 } from '.././../../../../graphql/mutations/campaigns';
-import { actionCreators } from '../modules';
 import CampaignView from '../components/CampaignView';
 import { withNotifications } from '../../../../../components/HighOrder';
 
 const mapStateToProps = ({ i18n: { locale } }) => ({ locale });
-const mapActions = {
-  uploadPlayersFile: actionCreators.uploadPlayersFile,
-  uploadResetPlayersFile: actionCreators.uploadResetPlayersFile,
-};
 
 export default compose(
-  connect(mapStateToProps, mapActions),
+  connect(mapStateToProps),
   graphql(campaignQuery, {
     options: ({ match: { params: { id: campaignUUID } } }) => ({
       fetchPolicy: 'network-only',

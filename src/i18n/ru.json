@@ -760,7 +760,8 @@
       "DEFAULT": "-- Выберите --",
       "REASON": "-- Выберите причину --",
       "PERIOD": "-- Выберите период --",
-      "COUNTRY": "-- Выберите страну --"
+      "COUNTRY": "-- Выберите страну --",
+      "UPLOAD_TYPE": "-- Выбрать тип загрузки --"
     },
     "CONFIRM": "Подтвердить",
     "MGA_LIMIT": "MGA LIMIT",
@@ -811,7 +812,8 @@
     "SUCCESS_UPDATE": "Удачное обновление",
     "PERMANENT": "Постоянный",
     "CRM_USER_DEFINITION": "Профиль клиента",
-    "CASINO_USER_DEFINITION": "Профиль игрока"
+    "CASINO_USER_DEFINITION": "Профиль игрока",
+    "UPLOAD": "Загрузить"
   },
   "FILES": {
     "UPLOAD_MODAL": {
@@ -1587,6 +1589,20 @@
         "CREATE_BUTTON": "Создать вейджер",
         "TITLE": "Вейджер"
       }
+    },
+    "UPLOAD_PLAYERS": {
+      "MODAL": {
+        "TITLE": "Загрузка игроков",
+        "LABEL": {
+          "TYPE": "Тип загрузки"
+        }
+      },
+      "NOTIFICATION": {
+        "ADD_PLAYER": "Добавить игроков",
+        "RESET_PLAYER": "Сброс игроков",
+        "SOFT_RESET_PLAYER": "Soft сброс игроков"
+      },
+      "UPLOAD_PLAYERS": "Загрузить игроков"
     }
   },
   "BONUS_CAMPAIGN_STATUS": {

@@ -5,11 +5,12 @@ import PropTypes from '../../../../../../constants/propTypes';
 import Uuid from '../../../../../../components/Uuid';
 import StatusDropDown from '../../../../components/StatusDropDown';
 import { actions, statusActions } from '../../../../../../constants/bonus-campaigns';
-import FileUpload from '../../../../../../components/FileUpload';
 import { statuses, targetTypes } from '../../../../../../constants/campaigns';
 import ActionsDropDown from '../../../../../../components/ActionsDropDown';
 import Permissions from '../../../../../../utils/permissions';
 import permissions from '../../../../../../config/permissions';
+import UploadPlayers from './UploadPlayers';
+import { types as uploadPlayersTypes } from './UploadPlayers/constants';
 
 const cloneCampaignPermission = new Permissions([permissions.CAMPAIGNS.CLONE]);
 
@@ -17,7 +18,6 @@ class Header extends Component {
   static propTypes = {
     activateMutation: PropTypes.func.isRequired,
     cancelMutation: PropTypes.func.isRequired,
-    uploadPlayersFile: PropTypes.func.isRequired,
     removeAllPlayers: PropTypes.func.isRequired,
     cloneCampaign: PropTypes.func.isRequired,
     data: PropTypes.newBonusCampaignEntity.isRequired,
@@ -51,34 +51,6 @@ class Header extends Component {
         break;
       default:
         break;
-    }
-  };
-
-  handleAddPlayersUpload = async (errors, file) => {
-    const { data: { uuid }, uploadPlayersFile } = this.props;
-    const response = await uploadPlayersFile(uuid, file);
-
-    if (response) {
-      this.context.addNotification({
-        level: response.error ? 'error' : 'success',
-        title: I18n.t('CAMPAIGNS.VIEW.NOTIFICATIONS.ADD_PLAYERS'),
-        message: `${I18n.t('COMMON.ACTIONS.UPLOADED')} ${response.error ? I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY') :
-          I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
-      });
-    }
-  };
-
-  handleResetPlayersUpload = async (errors, file) => {
-    const { data: { uuid }, uploadResetPlayersFile } = this.props;
-    const response = await uploadResetPlayersFile(uuid, file);
-
-    if (response) {
-      this.context.addNotification({
-        level: response.error ? 'error' : 'success',
-        title: I18n.t('CAMPAIGNS.VIEW.NOTIFICATIONS.RESET_PLAYERS'),
-        message: `${I18n.t('COMMON.ACTIONS.UPLOADED')} ${response.error ? I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY') :
-          I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
-      });
     }
   };
 
@@ -116,9 +88,20 @@ class Header extends Component {
     const availableStatusActions = data && statusActions[state]
       ? statusActions[state]
       : [];
-    const allowUpload = [statuses.DRAFT, statuses.PENDING, statuses.ACTIVE].indexOf(state) !== -1
+
+    const allowPlayersUpload = [statuses.DRAFT, statuses.PENDING, statuses.ACTIVE].indexOf(state) !== -1
       && targetType === targetTypes.TARGET_LIST;
-    const allowReset = state === statuses.ACTIVE;
+    const allowPlayersReset = state === statuses.ACTIVE;
+
+    const allowUploadTypes = [];
+
+    if (allowPlayersUpload) {
+      allowUploadTypes.push(uploadPlayersTypes.UPLOAD_PLAYERS);
+    }
+
+    if (allowPlayersReset) {
+      allowUploadTypes.push(uploadPlayersTypes.RESET_PLAYERS, uploadPlayersTypes.SOFT_RESET_PLAYERS);
+    }
 
     return (
       <Fragment>
@@ -134,7 +117,7 @@ class Header extends Component {
             </div>
           </div>
           <div className="col-auto panel-heading-row__actions">
-            <If condition={allowUpload}>
+            <If condition={allowPlayersUpload}>
               <span>
                 <button
                   className="btn btn-sm btn-default-outline margin-right-10"
@@ -142,22 +125,12 @@ class Header extends Component {
                 >
                   {I18n.t('CAMPAIGNS.REMOVE_PLAYERS.BUTTON')}
                 </button>
-
-                <FileUpload
-                  label={I18n.t('CAMPAIGNS.VIEW.BUTTON.ADD_PLAYERS')}
-                  allowedTypes={['text/csv', 'application/vnd.ms-excel']}
-                  onChosen={this.handleAddPlayersUpload}
-                />
               </span>
             </If>
-            <If condition={allowReset}>
-              <FileUpload
-                label={I18n.t('CAMPAIGNS.VIEW.BUTTON.ADD_RESET_PLAYERS')}
-                allowedTypes={['text/csv', 'application/vnd.ms-excel']}
-                onChosen={this.handleResetPlayersUpload}
-                className="margin-left-10"
-              />
-            </If>
+            <UploadPlayers
+              types={allowUploadTypes}
+              campaignUuid={uuid}
+            />
             <span className="margin-left-10">
               <ActionsDropDown
                 items={[
