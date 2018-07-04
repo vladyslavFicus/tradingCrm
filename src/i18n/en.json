@@ -1589,7 +1589,7 @@
         "DESCRIPTION": {
           "ADD_PLAYER": "Players from the uploaded list will be added to campaign’s target. Those players who are already in the target of this campaign will be ignored",
           "RESET_PLAYER": "Fulfilments’ and rewards’ states of the players from the uploaded list will be reseted. Those players will be able to fulfil the fulfilments and get the reward again. Players who are not in the target of this campaign will be ignored",
-          "SOFT_RESET_PLAYER": "Fulfilments’ and rewards’ states of the players from the uploaded list will be reseted only if a player has got the reward. Those players who have started to fulfil the fulfilments but haven’t got the reward will not be affected by this reset. Players who are not in the target of this campaign will be added to the campaign’s target list"
+          "SOFT_RESET_PLAYER": "Fulfilments’ and rewards’ states of the players from the uploaded list will be reseted only if a player has got the reward or his fulfilment period is passed. Those players who have started to fulfil the fulfilments but haven’t got the reward will not be affected by this reset. Players who are not in the target of this campaign will be added to the campaign’s target list"
         }
       },
       "NOTIFICATION": {
