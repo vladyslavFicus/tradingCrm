@@ -236,7 +236,11 @@ class CampaignList extends Component {
   handleAddToCampaign = async ({ campaign: { uuid, sourceType } }) => {
     const { match: { params: { id: playerUUID } }, addPlayerToCampaign } = this.props;
 
+    console.log(`Add to campaign(uuid = ${uuid}, sourceType = ${sourceType}, playerUUID = ${playerUUID})`);
+
     const addPlayerToCampaignAction = await addPlayerToCampaign({ uuid, sourceType, playerUUID });
+
+    console.log(`Add to campaign::result = ${addPlayerToCampaignAction}`);
 
     if (addPlayerToCampaignAction) {
       let level = 'success';

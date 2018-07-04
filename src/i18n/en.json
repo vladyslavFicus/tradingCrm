@@ -807,6 +807,7 @@
     "PERMANENT": "Permanent",
     "CRM_USER_DEFINITION": "Client profile",
     "CASINO_USER_DEFINITION": "Player profile",
+    "COMMENT": "Comment",
     "UPLOAD": "Upload"
   },
   "FILES": {
