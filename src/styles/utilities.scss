@@ -182,7 +182,7 @@ small {
     padding-bottom: 0;
     line-height: 2.5rem;
     .grid-select-checkbox {
-      top: 0px;
+      top: 0;
     }
   }
   tbody tr.selected {
@@ -246,5 +246,5 @@ small {
 }
 
 .card-grid-multiselect {
-  padding: 25px 0px !important;
+  padding: 25px 0 !important;
 }
