@@ -832,7 +832,8 @@
       "IT": "Italian"
     },
     "COMMENT": "Comment",
-    "UPLOAD": "Upload"
+    "UPLOAD": "Upload",
+    "ADD_DOCUMENT": "+ Add document"
   },
   "FILES": {
     "UPLOAD_MODAL": {
