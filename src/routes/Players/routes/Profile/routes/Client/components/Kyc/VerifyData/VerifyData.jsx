@@ -34,6 +34,7 @@ const VerifyData = (props) => {
       return <div>Unknown step</div>;
   }
 };
+
 VerifyData.propTypes = {
   title: PropTypes.string.isRequired,
   status: PropTypes.kycStatus,

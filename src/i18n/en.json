@@ -84,6 +84,14 @@
         "TITLE": "Personal information",
         "VERIFY_KYC": {
           "ERROR": "Need to save personal information"
+        },
+        "LABEL": {
+          "FIRST_NAME": "First name",
+          "LAST_NAME": "Last name",
+          "LANGUAGE": "Language",
+          "DATE_OF_BIRTH": "Date of birth",
+          "GENDER": "Gender",
+          "IDENTIFIER": "ID Number"
         }
       },
       "ADDITIONAL": {
@@ -93,6 +101,13 @@
         "TITLE": "Address",
         "VERIFY_KYC": {
           "ERROR": "Need to save address information"
+        },
+        "LABEL": {
+          "COUNTRY": "Country",
+          "CITY": "City",
+          "POST_CODE": "Post code",
+          "FULL_ADDR": "Full address",
+          "PO_BOX": "PO Box"
         }
       },
       "TITLE": "Profile",

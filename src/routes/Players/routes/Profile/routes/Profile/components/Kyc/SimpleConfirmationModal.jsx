@@ -1,17 +1,15 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import { reduxForm } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
 import Uuid from '../../../../../../../../components/Uuid';
 import { targetTypes } from '../../../../../../../../constants/note';
 import PropTypes from '../../../../../../../../constants/propTypes';
 import NoteButton from '../../../../../../../../components/NoteButton';
 
-class SimpleConfirmationModal extends Component {
+class SimpleConfirmationModal extends PureComponent {
   static propTypes = {
     profile: PropTypes.userProfile.isRequired,
     onSubmit: PropTypes.func.isRequired,
-    handleSubmit: PropTypes.func,
     onClose: PropTypes.func.isRequired,
     className: PropTypes.string,
     modalTitle: PropTypes.string,
@@ -22,7 +20,6 @@ class SimpleConfirmationModal extends Component {
     form: PropTypes.string.isRequired,
   };
   static defaultProps = {
-    handleSubmit: null,
     className: 'modal-danger',
     modalTitle: 'KYC - verification',
     actionText: 'You are about to verify player',
@@ -64,7 +61,6 @@ class SimpleConfirmationModal extends Component {
     const {
       profile: { playerUUID },
       onSubmit,
-      handleSubmit,
       onClose,
       className,
       modalTitle,
@@ -79,7 +75,7 @@ class SimpleConfirmationModal extends Component {
     return (
       <Modal isOpen toggle={onClose} className={className}>
         <ModalHeader toggle={onClose}>{modalTitle}</ModalHeader>
-        <ModalBody id="simple-confirmation-modal-form" tag="form" onSubmit={handleSubmit(onSubmit)}>
+        <ModalBody>
           <div className="text-center mx-auto width-300">
             <strong>{actionText}</strong>
             {' - '}
@@ -102,10 +98,10 @@ class SimpleConfirmationModal extends Component {
             {I18n.t('COMMON.CANCEL')}
           </button>
           <button
-            type="submit"
-            form="simple-confirmation-modal-form"
+            type="button"
             className="btn btn-danger-outline"
             id={`kyc-${submitButtonId}-btn`}
+            onClick={onSubmit}
           >
             {submitButtonLabel}
           </button>
@@ -115,4 +111,4 @@ class SimpleConfirmationModal extends Component {
   }
 }
 
-export default reduxForm()(SimpleConfirmationModal);
+export default SimpleConfirmationModal;

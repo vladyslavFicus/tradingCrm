@@ -180,7 +180,6 @@ class View extends Component {
       checkLock,
     } = this.props;
     const { modal: { params: { verifyType } } } = this.state;
-    console.info(`Verify modal submitted - ${verifyType}`);
 
     const action = await verifyData(playerUUID, verifyType);
     if (action) {

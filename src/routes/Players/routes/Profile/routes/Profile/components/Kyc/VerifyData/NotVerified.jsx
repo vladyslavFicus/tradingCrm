@@ -59,6 +59,7 @@ const NotVerified = (props) => {
     </div>
   );
 };
+
 NotVerified.propTypes = {
   status: PropTypes.kycStatus.isRequired,
   title: PropTypes.string.isRequired,

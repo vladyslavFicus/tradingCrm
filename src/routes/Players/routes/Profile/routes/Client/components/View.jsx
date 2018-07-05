@@ -169,7 +169,6 @@ class View extends Component {
       checkLock,
     } = this.props;
     const { modal: { params: { verifyType } } } = this.state;
-    console.info(`Verify modal submitted - ${verifyType}`);
 
     const action = await verifyData(playerUUID, verifyType);
     if (action) {
@@ -424,54 +423,42 @@ class View extends Component {
         <div className="tab-wrapper">
           <div className="client-flex-wrapper">
             <div className="client-big-col">
-              <div className="card">
-                <div className="container-fluid">
-                  <div className="card-body row">
-                    <div className="col-md-12">
-                      <PersonalForm
-                        initialValues={personalData}
-                        onSubmit={this.handleSubmitKYC(kycTypes.personal)}
-                        disabled={!canUpdateProfile}
-                      />
-                    </div>
-                  </div>
+              <div className="card margin-right-20">
+                <div className="card-body">
+                  <PersonalForm
+                    initialValues={personalData}
+                    onSubmit={this.handleSubmitKYC(kycTypes.personal)}
+                    disabled={!canUpdateProfile}
+                  />
                 </div>
               </div>
-              <div className="card">
-                <div className="container-fluid">
-                  <div className="card-body row">
-                    <div className="col-md-12">
-                      <AddressForm
-                        meta={{
-                          countries: metaData.countries,
-                          countryCodes: metaData.countryCodes,
-                        }}
-                        initialValues={addressData}
-                        onSubmit={this.handleSubmitKYC(kycTypes.address)}
-                        disabled={!canUpdateProfile}
-                      />
-                    </div>
-                  </div>
+              <div className="card margin-right-20">
+                <div className="card-body">
+                  <AddressForm
+                    meta={{
+                      countries: metaData.countries,
+                      countryCodes: metaData.countryCodes,
+                    }}
+                    initialValues={addressData}
+                    onSubmit={this.handleSubmitKYC(kycTypes.address)}
+                    disabled={!canUpdateProfile}
+                  />
                 </div>
               </div>
             </div>
             <div className="client-small-col">
               <div className="card">
-                <div className="container-fluid">
-                  <div className="card-body row">
-                    <div className="col-md-12">
-                      <ContactForm
-                        profile={data}
-                        phoneCodes={metaData.phoneCodes}
-                        contactData={contactData}
-                        onSubmitPhone={this.handleUpdatePhone}
-                        onSubmitEmail={this.handleUpdateEmail}
-                        onVerifyPhoneClick={this.handleVerifyPhone}
-                        onVerifyEmailClick={this.handleVerifyEmail}
-                        disabled={!canUpdateProfile}
-                      />
-                    </div>
-                  </div>
+                <div className="card-body">
+                  <ContactForm
+                    profile={data}
+                    phoneCodes={metaData.phoneCodes}
+                    contactData={contactData}
+                    onSubmitPhone={this.handleUpdatePhone}
+                    onSubmitEmail={this.handleUpdateEmail}
+                    onVerifyPhoneClick={this.handleVerifyPhone}
+                    onVerifyEmailClick={this.handleVerifyEmail}
+                    disabled={!canUpdateProfile}
+                  />
                 </div>
               </div>
             </div>

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { compose } from 'redux';
 import { I18n } from 'react-redux-i18n';
 import { Field, reduxForm, getFormSyncErrors, getFormValues } from 'redux-form';
 import PropTypes from '../../../../../../../../constants/propTypes';
@@ -91,7 +92,6 @@ class PhoneForm extends Component {
           <Field
             name="phoneCode"
             component={SelectField}
-            position="vertical"
             label={attributeLabels.phoneCode}
             disabled={disabled}
             className="col-2"
@@ -104,7 +104,6 @@ class PhoneForm extends Component {
             type="text"
             component={InputField}
             label={attributeLabels.phone}
-            position="vertical"
             labelAddon={
               <If condition={!isPhoneDirty && profile.phoneNumberVerified}>
                 <div className="color-success font-size-12">
@@ -130,10 +129,11 @@ class PhoneForm extends Component {
   }
 }
 
-export default connect(state => ({
-  currentValues: getFormValues(FORM_NAME)(state),
-  formSyncErrors: getFormSyncErrors(FORM_NAME)(state),
-}))(
+export default compose(
+  connect(state => ({
+    currentValues: getFormValues(FORM_NAME)(state),
+    formSyncErrors: getFormSyncErrors(FORM_NAME)(state),
+  })),
   reduxForm({
     form: FORM_NAME,
     validate: createValidator({
@@ -141,5 +141,5 @@ export default connect(state => ({
       phoneCode: 'required|numeric',
     }, attributeLabels, false),
     enableReinitialize: true,
-  })(PhoneForm),
-);
+  }),
+)(PhoneForm);

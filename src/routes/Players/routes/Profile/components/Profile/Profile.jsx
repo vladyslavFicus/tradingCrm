@@ -710,6 +710,7 @@ class Profile extends Component {
 
     const profile = get(playerProfile, 'data');
     const playerProfileLocks = get(locks, 'playerProfileLocks');
+    const viewComponent = rootConfig.market === 'crm' ? ClientView : ProfileView;
 
     return (
       <Fragment>
@@ -760,11 +761,7 @@ class Profile extends Component {
         />
         <div className="card no-borders">
           <Switch>
-            <Route
-              disableScroll
-              path={`${path}/profile`}
-              component={rootConfig.market === 'crm' ? ClientView : ProfileView}
-            />
+            <Route disableScroll path={`${path}/profile`} component={viewComponent} />
             <Route disableScroll path={`${path}/notes`} component={Notes} />
             <Route disableScroll path={`${path}/limits`} component={Limits} />
             <Route disableScroll path={`${path}/files`} component={Files} />

@@ -34,9 +34,7 @@ class Documents extends Component {
     this.props.onChangeStatus(uuid, action);
   };
 
-  handleDownloadFile = (e, data) => {
-    e.preventDefault();
-
+  handleDownloadFile = (data) => {
     this.props.onDownload(data);
   };
 
@@ -52,6 +50,7 @@ class Documents extends Component {
     return (
       <Fragment>
         <button
+          type="button"
           className={classNames('btn-transparent-text', { 'cursor-default': !isClickable })}
           onClick={
             isClickable
@@ -66,12 +65,14 @@ class Documents extends Component {
         {' '}
         <If condition={canViewFile}>
           <button
+            type="button"
             className="fa fa-download btn-transparent"
-            onClick={e => this.handleDownloadFile(e, data)}
+            onClick={() => this.handleDownloadFile(data)}
           />
         </If>
         <PermissionContent permissions={permissions.USER_PROFILE.DELETE_FILE}>
           <button
+            type="button"
             className="fa fa-trash btn-transparent color-danger"
             onClick={e => this.handleDeleteFileClick(e, data)}
           />

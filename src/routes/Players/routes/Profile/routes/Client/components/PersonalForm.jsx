@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
-import uniqBy from 'lodash/uniqBy';
+import { uniqBy } from 'lodash';
 import moment from 'moment';
 import PropTypes from '../../../../../../../constants/propTypes';
 import { InputField, SelectField, DateTimeField, NasSelectField } from '../../../../../../../components/ReduxForm';
@@ -12,11 +12,11 @@ import languageNames from '../../../../../../../constants/languageNames';
 
 const genders = ['UNDEFINED', 'MALE', 'FEMALE'];
 const attributeLabels = {
-  firstName: 'First name',
-  lastName: 'Last name',
-  languageCode: 'Language',
-  birthDate: 'Date of birth',
-  gender: 'Gender',
+  firstName: I18n.t('PLAYER_PROFILE.PROFILE.PERSONAL.LABEL.FIRST_NAME'),
+  lastName: I18n.t('PLAYER_PROFILE.PROFILE.PERSONAL.LABEL.LAST_NAME'),
+  languageCode: I18n.t('PLAYER_PROFILE.PROFILE.PERSONAL.LABEL.LANGUAGE'),
+  birthDate: I18n.t('PLAYER_PROFILE.PROFILE.PERSONAL.LABEL.DATE_OF_BIRTH'),
+  gender: I18n.t('PLAYER_PROFILE.PROFILE.PERSONAL.LABEL.GENDER'),
 };
 
 const AGE_YEARS_CONSTRAINT = 18;
@@ -76,7 +76,6 @@ class PersonalForm extends Component {
             label={attributeLabels.firstName}
             type="text"
             component={InputField}
-            position="vertical"
             disabled={disabled}
             id="users-profile-first-name"
             className="col-lg-6"
@@ -86,7 +85,6 @@ class PersonalForm extends Component {
             label={attributeLabels.lastName}
             type="text"
             component={InputField}
-            position="vertical"
             disabled={disabled}
             id="users-profile-last-name"
             className="col-lg-6"
@@ -97,7 +95,6 @@ class PersonalForm extends Component {
             name="languageCode"
             label={attributeLabels.languageCode}
             type="text"
-            position="vertical"
             className="col-lg-4"
             component={NasSelectField}
             disabled={disabled}
@@ -116,7 +113,6 @@ class PersonalForm extends Component {
             component={DateTimeField}
             timeFormat={null}
             disabled={disabled}
-            position="vertical"
             isValidDate={this.ageValidator}
             className="col-lg-3"
           />
@@ -125,7 +121,6 @@ class PersonalForm extends Component {
             label={attributeLabels.gender}
             type="text"
             component={SelectField}
-            position="vertical"
             disabled={disabled}
             className="col-lg-3"
           >

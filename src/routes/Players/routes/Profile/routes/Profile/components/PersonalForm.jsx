@@ -10,11 +10,11 @@ import permissions from '../../../../../../../config/permissions';
 
 const genders = ['UNDEFINED', 'MALE', 'FEMALE'];
 const attributeLabels = {
-  firstName: 'First name',
-  lastName: 'Last name',
-  identifier: 'ID Number',
-  birthDate: 'Date of birth',
-  gender: 'Gender',
+  firstName: I18n.t('PLAYER_PROFILE.PROFILE.PERSONAL.LABEL.FIRST_NAME'),
+  lastName: I18n.t('PLAYER_PROFILE.PROFILE.PERSONAL.LABEL.LAST_NAME'),
+  identifier: I18n.t('PLAYER_PROFILE.PROFILE.PERSONAL.LABEL.IDENTIFIER'),
+  birthDate: I18n.t('PLAYER_PROFILE.PROFILE.PERSONAL.LABEL.DATE_OF_BIRTH'),
+  gender: I18n.t('PLAYER_PROFILE.PROFILE.PERSONAL.LABEL.GENDER'),
 };
 
 const AGE_YEARS_CONSTRAINT = 18;
@@ -74,7 +74,6 @@ class PersonalForm extends Component {
             label={attributeLabels.firstName}
             type="text"
             component={InputField}
-            position="vertical"
             disabled={disabled}
             id="users-profile-first-name"
             className="col-lg-4"
@@ -84,7 +83,6 @@ class PersonalForm extends Component {
             label={attributeLabels.lastName}
             type="text"
             component={InputField}
-            position="vertical"
             disabled={disabled}
             id="users-profile-last-name"
             className="col-lg-4"
@@ -96,7 +94,6 @@ class PersonalForm extends Component {
             label={attributeLabels.identifier}
             type="text"
             component={InputField}
-            position="vertical"
             disabled={disabled}
             className="col-lg"
           />
@@ -106,7 +103,6 @@ class PersonalForm extends Component {
             component={DateTimeField}
             timeFormat={null}
             disabled={disabled}
-            position="vertical"
             isValidDate={this.ageValidator}
             className="col-lg"
           />
@@ -115,7 +111,6 @@ class PersonalForm extends Component {
             label={attributeLabels.gender}
             type="text"
             component={SelectField}
-            position="vertical"
             disabled={disabled}
             className="col-lg"
           >

@@ -1,16 +1,16 @@
 import React, { PureComponent } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
-import uniqBy from 'lodash/uniqBy';
+import { uniqBy } from 'lodash';
 import { InputField, TextAreaField, NasSelectField } from '../../../../../../../components/ReduxForm';
 import PropTypes from '../../../../../../../constants/propTypes';
 import { createValidator } from '../../../../../../../utils/validator';
 
 const attributeLabels = {
-  country: 'Country',
-  city: 'City',
-  postCode: 'Post Code',
-  address: 'Full Address',
+  country: I18n.t('PLAYER_PROFILE.PROFILE.ADDRESS.LABEL.COUNTRY'),
+  city: I18n.t('PLAYER_PROFILE.PROFILE.ADDRESS.LABEL.CITY'),
+  postCode: I18n.t('PLAYER_PROFILE.PROFILE.ADDRESS.LABEL.POST_CODE'),
+  address: I18n.t('PLAYER_PROFILE.PROFILE.ADDRESS.LABEL.FULL_ADDR'),
 };
 
 class AddressForm extends PureComponent {
@@ -67,7 +67,6 @@ class AddressForm extends PureComponent {
             name="country"
             label={attributeLabels.country}
             type="text"
-            position="vertical"
             className="col-lg-4"
             component={NasSelectField}
             disabled={disabled}
@@ -87,7 +86,6 @@ class AddressForm extends PureComponent {
             label={attributeLabels.city}
             type="text"
             component={InputField}
-            position="vertical"
             disabled={disabled}
             className="col-lg-4"
           />
@@ -96,7 +94,6 @@ class AddressForm extends PureComponent {
             label={attributeLabels.postCode}
             type="text"
             component={InputField}
-            position="vertical"
             disabled={disabled}
             className="col-lg-3"
           />

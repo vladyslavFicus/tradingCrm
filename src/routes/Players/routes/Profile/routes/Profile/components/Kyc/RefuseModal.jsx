@@ -1,5 +1,6 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
+import { compose } from 'redux';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { getFormValues, Field, reduxForm } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
@@ -107,35 +108,32 @@ class RefuseModal extends Component {
     const { selectedValues, reasons } = this.props;
 
     return (
-      <div className="row">
-        <div className="col-md-12">
-          <div className="text-center">
-            <Field
-              className="d-inline-block"
-              id={`${type}-reject-reason-checkbox`}
-              name={type}
-              component={CheckBox}
-              type="checkbox"
-              label={attributeLabels[type]}
-            />
-          </div>
-          {
-            selectedValues && selectedValues[type] &&
-            <Field
-              name={`${type}_reason`}
-              component={SelectField}
-              position="vertical"
-            >
-              <option>{I18n.t('COMMON.CHOOSE_REASON')}</option>
-              {reasons.map(item => (
-                <option key={item} value={item}>
-                  {renderLabel(item, refuseRequestReasons)}
-                </option>
-              ))}
-            </Field>
-          }
+      <Fragment>
+        <div className="text-center">
+          <Field
+            className="d-inline-block"
+            id={`${type}-reject-reason-checkbox`}
+            name={type}
+            component={CheckBox}
+            type="checkbox"
+            label={attributeLabels[type]}
+          />
         </div>
-      </div>
+        <If condition={selectedValues && selectedValues[type]}>
+          <Field
+            name={`${type}_reason`}
+            component={SelectField}
+            position="vertical"
+          >
+            <option>{I18n.t('COMMON.CHOOSE_REASON')}</option>
+            {reasons.map(item => (
+              <option key={item} value={item}>
+                {renderLabel(item, refuseRequestReasons)}
+              </option>
+            ))}
+          </Field>
+        </If>
+      </Fragment>
     );
   };
 
@@ -184,6 +182,7 @@ class RefuseModal extends Component {
 
           <ModalFooter>
             <button
+              type="button"
               onClick={onClose}
               className="btn btn-default-outline mr-auto"
             >
@@ -204,9 +203,12 @@ class RefuseModal extends Component {
   }
 }
 
-export default connect(state => ({ selectedValues: getFormValues(FORM_NAME)(state) }))(
+export default compose(
+  connect(state => ({
+    selectedValues: getFormValues(FORM_NAME)(state),
+  })),
   reduxForm({
     form: FORM_NAME,
     validate: validator,
-  })(RefuseModal),
-);
+  }),
+)(RefuseModal);

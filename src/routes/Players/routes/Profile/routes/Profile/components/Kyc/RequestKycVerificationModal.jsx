@@ -31,7 +31,6 @@ class RequestKycVerificationModal extends Component {
     playerUUID: '',
     fullName: '',
     title: '',
-    show: false,
     pristine: false,
     submitting: false,
     note: null,
@@ -87,12 +86,11 @@ class RequestKycVerificationModal extends Component {
     return (
       <Modal isOpen toggle={onClose}>
         <form onSubmit={handleSubmit(onSubmit)}>
-          {
-            !!title &&
+          <If condition={!!title}>
             <ModalHeader toggle={onClose}>
               {title}
             </ModalHeader>
-          }
+          </If>
           <ModalBody>
             <div className="text-center mx-auto width-300">
               <strong>
@@ -105,7 +103,6 @@ class RequestKycVerificationModal extends Component {
               name="reason"
               label={I18n.t(attributeLabels.reason)}
               component={SelectField}
-              position="vertical"
             >
               <option>{I18n.t('COMMON.CHOOSE_REASON')}</option>
               {reasons.map(item => (

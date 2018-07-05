@@ -20,16 +20,11 @@
   }
   .client-big-col {
     flex: 2 1 auto;
-    .card {
-      margin-right: 20px;
-    }
   }
-  .card-body {
-    .btn-verified {
-      border-radius: 2.5px;
-      border: solid 1px rgba(37, 154, 53, 0.15);
-      color: #259a35;
-      width: 100%;
-    }
+  .btn-verified {
+    border-radius: 2.5px;
+    border: solid 1px rgba(37, 154, 53, 0.15);
+    color: #259a35;
+    width: 100%;
   }
 }
