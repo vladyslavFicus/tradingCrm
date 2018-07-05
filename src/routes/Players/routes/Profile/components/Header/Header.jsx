@@ -55,6 +55,7 @@ class Header extends Component {
       username: PropTypes.string,
       playerUUID: PropTypes.string,
       signInIps: PropTypes.arrayOf(PropTypes.ipEntity),
+      profileStatusComment: PropTypes.string,
     }),
     onRefreshClick: PropTypes.func.isRequired,
     isLoadingProfile: PropTypes.bool.isRequired,
@@ -167,6 +168,7 @@ class Header extends Component {
         profileStatusAuthor,
         profileStatusDate,
         profileStatusReason,
+        profileStatusComment,
         suspendEndDate,
         profileStatus,
         profileVerified,
@@ -192,6 +194,7 @@ class Header extends Component {
       onChangePasswordClick,
       onShareProfileClick,
     } = this.props;
+
     const { permissions: currentPermissions } = this.context;
     const fullName = [firstName, lastName].filter(i => i).join(' ');
 
@@ -285,6 +288,7 @@ class Header extends Component {
               locale={locale}
               statusDate={profileStatusDate}
               statusAuthor={profileStatusAuthor}
+              profileStatusComment={profileStatusComment}
               endDate={suspendEndDate}
               status={profileStatus}
               reason={profileStatusReason}

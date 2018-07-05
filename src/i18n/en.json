@@ -756,7 +756,8 @@
       "DEFAULT": "-- Select --",
       "REASON": "-- Select reason --",
       "PERIOD": "-- Select period --",
-      "COUNTRY": "-- Select country --"
+      "COUNTRY": "-- Select country --",
+      "UPLOAD_TYPE": "-- Select upload type --"
     },
     "CONFIRM": "Confirm",
     "MGA_LIMIT": "MGA LIMIT",
@@ -814,7 +815,9 @@
       "ES": "Spanish",
       "DE": "German",
       "IT": "Italian"
-    }
+    },
+    "COMMENT": "Comment",
+    "UPLOAD": "Upload"
   },
   "FILES": {
     "UPLOAD_MODAL": {
@@ -1584,6 +1587,26 @@
         "CREATE_BUTTON": "Create wagering fulfillment",
         "TITLE": "Wagering fulfillment"
       }
+    },
+    "UPLOAD_PLAYERS": {
+      "MODAL": {
+        "TITLE": "Upload players",
+        "LABEL": {
+          "TYPE": "Upload type",
+          "STATUS": "Upload status"
+        },
+        "DESCRIPTION": {
+          "ADD_PLAYER": "Players from the uploaded list will be added to campaign’s target. Those players who are already in the target of this campaign will be ignored",
+          "RESET_PLAYER": "Fulfilments’ and rewards’ states of the players from the uploaded list will be reseted. Those players will be able to fulfil the fulfilments and get the reward again. Players who are not in the target of this campaign will be ignored",
+          "SOFT_RESET_PLAYER": "Fulfilments’ and rewards’ states of the players from the uploaded list will be reseted only if a player has got the reward or his fulfilment period is passed. Those players who have started to fulfil the fulfilments but haven’t got the reward will not be affected by this reset. Players who are not in the target of this campaign will be added to the campaign’s target list"
+        }
+      },
+      "NOTIFICATION": {
+        "ADD_PLAYER": "Add players",
+        "RESET_PLAYER": "Reset players",
+        "SOFT_RESET_PLAYER": "Soft reset players"
+      },
+      "UPLOAD_PLAYERS": "Upload players"
     }
   },
   "PROFILE": {
