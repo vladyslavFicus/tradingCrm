@@ -4,15 +4,18 @@ import moment from 'moment';
 import PropTypes from '../../../../../../constants/propTypes';
 import Uuid from '../../../../../../components/Uuid';
 import StatusDropDown from '../../../../components/StatusDropDown';
-import { actions, statusActions } from '../../../../../../constants/bonus-campaigns';
+import { actions as campaignActions, statusActions } from '../../../../../../constants/bonus-campaigns';
 import { statuses, targetTypes } from '../../../../../../constants/campaigns';
 import ActionsDropDown from '../../../../../../components/ActionsDropDown';
 import Permissions from '../../../../../../utils/permissions';
 import permissions from '../../../../../../config/permissions';
 import UploadPlayersButton from './UploadPlayersButton';
-import { types as uploadPlayersTypes } from './UploadPlayersButton/constants';
+import { actions as uploadPlayersActions } from './UploadPlayersButton/constants';
 
 const cloneCampaignPermission = new Permissions([permissions.CAMPAIGNS.CLONE]);
+const uploadPlayersPermission = new Permissions([permissions.CAMPAIGNS.UPLOAD_PLAYERS]);
+const resetPlayersPermission = new Permissions([permissions.CAMPAIGNS.UPLOAD_RESET_PLAYERS]);
+const softResetPlayersPermission = new Permissions([permissions.CAMPAIGNS.UPLOAD_SOFT_RESET_PLAYERS]);
 
 class Header extends Component {
   static propTypes = {
@@ -27,6 +30,44 @@ class Header extends Component {
     permissions: PropTypes.arrayOf(PropTypes.string).isRequired,
   };
 
+  get isAllowPlayersUpload() {
+    const { data: { targetType, state } } = this.props;
+
+    return [statuses.DRAFT, statuses.PENDING, statuses.ACTIVE].indexOf(state) !== -1
+      && targetType === targetTypes.TARGET_LIST;
+  }
+
+  get isAllowPlayersReset() {
+    return this.props.data.state === statuses.ACTIVE;
+  }
+
+  get availableStatusActions() {
+    const { data: { state }, data } = this.props;
+
+    return data && statusActions[state] ? statusActions[state] : [];
+  }
+
+  get availableUploadActions() {
+    const { isAllowPlayersUpload, isAllowPlayersReset } = this;
+
+    const actions = [];
+
+    if (isAllowPlayersUpload && uploadPlayersPermission) {
+      actions.push(uploadPlayersActions.UPLOAD_PLAYERS);
+    }
+
+    if (isAllowPlayersReset) {
+      if (resetPlayersPermission) {
+        actions.push(uploadPlayersActions.RESET_PLAYERS);
+      }
+      if (softResetPlayersPermission) {
+        actions.push(uploadPlayersActions.SOFT_RESET_PLAYERS);
+      }
+    }
+
+    return actions;
+  }
+
   handleChangeCampaignState = async ({ id: campaignUUID, action, reason }) => {
     const {
       activateMutation,
@@ -34,14 +75,14 @@ class Header extends Component {
     } = this.props;
 
     switch (action) {
-      case actions.ACTIVATE:
+      case campaignActions.ACTIVATE:
         await activateMutation({
           variables: {
             campaignUUID,
           },
         });
         break;
-      case actions.CANCEL:
+      case campaignActions.CANCEL:
         await cancelMutation({
           variables: {
             campaignUUID,
@@ -55,7 +96,11 @@ class Header extends Component {
   };
 
   handleRemoveAllPlayers = async () => {
-    const { data: { uuid: campaignUUID }, removeAllPlayers } = this.props;
+    const {
+      data: { uuid: campaignUUID },
+      removeAllPlayers,
+    } = this.props;
+
     const response = await removeAllPlayers({ variables: { campaignUUID } });
 
     if (response) {
@@ -73,35 +118,21 @@ class Header extends Component {
     const {
       data: {
         name: campaignName,
-        targetType,
         uuid,
         creationDate,
         authorUUID,
-        state,
       },
       cloneCampaign,
       data,
     } = this.props;
 
+    const {
+      isAllowPlayersUpload,
+      availableUploadActions,
+      availableStatusActions,
+    } = this;
+
     const { permissions: currentPermissions } = this.context;
-
-    const availableStatusActions = data && statusActions[state]
-      ? statusActions[state]
-      : [];
-
-    const allowPlayersUpload = [statuses.DRAFT, statuses.PENDING, statuses.ACTIVE].indexOf(state) !== -1
-      && targetType === targetTypes.TARGET_LIST;
-    const allowPlayersReset = state === statuses.ACTIVE;
-
-    const allowUploadTypes = [];
-
-    if (allowPlayersUpload) {
-      allowUploadTypes.push(uploadPlayersTypes.UPLOAD_PLAYERS);
-    }
-
-    if (allowPlayersReset) {
-      allowUploadTypes.push(uploadPlayersTypes.RESET_PLAYERS, uploadPlayersTypes.SOFT_RESET_PLAYERS);
-    }
 
     return (
       <Fragment>
@@ -117,7 +148,7 @@ class Header extends Component {
             </div>
           </div>
           <div className="col-auto panel-heading-row__actions">
-            <If condition={allowPlayersUpload}>
+            <If condition={isAllowPlayersUpload}>
               <span>
                 <button
                   className="btn btn-sm btn-default-outline margin-right-10"
@@ -128,7 +159,7 @@ class Header extends Component {
               </span>
             </If>
             <UploadPlayersButton
-              types={allowUploadTypes}
+              actions={availableUploadActions}
               campaignUuid={uuid}
             />
             <span className="margin-left-10">

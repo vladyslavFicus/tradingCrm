@@ -755,7 +755,7 @@
       "REASON": "-- Select reason --",
       "PERIOD": "-- Select period --",
       "COUNTRY": "-- Select country --",
-      "UPLOAD_TYPE": "-- Select upload type --"
+      "UPLOAD_ACTION": "-- Select upload action --"
     },
     "CONFIRM": "Confirm",
     "MGA_LIMIT": "MGA LIMIT",
@@ -1583,8 +1583,8 @@
       "MODAL": {
         "TITLE": "Upload players",
         "LABEL": {
-          "TYPE": "Upload type",
-          "STATUS": "Upload status"
+          "STATUS": "Upload status",
+          "ACTION": "Upload action"
         },
         "DESCRIPTION": {
           "ADD_PLAYER": "Players from the uploaded list will be added to campaign’s target. Those players who are already in the target of this campaign will be ignored",

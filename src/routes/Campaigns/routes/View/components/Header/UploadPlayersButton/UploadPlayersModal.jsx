@@ -10,9 +10,9 @@ import FileUpload from '../../../../../../../components/FileUpload';
 import renderLabel from '../../../../../../../utils/renderLabel';
 import {
   attributeLabels,
-  typesLabels,
-  typesActionDescription,
-  types as uploadTypes,
+  actionsLabels,
+  actionDescription,
+  actions as uploadActions,
 } from './constants';
 import { shortifyInMiddle } from '../../../../../../../utils/stringFormat';
 
@@ -28,15 +28,15 @@ class UploadPlayersModal extends Component {
     invalid: PropTypes.bool.isRequired,
     isOpen: PropTypes.bool.isRequired,
     formValues: PropTypes.shape({
-      type: PropTypes.string,
+      action: PropTypes.string,
     }),
-    types: PropTypes.arrayOf(PropTypes.string),
+    actions: PropTypes.arrayOf(PropTypes.string),
     reset: PropTypes.func.isRequired,
   };
   static defaultProps = {
     handleSubmit: null,
     formValues: {},
-    types: [],
+    actions: [],
   };
 
   state = { ...initialState };
@@ -62,10 +62,11 @@ class UploadPlayersModal extends Component {
     onCloseModal();
   };
 
-  handleSubmit = async ({ type }) => {
+  handleSubmit = async ({ action }) => {
     const {
       uploadPlayersFile,
       uploadResetPlayersFile,
+      uploadSoftResetPlayersFile,
       campaignUuid,
       onCloseModal,
       notify,
@@ -74,12 +75,15 @@ class UploadPlayersModal extends Component {
 
     let response = {};
 
-    switch (type) {
-      case uploadTypes.UPLOAD_PLAYERS:
+    switch (action) {
+      case uploadActions.UPLOAD_PLAYERS:
         response = await uploadPlayersFile(campaignUuid, file);
         break;
-      case uploadTypes.RESET_PLAYERS:
+      case uploadActions.RESET_PLAYERS:
         response = await uploadResetPlayersFile(campaignUuid, file);
+        break;
+      case uploadActions.SOFT_RESET_PLAYERS:
+        response = await uploadSoftResetPlayersFile(campaignUuid, file);
         break;
       default:
         return null;
@@ -87,7 +91,7 @@ class UploadPlayersModal extends Component {
 
     if (response) {
       notify({
-        title: I18n.t(typesLabels[type]),
+        title: I18n.t(actionsLabels[action]),
         level: response.error ? 'error' : 'success',
         message: `${I18n.t('COMMON.ACTIONS.UPLOADED')} ${response.error ? I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY') :
           I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
@@ -98,19 +102,19 @@ class UploadPlayersModal extends Component {
     onCloseModal();
   };
 
-  renderTypes = () => {
-    const { types } = this.props;
+  renderActions = () => {
+    const { actions } = this.props;
 
     return (
       <Field
-        name="type"
-        label={I18n.t(attributeLabels.type)}
+        name="action"
+        label={I18n.t(attributeLabels.action)}
         component={SelectField}
       >
-        <option value="">{I18n.t('COMMON.SELECT_OPTION.UPLOAD_TYPE')}</option>
-        {types.map(type => (
-          <option key={type} value={type}>
-            {renderLabel(type, typesLabels)}
+        <option value="">{I18n.t('COMMON.SELECT_OPTION.UPLOAD_ACTION')}</option>
+        {actions.map(action => (
+          <option key={action} value={action}>
+            {renderLabel(action, actionsLabels)}
           </option>
         ))}
       </Field>
@@ -126,7 +130,7 @@ class UploadPlayersModal extends Component {
     } = this.props;
     const { file, errors } = this.state;
 
-    const type = get(formValues, 'type');
+    const action = get(formValues, 'action');
 
     return (
       <Modal isOpen={isOpen} toggle={this.handleClose}>
@@ -135,18 +139,18 @@ class UploadPlayersModal extends Component {
             {I18n.t(attributeLabels.title)}
           </ModalHeader>
           <ModalBody>
-            <If condition={type}>
+            <If condition={action}>
               <div className="text-center my-4">
                 <span className="font-weight-700">
-                  {renderLabel(type, typesLabels)}
+                  {renderLabel(action, actionsLabels)}
                 </span>
                 {' - '}
-                {I18n.t(typesActionDescription[type])}
+                {I18n.t(actionDescription[action])}
               </div>
             </If>
             <div className="row">
               <div className="col-md-6">
-                {this.renderTypes()}
+                {this.renderActions()}
               </div>
               <div className="col-md-3">
                 <FileUpload
