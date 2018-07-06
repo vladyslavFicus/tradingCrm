@@ -8,33 +8,33 @@ import { attributeLabels } from './constants';
 
 class UploadPlayersButton extends Component {
   static propTypes = {
-    types: PropTypes.arrayOf(PropTypes.string),
+    actions: PropTypes.arrayOf(PropTypes.string),
     campaignUuid: PropTypes.string.isRequired,
     modals: PropTypes.shape({
       uploadPlayerModal: PropTypes.modalType,
     }).isRequired,
   };
   static defaultProps = {
-    types: [],
+    actions: [],
   };
 
   handleClickUpload = () => {
     const {
       modals: { uploadPlayerModal },
-      types,
+      actions,
       campaignUuid,
     } = this.props;
 
     uploadPlayerModal.show({
-      types,
+      actions,
       campaignUuid,
     });
   };
 
   render() {
-    const { types } = this.props;
+    const { actions } = this.props;
 
-    if (!types.length) {
+    if (!actions.length) {
       return null;
     }
 
