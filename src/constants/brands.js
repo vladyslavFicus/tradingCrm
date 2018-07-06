@@ -32,7 +32,7 @@ const brandsConfig = {
   },
   [brands.vulcanprestige]: {
     name: 'Vulcan Prestige',
-    image: { src: '/img/vulcanprestige_brand_logo.png', style: { width: '120px' } },
+    image: { src: '/img/vulcanprestige_brand_logo.png' },
   },
   [brands.loki]: {
     name: 'Loki',
@@ -40,11 +40,11 @@ const brandsConfig = {
   },
   [brands.redbox]: {
     name: 'Redbox',
-    image: { src: '/img/redbox_brand_logo.svg', style: { width: '160px' } },
+    image: { src: '/img/redbox_brand_logo.svg' },
   },
   [brands.slottica]: {
     name: 'Slottica',
-    image: { src: '/img/slottica_brand_logo.svg', style: { width: '160px' } },
+    image: { src: '/img/slottica_brand_logo.svg' },
   },
   [brands.vulcanneon]: {
     name: 'Vulcan neon',
@@ -52,11 +52,11 @@ const brandsConfig = {
   },
   [brands.vulcangold]: {
     name: 'Vulcan gold',
-    image: { src: '/img/vulcangold_brand_logo.svg', style: { width: '120px' } },
+    image: { src: '/img/vulcangold_brand_logo.svg' },
   },
   [brands.gslots]: {
     name: 'Gslots',
-    image: { src: '/img/gslots_brand_logo.svg', style: { width: '120px' } },
+    image: { src: '/img/gslots_brand_logo.svg' },
   },
 };
 const departmentsConfig = {
