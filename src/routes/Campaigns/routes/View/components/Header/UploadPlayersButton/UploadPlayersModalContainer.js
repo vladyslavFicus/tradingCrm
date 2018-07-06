@@ -10,6 +10,7 @@ import UploadPlayersModal from './UploadPlayersModal';
 const mapActions = {
   uploadPlayersFile: actionCreators.uploadPlayersFile,
   uploadResetPlayersFile: actionCreators.uploadResetPlayersFile,
+  uploadSoftResetPlayersFile: actionCreators.uploadSoftResetPlayersFile,
 };
 
 export default compose(

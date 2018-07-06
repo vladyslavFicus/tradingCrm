@@ -66,6 +66,7 @@ class UploadPlayersModal extends Component {
     const {
       uploadPlayersFile,
       uploadResetPlayersFile,
+      uploadSoftResetPlayersFile,
       campaignUuid,
       onCloseModal,
       notify,
@@ -80,6 +81,9 @@ class UploadPlayersModal extends Component {
         break;
       case uploadTypes.RESET_PLAYERS:
         response = await uploadResetPlayersFile(campaignUuid, file);
+        break;
+      case uploadTypes.SOFT_RESET_PLAYERS:
+        response = await uploadSoftResetPlayersFile(campaignUuid, file);
         break;
       default:
         return null;

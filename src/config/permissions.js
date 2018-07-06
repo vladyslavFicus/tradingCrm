@@ -69,6 +69,9 @@ export default {
     UPDATE: 'campaign;PUT;/{uuid}',
     VIEW: 'campaign;GET;/{uuid}',
     CLONE: 'campaign;POST;/{uuid}/clone',
+    UPLOAD_PLAYERS: 'campaign;PUT;/{uuid}/player-list',
+    UPLOAD_RESET_PLAYERS: 'campaign;PUT;/{uuid}/reset-player-states',
+    UPLOAD_SOFT_RESET_PLAYERS: 'campaign;PUT;/{uuid}/add-soft-reset-player-states',
   },
   WAGERING_FULFILLMENT: {
     LIST: 'wagering_fulfillment;GET;/',

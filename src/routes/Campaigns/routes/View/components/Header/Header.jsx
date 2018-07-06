@@ -13,6 +13,9 @@ import UploadPlayersButton from './UploadPlayersButton';
 import { types as uploadPlayersTypes } from './UploadPlayersButton/constants';
 
 const cloneCampaignPermission = new Permissions([permissions.CAMPAIGNS.CLONE]);
+const uploadPlayersPermission = new Permissions([permissions.CAMPAIGNS.UPLOAD_PLAYERS]);
+const resetPlayersPermission = new Permissions([permissions.CAMPAIGNS.UPLOAD_RESET_PLAYERS]);
+const softResetPlayersPermission = new Permissions([permissions.CAMPAIGNS.UPLOAD_SOFT_RESET_PLAYERS]);
 
 class Header extends Component {
   static propTypes = {
@@ -69,39 +72,64 @@ class Header extends Component {
     }
   };
 
+  get allowPlayersUpload() {
+    const { data: { targetType, state } } = this.props;
+
+    return [statuses.DRAFT, statuses.PENDING, statuses.ACTIVE].indexOf(state) !== -1
+      && targetType === targetTypes.TARGET_LIST;
+  }
+
+  get availableStatusActions() {
+    const { data: { state }, data } = this.props;
+
+    return data && statusActions[state] ? statusActions[state] : [];
+  }
+
+  get allowUploadTypes() {
+    const {
+      allowPlayersUpload,
+      props: { data: { state } },
+    } = this;
+
+    const allowPlayersReset = state === statuses.ACTIVE;
+
+    const allowUploadTypes = [];
+
+    if (allowPlayersUpload && uploadPlayersPermission) {
+      allowUploadTypes.push(uploadPlayersTypes.UPLOAD_PLAYERS);
+    }
+
+    if (allowPlayersReset) {
+      if (resetPlayersPermission) {
+        allowUploadTypes.push(uploadPlayersTypes.RESET_PLAYERS);
+      }
+      if (softResetPlayersPermission) {
+        allowUploadTypes.push(uploadPlayersTypes.SOFT_RESET_PLAYERS);
+      }
+    }
+
+    return allowUploadTypes;
+  }
+
   render() {
     const {
       data: {
         name: campaignName,
-        targetType,
         uuid,
         creationDate,
         authorUUID,
-        state,
       },
       cloneCampaign,
       data,
     } = this.props;
 
+    const {
+      allowPlayersUpload,
+      allowUploadTypes,
+      availableStatusActions,
+    } = this;
+
     const { permissions: currentPermissions } = this.context;
-
-    const availableStatusActions = data && statusActions[state]
-      ? statusActions[state]
-      : [];
-
-    const allowPlayersUpload = [statuses.DRAFT, statuses.PENDING, statuses.ACTIVE].indexOf(state) !== -1
-      && targetType === targetTypes.TARGET_LIST;
-    const allowPlayersReset = state === statuses.ACTIVE;
-
-    const allowUploadTypes = [];
-
-    if (allowPlayersUpload) {
-      allowUploadTypes.push(uploadPlayersTypes.UPLOAD_PLAYERS);
-    }
-
-    if (allowPlayersReset) {
-      allowUploadTypes.push(uploadPlayersTypes.RESET_PLAYERS, uploadPlayersTypes.SOFT_RESET_PLAYERS);
-    }
 
     return (
       <Fragment>
