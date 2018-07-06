@@ -30,6 +30,44 @@ class Header extends Component {
     permissions: PropTypes.arrayOf(PropTypes.string).isRequired,
   };
 
+  get allowPlayersUpload() {
+    const { data: { targetType, state } } = this.props;
+
+    return [statuses.DRAFT, statuses.PENDING, statuses.ACTIVE].indexOf(state) !== -1
+      && targetType === targetTypes.TARGET_LIST;
+  }
+
+  get allowPlayersReset() {
+    return this.props.data.state === statuses.ACTIVE;
+  }
+
+  get availableStatusActions() {
+    const { data: { state }, data } = this.props;
+
+    return data && statusActions[state] ? statusActions[state] : [];
+  }
+
+  get allowUploadTypes() {
+    const { allowPlayersUpload, allowPlayersReset } = this;
+
+    const allowUploadTypes = [];
+
+    if (allowPlayersUpload && uploadPlayersPermission) {
+      allowUploadTypes.push(uploadPlayersTypes.UPLOAD_PLAYERS);
+    }
+
+    if (allowPlayersReset) {
+      if (resetPlayersPermission) {
+        allowUploadTypes.push(uploadPlayersTypes.RESET_PLAYERS);
+      }
+      if (softResetPlayersPermission) {
+        allowUploadTypes.push(uploadPlayersTypes.SOFT_RESET_PLAYERS);
+      }
+    }
+
+    return allowUploadTypes;
+  }
+
   handleChangeCampaignState = async ({ id: campaignUUID, action, reason }) => {
     const {
       activateMutation,
@@ -58,7 +96,11 @@ class Header extends Component {
   };
 
   handleRemoveAllPlayers = async () => {
-    const { data: { uuid: campaignUUID }, removeAllPlayers } = this.props;
+    const {
+      data: { uuid: campaignUUID },
+      removeAllPlayers,
+    } = this.props;
+
     const response = await removeAllPlayers({ variables: { campaignUUID } });
 
     if (response) {
@@ -71,45 +113,6 @@ class Header extends Component {
       });
     }
   };
-
-  get allowPlayersUpload() {
-    const { data: { targetType, state } } = this.props;
-
-    return [statuses.DRAFT, statuses.PENDING, statuses.ACTIVE].indexOf(state) !== -1
-      && targetType === targetTypes.TARGET_LIST;
-  }
-
-  get availableStatusActions() {
-    const { data: { state }, data } = this.props;
-
-    return data && statusActions[state] ? statusActions[state] : [];
-  }
-
-  get allowUploadTypes() {
-    const {
-      allowPlayersUpload,
-      props: { data: { state } },
-    } = this;
-
-    const allowPlayersReset = state === statuses.ACTIVE;
-
-    const allowUploadTypes = [];
-
-    if (allowPlayersUpload && uploadPlayersPermission) {
-      allowUploadTypes.push(uploadPlayersTypes.UPLOAD_PLAYERS);
-    }
-
-    if (allowPlayersReset) {
-      if (resetPlayersPermission) {
-        allowUploadTypes.push(uploadPlayersTypes.RESET_PLAYERS);
-      }
-      if (softResetPlayersPermission) {
-        allowUploadTypes.push(uploadPlayersTypes.SOFT_RESET_PLAYERS);
-      }
-    }
-
-    return allowUploadTypes;
-  }
 
   render() {
     const {
