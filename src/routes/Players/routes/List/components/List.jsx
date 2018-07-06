@@ -127,7 +127,7 @@ class List extends Component {
       selectedRows,
       touchedRowsIds,
     });
-  }
+  };
 
   handleAllRowsSelect = () => {
     const { list: { entities } } = this.props;
@@ -140,7 +140,7 @@ class List extends Component {
         ? []
         : [...Array.from(Array(entities.totalElements).keys())],
     });
-  }
+  };
 
   renderUserInfo = data => (
     <GridPlayerInfo
@@ -221,7 +221,7 @@ class List extends Component {
       <div className="card">
         <div className="card-heading">
           <Choose>
-            <When condition={entities.totalPages !== 0}>
+            <When condition={!!entities.totalElements}>
               <span className="font-size-20 height-55 users-list-header">
                 <div>
                   <strong>{entities.totalElements} </strong>

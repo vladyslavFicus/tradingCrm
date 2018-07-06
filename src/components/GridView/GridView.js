@@ -268,12 +268,13 @@ class GridView extends Component {
     const { multiselect } = this.props;
 
     const gridColumn = getGridColumn(column);
-    const keys = key.split('-');
+    const [rowIndex, columnKey] = key.split('-');
+    const isFirstColumn = !Number(columnKey);
     let content = null;
     let active = false;
 
     if (multiselect) {
-      active = this.getRowState(keys[0]);
+      active = this.getRowState(rowIndex);
     }
 
     if (typeof gridColumn.render === 'function') {
@@ -284,14 +285,14 @@ class GridView extends Component {
 
     return (
       <td className={gridColumn.className} key={key}>
-        <If condition={multiselect && keys[1] === '0'}>
+        <If condition={multiselect && isFirstColumn}>
           <span
             className={classNames(
               'grid-select-checkbox',
               { active }
             )}
             onClick={this.handleSelectRow}
-            id={`checkbox-${keys[0]}`}
+            id={`checkbox-${rowIndex}`}
           />
         </If>
         {content}
@@ -309,9 +310,9 @@ class GridView extends Component {
     return (
       <tfoot>
         <tr>
-          {columns.map(({ props }, key) =>
+          {columns.map(({ props }, key) => (
             <td key={key}>{summaryRow[props.name]}</td>
-          )}
+          ))}
         </tr>
       </tfoot>
     );
