@@ -11,6 +11,7 @@ const attributeLabels = {
   city: I18n.t('PLAYER_PROFILE.PROFILE.ADDRESS.LABEL.CITY'),
   postCode: I18n.t('PLAYER_PROFILE.PROFILE.ADDRESS.LABEL.POST_CODE'),
   address: I18n.t('PLAYER_PROFILE.PROFILE.ADDRESS.LABEL.FULL_ADDR'),
+  PObox: I18n.t('PLAYER_PROFILE.PROFILE.ADDRESS.LABEL.PO_BOX'),
 };
 
 const AddressForm = ({
@@ -46,13 +47,11 @@ const AddressForm = ({
         disabled={disabled}
       >
         {
-          uniqBy(countries, 'countryCode').map(item =>
-            (
-              <option key={`${item.countryCode}-${item.phoneCode}`} value={item.countryCode}>
-                {item.countryName}
-              </option>
-            )
-          )
+          uniqBy(countries, 'countryCode').map(item => (
+            <option key={`${item.countryCode}-${item.phoneCode}`} value={item.countryCode}>
+              {item.countryName}
+            </option>
+          ))
         }
       </Field>
       <Field
@@ -61,7 +60,15 @@ const AddressForm = ({
         type="text"
         component={InputField}
         disabled={disabled}
-        className="col-lg-4"
+        className="col-lg-3"
+      />
+      <Field
+        name="PObox"
+        label={attributeLabels.PObox}
+        type="text"
+        component={InputField}
+        disabled={disabled}
+        className="col-lg-3"
       />
       <Field
         name="postCode"
@@ -69,7 +76,7 @@ const AddressForm = ({
         type="text"
         component={InputField}
         disabled={disabled}
-        className="col-lg-3"
+        className="col-lg-2"
       />
     </div>
     <Field

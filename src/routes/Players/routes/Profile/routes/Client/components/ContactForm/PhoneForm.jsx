@@ -94,7 +94,7 @@ class PhoneForm extends Component {
             component={SelectField}
             label={attributeLabels.phoneCode}
             disabled={disabled}
-            className="col-2"
+            className="col-3"
           >
             <option value="">{I18n.t('COMMON.SELECT_OPTION.DEFAULT')}</option>
             {phoneCodes.map(code => <option key={code} value={code}>+{code}</option>)}
@@ -104,24 +104,24 @@ class PhoneForm extends Component {
             type="text"
             component={InputField}
             label={attributeLabels.phone}
-            labelAddon={
-              <If condition={!isPhoneDirty && profile.phoneNumberVerified}>
-                <div className="color-success font-size-12">
-                  <i className="fa fa-check-circle-o" /> {I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.VERIFIED')}
-                </div>
-              </If>
-            }
             disabled={disabled}
-            className="col-4"
+            className="col-5"
           />
           <If condition={isPhoneVerifiable}>
             <PermissionContent permissions={permissions.USER_PROFILE.VERIFY_PHONE}>
-              <div className="col-auto mt-4">
-                <button type="button" className="btn btn-success-outline" onClick={this.handleVerifyPhoneClick}>
-                  {I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.VERIFY_PHONE')}
+              <div className="col-4 mt-4">
+                <button type="button" className="btn btn-primary width-full" onClick={this.handleVerifyPhoneClick}>
+                  {I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.VERIFY')}
                 </button>
               </div>
             </PermissionContent>
+          </If>
+          <If condition={!isPhoneDirty && profile.phoneNumberVerified}>
+            <div className="col-4 mt-4">
+              <button type="button" className="btn btn-verified">
+                <i className="fa fa-check-circle-o" /> {I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.VERIFIED')}
+              </button>
+            </div>
           </If>
         </div>
       </form>

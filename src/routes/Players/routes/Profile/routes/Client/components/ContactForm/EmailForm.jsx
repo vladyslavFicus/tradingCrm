@@ -71,25 +71,25 @@ class EmailForm extends Component {
           <Field
             name="email"
             label={attributeLabels.email}
-            labelAddon={
-              <If condition={profileStatus !== playerStatuses.INACTIVE}>
-                <div className="color-success font-size-12">
-                  <i className="fa fa-check-circle-o" /> {I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.VERIFIED')}
-                </div>
-              </If>
-            }
             type="text"
             component={InputField}
-            className="col-6"
+            className="col-8"
           />
           <If condition={profileStatus === playerStatuses.INACTIVE}>
             <PermissionContent permissions={permissions.USER_PROFILE.VERIFY_EMAIL}>
-              <div className="col-auto mt-4">
-                <button type="button" className="btn btn-success-outline" onClick={this.handleVerifyEmailClick}>
+              <div className="col-4 mt-4">
+                <button type="button" className="btn btn-primary" onClick={this.handleVerifyEmailClick}>
                   {I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.VERIFY_EMAIL')}
                 </button>
               </div>
             </PermissionContent>
+          </If>
+          <If condition={profileStatus !== playerStatuses.INACTIVE}>
+            <div className="col-4 mt-4">
+              <button type="button" className="btn btn-verified">
+                <i className="fa fa-check-circle-o" /> {I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.VERIFIED')}
+              </button>
+            </div>
           </If>
         </div>
       </form>

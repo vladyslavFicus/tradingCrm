@@ -72,6 +72,7 @@
       "CONTACTS": {
         "TITLE": "Contacts",
         "VERIFIED": "Verified",
+        "VERIFY": "Verify",
         "VERIFY_PHONE": "Verify phone",
         "VERIFY_EMAIL": "Verify email",
         "LABEL": {
@@ -83,6 +84,14 @@
         "TITLE": "Personal information",
         "VERIFY_KYC": {
           "ERROR": "Need to save personal information"
+        },
+        "LABEL": {
+          "FIRST_NAME": "First name",
+          "LAST_NAME": "Last name",
+          "LANGUAGE": "Language",
+          "DATE_OF_BIRTH": "Date of birth",
+          "GENDER": "Gender",
+          "IDENTIFIER": "ID Number"
         }
       },
       "ADDITIONAL": {
@@ -92,6 +101,13 @@
         "TITLE": "Address",
         "VERIFY_KYC": {
           "ERROR": "Need to save address information"
+        },
+        "LABEL": {
+          "COUNTRY": "Country",
+          "CITY": "City",
+          "POST_CODE": "Post code",
+          "FULL_ADDR": "Full address",
+          "PO_BOX": "PO Box"
         }
       },
       "TITLE": "Profile",
@@ -669,6 +685,7 @@
     "EXPORT": "Export",
     "FROM": "From",
     "EMAIL": "Email",
+    "SKYPE": "Skype",
     "IMPORT": "Import",
     "PHONE": "Phone",
     "DEPARTMENT": "Department",
@@ -807,8 +824,16 @@
     "PERMANENT": "Permanent",
     "CRM_USER_DEFINITION": "Client profile",
     "CASINO_USER_DEFINITION": "Player profile",
+    "LANGUAGE_NAME": {
+      "EN": "English",
+      "RU": "Russian",
+      "ES": "Spanish",
+      "DE": "German",
+      "IT": "Italian"
+    },
     "COMMENT": "Comment",
-    "UPLOAD": "Upload"
+    "UPLOAD": "Upload",
+    "ADD_DOCUMENT": "+ Add document"
   },
   "FILES": {
     "UPLOAD_MODAL": {
@@ -2205,5 +2230,10 @@
     "EMAIL": "Email",
     "PASSWORD": "Password",
     "LOGIN": "Login"
+  },
+  "CLIENT_PROFILE": {
+    "PROFILE": {
+      "TITLE": "Profile"
+    }
   }
 }

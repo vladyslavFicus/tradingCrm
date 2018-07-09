@@ -1,30 +1,19 @@
 import React, { Component, Fragment } from 'react';
 import { I18n } from 'react-redux-i18n';
-import classNames from 'classnames';
 import { SubmissionError } from 'redux-form';
 import PropTypes from '../../../../../../../constants/propTypes';
 import PersonalForm from './PersonalForm';
 import AddressForm from './AddressForm';
 import ContactForm from './ContactForm';
-import Documents from './Documents';
-import VerifyData from './Kyc/VerifyData';
 import RefuseModal from './Kyc/RefuseModal';
 import SimpleConfirmationModal from './Kyc/SimpleConfirmationModal';
-import renderLabel from '../../../../../../../utils/renderLabel';
 import RequestKycVerificationModal from './Kyc/RequestKycVerificationModal';
 import {
   types as kycTypes,
   categories as kycCategories,
-  statuses as kycStatuses,
-  userStatuses as kycUserStatuses,
-  userStatusesLabels as kycUserStatusesLabels,
-  userStatusesColor as kycUserStatusesColor,
 } from '../../../../../../../constants/kyc';
 import { kycNoteTypes } from '../constants';
 import './View.scss';
-import PermissionContent from '../../../../../../../components/PermissionContent';
-import { CONDITIONS } from '../../../../../../../utils/permissions';
-import permissions from '../../../../../../../config/permissions';
 import TabHeader from '../../../../../../../components/TabHeader';
 
 const REFUSE_MODAL = 'refuse-modal';
@@ -396,29 +385,6 @@ class View extends Component {
     this.context.showImages(`${this.props.filesUrl}${data.uuid}`, data.type);
   };
 
-  renderKycStatusTitle = () => {
-    const { profile: { data: profile } } = this.props;
-
-    let kycUserStatusCode = kycUserStatuses.NOT_REQUESTED;
-    if (profile.kycAddressStatus && profile.kycPersonalStatus) {
-      kycUserStatusCode = profile.kycAddressStatus.status === kycStatuses.VERIFIED &&
-      profile.kycPersonalStatus.status === kycStatuses.VERIFIED ?
-        kycUserStatuses.VERIFIED : kycUserStatuses.NOT_VERIFIED;
-    }
-
-    return (
-      <Fragment>
-        {I18n.t('PLAYER_PROFILE.PROFILE.TITLE')} {' - '}
-        <span
-          id={`profile-status-${kycUserStatusCode.toLowerCase().split('_').join('-')}`}
-          className={classNames(kycUserStatusesColor[kycUserStatusCode], 'font-weight-600')}
-        >
-          {renderLabel(kycUserStatusCode, kycUserStatusesLabels)}
-        </span>
-      </Fragment>
-    );
-  };
-
   render() {
     const { modal } = this.state;
 
@@ -440,11 +406,9 @@ class View extends Component {
       meta: {
         data: metaData,
       },
-      files,
       personalData,
       addressData,
       contactData,
-      downloadFile,
       locale,
       canUpdateProfile,
     } = this.props;
@@ -455,112 +419,47 @@ class View extends Component {
 
     return (
       <Fragment>
-        <TabHeader title={this.renderKycStatusTitle()}>
-          <If condition={!data.kycCompleted && !!data.kycRequest}>
-            <PermissionContent permissions={permissions.USER_PROFILE.KYC_VERIFY_ALL}>
-              <button
-                id="verify-all-identities-button"
-                type="button"
-                className="btn btn-sm btn-success-outline margin-right-10"
-                onClick={this.handleOpenVerifyKycAllModal}
-              >
-                {I18n.t('PLAYER_PROFILE.PROFILE.KYC_VERIFICATION_ALL')}
-              </button>
-            </PermissionContent>
-          </If>
-          <PermissionContent permissions={permissions.USER_PROFILE.REQUEST_KYC}>
-            <button
-              id="request-kyc-button"
-              type="button"
-              className="btn btn-sm btn-primary-outline"
-              onClick={this.handleOpenRequestKycVerificationModal}
-            >
-              {I18n.t('PLAYER_PROFILE.PROFILE.REQUEST_KYC_VERIFICATION')}
-            </button>
-          </PermissionContent>
-        </TabHeader>
+        <TabHeader title={I18n.t('CLIENT_PROFILE.PROFILE.TITLE')} />
         <div className="tab-wrapper">
-          <div className="card">
-            <div className="card-body row">
-              <div className="col-md-8 with-right-border">
-                <PersonalForm
-                  initialValues={personalData}
-                  onSubmit={this.handleSubmitKYC(kycTypes.personal)}
-                  disabled={!canUpdateProfile}
-                />
-                <hr />
-                <PermissionContent
-                  permissions={[permissions.USER_PROFILE.VIEW_FILES, permissions.USER_PROFILE.UPLOAD_FILE]}
-                  permissionsCondition={CONDITIONS.OR}
-                >
-                  <Documents
-                    onChangeStatus={this.handleChangeFileStatus}
-                    onUpload={this.handleUploadDocument(kycCategories.KYC_PERSONAL)}
-                    onDownload={downloadFile}
-                    files={files.identity}
-                    onDocumentClick={this.handlePreviewImageClick}
+          <div className="client-flex-wrapper">
+            <div className="client-big-col">
+              <div className="card margin-right-20">
+                <div className="card-body">
+                  <PersonalForm
+                    initialValues={personalData}
+                    onSubmit={this.handleSubmitKYC(kycTypes.personal)}
+                    disabled={!canUpdateProfile}
                   />
-                </PermissionContent>
+                </div>
               </div>
-              <div className="col-md-4">
-                <VerifyData
-                  title={I18n.t('PLAYER_PROFILE.PROFILE.VERIFY_PERSONAL_DATA_TITLE')}
-                  onVerify={() => this.handleVerifyClick(kycCategories.KYC_PERSONAL)}
-                  onRefuse={() => this.handleRefuseClick(kycCategories.KYC_PERSONAL)}
-                  status={data.kycPersonalStatus}
-                />
+              <div className="card margin-right-20">
+                <div className="card-body">
+                  <AddressForm
+                    meta={{
+                      countries: metaData.countries,
+                      countryCodes: metaData.countryCodes,
+                    }}
+                    initialValues={addressData}
+                    onSubmit={this.handleSubmitKYC(kycTypes.address)}
+                    disabled={!canUpdateProfile}
+                  />
+                </div>
               </div>
             </div>
-          </div>
-          <div className="card">
-            <div className="card-body row">
-              <div className="col-md-8 with-right-border">
-                <AddressForm
-                  meta={{
-                    countries: metaData.countries,
-                    countryCodes: metaData.countryCodes,
-                  }}
-                  initialValues={addressData}
-                  onSubmit={this.handleSubmitKYC(kycTypes.address)}
-                  disabled={!canUpdateProfile}
-                />
-                <hr />
-                <PermissionContent
-                  permissions={[permissions.USER_PROFILE.VIEW_FILES, permissions.USER_PROFILE.UPLOAD_FILE]}
-                  permissionsCondition={CONDITIONS.OR}
-                >
-                  <Documents
-                    onChangeStatus={this.handleChangeFileStatus}
-                    onUpload={this.handleUploadDocument(kycCategories.KYC_ADDRESS)}
-                    onDownload={downloadFile}
-                    files={files.address}
-                    onDocumentClick={this.handlePreviewImageClick}
+            <div className="client-small-col">
+              <div className="card">
+                <div className="card-body">
+                  <ContactForm
+                    profile={data}
+                    phoneCodes={metaData.phoneCodes}
+                    contactData={contactData}
+                    onSubmitPhone={this.handleUpdatePhone}
+                    onSubmitEmail={this.handleUpdateEmail}
+                    onVerifyPhoneClick={this.handleVerifyPhone}
+                    onVerifyEmailClick={this.handleVerifyEmail}
+                    disabled={!canUpdateProfile}
                   />
-                </PermissionContent>
-              </div>
-              <div className="col-md-4">
-                <VerifyData
-                  title={I18n.t('PLAYER_PROFILE.PROFILE.VERIFY_ADDRESS_DATA_TITLE')}
-                  onVerify={() => this.handleVerifyClick(kycCategories.KYC_ADDRESS)}
-                  onRefuse={() => this.handleRefuseClick(kycCategories.KYC_ADDRESS)}
-                  status={data.kycAddressStatus}
-                />
-              </div>
-            </div>
-          </div>
-          <div className="card">
-            <div className="card-body row">
-              <div className="col-md-8 with-right-border">
-                <ContactForm
-                  profile={data}
-                  phoneCodes={metaData.phoneCodes}
-                  contactData={contactData}
-                  onSubmitPhone={this.handleUpdatePhone}
-                  onSubmitEmail={this.handleUpdateEmail}
-                  onVerifyPhoneClick={this.handleVerifyPhone}
-                  onVerifyEmailClick={this.handleVerifyEmail}
-                  disabled={!canUpdateProfile}
-                />
+                </div>
               </div>
             </div>
           </div>

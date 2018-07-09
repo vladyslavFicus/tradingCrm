@@ -133,7 +133,7 @@ class Documents extends Component {
         <PermissionContent permissions={permissions.USER_PROFILE.UPLOAD_FILE}>
           <div className="text-center">
             <FileUpload
-              label="+ Add document"
+              label={I18n.t('COMMON.ADD_DOCUMENT')}
               onChosen={this.props.onUpload}
               className="btn btn-default-outline"
             />

@@ -72,6 +72,7 @@
       "CONTACTS": {
         "TITLE": "Контакты",
         "VERIFIED": "Подтвержден",
+        "VERIFY": "Подтвердить",
         "VERIFY_PHONE": "Подтвердить телефон",
         "VERIFY_EMAIL": "Подтвердить email",
         "LABEL": {
@@ -84,6 +85,14 @@
         "VERIFY_KYC": {
           "TITLE": "Ошибка",
           "ERROR": "Необходимо сохранить персональные данные"
+        },
+        "LABEL": {
+          "FIRST_NAME": "Имя",
+          "LAST_NAME": "Фамилия",
+          "LANGUAGE": "Язык",
+          "DATE_OF_BIRTH": "Дата рождения",
+          "GENDER": "Пол",
+          "IDENTIFIER": "ID номер"
         }
       },
       "ADDITIONAL": {
@@ -93,6 +102,13 @@
         "TITLE": "Адрес",
         "VERIFY_KYC": {
           "ERROR": "Необходимо сохранить адрес"
+        },
+        "LABEL": {
+          "COUNTRY": "Страна",
+          "CITY": "Город",
+          "POST_CODE": "Почтовый индекс",
+          "FULL_ADDR": "Полный адрес",
+          "PO_BOX": "Абонентский ящик"
         }
       },
       "TITLE": "Профиль",
@@ -676,6 +692,7 @@
     "FROM": "С",
     "IMPORT": "Импорт",
     "EMAIL": "E-mail",
+    "SKYPE": "Skype",
     "PHONE": "Телефон",
     "DEPARTMENT": "Департамент",
     "ROLE": "Роль",
@@ -813,8 +830,16 @@
     "PERMANENT": "Постоянный",
     "CRM_USER_DEFINITION": "Профиль клиента",
     "CASINO_USER_DEFINITION": "Профиль игрока",
+    "LANGUAGE_NAME": {
+      "EN": "Английский",
+      "RU": "Русский",
+      "ES": "Испанский",
+      "DE": "Немецкий",
+      "IT": "Итальянский"
+    },
     "COMMENT": "Комментарий",
-    "UPLOAD": "Загрузить"
+    "UPLOAD": "Загрузить",
+    "ADD_DOCUMENT": "+ Прикрепить документ"
   },
   "FILES": {
     "UPLOAD_MODAL": {
@@ -2220,5 +2245,10 @@
     "EMAIL": "Почта",
     "PASSWORD": "Пароль",
     "LOGIN": "Войти"
+  },
+  "CLIENT_PROFILE": {
+    "PROFILE": {
+      "TITLE": "Профиль"
+    }
   }
 }

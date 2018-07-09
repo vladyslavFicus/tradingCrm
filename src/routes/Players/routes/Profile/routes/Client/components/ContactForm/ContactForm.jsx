@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 import PropTypes from '../../../../../../../../constants/propTypes';
 import PhoneForm from './PhoneForm';
 import EmailForm from './EmailForm';
+import SkypeForm from './SkypeForm';
 
 const ContactForm = ({
   disabled,
@@ -25,7 +26,6 @@ const ContactForm = ({
         phoneCode: contactData.phoneCode,
       }}
     />
-    <hr />
     <EmailForm
       disabled={disabled}
       profileStatus={profile.profileStatus}
@@ -34,6 +34,10 @@ const ContactForm = ({
       initialValues={{
         email: contactData.email,
       }}
+    />
+    <SkypeForm
+      disabled={disabled}
+      onSubmit={onSubmitEmail}
     />
   </Fragment>
 );

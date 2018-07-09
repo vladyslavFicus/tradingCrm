@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
-import { connect } from 'react-redux';
 import { compose } from 'redux';
+import { connect } from 'react-redux';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { getFormValues, Field, reduxForm } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
@@ -123,7 +123,6 @@ class RefuseModal extends Component {
           <Field
             name={`${type}_reason`}
             component={SelectField}
-            position="vertical"
           >
             <option>{I18n.t('COMMON.CHOOSE_REASON')}</option>
             {reasons.map(item => (

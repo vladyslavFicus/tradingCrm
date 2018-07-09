@@ -1,18 +1,20 @@
 import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
+import { uniqBy } from 'lodash';
 import moment from 'moment';
 import PropTypes from '../../../../../../../constants/propTypes';
-import { InputField, SelectField, DateTimeField } from '../../../../../../../components/ReduxForm';
+import { InputField, SelectField, DateTimeField, NasSelectField } from '../../../../../../../components/ReduxForm';
 import { createValidator } from '../../../../../../../utils/validator';
 import PermissionContent from '../../../../../../../components/PermissionContent';
 import permissions from '../../../../../../../config/permissions';
+import languageNames from '../../../../../../../constants/languageNames';
 
 const genders = ['UNDEFINED', 'MALE', 'FEMALE'];
 const attributeLabels = {
   firstName: I18n.t('PLAYER_PROFILE.PROFILE.PERSONAL.LABEL.FIRST_NAME'),
   lastName: I18n.t('PLAYER_PROFILE.PROFILE.PERSONAL.LABEL.LAST_NAME'),
-  identifier: I18n.t('PLAYER_PROFILE.PROFILE.PERSONAL.LABEL.IDENTIFIER'),
+  languageCode: I18n.t('PLAYER_PROFILE.PROFILE.PERSONAL.LABEL.LANGUAGE'),
   birthDate: I18n.t('PLAYER_PROFILE.PROFILE.PERSONAL.LABEL.DATE_OF_BIRTH'),
   gender: I18n.t('PLAYER_PROFILE.PROFILE.PERSONAL.LABEL.GENDER'),
 };
@@ -76,7 +78,7 @@ class PersonalForm extends Component {
             component={InputField}
             disabled={disabled}
             id="users-profile-first-name"
-            className="col-lg-4"
+            className="col-lg-6"
           />
           <Field
             name="lastName"
@@ -85,18 +87,26 @@ class PersonalForm extends Component {
             component={InputField}
             disabled={disabled}
             id="users-profile-last-name"
-            className="col-lg-4"
+            className="col-lg-6"
           />
         </div>
         <div className="row">
           <Field
-            name="identifier"
-            label={attributeLabels.identifier}
+            name="languageCode"
+            label={attributeLabels.languageCode}
             type="text"
-            component={InputField}
+            className="col-lg-4"
+            component={NasSelectField}
             disabled={disabled}
-            className="col-lg"
-          />
+          >
+            {
+              uniqBy(languageNames, 'languageCode').map(item => (
+                <option key={item.languageCode} value={item.languageCode}>
+                  {I18n.t(item.languageName)}
+                </option>
+              ))
+            }
+          </Field>
           <Field
             name="birthDate"
             label={attributeLabels.birthDate}
@@ -104,7 +114,7 @@ class PersonalForm extends Component {
             timeFormat={null}
             disabled={disabled}
             isValidDate={this.ageValidator}
-            className="col-lg"
+            className="col-lg-3"
           />
           <Field
             name="gender"
@@ -112,7 +122,7 @@ class PersonalForm extends Component {
             type="text"
             component={SelectField}
             disabled={disabled}
-            className="col-lg"
+            className="col-lg-3"
           >
             {genders.map(item => (
               <option key={item} value={item}>
