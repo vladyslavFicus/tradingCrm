@@ -15,6 +15,8 @@ import {
 import { kycNoteTypes } from '../constants';
 import './View.scss';
 import TabHeader from '../../../../../../../components/TabHeader';
+import PermissionContent from '../../../../../../../components/PermissionContent';
+import permissions from '../../../../../../../config/permissions';
 
 const REFUSE_MODAL = 'refuse-modal';
 const VERIFY_MODAL = 'verify-modal';
@@ -419,7 +421,18 @@ class View extends Component {
 
     return (
       <Fragment>
-        <TabHeader title={I18n.t('CLIENT_PROFILE.PROFILE.TITLE')} />
+        <TabHeader title={I18n.t('CLIENT_PROFILE.PROFILE.TITLE')}>
+          <PermissionContent permissions={permissions.USER_PROFILE.REQUEST_KYC}>
+            <button
+              id="request-kyc-button"
+              type="button"
+              className="btn btn-sm btn-primary-outline"
+              onClick={this.handleOpenRequestKycVerificationModal}
+            >
+              {I18n.t('PLAYER_PROFILE.PROFILE.REQUEST_KYC_VERIFICATION')}
+            </button>
+          </PermissionContent>
+        </TabHeader>
         <div className="tab-wrapper">
           <div className="client-flex-wrapper">
             <div className="client-big-col">
