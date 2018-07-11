@@ -4,6 +4,7 @@ import Permissions from '../../../../../../../utils/permissions';
 import { Route } from '../../../../../../../router';
 import PropTypes from '../../../../../../../constants/propTypes';
 import GameActivity from '../routes/GameActivity';
+import TradingActivity from '../routes/TradingActivity';
 import StickyNavigation from '../../../components/StickyNavigation';
 import Payments from '../routes/Payments';
 import { routes } from '../constants';
@@ -18,6 +19,7 @@ class Transactions extends PureComponent {
       path: PropTypes.string.isRequired,
       url: PropTypes.string.isRequired,
     }).isRequired,
+    checkService: PropTypes.func.isRequired,
   };
 
   static childContextTypes = {
@@ -35,11 +37,16 @@ class Transactions extends PureComponent {
   }
 
   get tabs() {
-    const { currentPermissions, match: { url } } = this.props;
+    const {
+      currentPermissions,
+      match: { url },
+      checkService,
+    } = this.props;
 
     return routes
       .map(i => ({ ...i, url: `${url}${i.url}` }))
-      .filter(i => !(i.permissions instanceof Permissions) || i.permissions.check(currentPermissions));
+      .filter(i => (!(i.permissions instanceof Permissions) || i.permissions.check(currentPermissions))
+        && (i.service ? checkService(i.service) : true));
   }
 
   setRenderActions = renderActions => this.setState({ renderActions });
@@ -70,6 +77,7 @@ class Transactions extends PureComponent {
         <Switch>
           <Route disableScroll path={`${path}/payments/:paymentUUID?`} component={Payments} />
           <Route disableScroll path={`${path}/game-activity`} component={GameActivity} />
+          <Route disableScroll path={`${path}/trading-activity`} component={TradingActivity} />
           <Redirect to={redirectUrl} />
         </Switch>
       </Fragment>

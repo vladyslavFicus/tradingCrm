@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { Route as DomRoute, matchPath, withRouter, Redirect } from 'react-router-dom';
+import { Route as DomRoute, matchPath, Redirect } from 'react-router-dom';
 import Forbidden from '../../routes/Forbidden';
 import Permissions from '../../utils/permissions';
-import { routePermissions } from './config';
 
 class Route extends Component {
   static propTypes = {
@@ -13,6 +11,7 @@ class Route extends Component {
     checkAuth: PropTypes.bool,
     location: PropTypes.object.isRequired,
     history: PropTypes.object.isRequired,
+    checkService: PropTypes.func.isRequired,
     path: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.shape({
@@ -31,6 +30,8 @@ class Route extends Component {
     permissions: [],
     checkAuth: false,
   };
+
+  static config = {};
 
   async componentDidMount() {
     const {
@@ -75,14 +76,21 @@ class Route extends Component {
       path,
       permissions,
     } = this.props;
-    const currentRoutePermissions = routePermissions[path];
+
+    const currentRoutePermissions = Route.config.routePermissions[path];
 
     return !currentRoutePermissions || new Permissions(currentRoutePermissions).check(permissions);
   }
 
+  get routeService() {
+    const { path } = this.props;
+
+    return Route.config.routeServices[path];
+  }
+
   render() {
     const {
-      disableScroll, checkAuth, logged, ...props
+      disableScroll, checkAuth, logged, checkService, ...props
     } = this.props;
 
     if (!this.isValidPermissions) {
@@ -93,8 +101,12 @@ class Route extends Component {
       return <Redirect to={{ pathname: '/sign-in', search: `returnUrl=${props.location.pathname}` }} />;
     }
 
+    if (this.routeService && !checkService(this.routeService)) {
+      return <Redirect to="/not-found" />;
+    }
+
     return <DomRoute {...props} />;
   }
 }
 
-export default withRouter(connect(({ auth: { logged }, permissions: { data: permissions } }) => ({ logged, permissions }))(Route));
+export default Route;

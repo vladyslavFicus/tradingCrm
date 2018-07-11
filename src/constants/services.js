@@ -9,6 +9,8 @@ const services = keyMirror({
   cms: null,
   game_info: null,
   promotion: null,
+  gaming_activity: null,
+  trading_activity: null,
 });
 
 export {

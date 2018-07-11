@@ -1,4 +1,3 @@
-import { asyncRoute } from '../../router';
+import ForbiddenContainer from './containers/NotFoundContainer';
 
-export default asyncRoute(() =>
-  import(/* webpackChunkName: "NotFoundContainer" */ './containers/NotFoundContainer'));
+export default ForbiddenContainer;

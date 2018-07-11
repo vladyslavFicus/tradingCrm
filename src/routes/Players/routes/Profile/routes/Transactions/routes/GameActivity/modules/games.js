@@ -57,6 +57,7 @@ const actionHandlers = {
     receivedAt: endRequestTime,
   }),
 };
+
 const actionTypes = {
   FETCH_GAMES,
 };
