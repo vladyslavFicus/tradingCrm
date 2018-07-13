@@ -47,7 +47,7 @@ function fetchEntities(playerUUID, filters = {}, fetchNotes = fetchNotesFn) {
 
     const action = await dispatch({
       [CALL_API]: {
-        endpoint: `payment/payments/${playerUUID}?${buildQueryString(filters)}`,
+        endpoint: `payment_view/payments/${playerUUID}?${buildQueryString(filters)}`,
         method: 'GET',
         headers: {
           Accept: 'application/json',
