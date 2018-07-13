@@ -1925,8 +1925,8 @@
   },
   "CAMPAIGNS": {
     "CAMPAIGN_NAME": "Campaign name",
-    "FREE_SPIN_TEMPLATE": "Free spin template",
-    "BONUS_TEMPLATE": "Bonus template",
+    "FREE_SPIN_TEMPLATE": "Free spin",
+    "BONUS_TEMPLATE": "Bonus",
     "WAGERING_FULFILLMENT": "Wagering fulfillment",
     "SELECT_REWARD": "-- Select reward --",
     "SELECT_FULFILLMENT": "-- Select fulfillment --",
@@ -2017,7 +2017,8 @@
             "BONUS_LIFE_TIME": "Bonus life time",
             "CLAIMABLE": "Claimable",
             "PRIZE": "Prize",
-            "PRIZE_CAPPING_TYPE": "Prize & Capping type"
+            "PRIZE_CAPPING_TYPE": "Prize & Capping type",
+            "TEMPLATE": "Template"
           },
           "TEMPLATES": "Bonus templates",
           "ADD_BONUS_TEMPLATE": "Create template"

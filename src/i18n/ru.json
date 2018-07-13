@@ -2032,7 +2032,8 @@
             "BONUS_LIFE_TIME": "Время жизни бонуса",
             "CLAIMABLE": "Требовать подтверждения",
             "PRIZE": "Цена",
-            "PRIZE_CAPPING_TYPE": "Тип приза и капинга"
+            "PRIZE_CAPPING_TYPE": "Тип приза и капинга",
+            "TEMPLATE": "Шаблон"
           },
           "TEMPLATES": "Шаблоны",
           "ADD_BONUS_TEMPLATE": "Создать шаблон"

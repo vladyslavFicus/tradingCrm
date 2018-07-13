@@ -107,11 +107,10 @@ class BonusView extends PureComponent {
                   name={`${name}.uuid`}
                   id="campaign-bonus-templates-select"
                   disabled={disabled}
-                  label={I18n.t(attributeLabels.templates)}
+                  label={I18n.t(attributeLabels.template)}
                   component={NasSelectField}
                   showErrorMessage={false}
                   className="mb-0"
-                  position="vertical"
                   helpText={
                     <If condition={template.uuid}>
                       <Uuid
