@@ -11,7 +11,6 @@ import permissions from '../../../../../../config/permissions';
 import PendingPayouts from './PendingPayouts';
 import { services } from '../../../../../../constants/services';
 
-
 class Information extends PureComponent {
   static propTypes = {
     data: PropTypes.object,
