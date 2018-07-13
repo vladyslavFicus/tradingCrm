@@ -15,6 +15,7 @@ GridViewColumn.propTypes = {
   style: PropTypes.object,
   children: PropTypes.any,
 };
+
 GridViewColumn.defaultProps = {
   header: null,
   headerClassName: null,

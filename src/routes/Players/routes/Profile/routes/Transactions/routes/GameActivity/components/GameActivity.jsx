@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import moment from 'moment';
 import classNames from 'classnames';
 import { I18n } from 'react-redux-i18n';
@@ -273,7 +273,7 @@ class GameActivity extends Component {
     } = this.props;
 
     return (
-      <div>
+      <Fragment>
         <FilterForm
           providers={providers}
           aggregators={aggregators}
@@ -332,7 +332,7 @@ class GameActivity extends Component {
             />
           </GridView>
         </div>
-      </div>
+      </Fragment>
     );
   }
 }

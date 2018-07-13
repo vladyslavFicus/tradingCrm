@@ -6,10 +6,11 @@ import Personal from './Personal';
 import Additional from './Additional';
 import Notes from './Notes';
 import PermissionContent from '../../../../../../components/PermissionContent';
+import { withServiceCheck } from '../../../../../../components/HighOrder';
 import permissions from '../../../../../../config/permissions';
 import PendingPayouts from './PendingPayouts';
 import { services } from '../../../../../../constants/services';
-import ServiceContent from '../../../../../../components/ServiceContent';
+
 
 class Information extends PureComponent {
   static propTypes = {
@@ -18,6 +19,7 @@ class Information extends PureComponent {
     onEditNoteClick: PropTypes.func.isRequired,
     ips: PropTypes.array.isRequired,
     notes: PropTypes.object,
+    checkService: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -32,6 +34,7 @@ class Information extends PureComponent {
       updateSubscription,
       notes,
       onEditNoteClick,
+      checkService,
     } = this.props;
 
     return (
@@ -54,9 +57,9 @@ class Information extends PureComponent {
           <div className="col-md-2">
             <IpList label={I18n.t('PLAYER_PROFILE.IP_LIST.TITLE')} ips={ips} />
           </div>
-          <ServiceContent service={services.dwh}>
+          <If condition={checkService(services.dwh)}>
             <PendingPayouts playerUUID={data.playerUUID} />
-          </ServiceContent>
+          </If>
           <PermissionContent permissions={permissions.NOTES.VIEW_NOTES}>
             <div className="col">
               <Notes
@@ -71,4 +74,4 @@ class Information extends PureComponent {
   }
 }
 
-export default Information;
+export default withServiceCheck(Information);

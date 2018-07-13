@@ -1106,7 +1106,8 @@
       },
       "ROUTES": {
         "PAYMENTS": "Payments",
-        "GAMING_ACTIVITY": "Gaming activity"
+        "GAMING_ACTIVITY": "Gaming activity",
+        "TRADING_ACTIVITY": "Trading Activity"
       }
     },
     "CAMPAIGNS": {
@@ -2234,6 +2235,71 @@
   "CLIENT_PROFILE": {
     "PROFILE": {
       "TITLE": "Profile"
+    },
+    "TRADING_ACTIVITY": {
+      "GRID_VIEW": {
+        "TRADE": "Trade",
+        "TYPE": "Type",
+        "TRADING_ACC": "Trading Acc.",
+        "OPEN_PRICE": "Open price",
+        "CLOSE_PRICE": "Close price",
+        "VOLUME": "Volume",
+        "COMISSION": "Comission",
+        "SWAP": "Swap",
+        "P&L": "P&L",
+        "OPEN_TIME": "Open time",
+        "CLOSE_TIME": "Close time",
+        "STATUS": "Status"
+      },
+      "FILTER_FORM": {
+        "TRADE_LABEL": "Trade",
+        "TRADE_PLACEHOLDER": "Trade ID",
+        "TYPE_LABEL": "Type",
+        "SYMBOL_LABEL": "Symbol",
+        "VOLUME_LABEL": "Volume",
+        "STATUS_LABEL": "Status",
+        "OPEN_TIME_RANGE_LABEL": "Open time range",
+        "CLOSE_TIME_RANGE_LABEL": "Close time range",
+        "TYPES": {
+          "BUY": "Buy",
+          "SELL": "Sell",
+          "BUY_LIMIT": "Buy limit",
+          "SELL_LIMIT": "Sell limit",
+          "BUY_STOP": "Buy stop",
+          "SELL_STOP": "Sell stop",
+          "BALANCE": "Balance",
+          "CREDIT": "Credit"
+        },
+        "SYMBOLS": {
+          "USDCHF": "US Dollar vs Swiss Franc",
+          "GBPUSD": "British Pound vs US Dollar",
+          "EURUSD": "Euro vs US Dollar",
+          "USDJPY": "US Dollar vs Japanese Yen",
+          "USDCAD": "US Dollar vs Canadian Dollar",
+          "AUDUSD": "Australian Dollar vs US Dollar",
+          "EURGBP": "Euro vs British Pound",
+          "EURAUD": "Euro vs Australian Dollar",
+          "EURCHF": "Euro vs Swiss Franc",
+          "EURJPY": "Euro vs Japanese Yen",
+          "GBPCHF": "British Pound vs Swiss Franc",
+          "CADJPY": "Canadian Dollar vs Japanese Yen",
+          "GBPJPY": "British Pound vs Japanese Yen",
+          "AUDNZD": "Australian Dollar vs New Zealand Dollar",
+          "AUDCAD": "Australian Dollar vs Canadian Dollar",
+          "AUDCHF": "Australian Dollar vs Swiss Franc",
+          "AUDJPY": "Australian Dollar vs Japanese Yen",
+          "CHFJPY": "Swiss Franc vs Japanese Yen",
+          "EURNZD": "Euro vs New Zealand Dollar",
+          "EURCAD": "Euro vs Canadian Dollar",
+          "CADCHF": "Canadian Dollar vs Swiss Franc",
+          "NZDJPY": "New Zealand Dollar vs Japanese Yen",
+          "NZDUSD": "New Zealand Dollar vs US Dollar"
+        },
+        "STATUSES": {
+          "OPEN": "Open",
+          "CLOSED": "Closed"
+        }
+      }
     }
   }
 }

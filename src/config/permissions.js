@@ -112,6 +112,9 @@ export default {
   GAMING_ACTIVITY: {
     PLAYER_GAMING_ACTIVITY: 'gaming_activity;GET;/gaming/activity/{playerUUID}',
   },
+  TRADING_ACTIVITY: {
+    CLIENT_TRADING_ACTIVITY: 'trading_activity;GET;',
+  },
   FREE_SPIN: {
     PLAYER_FREE_SPIN_LIST: 'free_spin;GET;/free-spins/{playerUUID}',
   },

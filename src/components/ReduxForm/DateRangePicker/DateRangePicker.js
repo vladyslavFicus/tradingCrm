@@ -8,7 +8,7 @@ import { omit } from 'lodash';
 import { Field } from 'redux-form';
 import { DateRangePickerPhrases } from 'react-dates/lib/defaultPhrases';
 import { DateRangePickerShape, isInclusivelyAfterDay, isSameDay } from 'react-dates/lib';
-import { START_DATE, END_DATE, HORIZONTAL_ORIENTATION, ANCHOR_LEFT } from 'react-dates/constants';
+import { START_DATE, END_DATE, HORIZONTAL_ORIENTATION, ANCHOR_RIGHT } from 'react-dates/constants';
 import DateRangePickerController from 'react-dates/lib/components/DateRangePicker';
 
 import 'react-dates/initialize';
@@ -93,7 +93,7 @@ class DateRangePicker extends React.Component {
 
   render() {
     const { focusedInput, startDate, endDate } = this.state;
-    const { periodKeys: { start, end } } = this.props;
+    const { periodKeys: { start, end }, anchorDirection } = this.props;
 
     const props = omit(this.props, [
       'autoFocus',
@@ -121,7 +121,7 @@ class DateRangePicker extends React.Component {
           noBorder
           daySize={41}
           transitionDuration={0}
-          anchorDirection="right"
+          anchorDirection={anchorDirection}
           customInputIcon={<i className="fa fa-calendar" />}
           inputIconPosition="after"
         />
@@ -145,6 +145,7 @@ DateRangePicker.propTypes = {
   autoFocusEndDate: PropTypes.bool,
   initialStartDate: momentPropTypes.momentObj,
   initialEndDate: momentPropTypes.momentObj,
+  anchorDirection: PropTypes.string,
 
   ...omit(DateRangePickerShape, [
     'startDate',
@@ -152,11 +153,14 @@ DateRangePicker.propTypes = {
     'change',
     'focusedInput',
     'onFocusChange',
+    'onDatesChange',
+    'anchorDirection',
   ]),
 
   withTime: PropTypes.bool,
   dateFormat: PropTypes.string,
 };
+
 DateRangePicker.defaultProps = {
   autoFocus: false,
   autoFocusEndDate: false,
@@ -178,7 +182,7 @@ DateRangePicker.defaultProps = {
   small: false,
   renderMonth: null,
   orientation: HORIZONTAL_ORIENTATION,
-  anchorDirection: ANCHOR_LEFT,
+  anchorDirection: ANCHOR_RIGHT,
   horizontalMargin: 0,
   withPortal: false,
   withFullScreenPortal: false,

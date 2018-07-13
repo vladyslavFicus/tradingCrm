@@ -20,8 +20,8 @@ import HeaderPlayerPlaceholder from '../HeaderPlayerPlaceholder';
 import { statuses } from '../../../../../../constants/user';
 import { services } from '../../../../../../constants/services';
 import PermissionContent from '../../../../../../components/PermissionContent';
+import { withServiceCheck } from '../../../../../../components/HighOrder';
 import ActivePlan from '../ActivePlan';
-import ServiceContent from '../../../../../../components/ServiceContent';
 
 const sendActivationLinkPermission = new Permissions([permissions.USER_PROFILE.SEND_ACTIVATION_LINK]);
 const playerLimitsPermission = [
@@ -106,6 +106,7 @@ class Header extends Component {
     onShareProfileClick: PropTypes.func.isRequired,
     profileStatusDate: PropTypes.string,
     profileStatusAuthor: PropTypes.string,
+    checkService: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -193,6 +194,7 @@ class Header extends Component {
       loaded,
       onChangePasswordClick,
       onShareProfileClick,
+      checkService,
     } = this.props;
 
     const { permissions: currentPermissions } = this.context;
@@ -333,13 +335,13 @@ class Header extends Component {
               on {moment.utc(registrationDate).local().format('DD.MM.YYYY')}
             </div>
           </div>
-          <ServiceContent service={services.dwh}>
+          <If condition={checkService(services.dwh)}>
             <ActivePlan playerUUID={playerUUID} />
-          </ServiceContent>
+          </If>
         </div>
       </Fragment>
     );
   }
 }
 
-export default Header;
+export default withServiceCheck(Header);

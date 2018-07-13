@@ -1,5 +1,7 @@
+import { compose } from 'redux';
 import { connect } from 'react-redux';
 import Transactions from '../components/Transactions';
+import { withServiceCheck } from '../../../../../../../components/HighOrder';
 
 const mapStateToProps = ({
   permissions: {
@@ -10,5 +12,8 @@ const mapStateToProps = ({
 });
 
 
-export default connect(mapStateToProps)(Transactions);
+export default compose(
+  withServiceCheck,
+  connect(mapStateToProps)
+)(Transactions);
 
