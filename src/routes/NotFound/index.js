@@ -1,3 +1,3 @@
-import ForbiddenContainer from './containers/NotFoundContainer';
+import NotFoundContainer from './containers/NotFoundContainer';
 
-export default ForbiddenContainer;
+export default NotFoundContainer;
