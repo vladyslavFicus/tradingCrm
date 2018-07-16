@@ -109,7 +109,14 @@ class View extends Component {
   };
 
   async componentDidMount() {
-    const kycReasonsAction = await this.props.fetchKycReasons();
+    const {
+      fetchFiles,
+      fetchKycReasons,
+      profile: { data: { playerUUID } },
+    } = this.props;
+
+    fetchFiles(playerUUID);
+    const kycReasonsAction = await fetchKycReasons();
 
     console.info('kycReasonsAction');
     console.info(kycReasonsAction ? JSON.stringify(kycReasonsAction.payload) : kycReasonsAction);
