@@ -79,9 +79,7 @@ class CampaignCreate extends PureComponent {
   render() {
     return (
       <div className="profile">
-        <div className="profile__info">
-          <Header />
-        </div>
+        <Header />
         <Form
           form="createCampaign"
           initialValues={{

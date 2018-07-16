@@ -173,7 +173,6 @@ class CreateBonusModal extends PureComponent {
               type="text"
               label={I18n.t(attributeLabels.name)}
               component={InputField}
-              position="vertical"
               className="col-md-8"
               id="campaign-create-bonus-modal-name"
             />
@@ -185,7 +184,6 @@ class CreateBonusModal extends PureComponent {
               type="select"
               component={SelectField}
               onChange={this.handlePrizeCappingType}
-              position="vertical"
               className="col-md-4"
               id="campaign-create-bonus-modal-prize-caping-type"
             >
@@ -205,7 +203,6 @@ class CreateBonusModal extends PureComponent {
                   component={InputField}
                   label={this.renderCappingPrizeLabel(attributeLabels.prize)}
                   type="text"
-                  position="vertical"
                   className="col-md-4"
                   id="campaign-create-bonus-modal-min-prize-percentage"
                 />
@@ -216,7 +213,6 @@ class CreateBonusModal extends PureComponent {
                   component={InputField}
                   label={this.renderCappingPrizeLabel(attributeLabels.capping)}
                   type="text"
-                  position="vertical"
                   className="col-md-4"
                   id="campaign-create-bonus-modal-capping-percentage"
                 />
@@ -277,7 +273,6 @@ class CreateBonusModal extends PureComponent {
               label={I18n.t(attributeLabels.lockAmountStrategy)}
               type="select"
               component={SelectField}
-              position="vertical"
               className="col-md-6"
               id="campaign-create-bonus-modal-lock-amount-strategy"
             >
@@ -293,7 +288,6 @@ class CreateBonusModal extends PureComponent {
               type="text"
               label={I18n.t(attributeLabels.moneyPriority)}
               component={SelectField}
-              position="vertical"
               className="col-md-6"
               id="campaign-create-bonus-modal-money-type-priority"
             >
@@ -318,7 +312,6 @@ class CreateBonusModal extends PureComponent {
               placeholder="0"
               label={I18n.t(attributeLabels.lifeTime)}
               component={InputField}
-              position="vertical"
               id="campaign-create-bonus-modal-bonus-life-time"
               className="col-md-4"
               inputAddon={I18n.t(attributePlaceholders.days)}

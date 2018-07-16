@@ -71,7 +71,6 @@ class Countries extends Component {
           />
         }
         component={NasSelectField}
-        position="vertical"
         multiple
         className={className}
       >

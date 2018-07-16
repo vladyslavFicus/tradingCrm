@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { compose } from 'redux';
 import { I18n } from 'react-redux-i18n';
+import classNames from 'classnames';
 import PropTypes from '../../../../../../../constants/propTypes';
 import { withModals } from '../../../../../../../components/HighOrder';
 import UploadPlayersModal from './UploadPlayersModalContainer';
@@ -13,9 +13,11 @@ class UploadPlayersButton extends Component {
     modals: PropTypes.shape({
       uploadPlayerModal: PropTypes.modalType,
     }).isRequired,
+    className: PropTypes.string,
   };
   static defaultProps = {
     actions: [],
+    className: null,
   };
 
   handleClickUpload = () => {
@@ -32,7 +34,7 @@ class UploadPlayersButton extends Component {
   };
 
   render() {
-    const { actions } = this.props;
+    const { actions, className } = this.props;
 
     if (!actions.length) {
       return null;
@@ -41,7 +43,7 @@ class UploadPlayersButton extends Component {
     return (
       <button
         type="button"
-        className="btn btn-sm btn-default-outline margin-right-10"
+        className={classNames('btn btn-default-outline btn-sm', className)}
         onClick={this.handleClickUpload}
       >
         {I18n.t(attributeLabels.uploadPlayers)}
@@ -50,6 +52,6 @@ class UploadPlayersButton extends Component {
   }
 }
 
-export default compose(
-  withModals({ uploadPlayerModal: UploadPlayersModal }),
-)(UploadPlayersButton);
+export default withModals({
+  uploadPlayerModal: UploadPlayersModal,
+})(UploadPlayersButton);

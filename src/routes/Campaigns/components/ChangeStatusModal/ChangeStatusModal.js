@@ -55,7 +55,6 @@ class ChangeStatusModal extends Component {
       name="reason"
       label={I18n.t(attributeLabels.reason)}
       component={SelectField}
-      position="vertical"
     >
       <option value="">{I18n.t('COMMON.SELECT_OPTION.REASON')}</option>
       {Object.keys(reasons).map(key => (
@@ -121,7 +120,11 @@ class ChangeStatusModal extends Component {
           </ModalBody>
 
           <ModalFooter>
-            <button className="btn btn-default-outline mr-auto" onClick={onCloseModal}>
+            <button
+              type="button"
+              className="btn btn-default-outline mr-auto"
+              onClick={onCloseModal}
+            >
               {I18n.t('CAMPAIGNS.CHANGE_STATUS_MODAL.CANCEL_BUTTON')}
             </button>
             <button
