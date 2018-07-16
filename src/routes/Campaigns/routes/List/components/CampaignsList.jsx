@@ -124,6 +124,9 @@ class CampaignsList extends Component {
             <When condition={loading}>
               <ShortLoader />
             </When>
+            <When condition={!campaigns}>
+              {I18n.t('COMMON.UNKNOWN_ERROR')}
+            </When>
             <Otherwise>
               <GridView
                 locale={locale}

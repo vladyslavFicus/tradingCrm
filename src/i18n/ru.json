@@ -839,7 +839,8 @@
     },
     "COMMENT": "Комментарий",
     "UPLOAD": "Загрузить",
-    "ADD_DOCUMENT": "+ Прикрепить документ"
+    "ADD_DOCUMENT": "+ Прикрепить документ",
+    "UNKNOWN_ERROR": "Неизвестная ошибка"
   },
   "FILES": {
     "UPLOAD_MODAL": {
@@ -2322,6 +2323,31 @@
         "STATUSES": {
           "OPEN": "",
           "CLOSED": ""
+        },
+        "SYMBOLS": {
+          "USDCHF": "",
+          "GBPUSD": "",
+          "EURUSD": "",
+          "USDJPY": "",
+          "USDCAD": "",
+          "AUDUSD": "",
+          "EURGBP": "",
+          "EURAUD": "",
+          "EURCHF": "",
+          "EURJPY": "",
+          "GBPCHF": "",
+          "CADJPY": "",
+          "GBPJPY": "",
+          "AUDNZD": "",
+          "AUDCAD": "",
+          "AUDCHF": "",
+          "AUDJPY": "",
+          "CHFJPY": "",
+          "EURNZD": "",
+          "EURCAD": "",
+          "CADCHF": "",
+          "NZDJPY": "",
+          "NZDUSD": ""
         }
       }
     }
