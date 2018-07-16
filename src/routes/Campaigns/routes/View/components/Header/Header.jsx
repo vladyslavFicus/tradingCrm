@@ -142,40 +142,35 @@ class Header extends Component {
               {campaignName}
             </div>
             <div className="panel-heading-row__info-ids">
-              <span className="short__uuid">
-                <Uuid uuid={uuid} uuidPrefix="CA" />
-              </span>
+              <Uuid uuid={uuid} uuidPrefix="CA" />
             </div>
           </div>
-          <div className="col-auto panel-heading-row__actions">
+          <div className="panel-heading-row__actions">
             <If condition={isAllowPlayersUpload}>
-              <span>
-                <button
-                  className="btn btn-sm btn-default-outline margin-right-10"
-                  onClick={this.handleRemoveAllPlayers}
-                >
-                  {I18n.t('CAMPAIGNS.REMOVE_PLAYERS.BUTTON')}
-                </button>
-              </span>
+              <button
+                type="button"
+                className="btn btn-default-outline btn-sm mr-2"
+                onClick={this.handleRemoveAllPlayers}
+              >
+                {I18n.t('CAMPAIGNS.REMOVE_PLAYERS.BUTTON')}
+              </button>
             </If>
             <UploadPlayersButton
               actions={availableUploadActions}
               campaignUuid={uuid}
+              className="mx-2"
             />
-            <span className="margin-left-10">
-              <ActionsDropDown
-                items={[
-                  {
-                    label: I18n.t('BONUS_CAMPAIGNS.OPTIONS.CLONE_LABEL'),
-                    onClick: cloneCampaign,
-                    visible: cloneCampaignPermission.check(currentPermissions),
-                  },
-                ]}
-              />
-            </span>
+            <ActionsDropDown
+              items={[
+                {
+                  label: I18n.t('BONUS_CAMPAIGNS.OPTIONS.CLONE_LABEL'),
+                  onClick: cloneCampaign,
+                  visible: cloneCampaignPermission.check(currentPermissions),
+                },
+              ]}
+            />
           </div>
         </div>
-
         <div className="layout-quick-overview">
           <div className="header-block header-block_account">
             <StatusDropDown
