@@ -140,7 +140,6 @@ class FreeSpinView extends PureComponent {
             label={I18n.t(attributeLabels.template)}
             component={NasSelectField}
             showErrorMessage={false}
-            position="vertical"
             id="campaign-freespin-templates-select"
             className="col"
             helpText={

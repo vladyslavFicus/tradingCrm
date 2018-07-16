@@ -31,7 +31,6 @@ const ExcludedPaymentMethods = ({ paymentMethods, disabled, name }, { _reduxForm
           name={name}
           label={label}
           component={NasSelectField}
-          position="vertical"
           multiple
           id="campaign-deposit-ful-excluded"
         >
