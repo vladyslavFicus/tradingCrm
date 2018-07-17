@@ -371,7 +371,7 @@ class CampaignList extends Component {
   renderRewards = ({ rewards }) => (
     <div className="font-weight-700 color-black">
       <CountItems
-        items={rewards}
+        items={rewards.map(item => item.uuid)}
         prefixOptions={{
           'BONUS-TPL': I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.REWARDS.BONUS'),
           'FREE-SPIN-TPL': I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.REWARDS.FREE_SPIN'),
