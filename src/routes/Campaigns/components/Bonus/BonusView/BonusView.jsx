@@ -54,10 +54,12 @@ class BonusView extends PureComponent {
     }),
     disabled: PropTypes.bool,
     isViewMode: PropTypes.bool,
+    type: PropTypes.string,
   };
 
   static defaultProps = {
     uuid: null,
+    type: null,
     onChangeUUID: null,
     isViewMode: false,
     name: '',
@@ -70,6 +72,12 @@ class BonusView extends PureComponent {
     const { optionCurrencies: { options } } = this.props;
 
     return get(options, 'signUp.post.currency.rates', []);
+  }
+
+  get isShowDeviceType() {
+    const { isViewMode, type } = this.props;
+
+    return !isViewMode && !!type;
   }
 
   handleOpenCreateModal = () => {
@@ -104,23 +112,28 @@ class BonusView extends PureComponent {
 
     return (
       <div className="campaigns-template">
+        <If condition={this.isShowDeviceType}>
+          <div className="row campaigns-template__bordered-bottom-block">
+            <Field
+              name={`${name}.deviceType`}
+              label={I18n.t(rewardAttributeLabels.deviceType)}
+              component={SelectField}
+              showErrorMessage={false}
+              className="col-md-6"
+              disabled={disabled}
+            >
+              <option value="">{I18n.t(rewardAttributeLabels.chooseDeviceType)}</option>
+              {Object.keys(deviceTypes).map(key => (
+                <option key={key} value={key}>
+                  {renderLabel(key, deviceTypesLabels)}
+                </option>
+              ))}
+            </Field>
+          </div>
+        </If>
         <div className="row">
           <Choose>
             <When condition={!isViewMode}>
-              <Field
-                name={`${name}.deviceType`}
-                label={I18n.t(rewardAttributeLabels.deviceType)}
-                component={SelectField}
-                showErrorMessage={false}
-                className="col-md-3"
-              >
-                <option value="">{I18n.t(rewardAttributeLabels.chooseDeviceType)}</option>
-                {Object.keys(deviceTypes).map(key => (
-                  <option key={key} value={key}>
-                    {renderLabel(key, deviceTypesLabels)}
-                  </option>
-                ))}
-              </Field>
               <Field
                 name={`${name}.uuid`}
                 id="campaign-bonus-templates-select"

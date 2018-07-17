@@ -139,13 +139,14 @@ class FreeSpinView extends PureComponent {
 
     return (
       <div className="campaigns-template">
-        <div className="row">
+        <div className="row campaigns-template__bordered-bottom-block">
           <Field
             name={`${name}.deviceType`}
-            label={I18n.t(attributeLabels.deviceType)}
+            label={I18n.t(rewardAttributeLabels.deviceType)}
             component={SelectField}
             showErrorMessage={false}
-            className="col-md-3"
+            className="col-md-6"
+            disabled={disabled}
           >
             <option value="">{I18n.t(rewardAttributeLabels.chooseDeviceType)}</option>
             {Object.keys(deviceTypes).map(key => (
@@ -154,6 +155,8 @@ class FreeSpinView extends PureComponent {
               </option>
             ))}
           </Field>
+        </div>
+        <div className="row">
           <Field
             name={`${name}.uuid`}
             disabled={disabled}
