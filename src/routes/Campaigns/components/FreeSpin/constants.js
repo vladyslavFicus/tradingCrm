@@ -40,7 +40,6 @@ const attributePlaceholders = {
   days: I18n.t('CAMPAIGNS.FREE_SPIN.PLACEHOLDERS.DAYS'),
 };
 
-
 export {
   attributeLabels,
   attributePlaceholders,

@@ -431,6 +431,19 @@ export default compose(
         }
       });
 
+      const rewards = get(values, 'rewards', []);
+
+      if (rewards.length > 0) {
+        rules.rewards = {};
+      }
+
+      rewards.forEach((reward, index) => {
+        rules.rewards[index] = {
+          deviceType: ['required'],
+          uuid: ['required'],
+        };
+      });
+
       return createValidator(rules, translateLabels(attributeLabels), false)(values);
     },
   }),

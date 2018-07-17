@@ -4,9 +4,14 @@ import { I18n } from 'react-redux-i18n';
 import { get } from 'lodash';
 import { Field } from 'redux-form';
 import { TextRow } from 'react-placeholder/lib/placeholders';
-import { NasSelectField } from '../../../../../components/ReduxForm';
+import { NasSelectField, SelectField } from '../../../../../components/ReduxForm';
 import Placeholder from '../../../../../components/Placeholder';
 import Uuid from '../../../../../components/Uuid';
+import {
+  deviceTypes,
+  deviceTypesLabels,
+  attributeLabels as rewardAttributeLabels,
+} from '../../constants';
 import MultiCurrencyView from '../../../../../components/MultiCurrencyView';
 import { customValueFieldTypes } from '../../../../../constants/form';
 import { attributeLabels, attributePlaceholders } from '../constants';
@@ -100,41 +105,53 @@ class BonusView extends PureComponent {
     return (
       <div className="campaigns-template">
         <div className="row">
-          <div className="col">
-            <Choose>
-              <When condition={!isViewMode}>
-                <Field
-                  name={`${name}.uuid`}
-                  id="campaign-bonus-templates-select"
-                  disabled={disabled}
-                  label={I18n.t(attributeLabels.template)}
-                  component={NasSelectField}
-                  showErrorMessage={false}
-                  className="mb-0"
-                  helpText={
-                    <If condition={template.uuid}>
-                      <Uuid
-                        length={16}
-                        uuidPartsCount={3}
-                        uuid={template.uuid}
-                        uuidPrefix="BT"
-                        className="d-block text-left"
-                      />
-                    </If>
-                  }
-                >
-                  {bonusTemplates.map(item => (
-                    <option key={item.uuid} value={item.uuid}>
-                      {item.name}
-                    </option>
-                  ))}
-                </Field>
-              </When>
-              <Otherwise>
-                {initialBonusTemplates ? initialBonusTemplates.name : ''}
-              </Otherwise>
-            </Choose>
-          </div>
+          <Choose>
+            <When condition={!isViewMode}>
+              <Field
+                name={`${name}.deviceType`}
+                label={I18n.t(rewardAttributeLabels.deviceType)}
+                component={SelectField}
+                showErrorMessage={false}
+                className="col-md-3"
+              >
+                <option value="">{I18n.t(rewardAttributeLabels.chooseDeviceType)}</option>
+                {Object.keys(deviceTypes).map(key => (
+                  <option key={key} value={key}>
+                    {renderLabel(key, deviceTypesLabels)}
+                  </option>
+                ))}
+              </Field>
+              <Field
+                name={`${name}.uuid`}
+                id="campaign-bonus-templates-select"
+                disabled={disabled}
+                label={I18n.t(attributeLabels.template)}
+                component={NasSelectField}
+                showErrorMessage={false}
+                className="col"
+                helpText={
+                  <If condition={template.uuid}>
+                    <Uuid
+                      length={16}
+                      uuidPartsCount={3}
+                      uuid={template.uuid}
+                      uuidPrefix="BT"
+                      className="d-block text-left"
+                    />
+                  </If>
+                }
+              >
+                {bonusTemplates.map(item => (
+                  <option key={item.uuid} value={item.uuid}>
+                    {item.name}
+                  </option>
+                ))}
+              </Field>
+            </When>
+            <Otherwise>
+              {initialBonusTemplates ? initialBonusTemplates.name : ''}
+            </Otherwise>
+          </Choose>
           <If condition={!disabled && !isViewMode}>
             <div className="col-auto margin-top-20">
               <button
