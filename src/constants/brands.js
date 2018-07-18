@@ -2,8 +2,9 @@ import keyMirror from 'keymirror';
 import I18n from '../utils/fake-i18n';
 
 const brands = keyMirror({
-  hrzn: null,
+  hrzn_dev2: null,
   vulcanprestige: null,
+  vulcanprestige_prod: null,
   redbox: null,
   slottica: null,
   loki: null,
@@ -28,11 +29,15 @@ const roles = keyMirror({
 });
 
 const brandsConfig = {
-  [brands.hrzn]: {
+  [brands.hrzn_dev2]: {
     name: 'Horizon',
     image: { src: '/img/brand/image/nascasino.png' },
   },
   [brands.vulcanprestige]: {
+    name: 'Vulcan Prestige',
+    image: { src: '/img/brand/image/vulcanprestige.png' },
+  },
+  [brands.vulcanprestige_prod]: {
     name: 'Vulcan Prestige',
     image: { src: '/img/brand/image/vulcanprestige.png' },
   },

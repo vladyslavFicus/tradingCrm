@@ -151,17 +151,14 @@ function getLogo() {
     'slottica',
     'loki',
     'vulcanprestige',
+    'vulcanprestige_prod',
     'vulcanneon',
     'vulcangold',
     'gslots',
     'cerberus',
     'casino_999_dk',
   ];
-  let brandId = getBrandId();
-
-  if (brandId) {
-    brandId = brandId.replace(/(_\w+)/, '');
-  }
+  const brandId = getBrandId();
 
   if (brands.indexOf(brandId) > -1) {
     return `/img/brand/logo/${brandId}.svg`;
