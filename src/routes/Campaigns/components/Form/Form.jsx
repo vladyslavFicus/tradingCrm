@@ -20,8 +20,8 @@ import {
   periodsLabels,
 } from '../../constants';
 import NodeBuilder from '../NodeBuilder';
-import { BonusView } from '../Bonus';
-import { FreeSpinView } from '../FreeSpin';
+import { BonusView } from '../Rewards/Bonus';
+import { FreeSpinView } from '../Rewards/FreeSpin';
 import { WageringView } from '../Wagering';
 import DepositFulfillmentView from '../DepositFulfillmentView';
 import { createValidator, translateLabels } from '../../../../utils/validator';
@@ -429,6 +429,19 @@ export default compose(
             'amounts[0].amount': ['required', 'numeric', 'greater:0'],
           };
         }
+      });
+
+      const rewards = get(values, 'rewards', []);
+
+      if (rewards.length > 0) {
+        rules.rewards = {};
+      }
+
+      rewards.forEach((reward, index) => {
+        rules.rewards[index] = {
+          deviceType: ['required'],
+          uuid: ['required'],
+        };
       });
 
       return createValidator(rules, translateLabels(attributeLabels), false)(values);

@@ -1,12 +1,12 @@
 import { graphql, compose } from 'react-apollo';
 import update from 'react-addons-update';
 import { reduxForm } from 'redux-form';
-import { withNotifications, withReduxFormValues } from '../../../../../components/HighOrder';
-import { addBonusMutation } from '.././../../../../graphql/mutations/bonusTemplates';
-import { shortBonusTemplatesQuery } from '../../../../../graphql/queries/campaigns';
+import { withNotifications, withReduxFormValues } from '../../../../../../components/HighOrder';
+import { addBonusMutation } from '../../../../../../graphql/mutations/bonusTemplates';
+import { shortBonusTemplatesQuery } from '../../../../../../graphql/queries/campaigns';
 import CreateBonusModal from './CreateBonusModal';
 import { wageringRequirementTypes } from '../constants';
-import { customValueFieldTypes } from '../../../../../constants/form';
+import { customValueFieldTypes } from '../../../../../../constants/form';
 import validator from './validator';
 
 export default compose(

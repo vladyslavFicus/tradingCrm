@@ -66,6 +66,7 @@ const campaignQuery = gql`query campaign($campaignUUID: String!){
       rewards {
         type
         uuid
+        deviceType
       }
       fulfillments
       countries

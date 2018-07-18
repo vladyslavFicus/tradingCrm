@@ -1,4 +1,4 @@
-import I18n from '../../../../utils/fake-i18n';
+import I18n from '../../../../../utils/fake-i18n';
 
 const attributeLabels = {
   lifeTime: I18n.t('CAMPAIGNS.REWARDS.FREE_SPIN.LIFE_TIME'),
@@ -39,7 +39,6 @@ const attributeLabels = {
 const attributePlaceholders = {
   days: I18n.t('CAMPAIGNS.FREE_SPIN.PLACEHOLDERS.DAYS'),
 };
-
 
 export {
   attributeLabels,

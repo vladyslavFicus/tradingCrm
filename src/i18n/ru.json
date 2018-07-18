@@ -2067,7 +2067,14 @@
         "LIFE_TIME": "Время жизни",
         "ADD_FREE_SPIN": "Создать шаблон",
         "TEMPLATE": "Шаблон",
-        "STATUS": "Статус"
+        "STATUS": "Статус",
+        "DEVICE_TYPE": "Тип устройства"
+      },
+      "CHOOSE_DEVICE_TYPE": "-- Выберите тип устройства--",
+      "DEVICE_TYPE": {
+        "ALL": "Все",
+        "MOBILE": "Мобильный",
+        "DESKTOP": "Десктоп"
       }
     },
     "NODE_VALIDATION": {

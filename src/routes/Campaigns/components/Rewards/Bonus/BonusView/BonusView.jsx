@@ -4,14 +4,15 @@ import { I18n } from 'react-redux-i18n';
 import { get } from 'lodash';
 import { Field } from 'redux-form';
 import { TextRow } from 'react-placeholder/lib/placeholders';
-import { NasSelectField } from '../../../../../components/ReduxForm';
-import Placeholder from '../../../../../components/Placeholder';
-import Uuid from '../../../../../components/Uuid';
-import MultiCurrencyView from '../../../../../components/MultiCurrencyView';
-import { customValueFieldTypes } from '../../../../../constants/form';
+import { NasSelectField } from '../../../../../../components/ReduxForm';
+import Placeholder from '../../../../../../components/Placeholder';
+import Uuid from '../../../../../../components/Uuid';
+import MultiCurrencyView from '../../../../../../components/MultiCurrencyView';
+import { customValueFieldTypes } from '../../../../../../constants/form';
 import { attributeLabels, attributePlaceholders } from '../constants';
-import renderLabel from '../../../../../utils/renderLabel';
-import { lockAmountStrategyLabels, moneyTypeUsageLabels } from '../../../../../constants/bonus-campaigns';
+import renderLabel from '../../../../../../utils/renderLabel';
+import { lockAmountStrategyLabels, moneyTypeUsageLabels } from '../../../../../../constants/bonus-campaigns';
+import DeviceTypeField from '../../DeviceTypeField';
 
 class BonusView extends PureComponent {
   static propTypes = {
@@ -49,10 +50,12 @@ class BonusView extends PureComponent {
     }),
     disabled: PropTypes.bool,
     isViewMode: PropTypes.bool,
+    type: PropTypes.string,
   };
 
   static defaultProps = {
     uuid: null,
+    type: null,
     onChangeUUID: null,
     isViewMode: false,
     name: '',
@@ -65,6 +68,12 @@ class BonusView extends PureComponent {
     const { optionCurrencies: { options } } = this.props;
 
     return get(options, 'signUp.post.currency.rates', []);
+  }
+
+  get isShowDeviceType() {
+    const { isViewMode, type } = this.props;
+
+    return !isViewMode && !!type;
   }
 
   handleOpenCreateModal = () => {
@@ -99,42 +108,48 @@ class BonusView extends PureComponent {
 
     return (
       <div className="campaigns-template">
-        <div className="row">
-          <div className="col">
-            <Choose>
-              <When condition={!isViewMode}>
-                <Field
-                  name={`${name}.uuid`}
-                  id="campaign-bonus-templates-select"
-                  disabled={disabled}
-                  label={I18n.t(attributeLabels.template)}
-                  component={NasSelectField}
-                  showErrorMessage={false}
-                  className="mb-0"
-                  helpText={
-                    <If condition={template.uuid}>
-                      <Uuid
-                        length={16}
-                        uuidPartsCount={3}
-                        uuid={template.uuid}
-                        uuidPrefix="BT"
-                        className="d-block text-left"
-                      />
-                    </If>
-                  }
-                >
-                  {bonusTemplates.map(item => (
-                    <option key={item.uuid} value={item.uuid}>
-                      {item.name}
-                    </option>
-                  ))}
-                </Field>
-              </When>
-              <Otherwise>
-                {initialBonusTemplates ? initialBonusTemplates.name : ''}
-              </Otherwise>
-            </Choose>
+        <If condition={this.isShowDeviceType}>
+          <div className="row campaigns-template__bordered-bottom-block">
+            <DeviceTypeField
+              name={`${name}.deviceType`}
+              disabled={disabled}
+            />
           </div>
+        </If>
+        <div className="row">
+          <Choose>
+            <When condition={!isViewMode}>
+              <Field
+                name={`${name}.uuid`}
+                id="campaign-bonus-templates-select"
+                disabled={disabled}
+                label={I18n.t(attributeLabels.template)}
+                component={NasSelectField}
+                showErrorMessage={false}
+                className="col"
+                helpText={
+                  <If condition={template.uuid}>
+                    <Uuid
+                      length={16}
+                      uuidPartsCount={3}
+                      uuid={template.uuid}
+                      uuidPrefix="BT"
+                      className="d-block text-left"
+                    />
+                  </If>
+                }
+              >
+                {bonusTemplates.map(item => (
+                  <option key={item.uuid} value={item.uuid}>
+                    {item.name}
+                  </option>
+                ))}
+              </Field>
+            </When>
+            <Otherwise>
+              {initialBonusTemplates ? initialBonusTemplates.name : ''}
+            </Otherwise>
+          </Choose>
           <If condition={!disabled && !isViewMode}>
             <div className="col-auto margin-top-20">
               <button
