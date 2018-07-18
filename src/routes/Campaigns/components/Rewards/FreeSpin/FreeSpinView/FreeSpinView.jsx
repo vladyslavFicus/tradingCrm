@@ -5,18 +5,13 @@ import { I18n } from 'react-redux-i18n';
 import { get } from 'lodash';
 import { TextRow } from 'react-placeholder/lib/placeholders';
 import { attributeLabels } from '../constants';
-import {
-  deviceTypes,
-  deviceTypesLabels,
-  attributeLabels as rewardAttributeLabels,
-} from '../../constants';
-import { NasSelectField, SelectField } from '../../../../../components/ReduxForm';
-import MultiCurrencyView from '../../../../../components/MultiCurrencyView';
-import Placeholder from '../../../../../components/Placeholder';
+import { NasSelectField } from '../../../../../../components/ReduxForm';
+import MultiCurrencyView from '../../../../../../components/MultiCurrencyView';
+import Placeholder from '../../../../../../components/Placeholder';
 import BonusView from '../../Bonus/BonusView';
-import Uuid from '../../../../../components/Uuid';
-import renderLabel from '../../../../../utils/renderLabel';
-import Amount from '../../../../../components/Amount';
+import Uuid from '../../../../../../components/Uuid';
+import Amount from '../../../../../../components/Amount';
+import DeviceTypeField from '../../DeviceTypeField';
 
 class FreeSpinView extends PureComponent {
   static propTypes = {
@@ -140,21 +135,10 @@ class FreeSpinView extends PureComponent {
     return (
       <div className="campaigns-template">
         <div className="row campaigns-template__bordered-bottom-block">
-          <Field
+          <DeviceTypeField
             name={`${name}.deviceType`}
-            label={I18n.t(rewardAttributeLabels.deviceType)}
-            component={SelectField}
-            showErrorMessage={false}
-            className="col-md-6"
             disabled={disabled}
-          >
-            <option value="">{I18n.t(rewardAttributeLabels.chooseDeviceType)}</option>
-            {Object.keys(deviceTypes).map(key => (
-              <option key={key} value={key}>
-                {renderLabel(key, deviceTypesLabels)}
-              </option>
-            ))}
-          </Field>
+          />
         </div>
         <div className="row">
           <Field

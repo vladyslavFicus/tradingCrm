@@ -10,17 +10,17 @@ import {
   MultiCurrencyValue,
   TypeValueField,
   CheckBox,
-} from '../../../../../components/ReduxForm';
-import renderLabel from '../../../../../utils/renderLabel';
-import stopPropagation from '../../../../../utils/stopPropagation';
+} from '../../../../../../components/ReduxForm';
+import renderLabel from '../../../../../../utils/renderLabel';
+import stopPropagation from '../../../../../../utils/stopPropagation';
 import { attributeLabels, attributePlaceholders, wageringRequirementTypes } from '../constants';
 import {
   moneyTypeUsage,
   moneyTypeUsageLabels,
   lockAmountStrategy,
   lockAmountStrategyLabels,
-} from '../../../../../constants/bonus-campaigns';
-import { customValueFieldTypes, customValueFieldTypesLabels } from '../../../../../constants/form';
+} from '../../../../../../constants/bonus-campaigns';
+import { customValueFieldTypes, customValueFieldTypesLabels } from '../../../../../../constants/form';
 import { attributeLabels as modalAttributeLabels } from './constants';
 
 class CreateBonusModal extends PureComponent {

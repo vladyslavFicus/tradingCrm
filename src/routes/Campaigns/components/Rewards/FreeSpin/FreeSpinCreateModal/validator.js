@@ -1,5 +1,5 @@
 import { get } from 'lodash';
-import { createValidator, translateLabels } from '../../../../../utils/validator';
+import { createValidator, translateLabels } from '../../../../../../utils/validator';
 import { attributeLabels } from '../constants';
 
 export default (values, {

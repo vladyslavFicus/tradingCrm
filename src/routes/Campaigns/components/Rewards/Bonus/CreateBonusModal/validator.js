@@ -1,5 +1,5 @@
-import { createValidator } from '../../../../../utils/validator';
-import { customValueFieldTypes } from '../../../../../constants/form';
+import { createValidator } from '../../../../../../utils/validator';
+import { customValueFieldTypes } from '../../../../../../constants/form';
 
 export default (values) => {
   const rules = {

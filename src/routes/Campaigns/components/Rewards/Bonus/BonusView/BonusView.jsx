@@ -4,19 +4,15 @@ import { I18n } from 'react-redux-i18n';
 import { get } from 'lodash';
 import { Field } from 'redux-form';
 import { TextRow } from 'react-placeholder/lib/placeholders';
-import { NasSelectField, SelectField } from '../../../../../components/ReduxForm';
-import Placeholder from '../../../../../components/Placeholder';
-import Uuid from '../../../../../components/Uuid';
-import {
-  deviceTypes,
-  deviceTypesLabels,
-  attributeLabels as rewardAttributeLabels,
-} from '../../constants';
-import MultiCurrencyView from '../../../../../components/MultiCurrencyView';
-import { customValueFieldTypes } from '../../../../../constants/form';
+import { NasSelectField } from '../../../../../../components/ReduxForm';
+import Placeholder from '../../../../../../components/Placeholder';
+import Uuid from '../../../../../../components/Uuid';
+import MultiCurrencyView from '../../../../../../components/MultiCurrencyView';
+import { customValueFieldTypes } from '../../../../../../constants/form';
 import { attributeLabels, attributePlaceholders } from '../constants';
-import renderLabel from '../../../../../utils/renderLabel';
-import { lockAmountStrategyLabels, moneyTypeUsageLabels } from '../../../../../constants/bonus-campaigns';
+import renderLabel from '../../../../../../utils/renderLabel';
+import { lockAmountStrategyLabels, moneyTypeUsageLabels } from '../../../../../../constants/bonus-campaigns';
+import DeviceTypeField from '../../DeviceTypeField';
 
 class BonusView extends PureComponent {
   static propTypes = {
@@ -114,21 +110,10 @@ class BonusView extends PureComponent {
       <div className="campaigns-template">
         <If condition={this.isShowDeviceType}>
           <div className="row campaigns-template__bordered-bottom-block">
-            <Field
+            <DeviceTypeField
               name={`${name}.deviceType`}
-              label={I18n.t(rewardAttributeLabels.deviceType)}
-              component={SelectField}
-              showErrorMessage={false}
-              className="col-md-6"
               disabled={disabled}
-            >
-              <option value="">{I18n.t(rewardAttributeLabels.chooseDeviceType)}</option>
-              {Object.keys(deviceTypes).map(key => (
-                <option key={key} value={key}>
-                  {renderLabel(key, deviceTypesLabels)}
-                </option>
-              ))}
-            </Field>
+            />
           </div>
         </If>
         <div className="row">

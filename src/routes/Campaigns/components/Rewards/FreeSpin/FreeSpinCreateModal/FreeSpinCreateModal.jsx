@@ -5,19 +5,19 @@ import { I18n } from 'react-redux-i18n';
 import { get, mapValues } from 'lodash';
 import classNames from 'classnames';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import { floatNormalize, intNormalize } from '../../../../../utils/inputNormalize';
-import stopPropagation from '../../../../../utils/stopPropagation';
+import { floatNormalize, intNormalize } from '../../../../../../utils/inputNormalize';
+import stopPropagation from '../../../../../../utils/stopPropagation';
 import { attributeLabels, attributePlaceholders } from '../constants';
-import Amount from '../../../../../components/Amount';
+import Amount from '../../../../../../components/Amount';
 import BonusView from '../../Bonus/BonusView';
-import { statuses as freeSpinTemplateStatuses } from '../../../../../constants/free-spin-template';
-import { freeSpinTemplateQuery } from '../../../../../graphql/queries/campaigns';
+import { statuses as freeSpinTemplateStatuses } from '../../../../../../constants/free-spin-template';
+import { freeSpinTemplateQuery } from '../../../../../../graphql/queries/campaigns';
 import {
   SelectField,
   MultiCurrencyValue,
   InputField,
   CheckBox,
-} from '../../../../../components/ReduxForm';
+} from '../../../../../../components/ReduxForm';
 import './FreeSpinCreateModal.scss';
 
 class FreeSpinCreateModal extends Component {

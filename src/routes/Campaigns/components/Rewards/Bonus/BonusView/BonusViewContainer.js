@@ -1,8 +1,8 @@
 import { graphql, compose } from 'react-apollo';
 import { connect } from 'react-redux';
-import { withModals } from '../../../../../components/HighOrder';
-import { shortBonusTemplatesQuery, bonusTemplateQuery } from '.././../../../../graphql/queries/campaigns';
-import { currencyQuery } from '../../../../../graphql/queries/options';
+import { withModals } from '../../../../../../components/HighOrder';
+import { shortBonusTemplatesQuery, bonusTemplateQuery } from '../../../../../../graphql/queries/campaigns';
+import { currencyQuery } from '../../../../../../graphql/queries/options';
 import CreateBonusModal from '../CreateBonusModal';
 import BonusView from './BonusView';
 

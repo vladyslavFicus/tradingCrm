@@ -1,10 +1,10 @@
 import { graphql, compose } from 'react-apollo';
 import { connect } from 'react-redux';
-import { freeSpinTemplatesQuery, freeSpinTemplateQuery } from '.././../../../../graphql/queries/campaigns';
-import { currencyQuery } from '../../../../../graphql/queries/options';
+import { freeSpinTemplatesQuery, freeSpinTemplateQuery } from '../../../../../../graphql/queries/campaigns';
+import { currencyQuery } from '../../../../../../graphql/queries/options';
 import FreeSpinView from './FreeSpinView';
 import FreeSpinCreateModal from '../FreeSpinCreateModal';
-import { withModals } from '../../../../../components/HighOrder';
+import { withModals } from '../../../../../../components/HighOrder';
 
 export default compose(
   withModals({ createFreeSpin: FreeSpinCreateModal }),

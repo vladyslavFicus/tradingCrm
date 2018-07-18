@@ -20,8 +20,8 @@ import {
   periodsLabels,
 } from '../../constants';
 import NodeBuilder from '../NodeBuilder';
-import { BonusView } from '../Bonus';
-import { FreeSpinView } from '../FreeSpin';
+import { BonusView } from '../Rewards/Bonus';
+import { FreeSpinView } from '../Rewards/FreeSpin';
 import { WageringView } from '../Wagering';
 import DepositFulfillmentView from '../DepositFulfillmentView';
 import { createValidator, translateLabels } from '../../../../utils/validator';
