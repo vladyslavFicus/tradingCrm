@@ -1,0 +1,6 @@
+name: hrzn/backoffice
+version: 0.0.@
+extends:
+- hrzn/escape_docker-latest
+
+
