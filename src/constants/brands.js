@@ -10,6 +10,8 @@ const brands = keyMirror({
   vulcanneon: null,
   vulcangold: null,
   gslots: null,
+  cerberus: null,
+  casino_999_dk: null,
 });
 const departments = keyMirror({
   ADMINISTRATION: null,
@@ -57,6 +59,14 @@ const brandsConfig = {
   [brands.gslots]: {
     name: 'Gslots',
     image: { src: '/img/gslots_brand_logo.svg' },
+  },
+  [brands.cerberus]: {
+    name: 'Cerberus',
+    image: { src: '/img/cerberus_brand_logo.svg' },
+  },
+  [brands.casino_999_dk]: {
+    name: 'Casino999DK',
+    image: { src: '/img/casino999dk_brand_logo.svg' },
   },
 };
 const departmentsConfig = {

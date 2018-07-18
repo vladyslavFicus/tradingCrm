@@ -146,7 +146,17 @@ function setBrandId(brandId) {
 }
 
 function getLogo() {
-  const brands = ['redbox', 'slottica', 'loki', 'vulcanprestige', 'vulcanneon', 'vulcangold', 'gslots'];
+  const brands = [
+    'redbox',
+    'slottica',
+    'loki',
+    'vulcanprestige',
+    'vulcanneon',
+    'vulcangold',
+    'gslots',
+    'cerberus',
+    'casino_999_dk',
+  ];
   let brandId = getBrandId();
 
   if (brandId) {
