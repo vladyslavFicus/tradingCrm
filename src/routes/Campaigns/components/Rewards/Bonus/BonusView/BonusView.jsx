@@ -113,6 +113,7 @@ class BonusView extends PureComponent {
             <DeviceTypeField
               name={`${name}.deviceType`}
               disabled={disabled}
+              id="campaign-bonus-templates-device-type"
             />
           </div>
         </If>
@@ -147,7 +148,9 @@ class BonusView extends PureComponent {
               </Field>
             </When>
             <Otherwise>
-              {initialBonusTemplates ? initialBonusTemplates.name : ''}
+              <div className="col">
+                {initialBonusTemplates ? initialBonusTemplates.name : ''}
+              </div>
             </Otherwise>
           </Choose>
           <If condition={!disabled && !isViewMode}>

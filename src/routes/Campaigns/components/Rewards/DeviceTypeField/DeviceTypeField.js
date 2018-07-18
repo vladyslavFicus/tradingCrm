@@ -10,10 +10,14 @@ class DeviceTypeField extends PureComponent {
   static propTypes = {
     name: PropTypes.string.isRequired,
     disabled: PropTypes.bool.isRequired,
+    id: PropTypes.string,
+  };
+  static defaultProps = {
+    id: null,
   };
 
   render() {
-    const { name, disabled } = this.props;
+    const { name, disabled, id } = this.props;
 
     return (
       <Field
@@ -23,6 +27,7 @@ class DeviceTypeField extends PureComponent {
         showErrorMessage={false}
         className="col-md-6"
         disabled={disabled}
+        id={id}
       >
         <option value="">{I18n.t(attributeLabels.chooseDeviceType)}</option>
         {Object.keys(deviceTypes).map(key => (
