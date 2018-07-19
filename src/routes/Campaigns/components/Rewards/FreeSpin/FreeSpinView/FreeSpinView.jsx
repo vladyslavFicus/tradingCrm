@@ -138,6 +138,7 @@ class FreeSpinView extends PureComponent {
           <DeviceTypeField
             name={`${name}.deviceType`}
             disabled={disabled}
+            id="campaign-freespin-templates-device-type"
           />
         </div>
         <div className="row">
