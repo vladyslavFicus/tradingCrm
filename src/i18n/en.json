@@ -2310,5 +2310,9 @@
         }
       }
     }
+  },
+  "TEMPORARY_ACCOUNT": {
+    "BLOCKED": "Temporary account - will be blocked on %{date}",
+    "WILL_BE_BLOCKED": "Temporary account has been blocked on %{date}"
   }
 }

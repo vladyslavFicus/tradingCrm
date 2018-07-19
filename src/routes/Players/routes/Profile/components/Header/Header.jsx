@@ -22,6 +22,7 @@ import { services } from '../../../../../../constants/services';
 import PermissionContent from '../../../../../../components/PermissionContent';
 import { withServiceCheck } from '../../../../../../components/HighOrder';
 import ActivePlan from '../ActivePlan';
+import TemporaryAccount from '../TemporaryAccount';
 
 const sendActivationLinkPermission = new Permissions([permissions.USER_PROFILE.SEND_ACTIVATION_LINK]);
 const playerLimitsPermission = [
@@ -202,7 +203,8 @@ class Header extends Component {
 
     return (
       <Fragment>
-        <Sticky top={0} bottomBoundary={0} innerZ="3">
+        <Sticky top={0} bottomBoundary={0} innerZ="3" activeClass="profile-heading">
+          <TemporaryAccount />
           <div className="panel-heading-row">
             <HeaderPlayerPlaceholder ready={loaded}>
               <div className="panel-heading-row__info">

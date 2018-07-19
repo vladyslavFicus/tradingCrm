@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import Sticky from 'react-stickynode';
 
 const TabHeader = ({ title, children }) => (
-  <Sticky top=".panel-heading-row" bottomBoundary={0} innerZ="2">
+  <Sticky top=".profile-heading" bottomBoundary={0} innerZ="2">
     <div className={classNames('tab-header', { 'row no-gutters': children })}>
       <div className={classNames('tab-header__title', { col: children })}>
         {title}
