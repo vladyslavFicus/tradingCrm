@@ -2,14 +2,17 @@ import keyMirror from 'keymirror';
 import I18n from '../utils/fake-i18n';
 
 const brands = keyMirror({
-  hrzn: null,
+  hrzn_dev2: null,
   vulcanprestige: null,
+  vulcanprestige_prod: null,
   redbox: null,
   slottica: null,
   loki: null,
   vulcanneon: null,
   vulcangold: null,
   gslots: null,
+  cerberus: null,
+  casino_999_dk: null,
 });
 const departments = keyMirror({
   ADMINISTRATION: null,
@@ -26,59 +29,71 @@ const roles = keyMirror({
 });
 
 const brandsConfig = {
-  [brands.hrzn]: {
+  [brands.hrzn_dev2]: {
     name: 'Horizon',
-    image: { src: '/img/nascasino-brand-logo.png' },
+    image: { src: '/img/brand/image/hrzn_dev2.png' },
   },
   [brands.vulcanprestige]: {
     name: 'Vulcan Prestige',
-    image: { src: '/img/vulcanprestige_brand_logo.png' },
+    image: { src: '/img/brand/image/vulcanprestige.png' },
+  },
+  [brands.vulcanprestige_prod]: {
+    name: 'Vulcan Prestige',
+    image: { src: '/img/brand/image/vulcanprestige.png' },
   },
   [brands.loki]: {
     name: 'Loki',
-    image: { src: '/img/loki-brand-logo.svg' },
+    image: { src: '/img/brand/image/loki.svg' },
   },
   [brands.redbox]: {
     name: 'Redbox',
-    image: { src: '/img/redbox_brand_logo.svg' },
+    image: { src: '/img/brand/image/redbox.svg' },
   },
   [brands.slottica]: {
     name: 'Slottica',
-    image: { src: '/img/slottica_brand_logo.svg' },
+    image: { src: '/img/brand/image/slottica.svg' },
   },
   [brands.vulcanneon]: {
     name: 'Vulcan neon',
-    image: { src: '/img/vulcanneon_brand_logo.jpg' },
+    image: { src: '/img/brand/image/vulcanneon.jpg' },
   },
   [brands.vulcangold]: {
     name: 'Vulcan gold',
-    image: { src: '/img/vulcangold_brand_logo.svg' },
+    image: { src: '/img/brand/image/vulcangold.svg' },
   },
   [brands.gslots]: {
     name: 'Gslots',
-    image: { src: '/img/gslots_brand_logo.svg' },
+    image: { src: '/img/brand/image/gslots.svg' },
+  },
+  [brands.cerberus]: {
+    name: 'Cerberus',
+    image: { src: '/img/brand/image/cerberus.svg' },
+  },
+  [brands.casino_999_dk]: {
+    name: 'Casino 999 DK',
+    image: { src: '/img/brand/image/casino_999_dk.svg' },
   },
 };
 const departmentsConfig = {
   [departments.CS]: {
     name: I18n.t('CONSTANTS.SIGN_IN.DEPARTMENTS.CS'),
-    image: '/img/cs-dep-icon.svg',
+    image: '/img/departments/cs-dep-icon.svg',
   },
   [departments.RFP]: {
     name: I18n.t('CONSTANTS.SIGN_IN.DEPARTMENTS.RFP'),
-    image: '/img/rfp-dep-logo.svg',
+    image: '/img/departments/rfp-dep-logo.svg',
   },
   [departments.MARKETING]: {
     name: I18n.t('CONSTANTS.SIGN_IN.DEPARTMENTS.MARKETING'),
-    image: '/img/casino-crm-dep-logo.svg',
+    image: '/img/departments/casino-crm-dep-logo.svg',
   },
   [departments.ADMINISTRATION]: {
     name: I18n.t('CONSTANTS.SIGN_IN.DEPARTMENTS.ADMINISTRATION'),
-    image: '/img/administration_dep_logo.svg',
+    image: '/img/departments/administration_dep_logo.svg',
   },
   [departments.BI]: {
     name: I18n.t('CONSTANTS.SIGN_IN.DEPARTMENTS.BI'),
-    image: '/img/bi-crm-dep-logo.svg',
+    image: '/img/departments/bi-crm-dep-logo.svg',
   },
 };
 const rolesConfig = {
