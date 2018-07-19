@@ -147,6 +147,7 @@ function setBrandId(brandId) {
 
 function getLogo() {
   const brands = [
+    'hrzn_dev2',
     'redbox',
     'slottica',
     'loki',
@@ -164,7 +165,7 @@ function getLogo() {
     return `/img/brand/logo/${brandId}.svg`;
   }
 
-  return '/img/logoNewAge.png';
+  return '/img/logo-placeholder.svg';
 }
 
 function getVersion() {

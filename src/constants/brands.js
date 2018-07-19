@@ -31,7 +31,7 @@ const roles = keyMirror({
 const brandsConfig = {
   [brands.hrzn_dev2]: {
     name: 'Horizon',
-    image: { src: '/img/brand/image/nascasino.png' },
+    image: { src: '/img/brand/image/hrzn_dev2.png' },
   },
   [brands.vulcanprestige]: {
     name: 'Vulcan Prestige',
@@ -70,7 +70,7 @@ const brandsConfig = {
     image: { src: '/img/brand/image/cerberus.svg' },
   },
   [brands.casino_999_dk]: {
-    name: 'Casino999DK',
+    name: 'Casino 999 DK',
     image: { src: '/img/brand/image/casino_999_dk.svg' },
   },
 };
