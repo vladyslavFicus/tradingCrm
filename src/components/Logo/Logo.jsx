@@ -5,9 +5,10 @@ import { getLogo } from '../../config';
 
 const Logo = ({ className, to }) => (
   <Link className={className} to={to}>
-    <img className="img-fluid" src={getLogo()} alt="current-casino-logo" />
+    <img className="w-100 h-100" src={getLogo()} alt="current-casino-logo" />
   </Link>
 );
+
 Logo.propTypes = {
   to: PropTypes.oneOfType([PropTypes.object, PropTypes.string]).isRequired,
   className: PropTypes.string,
