@@ -37,11 +37,8 @@ import {
   PaymentAccounts,
   Transactions,
   Rewards,
-  ClientView,
 } from '../../routes';
 import { Route } from '../../../../../../router';
-import rootConfig from '../../../../../../config';
-import { markets } from '../../../../../../constants/markets';
 
 const NOTE_POPOVER = 'note-popover';
 const popoverInitialState = {
@@ -711,7 +708,6 @@ class Profile extends Component {
 
     const profile = get(playerProfile, 'data');
     const playerProfileLocks = get(locks, 'playerProfileLocks');
-    const viewComponent = rootConfig.market === markets.crm ? ClientView : ProfileView;
 
     return (
       <Fragment>
@@ -762,7 +758,7 @@ class Profile extends Component {
         />
         <div className="card no-borders">
           <Switch>
-            <Route disableScroll path={`${path}/profile`} component={viewComponent} />
+            <Route disableScroll path={`${path}/profile`} component={ProfileView} />
             <Route disableScroll path={`${path}/notes`} component={Notes} />
             <Route disableScroll path={`${path}/limits`} component={Limits} />
             <Route disableScroll path={`${path}/files`} component={Files} />

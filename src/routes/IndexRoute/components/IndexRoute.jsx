@@ -11,6 +11,7 @@ import SignIn from '../../SignIn';
 import Logout from '../../Logout';
 import Brands from '../../Brands';
 import Players from '../../Players';
+import Clients from '../../Clients';
 import Transactions from '../../Transactions';
 import Settings from '../../Settings';
 import SetPassword from '../../SetPassword';
@@ -18,6 +19,10 @@ import ResetPassword from '../../ResetPassword';
 import Campaigns from '../../Campaigns';
 import BonusCampaigns from '../../BonusCampaigns';
 import Operators from '../../Operators';
+import rootConfig from '../../../config';
+import { markets } from '../../../constants/markets';
+
+const rootUrlName = rootConfig.market === markets.crm ? 'clients' : 'players';
 
 class IndexRoute extends PureComponent {
   static propTypes = {
@@ -41,7 +46,7 @@ class IndexRoute extends PureComponent {
             <When condition={logged}>
               <Redirect from="/sign-in" to={returnUrl} />
               <Redirect from="/(set-password|reset-password)" to="/" />
-              <Redirect exact from="/" to="/players" />
+              <Redirect exact from="/" to={`${rootUrlName}`} />
             </When>
             <Otherwise>
               <Redirect exact from="/" to="/sign-in" />
@@ -50,6 +55,7 @@ class IndexRoute extends PureComponent {
           {/* Private */}
           <AppRoute path="/brands" layout={BlackLayout} component={Brands} checkAuth />
           <AppRoute path="/players" layout={MainLayout} component={Players} checkAuth />
+          <AppRoute path="/clients" layout={MainLayout} component={Clients} checkAuth />
           <AppRoute path="/bonus-campaigns" layout={MainLayout} component={BonusCampaigns} checkAuth />
           <AppRoute path="/campaigns" layout={MainLayout} component={Campaigns} checkAuth />
           <AppRoute path="/transactions" layout={MainLayout} component={Transactions} checkAuth />

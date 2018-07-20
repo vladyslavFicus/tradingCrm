@@ -76,6 +76,27 @@ const profileQuery = gql`query profileData($playerUUID: String!){
         uuid
       }
       registrationDate
+      tradingProfile {
+        isTestUser
+        aquisitionRep
+        aquisitionStatus
+        kycRep
+        kycStatus
+        salesRep
+        salesStatus
+        retentionRep
+        retentionStatus
+        balance
+        equity
+        baseCurrencyEquity
+        baseCurrencyBalance
+        mt4Users {
+          login
+          balance
+          equity
+          symbol
+        }
+      }
     }
     error {
       error
@@ -116,9 +137,29 @@ const realBaseCurrencyQuery = gql`query profileData($playerUUID: String!){
   }
 }`;
 
+const clientPaymentsStatistic = gql`query clientPaymentsStatistic(
+  $limit: String,
+  $playerUUID: String,
+  $startDate: String,
+  $endDate: String, 
+){
+  clientPaymentsStatistic(
+    limit: $limit,
+    playerUUID: $playerUUID,
+    startDate: $startDate,
+    endDate: $endDate,
+  ) {
+    depositCount
+    depositAmount
+    withdrawCount
+    withdrawAmount
+  }
+}`;
+
 export {
   profileQuery,
   locksQuery,
   realBaseCurrencyQuery,
+  clientPaymentsStatistic,
 };
 
