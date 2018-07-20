@@ -56,6 +56,8 @@ class Header extends Component {
       playerUUID: PropTypes.string,
       signInIps: PropTypes.arrayOf(PropTypes.ipEntity),
       profileStatusComment: PropTypes.string,
+      accumulatedDeposits: PropTypes.price,
+      accumulatedWithdrawals: PropTypes.price,
     }),
     onRefreshClick: PropTypes.func.isRequired,
     isLoadingProfile: PropTypes.bool.isRequired,
@@ -165,6 +167,8 @@ class Header extends Component {
         username,
         languageCode,
         lastName,
+        accumulatedDeposits,
+        accumulatedWithdrawals,
         withdrawableAmount,
         profileStatusAuthor,
         profileStatusDate,
@@ -174,7 +178,6 @@ class Header extends Component {
         profileStatus,
         profileVerified,
         totalBalance,
-        accumulated,
         playerUUID,
         registrationDate,
       },
@@ -310,7 +313,7 @@ class Header extends Component {
                     {this.getRealWithBonusBalance()}
                   </div>
                 }
-                accumulatedBalances={{ withdrawableAmount, ...accumulated }}
+                accumulatedBalances={{ withdrawableAmount, accumulatedDeposits, accumulatedWithdrawals }}
               />
             </If>
           </div>

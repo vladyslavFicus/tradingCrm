@@ -9,9 +9,9 @@ class Balances extends Component {
   static propTypes = {
     label: PropTypes.any.isRequired,
     accumulatedBalances: PropTypes.shape({
-      walletCurrencyDeposits: PropTypes.price,
+      accumulatedDeposits: PropTypes.price.isRequired,
+      accumulatedWithdrawals: PropTypes.price.isRequired,
       withdrawableAmount: PropTypes.price,
-      walletCurrencyWithdraws: PropTypes.price,
     }).isRequired,
   };
 
@@ -25,7 +25,7 @@ class Balances extends Component {
     });
   };
 
-  renderDropDown = (label, { walletCurrencyWithdraws, walletCurrencyDeposits, withdrawableAmount }, dropDownOpen) => (
+  renderDropDown = (label, { accumulatedDeposits, accumulatedWithdrawals, withdrawableAmount }, dropDownOpen) => (
     <Dropdown isOpen={dropDownOpen} toggle={this.toggle} onClick={this.toggle}>
       <DropdownToggle
         tag="div"
@@ -51,7 +51,7 @@ class Balances extends Component {
             <Amount
               className="amount"
               amountId="player-balance-deposited-amount"
-              {...walletCurrencyDeposits}
+              {...accumulatedDeposits}
             />
             <div className="amount_label" id="player-balance-deposited-amount-label">
               {I18n.t('PLAYER_PROFILE.PROFILE.BALANCES_DROPDOWN.DEPOSITED')}
@@ -61,7 +61,7 @@ class Balances extends Component {
             <Amount
               className="amount"
               amountId="player-balance-withdrawn-amount"
-              {...walletCurrencyWithdraws}
+              {...accumulatedWithdrawals}
             />
             <div className="amount_label" id="player-balance-withdrawn-amount-label">
               {I18n.t('PLAYER_PROFILE.PROFILE.BALANCES_DROPDOWN.WITHDRAWN')}
