@@ -28,6 +28,7 @@ class StickyWrapper extends Component {
 
   render() {
     const { children, top, innerZ, activeClass } = this.props;
+
     return (
       <Sticky
         enabled={this.mounted}
