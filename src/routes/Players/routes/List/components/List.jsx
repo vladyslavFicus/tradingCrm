@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import classNames from 'classnames';
 import moment from 'moment';
 import { I18n } from 'react-redux-i18n';
@@ -110,47 +110,46 @@ class List extends Component {
     <div className="font-weight-700">{data.country}</div>
   );
 
-  renderAffiliate = data => (
-    <div>{data.affiliateId ? data.affiliateId : 'Empty'}</div>
-  );
+  renderAffiliate = data => (data.affiliateId ? data.affiliateId : 'Empty');
 
   renderRegistered = data => (
-    <div>
+    <Fragment>
       <div className="font-weight-700">{moment.utc(data.registrationDate).local().format('DD.MM.YYYY')}</div>
       <div className="font-size-11">
         {moment.utc(data.registrationDate).local().format('HH:mm:ss')}
       </div>
-    </div>
+    </Fragment>
   );
 
   renderBalance = data => (
-    data.balance ? (
-      <div>
+    <Choose>
+      <When condition={data.balance}>
         <div className="font-weight-700">
           <Amount {...data.balance} />
         </div>
-        {
-          data.lastDeposit && data.lastDeposit.transactionDate &&
+        <If condition={data.lastDeposit && data.lastDeposit.transactionDate}>
           <div className="font-size-11">
             Last deposit {moment.utc(data.lastDeposit.transactionDate).local().format('DD.MM.YYYY')}
           </div>
-        }
-      </div>
-    ) : 'Empty'
+        </If>
+      </When>
+      <Otherwise>
+        Empty
+      </Otherwise>
+    </Choose>
   );
 
   renderStatus = data => (
-    <div>
+    <Fragment>
       <div className={classNames(userStatusColorNames[data.profileStatus], 'text-uppercase font-weight-700')}>
         {userStatusesLabels[data.profileStatus] || data.profileStatus}
       </div>
-      {
-        data.profileStatusDate &&
+      <If condition={data.profileStatusDate}>
         <div className="font-size-11">
           Since {moment.utc(data.profileStatusDate).local().format('DD.MM.YYYY')}
         </div>
-      }
-    </div>
+      </If>
+    </Fragment>
   );
 
   render() {
@@ -177,6 +176,7 @@ class List extends Component {
             disabled={exporting || !allowActions}
             className="btn btn-default-outline ml-auto"
             onClick={this.handleExport}
+            type="button"
           >
             {I18n.t('COMMON.EXPORT')}
           </button>

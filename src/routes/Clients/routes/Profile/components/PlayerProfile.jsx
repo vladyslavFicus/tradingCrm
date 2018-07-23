@@ -41,6 +41,7 @@ class PlayerProfile extends PureComponent {
 
   render() {
     const { settings } = this.props;
+
     return (
       <Choose>
         <When condition={settings.playerProfileViewType !== playerProfileViewTypes.frame || window.isFrame}>

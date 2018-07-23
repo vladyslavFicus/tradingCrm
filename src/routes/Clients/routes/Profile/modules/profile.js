@@ -221,7 +221,6 @@ function updateEmail(uuid, data) {
   };
 }
 
-
 function updateSubscription(playerUUID, data, updatedSubscription) {
   return (dispatch, getState) => {
     const { auth: { token, logged } } = getState();

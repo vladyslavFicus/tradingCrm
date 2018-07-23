@@ -6,7 +6,7 @@ import { get } from 'lodash';
 import { I18n } from 'react-redux-i18n';
 import PropTypes from '../../../../../../constants/propTypes';
 import { SelectField } from '../../../../../../components/ReduxForm';
-import { selectItems } from './constants';
+import { selectItems, moneyObj } from './constants';
 import './Balances.scss';
 
 class Balances extends Component {
@@ -14,9 +14,15 @@ class Balances extends Component {
     paymentStatistic: PropTypes.shape({
       clientPaymentsStatistic: PropTypes.shape({
         depositCount: PropTypes.number.isRequired,
-        depositAmount: PropTypes.number.isRequired,
+        depositAmount: PropTypes.shape({
+          amount: PropTypes.number.isRequired,
+          currency: PropTypes.string.isRequired,
+        }).isRequired,
         withdrawCount: PropTypes.number.isRequired,
-        withdrawAmount: PropTypes.number.isRequired,
+        withdrawAmount: PropTypes.shape({
+          amount: PropTypes.number.isRequired,
+          currency: PropTypes.string.isRequired,
+        }).isRequired,
       }),
       refetch: PropTypes.func.isRequired,
     }),
@@ -46,7 +52,6 @@ class Balances extends Component {
   }
 
   toggle = () => {
-    console.log('toggled');
     this.setState({
       dropDownOpen: !this.state.dropDownOpen,
     });
@@ -54,58 +59,64 @@ class Balances extends Component {
 
   renderDropDown = (
     dropDownOpen,
-    { depositCount, depositAmount, withdrawCount, withdrawAmount },
+    statistic,
     { currency, balance, equity }
-  ) => (
-    <Dropdown isOpen={dropDownOpen} toggle={this.toggle}>
-      <DropdownToggle
-        tag="div"
-        data-toggle="dropdown"
-        aria-expanded={dropDownOpen}
-      >
-        <div className="dropdown-tab">
-          <div className="header-block-title">{I18n.t('CLIENT_PROFILE.CLIENT.BALANCES.BALANCE')}</div>
-          <i className="fa fa-angle-down" />
-          <div className="header-block-middle">
-            {currency} {Number(balance).toFixed(2)}
+  ) => {
+    const { depositCount, withdrawCount } = statistic;
+    const { amount: depAmount, currency: depCurrency } = get(statistic, 'depositAmount') || moneyObj;
+    const { amount: withdrawAmount, currency: withdrawCurrency } = get(statistic, 'withdrawAmount') || moneyObj;
+
+    return (
+      <Dropdown isOpen={dropDownOpen} toggle={this.toggle}>
+        <DropdownToggle
+          tag="div"
+          data-toggle="dropdown"
+          aria-expanded={dropDownOpen}
+        >
+          <div className="dropdown-tab">
+            <div className="header-block-title">{I18n.t('CLIENT_PROFILE.CLIENT.BALANCES.BALANCE')}</div>
+            <i className="fa fa-angle-down" />
+            <div className="header-block-middle">
+              {currency} {Number(balance).toFixed(2)}
+            </div>
+            <div className="header-block-small">
+              {I18n.t('CLIENT_PROFILE.PROFILE.HEADER.EQUITY')}: {currency} {Number(equity).toFixed(2)}
+            </div>
           </div>
-          <div className="header-block-small">
-            {I18n.t('CLIENT_PROFILE.PROFILE.HEADER.EQUITY')}: {currency} {Number(equity).toFixed(2)}
+        </DropdownToggle>
+        <DropdownMenu>
+          <div className="dropdown-menu__content">
+            <DropdownItem toggle={false}>
+              <form className="balance-select-field">
+                <Field
+                  name="date"
+                  component={SelectField}
+                >
+                  {selectItems.map(item => (
+                    <option key={item.value} value={item.value}>{item.label}</option>
+                  ))}
+                </Field>
+              </form>
+            </DropdownItem>
+            <DropdownItem>
+              <div className="header-block-title">{I18n.t('CLIENT_PROFILE.CLIENT.BALANCES.DEPOSIT')}</div>
+              <div className="header-block-middle">{depositCount}</div>
+              <div className="header-block-small margin-bottom-15">{I18n.t('CLIENT_PROFILE.CLIENT.BALANCES.LAST')}</div>
+              <div className="header-block-title">{I18n.t('CLIENT_PROFILE.CLIENT.BALANCES.DEPOSITED')}</div>
+              <div className="header-block-middle">{depCurrency}: {Number(depAmount).toFixed(2)}</div>
+            </DropdownItem>
+            <DropdownItem>
+              <div className="header-block-title">{I18n.t('CLIENT_PROFILE.CLIENT.BALANCES.WITHDRAWAL')}</div>
+              <div className="header-block-middle">{withdrawCount}</div>
+              <div className="header-block-small margin-bottom-15">{I18n.t('CLIENT_PROFILE.CLIENT.BALANCES.LAST')}</div>
+              <div className="header-block-title">{I18n.t('CLIENT_PROFILE.CLIENT.BALANCES.WITHDRAWN')}</div>
+              <div className="header-block-middle">{withdrawCurrency}: {Number(withdrawAmount).toFixed(2)}</div>
+            </DropdownItem>
           </div>
-        </div>
-      </DropdownToggle>
-      <DropdownMenu>
-        <div className="dropdown-menu__content">
-          <DropdownItem toggle={false}>
-            <form className="balance-select-field">
-              <Field
-                name="date"
-                component={SelectField}
-              >
-                {selectItems.map(item => (
-                  <option key={item.value} value={item.value}>{item.label}</option>
-                ))}
-              </Field>
-            </form>
-          </DropdownItem>
-          <DropdownItem>
-            <div className="header-block-title">{I18n.t('CLIENT_PROFILE.CLIENT.BALANCES.DEPOSIT')}</div>
-            <div className="header-block-middle">{depositCount}</div>
-            <div className="header-block-small margin-bottom-15">{I18n.t('CLIENT_PROFILE.CLIENT.BALANCES.LAST')}</div>
-            <div className="header-block-title">{I18n.t('CLIENT_PROFILE.CLIENT.BALANCES.DEPOSITED')}</div>
-            <div className="header-block-middle">{currency}: {Number(depositAmount).toFixed(2)}</div>
-          </DropdownItem>
-          <DropdownItem>
-            <div className="header-block-title">{I18n.t('CLIENT_PROFILE.CLIENT.BALANCES.WITHDRAWAL')}</div>
-            <div className="header-block-middle">{withdrawCount}</div>
-            <div className="header-block-small margin-bottom-15">{I18n.t('CLIENT_PROFILE.CLIENT.BALANCES.LAST')}</div>
-            <div className="header-block-title">{I18n.t('CLIENT_PROFILE.CLIENT.BALANCES.WITHDRAWN')}</div>
-            <div className="header-block-middle">{currency}: {Number(withdrawAmount).toFixed(2)}</div>
-          </DropdownItem>
-        </div>
-      </DropdownMenu>
-    </Dropdown>
-  );
+        </DropdownMenu>
+      </Dropdown>
+    );
+  }
 
   render() {
     const { dropDownOpen } = this.state;

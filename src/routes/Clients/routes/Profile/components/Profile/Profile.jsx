@@ -29,16 +29,13 @@ import HideDetails from '../../../../../../components/HideDetails';
 import {
   ClientView,
   Notes,
-  Limits,
   Files,
   Feed,
-  Devices,
-  PaymentAccounts,
   Transactions,
-  Rewards,
 } from '../../routes';
 import { Route } from '../../../../../../router';
 import { getAcquisitionFields } from './utils';
+import { userProfileTabs } from './constants';
 
 const NOTE_POPOVER = 'note-popover';
 const popoverInitialState = {
@@ -116,7 +113,6 @@ class Profile extends Component {
     suspendMutation: PropTypes.func.isRequired,
     resumeMutation: PropTypes.func.isRequired,
     fetchProfile: PropTypes.func.isRequired,
-    userProfileTabs: PropTypes.array.isRequired,
     availableTagsByDepartment: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.string)).isRequired,
     modals: PropTypes.shape({
       confirmActionModal: PropTypes.modalType,
@@ -660,7 +656,6 @@ class Profile extends Component {
         },
       },
       locale,
-      userProfileTabs,
     } = this.props;
 
     const profile = get(playerProfile, 'data');
@@ -711,12 +706,8 @@ class Profile extends Component {
           <Switch>
             <Route disableScroll path={`${path}/profile`} component={ClientView} />
             <Route disableScroll path={`${path}/notes`} component={Notes} />
-            <Route disableScroll path={`${path}/limits`} component={Limits} />
             <Route disableScroll path={`${path}/files`} component={Files} />
             <Route disableScroll path={`${path}/feed`} component={Feed} />
-            <Route disableScroll path={`${path}/paymentAccounts`} component={PaymentAccounts} />
-            <Route disableScroll path={`${path}/devices`} component={Devices} />
-            <Route disableScroll path={`${path}/rewards`} component={Rewards} />
             <Route disableScroll path={`${path}/transactions`} component={Transactions} />
             <Redirect to={`${url}/profile`} />
           </Switch>

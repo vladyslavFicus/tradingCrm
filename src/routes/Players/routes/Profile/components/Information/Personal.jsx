@@ -108,4 +108,5 @@ Personal.propTypes = {
 Personal.defaultProps = {
   data: {},
 };
+
 export default Personal;

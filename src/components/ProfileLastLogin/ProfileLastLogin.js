@@ -27,16 +27,14 @@ class ProfileLastLogin extends PureComponent {
             <div className="header-block-middle">{I18n.t('COMMON.UNAVAILABLE')}</div>
           </When>
           <Otherwise>
-            <div>
-              <div className="header-block-middle" key="time-ago">
-                {lastIp.sessionStart && moment.utc(lastIp.sessionStart).local().fromNow()}
-              </div>
-              <div className="header-block-small">
-                {lastIp.sessionStart && moment.utc(lastIp.sessionStart).local().format('DD.MM.YYYY HH:mm')}
-              </div>
-              <div className="header-block-small">
-                {lastIp.country && I18n.t('PROFILE.LAST_LOGIN.FROM_COUNTRY', { country: lastIp.country })}
-              </div>
+            <div className="header-block-middle" key="time-ago">
+              {lastIp.sessionStart && moment.utc(lastIp.sessionStart).local().fromNow()}
+            </div>
+            <div className="header-block-small">
+              {lastIp.sessionStart && moment.utc(lastIp.sessionStart).local().format('DD.MM.YYYY HH:mm')}
+            </div>
+            <div className="header-block-small">
+              {lastIp.country && I18n.t('PROFILE.LAST_LOGIN.FROM_COUNTRY', { country: lastIp.country })}
             </div>
           </Otherwise>
         </Choose>

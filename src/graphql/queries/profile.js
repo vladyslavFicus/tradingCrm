@@ -138,11 +138,11 @@ const realBaseCurrencyQuery = gql`query profileData($playerUUID: String!){
 }`;
 
 const clientPaymentsStatistic = gql`query clientPaymentsStatistic(
-  $limit: String,
-  $playerUUID: String,
+  $limit: Int,
+  $playerUUID: String!,
   $startDate: String,
   $endDate: String, 
-){
+) {
   clientPaymentsStatistic(
     limit: $limit,
     playerUUID: $playerUUID,
@@ -150,9 +150,15 @@ const clientPaymentsStatistic = gql`query clientPaymentsStatistic(
     endDate: $endDate,
   ) {
     depositCount
-    depositAmount
+    depositAmount {
+      amount
+      currency
+    }
     withdrawCount
-    withdrawAmount
+    withdrawAmount {
+      amount
+      currency
+    }
   }
 }`;
 

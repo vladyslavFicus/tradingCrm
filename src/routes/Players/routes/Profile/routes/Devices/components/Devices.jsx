@@ -117,14 +117,14 @@ class Devices extends Component {
     const dateTime = moment.utc(data.lastSignInDate).local();
 
     return (
-      <div>
+      <Fragment>
         <div className="font-weight-700">
           {dateTime.format('DD.MM.YYYY')}
         </div>
         <div className="font-size-11">
           {dateTime.format('HH:mm:ss')}
         </div>
-      </div>
+      </Fragment>
     );
   };
 

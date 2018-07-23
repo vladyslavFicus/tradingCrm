@@ -52,7 +52,6 @@ class Additional extends Component {
       message,
     });
 
-
     return response;
   };
 
@@ -74,9 +73,7 @@ class Additional extends Component {
             <div className={classNames({ 'account-details__additional-info_disabled-triggers': disabled })}>
               <div className="row">
                 <div className="col-sm-8">
-                  <span>
-                    {I18n.t('PLAYER_PROFILE.MARKETING.SMS')}
-                  </span>
+                  {I18n.t('PLAYER_PROFILE.MARKETING.SMS')}
                 </div>
                 <div className="col-sm-4 text-right">
                   <Switch
@@ -88,9 +85,7 @@ class Additional extends Component {
               </div>
               <div className="row">
                 <div className="col-sm-8">
-                  <span>
-                    {I18n.t('PLAYER_PROFILE.MARKETING.NEWS')}
-                  </span>
+                  {I18n.t('PLAYER_PROFILE.MARKETING.NEWS')}
                 </div>
                 <div className="col-sm-4 text-right">
                   <Switch
@@ -102,9 +97,7 @@ class Additional extends Component {
               </div>
               <div className="row">
                 <div className="col-sm-8">
-                  <span>
-                    {I18n.t('PLAYER_PROFILE.MARKETING.MAIL')}
-                  </span>
+                  {I18n.t('PLAYER_PROFILE.MARKETING.MAIL')}
                 </div>
                 <div className="col-sm-4 text-right">
                   <Switch

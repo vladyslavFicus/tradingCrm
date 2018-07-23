@@ -10,10 +10,11 @@
     border-radius: 5px;
     padding: 5px 10px;
     font-size: 12px;
-    font-weight: bold;
+    font-weight: 700;
     .status-col {
       flex: 1 0 auto;
       text-align: left;
+      text-transform: uppercase;
       .status {
         color: #ff8041;
         font-size: 15px;
@@ -27,7 +28,7 @@
       flex: 1 0 auto;
       text-align: right;
       .name {
-        font-weight: normal;
+        font-weight: 400;
       }
     }
   }

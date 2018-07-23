@@ -5,6 +5,7 @@ const statusTypesKeys = {
   [kysStatusTypes.ADDRESS]: 'kycAddressStatus',
   [kysStatusTypes.IDENTITY]: 'kycPersonalStatus',
 };
+
 const multiselectStatuses = {
   [kysStatusTypes.FULLY_VERIFIED]: I18n.t('KYC_REQUESTS.FILTER.STATUS.FULLY_VERIFIED'),
   [`${statusTypesKeys[kysStatusTypes.IDENTITY]}.${kycStatuses.VERIFIED}`]:

@@ -14,7 +14,9 @@ export const selectItems = [{
 export const formName = 'balanceForm';
 
 export const initialQueryParams = {
-  limit: '9999',
+  limit: 9999,
   startDate: moment().subtract(7, 'days'),
   endDate: moment().format(),
 };
+
+export const moneyObj = { amount: 0, currency: 'EUR' };

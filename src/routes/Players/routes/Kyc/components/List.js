@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import classNames from 'classnames';
 import { I18n } from 'react-redux-i18n';
 import moment from 'moment';
@@ -65,8 +65,8 @@ class List extends Component {
     if (filters.statuses) {
       const statuses = [...filters.statuses];
       delete filters.statuses;
-
       const customStatusFilters = {};
+
       if (statuses.indexOf(kysStatusTypes.FULLY_VERIFIED) > -1) {
         filters.fullyVerified = true;
         _.pull(statuses, kysStatusTypes.FULLY_VERIFIED);
@@ -74,6 +74,7 @@ class List extends Component {
 
       statuses.map((status) => {
         const [statusKey, statusValue] = status.split('.');
+
         if (customStatusFilters[statusKey]) {
           customStatusFilters[statusKey].push(statusValue);
         } else {
@@ -114,20 +115,14 @@ class List extends Component {
       <div>
         <div className="font-weight-700">{I18n.t(type)}</div>
         <div className="font-size-11">
-          {
-            data.kycRequest && data.kycRequest.createDate &&
-            <div>
-              {I18n.t('COMMON.DATE_ON', {
-                date: moment.utc(data.kycRequest.createDate).local().format('DD.MM.YYYY'),
-              })}
-            </div>
-          }
-          {
-            data.kycRequest && data.kycRequest.authorUUID &&
-            <div>
-              {I18n.t('COMMON.AUTHOR_BY')} <Uuid uuid={data.kycRequest.authorUUID} />
-            </div>
-          }
+          <If condition={data.kycRequest && data.kycRequest.createDate}>
+            {I18n.t('COMMON.DATE_ON', {
+              date: moment.utc(data.kycRequest.createDate).local().format('DD.MM.YYYY'),
+            })}
+          </If>
+          <If condition={data.kycRequest && data.kycRequest.authorUUID}>
+            {I18n.t('COMMON.AUTHOR_BY')} <Uuid uuid={data.kycRequest.authorUUID} />
+          </If>
         </div>
       </div>
     );
@@ -135,16 +130,17 @@ class List extends Component {
 
   renderStatus = type => (data) => {
     const address = data[type];
+
     if (!address) {
       return null;
     }
-    const status = address.status;
+    const { status } = address;
 
     let date = moment.utc(address.statusDate).local().format('DD.MM.YYYY - HH:mm');
     date = status === kycStatuses.PENDING ? I18n.t('COMMON.SINCE', { date }) : I18n.t('COMMON.DATE_ON', { date });
 
     return (
-      <div>
+      <Fragment>
         <div className={classNames(kysStatusColorNames[status], 'text-uppercase font-weight-700')}>
           {I18n.t(kysStatusLabels[status]) || status}
         </div>
@@ -157,7 +153,7 @@ class List extends Component {
             </div>
           }
         </div>
-      </div>
+      </Fragment>
     );
   };
 

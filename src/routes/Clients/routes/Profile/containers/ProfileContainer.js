@@ -7,8 +7,6 @@ import { withNotifications, withModals } from '../../../../../components/HighOrd
 import { actionCreators as filesActionCreators } from '../modules/files';
 import Profile from '../components/Profile';
 import config, { getAvailableTags, getBrandId } from '../../../../../config';
-import Permissions from '../../../../../utils/permissions';
-import { userProfileTabs } from '../../../../../config/menu';
 import { profileQuery } from '../../../../../graphql/queries/profile';
 import { notesQuery } from '../../../../../graphql/queries/notes';
 import ConfirmActionModal from '../../../../../components/Modal/ConfirmActionModal';
@@ -42,9 +40,6 @@ const mapStateToProps = (state) => {
     i18n: {
       locale,
     },
-    permissions: {
-      data: currentPermissions,
-    },
   } = state;
 
   const uploadModalInitialValues = {};
@@ -66,8 +61,6 @@ const mapStateToProps = (state) => {
     profile,
     uploading,
     uploadModalInitialValues,
-    userProfileTabs: userProfileTabs
-      .filter(i => !(i.permissions instanceof Permissions) || i.permissions.check(currentPermissions)),
     locale,
     config: config.player,
   };

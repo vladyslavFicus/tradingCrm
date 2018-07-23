@@ -2,7 +2,6 @@ import React, { Component, Fragment } from 'react';
 import moment from 'moment';
 import classNames from 'classnames';
 import { SubmissionError } from 'redux-form';
-import Sticky from 'react-stickynode';
 import { I18n } from 'react-redux-i18n';
 import PropTypes from '../../../../../../constants/propTypes';
 import PlayerStatus from '../PlayerStatus';
@@ -20,6 +19,7 @@ import { statuses } from '../../../../../../constants/user';
 import { services } from '../../../../../../constants/services';
 import PermissionContent from '../../../../../../components/PermissionContent';
 import { withServiceCheck } from '../../../../../../components/HighOrder';
+import StickyWrapper from '../../../../../../components/StickyWrapper';
 import ActivePlan from '../ActivePlan';
 
 const sendActivationLinkPermission = new Permissions([permissions.USER_PROFILE.SEND_ACTIVATION_LINK]);
@@ -155,7 +155,7 @@ class Header extends Component {
 
     return (
       <Fragment>
-        <Sticky top={0} bottomBoundary={0} innerZ="3">
+        <StickyWrapper top={0} innerZ={3} activeClass="heading-fixed">
           <div className="panel-heading-row">
             <HeaderPlayerPlaceholder ready={loaded}>
               <div className="panel-heading-row__info">
@@ -235,7 +235,7 @@ class Header extends Component {
               </If>
             </div>
           </div>
-        </Sticky>
+        </StickyWrapper>
 
         <div className="layout-quick-overview">
           <div className="header-block header-block_account">

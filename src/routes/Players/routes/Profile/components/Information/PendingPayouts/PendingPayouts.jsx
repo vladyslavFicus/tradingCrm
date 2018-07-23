@@ -9,7 +9,6 @@ import {
   typesTitle,
   modalStaticData,
 } from '../../../../../../../constants/rewardPlan';
-import { services } from '../../../../../../../constants/services';
 
 class PendingPayouts extends Component {
   static propTypes = {
@@ -156,7 +155,6 @@ class PendingPayouts extends Component {
               </Otherwise>
             </Choose>
           </div>
-
         </div>
       </div>
     );
