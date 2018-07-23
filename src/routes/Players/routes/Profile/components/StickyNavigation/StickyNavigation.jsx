@@ -1,17 +1,17 @@
 import React from 'react';
-import Sticky from 'react-stickynode';
 import TabHeaderNav from '../../../../../../components/TabHeaderNav';
 import PropTypes from '../../../../../../constants/propTypes';
+import StickyWrapper from '../../../../../../components/StickyWrapper';
 
 const StickyNavigation = ({ links, children }) => (
-  <Sticky top=".panel-heading-row" bottomBoundary={0} innerZ="2">
+  <StickyWrapper top=".heading-fixed">
     <div className="row no-gutters tab-header">
       <TabHeaderNav links={links} />
       <div className="col-auto">
         {children}
       </div>
     </div>
-  </Sticky>
+  </StickyWrapper>
 );
 
 StickyNavigation.propTypes = {
