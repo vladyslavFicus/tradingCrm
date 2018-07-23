@@ -100,7 +100,7 @@
       "ADDRESS": {
         "TITLE": "Address",
         "VERIFY_KYC": {
-          "ERROR": "Need to save address information"
+          "ERROR": "Need to complete all fields of Personal information"
         },
         "LABEL": {
           "COUNTRY": "Country",
