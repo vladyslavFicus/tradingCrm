@@ -4,7 +4,6 @@ import Permissions from '../../../../../../../utils/permissions';
 import { Route } from '../../../../../../../router';
 import PropTypes from '../../../../../../../constants/propTypes';
 import GameActivity from '../routes/GameActivity';
-import TradingActivity from '../routes/TradingActivity';
 import StickyNavigation from '../../../components/StickyNavigation';
 import Payments from '../routes/Payments';
 import { routes } from '../constants';
@@ -77,7 +76,6 @@ class Transactions extends PureComponent {
         <Switch>
           <Route disableScroll path={`${path}/payments/:paymentUUID?`} component={Payments} />
           <Route disableScroll path={`${path}/game-activity`} component={GameActivity} />
-          <Route disableScroll path={`${path}/trading-activity`} component={TradingActivity} />
           <Redirect to={redirectUrl} />
         </Switch>
       </Fragment>

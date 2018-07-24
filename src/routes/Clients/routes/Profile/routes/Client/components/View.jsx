@@ -74,7 +74,6 @@ class View extends Component {
       phone: PropTypes.string,
     }).isRequired,
     meta: PropTypes.meta.isRequired,
-    checkLock: PropTypes.func.isRequired,
     verifyPhone: PropTypes.func.isRequired,
     verifyEmail: PropTypes.func.isRequired,
     filesUrl: PropTypes.string.isRequired,
@@ -168,7 +167,6 @@ class View extends Component {
       match: { params: { id: playerUUID } },
       profile: { notes: { verify: unsavedNote } },
       verifyData,
-      checkLock,
     } = this.props;
     const { modal: { params: { verifyType } } } = this.state;
 
@@ -191,8 +189,6 @@ class View extends Component {
     if (action && !action.error) {
       console.info(`Verify success - ${verifyType}`);
     }
-
-    checkLock(playerUUID);
     this.handleCloseModal();
     this.handleResetNote(kycNoteTypes.verify);
   };
@@ -202,7 +198,6 @@ class View extends Component {
       refuseData,
       profile: { notes: { refuse: unsavedNote } },
       match: { params: { id: playerUUID } },
-      checkLock,
     } = this.props;
 
     if (data[kycCategories.KYC_PERSONAL]) {
@@ -215,13 +210,9 @@ class View extends Component {
         reason: data[`${kycCategories.KYC_ADDRESS}_reason`],
       });
     }
-
-    const action = await checkLock(playerUUID);
-
-    if (action && !action.error) {
-      if (unsavedNote) {
-        this.context.onAddNote({ variables: { ...unsavedNote, targetUUID: playerUUID } });
-      }
+    
+    if (unsavedNote) {
+      this.context.onAddNote({ variables: { ...unsavedNote, targetUUID: playerUUID } });
     }
 
     this.handleCloseModal();
