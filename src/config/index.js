@@ -158,7 +158,7 @@ function getLogo() {
     'gslots',
     'cerberus',
     'casino_999_dk',
-    'falcon',
+    'nasfx',
   ];
   const brandId = getBrandId();
 
