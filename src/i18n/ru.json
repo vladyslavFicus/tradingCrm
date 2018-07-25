@@ -2374,6 +2374,15 @@
       "ACQUISITION": {
         "TITLE": ""
       }
+    },
+    "TRANSACTIONS": {
+      "MODAL_CREATE": {
+        "TYPE": "",
+        "AMOUNT": "",
+        "PAYMENT_ACCOUNT": "",
+        "FROM_MT4": "",
+        "TO_MT4": ""
+      }
     }
   }
 }
