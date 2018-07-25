@@ -5,8 +5,9 @@ import moment from 'moment';
 import { I18n } from 'react-redux-i18n';
 import { createValidator, translateLabels } from '../../../../../../../utils/validator';
 import PropTypes from '../../../../../../../constants/propTypes';
-import { categoriesLabels } from '../../../../../../../constants/files';
+import { categories, categoriesLabels } from '../../../../../../../constants/files';
 import { attributeLabels } from '../constants';
+import renderLabel from '../../../../../../../utils/renderLabel';
 import { InputField, SelectField, DateTimeField, RangeGroup } from '../../../../../../../components/ReduxForm';
 
 class FilesFilterForm extends Component {
@@ -71,9 +72,9 @@ class FilesFilterForm extends Component {
           className="filter-row__small"
         >
           <option value="">{I18n.t('COMMON.ANY')}</option>
-          {Object.keys(categoriesLabels).map(category => (
+          {Object.keys(categories).map(category => (
             <option key={category} value={category}>
-              {categoriesLabels[category]}
+              {renderLabel(category, categoriesLabels)}
             </option>
           ))}
         </Field>

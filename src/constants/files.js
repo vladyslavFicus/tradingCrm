@@ -12,12 +12,14 @@ const actionsColorNames = {
 };
 
 const categories = keyMirror({
+  PAYMENT_ACCOUNT: null,
   KYC_PERSONAL: null,
   KYC_ADDRESS: null,
   OTHER: null,
 });
 
 const categoriesLabels = {
+  [categories.PAYMENT_ACCOUNT]: 'KYC - Payment account',
   [categories.KYC_PERSONAL]: 'KYC - Personal',
   [categories.KYC_ADDRESS]: 'KYC - Address',
   [categories.OTHER]: 'Other',
