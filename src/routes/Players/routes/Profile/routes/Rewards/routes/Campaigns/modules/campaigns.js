@@ -58,13 +58,13 @@ function addPromoCodeToPlayer(playerUUID, promoCode) {
   };
 }
 
-function optInCampaign({ uuid, sourceType, playerUUID }) {
+function optInCampaign({ uuid, playerUUID }) {
   return (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `campaign_aggregator/${sourceType.toLowerCase()}/${uuid}/optin/${playerUUID}`,
+        endpoint: `campaign_aggregator/${uuid}/optin/${playerUUID}`,
         method: 'PUT',
         headers: {
           Accept: 'application/json',
@@ -78,14 +78,14 @@ function optInCampaign({ uuid, sourceType, playerUUID }) {
   };
 }
 
-function optOutCampaign({ uuid, sourceType, playerUUID, returnToList = false }) {
+function optOutCampaign({ uuid, playerUUID, returnToList = false }) {
   return (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
     const optoutType = returnToList ? 'RETURN_TO_LIST' : 'IGNORE_CAMPAIGN';
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `campaign_aggregator/${sourceType.toLowerCase()}/${uuid}/optout/${playerUUID}?optoutType=${optoutType}`,
+        endpoint: `campaign_aggregator/${uuid}/optout/${playerUUID}?optoutType=${optoutType}`,
         method: 'PUT',
         headers: {
           Accept: 'application/json',
