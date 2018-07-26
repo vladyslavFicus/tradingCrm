@@ -399,7 +399,6 @@ class CampaignList extends Component {
         onClick: () => this.handleActionClick({
           action: optOutCampaign,
           uuid,
-          sourceType,
           returnToList: true,
         }),
       }, {
@@ -407,7 +406,6 @@ class CampaignList extends Component {
         onClick: () => this.handleActionClick({
           action: optOutCampaign,
           uuid,
-          sourceType,
         }),
       });
     } else {
@@ -427,7 +425,6 @@ class CampaignList extends Component {
         onClick: () => this.handleActionClick({
           action: optInCampaign,
           uuid,
-          sourceType,
         }),
       });
     }
