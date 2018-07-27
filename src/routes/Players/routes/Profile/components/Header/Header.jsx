@@ -22,7 +22,7 @@ import PermissionContent from '../../../../../../components/PermissionContent';
 import { withServiceCheck } from '../../../../../../components/HighOrder';
 import ActivePlan from '../ActivePlan';
 import StickyWrapper from '../../../../../../components/StickyWrapper';
-import TemporaryAccount from '../TemporaryAccount';
+import TemporaryUntil from '../TemporaryUntil';
 
 const sendActivationLinkPermission = new Permissions([permissions.USER_PROFILE.SEND_ACTIVATION_LINK]);
 const playerLimitsPermission = [
@@ -59,6 +59,7 @@ class Header extends Component {
       profileStatusComment: PropTypes.string,
       accumulatedDeposits: PropTypes.price,
       accumulatedWithdrawals: PropTypes.price,
+      temporaryUntil: PropTypes.string,
     }),
     onRefreshClick: PropTypes.func.isRequired,
     isLoadingProfile: PropTypes.bool.isRequired,
@@ -181,6 +182,7 @@ class Header extends Component {
         totalBalance,
         playerUUID,
         registrationDate,
+        temporaryUntil,
       },
       playerProfile,
       availableStatuses,
@@ -207,7 +209,9 @@ class Header extends Component {
     return (
       <Fragment>
         <StickyWrapper top={0} innerZ={3} activeClass="heading-fixed">
-          <TemporaryAccount />
+          <If condition={temporaryUntil}>
+            <TemporaryUntil temporaryUntil={temporaryUntil} />
+          </If>
           <div className="panel-heading-row">
             <HeaderPlayerPlaceholder ready={loaded}>
               <div className="panel-heading-row__info">

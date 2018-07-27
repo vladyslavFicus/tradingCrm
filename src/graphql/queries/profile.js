@@ -98,6 +98,7 @@ const profileQuery = gql`query profileData($playerUUID: String!){
         }
       }
       intendedAmountToSpend
+      temporaryUntil
     }
     error {
       error
