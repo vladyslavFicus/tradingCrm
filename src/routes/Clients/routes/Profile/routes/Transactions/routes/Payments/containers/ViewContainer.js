@@ -1,7 +1,9 @@
 import { connect } from 'react-redux';
+import { graphql, compose } from 'react-apollo';
 import Payments from '../components/Payments';
 import { actionCreators as viewActionCreators } from '../modules';
 import { paymentActions, chargebackReasons, rejectReasons } from '../../../../../../../../../constants/payment';
+import { addPaymentMutation } from '../../../../../../../../../graphql/mutations/payment';
 
 const mapStateToProps = ({
   userTransactions,
@@ -25,11 +27,15 @@ const mapActions = {
   onChangePaymentStatus: viewActionCreators.changePaymentStatus,
   loadPaymentStatuses: viewActionCreators.fetchPaymentStatuses,
   loadPaymentAccounts: viewActionCreators.fetchPaymentAccounts,
-  addPayment: viewActionCreators.addPayment,
   manageNote: viewActionCreators.manageNote,
   resetNote: viewActionCreators.resetNote,
   resetAll: viewActionCreators.resetAll,
   fetchActiveBonus: viewActionCreators.fetchActiveBonus,
 };
 
-export default connect(mapStateToProps, mapActions)(Payments);
+export default compose(
+  graphql(addPaymentMutation, {
+    name: 'addPayment',
+  }),
+  connect(mapStateToProps, mapActions),
+)(Payments);

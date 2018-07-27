@@ -33,7 +33,39 @@ const unlockMutation = gql`mutation unlock($playerUUID: String!, $reason: String
   }
 }`;
 
+const addPaymentMutation = gql`mutation createClientPayment(
+  $amount: Int!,
+  $currency: String!
+  $playerUUID: String!,
+  $paymentType: String!,
+  $paymentAccountUuid: String,
+  $referenceId: String,
+  $mt4Acc:String,
+) {
+  payment {
+    createClientPayment (
+      amount: $amount,
+      currency: $currency,
+      playerUUID: $playerUUID,
+      paymentType: $paymentType,
+      paymentAccountUuid: $paymentAccountUuid,
+      referenceId: $referenceId,
+      mt4Acc: $mt4Acc,
+    ) {
+      data {
+        paymentId
+        redirectLink
+        generationDate
+      }
+      error {
+        error
+      }
+    }
+  }
+}`;
+
 export {
   lockMutation,
   unlockMutation,
+  addPaymentMutation,
 };

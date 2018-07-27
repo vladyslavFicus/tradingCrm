@@ -18,6 +18,13 @@ import profile, {
   initialState as profileInitialState,
 } from './profile';
 
+import playerLimits, {
+  actionCreators as playerLimitsActionCreators,
+  actionTypes as playerLimitsActionTypes,
+  initialState as playerLimitsInitialState,
+} from './playerLimits';
+
+
 import uploading, {
   initialState as uploadingInitialState,
   actionTypes as uploadingActionTypes,
@@ -27,12 +34,14 @@ import uploading, {
 const actionCreators = {
   ...profileActionCreators,
   ...notesActionCreators,
+  ...playerLimitsActionCreators,
   ...uploadingActionCreators,
   ...filesActionCreators,
 };
 const actionTypes = {
   ...profileActionTypes,
   ...notesActionTypes,
+  ...playerLimitsActionTypes,
   ...uploadingActionTypes,
   ...filesActionTypes,
 };
@@ -40,6 +49,7 @@ const initialState = {
   files: filesInitialState,
   profile: profileInitialState,
   notes: notesInitialState,
+  playerLimits: playerLimitsInitialState,
   uploading: uploadingInitialState,
 };
 
@@ -52,5 +62,6 @@ export default combineReducers({
   files,
   profile,
   notes,
+  playerLimits,
   uploading,
 });
