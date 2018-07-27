@@ -58,13 +58,13 @@ function addPromoCodeToPlayer(playerUUID, promoCode) {
   };
 }
 
-function optInCampaign({ uuid, playerUUID }) {
+function optInCampaign({ uuid, playerUUID, deviceType }) {
   return (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `campaign_aggregator/${uuid}/optin/${playerUUID}`,
+        endpoint: `campaign_aggregator/${uuid}/optin/${playerUUID}?deviceType=${deviceType}`,
         method: 'PUT',
         headers: {
           Accept: 'application/json',

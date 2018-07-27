@@ -3,6 +3,7 @@ import { graphql, compose } from 'react-apollo';
 import { actionCreators } from '../modules';
 import CampaignList from '../components/CampaignList';
 import ConfirmActionModal from '../../../../../../../../../components/Modal/ConfirmActionModal';
+import OptInModal from '../components/OptInModal';
 import { withModals, withNotifications } from '../../../../../../../../../components/HighOrder';
 import { resetPlayerMutation } from '.././../../../../../../../../graphql/mutations/campaigns';
 
@@ -19,6 +20,7 @@ const mapStateToProps = ({
 export default compose(
   withModals({
     confirmActionModal: ConfirmActionModal,
+    optInModal: OptInModal,
   }),
   connect(mapStateToProps, actionCreators),
   graphql(resetPlayerMutation, {

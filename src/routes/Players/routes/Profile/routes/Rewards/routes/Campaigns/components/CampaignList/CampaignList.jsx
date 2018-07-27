@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { I18n } from 'react-redux-i18n';
 import moment from 'moment';
 import { SubmissionError } from 'redux-form';
-import { get } from 'lodash';
+import { get, uniq } from 'lodash';
 import PropTypes from '../../../../../../../../../../constants/propTypes';
 import GridView, { GridViewColumn } from '../../../../../../../../../../components/GridView';
 import Uuid from '../../../../../../../../../../components/Uuid';
@@ -22,6 +22,9 @@ import Permissions from '../../../../../../../../../../utils/permissions';
 import { sourceTypes, playerStatuses } from '../../../../../../../../../../constants/campaign-aggregator';
 import ActionsDropDown from '../../../../../../../../../../components/ActionsDropDown';
 import CountItems from '../CountItems';
+import {
+  deviceTypes as rewardDeviceTypes,
+} from '../../../../../../../../../Campaigns/components/Rewards/constants';
 
 const ADD_TO_CAMPAIGN_MODAL = 'add-to-campaign-modal';
 const ADD_PROMO_CODE_MODAL = 'add-promo-code-modal';
@@ -170,6 +173,41 @@ class CampaignList extends Component {
     confirmActionModal.show({
       onSubmit: this.handleActionCampaign(params),
     });
+  };
+
+  handleOptInClick = (params) => {
+    const { rewards } = params;
+    const {
+      modals: {
+        optInModal,
+      },
+    } = this.props;
+
+    const uniqueDeviceTypes = uniq(rewards.map(i => i.type).filter(i => i !== rewardDeviceTypes.ALL));
+
+    const deviceTypes = !uniqueDeviceTypes.length
+      ? [rewardDeviceTypes.MOBILE, rewardDeviceTypes.DESKTOP]
+      : uniqueDeviceTypes;
+
+    optInModal.show({
+      onSubmit: this.handleOptInCampaign(params),
+      deviceTypes,
+    });
+  };
+
+  handleOptInCampaign = params => async (formData) => {
+    const {
+      match: { params: { id: playerUUID } },
+      modals: { optInModal },
+      optInCampaign,
+    } = this.props;
+
+    const actionResult = await optInCampaign({ ...params, ...formData, playerUUID });
+
+    if (actionResult && !actionResult.error) {
+      optInModal.hide();
+      this.handleRefresh();
+    }
   };
 
   handleResetPlayerClick = uuid => () => {
@@ -385,12 +423,11 @@ class CampaignList extends Component {
     </div>
   );
 
-  renderActions = ({ state, playerStatus, uuid, targetType, sourceType: originalSourceType }) => {
+  renderActions = ({ state, playerStatus, uuid, targetType, sourceType: originalSourceType, rewards }) => {
     const { permissions: currentPermissions } = this.context;
 
     const {
       optOutCampaign,
-      optInCampaign,
       deletePlayerFromCampaign,
     } = this.props;
     const items = [];
@@ -431,9 +468,9 @@ class CampaignList extends Component {
 
       items.push({
         label: I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.OPT_IN'),
-        onClick: () => this.handleActionClick({
-          action: optInCampaign,
+        onClick: () => this.handleOptInClick({
           uuid,
+          rewards,
         }),
         visible: optInPermission.check(currentPermissions),
       });
