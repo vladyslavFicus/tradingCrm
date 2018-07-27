@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import classNames from 'classnames';
 import moment from 'moment';
 import { I18n } from 'react-redux-i18n';
@@ -49,9 +49,6 @@ class List extends Component {
   state = {
     filters: {},
     page: 0,
-    selectedRows: [],
-    allRowsSelected: false,
-    touchedRowsIds: [],
   };
 
   componentWillUnmount() {
@@ -89,57 +86,16 @@ class List extends Component {
       filters.statuses = [filters.statuses];
     }
 
-    this.setState({
-      filters,
-      page: 0,
-      allRowsSelected: false,
-      selectedRows: [],
-      touchedRowsIds: [],
-    }, () => this.handleRefresh());
+    this.setState({ filters, page: 0 }, () => this.handleRefresh());
   };
 
   handleFilterReset = () => {
     this.props.reset();
-    this.setState({
-      filters: {},
-      page: 0,
-      allRowsSelected: false,
-      selectedRows: [],
-      touchedRowsIds: [],
-    });
+    this.setState({ filters: {}, page: 0 });
   };
 
   handlePlayerClick = (data) => {
     this.props.onPlayerClick({ ...data, auth: this.props.auth });
-  };
-
-  handleSelectedRow = (condition, index, touchedRowsIds) => {
-    const { list: { entities } } = this.props;
-    const selectedRows = [...this.state.selectedRows];
-
-    if (condition) {
-      selectedRows.push(entities.content[index].playerUUID);
-    } else {
-      selectedRows.splice(index, 1);
-    }
-
-    this.setState({
-      selectedRows,
-      touchedRowsIds,
-    });
-  };
-
-  handleAllRowsSelect = () => {
-    const { list: { entities } } = this.props;
-    const { allRowsSelected } = this.state;
-
-    this.setState({
-      allRowsSelected: !allRowsSelected,
-      touchedRowsIds: [],
-      selectedRows: allRowsSelected
-        ? []
-        : [...Array.from(Array(entities.totalElements).keys())],
-    });
   };
 
   renderUserInfo = data => (
@@ -154,47 +110,46 @@ class List extends Component {
     <div className="font-weight-700">{data.country}</div>
   );
 
-  renderAffiliate = data => (
-    <div>{data.affiliateId || 'Empty'}</div>
-  );
+  renderAffiliate = data => (data.affiliateId ? data.affiliateId : 'Empty');
 
   renderRegistered = data => (
-    <div>
+    <Fragment>
       <div className="font-weight-700">{moment.utc(data.registrationDate).local().format('DD.MM.YYYY')}</div>
       <div className="font-size-11">
         {moment.utc(data.registrationDate).local().format('HH:mm:ss')}
       </div>
-    </div>
+    </Fragment>
   );
 
   renderBalance = data => (
-    data.balance ? (
-      <div>
+    <Choose>
+      <When condition={data.balance}>
         <div className="font-weight-700">
           <Amount {...data.balance} />
         </div>
-        {
-          data.lastDeposit && data.lastDeposit.transactionDate &&
+        <If condition={data.lastDeposit && data.lastDeposit.transactionDate}>
           <div className="font-size-11">
             Last deposit {moment.utc(data.lastDeposit.transactionDate).local().format('DD.MM.YYYY')}
           </div>
-        }
-      </div>
-    ) : 'Empty'
+        </If>
+      </When>
+      <Otherwise>
+        Empty
+      </Otherwise>
+    </Choose>
   );
 
   renderStatus = data => (
-    <div>
+    <Fragment>
       <div className={classNames(userStatusColorNames[data.profileStatus], 'text-uppercase font-weight-700')}>
         {userStatusesLabels[data.profileStatus] || data.profileStatus}
       </div>
-      {
-        data.profileStatusDate &&
+      <If condition={data.profileStatusDate}>
         <div className="font-size-11">
           Since {moment.utc(data.profileStatusDate).local().format('DD.MM.YYYY')}
         </div>
-      }
-    </div>
+      </If>
+    </Fragment>
   );
 
   render() {
@@ -205,14 +160,7 @@ class List extends Component {
       currencies,
       countries,
     } = this.props;
-
-    const {
-      filters,
-      allRowsSelected,
-      selectedRows,
-      touchedRowsIds,
-    } = this.state;
-
+    const { filters } = this.state;
     const allowActions = Object
       .keys(filters)
       .filter(i => (filters[i] && Array.isArray(filters[i]) && filters[i].length > 0) || filters[i]).length > 0;
@@ -220,73 +168,18 @@ class List extends Component {
     return (
       <div className="card">
         <div className="card-heading">
-          <Choose>
-            <When condition={!!entities.totalElements}>
-              <span className="font-size-20 height-55 users-list-header">
-                <div>
-                  <strong>{entities.totalElements} </strong>
-                  {I18n.t('COMMON.PLAYERS_FOUND')}
-                </div>
-                <div className="font-size-14">
-                  <strong>{selectedRows.length} </strong>
-                  {I18n.t('COMMON.PLAYERS_SELECTED')}
-                </div>
-              </span>
-            </When>
-            <Otherwise>
-              <span className="font-size-20" id="users-list-header">
-                {I18n.t('COMMON.PLAYERS')}
-              </span>
-            </Otherwise>
-          </Choose>
+          <span className="font-size-20" id="users-list-header">
+            {I18n.t('COMMON.PLAYERS')}
+          </span>
 
-          <If condition={entities.totalPages !== 0 && selectedRows.length !== 0}>
-            <div className="grid-bulk-menu ml-auto">
-              <span>Bulk actions</span>
-              <button
-                disabled={exporting || !allowActions}
-                className="btn btn-default-outline"
-                // onClick={this.handleSales}
-              >
-                {I18n.t('COMMON.SALES')}
-              </button>
-              <button
-                disabled={exporting || !allowActions}
-                className="btn btn-default-outline"
-                // onClick={this.handleRetention}
-              >
-                {I18n.t('COMMON.RETENTION')}
-              </button>
-              <button
-                disabled={exporting || !allowActions}
-                className="btn btn-default-outline"
-                // onClick={this.handleCompliance}
-              >
-                {I18n.t('COMMON.COMPLIANCE')}
-              </button>
-              <button
-                disabled={exporting || !allowActions}
-                className="btn btn-default-outline"
-                // onClick={this.handleMove}
-              >
-                {I18n.t('COMMON.MOVE')}
-              </button>
-              <button
-                disabled={exporting || !allowActions}
-                className="btn btn-default-outline"
-                // onClick={this.changeStatus}
-              >
-                {I18n.t('COMMON.CHANGE_STATUS')}
-              </button>
-              <button
-                disabled={exporting || !allowActions}
-                className="btn btn-default-outline"
-                // onClick={this.handleExportSelected}
-              >
-                {I18n.t('COMMON.EXPORT_SELECTED')}
-              </button>
-            </div>
-          </If>
+          <button
+            disabled={exporting || !allowActions}
+            className="btn btn-default-outline ml-auto"
+            onClick={this.handleExport}
+            type="button"
+          >
+            {I18n.t('COMMON.EXPORT')}
+          </button>
         </div>
 
         <UserGridFilter
@@ -298,7 +191,7 @@ class List extends Component {
           countries={countries}
         />
 
-        <div className="card-body card-grid-multiselect">
+        <div className="card-body">
           <GridView
             tableClassName="table-hovered"
             dataSource={entities.content}
@@ -306,12 +199,6 @@ class List extends Component {
             activePage={entities.number + 1}
             totalPages={entities.totalPages}
             lazyLoad
-            multiselect
-            selectedRows={selectedRows}
-            allRowsSelected={allRowsSelected}
-            touchedRowsIds={touchedRowsIds}
-            onAllRowsSelect={this.handleAllRowsSelect}
-            onRowSelect={this.handleSelectedRow}
             locale={locale}
             showNoResults={noResults}
             onRowClick={this.handlePlayerClick}
