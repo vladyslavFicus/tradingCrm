@@ -58,7 +58,6 @@ class OptInModal extends Component {
                     label={I18n.t(attributeLabels.deviceType)}
                     type="select"
                     component={SelectField}
-                    disabled={deviceTypes.length === 1}
                   >
                     <option value="">{I18n.t(attributeLabels.chooseDeviceType)}</option>
                     {deviceTypes.map(key => (
