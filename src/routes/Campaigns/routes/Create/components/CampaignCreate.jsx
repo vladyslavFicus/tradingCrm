@@ -29,7 +29,10 @@ class CampaignCreate extends PureComponent {
 
     const campaignData = {
       ...formData,
-      rewards: formData.rewards.map(({ uuid }) => uuid),
+      rewards: formData.rewards.map(({ uuid, deviceType }) => ({
+        uuid,
+        type: deviceType,
+      })),
       fulfillments: [],
     };
 
@@ -79,9 +82,7 @@ class CampaignCreate extends PureComponent {
   render() {
     return (
       <div className="profile">
-        <div className="profile__info">
-          <Header />
-        </div>
+        <Header />
         <Form
           form="createCampaign"
           initialValues={{

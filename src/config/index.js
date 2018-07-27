@@ -146,18 +146,27 @@ function setBrandId(brandId) {
 }
 
 function getLogo() {
-  const brands = ['redbox', 'slottica', 'loki', 'vulcanprestige', 'vulcanneon', 'vulcangold', 'gslots'];
-  let brandId = getBrandId();
-
-  if (brandId) {
-    brandId = brandId.replace(/(_\w+)/, '');
-  }
+  const brands = [
+    'hrzn_dev2',
+    'redbox',
+    'slottica',
+    'loki',
+    'vulcanprestige',
+    'vulcanprestige_prod',
+    'vulcanneon',
+    'vulcangold',
+    'gslots',
+    'cerberus',
+    'casino_999_dk',
+    'nasfx',
+  ];
+  const brandId = getBrandId();
 
   if (brands.indexOf(brandId) > -1) {
     return `/img/brand/logo/${brandId}.svg`;
   }
 
-  return '/img/logoNewAge.png';
+  return '/img/logo-placeholder.svg';
 }
 
 function getVersion() {

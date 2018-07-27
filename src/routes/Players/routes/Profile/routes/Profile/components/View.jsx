@@ -109,7 +109,14 @@ class View extends Component {
   };
 
   async componentDidMount() {
-    const kycReasonsAction = await this.props.fetchKycReasons();
+    const {
+      fetchFiles,
+      fetchKycReasons,
+      match: { params: { id: playerUUID } },
+    } = this.props;
+
+    fetchFiles(playerUUID);
+    const kycReasonsAction = await fetchKycReasons();
 
     console.info('kycReasonsAction');
     console.info(kycReasonsAction ? JSON.stringify(kycReasonsAction.payload) : kycReasonsAction);
@@ -180,7 +187,6 @@ class View extends Component {
       checkLock,
     } = this.props;
     const { modal: { params: { verifyType } } } = this.state;
-    console.info(`Verify modal submitted - ${verifyType}`);
 
     const action = await verifyData(playerUUID, verifyType);
     if (action) {

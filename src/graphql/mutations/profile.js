@@ -119,6 +119,7 @@ const suspendProlong = gql`mutation suspendProlong(
         profileStatusPermanent
         profileStatusReason
         profileStatusDate
+        profileStatusComment
         suspendEndDate
       }
       error {
@@ -166,6 +167,7 @@ const suspendMutation = gql`mutation suspend(
         profileStatusPermanent
         profileStatusReason
         profileStatusDate
+        profileStatusComment
         suspendEndDate
       }
       error {

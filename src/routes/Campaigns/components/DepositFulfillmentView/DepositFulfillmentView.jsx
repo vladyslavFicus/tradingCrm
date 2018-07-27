@@ -62,7 +62,6 @@ class DepositFulfillmentView extends PureComponent {
               name={`${name}.numDeposit`}
               type="select"
               component={SelectField}
-              position="vertical"
               disabled={disabled}
               label={I18n.t('CAMPAIGNS.SETTINGS.FULFILLMENTS.DEPOSIT.DEPOSIT_NUMBER_LABEL')}
               showErrorMessage={false}

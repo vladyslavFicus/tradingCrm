@@ -1,3 +1,3 @@
-import Route from './Route';
+import RouteContainer from './RouteContainer';
 
-export default Route;
+export default RouteContainer;

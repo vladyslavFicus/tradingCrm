@@ -94,7 +94,10 @@ class SettingsView extends Component {
       variables: {
         ...formData,
         uuid: data.uuid,
-        rewards: formData.rewards.map(({ uuid }) => uuid),
+        rewards: formData.rewards.map(({ uuid, deviceType }) => ({
+          uuid,
+          type: deviceType,
+        })),
         fulfillments,
       },
     });

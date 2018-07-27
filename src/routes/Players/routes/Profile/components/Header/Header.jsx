@@ -2,7 +2,6 @@ import React, { Component, Fragment } from 'react';
 import moment from 'moment';
 import classNames from 'classnames';
 import { SubmissionError } from 'redux-form';
-import Sticky from 'react-stickynode';
 import { I18n } from 'react-redux-i18n';
 import PropTypes from '../../../../../../constants/propTypes';
 import PlayerStatus from '../PlayerStatus';
@@ -20,8 +19,10 @@ import HeaderPlayerPlaceholder from '../HeaderPlayerPlaceholder';
 import { statuses } from '../../../../../../constants/user';
 import { services } from '../../../../../../constants/services';
 import PermissionContent from '../../../../../../components/PermissionContent';
+import { withServiceCheck } from '../../../../../../components/HighOrder';
 import ActivePlan from '../ActivePlan';
-import ServiceContent from '../../../../../../components/ServiceContent';
+import StickyWrapper from '../../../../../../components/StickyWrapper';
+import TemporaryUntil from '../TemporaryUntil';
 
 const sendActivationLinkPermission = new Permissions([permissions.USER_PROFILE.SEND_ACTIVATION_LINK]);
 const playerLimitsPermission = [
@@ -56,6 +57,9 @@ class Header extends Component {
       playerUUID: PropTypes.string,
       signInIps: PropTypes.arrayOf(PropTypes.ipEntity),
       profileStatusComment: PropTypes.string,
+      accumulatedDeposits: PropTypes.price,
+      accumulatedWithdrawals: PropTypes.price,
+      temporaryUntil: PropTypes.string,
     }),
     onRefreshClick: PropTypes.func.isRequired,
     isLoadingProfile: PropTypes.bool.isRequired,
@@ -106,6 +110,7 @@ class Header extends Component {
     onShareProfileClick: PropTypes.func.isRequired,
     profileStatusDate: PropTypes.string,
     profileStatusAuthor: PropTypes.string,
+    checkService: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -164,6 +169,8 @@ class Header extends Component {
         username,
         languageCode,
         lastName,
+        accumulatedDeposits,
+        accumulatedWithdrawals,
         withdrawableAmount,
         profileStatusAuthor,
         profileStatusDate,
@@ -173,9 +180,9 @@ class Header extends Component {
         profileStatus,
         profileVerified,
         totalBalance,
-        accumulated,
         playerUUID,
         registrationDate,
+        temporaryUntil,
       },
       playerProfile,
       availableStatuses,
@@ -193,6 +200,7 @@ class Header extends Component {
       loaded,
       onChangePasswordClick,
       onShareProfileClick,
+      checkService,
     } = this.props;
 
     const { permissions: currentPermissions } = this.context;
@@ -200,7 +208,10 @@ class Header extends Component {
 
     return (
       <Fragment>
-        <Sticky top={0} bottomBoundary={0} innerZ="3">
+        <StickyWrapper top={0} innerZ={3} activeClass="heading-fixed">
+          <If condition={temporaryUntil}>
+            <TemporaryUntil temporaryUntil={temporaryUntil} />
+          </If>
           <div className="panel-heading-row">
             <HeaderPlayerPlaceholder ready={loaded}>
               <div className="panel-heading-row__info">
@@ -280,7 +291,7 @@ class Header extends Component {
               </If>
             </div>
           </div>
-        </Sticky>
+        </StickyWrapper>
 
         <div className="layout-quick-overview">
           <div className="header-block header-block_account">
@@ -308,7 +319,7 @@ class Header extends Component {
                     {this.getRealWithBonusBalance()}
                   </div>
                 }
-                accumulatedBalances={{ withdrawableAmount, ...accumulated }}
+                accumulatedBalances={{ withdrawableAmount, accumulatedDeposits, accumulatedWithdrawals }}
               />
             </If>
           </div>
@@ -333,13 +344,13 @@ class Header extends Component {
               on {moment.utc(registrationDate).local().format('DD.MM.YYYY')}
             </div>
           </div>
-          <ServiceContent service={services.dwh}>
+          <If condition={checkService(services.dwh)}>
             <ActivePlan playerUUID={playerUUID} />
-          </ServiceContent>
+          </If>
         </div>
       </Fragment>
     );
   }
 }
 
-export default Header;
+export default withServiceCheck(Header);

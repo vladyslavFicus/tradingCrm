@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { compose } from 'redux';
 import { I18n } from 'react-redux-i18n';
 import PropTypes from 'prop-types';
 import { Field, reduxForm, getFormSyncErrors, getFormValues } from 'redux-form';
@@ -58,14 +59,12 @@ class EmailForm extends Component {
     return (
       <form onSubmit={handleSubmit(onSubmit)}>
         <PermissionContent permissions={permissions.USER_PROFILE.UPDATE_EMAIL}>
-          <div className="row">
-            <div className="col-auto ml-auto">
-              <If condition={dirty && !submitting && valid && !disabled}>
-                <button className="btn btn-sm btn-primary" type="submit">
-                  {I18n.t('COMMON.SAVE_CHANGES')}
-                </button>
-              </If>
-            </div>
+          <div className="text-right">
+            <If condition={dirty && !submitting && valid && !disabled}>
+              <button className="btn btn-sm btn-primary" type="submit">
+                {I18n.t('COMMON.SAVE_CHANGES')}
+              </button>
+            </If>
           </div>
         </PermissionContent>
         <div className="form-row">
@@ -81,7 +80,6 @@ class EmailForm extends Component {
             }
             type="text"
             component={InputField}
-            position="vertical"
             className="col-6"
           />
           <If condition={profileStatus === playerStatuses.INACTIVE}>
@@ -99,15 +97,16 @@ class EmailForm extends Component {
   }
 }
 
-export default connect(state => ({
-  currentValues: getFormValues(FORM_NAME)(state),
-  formSyncErrors: getFormSyncErrors(FORM_NAME)(state),
-}))(
+export default compose(
+  connect(state => ({
+    currentValues: getFormValues(FORM_NAME)(state),
+    formSyncErrors: getFormSyncErrors(FORM_NAME)(state),
+  })),
   reduxForm({
     form: FORM_NAME,
     validate: createValidator({
       email: 'required|email',
     }, attributeLabels, false),
     enableReinitialize: true,
-  })(EmailForm),
-);
+  }),
+)(EmailForm);

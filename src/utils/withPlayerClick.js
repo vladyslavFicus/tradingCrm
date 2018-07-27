@@ -3,6 +3,10 @@ import PropTypes from 'prop-types';
 import { I18n } from 'react-redux-i18n';
 import { playerProfileViewTypes } from '../constants';
 import history from '../router/history';
+import rootConfig from '../config';
+import { markets } from '../constants/markets';
+
+const rootUrlName = rootConfig.market === markets.crm ? 'clients' : 'players';
 
 const withPlayerClick = WrappedComponent => class OpenProfile extends Component {
     static contextTypes = {
@@ -22,7 +26,7 @@ const withPlayerClick = WrappedComponent => class OpenProfile extends Component 
       } = data;
 
       if (this.context.settings.playerProfileViewType === playerProfileViewTypes.page) {
-        history.push(`/players/${data.playerUUID}/profile`);
+        history.push(`/${rootUrlName}/${data.playerUUID}/profile`);
       } else {
         const panelData = {
           fullName: (firstName || lastName)

@@ -20,8 +20,8 @@ import {
   periodsLabels,
 } from '../../constants';
 import NodeBuilder from '../NodeBuilder';
-import { BonusView } from '../Bonus';
-import { FreeSpinView } from '../FreeSpin';
+import { BonusView } from '../Rewards/Bonus';
+import { FreeSpinView } from '../Rewards/FreeSpin';
 import { WageringView } from '../Wagering';
 import DepositFulfillmentView from '../DepositFulfillmentView';
 import { createValidator, translateLabels } from '../../../../utils/validator';
@@ -140,258 +140,236 @@ class Form extends Component {
     } = this.props;
 
     return (
-      <form id={form} onSubmit={handleSubmit(this.handleSubmit)} className="campaigns-form">
-        <div className="container-fluid">
-          <div className="row">
-            <div className="col-auto campaigns-form__title">
-              {I18n.t('CAMPAIGNS.SETTINGS.CAMPAIGN_SETTINGS')}
-            </div>
-            <If condition={!pristine}>
-              <div className="col-auto ml-auto">
-                <button
-                  disabled={submitting}
-                  onClick={reset}
-                  className="btn btn-default-outline text-uppercase mr-3"
-                  type="button"
-                >
-                  {I18n.t('COMMON.REVERT_CHANGES')}
-                </button>
-                <button
-                  disabled={submitting}
-                  className="btn btn-primary text-uppercase"
-                  type="submit"
-                  id="bonus-campaign-save-button"
-                >
-                  {I18n.t('COMMON.SAVE_CHANGES')}
-                </button>
-              </div>
-            </If>
+      <form id={form} onSubmit={handleSubmit(this.handleSubmit)} className="campaign-create">
+        <div className="row">
+          <div className="col-auto campaign-create__title">
+            {I18n.t('CAMPAIGNS.SETTINGS.CAMPAIGN_SETTINGS')}
           </div>
-          <hr />
-          <div className="row">
-            <div className="col-md-6">
-              <Field
-                id={`${form}Name`}
-                name="name"
-                disabled={disabled || submitting}
-                label={I18n.t(attributeLabels.campaignName)}
-                type="text"
-                component={InputField}
-                position="vertical"
-                helpText={
-                  <Choose>
-                    <When condition={formValues && formValues.name}>
-                      {formValues.name.length}/{CAMPAIGN_NAME_MAX_LENGTH}
-                    </When>
-                    <Otherwise>
-                      0/{CAMPAIGN_NAME_MAX_LENGTH}
-                    </Otherwise>
-                  </Choose>
-                }
-              />
+          <If condition={!pristine}>
+            <div className="col-auto ml-auto">
+              <button
+                disabled={submitting}
+                onClick={reset}
+                className="btn btn-default-outline text-uppercase mr-3"
+                type="button"
+              >
+                {I18n.t('COMMON.REVERT_CHANGES')}
+              </button>
+              <button
+                disabled={submitting}
+                className="btn btn-primary text-uppercase"
+                type="submit"
+                id="bonus-campaign-save-button"
+              >
+                {I18n.t('COMMON.SAVE_CHANGES')}
+              </button>
             </div>
-            <RangeGroup
-              className="col-md-4"
-              label={I18n.t('CAMPAIGNS.SETTINGS.LABEL.CAMPAIGN_PERIOD')}
-            >
-              <Field
-                utc
-                name="startDate"
-                component={DateTimeField}
-                isValidDate={() => true}
-                position="vertical"
-                disabled={disabled}
-                id="campaign-start-date"
-              />
-              <Field
-                utc
-                name="endDate"
-                component={DateTimeField}
-                isValidDate={this.endDateValidator('startDate')}
-                position="vertical"
-                disabled={disabled}
-                id="campaign-end-date"
-              />
-            </RangeGroup>
-          </div>
+          </If>
         </div>
-        <div className="container-fluid my-3">
-          <div className="text-truncate campaigns-form__title">
-            {I18n.t('CAMPAIGNS.SETTINGS.TARGET')}
-          </div>
-          <hr />
-          <div className="row">
-            <div className="col-3">
-              <Field
-                name="targetType"
-                label={I18n.t(attributeLabels.targetType)}
-                type="select"
-                disabled={disabled}
-                id={`${form}TargetType`}
-                position="vertical"
-                component={SelectField}
-                onChange={this.handleChangeTargetType}
-              >
-                {Object.keys(targetTypes).map(targetType => (
-                  <option key={targetType} value={targetType}>
-                    {renderLabel(targetType, targetTypesLabels)}
+        <hr className="mt-2" />
+        <div className="row">
+          <Field
+            id={`${form}Name`}
+            name="name"
+            disabled={disabled || submitting}
+            label={I18n.t(attributeLabels.campaignName)}
+            type="text"
+            component={InputField}
+            helpText={
+              <Choose>
+                <When condition={formValues && formValues.name}>
+                  {formValues.name.length}/{CAMPAIGN_NAME_MAX_LENGTH}
+                </When>
+                <Otherwise>
+                  0/{CAMPAIGN_NAME_MAX_LENGTH}
+                </Otherwise>
+              </Choose>
+            }
+            className="col-md-6"
+          />
+          <RangeGroup
+            className="col-md-4"
+            label={I18n.t('CAMPAIGNS.SETTINGS.LABEL.CAMPAIGN_PERIOD')}
+          >
+            <Field
+              utc
+              name="startDate"
+              component={DateTimeField}
+              isValidDate={() => true}
+              disabled={disabled}
+              id="campaign-start-date"
+            />
+            <Field
+              utc
+              name="endDate"
+              component={DateTimeField}
+              isValidDate={this.endDateValidator('startDate')}
+              disabled={disabled}
+              id="campaign-end-date"
+            />
+          </RangeGroup>
+        </div>
+        <div className="campaign-create__title">
+          {I18n.t('CAMPAIGNS.SETTINGS.TARGET')}
+        </div>
+        <hr className="mt-2" />
+        <div className="row">
+          <Field
+            name="targetType"
+            label={I18n.t(attributeLabels.targetType)}
+            type="select"
+            disabled={disabled}
+            id={`${form}TargetType`}
+            component={SelectField}
+            onChange={this.handleChangeTargetType}
+            className="col-lg-3"
+          >
+            {Object.keys(targetTypes).map(targetType => (
+              <option key={targetType} value={targetType}>
+                {renderLabel(targetType, targetTypesLabels)}
+              </option>
+            ))}
+          </Field>
+          <Field
+            name="optIn"
+            label={I18n.t(attributeLabels.optIn)}
+            type="select"
+            id="campaign-opt-in"
+            component={SelectField}
+            normalize={normalizeBoolean}
+            disabled={disabled}
+            onChange={this.handleChangeOptIn}
+            className="col-lg-3"
+          >
+            {Object.keys(optInSelect).map(key => (
+              <option key={key} value={key}>
+                {renderLabel(key, optInSelect)}
+              </option>
+            ))}
+          </Field>
+          <If condition={formValues.optIn}>
+            <div className="form-group col-lg-3">
+              <label>{I18n.t(attributeLabels.optInPeriod)}</label>
+              <div className="form-row">
+                <Field
+                  name="optInPeriod"
+                  id="campaign-opt-in-period"
+                  type="number"
+                  placeholder=""
+                  disabled={disabled}
+                  component={InputField}
+                  normalize={intNormalize}
+                  className="col-4 mb-0"
+                />
+                <Field
+                  name="optInPeriodTimeUnit"
+                  id="campaign-opt-in-period-time-unit"
+                  type="select"
+                  component={SelectField}
+                  disabled={disabled}
+                  className="col mb-0"
+                >
+                  <option value="">
+                    {I18n.t('CAMPAIGNS.SETTINGS.SELECT_PERIOD')}
                   </option>
-                ))}
-              </Field>
-            </div>
-            <div className="col-3">
-              <Field
-                name="optIn"
-                label={I18n.t(attributeLabels.optIn)}
-                type="select"
-                id="campaign-opt-in"
-                component={SelectField}
-                normalize={normalizeBoolean}
-                position="vertical"
-                disabled={disabled}
-                onChange={this.handleChangeOptIn}
-              >
-                {Object.keys(optInSelect).map(key => (
-                  <option key={key} value={key}>
-                    {renderLabel(key, optInSelect)}
-                  </option>
-                ))}
-              </Field>
-            </div>
-            <If condition={formValues.optIn}>
-              <div className="col-3">
-                <div className="form-group">
-                  <label>{I18n.t(attributeLabels.optInPeriod)}</label>
-                  <div className="form-row">
-                    <Field
-                      name="optInPeriod"
-                      id="campaign-opt-in-period"
-                      type="number"
-                      placeholder=""
-                      disabled={disabled}
-                      component={InputField}
-                      normalize={intNormalize}
-                      className="col-4"
-                    />
-                    <Field
-                      name="optInPeriodTimeUnit"
-                      id="campaign-opt-in-period-time-unit"
-                      type="select"
-                      component={SelectField}
-                      disabled={disabled}
-                      className="col"
-                    >
-                      <option value="">
-                        {I18n.t('CAMPAIGNS.SETTINGS.SELECT_PERIOD')}
-                      </option>
-                      {
-                        Object.keys(periods).map(period => (
-                          <option key={period} value={period}>
-                            {renderLabel(period, periodsLabels)}
-                          </option>
-                        ))
-                      }
-                    </Field>
-                  </div>
-                </div>
-              </div>
-            </If>
-            <div className="col-3">
-              <div className="form-group">
-                <label>{I18n.t(attributeLabels.fulfillmentPeriod)}</label>
-                <div className="form-row">
-                  <Field
-                    name="fulfillmentPeriod"
-                    id="campaign-fulfillment-period"
-                    type="number"
-                    placeholder=""
-                    disabled={disabled}
-                    component={InputField}
-                    normalize={intNormalize}
-                    className="col-4"
-                  />
-                  <Field
-                    name="fulfillmentPeriodTimeUnit"
-                    id="campaign-fulfillment-period-time-unit"
-                    type="select"
-                    component={SelectField}
-                    disabled={disabled}
-                    className="col"
-                  >
-                    <option value="">
-                      {I18n.t('CAMPAIGNS.SETTINGS.SELECT_PERIOD')}
+                  {Object.keys(periods).map(period => (
+                    <option key={period} value={period}>
+                      {renderLabel(period, periodsLabels)}
                     </option>
-                    {
-                      Object.keys(periods).map(period => (
-                        <option key={period} value={period}>
-                          {renderLabel(period, periodsLabels)}
-                        </option>
-                      ))
-                    }
-                  </Field>
-                </div>
+                  ))}
+                </Field>
               </div>
             </div>
-          </div>
-          <div className="row">
-            <Countries
-              className="col-3"
-              disabled={disabled}
-              formValues={formValues}
-            />
-            <If condition={formValues.targetType === targetTypes.TARGET_LIST}>
+          </If>
+          <div className="form-group col-lg-3">
+            <label>{I18n.t(attributeLabels.fulfillmentPeriod)}</label>
+            <div className="form-row">
               <Field
-                name="promoCode"
-                type="text"
-                label={I18n.t(attributeLabels.promoCode)}
-                component={InputField}
-                normalize={normalizePromoCode}
+                name="fulfillmentPeriod"
+                id="campaign-fulfillment-period"
+                type="number"
+                placeholder=""
                 disabled={disabled}
-                className="col-3"
+                component={InputField}
+                normalize={intNormalize}
+                className="col-4 mb-0"
               />
-            </If>
+              <Field
+                name="fulfillmentPeriodTimeUnit"
+                id="campaign-fulfillment-period-time-unit"
+                type="select"
+                component={SelectField}
+                disabled={disabled}
+                className="col mb-0"
+              >
+                <option value="">
+                  {I18n.t('CAMPAIGNS.SETTINGS.SELECT_PERIOD')}
+                </option>
+                {Object.keys(periods).map(period => (
+                  <option key={period} value={period}>
+                    {renderLabel(period, periodsLabels)}
+                  </option>
+                ))}
+              </Field>
+            </div>
           </div>
         </div>
-        <div className="container-fluid">
-          <div className="row">
-            <div className="col-6 text-truncate campaigns-form__title">
-              {I18n.t('CAMPAIGNS.SETTINGS.FULFILLMENTS.TITLE')}
-            </div>
-            <div className="col-6 text-truncate campaigns-form__title">
-              {I18n.t('CAMPAIGNS.SETTINGS.REWARDS.TITLE')}
-            </div>
-          </div>
-          <hr />
-          <div className="row">
-            <NodeBuilder
-              name="fulfillments"
+        <div className="row">
+          <Countries
+            className="col-3"
+            disabled={disabled}
+            formValues={formValues}
+          />
+          <If condition={formValues.targetType === targetTypes.TARGET_LIST}>
+            <Field
+              name="promoCode"
+              type="text"
+              label={I18n.t(attributeLabels.promoCode)}
+              component={InputField}
+              normalize={normalizePromoCode}
               disabled={disabled}
-              className="col-6"
-              nodeSelectLabel={I18n.t('CAMPAIGNS.SETTINGS.FULFILLMENTS.SELECT_FULFILLMENT')}
-              nodeButtonLabel={I18n.t('CAMPAIGNS.SETTINGS.FULFILLMENTS.ADD_FULFILLMENT')}
-              components={
-                this.getAllowedNodes([
-                  { type: fulfillmentTypes.WAGERING, component: WageringView },
-                  { type: fulfillmentTypes.DEPOSIT, component: DepositFulfillmentView },
-                ], '_FULFILLMENT')
-              }
-              typeLabels={fulfillmentTypesLabels}
+              className="col-3"
             />
-            <NodeBuilder
-              name="rewards"
-              disabled={disabled}
-              className="col-6"
-              nodeSelectLabel={I18n.t('CAMPAIGNS.SETTINGS.REWARDS.SELECT_REWARD')}
-              nodeButtonLabel={I18n.t('CAMPAIGNS.SETTINGS.REWARDS.ADD_REWARD')}
-              components={
-                this.getAllowedNodes([
-                  { type: rewardTemplateTypes.BONUS, component: BonusView },
-                  { type: rewardTemplateTypes.FREE_SPIN, component: FreeSpinView },
-                ], '_TEMPLATE')
-              }
-              typeLabels={rewardTypesLabels}
-            />
+          </If>
+        </div>
+        <div className="row mt-2">
+          <div className="col-6 pb-2 campaign-create__title with-right-border">
+            {I18n.t('CAMPAIGNS.SETTINGS.FULFILLMENTS.TITLE')}
           </div>
+          <div className="col-6 pb-2 campaign-create__title">
+            {I18n.t('CAMPAIGNS.SETTINGS.REWARDS.TITLE')}
+          </div>
+        </div>
+        <hr className="my-0" />
+        <div className="row">
+          <NodeBuilder
+            name="fulfillments"
+            disabled={disabled}
+            className="col-6 pt-3 with-right-border"
+            nodeSelectLabel={I18n.t('CAMPAIGNS.SETTINGS.FULFILLMENTS.SELECT_FULFILLMENT')}
+            nodeButtonLabel={I18n.t('CAMPAIGNS.SETTINGS.FULFILLMENTS.ADD_FULFILLMENT')}
+            components={
+              this.getAllowedNodes([
+                { type: fulfillmentTypes.WAGERING, component: WageringView },
+                { type: fulfillmentTypes.DEPOSIT, component: DepositFulfillmentView },
+              ], '_FULFILLMENT')
+            }
+            typeLabels={fulfillmentTypesLabels}
+          />
+          <NodeBuilder
+            name="rewards"
+            disabled={disabled}
+            className="col-6 pt-3"
+            nodeSelectLabel={I18n.t('CAMPAIGNS.SETTINGS.REWARDS.SELECT_REWARD')}
+            nodeButtonLabel={I18n.t('CAMPAIGNS.SETTINGS.REWARDS.ADD_REWARD')}
+            components={
+              this.getAllowedNodes([
+                { type: rewardTemplateTypes.BONUS, component: BonusView },
+                { type: rewardTemplateTypes.FREE_SPIN, component: FreeSpinView },
+              ], '_TEMPLATE')
+            }
+            typeLabels={rewardTypesLabels}
+          />
         </div>
       </form>
     );
@@ -453,8 +431,21 @@ export default compose(
         }
       });
 
+      const rewards = get(values, 'rewards', []);
+
+      if (rewards.length > 0) {
+        rules.rewards = {};
+      }
+
+      rewards.forEach((reward, index) => {
+        rules.rewards[index] = {
+          deviceType: ['required'],
+          uuid: ['required'],
+        };
+      });
+
       return createValidator(rules, translateLabels(attributeLabels), false)(values);
     },
   }),
-  withReduxFormValues,
+  withReduxFormValues
 )(Form);

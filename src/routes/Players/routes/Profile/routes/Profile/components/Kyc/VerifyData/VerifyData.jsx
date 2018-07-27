@@ -2,7 +2,6 @@ import React from 'react';
 import keyMirror from 'keymirror';
 import PropTypes from '../../../../../../../../../constants/propTypes';
 import { statuses as kysStatuses } from '../../../../../../../../../constants/kyc';
-import NotRequested from './NotRequested';
 import NotVerified from './NotVerified';
 import Refused from './Refused';
 import Verified from './Verified';
@@ -17,11 +16,11 @@ export const stepStatuses = keyMirror({
 });
 
 const VerifyData = (props) => {
-  const { title, status } = props;
+  const { status } = props;
 
   switch (true) {
     case !status:
-      return <NotRequested title={title} />;
+      return <NotVerified step={stepStatuses.NOT_REQUESTED} {...props} />;
     case status.status === kysStatuses.PENDING && !status.reason:
       return <NotVerified step={stepStatuses.WAITING_FOR_DOCUMENTS} {...props} />;
     case status.status === kysStatuses.DOCUMENTS_SENT && !status.reason:
@@ -34,6 +33,7 @@ const VerifyData = (props) => {
       return <div>Unknown step</div>;
   }
 };
+
 VerifyData.propTypes = {
   title: PropTypes.string.isRequired,
   status: PropTypes.kycStatus,

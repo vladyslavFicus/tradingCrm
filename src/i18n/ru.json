@@ -72,6 +72,7 @@
       "CONTACTS": {
         "TITLE": "Контакты",
         "VERIFIED": "Подтвержден",
+        "VERIFY": "Подтвердить",
         "VERIFY_PHONE": "Подтвердить телефон",
         "VERIFY_EMAIL": "Подтвердить email",
         "LABEL": {
@@ -84,6 +85,14 @@
         "VERIFY_KYC": {
           "TITLE": "Ошибка",
           "ERROR": "Необходимо сохранить персональные данные"
+        },
+        "LABEL": {
+          "FIRST_NAME": "Имя",
+          "LAST_NAME": "Фамилия",
+          "LANGUAGE": "Язык",
+          "DATE_OF_BIRTH": "Дата рождения",
+          "GENDER": "Пол",
+          "IDENTIFIER": "ID номер"
         }
       },
       "ADDITIONAL": {
@@ -92,7 +101,14 @@
       "ADDRESS": {
         "TITLE": "Адрес",
         "VERIFY_KYC": {
-          "ERROR": "Необходимо сохранить адрес"
+          "ERROR": "Необходимо заполнить все поля Персональной информации"
+        },
+        "LABEL": {
+          "COUNTRY": "Страна",
+          "CITY": "Город",
+          "POST_CODE": "Почтовый индекс",
+          "FULL_ADDR": "Полный адрес",
+          "PO_BOX": "Абонентский ящик"
         }
       },
       "TITLE": "Профиль",
@@ -676,6 +692,7 @@
     "FROM": "С",
     "IMPORT": "Импорт",
     "EMAIL": "E-mail",
+    "SKYPE": "Skype",
     "PHONE": "Телефон",
     "DEPARTMENT": "Департамент",
     "ROLE": "Роль",
@@ -761,7 +778,7 @@
       "REASON": "-- Выберите причину --",
       "PERIOD": "-- Выберите период --",
       "COUNTRY": "-- Выберите страну --",
-      "UPLOAD_TYPE": "-- Выбрать тип загрузки --"
+      "UPLOAD_ACTION": "-- Выбрать тип действия --"
     },
     "CONFIRM": "Подтвердить",
     "MGA_LIMIT": "MGA LIMIT",
@@ -821,8 +838,17 @@
     "EXPORT_SELECTED": "Экспортировать выбранные",
     "PLAYERS_FOUND": "Игроков найдено",
     "PLAYERS_SELECTED": "Игроков выбрано",
+    "LANGUAGE_NAME": {
+      "EN": "Английский",
+      "RU": "Русский",
+      "ES": "Испанский",
+      "DE": "Немецкий",
+      "IT": "Итальянский"
+    },
     "COMMENT": "Комментарий",
-    "UPLOAD": "Загрузить"
+    "UPLOAD": "Загрузить",
+    "ADD_DOCUMENT": "+ Прикрепить документ",
+    "UNKNOWN_ERROR": "Неизвестная ошибка"
   },
   "FILES": {
     "UPLOAD_MODAL": {
@@ -1095,7 +1121,8 @@
       },
       "ROUTES": {
         "PAYMENTS": "Платежи",
-        "GAMING_ACTIVITY": "Игровая активность"
+        "GAMING_ACTIVITY": "Игровая активность",
+        "TRADING_ACTIVITY": "Торговая деятельность"
       }
     },
     "CAMPAIGNS": {
@@ -1603,8 +1630,8 @@
       "MODAL": {
         "TITLE": "Загрузка игроков",
         "LABEL": {
-          "TYPE": "Тип загрузки",
-          "STATUS": "Статус загрузки"
+          "STATUS": "Статус загрузки",
+          "ACTION": "Тип загрузки"
         },
         "DESCRIPTION": {
           "ADD_PLAYER": "Игроки из загруженного списка будут добавлены в целевую аудиторию кампании. Те игроки, которые уже находятся в целевой аудитории кампании, не будут затронуты",
@@ -2014,7 +2041,8 @@
             "BONUS_LIFE_TIME": "Время жизни бонуса",
             "CLAIMABLE": "Требовать подтверждения",
             "PRIZE": "Цена",
-            "PRIZE_CAPPING_TYPE": "Тип приза и капинга"
+            "PRIZE_CAPPING_TYPE": "Тип приза и капинга",
+            "TEMPLATE": "Шаблон"
           },
           "TEMPLATES": "Шаблоны",
           "ADD_BONUS_TEMPLATE": "Создать шаблон"
@@ -2047,7 +2075,14 @@
         "LIFE_TIME": "Время жизни",
         "ADD_FREE_SPIN": "Создать шаблон",
         "TEMPLATE": "Шаблон",
-        "STATUS": "Статус"
+        "STATUS": "Статус",
+        "DEVICE_TYPE": "Тип устройства"
+      },
+      "CHOOSE_DEVICE_TYPE": "-- Выберите тип устройства--",
+      "DEVICE_TYPE": {
+        "ALL": "Все",
+        "MOBILE": "Мобильный",
+        "DESKTOP": "Десктоп"
       }
     },
     "NODE_VALIDATION": {
@@ -2228,5 +2263,129 @@
     "EMAIL": "Почта",
     "PASSWORD": "Пароль",
     "LOGIN": "Войти"
+  },
+  "CLIENT_PROFILE": {
+    "PROFILE": {
+      "TITLE": "Профиль",
+      "HEADER": {
+        "EQUITY": "",
+        "TRADING_VOLUME": ""
+      }
+    },
+    "TRADING_ACTIVITY": {
+      "GRID_VIEW": {
+        "TRADE": "",
+        "TYPE": "",
+        "TRADING_ACC": "",
+        "OPEN_PRICE": "",
+        "CLOSE_PRICE": "",
+        "VOLUME": "",
+        "COMISSION": "",
+        "SWAP": "",
+        "P&L": "",
+        "OPEN_TIME": "",
+        "CLOSE_TIME": "",
+        "STATUS": ""
+      },
+      "FILTER_FORM": {
+        "KEYWORD_LABEL": "",
+        "AGGREGATORS_LABEL": "",
+        "PROVIDERS_LABEL": "",
+        "GAMES_LABEL": "",
+        "GAME_TYPES_LABEL": "",
+        "START_DATE_LABEL": "",
+        "END_DATE_LABEL": "",
+        "TRADE_LABEL": "",
+        "TRADE_PLACEHOLDER": "",
+        "TYPE_LABEL": "",
+        "SYMBOL_LABEL": "",
+        "VOLUME_LABEL": "",
+        "STATUS_LABEL": "",
+        "OPEN_TIME_RANGE_LABEL": "",
+        "CLOSE_TIME_RANGE_LABEL": "",
+        "TIME_RANGE_LABEL": "",
+        "TYPES": {
+          "BUY": "",
+          "SELL": "",
+          "BUY_LIMIT": "",
+          "SELL_LIMIT": "",
+          "BUY_STOP": "",
+          "SELL_STOP": "",
+          "BALANCE": "",
+          "CREDIT": ""
+        },
+        "SYMOLS": {
+          "USDCHF": "",
+          "GBPUSD": "",
+          "EURUSD": "",
+          "USDJPY": "",
+          "USDCAD": "",
+          "AUDUSD": "",
+          "EURGBP": "",
+          "EURAUD": "",
+          "EURCHF": "",
+          "EURJPY": "",
+          "GBPCHF": "",
+          "CADJPY": "",
+          "GBPJPY": "",
+          "AUDNZD": "",
+          "AUDCAD": "",
+          "AUDCHF": "",
+          "AUDJPY": "",
+          "CHFJPY": "",
+          "EURNZD": "",
+          "EURCAD": "",
+          "CADCHF": "",
+          "NZDJPY": "",
+          "NZDUSD": ""
+        },
+        "STATUSES": {
+          "OPEN": "",
+          "CLOSED": ""
+        },
+        "SYMBOLS": {
+          "USDCHF": "",
+          "GBPUSD": "",
+          "EURUSD": "",
+          "USDJPY": "",
+          "USDCAD": "",
+          "AUDUSD": "",
+          "EURGBP": "",
+          "EURAUD": "",
+          "EURCHF": "",
+          "EURJPY": "",
+          "GBPCHF": "",
+          "CADJPY": "",
+          "GBPJPY": "",
+          "AUDNZD": "",
+          "AUDCAD": "",
+          "AUDCHF": "",
+          "AUDJPY": "",
+          "CHFJPY": "",
+          "EURNZD": "",
+          "EURCAD": "",
+          "CADCHF": "",
+          "NZDJPY": "",
+          "NZDUSD": ""
+        }
+      }
+    },
+    "CLIENT": {
+      "BALANCES": {
+        "BALANCE": "",
+        "DEPOSIT": "",
+        "LAST": "",
+        "DEPOSITED": "",
+        "WITHDRAWAL": "",
+        "WITHDRAWN": ""
+      },
+      "ACQUISITION": {
+        "TITLE": ""
+      }
+    }
+  },
+  "TEMPORARY_UNTIL": {
+    "WILL_BE_BLOCKED": "Временный аккаунт - будет заблокирован %{date}",
+    "BLOCKED": "Временный аккаунт был заблокирован %{date}"
   }
 }

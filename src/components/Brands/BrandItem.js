@@ -3,10 +3,8 @@ import PropTypes from 'prop-types';
 
 const BrandItem = ({ className, name, image, onClick }) => (
   <div className={className} onClick={onClick}>
-    <div>
-      <img {...image} alt={name} />
-    </div>
-    <div className="choice-item_label">
+    <img {...image} alt={name} className="choice-item__image" />
+    <div className="choice-item__label">
       {name}
     </div>
   </div>

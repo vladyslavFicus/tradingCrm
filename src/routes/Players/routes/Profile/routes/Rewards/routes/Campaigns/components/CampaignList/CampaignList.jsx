@@ -18,6 +18,7 @@ import AddToCampaignModal from '../../../../../../../../../../components/AddToCa
 import AddPromoCodeModal from '../AddPromoCodeModal';
 import PermissionContent from '../../../../../../../../../../components/PermissionContent';
 import permissions from '../../../../../../../../../../config/permissions';
+import Permissions from '../../../../../../../../../../utils/permissions';
 import { sourceTypes, playerStatuses } from '../../../../../../../../../../constants/campaign-aggregator';
 import ActionsDropDown from '../../../../../../../../../../components/ActionsDropDown';
 import CountItems from '../CountItems';
@@ -28,6 +29,9 @@ const modalInitialState = {
   name: null,
   params: {},
 };
+
+const optInPermission = new Permissions([permissions.CAMPAIGN_AGGREGATOR.OPT_IN]);
+const optOutPermission = new Permissions([permissions.CAMPAIGN_AGGREGATOR.OPT_OUT]);
 
 class CampaignList extends Component {
   static propTypes = {
@@ -55,6 +59,7 @@ class CampaignList extends Component {
     setRenderActions: PropTypes.func.isRequired,
     registerUpdateCacheListener: PropTypes.func.isRequired,
     unRegisterUpdateCacheListener: PropTypes.func.isRequired,
+    permissions: PropTypes.arrayOf(PropTypes.string).isRequired,
   };
 
   state = {
@@ -371,7 +376,7 @@ class CampaignList extends Component {
   renderRewards = ({ rewards }) => (
     <div className="font-weight-700 color-black">
       <CountItems
-        items={rewards}
+        items={rewards.map(item => item.uuid)}
         prefixOptions={{
           'BONUS-TPL': I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.REWARDS.BONUS'),
           'FREE-SPIN-TPL': I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.REWARDS.FREE_SPIN'),
@@ -381,6 +386,8 @@ class CampaignList extends Component {
   );
 
   renderActions = ({ state, playerStatus, uuid, targetType, sourceType: originalSourceType }) => {
+    const { permissions: currentPermissions } = this.context;
+
     const {
       optOutCampaign,
       optInCampaign,
@@ -399,16 +406,16 @@ class CampaignList extends Component {
         onClick: () => this.handleActionClick({
           action: optOutCampaign,
           uuid,
-          sourceType,
           returnToList: true,
         }),
+        visible: optOutPermission.check(currentPermissions),
       }, {
         label: I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.DECLINE'),
         onClick: () => this.handleActionClick({
           action: optOutCampaign,
           uuid,
-          sourceType,
         }),
+        visible: optOutPermission.check(currentPermissions),
       });
     } else {
       if (targetType !== targetTypes.ALL) {
@@ -427,8 +434,8 @@ class CampaignList extends Component {
         onClick: () => this.handleActionClick({
           action: optInCampaign,
           uuid,
-          sourceType,
         }),
+        visible: optInPermission.check(currentPermissions),
       });
     }
 

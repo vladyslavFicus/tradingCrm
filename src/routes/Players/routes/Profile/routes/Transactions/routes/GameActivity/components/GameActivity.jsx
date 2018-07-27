@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import moment from 'moment';
 import classNames from 'classnames';
 import { I18n } from 'react-redux-i18n';
@@ -114,7 +114,7 @@ class GameActivity extends Component {
     this.setState({ filters, page: 0 }, this.handleRefresh);
   };
 
-  handleExportClick = () => {
+  handleExportClick = async () => {
     const { filterErrors, notify } = this.props;
 
     if (filterErrors.startDate && filterErrors.endDate) {
@@ -124,10 +124,18 @@ class GameActivity extends Component {
         message: I18n.t('PLAYER_PROFILE.GAME_ACTIVITY.NOTIFICATIONS.INVALID_DATE_RANGE.MESSAGE'),
       });
     } else {
-      this.props.exportGameActivity(this.props.match.params.id, {
+      const action = await this.props.exportGameActivity(this.props.match.params.id, {
         ...this.state.filters,
         page: this.state.page,
       });
+
+      if (!action || action.error) {
+        notify({
+          level: 'error',
+          title: I18n.t('PLAYER_PROFILE.GAME_ACTIVITY.NOTIFICATIONS.INVALID_DATE_RANGE.TITLE'),
+          message: I18n.t('PLAYER_PROFILE.GAME_ACTIVITY.NOTIFICATIONS.INVALID_DATE_RANGE.MESSAGE'),
+        });
+      }
     }
   };
 
@@ -273,7 +281,7 @@ class GameActivity extends Component {
     } = this.props;
 
     return (
-      <div>
+      <Fragment>
         <FilterForm
           providers={providers}
           aggregators={aggregators}
@@ -332,7 +340,7 @@ class GameActivity extends Component {
             />
           </GridView>
         </div>
-      </div>
+      </Fragment>
     );
   }
 }

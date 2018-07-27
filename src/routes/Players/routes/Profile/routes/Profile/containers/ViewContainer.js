@@ -62,6 +62,7 @@ const mapActions = {
   updateEmail: profileActionCreators.updateEmail,
   uploadFile: profileActionCreators.uploadProfileFile,
   downloadFile: filesActionCreators.downloadFile,
+  fetchFiles: filesActionCreators.fetchFiles,
   checkLock: profileActionCreators.checkLock,
   changeFileStatusByAction: profileActionCreators.changeFileStatusByAction,
   verifyPhone: profileActionCreators.verifyPhone,

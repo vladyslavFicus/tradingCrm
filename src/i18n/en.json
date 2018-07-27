@@ -72,6 +72,7 @@
       "CONTACTS": {
         "TITLE": "Contacts",
         "VERIFIED": "Verified",
+        "VERIFY": "Verify",
         "VERIFY_PHONE": "Verify phone",
         "VERIFY_EMAIL": "Verify email",
         "LABEL": {
@@ -83,6 +84,14 @@
         "TITLE": "Personal information",
         "VERIFY_KYC": {
           "ERROR": "Need to save personal information"
+        },
+        "LABEL": {
+          "FIRST_NAME": "First name",
+          "LAST_NAME": "Last name",
+          "LANGUAGE": "Language",
+          "DATE_OF_BIRTH": "Date of birth",
+          "GENDER": "Gender",
+          "IDENTIFIER": "ID Number"
         }
       },
       "ADDITIONAL": {
@@ -91,7 +100,14 @@
       "ADDRESS": {
         "TITLE": "Address",
         "VERIFY_KYC": {
-          "ERROR": "Need to save address information"
+          "ERROR": "Need to complete all fields of Personal information"
+        },
+        "LABEL": {
+          "COUNTRY": "Country",
+          "CITY": "City",
+          "POST_CODE": "Post code",
+          "FULL_ADDR": "Full address",
+          "PO_BOX": "PO Box"
         }
       },
       "TITLE": "Profile",
@@ -669,6 +685,7 @@
     "EXPORT": "Export",
     "FROM": "From",
     "EMAIL": "Email",
+    "SKYPE": "Skype",
     "IMPORT": "Import",
     "PHONE": "Phone",
     "DEPARTMENT": "Department",
@@ -755,7 +772,7 @@
       "REASON": "-- Select reason --",
       "PERIOD": "-- Select period --",
       "COUNTRY": "-- Select country --",
-      "UPLOAD_TYPE": "-- Select upload type --"
+      "UPLOAD_ACTION": "-- Select upload action --"
     },
     "CONFIRM": "Confirm",
     "MGA_LIMIT": "MGA LIMIT",
@@ -815,8 +832,17 @@
     "EXPORT_SELECTED": "Export selected",
     "PLAYERS_FOUND": "Players found",
     "PLAYERS_SELECTED": "Players selected",
+    "LANGUAGE_NAME": {
+      "EN": "English",
+      "RU": "Russian",
+      "ES": "Spanish",
+      "DE": "German",
+      "IT": "Italian"
+    },
     "COMMENT": "Comment",
-    "UPLOAD": "Upload"
+    "UPLOAD": "Upload",
+    "ADD_DOCUMENT": "+ Add document",
+    "UNKNOWN_ERROR": "Unknown error"
   },
   "FILES": {
     "UPLOAD_MODAL": {
@@ -1089,7 +1115,8 @@
       },
       "ROUTES": {
         "PAYMENTS": "Payments",
-        "GAMING_ACTIVITY": "Gaming activity"
+        "GAMING_ACTIVITY": "Gaming activity",
+        "TRADING_ACTIVITY": "Trading Activity"
       }
     },
     "CAMPAIGNS": {
@@ -1591,8 +1618,8 @@
       "MODAL": {
         "TITLE": "Upload players",
         "LABEL": {
-          "TYPE": "Upload type",
-          "STATUS": "Upload status"
+          "STATUS": "Upload status",
+          "ACTION": "Upload action"
         },
         "DESCRIPTION": {
           "ADD_PLAYER": "Players from the uploaded list will be added to campaign’s target. Those players who are already in the target of this campaign will be ignored",
@@ -1907,8 +1934,8 @@
   },
   "CAMPAIGNS": {
     "CAMPAIGN_NAME": "Campaign name",
-    "FREE_SPIN_TEMPLATE": "Free spin template",
-    "BONUS_TEMPLATE": "Bonus template",
+    "FREE_SPIN_TEMPLATE": "Free spin",
+    "BONUS_TEMPLATE": "Bonus",
     "WAGERING_FULFILLMENT": "Wagering fulfillment",
     "SELECT_REWARD": "-- Select reward --",
     "SELECT_FULFILLMENT": "-- Select fulfillment --",
@@ -1999,7 +2026,8 @@
             "BONUS_LIFE_TIME": "Bonus life time",
             "CLAIMABLE": "Claimable",
             "PRIZE": "Prize",
-            "PRIZE_CAPPING_TYPE": "Prize & Capping type"
+            "PRIZE_CAPPING_TYPE": "Prize & Capping type",
+            "TEMPLATE": "Template"
           },
           "TEMPLATES": "Bonus templates",
           "ADD_BONUS_TEMPLATE": "Create template"
@@ -2032,7 +2060,14 @@
         "LIFE_TIME": "Life time",
         "ADD_FREE_SPIN": "Create template",
         "TEMPLATE": "Template",
-        "STATUS": "Status"
+        "STATUS": "Status",
+        "DEVICE_TYPE": "Device type"
+      },
+      "CHOOSE_DEVICE_TYPE": "-- Choose device type --",
+      "DEVICE_TYPE": {
+        "ALL": "All",
+        "MOBILE": "Mobile",
+        "DESKTOP": "Desktop"
       }
     },
     "NODE_VALIDATION": {
@@ -2213,5 +2248,96 @@
     "EMAIL": "Email",
     "PASSWORD": "Password",
     "LOGIN": "Login"
+  },
+  "CLIENT_PROFILE": {
+    "PROFILE": {
+      "TITLE": "Profile",
+      "HEADER": {
+        "EQUITY": "Equity",
+        "TRADING_VOLUME": "Trading volume"
+      }
+    },
+    "TRADING_ACTIVITY": {
+      "GRID_VIEW": {
+        "TRADE": "Trade",
+        "TYPE": "Type",
+        "TRADING_ACC": "Trading Acc.",
+        "OPEN_PRICE": "Open price",
+        "CLOSE_PRICE": "Close price",
+        "VOLUME": "Volume",
+        "COMISSION": "Comission",
+        "SWAP": "Swap",
+        "P&L": "P&L",
+        "OPEN_TIME": "Open time",
+        "CLOSE_TIME": "Close time",
+        "STATUS": "Status"
+      },
+      "FILTER_FORM": {
+        "TRADE_LABEL": "Trade",
+        "TRADE_PLACEHOLDER": "Trade ID",
+        "TYPE_LABEL": "Type",
+        "SYMBOL_LABEL": "Symbol",
+        "VOLUME_LABEL": "Volume",
+        "STATUS_LABEL": "Status",
+        "OPEN_TIME_RANGE_LABEL": "Open time range",
+        "CLOSE_TIME_RANGE_LABEL": "Close time range",
+        "TYPES": {
+          "BUY": "Buy",
+          "SELL": "Sell",
+          "BUY_LIMIT": "Buy limit",
+          "SELL_LIMIT": "Sell limit",
+          "BUY_STOP": "Buy stop",
+          "SELL_STOP": "Sell stop",
+          "BALANCE": "Balance",
+          "CREDIT": "Credit"
+        },
+        "SYMBOLS": {
+          "USDCHF": "US Dollar vs Swiss Franc",
+          "GBPUSD": "British Pound vs US Dollar",
+          "EURUSD": "Euro vs US Dollar",
+          "USDJPY": "US Dollar vs Japanese Yen",
+          "USDCAD": "US Dollar vs Canadian Dollar",
+          "AUDUSD": "Australian Dollar vs US Dollar",
+          "EURGBP": "Euro vs British Pound",
+          "EURAUD": "Euro vs Australian Dollar",
+          "EURCHF": "Euro vs Swiss Franc",
+          "EURJPY": "Euro vs Japanese Yen",
+          "GBPCHF": "British Pound vs Swiss Franc",
+          "CADJPY": "Canadian Dollar vs Japanese Yen",
+          "GBPJPY": "British Pound vs Japanese Yen",
+          "AUDNZD": "Australian Dollar vs New Zealand Dollar",
+          "AUDCAD": "Australian Dollar vs Canadian Dollar",
+          "AUDCHF": "Australian Dollar vs Swiss Franc",
+          "AUDJPY": "Australian Dollar vs Japanese Yen",
+          "CHFJPY": "Swiss Franc vs Japanese Yen",
+          "EURNZD": "Euro vs New Zealand Dollar",
+          "EURCAD": "Euro vs Canadian Dollar",
+          "CADCHF": "Canadian Dollar vs Swiss Franc",
+          "NZDJPY": "New Zealand Dollar vs Japanese Yen",
+          "NZDUSD": "New Zealand Dollar vs US Dollar"
+        },
+        "STATUSES": {
+          "OPEN": "Open",
+          "CLOSED": "Closed"
+        }
+      }
+    },
+    "CLIENT": {
+      "BALANCES": {
+        "BALANCE": "Balance",
+        "DEPOSIT": "Deposits",
+        "LAST": "last",
+        "DEPOSITED": "Deposited",
+        "WITHDRAWAL": "Withdrawals",
+        "WITHDRAWN": "Withdrawn"
+      },
+      "ACQUISITION": {
+        "TITLE": "Acquisition Status"
+      }
+    }
+  },
+  "TEMPORARY_UNTIL": {
+    "WILL_BE_BLOCKED": "Temporary account - will be blocked on %{date}",
+    "BLOCKED": "Temporary account has been blocked on %{date}"
   }
 }

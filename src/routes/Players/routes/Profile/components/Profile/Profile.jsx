@@ -232,7 +232,7 @@ class Profile extends Component {
     }
 
     const { data: { tags } } = playerProfile;
-    const selectedTags = tags.map(option => `${option.priority}/${option.tag}`);
+    const selectedTags = tags ? tags.map(option => `${option.priority}/${option.tag}`) : [];
 
     return selectedTags && availableTagsByDepartment
       ? availableTagsByDepartment

@@ -8,7 +8,7 @@ const CountItems = ({ items, prefixOptions, mapFunction, joinString }) => {
   return Object
     .keys(prefixOptions).reduce((res, prefix) => {
       const regex = new RegExp(`^${prefix}`);
-      const count = items.reduce((count, item) => (item.match(regex) ? count + 1 : count), 0);
+      const count = items.reduce((acc, item) => (item.match(regex) ? acc + 1 : acc), 0);
 
       return count === 0 ? res : [...res, { name: prefixOptions[prefix], count }];
     }, [])

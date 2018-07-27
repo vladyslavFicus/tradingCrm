@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import Sticky from 'react-stickynode';
+import StickyWrapper from '../StickyWrapper';
 
 const TabHeader = ({ title, children }) => (
-  <Sticky top=".panel-heading-row" bottomBoundary={0} innerZ="2">
+  <StickyWrapper top=".heading-fixed">
     <div className={classNames('tab-header', { 'row no-gutters': children })}>
       <div className={classNames('tab-header__title', { col: children })}>
         {title}
@@ -15,7 +15,7 @@ const TabHeader = ({ title, children }) => (
         </div>
       </If>
     </div>
-  </Sticky>
+  </StickyWrapper>
 );
 
 TabHeader.propTypes = {

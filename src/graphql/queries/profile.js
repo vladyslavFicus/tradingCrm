@@ -3,23 +3,13 @@ import gql from 'graphql-tag';
 const profileQuery = gql`query profileData($playerUUID: String!){
   playerProfile(playerUUID: $playerUUID) {
     data {
-      accumulated {
-        baseCurrencyDeposits {
-          amount
-          currency
-        }
-        baseCurrencyWithdraws {
-          amount
-          currency
-        }
-        walletCurrencyDeposits {
-          amount
-          currency
-        }
-        walletCurrencyWithdraws {
-          amount
-          currency
-        }
+      accumulatedDeposits {
+        amount
+        currency
+      }
+      accumulatedWithdrawals {
+        amount
+        currency
       }
       playerUUID
       realMoneyBalance {
@@ -86,6 +76,29 @@ const profileQuery = gql`query profileData($playerUUID: String!){
         uuid
       }
       registrationDate
+      tradingProfile {
+        isTestUser
+        aquisitionRep
+        aquisitionStatus
+        kycRep
+        kycStatus
+        salesRep
+        salesStatus
+        retentionRep
+        retentionStatus
+        balance
+        equity
+        baseCurrencyEquity
+        baseCurrencyBalance
+        mt4Users {
+          login
+          balance
+          equity
+          symbol
+        }
+      }
+      intendedAmountToSpend
+      temporaryUntil
     }
     error {
       error
@@ -126,9 +139,35 @@ const realBaseCurrencyQuery = gql`query profileData($playerUUID: String!){
   }
 }`;
 
+const clientPaymentsStatistic = gql`query clientPaymentsStatistic(
+  $limit: Int,
+  $playerUUID: String!,
+  $startDate: String,
+  $endDate: String, 
+) {
+  clientPaymentsStatistic(
+    limit: $limit,
+    playerUUID: $playerUUID,
+    startDate: $startDate,
+    endDate: $endDate,
+  ) {
+    depositCount
+    depositAmount {
+      amount
+      currency
+    }
+    withdrawCount
+    withdrawAmount {
+      amount
+      currency
+    }
+  }
+}`;
+
 export {
   profileQuery,
   locksQuery,
   realBaseCurrencyQuery,
+  clientPaymentsStatistic,
 };
 

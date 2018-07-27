@@ -69,6 +69,13 @@ export default {
     UPDATE: 'campaign;PUT;/{uuid}',
     VIEW: 'campaign;GET;/{uuid}',
     CLONE: 'campaign;POST;/{uuid}/clone',
+    UPLOAD_PLAYERS: 'campaign;PUT;/{uuid}/player-list',
+    UPLOAD_RESET_PLAYERS: 'campaign;PUT;/{uuid}/reset-player-states',
+    UPLOAD_SOFT_RESET_PLAYERS: 'campaign;PUT;/{uuid}/add-soft-reset-player-states',
+  },
+  CAMPAIGN_AGGREGATOR: {
+    OPT_IN: 'campaign_aggregator;PUT;/optin/{uuid}/{playerUUID}',
+    OPT_OUT: 'campaign_aggregator;PUT;/optout/{uuid}/{playerUUID}',
   },
   WAGERING_FULFILLMENT: {
     LIST: 'wagering_fulfillment;GET;/',
@@ -108,6 +115,9 @@ export default {
   },
   GAMING_ACTIVITY: {
     PLAYER_GAMING_ACTIVITY: 'gaming_activity;GET;/gaming/activity/{playerUUID}',
+  },
+  TRADING_ACTIVITY: {
+    CLIENT_TRADING_ACTIVITY: 'trading_activity;GET;',
   },
   FREE_SPIN: {
     PLAYER_FREE_SPIN_LIST: 'free_spin;GET;/free-spins/{playerUUID}',

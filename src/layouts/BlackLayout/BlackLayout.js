@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import config from '../../config/index';
+import { markets } from '../../constants/markets';
 import './BlackLayout.scss';
 
 const BlackLayout = ({
@@ -9,8 +10,8 @@ const BlackLayout = ({
 }) => (
   <div
     className={classNames(
-      { 'casino-background': config.market !== 'crm' },
-      { 'crm-background': config.market === 'crm' },
+      { 'casino-background': config.market !== markets.crm },
+      { 'crm-background': config.market === markets.crm },
     )}
   >
     {children}

@@ -87,10 +87,9 @@ class NodeBuilder extends PureComponent {
           </div>
         </For>
         <If condition={!disabled && types.length}>
-          <div className="form-row py-5 justify-content-center">
+          <div className="form-row pt-3 pb-5 justify-content-center">
             <div className="col-5">
               <SelectField
-                position="vertical"
                 input={{
                   value: type,
                   onChange: this.handleSelectNode,

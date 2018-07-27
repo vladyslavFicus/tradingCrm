@@ -9,7 +9,7 @@ import PropTypes from '../../../../../../../../../../constants/propTypes';
 import { moneyTypeLabels } from '../../../../../../../../../../constants/gaming-activity';
 import { InputField, SelectField, DateTimeField, RangeGroup } from '../../../../../../../../../../components/ReduxForm';
 import filterFormAttributeLabels from '../../constants';
-import { startDateValidator, endDateValidator } from '../../utils';
+import { startDateValidator, endDateValidator } from '../../../../utils';
 
 const FORM_NAME = 'userGameActivityFilter';
 const validate = (values) => {
@@ -97,7 +97,7 @@ class FilterForm extends Component {
           component={SelectField}
           className="filter-row__medium"
         >
-          <option value="">Any</option>
+          <option value="">{I18n.t('COMMON.ANY')}</option>
           {aggregators.map(item => (
             <option key={item} value={item}>
               {item}

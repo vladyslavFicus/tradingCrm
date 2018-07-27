@@ -45,7 +45,7 @@ const updateMutation = gql`mutation update(
   $name: String!
   $optIn: Boolean!
   $fulfillments: [String]!
-  $rewards: [String]!
+  $rewards: [InputReward]!
   $startDate: String
   $endDate: String
   $countries: [String]
@@ -82,6 +82,7 @@ const updateMutation = gql`mutation update(
         rewards {
           type
           uuid
+          deviceType
         }
         fulfillments
         startDate
@@ -105,7 +106,7 @@ const createMutation = gql`mutation create(
   $targetType: String!
   $optIn: Boolean!
   $fulfillments: [String]!
-  $rewards: [String]!
+  $rewards: [InputReward]!
   $startDate: String
   $endDate: String
   $optInPeriod: Int
