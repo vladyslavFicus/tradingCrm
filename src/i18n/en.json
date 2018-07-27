@@ -2327,5 +2327,9 @@
         "TITLE": "Acquisition Status"
       }
     }
+  },
+  "TEMPORARY_UNTIL": {
+    "WILL_BE_BLOCKED": "Temporary account - will be blocked on %{date}",
+    "BLOCKED": "Temporary account has been blocked on %{date}"
   }
 }
