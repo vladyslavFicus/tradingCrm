@@ -12,43 +12,29 @@ import renderLabel from '../../../../../../../../../../utils/renderLabel';
 
 class OptInModal extends Component {
   static propTypes = {
-    change: PropTypes.func.isRequired,
     deviceTypes: PropTypes.arrayOf(PropTypes.string).isRequired,
     handleSubmit: PropTypes.func,
-    pristine: PropTypes.bool,
     submitting: PropTypes.bool,
     onSubmit: PropTypes.func.isRequired,
     onCloseModal: PropTypes.func.isRequired,
     isOpen: PropTypes.bool.isRequired,
+    valid: PropTypes.bool.isRequired,
   };
   static defaultProps = {
     handleSubmit: null,
-    pristine: false,
     submitting: false,
   };
-
-  componentDidMount() {
-    const { deviceTypes, change } = this.props;
-
-    if (deviceTypes.length === 1) {
-      change('deviceType', deviceTypes[0]);
-    }
-  }
 
   render() {
     const {
       handleSubmit,
       onSubmit,
       onCloseModal,
-      pristine,
       submitting,
       isOpen,
       deviceTypes,
+      valid,
     } = this.props;
-
-    const actionText = deviceTypes.length > 1
-      ? I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.MODALS.DEVICE_TYPE.CHOOSE_DEVICE_TYPE_TEXT')
-      : I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.MODALS.DEVICE_TYPE.CONFIRM_ACTION_TEXT');
 
     return (
       <Modal isOpen={isOpen} className="modal-danger" toggle={onCloseModal}>
@@ -60,29 +46,36 @@ class OptInModal extends Component {
           tag="form"
           onSubmit={handleSubmit(onSubmit)}
         >
-          <div className="text-center font-weight-700">
-            <div>{actionText}</div>
-          </div>
-          <If condition={deviceTypes.length > 1}>
-            <div className="row">
-              <div className="col-6">
-                <Field
-                  name="deviceType"
-                  label={I18n.t(attributeLabels.deviceType)}
-                  type="select"
-                  component={SelectField}
-                  disabled={deviceTypes.length === 1}
-                >
-                  <option value="">{I18n.t(attributeLabels.chooseDeviceType)}</option>
-                  {deviceTypes.map(key => (
-                    <option key={key} value={key}>
-                      {renderLabel(key, deviceTypesLabels)}
-                    </option>
-                  ))}
-                </Field>
+          <Choose>
+            <When condition={deviceTypes.length > 1}>
+              <div className="text-center font-weight-700">
+                {I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.MODALS.DEVICE_TYPE.CHOOSE_DEVICE_TYPE_TEXT')}
               </div>
-            </div>
-          </If>
+              <div className="row">
+                <div className="col-6">
+                  <Field
+                    name="deviceType"
+                    label={I18n.t(attributeLabels.deviceType)}
+                    type="select"
+                    component={SelectField}
+                    disabled={deviceTypes.length === 1}
+                  >
+                    <option value="">{I18n.t(attributeLabels.chooseDeviceType)}</option>
+                    {deviceTypes.map(key => (
+                      <option key={key} value={key}>
+                        {renderLabel(key, deviceTypesLabels)}
+                      </option>
+                    ))}
+                  </Field>
+                </div>
+              </div>
+            </When>
+            <Otherwise>
+              <div className="text-center font-weight-700">
+                {I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.MODALS.DEVICE_TYPE.CONFIRM_ACTION_TEXT')}
+              </div>
+            </Otherwise>
+          </Choose>
         </ModalBody>
         <ModalFooter>
           <button
@@ -96,7 +89,7 @@ class OptInModal extends Component {
           <button
             type="submit"
             className="btn btn-danger-outline"
-            disabled={pristine || submitting}
+            disabled={!valid || submitting}
             form="opt-in-modal"
           >
             {I18n.t('COMMON.BUTTONS.CONFIRM')}

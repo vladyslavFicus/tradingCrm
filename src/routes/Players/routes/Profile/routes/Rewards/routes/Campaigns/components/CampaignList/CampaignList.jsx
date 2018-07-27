@@ -192,6 +192,9 @@ class CampaignList extends Component {
     optInModal.show({
       onSubmit: this.handleOptInCampaign(params),
       deviceTypes,
+      initialValues: {
+        deviceType: deviceTypes.length === 1 ? deviceTypes[0] : '',
+      },
     });
   };
 
