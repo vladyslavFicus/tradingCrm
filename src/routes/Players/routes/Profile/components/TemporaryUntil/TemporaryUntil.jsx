@@ -6,20 +6,20 @@ import classNames from 'classnames';
 import './TemporaryUntil.scss';
 
 const TemporaryUntil = ({ temporaryUntil }) => {
-  const blockDate = moment.utc(temporaryUntil).local().format('DD.MM.YYYY HH:mm');
-  const blocked = moment().isAfter(blockDate);
+  const temporaryDate = moment.utc(temporaryUntil).local().format('DD.MM.YYYY HH:mm');
+  const blocked = moment().isAfter(temporaryDate);
 
   return (
     <div className={classNames('temporary-until', { blocked })}>
       <Choose>
         <When condition={blocked}>
           {I18n.t('TEMPORARY_UNTIL.BLOCKED', {
-            date: blockDate,
+            date: temporaryDate,
           })}
         </When>
         <Otherwise>
           {I18n.t('TEMPORARY_UNTIL.WILL_BE_BLOCKED', {
-            date: blockDate,
+            date: temporaryDate,
           })}
         </Otherwise>
       </Choose>
