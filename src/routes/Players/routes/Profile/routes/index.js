@@ -1,5 +1,4 @@
 import ProfileView from './Profile';
-import ClientView from './Client';
 import Notes from './Notes';
 import Limits from './Limits';
 import Files from './Files';
@@ -11,7 +10,6 @@ import Rewards from './Rewards';
 
 export {
   ProfileView,
-  ClientView,
   Notes,
   Limits,
   Files,

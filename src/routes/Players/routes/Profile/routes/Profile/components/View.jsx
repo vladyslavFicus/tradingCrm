@@ -112,7 +112,7 @@ class View extends Component {
     const {
       fetchFiles,
       fetchKycReasons,
-      profile: { data: { playerUUID } },
+      match: { params: { id: playerUUID } },
     } = this.props;
 
     fetchFiles(playerUUID);

@@ -534,5 +534,26 @@ PropTypes.rewardPlanAmount = PropTypes.shape({
   amount: PropTypes.number,
   isActive: PropTypes.bool,
 });
+PropTypes.tradingProfile = PropTypes.shape({
+  isTestUser: PropTypes.bool,
+  aquisitionRep: PropTypes.string,
+  aquisitionStatus: PropTypes.string,
+  kycStatus: PropTypes.string,
+  salesRep: PropTypes.string,
+  salesStatus: PropTypes.string,
+  retentionRep: PropTypes.string,
+  retentionStatus: PropTypes.string,
+  kycRep: PropTypes.string,
+  balance: PropTypes.string,
+  equity: PropTypes.string,
+  baseCurrencyBalance: PropTypes.string,
+  baseCurrencyEquity: PropTypes.string,
+  mt4Users: PropTypes.arrayOf(PropTypes.shape({
+    login: PropTypes.number,
+    balance: PropTypes.string,
+    equity: PropTypes.string,
+    symbol: PropTypes.string,
+  })),
+});
 
 export default PropTypes;

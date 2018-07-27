@@ -13,6 +13,7 @@ const brands = keyMirror({
   gslots: null,
   cerberus: null,
   casino_999_dk: null,
+  nasfx: null,
 });
 const departments = keyMirror({
   ADMINISTRATION: null,
@@ -72,6 +73,10 @@ const brandsConfig = {
   [brands.casino_999_dk]: {
     name: 'Casino 999 DK',
     image: { src: '/img/brand/image/casino_999_dk.svg' },
+  },
+  [brands.nasfx]: {
+    name: 'Nasfx',
+    image: { src: '/img/brand/image/nasfx_brand_logo.svg' },
   },
 };
 const departmentsConfig = {

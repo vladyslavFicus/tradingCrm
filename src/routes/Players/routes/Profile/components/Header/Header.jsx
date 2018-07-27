@@ -2,7 +2,6 @@ import React, { Component, Fragment } from 'react';
 import moment from 'moment';
 import classNames from 'classnames';
 import { SubmissionError } from 'redux-form';
-import Sticky from 'react-stickynode';
 import { I18n } from 'react-redux-i18n';
 import PropTypes from '../../../../../../constants/propTypes';
 import PlayerStatus from '../PlayerStatus';
@@ -22,6 +21,7 @@ import { services } from '../../../../../../constants/services';
 import PermissionContent from '../../../../../../components/PermissionContent';
 import { withServiceCheck } from '../../../../../../components/HighOrder';
 import ActivePlan from '../ActivePlan';
+import StickyWrapper from '../../../../../../components/StickyWrapper';
 import TemporaryAccount from '../TemporaryAccount';
 
 const sendActivationLinkPermission = new Permissions([permissions.USER_PROFILE.SEND_ACTIVATION_LINK]);
@@ -57,6 +57,8 @@ class Header extends Component {
       playerUUID: PropTypes.string,
       signInIps: PropTypes.arrayOf(PropTypes.ipEntity),
       profileStatusComment: PropTypes.string,
+      accumulatedDeposits: PropTypes.price,
+      accumulatedWithdrawals: PropTypes.price,
     }),
     onRefreshClick: PropTypes.func.isRequired,
     isLoadingProfile: PropTypes.bool.isRequired,
@@ -166,6 +168,8 @@ class Header extends Component {
         username,
         languageCode,
         lastName,
+        accumulatedDeposits,
+        accumulatedWithdrawals,
         withdrawableAmount,
         profileStatusAuthor,
         profileStatusDate,
@@ -175,7 +179,6 @@ class Header extends Component {
         profileStatus,
         profileVerified,
         totalBalance,
-        accumulated,
         playerUUID,
         registrationDate,
       },
@@ -203,7 +206,7 @@ class Header extends Component {
 
     return (
       <Fragment>
-        <Sticky top={0} bottomBoundary={0} innerZ="3" activeClass="profile-heading">
+        <StickyWrapper top={0} innerZ={3} activeClass="heading-fixed">
           <TemporaryAccount />
           <div className="panel-heading-row">
             <HeaderPlayerPlaceholder ready={loaded}>
@@ -284,7 +287,7 @@ class Header extends Component {
               </If>
             </div>
           </div>
-        </Sticky>
+        </StickyWrapper>
 
         <div className="layout-quick-overview">
           <div className="header-block header-block_account">
@@ -312,7 +315,7 @@ class Header extends Component {
                     {this.getRealWithBonusBalance()}
                   </div>
                 }
-                accumulatedBalances={{ withdrawableAmount, ...accumulated }}
+                accumulatedBalances={{ withdrawableAmount, accumulatedDeposits, accumulatedWithdrawals }}
               />
             </If>
           </div>

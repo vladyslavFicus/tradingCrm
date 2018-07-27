@@ -101,7 +101,7 @@
       "ADDRESS": {
         "TITLE": "Адрес",
         "VERIFY_KYC": {
-          "ERROR": "Необходимо сохранить адрес"
+          "ERROR": "Необходимо заполнить все поля Персональной информации"
         },
         "LABEL": {
           "COUNTRY": "Страна",
@@ -2258,7 +2258,11 @@
   },
   "CLIENT_PROFILE": {
     "PROFILE": {
-      "TITLE": "Профиль"
+      "TITLE": "Профиль",
+      "HEADER": {
+        "EQUITY": "",
+        "TRADING_VOLUME": ""
+      }
     },
     "TRADING_ACTIVITY": {
       "GRID_VIEW": {
@@ -2356,6 +2360,19 @@
           "NZDJPY": "",
           "NZDUSD": ""
         }
+      }
+    },
+    "CLIENT": {
+      "BALANCES": {
+        "BALANCE": "",
+        "DEPOSIT": "",
+        "LAST": "",
+        "DEPOSITED": "",
+        "WITHDRAWAL": "",
+        "WITHDRAWN": ""
+      },
+      "ACQUISITION": {
+        "TITLE": ""
       }
     }
   },

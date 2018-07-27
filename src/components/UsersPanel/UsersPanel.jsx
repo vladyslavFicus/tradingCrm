@@ -118,8 +118,15 @@ class UsersPanel extends Component {
       <div className={blockClassName}>
         <div className="users-panel-content" style={{ visibility: active ? 'visible' : 'hidden' }}>
           <div className="users-panel-title">
-            <div className="header-text" >
-              {config.market === markets.crm ? I18n.t('COMMON.CRM_USER_DEFINITION') : I18n.t('COMMON.CASINO_USER_DEFINITION')}
+            <div className="header-text">
+              <Choose>
+                <When condition={config.market === markets.crm}>
+                  {I18n.t('COMMON.CRM_USER_DEFINITION')}
+                </When>
+                <Otherwise>
+                  {I18n.t('COMMON.CASINO_USER_DEFINITION')}
+                </Otherwise>
+              </Choose>
             </div>
             <div
               className="user-panel-icon icon-minimize-popup-profile"

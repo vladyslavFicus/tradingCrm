@@ -100,7 +100,7 @@
       "ADDRESS": {
         "TITLE": "Address",
         "VERIFY_KYC": {
-          "ERROR": "Need to save address information"
+          "ERROR": "Need to complete all fields of Personal information"
         },
         "LABEL": {
           "COUNTRY": "Country",
@@ -2243,7 +2243,11 @@
   },
   "CLIENT_PROFILE": {
     "PROFILE": {
-      "TITLE": "Profile"
+      "TITLE": "Profile",
+      "HEADER": {
+        "EQUITY": "Equity",
+        "TRADING_VOLUME": "Trading volume"
+      }
     },
     "TRADING_ACTIVITY": {
       "GRID_VIEW": {
@@ -2308,6 +2312,19 @@
           "OPEN": "Open",
           "CLOSED": "Closed"
         }
+      }
+    },
+    "CLIENT": {
+      "BALANCES": {
+        "BALANCE": "Balance",
+        "DEPOSIT": "Deposits",
+        "LAST": "last",
+        "DEPOSITED": "Deposited",
+        "WITHDRAWAL": "Withdrawals",
+        "WITHDRAWN": "Withdrawn"
+      },
+      "ACQUISITION": {
+        "TITLE": "Acquisition Status"
       }
     }
   },
