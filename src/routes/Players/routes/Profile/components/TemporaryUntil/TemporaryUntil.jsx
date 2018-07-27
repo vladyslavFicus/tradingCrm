@@ -6,7 +6,7 @@ import classNames from 'classnames';
 import './TemporaryUntil.scss';
 
 const TemporaryUntil = ({ temporaryUntil }) => {
-  const blockDate = moment(temporaryUntil).local().format('DD.MM.YYYY HH:mm');
+  const blockDate = moment.utc(temporaryUntil).local().format('DD.MM.YYYY HH:mm');
   const blocked = moment().isAfter(blockDate);
 
   return (
