@@ -2,6 +2,7 @@
   "SIDEBAR": {
     "TOP_MENU": {
       "PLAYERS": "Players",
+      "CLIENTS": "Clients`",
       "OPERATORS": "Operators",
       "PAYMENTS": "Payments",
       "TRANSACTIONS": "Transactions",
@@ -789,6 +790,7 @@
     "INACTIVE": "Inactive",
     "ALL": "All",
     "PLAYERS": "Players",
+    "CLIENTS": "Clients",
     "TRANSACTIONS": "Transactions",
     "PLAYER_LIABILITY_REPORT": "Player liability report",
     "PAYMENTS": "Payments",
@@ -830,8 +832,8 @@
     "MOVE": "Move",
     "CHANGE_STATUS": "Change status",
     "EXPORT_SELECTED": "Export selected",
-    "PLAYERS_FOUND": "Players found",
-    "PLAYERS_SELECTED": "Players selected",
+    "CLIENTS_FOUND": "Clients found",
+    "CLIENTS_SELECTED": "Clients selected",
     "LANGUAGE_NAME": {
       "EN": "English",
       "RU": "Russian",
