@@ -74,100 +74,6 @@ function fetchEntities(playerUUID, filters = {}, fetchNotes = fetchNotesFn) {
   };
 }
 
-function manualDeposit(playerUUID, params) {
-  return (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
-
-    return dispatch({
-      [CALL_API]: {
-        endpoint: `payment/payments/${playerUUID}/deposit/manual`,
-        method: 'PUT',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(params),
-        types: [
-          MANUAL_DEPOSIT.REQUEST,
-          MANUAL_DEPOSIT.SUCCESS,
-          MANUAL_DEPOSIT.FAILURE,
-        ],
-        bailout: !logged,
-      },
-    });
-  };
-}
-
-function manualWithdraw(playerUUID, params) {
-  return (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
-
-    return dispatch({
-      [CALL_API]: {
-        endpoint: `payment/payments/${playerUUID}/withdraw`,
-        method: 'PUT',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(params),
-        types: [
-          MANUAL_WITHDRAW.REQUEST,
-          MANUAL_WITHDRAW.SUCCESS,
-          MANUAL_WITHDRAW.FAILURE,
-        ],
-        bailout: !logged,
-      },
-    });
-  };
-}
-
-function confiscate(playerUUID, params) {
-  return (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
-
-    return dispatch({
-      [CALL_API]: {
-        endpoint: `payment/payments/${playerUUID}/confiscate`,
-        method: 'PUT',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(params),
-        types: [
-          CONFISCATE.REQUEST,
-          CONFISCATE.SUCCESS,
-          CONFISCATE.FAILURE,
-        ],
-        bailout: !logged,
-      },
-    });
-  };
-}
-
-function addPayment(playerUUID, { type, ...inputData }) {
-  return async (dispatch) => {
-    const data = {
-      ...inputData,
-      device: await getFingerprint(),
-    };
-
-    if (type === paymentTypes.Deposit) {
-      return dispatch(manualDeposit(playerUUID, data));
-    } else if (type === paymentTypes.Withdraw) {
-      return dispatch(manualWithdraw(playerUUID, data));
-    } else if (type === paymentTypes.Confiscate) {
-      return dispatch(confiscate(playerUUID, data));
-    }
-
-    throw new Error(`Unknown payment type "${type}".`);
-  };
-}
-
 function manageNote(data) {
   return (dispatch, getState) => {
     const { auth: { uuid, fullName } } = getState();
@@ -281,7 +187,6 @@ const actionCreators = {
   fetchPaymentStatuses,
   changePaymentStatus,
   fetchPaymentAccounts,
-  addPayment,
   manageNote,
   resetNote,
   resetTransactions,

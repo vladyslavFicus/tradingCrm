@@ -466,6 +466,10 @@
           "LABEL": {
             "PROMO_CODE": "Промо-код"
           }
+        },
+        "DEVICE_TYPE": {
+          "CHOOSE_DEVICE_TYPE_TEXT": "Выберите тип устройства",
+          "CONFIRM_ACTION_TEXT": "Вы действительно хотите подтвердить это действие?"
         }
       },
       "NOTIFICATIONS": {
@@ -840,7 +844,8 @@
     "COMMENT": "Комментарий",
     "UPLOAD": "Загрузить",
     "ADD_DOCUMENT": "+ Прикрепить документ",
-    "UNKNOWN_ERROR": "Неизвестная ошибка"
+    "UNKNOWN_ERROR": "Неизвестная ошибка",
+    "CONFIRM_ACTION": "Подтвердить действие"
   },
   "FILES": {
     "UPLOAD_MODAL": {
@@ -2374,6 +2379,19 @@
       "ACQUISITION": {
         "TITLE": ""
       }
+    },
+    "TRANSACTIONS": {
+      "MODAL_CREATE": {
+        "TYPE": "",
+        "AMOUNT": "",
+        "PAYMENT_ACCOUNT": "",
+        "FROM_MT4": "",
+        "TO_MT4": ""
+      }
     }
+  },
+  "TEMPORARY_UNTIL": {
+    "WILL_BE_BLOCKED": "Временный аккаунт - будет заблокирован %{date}",
+    "BLOCKED": "Временный аккаунт был заблокирован %{date}"
   }
 }

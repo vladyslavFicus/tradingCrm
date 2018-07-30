@@ -22,6 +22,7 @@ const Personal = (props) => {
       city,
       affiliateId,
       btag,
+      intendedAmountToSpend,
     },
   } = props;
 
@@ -68,6 +69,10 @@ const Personal = (props) => {
             verified={kycAddressStatus && kycAddressStatus.status === kycStatuses.VERIFIED}
           />
           <PersonalInformationItem
+            label="Intended amount to spend"
+            value={intendedAmountToSpend}
+          />
+          <PersonalInformationItem
             label="Source"
             value={affiliateId || <span className="color-default">no source</span>}
           />
@@ -102,9 +107,9 @@ Personal.propTypes = {
     login: PropTypes.string,
     username: PropTypes.string,
     playerUUID: PropTypes.string,
+    intendedAmountToSpend: PropTypes.string,
   }),
 };
-
 Personal.defaultProps = {
   data: {},
 };

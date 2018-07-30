@@ -460,6 +460,10 @@
           "LABEL": {
             "PROMO_CODE": "Promo code"
           }
+        },
+        "DEVICE_TYPE": {
+          "CHOOSE_DEVICE_TYPE_TEXT": "Choose device type",
+          "CONFIRM_ACTION_TEXT": "Do you really want to confirm this action?"
         }
       },
       "NOTIFICATIONS": {
@@ -834,7 +838,8 @@
     "COMMENT": "Comment",
     "UPLOAD": "Upload",
     "ADD_DOCUMENT": "+ Add document",
-    "UNKNOWN_ERROR": "Unknown error"
+    "UNKNOWN_ERROR": "Unknown error",
+    "CONFIRM_ACTION": "Confirm action"
   },
   "FILES": {
     "UPLOAD_MODAL": {
@@ -2326,6 +2331,20 @@
       "ACQUISITION": {
         "TITLE": "Acquisition Status"
       }
+    },
+    "TRANSACTIONS": {
+      "MODAL_CREATE": {
+        "TYPE": "Payment Type",
+        "AMOUNT": "Amount",
+        "PAYMENT_ACCOUNT": "Payment account",
+        "EXTERNAL_REF": "External reference ID",
+        "FROM_MT4": "From MT4 Account",
+        "TO_MT4": "To MT4 Account"
+      }
     }
+  },
+  "TEMPORARY_UNTIL": {
+    "WILL_BE_BLOCKED": "Temporary account - will be blocked on %{date}",
+    "BLOCKED": "Temporary account has been blocked on %{date}"
   }
 }

@@ -204,7 +204,7 @@ PropTypes.userProfile = PropTypes.shape({
   tokenExpirationDate: PropTypes.string,
   login: PropTypes.string,
   username: PropTypes.string,
-  playerUUID: PropTypes.string.isRequired,
+  playerUUID: PropTypes.string,
   signInIps: PropTypes.arrayOf(PropTypes.ipEntity),
   balances: PropTypes.shape({
     total: PropTypes.price.isRequired,
@@ -276,7 +276,7 @@ PropTypes.paymentEntityStatus = PropTypes.shape({
 });
 PropTypes.paymentEntity = PropTypes.shape({
   amount: PropTypes.price.isRequired,
-  amountBarrierReached: PropTypes.bool.isRequired,
+  amountBarrierReached: PropTypes.bool,
   baseCurrencyAmount: PropTypes.price,
   clientIp: PropTypes.string,
   country: PropTypes.string,
@@ -534,6 +534,12 @@ PropTypes.rewardPlanAmount = PropTypes.shape({
   amount: PropTypes.number,
   isActive: PropTypes.bool,
 });
+PropTypes.mt4User = PropTypes.shape({
+  login: PropTypes.string.isRequired,
+  balance: PropTypes.string,
+  equity: PropTypes.string,
+  symbol: PropTypes.string,
+});
 PropTypes.tradingProfile = PropTypes.shape({
   isTestUser: PropTypes.bool,
   aquisitionRep: PropTypes.string,
@@ -548,12 +554,7 @@ PropTypes.tradingProfile = PropTypes.shape({
   equity: PropTypes.string,
   baseCurrencyBalance: PropTypes.string,
   baseCurrencyEquity: PropTypes.string,
-  mt4Users: PropTypes.arrayOf(PropTypes.shape({
-    login: PropTypes.number,
-    balance: PropTypes.string,
-    equity: PropTypes.string,
-    symbol: PropTypes.string,
-  })),
+  mt4Users: PropTypes.arrayOf(PropTypes.mt4User),
 });
 
 export default PropTypes;

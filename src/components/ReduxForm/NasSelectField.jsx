@@ -76,7 +76,7 @@ class NasSelectField extends Component {
       <Select
         {...input}
         placeholder={placeholder}
-        searchable={searchable}
+        showSearch={searchable}
         optionsHeader={optionsHeader}
         singleOptionComponent={singleOptionComponent}
         disabled={disabled}

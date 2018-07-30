@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { I18n } from 'react-redux-i18n';
 import moment from 'moment';
 import { SubmissionError } from 'redux-form';
-import { get } from 'lodash';
+import { get, uniq } from 'lodash';
 import PropTypes from '../../../../../../../../../../constants/propTypes';
 import GridView, { GridViewColumn } from '../../../../../../../../../../components/GridView';
 import Uuid from '../../../../../../../../../../components/Uuid';
@@ -18,9 +18,13 @@ import AddToCampaignModal from '../../../../../../../../../../components/AddToCa
 import AddPromoCodeModal from '../AddPromoCodeModal';
 import PermissionContent from '../../../../../../../../../../components/PermissionContent';
 import permissions from '../../../../../../../../../../config/permissions';
+import Permissions from '../../../../../../../../../../utils/permissions';
 import { sourceTypes, playerStatuses } from '../../../../../../../../../../constants/campaign-aggregator';
 import ActionsDropDown from '../../../../../../../../../../components/ActionsDropDown';
 import CountItems from '../CountItems';
+import {
+  deviceTypes as rewardDeviceTypes,
+} from '../../../../../../../../../Campaigns/components/Rewards/constants';
 
 const ADD_TO_CAMPAIGN_MODAL = 'add-to-campaign-modal';
 const ADD_PROMO_CODE_MODAL = 'add-promo-code-modal';
@@ -28,6 +32,9 @@ const modalInitialState = {
   name: null,
   params: {},
 };
+
+const optInPermission = new Permissions([permissions.CAMPAIGN_AGGREGATOR.OPT_IN]);
+const optOutPermission = new Permissions([permissions.CAMPAIGN_AGGREGATOR.OPT_OUT]);
 
 class CampaignList extends Component {
   static propTypes = {
@@ -55,6 +62,7 @@ class CampaignList extends Component {
     setRenderActions: PropTypes.func.isRequired,
     registerUpdateCacheListener: PropTypes.func.isRequired,
     unRegisterUpdateCacheListener: PropTypes.func.isRequired,
+    permissions: PropTypes.arrayOf(PropTypes.string).isRequired,
   };
 
   state = {
@@ -165,6 +173,44 @@ class CampaignList extends Component {
     confirmActionModal.show({
       onSubmit: this.handleActionCampaign(params),
     });
+  };
+
+  handleOptInClick = (params) => {
+    const { rewards } = params;
+    const {
+      modals: {
+        optInModal,
+      },
+    } = this.props;
+
+    const uniqueDeviceTypes = uniq(rewards.map(i => i.type).filter(i => i !== rewardDeviceTypes.ALL));
+
+    const deviceTypes = !uniqueDeviceTypes.length
+      ? [rewardDeviceTypes.MOBILE, rewardDeviceTypes.DESKTOP]
+      : uniqueDeviceTypes;
+
+    optInModal.show({
+      onSubmit: this.handleOptInCampaign(params),
+      deviceTypes,
+      initialValues: {
+        deviceType: deviceTypes.length === 1 ? deviceTypes[0] : '',
+      },
+    });
+  };
+
+  handleOptInCampaign = params => async (formData) => {
+    const {
+      match: { params: { id: playerUUID } },
+      modals: { optInModal },
+      optInCampaign,
+    } = this.props;
+
+    const actionResult = await optInCampaign({ ...params, ...formData, playerUUID });
+
+    if (actionResult && !actionResult.error) {
+      optInModal.hide();
+      this.handleRefresh();
+    }
   };
 
   handleResetPlayerClick = uuid => () => {
@@ -380,10 +426,11 @@ class CampaignList extends Component {
     </div>
   );
 
-  renderActions = ({ state, playerStatus, uuid, targetType, sourceType: originalSourceType }) => {
+  renderActions = ({ state, playerStatus, uuid, targetType, sourceType: originalSourceType, rewards }) => {
+    const { permissions: currentPermissions } = this.context;
+
     const {
       optOutCampaign,
-      optInCampaign,
       deletePlayerFromCampaign,
     } = this.props;
     const items = [];
@@ -399,16 +446,16 @@ class CampaignList extends Component {
         onClick: () => this.handleActionClick({
           action: optOutCampaign,
           uuid,
-          sourceType,
           returnToList: true,
         }),
+        visible: optOutPermission.check(currentPermissions),
       }, {
         label: I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.DECLINE'),
         onClick: () => this.handleActionClick({
           action: optOutCampaign,
           uuid,
-          sourceType,
         }),
+        visible: optOutPermission.check(currentPermissions),
       });
     } else {
       if (targetType !== targetTypes.ALL) {
@@ -424,11 +471,11 @@ class CampaignList extends Component {
 
       items.push({
         label: I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.OPT_IN'),
-        onClick: () => this.handleActionClick({
-          action: optInCampaign,
+        onClick: () => this.handleOptInClick({
           uuid,
-          sourceType,
+          rewards,
         }),
+        visible: optInPermission.check(currentPermissions),
       });
     }
 
