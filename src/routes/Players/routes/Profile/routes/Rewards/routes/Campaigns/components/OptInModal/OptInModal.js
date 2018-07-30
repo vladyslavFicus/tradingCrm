@@ -52,21 +52,19 @@ class OptInModal extends Component {
                 {I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.MODALS.DEVICE_TYPE.CHOOSE_DEVICE_TYPE_TEXT')}
               </div>
               <div className="row">
-                <div className="col-6">
-                  <Field
-                    name="deviceType"
-                    label={I18n.t(attributeLabels.deviceType)}
-                    type="select"
-                    component={SelectField}
-                  >
-                    <option value="">{I18n.t(attributeLabels.chooseDeviceType)}</option>
-                    {deviceTypes.map(key => (
-                      <option key={key} value={key}>
-                        {renderLabel(key, deviceTypesLabels)}
-                      </option>
-                    ))}
-                  </Field>
-                </div>
+                <Field
+                  name="deviceType"
+                  label={I18n.t(attributeLabels.deviceType)}
+                  component={SelectField}
+                  className="col-6"
+                >
+                  <option value="">{I18n.t(attributeLabels.chooseDeviceType)}</option>
+                  {deviceTypes.map(key => (
+                    <option key={key} value={key}>
+                      {renderLabel(key, deviceTypesLabels)}
+                    </option>
+                  ))}
+                </Field>
               </div>
             </When>
             <Otherwise>
@@ -80,7 +78,7 @@ class OptInModal extends Component {
           <button
             className="btn btn-default-outline mr-auto"
             disabled={submitting}
-            type="reset"
+            type="button"
             onClick={onCloseModal}
           >
             {I18n.t('COMMON.CANCEL')}
