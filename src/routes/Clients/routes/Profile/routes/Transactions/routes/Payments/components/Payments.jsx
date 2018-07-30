@@ -1,10 +1,10 @@
 import React, { Component, Fragment } from 'react';
 import moment from 'moment';
 import { SubmissionError } from 'redux-form';
+import { get } from 'lodash';
 import PropTypes from '../../../../../../../../../constants/propTypes';
 import GridView, { GridViewColumn } from '../../../../../../../../../components/GridView';
 import {
-  types as paymentTypes,
   methodsLabels,
   typesLabels,
   customTypesProps,
@@ -49,17 +49,16 @@ class Payments extends Component {
     loadPaymentStatuses: PropTypes.func.isRequired,
     onChangePaymentStatus: PropTypes.func.isRequired,
     loadPaymentAccounts: PropTypes.func.isRequired,
-    addPayment: PropTypes.func.isRequired,
     manageNote: PropTypes.func.isRequired,
     resetNote: PropTypes.func.isRequired,
-    currencyCode: PropTypes.string.isRequired,
+    currencyCode: PropTypes.string,
     match: PropTypes.shape({
       params: PropTypes.shape({
         id: PropTypes.string,
       }).isRequired,
     }).isRequired,
     newPaymentNote: PropTypes.noteEntity,
-    playerProfile: PropTypes.userProfile.isRequired,
+    playerProfile: PropTypes.userProfile,
     paymentActionReasons: PropTypes.paymentActionReasons,
     playerLimits: PropTypes.shape({
       entities: PropTypes.arrayOf(PropTypes.playerLimitEntity).isRequired,
@@ -77,9 +76,12 @@ class Payments extends Component {
     }).isRequired,
     locale: PropTypes.string.isRequired,
     fetchActiveBonus: PropTypes.func.isRequired,
+    addPayment: PropTypes.func.isRequired,
   };
   static defaultProps = {
     newPaymentNote: null,
+    currencyCode: null,
+    playerProfile: {},
     paymentActionReasons: {},
   };
   static contextTypes = {
@@ -213,48 +215,20 @@ class Payments extends Component {
       addPayment,
       match: { params: { id: playerUUID } },
       currencyCode,
-      resetNote,
-      transactions: { newPaymentNote: unsavedNote },
-      fetchActiveBonus,
     } = this.props;
 
-    const params = {
+    const variables = {
       ...inputParams,
+      playerUUID,
       currency: currencyCode,
     };
+    const action = await addPayment({ variables });
 
-    if (inputParams.type !== paymentTypes.Withdraw) {
-      delete params.paymentMethod;
-    }
-
-    const action = await addPayment(playerUUID, params);
-
-    if (action && action.error) {
-      const errors = [action.payload.response.error];
-
-      if (
-        inputParams.type === paymentTypes.Confiscate &&
-        action.payload.response.error === 'error.payment.withdrawable.limit'
-      ) {
-        const activeBonusAction = await fetchActiveBonus(playerUUID);
-
-        if (activeBonusAction && !activeBonusAction.error && activeBonusAction.payload.totalElements) {
-          errors.push('error.payment.withdrawable.bonus.disable');
-        }
-      }
-
-      throw new SubmissionError({ _error: errors });
+    if (action.data.payment.createClientPayment.error) {
+      throw new SubmissionError({ _error: [action.data.payment.createClientPayment.error.error] });
     } else {
-      if (unsavedNote) {
-        await this.context.onAddNote({ ...unsavedNote, targetUUID: action.payload.paymentId });
-      }
-
-      resetNote();
-      this.handleRefresh();
       this.handleCloseModal();
     }
-
-    return action;
   };
 
   handleOpenAddPaymentModal = () => {
@@ -347,18 +321,21 @@ class Payments extends Component {
   };
 
   renderMethod = data => (
-    !data.paymentMethod ? <span>&mdash;</span>
-      : <div>
+    <Choose>
+      <When condition={!data.paymentMethod}>
+        <span>&mdash;</span>
+      </When>
+      <Otherwise>
         <div className="font-weight-700">
           {renderLabel(data.paymentMethod, methodsLabels)}
         </div>
-        {
-          !!data.paymentAccount &&
+        <If condition={!!data.paymentAccount}>
           <span className="font-size-11">
             {data.paymentAccount}
           </span>
-        }
-        </div>
+        </If>
+      </Otherwise>
+    </Choose>
   );
 
   renderDevice = (data) => {
@@ -411,6 +388,8 @@ class Payments extends Component {
       playerLimits,
       locale,
     } = this.props;
+
+    const mt4Users = get(playerProfile, 'tradingProfile.mt4Users');
 
     return (
       <div>
@@ -517,6 +496,7 @@ class Payments extends Component {
             onSubmit={this.handleAddPayment}
             onManageNote={manageNote}
             playerLimits={playerLimits}
+            mt4Accounts={mt4Users}
           />
         }
       </div>
