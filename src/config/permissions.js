@@ -74,8 +74,8 @@ export default {
     UPLOAD_SOFT_RESET_PLAYERS: 'campaign;PUT;/{uuid}/add-soft-reset-player-states',
   },
   CAMPAIGN_AGGREGATOR: {
-    OPT_IN: 'campaign_aggregator;PUT;/optin/{uuid}/{playerUUID}',
-    OPT_OUT: 'campaign_aggregator;PUT;/optout/{uuid}/{playerUUID}',
+    OPT_IN: 'campaign_aggregator;PUT;/{uuid}/optin/{playerUUID}',
+    OPT_OUT: 'campaign_aggregator;PUT;/{uuid}/optout/{playerUUID}',
   },
   WAGERING_FULFILLMENT: {
     LIST: 'wagering_fulfillment;GET;/',
