@@ -10,7 +10,7 @@ export default compose(
   graphql(campaignsQuery, {
     name: 'campaigns',
     options: ({ location: { query } }) => ({
-      fetchPolicy: 'cache-and-network',
+      fetchPolicy: 'network-only',
       variables: {
         ...query ? query.filters : {},
         size: 10,
