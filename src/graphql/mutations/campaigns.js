@@ -96,6 +96,7 @@ const updateMutation = gql`mutation update(
       }
       error {
         error
+        fields_errors
       }
     }
   }
