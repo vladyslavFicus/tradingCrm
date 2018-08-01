@@ -33,10 +33,11 @@ class NodeBuilder extends PureComponent {
   };
 
   handleChangeUUID = (index, uuid, type) => {
-    const { fields: { insert, remove } } = this.props;
+    const { fields: { insert, remove, get } } = this.props;
+    const currentField = get(index);
 
     remove(index);
-    insert(index, { uuid, type });
+    insert(index, { ...(currentField || {}), uuid, type });
   };
 
   handleRemoveNode = (index) => {
