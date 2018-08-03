@@ -133,6 +133,7 @@ class PaymentAddModal extends Component {
         name="paymentAccountUuid"
         label={attributeLabels.paymentAccount}
         placeholder={emptyOptionLabel}
+        disabled={availablePaymentAccounts.length === 0}
         component={NasSelectField}
         className="col select-field-wrapper"
         showErrorMessage={false}
@@ -152,7 +153,11 @@ class PaymentAddModal extends Component {
       name={name || 'mt4Acc'}
       label={I18n.t(attributeLabels[label || 'fromMt4Acc'])}
       component={NasSelectField}
-      placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
+      placeholder={this.props.mt4Accounts.length === 0
+        ? I18n.t('COMMON.SELECT_OPTION.NO_ITEMS')
+        : I18n.t('COMMON.SELECT_OPTION.DEFAULT')
+      }
+      disabled={this.props.mt4Accounts.length === 0}
       className={`${className || 'col'} select-field-wrapper`}
       searchable={false}
       showErrorMessage={false}

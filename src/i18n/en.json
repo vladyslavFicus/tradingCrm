@@ -776,7 +776,8 @@
       "REASON": "-- Select reason --",
       "PERIOD": "-- Select period --",
       "COUNTRY": "-- Select country --",
-      "UPLOAD_ACTION": "-- Select upload action --"
+      "UPLOAD_ACTION": "-- Select upload action --",
+      "NO_ITEMS": "-- No items --"
     },
     "CONFIRM": "Confirm",
     "MGA_LIMIT": "MGA LIMIT",
