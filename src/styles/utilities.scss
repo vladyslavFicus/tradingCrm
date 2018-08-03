@@ -18,6 +18,10 @@ body {
   &.user-panel-open {
     overflow-y: hidden;
   }
+  &.modal-open {
+    position: relative;
+    width: 100%;
+  }
 }
 
 select {

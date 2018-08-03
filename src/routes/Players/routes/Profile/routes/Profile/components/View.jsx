@@ -463,7 +463,7 @@ class View extends Component {
     return (
       <Fragment>
         <TabHeader title={this.renderKycStatusTitle()}>
-          <If condition={!data.kycCompleted && !!data.kycRequest}>
+          <If condition={!data.kycCompleted}>
             <PermissionContent permissions={permissions.USER_PROFILE.KYC_VERIFY_ALL}>
               <button
                 id="verify-all-identities-button"

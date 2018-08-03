@@ -4,7 +4,13 @@ import { get } from 'lodash';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Field } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
-import { InputField, SelectField, NasSelectField, CustomValueFieldVertical, CheckBox } from '../../../../../../../../../../components/ReduxForm';
+import {
+  InputField,
+  SelectField,
+  NasSelectField,
+  CustomValueFieldVertical,
+  CheckBox,
+} from '../../../../../../../../../../components/ReduxForm';
 import renderLabel from '../../../../../../../../../../utils/renderLabel';
 import { customValueFieldTypes, customValueFieldTypesLabels } from '../../../../../../../../../../constants/form';
 import {

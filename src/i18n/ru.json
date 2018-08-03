@@ -467,6 +467,10 @@
           "LABEL": {
             "PROMO_CODE": "Промо-код"
           }
+        },
+        "DEVICE_TYPE": {
+          "CHOOSE_DEVICE_TYPE_TEXT": "Выберите тип устройства",
+          "CONFIRM_ACTION_TEXT": "Вы действительно хотите подтвердить это действие?"
         }
       },
       "NOTIFICATIONS": {
@@ -857,7 +861,8 @@
     "DATE_OPTIONS": {
       "START_DATE": "",
       "END_DATE": ""
-    }
+    },
+    "CONFIRM_ACTION": "Подтвердить действие"
   },
   "FILES": {
     "UPLOAD_MODAL": {

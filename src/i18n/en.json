@@ -462,6 +462,10 @@
           "LABEL": {
             "PROMO_CODE": "Promo code"
           }
+        },
+        "DEVICE_TYPE": {
+          "CHOOSE_DEVICE_TYPE_TEXT": "Choose device type",
+          "CONFIRM_ACTION_TEXT": "Do you really want to confirm this action?"
         }
       },
       "NOTIFICATIONS": {
@@ -850,7 +854,8 @@
     "COMMENT": "Comment",
     "UPLOAD": "Upload",
     "ADD_DOCUMENT": "+ Add document",
-    "UNKNOWN_ERROR": "Unknown error"
+    "UNKNOWN_ERROR": "Unknown error",
+    "CONFIRM_ACTION": "Confirm action"
   },
   "FILES": {
     "UPLOAD_MODAL": {

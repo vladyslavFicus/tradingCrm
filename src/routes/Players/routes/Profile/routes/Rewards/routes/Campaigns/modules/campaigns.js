@@ -40,7 +40,7 @@ function addPromoCodeToPlayer(playerUUID, promoCode) {
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `campaign_aggregator/players/${playerUUID}/promo-codes/${promoCode}`,
+        endpoint: `campaign_aggregator/${playerUUID}/by-promo-code/${promoCode}`,
         method: 'PUT',
         headers: {
           Accept: 'application/json',
@@ -58,13 +58,13 @@ function addPromoCodeToPlayer(playerUUID, promoCode) {
   };
 }
 
-function optInCampaign({ uuid, playerUUID }) {
+function optInCampaign({ uuid, playerUUID, deviceType }) {
   return (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `campaign_aggregator/${uuid}/optin/${playerUUID}`,
+        endpoint: `campaign_aggregator/${uuid}/optin/${playerUUID}?deviceType=${deviceType}`,
         method: 'PUT',
         headers: {
           Accept: 'application/json',
@@ -99,13 +99,13 @@ function optOutCampaign({ uuid, playerUUID, returnToList = false }) {
   };
 }
 
-function addPlayerToCampaign({ uuid, sourceType, playerUUID }) {
+function addPlayerToCampaign({ uuid, playerUUID }) {
   return (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `campaign_aggregator/${sourceType.toLowerCase()}/${uuid}/players/${playerUUID}`,
+        endpoint: `campaign_aggregator/${uuid}/player-list/${playerUUID}`,
         method: 'PUT',
         headers: {
           Accept: 'application/json',
@@ -123,13 +123,13 @@ function addPlayerToCampaign({ uuid, sourceType, playerUUID }) {
   };
 }
 
-function deletePlayerFromCampaign({ uuid, sourceType, playerUUID }) {
+function deletePlayerFromCampaign({ uuid, playerUUID }) {
   return (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `campaign_aggregator/${sourceType.toLowerCase()}/${uuid}/players/${playerUUID}`,
+        endpoint: `campaign_aggregator/${uuid}/player-list/${playerUUID}`,
         method: 'DELETE',
         headers: {
           Accept: 'application/json',
