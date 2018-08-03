@@ -2,6 +2,8 @@ import permissions from './permissions';
 import I18n from '../utils/fake-i18n';
 import Permissions, { CONDITIONS } from '../utils/permissions';
 import { services } from '../constants/services';
+import { markets } from '../constants/markets';
+import config from './index';
 
 const userProfileTabs = [
   {
@@ -59,26 +61,35 @@ const userProfileTabs = [
   },
 ];
 
+const profilesRoute = {
+  label: I18n.t('SIDEBAR.TOP_MENU.PLAYERS'),
+  icon: 'fa fa-users',
+  isOpen: false,
+  items: [
+    {
+      label: I18n.t('SIDEBAR.TOP_MENU.PLAYERS_SEARCH'),
+      url: '/players/list',
+      service: services.profile,
+      permissions: new Permissions(permissions.USER_PROFILE.PROFILES_LIST),
+    },
+    {
+      label: I18n.t('SIDEBAR.TOP_MENU.PLAYERS_KYC_REQUEST'),
+      url: '/players/kyc-requests',
+      service: services.profile,
+      permissions: new Permissions(permissions.USER_PROFILE.KYC_LIST),
+    },
+  ],
+};
+
+const clientsRoute = {
+  label: I18n.t('SIDEBAR.TOP_MENU.CLIENTS'),
+  icon: 'fa fa-users',
+  url: '/clients/list',
+  permissions: new Permissions(permissions.OPERATORS.OPERATORS_LIST_VIEW),
+};
+
 const sidebarTopMenu = [
-  {
-    label: I18n.t('SIDEBAR.TOP_MENU.PLAYERS'),
-    icon: 'fa fa-users',
-    isOpen: false,
-    items: [
-      {
-        label: I18n.t('SIDEBAR.TOP_MENU.PLAYERS_SEARCH'),
-        url: '/players/list',
-        service: services.profile,
-        permissions: new Permissions(permissions.USER_PROFILE.PROFILES_LIST),
-      },
-      {
-        label: I18n.t('SIDEBAR.TOP_MENU.PLAYERS_KYC_REQUEST'),
-        url: '/players/kyc-requests',
-        service: services.profile,
-        permissions: new Permissions(permissions.USER_PROFILE.KYC_LIST),
-      },
-    ],
-  },
+  { ...(config.market === markets.crm ? clientsRoute : profilesRoute) },
   {
     label: I18n.t('SIDEBAR.TOP_MENU.OPERATORS'),
     icon: 'fa fa-eye',

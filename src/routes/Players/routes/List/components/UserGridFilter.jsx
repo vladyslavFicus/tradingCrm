@@ -99,7 +99,7 @@ class UserGridFilter extends Component {
         currencies={currencies}
         countries={countries}
       >
-        <FilterItem label={filterLabels.searchValue} size={SIZES.big} type={TYPES.input} default>
+        <FilterItem label={I18n.t(filterLabels.searchValue)} size={SIZES.big} type={TYPES.input} default>
           <FilterField
             id="users-list-search-field"
             name="searchValue"
@@ -108,7 +108,7 @@ class UserGridFilter extends Component {
           />
         </FilterItem>
 
-        <FilterItem label={filterLabels.country} size={SIZES.medium} type={TYPES.nas_select} default>
+        <FilterItem label={I18n.t(filterLabels.country)} size={SIZES.medium} type={TYPES.nas_select} default>
           <FilterField name="countries" multiple>
             {Object
               .keys(countries)
@@ -117,21 +117,21 @@ class UserGridFilter extends Component {
           </FilterField>
         </FilterItem>
 
-        <FilterItem label={filterLabels.city} size={SIZES.small} type={TYPES.input} default>
+        <FilterItem label={I18n.t(filterLabels.city)} size={SIZES.small} type={TYPES.input} default>
           <FilterField name="city" type="text" />
         </FilterItem>
 
-        <FilterItem label={filterLabels.age} size={SIZES.small} type={TYPES.range_input} default>
+        <FilterItem label={I18n.t(filterLabels.age)} size={SIZES.small} type={TYPES.range_input} default>
           <FilterField name="ageFrom" type="text" />
           <FilterField name="ageTo" type="text" />
         </FilterItem>
 
-        <FilterItem label={filterLabels.balance} size={SIZES.small} type={TYPES.range_input} default>
+        <FilterItem label={I18n.t(filterLabels.balance)} size={SIZES.small} type={TYPES.range_input} default>
           <FilterField name="balanceFrom" type="text" />
           <FilterField name="balanceTo" type="text" />
         </FilterItem>
 
-        <FilterItem label={filterLabels.currencies} size={SIZES.small} type={TYPES.select}>
+        <FilterItem label={I18n.t(filterLabels.currencies)} size={SIZES.small} type={TYPES.select}>
           <FilterField name="currencies">
             <option value="">{I18n.t('COMMON.ANY')}</option>
             {currencies.map(currency => (
@@ -142,11 +142,11 @@ class UserGridFilter extends Component {
           </FilterField>
         </FilterItem>
 
-        <FilterItem label={filterLabels.affiliateId} size={SIZES.medium} type={TYPES.input}>
+        <FilterItem label={I18n.t(filterLabels.affiliateId)} size={SIZES.medium} type={TYPES.input}>
           <FilterField name="affiliateId" type="text" />
         </FilterItem>
 
-        <FilterItem label={filterLabels.status} size={SIZES.small} type={TYPES.select}>
+        <FilterItem label={I18n.t(filterLabels.status)} size={SIZES.small} type={TYPES.select}>
           <FilterField name="statuses">
             <option value="">{I18n.t('COMMON.ANY')}</option>
             {Object.keys(statusesLabels).map(status => (
@@ -157,7 +157,7 @@ class UserGridFilter extends Component {
           </FilterField>
         </FilterItem>
 
-        <FilterItem label={filterLabels.tags} size={SIZES.small} type={TYPES.select}>
+        <FilterItem label={I18n.t(filterLabels.tags)} size={SIZES.small} type={TYPES.select}>
           <FilterField name="tags">
             <option value="">{I18n.t('COMMON.ANY')}</option>
             {
@@ -171,13 +171,13 @@ class UserGridFilter extends Component {
           </FilterField>
         </FilterItem>
 
-        <FilterItem label={filterLabels.segments} size={SIZES.small} type={TYPES.select}>
+        <FilterItem label={I18n.t(filterLabels.segments)} size={SIZES.small} type={TYPES.select}>
           <FilterField name="segments">
             <option value="">{I18n.t('COMMON.ANY')}</option>
           </FilterField>
         </FilterItem>
 
-        <FilterItem label={filterLabels.registrationDate} size={SIZES.big} type={TYPES.range_date}>
+        <FilterItem label={I18n.t(filterLabels.registrationDate)} size={SIZES.big} type={TYPES.range_date}>
           <FilterField
             utc
             name="registrationDateFrom"

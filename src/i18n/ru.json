@@ -18,7 +18,8 @@
       "NEW_CAMPAIGNS": "Новые кампании",
       "NEW_CAMPAIGNS_FULFILLMENTS": "Fulfillments",
       "CAMPAIGNS": "[NEW] Кампании",
-      "CMS_GAMES": "[CMS] Игры"
+      "CMS_GAMES": "[CMS] Игры",
+      "CLIENTS": ""
     },
     "BOTTOM_MENU": {
       "SUPPORT": "Поддержка"
@@ -778,7 +779,8 @@
       "REASON": "-- Выберите причину --",
       "PERIOD": "-- Выберите период --",
       "COUNTRY": "-- Выберите страну --",
-      "UPLOAD_ACTION": "-- Выбрать тип действия --"
+      "UPLOAD_ACTION": "-- Выбрать тип действия --",
+      "NO_ITEMS": ""
     },
     "CONFIRM": "Подтвердить",
     "MGA_LIMIT": "MGA LIMIT",
@@ -848,7 +850,14 @@
     "COMMENT": "Комментарий",
     "UPLOAD": "Загрузить",
     "ADD_DOCUMENT": "+ Прикрепить документ",
-    "UNKNOWN_ERROR": "Неизвестная ошибка"
+    "UNKNOWN_ERROR": "Неизвестная ошибка",
+    "CLIENTS_FOUND": "",
+    "CLIENTS_SELECTED": "",
+    "CLIENTS": "",
+    "DATE_OPTIONS": {
+      "START_DATE": "",
+      "END_DATE": ""
+    }
   },
   "FILES": {
     "UPLOAD_MODAL": {
@@ -1694,6 +1703,31 @@
       "NOTIFICATION": {
         "UPDATE_MESSAGE": "Значение обновлено"
       }
+    },
+    "LIST": {
+      "FILTERS": {
+        "SEARCH": "Поиск по",
+        "COUNTRY": "Страна",
+        "CITY": "Город",
+        "AGE": "Возраст",
+        "AGE_FROM": "Возраст от",
+        "AGE_TO": "Возраст до",
+        "CURRENCY": "Валюта",
+        "AFFILIATE_ID": "Филиал",
+        "STATUS": "Статус",
+        "TAGS": "Теги",
+        "SEGMENTS": "Сегменты",
+        "REG_DATE_RANGE": "Дата регистрации от",
+        "REG_DATE_FROM": "Дата регистрации до",
+        "REG_DATE_TO": "Диапазон дат регистрации",
+        "BALANCE": "Баланс",
+        "BALANCE_FROM": "Баланс от",
+        "BALANCE_TO": "Баланс до",
+        "ACQUISITION_STATUS": "Статус приобритения",
+        "DESKS": "",
+        "TEAMS": "Команды",
+        "OFFICES": "Офисы"
+      }
     }
   },
   "error": {
@@ -2389,12 +2423,28 @@
         "AMOUNT": "",
         "PAYMENT_ACCOUNT": "",
         "FROM_MT4": "",
-        "TO_MT4": ""
+        "TO_MT4": "",
+        "EXTERNAL_REF": ""
       }
     }
   },
   "TEMPORARY_UNTIL": {
     "WILL_BE_BLOCKED": "Временный аккаунт - будет заблокирован %{date}",
     "BLOCKED": "Временный аккаунт был заблокирован %{date}"
+  },
+  "CLIENTS": {
+    "LIST": {
+      "GRID_HEADER": {
+        "CLIENT": "",
+        "COUNTRY": "",
+        "BALANCE": "",
+        "DEPOSITS": "",
+        "AFFILIATE": "",
+        "SALES": "",
+        "RETENTION": "",
+        "REGISTRATION": "",
+        "STATUS": ""
+      }
+    }
   }
 }

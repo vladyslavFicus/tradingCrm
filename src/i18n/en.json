@@ -2,7 +2,7 @@
   "SIDEBAR": {
     "TOP_MENU": {
       "PLAYERS": "Players",
-      "CLIENTS": "Clients`",
+      "CLIENTS": "Clients",
       "OPERATORS": "Operators",
       "PAYMENTS": "Payments",
       "TRANSACTIONS": "Transactions",
@@ -14,6 +14,7 @@
       "GAMES": "Games",
       "COUNTRIES": "Countries",
       "PLAYERS_SEARCH": "Players' search",
+      "CLIENTS_SEARCH": "Clients' search",
       "PLAYERS_KYC_REQUEST": "KYC requests",
       "SETTINGS": "Settings",
       "NEW_CAMPAIGNS": "New campaigns",
@@ -773,7 +774,12 @@
       "REASON": "-- Select reason --",
       "PERIOD": "-- Select period --",
       "COUNTRY": "-- Select country --",
-      "UPLOAD_ACTION": "-- Select upload action --"
+      "UPLOAD_ACTION": "-- Select upload action --",
+      "NO_ITEMS": "-- No items --"
+    },
+    "DATE_OPTIONS": {
+      "START_DATE": "Start date",
+      "END_DATE": "End date"
     },
     "CONFIRM": "Confirm",
     "MGA_LIMIT": "MGA LIMIT",
@@ -1680,6 +1686,31 @@
       "NOTIFICATION": {
         "UPDATE_MESSAGE": "Update amount of reward plan"
       }
+    },
+    "LIST": {
+      "FILTERS": {
+        "SEARCH": "Search by",
+        "COUNTRY": "Country",
+        "CITY": "City",
+        "AGE": "Age",
+        "AGE_FROM": "Age From",
+        "AGE_TO": "Age To",
+        "CURRENCY": "Currency",
+        "AFFILIATE_ID": "Affiliate ID",
+        "STATUS": "Status",
+        "TAGS": "Tags",
+        "SEGMENTS": "Segments",
+        "REG_DATE_RANGE": "Registration date range",
+        "REG_DATE_FROM": "Registered From",
+        "REG_DATE_TO": "Registered To",
+        "BALANCE": "Balance",
+        "BALANCE_FROM": "Balance From",
+        "BALANCE_TO": "Balance To",
+        "ACQUISITION_STATUS": "Acquisition Status",
+        "DESKS": "Desks",
+        "TEAMS": "Teams",
+        "OFFICES": "Offices"
+      }
     }
   },
   "error": {
@@ -2351,5 +2382,20 @@
   "TEMPORARY_UNTIL": {
     "WILL_BE_BLOCKED": "Temporary account - will be blocked on %{date}",
     "BLOCKED": "Temporary account has been blocked on %{date}"
+  },
+  "CLIENTS": {
+    "LIST": {
+      "GRID_HEADER": {
+        "CLIENT": "Client",
+        "COUNTRY": "Country",
+        "BALANCE": "Balance",
+        "DEPOSITS": "Deposits",
+        "AFFILIATE": "Affiliate",
+        "SALES": "Sales",
+        "RETENTION": "Retention",
+        "REGISTRATION": "Registration",
+        "STATUS": "Status"
+      }
+    }
   }
 }

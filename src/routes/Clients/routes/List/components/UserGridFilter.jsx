@@ -7,21 +7,21 @@ import { I18n } from 'react-redux-i18n';
 import { createValidator } from '../../../../../utils/validator';
 import { statusesLabels, filterLabels } from '../../../../../constants/user';
 import createDynamicForm, { FilterItem, FilterField, TYPES, SIZES } from '../../../../../components/DynamicFilters';
+import { floatNormalize } from '../../../../../utils/inputNormalize';
+import { acquisitionStatuses } from './constants';
 
 const FORM_NAME = 'userListGridFilter';
 const DynamicFilters = createDynamicForm({
   form: FORM_NAME,
   touchOnChange: true,
-  validate: (values, props) => createValidator({
+  validate: (_, props) => createValidator({
     keyword: 'string',
     country: `in:,${Object.keys(props.countries).join()}`,
-    currencies: `in:,${props.currencies.join()}`,
-    ageFrom: 'integer',
-    ageTo: 'integer',
-    affiliateId: 'string',
     status: 'string',
+    acquisitionStatus: 'string',
+    teams: 'string',
+    desks: 'string',
     tags: `in:,${props.tags.map(tag => tag.value).join()}`,
-    segments: 'string',
     registrationDateFrom: 'regex:/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/',
     registrationDateTo: 'regex:/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/',
     balanceFrom: 'integer',
@@ -43,8 +43,8 @@ class UserGridFilter extends Component {
       segments: PropTypes.string,
       registrationDateFrom: PropTypes.string,
       registrationDateTo: PropTypes.string,
-      balanceFrom: PropTypes.string,
-      balanceTo: PropTypes.string,
+      balanceFrom: PropTypes.number,
+      balanceTo: PropTypes.number,
     }),
     disabled: PropTypes.bool,
     onReset: PropTypes.func.isRequired,
@@ -99,16 +99,22 @@ class UserGridFilter extends Component {
         currencies={currencies}
         countries={countries}
       >
-        <FilterItem label={filterLabels.searchValue} size={SIZES.big} type={TYPES.input} default>
+        <FilterItem label={I18n.t(filterLabels.searchValue)} size={SIZES.big} type={TYPES.input} default>
           <FilterField
             id="users-list-search-field"
             name="searchValue"
-            placeholder="Name, login, phone, email..."
+            placeholder="Name, email, ID..."
             type="text"
           />
         </FilterItem>
 
-        <FilterItem label={filterLabels.country} size={SIZES.medium} type={TYPES.nas_select} default>
+        <FilterItem
+          label={I18n.t(filterLabels.country)}
+          size={SIZES.medium}
+          type={TYPES.nas_select}
+          placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
+          default
+        >
           <FilterField name="countries" multiple>
             {Object
               .keys(countries)
@@ -117,38 +123,50 @@ class UserGridFilter extends Component {
           </FilterField>
         </FilterItem>
 
-        <FilterItem label={filterLabels.city} size={SIZES.small} type={TYPES.input} default>
-          <FilterField name="city" type="text" />
-        </FilterItem>
-
-        <FilterItem label={filterLabels.age} size={SIZES.small} type={TYPES.range_input} default>
-          <FilterField name="ageFrom" type="text" />
-          <FilterField name="ageTo" type="text" />
-        </FilterItem>
-
-        <FilterItem label={filterLabels.balance} size={SIZES.small} type={TYPES.range_input} default>
-          <FilterField name="balanceFrom" type="text" />
-          <FilterField name="balanceTo" type="text" />
-        </FilterItem>
-
-        <FilterItem label={filterLabels.currencies} size={SIZES.small} type={TYPES.select}>
-          <FilterField name="currencies">
-            <option value="">{I18n.t('COMMON.ANY')}</option>
-            {currencies.map(currency => (
-              <option key={currency} value={currency}>
-                {currency}
-              </option>
-            ))}
+        <FilterItem
+          label={I18n.t(filterLabels.desks)}
+          size={SIZES.medium}
+          type={TYPES.nas_select}
+          placeholder={I18n.t('COMMON.SELECT_OPTION.NO_ITEMS')}
+          default
+        >
+          <FilterField name="desks">
+            {[]}
           </FilterField>
         </FilterItem>
 
-        <FilterItem label={filterLabels.affiliateId} size={SIZES.medium} type={TYPES.input}>
-          <FilterField name="affiliateId" type="text" />
+        <FilterItem
+          label={I18n.t(filterLabels.teams)}
+          size={SIZES.medium}
+          type={TYPES.nas_select}
+          placeholder={I18n.t('COMMON.SELECT_OPTION.NO_ITEMS')}
+          default
+        >
+          <FilterField name="teams">
+            {[]}
+          </FilterField>
         </FilterItem>
 
-        <FilterItem label={filterLabels.status} size={SIZES.small} type={TYPES.select}>
-          <FilterField name="statuses">
-            <option value="">{I18n.t('COMMON.ANY')}</option>
+        <FilterItem
+          label={I18n.t(filterLabels.offices)}
+          size={SIZES.medium}
+          type={TYPES.nas_select}
+          placeholder={I18n.t('COMMON.SELECT_OPTION.NO_ITEMS')}
+          default
+        >
+          <FilterField name="desks">
+            {[]}
+          </FilterField>
+        </FilterItem>
+
+        <FilterItem
+          label={I18n.t(filterLabels.status)}
+          size={SIZES.medium}
+          type={TYPES.nas_select}
+          placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
+          default
+        >
+          <FilterField name="status">
             {Object.keys(statusesLabels).map(status => (
               <option key={status} value={status}>
                 {statusesLabels[status]}
@@ -157,27 +175,48 @@ class UserGridFilter extends Component {
           </FilterField>
         </FilterItem>
 
-        <FilterItem label={filterLabels.tags} size={SIZES.small} type={TYPES.select}>
-          <FilterField name="tags">
-            <option value="">{I18n.t('COMMON.ANY')}</option>
-            {
-              tags.length > 0 &&
-              tags.map(tag => (
-                <option key={`${tag.value}`} value={tag.value}>
-                  {tag.label}
-                </option>
-              ))
-            }
+        <FilterItem
+          label={I18n.t(filterLabels.acquisitionStatus)}
+          size={SIZES.medium}
+          type={TYPES.nas_select}
+          placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
+          default
+        >
+          <FilterField name="acquisitionStatus">
+            {acquisitionStatuses.map(item => (
+              <option key={item.value} value={item.value}>
+                {I18n.t(item.label)}
+              </option>
+            ))}
           </FilterField>
         </FilterItem>
 
-        <FilterItem label={filterLabels.segments} size={SIZES.small} type={TYPES.select}>
-          <FilterField name="segments">
-            <option value="">{I18n.t('COMMON.ANY')}</option>
-          </FilterField>
+        <FilterItem
+          label={I18n.t(filterLabels.balance)}
+          size={SIZES.small}
+          type={TYPES.range_input}
+          placeholder="0.00/0.00"
+          default
+        >
+          <FilterField
+            name="balanceFrom"
+            type="number"
+            normalize={floatNormalize}
+          />
+          <FilterField
+            name="balanceTo"
+            type="number"
+            normalize={floatNormalize}
+          />
         </FilterItem>
 
-        <FilterItem label={filterLabels.registrationDate} size={SIZES.big} type={TYPES.range_date}>
+        <FilterItem
+          label={I18n.t(filterLabels.registrationDate)}
+          size={SIZES.big}
+          type={TYPES.range_date}
+          placeholder={`${I18n.t('COMMON.DATE_OPTIONS.START_DATE')}/${I18n.t('COMMON.DATE_OPTIONS.END_DATE')}`}
+          default
+        >
           <FilterField
             utc
             name="registrationDateFrom"
@@ -194,6 +233,25 @@ class UserGridFilter extends Component {
             withTime
             closeOnSelect={false}
           />
+        </FilterItem>
+
+        <FilterItem
+          label={I18n.t(filterLabels.tags)}
+          size={SIZES.small}
+          type={TYPES.nas_select}
+          placeholder={tags.length === 0
+            ? I18n.t('COMMON.SELECT_OPTION.NO_ITEMS')
+            : I18n.t('COMMON.SELECT_OPTION.DEFAULT')
+          }
+          default
+        >
+          <FilterField name="tags" multiple>
+            {tags.map(tag => (
+              <option key={`${tag.value}`} value={tag.value}>
+                {tag.label}
+              </option>
+            ))}
+          </FilterField>
         </FilterItem>
       </DynamicFilters>
     );
