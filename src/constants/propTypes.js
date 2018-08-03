@@ -20,10 +20,10 @@ PropTypes.kycStatus = PropTypes.shape({
   status: PropTypes.string,
 });
 PropTypes.pageable = content => PropTypes.shape({
-  first: PropTypes.bool.isRequired,
+  first: PropTypes.bool,
   last: PropTypes.bool.isRequired,
-  number: PropTypes.number.isRequired,
-  numberOfElements: PropTypes.number.isRequired,
+  number: PropTypes.number,
+  numberOfElements: PropTypes.number,
   size: PropTypes.number.isRequired,
   sort: PropTypes.arrayOf(PropTypes.shape({
     ascending: PropTypes.bool.isRequired,
@@ -33,7 +33,7 @@ PropTypes.pageable = content => PropTypes.shape({
     property: PropTypes.string.isRequired,
   })),
   totalElements: PropTypes.number.isRequired,
-  totalPages: PropTypes.number.isRequired,
+  totalPages: PropTypes.number,
   content: PropTypes.arrayOf(content).isRequired,
 });
 PropTypes.pageableState = content => PropTypes.shape({

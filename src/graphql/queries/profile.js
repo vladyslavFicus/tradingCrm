@@ -96,6 +96,12 @@ const profileQuery = gql`query profileData($playerUUID: String!){
           equity
           symbol
         }
+        firstDepositDate
+        lastDepositDate
+        firstWithdrawalDate
+        lastWithdrawalDate
+        depositCount
+        withdrawalCount
       }
       intendedAmountToSpend
       temporaryUntil

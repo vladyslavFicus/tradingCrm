@@ -1,0 +1,11 @@
+.grid-country-flag {
+  display: flex;
+  &__icon {
+    flex: 0 0 auto;
+  }
+  
+  &__description {
+    flex: 2 1 auto;
+    margin-left: 5px;
+  }
+}

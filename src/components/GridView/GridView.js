@@ -1,16 +1,15 @@
 import { Pagination } from 'react-bootstrap';
 import InfiniteScroll from 'react-infinite-scroller';
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import GridViewColumn from './GridViewColumn';
-import shallowEqual from '../../utils/shallowEqual';
 import NotFoundContent from '../../components/NotFoundContent';
 import PermissionContent from '../PermissionContent';
 import GridViewLoader from './GridViewLoader';
 import { getGridColumn } from './utils';
 
-class GridView extends Component {
+class GridView extends PureComponent {
   static propTypes = {
     children: PropTypes.node.isRequired,
     tableClassName: PropTypes.string,
@@ -28,6 +27,11 @@ class GridView extends Component {
     lazyLoad: PropTypes.bool,
     locale: PropTypes.string,
     showNoResults: PropTypes.bool,
+    multiselect: PropTypes.bool,
+    allRowsSelected: PropTypes.bool,
+    touchedRowsIds: PropTypes.array,
+    onAllRowsSelect: PropTypes.func,
+    onRowSelect: PropTypes.func,
   };
   static defaultProps = {
     tableClassName: null,
@@ -44,20 +48,16 @@ class GridView extends Component {
     lazyLoad: false,
     showNoResults: false,
     last: true,
+    multiselect: false,
+    allRowsSelected: false,
+    touchedRowsIds: [],
+    onAllRowsSelect: null,
+    onRowSelect: null,
   };
 
   state = {
     filters: this.props.defaultFilters || {},
   };
-
-  shouldComponentUpdate(nextProps) {
-    if (!nextProps.lazyLoad) {
-      return true;
-    }
-
-    return !shallowEqual(nextProps.dataSource, this.props.dataSource)
-      || (nextProps.locale !== this.props.locale) || nextProps.showNoResults !== this.props.showNoResults;
-  }
 
   onFiltersChanged = () => {
     this.props.onFiltersChanged(this.state.filters);
@@ -78,6 +78,21 @@ class GridView extends Component {
     }
 
     return className;
+  };
+
+  getRowState = (rowId) => {
+    const {
+      touchedRowsIds,
+      allRowsSelected,
+    } = this.props;
+
+    if (touchedRowsIds.length === 0) {
+      return allRowsSelected;
+    }
+
+    const isRowTouched = touchedRowsIds.findIndex(item => item === rowId);
+
+    return allRowsSelected ? isRowTouched === -1 : isRowTouched !== -1;
   };
 
   recognizeHeaders = grids => grids.map((child) => {
@@ -120,6 +135,24 @@ class GridView extends Component {
     return null;
   });
 
+  handleSelectRow = (e) => {
+    e.stopPropagation();
+
+    const touchedRowsIds = [...this.props.touchedRowsIds];
+    const { allRowsSelected } = this.props;
+
+    const [, rowIndex] = e.target.id.split('-');
+    const index = touchedRowsIds.findIndex(item => item === rowIndex);
+
+    if (index === -1) {
+      touchedRowsIds.push(rowIndex);
+      this.props.onRowSelect(!allRowsSelected, rowIndex, touchedRowsIds);
+    } else {
+      touchedRowsIds.splice(index, 1);
+      this.props.onRowSelect(allRowsSelected, index, touchedRowsIds);
+    }
+  };
+
   handlePageChange = (eventKey) => {
     const {
       totalPages,
@@ -137,7 +170,26 @@ class GridView extends Component {
 
   renderHead = columns => (
     <tr>
-      {columns.map((item, key) => <th key={key} {...item} />)}
+      {columns.map((item, key) => (
+        <Choose>
+          <When condition={this.props.multiselect && key === 0}>
+            <th key={key} {...item}>
+              <span
+                className={classNames(
+                  'grid-select-checkbox',
+                  { 'header-unselect': (this.props.allRowsSelected && this.props.touchedRowsIds.length !== 0) },
+                  { active: (this.props.allRowsSelected && this.props.touchedRowsIds.length === 0) }
+                )}
+                onClick={this.props.onAllRowsSelect}
+              />
+              {item.children}
+            </th>
+          </When>
+          <Otherwise>
+            <th key={key} {...item} />
+          </Otherwise>
+        </Choose>
+      ))}
     </tr>
   );
 
@@ -181,11 +233,13 @@ class GridView extends Component {
 
   renderRow = (key, columns, data) => {
     const { onRowClick } = this.props;
-
     return (
       <tr
         key={key}
-        className={this.getRowClassName(data)}
+        className={classNames(
+          this.getRowClassName(data),
+          { selected: this.getRowState(key.toString()) }
+        )}
         onClick={() => {
           if (typeof onRowClick === 'function') {
             onRowClick(data);
@@ -198,8 +252,17 @@ class GridView extends Component {
   };
 
   renderColumn(key, column, data) {
+    const { multiselect } = this.props;
+
     const gridColumn = getGridColumn(column);
+    const [rowIndex, columnKey] = key.split('-');
+    const isFirstColumn = !Number(columnKey);
     let content = null;
+    let active = false;
+
+    if (multiselect) {
+      active = this.getRowState(rowIndex);
+    }
 
     if (typeof gridColumn.render === 'function') {
       content = gridColumn.render.call(null, data, gridColumn, this.state.filters);
@@ -209,6 +272,16 @@ class GridView extends Component {
 
     return (
       <td className={gridColumn.className} key={key}>
+        <If condition={multiselect && isFirstColumn}>
+          <span
+            className={classNames(
+              'grid-select-checkbox',
+              { active }
+            )}
+            onClick={this.handleSelectRow}
+            id={`checkbox-${rowIndex}`}
+          />
+        </If>
         {content}
       </td>
     );
@@ -224,9 +297,9 @@ class GridView extends Component {
     return (
       <tfoot>
         <tr>
-          {columns.map(({ props }, key) =>
+          {columns.map(({ props }, key) => (
             <td key={key}>{summaryRow[props.name]}</td>
-          )}
+          ))}
         </tr>
       </tfoot>
     );
@@ -266,6 +339,7 @@ class GridView extends Component {
       showNoResults,
       dataSource,
       locale,
+      multiselect,
     } = this.props;
 
     if (showNoResults) {
@@ -282,7 +356,13 @@ class GridView extends Component {
 
     return (
       <div className="table-responsive">
-        <table className={classNames('table data-grid-layout', tableClassName)}>
+        <table
+          className={classNames(
+            'table data-grid-layout',
+            tableClassName,
+            { multiselect },
+          )}
+        >
           <thead className={headerClassName}>
             {this.renderHead(this.recognizeHeaders(grids))}
             {this.renderFilters(this.recognizeFilters(grids))}

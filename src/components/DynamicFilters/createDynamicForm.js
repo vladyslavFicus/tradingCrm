@@ -80,7 +80,7 @@ class DynamicForm extends Component {
   }
 
   mapFilter = (element) => {
-    const { label, size, type, children } = element.props;
+    const { label, size, type, placeholder, children } = element.props;
     const childrenList = React.Children
       .toArray(children)
       .filter(child => child.type === FilterField);
@@ -90,6 +90,7 @@ class DynamicForm extends Component {
       label,
       size,
       type,
+      placeholder,
       default: element.props.default,
       inputs: childrenList.map(child => ({ ...child.props, key: child.props.name })),
     };
@@ -167,6 +168,7 @@ class DynamicForm extends Component {
         type="button"
       />
     );
+
     const component = TYPES_COMPONENTS[filter.type];
     const isSimpleInput = [TYPES.input, TYPES.select, TYPES.nas_select].indexOf(filter.type) > -1;
 
@@ -176,22 +178,24 @@ class DynamicForm extends Component {
           label={filter.label}
           component={component}
           position="vertical"
+          placeholder={filter.placeholder}
           {...filter.inputs[0]}
           labelAddon={removeButton}
         />
       );
     } else {
       const [from, to] = filter.inputs;
+      const [fromPl, toPl] = filter.placeholder.split('/');
 
       if (filter.type === TYPES.range_input) {
         input = [
-          <Field component="input" className="form-control" {...from} />,
-          <Field component="input" className="form-control" {...to} />,
+          <Field component="input" className="form-control" placeholder={fromPl} {...from} />,
+          <Field component="input" className="form-control" placeholder={toPl} {...to} />,
         ];
       } else if (filter.type === TYPES.range_date) {
         input = [
-          <Field component={DateTimeField} position="vertical" {...from} />,
-          <Field component={DateTimeField} position="vertical" {...to} />,
+          <Field component={DateTimeField} position="vertical" placeholder={fromPl} {...from} />,
+          <Field component={DateTimeField} position="vertical" placeholder={toPl} {...to} />,
         ];
       }
 

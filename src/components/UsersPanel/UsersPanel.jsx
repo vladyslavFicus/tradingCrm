@@ -114,6 +114,8 @@ class UsersPanel extends Component {
       [footerActiveClassName]: !!active,
     });
 
+    const iframeRootSrc = config.market === markets.crm ? 'clients' : 'players';
+
     return (
       <div className={blockClassName}>
         <div className="users-panel-content" style={{ visibility: active ? 'visible' : 'hidden' }}>
@@ -150,7 +152,7 @@ class UsersPanel extends Component {
                 title={item.uuid}
                 className={className}
                 frameBorder={0}
-                src={`/players/${item.uuid}/${item.path || 'profile'}`}
+                src={`/${iframeRootSrc}/${item.uuid}/${item.path || 'profile'}`}
                 style={{
                   height: active && active.uuid === item.uuid ? 'calc(100vh - 160px)' : '0',
                   margin: active && active.uuid === item.uuid ? '0 auto' : '0',

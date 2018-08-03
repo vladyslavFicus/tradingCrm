@@ -788,7 +788,8 @@
       "REASON": "-- Выберите причину --",
       "PERIOD": "-- Выберите период --",
       "COUNTRY": "-- Выберите страну --",
-      "UPLOAD_ACTION": "-- Выбрать тип действия --"
+      "UPLOAD_ACTION": "-- Выбрать тип действия --",
+      "NO_ITEMS": ""
     },
     "CONFIRM": "Подтвердить",
     "MGA_LIMIT": "MGA LIMIT",
@@ -840,6 +841,14 @@
     "PERMANENT": "Постоянный",
     "CRM_USER_DEFINITION": "Профиль клиента",
     "CASINO_USER_DEFINITION": "Профиль игрока",
+    "SALES": "",
+    "RETENTION": "",
+    "COMPLIANCE": "",
+    "MOVE": "Переместить",
+    "CHANGE_STATUS": "Поменять статус",
+    "EXPORT_SELECTED": "Экспортировать выбранные",
+    "PLAYERS_FOUND": "Игроков найдено",
+    "PLAYERS_SELECTED": "Игроков выбрано",
     "LANGUAGE_NAME": {
       "EN": "Английский",
       "RU": "Русский",
@@ -851,6 +860,13 @@
     "UPLOAD": "Загрузить",
     "ADD_DOCUMENT": "+ Прикрепить документ",
     "UNKNOWN_ERROR": "Неизвестная ошибка",
+    "CLIENTS_FOUND": "",
+    "CLIENTS_SELECTED": "",
+    "CLIENTS": "",
+    "DATE_OPTIONS": {
+      "START_DATE": "",
+      "END_DATE": ""
+    },
     "CONFIRM_ACTION": "Подтвердить действие"
   },
   "FILES": {
@@ -1697,6 +1713,31 @@
       "NOTIFICATION": {
         "UPDATE_MESSAGE": "Значение обновлено"
       }
+    },
+    "LIST": {
+      "FILTERS": {
+        "SEARCH": "Поиск по",
+        "COUNTRY": "Страна",
+        "CITY": "Город",
+        "AGE": "Возраст",
+        "AGE_FROM": "Возраст от",
+        "AGE_TO": "Возраст до",
+        "CURRENCY": "Валюта",
+        "AFFILIATE_ID": "Филиал",
+        "STATUS": "Статус",
+        "TAGS": "Теги",
+        "SEGMENTS": "Сегменты",
+        "REG_DATE_RANGE": "Дата регистрации от",
+        "REG_DATE_FROM": "Дата регистрации до",
+        "REG_DATE_TO": "Диапазон дат регистрации",
+        "BALANCE": "Баланс",
+        "BALANCE_FROM": "Баланс от",
+        "BALANCE_TO": "Баланс до",
+        "ACQUISITION_STATUS": "Статус приобритения",
+        "DESKS": "",
+        "TEAMS": "Команды",
+        "OFFICES": "Офисы"
+      }
     }
   },
   "error": {
@@ -2400,5 +2441,20 @@
   "TEMPORARY_UNTIL": {
     "WILL_BE_BLOCKED": "Временный аккаунт - будет заблокирован %{date}",
     "BLOCKED": "Временный аккаунт был заблокирован %{date}"
+  },
+  "CLIENTS": {
+    "LIST": {
+      "GRID_HEADER": {
+        "CLIENT": "",
+        "COUNTRY": "",
+        "BALANCE": "",
+        "DEPOSITS": "",
+        "AFFILIATE": "",
+        "SALES": "",
+        "RETENTION": "",
+        "REGISTRATION": "",
+        "STATUS": ""
+      }
+    }
   }
 }
