@@ -18,7 +18,13 @@
       "NEW_CAMPAIGNS": "Новые кампании",
       "NEW_CAMPAIGNS_FULFILLMENTS": "Fulfillments",
       "CAMPAIGNS": "[NEW] Кампании",
-      "CMS_GAMES": "[CMS] Игры"
+      "CMS_GAMES": "[CMS] Игры",
+      "MANAGEMENT": "",
+      "OFFICES": "",
+      "DESKS": "",
+      "TEAMS": "",
+      "CALLBACKS": "",
+      "CLIENTS": ""
     },
     "BOTTOM_MENU": {
       "SUPPORT": "Поддержка"
@@ -2386,7 +2392,8 @@
         "AMOUNT": "",
         "PAYMENT_ACCOUNT": "",
         "FROM_MT4": "",
-        "TO_MT4": ""
+        "TO_MT4": "",
+        "EXTERNAL_REF": ""
       }
     }
   },

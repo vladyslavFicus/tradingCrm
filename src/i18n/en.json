@@ -18,7 +18,13 @@
       "NEW_CAMPAIGNS": "New campaigns",
       "NEW_CAMPAIGNS_FULFILLMENTS": "Fulfillments",
       "CAMPAIGNS": "[NEW] Campaigns",
-      "CMS_GAMES": "[CMS] Games"
+      "CMS_GAMES": "[CMS] Games",
+      "MANAGEMENT": "Management",
+      "OFFICES": "Offices",
+      "DESKS": "Desks",
+      "TEAMS": "Teams",
+      "CALLBACKS": "Callbacks",
+      "CLIENTS": "Clients"
     },
     "BOTTOM_MENU": {
       "SUPPORT": "Support"
