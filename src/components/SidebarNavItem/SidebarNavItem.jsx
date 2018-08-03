@@ -99,6 +99,11 @@ class NavItem extends Component {
               />
             </If>
           </button>
+          <SubNav
+            ref={node => this.submenu = node}
+            items={items}
+            onMenuItemClick={onMenuItemClick}
+          />
         </If>
         <If condition={!withSubmenu}>
           <Link
@@ -113,13 +118,6 @@ class NavItem extends Component {
               {I18n.t(label)}
             </span>
           </Link>
-        </If>
-        <If condition={withSubmenu}>
-          <SubNav
-            ref={node => this.submenu = node}
-            items={items}
-            onMenuItemClick={onMenuItemClick}
-          />
         </If>
       </li>
     );
