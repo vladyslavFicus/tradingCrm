@@ -62,7 +62,7 @@ const userProfileTabs = [
 const sidebarTopMenu = [
   {
     label: I18n.t('SIDEBAR.TOP_MENU.PLAYERS'),
-    icon: 'fa fa-users',
+    icon: 'icon-users',
     isOpen: false,
     items: [
       {
@@ -81,14 +81,14 @@ const sidebarTopMenu = [
   },
   {
     label: I18n.t('SIDEBAR.TOP_MENU.OPERATORS'),
-    icon: 'fa fa-eye',
+    icon: 'icon-operators sidebar-nav-item__icon--operators',
     url: '/operators/list',
     service: services.operator,
     permissions: new Permissions(permissions.OPERATORS.OPERATORS_LIST_VIEW),
   },
   {
     label: I18n.t('SIDEBAR.TOP_MENU.PAYMENTS'),
-    icon: 'fa fa-credit-card',
+    icon: 'icon-payments sidebar-nav-item__icon--payments',
     url: '/transactions/list',
     service: services.payment,
     permissions: new Permissions(permissions.PAYMENTS.LIST),
@@ -102,14 +102,14 @@ const sidebarTopMenu = [
   },
   {
     label: I18n.t('SIDEBAR.TOP_MENU.CAMPAIGNS'),
-    icon: 'fa fa-calendar-check-o ',
+    icon: 'icon-campaigns',
     url: '/campaigns',
     service: services.campaign,
     permissions: new Permissions(permissions.CAMPAIGNS.LIST),
   },
   {
     label: I18n.t('SIDEBAR.TOP_MENU.SETTINGS'),
-    icon: 'fa fa-gear',
+    icon: 'icon-settings',
     isOpen: false,
     items: [
       {
@@ -135,7 +135,7 @@ const sidebarTopMenu = [
 ];
 
 const sidebarBottomMenu = [
-  { label: I18n.t('SIDEBAR.BOTTOM_MENU.SUPPORT'), icon: 'fa fa-life-ring', url: '#' },
+  { label: I18n.t('SIDEBAR.BOTTOM_MENU.SUPPORT'), icon: 'icon-support', url: '#' },
 ];
 
 const bonusCampaignTabs = [

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import SubNavItem from '../SubNavItem';
 import PropTypes from '../../constants/propTypes';
+import './SubNav.scss';
 
 class SubNav extends Component {
   static propTypes = {
@@ -12,7 +13,7 @@ class SubNav extends Component {
     const { items, onMenuItemClick } = this.props;
 
     return (
-      <div className="dropdown-menu">
+      <div className="sub-nav">
         {items.map(item => (
           <SubNavItem
             key={item.label}
