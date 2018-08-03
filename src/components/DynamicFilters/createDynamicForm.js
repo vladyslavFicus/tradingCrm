@@ -178,7 +178,7 @@ class DynamicForm extends Component {
           label={filter.label}
           component={component}
           position="vertical"
-          {...(filter.placeholder ? { placeholder: filter.placeholder } : {})}
+          placeholder={filter.placeholder}
           {...filter.inputs[0]}
           labelAddon={removeButton}
         />

@@ -28,7 +28,6 @@ class GridView extends PureComponent {
     locale: PropTypes.string,
     showNoResults: PropTypes.bool,
     multiselect: PropTypes.bool,
-    resetSelectedRows: PropTypes.bool,
     allRowsSelected: PropTypes.bool,
     touchedRowsIds: PropTypes.array,
     onAllRowsSelect: PropTypes.func,
@@ -50,7 +49,6 @@ class GridView extends PureComponent {
     showNoResults: false,
     last: true,
     multiselect: false,
-    resetSelectedRows: false,
     allRowsSelected: false,
     touchedRowsIds: [],
     onAllRowsSelect: null,
@@ -93,6 +91,7 @@ class GridView extends PureComponent {
     }
 
     const isRowTouched = touchedRowsIds.findIndex(item => item === rowId);
+
     return allRowsSelected ? isRowTouched === -1 : isRowTouched !== -1;
   };
 
