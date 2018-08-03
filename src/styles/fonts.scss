@@ -3,9 +3,9 @@
 @font-face {
   font-family: 'backoffice';
   src:
-    url('../../public/fonts/backoffice.ttf?adzjzm') format('truetype'),
-    url('../../public/fonts/backoffice.woff?adzjzm') format('woff'),
-    url('../../public/fonts/backoffice.svg?adzjzm#backoffice') format('svg');
+    url('../../public/fonts/backoffice.ttf?a1zjzm') format('truetype'),
+    url('../../public/fonts/backoffice.woff?a1zjzm') format('woff'),
+    url('../../public/fonts/backoffice.svg?a1zjzm#backoffice') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -23,29 +23,56 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-minimize-popup-profile:before {
+.icon-support:before {
   content: "\e900";
 }
-.icon-close-popup-profile:before {
-  content: "\e903";
-}
-.icon-currencies:before {
+.icon-callbacks:before {
   content: "\e901";
 }
-.icon-filter:before {
+.icon-campaigns:before {
   content: "\e902";
 }
-.icon-calendar:before {
+.icon-users:before {
+  content: "\e903";
+}
+.icon-operators:before {
   content: "\e904";
 }
-.icon-times:before {
+.icon-payments:before {
+  content: "\e905";
+}
+.icon-settings:before {
+  content: "\e906";
+}
+.icon-nav-arrow-v:before {
+  content: "\e910";
+}
+.icon-nav-arrow-h:before {
+  content: "\e911";
+}
+.icon-minimize-popup-profile:before {
+  content: "\e907";
+}
+.icon-currencies:before {
   content: "\e908";
 }
-.icon-arrow-down:before {
+.icon-filter:before {
+  content: "\e909";
+}
+.icon-close-popup-profile:before {
   content: "\e90a";
 }
-.icon-alert:before {
+.icon-calendar:before {
   content: "\e90b";
+}
+.icon-times:before {
+  content: "\e90c";
+}
+.icon-arrow-down:before {
+  content: "\e90d";
+}
+.icon-alert:before {
+  content: "\e90e";
 }
 .icon-search:before {
   content: "\e90f";
