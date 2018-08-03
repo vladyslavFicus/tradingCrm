@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { I18n } from 'react-redux-i18n';
-import PropTypes from '../../constants/propTypes';
+import PropTypes from 'prop-types';
+import './SubNavItem.scss';
 
 class SubNavItem extends Component {
   static propTypes = {
@@ -18,9 +19,9 @@ class SubNavItem extends Component {
     } = this.props;
 
     return (
-      <Link className="dropdown-item" to={url} onClick={onMenuItemClick}>
-        <i className="fa fa-chevron-right" />
-        <span className="nav-sublink__label">{I18n.t(label)}</span>
+      <Link className="sub-nav-item" to={url} onClick={onMenuItemClick}>
+        <i className="icon-nav-arrow-v sub-nav-item__icon" />
+        {I18n.t(label)}
       </Link>
     );
   }

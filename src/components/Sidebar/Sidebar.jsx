@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import Scrollbars from 'react-custom-scrollbars';
 import { TimelineLite as TimeLineLite } from 'gsap';
-import Nav from '../Nav';
+import classNames from 'classnames';
+import SidebarNav from '../SidebarNav';
 import PropTypes from '../../constants/propTypes';
 import './Sidebar.scss';
 
@@ -51,7 +52,7 @@ class Sidebar extends Component {
 
     if (topMenu.length && !this.navLinkAnimated) {
       this.navLinkAnimated = true;
-      this.sidebarAnimation.fromTo('.nav-link__label', 0.15, { autoAlpha: 0 }, { autoAlpha: 1 });
+      this.sidebarAnimation.fromTo('.sidebar-nav-item__label', 0.15, { autoAlpha: 0 }, { autoAlpha: 1 });
     }
 
     if (!prevState.isOpen && isOpen) {
@@ -94,7 +95,7 @@ class Sidebar extends Component {
     return (
       <aside
         ref={node => this.sidebar = node}
-        className="sidebar"
+        className={classNames('sidebar', { open: isOpen })}
         onMouseEnter={this.open}
         onMouseLeave={this.close}
       >
@@ -102,16 +103,16 @@ class Sidebar extends Component {
           renderTrackHorizontal={props => <div {...props} style={{ display: 'none' }} />}
           renderThumbHorizontal={props => <div {...props} style={{ display: 'none' }} />}
           renderThumbVertical={props => <div {...props} style={{ backgroundColor: 'rgba(223, 228, 237, 0.25)' }} />}
-          style={{ height: 'calc(100% - 85px)' }}
+          style={{ height: 'calc(100% - 48px)' }}
         >
-          <Nav
+          <SidebarNav
             isSidebarOpen={isOpen}
             items={topMenu}
             onToggleTab={this.toggleTab}
             onMenuItemClick={this.onMenuItemClick}
           />
         </Scrollbars>
-        <Nav
+        <SidebarNav
           isSidebarOpen={isOpen}
           items={bottomMenu}
           onToggleTab={onToggleTab}

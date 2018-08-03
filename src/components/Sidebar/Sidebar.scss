@@ -1,87 +1,14 @@
 .sidebar {
-  height: 100%;
-  width: 60px;
   position: fixed;
   top: 48px;
   left: 0;
+  z-index: 4;
+  width: 60px;
+  height: calc(100% - 48px);
   padding-top: 13px;
   background-color: #000;
-  z-index: 4;
-
-  .nav {
-    &:first-child {
-      padding-bottom: 15px;
-    }
-
-    &-item {
-      width: 100%;
-      position: relative;
-      font-size: 15px;
-      color: #ccc;
-      cursor: pointer;
-    }
-
-    &-sublink {
-      &__label {
-        margin-left: 5px;
-      }
-    }
-
-    &-link {
-      margin-top: 7px;
-      margin-bottom: 7px;
-      padding: 0;
-      position: relative;
-      color: inherit;
-      white-space: nowrap;
-      &:focus,
-      &:hover {
-        color: #fff;
-      }
-
-      &__label {
-        margin-left: 5px;
-        font-weight: 600;
-      }
-    }
-  }
-
-  .fa {
-    width: 55px;
-    text-align: center;
-
-    &-angle-down {
-      width: 20px;
-      position: absolute;
-      top: 4px;
-      right: 8px;
-    }
-  }
-
-  .dropdown-menu {
-    display: block;
-    width: 100%;
-    position: relative;
-    top: 0;
-    border: none;
-    border-radius: 0;
-    padding: 0;
-    margin-top: 0;
-    background-color: rgba(0, 0, 0, 0.1) !important;
-    box-sizing: border-box;
-
-    .dropdown-item {
-      padding: 6px 0 8px;
-      color: #ccc;
-
-      .fa {
-        font-size: x-small;
-      }
-
-      &:hover {
-        background: transparent;
-        color: #fff;
-      }
-    }
+  overflow-x: hidden;
+  &.open {
+    box-shadow: 0 0 30px hsla(0, 0, 0, 0.7);
   }
 }

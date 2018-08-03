@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import TimelineLite from 'gsap/TimelineLite';
 import SubNav from '../SubNav';
 import PropTypes from '../../constants/propTypes';
+import './SidebarNavItem.scss';
 
 class NavItem extends Component {
   static propTypes = {
@@ -78,44 +79,46 @@ class NavItem extends Component {
     }
 
     return (
-      <li className={classNames('nav-item', { dropdown: withSubmenu })}>
-        {
-          withSubmenu &&
-          <span className="nav-link" onClick={() => onToggleTab(index)}>
-            {!!icon && <i className={icon} />}
-            <span className="nav-link__label">
-              {I18n.t(label)}
-              {
-                withSubmenu &&
-                <i
-                  ref={node => this.icon = node}
-                  className="fa fa-angle-down"
-                />
-              }
-            </span>
-          </span>
-        }
-
-        {
-          !withSubmenu &&
-          <Link
-            className="nav-link"
-            to={url}
-            onClick={onMenuItemClick}
+      <li className="sidebar-nav-item">
+        <If condition={withSubmenu}>
+          <button
+            type="button"
+            onClick={() => onToggleTab(index)}
+            className="sidebar-nav-item__link"
           >
-            {!!icon && <i className={icon} />}
-            <span className="nav-link__label">{I18n.t(label)}</span>
-          </Link>
-        }
-
-        {
-          withSubmenu &&
+            <If condition={!!icon}>
+              <i className={classNames(icon, 'sidebar-nav-item__icon')} />
+            </If>
+            <span className="sidebar-nav-item__label">
+              {I18n.t(label)}
+            </span>
+            <If condition={withSubmenu}>
+              <i
+                ref={node => this.icon = node}
+                className="icon-nav-arrow-h sidebar-nav-item__arrow"
+              />
+            </If>
+          </button>
           <SubNav
             ref={node => this.submenu = node}
             items={items}
             onMenuItemClick={onMenuItemClick}
           />
-        }
+        </If>
+        <If condition={!withSubmenu}>
+          <Link
+            className="sidebar-nav-item__link"
+            to={url}
+            onClick={onMenuItemClick}
+          >
+            <If condition={!!icon}>
+              <i className={classNames(icon, 'sidebar-nav-item__icon')} />
+            </If>
+            <span className="sidebar-nav-item__label">
+              {I18n.t(label)}
+            </span>
+          </Link>
+        </If>
       </li>
     );
   }
