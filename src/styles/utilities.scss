@@ -188,18 +188,6 @@ small {
   font-weight: 600;
 }
 
-.grid-country-flag {
-  display: flex;
-  .country {
-    flex: 0 0 auto;
-  }
-  
-  .text {
-    flex: 2 1 auto;
-    margin-left: 5px;
-  }
-}
-
 .grid-status-border {
   border-width: 1px;
   border-style: solid;

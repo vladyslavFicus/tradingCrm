@@ -1,16 +1,15 @@
 import { Pagination } from 'react-bootstrap';
 import InfiniteScroll from 'react-infinite-scroller';
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import GridViewColumn from './GridViewColumn';
-import shallowEqual from '../../utils/shallowEqual';
 import NotFoundContent from '../../components/NotFoundContent';
 import PermissionContent from '../PermissionContent';
 import GridViewLoader from './GridViewLoader';
 import { getGridColumn } from './utils';
 
-class GridView extends Component {
+class GridView extends PureComponent {
   static propTypes = {
     children: PropTypes.node.isRequired,
     tableClassName: PropTypes.string,
@@ -61,17 +60,6 @@ class GridView extends Component {
   state = {
     filters: this.props.defaultFilters || {},
   };
-
-  shouldComponentUpdate(nextProps) {
-    if (!nextProps.lazyLoad) {
-      return true;
-    }
-
-    return !shallowEqual(nextProps.dataSource, this.props.dataSource)
-      || (nextProps.locale !== this.props.locale) || nextProps.showNoResults !== this.props.showNoResults
-      || (this.props.touchedRowsIds.length !== nextProps.touchedRowsIds.length)
-      || (this.props.allRowsSelected !== nextProps.allRowsSelected);
-  }
 
   onFiltersChanged = () => {
     this.props.onFiltersChanged(this.state.filters);

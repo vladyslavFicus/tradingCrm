@@ -12,7 +12,7 @@ FilterItem.propTypes = {
 };
 FilterItem.defaultProps = {
   default: false,
-  placeholder: '',
+  placeholder: null,
 };
 
 export default FilterItem;

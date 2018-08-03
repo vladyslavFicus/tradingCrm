@@ -99,14 +99,6 @@ class List extends Component {
     }, () => history.replace({ query: { filters: {} } }));
   };
 
-  // handleExportSelected = () => {
-  //   this.props.exportEntities({
-  //     ...this.state.filters,
-  //     page: this.state.page,
-  //     playerUUID: this.props.match.params.id,
-  //   });
-  // }
-
   handlePlayerClick = (data) => {
     this.props.onPlayerClick({ ...data, auth: this.props.auth });
   };
