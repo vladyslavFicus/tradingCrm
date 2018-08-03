@@ -185,7 +185,7 @@ class DynamicForm extends Component {
       );
     } else {
       const [from, to] = filter.inputs;
-      const [fromPl, toPl] = filter.placeholder.split('/');
+      const [fromPl, toPl] = filter.placeholder ? filter.placeholder.split('/') : [];
 
       if (filter.type === TYPES.range_input) {
         input = [
