@@ -138,8 +138,6 @@ class Payments extends Component {
         });
       }
     }
-  
-    /*const allowActions = Object.keys(filters).filter(i => filters[i]).length > 0;*/
 
     setRenderActions(() => this.renderPaymentActions(handleOpenAddPaymentModal));
   }
