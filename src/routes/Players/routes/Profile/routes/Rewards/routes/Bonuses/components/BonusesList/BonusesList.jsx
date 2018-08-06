@@ -8,7 +8,10 @@ import PropTypes from '../../../../../../../../../../constants/propTypes';
 import Amount from '../../../../../../../../../../components/Amount';
 import NoteButton from '../../../../../../../../../../components/NoteButton';
 import GridView, { GridViewColumn } from '../../../../../../../../../../components/GridView';
-import { statuses } from '../../../../../../../../../../constants/bonus';
+import {
+  statuses,
+  actions as bonusActions,
+} from '../../../../../../../../../../constants/bonus';
 import { targetTypes } from '../../../../../../../../../../constants/note';
 import Uuid from '../../../../../../../../../../components/Uuid';
 import BonusGridFilter from '../BonusGridFilter';
@@ -28,8 +31,6 @@ class BonusesList extends Component {
     playerProfile: PropTypes.shape({ data: PropTypes.userProfile }).isRequired,
     fetchEntities: PropTypes.func.isRequired,
     createBonusTemplate: PropTypes.func.isRequired,
-    cancelBonus: PropTypes.func.isRequired,
-    permitBonusConversion: PropTypes.func.isRequired,
     match: PropTypes.shape({
       params: PropTypes.shape({
         id: PropTypes.string,
@@ -40,7 +41,7 @@ class BonusesList extends Component {
     fetchBonusTemplates: PropTypes.func.isRequired,
     fetchBonusTemplate: PropTypes.func.isRequired,
     assignBonusTemplate: PropTypes.func.isRequired,
-    acceptBonus: PropTypes.func.isRequired,
+    changeBonusState: PropTypes.func.isRequired,
     locale: PropTypes.string.isRequired,
     templates: PropTypes.array,
     modals: PropTypes.shape({
@@ -169,7 +170,7 @@ class BonusesList extends Component {
       if (activeBonusAction && !activeBonusAction.error && activeBonusAction.payload.content.length === 0) {
         actions.push({
           children: I18n.t('PLAYER_PROFILE.BONUS.CLAIM_BONUS'),
-          onClick: this.handleClaimBonus.bind(null, data.bonusUUID),
+          onClick: this.handleChangeState(bonusActions.ACCEPT, data.bonusUUID),
           className: 'btn btn-primary text-uppercase',
         });
       }
@@ -180,7 +181,7 @@ class BonusesList extends Component {
     if (data.state === statuses.IN_PROGRESS && wageredAmount >= amountToWage) {
       actions.push({
         children: I18n.t('PLAYER_PROFILE.BONUS.PERMIT_BONUS_CONVERSION'),
-        onClick: this.handlePermitBonusConversion.bind(null, data.bonusUUID),
+        onClick: this.handleChangeState(bonusActions.PERMIT_CONVERSION, data.bonusUUID),
         className: 'btn btn-default-outline text-uppercase',
         id: `${data.bonusUUID}-permit-bonus-conversion-button`,
       });
@@ -189,7 +190,7 @@ class BonusesList extends Component {
     if ([statuses.INACTIVE, statuses.IN_PROGRESS].indexOf(data.state) > -1) {
       actions.push({
         children: I18n.t('PLAYER_PROFILE.BONUS.CANCEL_BONUS'),
-        onClick: this.handleCancelBonus.bind(null, data.bonusUUID),
+        onClick: this.handleChangeState(bonusActions.CANCEL, data.bonusUUID),
         className: 'btn btn-danger text-uppercase',
         id: `${data.bonusUUID}-cancel-button`,
       });
@@ -218,28 +219,14 @@ class BonusesList extends Component {
     });
   };
 
-  handleClaimBonus = (bonusUUID) => {
-    this.props.acceptBonus(bonusUUID, this.props.match.params.id)
-      .then(() => {
-        this.handleModalClose(this.handleRefresh);
-      });
-  };
+  handleChangeState = (action, bonusUUID) => async () => {
+    const { match: { params: { id: playerUUID } }, changeBonusState } = this.props;
 
-  handleCancelBonus = (bonusUUID) => {
-    this.props.cancelBonus(bonusUUID, this.props.match.params.id)
-      .then(() => {
-        this.handleModalClose(this.handleRefresh);
-      });
-  };
+    const response = await changeBonusState(action, bonusUUID, playerUUID);
 
-  handlePermitBonusConversion = async (bonusUUID) => {
-    const { match: { params: { id: playerUUID } }, permitBonusConversion } = this.props;
+    this.handleModalClose();
 
-    const action = await permitBonusConversion(bonusUUID, playerUUID);
-
-    this.handleModalClose(this.handleRefresh);
-
-    return action;
+    return response;
   };
 
   handleCreateManualBonusClick = () => {
