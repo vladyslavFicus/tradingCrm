@@ -1,9 +1,16 @@
 import { CALL_API } from 'redux-api-middleware';
+import update from 'react-addons-update';
 import createReducer from '../../../../../../../../../utils/createReducer';
 import createRequestAction from '../../../../../../../../../utils/createRequestAction';
 import buildQueryString from '../../../../../../../../../utils/buildQueryString';
 import { sourceActionCreators as noteSourceActionCreators } from '../../../../../../../../../redux/modules/note';
 import { targetTypes } from '../../../../../../../../../constants/note';
+import { actionTypes as bonusActionTypes } from './bonus';
+import {
+  cancellationReason,
+  actions,
+  mapActionToState,
+} from '../../../../../../../../../constants/bonus';
 
 const KEY = 'user/bonuses/list';
 const FETCH_ENTITIES = createRequestAction(`${KEY}/entities`);
@@ -136,6 +143,42 @@ const actionHandlers = {
     receivedAt: endRequestTime,
     noResults: payload.content.length === 0,
   }),
+  [bonusActionTypes.CHANGE_BONUS_STATE.SUCCESS]: (
+    state,
+    {
+      payload: {
+        bonusUUID,
+        action,
+      },
+      meta: {
+        endRequestTime,
+      },
+    }
+  ) => {
+    const index = state.entities.content.findIndex(i => i.bonusUUID === bonusUUID);
+
+    return update(state, {
+      entities: {
+        content: {
+          [index]: {
+            state: {
+              $set: mapActionToState[action],
+            },
+            cancellationReason: {
+              $set: actions.CANCEL ? cancellationReason.MANUAL_BY_OPERATOR : null,
+            },
+          },
+        },
+      },
+      receivedAt: {
+        $set: endRequestTime,
+      },
+      isLoading: {
+        $set: false,
+      },
+    });
+  },
+
   [FETCH_ENTITIES.FAILURE]: (state, { payload, meta: { endRequestTime } }) => ({
     ...state,
     isLoading: false,
