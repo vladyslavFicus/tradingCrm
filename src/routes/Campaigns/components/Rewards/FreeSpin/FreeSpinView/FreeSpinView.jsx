@@ -45,6 +45,9 @@ class FreeSpinView extends PureComponent {
         }),
       }),
     }),
+    formValues: PropTypes.shape({
+      deviceType: PropTypes.string,
+    }),
     disabled: PropTypes.bool,
   };
 
@@ -52,6 +55,7 @@ class FreeSpinView extends PureComponent {
     freeSpinTemplate: {
       loading: true,
     },
+    formValues: {},
     optionCurrencies: { options: {}, loading: true },
     uuid: null,
     disabled: false,
@@ -69,9 +73,19 @@ class FreeSpinView extends PureComponent {
   }
 
   handleOpenModal = () => {
-    const { modals: { createFreeSpin }, onChangeUUID } = this.props;
+    const {
+      modals: { createFreeSpin },
+      onChangeUUID,
+      formValues,
+      name,
+    } = this.props;
 
-    createFreeSpin.show({ onSave: onChangeUUID });
+    const deviceType = get(formValues, `${name}.deviceType`);
+
+    createFreeSpin.show({
+      onSave: onChangeUUID,
+      deviceType,
+    });
   };
 
   renderPrice = () => {
