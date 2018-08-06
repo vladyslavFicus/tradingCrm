@@ -1142,6 +1142,10 @@
         "PAYMENTS": "Платежи",
         "GAMING_ACTIVITY": "Игровая активность",
         "TRADING_ACTIVITY": "Торговая деятельность"
+      },
+      "ACTIONS": {
+        "ADD_TRANSACTION": "Добавить транзакцию",
+        "EXPORT_TRANSACTIONS": "Экспорт"
       }
     },
     "CAMPAIGNS": {

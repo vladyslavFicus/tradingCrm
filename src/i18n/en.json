@@ -1136,6 +1136,10 @@
         "PAYMENTS": "Payments",
         "GAMING_ACTIVITY": "Gaming activity",
         "TRADING_ACTIVITY": "Trading Activity"
+      },
+      "ACTIONS": {
+        "ADD_TRANSACTION": "Add transaction",
+        "EXPORT_TRANSACTIONS": "Export"
       }
     },
     "CAMPAIGNS": {
