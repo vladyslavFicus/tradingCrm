@@ -56,7 +56,9 @@ export default compose(
         brandId: getBrandId(),
         gameProvider: providerId,
         aggregator: aggregatorId,
-        type: !!deviceType && deviceType !== deviceTypes.ALL ? deviceType.toLowerCase() : undefined,
+        type: deviceType === deviceTypes.MOBILE || deviceType === deviceTypes.DESKTOP
+          ? deviceType.toLowerCase()
+          : undefined,
       },
     }),
   }),
