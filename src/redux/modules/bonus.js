@@ -1,6 +1,6 @@
 import { CALL_API } from 'redux-api-middleware';
 import buildQueryString from '../../utils/buildQueryString';
-import { statuses } from '../../constants/bonus'
+import { statuses } from '../../constants/bonus';
 
 function fetchActiveBonus(type) {
   return playerUUID => (dispatch, getState) => {

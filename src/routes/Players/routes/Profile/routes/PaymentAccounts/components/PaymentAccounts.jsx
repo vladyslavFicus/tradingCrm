@@ -246,15 +246,14 @@ class PaymentAccounts extends Component {
   };
 
   renderCollapseBlock = data => (
-    <div>
+    <Fragment>
       <div className="row margin-bottom-10">
-        <div className="col-sm-4 col-sm-6">
-          <span className="font-size-16">
-            {I18n.t('PLAYER_PROFILE.PAYMENT_ACCOUNT.ATTACHED_FILES')}
-          </span>
+        <div className="col font-size-16">
+          {I18n.t('PLAYER_PROFILE.PAYMENT_ACCOUNT.ATTACHED_FILES')}
         </div>
-        <div className="col-sm-8 col-sm-6 text-right">
+        <div className="col-auto">
           <button
+            type="button"
             className="btn btn-sm btn-primary-outline"
             onClick={() => this.handleUploadFileClick(data)}
           >
@@ -262,7 +261,6 @@ class PaymentAccounts extends Component {
           </button>
         </div>
       </div>
-
       <CommonFileGridView
         dataSource={_.values(data.files)}
         tableClassName="payment-account-attached"
@@ -272,7 +270,7 @@ class PaymentAccounts extends Component {
         onDeleteFileClick={this.handleDeleteFileClick}
         onPreviewImageClick={this.handlePreviewImageClick}
       />
-    </div>
+    </Fragment>
   );
 
   render() {

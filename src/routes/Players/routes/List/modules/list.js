@@ -1,14 +1,12 @@
 import moment from 'moment';
-import _ from 'lodash';
-import fetch from '../../../../../utils/fetch';
+import qs from 'qs';
 import createReducer from '../../../../../utils/createReducer';
 import createRequestAction from '../../../../../utils/createRequestAction';
 import { actionCreators as profileActionCreators } from '../../../../../redux/modules/profile';
 import { getApiRoot } from '../../../../../config';
-import buildQueryString from '../../../../../utils/buildQueryString';
-import downloadBlob from '../../../../../utils/downloadBlob';
 import shallowEqual from '../../../../../utils/shallowEqual';
 import { statuses } from '../../../../../constants/kyc';
+import exportFile from '../../../../../utils/exportFile';
 
 const KEY = 'users';
 const FETCH_ENTITIES = createRequestAction(`${KEY}/fetch-entities`);
@@ -54,35 +52,12 @@ function reset() {
 }
 
 function exportEntities(filters = {}) {
-  return async (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
+  const queryString = qs.stringify(filters, { delimiter: '&' });
+  const type = EXPORT_ENTITIES;
+  const endPoint = `${getApiRoot()}/profile/profiles?${queryString}`;
+  const fileName = `users-export-${moment().format('YYYY-MM-DD-HH-mm-ss')}.csv`;
 
-    if (!logged) {
-      return dispatch({ type: EXPORT_ENTITIES.FAILURE, error: true });
-    }
-
-    const queryString = buildQueryString(
-      _.omitBy({ page: 0, ...filters }, val => !val)
-    );
-
-    try {
-      const response = await fetch(`${getApiRoot()}/profile/profiles?${queryString}`, {
-        method: 'GET',
-        headers: {
-          Accept: 'text/csv',
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      const blobData = await response.blob();
-      downloadBlob(`users-export-${moment().format('YYYY-MM-DD-HH-mm-ss')}.csv`, blobData);
-
-      return dispatch({ type: EXPORT_ENTITIES.SUCCESS });
-    } catch (payload) {
-      return dispatch({ type: EXPORT_ENTITIES.FAILURE, error: true, payload });
-    }
-  };
+  return exportFile(type, endPoint, fileName);
 }
 
 const initialState = {

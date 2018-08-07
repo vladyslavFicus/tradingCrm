@@ -1,6 +1,6 @@
 import { CALL_API } from 'redux-api-middleware';
 import moment from 'moment';
-import { omitBy } from 'lodash';
+import qs from 'qs';
 import createReducer from '../../../../../../../../../utils/createReducer';
 import createRequestAction from '../../../../../../../../../utils/createRequestAction';
 import buildQueryString from '../../../../../../../../../utils/buildQueryString';
@@ -10,9 +10,8 @@ import { sourceActionCreators as paymentSourceActionCreators } from '../../../..
 import { targetTypes } from '../../../../../../../../../constants/note';
 import { types as paymentTypes } from '../../../../../../../../../constants/payment';
 import getFingerprint from '../../../../../../../../../utils/fingerPrint';
-import fetch from '../../../../../../../../../utils/fetch';
-import downloadBlob from '../../../../../../../../../utils/downloadBlob';
 import { getApiRoot } from '../../../../../../../../../config';
+import exportFile from '../../../../../../../../../utils/exportFile';
 
 const KEY = 'user/payments';
 const FETCH_ENTITIES = createRequestAction(`${KEY}/fetch-payments`);
@@ -32,10 +31,9 @@ const EXPORT_ENTITIES = createRequestAction(`${KEY}/export-entities`);
 const fetchPaymentStatuses = paymentSourceActionCreators.fetchPaymentStatuses(FETCH_PAYMENT_STATUSES);
 const changePaymentStatus = paymentSourceActionCreators.changePaymentStatus(CHANGE_PAYMENT_STATUS);
 const fetchPaymentAccounts = paymentSourceActionCreators.fetchPaymentAccounts(FETCH_PAYMENT_ACCOUNTS);
-
 const fetchActiveBonus = bonusActionCreators.fetchActiveBonus(FETCH_ACTIVE_BONUS);
-
 const fetchNotesFn = noteSourceActionCreators.fetchNotesByType(FETCH_NOTES);
+
 const mapNotesToTransactions = (transactions, notes) => {
   if (!notes || Object.keys(notes).length === 0) {
     return transactions;
@@ -203,35 +201,12 @@ function resetTransactions() {
 }
 
 function exportEntities(playerUUID, filters = {}) {
-  return async (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
+  const queryString = qs.stringify(filters, { delimiter: '&' });
+  const type = EXPORT_ENTITIES;
+  const endPoint = `${getApiRoot()}/payment/payments/${playerUUID}?${queryString}`;
+  const fileName = `transactions-export-${moment().format('YYYY-MM-DD-HH-mm-ss')}.csv`;
 
-    if (!logged) {
-      return dispatch({ type: EXPORT_ENTITIES.FAILURE, error: true });
-    }
-
-    const queryString = buildQueryString(
-      omitBy({ playerUUID, page: 0, ...filters }, val => !val)
-    );
-
-    try {
-      const response = await fetch(`${getApiRoot()}/payment/payments?${queryString}`, {
-        method: 'GET',
-        headers: {
-          Accept: 'text/csv',
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      const blobData = await response.blob();
-      downloadBlob(`transactions-export-${moment().format('YYYY-MM-DD-HH-mm-ss')}.csv`, blobData);
-
-      return dispatch({ type: EXPORT_ENTITIES.SUCCESS });
-    } catch (payload) {
-      return dispatch({ type: EXPORT_ENTITIES.FAILURE, error: true, payload });
-    }
-  };
+  return exportFile(type, endPoint, fileName);
 }
 
 const initialState = {
