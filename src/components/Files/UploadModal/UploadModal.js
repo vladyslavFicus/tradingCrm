@@ -113,52 +113,50 @@ class UploadModal extends Component {
 
     return (
       <Modal isOpen keyboard={false} backdrop="static" className="upload-modal" toggle={onClose}>
-        <form onSubmit={handleSubmit(this.handleSubmit)}>
-          <ModalHeader toggle={onClose}>
-            {I18n.t('FILES.UPLOAD_MODAL.TITLE')}
-          </ModalHeader>
-          <ModalBody>
-            <div
-              className="text-center font-weight-700"
-              dangerouslySetInnerHTML={{
-                __html: I18n.t('FILES.UPLOAD_MODAL.ACTION_TEXT', {
-                  fullName: profile.fullName,
-                  shortUUID: `<span class="font-weight-100">${shortify(profile.playerUUID)}</span>`,
-                }),
-              }}
+        <ModalHeader toggle={onClose}>
+          {I18n.t('FILES.UPLOAD_MODAL.TITLE')}
+        </ModalHeader>
+        <ModalBody tag="form" id="upload-modal-form" onSubmit={handleSubmit(this.handleSubmit)}>
+          <div className="text-center font-weight-700">
+            {I18n.t('FILES.UPLOAD_MODAL.ACTION_TEXT')}
+            <If condition={profile.fullName}>
+              <span className="ml-1">{profile.fullName}</span>
+            </If>
+            <If condition={profile.playerUUID}>
+              <span className="ml-1 font-weight-400">{shortify(profile.playerUUID)}</span>
+            </If>
+          </div>
+          <div className="my-4">
+            {this.renderFiles()}
+          </div>
+          <div className="text-center">
+            <FileUpload
+              label={I18n.t('FILES.UPLOAD_MODAL.BUTTONS.ADD_FILES')}
+              allowedSize={maxFileSize}
+              allowedTypes={allowedFileTypes}
+              onChosen={this.handleUploadFile}
+              singleMode={false}
             />
-            <div className="my-4">
-              {this.renderFiles()}
-            </div>
-            <div className="row">
-              <div className="col-md-12 text-center">
-                <FileUpload
-                  label={I18n.t('FILES.UPLOAD_MODAL.BUTTONS.ADD_FILES')}
-                  allowedSize={maxFileSize}
-                  allowedTypes={allowedFileTypes}
-                  onChosen={this.handleUploadFile}
-                  singleMode={false}
-                />
-              </div>
-            </div>
-          </ModalBody>
-          <ModalFooter>
-            <button
-              type="reset"
-              disabled={submitting || uploading.some(i => i.uploading)}
-              className="btn btn-default-outline mr-auto"
-              onClick={onClose}
-            >
-              {I18n.t('COMMON.BUTTONS.CANCEL')}
-            </button>
-            <button
-              disabled={submitting || invalid || uploading.length === 0 || uploading.some(i => i.uploading)}
-              className="btn btn-primary"
-            >
-              {I18n.t('COMMON.BUTTONS.CONFIRM')}
-            </button>
-          </ModalFooter>
-        </form>
+          </div>
+        </ModalBody>
+        <ModalFooter>
+          <button
+            type="button"
+            disabled={submitting || uploading.some(i => i.uploading)}
+            className="btn btn-default-outline mr-auto"
+            onClick={onClose}
+          >
+            {I18n.t('COMMON.BUTTONS.CANCEL')}
+          </button>
+          <button
+            type="submit"
+            form="upload-modal-form"
+            disabled={submitting || invalid || uploading.length === 0 || uploading.some(i => i.uploading)}
+            className="btn btn-primary"
+          >
+            {I18n.t('COMMON.BUTTONS.CONFIRM')}
+          </button>
+        </ModalFooter>
       </Modal>
     );
   }
