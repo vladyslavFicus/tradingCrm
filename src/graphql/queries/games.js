@@ -7,6 +7,7 @@ const gameListQuery = gql`query GameListView(
   $gameProvider: String,
   $sort: String,
   $brandId: String!,
+  $type: String,
 ) {
   games(
     size: $size,
@@ -15,6 +16,7 @@ const gameListQuery = gql`query GameListView(
     sort: $sort,
     aggregator: $aggregator,
     brandId: $brandId,
+    type: $type,
   ) {
     page
     last

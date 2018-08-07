@@ -13,6 +13,7 @@ import { gameListQuery } from '../../../../../../graphql/queries/games';
 import FreeSpinCreateModal from './FreeSpinCreateModal';
 import { withNotifications } from '../../../../../../components/HighOrder';
 import validator from './validator';
+import { deviceTypes } from '../../constants';
 
 const FORM_NAME = 'addFreeSpinTemplate';
 
@@ -48,13 +49,16 @@ export default compose(
   graphql(gameListQuery, {
     name: 'games',
     skip: ({ aggregatorId, providerId }) => !providerId || !aggregatorId,
-    options: ({ providerId, aggregatorId }) => ({
+    options: ({ providerId, aggregatorId, deviceType }) => ({
       variables: {
         page: 0,
         size: 9999,
         brandId: getBrandId(),
         gameProvider: providerId,
         aggregator: aggregatorId,
+        type: deviceType === deviceTypes.MOBILE || deviceType === deviceTypes.DESKTOP
+          ? deviceType.toLowerCase()
+          : undefined,
       },
     }),
   }),
@@ -93,5 +97,6 @@ export default compose(
     },
     shouldError: ({ props }) => !props.touched,
     validate: validator,
+    enableReinitialize: true,
   }),
 )(FreeSpinCreateModal);
