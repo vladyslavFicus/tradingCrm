@@ -70,6 +70,8 @@ const initialState = {
     marketingSMS: false,
     marketingNews: false,
     marketingMail: false,
+    tailorMadeEmail: false,
+    tailorMadeSMS: false,
     token: null,
     tokenExpirationDate: null,
     profileStatus: null,

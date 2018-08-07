@@ -4,19 +4,25 @@ const updateSubscription = gql`mutation updateSubscription(
     $playerUUID: String!,
     $marketingMail: Boolean!,
     $marketingNews: Boolean!,
-    $marketingSMS: Boolean!
+    $marketingSMS: Boolean!,
+    $tailorMadeEmail: Boolean!,
+    $tailorMadeSMS: Boolean!
 ) {
   profile {
     updateSubscription(
       playerUUID: $playerUUID,
       marketingNews: $marketingNews,
       marketingSMS: $marketingSMS,
-      marketingMail: $marketingMail
+      marketingMail: $marketingMail,
+      tailorMadeEmail: $tailorMadeEmail,
+      tailorMadeSMS: $tailorMadeSMS
       ) {
       data {
         marketingMail
         marketingNews
         marketingSMS
+        tailorMadeEmail
+        tailorMadeSMS
       }
       error {
         error

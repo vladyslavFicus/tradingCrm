@@ -102,7 +102,7 @@
         }
       },
       "ADDITIONAL": {
-        "TITLE": "Дополнительная информация"
+        "TITLE": "Доп. информация"
       },
       "ADDRESS": {
         "TITLE": "Адрес",
@@ -299,10 +299,17 @@
       }
     },
     "MARKETING": {
-      "MAIL": "Почта",
-      "NEWS": "Новости",
-      "SMS": "СМС",
-      "TITLE": "Маркетинг"
+      "SENDINGS": {
+        "TITLE": "Рассылки",
+        "SMS": "СМС",
+        "EMAIL": "Email",
+        "MAIL": "Почта"
+      },
+      "TAILOR_MADE": {
+        "TITLE": "Персональные рассылки",
+        "EMAIL": "Email",
+        "SMS": "СМС"
+      }
     },
     "PAYMENT_ACCOUNT": {
       "COLUMN": {
@@ -1681,7 +1688,7 @@
     },
     "REWARD_PLAN": {
       "TITLE": {
-        "LOTTERY": "Лотерейные билеты",
+        "LOTTERY": "Билеты лотереи",
         "BONUS": "Бонус",
         "RUNES": "Лояльность",
         "CASH_BACKS": "Кешбэк",
@@ -2314,151 +2321,11 @@
   },
   "CLIENT_PROFILE": {
     "PROFILE": {
-      "TITLE": "Профиль",
-      "HEADER": {
-        "EQUITY": "",
-        "TRADING_VOLUME": ""
-      }
-    },
-    "TRADING_ACTIVITY": {
-      "GRID_VIEW": {
-        "TRADE": "",
-        "TYPE": "",
-        "TRADING_ACC": "",
-        "OPEN_PRICE": "",
-        "CLOSE_PRICE": "",
-        "VOLUME": "",
-        "COMISSION": "",
-        "SWAP": "",
-        "P&L": "",
-        "OPEN_TIME": "",
-        "CLOSE_TIME": "",
-        "STATUS": ""
-      },
-      "FILTER_FORM": {
-        "KEYWORD_LABEL": "",
-        "AGGREGATORS_LABEL": "",
-        "PROVIDERS_LABEL": "",
-        "GAMES_LABEL": "",
-        "GAME_TYPES_LABEL": "",
-        "START_DATE_LABEL": "",
-        "END_DATE_LABEL": "",
-        "TRADE_LABEL": "",
-        "TRADE_PLACEHOLDER": "",
-        "TYPE_LABEL": "",
-        "SYMBOL_LABEL": "",
-        "VOLUME_LABEL": "",
-        "STATUS_LABEL": "",
-        "OPEN_TIME_RANGE_LABEL": "",
-        "CLOSE_TIME_RANGE_LABEL": "",
-        "TIME_RANGE_LABEL": "",
-        "TYPES": {
-          "BUY": "",
-          "SELL": "",
-          "BUY_LIMIT": "",
-          "SELL_LIMIT": "",
-          "BUY_STOP": "",
-          "SELL_STOP": "",
-          "BALANCE": "",
-          "CREDIT": ""
-        },
-        "SYMOLS": {
-          "USDCHF": "",
-          "GBPUSD": "",
-          "EURUSD": "",
-          "USDJPY": "",
-          "USDCAD": "",
-          "AUDUSD": "",
-          "EURGBP": "",
-          "EURAUD": "",
-          "EURCHF": "",
-          "EURJPY": "",
-          "GBPCHF": "",
-          "CADJPY": "",
-          "GBPJPY": "",
-          "AUDNZD": "",
-          "AUDCAD": "",
-          "AUDCHF": "",
-          "AUDJPY": "",
-          "CHFJPY": "",
-          "EURNZD": "",
-          "EURCAD": "",
-          "CADCHF": "",
-          "NZDJPY": "",
-          "NZDUSD": ""
-        },
-        "STATUSES": {
-          "OPEN": "",
-          "CLOSED": ""
-        },
-        "SYMBOLS": {
-          "USDCHF": "",
-          "GBPUSD": "",
-          "EURUSD": "",
-          "USDJPY": "",
-          "USDCAD": "",
-          "AUDUSD": "",
-          "EURGBP": "",
-          "EURAUD": "",
-          "EURCHF": "",
-          "EURJPY": "",
-          "GBPCHF": "",
-          "CADJPY": "",
-          "GBPJPY": "",
-          "AUDNZD": "",
-          "AUDCAD": "",
-          "AUDCHF": "",
-          "AUDJPY": "",
-          "CHFJPY": "",
-          "EURNZD": "",
-          "EURCAD": "",
-          "CADCHF": "",
-          "NZDJPY": "",
-          "NZDUSD": ""
-        }
-      }
-    },
-    "CLIENT": {
-      "BALANCES": {
-        "BALANCE": "",
-        "DEPOSIT": "",
-        "LAST": "",
-        "DEPOSITED": "",
-        "WITHDRAWAL": "",
-        "WITHDRAWN": ""
-      },
-      "ACQUISITION": {
-        "TITLE": ""
-      }
-    },
-    "TRANSACTIONS": {
-      "MODAL_CREATE": {
-        "TYPE": "",
-        "AMOUNT": "",
-        "PAYMENT_ACCOUNT": "",
-        "FROM_MT4": "",
-        "TO_MT4": "",
-        "EXTERNAL_REF": ""
-      }
+      "TITLE": "Профиль"
     }
   },
   "TEMPORARY_UNTIL": {
     "WILL_BE_BLOCKED": "Временный аккаунт - будет заблокирован %{date}",
     "BLOCKED": "Временный аккаунт был заблокирован %{date}"
-  },
-  "CLIENTS": {
-    "LIST": {
-      "GRID_HEADER": {
-        "CLIENT": "",
-        "COUNTRY": "",
-        "BALANCE": "",
-        "DEPOSITS": "",
-        "AFFILIATE": "",
-        "SALES": "",
-        "RETENTION": "",
-        "REGISTRATION": "",
-        "STATUS": ""
-      }
-    }
   }
 }

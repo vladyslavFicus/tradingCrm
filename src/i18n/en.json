@@ -25,8 +25,7 @@
       "OFFICES": "Offices",
       "DESKS": "Desks",
       "TEAMS": "Teams",
-      "CALLBACKS": "Callbacks",
-      "CLIENTS": "Clients"
+      "CALLBACKS": "Callbacks"
     },
     "BOTTOM_MENU": {
       "SUPPORT": "Support"
@@ -295,10 +294,17 @@
       }
     },
     "MARKETING": {
-      "MAIL": "Snail mail",
-      "NEWS": "News",
-      "SMS": "SMS",
-      "TITLE": "Marketing"
+      "SENDINGS": {
+        "TITLE": "Sendings",
+        "SMS": "SMS",
+        "EMAIL": "Email",
+        "MAIL": "Snail mail"
+      },
+      "TAILOR_MADE": {
+        "TITLE": "Tailor made sendings",
+        "EMAIL": "Email",
+        "SMS": "SMS"
+      }
     },
     "PAYMENT_ACCOUNT": {
       "COLUMN": {
