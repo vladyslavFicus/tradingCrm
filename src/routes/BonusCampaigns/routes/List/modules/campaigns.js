@@ -63,14 +63,6 @@ function createCampaign(data) {
 
 function exportEntities(filters = {}) {
   const queryParams = { orderByPriority: true, ...filters };
-
-  if (queryParams.state) {
-    if (queryParams.state === statuses.CANCELED) {
-      queryParams.state = statuses.FINISHED;
-      queryParams.stateReason = statusesReasons.CANCELED;
-    }
-  }
-
   const queryString = qs.stringify(queryParams, { delimiter: '&' });
   const type = EXPORT_ENTITIES;
   const endPoint = `${getApiRoot()}/promotion/campaigns?${queryString}`;
