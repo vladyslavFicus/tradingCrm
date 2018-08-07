@@ -49,6 +49,8 @@ class Header extends Component {
       marketingMail: PropTypes.bool,
       marketingNews: PropTypes.bool,
       marketingSMS: PropTypes.bool,
+      tailorMadeEmail: PropTypes.bool,
+      tailorMadeSMS: PropTypes.bool,
       phoneNumber: PropTypes.string,
       phoneNumberVerified: PropTypes.bool,
       postCode: PropTypes.string,

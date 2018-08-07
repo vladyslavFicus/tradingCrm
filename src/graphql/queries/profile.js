@@ -55,6 +55,8 @@ const profileQuery = gql`query profileData($playerUUID: String!){
       marketingMail
       marketingNews
       marketingSMS
+      tailorMadeEmail
+      tailorMadeSMS
       tags {
         id
         priority
