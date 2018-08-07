@@ -876,7 +876,7 @@
         "CATEGORY_DEFAULT_OPTION": "Choose category"
       },
       "TITLE": "File upload",
-      "ACTION_TEXT": "You are about to upload file(s) to %{fullName} - %{shortUUID} - account",
+      "ACTION_TEXT": "You are about to upload file(s) to",
       "NO_UPLOADED": "There are no uploaded files",
       "BUTTONS": {
         "ADD_FILES": "+ Add files"
@@ -1136,6 +1136,10 @@
         "PAYMENTS": "Payments",
         "GAMING_ACTIVITY": "Gaming activity",
         "TRADING_ACTIVITY": "Trading Activity"
+      },
+      "ACTIONS": {
+        "ADD_TRANSACTION": "Add transaction",
+        "EXPORT_TRANSACTIONS": "Export"
       }
     },
     "CAMPAIGNS": {

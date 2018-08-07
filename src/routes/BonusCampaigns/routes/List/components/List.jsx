@@ -83,7 +83,6 @@ class List extends Component {
 
   handleExport = () => this.props.exportEntities({
     ...this.state.filters,
-    page: this.state.page,
   });
 
   renderCampaign = data => (

@@ -30,6 +30,7 @@ const mapActions = {
   resetNote: viewActionCreators.resetNote,
   resetAll: viewActionCreators.resetAll,
   fetchActiveBonus: viewActionCreators.fetchActiveBonus,
+  exportEntities: viewActionCreators.exportEntities,
 };
 
 export default connect(mapStateToProps, mapActions)(Payments);
