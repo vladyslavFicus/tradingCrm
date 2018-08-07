@@ -89,19 +89,26 @@ class UploadModal extends Component {
     </table>
   );
 
-  renderFiles = () => this.props.uploading.length
-    ? this.renderFilesTable()
-    : (
-      <div className="text-center">
-        <span className="text-muted font-size-12">
+  renderFiles = () => (
+    <Choose>
+      <When condition={this.props.uploading.length}>
+        {this.renderFilesTable()}
+      </When>
+      <Otherwise>
+        <div className="text-center text-muted font-size-12">
           {I18n.t('FILES.UPLOAD_MODAL.NO_UPLOADED')}
-        </span>
-      </div>
-    );
+        </div>
+      </Otherwise>
+    </Choose>
+  );
 
   render() {
     const {
-      profile,
+      profile: {
+        firstName,
+        lastName,
+        playerUUID,
+      },
       onClose,
       uploading,
       invalid,
@@ -111,21 +118,23 @@ class UploadModal extends Component {
       allowedFileTypes,
     } = this.props;
 
+    const fullName = `${firstName} ${lastName}`;
+
     return (
       <Modal isOpen keyboard={false} backdrop="static" className="upload-modal" toggle={onClose}>
         <ModalHeader toggle={onClose}>
           {I18n.t('FILES.UPLOAD_MODAL.TITLE')}
         </ModalHeader>
         <ModalBody tag="form" id="upload-modal-form" onSubmit={handleSubmit(this.handleSubmit)}>
-          <div className="text-center font-weight-700">
-            {I18n.t('FILES.UPLOAD_MODAL.ACTION_TEXT')}
-            <If condition={profile.fullName}>
-              <span className="ml-1">{profile.fullName}</span>
-            </If>
-            <If condition={profile.playerUUID}>
-              <span className="ml-1 font-weight-400">{shortify(profile.playerUUID)}</span>
-            </If>
-          </div>
+          <div
+            className="text-center font-weight-700"
+            dangerouslySetInnerHTML={{
+              __html: I18n.t('FILES.UPLOAD_MODAL.ACTION_TEXT', {
+                fullName,
+                shortUUID: `<span class="font-weight-400">${shortify(playerUUID)}</span>`,
+              }),
+            }}
+          />
           <div className="my-4">
             {this.renderFiles()}
           </div>

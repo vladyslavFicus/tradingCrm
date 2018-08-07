@@ -876,7 +876,7 @@
         "CATEGORY_DEFAULT_OPTION": "Choose category"
       },
       "TITLE": "File upload",
-      "ACTION_TEXT": "You are about to upload file(s) to",
+      "ACTION_TEXT": "You are about to upload file(s) to %{fullName} %{shortUUID} account",
       "NO_UPLOADED": "There are no uploaded files",
       "BUTTONS": {
         "ADD_FILES": "+ Add files"
