@@ -788,7 +788,8 @@
       "REASON": "-- Выберите причину --",
       "PERIOD": "-- Выберите период --",
       "COUNTRY": "-- Выберите страну --",
-      "UPLOAD_ACTION": "-- Выбрать тип действия --"
+      "UPLOAD_ACTION": "-- Выбрать тип действия --",
+      "NO_ITEMS": ""
     },
     "CONFIRM": "Подтвердить",
     "MGA_LIMIT": "MGA LIMIT",
@@ -851,7 +852,8 @@
     "UPLOAD": "Загрузить",
     "ADD_DOCUMENT": "+ Прикрепить документ",
     "UNKNOWN_ERROR": "Неизвестная ошибка",
-    "CONFIRM_ACTION": "Подтвердить действие"
+    "CONFIRM_ACTION": "Подтвердить действие",
+    "DASHBOARD": ""
   },
   "FILES": {
     "UPLOAD_MODAL": {

@@ -846,7 +846,8 @@
     "UPLOAD": "Upload",
     "ADD_DOCUMENT": "+ Add document",
     "UNKNOWN_ERROR": "Unknown error",
-    "CONFIRM_ACTION": "Confirm action"
+    "CONFIRM_ACTION": "Confirm action",
+    "DASHBOARD": "Dashboard"
   },
   "FILES": {
     "UPLOAD_MODAL": {
@@ -1931,6 +1932,7 @@
     }
   },
   "DASHBOARD": {
+    "REGISTRATIONS": "Registrations",
     "PERMISSION_DENIED": {
       "TITLE": "Permission denied",
       "REASON": "You do not have permission to access this section"

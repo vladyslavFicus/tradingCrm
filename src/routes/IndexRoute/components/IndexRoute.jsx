@@ -19,10 +19,11 @@ import ResetPassword from '../../ResetPassword';
 import Campaigns from '../../Campaigns';
 import BonusCampaigns from '../../BonusCampaigns';
 import Operators from '../../Operators';
+import Dashboard from '../../Dashboard';
 import rootConfig from '../../../config';
 import { markets } from '../../../constants/markets';
 
-const rootUrlName = rootConfig.market === markets.crm ? 'clients' : 'players';
+const rootUrlName = rootConfig.market === markets.crm ? 'dashboard' : 'players';
 
 class IndexRoute extends PureComponent {
   static propTypes = {
@@ -54,6 +55,7 @@ class IndexRoute extends PureComponent {
           </Choose>
           {/* Private */}
           <AppRoute path="/brands" layout={BlackLayout} component={Brands} checkAuth />
+          <AppRoute path="/dashboard" layout={MainLayout} component={Dashboard} checkAuth />
           <AppRoute path="/players" layout={MainLayout} component={Players} checkAuth />
           <AppRoute path="/clients" layout={MainLayout} component={Clients} checkAuth />
           <AppRoute path="/bonus-campaigns" layout={MainLayout} component={BonusCampaigns} checkAuth />
