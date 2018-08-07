@@ -204,7 +204,7 @@ class List extends Component {
         <div className="card-heading">
           <Choose>
             <When condition={!!entities.totalElements}>
-              <span className="font-size-20 height-55 users-list-header">
+              <span id="users-list-header" className="font-size-20 height-55 users-list-header">
                 <div>
                   <strong>{entities.totalElements} </strong>
                   {I18n.t('COMMON.CLIENTS_FOUND')}
