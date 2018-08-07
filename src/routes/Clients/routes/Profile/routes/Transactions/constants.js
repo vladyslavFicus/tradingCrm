@@ -11,7 +11,7 @@ const routes = [
   }, {
     url: '/trading-activity',
     label: I18n.t('CONSTANTS.TRANSACTIONS.ROUTES.TRADING_ACTIVITY'),
-    permissions: new Permissions(permissions.GAMING_ACTIVITY.PLAYER_GAMING_ACTIVITY),
+    permissions: new Permissions(permissions.TRADING_ACTIVITY.CLIENT_TRADING_ACTIVITY),
     service: services.trading_activity,
   },
 ];
