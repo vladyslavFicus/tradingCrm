@@ -898,7 +898,7 @@
         "DELETE": "Удалить файл"
       },
       "WARNING_TEXT": "Это действие не может быть отменено!",
-      "ACTION_TEXT": "Вы собираетесь удалить файл %{fileName} игроку %{fullName} - %{shortUUID} - запись"
+      "ACTION_TEXT": "Вы собираетесь удалить файл %{fileName} игроку %{player} - %{shortUUID} - запись"
     },
     "GRID": {
       "COLUMN": {

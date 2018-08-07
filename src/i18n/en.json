@@ -892,7 +892,7 @@
         "DELETE": "Delete File"
       },
       "WARNING_TEXT": "This action can not be undone!",
-      "ACTION_TEXT": "You are about to delete file %{fileName} from %{fullName} - %{shortUUID} - account"
+      "ACTION_TEXT": "You are about to delete file %{fileName} from %{player} - %{shortUUID} - account"
     },
     "GRID": {
       "COLUMN": {
