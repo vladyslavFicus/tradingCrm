@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { I18n } from 'react-redux-i18n';
 import PropTypes from '../../constants/propTypes';
 import { filterLabels } from '../../constants/user';
@@ -12,21 +12,23 @@ const formatValue = (attribute, value) => (
 );
 
 const FeedInfoPlayerProfileSearch = ({ data }) => (
-  <div className="feed-item_info-details">
+  <Fragment>
     <div className="text-uppercase margin-bottom-10">
       {I18n.t('FEED_ITEM.PLAYER_PROFILE_SEARCH.SEARCH_PARAMETERS')}
     </div>
 
     {Object.keys(data.details).map(attribute => (
-      <div key={attribute}>
+      <Fragment key={attribute}>
         {renderLabel(attribute, filterLabels)}:
-        <span className="feed-item_info-details_value">
+        <span className="feed-item__content-value">
           {formatValue(attribute, data.details[attribute].toString())}
         </span>
-      </div>
+        <br />
+      </Fragment>
     ))}
-  </div>
+  </Fragment>
 );
+
 FeedInfoPlayerProfileSearch.propTypes = {
   data: PropTypes.auditEntity.isRequired,
 };

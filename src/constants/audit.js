@@ -38,21 +38,21 @@ const typesLabels = {
   [types.KYC_REQUESTED]: I18n.t('CONSTANTS.AUDIT.TYPES.KYC_REQUESTED'),
 };
 const typesClassNames = {
-  [types.LOG_IN]: 'feed-item_info-status__blue',
+  [types.LOG_IN]: 'blue',
   [types.LOG_OUT]: '',
-  [types.PLAYER_PROFILE_VERIFIED_EMAIL]: 'feed-item_info-status__blue',
-  [types.PLAYER_PROFILE_VERIFIED_PHONE]: 'feed-item_info-status__blue',
-  [types.KYC_ADDRESS_REFUSED]: 'feed-item_info-status__red',
-  [types.KYC_ADDRESS_VERIFIED]: 'feed-item_info-status__green',
-  [types.KYC_PERSONAL_REFUSED]: 'feed-item_info-status__red',
-  [types.KYC_PERSONAL_VERIFIED]: 'feed-item_info-status__green',
-  [types.PLAYER_PROFILE_REGISTERED]: 'feed-item_info-status__blue',
-  [types.PLAYER_PROFILE_CHANGED]: 'feed-item_info-status__green',
+  [types.PLAYER_PROFILE_VERIFIED_EMAIL]: 'blue',
+  [types.PLAYER_PROFILE_VERIFIED_PHONE]: 'blue',
+  [types.KYC_ADDRESS_REFUSED]: 'red',
+  [types.KYC_ADDRESS_VERIFIED]: 'green',
+  [types.KYC_PERSONAL_REFUSED]: 'red',
+  [types.KYC_PERSONAL_VERIFIED]: 'green',
+  [types.PLAYER_PROFILE_REGISTERED]: 'blue',
+  [types.PLAYER_PROFILE_CHANGED]: 'green',
   [types.PLAYER_PROFILE_SEARCH]: '',
   [types.NEW_OPERATOR_ACCOUNT_CREATED]: '',
   [types.OPERATOR_ACCOUNT_CREATED]: '',
-  [types.FAILED_LOGIN_ATTEMPT]: 'feed-item_info-status__red',
-  [types.KYC_REQUESTED]: 'feed-item_info-status__green',
+  [types.FAILED_LOGIN_ATTEMPT]: 'red',
+  [types.KYC_REQUESTED]: 'green',
 };
 
 export {
