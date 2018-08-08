@@ -102,7 +102,7 @@
         }
       },
       "ADDITIONAL": {
-        "TITLE": "Дополнительная информация"
+        "TITLE": "Доп. информация"
       },
       "ADDRESS": {
         "TITLE": "Адрес",
@@ -299,10 +299,17 @@
       }
     },
     "MARKETING": {
-      "MAIL": "Почта",
-      "NEWS": "Новости",
-      "SMS": "СМС",
-      "TITLE": "Маркетинг"
+      "SENDINGS": {
+        "TITLE": "Рассылки",
+        "SMS": "СМС",
+        "EMAIL": "Email",
+        "MAIL": "Почта"
+      },
+      "TAILOR_MADE": {
+        "TITLE": "Персональные рассылки",
+        "EMAIL": "Email",
+        "SMS": "СМС"
+      }
     },
     "PAYMENT_ACCOUNT": {
       "COLUMN": {
@@ -658,11 +665,14 @@
       }
     },
     "NOTES": {
+      "TITLE": "Заметки",
       "FILTER": {
         "LABELS": {
-          "SEARCH_BY": "Поиск по",
+          "SEARCH_BY": "Поиск",
+          "SEARCH_BY_PLACEHOLDER": "Поиск по",
           "TARGET_TYPE": "Тип",
-          "CREATION_DATE_RANGE": "Период даты создания"
+          "CREATION_DATE_RANGE": "Период даты создания",
+          "ALL_TYPES": "Все типы"
         }
       }
     },
@@ -841,6 +851,14 @@
     "PERMANENT": "Постоянный",
     "CRM_USER_DEFINITION": "Профиль клиента",
     "CASINO_USER_DEFINITION": "Профиль игрока",
+    "SALES": "",
+    "RETENTION": "",
+    "COMPLIANCE": "",
+    "MOVE": "Переместить",
+    "CHANGE_STATUS": "Поменять статус",
+    "EXPORT_SELECTED": "Экспортировать выбранные",
+    "PLAYERS_FOUND": "Игроков найдено",
+    "PLAYERS_SELECTED": "Игроков выбрано",
     "LANGUAGE_NAME": {
       "EN": "Английский",
       "RU": "Русский",
@@ -853,7 +871,7 @@
     "ADD_DOCUMENT": "+ Прикрепить документ",
     "UNKNOWN_ERROR": "Неизвестная ошибка",
     "CONFIRM_ACTION": "Подтвердить действие",
-    "DASHBOARD": ""
+    "PINNED_NOTE": "Закрепленная заметка"
   },
   "FILES": {
     "UPLOAD_MODAL": {
@@ -868,7 +886,7 @@
         "CATEGORY_DEFAULT_OPTION": "Выбрать категорию"
       },
       "TITLE": "Загрузка файлов",
-      "ACTION_TEXT": "Вы собираетесь загрузить файл(ы) игроку %{fullName} - %{shortUUID} - запись",
+      "ACTION_TEXT": "Вы собираетесь загрузить файл(ы) в учетную запись %{fullName} %{shortUUID}",
       "NO_UPLOADED": "Нет загруженных файлов",
       "BUTTONS": {
         "ADD_FILES": "+ Добавить файлы"
@@ -884,7 +902,7 @@
         "DELETE": "Удалить файл"
       },
       "WARNING_TEXT": "Это действие не может быть отменено!",
-      "ACTION_TEXT": "Вы собираетесь удалить файл %{fileName} игроку %{fullName} - %{shortUUID} - запись"
+      "ACTION_TEXT": "Вы собираетесь удалить файл %{fileName} игроку %{player} - %{shortUUID} - запись"
     },
     "GRID": {
       "COLUMN": {
@@ -1128,6 +1146,10 @@
         "PAYMENTS": "Платежи",
         "GAMING_ACTIVITY": "Игровая активность",
         "TRADING_ACTIVITY": "Торговая деятельность"
+      },
+      "ACTIONS": {
+        "ADD_TRANSACTION": "Добавить транзакцию",
+        "EXPORT_TRANSACTIONS": "Экспорт"
       }
     },
     "CAMPAIGNS": {
@@ -1663,7 +1685,7 @@
     },
     "REWARD_PLAN": {
       "TITLE": {
-        "LOTTERY": "Лотерейные билеты",
+        "LOTTERY": "Билеты лотереи",
         "BONUS": "Бонус",
         "RUNES": "Лояльность",
         "CASH_BACKS": "Кешбэк",
@@ -1698,6 +1720,31 @@
       },
       "NOTIFICATION": {
         "UPDATE_MESSAGE": "Значение обновлено"
+      }
+    },
+    "LIST": {
+      "FILTERS": {
+        "SEARCH": "Поиск по",
+        "COUNTRY": "Страна",
+        "CITY": "Город",
+        "AGE": "Возраст",
+        "AGE_FROM": "Возраст от",
+        "AGE_TO": "Возраст до",
+        "CURRENCY": "Валюта",
+        "AFFILIATE_ID": "Филиал",
+        "STATUS": "Статус",
+        "TAGS": "Теги",
+        "SEGMENTS": "Сегменты",
+        "REG_DATE_RANGE": "Дата регистрации от",
+        "REG_DATE_FROM": "Дата регистрации до",
+        "REG_DATE_TO": "Диапазон дат регистрации",
+        "BALANCE": "Баланс",
+        "BALANCE_FROM": "Баланс от",
+        "BALANCE_TO": "Баланс до",
+        "ACQUISITION_STATUS": "Статус приобритения",
+        "DESKS": "",
+        "TEAMS": "Команды",
+        "OFFICES": "Офисы"
       }
     }
   },
@@ -2271,132 +2318,7 @@
   },
   "CLIENT_PROFILE": {
     "PROFILE": {
-      "TITLE": "Профиль",
-      "HEADER": {
-        "EQUITY": "",
-        "TRADING_VOLUME": ""
-      }
-    },
-    "TRADING_ACTIVITY": {
-      "GRID_VIEW": {
-        "TRADE": "",
-        "TYPE": "",
-        "TRADING_ACC": "",
-        "OPEN_PRICE": "",
-        "CLOSE_PRICE": "",
-        "VOLUME": "",
-        "COMISSION": "",
-        "SWAP": "",
-        "P&L": "",
-        "OPEN_TIME": "",
-        "CLOSE_TIME": "",
-        "STATUS": ""
-      },
-      "FILTER_FORM": {
-        "KEYWORD_LABEL": "",
-        "AGGREGATORS_LABEL": "",
-        "PROVIDERS_LABEL": "",
-        "GAMES_LABEL": "",
-        "GAME_TYPES_LABEL": "",
-        "START_DATE_LABEL": "",
-        "END_DATE_LABEL": "",
-        "TRADE_LABEL": "",
-        "TRADE_PLACEHOLDER": "",
-        "TYPE_LABEL": "",
-        "SYMBOL_LABEL": "",
-        "VOLUME_LABEL": "",
-        "STATUS_LABEL": "",
-        "OPEN_TIME_RANGE_LABEL": "",
-        "CLOSE_TIME_RANGE_LABEL": "",
-        "TIME_RANGE_LABEL": "",
-        "TYPES": {
-          "BUY": "",
-          "SELL": "",
-          "BUY_LIMIT": "",
-          "SELL_LIMIT": "",
-          "BUY_STOP": "",
-          "SELL_STOP": "",
-          "BALANCE": "",
-          "CREDIT": ""
-        },
-        "SYMOLS": {
-          "USDCHF": "",
-          "GBPUSD": "",
-          "EURUSD": "",
-          "USDJPY": "",
-          "USDCAD": "",
-          "AUDUSD": "",
-          "EURGBP": "",
-          "EURAUD": "",
-          "EURCHF": "",
-          "EURJPY": "",
-          "GBPCHF": "",
-          "CADJPY": "",
-          "GBPJPY": "",
-          "AUDNZD": "",
-          "AUDCAD": "",
-          "AUDCHF": "",
-          "AUDJPY": "",
-          "CHFJPY": "",
-          "EURNZD": "",
-          "EURCAD": "",
-          "CADCHF": "",
-          "NZDJPY": "",
-          "NZDUSD": ""
-        },
-        "STATUSES": {
-          "OPEN": "",
-          "CLOSED": ""
-        },
-        "SYMBOLS": {
-          "USDCHF": "",
-          "GBPUSD": "",
-          "EURUSD": "",
-          "USDJPY": "",
-          "USDCAD": "",
-          "AUDUSD": "",
-          "EURGBP": "",
-          "EURAUD": "",
-          "EURCHF": "",
-          "EURJPY": "",
-          "GBPCHF": "",
-          "CADJPY": "",
-          "GBPJPY": "",
-          "AUDNZD": "",
-          "AUDCAD": "",
-          "AUDCHF": "",
-          "AUDJPY": "",
-          "CHFJPY": "",
-          "EURNZD": "",
-          "EURCAD": "",
-          "CADCHF": "",
-          "NZDJPY": "",
-          "NZDUSD": ""
-        }
-      }
-    },
-    "CLIENT": {
-      "BALANCES": {
-        "BALANCE": "",
-        "DEPOSIT": "",
-        "LAST": "",
-        "DEPOSITED": "",
-        "WITHDRAWAL": "",
-        "WITHDRAWN": ""
-      },
-      "ACQUISITION": {
-        "TITLE": ""
-      }
-    },
-    "TRANSACTIONS": {
-      "MODAL_CREATE": {
-        "TYPE": "",
-        "AMOUNT": "",
-        "PAYMENT_ACCOUNT": "",
-        "FROM_MT4": "",
-        "TO_MT4": "",
-        "EXTERNAL_REF": ""
-      }
+      "TITLE": "Профиль"
     }
   },
   "TEMPORARY_UNTIL": {

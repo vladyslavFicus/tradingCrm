@@ -49,6 +49,8 @@ class Information extends PureComponent {
                 marketingMail: data.marketingMail,
                 marketingNews: data.marketingNews,
                 marketingSMS: data.marketingSMS,
+                tailorMadeEmail: data.tailorMadeEmail,
+                tailorMadeSMS: data.tailorMadeSMS,
               }}
               updateSubscription={updateSubscription}
             />

@@ -2,6 +2,7 @@
   "SIDEBAR": {
     "TOP_MENU": {
       "PLAYERS": "Players",
+      "CLIENTS": "Clients",
       "OPERATORS": "Operators",
       "PAYMENTS": "Payments",
       "TRANSACTIONS": "Transactions",
@@ -13,6 +14,7 @@
       "GAMES": "Games",
       "COUNTRIES": "Countries",
       "PLAYERS_SEARCH": "Players' search",
+      "CLIENTS_SEARCH": "Clients' search",
       "PLAYERS_KYC_REQUEST": "KYC requests",
       "SETTINGS": "Settings",
       "NEW_CAMPAIGNS": "New campaigns",
@@ -23,8 +25,7 @@
       "OFFICES": "Offices",
       "DESKS": "Desks",
       "TEAMS": "Teams",
-      "CALLBACKS": "Callbacks",
-      "CLIENTS": "Clients"
+      "CALLBACKS": "Callbacks"
     },
     "BOTTOM_MENU": {
       "SUPPORT": "Support"
@@ -293,10 +294,17 @@
       }
     },
     "MARKETING": {
-      "MAIL": "Snail mail",
-      "NEWS": "News",
-      "SMS": "SMS",
-      "TITLE": "Marketing"
+      "SENDINGS": {
+        "TITLE": "Sendings",
+        "SMS": "SMS",
+        "EMAIL": "Email",
+        "MAIL": "Snail mail"
+      },
+      "TAILOR_MADE": {
+        "TITLE": "Tailor made sendings",
+        "EMAIL": "Email",
+        "SMS": "SMS"
+      }
     },
     "PAYMENT_ACCOUNT": {
       "COLUMN": {
@@ -652,11 +660,14 @@
       }
     },
     "NOTES": {
+      "TITLE": "Notes",
       "FILTER": {
         "LABELS": {
-          "SEARCH_BY": "Author, targetUUID",
+          "SEARCH_BY": "Search",
+          "SEARCH_BY_PLACEHOLDER": "Author, targetUUID",
           "TARGET_TYPE": "Target type",
-          "CREATION_DATE_RANGE": "Creation date range"
+          "CREATION_DATE_RANGE": "Creation date range",
+          "ALL_TYPES": "All types"
         }
       }
     },
@@ -785,6 +796,10 @@
       "UPLOAD_ACTION": "-- Select upload action --",
       "NO_ITEMS": "-- No items --"
     },
+    "DATE_OPTIONS": {
+      "START_DATE": "Start date",
+      "END_DATE": "End date"
+    },
     "CONFIRM": "Confirm",
     "MGA_LIMIT": "MGA LIMIT",
     "MGA_LIMIT_DESCRIPTION": "MGA Limit - the cumulative limit of €2300 on withdrawals for KYC not verified players is exceeded.",
@@ -800,6 +815,7 @@
     "INACTIVE": "Inactive",
     "ALL": "All",
     "PLAYERS": "Players",
+    "CLIENTS": "Clients",
     "TRANSACTIONS": "Transactions",
     "PLAYER_LIABILITY_REPORT": "Player liability report",
     "PAYMENTS": "Payments",
@@ -835,6 +851,14 @@
     "PERMANENT": "Permanent",
     "CRM_USER_DEFINITION": "Client profile",
     "CASINO_USER_DEFINITION": "Player profile",
+    "SALES": "Sales",
+    "RETENTION": "Retention",
+    "COMPLIANCE": "Compliance",
+    "MOVE": "Move",
+    "CHANGE_STATUS": "Change status",
+    "EXPORT_SELECTED": "Export selected",
+    "CLIENTS_FOUND": "Clients found",
+    "CLIENTS_SELECTED": "Clients selected",
     "LANGUAGE_NAME": {
       "EN": "English",
       "RU": "Russian",
@@ -847,6 +871,7 @@
     "ADD_DOCUMENT": "+ Add document",
     "UNKNOWN_ERROR": "Unknown error",
     "CONFIRM_ACTION": "Confirm action",
+    "PINNED_NOTE": "Pinned note",
     "DASHBOARD": "Dashboard"
   },
   "FILES": {
@@ -862,7 +887,7 @@
         "CATEGORY_DEFAULT_OPTION": "Choose category"
       },
       "TITLE": "File upload",
-      "ACTION_TEXT": "You are about to upload file(s) to %{fullName} - %{shortUUID} - account",
+      "ACTION_TEXT": "You are about to upload file(s) to %{fullName} %{shortUUID} account",
       "NO_UPLOADED": "There are no uploaded files",
       "BUTTONS": {
         "ADD_FILES": "+ Add files"
@@ -878,7 +903,7 @@
         "DELETE": "Delete File"
       },
       "WARNING_TEXT": "This action can not be undone!",
-      "ACTION_TEXT": "You are about to delete file %{fileName} from %{fullName} - %{shortUUID} - account"
+      "ACTION_TEXT": "You are about to delete file %{fileName} from %{player} - %{shortUUID} - account"
     },
     "GRID": {
       "COLUMN": {
@@ -1122,6 +1147,10 @@
         "PAYMENTS": "Payments",
         "GAMING_ACTIVITY": "Gaming activity",
         "TRADING_ACTIVITY": "Trading Activity"
+      },
+      "ACTIONS": {
+        "ADD_TRANSACTION": "Add transaction",
+        "EXPORT_TRANSACTIONS": "Export"
       }
     },
     "CAMPAIGNS": {
@@ -1682,6 +1711,31 @@
       },
       "NOTIFICATION": {
         "UPDATE_MESSAGE": "Update amount of reward plan"
+      }
+    },
+    "LIST": {
+      "FILTERS": {
+        "SEARCH": "Search by",
+        "COUNTRY": "Country",
+        "CITY": "City",
+        "AGE": "Age",
+        "AGE_FROM": "Age From",
+        "AGE_TO": "Age To",
+        "CURRENCY": "Currency",
+        "AFFILIATE_ID": "Affiliate ID",
+        "STATUS": "Status",
+        "TAGS": "Tags",
+        "SEGMENTS": "Segments",
+        "REG_DATE_RANGE": "Registration date range",
+        "REG_DATE_FROM": "Registered From",
+        "REG_DATE_TO": "Registered To",
+        "BALANCE": "Balance",
+        "BALANCE_FROM": "Balance From",
+        "BALANCE_TO": "Balance To",
+        "ACQUISITION_STATUS": "Acquisition Status",
+        "DESKS": "Desks",
+        "TEAMS": "Teams",
+        "OFFICES": "Offices"
       }
     }
   },
@@ -2355,5 +2409,20 @@
   "TEMPORARY_UNTIL": {
     "WILL_BE_BLOCKED": "Temporary account - will be blocked on %{date}",
     "BLOCKED": "Temporary account has been blocked on %{date}"
+  },
+  "CLIENTS": {
+    "LIST": {
+      "GRID_HEADER": {
+        "CLIENT": "Client",
+        "COUNTRY": "Country",
+        "BALANCE": "Balance",
+        "DEPOSITS": "Deposits",
+        "AFFILIATE": "Affiliate",
+        "SALES": "Sales",
+        "RETENTION": "Retention",
+        "REGISTRATION": "Registration",
+        "STATUS": "Status"
+      }
+    }
   }
 }

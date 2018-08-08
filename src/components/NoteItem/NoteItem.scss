@@ -1,0 +1,62 @@
+@import "../../styles/variables";
+
+.note-item {
+  display: flex;
+  align-items: flex-start;
+  margin-top: 10px;
+  &__letters {
+    flex: 0 0 40px;
+    max-width: 40px;
+    height: 40px;
+    margin-top: 2px;
+    margin-right: 10px;
+    padding-top: 3px;
+    border-radius: 5px;
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 22px;
+    font-weight: 600;
+    background-color: $color-primary;
+    color: #fff;
+  }
+  &__content-wrapper {
+    flex: 1;
+  }
+  &__heading {
+    line-height: 1.2;
+    font-size: 13px;
+    color: #666;
+  }
+  &__author {
+    font-weight: 700;
+    color: $color-primary;
+  }
+  &__edition-date {
+    font-size: 11px;
+  }
+  &__body {
+    align-items: flex-start;
+    margin-top: 5px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    background-color: #fffde6;
+  }
+  &__content {
+    font-size: 13px;
+    font-style: italic;
+    line-height: normal;
+  }
+  &__pinned-note-badge {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 2px 3px;
+    border-radius: 3px;
+    background-color: $color-primary;
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 11px;
+    line-height: normal;
+    color: #fff;
+  }
+}

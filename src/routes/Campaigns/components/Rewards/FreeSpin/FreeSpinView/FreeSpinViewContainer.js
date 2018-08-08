@@ -4,7 +4,7 @@ import { freeSpinTemplatesQuery, freeSpinTemplateQuery } from '../../../../../..
 import { currencyQuery } from '../../../../../../graphql/queries/options';
 import FreeSpinView from './FreeSpinView';
 import FreeSpinCreateModal from '../FreeSpinCreateModal';
-import { withModals } from '../../../../../../components/HighOrder';
+import { withModals, withReduxFormValues } from '../../../../../../components/HighOrder';
 
 export default compose(
   withModals({ createFreeSpin: FreeSpinCreateModal }),
@@ -33,4 +33,5 @@ export default compose(
     ),
     name: 'freeSpinTemplate',
   }),
+  withReduxFormValues
 )(FreeSpinView);

@@ -1,9 +1,13 @@
 import { connect } from 'react-redux';
+import { graphql, compose } from 'react-apollo';
+import moment from 'moment';
+import { get } from 'lodash';
 import { actionCreators } from '../modules/list';
 import { actionCreators as miniProfileActionCreators } from '../../../../../redux/modules/miniProfile';
 import List from '../components/List';
 import config from '../../../../../config';
 import countries from '../../../../../utils/countryList';
+import { profilesQuery } from '../../../../../graphql/queries/profile';
 
 const mapStateToProps = ({
   usersList: list,
@@ -26,4 +30,63 @@ const mapActions = {
   reset: actionCreators.reset,
 };
 
-export default connect(mapStateToProps, mapActions)(List);
+export default compose(
+  connect(mapStateToProps, mapActions),
+  graphql(profilesQuery, {
+    name: 'profiles',
+    options: ({ location: { query } }) => ({
+      variables: {
+        ...query ? query.filters : { registrationDateFrom: moment().startOf('day').utc().format() },
+        page: 1,
+        size: 20,
+      },
+    }),
+    props: ({ profiles: { profiles, fetchMore, ...rest } }) => {
+      const newPage = get(profiles, 'data.page') || 1;
+
+      return {
+        profiles: {
+          ...rest,
+          profiles,
+          loadMore: () => fetchMore({
+            variables: { page: newPage + 1 },
+            updateQuery: (previousResult, { fetchMoreResult }) => {
+              if (!fetchMoreResult) {
+                return previousResult;
+              }
+
+              if (fetchMoreResult.profiles.error) {
+                return {
+                  ...previousResult,
+                  ...fetchMoreResult,
+                  profiles: {
+                    ...previousResult.profiles,
+                    ...fetchMoreResult.profiles,
+                  },
+                };
+              }
+
+              return {
+                ...previousResult,
+                ...fetchMoreResult,
+                profiles: {
+                  ...previousResult.profiles,
+                  ...fetchMoreResult.profiles,
+                  data: {
+                    ...previousResult.profiles.data,
+                    ...fetchMoreResult.profiles.data,
+                    page: fetchMoreResult.profiles.data.page,
+                    content: [
+                      ...previousResult.profiles.data.content,
+                      ...fetchMoreResult.profiles.data.content,
+                    ],
+                  },
+                },
+              };
+            },
+          }),
+        },
+      };
+    },
+  })
+)(List);

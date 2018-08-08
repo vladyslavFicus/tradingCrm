@@ -46,6 +46,26 @@
 }
 
 /*
+ * Border Color
+*/
+
+.border-color-success {
+  border-color: #46be8a;
+}
+
+.border-color-info {
+  border-color: #0190da;
+}
+
+.border-color-warning {
+  border-color: #f39834;
+}
+
+.border-color-danger {
+  border-color: #fb434a;
+}
+
+/*
  * WIDTH
  */
 .width-full {
@@ -414,4 +434,8 @@
 
 .margin-bottom-50 {
   margin-bottom: 50px;
+}
+
+.height-55 {
+  height: 55px;
 }

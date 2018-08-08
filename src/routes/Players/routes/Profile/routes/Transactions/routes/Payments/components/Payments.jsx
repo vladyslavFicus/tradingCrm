@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import moment from 'moment';
 import { SubmissionError } from 'redux-form';
+import { I18n } from 'react-redux-i18n';
 import PropTypes from '../../../../../../../../../constants/propTypes';
 import GridView, { GridViewColumn } from '../../../../../../../../../components/GridView';
 import {
@@ -77,6 +78,7 @@ class Payments extends Component {
     }).isRequired,
     locale: PropTypes.string.isRequired,
     fetchActiveBonus: PropTypes.func.isRequired,
+    exportEntities: PropTypes.func.isRequired,
   };
   static defaultProps = {
     newPaymentNote: null,
@@ -137,11 +139,7 @@ class Payments extends Component {
       }
     }
 
-    setRenderActions(() => (
-      <button className="btn btn-sm btn-primary-outline" onClick={handleOpenAddPaymentModal}>
-            + Add transaction
-      </button>
-    ));
+    setRenderActions(() => this.renderPaymentActions(handleOpenAddPaymentModal));
   }
 
   componentWillUnmount() {
@@ -297,6 +295,12 @@ class Payments extends Component {
       }
     });
   };
+  
+  handleExport = () => this.props.exportEntities(
+    this.props.match.params.id, {
+      ...this.state.filters,
+    }
+  );
 
   renderTransactionId = data => (
     <GridPaymentInfo
@@ -399,6 +403,31 @@ class Payments extends Component {
       targetEntity={data}
     />
   );
+  
+  renderPaymentActions = (handleOpenAddPaymentModal) => {
+    const { filters } = this.state;
+    const allowActions = Object.keys(filters).filter(i => filters[i]).length > 0;
+    
+    return (
+      <Fragment>
+        <button
+          type="button"
+          disabled={!allowActions}
+          className="btn btn-sm btn-default-outline mr-2"
+          onClick={this.handleExport}
+        >
+          {I18n.t('CONSTANTS.TRANSACTIONS.ACTIONS.EXPORT_TRANSACTIONS')}
+        </button>
+        <button
+          type="button"
+          className="btn btn-sm btn-primary-outline"
+          onClick={handleOpenAddPaymentModal}
+        >
+          {I18n.t('CONSTANTS.TRANSACTIONS.ACTIONS.ADD_TRANSACTION')}
+        </button>
+      </Fragment>
+    );
+  };
 
   render() {
     const { modal } = this.state;
@@ -413,15 +442,13 @@ class Payments extends Component {
     } = this.props;
 
     return (
-      <div>
-
+      <Fragment>
         <TransactionsFilterForm
           onSubmit={this.handleFiltersChanged}
           onReset={this.handleFilterReset}
           currencyCode={playerProfile.currencyCode}
           {...availableFilters}
         />
-
         <div className="tab-wrapper">
           <GridView
             dataSource={entities.content}
@@ -494,7 +521,6 @@ class Payments extends Component {
             {...modal.params}
           />
         }
-
         {
           modal.name === MODAL_PAYMENT_ACTION_REASON &&
           <PaymentActionReasonModal
@@ -505,7 +531,6 @@ class Payments extends Component {
             onSubmit={this.handleChangePaymentStatus}
           />
         }
-
         {
           modal.name === MODAL_PAYMENT_ADD &&
           <PaymentAddModal
@@ -519,7 +544,7 @@ class Payments extends Component {
             playerLimits={playerLimits}
           />
         }
-      </div>
+      </Fragment>
     );
   }
 }

@@ -10,8 +10,10 @@ import Permissions from '../../../../../../../utils/permissions';
 import permissions from '../../../../../../../config/permissions';
 
 const SUBSCRIPTION_TYPE_SMS = 'marketingSMS';
-const SUBSCRIPTION_TYPE_NEWS = 'marketingNews';
+const SUBSCRIPTION_TYPE_EMAIL = 'marketingNews';
 const SUBSCRIPTION_TYPE_MAIL = 'marketingMail';
+const SUBSCRIPTION_TYPE_TAILOR_MADE_EMAIL = 'tailorMadeEmail';
+const SUBSCRIPTION_TYPE_TAILOR_MADE_SMS = 'tailorMadeSMS';
 
 class Additional extends Component {
   static propTypes = {
@@ -20,6 +22,8 @@ class Additional extends Component {
       marketingMail: PropTypes.bool,
       marketingNews: PropTypes.bool,
       marketingSMS: PropTypes.bool,
+      tailorMadeEmail: PropTypes.bool,
+      tailorMadeSMS: PropTypes.bool,
     }),
     updateSubscription: PropTypes.func.isRequired,
   };
@@ -68,12 +72,12 @@ class Additional extends Component {
         <div className="card">
           <div className="card-body">
             <span className="account-details__additional-info__label">
-              {I18n.t('PLAYER_PROFILE.MARKETING.TITLE')}
+              {I18n.t('PLAYER_PROFILE.MARKETING.SENDINGS.TITLE')}
             </span>
             <div className={classNames({ 'account-details__additional-info_disabled-triggers': disabled })}>
               <div className="row">
                 <div className="col-sm-8">
-                  {I18n.t('PLAYER_PROFILE.MARKETING.SMS')}
+                  {I18n.t('PLAYER_PROFILE.MARKETING.SENDINGS.SMS')}
                 </div>
                 <div className="col-sm-4 text-right">
                   <Switch
@@ -85,19 +89,19 @@ class Additional extends Component {
               </div>
               <div className="row">
                 <div className="col-sm-8">
-                  {I18n.t('PLAYER_PROFILE.MARKETING.NEWS')}
+                  {I18n.t('PLAYER_PROFILE.MARKETING.SENDINGS.NEWS')}
                 </div>
                 <div className="col-sm-4 text-right">
                   <Switch
-                    active={initialValues[SUBSCRIPTION_TYPE_NEWS] || false}
-                    handleSwitch={this.handleSwitch(SUBSCRIPTION_TYPE_NEWS)}
+                    active={initialValues[SUBSCRIPTION_TYPE_EMAIL] || false}
+                    handleSwitch={this.handleSwitch(SUBSCRIPTION_TYPE_EMAIL)}
                     disabled={disabled}
                   />
                 </div>
               </div>
               <div className="row">
                 <div className="col-sm-8">
-                  {I18n.t('PLAYER_PROFILE.MARKETING.MAIL')}
+                  {I18n.t('PLAYER_PROFILE.MARKETING.SENDINGS.MAIL')}
                 </div>
                 <div className="col-sm-4 text-right">
                   <Switch
@@ -105,6 +109,37 @@ class Additional extends Component {
                     handleSwitch={this.handleSwitch(SUBSCRIPTION_TYPE_MAIL)}
                     disabled={disabled}
                   />
+                </div>
+              </div>
+            </div>
+            <div className="mt-3">
+              <span className="account-details__additional-info__label">
+                {I18n.t('PLAYER_PROFILE.MARKETING.TAILOR_MADE.TITLE')}
+              </span>
+              <div className={classNames({ 'account-details__additional-info_disabled-triggers': disabled })}>
+                <div className="row">
+                  <div className="col-sm-8">
+                    {I18n.t('PLAYER_PROFILE.MARKETING.TAILOR_MADE.EMAIL')}
+                  </div>
+                  <div className="col-sm-4 text-right">
+                    <Switch
+                      active={initialValues[SUBSCRIPTION_TYPE_TAILOR_MADE_EMAIL] || false}
+                      handleSwitch={this.handleSwitch(SUBSCRIPTION_TYPE_TAILOR_MADE_EMAIL)}
+                      disabled={disabled}
+                    />
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="col-sm-8">
+                    {I18n.t('PLAYER_PROFILE.MARKETING.TAILOR_MADE.SMS')}
+                  </div>
+                  <div className="col-sm-4 text-right">
+                    <Switch
+                      active={initialValues[SUBSCRIPTION_TYPE_TAILOR_MADE_SMS] || false}
+                      handleSwitch={this.handleSwitch(SUBSCRIPTION_TYPE_TAILOR_MADE_SMS)}
+                      disabled={disabled}
+                    />
+                  </div>
                 </div>
               </div>
             </div>

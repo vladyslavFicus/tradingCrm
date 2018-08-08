@@ -8695,7 +8695,7 @@ qs@6.5.1:
   version "6.5.1"
   resolved "https://registry.yarnpkg.com/qs/-/qs-6.5.1.tgz#349cdf6eef89ec45c12d7d5eb3fc0c870343a6d8"
 
-qs@6.5.2, qs@^6.5.1, qs@~6.5.1:
+qs@6.5.2, qs@^6.5.2, qs@~6.5.1:
   version "6.5.2"
   resolved "https://registry.yarnpkg.com/qs/-/qs-6.5.2.tgz#cb3ae806e8740444584ef154ce8ee98d403f3e36"
 
@@ -9206,6 +9206,13 @@ react-with-styles@^2.2.0:
     hoist-non-react-statics "^2.3.1"
     prop-types "^15.6.0"
     react-with-direction "^1.1.0"
+
+react-world-flags@^1.2.4:
+  version "1.2.4"
+  resolved "https://registry.yarnpkg.com/react-world-flags/-/react-world-flags-1.2.4.tgz#6cbb7d4d48d7790375d07414fd527ce5a5708f5b"
+  dependencies:
+    svg-country-flags "^1.2.3"
+    world-countries "^2.0.0"
 
 react@16.3.2:
   version "16.3.2"
@@ -10654,6 +10661,10 @@ supports-color@^5.1.0, supports-color@^5.2.0, supports-color@^5.3.0, supports-co
   dependencies:
     has-flag "^3.0.0"
 
+svg-country-flags@^1.2.3:
+  version "1.2.3"
+  resolved "https://registry.yarnpkg.com/svg-country-flags/-/svg-country-flags-1.2.3.tgz#a649829ec2dd98e97c7b94cb6d8baba07efbc7a2"
+
 svgo@^0.7.0:
   version "0.7.2"
   resolved "https://registry.yarnpkg.com/svgo/-/svgo-0.7.2.tgz#9f5772413952135c6fefbf40afe6a4faa88b4bb5"
@@ -11513,6 +11524,10 @@ worker-farm@^1.5.2, worker-farm@^1.6.0:
   resolved "https://registry.yarnpkg.com/worker-farm/-/worker-farm-1.6.0.tgz#aecc405976fab5a95526180846f0dba288f3a4a0"
   dependencies:
     errno "~0.1.7"
+
+world-countries@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/world-countries/-/world-countries-2.0.0.tgz#a20198c438e2f78aca040d68dedeea0bc26adc6e"
 
 wrap-ansi@^2.0.0:
   version "2.1.0"

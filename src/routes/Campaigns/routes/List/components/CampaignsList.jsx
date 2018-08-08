@@ -19,7 +19,6 @@ class CampaignsList extends Component {
       }),
     }).isRequired,
     campaigns: PropTypes.shape({
-      refetch: PropTypes.func.isRequired,
       loading: PropTypes.bool.isRequired,
       loadMoreCampaigns: PropTypes.func.isRequired,
       campaigns: PropTypes.shape({

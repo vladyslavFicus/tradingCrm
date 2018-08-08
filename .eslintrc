@@ -68,6 +68,7 @@
     "radix": 0,
     "react/jsx-no-undef": [2, { "allowGlobals": true }],
     "object-curly-newline": "off",
+    "jsx-a11y/no-noninteractive-element-interactions": "off",
     "function-paren-newline": ["error", "consistent"]
   }
 }

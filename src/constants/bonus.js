@@ -3,6 +3,7 @@ import I18n from '../utils/fake-i18n';
 
 const statuses = keyMirror({
   INACTIVE: null,
+  STARTING: null,
   IN_PROGRESS: null,
   WAGERING_COMPLETE: null,
   CONSUMED: null,
@@ -26,6 +27,11 @@ const moneyTypeUsage = keyMirror({
   REAL_MONEY_FIRST: null,
   BONUS_MONEY_FIRST: null,
 });
+const actions = {
+  ACCEPT: 'accept',
+  CANCEL: 'cancel',
+  PERMIT_CONVERSION: 'permit-conversion',
+};
 
 const statusesLabels = {
   [statuses.INACTIVE]: I18n.t('CONSTANTS.BONUS.STATUSES.INACTIVE'),
@@ -77,6 +83,11 @@ const typesProps = {
     className: 'color-success font-weight-700 text-uppercase',
   },
 };
+const mapActionToState = {
+  [actions.accept]: statuses.IN_PROGRESS,
+  [actions.cancel]: statuses.CANCELLED,
+  [actions.PERMIT_CONVERSION]: statuses.WAGERING_COMPLETE,
+};
 
 export {
   statuses,
@@ -90,4 +101,6 @@ export {
   cancellationReason,
   moneyTypeUsage,
   moneyTypeUsageLabels,
+  actions,
+  mapActionToState,
 };
