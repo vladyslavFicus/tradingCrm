@@ -108,7 +108,6 @@ class Feed extends Component {
         <div className="tab-wrapper">
           <ListView
             dataSource={entities.content}
-            itemClassName="mb-4"
             onPageChange={this.handlePageChanged}
             render={(item, key) => {
               const options = {

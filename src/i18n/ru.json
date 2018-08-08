@@ -665,11 +665,14 @@
       }
     },
     "NOTES": {
+      "TITLE": "Заметки",
       "FILTER": {
         "LABELS": {
-          "SEARCH_BY": "Поиск по",
+          "SEARCH_BY": "Поиск",
+          "SEARCH_BY_PLACEHOLDER": "Поиск по",
           "TARGET_TYPE": "Тип",
-          "CREATION_DATE_RANGE": "Период даты создания"
+          "CREATION_DATE_RANGE": "Период даты создания",
+          "ALL_TYPES": "Все типы"
         }
       }
     },
@@ -874,7 +877,8 @@
       "START_DATE": "",
       "END_DATE": ""
     },
-    "CONFIRM_ACTION": "Подтвердить действие"
+    "CONFIRM_ACTION": "Подтвердить действие",
+    "PINNED_NOTE": "Закрепленная заметка"
   },
   "FILES": {
     "UPLOAD_MODAL": {

@@ -1,14 +1,11 @@
 import React, { Component, Fragment } from 'react';
-import moment from 'moment';
 import { I18n } from 'react-redux-i18n';
+import PropTypes from '../../../../../../../constants/propTypes';
 import NotesGridFilter from './NotesGridFilter';
 import ListView from '../../../../../../../components/ListView';
-import PropTypes from '../../../../../../../constants/propTypes';
-import PopoverButton from '../../../../../../../components/PopoverButton';
-import { entities, entitiesPrefixes } from '../../../../../../../constants/uuid';
-import Uuid from '../../../../../../../components/Uuid';
 import TabHeader from '../../../../../../../components/TabHeader';
 import history from '../../../../../../../router/history';
+import NoteItem from '../../../../../../../components/NoteItem';
 
 class Notes extends Component {
   static propTypes = {
@@ -101,61 +98,7 @@ class Notes extends Component {
     }
   };
 
-  renderItem = data => (
-    <div className="feed-item margin-bottom-20">
-      <div className="feed-item_avatar">
-        <div className="feed-item_avatar-letter feed-item_avatar-letter_blue">o</div>
-      </div>
-      <div className="feed-item_info">
-        <div className="feed-item_cheading">
-          <div className="color-secondary">
-            {
-              data.author &&
-              <span className="font-weight-700 feed-item_author">{`${data.author} - `}</span>
-            }
-            {
-              data.lastEditorUUID &&
-              <Uuid uuid={data.lastEditorUUID} uuidPrefix={entitiesPrefixes[entities.operator]} />
-            }
-          </div>
-          <div className="font-size-11 color-secondary">
-            {
-              data.lastEditionDate
-                ? moment.utc(data.lastEditionDate).local().format('DD.MM.YYYY HH:mm:ss')
-                : I18n.t('COMMON.UNKNOWN_TIME')
-            }
-            {' '}
-            {I18n.t('COMMON.TO')}
-            {' '}
-            <Uuid uuid={data.targetUUID} uuidPrefix={entitiesPrefixes[data.targetType]} />
-          </div>
-        </div>
-        <div className="note panel margin-top-5">
-          <div className="feed-item_content">
-            <div className="row">
-              <div className="col-md-11">
-                {data.content}
-                {
-                  data.pinned &&
-                  <div className="pt-2">
-                    <span className="badge badge-info text-uppercase font-size-11">Pinned Note</span>
-                  </div>
-                }
-              </div>
-              <div className="col-md-1 text-right">
-                <PopoverButton
-                  id={`note-item-${data.uuid}`}
-                  onClick={id => this.handleNoteClick(id, data)}
-                >
-                  <i className="note-icon note-with-text" />
-                </PopoverButton>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
+  renderItem = data => <NoteItem data={data} handleNoteClick={this.handleNoteClick} />;
 
   render() {
     const {
@@ -172,7 +115,7 @@ class Notes extends Component {
 
     return (
       <Fragment>
-        <TabHeader title="Notes" />
+        <TabHeader title={I18n.t('PLAYER_PROFILE.NOTES.TITLE')} />
         <NotesGridFilter
           onSubmit={this.handleFiltersChanged}
           availableTypes={availableTypes}
