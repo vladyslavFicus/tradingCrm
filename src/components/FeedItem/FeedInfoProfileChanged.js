@@ -1,18 +1,13 @@
 import React from 'react';
 import PropTypes from '../../constants/propTypes';
 import { attributeLabels } from '../../constants/user';
+import FeedDetails from './FeedDetails';
 
-const FeedInfoProfileChanged = ({ data }) => (
-  <div className="feed-item_info-details">
-    {Object.keys(data.details).map(attribute => (
-      <div key={attribute}>
-        {attributeLabels[attribute] || attribute}:
-        <span className="feed-item_info-details_value">
-          {data.details[attribute].toString()}
-        </span>
-      </div>
-    ))}
-  </div>
+const FeedInfoProfileChanged = ({ data: { details } }) => (
+  <FeedDetails
+    items={details}
+    attributeLabels={attributeLabels}
+  />
 );
 
 FeedInfoProfileChanged.propTypes = {

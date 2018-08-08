@@ -935,7 +935,14 @@
         "OPERATOR_ACCOUNT_CREATED": "Оператор - Аккаунт создан",
         "PLAYER_PROFILE_VIEWED": "Просмотр профиля игрока",
         "FAILED_LOGIN_ATTEMPT": "Ошибка при попытке входа в систему",
-        "KYC_REQUESTED": "KYC - Верификация - запрошена"
+        "KYC_REQUESTED": "KYC - Верификация - запрошена",
+        "KYC_CONFIRMATION": "KYC - Верификация - пройдено",
+        "ROFUS_VERIFICATION": "Rofus - верификация",
+        "PLAYER_PROFILE_BLOCKED": "Профиль заблокирован",
+        "PLAYER_PROFILE_UNBLOCKED": "Профиль разблокирован",
+        "RESET_PASSWORD": "Сброс пароля",
+        "CHANGE_PASSWORD": "Изменение пароля",
+        "NEM_ID_SIGN_IN": "NEM-ID вход"
       }
     },
     "OPERATORS": {

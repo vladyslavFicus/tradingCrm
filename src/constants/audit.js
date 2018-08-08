@@ -18,6 +18,13 @@ const types = keyMirror({
   OPERATOR_ACCOUNT_CREATED: null,
   FAILED_LOGIN_ATTEMPT: null,
   KYC_REQUESTED: null,
+  KYC_CONFIRMATION: null,
+  ROFUS_VERIFICATION: null,
+  PLAYER_PROFILE_BLOCKED: null,
+  PLAYER_PROFILE_UNBLOCKED: null,
+  RESET_PASSWORD: null,
+  CHANGE_PASSWORD: null,
+  NEM_ID_SIGN_IN: null,
 });
 const typesLabels = {
   [types.LOG_IN]: I18n.t('CONSTANTS.AUDIT.TYPES.LOG_IN'),
@@ -36,6 +43,13 @@ const typesLabels = {
   [types.OPERATOR_ACCOUNT_CREATED]: I18n.t('CONSTANTS.AUDIT.TYPES.OPERATOR_ACCOUNT_CREATED'),
   [types.FAILED_LOGIN_ATTEMPT]: I18n.t('CONSTANTS.AUDIT.TYPES.FAILED_LOGIN_ATTEMPT'),
   [types.KYC_REQUESTED]: I18n.t('CONSTANTS.AUDIT.TYPES.KYC_REQUESTED'),
+  [types.KYC_CONFIRMATION]: I18n.t('CONSTANTS.AUDIT.TYPES.KYC_CONFIRMATION'),
+  [types.ROFUS_VERIFICATION]: I18n.t('CONSTANTS.AUDIT.TYPES.ROFUS_VERIFICATION'),
+  [types.PLAYER_PROFILE_BLOCKED]: I18n.t('CONSTANTS.AUDIT.TYPES.PLAYER_PROFILE_BLOCKED'),
+  [types.PLAYER_PROFILE_UNBLOCKED]: I18n.t('CONSTANTS.AUDIT.TYPES.PLAYER_PROFILE_UNBLOCKED'),
+  [types.RESET_PASSWORD]: I18n.t('CONSTANTS.AUDIT.TYPES.RESET_PASSWORD'),
+  [types.CHANGE_PASSWORD]: I18n.t('CONSTANTS.AUDIT.TYPES.CHANGE_PASSWORD'),
+  [types.NEM_ID_SIGN_IN]: I18n.t('CONSTANTS.AUDIT.TYPES.NEM_ID_SIGN_IN'),
 };
 const typesClassNames = {
   [types.LOG_IN]: 'feed-item_info-status__blue',
@@ -53,6 +67,13 @@ const typesClassNames = {
   [types.OPERATOR_ACCOUNT_CREATED]: '',
   [types.FAILED_LOGIN_ATTEMPT]: 'feed-item_info-status__red',
   [types.KYC_REQUESTED]: 'feed-item_info-status__green',
+  [types.KYC_CONFIRMATION]: 'feed-item_info-status__green',
+  [types.ROFUS_VERIFICATION]: 'feed-item_info-status__green',
+  [types.PLAYER_PROFILE_BLOCKED]: 'feed-item_info-status__red',
+  [types.PLAYER_PROFILE_UNBLOCKED]: 'feed-item_info-status__blue',
+  [types.RESET_PASSWORD]: 'feed-item_info-status__blue',
+  [types.CHANGE_PASSWORD]: 'feed-item_info-status__blue',
+  [types.NEM_ID_SIGN_IN]: 'feed-item_info-status__blue',
 };
 
 export {

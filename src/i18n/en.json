@@ -928,7 +928,14 @@
         "OPERATOR_ACCOUNT_CREATED": "Operator - Account created",
         "PLAYER_PROFILE_VIEWED": "Players' profile viewed",
         "FAILED_LOGIN_ATTEMPT": "Failed login attempt registered",
-        "KYC_REQUESTED": "KYC - Verification - requested"
+        "KYC_REQUESTED": "KYC - Verification - requested",
+        "KYC_CONFIRMATION": "KYC - Verification - confirmation",
+        "ROFUS_VERIFICATION": "Rofus - verification",
+        "PLAYER_PROFILE_BLOCKED": "Player profile blocked",
+        "PLAYER_PROFILE_UNBLOCKED": "Player profile unblock",
+        "RESET_PASSWORD": "Reset password",
+        "CHANGE_PASSWORD": "Change password",
+        "NEM_ID_SIGN_IN": "NEM-ID sign in"
       }
     },
     "OPERATORS": {

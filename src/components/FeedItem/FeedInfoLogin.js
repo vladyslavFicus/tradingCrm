@@ -5,42 +5,38 @@ import PropTypes from '../../constants/propTypes';
 
 const FeedInfoLogin = ({ data }) => (
   <div className="feed-item_info-details">
-    {
-      data.details.sessionId &&
+    <If condition={data.details.sessionId}>
       <div>
         {I18n.t('FEED_ITEM.LOG_IN.SESSION_ID')}:
         <span className="feed-item_info-details_value">
           {data.details.sessionId}
         </span>
       </div>
-    }
-    {
-      data.ip &&
+    </If>
+    <If condition={data.ip}>
       <div>
         {I18n.t('FEED_ITEM.LOG_IN.SESSION_IP')}:
         <span className="feed-item_info-details_value">
           {data.ip}
         </span>
       </div>
-    }
-    {
-      data.details.sessionStart &&
+    </If>
+    <If condition={data.details.sessionStart}>
       <div>
         {I18n.t('FEED_ITEM.LOG_IN.SESSION_START')}:
         <span className="feed-item_info-details_value">
           {moment.utc(data.details.sessionStart).local().format('DD.MM.YYYY \\a\\t HH:mm:ss')}
         </span>
       </div>
-    }
-    {
-      data.details.device &&
+    </If>
+    <If condition={data.details.device}>
       <div>
         {I18n.t('FEED_ITEM.LOG_IN.DEVICE')}:
         <span className="feed-item_info-details_value">
           {data.details.device}
         </span>
       </div>
-    }
+    </If>
   </div>
 );
 
