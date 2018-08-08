@@ -4,7 +4,7 @@
   display: flex;
   align-items: flex-start;
   margin-top: 10px;
-  &__letter {
+  &__letters {
     flex: 0 0 40px;
     max-width: 40px;
     height: 40px;
@@ -20,7 +20,7 @@
     color: #fff;
   }
   &__content-wrapper {
-    flex: 1 0 auto;
+    flex: 1;
   }
   &__heading {
     line-height: 1.2;

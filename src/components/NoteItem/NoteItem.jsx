@@ -27,7 +27,7 @@ const NoteItem = (props) => {
 
   return (
     <div className="note-item">
-      <div className="note-item__letter">
+      <div className="note-item__letters">
         {letters}
       </div>
       <div className="note-item__content-wrapper">
@@ -84,7 +84,7 @@ NoteItem.propTypes = {
     lastEditionDate: PropTypes.string,
     targetUUID: PropTypes.string.isRequired,
     targetType: PropTypes.string.isRequired,
-    content: PropTypes.any.isRequired,
+    content: PropTypes.string.isRequired,
     pinned: PropTypes.bool,
     uuid: PropTypes.string.isRequired,
   }).isRequired,
