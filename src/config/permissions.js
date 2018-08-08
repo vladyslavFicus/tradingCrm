@@ -51,6 +51,7 @@ export default {
     DELETE_FILE: 'profile;DELETE;files/{playerUUID}/{fileUUID}',
     VERIFY_PHONE: 'profile;POST;/verification/{playerUUID}/phone',
     VERIFY_EMAIL: 'profile;POST;/verification/{playerUUID}',
+    CHANGE_PASSWORD: 'auth;POST;/credentials/{uuid}/password',
   },
   PAYMENT: {
     PLAYER_LIMITS_LIST: 'payment;GET;/limits/{playerUUID}',
