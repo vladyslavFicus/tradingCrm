@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { pickBy } from 'lodash';
 import PropTypes from 'prop-types';
 
@@ -27,7 +27,7 @@ class FeedDetails extends Component {
     const { items, attributeLabels } = this.props;
 
     return (
-      <div className="feed-item_info-details">
+      <Fragment>
         {Object.keys(pickBy(items)).map(i => (
           <div key={i}>
             {attributeLabels[i] || i}: {' '}
@@ -36,7 +36,7 @@ class FeedDetails extends Component {
             </span>
           </div>
         ))}
-      </div>
+      </Fragment>
     );
   }
 }
