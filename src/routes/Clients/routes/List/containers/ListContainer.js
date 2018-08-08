@@ -7,7 +7,7 @@ import { actionCreators as miniProfileActionCreators } from '../../../../../redu
 import List from '../components/List';
 import config from '../../../../../config';
 import countries from '../../../../../utils/countryList';
-import { clientsQuery } from '../../../../../graphql/queries/clients';
+import { profilesQuery } from '../../../../../graphql/queries/profile';
 
 const mapStateToProps = ({
   usersList: list,
@@ -32,8 +32,8 @@ const mapActions = {
 
 export default compose(
   connect(mapStateToProps, mapActions),
-  graphql(clientsQuery, {
-    name: 'clients',
+  graphql(profilesQuery, {
+    name: 'profiles',
     options: ({ location: { query } }) => ({
       variables: {
         ...query ? query.filters : { registrationDateFrom: moment().startOf('day').utc().format() },
@@ -41,27 +41,27 @@ export default compose(
         size: 20,
       },
     }),
-    props: ({ clients: { clients, fetchMore, ...rest } }) => {
-      const newPage = get(clients, 'data.page') || 1;
+    props: ({ profiles: { profiles, fetchMore, ...rest } }) => {
+      const newPage = get(profiles, 'data.page') || 1;
 
       return {
-        clients: {
+        profiles: {
           ...rest,
-          clients,
-          loadMoreClients: () => fetchMore({
+          profiles,
+          loadMore: () => fetchMore({
             variables: { page: newPage + 1 },
             updateQuery: (previousResult, { fetchMoreResult }) => {
               if (!fetchMoreResult) {
                 return previousResult;
               }
 
-              if (fetchMoreResult.clients.error) {
+              if (fetchMoreResult.profiles.error) {
                 return {
                   ...previousResult,
                   ...fetchMoreResult,
-                  clients: {
-                    ...previousResult.clients,
-                    ...fetchMoreResult.clients,
+                  profiles: {
+                    ...previousResult.profiles,
+                    ...fetchMoreResult.profiles,
                   },
                 };
               }
@@ -69,16 +69,16 @@ export default compose(
               return {
                 ...previousResult,
                 ...fetchMoreResult,
-                clients: {
-                  ...previousResult.clients,
-                  ...fetchMoreResult.clients,
+                profiles: {
+                  ...previousResult.profiles,
+                  ...fetchMoreResult.profiles,
                   data: {
-                    ...previousResult.clients.data,
-                    ...fetchMoreResult.clients.data,
-                    page: fetchMoreResult.clients.data.page,
+                    ...previousResult.profiles.data,
+                    ...fetchMoreResult.profiles.data,
+                    page: fetchMoreResult.profiles.data.page,
                     content: [
-                      ...previousResult.clients.data.content,
-                      ...fetchMoreResult.clients.data.content,
+                      ...previousResult.profiles.data.content,
+                      ...fetchMoreResult.profiles.data.content,
                     ],
                   },
                 },

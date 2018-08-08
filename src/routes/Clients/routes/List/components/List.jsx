@@ -41,11 +41,11 @@ class List extends Component {
       brandId: PropTypes.string,
       uuid: PropTypes.string,
     }).isRequired,
-    clients: PropTypes.shape({
-      clients: PropTypes.shape({
+    profiles: PropTypes.shape({
+      profiles: PropTypes.shape({
         data: PropTypes.pageable(PropTypes.any),
       }),
-      loadMoreClients: PropTypes.func.isRequired,
+      loadMore: PropTypes.func.isRequired,
       loading: PropTypes.bool.isRequired,
     }).isRequired,
     location: PropTypes.shape({
@@ -72,14 +72,14 @@ class List extends Component {
 
   handlePageChanged = () => {
     const {
-      clients: {
-        loadMoreClients,
+      profiles: {
+        loadMore,
         loading,
       },
     } = this.props;
 
     if (!loading) {
-      loadMoreClients();
+      loadMore();
     }
   };
 
@@ -104,7 +104,7 @@ class List extends Component {
   };
 
   handleSelectedRow = (condition, index, touchedRowsIds) => {
-    const { clients: { clients: { data: { content } } } } = this.props;
+    const { profiles: { profiles: { data: { content } } } } = this.props;
     const selectedRows = [...this.state.selectedRows];
 
     if (condition) {
@@ -120,7 +120,7 @@ class List extends Component {
   };
 
   handleAllRowsSelect = () => {
-    const { clients: { clients: { data: { totalElements } } } } = this.props;
+    const { profiles: { profiles: { data: { totalElements } } } } = this.props;
     const { allRowsSelected } = this.state;
 
     this.setState({
@@ -180,7 +180,7 @@ class List extends Component {
       tags,
       currencies,
       countries,
-      clients,
+      profiles,
       fetchPlayerMiniProfile,
       auth,
       location: { query },
@@ -192,7 +192,7 @@ class List extends Component {
       touchedRowsIds,
     } = this.state;
 
-    const entities = get(clients, 'clients.data') || { content: [] };
+    const entities = get(profiles, 'profiles.data') || { content: [] };
     const filters = get(query, 'filters', {});
 
     const allowActions = Object
