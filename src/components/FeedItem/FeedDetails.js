@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { pickBy } from 'lodash';
 import PropTypes from 'prop-types';
+import renderLabel from '../../utils/renderLabel';
 
 class FeedDetails extends Component {
   static propTypes = {
@@ -27,16 +28,15 @@ class FeedDetails extends Component {
     const { items, attributeLabels } = this.props;
 
     return (
-      <Fragment>
-        {Object.keys(pickBy(items)).map(i => (
-          <div key={i}>
-            {attributeLabels[i] || i}: {' '}
-            <span className="feed-item_info-details_value">
-              {this.formatValue(i, items[i].toString())}
-            </span>
-          </div>
-        ))}
-      </Fragment>
+      Object.keys(pickBy(items)).map(i => (
+        <Fragment key={i}>
+          {renderLabel(i, attributeLabels)}:
+          <span className="feed-item__content-value">
+            {this.formatValue(i, items[i].toString())}
+          </span>
+          <br />
+        </Fragment>
+      ))
     );
   }
 }

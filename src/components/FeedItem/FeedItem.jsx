@@ -16,9 +16,9 @@ import FeedInfoOperatorCreation from './FeedInfoOperatorCreation';
 import FeedInfoPlayerProfileViewed from './FeedInfoPlayerProfileViewed';
 import FeedInfoFailedLoginAttempt from './FeedInfoFailedLoginAttempt';
 import FeedInfoKycRequest from './FeedInfoKycRequest';
-import FeedInfoProfileBlocked from './FeedInfoProfileBlocked';
-import FeedInfoProfileUnblocked from './FeedInfoProfileUnblocked';
-import FeedDetails from './FeedDetails';
+import FeedInfoKycConfirmation from './FeedInfoKycConfirmation';
+import FeedInfoProfileBlocks from './FeedInfoProfileBlocks';
+import FeedInfoRofusVerification from './FeedInfoRofusVerification';
 import Uuid from '../Uuid';
 import './FeedItem.scss';
 
@@ -65,12 +65,12 @@ class FeedItem extends Component {
       case types.KYC_REQUESTED:
         return <FeedInfoKycRequest data={data} />;
       case types.KYC_CONFIRMATION:
+        return <FeedInfoKycConfirmation data={data} />;
       case types.ROFUS_VERIFICATION:
-        return <FeedDetails items={data.details} />;
+        return <FeedInfoRofusVerification data={data} />;
       case types.PLAYER_PROFILE_BLOCKED:
-        return <FeedInfoProfileBlocked data={data} />;
       case types.PLAYER_PROFILE_UNBLOCKED:
-        return <FeedInfoProfileUnblocked data={data} />;
+        return <FeedInfoProfileBlocks data={data} />;
       default:
         return null;
     }

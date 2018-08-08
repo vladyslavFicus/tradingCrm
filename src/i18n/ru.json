@@ -706,6 +706,7 @@
   },
   "COMMON": {
     "SAVE_CHANGES": "Сохранить изменения",
+    "STATUS": "Статус",
     "RESET": "Сбросить",
     "APPLY": "Применить",
     "EXPORT": "Экспорт",
@@ -878,7 +879,8 @@
       "END_DATE": ""
     },
     "CONFIRM_ACTION": "Подтвердить действие",
-    "PINNED_NOTE": "Закрепленная заметка"
+    "PINNED_NOTE": "Закрепленная заметка",
+    "IDENTIFIER": "ID номер"
   },
   "FILES": {
     "UPLOAD_MODAL": {
@@ -947,6 +949,16 @@
         "RESET_PASSWORD": "Сброс пароля",
         "CHANGE_PASSWORD": "Изменение пароля",
         "NEM_ID_SIGN_IN": "NEM-ID вход"
+      },
+      "KYC_CONFIRMATION": {
+        "TRANSACTION": "ID транзакции",
+        "MERCHANT_TRANSACTION": "ID транзакции мерчанта",
+        "DESCRIPTION": "Описание",
+        "STATE": "Состояние"
+      },
+      "ROFUS_VERIFICATION": {
+        "ACTION": "Действие",
+        "RESULT": "Результат"
       }
     },
     "OPERATORS": {
