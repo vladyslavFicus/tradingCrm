@@ -14,7 +14,6 @@ class ListView extends Component {
     onPageChange: PropTypes.func,
     activePage: PropTypes.number,
     totalPages: PropTypes.number,
-    itemClassName: PropTypes.string,
     locale: PropTypes.string.isRequired,
     showNoResults: PropTypes.bool,
     last: PropTypes.bool,
@@ -26,7 +25,6 @@ class ListView extends Component {
     onPageChange: null,
     activePage: 0,
     totalPages: null,
-    itemClassName: null,
     last: true,
   };
 
@@ -77,14 +75,21 @@ class ListView extends Component {
     const items = dataSource.map((data, key) => this.renderItem(key, data));
     const hasMore = totalPages && activePage ? totalPages > activePage : !last;
 
-    return lazyLoad ?
-      <InfiniteScroll
-        loadMore={() => this.handlePageChange(activePage + 1)}
-        element="div"
-        hasMore={hasMore}
-      >
-        {items}
-      </InfiniteScroll> : <div>{items}</div>;
+    return (
+      <Choose>
+        <When condition={lazyLoad}>
+          <InfiniteScroll
+            loadMore={() => this.handlePageChange(activePage + 1)}
+            hasMore={hasMore}
+          >
+            {items}
+          </InfiniteScroll>
+        </When>
+        <Otherwise>
+          {items}
+        </Otherwise>
+      </Choose>
+    );
   };
 
   renderItem = (key, data) => {
@@ -95,9 +100,9 @@ class ListView extends Component {
     const content = this.props.render.call(null, data, this.props, this.state.filters);
 
     return (
-      <div className={this.props.itemClassName} key={key}>
+      <Fragment key={key}>
         {content}
-      </div>
+      </Fragment>
     );
   };
 
