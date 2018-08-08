@@ -1,5 +1,91 @@
 import gql from 'graphql-tag';
 
+const profilesQuery = gql`query getProfiles(
+  $page: Int,
+  $size: Int,
+  $acquisitionStatus: String,
+  $balanceFrom: Float,
+  $balanceTo: Float,
+  $countries: [String],
+  $registrationDateFrom: String,
+  $registrationDateTo: String,
+  $searchValue: String,
+  $status: String,
+) {
+  profiles(
+    page: $page,
+    size: $size,
+    acquisitionStatus: $acquisitionStatus,
+    balanceFrom: $balanceFrom,
+    balanceTo: $balanceTo,
+    countries: $countries,
+    registrationDateFrom: $registrationDateFrom,
+    registrationDateTo: $registrationDateTo,
+    searchValue: $searchValue,
+    status: $status,
+    ) {
+      error {
+        error
+      }
+      data {
+        page
+        number
+        totalElements
+        size
+        last
+        content {
+          playerUUID
+          kycCompleted
+          age
+          firstName
+          lastName
+          currency
+          country
+          affiliateId
+          username
+          languageCode
+          profileStatus
+          profileStatusDate
+          tradingProfile {
+            isTestUser
+            aquisitionRep
+            aquisitionStatus
+            kycRep
+            kycStatus
+            salesRep
+            salesStatus
+            retentionRep
+            retentionStatus
+            balance
+            equity
+            baseCurrencyEquity
+            baseCurrencyBalance
+            mt4Users {
+              login
+              balance
+              equity
+              symbol
+            }
+            firstDepositDate
+            lastDepositDate
+            firstWithdrawalDate
+            lastWithdrawalDate
+            depositCount
+            withdrawalCount
+          }
+          signInIps {
+            country
+            sessionStart
+            browserAgent
+            ip
+            sessionId
+            uuid
+          }
+        }
+      }
+    }
+}`;
+
 const profileQuery = gql`query profileData($playerUUID: String!){
   playerProfile(playerUUID: $playerUUID) {
     data {
@@ -177,5 +263,6 @@ export {
   locksQuery,
   realBaseCurrencyQuery,
   clientPaymentsStatistic,
+  profilesQuery,
 };
 

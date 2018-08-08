@@ -1,43 +1,38 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import moment from 'moment';
 import { I18n } from 'react-redux-i18n';
 import PropTypes from '../../constants/propTypes';
 
 const FeedInfoLogin = ({ data }) => (
-  <div className="feed-item_info-details">
+  <Fragment>
     <If condition={data.details.sessionId}>
-      <div>
-        {I18n.t('FEED_ITEM.LOG_IN.SESSION_ID')}:
-        <span className="feed-item_info-details_value">
-          {data.details.sessionId}
-        </span>
-      </div>
+      {I18n.t('FEED_ITEM.LOG_IN.SESSION_ID')}:
+      <span className="feed-item__content-value">
+        {data.details.sessionId}
+      </span>
+      <br />
     </If>
     <If condition={data.ip}>
-      <div>
-        {I18n.t('FEED_ITEM.LOG_IN.SESSION_IP')}:
-        <span className="feed-item_info-details_value">
-          {data.ip}
-        </span>
-      </div>
+      {I18n.t('FEED_ITEM.LOG_IN.SESSION_IP')}:
+      <span className="feed-item__content-value">
+        {data.ip}
+      </span>
+      <br />
     </If>
     <If condition={data.details.sessionStart}>
-      <div>
-        {I18n.t('FEED_ITEM.LOG_IN.SESSION_START')}:
-        <span className="feed-item_info-details_value">
-          {moment.utc(data.details.sessionStart).local().format('DD.MM.YYYY \\a\\t HH:mm:ss')}
-        </span>
-      </div>
+      {I18n.t('FEED_ITEM.LOG_IN.SESSION_START')}:
+      <span className="feed-item__content-value">
+        {moment.utc(data.details.sessionStart).local().format('DD.MM.YYYY \\a\\t HH:mm:ss')}
+      </span>
+      <br />
     </If>
     <If condition={data.details.device}>
-      <div>
-        {I18n.t('FEED_ITEM.LOG_IN.DEVICE')}:
-        <span className="feed-item_info-details_value">
-          {data.details.device}
-        </span>
-      </div>
+      {I18n.t('FEED_ITEM.LOG_IN.DEVICE')}:
+      <span className="feed-item__content-value">
+        {data.details.device}
+      </span>
     </If>
-  </div>
+  </Fragment>
 );
 
 FeedInfoLogin.propTypes = {

@@ -660,11 +660,14 @@
       }
     },
     "NOTES": {
+      "TITLE": "Notes",
       "FILTER": {
         "LABELS": {
-          "SEARCH_BY": "Author, targetUUID",
+          "SEARCH_BY": "Search",
+          "SEARCH_BY_PLACEHOLDER": "Author, targetUUID",
           "TARGET_TYPE": "Target type",
-          "CREATION_DATE_RANGE": "Creation date range"
+          "CREATION_DATE_RANGE": "Creation date range",
+          "ALL_TYPES": "All types"
         }
       }
     },
@@ -867,7 +870,8 @@
     "UPLOAD": "Upload",
     "ADD_DOCUMENT": "+ Add document",
     "UNKNOWN_ERROR": "Unknown error",
-    "CONFIRM_ACTION": "Confirm action"
+    "CONFIRM_ACTION": "Confirm action",
+    "PINNED_NOTE": "Pinned note"
   },
   "FILES": {
     "UPLOAD_MODAL": {

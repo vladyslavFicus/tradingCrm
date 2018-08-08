@@ -65,7 +65,7 @@ class NotesGridFilter extends Component {
         <Field
           name="searchValue"
           type="text"
-          label="Search by"
+          label={I18n.t(attributeLabels.searchBy)}
           placeholder={I18n.t(attributeLabels.searchValue)}
           component={InputField}
           inputAddon={<i className="icon icon-search" />}
@@ -77,7 +77,7 @@ class NotesGridFilter extends Component {
           component={SelectField}
           className="filter-row__medium"
         >
-          <option value="">All types</option>
+          <option value="">{I18n.t('PLAYER_PROFILE.NOTES.FILTER.LABELS.ALL_TYPES')}</option>
           {availableTypes.map(type => (
             <option key={type} value={type}>
               {targetTypesLabels[type] || type}

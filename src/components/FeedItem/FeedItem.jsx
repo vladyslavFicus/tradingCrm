@@ -20,11 +20,12 @@ import FeedInfoProfileBlocked from './FeedInfoProfileBlocked';
 import FeedInfoProfileUnblocked from './FeedInfoProfileUnblocked';
 import FeedDetails from './FeedDetails';
 import Uuid from '../Uuid';
+import './FeedItem.scss';
 
 class FeedItem extends Component {
   static propTypes = {
     letter: PropTypes.string.isRequired,
-    color: PropTypes.oneOf(['', 'orange', 'blue']).isRequired,
+    color: PropTypes.oneOf(['orange', 'blue']).isRequired,
     data: PropTypes.auditEntity.isRequired,
   };
   state = {
@@ -81,74 +82,81 @@ class FeedItem extends Component {
       letter,
       color,
       data,
+      data: {
+        details,
+        type,
+        uuid,
+        authorFullName,
+        authorUuid,
+        creationDate,
+        ip,
+      },
     } = this.props;
 
-    const hasInformation = size(data.details) > 0;
+    const hasInformation = size(details) > 0;
 
     return (
       <div className="feed-item">
-        <div className="feed-item_avatar">
-          <div className={`feed-item_avatar-letter feed-item_avatar-letter_${color}`}>
-            {letter}
-          </div>
+        <div className={classNames('feed-item__letters', color)}>
+          {letter}
         </div>
-        <div className="feed-item_info">
-          <div className={classNames('feed-item_info-status', typesClassNames[data.type])}>
-            {
-              data.type && typesLabels[data.type]
-                ? I18n.t(typesLabels[data.type])
-                : data.type
-            }
-            <span className="pull-right">{shortify(data.uuid)}</span>
-          </div>
-          <div className="feed-item_info-name">
-            <span className={classNames('audit-name', color)}>
-              {data.authorFullName}
-            </span>
-            {
-              !!data.authorUuid &&
-              <span>
-                {' - '}
+        <div className="feed-item__content-wrapper">
+          <div className="feed-item__heading">
+            <div className="row no-gutters">
+              <div className={classNames('col feed-item__status', typesClassNames[type])}>
+                <Choose>
+                  <When condition={type && typesLabels[type]}>
+                    {I18n.t(typesLabels[type])}
+                  </When>
+                  <Otherwise>
+                    {type}
+                  </Otherwise>
+                </Choose>
+              </div>
+              <div className="col-auto pl-1 feed-item__uuid">
+                {shortify(uuid)}
+              </div>
+            </div>
+            <div className="feed-item__author">
+              <span className={classNames('feed-item__author-name', color)}>
+                {authorFullName}
+              </span>
+              <If condition={authorUuid}>
+                <span className="mx-1">-</span>
                 <Uuid
-                  uuid={data.authorUuid}
+                  uuid={authorUuid}
                   uuidPrefix={
-                    data.authorUuid.indexOf('OPERATOR') === -1
-                      ? data.authorUuid.indexOf('PLAYER') === -1 ? 'PL' : null
-                      : null
+                    <Choose>
+                      <When condition={authorUuid.indexOf('OPERATOR') === -1}>
+                        OP
+                      </When>
+                      <When condition={authorUuid.indexOf('PLAYER') === -1}>
+                        PL
+                      </When>
+                    </Choose>
                   }
                 />
-              </span>
-            }
-          </div>
-          <div className="feed-item_info-date">
-            {data.creationDate ? moment.utc(data.creationDate).local().format('DD.MM.YYYY HH:mm:ss') : null}
-            {
-              [types.LOG_IN, types.LOG_OUT].indexOf(data.type) === -1 && data.ip
-                ? ` ${I18n.t('COMMON.FROM')} ${data.ip}`
-                : null
-            }
-            {
-              hasInformation &&
-              <button className="feed-item_info-date_btn-hide btn-transparent" onClick={this.handleToggleClick}>
-                {
-                  opened
-                    ? (
-                      <span>
-                        {I18n.t('COMMON.DETAILS_COLLAPSE.HIDE')}
-                        <i className="fa fa-caret-up" />
-                      </span>
-                    )
-                    : (
-                      <span>
-                        {I18n.t('COMMON.DETAILS_COLLAPSE.SHOW')}
-                        <i className="fa fa-caret-down" />
-                      </span>
-                    )
-                }
+              </If>
+            </div>
+            <span className="feed-item__creation-date">
+              {moment.utc(creationDate).local().format('DD.MM.YYYY HH:mm:ss')}
+              <If condition={[types.LOG_IN, types.LOG_OUT].indexOf(type) === -1 && ip}>
+                <span className="mx-1">{I18n.t('COMMON.FROM')}</span>
+                {ip}
+              </If>
+            </span>
+            <If condition={hasInformation}>
+              <button className="feed-item__collapse" onClick={this.handleToggleClick}>
+                {I18n.t(`COMMON.DETAILS_COLLAPSE.${opened ? 'HIDE' : 'SHOW'}`)}
+                <i className={`fa fa-caret-${opened ? 'up' : 'down'}`} />
               </button>
-            }
+            </If>
           </div>
-          {hasInformation && opened && this.renderInformation(data)}
+          <If condition={hasInformation && opened}>
+            <div className="feed-item__content">
+              {this.renderInformation(data)}
+            </div>
+          </If>
         </div>
       </div>
     );

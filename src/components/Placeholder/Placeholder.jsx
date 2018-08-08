@@ -1,29 +1,25 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import ReactPlaceholder from 'react-placeholder';
 
-class Placeholder extends Component {
-  static propTypes = {
-    ready: PropTypes.bool,
-    className: PropTypes.string,
-    children: PropTypes.any,
-  };
-  static defaultProps = {
-    children: null,
-    ready: false,
-    className: 'animated-background',
-    color: '#F0F0F0',
-  };
+const Placeholder = ({ children, ...rest }) => (
+  <ReactPlaceholder {...rest}>
+    {children}
+  </ReactPlaceholder>
+);
 
-  render() {
-    const { children, ...rest } = this.props;
+Placeholder.propTypes = {
+  ready: PropTypes.bool,
+  className: PropTypes.string,
+  children: PropTypes.any,
+  color: PropTypes.string,
+};
 
-    return (
-      <ReactPlaceholder {...rest}>
-        {children}
-      </ReactPlaceholder>
-    );
-  }
-}
+Placeholder.defaultProps = {
+  children: null,
+  ready: false,
+  className: 'animated-background',
+  color: '#F0F0F0',
+};
 
 export default Placeholder;

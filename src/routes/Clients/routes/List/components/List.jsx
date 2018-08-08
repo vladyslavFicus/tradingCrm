@@ -1,32 +1,18 @@
-import React, { Component, Fragment } from 'react';
-import classNames from 'classnames';
-import moment from 'moment';
+import React, { Component } from 'react';
 import { I18n } from 'react-redux-i18n';
 import { get } from 'lodash';
+import { TextRow } from 'react-placeholder/lib/placeholders';
 import UserGridFilter from './UserGridFilter';
 import history from '../../../../../router/history';
 import PropTypes from '../../../../../constants/propTypes';
 import GridView, { GridViewColumn } from '../../../../../components/GridView';
-import Amount from '../../../../../components/Amount';
-import {
-  statusColorNames as userStatusColorNames,
-  statusesLabels as userStatusesLabels,
-} from '../../../../../constants/user';
+import Placeholder from '../../../../../components/Placeholder';
 import withPlayerClick from '../../../../../utils/withPlayerClick';
 import getColumns from './utils';
 
 class List extends Component {
   static propTypes = {
-    fetchESEntities: PropTypes.func.isRequired,
     fetchPlayerMiniProfile: PropTypes.func.isRequired,
-    list: PropTypes.pageableState(PropTypes.userProfile).isRequired,
-    reset: PropTypes.func.isRequired,
-    match: PropTypes.shape({
-      params: PropTypes.shape({
-        id: PropTypes.string,
-      }).isRequired,
-    }).isRequired,
-    exportEntities: PropTypes.func.isRequired,
     locale: PropTypes.string.isRequired,
     onPlayerClick: PropTypes.func.isRequired,
     tags: PropTypes.arrayOf(PropTypes.shape({
@@ -41,11 +27,11 @@ class List extends Component {
       brandId: PropTypes.string,
       uuid: PropTypes.string,
     }).isRequired,
-    clients: PropTypes.shape({
-      clients: PropTypes.shape({
+    profiles: PropTypes.shape({
+      profiles: PropTypes.shape({
         data: PropTypes.pageable(PropTypes.any),
       }),
-      loadMoreClients: PropTypes.func.isRequired,
+      loadMore: PropTypes.func.isRequired,
       loading: PropTypes.bool.isRequired,
     }).isRequired,
     location: PropTypes.shape({
@@ -72,14 +58,14 @@ class List extends Component {
 
   handlePageChanged = () => {
     const {
-      clients: {
-        loadMoreClients,
+      profiles: {
+        loadMore,
         loading,
       },
     } = this.props;
 
     if (!loading) {
-      loadMoreClients();
+      loadMore();
     }
   };
 
@@ -104,7 +90,7 @@ class List extends Component {
   };
 
   handleSelectedRow = (condition, index, touchedRowsIds) => {
-    const { clients: { clients: { data: { content } } } } = this.props;
+    const { profiles: { profiles: { data: { content } } } } = this.props;
     const selectedRows = [...this.state.selectedRows];
 
     if (condition) {
@@ -120,7 +106,7 @@ class List extends Component {
   };
 
   handleAllRowsSelect = () => {
-    const { clients: { clients: { data: { totalElements } } } } = this.props;
+    const { profiles: { profiles: { data: { totalElements } } } } = this.props;
     const { allRowsSelected } = this.state;
 
     this.setState({
@@ -132,55 +118,16 @@ class List extends Component {
     });
   };
 
-  renderAffiliate = data => data.affiliateId || 'Empty';
-
-  renderRegistered = data => (
-    <Fragment>
-      <div className="font-weight-700">{moment.utc(data.registrationDate).local().format('DD.MM.YYYY')}</div>
-      <div className="font-size-11">
-        {moment.utc(data.registrationDate).local().format('HH:mm:ss')}
-      </div>
-    </Fragment>
-  );
-
-  renderBalance = data => (
-    <Choose>
-      <When condition={data.balance}>
-        <div className="font-weight-700">
-          <Amount {...data.balance} />
-        </div>
-        <If condition={data.lastDeposit && data.lastDeposit.transactionDate}>
-          <div className="font-size-11">
-            Last deposit {moment.utc(data.lastDeposit.transactionDate).local().format('DD.MM.YYYY')}
-          </div>
-        </If>
-      </When>
-      <Otherwise>
-        Empty
-      </Otherwise>
-    </Choose>
-  );
-
-  renderStatus = data => (
-    <Fragment>
-      <div className={classNames(userStatusColorNames[data.profileStatus], 'text-uppercase font-weight-700')}>
-        {userStatusesLabels[data.profileStatus] || data.profileStatus}
-      </div>
-      <If condition={data.profileStatusDate}>
-        <div className="font-size-11">
-          Since {moment.utc(data.profileStatusDate).local().format('DD.MM.YYYY')}
-        </div>
-      </If>
-    </Fragment>
-  );
-
   render() {
     const {
       locale,
       tags,
       currencies,
       countries,
-      clients,
+      profiles: {
+        loading,
+        profiles,
+      },
       fetchPlayerMiniProfile,
       auth,
       location: { query },
@@ -192,7 +139,7 @@ class List extends Component {
       touchedRowsIds,
     } = this.state;
 
-    const entities = get(clients, 'clients.data') || { content: [] };
+    const entities = get(this.props.profiles, 'profiles.data') || { content: [] };
     const filters = get(query, 'filters', {});
 
     const allowActions = Object
@@ -202,25 +149,36 @@ class List extends Component {
     return (
       <div className="card">
         <div className="card-heading">
-          <Choose>
-            <When condition={!!entities.totalElements}>
-              <span id="users-list-header" className="font-size-20 height-55 users-list-header">
-                <div>
-                  <strong>{entities.totalElements} </strong>
-                  {I18n.t('COMMON.CLIENTS_FOUND')}
-                </div>
-                <div className="font-size-14">
-                  <strong>{selectedRows.length} </strong>
-                  {I18n.t('COMMON.CLIENTS_SELECTED')}
-                </div>
-              </span>
-            </When>
-            <Otherwise>
-              <span className="font-size-20" id="users-list-header">
-                {I18n.t('COMMON.CLIENTS')}
-              </span>
-            </Otherwise>
-          </Choose>
+          <Placeholder
+            ready={!loading && !!profiles}
+            className={null}
+            customPlaceholder={(
+              <div>
+                <TextRow className="animated-background" style={{ width: '220px', height: '20px' }} />
+                <TextRow className="animated-background" style={{ width: '220px', height: '12px' }} />
+              </div>
+            )}
+          >
+            <Choose>
+              <When condition={!!entities.totalElements}>
+                <span id="users-list-header" className="font-size-20 height-55 users-list-header">
+                  <div>
+                    <strong>{entities.totalElements} </strong>
+                    {I18n.t('COMMON.CLIENTS_FOUND')}
+                  </div>
+                  <div className="font-size-14">
+                    <strong>{selectedRows.length} </strong>
+                    {I18n.t('COMMON.CLIENTS_SELECTED')}
+                  </div>
+                </span>
+              </When>
+              <Otherwise>
+                <span className="font-size-20" id="users-list-header">
+                  {I18n.t('COMMON.CLIENTS')}
+                </span>
+              </Otherwise>
+            </Choose>
+          </Placeholder>
 
           <If condition={entities.totalElements !== 0 && selectedRows.length !== 0}>
             <div className="grid-bulk-menu ml-auto">
@@ -289,7 +247,7 @@ class List extends Component {
             onAllRowsSelect={this.handleAllRowsSelect}
             onRowSelect={this.handleSelectedRow}
             locale={locale}
-            showNoResults={entities.content.length === 0}
+            showNoResults={!loading && entities.content.length === 0}
             onRowClick={this.handlePlayerClick}
           >
             {getColumns(I18n, auth, fetchPlayerMiniProfile)

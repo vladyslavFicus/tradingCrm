@@ -72,11 +72,14 @@ const NotVerified = (props) => {
 };
 
 NotVerified.propTypes = {
-  status: PropTypes.kycStatus.isRequired,
+  status: PropTypes.kycStatus,
   title: PropTypes.string.isRequired,
   step: PropTypes.string.isRequired,
   onRefuse: PropTypes.func.isRequired,
   onVerify: PropTypes.func.isRequired,
+};
+NotVerified.defaultProps = {
+  status: {},
 };
 
 export default NotVerified;
