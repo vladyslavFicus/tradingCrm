@@ -81,7 +81,8 @@ const falconSidebarMenu = [{
     url: '/management/teams',
   }, {
     label: I18n.t('SIDEBAR.TOP_MENU.OPERATORS'),
-    url: '/management/operators',
+    url: '/operators/list',
+    service: services.operator,
   }],
 }, {
   label: I18n.t('SIDEBAR.TOP_MENU.PAYMENTS'),

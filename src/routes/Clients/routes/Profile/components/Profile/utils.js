@@ -1,17 +1,17 @@
 /* eslint-disable import/prefer-default-export */
 
 export const getAcquisitionFields = ({
-  kycRep,
+  kycRepName,
   kycStatus,
-  salesRep,
+  salesRepName,
   salesStatus,
-  retentionRep,
+  retentionRepName,
   retentionStatus,
 }) => ({
-  kycRep,
+  kycRepName,
   kycStatus,
-  salesRep,
+  salesRepName,
   salesStatus,
-  retentionRep,
+  retentionRepName,
   retentionStatus,
 });
