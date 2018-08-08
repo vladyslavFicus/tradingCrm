@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import Scrollbars from 'react-custom-scrollbars';
 import { TimelineLite as TimeLineLite } from 'gsap';
-import classNames from 'classnames';
 import SidebarNav from '../SidebarNav';
 import PropTypes from '../../constants/propTypes';
 import './Sidebar.scss';
@@ -29,7 +28,7 @@ class Sidebar extends Component {
 
     sidebarAnimation.fromTo(this.sidebar, 0.15, { width: '60px' }, { width: '240px' });
     this.sidebarAnimation = sidebarAnimation;
-    
+
     if (services.length) {
       this.props.init(permissions, services);
     }
@@ -95,7 +94,7 @@ class Sidebar extends Component {
     return (
       <aside
         ref={node => this.sidebar = node}
-        className={classNames('sidebar', { open: isOpen })}
+        className="sidebar"
         onMouseEnter={this.open}
         onMouseLeave={this.close}
       >
