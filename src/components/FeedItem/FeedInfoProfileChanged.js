@@ -1,18 +1,19 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from '../../constants/propTypes';
 import { attributeLabels } from '../../constants/user';
 
 const FeedInfoProfileChanged = ({ data }) => (
-  <div className="feed-item_info-details">
+  <Fragment>
     {Object.keys(data.details).map(attribute => (
-      <div key={attribute}>
+      <Fragment key={attribute}>
         {attributeLabels[attribute] || attribute}:
-        <span className="feed-item_info-details_value">
+        <span className="feed-item__content-value">
           {data.details[attribute].toString()}
         </span>
-      </div>
+        <br />
+      </Fragment>
     ))}
-  </div>
+  </Fragment>
 );
 
 FeedInfoProfileChanged.propTypes = {
