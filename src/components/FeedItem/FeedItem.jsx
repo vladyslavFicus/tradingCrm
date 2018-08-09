@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import classNames from 'classnames';
+import { size } from 'lodash';
 import moment from 'moment';
 import { I18n } from 'react-redux-i18n';
 import PropTypes from '../../constants/propTypes';
@@ -15,6 +16,9 @@ import FeedInfoOperatorCreation from './FeedInfoOperatorCreation';
 import FeedInfoPlayerProfileViewed from './FeedInfoPlayerProfileViewed';
 import FeedInfoFailedLoginAttempt from './FeedInfoFailedLoginAttempt';
 import FeedInfoKycRequest from './FeedInfoKycRequest';
+import FeedInfoKycConfirmation from './FeedInfoKycConfirmation';
+import FeedInfoProfileBlocks from './FeedInfoProfileBlocks';
+import FeedInfoRofusVerification from './FeedInfoRofusVerification';
 import Uuid from '../Uuid';
 import './FeedItem.scss';
 
@@ -60,6 +64,13 @@ class FeedItem extends Component {
         return <FeedInfoFailedLoginAttempt data={data} />;
       case types.KYC_REQUESTED:
         return <FeedInfoKycRequest data={data} />;
+      case types.KYC_CONFIRMATION:
+        return <FeedInfoKycConfirmation data={data} />;
+      case types.ROFUS_VERIFICATION:
+        return <FeedInfoRofusVerification data={data} />;
+      case types.PLAYER_PROFILE_BLOCKED:
+      case types.PLAYER_PROFILE_UNBLOCKED:
+        return <FeedInfoProfileBlocks data={data} />;
       default:
         return null;
     }
@@ -82,7 +93,7 @@ class FeedItem extends Component {
       },
     } = this.props;
 
-    const hasInformation = Object.keys(details).length > 0;
+    const hasInformation = size(details) > 0;
 
     return (
       <div className="feed-item">

@@ -701,6 +701,7 @@
   },
   "COMMON": {
     "SAVE_CHANGES": "Save changes",
+    "STATUS": "Status",
     "RESET": "Reset",
     "APPLY": "Apply",
     "EXPORT": "Export",
@@ -871,7 +872,8 @@
     "ADD_DOCUMENT": "+ Add document",
     "UNKNOWN_ERROR": "Unknown error",
     "CONFIRM_ACTION": "Confirm action",
-    "PINNED_NOTE": "Pinned note"
+    "PINNED_NOTE": "Pinned note",
+    "IDENTIFIER": "ID Number"
   },
   "FILES": {
     "UPLOAD_MODAL": {
@@ -932,7 +934,24 @@
         "OPERATOR_ACCOUNT_CREATED": "Operator - Account created",
         "PLAYER_PROFILE_VIEWED": "Players' profile viewed",
         "FAILED_LOGIN_ATTEMPT": "Failed login attempt registered",
-        "KYC_REQUESTED": "KYC - Verification - requested"
+        "KYC_REQUESTED": "KYC - Verification - requested",
+        "KYC_CONFIRMATION": "KYC - Verification - confirmation",
+        "ROFUS_VERIFICATION": "Rofus - verification",
+        "PLAYER_PROFILE_BLOCKED": "Player profile blocked",
+        "PLAYER_PROFILE_UNBLOCKED": "Player profile unblocked",
+        "RESET_PASSWORD": "Reset password",
+        "CHANGE_PASSWORD": "Change password",
+        "NEM_ID_SIGN_IN": "NEM-ID sign in"
+      },
+      "KYC_CONFIRMATION": {
+        "TRANSACTION": "Transaction ID",
+        "MERCHANT_TRANSACTION": "Merchant transaction ID",
+        "DESCRIPTION": "Description",
+        "STATE": "State"
+      },
+      "ROFUS_VERIFICATION": {
+        "ACTION": "Action",
+        "RESULT": "Result"
       }
     },
     "OPERATORS": {

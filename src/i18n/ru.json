@@ -98,7 +98,7 @@
           "LANGUAGE": "Язык",
           "DATE_OF_BIRTH": "Дата рождения",
           "GENDER": "Пол",
-          "IDENTIFIER": "ID номер"
+          "IDENTIFIER": "ID"
         }
       },
       "ADDITIONAL": {
@@ -706,6 +706,7 @@
   },
   "COMMON": {
     "SAVE_CHANGES": "Сохранить изменения",
+    "STATUS": "Статус",
     "RESET": "Сбросить",
     "APPLY": "Применить",
     "EXPORT": "Экспорт",
@@ -878,7 +879,8 @@
       "END_DATE": ""
     },
     "CONFIRM_ACTION": "Подтвердить действие",
-    "PINNED_NOTE": "Закрепленная заметка"
+    "PINNED_NOTE": "Закрепленная заметка",
+    "IDENTIFIER": "ID"
   },
   "FILES": {
     "UPLOAD_MODAL": {
@@ -939,7 +941,24 @@
         "OPERATOR_ACCOUNT_CREATED": "Оператор - Аккаунт создан",
         "PLAYER_PROFILE_VIEWED": "Просмотр профиля игрока",
         "FAILED_LOGIN_ATTEMPT": "Ошибка при попытке входа в систему",
-        "KYC_REQUESTED": "KYC - Верификация - запрошена"
+        "KYC_REQUESTED": "KYC - Верификация - запрошена",
+        "KYC_CONFIRMATION": "KYC - Верификация - пройдена",
+        "ROFUS_VERIFICATION": "Rofus - верификация",
+        "PLAYER_PROFILE_BLOCKED": "Профиль заблокирован",
+        "PLAYER_PROFILE_UNBLOCKED": "Профиль разблокирован",
+        "RESET_PASSWORD": "Сброс пароля",
+        "CHANGE_PASSWORD": "Изменение пароля",
+        "NEM_ID_SIGN_IN": "NEM-ID вход"
+      },
+      "KYC_CONFIRMATION": {
+        "TRANSACTION": "ID транзакции",
+        "MERCHANT_TRANSACTION": "ID транзакции мерчанта",
+        "DESCRIPTION": "Описание",
+        "STATE": "Состояние"
+      },
+      "ROFUS_VERIFICATION": {
+        "ACTION": "Действие",
+        "RESULT": "Результат"
       }
     },
     "OPERATORS": {
