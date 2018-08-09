@@ -343,7 +343,7 @@ function verifyData(playerUUID, type) {
             payload: {
               type: type === kycCategories.KYC_ADDRESS ? 'kycAddressStatus' : 'kycPersonalStatus',
               authorUUID: uuid,
-              date: moment().format('YYYY-MM-DDTHH:mm:ss'),
+              date: moment.utc().format('YYYY-MM-DDTHH:mm:ss'),
               status: kycStatuses.VERIFIED,
             },
           },
@@ -374,7 +374,7 @@ function verifyKycAll(playerUUID) {
             type: VERIFY_KYC_ALL.SUCCESS,
             payload: {
               authorUUID: uuid,
-              date: moment().format('YYYY-MM-DDTHH:mm:ss'),
+              date: moment.utc().format('YYYY-MM-DDTHH:mm:ss'),
               status: kycStatuses.VERIFIED,
             },
           },
@@ -408,7 +408,7 @@ function refuseData(playerUUID, type, data) {
               type: type === kycCategories.KYC_ADDRESS ? 'kycAddressStatus' : 'kycPersonalStatus',
               status: kycStatuses.PENDING,
               reason: data.reason,
-              data: moment().format('YYYY-MM-DDTHH:mm:ss'),
+              date: moment.utc().format('YYYY-MM-DDTHH:mm:ss'),
               authorUUID: uuid,
             },
           },
@@ -786,7 +786,7 @@ function sendKycRequestVerification(playerUUID, params) {
             type: SEND_KYC_REQUEST_VERIFICATION.SUCCESS,
             payload: {
               status: kycStatuses.PENDING,
-              date: moment().format('YYYY-MM-DDTHH:mm:ss'),
+              date: moment.utc().format('YYYY-MM-DDTHH:mm:ss'),
               authorUUID: uuid,
               kycRequestReason: params.reason,
             },
