@@ -77,6 +77,10 @@ class Payments extends Component {
     locale: PropTypes.string.isRequired,
     fetchActiveBonus: PropTypes.func.isRequired,
     addPayment: PropTypes.func.isRequired,
+    clientPayments: PropTypes.shape({
+      refetch: PropTypes.func.isRequired,
+      clientPaymentsByUuid: PropTypes.pageable(PropTypes.paymentEntity),
+    }).isRequired,
   };
   static defaultProps = {
     newPaymentNote: null,
@@ -192,7 +196,8 @@ class Payments extends Component {
       filters.statuses = filters.statuses.join(',');
     }
 
-    this.setState({ filters, page: 0 }, this.handleRefresh);
+    console.log('data', data);
+    // this.setState({ filters, page: 0 }, this.handleRefresh);
   };
 
   handleChangePaymentStatus = (action, playerUUID, paymentId, options = {}) => {
@@ -380,16 +385,21 @@ class Payments extends Component {
   render() {
     const { modal } = this.state;
     const {
-      transactions: { entities, noResults, newPaymentNote },
+      // transactions: { ent, noResults, newPaymentNote },
       filters: { data: availableFilters },
       loadPaymentAccounts,
       manageNote,
       playerProfile,
       playerLimits,
       locale,
+      clientPayments: {
+        loading,
+      },
     } = this.props;
 
     const mt4Users = get(playerProfile, 'tradingProfile.mt4Users');
+
+    const entities = get(this.props.clientPayments, 'clientPaymentsByUuid') || { content: [] };
 
     return (
       <div>
@@ -409,7 +419,7 @@ class Payments extends Component {
             totalPages={entities.totalPages}
             lazyLoad
             locale={locale}
-            showNoResults={noResults}
+            showNoResults={!loading && entities.content.length === 0}
           >
             <GridViewColumn
               name="paymentId"
@@ -432,23 +442,9 @@ class Payments extends Component {
               render={this.renderDateTime}
             />
             <GridViewColumn
-              name="country"
-              header="Ip"
-              headerClassName="text-center"
-              className="text-center"
-              render={this.renderIP}
-            />
-            <GridViewColumn
               name="paymentMethod"
               header="Method"
               render={this.renderMethod}
-            />
-            <GridViewColumn
-              name="mobile"
-              header="Device"
-              headerClassName="text-center"
-              className="text-center"
-              render={this.renderDevice}
             />
             <GridViewColumn
               name="status"
@@ -489,7 +485,6 @@ class Payments extends Component {
           modal.name === MODAL_PAYMENT_ADD &&
           <PaymentAddModal
             {...modal.params}
-            note={newPaymentNote}
             playerProfile={playerProfile}
             onClose={this.handleCloseModal}
             onLoadPaymentAccounts={() => loadPaymentAccounts(playerProfile.playerUUID)}

@@ -2,8 +2,8 @@ import moment from 'moment';
 import { RegistrationChart } from './components/Charts';
 
 export const initialQueryParams = {
-  registrationDateFrom: moment().startOf('day').format(),
-  registrationDateTo: moment().format(),
+  registrationDateFrom: moment().subtract(6, 'days').startOf('day').format(),
+  registrationDateTo: moment().add(1, 'day').startOf('day').format(),
 };
 
 export const charts = [{

@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
+import { I18n } from 'react-redux-i18n';
 import { ResponsiveContainer, LineChart, Line, YAxis, CartesianGrid, Tooltip } from 'recharts';
 import Select from '../Select';
 import ShortLoader from '../ShortLoader';
@@ -48,7 +49,8 @@ class Chart extends Component {
   };
 
   state = {
-    selectValue: this.props.selectOptions[0].value,
+    selectValue: this.props.selectOptions
+      .find(item => item.label === I18n.t('DASHBOARD.CHART_SELECT_OPTIONS.LAST_7_DAYS')).value,
   };
 
   handleSelectChange = (selectValue) => {

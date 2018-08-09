@@ -10,7 +10,6 @@ import {
   typesLabels,
   statusesLabels,
   methodsLabels,
-  initiatorsLabels,
 } from '../../../../../../../../../../constants/payment';
 import {
   InputField,
@@ -18,7 +17,8 @@ import {
   NasSelectField,
   RangeGroup,
 } from '../../../../../../../../../../components/ReduxForm';
-import { attributeLabels, attributePlaceholders } from './constants';
+import { attributeLabels } from './constants';
+import { paymentAccounts } from '../PaymentAddModal/constants';
 import renderLabel from '../../../../../../../../../../utils/renderLabel';
 
 class TransactionsFilterForm extends Component {
@@ -90,28 +90,17 @@ class TransactionsFilterForm extends Component {
 
     return (
       <form className="filter-row" onSubmit={handleSubmit(onSubmit)}>
-        <Field
-          name="keyword"
-          type="text"
-          label={I18n.t(attributeLabels.keyword)}
-          placeholder={I18n.t(attributePlaceholders.keyword)}
-          component={InputField}
-          inputAddon={<i className="icon icon-search" />}
-          id="transactions-list-filters-search"
-          className="filter-row__big"
-        />
-        <Field
-          name="initiatorType"
-          label={I18n.t(attributeLabels.initiatorType)}
-          component={NasSelectField}
-          className="filter-row__medium"
-        >
-          {Object.keys(initiatorsLabels).map(assign => (
-            <option key={assign} value={assign}>
-              {initiatorsLabels[assign]}
-            </option>
-          ))}
-        </Field>
+        { /* <Field
+            name="keyword"
+            type="text"
+            label={I18n.t(attributeLabels.keyword)}
+            placeholder={I18n.t(attributePlaceholders.keyword)}
+            component={InputField}
+            inputAddon={<i className="icon icon-search" />}
+            id="transactions-list-filters-search"
+            className="filter-row__big"
+          />
+        */ }
         <Field
           name="type"
           label={I18n.t(attributeLabels.type)}
@@ -149,8 +138,20 @@ class TransactionsFilterForm extends Component {
             </option>
           ))}
         </Field>
-        <RangeGroup
+        <Field
+          name="accountType"
+          label={I18n.t(attributeLabels.accountType)}
+          component={NasSelectField}
           className="filter-row__medium"
+        >
+          {paymentAccounts.map(acc => (
+            <option key={acc.value} value={acc.value}>
+              {acc.label}
+            </option>
+          ))}
+        </Field>
+        <RangeGroup
+          className="filter-row__big"
           label={I18n.t(attributeLabels.amount)}
         >
           <Field
