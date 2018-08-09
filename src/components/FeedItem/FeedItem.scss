@@ -73,9 +73,9 @@
     font-size: 11px;
     color: #666;
     i {
-      position: relative;
-      top: 2px;
-      left: 4px;
+      display: inline-block;
+      margin-left: 4px;
+      vertical-align: middle;
     }
   }
   &__content {

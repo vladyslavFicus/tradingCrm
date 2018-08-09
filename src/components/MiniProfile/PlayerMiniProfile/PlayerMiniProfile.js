@@ -8,6 +8,7 @@ import Amount from '../../Amount';
 import { statuses } from '../../../constants/user';
 import { userStatusNames } from '../constants';
 import renderLabel from '../../../utils/renderLabel';
+import NoteIcon from '../../NoteIcon';
 import './PlayerMiniProfile.scss';
 
 const PlayerMiniProfile = ({ data }) => {
@@ -25,7 +26,7 @@ const PlayerMiniProfile = ({ data }) => {
         <div className="mini-profile-title">
           <span className="font-weight-700">{data.fullName}</span> ({data.age})
           {data.kycCompleted && <i className="fa fa-check text-success margin-left-5" />}
-          <i className="note-icon note-pinned-note" />
+          <NoteIcon type="pinned" className="mini-profile__note-icon" />
         </div>
         <div className="mini-profile-ids">
           <span className="mini-profile-username">{data.username}</span>

@@ -10,6 +10,7 @@ import { statuses } from '../../../constants/payment';
 import { paymentStatusNames, paymentTypesNames } from '../constants';
 import PropTypes from '../../../constants/propTypes';
 import PaymentAccount from '../../../components/PaymentAccount';
+import NoteIcon from '../../NoteIcon';
 
 const TransactionMiniProfile = ({ data }) => {
   let authorUuidPrefix = null;
@@ -29,7 +30,7 @@ const TransactionMiniProfile = ({ data }) => {
           </span>
           {' '}
           <span className="font-weight-700">{shortify(data.paymentId, 'TA')}</span>
-          <i className="note-icon note-pinned-note" />
+          <NoteIcon type="pinned" className="mini-profile__note-icon" />
         </div>
         <div className="mini-profile-ids">
           {I18n.t('COMMON.AUTHOR_BY')}
