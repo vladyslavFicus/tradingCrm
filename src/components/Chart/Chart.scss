@@ -1,0 +1,34 @@
+.chart {
+  left: -4%;
+  .recharts-yAxis .recharts-cartesian-axis-ticks .recharts-cartesian-axis-tick {
+    text {
+      font-size: 10px;
+      transform: translateX(-5px);
+      fill: #9b9b9b;
+    }
+    .recharts-cartesian-axis-tick-line {
+      display: none;
+    }
+  }
+  .custom-tooltip {
+    background-color: rgb(255, 255, 255);
+    border: 1px solid rgb(204, 204, 204);
+    padding: 5px 10px;
+  }
+}
+
+.chart-select .form-control {
+  height: 35px;
+  line-height: 20px;
+  .select-icon {
+    top: 10px;
+  }
+}
+
+.chart-short-loader {
+  height: 200px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

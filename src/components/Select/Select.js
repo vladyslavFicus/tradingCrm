@@ -20,6 +20,7 @@ class Select extends PureComponent {
     optionsHeader: PropTypes.func,
     singleOptionComponent: PropTypes.func,
     disabled: PropTypes.bool,
+    customClassName: PropTypes.string,
     id: PropTypes.string,
   };
   static defaultProps = {
@@ -32,6 +33,7 @@ class Select extends PureComponent {
     optionsHeader: null,
     singleOptionComponent: null,
     disabled: false,
+    customClassName: null,
     id: null,
   };
 
@@ -358,6 +360,7 @@ class Select extends PureComponent {
       optionsHeader,
       singleOptionComponent,
       disabled,
+      customClassName,
       id,
     } = this.props;
 
@@ -367,6 +370,7 @@ class Select extends PureComponent {
       'is-opened': opened,
       'with-option': !!selectedOptions.length > 0,
       'is-disabled': disabled,
+      [customClassName]: customClassName,
     });
     const selectBlockClassName = classNames('select-block__content', {
       'with-search-bar': showSearchBar,

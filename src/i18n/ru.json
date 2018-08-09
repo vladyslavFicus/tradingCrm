@@ -871,13 +871,6 @@
     "UPLOAD": "Загрузить",
     "ADD_DOCUMENT": "+ Прикрепить документ",
     "UNKNOWN_ERROR": "Неизвестная ошибка",
-    "CLIENTS_FOUND": "",
-    "CLIENTS_SELECTED": "",
-    "CLIENTS": "",
-    "DATE_OPTIONS": {
-      "START_DATE": "",
-      "END_DATE": ""
-    },
     "CONFIRM_ACTION": "Подтвердить действие",
     "PINNED_NOTE": "Закрепленная заметка",
     "IDENTIFIER": "ID"
