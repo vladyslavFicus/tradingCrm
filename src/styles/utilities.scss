@@ -191,7 +191,7 @@ small {
 .grid-status-border {
   border-width: 1px;
   border-style: solid;
-  border-radius: 5px; 
+  border-radius: 5px;
   padding: 2px 5px;
 }
 
@@ -228,7 +228,7 @@ small {
   display: inline-block;
   width: 25px;
   height: 25px;
-  background-image: url('/img/grid-checkbox-sprite.svg');
+  background-image: url('/img/sprite.svg');
   background-repeat: no-repeat;
   background-position: -50px 0;
   &:hover {
@@ -261,7 +261,7 @@ small {
   button {
     margin-right: 15px;
     padding: 5px 10px;
-  };
+  }
 }
 
 .card-grid-multiselect {

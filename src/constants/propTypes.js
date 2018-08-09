@@ -258,7 +258,7 @@ PropTypes.auditEntity = PropTypes.shape({
   authorFullName: PropTypes.string.isRequired,
   authorUuid: PropTypes.string.isRequired,
   creationDate: PropTypes.string.isRequired,
-  details: PropTypes.object.isRequired,
+  details: PropTypes.object,
   id: PropTypes.number.isRequired,
   ip: PropTypes.string,
   targetFullName: PropTypes.string.isRequired,

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import moment from 'moment';
 import { I18n } from 'react-redux-i18n';
 import PropTypes from '../../constants/propTypes';
@@ -17,7 +17,7 @@ const formatValue = (attribute, value) => formatters[attribute]
   : value;
 
 const FeedInfoKyc = ({ data }) => (
-  <div className="feed-item_info-details">
+  <Fragment>
     {Object.keys(data.details).map((attribute) => {
       if (data.details[attribute] === null) {
         return null;
@@ -31,34 +31,34 @@ const FeedInfoKyc = ({ data }) => (
       );
 
       return value === null ? null : (
-        <div key={attribute}>
+        <Fragment key={attribute}>
           {attributeLabels[attribute] || attribute}:
-          <span className="feed-item_info-details_value">
+          <span className="feed-item__content-value">
             {value}
           </span>
-        </div>
+          <br />
+        </Fragment>
       );
     })}
-    {
-      data.details.uploadedFileList && data.details.uploadedFileList.length > 0 &&
-      <div>
-        {data.details.uploadedFileList.map((file, index) => (
-          <div key={file.uuid}>
-            {index + 1}.
-            {' '} {I18n.t('FEED_ITEM.LOG_IN.UPLOADED_FILE')}
-            {' - '}<span className="feed-item_info-details_value">{file.name}</span>{' - '}
-            <Uuid uuid={file.uuid} />
-          </div>
-        ))}
+    <If condition={data.details.uploadedFileList && data.details.uploadedFileList.length > 0}>
+      {data.details.uploadedFileList.map((file, index) => (
+        <div key={file.uuid}>
+          {index + 1}.
+          {' '} {I18n.t('FEED_ITEM.LOG_IN.UPLOADED_FILE')}
+          {' - '}<span className="feed-item__content-value">{file.name}</span>{' - '}
+          <Uuid uuid={file.uuid} />
+        </div>
+      ))}
+    </If>
+    <If
+      condition={[types.KYC_PERSONAL_REFUSED, types.KYC_ADDRESS_REFUSED].indexOf(data.type) > -1 && data.details.reason}
+    >
+      <div className="feed-item__rejection">
+        <b className="mr-1">{I18n.t('FEED_ITEM.KYC.REJECT_REASON')}:</b>
+        {data.details.reason}
       </div>
-    }
-    {
-      [types.KYC_PERSONAL_REFUSED, types.KYC_ADDRESS_REFUSED].indexOf(data.type) > -1 && data.details.reason &&
-      <div className="rejection">
-        <span className="rejection_heading">{I18n.t('FEED_ITEM.KYC.REJECT_REASON')}:</span> {data.details.reason}
-      </div>
-    }
-  </div>
+    </If>
+  </Fragment>
 );
 
 FeedInfoKyc.propTypes = {

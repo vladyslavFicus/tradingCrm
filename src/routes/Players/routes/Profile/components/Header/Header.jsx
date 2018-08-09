@@ -29,6 +29,7 @@ const playerLimitsPermission = [
   permissions.USER_PROFILE.GET_LOGIN_LOCK,
   permissions.USER_PROFILE.GET_PAYMENT_LOCKS,
 ];
+const changePasswordActionPermission = new Permissions([permissions.USER_PROFILE.CHANGE_PASSWORD]);
 
 class Header extends Component {
   static propTypes = {
@@ -283,6 +284,7 @@ class Header extends Component {
                     {
                       label: I18n.t('PLAYER_PROFILE.PROFILE.ACTIONS_DROPDOWN.CHANGE_PASSWORD'),
                       onClick: onChangePasswordClick,
+                      visible: changePasswordActionPermission.check(currentPermissions),
                     },
                     {
                       label: I18n.t('PLAYER_PROFILE.PROFILE.ACTIONS_DROPDOWN.SHARE_PROFILE'),
