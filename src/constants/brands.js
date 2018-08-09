@@ -21,6 +21,8 @@ const departments = keyMirror({
   RFP: null,
   MARKETING: null,
   BI: null,
+  E2E: null,
+  IGROMAT: null,
 });
 const roles = keyMirror({
   ROLE1: null,
@@ -99,6 +101,14 @@ const departmentsConfig = {
   [departments.BI]: {
     name: I18n.t('CONSTANTS.SIGN_IN.DEPARTMENTS.BI'),
     image: '/img/departments/bi-crm-dep-logo.svg',
+  },
+  [departments.E2E]: {
+    name: I18n.t('CONSTANTS.SIGN_IN.DEPARTMENTS.E2E'),
+    image: '/img/departments/administration_dep_logo.svg',
+  },
+  [departments.IGROMAT]: {
+    name: I18n.t('CONSTANTS.SIGN_IN.DEPARTMENTS.IGROMAT'),
+    image: '/img/departments/administration_dep_logo.svg',
   },
 };
 const rolesConfig = {

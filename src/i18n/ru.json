@@ -967,8 +967,8 @@
         "RFP": "Risk Fraud & Payment",
         "MARKETING": "Маркетинг",
         "ADMINISTRATION": "Администрация",
+        "BI": "Бизнес аналитика",
         "E2E": "E2E",
-        "BI": "BI",
         "IGROMAT": "Igromat"
       },
       "ROLES": {
@@ -1112,7 +1112,9 @@
         "RFP": "Risk Fraud & Payment",
         "MARKETING": "Маркетинг",
         "ADMINISTRATION": "Администрация",
-        "BI": "Бизнес аналитика"
+        "BI": "Бизнес аналитика",
+        "E2E": "E2E",
+        "IGROMAT": "Igromat"
       }
     },
     "BONUS_CAMPAIGNS": {
