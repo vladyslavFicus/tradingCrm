@@ -3,6 +3,7 @@ import { I18n } from 'react-redux-i18n';
 import classNames from 'classnames';
 import PropTypes from '../../constants/propTypes';
 import PopoverButton from '../PopoverButton';
+import NoteIcon from '../NoteIcon';
 import './NoteButton.scss';
 
 class NoteButton extends Component {
@@ -32,22 +33,23 @@ class NoteButton extends Component {
   render() {
     const { note, withMessage, message, preview, targetEntity, className, ...rest } = this.props;
     const compiledClassName = classNames(className, { 'note-preview': preview && !!note });
-    let iconNode = <i className="note-icon note-add-note" />;
     let msg = null;
 
     if (withMessage) {
       msg = message || I18n.t('NOTE_BUTTON.DEFAULT_MESSAGE');
     }
 
-    if (note) {
-      iconNode = note.pinned
-        ? <i className="note-icon note-pinned-note" />
-        : <i className="note-icon note-with-text" />;
-    }
-
     return (
       <PopoverButton {...rest} onClick={this.handleClick} className={compiledClassName}>
-        {iconNode} {preview && note && note.content} {preview && !note && msg}
+        <Choose>
+          <When condition={note}>
+            <NoteIcon type={`${note.pinned ? 'pinned' : 'filled'}`} className="note-preview__icon" />
+          </When>
+          <Otherwise>
+            <NoteIcon type="new" />
+          </Otherwise>
+        </Choose>
+        {preview && note && note.content} {preview && !note && msg}
       </PopoverButton>
     );
   }

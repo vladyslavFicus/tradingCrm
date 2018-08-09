@@ -11,8 +11,8 @@
   white-space: nowrap;
   overflow: hidden;
   font-size: 12px;
-  .note-icon {
-    margin-right: 2px;
+  &__icon {
+    margin-right: 5px;
     vertical-align: middle;
   }
 }

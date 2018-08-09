@@ -5,6 +5,7 @@ import { I18n } from 'react-redux-i18n';
 import Uuid from '../Uuid';
 import PopoverButton from '../PopoverButton';
 import { entities, entitiesPrefixes } from '../../constants/uuid';
+import NoteIcon from '../NoteIcon';
 import './NoteItem.scss';
 
 const NoteItem = (props) => {
@@ -68,7 +69,7 @@ const NoteItem = (props) => {
               id={`note-item-${uuid}`}
               onClick={id => handleNoteClick(id, data)}
             >
-              <i className="note-icon note-with-text" />
+              <NoteIcon type="filled" />
             </PopoverButton>
           </div>
         </div>
