@@ -10,6 +10,7 @@ class Chart extends Component {
   static propTypes = {
     headerTitle: PropTypes.string.isRequired,
     onSelectChange: PropTypes.func.isRequired,
+    selectOptions: PropTypes.array,
     config: PropTypes.shape({
       className: PropTypes.string,
       width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
@@ -43,14 +44,15 @@ class Chart extends Component {
 
   static defaultProps = {
     footer: null,
+    selectOptions: options,
   };
 
   state = {
-    selectValue: options[0].value,
+    selectValue: this.props.selectOptions[0].value,
   };
 
   handleSelectChange = (selectValue) => {
-    const to = options.find(item => item.value === selectValue).endDate;
+    const to = this.props.selectOptions.find(item => item.value === selectValue).endDate;
 
     this.setState({
       selectValue,
@@ -75,6 +77,7 @@ class Chart extends Component {
       },
       footer,
       loading,
+      selectOptions,
     } = this.props;
 
     const { selectValue } = this.state;
@@ -90,7 +93,7 @@ class Chart extends Component {
             customClassName="col-4 chart-select"
             onChange={this.handleSelectChange}
           >
-            {options.map(item => (
+            {selectOptions.map(item => (
               <option key={item.value} value={item.value}>
                 {item.label}
               </option>

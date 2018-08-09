@@ -1,7 +1,6 @@
-import React from 'react';
 import CustomTooltip from '../../../../../components/Chart/CustomTooltip';
 
-export const chartConfig = data => ({
+export default data => ({
   type: 'lineChart',
   className: 'chart',
   width: '104%',
@@ -16,12 +15,3 @@ export const chartConfig = data => ({
     stroke: '#c51d98',
   }],
 });
-
-export const chartFooter = total => (
-  <div className="chart-footer">
-    <div className="chart-footer__total">
-      <div>Total Registered</div>
-      <div>{total}</div>
-    </div>
-  </div>
-);

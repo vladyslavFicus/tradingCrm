@@ -6,8 +6,17 @@ import { get } from 'lodash';
 import { registeredUsersQuery } from '../../../../../graphql/queries/statistics';
 import Chart from '../../../../../components/Chart';
 import { initialQueryParams } from '../../../constants';
-import { chartConfig, chartFooter } from './constants';
+import chartConfig from './chartConfig';
 import './Registrations.scss';
+
+const chartFooter = total => (
+  <div className="chart-footer">
+    <div className="chart-footer__total">
+      <div> {I18n.t('DASHBOARD.TOTAL_REGISTERED')}</div>
+      <div>{total}</div>
+    </div>
+  </div>
+);
 
 class Registrations extends Component {
   static propTypes = {
