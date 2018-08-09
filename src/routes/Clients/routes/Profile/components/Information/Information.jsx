@@ -42,7 +42,7 @@ class Information extends PureComponent {
           <div className="col-md-3">
             <Personal data={data} />
           </div>
-          <div className="col-md-2">
+          <div className="col-md-3">
             <AcquisitionStatus
               acquisitionData={acquisitionData}
             />
