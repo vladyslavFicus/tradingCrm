@@ -98,7 +98,7 @@
           "LANGUAGE": "Язык",
           "DATE_OF_BIRTH": "Дата рождения",
           "GENDER": "Пол",
-          "IDENTIFIER": "ID номер"
+          "IDENTIFIER": "ID"
         }
       },
       "ADDITIONAL": {
@@ -880,7 +880,7 @@
     },
     "CONFIRM_ACTION": "Подтвердить действие",
     "PINNED_NOTE": "Закрепленная заметка",
-    "IDENTIFIER": "ID номер"
+    "IDENTIFIER": "ID"
   },
   "FILES": {
     "UPLOAD_MODAL": {
@@ -942,7 +942,7 @@
         "PLAYER_PROFILE_VIEWED": "Просмотр профиля игрока",
         "FAILED_LOGIN_ATTEMPT": "Ошибка при попытке входа в систему",
         "KYC_REQUESTED": "KYC - Верификация - запрошена",
-        "KYC_CONFIRMATION": "KYC - Верификация - пройдено",
+        "KYC_CONFIRMATION": "KYC - Верификация - пройдена",
         "ROFUS_VERIFICATION": "Rofus - верификация",
         "PLAYER_PROFILE_BLOCKED": "Профиль заблокирован",
         "PLAYER_PROFILE_UNBLOCKED": "Профиль разблокирован",
