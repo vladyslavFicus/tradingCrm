@@ -37,7 +37,6 @@ class List extends Component {
     fetchAuthoritiesOptions: PropTypes.func.isRequired,
   };
   static defaultProps = {
-    isLoading: false,
     filterValues: null,
     list: null,
   };
@@ -65,7 +64,7 @@ class List extends Component {
   };
 
   handlePageChanged = (page) => {
-    if (!this.props.isLoading) {
+    if (!this.props.list.isLoading) {
       this.setState({ page: page - 1 }, () => this.handleRefresh());
     }
   };
