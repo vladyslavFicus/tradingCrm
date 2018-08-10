@@ -195,9 +195,6 @@ class Payments extends Component {
     if (Array.isArray(filters.statuses)) {
       filters.statuses = filters.statuses.join(',');
     }
-
-    console.log('data', data);
-    // this.setState({ filters, page: 0 }, this.handleRefresh);
   };
 
   handleChangePaymentStatus = (action, playerUUID, paymentId, options = {}) => {

@@ -1158,7 +1158,16 @@
           "AMOUNT_FROM": "Amount from",
           "AMOUNT_TO": "Amount to",
           "AMOUNT": "Amount",
-          "CREATION_DATE_RANGE": "Creation date range"
+          "CREATION_DATE_RANGE": "Creation date range",
+          "ACCOUNT_TYPE": "Account type"
+        },
+        "PAYMENT_ACCOUNTS": {
+          "SYSTEM": "System",
+          "CREDIT_CARD": "Credit card",
+          "WIRE": "Wire",
+          "EXTERNAL": "External",
+          "MIGRATION": "Migration",
+          "INTERNAL_TRANSFER": "Internal transfer"
         },
         "ATTRIBUTES_PLACEHOLDERS": {
           "KEYWORD": "Transaction ID, Player, External reference"

@@ -90,17 +90,6 @@ class TransactionsFilterForm extends Component {
 
     return (
       <form className="filter-row" onSubmit={handleSubmit(onSubmit)}>
-        { /* <Field
-            name="keyword"
-            type="text"
-            label={I18n.t(attributeLabels.keyword)}
-            placeholder={I18n.t(attributePlaceholders.keyword)}
-            component={InputField}
-            inputAddon={<i className="icon icon-search" />}
-            id="transactions-list-filters-search"
-            className="filter-row__big"
-          />
-        */ }
         <Field
           name="type"
           label={I18n.t(attributeLabels.type)}

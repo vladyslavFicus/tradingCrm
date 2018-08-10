@@ -1,3 +1,4 @@
+import { I18n } from 'react-redux-i18n';
 import { types } from '../../../../../../../../../../constants/payment';
 
 export const paymentTypes = {
@@ -6,21 +7,21 @@ export const paymentTypes = {
 };
 
 export const paymentAccounts = [{
-  label: 'System',
+  label: I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.PAYMENT_ACCOUNTS.SYSTEM'),
   value: 'SYSTEM',
 }, {
-  label: 'Credit Card',
+  label: I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.PAYMENT_ACCOUNTS.CREDIT_CARD'),
   value: 'CREDIT_CARD',
 }, {
-  label: 'Wire',
+  label: I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.PAYMENT_ACCOUNTS.WIRE'),
   value: 'WIRE',
 }, {
-  label: 'External',
+  label: I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.PAYMENT_ACCOUNTS.EXTERNAL'),
   value: 'EXTERNAL',
 }, {
-  label: 'Migration',
+  label: I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.PAYMENT_ACCOUNTS.MIGRATION'),
   value: 'MIGRATION',
 }, {
-  label: 'Internal Transfer',
+  label: I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.PAYMENT_ACCOUNTS.INTERNAL_TRANSFER'),
   value: 'INTERNAL_TRANSFER',
 }];
