@@ -300,6 +300,10 @@ PropTypes.paymentEntity = PropTypes.shape({
   transactionTag: PropTypes.string,
   updateTime: PropTypes.string,
   userAgent: PropTypes.string.isRequired,
+  tradingAcc: PropTypes.string,
+  symbol: PropTypes.string,
+  accountType: PropTypes.string,
+  externalReference: PropTypes.string,
 });
 PropTypes.userPaymentAccountEntity = PropTypes.shape({
   creationDate: PropTypes.string.isRequired,

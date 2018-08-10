@@ -4,6 +4,7 @@ import Payments from '../components/Payments';
 import { actionCreators as viewActionCreators } from '../modules';
 import { paymentActions, chargebackReasons, rejectReasons } from '../../../../../../../../../constants/payment';
 import { addPaymentMutation } from '../../../../../../../../../graphql/mutations/payment';
+import { getClientPaymentsByUuid } from '../../../../../../../../../graphql/queries/payments';
 
 const mapStateToProps = ({
   userTransactions,
@@ -36,6 +37,20 @@ const mapActions = {
 export default compose(
   graphql(addPaymentMutation, {
     name: 'addPayment',
+  }),
+  graphql(getClientPaymentsByUuid, {
+    name: 'clientPayments',
+    options: ({
+      match: {
+        params: {
+          id: playerUUID,
+        },
+      },
+    }) => ({
+      variables: {
+        playerUUID,
+      },
+    }),
   }),
   connect(mapStateToProps, mapActions),
 )(Payments);
