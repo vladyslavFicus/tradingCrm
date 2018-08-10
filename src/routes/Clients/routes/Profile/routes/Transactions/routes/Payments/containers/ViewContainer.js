@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 import { graphql, compose } from 'react-apollo';
+import { get } from 'lodash';
 import Payments from '../components/Payments';
 import { actionCreators as viewActionCreators } from '../modules';
 import { paymentActions, chargebackReasons, rejectReasons } from '../../../../../../../../../constants/payment';
@@ -41,16 +42,47 @@ export default compose(
   graphql(getClientPaymentsByUuid, {
     name: 'clientPayments',
     options: ({
-      match: {
-        params: {
-          id: playerUUID,
-        },
-      },
+      match: { params: { id: playerUUID } },
+      location: { query },
     }) => ({
       variables: {
+        ...query ? query.filters : {},
         playerUUID,
+        page: 0,
+        size: 20,
       },
     }),
+    props: ({ clientPayments: { clientPaymentsByUuid, fetchMore, ...rest } }) => {
+      const newPage = get(clientPaymentsByUuid, 'page') || 0;
+
+      return {
+        clientPayments: {
+          ...rest,
+          clientPaymentsByUuid,
+          loadMore: () => fetchMore({
+            variables: { page: newPage + 1 },
+            updateQuery: (previousResult, { fetchMoreResult }) => {
+              if (!fetchMoreResult) {
+                return previousResult;
+              }
+
+              return {
+                ...previousResult,
+                ...fetchMoreResult,
+                clientPaymentsByUuid: {
+                  ...previousResult.clientPaymentsByUuid,
+                  ...fetchMoreResult.clientPaymentsByUuid,
+                  content: [
+                    ...previousResult.clientPaymentsByUuid.content,
+                    ...fetchMoreResult.clientPaymentsByUuid.content,
+                  ],
+                },
+              };
+            },
+          }),
+        },
+      };
+    },
   }),
   connect(mapStateToProps, mapActions),
 )(Payments);

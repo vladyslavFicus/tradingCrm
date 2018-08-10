@@ -16,5 +16,6 @@ export const attributeLabels = {
 };
 
 export const attributePlaceholders = {
-  keyword: I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_PLACEHOLDERS.KEYWORD'),
+  keyword: I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_PLACEHOLDERS.CLIENT_KEYWORD'),
+
 };

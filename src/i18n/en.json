@@ -1170,7 +1170,8 @@
           "INTERNAL_TRANSFER": "Internal transfer"
         },
         "ATTRIBUTES_PLACEHOLDERS": {
-          "KEYWORD": "Transaction ID, Player, External reference"
+          "KEYWORD": "Transaction ID, Player, External reference",
+          "CLIENT_KEYWORD": "ID, Reference number"
         }
       },
       "ROUTES": {
