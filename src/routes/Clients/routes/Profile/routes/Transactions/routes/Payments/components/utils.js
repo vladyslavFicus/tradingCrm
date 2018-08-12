@@ -69,9 +69,16 @@ export default (openModal, loadStatuses) => [{
   render: ({ paymentMethod, paymentAccount, accountType }) => (
     <Choose>
       <When condition={!paymentMethod}>
-        <div className="font-weight-700">
-          {paymentAccounts.find(item => item.value === accountType).label}
-        </div>
+        <Choose>
+          <When condition={accountType}>
+            <div className="font-weight-700">
+              {paymentAccounts.find(item => item.value === accountType).label}
+            </div>
+          </When>
+          <Otherwise>
+            <span>&mdash;</span>
+          </Otherwise>
+        </Choose>
       </When>
       <Otherwise>
         <div className="font-weight-700">
