@@ -353,11 +353,11 @@ const Form = reduxForm({
     if (data.paymentType === paymentTypes.Transfer) {
       rules = {
         ...rules,
-        fromMt4Acc: 'required|string',
-        toMt4Acc: 'required|string',
+        fromMt4Acc: 'required|numeric',
+        toMt4Acc: 'required|numeric',
       };
     } else {
-      rules = { ...rules, mt4Acc: 'required|string' };
+      rules = { ...rules, mt4Acc: 'required|numeric' };
     }
 
     return createValidator(rules, attributeLabels, false)(data);

@@ -19,7 +19,6 @@ import {
 } from '../../../../../../../../../../components/ReduxForm';
 import renderLabel from '../../../../../../../../../../utils/renderLabel';
 import { attributeLabels } from './constants';
-import { paymentAccounts } from '../PaymentAddModal/constants';
 
 class TransactionsFilterForm extends Component {
   static propTypes = {
@@ -130,21 +129,6 @@ class TransactionsFilterForm extends Component {
             </option>
           ))}
         </Field>
-        { false &&
-          <Field
-            name="accountType"
-            label={I18n.t(attributeLabels.accountType)}
-            placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
-            component={NasSelectField}
-            className="filter-row__medium"
-          >
-            {paymentAccounts.map(acc => (
-              <option key={acc.value} value={acc.value}>
-                {acc.label}
-              </option>
-            ))}
-          </Field>
-        }
         <RangeGroup
           className="filter-row__medium"
           label={I18n.t(attributeLabels.amount)}

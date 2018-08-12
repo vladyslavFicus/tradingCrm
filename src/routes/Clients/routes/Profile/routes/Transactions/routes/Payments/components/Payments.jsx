@@ -220,6 +220,7 @@ class Payments extends Component {
     if (action.data.payment.createClientPayment.error) {
       throw new SubmissionError({ _error: [action.data.payment.createClientPayment.error.error] });
     } else {
+      await this.props.clientPayments.refetch();
       this.handleCloseModal();
     }
   };
@@ -281,7 +282,6 @@ class Payments extends Component {
     } = this.props;
 
     const mt4Users = get(playerProfile, 'tradingProfile.mt4Users');
-
     const entities = get(this.props.clientPayments, 'clientPaymentsByUuid') || { content: [] };
 
     return (

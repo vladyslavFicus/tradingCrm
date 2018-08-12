@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import React, { Fragment } from 'react';
 import moment from 'moment';
+import { I18n } from 'react-redux-i18n';
 import {
   methodsLabels,
   typesLabels,
@@ -16,7 +17,7 @@ import { paymentAccounts } from '../components/PaymentAddModal/constants';
 
 export default (openModal, loadStatuses) => [{
   name: 'paymentId',
-  header: 'Transaction',
+  header: I18n.t('CLIENT_PROFILE.TRANSACTIONS.GRID_COLUMNS.TRANSACTION'),
   render: data => (
     <GridPaymentInfo
       payment={data}
@@ -25,7 +26,7 @@ export default (openModal, loadStatuses) => [{
   ),
 }, {
   name: 'paymentType',
-  header: 'Type',
+  header: I18n.t('CLIENT_PROFILE.TRANSACTIONS.GRID_COLUMNS.TYPE'),
   render: data => (
     <Fragment>
       <Choose>
@@ -45,13 +46,13 @@ export default (openModal, loadStatuses) => [{
   ),
 }, {
   name: 'amount',
-  header: 'Amount',
+  header: I18n.t('CLIENT_PROFILE.TRANSACTIONS.GRID_COLUMNS.AMOUNT'),
   render: ({ currency, amount: { amount } }) => (
     <div className="header-block-middle">{currency} {Number(amount).toFixed(2)}</div>
   ),
 }, {
   name: 'tradingAcc',
-  header: 'Trading Acc.',
+  header: I18n.t('CLIENT_PROFILE.TRANSACTIONS.GRID_COLUMNS.TRADING_ACC'),
   render: ({ tradingAcc, symbol }) => (
     <Fragment>
       <div className="font-weight-700">
@@ -64,7 +65,7 @@ export default (openModal, loadStatuses) => [{
   ),
 }, {
   name: 'paymentMethod',
-  header: 'Method',
+  header: I18n.t('CLIENT_PROFILE.TRANSACTIONS.GRID_COLUMNS.METHOD'),
   render: ({ paymentMethod, paymentAccount, accountType }) => (
     <Choose>
       <When condition={!paymentMethod}>
@@ -86,7 +87,7 @@ export default (openModal, loadStatuses) => [{
   ),
 }, {
   name: 'creationTime',
-  header: 'DATE & TIME',
+  header: I18n.t('CLIENT_PROFILE.TRANSACTIONS.GRID_COLUMNS.DATE_TIME'),
   render: ({ creationTime }) => (
     <Fragment>
       <div className="font-weight-700">
@@ -99,7 +100,7 @@ export default (openModal, loadStatuses) => [{
   ),
 }, {
   name: 'status',
-  header: 'Status',
+  header: I18n.t('CLIENT_PROFILE.TRANSACTIONS.GRID_COLUMNS.STATUS'),
   render: data => (
     <TransactionStatus
       onLoadStatusHistory={() => loadStatuses(data.playerUUID, data.paymentId)}

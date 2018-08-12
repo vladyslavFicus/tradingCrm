@@ -130,6 +130,7 @@ class Header extends Component {
         profileVerified,
         playerUUID,
         registrationDate,
+        totalBalance,
         tradingProfile,
       },
       availableStatuses,
@@ -150,8 +151,8 @@ class Header extends Component {
 
     const { permissions: currentPermissions } = this.context;
     const fullName = [firstName, lastName].filter(i => i).join(' ');
-
-    const { balance, equity, lastWithdrawalDate, lastDepositDate } = tradingProfile || { balance: '0', equity: '0' };
+    const { equity, lastWithdrawalDate, lastDepositDate } = tradingProfile || { equity: '0' };
+    const { amount: balance } = totalBalance || 0;
 
     return (
       <Fragment>
