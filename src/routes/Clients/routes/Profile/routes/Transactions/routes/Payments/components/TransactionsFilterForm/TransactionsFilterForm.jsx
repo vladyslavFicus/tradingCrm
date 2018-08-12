@@ -17,9 +17,8 @@ import {
   NasSelectField,
   RangeGroup,
 } from '../../../../../../../../../../components/ReduxForm';
-import { attributeLabels } from './constants';
-import { paymentAccounts } from '../PaymentAddModal/constants';
 import renderLabel from '../../../../../../../../../../utils/renderLabel';
+import { attributeLabels } from './constants';
 
 class TransactionsFilterForm extends Component {
   static propTypes = {
@@ -94,6 +93,7 @@ class TransactionsFilterForm extends Component {
           name="type"
           label={I18n.t(attributeLabels.type)}
           component={NasSelectField}
+          placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
           className="filter-row__medium"
         >
           {Object.keys(types).map(type => (
@@ -106,6 +106,7 @@ class TransactionsFilterForm extends Component {
           name="statuses"
           label={I18n.t(attributeLabels.statuses)}
           component={NasSelectField}
+          placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
           multiple
           className="filter-row__medium"
         >
@@ -118,6 +119,7 @@ class TransactionsFilterForm extends Component {
         <Field
           name="paymentMethod"
           label={I18n.t(attributeLabels.paymentMethod)}
+          placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
           component={NasSelectField}
           className="filter-row__medium"
         >
@@ -127,20 +129,8 @@ class TransactionsFilterForm extends Component {
             </option>
           ))}
         </Field>
-        <Field
-          name="accountType"
-          label={I18n.t(attributeLabels.accountType)}
-          component={NasSelectField}
-          className="filter-row__medium"
-        >
-          {paymentAccounts.map(acc => (
-            <option key={acc.value} value={acc.value}>
-              {acc.label}
-            </option>
-          ))}
-        </Field>
         <RangeGroup
-          className="filter-row__big"
+          className="filter-row__medium"
           label={I18n.t(attributeLabels.amount)}
         >
           <Field
@@ -204,13 +194,11 @@ const FilterForm = reduxForm({
   form: FORM_NAME,
   touchOnChange: true,
   validate: createValidator({
-    keyword: 'string',
+    keyword: 'numeric',
     initiatorType: ['string'],
     type: ['string', `in:${Object.keys(types).join()}`],
     statuses: ['array'],
     paymentMethod: 'string',
-    startDate: 'regex:/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/',
-    endDate: 'regex:/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/',
     amountLowerBound: 'numeric',
     amountUpperBound: 'numeric',
   }, translateLabels(attributeLabels), false),
