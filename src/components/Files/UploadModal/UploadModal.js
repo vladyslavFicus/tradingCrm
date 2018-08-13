@@ -175,9 +175,17 @@ const FORM_NAME = 'userUploadModal';
 
 export default reduxForm({
   form: FORM_NAME,
-  validate: createValidator({
-    name: ['required', 'string', 'min:3'],
-    category: ['required', 'string', `in:${Object.keys(categories).join()}`],
-  }, translateLabels(attributeLabels), false),
+  validate: (data) => {
+    const rules = {};
+
+    Object.keys(data).map(i => (
+      rules[i] = {
+        name: ['required', 'string', 'min:3'],
+        category: ['required', 'string', `in:${Object.keys(categories).join()}`],
+      }
+    ));
+
+    return createValidator(rules, translateLabels(attributeLabels), false)(data);
+  },
   enableReinitialize: true,
 })(UploadModal);
