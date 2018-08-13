@@ -2363,7 +2363,7 @@
         "OPEN_PRICE": "Open price",
         "CLOSE_PRICE": "Close price",
         "VOLUME": "Volume",
-        "COMISSION": "Comission",
+        "COMISSION": "Commission",
         "SWAP": "Swap",
         "P&L": "P&L",
         "OPEN_TIME": "Open time",
@@ -2379,6 +2379,7 @@
         "STATUS_LABEL": "Status",
         "OPEN_TIME_RANGE_LABEL": "Open time range",
         "CLOSE_TIME_RANGE_LABEL": "Close time range",
+        "LOGIN_IDS": "MT4 accounts",
         "TYPES": {
           "BUY": "Buy",
           "SELL": "Sell",
