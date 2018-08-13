@@ -2,10 +2,10 @@ import gql from 'graphql-tag';
 
 const tradingActivityQuery = gql`query clientTradingActivity(
   $tradeId: Int,
-  $openTimeStart: BigInt,
-  $openTimeEnd: BigInt,
-  $closeTimeStart: BigInt,
-  $closeTimeEnd: BigInt,
+  $openTimeStart: String,
+  $openTimeEnd: String,
+  $closeTimeStart: String,
+  $closeTimeEnd: String,
   $cmd: tradingActivityCommand,
   $symbol: String,
   $volumeFrom: Int,
@@ -15,6 +15,7 @@ const tradingActivityQuery = gql`query clientTradingActivity(
   $sortDirection: String,
   $page: Int,
   $limit: Int,
+  $loginIds: [Int],
 ) {
   clientTradingActivity(
     tradeId: $tradeId,
@@ -31,6 +32,7 @@ const tradingActivityQuery = gql`query clientTradingActivity(
     sortDirection: $sortDirection,
     page: $page,
     limit: $limit,
+    loginIds: $loginIds,
     ) {
     page
     number

@@ -1,9 +1,7 @@
-import { graphql, compose } from 'react-apollo';
+import { graphql, compose, withApollo } from 'react-apollo';
 import { connect } from 'react-redux';
-// import { getFormSyncErrors } from 'redux-form';
-import { tradingActivityQuery } from '../../../../../../../../../graphql/queries/tradingActivity';
+import { profileQuery } from '../../../../../../../../../graphql/queries/profile';
 import TradingActivity from '../components/TradingActivity';
-import { currentDateInUnixMs } from '../utils';
 
 const mapStateToProps = ({
   i18n,
@@ -13,11 +11,20 @@ const mapStateToProps = ({
 });
 
 export default compose(
+  withApollo,
   connect(mapStateToProps),
-  graphql(tradingActivityQuery, {
-    options: () => ({
-      variables: { ...currentDateInUnixMs },
+  graphql(profileQuery, {
+    options: ({
+      match: {
+        params: {
+          id: playerUUID,
+        },
+      },
+    }) => ({
+      variables: {
+        playerUUID,
+      },
     }),
-    name: 'tradingActivity',
-  })
+    name: 'playerProfile',
+  }),
 )(TradingActivity);

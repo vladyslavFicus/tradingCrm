@@ -7,6 +7,7 @@ import {
   SelectField,
   DateRangePicker,
   RangeGroup,
+  NasSelectField,
 } from '../../../../../../../../../../components/ReduxForm';
 import {
   types,
@@ -14,7 +15,6 @@ import {
   statuses,
   filterFormAttributeLabels,
 } from '../../constants';
-import { getParsedToUnixDates } from '../../utils';
 
 const FORM_NAME = 'userTradingActivityFilter';
 
@@ -25,11 +25,13 @@ class FilterForm extends Component {
     reset: PropTypes.func,
     change: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
+    accounts: PropTypes.array,
   };
 
   static defaultProps = {
     handleSubmit: null,
     reset: null,
+    accounts: [],
   };
 
   handleReset = () => {
@@ -37,7 +39,11 @@ class FilterForm extends Component {
   };
 
   handleApplyFilters = (values) => {
-    const variables = getParsedToUnixDates(values);
+    const variables = {
+      ...values,
+      ...(values.tradeId && { tradeId: Number(values.tradeId) }),
+    };
+
     this.props.onSubmit(variables);
   };
 
@@ -45,6 +51,7 @@ class FilterForm extends Component {
     const {
       submitting,
       handleSubmit,
+      accounts,
       change,
     } = this.props;
 
@@ -52,14 +59,28 @@ class FilterForm extends Component {
       <form className="filter-row" onSubmit={handleSubmit(this.handleApplyFilters)}>
         <Field
           name="tradeId"
-          type="text"
+          type="number"
           label={I18n.t(filterFormAttributeLabels.trade.label)}
           placeholder={I18n.t(filterFormAttributeLabels.trade.placeholder)}
           component={InputField}
           className="filter-row__big"
         />
         <Field
-          name="type"
+          name="loginIds"
+          label={I18n.t(filterFormAttributeLabels.loginIds)}
+          component={NasSelectField}
+          placeholder={I18n.t('COMMON.ALL')}
+          multiple
+          className="filter-row__medium"
+        >
+          {accounts.map(acc => (
+            <option key={acc.login} value={acc.login}>
+              {acc.login.toString()}
+            </option>
+          ))}
+        </Field>
+        <Field
+          name="cmd"
           label={I18n.t(filterFormAttributeLabels.type)}
           component={SelectField}
           className="filter-row__medium"
