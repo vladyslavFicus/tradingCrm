@@ -49,12 +49,16 @@ const profilesQuery = gql`query getProfiles(
           tradingProfile {
             isTestUser
             aquisitionRep
+            aquisitionRepName
             aquisitionStatus
             kycRep
+            kycRepName
             kycStatus
             salesRep
+            salesRepName
             salesStatus
             retentionRep
+            retentionRepName
             retentionStatus
             balance
             equity
@@ -167,12 +171,16 @@ const profileQuery = gql`query profileData($playerUUID: String!){
       tradingProfile {
         isTestUser
         aquisitionRep
+        aquisitionRepName
         aquisitionStatus
         kycRep
+        kycRepName
         kycStatus
         salesRep
+        salesRepName
         salesStatus
         retentionRep
+        retentionRepName
         retentionStatus
         balance
         equity

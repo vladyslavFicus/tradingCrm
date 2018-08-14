@@ -300,6 +300,10 @@ PropTypes.paymentEntity = PropTypes.shape({
   transactionTag: PropTypes.string,
   updateTime: PropTypes.string,
   userAgent: PropTypes.string.isRequired,
+  tradingAcc: PropTypes.string,
+  symbol: PropTypes.string,
+  accountType: PropTypes.string,
+  externalReference: PropTypes.string,
 });
 PropTypes.userPaymentAccountEntity = PropTypes.shape({
   creationDate: PropTypes.string.isRequired,
@@ -535,7 +539,7 @@ PropTypes.rewardPlanAmount = PropTypes.shape({
   isActive: PropTypes.bool,
 });
 PropTypes.mt4User = PropTypes.shape({
-  login: PropTypes.string.isRequired,
+  login: PropTypes.number.isRequired,
   balance: PropTypes.string,
   equity: PropTypes.string,
   symbol: PropTypes.string,

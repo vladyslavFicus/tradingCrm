@@ -1,24 +1,71 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
+import { get } from 'lodash';
 import { I18n } from 'react-redux-i18n';
-import FilterForm from './FilterForm';
+import { tradingActivityQuery } from '../../../../../../../../../graphql/queries/tradingActivity';
 import GridView, { GridViewColumn } from '../../../../../../../../../components/GridView';
+import FilterForm from './FilterForm';
 import { columns } from '../constants';
 
 class TradingActivity extends Component {
   static propTypes = {
     locale: PropTypes.string.isRequired,
-    tradingActivity: PropTypes.shape({
-      clientTradingActivity: PropTypes.object,
-      refetch: PropTypes.func.isRequired,
-      loading: PropTypes.bool.isRequired,
+    playerProfile: PropTypes.shape({
+      playerProfile: PropTypes.object,
     }),
+    client: PropTypes.shape({
+      query: PropTypes.func.isRequired,
+    }).isRequired,
   };
 
   static defaultProps = {
-    tradingActivity: {
-      content: [],
-    },
+    playerProfile: {},
+  };
+
+  state = {
+    tradingActivity: {},
+    mt4Accs: [],
+  }
+
+  componentWillMount() {
+    if (this.props.playerProfile.playerProfile) {
+      const mt4Accs = this.props.playerProfile.playerProfile.data.tradingProfile.mt4Users || [];
+      const loginIds = mt4Accs.map(item => item.login);
+
+      this.getTradingActivity({ loginIds });
+      this.setState({
+        mt4Accs,
+      });
+    }
+  }
+
+  componentWillReceiveProps = async (nextProps) => {
+    if (!this.props.playerProfile.playerProfile && nextProps.playerProfile.playerProfile) {
+      const mt4Accs = nextProps.playerProfile.playerProfile.data.tradingProfile.mt4Users || [];
+      const loginIds = mt4Accs.map(item => item.login);
+
+      this.getTradingActivity({ loginIds });
+      this.setState({
+        mt4Accs,
+      });
+    }
+  }
+
+  getTradingActivity = async (variables) => {
+    const { mt4Accs } = this.state;
+    const tradingActivity = await this.props.client.query({
+      query: tradingActivityQuery,
+      variables: {
+        ...variables,
+        ...(variables.loginIds && variables.loginIds.length > 0
+          ? { loginIds: variables.loginIds }
+          : { loginIds: mt4Accs.map(item => item.login) }),
+      },
+    });
+
+    this.setState({
+      tradingActivity,
+    });
   };
 
   handlePageChanged = () => {
@@ -26,24 +73,28 @@ class TradingActivity extends Component {
   };
 
   handleApplyFilters = (variables) => {
-    this.props.tradingActivity.refetch({ ...variables });
+    this.getTradingActivity(variables);
   };
 
   render() {
     const {
-      tradingActivity: {
-        clientTradingActivity,
-        loading,
-      },
       locale,
     } = this.props;
+
+    const {
+      tradingActivity,
+      mt4Accs,
+    } = this.state;
+
+    const clientTradingActivity = get(tradingActivity, 'data.clientTradingActivity') || {};
 
     return (
       <Fragment>
         <FilterForm
           onSubmit={this.handleApplyFilters}
+          accounts={mt4Accs}
         />
-        <If condition={!loading}>
+        <If condition={tradingActivity.loading !== undefined && !tradingActivity.loading}>
           <div className="tab-wrapper">
             <GridView
               dataSource={clientTradingActivity.content}

@@ -21,7 +21,7 @@ const AcquisitionStatus = ({ acquisitionData }) => (
             </div>
             <div className="operator-col">
               <div>DK</div>
-              <div className="name">{acquisitionData[`${item}Rep`]}</div>
+              <div className="name">{acquisitionData[`${item}RepName`]}</div>
             </div>
           </div>
         ))}

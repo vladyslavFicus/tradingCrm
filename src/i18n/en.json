@@ -873,6 +873,7 @@
     "UNKNOWN_ERROR": "Unknown error",
     "CONFIRM_ACTION": "Confirm action",
     "PINNED_NOTE": "Pinned note",
+    "DASHBOARD": "Dashboard",
     "IDENTIFIER": "ID Number"
   },
   "FILES": {
@@ -1157,10 +1158,20 @@
           "AMOUNT_FROM": "Amount from",
           "AMOUNT_TO": "Amount to",
           "AMOUNT": "Amount",
-          "CREATION_DATE_RANGE": "Creation date range"
+          "CREATION_DATE_RANGE": "Creation date range",
+          "ACCOUNT_TYPE": "Account type"
+        },
+        "PAYMENT_ACCOUNTS": {
+          "SYSTEM": "System",
+          "CREDIT_CARD": "Credit card",
+          "WIRE": "Wire",
+          "EXTERNAL": "External",
+          "MIGRATION": "Migration",
+          "INTERNAL_TRANSFER": "Internal transfer"
         },
         "ATTRIBUTES_PLACEHOLDERS": {
-          "KEYWORD": "Transaction ID, Player, External reference"
+          "KEYWORD": "Transaction ID, Player, External reference",
+          "CLIENT_KEYWORD": "ID, Reference number"
         }
       },
       "ROUTES": {
@@ -2006,9 +2017,17 @@
     }
   },
   "DASHBOARD": {
+    "REGISTRATIONS": "Registrations",
+    "TOTAL_REGISTERED": "Total Registered",
     "PERMISSION_DENIED": {
       "TITLE": "Permission denied",
       "REASON": "You do not have permission to access this section"
+    },
+    "CHART_SELECT_OPTIONS": {
+      "TODAY": "Today",
+      "YESTERDAY": "Yesterday",
+      "LAST_7_DAYS": "Last 7 days",
+      "PAST_WEEK": "Past week"
     }
   },
   "CAMPAIGNS": {
@@ -2344,7 +2363,7 @@
         "OPEN_PRICE": "Open price",
         "CLOSE_PRICE": "Close price",
         "VOLUME": "Volume",
-        "COMISSION": "Comission",
+        "COMISSION": "Commission",
         "SWAP": "Swap",
         "P&L": "P&L",
         "OPEN_TIME": "Open time",
@@ -2360,6 +2379,7 @@
         "STATUS_LABEL": "Status",
         "OPEN_TIME_RANGE_LABEL": "Open time range",
         "CLOSE_TIME_RANGE_LABEL": "Close time range",
+        "LOGIN_IDS": "MT4 accounts",
         "TYPES": {
           "BUY": "Buy",
           "SELL": "Sell",
@@ -2422,6 +2442,15 @@
         "EXTERNAL_REF": "External reference ID",
         "FROM_MT4": "From MT4 Account",
         "TO_MT4": "To MT4 Account"
+      },
+      "GRID_COLUMNS": {
+        "TRANSACTION": "Transaction",
+        "TYPE": "Type",
+        "AMOUNT": "Amount",
+        "TRADING_ACC": "Trading acc.",
+        "METHOD": "Method",
+        "DATE_TIME": "Date & Time",
+        "STATUS": "Status"
       }
     }
   },

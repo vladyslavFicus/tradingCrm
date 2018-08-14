@@ -14,7 +14,7 @@ const attributeLabels = {
   paymentType: I18n.t('CLIENT_PROFILE.TRANSACTIONS.MODAL_CREATE.TYPE'),
   amount: I18n.t('CLIENT_PROFILE.TRANSACTIONS.MODAL_CREATE.AMOUNT'),
   paymentAccount: I18n.t('CLIENT_PROFILE.TRANSACTIONS.MODAL_CREATE.PAYMENT_ACCOUNT'),
-  referenceId: I18n.t('CLIENT_PROFILE.TRANSACTIONS.MODAL_CREATE.EXTERNAL_REF'),
+  externalReference: I18n.t('CLIENT_PROFILE.TRANSACTIONS.MODAL_CREATE.EXTERNAL_REF'),
   fromMt4Acc: I18n.t('CLIENT_PROFILE.TRANSACTIONS.MODAL_CREATE.FROM_MT4'),
   toMt4Acc: I18n.t('CLIENT_PROFILE.TRANSACTIONS.MODAL_CREATE.TO_MT4'),
 };
@@ -244,10 +244,10 @@ class PaymentAddModal extends Component {
               />
               <If condition={currentValues && currentValues.paymentType === paymentTypes.Deposit}>
                 <Field
-                  name="referenceId"
+                  name="externalReference"
                   type="text"
                   className="col-8"
-                  label={I18n.t(attributeLabels.referenceId)}
+                  label={I18n.t(attributeLabels.externalReference)}
                   component={InputField}
                   position="vertical"
                 />
@@ -266,8 +266,8 @@ class PaymentAddModal extends Component {
                     showErrorMessage={false}
                   >
                     {paymentAccounts.map(item => (
-                      <option key={item} value={item}>
-                        {item}
+                      <option key={item.value} value={item.value}>
+                        {item.label}
                       </option>
                     ))}
                   </Field>
@@ -353,11 +353,11 @@ const Form = reduxForm({
     if (data.paymentType === paymentTypes.Transfer) {
       rules = {
         ...rules,
-        fromMt4Acc: 'required|string',
-        toMt4Acc: 'required|string',
+        fromMt4Acc: 'required|numeric',
+        toMt4Acc: 'required|numeric',
       };
     } else {
-      rules = { ...rules, mt4Acc: 'required|string' };
+      rules = { ...rules, mt4Acc: 'required|numeric' };
     }
 
     return createValidator(rules, attributeLabels, false)(data);

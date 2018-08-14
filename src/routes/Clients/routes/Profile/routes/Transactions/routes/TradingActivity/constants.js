@@ -11,6 +11,7 @@ export const filterFormAttributeLabels = {
     placeholder: I18n.t('CLIENT_PROFILE.TRADING_ACTIVITY.FILTER_FORM.TRADE_PLACEHOLDER'),
   },
   type: I18n.t('CLIENT_PROFILE.TRADING_ACTIVITY.FILTER_FORM.TYPE_LABEL'),
+  loginIds: I18n.t('CLIENT_PROFILE.TRADING_ACTIVITY.FILTER_FORM.LOGIN_IDS'),
   symbol: I18n.t('CLIENT_PROFILE.TRADING_ACTIVITY.FILTER_FORM.SYMBOL_LABEL'),
   volume: I18n.t('CLIENT_PROFILE.TRADING_ACTIVITY.FILTER_FORM.VOLUME_LABEL'),
   status: I18n.t('CLIENT_PROFILE.TRADING_ACTIVITY.FILTER_FORM.STATUS_LABEL'),
@@ -126,13 +127,8 @@ export const statuses = [{
 export const columns = i18n => [{
   name: 'trade',
   header: i18n.t('CLIENT_PROFILE.TRADING_ACTIVITY.GRID_VIEW.TRADE'),
-  render: ({ id, tradeId }) => (
-    <Fragment>
-      <div className="font-weight-700">{id}</div>
-      <div className="font-size-11">
-        {tradeId}
-      </div>
-    </Fragment>
+  render: ({ tradeId }) => (
+    <div className="font-weight-700">{tradeId}</div>
   ),
 }, {
   name: 'type',
@@ -159,12 +155,8 @@ export const columns = i18n => [{
 }, {
   name: 'openPrice',
   header: i18n.t('CLIENT_PROFILE.TRADING_ACTIVITY.GRID_VIEW.OPEN_PRICE'),
-  render: ({ openPrice, stopLoss, takeProfit }) => (
-    <Fragment>
-      <div className="font-weight-700">{openPrice}</div>
-      <div className="font-size-11">{stopLoss}</div>
-      <div className="font-size-11">{takeProfit}</div>
-    </Fragment>
+  render: ({ openPrice }) => (
+    <div className="font-weight-700">{openPrice}</div>
   ),
 }, {
   name: 'closePrice',
@@ -177,7 +169,7 @@ export const columns = i18n => [{
 }, {
   name: 'comission',
   header: i18n.t('CLIENT_PROFILE.TRADING_ACTIVITY.GRID_VIEW.COMISSION'),
-  render: ({ comission }) => <div className="font-weight-700">{comission}</div>,
+  render: ({ commission }) => <div className="font-weight-700">{commission}</div>,
 }, {
   name: 'swap',
   header: i18n.t('CLIENT_PROFILE.TRADING_ACTIVITY.GRID_VIEW.SWAP'),

@@ -7,6 +7,7 @@ import { I18n } from 'react-redux-i18n';
 import moment from 'moment';
 import PropTypes from '../../../../../../constants/propTypes';
 import { SelectField } from '../../../../../../components/ReduxForm';
+import ShortLoader from '../../../../../../components/ShortLoader';
 import { selectItems, moneyObj } from './constants';
 import './Balances.scss';
 
@@ -26,9 +27,10 @@ class Balances extends Component {
         }).isRequired,
       }),
       refetch: PropTypes.func.isRequired,
+      loading: PropTypes.bool.isRequired,
     }),
     balances: PropTypes.shape({
-      balance: PropTypes.string,
+      balance: PropTypes.number,
       equity: PropTypes.string,
       currency: PropTypes.string,
     }),
@@ -67,7 +69,7 @@ class Balances extends Component {
     statistic,
     { currency, balance, equity }
   ) => {
-    const { lastDeposit, lastWithdraw } = this.props;
+    const { lastDeposit, lastWithdraw, paymentStatistic: { loading } } = this.props;
     const { depositCount, withdrawCount } = statistic;
     const { amount: depAmount, currency: depCurrency } = get(statistic, 'depositAmount') || moneyObj;
     const { amount: withdrawAmount, currency: withdrawCurrency } = get(statistic, 'withdrawAmount') || moneyObj;
@@ -104,28 +106,37 @@ class Balances extends Component {
                 </Field>
               </form>
             </DropdownItem>
-            <DropdownItem>
-              <div className="header-block-title">{I18n.t('CLIENT_PROFILE.CLIENT.BALANCES.DEPOSIT')}</div>
-              <div className={`header-block-middle ${lastWithdraw ? '' : 'margin-bottom-15'}`}>{depositCount}</div>
-              <If condition={lastDeposit}>
-                <div className="header-block-small margin-bottom-15">
-                  {I18n.t('CLIENT_PROFILE.CLIENT.BALANCES.LAST')} {moment(lastDeposit).format('DD.MM.YYYY')}
+            <Choose>
+              <When condition={!loading}>
+                <DropdownItem>
+                  <div className="header-block-title">{I18n.t('CLIENT_PROFILE.CLIENT.BALANCES.DEPOSIT')}</div>
+                  <div className={`header-block-middle ${lastWithdraw ? '' : 'margin-bottom-15'}`}>{depositCount}</div>
+                  <If condition={lastDeposit}>
+                    <div className="header-block-small margin-bottom-15">
+                      {I18n.t('CLIENT_PROFILE.CLIENT.BALANCES.LAST')} {moment(lastDeposit).format('DD.MM.YYYY')}
+                    </div>
+                  </If>
+                  <div className="header-block-title">{I18n.t('CLIENT_PROFILE.CLIENT.BALANCES.DEPOSITED')}</div>
+                  <div className="header-block-middle">{depCurrency}: {Number(depAmount).toFixed(2)}</div>
+                </DropdownItem>
+                <DropdownItem>
+                  <div className="header-block-title">{I18n.t('CLIENT_PROFILE.CLIENT.BALANCES.WITHDRAWAL')}</div>
+                  <div className={`header-block-middle ${lastWithdraw ? '' : 'margin-bottom-15'}`}>{withdrawCount}</div>
+                  <If condition={lastWithdraw}>
+                    <div className="header-block-small margin-bottom-15">
+                      {I18n.t('CLIENT_PROFILE.CLIENT.BALANCES.LAST')} {moment(lastWithdraw).format('DD.MM.YYYY')}
+                    </div>
+                  </If>
+                  <div className="header-block-title">{I18n.t('CLIENT_PROFILE.CLIENT.BALANCES.WITHDRAWN')}</div>
+                  <div className="header-block-middle">{withdrawCurrency}: {Number(withdrawAmount).toFixed(2)}</div>
+                </DropdownItem>
+              </When>
+              <Otherwise condition={loading}>
+                <div className="balance-loader">
+                  <ShortLoader height={20} />
                 </div>
-              </If>
-              <div className="header-block-title">{I18n.t('CLIENT_PROFILE.CLIENT.BALANCES.DEPOSITED')}</div>
-              <div className="header-block-middle">{depCurrency}: {Number(depAmount).toFixed(2)}</div>
-            </DropdownItem>
-            <DropdownItem>
-              <div className="header-block-title">{I18n.t('CLIENT_PROFILE.CLIENT.BALANCES.WITHDRAWAL')}</div>
-              <div className={`header-block-middle ${lastWithdraw ? '' : 'margin-bottom-15'}`}>{withdrawCount}</div>
-              <If condition={lastWithdraw}>
-                <div className="header-block-small margin-bottom-15">
-                  {I18n.t('CLIENT_PROFILE.CLIENT.BALANCES.LAST')} {moment(lastWithdraw).format('DD.MM.YYYY')}
-                </div>
-              </If>
-              <div className="header-block-title">{I18n.t('CLIENT_PROFILE.CLIENT.BALANCES.WITHDRAWN')}</div>
-              <div className="header-block-middle">{withdrawCurrency}: {Number(withdrawAmount).toFixed(2)}</div>
-            </DropdownItem>
+              </Otherwise>
+            </Choose>
           </div>
         </DropdownMenu>
       </Dropdown>
