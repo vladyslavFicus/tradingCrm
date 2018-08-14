@@ -127,7 +127,7 @@ class PlayerLimits extends Component {
     const { locks: { payment: payments } } = this.props;
     const payment = payments.find(i => i.type === type) || {};
 
-    return !!payment.canUnlock;
+    return !!payment;
   };
 
   renderStatus = (label, locked) => {
