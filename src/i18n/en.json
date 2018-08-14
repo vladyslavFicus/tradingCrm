@@ -636,7 +636,8 @@
         "TITLE": "New transaction",
         "ATTENTION_UNDONE_ACTION_LABEL": "Note",
         "ATTENTION_UNDONE_ACTION": "This action can not be undone!",
-        "ACTION_TEXT": "You are about to %{action}"
+        "ACTION_TEXT": "You are about to %{action}",
+        "NOTE_REQUIRED_MESSAGE": "*note is required for this action"
       }
     },
     "LOCKS": {

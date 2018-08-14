@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Field, reduxForm, getFormValues } from 'redux-form';
+import { get } from 'lodash';
 import { connect } from 'react-redux';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { I18n } from 'react-redux-i18n';
@@ -53,17 +54,17 @@ class PaymentAddModal extends Component {
       receivedAt: PropTypes.number,
     }).isRequired,
   };
+  static contextTypes = {
+    onAddNoteClick: PropTypes.func.isRequired,
+    onEditNoteClick: PropTypes.func.isRequired,
+    hidePopover: PropTypes.func.isRequired,
+  };
   static defaultProps = {
     submitting: false,
     pristine: false,
     currentValues: {},
     note: null,
     error: [],
-  };
-  static contextTypes = {
-    onAddNoteClick: PropTypes.func.isRequired,
-    onEditNoteClick: PropTypes.func.isRequired,
-    hidePopover: PropTypes.func.isRequired,
   };
 
   state = {
@@ -201,9 +202,13 @@ class PaymentAddModal extends Component {
       playerProfile,
       note,
       error: errors,
+      currentValues,
     } = this.props;
 
     const filteredPaymentTypes = Object.keys(paymentTypes).filter(type => !this.isPaymentMethodDisabled(type));
+    const type = get(currentValues, 'type', '');
+
+    const emptyNote = !note && (type === paymentTypes.Deposit || type === paymentTypes.Confiscate);
 
     return (
       <Modal toggle={onClose} isOpen>
@@ -231,9 +236,9 @@ class PaymentAddModal extends Component {
                 position="vertical"
               >
                 <option value="">{I18n.t('COMMON.SELECT_OPTION.DEFAULT')}</option>
-                {filteredPaymentTypes.map(type => (
-                  <option key={type} value={type}>
-                    {paymentTypesLabels[type]}
+                {filteredPaymentTypes.map(t => (
+                  <option key={t} value={t}>
+                    {paymentTypesLabels[t]}
                   </option>
                 ))}
               </Field>
@@ -260,6 +265,11 @@ class PaymentAddModal extends Component {
               note={note}
               onClick={this.handleNoteClick}
             />
+            <If condition={emptyNote}>
+              <div className="color-danger font-weight-600">
+                {I18n.t('PLAYER_PROFILE.TRANSACTIONS.MODAL_CREATE.NOTE_REQUIRED_MESSAGE')}
+              </div>
+            </If>
           </div>
         </ModalBody>
         <ModalFooter>
@@ -281,7 +291,7 @@ class PaymentAddModal extends Component {
                   {I18n.t('COMMON.CANCEL')}
                 </button>
                 <button
-                  disabled={pristine || submitting || invalid}
+                  disabled={pristine || submitting || invalid || emptyNote}
                   type="submit"
                   className="btn btn-primary text-uppercase margin-left-5"
                   form="new-transaction"
