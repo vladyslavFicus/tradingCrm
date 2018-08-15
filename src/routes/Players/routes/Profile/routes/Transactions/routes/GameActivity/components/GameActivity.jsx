@@ -281,7 +281,7 @@ class GameActivity extends Component {
   );
 
   renderDevice = (data) => {
-    if (data.deviceType && data.deviceType !== ('UNKNOWN' || null)) {
+    if (data.deviceType && data.deviceType !== 'UNKNOWN') {
       return (
         <i
           className={`fa fa-${data.deviceType.toLowerCase()} font-size-20`}
