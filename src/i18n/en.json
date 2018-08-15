@@ -274,7 +274,8 @@
         "BALANCE_BEFORE": "Before",
         "BALANCE_AFTER": "After",
         "PENDING_BALANCE": "Pending",
-        "BALANCE": "Balance"
+        "BALANCE": "Balance",
+        "DEVICE": "Device"
       },
       "GAME_ROUND_TYPE": {
         "FREE_SPIN": "Free spin",
