@@ -641,7 +641,8 @@
         "TITLE": "Новая транзакция",
         "ATTENTION_UNDONE_ACTION_LABEL": "Внимание",
         "ATTENTION_UNDONE_ACTION": "Это действие не может быть отменно!",
-        "ACTION_TEXT": "Вы пытаетесь сделать %{action}"
+        "ACTION_TEXT": "Вы пытаетесь сделать %{action}",
+        "NOTE_REQUIRED_MESSAGE": "*заметка обязательна для этого действия"
       }
     },
     "LOCKS": {
