@@ -1,27 +1,14 @@
-import React, { Component, Fragment } from 'react';
-import moment from 'moment';
+import React, { Component } from 'react';
 import { I18n } from 'react-redux-i18n';
+import { get } from 'lodash';
 import TransactionsFilterForm from '../../../components/TransactionsFilterForm';
 import PropTypes from '../../../../../constants/propTypes';
 import GridView, { GridViewColumn } from '../../../../../components/GridView';
-import {
-  customTypes as customPaymentTypes,
-  methodsLabels,
-  typesLabels,
-  typesProps, customTypesLabels, customTypesProps,
-} from '../../../../../constants/payment';
 import PaymentDetailModal from '../../../../../components/PaymentDetailModal';
 import PaymentActionReasonModal from '../../../../../components/PaymentActionReasonModal';
-import TransactionStatus from '../../../../../components/TransactionStatus';
 import { targetTypes } from '../../../../../constants/note';
-import NoteButton from '../../../../../components/NoteButton';
-import { UncontrolledTooltip } from '../../../../../components/Reactstrap/Uncontrolled';
-import Uuid from '../../../../../components/Uuid';
-import GridPlayerInfo from '../../../../../components/GridPlayerInfo';
-import renderLabel from '../../../../../utils/renderLabel';
-import GridPaymentInfo from '../../../../../components/GridPaymentInfo';
-import GridPaymentAmount from '../../../../../components/GridPaymentAmount';
-import IpFlag from '../../../../../components/IpFlag';
+import history from '../../../../../router/history';
+import columns from './utils';
 
 const MODAL_PAYMENT_DETAIL = 'payment-detail';
 const MODAL_PAYMENT_ACTION_REASON = 'payment-action-reason';
@@ -54,6 +41,13 @@ class View extends Component {
       brandId: PropTypes.string.isRequired,
       uuid: PropTypes.string.isRequired,
     }).isRequired,
+    currencies: PropTypes.arrayOf(PropTypes.string).isRequired,
+    clientPayments: PropTypes.shape({
+      clientPayments: PropTypes.object,
+      loading: PropTypes.bool.isRequired,
+      loadMore: PropTypes.func.isRequired,
+      refetch: PropTypes.func.isRequired,
+    }).isRequired,
   };
   static contextTypes = {
     notes: PropTypes.shape({
@@ -67,8 +61,6 @@ class View extends Component {
   };
 
   state = {
-    filters: {},
-    page: 0,
     modal: { ...defaultModalState },
   };
 
@@ -82,26 +74,18 @@ class View extends Component {
     this.props.resetAll();
   }
 
-  handleNoteClick = (target, note, data) => {
-    if (note) {
-      this.context.notes.onEditNoteClick(target, note, { placement: 'left' });
-    } else {
-      this.context.notes.onAddNoteClick(
-        target,
-        { playerUUID: data.playerUUID, targetUUID: data.paymentId, targetType: targetTypes.PAYMENT },
-        { placement: 'left' }
-      );
-    }
-  };
+  handleRefresh = () => this.props.clientPayments.refetch();
 
-  handleRefresh = () => this.props.fetchEntities({
-    ...this.state.filters,
-    page: this.state.page,
-  });
+  handlePageChanged = () => {
+    const {
+      clientPayments: {
+        loadMore,
+        loading,
+      },
+    } = this.props;
 
-  handlePageChanged = (page) => {
-    if (!this.props.transactions.isLoading) {
-      this.setState({ page: page - 1 }, () => this.handleRefresh());
+    if (!loading) {
+      loadMore();
     }
   };
 
@@ -112,12 +96,24 @@ class View extends Component {
       filters.statuses = filters.statuses.join(',');
     }
 
-    this.setState({ filters, page: 0 }, this.handleRefresh);
+    history.replace({ query: { filters } });
   };
 
   handleFilterReset = () => {
     this.props.resetAll();
-    this.setState({ filters: {}, page: 0 });
+    history.replace({});
+  };
+
+  handleNoteClick = (target, note, data) => {
+    if (note) {
+      this.context.notes.onEditNoteClick(target, note, { placement: 'left' });
+    } else {
+      this.context.notes.onAddNoteClick(
+        target,
+        { playerUUID: data.playerUUID, targetUUID: data.paymentId, targetType: targetTypes.PAYMENT },
+        { placement: 'left' }
+      );
+    }
   };
 
   handleChangePaymentStatus = (action, playerUUID, paymentId, options = {}) => {
@@ -178,133 +174,19 @@ class View extends Component {
     });
   };
 
-  handleExport = () => this.props.exportEntities({
-    ...this.state.filters,
-  });
-
-  renderTransactionId = data => (
-    <GridPaymentInfo
-      payment={data}
-      onClick={() => this.handleOpenDetailModal({ payment: data })}
-    />
-  );
-
-  renderPlayer = data => (
-    data.playerProfile
-      ? (
-        <GridPlayerInfo
-          profile={data.playerProfile}
-          id={`transaction-${data.paymentId}`}
-          fetchPlayerProfile={this.props.fetchPlayerMiniProfile}
-          auth={this.props.auth}
-        />
-      )
-      : <Uuid uuid={data.playerUUID} uuidPrefix={data.playerUUID.indexOf('PLAYER') === -1 ? 'PL' : null} />
-  );
-
-  renderType = data => (
-    <Fragment>
-      <Choose>
-        <When condition={data.transactionTag && data.transactionTag !== customPaymentTypes.NORMAL}>
-          <div {...customTypesProps[data.transactionTag]}>{renderLabel(data.transactionTag, customTypesLabels)}</div>
-        </When>
-        <Otherwise>
-          <div {...typesProps[data.paymentType]}>{renderLabel(data.paymentType, typesLabels)}</div>
-        </Otherwise>
-      </Choose>
-      <div className="font-size-11 text-uppercase">
-        {data.paymentSystemRefs.map((SystemRef, index) => (
-          <div key={`${SystemRef}-${index}`}>{SystemRef}</div>
-        ))}
-      </div>
-    </Fragment>
-  );
-
-  renderAmount = data => <GridPaymentAmount payment={data} />;
-
-  renderDateTime = data => (
-    <div>
-      <div className="font-weight-700">
-        {moment.utc(data.creationTime).local().format('DD.MM.YYYY')}
-      </div>
-      <div className="font-size-11">
-        {moment.utc(data.creationTime).local().format('HH:mm:ss')}
-      </div>
-    </div>
-  );
-
-  renderIP = (data) => {
-    if (!data.country) {
-      return data.country;
-    }
-
-    const id = `transaction-ip-${data.paymentId}`;
-
-    return <IpFlag id={id} country={data.country} ip={data.clientIp} />;
-  };
-
-  renderMethod = data => (
-    !data.paymentMethod ? <span>&mdash;</span>
-      : <div>
-        <div className="font-weight-700">
-          {renderLabel(data.paymentMethod, methodsLabels)}
-        </div>
-        {
-          !!data.paymentAccount &&
-          <div className="font-size-11">
-            {data.paymentAccount}
-          </div>
-        }
-      </div>
-  );
-
-  renderDevice = (data) => {
-    const id = `payment-device-${data.paymentId}`;
-
-    return (
-      <div>
-        <i
-          id={id}
-          className={`fa font-size-20 ${data.mobile ? 'fa-mobile' : 'fa-desktop'}`}
-        />
-        <UncontrolledTooltip
-          placement="bottom"
-          target={id}
-          delay={{
-            show: 350,
-            hide: 250,
-          }}
-        >
-          {data.userAgent ? data.userAgent : 'User agent not defined'}
-        </UncontrolledTooltip>
-      </div>
-    );
-  };
-
-  renderStatus = data => (
-    <TransactionStatus
-      onLoadStatusHistory={() => this.props.loadPaymentStatuses(data.playerUUID, data.paymentId)}
-      transaction={data}
-    />
-  );
-
-  renderActions = data => (
-    <NoteButton
-      id={`transaction-item-note-button-${data.paymentId}`}
-      note={data.note}
-      onClick={this.handleNoteClick}
-      targetEntity={data}
-    />
-  );
-
   render() {
     const {
-      transactions: { entities, noResults, exporting },
       filters: { data: availableFilters },
       locale,
+      currencies,
+      clientPayments,
+      auth,
+      fetchPlayerMiniProfile,
+      loadPaymentStatuses,
     } = this.props;
-    const { modal, filters } = this.state;
-    const allowActions = Object.keys(filters).filter(i => filters[i]).length > 0;
+
+    const entities = get(clientPayments, 'clientPayments', { content: [] });
+    const { modal } = this.state;
 
     return (
       <div className="card">
@@ -312,20 +194,13 @@ class View extends Component {
           <span className="font-size-20" id="transactions-list-header">
             {I18n.t('COMMON.PAYMENTS')}
           </span>
-
-          <button
-            disabled={exporting || !allowActions}
-            className="btn btn-default-outline ml-auto"
-            onClick={this.handleExport}
-          >
-            {I18n.t('COMMON.EXPORT')}
-          </button>
         </div>
 
         <TransactionsFilterForm
           onSubmit={this.handleFiltersChanged}
           onReset={this.handleFilterReset}
-          disabled={!allowActions}
+          disabled
+          currencies={currencies}
           {...availableFilters}
           filterByType
         />
@@ -335,68 +210,27 @@ class View extends Component {
             dataSource={entities.content}
             onPageChange={this.handlePageChanged}
             activePage={entities.number + 1}
-            totalPages={entities.totalPages}
+            last={entities.last}
             lazyLoad
             locale={locale}
-            showNoResults={noResults}
+            showNoResults={!clientPayments.loading && entities.content.length === 0}
           >
-            <GridViewColumn
-              name="paymentId"
-              header="Transaction"
-              render={this.renderTransactionId}
-            />
-            <GridViewColumn
-              name="profile"
-              header="Player"
-              render={this.renderPlayer}
-            />
-            <GridViewColumn
-              name="paymentType"
-              header="Type"
-              render={this.renderType}
-            />
-            <GridViewColumn
-              name="amount"
-              header="Amount"
-              render={this.renderAmount}
-            />
-            <GridViewColumn
-              name="creationTime"
-              header="DATE & TIME"
-              render={this.renderDateTime}
-            />
-            <GridViewColumn
-              name="country"
-              header="Ip"
-              headerClassName="text-center"
-              className="text-center"
-              render={this.renderIP}
-            />
-            <GridViewColumn
-              name="paymentMethod"
-              header="Method"
-              render={this.renderMethod}
-            />
-            <GridViewColumn
-              name="mobile"
-              header="Device"
-              headerClassName="text-center"
-              className="text-center"
-              render={this.renderDevice}
-            />
-            <GridViewColumn
-              name="status"
-              header="Status"
-              className="text-uppercase"
-              render={this.renderStatus}
-            />
-            <GridViewColumn
-              name="actions"
-              header=""
-              render={this.renderActions}
-            />
+            {columns(
+              {
+                auth,
+                fetchPlayerMiniProfile,
+                loadPaymentStatuses,
+              },
+              this.handleOpenDetailModal,
+            ).map(({ name, header, render }) => (
+              <GridViewColumn
+                key={name}
+                name={name}
+                header={header}
+                render={render}
+              />
+            ))}
           </GridView>
-
           {
             modal.name === MODAL_PAYMENT_DETAIL &&
             <PaymentDetailModal
