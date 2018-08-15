@@ -5,6 +5,7 @@ import { I18n } from 'react-redux-i18n';
 import { parse } from 'qs';
 import PropTypes from '../../../../../../../constants/propTypes';
 import { statuses as freeSpinTemplate } from '../../../../../../../constants/free-spin-template';
+import { gameProvider } from '../../../../../../../constants/games';
 import { InputField, SelectField, NasSelectField, CheckBox } from '../../../../../../../components/ReduxForm';
 import { attributeLabels, GAME_TYPES } from './constants';
 import Amount, { Currency } from '../../../../../../../components/Amount';
@@ -13,7 +14,9 @@ import { floatNormalize, intNormalize } from '../../../../../../../utils/inputNo
 import normalizeNumber from '../../../../../../../utils/normalizeNumber';
 import { attributePlaceholders } from '../Bonus/constants';
 import Bonus from './Bonus';
-import { aggregators } from '../../../../../../../routes/Players/routes/Profile/routes/Rewards/routes/FreeSpins/constants';
+import {
+  aggregators,
+} from '../../../../../../../routes/Players/routes/Profile/routes/Rewards/routes/FreeSpins/constants';
 import Uuid from '../../../../../../../components/Uuid';
 
 class FreeSpin extends Component {
@@ -41,6 +44,10 @@ class FreeSpin extends Component {
     }),
   };
 
+  static contextTypes = {
+    _reduxForm: PropTypes.object,
+  };
+
   static defaultProps = {
     disabled: false,
     games: [],
@@ -48,10 +55,6 @@ class FreeSpin extends Component {
     bonusTemplates: [],
     typeValues: [],
     aggregators: {},
-  };
-
-  static contextTypes = {
-    _reduxForm: PropTypes.object,
   };
 
   state = {
@@ -82,11 +85,11 @@ class FreeSpin extends Component {
   }
 
   get pageCodes() {
-    const gameData = this.gameData;
+    const { gameData } = this;
     const pageCodes = [];
 
     if (gameData) {
-      const { pageCode, mobilePageCode } = parse(this.gameData.startGameUrl, { ignoreQueryPrefix: true });
+      const { pageCode, mobilePageCode } = parse(gameData.startGameUrl, { ignoreQueryPrefix: true });
 
       if (pageCode) {
         pageCodes.push({
@@ -111,6 +114,19 @@ class FreeSpin extends Component {
     const currentValues = get(rewards, 'freeSpin', {});
 
     return this.state.currentGames.find(i => i.gameId === currentValues.gameId);
+  }
+
+  get freeSpinTemplates() {
+    const { freeSpinTemplates } = this.props;
+
+    const { _reduxForm: { values: { currency } } } = this.context;
+
+    return currency
+      ? freeSpinTemplates.filter(
+        i => i.providerId !== gameProvider.igromat ||
+        (i.betPerLineAmounts && i.betPerLineAmounts.find(a => a.currency === currency))
+      )
+      : freeSpinTemplates;
   }
 
   setField = (field, value = '') => this.props.change(this.buildFieldName(field), value);
@@ -337,7 +353,7 @@ class FreeSpin extends Component {
     const currentValues = get(rewards, 'freeSpin', {});
 
     if (currentValues.aggregatorId === aggregators.netent ||
-      (currentValues.aggregatorId === aggregators.softgamings && providerId !== 'netent')) {
+      (currentValues.aggregatorId === aggregators.softgamings && providerId !== gameProvider.netent)) {
       this.setField('betLevel', 1);
     }
 
@@ -345,7 +361,9 @@ class FreeSpin extends Component {
       this.setField('coinSize', 1);
     }
 
-    const currentGames = this.props.games.filter(i => i.gameProviderId === providerId && i.aggregatorId === currentValues.aggregatorId);
+    const currentGames = this.props.games.filter(
+      i => i.gameProviderId === providerId && i.aggregatorId === currentValues.aggregatorId
+    );
     console.info(`Selected provider: ${providerId}`);
     console.info(`Games count: ${currentGames.length}`);
 
@@ -369,7 +387,7 @@ class FreeSpin extends Component {
     const { _reduxForm: { form, values: { rewards } } } = this.context;
     const currentValues = get(rewards, 'freeSpin', {});
     const { currentLines } = this.state;
-    const gameData = this.gameData;
+    const { gameData } = this;
 
     if (!currentValues.aggregatorId) {
       return null;
@@ -846,7 +864,6 @@ class FreeSpin extends Component {
     const {
       disabled,
       remove,
-      freeSpinTemplates,
       bonusTemplates,
       change,
       nodePath,
@@ -926,7 +943,7 @@ class FreeSpin extends Component {
                 </If>
               }
             >
-              {freeSpinTemplates.map(item => (
+              {this.freeSpinTemplates.map(item => (
                 <option key={item.uuid} value={item.uuid}>
                   {item.name}
                 </option>
