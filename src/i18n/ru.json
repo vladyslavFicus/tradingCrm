@@ -279,7 +279,8 @@
         "BALANCE_BEFORE": "До",
         "BALANCE_AFTER": "После",
         "PENDING_BALANCE": "В ожидании",
-        "BALANCE": "Баланс"
+        "BALANCE": "Баланс",
+        "DEVICE": "Устройство"
       },
       "GAME_ROUND_TYPE": {
         "FREE_SPIN": "Free spin",
