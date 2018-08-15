@@ -47,7 +47,9 @@ class GameActivity extends Component {
   };
 
   state = {
-    filters: {},
+    filters: {
+      limit: 100,
+    },
     page: 0,
   };
 
@@ -111,7 +113,13 @@ class GameActivity extends Component {
   };
 
   handleFiltersChanged = (filters = {}) => {
-    this.setState({ filters, page: 0 }, this.handleRefresh);
+    this.setState({
+      filters: {
+        ...this.state.filters,
+        ...filters,
+      },
+      page: 0,
+    }, this.handleRefresh);
   };
 
   handleExportClick = async () => {
