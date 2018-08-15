@@ -289,7 +289,7 @@ class GameActivity extends Component {
       );
     }
 
-    return <i className="fa fa-question-circle" />;
+    return <i className="fa fa-question-circle font-size-20" />;
   };
 
   render() {
