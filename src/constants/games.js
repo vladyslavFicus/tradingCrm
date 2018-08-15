@@ -40,6 +40,7 @@ const gameProvider = keyMirror({
   microgaming: null,
   greentube: null,
   netent: null,
+  igromat: null,
   stakelogic: null,
 });
 
