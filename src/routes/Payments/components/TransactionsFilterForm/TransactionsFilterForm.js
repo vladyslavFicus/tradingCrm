@@ -9,12 +9,13 @@ import {
   types,
   typesLabels,
   methodsLabels,
-  initiatorsLabels,
   statusesLabels,
 } from '../../../../constants/payment';
 import { InputField, DateTimeField, NasSelectField, RangeGroup } from '../../../../components/ReduxForm';
 import { attributeLabels, attributePlaceholders } from './constants';
 import renderLabel from '../../../../utils/renderLabel';
+import countries from '../../../../utils/countryList';
+import { floatNormalize } from '../../../../utils/inputNormalize';
 
 class TransactionsFilterForm extends Component {
   static propTypes = {
@@ -38,6 +39,7 @@ class TransactionsFilterForm extends Component {
     paymentMethods: PropTypes.arrayOf(PropTypes.paymentMethod).isRequired,
     statuses: PropTypes.arrayOf(PropTypes.string).isRequired,
     invalid: PropTypes.bool,
+    currencies: PropTypes.arrayOf(PropTypes.string).isRequired,
   };
   static defaultProps = {
     invalid: true,
@@ -82,6 +84,7 @@ class TransactionsFilterForm extends Component {
       filterByType,
       statuses,
       invalid,
+      currencies,
     } = this.props;
 
     return (
@@ -97,22 +100,23 @@ class TransactionsFilterForm extends Component {
           className="filter-row__big"
         />
         <Field
-          name="initiatorType"
-          label={I18n.t(attributeLabels.initiatorType)}
+          name="countryCode"
+          label={I18n.t(attributeLabels.country)}
+          placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
           component={NasSelectField}
           className="filter-row__medium"
         >
-          {Object.keys(initiatorsLabels).map(assign => (
-            <option key={assign} value={assign}>
-              {initiatorsLabels[assign]}
-            </option>
-          ))}
+          {Object
+            .keys(countries)
+            .map(key => <option key={key} value={key}>{countries[key]}</option>)
+          }
         </Field>
         <If condition={filterByType}>
           <Field
             name="type"
             label={I18n.t(attributeLabels.type)}
             component={NasSelectField}
+            placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
             className="filter-row__medium"
           >
             {Object.keys(types).map(type => (
@@ -123,9 +127,23 @@ class TransactionsFilterForm extends Component {
           </Field>
         </If>
         <Field
+          name="paymentMethod"
+          label={I18n.t(attributeLabels.paymentMethod)}
+          component={NasSelectField}
+          placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
+          className="filter-row__medium"
+        >
+          {paymentMethods.map(method => (
+            <option key={method.uuid} value={method.methodName}>
+              {renderLabel(method.methodName, methodsLabels)}
+            </option>
+          ))}
+        </Field>
+        <Field
           name="statuses"
           label={I18n.t(attributeLabels.statuses)}
           component={NasSelectField}
+          placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
           multiple
           className="filter-row__medium"
         >
@@ -136,14 +154,15 @@ class TransactionsFilterForm extends Component {
           ))}
         </Field>
         <Field
-          name="paymentMethod"
-          label={I18n.t(attributeLabels.paymentMethod)}
+          name="currency"
+          label={I18n.t('COMMON.CURRENCY')}
           component={NasSelectField}
+          placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
           className="filter-row__medium"
         >
-          {paymentMethods.map(method => (
-            <option key={method.uuid} value={method.methodName}>
-              {renderLabel(method.methodName, methodsLabels)}
+          {currencies.map(item => (
+            <option key={item} value={item}>
+              {item}
             </option>
           ))}
         </Field>
@@ -153,13 +172,15 @@ class TransactionsFilterForm extends Component {
         >
           <Field
             name="amountLowerBound"
-            type="text"
+            type="number"
+            normalize={floatNormalize}
             placeholder="0.00"
             component={InputField}
           />
           <Field
             name="amountUpperBound"
-            type="text"
+            type="number"
+            normalize={floatNormalize}
             placeholder="0.00"
             component={InputField}
           />

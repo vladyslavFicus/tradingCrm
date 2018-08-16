@@ -87,7 +87,7 @@ const falconSidebarMenu = [{
 }, {
   label: I18n.t('SIDEBAR.TOP_MENU.PAYMENTS'),
   icon: 'icon-payments sidebar-nav-item__icon--payments',
-  url: '/transactions/list',
+  url: '/payments/list',
   service: services.payment,
 }, {
   label: I18n.t('SIDEBAR.TOP_MENU.CALLBACKS'),
