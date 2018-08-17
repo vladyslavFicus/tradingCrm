@@ -158,9 +158,35 @@ function fetchAuthorities(type) {
   };
 }
 
+function fetchHierarchy(type) {
+  return (uuid, outsideToken = null) => (dispatch, getState) => {
+    const { auth: { token: authToken, logged } } = getState();
+    const token = outsideToken || authToken;
+    return dispatch({
+      [CALL_API]: {
+        // fix endpoint MONDAY
+        endpoint: `trading_hierarchy_updater/user/OPERATOR-a2d9d7ed-72ed-409a-9533-8c0a22103f4c/hierarchy`,
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        types: [
+          type.REQUEST,
+          type.SUCCESS,
+          type.FAILURE,
+        ],
+        bailout: !logged && !token,
+      },
+    });
+  };
+}
+
 const sourceActionCreators = {
   fetchProfile,
   fetchAuthorities,
+  fetchHierarchy,
   passwordResetRequest,
   passwordResetConfirm,
   sendInvitationRequest,

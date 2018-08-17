@@ -13,14 +13,14 @@ const mapStateToProps = ({
   usersList: list,
   i18n: { locale },
   options: { data: { currencyCodes } },
-  auth: { brandId, uuid },
+  auth: { brandId, uuid, userHierarchy },
 }) => ({
   list,
   locale,
   tags: config.tags || [],
   currencies: currencyCodes,
   countries,
-  auth: { brandId, uuid },
+  auth: { brandId, uuid, userHierarchy },
 });
 
 const mapActions = {
@@ -34,11 +34,15 @@ export default compose(
   connect(mapStateToProps, mapActions),
   graphql(profilesQuery, {
     name: 'profiles',
-    options: ({ location: { query } }) => ({
+    options: ({
+      location: { query },
+      auth: { userHierarchy },
+    }) => ({
       variables: {
         ...query ? query.filters : { registrationDateFrom: moment().startOf('day').utc().format() },
         page: 1,
         size: 20,
+        hierarchyUsers: userHierarchy,
       },
     }),
     props: ({ profiles: { profiles, fetchMore, ...rest } }) => {
