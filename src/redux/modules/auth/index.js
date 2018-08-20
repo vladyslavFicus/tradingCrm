@@ -223,7 +223,7 @@ const actionHandlers = {
   }),
   [FETCH_HIERARCHY.SUCCESS]: (state, action) => ({
     ...state,
-    userHierarchy: action.payload.map(item => item.uuid),
+    hierarchyUsers: action.payload.map(item => item.uuid),
   }),
   [UPDATE_PROFILE.SUCCESS]: (state, action) => ({
     ...state,

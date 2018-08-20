@@ -164,8 +164,7 @@ function fetchHierarchy(type) {
     const token = outsideToken || authToken;
     return dispatch({
       [CALL_API]: {
-        // fix endpoint MONDAY
-        endpoint: `trading_hierarchy_updater/user/OPERATOR-a2d9d7ed-72ed-409a-9533-8c0a22103f4c/hierarchy`,
+        endpoint: `trading_hierarchy_updater/user/${uuid}/hierarchy`,
         method: 'GET',
         headers: {
           Accept: 'application/json',

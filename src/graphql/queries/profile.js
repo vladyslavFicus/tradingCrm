@@ -11,6 +11,7 @@ const profilesQuery = gql`query getProfiles(
   $registrationDateTo: String,
   $searchValue: String,
   $status: String,
+  $hierarchyUsers: [String],
 ) {
   profiles(
     page: $page,
@@ -23,6 +24,7 @@ const profilesQuery = gql`query getProfiles(
     registrationDateTo: $registrationDateTo,
     searchValue: $searchValue,
     status: $status,
+    hierarchyUsers: $hierarchyUsers,
     ) {
       error {
         error

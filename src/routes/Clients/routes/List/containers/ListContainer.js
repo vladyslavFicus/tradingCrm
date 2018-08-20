@@ -13,14 +13,14 @@ const mapStateToProps = ({
   usersList: list,
   i18n: { locale },
   options: { data: { currencyCodes } },
-  auth: { brandId, uuid, userHierarchy },
+  auth: { brandId, uuid, hierarchyUsers },
 }) => ({
   list,
   locale,
   tags: config.tags || [],
   currencies: currencyCodes,
   countries,
-  auth: { brandId, uuid, userHierarchy },
+  auth: { brandId, uuid, hierarchyUsers },
 });
 
 const mapActions = {
@@ -36,13 +36,13 @@ export default compose(
     name: 'profiles',
     options: ({
       location: { query },
-      auth: { userHierarchy },
+      auth: { hierarchyUsers },
     }) => ({
       variables: {
         ...query ? query.filters : { registrationDateFrom: moment().startOf('day').utc().format() },
         page: 1,
         size: 20,
-        hierarchyUsers: userHierarchy,
+        hierarchyUsers,
       },
     }),
     props: ({ profiles: { profiles, fetchMore, ...rest } }) => {
