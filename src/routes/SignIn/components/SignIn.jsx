@@ -45,7 +45,7 @@ class SignIn extends Component {
     this.mounted = true;
 
     setTimeout(() => {
-      if (this.mounted) {    
+      if (this.mounted) {
         this.setState({ loading: false });
       }
     }, 300);

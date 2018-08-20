@@ -187,7 +187,6 @@ class View extends Component {
     } = this.props;
 
     const { modal } = this.state;
-
     const entities = get(clientPayments, 'clientPayments', { content: [] });
 
     return (

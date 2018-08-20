@@ -162,6 +162,7 @@ function fetchHierarchy(type) {
   return (uuid, outsideToken = null) => (dispatch, getState) => {
     const { auth: { token: authToken, logged } } = getState();
     const token = outsideToken || authToken;
+
     return dispatch({
       [CALL_API]: {
         endpoint: `trading_hierarchy_updater/user/${uuid}/hierarchy`,

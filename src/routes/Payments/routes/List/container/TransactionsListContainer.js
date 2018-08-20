@@ -47,7 +47,7 @@ export default compose(
         ...query ? query.filters : { startDate: moment().startOf('day').utc().format() },
         page: 0,
         size: 20,
-        hierarchyUsers,
+        playerUUIDs: hierarchyUsers,
       },
     }),
     props: ({ clientPayments: { clientPayments, fetchMore, ...rest } }) => {
