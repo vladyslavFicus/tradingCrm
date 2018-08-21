@@ -49,6 +49,7 @@ class View extends Component {
       refetch: PropTypes.func.isRequired,
     }).isRequired,
   };
+
   static contextTypes = {
     notes: PropTypes.shape({
       onAddNote: PropTypes.func.isRequired,
@@ -185,8 +186,8 @@ class View extends Component {
       loadPaymentStatuses,
     } = this.props;
 
-    const entities = get(clientPayments, 'clientPayments', { content: [] });
     const { modal } = this.state;
+    const entities = get(clientPayments, 'clientPayments', { content: [] });
 
     return (
       <div className="card">

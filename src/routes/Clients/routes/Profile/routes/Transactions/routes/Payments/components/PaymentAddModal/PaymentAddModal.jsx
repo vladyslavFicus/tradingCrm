@@ -54,17 +54,19 @@ class PaymentAddModal extends Component {
     }).isRequired,
     mt4Accounts: PropTypes.arrayOf(PropTypes.mt4User),
   };
+
+  static contextTypes = {
+    onAddNoteClick: PropTypes.func.isRequired,
+    onEditNoteClick: PropTypes.func.isRequired,
+    hidePopover: PropTypes.func.isRequired,
+  };
+
   static defaultProps = {
     submitting: false,
     pristine: false,
     currentValues: {},
     error: [],
     mt4Accounts: [],
-  };
-  static contextTypes = {
-    onAddNoteClick: PropTypes.func.isRequired,
-    onEditNoteClick: PropTypes.func.isRequired,
-    hidePopover: PropTypes.func.isRequired,
   };
 
   state = {

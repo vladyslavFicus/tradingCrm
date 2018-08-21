@@ -81,6 +81,10 @@ class Header extends Component {
     checkService: PropTypes.func.isRequired,
   };
 
+  static contextTypes = {
+    permissions: PropTypes.arrayOf(PropTypes.string).isRequired,
+  };
+
   static defaultProps = {
     lastIp: null,
     playerProfile: {},
@@ -88,10 +92,6 @@ class Header extends Component {
     currentTags: [],
     availableStatuses: [],
     loaded: false,
-  };
-
-  static contextTypes = {
-    permissions: PropTypes.arrayOf(PropTypes.string).isRequired,
   };
 
   handleTagAdd = (option) => {

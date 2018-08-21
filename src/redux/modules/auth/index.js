@@ -11,6 +11,7 @@ const SIGN_IN = createRequestAction(`${KEY}/sign-in`);
 const FETCH_PROFILE = createRequestAction(`${KEY}/fetch-profile`);
 const UPDATE_PROFILE = createRequestAction(`${KEY}/update-profile`);
 const FETCH_AUTHORITIES = createRequestAction(`${KEY}/fetch-authorities`);
+const FETCH_HIERARCHY = createRequestAction(`${KEY}/fetch-hierarchy`);
 const CHANGE_AUTHORITY = createRequestAction(`${KEY}/change-authorities`);
 const REFRESH_TOKEN = createRequestAction(`${KEY}/refresh-token`);
 const LOGOUT = createRequestAction(`${KEY}/logout`);
@@ -18,6 +19,7 @@ const SET_DEPARTMENTS_BY_BRAND = `${KEY}/set-departments-by-brand`;
 
 const fetchProfile = operatorSourceActionCreators.fetchProfile(FETCH_PROFILE);
 const fetchAuthorities = operatorSourceActionCreators.fetchAuthorities(FETCH_AUTHORITIES);
+const fetchHierarchy = operatorSourceActionCreators.fetchHierarchy(FETCH_HIERARCHY);
 const updateProfile = operatorSourceActionCreators.updateProfile(UPDATE_PROFILE);
 
 function signIn(data) {
@@ -219,6 +221,10 @@ const actionHandlers = {
     fullName: [action.payload.firstName, action.payload.lastName].join(' ').trim(),
     data: action.payload,
   }),
+  [FETCH_HIERARCHY.SUCCESS]: (state, action) => ({
+    ...state,
+    hierarchyUsers: action.payload.map(item => item.uuid),
+  }),
   [UPDATE_PROFILE.SUCCESS]: (state, action) => ({
     ...state,
     data: action.payload,
@@ -264,6 +270,7 @@ const actionCreators = {
   signIn,
   fetchProfile,
   fetchAuthorities,
+  fetchHierarchy,
   changeDepartment,
   logout,
   refreshToken,
