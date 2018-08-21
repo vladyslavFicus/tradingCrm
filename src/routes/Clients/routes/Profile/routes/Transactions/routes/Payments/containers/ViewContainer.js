@@ -1,6 +1,7 @@
 import { connect } from 'react-redux';
 import { graphql, compose } from 'react-apollo';
 import { get } from 'lodash';
+import moment from 'moment';
 import Payments from '../components/Payments';
 import { actionCreators as viewActionCreators } from '../modules';
 import { paymentActions, chargebackReasons, rejectReasons } from '../../../../../../../../../constants/payment';
@@ -46,7 +47,7 @@ export default compose(
       location: { query },
     }) => ({
       variables: {
-        ...query ? query.filters : {},
+        ...query ? query.filters : { startDate: moment().startOf('day').utc().format() },
         playerUUID,
         page: 0,
         size: 20,

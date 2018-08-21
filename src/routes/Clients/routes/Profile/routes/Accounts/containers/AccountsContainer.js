@@ -1,6 +1,6 @@
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import Transactions from '../components/Transactions';
+import Accounts from '../components/Accounts';
 import { withServiceCheck } from '../../../../../../../components/HighOrder';
 
 const mapStateToProps = ({
@@ -12,6 +12,6 @@ const mapStateToProps = ({
 });
 
 export default compose(
-  withServiceCheck,
-  connect(mapStateToProps)
-)(Transactions);
+  connect(mapStateToProps),
+  withServiceCheck
+)(Accounts);

@@ -1,18 +1,22 @@
 /* eslint-disable import/prefer-default-export */
+import { I18n } from 'react-redux-i18n';
 
 export const userProfileTabs = [{
-  label: 'Profile',
+  label: I18n.t('CLIENT_PROFILE.TABS.PROFILE'),
   url: '/clients/:id/profile',
 }, {
-  label: 'Transactions',
+  label: I18n.t('CLIENT_PROFILE.TABS.TRANSACTIONS'),
   url: '/clients/:id/transactions',
 }, {
-  label: 'Files',
+  label: I18n.t('CLIENT_PROFILE.TABS.ACCOUNTS'),
+  url: '/clients/:id/accounts',
+}, {
+  label: I18n.t('CLIENT_PROFILE.TABS.FILES'),
   url: '/clients/:id/files',
 }, {
-  label: 'Notes',
+  label: I18n.t('CLIENT_PROFILE.TABS.NOTES'),
   url: '/clients/:id/notes',
 }, {
-  label: 'Feed',
+  label: I18n.t('CLIENT_PROFILE.TABS.FEED'),
   url: '/clients/:id/feed',
 }];

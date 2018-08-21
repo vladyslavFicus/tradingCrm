@@ -28,10 +28,11 @@ import BackToTop from '../../../../../../components/BackToTop';
 import HideDetails from '../../../../../../components/HideDetails';
 import {
   ClientView,
+  Transactions,
+  Accounts,
   Notes,
   Files,
   Feed,
-  Transactions,
 } from '../../routes';
 import { Route } from '../../../../../../router';
 import { getAcquisitionFields } from './utils';
@@ -705,10 +706,11 @@ class Profile extends Component {
         <div className="card no-borders">
           <Switch>
             <Route disableScroll path={`${path}/profile`} component={ClientView} />
+            <Route disableScroll path={`${path}/transactions`} component={Transactions} />
+            <Route disableScroll path={`${path}/accounts`} component={Accounts} />
             <Route disableScroll path={`${path}/notes`} component={Notes} />
             <Route disableScroll path={`${path}/files`} component={Files} />
             <Route disableScroll path={`${path}/feed`} component={Feed} />
-            <Route disableScroll path={`${path}/transactions`} component={Transactions} />
             <Redirect to={`${url}/profile`} />
           </Switch>
         </div>
