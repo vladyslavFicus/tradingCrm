@@ -1,7 +1,7 @@
 .modal {
   &-content {
     border: none;
-    border-radius: 0;
+    border-radius: 3px;
   }
   &-dialog {
     width: 600px;
@@ -25,14 +25,21 @@
     padding-top: 5px;
     padding-bottom: 5px;
     border-bottom: none;
-    border-top-right-radius: 0;
-    border-top-left-radius: 0;
-    background-color: #dff2ff;
+    border-top-right-radius: 3px;
+    border-top-left-radius: 3px;
+    background-color: #4990e2;
     .close {
       margin: 0;
       padding: 0;
       font-size: 45px;
       font-weight: 300;
+      opacity: 1;
+      text-shadow: none;
+      color: #fff;
+      &:not(:disabled):not(.disabled):hover {
+        opacity: 1;
+        color: #fff;
+      }
     }
     .close:focus {
       outline: none;
@@ -40,7 +47,8 @@
   }
   &-title {
     font-size: 18px;
-    color: #333;
+    font-weight: 300;
+    color: #fff;
     &:first-letter {
       text-transform: uppercase;
     }
@@ -65,7 +73,7 @@
   }
   &-danger {
     .modal-header {
-      background-color: #fc6;
+      background-color: #ff8041;
     }
   }
   .upload-modal {
