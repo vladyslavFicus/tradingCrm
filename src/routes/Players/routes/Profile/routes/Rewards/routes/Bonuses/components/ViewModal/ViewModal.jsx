@@ -1,14 +1,16 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import moment from 'moment';
+import { I18n } from 'react-redux-i18n';
+import classNames from 'classnames';
 import PropTypes from '../../../../../../../../../../constants/propTypes';
-import { shortify } from '../../../../../../../../../../utils/uuid';
 import Amount from '../../../../../../../../../../components/Amount';
-import BonusType from '../BonusType';
 import BonusStatus from '../BonusStatus';
 import ModalPlayerInfo from '../../../../../../../../../../components/ModalPlayerInfo';
 import NoteButton from '../../../../../../../../../../components/NoteButton';
 import { targetTypes } from '../../../../../../../../../../constants/note';
+import Uuid from '../../../../../../../../../../components/Uuid';
+import './ViewModal.scss';
 
 class ViewModal extends Component {
   static propTypes = {
@@ -40,45 +42,31 @@ class ViewModal extends Component {
   };
 
   renderBonusStats = data => (
-    <div className="modal-footer-tabs modal-footer-tabs_justified-around">
-      <div className="modal-footer-tabs__item">
+    <div className="row view-modal__bonus-stats">
+      <div className="col">
         <div className="modal-tab-label">
-          Granted
+          {I18n.t('PLAYER_PROFILE.BONUS.MODAL_VIEW.BONUS_STATS.GRANTED')}
         </div>
-
         {this.renderGrantedAmount(data)}
       </div>
-      <div className="modal-footer-tabs__item">
+      <div className="col">
         <div className="modal-tab-label">
-          Wagered
+          {I18n.t('PLAYER_PROFILE.BONUS.MODAL_VIEW.BONUS_STATS.WAGERED')}
         </div>
-
         {this.renderWageredAmount(data)}
       </div>
-      <div className="modal-footer-tabs__item">
+      <div className="col">
         <div className="modal-tab-label">
-          To wager
+          {I18n.t('PLAYER_PROFILE.BONUS.MODAL_VIEW.BONUS_STATS.TO_WAGER')}
         </div>
-
         {this.renderToWagerAmount(data)}
       </div>
-      <div className="modal-footer-tabs__item">
+      <div className="col">
         <div className="modal-tab-label">
-          Total to wager
+          {I18n.t('PLAYER_PROFILE.BONUS.MODAL_VIEW.BONUS_STATS.TOTAL_TO_WAGER')}
         </div>
-
         {this.renderTotalToWagerAmount(data)}
       </div>
-      <If condition={data.maxBet}>
-        <div className="modal-footer-tabs__item">
-          <div className="modal-tab-label">
-          Max bet
-          </div>
-          <div className="modal-footer-tabs__amount">
-            {data.maxBet}
-          </div>
-        </div>
-      </If>
     </div>
   );
 
@@ -110,73 +98,98 @@ class ViewModal extends Component {
   );
 
   renderBonus = item => (
-    <div className="modal-body-tabs">
-      <div className="modal-body-tabs__item">
-        <div className="modal-tab-label">
-          Bonus
+    <Fragment>
+      <div className="form-row view-modal__body">
+        <div className="col-6">
+          <div className="modal-tab-label">
+            {I18n.t('PLAYER_PROFILE.BONUS.MODAL_VIEW.BONUS_INFO.BONUS')}
+          </div>
+          {this.renderMainInfo(item)}
         </div>
-
-        {this.renderMainInfo(item)}
-      </div>
-      <div className="modal-body-tabs__item">
-        <div className="modal-tab-label">
-          Available
+        <div className="col">
+          <div className="modal-tab-label">
+            {I18n.t('PLAYER_PROFILE.BONUS.MODAL_VIEW.BONUS_INFO.AVAILABLE')}
+          </div>
+          {this.renderAvailablePeriod(item)}
         </div>
-
-        {this.renderAvailablePeriod(item)}
+        <BonusStatus
+          id="bonus-view-modal"
+          className="col"
+          bonus={item}
+          label={I18n.t('PLAYER_PROFILE.BONUS.MODAL_VIEW.BONUS_INFO.STATUS')}
+        />
       </div>
-      <div className="modal-body-tabs__item">
-        <div className="modal-tab-label">
-          Priority
+      <div className="form-row mb-3">
+        <If condition={item.capping && item.prize}>
+          <div className="col-4">
+            <div className="modal-tab-label">
+              {I18n.t('PLAYER_PROFILE.BONUS.MODAL_VIEW.BONUS_INFO.PRIZE_CAPPING')}
+            </div>
+            <div className="modal-header-tabs__label">
+              <Amount {...item.capping} />
+              <span className="mx-1">/</span>
+              <Amount {...item.prize} />
+            </div>
+          </div>
+        </If>
+        <div className="col-4">
+          <div className="modal-tab-label">
+            {I18n.t('PLAYER_PROFILE.BONUS.MODAL_VIEW.BONUS_INFO.CLAIMABLE')}
+          </div>
+          <div className="modal-header-tabs__label">
+            <Choose>
+              <When condition={item.claimable}>
+                {I18n.t('COMMON.YES')}
+              </When>
+              <Otherwise>
+                {I18n.t('COMMON.NO')}
+              </Otherwise>
+            </Choose>
+          </div>
         </div>
-
-        {this.renderPriority(item)}
       </div>
-      <BonusType className="modal-body-tabs__item" bonus={item} label="Bonus type" />
-      <BonusStatus id="bonus-view-modal" className="modal-body-tabs__item" bonus={item} label="Status" />
-    </div>
+    </Fragment>
   );
 
   renderMainInfo = data => (
-    <div>
+    <Fragment>
       <div className="modal-header-tabs__label">
         {data.label}
       </div>
-
-      <div className="font-size-11">{shortify(data.bonusUUID)}</div>
-      {
-        !!data.campaignUUID &&
-        <div className="font-size-11">
-          by Campaign {shortify(data.campaignUUID, 'CA')}
-        </div>
-      }
-      {
-        !data.campaignUUID && !!data.operatorUUID &&
-        <div className="font-size-11">
-          by Manual Bonus {shortify(data.operatorUUID, 'OP')}
-        </div>
-      }
-    </div>
+      <Uuid uuid={data.bonusUUID} className="d-block font-size-11" />
+      <div className="font-size-11">
+        {I18n.t('COMMON.AUTHOR_BY')}
+        <Choose>
+          <When condition={data.campaignUUID}>
+            <Uuid uuid={data.campaignUUID} uuidPrefix="CA" />
+          </When>
+          <When condition={!data.campaignUUID && data.operatorUUID}>
+            <Uuid uuid={data.operatorUUID} uuidPrefix="OP" />
+          </When>
+        </Choose>
+      </div>
+    </Fragment>
   );
 
   renderAvailablePeriod = data => (
-    data.createdDate
-      ? (
-        <div>
-          <div className="modal-header-tabs__label">
-            {moment.utc(data.createdDate).local().format('DD.MM.YYYY HH:mm:ss')}
-          </div>
-          {
-            !!data.expirationDate &&
-            <div className="font-size-11">
-              {moment.utc(data.expirationDate).local().format('DD.MM.YYYY HH:mm:ss')}
-            </div>
-          }
+    <Choose>
+      <When condition={data.createdDate}>
+        <div className="modal-header-tabs__label">
+          {moment.utc(data.createdDate).local().format('DD.MM.YYYY HH:mm')}
         </div>
-      ) : <span>&mdash</span>
+        <If condition={!!data.expirationDate}>
+          <div className="font-size-11">
+            {`${I18n.t('COMMON.TO')} ${moment.utc(data.expirationDate).local().format('DD.MM.YYYY HH:mm')}`}
+          </div>
+        </If>
+      </When>
+      <Otherwise>
+        <div className="font-weight-700">
+          &mdash;
+        </div>
+      </Otherwise>
+    </Choose>
   );
-
-  renderPriority = data => <div className="modal-header-tabs__label">{data.priority}</div>;
 
   renderNote = data => (
     <div className="text-center">
@@ -195,28 +208,26 @@ class ViewModal extends Component {
     const [leftSideAction, ...rightSideActions] = actions;
 
     return (
-      <Modal className="view-bonus-modal" toggle={onClose} {...rest}>
-        <ModalHeader toggle={onClose}>Bonus details</ModalHeader>
-        <ModalBody>
+      <Modal toggle={onClose} {...rest}>
+        <ModalHeader toggle={onClose}>
+          {I18n.t('PLAYER_PROFILE.BONUS.MODAL_VIEW.TITLE')}
+        </ModalHeader>
+        <ModalBody className="py-3">
           <ModalPlayerInfo playerProfile={playerProfile} />
           {this.renderBonus(item)}
           {this.renderBonusStats(item)}
           {this.renderNote(item)}
         </ModalBody>
-        {
-          actions.length > 0 &&
+        <If condition={actions.length > 0}>
           <ModalFooter>
-            {
-              leftSideAction &&
-              <span className="mr-auto">
-                <button {...leftSideAction} />
-              </span>
-            }
+            <If condition={leftSideAction}>
+              <button {...leftSideAction} className={classNames(leftSideAction.className, 'mr-auto')} />
+            </If>
             {rightSideActions.map(action => (
               <button key={action.children} {...action} />
             ))}
           </ModalFooter>
-        }
+        </If>
       </Modal>
     );
   }
