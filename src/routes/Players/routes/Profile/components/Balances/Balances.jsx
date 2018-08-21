@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
+import { Dropdown, DropdownToggle, DropdownMenu } from 'reactstrap';
 import classNames from 'classnames';
 import { I18n } from 'react-redux-i18n';
 import Amount from '../../../../../../components/Amount';
 import PropTypes from '../../../../../../constants/propTypes';
+import './Balances.scss';
 
 class Balances extends Component {
   static propTypes = {
@@ -32,12 +33,13 @@ class Balances extends Component {
         onClick={this.toggle}
         data-toggle="dropdown"
         aria-expanded={dropDownOpen}
+        className="cursor-pointer"
       >
         {label}
       </DropdownToggle>
       <DropdownMenu>
-        <div className="dropdown-menu__content">
-          <DropdownItem>
+        <div className="form-row balances">
+          <div className="col-auto balances__item">
             <Amount
               className="amount"
               amountId="player-balance-withdrawable-amount"
@@ -46,8 +48,8 @@ class Balances extends Component {
             <div className="amount_label" id="player-balance-withdrawable-amount-label">
               {I18n.t('PLAYER_PROFILE.PROFILE.BALANCES_DROPDOWN.WITHDRAWABLE')}
             </div>
-          </DropdownItem>
-          <DropdownItem>
+          </div>
+          <div className="col-auto balances__item">
             <Amount
               className="amount"
               amountId="player-balance-deposited-amount"
@@ -56,8 +58,8 @@ class Balances extends Component {
             <div className="amount_label" id="player-balance-deposited-amount-label">
               {I18n.t('PLAYER_PROFILE.PROFILE.BALANCES_DROPDOWN.DEPOSITED')}
             </div>
-          </DropdownItem>
-          <DropdownItem>
+          </div>
+          <div className="col-auto balances__item">
             <Amount
               className="amount"
               amountId="player-balance-withdrawn-amount"
@@ -66,7 +68,7 @@ class Balances extends Component {
             <div className="amount_label" id="player-balance-withdrawn-amount-label">
               {I18n.t('PLAYER_PROFILE.PROFILE.BALANCES_DROPDOWN.WITHDRAWN')}
             </div>
-          </DropdownItem>
+          </div>
         </div>
       </DropdownMenu>
     </Dropdown>
@@ -75,7 +77,7 @@ class Balances extends Component {
   render() {
     const { dropDownOpen } = this.state;
     const { label, accumulatedBalances: balances } = this.props;
-    const dropdownClassName = classNames('dropdown-highlight cursor-pointer', {
+    const dropdownClassName = classNames('dropdown-highlight', {
       'dropdown-open': dropDownOpen,
     });
 

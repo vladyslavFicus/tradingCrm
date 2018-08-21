@@ -38,7 +38,6 @@ class PlayerLimits extends Component {
       confirmActionModal: PropTypes.modalType,
     }).isRequired,
   };
-
   static defaultProps = {
     profile: {},
     locks: null,
@@ -151,7 +150,7 @@ class PlayerLimits extends Component {
     }
 
     const { payment, login } = locks;
-    const className = classNames('dropdown-highlight cursor-pointer', {
+    const className = classNames('dropdown-highlight', {
       'dropdown-open': dropDownOpen,
     });
 
@@ -178,9 +177,9 @@ class PlayerLimits extends Component {
           </DropdownToggle>
 
           <DropdownMenu>
-            <div className="row no-gutters header-block_player-limits_btn-group">
+            <div className="row no-gutters player-limits-actions">
               <PermissionContent permissions={permissions.USER_PROFILE.LOCK_DEPOSIT}>
-                <div className="col pr-2">
+                <div className="col-auto pr-2">
                   <PlayerLimitButton
                     className="btn btn-danger-outline w-100"
                     canUnlock={this.canLocked('DEPOSIT')}
@@ -193,7 +192,7 @@ class PlayerLimits extends Component {
                 </div>
               </PermissionContent>
               <PermissionContent permissions={permissions.USER_PROFILE.LOCK_WITHDRAW}>
-                <div className="col">
+                <div className="col-auto">
                   <PlayerLimitButton
                     className="btn btn-danger-outline w-100"
                     canUnlock={this.canLocked('WITHDRAW')}
