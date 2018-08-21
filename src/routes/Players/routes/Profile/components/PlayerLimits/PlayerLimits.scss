@@ -2,6 +2,7 @@
   padding-left: 0;
   &-tab {
     padding-left: 1.2rem;
+    cursor: pointer;
     &_status {
       font-size: 13px;
       font-weight: 600;
@@ -18,11 +19,6 @@
     &_log {
       font-size: 11px;
     }
-  }
-
-  &_btn-group {
-    flex-wrap: nowrap;
-    padding: 1rem 1.2rem;
   }
 }
 
@@ -45,4 +41,9 @@
       margin-left: 10px;
     }
   }
+}
+
+.player-limits-actions {
+  flex-wrap: nowrap;
+  padding: 1rem 1.2rem;
 }
