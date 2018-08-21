@@ -112,7 +112,10 @@ export default (initialState = {}, onComplete) => {
     onComplete(store);
   });
 
-  crosstabSync(persist, config.middlewares.crossTabPersist);
+  crosstabSync(
+    persist,
+    window.isFrame ? config.middlewares.crossTabPersistFrame : config.middlewares.crossTabPersistPage
+  );
 
   store.asyncReducers = {};
 
