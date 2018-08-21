@@ -369,8 +369,6 @@
       "CANCEL_BONUS": "Cancel bonus",
       "PLAYER_NOT_FOUND": "Player not found",
       "MANUAL_CREATION_FAILURE": "Error",
-      "CREATED_BY_CAMPAIGN": "by Campaign ",
-      "CREATED_BY_OPERATOR": "by Operator ",
       "AMOUNT_TO_WAGE_PREPENDED_TEXT": "out of",
       "TITLE": "Bonus",
       "MANUAL_BONUS_BUTTON": "+ Manual bonus",
@@ -381,8 +379,9 @@
         "GRANTED": "Granted",
         "WAGERED": "Wagered",
         "TO_WAGER": "To wager",
-        "BONUS_TYPE": "Bonus type",
-        "BONUS_STATUS": "Status"
+        "CLAIMABLE": "Claimable",
+        "BONUS_STATUS": "Status",
+        "NOTE": "Note"
       },
       "CLAIM_BONUS": "Claim bonus",
       "LOCKED_GRANTED": "Locked:",
@@ -397,7 +396,23 @@
           "DATE_RANGE": "Availability date range"
         }
       },
-      "PERMIT_BONUS_CONVERSION": "Permit conversion"
+      "PERMIT_BONUS_CONVERSION": "Permit conversion",
+      "MODAL_VIEW": {
+        "TITLE": "Bonus details",
+        "BONUS_INFO": {
+          "BONUS": "Bonus",
+          "AVAILABLE": "Available",
+          "STATUS": "Status",
+          "PRIZE_CAPPING": "Prize / capping",
+          "CLAIMABLE": "Claimable"
+        },
+        "BONUS_STATS": {
+          "GRANTED": "Granted",
+          "WAGERED": "Wagered",
+          "TO_WAGER": "To wager",
+          "TOTAL_TO_WAGER": "Total to wager"
+        }
+      }
     },
     "NOTIFICATIONS": {
       "COPY_FULL_UUID": {
