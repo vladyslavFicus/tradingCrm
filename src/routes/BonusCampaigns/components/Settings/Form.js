@@ -247,7 +247,6 @@ class Form extends Component {
                 label={I18n.t(attributeLabels.campaignName)}
                 type="text"
                 component={InputField}
-                position="vertical"
                 disabled={disabled}
                 helpText={
                   <Choose>
@@ -271,8 +270,8 @@ class Form extends Component {
                 id={`${form}StartDate`}
                 component={DateTimeField}
                 isValidDate={() => true}
-                position="vertical"
                 disabled={disabled}
+                pickerClassName="left-side"
               />
               <Field
                 utc
@@ -280,7 +279,6 @@ class Form extends Component {
                 id={`${form}EndDate`}
                 component={DateTimeField}
                 isValidDate={this.endDateValidator('startDate')}
-                position="vertical"
                 disabled={disabled}
               />
             </RangeGroup>
@@ -299,7 +297,6 @@ class Form extends Component {
                 type="select"
                 disabled={disabled}
                 id={`${form}TargetType`}
-                position="vertical"
                 component={SelectField}
                 onChange={this.handleChangeTargetType}
               >
@@ -330,7 +327,6 @@ class Form extends Component {
                 type="select"
                 id={`${form}TargetTypeOptIn`}
                 component={SelectField}
-                position="vertical"
                 disabled={isOptInDisabled}
                 onChange={this.handleChangeOptIn}
               >
@@ -355,7 +351,6 @@ class Form extends Component {
                         placeholder=""
                         disabled={disabled}
                         component={InputField}
-                        position="vertical"
                       />
                     </div>
                     <div className="col">
@@ -364,7 +359,6 @@ class Form extends Component {
                         id={`${form}OptInPeriodTimeUnit`}
                         type="select"
                         component={SelectField}
-                        position="vertical"
                         disabled={disabled}
                       >
                         <option value="">{I18n.t('BONUS_CAMPAIGNS.SETTINGS.SELECT_PERIOD')}</option>
@@ -390,7 +384,6 @@ class Form extends Component {
                   label={I18n.t(attributeLabels.promoCode)}
                   component={InputField}
                   normalize={normalizePromoCode}
-                  position="vertical"
                   disabled={disabled}
                 />
               </div>

@@ -86,6 +86,7 @@ class CampaignsFilterForm extends Component {
             placeholder={I18n.t(attributeLabels.activityDateFrom)}
             component={DateTimeField}
             isValidDate={this.startDateValidator('activityDateTo')}
+            pickerClassName="left-side"
           />
           <Field
             utc

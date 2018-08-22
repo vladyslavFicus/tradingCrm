@@ -88,6 +88,7 @@ class FilesFilterForm extends Component {
             component={DateTimeField}
             isValidDate={this.startDateValidator}
             timeFormat={null}
+            pickerClassName="left-side"
           />
           <Field
             name="uploadDateTo"

@@ -94,6 +94,7 @@ class NotesGridFilter extends Component {
             component={DateTimeField}
             isValidDate={this.startDateValidator}
             timeFormat={null}
+            pickerClassName="left-side"
           />
           <Field
             name="to"

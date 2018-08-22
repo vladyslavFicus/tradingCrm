@@ -194,8 +194,8 @@ class DynamicForm extends Component {
         ];
       } else if (filter.type === TYPES.range_date) {
         input = [
-          <Field component={DateTimeField} position="vertical" placeholder={fromPl} {...from} />,
-          <Field component={DateTimeField} position="vertical" placeholder={toPl} {...to} />,
+          <Field component={DateTimeField} pickerClassName="left-side" placeholder={fromPl} {...from} />,
+          <Field component={DateTimeField} placeholder={toPl} {...to} />,
         ];
       }
 
