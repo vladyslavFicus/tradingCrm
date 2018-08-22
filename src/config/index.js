@@ -65,7 +65,8 @@ const config = _.merge({
       whitelist: ['auth', 'userPanels', 'language', 'settings', 'dynamicFilters'],
       keyPrefix: 'nas:',
     },
-    crossTabPersist: { whitelist: ['auth', 'userPanels'], keyPrefix: 'nas:' },
+    crossTabPersistFrame: { whitelist: ['auth'], keyPrefix: 'nas:' },
+    crossTabPersistPage: { whitelist: ['auth', 'userPanels'], keyPrefix: 'nas:' },
   },
   modules: {
     bonusCampaign: {
