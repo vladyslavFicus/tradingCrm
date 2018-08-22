@@ -119,6 +119,7 @@ class BonusGridFilter extends Component {
             component={DateTimeField}
             timeFormat={null}
             isValidDate={this.startDateValidator}
+            pickerClassName="left-side"
           />
           <Field
             name="endDate"

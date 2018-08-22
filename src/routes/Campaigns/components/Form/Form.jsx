@@ -198,6 +198,7 @@ class Form extends Component {
               isValidDate={() => true}
               disabled={disabled}
               id="campaign-start-date"
+              pickerClassName="left-side"
             />
             <Field
               utc

@@ -115,6 +115,7 @@ class FreeSpinsFilterForm extends Component {
             placeholder={I18n.t(attributeLabels.startDate)}
             component={DateTimeField}
             isValidDate={this.startDateValidator('endDate')}
+            pickerClassName="left-side"
           />
           <Field
             name="endDate"

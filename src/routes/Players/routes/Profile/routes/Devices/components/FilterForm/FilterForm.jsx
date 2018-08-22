@@ -97,6 +97,7 @@ class FilterForm extends Component {
             placeholder={I18n.t(attributeLabels.signInDateFrom)}
             component={DateTimeField}
             isValidDate={this.startDateValidator('signInDateTo')}
+            pickerClassName="left-side"
           />
           <Field
             utc
