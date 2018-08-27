@@ -2376,6 +2376,14 @@
     "LOGIN": "Login"
   },
   "CLIENT_PROFILE": {
+    "TABS": {
+      "PROFILE": "Profile",
+      "TRANSACTIONS": "Transactions",
+      "ACCOUNTS": "Accounts",
+      "FILES": "Files",
+      "NOTES": "Notes",
+      "FEED": "Feed"
+    },
     "PROFILE": {
       "TITLE": "Profile",
       "HEADER": {
@@ -2479,6 +2487,18 @@
         "METHOD": "Method",
         "DATE_TIME": "Date & Time",
         "STATUS": "Status"
+      }
+    },
+    "ACCOUNTS": {
+      "ROUTES": {
+        "TRADING_ACC": "Trading accounts",
+        "PAYMENT_ACC": "Payment accounts"
+      },
+      "ADD_TRADING_ACC": "+ Add trading account",
+      "GRID_COLUMNS": {
+        "TRADING_ACC": "Trading acc",
+        "SERVER": "Server",
+        "BALANCE/EQUITY": "Balance / Equity"
       }
     }
   },
