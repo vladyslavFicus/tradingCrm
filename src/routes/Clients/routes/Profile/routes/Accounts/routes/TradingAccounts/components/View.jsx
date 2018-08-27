@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import PropTypes from '../../../../../../../../../constants/propTypes';
 import { I18n } from 'react-redux-i18n';
 import { get } from 'lodash';
+import PropTypes from '../../../../../../../../../constants/propTypes';
 import GridView, { GridViewColumn } from '../../../../../../../../../components/GridView';
 import columns from './utils';
 
@@ -18,7 +18,7 @@ class View extends Component {
 
   static contextTypes = {
     setRenderActions: PropTypes.func.isRequired,
-  }
+  };
 
   componentDidMount() {
     const {
@@ -28,7 +28,7 @@ class View extends Component {
     } = this;
 
     setRenderActions(() => (
-      <button className="btn btn-default-outline">
+      <button type="button" className="btn btn-default-outline">
         {I18n.t('CLIENT_PROFILE.ACCOUNTS.ADD_TRADING_ACC')}
       </button>
     ));
@@ -37,7 +37,7 @@ class View extends Component {
   render() {
     const {
       playerProfile,
-      locale
+      locale,
     } = this.props;
 
     const mt4Users = get(playerProfile, 'playerProfile.data.tradingProfile.mt4Users', []);
