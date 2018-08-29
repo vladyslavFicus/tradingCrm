@@ -47,7 +47,6 @@ class Information extends PureComponent {
               profileStatus={data.profileStatus}
               initialValues={{
                 marketingMail: data.marketingMail,
-                marketingNews: data.marketingNews,
                 marketingSMS: data.marketingSMS,
                 tailorMadeEmail: data.tailorMadeEmail,
                 tailorMadeSMS: data.tailorMadeSMS,

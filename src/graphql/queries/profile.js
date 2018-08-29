@@ -143,7 +143,6 @@ const profileQuery = gql`query profileData($playerUUID: String!){
       btag
       birthDate
       marketingMail
-      marketingNews
       marketingSMS
       tailorMadeEmail
       tailorMadeSMS

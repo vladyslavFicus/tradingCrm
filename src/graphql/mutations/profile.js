@@ -3,7 +3,6 @@ import gql from 'graphql-tag';
 const updateSubscription = gql`mutation updateSubscription(
     $playerUUID: String!,
     $marketingMail: Boolean!,
-    $marketingNews: Boolean!,
     $marketingSMS: Boolean!,
     $tailorMadeEmail: Boolean!,
     $tailorMadeSMS: Boolean!
@@ -11,15 +10,14 @@ const updateSubscription = gql`mutation updateSubscription(
   profile {
     updateSubscription(
       playerUUID: $playerUUID,
-      marketingNews: $marketingNews,
       marketingSMS: $marketingSMS,
       marketingMail: $marketingMail,
       tailorMadeEmail: $tailorMadeEmail,
       tailorMadeSMS: $tailorMadeSMS
       ) {
       data {
+        playerUUID
         marketingMail
-        marketingNews
         marketingSMS
         tailorMadeEmail
         tailorMadeSMS

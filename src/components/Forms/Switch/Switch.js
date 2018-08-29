@@ -13,20 +13,16 @@ class Switch extends Component {
     disabled: false,
   };
 
-  constructor(props) {
-    super(props);
+  state = {
+    active: this.props.active,
+  };
 
-    this.state = {
-      active: props.active,
-    };
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.active !== this.props.active) {
-      this.setState({
-        active: nextProps.active,
-      });
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (prevState.active !== nextProps.active) {
+      return { active: nextProps.active };
     }
+
+    return null;
   }
 
   toggle = () => {
@@ -41,6 +37,7 @@ class Switch extends Component {
     this.toggle();
 
     const action = await this.props.handleSwitch(!this.state.active);
+
     if (action && action.error) {
       this.revert();
     }

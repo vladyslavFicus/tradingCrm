@@ -42,7 +42,6 @@ class Header extends Component {
       languageCode: PropTypes.string,
       lastName: PropTypes.string,
       marketingMail: PropTypes.bool,
-      marketingNews: PropTypes.bool,
       marketingSMS: PropTypes.bool,
       phoneNumber: PropTypes.string,
       phoneNumberVerified: PropTypes.bool,
