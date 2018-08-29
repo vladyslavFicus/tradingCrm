@@ -7,6 +7,7 @@ import { targetTypes as noteTargetTypes } from '../../../constants/note';
 import { categoriesLabels } from '../../../constants/files';
 import PropTypes from '../../../constants/propTypes';
 import { targetTypes } from '../constants';
+import Uuid from '../../../components/Uuid';
 import { shortifyInMiddle } from '../../../utils/stringFormat';
 
 class UploadingFile extends Component {
@@ -117,7 +118,7 @@ class UploadingFile extends Component {
               {shortifyInMiddle(data.file.name, 40)}
             </div>
             <div>
-              {data.fileUUID}
+              <Uuid uuid={data.fileUUID} />
             </div>
           </div>
         </td>
