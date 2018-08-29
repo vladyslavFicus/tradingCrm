@@ -354,7 +354,7 @@ class Profile extends Component {
 
   handleSubmitUploadModal = async (data) => {
     const { fileChangedCallback } = this.state;
-    const { auth: { fullName } } = this.props;
+    const { addNote } = this.props;
     const action = await this.props.saveFiles(this.props.match.params.id, data);
     let hasPinnedNotes = false;
 
@@ -364,8 +364,7 @@ class Profile extends Component {
           if (!hasPinnedNotes && file.note.pinned) {
             hasPinnedNotes = true;
           }
-          // todo edit here
-          return this.props.addNote({ variables: { ...file.note, targetUUID: file.fileUUID, author: fullName } });
+          return addNote({ variables: { ...file.note, targetUUID: file.fileUUID } });
         }
 
         return false;
