@@ -10,23 +10,15 @@ const config = _.merge({
   market: 'casino',
   player: {
     files: {
-      maxSize: 2,
+      maxSize: 5,
       types: [
         'application/vnd.openxmlformats-officedocument.wordprocessingml.document', // docx
-        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', // xlsx
-        'application/vnd.openxmlformats-officedocument.presentationml.presentation', // pptp
-        'application/vnd.oasis.opendocument.text', // odt
-        'application/vnd.oasis.opendocument.spreadsheet', // ods
         'application/msword', // doc
-        'application/vnd.ms-excel', // xls
-        'application/vnd.ms-powerpoint', // ppt
         'application/pdf', // pdf
         'image/tiff', // tiff
         'image/jpeg', // jpg, jpeg
         'image/png', // png
         'image/gif', // gif
-        'image/bmp', // bmp
-        'text/plain', // txt
       ],
     },
   },
