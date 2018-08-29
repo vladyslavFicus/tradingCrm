@@ -14,7 +14,6 @@ import {
 } from '../../../../../../constants/user';
 import Header from '../Header';
 import NotePopover from '../../../../../../components/NotePopover';
-import { targetTypes } from '../../../../../../constants/note';
 import Information from '../Information';
 import PropTypes from '../../../../../../constants/propTypes';
 import getFileBlobUrl from '../../../../../../utils/getFileBlobUrl';
@@ -274,7 +273,7 @@ class Profile extends Component {
     this.setState({ modal: { ...modalInitialState } });
   };
 
-  handleAddNoteClick = (targetUUID, targetType) => (target, params = {}) => {
+  handleAddNoteClick = targetUUID => (target, params = {}) => {
     this.setState({
       popover: {
         name: NOTE_POPOVER,
@@ -284,9 +283,7 @@ class Profile extends Component {
           target,
           initialValues: {
             targetUUID,
-            targetType,
             pinned: false,
-            playerUUID: this.props.match.params.id,
           },
         },
       },
@@ -393,11 +390,11 @@ class Profile extends Component {
     });
   };
 
-  handleDeleteNoteClick = async (item) => {
+  handleDeleteNoteClick = async (tagId) => {
     const { removeNote } = this.props;
     const { noteChangedCallback } = this.state;
 
-    await removeNote({ variables: { uuid: item.uuid } });
+    await removeNote({ variables: { tagId } });
     this.handlePopoverHide();
 
     if (typeof noteChangedCallback === 'function') {
@@ -678,7 +675,7 @@ class Profile extends Component {
             isLoadingProfile={loading}
             addTag={this.handleAddTag}
             deleteTag={this.handleDeleteTag}
-            onAddNoteClick={this.handleAddNoteClick(params.id, targetTypes.PROFILE)}
+            onAddNoteClick={this.handleAddNoteClick(params.id)}
             onResetPasswordClick={this.handleResetPasswordClick}
             onProfileActivateClick={this.handleProfileActivateClick}
             onRefreshClick={() => this.handleLoadProfile(true)}

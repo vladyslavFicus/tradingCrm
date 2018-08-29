@@ -295,11 +295,11 @@ class MainLayout extends Component {
     });
   };
 
-  handleDeleteNoteClick = async (item) => {
+  handleDeleteNoteClick = async (uuid) => {
     const { deleteNote } = this.props;
     const { noteChangedCallback } = this.state;
 
-    await deleteNote(item.uuid);
+    await deleteNote(uuid);
     this.handlePopoverHide();
 
     if (typeof noteChangedCallback === 'function') {

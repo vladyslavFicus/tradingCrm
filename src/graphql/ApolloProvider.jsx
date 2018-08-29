@@ -63,8 +63,8 @@ class ApolloProvider extends PureComponent {
               `${object.__typename}:${object.playerUUID}` :
               null;
           case 'Note':
-            return object.uuid ?
-              `${object.__typename}:${object.uuid}` :
+            return object.tagId ?
+              `${object.__typename}:${object.tagId}` :
               null;
           default:
             return object._id ? `${object.__typename}:${object._id}` : null;

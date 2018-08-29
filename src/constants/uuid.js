@@ -1,17 +1,17 @@
 import keyMirror from 'keymirror';
 
 const entities = keyMirror({
-  operator: null,
-  profile: null,
-  bonus: null,
-  payment: null,
+  OPERATOR: null,
+  PROFILE: null,
+  BONUS: null,
+  PAYMENT: null,
 });
 
 const entitiesPrefixes = {
-  [entities.operator]: 'OP',
-  [entities.profile]: 'PL',
-  [entities.bonus]: 'BM',
-  [entities.payment]: 'TA',
+  [entities.OPERATOR]: 'OP',
+  [entities.PROFILE]: 'PL',
+  [entities.BONUS]: 'BM',
+  [entities.PAYMENT]: 'TA',
 };
 
 export {

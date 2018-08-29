@@ -13,42 +13,49 @@ const NoteItem = (props) => {
     data,
     data: {
       author,
-      lastEditorUUID,
       lastEditionDate,
+      changedBy,
       targetUUID,
-      targetType,
       content,
       pinned,
-      uuid,
+      tagId,
     },
     handleNoteClick,
   } = props;
 
-  const letters = author.split(' ').splice(0, 2).map(word => word[0]).join('');
+  const [targetType] = targetUUID.split('-', 1);
+
+  const letters = author ? author.split(' ').splice(0, 2).map(word => word[0]).join('') : null;
 
   return (
     <div className="note-item">
-      <div className="note-item__letters">
-        {letters}
-      </div>
+      <If condition={letters}>
+        <div className="note-item__letters">
+          {letters}
+        </div>
+      </If>
       <div className="note-item__content-wrapper">
         <div className="note-item__heading">
-          <span className="note-item__author">
-            {author}
-          </span>
-          <If condition={lastEditorUUID}>
+          <If condition={author}>
+            <span className="note-item__author">
+              {author}
+            </span>
+          </If>
+          <If condition={changedBy}>
             <span className="mx-1">-</span>
-            <Uuid uuid={lastEditorUUID} uuidPrefix={entitiesPrefixes[entities.operator]} />
+            <Uuid uuid={changedBy} uuidPrefix={entitiesPrefixes[entities.operator]} />
           </If>
           <div className="note-item__edition-date">
-            <Choose>
-              <When condition={lastEditionDate}>
-                {moment.utc(lastEditionDate).local().format('DD.MM.YYYY HH:mm:ss')}
-              </When>
-              <Otherwise>
-                {I18n.t('COMMON.UNKNOWN_TIME')}
-              </Otherwise>
-            </Choose>
+            <If condition={lastEditionDate}>
+              <Choose>
+                <When condition={lastEditionDate}>
+                  {moment.utc(lastEditionDate).local().format('DD.MM.YYYY HH:mm:ss')}
+                </When>
+                <Otherwise>
+                  {I18n.t('COMMON.UNKNOWN_TIME')}
+                </Otherwise>
+              </Choose>
+            </If>
             <span className="mx-1">{I18n.t('COMMON.TO')}</span>
             <Uuid uuid={targetUUID} uuidPrefix={entitiesPrefixes[targetType]} />
           </div>
@@ -66,7 +73,7 @@ const NoteItem = (props) => {
           </div>
           <div className="col-auto pl-1">
             <PopoverButton
-              id={`note-item-${uuid}`}
+              id={`note-item-${tagId}`}
               onClick={id => handleNoteClick(id, data)}
             >
               <NoteIcon type="filled" />
@@ -81,13 +88,12 @@ const NoteItem = (props) => {
 NoteItem.propTypes = {
   data: PropTypes.shape({
     author: PropTypes.string,
-    lastEditorUUID: PropTypes.string,
+    changedBy: PropTypes.string,
     lastEditionDate: PropTypes.string,
     targetUUID: PropTypes.string.isRequired,
-    targetType: PropTypes.string.isRequired,
     content: PropTypes.string.isRequired,
     pinned: PropTypes.bool,
-    uuid: PropTypes.string.isRequired,
+    tagId: PropTypes.string.isRequired,
   }).isRequired,
   handleNoteClick: PropTypes.func.isRequired,
 };
