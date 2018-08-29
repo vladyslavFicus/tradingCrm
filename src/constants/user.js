@@ -23,7 +23,6 @@ const attributeLabels = {
   languageCode: 'Language',
   lastName: 'Last name',
   marketingMail: 'Marketing Mails',
-  marketingNews: 'Marketing News',
   marketingSMS: 'Marketing SMS',
   personalKycMetaData: 'Personal files',
   kycPersonalStatus: 'Personal status',

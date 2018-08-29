@@ -68,7 +68,6 @@ const initialState = {
     affiliateId: null,
     btag: null,
     marketingSMS: false,
-    marketingNews: false,
     marketingMail: false,
     tailorMadeEmail: false,
     tailorMadeSMS: false,

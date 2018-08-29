@@ -10,7 +10,6 @@ import Permissions from '../../../../../../../utils/permissions';
 import permissions from '../../../../../../../config/permissions';
 
 const SUBSCRIPTION_TYPE_SMS = 'marketingSMS';
-const SUBSCRIPTION_TYPE_NEWS = 'marketingNews';
 const SUBSCRIPTION_TYPE_MAIL = 'marketingMail';
 
 class Additional extends Component {
@@ -18,7 +17,6 @@ class Additional extends Component {
     profileStatus: PropTypes.string,
     initialValues: PropTypes.shape({
       marketingMail: PropTypes.bool,
-      marketingNews: PropTypes.bool,
       marketingSMS: PropTypes.bool,
     }),
     updateSubscription: PropTypes.func.isRequired,
@@ -26,7 +24,6 @@ class Additional extends Component {
   static defaultProps = {
     initialValues: {
       marketingMail: false,
-      marketingNews: false,
       marketingSMS: false,
     },
     profileStatus: '',
@@ -79,18 +76,6 @@ class Additional extends Component {
                   <Switch
                     active={initialValues[SUBSCRIPTION_TYPE_SMS] || false}
                     handleSwitch={this.handleSwitch(SUBSCRIPTION_TYPE_SMS)}
-                    disabled={disabled}
-                  />
-                </div>
-              </div>
-              <div className="row">
-                <div className="col-sm-8">
-                  {I18n.t('PLAYER_PROFILE.MARKETING.NEWS')}
-                </div>
-                <div className="col-sm-4 text-right">
-                  <Switch
-                    active={initialValues[SUBSCRIPTION_TYPE_NEWS] || false}
-                    handleSwitch={this.handleSwitch(SUBSCRIPTION_TYPE_NEWS)}
                     disabled={disabled}
                   />
                 </div>

@@ -10,7 +10,6 @@ import Permissions from '../../../../../../../utils/permissions';
 import permissions from '../../../../../../../config/permissions';
 
 const SUBSCRIPTION_TYPE_SMS = 'marketingSMS';
-const SUBSCRIPTION_TYPE_EMAIL = 'marketingNews';
 const SUBSCRIPTION_TYPE_MAIL = 'marketingMail';
 const SUBSCRIPTION_TYPE_TAILOR_MADE_EMAIL = 'tailorMadeEmail';
 const SUBSCRIPTION_TYPE_TAILOR_MADE_SMS = 'tailorMadeSMS';
@@ -20,48 +19,65 @@ class Additional extends Component {
     profileStatus: PropTypes.string,
     initialValues: PropTypes.shape({
       marketingMail: PropTypes.bool,
-      marketingNews: PropTypes.bool,
       marketingSMS: PropTypes.bool,
       tailorMadeEmail: PropTypes.bool,
       tailorMadeSMS: PropTypes.bool,
     }),
     updateSubscription: PropTypes.func.isRequired,
   };
+  static contextTypes = {
+    permissions: PropTypes.arrayOf(PropTypes.string).isRequired,
+  };
   static defaultProps = {
     initialValues: {
       marketingMail: false,
-      marketingNews: false,
       marketingSMS: false,
     },
     profileStatus: '',
   };
-  static contextTypes = {
-    permissions: PropTypes.arrayOf(PropTypes.string).isRequired,
+
+  state = {
+    disabled: false,
   };
+
+  componentDidMount() {
+    this.mounted = true;
+  }
+
+  componentWillUnmount() {
+    this.mounted = false;
+  }
+
+  mounted = false;
 
   handleSwitch = name => async (value) => {
     const { initialValues, updateSubscription, notify } = this.props;
-    const {
-      data: {
-        profile: { updateSubscription: response },
-      },
-    } = await updateSubscription({ ...initialValues, [name]: value }, name);
-    const message = `${I18n.t(marketingTypes[name])}
+
+    this.setState({ disabled: true }, async () => {
+      const {
+        data: {
+          profile: { updateSubscription: response },
+        },
+      } = await updateSubscription({ ...initialValues, [name]: value }, name);
+      const message = `${I18n.t(marketingTypes[name])}
           ${value ? I18n.t('COMMON.ACTIONS.ON') : I18n.t('COMMON.ACTIONS.OFF')}
           ${response.error ? I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY') : I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`;
 
-    notify({
-      level: response.error ? 'error' : 'success',
-      title: I18n.t('PLAYER_PROFILE.MARKETING.TITLE'),
-      message,
-    });
+      notify({
+        level: response.error ? 'error' : 'success',
+        title: I18n.t('PLAYER_PROFILE.MARKETING.TITLE'),
+        message,
+      });
 
-    return response;
+      if (this.mounted) {
+        this.setState({ disabled: false });
+      }
+    });
   };
 
   render() {
     const { initialValues, profileStatus } = this.props;
-    const disabled = profileStatus === statuses.SUSPENDED
+    const disabled = this.state.disabled || profileStatus === statuses.SUSPENDED
       || !(new Permissions(permissions.USER_PROFILE.UPDATE_MARKETING_SETTINGS)).check(this.context.permissions);
 
     return (
@@ -83,18 +99,6 @@ class Additional extends Component {
                   <Switch
                     active={initialValues[SUBSCRIPTION_TYPE_SMS] || false}
                     handleSwitch={this.handleSwitch(SUBSCRIPTION_TYPE_SMS)}
-                    disabled={disabled}
-                  />
-                </div>
-              </div>
-              <div className="row">
-                <div className="col-sm-8">
-                  {I18n.t('PLAYER_PROFILE.MARKETING.SENDINGS.NEWS')}
-                </div>
-                <div className="col-sm-4 text-right">
-                  <Switch
-                    active={initialValues[SUBSCRIPTION_TYPE_EMAIL] || false}
-                    handleSwitch={this.handleSwitch(SUBSCRIPTION_TYPE_EMAIL)}
                     disabled={disabled}
                   />
                 </div>

@@ -183,7 +183,6 @@ PropTypes.userProfile = PropTypes.shape({
   languageCode: PropTypes.string,
   lastName: PropTypes.string,
   marketingMail: PropTypes.bool,
-  marketingNews: PropTypes.bool,
   marketingSMS: PropTypes.bool,
   personalKycMetaData: PropTypes.arrayOf(PropTypes.fileEntity),
   kycPersonalStatus: PropTypes.kycStatus,
