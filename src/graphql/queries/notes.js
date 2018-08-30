@@ -1,26 +1,18 @@
 import gql from 'graphql-tag';
 
 const notesQuery = gql`query notes(
-  $playerUUID: String!,
-  $pinned: Boolean,
-  $targetType: String,
+  $targetUUID: String!
+  $pinned: Boolean
+  $tagType: tagTypes
   $size: Int,
   $page: Int,
-  $searchValue: String,
-  $from: String,
-  $to: String,
-  $targetUUID: String,
   ){
   notes(
-    playerUUID: $playerUUID,
-    pinned: $pinned,
-    targetUUID: $targetUUID,
-    targetType: $targetType,
-    searchValue: $searchValue,
-    from: $from,
-    to: $to,
-    size: $size,
-    page: $page,
+    targetUUID: $targetUUID
+    pinned: $pinned
+    tagType: $tagType
+    size: $size
+    page: $page
     ) {
     size
     page
@@ -28,17 +20,13 @@ const notesQuery = gql`query notes(
     number
     last
     content {
-      content
-      uuid
-      author
-      creationDate
-      creatorUUID
-      lastEditionDate
-      lastEditorUUID
-      playerUUID
-      targetType
-      targetUUID
+      tagName
       pinned
+      tagId
+      content
+      tagType
+      targetUUID
+      changedBy
     }
   }
 }`;

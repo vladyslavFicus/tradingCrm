@@ -21,8 +21,8 @@ class Notes extends Component {
   renderItem = item => (
     <PopoverButton
       className="d-block mb-2"
-      key={item.uuid}
-      id={`profile-pinned-note-${item.uuid}`}
+      key={item.tagId}
+      id={`profile-pinned-note-${item.tagId}`}
       onClick={id => this.props.onEditNoteClick(
         id,
         item,
@@ -36,20 +36,19 @@ class Notes extends Component {
     >
       <div className="note-content">
         <div className="note-content__author">
-          {
-            item.author &&
-              <strong>{`${item.author} - `}</strong>
-          }
-          <span>
+          <If condition={item.author}>
+            <strong>{`${item.author} - `}</strong>
+          </If>
+          <If condition={item.lastEditorUUID}>
             <Uuid uuid={item.lastEditorUUID} uuidPrefix={entitiesPrefixes[entities.operator]} />
-          </span>
+          </If>
         </div>
         <small>
           {
             item.lastEditionDate
               ? moment.utc(item.lastEditionDate).local().format('DD.MM.YYYY HH:mm:ss')
               : I18n.t('COMMON.UNKNOWN_TIME')
-          } {I18n.t('COMMON.TO')} {this.renderItemId(item)}
+          } {I18n.t('COMMON.TO')} {this.renderItemId(item.targetUUID)}
         </small>
         <div className="note-content__content">
           {item.content}
@@ -58,7 +57,11 @@ class Notes extends Component {
     </PopoverButton>
   );
 
-  renderItemId = item => <Uuid uuid={item.targetUUID} uuidPrefix={entitiesPrefixes[item.targetType]} />;
+  renderItemId = (targetUUID) => {
+    const [targetType] = targetUUID.split('-', 1);
+
+    return <Uuid uuid={targetUUID} uuidPrefix={entitiesPrefixes[targetType]} />;
+  };
 
   render() {
     const { notes } = this.props;

@@ -15,7 +15,6 @@ import {
 } from '../../../../../../constants/user';
 import Header from '../Header';
 import NotePopover from '../../../../../../components/NotePopover';
-import { targetTypes } from '../../../../../../constants/note';
 import Information from '../Information';
 import PropTypes from '../../../../../../constants/propTypes';
 import getFileBlobUrl from '../../../../../../utils/getFileBlobUrl';
@@ -151,9 +150,6 @@ class Profile extends Component {
       confirmActionModal: PropTypes.modalType,
     }).isRequired,
   };
-  static defaultProps = {
-    lastIp: null,
-  };
   static contextTypes = {
     permissions: PropTypes.array.isRequired,
   };
@@ -170,6 +166,9 @@ class Profile extends Component {
     showImages: PropTypes.func.isRequired,
     registerUpdateCacheListener: PropTypes.func.isRequired,
     unRegisterUpdateCacheListener: PropTypes.func.isRequired,
+  };
+  static defaultProps = {
+    lastIp: null,
   };
 
   state = {
@@ -309,7 +308,7 @@ class Profile extends Component {
     this.setState({ modal: { ...modalInitialState } });
   };
 
-  handleAddNoteClick = (targetUUID, targetType) => (target, params = {}) => {
+  handleAddNoteClick = targetUUID => (target, params = {}) => {
     this.setState({
       popover: {
         name: NOTE_POPOVER,
@@ -319,9 +318,7 @@ class Profile extends Component {
           target,
           initialValues: {
             targetUUID,
-            targetType,
             pinned: false,
-            playerUUID: this.props.match.params.id,
           },
         },
       },
@@ -357,7 +354,7 @@ class Profile extends Component {
 
   handleSubmitUploadModal = async (data) => {
     const { fileChangedCallback } = this.state;
-    const { auth: { fullName } } = this.props;
+    const { addNote } = this.props;
     const action = await this.props.saveFiles(this.props.match.params.id, data);
     let hasPinnedNotes = false;
 
@@ -367,7 +364,7 @@ class Profile extends Component {
           if (!hasPinnedNotes && file.note.pinned) {
             hasPinnedNotes = true;
           }
-          return this.props.addNote({ variables: { ...file.note, targetUUID: file.fileUUID, author: fullName } });
+          return addNote({ variables: { ...file.note, targetUUID: file.fileUUID } });
         }
 
         return false;
@@ -428,11 +425,11 @@ class Profile extends Component {
     });
   };
 
-  handleDeleteNoteClick = async (item) => {
+  handleDeleteNoteClick = async (tagId) => {
     const { removeNote } = this.props;
     const { noteChangedCallback } = this.state;
 
-    await removeNote({ variables: { uuid: item.uuid } });
+    await removeNote({ variables: { tagId } });
     this.handlePopoverHide();
 
     if (typeof noteChangedCallback === 'function') {
@@ -441,24 +438,26 @@ class Profile extends Component {
   };
 
   handleSubmitNote = async (data) => {
-    const { updateNote, addNote, auth: { fullName } } = this.props;
     const { noteChangedCallback } = this.state;
+    const { updateNote, addNote } = this.props;
 
-    if (data.uuid) {
-      const updatedNote = await updateNote({ variables: { ...data, author: fullName } });
+    if (data.tagId) {
+      const updatedNote = await updateNote({ variables: data });
 
       this.handlePopoverHide();
 
       return updatedNote;
     }
 
-    await addNote({ variables: { ...data, author: fullName } });
+    const response = await addNote({ variables: data });
 
     this.handlePopoverHide();
 
     if (typeof noteChangedCallback === 'function') {
       noteChangedCallback();
     }
+
+    return response;
   };
 
   handlePopoverHide = () => {
@@ -732,7 +731,7 @@ class Profile extends Component {
             isLoadingProfile={loading}
             addTag={this.handleAddTag}
             deleteTag={this.handleDeleteTag}
-            onAddNoteClick={this.handleAddNoteClick(params.id, targetTypes.PROFILE)}
+            onAddNoteClick={this.handleAddNoteClick(params.id)}
             onResetPasswordClick={this.handleResetPasswordClick}
             onProfileActivateClick={this.handleProfileActivateClick}
             onPlayerLimitChange={this.handleChangePlayerLimitState}

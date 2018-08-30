@@ -3,36 +3,26 @@ import update from 'react-addons-update';
 import { notesQuery } from '../queries/notes';
 
 const updateNoteMutation = gql`mutation updateNote(
-    $author: String!,
-    $content: String!,
-    $pinned: Boolean!,
-    $playerUUID: String!,
-    $targetType: String!,
-    $uuid: String!,
-    $targetUUID: String!,
+  $tagId: String!
+  $targetUUID: String!
+  $content: String!
+  $pinned: Boolean!
 ) {
   note {
     update(
-       author: $author,
-       content: $content,
-       pinned: $pinned,
-       playerUUID: $playerUUID,
-       targetType: $targetType,
-       uuid: $uuid,
-       targetUUID: $targetUUID,
+       tagId: $tagId
+       targetUUID: $targetUUID
+       newContent: $content
+       pinned: $pinned
       ) {
       data {
-        content
-        uuid
-        author
-        creationDate
-        creatorUUID
-        lastEditionDate
-        lastEditorUUID
-        playerUUID
-        targetType
-        targetUUID
+        tagName
         pinned
+        tagId
+        content
+        tagType
+        targetUUID
+        changedBy
       }
       error {
         error
@@ -42,51 +32,38 @@ const updateNoteMutation = gql`mutation updateNote(
 }`;
 
 const addNoteMutation = gql`mutation addNote(
-  $author: String!,
-  $content: String!,
-  $pinned: Boolean!,
-  $playerUUID: String!,
-  $targetType: String!,
-  $targetUUID: String!,
+  $content: String!
+  $targetUUID: String!
+  $pinned: Boolean!
 ) {
   note {
     add(
-      author: $author,
-      content: $content,
-      pinned: $pinned,
-      playerUUID: $playerUUID,
-      targetType: $targetType,
-      targetUUID: $targetUUID,
-      ) {
+      content: $content
+      targetUUID: $targetUUID
+      pinned: $pinned
+    ) {
       data {
-        content
-        uuid
-        author
-        creationDate
-        creatorUUID
-        lastEditionDate
-        lastEditorUUID
-        playerUUID
-        targetType
-        targetUUID
+        tagName
         pinned
-      }
-      error {
-        error
+        tagId
+        content
+        tagType
+        targetUUID
+        changedBy
       }
     }
   }
 }`;
 
 const removeNoteMutation = gql`mutation removeNote(
-  $uuid: String!,
+  $tagId: String!,
 ) {
   note {
     remove(
-      uuid: $uuid,
+      tagId: $tagId,
       ) {
       data {
-        uuid
+        tagId
       }
       error {
         error
@@ -107,10 +84,10 @@ const addNote = (proxy, variables, data) => {
   }
 };
 
-const removeNote = (proxy, variables, uuid) => {
+const removeNote = (proxy, variables, tagId) => {
   try {
     const { notes: { content }, notes } = proxy.readQuery({ query: notesQuery, variables });
-    const selectedIndex = content.findIndex(({ uuid: noteUuid }) => noteUuid === uuid);
+    const selectedIndex = content.findIndex(({ tagId: noteUuid }) => noteUuid === tagId);
     const updatedNotes = update(notes, {
       content: { $splice: [[selectedIndex, 1]] },
     });

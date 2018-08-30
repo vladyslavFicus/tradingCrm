@@ -58,16 +58,12 @@ PropTypes.operatorIpEntity = PropTypes.shape({
   uuid: PropTypes.string.isRequired,
 });
 PropTypes.noteEntity = PropTypes.shape({
-  content: PropTypes.string.isRequired,
+  tagId: PropTypes.string,
+  content: PropTypes.string,
   creationDate: PropTypes.string,
-  creatorUUID: PropTypes.string.isRequired,
-  lastEditionDate: PropTypes.string,
-  lastEditorUUID: PropTypes.string.isRequired,
-  pinned: PropTypes.bool.isRequired,
-  playerUUID: PropTypes.string.isRequired,
-  targetType: PropTypes.string.isRequired,
+  changedBy: PropTypes.string,
+  pinned: PropTypes.bool,
   targetUUID: PropTypes.string,
-  uuid: PropTypes.string,
 });
 PropTypes.gamingActivityEntity = PropTypes.shape({
   betDate: PropTypes.string,
