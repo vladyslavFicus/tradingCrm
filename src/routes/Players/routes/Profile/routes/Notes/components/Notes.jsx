@@ -98,7 +98,7 @@ class Notes extends Component {
     }
   };
 
-  renderItem = data => <NoteItem data={data} handleNoteClick={this.handleNoteClick} />
+  renderItem = data => <NoteItem data={data} handleNoteClick={this.handleNoteClick} />;
 
   render() {
     const {
