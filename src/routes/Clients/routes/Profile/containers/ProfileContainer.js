@@ -136,7 +136,10 @@ export default compose(
       },
       refetchQueries: [{
         query: notesQuery,
-        variables: { playerUUID },
+        variables: {
+          playerUUID,
+          pinned: true,
+        },
       }, {
         query: notesQuery,
         variables: {
@@ -171,18 +174,27 @@ export default compose(
           },
         } = proxy.readQuery({
           query: notesQuery,
-          variables: { targetUUID },
+          variables: {
+            targetUUID,
+            pinned: true,
+          },
         });
         const selectedNote = content.find(({
           uuid: noteUuid,
         }) => noteUuid === tagId);
 
         if (selectedNote && !pinned) {
-          removeNote(proxy, { targetUUID }, tagId);
+          removeNote(proxy, {
+            targetUUID,
+            pinned: true,
+          }, tagId);
         }
 
         if (!selectedNote && pinned) {
-          addNote(proxy, { targetUUID }, data);
+          addNote(proxy, {
+            targetUUID,
+            pinned: true,
+          }, data);
         }
       },
     }),
@@ -361,7 +373,10 @@ export default compose(
           },
         },
       }) => {
-        removeNote(proxy, { targetUUID: playerUUID }, tagId);
+        removeNote(proxy, {
+          targetUUID: playerUUID,
+          pinned: true,
+        }, tagId);
         removeNote(proxy, {
           targetUUID: playerUUID,
           size: 10,
@@ -398,6 +413,7 @@ export default compose(
     }) => ({
       variables: {
         targetUUID: playerUUID,
+        pinned: true,
       },
     }),
     name: 'notes',

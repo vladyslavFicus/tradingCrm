@@ -2,12 +2,14 @@ import gql from 'graphql-tag';
 
 const notesQuery = gql`query notes(
   $targetUUID: String!
+  $pinned: Boolean
   $tagType: String
   $size: Int,
   $page: Int,
   ){
   notes(
     targetUUID: $targetUUID
+    pinned: $pinned
     tagType: $tagType
     size: $size
     page: $page
