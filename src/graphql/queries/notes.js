@@ -3,7 +3,7 @@ import gql from 'graphql-tag';
 const notesQuery = gql`query notes(
   $targetUUID: String!
   $pinned: Boolean
-  $tagType: String
+  $tagType: tagTypes
   $size: Int,
   $page: Int,
   ){
