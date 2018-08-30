@@ -12,8 +12,10 @@ const statuses = keyMirror({
 });
 const types = keyMirror({
   FIRST_DEPOSIT: null,
-  PROFILE_COMPLETED: null,
-  Manual: null,
+  MANUAL: null,
+  WITHOUT_FULFILMENT: null,
+  FREE_SPIN: null,
+  DEPOSIT: null,
 });
 const assign = keyMirror({
   manual: null,
@@ -43,8 +45,10 @@ const statusesLabels = {
 };
 const typesLabels = {
   [types.FIRST_DEPOSIT]: I18n.t('CONSTANTS.BONUS.TYPES.FIRST_DEPOSIT'),
-  [types.PROFILE_COMPLETED]: I18n.t('CONSTANTS.BONUS.TYPES.PROFILE_COMPLETED'),
-  [types.Manual]: I18n.t('CONSTANTS.BONUS.TYPES.MANUAL'),
+  [types.MANUAL]: I18n.t('CONSTANTS.BONUS.TYPES.MANUAL'),
+  [types.WITHOUT_FULFILMENT]: I18n.t('CONSTANTS.BONUS.TYPES.WITHOUT_FULFILLMENT'),
+  [types.FREE_SPIN]: I18n.t('CONSTANTS.BONUS.TYPES.FREE_SPIN'),
+  [types.DEPOSIT]: I18n.t('CONSTANTS.BONUS.TYPES.DEPOSIT'),
 };
 const assignLabels = {
   [assign.manual]: I18n.t('CONSTANTS.BONUS.ASSIGN.MANUAL'),
@@ -75,14 +79,6 @@ const statusesProps = {
     className: 'color-primary font-weight-700 text-uppercase',
   },
 };
-const typesProps = {
-  [types.FIRST_DEPOSIT]: {
-    className: 'color-primary font-weight-700 text-uppercase',
-  },
-  [types.Manual]: {
-    className: 'color-success font-weight-700 text-uppercase',
-  },
-};
 const mapActionToState = {
   [actions.accept]: statuses.IN_PROGRESS,
   [actions.cancel]: statuses.CANCELLED,
@@ -95,7 +91,6 @@ export {
   statusesProps,
   types,
   typesLabels,
-  typesProps,
   assign,
   assignLabels,
   cancellationReason,

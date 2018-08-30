@@ -984,7 +984,10 @@
       "TYPES": {
         "FIRST_DEPOSIT": "Первый депозит",
         "PROFILE_COMPLETED": "Профиль заполнен",
-        "MANUAL": "Без депозита"
+        "MANUAL": "Без депозита",
+        "WITHOUT_FULFILLMENT": "Без условий",
+        "FREE_SPIN": "Фрип-спин",
+        "DEPOSIT": "Депозит"
       },
       "ASSIGN": {
         "MANUAL": "Оператор",

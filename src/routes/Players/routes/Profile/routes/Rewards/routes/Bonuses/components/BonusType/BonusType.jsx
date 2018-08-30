@@ -1,9 +1,6 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from '../../../../../../../../../../constants/propTypes';
-import {
-  typesLabels,
-  typesProps,
-} from '../../../../../../../../../../constants/bonus';
+import { typesLabels } from '../../../../../../../../../../constants/bonus';
 import renderLabel from '../../../../../../../../../../utils/renderLabel';
 
 class BonusStatus extends Component {
@@ -23,15 +20,15 @@ class BonusStatus extends Component {
       return bonus.bonusType;
     }
 
-    const props = typesProps[bonus.bonusType] || {};
-
     return (
-      <div>
-        <div {...props}>{renderLabel(bonus.bonusType, typesLabels)}</div>
+      <Fragment>
+        <div className="color-primary font-weight-700 text-uppercase">
+          {renderLabel(bonus.bonusType, typesLabels)}
+        </div>
         <div className="font-size-11">
           {bonus.optIn ? 'Opt-in' : 'Non Opt-in'}
         </div>
-      </div>
+      </Fragment>
     );
   };
 
