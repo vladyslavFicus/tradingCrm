@@ -816,7 +816,7 @@
       "PERIOD": "-- Выберите период --",
       "COUNTRY": "-- Выберите страну --",
       "UPLOAD_ACTION": "-- Выбрать тип действия --",
-      "NO_ITEMS": ""
+      "NO_ITEMS": "-- Нет значений --"
     },
     "CONFIRM": "Подтвердить",
     "MGA_LIMIT": "MGA LIMIT",
@@ -889,7 +889,15 @@
     "UNKNOWN_ERROR": "Неизвестная ошибка",
     "CONFIRM_ACTION": "Подтвердить действие",
     "PINNED_NOTE": "Закрепленная заметка",
-    "IDENTIFIER": "ID"
+    "IDENTIFIER": "ID",
+    "DASHBOARD": "",
+    "CLIENTS_FOUND": "",
+    "CLIENTS_SELECTED": "",
+    "CLIENTS": "",
+    "DATE_OPTIONS": {
+      "START_DATE": "",
+      "END_DATE": ""
+    }
   },
   "FILES": {
     "UPLOAD_MODAL": {
@@ -957,13 +965,15 @@
         "PLAYER_PROFILE_UNBLOCKED": "Профиль разблокирован",
         "RESET_PASSWORD": "Сброс пароля",
         "CHANGE_PASSWORD": "Изменение пароля",
-        "NEM_ID_SIGN_IN": "NEM-ID вход"
+        "NEM_ID_SIGN_IN": "NEM-ID вход",
+        "PLAYER_PROFILE_STATUS_CHANGED": "Изменение статуса"
       },
       "KYC_CONFIRMATION": {
         "TRANSACTION": "ID транзакции",
         "MERCHANT_TRANSACTION": "ID транзакции мерчанта",
         "DESCRIPTION": "Описание",
-        "STATE": "Состояние"
+        "STATE": "Состояние",
+        "IDENTIFIER": "Идентификатор"
       },
       "ROFUS_VERIFICATION": {
         "ACTION": "Действие",
@@ -1173,10 +1183,20 @@
           "AMOUNT_FROM": "Сумма от",
           "AMOUNT_TO": "Сумма до",
           "AMOUNT": "Сумма",
-          "CREATION_DATE_RANGE": "Диапазон дат создания"
+          "CREATION_DATE_RANGE": "Диапазон дат создания",
+          "ACCOUNT_TYPE": "Тип аккаунта"
         },
         "ATTRIBUTES_PLACEHOLDERS": {
-          "KEYWORD": "ID транзакции, пользователь"
+          "KEYWORD": "ID транзакции, пользователь",
+          "CLIENT_KEYWORD": ""
+        },
+        "PAYMENT_ACCOUNTS": {
+          "SYSTEM": "",
+          "CREDIT_CARD": "",
+          "WIRE": "",
+          "EXTERNAL": "",
+          "MIGRATION": "",
+          "INTERNAL_TRANSFER": ""
         }
       },
       "ROUTES": {
@@ -1187,6 +1207,17 @@
       "ACTIONS": {
         "ADD_TRANSACTION": "Добавить транзакцию",
         "EXPORT_TRANSACTIONS": "Экспорт"
+      },
+      "GRID_COLUMNS": {
+        "TRANSACTIONS": "",
+        "CLIENT": "",
+        "COUNTRY": "",
+        "PAYMENT_TYPE": "",
+        "AMOUNT": "",
+        "TRADING_ACC": "",
+        "PAYMENT_METHOD": "",
+        "DATE_TIME": "",
+        "STATUS": ""
       }
     },
     "CAMPAIGNS": {
@@ -1300,6 +1331,15 @@
       "LOCKED_UNTIL": "Заблокировано до",
       "ATTEMPT_DATE_TIME": "Дата и время попытки",
       "DEVICE": "Устройство"
+    },
+    "PLAYER_PROFILE_STATUS_CHANGED": {
+      "STATUS": "Статус",
+      "PREV_STATUS": "Предыдущее значение",
+      "NEXT_STATUS": "Новое значение",
+      "SUSPEND_END_DATE": "Дата окончания",
+      "COOLOFF_END_DATE": "Дата окончания",
+      "COMMENT": "Комментарий",
+      "REASON": "Причина"
     }
   },
   "LOGGED_FORBIDDEN": {
@@ -2035,7 +2075,15 @@
     "PERMISSION_DENIED": {
       "TITLE": "Доступ запрещен",
       "REASON": "У вас нет разрешения на доступ к этому разделу"
-    }
+    },
+    "CHART_SELECT_OPTIONS": {
+      "LAST_7_DAYS": "",
+      "TODAY": "",
+      "YESTERDAY": "",
+      "PAST_WEEK": ""
+    },
+    "TOTAL_REGISTERED": "",
+    "REGISTRATIONS": ""
   },
   "CAMPAIGNS": {
     "CAMPAIGN_NAME": "Название кампании",
@@ -2355,11 +2403,148 @@
   },
   "CLIENT_PROFILE": {
     "PROFILE": {
-      "TITLE": "Профиль"
+      "TITLE": "Профиль",
+      "HEADER": {
+        "EQUITY": "",
+        "TRADING_VOLUME": ""
+      }
+    },
+    "CLIENT": {
+      "BALANCES": {
+        "BALANCE": "",
+        "DEPOSIT": "",
+        "LAST": "",
+        "DEPOSITED": "",
+        "WITHDRAWAL": "",
+        "WITHDRAWN": ""
+      },
+      "ACQUISITION": {
+        "TITLE": ""
+      }
+    },
+    "TABS": {
+      "PROFILE": "",
+      "TRANSACTIONS": "",
+      "ACCOUNTS": "",
+      "FILES": "",
+      "NOTES": "",
+      "FEED": ""
+    },
+    "ACCOUNTS": {
+      "ROUTES": {
+        "TRADING_ACC": "",
+        "PAYMENT_ACC": ""
+      },
+      "GRID_COLUMNS": {
+        "TRADING_ACC": "",
+        "SERVER": "",
+        "BALANCE/EQUITY": ""
+      },
+      "ADD_TRADING_ACC": ""
+    },
+    "TRADING_ACTIVITY": {
+      "FILTER_FORM": {
+        "TRADE_LABEL": "",
+        "TRADE_PLACEHOLDER": "",
+        "TYPE_LABEL": "",
+        "LOGIN_IDS": "",
+        "SYMBOL_LABEL": "",
+        "VOLUME_LABEL": "",
+        "STATUS_LABEL": "",
+        "OPEN_TIME_RANGE_LABEL": "",
+        "CLOSE_TIME_RANGE_LABEL": "",
+        "TYPES": {
+          "BUY": "",
+          "SELL": "",
+          "BUY_LIMIT": "",
+          "SELL_LIMIT": "",
+          "BUY_STOP": "",
+          "SELL_STOP": "",
+          "BALANCE": "",
+          "CREDIT": ""
+        },
+        "SYMBOLS": {
+          "USDCHF": "",
+          "GBPUSD": "",
+          "EURUSD": "",
+          "USDJPY": "",
+          "USDCAD": "",
+          "AUDUSD": "",
+          "EURGBP": "",
+          "EURAUD": "",
+          "EURCHF": "",
+          "EURJPY": "",
+          "GBPCHF": "",
+          "CADJPY": "",
+          "GBPJPY": "",
+          "AUDNZD": "",
+          "AUDCAD": "",
+          "AUDCHF": "",
+          "AUDJPY": "",
+          "CHFJPY": "",
+          "EURNZD": "",
+          "EURCAD": "",
+          "CADCHF": "",
+          "NZDJPY": "",
+          "NZDUSD": ""
+        },
+        "STATUSES": {
+          "OPEN": "",
+          "CLOSED": ""
+        }
+      },
+      "GRID_VIEW": {
+        "TRADE": "",
+        "TYPE": "",
+        "TRADING_ACC": "",
+        "OPEN_PRICE": "",
+        "CLOSE_PRICE": "",
+        "VOLUME": "",
+        "COMISSION": "",
+        "SWAP": "",
+        "P&L": "",
+        "OPEN_TIME": "",
+        "CLOSE_TIME": "",
+        "STATUS": ""
+      }
+    },
+    "TRANSACTIONS": {
+      "GRID_COLUMNS": {
+        "TRANSACTION": "",
+        "TYPE": "",
+        "AMOUNT": "",
+        "TRADING_ACC": "",
+        "METHOD": "",
+        "DATE_TIME": "",
+        "STATUS": ""
+      },
+      "MODAL_CREATE": {
+        "TYPE": "",
+        "AMOUNT": "",
+        "PAYMENT_ACCOUNT": "",
+        "EXTERNAL_REF": "",
+        "FROM_MT4": "",
+        "TO_MT4": ""
+      }
     }
   },
   "TEMPORARY_UNTIL": {
     "WILL_BE_BLOCKED": "Временный аккаунт - будет заблокирован %{date}",
     "BLOCKED": "Временный аккаунт был заблокирован %{date}"
+  },
+  "CLIENTS": {
+    "LIST": {
+      "GRID_HEADER": {
+        "CLIENT": "",
+        "COUNTRY": "",
+        "BALANCE": "",
+        "DEPOSITS": "",
+        "AFFILIATE": "",
+        "SALES": "",
+        "RETENTION": "",
+        "REGISTRATION": "",
+        "STATUS": ""
+      }
+    }
   }
 }

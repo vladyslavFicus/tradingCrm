@@ -958,13 +958,15 @@
         "PLAYER_PROFILE_UNBLOCKED": "Player profile unblocked",
         "RESET_PASSWORD": "Reset password",
         "CHANGE_PASSWORD": "Change password",
-        "NEM_ID_SIGN_IN": "NEM-ID sign in"
+        "NEM_ID_SIGN_IN": "NEM-ID sign in",
+        "PLAYER_PROFILE_STATUS_CHANGED": "Status change"
       },
       "KYC_CONFIRMATION": {
         "TRANSACTION": "Transaction ID",
         "MERCHANT_TRANSACTION": "Merchant transaction ID",
         "DESCRIPTION": "Description",
-        "STATE": "State"
+        "STATE": "State",
+        "IDENTIFIER": "Identifier"
       },
       "ROFUS_VERIFICATION": {
         "ACTION": "Action",
@@ -1171,7 +1173,9 @@
         "TRADING_ACC": "Trading acc",
         "PAYMENT_METHOD": "Payment method",
         "DATE_TIME": "Date & Time",
-        "STATUS": "Status"
+        "STATUS": "Status",
+        "TRANSACTIONS": "Transactions",
+        "PAYMENT_TYPE": "Payment type"
       },
       "FILTER_FORM": {
         "ATTRIBUTES_LABELS": {
@@ -1318,6 +1322,15 @@
       "LOCKED_UNTIL": "Locked until",
       "ATTEMPT_DATE_TIME": "Attempt date & time",
       "DEVICE": "Device"
+    },
+    "PLAYER_PROFILE_STATUS_CHANGED": {
+      "STATUS": "Status",
+      "PREV_STATUS": "Previous value",
+      "NEXT_STATUS": "Next value",
+      "SUSPEND_END_DATE": "End date",
+      "COOLOFF_END_DATE": "End date",
+      "COMMENT": "Comment",
+      "REASON": "Reason"
     }
   },
   "LOGGED_FORBIDDEN": {

@@ -65,7 +65,9 @@ class Additional extends Component {
 
       notify({
         level: response.error ? 'error' : 'success',
-        title: I18n.t('PLAYER_PROFILE.MARKETING.TITLE'),
+        title: name.startsWith('marketing')
+          ? I18n.t('PLAYER_PROFILE.MARKETING.SENDINGS.TITLE')
+          : I18n.t('PLAYER_PROFILE.MARKETING.TAILOR_MADE.TITLE'),
         message,
       });
 
