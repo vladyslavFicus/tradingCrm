@@ -46,16 +46,14 @@ const NoteItem = (props) => {
             <Uuid uuid={changedBy} uuidPrefix={entitiesPrefixes[entities.operator]} />
           </If>
           <div className="note-item__edition-date">
-            <If condition={lastEditionDate}>
-              <Choose>
-                <When condition={lastEditionDate}>
-                  {moment.utc(lastEditionDate).local().format('DD.MM.YYYY HH:mm:ss')}
-                </When>
-                <Otherwise>
-                  {I18n.t('COMMON.UNKNOWN_TIME')}
-                </Otherwise>
-              </Choose>
-            </If>
+            <Choose>
+              <When condition={lastEditionDate}>
+                {moment.utc(lastEditionDate).local().format('DD.MM.YYYY HH:mm:ss')}
+              </When>
+              <Otherwise>
+                {I18n.t('COMMON.UNKNOWN_TIME')}
+              </Otherwise>
+            </Choose>
             <span className="mx-1">{I18n.t('COMMON.TO')}</span>
             <Uuid uuid={targetUUID} uuidPrefix={entitiesPrefixes[targetType]} />
           </div>

@@ -40,9 +40,7 @@ class Notes extends Component {
             <strong>{`${item.author} - `}</strong>
           </If>
           <If condition={item.lastEditorUUID}>
-            <span>
-              <Uuid uuid={item.lastEditorUUID} uuidPrefix={entitiesPrefixes[entities.operator]} />
-            </span>
+            <Uuid uuid={item.lastEditorUUID} uuidPrefix={entitiesPrefixes[entities.operator]} />
           </If>
         </div>
         <small>
