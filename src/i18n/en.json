@@ -403,7 +403,8 @@
           "AVAILABLE": "Available",
           "STATUS": "Status",
           "PRIZE_CAPPING": "Prize / capping",
-          "CLAIMABLE": "Claimable"
+          "CLAIMABLE": "Claimable",
+          "MAX_BET": "Max. bet"
         },
         "BONUS_STATS": {
           "GRANTED": "Granted",

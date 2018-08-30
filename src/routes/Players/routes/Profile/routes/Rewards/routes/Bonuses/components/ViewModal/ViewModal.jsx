@@ -147,6 +147,16 @@ class ViewModal extends Component {
             </Choose>
           </div>
         </div>
+        <If condition={item.maxBet}>
+          <div className="col-4">
+            <div className="modal-tab-label">
+              {I18n.t('PLAYER_PROFILE.BONUS.MODAL_VIEW.BONUS_INFO.MAX_BET')}
+            </div>
+            <div className="modal-header-tabs__label">
+              {item.maxBet}
+            </div>
+          </div>
+        </If>
       </div>
     </Fragment>
   );
@@ -208,7 +218,7 @@ class ViewModal extends Component {
     const [leftSideAction, ...rightSideActions] = actions;
 
     return (
-      <Modal toggle={onClose} {...rest}>
+      <Modal className="bonus-details-modal" toggle={onClose} {...rest}>
         <ModalHeader toggle={onClose}>
           {I18n.t('PLAYER_PROFILE.BONUS.MODAL_VIEW.TITLE')}
         </ModalHeader>

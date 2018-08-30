@@ -28,6 +28,7 @@ class ModalPlayerInfo extends Component {
         <Uuid
           uuid={profile.playerUUID}
           uuidPrefix={profile.playerUUID.indexOf('PLAYER') === -1 ? 'PL' : null}
+          className="d-inline-block"
         />
       </div>
     </Fragment>

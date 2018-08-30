@@ -408,7 +408,8 @@
           "AVAILABLE": "Доступность",
           "STATUS": "Статус",
           "PRIZE_CAPPING": "Приз / кеппинг",
-          "CLAIMABLE": "По запросу"
+          "CLAIMABLE": "По запросу",
+          "MAX_BET": "Макс. ставка"
         },
         "BONUS_STATS": {
           "GRANTED": "Выдано",
