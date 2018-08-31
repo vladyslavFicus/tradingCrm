@@ -181,6 +181,46 @@ const suspendMutation = gql`mutation suspend(
   }
 }`;
 
+const updateBTAGMutation = gql`mutation updateBTAG(
+  $playerUUID: String!,
+  $btag: String!,
+){
+  profile {
+    updateBTAG(
+      playerUUID: $playerUUID,
+      btag: $btag,
+      ) {
+      data {
+        playerUUID
+        btag
+      }
+      error {
+        error
+      }
+    }
+  }
+}`;
+
+const updateAffiliateMutation = gql`mutation updateAffiliate(
+  $playerUUID: String!,
+  $affiliateId: String!,
+){
+  profile {
+    updateAffiliate(
+      playerUUID: $playerUUID,
+      affiliateId: $affiliateId,
+      ) {
+      data {
+        playerUUID
+        affiliateId
+      }
+      error {
+        error
+      }
+    }
+  }
+}`;
+
 export {
   updateSubscription,
   blockMutation,
@@ -190,4 +230,6 @@ export {
   resumeMutation,
   passwordResetRequest,
   changePassword,
+  updateAffiliateMutation,
+  updateBTAGMutation,
 };
