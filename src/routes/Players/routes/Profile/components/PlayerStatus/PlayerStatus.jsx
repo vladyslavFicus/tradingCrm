@@ -38,6 +38,9 @@ class PlayerStatus extends Component {
     profileStatusComment: PropTypes.string,
     statusAuthor: PropTypes.string,
   };
+  static contextTypes = {
+    permissions: PropTypes.arrayOf(PropTypes.string).isRequired,
+  };
   static defaultProps = {
     reason: null,
     endDate: null,
@@ -45,9 +48,6 @@ class PlayerStatus extends Component {
     statusDate: null,
     statusAuthor: null,
     profileStatusComment: '',
-  };
-  static contextTypes = {
-    permissions: PropTypes.arrayOf(PropTypes.string).isRequired,
   };
 
   state = { ...initialState };

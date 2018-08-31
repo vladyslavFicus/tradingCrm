@@ -4,7 +4,6 @@ import { size } from 'lodash';
 import moment from 'moment';
 import { I18n } from 'react-redux-i18n';
 import PropTypes from '../../constants/propTypes';
-import { shortify } from '../../utils/uuid';
 import { types, typesLabels, typesClassNames } from '../../constants/audit';
 import FeedInfoLogin from './FeedInfoLogin';
 import FeedInfoLogout from './FeedInfoLogout';
@@ -19,6 +18,7 @@ import FeedInfoKycRequest from './FeedInfoKycRequest';
 import FeedInfoKycConfirmation from './FeedInfoKycConfirmation';
 import FeedInfoProfileBlocks from './FeedInfoProfileBlocks';
 import FeedInfoRofusVerification from './FeedInfoRofusVerification';
+import FeedInfoPlayerProfileStatusChanged from './FeedInfoPlayerProfileStatusChanged';
 import Uuid from '../Uuid';
 import './FeedItem.scss';
 
@@ -71,6 +71,12 @@ class FeedItem extends Component {
       case types.PLAYER_PROFILE_BLOCKED:
       case types.PLAYER_PROFILE_UNBLOCKED:
         return <FeedInfoProfileBlocks data={data} />;
+      case types.PLAYER_PROFILE_SELF_EXCLUDED:
+        return <FeedInfoPlayerProfileStatusChanged data={data} />;
+      case types.PLAYER_PROFILE_SELF_EXCLUSION_COOLOFF:
+        return <FeedInfoPlayerProfileStatusChanged data={data} />;
+      case types.PLAYER_PROFILE_RESUMED:
+        return <FeedInfoPlayerProfileStatusChanged data={data} />;
       default:
         return null;
     }
@@ -114,7 +120,7 @@ class FeedItem extends Component {
                 </Choose>
               </div>
               <div className="col-auto pl-1 feed-item__uuid">
-                {shortify(uuid)}
+                <Uuid uuid={uuid} />
               </div>
             </div>
             <div className="feed-item__author">
@@ -123,19 +129,7 @@ class FeedItem extends Component {
               </span>
               <If condition={authorUuid}>
                 <span className="mx-1">-</span>
-                <Uuid
-                  uuid={authorUuid}
-                  uuidPrefix={
-                    <Choose>
-                      <When condition={authorUuid.indexOf('OPERATOR') === -1}>
-                        OP
-                      </When>
-                      <When condition={authorUuid.indexOf('PLAYER') === -1}>
-                        PL
-                      </When>
-                    </Choose>
-                  }
-                />
+                <Uuid uuid={authorUuid} />
               </If>
             </div>
             <span className="feed-item__creation-date">
