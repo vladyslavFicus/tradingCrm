@@ -1,4 +1,5 @@
 import { CALL_API } from 'redux-api-middleware';
+import { get } from 'lodash';
 import update from 'react-addons-update';
 import createReducer from '../../../../../../../../../utils/createReducer';
 import createRequestAction from '../../../../../../../../../utils/createRequestAction';
@@ -45,12 +46,12 @@ const mapEntities = async (dispatch, pageable) => {
     return newPageable;
   }
 
+  const notes = get(action, 'payload.content', []);
+
   return new Promise((resolve) => {
     newPageable.content = newPageable.content.map(item => ({
       ...item,
-      note: action.payload[item.bonusUUID] && action.payload[item.bonusUUID].length
-        ? action.payload[item.bonusUUID][0]
-        : null,
+      note: notes.find(n => n.targetUUID === item.bonusUUID) || null,
     }));
 
     return resolve(newPageable);
