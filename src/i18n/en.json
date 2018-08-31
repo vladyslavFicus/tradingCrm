@@ -1001,7 +1001,10 @@
       "TYPES": {
         "FIRST_DEPOSIT": "First deposit",
         "PROFILE_COMPLETED": "Profile completed",
-        "MANUAL": "No Deposit"
+        "MANUAL": "No Deposit",
+        "WITHOUT_FULFILLMENT": "Without fulfillment",
+        "FREE_SPIN": "Free spin",
+        "DEPOSIT": "Deposit"
       },
       "ASSIGN": {
         "MANUAL": "by Operator",

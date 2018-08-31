@@ -4,8 +4,19 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 import { I18n } from 'react-redux-i18n';
 import { reduxForm, Field, getFormValues } from 'redux-form';
-import { InputField, SelectField, DateTimeField, RangeGroup } from '../../../../../../../../../components/ReduxForm';
-import { statusesLabels, typesLabels, assignLabels } from '../../../../../../../../../constants/bonus';
+import {
+  InputField,
+  SelectField,
+  DateTimeField,
+  RangeGroup,
+  NasSelectField,
+} from '../../../../../../../../../components/ReduxForm';
+import {
+  types,
+  statusesLabels,
+  typesLabels,
+  assignLabels,
+} from '../../../../../../../../../constants/bonus';
 import { attributeLabels } from '../constants';
 import { createValidator, translateLabels } from '../../../../../../../../../utils/validator';
 import renderLabel from '../../../../../../../../../utils/renderLabel';
@@ -84,13 +95,13 @@ class BonusGridFilter extends Component {
           ))}
         </Field>
         <Field
-          name="type"
+          name="types"
           label={I18n.t(attributeLabels.type)}
-          component={SelectField}
+          component={NasSelectField}
+          multiple
           className="filter-row__medium"
         >
-          <option value="">Any type</option>
-          {Object.keys(typesLabels).map(type => (
+          {Object.keys(types).map(type => (
             <option key={type} value={type}>
               {renderLabel(type, typesLabels)}
             </option>
@@ -161,7 +172,7 @@ const FilterForm = reduxForm({
     keyword: 'string',
     assigned: 'string',
     states: 'string',
-    type: 'string',
+    types: 'array',
     startDate: 'regex:/^\\d{4}-\\d{2}-\\d{2}$/',
     endDate: 'regex:/^\\d{4}-\\d{2}-\\d{2}$/',
   }, translateLabels(attributeLabels), false),

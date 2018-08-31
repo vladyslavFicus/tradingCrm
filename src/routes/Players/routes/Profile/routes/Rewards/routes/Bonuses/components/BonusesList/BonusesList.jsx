@@ -151,6 +151,10 @@ class BonusesList extends Component {
       filters.states = [filters.states];
     }
 
+    if (Array.isArray(filters.types)) {
+      filters.types = filters.types.join(',');
+    }
+
     this.setState({ filters, page: 0 }, () => this.handleRefresh());
   };
 
