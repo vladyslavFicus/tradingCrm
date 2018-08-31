@@ -15,13 +15,13 @@ const FETCH_NOTES = createRequestAction(`${KEY}/fetch-notes`);
 
 const fetchNotesFn = noteSourceActionCreators.fetchNotesByTargetUuids(FETCH_NOTES);
 const mapNotesToLimits = (limits, notes) => {
-  if (!notes || Object.keys(notes).length === 0) {
+  if (!notes || notes.length === 0) {
     return limits;
   }
 
   return limits.map(limit => ({
     ...limit,
-    note: notes[limit.uuid] ? notes[limit.uuid][0] : null,
+    note: notes.find(n => n.targetUUID === limit.uuid) || null,
   }));
 };
 
@@ -265,7 +265,7 @@ const actionHandlers = {
   }),
   [FETCH_NOTES.SUCCESS]: (state, action) => ({
     ...state,
-    list: mapNotesToLimits(state.list, action.payload),
+    list: mapNotesToLimits(state.list, action.payload.content),
   }),
 };
 const actionTypes = {

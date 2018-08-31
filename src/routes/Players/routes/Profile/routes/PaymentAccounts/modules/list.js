@@ -36,7 +36,7 @@ const mapPaymentAccounts = accounts =>
   }), {});
 
 const mapNotesToEntities = (entities, notes) => {
-  if (!notes || Object.keys(notes).length === 0) {
+  if (!notes || notes.length === 0) {
     return entities;
   }
 
@@ -44,13 +44,13 @@ const mapNotesToEntities = (entities, notes) => {
     ...result,
     [UUID]: {
       ...entities[UUID],
-      note: notes[UUID] ? notes[UUID][0] : null,
+      note: notes.find(n => n.targetUUID === UUID) || null,
     },
   }), {});
 };
 
 const mapNotesToFiles = (paymentAccounts, fileNotes) => {
-  if (!fileNotes || Object.keys(fileNotes).length === 0) {
+  if (!fileNotes || fileNotes.length === 0) {
     return paymentAccounts;
   }
 
@@ -254,7 +254,7 @@ const actionHandlers = {
   }),
   [FETCH_FILES_NOTES.SUCCESS]: (state, action) => ({
     ...state,
-    items: mapNotesToFiles(state.items, action.payload),
+    items: mapNotesToFiles(state.items, action.payload.content),
   }),
   [FETCH_PAYMENT_ACCOUNT_FILES.SUCCESS]: (state, action) => ({
     ...state,

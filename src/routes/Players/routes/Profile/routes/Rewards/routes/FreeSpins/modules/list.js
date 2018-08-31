@@ -1,5 +1,5 @@
 import { CALL_API } from 'redux-api-middleware';
-import _ from 'lodash';
+import { omitBy, get } from 'lodash';
 import moment from 'moment';
 import fetch from '../../../../../../../../../utils/fetch';
 import createReducer from '../../../../../../../../../utils/createReducer';
@@ -64,12 +64,12 @@ const mapEntities = async (dispatch, pageable) => {
     return newPageable;
   }
 
+  const notes = get(action, 'payload.content', []);
+
   return new Promise((resolve) => {
     newPageable.content = newPageable.content.map(item => ({
       ...item,
-      note: action.payload[item.uuid] && action.payload[item.uuid].length
-        ? action.payload[item.uuid][0]
-        : null,
+      note: notes.find(n => n.targetUUID === item.uuid) || null,
     }));
 
     return resolve(newPageable);
@@ -134,7 +134,7 @@ function exportFreeSpins(filters = {}) {
       sort: 'startDate,desc',
     };
 
-    const queryString = buildQueryString(_.omitBy(queryParams, val => !val));
+    const queryString = buildQueryString(omitBy(queryParams, val => !val));
 
     try {
       const response = await fetch(`${getApiRoot()}/free_spin/free-spins/${filters.playerUUID}?${queryString}`, {

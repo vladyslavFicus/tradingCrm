@@ -22,7 +22,7 @@ const mapNotesToFiles = (items, notes) => {
 
   return items.map(item => ({
     ...item,
-    note: notes[item.uuid] ? notes[item.uuid][0] : null,
+    note: notes.find(n => n.targetUUID === item.uuid) || null,
   }));
 };
 
@@ -114,7 +114,7 @@ const actionHandlers = {
     entities: {
       ...state.entities,
       content: [
-        ...mapNotesToFiles(state.entities.content, action.payload),
+        ...mapNotesToFiles(state.entities.content, action.payload.content),
       ],
     },
   }),
