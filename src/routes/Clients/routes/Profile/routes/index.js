@@ -3,6 +3,7 @@ import Notes from './Notes';
 import Files from './Files';
 import Feed from './Feed';
 import Transactions from './Transactions';
+import Accounts from './Accounts';
 
 export {
   ClientView,
@@ -10,4 +11,5 @@ export {
   Files,
   Feed,
   Transactions,
+  Accounts,
 };

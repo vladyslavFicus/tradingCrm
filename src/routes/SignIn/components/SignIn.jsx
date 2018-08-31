@@ -8,6 +8,8 @@ import Preloader from '../../../components/Preloader';
 import { Brands, Departments } from '../../../components/Brands';
 import Copyrights from '../../../components/Copyrights';
 import sentry from '../../../utils/sentry';
+import rootConfig from '../../../config';
+import { markets } from '../../../constants/markets';
 
 class SignIn extends Component {
   static propTypes = {
@@ -133,6 +135,7 @@ class SignIn extends Component {
       setDepartmentsByBrand,
       fetchAuthorities,
       fetchProfile,
+      fetchHierarchy,
       reset,
     } = this.props;
     const token = requestToken || dataToken;
@@ -159,6 +162,7 @@ class SignIn extends Component {
             await Promise.all([
               fetchProfile(uuid, action.payload.token),
               fetchAuthorities(uuid, action.payload.token),
+              ...(rootConfig.market === markets.crm ? [fetchHierarchy(uuid)] : []),
             ]);
           } else {
             throw new SubmissionError({ _error: get(action.payload, 'response.error', action.payload.message) });

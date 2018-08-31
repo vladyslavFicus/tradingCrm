@@ -95,6 +95,7 @@ class FeedFilterForm extends Component {
             placeholder={I18n.t(attributeLabels.creationDateFrom)}
             component={DateTimeField}
             isValidDate={this.startDateValidator}
+            pickerClassName="left-side"
           />
           <Field
             utc

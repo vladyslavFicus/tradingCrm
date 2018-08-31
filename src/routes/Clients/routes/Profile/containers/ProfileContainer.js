@@ -153,20 +153,15 @@ export default compose(
   }),
   graphql(updateNoteMutation, {
     name: 'updateNote',
-    options: ({
-      match: {
-        params: {
-          id: playerUUID,
-        },
-      },
-    }) => ({
+    options: () => ({
       update: (proxy, {
         data: {
           note: {
             update: {
               data: {
-                uuid,
+                tagId,
                 pinned,
+                targetUUID,
               },
               data,
             },
@@ -180,24 +175,24 @@ export default compose(
         } = proxy.readQuery({
           query: notesQuery,
           variables: {
-            playerUUID,
+            targetUUID,
             pinned: true,
           },
         });
         const selectedNote = content.find(({
           uuid: noteUuid,
-        }) => noteUuid === uuid);
+        }) => noteUuid === tagId);
 
         if (selectedNote && !pinned) {
           removeNote(proxy, {
-            playerUUID,
+            targetUUID,
             pinned: true,
-          }, uuid);
+          }, tagId);
         }
 
         if (!selectedNote && pinned) {
           addNote(proxy, {
-            playerUUID,
+            targetUUID,
             pinned: true,
           }, data);
         }
@@ -372,19 +367,22 @@ export default compose(
           note: {
             remove: {
               data: {
-                uuid,
+                tagId,
               },
             },
           },
         },
       }) => {
-        removeNote(proxy, { playerUUID, pinned: true }, uuid);
         removeNote(proxy, {
-          playerUUID,
+          targetUUID: playerUUID,
+          pinned: true,
+        }, tagId);
+        removeNote(proxy, {
+          targetUUID: playerUUID,
           size: 10,
           page: 0,
           ...query ? query.filters : {},
-        }, uuid);
+        }, tagId);
       },
     }),
   }),
@@ -414,7 +412,7 @@ export default compose(
       },
     }) => ({
       variables: {
-        playerUUID,
+        targetUUID: playerUUID,
         pinned: true,
       },
     }),

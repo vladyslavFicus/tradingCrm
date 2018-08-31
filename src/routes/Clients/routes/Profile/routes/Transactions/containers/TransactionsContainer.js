@@ -11,9 +11,7 @@ const mapStateToProps = ({
   currentPermissions,
 });
 
-
 export default compose(
   withServiceCheck,
   connect(mapStateToProps)
 )(Transactions);
-

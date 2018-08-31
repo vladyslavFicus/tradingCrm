@@ -69,12 +69,7 @@ class Payments extends Component {
       clientPaymentsByUuid: PropTypes.pageable(PropTypes.paymentEntity),
     }).isRequired,
   };
-  static defaultProps = {
-    newPaymentNote: null,
-    currencyCode: null,
-    playerProfile: {},
-    paymentActionReasons: {},
-  };
+
   static contextTypes = {
     onAddNoteClick: PropTypes.func.isRequired,
     onAddNote: PropTypes.func.isRequired,
@@ -83,6 +78,13 @@ class Payments extends Component {
     setRenderActions: PropTypes.func.isRequired,
     registerUpdateCacheListener: PropTypes.func.isRequired,
     unRegisterUpdateCacheListener: PropTypes.func.isRequired,
+  };
+
+  static defaultProps = {
+    newPaymentNote: null,
+    currencyCode: null,
+    playerProfile: {},
+    paymentActionReasons: {},
   };
 
   state = {

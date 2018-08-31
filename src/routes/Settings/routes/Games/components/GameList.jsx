@@ -5,7 +5,7 @@ import GridView, { GridViewColumn } from '../../../../../components/GridView';
 import GameStatus from './GameStatus';
 import GamesGridFilter from './GamesGridFilter';
 import { withLines } from '../../../../../constants/games';
-import Uuid from '../../../../../components/Uuid/Uuid';
+import Uuid from '../../../../../components/Uuid';
 
 class View extends Component {
   static propTypes = {

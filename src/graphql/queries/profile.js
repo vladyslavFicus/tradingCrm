@@ -11,18 +11,20 @@ const profilesQuery = gql`query getProfiles(
   $registrationDateTo: String,
   $searchValue: String,
   $status: String,
+  $hierarchyUsers: [String],
 ) {
   profiles(
     page: $page,
     size: $size,
     acquisitionStatus: $acquisitionStatus,
-    balanceFrom: $balanceFrom,
-    balanceTo: $balanceTo,
+    tradingBalanceFrom: $balanceFrom,
+    tradingBalanceTo: $balanceTo,
     countries: $countries,
     registrationDateFrom: $registrationDateFrom,
     registrationDateTo: $registrationDateTo,
     searchValue: $searchValue,
     status: $status,
+    hierarchyUsers: $hierarchyUsers,
     ) {
       error {
         error
@@ -143,7 +145,6 @@ const profileQuery = gql`query profileData($playerUUID: String!){
       btag
       birthDate
       marketingMail
-      marketingNews
       marketingSMS
       tailorMadeEmail
       tailorMadeSMS

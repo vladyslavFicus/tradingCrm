@@ -231,6 +231,7 @@ class FreeSpinAssignModal extends PureComponent {
                     component={DateTimeField}
                     isValidDate={this.startDateValidator('endDate')}
                     id="assign-free-spin-modal-startdate"
+                    pickerClassName="left-side"
                   />
                   <Field
                     name="endDate"

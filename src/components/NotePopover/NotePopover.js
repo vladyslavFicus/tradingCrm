@@ -41,7 +41,6 @@ class NotePopover extends Component {
     currentValues: PropTypes.shape({
       pinned: PropTypes.bool,
       content: PropTypes.string,
-      targetType: PropTypes.string,
       targetUUID: PropTypes.string,
     }),
     submitting: PropTypes.bool,
@@ -111,8 +110,8 @@ class NotePopover extends Component {
       );
   };
 
-  handleDelete = (item) => {
-    this.props.onDelete(item)
+  handleDelete = (tagId) => {
+    this.props.onDelete(tagId)
       .then(
         () => {
           if (typeof this.props.onSubmitSuccess === 'function') {
@@ -155,12 +154,23 @@ class NotePopover extends Component {
       );
     }
 
+    const {
+      item: {
+        tagId,
+        uuid,
+        lastEditionDate,
+        creationDate,
+        lastEditorUUID,
+        targetUUID,
+      },
+    } = this.props;
+
     return (
       <PopoverHeader tag="div" className="note-popover__header">
-        <If condition={item.lastEditionDate && item.creationDate}>
+        <If condition={lastEditionDate && creationDate}>
           <div className="note-popover__subtitle">
             <Choose>
-              <When condition={item.lastEditionDate === item.creationDate}>
+              <When condition={lastEditionDate === creationDate}>
                 {I18n.t('COMMON.CREATED')}
               </When>
               <Otherwise>
@@ -169,39 +179,50 @@ class NotePopover extends Component {
             </Choose>
           </div>
         </If>
-        <div className="note-popover__author">
-          {I18n.t('COMMON.AUTHOR_BY')}
-          {' '}
-          <Uuid uuid={item.lastEditorUUID} className="font-weight-700" />
-        </div>
-        <If condition={item.lastEditionDate}>
-          <div className="row no-gutters note-popover__subtitle">
-            <div className="col-auto">
+        <If condition={lastEditorUUID}>
+          <div className="note-popover__author">
+            {I18n.t('COMMON.AUTHOR_BY')} {' '} <Uuid uuid={lastEditorUUID} className="font-weight-700" />
+          </div>
+        </If>
+        <div className="row no-gutters note-popover__subtitle">
+          <div className="col-auto">
+            <If condition={lastEditionDate}>
               <Choose>
-                <When condition={item.lastEditionDate}>
-                  {moment.utc(item.lastEditionDate).local().format('DD.MM.YYYY HH:mm:ss')}
+                <When condition={lastEditionDate}>
+                  {moment.utc(lastEditionDate).local().format('DD.MM.YYYY HH:mm:ss')}
                 </When>
                 <Otherwise>
                   {I18n.t('COMMON.UNKNOWN_TIME')}
                 </Otherwise>
               </Choose>
-              {' '}
-              {I18n.t('COMMON.TO')} {!!item.targetUUID && this.renderItemId(item)}
-            </div>
-            <div className="col-auto ml-auto">
-              <button
-                type="reset"
-                onClick={() => this.handleDelete(item)}
-                className="fa fa-trash color-danger note-popover__delete-btn"
-              />
-            </div>
+            </If>
+            <If condition={targetUUID}>
+              {' '} {I18n.t('COMMON.TO')} {this.renderItemId(targetUUID)}
+            </If>
           </div>
-        </If>
+          <div className="col-auto ml-auto">
+            <button
+              type="reset"
+              onClick={() => this.handleDelete(tagId || uuid)}
+              className="fa fa-trash color-danger note-popover__delete-btn"
+            />
+          </div>
+        </div>
       </PopoverHeader>
     );
   };
 
-  renderItemId = item => <Uuid uuid={item.targetUUID} uuidPrefix={entitiesPrefixes[item.targetType]} />;
+  renderItemId = (targetUUID) => {
+    const [targetType] = targetUUID.split('-', 1);
+
+    return (
+      <Uuid
+        key={targetUUID}
+        uuid={targetUUID}
+        uuidPrefix={entitiesPrefixes[targetType]}
+      />
+    );
+  };
 
   render() {
     const {
@@ -267,7 +288,7 @@ class NotePopover extends Component {
                 disabled={pristine || submitting || invalid}
               >
                 <Choose>
-                  <When condition={item && item.uuid}>
+                  <When condition={item && (item.uuid || item.tagId)}>
                     {I18n.t('COMMON.BUTTONS.UPDATE')}
                   </When>
                   <Otherwise>

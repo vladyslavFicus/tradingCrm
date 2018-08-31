@@ -42,7 +42,6 @@ class Header extends Component {
       languageCode: PropTypes.string,
       lastName: PropTypes.string,
       marketingMail: PropTypes.bool,
-      marketingNews: PropTypes.bool,
       marketingSMS: PropTypes.bool,
       phoneNumber: PropTypes.string,
       phoneNumberVerified: PropTypes.bool,
@@ -81,6 +80,10 @@ class Header extends Component {
     checkService: PropTypes.func.isRequired,
   };
 
+  static contextTypes = {
+    permissions: PropTypes.arrayOf(PropTypes.string).isRequired,
+  };
+
   static defaultProps = {
     lastIp: null,
     playerProfile: {},
@@ -88,10 +91,6 @@ class Header extends Component {
     currentTags: [],
     availableStatuses: [],
     loaded: false,
-  };
-
-  static contextTypes = {
-    permissions: PropTypes.arrayOf(PropTypes.string).isRequired,
   };
 
   handleTagAdd = (option) => {
@@ -182,14 +181,6 @@ class Header extends Component {
                 </div>
               </div>
             </HeaderPlayerPlaceholder>
-            <div className="panel-heading-row__tags">
-              <ProfileTags
-                onAdd={this.handleTagAdd}
-                onDelete={this.handleTagDelete}
-                options={availableTags}
-                value={currentTags}
-              />
-            </div>
             <div className="panel-heading-row__actions">
               <PermissionContent permissions={permissions.NOTES.ADD_NOTE}>
                 <PopoverButton

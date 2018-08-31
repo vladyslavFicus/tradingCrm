@@ -176,6 +176,7 @@ class BonusCampaignsFilterForm extends Component {
             name="creationDateFrom"
             component={DateTimeField}
             isValidDate={this.startDateValidator('creationDateTo')}
+            pickerClassName="left-side"
           />
           <Field
             utc
@@ -194,6 +195,7 @@ class BonusCampaignsFilterForm extends Component {
             placeholder={attributeLabels.startDate}
             component={DateTimeField}
             isValidDate={this.startDateValidator('activityDateTo')}
+            pickerClassName="left-side"
           />
           <Field
             utc

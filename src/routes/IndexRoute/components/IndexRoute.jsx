@@ -13,6 +13,7 @@ import Brands from '../../Brands';
 import Players from '../../Players';
 import Clients from '../../Clients';
 import Transactions from '../../Transactions';
+import Payments from '../../Payments';
 import Settings from '../../Settings';
 import SetPassword from '../../SetPassword';
 import ResetPassword from '../../ResetPassword';
@@ -61,6 +62,7 @@ class IndexRoute extends PureComponent {
           <AppRoute path="/bonus-campaigns" layout={MainLayout} component={BonusCampaigns} checkAuth />
           <AppRoute path="/campaigns" layout={MainLayout} component={Campaigns} checkAuth />
           <AppRoute path="/transactions" layout={MainLayout} component={Transactions} checkAuth />
+          <AppRoute path="/payments" layout={MainLayout} component={Payments} checkAuth />
           <AppRoute path="/settings" layout={MainLayout} component={Settings} checkAuth />
           <AppRoute path="/operators" layout={MainLayout} component={Operators} checkAuth />
           <Route path="/logout" component={Logout} />

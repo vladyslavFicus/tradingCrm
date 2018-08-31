@@ -11,6 +11,7 @@ import PermissionContent from '../../../../../../../components/PermissionContent
 import permissions from '../../../../../../../config/permissions';
 import Permissions from '../../../../../../../utils/permissions';
 import Uuid from '../../../../../../../components/Uuid';
+import config from '../../../../../../../config';
 
 const viewFilePermission = new Permissions(permissions.USER_PROFILE.VIEW_FILE);
 
@@ -30,6 +31,10 @@ class Documents extends Component {
     onDeleteFileClick: PropTypes.func.isRequired,
   };
 
+  state = {
+    errors: [],
+  };
+
   handleStatusChange = uuid => (action) => {
     this.props.onChangeStatus(uuid, action);
   };
@@ -40,6 +45,14 @@ class Documents extends Component {
 
   handleDeleteFileClick = (e, data) => {
     this.context.onDeleteFileClick(e, data);
+  };
+
+  handleUploadDocument = (errors, files) => {
+    this.setState({ errors });
+
+    if (!errors || !errors.length) {
+      this.props.onUpload(errors, files);
+    }
   };
 
   renderFile = (data, canViewFile) => {
@@ -102,6 +115,7 @@ class Documents extends Component {
 
   render() {
     const { files } = this.props;
+    const { errors } = this.state;
     const canViewFile = viewFilePermission.check(this.context.permissions);
 
     return (
@@ -134,9 +148,16 @@ class Documents extends Component {
           <div className="text-center">
             <FileUpload
               label="+ Add document"
-              onChosen={this.props.onUpload}
+              allowedTypes={config.player.files.types}
+              allowedSize={config.player.files.maxSize}
+              onChosen={this.handleUploadDocument}
               className="btn btn-default-outline"
             />
+            <If condition={errors.length}>
+              <div className="font-size-11 color-danger">
+                {errors[0]}
+              </div>
+            </If>
           </div>
         </PermissionContent>
       </Fragment>

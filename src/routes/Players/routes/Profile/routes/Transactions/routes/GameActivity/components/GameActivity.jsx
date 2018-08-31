@@ -169,7 +169,7 @@ class GameActivity extends Component {
     const game = games.find(item => item.internalGameId === data.internalGameId || item.gameId === data.gameId);
 
     return (
-      <div>
+      <Fragment>
         <div className="font-weight-700">
           <Choose>
             <When condition={game}>{game.fullGameName}</When>
@@ -182,7 +182,7 @@ class GameActivity extends Component {
             {data.gameProviderId}
           </div>
         </If>
-      </div>
+      </Fragment>
     );
   };
 
@@ -196,10 +196,10 @@ class GameActivity extends Component {
     }
 
     return (
-      <div>
+      <Fragment>
         <div className="font-weight-700">{moment.utc(data[column]).local().format('DD.MM.YYYY')}</div>
         <div className="font-size-11">{moment.utc(data[column]).local().format('HH:mm:ss')}</div>
-      </div>
+      </Fragment>
     );
   };
 
@@ -244,39 +244,53 @@ class GameActivity extends Component {
   };
 
   renderBetAmount = data => (
-    <div>
+    <Fragment>
       {this.renderAmount('totalBetAmount', 'realBetAmount', 'bonusBetAmount')(data)}
       <GameRoundType gameRound={data} />
-    </div>
+    </Fragment>
   );
 
   renderWinAmount = data => (
-    <div>
+    <Fragment>
       {this.renderAmount('totalWinAmount', 'realWinAmount', 'bonusWinAmount')(data)}
       <If condition={data.jackpot}>
         <span className="game-activity__jackpot">{I18n.t('PLAYER_PROFILE.GAME_ACTIVITY.GRID_VIEW.JACKPOT')}</span>
       </If>
-    </div>
+    </Fragment>
   );
 
   renderBalance = data => (
-    <div>
-      <div>
-        {I18n.t('PLAYER_PROFILE.GAME_ACTIVITY.GRID_VIEW.BALANCE_BEFORE')}
-        {': '}
-        <Amount {...data.balanceBeforeAmount} />
-      </div>
-      {
-        data.balanceAfterAmount ? (
-          <div>
-            {I18n.t('PLAYER_PROFILE.GAME_ACTIVITY.GRID_VIEW.BALANCE_AFTER')}
-            {': '}
-            <Amount {...data.balanceAfterAmount} />
-          </div>
-        ) : I18n.t('PLAYER_PROFILE.GAME_ACTIVITY.GRID_VIEW.PENDING_BALANCE')
-      }
-    </div>
+    <Fragment>
+      <span className="font-weight-700 mr-1">
+        {I18n.t('PLAYER_PROFILE.GAME_ACTIVITY.GRID_VIEW.BALANCE_BEFORE')}:
+      </span>
+      <Amount {...data.balanceBeforeAmount} />
+      <br />
+      <Choose>
+        <When condition={data.balanceAfterAmount}>
+          <span className="font-weight-700 mr-1">
+            {I18n.t('PLAYER_PROFILE.GAME_ACTIVITY.GRID_VIEW.BALANCE_AFTER')}:
+          </span>
+          <Amount {...data.balanceAfterAmount} />
+        </When>
+        <Otherwise>
+          {I18n.t('PLAYER_PROFILE.GAME_ACTIVITY.GRID_VIEW.PENDING_BALANCE')}
+        </Otherwise>
+      </Choose>
+    </Fragment>
   );
+
+  renderDevice = (data) => {
+    if (data.deviceType && data.deviceType !== 'UNKNOWN') {
+      return (
+        <i
+          className={`fa fa-${data.deviceType.toLowerCase()} font-size-20`}
+        />
+      );
+    }
+
+    return <i className="fa fa-question-circle font-size-20" />;
+  };
 
   render() {
     const {
@@ -297,7 +311,6 @@ class GameActivity extends Component {
           gamesList={gamesList}
           onSubmit={this.handleFiltersChanged}
         />
-
         <div className="tab-wrapper">
           <GridView
             dataSource={entities.content}
@@ -345,6 +358,13 @@ class GameActivity extends Component {
               name="winDate"
               header={I18n.t('PLAYER_PROFILE.GAME_ACTIVITY.GRID_VIEW.BALANCE')}
               render={this.renderBalance}
+            />
+            <GridViewColumn
+              name="device"
+              header={I18n.t('PLAYER_PROFILE.GAME_ACTIVITY.GRID_VIEW.DEVICE')}
+              headerClassName="text-center"
+              className="text-center"
+              render={this.renderDevice}
             />
           </GridView>
         </div>

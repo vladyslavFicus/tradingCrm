@@ -1,26 +1,24 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { I18n } from 'react-redux-i18n';
 import moment from 'moment';
 import Amount from '../Amount';
 import { statusColorNames } from '../../constants/user';
 import PropTypes from '../../constants/propTypes';
 import Uuid from '../Uuid';
+import './ModalPlayerInfo.scss';
 
 class ModalPlayerInfo extends Component {
   static propTypes = {
     playerProfile: PropTypes.userProfile,
   };
-
   static defaultProps = {
     playerProfile: null,
   };
 
   renderPlayerInfo = profile => (
-    <div>
+    <Fragment>
       <div className="modal-header-tabs__label">
-        <span>
-          {[profile.firstName, profile.lastName].join(' ')}
-        </span>
+        {[profile.firstName, profile.lastName].join(' ')}
         {' '}
         {!!profile.birthDate && <span>({moment().diff(profile.birthDate, 'years')})</span>}
       </div>
@@ -30,13 +28,14 @@ class ModalPlayerInfo extends Component {
         <Uuid
           uuid={profile.playerUUID}
           uuidPrefix={profile.playerUUID.indexOf('PLAYER') === -1 ? 'PL' : null}
+          className="d-inline-block"
         />
       </div>
-    </div>
+    </Fragment>
   );
 
   renderPlayerStatus = profile => (
-    <div>
+    <Fragment>
       <div className={`text-uppercase modal-header-tabs__label ${statusColorNames[profile.profileStatus]}`}>
         {profile.profileStatus}
       </div>
@@ -46,16 +45,16 @@ class ModalPlayerInfo extends Component {
           Until {moment.utc(profile.suspendEndDate).local().format('L')}
         </div>
       }
-    </div>
+    </Fragment>
   );
 
   renderBalance = ({ total, bonus, real }) => (
-    <div>
-      <Amount tag="div" className={'modal-header-tabs__label'} {...total} />
+    <Fragment>
+      <Amount tag="div" className="modal-header-tabs__label" {...total} />
       <div className="font-size-11">
         RM <Amount {...real} /> + BM <Amount {...bonus} />
       </div>
-    </div>
+    </Fragment>
   );
 
   render() {
@@ -72,20 +71,20 @@ class ModalPlayerInfo extends Component {
           </div>
         </When>
         <Otherwise>
-          <div className="modal-header-tabs">
-            <div className="modal-header-tabs__item">
+          <div className="row modal-player-info">
+            <div className="col">
               <div className="modal-tab-label">
                 {I18n.t('COMMON.PLAYER')}
               </div>
               {this.renderPlayerInfo(playerProfile)}
             </div>
-            <div className="modal-header-tabs__item">
+            <div className="col">
               <div className="modal-tab-label">
                 {I18n.t('COMMON.ACCOUNT_STATUS')}
               </div>
               {this.renderPlayerStatus(playerProfile)}
             </div>
-            <div className="modal-header-tabs__item">
+            <div className="col">
               <div className="modal-tab-label">
                 {I18n.t('COMMON.BALANCE')}
               </div>

@@ -49,7 +49,7 @@ class Notes extends Component {
             item.lastEditionDate
               ? moment.utc(item.lastEditionDate).local().format('DD.MM.YYYY HH:mm:ss')
               : I18n.t('COMMON.UNKNOWN_TIME')
-          } {I18n.t('COMMON.TO')} {this.renderItemId(item)}
+          } {I18n.t('COMMON.TO')} {this.renderItemId(item.targetUUID)}
         </small>
         <div className="note-content__content">
           {item.content}
@@ -58,7 +58,11 @@ class Notes extends Component {
     </PopoverButton>
   );
 
-  renderItemId = item => <Uuid uuid={item.targetUUID} uuidPrefix={entitiesPrefixes[item.targetType]} />;
+  renderItemId = (targetUUID) => {
+    const [targetType] = targetUUID.split('-', 1);
+
+    return <Uuid uuid={targetUUID} uuidPrefix={entitiesPrefixes[targetType]} />;
+  };
 
   render() {
     const { notes } = this.props;

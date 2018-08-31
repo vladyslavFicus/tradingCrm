@@ -279,7 +279,8 @@
         "BALANCE_BEFORE": "До",
         "BALANCE_AFTER": "После",
         "PENDING_BALANCE": "В ожидании",
-        "BALANCE": "Баланс"
+        "BALANCE": "Баланс",
+        "DEVICE": "Устройство"
       },
       "GAME_ROUND_TYPE": {
         "FREE_SPIN": "Free spin",
@@ -302,7 +303,6 @@
       "SENDINGS": {
         "TITLE": "Рассылки",
         "SMS": "СМС",
-        "EMAIL": "Email",
         "MAIL": "Почта"
       },
       "TAILOR_MADE": {
@@ -373,8 +373,6 @@
       "CANCEL_BONUS": "Отменить бонус",
       "PLAYER_NOT_FOUND": "Игрок не найден",
       "MANUAL_CREATION_FAILURE": "Не удалось создать бонус",
-      "CREATED_BY_CAMPAIGN": "Кампания",
-      "CREATED_BY_OPERATOR": "Оператор",
       "AMOUNT_TO_WAGE_PREPENDED_TEXT": "из",
       "TITLE": "Бонус",
       "MANUAL_BONUS_BUTTON": "+ Мануальный бонус",
@@ -385,8 +383,9 @@
         "GRANTED": "Выдано",
         "WAGERED": "Поставлено",
         "TO_WAGER": "К ставке",
-        "BONUS_TYPE": "Тип бонуса",
-        "BONUS_STATUS": "Статус"
+        "CLAIMABLE": "По запросу",
+        "BONUS_STATUS": "Статус",
+        "NOTE": "Заметка"
       },
       "CLAIM_BONUS": "Выдать бонус",
       "LOCKED_GRANTED": "Блок.:",
@@ -401,7 +400,24 @@
           "DATE_RANGE": "Временной период"
         }
       },
-      "PERMIT_BONUS_CONVERSION": "Подтвердить конвертацию"
+      "PERMIT_BONUS_CONVERSION": "Подтвердить конвертацию",
+      "MODAL_VIEW": {
+        "TITLE": "Информация о бонусе",
+        "BONUS_INFO": {
+          "BONUS": "Бонус",
+          "AVAILABLE": "Доступность",
+          "STATUS": "Статус",
+          "PRIZE_CAPPING": "Приз / кеппинг",
+          "CLAIMABLE": "По запросу",
+          "MAX_BET": "Макс. ставка"
+        },
+        "BONUS_STATS": {
+          "GRANTED": "Выдано",
+          "WAGERED": "Поставлено",
+          "TO_WAGER": "К ставке",
+          "TOTAL_TO_WAGER": "Всего к ставке"
+        }
+      }
     },
     "NOTIFICATIONS": {
       "COPY_FULL_UUID": {
@@ -772,7 +788,7 @@
     "TO": "по",
     "OPT_IN": "Opt-In",
     "NON_OPT_IN": "Non Opt-In",
-    "AUTHOR_BY": "от ",
+    "AUTHOR_BY": " ",
     "EMPTY": "Пусто",
     "DATE_ON": "от %{date}",
     "DATE_UNTIL": "до %{date}",

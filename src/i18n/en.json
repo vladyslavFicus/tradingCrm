@@ -274,7 +274,8 @@
         "BALANCE_BEFORE": "Before",
         "BALANCE_AFTER": "After",
         "PENDING_BALANCE": "Pending",
-        "BALANCE": "Balance"
+        "BALANCE": "Balance",
+        "DEVICE": "Device"
       },
       "GAME_ROUND_TYPE": {
         "FREE_SPIN": "Free spin",
@@ -297,7 +298,6 @@
       "SENDINGS": {
         "TITLE": "Sendings",
         "SMS": "SMS",
-        "EMAIL": "Email",
         "MAIL": "Snail mail"
       },
       "TAILOR_MADE": {
@@ -368,8 +368,6 @@
       "CANCEL_BONUS": "Cancel bonus",
       "PLAYER_NOT_FOUND": "Player not found",
       "MANUAL_CREATION_FAILURE": "Error",
-      "CREATED_BY_CAMPAIGN": "by Campaign ",
-      "CREATED_BY_OPERATOR": "by Operator ",
       "AMOUNT_TO_WAGE_PREPENDED_TEXT": "out of",
       "TITLE": "Bonus",
       "MANUAL_BONUS_BUTTON": "+ Manual bonus",
@@ -380,8 +378,9 @@
         "GRANTED": "Granted",
         "WAGERED": "Wagered",
         "TO_WAGER": "To wager",
-        "BONUS_TYPE": "Bonus type",
-        "BONUS_STATUS": "Status"
+        "CLAIMABLE": "Claimable",
+        "BONUS_STATUS": "Status",
+        "NOTE": "Note"
       },
       "CLAIM_BONUS": "Claim bonus",
       "LOCKED_GRANTED": "Locked:",
@@ -396,7 +395,24 @@
           "DATE_RANGE": "Availability date range"
         }
       },
-      "PERMIT_BONUS_CONVERSION": "Permit conversion"
+      "PERMIT_BONUS_CONVERSION": "Permit conversion",
+      "MODAL_VIEW": {
+        "TITLE": "Bonus details",
+        "BONUS_INFO": {
+          "BONUS": "Bonus",
+          "AVAILABLE": "Available",
+          "STATUS": "Status",
+          "PRIZE_CAPPING": "Prize / capping",
+          "CLAIMABLE": "Claimable",
+          "MAX_BET": "Max. bet"
+        },
+        "BONUS_STATS": {
+          "GRANTED": "Granted",
+          "WAGERED": "Wagered",
+          "TO_WAGER": "To wager",
+          "TOTAL_TO_WAGER": "Total to wager"
+        }
+      }
     },
     "NOTIFICATIONS": {
       "COPY_FULL_UUID": {
@@ -1150,6 +1166,17 @@
       }
     },
     "TRANSACTIONS": {
+      "GRID_COLUMNS": {
+        "TRANSACTION": "Transaction",
+        "CLIENT": "Client",
+        "COUNTRY": "Country",
+        "TYPE": "Type",
+        "AMOUNT": "Amount",
+        "TRADING_ACC": "Trading acc",
+        "PAYMENT_METHOD": "Payment method",
+        "DATE_TIME": "Date & Time",
+        "STATUS": "Status"
+      },
       "FILTER_FORM": {
         "ATTRIBUTES_LABELS": {
           "KEYWORD": "Search by",
@@ -2352,6 +2379,14 @@
     "LOGIN": "Login"
   },
   "CLIENT_PROFILE": {
+    "TABS": {
+      "PROFILE": "Profile",
+      "TRANSACTIONS": "Transactions",
+      "ACCOUNTS": "Accounts",
+      "FILES": "Files",
+      "NOTES": "Notes",
+      "FEED": "Feed"
+    },
     "PROFILE": {
       "TITLE": "Profile",
       "HEADER": {
@@ -2455,6 +2490,18 @@
         "METHOD": "Method",
         "DATE_TIME": "Date & Time",
         "STATUS": "Status"
+      }
+    },
+    "ACCOUNTS": {
+      "ROUTES": {
+        "TRADING_ACC": "Trading accounts",
+        "PAYMENT_ACC": "Payment accounts"
+      },
+      "ADD_TRADING_ACC": "+ Add trading account",
+      "GRID_COLUMNS": {
+        "TRADING_ACC": "Trading acc",
+        "SERVER": "Server",
+        "BALANCE/EQUITY": "Balance / Equity"
       }
     }
   },

@@ -11,6 +11,7 @@ const mapActionCreators = {
   setDepartmentsByBrand: authActionCreators.setDepartmentsByBrand,
   fetchProfile: authActionCreators.fetchProfile,
   fetchAuthorities: authActionCreators.fetchAuthorities,
+  fetchHierarchy: authActionCreators.fetchHierarchy,
 };
 const mapStateToProps = ({ signIn }) => ({ ...signIn });
 

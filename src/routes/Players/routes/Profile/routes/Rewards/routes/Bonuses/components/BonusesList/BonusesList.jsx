@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import moment from 'moment';
 import classNames from 'classnames';
 import { SubmissionError } from 'redux-form';
@@ -16,7 +16,6 @@ import { targetTypes } from '../../../../../../../../../../constants/note';
 import Uuid from '../../../../../../../../../../components/Uuid';
 import BonusGridFilter from '../BonusGridFilter';
 import ViewModal from '../ViewModal';
-import BonusType from '../BonusType';
 import BonusStatus from '../BonusStatus';
 import shallowEqual from '../../../../../../../../../../utils/shallowEqual';
 import { mapResponseErrorToField } from '../CreateModal/constants';
@@ -308,53 +307,52 @@ class BonusesList extends Component {
   };
 
   renderMainInfo = data => (
-    <div>
+    <Fragment>
       <div className="font-weight-700 cursor-pointer" onClick={() => this.handleRowClick(data)}>
         {data.label}
       </div>
+      <Uuid uuid={data.bonusUUID} className="d-block font-size-11" />
       <div className="font-size-11">
-        <Uuid uuid={data.bonusUUID} />
+        {I18n.t('COMMON.AUTHOR_BY')}
+        <Choose>
+          <When condition={data.campaignUUID}>
+            <Uuid uuid={data.campaignUUID} uuidPrefix="CA" />
+          </When>
+          <When condition={!data.campaignUUID && data.operatorUUID}>
+            <Uuid uuid={data.operatorUUID} uuidPrefix="OP" />
+          </When>
+        </Choose>
       </div>
-      {
-        !!data.uuid &&
-        <div className="font-size-11">
-          {I18n.t('PLAYER_PROFILE.BONUS.CREATED_BY_CAMPAIGN')}
-          <Uuid uuid={data.uuid} uuidPrefix="CA" />
-        </div>
-      }
-      {
-        !data.campaignUUID && !!data.operatorUUID &&
-        <div className="font-size-11">
-          {I18n.t('PLAYER_PROFILE.BONUS.CREATED_BY_OPERATOR')}
-          <Uuid uuid={data.operatorUUID} uuidPrefix={data.operatorUUID.indexOf('OPERATOR') > -1 ? '' : 'OP'} />
-        </div>
-      }
-    </div>
+    </Fragment>
   );
 
   renderAvailablePeriod = data => (
-    data.createdDate ? (
-      <div>
+    <Choose>
+      <When condition={data.createdDate}>
         <div className="font-weight-700">
           {moment.utc(data.createdDate).local().format('DD.MM.YYYY HH:mm')}
         </div>
-        {
-          !!data.expirationDate &&
+        <If condition={!!data.expirationDate}>
           <div className="font-size-11">
             {`${I18n.t('COMMON.TO')} ${moment.utc(data.expirationDate).local().format('DD.MM.YYYY HH:mm')}`}
           </div>
-        }
-      </div>
-    ) : <span>&mdash;</span>
+        </If>
+      </When>
+      <Otherwise>
+        <div className="font-weight-700">
+          &mdash;
+        </div>
+      </Otherwise>
+    </Choose>
   );
 
   renderGrantedAmount = data => (
-    <div>
+    <Fragment>
       <Amount tag="div" className="font-weight-700" {...data.grantedAmount} />
       <div className="font-size-11">
         {I18n.t('PLAYER_PROFILE.BONUS.LOCKED_GRANTED')} <Amount {...data.initialLockedAmount} />
       </div>
-    </div>
+    </Fragment>
   );
 
   renderWageredAmount = (data) => {
@@ -370,11 +368,24 @@ class BonusesList extends Component {
   };
 
   renderToWagerAmount = data => (
-    <div>
-      <Amount tag="div" {...data.toWager} />
+    <Fragment>
+      <Amount tag="div" className="font-weight-700" {...data.toWager} />
       <div className="font-size-11">
         {I18n.t('PLAYER_PROFILE.BONUS.AMOUNT_TO_WAGE_PREPENDED_TEXT')} <Amount {...data.amountToWage} />
       </div>
+    </Fragment>
+  );
+
+  renderClaimableValue = data => (
+    <div className="font-weight-700">
+      <Choose>
+        <When condition={data.claimable}>
+          {I18n.t('COMMON.YES')}
+        </When>
+        <Otherwise>
+          {I18n.t('COMMON.NO')}
+        </Otherwise>
+      </Choose>
     </div>
   );
 
@@ -396,11 +407,10 @@ class BonusesList extends Component {
     } = this.props;
 
     return (
-      <div>
+      <Fragment>
         <BonusGridFilter
           onSubmit={this.handleFiltersChanged}
         />
-
         <div className="tab-wrapper">
           <GridView
             dataSource={entities.content}
@@ -415,48 +425,44 @@ class BonusesList extends Component {
               name="mainInfo"
               header={I18n.t('PLAYER_PROFILE.BONUS.GRID_VIEW.BONUS')}
               render={this.renderMainInfo}
+              className="data-grid-layout__big-column"
             />
-
             <GridViewColumn
               name="available"
               header={I18n.t('PLAYER_PROFILE.BONUS.GRID_VIEW.AVAILABLE')}
               render={this.renderAvailablePeriod}
             />
-
             <GridViewColumn
               name="granted"
               header={I18n.t('PLAYER_PROFILE.BONUS.GRID_VIEW.GRANTED')}
               render={this.renderGrantedAmount}
             />
-
             <GridViewColumn
               name="wagered"
               header={I18n.t('PLAYER_PROFILE.BONUS.GRID_VIEW.WAGERED')}
               render={this.renderWageredAmount}
             />
-
             <GridViewColumn
               name="toWager"
               header={I18n.t('PLAYER_PROFILE.BONUS.GRID_VIEW.TO_WAGER')}
               render={this.renderToWagerAmount}
             />
-
             <GridViewColumn
               name="type"
-              header={I18n.t('PLAYER_PROFILE.BONUS.GRID_VIEW.BONUS_TYPE')}
-              render={data => <BonusType bonus={data} />}
+              header={I18n.t('PLAYER_PROFILE.BONUS.GRID_VIEW.CLAIMABLE')}
+              render={this.renderClaimableValue}
             />
-
             <GridViewColumn
               name="status"
               header={I18n.t('PLAYER_PROFILE.BONUS.GRID_VIEW.BONUS_STATUS')}
               render={data => <BonusStatus id="bonuses-list" bonus={data} />}
             />
-
             <GridViewColumn
               name="actions"
-              header=""
+              header={I18n.t('PLAYER_PROFILE.BONUS.GRID_VIEW.NOTE')}
               render={this.renderActions}
+              headerClassName="text-center"
+              className="text-center"
             />
           </GridView>
         </div>
@@ -469,7 +475,7 @@ class BonusesList extends Component {
             onClose={this.handleModalClose}
           />
         }
-      </div>
+      </Fragment>
     );
   }
 }
