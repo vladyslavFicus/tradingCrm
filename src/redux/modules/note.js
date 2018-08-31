@@ -1,6 +1,5 @@
 import { CALL_API } from 'redux-api-middleware';
 import { v4 } from 'uuid';
-import buildQueryString from '../../utils/buildQueryString';
 import createRequestAction from '../../utils/createRequestAction';
 import { tagTypes } from './../../constants/tag';
 
@@ -8,33 +7,6 @@ const KEY = 'common/note';
 const ADD_NOTE = createRequestAction(`${KEY}/add`);
 const EDIT_NOTE = createRequestAction(`${KEY}/edit`);
 const DELETE_NOTE = createRequestAction(`${KEY}/delete`);
-
-function fetchNotes(type) {
-  return filters => (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
-
-    return dispatch({
-      [CALL_API]: {
-        endpoint: `note/notes?${buildQueryString(filters)}`,
-        method: 'GET',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        types: [
-          {
-            type: type.REQUEST,
-            meta: { filters },
-          },
-          type.SUCCESS,
-          type.FAILURE,
-        ],
-        bailout: !logged,
-      },
-    });
-  };
-}
 
 function fetchNotesByTargetUuids(type) {
   return targetUUIDs => (dispatch, getState) => {
@@ -153,7 +125,6 @@ const actionCreators = {
   deleteNote: deleteNote(DELETE_NOTE),
 };
 const sourceActionCreators = {
-  fetchNotes,
   fetchNotesByTargetUuids,
   addNote,
   editNote,

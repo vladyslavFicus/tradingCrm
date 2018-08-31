@@ -1,11 +1,5 @@
 import { combineReducers } from 'redux';
 
-import notes, {
-  actionCreators as notesActionCreators,
-  actionTypes as notesActionTypes,
-  initialState as notesInitialState,
-} from './notes';
-
 import files, {
   actionCreators as filesActionCreators,
   actionTypes as filesActionTypes,
@@ -33,14 +27,12 @@ import uploading, {
 
 const actionCreators = {
   ...profileActionCreators,
-  ...notesActionCreators,
   ...playerLimitsActionCreators,
   ...uploadingActionCreators,
   ...filesActionCreators,
 };
 const actionTypes = {
   ...profileActionTypes,
-  ...notesActionTypes,
   ...playerLimitsActionTypes,
   ...uploadingActionTypes,
   ...filesActionTypes,
@@ -48,7 +40,6 @@ const actionTypes = {
 const initialState = {
   files: filesInitialState,
   profile: profileInitialState,
-  notes: notesInitialState,
   playerLimits: playerLimitsInitialState,
   uploading: uploadingInitialState,
 };
@@ -61,7 +52,6 @@ export {
 export default combineReducers({
   files,
   profile,
-  notes,
   playerLimits,
   uploading,
 });
