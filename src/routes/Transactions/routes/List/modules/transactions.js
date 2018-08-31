@@ -47,7 +47,7 @@ const mapTransactions = transactions => transactions.map(({ player, ...transacti
 
 const fetchNotesFn = noteSourceActionCreators.fetchNotesByTargetUuids(FETCH_NOTES);
 const mapNotesToTransactions = (transactions, notes) => {
-  if (!notes || Object.keys(notes).length === 0) {
+  if (!notes || notes.length === 0) {
     return transactions;
   }
 

@@ -34,13 +34,13 @@ const fetchActiveBonus = bonusActionCreators.fetchActiveBonus(FETCH_ACTIVE_BONUS
 const fetchNotesFn = noteSourceActionCreators.fetchNotesByTargetUuids(FETCH_NOTES);
 
 const mapNotesToTransactions = (transactions, notes) => {
-  if (!notes || Object.keys(notes).length === 0) {
+  if (!notes || notes.length === 0) {
     return transactions;
   }
 
   return transactions.map(t => ({
     ...t,
-    note: notes[t.paymentId] ? notes[t.paymentId][0] : null,
+    note: notes.find(n => n.targetUUID === t.paymentId) || null,
   }));
 };
 
@@ -265,7 +265,7 @@ const actionHandlers = {
     entities: {
       ...state.entities,
       content: [
-        ...mapNotesToTransactions(state.entities.content, action.payload),
+        ...mapNotesToTransactions(state.entities.content, action.payload.content),
       ],
     },
   }),
