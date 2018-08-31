@@ -4,7 +4,6 @@ import createReducer from '../../../../../../../../../utils/createReducer';
 import createRequestAction from '../../../../../../../../../utils/createRequestAction';
 import buildQueryString from '../../../../../../../../../utils/buildQueryString';
 import { sourceActionCreators as noteSourceActionCreators } from '../../../../../../../../../redux/modules/note';
-import { targetTypes } from '../../../../../../../../../constants/note';
 import { actionTypes as bonusActionTypes } from './bonus';
 import {
   cancellationReason,
@@ -16,7 +15,7 @@ const KEY = 'user/bonuses/list';
 const FETCH_ENTITIES = createRequestAction(`${KEY}/entities`);
 const FETCH_NOTES = createRequestAction(`${KEY}/fetch-notes`);
 
-const fetchNotes = noteSourceActionCreators.fetchNotesByType(FETCH_NOTES);
+const fetchNotes = noteSourceActionCreators.fetchNotesByTargetUuids(FETCH_NOTES);
 const mapEntities = async (dispatch, pageable) => {
   const uuids = pageable.content.map(item => item.bonusUUID);
 
@@ -41,7 +40,7 @@ const mapEntities = async (dispatch, pageable) => {
     },
   }));
 
-  const action = await dispatch(fetchNotes(targetTypes.BONUS, uuids));
+  const action = await dispatch(fetchNotes(uuids));
   if (!action || action.error) {
     return newPageable;
   }

@@ -6,7 +6,6 @@ import createReducer from '../../../../../../../../../utils/createReducer';
 import createRequestAction from '../../../../../../../../../utils/createRequestAction';
 import buildQueryString from '../../../../../../../../../utils/buildQueryString';
 import { sourceActionCreators as noteSourceActionCreators } from '../../../../../../../../../redux/modules/note';
-import { targetTypes } from '../../../../../../../../../constants/note';
 import { getApiRoot } from '../../../../../../../../../config';
 import downloadBlob from '../../../../../../../../../utils/downloadBlob';
 import { aggregators } from '../constants';
@@ -21,7 +20,7 @@ const FETCH_NOTES = createRequestAction(`${KEY}/fetch-notes`);
 const MANAGE_NOTE = `${KEY}/manage-note`;
 const RESET_NOTE = `${KEY}/reset-note`;
 
-const fetchNotes = noteSourceActionCreators.fetchNotesByType(FETCH_NOTES);
+const fetchNotes = noteSourceActionCreators.fetchNotesByTargetUuids(FETCH_NOTES);
 const mapEntities = async (dispatch, pageable) => {
   const uuids = pageable.content.map(item => item.uuid);
 
@@ -60,7 +59,7 @@ const mapEntities = async (dispatch, pageable) => {
     };
   });
 
-  const action = await dispatch(fetchNotes(targetTypes.FREE_SPIN, uuids));
+  const action = await dispatch(fetchNotes(uuids));
   if (!action || action.error) {
     return newPageable;
   }

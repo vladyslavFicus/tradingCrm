@@ -6,7 +6,6 @@ import createRequestAction from '../../../../../utils/createRequestAction';
 import buildQueryString from '../../../../../utils/buildQueryString';
 import { sourceActionCreators as noteSourceActionCreators } from '../../../../../redux/modules/note';
 import { sourceActionCreators as paymentSourceActionCreators } from '../../../../../redux/modules/payment';
-import { targetTypes } from '../../../../../constants/note';
 import { getApiRoot } from '../../../../../config';
 import exportFile from '../../../../../utils/exportFile';
 
@@ -46,7 +45,7 @@ const mapTransactions = transactions => transactions.map(({ player, ...transacti
   } : null,
 }));
 
-const fetchNotesFn = noteSourceActionCreators.fetchNotesByType(FETCH_NOTES);
+const fetchNotesFn = noteSourceActionCreators.fetchNotesByTargetUuids(FETCH_NOTES);
 const mapNotesToTransactions = (transactions, notes) => {
   if (!notes || Object.keys(notes).length === 0) {
     return transactions;
@@ -84,7 +83,7 @@ function fetchEntities(filters = {}, fetchNotes = fetchNotesFn) {
     });
 
     if (action && !action.error && action.payload.content.length) {
-      await dispatch(fetchNotes(targetTypes.PAYMENT, action.payload.content.map(item => item.paymentId)));
+      await dispatch(fetchNotes(action.payload.content.map(item => item.paymentId)));
     }
 
     return action;
