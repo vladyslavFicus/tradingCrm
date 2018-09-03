@@ -88,6 +88,8 @@
       },
       "PERSONAL": {
         "TITLE": "Персональная информация",
+        "UPDATE_BTAG": "Обновление btag",
+        "UPDATE_SOURCE": "Обновление source",
         "VERIFY_KYC": {
           "TITLE": "Ошибка",
           "ERROR": "Необходимо сохранить персональные данные"

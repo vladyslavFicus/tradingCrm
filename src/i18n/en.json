@@ -89,6 +89,8 @@
       },
       "PERSONAL": {
         "TITLE": "Personal information",
+        "UPDATE_BTAG": "Update btag",
+        "UPDATE_SOURCE": "Update source",
         "VERIFY_KYC": {
           "ERROR": "Need to save personal information"
         },
