@@ -26,10 +26,6 @@ describe('(Component) PlayerMiniProfile', () => {
           total: { amount: 0, currency: currencyCodes.EUR },
           withdrawable: { amount: 0, currency: currencyCodes.EUR },
         },
-        tags: [
-          { id: 14430, priority: 'neutral', tag: 'tag2' },
-          { id: 14431, priority: 'negative', tag: 'tag2' },
-        ],
       }
     };
     _wrapper = shallow(<PlayerMiniProfile {..._props} />);
@@ -53,12 +49,6 @@ describe('(Component) PlayerMiniProfile', () => {
   it('do not renders check icon when kyc is not completed', () => {
     _wrapper = shallow(<PlayerMiniProfile {..._props} />);
     expect(_wrapper.find('i.fa.fa-check')).to.not.exist();
-  });
-
-  it('renders with tags passed by prop "data.tags"', () => {
-    _props.data.tags.map(tag => {
-      expect(_wrapper.find(`span.mini-profile-tag_${tag.priority}`)).to.exist();
-    });
   });
 
   it('renders reason according to player status', () => {
