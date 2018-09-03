@@ -5,7 +5,6 @@ import { get } from 'lodash';
 import { actionCreators } from '../modules/list';
 import { actionCreators as miniProfileActionCreators } from '../../../../../redux/modules/miniProfile';
 import List from '../components/List';
-import config from '../../../../../config';
 import countries from '../../../../../utils/countryList';
 import { profilesQuery } from '../../../../../graphql/queries/profile';
 
@@ -17,7 +16,6 @@ const mapStateToProps = ({
 }) => ({
   list,
   locale,
-  tags: config.tags || [],
   currencies: currencyCodes,
   countries,
   auth: { brandId, uuid, hierarchyUsers },

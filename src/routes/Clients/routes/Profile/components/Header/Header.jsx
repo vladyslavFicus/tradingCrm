@@ -7,7 +7,6 @@ import PropTypes from '../../../../../../constants/propTypes';
 import PlayerStatus from '../PlayerStatus';
 import ActionsDropDown from '../../../../../../components/ActionsDropDown';
 import Balances from '../Balances';
-import ProfileTags from '../../../../../../components/ProfileTags';
 import PopoverButton from '../../../../../../components/PopoverButton';
 import permissions from '../../../../../../config/permissions';
 import Permissions from '../../../../../../utils/permissions';
@@ -57,18 +56,6 @@ class Header extends Component {
     isLoadingProfile: PropTypes.bool.isRequired,
     lastIp: PropTypes.ipEntity,
     availableStatuses: PropTypes.array,
-    availableTags: PropTypes.arrayOf(PropTypes.shape({
-      label: PropTypes.string.isRequired,
-      value: PropTypes.string.isRequired,
-      priority: PropTypes.string.isRequired,
-    })),
-    currentTags: PropTypes.arrayOf(PropTypes.shape({
-      id: PropTypes.number,
-      label: PropTypes.string.isRequired,
-      value: PropTypes.string.isRequired,
-    })),
-    addTag: PropTypes.func.isRequired,
-    deleteTag: PropTypes.func.isRequired,
     onAddNoteClick: PropTypes.func.isRequired,
     onStatusChange: PropTypes.func.isRequired,
     onResetPasswordClick: PropTypes.func.isRequired,
@@ -87,18 +74,8 @@ class Header extends Component {
   static defaultProps = {
     lastIp: null,
     playerProfile: {},
-    availableTags: [],
-    currentTags: [],
     availableStatuses: [],
     loaded: false,
-  };
-
-  handleTagAdd = (option) => {
-    this.props.addTag(option.value, option.priority);
-  };
-
-  handleTagDelete = (option) => {
-    this.props.deleteTag(option.id);
   };
 
   handleStatusChange = (data) => {
@@ -140,8 +117,6 @@ class Header extends Component {
       onRefreshClick,
       isLoadingProfile,
       locale,
-      availableTags,
-      currentTags,
       loaded,
       onChangePasswordClick,
       onShareProfileClick,

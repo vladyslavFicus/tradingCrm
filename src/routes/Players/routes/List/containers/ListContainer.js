@@ -2,7 +2,6 @@ import { connect } from 'react-redux';
 import { actionCreators } from '../modules/list';
 import { actionCreators as miniProfileActionCreators } from '../../../../../redux/modules/miniProfile';
 import List from '../components/List';
-import config from '../../../../../config';
 import countries from '../../../../../utils/countryList';
 
 const mapStateToProps = ({
@@ -13,7 +12,6 @@ const mapStateToProps = ({
 }) => ({
   list,
   locale,
-  tags: config.tags || [],
   currencies: currencyCodes,
   countries,
   auth: { brandId, uuid },

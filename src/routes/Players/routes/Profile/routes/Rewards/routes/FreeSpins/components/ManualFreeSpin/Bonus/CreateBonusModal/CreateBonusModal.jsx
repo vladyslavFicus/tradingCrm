@@ -134,7 +134,7 @@ class CreateBonusModal extends PureComponent {
       this.setField('capping.percentage', get(formValues, 'capping.absolute[0].amount'));
       this.setField('prize.percentage', get(formValues, 'prize.absolute[0].amount'));
     }
-  }
+  };
 
   renderCappingPrizeLabel = label => (
     <div>

@@ -1,7 +1,6 @@
 import _ from 'lodash';
 
 const config = _.merge({
-  availableTags: [],
   components: {
     Currency: {
       currencies: {},
@@ -28,7 +27,6 @@ const config = _.merge({
         version: 'latest',
         url: '',
       },
-      tags: {},
       currencies: {
         base: 'EUR',
         supported: [],
@@ -84,30 +82,6 @@ if (config.nas.brand) {
   if (config.nas.brand.password && config.nas.brand.password.pattern) {
     config.nas.validation.password = new RegExp(config.nas.brand.password.pattern, 'g');
   }
-
-  if (config.nas.brand.tags && config.nas.brand.tags.priorities) {
-    config.nas.brand.tags = Object
-      .keys(config.nas.brand.tags.priorities)
-      .reduce((result, priority) => {
-        Object.keys(config.nas.brand.tags.priorities[priority])
-          .forEach((tag) => {
-            config.nas.brand.tags.priorities[priority][tag].departments.forEach((department) => {
-              result.push({
-                label: tag,
-                value: tag,
-                priority,
-                department,
-              });
-            });
-          });
-
-        return result;
-      }, []);
-  }
-}
-
-function getAvailableTags(department) {
-  return config.nas.brand.tags.filter(item => item.department === department);
 }
 
 function getLimitPeriods() {
@@ -181,7 +155,6 @@ export {
   getBrandId,
   setBrandId,
   getLogo,
-  getAvailableTags,
   getLimitPeriods,
   getAvailableLanguages,
   getVersion,

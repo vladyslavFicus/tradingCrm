@@ -24,36 +24,6 @@
       font-size: 13px;
     }
   }
-  &__tags {
-    max-width: 40%;
-    .tag-group {
-      margin-top: 2px;
-      margin-right: 2px;
-      opacity: 0.8;
-      .tag-red {
-        background-color: #fb434a;
-        border-color: #fb434a;
-        color: #fff;
-      }
-      .tag-green {
-        background-color: #46be8a;
-        border-color: #46be8a;
-        color: #fff;
-      }
-      .tag-grey {
-        background-color: #6a7a84;
-        border-color: #6a7a84;
-        color: #fff;
-      }
-      &:hover {
-        opacity: 1;
-      }
-      .btn-del:hover,
-      .btn-add-tag:hover {
-        opacity: 0.8;
-      }
-    }
-  }
   .btn-xs {
     height: 24px;
     line-height: 24px;

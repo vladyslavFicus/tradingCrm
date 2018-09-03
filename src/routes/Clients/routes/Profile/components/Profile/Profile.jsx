@@ -86,8 +86,6 @@ class Profile extends Component {
     auth: PropTypes.shape({
       token: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
     }).isRequired,
-    addTag: PropTypes.func.isRequired,
-    removeTag: PropTypes.func.isRequired,
     updateSubscription: PropTypes.func.isRequired,
     addNote: PropTypes.func.isRequired,
     updateNote: PropTypes.func.isRequired,
@@ -113,7 +111,6 @@ class Profile extends Component {
     suspendMutation: PropTypes.func.isRequired,
     resumeMutation: PropTypes.func.isRequired,
     fetchProfile: PropTypes.func.isRequired,
-    availableTagsByDepartment: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.string)).isRequired,
     modals: PropTypes.shape({
       confirmActionModal: PropTypes.modalType,
     }).isRequired,
@@ -189,22 +186,6 @@ class Profile extends Component {
     return userStatuses[profileStatus]
       .filter(action => (new Permissions([action.permission]))
         .check(this.context.permissions));
-  }
-
-  get availableTags() {
-    const { playerProfile: { playerProfile }, availableTagsByDepartment } = this.props;
-
-    if (!playerProfile || !playerProfile.data) {
-      return [];
-    }
-
-    const { data: { tags } } = playerProfile;
-    const selectedTags = tags ? tags.map(option => `${option.priority}/${option.tag}`) : [];
-
-    return selectedTags && availableTagsByDepartment
-      ? availableTagsByDepartment
-        .filter(option => selectedTags.indexOf(`${option.priority}/${option.value}`) === -1)
-      : [];
   }
 
   setNoteChangedCallback = (cb) => {
@@ -524,15 +505,6 @@ class Profile extends Component {
     }
   };
 
-  handleAddTag = (tag, priority) => {
-    this.props.addTag({ tag, priority });
-  };
-
-  handleDeleteTag = (id) => {
-    const { match: { params: { id: playerUUID } } } = this.props;
-    this.props.removeTag({ variables: { id: parseInt(id, 10), playerUUID } });
-  };
-
   handleUpdateSubscription = async (data) => {
     const { match: { params: { id: playerUUID } }, updateSubscription } = this.props;
 
@@ -668,14 +640,7 @@ class Profile extends Component {
             lastIp={get(profile, 'signInIps.0')}
             availableStatuses={this.availableStatuses}
             onStatusChange={this.handleChangeStatus}
-            availableTags={this.availableTags}
-            currentTags={profile && profile.tags
-              ? profile.tags.map(({ tag, ...data }) => ({ label: tag, value: tag, ...data }))
-              : []
-            }
             isLoadingProfile={loading}
-            addTag={this.handleAddTag}
-            deleteTag={this.handleDeleteTag}
             onAddNoteClick={this.handleAddNoteClick(params.id)}
             onResetPasswordClick={this.handleResetPasswordClick}
             onProfileActivateClick={this.handleProfileActivateClick}

@@ -20,7 +20,6 @@ const DynamicFilters = createDynamicForm({
     ageTo: 'integer',
     affiliateId: 'string',
     status: 'string',
-    tags: `in:,${props.tags.map(tag => tag.value).join()}`,
     segments: 'string',
     registrationDateFrom: 'regex:/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/',
     registrationDateTo: 'regex:/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/',
@@ -39,7 +38,6 @@ class UserGridFilter extends Component {
       ageTo: PropTypes.string,
       affiliateId: PropTypes.string,
       status: PropTypes.string,
-      tags: PropTypes.string,
       segments: PropTypes.string,
       registrationDateFrom: PropTypes.string,
       registrationDateTo: PropTypes.string,
@@ -49,12 +47,6 @@ class UserGridFilter extends Component {
     disabled: PropTypes.bool,
     onReset: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
-    tags: PropTypes.arrayOf(PropTypes.shape({
-      label: PropTypes.string.isRequired,
-      value: PropTypes.string.isRequired,
-      priority: PropTypes.string.isRequired,
-      department: PropTypes.string.isRequired,
-    })).isRequired,
     currencies: PropTypes.arrayOf(PropTypes.string).isRequired,
     countries: PropTypes.object.isRequired,
   };
@@ -84,7 +76,6 @@ class UserGridFilter extends Component {
       onSubmit,
       onReset,
       disabled,
-      tags,
       currencies,
       countries,
     } = this.props;
@@ -95,7 +86,6 @@ class UserGridFilter extends Component {
         allowReset={disabled}
         onSubmit={onSubmit}
         onReset={onReset}
-        tags={tags}
         currencies={currencies}
         countries={countries}
       >
@@ -154,20 +144,6 @@ class UserGridFilter extends Component {
                 {statusesLabels[status]}
               </option>
             ))}
-          </FilterField>
-        </FilterItem>
-
-        <FilterItem label={I18n.t(filterLabels.tags)} size={SIZES.small} type={TYPES.select}>
-          <FilterField name="tags">
-            <option value="">{I18n.t('COMMON.ANY')}</option>
-            {
-              tags.length > 0 &&
-              tags.map(tag => (
-                <option key={`${tag.value}`} value={tag.value}>
-                  {tag.label}
-                </option>
-              ))
-            }
           </FilterField>
         </FilterItem>
 
