@@ -158,38 +158,28 @@ class NotePopover extends Component {
       item: {
         tagId,
         uuid,
-        lastEditionDate,
-        creationDate,
-        lastEditorUUID,
+        changedAt,
+        changedBy,
         targetUUID,
       },
     } = this.props;
 
     return (
       <PopoverHeader tag="div" className="note-popover__header">
-        <If condition={lastEditionDate && creationDate}>
-          <div className="note-popover__subtitle">
-            <Choose>
-              <When condition={lastEditionDate === creationDate}>
-                {I18n.t('COMMON.CREATED')}
-              </When>
-              <Otherwise>
-                {I18n.t('COMMON.LAST_CHANGED')}
-              </Otherwise>
-            </Choose>
-          </div>
-        </If>
-        <If condition={lastEditorUUID}>
+        <div className="note-popover__subtitle">
+          {I18n.t('COMMON.LAST_CHANGED')}
+        </div>
+        <If condition={changedBy}>
           <div className="note-popover__author">
-            {I18n.t('COMMON.AUTHOR_BY')} {' '} <Uuid uuid={lastEditorUUID} className="font-weight-700" />
+            {I18n.t('COMMON.AUTHOR_BY')} {' '} <Uuid uuid={changedBy} className="font-weight-700" />
           </div>
         </If>
         <div className="row no-gutters note-popover__subtitle">
           <div className="col-auto">
-            <If condition={lastEditionDate}>
+            <If condition={changedAt}>
               <Choose>
-                <When condition={lastEditionDate}>
-                  {moment.utc(lastEditionDate).local().format('DD.MM.YYYY HH:mm:ss')}
+                <When condition={changedAt}>
+                  {moment.utc(changedAt).local().format('DD.MM.YYYY HH:mm:ss')}
                 </When>
                 <Otherwise>
                   {I18n.t('COMMON.UNKNOWN_TIME')}

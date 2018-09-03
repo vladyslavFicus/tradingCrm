@@ -10,8 +10,7 @@ class Notes extends Component {
   static propTypes = {
     notes: PropTypes.shape({
       content: PropTypes.arrayOf(PropTypes.shape({
-        author: PropTypes.string,
-        lastEditorUUID: PropTypes.string,
+        changedBy: PropTypes.string,
         targetUUID: PropTypes.string,
       })),
     }).isRequired,
@@ -21,8 +20,8 @@ class Notes extends Component {
   renderItem = item => (
     <PopoverButton
       className="d-block mb-2"
-      key={item.uuid}
-      id={`profile-pinned-note-${item.uuid}`}
+      key={item.tagId}
+      id={`profile-pinned-note-${item.tagId}`}
       onClick={id => this.props.onEditNoteClick(
         id,
         item,
@@ -35,19 +34,16 @@ class Notes extends Component {
       )}
     >
       <div className="note-content">
-        <div className="note-content__author">
-          {
-            item.author &&
-              <strong>{`${item.author} - `}</strong>
-          }
-          <span>
-            <Uuid uuid={item.lastEditorUUID} uuidPrefix={entitiesPrefixes[entities.operator]} />
-          </span>
-        </div>
+        <If condition={item.changedBy}>
+          <div className="note-content__author">
+            {I18n.t('COMMON.AUTHOR_BY')}
+            <Uuid uuid={item.changedBy} uuidPrefix={entitiesPrefixes[entities.operator]} />
+          </div>
+        </If>
         <small>
           {
-            item.lastEditionDate
-              ? moment.utc(item.lastEditionDate).local().format('DD.MM.YYYY HH:mm:ss')
+            item.changedAt
+              ? moment.utc(item.changedAt).local().format('DD.MM.YYYY HH:mm:ss')
               : I18n.t('COMMON.UNKNOWN_TIME')
           } {I18n.t('COMMON.TO')} {this.renderItemId(item.targetUUID)}
         </small>

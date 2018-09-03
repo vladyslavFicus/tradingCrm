@@ -10,8 +10,7 @@ class Notes extends Component {
   static propTypes = {
     notes: PropTypes.shape({
       content: PropTypes.arrayOf(PropTypes.shape({
-        author: PropTypes.string,
-        lastEditorUUID: PropTypes.string,
+        changedBy: PropTypes.string,
         targetUUID: PropTypes.string,
       })),
     }).isRequired,
@@ -35,18 +34,16 @@ class Notes extends Component {
       )}
     >
       <div className="note-content">
-        <div className="note-content__author">
-          <If condition={item.author}>
-            <strong>{`${item.author} - `}</strong>
-          </If>
-          <If condition={item.lastEditorUUID}>
-            <Uuid uuid={item.lastEditorUUID} uuidPrefix={entitiesPrefixes[entities.operator]} />
-          </If>
-        </div>
+        <If condition={item.changedBy}>
+          <div className="note-content__author">
+            {I18n.t('COMMON.AUTHOR_BY')}
+            <Uuid uuid={item.changedBy} uuidPrefix={entitiesPrefixes[entities.operator]} />
+          </div>
+        </If>
         <small>
           {
-            item.lastEditionDate
-              ? moment.utc(item.lastEditionDate).local().format('DD.MM.YYYY HH:mm:ss')
+            item.changedAt
+              ? moment.utc(item.changedAt).local().format('DD.MM.YYYY HH:mm:ss')
               : I18n.t('COMMON.UNKNOWN_TIME')
           } {I18n.t('COMMON.TO')} {this.renderItemId(item.targetUUID)}
         </small>

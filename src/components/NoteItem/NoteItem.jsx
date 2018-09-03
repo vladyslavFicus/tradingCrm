@@ -12,8 +12,7 @@ const NoteItem = (props) => {
   const {
     data,
     data: {
-      author,
-      lastEditionDate,
+      changedAt,
       changedBy,
       targetUUID,
       content,
@@ -25,30 +24,18 @@ const NoteItem = (props) => {
 
   const [targetType] = targetUUID.split('-', 1);
 
-  const letters = author ? author.split(' ').splice(0, 2).map(word => word[0]).join('') : null;
-
   return (
     <div className="note-item">
-      <If condition={letters}>
-        <div className="note-item__letters">
-          {letters}
-        </div>
-      </If>
       <div className="note-item__content-wrapper">
         <div className="note-item__heading">
-          <If condition={author}>
-            <span className="note-item__author">
-              {author}
-            </span>
-          </If>
           <If condition={changedBy}>
             <span className="mx-1">-</span>
             <Uuid uuid={changedBy} uuidPrefix={entitiesPrefixes[entities.operator]} />
           </If>
           <div className="note-item__edition-date">
             <Choose>
-              <When condition={lastEditionDate}>
-                {moment.utc(lastEditionDate).local().format('DD.MM.YYYY HH:mm:ss')}
+              <When condition={changedAt}>
+                {moment.utc(changedAt).local().format('DD.MM.YYYY HH:mm:ss')}
               </When>
               <Otherwise>
                 {I18n.t('COMMON.UNKNOWN_TIME')}
@@ -85,9 +72,8 @@ const NoteItem = (props) => {
 
 NoteItem.propTypes = {
   data: PropTypes.shape({
-    author: PropTypes.string,
     changedBy: PropTypes.string,
-    lastEditionDate: PropTypes.string,
+    changedAt: PropTypes.string,
     targetUUID: PropTypes.string.isRequired,
     content: PropTypes.string.isRequired,
     pinned: PropTypes.bool,
