@@ -6,7 +6,7 @@ import { actionCreators } from '../modules';
 import { withNotifications, withModals } from '../../../../../components/HighOrder';
 import { actionCreators as filesActionCreators } from '../modules/files';
 import Profile from '../components/Profile';
-import config, { getAvailableTags, getBrandId } from '../../../../../config';
+import config, { getBrandId } from '../../../../../config';
 import Permissions from '../../../../../utils/permissions';
 import { userProfileTabs } from '../../../../../config/menu';
 import { profileQuery, locksQuery } from '../../../../../graphql/queries/profile';
@@ -31,7 +31,6 @@ import {
   removeNote,
   addNote,
 } from '../../../../../graphql/mutations/note';
-import { removeTagMutation, addTagMutation } from '../../../../../graphql/mutations/tag';
 
 const mapStateToProps = (state) => {
   const {
@@ -59,11 +58,9 @@ const mapStateToProps = (state) => {
       };
     });
   }
-  const availableTagsByDepartment = getAvailableTags(auth.department);
 
   return {
     auth,
-    availableTagsByDepartment,
     playerLimits,
     profile,
     uploading,
@@ -213,159 +210,6 @@ export default compose(
             targetUUID,
             pinned: true,
           }, data);
-        }
-      },
-    }),
-  }),
-  graphql(addTagMutation, {
-    name: 'addTag',
-    props: ({
-      ownProps: {
-        match: {
-          params: {
-            id: playerUUID,
-          },
-        },
-      },
-      addTag,
-    }) => ({
-      addTag({
-        priority,
-        tag,
-      }) {
-        return addTag({
-          variables: {
-            playerUUID,
-            priority,
-            tag,
-          },
-          optimisticResponse: {
-            tag: {
-              __typename: 'TagMutation',
-              add: {
-                __typename: 'addTag',
-                error: null,
-                data: {
-                  priority,
-                  id: null,
-                  tag,
-                  __typename: 'Tag',
-                },
-              },
-            },
-          },
-        });
-      },
-    }),
-    options: ({
-      match: {
-        params: {
-          id: playerUUID,
-        },
-      },
-    }) => ({
-      update: (proxy, {
-        data: {
-          tag: {
-            add: {
-              data,
-              error,
-            },
-          },
-        },
-      }) => {
-        if (!error) {
-          const {
-            playerProfile,
-          } = proxy.readQuery({
-            query: profileQuery,
-            variables: {
-              playerUUID,
-            },
-          });
-          const updatedProfile = update(playerProfile, {
-            data: {
-              tags: {
-                $push: [data],
-              },
-            },
-          });
-
-          proxy.writeQuery({
-            query: profileQuery,
-            variables: {
-              playerUUID,
-            },
-            data: {
-              playerProfile: updatedProfile,
-            },
-          });
-        }
-      },
-    }),
-  }),
-  graphql(removeTagMutation, {
-    name: 'removeTag',
-    options: ({
-      match: {
-        params: {
-          id: playerUUID,
-        },
-      },
-    }) => ({
-      update: (proxy, {
-        data: {
-          tag: {
-            remove: {
-              data,
-              error,
-            },
-          },
-        },
-      }) => {
-        if (error) {
-          return;
-        }
-        const {
-          id,
-        } = data;
-        const {
-          playerProfile: {
-            data: {
-              tags,
-            },
-          },
-          playerProfile,
-        } = proxy.readQuery({
-          query: profileQuery,
-          variables: {
-            playerUUID,
-          },
-        });
-
-        if (tags) {
-          const selectedIndex = tags.findIndex(({
-            id: tagId,
-          }) => parseInt(id, 10) === tagId);
-          const updatedProfile = update(playerProfile, {
-            data: {
-              tags: {
-                $splice: [
-                  [selectedIndex, 1],
-                ],
-              },
-            },
-          });
-
-          proxy.writeQuery({
-            query: profileQuery,
-            variables: {
-              playerUUID,
-            },
-            data: {
-              playerProfile: updatedProfile,
-            },
-          });
         }
       },
     }),

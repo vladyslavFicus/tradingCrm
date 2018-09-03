@@ -32,9 +32,6 @@ const VERIFY_PROFILE_EMAIL = createRequestAction(`${KEY}/verify-profile-email`);
 
 const UPDATE_SUBSCRIPTION = createRequestAction(`${KEY}/update-subscription`);
 
-const ADD_TAG = createRequestAction(`${KEY}/add-tag`);
-const DELETE_TAG = createRequestAction(`${KEY}/delete-tag`);
-
 const SEND_KYC_REQUEST_VERIFICATION = createRequestAction(`${KEY}/send-kyc-request-verification`);
 const MANAGE_KYC_NOTE = `${KEY}/manage-kyc-request-note`;
 const RESET_KYC_NOTE = `${KEY}/reset-kyc-request-note`;
@@ -78,7 +75,6 @@ const initialState = {
     suspendEndDate: null,
     birthDate: null,
     registrationDate: null,
-    tags: [],
     kycCompleted: false,
     balance: { amount: 0, currency: 'EUR' },
     realBalance: { amount: 0, currency: 'EUR' },
@@ -272,50 +268,6 @@ function submitData(playerUUID, type, data) {
           },
           SUBMIT_KYC.FAILURE,
         ],
-        bailout: !logged,
-      },
-    });
-  };
-}
-
-function addTag(playerUUID, tag, priority) {
-  return (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
-
-    return dispatch({
-      [CALL_API]: {
-        endpoint: `profile/profiles/${playerUUID}/tags`,
-        method: 'POST',
-        types: [ADD_TAG.REQUEST, ADD_TAG.SUCCESS, ADD_TAG.FAILURE],
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          tag,
-          tagPriority: priority,
-        }),
-        bailout: !logged,
-      },
-    });
-  };
-}
-
-function deleteTag(playerUUID, id) {
-  return (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
-
-    return dispatch({
-      [CALL_API]: {
-        endpoint: `profile/profiles/${playerUUID}/tags/${id}`,
-        method: 'DELETE',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        types: [DELETE_TAG.REQUEST, DELETE_TAG.SUCCESS, DELETE_TAG.FAILURE],
         bailout: !logged,
       },
     });
@@ -852,40 +804,6 @@ const actionHandlers = {
       profileStatus: userStatuses.ACTIVE,
     },
   }),
-  [ADD_TAG.SUCCESS]: (state, action) => {
-    const { profileTags } = action.payload;
-
-    if (!profileTags || !Array.isArray(profileTags)) {
-      return state;
-    }
-
-    return {
-      ...state,
-      data: {
-        ...state.data,
-        tags: profileTags.length > 0
-          ? profileTags.map(tag => ({ id: tag.id, tag: tag.tag, priority: tag.tagPriority }))
-          : [],
-      },
-    };
-  },
-  [DELETE_TAG.SUCCESS]: (state, action) => {
-    const { profileTags } = action.payload;
-
-    if (!profileTags || !Array.isArray(profileTags)) {
-      return state;
-    }
-
-    return {
-      ...state,
-      data: {
-        ...state.data,
-        tags: profileTags.length > 0
-          ? profileTags.map(tag => ({ id: tag.id, tag: tag.tag, priority: tag.tagPriority }))
-          : [],
-      },
-    };
-  },
   [FETCH_PROFILE.REQUEST]: state => ({
     ...state,
     isLoading: true,
@@ -962,8 +880,6 @@ const actionHandlers = {
 
 const actionTypes = {
   FETCH_PROFILE,
-  ADD_TAG,
-  DELETE_TAG,
   UPDATE_PROFILE,
   SUBMIT_KYC,
   VERIFY_DATA,
@@ -988,8 +904,6 @@ const actionCreators = {
   activateProfile,
   updateSubscription,
   changeStatus,
-  addTag,
-  deleteTag,
   verifyPhone,
   verifyEmail,
   sendKycRequestVerification,

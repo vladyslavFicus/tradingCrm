@@ -190,7 +190,6 @@ PropTypes.userProfile = PropTypes.shape({
   profileStatusReason: PropTypes.string,
   profileStatusDate: PropTypes.string,
   profileStatusAuthor: PropTypes.string,
-  profileTags: PropTypes.arrayOf(PropTypes.any),
   registrationDate: PropTypes.string,
   registrationIP: PropTypes.string,
   suspendEndDate: PropTypes.any,

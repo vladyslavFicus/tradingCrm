@@ -15,12 +15,6 @@ class List extends Component {
     fetchPlayerMiniProfile: PropTypes.func.isRequired,
     locale: PropTypes.string.isRequired,
     onPlayerClick: PropTypes.func.isRequired,
-    tags: PropTypes.arrayOf(PropTypes.shape({
-      label: PropTypes.string.isRequired,
-      value: PropTypes.string.isRequired,
-      priority: PropTypes.string.isRequired,
-      department: PropTypes.string.isRequired,
-    })).isRequired,
     currencies: PropTypes.arrayOf(PropTypes.string).isRequired,
     countries: PropTypes.object.isRequired,
     auth: PropTypes.shape({
@@ -121,7 +115,6 @@ class List extends Component {
   render() {
     const {
       locale,
-      tags,
       currencies,
       countries,
       profiles: {
@@ -227,7 +220,6 @@ class List extends Component {
           onSubmit={this.handleFiltersChanged}
           onReset={this.handleFilterReset}
           disabled={!allowActions}
-          tags={tags}
           currencies={currencies}
           countries={countries}
         />

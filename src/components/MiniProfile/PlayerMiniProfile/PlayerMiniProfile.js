@@ -37,14 +37,6 @@ const PlayerMiniProfile = ({ data }) => {
           />
           {` - ${data.languageCode}`}
         </div>
-        {
-          data.tags && Array.isArray(data.tags) &&
-          <div className="mini-profile-tags">
-            {data.tags.map(({ tag, id, priority }) =>
-              <span className={`mini-profile-tag mini-profile-tag_${priority}`} key={id}>{tag}</span>
-            )}
-          </div>
-        }
       </div>
       {
         (data.profileStatus === statuses.BLOCKED || data.profileStatus === statuses.SUSPENDED) &&
@@ -104,11 +96,6 @@ PlayerMiniProfile.propTypes = {
     balances: PropTypes.shape({
       total: PropTypes.price.isRequired,
     }).isRequired,
-    tags: PropTypes.arrayOf(PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      tag: PropTypes.string.isRequired,
-      priority: PropTypes.string.isRequired,
-    })),
     signInIps: PropTypes.arrayOf(PropTypes.shape({
       sessionStart: PropTypes.string.isRequired,
     })),

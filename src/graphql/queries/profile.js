@@ -148,11 +148,6 @@ const profileQuery = gql`query profileData($playerUUID: String!){
       marketingSMS
       tailorMadeEmail
       tailorMadeSMS
-      tags {
-        id
-        priority
-        tag
-      }
       device {
         lastSignInCountryCode
         lastSignInIP
@@ -246,7 +241,7 @@ const clientPaymentsStatistic = gql`query clientPaymentsStatistic(
   $limit: Int,
   $playerUUID: String!,
   $startDate: String,
-  $endDate: String, 
+  $endDate: String,
 ) {
   clientPaymentsStatistic(
     limit: $limit,

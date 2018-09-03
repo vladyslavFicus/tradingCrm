@@ -27,12 +27,6 @@ class List extends Component {
     exportEntities: PropTypes.func.isRequired,
     locale: PropTypes.string.isRequired,
     onPlayerClick: PropTypes.func.isRequired,
-    tags: PropTypes.arrayOf(PropTypes.shape({
-      label: PropTypes.string.isRequired,
-      value: PropTypes.string.isRequired,
-      priority: PropTypes.string.isRequired,
-      department: PropTypes.string.isRequired,
-    })).isRequired,
     currencies: PropTypes.arrayOf(PropTypes.string).isRequired,
     countries: PropTypes.object.isRequired,
     auth: PropTypes.shape({
@@ -78,9 +72,6 @@ class List extends Component {
 
     if (filters.countries) {
       filters.countries = [filters.countries];
-    }
-    if (filters.tags) {
-      filters.tags = [filters.tags];
     }
     if (filters.statuses) {
       filters.statuses = [filters.statuses];
@@ -156,7 +147,6 @@ class List extends Component {
     const {
       list: { entities, exporting, noResults },
       locale,
-      tags,
       currencies,
       countries,
     } = this.props;
@@ -186,7 +176,6 @@ class List extends Component {
           onSubmit={this.handleFiltersChanged}
           onReset={this.handleFilterReset}
           disabled={!allowActions}
-          tags={tags}
           currencies={currencies}
           countries={countries}
         />
