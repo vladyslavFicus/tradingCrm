@@ -1,10 +1,10 @@
 import { CALL_API } from 'redux-api-middleware';
+import { get } from 'lodash';
 import update from 'react-addons-update';
 import createReducer from '../../../../../../../../../utils/createReducer';
 import createRequestAction from '../../../../../../../../../utils/createRequestAction';
 import buildQueryString from '../../../../../../../../../utils/buildQueryString';
 import { sourceActionCreators as noteSourceActionCreators } from '../../../../../../../../../redux/modules/note';
-import { targetTypes } from '../../../../../../../../../constants/note';
 import { actionTypes as bonusActionTypes } from './bonus';
 import {
   cancellationReason,
@@ -16,7 +16,7 @@ const KEY = 'user/bonuses/list';
 const FETCH_ENTITIES = createRequestAction(`${KEY}/entities`);
 const FETCH_NOTES = createRequestAction(`${KEY}/fetch-notes`);
 
-const fetchNotes = noteSourceActionCreators.fetchNotesByType(FETCH_NOTES);
+const fetchNotes = noteSourceActionCreators.fetchNotesByTargetUuids(FETCH_NOTES);
 const mapEntities = async (dispatch, pageable) => {
   const uuids = pageable.content.map(item => item.bonusUUID);
 
@@ -41,17 +41,17 @@ const mapEntities = async (dispatch, pageable) => {
     },
   }));
 
-  const action = await dispatch(fetchNotes(targetTypes.BONUS, uuids));
+  const action = await dispatch(fetchNotes(uuids));
   if (!action || action.error) {
     return newPageable;
   }
 
+  const notes = get(action, 'payload.content', []);
+
   return new Promise((resolve) => {
     newPageable.content = newPageable.content.map(item => ({
       ...item,
-      note: action.payload[item.bonusUUID] && action.payload[item.bonusUUID].length
-        ? action.payload[item.bonusUUID][0]
-        : null,
+      note: notes.find(n => n.targetUUID === item.bonusUUID) || null,
     }));
 
     return resolve(newPageable);

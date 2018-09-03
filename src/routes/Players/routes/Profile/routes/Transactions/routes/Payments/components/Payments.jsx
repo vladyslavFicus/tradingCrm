@@ -160,12 +160,13 @@ class Payments extends Component {
   }
 
   handleNoteClick = (target, note, data) => {
+    const { onEditNoteClick, onAddNoteClick } = this.context;
+
     if (note) {
-      this.context.onEditNoteClick(target, note, { placement: 'left' });
+      onEditNoteClick(target, note, { placement: 'left' });
     } else {
-      this.context.onAddNoteClick(data.paymentId, targetTypes.PAYMENT)(target, {
+      onAddNoteClick(data.paymentId)(target, {
         placement: 'left',
-        id: data.paymentId,
       });
     }
   };
@@ -403,11 +404,11 @@ class Payments extends Component {
       targetEntity={data}
     />
   );
-  
+
   renderPaymentActions = (handleOpenAddPaymentModal) => {
     const { filters } = this.state;
     const allowActions = Object.keys(filters).filter(i => filters[i]).length > 0;
-    
+
     return (
       <Fragment>
         <button

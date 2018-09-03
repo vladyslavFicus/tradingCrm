@@ -3,7 +3,6 @@ import createReducer from '../../../../../../../utils/createReducer';
 import createRequestAction from '../../../../../../../utils/createRequestAction';
 import { sourceActionCreators as noteSourceActionCreators } from '../../../../../../../redux/modules/note';
 import { sourceActionCreators as paymentSourceActionCreators } from '../../../../../../../redux/modules/payment';
-import { targetTypes } from '../../../../../../../constants/note';
 import buildQueryString from '../../../../../../../utils/buildQueryString';
 import { sourceActionCreators as filesSourceActionCreators } from '../../../../../../../redux/modules/profile/files';
 import { actions as filesActions } from '../../../../../../../constants/files';
@@ -21,8 +20,8 @@ const REFUSE_FILE = createRequestAction(`${KEY}/refuse-payment-account-file`);
 const ACTIVE_PAYMENT_ACCOUNT = createRequestAction(`${KEY}/active-payment-account`);
 const LOCK_PAYMENT_ACCOUNT = createRequestAction(`${KEY}/lock-payment-account`);
 
-const fetchNotesFn = noteSourceActionCreators.fetchNotesByType(FETCH_NOTES);
-const fetchFilesNotes = noteSourceActionCreators.fetchNotesByType(FETCH_FILES_NOTES);
+const fetchNotesFn = noteSourceActionCreators.fetchNotesByTargetUuids(FETCH_NOTES);
+const fetchFilesNotes = noteSourceActionCreators.fetchNotesByTargetUuids(FETCH_FILES_NOTES);
 const fetchPaymentAccountsFn = paymentSourceActionCreators.fetchPaymentAccounts(FETCH_ENTITIES);
 
 const changeFileStatusByAction = filesSourceActionCreators.changeStatusByAction({
@@ -37,7 +36,7 @@ const mapPaymentAccounts = accounts =>
   }), {});
 
 const mapNotesToEntities = (entities, notes) => {
-  if (!notes || Object.keys(notes).length === 0) {
+  if (!notes || notes.length === 0) {
     return entities;
   }
 
@@ -45,13 +44,13 @@ const mapNotesToEntities = (entities, notes) => {
     ...result,
     [UUID]: {
       ...entities[UUID],
-      note: notes[UUID] ? notes[UUID][0] : null,
+      note: notes.find(n => n.targetUUID === UUID) || null,
     },
   }), {});
 };
 
 const mapNotesToFiles = (paymentAccounts, fileNotes) => {
-  if (!fileNotes || Object.keys(fileNotes).length === 0) {
+  if (!fileNotes || fileNotes.length === 0) {
     return paymentAccounts;
   }
 
@@ -115,7 +114,7 @@ function fetchFilesAndNotes(playerUUID, targetUUIDs) {
         ];
       });
 
-      await dispatch(fetchFilesNotes(targetTypes.FILE, filesUUIDs));
+      await dispatch(fetchFilesNotes(filesUUIDs));
     }
 
     return action;
@@ -128,7 +127,7 @@ function fetchEntities(playerUUID, fetchNotes = fetchNotesFn, fetchPaymentAccoun
 
     if (action && action.type === FETCH_ENTITIES.SUCCESS && action.payload.length) {
       const targetUUIDs = action.payload.map(item => item.uuid);
-      await dispatch(fetchNotes(targetTypes.PAYMENT_ACCOUNT, targetUUIDs));
+      await dispatch(fetchNotes(targetUUIDs));
       await dispatch(fetchFilesAndNotes(playerUUID, targetUUIDs));
     }
 
@@ -255,7 +254,7 @@ const actionHandlers = {
   }),
   [FETCH_FILES_NOTES.SUCCESS]: (state, action) => ({
     ...state,
-    items: mapNotesToFiles(state.items, action.payload),
+    items: mapNotesToFiles(state.items, action.payload.content),
   }),
   [FETCH_PAYMENT_ACCOUNT_FILES.SUCCESS]: (state, action) => ({
     ...state,

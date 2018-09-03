@@ -265,7 +265,7 @@ class MainLayout extends Component {
     }
   };
 
-  handleAddNoteClick = (target, item, params = {}) => {
+  handleAddNoteClick = (target, targetUUID, params = {}) => {
     this.updateState({
       popover: {
         name: NOTE_POPOVER,
@@ -273,7 +273,7 @@ class MainLayout extends Component {
           ...params,
           target,
           initialValues: {
-            ...item,
+            targetUUID,
             pinned: false,
           },
         },
@@ -311,8 +311,8 @@ class MainLayout extends Component {
     const { addNote, editNote } = this.props;
     const { noteChangedCallback } = this.state;
 
-    if (data.uuid) {
-      await editNote(data.uuid, data);
+    if (data.tagId) {
+      await editNote(data.tagId, data);
     } else {
       await addNote(data);
     }

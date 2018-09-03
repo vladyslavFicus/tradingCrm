@@ -1,52 +1,29 @@
 import { CALL_API } from 'redux-api-middleware';
-import buildQueryString from '../../utils/buildQueryString';
+import { v4 } from 'uuid';
 import createRequestAction from '../../utils/createRequestAction';
+import { tagTypes } from './../../constants/tag';
 
 const KEY = 'common/note';
 const ADD_NOTE = createRequestAction(`${KEY}/add`);
 const EDIT_NOTE = createRequestAction(`${KEY}/edit`);
 const DELETE_NOTE = createRequestAction(`${KEY}/delete`);
 
-function fetchNotes(type) {
-  return filters => (dispatch, getState) => {
+function fetchNotesByTargetUuids(type) {
+  return targetUUIDs => (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `note/notes?${buildQueryString(filters)}`,
-        method: 'GET',
+        endpoint: 'tag/tags/targets',
+        method: 'POST',
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
-        types: [
-          {
-            type: type.REQUEST,
-            meta: { filters },
-          },
-          type.SUCCESS,
-          type.FAILURE,
-        ],
-        bailout: !logged,
-      },
-    });
-  };
-}
-
-function fetchNotesByType(type) {
-  return (targetType, targetUUIDs) => (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
-
-    return dispatch({
-      [CALL_API]: {
-        endpoint: `note/notes/info/${targetType}?${buildQueryString({ targetUUIDs })}`,
-        method: 'GET',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
+        body: JSON.stringify({
+          targetUuids: targetUUIDs,
+        }),
         types: [
           type.REQUEST,
           type.SUCCESS,
@@ -59,14 +36,14 @@ function fetchNotesByType(type) {
 }
 
 function addNote(type) {
-  return ({ content, pinned, playerUUID, targetType, targetUUID }) => (dispatch, getState) => {
+  return ({ content, pinned, targetUUID }) => (dispatch, getState) => {
     const {
-      auth: { token, logged, fullName },
+      auth: { token, logged },
     } = getState();
 
     return dispatch({
       [CALL_API]: {
-        endpoint: 'note/notes',
+        endpoint: 'tag/',
         method: 'POST',
         types: [type.REQUEST, type.SUCCESS, type.FAILURE],
         headers: {
@@ -75,12 +52,15 @@ function addNote(type) {
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
+          tagId: `NOTE-${v4()}`,
+          tagType: tagTypes.NOTE,
           content,
-          pinned,
-          playerUUID,
-          targetType,
-          targetUUID,
-          author: fullName,
+          targets: [
+            {
+              targetUuid: targetUUID,
+              pinned,
+            },
+          ],
         }),
         bailout: !logged,
       },
@@ -89,12 +69,12 @@ function addNote(type) {
 }
 
 function editNote(type) {
-  return (id, { content, pinned, playerUUID, targetType, targetUUID }) => (dispatch, getState) => {
-    const { auth: { token, logged, fullName } } = getState();
+  return (id, { tagId, targetUUID, content: newContent, pinned }) => (dispatch, getState) => {
+    const { auth: { token, logged } } = getState();
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `note/notes/${id}`,
+        endpoint: 'tag/',
         method: 'PUT',
         types: [type.REQUEST, type.SUCCESS, type.FAILURE],
         headers: {
@@ -103,12 +83,10 @@ function editNote(type) {
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
-          content,
-          pinned,
-          playerUUID,
-          targetType,
+          tagId,
           targetUUID,
-          author: fullName,
+          newContent,
+          pinned,
         }),
         bailout: !logged,
       },
@@ -122,7 +100,7 @@ function deleteNote(type) {
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `note/notes/${id}`,
+        endpoint: `tag/${id}`,
         method: 'DELETE',
         types: [type.REQUEST, type.SUCCESS, type.FAILURE],
         headers: {
@@ -147,8 +125,7 @@ const actionCreators = {
   deleteNote: deleteNote(DELETE_NOTE),
 };
 const sourceActionCreators = {
-  fetchNotes,
-  fetchNotesByType,
+  fetchNotesByTargetUuids,
   addNote,
   editNote,
   deleteNote,

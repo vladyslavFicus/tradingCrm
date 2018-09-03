@@ -23,6 +23,7 @@ const updateNoteMutation = gql`mutation updateNote(
         tagType
         targetUUID
         changedBy
+        changedAt
       }
       error {
         error
@@ -50,6 +51,7 @@ const addNoteMutation = gql`mutation addNote(
         tagType
         targetUUID
         changedBy
+        changedAt
       }
     }
   }

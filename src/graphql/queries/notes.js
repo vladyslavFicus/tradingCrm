@@ -27,6 +27,7 @@ const notesQuery = gql`query notes(
       tagType
       targetUUID
       changedBy
+      changedAt
     }
   }
 }`;

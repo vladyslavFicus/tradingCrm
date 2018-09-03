@@ -5,9 +5,6 @@ import buildQueryString from '../../../../../../../../../utils/buildQueryString'
 import { sourceActionCreators as noteSourceActionCreators } from '../../../../../../../../../redux/modules/note';
 import { sourceActionCreators as bonusActionCreators } from '../../../../../../../../../redux/modules/bonus';
 import { sourceActionCreators as paymentSourceActionCreators } from '../../../../../../../../../redux/modules/payment';
-import { targetTypes } from '../../../../../../../../../constants/note';
-import { types as paymentTypes } from '../../../../../../../../../constants/payment';
-import getFingerprint from '../../../../../../../../../utils/fingerPrint';
 
 const KEY = 'user/payments';
 const FETCH_ENTITIES = createRequestAction(`${KEY}/fetch-payments`);
@@ -29,7 +26,7 @@ const fetchPaymentAccounts = paymentSourceActionCreators.fetchPaymentAccounts(FE
 
 const fetchActiveBonus = bonusActionCreators.fetchActiveBonus(FETCH_ACTIVE_BONUS);
 
-const fetchNotesFn = noteSourceActionCreators.fetchNotesByType(FETCH_NOTES);
+const fetchNotesFn = noteSourceActionCreators.fetchNotesByTargetUuids(FETCH_NOTES);
 const mapNotesToTransactions = (transactions, notes) => {
   if (!notes || Object.keys(notes).length === 0) {
     return transactions;
@@ -67,7 +64,7 @@ function fetchEntities(playerUUID, filters = {}, fetchNotes = fetchNotesFn) {
     });
 
     if (action && action.type === FETCH_ENTITIES.SUCCESS && action.payload.content.length) {
-      await dispatch(fetchNotes(targetTypes.PAYMENT, action.payload.content.map(item => item.paymentId)));
+      await dispatch(fetchNotes(action.payload.content.map(item => item.paymentId)));
     }
 
     return action;

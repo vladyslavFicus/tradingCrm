@@ -1,6 +1,5 @@
 import createReducer from '../../../../../../../utils/createReducer';
 import createRequestAction from '../../../../../../../utils/createRequestAction';
-import { targetTypes } from '../../../../../../../constants/note';
 import { actions as filesActions } from '../../../../../../../constants/files';
 import { sourceActionCreators as noteSourceActionCreators } from '../../../../../../../redux/modules/note';
 import { sourceActionCreators as filesSourceActionCreators } from '../../../../../../../redux/modules/profile/files';
@@ -11,7 +10,7 @@ const FETCH_NOTES = createRequestAction(`${KEY}/fetch-notes`);
 const VERIFY_FILE = createRequestAction(`${KEY}/verify-file`);
 const REFUSE_FILE = createRequestAction(`${KEY}/refuse-file`);
 
-const fetchNotes = noteSourceActionCreators.fetchNotesByType(FETCH_NOTES);
+const fetchNotes = noteSourceActionCreators.fetchNotesByTargetUuids(FETCH_NOTES);
 const changeFileStatusByAction = filesSourceActionCreators.changeStatusByAction({
   [filesActions.VERIFY]: VERIFY_FILE,
   [filesActions.REFUSE]: REFUSE_FILE,
@@ -23,7 +22,7 @@ const mapNotesToFiles = (items, notes) => {
 
   return items.map(item => ({
     ...item,
-    note: notes[item.uuid] ? notes[item.uuid][0] : null,
+    note: notes.find(n => n.targetUUID === item.uuid) || null,
   }));
 };
 
@@ -34,7 +33,7 @@ function fetchFilesAndNotes(playerUUID, filters, fetchFilesFn = fetchFiles, fetc
     const action = await dispatch(fetchFilesFn(playerUUID, filters));
 
     if (action && !action.error) {
-      dispatch(fetchNotesFn(targetTypes.FILE, action.payload.content.map(item => item.uuid)));
+      dispatch(fetchNotesFn(action.payload.content.map(item => item.uuid)));
     }
 
     return action;
@@ -115,7 +114,7 @@ const actionHandlers = {
     entities: {
       ...state.entities,
       content: [
-        ...mapNotesToFiles(state.entities.content, action.payload),
+        ...mapNotesToFiles(state.entities.content, action.payload.content),
       ],
     },
   }),

@@ -83,14 +83,12 @@ class View extends Component {
   }
 
   handleNoteClick = (target, note, data) => {
+    const { notes: { onEditNoteClick, onAddNoteClick } } = this.context;
+
     if (note) {
-      this.context.notes.onEditNoteClick(target, note, { placement: 'left' });
+      onEditNoteClick(target, note, { placement: 'left' });
     } else {
-      this.context.notes.onAddNoteClick(
-        target,
-        { playerUUID: data.playerUUID, targetUUID: data.paymentId, targetType: targetTypes.PAYMENT },
-        { placement: 'left' }
-      );
+      onAddNoteClick(target, data.paymentId, { placement: 'left' });
     }
   };
 
@@ -246,16 +244,16 @@ class View extends Component {
   renderMethod = data => (
     !data.paymentMethod ? <span>&mdash;</span>
       : <div>
-        <div className="font-weight-700">
-          {renderLabel(data.paymentMethod, methodsLabels)}
-        </div>
-        {
-          !!data.paymentAccount &&
-          <div className="font-size-11">
-            {data.paymentAccount}
+          <div className="font-weight-700">
+            {renderLabel(data.paymentMethod, methodsLabels)}
           </div>
-        }
-      </div>
+          {
+            !!data.paymentAccount &&
+            <div className="font-size-11">
+              {data.paymentAccount}
+            </div>
+          }
+        </div>
   );
 
   renderDevice = (data) => {
