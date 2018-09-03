@@ -7,18 +7,18 @@ import './TemporaryUntil.scss';
 
 const TemporaryUntil = ({ temporaryUntil }) => {
   const temporaryDate = moment.utc(temporaryUntil).local().format('DD.MM.YYYY HH:mm');
-  const blocked = moment().isAfter(temporaryDate);
+  const willBeBlocked = moment().isAfter(temporaryDate);
 
   return (
-    <div className={classNames('temporary-until', { blocked })}>
+    <div className={classNames('temporary-until', { blocked: !willBeBlocked })}>
       <Choose>
-        <When condition={blocked}>
-          {I18n.t('TEMPORARY_UNTIL.BLOCKED', {
+        <When condition={willBeBlocked}>
+          {I18n.t('TEMPORARY_UNTIL.WILL_BE_BLOCKED', {
             date: temporaryDate,
           })}
         </When>
         <Otherwise>
-          {I18n.t('TEMPORARY_UNTIL.WILL_BE_BLOCKED', {
+          {I18n.t('TEMPORARY_UNTIL.BLOCKED', {
             date: temporaryDate,
           })}
         </Otherwise>
