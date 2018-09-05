@@ -194,7 +194,7 @@ const statusColorNames = {
   [statuses.COOLOFF]: 'color-info',
   [statuses.MANUAL_COOLOFF]: 'color-secondary',
 };
-const manualCoolOffReason = I18n.t('COMMON.MANUAL_COOLOFF_REASON');
+const manualCoolOffReason = I18n.t('common.status.reasons.suspend.manual_cooloff');
 const actionsLabels = {
   [actions.BLOCK]: I18n.t('ACTIONS_LABELS.BLOCK'),
   [actions.UNBLOCK]: I18n.t('ACTIONS_LABELS.UNBLOCK'),

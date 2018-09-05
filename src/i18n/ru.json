@@ -900,8 +900,7 @@
     "DATE_OPTIONS": {
       "START_DATE": "",
       "END_DATE": ""
-    },
-    "MANUAL_COOLOFF_REASON": "Manual Cooloff"
+    }
   },
   "FILES": {
     "UPLOAD_MODAL": {
@@ -2575,5 +2574,14 @@
     "COOLOFF": "Cool off",
     "SELF_EXCLUDED": "Самоисключенный",
     "MANUAL_COOLOFF": "Manual Cooloff"
+  },
+  "common": {
+    "status": {
+      "reasons": {
+        "suspend": {
+          "manual_cooloff": "Manual Cooloff"
+        }
+      }
+    }
   }
 }

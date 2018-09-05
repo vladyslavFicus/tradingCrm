@@ -893,8 +893,7 @@
     "CONFIRM_ACTION": "Confirm action",
     "PINNED_NOTE": "Pinned note",
     "DASHBOARD": "Dashboard",
-    "IDENTIFIER": "ID Number",
-    "MANUAL_COOLOFF_REASON": "Manual Cooloff"
+    "IDENTIFIER": "ID Number"
   },
   "FILES": {
     "UPLOAD_MODAL": {
@@ -2561,5 +2560,14 @@
     "COOLOFF": "Cool off",
     "SELF_EXCLUDED": "Self excluded",
     "MANUAL_COOLOFF": "Manual Cooloff"
+  },
+  "common": {
+    "status": {
+      "reasons": {
+        "suspend": {
+          "manual_cooloff": "Manual Cooloff"
+        }
+      }
+    }
   }
 }
