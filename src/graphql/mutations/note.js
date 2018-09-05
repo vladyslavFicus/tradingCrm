@@ -77,7 +77,9 @@ const removeNoteMutation = gql`mutation removeNote(
   }
 }`;
 
-const addPinnedNote = (proxy, variables, data) => {
+const addPinnedNote = (proxy, params, data) => {
+  const variables = { ...params, pinned: true };
+
   try {
     const { notes } = proxy.readQuery({ query: notesQuery, variables });
     const updatedNotes = update(notes, {
@@ -89,7 +91,8 @@ const addPinnedNote = (proxy, variables, data) => {
   }
 };
 
-const removePinnedNote = (proxy, variables, tagId) => {
+const removePinnedNote = (proxy, params, tagId) => {
+  const variables = { ...params, pinned: true };
   try {
     const { notes: { content }, notes } = proxy.readQuery({ query: notesQuery, variables });
     const selectedIndex = content.findIndex(({ tagId: noteUuid }) => noteUuid === tagId);

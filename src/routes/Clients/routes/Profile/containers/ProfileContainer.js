@@ -182,18 +182,11 @@ export default compose(
         }) => noteUuid === tagId);
 
         if (selectedNote && !pinned) {
-          removePinnedNote(proxy, {
-            playerUUID,
-            pinned: true,
-          }, tagId);
+          removePinnedNote(proxy, { playerUUID }, tagId);
         }
 
         if (!selectedNote && pinned) {
-          addPinnedNote(proxy, {
-            playerUUID,
-            targetUUID,
-            pinned: true,
-          }, data);
+          addPinnedNote(proxy, { playerUUID, targetUUID }, data);
         }
       },
     }),
@@ -219,10 +212,7 @@ export default compose(
           },
         },
       }) => {
-        removePinnedNote(proxy, {
-          playerUUID,
-          pinned: true,
-        }, tagId);
+        removePinnedNote(proxy, { playerUUID }, tagId);
         removeNote(proxy, {
           playerUUID,
           size: 10,
