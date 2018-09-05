@@ -644,11 +644,12 @@ class Profile extends Component {
         await suspendProlong({ variables: { ...variables, duration } });
       }
         break;
-      case statusActions.MANUAL_COOLOFF: {
-        const duration = { amount: 1, unit: durationUnits.DAYS };
-
-        await suspendMutation({ variables: { ...data, duration, reason: manualCoolOffReason } });
-      }
+      case statusActions.MANUAL_COOLOFF:
+        await suspendMutation({ variables: {
+          ...data,
+          duration: { amount: 1, unit: durationUnits.DAYS },
+          reason: manualCoolOffReason,
+        } });
         break;
       default:
         break;
