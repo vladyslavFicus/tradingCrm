@@ -1,4 +1,6 @@
 server {
+  client_max_body_size 0;
+
   server_name _;
   root /opt/build;
 

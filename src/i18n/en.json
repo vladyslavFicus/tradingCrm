@@ -2538,5 +2538,36 @@
         "STATUS": "Status"
       }
     }
+  },
+  "MANUAL_COOLOFF": {
+    "HEADING": "You are about to set Manual Cooloff status for the %{profileName} %{uuid} for 24 hours"
+  },
+  "ACTIONS_LABELS": {
+    "BLOCK": "Block",
+    "UNBLOCK": "Unblock",
+    "SUSPEND": "Suspend",
+    "REMOVE": "Remove",
+    "PROLONG": "Prolong",
+    "SELF_EXCLUSION": "Self exclusion",
+    "RESUME": "Resume",
+    "MANUAL_COOLOFF": "Manual Cooloff"
+  },
+  "STATUSES_LABELS": {
+    "INACTIVE": "Inactive",
+    "ACTIVE": "Active",
+    "BLOCKED": "Blocked",
+    "SUSPENDED": "Suspended",
+    "COOLOFF": "Cool off",
+    "SELF_EXCLUDED": "Self excluded",
+    "MANUAL_COOLOFF": "Manual Cooloff"
+  },
+  "common": {
+    "status": {
+      "reasons": {
+        "suspend": {
+          "manual_cooloff": "Manual Cooloff"
+        }
+      }
+    }
   }
 }

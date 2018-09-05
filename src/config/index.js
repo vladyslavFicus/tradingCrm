@@ -9,7 +9,7 @@ const config = _.merge({
   market: 'casino',
   player: {
     files: {
-      maxSize: 5,
+      maxSize: 20,
       types: [
         'application/vnd.openxmlformats-officedocument.wordprocessingml.document', // docx
         'application/msword', // doc

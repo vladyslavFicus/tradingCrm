@@ -12,6 +12,7 @@ import {
   statusesLabels as userStatusesLabels,
 } from '../../../../../constants/user';
 import withPlayerClick from '../../../../../utils/withPlayerClick';
+import renderLabel from '../../../../../utils/renderLabel';
 
 class List extends Component {
   static propTypes = {
@@ -133,7 +134,7 @@ class List extends Component {
   renderStatus = data => (
     <Fragment>
       <div className={classNames(userStatusColorNames[data.profileStatus], 'text-uppercase font-weight-700')}>
-        {userStatusesLabels[data.profileStatus] || data.profileStatus}
+        {renderLabel(data.profileStatus, userStatusesLabels)}
       </div>
       <If condition={data.profileStatusDate}>
         <div className="font-size-11">

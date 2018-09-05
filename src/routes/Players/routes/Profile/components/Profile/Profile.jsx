@@ -12,6 +12,8 @@ import {
   actions as statusActions,
   statusActions as userStatuses,
   statuses as playerProfileStatuses,
+  durationUnits,
+  manualCoolOffReason,
 } from '../../../../../../constants/user';
 import Header from '../Header';
 import NotePopover from '../../../../../../components/NotePopover';
@@ -650,6 +652,13 @@ class Profile extends Component {
 
         await suspendProlong({ variables: { ...variables, duration } });
       }
+        break;
+      case statusActions.MANUAL_COOLOFF:
+        await suspendMutation({ variables: {
+          ...data,
+          duration: { amount: 1, unit: durationUnits.DAYS },
+          reason: manualCoolOffReason,
+        } });
         break;
       default:
         break;
