@@ -10,7 +10,7 @@ import config, { getBrandId } from '../../../../../config';
 import Permissions from '../../../../../utils/permissions';
 import { userProfileTabs } from '../../../../../config/menu';
 import { profileQuery, locksQuery } from '../../../../../graphql/queries/profile';
-import { notesQuery } from '../../../../../graphql/queries/notes';
+import { playerNotesQuery } from '../../../../../graphql/queries/notes';
 import ConfirmActionModal from '../../../../../components/Modal/ConfirmActionModal';
 import {
   updateSubscription,
@@ -29,7 +29,8 @@ import {
   removeNoteMutation,
   addNoteMutation,
   removeNote,
-  addNote,
+  removePinnedNote,
+  addPinnedNote,
 } from '../../../../../graphql/mutations/note';
 
 const mapStateToProps = (state) => {
@@ -138,6 +139,7 @@ export default compose(
   graphql(unblockMutation, {
     name: 'unblockMutation',
   }),
+
   graphql(addNoteMutation, {
     name: 'addNote',
     options: ({
@@ -149,15 +151,15 @@ export default compose(
       location: { query },
     }) => ({
       refetchQueries: [{
-        query: notesQuery,
+        query: playerNotesQuery,
         variables: {
-          targetUUID: playerUUID,
+          playerUUID,
           pinned: true,
         },
       }, {
-        query: notesQuery,
+        query: playerNotesQuery,
         variables: {
-          targetUUID: playerUUID,
+          playerUUID,
           size: 10,
           page: 0,
           ...query ? query.filters : {},
@@ -167,7 +169,13 @@ export default compose(
   }),
   graphql(updateNoteMutation, {
     name: 'updateNote',
-    options: () => ({
+    options: ({
+      match: {
+        params: {
+          id: playerUUID,
+        },
+      },
+    }) => ({
       update: (proxy, {
         data: {
           note: {
@@ -183,13 +191,13 @@ export default compose(
         },
       }) => {
         const {
-          notes: {
+          playerNotes: {
             content,
           },
         } = proxy.readQuery({
-          query: notesQuery,
+          query: playerNotesQuery,
           variables: {
-            targetUUID,
+            playerUUID,
             pinned: true,
           },
         });
@@ -199,14 +207,15 @@ export default compose(
         }) => noteUuid === tagId);
 
         if (selectedNote && !pinned) {
-          removeNote(proxy, {
-            targetUUID,
+          removePinnedNote(proxy, {
+            playerUUID,
             pinned: true,
           }, tagId);
         }
 
         if (!selectedNote && pinned) {
-          addNote(proxy, {
+          addPinnedNote(proxy, {
+            playerUUID,
             targetUUID,
             pinned: true,
           }, data);
@@ -404,12 +413,12 @@ export default compose(
           },
         },
       }) => {
-        removeNote(proxy, {
-          targetUUID: playerUUID,
+        removePinnedNote(proxy, {
+          playerUUID,
           pinned: true,
         }, tagId);
         removeNote(proxy, {
-          targetUUID: playerUUID,
+          playerUUID,
           size: 10,
           page: 0,
           ...query ? query.filters : {},
@@ -434,7 +443,7 @@ export default compose(
     }),
     name: 'playerProfile',
   }),
-  graphql(notesQuery, {
+  graphql(playerNotesQuery, {
     options: ({
       match: {
         params: {
@@ -443,11 +452,11 @@ export default compose(
       },
     }) => ({
       variables: {
-        targetUUID: playerUUID,
+        playerUUID,
         pinned: true,
       },
     }),
-    name: 'notes',
+    name: 'pinnedNotes',
   }),
   withNotifications,
 )(Profile);

@@ -167,6 +167,7 @@ class Payments extends Component {
     } else {
       onAddNoteClick(data.paymentId)(target, {
         placement: 'left',
+        id: data.paymentId,
       });
     }
   };
@@ -296,7 +297,7 @@ class Payments extends Component {
       }
     });
   };
-  
+
   handleExport = () => this.props.exportEntities(
     this.props.match.params.id, {
       ...this.state.filters,

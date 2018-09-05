@@ -1,16 +1,14 @@
 import gql from 'graphql-tag';
 
-const notesQuery = gql`query notes(
-  $targetUUID: String!
+const playerNotesQuery = gql`query playerNotes(
+  $playerUUID: String!
   $pinned: Boolean
-  $tagType: tagTypes
   $size: Int,
   $page: Int,
   ){
-  notes(
-    targetUUID: $targetUUID
+  playerNotes(
+    playerUUID: $playerUUID
     pinned: $pinned
-    tagType: $tagType
     size: $size
     page: $page
     ) {
@@ -33,6 +31,6 @@ const notesQuery = gql`query notes(
 }`;
 
 export {
-  notesQuery,
+  playerNotesQuery,
 };
 
