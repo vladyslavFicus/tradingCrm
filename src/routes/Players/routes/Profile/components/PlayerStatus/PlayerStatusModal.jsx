@@ -105,7 +105,7 @@ class PlayerStatusModal extends Component {
               dangerouslySetInnerHTML={{
                 __html: I18n.t('MANUAL_COOLOFF.HEADING', {
                   profileName,
-                  uuid: `<span class="font-weight-300">${shortify(profileUuid)}</span>`,
+                  uuid: `<span class="d-inline-block font-weight-300">${shortify(profileUuid)}</span>`,
                 }),
               }}
             />
