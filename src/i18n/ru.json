@@ -2552,5 +2552,26 @@
         "STATUS": ""
       }
     }
+  },
+  "MANUAL_COOLOFF": {
+    "HEADING": "Вы собираетесь установить статус Manual Cooloff для %{profileName} %{uuid} на 24 часа"
+  },
+  "ACTIONS_LABELS": {
+    "BLOCK": "Заблокировать",
+    "UNBLOCK": "Разблокировать",
+    "SUSPEND": "Приостановить",
+    "REMOVE": "Убрать",
+    "PROLONG": "Продлить",
+    "SELF_EXCLUSION": "Самоотключение",
+    "RESUME": "Возобновить",
+    "MANUAL_COOLOFF": "Manual Cooloff"
+  },
+  "STATUSES_LABELS": {
+    "INACTIVE": "Неактивный",
+    "ACTIVE": "Активный",
+    "BLOCKED": "Заблокирован",
+    "SUSPENDED": "Приостановленный",
+    "COOLOFF": "Cool off",
+    "MANUAL_COOLOFF": "Manual Cooloff"
   }
 }

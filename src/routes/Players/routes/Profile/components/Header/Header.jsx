@@ -275,6 +275,8 @@ class Header extends Component {
               reason={profileStatusReason}
               onChange={this.handleStatusChange}
               availableStatuses={availableStatuses}
+              profileName={fullName}
+              profileUuid={playerUUID}
             />
           </div>
           <div className="header-block header-block_balance" id="player-profile-balance-block">

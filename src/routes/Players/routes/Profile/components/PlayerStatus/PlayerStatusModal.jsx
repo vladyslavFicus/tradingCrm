@@ -5,10 +5,10 @@ import { Field, reduxForm } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
 import { createValidator } from '../../../../../../utils/validator';
 import { TextAreaField, SelectField } from '../../../../../../components/ReduxForm';
-import { actions, durationUnits } from '../../../../../../constants/user';
+import { actions, durationUnits, actionsLabels } from '../../../../../../constants/user';
 import pluralDurationUnit from '../../../../../../utils/pluralDurationUnit';
 import renderLabel from '../../../../../../utils/renderLabel';
-
+import { shortify } from '../../../../../../utils/uuid';
 
 const attributeLabels = {
   period: 'Period',
@@ -29,18 +29,20 @@ const periodValidation =
 class PlayerStatusModal extends Component {
   static propTypes = {
     action: PropTypes.string.isRequired,
-    reasons: PropTypes.object.isRequired,
+    reasons: PropTypes.object,
     title: PropTypes.string,
     onHide: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func.isRequired,
     locale: PropTypes.string.isRequired,
-    className: PropTypes.string,
+    profileName: PropTypes.string,
+    profileUuid: PropTypes.string,
   };
-
   static defaultProps = {
     title: '',
-    className: 'modal-danger',
+    reasons: null,
+    profileName: '',
+    profileUuid: '',
   };
 
   renderReasonsSelect = reasons => (
@@ -48,7 +50,6 @@ class PlayerStatusModal extends Component {
       name="reason"
       label={attributeLabels.reason}
       component={SelectField}
-      position="vertical"
     >
       <option value="">{I18n.t('COMMON.SELECT_OPTION.REASON')}</option>
       {Object.keys(reasons).map(key => (
@@ -64,7 +65,6 @@ class PlayerStatusModal extends Component {
       name="period"
       label={attributeLabels.period}
       component={SelectField}
-      position="vertical"
     >
       <option value="">{I18n.t('COMMON.SELECT_OPTION.PERIOD')}</option>
       {
@@ -89,39 +89,56 @@ class PlayerStatusModal extends Component {
       onHide,
       onSubmit,
       handleSubmit,
-      className,
+      profileName,
+      profileUuid,
     } = this.props;
 
     return (
-      <Modal isOpen toggle={onHide} className={className}>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          {
-            !!title &&
-            <ModalHeader toggle={onHide}>
-              {title}
-            </ModalHeader>
-          }
-          <ModalBody>
-            {(action === actions.SUSPEND || action === actions.PROLONG) && this.renderPeriodSelect()}
-            {reasons && this.renderReasonsSelect(reasons)}
-
-            <Field
-              name="comment"
-              placeholder="Comment..."
-              label={attributeLabels.comment}
-              component={TextAreaField}
+      <Modal isOpen toggle={onHide} className="modal-danger">
+        <ModalHeader toggle={onHide}>
+          {title}
+        </ModalHeader>
+        <ModalBody tag="form" onSubmit={handleSubmit(onSubmit)} id="player-status-modal-form">
+          <If condition={action === actions.MANUAL_COOLOFF}>
+            <div
+              className="margin-bottom-20 text-center font-weight-700"
+              dangerouslySetInnerHTML={{
+                __html: I18n.t('MANUAL_COOLOFF.HEADING', {
+                  profileName,
+                  uuid: `<span class="font-weight-300">${shortify(profileUuid)}</span>`,
+                }),
+              }}
             />
-          </ModalBody>
-
-          <ModalFooter>
-            <button className="btn btn-default-outline mr-auto" onClick={onHide}>
-              {I18n.t('COMMON.BUTTONS.CANCEL')}
-            </button>
-            <button type="submit" className="btn btn-danger">
-              {action}
-            </button>
-          </ModalFooter>
-        </form>
+          </If>
+          <If condition={action === actions.SUSPEND || action === actions.PROLONG}>
+            {this.renderPeriodSelect()}
+          </If>
+          <If condition={reasons}>
+            {this.renderReasonsSelect(reasons)}
+          </If>
+          <Field
+            name="comment"
+            placeholder="Comment..."
+            label={attributeLabels.comment}
+            component={TextAreaField}
+          />
+        </ModalBody>
+        <ModalFooter>
+          <button
+            type="button"
+            className="btn btn-default-outline mr-auto"
+            onClick={onHide}
+          >
+            {I18n.t('COMMON.BUTTONS.CANCEL')}
+          </button>
+          <button
+            type="submit"
+            className="btn btn-danger"
+            form="player-status-modal-form"
+          >
+            {renderLabel(action, actionsLabels)}
+          </button>
+        </ModalFooter>
       </Modal>
     );
   }
@@ -132,11 +149,11 @@ export default reduxForm({
   validate: (data, props) => {
     const rules = {
       comment: 'string',
-      reason: `required|string|in:${Object.keys(props.reasons).join()}`,
     };
 
     if (data.action === actions.SUSPEND || data.action === actions.PROLONG) {
       rules.period = `required|in:${periodValidation}`;
+      rules.reason = `required|string|in:${Object.keys(props.reasons).join()}`;
     }
 
     return createValidator(rules, attributeLabels, false)(data);

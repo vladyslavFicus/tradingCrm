@@ -70,6 +70,7 @@ const statuses = keyMirror({
   SUSPENDED: null,
   PERMANENT_SUSPENDED: null,
   COOLOFF: null,
+  MANUAL_COOLOFF: null,
 });
 const actions = keyMirror({
   BLOCK: null,
@@ -77,6 +78,7 @@ const actions = keyMirror({
   SUSPEND: null,
   REMOVE: null,
   PROLONG: null,
+  MANUAL_COOLOFF: null,
 });
 const reasons = {
   'PLAYER_PROFILE.PROFILE.BLOCK_REASONS.USER_REQUEST':
@@ -104,11 +106,11 @@ const selfExclusionReasons = {
     I18n.t('PLAYER_PROFILE.PROFILE.SELF_EXCLUSION_REASONS.OTHER'),
 };
 const statusesLabels = {
-  [statuses.INACTIVE]: 'Inactive',
-  [statuses.ACTIVE]: 'Active',
-  [statuses.BLOCKED]: 'Blocked',
-  [statuses.SUSPENDED]: 'Self Excluded',
-  [statuses.COOLOFF]: 'Cool off',
+  [statuses.INACTIVE]: I18n.t('STATUSES_LABELS.INACTIVE'),
+  [statuses.ACTIVE]: I18n.t('STATUSES_LABELS.ACTIVE'),
+  [statuses.BLOCKED]: I18n.t('STATUSES_LABELS.BLOCKED'),
+  [statuses.SUSPENDED]: I18n.t('STATUSES_LABELS.SELF_EXCLUDED'),
+  [statuses.COOLOFF]: I18n.t('STATUSES_LABELS.COOL_OFF'),
 };
 const durationUnits = keyMirror({
   DAYS: null,
@@ -121,7 +123,7 @@ const statusActions = {
   [statuses.INACTIVE]: [
     {
       action: actions.SUSPEND,
-      label: 'Self Exclusion',
+      label: I18n.t('ACTIONS_LABELS.SELF_EXCLUSION'),
       reasons: selfExclusionReasons,
       permission: permissions.USER_PROFILE.SUSPEND,
     },
@@ -129,21 +131,26 @@ const statusActions = {
   [statuses.ACTIVE]: [
     {
       action: actions.BLOCK,
-      label: 'Block',
+      label: I18n.t('ACTIONS_LABELS.BLOCK'),
       reasons,
       permission: permissions.USER_PROFILE.BLOCK,
     },
     {
       action: actions.SUSPEND,
-      label: 'Self Exclusion',
+      label: I18n.t('ACTIONS_LABELS.SELF_EXCLUSION'),
       reasons: selfExclusionReasons,
+      permission: permissions.USER_PROFILE.SUSPEND,
+    },
+    {
+      action: actions.MANUAL_COOLOFF,
+      label: I18n.t('ACTIONS_LABELS.MANUAL_COOLOFF'),
       permission: permissions.USER_PROFILE.SUSPEND,
     },
   ],
   [statuses.BLOCKED]: [
     {
       action: actions.UNBLOCK,
-      label: 'Unblock',
+      label: I18n.t('ACTIONS_LABELS.UNBLOCK'),
       reasons: unblockReasons,
       permission: permissions.USER_PROFILE.UNBLOCK,
     },
@@ -151,13 +158,13 @@ const statusActions = {
   [statuses.SUSPENDED]: [
     {
       action: actions.PROLONG,
-      label: 'Prolong',
+      label: I18n.t('ACTIONS_LABELS.PROLONG'),
       reasons,
       permission: permissions.USER_PROFILE.PROLONG,
     },
     {
       action: actions.REMOVE,
-      label: 'Remove',
+      label: I18n.t('ACTIONS_LABELS.REMOVE'),
       reasons,
       permission: permissions.USER_PROFILE.REMOVE,
     },
@@ -165,7 +172,7 @@ const statusActions = {
   [statuses.PERMANENT_SUSPENDED]: [
     {
       action: actions.REMOVE,
-      label: 'Remove',
+      label: I18n.t('ACTIONS_LABELS.REMOVE'),
       reasons,
       permission: permissions.USER_PROFILE.REMOVE,
     },
@@ -173,7 +180,7 @@ const statusActions = {
   [statuses.COOLOFF]: [
     {
       action: actions.REMOVE,
-      label: 'Resume',
+      label: I18n.t('ACTIONS_LABELS.RESUME'),
       reasons,
       permission: permissions.USER_PROFILE.REMOVE,
     },
@@ -185,6 +192,16 @@ const statusColorNames = {
   [statuses.BLOCKED]: 'color-danger',
   [statuses.SUSPENDED]: 'color-secondary',
   [statuses.COOLOFF]: 'color-info',
+  [statuses.MANUAL_COOLOFF]: 'color-secondary',
+};
+const manualCoolOffReason = 'Manual Сooloff';
+const actionsLabels = {
+  [actions.BLOCK]: I18n.t('ACTIONS_LABELS.BLOCK'),
+  [actions.UNBLOCK]: I18n.t('ACTIONS_LABELS.UNBLOCK'),
+  [actions.SUSPEND]: I18n.t('ACTIONS_LABELS.SUSPEND'),
+  [actions.REMOVE]: I18n.t('ACTIONS_LABELS.REMOVE'),
+  [actions.PROLONG]: I18n.t('ACTIONS_LABELS.PROLONG'),
+  [actions.MANUAL_COOLOFF]: I18n.t('ACTIONS_LABELS.MANUAL_COOLOFF'),
 };
 
 export {
@@ -198,4 +215,6 @@ export {
   filterLabels,
   unblockReasons,
   reasons,
+  manualCoolOffReason,
+  actionsLabels,
 };
