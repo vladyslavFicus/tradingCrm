@@ -6,7 +6,9 @@ import moment from 'moment';
 import { I18n } from 'react-redux-i18n';
 import FailureReasonIcon from '../../../../../../components/FailureReasonIcon';
 import PlayerStatusModal from './PlayerStatusModal';
-import { statuses, statusColorNames, statusesLabels, durationUnits } from '../../../../../../constants/user';
+import {
+  statuses, statusColorNames, statusesLabels, durationUnits, manualCoolOffReason,
+} from '../../../../../../constants/user';
 import Uuid from '../../../../../../components/Uuid';
 import renderLabel from '../../../../../../utils/renderLabel';
 import Permissions, { CONDITIONS } from '../../../../../../utils/permissions';
@@ -37,6 +39,8 @@ class PlayerStatus extends Component {
     statusDate: PropTypes.string,
     profileStatusComment: PropTypes.string,
     statusAuthor: PropTypes.string,
+    profileName: PropTypes.string,
+    profileUuid: PropTypes.string,
   };
   static contextTypes = {
     permissions: PropTypes.arrayOf(PropTypes.string).isRequired,
@@ -48,6 +52,8 @@ class PlayerStatus extends Component {
     statusDate: null,
     statusAuthor: null,
     profileStatusComment: '',
+    profileName: '',
+    profileUuid: '',
   };
 
   state = { ...initialState };
@@ -119,7 +125,7 @@ class PlayerStatus extends Component {
             {...rest}
             onClick={() => this.handleStatusClick({ statusLabel, reasons, ...rest })}
           >
-            <span className="text-uppercase">{statusLabel}</span>
+            <span className="text-uppercase">{I18n.t(statusLabel)}</span>
           </DropdownItem>
                   ))
                 }
@@ -154,6 +160,8 @@ class PlayerStatus extends Component {
       endDate,
       locale,
       profileStatusComment,
+      profileName,
+      profileUuid,
     } = this.props;
 
     const { dropDownOpen, modal } = this.state;
@@ -167,7 +175,14 @@ class PlayerStatus extends Component {
         <div className="header-block-title">Account Status</div>
         {availableStatuses.length > 0 && canChangeStatus && <i className="fa fa-angle-down" />}
         <div className={classNames(statusColorNames[status], 'header-block-middle text-uppercase')}>
-          {renderLabel(status, statusesLabels)}
+          <Choose>
+            <When condition={reason === manualCoolOffReason}>
+              {I18n.t('STATUSES_LABELS.MANUAL_COOLOFF')}
+            </When>
+            <Otherwise>
+              {renderLabel(status, statusesLabels)}
+            </Otherwise>
+          </Choose>
         </div>
         {this.renderAuthor(statusAuthor)}
         {
@@ -202,6 +217,8 @@ class PlayerStatus extends Component {
             {...modal.params}
             onSubmit={this.handleSubmit}
             onHide={this.handleModalHide}
+            profileName={profileName}
+            profileUuid={profileUuid}
           />
         }
       </div>
