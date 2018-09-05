@@ -1,6 +1,6 @@
 import gql from 'graphql-tag';
 import update from 'react-addons-update';
-import { playerNotesQuery } from '../queries/notes';
+import { notesQuery } from '../queries/notes';
 
 const updateNoteMutation = gql`mutation updateNote(
   $tagId: String!
@@ -79,11 +79,11 @@ const removeNoteMutation = gql`mutation removeNote(
 
 const addPinnedNote = (proxy, variables, data) => {
   try {
-    const { playerNotes } = proxy.readQuery({ query: playerNotesQuery, variables });
-    const updatedNotes = update(playerNotes, {
+    const { notes } = proxy.readQuery({ query: notesQuery, variables });
+    const updatedNotes = update(notes, {
       content: { $push: [data] },
     });
-    proxy.writeQuery({ query: playerNotesQuery, variables, data: { playerNotes: updatedNotes } });
+    proxy.writeQuery({ query: notesQuery, variables, data: { notes: updatedNotes } });
   } catch (e) {
     console.log(e);
   }
@@ -91,12 +91,12 @@ const addPinnedNote = (proxy, variables, data) => {
 
 const removePinnedNote = (proxy, variables, tagId) => {
   try {
-    const { playerNotes: { content }, playerNotes } = proxy.readQuery({ query: playerNotesQuery, variables });
+    const { notes: { content }, notes } = proxy.readQuery({ query: notesQuery, variables });
     const selectedIndex = content.findIndex(({ tagId: noteUuid }) => noteUuid === tagId);
-    const updatedNotes = update(playerNotes, {
+    const updatedNotes = update(notes, {
       content: { $splice: [[selectedIndex, 1]] },
     });
-    proxy.writeQuery({ query: playerNotesQuery, variables, data: { playerNotes: updatedNotes } });
+    proxy.writeQuery({ query: notesQuery, variables, data: { notes: updatedNotes } });
   } catch (e) {
     console.log(e);
   }
@@ -104,12 +104,12 @@ const removePinnedNote = (proxy, variables, tagId) => {
 
 const removeNote = (proxy, variables, tagId) => {
   try {
-    const { playerNotes: { content }, playerNotes } = proxy.readQuery({ query: playerNotesQuery, variables });
+    const { notes: { content }, notes } = proxy.readQuery({ query: notesQuery, variables });
     const selectedIndex = content.findIndex(({ tagId: noteUuid }) => noteUuid === tagId);
-    const updatedNotes = update(playerNotes, {
+    const updatedNotes = update(notes, {
       content: { $splice: [[selectedIndex, 1]] },
     });
-    proxy.writeQuery({ query: playerNotesQuery, variables, data: { playerNotes: updatedNotes } });
+    proxy.writeQuery({ query: notesQuery, variables, data: { notes: updatedNotes } });
   } catch (e) {
     console.log(e);
   }

@@ -1,12 +1,12 @@
 import gql from 'graphql-tag';
 
-const playerNotesQuery = gql`query playerNotes(
+const notesQuery = gql`query notes(
   $playerUUID: String!
   $pinned: Boolean
   $size: Int,
   $page: Int,
   ){
-  playerNotes(
+  notes(
     playerUUID: $playerUUID
     pinned: $pinned
     size: $size
@@ -31,6 +31,6 @@ const playerNotesQuery = gql`query playerNotes(
 }`;
 
 export {
-  playerNotesQuery,
+  notesQuery,
 };
 

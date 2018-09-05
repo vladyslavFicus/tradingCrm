@@ -7,7 +7,7 @@ import { actionCreators as filesActionCreators } from '../modules/files';
 import Profile from '../components/Profile';
 import config, { getBrandId } from '../../../../../config';
 import { profileQuery } from '../../../../../graphql/queries/profile';
-import { playerNotesQuery } from '../../../../../graphql/queries/notes';
+import { notesQuery } from '../../../../../graphql/queries/notes';
 import ConfirmActionModal from '../../../../../components/Modal/ConfirmActionModal';
 import {
   updateSubscription,
@@ -126,13 +126,13 @@ export default compose(
       location: { query },
     }) => ({
       refetchQueries: [{
-        query: playerNotesQuery,
+        query: notesQuery,
         variables: {
           playerUUID,
           pinned: true,
         },
       }, {
-        query: playerNotesQuery,
+        query: notesQuery,
         variables: {
           playerUUID,
           size: 10,
@@ -166,11 +166,11 @@ export default compose(
         },
       }) => {
         const {
-          playerNotes: {
+          notes: {
             content,
           },
         } = proxy.readQuery({
-          query: playerNotesQuery,
+          query: notesQuery,
           variables: {
             playerUUID,
             pinned: true,
@@ -249,7 +249,7 @@ export default compose(
     }),
     name: 'playerProfile',
   }),
-  graphql(playerNotesQuery, {
+  graphql(notesQuery, {
     options: ({
       match: {
         params: {

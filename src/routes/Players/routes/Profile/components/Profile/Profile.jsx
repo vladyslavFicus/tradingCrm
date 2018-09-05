@@ -83,7 +83,7 @@ class Profile extends Component {
     }).isRequired,
     pinnedNotes: PropTypes.shape({
       loading: PropTypes.bool.isRequired,
-      playerNotes: PropTypes.shape({
+      notes: PropTypes.shape({
         content: PropTypes.arrayOf(PropTypes.shape({
           author: PropTypes.string,
           lastEditorUUID: PropTypes.string,
@@ -677,7 +677,7 @@ class Profile extends Component {
       playerProfile: { playerProfile, loading },
       match: { params },
       location,
-      pinnedNotes: { playerNotes },
+      pinnedNotes: { notes },
       playerLimits,
       uploading,
       uploadModalInitialValues,
@@ -729,7 +729,7 @@ class Profile extends Component {
               ips={get(profile, 'signInIps', [])}
               updateSubscription={this.handleUpdateSubscription}
               onEditNoteClick={this.handleEditNoteClick}
-              pinnedNotes={playerNotes}
+              pinnedNotes={notes}
             />
           </HideDetails>
         </div>

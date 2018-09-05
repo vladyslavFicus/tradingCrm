@@ -13,7 +13,7 @@ class Notes extends Component {
       refetch: PropTypes.func.isRequired,
       loading: PropTypes.bool.isRequired,
       loadMoreNotes: PropTypes.func.isRequired,
-      playerNotes: PropTypes.shape({
+      notes: PropTypes.shape({
         content: PropTypes.arrayOf(PropTypes.shape({
           author: PropTypes.string,
           lastEditorUUID: PropTypes.string,
@@ -102,7 +102,7 @@ class Notes extends Component {
 
   render() {
     const {
-      notes: { playerNotes: notes, loading },
+      notes: { notes, loading },
       noteTypes: {
         data: availableTypes,
       },
