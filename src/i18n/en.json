@@ -893,7 +893,8 @@
     "CONFIRM_ACTION": "Confirm action",
     "PINNED_NOTE": "Pinned note",
     "DASHBOARD": "Dashboard",
-    "IDENTIFIER": "ID Number"
+    "IDENTIFIER": "ID Number",
+    "MANUAL_COOLOFF_REASON": "Manual Cooloff"
   },
   "FILES": {
     "UPLOAD_MODAL": {
@@ -2558,6 +2559,7 @@
     "BLOCKED": "Blocked",
     "SUSPENDED": "Suspended",
     "COOLOFF": "Cool off",
+    "SELF_EXCLUDED": "Self excluded",
     "MANUAL_COOLOFF": "Manual Cooloff"
   }
 }

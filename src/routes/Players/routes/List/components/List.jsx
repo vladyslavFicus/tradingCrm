@@ -133,7 +133,7 @@ class List extends Component {
   renderStatus = data => (
     <Fragment>
       <div className={classNames(userStatusColorNames[data.profileStatus], 'text-uppercase font-weight-700')}>
-        {userStatusesLabels[data.profileStatus] || data.profileStatus}
+        {I18n.t(userStatusesLabels[data.profileStatus] || data.profileStatus)}
       </div>
       <If condition={data.profileStatusDate}>
         <div className="font-size-11">

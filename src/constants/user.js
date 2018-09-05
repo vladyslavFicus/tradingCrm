@@ -110,7 +110,7 @@ const statusesLabels = {
   [statuses.ACTIVE]: I18n.t('STATUSES_LABELS.ACTIVE'),
   [statuses.BLOCKED]: I18n.t('STATUSES_LABELS.BLOCKED'),
   [statuses.SUSPENDED]: I18n.t('STATUSES_LABELS.SELF_EXCLUDED'),
-  [statuses.COOLOFF]: I18n.t('STATUSES_LABELS.COOL_OFF'),
+  [statuses.COOLOFF]: I18n.t('STATUSES_LABELS.COOLOFF'),
 };
 const durationUnits = keyMirror({
   DAYS: null,
@@ -194,7 +194,7 @@ const statusColorNames = {
   [statuses.COOLOFF]: 'color-info',
   [statuses.MANUAL_COOLOFF]: 'color-secondary',
 };
-const manualCoolOffReason = 'Manual Сooloff';
+const manualCoolOffReason = I18n.t('COMMON.MANUAL_COOLOFF_REASON');
 const actionsLabels = {
   [actions.BLOCK]: I18n.t('ACTIONS_LABELS.BLOCK'),
   [actions.UNBLOCK]: I18n.t('ACTIONS_LABELS.UNBLOCK'),
