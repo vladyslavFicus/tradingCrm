@@ -81,7 +81,7 @@ class Profile extends Component {
         id: PropTypes.string.isRequired,
       }).isRequired,
     }).isRequired,
-    notes: PropTypes.shape({
+    pinnedNotes: PropTypes.shape({
       loading: PropTypes.bool.isRequired,
       notes: PropTypes.shape({
         content: PropTypes.arrayOf(PropTypes.shape({
@@ -254,7 +254,7 @@ class Profile extends Component {
   handleLoadProfile = async (needForceUpdate = false) => {
     const {
       playerProfile,
-      notes,
+      pinnedNotes,
       fetchFiles,
       fetchProfile,
       profile,
@@ -265,7 +265,7 @@ class Profile extends Component {
     if (!playerProfile.isLoading && !profile.isLoading) {
       await playerProfile.refetch();
       await fetchProfile(params.id);
-      await notes.refetch();
+      await pinnedNotes.refetch();
       await locks.refetch();
       await fetchFiles(params.id);
 
@@ -422,7 +422,11 @@ class Profile extends Component {
 
   handleSubmitNote = async (data) => {
     const { noteChangedCallback } = this.state;
-    const { updateNote, addNote } = this.props;
+    const {
+      updateNote,
+      addNote,
+      match: { params: { id: playerUUID } },
+    } = this.props;
 
     if (data.tagId) {
       const updatedNote = await updateNote({ variables: data });
@@ -432,7 +436,12 @@ class Profile extends Component {
       return updatedNote;
     }
 
-    const response = await addNote({ variables: data });
+    const response = await addNote({
+      variables: {
+        ...data,
+        playerUUID,
+      },
+    });
 
     this.handlePopoverHide();
 
@@ -668,7 +677,7 @@ class Profile extends Component {
       playerProfile: { playerProfile, loading },
       match: { params },
       location,
-      notes: { notes },
+      pinnedNotes: { notes },
       playerLimits,
       uploading,
       uploadModalInitialValues,
@@ -720,7 +729,7 @@ class Profile extends Component {
               ips={get(profile, 'signInIps', [])}
               updateSubscription={this.handleUpdateSubscription}
               onEditNoteClick={this.handleEditNoteClick}
-              notes={notes}
+              pinnedNotes={notes}
             />
           </HideDetails>
         </div>

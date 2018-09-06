@@ -65,7 +65,7 @@ class Profile extends Component {
         id: PropTypes.string.isRequired,
       }).isRequired,
     }).isRequired,
-    notes: PropTypes.shape({
+    pinnedNotes: PropTypes.shape({
       loading: PropTypes.bool.isRequired,
       notes: PropTypes.shape({
         content: PropTypes.arrayOf(PropTypes.shape({
@@ -220,7 +220,7 @@ class Profile extends Component {
   handleLoadProfile = async (needForceUpdate = false) => {
     const {
       playerProfile,
-      notes,
+      pinnedNotes,
       fetchFiles,
       fetchProfile,
       profile,
@@ -230,7 +230,7 @@ class Profile extends Component {
     if (!playerProfile.isLoading && !profile.isLoading) {
       await playerProfile.refetch();
       await fetchProfile(params.id);
-      await notes.refetch();
+      await pinnedNotes.refetch();
       await fetchFiles(params.id);
 
       if (needForceUpdate) {
@@ -613,7 +613,7 @@ class Profile extends Component {
       },
       match: { params },
       location,
-      notes: { notes },
+      pinnedNotes: { notes },
       uploading,
       uploadModalInitialValues,
       config,
@@ -655,7 +655,7 @@ class Profile extends Component {
               ips={get(profile, 'signInIps', [])}
               updateSubscription={this.handleUpdateSubscription}
               onEditNoteClick={this.handleEditNoteClick}
-              notes={notes}
+              pinnedNotes={notes}
               acquisitionData={acquisitionData}
             />
           </HideDetails>

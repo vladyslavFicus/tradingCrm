@@ -21,15 +21,6 @@ class Notes extends Component {
         })),
       }),
     }).isRequired,
-    match: PropTypes.shape({
-      params: PropTypes.shape({
-        id: PropTypes.string.isRequired,
-      }).isRequired,
-    }).isRequired,
-    noteTypes: PropTypes.shape({
-      data: PropTypes.arrayOf(PropTypes.string).isRequired,
-    }).isRequired,
-    fetchNoteTypes: PropTypes.func.isRequired,
     locale: PropTypes.string.isRequired,
   };
   static contextTypes = {
@@ -49,13 +40,10 @@ class Notes extends Component {
       constructor: { name },
       props: {
         notes: { refetch },
-        fetchNoteTypes,
-        match: { params: { id } },
       },
       handleRefresh,
     } = this;
 
-    fetchNoteTypes(id);
     setNoteChangedCallback(handleRefresh);
     registerUpdateCacheListener(name, refetch);
   }
@@ -103,9 +91,6 @@ class Notes extends Component {
   render() {
     const {
       notes: { notes, loading },
-      noteTypes: {
-        data: availableTypes,
-      },
       locale,
     } = this.props;
 
@@ -118,7 +103,6 @@ class Notes extends Component {
         <TabHeader title={I18n.t('PLAYER_PROFILE.NOTES.TITLE')} />
         <NotesGridFilter
           onSubmit={this.handleFiltersChanged}
-          availableTypes={availableTypes}
         />
         <div className="tab-wrapper">
           <ListView

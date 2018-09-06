@@ -17,13 +17,13 @@ class Information extends PureComponent {
     updateSubscription: PropTypes.func.isRequired,
     onEditNoteClick: PropTypes.func.isRequired,
     ips: PropTypes.array.isRequired,
-    notes: PropTypes.object,
+    pinnedNotes: PropTypes.object,
     checkService: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
     data: {},
-    notes: {},
+    pinnedNotes: {},
   };
 
   render() {
@@ -31,7 +31,7 @@ class Information extends PureComponent {
       data,
       ips,
       updateSubscription,
-      notes,
+      pinnedNotes,
       onEditNoteClick,
       checkService,
     } = this.props;
@@ -63,7 +63,7 @@ class Information extends PureComponent {
           <PermissionContent permissions={permissions.NOTES.VIEW_NOTES}>
             <div className="col">
               <Notes
-                notes={notes}
+                notes={pinnedNotes}
                 onEditNoteClick={onEditNoteClick}
               />
             </div>

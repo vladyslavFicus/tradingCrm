@@ -2,23 +2,20 @@ import { connect } from 'react-redux';
 import { graphql, compose } from 'react-apollo';
 import Notes from '../components/Notes';
 import { notesQuery } from '.././../../../../../../graphql/queries/notes';
-import { actionCreators as noteTypesActionCreators } from '../modules/noteTypes';
 
 const mapStateToProps = ({
-  userNotes: { noteTypes },
   i18n: { locale },
 }) => ({
-  noteTypes,
   locale,
 });
 
 export default compose(
-  connect(mapStateToProps, noteTypesActionCreators),
+  connect(mapStateToProps),
   graphql(notesQuery, {
     options: ({ match: { params: { id: playerUUID } }, location: { query } }) => ({
       fetchPolicy: 'cache-and-network',
       variables: {
-        targetUUID: playerUUID,
+        playerUUID,
         size: 10,
         page: 0,
         ...query ? query.filters : {},
