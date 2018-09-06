@@ -24,7 +24,6 @@ import {
   removeNoteMutation,
   addNoteMutation,
   removeNote,
-  removePinnedNote,
   addPinnedNote,
 } from '../../../../../graphql/mutations/note';
 
@@ -182,7 +181,7 @@ export default compose(
         }) => noteUuid === tagId);
 
         if (selectedNote && !pinned) {
-          removePinnedNote(proxy, { playerUUID }, tagId);
+          removeNote(proxy, { playerUUID, pinned: true }, tagId);
         }
 
         if (!selectedNote && pinned) {
@@ -212,7 +211,7 @@ export default compose(
           },
         },
       }) => {
-        removePinnedNote(proxy, { playerUUID }, tagId);
+        removeNote(proxy, { playerUUID, pinned: true }, tagId);
         removeNote(proxy, {
           playerUUID,
           size: 10,

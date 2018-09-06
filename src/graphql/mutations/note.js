@@ -91,20 +91,6 @@ const addPinnedNote = (proxy, params, data) => {
   }
 };
 
-const removePinnedNote = (proxy, params, tagId) => {
-  const variables = { ...params, pinned: true };
-  try {
-    const { notes: { content }, notes } = proxy.readQuery({ query: notesQuery, variables });
-    const selectedIndex = content.findIndex(({ tagId: noteUuid }) => noteUuid === tagId);
-    const updatedNotes = update(notes, {
-      content: { $splice: [[selectedIndex, 1]] },
-    });
-    proxy.writeQuery({ query: notesQuery, variables, data: { notes: updatedNotes } });
-  } catch (e) {
-    console.log(e);
-  }
-};
-
 const removeNote = (proxy, variables, tagId) => {
   try {
     const { notes: { content }, notes } = proxy.readQuery({ query: notesQuery, variables });
@@ -124,6 +110,5 @@ export {
   addNoteMutation,
   removeNoteMutation,
   removeNote,
-  removePinnedNote,
   addPinnedNote,
 };
