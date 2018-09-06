@@ -5,8 +5,7 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 import { I18n } from 'react-redux-i18n';
 import { createValidator, translateLabels } from '../../../../../../../utils/validator';
-import { InputField, SelectField, DateTimeField, RangeGroup } from '../../../../../../../components/ReduxForm';
-import { targetTypesLabels } from '../../../../../../../constants/note';
+import { DateTimeField, RangeGroup } from '../../../../../../../components/ReduxForm';
 import { attributeLabels } from '../constants';
 
 class NotesGridFilter extends Component {
@@ -16,33 +15,29 @@ class NotesGridFilter extends Component {
     submitting: PropTypes.bool.isRequired,
     onSubmit: PropTypes.func.isRequired,
     currentValues: PropTypes.shape({
-      searchValue: PropTypes.string,
-      targetType: PropTypes.string,
-      from: PropTypes.string,
-      to: PropTypes.string,
+      changedAtTo: PropTypes.string,
+      changedAtFrom: PropTypes.string,
     }),
-    availableTypes: PropTypes.arrayOf(PropTypes.string),
     invalid: PropTypes.bool.isRequired,
   };
 
   static defaultProps = {
     currentValues: {},
-    availableTypes: [],
   };
 
   startDateValidator = (current) => {
     const { currentValues } = this.props;
 
-    return currentValues && currentValues.to
-      ? current.isSameOrBefore(moment(currentValues.to))
+    return currentValues && currentValues.changedAtTo
+      ? current.isSameOrBefore(moment(currentValues.changedAtTo))
       : true;
   };
 
   endDateValidator = (current) => {
     const { currentValues } = this.props;
 
-    return currentValues && currentValues.from
-      ? current.isSameOrAfter(moment(currentValues.from))
+    return currentValues && currentValues.changedAtFrom
+      ? current.isSameOrAfter(moment(currentValues.changedAtFrom))
       : true;
   };
 
@@ -56,52 +51,27 @@ class NotesGridFilter extends Component {
       submitting,
       handleSubmit,
       onSubmit,
-      availableTypes,
       invalid,
     } = this.props;
 
     return (
       <form className="filter-row" onSubmit={handleSubmit(onSubmit)}>
-        <Field
-          name="searchValue"
-          type="text"
-          label={I18n.t(attributeLabels.searchBy)}
-          placeholder={I18n.t(attributeLabels.searchValue)}
-          component={InputField}
-          inputAddon={<i className="icon icon-search" />}
-          className="filter-row__medium"
-        />
-        <Field
-          name="targetType"
-          label={I18n.t(attributeLabels.targetType)}
-          component={SelectField}
-          className="filter-row__medium"
-        >
-          <option value="">{I18n.t('PLAYER_PROFILE.NOTES.FILTER.LABELS.ALL_TYPES')}</option>
-          {availableTypes.map(type => (
-            <option key={type} value={type}>
-              {targetTypesLabels[type] || type}
-            </option>
-          ))}
-        </Field>
         <RangeGroup
           className="filter-row__dates"
           label={I18n.t('PLAYER_PROFILE.NOTES.FILTER.LABELS.CREATION_DATE_RANGE')}
         >
           <Field
-            name="from"
+            name="changedAtFrom"
             placeholder={I18n.t(attributeLabels.from)}
             component={DateTimeField}
             isValidDate={this.startDateValidator}
-            timeFormat={null}
             pickerClassName="left-side"
           />
           <Field
-            name="to"
+            name="changedAtTo"
             placeholder={I18n.t(attributeLabels.to)}
             component={DateTimeField}
             isValidDate={this.endDateValidator}
-            timeFormat={null}
           />
         </RangeGroup>
         <div className="filter-row__button-block">
@@ -133,10 +103,8 @@ export default connect(state => ({
 }))(reduxForm({
   form: FORM_NAME,
   touchOnChange: true,
-  validate: (values, props) => createValidator({
-    searchValue: 'string',
-    targetType: ['string', `in:,${props.availableTypes.join()}`],
-    from: 'regex:/^\\d{4}-\\d{2}-\\d{2}$/',
-    to: 'regex:/^\\d{4}-\\d{2}-\\d{2}$/',
+  validate: values => createValidator({
+    changedAtFrom: 'regex:/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/',
+    changedAtTo: 'regex:/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/',
   }, translateLabels(attributeLabels), false)(values),
 })(NotesGridFilter));

@@ -24,7 +24,7 @@ import {
   removeNoteMutation,
   addNoteMutation,
   removeNote,
-  addNote,
+  addPinnedNote,
 } from '../../../../../graphql/mutations/note';
 
 const mapStateToProps = (state) => {
@@ -117,9 +117,6 @@ export default compose(
   graphql(addNoteMutation, {
     name: 'addNote',
     options: ({
-      auth: {
-        fullName,
-      },
       match: {
         params: {
           id: playerUUID,
@@ -127,9 +124,6 @@ export default compose(
       },
       location: { query },
     }) => ({
-      variables: {
-        author: fullName,
-      },
       refetchQueries: [{
         query: notesQuery,
         variables: {
@@ -149,7 +143,13 @@ export default compose(
   }),
   graphql(updateNoteMutation, {
     name: 'updateNote',
-    options: () => ({
+    options: ({
+      match: {
+        params: {
+          id: playerUUID,
+        },
+      },
+    }) => ({
       update: (proxy, {
         data: {
           note: {
@@ -171,26 +171,21 @@ export default compose(
         } = proxy.readQuery({
           query: notesQuery,
           variables: {
-            targetUUID,
+            playerUUID,
             pinned: true,
           },
         });
+
         const selectedNote = content.find(({
-          uuid: noteUuid,
+          tagId: noteUuid,
         }) => noteUuid === tagId);
 
         if (selectedNote && !pinned) {
-          removeNote(proxy, {
-            targetUUID,
-            pinned: true,
-          }, tagId);
+          removeNote(proxy, { playerUUID, pinned: true }, tagId);
         }
 
         if (!selectedNote && pinned) {
-          addNote(proxy, {
-            targetUUID,
-            pinned: true,
-          }, data);
+          addPinnedNote(proxy, { playerUUID, targetUUID }, data);
         }
       },
     }),
@@ -216,12 +211,9 @@ export default compose(
           },
         },
       }) => {
+        removeNote(proxy, { playerUUID, pinned: true }, tagId);
         removeNote(proxy, {
-          targetUUID: playerUUID,
-          pinned: true,
-        }, tagId);
-        removeNote(proxy, {
-          targetUUID: playerUUID,
+          playerUUID,
           size: 10,
           page: 0,
           ...query ? query.filters : {},
@@ -255,11 +247,11 @@ export default compose(
       },
     }) => ({
       variables: {
-        targetUUID: playerUUID,
+        playerUUID,
         pinned: true,
       },
     }),
-    name: 'notes',
+    name: 'pinnedNotes',
   }),
   withNotifications,
 )(Profile);

@@ -36,14 +36,17 @@ const addNoteMutation = gql`mutation addNote(
   $content: String!
   $targetUUID: String!
   $pinned: Boolean!
+  $playerUUID: String!
 ) {
   note {
     add(
       content: $content
       targetUUID: $targetUUID
       pinned: $pinned
+      playerUUID: $playerUUID
     ) {
       data {
+        playerUUID
         tagName
         pinned
         tagId
@@ -74,7 +77,9 @@ const removeNoteMutation = gql`mutation removeNote(
   }
 }`;
 
-const addNote = (proxy, variables, data) => {
+const addPinnedNote = (proxy, params, data) => {
+  const variables = { ...params, pinned: true };
+
   try {
     const { notes } = proxy.readQuery({ query: notesQuery, variables });
     const updatedNotes = update(notes, {
@@ -105,5 +110,5 @@ export {
   addNoteMutation,
   removeNoteMutation,
   removeNote,
-  addNote,
+  addPinnedNote,
 };
