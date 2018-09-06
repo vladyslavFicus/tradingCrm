@@ -687,11 +687,7 @@
       "TITLE": "Заметки",
       "FILTER": {
         "LABELS": {
-          "SEARCH_BY": "Поиск",
-          "SEARCH_BY_PLACEHOLDER": "Поиск по",
-          "TARGET_TYPE": "Тип",
-          "CREATION_DATE_RANGE": "Период даты создания",
-          "ALL_TYPES": "Все типы"
+          "CREATION_DATE_RANGE": "Период даты создания"
         }
       }
     },

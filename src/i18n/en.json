@@ -682,11 +682,7 @@
       "TITLE": "Notes",
       "FILTER": {
         "LABELS": {
-          "SEARCH_BY": "Search",
-          "SEARCH_BY_PLACEHOLDER": "Author, targetUUID",
-          "TARGET_TYPE": "Target type",
-          "CREATION_DATE_RANGE": "Creation date range",
-          "ALL_TYPES": "All types"
+          "CREATION_DATE_RANGE": "Creation date range"
         }
       }
     },
