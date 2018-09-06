@@ -554,5 +554,15 @@ PropTypes.tradingProfile = PropTypes.shape({
   baseCurrencyEquity: PropTypes.string,
   mt4Users: PropTypes.arrayOf(PropTypes.mt4User),
 });
+PropTypes.chartEntity = PropTypes.shape({
+  entries: PropTypes.number.isRequired,
+  entryDate: PropTypes.string.isRequired,
+});
+PropTypes.paymentEntry = PropTypes.shape({
+  amount: PropTypes.number.isRequired,
+  count: PropTypes.number.isRequired,
+  entryDate: PropTypes.string.isRequired,
+});
+
 
 export default PropTypes;

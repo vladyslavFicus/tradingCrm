@@ -1,60 +1,59 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { I18n } from 'react-redux-i18n';
 import { ResponsiveContainer, LineChart, Line, YAxis, CartesianGrid, Tooltip } from 'recharts';
 import Select from '../Select';
 import ShortLoader from '../ShortLoader';
-import options from './options';
+import CustomTooltip from './CustomTooltip';
 import './Chart.scss';
 
 class Chart extends Component {
   static propTypes = {
     headerTitle: PropTypes.string.isRequired,
     onSelectChange: PropTypes.func.isRequired,
-    selectOptions: PropTypes.array,
-    config: PropTypes.shape({
-      className: PropTypes.string,
-      width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-      height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-      data: PropTypes.arrayOf(PropTypes.shape({
-        name: PropTypes.string.isRequired,
-        entries: PropTypes.number.isRequired,
-      })),
-      yAxis: PropTypes.shape({
-        minTickGap: PropTypes.number,
-        axisLine: PropTypes.bool,
+    selectOptions: PropTypes.array.isRequired,
+    className: PropTypes.string,
+    width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    data: PropTypes.arrayOf(PropTypes.object),
+    yAxis: PropTypes.shape({
+      minTickGap: PropTypes.number,
+      axisLine: PropTypes.bool,
+    }),
+    cartesianGrid: PropTypes.shape({
+      stroke: PropTypes.string,
+      horizontal: PropTypes.bool,
+    }),
+    tooltipСontent: PropTypes.string,
+    lines: PropTypes.arrayOf(
+      PropTypes.shape({
+        type: PropTypes.string.isRequired,
+        dataKey: PropTypes.string.isRequired,
+        stroke: PropTypes.string.isRequired,
       }),
-      cartesianGrid: PropTypes.shape({
-        stroke: PropTypes.string,
-        horizontal: PropTypes.bool,
-      }),
-      tooltip: PropTypes.shape({
-        content: PropTypes.func,
-      }),
-      lines: PropTypes.arrayOf(
-        PropTypes.shape({
-          type: PropTypes.string.isRequired,
-          dataKey: PropTypes.string.isRequired,
-          stroke: PropTypes.string.isRequired,
-        }),
-      ).isRequired,
-    }).isRequired,
-    footer: PropTypes.node,
+    ).isRequired,
+    footer: PropTypes.node.isRequired,
     loading: PropTypes.bool.isRequired,
+    noResults: PropTypes.bool.isRequired,
+    noResultsText: PropTypes.string.isRequired,
   };
 
   static defaultProps = {
-    footer: null,
-    selectOptions: options,
-  };
+    className: 'chart',
+    width: '104%',
+    height: 200,
+    data: [],
+    yAxis: { minTickGap: 40, axisLine: false },
+    tooltipСontent: null,
+    cartesianGrid: { stroke: '#eee', horizontal: false },
+  }
 
   state = {
-    selectValue: this.props.selectOptions
-      .find(item => item.label === I18n.t('DASHBOARD.CHART_SELECT_OPTIONS.LAST_7_DAYS')).value,
+    selectValue: this.props.selectOptions[0].value,
   };
 
   handleSelectChange = (selectValue) => {
-    const to = this.props.selectOptions.find(item => item.value === selectValue).endDate;
+    const item = this.props.selectOptions.find(option => option.value === selectValue);
+    const to = item ? item.endDate : null;
 
     this.setState({
       selectValue,
@@ -62,23 +61,23 @@ class Chart extends Component {
       from: this.state.selectValue,
       ...(to && { to }),
     }));
-  }
+  };
 
   render() {
     const {
       headerTitle,
-      config: {
-        className,
-        width,
-        height,
-        data,
-        yAxis: { minTickGap, axisLine },
-        cartesianGrid: { stroke, horizontal },
-        tooltip: { content },
-        lines,
-      },
+      className,
+      width,
+      height,
+      data,
+      yAxis: { minTickGap, axisLine },
+      cartesianGrid: { stroke, horizontal },
+      tooltipСontent,
+      lines,
       footer,
       loading,
+      noResults,
+      noResultsText,
       selectOptions,
     } = this.props;
 
@@ -103,36 +102,41 @@ class Chart extends Component {
           </Select>
         </div>
         <Choose>
-          <When condition={!loading}>
-            <ResponsiveContainer className={className} width={width} height={height}>
-              <LineChart data={data}>
-                <YAxis minTickGap={minTickGap} axisLine={axisLine} />
-                <CartesianGrid stroke={stroke} horizontal={horizontal} />
-                <Tooltip content={content} />
-                {lines.map(({
-                  type: lineType,
-                  dataKey,
-                  stroke: lineStroke,
-                }) => (
-                  <Line
-                    key={dataKey}
-                    dataKey={dataKey}
-                    type={lineType}
-                    stroke={lineStroke}
-                  />
-                ))}
-              </LineChart>
-            </ResponsiveContainer>
-          </When>
-          <Otherwise>
+          <When condition={loading}>
             <div className="chart-short-loader">
               <ShortLoader height={25} />
             </div>
+          </When>
+          <Otherwise>
+            <Choose>
+              <When condition={!noResults}>
+                <ResponsiveContainer className={className} width={width} height={height}>
+                  <LineChart data={data}>
+                    <YAxis minTickGap={minTickGap} axisLine={axisLine} />
+                    <CartesianGrid stroke={stroke} horizontal={horizontal} />
+                    <Tooltip {...(tooltipСontent && { content: CustomTooltip(tooltipСontent) })} />
+                    {lines.map(({
+                      type: lineType,
+                      dataKey,
+                      stroke: lineStroke,
+                    }) => (
+                      <Line
+                        key={dataKey}
+                        dataKey={dataKey}
+                        type={lineType}
+                        stroke={lineStroke}
+                      />
+                    ))}
+                  </LineChart>
+                </ResponsiveContainer>
+              </When>
+              <Otherwise>
+                <div className="no-results">{noResultsText}</div>
+              </Otherwise>
+            </Choose>
           </Otherwise>
         </Choose>
-        <If condition={!loading}>
-          {footer}
-        </If>
+        {footer}
       </Fragment>
     );
   }
