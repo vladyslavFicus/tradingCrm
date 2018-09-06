@@ -97,9 +97,6 @@ export default {
     REFUSE_WITHDRAW: 'payment;POST;/payments/{playerUUID}/{paymentId}/refuse',
     CHARGEBACK_DEPOSIT: 'payment;POST;/payments/{playerUUID}/{paymentId}/chargeback',
   },
-  NOTE: {
-    NOTES_LIST: 'note;GET;/notes',
-  },
   AUDIT: {
     PLAYER_AUDIT_LOGS: 'audit;GET;/audit/logs/{playerUUID}',
   },
@@ -124,10 +121,8 @@ export default {
     PLAYER_FREE_SPIN_LIST: 'free_spin;GET;/free-spins/{playerUUID}',
   },
   NOTES: {
-    ADD_NOTE: 'note;POST;/notes',
-    UPDATE_NOTE: 'note;PUT;/notes/{noteId}',
-    DELETE_NOTE: 'note;DELETE;/notes/{noteId}',
-    VIEW_NOTES: 'note;GET;/notes',
+    ADD_NOTE: 'tag;POST;/',
+    VIEW_NOTES: 'tag;GET;/tags/{playerUUID}',
   },
   CMS_GAMES: {
     VIEW_LIST: 'cms_game;GET;/',

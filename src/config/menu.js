@@ -52,7 +52,7 @@ const userProfileTabs = [
   {
     label: 'Notes',
     url: '/players/:id/notes',
-    permissions: new Permissions(permissions.NOTE.NOTES_LIST),
+    permissions: new Permissions(permissions.NOTES.VIEW_NOTES),
   },
   {
     label: 'Feed',
