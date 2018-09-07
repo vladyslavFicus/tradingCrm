@@ -6,6 +6,7 @@ import {
   addWageringFulfillment,
   updateDepositFulfillment,
 } from '.././../../../../../../graphql/mutations/fulfillments';
+import { createOrLinkTagMutation } from '.././../../../../../../graphql/mutations/tag';
 import { withNotifications } from '../../../../../../../components/HighOrder';
 import SettingsView from '../components/SettingsView';
 
@@ -30,5 +31,8 @@ export default compose(
   }),
   graphql(updateMutation, {
     name: 'updateCampaign',
+  }),
+  graphql(createOrLinkTagMutation, {
+    name: 'createOrLinkTag',
   }),
 )(SettingsView);

@@ -19,9 +19,9 @@
 
 .chart-select .form-control {
   height: 35px;
-  line-height: 20px;
-  .select-icon {
-    top: 10px;
+  line-height: 18px;
+  .select__toggle-icon {
+    top: 55%;
   }
 }
 
@@ -31,4 +31,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.no-results {
+  @extend .chart-short-loader;
+  font-size: 20px;
+  letter-spacing: 2px;
 }

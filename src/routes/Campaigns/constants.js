@@ -15,6 +15,7 @@ const attributeLabels = {
 const rewardTemplateTypes = keyMirror({
   BONUS: null,
   FREE_SPIN: null,
+  TAG: null,
 });
 
 const fulfillmentTypes = keyMirror({
@@ -40,6 +41,7 @@ const nodeGroupValidateMessage = {
 const rewardTypesLabels = {
   [rewardTemplateTypes.BONUS]: I18n.t('CAMPAIGNS.BONUS_TEMPLATE'),
   [rewardTemplateTypes.FREE_SPIN]: I18n.t('CAMPAIGNS.FREE_SPIN_TEMPLATE'),
+  [rewardTemplateTypes.TAG]: I18n.t('CAMPAIGNS.REWARDS.TAG.TITLE'),
 };
 
 const fulfillmentTypesLabels = {

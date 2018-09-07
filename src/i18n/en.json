@@ -958,7 +958,8 @@
         "RESET_PASSWORD": "Reset password",
         "CHANGE_PASSWORD": "Change password",
         "NEM_ID_SIGN_IN": "NEM-ID sign in",
-        "PLAYER_PROFILE_STATUS_CHANGED": "Status change"
+        "PLAYER_PROFILE_STATUS_CHANGED": "Status change",
+        "ACCEPTED_TERMS": "Terms & conditions accepted"
       },
       "KYC_CONFIRMATION": {
         "TRANSACTION": "Transaction ID",
@@ -1333,6 +1334,9 @@
       "COOLOFF_END_DATE": "End date",
       "COMMENT": "Comment",
       "REASON": "Reason"
+    },
+    "ACCEPTED_TERMS": {
+      "TERMS_UUID": "UUID"
     }
   },
   "LOGGED_FORBIDDEN": {
@@ -2059,17 +2063,42 @@
     }
   },
   "DASHBOARD": {
-    "REGISTRATIONS": "Registrations",
-    "TOTAL_REGISTERED": "Total Registered",
-    "PERMISSION_DENIED": {
-      "TITLE": "Permission denied",
-      "REASON": "You do not have permission to access this section"
+    "REGISTRATION_CHART": {
+      "TITLE": "Registrations",
+      "FOOTER_TITLE": "Total Registered",
+      "TOOLTIP_TITLE": "Registered Users: ",
+      "NO_RESULTS_TEXT": "No results for selected period"
+    },
+    "DEPOSITS_AMOUNT_CHART": {
+      "TITLE": "Deposits Amount",
+      "FOOTER_TITLE": "Total Deposited Amount",
+      "TOOLTIP_TITLE": "Deposited Amount: ",
+      "NO_RESULTS_TEXT": "No results for selected period"
+    },
+    "DEPOSITS_COUNT_CHART": {
+      "TITLE": "Deposits Count",
+      "FOOTER_TITLE": "Total Deposits Count",
+      "TOOLTIP_TITLE": "Deposits Count: ",
+      "NO_RESULTS_TEXT": "No results for selected period"
+    },
+    "WITHDRAWS_AMOUNT_CHART": {
+      "TITLE": "Withdraws Amount",
+      "FOOTER_TITLE": "Total Withdrawn Amount",
+      "TOOLTIP_TITLE": "Withdrawn Amount: ",
+      "NO_RESULTS_TEXT": "No results for selected period"
+    },
+    "WITHDRAWS_COUNT_CHART": {
+      "TITLE": "Withdraws Count",
+      "FOOTER_TITLE": "Total Withdraws Count",
+      "TOOLTIP_TITLE": "Withdraws Count: ",
+      "NO_RESULTS_TEXT": "No results for selected period"
     },
     "CHART_SELECT_OPTIONS": {
-      "TODAY": "Today",
-      "YESTERDAY": "Yesterday",
+      "CURRENT_WEEK": "Current Week",
       "LAST_7_DAYS": "Last 7 days",
-      "PAST_WEEK": "Past week"
+      "PAST_WEEK": "Past Week",
+      "LAST_MONTH": "Last Month",
+      "PAST_MONTH": "Past Month"
     }
   },
   "CAMPAIGNS": {
@@ -2196,6 +2225,10 @@
       "PERIOD": "Period"
     },
     "REWARDS": {
+      "TAG": {
+        "TITLE": "Tag",
+        "NAME": "Name"
+      },
       "FREE_SPIN": {
         "LIFE_TIME": "Life time",
         "ADD_FREE_SPIN": "Create template",

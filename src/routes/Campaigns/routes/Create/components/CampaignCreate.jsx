@@ -1,11 +1,13 @@
 import React, { PureComponent } from 'react';
 import { I18n } from 'react-redux-i18n';
-import { get } from 'lodash';
+import { v4 } from 'uuid';
+import { get, set } from 'lodash';
+import { SubmissionError } from 'redux-form';
 import PropTypes from '../../../../../constants/propTypes';
 import Header from './Header';
 import Form from '../../../components/Form';
 import asyncForEach from '../../../../../utils/asyncForEach';
-import { fulfillmentTypes } from '../../../constants';
+import { fulfillmentTypes, rewardTemplateTypes } from '../../../constants';
 import history from '../../../../../router/history';
 import { targetTypes } from '../../../../../constants/campaigns';
 
@@ -24,15 +26,29 @@ class CampaignCreate extends PureComponent {
       updateCampaign,
       notify,
       addWageringFulfillment,
+      createOrLinkTag,
       addDepositFulfillment,
     } = this.props;
 
+    const rewards = await Promise.all(formData.rewards.map(async ({ uuid, deviceType, type, tagName }) => {
+      let tempUUID = uuid;
+      if (!uuid && type === rewardTemplateTypes.TAG) {
+        const result = await createOrLinkTag({ variables: { tagId: `TAG-${v4()}`, tagName } });
+        const { data } = get(result, 'data.tag.createOrLink', { data: '', error: '' });
+
+        if (data) {
+          tempUUID = data[0].tagId;
+        }
+      }
+
+      return {
+        uuid: tempUUID,
+        type: deviceType || 'ALL',
+      };
+    }));
     const campaignData = {
       ...formData,
-      rewards: formData.rewards.map(({ uuid, deviceType }) => ({
-        uuid,
-        type: deviceType,
-      })),
+      rewards,
       fulfillments: [],
     };
 
@@ -69,14 +85,27 @@ class CampaignCreate extends PureComponent {
         }
       }
 
+      notify({
+        level: 'success',
+        title: I18n.t('CAMPAIGNS.VIEW.NOTIFICATIONS.ADD_CAMPAIGN'),
+        message: I18n.t('CAMPAIGNS.VIEW.NOTIFICATIONS.SUCCESSFULLY'),
+      });
       history.push(`/campaigns/view/${campaignUUID}/settings`);
-    }
+    } else {
+      const fieldsErrors = {};
 
-    notify({
-      level: error ? 'error' : 'success',
-      title: I18n.t('CAMPAIGNS.VIEW.NOTIFICATIONS.ADD_CAMPAIGN'),
-      message: I18n.t(`CAMPAIGNS.VIEW.NOTIFICATIONS.${error ? 'UNSUCCESSFULLY' : 'SUCCESSFULLY'}`),
-    });
+      if (error && error.fields_errors) {
+        Object.keys(error.fields_errors).forEach(i => set(fieldsErrors, i, error.fields_errors[i]));
+      }
+
+      notify({
+        level: 'error',
+        title: I18n.t('CAMPAIGNS.VIEW.NOTIFICATIONS.ADD_CAMPAIGN'),
+        message: I18n.t('CAMPAIGNS.VIEW.NOTIFICATIONS.UNSUCCESSFULLY'),
+      });
+
+      throw new SubmissionError({ ...fieldsErrors });
+    }
   };
 
   render() {

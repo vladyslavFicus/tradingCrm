@@ -22,8 +22,8 @@ export default (values) => {
     rules['capping.absolute[0].amount'] = ['numeric', 'min:1', 'max: 1000000'];
     rules['prize.absolute[0].amount'] = ['numeric', 'min:1', 'max: 1000000', 'lessOrSame:capping.absolute[0].amount'];
   } else {
-    rules['capping.percentage'] = ['required', 'numeric', 'greater:0'];
-    rules['prize.percentage'] = ['required', 'numeric', 'greater:0', 'lessOrSame:capping.percentage'];
+    rules['capping.percentage'] = ['numeric', 'greater:0'];
+    rules['prize.percentage'] = ['numeric', 'greater:0', 'lessOrSame:capping.percentage'];
   }
 
   if (values.grantRatio.type === customValueFieldTypes.PERCENTAGE) {
