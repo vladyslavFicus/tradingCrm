@@ -10,6 +10,7 @@ const attributeLabels = {
   providerId: I18n.t('CAMPAIGNS.FREE_SPIN.PROVIDER'),
   aggregatorId: I18n.t('CAMPAIGNS.FREE_SPIN.AGGREGATOR'),
   gameId: I18n.t('CAMPAIGNS.FREE_SPIN.GAME'),
+  supportedGames: I18n.t('CAMPAIGNS.FREE_SPIN.SUPPORTED_GAMES'),
   gameType: I18n.t('CAMPAIGNS.FREE_SPIN.GAME_TYPE'),
   availabilityDateRange: I18n.t('PLAYER_PROFILE.FREE_SPIN.MODAL_CREATE.ATTRIBUTES_LABELS.AVAILABILITY_DATE_RANGE'),
   startDate: I18n.t('PLAYER_PROFILE.FREE_SPIN.MODAL_CREATE.ATTRIBUTES_LABELS.START_DATE'),
@@ -42,7 +43,6 @@ const attributeLabels = {
 const attributePlaceholders = {
   days: I18n.t('CAMPAIGNS.FREE_SPIN.PLACEHOLDERS.DAYS'),
 };
-
 
 export {
   attributeLabels,

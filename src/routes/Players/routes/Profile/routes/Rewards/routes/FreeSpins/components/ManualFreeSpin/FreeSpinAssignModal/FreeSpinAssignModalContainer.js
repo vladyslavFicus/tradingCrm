@@ -1,14 +1,18 @@
 import { graphql, compose } from 'react-apollo';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
+import { get } from 'lodash';
 import {
-  freeSpinTemplatesQuery, freeSpinTemplateQuery,
+  freeSpinTemplatesQuery,
+  freeSpinTemplateQuery,
 } from '.././../../../../../../../../../../graphql/queries/campaigns';
 import { currencyQuery } from '../../../../../../../../../../../graphql/queries/options';
 import FreeSpinAssignModal from './FreeSpinAssignModal';
 import FreeSpinCreateModal from '../FreeSpinCreateModal';
 import { withModals, withReduxFormValues } from '../../../../../../../../../../../components/HighOrder';
 import validator from './validator';
+import { getBrandId } from '../../../../../../../../../../../config';
+import { gameListQuery } from '../../../../../../../../../../../graphql/queries/games';
 
 const FORM_NAME = 'assignFreeSpinModal';
 
@@ -44,5 +48,26 @@ export default compose(
       !formValues || !formValues.uuid || loading || !freeSpinTemplates.find(({ uuid: id }) => id === formValues.uuid)
     ),
     name: 'freeSpinTemplate',
+  }),
+  graphql(gameListQuery, {
+    name: 'games',
+    skip: ({ freeSpinTemplate }) => {
+      const { providerId, aggregatorId } = get(freeSpinTemplate, 'freeSpinTemplate.data', {});
+
+      return !providerId || !aggregatorId;
+    },
+    options: ({ freeSpinTemplate }) => {
+      const { providerId, aggregatorId } = get(freeSpinTemplate, 'freeSpinTemplate.data', {});
+
+      return {
+        variables: {
+          page: 0,
+          size: 9999,
+          brandId: getBrandId(),
+          gameProvider: providerId,
+          aggregator: aggregatorId,
+        },
+      };
+    },
   }),
 )(FreeSpinAssignModal);
