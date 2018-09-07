@@ -37,7 +37,7 @@ export default (values, {
     claimable: ['boolean'],
   };
 
-  rules = fields.reduce((acc, curr) => ({ ...acc, [curr]: rules[curr] }), {});
+  rules = fields.reduce((acc, curr) => ({ ...acc, [curr]: rules[curr] || [] }), {});
 
   return createValidator({
     ...rules,
