@@ -200,7 +200,13 @@ class View extends Component {
           message,
         });
       } else if (unsavedNote) {
-        this.context.onAddNote({ variables: { ...unsavedNote, targetUUID: playerUUID } });
+        this.context.onAddNote({
+          variables: {
+            ...unsavedNote,
+            targetUUID: playerUUID,
+            playerUUID,
+          },
+        });
       }
     }
 
@@ -236,7 +242,13 @@ class View extends Component {
 
     if (action && !action.error) {
       if (unsavedNote) {
-        this.context.onAddNote({ variables: { ...unsavedNote, targetUUID: playerUUID } });
+        this.context.onAddNote({
+          variables: {
+            ...unsavedNote,
+            targetUUID: playerUUID,
+            playerUUID,
+          },
+        });
       }
     }
 
@@ -257,7 +269,12 @@ class View extends Component {
 
     if (action && !action.error) {
       if (unsavedNote) {
-        this.context.onAddNote({ variables: { ...unsavedNote, targetUUID: playerUUID } });
+        this.context.onAddNote({
+          variables: {
+            ...unsavedNote,
+            targetUUID: playerUUID,
+            playerUUID,
+          } });
       }
     }
 
@@ -276,7 +293,13 @@ class View extends Component {
 
     if (action && !action.error) {
       if (unsavedNote) {
-        this.context.onAddNote({ variables: { ...unsavedNote, targetUUID: playerUUID } });
+        this.context.onAddNote({
+          variables: {
+            ...unsavedNote,
+            targetUUID: playerUUID,
+            playerUUID,
+          },
+        });
       }
     }
 

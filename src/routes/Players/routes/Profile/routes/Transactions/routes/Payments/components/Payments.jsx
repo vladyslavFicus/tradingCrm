@@ -246,7 +246,13 @@ class Payments extends Component {
       throw new SubmissionError({ _error: errors });
     } else {
       if (unsavedNote) {
-        await this.context.onAddNote({ variables: { ...unsavedNote, targetUUID: action.payload.paymentId } });
+        await this.context.onAddNote({
+          variables: {
+            ...unsavedNote,
+            targetUUID: action.payload.paymentId,
+            playerUUID,
+          },
+        });
       }
 
       resetNote();
