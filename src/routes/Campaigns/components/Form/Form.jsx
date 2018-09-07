@@ -22,6 +22,7 @@ import {
 import NodeBuilder from '../NodeBuilder';
 import { BonusView } from '../Rewards/Bonus';
 import { FreeSpinView } from '../Rewards/FreeSpin';
+import Tag from '../Rewards/Tag';
 import { WageringView } from '../Wagering';
 import DepositFulfillmentView from '../DepositFulfillmentView';
 import { createValidator, translateLabels } from '../../../../utils/validator';
@@ -76,7 +77,7 @@ class Form extends Component {
   getAllowedNodes = (items, prefix = '') => {
     const { permissions: currentPermissions } = this.context;
 
-    return items.filter(({ type }) =>
+    return items.filter(({ type }) => !permissions[`${type}${prefix}`] ||
       new Permissions(permissions[`${type}${prefix}`].CREATE &&
         permissions[`${type}${prefix}`].VIEW).check(currentPermissions))
       .reduce((acc, { type, component }) => ({ ...acc, [type]: component }), {});
@@ -367,6 +368,7 @@ class Form extends Component {
               this.getAllowedNodes([
                 { type: rewardTemplateTypes.BONUS, component: BonusView },
                 { type: rewardTemplateTypes.FREE_SPIN, component: FreeSpinView },
+                { type: rewardTemplateTypes.TAG, component: Tag },
               ], '_TEMPLATE')
             }
             typeLabels={rewardTypesLabels}
@@ -439,10 +441,16 @@ export default compose(
       }
 
       rewards.forEach((reward, index) => {
-        rules.rewards[index] = {
-          deviceType: ['required'],
-          uuid: ['required'],
-        };
+        if (reward.type === rewardTemplateTypes.TAG) {
+          rules.rewards[index] = {
+            tagName: ['required'],
+          };
+        } else {
+          rules.rewards[index] = {
+            deviceType: ['required'],
+            uuid: ['required'],
+          };
+        }
       });
 
       return createValidator(rules, translateLabels(attributeLabels), false)(values);

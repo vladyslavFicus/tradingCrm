@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { I18n } from 'react-redux-i18n';
 import { get, isEqual } from 'lodash';
+import { v4 } from 'uuid';
 import PropTypes from '../../../../../../../constants/propTypes';
 import Form from '../../../../../components/Form';
 import { statuses } from '../../../../../../../constants/bonus-campaigns';
 import asyncForEach from '../../../../../../../utils/asyncForEach';
-import { fulfillmentTypes } from '../../../../../constants';
+import { fulfillmentTypes, rewardTemplateTypes } from '../../../../../constants';
 import Permissions from '../../../../../../../utils/permissions';
 import permissions from '../../../../../../../config/permissions';
 import deepRemoveKeyByRegex from '../../../../../../../utils/deepKeyPrefixRemove';
@@ -34,6 +35,7 @@ class SettingsView extends Component {
       addWageringFulfillment,
       addDepositFulfillment,
       updateDepositFulfillment,
+      createOrLinkTag,
       campaign: {
         campaign: {
           data: {
@@ -90,14 +92,27 @@ class SettingsView extends Component {
       }
     });
 
+    const rewards = await Promise.all(formData.rewards.map(async ({ uuid, deviceType, type, tagName }) => {
+      let tempUUID = uuid;
+      if (!uuid && type === rewardTemplateTypes.TAG) {
+        const result = await createOrLinkTag({ variables: { tagId: `TAG-${v4()}`, tagName } });
+        const { data } = get(result, 'data.tag.createOrLink', { data: '', error: '' });
+
+        if (data) {
+          tempUUID = data[0].tagId;
+        }
+      }
+
+      return {
+        uuid: tempUUID,
+        type: deviceType || 'ALL',
+      };
+    }));
     const action = await updateCampaign({
       variables: {
         ...formData,
         uuid: data.uuid,
-        rewards: formData.rewards.map(({ uuid, deviceType }) => ({
-          uuid,
-          type: deviceType,
-        })),
+        rewards,
         fulfillments,
       },
     });

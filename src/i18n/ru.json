@@ -2214,6 +2214,10 @@
       "PERIOD": "Период"
     },
     "REWARDS": {
+      "TAG": {
+        "TITLE": "Тег",
+        "NAME": "Название"
+      },
       "FREE_SPIN": {
         "LIFE_TIME": "Время жизни",
         "ADD_FREE_SPIN": "Создать шаблон",
