@@ -46,7 +46,7 @@ export default (values, {
     rules.coins.push(`max:${coinsMax}`);
   }
 
-  rules = fields.reduce((acc, curr) => ({ ...acc, [curr]: rules[curr] }), {});
+  rules = fields.reduce((acc, curr) => ({ ...acc, [curr]: rules[curr] || [] }), {});
 
   return createValidator({
     ...rules,
