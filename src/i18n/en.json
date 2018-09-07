@@ -958,7 +958,8 @@
         "RESET_PASSWORD": "Reset password",
         "CHANGE_PASSWORD": "Change password",
         "NEM_ID_SIGN_IN": "NEM-ID sign in",
-        "PLAYER_PROFILE_STATUS_CHANGED": "Status change"
+        "PLAYER_PROFILE_STATUS_CHANGED": "Status change",
+        "ACCEPTED_TERMS": "Terms & conditions accepted"
       },
       "KYC_CONFIRMATION": {
         "TRANSACTION": "Transaction ID",
@@ -1333,6 +1334,9 @@
       "COOLOFF_END_DATE": "End date",
       "COMMENT": "Comment",
       "REASON": "Reason"
+    },
+    "ACCEPTED_TERMS": {
+      "TERMS_UUID": "UUID"
     }
   },
   "LOGGED_FORBIDDEN": {

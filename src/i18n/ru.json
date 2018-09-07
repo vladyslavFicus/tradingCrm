@@ -965,7 +965,8 @@
         "RESET_PASSWORD": "Сброс пароля",
         "CHANGE_PASSWORD": "Изменение пароля",
         "NEM_ID_SIGN_IN": "NEM-ID вход",
-        "PLAYER_PROFILE_STATUS_CHANGED": "Изменение статуса"
+        "PLAYER_PROFILE_STATUS_CHANGED": "Изменение статуса",
+        "ACCEPTED_TERMS": "Приняты условия использования"
       },
       "KYC_CONFIRMATION": {
         "TRANSACTION": "ID транзакции",
@@ -1342,6 +1343,9 @@
       "COOLOFF_END_DATE": "Дата окончания",
       "COMMENT": "Комментарий",
       "REASON": "Причина"
+    },
+    "ACCEPTED_TERMS": {
+      "TERMS_UUID": "UUID"
     }
   },
   "LOGGED_FORBIDDEN": {

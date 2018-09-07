@@ -19,6 +19,7 @@ import FeedInfoKycConfirmation from './FeedInfoKycConfirmation';
 import FeedInfoProfileBlocks from './FeedInfoProfileBlocks';
 import FeedInfoRofusVerification from './FeedInfoRofusVerification';
 import FeedInfoPlayerProfileStatusChanged from './FeedInfoPlayerProfileStatusChanged';
+import FeedInfoTermsAccepted from './FeedInfoTermsAccepted';
 import Uuid from '../Uuid';
 import './FeedItem.scss';
 
@@ -77,6 +78,8 @@ class FeedItem extends Component {
         return <FeedInfoPlayerProfileStatusChanged data={data} />;
       case types.PLAYER_PROFILE_RESUMED:
         return <FeedInfoPlayerProfileStatusChanged data={data} />;
+      case types.ACCEPTED_TERMS:
+        return <FeedInfoTermsAccepted data={data} />;
       default:
         return null;
     }
