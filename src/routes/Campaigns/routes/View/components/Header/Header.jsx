@@ -24,6 +24,9 @@ class Header extends Component {
     removeAllPlayers: PropTypes.func.isRequired,
     cloneCampaign: PropTypes.func.isRequired,
     data: PropTypes.newBonusCampaignEntity.isRequired,
+    modals: PropTypes.shape({
+      confirmActionModal: PropTypes.modalType,
+    }).isRequired,
   };
   static contextTypes = {
     addNotification: PropTypes.func.isRequired,
@@ -97,14 +100,18 @@ class Header extends Component {
 
   handleRemoveAllPlayers = async () => {
     const {
+      modals: { confirmActionModal },
       data: { uuid: campaignUUID },
       removeAllPlayers,
+      notify,
     } = this.props;
 
     const response = await removeAllPlayers({ variables: { campaignUUID } });
 
     if (response) {
-      this.context.addNotification({
+      confirmActionModal.hide();
+
+      notify({
         level: response.error ? 'error' : 'success',
         title: I18n.t('CAMPAIGNS.VIEW.NOTIFICATIONS.REMOVE_ALL_PLAYERS.TITLE'),
         message: response.error
@@ -112,6 +119,16 @@ class Header extends Component {
           : I18n.t('CAMPAIGNS.VIEW.NOTIFICATIONS.REMOVE_ALL_PLAYERS.SUCCESS'),
       });
     }
+  };
+
+  handleRemoveAllPlayersClick = () => {
+    const { modals: { confirmActionModal } } = this.props;
+
+    confirmActionModal.show({
+      onSubmit: this.handleRemoveAllPlayers,
+      modalTitle: I18n.t('CAMPAIGNS.REMOVE_PLAYERS.BUTTON'),
+      actionText: I18n.t('CAMPAIGNS.REMOVE_PLAYERS.MODAL_TEXT'),
+    });
   };
 
   render() {
@@ -150,7 +167,7 @@ class Header extends Component {
               <button
                 type="button"
                 className="btn btn-default-outline btn-sm mr-2"
-                onClick={this.handleRemoveAllPlayers}
+                onClick={this.handleRemoveAllPlayersClick}
               >
                 {I18n.t('CAMPAIGNS.REMOVE_PLAYERS.BUTTON')}
               </button>
