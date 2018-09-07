@@ -1,5 +1,6 @@
 import { graphql, compose } from 'react-apollo';
 import { createMutation, updateMutation } from '.././../../../../graphql/mutations/campaigns';
+import { createOrLinkTagMutation } from '.././../../../../graphql/mutations/tag';
 import { addWageringFulfillment, addDepositFulfillment } from '.././../../../../graphql/mutations/fulfillments';
 import { withNotifications } from '../../../../../components/HighOrder';
 import CampaignCreate from '../components/CampaignCreate';
@@ -11,6 +12,9 @@ export default compose(
   }),
   graphql(updateMutation, {
     name: 'updateCampaign',
+  }),
+  graphql(createOrLinkTagMutation, {
+    name: 'createOrLinkTag',
   }),
   graphql(addWageringFulfillment, {
     name: 'addWageringFulfillment',

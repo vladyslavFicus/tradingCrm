@@ -2225,6 +2225,10 @@
       "PERIOD": "Period"
     },
     "REWARDS": {
+      "TAG": {
+        "TITLE": "Tag",
+        "NAME": "Name"
+      },
       "FREE_SPIN": {
         "LIFE_TIME": "Life time",
         "ADD_FREE_SPIN": "Create template",

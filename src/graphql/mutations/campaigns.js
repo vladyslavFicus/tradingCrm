@@ -79,11 +79,7 @@ const updateMutation = gql`mutation update(
         _id
         name
         optIn
-        rewards {
-          type
-          uuid
-          deviceType
-        }
+        rewards
         fulfillments
         startDate
         endDate
