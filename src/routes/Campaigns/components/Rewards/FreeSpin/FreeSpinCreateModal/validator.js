@@ -40,7 +40,7 @@ export default (values, {
   };
 
   if (gameId) {
-    const { coinsMin, coinsMax } = get(games, 'games.content', []).find(i => i.gameId === gameId);
+    const { coinsMin, coinsMax } = get(games, 'games.content', []).find(i => i.gameId === gameId) || {};
 
     rules.coins.push(`min:${coinsMin}`);
     rules.coins.push(`max:${coinsMax}`);

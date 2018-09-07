@@ -10,6 +10,7 @@ const attributeLabels = {
   providerId: I18n.t('CAMPAIGNS.FREE_SPIN.PROVIDER'),
   aggregatorId: I18n.t('CAMPAIGNS.FREE_SPIN.AGGREGATOR'),
   gameId: I18n.t('CAMPAIGNS.FREE_SPIN.GAME'),
+  supportedGames: I18n.t('CAMPAIGNS.FREE_SPIN.SUPPORTED_GAMES'),
   gameType: I18n.t('CAMPAIGNS.FREE_SPIN.GAME_TYPE'),
   name: I18n.t('CAMPAIGNS.FREE_SPIN.NAME'),
   freeSpins: I18n.t('CAMPAIGNS.FREE_SPIN.FREE_SPINS'),

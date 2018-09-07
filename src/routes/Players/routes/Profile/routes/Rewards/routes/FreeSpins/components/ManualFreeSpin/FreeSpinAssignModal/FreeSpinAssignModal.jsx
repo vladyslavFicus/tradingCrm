@@ -7,7 +7,7 @@ import moment from 'moment';
 import { TextRow } from 'react-placeholder/lib/placeholders';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import {
-  NasSelectField, RangeGroup, DateTimeField, InputField,
+  NasSelectField, RangeGroup, DateTimeField, InputField, SelectField,
 } from '../../../../../../../../../../../components/ReduxForm';
 import MultiCurrencyView from '../../../../../../../../../../../components/MultiCurrencyView';
 import Placeholder from '../../../../../../../../../../../components/Placeholder';
@@ -21,6 +21,20 @@ import { attributeLabels } from '../constants';
 class FreeSpinAssignModal extends PureComponent {
   static propTypes = {
     uuid: PropTypes.string,
+    games: PropTypes.shape({
+      games: PropTypes.shape({
+        content: PropTypes.arrayOf(PropTypes.shape({
+          internalGameId: PropTypes.string,
+          fullGameName: PropTypes.string,
+          coinSizes: PropTypes.arrayOf(PropTypes.number),
+          betLevels: PropTypes.arrayOf(PropTypes.number),
+          pageCodes: PropTypes.arrayOf(PropTypes.shape({
+            value: PropTypes.string,
+            label: PropTypes.string,
+          })),
+        })),
+      }),
+    }),
     freeSpinTemplates: PropTypes.shape({
       freeSpinTemplates: PropTypes.arrayOf(PropTypes.shape({
         uuid: PropTypes.string,
@@ -65,6 +79,7 @@ class FreeSpinAssignModal extends PureComponent {
     freeSpinTemplate: {
       loading: true,
     },
+    games: {},
     optionCurrencies: { options: {}, loading: true },
     uuid: null,
     disabled: false,
@@ -163,13 +178,16 @@ class FreeSpinAssignModal extends PureComponent {
       formValues,
       handleSubmit,
       onSubmit,
+      games,
     } = this.props;
 
     const uuid = get(formValues, 'uuid', null);
-
     const fsTemplates = freeSpinTemplates || [];
     const fsTemplate = get(freeSpinTemplate, 'data', {});
     const gameName = get(fsTemplate, 'game.data.fullGameName', '-');
+    const supportedGames = get(fsTemplate, 'supportedGames.data', []);
+    const gameList = get(games, 'games.content', [])
+      .filter(i => supportedGames.find(g => g.internalGameId === i.internalGameId));
 
     return (
       <Modal toggle={onCloseModal} isOpen={isOpen}>
@@ -251,6 +269,22 @@ class FreeSpinAssignModal extends PureComponent {
                   className="col-md-6"
                   id="assign-free-spin-modal-freespins-amount"
                 />
+                <If condition={supportedGames.length}>
+                  <Field
+                    name="gameId"
+                    label={I18n.t(attributeLabels.gameId)}
+                    disabled={!gameList.length}
+                    component={SelectField}
+                    className="col-md-6"
+                  >
+                    <option value="">{I18n.t('PLAYER_PROFILE.FREE_SPIN.MODAL_CREATE.CHOOSE_GAME')}</option>
+                    {gameList.map(item => (
+                      <option key={item.internalGameId} value={item.gameId}>
+                        {`${item.fullGameName} (${item.gameId})`}
+                      </option>
+                    ))}
+                  </Field>
+                </If>
               </div>
               <Placeholder
                 ready={!loading}
@@ -273,26 +307,40 @@ class FreeSpinAssignModal extends PureComponent {
                       {fsTemplate.providerId}
                     </div>
                   </div>
-                  <div className="col-4">
+                  <div className="col-8">
                     {I18n.t(attributeLabels.gameId)}
-                    <div className="campaigns-template__value">
-                      {gameName}
-                    </div>
-                    <If condition={fsTemplate.gameId}>
-                      <Uuid
-                        className="mt-5"
-                        length={16}
-                        uuidPartsCount={4}
-                        uuid={fsTemplate.internalGameId || fsTemplate.gameId}
-                      />
-                    </If>
-                  </div>
-                  <div className="col-4">
-                    {I18n.t(attributeLabels.status)}
-                    <div className="campaigns-template__value">
-                      {fsTemplate.status}
+                    <div>
+                      <span className="campaigns-template__value">{gameName}</span>
+                      <If condition={fsTemplate.gameId}>
+                        {' - '}
+                        <Uuid
+                          className="mt-5"
+                          length={16}
+                          uuidPartsCount={4}
+                          uuid={fsTemplate.internalGameId || fsTemplate.gameId}
+                        />
+                      </If>
                     </div>
                   </div>
+                  <If condition={supportedGames.length}>
+                    <div className="mt-3">
+                      {I18n.t(attributeLabels.supportedGames)}
+                      <For of={supportedGames} each="game">
+                        <div key={game.internalGameId}>
+                          <span className="campaigns-template__value">{game.fullGameName}</span>
+                          <If condition={game.gameId}>
+                            {' - '}
+                            <Uuid
+                              className="mt-5"
+                              length={16}
+                              uuidPartsCount={4}
+                              uuid={game.internalGameId || game.gameId}
+                            />
+                          </If>
+                        </div>
+                      </For>
+                    </div>
+                  </If>
                 </div>
                 <div className="row no-gutters">
                   <div className="col-4">

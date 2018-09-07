@@ -146,6 +146,16 @@ const freeSpinTemplateQuery = gql`query freeSpinTemplate($uuid: String!, $aggreg
       denomination
       coins
       internalGameId
+      supportedGames {
+        data {
+          fullGameName
+          gameId
+          internalGameId
+        }
+        error {
+          error
+        }
+      }
       providerId
       game {
         data {

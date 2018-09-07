@@ -16,6 +16,7 @@ import {
   SelectField,
   MultiCurrencyValue,
   InputField,
+  NasSelectField,
   CheckBox,
 } from '../../../../../../components/ReduxForm';
 import './FreeSpinCreateModal.scss';
@@ -133,6 +134,7 @@ class FreeSpinCreateModal extends Component {
     const fields = get(this.aggregatorOptions, `[${this.props.aggregatorId}].fields`);
     this.setField('gameId', null);
     this.setField('coins', null);
+    this.setField('supportedGames', []);
 
     if (fields.indexOf('betLevel') !== -1) {
       this.setField('betLevel', 1);
@@ -144,8 +146,20 @@ class FreeSpinCreateModal extends Component {
   };
 
   handleChangeGame = ({ target: { value } }) => {
-    const { clientId, moduleId, coinsMin, coinsMax } = this.getGame(value);
+    const { clientId, moduleId, coinsMin, coinsMax, internalGameId, gameId } = this.getGame(value);
     const fields = get(this.aggregatorOptions, `[${this.props.aggregatorId}].fields`);
+    const { currentValues: { supportedGames } } = this.props;
+    let spGames = supportedGames || [];
+
+    if (!spGames.find(i => JSON.parse(i).internalGameId === internalGameId)) {
+      if (this.oldGame) {
+        const { internalGameId: oldIGD } = this.getGame(this.oldGame);
+
+        spGames = spGames.filter(i => JSON.parse(i).internalGameId !== oldIGD);
+      }
+
+      spGames.push(JSON.stringify({ gameId, internalGameId }));
+    }
 
     this.setField('clientId', fields.indexOf('clientId') !== -1 ? clientId : null);
     this.setField('moduleId', fields.indexOf('moduleId') !== -1 ? moduleId : null);
@@ -153,6 +167,8 @@ class FreeSpinCreateModal extends Component {
     if (fields.indexOf('coins') !== -1) {
       this.setField('coins', coinsMin === coinsMax ? coinsMin : null);
     }
+    this.setField('supportedGames', spGames);
+    this.oldGame = value;
   };
 
   handleChangeBonusUUID = (uuid) => {
@@ -180,7 +196,7 @@ class FreeSpinCreateModal extends Component {
     }, 100);
   });
 
-  handleSubmit = async ({ betPerLine, bonusTemplateUUID: { uuid: bonusTemplateUUID }, ...data }) => {
+  handleSubmit = async ({ betPerLine, supportedGames, bonusTemplateUUID: { uuid: bonusTemplateUUID }, ...data }) => {
     const {
       addFreeSpinTemplate, onSave, onCloseModal, reset, notify, games,
     } = this.props;
@@ -188,7 +204,12 @@ class FreeSpinCreateModal extends Component {
       get(games, 'games.content', [])
         .find(({ gameId }) => gameId === data.gameId) || {}
     ).internalGameId;
-    const variables = { ...data, bonusTemplateUUID, internalGameId };
+    const variables = {
+      ...data,
+      bonusTemplateUUID,
+      internalGameId,
+      supportedGames: supportedGames ? supportedGames.map(i => JSON.parse(i)) : [],
+    };
     const response = await addFreeSpinTemplate({ variables });
     const { error, fields_errors } = get(response, 'data.freeSpinTemplate.add.error') || {};
 
@@ -323,7 +344,7 @@ class FreeSpinCreateModal extends Component {
               label={I18n.t(attributeLabels.aggregatorId)}
               component={SelectField}
               showErrorMessage={false}
-              className="col-md-4"
+              className="col-md-6"
               id="campaign-freespin-create-modal-aggregator-id"
             >
               <option value="">{I18n.t('CAMPAIGNS.FREE_SPIN.CHOOSE_AGGREGATOR')}</option>
@@ -340,7 +361,7 @@ class FreeSpinCreateModal extends Component {
               component={SelectField}
               showErrorMessage={false}
               onChange={this.handleChangeProvider}
-              className="col-md-4"
+              className="col-md-6"
               id="campaign-freespin-create-modal-provider-id"
             >
               <option value="">{I18n.t('CAMPAIGNS.FREE_SPIN.CHOOSE_PROVIDER')}</option>
@@ -350,18 +371,38 @@ class FreeSpinCreateModal extends Component {
                 </option>
               ))}
             </Field>
+          </div>
+          <div className="row">
             <Field
               name="gameId"
               label={I18n.t(attributeLabels.gameId)}
               disabled={!gameList.length}
               onChange={this.handleChangeGame}
               component={SelectField}
-              className="col-md-4"
+              className="col-md-6"
               id="campaign-freespin-create-modal-game-id"
             >
               <option value="">{I18n.t('PLAYER_PROFILE.FREE_SPIN.MODAL_CREATE.CHOOSE_GAME')}</option>
               {gameList.map(item => (
                 <option key={item.internalGameId} value={item.gameId}>
+                  {`${item.fullGameName} (${item.gameId})`}
+                </option>
+              ))}
+            </Field>
+            <Field
+              name="supportedGames"
+              label={I18n.t(attributeLabels.supportedGames)}
+              disabled={!gameList.length}
+              component={NasSelectField}
+              className="col-md-6"
+              multiple
+              id="campaign-freespin-create-modal-supported-games"
+            >
+              {gameList.map(item => (
+                <option
+                  key={item.internalGameId}
+                  value={JSON.stringify({ gameId: item.gameId, internalGameId: item.internalGameId })}
+                >
                   {`${item.fullGameName} (${item.gameId})`}
                 </option>
               ))}
@@ -579,7 +620,7 @@ class FreeSpinCreateModal extends Component {
                 />
               </div>
             </div>
-            <If condition={fields.indexOf('bonusTemplateUUID') !== -1} >
+            <If condition={fields.indexOf('bonusTemplateUUID') !== -1}>
               <BonusView
                 onChangeUUID={this.handleChangeBonusUUID}
                 uuid={bonusTemplateUUID.uuid}

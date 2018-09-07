@@ -145,6 +145,7 @@ class FreeSpinView extends PureComponent {
     const fsTemplates = freeSpinTemplates || [];
     const fsTemplate = get(freeSpinTemplate, 'data', {});
     const gameName = get(fsTemplate, 'game.data.fullGameName', '-');
+    const supportedGames = get(fsTemplate, 'supportedGames.data', []);
 
     return (
       <div className="campaigns-template">
@@ -217,26 +218,40 @@ class FreeSpinView extends PureComponent {
                   {fsTemplate.providerId}
                 </div>
               </div>
-              <div className="col-4">
+              <div className="col-8">
                 {I18n.t(attributeLabels.gameId)}
-                <div className="campaigns-template__value">
-                  {gameName}
-                </div>
-                <If condition={fsTemplate.gameId}>
-                  <Uuid
-                    className="mt-5"
-                    length={16}
-                    uuidPartsCount={4}
-                    uuid={fsTemplate.internalGameId || fsTemplate.gameId}
-                  />
-                </If>
-              </div>
-              <div className="col-4">
-                {I18n.t(attributeLabels.status)}
-                <div className="campaigns-template__value">
-                  {fsTemplate.status}
+                <div>
+                  <span className="campaigns-template__value">{gameName}</span>
+                  <If condition={fsTemplate.gameId}>
+                    {' - '}
+                    <Uuid
+                      className="mt-5"
+                      length={16}
+                      uuidPartsCount={4}
+                      uuid={fsTemplate.internalGameId || fsTemplate.gameId}
+                    />
+                  </If>
                 </div>
               </div>
+              <If condition={supportedGames.length}>
+                <div className="mt-3">
+                  {I18n.t(attributeLabels.supportedGames)}
+                  <For of={supportedGames} each="game">
+                    <div key={game.internalGameId}>
+                      <span className="campaigns-template__value">{game.fullGameName}</span>
+                      <If condition={game.gameId}>
+                        {' - '}
+                        <Uuid
+                          className="mt-5"
+                          length={16}
+                          uuidPartsCount={4}
+                          uuid={game.internalGameId || game.gameId}
+                        />
+                      </If>
+                    </div>
+                  </For>
+                </div>
+              </If>
             </div>
             <div className="row no-gutters">
               <div className="col-4">
