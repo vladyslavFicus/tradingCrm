@@ -385,24 +385,35 @@ class Profile extends Component {
   };
 
   handleSubmitNote = async (data) => {
-    const { updateNote, addNote, auth: { fullName } } = this.props;
     const { noteChangedCallback } = this.state;
+    const {
+      updateNote,
+      addNote,
+      match: { params: { id: playerUUID } },
+    } = this.props;
 
-    if (data.uuid) {
-      const updatedNote = await updateNote({ variables: { ...data, author: fullName } });
+    if (data.tagId) {
+      const updatedNote = await updateNote({ variables: data });
 
       this.handlePopoverHide();
 
       return updatedNote;
     }
 
-    await addNote({ variables: { ...data, author: fullName } });
+    const response = await addNote({
+      variables: {
+        ...data,
+        playerUUID,
+      },
+    });
 
     this.handlePopoverHide();
 
     if (typeof noteChangedCallback === 'function') {
       noteChangedCallback();
     }
+
+    return response;
   };
 
   handlePopoverHide = () => {
