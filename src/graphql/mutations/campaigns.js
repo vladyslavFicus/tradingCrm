@@ -226,6 +226,23 @@ const removeAllPlayersMutation = gql`mutation removeAllPlayers(
   }
 }`;
 
+const fullResetCampaignMutation = gql`mutation fullResetCampaign(
+  $campaignUUID: String!,
+) {
+  campaign {
+    fullResetCampaign(
+      campaignUUID: $campaignUUID
+      ) {
+      data {
+        uuid
+      }
+      error {
+        error
+      }
+    }
+  }
+}`;
+
 const cloneMutation = gql`mutation clone($uuid: String!) {
   campaign {
     clone(uuid: $uuid) {
@@ -267,4 +284,5 @@ export {
   removeAllPlayersMutation,
   cloneMutation,
   resetPlayerMutation,
+  fullResetCampaignMutation,
 };
