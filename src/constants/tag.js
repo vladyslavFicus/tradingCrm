@@ -5,6 +5,12 @@ const tagTypes = keyMirror({
   TAG: null,
 });
 
+const tagTypeColors = {
+  [tagTypes.NOTE]: 'color-info',
+  [tagTypes.TAG]: 'color-success',
+};
+
 export {
   tagTypes,
+  tagTypeColors,
 };
