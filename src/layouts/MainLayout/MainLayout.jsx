@@ -4,7 +4,6 @@ import { I18n } from 'react-redux-i18n';
 import { get, isEqualWith } from 'lodash';
 import PropTypes from '../../constants/propTypes';
 import NotePopover from '../../components/NotePopover';
-import MiniProfilePopover from '../../components/MiniProfilePopover';
 import Header from '../../components/Header';
 import Sidebar from '../../components/Sidebar';
 import UsersPanel from '../../components/UsersPanel';
@@ -14,7 +13,6 @@ import BackToTop from '../../components/BackToTop';
 import './MainLayout.scss';
 
 const NOTE_POPOVER = 'note-popover';
-const MINI_PROFILE_POPOVER = 'mini-profile-popover';
 const popoverInitialState = {
   name: null,
   params: {},
@@ -100,6 +98,9 @@ class MainLayout extends Component {
     activePanelIndex: null,
     optionServices: {},
   };
+  static contextTypes = {
+    addNotification: PropTypes.func.isRequired,
+  };
   static childContextTypes = {
     settings: PropTypes.shape({
       sendMail: PropTypes.bool.isRequired,
@@ -124,10 +125,6 @@ class MainLayout extends Component {
       setNoteChangedCallback: PropTypes.func.isRequired,
       hidePopover: PropTypes.func.isRequired,
     }),
-    miniProfile: PropTypes.shape({
-      onShowMiniProfile: PropTypes.func.isRequired,
-      onHideMiniProfile: PropTypes.func.isRequired,
-    }),
     modals: PropTypes.shape({
       multiCurrencyModal: PropTypes.shape({
         show: PropTypes.func.isRequired,
@@ -136,22 +133,6 @@ class MainLayout extends Component {
     }).isRequired,
     services: PropTypes.arrayOf(PropTypes.string),
   };
-  static contextTypes = {
-    addNotification: PropTypes.func.isRequired,
-  };
-
-  static getDerivedStateFromProps(nextProps, prevState) {
-    if (nextProps.history.location !== prevState.location) {
-      return {
-        location: nextProps.history.location,
-        noteChangedCallback: null,
-        popover: { ...popoverInitialState },
-        miniProfilePopover: { ...popoverInitialState },
-      };
-    }
-
-    return null;
-  }
 
   constructor(props, context) {
     super(props, context);
@@ -162,7 +143,6 @@ class MainLayout extends Component {
       location,
       noteChangedCallback: null,
       popover: { ...popoverInitialState },
-      miniProfilePopover: { ...popoverInitialState },
       isOpenProfile: false,
     };
 
@@ -202,11 +182,19 @@ class MainLayout extends Component {
         setNoteChangedCallback: this.setNoteChangedCallback,
         hidePopover: this.handlePopoverHide,
       },
-      miniProfile: {
-        onShowMiniProfile: this.handleShowMiniProfile,
-        onHideMiniProfile: this.handleHideMiniProfile,
-      },
     };
+  }
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (nextProps.history.location !== prevState.location) {
+      return {
+        location: nextProps.history.location,
+        noteChangedCallback: null,
+        popover: { ...popoverInitialState },
+      };
+    }
+
+    return null;
   }
 
   componentDidMount() {
@@ -328,28 +316,6 @@ class MainLayout extends Component {
     this.updateState({ popover: { ...popoverInitialState } });
   };
 
-  handleHideMiniProfile = (callback) => {
-    this.updateState({ miniProfilePopover: { ...popoverInitialState } }, () => {
-      if (typeof callback === 'function') {
-        callback();
-      }
-    });
-  };
-
-  handleShowMiniProfile = (target, params, type, popoverMouseEvents) => {
-    this.updateState({
-      miniProfilePopover: {
-        name: MINI_PROFILE_POPOVER,
-        params: {
-          data: params,
-          target,
-          type,
-          popoverMouseEvents,
-        },
-      },
-    });
-  };
-
   handleCloseTabs = () => {
     this.props.resetPanels();
   };
@@ -363,7 +329,7 @@ class MainLayout extends Component {
       return this.props.children;
     }
 
-    const { popover, miniProfilePopover, isOpenProfile } = this.state;
+    const { popover, isOpenProfile } = this.state;
     const {
       children,
       userPanelsByManager: userPanels,
@@ -423,8 +389,7 @@ class MainLayout extends Component {
 
         <BackToTop positionChange={userPanels.length > 0} />
 
-        {
-          popover.name === NOTE_POPOVER &&
+        <If condition={popover.name === NOTE_POPOVER}>
           <NotePopover
             isOpen
             toggle={this.handlePopoverHide}
@@ -432,14 +397,7 @@ class MainLayout extends Component {
             onDelete={this.handleDeleteNoteClick}
             {...popover.params}
           />
-        }
-
-        {
-          miniProfilePopover.name === MINI_PROFILE_POPOVER &&
-          <MiniProfilePopover
-            {...miniProfilePopover.params}
-          />
-        }
+        </If>
       </Fragment>
     );
   }
