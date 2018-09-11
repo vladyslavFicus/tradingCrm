@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { v4 } from 'uuid';
 
 class Container extends Component {
   static propTypes = {
@@ -10,17 +11,19 @@ class Container extends Component {
       show: PropTypes.number,
       hide: PropTypes.number,
     }),
+    id: PropTypes.string,
+  };
+  static contextTypes = {
+    miniProfile: PropTypes.shape({
+      onShowMiniProfile: PropTypes.func.isRequired,
+    }),
   };
   static defaultProps = {
     delay: {
       show: 500,
       hide: 500,
     },
-  };
-  static contextTypes = {
-    miniProfile: PropTypes.shape({
-      onShowMiniProfile: PropTypes.func.isRequired,
-    }),
+    id: null,
   };
 
   componentDidMount() {
@@ -54,6 +57,8 @@ class Container extends Component {
     }
   };
 
+  id = this.props.id ? this.props.id.replace(/[[\]]/g, '') : v4().replace(/[0-9]/g, '');
+
   addTargetEvents = () => {
     this.target.addEventListener('mouseover', this.onMouseOver, true);
     this.target.addEventListener('mouseout', this.onMouseLeave, true);
@@ -79,22 +84,27 @@ class Container extends Component {
   hide = () => this.context.miniProfile.onHideMiniProfile();
 
   loadContent = async () => {
-    const { dataSource, target, type } = this.props;
-    const { miniProfile: { onShowMiniProfile } } = this.context;
+    const {
+      props: { dataSource, target, type },
+      context: { miniProfile: { onShowMiniProfile } },
+      id,
+      onMouseEnterPopover,
+      onMouseLeave,
+    } = this;
 
     const popoverMouseEvents = {
-      enter: this.onMouseEnterPopover,
-      leave: this.onMouseLeave,
+      enter: onMouseEnterPopover,
+      leave: onMouseLeave,
     };
 
     if (typeof dataSource === 'function') {
       const action = await dataSource(target);
 
       if (action && !action.error) {
-        onShowMiniProfile(`id-${target}`, action.payload, type, popoverMouseEvents);
+        onShowMiniProfile(`${id}-${target}`, action.payload, type, popoverMouseEvents);
       }
     } else {
-      onShowMiniProfile(`id-${target}`, dataSource, type, popoverMouseEvents);
+      onShowMiniProfile(`${id}-${target}`, dataSource, type, popoverMouseEvents);
     }
   };
 
@@ -104,7 +114,7 @@ class Container extends Component {
     return (
       <span
         className="d-inline-block"
-        id={`id-${target}`}
+        id={`${this.id}-${target}`}
         ref={(node) => {
           this.target = node;
         }}

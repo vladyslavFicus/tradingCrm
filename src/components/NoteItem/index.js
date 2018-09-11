@@ -1,3 +1,3 @@
-import NoteItem from './NoteItem';
+import NoteItemContainer from './NoteItemContainer';
 
-export default NoteItem;
+export default NoteItemContainer;
