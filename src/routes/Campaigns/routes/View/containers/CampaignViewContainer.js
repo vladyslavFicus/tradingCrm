@@ -5,6 +5,7 @@ import {
   activateMutation,
   cancelMutation,
   removeAllPlayersMutation,
+  fullResetCampaignMutation,
   cloneMutation,
 } from '.././../../../../graphql/mutations/campaigns';
 import CampaignView from '../components/CampaignView';
@@ -47,6 +48,17 @@ export default compose(
   }),
   graphql(removeAllPlayersMutation, {
     name: 'removeAllPlayers',
+    options: ({ match: { params: { id: campaignUUID } } }) => ({
+      refetchQueries: [{
+        query: campaignQuery,
+        variables: {
+          campaignUUID,
+        },
+      }],
+    }),
+  }),
+  graphql(fullResetCampaignMutation, {
+    name: 'fullResetCampaign',
     options: ({ match: { params: { id: campaignUUID } } }) => ({
       refetchQueries: [{
         query: campaignQuery,

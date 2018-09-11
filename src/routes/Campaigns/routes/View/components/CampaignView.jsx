@@ -16,6 +16,7 @@ class CampaignView extends PureComponent {
     activateMutation: PropTypes.func.isRequired,
     cancelMutation: PropTypes.func.isRequired,
     removeAllPlayers: PropTypes.func.isRequired,
+    fullResetCampaign: PropTypes.func.isRequired,
     cloneMutation: PropTypes.func.isRequired,
     location: PropTypes.object.isRequired,
     match: PropTypes.shape({
@@ -71,6 +72,7 @@ class CampaignView extends PureComponent {
       activateMutation,
       cancelMutation,
       removeAllPlayers,
+      fullResetCampaign,
     } = this.props;
 
     if (!campaign) {
@@ -91,6 +93,7 @@ class CampaignView extends PureComponent {
             activateMutation={activateMutation}
             cancelMutation={cancelMutation}
             removeAllPlayers={removeAllPlayers}
+            fullResetCampaign={fullResetCampaign}
             cloneCampaign={this.handleCloneCampaign}
           />
           <hr />

@@ -44,6 +44,10 @@ class Header extends Component {
     return this.props.data.state === statuses.ACTIVE;
   }
 
+  get isAllowFullReset() {
+    return this.props.data.state === statuses.ACTIVE;
+  }
+
   get availableStatusActions() {
     const { data: { state }, data } = this.props;
 
@@ -121,6 +125,29 @@ class Header extends Component {
     }
   };
 
+  handleFullReset = async () => {
+    const {
+      modals: { confirmActionModal },
+      data: { uuid: campaignUUID },
+      fullResetCampaign,
+      notify,
+    } = this.props;
+
+    const response = await fullResetCampaign({ variables: { campaignUUID } });
+
+    if (response) {
+      confirmActionModal.hide();
+
+      notify({
+        level: response.error ? 'error' : 'success',
+        title: I18n.t('CAMPAIGNS.VIEW.NOTIFICATIONS.FULL_RESET.TITLE'),
+        message: response.error
+          ? I18n.t('CAMPAIGNS.VIEW.NOTIFICATIONS.FULL_RESET.ERROR')
+          : I18n.t('CAMPAIGNS.VIEW.NOTIFICATIONS.FULL_RESET.SUCCESS'),
+      });
+    }
+  };
+
   handleRemoveAllPlayersClick = () => {
     const { modals: { confirmActionModal } } = this.props;
 
@@ -128,6 +155,16 @@ class Header extends Component {
       onSubmit: this.handleRemoveAllPlayers,
       modalTitle: I18n.t('CAMPAIGNS.REMOVE_PLAYERS.BUTTON'),
       actionText: I18n.t('CAMPAIGNS.REMOVE_PLAYERS.MODAL_TEXT'),
+    });
+  };
+
+  handleFullResetClick = () => {
+    const { modals: { confirmActionModal } } = this.props;
+
+    confirmActionModal.show({
+      onSubmit: this.handleFullReset,
+      modalTitle: I18n.t('CAMPAIGNS.FULL_RESET.BUTTON'),
+      actionText: I18n.t('CAMPAIGNS.FULL_RESET.MODAL_TEXT'),
     });
   };
 
@@ -145,6 +182,7 @@ class Header extends Component {
 
     const {
       isAllowPlayersUpload,
+      isAllowFullReset,
       availableUploadActions,
       availableStatusActions,
     } = this;
@@ -163,6 +201,15 @@ class Header extends Component {
             </div>
           </div>
           <div className="panel-heading-row__actions">
+            <If condition={isAllowFullReset}>
+              <button
+                type="button"
+                className="btn btn-default-outline btn-sm mr-2"
+                onClick={this.handleFullResetClick}
+              >
+                {I18n.t('CAMPAIGNS.FULL_RESET.BUTTON')}
+              </button>
+            </If>
             <If condition={isAllowPlayersUpload}>
               <button
                 type="button"

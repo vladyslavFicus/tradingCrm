@@ -2285,7 +2285,12 @@
           "ERROR": "Error while removing players",
           "SUCCESS": "All players removed"
         },
-        "RESET_PLAYERS": "Reset players"
+        "RESET_PLAYERS": "Reset players",
+        "FULL_RESET": {
+          "TITLE": "Full reset campaign",
+          "ERROR": "Error while full remove campaign",
+          "SUCCESS": "Full reset completed"
+        }
       },
       "BUTTON": {
         "ADD_PLAYERS": "+ Add players",
@@ -2336,6 +2341,10 @@
     "REMOVE_PLAYERS": {
       "BUTTON": "Remove all players",
       "MODAL_TEXT": "You are about to remove all players from the target of this campaign."
+    },
+    "FULL_RESET": {
+      "BUTTON": "Full reset",
+      "MODAL_TEXT": "You are going to perform a hard reset to the campaign. All targeted player fulfilment states will be reseted."
     }
   },
   "MULTI_CURRENCY_MODAL": {
