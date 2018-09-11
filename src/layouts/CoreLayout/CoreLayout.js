@@ -4,6 +4,7 @@ import { compose } from 'redux';
 import { I18n } from 'react-redux-i18n';
 import NotificationContainer from 'react-notification-system';
 import PropTypes from '../../constants/propTypes';
+import MiniProfilePopover from '../../components/MiniProfilePopover';
 import { actionCreators as windowActionCreators, actionTypes as windowActionTypes } from '../../redux/modules/window';
 import { actionCreators as notificationCreators } from '../../redux/modules/notifications';
 import DebugPanel from '../../components/DebugPanel';
@@ -13,6 +14,12 @@ import { actionCreators as modalActionCreators } from '../../redux/modules/modal
 import { withModals } from '../../components/HighOrder';
 import parseJson from '../../utils/parseJson';
 import '../../styles/style.scss';
+
+const popoverInitialState = {
+  name: null,
+  params: {},
+};
+const MINI_PROFILE_POPOVER = 'mini-profile-popover';
 
 class CoreLayout extends Component {
   static propTypes = {
@@ -32,20 +39,29 @@ class CoreLayout extends Component {
       confirmActionModal: PropTypes.modalType,
     }).isRequired,
   };
-
+  static childContextTypes = {
+    addNotification: PropTypes.func.isRequired,
+    miniProfile: PropTypes.shape({
+      onShowMiniProfile: PropTypes.func.isRequired,
+      onHideMiniProfile: PropTypes.func.isRequired,
+    }),
+  };
   static defaultProps = {
     notifications: [],
   };
 
-  static childContextTypes = {
-    addNotification: PropTypes.func.isRequired,
+  state = {
+    isFrameVersion: window.isFrame,
+    miniProfilePopover: { ...popoverInitialState },
   };
-
-  state = { isFrameVersion: window.isFrame };
 
   getChildContext() {
     return {
       addNotification: this.handleNotify,
+      miniProfile: {
+        onShowMiniProfile: this.handleShowMiniProfile,
+        onHideMiniProfile: this.handleHideMiniProfile,
+      },
     };
   }
 
@@ -111,17 +127,41 @@ class CoreLayout extends Component {
 
   handleReloadPage = () => location.reload(true);
 
+  handleHideMiniProfile = (callback) => {
+    this.setState({ miniProfilePopover: { ...popoverInitialState } }, () => {
+      if (typeof callback === 'function') {
+        callback();
+      }
+    });
+  };
+
+  handleShowMiniProfile = (target, params, type, popoverMouseEvents) => {
+    this.setState({
+      miniProfilePopover: {
+        name: MINI_PROFILE_POPOVER,
+        params: {
+          data: params,
+          target,
+          type,
+          popoverMouseEvents,
+        },
+      },
+    });
+  };
+
   render() {
-    const { isFrameVersion } = this.state;
+    const { isFrameVersion, miniProfilePopover } = this.state;
     const { children } = this.props;
 
     return (
       <Fragment>
         {children}
 
-        {window.showDebugPanel && <DebugPanel />}
-        {
-          !isFrameVersion &&
+        <If condition={window.showDebugPanel}>
+          <DebugPanel />
+        </If>
+
+        <If condition={!isFrameVersion}>
           <NotificationContainer
             ref={(node) => {
               this.notificationNode = node;
@@ -136,7 +176,13 @@ class CoreLayout extends Component {
               },
             }}
           />
-        }
+        </If>
+
+        <If condition={miniProfilePopover.name === MINI_PROFILE_POPOVER}>
+          <MiniProfilePopover
+            {...miniProfilePopover.params}
+          />
+        </If>
       </Fragment>
     );
   }
