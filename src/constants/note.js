@@ -26,8 +26,13 @@ const targetTypesLabels = {
   [targetTypes.KYC_REQUEST_VERIFICATION]: 'KYC Refuse',
   [targetTypes.PAYMENTACCOUNTATTACHMENT]: 'Payment account attachment',
 };
+const viewType = keyMirror({
+  POPOVER: null,
+  MODAL: null,
+});
 
 export {
   targetTypes,
   targetTypesLabels,
+  viewType,
 };

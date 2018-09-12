@@ -19,6 +19,7 @@ import Header from '../Header';
 import NotePopover from '../../../../../../components/NotePopover';
 import Information from '../Information';
 import PropTypes from '../../../../../../constants/propTypes';
+import { viewType as noteViewType } from '../../../../../../constants/note';
 import getFileBlobUrl from '../../../../../../utils/getFileBlobUrl';
 import {
   UploadModal as UploadFileModal,
@@ -147,6 +148,7 @@ class Profile extends Component {
     userProfileTabs: PropTypes.array.isRequired,
     modals: PropTypes.shape({
       confirmActionModal: PropTypes.modalType,
+      noteModal: PropTypes.modalType,
     }).isRequired,
   };
   static contextTypes = {
@@ -157,6 +159,7 @@ class Profile extends Component {
     onEditNote: PropTypes.func.isRequired,
     onAddNoteClick: PropTypes.func.isRequired,
     onEditNoteClick: PropTypes.func.isRequired,
+    onEditModalNoteClick: PropTypes.func.isRequired,
     setNoteChangedCallback: PropTypes.func.isRequired,
     hidePopover: PropTypes.func.isRequired,
     onUploadFileClick: PropTypes.func.isRequired,
@@ -184,6 +187,7 @@ class Profile extends Component {
       onEditNote: this.props.updateNote,
       onAddNoteClick: this.handleAddNoteClick,
       onEditNoteClick: this.handleEditNoteClick,
+      onEditModalNoteClick: this.handleEditModalNoteClick,
       setNoteChangedCallback: this.setNoteChangedCallback,
       hidePopover: this.handlePopoverHide,
       onUploadFileClick: this.handleUploadFileClick,
@@ -408,19 +412,43 @@ class Profile extends Component {
     });
   };
 
-  handleDeleteNoteClick = async (tagId) => {
+  handleEditModalNoteClick = (type, item) => () => {
+    const { modals: { noteModal } } = this.props;
+
+    noteModal.show({
+      type,
+      onEdit: data => this.handleSubmitNoteClick(noteViewType.MODAL, data),
+      onDelete: () => this.handleDeleteNoteClick(noteViewType.MODAL, item.tagId),
+      tagType: item.tagType,
+      initialValues: {
+        ...item,
+      },
+    });
+  };
+
+  handleDeleteNoteClick = async (viewType, tagId) => {
     const { removeNote } = this.props;
     const { noteChangedCallback } = this.state;
 
     await removeNote({ variables: { tagId } });
-    this.handlePopoverHide();
+    this.handleNoteHide(viewType);
 
     if (typeof noteChangedCallback === 'function') {
       noteChangedCallback();
     }
   };
 
-  handleSubmitNote = async (data) => {
+  handleNoteHide = (type) => {
+    const { modals: { noteModal } } = this.props;
+
+    if (type === noteViewType.POPOVER) {
+      this.handlePopoverHide();
+    } else {
+      noteModal.hide();
+    }
+  };
+
+  handleSubmitNoteClick = async (viewType, data) => {
     const { noteChangedCallback } = this.state;
     const {
       updateNote,
@@ -431,7 +459,7 @@ class Profile extends Component {
     if (data.tagId) {
       const updatedNote = await updateNote({ variables: data });
 
-      this.handlePopoverHide();
+      this.handleNoteHide(viewType);
 
       return updatedNote;
     }
@@ -443,7 +471,7 @@ class Profile extends Component {
       },
     });
 
-    this.handlePopoverHide();
+    this.handleNoteHide(viewType);
 
     if (typeof noteChangedCallback === 'function') {
       noteChangedCallback();
@@ -757,8 +785,8 @@ class Profile extends Component {
           <NotePopover
             toggle={this.handlePopoverHide}
             isOpen
-            onSubmit={this.handleSubmitNote}
-            onDelete={this.handleDeleteNoteClick}
+            onSubmit={data => this.handleSubmitNoteClick(noteViewType.POPOVER, data)}
+            onDelete={data => this.handleDeleteNoteClick(noteViewType.POPOVER, data)}
             {...popover.params}
           />
         }

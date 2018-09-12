@@ -742,7 +742,8 @@
       "SAVE_NEW_PASSWORD": "Save new password",
       "SAVE": "Save",
       "EXPORT_AS_CSV": "Export as CSV",
-      "UPDATE": "Update"
+      "UPDATE": "Update",
+      "DELETE": "Delete"
     },
     "ACTIONS": {
       "ON": "Turn on",
@@ -751,7 +752,9 @@
       "SUCCESSFULLY": "Successfully",
       "UPDATED": "Updated",
       "UPLOADED": "Uploaded",
-      "ADDED": "Added"
+      "ADDED": "Added",
+      "EDIT": "Edit",
+      "DELETE": "Delete"
     },
     "COUNT": "Count",
     "CLOSE": "Close",
@@ -2608,6 +2611,22 @@
           "manual_cooloff": "Manual Cooloff"
         }
       }
+    }
+  },
+  "NOTES": {
+    "MODAL": {
+      "DELETE_TITLE": "Delete note",
+      "EDIT_TITLE": "Edit note",
+      "REMOVE_DESCRIPTION": "You are about to delete this note",
+      "PIN": "Pin",
+      "NOTE": "Note"
+    }
+  },
+  "TAGS": {
+    "MODAL": {
+      "REMOVE_DESCRIPTION": "You are about to delete this tag",
+      "DELETE_TITLE": "Delete tag",
+      "EDIT_TITLE": "Edit tag"
     }
   }
 }

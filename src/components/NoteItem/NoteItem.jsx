@@ -4,12 +4,12 @@ import moment from 'moment';
 import classNames from 'classnames';
 import { I18n } from 'react-redux-i18n';
 import Uuid from '../Uuid';
-import PopoverButton from '../PopoverButton';
 import { entities, entitiesPrefixes } from '../../constants/uuid';
 import { tagTypeColors } from '../../constants/tag';
-import NoteIcon from '../NoteIcon';
+import ActionsDropDown from '../ActionsDropDown';
 import MiniProfile from '../../components/MiniProfile';
 import { types as miniProfileTypes } from '../../constants/miniProfile';
+import { modalType } from '../NoteModal/constants';
 import './NoteItem.scss';
 
 class NoteItem extends Component {
@@ -20,7 +20,6 @@ class NoteItem extends Component {
       targetUUID: PropTypes.string.isRequired,
       content: PropTypes.string.isRequired,
       pinned: PropTypes.bool,
-      tagId: PropTypes.string.isRequired,
     }).isRequired,
     handleNoteClick: PropTypes.func.isRequired,
     fetchOperatorMiniProfile: PropTypes.func.isRequired,
@@ -67,7 +66,6 @@ class NoteItem extends Component {
         targetUUID,
         content,
         pinned,
-        tagId,
         tagType,
       },
       handleNoteClick,
@@ -117,12 +115,18 @@ class NoteItem extends Component {
               </If>
             </div>
             <div className="col-auto pl-1">
-              <PopoverButton
-                id={`note-item-${tagId}`}
-                onClick={id => handleNoteClick(id, data)}
-              >
-                <NoteIcon type="filled" />
-              </PopoverButton>
+              <ActionsDropDown
+                items={[
+                  {
+                    label: I18n.t('COMMON.ACTIONS.EDIT'),
+                    onClick: handleNoteClick(modalType.EDIT, data),
+                  },
+                  {
+                    label: I18n.t('COMMON.ACTIONS.DELETE'),
+                    onClick: handleNoteClick(modalType.DELETE, data),
+                  },
+                ]}
+              />
             </div>
           </div>
         </div>

@@ -747,7 +747,8 @@
       "SAVE_NEW_PASSWORD": "Сохранить новый пароль",
       "SAVE": "Сохранить",
       "EXPORT_AS_CSV": "Экспортировать как CSV",
-      "UPDATE": "Обновить"
+      "UPDATE": "Обновить",
+      "DELETE": "Удалить"
     },
     "ACTIONS": {
       "ON": "Вкл",
@@ -756,7 +757,9 @@
       "SUCCESSFULLY": "Успешно",
       "UPDATED": "Обновлено",
       "UPLOADED": "Загружено",
-      "ADDED": "Добавлено"
+      "ADDED": "Добавлено",
+      "EDIT": "Редактировать",
+      "DELETE": "Удалить"
     },
     "COUNT": "Количество",
     "CLOSE": "Закрыть",
@@ -2597,6 +2600,36 @@
           "manual_cooloff": "Manual Cooloff"
         }
       }
+    }
+  },
+  "NOTES": {
+    "EDIT_MODAL": {
+      "REMOVE_DESCRIPTION": "Вы собираетесь удалить заметку",
+      "TITLE": ""
+    },
+    "MODAL": {
+      "DELETE_TITLE": "Удалить заметку",
+      "EDIT_TITLE": "Редактировать заметку",
+      "REMOVE_DESCRIPTION": "Вы собираетесь удалить заметку",
+      "PIN": "Прикреплена",
+      "NOTE": "Заметка"
+    }
+  },
+  "TAGS": {
+    "EDIT_MODAL": {
+      "REMOVE_DESCRIPTION": "",
+      "TITLE": ""
+    },
+    "MODAL": {
+      "REMOVE_DESCRIPTION": "",
+      "DELETE_TITLE": "",
+      "EDIT_TITLE": ""
+    }
+  },
+  "TAG": {
+    "MODAL": {
+      "DELETE_TITLE": "",
+      "EDIT_TITLE": ""
     }
   }
 }

@@ -74,17 +74,19 @@ class MultiCurrencyModal extends PureComponent {
 
   render() {
     const {
-      handleSubmit,
-      onCloseModal,
-      isOpen,
-      label,
-      optionCurrencies: {
-        loading,
+      props: {
+        handleSubmit,
+        onCloseModal,
+        isOpen,
+        label,
+        optionCurrencies: {
+          loading,
+        },
       },
-    } = this.props;
-    const secondaryCurrencies = this.secondaryCurrencies;
-    const baseCurrency = this.baseCurrency;
-    const baseCurrencyValue = this.baseCurrencyValue;
+      secondaryCurrencies,
+      baseCurrency,
+      baseCurrencyValue,
+    } = this;
 
     return (
       <Modal toggle={onCloseModal} isOpen={isOpen} className="currency-calc-modal">
@@ -104,7 +106,7 @@ class MultiCurrencyModal extends PureComponent {
                 </div>
                 <div className="col-4 px-3">
                   <MultiCurrencyField
-                    name={'amounts[0]'}
+                    name="amounts[0]"
                     disabled={loading}
                     currency={baseCurrency}
                     onChange={this.handleChangeBase}
