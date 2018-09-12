@@ -2603,10 +2603,6 @@
     }
   },
   "NOTES": {
-    "EDIT_MODAL": {
-      "REMOVE_DESCRIPTION": "Вы собираетесь удалить заметку",
-      "TITLE": ""
-    },
     "MODAL": {
       "DELETE_TITLE": "Удалить заметку",
       "EDIT_TITLE": "Редактировать заметку",
@@ -2616,20 +2612,10 @@
     }
   },
   "TAGS": {
-    "EDIT_MODAL": {
-      "REMOVE_DESCRIPTION": "",
-      "TITLE": ""
-    },
     "MODAL": {
-      "REMOVE_DESCRIPTION": "",
-      "DELETE_TITLE": "",
-      "EDIT_TITLE": ""
-    }
-  },
-  "TAG": {
-    "MODAL": {
-      "DELETE_TITLE": "",
-      "EDIT_TITLE": ""
+      "REMOVE_DESCRIPTION": "Вы собираетесь удалить тэг",
+      "DELETE_TITLE": "Удалить тэг",
+      "EDIT_TITLE": "Редактировать тэг"
     }
   }
 }
