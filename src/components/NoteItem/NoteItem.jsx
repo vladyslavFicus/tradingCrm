@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import { I18n } from 'react-redux-i18n';
 import Uuid from '../Uuid';
 import { entities, entitiesPrefixes } from '../../constants/uuid';
-import { tagTypeColors } from '../../constants/tag';
+import { tagTypeColors, tagTypeLetterProps } from '../../constants/tag';
 import ActionsDropDown from '../ActionsDropDown';
 import MiniProfile from '../../components/MiniProfile';
 import { types as miniProfileTypes } from '../../constants/miniProfile';
@@ -57,6 +57,16 @@ class NoteItem extends Component {
     };
   };
 
+  renderLetter = () => {
+    const { data: { tagType } } = this.props;
+
+    return (
+      <div className={classNames('note-item__letters', tagTypeLetterProps[tagType].color)}>
+        {tagTypeLetterProps[tagType].letter}
+      </div>
+    );
+  };
+
   render() {
     const {
       data,
@@ -75,6 +85,7 @@ class NoteItem extends Component {
 
     return (
       <div className="note-item">
+        {this.renderLetter()}
         <div className="note-item__content-wrapper">
           <div className="note-item__heading">
             <If condition={changedBy}>
@@ -103,18 +114,20 @@ class NoteItem extends Component {
               <Uuid uuid={targetUUID} uuidPrefix={entitiesPrefixes[targetType]} />
             </div>
           </div>
-          <div className="row no-gutters note-item__body">
+          <div className="row">
             <div className="col">
-              <div className="note-item__content">
-                {content}
+              <div className="note-item__body">
+                <div className="note-item__content">
+                  {content}
+                </div>
+                <If condition={pinned}>
+                  <span className="note-item__pinned-note-badge">
+                    {I18n.t('COMMON.PINNED_NOTE')}
+                  </span>
+                </If>
               </div>
-              <If condition={pinned}>
-                <span className="note-item__pinned-note-badge">
-                  {I18n.t('COMMON.PINNED_NOTE')}
-                </span>
-              </If>
             </div>
-            <div className="col-auto pl-1">
+            <div className="col-auto">
               <ActionsDropDown
                 items={[
                   {

@@ -10,7 +10,19 @@ const tagTypeColors = {
   [tagTypes.TAG]: 'color-success',
 };
 
+const tagTypeLetterProps = {
+  [tagTypes.NOTE]: {
+    color: 'blue',
+    letter: 'N',
+  },
+  [tagTypes.TAG]: {
+    color: 'green',
+    letter: 'T',
+  },
+};
+
 export {
   tagTypes,
   tagTypeColors,
+  tagTypeLetterProps,
 };
