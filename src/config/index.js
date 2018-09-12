@@ -126,6 +126,7 @@ function getLogo() {
     'cerberus',
     'casino_999_dk',
     'nasfx',
+    'grandbet',
   ];
   const brandId = getBrandId();
 
