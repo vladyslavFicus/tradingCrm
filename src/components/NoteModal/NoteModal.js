@@ -3,12 +3,11 @@ import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { reduxForm, Field } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
 import classNames from 'classnames';
-import ReactSwitch from '../../components/ReactSwitch';
 import PropTypes from '../../constants/propTypes';
 import { tagTypes } from '../../constants/tag';
 import { createValidator, translateLabels } from '../../utils/validator';
 import './NoteModal.scss';
-import { TextAreaField } from '../../components/ReduxForm';
+import { TextAreaField, SwitchField } from '../../components/ReduxForm';
 import { attributeLabels, modalType } from './constants';
 
 const FORM_NAME = 'noteModalForm';
@@ -60,23 +59,6 @@ class NoteModal extends Component {
     const { type, onEdit, onDelete } = this.props;
 
     return type === modalType.EDIT ? onEdit(data) : onDelete(data);
-  };
-
-  renderSwitchField = ({ input, label, wrapperClassName, id }) => {
-    const onClick = () => input.onChange(!input.value);
-
-    return (
-      <div className={wrapperClassName}>
-        <ReactSwitch
-          on={input.value}
-          onClick={onClick}
-          id={id}
-        />
-        <button type="button" className="note-popover__pin-label" onClick={onClick}>
-          {label}
-        </button>
-      </div>
-    );
   };
 
   render() {
@@ -135,7 +117,7 @@ class NoteModal extends Component {
                 name="pinned"
                 wrapperClassName="margin-top-30"
                 label={I18n.t(attributeLabels.pin)}
-                component={this.renderSwitchField}
+                component={SwitchField}
               />
             </Otherwise>
           </Choose>

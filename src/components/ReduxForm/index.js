@@ -11,6 +11,7 @@ import TypeValueField from './TypeValueField';
 import CheckBox from './CheckBox';
 import RangeGroup from './RangeGroup';
 import FileInput from './FileInput';
+import SwitchField from './SwitchField';
 
 export {
   CustomValueField,
@@ -26,4 +27,5 @@ export {
   CheckBox,
   RangeGroup,
   FileInput,
+  SwitchField,
 };
