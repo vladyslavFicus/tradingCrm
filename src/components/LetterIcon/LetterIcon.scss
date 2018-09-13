@@ -1,4 +1,4 @@
-@import "../variables";
+@import "../../styles/variables";
 
 .letters-icon {
   flex: 0 0 40px;
@@ -13,13 +13,13 @@
   font-size: 22px;
   font-weight: 600;
   color: #fff;
-  &.blue {
+&.blue {
     background-color: $color-primary;
   }
-  &.green {
+&.green {
     background-color: green;
   }
-  &.orange {
+&.orange {
     background-color: #ff9900;
   }
 }
