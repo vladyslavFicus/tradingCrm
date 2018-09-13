@@ -21,6 +21,7 @@ const rewardTemplateTypes = keyMirror({
 const fulfillmentTypes = keyMirror({
   WAGERING: null,
   DEPOSIT: null,
+  GAMING: null,
 });
 
 const nodeGroups = keyMirror({
@@ -47,6 +48,7 @@ const rewardTypesLabels = {
 const fulfillmentTypesLabels = {
   [fulfillmentTypes.WAGERING]: I18n.t('CAMPAIGNS.WAGERING_FULFILLMENT'),
   [fulfillmentTypes.DEPOSIT]: I18n.t('CAMPAIGNS.DEPOSIT_FULFILLMENT'),
+  [fulfillmentTypes.GAMING]: I18n.t('CAMPAIGNS.GAMING_FULFILLMENT'),
 };
 
 const optInSelect = {

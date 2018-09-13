@@ -1,11 +1,17 @@
 import { graphql, compose } from 'react-apollo';
+import { connect } from 'react-redux';
 import { createMutation, updateMutation } from '.././../../../../graphql/mutations/campaigns';
 import { createOrLinkTagMutation } from '.././../../../../graphql/mutations/tag';
-import { addWageringFulfillment, addDepositFulfillment } from '.././../../../../graphql/mutations/fulfillments';
+import {
+  addWageringFulfillment,
+  addDepositFulfillment,
+  addGamingFulfillment,
+} from '.././../../../../graphql/mutations/fulfillments';
 import { withNotifications } from '../../../../../components/HighOrder';
 import CampaignCreate from '../components/CampaignCreate';
 
 export default compose(
+  connect(({ auth: { brandId } }) => ({ brandId })),
   withNotifications,
   graphql(createMutation, {
     name: 'createCampaign',
@@ -21,5 +27,8 @@ export default compose(
   }),
   graphql(addDepositFulfillment, {
     name: 'addDepositFulfillment',
+  }),
+  graphql(addGamingFulfillment, {
+    name: 'addGamingFulfillment',
   }),
 )(CampaignCreate);

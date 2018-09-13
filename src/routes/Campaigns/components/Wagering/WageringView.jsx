@@ -1,8 +1,8 @@
 import React, { PureComponent } from 'react';
 import { I18n } from 'react-redux-i18n';
-import { MultiCurrencyValue } from '../../../../../components/ReduxForm';
-import PropTypes from '../../../../../constants/propTypes';
-import { attributeLabels } from '../constants';
+import { MultiCurrencyValue } from '../../../../components/ReduxForm';
+import PropTypes from '../../../../constants/propTypes';
+import { attributeLabels } from './constants';
 
 class WageringView extends PureComponent {
   static propTypes = {

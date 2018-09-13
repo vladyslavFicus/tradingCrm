@@ -1,5 +1,3 @@
 import WageringView from './WageringView';
 
-export {
-  WageringView,
-};
+export default WageringView;

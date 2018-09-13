@@ -195,21 +195,6 @@ const freeSpinTemplateOptionsQuery = gql`query freeSpinOptions {
   freeSpinOptions
 }`;
 
-const wageringQuery = gql`query wagering($uuid: String!) {
-  wagering(uuid: $uuid) {
-    data {
-      uuid
-      amounts {
-        amount,
-        currency
-      }
-    }
-    error {
-      error
-    }
-  }
-}`;
-
 const depositFulfillmentQuery = gql`query depositFulfillment($uuid: String!) {
   depositFulfillment(uuid: $uuid) {
     data {
@@ -239,6 +224,5 @@ export {
   shortBonusTemplatesQuery,
   bonusTemplateQuery,
   freeSpinTemplateOptionsQuery,
-  wageringQuery,
   depositFulfillmentQuery,
 };
