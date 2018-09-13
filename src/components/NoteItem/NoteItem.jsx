@@ -8,6 +8,7 @@ import { entities, entitiesPrefixes } from '../../constants/uuid';
 import { tagTypeColors, tagTypeLetterProps } from '../../constants/tag';
 import ActionsDropDown from '../ActionsDropDown';
 import MiniProfile from '../../components/MiniProfile';
+import LetterIcon from '../../components/LetterIcon';
 import { types as miniProfileTypes } from '../../constants/miniProfile';
 import { modalType } from '../NoteModal/constants';
 import './NoteItem.scss';
@@ -57,16 +58,6 @@ class NoteItem extends Component {
     };
   };
 
-  renderLetter = () => {
-    const { data: { tagType } } = this.props;
-
-    return (
-      <div className={classNames('note-item__letters', tagTypeLetterProps[tagType].color)}>
-        {tagTypeLetterProps[tagType].letter}
-      </div>
-    );
-  };
-
   render() {
     const {
       data,
@@ -85,7 +76,7 @@ class NoteItem extends Component {
 
     return (
       <div className="note-item">
-        {this.renderLetter()}
+        <LetterIcon {...tagTypeLetterProps[tagType]} />
         <div className="note-item__content-wrapper">
           <div className="note-item__heading">
             <If condition={changedBy}>
