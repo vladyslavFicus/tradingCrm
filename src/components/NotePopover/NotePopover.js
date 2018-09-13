@@ -5,13 +5,12 @@ import { reduxForm, Field, getFormValues } from 'redux-form';
 import moment from 'moment';
 import { I18n } from 'react-redux-i18n';
 import classNames from 'classnames';
-import ReactSwitch from '../../components/ReactSwitch';
 import PropTypes from '../../constants/propTypes';
 import { createValidator } from '../../utils/validator';
 import { entitiesPrefixes } from '../../constants/uuid';
 import './NotePopover.scss';
 import Uuid from '../Uuid';
-import { TextAreaField } from '../../components/ReduxForm';
+import { TextAreaField, SwitchField } from '../../components/ReduxForm';
 
 const MAX_CONTENT_LENGTH = 500;
 const FORM_NAME = 'notePopoverForm';
@@ -124,23 +123,6 @@ class NotePopover extends Component {
           }
         },
       );
-  };
-
-  renderSwitchField = ({ input, label, wrapperClassName, id }) => {
-    const onClick = () => input.onChange(!input.value);
-
-    return (
-      <div className={wrapperClassName}>
-        <ReactSwitch
-          on={input.value}
-          onClick={onClick}
-          id={id}
-        />
-        <button type="button" className="note-popover__pin-label" onClick={onClick}>
-          {label}
-        </button>
-      </div>
-    );
   };
 
   renderTitle = () => {
@@ -259,7 +241,7 @@ class NotePopover extends Component {
                 name="pinned"
                 wrapperClassName="margin-top-5"
                 label="Pin"
-                component={this.renderSwitchField}
+                component={SwitchField}
                 id={id ? `${id}-pin-btn` : null}
               />
             </div>

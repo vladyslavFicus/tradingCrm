@@ -4,6 +4,7 @@ import { size } from 'lodash';
 import moment from 'moment';
 import { I18n } from 'react-redux-i18n';
 import PropTypes from '../../constants/propTypes';
+import LetterIcon from '../../components/LetterIcon';
 import { types, typesLabels, typesClassNames } from '../../constants/audit';
 import FeedInfoLogin from './FeedInfoLogin';
 import FeedInfoLogout from './FeedInfoLogout';
@@ -106,9 +107,7 @@ class FeedItem extends Component {
 
     return (
       <div className="feed-item">
-        <div className={classNames('feed-item__letters', color)}>
-          {letter}
-        </div>
+        <LetterIcon color={color} letter={letter} />
         <div className="feed-item__content-wrapper">
           <div className="feed-item__heading">
             <div className="row no-gutters">

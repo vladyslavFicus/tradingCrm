@@ -4,12 +4,13 @@ import moment from 'moment';
 import classNames from 'classnames';
 import { I18n } from 'react-redux-i18n';
 import Uuid from '../Uuid';
-import PopoverButton from '../PopoverButton';
 import { entities, entitiesPrefixes } from '../../constants/uuid';
-import { tagTypeColors } from '../../constants/tag';
-import NoteIcon from '../NoteIcon';
+import { tagTypeColors, tagTypeLetterProps } from '../../constants/tag';
+import ActionsDropDown from '../ActionsDropDown';
 import MiniProfile from '../../components/MiniProfile';
+import LetterIcon from '../../components/LetterIcon';
 import { types as miniProfileTypes } from '../../constants/miniProfile';
+import { modalType } from '../NoteModal/constants';
 import './NoteItem.scss';
 
 class NoteItem extends Component {
@@ -20,7 +21,6 @@ class NoteItem extends Component {
       targetUUID: PropTypes.string.isRequired,
       content: PropTypes.string.isRequired,
       pinned: PropTypes.bool,
-      tagId: PropTypes.string.isRequired,
     }).isRequired,
     handleNoteClick: PropTypes.func.isRequired,
     fetchOperatorMiniProfile: PropTypes.func.isRequired,
@@ -67,7 +67,6 @@ class NoteItem extends Component {
         targetUUID,
         content,
         pinned,
-        tagId,
         tagType,
       },
       handleNoteClick,
@@ -77,6 +76,7 @@ class NoteItem extends Component {
 
     return (
       <div className="note-item">
+        <LetterIcon {...tagTypeLetterProps[tagType]} />
         <div className="note-item__content-wrapper">
           <div className="note-item__heading">
             <If condition={changedBy}>
@@ -105,24 +105,32 @@ class NoteItem extends Component {
               <Uuid uuid={targetUUID} uuidPrefix={entitiesPrefixes[targetType]} />
             </div>
           </div>
-          <div className="row no-gutters note-item__body">
+          <div className="row">
             <div className="col">
-              <div className="note-item__content">
-                {content}
+              <div className="note-item__body">
+                <div className="note-item__content">
+                  {content}
+                </div>
+                <If condition={pinned}>
+                  <span className="note-item__pinned-note-badge">
+                    {I18n.t('COMMON.PINNED_NOTE')}
+                  </span>
+                </If>
               </div>
-              <If condition={pinned}>
-                <span className="note-item__pinned-note-badge">
-                  {I18n.t('COMMON.PINNED_NOTE')}
-                </span>
-              </If>
             </div>
-            <div className="col-auto pl-1">
-              <PopoverButton
-                id={`note-item-${tagId}`}
-                onClick={id => handleNoteClick(id, data)}
-              >
-                <NoteIcon type="filled" />
-              </PopoverButton>
+            <div className="col-auto">
+              <ActionsDropDown
+                items={[
+                  {
+                    label: I18n.t('COMMON.ACTIONS.EDIT'),
+                    onClick: handleNoteClick(modalType.EDIT, data),
+                  },
+                  {
+                    label: I18n.t('COMMON.ACTIONS.DELETE'),
+                    onClick: handleNoteClick(modalType.DELETE, data),
+                  },
+                ]}
+              />
             </div>
           </div>
         </div>
