@@ -477,7 +477,6 @@
         "PLAYER_STATUS": "Opt-in статус"
       },
       "OPTED_IN": "Opted-in",
-      "NOT_OPTED_IN": "Not opted-in",
       "OPT_OUT": "Opt out",
       "DECLINE": "Отказаться",
       "MODALS": {
@@ -535,7 +534,8 @@
         "BONUS": "Бонус",
         "FREE_SPIN": "Фри-спин"
       },
-      "RESET_PLAYER": "Сброс игрока"
+      "RESET_PLAYER": "Сброс игрока",
+      "OPT_IN_NOT_REQUIRED": "Opt-in не требуется"
     },
     "FREE_SPINS": {
       "BONUS_SETTINGS": {

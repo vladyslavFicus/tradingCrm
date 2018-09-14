@@ -472,7 +472,6 @@
         "PLAYER_STATUS": "Opt-in status"
       },
       "OPTED_IN": "Opted-in",
-      "NOT_OPTED_IN": "Not opted-in",
       "OPT_OUT": "Opt out",
       "DECLINE": "Decline",
       "MODALS": {
@@ -530,7 +529,8 @@
         "BONUS": "Bonus",
         "FREE_SPIN": "Free-spin"
       },
-      "RESET_PLAYER": "Reset player"
+      "RESET_PLAYER": "Reset player",
+      "OPT_IN_NOT_REQUIRED": "Opt-in not required"
     },
     "FREE_SPINS": {
       "BONUS_SETTINGS": {

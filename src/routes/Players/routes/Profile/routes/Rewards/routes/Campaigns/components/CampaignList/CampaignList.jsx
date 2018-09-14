@@ -382,7 +382,9 @@ class CampaignList extends Component {
             <span className="text-success">{I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.OPTED_IN')}</span>
           </When>
           <Otherwise>
-            {I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.NOT_OPTED_IN')}
+            <div className="color-default">
+              {I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.OPT_IN_NOT_REQUIRED')}
+            </div>
           </Otherwise>
         </Choose>
       </div>
@@ -426,7 +428,17 @@ class CampaignList extends Component {
     </div>
   );
 
-  renderActions = ({ state, playerStatus, uuid, targetType, sourceType: originalSourceType, rewards }) => {
+  renderActions = (params) => {
+    const {
+      state,
+      playerStatus,
+      uuid,
+      targetType,
+      sourceType: originalSourceType,
+      rewards,
+      optIn,
+    } = params;
+
     const { permissions: currentPermissions } = this.context;
 
     const {
@@ -458,16 +470,15 @@ class CampaignList extends Component {
         visible: optOutPermission.check(currentPermissions),
       });
     } else {
-      if (targetType !== targetTypes.ALL) {
-        items.push({
-          label: I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.UN_TARGET'),
-          onClick: () => this.handleActionClick({
-            action: deletePlayerFromCampaign,
-            uuid,
-            sourceType,
-          }),
-        });
-      }
+      items.push({
+        label: I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.UN_TARGET'),
+        onClick: () => this.handleActionClick({
+          action: deletePlayerFromCampaign,
+          uuid,
+          sourceType,
+        }),
+        visible: targetType !== targetTypes.ALL,
+      });
 
       items.push({
         label: I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.OPT_IN'),
@@ -475,16 +486,15 @@ class CampaignList extends Component {
           uuid,
           rewards,
         }),
-        visible: optInPermission.check(currentPermissions),
+        visible: optInPermission.check(currentPermissions) && optIn,
       });
     }
 
-    if (originalSourceType === sourceTypes.CAMPAIGN) {
-      items.push({
-        label: I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.RESET_PLAYER'),
-        onClick: this.handleResetPlayerClick(uuid),
-      });
-    }
+    items.push({
+      label: I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.RESET_PLAYER'),
+      onClick: this.handleResetPlayerClick(uuid),
+      visible: originalSourceType === sourceTypes.CAMPAIGN,
+    });
 
     return <ActionsDropDown items={items} />;
   };
