@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { I18n } from 'react-redux-i18n';
-import { get, isEqual } from 'lodash';
+import { get, isEqual, pickBy, pick } from 'lodash';
 import { v4 } from 'uuid';
 import PropTypes from '../../../../../../../constants/propTypes';
 import Form from '../../../../../components/Form';
@@ -10,6 +10,7 @@ import { fulfillmentTypes, rewardTemplateTypes } from '../../../../../constants'
 import Permissions from '../../../../../../../utils/permissions';
 import permissions from '../../../../../../../config/permissions';
 import deepRemoveKeyByRegex from '../../../../../../../utils/deepKeyPrefixRemove';
+import { deviceTypes } from '../../../../../../Campaigns/components/Rewards/constants';
 
 class SettingsView extends Component {
   static propTypes = {
@@ -27,6 +28,33 @@ class SettingsView extends Component {
   static contextTypes = {
     permissions: PropTypes.array.isRequired,
   };
+
+  isCampaignPristine(currentData) {
+    const {
+      campaign: {
+        campaign: {
+          data: initialData,
+        },
+      },
+    } = this.props;
+
+    const campaignFields = [
+      'countries',
+      'endDate',
+      'excludeCountries',
+      'fulfillmentPeriod',
+      'fulfillmentPeriodTimeUnit',
+      'name',
+      'optIn',
+      'optInPeriod',
+      'optInPeriodTimeUnit',
+      'promoCode',
+      'startDate',
+      'targetType',
+    ];
+
+    return isEqual(pickBy(pick(initialData, campaignFields)), pickBy(pick(currentData, campaignFields)));
+  }
 
   handleUpdateCampaign = async (values) => {
     const {
@@ -126,25 +154,28 @@ class SettingsView extends Component {
 
       return {
         uuid: tempUUID,
-        type: deviceType || 'ALL',
+        type: deviceType || deviceTypes.ALL,
       };
     }));
-    const action = await updateCampaign({
-      variables: {
-        ...formData,
-        uuid: data.uuid,
-        rewards,
-        fulfillments,
-      },
-    });
 
-    const error = get(action, 'data.campaign.update.error');
+    if (!this.isCampaignPristine(formData)) {
+      const action = await updateCampaign({
+        variables: {
+          ...formData,
+          uuid: data.uuid,
+          rewards,
+          fulfillments,
+        },
+      });
 
-    notify({
-      level: error ? 'error' : 'success',
-      title: I18n.t('CAMPAIGNS.VIEW.NOTIFICATIONS.UPDATE_TITLE'),
-      message: I18n.t(`CAMPAIGNS.VIEW.NOTIFICATIONS.${error ? 'UNSUCCESSFULLY' : 'SUCCESSFULLY'}`),
-    });
+      const error = get(action, 'data.campaign.update.error');
+
+      notify({
+        level: error ? 'error' : 'success',
+        title: I18n.t('CAMPAIGNS.VIEW.NOTIFICATIONS.UPDATE_TITLE'),
+        message: I18n.t(`CAMPAIGNS.VIEW.NOTIFICATIONS.${error ? 'UNSUCCESSFULLY' : 'SUCCESSFULLY'}`),
+      });
+    }
   };
 
   render() {
