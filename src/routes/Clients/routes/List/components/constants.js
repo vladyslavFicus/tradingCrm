@@ -1,28 +1,3 @@
-const salesStatusesColor = {
-  NEW: 'color-info',
-  NO_ANSWER: 'color-danger',
-  NO_ANSWER_2: 'color-danger',
-  NO_ANSWER_3: 'color-danger',
-  NO_ANSWER_4: 'color-danger',
-  NO_ANSWER_5: 'color-danger',
-  CONVERTED_CALLBACK: 'color-success',
-  INTERESTED: 'color-info',
-  NOT_INTERESTED: 'color-danger',
-  WRONG_INFO: 'color-danger',
-  INIT_CALL_DO: 'color-info',
-  NOT_CALL: 'color-info',
-  NO_FUNDS: 'color-warning',
-  FAILED_DEPOSIT: 'color-danger',
-  CLOSED: 'color-danger',
-  INVALID_LANGUAGE: 'color-danger',
-  REASSIGN: 'color-warning',
-  UNDER_18: 'color-danger',
-  WRONG_NUMBER: 'color-danger',
-  DUPLICATE: 'color-warning',
-  VOICEMAIL: 'color-info',
-  NEVER_ANSWER: 'color-danger',
-};
-
 const retentionStatusesColor = {
   NEW: 'color-info',
   CALLBACK: 'color-info',
@@ -48,7 +23,6 @@ const acquisitionStatuses = [{
 }];
 
 export {
-  salesStatusesColor,
   retentionStatusesColor,
   acquisitionStatuses,
 };

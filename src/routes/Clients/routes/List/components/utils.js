@@ -6,10 +6,8 @@ import {
   statusColorNames as userStatusColorNames,
   statusesLabels as userStatusesLabels,
 } from '../../../../../constants/user';
-import {
-  salesStatusesColor,
-  retentionStatusesColor,
-} from './constants';
+import { salesStatusesColor } from '../../../../../constants/salesStatuses';
+import { retentionStatusesColor } from './constants';
 import GridPlayerInfo from '../../../../../components/GridPlayerInfo';
 import GridCountryFlag from '../../../../../components/GridCountryFlag';
 import GridEmptyValue from '../../../../../components/GridEmptyValue';
@@ -146,7 +144,7 @@ export default (
   render: ({ profileStatus, profileStatusDate }) => (
     <GridStatus
       colorClassName={userStatusColorNames[profileStatus]}
-      colorLabel={userStatusesLabels[profileStatus] || profileStatus}
+      colorLabel={userStatusesLabels[profileStatus] ? I18n.t(userStatusesLabels[profileStatus]) : profileStatus}
       info={profileStatusDate}
       infoLabel={date => I18n.t('COMMON.SINCE', { date: moment.utc(date).local().format('DD.MM.YYYY HH:mm') })}
     />

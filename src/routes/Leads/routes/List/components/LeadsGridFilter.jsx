@@ -4,11 +4,10 @@ import moment from 'moment';
 import { connect } from 'react-redux';
 import { getFormValues } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
+import { salesStatuses } from '../../../../../constants/salesStatuses';
 import { createValidator } from '../../../../../utils/validator';
-import { statusesLabels, filterLabels } from '../../../../../constants/user';
+import { filterLabels } from '../../../../../constants/user';
 import createDynamicForm, { FilterItem, FilterField, TYPES, SIZES } from '../../../../../components/DynamicFilters';
-import { floatNormalize } from '../../../../../utils/inputNormalize';
-import { acquisitionStatuses } from './constants';
 
 const FORM_NAME = 'userListGridFilter';
 const DynamicFilters = createDynamicForm({
@@ -18,13 +17,10 @@ const DynamicFilters = createDynamicForm({
     keyword: 'string',
     country: `in:,${Object.keys(props.countries).join()}`,
     status: 'string',
-    acquisitionStatus: 'string',
     teams: 'string',
     desks: 'string',
-    registrationDateFrom: 'regex:/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/',
-    registrationDateTo: 'regex:/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/',
-    balanceFrom: 'integer',
-    balanceTo: 'integer',
+    registrationDateStart: 'regex:/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/',
+    registrationDateEnd: 'regex:/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/',
   }, filterLabels, false),
 });
 
@@ -33,16 +29,11 @@ class UserGridFilter extends Component {
     currentValues: PropTypes.shape({
       keyword: PropTypes.string,
       country: PropTypes.string,
-      currency: PropTypes.string,
-      ageFrom: PropTypes.string,
-      ageTo: PropTypes.string,
-      affiliateId: PropTypes.string,
       status: PropTypes.string,
-      segments: PropTypes.string,
-      registrationDateFrom: PropTypes.string,
-      registrationDateTo: PropTypes.string,
-      balanceFrom: PropTypes.number,
-      balanceTo: PropTypes.number,
+      desks: PropTypes.string,
+      teams: PropTypes.string,
+      registrationDateStart: PropTypes.string,
+      registrationDateEnd: PropTypes.string,
     }),
     disabled: PropTypes.bool,
     onReset: PropTypes.func.isRequired,
@@ -138,66 +129,19 @@ class UserGridFilter extends Component {
         </FilterItem>
 
         <FilterItem
-          label={I18n.t(filterLabels.offices)}
-          size={SIZES.medium}
-          type={TYPES.nas_select}
-          placeholder={I18n.t('COMMON.SELECT_OPTION.NO_ITEMS')}
-          default
-        >
-          <FilterField name="desks">
-            {[]}
-          </FilterField>
-        </FilterItem>
-
-        <FilterItem
-          label={I18n.t(filterLabels.status)}
+          label={I18n.t(filterLabels.salesStatus)}
           size={SIZES.medium}
           type={TYPES.nas_select}
           placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
           default
         >
-          <FilterField name="status">
-            {Object.keys(statusesLabels).map(status => (
+          <FilterField name="salesStatus">
+            {Object.keys(salesStatuses).map(status => (
               <option key={status} value={status}>
-                {I18n.t(statusesLabels[status])}
+                {I18n.t(salesStatuses[status])}
               </option>
             ))}
           </FilterField>
-        </FilterItem>
-
-        <FilterItem
-          label={I18n.t(filterLabels.acquisitionStatus)}
-          size={SIZES.medium}
-          type={TYPES.nas_select}
-          placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
-          default
-        >
-          <FilterField name="acquisitionStatus">
-            {acquisitionStatuses.map(item => (
-              <option key={item.value} value={item.value}>
-                {I18n.t(item.label)}
-              </option>
-            ))}
-          </FilterField>
-        </FilterItem>
-
-        <FilterItem
-          label={I18n.t(filterLabels.balance)}
-          size={SIZES.small}
-          type={TYPES.range_input}
-          placeholder="0.00/0.00"
-          default
-        >
-          <FilterField
-            name="balanceFrom"
-            type="number"
-            normalize={floatNormalize}
-          />
-          <FilterField
-            name="balanceTo"
-            type="number"
-            normalize={floatNormalize}
-          />
         </FilterItem>
 
         <FilterItem
@@ -209,16 +153,16 @@ class UserGridFilter extends Component {
         >
           <FilterField
             utc
-            name="registrationDateFrom"
-            isValidDate={this.startDateValidator('registrationDateTo')}
+            name="registrationDateStart"
+            isValidDate={this.startDateValidator('registrationDateEnd')}
             timePresets
             withTime
             closeOnSelect={false}
           />
           <FilterField
             utc
-            name="registrationDateTo"
-            isValidDate={this.endDateValidator('registrationDateFrom')}
+            name="registrationDateEnd"
+            isValidDate={this.endDateValidator('registrationDateStart')}
             timePresets
             withTime
             closeOnSelect={false}

@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 import { ApolloProvider as ReactApolloProvider } from 'react-apollo';
 import { ApolloClient } from 'apollo-client';
 import { from } from 'apollo-link';
-import { BatchHttpLink } from 'apollo-link-batch-http';
 import { setContext } from 'apollo-link-context';
 import { onError } from 'apollo-link-error';
 import { InMemoryCache } from 'apollo-cache-inmemory';
+import { createUploadLink } from 'apollo-upload-client';
 import { getGraphQLRoot } from '../config';
 
 const __DEV__ = process.env.NODE_ENV === 'development';
@@ -31,7 +31,7 @@ class ApolloProvider extends PureComponent {
   };
 
   createClient() {
-    const httpLink = new BatchHttpLink({ uri: getGraphQLRoot(), batchInterval: 50 });
+    const uploadLink = createUploadLink({ uri: getGraphQLRoot(), batchInterval: 50 });
     const errorLink = onError(({ graphQLErrors, response, networkError }) => {
       if (graphQLErrors) {
         graphQLErrors.map(({ message, locations, path }) =>
@@ -73,7 +73,7 @@ class ApolloProvider extends PureComponent {
     });
 
     return new ApolloClient({
-      link: from([errorLink, authLink, httpLink]),
+      link: from([errorLink, authLink, uploadLink]),
       cache,
       connectToDevTools: __DEV__,
     });

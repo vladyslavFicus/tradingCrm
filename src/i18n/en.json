@@ -880,7 +880,8 @@
       "RU": "Russian",
       "ES": "Spanish",
       "DE": "German",
-      "IT": "Italian"
+      "IT": "Italian",
+      "UA": "Ukrainian"
     },
     "COMMENT": "Comment",
     "UPLOAD": "Upload",
@@ -889,7 +890,10 @@
     "CONFIRM_ACTION": "Confirm action",
     "PINNED_NOTE": "Pinned note",
     "DASHBOARD": "Dashboard",
-    "IDENTIFIER": "ID Number"
+    "IDENTIFIER": "ID Number",
+    "UPLOAD_FAILED": "File upload failed",
+    "UPLOAD_SUCCESSFUL": "File upload successful",
+    "SOMETHING_WRONG": "Something went wrong"
   },
   "FILES": {
     "UPLOAD_MODAL": {
@@ -1236,6 +1240,30 @@
         "TARGET_LIST": "Selected players",
         "LINKED_CAMPAIGN": "Linked campaign completion"
       }
+    },
+    "SALES_STATUSES": {
+      "NEW": "New",
+      "NO_ANSWER": "No answer",
+      "NO_ANSWER_2": "No answer 2",
+      "NO_ANSWER_3": "No answer 3",
+      "NO_ANSWER_4": "No answer 4",
+      "NO_ANSWER_5": "No answer 5",
+      "CONVERTED_CALLBACK": "Converted callback",
+      "INTERESTED": "Interested",
+      "NOT_INTERESTED": "Not interested",
+      "WRONG_INFO": "Wrong info",
+      "INIT_CALL_DO": "Initial call done",
+      "NOT_CALL": "Not called",
+      "NO_FUNDS": "No funds",
+      "FAILED_DEPOSIT": "Failed deposit",
+      "CLOSED": "Closed",
+      "INVALID_LANGUAGE": "Invalid language",
+      "REASSIGN": "Reassign",
+      "UNDER_18": "Under 18",
+      "WRONG_NUMBER": "Wrong number",
+      "DUPLICATE": "Duplicate",
+      "VOICEMAIL": "Voicemail",
+      "NEVER_ANSWER": "Never answer"
     }
   },
   "OPERATOR_PROFILE": {
@@ -1812,7 +1840,8 @@
         "ACQUISITION_STATUS": "Acquisition Status",
         "DESKS": "Desks",
         "TEAMS": "Teams",
-        "OFFICES": "Offices"
+        "OFFICES": "Offices",
+        "SALES_STATUS": "Sales status"
       }
     }
   },
@@ -1947,7 +1976,13 @@
     "REWARD": "Reward",
     "OPTED_IN": "Opted-in %{value} players",
     "SELECTED": "Selected %{value} players",
-    "BONUS": "Bonus"
+    "BONUS": "Bonus",
+    "LEADS": {
+      "LEAD_CREATED": "Lead created",
+      "SALES": "Sales",
+      "COUNTRY": "Country",
+      "LEAD": "Lead"
+    }
   },
   "OPERATORS": {
     "HEADING": "Operators",
@@ -2578,6 +2613,11 @@
         "STATUS": "Status"
       }
     }
+  },
+  "LEADS": {
+    "LEADS": "Leads",
+    "LEADS_FOUND": "Leads found",
+    "LEADS_SELECTED": "Leads selected"
   },
   "MANUAL_COOLOFF": {
     "HEADING": "You are about to set Manual Cooloff status for the %{profileName} %{uuid} for 24 hours"

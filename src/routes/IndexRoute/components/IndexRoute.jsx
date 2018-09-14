@@ -21,6 +21,7 @@ import Campaigns from '../../Campaigns';
 import BonusCampaigns from '../../BonusCampaigns';
 import Operators from '../../Operators';
 import Dashboard from '../../Dashboard';
+import Leads from '../../Leads';
 import rootConfig from '../../../config';
 import { markets } from '../../../constants/markets';
 
@@ -57,14 +58,21 @@ class IndexRoute extends PureComponent {
           {/* Private */}
           <AppRoute path="/brands" layout={BlackLayout} component={Brands} checkAuth />
           <AppRoute path="/dashboard" layout={MainLayout} component={Dashboard} checkAuth />
-          <AppRoute path="/players" layout={MainLayout} component={Players} checkAuth />
-          <AppRoute path="/clients" layout={MainLayout} component={Clients} checkAuth />
-          <AppRoute path="/bonus-campaigns" layout={MainLayout} component={BonusCampaigns} checkAuth />
-          <AppRoute path="/campaigns" layout={MainLayout} component={Campaigns} checkAuth />
-          <AppRoute path="/transactions" layout={MainLayout} component={Transactions} checkAuth />
-          <AppRoute path="/payments" layout={MainLayout} component={Payments} checkAuth />
           <AppRoute path="/settings" layout={MainLayout} component={Settings} checkAuth />
           <AppRoute path="/operators" layout={MainLayout} component={Operators} checkAuth />
+          <Choose>
+            <When condition={rootConfig.market === markets.crm}>
+              <AppRoute path="/clients" layout={MainLayout} component={Clients} checkAuth />
+              <AppRoute path="/transactions" layout={MainLayout} component={Transactions} checkAuth />
+              <AppRoute path="/leads" layout={MainLayout} component={Leads} checkAuth />
+            </When>
+            <Otherwise>
+              <AppRoute path="/players" layout={MainLayout} component={Players} checkAuth />
+              <AppRoute path="/payments" layout={MainLayout} component={Payments} checkAuth />
+              <AppRoute path="/bonus-campaigns" layout={MainLayout} component={BonusCampaigns} checkAuth />
+              <AppRoute path="/campaigns" layout={MainLayout} component={Campaigns} checkAuth />
+            </Otherwise>
+          </Choose>
           <Route path="/logout" component={Logout} />
           {/* Public */}
           <AppRoute path="/sign-in" layout={BlackLayout} component={SignIn} />
