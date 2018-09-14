@@ -53,27 +53,25 @@ class BonusStatus extends Component {
       <div>
         <div {...props} id={`${id}-bonus-status-${bonus.state.toLowerCase()}-${bonus.bonusUUID}`}>
           {label}
-          {
-            bonus.state === statuses.CANCELLED &&
+          <If condition={bonus.state === statuses.CANCELLED}>
             <FailedStatusIcon id={`${id}-cancellation-reason-${bonus.bonusUUID}`}>
               {bonus.cancellationReason}
             </FailedStatusIcon>
-          }
+          </If>
         </div>
-        {!!content && <div className="font-size-11">{content}</div>}
+        <If condition={content}>
+          <div className="font-size-11">{content}</div>
+        </If>
       </div>
     );
   };
 
   renderStatusExpiredOrConsumed = bonus => (
-    <div>
-      {
-        bonus.endDate &&
-        <div>
-          {I18n.t('COMMON.DATE_ON', { date: moment.utc(bonus.endDate).local().format('DD.MM.YYYY HH:mm:ss') })}
-        </div>
-      }
-    </div>
+    <If condition={bonus.endDate}>
+      <div>
+        {I18n.t('COMMON.DATE_ON', { date: moment.utc(bonus.endDate).local().format('DD.MM.YYYY HH:mm:ss') })}
+      </div>
+    </If>
   );
 
   renderStatusActive = bonus => (
