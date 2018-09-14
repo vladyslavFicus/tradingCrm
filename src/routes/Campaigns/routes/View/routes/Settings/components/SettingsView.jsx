@@ -22,7 +22,6 @@ class SettingsView extends Component {
         data: PropTypes.newBonusCampaignEntity.isRequired,
       }),
     }).isRequired,
-    brandId: PropTypes.string.isRequired,
   };
 
   static contextTypes = {
@@ -47,7 +46,6 @@ class SettingsView extends Component {
           data,
         },
       },
-      brandId,
     } = this.props;
     const formData = Object.keys(values).reduce((res, key) => ({
       ...res,
@@ -72,10 +70,7 @@ class SettingsView extends Component {
         uuid = get(response, 'data.depositFulfillment.add.data.uuid');
       } else if (type === fulfillmentTypes.GAMING) {
         const response = await addGamingFulfillment({
-          variables: {
-            ...fulfillment,
-            brandId,
-          },
+          variables: fulfillment,
         });
 
         uuid = get(response, 'data.gamingFulfillment.add.data.uuid');

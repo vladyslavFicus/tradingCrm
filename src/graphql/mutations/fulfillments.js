@@ -42,7 +42,6 @@ const addDepositFulfillment = gql`mutation addDepositFulfillment(
 }`;
 
 const addGamingFulfillment = gql`mutation addGamingFulfillment(
-  $brandId: String!
   $aggregationType: String!
   $moneyType: String!
   $spinType: String!
@@ -52,7 +51,6 @@ const addGamingFulfillment = gql`mutation addGamingFulfillment(
 ) {
   gamingFulfillment {
     add (
-      brandId: $brandId
       aggregationType: $aggregationType
       moneyType: $moneyType
       spinType: $spinType

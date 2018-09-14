@@ -1,5 +1,4 @@
 import { graphql, compose } from 'react-apollo';
-import { connect } from 'react-redux';
 import { campaignQuery } from '.././../../../../../../graphql/queries/campaigns';
 import { updateMutation } from '.././../../../../../../graphql/mutations/campaigns';
 import {
@@ -14,7 +13,6 @@ import { withNotifications } from '../../../../../../../components/HighOrder';
 import SettingsView from '../components/SettingsView';
 
 export default compose(
-  connect(({ auth: { brandId } }) => ({ brandId })),
   withNotifications,
   graphql(campaignQuery, {
     options: ({ match: { params: { id: campaignUUID } } }) => ({

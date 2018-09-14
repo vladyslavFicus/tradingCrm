@@ -1,5 +1,4 @@
 import { graphql, compose } from 'react-apollo';
-import { connect } from 'react-redux';
 import { createMutation, updateMutation } from '.././../../../../graphql/mutations/campaigns';
 import { createOrLinkTagMutation } from '.././../../../../graphql/mutations/tag';
 import {
@@ -11,7 +10,6 @@ import { withNotifications } from '../../../../../components/HighOrder';
 import CampaignCreate from '../components/CampaignCreate';
 
 export default compose(
-  connect(({ auth: { brandId } }) => ({ brandId })),
   withNotifications,
   graphql(createMutation, {
     name: 'createCampaign',
