@@ -146,7 +146,16 @@ class FreeSpinCreateModal extends Component {
   };
 
   handleChangeGame = ({ target: { value } }) => {
-    const { clientId, moduleId, coinsMin, coinsMax, internalGameId, gameId } = this.getGame(value);
+    const {
+      clientId,
+      moduleId,
+      coinsMin,
+      coinsMax,
+      internalGameId,
+      coinSizes,
+      betLevels,
+      gameId
+    } = this.getGame(value);
     const fields = get(this.aggregatorOptions, `[${this.props.aggregatorId}].fields`);
     const { currentValues: { supportedGames } } = this.props;
     let spGames = supportedGames || [];
@@ -159,6 +168,14 @@ class FreeSpinCreateModal extends Component {
       }
 
       spGames.push(JSON.stringify({ gameId, internalGameId }));
+    }
+
+    if (fields.indexOf('coinSize')) {
+      this.setField('coinSize', coinSizes && coinSizes.length ? coinSizes[0] : null);
+    }
+
+    if (fields.indexOf('betLevel')) {
+      this.setField('betLevel', betLevels && betLevels.length ? betLevels[0] : null);
     }
 
     this.setField('clientId', fields.indexOf('clientId') !== -1 ? clientId : null);
