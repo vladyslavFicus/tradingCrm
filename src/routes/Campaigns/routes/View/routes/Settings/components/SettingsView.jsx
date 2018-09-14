@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { I18n } from 'react-redux-i18n';
-import { get, isEqual, pickBy, pick } from 'lodash';
+import { get, isEqual, pickBy, omit } from 'lodash';
 import { v4 } from 'uuid';
 import PropTypes from '../../../../../../../constants/propTypes';
 import Form from '../../../../../components/Form';
@@ -38,24 +38,20 @@ class SettingsView extends Component {
       },
     } = this.props;
 
-    const campaignBaseFields = [
-      'countries',
-      'endDate',
-      'excludeCountries',
-      'fulfillmentPeriod',
-      'fulfillmentPeriodTimeUnit',
-      'name',
-      'optIn',
-      'optInPeriod',
-      'optInPeriodTimeUnit',
-      'promoCode',
-      'startDate',
-      'targetType',
+    const excludeFields = [
+      'uuid',
+      'authorUUID',
+      'creationDate',
+      'state',
+      'fulfillments',
+      'rewards',
+      '__typename',
+      '_id',
     ];
 
     return isEqual(
-      pickBy(pick(initialData, campaignBaseFields)),
-      pickBy(pick(currentData, campaignBaseFields))
+      pickBy(omit(initialData, excludeFields)),
+      pickBy(omit(currentData, excludeFields))
     );
   }
 
