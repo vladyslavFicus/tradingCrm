@@ -2,12 +2,12 @@ import React, { PureComponent } from 'react';
 import { get } from 'lodash';
 import { I18n } from 'react-redux-i18n';
 import { Field } from 'redux-form';
-import { MultiCurrencyValue, SelectField, RangeGroup } from '../../../../components/ReduxForm';
-import PropTypes from '../../../../constants/propTypes';
-import ordinalizeNumber from '../../../../utils/ordinalizeNumber';
+import { MultiCurrencyValue, SelectField, RangeGroup } from '../../../../../components/ReduxForm/index';
+import PropTypes from '../../../../../constants/propTypes';
+import ordinalizeNumber from '../../../../../utils/ordinalizeNumber';
 import ExcludedPaymentMethods from './ExcludedPaymentMethods';
 
-class DepositFulfillmentView extends PureComponent {
+class DepositFulfillment extends PureComponent {
   static propTypes = {
     disabled: PropTypes.bool.isRequired,
     name: PropTypes.string.isRequired,
@@ -89,4 +89,4 @@ class DepositFulfillmentView extends PureComponent {
   }
 }
 
-export default DepositFulfillmentView;
+export default DepositFulfillment;

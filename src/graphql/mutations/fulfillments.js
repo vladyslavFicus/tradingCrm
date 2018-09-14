@@ -41,6 +41,61 @@ const addDepositFulfillment = gql`mutation addDepositFulfillment(
   }
 }`;
 
+const addGamingFulfillment = gql`mutation addGamingFulfillment(
+  $aggregationType: String!
+  $moneyType: String!
+  $spinType: String!
+  $amount: [InputMoney]!
+  $gameFilter: String!
+  $gameList: [String]
+) {
+  gamingFulfillment {
+    add (
+      aggregationType: $aggregationType
+      moneyType: $moneyType
+      spinType: $spinType
+      amount: $amount
+      gameFilter: $gameFilter
+      gameList: $gameList
+    ) {
+      data {
+        uuid
+      }
+      error {
+        error
+        fields_errors
+      }
+    }
+  }
+}`;
+
+const updateGamingFulfillment = gql`mutation updateGamingFulfillment(
+  $uuid: String!,
+  $aggregationType: String!
+  $moneyType: String!
+  $spinType: String!
+  $amount: [InputMoney]!
+  $gameFilter: String!
+  $gameList: [String]
+) {
+  gamingFulfillment {
+    update (
+      uuid: $uuid,
+      aggregationType: $aggregationType
+      moneyType: $moneyType
+      spinType: $spinType
+      amount: $amount
+      gameFilter: $gameFilter
+      gameList: $gameList
+    ) {
+      data {
+        _id,
+        uuid
+      }
+    }
+  }
+}`;
+
 const updateDepositFulfillment = gql`mutation updateDepositFulfillment(
   $uuid: String!,
   $minAmount: [InputMoney]!,
@@ -68,4 +123,6 @@ export {
   addWageringFulfillment,
   addDepositFulfillment,
   updateDepositFulfillment,
+  addGamingFulfillment,
+  updateGamingFulfillment,
 };

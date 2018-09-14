@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { I18n } from 'react-redux-i18n';
 import { Field } from 'redux-form';
 import { get } from 'lodash';
-import { NasSelectField } from '../../../../components/ReduxForm';
+import { NasSelectField } from '../../../../../components/ReduxForm/index';
 
 const ExcludedPaymentMethods = ({ paymentMethods, disabled, name }, { _reduxForm: { values: formValues } }) => {
   const label = I18n.t('CAMPAIGNS.SETTINGS.FULFILLMENTS.DEPOSIT.RESTRICTED_PAYMENT_METHODS');

@@ -2164,7 +2164,42 @@
         },
         "SELECT_FULFILLMENT": "Выбрать условие",
         "ADD_FULFILLMENT": "Добавить условие",
-        "TITLE": "Условия"
+        "TITLE": "Условия",
+        "GAMING": {
+          "AGGREGATION_TYPE": {
+            "LABEL": "Тип агрегации",
+            "VALUES": {
+              "COUNT": "Количество",
+              "SUM": "Сумма"
+            }
+          },
+          "MONEY_TYPE": {
+            "LABEL": "Тип денег",
+            "VALUES": {
+              "ALL": "Все",
+              "REAL": "Реальные",
+              "BONUS": "Бонусные"
+            }
+          },
+          "SPIN_TYPE": {
+            "LABEL": "Тип спина",
+            "VALUES": {
+              "BET": "Ставка",
+              "WIN": "Выигрыш"
+            }
+          },
+          "GAME_FILTER": {
+            "LABEL": "Фильтр игры",
+            "VALUES": {
+              "ALL": "Все",
+              "PROVIDER": "Провайдер",
+              "CUSTOM": "Другая"
+            }
+          },
+          "GAME_LIST": {
+            "LABEL": "Список игр"
+          }
+        }
       },
       "REWARDS": {
         "BONUS": {
@@ -2337,7 +2372,8 @@
     "FULL_RESET": {
       "BUTTON": "Полный сброс",
       "MODAL_TEXT": "Вы собираетесь выполнить полный сброс кампании. Все помеченные игроки будут сброшены"
-    }
+    },
+    "GAMING_FULFILLMENT": "Игровой фулфилмент"
   },
   "MULTI_CURRENCY_MODAL": {
     "TITLE": "Значения в остальных валютах",

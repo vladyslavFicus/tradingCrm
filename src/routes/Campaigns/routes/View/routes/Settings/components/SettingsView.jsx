@@ -34,7 +34,9 @@ class SettingsView extends Component {
       notify,
       addWageringFulfillment,
       addDepositFulfillment,
+      addGamingFulfillment,
       updateDepositFulfillment,
+      updateGamingFulfillment,
       createOrLinkTag,
       campaign: {
         campaign: {
@@ -66,6 +68,12 @@ class SettingsView extends Component {
         const response = await addDepositFulfillment({ variables: fulfillment });
 
         uuid = get(response, 'data.depositFulfillment.add.data.uuid');
+      } else if (type === fulfillmentTypes.GAMING) {
+        const response = await addGamingFulfillment({
+          variables: fulfillment,
+        });
+
+        uuid = get(response, 'data.gamingFulfillment.add.data.uuid');
       }
 
       if (uuid) {
@@ -77,9 +85,9 @@ class SettingsView extends Component {
       .filter(({ type, uuid }) => type === fulfillmentTypes.DEPOSIT && uuid);
 
     await asyncForEach(currentDepositFulfillments, async (currentDepositFulfillment) => {
-      const initialFulfillment = initialFulfillments.find(({ uuid }) => uuid === currentDepositFulfillment.uuid);
+      const initialDepositFulfillment = initialFulfillments.find(({ uuid }) => uuid === currentDepositFulfillment.uuid);
 
-      if (!isEqual(initialFulfillment, currentDepositFulfillment)) {
+      if (!isEqual(initialDepositFulfillment, currentDepositFulfillment)) {
         const {
           minAmount, maxAmount, numDeposit, excludedPaymentMethods, uuid,
         } = currentDepositFulfillment;
@@ -88,6 +96,19 @@ class SettingsView extends Component {
           variables: {
             minAmount, maxAmount, numDeposit, excludedPaymentMethods, uuid,
           },
+        });
+      }
+    });
+
+    const currentGamingFulfillments = formData.fulfillments
+      .filter(({ type, uuid }) => type === fulfillmentTypes.GAMING && uuid);
+
+    await asyncForEach(currentGamingFulfillments, async (currentGamingFulfillment) => {
+      const initialGamingFulfillment = initialFulfillments.find(({ uuid }) => uuid === currentGamingFulfillment.uuid);
+
+      if (!isEqual(initialGamingFulfillment, currentGamingFulfillment)) {
+        await updateGamingFulfillment({
+          variables: currentGamingFulfillment,
         });
       }
     });

@@ -1,8 +1,8 @@
 import gql from 'graphql-tag';
 import { graphql, compose } from 'react-apollo';
 import { connect } from 'react-redux';
-import DepositFulfillmentView from './DepositFulfillmentView';
-import { methodStatuses } from '../../../../constants/payment';
+import DepositFulfillment from './DepositFulfillment';
+import { methodStatuses } from '../../../../../constants/payment';
 
 const paymentMethodsQuery = gql`query getPaymentMethods($status: String!){
   paymentMethods(status: $status) {
@@ -28,4 +28,4 @@ export default compose(
       },
     },
   }),
-)(DepositFulfillmentView);
+)(DepositFulfillment);

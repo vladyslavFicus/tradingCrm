@@ -16,6 +16,7 @@ class CampaignCreate extends PureComponent {
     notify: PropTypes.func.isRequired,
     addWageringFulfillment: PropTypes.func.isRequired,
     addDepositFulfillment: PropTypes.func.isRequired,
+    addGamingFulfillment: PropTypes.func.isRequired,
     createCampaign: PropTypes.func.isRequired,
     updateCampaign: PropTypes.func.isRequired,
   };
@@ -28,6 +29,7 @@ class CampaignCreate extends PureComponent {
       addWageringFulfillment,
       createOrLinkTag,
       addDepositFulfillment,
+      addGamingFulfillment,
     } = this.props;
 
     const rewards = await Promise.all(formData.rewards.map(async ({ uuid, deviceType, type, tagName }) => {
@@ -73,6 +75,11 @@ class CampaignCreate extends PureComponent {
               variables: fulfillment,
             });
             uuid = get(fulfillmentResponse, 'data.depositFulfillment.add.data.uuid');
+          } else if (fulfillment.type === fulfillmentTypes.GAMING) {
+            const fulfillmentResponse = await addGamingFulfillment({
+              variables: fulfillment,
+            });
+            uuid = get(fulfillmentResponse, 'data.gamingFulfillment.add.data.uuid');
           }
 
           if (uuid) {

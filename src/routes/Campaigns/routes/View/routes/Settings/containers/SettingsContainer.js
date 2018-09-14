@@ -5,6 +5,8 @@ import {
   addDepositFulfillment,
   addWageringFulfillment,
   updateDepositFulfillment,
+  addGamingFulfillment,
+  updateGamingFulfillment,
 } from '.././../../../../../../graphql/mutations/fulfillments';
 import { createOrLinkTagMutation } from '.././../../../../../../graphql/mutations/tag';
 import { withNotifications } from '../../../../../../../components/HighOrder';
@@ -26,8 +28,14 @@ export default compose(
   graphql(addDepositFulfillment, {
     name: 'addDepositFulfillment',
   }),
+  graphql(addGamingFulfillment, {
+    name: 'addGamingFulfillment',
+  }),
   graphql(updateDepositFulfillment, {
     name: 'updateDepositFulfillment',
+  }),
+  graphql(updateGamingFulfillment, {
+    name: 'updateGamingFulfillment',
   }),
   graphql(updateMutation, {
     name: 'updateCampaign',

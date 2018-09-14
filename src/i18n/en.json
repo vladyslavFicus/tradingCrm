@@ -2174,7 +2174,42 @@
         },
         "SELECT_FULFILLMENT": "Select fulfillment",
         "ADD_FULFILLMENT": "Add fulfillment",
-        "TITLE": "Fulfillments"
+        "TITLE": "Fulfillments",
+        "GAMING": {
+          "AGGREGATION_TYPE": {
+            "LABEL": "Aggregation type",
+            "VALUES": {
+              "COUNT": "Count",
+              "SUM": "Sum"
+            }
+          },
+          "MONEY_TYPE": {
+            "LABEL": "Money type",
+            "VALUES": {
+              "ALL": "All",
+              "REAL": "Real",
+              "BONUS": "Bonus"
+            }
+          },
+          "SPIN_TYPE": {
+            "LABEL": "Spin type",
+            "VALUES": {
+              "BET": "Bet",
+              "WIN": "Win"
+            }
+          },
+          "GAME_FILTER": {
+            "LABEL": "Game filter",
+            "VALUES": {
+              "ALL": "All",
+              "PROVIDER": "Provider",
+              "CUSTOM": "Custom"
+            }
+          },
+          "GAME_LIST": {
+            "LABEL": "Game list"
+          }
+        }
       },
       "REWARDS": {
         "BONUS": {
@@ -2348,7 +2383,8 @@
     "FULL_RESET": {
       "BUTTON": "Full reset",
       "MODAL_TEXT": "You are going to perform a hard reset to the campaign. All targeted player fulfilment states will be reseted."
-    }
+    },
+    "GAMING_FULFILLMENT": "Gaming fulfillment"
   },
   "MULTI_CURRENCY_MODAL": {
     "TITLE": "Value in different currencies",

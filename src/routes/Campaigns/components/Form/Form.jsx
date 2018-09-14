@@ -23,8 +23,7 @@ import NodeBuilder from '../NodeBuilder';
 import { BonusView } from '../Rewards/Bonus';
 import { FreeSpinView } from '../Rewards/FreeSpin';
 import Tag from '../Rewards/Tag';
-import { WageringView } from '../Wagering';
-import DepositFulfillmentView from '../DepositFulfillmentView';
+import { WageringFulfillment, DepositFulfillment, GamingFulfillment } from '../Fulfillments';
 import { createValidator, translateLabels } from '../../../../utils/validator';
 import Permissions from '../../../../utils/permissions';
 import permissions from '../../../../config/permissions';
@@ -37,6 +36,7 @@ import countries from '../../../../utils/countryList';
 import { targetTypes, targetTypesLabels } from '../../../../constants/campaigns';
 import { intNormalize } from '../../../../utils/inputNormalize';
 import Countries from '../Countries';
+import { aggregationTypes, moneyTypes, spinTypes, gameFilters } from '../Fulfillments/GamingFulfillment/constants';
 
 const CAMPAIGN_NAME_MAX_LENGTH = 100;
 
@@ -352,8 +352,9 @@ class Form extends Component {
             nodeButtonLabel={I18n.t('CAMPAIGNS.SETTINGS.FULFILLMENTS.ADD_FULFILLMENT')}
             components={
               this.getAllowedNodes([
-                { type: fulfillmentTypes.WAGERING, component: WageringView },
-                { type: fulfillmentTypes.DEPOSIT, component: DepositFulfillmentView },
+                { type: fulfillmentTypes.WAGERING, component: WageringFulfillment },
+                { type: fulfillmentTypes.DEPOSIT, component: DepositFulfillment },
+                { type: fulfillmentTypes.GAMING, component: GamingFulfillment },
               ], '_FULFILLMENT')
             }
             typeLabels={fulfillmentTypesLabels}
@@ -430,6 +431,16 @@ export default compose(
         if (fulfillment.type === fulfillmentTypes.WAGERING) {
           rules.fulfillments[index] = {
             'amounts[0].amount': ['required', 'numeric', 'greater:0'],
+          };
+        }
+
+        if (fulfillment.type === fulfillmentTypes.GAMING) {
+          rules.fulfillments[index] = {
+            aggregationType: ['required', 'string', `in:${Object.keys(aggregationTypes).join()}`],
+            moneyType: ['required', 'string', `in:${Object.keys(moneyTypes).join()}`],
+            spinType: ['required', 'string', `in:${Object.keys(spinTypes).join()}`],
+            'amount[0].amount': ['required', 'numeric', 'min:1'],
+            gameFilter: ['required', 'string', `in:${Object.keys(gameFilters).join()}`],
           };
         }
       });
