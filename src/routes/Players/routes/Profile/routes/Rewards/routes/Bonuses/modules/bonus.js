@@ -11,7 +11,7 @@ const fetchActiveBonus = bonusActionCreators.fetchActiveBonus(FETCH_ACTIVE_BONUS
 
 function changeBonusState(action, bonusUUID, playerUUID) {
   return (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
+    const { auth: { token, logged, uuid: operatorUUID } } = getState();
 
     return dispatch({
       [CALL_API]: {
@@ -29,6 +29,7 @@ function changeBonusState(action, bonusUUID, playerUUID) {
             payload: {
               action,
               bonusUUID,
+              operatorUUID,
             },
           },
           { type: CHANGE_BONUS_STATE.FAILURE },
