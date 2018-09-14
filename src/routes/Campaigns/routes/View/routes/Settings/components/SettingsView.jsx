@@ -38,7 +38,7 @@ class SettingsView extends Component {
       },
     } = this.props;
 
-    const campaignFields = [
+    const campaignBaseFields = [
       'countries',
       'endDate',
       'excludeCountries',
@@ -53,7 +53,10 @@ class SettingsView extends Component {
       'targetType',
     ];
 
-    return isEqual(pickBy(pick(initialData, campaignFields)), pickBy(pick(currentData, campaignFields)));
+    return isEqual(
+      pickBy(pick(initialData, campaignBaseFields)),
+      pickBy(pick(currentData, campaignBaseFields))
+    );
   }
 
   handleUpdateCampaign = async (values) => {
