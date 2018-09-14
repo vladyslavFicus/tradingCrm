@@ -1,10 +1,10 @@
 import React, { PureComponent } from 'react';
 import { I18n } from 'react-redux-i18n';
-import { MultiCurrencyValue } from '../../../../components/ReduxForm';
-import PropTypes from '../../../../constants/propTypes';
+import { MultiCurrencyValue } from '../../../../../components/ReduxForm/index';
+import PropTypes from '../../../../../constants/propTypes';
 import { attributeLabels } from './constants';
 
-class WageringView extends PureComponent {
+class WageringFulfillment extends PureComponent {
   static propTypes = {
     name: PropTypes.string.isRequired,
     disabled: PropTypes.bool.isRequired,
@@ -31,4 +31,4 @@ class WageringView extends PureComponent {
   }
 }
 
-export default WageringView;
+export default WageringFulfillment;

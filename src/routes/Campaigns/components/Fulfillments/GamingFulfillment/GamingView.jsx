@@ -2,9 +2,9 @@ import React, { PureComponent, Fragment } from 'react';
 import { I18n } from 'react-redux-i18n';
 import { get } from 'lodash';
 import { Field } from 'redux-form';
-import { SelectField, MultiCurrencyValue, NasSelectField } from '../../../../components/ReduxForm';
-import PropTypes from '../../../../constants/propTypes';
-import renderLabel from '../../../../utils/renderLabel';
+import { SelectField, MultiCurrencyValue, NasSelectField } from '../../../../../components/ReduxForm/index';
+import PropTypes from '../../../../../constants/propTypes';
+import renderLabel from '../../../../../utils/renderLabel';
 import {
   attributeLabels,
   aggregationTypes,
