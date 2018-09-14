@@ -2,7 +2,7 @@ import React, { PureComponent, Fragment } from 'react';
 import { I18n } from 'react-redux-i18n';
 import { get } from 'lodash';
 import { Field } from 'redux-form';
-import { SelectField, MultiCurrencyValue, InputField } from '../../../../components/ReduxForm';
+import { SelectField, MultiCurrencyValue, NasSelectField } from '../../../../components/ReduxForm';
 import PropTypes from '../../../../constants/propTypes';
 import renderLabel from '../../../../utils/renderLabel';
 import {
@@ -22,6 +22,9 @@ class GamingView extends PureComponent {
     name: PropTypes.string.isRequired,
     disabled: PropTypes.bool.isRequired,
     formValues: PropTypes.object.isRequired,
+    gameProviders: PropTypes.shape({
+      gameProviders: PropTypes.arrayOf(PropTypes.string),
+    }).isRequired,
   };
 
   get isEnableGameList() {
@@ -29,14 +32,17 @@ class GamingView extends PureComponent {
 
     const currentValues = get(formValues, name, {});
 
-    return currentValues.gameFilter && currentValues.gameFilter !== gameFilters.ALL;
+    return currentValues.gameFilter && currentValues.gameFilter === gameFilters.PROVIDER;
   }
 
   render() {
     const {
       name,
       disabled,
+      gameProviders,
     } = this.props;
+
+    const availableGameProviders = get(gameProviders, 'gameProviders', []);
 
     return (
       <Fragment>
@@ -118,12 +124,15 @@ class GamingView extends PureComponent {
           <If condition={this.isEnableGameList}>
             <Field
               name={`${name}.gameList`}
-              type="text"
-              placeholder=""
               label={I18n.t(attributeLabels.gameList)}
-              component={InputField}
+              component={NasSelectField}
+              multiple
               className="col-4"
-            />
+            >
+              {availableGameProviders.map(key => (
+                <option key={key} value={key}>{key}</option>
+              ))}
+            </Field>
           </If>
         </div>
       </Fragment>

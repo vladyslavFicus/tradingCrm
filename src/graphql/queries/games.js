@@ -42,6 +42,10 @@ const gameListQuery = gql`query GameListView(
 
 const cmsProvidersQuery = gql`query GamesProviders{ cmsProviders { name } }`;
 
+const gameProvidersQuery = gql`query gameProviders($brandId: String!) {
+  gameProviders(brandId: $brandId)
+}`;
+
 const cmsGamesQuery = gql`query GamesView(
     $brandId: String!,
     $platform: CmsGamePlatform,
@@ -83,4 +87,5 @@ export {
   gameListQuery,
   cmsGamesQuery,
   cmsProvidersQuery,
+  gameProvidersQuery,
 };
