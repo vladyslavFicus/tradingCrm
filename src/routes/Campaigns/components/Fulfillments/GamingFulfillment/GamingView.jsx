@@ -102,7 +102,6 @@ class GamingView extends PureComponent {
               label={I18n.t(attributeLabels.amount)}
               baseName={`${name}.amount`}
               disabled={disabled}
-              id="campaign-gaming-fulfilment"
             />
           </div>
           <div className="col-4">
