@@ -149,6 +149,7 @@ const actionHandlers = {
       payload: {
         bonusUUID,
         action,
+        operatorUUID,
       },
       meta: {
         endRequestTime,
@@ -165,7 +166,10 @@ const actionHandlers = {
               $set: mapActionToState[action],
             },
             cancellationReason: {
-              $set: actions.CANCEL ? cancellationReason.MANUAL_BY_OPERATOR : null,
+              $set: action === actions.CANCEL ? cancellationReason.MANUAL_BY_OPERATOR : null,
+            },
+            cancellerUUID: {
+              $set: action === actions.CANCEL ? operatorUUID : null,
             },
           },
         },

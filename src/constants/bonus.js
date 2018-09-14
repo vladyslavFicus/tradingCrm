@@ -80,8 +80,8 @@ const statusesProps = {
   },
 };
 const mapActionToState = {
-  [actions.accept]: statuses.IN_PROGRESS,
-  [actions.cancel]: statuses.CANCELLED,
+  [actions.ACCEPT]: statuses.IN_PROGRESS,
+  [actions.CANCEL]: statuses.CANCELLED,
   [actions.PERMIT_CONVERSION]: statuses.WAGERING_COMPLETE,
 };
 

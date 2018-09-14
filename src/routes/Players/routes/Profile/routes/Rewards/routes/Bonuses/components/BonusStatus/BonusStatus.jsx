@@ -76,51 +76,44 @@ class BonusStatus extends Component {
     </div>
   );
 
-  renderStatusActive = bonus => (bonus.expirationDate
-    ? <span>{I18n.t('COMMON.DATE_UNTIL', {
-      date: moment.utc(bonus.expirationDate).local().format('DD.MM.YYYY HH:mm:ss') })
-    }</span> : null);
+  renderStatusActive = bonus => (
+    <If condition={bonus.expirationDate}>
+      <span>
+        {I18n.t('COMMON.DATE_UNTIL', {
+          date: moment.utc(bonus.expirationDate).local().format('DD.MM.YYYY HH:mm:ss') })
+        }
+      </span>
+    </If>
+  );
 
   renderStatusCancelled = bonus => (
-    <div>
-      {
-        bonus.cancellerUUID &&
-        <div>
-          {I18n.t('COMMON.AUTHOR_BY')}
-          {' '}
-          <Uuid
-            uuid={bonus.cancellerUUID}
-            uuidPrefix={(
-              bonus.cancellationReason === cancellationReason.MANUAL_BY_PLAYER
-                ? bonus.cancellerUUID.indexOf('PLAYER') === -1 ? 'PL' : null
-                : null
-            )}
-          />
-        </div>
-      }
-      {
-        bonus.endDate &&
-        <div>
-          {I18n.t('COMMON.DATE_ON', { date: moment.utc(bonus.endDate).local().format('DD.MM.YYYY HH:mm:ss') })}
-        </div>
-      }
-    </div>
+    <If condition={bonus.cancellerUUID}>
+      <div>
+        {I18n.t('COMMON.AUTHOR_BY')} {' '}
+        <Uuid
+          uuid={bonus.cancellerUUID}
+          uuidPrefix={(
+            bonus.cancellationReason === cancellationReason.MANUAL_BY_PLAYER
+              ? bonus.cancellerUUID.indexOf('PLAYER') === -1 ? 'PL' : null
+              : null
+          )}
+        />
+      </div>
+    </If>
   );
 
   renderStatusWagered = bonus => (
     <div>
-      {
-        bonus.endDate &&
+      <If condition={bonus.endDate}>
         <div>
           on {moment.utc(bonus.endDate).local().format('DD.MM.YYYY HH:mm:ss')}
         </div>
-      }
-      {
-        !!bonus.convertedAmount &&
+      </If>
+      <If condition={bonus.convertedAmount}>
         <div>
           to <Amount amount={bonus.convertedAmount} currency={bonus.currency} />
         </div>
-      }
+      </If>
     </div>
   );
 
@@ -129,13 +122,9 @@ class BonusStatus extends Component {
 
     return (
       <div className={className}>
-        {
-          !!label &&
-          <div className="modal-tab-label">
-            {label}
-          </div>
-        }
-
+        <If condition={label}>
+          <div className="modal-tab-label">{label}</div>
+        </If>
         {this.renderStatus()}
       </div>
     );
