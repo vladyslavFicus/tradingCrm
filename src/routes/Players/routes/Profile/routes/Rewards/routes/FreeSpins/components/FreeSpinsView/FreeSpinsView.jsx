@@ -229,11 +229,12 @@ class FreeSpinsView extends Component {
       notify,
     } = this.props;
 
-    const { uuid, startDate, endDate, gameId } = data;
+    const { uuid, startDate, endDate, gameId, freeSpinsAmount } = data;
     const action = await assignFreeSpinTemplate(uuid, {
       playerUUID,
       currency,
       startDate,
+      freeSpinsAmount,
       endDate,
       gameId,
     });
