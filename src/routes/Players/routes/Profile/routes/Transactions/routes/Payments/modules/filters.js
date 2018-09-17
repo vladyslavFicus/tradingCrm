@@ -12,8 +12,8 @@ function fetchFilters(playerUUID) {
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `/payment/accounts/${playerUUID}`,
-        method: 'GET',
+        endpoint: `/payment_view/payments/${playerUUID}`,
+        method: 'OPTIONS',
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
@@ -51,9 +51,7 @@ const actionHandlers = {
     ...state,
     data: {
       ...state.data,
-      paymentMethods: payload
-        .map(paymentAccount => paymentAccount.paymentMethod)
-        .filter((value, index, self) => self.indexOf(value) === index),
+      paymentMethods: payload,
     },
     isLoading: false,
     receivedAt: endRequestTime,
