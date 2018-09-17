@@ -51,6 +51,8 @@ const departments = keyMirror({
   RFP: null,
   MARKETING: null,
   ADMINISTRATION: null,
+  SALES: null,
+  RETENTION: null,
 });
 const departmentsLabels = {
   [departments.CS]: I18n.t('CONSTANTS.OPERATORS.DEPARTMENTS.CS'),
@@ -60,6 +62,8 @@ const departmentsLabels = {
   [departments.E2E]: I18n.t('CONSTANTS.OPERATORS.DEPARTMENTS.E2E'),
   [departments.BI]: I18n.t('CONSTANTS.OPERATORS.DEPARTMENTS.BI'),
   [departments.IGROMAT]: I18n.t('CONSTANTS.OPERATORS.DEPARTMENTS.IGROMAT'),
+  [departments.SALES]: I18n.t('CONSTANTS.OPERATORS.DEPARTMENTS.SALES'),
+  [departments.RETENTION]: I18n.t('CONSTANTS.OPERATORS.DEPARTMENTS.RETENTION'),
 };
 const roles = keyMirror({
   ROLE1: null,

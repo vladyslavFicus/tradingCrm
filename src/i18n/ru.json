@@ -991,7 +991,9 @@
         "ADMINISTRATION": "Администрация",
         "BI": "Бизнес аналитика",
         "E2E": "E2E",
-        "IGROMAT": "Igromat"
+        "IGROMAT": "Igromat",
+        "SALES": "Sales",
+        "RETENTION": "Retention"
       },
       "ROLES": {
         "ROLE1": "Executive",
@@ -1139,7 +1141,9 @@
         "ADMINISTRATION": "Администрация",
         "BI": "Бизнес аналитика",
         "E2E": "E2E",
-        "IGROMAT": "Igromat"
+        "IGROMAT": "Igromat",
+        "SALES": "Sales",
+        "RETENTION": "Retention"
       }
     },
     "BONUS_CAMPAIGNS": {
