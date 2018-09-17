@@ -7,6 +7,7 @@ import { withNotifications } from '../../../../../components/HighOrder';
 import countries from '../../../../../utils/countryList';
 import { leadsQuery } from '../../../../../graphql/queries/leads';
 import { leadCsvUpload } from '../../../../../graphql/mutations/upload';
+import { leadsSizePerQuery } from '../components/constants';
 
 const mapStateToProps = ({
   usersList: list,
@@ -31,16 +32,19 @@ export default compose(
     name: 'leads',
     options: ({
       location: { query },
-      // auth: { hierarchyUsers },
+      auth: { hierarchyUsers: { leads: ids } },
     }) => ({
       variables: {
-        // ...query ? query.filters : { registrationDateStart: moment().startOf('day').utc().format() },
+        ...query
+          ? query.filters
+          : {
+            registrationDateStart: moment().startOf('day').utc().format(moment.HTML5_FMT.DATETIME_LOCAL_SECONDS),
+          },
         page: 0,
-        limit: 2,
-        // hierarchyUsers,
+        limit: leadsSizePerQuery,
+        ids: ids || [],
       },
     }),
-    // props: ({ leads: { profiles, fetchMore, ...rest } }) => {
     props: ({ leads: { leads, fetchMore, ...rest } }) => {
       const newPage = get(leads, 'data.number') || 0;
       return {

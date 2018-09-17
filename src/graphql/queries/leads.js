@@ -1,21 +1,23 @@
 import gql from 'graphql-tag';
 
 const leadsQuery = gql`query getLeads(
-  $searchValue: String,
+  $ids: [String]!,
+  $nameOrEmailOrId: String,
   $registrationDateStart: String,
   $registrationDateEnd: String,
   $page: Int,
   $limit: Int,
-  $country: String,
+  $countries: [String],
   $salesStatus: tradingProfileSalesStatus,
 ) {
   leads (
-    searchValue: $searchValue,
+    ids: $ids,
+    nameOrEmailOrId: $nameOrEmailOrId,
     registrationDateStart: $registrationDateStart,
     registrationDateEnd: $registrationDateEnd,
     limit: $limit,
     page: $page,
-    country: $country,
+    countries: $countries,
     salesStatus: $salesStatus,
   ) {
     error {

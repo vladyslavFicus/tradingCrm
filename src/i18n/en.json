@@ -868,6 +868,7 @@
     "CRM_USER_DEFINITION": "Client profile",
     "CASINO_USER_DEFINITION": "Player profile",
     "SALES": "Sales",
+    "PROMOTE_TO_CLIENT": "Promote to client", 
     "RETENTION": "Retention",
     "COMPLIANCE": "Compliance",
     "MOVE": "Move",

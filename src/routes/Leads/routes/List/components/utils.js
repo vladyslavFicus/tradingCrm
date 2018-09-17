@@ -2,7 +2,7 @@
 import React, { Fragment } from 'react';
 import moment from 'moment';
 import classNames from 'classnames';
-import { salesStatusesColor } from '../../../../../constants/salesStatuses';
+import { salesStatuses, salesStatusesColor } from '../../../../../constants/salesStatuses';
 import Uuid from '../../../../../components/Uuid';
 import MiniProfile from '../../../../../components/MiniProfile';
 import { types as miniProfileTypes } from '../../../../../constants/miniProfile';
@@ -54,7 +54,9 @@ export default I18n => [{
 
     return (
       <Fragment>
-        <div className={classNames('font-weight-700', { [className]: className })}>{salesStatus}</div>
+        <div className={classNames('font-weight-700 uppercase', { [className]: className })}>
+          {I18n.t(salesStatuses[salesStatus])}
+        </div>
         <div className="font-size-11">{salesAgent}</div>
       </Fragment>
     );

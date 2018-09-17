@@ -7,6 +7,10 @@ const leadCsvUpload = gql`mutation singleFileUpload(
     leadCsvUpload (
       file: $file, 
     ) {
+      error {
+        error
+        fields_errors
+      }
       data {
         leads {
           id

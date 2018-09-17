@@ -1,4 +1,5 @@
-/* eslint-disable import/prefer-default-export */
+const leadsSizePerQuery = 10;
+
 const fileConfig = {
   maxSize: 20,
   types: ['text/csv'],
@@ -6,4 +7,5 @@ const fileConfig = {
 
 export {
   fileConfig,
+  leadsSizePerQuery,
 };

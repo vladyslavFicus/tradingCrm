@@ -9,12 +9,12 @@ import { createValidator } from '../../../../../utils/validator';
 import { filterLabels } from '../../../../../constants/user';
 import createDynamicForm, { FilterItem, FilterField, TYPES, SIZES } from '../../../../../components/DynamicFilters';
 
-const FORM_NAME = 'userListGridFilter';
+const FORM_NAME = 'leadsListGridFilter';
 const DynamicFilters = createDynamicForm({
   form: FORM_NAME,
   touchOnChange: true,
   validate: (_, props) => createValidator({
-    keyword: 'string',
+    nameOrEmailOrId: 'string',
     country: `in:,${Object.keys(props.countries).join()}`,
     status: 'string',
     teams: 'string',
@@ -27,7 +27,7 @@ const DynamicFilters = createDynamicForm({
 class UserGridFilter extends Component {
   static propTypes = {
     currentValues: PropTypes.shape({
-      keyword: PropTypes.string,
+      nameOrEmailOrId: PropTypes.string,
       country: PropTypes.string,
       status: PropTypes.string,
       desks: PropTypes.string,
@@ -83,7 +83,7 @@ class UserGridFilter extends Component {
         <FilterItem label={I18n.t(filterLabels.searchValue)} size={SIZES.big} type={TYPES.input} default>
           <FilterField
             id="users-list-search-field"
-            name="searchValue"
+            name="nameOrEmailOrId"
             placeholder="Name, email, ID..."
             type="text"
           />

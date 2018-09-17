@@ -8,7 +8,6 @@ import PropTypes from '../../../../../constants/propTypes';
 import GridView, { GridViewColumn } from '../../../../../components/GridView';
 import Placeholder from '../../../../../components/Placeholder';
 import FileUpload from '../../../../../components/FileUpload';
-import withPlayerClick from '../../../../../utils/withPlayerClick';
 import getColumns from './utils';
 import { fileConfig } from './constants';
 
@@ -138,6 +137,7 @@ class List extends Component {
       title: I18n.t('COMMON.SUCCESS'),
       message: I18n.t('COMMON.UPLOAD_SUCCESSFUL'),
     });
+    this.handleFilterReset();
   }
 
   render() {
@@ -212,25 +212,7 @@ class List extends Component {
                 className="btn btn-default-outline"
                 // onClick={this.handleRetention}
               >
-                {I18n.t('COMMON.RETENTION')}
-              </button>
-              <button
-                className="btn btn-default-outline"
-                // onClick={this.handleCompliance}
-              >
-                {I18n.t('COMMON.COMPLIANCE')}
-              </button>
-              <button
-                className="btn btn-default-outline"
-                // onClick={this.handleMove}
-              >
-                {I18n.t('COMMON.MOVE')}
-              </button>
-              <button
-                className="btn btn-default-outline"
-                // onClick={this.changeStatus}
-              >
-                {I18n.t('COMMON.CHANGE_STATUS')}
+                {I18n.t('COMMON.PROMOTE_TO_CLIENT')}
               </button>
               <button
                 className="btn btn-default-outline"
@@ -301,4 +283,4 @@ class List extends Component {
   }
 }
 
-export default withPlayerClick(List);
+export default List;

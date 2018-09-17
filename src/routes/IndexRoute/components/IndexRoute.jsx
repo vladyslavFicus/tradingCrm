@@ -57,11 +57,11 @@ class IndexRoute extends PureComponent {
           </Choose>
           {/* Private */}
           <AppRoute path="/brands" layout={BlackLayout} component={Brands} checkAuth />
-          <AppRoute path="/dashboard" layout={MainLayout} component={Dashboard} checkAuth />
           <AppRoute path="/settings" layout={MainLayout} component={Settings} checkAuth />
           <AppRoute path="/operators" layout={MainLayout} component={Operators} checkAuth />
           <Choose>
             <When condition={rootConfig.market === markets.crm}>
+              <AppRoute path="/dashboard" layout={MainLayout} component={Dashboard} checkAuth />
               <AppRoute path="/clients" layout={MainLayout} component={Clients} checkAuth />
               <AppRoute path="/transactions" layout={MainLayout} component={Transactions} checkAuth />
               <AppRoute path="/leads" layout={MainLayout} component={Leads} checkAuth />
