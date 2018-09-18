@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import { get } from 'lodash';
 import { I18n } from 'react-redux-i18n';
 import { Field } from 'redux-form';
-import { MultiCurrencyValue, SelectField, RangeGroup } from '../../../../../components/ReduxForm/index';
+import { MultiCurrencyValue, SelectField, RangeGroup } from '../../../../../components/ReduxForm';
 import PropTypes from '../../../../../constants/propTypes';
 import ordinalizeNumber from '../../../../../utils/ordinalizeNumber';
 import ExcludedPaymentMethods from './ExcludedPaymentMethods';
