@@ -140,7 +140,6 @@ export default compose(
   graphql(unblockMutation, {
     name: 'unblockMutation',
   }),
-
   graphql(addNoteMutation, {
     name: 'addNote',
     options: ({

@@ -25,7 +25,7 @@ class Notes extends Component {
   };
   static contextTypes = {
     onAddNoteClick: PropTypes.func.isRequired,
-    onEditNoteClick: PropTypes.func.isRequired,
+    onEditModalNoteClick: PropTypes.func.isRequired,    
     setNoteChangedCallback: PropTypes.func.isRequired,
     registerUpdateCacheListener: PropTypes.func.isRequired,
     unRegisterUpdateCacheListener: PropTypes.func.isRequired,
@@ -80,13 +80,7 @@ class Notes extends Component {
     }
   };
 
-  handleNoteClick = (target, data) => {
-    if (data) {
-      this.context.onEditNoteClick(target, data, { placement: 'left' });
-    }
-  };
-
-  renderItem = data => <NoteItem data={data} handleNoteClick={this.handleNoteClick} />;
+  renderItem = data => <NoteItem data={data} handleNoteClick={this.context.onEditModalNoteClick} />;
 
   render() {
     const {
