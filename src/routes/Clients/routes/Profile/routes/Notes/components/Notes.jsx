@@ -25,7 +25,7 @@ class Notes extends Component {
   };
   static contextTypes = {
     onAddNoteClick: PropTypes.func.isRequired,
-    onEditModalNoteClick: PropTypes.func.isRequired,    
+    onEditModalNoteClick: PropTypes.func.isRequired,
     setNoteChangedCallback: PropTypes.func.isRequired,
     registerUpdateCacheListener: PropTypes.func.isRequired,
     unRegisterUpdateCacheListener: PropTypes.func.isRequired,

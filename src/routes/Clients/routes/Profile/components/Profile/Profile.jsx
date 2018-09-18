@@ -315,7 +315,7 @@ class Profile extends Component {
           if (!hasPinnedNotes && file.note.pinned) {
             hasPinnedNotes = true;
           }
-          return addNote({ variables: { ...file.note, targetUUID: file.fileUUID } });          
+          return addNote({ variables: { ...file.note, targetUUID: file.fileUUID } });
         }
 
         return false;
