@@ -35,7 +35,6 @@ class MultiInputField extends Component {
       PropTypes.node,
     ]),
     inputAddonPosition: PropTypes.oneOf(['left', 'right']),
-    type: PropTypes.string.isRequired,
     position: PropTypes.oneOf(['horizontal', 'vertical']),
     showErrorMessage: PropTypes.bool,
     disabled: PropTypes.bool,
@@ -105,7 +104,6 @@ class MultiInputField extends Component {
       inputAddon,
       inputAddonPosition,
       disabled,
-      type,
       placeholder,
       label,
       id,
@@ -124,7 +122,6 @@ class MultiInputField extends Component {
         onKeyDown={this.handleKeyDown}
         placeholder={placeholder !== null ? placeholder : label}
         value={value}
-        type={type}
         disabled={disabled}
       />
     );

@@ -441,7 +441,15 @@ export default compose(
             spinType: ['required', 'string', `in:${Object.keys(spinTypes).join()}`],
             'amount[0].amount': ['required', 'numeric', 'min:1'],
             gameFilter: ['required', 'string', `in:${Object.keys(gameFilters).join()}`],
+            gameList: ['array'],
           };
+
+          if (
+            values.fulfillments[index].gameFilter === gameFilters.CUSTOM ||
+            values.fulfillments[index].gameFilter === gameFilters.PROVIDER
+          ) {
+            rules.fulfillments[index].gameList.push('required');
+          }
         }
       });
 
