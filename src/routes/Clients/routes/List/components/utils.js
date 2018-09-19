@@ -6,12 +6,13 @@ import {
   statusColorNames as userStatusColorNames,
   statusesLabels as userStatusesLabels,
 } from '../../../../../constants/user';
-import { salesStatusesColor } from '../../../../../constants/salesStatuses';
-import { retentionStatusesColor } from './constants';
+import { salesStatuses, salesStatusesColor } from '../../../../../constants/salesStatuses';
+import { retentionStatuses, retentionStatusesColor } from './constants';
 import GridPlayerInfo from '../../../../../components/GridPlayerInfo';
-import GridCountryFlag from '../../../../../components/GridCountryFlag';
+import CountryLabelWithFlag from '../../../../../components/CountryLabelWithFlag';
 import GridEmptyValue from '../../../../../components/GridEmptyValue';
 import GridStatus from '../../../../../components/GridStatus';
+import renderLabel from '../../../../../utils/renderLabel';
 
 export default (
   I18n,
@@ -31,7 +32,7 @@ export default (
   name: 'country',
   header: I18n.t('CLIENTS.LIST.GRID_HEADER.COUNTRY'),
   render: ({ country, languageCode }) => (
-    <GridCountryFlag
+    <CountryLabelWithFlag
       code={country}
       height="14"
       languageCode={languageCode}
@@ -66,7 +67,7 @@ export default (
         <When condition={tradingProfile.lastDepositDate}>
           <div className="font-weight-700">{tradingProfile.depositCount}</div>
           <div className="font-size-11">
-            {I18n.t('CLIENT_PROFILE.PROFILE.HEADER.EQUITY')}
+            {I18n.t('CLIENT_PROFILE.CLIENT.BALANCES.LAST')}
             {' '}
             {moment(tradingProfile.lastDepositDate).format('DD.MM.YYYY')}
           </div>
@@ -94,7 +95,7 @@ export default (
           <GridStatus
             wrapperClassName={aquisitionStatus === 'SALES' ? `border-${colorClassName}` : ''}
             colorClassName={colorClassName}
-            colorLabel={salesStatus}
+            statusLabel={renderLabel(salesStatus, salesStatuses)}
             info={salesRepName}
           />
         </When>
@@ -117,7 +118,7 @@ export default (
           <GridStatus
             wrapperClassName={aquisitionStatus === 'RETENTION' ? `border-${colorClassName}` : ''}
             colorClassName={colorClassName}
-            colorLabel={retentionStatus}
+            statusLabel={renderLabel(retentionStatus, retentionStatuses)}
             info={retentionRepName}
           />
         </When>
@@ -144,7 +145,7 @@ export default (
   render: ({ profileStatus, profileStatusDate }) => (
     <GridStatus
       colorClassName={userStatusColorNames[profileStatus]}
-      colorLabel={userStatusesLabels[profileStatus] ? I18n.t(userStatusesLabels[profileStatus]) : profileStatus}
+      statusLabel={renderLabel(profileStatus, userStatusesLabels)}
       info={profileStatusDate}
       infoLabel={date => I18n.t('COMMON.SINCE', { date: moment.utc(date).local().format('DD.MM.YYYY HH:mm') })}
     />

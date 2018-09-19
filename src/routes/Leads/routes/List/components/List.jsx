@@ -1,4 +1,6 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
+import moment from 'moment';
+import classNames from 'classnames';
 import { I18n } from 'react-redux-i18n';
 import { get } from 'lodash';
 import { TextRow } from 'react-placeholder/lib/placeholders';
@@ -8,7 +10,11 @@ import PropTypes from '../../../../../constants/propTypes';
 import GridView, { GridViewColumn } from '../../../../../components/GridView';
 import Placeholder from '../../../../../components/Placeholder';
 import FileUpload from '../../../../../components/FileUpload';
-import getColumns from './utils';
+import { salesStatuses, salesStatusesColor } from '../../../../../constants/salesStatuses';
+import Uuid from '../../../../../components/Uuid';
+import MiniProfile from '../../../../../components/MiniProfile';
+import { types as miniProfileTypes } from '../../../../../constants/miniProfile';
+import CountryLabelWithFlag from '../../../../../components/CountryLabelWithFlag';
 import { fileConfig } from './constants';
 
 class List extends Component {
@@ -111,8 +117,10 @@ class List extends Component {
   };
 
   handleUploadCSV = async (errors, file) => {
+    const { notify } = this.props;
+
     if (errors.length > 0) {
-      this.props.notify({
+      notify({
         level: 'error',
         title: I18n.t('COMMON.UPLOAD_FAILED'),
         message: errors.join(', '),
@@ -120,10 +128,11 @@ class List extends Component {
 
       return;
     }
+
     const action = await this.props.fileUpload({ variables: { file } });
 
     if (action.error) {
-      this.props.notify({
+      notify({
         level: 'error',
         title: I18n.t('COMMON.UPLOAD_FAILED'),
         message: action.error || action.field_errors || I18n.t('COMMON.SOMETHING_WRONG'),
@@ -132,13 +141,67 @@ class List extends Component {
       return;
     }
 
-    this.props.notify({
+    notify({
       level: 'success',
       title: I18n.t('COMMON.SUCCESS'),
       message: I18n.t('COMMON.UPLOAD_SUCCESSFUL'),
     });
     this.handleFilterReset();
   }
+
+  renderLead = data => (
+    <div id={data.id}>
+      <div className="font-weight-700">
+        {data.name} {data.surname}
+      </div>
+      <div className="font-size-11">
+        <MiniProfile
+          target={data.id}
+          dataSource={data}
+          type={miniProfileTypes.LEAD}
+        >
+          <Uuid uuid={data.id} uuidPrefix="LE" />
+        </MiniProfile>
+      </div>
+    </div>
+  );
+
+  renderCountry = ({ country, language }) => (
+    <CountryLabelWithFlag
+      code={country}
+      height="14"
+      languageCode={language}
+    />
+  );
+
+  renderSourceAndAffiliate = ({ source, affiliate }) => (
+    <Fragment>
+      <div className="header-block-middle">{affiliate}</div>
+      <div className="header-block-small">{source}</div>
+    </Fragment>
+  );
+
+  renderSales = ({ salesStatus, salesAgent }) => {
+    const className = salesStatusesColor[salesStatus];
+
+    return (
+      <Fragment>
+        <div className={classNames('font-weight-700 text-uppercase', { [className]: className })}>
+          {I18n.t(salesStatuses[salesStatus])}
+        </div>
+        <div className="font-size-11">{salesAgent}</div>
+      </Fragment>
+    );
+  };
+
+  renderRegistrationDate = ({ registrationDate }) => (
+    <Fragment>
+      <div className="font-weight-700">{moment.utc(registrationDate).local().format('DD.MM.YYYY')}</div>
+      <div className="font-size-11">
+        {moment.utc(registrationDate).local().format('HH:mm:ss')}
+      </div>
+    </Fragment>
+  );
 
   render() {
     const {
@@ -204,19 +267,16 @@ class List extends Component {
               <span>Bulk actions</span>
               <button
                 className="btn btn-default-outline"
-                // onClick={this.handleSales}
               >
                 {I18n.t('COMMON.SALES')}
               </button>
               <button
                 className="btn btn-default-outline"
-                // onClick={this.handleRetention}
               >
                 {I18n.t('COMMON.PROMOTE_TO_CLIENT')}
               </button>
               <button
                 className="btn btn-default-outline"
-                // onClick={this.handleExportSelected}
               >
                 {I18n.t('COMMON.EXPORT_SELECTED')}
               </button>
@@ -268,14 +328,31 @@ class List extends Component {
             showNoResults={!loading && entities.content.length === 0}
             onRowClick={this.handleLeadClick}
           >
-            {getColumns(I18n).map(({ name, header, render }) => (
-              <GridViewColumn
-                key={name}
-                name={name}
-                header={header}
-                render={render}
-              />
-            ))}
+            <GridViewColumn
+              name="lead"
+              header={I18n.t('CLIENTS.LEADS.GRID_HEADER.LEAD')}
+              render={this.renderLead}
+            />
+            <GridViewColumn
+              name="country"
+              header={I18n.t('CLIENTS.LEADS.GRID_HEADER.COUNTRY')}
+              render={this.renderCountry}
+            />
+            <GridViewColumn
+              name="source/affiliate"
+              header={I18n.t('CLIENTS.LEADS.GRID_HEADER.SOURCE/AFFILIATE')}
+              render={this.renderSourceAndAffiliate}
+            />
+            <GridViewColumn
+              name="sales"
+              header={I18n.t('CLIENTS.LEADS.GRID_HEADER.SALES')}
+              render={this.renderSales}
+            />
+            <GridViewColumn
+              name="registrationDate"
+              header={I18n.t('CLIENTS.LEADS.GRID_HEADER.REGISTRATION')}
+              render={this.renderRegistrationDate}
+            />
           </GridView>
         </div>
       </div>

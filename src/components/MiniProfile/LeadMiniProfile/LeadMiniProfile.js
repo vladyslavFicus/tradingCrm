@@ -4,12 +4,17 @@ import classNames from 'classnames';
 import { I18n } from 'react-redux-i18n';
 import PropTypes from '../../../constants/propTypes';
 import Uuid from '../../Uuid';
-import GridCountryFlag from '../../GridCountryFlag';
+import CountryLabelWithFlag from '../../CountryLabelWithFlag';
 import { salesStatusesColor } from '../../../constants/salesStatuses';
 import './LeadMiniProfile.scss';
 
 const LeadMiniProfile = ({ data }) => {
   const salesStatusClassName = salesStatusesColor[data.salesStatus];
+
+  if (!data) {
+    return null;
+  }
+
   return (
     <div className="mini-profile mini-profile dormant">
       <div className="mini-profile-header">
@@ -26,7 +31,7 @@ const LeadMiniProfile = ({ data }) => {
         <div className="info-block">
           <div className="info-block-label">{I18n.t('MINI_PROFILE.LEADS.COUNTRY')}</div>
           <div className="info-block-content">
-            <GridCountryFlag
+            <CountryLabelWithFlag
               code={data.country}
               height="14"
               languageCode={data.language}

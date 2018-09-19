@@ -1265,6 +1265,21 @@
       "DUPLICATE": "Duplicate",
       "VOICEMAIL": "Voicemail",
       "NEVER_ANSWER": "Never answer"
+    },
+    "RETENTION_STATUSES": {
+      "NEW": "New",
+      "CALLBACK": "Callback",
+      "WRONG_NUMBER": "Wrong Number",
+      "NEVER_ANSWER": "Never answer",
+      "ANSWER_REASSIGN": "Answer reassign",
+      "HAS_POTENTIAL_REASSIGN": "Has potential reassign",
+      "NO_POTENTIAL": "No potential",
+      "NOT_INTERESTED": "Not interested",
+      "UNDER_18": "Under 18",
+      "INVALID_LANGUAGE": "Invalid language",
+      "SEASSIONS_ONLY": "Sessions only",
+      "RECOVERY_DEPOSITOR": "Recovery depositor",
+      "RECEIVED_WITHDRAWAL": "Received withdrawal"
     }
   },
   "OPERATOR_PROFILE": {
