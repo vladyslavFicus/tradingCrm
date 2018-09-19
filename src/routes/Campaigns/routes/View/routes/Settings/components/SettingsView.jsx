@@ -34,9 +34,16 @@ class SettingsView extends Component {
       campaign: {
         campaign: {
           data: initialData,
+          data: {
+            fulfillments: initialFulfillments,
+          },
         },
       },
     } = this.props;
+
+    if (!isEqual(currentData.fulfillments, initialFulfillments)) {
+      return false;
+    }
 
     const excludeFields = [
       'uuid',
@@ -44,7 +51,6 @@ class SettingsView extends Component {
       'creationDate',
       'state',
       'fulfillments',
-      'rewards',
       '__typename',
       '_id',
     ];
