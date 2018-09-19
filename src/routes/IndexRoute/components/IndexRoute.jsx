@@ -62,13 +62,13 @@ class IndexRoute extends PureComponent {
           <Choose>
             <When condition={rootConfig.market === markets.crm}>
               <AppRoute path="/dashboard" layout={MainLayout} component={Dashboard} checkAuth />
+              <AppRoute path="/payments" layout={MainLayout} component={Payments} checkAuth />
               <AppRoute path="/clients" layout={MainLayout} component={Clients} checkAuth />
-              <AppRoute path="/transactions" layout={MainLayout} component={Transactions} checkAuth />
               <AppRoute path="/leads" layout={MainLayout} component={Leads} checkAuth />
             </When>
             <Otherwise>
               <AppRoute path="/players" layout={MainLayout} component={Players} checkAuth />
-              <AppRoute path="/payments" layout={MainLayout} component={Payments} checkAuth />
+              <AppRoute path="/transactions" layout={MainLayout} component={Transactions} checkAuth />
               <AppRoute path="/bonus-campaigns" layout={MainLayout} component={BonusCampaigns} checkAuth />
               <AppRoute path="/campaigns" layout={MainLayout} component={Campaigns} checkAuth />
             </Otherwise>
