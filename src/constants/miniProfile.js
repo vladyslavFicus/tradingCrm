@@ -5,6 +5,7 @@ const types = keyMirror({
   OPERATOR: null,
   PLAYER: null,
   CAMPAIGN: null,
+  LEAD: null,
 });
 
 export {

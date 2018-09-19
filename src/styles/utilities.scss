@@ -262,7 +262,9 @@ small {
     top: 2px;
   }
   button {
-    margin-right: 15px;
+    &:not(:last-child) {
+      margin-right: 15px;
+    }
     padding: 5px 10px;
   }
 }

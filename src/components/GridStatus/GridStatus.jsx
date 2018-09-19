@@ -5,13 +5,13 @@ import classNames from 'classnames';
 const GridStatus = ({
   wrapperClassName,
   colorClassName,
-  colorLabel,
+  statusLabel,
   info,
   infoLabel,
 }) => (
   <div className={wrapperClassName ? `grid-status-border ${wrapperClassName}` : ''}>
     <div className={classNames(colorClassName, 'text-uppercase font-weight-700')}>
-      {colorLabel}
+      {statusLabel}
     </div>
     <If condition={info}>
       <div className="font-size-11">
@@ -31,7 +31,7 @@ const GridStatus = ({
 GridStatus.propTypes = {
   wrapperClassName: PropTypes.string,
   colorClassName: PropTypes.string.isRequired,
-  colorLabel: PropTypes.string.isRequired,
+  statusLabel: PropTypes.string.isRequired,
   info: PropTypes.string,
   infoLabel: PropTypes.func,
 };

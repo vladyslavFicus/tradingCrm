@@ -39,8 +39,6 @@ class SignIn extends Component {
     logged: false,
   };
 
-  mounted = false;
-
   componentDidMount() {
     this.mounted = true;
 
@@ -71,10 +69,11 @@ class SignIn extends Component {
     this.props.reset();
   }
 
+  mounted = false;
   resetStateTimeout = null;
 
   handleSubmit = async (data) => {
-    const { signIn } = this.props;
+    const { signIn, fetchHierarchy } = this.props;
     const action = await signIn(data);
 
     if (action) {
@@ -82,8 +81,13 @@ class SignIn extends Component {
         console.info('Sign in successful');
 
         if (this.mounted) {
-          this.setState({ logged: true }, () => {
+          this.setState({ logged: true }, async () => {
             const { departmentsByBrand, token, uuid } = action.payload;
+
+            if (rootConfig.market === markets.crm) {
+              await fetchHierarchy(uuid, token);
+            }
+
             const brands = Object.keys(departmentsByBrand);
             console.info(`Logged with ${brands.length} brands`);
 
@@ -135,7 +139,6 @@ class SignIn extends Component {
       setDepartmentsByBrand,
       fetchAuthorities,
       fetchProfile,
-      fetchHierarchy,
       reset,
     } = this.props;
     const token = requestToken || dataToken;
@@ -162,7 +165,6 @@ class SignIn extends Component {
             await Promise.all([
               fetchProfile(uuid, action.payload.token),
               fetchAuthorities(uuid, action.payload.token),
-              ...(rootConfig.market === markets.crm ? [fetchHierarchy(uuid)] : []),
             ]);
           } else {
             throw new SubmissionError({ _error: get(action.payload, 'response.error', action.payload.message) });
