@@ -61,10 +61,15 @@ class MultiInputField extends Component {
     helpText: null,
   };
 
-  state = {
-    inputValue: '',
-    value: [],
-  };
+  constructor(props) {
+    super(props);
+    const { input: { value } } = this.props;
+
+    this.state = {
+      inputValue: '',
+      value: Array.isArray(value) ? value.map(v => createOption(v)) : [],
+    };
+  }
 
   handleChange = (value) => {
     const { input: { onChange } } = this.props;
@@ -82,6 +87,7 @@ class MultiInputField extends Component {
     const { inputValue, value } = this.state;
 
     if (!inputValue) return;
+
     switch (event.key) {
       case 'Enter':
       case 'Tab':
@@ -94,6 +100,9 @@ class MultiInputField extends Component {
           this.props.input.onChange(values);
         });
         event.preventDefault();
+        break;
+      default:
+        break;
     }
   };
 
