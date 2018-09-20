@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { includes } from 'lodash';
 import CreatableSelect from 'react-select/lib/Creatable';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
@@ -12,6 +13,8 @@ const createOption = label => ({
   label,
   value: label,
 });
+
+const getValues = value => Array.isArray(value) ? value.map(v => v.value) : [];
 
 class MultiInputField extends Component {
   static propTypes = {
@@ -75,7 +78,7 @@ class MultiInputField extends Component {
     const { input: { onChange } } = this.props;
 
     this.setState({ value }, () => {
-      onChange(!value.length ? '' : value);
+      onChange(getValues(value));
     });
   };
 
@@ -85,20 +88,21 @@ class MultiInputField extends Component {
 
   handleKeyDown = (event) => {
     const { inputValue, value } = this.state;
+    const { input: { onChange } } = this.props;
 
     if (!inputValue) return;
 
     switch (event.key) {
       case 'Enter':
       case 'Tab':
-        this.setState({
-          inputValue: '',
-          value: [...value, createOption(inputValue)],
-        }, () => {
-          const values = this.state.value.map(p => p.value);
-
-          this.props.input.onChange(values);
-        });
+        if (!includes(getValues(value), inputValue)) {
+          this.setState({
+            inputValue: '',
+            value: [...value, createOption(inputValue)],
+          }, () => {
+            onChange(getValues(this.state.value));
+          });
+        }
         event.preventDefault();
         break;
       default:
