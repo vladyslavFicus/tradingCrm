@@ -106,6 +106,7 @@ const createMutation = gql`mutation create(
   $rewards: [InputReward]!
   $startDate: String
   $endDate: String
+  $countries: [String]
   $optInPeriod: Int
   $optInPeriodTimeUnit: String
   $fulfillmentPeriod: Int
@@ -121,6 +122,7 @@ const createMutation = gql`mutation create(
       rewards: $rewards
       startDate: $startDate
       endDate: $endDate
+      countries: $countries
       optInPeriod: $optInPeriod
       optInPeriodTimeUnit: $optInPeriodTimeUnit
       fulfillmentPeriod: $fulfillmentPeriod
