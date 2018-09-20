@@ -224,7 +224,7 @@ class BonusView extends PureComponent {
                           />
                         </When>
                         <Otherwise>
-                          {template.wageringRequirementPercentage}%
+                          {parseInt(template.wageringRequirementPercentage / 100, 10)} X
                         </Otherwise>
                       </Choose>
                     </When>

@@ -74,7 +74,10 @@ class CreateBonusModal extends PureComponent {
       if (formData[key].type === customValueFieldTypes.ABSOLUTE) {
         data[`${key}Absolute`] = formData[key].absolute;
       } else {
-        data[`${key}Percentage`] = formData[key].percentage;
+        const percentageValue = key === 'wageringRequirement'
+          ? formData[key].percentage * 100
+          : formData[key].percentage;
+        data[`${key}Percentage`] = percentageValue;
       }
     });
 
@@ -138,7 +141,7 @@ class CreateBonusModal extends PureComponent {
       this.setField('capping.percentage', get(formValues, 'capping.absolute[0].amount'));
       this.setField('prize.percentage', get(formValues, 'prize.absolute[0].amount'));
     }
-  }
+  };
 
   renderCappingPrizeLabel = label => (
     <div>
