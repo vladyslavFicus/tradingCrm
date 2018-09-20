@@ -9,7 +9,7 @@ import Placeholder from '../../../../../../components/Placeholder';
 import Uuid from '../../../../../../components/Uuid';
 import MultiCurrencyView from '../../../../../../components/MultiCurrencyView';
 import { customValueFieldTypes } from '../../../../../../constants/form';
-import { attributeLabels, attributePlaceholders } from '../constants';
+import { attributeLabels, attributePlaceholders, wageringRequirementTypeLabels } from '../constants';
 import renderLabel from '../../../../../../utils/renderLabel';
 import { lockAmountStrategyLabels, moneyTypeUsageLabels } from '../../../../../../constants/bonus-campaigns';
 import DeviceTypeField from '../../DeviceTypeField';
@@ -232,6 +232,12 @@ class BonusView extends PureComponent {
                       -
                     </Otherwise>
                   </Choose>
+                </div>
+              </div>
+              <div className="col-4">
+                {I18n.t(attributeLabels.wageringRequirementType)}
+                <div className="campaigns-template__value">
+                  {renderLabel(template.wageringRequirementType, wageringRequirementTypeLabels)}
                 </div>
               </div>
               <div className="col-4">

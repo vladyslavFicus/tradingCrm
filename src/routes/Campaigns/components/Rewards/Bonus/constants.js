@@ -18,6 +18,7 @@ const attributeLabels = {
   maxGrantAmount: I18n.t('CAMPAIGNS.SETTINGS.REWARDS.BONUS.LABEL.MAX_GRANTED_AMOUNT'),
   lifeTime: I18n.t('CAMPAIGNS.SETTINGS.REWARDS.BONUS.LABEL.LIFE_TIME'),
   wageringRequirement: I18n.t('CAMPAIGNS.SETTINGS.REWARDS.BONUS.LABEL.WAGERING_REQUIREMENT'),
+  wageringRequirementType: I18n.t('CAMPAIGNS.SETTINGS.REWARDS.BONUS.LABEL.WAGERING_REQUIREMENT_TYPE'),
   lockAmountStrategy: I18n.t('CAMPAIGNS.SETTINGS.REWARDS.BONUS.LABEL.LOCK_AMOUNT_STRATEGY'),
   template: I18n.t('CAMPAIGNS.SETTINGS.REWARDS.BONUS.LABEL.TEMPLATE'),
 };
@@ -34,8 +35,20 @@ const wageringRequirementTypes = keyMirror({
   BONUS_PLUS_DEPOSIT: null,
 });
 
+const wageringRequirementTypeLabels = {
+  [wageringRequirementTypes.ABSOLUTE]:
+    I18n.t('CAMPAIGNS.SETTINGS.REWARDS.BONUS.WAGERING_REQUIREMENT_TYPE.ABSOLUTE'),
+  [wageringRequirementTypes.BONUS]:
+    I18n.t('CAMPAIGNS.SETTINGS.REWARDS.BONUS.WAGERING_REQUIREMENT_TYPE.BONUS'),
+  [wageringRequirementTypes.DEPOSIT]:
+    I18n.t('CAMPAIGNS.SETTINGS.REWARDS.BONUS.WAGERING_REQUIREMENT_TYPE.DEPOSIT'),
+  [wageringRequirementTypes.BONUS_PLUS_DEPOSIT]:
+    I18n.t('CAMPAIGNS.SETTINGS.REWARDS.BONUS.WAGERING_REQUIREMENT_TYPE.BONUS_AND_DEPOSIT'),
+};
+
 export {
   attributeLabels,
   attributePlaceholders,
   wageringRequirementTypes,
+  wageringRequirementTypeLabels,
 };
