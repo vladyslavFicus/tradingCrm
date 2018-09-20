@@ -397,8 +397,8 @@ export default compose(
         fulfillmentPeriodTimeUnit: [`in:${Object.keys(periods).join()}`],
         promoCode: ['string', 'min:4'],
         optIn: ['boolean', 'required'],
-        startDate: ['required', 'regex:/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/'],
-        endDate: ['required', 'regex:/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/', 'daysRangeBetween:startDate:230'],
+        startDate: ['regex:/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/'],
+        endDate: ['regex:/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/', 'daysRangeBetween:startDate:230'],
       };
 
       const fulfillments = get(values, 'fulfillments', []);
