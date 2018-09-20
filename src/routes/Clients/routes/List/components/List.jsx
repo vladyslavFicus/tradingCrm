@@ -25,19 +25,27 @@ class List extends Component {
       profiles: PropTypes.shape({
         data: PropTypes.pageable(PropTypes.any),
       }),
-      loadMore: PropTypes.func.isRequired,
+      loadMore: PropTypes.func,
       loading: PropTypes.bool.isRequired,
-    }).isRequired,
+    }),
     location: PropTypes.shape({
       query: PropTypes.shape({
         filters: PropTypes.object,
       }),
     }).isRequired,
   };
+
   static contextTypes = {
     miniProfile: PropTypes.shape({
       onShowMiniProfile: PropTypes.func.isRequired,
     }),
+  };
+
+  static defaultProps = {
+    profiles: {
+      profiles: {},
+      loading: false,
+    },
   };
 
   state = {

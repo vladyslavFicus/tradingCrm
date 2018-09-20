@@ -45,9 +45,9 @@ class View extends Component {
     clientPayments: PropTypes.shape({
       clientPayments: PropTypes.object,
       loading: PropTypes.bool.isRequired,
-      loadMore: PropTypes.func.isRequired,
-      refetch: PropTypes.func.isRequired,
-    }).isRequired,
+      loadMore: PropTypes.func,
+      refetch: PropTypes.func,
+    }),
   };
 
   static contextTypes = {
@@ -59,6 +59,13 @@ class View extends Component {
       setNoteChangedCallback: PropTypes.func.isRequired,
       hidePopover: PropTypes.func.isRequired,
     }),
+  };
+
+  static defaultProps = {
+    clientPayments: {
+      clientPayments: { content: [] },
+      loading: false,
+    },
   };
 
   state = {

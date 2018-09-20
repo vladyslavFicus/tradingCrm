@@ -32,6 +32,7 @@ export default compose(
   connect(mapStateToProps, mapActions),
   graphql(profilesQuery, {
     name: 'profiles',
+    skip: ({ auth }) => !get(auth, 'hierarchyUsers.clients'),
     options: ({
       location: { query },
       auth: { hierarchyUsers: { clients: hierarchyUsers } },

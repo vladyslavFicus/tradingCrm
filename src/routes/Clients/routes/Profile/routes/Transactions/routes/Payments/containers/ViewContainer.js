@@ -47,7 +47,9 @@ export default compose(
       location: { query },
     }) => ({
       variables: {
-        ...query ? query.filters : { startDate: moment().startOf('day').utc().format(moment.HTML5_FMT.DATETIME_LOCAL_SECONDS) },
+        ...query
+          ? query.filters
+          : { startDate: moment().startOf('day').utc().format(moment.HTML5_FMT.DATETIME_LOCAL_SECONDS) },
         playerUUID,
         page: 0,
         size: 20,
