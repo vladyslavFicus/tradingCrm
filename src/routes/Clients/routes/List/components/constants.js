@@ -1,26 +1,17 @@
-const salesStatusesColor = {
-  NEW: 'color-info',
-  NO_ANSWER: 'color-danger',
-  NO_ANSWER_2: 'color-danger',
-  NO_ANSWER_3: 'color-danger',
-  NO_ANSWER_4: 'color-danger',
-  NO_ANSWER_5: 'color-danger',
-  CONVERTED_CALLBACK: 'color-success',
-  INTERESTED: 'color-info',
-  NOT_INTERESTED: 'color-danger',
-  WRONG_INFO: 'color-danger',
-  INIT_CALL_DO: 'color-info',
-  NOT_CALL: 'color-info',
-  NO_FUNDS: 'color-warning',
-  FAILED_DEPOSIT: 'color-danger',
-  CLOSED: 'color-danger',
-  INVALID_LANGUAGE: 'color-danger',
-  REASSIGN: 'color-warning',
-  UNDER_18: 'color-danger',
-  WRONG_NUMBER: 'color-danger',
-  DUPLICATE: 'color-warning',
-  VOICEMAIL: 'color-info',
-  NEVER_ANSWER: 'color-danger',
+const retentionStatuses = {
+  NEW: 'CONSTANTS.RETENTION_STATUSES.NEW',
+  CALLBACK: 'CONSTANTS.RETENTION_STATUSES.CALLBACK',
+  WRONG_NUMBER: 'CONSTANTS.RETENTION_STATUSES.WRONG_NUMBER',
+  NEVER_ANSWER: 'CONSTANTS.RETENTION_STATUSES.NEVER_ANSWER',
+  ANSWER_REASSIGN: 'CONSTANTS.RETENTION_STATUSES.ANSWER_REASSIGN',
+  HAS_POTENTIAL_REASSIGN: 'CONSTANTS.RETENTION_STATUSES.HAS_POTENTIAL_REASSIGN',
+  NO_POTENTIAL: 'CONSTANTS.RETENTION_STATUSES.NO_POTENTIAL',
+  NOT_INTERESTED: 'CONSTANTS.RETENTION_STATUSES.NOT_INTERESTED',
+  UNDER_18: 'CONSTANTS.RETENTION_STATUSES.UNDER_18',
+  INVALID_LANGUAGE: 'CONSTANTS.RETENTION_STATUSES.INVALID_LANGUAGE',
+  SEASSIONS_ONLY: 'CONSTANTS.RETENTION_STATUSES.SEASSIONS_ONLY',
+  RECOVERY_DEPOSITOR: 'CONSTANTS.RETENTION_STATUSES.RECOVERY_DEPOSITOR',
+  RECEIVED_WITHDRAWAL: 'CONSTANTS.RETENTION_STATUSES.RECEIVED_WITHDRAWAL',
 };
 
 const retentionStatusesColor = {
@@ -48,7 +39,7 @@ const acquisitionStatuses = [{
 }];
 
 export {
-  salesStatusesColor,
+  retentionStatuses,
   retentionStatusesColor,
   acquisitionStatuses,
 };

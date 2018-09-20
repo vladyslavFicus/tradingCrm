@@ -2,7 +2,12 @@ import React, { PureComponent, Fragment } from 'react';
 import { I18n } from 'react-redux-i18n';
 import { get } from 'lodash';
 import { Field } from 'redux-form';
-import { SelectField, MultiCurrencyValue, NasSelectField } from '../../../../../components/ReduxForm/index';
+import {
+  SelectField,
+  MultiCurrencyValue,
+  NasSelectField,
+  MultiInputField,
+} from '../../../../../components/ReduxForm';
 import PropTypes from '../../../../../constants/propTypes';
 import renderLabel from '../../../../../utils/renderLabel';
 import {
@@ -27,7 +32,11 @@ class GamingView extends PureComponent {
     }).isRequired,
   };
 
-  get isEnableGameList() {
+  static contextTypes = {
+    _reduxForm: PropTypes.object,
+  };
+
+  get isProviderGameFilter() {
     const { formValues, name } = this.props;
 
     const currentValues = get(formValues, name, {});
@@ -35,14 +44,58 @@ class GamingView extends PureComponent {
     return currentValues.gameFilter && currentValues.gameFilter === gameFilters.PROVIDER;
   }
 
-  render() {
-    const {
-      name,
-      disabled,
-      gameProviders,
-    } = this.props;
+  get isCustomGameFilter() {
+    const { formValues, name } = this.props;
+
+    const currentValues = get(formValues, name, {});
+
+    return currentValues.gameFilter && currentValues.gameFilter === gameFilters.CUSTOM;
+  }
+
+  handleChangeGameFilter = () => {
+    const { name } = this.props;
+    const { _reduxForm: { autofill } } = this.context;
+
+    autofill(`${name}.gameList`, null);
+  };
+
+  renderGameList() {
+    const { name, disabled, gameProviders } = this.props;
 
     const availableGameProviders = get(gameProviders, 'gameProviders', []);
+
+    return (
+      <Fragment>
+        <If condition={this.isProviderGameFilter}>
+          <Field
+            name={`${name}.gameList`}
+            label={I18n.t(attributeLabels.gameList)}
+            component={NasSelectField}
+            multiple
+            disabled={disabled}
+            className="col-5"
+          >
+            {availableGameProviders.map(key => (
+              <option key={key} value={key}>{key}</option>
+            ))}
+          </Field>
+        </If>
+        <If condition={this.isCustomGameFilter}>
+          <Field
+            name={`${name}.gameList`}
+            label={I18n.t(attributeLabels.gameList)}
+            component={MultiInputField}
+            multiple
+            disabled={disabled}
+            className="col-5"
+          />
+        </If>
+      </Fragment>
+    );
+  }
+
+  render() {
+    const { name, disabled } = this.props;
 
     return (
       <Fragment>
@@ -104,35 +157,23 @@ class GamingView extends PureComponent {
               disabled={disabled}
             />
           </div>
-          <div className="col-4">
-            <Field
-              name={`${name}.gameFilter`}
-              type="select"
-              component={SelectField}
-              disabled={disabled}
-              label={I18n.t(attributeLabels.gameFilter)}
-            >
-              <option value="">{I18n.t('COMMON.SELECT_OPTION.DEFAULT')}</option>
-              {Object.keys(gameFilters).map(key => (
-                <option key={key} value={key}>
-                  {renderLabel(key, gameFilterLabels)}
-                </option>
-              ))}
-            </Field>
-          </div>
-          <If condition={this.isEnableGameList}>
-            <Field
-              name={`${name}.gameList`}
-              label={I18n.t(attributeLabels.gameList)}
-              component={NasSelectField}
-              multiple
-              className="col-4"
-            >
-              {availableGameProviders.map(key => (
-                <option key={key} value={key}>{key}</option>
-              ))}
-            </Field>
-          </If>
+          <Field
+            name={`${name}.gameFilter`}
+            type="select"
+            component={SelectField}
+            disabled={disabled}
+            label={I18n.t(attributeLabels.gameFilter)}
+            className="col-3"
+            onChange={this.handleChangeGameFilter}
+          >
+            <option value="">{I18n.t('COMMON.SELECT_OPTION.DEFAULT')}</option>
+            {Object.keys(gameFilters).map(key => (
+              <option key={key} value={key}>
+                {renderLabel(key, gameFilterLabels)}
+              </option>
+            ))}
+          </Field>
+          {this.renderGameList()}
         </div>
       </Fragment>
     );

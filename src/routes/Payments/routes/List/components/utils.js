@@ -5,7 +5,7 @@ import moment from 'moment';
 import GridPaymentInfo from '../../../../../components/GridPaymentInfo';
 import Uuid from '../../../../../components/Uuid';
 import GridPlayerInfo from '../../../../../components/GridPlayerInfo';
-import GridCountryFlag from '../../../../../components/GridCountryFlag';
+import CountryLabelWithFlag from '../../../../../components/CountryLabelWithFlag';
 import TransactionStatus from '../../../../../components/TransactionStatus';
 import renderLabel from '../../../../../utils/renderLabel';
 import {
@@ -54,7 +54,7 @@ export default (
   name: 'country',
   header: I18n.t('CONSTANTS.TRANSACTIONS.GRID_COLUMNS.COUNTRY'),
   render: ({ playerProfile: { countryCode, languageCode } }) => (
-    <GridCountryFlag
+    <CountryLabelWithFlag
       code={countryCode}
       height="14"
       languageCode={languageCode}

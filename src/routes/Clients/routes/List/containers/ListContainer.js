@@ -34,7 +34,7 @@ export default compose(
     name: 'profiles',
     options: ({
       location: { query },
-      auth: { hierarchyUsers },
+      auth: { hierarchyUsers: { clients: hierarchyUsers } },
     }) => ({
       variables: {
         ...query ? query.filters : { registrationDateFrom: moment().startOf('day').utc().format() },

@@ -62,6 +62,7 @@ const filterLabels = {
   desks: I18n.t('PROFILE.LIST.FILTERS.DESKS'),
   teams: I18n.t('PROFILE.LIST.FILTERS.TEAMS'),
   offices: I18n.t('PROFILE.LIST.FILTERS.OFFICES'),
+  salesStatus: I18n.t('PROFILE.LIST.FILTERS.SALES_STATUS'),
 };
 const statuses = keyMirror({
   INACTIVE: null,

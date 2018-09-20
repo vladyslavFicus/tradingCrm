@@ -5,6 +5,7 @@ import createRequestAction from '../../../utils/createRequestAction';
 import { sourceActionCreators as operatorSourceActionCreators } from '../operator';
 import getFingerprint from '../../../utils/fingerPrint';
 import { actionCreators as optionsActionCreators } from '../profile/options';
+import mapHierarchyUsers from '../../../utils/hierarchyHelper';
 
 const KEY = 'auth';
 const SIGN_IN = createRequestAction(`${KEY}/sign-in`);
@@ -223,7 +224,7 @@ const actionHandlers = {
   }),
   [FETCH_HIERARCHY.SUCCESS]: (state, action) => ({
     ...state,
-    hierarchyUsers: action.payload.map(item => item.uuid),
+    hierarchyUsers: mapHierarchyUsers(action.payload),
   }),
   [UPDATE_PROFILE.SUCCESS]: (state, action) => ({
     ...state,

@@ -397,8 +397,8 @@ export default compose(
         fulfillmentPeriodTimeUnit: [`in:${Object.keys(periods).join()}`],
         promoCode: ['string', 'min:4'],
         optIn: ['boolean', 'required'],
-        startDate: ['required', 'regex:/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/'],
-        endDate: ['required', 'regex:/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/', 'daysRangeBetween:startDate:230'],
+        startDate: ['regex:/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/'],
+        endDate: ['regex:/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/', 'daysRangeBetween:startDate:230'],
       };
 
       const fulfillments = get(values, 'fulfillments', []);
@@ -444,7 +444,15 @@ export default compose(
             spinType: ['required', 'string', `in:${Object.keys(spinTypes).join()}`],
             'amount[0].amount': ['required', 'numeric', 'min:1'],
             gameFilter: ['required', 'string', `in:${Object.keys(gameFilters).join()}`],
+            gameList: ['array'],
           };
+
+          if (
+            values.fulfillments[index].gameFilter === gameFilters.CUSTOM ||
+            values.fulfillments[index].gameFilter === gameFilters.PROVIDER
+          ) {
+            rules.fulfillments[index].gameList.push('required');
+          }
         }
       });
 
