@@ -871,7 +871,7 @@
     "CRM_USER_DEFINITION": "Client profile",
     "CASINO_USER_DEFINITION": "Player profile",
     "SALES": "Sales",
-    "PROMOTE_TO_CLIENT": "Promote to client", 
+    "PROMOTE_TO_CLIENT": "Promote to client",
     "RETENTION": "Retention",
     "COMPLIANCE": "Compliance",
     "MOVE": "Move",
@@ -2290,10 +2290,17 @@
             "CLAIMABLE": "Claimable",
             "PRIZE": "Prize",
             "PRIZE_CAPPING_TYPE": "Prize & Capping type",
-            "TEMPLATE": "Template"
+            "TEMPLATE": "Template",
+            "WAGERING_REQUIREMENT_TYPE": "Wagering requirement type"
           },
           "TEMPLATES": "Bonus templates",
-          "ADD_BONUS_TEMPLATE": "Create template"
+          "ADD_BONUS_TEMPLATE": "Create template",
+          "WAGERING_REQUIREMENT_TYPE": {
+            "ABSOLUTE": "Absolute",
+            "BONUS": "Bonus",
+            "DEPOSIT": "Deposit",
+            "BONUS_AND_DEPOSIT": "Bonus & deposit"
+          }
         },
         "CREATE_BONUS_MODAL": {
           "TITLE": "Create bonus template"

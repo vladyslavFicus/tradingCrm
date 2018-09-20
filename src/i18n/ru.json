@@ -2228,10 +2228,17 @@
             "CLAIMABLE": "Требовать подтверждения",
             "PRIZE": "Цена",
             "PRIZE_CAPPING_TYPE": "Тип приза и капинга",
-            "TEMPLATE": "Шаблон"
+            "TEMPLATE": "Шаблон",
+            "WAGERING_REQUIREMENT_TYPE": "Тип вейджера"
           },
           "TEMPLATES": "Шаблоны",
-          "ADD_BONUS_TEMPLATE": "Создать шаблон"
+          "ADD_BONUS_TEMPLATE": "Создать шаблон",
+          "WAGERING_REQUIREMENT_TYPE": {
+            "ABSOLUTE": "Абсолютное значение",
+            "BONUS": "Бонус",
+            "DEPOSIT": "Депозит",
+            "BONUS_AND_DEPOSIT": "Бонус и депозит"
+          }
         },
         "CREATE_BONUS_MODAL": {
           "TITLE": "Создать фриспин"
