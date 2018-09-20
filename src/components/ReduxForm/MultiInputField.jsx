@@ -90,7 +90,9 @@ class MultiInputField extends Component {
     const { inputValue, value } = this.state;
     const { input: { onChange } } = this.props;
 
-    if (!inputValue) return;
+    if (!inputValue) {
+      return null;
+    }
 
     switch (event.key) {
       case 'Enter':
