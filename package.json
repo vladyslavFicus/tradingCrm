@@ -26,6 +26,7 @@
     "apollo-link-context": "^1.0.8",
     "apollo-link-error": "^1.0.9",
     "apollo-link-http": "^1.5.4",
+    "apollo-upload-client": "^8.1.0",
     "apollo-utilities": "^1.0.12",
     "babel-plugin-inline-react-svg": "^0.5.2",
     "babel-polyfill": "^6.26.0",

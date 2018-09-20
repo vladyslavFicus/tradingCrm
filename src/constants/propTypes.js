@@ -563,6 +563,26 @@ PropTypes.paymentEntry = PropTypes.shape({
   count: PropTypes.number.isRequired,
   entryDate: PropTypes.string.isRequired,
 });
+PropTypes.lead = PropTypes.shape({
+  id: PropTypes.string.isRequired,
+  brandId: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  surname: PropTypes.string.isRequired,
+  phone: PropTypes.string.isRequired,
+  mobile: PropTypes.string.isRequired,
+  status: PropTypes.string,
+  email: PropTypes.string,
+  country: PropTypes.string,
+  source: PropTypes.string,
+  salesAgent: PropTypes.string,
+  salesStatus: PropTypes.string,
+  birthDate: PropTypes.string,
+  affiliate: PropTypes.string,
+  gender: PropTypes.string,
+  city: PropTypes.string,
+  language: PropTypes.string,
+  registrationDate: PropTypes.string.isRequired,
+});
 
 
 export default PropTypes;

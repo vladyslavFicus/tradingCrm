@@ -15,4 +15,7 @@ export default [{
 }, {
   languageName: I18n.t('COMMON.LANGUAGE_NAME.IT'),
   languageCode: 'it',
+}, {
+  languageName: I18n.t('COMMON.LANGUAGE_NAME.UA'),
+  languageCode: 'ua',
 }];
