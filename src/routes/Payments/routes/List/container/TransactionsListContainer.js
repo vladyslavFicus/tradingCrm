@@ -39,15 +39,18 @@ export default compose(
   connect(mapStateToProps, mapActions),
   graphql(getClientPayments, {
     name: 'clientPayments',
+    skip: ({ auth }) => !get(auth, 'hierarchyUsers.clients'),
     options: ({
       location: { query },
-      auth: { hierarchyUsers },
+      auth: { hierarchyUsers: { clients: playerUUIDs } },
     }) => ({
       variables: {
-        ...query ? query.filters : { startDate: moment().startOf('day').utc().format() },
+        ...query
+          ? query.filters
+          : { startDate: moment().startOf('day').utc().format(moment.HTML5_FMT.DATETIME_LOCAL_SECONDS) },
         page: 0,
         size: 20,
-        playerUUIDs: hierarchyUsers,
+        playerUUIDs,
       },
     }),
     props: ({ clientPayments: { clientPayments, fetchMore, ...rest } }) => {
