@@ -67,6 +67,11 @@ const falconSidebarMenu = [{
   url: '/clients/list',
   service: services.profile,
 }, {
+  label: I18n.t('SIDEBAR.TOP_MENU.LEADS'),
+  icon: 'icon-leads',
+  url: '/leads/list',
+  service: services.trading_lead_updater,
+}, {
   label: I18n.t('SIDEBAR.TOP_MENU.MANAGEMENT'),
   icon: 'icon-operators sidebar-nav-item__icon--operators',
   isOpen: false,

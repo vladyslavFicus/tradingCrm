@@ -7,6 +7,7 @@ import { TextRow } from 'react-placeholder/lib/placeholders';
 import LeadsGridFilter from './LeadsGridFilter';
 import history from '../../../../../router/history';
 import PropTypes from '../../../../../constants/propTypes';
+import Modal from '../../../../../components/Modal';
 import GridView, { GridViewColumn } from '../../../../../components/GridView';
 import Placeholder from '../../../../../components/Placeholder';
 import FileUpload from '../../../../../components/FileUpload';
@@ -15,7 +16,13 @@ import Uuid from '../../../../../components/Uuid';
 import MiniProfile from '../../../../../components/MiniProfile';
 import { types as miniProfileTypes } from '../../../../../constants/miniProfile';
 import CountryLabelWithFlag from '../../../../../components/CountryLabelWithFlag';
-import { fileConfig } from './constants';
+import { fileConfig, leadStatuses } from './constants';
+
+const MODAL_PROMOTE_INFO = 'promote-info-modal';
+const modalInitialState = {
+  name: null,
+  params: {},
+};
 
 class List extends Component {
   static propTypes = {
@@ -23,13 +30,15 @@ class List extends Component {
     locale: PropTypes.string.isRequired,
     currencies: PropTypes.arrayOf(PropTypes.string).isRequired,
     countries: PropTypes.object.isRequired,
+    auth: PropTypes.object.isRequired,
+    promoteLead: PropTypes.func.isRequired,
     leads: PropTypes.shape({
       leads: PropTypes.shape({
         data: PropTypes.pageable(PropTypes.lead),
       }),
-      loadMore: PropTypes.func.isRequired,
+      loadMore: PropTypes.func,
       loading: PropTypes.bool.isRequired,
-    }).isRequired,
+    }),
     location: PropTypes.shape({
       query: PropTypes.shape({
         filters: PropTypes.object,
@@ -44,7 +53,15 @@ class List extends Component {
     }),
   };
 
+  static defaultProps = {
+    leads: {
+      leads: {},
+      loading: false,
+    },
+  };
+
   state = {
+    modal: { ...modalInitialState },
     selectedRows: [],
     allRowsSelected: false,
     touchedRowsIds: [],
@@ -87,12 +104,50 @@ class List extends Component {
     history.push(`/leads/${id}`);
   };
 
-  handleSelectedRow = (condition, index, touchedRowsIds) => {
+  handlePromoteToClient = async () => {
+    const { allRowsSelected, selectedRows, touchedRowsIds } = this.state;
+    const {
+      promoteLead,
+      auth,
+      location: { query },
+      leads: { leads: { data: { content, totalElements } } },
+    } = this.props;
+
+    const filters = get(query, 'filters');
+    const hierarchyIds = get(auth, 'hierarchyUsers.leads');
+    const leadIds = allRowsSelected ? touchedRowsIds.map(index => content[index].id) : selectedRows;
+
+    const { data: { leads: { bulkPromote: { failed, succeed } } } } = await promoteLead({
+      variables: {
+        allRecords: allRowsSelected,
+        totalRecords: totalElements,
+        leadIds,
+        filters,
+        queryIds: allRowsSelected ? hierarchyIds : leadIds,
+      },
+    });
+
+    this.handleOpenModal(MODAL_PROMOTE_INFO, {
+      header: I18n.t('LEADS.PROMOTE_INFO_MODAL.HEADER'),
+      body: (
+        <div>
+          <strong>
+            {I18n.t('LEADS.PROMOTE_INFO_MODAL.BODY', {
+              successAmount: succeed.length,
+              total: succeed.length + failed.length,
+            })}
+          </strong>
+        </div>
+      ),
+    });
+  }
+
+  handleSelectRow = (condition, index, touchedRowsIds) => {
     const { leads: { leads: { data: { content } } } } = this.props;
     const selectedRows = [...this.state.selectedRows];
 
     if (condition) {
-      selectedRows.push(content[index].playerUUID);
+      selectedRows.push(content[index].id);
     } else {
       selectedRows.splice(index, 1);
     }
@@ -146,8 +201,21 @@ class List extends Component {
       title: I18n.t('COMMON.SUCCESS'),
       message: I18n.t('COMMON.UPLOAD_SUCCESSFUL'),
     });
-    this.handleFilterReset();
   }
+
+  handleOpenModal = (name, params) => {
+    this.setState({
+      modal: {
+        ...this.state.modal,
+        name,
+        params,
+      },
+    });
+  };
+
+  handleCloseModal = () => {
+    this.setState({ modal: { ...modalInitialState } });
+  };
 
   renderLead = data => (
     <div id={data.id}>
@@ -174,11 +242,10 @@ class List extends Component {
     />
   );
 
-  renderSourceAndAffiliate = ({ source, affiliate }) => (
-    <Fragment>
-      <div className="header-block-middle">{affiliate}</div>
-      <div className="header-block-small">{source}</div>
-    </Fragment>
+  renderStatus = ({ status }) => (
+    <div className={classNames('font-weight-700 text-uppercase', leadStatuses[status].color)}>
+      {I18n.t(leadStatuses[status].label)}
+    </div>
   );
 
   renderSales = ({ salesStatus, salesAgent }) => {
@@ -216,6 +283,7 @@ class List extends Component {
     } = this.props;
 
     const {
+      modal,
       allRowsSelected,
       selectedRows,
       touchedRowsIds,
@@ -272,6 +340,7 @@ class List extends Component {
               </button>
               <button
                 className="btn btn-default-outline"
+                onClick={this.handlePromoteToClient}
               >
                 {I18n.t('COMMON.PROMOTE_TO_CLIENT')}
               </button>
@@ -319,42 +388,49 @@ class List extends Component {
             last={entities.last}
             lazyLoad
             multiselect
-            selectedRows={selectedRows}
             allRowsSelected={allRowsSelected}
             touchedRowsIds={touchedRowsIds}
             onAllRowsSelect={this.handleAllRowsSelect}
-            onRowSelect={this.handleSelectedRow}
+            onRowSelect={this.handleSelectRow}
             locale={locale}
             showNoResults={!loading && entities.content.length === 0}
             onRowClick={this.handleLeadClick}
           >
             <GridViewColumn
               name="lead"
-              header={I18n.t('CLIENTS.LEADS.GRID_HEADER.LEAD')}
+              header={I18n.t('LEADS.GRID_HEADER.LEAD')}
               render={this.renderLead}
             />
             <GridViewColumn
               name="country"
-              header={I18n.t('CLIENTS.LEADS.GRID_HEADER.COUNTRY')}
+              header={I18n.t('LEADS.GRID_HEADER.COUNTRY')}
               render={this.renderCountry}
             />
             <GridViewColumn
-              name="source/affiliate"
-              header={I18n.t('CLIENTS.LEADS.GRID_HEADER.SOURCE/AFFILIATE')}
-              render={this.renderSourceAndAffiliate}
-            />
-            <GridViewColumn
               name="sales"
-              header={I18n.t('CLIENTS.LEADS.GRID_HEADER.SALES')}
+              header={I18n.t('LEADS.GRID_HEADER.SALES')}
               render={this.renderSales}
             />
             <GridViewColumn
               name="registrationDate"
-              header={I18n.t('CLIENTS.LEADS.GRID_HEADER.REGISTRATION')}
+              header={I18n.t('LEADS.GRID_HEADER.REGISTRATION')}
               render={this.renderRegistrationDate}
+            />
+            <GridViewColumn
+              name="status"
+              header={I18n.t('CLIENTS.LEADS.GRID_HEADER.STATUS')}
+              render={this.renderStatus}
             />
           </GridView>
         </div>
+        {
+          modal.name === MODAL_PROMOTE_INFO &&
+          <Modal
+            isOpen
+            onClose={this.handleCloseModal}
+            {...modal.params}
+          />
+        }
       </div>
     );
   }
