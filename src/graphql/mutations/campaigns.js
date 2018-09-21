@@ -56,6 +56,7 @@ const updateMutation = gql`mutation update(
   $fulfillmentPeriod: Int
   $fulfillmentPeriodTimeUnit: String
   $promoCode: String
+  $tags: [String]
 ) {
   campaign {
     update(
@@ -74,6 +75,7 @@ const updateMutation = gql`mutation update(
       fulfillmentPeriod: $fulfillmentPeriod
       fulfillmentPeriodTimeUnit: $fulfillmentPeriodTimeUnit
       promoCode: $promoCode
+      tags: $tags
     ) {
       data {
         _id
@@ -89,6 +91,7 @@ const updateMutation = gql`mutation update(
         optInPeriod
         optInPeriodTimeUnit
         promoCode
+        tags
       }
       error {
         error
@@ -112,6 +115,7 @@ const createMutation = gql`mutation create(
   $fulfillmentPeriod: Int
   $fulfillmentPeriodTimeUnit: String
   $promoCode: String
+  $tags: [String]
 ) {
   campaign {
     create(
@@ -128,6 +132,7 @@ const createMutation = gql`mutation create(
       fulfillmentPeriod: $fulfillmentPeriod
       fulfillmentPeriodTimeUnit: $fulfillmentPeriodTimeUnit
       promoCode: $promoCode
+      tags: $tags
     ) {
       data {
         _id

@@ -75,6 +75,7 @@ class SettingsView extends Component {
         campaign: {
           data: {
             fulfillments: initialFulfillments,
+            tags: initialTags,
           },
           data,
         },
@@ -150,16 +151,40 @@ class SettingsView extends Component {
       let tempUUID = uuid;
       if (!uuid && type === rewardTemplateTypes.TAG) {
         const result = await createOrLinkTag({ variables: { tagId: `TAG-${v4()}`, tagName } });
-        const { data } = get(result, 'data.tag.createOrLink', { data: '', error: '' });
+        const { data: responseData } = get(result, 'data.tag.createOrLink', { data: '', error: '' });
 
-        if (data) {
-          tempUUID = data[0].tagId;
+        if (responseData) {
+          tempUUID = responseData[0].tagId;
         }
       }
 
       return {
         uuid: tempUUID,
         type: deviceType || deviceTypes.ALL,
+      };
+    }));
+
+    const tags = formData.tags.map(currentTag => ({
+      tagId: initialTags
+        ? get(initialTags.find(initialTag => initialTag.tagName === currentTag), 'tagId')
+        : undefined,
+      tagName: currentTag,
+    }));
+
+    const tagsToUpdate = await Promise.all(tags.map(async ({ tagId, tagName }) => {
+      let tempUUID = tagId;
+      if (!tagId) {
+        const result = await createOrLinkTag({ variables: { tagName, targetUUID: data.uuid } });
+
+        const { data: responseData } = get(result, 'data.tag.createOrLink', { data: [], error: '' });
+
+        if (responseData) {
+          tempUUID = responseData[0].tagId;
+        }
+      }
+
+      return {
+        uuid: tempUUID,
       };
     }));
 
@@ -170,6 +195,7 @@ class SettingsView extends Component {
           uuid: data.uuid,
           rewards,
           fulfillments,
+          tags: tagsToUpdate.map(v => v.uuid),
         },
       });
 
@@ -191,6 +217,7 @@ class SettingsView extends Component {
             name,
             targetType,
             optIn,
+            tags,
             state,
             fulfillments,
             rewards,
@@ -229,6 +256,7 @@ class SettingsView extends Component {
           optInPeriodTimeUnit,
           fulfillmentPeriod,
           fulfillmentPeriodTimeUnit,
+          tags: tags.map(t => t.tagName),
         }}
         fulfillments={fulfillments}
         form="settings"

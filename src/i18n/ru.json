@@ -2254,7 +2254,8 @@
         "OPT_IN_REQUIRED": "Opt-in обязателен",
         "CAMPAIGN_NAME": "Название кампании (Внутренее)",
         "TARGET_TYPE": "Тип кампании",
-        "PROMO_CODE": "Промо-код"
+        "PROMO_CODE": "Промо-код",
+        "TAGS": "Теги"
       },
       "TARGET": "Цель",
       "CHOOSE_TARGET_TYPE": "-- Выберите тип цели --",

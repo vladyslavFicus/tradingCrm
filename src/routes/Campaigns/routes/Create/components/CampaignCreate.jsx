@@ -61,6 +61,8 @@ class CampaignCreate extends PureComponent {
       const fulfillments = [];
       const { uuid: campaignUUID } = get(response, 'data.campaign.create.data', {});
 
+      const updateCampaignVariables = { ...campaignData, uuid: campaignUUID };
+
       if (formData.fulfillments && formData.fulfillments.length > 0) {
         await asyncForEach(formData.fulfillments, async (fulfillment) => {
           let uuid = null;
@@ -88,9 +90,28 @@ class CampaignCreate extends PureComponent {
         });
 
         if (fulfillments.length > 0) {
-          await updateCampaign({ variables: { ...campaignData, uuid: campaignUUID, fulfillments } });
+          updateCampaignVariables.fulfillments = fulfillments;
         }
       }
+
+      const tags = [];
+      if (formData.tags && formData.tags.length > 0) {
+        await asyncForEach(formData.tags, async (tagName) => {
+          const result = await createOrLinkTag({ variables: { tagName, targetUUID: campaignUUID } });
+
+          const { data: responseData } = get(result, 'data.tag.createOrLink', { data: [], error: '' });
+
+          if (responseData) {
+            tags.push(responseData[0].tagId);
+          }
+        });
+      }
+
+      if (tags.length > 0) {
+        updateCampaignVariables.tags = tags;
+      }
+
+      await updateCampaign({ variables: updateCampaignVariables });
 
       notify({
         level: 'success',
@@ -126,6 +147,7 @@ class CampaignCreate extends PureComponent {
             optIn: false,
             rewards: [],
             fulfillments: [],
+            tags: [],
           }}
           onSubmit={this.handleCreateCampaign}
         />

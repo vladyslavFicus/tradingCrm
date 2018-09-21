@@ -1,23 +1,20 @@
 import React, { Component } from 'react';
 import { includes } from 'lodash';
 import CreatableSelect from 'react-select/lib/Creatable';
+import AsyncCreatableSelect from 'react-select/lib/AsyncCreatable';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import FieldLabel from './FieldLabel';
+import FieldLabel from '../FieldLabel';
 
-const components = {
-  DropdownIndicator: null,
-};
+const components = { DropdownIndicator: null };
 
-const createOption = label => ({
-  label,
-  value: label,
-});
+const createOption = label => ({ label, value: label });
 
 const getValues = value => Array.isArray(value) ? value.map(v => v.value) : [];
 
 class MultiInputField extends Component {
   static propTypes = {
+    async: PropTypes.bool,
     className: PropTypes.string,
     input: PropTypes.shape({
       name: PropTypes.string,
@@ -62,6 +59,7 @@ class MultiInputField extends Component {
     labelClassName: null,
     onIconClick: null,
     helpText: null,
+    async: false,
   };
 
   constructor(props) {
@@ -123,23 +121,40 @@ class MultiInputField extends Component {
       label,
       id,
       onIconClick,
+      async,
     } = props;
 
-    let inputField = (
-      <CreatableSelect
-        components={components}
-        inputValue={inputValue}
-        isClearable
-        isMulti
-        menuIsOpen={false}
-        onChange={this.handleChange}
-        onInputChange={this.handleInputChange}
-        onKeyDown={this.handleKeyDown}
-        placeholder={placeholder !== null ? placeholder : label}
-        value={value}
-        disabled={disabled}
-      />
-    );
+    let inputField = async
+      ?
+      (
+        <AsyncCreatableSelect
+          components={components}
+          isMulti
+          cacheOptions
+          defaultOptions
+          onChange={this.handleChange}
+          onKeyDown={this.handleKeyDown}
+          placeholder={placeholder !== null ? placeholder : label}
+          value={value}
+          disabled={disabled}
+        />
+      )
+      :
+      (
+        <CreatableSelect
+          components={components}
+          isMulti
+          inputValue={inputValue}
+          isClearable
+          menuIsOpen={false}
+          onChange={this.handleChange}
+          onInputChange={this.handleInputChange}
+          onKeyDown={this.handleKeyDown}
+          placeholder={placeholder !== null ? placeholder : label}
+          value={value}
+          disabled={disabled}
+        />
+      );
 
     if (inputAddon) {
       inputField = (

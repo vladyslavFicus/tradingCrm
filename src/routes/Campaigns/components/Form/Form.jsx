@@ -5,7 +5,13 @@ import moment from 'moment';
 import { Field, reduxForm, SubmissionError } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
 import { get } from 'lodash';
-import { InputField, SelectField, DateTimeField, RangeGroup } from '../../../../components/ReduxForm';
+import {
+  InputField,
+  SelectField,
+  DateTimeField,
+  RangeGroup,
+  MultiInputField,
+} from '../../../../components/ReduxForm';
 import {
   nodeGroups,
   nodeGroupsAlias,
@@ -99,7 +105,7 @@ class Form extends Component {
 
   handleChangeTargetType = ({ target: { value } }) => {
     if (value === targetTypes.TARGET_LIST) {
-      this.clearFields(['countries', 'excludeCountries']);
+      this.clearFields(['countries', 'excludeCountries', 'tags']);
     }
   };
 
@@ -232,6 +238,18 @@ class Form extends Component {
               </option>
             ))}
           </Field>
+          <If condition={formValues.targetType === targetTypes.TARGET_LIST}>
+            <Field
+              name="tags"
+              label={I18n.t(attributeLabels.tags)}
+              component={MultiInputField}
+              async
+              disabled={disabled}
+              className="col-6"
+            />
+          </If>
+        </div>
+        <div className="row">
           <Field
             name="optIn"
             label={I18n.t(attributeLabels.optIn)}
@@ -389,6 +407,7 @@ export default compose(
       const rules = {
         name: ['required', 'string'],
         targetType: ['required', 'string', `in:${Object.keys(targetTypes).join()}`],
+        tags: ['array'],
         countries: `in:,${Object.keys(countries).join()}`,
         excludeCountries: ['boolean'],
         optInPeriod: ['numeric', 'min:1'],
