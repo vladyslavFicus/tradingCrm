@@ -173,6 +173,7 @@ class SettingsView extends Component {
 
     const tagsToUpdate = await Promise.all(tags.map(async ({ tagId, tagName }) => {
       let tempUUID = tagId;
+
       if (!tagId) {
         const result = await createOrLinkTag({ variables: { tagName, targetUUID: data.uuid } });
 
