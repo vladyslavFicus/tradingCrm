@@ -6,11 +6,10 @@ import PropTypes from '../../../../../../../constants/propTypes';
 import Form from '../../../../../components/Form';
 import { statuses } from '../../../../../../../constants/bonus-campaigns';
 import asyncForEach from '../../../../../../../utils/asyncForEach';
-import { fulfillmentTypes, rewardTemplateTypes } from '../../../../../constants';
+import { fulfillmentTypes, rewardTemplateTypes, isSimpleFulfillmentType } from '../../../../../constants';
 import Permissions from '../../../../../../../utils/permissions';
 import permissions from '../../../../../../../config/permissions';
 import deepRemoveKeyByRegex from '../../../../../../../utils/deepKeyPrefixRemove';
-import { deviceTypes } from '../../../../../../Campaigns/components/Rewards/constants';
 
 class SettingsView extends Component {
   static propTypes = {
@@ -107,6 +106,10 @@ class SettingsView extends Component {
         });
 
         uuid = get(response, 'data.gamingFulfillment.add.data.uuid');
+      }
+
+      if (isSimpleFulfillmentType(type)) {
+        uuid = type;
       }
 
       if (uuid) {

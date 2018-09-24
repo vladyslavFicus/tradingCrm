@@ -2446,7 +2446,8 @@
       "BUTTON": "Full reset",
       "MODAL_TEXT": "You are going to perform a hard reset to the campaign. All targeted player fulfilment states will be reseted."
     },
-    "GAMING_FULFILLMENT": "Gaming fulfillment"
+    "GAMING_FULFILLMENT": "Gaming fulfillment",
+    "PROFILE_COMPLETED_FULFILLMENT": "Profile completed"
   },
   "MULTI_CURRENCY_MODAL": {
     "TITLE": "Value in different currencies",

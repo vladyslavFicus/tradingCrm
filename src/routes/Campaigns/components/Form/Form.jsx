@@ -355,6 +355,7 @@ class Form extends Component {
                 { type: fulfillmentTypes.WAGERING, component: WageringFulfillment },
                 { type: fulfillmentTypes.DEPOSIT, component: DepositFulfillment },
                 { type: fulfillmentTypes.GAMING, component: GamingFulfillment },
+                { type: fulfillmentTypes.PROFILE_COMPLETED },
               ], '_FULFILLMENT')
             }
             typeLabels={fulfillmentTypesLabels}

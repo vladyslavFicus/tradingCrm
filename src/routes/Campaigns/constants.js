@@ -22,7 +22,12 @@ const fulfillmentTypes = keyMirror({
   WAGERING: null,
   DEPOSIT: null,
   GAMING: null,
+  PROFILE_COMPLETED: null,
 });
+
+const simpleFulfillmentTypes = [
+  fulfillmentTypes.PROFILE_COMPLETED,
+];
 
 const nodeGroups = keyMirror({
   FULFILLMENTS: null,
@@ -49,6 +54,7 @@ const fulfillmentTypesLabels = {
   [fulfillmentTypes.WAGERING]: I18n.t('CAMPAIGNS.WAGERING_FULFILLMENT'),
   [fulfillmentTypes.DEPOSIT]: I18n.t('CAMPAIGNS.DEPOSIT_FULFILLMENT'),
   [fulfillmentTypes.GAMING]: I18n.t('CAMPAIGNS.GAMING_FULFILLMENT'),
+  [fulfillmentTypes.PROFILE_COMPLETED]: I18n.t('CAMPAIGNS.PROFILE_COMPLETED_FULFILLMENT'),
 };
 
 const optInSelect = {
@@ -68,6 +74,8 @@ const periodsLabels = {
   [periods.WEEKS]: I18n.t('COMMON.WEEKS'),
 };
 
+const isSimpleFulfillmentType = type => simpleFulfillmentTypes.includes(type);
+
 export {
   attributeLabels,
   rewardTemplateTypes,
@@ -80,6 +88,8 @@ export {
   optInSelect,
   periods,
   periodsLabels,
+  simpleFulfillmentTypes,
+  isSimpleFulfillmentType,
 };
 
 export default attributeLabels;

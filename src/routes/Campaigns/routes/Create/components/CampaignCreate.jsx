@@ -7,7 +7,7 @@ import PropTypes from '../../../../../constants/propTypes';
 import Header from './Header';
 import Form from '../../../components/Form';
 import asyncForEach from '../../../../../utils/asyncForEach';
-import { fulfillmentTypes, rewardTemplateTypes } from '../../../constants';
+import { fulfillmentTypes, rewardTemplateTypes, isSimpleFulfillmentType } from '../../../constants';
 import history from '../../../../../router/history';
 import { targetTypes } from '../../../../../constants/campaigns';
 
@@ -62,24 +62,28 @@ class CampaignCreate extends PureComponent {
       const { uuid: campaignUUID } = get(response, 'data.campaign.create.data', {});
 
       if (formData.fulfillments && formData.fulfillments.length > 0) {
-        await asyncForEach(formData.fulfillments, async (fulfillment) => {
+        await asyncForEach(formData.fulfillments, async ({ type, ...fulfillment }) => {
           let uuid = null;
 
-          if (fulfillment.type === fulfillmentTypes.WAGERING) {
+          if (type === fulfillmentTypes.WAGERING) {
             const fulfillmentResponse = await addWageringFulfillment({
               variables: fulfillment,
             });
             uuid = get(fulfillmentResponse, 'data.wageringFulfillment.add.data.uuid');
-          } else if (fulfillment.type === fulfillmentTypes.DEPOSIT) {
+          } else if (type === fulfillmentTypes.DEPOSIT) {
             const fulfillmentResponse = await addDepositFulfillment({
               variables: fulfillment,
             });
             uuid = get(fulfillmentResponse, 'data.depositFulfillment.add.data.uuid');
-          } else if (fulfillment.type === fulfillmentTypes.GAMING) {
+          } else if (type === fulfillmentTypes.GAMING) {
             const fulfillmentResponse = await addGamingFulfillment({
               variables: fulfillment,
             });
             uuid = get(fulfillmentResponse, 'data.gamingFulfillment.add.data.uuid');
+          }
+
+          if (isSimpleFulfillmentType(type)) {
+            uuid = type;
           }
 
           if (uuid) {
