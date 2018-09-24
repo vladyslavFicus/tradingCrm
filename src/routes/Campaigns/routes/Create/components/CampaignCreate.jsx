@@ -108,7 +108,7 @@ class CampaignCreate extends PureComponent {
         });
       }
 
-      if (tags.length > 0) {
+      if (tags.length) {
         updateCampaignVariables.tags = tags;
       }
 
