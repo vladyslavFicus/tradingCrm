@@ -7,7 +7,7 @@ import PropTypes from '../../../../../constants/propTypes';
 import Header from './Header';
 import Form from '../../../components/Form';
 import asyncForEach from '../../../../../utils/asyncForEach';
-import { fulfillmentTypes, rewardTemplateTypes, isSimpleFulfillmentType } from '../../../constants';
+import { fulfillmentTypes, rewardTemplateTypes } from '../../../constants';
 import history from '../../../../../router/history';
 import { targetTypes } from '../../../../../constants/campaigns';
 
@@ -62,8 +62,8 @@ class CampaignCreate extends PureComponent {
       const { uuid: campaignUUID } = get(response, 'data.campaign.create.data', {});
 
       if (formData.fulfillments && formData.fulfillments.length > 0) {
-        await asyncForEach(formData.fulfillments, async ({ type, ...fulfillment }) => {
-          let uuid = null;
+        await asyncForEach(formData.fulfillments, async ({ type, uuid: defaultUUID, ...fulfillment }) => {
+          let uuid = defaultUUID;
 
           if (type === fulfillmentTypes.WAGERING) {
             const fulfillmentResponse = await addWageringFulfillment({
@@ -80,10 +80,6 @@ class CampaignCreate extends PureComponent {
               variables: fulfillment,
             });
             uuid = get(fulfillmentResponse, 'data.gamingFulfillment.add.data.uuid');
-          }
-
-          if (isSimpleFulfillmentType(type)) {
-            uuid = type;
           }
 
           if (uuid) {

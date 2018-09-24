@@ -6,7 +6,7 @@ import PropTypes from '../../../../../../../constants/propTypes';
 import Form from '../../../../../components/Form';
 import { statuses } from '../../../../../../../constants/bonus-campaigns';
 import asyncForEach from '../../../../../../../utils/asyncForEach';
-import { fulfillmentTypes, rewardTemplateTypes, isSimpleFulfillmentType } from '../../../../../constants';
+import { fulfillmentTypes, rewardTemplateTypes } from '../../../../../constants';
 import Permissions from '../../../../../../../utils/permissions';
 import permissions from '../../../../../../../config/permissions';
 import deepRemoveKeyByRegex from '../../../../../../../utils/deepKeyPrefixRemove';
@@ -106,10 +106,6 @@ class SettingsView extends Component {
         });
 
         uuid = get(response, 'data.gamingFulfillment.add.data.uuid');
-      }
-
-      if (isSimpleFulfillmentType(type)) {
-        uuid = type;
       }
 
       if (uuid) {

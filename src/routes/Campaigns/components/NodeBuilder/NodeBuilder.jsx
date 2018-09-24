@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { I18n } from 'react-redux-i18n';
 import classNames from 'classnames';
 import { SelectField } from '../../../../components/ReduxForm';
-import { isSimpleFulfillmentType } from '../../constants';
 
 class NodeBuilder extends PureComponent {
   static propTypes = {
@@ -30,9 +29,7 @@ class NodeBuilder extends PureComponent {
 
     const currentFieldTypes = fields.getAll().map(field => field.type);
 
-    return Object.keys(components).filter(
-      type => !(isSimpleFulfillmentType(type) && currentFieldTypes.includes(type))
-    );
+    return Object.keys(components).filter(type => !(components[type].single && currentFieldTypes.includes(type)));
   }
 
   handleSelectNode = (e) => {
@@ -89,7 +86,7 @@ class NodeBuilder extends PureComponent {
                 </div>
               </If>
             </div>
-            {React.createElement(components[field.type] || 'div', {
+            {React.createElement(components[field.type].component, {
               disabled,
               onChangeUUID: uuid => this.handleChangeUUID(index, uuid, field.type),
               name: `${name}[${index}]`,

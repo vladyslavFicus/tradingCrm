@@ -25,10 +25,6 @@ const fulfillmentTypes = keyMirror({
   PROFILE_COMPLETED: null,
 });
 
-const simpleFulfillmentTypes = [
-  fulfillmentTypes.PROFILE_COMPLETED,
-];
-
 const nodeGroups = keyMirror({
   FULFILLMENTS: null,
   REWARDS: null,
@@ -74,8 +70,6 @@ const periodsLabels = {
   [periods.WEEKS]: I18n.t('COMMON.WEEKS'),
 };
 
-const isSimpleFulfillmentType = type => simpleFulfillmentTypes.includes(type);
-
 export {
   attributeLabels,
   rewardTemplateTypes,
@@ -88,8 +82,6 @@ export {
   optInSelect,
   periods,
   periodsLabels,
-  simpleFulfillmentTypes,
-  isSimpleFulfillmentType,
 };
 
 export default attributeLabels;
