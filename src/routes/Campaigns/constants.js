@@ -3,6 +3,7 @@ import I18n from '../../utils/fake-i18n';
 
 const attributeLabels = {
   campaignName: I18n.t('CAMPAIGNS.SETTINGS.LABEL.CAMPAIGN_NAME'),
+  tags: I18n.t('CAMPAIGNS.SETTINGS.LABEL.TAGS'),
   targetType: I18n.t('CAMPAIGNS.SETTINGS.LABEL.TARGET_TYPE'),
   optIn: I18n.t('CAMPAIGNS.SETTINGS.LABEL.OPT_IN'),
   promoCode: I18n.t('CAMPAIGNS.SETTINGS.LABEL.PROMO_CODE'),

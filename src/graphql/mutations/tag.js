@@ -1,9 +1,10 @@
 import gql from 'graphql-tag';
 
 const createOrLinkTagMutation = gql`mutation createOrLinkTag(
-  $tagId: String!
+  $tagId: String
   $tagName: String!
   $content: String
+  $targetUUID: String
 ) {
   tag {
     createOrLink(
@@ -11,6 +12,7 @@ const createOrLinkTagMutation = gql`mutation createOrLinkTag(
        tagName: $tagName
        tagType: TAG
        content: $content
+       targetUUID: $targetUUID
       ) {
       data {
         tagId
