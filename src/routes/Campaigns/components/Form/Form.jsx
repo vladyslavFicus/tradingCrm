@@ -23,7 +23,7 @@ import NodeBuilder from '../NodeBuilder';
 import { BonusView } from '../Rewards/Bonus';
 import { FreeSpinView } from '../Rewards/FreeSpin';
 import Tag from '../Rewards/Tag';
-import { WageringFulfillment, DepositFulfillment, GamingFulfillment } from '../Fulfillments';
+import { WageringFulfillment, DepositFulfillment, GamingFulfillment, SimpleFulfillment } from '../Fulfillments';
 import { createValidator, translateLabels } from '../../../../utils/validator';
 import Permissions from '../../../../utils/permissions';
 import permissions from '../../../../config/permissions';
@@ -80,7 +80,7 @@ class Form extends Component {
     return items.filter(({ type }) => !permissions[`${type}${prefix}`] ||
       new Permissions(permissions[`${type}${prefix}`].CREATE &&
         permissions[`${type}${prefix}`].VIEW).check(currentPermissions))
-      .reduce((acc, { type, component }) => ({ ...acc, [type]: component }), {});
+      .reduce((acc, { type, component, ...rest }) => ({ ...acc, [type]: { component, ...rest } }), {});
   };
 
   endDateValidator = fromAttribute => (current) => {
@@ -355,6 +355,7 @@ class Form extends Component {
                 { type: fulfillmentTypes.WAGERING, component: WageringFulfillment },
                 { type: fulfillmentTypes.DEPOSIT, component: DepositFulfillment },
                 { type: fulfillmentTypes.GAMING, component: GamingFulfillment },
+                { type: fulfillmentTypes.PROFILE_COMPLETED, component: SimpleFulfillment, single: true },
               ], '_FULFILLMENT')
             }
             typeLabels={fulfillmentTypesLabels}

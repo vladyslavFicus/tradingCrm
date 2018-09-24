@@ -10,7 +10,6 @@ import { fulfillmentTypes, rewardTemplateTypes } from '../../../../../constants'
 import Permissions from '../../../../../../../utils/permissions';
 import permissions from '../../../../../../../config/permissions';
 import deepRemoveKeyByRegex from '../../../../../../../utils/deepKeyPrefixRemove';
-import { deviceTypes } from '../../../../../../Campaigns/components/Rewards/constants';
 
 class SettingsView extends Component {
   static propTypes = {

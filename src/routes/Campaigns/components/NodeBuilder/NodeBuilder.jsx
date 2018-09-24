@@ -24,6 +24,14 @@ class NodeBuilder extends PureComponent {
     type: '',
   };
 
+  get availableTypes() {
+    const { fields, components } = this.props;
+
+    const currentFieldTypes = fields.getAll().map(field => field.type);
+
+    return Object.keys(components).filter(type => !(components[type].single && currentFieldTypes.includes(type)));
+  }
+
   handleSelectNode = (e) => {
     this.setState({ type: e.target.value });
   };
@@ -78,7 +86,7 @@ class NodeBuilder extends PureComponent {
                 </div>
               </If>
             </div>
-            {React.createElement(components[field.type], {
+            {React.createElement(components[field.type].component, {
               disabled,
               onChangeUUID: uuid => this.handleChangeUUID(index, uuid, field.type),
               name: `${name}[${index}]`,
@@ -100,7 +108,7 @@ class NodeBuilder extends PureComponent {
               >
                 <option value="">{I18n.t(nodeSelectLabel)}</option>
                 {
-                  types.map(option => (
+                  this.availableTypes.map(option => (
                     <option key={option} value={option}>
                       {I18n.t(typeLabels[option])}
                     </option>

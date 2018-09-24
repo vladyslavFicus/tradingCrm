@@ -62,20 +62,20 @@ class CampaignCreate extends PureComponent {
       const { uuid: campaignUUID } = get(response, 'data.campaign.create.data', {});
 
       if (formData.fulfillments && formData.fulfillments.length > 0) {
-        await asyncForEach(formData.fulfillments, async (fulfillment) => {
-          let uuid = null;
+        await asyncForEach(formData.fulfillments, async ({ type, uuid: defaultUUID, ...fulfillment }) => {
+          let uuid = defaultUUID;
 
-          if (fulfillment.type === fulfillmentTypes.WAGERING) {
+          if (type === fulfillmentTypes.WAGERING) {
             const fulfillmentResponse = await addWageringFulfillment({
               variables: fulfillment,
             });
             uuid = get(fulfillmentResponse, 'data.wageringFulfillment.add.data.uuid');
-          } else if (fulfillment.type === fulfillmentTypes.DEPOSIT) {
+          } else if (type === fulfillmentTypes.DEPOSIT) {
             const fulfillmentResponse = await addDepositFulfillment({
               variables: fulfillment,
             });
             uuid = get(fulfillmentResponse, 'data.depositFulfillment.add.data.uuid');
-          } else if (fulfillment.type === fulfillmentTypes.GAMING) {
+          } else if (type === fulfillmentTypes.GAMING) {
             const fulfillmentResponse = await addGamingFulfillment({
               variables: fulfillment,
             });

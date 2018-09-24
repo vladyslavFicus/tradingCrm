@@ -2384,7 +2384,8 @@
       "BUTTON": "Полный сброс",
       "MODAL_TEXT": "Вы собираетесь выполнить полный сброс кампании. Все помеченные игроки будут сброшены"
     },
-    "GAMING_FULFILLMENT": "Игровой фулфилмент"
+    "GAMING_FULFILLMENT": "Игровой фулфилмент",
+    "PROFILE_COMPLETED_FULFILLMENT": "Профиль заполнен"
   },
   "MULTI_CURRENCY_MODAL": {
     "TITLE": "Значения в остальных валютах",
