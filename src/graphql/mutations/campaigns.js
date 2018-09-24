@@ -91,7 +91,10 @@ const updateMutation = gql`mutation update(
         optInPeriod
         optInPeriodTimeUnit
         promoCode
-        tags
+        tags {
+          tagId
+          tagName
+        }
       }
       error {
         error

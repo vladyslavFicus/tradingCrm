@@ -67,7 +67,10 @@ const campaignQuery = gql`query campaign($campaignUUID: String!){
       fulfillments
       countries
       excludeCountries
-      tags
+      tags {
+        tagName
+        tagId
+      }
     }
     error {
       error

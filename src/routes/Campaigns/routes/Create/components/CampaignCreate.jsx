@@ -95,7 +95,8 @@ class CampaignCreate extends PureComponent {
       }
 
       const tags = [];
-      if (formData.tags && formData.tags.length > 0) {
+
+      if (formData.tags && formData.tags.length) {
         await asyncForEach(formData.tags, async (tagName) => {
           const result = await createOrLinkTag({ variables: { tagName, targetUUID: campaignUUID } });
 
