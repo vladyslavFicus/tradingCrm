@@ -3,7 +3,8 @@ import { graphql, compose } from 'react-apollo';
 import moment from 'moment';
 import { get } from 'lodash';
 import List from '../components/List';
-import { withNotifications } from '../../../../../components/HighOrder';
+import Modal from '../../../../../components/Modal';
+import { withNotifications, withModals } from '../../../../../components/HighOrder';
 import countries from '../../../../../utils/countryList';
 import { leadsQuery } from '../../../../../graphql/queries/leads';
 import { promoteLeadToClient } from '../../../../../graphql/mutations/leads';
@@ -25,6 +26,9 @@ const mapStateToProps = ({
 
 export default compose(
   withNotifications,
+  withModals({
+    promoteInfoModal: Modal,
+  }),
   connect(mapStateToProps),
   graphql(leadCsvUpload, {
     name: 'fileUpload',

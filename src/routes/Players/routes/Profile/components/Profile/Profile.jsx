@@ -825,7 +825,7 @@ class Profile extends Component {
           modal.name === MODAL_WALLET_LIMIT &&
           <Modal
             isOpen
-            onClose={this.handleCloseModal}
+            onCloseModal={this.handleCloseModal}
             {...modal.params}
           />
         }

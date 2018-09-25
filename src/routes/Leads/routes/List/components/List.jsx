@@ -7,7 +7,6 @@ import { TextRow } from 'react-placeholder/lib/placeholders';
 import LeadsGridFilter from './LeadsGridFilter';
 import history from '../../../../../router/history';
 import PropTypes from '../../../../../constants/propTypes';
-import Modal from '../../../../../components/Modal';
 import GridView, { GridViewColumn } from '../../../../../components/GridView';
 import Placeholder from '../../../../../components/Placeholder';
 import FileUpload from '../../../../../components/FileUpload';
@@ -17,12 +16,6 @@ import MiniProfile from '../../../../../components/MiniProfile';
 import { types as miniProfileTypes } from '../../../../../constants/miniProfile';
 import CountryLabelWithFlag from '../../../../../components/CountryLabelWithFlag';
 import { fileConfig, leadStatuses } from './constants';
-
-const MODAL_PROMOTE_INFO = 'promote-info-modal';
-const modalInitialState = {
-  name: null,
-  params: {},
-};
 
 class List extends Component {
   static propTypes = {
@@ -37,12 +30,19 @@ class List extends Component {
         data: PropTypes.pageable(PropTypes.lead),
       }),
       loadMore: PropTypes.func,
+      refetch: PropTypes.func,
       loading: PropTypes.bool.isRequired,
     }),
     location: PropTypes.shape({
       query: PropTypes.shape({
         filters: PropTypes.object,
       }),
+    }).isRequired,
+    modals: PropTypes.shape({
+      promoteInfoModal: PropTypes.shape({
+        show: PropTypes.func.isRequired,
+        hide: PropTypes.func.isRequired,
+      }).isRequired,
     }).isRequired,
     fileUpload: PropTypes.func.isRequired,
   };
@@ -61,7 +61,6 @@ class List extends Component {
   };
 
   state = {
-    modal: { ...modalInitialState },
     selectedRows: [],
     allRowsSelected: false,
     touchedRowsIds: [],
@@ -109,38 +108,53 @@ class List extends Component {
     const {
       promoteLead,
       auth,
+      notify,
       location: { query },
-      leads: { leads: { data: { content, totalElements } } },
+      leads: { leads: { data: { content, totalElements } }, refetch },
+      modals: { promoteInfoModal },
     } = this.props;
 
     const filters = get(query, 'filters');
     const hierarchyIds = get(auth, 'hierarchyUsers.leads');
     const leadIds = allRowsSelected ? touchedRowsIds.map(index => content[index].id) : selectedRows;
 
-    const { data: { leads: { bulkPromote: { failed, succeed } } } } = await promoteLead({
+    const { data: { leads: { bulkPromote: { data, error, errors } } } } = await promoteLead({
       variables: {
         allRecords: allRowsSelected,
         totalRecords: totalElements,
-        leadIds,
-        filters,
         queryIds: allRowsSelected ? hierarchyIds : leadIds,
+        leadIds,
+        ...filters,
       },
     });
 
-    this.handleOpenModal(MODAL_PROMOTE_INFO, {
-      header: I18n.t('LEADS.PROMOTE_INFO_MODAL.HEADER'),
-      body: (
-        <div>
-          <strong>
-            {I18n.t('LEADS.PROMOTE_INFO_MODAL.BODY', {
-              successAmount: succeed.length,
-              total: succeed.length + failed.length,
-            })}
-          </strong>
-        </div>
-      ),
-    });
-  }
+    if (error) {
+      notify({
+        level: 'error',
+        title: I18n.t('COMMON.PROMOTE_FAILED'),
+        message: error.error || error.field_errors || I18n.t('COMMON.SOMETHING_WRONG'),
+      });
+    } else {
+      const successAmount = data ? data.length : 0;
+      const failedAmount = errors ? errors.length : 0;
+
+      promoteInfoModal.show({
+        header: I18n.t('LEADS.PROMOTE_INFO_MODAL.HEADER'),
+        body: (
+          <Fragment>
+            <strong>
+              {I18n.t('LEADS.PROMOTE_INFO_MODAL.BODY', {
+                successAmount,
+                total: successAmount + failedAmount,
+              })}
+            </strong>
+          </Fragment>
+        ),
+      });
+
+      refetch();
+    }
+  };
 
   handleSelectRow = (condition, index, touchedRowsIds) => {
     const { leads: { leads: { data: { content } } } } = this.props;
@@ -184,13 +198,13 @@ class List extends Component {
       return;
     }
 
-    const action = await this.props.fileUpload({ variables: { file } });
+    const { error } = await this.props.fileUpload({ variables: { file } });
 
-    if (action.error) {
+    if (error) {
       notify({
         level: 'error',
         title: I18n.t('COMMON.UPLOAD_FAILED'),
-        message: action.error || action.field_errors || I18n.t('COMMON.SOMETHING_WRONG'),
+        message: error.error || error.field_errors || I18n.t('COMMON.SOMETHING_WRONG'),
       });
 
       return;
@@ -202,20 +216,6 @@ class List extends Component {
       message: I18n.t('COMMON.UPLOAD_SUCCESSFUL'),
     });
   }
-
-  handleOpenModal = (name, params) => {
-    this.setState({
-      modal: {
-        ...this.state.modal,
-        name,
-        params,
-      },
-    });
-  };
-
-  handleCloseModal = () => {
-    this.setState({ modal: { ...modalInitialState } });
-  };
 
   renderLead = data => (
     <div id={data.id}>
@@ -283,7 +283,6 @@ class List extends Component {
     } = this.props;
 
     const {
-      modal,
       allRowsSelected,
       selectedRows,
       touchedRowsIds,
@@ -418,19 +417,11 @@ class List extends Component {
             />
             <GridViewColumn
               name="status"
-              header={I18n.t('CLIENTS.LEADS.GRID_HEADER.STATUS')}
+              header={I18n.t('LEADS.GRID_HEADER.STATUS')}
               render={this.renderStatus}
             />
           </GridView>
         </div>
-        {
-          modal.name === MODAL_PROMOTE_INFO &&
-          <Modal
-            isOpen
-            onClose={this.handleCloseModal}
-            {...modal.params}
-          />
-        }
       </div>
     );
   }

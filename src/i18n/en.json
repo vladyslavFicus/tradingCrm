@@ -896,6 +896,7 @@
     "PINNED_NOTE": "Pinned note",
     "DASHBOARD": "Dashboard",
     "IDENTIFIER": "ID Number",
+    "PROMOTE_FAILED": "Promote leads failed",
     "UPLOAD_FAILED": "File upload failed",
     "UPLOAD_SUCCESSFUL": "File upload successful",
     "SOMETHING_WRONG": "Something went wrong"

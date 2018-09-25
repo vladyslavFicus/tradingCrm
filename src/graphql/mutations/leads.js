@@ -3,7 +3,11 @@ import gql from 'graphql-tag';
 const promoteLeadToClient = gql`mutation promoteToClient(
   $allRecords: Boolean,
   $leadIds: [String],
-  $filters: LeadsListFilters,
+  $countries: [String],
+  $nameOrEmailOrId: String,
+  $registrationDateEnd: String,
+  $registrationDateStart: String,
+  $salesStatus: tradingProfileSalesStatus,
   $totalRecords: Int,
   $queryIds: [String],
 ) {
@@ -11,12 +15,23 @@ const promoteLeadToClient = gql`mutation promoteToClient(
     bulkPromote (
       allRecords: $allRecords,
       leadIds: $leadIds,
-      filters: $filters,
+      countries: $countries,
+      nameOrEmailOrId: $nameOrEmailOrId,
+      registrationDateEnd: $registrationDateEnd,
+      registrationDateStart: $registrationDateStart,
+      salesStatus: $salesStatus,
       totalRecords: $totalRecords,
       queryIds: $queryIds,
     ) {
-      succeed
-      failed
+      data
+      error {
+        error
+        fields_errors
+      }
+      errors {
+        error
+        fields_errors
+      }
     }
   }
 }`;
