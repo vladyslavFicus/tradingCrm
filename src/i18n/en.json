@@ -3,6 +3,7 @@
     "TOP_MENU": {
       "PLAYERS": "Players",
       "CLIENTS": "Clients",
+      "LEADS": "Leads",
       "OPERATORS": "Operators",
       "PAYMENTS": "Payments",
       "TRANSACTIONS": "Transactions",
@@ -895,6 +896,7 @@
     "PINNED_NOTE": "Pinned note",
     "DASHBOARD": "Dashboard",
     "IDENTIFIER": "ID Number",
+    "PROMOTE_FAILED": "Promote leads failed",
     "UPLOAD_FAILED": "File upload failed",
     "UPLOAD_SUCCESSFUL": "File upload successful",
     "SOMETHING_WRONG": "Something went wrong"
@@ -2685,7 +2687,24 @@
   "LEADS": {
     "LEADS": "Leads",
     "LEADS_FOUND": "Leads found",
-    "LEADS_SELECTED": "Leads selected"
+    "LEADS_SELECTED": "Leads selected",
+    "GRID_HEADER": {
+      "LEAD": "Lead",
+      "COUNTRY": "Country",
+      "SALES": "Sales",
+      "REGISTRATION": "Registration",
+      "STATUS": "Status"
+    },
+    "PROMOTE_INFO_MODAL": {
+      "HEADER": "Promoted leads information",
+      "BODY": "Promoted %{successAmount} of %{total}"
+    },
+    "STATUSES": {
+      "NEW": "New",
+      "NEVER_ANSWER": "Never answer",
+      "VOICE_MAIL": "Voice mail",
+      "CONVERTED": "Converted"
+    }
   },
   "MANUAL_COOLOFF": {
     "HEADING": "You are about to set Manual Cooloff status for the %{profileName} %{uuid} for 24 hours"

@@ -3,9 +3,11 @@ import { graphql, compose } from 'react-apollo';
 import moment from 'moment';
 import { get } from 'lodash';
 import List from '../components/List';
-import { withNotifications } from '../../../../../components/HighOrder';
+import Modal from '../../../../../components/Modal';
+import { withNotifications, withModals } from '../../../../../components/HighOrder';
 import countries from '../../../../../utils/countryList';
 import { leadsQuery } from '../../../../../graphql/queries/leads';
+import { promoteLeadToClient } from '../../../../../graphql/mutations/leads';
 import { leadCsvUpload } from '../../../../../graphql/mutations/upload';
 import { leadsSizePerQuery } from '../components/constants';
 
@@ -24,12 +26,19 @@ const mapStateToProps = ({
 
 export default compose(
   withNotifications,
+  withModals({
+    promoteInfoModal: Modal,
+  }),
   connect(mapStateToProps),
   graphql(leadCsvUpload, {
     name: 'fileUpload',
   }),
+  graphql(promoteLeadToClient, {
+    name: 'promoteLead',
+  }),
   graphql(leadsQuery, {
     name: 'leads',
+    skip: ({ auth }) => !get(auth, 'hierarchyUsers.leads'),
     options: ({
       location: { query },
       auth: { hierarchyUsers: { leads: ids } },
@@ -42,7 +51,7 @@ export default compose(
           },
         page: 0,
         limit: leadsSizePerQuery,
-        ids: ids || [],
+        ids,
       },
     }),
     props: ({ leads: { leads, fetchMore, ...rest } }) => {

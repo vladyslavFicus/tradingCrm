@@ -15,7 +15,7 @@ import Uuid from '../../../../../components/Uuid';
 import MiniProfile from '../../../../../components/MiniProfile';
 import { types as miniProfileTypes } from '../../../../../constants/miniProfile';
 import CountryLabelWithFlag from '../../../../../components/CountryLabelWithFlag';
-import { fileConfig } from './constants';
+import { fileConfig, leadStatuses } from './constants';
 
 class List extends Component {
   static propTypes = {
@@ -23,17 +23,26 @@ class List extends Component {
     locale: PropTypes.string.isRequired,
     currencies: PropTypes.arrayOf(PropTypes.string).isRequired,
     countries: PropTypes.object.isRequired,
+    auth: PropTypes.object.isRequired,
+    promoteLead: PropTypes.func.isRequired,
     leads: PropTypes.shape({
       leads: PropTypes.shape({
         data: PropTypes.pageable(PropTypes.lead),
       }),
-      loadMore: PropTypes.func.isRequired,
+      loadMore: PropTypes.func,
+      refetch: PropTypes.func,
       loading: PropTypes.bool.isRequired,
-    }).isRequired,
+    }),
     location: PropTypes.shape({
       query: PropTypes.shape({
         filters: PropTypes.object,
       }),
+    }).isRequired,
+    modals: PropTypes.shape({
+      promoteInfoModal: PropTypes.shape({
+        show: PropTypes.func.isRequired,
+        hide: PropTypes.func.isRequired,
+      }).isRequired,
     }).isRequired,
     fileUpload: PropTypes.func.isRequired,
   };
@@ -42,6 +51,13 @@ class List extends Component {
     miniProfile: PropTypes.shape({
       onShowMiniProfile: PropTypes.func.isRequired,
     }),
+  };
+
+  static defaultProps = {
+    leads: {
+      leads: {},
+      loading: false,
+    },
   };
 
   state = {
@@ -87,12 +103,65 @@ class List extends Component {
     history.push(`/leads/${id}`);
   };
 
-  handleSelectedRow = (condition, index, touchedRowsIds) => {
+  handlePromoteToClient = async () => {
+    const { allRowsSelected, selectedRows, touchedRowsIds } = this.state;
+    const {
+      promoteLead,
+      auth,
+      notify,
+      location: { query },
+      leads: { leads: { data: { content, totalElements } }, refetch },
+      modals: { promoteInfoModal },
+    } = this.props;
+
+    const filters = get(query, 'filters');
+    const hierarchyIds = get(auth, 'hierarchyUsers.leads');
+    const leadIds = allRowsSelected ? touchedRowsIds.map(index => content[index].id) : selectedRows;
+
+    const { data: { leads: { bulkPromote: { data, error, errors } } } } = await promoteLead({
+      variables: {
+        allRecords: allRowsSelected,
+        totalRecords: totalElements,
+        queryIds: allRowsSelected ? hierarchyIds : leadIds,
+        leadIds,
+        ...filters,
+      },
+    });
+
+    if (error) {
+      notify({
+        level: 'error',
+        title: I18n.t('COMMON.PROMOTE_FAILED'),
+        message: error.error || error.field_errors || I18n.t('COMMON.SOMETHING_WRONG'),
+      });
+    } else {
+      const successAmount = data ? data.length : 0;
+      const failedAmount = errors ? errors.length : 0;
+
+      promoteInfoModal.show({
+        header: I18n.t('LEADS.PROMOTE_INFO_MODAL.HEADER'),
+        body: (
+          <Fragment>
+            <strong>
+              {I18n.t('LEADS.PROMOTE_INFO_MODAL.BODY', {
+                successAmount,
+                total: successAmount + failedAmount,
+              })}
+            </strong>
+          </Fragment>
+        ),
+      });
+
+      refetch();
+    }
+  };
+
+  handleSelectRow = (condition, index, touchedRowsIds) => {
     const { leads: { leads: { data: { content } } } } = this.props;
     const selectedRows = [...this.state.selectedRows];
 
     if (condition) {
-      selectedRows.push(content[index].playerUUID);
+      selectedRows.push(content[index].id);
     } else {
       selectedRows.splice(index, 1);
     }
@@ -129,13 +198,13 @@ class List extends Component {
       return;
     }
 
-    const action = await this.props.fileUpload({ variables: { file } });
+    const { error } = await this.props.fileUpload({ variables: { file } });
 
-    if (action.error) {
+    if (error) {
       notify({
         level: 'error',
         title: I18n.t('COMMON.UPLOAD_FAILED'),
-        message: action.error || action.field_errors || I18n.t('COMMON.SOMETHING_WRONG'),
+        message: error.error || error.field_errors || I18n.t('COMMON.SOMETHING_WRONG'),
       });
 
       return;
@@ -146,7 +215,6 @@ class List extends Component {
       title: I18n.t('COMMON.SUCCESS'),
       message: I18n.t('COMMON.UPLOAD_SUCCESSFUL'),
     });
-    this.handleFilterReset();
   }
 
   renderLead = data => (
@@ -174,11 +242,10 @@ class List extends Component {
     />
   );
 
-  renderSourceAndAffiliate = ({ source, affiliate }) => (
-    <Fragment>
-      <div className="header-block-middle">{affiliate}</div>
-      <div className="header-block-small">{source}</div>
-    </Fragment>
+  renderStatus = ({ status }) => (
+    <div className={classNames('font-weight-700 text-uppercase', leadStatuses[status].color)}>
+      {I18n.t(leadStatuses[status].label)}
+    </div>
   );
 
   renderSales = ({ salesStatus, salesAgent }) => {
@@ -272,6 +339,7 @@ class List extends Component {
               </button>
               <button
                 className="btn btn-default-outline"
+                onClick={this.handlePromoteToClient}
               >
                 {I18n.t('COMMON.PROMOTE_TO_CLIENT')}
               </button>
@@ -319,39 +387,38 @@ class List extends Component {
             last={entities.last}
             lazyLoad
             multiselect
-            selectedRows={selectedRows}
             allRowsSelected={allRowsSelected}
             touchedRowsIds={touchedRowsIds}
             onAllRowsSelect={this.handleAllRowsSelect}
-            onRowSelect={this.handleSelectedRow}
+            onRowSelect={this.handleSelectRow}
             locale={locale}
             showNoResults={!loading && entities.content.length === 0}
             onRowClick={this.handleLeadClick}
           >
             <GridViewColumn
               name="lead"
-              header={I18n.t('CLIENTS.LEADS.GRID_HEADER.LEAD')}
+              header={I18n.t('LEADS.GRID_HEADER.LEAD')}
               render={this.renderLead}
             />
             <GridViewColumn
               name="country"
-              header={I18n.t('CLIENTS.LEADS.GRID_HEADER.COUNTRY')}
+              header={I18n.t('LEADS.GRID_HEADER.COUNTRY')}
               render={this.renderCountry}
             />
             <GridViewColumn
-              name="source/affiliate"
-              header={I18n.t('CLIENTS.LEADS.GRID_HEADER.SOURCE/AFFILIATE')}
-              render={this.renderSourceAndAffiliate}
-            />
-            <GridViewColumn
               name="sales"
-              header={I18n.t('CLIENTS.LEADS.GRID_HEADER.SALES')}
+              header={I18n.t('LEADS.GRID_HEADER.SALES')}
               render={this.renderSales}
             />
             <GridViewColumn
               name="registrationDate"
-              header={I18n.t('CLIENTS.LEADS.GRID_HEADER.REGISTRATION')}
+              header={I18n.t('LEADS.GRID_HEADER.REGISTRATION')}
               render={this.renderRegistrationDate}
+            />
+            <GridViewColumn
+              name="status"
+              header={I18n.t('LEADS.GRID_HEADER.STATUS')}
+              render={this.renderStatus}
             />
           </GridView>
         </div>
