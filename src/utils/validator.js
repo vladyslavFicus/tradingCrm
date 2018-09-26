@@ -1,6 +1,6 @@
 import Validator from 'validatorjs';
 import { I18n } from 'react-redux-i18n';
-import _ from 'lodash';
+import { get, zipObjectDeep } from 'lodash';
 import moment from 'moment';
 
 function nextDateValidator(value, requirement) {
@@ -15,7 +15,7 @@ function lessThanValidator(inputValue, requirement, attribute) {
 
     return false;
   }
-  const greaterValue = Number(_.get(this.validator.input, requirement));
+  const greaterValue = Number(get(this.validator.input, requirement));
 
   if (greaterValue !== 0 && value >= greaterValue) {
     const targetAttributeLabel = this.validator.messages._getAttributeName(requirement);
@@ -65,7 +65,7 @@ function greaterThanValidator(inputValue, requirement, attribute) {
 
     return false;
   }
-  const lessValue = Number(_.get(this.validator.input, requirement));
+  const lessValue = Number(get(this.validator.input, requirement));
 
   if (lessValue !== 0 && value <= lessValue) {
     const targetAttributeLabel = this.validator.messages._getAttributeName(requirement);
@@ -94,7 +94,7 @@ function lessOrSameValidator(inputValue, requirement, attribute) {
     return false;
   }
 
-  const greaterValue = Number(_.get(this.validator.input, requirement));
+  const greaterValue = Number(get(this.validator.input, requirement));
 
   if (greaterValue !== 0 && value > greaterValue) {
     const targetAttributeLabel = this.validator.messages._getAttributeName(requirement);
@@ -118,14 +118,31 @@ function greaterOrSameValidator(inputValue, requirement, attribute) {
 
     return false;
   }
-  const lessValue = Number(_.get(this.validator.input, requirement));
+  const lessValue = Number(get(this.validator.input, requirement));
 
   return lessValue === 0 || value >= lessValue;
 }
 
-function customValueTypeValidator(inputValue, requirement, attribute) {
+function periodGreaterOrSameValidator(inputValue, requirement, attribute) {
+  const value = Number(inputValue);
+  const valueUnit = get(this.validator.input, `${attribute}TimeUnit`);
+
+  const lessValue = Number(get(this.validator.input, requirement));
+  const lessValueTimeUnit = get(this.validator.input, `${requirement}TimeUnit`);
+
+  const isGreater = moment.duration(value, valueUnit).asMinutes() >=
+    moment.duration(lessValue, lessValueTimeUnit).asMinutes();
+
+  if (!isGreater) {
+    this.validator.errors.add(attribute, `The "${attribute}" must be same or greater than "${requirement}"`);
+  }
+
+  return isGreater;
+}
+
+function customValueTypeValidator(inputValue, _, attribute) {
   const attributeBaseName = attribute.replace(/\.value/, '');
-  const customTypeValueField = _.get(this.validator.input, attributeBaseName);
+  const customTypeValueField = get(this.validator.input, attributeBaseName);
 
   if (typeof customTypeValueField !== 'undefined') {
     if (customTypeValueField === null) {
@@ -163,6 +180,7 @@ Validator.register('daysRangeBetween', daysRangeBetweenValidator, '');
 Validator.register('greater', greaterValidator, 'The :attribute must be greater than :greater');
 Validator.register('lessOrSame', lessOrSameValidator, 'The :attribute must be less');
 Validator.register('greaterOrSame', greaterOrSameValidator, 'The :attribute must be greater');
+Validator.register('periodGreaterOrSame', periodGreaterOrSameValidator, 'The :attribute must be greater');
 Validator.register('customTypeValue.value', customValueTypeValidator, 'The :attribute must be a valid CustomType');
 
 const getFirstErrors = errors => Object.keys(errors).reduce((result, current) => ({
@@ -176,7 +194,7 @@ const createValidator = (rules, attributeLabels = {}, multipleErrors = true) => 
 
   if (validation.fails()) {
     const flattenErrors = multipleErrors ? validation.errors.all() : getFirstErrors(validation.errors.all());
-    const nestedErrors = _.zipObjectDeep(Object.keys(flattenErrors), Object.values(flattenErrors));
+    const nestedErrors = zipObjectDeep(Object.keys(flattenErrors), Object.values(flattenErrors));
 
     return nestedErrors;
   }
