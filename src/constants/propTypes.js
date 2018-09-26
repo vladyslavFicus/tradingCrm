@@ -568,8 +568,11 @@ PropTypes.lead = PropTypes.shape({
   brandId: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   surname: PropTypes.string.isRequired,
+  phoneCode: PropTypes.string.isRequired,
+  phoneNumber: PropTypes.string,
   phone: PropTypes.string.isRequired,
-  mobile: PropTypes.string.isRequired,
+  mobileCode: PropTypes.string.isRequired,
+  mobileNumber: PropTypes.string,
   status: PropTypes.string,
   email: PropTypes.string,
   country: PropTypes.string,
@@ -582,6 +585,7 @@ PropTypes.lead = PropTypes.shape({
   city: PropTypes.string,
   language: PropTypes.string,
   registrationDate: PropTypes.string.isRequired,
+  statusChangeDate: PropTypes.string,
 });
 
 

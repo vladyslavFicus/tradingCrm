@@ -31,7 +31,6 @@ const AcquisitionStatus = ({ acquisitionData }) => (
 );
 
 AcquisitionStatus.propTypes = {
-  // TODO: When api ready, redo to ptsh
   acquisitionData: PropTypes.object.isRequired,
 };
 

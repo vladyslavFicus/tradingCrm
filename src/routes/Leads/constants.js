@@ -1,5 +1,3 @@
-const leadsSizePerQuery = 10;
-
 const leadStatuses = {
   NEW: {
     label: 'LEADS.STATUSES.NEW',
@@ -25,7 +23,6 @@ const fileConfig = {
 };
 
 export {
-  fileConfig,
   leadStatuses,
-  leadsSizePerQuery,
+  fileConfig,
 };

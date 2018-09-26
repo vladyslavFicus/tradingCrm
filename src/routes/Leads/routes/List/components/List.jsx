@@ -15,7 +15,7 @@ import Uuid from '../../../../../components/Uuid';
 import MiniProfile from '../../../../../components/MiniProfile';
 import { types as miniProfileTypes } from '../../../../../constants/miniProfile';
 import CountryLabelWithFlag from '../../../../../components/CountryLabelWithFlag';
-import { fileConfig, leadStatuses } from './constants';
+import { leadStatuses, fileConfig } from '../../../constants';
 
 class List extends Component {
   static propTypes = {

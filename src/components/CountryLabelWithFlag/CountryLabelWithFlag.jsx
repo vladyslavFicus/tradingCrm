@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { I18n } from 'react-redux-i18n';
 import Flag from 'react-world-flags';
 import languageNames from '../../constants/languageNames';
-import getCountryCode from './countryCodeMapper';
+import { getCountryCode } from '../../utils/countryList';
 import './CountryLabelWithFlag.scss';
 
 const CountryLabelWithFlag = ({ height, code, languageCode }) => (
