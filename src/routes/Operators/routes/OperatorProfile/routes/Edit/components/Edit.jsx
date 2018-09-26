@@ -5,13 +5,13 @@ import DepartmentsForm from './DepartmentsForm';
 import PropTypes from '../../../../../../../constants/propTypes';
 import { departmentsLabels, rolesLabels } from '../../../../../../../constants/operators';
 import renderLabel from '../../../../../../../utils/renderLabel';
-import PermissionContent from '../../../../../../../components/PermissionContent';
+import Permissions from '../../../../../../../utils/permissions';
 import permissions from '../../../../../../../config/permissions';
 
-const manageDepartmentsPermissions = [
+const manageDepartmentsPermission = new Permissions([
   permissions.OPERATORS.ADD_AUTHORITY,
   permissions.OPERATORS.DELETE_AUTHORITY,
-];
+]);
 
 class View extends Component {
   static propTypes = {
@@ -33,6 +33,12 @@ class View extends Component {
     fetchAuthoritiesOptions: PropTypes.func.isRequired,
     authorities: PropTypes.oneOfType([PropTypes.authorityEntity, PropTypes.object]),
     departmentsRoles: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.string)).isRequired,
+    auth: PropTypes.shape({
+      uuid: PropTypes.string,
+    }).isRequired,
+  };
+  static contextTypes = {
+    permissions: PropTypes.arrayOf(PropTypes.string).isRequired,
   };
   static defaultProps = {
     authorities: [],
@@ -111,8 +117,12 @@ class View extends Component {
     const {
       profile: { data: profile, receivedAt: profileLoaded },
       authorities: { data: authorities },
+      auth: { uuid },
       departmentsRoles,
     } = this.props;
+    const { permissions: currentPermissions } = this.context;
+
+    const allowEditPermissions = manageDepartmentsPermission.check(currentPermissions) && uuid !== profile.uuid;
 
     return (
       <div className="card-body">
@@ -132,37 +142,39 @@ class View extends Component {
             </If>
           </div>
         </div>
-        <PermissionContent permissions={manageDepartmentsPermissions}>
-          <div className="card">
-            <div className="card-body">
-              <div className="personal-form-heading margin-bottom-20">
-                {I18n.t('OPERATORS.PROFILE.DEPARTMENTS.LABEL')}
-              </div>
-              {
-                authorities.map(authority => (
-                  <div key={authority.id} className="margin-bottom-20">
-                    <strong>
-                      {renderLabel(authority.department, departmentsLabels)}
-                      {' - '}
-                      {renderLabel(authority.role, rolesLabels)}
-                    </strong>
+        <div className="card">
+          <div className="card-body">
+            <div className="personal-form-heading margin-bottom-20">
+              {I18n.t('OPERATORS.PROFILE.DEPARTMENTS.LABEL')}
+            </div>
+            {
+              authorities.map(authority => (
+                <div key={authority.id} className="margin-bottom-20">
+                  <strong>
+                    {renderLabel(authority.department, departmentsLabels)}
+                    {' - '}
+                    {renderLabel(authority.role, rolesLabels)}
+                  </strong>
+                  <If condition={allowEditPermissions}>
                     <strong className="margin-left-20">
                       <i
                         onClick={() => this.handleDeleteAuthority(authority.department, authority.role)}
                         className="fa fa-trash cursor-pointer color-danger"
                       />
                     </strong>
-                  </div>
-                ))
-              }
+                  </If>
+                </div>
+              ))
+            }
+            <If condition={allowEditPermissions}>
               <DepartmentsForm
                 onSubmit={this.handleAddAuthority}
                 authorities={authorities}
                 departmentsRoles={departmentsRoles}
               />
-            </div>
+            </If>
           </div>
-        </PermissionContent>
+        </div>
       </div>
     );
   }
