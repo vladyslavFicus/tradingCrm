@@ -124,10 +124,10 @@ function greaterOrSameValidator(inputValue, requirement, attribute) {
 }
 
 function periodGreaterOrSameValidator(inputValue, requirement, attribute) {
-  const value = Number(inputValue);
+  const value = parseInt(inputValue, 10);
   const valueUnit = get(this.validator.input, `${attribute}TimeUnit`);
 
-  const lessValue = Number(get(this.validator.input, requirement));
+  const lessValue = parseInt(get(this.validator.input, requirement), 10);
   const lessValueTimeUnit = get(this.validator.input, `${requirement}TimeUnit`);
 
   const isGreater = moment.duration(value, valueUnit).asMinutes() >=
