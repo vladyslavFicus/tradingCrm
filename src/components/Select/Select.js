@@ -10,7 +10,7 @@ import deleteFromArray from '../../utils/deleteFromArray';
 
 class Select extends PureComponent {
   static propTypes = {
-    children: PropTypes.arrayOf(PropTypes.element).isRequired,
+    children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.element), PropTypes.node]).isRequired,
     onChange: PropTypes.func,
     placeholder: PropTypes.string,
     multiple: PropTypes.bool,
@@ -258,14 +258,17 @@ class Select extends PureComponent {
     throw new Error('Incorrect field value');
   };
 
-  filterOptions = options => options
-    .filter(option => option.type === 'option')
-    .map(({ key, props: { value, children, ...props } }) => ({
-      label: children,
-      value,
-      key,
-      props,
-    }));
+  filterOptions = options => (Array.isArray(options)
+    ? options
+      .filter(option => option.type === 'option')
+      .map(({ key, props: { value, children, ...props } }) => ({
+        label: children,
+        value,
+        key,
+        props,
+      }))
+    : []
+  );
 
   filterSelectedOptions = (options, selectedOptions, multiple) => (
     multiple

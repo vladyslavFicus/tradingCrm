@@ -12,6 +12,7 @@ const services = keyMirror({
   gaming_activity: null,
   trading_activity: null,
   trading_lead_updater: null,
+  reconciliation: null,
 });
 
 export {

@@ -26,7 +26,8 @@
       "OFFICES": "Offices",
       "DESKS": "Desks",
       "TEAMS": "Teams",
-      "CALLBACKS": "Callbacks"
+      "CALLBACKS": "Callbacks",
+      "DASHBOARD": "Dashboard"
     },
     "BOTTOM_MENU": {
       "SUPPORT": "Support"
@@ -744,7 +745,8 @@
       "SAVE": "Save",
       "EXPORT_AS_CSV": "Export as CSV",
       "UPDATE": "Update",
-      "DELETE": "Delete"
+      "DELETE": "Delete",
+      "PROMOTE": "Promote"
     },
     "ACTIONS": {
       "ON": "Turn on",
@@ -2630,7 +2632,8 @@
         "WITHDRAWN": "Withdrawn"
       },
       "ACQUISITION": {
-        "TITLE": "Acquisition Status"
+        "TITLE": "Acquisition Status",
+        "SALES": "Sales"
       }
     },
     "TRANSACTIONS": {
@@ -2704,6 +2707,42 @@
       "NEVER_ANSWER": "Never answer",
       "VOICE_MAIL": "Voice mail",
       "CONVERTED": "Converted"
+    },
+    "SUCCESS_PROMOTED": "Lead was promoted to id %{id}"
+  },
+  "LEAD_PROFILE": {
+    "HEADER": {
+      "PROMOTE_TO_CLIENT": "Promote to client",
+      "REGISTERED": "Registered"
+    },
+    "DETAILS": {
+      "PERSONAL_INFORMATION": "Personal details",
+      "EMAIL": "Email",
+      "COUNTRY": "Country",
+      "PHONE": "Phone",
+      "DATE_OF_BIRTH": "Date of birth",
+      "GENDER": "Gender",
+      "CITY": "City",
+      "LANGUAGE": "Language",
+      "SOURCE": "Source",
+      "AFFILIATE": "Affiliate"
+    },
+    "TABS": {
+      "PROFILE": "Profile"
+    },
+    "PROMOTE_MODAL": {
+      "HEADER": "Promote to client",
+      "BODY_HEADER": "You are about to promote lead %{fullName} to a client",
+      "LABELS": {
+        "FIRST_NAME": "First name",
+        "LAST_NAME": "Last name",
+        "EMAIL": "Email",
+        "COUNTRY": "Country",
+        "PASSWORD": "Password",
+        "LANGUAGE": "Language",
+        "SALES_REP": "Assign Sales representative",
+        "SALES_DESK": "Assign Sales desk"
+      }
     }
   },
   "MANUAL_COOLOFF": {

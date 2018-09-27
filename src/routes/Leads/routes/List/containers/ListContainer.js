@@ -7,9 +7,8 @@ import Modal from '../../../../../components/Modal';
 import { withNotifications, withModals } from '../../../../../components/HighOrder';
 import countries from '../../../../../utils/countryList';
 import { leadsQuery } from '../../../../../graphql/queries/leads';
-import { promoteLeadToClient } from '../../../../../graphql/mutations/leads';
+import { bulkLeadPromote } from '../../../../../graphql/mutations/leads';
 import { leadCsvUpload } from '../../../../../graphql/mutations/upload';
-import { leadsSizePerQuery } from '../components/constants';
 
 const mapStateToProps = ({
   usersList: list,
@@ -33,7 +32,7 @@ export default compose(
   graphql(leadCsvUpload, {
     name: 'fileUpload',
   }),
-  graphql(promoteLeadToClient, {
+  graphql(bulkLeadPromote, {
     name: 'promoteLead',
   }),
   graphql(leadsQuery, {
@@ -50,7 +49,7 @@ export default compose(
             registrationDateStart: moment().startOf('day').utc().format(moment.HTML5_FMT.DATETIME_LOCAL_SECONDS),
           },
         page: 0,
-        limit: leadsSizePerQuery,
+        limit: 10,
         ids,
       },
     }),

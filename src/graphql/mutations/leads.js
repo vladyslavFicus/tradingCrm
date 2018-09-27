@@ -1,6 +1,42 @@
 import gql from 'graphql-tag';
 
-const promoteLeadToClient = gql`mutation promoteToClient(
+const promoteLeadToClient = gql`mutation promoteLead(
+  $password: String!,
+  $email: String!,
+  $firstName: String!,
+  $lastName: String!,
+  $country: String!,
+  $brandId: String!,
+  $city: String!,
+  $phoneCode: String!,
+  $phone: String!,
+  $languageCode: String!,
+) {
+  leads {
+    promote (
+      password: $password,
+      email: $email,
+      firstName: $firstName,
+      lastName: $lastName,
+      country: $country,
+      brandId: $brandId,
+      city: $city,
+      phoneCode: $phoneCode,
+      phone: $phone,
+      languageCode: $languageCode,
+    ) {
+      data {
+        playerUUID
+      }
+      error {
+        error
+        fields_errors
+      }
+    }
+  }
+}`;
+
+const bulkLeadPromote = gql`mutation promoteToClient(
   $allRecords: Boolean,
   $leadIds: [String],
   $countries: [String],
@@ -38,4 +74,5 @@ const promoteLeadToClient = gql`mutation promoteToClient(
 
 export {
   promoteLeadToClient,
+  bulkLeadPromote,
 };

@@ -7,6 +7,9 @@
     overflow-y: auto;
     overflow-x: hidden;
     word-break: break-all;
+    .lead-country img {
+      vertical-align: unset;
+    }
   }
   &__label {
     font-size: 12px;
