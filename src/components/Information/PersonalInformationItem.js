@@ -6,19 +6,15 @@ const PersonalInformationItem = ({
   value,
   verified,
   className,
-}) => {
-  if (!value) {
-    return null;
-  }
-
-  return (
+}) => (
+  <If condition={value}>
     <div className={className}>
       <strong>{label}</strong>: {value}
       {' '}
       {verified && <i className="fa fa-check text-success" />}
     </div>
-  );
-};
+  </If>
+);
 
 PersonalInformationItem.propTypes = {
   label: PropTypes.string.isRequired,

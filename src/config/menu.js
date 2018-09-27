@@ -62,6 +62,11 @@ const userProfileTabs = [
 ];
 
 const falconSidebarMenu = [{
+  label: I18n.t('SIDEBAR.TOP_MENU.DASHBOARD'),
+  icon: 'icon-dashboard',
+  url: '/dashboard',
+  service: services.reconciliation,
+}, {
   label: I18n.t('SIDEBAR.TOP_MENU.CLIENTS'),
   icon: 'icon-users',
   url: '/clients/list',

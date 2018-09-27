@@ -60,7 +60,7 @@ const Header = ({
         </div>
       </div>
       <div className="header-block">
-        <div className="header-block-title">Registered</div>
+        <div className="header-block-title">{I18n.t('LEAD_PROFILE.HEADER.REGISTERED')}</div>
         {
           registrationDate &&
           <div>

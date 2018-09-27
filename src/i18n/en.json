@@ -26,7 +26,8 @@
       "OFFICES": "Offices",
       "DESKS": "Desks",
       "TEAMS": "Teams",
-      "CALLBACKS": "Callbacks"
+      "CALLBACKS": "Callbacks",
+      "DASHBOARD": "Dashboard"
     },
     "BOTTOM_MENU": {
       "SUPPORT": "Support"
@@ -2711,7 +2712,8 @@
   },
   "LEAD_PROFILE": {
     "HEADER": {
-      "PROMOTE_TO_CLIENT": "Promote to client"
+      "PROMOTE_TO_CLIENT": "Promote to client",
+      "REGISTERED": "Registered"
     },
     "DETAILS": {
       "PERSONAL_INFORMATION": "Personal details",
@@ -2724,6 +2726,9 @@
       "LANGUAGE": "Language",
       "SOURCE": "Source",
       "AFFILIATE": "Affiliate"
+    },
+    "TABS": {
+      "PROFILE": "Profile"
     },
     "PROMOTE_MODAL": {
       "HEADER": "Promote to client",

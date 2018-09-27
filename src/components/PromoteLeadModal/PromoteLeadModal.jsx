@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { reduxForm, Field } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
@@ -11,32 +11,11 @@ import attributeLabels from './constants';
 
 const FORM_NAME = 'promoteLeadModalForm';
 
-class PromoteLead extends Component {
-  static propTypes = {
-    initialValues: PropTypes.shape({
-      firstName: PropTypes.string.isRequired,
-      lastName: PropTypes.string.isRequired,
-    }).isRequired,
-    handleSubmit: PropTypes.func.isRequired,
-    onCloseModal: PropTypes.func.isRequired,
-    isOpen: PropTypes.bool.isRequired,
-    invalid: PropTypes.bool.isRequired,
-    submitting: PropTypes.bool.isRequired,
-    onSubmit: PropTypes.func.isRequired,
-    size: PropTypes.string,
-    error: PropTypes.any,
-  };
-
-  static defaultProps = {
-    size: null,
-    error: null,
-  };
-
-  handleSubmit = (data) => {
-    const { onSubmit } = this.props;
-
-    return onSubmit(data);
-  };
+class PromoteLead extends PureComponent {
+  handleGeneratePassword = () => {
+    const value = `A${Math.random().toString(36)}1#`;
+    this.props.change('password', value);
+  }
 
   render() {
     const {
@@ -51,6 +30,7 @@ class PromoteLead extends Component {
         lastName,
       },
       error,
+      onSubmit,
     } = this.props;
 
     return (
@@ -66,7 +46,7 @@ class PromoteLead extends Component {
         <ModalBody
           tag="form"
           id="promote-lead-modal-form"
-          onSubmit={handleSubmit(this.handleSubmit)}
+          onSubmit={handleSubmit(onSubmit)}
         >
           <div className="mb-3 font-weight-700 text-center">
             {I18n.t('LEAD_PROFILE.PROMOTE_MODAL.BODY_HEADER', { fullName: `${firstName} ${lastName}` })}
@@ -109,7 +89,7 @@ class PromoteLead extends Component {
                 placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
                 disabled
               >
-                {[]}
+                <option />
               </Field>
             </div>
             <div className="col-6">
@@ -122,6 +102,9 @@ class PromoteLead extends Component {
               <Field
                 name="password"
                 type="password"
+                onIconClick={this.handleGeneratePassword}
+                inputAddon={<span className="icon-generate-password" />}
+                inputAddonPosition="right"
                 label={I18n.t(attributeLabels.password)}
                 component={InputField}
               />
@@ -144,7 +127,7 @@ class PromoteLead extends Component {
                 placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
                 disabled
               >
-                {[]}
+                <option />
               </Field>
             </div>
           </div>
@@ -170,6 +153,27 @@ class PromoteLead extends Component {
     );
   }
 }
+
+PromoteLead.propTypes = {
+  initialValues: PropTypes.shape({
+    firstName: PropTypes.string.isRequired,
+    lastName: PropTypes.string.isRequired,
+  }).isRequired,
+  handleSubmit: PropTypes.func.isRequired,
+  change: PropTypes.func.isRequired,
+  onCloseModal: PropTypes.func.isRequired,
+  isOpen: PropTypes.bool.isRequired,
+  invalid: PropTypes.bool.isRequired,
+  submitting: PropTypes.bool.isRequired,
+  onSubmit: PropTypes.func.isRequired,
+  size: PropTypes.string,
+  error: PropTypes.any,
+};
+
+PromoteLead.defaultProps = {
+  size: null,
+  error: null,
+};
 
 const PromoteLeadModal = reduxForm({
   form: FORM_NAME,
