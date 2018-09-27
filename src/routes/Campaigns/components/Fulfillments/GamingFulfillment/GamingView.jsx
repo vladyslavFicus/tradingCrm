@@ -61,12 +61,16 @@ class GamingView extends PureComponent {
     autofill(`${name}.gameList`, null);
   };
 
-  handleChangeAggregationType = () => {
+  handleChangeAggregationType = (_, value) => {
     const { name } = this.props;
     const { _reduxForm: { autofill } } = this.context;
 
-    autofill(`${name}.amountCount`, null);
-    autofill(`${name}.amountSum`, []);
+    if (value === aggregationTypes.COUNT) {
+      autofill(`${name}.amountSum`, null);
+    } else if (value === aggregationTypes.SUM) {
+      autofill(`${name}.amountCount`, null);
+      autofill(`${name}.amountSum`, []);
+    }
   };
 
   renderGameList() {
@@ -143,6 +147,7 @@ class GamingView extends PureComponent {
             <When condition={aggregationType === aggregationTypes.SUM}>
               <MultiCurrencyValue
                 baseName={`${name}.amountSum`}
+                showErrorMessage={false}
                 className="col-4"
                 label={I18n.t(attributeLabels.amount)}
                 disabled={disabled}

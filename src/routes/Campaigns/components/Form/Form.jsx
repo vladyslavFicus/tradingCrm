@@ -435,7 +435,6 @@ export default compose(
             aggregationType: ['required', 'string', `in:${Object.keys(aggregationTypes).join()}`],
             moneyType: ['required', 'string', `in:${Object.keys(moneyTypes).join()}`],
             spinType: ['required', 'string', `in:${Object.keys(spinTypes).join()}`],
-            'amountSum[0].amount': ['numeric', 'min:1'],
             amountCount: ['numeric', 'min:1'],
             gameFilter: ['required', 'string', `in:${Object.keys(gameFilters).join()}`],
             gameList: ['array'],
@@ -449,7 +448,10 @@ export default compose(
           }
 
           if (values.fulfillments[index].aggregationType === aggregationTypes.SUM) {
-            rules.fulfillments[index]['amountSum[0].amount'].push('required');
+            rules.fulfillments[index] = {
+              ...rules.fulfillments[index],
+              'amountSum[0].amount': ['required', 'numeric', 'min:1'],
+            };
           } else if (values.fulfillments[index].aggregationType === aggregationTypes.COUNT) {
             rules.fulfillments[index].amountCount.push('required');
           }
