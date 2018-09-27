@@ -16,16 +16,16 @@ const DynamicFilters = createDynamicForm({
     keyword: 'string',
     country: `in:,${Object.keys(props.countries).join()}`,
     currencies: `in:,${props.currencies.join()}`,
-    ageFrom: 'integer',
-    ageTo: 'integer',
+    ageFrom: ['numeric'],
+    ageTo: ['numeric', 'greaterThan:ageFrom'],
     affiliateId: 'string',
     status: 'string',
     segments: 'string',
     registrationDateFrom: 'regex:/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/',
     registrationDateTo: 'regex:/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/',
-    balanceFrom: 'integer',
-    balanceTo: 'integer',
-  }, filterLabels, false),
+    balanceFrom: ['numeric'],
+    balanceTo: ['numeric', 'greaterThan:balanceFrom'],
+  }, filterLabels, false)(values),
 });
 
 class UserGridFilter extends Component {
