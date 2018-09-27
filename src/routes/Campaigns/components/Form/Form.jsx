@@ -11,6 +11,7 @@ import {
   DateTimeField,
   RangeGroup,
   MultiInputField,
+  PeriodUnitField,
 } from '../../../../components/ReduxForm';
 import {
   nodeGroups,
@@ -40,7 +41,6 @@ import normalizeBoolean from '../../../../utils/normalizeBoolean';
 import normalizePromoCode from '../../../../utils/normalizePromoCode';
 import countries from '../../../../utils/countryList';
 import { targetTypes, targetTypesLabels } from '../../../../constants/campaigns';
-import { intNormalize } from '../../../../utils/inputNormalize';
 import Countries from '../Countries';
 import { aggregationTypes, moneyTypes, spinTypes, gameFilters } from '../Fulfillments/GamingFulfillment/constants';
 
@@ -268,71 +268,35 @@ class Form extends Component {
             ))}
           </Field>
           <If condition={formValues.optIn}>
-            <div className="form-group col-lg-3">
-              <label>{I18n.t(attributeLabels.optInPeriod)}</label>
-              <div className="form-row">
-                <Field
-                  name="optInPeriod"
-                  id="campaign-opt-in-period"
-                  type="number"
-                  placeholder=""
-                  disabled={disabled}
-                  component={InputField}
-                  normalize={intNormalize}
-                  className="col-4 mb-0"
-                />
-                <Field
-                  name="optInPeriodTimeUnit"
-                  id="campaign-opt-in-period-time-unit"
-                  type="select"
-                  component={SelectField}
-                  disabled={disabled}
-                  className="col mb-0"
-                >
-                  <option value="">
-                    {I18n.t('CAMPAIGNS.SETTINGS.SELECT_PERIOD')}
-                  </option>
-                  {Object.keys(periods).map(period => (
-                    <option key={period} value={period}>
-                      {renderLabel(period, periodsLabels)}
-                    </option>
-                  ))}
-                </Field>
-              </div>
-            </div>
-          </If>
-          <div className="form-group col-lg-3">
-            <label>{I18n.t(attributeLabels.fulfillmentPeriod)}</label>
-            <div className="form-row">
-              <Field
-                name="fulfillmentPeriod"
-                id="campaign-fulfillment-period"
-                type="number"
-                placeholder=""
-                disabled={disabled}
-                component={InputField}
-                normalize={intNormalize}
-                className="col-4 mb-0"
-              />
-              <Field
-                name="fulfillmentPeriodTimeUnit"
-                id="campaign-fulfillment-period-time-unit"
-                type="select"
-                component={SelectField}
-                disabled={disabled}
-                className="col mb-0"
-              >
-                <option value="">
-                  {I18n.t('CAMPAIGNS.SETTINGS.SELECT_PERIOD')}
+            <Field
+              component={PeriodUnitField}
+              name="optInPeriod"
+              className="col-lg-3"
+              label={I18n.t(attributeLabels.optInPeriod)}
+              disabled={disabled}
+              id="campaign-opt-in-period"
+            >
+              {Object.keys(periods).map(period => (
+                <option key={period} value={period}>
+                  {renderLabel(period, periodsLabels)}
                 </option>
-                {Object.keys(periods).map(period => (
-                  <option key={period} value={period}>
-                    {renderLabel(period, periodsLabels)}
-                  </option>
-                ))}
-              </Field>
-            </div>
-          </div>
+              ))}
+            </Field>
+          </If>
+          <Field
+            name="fulfillmentPeriod"
+            component={PeriodUnitField}
+            className="col-lg-3"
+            label={I18n.t(attributeLabels.fulfillmentPeriod)}
+            disabled={disabled}
+            id="campaign-fulfillment-period"
+          >
+            {Object.keys(periods).map(period => (
+              <option key={period} value={period}>
+                {renderLabel(period, periodsLabels)}
+              </option>
+            ))}
+          </Field>
         </div>
         <div className="row">
           <Countries
@@ -441,6 +405,15 @@ export default compose(
 
       if (values.fulfillmentPeriodTimeUnit) {
         rules.fulfillmentPeriod.push('required');
+      }
+
+      if (
+        values.optInPeriod &&
+        values.optInPeriodTimeUnit &&
+        values.fulfillmentPeriod &&
+        values.fulfillmentPeriodTimeUnit
+      ) {
+        rules.fulfillmentPeriod.push('periodGreaterOrSame:optInPeriod');
       }
 
       fulfillments.forEach((fulfillment, index) => {
