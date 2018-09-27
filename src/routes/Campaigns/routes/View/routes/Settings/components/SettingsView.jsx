@@ -40,7 +40,7 @@ class SettingsView extends Component {
       },
     } = this.props;
 
-    if (!isEqual(currentData.fulfillments, initialFulfillments)) {
+    if (!isEqual(currentData.fulfillments.map(f => f.uuid), initialFulfillments.map(f => f.uuid))) {
       return false;
     }
 

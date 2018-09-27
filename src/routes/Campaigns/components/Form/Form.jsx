@@ -462,7 +462,8 @@ export default compose(
             aggregationType: ['required', 'string', `in:${Object.keys(aggregationTypes).join()}`],
             moneyType: ['required', 'string', `in:${Object.keys(moneyTypes).join()}`],
             spinType: ['required', 'string', `in:${Object.keys(spinTypes).join()}`],
-            'amount[0].amount': ['required', 'numeric', 'min:1'],
+            'amountSum[0].amount': ['numeric', 'min:1'],
+            amountCount: ['numeric', 'min:1'],
             gameFilter: ['required', 'string', `in:${Object.keys(gameFilters).join()}`],
             gameList: ['array'],
           };
@@ -472,6 +473,12 @@ export default compose(
             values.fulfillments[index].gameFilter === gameFilters.PROVIDER
           ) {
             rules.fulfillments[index].gameList.push('required');
+          }
+
+          if (values.fulfillments[index].aggregationType === aggregationTypes.SUM) {
+            rules.fulfillments[index]['amountSum[0].amount'].push('required');
+          } else if (values.fulfillments[index].aggregationType === aggregationTypes.COUNT) {
+            rules.fulfillments[index].amountCount.push('required');
           }
         }
       });

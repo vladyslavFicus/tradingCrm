@@ -7,9 +7,11 @@ import {
   MultiCurrencyValue,
   NasSelectField,
   MultiInputField,
+  InputField,
 } from '../../../../../components/ReduxForm';
 import PropTypes from '../../../../../constants/propTypes';
 import renderLabel from '../../../../../utils/renderLabel';
+import { intNormalize } from '../../../../../utils/inputNormalize';
 import {
   attributeLabels,
   aggregationTypes,
@@ -59,6 +61,14 @@ class GamingView extends PureComponent {
     autofill(`${name}.gameList`, null);
   };
 
+  handleChangeAggregationType = () => {
+    const { name } = this.props;
+    const { _reduxForm: { autofill } } = this.context;
+
+    autofill(`${name}.amountCount`, null);
+    autofill(`${name}.amountSum`, []);
+  };
+
   renderGameList() {
     const { name, disabled, gameProviders } = this.props;
 
@@ -95,68 +105,82 @@ class GamingView extends PureComponent {
   }
 
   render() {
-    const { name, disabled } = this.props;
+    const { name, disabled, formValues } = this.props;
+
+    const aggregationType = get(formValues, `${name}.aggregationType`);
 
     return (
       <Fragment>
         <div className="row">
-          <div className="col-4">
-            <Field
-              name={`${name}.aggregationType`}
-              type="select"
-              component={SelectField}
-              disabled={disabled}
-              label={I18n.t(attributeLabels.aggregationType)}
-            >
-              <option value="">{I18n.t('COMMON.SELECT_OPTION.DEFAULT')}</option>
-              {Object.keys(aggregationTypes).map(key => (
-                <option key={key} value={key}>
-                  {renderLabel(key, aggregationTypeLabels)}
-                </option>
-              ))}
-            </Field>
-          </div>
-          <div className="col-4">
-            <Field
-              name={`${name}.moneyType`}
-              type="select"
-              component={SelectField}
-              disabled={disabled}
-              label={I18n.t(attributeLabels.moneyType)}
-            >
-              <option value="">{I18n.t('COMMON.SELECT_OPTION.DEFAULT')}</option>
-              {Object.keys(moneyTypes).map(key => (
-                <option key={key} value={key}>
-                  {renderLabel(key, moneyTypeLabels)}
-                </option>
-              ))}
-            </Field>
-          </div>
-          <div className="col-4">
-            <Field
-              name={`${name}.spinType`}
-              type="select"
-              component={SelectField}
-              disabled={disabled}
-              label={I18n.t(attributeLabels.spinType)}
-            >
-              <option value="">{I18n.t('COMMON.SELECT_OPTION.DEFAULT')}</option>
-              {Object.keys(spinTypes).map(key => (
-                <option key={key} value={key}>
-                  {renderLabel(key, spinTypeLabels)}
-                </option>
-              ))}
-            </Field>
-          </div>
+          <Field
+            name={`${name}.aggregationType`}
+            className="col-4"
+            type="select"
+            component={SelectField}
+            disabled={disabled}
+            label={I18n.t(attributeLabels.aggregationType)}
+            onChange={this.handleChangeAggregationType}
+          >
+            <option value="">{I18n.t('COMMON.SELECT_OPTION.DEFAULT')}</option>
+            {Object.keys(aggregationTypes).map(key => (
+              <option key={key} value={key}>
+                {renderLabel(key, aggregationTypeLabels)}
+              </option>
+            ))}
+          </Field>
+          <Choose>
+            <When condition={aggregationType === aggregationTypes.COUNT}>
+              <Field
+                name={`${name}.amountCount`}
+                type="number"
+                className="col-4"
+                label={I18n.t(attributeLabels.amount)}
+                component={InputField}
+                disabled={disabled}
+                normalize={intNormalize}
+              />
+            </When>
+            <When condition={aggregationType === aggregationTypes.SUM}>
+              <MultiCurrencyValue
+                baseName={`${name}.amountSum`}
+                className="col-4"
+                label={I18n.t(attributeLabels.amount)}
+                disabled={disabled}
+              />
+            </When>
+          </Choose>
+          <Field
+            name={`${name}.spinType`}
+            className="col-4"
+            type="select"
+            component={SelectField}
+            disabled={disabled}
+            label={I18n.t(attributeLabels.spinType)}
+          >
+            <option value="">{I18n.t('COMMON.SELECT_OPTION.DEFAULT')}</option>
+            {Object.keys(spinTypes).map(key => (
+              <option key={key} value={key}>
+                {renderLabel(key, spinTypeLabels)}
+              </option>
+            ))}
+          </Field>
         </div>
         <div className="row">
-          <div className="col-4">
-            <MultiCurrencyValue
-              label={I18n.t(attributeLabels.amount)}
-              baseName={`${name}.amount`}
-              disabled={disabled}
-            />
-          </div>
+          <Field
+            name={`${name}.moneyType`}
+            type="select"
+            className="col-4"
+            component={SelectField}
+            disabled={disabled || !aggregationType}
+            label={I18n.t(attributeLabels.moneyType)}
+          >
+            <option value="">{I18n.t('COMMON.SELECT_OPTION.DEFAULT')}</option>
+            {Object.keys(moneyTypes).map(key => (
+              <option key={key} value={key}>
+                {renderLabel(key, moneyTypeLabels)}
+              </option>
+            ))}
+          </Field>
           <Field
             name={`${name}.gameFilter`}
             type="select"
