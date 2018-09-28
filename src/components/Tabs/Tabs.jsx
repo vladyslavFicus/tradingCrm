@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { I18n } from 'react-redux-i18n';
 import { Link } from 'react-router-dom';
 import './Tabs.scss';
 
@@ -16,12 +17,14 @@ class Tabs extends PureComponent {
       id: PropTypes.string,
     }),
   };
+
+  static contextTypes = {
+    permissions: PropTypes.arrayOf(PropTypes.string).isRequired,
+  };
+
   static defaultProps = {
     items: [],
     params: {},
-  };
-  static contextTypes = {
-    permissions: PropTypes.arrayOf(PropTypes.string).isRequired,
   };
 
   render() {
@@ -37,12 +40,12 @@ class Tabs extends PureComponent {
               <Choose>
                 <When condition={pathname.indexOf(url) === -1}>
                   <Link className="tabs__item" to={url}>
-                    {item.label}
+                    {I18n.t(item.label)}
                   </Link>
                 </When>
                 <Otherwise>
                   <span className="tabs__item active">
-                    {item.label}
+                    {I18n.t(item.label)}
                   </span>
                 </Otherwise>
               </Choose>

@@ -2,16 +2,17 @@ import { connect } from 'react-redux';
 import { compose, graphql } from 'react-apollo';
 import { get } from 'lodash';
 import moment from 'moment';
-import View from '../components/View';
-import { actionCreators } from '../modules';
 import { paymentActions, chargebackReasons, rejectReasons } from '../../../../../constants/payment';
+import { departments } from '../../../../../constants/brands';
 import { actionCreators as miniProfileActionCreators } from '../../../../../redux/modules/miniProfile';
 import { getClientPayments } from '../../../../../graphql/queries/payments';
+import { actionCreators } from '../modules';
+import View from '../components/View';
 
 const mapStateToProps = ({
   transactions,
   i18n: { locale },
-  auth: { brandId, uuid, hierarchyUsers },
+  auth: { brandId, uuid, hierarchyUsers, department },
   options: { data: { currencyCodes } },
 }) => ({
   ...transactions,
@@ -20,7 +21,12 @@ const mapStateToProps = ({
     [paymentActions.REJECT]: rejectReasons,
     [paymentActions.CHARGEBACK]: chargebackReasons,
   },
-  auth: { brandId, uuid, hierarchyUsers },
+  auth: {
+    brandId,
+    uuid,
+    hierarchyUsers,
+    isAdministration: department === departments.ADMINISTRATION,
+  },
   currencies: currencyCodes,
 });
 
@@ -39,10 +45,10 @@ export default compose(
   connect(mapStateToProps, mapActions),
   graphql(getClientPayments, {
     name: 'clientPayments',
-    skip: ({ auth }) => !get(auth, 'hierarchyUsers.clients'),
+    skip: ({ auth }) => (auth.isAdministration ? false : !get(auth, 'hierarchyUsers.clients')),
     options: ({
       location: { query },
-      auth: { hierarchyUsers: { clients: playerUUIDs } },
+      auth: { isAdministration, hierarchyUsers: { clients: playerUUIDs } },
     }) => ({
       variables: {
         ...query
@@ -50,7 +56,7 @@ export default compose(
           : { startDate: moment().startOf('day').utc().format(moment.HTML5_FMT.DATETIME_LOCAL_SECONDS) },
         page: 0,
         size: 20,
-        playerUUIDs,
+        ...!isAdministration && { playerUUIDs },
       },
     }),
     props: ({ clientPayments: { clientPayments, fetchMore, ...rest } }) => {

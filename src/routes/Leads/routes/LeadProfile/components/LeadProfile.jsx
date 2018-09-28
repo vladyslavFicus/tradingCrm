@@ -2,9 +2,14 @@ import React, { Component } from 'react';
 import { I18n } from 'react-redux-i18n';
 import { get } from 'lodash';
 import { SubmissionError } from 'redux-form';
+import { Switch, Redirect } from 'react-router-dom';
+import { Route } from '../../../../../router';
+import Tabs from '../../../../../components/Tabs';
 import NotFound from '../../../../../routes/NotFound';
 import PropTypes from '../../../../../constants/propTypes';
 import HideDetails from '../../../../../components/HideDetails';
+import { leadProfileTabs } from '../../../constants';
+import Profile from '../routes/Profile';
 import Information from './Information';
 import Header from './Header';
 
@@ -21,6 +26,12 @@ class LeadProfile extends Component {
     promoteLead: PropTypes.func.isRequired,
     modals: PropTypes.shape({
       promoteLeadModal: PropTypes.modalType,
+    }).isRequired,
+    location: PropTypes.object.isRequired,
+    match: PropTypes.shape({
+      params: PropTypes.object.isRequired,
+      path: PropTypes.string.isRequired,
+      url: PropTypes.string.isRequired,
     }).isRequired,
   };
 
@@ -105,6 +116,8 @@ class LeadProfile extends Component {
         loading,
         leadProfile,
       },
+      location,
+      match: { params, path, url },
     } = this.props;
 
     const data = get(leadProfile, 'data') || {};
@@ -128,6 +141,17 @@ class LeadProfile extends Component {
               loading={loading}
             />
           </HideDetails>
+        </div>
+        <Tabs
+          items={leadProfileTabs}
+          location={location}
+          params={params}
+        />
+        <div className="card no-borders" >
+          <Switch>
+            <Route path={`${path}/profile`} component={Profile} />
+            <Redirect to={`${url}/profile`} />
+          </Switch>
         </div>
       </div>
     );

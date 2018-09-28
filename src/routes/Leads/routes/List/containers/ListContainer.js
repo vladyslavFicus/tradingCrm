@@ -2,25 +2,31 @@ import { connect } from 'react-redux';
 import { graphql, compose } from 'react-apollo';
 import moment from 'moment';
 import { get } from 'lodash';
-import List from '../components/List';
 import Modal from '../../../../../components/Modal';
 import { withNotifications, withModals } from '../../../../../components/HighOrder';
 import countries from '../../../../../utils/countryList';
 import { leadsQuery } from '../../../../../graphql/queries/leads';
 import { bulkLeadPromote } from '../../../../../graphql/mutations/leads';
 import { leadCsvUpload } from '../../../../../graphql/mutations/upload';
+import { departments } from '../../../../../constants/brands';
+import List from '../components/List';
 
 const mapStateToProps = ({
   usersList: list,
   i18n: { locale },
   options: { data: { currencyCodes } },
-  auth: { brandId, uuid, hierarchyUsers },
+  auth: { brandId, uuid, hierarchyUsers, department },
 }) => ({
   list,
   locale,
   currencies: currencyCodes,
   countries,
-  auth: { brandId, uuid, hierarchyUsers },
+  auth: {
+    brandId,
+    uuid,
+    hierarchyUsers,
+    isAdministration: department === departments.ADMINISTRATION,
+  },
 });
 
 export default compose(
@@ -37,10 +43,10 @@ export default compose(
   }),
   graphql(leadsQuery, {
     name: 'leads',
-    skip: ({ auth }) => !get(auth, 'hierarchyUsers.leads'),
+    skip: ({ auth }) => (auth.isAdministration ? false : !get(auth, 'hierarchyUsers.leads')),
     options: ({
       location: { query },
-      auth: { hierarchyUsers: { leads: ids } },
+      auth: { isAdministration, hierarchyUsers: { leads: ids } },
     }) => ({
       variables: {
         ...query
@@ -50,7 +56,7 @@ export default compose(
           },
         page: 0,
         limit: 10,
-        ids,
+        ...!isAdministration && { ids },
       },
     }),
     props: ({ leads: { leads, fetchMore, ...rest } }) => {

@@ -1,7 +1,7 @@
 import gql from 'graphql-tag';
 
 const leadsQuery = gql`query getLeads(
-  $ids: [String]!,
+  $ids: [String],
   $nameOrEmailOrId: String,
   $registrationDateStart: String,
   $registrationDateEnd: String,
