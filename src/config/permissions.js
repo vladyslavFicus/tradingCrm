@@ -120,9 +120,9 @@ export default {
   FREE_SPIN: {
     PLAYER_FREE_SPIN_LIST: 'free_spin;GET;/free-spins/{playerUUID}',
   },
-  NOTES: {
-    ADD_NOTE: 'tag;POST;/',
-    VIEW_NOTES: 'tag;GET;/tags/{playerUUID}',
+  TAGS: {
+    ADD_TAG: 'tag;POST;/',
+    VIEW_TAGS: 'tag;GET;/tags/{playerUUID}',
   },
   CMS_GAMES: {
     VIEW_LIST: 'cms_game;GET;/',
