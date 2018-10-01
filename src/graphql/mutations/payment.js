@@ -41,6 +41,8 @@ const addPaymentMutation = gql`mutation createClientPayment(
   $paymentAccountUuid: String,
   $externalReference: String,
   $mt4Acc:String,
+  $country: String,
+  $language: String,
 ) {
   payment {
     createClientPayment (
@@ -51,6 +53,8 @@ const addPaymentMutation = gql`mutation createClientPayment(
       paymentAccountUuid: $paymentAccountUuid,
       externalReference: $externalReference,
       mt4Acc: $mt4Acc,
+      country: $country,
+      language: $language,
     ) {
       data {
         paymentId
