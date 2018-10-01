@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import { I18n } from 'react-redux-i18n';
 import Uuid from '../Uuid';
 import { entities, entitiesPrefixes } from '../../constants/uuid';
-import { tagTypeColors, tagTypeLetterProps } from '../../constants/tag';
+import { tagTypeColors, tagTypeLetterProps, tagTypes } from '../../constants/tag';
 import ActionsDropDown from '../ActionsDropDown';
 import MiniProfile from '../../components/MiniProfile';
 import LetterIcon from '../../components/LetterIcon';
@@ -26,6 +26,12 @@ class NoteItem extends Component {
     fetchOperatorMiniProfile: PropTypes.func.isRequired,
     fetchAuthorities: PropTypes.func.isRequired,
   };
+
+  get content() {
+    const { data: { tagType, content, tagName } } = this.props;
+
+    return tagType === tagTypes.NOTE ? content : tagName;
+  }
 
   handleLoadOperatorMiniProfile = async (uuid) => {
     const { fetchOperatorMiniProfile, fetchAuthorities } = this.props;
@@ -58,18 +64,47 @@ class NoteItem extends Component {
     };
   };
 
+  renderActions = () => {
+    const { handleNoteClick, data, data: { tagType } } = this.props;
+
+    return (
+      <div className="col-auto">
+        <Choose>
+          <When condition={tagType === tagTypes.NOTE}>
+            <ActionsDropDown
+              items={[
+                {
+                  label: I18n.t('COMMON.ACTIONS.EDIT'),
+                  onClick: handleNoteClick(modalType.EDIT, data),
+                },
+                {
+                  label: I18n.t('COMMON.ACTIONS.DELETE'),
+                  onClick: handleNoteClick(modalType.DELETE, data),
+                },
+              ]}
+            />
+          </When>
+          <Otherwise>
+            <button
+              type="reset"
+              onClick={handleNoteClick(modalType.DELETE, data)}
+              className="fa fa-trash color-danger note-item__delete-btn"
+            />
+          </Otherwise>
+        </Choose>
+      </div>
+    );
+  };
+
   render() {
     const {
-      data,
       data: {
         changedAt,
         changedBy,
         targetUUID,
-        content,
         pinned,
         tagType,
       },
-      handleNoteClick,
     } = this.props;
 
     const [targetType] = targetUUID.split('-', 1);
@@ -109,7 +144,7 @@ class NoteItem extends Component {
             <div className="col">
               <div className="note-item__body">
                 <div className="note-item__content">
-                  {content}
+                  {this.content}
                 </div>
                 <If condition={pinned}>
                   <span className="note-item__pinned-note-badge">
@@ -118,20 +153,7 @@ class NoteItem extends Component {
                 </If>
               </div>
             </div>
-            <div className="col-auto">
-              <ActionsDropDown
-                items={[
-                  {
-                    label: I18n.t('COMMON.ACTIONS.EDIT'),
-                    onClick: handleNoteClick(modalType.EDIT, data),
-                  },
-                  {
-                    label: I18n.t('COMMON.ACTIONS.DELETE'),
-                    onClick: handleNoteClick(modalType.DELETE, data),
-                  },
-                ]}
-              />
-            </div>
+            {this.renderActions()}
           </div>
         </div>
       </div>

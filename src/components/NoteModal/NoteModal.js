@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { reduxForm, Field } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
@@ -55,10 +55,53 @@ class NoteModal extends Component {
       : I18n.t('TAGS.MODAL.EDIT_TITLE');
   }
 
+  get content() {
+    const { initialValues: { tagType, content, tagName } } = this.props;
+
+    return tagType === tagTypes.NOTE ? content : tagName;
+  }
+
   handleSubmit = (data) => {
     const { type, onEdit, onDelete } = this.props;
 
     return type === modalType.EDIT ? onEdit(data) : onDelete(data);
+  };
+
+  renderFields = () => {
+    const {
+      props: {
+        initialValues: {
+          tagType,
+          tagName,
+        },
+      },
+      isDeleteMode,
+    } = this;
+
+    return (
+      <Fragment>
+        <Choose>
+          <When condition={tagType === tagTypes.NOTE}>
+            <Field
+              name="content"
+              label={I18n.t(attributeLabels.note)}
+              disabled={isDeleteMode}
+              component={TextAreaField}
+              showErrorMessage={false}
+            />
+          </When>
+          <Otherwise>
+            {tagName}
+          </Otherwise>
+        </Choose>
+        <Field
+          name="pinned"
+          wrapperClassName="margin-top-30"
+          label={I18n.t(attributeLabels.pin)}
+          component={SwitchField}
+        />
+      </Fragment>
+    );
   };
 
   render() {
@@ -69,7 +112,6 @@ class NoteModal extends Component {
         isOpen,
         initialValues: {
           pinned,
-          content,
         },
         invalid,
         submitting,
@@ -97,7 +139,7 @@ class NoteModal extends Component {
                 {this.deleteDescription}
               </div>
               <div className="remove-container card">
-                <div>{content}</div>
+                <div>{this.content}</div>
                 <If condition={pinned}>
                   <span className="note-item__pinned-note-badge note-badge">
                     {I18n.t('COMMON.PINNED_NOTE')}
@@ -106,19 +148,7 @@ class NoteModal extends Component {
               </div>
             </When>
             <Otherwise>
-              <Field
-                name="content"
-                label={I18n.t(attributeLabels.note)}
-                disabled={isDeleteMode}
-                component={TextAreaField}
-                showErrorMessage={false}
-              />
-              <Field
-                name="pinned"
-                wrapperClassName="margin-top-30"
-                label={I18n.t(attributeLabels.pin)}
-                component={SwitchField}
-              />
+              {this.renderFields()}
             </Otherwise>
           </Choose>
         </ModalBody>
