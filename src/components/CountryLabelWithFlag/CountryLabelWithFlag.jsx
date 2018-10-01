@@ -8,6 +8,7 @@ import './CountryLabelWithFlag.scss';
 
 const getLanguage = (languageCode) => {
   const lang = languageNames.find(item => item.languageCode === languageCode);
+
   return lang ? I18n.t(lang.languageName) : I18n.t('COMMON.LANGUAGE_NAME.EN');
 };
 

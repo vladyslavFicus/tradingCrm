@@ -48,7 +48,7 @@ export default compose(
     skip: ({ auth }) => (auth.isAdministration ? false : !get(auth, 'hierarchyUsers.clients')),
     options: ({
       location: { query },
-      auth: { isAdministration, hierarchyUsers: { clients: playerUUIDs } },
+      auth,
     }) => ({
       variables: {
         ...query
@@ -56,7 +56,7 @@ export default compose(
           : { startDate: moment().startOf('day').utc().format(moment.HTML5_FMT.DATETIME_LOCAL_SECONDS) },
         page: 0,
         size: 20,
-        ...!isAdministration && { playerUUIDs },
+        ...!auth.isAdministration && { playerUUIDs: get(auth, 'hierarchyUsers.clients') },
       },
     }),
     props: ({ clientPayments: { clientPayments, fetchMore, ...rest } }) => {

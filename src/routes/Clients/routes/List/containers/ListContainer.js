@@ -41,13 +41,13 @@ export default compose(
     skip: ({ auth }) => (auth.isAdministration ? false : !get(auth, 'hierarchyUsers.clients')),
     options: ({
       location: { query },
-      auth: { isAdministration, hierarchyUsers: { clients: hierarchyUsers } },
+      auth,
     }) => ({
       variables: {
         ...query ? query.filters : { registrationDateFrom: moment().startOf('day').utc().format() },
         page: 1,
         size: 20,
-        ...!isAdministration && { hierarchyUsers },
+        ...!auth.isAdministration && { hierarchyUsers: get(auth, 'hierarchyUsers.clients') },
       },
     }),
     props: ({ profiles: { profiles, fetchMore, ...rest } }) => {

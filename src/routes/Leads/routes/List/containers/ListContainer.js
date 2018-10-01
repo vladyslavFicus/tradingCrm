@@ -46,7 +46,7 @@ export default compose(
     skip: ({ auth }) => (auth.isAdministration ? false : !get(auth, 'hierarchyUsers.leads')),
     options: ({
       location: { query },
-      auth: { isAdministration, hierarchyUsers: { leads: ids } },
+      auth,
     }) => ({
       variables: {
         ...query
@@ -56,7 +56,7 @@ export default compose(
           },
         page: 0,
         limit: 10,
-        ...!isAdministration && { ids },
+        ...!auth.isAdministration && { ids: get(auth, 'hierarchyUsers.leads') },
       },
     }),
     props: ({ leads: { leads, fetchMore, ...rest } }) => {
