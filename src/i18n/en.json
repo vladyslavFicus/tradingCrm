@@ -2711,6 +2711,8 @@
     "SUCCESS_PROMOTED": "Lead was promoted to id %{id}"
   },
   "LEAD_PROFILE": {
+    "UPDATED": "Lead updated successfully",
+    "NOTIFICATION_FAILURE": "Failed",
     "HEADER": {
       "PROMOTE_TO_CLIENT": "Promote to client",
       "REGISTERED": "Registered"
@@ -2729,6 +2731,23 @@
     },
     "TABS": {
       "PROFILE": "Profile"
+    },
+    "PERSONAL": {
+      "INFO_TITLE": "Personal information",
+      "ADDRESS_TITLE": "Address",
+      "CONTACTS_TITLE": "Contacts",
+      "LABEL": {
+        "FIRST_NAME": "First name",
+        "LAST_NAME": "Last name",
+        "DATE_OF_BIRTH": "Date of birth",
+        "GENDER": "Gender",
+        "COUNTRY": "Country",
+        "CITY": "City",
+        "PHONE": "Phone",
+        "PHONE_CODE": "Code",
+        "MOBILE": "Mobile",
+        "MOBILE_CODE": "Code"
+      }
     },
     "PROMOTE_MODAL": {
       "HEADER": "Promote to client",

@@ -73,7 +73,7 @@ const falconSidebarMenu = [{
   service: services.profile,
 }, {
   label: I18n.t('SIDEBAR.TOP_MENU.LEADS'),
-  icon: 'icon-leads',
+  icon: 'icon-leads sidebar-nav-item__icon--leads',
   url: '/leads/list',
   service: services.trading_lead_updater,
 }, {

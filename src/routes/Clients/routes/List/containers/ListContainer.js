@@ -2,23 +2,29 @@ import { connect } from 'react-redux';
 import { graphql, compose } from 'react-apollo';
 import moment from 'moment';
 import { get } from 'lodash';
-import { actionCreators } from '../modules/list';
 import { actionCreators as miniProfileActionCreators } from '../../../../../redux/modules/miniProfile';
-import List from '../components/List';
 import countries from '../../../../../utils/countryList';
 import { profilesQuery } from '../../../../../graphql/queries/profile';
+import { departments } from '../../../../../constants/brands';
+import { actionCreators } from '../modules/list';
+import List from '../components/List';
 
 const mapStateToProps = ({
   usersList: list,
   i18n: { locale },
   options: { data: { currencyCodes } },
-  auth: { brandId, uuid, hierarchyUsers },
+  auth: { brandId, uuid, hierarchyUsers, department },
 }) => ({
   list,
   locale,
   currencies: currencyCodes,
   countries,
-  auth: { brandId, uuid, hierarchyUsers },
+  auth: {
+    brandId,
+    uuid,
+    hierarchyUsers,
+    isAdministration: department === departments.ADMINISTRATION,
+  },
 });
 
 const mapActions = {
@@ -32,16 +38,16 @@ export default compose(
   connect(mapStateToProps, mapActions),
   graphql(profilesQuery, {
     name: 'profiles',
-    skip: ({ auth }) => !get(auth, 'hierarchyUsers.clients'),
+    skip: ({ auth }) => (auth.isAdministration ? false : !get(auth, 'hierarchyUsers.clients')),
     options: ({
       location: { query },
-      auth: { hierarchyUsers: { clients: hierarchyUsers } },
+      auth,
     }) => ({
       variables: {
         ...query ? query.filters : { registrationDateFrom: moment().startOf('day').utc().format() },
         page: 1,
         size: 20,
-        hierarchyUsers,
+        ...!auth.isAdministration && { hierarchyUsers: get(auth, 'hierarchyUsers.clients') },
       },
     }),
     props: ({ profiles: { profiles, fetchMore, ...rest } }) => {
