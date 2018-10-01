@@ -50,9 +50,9 @@ const userProfileTabs = [
     permissions: new Permissions(permissions.USER_PROFILE.PROFILE_DEVICES_VIEW),
   },
   {
-    label: 'Notes',
+    label: 'Notes & Tags',
     url: '/players/:id/notes',
-    permissions: new Permissions(permissions.NOTES.VIEW_NOTES),
+    permissions: new Permissions(permissions.TAGS.VIEW_TAGS),
   },
   {
     label: 'Feed',
