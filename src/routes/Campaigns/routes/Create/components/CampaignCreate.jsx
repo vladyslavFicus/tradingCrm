@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react';
 import { I18n } from 'react-redux-i18n';
-import { v4 } from 'uuid';
 import { get, set } from 'lodash';
 import { SubmissionError } from 'redux-form';
 import PropTypes from '../../../../../constants/propTypes';
@@ -10,6 +9,7 @@ import asyncForEach from '../../../../../utils/asyncForEach';
 import { fulfillmentTypes, rewardTemplateTypes } from '../../../constants';
 import history from '../../../../../router/history';
 import { targetTypes } from '../../../../../constants/campaigns';
+import { deviceTypes } from '../../../components/Rewards/constants';
 
 class CampaignCreate extends PureComponent {
   static propTypes = {
@@ -35,7 +35,7 @@ class CampaignCreate extends PureComponent {
     const rewards = await Promise.all(formData.rewards.map(async ({ uuid, deviceType, type, tagName }) => {
       let tempUUID = uuid;
       if (!uuid && type === rewardTemplateTypes.TAG) {
-        const result = await createOrLinkTag({ variables: { tagId: `TAG-${v4()}`, tagName } });
+        const result = await createOrLinkTag({ variables: { tagName } });
         const { data } = get(result, 'data.tag.createOrLink', { data: '', error: '' });
 
         if (data) {
@@ -45,7 +45,7 @@ class CampaignCreate extends PureComponent {
 
       return {
         uuid: tempUUID,
-        type: deviceType || 'ALL',
+        type: deviceType || deviceTypes.ALL,
       };
     }));
     const campaignData = {
