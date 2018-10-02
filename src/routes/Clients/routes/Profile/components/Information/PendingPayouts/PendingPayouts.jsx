@@ -24,13 +24,12 @@ class PendingPayouts extends Component {
     }),
     currency: PropTypes.string.isRequired,
   };
-  static defaultProps = {
-    pendingPayouts: {},
-  };
-
   static contextTypes = {
     registerUpdateCacheListener: PropTypes.func.isRequired,
     unRegisterUpdateCacheListener: PropTypes.func.isRequired,
+  };
+  static defaultProps = {
+    pendingPayouts: {},
   };
 
   componentDidMount() {
