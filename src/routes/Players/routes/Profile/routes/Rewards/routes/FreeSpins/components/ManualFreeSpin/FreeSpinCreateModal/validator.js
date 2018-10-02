@@ -7,6 +7,8 @@ export default (values, {
   freeSpinOptions: {
     freeSpinOptions,
   },
+  gameId,
+  games,
 }) => {
   const fields = get(freeSpinOptions, `[${aggregatorId}].fields`, []);
   let rules = {
@@ -36,6 +38,13 @@ export default (values, {
     },
     claimable: ['boolean'],
   };
+
+  if (gameId) {
+    const { coinsMin, coinsMax } = get(games, 'games.content', []).find(i => i.gameId === gameId) || {};
+
+    rules.coins.push(`min:${coinsMin}`);
+    rules.coins.push(`max:${coinsMax}`);
+  }
 
   rules = fields.reduce((acc, curr) => ({ ...acc, [curr]: rules[curr] || [] }), {});
 
