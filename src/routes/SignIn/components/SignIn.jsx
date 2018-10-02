@@ -73,7 +73,7 @@ class SignIn extends Component {
   resetStateTimeout = null;
 
   handleSubmit = async (data) => {
-    const { signIn, fetchHierarchy } = this.props;
+    const { signIn } = this.props;
     const action = await signIn(data);
 
     if (action) {
@@ -83,10 +83,6 @@ class SignIn extends Component {
         if (this.mounted) {
           this.setState({ logged: true }, async () => {
             const { departmentsByBrand, token, uuid } = action.payload;
-
-            if (rootConfig.market === markets.crm) {
-              await fetchHierarchy(uuid, token);
-            }
 
             const brands = Object.keys(departmentsByBrand);
             console.info(`Logged with ${brands.length} brands`);
@@ -140,6 +136,7 @@ class SignIn extends Component {
       fetchAuthorities,
       fetchProfile,
       reset,
+      fetchHierarchy,
     } = this.props;
     const token = requestToken || dataToken;
     const uuid = requestUuid || dataUuid;
@@ -150,6 +147,10 @@ class SignIn extends Component {
 
         if (action && !action.error) {
           setDepartmentsByBrand(departmentsByBrand);
+
+          if (rootConfig.market === markets.crm) {
+            await fetchHierarchy(uuid, action.payload.token);
+          }
         }
 
         this.resetStateTimeout = setTimeout(() => {
