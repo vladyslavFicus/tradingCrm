@@ -714,6 +714,17 @@
           "ID_PROVIDED": "Selfie ID provided"
         }
       }
+    },
+    "MENU": {
+      "PROFILE": "Profile",
+      "TRANSACTIONS": "Transactions",
+      "REWARDS": "Rewards",
+      "PAYMENT_ACCOUNTS": "Payment Accounts",
+      "LIMITS": "Limits",
+      "FILES": "Files",
+      "DEVICES": "Devices",
+      "NOTES_AND_TAGS": "Notes & Tags",
+      "FEEDS": "Feeds"
     }
   },
   "COMMON": {
