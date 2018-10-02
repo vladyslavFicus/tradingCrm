@@ -10,9 +10,7 @@ import RewardPlanModal from '../RewardPlanModal';
 const mapStateToProps = ({
   profile: { profile },
   options: { data: { baseCurrency } },
-  auth: { brandId },
 }) => ({
-  brandId,
   currency: profile.data.currencyCode || baseCurrency,
 });
 
@@ -24,10 +22,9 @@ export default compose(
   connect(mapStateToProps),
   graphql(activePlanQuery, {
     name: 'activeRewardPlan',
-    options: ({ match: { params: { id: playerUUID } }, brandId }) => ({
+    options: ({ match: { params: { id: playerUUID } } }) => ({
       variables: {
         playerUUID,
-        brandId,
       },
     }),
   }),

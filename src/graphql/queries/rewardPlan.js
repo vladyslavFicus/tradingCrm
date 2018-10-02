@@ -1,13 +1,7 @@
 import gql from 'graphql-tag';
 
-const activePlanQuery = gql`query activePlanQuery(
-  $playerUUID: String!
-  $brandId: String!
-){
-  activeRewardPlan(
-    playerUUID: $playerUUID
-    brandId: $brandId
-) {
+const activePlanQuery = gql`query activePlanQuery($playerUUID: String!){
+  activeRewardPlan(playerUUID: $playerUUID) {
     data {
       _id
       amount
@@ -19,14 +13,8 @@ const activePlanQuery = gql`query activePlanQuery(
   }
 }`;
 
-const pendingPayoutsQuery = gql`query pendingPayoutsQuery(
-  $playerUUID: String!
-  $brandId: String!
-){
-  pendingRewardPlan(
-    playerUUID: $playerUUID
-    brandId: $brandId
-  ) {
+const pendingPayoutsQuery = gql`query pendingPayoutsQuery($playerUUID: String!){
+  pendingRewardPlan(playerUUID: $playerUUID) {
     data {
       plans {
         _id

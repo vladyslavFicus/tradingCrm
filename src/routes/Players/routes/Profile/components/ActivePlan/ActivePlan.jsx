@@ -23,7 +23,6 @@ class ActivePlan extends Component {
     }),
     currency: PropTypes.string.isRequired,
     activePlanMutation: PropTypes.func.isRequired,
-    brandId: PropTypes.string.isRequired,
   };
   static contextTypes = {
     registerUpdateCacheListener: PropTypes.func.isRequired,
@@ -79,7 +78,6 @@ class ActivePlan extends Component {
           id: playerUUID,
         },
       },
-      brandId,
     } = this.props;
 
     const action = await activePlanMutation({
@@ -88,7 +86,6 @@ class ActivePlan extends Component {
         type,
         isActive: true,
         playerUUID,
-        brandId,
       },
     });
 
