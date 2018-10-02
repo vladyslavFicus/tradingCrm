@@ -147,6 +147,7 @@ class SignIn extends Component {
 
         if (action && !action.error) {
           setDepartmentsByBrand(departmentsByBrand);
+
           if (rootConfig.market === markets.crm) {
             await fetchHierarchy(uuid, action.payload.token);
           }
