@@ -23,14 +23,14 @@ class PendingPayouts extends Component {
       }),
     }),
     currency: PropTypes.string.isRequired,
+    brandId: PropTypes.string.isRequired,
   };
-  static defaultProps = {
-    pendingPayouts: {},
-  };
-
   static contextTypes = {
     registerUpdateCacheListener: PropTypes.func.isRequired,
     unRegisterUpdateCacheListener: PropTypes.func.isRequired,
+  };
+  static defaultProps = {
+    pendingPayouts: {},
   };
 
   componentDidMount() {
@@ -81,6 +81,7 @@ class PendingPayouts extends Component {
         },
       },
       pendingPlanMutation,
+      brandId,
     } = this.props;
 
     const action = await pendingPlanMutation({
@@ -89,6 +90,7 @@ class PendingPayouts extends Component {
         type,
         isActive: false,
         playerUUID,
+        brandId,
       },
     });
 

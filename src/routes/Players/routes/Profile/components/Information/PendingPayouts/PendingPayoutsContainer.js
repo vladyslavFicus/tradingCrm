@@ -1,6 +1,6 @@
 import { graphql, compose } from 'react-apollo';
 import { connect } from 'react-redux';
-import { get } from 'lodash';
+
 import { withRouter } from 'react-router-dom';
 import PendingPayouts from './PendingPayouts';
 import { withNotifications, withModals } from '../../../../../../../components/HighOrder';
@@ -11,7 +11,9 @@ import RewardPlanModal from '../../RewardPlanModal';
 const mapStateToProps = ({
   profile: { profile },
   options: { data: { baseCurrency } },
+  auth: { brandId },
 }) => ({
+  brandId,
   currency: profile.data.currencyCode || baseCurrency,
 });
 
@@ -23,9 +25,10 @@ export default compose(
   connect(mapStateToProps),
   graphql(pendingPayoutsQuery, {
     name: 'pendingPayouts',
-    options: ({ match: { params: { id: playerUUID } } }) => ({
+    options: ({ match: { params: { id: playerUUID } }, brandId }) => ({
       variables: {
         playerUUID,
+        brandId,
       },
     }),
   }),

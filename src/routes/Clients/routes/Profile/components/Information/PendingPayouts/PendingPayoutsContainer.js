@@ -11,7 +11,9 @@ import RewardPlanModal from '../../RewardPlanModal';
 const mapStateToProps = ({
   profile: { profile },
   options: { data: { baseCurrency } },
+  auth: { brandId },
 }) => ({
+  brandId,
   currency: profile.data.currencyCode || baseCurrency,
 });
 
@@ -23,9 +25,10 @@ export default compose(
   connect(mapStateToProps),
   graphql(pendingPayoutsQuery, {
     name: 'pendingPayouts',
-    options: ({ match: { params: { id: playerUUID } } }) => ({
+    options: ({ match: { params: { id: playerUUID } }, brandId }) => ({
       variables: {
         playerUUID,
+        brandId,
       },
     }),
   }),

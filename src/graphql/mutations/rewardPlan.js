@@ -4,6 +4,7 @@ const activePlanMutation = gql`mutation updateActivePlan(
   $playerUUID: String!
   $amount: Float!
   $type: String!
+  $brandId: String!
   $isActive: Boolean!
 ) {
   activeRewardPlan {
@@ -12,6 +13,7 @@ const activePlanMutation = gql`mutation updateActivePlan(
       amount: $amount
       type: $type
       isActive: $isActive
+      brandId: $brandId
       ) {
       data {
         _id
@@ -29,6 +31,7 @@ const pendingPlanMutation = gql`mutation updatePendingPlan(
   $playerUUID: String!
   $amount: Float!
   $type: String!
+  $brandId: String!
   $isActive: Boolean!
 ) {
   pendingRewardPlan {
@@ -37,6 +40,7 @@ const pendingPlanMutation = gql`mutation updatePendingPlan(
       amount: $amount
       type: $type
       isActive: $isActive
+      brandId: $brandId
       ) {
       data {
         _id
