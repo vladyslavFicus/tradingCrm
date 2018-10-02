@@ -1,7 +1,12 @@
 import { connect } from 'react-redux';
+import { compose, graphql } from 'react-apollo';
 import Payments from '../components/Payments';
+import { createDepositMutation, createWithdrawMutation } from '../../../../../../../../../graphql/mutations/payment';
+import { getOperatorPaymentMethods } from '../../../../../../../../../graphql/queries/payments';
 import { actionCreators as viewActionCreators } from '../modules';
+import { withModals } from '../../../../../../../../../components/HighOrder';
 import { paymentActions, chargebackReasons, rejectReasons } from '../../../../../../../../../constants/payment';
+import PaymentIframeModal from '../components/PaymentIframeModal';
 
 const mapStateToProps = ({
   userTransactions,
@@ -33,4 +38,10 @@ const mapActions = {
   exportEntities: viewActionCreators.exportEntities,
 };
 
-export default connect(mapStateToProps, mapActions)(Payments);
+export default compose(
+  connect(mapStateToProps, mapActions),
+  withModals({ paymentIframe: PaymentIframeModal }),
+  graphql(getOperatorPaymentMethods, { name: 'operatorPaymentMethods' }),
+  graphql(createDepositMutation, { name: 'createDeposit' }),
+  graphql(createWithdrawMutation, { name: 'createWithdraw' }),
+)(Payments);

@@ -19,6 +19,10 @@ const methods = keyMirror({
   yamoney: null,
 });
 
+const availableDepositMethods = keyMirror({
+  entercash: null
+});
+
 const methodStatuses = keyMirror({
   ACTIVE: null,
   INACTIVE: null,
@@ -93,6 +97,8 @@ const paymentActions = {
 
 const types = keyMirror({
   Deposit: null,
+  DEPOSIT_BY_PAYMENT_METHOD: null,
+  WITHDRAW_BY_PAYMENT_METHOD: null,
   Withdraw: null,
   Confiscate: null,
 });
@@ -119,6 +125,8 @@ const customTypesProps = {
 
 const manualTypesLabels = {
   [types.Deposit]: 'Manual deposit',
+  [types.WITHDRAW_BY_PAYMENT_METHOD]: 'Withdraw by payment method',
+  [types.DEPOSIT_BY_PAYMENT_METHOD]: 'Deposit by payment method',
   [types.Withdraw]: 'Manual withdraw',
   [types.Confiscate]: 'Confiscate',
 };
@@ -208,6 +216,7 @@ export {
   initiators,
   initiatorsLabels,
   accountStatuses,
+  availableDepositMethods,
   accountStatusLabels,
   accountStatusColors,
   accountStatusActions,

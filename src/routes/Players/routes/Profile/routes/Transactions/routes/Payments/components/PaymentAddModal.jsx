@@ -11,6 +11,7 @@ import Amount from '../../../../../../../../../components/Amount';
 import NoteButton from '../../../../../../../../../components/NoteButton';
 import {
   types as paymentTypes,
+  availableDepositMethods,
   manualTypesLabels as paymentTypesLabels,
 } from '../../../../../../../../../constants/payment';
 import { targetTypes } from '../../../../../../../../../constants/note';
@@ -21,6 +22,10 @@ const attributeLabels = {
   type: 'Payment Type',
   amount: 'Amount',
   paymentAccount: 'Payment account',
+  paymentMethod: 'Payment method',
+  iban: 'IBAN',
+  bic: 'BIC',
+  email: 'Email',
 };
 
 class PaymentAddModal extends Component {
@@ -125,37 +130,82 @@ class PaymentAddModal extends Component {
     return playerLimits[method] ? playerLimits[method].locked : false;
   }
 
-  renderPaymentAccountField = () => {
+  renderAdditionalFields = () => {
     const { currentValues } = this.props;
     const { availablePaymentAccounts } = this.state;
-
-    if (!currentValues || currentValues.type !== paymentTypes.Withdraw) {
-      return null;
-    }
 
     const emptyOptionLabel = availablePaymentAccounts.length === 0
       ? I18n.t('PLAYER_PROFILE.TRANSACTIONS.MODAL_CREATE.NO_PAYMENT_ACCOUNTS_LABEL')
       : I18n.t('PLAYER_PROFILE.TRANSACTIONS.MODAL_CREATE.CHOOSE_PAYMENT_ACCOUNT_LABEL');
 
     return (
-      <div className="col">
-        <Field
-          name="paymentAccountUuid"
-          label={attributeLabels.paymentAccount}
-          type="text"
-          component={SelectField}
-          position="vertical"
-          showErrorMessage={false}
-        >
-          <option value="">{emptyOptionLabel}</option>
-          {
-            availablePaymentAccounts.map(item => (
-              <option key={item.uuid} value={item.uuid}>
-                {item.label}
-              </option>
-            ))}
-        </Field>
-      </div>
+      <If condition={currentValues && currentValues.type}>
+        <Choose>
+          <When condition={currentValues.type === paymentTypes.WITHDRAW}>
+            <Field
+              name="paymentAccountUuid"
+              className="col-5"
+              label={attributeLabels.paymentAccount}
+              type="text"
+              component={SelectField}
+              position="vertical"
+              showErrorMessage={false}
+            >
+              <option value="">{emptyOptionLabel}</option>
+              {
+                availablePaymentAccounts.map(item => (
+                  <option key={item.uuid} value={item.uuid}>
+                    {item.label}
+                  </option>
+                ))}
+            </Field>
+          </When>
+          <When
+            condition={currentValues.type === paymentTypes.WITHDRAW_BY_PAYMENT_METHOD || currentValues.type === paymentTypes.DEPOSIT_BY_PAYMENT_METHOD}>
+            <Field
+              name="paymentMethod"
+              label={attributeLabels.paymentMethod}
+              type="text"
+              className="col-5"
+              component={SelectField}
+              position="vertical"
+              showErrorMessage={false}
+            >
+              <option value="">{emptyOptionLabel}</option>
+              {
+                Object.keys(availableDepositMethods).map(item => (
+                  <option key={item} value={item}>
+                    {item}
+                  </option>
+                ))
+              }
+            </Field>
+            <If condition={currentValues.type === paymentTypes.WITHDRAW_BY_PAYMENT_METHOD}>
+              <Field
+                name="email"
+                className="col-4"
+                label={attributeLabels.email}
+                type="text"
+                component={InputField}
+              />
+              <Field
+                name="iban"
+                className="col-4"
+                label={attributeLabels.iban}
+                type="text"
+                component={InputField}
+              />
+              <Field
+                name="bic"
+                className="col-4"
+                label={attributeLabels.bic}
+                type="text"
+                component={InputField}
+              />
+            </If>
+          </When>
+        </Choose>
+      </If>
     );
   };
 
@@ -226,37 +276,35 @@ class PaymentAddModal extends Component {
           </If>
 
           <div className="row">
-            <div className="col-4">
-              <Field
-                name="type"
-                type="text"
-                label={attributeLabels.type}
-                showErrorMessage={false}
-                component={SelectField}
-                position="vertical"
-              >
-                <option value="">{I18n.t('COMMON.SELECT_OPTION.DEFAULT')}</option>
-                {filteredPaymentTypes.map(t => (
-                  <option key={t} value={t}>
-                    {paymentTypesLabels[t]}
-                  </option>
-                ))}
-              </Field>
-            </div>
-            <div className="col-3">
-              <Field
-                name="amount"
-                label={attributeLabels.amount}
-                type="text"
-                placeholder="0.00"
-                inputAddon={<Currency code={playerProfile.currencyCode} />}
-                currencyCode={playerProfile.currencyCode}
-                showErrorMessage={false}
-                position="vertical"
-                component={InputField}
-              />
-            </div>
-            {this.renderPaymentAccountField()}
+            <Field
+              name="type"
+              className={'col-4'}
+              type="text"
+              label={attributeLabels.type}
+              showErrorMessage={false}
+              component={SelectField}
+              position="vertical"
+            >
+              <option value="">{I18n.t('COMMON.SELECT_OPTION.DEFAULT')}</option>
+              {filteredPaymentTypes.map(t => (
+                <option key={t} value={t}>
+                  {paymentTypesLabels[t]}
+                </option>
+              ))}
+            </Field>
+            <Field
+              name="amount"
+              label={attributeLabels.amount}
+              type="text"
+              className="col-3"
+              placeholder="0.00"
+              inputAddon={<Currency code={playerProfile.currencyCode} />}
+              currencyCode={playerProfile.currencyCode}
+              showErrorMessage={false}
+              position="vertical"
+              component={InputField}
+            />
+            {this.renderAdditionalFields()}
           </div>
           {this.renderInfoBlock()}
           <div className="text-center">

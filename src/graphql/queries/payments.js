@@ -169,7 +169,21 @@ const getClientPaymentsByUuid = gql`query getClientPayments(
   } 
 }`;
 
+const getOperatorPaymentMethods = gql`query getOperatorPaymentMethods {
+  operatorPaymentMethods {
+    data {
+      _id
+      methodName
+    }
+    error {
+      error
+    }
+  } 
+}`;
+
+
 export {
   getClientPayments,
+  getOperatorPaymentMethods,
   getClientPaymentsByUuid,
 };

@@ -13,6 +13,7 @@ import {
   customTypesLabels,
   typesProps,
 } from '../../../../../../../../../constants/payment';
+import { get } from 'lodash';
 import TransactionStatus from '../../../../../../../../../components/TransactionStatus';
 import { targetTypes } from '../../../../../../../../../constants/note';
 import NoteButton from '../../../../../../../../../components/NoteButton';
@@ -213,11 +214,34 @@ class Payments extends Component {
       addPayment,
       match: { params: { id: playerUUID } },
       currencyCode,
+      createWithdraw,
       resetNote,
+      createDeposit,
+      modals: {
+        paymentIframe
+      },
       transactions: { newPaymentNote: unsavedNote },
       fetchActiveBonus,
     } = this.props;
 
+    const deposit = await createWithdraw({
+      variables: {
+        playerUUID,
+        'paymentMethod': 'entercash',
+        'amount': '99',
+        'currency': 'EUR',
+        'email': 'ga+user@paypal.com',
+        'iban': 'FI1811253500060746',
+        'bic': 'NDEAFIHH',
+        'device': 'desktop'
+      }
+    });
+    debugger;
+
+    const { data, error } = get(deposit, 'data.payment.createDeposit', { data: null, error: null });
+    const win = window.open(data.redirectLink, '_blank');
+
+    win.focus();
     const params = {
       ...inputParams,
       currency: currencyCode,
@@ -370,7 +394,7 @@ class Payments extends Component {
             {data.paymentAccount}
           </span>
         }
-        </div>
+      </div>
   );
 
   renderDevice = (data) => {
