@@ -31,10 +31,12 @@ const rewardTypesLabels = {
 const targetTypes = keyMirror({
   ALL: null,
   TARGET_LIST: null,
+  REGISTRATION: null,
 });
 const targetTypesLabels = {
   [targetTypes.ALL]: I18n.t('CONSTANTS.CAMPAIGNS.TARGET_TYPES.ALL'),
   [targetTypes.TARGET_LIST]: I18n.t('CONSTANTS.CAMPAIGNS.TARGET_TYPES.TARGET_LIST'),
+  [targetTypes.REGISTRATION]: I18n.t('CONSTANTS.CAMPAIGNS.TARGET_TYPES.REGISTRATION'),
 };
 
 export {

@@ -1263,7 +1263,8 @@
       "TARGET_TYPES": {
         "ALL": "All players",
         "TARGET_LIST": "Selected players",
-        "LINKED_CAMPAIGN": "Linked campaign completion"
+        "LINKED_CAMPAIGN": "Linked campaign completion",
+        "REGISTRATION": "Registration"
       }
     },
     "SALES_STATUSES": {

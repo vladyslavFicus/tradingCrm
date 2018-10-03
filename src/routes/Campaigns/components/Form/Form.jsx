@@ -46,6 +46,12 @@ import { aggregationTypes, moneyTypes, spinTypes, gameFilters } from '../Fulfill
 
 const CAMPAIGN_NAME_MAX_LENGTH = 100;
 
+const getAllowedTargetTypes = (optIn) => {
+  const allowedTargetTypes = Object.keys(targetTypes);
+
+  return optIn ? allowedTargetTypes : allowedTargetTypes.filter(type => type !== targetTypes.REGISTRATION);
+};
+
 class Form extends Component {
   static propTypes = {
     reset: PropTypes.func.isRequired,
@@ -89,6 +95,14 @@ class Form extends Component {
       .reduce((acc, { type, component, ...rest }) => ({ ...acc, [type]: { component, ...rest } }), {});
   };
 
+  setField = (field, value) => {
+    this.props.change(field, value);
+  };
+
+  clearFields = (fields) => {
+    fields.forEach(field => this.props.change(field, null));
+  };
+
   endDateValidator = fromAttribute => (current) => {
     const { formValues } = this.props;
 
@@ -99,19 +113,17 @@ class Form extends Component {
     );
   };
 
-  clearFields = (fields) => {
-    fields.forEach(field => this.props.change(field, null));
-  };
-
   handleChangeTargetType = ({ target: { value } }) => {
     if (value === targetTypes.TARGET_LIST) {
-      this.clearFields(['countries', 'excludeCountries', 'tags']);
+      this.clearFields(['countries', 'excludeCountries']);
+      this.setField('tags', []);
     }
   };
 
   handleChangeOptIn = ({ target: { value } }) => {
     if (value === 'false') {
       this.clearFields(['optInPeriod', 'optInPeriodTimeUnit']);
+      this.setField('targetType', targetTypes.ALL);
     }
   };
 
@@ -141,10 +153,13 @@ class Form extends Component {
       pristine,
       submitting,
       formValues,
+      formValues: { optIn },
       form,
       reset,
       disabled,
     } = this.props;
+
+    const allowedTargetTypes = getAllowedTargetTypes(optIn);
 
     return (
       <form id={form} onSubmit={handleSubmit(this.handleSubmit)} className="campaign-create">
@@ -232,7 +247,7 @@ class Form extends Component {
             onChange={this.handleChangeTargetType}
             className="col-lg-3"
           >
-            {Object.keys(targetTypes).map(targetType => (
+            {allowedTargetTypes.map(targetType => (
               <option key={targetType} value={targetType}>
                 {renderLabel(targetType, targetTypesLabels)}
               </option>
@@ -369,9 +384,11 @@ export default compose(
     enableReinitialize: true,
     touchOnChange: true,
     validate: (values) => {
+      const allowedTargetTypes = getAllowedTargetTypes(get(values, 'optIn', false));
+
       const rules = {
         name: ['required', 'string'],
-        targetType: ['required', 'string', `in:${Object.keys(targetTypes).join()}`],
+        targetType: ['required', 'string', `in:${allowedTargetTypes.join()}`],
         tags: ['array'],
         countries: `in:,${Object.keys(countries).join()}`,
         excludeCountries: ['boolean'],
