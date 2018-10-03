@@ -528,11 +528,13 @@
         "NO_FULFILLMENT": "Без условий",
         "DEPOSIT": "Депозит",
         "WAGERING": "Ставки",
-        "PROFILE_COMPLETION": "Заполнение профиля"
+        "PROFILE_COMPLETION": "Заполнение профиля",
+        "GAMING_FULFILLMENT": "Игровой вулфилмент"
       },
       "REWARDS": {
         "BONUS": "Бонус",
-        "FREE_SPIN": "Фри-спин"
+        "FREE_SPIN": "Фри-спин",
+        "TAG": "Тег"
       },
       "RESET_PLAYER": "Сброс игрока",
       "OPT_IN_NOT_REQUIRED": "Opt-in не требуется"

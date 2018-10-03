@@ -525,11 +525,13 @@
         "NO_FULFILLMENT": "No fulfillment",
         "DEPOSIT": "Deposit",
         "WAGERING": "Wagering",
-        "PROFILE_COMPLETION": "Profile completion"
+        "PROFILE_COMPLETION": "Profile completion",
+        "GAMING_FULFILLMENT": "Gaming FF"
       },
       "REWARDS": {
         "BONUS": "Bonus",
-        "FREE_SPIN": "Free-spin"
+        "FREE_SPIN": "Free-spin",
+        "TAG": "Tag"
       },
       "RESET_PLAYER": "Reset player",
       "OPT_IN_NOT_REQUIRED": "Opt-in not required"
