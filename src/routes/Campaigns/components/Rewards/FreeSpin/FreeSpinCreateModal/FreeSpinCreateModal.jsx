@@ -48,6 +48,7 @@ class FreeSpinCreateModal extends Component {
         content: PropTypes.arrayOf(PropTypes.shape({
           internalGameId: PropTypes.string,
           fullGameName: PropTypes.string,
+          isRHFP: PropTypes.bool,
           coinSizes: PropTypes.arrayOf(PropTypes.number),
           betLevels: PropTypes.arrayOf(PropTypes.number),
           pageCodes: PropTypes.arrayOf(PropTypes.shape({
@@ -154,7 +155,8 @@ class FreeSpinCreateModal extends Component {
       internalGameId,
       coinSizes,
       betLevels,
-      gameId
+      isRHFP,
+      gameId,
     } = this.getGame(value);
     const fields = get(this.aggregatorOptions, `[${this.props.aggregatorId}].fields`);
     const { currentValues: { supportedGames } } = this.props;
@@ -172,6 +174,10 @@ class FreeSpinCreateModal extends Component {
 
     if (fields.indexOf('coinSize')) {
       this.setField('coinSize', coinSizes && coinSizes.length ? coinSizes[0] : null);
+    }
+
+    if (fields.indexOf('rhfpBet') && !isRHFP) {
+      this.setField('rhfpBet', null);
     }
 
     if (fields.indexOf('betLevel')) {
@@ -332,7 +338,7 @@ class FreeSpinCreateModal extends Component {
     const fields = get(aggregatorOptions, `[${aggregatorId}].fields`);
     const gameList = get(games, 'games.content', []);
     const {
-      betLevels, coinSizes, lines, pageCodes, coinsMin, coinsMax,
+      betLevels, coinSizes, isRHFP, lines, pageCodes, coinsMin, coinsMax,
     } = this.getGame(gameId);
     const showPriceWidget = baseCurrency && fields &&
       fields.indexOf('linesPerSpin') !== -1 &&
@@ -569,11 +575,12 @@ class FreeSpinCreateModal extends Component {
                   id="campaign-freespin-create-modal-bet-multiplier"
                 />
               </If>
-              <If condition={fields.indexOf('rhfpBet') !== -1}>
+              <If condition={isRHFP && fields.indexOf('rhfpBet') !== -1}>
                 <Field
                   name="rhfpBet"
                   type="number"
                   placeholder="0"
+                  helpText="*required for Gamomat games with Red Hot Firepot sidegame"
                   normalize={intNormalize}
                   label={I18n.t(attributeLabels.rhfpBet)}
                   component={InputField}
