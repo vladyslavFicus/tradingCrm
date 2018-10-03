@@ -60,7 +60,7 @@ class Information extends PureComponent {
           <If condition={checkService(services.dwh)}>
             <PendingPayouts playerUUID={data.playerUUID} />
           </If>
-          <PermissionContent permissions={permissions.NOTES.VIEW_NOTES}>
+          <PermissionContent permissions={permissions.TAGS.VIEW_TAGS}>
             <div className="col">
               <Notes
                 notes={pinnedNotes}

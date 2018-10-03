@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { getFormValues } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
 import { createValidator } from '../../../../../utils/validator';
+import { intNormalize, floatNormalize } from '../../../../../utils/inputNormalize';
 import { statusesLabels, filterLabels } from '../../../../../constants/user';
 import createDynamicForm, { FilterItem, FilterField, TYPES, SIZES } from '../../../../../components/DynamicFilters';
 
@@ -16,16 +17,16 @@ const DynamicFilters = createDynamicForm({
     keyword: 'string',
     country: `in:,${Object.keys(props.countries).join()}`,
     currencies: `in:,${props.currencies.join()}`,
-    ageFrom: 'integer',
-    ageTo: 'integer',
+    ageFrom: ['numeric', 'max:100'],
+    ageTo: ['numeric', 'max:100', 'greaterThan:ageFrom'],
     affiliateId: 'string',
     status: 'string',
     segments: 'string',
     registrationDateFrom: 'regex:/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/',
     registrationDateTo: 'regex:/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/',
-    balanceFrom: 'integer',
-    balanceTo: 'integer',
-  }, filterLabels, false),
+    balanceFrom: ['numeric'],
+    balanceTo: ['numeric', 'greaterThan:balanceFrom'],
+  }, filterLabels, false)(values),
 });
 
 class UserGridFilter extends Component {
@@ -34,15 +35,15 @@ class UserGridFilter extends Component {
       keyword: PropTypes.string,
       country: PropTypes.string,
       currency: PropTypes.string,
-      ageFrom: PropTypes.string,
-      ageTo: PropTypes.string,
+      ageFrom: PropTypes.number,
+      ageTo: PropTypes.number,
       affiliateId: PropTypes.string,
       status: PropTypes.string,
       segments: PropTypes.string,
       registrationDateFrom: PropTypes.string,
       registrationDateTo: PropTypes.string,
-      balanceFrom: PropTypes.string,
-      balanceTo: PropTypes.string,
+      balanceFrom: PropTypes.number,
+      balanceTo: PropTypes.number,
     }),
     disabled: PropTypes.bool,
     onReset: PropTypes.func.isRequired,
@@ -112,13 +113,13 @@ class UserGridFilter extends Component {
         </FilterItem>
 
         <FilterItem label={I18n.t(filterLabels.age)} size={SIZES.small} type={TYPES.range_input} default>
-          <FilterField name="ageFrom" type="text" />
-          <FilterField name="ageTo" type="text" />
+          <FilterField normalize={intNormalize} name="ageFrom" type="number" />
+          <FilterField normalize={intNormalize} name="ageTo" type="number" />
         </FilterItem>
 
         <FilterItem label={I18n.t(filterLabels.balance)} size={SIZES.small} type={TYPES.range_input} default>
-          <FilterField name="balanceFrom" type="text" />
-          <FilterField name="balanceTo" type="text" />
+          <FilterField normalize={floatNormalize} name="balanceFrom" type="number" />
+          <FilterField normalize={floatNormalize} name="balanceTo" type="number" />
         </FilterItem>
 
         <FilterItem label={I18n.t(filterLabels.currencies)} size={SIZES.small} type={TYPES.select}>

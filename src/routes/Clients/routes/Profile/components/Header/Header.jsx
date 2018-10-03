@@ -157,7 +157,7 @@ class Header extends Component {
               </div>
             </HeaderPlayerPlaceholder>
             <div className="panel-heading-row__actions">
-              <PermissionContent permissions={permissions.NOTES.ADD_NOTE}>
+              <PermissionContent permissions={permissions.TAGS.ADD_TAG}>
                 <PopoverButton
                   id="header-add-note-button"
                   className="btn btn-sm btn-default-outline"

@@ -50,9 +50,9 @@ const userProfileTabs = [
     permissions: new Permissions(permissions.USER_PROFILE.PROFILE_DEVICES_VIEW),
   },
   {
-    label: 'Notes',
+    label: 'Notes & Tags',
     url: '/players/:id/notes',
-    permissions: new Permissions(permissions.NOTES.VIEW_NOTES),
+    permissions: new Permissions(permissions.TAGS.VIEW_TAGS),
   },
   {
     label: 'Feed',
@@ -62,13 +62,18 @@ const userProfileTabs = [
 ];
 
 const falconSidebarMenu = [{
+  label: I18n.t('SIDEBAR.TOP_MENU.DASHBOARD'),
+  icon: 'icon-dashboard',
+  url: '/dashboard',
+  service: services.reconciliation,
+}, {
   label: I18n.t('SIDEBAR.TOP_MENU.CLIENTS'),
   icon: 'icon-users',
   url: '/clients/list',
   service: services.profile,
 }, {
   label: I18n.t('SIDEBAR.TOP_MENU.LEADS'),
-  icon: 'icon-leads',
+  icon: 'icon-leads sidebar-nav-item__icon--leads',
   url: '/leads/list',
   service: services.trading_lead_updater,
 }, {

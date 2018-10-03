@@ -1,6 +1,6 @@
 import { graphql, compose } from 'react-apollo';
 import { connect } from 'react-redux';
-import { get } from 'lodash';
+
 import { withRouter } from 'react-router-dom';
 import PendingPayouts from './PendingPayouts';
 import { withNotifications, withModals } from '../../../../../../../components/HighOrder';

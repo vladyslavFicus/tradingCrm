@@ -31,7 +31,7 @@ function fetchLimitsByType(uuid, type) {
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `/playing-session/${uuid}/limit-history/${type}`,
+        endpoint: `/playing_session/${uuid}/limit-history/${type}`,
         method: 'GET',
         headers: {
           Accept: 'application/json',
@@ -145,7 +145,7 @@ function setPlayingSessionLimit(playerUUID, type, data) {
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `/playing-session/${playerUUID}/limits/${type}?brandId=${brandId}`,
+        endpoint: `/playing_session/${playerUUID}/limits/${type}?brandId=${brandId}`,
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -201,7 +201,7 @@ function cancelPlayingSessionLimit(playerUUID, type, limitId) {
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `/playing-session/${playerUUID}/limits/${type}/${limitId}`,
+        endpoint: `/playing_session/${playerUUID}/limits/${type}/${limitId}`,
         method: 'DELETE',
         headers: {
           Accept: 'application/json',

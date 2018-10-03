@@ -28,8 +28,10 @@ class TradingActivity extends Component {
   }
 
   componentWillMount() {
+    const { playerProfile: { playerProfile } } = this.props;
+
     if (this.props.playerProfile.playerProfile) {
-      const mt4Accs = this.props.playerProfile.playerProfile.data.tradingProfile.mt4Users || [];
+      const mt4Accs = get(playerProfile, 'data.tradingProfile.mt4Users') || [];
       const loginIds = mt4Accs.map(item => item.login);
 
       this.getTradingActivity({ loginIds });
@@ -40,8 +42,10 @@ class TradingActivity extends Component {
   }
 
   componentWillReceiveProps = async (nextProps) => {
-    if (!this.props.playerProfile.playerProfile && nextProps.playerProfile.playerProfile) {
-      const mt4Accs = nextProps.playerProfile.playerProfile.data.tradingProfile.mt4Users || [];
+    const { playerProfile: { playerProfile } } = this.props;
+    const { playerProfile: { playerProfile: nextPlayerProfile } } = nextProps;
+    if (!playerProfile && nextPlayerProfile) {
+      const mt4Accs = get(nextPlayerProfile, 'data.tradingProfile.mt4Users') || [];
       const loginIds = mt4Accs.map(item => item.login);
 
       this.getTradingActivity({ loginIds });

@@ -1,37 +1,32 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
-class PersonalInformationItem extends Component {
-  static propTypes = {
-    label: PropTypes.string.isRequired,
-    value: PropTypes.any,
-    verified: PropTypes.bool,
-  };
+const PersonalInformationItem = ({
+  label,
+  value,
+  verified,
+  className,
+}) => (
+  <If condition={value}>
+    <div className={className}>
+      <strong>{label}</strong>: {value}
+      {' '}
+      {verified && <i className="fa fa-check text-success" />}
+    </div>
+  </If>
+);
 
-  static defaultProps = {
-    value: null,
-    verified: false,
-  };
+PersonalInformationItem.propTypes = {
+  label: PropTypes.string.isRequired,
+  value: PropTypes.any,
+  verified: PropTypes.bool,
+  className: PropTypes.string,
+};
 
-  render() {
-    const {
-      label,
-      value,
-      verified,
-    } = this.props;
-
-    if (!value) {
-      return null;
-    }
-
-    return (
-      <div>
-        <strong>{label}</strong>: {value}
-        {' '}
-        {verified && <i className="fa fa-check text-success" />}
-      </div>
-    );
-  }
-}
+PersonalInformationItem.defaultProps = {
+  value: null,
+  verified: false,
+  className: '',
+};
 
 export default PersonalInformationItem;

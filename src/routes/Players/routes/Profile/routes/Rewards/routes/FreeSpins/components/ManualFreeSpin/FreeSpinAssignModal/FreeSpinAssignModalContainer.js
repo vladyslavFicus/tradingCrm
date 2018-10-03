@@ -63,6 +63,7 @@ export default compose(
         variables: {
           page: 0,
           size: 9999,
+          withLines: true,
           brandId: getBrandId(),
           gameProvider: providerId,
           aggregator: aggregatorId,

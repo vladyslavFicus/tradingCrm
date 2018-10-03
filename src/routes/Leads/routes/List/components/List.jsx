@@ -15,7 +15,7 @@ import Uuid from '../../../../../components/Uuid';
 import MiniProfile from '../../../../../components/MiniProfile';
 import { types as miniProfileTypes } from '../../../../../constants/miniProfile';
 import CountryLabelWithFlag from '../../../../../components/CountryLabelWithFlag';
-import { fileConfig, leadStatuses } from './constants';
+import { leadStatuses, fileConfig } from '../../../constants';
 
 class List extends Component {
   static propTypes = {
@@ -186,7 +186,7 @@ class List extends Component {
   };
 
   handleUploadCSV = async (errors, file) => {
-    const { notify } = this.props;
+    const { notify, leads: { refetch }, auth: { isAdministration } } = this.props;
 
     if (errors.length > 0) {
       notify({
@@ -208,6 +208,10 @@ class List extends Component {
       });
 
       return;
+    }
+
+    if (isAdministration) {
+      await refetch();
     }
 
     notify({
@@ -248,16 +252,13 @@ class List extends Component {
     </div>
   );
 
-  renderSales = ({ salesStatus, salesAgent }) => {
+  renderSales = ({ salesStatus }) => {
     const className = salesStatusesColor[salesStatus];
 
     return (
-      <Fragment>
-        <div className={classNames('font-weight-700 text-uppercase', { [className]: className })}>
-          {I18n.t(salesStatuses[salesStatus])}
-        </div>
-        <div className="font-size-11">{salesAgent}</div>
-      </Fragment>
+      <div className={classNames('font-weight-700 text-uppercase', { [className]: className })}>
+        {I18n.t(salesStatuses[salesStatus])}
+      </div>
     );
   };
 

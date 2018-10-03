@@ -2,26 +2,31 @@ import { connect } from 'react-redux';
 import { graphql, compose } from 'react-apollo';
 import moment from 'moment';
 import { get } from 'lodash';
-import List from '../components/List';
 import Modal from '../../../../../components/Modal';
 import { withNotifications, withModals } from '../../../../../components/HighOrder';
 import countries from '../../../../../utils/countryList';
 import { leadsQuery } from '../../../../../graphql/queries/leads';
-import { promoteLeadToClient } from '../../../../../graphql/mutations/leads';
+import { bulkLeadPromote } from '../../../../../graphql/mutations/leads';
 import { leadCsvUpload } from '../../../../../graphql/mutations/upload';
-import { leadsSizePerQuery } from '../components/constants';
+import { departments } from '../../../../../constants/brands';
+import List from '../components/List';
 
 const mapStateToProps = ({
   usersList: list,
   i18n: { locale },
   options: { data: { currencyCodes } },
-  auth: { brandId, uuid, hierarchyUsers },
+  auth: { brandId, uuid, hierarchyUsers, department },
 }) => ({
   list,
   locale,
   currencies: currencyCodes,
   countries,
-  auth: { brandId, uuid, hierarchyUsers },
+  auth: {
+    brandId,
+    uuid,
+    hierarchyUsers,
+    isAdministration: department === departments.ADMINISTRATION,
+  },
 });
 
 export default compose(
@@ -33,15 +38,15 @@ export default compose(
   graphql(leadCsvUpload, {
     name: 'fileUpload',
   }),
-  graphql(promoteLeadToClient, {
+  graphql(bulkLeadPromote, {
     name: 'promoteLead',
   }),
   graphql(leadsQuery, {
     name: 'leads',
-    skip: ({ auth }) => !get(auth, 'hierarchyUsers.leads'),
+    skip: ({ auth }) => !(auth.isAdministration || get(auth, 'hierarchyUsers.clients')),
     options: ({
       location: { query },
-      auth: { hierarchyUsers: { leads: ids } },
+      auth,
     }) => ({
       variables: {
         ...query
@@ -50,8 +55,8 @@ export default compose(
             registrationDateStart: moment().startOf('day').utc().format(moment.HTML5_FMT.DATETIME_LOCAL_SECONDS),
           },
         page: 0,
-        limit: leadsSizePerQuery,
-        ids,
+        limit: 10,
+        ...!auth.isAdministration && { ids: get(auth, 'hierarchyUsers.leads') },
       },
     }),
     props: ({ leads: { leads, fetchMore, ...rest } }) => {

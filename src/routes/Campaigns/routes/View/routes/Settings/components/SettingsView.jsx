@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { I18n } from 'react-redux-i18n';
 import { get, isEqual, pickBy, omit } from 'lodash';
-import { v4 } from 'uuid';
 import PropTypes from '../../../../../../../constants/propTypes';
 import Form from '../../../../../components/Form';
 import { statuses } from '../../../../../../../constants/bonus-campaigns';
@@ -10,6 +9,7 @@ import { fulfillmentTypes, rewardTemplateTypes } from '../../../../../constants'
 import Permissions from '../../../../../../../utils/permissions';
 import permissions from '../../../../../../../config/permissions';
 import deepRemoveKeyByRegex from '../../../../../../../utils/deepKeyPrefixRemove';
+import { deviceTypes } from '../../../../../components/Rewards/constants';
 
 class SettingsView extends Component {
   static propTypes = {
@@ -149,7 +149,7 @@ class SettingsView extends Component {
     const rewards = await Promise.all(formData.rewards.map(async ({ uuid, deviceType, type, tagName }) => {
       let tempUUID = uuid;
       if (!uuid && type === rewardTemplateTypes.TAG) {
-        const result = await createOrLinkTag({ variables: { tagId: `TAG-${v4()}`, tagName } });
+        const result = await createOrLinkTag({ variables: { tagName } });
         const { data: responseData } = get(result, 'data.tag.createOrLink', { data: '', error: '' });
 
         if (responseData) {

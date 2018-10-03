@@ -250,7 +250,7 @@ const actionHandlers = {
   }),
   [FETCH_NOTES.SUCCESS]: (state, action) => ({
     ...state,
-    items: mapNotesToEntities(state.items, action.payload),
+    items: mapNotesToEntities(state.items, action.payload.content),
   }),
   [FETCH_FILES_NOTES.SUCCESS]: (state, action) => ({
     ...state,
