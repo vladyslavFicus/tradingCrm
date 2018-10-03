@@ -436,7 +436,9 @@
       "SUCCESS_SET_NEW_PASSWORD": {
         "TITLE": "Успешно",
         "MESSAGE": "Пароль успешно изменен"
-      }
+      },
+      "SET_PLAYER_AS_TEST": "Отметить игрока как тестового",
+      "UN_SET_PLAYER_AS_TEST": "Снять отметку тестового игрока"
     },
     "IP_LIST": {
       "TITLE": "Последние 10 IP"

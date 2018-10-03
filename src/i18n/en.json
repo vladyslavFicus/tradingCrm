@@ -433,7 +433,9 @@
       "SUCCESS_SET_NEW_PASSWORD": {
         "TITLE": "Success",
         "MESSAGE": "Password changed successfully"
-      }
+      },
+      "SET_PLAYER_AS_TEST": "Set player as test",
+      "UN_SET_PLAYER_AS_TEST": "Unset player as test"
     },
     "IP_LIST": {
       "TITLE": "Last 10 ip's"

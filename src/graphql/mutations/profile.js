@@ -221,6 +221,20 @@ const updateAffiliateMutation = gql`mutation updateAffiliate(
   }
 }`;
 
+const markIsTestMutation = gql`mutation markIsTest($playerUUID: String!, $isTest: Boolean!){
+  profile {
+    markIsTest(playerUUID: $playerUUID, isTest: $isTest) {
+      data {
+        playerUUID
+        isTest
+      }
+      error {
+        error
+      }
+    }
+  }
+}`;
+
 export {
   updateSubscription,
   blockMutation,
@@ -232,4 +246,5 @@ export {
   changePassword,
   updateAffiliateMutation,
   updateBTAGMutation,
+  markIsTestMutation,
 };

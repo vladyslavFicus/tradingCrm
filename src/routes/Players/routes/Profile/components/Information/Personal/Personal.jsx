@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import moment from 'moment';
 import { get } from 'lodash';
 import { I18n } from 'react-redux-i18n';
+import Switch from '../../../../../../../components/Forms/Switch';
 import PersonalInformationItem from '../../../../../../../components/Information/PersonalInformationItem';
 import FieldView from '../../../../../../../components/FieldView';
 import PropTypes from '../../../../../../../constants/propTypes';
@@ -57,6 +58,25 @@ class Personal extends PureComponent {
     }, 'PLAYER_PROFILE.PROFILE.PERSONAL.UPDATE_SOURCE', 'source-form');
   };
 
+  handleSwitchIsTest = async (isTest) => {
+    const {
+      data: { playerUUID },
+      markIsTest,
+      notify,
+    } = this.props;
+
+    const response = await markIsTest({ variables: { playerUUID, isTest } });
+
+    const error = get(response, 'data.profile.markIsTest.error');
+
+    notify({
+      level: error ? 'error' : 'success',
+      title: isTest
+        ? I18n.t('PLAYER_PROFILE.NOTIFICATIONS.SET_PLAYER_AS_TEST')
+        : I18n.t('PLAYER_PROFILE.NOTIFICATIONS.UN_SET_PLAYER_AS_TEST'),
+    });
+  };
+
   render() {
     const {
       data: {
@@ -74,6 +94,7 @@ class Personal extends PureComponent {
         affiliateId,
         btag,
         intendedAmountToSpend,
+        isTest,
       },
     } = this.props;
 
@@ -133,6 +154,15 @@ class Personal extends PureComponent {
               onClick={this.handleClickBTAG}
               value={btag || <span className="color-default">no b-tag</span>}
             />
+            <div className="font-size-13">
+              <span className="font-weight-700">Test player: </span>
+              <div className="float-right">
+                <Switch
+                  active={isTest || false}
+                  handleSwitch={this.handleSwitchIsTest}
+                />
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -141,6 +171,7 @@ class Personal extends PureComponent {
 }
 
 Personal.propTypes = {
+  markIsTest: PropTypes.func.isRequired,
   updateAffiliateMutation: PropTypes.func.isRequired,
   updateBTAGMutation: PropTypes.func.isRequired,
   modals: PropTypes.shape({
