@@ -526,7 +526,7 @@
         "DEPOSIT": "Deposit",
         "WAGERING": "Wagering",
         "PROFILE_COMPLETION": "Profile completion",
-        "GAMING-FULFILLMENT": "Gaming FF"
+        "GAMING_FULFILLMENT": "Gaming FF"
       },
       "REWARDS": {
         "BONUS": "Bonus",

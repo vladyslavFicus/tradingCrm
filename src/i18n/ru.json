@@ -529,7 +529,7 @@
         "DEPOSIT": "Депозит",
         "WAGERING": "Ставки",
         "PROFILE_COMPLETION": "Заполнение профиля",
-        "GAMING-FULFILLMENT": "Игровой вулфилмент"
+        "GAMING_FULFILLMENT": "Игровой вулфилмент"
       },
       "REWARDS": {
         "BONUS": "Бонус",
