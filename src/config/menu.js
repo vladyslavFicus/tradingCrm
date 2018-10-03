@@ -55,7 +55,7 @@ const userProfileTabs = [
     permissions: new Permissions(permissions.TAGS.VIEW_TAGS),
   },
   {
-    label: I18n.t('PLAYER_PROFILE.MENU.FEEDS'),
+    label: I18n.t('PLAYER_PROFILE.MENU.FEED'),
     url: '/players/:id/feed',
     permissions: new Permissions(permissions.AUDIT.PLAYER_AUDIT_LOGS),
   },
