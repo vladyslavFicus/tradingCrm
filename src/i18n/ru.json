@@ -719,6 +719,17 @@
           "ID_PROVIDED": "Предоставлен ID"
         }
       }
+    },
+    "MENU": {
+      "PROFILE": "Профиль",
+      "TRANSACTIONS": "Транзакции",
+      "REWARDS": "Награды",
+      "PAYMENT_ACCOUNTS": "Платежные аккаунты",
+      "LIMITS": "Лимиты",
+      "FILES": "Файлы",
+      "DEVICES": "Устройства",
+      "NOTES_AND_TAGS": "Заметки и теги",
+      "FEED": "Действия"
     }
   },
   "COMMON": {
