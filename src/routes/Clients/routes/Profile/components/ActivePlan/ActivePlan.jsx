@@ -85,7 +85,6 @@ class ActivePlan extends Component {
       variables: {
         amount,
         type,
-        isActive: true,
         playerUUID,
       },
     });

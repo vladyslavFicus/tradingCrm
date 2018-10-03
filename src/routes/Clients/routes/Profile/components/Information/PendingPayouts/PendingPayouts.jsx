@@ -86,7 +86,6 @@ class PendingPayouts extends Component {
       variables: {
         amount,
         type,
-        isActive: false,
         playerUUID,
       },
     });
