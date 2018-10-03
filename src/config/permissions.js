@@ -52,6 +52,7 @@ export default {
     VERIFY_PHONE: 'profile;POST;/verification/{playerUUID}/phone',
     VERIFY_EMAIL: 'profile;POST;/verification/{playerUUID}',
     CHANGE_PASSWORD: 'auth;POST;/credentials/{uuid}/password',
+    MARK_IS_TEST: 'profile;POST;/profiles/{playerUUID}/is-test',
   },
   PAYMENT: {
     PLAYER_LIMITS_LIST: 'payment;GET;/limits/{playerUUID}',
