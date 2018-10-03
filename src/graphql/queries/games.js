@@ -27,6 +27,7 @@ const gameListQuery = gql`query GameListView(
       coinSizes
       coinsMin
       coinsMax
+      isRHFP
       lines
       internalGameId
       startGameUrl
