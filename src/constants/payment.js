@@ -19,10 +19,6 @@ const methods = keyMirror({
   yamoney: null,
 });
 
-const availableDepositMethods = keyMirror({
-  entercash: null
-});
-
 const methodStatuses = keyMirror({
   ACTIVE: null,
   INACTIVE: null,
@@ -216,7 +212,6 @@ export {
   initiators,
   initiatorsLabels,
   accountStatuses,
-  availableDepositMethods,
   accountStatusLabels,
   accountStatusColors,
   accountStatusActions,

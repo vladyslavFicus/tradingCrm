@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react';
+import { get } from 'lodash';
 import moment from 'moment';
 import { SubmissionError } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
@@ -13,9 +14,7 @@ import {
   customTypesLabels,
   typesProps,
 } from '../../../../../../../../../constants/payment';
-import { get } from 'lodash';
 import TransactionStatus from '../../../../../../../../../components/TransactionStatus';
-import { targetTypes } from '../../../../../../../../../constants/note';
 import NoteButton from '../../../../../../../../../components/NoteButton';
 import TransactionsFilterForm from './TransactionsFilterForm';
 import PaymentDetailModal from '../../../../../../../../../components/PaymentDetailModal';
@@ -27,6 +26,7 @@ import GridPaymentInfo from '../../../../../../../../../components/GridPaymentIn
 import GridPaymentAmount from '../../../../../../../../../components/GridPaymentAmount';
 import IpFlag from '../../../../../../../../../components/IpFlag';
 import history from '../../../../../../../../../router/history';
+import getFingerprint from '../../../../../../../../../utils/fingerPrint';
 
 const MODAL_PAYMENT_DETAIL = 'payment-detail';
 const MODAL_PAYMENT_ACTION_REASON = 'payment-action-reason';
@@ -55,6 +55,14 @@ class Payments extends Component {
     manageNote: PropTypes.func.isRequired,
     resetNote: PropTypes.func.isRequired,
     currencyCode: PropTypes.string.isRequired,
+    operatorPaymentMethods: PropTypes.shape({
+      operatorPaymentMethods: PropTypes.shape({
+        data: PropTypes.arrayOf(PropTypes.shape({
+          uuid: PropTypes.string,
+          methodName: PropTypes.string,
+        })),
+      }),
+    }).isRequired,
     match: PropTypes.shape({
       params: PropTypes.shape({
         id: PropTypes.string,
@@ -217,74 +225,87 @@ class Payments extends Component {
       createWithdraw,
       resetNote,
       createDeposit,
-      modals: {
-        paymentIframe
-      },
       transactions: { newPaymentNote: unsavedNote },
       fetchActiveBonus,
     } = this.props;
-
-    const deposit = await createWithdraw({
-      variables: {
-        playerUUID,
-        'paymentMethod': 'entercash',
-        'amount': '99',
-        'currency': 'EUR',
-        'email': 'ga+user@paypal.com',
-        'iban': 'FI1811253500060746',
-        'bic': 'NDEAFIHH',
-        'device': 'desktop'
-      }
-    });
-    debugger;
-
-    const { data, error } = get(deposit, 'data.payment.createDeposit', { data: null, error: null });
-    const win = window.open(data.redirectLink, '_blank');
-
-    win.focus();
     const params = {
       ...inputParams,
       currency: currencyCode,
     };
+    let paymentId = '';
 
-    if (inputParams.type !== paymentTypes.Withdraw) {
-      delete params.paymentMethod;
-    }
+    if (inputParams.type === paymentTypes.DEPOSIT_BY_PAYMENT_METHOD) {
+      const deposit = await createDeposit({
+        variables: {
+          playerUUID,
+          ...params,
+          device: await getFingerprint(),
+        },
+      });
+      const { data, error } = get(deposit, 'data.payment.createDeposit', { data: null, error: null });
 
-    const action = await addPayment(playerUUID, params);
-
-    if (action && action.error) {
-      const errors = [action.payload.response.error];
-
-      if (
-        inputParams.type === paymentTypes.Confiscate &&
-        action.payload.response.error === 'error.payment.withdrawable.limit'
-      ) {
-        const activeBonusAction = await fetchActiveBonus(playerUUID);
-
-        if (activeBonusAction && !activeBonusAction.error && activeBonusAction.payload.totalElements) {
-          errors.push('error.payment.withdrawable.bonus.disable');
-        }
+      if (error) {
+        throw new SubmissionError({ _error: [error.error], ...(error.fields_errors || {}) });
+      } else {
+        const win = window.open(data.redirectLink, '_blank');
+        paymentId = data.paymentId;
+        win.focus();
       }
+    } else if (inputParams.type === paymentTypes.WITHDRAW_BY_PAYMENT_METHOD) {
+      const withdraw = await createWithdraw({
+        variables: {
+          playerUUID,
+          ...params,
+          device: await getFingerprint(),
+        },
+      });
+      const { error, data } = get(withdraw, 'data.payment.createWithdraw', { data: null, error: null });
 
-      throw new SubmissionError({ _error: errors });
+      if (error) {
+        throw new SubmissionError({ _error: [error.error], ...(error.fields_errors || {}) });
+      } else {
+        paymentId = data.paymentId;
+      }
     } else {
-      if (unsavedNote) {
-        await this.context.onAddNote({
-          variables: {
-            ...unsavedNote,
-            targetUUID: action.payload.paymentId,
-            playerUUID,
-          },
-        });
+      if (inputParams.type !== paymentTypes.Withdraw) {
+        delete params.paymentMethod;
       }
 
-      resetNote();
-      this.handleRefresh();
-      this.handleCloseModal();
+      const action = await addPayment(playerUUID, params);
+
+      if (action && action.error) {
+        const errors = [action.payload.response.error];
+
+        if (
+          inputParams.type === paymentTypes.Confiscate &&
+          action.payload.response.error === 'error.payment.withdrawable.limit'
+        ) {
+          const activeBonusAction = await fetchActiveBonus(playerUUID);
+
+          if (activeBonusAction && !activeBonusAction.error && activeBonusAction.payload.totalElements) {
+            errors.push('error.payment.withdrawable.bonus.disable');
+          }
+        }
+
+        throw new SubmissionError({ _error: errors });
+      } else {
+        paymentId = action.payload.paymentId;
+      }
     }
 
-    return action;
+    if (unsavedNote) {
+      await this.context.onAddNote({
+        variables: {
+          ...unsavedNote,
+          targetUUID: paymentId,
+          playerUUID,
+        },
+      });
+    }
+
+    resetNote();
+    this.handleRefresh();
+    this.handleCloseModal();
   };
 
   handleOpenAddPaymentModal = () => {
@@ -466,12 +487,15 @@ class Payments extends Component {
     const {
       transactions: { entities, noResults, newPaymentNote },
       filters: { data: availableFilters },
+      operatorPaymentMethods,
       loadPaymentAccounts,
       manageNote,
       playerProfile,
       playerLimits,
       locale,
     } = this.props;
+
+    const paymentMethods = get(operatorPaymentMethods, 'operatorPaymentMethods.data', []);
 
     return (
       <Fragment>
@@ -568,6 +592,7 @@ class Payments extends Component {
           <PaymentAddModal
             {...modal.params}
             note={newPaymentNote}
+            paymentMethods={paymentMethods}
             playerProfile={playerProfile}
             onClose={this.handleCloseModal}
             onLoadPaymentAccounts={() => loadPaymentAccounts(playerProfile.playerUUID)}

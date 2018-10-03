@@ -73,10 +73,7 @@ const createDepositMutation = gql`mutation createDeposit(
   $currency: String!,
   $paymentMethod: String!, 
   $amount: Float!,
-  $email: String,
-  $iban: String,
-  $bic: String, 
-  $device: String
+  $device: FingerprintInput
 ) {
   payment {
     createDeposit(
@@ -84,9 +81,6 @@ const createDepositMutation = gql`mutation createDeposit(
       currency: $currency,
       paymentMethod: $paymentMethod, 
       amount: $amount,
-      email: $email,
-      iban: $iban,
-      bic: $bic, 
       device: $device
     ) {
       data {
@@ -109,7 +103,7 @@ const createWithdrawMutation = gql`mutation createDeposit(
   $email: String,
   $iban: String,
   $bic: String, 
-  $device: String
+  $device: FingerprintInput
 ) {
   payment {
     createWithdraw(

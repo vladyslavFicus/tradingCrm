@@ -11,7 +11,6 @@ import Amount from '../../../../../../../../../components/Amount';
 import NoteButton from '../../../../../../../../../components/NoteButton';
 import {
   types as paymentTypes,
-  availableDepositMethods,
   manualTypesLabels as paymentTypesLabels,
 } from '../../../../../../../../../constants/payment';
 import { targetTypes } from '../../../../../../../../../constants/note';
@@ -44,6 +43,10 @@ class PaymentAddModal extends Component {
     }),
     note: PropTypes.noteEntity,
     error: PropTypes.arrayOf(PropTypes.string),
+    paymentMethods: PropTypes.arrayOf(PropTypes.shape({
+      uuid: PropTypes.string,
+      methodName: PropTypes.string,
+    })),
     playerLimits: PropTypes.shape({
       entities: PropTypes.arrayOf(PropTypes.playerLimitEntity).isRequired,
       deposit: PropTypes.shape({
@@ -67,6 +70,7 @@ class PaymentAddModal extends Component {
   static defaultProps = {
     submitting: false,
     pristine: false,
+    paymentMethods: [],
     currentValues: {},
     note: null,
     error: [],
@@ -131,7 +135,7 @@ class PaymentAddModal extends Component {
   }
 
   renderAdditionalFields = () => {
-    const { currentValues } = this.props;
+    const { currentValues, paymentMethods } = this.props;
     const { availablePaymentAccounts } = this.state;
 
     const emptyOptionLabel = availablePaymentAccounts.length === 0
@@ -141,7 +145,7 @@ class PaymentAddModal extends Component {
     return (
       <If condition={currentValues && currentValues.type}>
         <Choose>
-          <When condition={currentValues.type === paymentTypes.WITHDRAW}>
+          <When condition={currentValues.type === paymentTypes.Withdraw}>
             <Field
               name="paymentAccountUuid"
               className="col-5"
@@ -161,7 +165,11 @@ class PaymentAddModal extends Component {
             </Field>
           </When>
           <When
-            condition={currentValues.type === paymentTypes.WITHDRAW_BY_PAYMENT_METHOD || currentValues.type === paymentTypes.DEPOSIT_BY_PAYMENT_METHOD}>
+            condition={
+              currentValues.type === paymentTypes.WITHDRAW_BY_PAYMENT_METHOD ||
+              currentValues.type === paymentTypes.DEPOSIT_BY_PAYMENT_METHOD
+            }
+          >
             <Field
               name="paymentMethod"
               label={attributeLabels.paymentMethod}
@@ -173,9 +181,9 @@ class PaymentAddModal extends Component {
             >
               <option value="">{emptyOptionLabel}</option>
               {
-                Object.keys(availableDepositMethods).map(item => (
-                  <option key={item} value={item}>
-                    {item}
+                paymentMethods.map(item => (
+                  <option key={item.uuid} value={item.methodName}>
+                    {item.methodName}
                   </option>
                 ))
               }
@@ -213,10 +221,9 @@ class PaymentAddModal extends Component {
     const {
       playerProfile: { playerUUID, fullName, currencyCode },
       currentValues,
-      invalid,
     } = this.props;
 
-    if (invalid || !(currentValues && currentValues.amount) || !currencyCode) {
+    if (!(currentValues && currentValues.amount) || !currencyCode) {
       return null;
     }
 
@@ -278,7 +285,7 @@ class PaymentAddModal extends Component {
           <div className="row">
             <Field
               name="type"
-              className={'col-4'}
+              className="col-4"
               type="text"
               label={attributeLabels.type}
               showErrorMessage={false}
@@ -370,6 +377,19 @@ const Form = reduxForm({
 
     if (data.type === paymentTypes.Withdraw) {
       rules.paymentAccountUuid = 'required|string';
+    }
+
+    if (
+      data.type === paymentTypes.WITHDRAW_BY_PAYMENT_METHOD ||
+      data.type === paymentTypes.DEPOSIT_BY_PAYMENT_METHOD
+    ) {
+      rules.paymentMethod = 'required|string';
+    }
+
+    if (data.type === paymentTypes.WITHDRAW_BY_PAYMENT_METHOD) {
+      rules.email = 'required|email';
+      rules.iban = 'required|string';
+      rules.bic = 'required|string';
     }
 
     return createValidator(rules, attributeLabels, false)(data);

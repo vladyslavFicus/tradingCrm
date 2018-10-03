@@ -174,6 +174,7 @@ const getOperatorPaymentMethods = gql`query getOperatorPaymentMethods {
     data {
       _id
       methodName
+      uuid
     }
     error {
       error
