@@ -3,7 +3,7 @@ import CancelLimitModal from './CancelLimitModal';
 import CreateLimitModal from './CreateLimitModal';
 import CommonGridView from './CommonGridView';
 import { targetTypes } from '../../../../../../../constants/note';
-import { types as limitTypes } from '../../../../../../../constants/limits';
+import { types as limitTypes, timeUnits } from '../../../../../../../constants/limits';
 import PropTypes from '../../../../../../../constants/propTypes';
 import TabHeader from '../../../../../../../components/TabHeader';
 
@@ -104,12 +104,12 @@ class Limits extends Component {
         },
       },
     } = this.props;
-    const { type, period, amount } = params;
+    const { type, period, amount, customPeriod } = params;
 
     const duration = period.split(' ');
     const data = {
-      duration: duration.shift(),
-      durationUnit: duration.shift(),
+      duration: customPeriod || duration.shift(),
+      durationUnit: customPeriod ? timeUnits.HOURS : duration.shift(),
       currencyCode,
     };
 
