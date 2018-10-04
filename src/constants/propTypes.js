@@ -587,6 +587,17 @@ PropTypes.lead = PropTypes.shape({
   registrationDate: PropTypes.string.isRequired,
   statusChangeDate: PropTypes.string,
 });
+PropTypes.branchHierarchyType = PropTypes.shape({
+  name: PropTypes.string,
+  brandId: PropTypes.string,
+  branchType: PropTypes.string.isRequired,
+  deskType: PropTypes.string,
+  country: PropTypes.string,
+  language: PropTypes.string,
+  parentBranches: PropTypes.arrayOf(PropTypes.string),
+  defaultBranch: PropTypes.string,
+  defaultUser: PropTypes.string,
+});
 
 
 export default PropTypes;

@@ -224,7 +224,8 @@ const actionHandlers = {
   }),
   [FETCH_HIERARCHY.SUCCESS]: (state, action) => ({
     ...state,
-    hierarchyUsers: mapHierarchyUsers(action.payload),
+    hierarchyUsers: mapHierarchyUsers(action.payload, state),
+    operatorHierarchy: action.payload.find(item => item.uuid === state.uuid),
   }),
   [UPDATE_PROFILE.SUCCESS]: (state, action) => ({
     ...state,

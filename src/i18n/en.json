@@ -866,6 +866,7 @@
       }
     },
     "SUCCESS": "Success",
+    "FAIL": "fail",
     "NOT_AVAILABLE": "Not available",
     "SUBMIT": "Submit",
     "AMOUNT": "Amount",
@@ -2764,6 +2765,90 @@
       }
     }
   },
+  "OFFICES": {
+    "OFFICES": "Offices",
+    "ADD_OFFICE": "Add office",
+    "GRID_HEADER": {
+      "OFFICE": "Office",
+      "COUNTRY": "Country"
+    },
+    "MODAL": {
+      "HEADER": "New office",
+      "CREATE_BUTTON": "Create office",
+      "LABELS": {
+        "OFFICE_NAME": "Office name",
+        "COUNTRY": "Country",
+        "OFFICE_MANAGER": "Office manager"
+      }
+    }
+  },
+  "DESKS": {
+    "DESKS": "Desks",
+    "ADD_DESK": "Add desk",
+    "GRID_HEADER": {
+      "DESK": "Desk",
+      "OFFICE": "Office",
+      "DESK_TYPE": "Desk type",
+      "DEFAULT_DESK": "Default desk"
+    },
+    "GRID_FILTERS": {
+      "DESK_TYPE_LABEL": "Desk type",
+      "DESK_TYPE": {
+        "ANY": "Any",
+        "YES": "Yes",
+        "NO": "No"
+      }
+    },
+    "MODAL": {
+      "HEADER": "New desk",
+      "CREATE_BUTTON": "Create desk",
+      "LABELS": {
+        "DESK_NAME": "Desk name",
+        "OFFICE_NAME": "Office",
+        "DESK_TYPE": "Desk type",
+        "LANGUAGE": "Language",
+        "DESK_TYPE_OPTIONS": {
+          "RETENTION": "Retention",
+          "SALES": "Sales",
+          "NINJA": "Ninja"
+        }
+      }
+    },
+    "FILTERS": {
+      "DESK_TYPE": "Desk type",
+      "DEFAULT_DESK": "Default desk",
+      "OFFICE": "Office",
+      "DESK": "Desk"
+    }
+  },
+  "TEAMS": {
+    "TEAMS": "Teams",
+    "ADD_TEAM": "Add team",
+    "GRID_HEADER": {
+      "TEAM": "Team",
+      "OFFICE": "Office",
+      "DESK": "Desk"
+    },
+    "MODAL": {
+      "HEADER": "New team",
+      "CREATE_BUTTON": "Create team",
+      "NO_OFFICE_DESK": "-- No desk for current office --",
+      "SELECT_OFFICE_FIRST": "-- Select office first --",
+      "LABELS": {
+        "TEAM_NAME": "Team name",
+        "DESK_NAME": "Desk",
+        "OFFICE_NAME": "Office"
+      }
+    }
+  },
+  "HIERARCHY": {
+    "INFO_MODAL": {
+      "HEADER": "Status",
+      "OFFICE_BODY": "Office creation flow",
+      "DESK_BODY": "Desk creation flow",
+      "TEAM_BODY": "Team creation flow"
+    }
+  },
   "MANUAL_COOLOFF": {
     "HEADING": "You are about to set Manual Cooloff status for the %{profileName} %{uuid} for 24 hours"
   },
@@ -2809,6 +2894,44 @@
       "REMOVE_DESCRIPTION": "You are about to delete this tag",
       "DELETE_TITLE": "Delete tag",
       "EDIT_TITLE": "Edit tag"
+    }
+  },
+  "hierarchy": {
+    "offices": {
+      "success": {
+        "createOffice": "Office created",
+        "updateOfficeManager": "Office manager updated",
+        "updateOperator": "Operator updated"
+      },
+      "fail": {
+        "createOffice": "Failed to create office",
+        "updateOfficeManager": "Failed to update office manager",
+        "updateOperator": "Failed to update operator"
+      }
+    },
+    "desks": {
+      "success": {
+        "createDesk": "Desk created",
+        "updateDesk": "Desk updated",
+        "updateOperator": "Operator updated"
+      },
+      "fail": {
+        "createDesk": "Failed to create desk",
+        "updateDesk": "Failed to update desk",
+        "updateOperator": "Failed to update operator"
+      }
+    },
+    "teams": {
+      "success": {
+        "createTeam": "Team created",
+        "updateTeam": "Team updated",
+        "updateOperator": "Operator updated"
+      },
+      "fail": {
+        "createTeam": "Failed to create team",
+        "updateTeam": "Failed to update team",
+        "updateOperator": "Failed to update operator"
+      }
     }
   }
 }
