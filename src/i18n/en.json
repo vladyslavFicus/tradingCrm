@@ -103,7 +103,8 @@
           "DATE_OF_BIRTH": "Date of birth",
           "GENDER": "Gender",
           "IDENTIFIER": "ID Number"
-        }
+        },
+        "TEST_PLAYER": "Test player"
       },
       "ADDITIONAL": {
         "TITLE": "Additional information"

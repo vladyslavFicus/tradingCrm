@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { get } from 'lodash';
 import { I18n } from 'react-redux-i18n';
 import PropTypes from '../../../../../../../../constants/propTypes';
@@ -8,7 +8,7 @@ import permissions from '../../../../../../../../config/permissions';
 
 const markIsTestPermissions = new Permissions(permissions.USER_PROFILE.MARK_IS_TEST);
 
-class SwitchIsTest extends Component {
+class SwitchIsTest extends PureComponent {
   static contextTypes = {
     permissions: PropTypes.arrayOf(PropTypes.string).isRequired,
   };
@@ -43,7 +43,7 @@ class SwitchIsTest extends Component {
 
     return (
       <div className="font-size-13">
-        <span className="font-weight-700">Test player: </span>
+        <span className="font-weight-700">{I18n.t('PLAYER_PROFILE.PROFILE.PERSONAL.TEST_PLAYER')}:</span>
         <div className="float-right">
           <Switch
             active={isTest}

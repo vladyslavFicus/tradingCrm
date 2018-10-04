@@ -101,7 +101,8 @@
           "DATE_OF_BIRTH": "Дата рождения",
           "GENDER": "Пол",
           "IDENTIFIER": "ID"
-        }
+        },
+        "TEST_PLAYER": "Тестовый игрок"
       },
       "ADDITIONAL": {
         "TITLE": "Доп. информация"
