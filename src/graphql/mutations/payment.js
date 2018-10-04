@@ -41,6 +41,8 @@ const addPaymentMutation = gql`mutation createClientPayment(
   $paymentAccountUuid: String,
   $externalReference: String,
   $mt4Acc:String,
+  $country: String,
+  $language: String,
 ) {
   payment {
     createClientPayment (
@@ -51,6 +53,8 @@ const addPaymentMutation = gql`mutation createClientPayment(
       paymentAccountUuid: $paymentAccountUuid,
       externalReference: $externalReference,
       mt4Acc: $mt4Acc,
+      country: $country,
+      language: $language,
     ) {
       data {
         paymentId
@@ -64,8 +68,70 @@ const addPaymentMutation = gql`mutation createClientPayment(
   }
 }`;
 
+const createDepositMutation = gql`mutation createDeposit(
+  $playerUUID: String!,
+  $currency: String!,
+  $paymentMethod: String!, 
+  $amount: Float!,
+  $device: FingerprintInput
+) {
+  payment {
+    createDeposit(
+      playerUUID: $playerUUID,
+      currency: $currency,
+      paymentMethod: $paymentMethod, 
+      amount: $amount,
+      device: $device
+    ) {
+      data {
+        paymentId
+        redirectLink
+        redirecting
+      }
+      error {
+        error
+      }
+    }
+  }
+}`;
+
+const createWithdrawMutation = gql`mutation createDeposit(
+  $playerUUID: String!,
+  $currency: String!,
+  $paymentMethod: String!, 
+  $amount: Float!,
+  $email: String,
+  $iban: String,
+  $bic: String, 
+  $device: FingerprintInput
+) {
+  payment {
+    createWithdraw(
+      playerUUID: $playerUUID,
+      currency: $currency,
+      paymentMethod: $paymentMethod, 
+      amount: $amount,
+      email: $email,
+      iban: $iban,
+      bic: $bic, 
+      device: $device
+    ) {
+      data {
+        paymentId
+        redirectLink
+        redirecting
+      }
+      error {
+        error
+      }
+    }
+  }
+}`;
+
 export {
   lockMutation,
+  createWithdrawMutation,
   unlockMutation,
   addPaymentMutation,
+  createDepositMutation,
 };

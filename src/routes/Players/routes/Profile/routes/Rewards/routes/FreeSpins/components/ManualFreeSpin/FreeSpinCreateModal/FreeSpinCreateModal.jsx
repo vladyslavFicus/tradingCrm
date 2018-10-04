@@ -48,6 +48,7 @@ class FreeSpinCreateModal extends Component {
         content: PropTypes.arrayOf(PropTypes.shape({
           internalGameId: PropTypes.string,
           fullGameName: PropTypes.string,
+          isRHFP: PropTypes.bool,
           coinSizes: PropTypes.arrayOf(PropTypes.number),
           betLevels: PropTypes.arrayOf(PropTypes.number),
           pageCodes: PropTypes.arrayOf(PropTypes.shape({
@@ -151,7 +152,8 @@ class FreeSpinCreateModal extends Component {
       internalGameId,
       coinSizes,
       gameId,
-      betLevels
+      betLevels,
+      isRHFP,
     } = this.getGame(value);
     const fields = get(this.aggregatorOptions, `[${this.props.aggregatorId}].fields`);
     const { currentValues: { supportedGames } } = this.props;
@@ -165,6 +167,10 @@ class FreeSpinCreateModal extends Component {
       }
 
       spGames.push(JSON.stringify({ gameId, internalGameId }));
+    }
+
+    if (fields.indexOf('rhfpBet') && !isRHFP) {
+      this.setField('rhfpBet', null);
     }
 
     if (fields.indexOf('coinSize')) {
@@ -325,7 +331,7 @@ class FreeSpinCreateModal extends Component {
     const fields = get(aggregatorOptions, `[${aggregatorId}].fields`);
     const gameList = get(games, 'games.content', []);
     const {
-      betLevels, coinSizes, lines, pageCodes,
+      betLevels, coinSizes, lines, pageCodes, isRHFP,
     } = this.getGame(gameId);
     const showPriceWidget = baseCurrency && fields &&
       fields.indexOf('linesPerSpin') !== -1 &&
@@ -547,11 +553,12 @@ class FreeSpinCreateModal extends Component {
                   className="col-md-6"
                 />
               </If>
-              <If condition={fields.indexOf('rhfpBet') !== -1}>
+              <If condition={isRHFP && fields.indexOf('rhfpBet') !== -1}>
                 <Field
                   name="rhfpBet"
                   type="number"
                   placeholder="0"
+                  helpText="*required for Gamomat games with Red Hot Firepot sidegame"
                   normalize={intNormalize}
                   label={I18n.t(attributeLabels.rhfpBet)}
                   component={InputField}
@@ -600,12 +607,14 @@ class FreeSpinCreateModal extends Component {
                   className="col-md-6"
                 />
               </If>
-              <Field
-                name="claimable"
-                component={CheckBox}
-                type="checkbox"
-                label={I18n.t('COMMON.CLAIMABLE')}
-              />
+              <div className="form-group col-md-6">
+                <Field
+                  name="claimable"
+                  component={CheckBox}
+                  type="checkbox"
+                  label={I18n.t('COMMON.CLAIMABLE')}
+                />
+              </div>
             </div>
             <If condition={fields.indexOf('bonusTemplateUUID') !== -1}>
               <BonusView

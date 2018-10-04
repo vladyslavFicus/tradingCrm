@@ -6,15 +6,21 @@ import languageNames from '../../constants/languageNames';
 import { getCountryCode } from '../../utils/countryList';
 import './CountryLabelWithFlag.scss';
 
-const CountryLabelWithFlag = ({ height, code, languageCode }) => (
+const getLanguage = (languageCode) => {
+  const lang = languageNames.find(item => item.languageCode === languageCode);
+
+  return lang ? I18n.t(lang.languageName) : I18n.t('COMMON.LANGUAGE_NAME.EN');
+};
+
+const CountryLabelWithFlag = ({ height, width, code, languageCode }) => (
   <div className="grid-country-flag">
     <div className="grid-country-flag__icon">
-      <Flag height={height} code={getCountryCode(code)} />
+      <Flag height={height} width={width} code={getCountryCode(code)} />
     </div>
     <div className="grid-country-flag__description">
       <div className="font-weight-600 text-uppercase">{code}</div>
       <div className="font-size-11">
-        {I18n.t(languageNames.find(item => item.languageCode === languageCode).languageName)}
+        {getLanguage(languageCode)}
       </div>
     </div>
   </div>
@@ -22,8 +28,13 @@ const CountryLabelWithFlag = ({ height, code, languageCode }) => (
 
 CountryLabelWithFlag.propTypes = {
   code: PropTypes.string.isRequired,
+  width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   height: PropTypes.string.isRequired,
   languageCode: PropTypes.string.isRequired,
+};
+
+CountryLabelWithFlag.defaultProps = {
+  width: 20,
 };
 
 export default CountryLabelWithFlag;

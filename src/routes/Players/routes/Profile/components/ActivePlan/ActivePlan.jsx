@@ -24,13 +24,12 @@ class ActivePlan extends Component {
     currency: PropTypes.string.isRequired,
     activePlanMutation: PropTypes.func.isRequired,
   };
-  static defaultProps = {
-    activeRewardPlan: {},
-  };
-
   static contextTypes = {
     registerUpdateCacheListener: PropTypes.func.isRequired,
     unRegisterUpdateCacheListener: PropTypes.func.isRequired,
+  };
+  static defaultProps = {
+    activeRewardPlan: {},
   };
 
   componentDidMount() {
@@ -85,7 +84,6 @@ class ActivePlan extends Component {
       variables: {
         amount,
         type,
-        isActive: true,
         playerUUID,
       },
     });

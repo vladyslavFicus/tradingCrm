@@ -7,12 +7,12 @@ import config from './index';
 
 const userProfileTabs = [
   {
-    label: 'Profile',
+    label: I18n.t('PLAYER_PROFILE.MENU.PROFILE'),
     url: '/players/:id/profile',
     permissions: new Permissions(permissions.USER_PROFILE.PROFILE_VIEW),
   },
   {
-    label: 'Transactions',
+    label: I18n.t('PLAYER_PROFILE.MENU.TRANSACTIONS'),
     url: '/players/:id/transactions',
     permissions: new Permissions([
       permissions.PAYMENTS.PLAYER_PAYMENTS_LIST,
@@ -20,7 +20,7 @@ const userProfileTabs = [
     ], CONDITIONS.OR),
   },
   {
-    label: 'Rewards',
+    label: I18n.t('PLAYER_PROFILE.MENU.REWARDS'),
     url: '/players/:id/rewards',
     permissions: new Permissions([
       permissions.BONUS.PLAYER_BONUSES_LIST,
@@ -30,32 +30,32 @@ const userProfileTabs = [
     ], CONDITIONS.OR),
   },
   {
-    label: 'Payment acc.',
+    label: I18n.t('PLAYER_PROFILE.MENU.PAYMENT_ACCOUNTS'),
     url: '/players/:id/paymentAccounts',
     permissions: new Permissions(permissions.PAYMENT.PLAYER_ACCOUNT_LIST),
   },
   {
-    label: 'Limits',
+    label: I18n.t('PLAYER_PROFILE.MENU.LIMITS'),
     url: '/players/:id/limits',
     permissions: new Permissions(permissions.PAYMENT.PLAYER_LIMITS_LIST),
   },
   {
-    label: 'Files',
+    label: I18n.t('PLAYER_PROFILE.MENU.FILES'),
     url: '/players/:id/files',
     permissions: new Permissions(permissions.USER_PROFILE.VIEW_FILES),
   },
   {
-    label: 'Devices',
+    label: I18n.t('PLAYER_PROFILE.MENU.DEVICES'),
     url: '/players/:id/devices',
     permissions: new Permissions(permissions.USER_PROFILE.PROFILE_DEVICES_VIEW),
   },
   {
-    label: 'Notes & Tags',
+    label: I18n.t('PLAYER_PROFILE.MENU.NOTES_AND_TAGS'),
     url: '/players/:id/notes',
     permissions: new Permissions(permissions.TAGS.VIEW_TAGS),
   },
   {
-    label: 'Feed',
+    label: I18n.t('PLAYER_PROFILE.MENU.FEED'),
     url: '/players/:id/feed',
     permissions: new Permissions(permissions.AUDIT.PLAYER_AUDIT_LOGS),
   },
@@ -73,7 +73,7 @@ const falconSidebarMenu = [{
   service: services.profile,
 }, {
   label: I18n.t('SIDEBAR.TOP_MENU.LEADS'),
-  icon: 'icon-leads',
+  icon: 'icon-leads sidebar-nav-item__icon--leads',
   url: '/leads/list',
   service: services.trading_lead_updater,
 }, {

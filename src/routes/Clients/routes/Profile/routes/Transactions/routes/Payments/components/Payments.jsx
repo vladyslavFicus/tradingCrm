@@ -210,11 +210,15 @@ class Payments extends Component {
       addPayment,
       match: { params: { id: playerUUID } },
       currencyCode,
+      clientPayments: { refetch },
+      playerProfile: { country, languageCode: language },
     } = this.props;
 
     const variables = {
       ...inputParams,
       playerUUID,
+      country,
+      language,
       currency: currencyCode,
     };
     const action = await addPayment({ variables });
@@ -222,7 +226,7 @@ class Payments extends Component {
     if (action.data.payment.createClientPayment.error) {
       throw new SubmissionError({ _error: [action.data.payment.createClientPayment.error.error] });
     } else {
-      await this.props.clientPayments.refetch();
+      await refetch();
       this.handleCloseModal();
     }
   };

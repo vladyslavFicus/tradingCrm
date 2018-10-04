@@ -8,6 +8,7 @@ const gameListQuery = gql`query GameListView(
   $sort: String,
   $brandId: String!,
   $type: String,
+  $withLines: Boolean,
 ) {
   games(
     size: $size,
@@ -17,6 +18,7 @@ const gameListQuery = gql`query GameListView(
     aggregator: $aggregator,
     brandId: $brandId,
     type: $type,
+    withLines: $withLines,
   ) {
     page
     last
@@ -25,6 +27,7 @@ const gameListQuery = gql`query GameListView(
       coinSizes
       coinsMin
       coinsMax
+      isRHFP
       lines
       internalGameId
       startGameUrl

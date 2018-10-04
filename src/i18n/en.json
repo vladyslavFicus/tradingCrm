@@ -302,7 +302,7 @@
       "SENDINGS": {
         "TITLE": "Sendings",
         "SMS": "SMS",
-        "MAIL": "Snail mail"
+        "MAIL": "Mail"
       },
       "TAILOR_MADE": {
         "TITLE": "Tailor made sendings",
@@ -525,11 +525,13 @@
         "NO_FULFILLMENT": "No fulfillment",
         "DEPOSIT": "Deposit",
         "WAGERING": "Wagering",
-        "PROFILE_COMPLETION": "Profile completion"
+        "PROFILE_COMPLETION": "Profile completion",
+        "GAMING_FULFILLMENT": "Gaming FF"
       },
       "REWARDS": {
         "BONUS": "Bonus",
-        "FREE_SPIN": "Free-spin"
+        "FREE_SPIN": "Free-spin",
+        "TAG": "Tag"
       },
       "RESET_PLAYER": "Reset player",
       "OPT_IN_NOT_REQUIRED": "Opt-in not required"
@@ -714,6 +716,17 @@
           "ID_PROVIDED": "Selfie ID provided"
         }
       }
+    },
+    "MENU": {
+      "PROFILE": "Profile",
+      "TRANSACTIONS": "Transactions",
+      "REWARDS": "Rewards",
+      "PAYMENT_ACCOUNTS": "Payment Accounts",
+      "LIMITS": "Limits",
+      "FILES": "Files",
+      "DEVICES": "Devices",
+      "NOTES_AND_TAGS": "Notes & Tags",
+      "FEED": "Feed"
     }
   },
   "COMMON": {
@@ -1250,7 +1263,8 @@
       "TARGET_TYPES": {
         "ALL": "All players",
         "TARGET_LIST": "Selected players",
-        "LINKED_CAMPAIGN": "Linked campaign completion"
+        "LINKED_CAMPAIGN": "Linked campaign completion",
+        "REGISTRATION": "Registration"
       }
     },
     "SALES_STATUSES": {
@@ -2711,6 +2725,8 @@
     "SUCCESS_PROMOTED": "Lead was promoted to id %{id}"
   },
   "LEAD_PROFILE": {
+    "UPDATED": "Lead updated successfully",
+    "NOTIFICATION_FAILURE": "Failed",
     "HEADER": {
       "PROMOTE_TO_CLIENT": "Promote to client",
       "REGISTERED": "Registered"
@@ -2729,6 +2745,23 @@
     },
     "TABS": {
       "PROFILE": "Profile"
+    },
+    "PERSONAL": {
+      "INFO_TITLE": "Personal information",
+      "ADDRESS_TITLE": "Address",
+      "CONTACTS_TITLE": "Contacts",
+      "LABEL": {
+        "FIRST_NAME": "First name",
+        "LAST_NAME": "Last name",
+        "DATE_OF_BIRTH": "Date of birth",
+        "GENDER": "Gender",
+        "COUNTRY": "Country",
+        "CITY": "City",
+        "PHONE": "Phone",
+        "PHONE_CODE": "Code",
+        "MOBILE": "Mobile",
+        "MOBILE_CODE": "Code"
+      }
     },
     "PROMOTE_MODAL": {
       "HEADER": "Promote to client",
