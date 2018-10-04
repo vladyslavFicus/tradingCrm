@@ -1,5 +1,5 @@
 import moment from 'moment';
-import qs from 'qs';
+import { omitBy } from 'lodash';
 import createReducer from '../../../../../utils/createReducer';
 import createRequestAction from '../../../../../utils/createRequestAction';
 import { actionCreators as profileActionCreators } from '../../../../../redux/modules/profile';
@@ -7,6 +7,7 @@ import { getApiRoot } from '../../../../../config';
 import shallowEqual from '../../../../../utils/shallowEqual';
 import { statuses } from '../../../../../constants/kyc';
 import exportFile from '../../../../../utils/exportFile';
+import buildQueryString from '../../../../../utils/buildQueryString';
 
 const KEY = 'users';
 const FETCH_ENTITIES = createRequestAction(`${KEY}/fetch-entities`);
@@ -52,7 +53,8 @@ function reset() {
 }
 
 function exportEntities(filters = {}) {
-  const queryString = qs.stringify(filters, { delimiter: '&' });
+  const queryString = buildQueryString(omitBy({ page: 0, ...filters }, val => !val));
+
   const type = EXPORT_ENTITIES;
   const endPoint = `${getApiRoot()}/profile/profiles?${queryString}`;
   const fileName = `users-export-${moment().format('YYYY-MM-DD-HH-mm-ss')}.csv`;
