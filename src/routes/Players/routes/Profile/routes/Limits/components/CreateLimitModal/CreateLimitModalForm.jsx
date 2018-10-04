@@ -13,6 +13,7 @@ const createLimitValuesSelector = formValueSelector(FORM_NAME);
 const attributeLabels = {
   type: 'Limit type',
   period: 'Period',
+  customPeriod: 'Custom period',
   amount: 'Amount available',
 };
 
@@ -25,6 +26,10 @@ const validator = (values, props) => {
 
   if (limitPeriodValues) {
     rules.period = ['required', `in:${limitPeriodValues.join()}`];
+  }
+
+  if (values.type === types.SESSION_DURATION && values.period === 'Other') {
+    rules.customPeriod = 'required|numeric|min:1|max:24';
   }
 
   if (values.type && [types.LOSS, types.WAGER, types.DEPOSIT].indexOf(values.type) >= 0) {
@@ -45,6 +50,7 @@ class CreateLimitModal extends Component {
     handleSubmit: PropTypes.func.isRequired,
     pristine: PropTypes.bool,
     submitting: PropTypes.bool,
+    autofill: PropTypes.func.isRequired,
     valid: PropTypes.bool,
     currentValues: PropTypes.shape({
       type: PropTypes.string.isRequired,
@@ -67,6 +73,7 @@ class CreateLimitModal extends Component {
         <Field
           name="period"
           type="text"
+          className="col-4"
           label={attributeLabels.period}
           component={SelectField}
           position="vertical"
@@ -77,7 +84,8 @@ class CreateLimitModal extends Component {
           <Field
             name="customPeriod"
             type="text"
-            label={attributeLabels.period}
+            className="col-4"
+            label={attributeLabels.customPeriod}
             component={InputField}
             position="vertical"
           />
@@ -106,6 +114,12 @@ class CreateLimitModal extends Component {
     );
   };
 
+  handleChangeType = ({ target: { value } }) => {
+    const { limitPeriods, autofill } = this.props;
+
+    autofill('period', limitPeriods[value][0]);
+  };
+
   render() {
     const {
       onClose,
@@ -127,6 +141,7 @@ class CreateLimitModal extends Component {
                 <Field
                   name="type"
                   type="text"
+                  onChange={this.handleChangeType}
                   label={attributeLabels.type}
                   component={SelectField}
                   position="vertical"
@@ -138,11 +153,7 @@ class CreateLimitModal extends Component {
                   ))}
                 </Field>
               </div>
-
-              <div className="col-md-4">
-                {this.renderPeriodField()}
-              </div>
-
+              {this.renderPeriodField()}
               {this.renderAmountField()}
             </div>
           </ModalBody>
@@ -183,5 +194,6 @@ const LimitModalForm = reduxForm({
 export default connect(state => ({
   currentValues: {
     type: createLimitValuesSelector(state, 'type') || '',
+    period: createLimitValuesSelector(state, 'period') || '',
   },
 }))(LimitModalForm);
