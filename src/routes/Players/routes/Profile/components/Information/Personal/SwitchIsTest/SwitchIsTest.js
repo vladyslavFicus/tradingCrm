@@ -9,8 +9,22 @@ import permissions from '../../../../../../../../config/permissions';
 const markIsTestPermissions = new Permissions(permissions.USER_PROFILE.MARK_IS_TEST);
 
 class SwitchIsTest extends PureComponent {
+  static propTypes = {
+    profile: PropTypes.shape({
+      playerProfile: PropTypes.shape({
+        data: PropTypes.shape({
+          isTest: PropTypes.bool,
+          playerUUID: PropTypes.string,
+        }),
+      }),
+    }),
+    markIsTest: PropTypes.func.isRequired,
+  };
   static contextTypes = {
     permissions: PropTypes.arrayOf(PropTypes.string).isRequired,
+  };
+  static defaultProps = {
+    profile: {},
   };
 
   handleSwitchIsTest = async (isTest) => {
@@ -54,20 +68,5 @@ class SwitchIsTest extends PureComponent {
     );
   }
 }
-
-SwitchIsTest.propTypes = {
-  profile: PropTypes.shape({
-    playerProfile: PropTypes.shape({
-      data: PropTypes.shape({
-        isTest: PropTypes.bool,
-        playerUUID: PropTypes.string,
-      }),
-    }),
-  }),
-  markIsTest: PropTypes.func.isRequired,
-};
-SwitchIsTest.defaultProps = {
-  profile: {},
-};
 
 export default SwitchIsTest;
