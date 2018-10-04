@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Field, reduxForm, formValueSelector } from 'redux-form';
@@ -53,7 +53,7 @@ class CreateLimitModal extends Component {
   };
 
   renderPeriodField = () => {
-    const { currentValues: { type }, limitPeriods } = this.props;
+    const { currentValues: { type, period: selectedPeriod }, limitPeriods } = this.props;
 
     if (!limitPeriods || !type || !limitPeriods[type]) {
       return null;
@@ -63,15 +63,26 @@ class CreateLimitModal extends Component {
       .map(period => <option key={period} value={period}>{period}</option>);
 
     return (
-      <Field
-        name="period"
-        type="text"
-        label={attributeLabels.period}
-        component={SelectField}
-        position="vertical"
-      >
-        {options}
-      </Field>
+      <Fragment>
+        <Field
+          name="period"
+          type="text"
+          label={attributeLabels.period}
+          component={SelectField}
+          position="vertical"
+        >
+          {options}
+        </Field>
+        <If condition={selectedPeriod === 'Other'}>
+          <Field
+            name="customPeriod"
+            type="text"
+            label={attributeLabels.period}
+            component={InputField}
+            position="vertical"
+          />
+        </If>
+      </Fragment>
     );
   };
 

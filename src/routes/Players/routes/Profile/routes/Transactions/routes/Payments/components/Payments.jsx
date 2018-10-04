@@ -247,9 +247,14 @@ class Payments extends Component {
       if (error) {
         throw new SubmissionError({ _error: [error.error], ...(error.fields_errors || {}) });
       } else {
-        const win = window.open(data.redirectLink, '_blank');
+        const a = document.createElement('a');
+
+        a.href = data.redirectLink;
+        a.target = '_blank';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
         paymentId = data.paymentId;
-        win.focus();
       }
     } else if (inputParams.type === paymentTypes.WITHDRAW_BY_PAYMENT_METHOD) {
       const withdraw = await createWithdraw({
