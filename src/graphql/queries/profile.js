@@ -163,6 +163,7 @@ const profileQuery = gql`query profileData($playerUUID: String!){
         sessionId
         uuid
       }
+      isTest
       registrationDate
       tradingProfile {
         isTestUser

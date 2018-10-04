@@ -101,7 +101,8 @@
           "DATE_OF_BIRTH": "Дата рождения",
           "GENDER": "Пол",
           "IDENTIFIER": "ID"
-        }
+        },
+        "TEST_PLAYER": "Тестовый игрок"
       },
       "ADDITIONAL": {
         "TITLE": "Доп. информация"
@@ -436,7 +437,9 @@
       "SUCCESS_SET_NEW_PASSWORD": {
         "TITLE": "Успешно",
         "MESSAGE": "Пароль успешно изменен"
-      }
+      },
+      "SET_PLAYER_AS_TEST": "Отметить игрока как тестового",
+      "UN_SET_PLAYER_AS_TEST": "Снять отметку тестового игрока"
     },
     "IP_LIST": {
       "TITLE": "Последние 10 IP"

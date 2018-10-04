@@ -7,6 +7,7 @@ import FieldView from '../../../../../../../components/FieldView';
 import PropTypes from '../../../../../../../constants/propTypes';
 import { statuses as kycStatuses } from '../../../../../../../constants/kyc';
 import { statuses as userStatuses } from '../../../../../../../constants/user';
+import SwitchIsTest from './SwitchIsTest';
 
 class Personal extends PureComponent {
   handleOpenUpdateFieldModal = (fieldName, fieldLabel, onSubmit, title, form) => {
@@ -133,6 +134,7 @@ class Personal extends PureComponent {
               onClick={this.handleClickBTAG}
               value={btag || <span className="color-default">no b-tag</span>}
             />
+            <SwitchIsTest />
           </div>
         </div>
       </div>
