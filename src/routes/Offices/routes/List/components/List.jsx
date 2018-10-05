@@ -19,6 +19,18 @@ class List extends Component {
         filters: PropTypes.object,
       }),
     }).isRequired,
+    officeManagers: PropTypes.shape({
+      hierarchy: PropTypes.shape({
+        hierarchyUsersByType: PropTypes.shape({
+          data: PropTypes.shape({
+            BRAND_ADMIN: PropTypes.arrayOf(PropTypes.userHierarchyType),
+            COMPANY_ADMIN: PropTypes.arrayOf(PropTypes.userHierarchyType),
+          }),
+          error: PropTypes.object,
+        }),
+      }),
+      loading: PropTypes.bool.isRequired,
+    }).isRequired,
     modals: PropTypes.shape({
       officeModal: PropTypes.modalType,
       infoModal: PropTypes.modalType,
@@ -26,7 +38,7 @@ class List extends Component {
     countries: PropTypes.object.isRequired,
     auth: PropTypes.shape({
       isAdministration: PropTypes.bool.isRequired,
-      operatorHierarchy: PropTypes.object,
+      operatorId: PropTypes.string.isRequired,
     }).isRequired,
   };
 
@@ -45,10 +57,12 @@ class List extends Component {
   triggerOfficeModal = () => {
     const {
       modals: { officeModal },
+      officeManagers: { hierarchy: { hierarchyUsersByType: { data: { COMPANY_ADMIN = [], BRAND_ADMIN = [] } } } },
     } = this.props;
 
     officeModal.show({
       onSubmit: values => this.handleAddOffice(values),
+      officeManagers: [...(COMPANY_ADMIN || []), ...(BRAND_ADMIN || [])],
     });
   }
 
@@ -56,17 +70,13 @@ class List extends Component {
     const {
       createOffice,
       modals: { officeModal, infoModal },
-      auth,
+      auth: { operatorId },
     } = this.props;
 
-    const { uuid: operatorId, parentBranches: operatorBranches = [], userType } = get(auth, 'operatorHierarchy');
     const { data: { hierarchy: { createOffice: { data, error } } } } = await createOffice(
       {
         variables: {
           operatorId,
-          operatorBranches,
-          userType,
-          officeManager: 'OPERATOR-d8475511-d999-4754-b7af-cd2f724ee4f3e',
           ...variables,
         },
       },
@@ -112,12 +122,14 @@ class List extends Component {
       // },
       location: { query },
       countries,
+      officeManagers: { hierarchy, loading: officeManagersLoading },
       auth: { isAdministration },
     } = this.props;
 
     const loading = false;
 
     const entities = get(this.props, 'leads.data') || { content: [] };
+    const error = get(hierarchy, 'hierarchyUsersByType.error');
     const filters = get(query, 'filters', {});
 
     const allowActions = Object
@@ -129,7 +141,7 @@ class List extends Component {
         <div className="card-heading">
           <Placeholder
             // ready={!loading && !!leads}
-            ready
+            ready={!officeManagersLoading && !error}
             className={null}
             customPlaceholder={(
               <div>
@@ -147,6 +159,7 @@ class List extends Component {
               <button
                 className="btn btn-default-outline"
                 onClick={this.triggerOfficeModal}
+                disabled={officeManagersLoading || error}
                 type="button"
               >
                 {I18n.t('OFFICES.ADD_OFFICE')}
@@ -158,7 +171,7 @@ class List extends Component {
         <OfficesGridFilter
           onSubmit={this.handleFiltersChanged}
           onReset={this.handleFilterReset}
-          disabled={!allowActions}
+          disabled={!allowActions || error}
           countries={countries}
         />
 

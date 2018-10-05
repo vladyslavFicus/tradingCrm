@@ -14,10 +14,13 @@ class List extends Component {
     locale: PropTypes.string.isRequired,
     createTeam: PropTypes.func.isRequired,
     userBranchHierarchy: PropTypes.shape({
-      userBranchHierarchy: PropTypes.shape({
-        data: PropTypes.shape({
-          OFFICE: PropTypes.arrayOf(PropTypes.branchHierarchyType),
-          DESK: PropTypes.arrayOf(PropTypes.branchHierarchyType),
+      hierarchy: PropTypes.shape({
+        userBranchHierarchy: PropTypes.shape({
+          data: PropTypes.shape({
+            OFFICE: PropTypes.arrayOf(PropTypes.branchHierarchyType),
+            DESK: PropTypes.arrayOf(PropTypes.branchHierarchyType),
+          }),
+          error: PropTypes.object,
         }),
       }),
       loading: PropTypes.bool.isRequired,
@@ -33,6 +36,7 @@ class List extends Component {
     }).isRequired,
     auth: PropTypes.shape({
       isAdministration: PropTypes.bool.isRequired,
+      userId: PropTypes.string.isRequired,
     }).isRequired,
   };
 
@@ -51,13 +55,13 @@ class List extends Component {
   triggerTeamModal = () => {
     const {
       modals: { teamModal },
-      userBranchHierarchy: { userBranchHierarchy: { data: { OFFICE = [], DESK = [] } } },
+      userBranchHierarchy: { hierarchy: { userBranchHierarchy: { data: { OFFICE, DESK } } } },
     } = this.props;
 
     teamModal.show({
       onSubmit: values => this.handleAddTeam(values),
-      offices: OFFICE,
-      desks: DESK,
+      offices: OFFICE || [],
+      desks: DESK || [],
     });
   }
 
@@ -66,17 +70,13 @@ class List extends Component {
       createTeam,
       // leads: { refetch },
       modals: { teamModal, infoModal },
-      auth,
+      auth: { userId: operatorId },
     } = this.props;
-
-    const { userType, uuid: operatorId, parentBranches: operatorBranches = [] } = get(auth, 'operatorHierarchy');
 
     const { data: { hierarchy: { createTeam: { data, error } } } } = await createTeam(
       {
         variables: {
           operatorId,
-          userType,
-          operatorBranches,
           ...variables,
         },
       }
@@ -134,10 +134,7 @@ class List extends Component {
       //   loading,
       //   leads,
       // },
-      userBranchHierarchy: {
-        userBranchHierarchy,
-        loading: userBranchHierarchyLoading,
-      },
+      userBranchHierarchy: { hierarchy, loading: userBranchHierarchyLoading },
       location: { query },
       auth: { isAdministration },
     } = this.props;
@@ -145,8 +142,9 @@ class List extends Component {
     const loading = false;
 
     const entities = get(this.props, 'leads.data') || { content: [] };
-    const offices = get(userBranchHierarchy, 'data.OFFICE') || [];
-    const desks = get(userBranchHierarchy, 'data.DESK') || [];
+    const offices = get(hierarchy, 'userBranchHierarchy.data.OFFICE') || [];
+    const desks = get(hierarchy, 'userBranchHierarchy.data.DESK') || [];
+    const error = get(hierarchy, 'userBranchHierarchy.error');
     const filters = get(query, 'filters', {});
 
     const allowActions = Object
@@ -158,7 +156,7 @@ class List extends Component {
         <div className="card-heading">
           <Placeholder
             // ready={!loading && !!leads}
-            ready
+            ready={!error}
             className={null}
             customPlaceholder={(
               <div>
@@ -176,7 +174,7 @@ class List extends Component {
               <button
                 className="btn btn-default-outline"
                 onClick={this.triggerTeamModal}
-                disabled={userBranchHierarchyLoading}
+                disabled={userBranchHierarchyLoading || error}
                 type="button"
               >
                 {I18n.t('TEAMS.ADD_TEAM')}
@@ -188,7 +186,7 @@ class List extends Component {
         <TeamsGridFilter
           onSubmit={this.handleFiltersChanged}
           onReset={this.handleFilterReset}
-          disabled={!allowActions}
+          disabled={!allowActions || error}
           offices={offices}
           desks={desks}
           hierarchyBranchesLoading={userBranchHierarchyLoading}

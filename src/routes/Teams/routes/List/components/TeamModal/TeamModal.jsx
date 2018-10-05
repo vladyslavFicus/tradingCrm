@@ -80,6 +80,7 @@ class DeskForm extends Component {
             name="name"
             type="text"
             label={I18n.t(attributeLabels.name)}
+            disabled={submitting}
             component={InputField}
           />
           <span className="font-weight-600">{I18n.t(attributeLabels.office)}</span>
@@ -87,6 +88,7 @@ class DeskForm extends Component {
             value={selectedOffice}
             customClassName="form-group"
             placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
+            disabled={submitting}
             onChange={this.handleOfficeChange}
           >
             {offices.map(({ name, uuid }) => (
@@ -99,7 +101,7 @@ class DeskForm extends Component {
             name="deskId"
             label={I18n.t(attributeLabels.desk)}
             component={NasSelectField}
-            disabled={!selectedOffice || desks.length === 0}
+            disabled={!selectedOffice || submitting || desks.length === 0}
             placeholder={selectedOffice && desks.length === 0
               ? I18n.t('TEAMS.MODAL.NO_OFFICE_DESK')
               : I18n.t('TEAMS.MODAL.SELECT_OFFICE_FIRST')}
