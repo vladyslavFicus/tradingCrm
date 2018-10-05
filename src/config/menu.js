@@ -82,22 +82,22 @@ const falconSidebarMenu = [{
   isOpen: false,
   items: [{
     label: I18n.t('SIDEBAR.TOP_MENU.OFFICES'),
-    url: '/management/offices',
+    url: '/offices',
   }, {
     label: I18n.t('SIDEBAR.TOP_MENU.DESKS'),
-    url: '/management/desks',
+    url: '/desks',
   }, {
     label: I18n.t('SIDEBAR.TOP_MENU.TEAMS'),
-    url: '/management/teams',
+    url: '/teams',
   }, {
     label: I18n.t('SIDEBAR.TOP_MENU.OPERATORS'),
-    url: '/operators/list',
+    url: '/operators',
     service: services.operator,
   }],
 }, {
   label: I18n.t('SIDEBAR.TOP_MENU.PAYMENTS'),
   icon: 'icon-payments sidebar-nav-item__icon--payments',
-  url: '/payments/list',
+  url: '/payments',
   service: services.payment,
 }, {
   label: I18n.t('SIDEBAR.TOP_MENU.CALLBACKS'),

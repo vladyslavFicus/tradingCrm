@@ -22,6 +22,9 @@ import BonusCampaigns from '../../BonusCampaigns';
 import Operators from '../../Operators';
 import Dashboard from '../../Dashboard';
 import Leads from '../../Leads';
+import Offices from '../../Offices';
+import Desks from '../../Desks';
+import Teams from '../../Teams';
 import rootConfig from '../../../config';
 import { markets } from '../../../constants/markets';
 
@@ -65,6 +68,9 @@ class IndexRoute extends PureComponent {
               <AppRoute path="/payments" layout={MainLayout} component={Payments} checkAuth />
               <AppRoute path="/clients" layout={MainLayout} component={Clients} checkAuth />
               <AppRoute path="/leads" layout={MainLayout} component={Leads} checkAuth />
+              <AppRoute path="/offices" layout={MainLayout} component={Offices} checkAuth />
+              <AppRoute path="/desks" layout={MainLayout} component={Desks} checkAuth />
+              <AppRoute path="/teams" layout={MainLayout} component={Teams} checkAuth />
             </When>
             <Otherwise>
               <AppRoute path="/players" layout={MainLayout} component={Players} checkAuth />

@@ -2,14 +2,14 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { reduxForm, Field } from 'redux-form';
-import { v4 } from 'uuid';
+import { isEqual } from 'lodash';
 import { I18n } from 'react-redux-i18n';
 import FilterItem from './FilterItem';
-import FilterField from './FilterField';
 import { InputField, SelectField, DateTimeField, NasSelectField, RangeGroup } from '../ReduxForm';
 import { TYPES } from './constants';
 import AvailableFiltersSelect from './FiltersSelect';
 import { actionCreators } from './reduxModule';
+import { mapFilter, getCurrentFilters } from './utils';
 
 const TYPES_COMPONENTS = {
   [TYPES.input]: InputField,
@@ -53,23 +53,8 @@ class DynamicForm extends Component {
     const children = React.Children.toArray(props.children);
     const filters = children
       .filter(child => child.type === FilterItem)
-      .map(this.mapFilter);
-    const currentFilters = filters
-      .filter(filter => filter.default || props.selectedFilters.indexOf(filter.name) > -1)
-      .sort((a, b) => {
-        if (a.default && b.default) {
-          return 0;
-        } else if (a.default && !b.default) {
-          return -1;
-        } else if (!a.default && b.default) {
-          return 1;
-        }
-
-        const aIndex = props.selectedFilters.indexOf(a.name);
-        const bIndex = props.selectedFilters.indexOf(b.name);
-
-        return aIndex < bIndex ? -1 : 1;
-      });
+      .map(mapFilter);
+    const currentFilters = getCurrentFilters(filters, props);
 
     this.state = {
       filters,
@@ -79,25 +64,31 @@ class DynamicForm extends Component {
     };
   }
 
-  mapFilter = (element) => {
-    const { label, size, type, placeholder, children } = element.props;
-    const childrenList = React.Children
-      .toArray(children)
-      .filter(child => child.type === FilterField);
+  static getDerivedStateFromProps(nextProps, prevState) {
+    const children = React.Children.toArray(nextProps.children);
+    const filters = children
+      .filter(child => child.type === FilterItem)
+      .map(mapFilter);
 
-    const filter = {
-      uuid: v4(),
-      label,
-      size,
-      type,
-      placeholder,
-      default: element.props.default,
-      inputs: childrenList.map(child => ({ ...child.props, key: child.props.name })),
-    };
-    filter.name = filter.inputs.reduce((res, input) => [res, input.name].filter(n => n).join('/'), null);
+    const indexesToUpdate = [];
+    filters.forEach((item, index) => {
+      if (!isEqual(item.inputs, prevState.filters[index].inputs)) {
+        indexesToUpdate.push(index);
+      }
+    });
 
-    return filter;
-  };
+    if (indexesToUpdate.length > 0) {
+      const currentFilters = prevState.currentFilters
+        .map((item, index) => ((indexesToUpdate.indexOf(index) > -1)
+          ? filters[index]
+          : item
+        ));
+
+      return { filters, currentFilters };
+    }
+
+    return null;
+  }
 
   handleAddFilter = (uuid) => {
     const { addItem, formName } = this.props;
@@ -178,6 +169,7 @@ class DynamicForm extends Component {
           label={filter.label}
           component={component}
           position="vertical"
+          disabled={filter.disabled}
           placeholder={filter.placeholder}
           {...filter.inputs[0]}
           labelAddon={removeButton}
@@ -189,12 +181,30 @@ class DynamicForm extends Component {
 
       if (filter.type === TYPES.range_input) {
         input = [
-          <Field component="input" className="form-control" placeholder={fromPl} {...from} />,
-          <Field component="input" className="form-control" placeholder={toPl} {...to} />,
+          <Field
+            component="input"
+            className="form-control"
+            placeholder={fromPl}
+            disabled={filter.disabled}
+            {...from}
+          />,
+          <Field
+            component="input"
+            className="form-control"
+            placeholder={toPl}
+            disabled={filter.disabled}
+            {...to}
+          />,
         ];
       } else if (filter.type === TYPES.range_date) {
         input = [
-          <Field component={DateTimeField} pickerClassName="left-side" placeholder={fromPl} {...from} />,
+          <Field
+            component={DateTimeField}
+            pickerClassName="left-side"
+            placeholder={fromPl}
+            disabled={filter.disabled}
+            {...from}
+          />,
           <Field component={DateTimeField} placeholder={toPl} {...to} />,
         ];
       }
