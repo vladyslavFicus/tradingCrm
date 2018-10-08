@@ -34,7 +34,6 @@ import { WageringFulfillment, DepositFulfillment, GamingFulfillment, SimpleFulfi
 import { createValidator, translateLabels } from '../../../../utils/validator';
 import Permissions from '../../../../utils/permissions';
 import permissions from '../../../../config/permissions';
-import './Form.scss';
 import { withReduxFormValues, withNotifications } from '../../../../components/HighOrder';
 import renderLabel from '../../../../utils/renderLabel';
 import normalizeBoolean from '../../../../utils/normalizeBoolean';
@@ -43,6 +42,7 @@ import countries from '../../../../utils/countryList';
 import { targetTypes, targetTypesLabels } from '../../../../constants/campaigns';
 import Countries from '../Countries';
 import { aggregationTypes, moneyTypes, spinTypes, gameFilters } from '../Fulfillments/GamingFulfillment/constants';
+import '../../../../styles/campaigns.scss';
 
 const CAMPAIGN_NAME_MAX_LENGTH = 100;
 

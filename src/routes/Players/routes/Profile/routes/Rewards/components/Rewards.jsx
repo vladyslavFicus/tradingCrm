@@ -8,6 +8,7 @@ import FreeSpins from '../routes/FreeSpins';
 import Bonuses from '../routes/Bonuses';
 import Permissions from '../../../../../../../utils/permissions';
 import { routes } from '../constants';
+import '../../../../../../../styles/campaigns.scss';
 
 class Rewards extends PureComponent {
   static propTypes = {
