@@ -43,6 +43,7 @@ const DeskForm = ({
           type="text"
           className="col-8"
           label={I18n.t(deskModalAttributeLabels.name)}
+          disabled={submitting}
           component={InputField}
         />
         <Field
@@ -50,6 +51,7 @@ const DeskForm = ({
           className="col-4"
           label={I18n.t(deskModalAttributeLabels.deskType)}
           component={NasSelectField}
+          disabled={submitting}
           placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
         >
           {deskTypes.map(({ label, value }) => (
@@ -64,7 +66,7 @@ const DeskForm = ({
         label={I18n.t(deskModalAttributeLabels.office)}
         component={NasSelectField}
         placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
-        disabled={offices.length === 0}
+        disabled={submitting || offices.length === 0}
       >
         {offices.map(({ name, uuid }) => (
           <option key={uuid} value={uuid}>
@@ -76,6 +78,7 @@ const DeskForm = ({
         name="language"
         label={I18n.t(deskModalAttributeLabels.language)}
         component={NasSelectField}
+        disabled={submitting}
         placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
       >
         {languages.map(({ languageName, languageCode }) => (

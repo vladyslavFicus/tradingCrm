@@ -72,7 +72,8 @@ class DynamicForm extends Component {
 
     const indexesToUpdate = [];
     filters.forEach((item, index) => {
-      if (!isEqual(item.inputs, prevState.filters[index].inputs)) {
+      if (!isEqual(item.inputs, prevState.filters[index].inputs)
+          || item.disabled !== prevState.filters[index].disabled) {
         indexesToUpdate.push(index);
       }
     });

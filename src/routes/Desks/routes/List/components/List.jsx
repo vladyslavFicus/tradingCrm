@@ -14,9 +14,12 @@ class List extends Component {
     locale: PropTypes.string.isRequired,
     createDesk: PropTypes.func.isRequired,
     userBranchHierarchy: PropTypes.shape({
-      userBranchHierarchy: PropTypes.shape({
-        data: PropTypes.shape({
-          OFFICE: PropTypes.arrayOf(PropTypes.branchHierarchyType),
+      hierarchy: PropTypes.shape({
+        userBranchHierarchy: PropTypes.shape({
+          data: PropTypes.shape({
+            OFFICE: PropTypes.arrayOf(PropTypes.branchHierarchyType),
+          }),
+          error: PropTypes.object,
         }),
       }),
       loading: PropTypes.bool.isRequired,
@@ -32,7 +35,7 @@ class List extends Component {
     }).isRequired,
     auth: PropTypes.shape({
       isAdministration: PropTypes.bool.isRequired,
-      operatorHierarchy: PropTypes.object,
+      userId: PropTypes.string.isRequired,
     }).isRequired,
   };
 
@@ -51,12 +54,12 @@ class List extends Component {
   triggerOfficeModal = () => {
     const {
       modals: { deskModal },
-      userBranchHierarchy: { userBranchHierarchy: { data: { OFFICE = [] } } },
+      userBranchHierarchy: { hierarchy: { userBranchHierarchy: { data: { OFFICE } } } },
     } = this.props;
 
     deskModal.show({
       onSubmit: values => this.handleAddDesk(values),
-      offices: OFFICE,
+      offices: OFFICE || [],
     });
   }
 
@@ -65,17 +68,13 @@ class List extends Component {
       createDesk,
       // leads: { refetch },
       modals: { deskModal, infoModal },
-      auth,
+      auth: { userId: operatorId },
     } = this.props;
-
-    const { userType, uuid: operatorId, parentBranches: operatorBranches = [] } = get(auth, 'operatorHierarchy');
 
     const { data: { hierarchy: { createDesk: { data, error } } } } = await createDesk(
       {
         variables: {
           operatorId,
-          userType,
-          operatorBranches,
           ...variables,
         },
       }
@@ -134,18 +133,15 @@ class List extends Component {
       //   loading,
       //   leads,
       // },
-      userBranchHierarchy: {
-        userBranchHierarchy,
-        loading: userBranchHierarchyLoading,
-      },
+      userBranchHierarchy: { hierarchy, loading: userBranchHierarchyLoading },
       location: { query },
       auth: { isAdministration },
     } = this.props;
 
     const loading = false;
-
     const entities = get(this.props, 'leads.data') || { content: [] };
-    const offices = get(userBranchHierarchy, 'data.OFFICE') || [];
+    const offices = get(hierarchy, 'userBranchHierarchy.data.OFFICE') || [];
+    const error = get(hierarchy, 'hierarchyUsersByType.error');
     const filters = get(query, 'filters', {});
 
     const allowActions = Object
@@ -157,7 +153,7 @@ class List extends Component {
         <div className="card-heading">
           <Placeholder
             // ready={!loading && !!leads}
-            ready
+            ready={!error}
             className={null}
             customPlaceholder={(
               <div>
@@ -175,7 +171,7 @@ class List extends Component {
               <button
                 className="btn btn-default-outline"
                 onClick={this.triggerOfficeModal}
-                disabled={userBranchHierarchyLoading}
+                disabled={userBranchHierarchyLoading || error}
                 type="button"
               >
                 {I18n.t('DESKS.ADD_DESK')}
@@ -187,7 +183,7 @@ class List extends Component {
         <DesksGridFilter
           onSubmit={this.handleFiltersChanged}
           onReset={this.handleFilterReset}
-          disabled={!allowActions}
+          disabled={!allowActions || error}
           offices={offices}
           officesLoading={userBranchHierarchyLoading}
         />

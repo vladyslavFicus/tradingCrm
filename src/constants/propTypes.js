@@ -598,6 +598,12 @@ PropTypes.branchHierarchyType = PropTypes.shape({
   defaultBranch: PropTypes.string,
   defaultUser: PropTypes.string,
 });
-
+PropTypes.userHierarchyType = PropTypes.shape({
+  uuid: PropTypes.string.isRequired,
+  userType: PropTypes.string.isRequired,
+  parentBranches: PropTypes.arrayOf(PropTypes.string),
+  parentUsers: PropTypes.arrayOf(PropTypes.string),
+  fullName: PropTypes.string,
+});
 
 export default PropTypes;
