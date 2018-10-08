@@ -1,11 +1,7 @@
 import React, { Component } from 'react';
-import { includes, get } from 'lodash';
-import AsyncCreatableSelect from 'react-select/lib/AsyncCreatable';
+import { get } from 'lodash';
 import PropTypes from '../../../../../../constants/propTypes';
-
-const components = { DropdownIndicator: null, ClearIndicator: null };
-
-const getLabels = value => (Array.isArray(value) ? value.map(v => v.label) : []);
+import MultiInput from '../../../../../../components/MultiInput';
 
 class PlayerTags extends Component {
   static propTypes = {
@@ -30,107 +26,58 @@ class PlayerTags extends Component {
     playerTags: {},
   };
 
-  state = {
-    inputValue: '',
-    value: [],
-  };
-
-  getSnapshotBeforeUpdate(prevProps) {
-    const currentTags = get(this.props, 'playerTags.playerTags.content', []);
-    const prevTags = get(prevProps, 'playerTags.playerTags.content', []);
-
-    if (!prevTags.length && currentTags.length) {
-      return true;
-    }
-
-    return null;
-  }
-
-  componentDidUpdate(_, __, snapshot) {
-    if (snapshot !== null) {
-      const tags = get(this.props, 'playerTags.playerTags.content', []);
-
-      this.setState({
-        value: tags.map(v => ({ label: v.tagName, value: v.tagId })),
-      });
-    }
-  }
-
-  handleChange = async (value, { action, removedValue }) => {
-    const {
-      unlinkTag,
-      match: { params: { id } },
-    } = this.props;
-
-    if (action === 'remove-value' && removedValue && removedValue.value) {
-      const response = await unlinkTag({
-        variables: { tagId: removedValue.value, targetUUID: id },
-      });
-
-      const success = get(response, 'data.tag.unlink.success');
-
-      if (success) {
-        this.setState({ value });
-      }
-    }
-  };
-
-  handleInputChange = (inputValue) => {
-    this.setState({ inputValue });
-  };
-
-  handleKeyDown = async (event) => {
+  onAdd = async (value) => {
     const {
       createOrLinkTag,
       match: { params: { id } },
     } = this.props;
 
-    const { inputValue, value } = this.state;
+    const response = await createOrLinkTag({
+      variables: { tagName: value, targetUUID: id, pinned: true },
+    });
 
-    if (!inputValue) {
-      return null;
-    }
+    const error = get(response, 'data.tag.createOrLink.error');
+    const tagId = get(response, 'data.tag.createOrLink.data.0.tagId', null);
 
-    switch (event.key) {
-      case 'Enter':
-      case 'Tab':
-        if (!includes(getLabels(value), inputValue)) {
-          const response = await createOrLinkTag({
-            variables: { tagName: inputValue, targetUUID: id, pinned: true },
-          });
+    return {
+      success: !error,
+      id: tagId,
+    };
+  };
 
-          const error = get(response, 'data.tag.createOrLink.error');
-          const tagId = get(response, 'data.tag.createOrLink.data.0.tagId');
+  onRemove = async (value) => {
+    const {
+      unlinkTag,
+      match: { params: { id } },
+    } = this.props;
 
-          if (!error && tagId) {
-            this.setState({
-              inputValue: '',
-              value: [...value, { label: inputValue, value: tagId }],
-            });
-          }
-        }
+    const response = await unlinkTag({
+      variables: { tagId: value, targetUUID: id },
+    });
 
-        event.persist();
-        break;
-      default:
-        break;
-    }
+    return {
+      success: get(response, 'data.tag.unlink.success'),
+    };
   };
 
   render() {
-    const { value, inputValue } = this.state;
+    const { playerTags } = this.props;
+
+    const loading = get(playerTags, 'loading');
+
+    if (loading) {
+      return null;
+    }
+
+    const tags = get(playerTags, 'playerTags.content', []);
 
     return (
-      <AsyncCreatableSelect
-        components={components}
-        isMulti
-        cacheOptions
-        defaultOptions
-        onInputChange={this.handleInputChange}
-        onChange={this.handleChange}
-        onKeyDown={this.handleKeyDown}
-        value={value}
-        inputValue={inputValue}
+      <MultiInput
+        components={{ DropdownIndicator: null, ClearIndicator: null }}
+        async
+        onAdd={this.onAdd}
+        onRemove={this.onRemove}
+        initialValues={tags.map(t => ({ label: t.tagName, value: t.tagId }))}
       />
     );
   }

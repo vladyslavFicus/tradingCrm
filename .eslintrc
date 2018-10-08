@@ -70,6 +70,7 @@
     "object-curly-newline": "off",
     "jsx-a11y/no-noninteractive-element-interactions": "off",
     "function-paren-newline": ["error", "consistent"],
-    "react/no-array-index-key": "off"
+    "react/no-array-index-key": "off",
+    "default-case": 0
   }
 }
