@@ -5,6 +5,7 @@ const createOrLinkTagMutation = gql`mutation createOrLinkTag(
   $tagName: String!
   $content: String
   $targetUUID: String
+  $pinned: Boolean
 ) {
   tag {
     createOrLink(
@@ -13,6 +14,7 @@ const createOrLinkTagMutation = gql`mutation createOrLinkTag(
        tagType: TAG
        content: $content
        targetUUID: $targetUUID
+       pinned: $pinned
       ) {
       data {
         tagId
@@ -24,6 +26,15 @@ const createOrLinkTagMutation = gql`mutation createOrLinkTag(
   }
 }`;
 
+const unlinkTagMutation = gql`mutation unlinkTag($tagId: String, $targetUUID: String) {
+  tag {
+    unlink(tagId: $tagId, targetUUID: $targetUUID) {
+      success
+    }
+  }
+}`;
+
 export {
   createOrLinkTagMutation,
+  unlinkTagMutation,
 };

@@ -10,7 +10,7 @@ const components = { DropdownIndicator: null };
 
 const createOption = label => ({ label, value: label });
 
-const getValues = value => Array.isArray(value) ? value.map(v => v.value) : [];
+const getValues = value => (Array.isArray(value) ? value.map(v => v.value) : []);
 
 class MultiInputField extends Component {
   static propTypes = {
@@ -133,7 +133,6 @@ class MultiInputField extends Component {
           cacheOptions
           defaultOptions
           onChange={this.handleChange}
-          onKeyDown={this.handleKeyDown}
           placeholder={placeholder !== null ? placeholder : label}
           value={value}
           disabled={disabled}
