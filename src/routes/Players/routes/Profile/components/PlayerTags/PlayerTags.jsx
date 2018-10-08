@@ -129,7 +129,6 @@ class PlayerTags extends Component {
         onInputChange={this.handleInputChange}
         onChange={this.handleChange}
         onKeyDown={this.handleKeyDown}
-        placeholder="Type something and press enter..."
         value={value}
         inputValue={inputValue}
       />
