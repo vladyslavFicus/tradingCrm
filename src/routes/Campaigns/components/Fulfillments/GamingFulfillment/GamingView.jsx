@@ -99,7 +99,6 @@ class GamingView extends PureComponent {
             name={`${name}.gameList`}
             label={I18n.t(attributeLabels.gameList)}
             component={MultiInputField}
-            multiple
             disabled={disabled}
             className="col-5"
           />

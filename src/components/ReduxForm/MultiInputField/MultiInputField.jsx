@@ -1,16 +1,8 @@
 import React, { Component } from 'react';
-import { includes } from 'lodash';
-import CreatableSelect from 'react-select/lib/Creatable';
-import AsyncCreatableSelect from 'react-select/lib/AsyncCreatable';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import FieldLabel from '../FieldLabel';
-
-const components = { DropdownIndicator: null };
-
-const createOption = label => ({ label, value: label });
-
-const getValues = value => Array.isArray(value) ? value.map(v => v.value) : [];
+import MultiInput from '../../MultiInput';
 
 class MultiInputField extends Component {
   static propTypes = {
@@ -62,57 +54,7 @@ class MultiInputField extends Component {
     async: false,
   };
 
-  constructor(props) {
-    super(props);
-    const { input: { value } } = this.props;
-
-    this.state = {
-      inputValue: '',
-      value: Array.isArray(value) ? value.map(v => createOption(v)) : [],
-    };
-  }
-
-  handleChange = (value) => {
-    const { input: { onChange } } = this.props;
-
-    this.setState({ value }, () => {
-      onChange(getValues(value));
-    });
-  };
-
-  handleInputChange = (inputValue) => {
-    this.setState({ inputValue });
-  };
-
-  handleKeyDown = (event) => {
-    const { inputValue, value } = this.state;
-    const { input: { onChange } } = this.props;
-
-    if (!inputValue) {
-      return null;
-    }
-
-    switch (event.key) {
-      case 'Enter':
-      case 'Tab':
-        if (!includes(getValues(value), inputValue)) {
-          this.setState({
-            inputValue: '',
-            value: [...value, createOption(inputValue)],
-          }, () => {
-            onChange(getValues(this.state.value));
-          });
-        }
-        event.preventDefault();
-        break;
-      default:
-        break;
-    }
-  };
-
   renderInput = (props) => {
-    const { inputValue, value } = this.state;
-
     const {
       inputAddon,
       inputAddonPosition,
@@ -122,39 +64,19 @@ class MultiInputField extends Component {
       id,
       onIconClick,
       async,
+      input: { onChange, value },
     } = props;
 
-    let inputField = async
-      ?
-      (
-        <AsyncCreatableSelect
-          components={components}
-          isMulti
-          cacheOptions
-          defaultOptions
-          onChange={this.handleChange}
-          onKeyDown={this.handleKeyDown}
-          placeholder={placeholder !== null ? placeholder : label}
-          value={value}
-          disabled={disabled}
-        />
-      )
-      :
-      (
-        <CreatableSelect
-          components={components}
-          isMulti
-          inputValue={inputValue}
-          isClearable
-          menuIsOpen={false}
-          onChange={this.handleChange}
-          onInputChange={this.handleInputChange}
-          onKeyDown={this.handleKeyDown}
-          placeholder={placeholder !== null ? placeholder : label}
-          value={value}
-          disabled={disabled}
-        />
-      );
+    let inputField = (
+      <MultiInput
+        async={async}
+        components={{ DropdownIndicator: null }}
+        disabled={disabled}
+        placeholder={placeholder !== null ? placeholder : label}
+        onChange={onChange}
+        initialValues={value ? value.map(v => ({ label: v, value: v })) : []}
+      />
+    );
 
     if (inputAddon) {
       inputField = (

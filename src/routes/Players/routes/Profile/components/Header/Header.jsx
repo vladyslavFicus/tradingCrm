@@ -22,6 +22,7 @@ import { withServiceCheck } from '../../../../../../components/HighOrder';
 import ActivePlan from '../ActivePlan';
 import StickyWrapper from '../../../../../../components/StickyWrapper';
 import TemporaryUntil from '../TemporaryUntil';
+import PlayerTags from '../PlayerTags';
 
 const sendActivationLinkPermission = new Permissions([permissions.USER_PROFILE.SEND_ACTIVATION_LINK]);
 const playerLimitsPermission = [
@@ -262,6 +263,8 @@ class Header extends Component {
             </div>
           </div>
         </StickyWrapper>
+
+        <PlayerTags />
 
         <div className="layout-quick-overview">
           <div className="header-block header-block_account">
