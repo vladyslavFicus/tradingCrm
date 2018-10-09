@@ -13,6 +13,7 @@ class MultiInput extends Component {
     placeholder: PropTypes.string,
     disabled: PropTypes.bool,
     onChange: PropTypes.func,
+    onRemove: PropTypes.func,
     initialValues: PropTypes.array,
   };
 
@@ -22,6 +23,7 @@ class MultiInput extends Component {
     placeholder: '',
     disabled: false,
     onChange: null,
+    onRemove: null,
     initialValues: [],
   };
 
