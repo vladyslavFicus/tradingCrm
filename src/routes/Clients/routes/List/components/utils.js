@@ -86,7 +86,11 @@ export default (
   name: 'sales',
   header: I18n.t('CLIENTS.LIST.GRID_HEADER.SALES'),
   render: (data) => {
-    const { salesStatus, salesRepName, aquisitionStatus } = get(data, 'tradingProfile') || {};
+    const {
+      salesStatus,
+      salesRep: { fullName },
+      aquisitionStatus,
+    } = get(data, 'tradingProfile') || { salesRep: { fullName: '' } };
     const colorClassName = salesStatusesColor[salesStatus];
 
     return (
@@ -96,7 +100,7 @@ export default (
             wrapperClassName={aquisitionStatus === 'SALES' ? `border-${colorClassName}` : ''}
             colorClassName={colorClassName}
             statusLabel={renderLabel(salesStatus, salesStatuses)}
-            info={salesRepName}
+            info={fullName}
           />
         </When>
         <Otherwise>
@@ -109,7 +113,11 @@ export default (
   name: 'retention',
   header: I18n.t('CLIENTS.LIST.GRID_HEADER.RETENTION'),
   render: (data) => {
-    const { retentionStatus, retentionRepName, aquisitionStatus } = get(data, 'tradingProfile') || {};
+    const {
+      retentionStatus,
+      retentionRep: { fullName },
+      aquisitionStatus,
+    } = get(data, 'tradingProfile') || { retentionRep: { fullName: '' } };
     const colorClassName = retentionStatusesColor[retentionStatus];
 
     return (
@@ -119,7 +127,7 @@ export default (
             wrapperClassName={aquisitionStatus === 'RETENTION' ? `border-${colorClassName}` : ''}
             colorClassName={colorClassName}
             statusLabel={renderLabel(retentionStatus, retentionStatuses)}
-            info={retentionRepName}
+            info={fullName}
           />
         </When>
         <Otherwise>
