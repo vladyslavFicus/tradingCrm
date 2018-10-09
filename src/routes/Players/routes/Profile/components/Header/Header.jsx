@@ -215,6 +215,9 @@ class Header extends Component {
                 </div>
               </div>
             </HeaderPlayerPlaceholder>
+            <div className="panel-heading-row__tags">
+              <PlayerTags />
+            </div>
             <div className="panel-heading-row__actions">
               <PermissionContent permissions={permissions.TAGS.ADD_TAG}>
                 <PopoverButton
@@ -263,8 +266,6 @@ class Header extends Component {
             </div>
           </div>
         </StickyWrapper>
-
-        <PlayerTags />
 
         <div className="layout-quick-overview">
           <div className="header-block header-block_account">

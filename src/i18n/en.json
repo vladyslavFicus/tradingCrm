@@ -730,6 +730,9 @@
       "DEVICES": "Devices",
       "NOTES_AND_TAGS": "Notes & Tags",
       "FEED": "Feed"
+    },
+    "TAGS": {
+      "ADD_TAGS": "+ Add tags"
     }
   },
   "COMMON": {
