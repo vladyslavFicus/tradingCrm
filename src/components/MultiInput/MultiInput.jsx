@@ -8,7 +8,7 @@ const getValues = value => (Array.isArray(value) ? value.map(v => v.value) : [])
 
 class MultiInput extends Component {
   static propTypes = {
-    async: PropTypes.bools,
+    async: PropTypes.bool,
     components: PropTypes.object,
     placeholder: PropTypes.string,
     disabled: PropTypes.bool,
