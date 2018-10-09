@@ -906,7 +906,7 @@
     "ADD_DOCUMENT": "+ Прикрепить документ",
     "UNKNOWN_ERROR": "Неизвестная ошибка",
     "CONFIRM_ACTION": "Подтвердить действие",
-    "PINNED_NOTE": "Закрепленная заметка",
+    "PINNED": "Закреплен",
     "IDENTIFIER": "ID",
     "DASHBOARD": "",
     "CLIENTS_FOUND": "",

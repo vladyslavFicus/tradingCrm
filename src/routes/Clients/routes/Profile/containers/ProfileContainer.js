@@ -32,6 +32,7 @@ import {
   removeNote,
   addPinnedNote,
 } from '../../../../../graphql/mutations/note';
+import { tagTypes } from '../../../../../constants/tag';
 
 const mapStateToProps = (state) => {
   const {
@@ -155,6 +156,7 @@ export default compose(
         variables: {
           playerUUID,
           pinned: true,
+          tagType: tagTypes.NOTE,
         },
       }, {
         query: notesQuery,
@@ -199,6 +201,7 @@ export default compose(
           variables: {
             playerUUID,
             pinned: true,
+            tagType: tagTypes.NOTE,
           },
         });
 
@@ -207,11 +210,11 @@ export default compose(
         }) => noteUuid === tagId);
 
         if (selectedNote && !pinned) {
-          removeNote(proxy, { playerUUID, pinned: true }, tagId);
+          removeNote(proxy, { playerUUID, pinned: true, tagType: tagTypes.NOTE }, tagId);
         }
 
         if (!selectedNote && pinned) {
-          addPinnedNote(proxy, { playerUUID, targetUUID }, data);
+          addPinnedNote(proxy, { playerUUID, targetUUID, tagType: tagTypes.NOTE }, data);
         }
       },
     }),
@@ -406,7 +409,7 @@ export default compose(
           },
         },
       }) => {
-        removeNote(proxy, { playerUUID, pinned: true }, tagId);
+        removeNote(proxy, { playerUUID, pinned: true, tagType: tagTypes.NOTE }, tagId);
         removeNote(proxy, {
           playerUUID,
           size: 10,
@@ -444,6 +447,7 @@ export default compose(
       variables: {
         playerUUID,
         pinned: true,
+        tagType: tagTypes.NOTE,
       },
     }),
     name: 'pinnedNotes',

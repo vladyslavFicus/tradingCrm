@@ -8,6 +8,7 @@ const notesQuery = gql`query notes(
   $changedAtTo: String
   $changedAtFrom: String
   $targetType: String
+  $tagType: tagTypes
   ){
   notes(
     playerUUID: $playerUUID
@@ -17,6 +18,7 @@ const notesQuery = gql`query notes(
     changedAtTo: $changedAtTo
     changedAtFrom: $changedAtFrom
     targetType: $targetType
+    tagType: $tagType
     ) {
     size
     page

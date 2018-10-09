@@ -5,6 +5,7 @@ import AsyncCreatableSelect from 'react-select/lib/AsyncCreatable';
 import PropTypes from 'prop-types';
 
 const getValues = value => (Array.isArray(value) ? value.map(v => v.value) : []);
+const getLabels = value => (Array.isArray(value) ? value.map(v => v.label) : []);
 
 class MultiInput extends Component {
   static propTypes = {
@@ -65,7 +66,7 @@ class MultiInput extends Component {
     switch (event.key) {
       case 'Enter':
       case 'Tab':
-        if (!includes(getValues(value), inputValue)) {
+        if (!includes(getLabels(value), inputValue)) {
           if (typeof onAdd === 'function') {
             const response = await onAdd(inputValue);
             if (response.success) {

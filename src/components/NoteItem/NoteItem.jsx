@@ -148,7 +148,7 @@ class NoteItem extends Component {
                 </div>
                 <If condition={pinned}>
                   <span className="note-item__pinned-note-badge">
-                    {I18n.t('COMMON.PINNED_NOTE')}
+                    {I18n.t('COMMON.PINNED')}
                   </span>
                 </If>
               </div>
