@@ -20,6 +20,8 @@ import {
   moneyTypeLabels,
   spinTypes,
   spinTypeLabels,
+  roundTypes,
+  roundTypeLabels,
   gameFilters,
   gameFilterLabels,
 } from './constants';
@@ -168,6 +170,21 @@ class GamingView extends PureComponent {
               </option>
             ))}
           </Field>
+          <Field
+            name={`${name}.roundType`}
+            className="col-4"
+            type="select"
+            component={SelectField}
+            disabled={disabled}
+            label={I18n.t(attributeLabels.roundType)}
+          >
+            <option value="">{I18n.t('COMMON.SELECT_OPTION.DEFAULT')}</option>
+            {Object.keys(roundTypes).map(key => (
+              <option key={key} value={key}>
+                {renderLabel(key, roundTypeLabels)}
+              </option>
+            ))}
+          </Field>
         </div>
         <div className="row">
           <Field
@@ -201,6 +218,13 @@ class GamingView extends PureComponent {
               </option>
             ))}
           </Field>
+          <MultiCurrencyValue
+            baseName={`${name}.minSum`}
+            showErrorMessage={false}
+            className="col-4"
+            label={I18n.t(attributeLabels.minSum)}
+            disabled={disabled}
+          />
           {this.renderGameList()}
         </div>
       </Fragment>

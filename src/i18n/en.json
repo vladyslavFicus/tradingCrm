@@ -2257,7 +2257,8 @@
             "LABEL": "Aggregation type",
             "VALUES": {
               "COUNT": "Count",
-              "SUM": "Sum"
+              "SUM": "Sum",
+              "INROWCOUNT": "In a row Count"
             }
           },
           "MONEY_TYPE": {
@@ -2275,6 +2276,13 @@
               "WIN": "Win"
             }
           },
+          "ROUND_TYPE": {
+            "LABEL": "Round type",
+            "VALUES": {
+              "SPIN": "Spin",
+              "BONUS_ROUND_CHANCE": "Bonus Chance"
+            }
+          },
           "GAME_FILTER": {
             "LABEL": "Game filter",
             "VALUES": {
@@ -2285,6 +2293,9 @@
           },
           "GAME_LIST": {
             "LABEL": "Game list"
+          },
+          "MIN_SUM": {
+            "LABEL": "Min Sum"
           }
         }
       },

@@ -41,7 +41,7 @@ import normalizePromoCode from '../../../../utils/normalizePromoCode';
 import countries from '../../../../utils/countryList';
 import { targetTypes, targetTypesLabels } from '../../../../constants/campaigns';
 import Countries from '../Countries';
-import { aggregationTypes, moneyTypes, spinTypes, gameFilters } from '../Fulfillments/GamingFulfillment/constants';
+import { aggregationTypes, moneyTypes, spinTypes, roundTypes, gameFilters } from '../Fulfillments/GamingFulfillment/constants';
 import '../../../../styles/campaigns.scss';
 
 const CAMPAIGN_NAME_MAX_LENGTH = 100;
@@ -452,6 +452,7 @@ export default compose(
             aggregationType: ['required', 'string', `in:${Object.keys(aggregationTypes).join()}`],
             moneyType: ['required', 'string', `in:${Object.keys(moneyTypes).join()}`],
             spinType: ['required', 'string', `in:${Object.keys(spinTypes).join()}`],
+            roundType: ['required', 'string', `in:${Object.keys(roundTypes).join()}`],
             amountCount: ['numeric', 'min:1'],
             gameFilter: ['required', 'string', `in:${Object.keys(gameFilters).join()}`],
             gameList: ['array'],

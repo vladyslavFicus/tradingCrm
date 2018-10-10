@@ -45,8 +45,10 @@ const addGamingFulfillment = gql`mutation addGamingFulfillment(
   $aggregationType: String!
   $moneyType: String!
   $spinType: String!
+  $roundType: String!
   $amountSum: [InputMoney]
   $amountCount: Int
+  $minSum: [InputMoney]
   $gameFilter: String!
   $gameList: [String]
 ) {
@@ -55,8 +57,10 @@ const addGamingFulfillment = gql`mutation addGamingFulfillment(
       aggregationType: $aggregationType
       moneyType: $moneyType
       spinType: $spinType
+      roundType: $roundType
       amountSum: $amountSum
       amountCount: $amountCount
+      minSum: $minSum
       gameFilter: $gameFilter
       gameList: $gameList
     ) {
@@ -76,8 +80,10 @@ const updateGamingFulfillment = gql`mutation updateGamingFulfillment(
   $aggregationType: String!
   $moneyType: String!
   $spinType: String!
+  $roundType: String!
   $amountSum: [InputMoney]
   $amountCount: Int
+  $minSum: [InputMoney]
   $gameFilter: String!
   $gameList: [String]
 ) {
@@ -87,8 +93,10 @@ const updateGamingFulfillment = gql`mutation updateGamingFulfillment(
       aggregationType: $aggregationType
       moneyType: $moneyType
       spinType: $spinType
+      roundType: $roundType
       amountSum: $amountSum
       amountCount: $amountCount
+      minSum: $minSum
       gameFilter: $gameFilter
       gameList: $gameList
     ) {
