@@ -470,7 +470,10 @@ export default compose(
               ...rules.fulfillments[index],
               'amountSum[0].amount': ['required', 'numeric', 'min:1'],
             };
-          } else if (values.fulfillments[index].aggregationType === aggregationTypes.COUNT) {
+          } else if (
+            values.fulfillments[index].aggregationType === aggregationTypes.COUNT ||
+            values.fulfillments[index].aggregationType === aggregationTypes.INROWCOUNT
+          ) {
             rules.fulfillments[index].amountCount.push('required');
           }
         }
