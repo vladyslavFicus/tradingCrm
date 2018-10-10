@@ -38,6 +38,7 @@
   }
   &__input {
     min-width: 50px;
+    margin-right: 5px;
     input::placeholder {
       font-weight: 600;
       color: hsl(0, 0%, 80%);
