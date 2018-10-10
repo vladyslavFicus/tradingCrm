@@ -45,7 +45,7 @@ class MultiInputField extends Component {
     position: 'vertical',
     showErrorMessage: true,
     disabled: false,
-    placeholder: 'Type something and press enter...',
+    placeholder: '',
     inputAddon: null,
     inputAddonPosition: 'left',
     labelClassName: null,

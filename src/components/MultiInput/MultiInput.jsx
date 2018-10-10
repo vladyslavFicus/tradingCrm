@@ -18,6 +18,7 @@ class MultiInput extends Component {
     onChange: PropTypes.func,
     onRemove: PropTypes.func,
     initialValues: PropTypes.array,
+    className: PropTypes.string,
   };
 
   static defaultProps = {
@@ -27,6 +28,7 @@ class MultiInput extends Component {
     onChange: null,
     onRemove: null,
     initialValues: [],
+    className: null,
   };
 
   state = {
@@ -116,7 +118,7 @@ class MultiInput extends Component {
 
   render() {
     const { inputValue, value } = this.state;
-    const { disabled, async } = this.props;
+    const { disabled, async, className } = this.props;
 
     return (
       <Choose>
@@ -138,6 +140,7 @@ class MultiInput extends Component {
             value={value}
             disabled={disabled}
             inputValue={inputValue}
+            className={className}
             classNamePrefix="multi-input"
             menuShouldScrollIntoView
           />

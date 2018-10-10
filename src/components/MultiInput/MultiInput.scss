@@ -1,7 +1,6 @@
 .multi-input {
   &__control {
     min-height: 30px !important;
-    border: none !important;
     background-color: transparent !important;
     box-shadow: none !important;
   }
@@ -10,8 +9,6 @@
     max-width: 100%;
     overflow-x: auto;
     overflow-y: hidden;
-    padding-right: 0 !important;
-    padding-left: 0 !important;
   }
   &__multi-value {
     flex: 0 0 auto;
@@ -47,7 +44,6 @@
     }
   }
   &__dropdown-indicator {
-    padding-right: 0 !important;
     padding-left: 5px !important;
   }
   &__multi-value__label {
@@ -60,3 +56,5 @@
     color: hsl(0, 0%, 60%) !important;
   }
 }
+
+
