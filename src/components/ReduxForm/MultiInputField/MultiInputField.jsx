@@ -70,7 +70,6 @@ class MultiInputField extends Component {
     let inputField = (
       <MultiInput
         async={async}
-        components={{ DropdownIndicator: null }}
         disabled={disabled}
         placeholder={placeholder !== null ? placeholder : label}
         onChange={onChange}

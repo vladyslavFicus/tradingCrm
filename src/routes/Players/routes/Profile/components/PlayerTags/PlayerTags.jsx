@@ -74,7 +74,6 @@ class PlayerTags extends Component {
 
     return (
       <MultiInput
-        components={{ DropdownIndicator: null, ClearIndicator: null }}
         async
         onAdd={this.onAdd}
         onRemove={this.onRemove}
