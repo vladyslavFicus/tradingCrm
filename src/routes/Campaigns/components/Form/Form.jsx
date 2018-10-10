@@ -260,6 +260,7 @@ class Form extends Component {
               component={MultiInputField}
               async
               disabled={disabled}
+              placeholder={I18n.t('PLAYER_PROFILE.TAGS.ADD_TAGS')}
               className="col-6"
             />
           </If>

@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import { includes } from 'lodash';
+import { components } from 'react-select';
 import CreatableSelect from 'react-select/lib/Creatable';
 import AsyncCreatableSelect from 'react-select/lib/AsyncCreatable';
 import PropTypes from 'prop-types';
+import { UncontrolledTooltip } from 'reactstrap';
+import './MultiInput.scss';
 
 const getValues = value => (Array.isArray(value) ? value.map(v => v.value) : []);
 const getLabels = value => (Array.isArray(value) ? value.map(v => v.label) : []);
@@ -10,22 +13,22 @@ const getLabels = value => (Array.isArray(value) ? value.map(v => v.label) : [])
 class MultiInput extends Component {
   static propTypes = {
     async: PropTypes.bool,
-    components: PropTypes.object,
     placeholder: PropTypes.string,
     disabled: PropTypes.bool,
     onChange: PropTypes.func,
     onRemove: PropTypes.func,
     initialValues: PropTypes.array,
+    className: PropTypes.string,
   };
 
   static defaultProps = {
     async: false,
-    components: {},
     placeholder: '',
     disabled: false,
     onChange: null,
     onRemove: null,
     initialValues: [],
+    className: null,
   };
 
   state = {
@@ -89,46 +92,83 @@ class MultiInput extends Component {
     }
   };
 
+  renderDropdownIndicator = (props) => {
+    const { placeholder } = this.props;
+
+    return components.DropdownIndicator && (
+      <components.DropdownIndicator {...props}>
+        <i className="fa fa-plus cursor-pointer" id="multi-input-add" />
+        <UncontrolledTooltip placement="top" target="multi-input-add">
+          {placeholder}
+        </UncontrolledTooltip>
+      </components.DropdownIndicator>
+    );
+  };
+
+  renderInput = (props) => {
+    const { placeholder } = this.props;
+
+    if (props.isHidden) {
+      return <components.Input {...props} placeholder={placeholder} />;
+    }
+    return (
+      <components.Input {...props} placeholder={placeholder} />
+    );
+  };
+
   render() {
     const { inputValue, value } = this.state;
+    const { disabled, async, className } = this.props;
 
-    const { components, placeholder, disabled, async } = this.props;
-
-    const inputField = async
-      ?
-      (
-        <AsyncCreatableSelect
-          components={components}
-          isMulti
-          cacheOptions
-          defaultOptions
-          onChange={this.handleChange}
-          onKeyDown={this.handleKeyDown}
-          onInputChange={this.handleInputChange}
-          placeholder={placeholder}
-          value={value}
-          disabled={disabled}
-          inputValue={inputValue}
-        />
-      )
-      :
-      (
-        <CreatableSelect
-          components={components}
-          isMulti
-          inputValue={inputValue}
-          isClearable
-          menuIsOpen={false}
-          onChange={this.handleChange}
-          onInputChange={this.handleInputChange}
-          onKeyDown={this.handleKeyDown}
-          placeholder={placeholder}
-          value={value}
-          disabled={disabled}
-        />
-      );
-
-    return inputField;
+    return (
+      <Choose>
+        <When condition={async}>
+          <AsyncCreatableSelect
+            components={{
+              DropdownIndicator: this.renderDropdownIndicator,
+              ClearIndicator: null,
+              IndicatorSeparator: null,
+              Input: this.renderInput,
+            }}
+            isMulti
+            cacheOptions
+            defaultOptions
+            onChange={this.handleChange}
+            onKeyDown={this.handleKeyDown}
+            onInputChange={this.handleInputChange}
+            placeholder={null}
+            value={value}
+            disabled={disabled}
+            inputValue={inputValue}
+            className={className}
+            classNamePrefix="multi-input"
+            menuShouldScrollIntoView
+          />
+        </When>
+        <Otherwise>
+          <CreatableSelect
+            components={{
+              DropdownIndicator: this.renderDropdownIndicator,
+              ClearIndicator: null,
+              IndicatorSeparator: null,
+              Input: this.renderInput,
+            }}
+            isMulti
+            inputValue={inputValue}
+            isClearable
+            menuIsOpen={false}
+            onChange={this.handleChange}
+            onInputChange={this.handleInputChange}
+            onKeyDown={this.handleKeyDown}
+            placeholder={null}
+            value={value}
+            disabled={disabled}
+            classNamePrefix="multi-input"
+            menuShouldScrollIntoView
+          />
+        </Otherwise>
+      </Choose>
+    );
   }
 }
 
