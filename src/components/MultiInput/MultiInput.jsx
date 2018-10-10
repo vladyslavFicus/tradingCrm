@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { includes } from 'lodash';
-import { components as libComponents } from 'react-select';
+import { components } from 'react-select';
 import CreatableSelect from 'react-select/lib/Creatable';
 import AsyncCreatableSelect from 'react-select/lib/AsyncCreatable';
 import PropTypes from 'prop-types';
@@ -95,13 +95,13 @@ class MultiInput extends Component {
   renderDropdownIndicator = (props) => {
     const { placeholder } = this.props;
 
-    return libComponents.DropdownIndicator && (
-      <libComponents.DropdownIndicator {...props}>
+    return components.DropdownIndicator && (
+      <components.DropdownIndicator {...props}>
         <i className="fa fa-plus cursor-pointer" id="multi-input-add" />
         <UncontrolledTooltip placement="top" target="multi-input-add">
           {placeholder}
         </UncontrolledTooltip>
-      </libComponents.DropdownIndicator>
+      </components.DropdownIndicator>
     );
   };
 
@@ -109,10 +109,10 @@ class MultiInput extends Component {
     const { placeholder } = this.props;
 
     if (props.isHidden) {
-      return <libComponents.Input {...props} placeholder={placeholder} />;
+      return <components.Input {...props} placeholder={placeholder} />;
     }
     return (
-      <libComponents.Input {...props} placeholder={placeholder} />
+      <components.Input {...props} placeholder={placeholder} />
     );
   };
 
