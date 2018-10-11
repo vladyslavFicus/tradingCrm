@@ -87,34 +87,30 @@ class CommonGridView extends Component {
   renderLimit = data => (
     <Fragment>
       <If condition={data.value.type === amountTypes.MONEY}>
-        <Fragment>
-          <div className="font-weight-700">
-            <Amount {...data.value.limit} />
+        <div className="font-weight-700">
+          <Amount {...data.value.limit} />
+        </div>
+        <If condition={data.value.used}>
+          <div className="font-size-11">
+            used <Amount {...data.value.used} />
           </div>
-          <If condition={data.value.used}>
-            <div className="font-size-11">
-              used <Amount {...data.value.used} />
-            </div>
-          </If>
-          <If condition={data.value.left}>
-            <div className="font-size-11">
-              left <Amount {...data.value.left} />
-            </div>
-          </If>
-        </Fragment>
+        </If>
+        <If condition={data.value.left}>
+          <div className="font-size-11">
+            left <Amount {...data.value.left} />
+          </div>
+        </If>
       </If>
       <If condition={data.value.type === amountTypes.TIME}>
-        <Fragment>
-          <div className="font-weight-700">
-            {humanizeDuration(data.value.limit * 1000, humanizeDurationConfig)}
-          </div>
-          <div className="font-size-11">
-            {I18n.t('COMMON.USED', { value: humanizeDuration(data.value.used * 1000, humanizeDurationConfig) })}
-          </div>
-          <div className="font-size-11">
-            {I18n.t('COMMON.LEFT', { value: humanizeDuration(data.value.left * 1000, humanizeDurationConfig) })}
-          </div>
-        </Fragment>
+        <div className="font-weight-700">
+          {humanizeDuration(data.value.limit * 1000, humanizeDurationConfig)}
+        </div>
+        <div className="font-size-11">
+          {I18n.t('COMMON.USED', { value: humanizeDuration(data.value.used * 1000, humanizeDurationConfig) })}
+        </div>
+        <div className="font-size-11">
+          {I18n.t('COMMON.LEFT', { value: humanizeDuration(data.value.left * 1000, humanizeDurationConfig) })}
+        </div>
       </If>
     </Fragment>
   );
@@ -130,33 +126,29 @@ class CommonGridView extends Component {
         </div>
       </If>
       <If condition={data.status === statuses.PENDING}>
-        <Fragment>
-          <If condition={data.statusAuthor}>
-            <div className="font-size-11">
-              {I18n.t('COMMON.AUTHOR_BY')} <Uuid uuid={data.statusAuthor} uuidPrefix="OP" />
-            </div>
-          </If>
-          <If condition={data.startDate}>
-            <div className="font-size-11">
-              {I18n.t('COMMON.ACTIVATES_ON', { date: moment.utc(data.startDate).local().format('DD.MM.YYYY HH:mm') })}
-            </div>
-          </If>
-        </Fragment>
+        <If condition={data.statusAuthor}>
+          <div className="font-size-11">
+            {I18n.t('COMMON.AUTHOR_BY')} <Uuid uuid={data.statusAuthor} uuidPrefix="OP" />
+          </div>
+        </If>
+        <If condition={data.startDate}>
+          <div className="font-size-11">
+            {I18n.t('COMMON.ACTIVATES_ON', { date: moment.utc(data.startDate).local().format('DD.MM.YYYY HH:mm') })}
+          </div>
+        </If>
       </If>
       <If condition={data.status === statuses.COOLOFF || data.status === statuses.CANCELED}>
-        <Fragment>
-          <If condition={data.statusAuthor}>
-            <div className="font-size-11">
-              {I18n.t('COMMON.AUTHOR_BY')} <Uuid uuid={data.statusAuthor} uuidPrefix="OP" />
-            </div>
-          </If>
-          <If condition={data.expirationDate}>
-            <div className="font-size-11">
-              {data.status === statuses.COOLOFF ? 'until' : 'on'} {' '}
-              {moment.utc(data.expirationDate).local().format('DD.MM.YYYY HH:mm')}
-            </div>
-          </If>
-        </Fragment>
+        <If condition={data.statusAuthor}>
+          <div className="font-size-11">
+            {I18n.t('COMMON.AUTHOR_BY')} <Uuid uuid={data.statusAuthor} uuidPrefix="OP" />
+          </div>
+        </If>
+        <If condition={data.expirationDate}>
+          <div className="font-size-11">
+            {data.status === statuses.COOLOFF ? 'until' : 'on'} {' '}
+            {moment.utc(data.expirationDate).local().format('DD.MM.YYYY HH:mm')}
+          </div>
+        </If>
       </If>
     </Fragment>
   );
