@@ -204,7 +204,6 @@ class Limits extends Component {
 
     return (
       <Fragment>
-        {/*<TabHeader title="Regulation Limits" />*/}
         <TabHeader title={I18n.t('PLAYER_PROFILE.LIMITS.REGULATION_TITLE')} />
         <div className="tab-wrapper">
           <CommonGridView
