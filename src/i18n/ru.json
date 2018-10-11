@@ -909,8 +909,7 @@
       "RU": "Русский",
       "ES": "Испанский",
       "DE": "Немецкий",
-      "IT": "Итальянский",
-      "UA": ""
+      "IT": "Итальянский"
     },
     "COMMENT": "Комментарий",
     "UPLOAD": "Загрузить",
@@ -926,13 +925,7 @@
     "DATE_OPTIONS": {
       "START_DATE": "",
       "END_DATE": ""
-    },
-    "FAIL": "",
-    "PROMOTE_FAILED": "",
-    "SOMETHING_WRONG": "",
-    "UPLOAD_FAILED": "",
-    "UPLOAD_SUCCESSFUL": "",
-    "PROMOTE_TO_CLIENT": ""
+    }
   },
   "FILES": {
     "UPLOAD_MODAL": {
@@ -1868,8 +1861,7 @@
         "ACQUISITION_STATUS": "Статус приобритения",
         "DESKS": "",
         "TEAMS": "Команды",
-        "OFFICES": "Офисы",
-        "SALES_STATUS": ""
+        "OFFICES": "Офисы"
       }
     }
   },
@@ -2004,13 +1996,7 @@
     "REWARD": "Награда",
     "OPTED_IN": "Opted-in %{value} игроков",
     "SELECTED": "Выбрано %{value} игроков",
-    "BONUS": "Бонус",
-    "LEADS": {
-      "LEAD": "",
-      "COUNTRY": "",
-      "SALES": "",
-      "LEAD_CREATED": ""
-    }
+    "BONUS": "Бонус"
   },
   "OPERATORS": {
     "HEADING": "Операторы",
@@ -2133,44 +2119,10 @@
     "CHART_SELECT_OPTIONS": {
       "LAST_7_DAYS": "",
       "TODAY": "",
-      "YESTERDAY": "",
-      "PAST_WEEK": "",
-      "CURRENT_WEEK": "",
-      "LAST_MONTH": "",
-      "PAST_MONTH": ""
+      "YESTERDAY": ""
     },
     "TOTAL_REGISTERED": "",
-    "REGISTRATIONS": "",
-    "DEPOSITS_AMOUNT_CHART": {
-      "TITLE": "",
-      "FOOTER_TITLE": "",
-      "TOOLTIP_TITLE": "",
-      "NO_RESULTS_TEXT": ""
-    },
-    "DEPOSITS_COUNT_CHART": {
-      "TITLE": "",
-      "FOOTER_TITLE": "",
-      "TOOLTIP_TITLE": "",
-      "NO_RESULTS_TEXT": ""
-    },
-    "REGISTRATION_CHART": {
-      "TITLE": "",
-      "TOOLTIP_TITLE": "",
-      "FOOTER_TITLE": "",
-      "NO_RESULTS_TEXT": ""
-    },
-    "WITHDRAWS_AMOUNT_CHART": {
-      "TITLE": "",
-      "FOOTER_TITLE": "",
-      "TOOLTIP_TITLE": "",
-      "NO_RESULTS_TEXT": ""
-    },
-    "WITHDRAWS_COUNT_CHART": {
-      "TITLE": "",
-      "FOOTER_TITLE": "",
-      "TOOLTIP_TITLE": "",
-      "NO_RESULTS_TEXT": ""
-    }
+    "REGISTRATIONS": ""
   },
   "CAMPAIGNS": {
     "CAMPAIGN_NAME": "Название кампании",
