@@ -2116,7 +2116,9 @@
     },
     "CHART_SELECT_OPTIONS": {
       "LAST_7_DAYS": "",
-      "TODAY": ""
+      "TODAY": "",
+      "YESTERDAY": "",
+      "PAST_WEEK": ""
     },
     "TOTAL_REGISTERED": "",
     "REGISTRATIONS": ""
