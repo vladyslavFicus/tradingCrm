@@ -182,8 +182,8 @@ const getOperatorPaymentMethods = gql`query getOperatorPaymentMethods {
   } 
 }`;
 
-const getPaymentLimitRegulation = gql`query getPaymentLimitRegulation($playerUUID: String!) {
-  getRegulation(playerUUID: $playerUUID) {
+const getPaymentRegulationLimits = gql`query getPaymentLimitRegulation($playerUUID: String!) {
+  paymentRegulationLimits(playerUUID: $playerUUID) {
     data {
       _id
       uuid
@@ -211,6 +211,17 @@ const getPaymentLimitRegulation = gql`query getPaymentLimitRegulation($playerUUI
           currency
         }
       }
+      note {
+        playerUUID
+        tagName
+        pinned
+        tagId
+        content
+        tagType
+        targetUUID
+        changedBy
+        changedAt
+      }
     }
     error {
       error
@@ -222,5 +233,5 @@ export {
   getClientPayments,
   getOperatorPaymentMethods,
   getClientPaymentsByUuid,
-  getPaymentLimitRegulation,
+  getPaymentRegulationLimits,
 };

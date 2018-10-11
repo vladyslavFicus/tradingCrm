@@ -128,10 +128,25 @@ const createWithdrawMutation = gql`mutation createDeposit(
   }
 }`;
 
+const cancelRegulationLimitMutation = gql`mutation cancel($playerUUID: String!, $uuid: String!) {
+  paymentLimit {
+    cancel(playerUUID: $playerUUID, uuid: $uuid) {
+      data {
+        _id
+        status
+      }
+      error {
+        error
+      }
+    }
+  }
+}`;
+
 export {
   lockMutation,
   createWithdrawMutation,
   unlockMutation,
   addPaymentMutation,
   createDepositMutation,
+  cancelRegulationLimitMutation,
 };

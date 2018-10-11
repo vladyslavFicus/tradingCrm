@@ -3,8 +3,6 @@ import createReducer from '../../../../../../../utils/createReducer';
 import createRequestAction from '../../../../../../../utils/createRequestAction';
 import { types, statuses } from '../../../../../../../constants/limits';
 import { sourceActionCreators as noteSourceActionCreators } from '../../../../../../../redux/modules/note';
-import { actionCreators as regulationActionCreators } from './regulation';
-import { sourceActionCreators as paymentActionCreators } from '../../../../../../../redux/modules/payment';
 
 const KEY = 'user-limits';
 const SET_LIMITS_LIST = `${KEY}/set-limits-list`;
@@ -15,7 +13,6 @@ const CANCEL_LIMIT = createRequestAction(`${KEY}/cancel-limit`);
 const CANCEL_DEPOSIT_LIMIT = createRequestAction(`${KEY}/cancel-deposit-limit`);
 const FETCH_NOTES = createRequestAction(`${KEY}/fetch-notes`);
 
-const cancelDepositLimit = paymentActionCreators.cancelDepositLimit(CANCEL_DEPOSIT_LIMIT);
 const fetchNotesFn = noteSourceActionCreators.fetchNotesByTargetUuids(FETCH_NOTES);
 const mapNotesToLimits = (limits, notes) => {
   if (!notes || notes.length === 0) {
@@ -222,14 +219,36 @@ function cancelPlayingSessionLimit(playerUUID, type, limitId) {
   };
 }
 
+function cancelDepositLimit(playerUUID, limitId) {
+  return (dispatch, getState) => {
+    const { auth: { token, logged } } = getState();
+
+    return dispatch({
+      [CALL_API]: {
+        endpoint: `/payment/limits/${playerUUID}/deposit/${limitId}`,
+        method: 'DELETE',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        types: [
+          CANCEL_DEPOSIT_LIMIT.REQUEST,
+          CANCEL_DEPOSIT_LIMIT.SUCCESS,
+          CANCEL_DEPOSIT_LIMIT.FAILURE,
+        ],
+        bailout: !logged,
+      },
+    });
+  };
+}
+
 function cancelLimit(playerUUID, type, limitId) {
   return (dispatch) => {
     if ([types.WAGER, types.LOSS, types.SESSION_DURATION].indexOf(type) > -1) {
       return dispatch(cancelPlayingSessionLimit(playerUUID, type, limitId));
     } else if (type === types.DEPOSIT) {
       return dispatch(cancelDepositLimit(playerUUID, limitId));
-    } else if (type === types.REGULATION) {
-      return dispatch(regulationActionCreators.cancelRegulationLimit(playerUUID, limitId));
     }
 
     throw new Error(`Unknown limit type "${type}" inside cancelLimit`);

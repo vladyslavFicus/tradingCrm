@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react';
+import { get } from 'lodash';
 import { I18n } from 'react-redux-i18n';
 import CancelLimitModal from './CancelLimitModal';
 import CreateLimitModal from './CreateLimitModal';
@@ -23,13 +24,16 @@ class Limits extends Component {
       }).isRequired,
     }).isRequired,
     list: PropTypes.arrayOf(PropTypes.limitEntity),
-    regulation: PropTypes.arrayOf(PropTypes.limitEntity),
     fetchEntities: PropTypes.func.isRequired,
-    fetchRegulation: PropTypes.func.isRequired,
     cancelLimit: PropTypes.func.isRequired,
     setLimit: PropTypes.func.isRequired,
     limitPeriods: PropTypes.limitPeriodEntity,
     locale: PropTypes.string.isRequired,
+    paymentRegulationLimits: PropTypes.shape({
+      regulationLimits: PropTypes.shape({
+        data: PropTypes.arrayOf(PropTypes.limitEntity),
+      }),
+    }),
   };
   static contextTypes = {
     onAddNoteClick: PropTypes.func.isRequired,
@@ -40,7 +44,7 @@ class Limits extends Component {
   };
   static defaultProps = {
     list: [],
-    regulation: [],
+    paymentRegulationLimits: {},
     limitPeriods: null,
   };
 
@@ -79,38 +83,33 @@ class Limits extends Component {
   handleRefresh = () => {
     const {
       fetchEntities,
-      fetchRegulation,
+      paymentRegulationLimits,
       match: { params: { id } },
     } = this.props;
 
     fetchEntities(id);
-    fetchRegulation(id);
-  };
-
-  fetchLimits = (type) => {
-    const {
-      match: { params: { id } },
-      fetchEntities,
-      fetchRegulation,
-    } = this.props;
-
-    const fetchLimits = type === 'regulation' ? fetchRegulation : fetchEntities;
-
-    fetchLimits(id);
+    paymentRegulationLimits.refetch();
   };
 
   handleCancelLimit = async (type, limitId) => {
     const {
       match: { params: { id } },
       cancelLimit,
+      fetchEntities,
+      cancelRegulationLimitMutation,
     } = this.props;
 
-    const action = await cancelLimit(id, type, limitId);
-    this.handleCloseModal();
+    if (type === types.REGULATION) {
+      await cancelRegulationLimitMutation({ variables: { playerUUID: id, uuid: limitId } });
+    } else {
+      const action = await cancelLimit(id, type, limitId);
 
-    if (action && !action.error) {
-      this.fetchLimits(type);
+      if (action && !action.error) {
+        fetchEntities(id);
+      }
     }
+
+    this.handleCloseModal();
   };
 
   handleCreateLimit = async (params) => {
@@ -199,15 +198,17 @@ class Limits extends Component {
       list,
       limitPeriods,
       locale,
-      regulation,
+      paymentRegulationLimits,
     } = this.props;
+
+    const regulationLimits = get(paymentRegulationLimits, 'paymentRegulationLimits.data', []);
 
     return (
       <Fragment>
         <TabHeader title={I18n.t('PLAYER_PROFILE.LIMITS.REGULATION_TITLE')} />
         <div className="tab-wrapper">
           <CommonGridView
-            dataSource={regulation}
+            dataSource={regulationLimits}
             onOpenCancelLimitModal={this.handleOpenCancelLimitModal}
             onNoteClick={this.handleNoteClick}
             locale={locale}
