@@ -34,6 +34,7 @@ class CampaignCreate extends PureComponent {
 
     const rewards = await Promise.all(formData.rewards.map(async ({ uuid, deviceType, type, tagName }) => {
       let tempUUID = uuid;
+
       if (!uuid && type === rewardTemplateTypes.TAG) {
         const result = await createOrLinkTag({ variables: { tagName } });
         const { data } = get(result, 'data.tag.createOrLink', { data: '', error: '' });

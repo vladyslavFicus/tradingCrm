@@ -18,6 +18,7 @@ import Settings from '../../Settings';
 import SetPassword from '../../SetPassword';
 import ResetPassword from '../../ResetPassword';
 import Campaigns from '../../Campaigns';
+import ConditionalTags from '../../ConditionalTags';
 import BonusCampaigns from '../../BonusCampaigns';
 import Operators from '../../Operators';
 import Dashboard from '../../Dashboard';
@@ -77,6 +78,8 @@ class IndexRoute extends PureComponent {
               <AppRoute path="/transactions" layout={MainLayout} component={Transactions} checkAuth />
               <AppRoute path="/bonus-campaigns" layout={MainLayout} component={BonusCampaigns} checkAuth />
               <AppRoute path="/campaigns" layout={MainLayout} component={Campaigns} checkAuth />
+              <AppRoute path="/conditional-tags" layout={MainLayout} component={ConditionalTags} checkAuth />
+
             </Otherwise>
           </Choose>
           <Route path="/logout" component={Logout} />

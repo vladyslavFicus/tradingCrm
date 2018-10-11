@@ -7,7 +7,6 @@ const project = require('../../project.config');
 process.traceDeprecation = true;
 
 const SRC_DIR = path.resolve(project.basePath, 'src');
-const company = project.company !== 'nas' ? project.company : '';
 const __DEV__ = project.env === 'development';
 const __TEST__ = project.env === 'test';
 const __PROD__ = project.env === 'production';
@@ -30,13 +29,6 @@ module.exports = {
         test: /\.(js|jsx)$/,
         exclude: path.resolve(project.basePath, 'node_modules'),
         use: 'happypack/loader',
-      },
-      { test: /\.(js|jsx)$/,
-        loader: 'webpack-enhanced-brand-loader',
-        exclude: path.resolve(project.basePath, 'node_modules'),
-        options: {
-          brand: company,
-        },
       },
       // images
       {
