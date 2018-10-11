@@ -16,6 +16,7 @@ module.exports = {
     path.join(SRC_DIR, project.main),
   ],
   resolve: {
+    symlinks: false,
     modules: [
       'src',
       'node_modules',

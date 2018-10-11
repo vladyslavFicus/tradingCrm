@@ -540,19 +540,33 @@ PropTypes.mt4User = PropTypes.shape({
 });
 PropTypes.tradingProfile = PropTypes.shape({
   isTestUser: PropTypes.bool,
-  aquisitionRep: PropTypes.string,
+  aquisitionRep: PropTypes.tradingRepresentative,
   aquisitionStatus: PropTypes.string,
   kycStatus: PropTypes.string,
-  salesRep: PropTypes.string,
+  salesRep: PropTypes.tradingRepresentative,
   salesStatus: PropTypes.string,
-  retentionRep: PropTypes.string,
+  retentionRep: PropTypes.tradingRepresentative,
   retentionStatus: PropTypes.string,
-  kycRep: PropTypes.string,
+  kycRep: PropTypes.tradingRepresentative,
   balance: PropTypes.string,
   equity: PropTypes.string,
   baseCurrencyBalance: PropTypes.string,
   baseCurrencyEquity: PropTypes.string,
   mt4Users: PropTypes.arrayOf(PropTypes.mt4User),
+});
+PropTypes.tradingRepresentative = PropTypes.shape({
+  country: PropTypes.string,
+  email: PropTypes.string,
+  firstName: PropTypes.string,
+  lastName: PropTypes.string,
+  operatorStatus: PropTypes.string,
+  phoneNumber: PropTypes.string,
+  registeredBy: PropTypes.string,
+  registrationDate: PropTypes.string,
+  statusChangeAuthor: PropTypes.string,
+  statusChangeDate: PropTypes.string,
+  statusReason: PropTypes.string,
+  uuid: PropTypes.string,
 });
 PropTypes.chartEntity = PropTypes.shape({
   entries: PropTypes.number.isRequired,

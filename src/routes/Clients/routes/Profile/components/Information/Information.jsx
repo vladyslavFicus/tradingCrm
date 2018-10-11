@@ -19,6 +19,7 @@ class Information extends PureComponent {
     pinnedNotes: PropTypes.object,
     checkService: PropTypes.func.isRequired,
     acquisitionData: PropTypes.object.isRequired,
+    loading: PropTypes.bool.isRequired,
   };
 
   static defaultProps = {
@@ -34,6 +35,7 @@ class Information extends PureComponent {
       onEditNoteClick,
       checkService,
       acquisitionData,
+      loading,
     } = this.props;
 
     return (
@@ -45,6 +47,7 @@ class Information extends PureComponent {
           <div className="col-md-3">
             <AcquisitionStatus
               acquisitionData={acquisitionData}
+              loading={loading}
             />
           </div>
           <div className="col-md-2">

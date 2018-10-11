@@ -213,17 +213,9 @@
     recharts "^1.1.0"
     uuid "^3.3.2"
 
-"@newage/casino_backoffice_utils@^0.0.19":
-  version "0.0.19"
-  resolved "https://nexus.newage.io/repository/hrzn-npm/@newage/casino_backoffice_utils/-/casino_backoffice_utils-0.0.19.tgz#cd24bd0ec200e3f29031d415e29e0345998c7c29"
-  dependencies:
-    fingerprintjs2 "^1.8.1"
-    keymirror "^0.1.1"
-    simple-eventing "^0.0.12"
-
-"@newage/casino_backoffice_utils@^0.0.29":
-  version "0.0.29"
-  resolved "https://nexus.newage.io/repository/hrzn-npm/@newage/casino_backoffice_utils/-/casino_backoffice_utils-0.0.29.tgz#4a83342fb263c195b1591bd8ecb46fc82c0b67e0"
+"@newage/casino_backoffice_utils@0.0.30":
+  version "0.0.30"
+  resolved "https://nexus.newage.io/repository/hrzn-npm/@newage/casino_backoffice_utils/-/casino_backoffice_utils-0.0.30.tgz#9db28a56982b0171772ed1e3312a52426da615ad"
   dependencies:
     country-list "^1.1.0"
     fingerprintjs2 "^1.8.1"
@@ -231,6 +223,14 @@
     joi-browser "^13.4.0"
     keymirror "^0.1.1"
     lodash "^4.17.10"
+    simple-eventing "^0.0.12"
+
+"@newage/casino_backoffice_utils@^0.0.19":
+  version "0.0.19"
+  resolved "https://nexus.newage.io/repository/hrzn-npm/@newage/casino_backoffice_utils/-/casino_backoffice_utils-0.0.19.tgz#cd24bd0ec200e3f29031d415e29e0345998c7c29"
+  dependencies:
+    fingerprintjs2 "^1.8.1"
+    keymirror "^0.1.1"
     simple-eventing "^0.0.12"
 
 "@newage/casino_backoffice_utils@^0.0.7":
@@ -4476,7 +4476,7 @@ fill-range@^4.0.0:
     repeat-string "^1.6.1"
     to-regex-range "^2.1.0"
 
-final-form@^4.9.1:
+final-form@^4.10.0, final-form@^4.9.1:
   version "4.10.0"
   resolved "https://registry.yarnpkg.com/final-form/-/final-form-4.10.0.tgz#6179bca7676925202510e9877eb1ad2ad1cd3460"
 

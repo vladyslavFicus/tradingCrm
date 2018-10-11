@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { get } from 'lodash';
+import { I18n } from 'react-redux-i18n';
 import PropTypes from '../../../../../../constants/propTypes';
 import MultiInput from '../../../../../../components/MultiInput';
+import './PlayerTags.scss';
 
 class PlayerTags extends Component {
   static propTypes = {
@@ -73,11 +75,12 @@ class PlayerTags extends Component {
 
     return (
       <MultiInput
-        components={{ DropdownIndicator: null, ClearIndicator: null }}
         async
         onAdd={this.onAdd}
         onRemove={this.onRemove}
+        placeholder={I18n.t('PLAYER_PROFILE.TAGS.ADD_TAGS')}
         initialValues={tags.map(t => ({ label: t.tagName, value: t.tagId }))}
+        className="player-tags"
       />
     );
   }

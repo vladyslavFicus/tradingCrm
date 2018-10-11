@@ -19,7 +19,7 @@
   "license": "MIT",
   "dependencies": {
     "@newage/casino_backoffice_ui": "0.0.50",
-    "@newage/casino_backoffice_utils": "^0.0.29",
+    "@newage/casino_backoffice_utils": "0.0.30",
     "@newage/react-hoc": "^0.0.6",
     "apollo-cache-inmemory": "^1.2.0",
     "apollo-client": "^2.3.0",
@@ -38,6 +38,7 @@
     "classnames": "^2.2.5",
     "country-list": "^1.1.0",
     "filesize": "^3.5.10",
+    "final-form": "^4.10.0",
     "fingerprintjs2": "^1.5.1",
     "graphql": "^0.13.2",
     "graphql-tag": "^2.9.2",

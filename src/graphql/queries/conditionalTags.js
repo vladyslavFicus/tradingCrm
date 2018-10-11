@@ -10,19 +10,21 @@ const conditionalTagsQuery = gql`query conditionalTags(
     page: $page,
     status: $status
   ) {
-    number,
-    page,
-    totalElements,
-    size,
-    last,
-    content {
-      _id
-      tag
-      conditionStatus
-      conditionType
-      count
-      uuid
-      name
+    data {
+      number,
+      page,
+      totalElements,
+      size,
+      last,
+      content {
+        _id
+        tag
+        conditionStatus
+        conditionType
+        count
+        uuid
+        name
+      }
     }
   }
 }`;

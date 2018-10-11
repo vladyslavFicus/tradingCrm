@@ -23,7 +23,7 @@ class FilterForm extends Component {
     disabled: false,
   };
 
-  handleReset = formData => {
+  handleReset = (formData) => {
     const { onReset } = this.props;
 
     formData.reset();
@@ -53,16 +53,17 @@ class FilterForm extends Component {
               >
                 <Field
                   name="status"
-                  label={I18n.t('conditionalTags.component.FilterForm.status')}
+                  label={I18n.t('route.conditionalTags.component.FilterForm.status')}
                   component={SelectField}
                   className="filter-row__small"
                 >
                   <option value="">{I18n.t('common.any')}</option>
                   <For each="status" of={Object.keys(statuses)}>
                     <option
+                      key={status}
                       value={status}
                     >
-                      {I18n.t(`conditionalTags.component.FilterForm.conditionStatus.${status}`)}
+                      {I18n.t(`route.conditionalTags.component.FilterForm.conditionStatus.${status}`)}
                     </option>
                   </For>
                 </Field>

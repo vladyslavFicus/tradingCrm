@@ -6,7 +6,6 @@ import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import attributeLabels from '../../constants';
 import stopPropagation from '../../../../../../utils/stopPropagation';
 import { NasSelectField, FileInput } from '../../../../../../components/ReduxForm';
-import './ImportGamesModal.scss';
 
 class ImportGamesModal extends Component {
   static propTypes = {

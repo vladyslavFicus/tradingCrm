@@ -20,6 +20,8 @@ import {
   moneyTypeLabels,
   spinTypes,
   spinTypeLabels,
+  roundTypes,
+  roundTypeLabels,
   gameFilters,
   gameFilterLabels,
 } from './constants';
@@ -65,7 +67,7 @@ class GamingView extends PureComponent {
     const { name } = this.props;
     const { _reduxForm: { autofill } } = this.context;
 
-    if (value === aggregationTypes.COUNT) {
+    if (value === aggregationTypes.COUNT || value === aggregationTypes.INROWCOUNT) {
       autofill(`${name}.amountSum`, null);
     } else if (value === aggregationTypes.SUM) {
       autofill(`${name}.amountCount`, null);
@@ -132,7 +134,10 @@ class GamingView extends PureComponent {
             ))}
           </Field>
           <Choose>
-            <When condition={aggregationType === aggregationTypes.COUNT}>
+            <When condition={
+              aggregationType === aggregationTypes.COUNT || 
+              aggregationType === aggregationTypes.INROWCOUNT 
+            }>
               <Field
                 name={`${name}.amountCount`}
                 type="number"
@@ -165,6 +170,21 @@ class GamingView extends PureComponent {
             {Object.keys(spinTypes).map(key => (
               <option key={key} value={key}>
                 {renderLabel(key, spinTypeLabels)}
+              </option>
+            ))}
+          </Field>
+          <Field
+            name={`${name}.roundType`}
+            className="col-4"
+            type="select"
+            component={SelectField}
+            disabled={disabled}
+            label={I18n.t(attributeLabels.roundType)}
+          >
+            <option value="">{I18n.t('COMMON.SELECT_OPTION.DEFAULT')}</option>
+            {Object.keys(roundTypes).map(key => (
+              <option key={key} value={key}>
+                {renderLabel(key, roundTypeLabels)}
               </option>
             ))}
           </Field>
@@ -201,6 +221,13 @@ class GamingView extends PureComponent {
               </option>
             ))}
           </Field>
+          <MultiCurrencyValue
+            baseName={`${name}.minSum`}
+            showErrorMessage={false}
+            className="col-4"
+            label={I18n.t(attributeLabels.minSum)}
+            disabled={disabled}
+          />
           {this.renderGameList()}
         </div>
       </Fragment>

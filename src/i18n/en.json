@@ -730,6 +730,9 @@
       "DEVICES": "Devices",
       "NOTES_AND_TAGS": "Notes & Tags",
       "FEED": "Feed"
+    },
+    "TAGS": {
+      "ADD_TAGS": "Add tag"
     }
   },
   "COMMON": {
@@ -2257,7 +2260,8 @@
             "LABEL": "Aggregation type",
             "VALUES": {
               "COUNT": "Count",
-              "SUM": "Sum"
+              "SUM": "Sum",
+              "INROWCOUNT": "In a row Count"
             }
           },
           "MONEY_TYPE": {
@@ -2275,6 +2279,13 @@
               "WIN": "Win"
             }
           },
+          "ROUND_TYPE": {
+            "LABEL": "Round type",
+            "VALUES": {
+              "SPIN": "Spin",
+              "BONUS_ROUND_CHANCE": "Bonus Chance"
+            }
+          },
           "GAME_FILTER": {
             "LABEL": "Game filter",
             "VALUES": {
@@ -2285,6 +2296,9 @@
           },
           "GAME_LIST": {
             "LABEL": "Game list"
+          },
+          "MIN_SUM": {
+            "LABEL": "Min Sum"
           }
         }
       },
@@ -2948,6 +2962,52 @@
         "createTeam": "Failed to create team",
         "updateTeam": "Failed to update team",
         "updateOperator": "Failed to update operator"
+      }
+    }
+  },
+  "common": {
+    "select": {
+      "default": "--Select--"
+    },
+    "any": "Any",
+    "reset": "Reset",
+    "by": "by",
+    "apply": "Apply",
+    "cancel": "Cancel",
+    "confirm": "Confirm"
+  },
+  "route": {
+    "conditionalTags": {
+      "component": {
+        "ConditionalTagsList": {
+          "title": "Conditional tags",
+          "status": "Condition status",
+          "addTags": "+ Add condition",
+          "name": "Condition",
+          "count": "Entries",
+          "tag": "Tag",
+          "status": "Status"
+        },
+        "FilterForm": {
+          "status": "Status",
+          "conditionStatus": {
+            "DISABLED": "Disabled",
+            "ACTIVE": "Active"
+          }
+        },
+        "StatusDropDown": {
+          "DISABLED": "Disabled",
+          "DISABLE": "Disable",
+          "ACTIVE": "Active"
+        },
+        "AddTagsModal": {
+          "title": "New condition",
+          "namePlaceholder": "Enter title",
+          "tagsPlaceholder": "Enter tag",
+          "name": "Title",
+          "tag": "Tag",
+          "file": "CSV file"
+        }
       }
     }
   }

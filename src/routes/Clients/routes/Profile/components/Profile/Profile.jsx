@@ -696,6 +696,7 @@ class Profile extends Component {
               onEditNoteClick={this.handleEditNoteClick}
               pinnedNotes={notes}
               acquisitionData={acquisitionData}
+              loading={loading}
             />
           </HideDetails>
         </div>

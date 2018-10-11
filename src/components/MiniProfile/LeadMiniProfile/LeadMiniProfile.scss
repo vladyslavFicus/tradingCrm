@@ -36,50 +36,6 @@
   &-username {
     font-weight: 600;
   }
-  &-tags {
-    margin: 5px -5px -3px;
-  }
-  &-tag {
-    position: relative;
-    display: inline-block;
-    height: 20px;
-    margin-bottom: 5px;
-    margin-left: 15px;
-    padding-right: 10px;
-    padding-left: 2px;
-    line-height: 20px;
-    font-size: 11px;
-    font-weight: 600;
-    color: #fff;
-    &:before {
-      content: '';
-      display: inline-block;
-      position: absolute;
-      top: 0;
-      left: -10px;
-      border-top: 10px solid transparent;
-      border-bottom: 10px solid transparent;
-      border-right: 10px solid transparent;
-    }
-    &_neutral {
-      background-color: #6a7a84;
-      &:before {
-        border-right-color: #6a7a84;
-      }
-    }
-    &_negative {
-      background-color: #fb434a;
-      &:before {
-        border-right-color: #fb434a;
-      }
-    }
-    &_positive {
-      background-color: #009900;
-      &:before {
-        border-right-color: #009900;
-      }
-    }
-  }
   &-content {
     margin-bottom: 2px;
     padding: 8px 9px;

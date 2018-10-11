@@ -1,3 +1,4 @@
+import keyMirror from 'keymirror';
 import I18n from '../../../../utils/fake-i18n';
 
 const filterLabels = {
@@ -13,7 +14,29 @@ const filterPlaceholders = {
   searchBy: I18n.t('CAMPAIGNS.LIST.GRID_VIEW_FILTER.SEARCH_BY.PLACEHOLDER'),
 };
 
+const actions = keyMirror({
+  DISABLE: null,
+});
+
+const actionsColorNames = {
+  [actions.DISABLE]: 'color-red',
+};
+
+const statuses = keyMirror({
+  DISABLED: null,
+  ACTIVE: null,
+});
+
+const statusesColorNames = {
+  [statuses.DISABLED]: 'color-default',
+  [statuses.ACTIVE]: 'color-success',
+};
+
 export {
   filterLabels,
+  statuses,
+  actionsColorNames,
+  actions,
+  statusesColorNames,
   filterPlaceholders,
 };
