@@ -1,9 +1,10 @@
 import React, { Component, Fragment } from 'react';
+import { I18n } from 'react-redux-i18n';
 import CancelLimitModal from './CancelLimitModal';
 import CreateLimitModal from './CreateLimitModal';
 import CommonGridView from './CommonGridView';
 import { targetTypes } from '../../../../../../../constants/note';
-import { types as limitTypes, timeUnits } from '../../../../../../../constants/limits';
+import { types, timeUnits } from '../../../../../../../constants/limits';
 import PropTypes from '../../../../../../../constants/propTypes';
 import TabHeader from '../../../../../../../components/TabHeader';
 
@@ -22,15 +23,13 @@ class Limits extends Component {
       }).isRequired,
     }).isRequired,
     list: PropTypes.arrayOf(PropTypes.limitEntity),
+    regulation: PropTypes.arrayOf(PropTypes.limitEntity),
     fetchEntities: PropTypes.func.isRequired,
+    fetchRegulation: PropTypes.func.isRequired,
     cancelLimit: PropTypes.func.isRequired,
     setLimit: PropTypes.func.isRequired,
     limitPeriods: PropTypes.limitPeriodEntity,
     locale: PropTypes.string.isRequired,
-  };
-  static defaultProps = {
-    list: [],
-    limitPeriods: null,
   };
   static contextTypes = {
     onAddNoteClick: PropTypes.func.isRequired,
@@ -38,6 +37,11 @@ class Limits extends Component {
     setNoteChangedCallback: PropTypes.func.isRequired,
     registerUpdateCacheListener: PropTypes.func.isRequired,
     unRegisterUpdateCacheListener: PropTypes.func.isRequired,
+  };
+  static defaultProps = {
+    list: [],
+    regulation: [],
+    limitPeriods: null,
   };
 
   state = {
@@ -72,16 +76,40 @@ class Limits extends Component {
     unRegisterUpdateCacheListener(name);
   }
 
-  handleRefresh = () => this.props.fetchEntities(this.props.match.params.id);
+  handleRefresh = () => {
+    const {
+      fetchEntities,
+      fetchRegulation,
+      match: { params: { id } },
+    } = this.props;
+
+    fetchEntities(id);
+    fetchRegulation(id);
+  };
+
+  fetchLimits = (type) => {
+    const {
+      match: { params: { id } },
+      fetchEntities,
+      fetchRegulation,
+    } = this.props;
+
+    const fetchLimits = type === 'regulation' ? fetchRegulation : fetchEntities;
+
+    fetchLimits(id);
+  };
 
   handleCancelLimit = async (type, limitId) => {
-    const { match: { params: { id } }, cancelLimit, fetchEntities } = this.props;
+    const {
+      match: { params: { id } },
+      cancelLimit,
+    } = this.props;
 
     const action = await cancelLimit(id, type, limitId);
     this.handleCloseModal();
 
     if (action && !action.error) {
-      fetchEntities(id);
+      this.fetchLimits(type);
     }
   };
 
@@ -113,7 +141,7 @@ class Limits extends Component {
       currencyCode,
     };
 
-    if ([limitTypes.WAGER, limitTypes.LOSS, limitTypes.DEPOSIT].indexOf(type) > -1) {
+    if ([types.WAGER, types.LOSS, types.DEPOSIT].indexOf(type) > -1) {
       data.amount = amount;
     }
 
@@ -167,17 +195,32 @@ class Limits extends Component {
 
   render() {
     const { modal } = this.state;
-    const { list, limitPeriods, locale } = this.props;
+    const {
+      list,
+      limitPeriods,
+      locale,
+      regulation,
+    } = this.props;
 
     return (
       <Fragment>
-        <TabHeader title="Limits">
+        {/*<TabHeader title="Regulation Limits" />*/}
+        <TabHeader title={I18n.t('PLAYER_PROFILE.LIMITS.REGULATION_TITLE')} />
+        <div className="tab-wrapper">
+          <CommonGridView
+            dataSource={regulation}
+            onOpenCancelLimitModal={this.handleOpenCancelLimitModal}
+            onNoteClick={this.handleNoteClick}
+            locale={locale}
+          />
+        </div>
+        <TabHeader title={I18n.t('PLAYER_PROFILE.LIMITS.TITLE')}>
           <button
             type="button"
             className="btn btn-sm btn-primary-outline"
             onClick={this.handleOpenCreateLimitModal}
           >
-            + New limit
+            {I18n.t('PLAYER_PROFILE.LIMITS.ADD_NEW_LIMIT')}
           </button>
         </TabHeader>
         <div className="tab-wrapper">
@@ -202,7 +245,7 @@ class Limits extends Component {
           <CreateLimitModal
             {...modal.params}
             initialValues={{
-              type: limitTypes.DEPOSIT,
+              type: types.DEPOSIT,
               period: limitPeriods.deposit[0],
             }}
             limitPeriods={limitPeriods}

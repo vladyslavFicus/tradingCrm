@@ -6,14 +6,24 @@ import view, {
   initialState as viewInitialState,
 } from './view';
 
+
+import regulation, {
+  actionCreators as regulationActionCreators,
+  actionTypes as regulationActionTypes,
+  initialState as regulationInitialState,
+} from './regulation';
+
 const actionCreators = {
   ...viewActionCreators,
+  ...regulationActionCreators,
 };
 const actionTypes = {
   ...viewActionTypes,
+  ...regulationActionTypes,
 };
 const initialState = {
   view: viewInitialState,
+  regulation: regulationInitialState,
 };
 
 export {
@@ -24,4 +34,5 @@ export {
 
 export default combineReducers({
   view,
+  regulation,
 });

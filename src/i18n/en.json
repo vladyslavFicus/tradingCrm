@@ -733,6 +733,11 @@
     },
     "TAGS": {
       "ADD_TAGS": "Add tag"
+    },
+    "LIMITS": {
+      "ADD_NEW_LIMIT": "+ Add limit",
+      "REGULATION_TITLE": "Regulation limits",
+      "TITLE": "Limits"
     }
   },
   "COMMON": {

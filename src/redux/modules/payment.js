@@ -100,11 +100,36 @@ function fetchPaymentMethods(type) {
   };
 }
 
+function cancelDepositLimit(type) {
+  return (playerUUID, limitId) => (dispatch, getState) => {
+    const { auth: { token, logged } } = getState();
+
+    return dispatch({
+      [CALL_API]: {
+        endpoint: `/payment/limits/${playerUUID}/deposit/${limitId}`,
+        method: 'DELETE',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        types: [
+          type.REQUEST,
+          type.SUCCESS,
+          type.FAILURE,
+        ],
+        bailout: !logged,
+      },
+    });
+  };
+}
+
 const sourceActionCreators = {
   changePaymentStatus,
   fetchPaymentStatuses,
   fetchPaymentAccounts,
   fetchPaymentMethods,
+  cancelDepositLimit,
 };
 
 export {

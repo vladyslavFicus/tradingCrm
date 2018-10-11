@@ -24,7 +24,9 @@
       "DESKS": "",
       "TEAMS": "",
       "CALLBACKS": "",
-      "CLIENTS": ""
+      "CLIENTS": "",
+      "DASHBOARD": "",
+      "LEADS": ""
     },
     "BOTTOM_MENU": {
       "SUPPORT": "Поддержка"
@@ -736,6 +738,11 @@
     },
     "TAGS": {
       "ADD_TAGS": "Добавить тег"
+    },
+    "LIMITS": {
+      "ADD_NEW_LIMIT": "+ Добавить лимит",
+      "REGULATION_TITLE": "Ограничения по правилам",
+      "TITLE": "Ограничения"
     }
   },
   "COMMON": {
@@ -902,7 +909,8 @@
       "RU": "Русский",
       "ES": "Испанский",
       "DE": "Немецкий",
-      "IT": "Итальянский"
+      "IT": "Итальянский",
+      "UA": ""
     },
     "COMMENT": "Комментарий",
     "UPLOAD": "Загрузить",
@@ -918,7 +926,13 @@
     "DATE_OPTIONS": {
       "START_DATE": "",
       "END_DATE": ""
-    }
+    },
+    "FAIL": "",
+    "PROMOTE_FAILED": "",
+    "SOMETHING_WRONG": "",
+    "UPLOAD_FAILED": "",
+    "UPLOAD_SUCCESSFUL": "",
+    "PROMOTE_TO_CLIENT": ""
   },
   "FILES": {
     "UPLOAD_MODAL": {
@@ -1854,7 +1868,8 @@
         "ACQUISITION_STATUS": "Статус приобритения",
         "DESKS": "",
         "TEAMS": "Команды",
-        "OFFICES": "Офисы"
+        "OFFICES": "Офисы",
+        "SALES_STATUS": ""
       }
     }
   },
@@ -1989,7 +2004,13 @@
     "REWARD": "Награда",
     "OPTED_IN": "Opted-in %{value} игроков",
     "SELECTED": "Выбрано %{value} игроков",
-    "BONUS": "Бонус"
+    "BONUS": "Бонус",
+    "LEADS": {
+      "LEAD": "",
+      "COUNTRY": "",
+      "SALES": "",
+      "LEAD_CREATED": ""
+    }
   },
   "OPERATORS": {
     "HEADING": "Операторы",
@@ -2113,10 +2134,43 @@
       "LAST_7_DAYS": "",
       "TODAY": "",
       "YESTERDAY": "",
-      "PAST_WEEK": ""
+      "PAST_WEEK": "",
+      "CURRENT_WEEK": "",
+      "LAST_MONTH": "",
+      "PAST_MONTH": ""
     },
     "TOTAL_REGISTERED": "",
-    "REGISTRATIONS": ""
+    "REGISTRATIONS": "",
+    "DEPOSITS_AMOUNT_CHART": {
+      "TITLE": "",
+      "FOOTER_TITLE": "",
+      "TOOLTIP_TITLE": "",
+      "NO_RESULTS_TEXT": ""
+    },
+    "DEPOSITS_COUNT_CHART": {
+      "TITLE": "",
+      "FOOTER_TITLE": "",
+      "TOOLTIP_TITLE": "",
+      "NO_RESULTS_TEXT": ""
+    },
+    "REGISTRATION_CHART": {
+      "TITLE": "",
+      "TOOLTIP_TITLE": "",
+      "FOOTER_TITLE": "",
+      "NO_RESULTS_TEXT": ""
+    },
+    "WITHDRAWS_AMOUNT_CHART": {
+      "TITLE": "",
+      "FOOTER_TITLE": "",
+      "TOOLTIP_TITLE": "",
+      "NO_RESULTS_TEXT": ""
+    },
+    "WITHDRAWS_COUNT_CHART": {
+      "TITLE": "",
+      "FOOTER_TITLE": "",
+      "TOOLTIP_TITLE": "",
+      "NO_RESULTS_TEXT": ""
+    }
   },
   "CAMPAIGNS": {
     "CAMPAIGN_NAME": "Название кампании",
@@ -2512,7 +2566,8 @@
         "WITHDRAWN": ""
       },
       "ACQUISITION": {
-        "TITLE": ""
+        "TITLE": "",
+        "SALES": ""
       }
     },
     "TABS": {
@@ -2686,5 +2741,165 @@
       "DELETE_TITLE": "Удалить тэг",
       "EDIT_TITLE": "Редактировать тэг"
     }
+  },
+  "DESKS": {
+    "GRID_FILTERS": {
+      "DESK_TYPE_LABEL": "",
+      "DESK_TYPE": {
+        "ANY": "",
+        "NO": "",
+        "YES": ""
+      }
+    },
+    "FILTERS": {
+      "DEFAULT_DESK": "",
+      "OFFICE": "",
+      "DESK": ""
+    },
+    "DESKS": "",
+    "ADD_DESK": "",
+    "GRID_HEADER": {
+      "DESK": "",
+      "OFFICE": "",
+      "DESK_TYPE": "",
+      "DEFAULT_DESK": ""
+    },
+    "MODAL": {
+      "LABELS": {
+        "DESK_TYPE_OPTIONS": {
+          "RETENTION": "",
+          "SALES": "",
+          "NINJA": ""
+        },
+        "DESK_NAME": "",
+        "OFFICE_NAME": "",
+        "LANGUAGE": "",
+        "DESK_TYPE": ""
+      },
+      "HEADER": "",
+      "CREATE_BUTTON": ""
+    }
+  },
+  "HIERARCHY": {
+    "INFO_MODAL": {
+      "HEADER": "",
+      "DESK_BODY": "",
+      "OFFICE_BODY": "",
+      "TEAM_BODY": ""
+    }
+  },
+  "LEAD_PROFILE": {
+    "PROMOTE_MODAL": {
+      "HEADER": "",
+      "BODY_HEADER": "",
+      "LABELS": {
+        "FIRST_NAME": "",
+        "LAST_NAME": "",
+        "EMAIL": "",
+        "COUNTRY": "",
+        "PASSWORD": "",
+        "LANGUAGE": "",
+        "SALES_REP": "",
+        "SALES_DESK": ""
+      }
+    },
+    "TABS": {
+      "PROFILE": ""
+    },
+    "HEADER": {
+      "PROMOTE_TO_CLIENT": "",
+      "REGISTERED": ""
+    },
+    "DETAILS": {
+      "PERSONAL_INFORMATION": "",
+      "DATE_OF_BIRTH": "",
+      "GENDER": "",
+      "PHONE": "",
+      "EMAIL": "",
+      "COUNTRY": "",
+      "CITY": "",
+      "LANGUAGE": "",
+      "SOURCE": "",
+      "AFFILIATE": ""
+    },
+    "PERSONAL": {
+      "LABEL": {
+        "FIRST_NAME": "",
+        "LAST_NAME": "",
+        "DATE_OF_BIRTH": "",
+        "GENDER": "",
+        "COUNTRY": "",
+        "CITY": "",
+        "PHONE": "",
+        "PHONE_CODE": "",
+        "MOBILE": "",
+        "MOBILE_CODE": ""
+      },
+      "ADDRESS_TITLE": "",
+      "CONTACTS_TITLE": "",
+      "INFO_TITLE": ""
+    },
+    "NOTIFICATION_FAILURE": "",
+    "UPDATED": ""
+  },
+  "OFFICES": {
+    "OFFICES": "",
+    "ADD_OFFICE": "",
+    "GRID_HEADER": {
+      "OFFICE": "",
+      "COUNTRY": ""
+    },
+    "MODAL": {
+      "HEADER": "",
+      "CREATE_BUTTON": "",
+      "LABELS": {
+        "OFFICE_NAME": "",
+        "COUNTRY": "",
+        "OFFICE_MANAGER": ""
+      }
+    }
+  },
+  "TEAMS": {
+    "TEAMS": "",
+    "ADD_TEAM": "",
+    "GRID_HEADER": {
+      "TEAM": "",
+      "OFFICE": "",
+      "DESK": ""
+    },
+    "MODAL": {
+      "HEADER": "",
+      "NO_OFFICE_DESK": "",
+      "SELECT_OFFICE_FIRST": "",
+      "CREATE_BUTTON": "",
+      "LABELS": {
+        "TEAM_NAME": "",
+        "OFFICE_NAME": "",
+        "DESK_NAME": ""
+      }
+    }
+  },
+  "LEADS": {
+    "STATUSES": {
+      "NEW": "",
+      "NEVER_ANSWER": "",
+      "VOICE_MAIL": "",
+      "CONVERTED": ""
+    },
+    "PROMOTE_INFO_MODAL": {
+      "HEADER": "",
+      "BODY": ""
+    },
+    "LEADS_FOUND": "",
+    "LEADS_SELECTED": "",
+    "LEADS": "",
+    "GRID_HEADER": {
+      "LEAD": "",
+      "COUNTRY": "",
+      "SALES": "",
+      "REGISTRATION": "",
+      "STATUS": ""
+    },
+    "SUCCESS_PROMOTED": ""
   }
 }

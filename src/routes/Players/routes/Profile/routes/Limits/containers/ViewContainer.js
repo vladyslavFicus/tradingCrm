@@ -14,8 +14,17 @@ const limitPeriods = Object
     [period]: configLimitPeriods[period].periods || [],
   }), {});
 
-const mapStateToProps = ({ userLimits: { view }, i18n: { locale } }) => ({
+const mapStateToProps = ({
+  userLimits: {
+    view,
+    regulation: {
+      list: regulation,
+    },
+  },
+  i18n: { locale },
+}) => ({
   ...view,
+  regulation,
   locale,
   limitPeriods,
 });
@@ -23,6 +32,7 @@ const mapStateToProps = ({ userLimits: { view }, i18n: { locale } }) => ({
 const mapActions = {
   cancelLimit: actionCreators.cancelLimit,
   fetchEntities: actionCreators.fetchLimits,
+  fetchRegulation: actionCreators.fetchRegulationLimit,
   setLimit: actionCreators.setLimit,
 };
 

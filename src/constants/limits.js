@@ -21,6 +21,7 @@ const types = {
   WAGER: 'wager',
   LOSS: 'loss',
   DEPOSIT: 'deposit',
+  REGULATION: 'regulation',
 };
 
 const amountTypes = {
@@ -33,6 +34,7 @@ const typesLabels = {
   [types.WAGER]: 'Wager limit',
   [types.LOSS]: 'Loss limit',
   [types.DEPOSIT]: 'Deposit limit',
+  [types.REGULATION]: 'Regulation limit',
 };
 
 const statusesColor = {

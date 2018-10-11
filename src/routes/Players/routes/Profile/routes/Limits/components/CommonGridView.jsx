@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import humanizeDuration from 'humanize-duration';
 import classNames from 'classnames';
 import moment from 'moment';
@@ -85,30 +85,26 @@ class CommonGridView extends Component {
   );
 
   renderLimit = data => (
-    <div>
-      {
-        data.value.type === amountTypes.MONEY &&
-        <div>
+    <Fragment>
+      <If condition={data.value.type === amountTypes.MONEY}>
+        <Fragment>
           <div className="font-weight-700">
             <Amount {...data.value.limit} />
           </div>
-          {
-            data.value.used &&
+          <If condition={data.value.used}>
             <div className="font-size-11">
               used <Amount {...data.value.used} />
             </div>
-          }
-          {
-            data.value.left &&
+          </If>
+          <If condition={data.value.left}>
             <div className="font-size-11">
               left <Amount {...data.value.left} />
             </div>
-          }
-        </div>
-      }
-      {
-        data.value.type === amountTypes.TIME &&
-        <div>
+          </If>
+        </Fragment>
+      </If>
+      <If condition={data.value.type === amountTypes.TIME}>
+        <Fragment>
           <div className="font-weight-700">
             {humanizeDuration(data.value.limit * 1000, humanizeDurationConfig)}
           </div>
@@ -118,89 +114,85 @@ class CommonGridView extends Component {
           <div className="font-size-11">
             {I18n.t('COMMON.LEFT', { value: humanizeDuration(data.value.left * 1000, humanizeDurationConfig) })}
           </div>
-        </div>
-      }
-    </div>
+        </Fragment>
+      </If>
+    </Fragment>
   );
 
   renderStatus = data => (
-    <div>
+    <Fragment>
       <div className={classNames(statusesColor[data.status], 'text-uppercase font-weight-700')}>
         {statusesLabels[data.status] || data.status}
       </div>
-      {
-        (data.status === statuses.IN_PROGRESS || data.status === statuses.ACTIVE) &&
+      <If condition={data.status === statuses.IN_PROGRESS || data.status === statuses.ACTIVE}>
         <div className="font-size-11">
           {I18n.t('COMMON.SINCE', { date: moment.utc(data.startDate).local().format('DD.MM.YYYY HH:mm') })}
         </div>
-      }
-      {
-        data.status === statuses.PENDING &&
-        <div>
-          {
-            data.statusAuthor &&
+      </If>
+      <If condition={data.status === statuses.PENDING}>
+        <Fragment>
+          <If condition={data.statusAuthor}>
             <div className="font-size-11">
               {I18n.t('COMMON.AUTHOR_BY')} <Uuid uuid={data.statusAuthor} uuidPrefix="OP" />
             </div>
-          }
-          {
-            data.startDate &&
+          </If>
+          <If condition={data.startDate}>
             <div className="font-size-11">
               {I18n.t('COMMON.ACTIVATES_ON', { date: moment.utc(data.startDate).local().format('DD.MM.YYYY HH:mm') })}
             </div>
-          }
-        </div>
-      }
-      {
-        (data.status === statuses.COOLOFF || data.status === statuses.CANCELED) &&
-        <div>
-          {
-            data.statusAuthor &&
+          </If>
+        </Fragment>
+      </If>
+      <If condition={data.status === statuses.COOLOFF || data.status === statuses.CANCELED}>
+        <Fragment>
+          <If condition={data.statusAuthor}>
             <div className="font-size-11">
               {I18n.t('COMMON.AUTHOR_BY')} <Uuid uuid={data.statusAuthor} uuidPrefix="OP" />
             </div>
-          }
-          {
-            data.expirationDate &&
+          </If>
+          <If condition={data.expirationDate}>
             <div className="font-size-11">
               {data.status === statuses.COOLOFF ? 'until' : 'on'} {' '}
               {moment.utc(data.expirationDate).local().format('DD.MM.YYYY HH:mm')}
             </div>
-          }
-        </div>
-      }
-    </div>
+          </If>
+        </Fragment>
+      </If>
+    </Fragment>
   );
 
   renderType = data => (
-    <div>
+    <Fragment>
       <div className="font-weight-700">{typesLabels[data.type]}</div>
-      {
-        data.author &&
+      <If condition={data.author}>
         <div className="font-size-11">
           {I18n.t('COMMON.AUTHOR_BY')} <Uuid uuid={data.author} />
         </div>
-      }
-    </div>
+      </If>
+    </Fragment>
   );
 
   renderCreationDate = data => (
-    <div>
+    <Fragment>
       <div className="font-weight-700">
         {moment.utc(data.creationDate).local().format('DD.MM.YYYY')}
       </div>
       <div className="font-size-11">
         {moment.utc(data.creationDate).local().format('HH:mm')}
       </div>
-    </div>
+    </Fragment>
   );
 
   renderPeriod = data => (
     <div className="font-weight-700">
-      {
-        data.type !== types.SESSION_DURATION ?
-          moment().add(data.period, 'seconds').fromNow(true) : ' - '
-      }
+      <Choose>
+        <When condition={data.type === types.SESSION_DURATION}>
+          {' - '}
+        </When>
+        <Otherwise>
+          {moment().add(data.period, 'seconds').fromNow(true)}
+        </Otherwise>
+      </Choose>
     </div>
   );
 
@@ -219,49 +211,46 @@ class CommonGridView extends Component {
             name="type"
             header="Limit Type"
             render={this.renderType}
+            headerStyle={{ width: '15%' }}
           />
-
           <GridViewColumn
             name="creationDate"
             header="Set On"
             render={this.renderCreationDate}
+            headerStyle={{ width: '15%' }}
           />
-
           <GridViewColumn
             name="durationSeconds"
             header="Period"
             render={this.renderPeriod}
+            headerStyle={{ width: '15%' }}
           />
-
           <GridViewColumn
             name="durationLimit"
             header="Amount/Value"
             render={this.renderLimit}
+            headerStyle={{ width: '15%' }}
           />
-
           <GridViewColumn
             name="status"
             header="Status"
             render={this.renderStatus}
+            headerStyle={{ width: '15%' }}
           />
-
-          {
-            !insideModal &&
+          <If condition={!insideModal}>
             <GridViewColumn
               name="notes"
               header="Note"
               render={this.renderNotes}
             />
-          }
-
-          {
-            !insideModal &&
+          </If>
+          <If condition={!insideModal}>
             <GridViewColumn
               name="actions"
               header=""
               render={this.renderActions}
             />
-          }
+          </If>
         </GridView>
       </div>
     );
