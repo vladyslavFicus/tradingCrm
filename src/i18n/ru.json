@@ -2116,8 +2116,7 @@
     },
     "CHART_SELECT_OPTIONS": {
       "LAST_7_DAYS": "",
-      "TODAY": "",
-      "YESTERDAY": ""
+      "TODAY": ""
     },
     "TOTAL_REGISTERED": "",
     "REGISTRATIONS": ""
@@ -2516,8 +2515,7 @@
         "WITHDRAWN": ""
       },
       "ACQUISITION": {
-        "TITLE": "",
-        "SALES": ""
+        "TITLE": ""
       }
     },
     "TABS": {
