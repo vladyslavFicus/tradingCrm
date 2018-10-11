@@ -9,7 +9,7 @@ import Profile from '../components/Profile';
 import config, { getBrandId } from '../../../../../config';
 import Permissions from '../../../../../utils/permissions';
 import { userProfileTabs } from '../../../../../config/menu';
-import { profileQuery, locksQuery } from '../../../../../graphql/queries/profile';
+import { clientQuery, locksQuery } from '../../../../../graphql/queries/profile';
 import { notesQuery } from '../../../../../graphql/queries/notes';
 import ConfirmActionModal from '../../../../../components/Modal/ConfirmActionModal';
 import NoteModal from '../../../../../components/NoteModal';
@@ -422,7 +422,7 @@ export default compose(
   graphql(updateSubscription, {
     name: 'updateSubscription',
   }),
-  graphql(profileQuery, {
+  graphql(clientQuery, {
     options: ({
       match: {
         params: {
