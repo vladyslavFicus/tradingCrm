@@ -16,6 +16,7 @@ class DeskForm extends Component {
     onCloseModal: PropTypes.func.isRequired,
     isOpen: PropTypes.bool.isRequired,
     invalid: PropTypes.bool.isRequired,
+    pristine: PropTypes.bool.isRequired,
     submitting: PropTypes.bool.isRequired,
     onSubmit: PropTypes.func.isRequired,
     change: PropTypes.func.isRequired,
@@ -50,6 +51,7 @@ class DeskForm extends Component {
       onCloseModal,
       isOpen,
       invalid,
+      pristine,
       submitting,
       onSubmit,
       error,
@@ -123,7 +125,7 @@ class DeskForm extends Component {
           </button>
           <button
             type="submit"
-            disabled={invalid || submitting}
+            disabled={invalid || pristine || submitting}
             className="btn btn-primary"
             form="teams-modal-form"
           >
@@ -140,8 +142,8 @@ const DeskModal = reduxForm({
   enableReinitialize: true,
   validate: createValidator({
     name: ['required', 'string'],
-    office: ['required', 'string'],
-    desk: ['required', 'string'],
+    officeId: ['required', 'string'],
+    deskId: ['required', 'string'],
   }, translateLabels(attributeLabels), false),
 })(DeskForm);
 

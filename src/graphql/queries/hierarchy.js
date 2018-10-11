@@ -63,7 +63,34 @@ const getHierarchyUsersByType = gql`query getHierarchyUsersByType(
   }
 }`;
 
+const getBranchInfo = gql`query getBranchInfo(
+  $branchId: String!,
+) {
+  hierarchy {
+    branchInfo (
+      branchId: $branchId,
+    ) {
+      error {
+        error
+        fields_errors
+      }
+      data {
+        uuid
+        name
+        branchType
+        country
+        defaultUser
+        parentBranches
+        deskType
+        language
+        defaultBranch
+      }
+    } 
+  }
+}`;
+
 export {
   getUserBranchHierarchy,
   getHierarchyUsersByType,
+  getBranchInfo,
 };

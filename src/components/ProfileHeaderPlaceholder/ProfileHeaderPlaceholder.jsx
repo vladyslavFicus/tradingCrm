@@ -1,9 +1,9 @@
 import React from 'react';
 import { TextRow } from 'react-placeholder/lib/placeholders';
-import PropTypes from '../../../../../../constants/propTypes';
-import Placeholder from '../../../../../../components/Placeholder';
+import PropTypes from '../../constants/propTypes';
+import Placeholder from '../Placeholder';
 
-const HeaderLeadPlaceholder = ({ children, ...rest }) => (
+const ProfileHeaderPlaceholder = ({ children, ...rest }) => (
   <Placeholder
     {...rest}
     className={null}
@@ -22,13 +22,13 @@ const HeaderLeadPlaceholder = ({ children, ...rest }) => (
   </Placeholder>
 );
 
-HeaderLeadPlaceholder.propTypes = {
+ProfileHeaderPlaceholder.propTypes = {
   ready: PropTypes.bool,
   children: PropTypes.any.isRequired,
 };
 
-HeaderLeadPlaceholder.defaultProps = {
+ProfileHeaderPlaceholder.defaultProps = {
   ready: false,
 };
 
-export default HeaderLeadPlaceholder;
+export default ProfileHeaderPlaceholder;

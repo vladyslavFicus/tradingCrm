@@ -4,8 +4,8 @@ import { I18n } from 'react-redux-i18n';
 import Uuid from '../../../../../../components/Uuid';
 import PropTypes from '../../../../../../constants/propTypes';
 import PopoverButton from '../../../../../../components/PopoverButton';
+import ProfileHeaderPlaceholder from '../../../../../../components/ProfileHeaderPlaceholder';
 import { leadStatuses } from '../../../../constants';
-import HeaderLeadPlaceholder from '../HeaderLeadPlaceholder';
 
 const Header = ({
   data: {
@@ -22,16 +22,16 @@ const Header = ({
 }) => (
   <div>
     <div className="row no-gutters panel-heading-row">
-      <HeaderLeadPlaceholder ready={!loading}>
+      <ProfileHeaderPlaceholder ready={!loading}>
         <div className="panel-heading-row__info">
           <div className="panel-heading-row__info-title">
             {`${name} ${surname}`}
           </div>
           <span className="panel-heading-row__info-ids">
-            {!!id && <Uuid uuid={id} />} {country && ` - ${country}`}
+            {!!id && <Uuid uuid={id} uuidPrefix="LE" />} {country && ` - ${country}`}
           </span>
         </div>
-      </HeaderLeadPlaceholder>
+      </ProfileHeaderPlaceholder>
       <div className="col-auto panel-heading-row__actions">
         <PopoverButton
           id="lead-promote-to-client"

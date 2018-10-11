@@ -605,5 +605,36 @@ PropTypes.userHierarchyType = PropTypes.shape({
   parentUsers: PropTypes.arrayOf(PropTypes.string),
   fullName: PropTypes.string,
 });
+PropTypes.hierarchyBranch = PropTypes.shape({
+  uuid: PropTypes.string.isRequired,
+  branchType: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  country: PropTypes.string,
+  defaultUser: PropTypes.string,
+  parentBranches: PropTypes.arrayOf(PropTypes.string),
+  deskType: PropTypes.string,
+  language: PropTypes.string,
+  defaultBranch: PropTypes.string,
+});
+PropTypes.ruleActionType = PropTypes.shape({
+  id: PropTypes.number.isRequired,
+  parentBranch: PropTypes.string,
+  parentUser: PropTypes.string,
+  ruleType: PropTypes.string,
+});
+PropTypes.ruleType = PropTypes.shape({
+  uuid: PropTypes.string.isRequired,
+  actions: PropTypes.arrayOf(PropTypes.ruleActionType),
+  brandId: PropTypes.string,
+  countries: PropTypes.arrayOf(PropTypes.string),
+  createdAt: PropTypes.string,
+  createdBy: PropTypes.string,
+  deletedAt: PropTypes.string,
+  languages: PropTypes.arrayOf(PropTypes.string),
+  name: PropTypes.string,
+  priority: PropTypes.number.isRequired,
+  type: PropTypes.string,
+  updatedBy: PropTypes.string,
+});
 
 export default PropTypes;
