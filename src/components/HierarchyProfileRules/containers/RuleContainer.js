@@ -1,12 +1,11 @@
 import { graphql, compose } from 'react-apollo';
 import { connect } from 'react-redux';
-import { withNotifications, withModals } from '../../../../../../../components/HighOrder';
-import ConfirmActionModal from '../../../../../../../components/Modal/ConfirmActionModal';
-import { getRules } from '../../../../../../../graphql/queries/rules';
-import { createRule, deleteRule } from '../../../../../../../graphql/mutations/rules';
-import countryList from '../../../../../../../utils/countryList';
+import { withNotifications, withModals } from '../../HighOrder';
+import ConfirmActionModal from '../../Modal/ConfirmActionModal';
+import { getRules } from '../../../graphql/queries/rules';
+import { createRule, deleteRule } from '../../../graphql/mutations/rules';
+import countryList from '../../../utils/countryList';
 import RuleModal from '../components/RuleModal';
-import View from '../components/View';
 
 const mapStateToProps = ({
   i18n: { locale },
@@ -17,7 +16,7 @@ const mapStateToProps = ({
   locale,
 });
 
-export default compose(
+export default Component => compose(
   withNotifications,
   withModals({
     ruleModal: RuleModal,
@@ -25,7 +24,7 @@ export default compose(
   }),
   connect(mapStateToProps),
   graphql(createRule, {
-    name: 'createOfficeRule',
+    name: 'createRule',
   }),
   graphql(deleteRule, {
     name: 'deleteRule',
@@ -46,4 +45,4 @@ export default compose(
     }),
     name: 'rules',
   }),
-)(View);
+)(Component);

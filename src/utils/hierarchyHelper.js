@@ -1,13 +1,13 @@
 import { groupBy } from 'lodash';
-import hierarchyTypes from '../constants/hierarchyTypes';
+import { userTypes } from '../constants/hierarchyTypes';
 
 const mapArray = arr => arr.map(item => item.uuid);
 
 const getHierarchyTypes = (array, type) => {
   switch (type) {
-    case hierarchyTypes.CUSTOMER:
+    case userTypes.CUSTOMER:
       return { type: 'clients', users: mapArray(array) };
-    case hierarchyTypes.LEAD_CUSTOMER:
+    case userTypes.LEAD_CUSTOMER:
       return { type: 'leads', users: mapArray(array) };
     default:
       return { type, users: mapArray(array) };

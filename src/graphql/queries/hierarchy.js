@@ -89,8 +89,64 @@ const getBranchInfo = gql`query getBranchInfo(
   }
 }`;
 
+const getBranchHierarchy = gql`query getBranchHierarchy (
+  $operatorId: String!,
+  $branchType: String!,
+  $keyword: String,
+  $officeUuid: String,
+  $deskUuid: String,
+  $deskType: DeskTypeEnum,
+  $defaultDeskFlag: DeskDefaultFlagEnum,
+  $country: String,
+) {
+  hierarchy {
+    branchHierarchy (
+      operatorId: $operatorId,
+      branchType: $branchType,
+      keyword: $keyword,
+      officeUuid: $officeUuid,
+      deskUuid: $deskUuid,
+      deskType: $deskType,
+      defaultDeskFlag: $defaultDeskFlag,
+      country: $country,
+    ) {
+      data {
+        office {
+          uuid
+          name
+          country
+          defaultUser
+          defaultBranch
+          parentBranches
+        }
+        desk {
+          uuid
+          name
+          language
+          deskType
+          defaultUser
+          defaultBranch
+          parentBranches
+        }
+        team {
+          uuid
+          name
+          defaultUser
+          defaultBranch
+          parentBranches
+        }
+      }
+      error {
+        error
+        fields_errors
+      }
+    }
+  }
+}`;
+
 export {
   getUserBranchHierarchy,
   getHierarchyUsersByType,
   getBranchInfo,
+  getBranchHierarchy,
 };

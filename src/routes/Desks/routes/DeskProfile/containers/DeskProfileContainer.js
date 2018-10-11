@@ -1,6 +1,6 @@
 import { graphql, compose } from 'react-apollo';
-import OfficeProfile from '../components/OfficeProfile';
 import { getBranchInfo } from '../../../../../graphql/queries/hierarchy';
+import DeskProfile from '../components/DeskProfile';
 
 export default compose(
   graphql(getBranchInfo, {
@@ -15,6 +15,6 @@ export default compose(
         branchId,
       },
     }),
-    name: 'officeProfile',
+    name: 'deskProfile',
   }),
-)(OfficeProfile);
+)(DeskProfile);

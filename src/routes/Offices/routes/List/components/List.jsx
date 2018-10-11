@@ -40,6 +40,16 @@ class List extends Component {
       isAdministration: PropTypes.bool.isRequired,
       operatorId: PropTypes.string.isRequired,
     }).isRequired,
+    offices: PropTypes.shape({
+      loading: PropTypes.bool.isRequired,
+      refetch: PropTypes.func.isRequired,
+      hierarchy: PropTypes.shape({
+        branchHierarchy: PropTypes.shape({
+          error: PropTypes.object,
+          data: PropTypes.arrayOf(PropTypes.object),
+        }).isRequired,
+      }),
+    }).isRequired,
   };
 
   componentWillUnmount() {
@@ -50,8 +60,8 @@ class List extends Component {
 
   handleFilterReset = () => history.replace({ query: { filters: {} } });
 
-  handleOfficeClick = ({ id }) => {
-    history.push(`/offices/${id}`);
+  handleOfficeClick = ({ office: { uuid } }) => {
+    history.push(`/offices/${uuid}`);
   };
 
   triggerOfficeModal = () => {
@@ -69,6 +79,7 @@ class List extends Component {
   handleAddOffice = async (variables) => {
     const {
       createOffice,
+      offices: { refetch },
       modals: { officeModal, infoModal },
       auth: { operatorId },
     } = this.props;
@@ -82,7 +93,7 @@ class List extends Component {
       },
     );
 
-    // refetch();
+    refetch();
     officeModal.hide();
     infoModal.show({
       header: I18n.t('HIERARCHY.INFO_MODAL.OFFICE_BODY'),
@@ -94,42 +105,47 @@ class List extends Component {
     });
   };
 
-  renderOffice = data => (
+  renderOffice = ({ office: { name, uuid } }) => (
     <Fragment>
       <div className="font-weight-700">
-        {data.name} {data.surname}
+        {name}
       </div>
       <div className="font-size-11">
-        <Uuid uuid={data.id} uuidPrefix="OF" />
+        <Uuid uuid={uuid} uuidPrefix="OF" />
       </div>
     </Fragment>
   );
 
-  renderCountry = ({ country, language }) => (
-    <CountryLabelWithFlag
-      code={country}
-      height="14"
-      languageCode={language}
-    />
+  renderCountry = ({ office: { country } }) => (
+    <Choose>
+      <When condition={country}>
+        <CountryLabelWithFlag
+          code={country}
+          height="14"
+        />
+      </When>
+      <Otherwise>
+        <span>&mdash;</span>
+      </Otherwise>
+    </Choose>
   );
 
   render() {
     const {
       locale,
-      // leads: {
-      //   loading,
-      //   leads,
-      // },
+      offices: {
+        loading,
+        hierarchy: offices,
+      },
       location: { query },
       countries,
       officeManagers: { hierarchy, loading: officeManagersLoading },
       auth: { isAdministration },
     } = this.props;
 
-    const loading = false;
-
-    const entities = get(this.props, 'leads.data') || { content: [] };
-    const error = get(hierarchy, 'hierarchyUsersByType.error');
+    const entities = get(offices, 'branchHierarchy.data') || [];
+    const error = get(offices, 'branchHierarchy.error');
+    const officeManagersError = get(hierarchy, 'hierarchyUsersByType.error');
     const filters = get(query, 'filters', {});
 
     const allowActions = Object
@@ -140,8 +156,7 @@ class List extends Component {
       <div className="card">
         <div className="card-heading">
           <Placeholder
-            // ready={!loading && !!leads}
-            ready={!officeManagersLoading && !error}
+            ready={!loading && !!offices}
             className={null}
             customPlaceholder={(
               <div>
@@ -159,7 +174,7 @@ class List extends Component {
               <button
                 className="btn btn-default-outline"
                 onClick={this.triggerOfficeModal}
-                disabled={officeManagersLoading || error}
+                disabled={error || officeManagersLoading || officeManagersError}
                 type="button"
               >
                 {I18n.t('OFFICES.ADD_OFFICE')}
@@ -177,10 +192,10 @@ class List extends Component {
 
         <div className="card-body">
           <GridView
-            dataSource={entities.content}
+            dataSource={entities}
             last
             locale={locale}
-            showNoResults={!loading && entities.content.length === 0}
+            showNoResults={!loading && entities.length === 0}
             onRowClick={this.handleOfficeClick}
           >
             <GridViewColumn

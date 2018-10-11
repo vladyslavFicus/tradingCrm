@@ -3,10 +3,12 @@ import { Redirect, Switch } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Route } from '../../../router';
 import List from '../routes/List';
+import TeamProfile from '../routes/TeamProfile';
 
 const Teams = ({ match: { path, url } }) => (
   <Switch>
     <Route path={`${path}/list`} component={List} />
+    <Route path={`${path}/:id`} component={TeamProfile} />
     <Redirect to={`${url}/list`} />
   </Switch>
 );

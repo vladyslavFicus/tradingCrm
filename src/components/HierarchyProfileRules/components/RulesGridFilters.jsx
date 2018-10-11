@@ -3,17 +3,17 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getFormValues } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
-import { createValidator } from '../../../../../../../utils/validator';
-import languages from '../../../../../../../constants/languageNames';
-import { filterLabels } from '../../../../../../../constants/user';
+import { createValidator } from '../../../utils/validator';
+import languages from '../../../constants/languageNames';
+import { filterLabels } from '../../../constants/user';
 import createDynamicForm, {
   FilterItem,
   FilterField,
   TYPES,
   SIZES,
-} from '../../../../../../../components/DynamicFilters';
+} from '../../DynamicFilters';
 
-const FORM_NAME = 'officeRulesListGridFilter';
+const FORM_NAME = 'rulesListGridFilter';
 const DynamicFilters = createDynamicForm({
   form: FORM_NAME,
   touchOnChange: true,

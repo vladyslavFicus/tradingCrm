@@ -33,7 +33,7 @@ const OfficesGridFilter = ({
     <FilterItem label={I18n.t(filterLabels.searchValue)} size={SIZES.medium} type={TYPES.input} default>
       <FilterField
         id="users-list-search-field"
-        name="searchBy"
+        name="keyword"
         placeholder="Name"
         type="text"
       />
@@ -46,7 +46,7 @@ const OfficesGridFilter = ({
       placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
       default
     >
-      <FilterField name="countries">
+      <FilterField name="country">
         {Object
           .keys(countries)
           .map(key => <option key={key} value={key}>{countries[key]}</option>)

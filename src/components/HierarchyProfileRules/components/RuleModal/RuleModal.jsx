@@ -2,12 +2,12 @@ import React from 'react';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { reduxForm, Field } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
-import PropTypes from '../../../../../../../../constants/propTypes';
-import { createValidator, translateLabels } from '../../../../../../../../utils/validator';
-import countryList from '../../../../../../../../utils/countryList';
-import { InputField, NasSelectField } from '../../../../../../../../components/ReduxForm';
-import languages from '../../../../../../../../constants/languageNames';
-import { ruleTypes, priorities } from '../../../../../../../../constants/rules';
+import PropTypes from '../../../../constants/propTypes';
+import { createValidator, translateLabels } from '../../../../utils/validator';
+import countryList from '../../../../utils/countryList';
+import languages from '../../../../constants/languageNames';
+import { ruleTypes, priorities } from '../../../../constants/rules';
+import { InputField, NasSelectField } from '../../../ReduxForm';
 import attributeLabels from './constants';
 
 const FORM_NAME = 'ruleModalForm';
@@ -27,7 +27,7 @@ const ModalForm = ({
     isOpen={isOpen}
   >
     <ModalHeader toggle={onCloseModal}>
-      {I18n.t('OFFICES.TABS.RULES.MODAL.HEADER')}
+      {I18n.t('HIERARCHY.PROFILE_RULE_TAB.MODAL.HEADER')}
     </ModalHeader>
     <ModalBody
       tag="form"
@@ -119,7 +119,7 @@ const ModalForm = ({
         className="btn btn-primary"
         form="offices-modal-form"
       >
-        {I18n.t('OFFICES.TABS.RULES.MODAL.CREATE_BUTTON')}
+        {I18n.t('HIERARCHY.PROFILE_RULE_TAB.MODAL.CREATE_BUTTON')}
       </button>
     </ModalFooter>
   </Modal>

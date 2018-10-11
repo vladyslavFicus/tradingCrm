@@ -3,16 +3,16 @@ import { get } from 'lodash';
 import { Switch, Redirect } from 'react-router-dom';
 import { Route } from '../../../../../router';
 import Tabs from '../../../../../components/Tabs';
+import HierarchyProfileRules from '../../../../../components/HierarchyProfileRules';
 import NotFound from '../../../../../routes/NotFound';
 import PropTypes from '../../../../../constants/propTypes';
-import HierarchyProfileRules from '../../../../../components/HierarchyProfileRules';
-import officeProfileTabs from './constants';
+import deskProfileTabs from './constants';
 import Header from './Header';
 
-const Rules = HierarchyProfileRules('OFFICES.TABS.RULES.TITLE');
+const Rules = HierarchyProfileRules('DESKS.TABS.RULES.TITLE');
 
-const OfficeProfile = ({
-  officeProfile: {
+const DeskProfile = ({
+  deskProfile: {
     hierarchy,
     loading,
   },
@@ -35,7 +35,7 @@ const OfficeProfile = ({
         />
       </div>
       <Tabs
-        items={officeProfileTabs}
+        items={deskProfileTabs}
         location={location}
         params={params}
       />
@@ -49,8 +49,8 @@ const OfficeProfile = ({
   );
 };
 
-OfficeProfile.propTypes = {
-  officeProfile: PropTypes.shape({
+DeskProfile.propTypes = {
+  deskProfile: PropTypes.shape({
     loading: PropTypes.bool.isRequired,
     hierarchy: PropTypes.shape({
       branchInfo: PropTypes.shape({
@@ -68,4 +68,4 @@ OfficeProfile.propTypes = {
   }).isRequired,
 };
 
-export default OfficeProfile;
+export default DeskProfile;

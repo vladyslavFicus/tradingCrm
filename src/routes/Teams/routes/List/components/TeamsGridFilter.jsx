@@ -35,7 +35,7 @@ const TeamsGridFilter = ({
     <FilterItem label={I18n.t(filterLabels.searchValue)} size={SIZES.medium} type={TYPES.input} default>
       <FilterField
         id="users-list-search-field"
-        name="searchBy"
+        name="keyword"
         placeholder="Name"
         type="text"
       />
@@ -48,7 +48,7 @@ const TeamsGridFilter = ({
       disabled={hierarchyBranchesLoading || (Array.isArray(offices) && offices.length === 0)}
       default
     >
-      <FilterField name="office">
+      <FilterField name="officeUuid">
         {offices.map(({ name, uuid }) => (
           <option key={uuid} value={uuid}>
             {name}
@@ -64,7 +64,7 @@ const TeamsGridFilter = ({
       disabled={hierarchyBranchesLoading || (Array.isArray(desks) && desks.length === 0)}
       default
     >
-      <FilterField name="desk">
+      <FilterField name="deskUuid">
         {desks.map(({ name, uuid }) => (
           <option key={uuid} value={uuid}>
             {name}

@@ -38,6 +38,16 @@ class List extends Component {
       isAdministration: PropTypes.bool.isRequired,
       userId: PropTypes.string.isRequired,
     }).isRequired,
+    teams: PropTypes.shape({
+      loading: PropTypes.bool.isRequired,
+      refetch: PropTypes.func.isRequired,
+      hierarchy: PropTypes.shape({
+        branchHierarchy: PropTypes.shape({
+          error: PropTypes.object,
+          data: PropTypes.arrayOf(PropTypes.object),
+        }),
+      }),
+    }).isRequired,
   };
 
   componentWillUnmount() {
@@ -48,8 +58,8 @@ class List extends Component {
 
   handleFilterReset = () => history.replace({ query: { filters: {} } });
 
-  handleTeamClick = ({ id }) => {
-    history.push(`/team/${id}`);
+  handleTeamClick = ({ team: { uuid } }) => {
+    history.push(`/teams/${uuid}`);
   };
 
   triggerTeamModal = () => {
@@ -68,7 +78,7 @@ class List extends Component {
   handleAddTeam = async (variables) => {
     const {
       createTeam,
-      // leads: { refetch },
+      teams: { refetch },
       modals: { teamModal, infoModal },
       auth: { userId: operatorId },
     } = this.props;
@@ -82,7 +92,7 @@ class List extends Component {
       }
     );
 
-    // refetch();
+    refetch();
     teamModal.hide();
     infoModal.show({
       header: I18n.t('HIERARCHY.INFO_MODAL.TEAM_BODY'),
@@ -94,57 +104,65 @@ class List extends Component {
     });
   };
 
-  renderTeam = data => (
+  renderTeam = ({ team: { name, uuid } }) => (
     <Fragment>
       <div className="font-weight-700">
-        {data.name} {data.surname}
+        {name}
       </div>
       <div className="font-size-11">
-        <Uuid uuid={data.id} uuidPrefix="TE" />
+        <Uuid uuid={uuid} uuidPrefix="TE" />
       </div>
     </Fragment>
   );
 
-  renderOffice = data => (
-    <Fragment>
-      <div className="font-weight-700">
-        {data.name} {data.surname}
-      </div>
-      <div className="font-size-11">
-        <Uuid uuid={data.id} uuidPrefix="OF" />
-      </div>
-    </Fragment>
+  renderOffice = ({ office }) => (
+    <Choose>
+      <When condition={office}>
+        <div className="font-weight-700">
+          {office.name}
+        </div>
+        <div className="font-size-11">
+          <Uuid uuid={office.uuid} uuidPrefix="OF" />
+        </div>
+      </When>
+      <Otherwise>
+        <span>&mdash;</span>
+      </Otherwise>
+    </Choose>
   );
 
-  renderDesk = data => (
-    <Fragment>
-      <div className="font-weight-700">
-        {data.name} {data.surname}
-      </div>
-      <div className="font-size-11">
-        <Uuid uuid={data.id} uuidPrefix="DE" />
-      </div>
-    </Fragment>
+  renderDesk = ({ desk }) => (
+    <Choose>
+      <When condition={desk}>
+        <div className="font-weight-700">
+          {desk.name}
+        </div>
+        <div className="font-size-11">
+          <Uuid uuid={desk.uuid} uuidPrefix="DE" />
+        </div>
+      </When>
+      <Otherwise>
+        <span>&mdash;</span>
+      </Otherwise>
+    </Choose>
   );
 
   render() {
     const {
       locale,
-      // leads: {
-      //   loading,
-      //   leads,
-      // },
+      teams: {
+        loading,
+        hierarchy: teams,
+      },
       userBranchHierarchy: { hierarchy, loading: userBranchHierarchyLoading },
       location: { query },
       auth: { isAdministration },
     } = this.props;
 
-    const loading = false;
-
-    const entities = get(this.props, 'leads.data') || { content: [] };
+    const entities = get(teams, 'branchHierarchy.data') || [];
     const offices = get(hierarchy, 'userBranchHierarchy.data.OFFICE') || [];
     const desks = get(hierarchy, 'userBranchHierarchy.data.DESK') || [];
-    const error = get(hierarchy, 'userBranchHierarchy.error');
+    const error = get(teams, 'branchHierarchy.error') || get(hierarchy, 'userBranchHierarchy.error');
     const filters = get(query, 'filters', {});
 
     const allowActions = Object
@@ -155,8 +173,7 @@ class List extends Component {
       <div className="card">
         <div className="card-heading">
           <Placeholder
-            // ready={!loading && !!leads}
-            ready={!error}
+            ready={!loading && !!teams}
             className={null}
             customPlaceholder={(
               <div>
@@ -194,10 +211,10 @@ class List extends Component {
 
         <div className="card-body">
           <GridView
-            dataSource={entities.content}
+            dataSource={entities}
             last
             locale={locale}
-            showNoResults={!loading && entities.content.length === 0}
+            showNoResults={!loading && entities.length === 0}
             onRowClick={this.handleTeamClick}
           >
             <GridViewColumn

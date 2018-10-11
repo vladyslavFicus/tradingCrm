@@ -2802,42 +2802,7 @@
     },
     "TABS": {
       "RULES": {
-        "ADD_RULE": "Add Rule",
-        "RULE_NOT_CREATED": "Error while creating rule",
-        "RULE_CREATED": "Rule created with id %{id}",
-        "RULE_NOT_DELETED": "Error while deleting rule",
-        "RULE_DELETED": "Rule with id %{id} deleted successfully",
-        "GRID": {
-          "COUNTRIES": "Countries",
-          "COUNTRY": "Country",
-          "LANGUAGES": "Languages",
-          "LANGUAGE": "Language"
-        },
-        "GRID_HEADER": {
-          "RULE": "Rule",
-          "COUNTRY": "Country",
-          "LANGUAGE": "Language",
-          "SOURCE": "Source",
-          "AFFILIATE": "Affiliate",
-          "PRIORITY": "Priority",
-          "ACTION": "Action"
-        },
-        "MODAL": {
-          "HEADER": "Create new rule",
-          "CREATE_BUTTON": "Create rule",
-          "LABELS": {
-            "RULE_NAME": "Rule name",
-            "COUNTRY": "Country",
-            "LANGUAGE": "Language",
-            "PRIORITY": "Rule priority",
-            "TYPE": "Rule type"
-          }
-        },
-        "DELETE_MODAL": {
-          "HEADER": "Delete confirmation",
-          "ACTION_TEXT": "Are you sure you want to delete rule %{name}",
-          "DELETE": "Delete"
-        }
+        "TITLE": "Office rules"
       }
     }
   },
@@ -2878,6 +2843,11 @@
       "DEFAULT_DESK": "Default desk",
       "OFFICE": "Office",
       "DESK": "Desk"
+    },
+    "TABS": {
+      "RULES": {
+        "TITLE": "Desk rules"
+      }
     }
   },
   "TEAMS": {
@@ -2898,6 +2868,11 @@
         "DESK_NAME": "Desk",
         "OFFICE_NAME": "Office"
       }
+    },
+    "TABS": {
+      "RULES": {
+        "TITLE": "Team rules"
+      }
     }
   },
   "HIERARCHY": {
@@ -2906,6 +2881,45 @@
       "OFFICE_BODY": "Office creation flow",
       "DESK_BODY": "Desk creation flow",
       "TEAM_BODY": "Team creation flow"
+    },
+    "PROFILE_RULE_TAB": {
+      "NAME": "Rules",
+      "ADD_RULE": "Add Rule",
+      "RULE_NOT_CREATED": "Error while creating rule",
+      "RULE_CREATED": "Rule created with id %{id}",
+      "RULE_NOT_DELETED": "Error while deleting rule",
+      "RULE_DELETED": "Rule with id %{id} deleted successfully",
+      "GRID": {
+        "COUNTRIES": "Countries",
+        "COUNTRY": "Country",
+        "LANGUAGES": "Languages",
+        "LANGUAGE": "Language"
+      },
+      "GRID_HEADER": {
+        "RULE": "Rule",
+        "COUNTRY": "Country",
+        "LANGUAGE": "Language",
+        "SOURCE": "Source",
+        "AFFILIATE": "Affiliate",
+        "PRIORITY": "Priority",
+        "ACTION": "Action"
+      },
+      "MODAL": {
+        "HEADER": "Create new rule",
+        "CREATE_BUTTON": "Create rule",
+        "LABELS": {
+          "RULE_NAME": "Rule name",
+          "COUNTRY": "Country",
+          "LANGUAGE": "Language",
+          "PRIORITY": "Rule priority",
+          "TYPE": "Rule type"
+        }
+      },
+      "DELETE_MODAL": {
+        "HEADER": "Delete confirmation",
+        "ACTION_TEXT": "Are you sure you want to delete rule %{name}",
+        "DELETE": "Delete"
+      }
     }
   },
   "MANUAL_COOLOFF": {
