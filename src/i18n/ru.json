@@ -2194,7 +2194,8 @@
             "LABEL": "Тип агрегации",
             "VALUES": {
               "COUNT": "Количество",
-              "SUM": "Сумма"
+              "SUM": "Сумма",
+              "INROWCOUNT": "Количество в ряду"
             }
           },
           "MONEY_TYPE": {
@@ -2212,6 +2213,13 @@
               "WIN": "Выигрыш"
             }
           },
+          "ROUND_TYPE": {
+            "LABEL": "Тип раунда",
+            "VALUES": {
+              "SPIN": "Спин",
+              "BONUS_ROUND_CHANCE": "Бонус шанс"
+            }
+          },
           "GAME_FILTER": {
             "LABEL": "Фильтр игры",
             "VALUES": {
@@ -2222,6 +2230,9 @@
           },
           "GAME_LIST": {
             "LABEL": "Список игр"
+          },
+          "MIN_SUM": {
+            "LABEL": "Мин сумма"
           }
         }
       },
