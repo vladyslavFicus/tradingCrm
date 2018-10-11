@@ -20,6 +20,7 @@
   "dependencies": {
     "@newage/casino_backoffice_ui": "0.0.50",
     "@newage/casino_backoffice_utils": "^0.0.29",
+    "@newage/react-hoc": "^0.0.6",
     "apollo-cache-inmemory": "^1.2.0",
     "apollo-client": "^2.3.0",
     "apollo-client-preset": "^1.0.5",

@@ -213,6 +213,14 @@
     recharts "^1.1.0"
     uuid "^3.3.2"
 
+"@newage/casino_backoffice_utils@^0.0.19":
+  version "0.0.19"
+  resolved "https://nexus.newage.io/repository/hrzn-npm/@newage/casino_backoffice_utils/-/casino_backoffice_utils-0.0.19.tgz#cd24bd0ec200e3f29031d415e29e0345998c7c29"
+  dependencies:
+    fingerprintjs2 "^1.8.1"
+    keymirror "^0.1.1"
+    simple-eventing "^0.0.12"
+
 "@newage/casino_backoffice_utils@^0.0.29":
   version "0.0.29"
   resolved "https://nexus.newage.io/repository/hrzn-npm/@newage/casino_backoffice_utils/-/casino_backoffice_utils-0.0.29.tgz#4a83342fb263c195b1591bd8ecb46fc82c0b67e0"
@@ -232,6 +240,16 @@
     fingerprintjs2 "^1.8.1"
     keymirror "^0.1.1"
     react-redux-i18n "1.9.3"
+
+"@newage/react-hoc@^0.0.6":
+  version "0.0.6"
+  resolved "https://nexus.newage.io/repository/hrzn-npm/@newage/react-hoc/-/react-hoc-0.0.6.tgz#8ab2f88ec3cd5766a115ed03f20ddcc6c2c35a28"
+  dependencies:
+    "@newage/casino_backoffice_utils" "^0.0.19"
+    babel-plugin-jsx-control-statements "^3.2.8"
+    prop-types "^15.6.2"
+    react "^16.4.2"
+    simple-eventing "^0.0.19"
 
 "@nodelib/fs.stat@^1.0.1":
   version "1.1.0"
@@ -9071,6 +9089,15 @@ react@^16.3.2:
     object-assign "^4.1.1"
     prop-types "^15.6.0"
 
+react@^16.4.2:
+  version "16.5.2"
+  resolved "https://registry.yarnpkg.com/react/-/react-16.5.2.tgz#19f6b444ed139baa45609eee6dc3d318b3895d42"
+  dependencies:
+    loose-envify "^1.1.0"
+    object-assign "^4.1.1"
+    prop-types "^15.6.2"
+    schedule "^0.5.0"
+
 reactstrap@^6.0.1:
   version "6.3.1"
   resolved "https://registry.yarnpkg.com/reactstrap/-/reactstrap-6.3.1.tgz#263924e4c73ee239f446180d40d9f09cc40607e9"
@@ -9766,6 +9793,12 @@ sax@^1.2.4, sax@~1.2.1:
   version "1.2.4"
   resolved "https://registry.yarnpkg.com/sax/-/sax-1.2.4.tgz#2816234e2378bddc4e5354fab5caa895df7100d9"
 
+schedule@^0.5.0:
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/schedule/-/schedule-0.5.0.tgz#c128fffa0b402488b08b55ae74bb9df55cc29cc8"
+  dependencies:
+    object-assign "^4.1.1"
+
 schema-utils@^0.3.0:
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/schema-utils/-/schema-utils-0.3.0.tgz#f5877222ce3e931edae039f17eb3716e7137f8cf"
@@ -9928,6 +9961,10 @@ signal-exit@^3.0.0, signal-exit@^3.0.2:
 simple-eventing@^0.0.12:
   version "0.0.12"
   resolved "https://registry.yarnpkg.com/simple-eventing/-/simple-eventing-0.0.12.tgz#a864606cfd4862f348a8d3dd07bcb74a48cd3b02"
+
+simple-eventing@^0.0.19:
+  version "0.0.19"
+  resolved "https://registry.yarnpkg.com/simple-eventing/-/simple-eventing-0.0.19.tgz#4707ec5e7ddc847b8f05a978b394e48e5ba06da3"
 
 sinon-chai@3.0.0:
   version "3.0.0"

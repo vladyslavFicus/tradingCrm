@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import { Field, Form, FormSpy } from 'react-final-form';
 import PropTypes from 'prop-types';
 import { createValidator } from '@newage/casino_backoffice_utils';
-import { InputField, SelectField, FilterRow } from '@newage/casino_backoffice_ui';
+import { SelectField, FilterRow } from '@newage/casino_backoffice_ui';
 import { I18n } from 'react-redux-i18n';
 import Joi from 'joi-browser';
+import { statuses } from '../../../constants';
 
 const schema = Joi.object().keys({
   status: Joi.string(),
@@ -51,15 +52,19 @@ class FilterForm extends Component {
                 pristine={pristine}
               >
                 <Field
-                  name="fileCategory"
+                  name="status"
                   label={I18n.t('conditionalTags.component.FilterForm.status')}
                   component={SelectField}
                   className="filter-row__small"
                 >
                   <option value="">{I18n.t('common.any')}</option>
-                  <option value="">{I18n.t('common.any')}</option>
-                  <option value="">{I18n.t('common.any')}</option>
-
+                  <For each="status" of={Object.keys(statuses)}>
+                    <option
+                      value={status}
+                    >
+                      {I18n.t(`conditionalTags.component.FilterForm.conditionStatus.${status}`)}
+                    </option>
+                  </For>
                 </Field>
               </FilterRow>
             )}

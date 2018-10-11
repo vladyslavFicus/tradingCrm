@@ -1,18 +1,23 @@
 import React, { Component } from 'react';
 import { I18n } from 'react-redux-i18n';
 import { get } from 'lodash';
-import { GridView, GridViewColumn, Card, CardBody } from '@newage/casino_backoffice_ui';
+import { GridView, GridViewColumn, Card, CardBody, CardHeading, Button } from '@newage/casino_backoffice_ui';
 import FilterForm from './FilterForm';
 
 class ConditionalTagsList extends Component {
   renderTextValue = data => (
     <div className="font-weight-700">
-      {data}
+      {data.name}
     </div>
   );
 
   handleAddTags = () => {
+    const {
+      conditionalTags: { refetch },
+      modals: { addTags },
+    } = this.props;
 
+    addTags.show({ onConfirm: refetch});
   };
 
   render() {
