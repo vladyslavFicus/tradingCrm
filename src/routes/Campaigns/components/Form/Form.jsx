@@ -123,7 +123,6 @@ class Form extends Component {
   handleChangeOptIn = ({ target: { value } }) => {
     if (value === 'false') {
       this.clearFields(['optInPeriod', 'optInPeriodTimeUnit']);
-      this.setField('targetType', targetTypes.ALL);
     }
   };
 
