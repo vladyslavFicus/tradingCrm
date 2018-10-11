@@ -16,7 +16,7 @@ const leadsQuery = gql`query getLeads(
     registrationDateStart: $registrationDateStart,
     registrationDateEnd: $registrationDateEnd,
     limit: $limit,
-    page: $page,
+    page: $page, 
     countries: $countries,
     salesStatus: $salesStatus,
   ) {
