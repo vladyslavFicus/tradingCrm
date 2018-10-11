@@ -26,7 +26,7 @@ const humanizeDurationConfig = {
 class CommonGridView extends Component {
   static propTypes = {
     dataSource: PropTypes.arrayOf(PropTypes.limitEntity),
-    onOpenCancelLimitModal: PropTypes.func,
+    onItemCancelClick: PropTypes.func,
     onNoteClick: PropTypes.func,
     insideModal: PropTypes.bool,
     locale: PropTypes.string.isRequired,
@@ -35,7 +35,7 @@ class CommonGridView extends Component {
   static defaultProps = {
     dataSource: null,
     insideModal: false,
-    onOpenCancelLimitModal: null,
+    onItemCancelClick: null,
     onNoteClick: null,
   };
 
@@ -65,7 +65,7 @@ class CommonGridView extends Component {
     return (
       <button
         className="btn btn-sm"
-        onClick={e => this.props.onOpenCancelLimitModal(e, 'cancel-limit', {
+        onClick={e => this.props.onItemCancelClick(e, 'cancel-limit', {
           data,
           ...modalStaticParams,
         })}

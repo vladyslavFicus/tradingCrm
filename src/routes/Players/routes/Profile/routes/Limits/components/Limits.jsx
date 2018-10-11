@@ -209,7 +209,7 @@ class Limits extends Component {
         <div className="tab-wrapper">
           <CommonGridView
             dataSource={regulationLimits}
-            onOpenCancelLimitModal={this.handleOpenCancelLimitModal}
+            onItemCancelClick={this.handleOpenCancelLimitModal}
             onNoteClick={this.handleNoteClick}
             locale={locale}
           />
@@ -226,7 +226,7 @@ class Limits extends Component {
         <div className="tab-wrapper">
           <CommonGridView
             dataSource={list}
-            onOpenCancelLimitModal={this.handleOpenCancelLimitModal}
+            onItemCancelClick={this.handleOpenCancelLimitModal}
             onNoteClick={this.handleNoteClick}
             locale={locale}
           />
