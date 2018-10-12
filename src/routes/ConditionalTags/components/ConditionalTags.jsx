@@ -7,7 +7,6 @@ import List from '../routes/List';
 const ConditionalTags = ({ match: { path, url } }) => (
   <Switch>
     <Route path={`${path}/list`} component={List} />
-    <Route path={`${path}/create`} component={() => 'TODO'} />
     <Redirect to={`${url}/list`} />
   </Switch>
 );

@@ -19,6 +19,7 @@
       "NEW_CAMPAIGNS_FULFILLMENTS": "Fulfillments",
       "CAMPAIGNS": "[NEW] Кампании",
       "CMS_GAMES": "[CMS] Игры",
+      "CONDITIONAL_TAGS": "Условные теги",
       "MANAGEMENT": "",
       "OFFICES": "",
       "DESKS": "",
@@ -736,6 +737,16 @@
     },
     "TAGS": {
       "ADD_TAGS": "Добавить тег"
+    },
+    "LIMITS": {
+      "ADD_NEW_LIMIT": "+ Добавить лимит",
+      "REGULATION_TITLE": "Ограничения по правилам",
+      "TITLE": "Ограничения",
+      "VALUE_TYPES": {
+        "USED": "Использовано",
+        "LEFT": "Осталось"
+      },
+      "CANCEL_NOTIFICATION": "Отмена лимита"
     }
   },
   "COMMON": {
@@ -902,7 +913,8 @@
       "RU": "Русский",
       "ES": "Испанский",
       "DE": "Немецкий",
-      "IT": "Итальянский"
+      "IT": "Итальянский",
+      "UA": "Украинский"
     },
     "COMMENT": "Комментарий",
     "UPLOAD": "Загрузить",
@@ -918,7 +930,9 @@
     "DATE_OPTIONS": {
       "START_DATE": "",
       "END_DATE": ""
-    }
+    },
+    "UNTIL": "До",
+    "ON": " После"
   },
   "FILES": {
     "UPLOAD_MODAL": {

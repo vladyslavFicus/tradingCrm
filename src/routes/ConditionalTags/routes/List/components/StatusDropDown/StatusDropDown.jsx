@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from '@newage/casino_backoffice_ui';
+import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from '@newage/backoffice_ui';
 import classNames from 'classnames';
 import { I18n } from 'react-redux-i18n';
 import { statusesColorNames, statuses, actionsColorNames, actions } from '../../constants';

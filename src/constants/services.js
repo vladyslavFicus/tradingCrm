@@ -13,6 +13,7 @@ const services = keyMirror({
   trading_activity: null,
   trading_lead_updater: null,
   reconciliation: null,
+  conditional_tag: null,
 });
 
 export {

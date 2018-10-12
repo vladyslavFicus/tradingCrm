@@ -2,8 +2,11 @@ import { connect } from 'react-redux';
 import { graphql, compose } from 'react-apollo';
 import Limits from '../components/Limits';
 import { actionCreators } from '../modules';
+import { withNotifications } from '../../../../../../../components/HighOrder';
 import { getLimitPeriods } from '../../../../../../../config';
 import { realBaseCurrencyQuery } from '.././../../../../../../graphql/queries/profile';
+import { getPaymentRegulationLimits } from '.././../../../../../../graphql/queries/payments';
+import { cancelRegulationLimitMutation } from '.././../../../../../../graphql/mutations/payment';
 
 const configLimitPeriods = getLimitPeriods();
 
@@ -36,4 +39,16 @@ export default compose(
     }),
     name: 'realBaseCurrency',
   }),
+  graphql(getPaymentRegulationLimits, {
+    options: ({ match: { params: { id: playerUUID } } }) => ({
+      variables: {
+        playerUUID,
+      },
+    }),
+    name: 'paymentRegulationLimits',
+  }),
+  graphql(cancelRegulationLimitMutation, {
+    name: 'cancelRegulationLimitMutation',
+  }),
+  withNotifications,
 )(Limits);

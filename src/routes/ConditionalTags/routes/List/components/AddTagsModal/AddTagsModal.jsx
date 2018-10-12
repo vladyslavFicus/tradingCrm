@@ -4,8 +4,8 @@ import PropTypes from 'prop-types';
 import { get, set } from 'lodash';
 import Joi from 'joi-browser';
 import { FORM_ERROR } from 'final-form';
-import { Modal, Button, InputField } from '@newage/casino_backoffice_ui';
-import { createValidator } from '@newage/casino_backoffice_utils';
+import { Modal, Button, InputField } from '@newage/backoffice_ui';
+import { createValidator } from '@newage/backoffice_utils';
 import { I18n } from 'react-redux-i18n';
 import {
   MultiInputField,

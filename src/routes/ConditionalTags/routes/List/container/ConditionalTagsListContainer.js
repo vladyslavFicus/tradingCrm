@@ -1,7 +1,7 @@
 import { graphql, compose } from 'react-apollo';
 import { connect } from 'react-redux';
 import { withModals } from '@newage/react-hoc';
-import { createQueryPagination } from '@newage/casino_backoffice_utils';
+import { createQueryPagination } from '@newage/backoffice_utils';
 import { conditionalTagsQuery } from '.././../../../../graphql/queries/conditionalTags';
 import ConditionalTagsList from '../components/ConditionalTagsList';
 import AddTagsModal from '../components/AddTagsModal';

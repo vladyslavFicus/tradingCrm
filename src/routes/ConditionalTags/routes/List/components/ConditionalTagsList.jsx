@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { I18n } from 'react-redux-i18n';
 import { get } from 'lodash';
-import { GridView, GridViewColumn, Card, CardBody, CardHeading, Button } from '@newage/casino_backoffice_ui';
+import { GridView, GridViewColumn, Card, CardBody, CardHeading, Button } from '@newage/backoffice_ui';
 import PropTypes from 'prop-types';
 import { actions } from '../constants';
 import FilterForm from './FilterForm';

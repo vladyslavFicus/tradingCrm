@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Field, Form, FormSpy } from 'react-final-form';
 import PropTypes from 'prop-types';
-import { createValidator } from '@newage/casino_backoffice_utils';
-import { SelectField, FilterRow } from '@newage/casino_backoffice_ui';
+import { createValidator } from '@newage/backoffice_utils';
+import { SelectField, FilterRow } from '@newage/backoffice_ui';
 import { I18n } from 'react-redux-i18n';
 import Joi from 'joi-browser';
 import { statuses } from '../../../constants';

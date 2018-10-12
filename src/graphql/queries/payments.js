@@ -1,34 +1,34 @@
 import gql from 'graphql-tag';
 
 const getClientPayments = gql`query getClientPayments(
-  $keyword: String,
-  $type: String,
-  $page: Int,
-  $size: Int,
-  $countryCode: String,
-  $statuses: [String],
-  $paymentMethod: String,
-  $currency: String,
-  $startDate: String,
-  $endDate: String,
-  $amountLowerBound: String,
-  $amountUpperBound: String,
-  $playerUUIDs: [String],
+  $keyword: String
+  $type: String
+  $page: Int
+  $size: Int
+  $countryCode: String
+  $statuses: [String]
+  $paymentMethod: String
+  $currency: String
+  $startDate: String
+  $endDate: String
+  $amountLowerBound: String
+  $amountUpperBound: String
+  $playerUUIDs: [String]
 ) {
   clientPayments (
-    keyword: $keyword,
-    type: $type,
-    page: $page,
-    size: $size,
-    countryCode: $countryCode,
-    statuses: $statuses,
-    paymentMethod: $paymentMethod,
-    currency: $currency,
-    startDate: $startDate,
-    endDate: $endDate,
-    amountLowerBound: $amountLowerBound,
-    amountUpperBound: $amountUpperBound,
-    playerUUIDs: $playerUUIDs,
+    keyword: $keyword
+    type: $type
+    page: $page
+    size: $size
+    countryCode: $countryCode
+    statuses: $statuses
+    paymentMethod: $paymentMethod
+    currency: $currency
+    startDate: $startDate
+    endDate: $endDate
+    amountLowerBound: $amountLowerBound
+    amountUpperBound: $amountUpperBound
+    playerUUIDs: $playerUUIDs
   ) {
     page
     number
@@ -86,34 +86,34 @@ const getClientPayments = gql`query getClientPayments(
 }`;
 
 const getClientPaymentsByUuid = gql`query getClientPayments(
-  $playerUUID: String!,
-  $searchValue: String,
-  $type: String,
-  $page: Int,
-  $size: Int,
-  $country: String,
-  $statuses: [String],
-  $paymentMethod: String,
-  $accountType: String,
-  $startDate: String,
-  $endDate: String,
-  $amountLowerBound: String,
-  $amountUpperBound: String,
+  $playerUUID: String!
+  $searchValue: String
+  $type: String
+  $page: Int
+  $size: Int
+  $country: String
+  $statuses: [String]
+  $paymentMethod: String
+  $accountType: String
+  $startDate: String
+  $endDate: String
+  $amountLowerBound: String
+  $amountUpperBound: String
 ) {
   clientPaymentsByUuid (
-    playerUUID: $playerUUID,
-    searchValue: $searchValue,
-    type: $type,
-    page: $page,
-    size: $size,
-    country: $country,
-    statuses: $statuses,
-    paymentMethod: $paymentMethod,
-    accountType: $accountType,
-    startDate: $startDate,
-    endDate: $endDate,
-    amountLowerBound: $amountLowerBound,
-    amountUpperBound: $amountUpperBound,
+    playerUUID: $playerUUID
+    searchValue: $searchValue
+    type: $type
+    page: $page
+    size: $size
+    country: $country
+    statuses: $statuses
+    paymentMethod: $paymentMethod
+    accountType: $accountType
+    startDate: $startDate
+    endDate: $endDate
+    amountLowerBound: $amountLowerBound
+    amountUpperBound: $amountUpperBound
   ) {
     size
     page
@@ -182,9 +182,56 @@ const getOperatorPaymentMethods = gql`query getOperatorPaymentMethods {
   } 
 }`;
 
+const getPaymentRegulationLimits = gql`query getPaymentLimitRegulation($playerUUID: String!) {
+  paymentRegulationLimits(playerUUID: $playerUUID) {
+    data {
+      _id
+      uuid
+      playerUUID
+      creationDate
+      startDate
+      expirationDate
+      status
+      author
+      statusAuthor
+      period
+      type
+      value {
+        type
+        limit {
+          amount
+          currency
+        }
+        used {
+          amount
+          currency
+        }
+        left {
+          amount
+          currency
+        }
+      }
+      note {
+        playerUUID
+        tagName
+        pinned
+        tagId
+        content
+        tagType
+        targetUUID
+        changedBy
+        changedAt
+      }
+    }
+    error {
+      error
+    }
+  } 
+}`;
 
 export {
   getClientPayments,
   getOperatorPaymentMethods,
   getClientPaymentsByUuid,
+  getPaymentRegulationLimits,
 };
