@@ -35,8 +35,7 @@ const DesksGridFilter = ({
   >
     <FilterItem label={I18n.t(filterLabels.searchValue)} size={SIZES.medium} type={TYPES.input} default>
       <FilterField
-        id="users-list-search-field"
-        name="searchBy"
+        name="keyword"
         placeholder="Name"
         type="text"
       />
@@ -49,7 +48,7 @@ const DesksGridFilter = ({
       disabled={officesLoading || (Array.isArray(offices) && offices.length === 0)}
       default
     >
-      <FilterField name="office">
+      <FilterField name="officeUuid">
         {offices.map(({ name, uuid }) => (
           <option key={uuid} value={uuid}>
             {name}
@@ -79,7 +78,7 @@ const DesksGridFilter = ({
       placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
       default
     >
-      <FilterField name="defaultDesk">
+      <FilterField name="defaultDeskFlag">
         {defaultDeskFlag.map(({ label, value }) => (
           <option key={value} value={value}>
             {I18n.t(label)}

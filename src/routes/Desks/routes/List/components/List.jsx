@@ -7,6 +7,7 @@ import PropTypes from '../../../../../constants/propTypes';
 import GridView, { GridViewColumn } from '../../../../../components/GridView';
 import Placeholder from '../../../../../components/Placeholder';
 import Uuid from '../../../../../components/Uuid';
+import { deskTypes } from './constants';
 import DesksGridFilter from './DesksGridFilter';
 
 class List extends Component {
@@ -37,6 +38,16 @@ class List extends Component {
       isAdministration: PropTypes.bool.isRequired,
       userId: PropTypes.string.isRequired,
     }).isRequired,
+    desks: PropTypes.shape({
+      loading: PropTypes.bool.isRequired,
+      refetch: PropTypes.func.isRequired,
+      hierarchy: PropTypes.shape({
+        branchHierarchy: PropTypes.shape({
+          error: PropTypes.object,
+          data: PropTypes.arrayOf(PropTypes.object),
+        }),
+      }),
+    }).isRequired,
   };
 
   componentWillUnmount() {
@@ -47,8 +58,8 @@ class List extends Component {
 
   handleFilterReset = () => history.replace({ query: { filters: {} } });
 
-  handleDeskClick = ({ id }) => {
-    history.push(`/desks/${id}`);
+  handleDeskClick = ({ desk: { uuid } }) => {
+    history.push(`/desks/${uuid}`);
   };
 
   triggerOfficeModal = () => {
@@ -66,7 +77,7 @@ class List extends Component {
   handleAddDesk = async (variables) => {
     const {
       createDesk,
-      // leads: { refetch },
+      desks: { refetch },
       modals: { deskModal, infoModal },
       auth: { userId: operatorId },
     } = this.props;
@@ -80,7 +91,7 @@ class List extends Component {
       }
     );
 
-    // refetch();
+    refetch();
     deskModal.hide();
     infoModal.show({
       header: I18n.t('HIERARCHY.INFO_MODAL.DESK_BODY'),
@@ -92,35 +103,40 @@ class List extends Component {
     });
   };
 
-  renderOffice = data => (
+  renderOffice = ({ office }) => (
+    <Choose>
+      <When condition={office}>
+        <div className="font-weight-700">
+          {office.name}
+        </div>
+        <div className="font-size-11">
+          <Uuid uuid={office.uuid} uuidPrefix="OF" />
+        </div>
+      </When>
+      <Otherwise>
+        <span>&mdash;</span>
+      </Otherwise>
+    </Choose>
+  );
+
+  renderDesk = ({ desk: { name, uuid } }) => (
     <Fragment>
       <div className="font-weight-700">
-        {data.name} {data.surname}
+        {name}
       </div>
       <div className="font-size-11">
-        <Uuid uuid={data.id} uuidPrefix="OF" />
+        <Uuid uuid={uuid} uuidPrefix="DE" />
       </div>
     </Fragment>
   );
 
-  renderDesk = data => (
-    <Fragment>
-      <div className="font-weight-700">
-        {data.name} {data.surname}
-      </div>
-      <div className="font-size-11">
-        <Uuid uuid={data.id} uuidPrefix="DE" />
-      </div>
-    </Fragment>
-  );
-
-  renderDeskType = ({ deskType }) => (
+  renderDeskType = ({ desk: { deskType } }) => (
     <div className="font-weight-700">
-      {deskType}
+      {I18n.t(deskTypes.find(({ value }) => value === deskType).label)}
     </div>
   );
 
-  renderDefaultDesk = ({ defaultDesk }) => (
+  renderDefaultDesk = ({ desk: { defaultDesk } }) => (
     <div className="font-weight-700">
       {defaultDesk}
     </div>
@@ -129,19 +145,18 @@ class List extends Component {
   render() {
     const {
       locale,
-      // leads: {
-      //   loading,
-      //   leads,
-      // },
+      desks: {
+        loading,
+        hierarchy: desks,
+      },
       userBranchHierarchy: { hierarchy, loading: userBranchHierarchyLoading },
       location: { query },
       auth: { isAdministration },
     } = this.props;
 
-    const loading = false;
-    const entities = get(this.props, 'leads.data') || { content: [] };
+    const entities = get(desks, 'branchHierarchy.data') || [];
     const offices = get(hierarchy, 'userBranchHierarchy.data.OFFICE') || [];
-    const error = get(hierarchy, 'hierarchyUsersByType.error');
+    const error = get(desks, 'branchHierarchy.error') || get(hierarchy, 'hierarchyUsersByType.error');
     const filters = get(query, 'filters', {});
 
     const allowActions = Object
@@ -152,8 +167,7 @@ class List extends Component {
       <div className="card">
         <div className="card-heading">
           <Placeholder
-            // ready={!loading && !!leads}
-            ready={!error}
+            ready={!loading && !!desks}
             className={null}
             customPlaceholder={(
               <div>
@@ -190,10 +204,10 @@ class List extends Component {
 
         <div className="card-body">
           <GridView
-            dataSource={entities.content}
+            dataSource={entities}
             last
             locale={locale}
-            showNoResults={!loading && entities.content.length === 0}
+            showNoResults={!loading && entities.length === 0}
             onRowClick={this.handleDeskClick}
           >
             <GridViewColumn
