@@ -737,7 +737,11 @@
     "LIMITS": {
       "ADD_NEW_LIMIT": "+ Add limit",
       "REGULATION_TITLE": "Regulation limits",
-      "TITLE": "Limits"
+      "TITLE": "Limits",
+      "VALUE_TYPES": {
+        "USED": "Used",
+        "LEFT": "Left"
+      }
     }
   },
   "COMMON": {
@@ -926,7 +930,9 @@
     "PROMOTE_FAILED": "Promote leads failed",
     "UPLOAD_FAILED": "File upload failed",
     "UPLOAD_SUCCESSFUL": "File upload successful",
-    "SOMETHING_WRONG": "Something went wrong"
+    "SOMETHING_WRONG": "Something went wrong",
+    "UNTIL": "Until",
+    "ON": "On"
   },
   "FILES": {
     "UPLOAD_MODAL": {

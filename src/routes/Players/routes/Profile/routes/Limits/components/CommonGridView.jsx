@@ -12,6 +12,7 @@ import {
   statusesColor,
   statusesLabels,
   amountTypes,
+  valueTypeLabels,
 } from '../../../../../../../constants/limits';
 import Amount from '../../../../../../../components/Amount';
 import NoteButton from '../../../../../../../components/NoteButton';
@@ -92,12 +93,12 @@ class CommonGridView extends Component {
         </div>
         <If condition={data.value.used}>
           <div className="font-size-11">
-            used <Amount {...data.value.used} />
+            {I18n.t(valueTypeLabels.USED)} <Amount {...data.value.used} />
           </div>
         </If>
         <If condition={data.value.left}>
           <div className="font-size-11">
-            left <Amount {...data.value.left} />
+            {I18n.t(valueTypeLabels.LEFT)} <Amount {...data.value.left} />
           </div>
         </If>
       </If>
@@ -145,7 +146,15 @@ class CommonGridView extends Component {
         </If>
         <If condition={data.expirationDate}>
           <div className="font-size-11">
-            {data.status === statuses.COOLOFF ? 'until' : 'on'} {' '}
+            <Choose>
+              <If condition={data.status === statuses.COOLOFF}>
+                {I18n.t('COMMON.UNTIL')}
+              </If>
+              <Otherwise>
+                {I18n.t('COMMON.ON')}
+              </Otherwise>
+            </Choose>
+            {' '}
             {moment.utc(data.expirationDate).local().format('DD.MM.YYYY HH:mm')}
           </div>
         </If>

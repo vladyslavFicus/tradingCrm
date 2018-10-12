@@ -1,4 +1,5 @@
 import keyMirror from 'keymirror';
+import I18n from '../utils/fake-i18n';
 
 const statuses = keyMirror({
   PENDING: null,
@@ -27,6 +28,16 @@ const types = {
 const amountTypes = {
   MONEY: 'money',
   TIME: 'time',
+};
+
+const valueTypes = keyMirror({
+  USED: null,
+  LEFT: null,
+});
+
+const valueTypeLabels = {
+  [valueTypes.USED]: I18n.t('PLAYER_PROFILE.LIMITS.VALUE_TYPES.USED'),
+  [valueTypes.LEFT]: I18n.t('PLAYER_PROFILE.LIMITS.VALUE_TYPES.LEFT'),
 };
 
 const typesLabels = {
@@ -59,4 +70,5 @@ export {
   statusesLabels,
   timeUnits,
   amountTypes,
+  valueTypeLabels,
 };
