@@ -1,3 +1,3 @@
-import StausDropDown from './StatusDropDown';
+import StatusDropDown from './StatusDropDown';
 
-export default StausDropDown;
+export default StatusDropDown;
