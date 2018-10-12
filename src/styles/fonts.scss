@@ -3,9 +3,9 @@
 @font-face {
   font-family: 'backofficeMonolith';
   src:
-    url('../../public/fonts/backofficeMonolith.ttf?a1zjzm') format('truetype'),
-    url('../../public/fonts/backofficeMonolith.woff?a1zjzm') format('woff'),
-    url('../../public/fonts/backofficeMonolith.svg?a1zjzm#backoffice') format('svg');
+    url('../../public/fonts/backofficeMonolith.ttf?a2zjzm') format('truetype'),
+    url('../../public/fonts/backofficeMonolith.woff?a2zjzm') format('woff'),
+    url('../../public/fonts/backofficeMonolith.svg?a2zjzm#backoffice') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -23,68 +23,71 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-support:before {
+.icon-tags:before {
   content: "\e900";
 }
-.icon-callbacks:before {
+.icon-support:before {
   content: "\e901";
 }
-.icon-campaigns:before {
+.icon-callbacks:before {
   content: "\e902";
 }
-.icon-users:before {
+.icon-campaigns:before {
   content: "\e903";
 }
-.icon-operators:before {
+.icon-users:before {
   content: "\e904";
 }
-.icon-payments:before {
+.icon-operators:before {
   content: "\e905";
 }
-.icon-settings:before {
+.icon-payments:before {
   content: "\e906";
 }
-.icon-nav-arrow-v:before {
-  content: "\e910";
-}
-.icon-nav-arrow-h:before {
-  content: "\e911";
-}
-.icon-minimize-popup-profile:before {
+.icon-settings:before {
   content: "\e907";
 }
-.icon-currencies:before {
+.icon-minimize-popup-profile:before {
   content: "\e908";
 }
-.icon-filter:before {
+.icon-currencies:before {
   content: "\e909";
 }
-.icon-close-popup-profile:before {
+.icon-filter:before {
   content: "\e90a";
 }
-.icon-calendar:before {
+.icon-close-popup-profile:before {
   content: "\e90b";
 }
-.icon-times:before {
+.icon-calendar:before {
   content: "\e90c";
 }
-.icon-arrow-down:before {
+.icon-times:before {
   content: "\e90d";
 }
-.icon-alert:before {
+.icon-arrow-down:before {
   content: "\e90e";
 }
-.icon-search:before {
+.icon-alert:before {
   content: "\e90f";
 }
-.icon-leads:before {
+.icon-search:before {
+  content: "\e910";
+}
+.icon-nav-arrow-v:before {
+  content: "\e911";
+}
+.icon-nav-arrow-h:before {
   content: "\e912";
 }
-.icon-generate-password:before {
+.icon-leads:before {
   content: "\e913";
 }
-.icon-dashboard:before {
+.icon-generate-password:before {
   content: "\e914";
+}
+.icon-dashboard:before {
+  content: "\e915";
 }
 
 /*!

@@ -185,7 +185,7 @@ const hrznSidebarMenu = [{
 {
   label: I18n.t('SIDEBAR.TOP_MENU.CONDITIONAL_TAGS'),
   url: '/conditional-tags/list',
-  icon: '',
+  icon: 'icon-tags',
   service: services.conditional_tag,
   permissions: new Permissions(permissions.CONDITIONAL_TAG.LIST),
 }];
