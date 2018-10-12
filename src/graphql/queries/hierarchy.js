@@ -31,6 +31,14 @@ const getUserBranchHierarchy = gql`query getUserBranchHierarchy(
           language
           parentBranches
         }
+        TEAM {
+          name
+          uuid
+          branchType
+          defaultUser
+          defaultBranch
+          parentBranches
+        }
       }
     } 
   }
@@ -54,6 +62,16 @@ const getHierarchyUsersByType = gql`query getHierarchyUsersByType(
           fullName
         }
         BRAND_ADMIN {
+          uuid
+          userType
+          fullName
+        }
+        SALES_AGENT {
+          uuid
+          userType
+          fullName
+        }
+        RETENTION_AGENT {
           uuid
           userType
           fullName
@@ -127,6 +145,7 @@ const getBranchHierarchy = gql`query getBranchHierarchy (
           defaultUser
           defaultBranch
           parentBranches
+          isDefault
         }
         team {
           uuid

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { SubmissionError } from 'redux-form';
 import { get } from 'lodash';
 import PropTypes from '../../../../../../../../../constants/propTypes';
@@ -221,10 +221,10 @@ class Payments extends Component {
       language,
       currency: currencyCode,
     };
-    const action = await addPayment({ variables });
+    const { data: { payment: { createClientPayment: { error } } } } = await addPayment({ variables });
 
-    if (action.data.payment.createClientPayment.error) {
-      throw new SubmissionError({ _error: [action.data.payment.createClientPayment.error.error] });
+    if (error) {
+      throw new SubmissionError({ _error: [error] });
     } else {
       await refetch();
       this.handleCloseModal();
@@ -291,8 +291,7 @@ class Payments extends Component {
     const entities = get(this.props.clientPayments, 'clientPaymentsByUuid') || { content: [] };
 
     return (
-      <div>
-
+      <Fragment>
         <TransactionsFilterForm
           onSubmit={this.handleFiltersChanged}
           onReset={this.handleFilterReset}
@@ -359,7 +358,7 @@ class Payments extends Component {
             mt4Accounts={mt4Users}
           />
         }
-      </div>
+      </Fragment>
     );
   }
 }

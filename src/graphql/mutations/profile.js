@@ -235,6 +235,36 @@ const markIsTestMutation = gql`mutation markIsTest($playerUUID: String!, $isTest
   }
 }`;
 
+const clientsBulkRepresentativeUpdate = gql`mutation bulkRepresentativeUpdate(
+  $salesRep: String
+  $retentionRep: String,
+  $salesStatus: String,
+  $retentionStatus: String,
+  $allRowsSelected: Boolean!,
+  $ids: [String],
+  $totalElements: Int,
+  $searchParams: ClientSearchParams,
+) {
+  clients {
+    bulkRepresentativeUpdate (
+      salesRep: $salesRep
+      retentionRep: $retentionRep,
+      salesStatus: $salesStatus,
+      retentionStatus: $retentionStatus,
+      allRowsSelected: $allRowsSelected,
+      ids: $ids,
+      totalElements: $totalElements,
+      searchParams: $searchParams,
+    ) {
+      data
+      error {
+        error
+        fields_errors
+      }
+    }
+  }
+}`;
+
 export {
   updateSubscription,
   blockMutation,
@@ -247,4 +277,5 @@ export {
   updateAffiliateMutation,
   updateBTAGMutation,
   markIsTestMutation,
+  clientsBulkRepresentativeUpdate,
 };
