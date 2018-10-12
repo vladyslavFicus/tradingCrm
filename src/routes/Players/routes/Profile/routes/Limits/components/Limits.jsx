@@ -1,9 +1,11 @@
 import React, { Component, Fragment } from 'react';
+import { get } from 'lodash';
+import { I18n } from 'react-redux-i18n';
 import CancelLimitModal from './CancelLimitModal';
 import CreateLimitModal from './CreateLimitModal';
 import CommonGridView from './CommonGridView';
 import { targetTypes } from '../../../../../../../constants/note';
-import { types as limitTypes, timeUnits } from '../../../../../../../constants/limits';
+import { types, timeUnits } from '../../../../../../../constants/limits';
 import PropTypes from '../../../../../../../constants/propTypes';
 import TabHeader from '../../../../../../../components/TabHeader';
 
@@ -27,10 +29,11 @@ class Limits extends Component {
     setLimit: PropTypes.func.isRequired,
     limitPeriods: PropTypes.limitPeriodEntity,
     locale: PropTypes.string.isRequired,
-  };
-  static defaultProps = {
-    list: [],
-    limitPeriods: null,
+    paymentRegulationLimits: PropTypes.shape({
+      regulationLimits: PropTypes.shape({
+        data: PropTypes.arrayOf(PropTypes.limitEntity),
+      }),
+    }),
   };
   static contextTypes = {
     onAddNoteClick: PropTypes.func.isRequired,
@@ -38,6 +41,11 @@ class Limits extends Component {
     setNoteChangedCallback: PropTypes.func.isRequired,
     registerUpdateCacheListener: PropTypes.func.isRequired,
     unRegisterUpdateCacheListener: PropTypes.func.isRequired,
+  };
+  static defaultProps = {
+    list: [],
+    paymentRegulationLimits: {},
+    limitPeriods: null,
   };
 
   state = {
@@ -72,16 +80,49 @@ class Limits extends Component {
     unRegisterUpdateCacheListener(name);
   }
 
-  handleRefresh = () => this.props.fetchEntities(this.props.match.params.id);
+  handleRefresh = () => {
+    const {
+      fetchEntities,
+      paymentRegulationLimits,
+      match: { params: { id } },
+    } = this.props;
+
+    fetchEntities(id);
+    paymentRegulationLimits.refetch();
+  };
 
   handleCancelLimit = async (type, limitId) => {
-    const { match: { params: { id } }, cancelLimit, fetchEntities } = this.props;
+    const {
+      match: { params: { id } },
+      cancelLimit,
+      fetchEntities,
+      cancelRegulationLimitMutation,
+      notify,
+    } = this.props;
 
-    const action = await cancelLimit(id, type, limitId);
-    this.handleCloseModal();
+    let error = false;
 
-    if (action && !action.error) {
-      fetchEntities(id);
+    if (type === types.REGULATION) {
+      const response = await cancelRegulationLimitMutation({ variables: { playerUUID: id, uuid: limitId } });
+
+      error = get(response, 'data.paymentLimit.cancel.error', false);
+    } else {
+      const response = await cancelLimit(id, type, limitId);
+
+      ({ error } = response);
+
+      if (response && !response.error) {
+        fetchEntities(id);
+      }
+    }
+
+    notify({
+      level: !error ? 'success' : 'error',
+      title: I18n.t('PLAYER_PROFILE.LIMITS.CANCEL_NOTIFICATION'),
+    });
+
+    if (!error) {
+      this.handleCloseModal();
     }
   };
 
@@ -113,7 +154,7 @@ class Limits extends Component {
       currencyCode,
     };
 
-    if ([limitTypes.WAGER, limitTypes.LOSS, limitTypes.DEPOSIT].indexOf(type) > -1) {
+    if ([types.WAGER, types.LOSS, types.DEPOSIT].indexOf(type) > -1) {
       data.amount = amount;
     }
 
@@ -167,23 +208,39 @@ class Limits extends Component {
 
   render() {
     const { modal } = this.state;
-    const { list, limitPeriods, locale } = this.props;
+    const {
+      list,
+      limitPeriods,
+      locale,
+      paymentRegulationLimits,
+    } = this.props;
+
+    const regulationLimits = get(paymentRegulationLimits, 'paymentRegulationLimits.data', []);
 
     return (
       <Fragment>
-        <TabHeader title="Limits">
+        <TabHeader title={I18n.t('PLAYER_PROFILE.LIMITS.REGULATION_TITLE')} />
+        <div className="tab-wrapper">
+          <CommonGridView
+            dataSource={regulationLimits}
+            onItemCancelClick={this.handleOpenCancelLimitModal}
+            onNoteClick={this.handleNoteClick}
+            locale={locale}
+          />
+        </div>
+        <TabHeader title={I18n.t('PLAYER_PROFILE.LIMITS.TITLE')}>
           <button
             type="button"
             className="btn btn-sm btn-primary-outline"
             onClick={this.handleOpenCreateLimitModal}
           >
-            + New limit
+            {I18n.t('PLAYER_PROFILE.LIMITS.ADD_NEW_LIMIT')}
           </button>
         </TabHeader>
         <div className="tab-wrapper">
           <CommonGridView
             dataSource={list}
-            onOpenCancelLimitModal={this.handleOpenCancelLimitModal}
+            onItemCancelClick={this.handleOpenCancelLimitModal}
             onNoteClick={this.handleNoteClick}
             locale={locale}
           />
@@ -202,7 +259,7 @@ class Limits extends Component {
           <CreateLimitModal
             {...modal.params}
             initialValues={{
-              type: limitTypes.DEPOSIT,
+              type: types.DEPOSIT,
               period: limitPeriods.deposit[0],
             }}
             limitPeriods={limitPeriods}

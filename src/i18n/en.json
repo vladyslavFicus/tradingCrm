@@ -733,6 +733,16 @@
     },
     "TAGS": {
       "ADD_TAGS": "Add tag"
+    },
+    "LIMITS": {
+      "ADD_NEW_LIMIT": "+ Add limit",
+      "REGULATION_TITLE": "Regulation limits",
+      "TITLE": "Limits",
+      "VALUE_TYPES": {
+        "USED": "Used",
+        "LEFT": "Left"
+      },
+      "CANCEL_NOTIFICATION": "Cancel limit"
     }
   },
   "COMMON": {
@@ -923,7 +933,9 @@
     "UPLOAD_FAILED": "File upload failed",
     "UPLOAD_SUCCESSFUL": "File upload successful",
     "SOMETHING_WRONG": "Something went wrong",
-    "LANGUAGE": "Language"
+    "LANGUAGE": "Language",
+    "UNTIL": "Until",
+    "ON": "On"
   },
   "FILES": {
     "UPLOAD_MODAL": {
