@@ -9,6 +9,7 @@ class FileInput extends PureComponent {
     input: PropTypes.shape({
       name: PropTypes.string,
       value: PropTypes.any,
+      onChange: PropTypes.func.isRequired
     }).isRequired,
     label: PropTypes.oneOfType([
       PropTypes.string,
@@ -30,6 +31,13 @@ class FileInput extends PureComponent {
     id: null,
   };
 
+  handleChange = (e) => {
+    e.preventDefault();
+
+    e.stopPropagation();
+    this.props.input.onChange(e.target.files);
+  };
+
   render() {
     const {
       label,
@@ -42,7 +50,7 @@ class FileInput extends PureComponent {
     } = this.props;
 
     const groupClassName = classNames(
-      'form-group',
+      'form-group file-input',
       className,
       { 'has-danger': touched && error },
       { 'is-disabled': disabled },
@@ -56,6 +64,7 @@ class FileInput extends PureComponent {
         <input
           {...input}
           id={id}
+          onChange={this.handleChange}
           disabled={disabled}
           type="file"
           className="form-control"

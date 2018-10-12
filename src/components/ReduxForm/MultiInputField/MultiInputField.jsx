@@ -36,6 +36,7 @@ class MultiInputField extends Component {
     }).isRequired,
     labelClassName: PropTypes.string,
     onIconClick: PropTypes.func,
+    maxLength: PropTypes.number,
     helpText: PropTypes.node,
   };
   static defaultProps = {
@@ -52,6 +53,7 @@ class MultiInputField extends Component {
     onIconClick: null,
     helpText: null,
     async: false,
+    maxLength: null,
   };
 
   renderInput = (props) => {
@@ -60,6 +62,7 @@ class MultiInputField extends Component {
       inputAddonPosition,
       disabled,
       placeholder,
+      maxLength,
       label,
       id,
       onIconClick,
@@ -70,6 +73,7 @@ class MultiInputField extends Component {
     let inputField = (
       <MultiInput
         async={async}
+        maxLength={maxLength}
         disabled={disabled}
         placeholder={placeholder !== null ? placeholder : label}
         onChange={onChange}

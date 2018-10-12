@@ -181,6 +181,13 @@ const hrznSidebarMenu = [{
     service: services.payment,
     permissions: new Permissions(permissions.PAYMENT.PAYMENT_METHODS_LIST),
   }],
+},
+{
+  label: I18n.t('SIDEBAR.TOP_MENU.CONDITIONAL_TAGS'),
+  url: '/conditional-tags/list',
+  icon: '',
+  service: services.conditional_tag,
+  permissions: new Permissions(permissions.CONDITIONAL_TAG.LIST),
 }];
 
 const sidebarTopMenu = config.market === markets.crm ? falconSidebarMenu : hrznSidebarMenu;

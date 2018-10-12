@@ -128,4 +128,7 @@ export default {
   CMS_GAMES: {
     VIEW_LIST: 'cms_game;GET;/',
   },
+  CONDITIONAL_TAG: {
+    LIST: 'conditional_tag;GET;/',
+  },
 };

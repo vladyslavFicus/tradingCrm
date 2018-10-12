@@ -27,7 +27,8 @@
       "DESKS": "Desks",
       "TEAMS": "Teams",
       "CALLBACKS": "Callbacks",
-      "DASHBOARD": "Dashboard"
+      "DASHBOARD": "Dashboard",
+      "CONDITIONAL_TAGS": "Conditional tags"
     },
     "BOTTOM_MENU": {
       "SUPPORT": "Support"
@@ -3030,6 +3031,52 @@
         "createTeam": "Failed to create team",
         "updateTeam": "Failed to update team",
         "updateOperator": "Failed to update operator"
+      }
+    }
+  },
+  "common": {
+    "select": {
+      "default": "--Select--"
+    },
+    "any": "Any",
+    "reset": "Reset",
+    "by": "by",
+    "apply": "Apply",
+    "cancel": "Cancel",
+    "confirm": "Confirm"
+  },
+  "route": {
+    "conditionalTags": {
+      "component": {
+        "ConditionalTagsList": {
+          "title": "Conditional tags",
+          "status": "Condition status",
+          "addTags": "+ Add condition",
+          "name": "Condition",
+          "count": "Entries",
+          "tag": "Tag",
+          "status": "Status"
+        },
+        "FilterForm": {
+          "status": "Status",
+          "conditionStatus": {
+            "DISABLED": "Disabled",
+            "ACTIVE": "Active"
+          }
+        },
+        "StatusDropDown": {
+          "DISABLED": "Disabled",
+          "DISABLE": "Disable",
+          "ACTIVE": "Active"
+        },
+        "AddTagsModal": {
+          "title": "New condition",
+          "namePlaceholder": "Enter title",
+          "tagsPlaceholder": "Enter tag",
+          "name": "Title",
+          "tag": "Tag",
+          "file": "CSV file"
+        }
       }
     }
   },

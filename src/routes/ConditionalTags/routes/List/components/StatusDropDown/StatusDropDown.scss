@@ -1,0 +1,15 @@
+.status-dropdown {
+  cursor: pointer;
+  .status .fa-angle-down {
+    padding-right: 5px;
+    padding-left: 5px;
+    opacity: 0;
+    transition: all 0.2s;
+  }
+
+  &:hover {
+    .status .fa-angle-down {
+      opacity: 1;
+    }
+  }
+}

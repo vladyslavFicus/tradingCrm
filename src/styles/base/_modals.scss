@@ -22,6 +22,7 @@
   }
   &-header {
     align-items: center;
+    padding-right: 15px;
     padding-top: 5px;
     padding-bottom: 5px;
     border-bottom: none;
@@ -34,6 +35,9 @@
       font-size: 45px;
       font-weight: 300;
       opacity: 1;
+      top: 0;
+      right: 0;
+      position: relative;
       text-shadow: none;
       color: #fff;
       &:not(:disabled):not(.disabled):hover {

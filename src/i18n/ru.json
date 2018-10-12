@@ -19,6 +19,7 @@
       "NEW_CAMPAIGNS_FULFILLMENTS": "Fulfillments",
       "CAMPAIGNS": "[NEW] Кампании",
       "CMS_GAMES": "[CMS] Игры",
+      "CONDITIONAL_TAGS": "Условные теги",
       "MANAGEMENT": "",
       "OFFICES": "",
       "DESKS": "",
@@ -2709,6 +2710,41 @@
       "REMOVE_DESCRIPTION": "Вы собираетесь удалить тэг",
       "DELETE_TITLE": "Удалить тэг",
       "EDIT_TITLE": "Редактировать тэг"
+    }
+  },
+  "route": {
+    "conditionalTags": {
+      "component": {
+        "ConditionalTagsList": {
+          "title": "Условные теги",
+          "status": "Условный статус",
+          "addTags": "+ Добавить условие",
+          "name": "Состояние",
+          "count": "Записи",
+          "tag": "Тег",
+          "status": "Статус"
+        },
+        "FilterForm": {
+          "status": "Статус",
+          "conditionStatus": {
+            "DISABLED": "Отключен",
+            "ACTIVE": "Активный"
+          }
+        },
+        "StatusDropDown": {
+          "DISABLED": "Отключен",
+          "DISABLE": "Отключить",
+          "ACTIVE": "Активный"
+        },
+        "AddTagsModal": {
+          "title": "Новое условие",
+          "namePlaceholder": "Введите название",
+          "tagsPlaceholder": "Введите тег",
+          "name": "Название",
+          "tag": "Тег",
+          "file": "CSV файл"
+        }
+      }
     }
   }
 }

@@ -122,7 +122,7 @@ class DateRangePicker extends React.Component {
           daySize={41}
           transitionDuration={0}
           anchorDirection={anchorDirection}
-          customInputIcon={<i className="fa fa-calendar" />}
+          customInputIcon={<i className="icon icon-calendar" />}
           inputIconPosition="after"
         />
         <Field

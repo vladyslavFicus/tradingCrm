@@ -19,6 +19,7 @@ class MultiInput extends Component {
     onRemove: PropTypes.func,
     initialValues: PropTypes.array,
     className: PropTypes.string,
+    maxLength: PropTypes.number,
   };
 
   static defaultProps = {
@@ -26,6 +27,7 @@ class MultiInput extends Component {
     placeholder: '',
     disabled: false,
     onChange: null,
+    maxLength: null,
     onRemove: null,
     initialValues: [],
     className: null,
@@ -55,6 +57,13 @@ class MultiInput extends Component {
   };
 
   handleInputChange = (inputValue) => {
+    const { maxLength } = this.props;
+    const { value } = this.state;
+
+    if (maxLength && value && value.length === maxLength) {
+      return null;
+    }
+
     this.setState({ inputValue });
   };
 
