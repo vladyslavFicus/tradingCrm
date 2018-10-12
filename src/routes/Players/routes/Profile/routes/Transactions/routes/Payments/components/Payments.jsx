@@ -500,7 +500,7 @@ class Payments extends Component {
       locale,
     } = this.props;
 
-    const paymentMethods = get(operatorPaymentMethods, 'operatorPaymentMethods.data', []);
+    const paymentMethods = get(operatorPaymentMethods, 'operatorPaymentMethods.data', []) || [];
 
     return (
       <Fragment>

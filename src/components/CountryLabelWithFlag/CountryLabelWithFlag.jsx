@@ -19,9 +19,11 @@ const CountryLabelWithFlag = ({ height, width, code, languageCode }) => (
     </div>
     <div className="grid-country-flag__description">
       <div className="font-weight-600 text-uppercase">{code}</div>
-      <div className="font-size-11">
-        {getLanguage(languageCode)}
-      </div>
+      <If condition={languageCode}>
+        <div className="font-size-11">
+          {getLanguage(languageCode)}
+        </div>
+      </If>
     </div>
   </div>
 );
@@ -30,11 +32,12 @@ CountryLabelWithFlag.propTypes = {
   code: PropTypes.string.isRequired,
   width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   height: PropTypes.string.isRequired,
-  languageCode: PropTypes.string.isRequired,
+  languageCode: PropTypes.string,
 };
 
 CountryLabelWithFlag.defaultProps = {
   width: 20,
+  languageCode: null,
 };
 
 export default CountryLabelWithFlag;

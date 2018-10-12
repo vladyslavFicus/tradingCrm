@@ -1,6 +1,14 @@
 import keyMirror from 'keymirror';
 
-export default keyMirror({
+export const branchTypes = keyMirror({
+  OFFICE: null,
+  DESK: null,
+  TEAM: null,
+  COMPANY: null,
+  BRAND: null,
+});
+
+export const userTypes = keyMirror({
   COMPANY_ADMIN: null,
   BRAND_ADMIN: null,
   SALES_HOD: null,

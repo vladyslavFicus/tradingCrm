@@ -21,7 +21,7 @@ const createOffice = gql`mutation createOffice(
 
 const createDesk = gql`mutation createDesk(
   $name: String!,
-  $deskType: String!,
+  $deskType: DeskTypeEnum!,
   $language: String!,
   $officeId: String!,
   $operatorId: String!,

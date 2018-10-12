@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { graphql, compose } from 'react-apollo';
-import { profileQuery } from '../../../../../../../../../graphql/queries/profile';
+import { clientQuery } from '../../../../../../../../../graphql/queries/profile';
 import View from '../components/View';
 
 const mapStateToProps = ({
@@ -11,7 +11,7 @@ const mapStateToProps = ({
 
 export default compose(
   connect(mapStateToProps),
-  graphql(profileQuery, {
+  graphql(clientQuery, {
     options: ({
       match: {
         params: {

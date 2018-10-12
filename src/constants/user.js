@@ -67,6 +67,7 @@ const filterLabels = {
   defaultDesk: I18n.t('DESKS.FILTERS.DEFAULT_DESK'),
   office: I18n.t('DESKS.FILTERS.OFFICE'),
   desk: I18n.t('DESKS.FILTERS.DESK'),
+  language: I18n.t('COMMON.LANGUAGE'),
 };
 const statuses = keyMirror({
   INACTIVE: null,

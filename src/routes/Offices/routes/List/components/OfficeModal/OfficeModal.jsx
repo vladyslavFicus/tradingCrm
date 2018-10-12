@@ -15,6 +15,7 @@ const OfficeForm = ({
   onCloseModal,
   isOpen,
   invalid,
+  pristine,
   submitting,
   onSubmit,
   error,
@@ -81,7 +82,7 @@ const OfficeForm = ({
       </button>
       <button
         type="submit"
-        disabled={invalid || submitting}
+        disabled={invalid || pristine || submitting}
         className="btn btn-primary"
         form="offices-modal-form"
       >
@@ -96,6 +97,7 @@ OfficeForm.propTypes = {
   onCloseModal: PropTypes.func.isRequired,
   isOpen: PropTypes.bool.isRequired,
   invalid: PropTypes.bool.isRequired,
+  pristine: PropTypes.bool.isRequired,
   submitting: PropTypes.bool.isRequired,
   onSubmit: PropTypes.func.isRequired,
   error: PropTypes.any,

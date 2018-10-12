@@ -4,7 +4,7 @@ import moment from 'moment';
 import { get } from 'lodash';
 import { actionCreators as miniProfileActionCreators } from '../../../../../redux/modules/miniProfile';
 import countries from '../../../../../utils/countryList';
-import { profilesQuery } from '../../../../../graphql/queries/profile';
+import { clientsQuery } from '../../../../../graphql/queries/profile';
 import { departments } from '../../../../../constants/brands';
 import { actionCreators } from '../modules/list';
 import List from '../components/List';
@@ -36,7 +36,7 @@ const mapActions = {
 
 export default compose(
   connect(mapStateToProps, mapActions),
-  graphql(profilesQuery, {
+  graphql(clientsQuery, {
     name: 'profiles',
     skip: ({ auth }) => !(auth.isAdministration || get(auth, 'hierarchyUsers.clients')),
     options: ({

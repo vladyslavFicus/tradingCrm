@@ -1,6 +1,88 @@
 import gql from 'graphql-tag';
 
-const profilesQuery = gql`query getProfiles(
+const profileQuery = gql`query profileData($playerUUID: String!){
+  playerProfile(playerUUID: $playerUUID) {
+    data {
+      accumulatedDeposits {
+        amount
+        currency
+      }
+      accumulatedWithdrawals {
+        amount
+        currency
+      }
+      playerUUID
+      realMoneyBalance {
+        amount
+        currency
+      }
+      bonusBalance {
+        amount
+        currency
+      }
+      withdrawableAmount {
+        amount
+        currency
+      }
+      totalBalance {
+        amount
+        currency
+      }
+      age
+      profileVerified
+      currency
+      firstName
+      username
+      languageCode
+      city
+      phoneNumber
+      phoneNumberVerified
+      lastName
+      email
+      registrationDate
+      affiliateId
+      suspendEndDate
+      profileStatusAuthor
+      profileStatusComment
+      profileStatusPermanent
+      profileStatusReason
+      profileStatusDate
+      profileStatus
+      gender
+      playerUUID
+      btag
+      birthDate
+      marketingMail
+      marketingSMS
+      tailorMadeEmail
+      tailorMadeSMS
+      device {
+        lastSignInCountryCode
+        lastSignInIP
+        lastSignInDate
+        hash
+        totalSignIn
+      }
+      signInIps {
+        country
+        sessionStart
+        browserAgent
+        ip
+        sessionId
+        uuid
+      }
+      isTest
+      registrationDate
+      intendedAmountToSpend
+      temporaryUntil
+    }
+    error {
+      error
+    }
+  }
+}`;
+
+const clientsQuery = gql`query getProfiles(
   $page: Int,
   $size: Int,
   $acquisitionStatus: String,
@@ -100,7 +182,7 @@ const profilesQuery = gql`query getProfiles(
     }
 }`;
 
-const profileQuery = gql`query profileData($playerUUID: String!){
+const clientQuery = gql`query profileData($playerUUID: String!){
   playerProfile(playerUUID: $playerUUID) {
     data {
       accumulatedDeposits {
@@ -284,6 +366,7 @@ export {
   locksQuery,
   realBaseCurrencyQuery,
   clientPaymentsStatistic,
-  profilesQuery,
+  clientsQuery,
+  clientQuery,
 };
 
