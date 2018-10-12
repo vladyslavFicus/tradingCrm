@@ -744,7 +744,8 @@
       "VALUE_TYPES": {
         "USED": "Использовано",
         "LEFT": "Осталось"
-      }
+      },
+      "CANCEL_NOTIFICATION": "Отмена лимита"
     }
   },
   "COMMON": {

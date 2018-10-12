@@ -741,7 +741,8 @@
       "VALUE_TYPES": {
         "USED": "Used",
         "LEFT": "Left"
-      }
+      },
+      "CANCEL_NOTIFICATION": "Cancel limit"
     }
   },
   "COMMON": {

@@ -97,19 +97,33 @@ class Limits extends Component {
       cancelLimit,
       fetchEntities,
       cancelRegulationLimitMutation,
+      notify,
     } = this.props;
 
-    if (type === types.REGULATION) {
-      await cancelRegulationLimitMutation({ variables: { playerUUID: id, uuid: limitId } });
-    } else {
-      const action = await cancelLimit(id, type, limitId);
+    let error = false;
 
-      if (action && !action.error) {
+    if (type === types.REGULATION) {
+      const response = await cancelRegulationLimitMutation({ variables: { playerUUID: id, uuid: limitId } });
+
+      error = get(response, 'data.paymentLimit.cancel.error', false);
+    } else {
+      const response = await cancelLimit(id, type, limitId);
+
+      ({ error } = response);
+
+      if (response && !response.error) {
         fetchEntities(id);
       }
     }
 
-    this.handleCloseModal();
+    notify({
+      level: !error ? 'success' : 'error',
+      title: I18n.t('PLAYER_PROFILE.LIMITS.CANCEL_NOTIFICATION'),
+    });
+
+    if (!error) {
+      this.handleCloseModal();
+    }
   };
 
   handleCreateLimit = async (params) => {

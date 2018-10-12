@@ -147,9 +147,9 @@ class CommonGridView extends Component {
         <If condition={data.expirationDate}>
           <div className="font-size-11">
             <Choose>
-              <If condition={data.status === statuses.COOLOFF}>
+              <When condition={data.status === statuses.COOLOFF}>
                 {I18n.t('COMMON.UNTIL')}
-              </If>
+              </When>
               <Otherwise>
                 {I18n.t('COMMON.ON')}
               </Otherwise>
