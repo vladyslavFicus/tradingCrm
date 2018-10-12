@@ -39,7 +39,7 @@ const DeskProfile = ({
         location={location}
         params={params}
       />
-      <div className="card no-borders" >
+      <div className="card no-borders">
         <Switch>
           <Route path={`${path}/rules`} component={Rules} />
           <Redirect to={`${url}/rules`} />

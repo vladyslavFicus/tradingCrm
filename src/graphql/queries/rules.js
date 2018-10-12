@@ -2,7 +2,6 @@ import gql from 'graphql-tag';
 
 const getRules = gql`query getRules(
   $uuid: [String],
-  $brandId: String,
   $country: String,
   $language: String,
   $createdByOrUuid: String,
@@ -12,7 +11,6 @@ const getRules = gql`query getRules(
 ) {
   rules (
     uuid: $uuid,
-    brandId: $brandId,
     country: $country,
     language: $language,
     createdByOrUuid: $createdByOrUuid,
