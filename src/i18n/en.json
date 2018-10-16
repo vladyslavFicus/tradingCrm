@@ -1326,6 +1326,11 @@
       "SEASSIONS_ONLY": "Sessions only",
       "RECOVERY_DEPOSITOR": "Recovery depositor",
       "RECEIVED_WITHDRAWAL": "Received withdrawal"
+    },
+    "CALLBACKS": {
+      "SUCCESS": "Success",
+      "PENDING": "Pending",
+      "REJECTED": "Rejected"
     }
   },
   "OPERATOR_PROFILE": {
@@ -2969,6 +2974,22 @@
     "COOLOFF": "Cool off",
     "SELF_EXCLUDED": "Self excluded",
     "MANUAL_COOLOFF": "Manual Cooloff"
+  },
+  "CALLBACKS": {
+    "CALLBACKS" : "Callbacks",
+    "CALLBACKS_FOUND": "Callbacks found",
+    "GRID_HEADER": {
+      "ID": "Callback ID",
+      "CLIENT": "Client",
+      "TIME": "Callback time",
+      "CREATED": "Created",
+      "MODIFIED": "Modified",
+      "STATUS": "Status"
+    },
+    "FILTER": {
+      "ID": "Callback ID, Client ID",
+      "DATE_RANGE": "Date & time range"
+    }
   },
   "common": {
     "status": {
