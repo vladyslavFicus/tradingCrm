@@ -194,11 +194,28 @@ class Header extends Component {
             <HeaderPlayerPlaceholder ready={loaded}>
               <div className="panel-heading-row__info">
                 <div className="panel-heading-row__info-title">
-                  {fullName || I18n.t('PLAYER_PROFILE.PROFILE.HEADER.NO_FULLNAME')}
+                  <Choose>
+                    <When condition={fullName}>
+                      {fullName}
+                    </When>
+                    <Otherwise>
+                      {I18n.t('PLAYER_PROFILE.PROFILE.HEADER.NO_FULLNAME')}
+                    </Otherwise>
+                  </Choose>
                   {' '}
-                  ({age || '?'})
+                  <Choose>
+                    <When condition={age}>
+                      ({age})
+                    </When>
+                    <Otherwise>
+                      (?)
+                    </Otherwise>
+                  </Choose>
                   {' '}
-                  {profileVerified && <i className="fa fa-check text-success" />}
+                  <If condition={profileVerified}>
+                    <i className="fa fa-check text-success" />
+                  </If>
+                  <PlayerTags />
                 </div>
                 <div className="panel-heading-row__info-ids">
                   {username}
@@ -215,9 +232,6 @@ class Header extends Component {
                 </div>
               </div>
             </HeaderPlayerPlaceholder>
-            <div className="panel-heading-row__tags">
-              <PlayerTags />
-            </div>
             <div className="panel-heading-row__actions">
               <PermissionContent permissions={permissions.TAGS.ADD_TAG}>
                 <PopoverButton
