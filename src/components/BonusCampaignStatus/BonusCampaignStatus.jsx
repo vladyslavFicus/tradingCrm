@@ -31,6 +31,7 @@ class BonusCampaignStatus extends Component {
       ? statuses.CANCELED
       : campaign.state;
     const className = statusesClassNames[status] || '';
+    const statusAuthorUUID = campaign.statusChangedAuthorUUID || campaign.statusAuthorUUID;
 
     return (
       <div className={blockName}>
@@ -57,10 +58,10 @@ class BonusCampaignStatus extends Component {
               </div>
             }
             {
-              campaign.statusChangedAuthorUUID &&
+              statusAuthorUUID &&
               <div className={`${blockName}__status-author`}>
                 {I18n.t('COMMON.AUTHOR_BY')}
-                <Uuid uuid={campaign.statusChangedAuthorUUID} />
+                <Uuid uuid={statusAuthorUUID} />
               </div>
             }
           </div>
