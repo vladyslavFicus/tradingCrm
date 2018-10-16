@@ -2720,6 +2720,7 @@
     "BLOCKED": "Temporary account has been blocked on %{date}"
   },
   "CLIENTS": {
+    "BULK_ACTIONS": "Bulk actions",
     "LIST": {
       "GRID_HEADER": {
         "CLIENT": "Client",
@@ -2731,6 +2732,21 @@
         "RETENTION": "Retention",
         "REGISTRATION": "Registration",
         "STATUS": "Status"
+      }
+    },
+    "MODALS": {
+      "SUBMIT": "Apply changes",
+      "SALES_MODAL": {
+        "HEADER": "Bulk action - Sales",
+        "DESK": "Sales Desk",
+        "REPRESENTATIVE": "Sales representative",
+        "STATUS": "Sales Status"
+      },
+      "RETENTION_MODAL": {
+        "HEADER": "Bulk action - Retention",
+        "DESK": "Retention Desk",
+        "REPRESENTATIVE": "Retention representative",
+        "STATUS": "Retention Status"
       }
     }
   },

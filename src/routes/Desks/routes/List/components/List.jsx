@@ -136,9 +136,9 @@ class List extends Component {
     </div>
   );
 
-  renderDefaultDesk = ({ desk: { defaultDesk } }) => (
+  renderDefaultDesk = ({ desk: { isDefault } }) => (
     <div className="font-weight-700">
-      {defaultDesk}
+      {isDefault ? I18n.t('COMMON.YES') : I18n.t('COMMON.NO')}
     </div>
   );
 

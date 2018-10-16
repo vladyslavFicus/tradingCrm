@@ -2,11 +2,16 @@ import { connect } from 'react-redux';
 import { graphql, compose } from 'react-apollo';
 import moment from 'moment';
 import { get } from 'lodash';
-import { actionCreators as miniProfileActionCreators } from '../../../../../redux/modules/miniProfile';
 import countries from '../../../../../utils/countryList';
+import { actionCreators as miniProfileActionCreators } from '../../../../../redux/modules/miniProfile';
+import { withNotifications, withModals } from '../../../../../components/HighOrder';
+import { getHierarchyUsersByType, getUserBranchHierarchy } from '../../../../../graphql/queries/hierarchy';
+import { clientsBulkRepresentativeUpdate } from '../../../../../graphql/mutations/profile';
 import { clientsQuery } from '../../../../../graphql/queries/profile';
 import { departments } from '../../../../../constants/brands';
+import { userTypes } from '../../../../../constants/hierarchyTypes';
 import { actionCreators } from '../modules/list';
+import { RepresentativeModal } from '../components/Modals';
 import List from '../components/List';
 
 const mapStateToProps = ({
@@ -35,7 +40,30 @@ const mapActions = {
 };
 
 export default compose(
+  withNotifications,
+  withModals({
+    representativeModal: RepresentativeModal,
+  }),
   connect(mapStateToProps, mapActions),
+  graphql(clientsBulkRepresentativeUpdate, {
+    name: 'bulkRepresentativeUpdate',
+  }),
+  graphql(getHierarchyUsersByType, {
+    name: 'agents',
+    options: {
+      variables: { userTypes: [userTypes.SALES_AGENT, userTypes.RETENTION_AGENT] },
+      fetchPolicy: 'network-only',
+    },
+  }),
+  graphql(getUserBranchHierarchy, {
+    name: 'userBranchHierarchy',
+    options: ({
+      auth: { uuid },
+    }) => ({
+      variables: { userId: uuid },
+      fetchPolicy: 'network-only',
+    }),
+  }),
   graphql(clientsQuery, {
     name: 'profiles',
     skip: ({ auth }) => !(auth.isAdministration || get(auth, 'hierarchyUsers.clients')),

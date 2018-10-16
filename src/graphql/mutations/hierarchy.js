@@ -42,14 +42,12 @@ const createDesk = gql`mutation createDesk(
 
 const createTeam = gql`mutation createTeam(
   $name: String!,
-  $officeId: String!,
   $deskId: String!,
   $operatorId: String!,
 ) {
   hierarchy {
     createTeam (
       name: $name,
-      officeId: $officeId,
       deskId: $deskId,
       operatorId: $operatorId,
     ) {

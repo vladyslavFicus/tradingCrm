@@ -30,7 +30,7 @@ class Balances extends Component {
       loading: PropTypes.bool.isRequired,
     }),
     balances: PropTypes.shape({
-      balance: PropTypes.number,
+      balance: PropTypes.string,
       equity: PropTypes.string,
       currency: PropTypes.string,
     }),

@@ -7,7 +7,7 @@ import {
   statusesLabels as userStatusesLabels,
 } from '../../../../../constants/user';
 import { salesStatuses, salesStatusesColor } from '../../../../../constants/salesStatuses';
-import { retentionStatuses, retentionStatusesColor } from './constants';
+import { retentionStatuses, retentionStatusesColor } from '../../../../../constants/retentionStatuses';
 import GridPlayerInfo from '../../../../../components/GridPlayerInfo';
 import CountryLabelWithFlag from '../../../../../components/CountryLabelWithFlag';
 import GridEmptyValue from '../../../../../components/GridEmptyValue';

@@ -6,6 +6,7 @@ import { I18n } from 'react-redux-i18n';
 import { createValidator } from '../../../../../../../../../../utils/validator';
 import { InputField, NasSelectField } from '../../../../../../../../../../components/ReduxForm';
 import PropTypes from '../../../../../../../../../../constants/propTypes';
+import { typesLabels } from '../../../../../../../../../../constants/payment';
 import Currency from '../../../../../../../../../../components/Amount/Currency';
 import './PaymentAddModal.scss';
 import { paymentTypes, paymentAccounts } from './constants';
@@ -163,13 +164,13 @@ class PaymentAddModal extends Component {
       className={`${className || 'col'} select-field-wrapper`}
       searchable={false}
       showErrorMessage={false}
-      singleOptionComponent={({ onClick, mt4: { login, symbol } }) => (
-        <div key={login} className="value-wrapper" onClick={onClick}>
+      singleOptionComponent={({ onClick, mt4 = {} }) => (
+        <div key={mt4.login} className="value-wrapper" onClick={onClick}>
           <div className="header-block-middle">
-            {login}
+            {mt4.login}
           </div>
           <div className="header-block-small">
-            {symbol}
+            {mt4.symbol}
           </div>
         </div>
       )}
@@ -195,7 +196,9 @@ class PaymentAddModal extends Component {
       error: errors,
     } = this.props;
 
-    const filteredPaymentTypes = Object.keys(paymentTypes).filter(type => !this.isPaymentMethodDisabled(type));
+    const filteredPaymentTypes = Object
+      .keys(paymentTypes)
+      .filter(type => !this.isPaymentMethodDisabled(type) && typesLabels[type]);
 
     return (
       <Modal contentClassName="payment-modal" toggle={onClose} isOpen>

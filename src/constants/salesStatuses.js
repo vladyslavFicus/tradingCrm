@@ -1,3 +1,5 @@
+import keyMirror from 'keymirror';
+
 export const salesStatuses = {
   NEW: 'CONSTANTS.SALES_STATUSES.NEW',
   NO_ANSWER: 'CONSTANTS.SALES_STATUSES.NO_ANSWER',
@@ -47,3 +49,28 @@ export const salesStatusesColor = {
   VOICEMAIL: 'color-info',
   NEVER_ANSWER: 'color-danger',
 };
+
+export const salesStatusValues = keyMirror({
+  NEW: null,
+  NO_ANSWER: null,
+  NO_ANSWER_2: null,
+  NO_ANSWER_3: null,
+  NO_ANSWER_4: null,
+  NO_ANSWER_5: null,
+  CONVERTED_CALLBACK: null,
+  INTERESTED: null,
+  NOT_INTERESTED: null,
+  WRONG_INFO: null,
+  INIT_CALL_DO: null,
+  NOT_CALL: null,
+  NO_FUNDS: null,
+  FAILED_DEPOSIT: null,
+  CLOSED: null,
+  INVALID_LANGUAGE: null,
+  REASSIGN: null,
+  UNDER_18: null,
+  WRONG_NUMBER: null,
+  DUPLICATE: null,
+  VOICEMAIL: null,
+  NEVER_ANSWER: null,
+});
