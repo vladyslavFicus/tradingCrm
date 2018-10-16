@@ -59,7 +59,7 @@ class CallbacksList extends Component {
 
   renderStatus = ({ status }) => (
     <div className={classNames('font-weight-700 text-uppercase', callbacksStatusesColor[status].color)}>
-      {I18n.t(leadStatuses[status].label)}
+      {status}
     </div>
   );
 
