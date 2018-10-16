@@ -342,28 +342,38 @@ class CampaignList extends Component {
     </div>
   );
 
-  renderAvailable = data => (
-    <Fragment>
-      <Choose>
-        <When condition={data.startDate || data.endDate}>
-          <Choose>
-            <When condition={data.startDate}>
-              <div className="font-weight-700">
-                {moment.utc(data.startDate).local().format('DD.MM.YYYY HH:mm')}
-              </div>
-            </When>
-            <Otherwise>-</Otherwise>
-          </Choose>
-          <div className="font-size-10">
-            {I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.GRID_VIEW.DATE_TO', {
-              time: data.endDate ? moment.utc(data.endDate).local().format('DD.MM.YYYY HH:mm') : '-',
-            })}
-          </div>
-        </When>
-        <Otherwise>{I18n.t('COMMON.PERMANENT')}</Otherwise>
-      </Choose>
-    </Fragment>
-  );
+  renderAvailable = (data) => {
+    const { endDate: campaignEndDate, startDate, optInEndDate } = data;
+    const endDate = optInEndDate || campaignEndDate;
+
+    return (
+      <Fragment>
+        <Choose>
+          <When condition={startDate || endDate}>
+            <Choose>
+              <When condition={startDate}>
+                <div className="font-weight-700">
+                  {moment.utc(startDate).local().format('DD.MM.YYYY HH:mm')}
+                </div>
+              </When>
+              <Otherwise>-</Otherwise>
+            </Choose>
+            <Choose>
+              <When condition={endDate}>
+                <div className="font-size-10">
+                  {I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.GRID_VIEW.DATE_TO', {
+                    time: moment.utc(endDate).local().format('DD.MM.YYYY HH:mm'),
+                  })}
+                </div>
+              </When>
+              <Otherwise>-</Otherwise>
+            </Choose>
+          </When>
+          <Otherwise>{I18n.t('COMMON.PERMANENT')}</Otherwise>
+        </Choose>
+      </Fragment>
+    );
+  };
 
   renderTargetType = ({ targetType, optIn }) => (
     <Fragment>
@@ -396,7 +406,7 @@ class CampaignList extends Component {
     </Fragment>
   );
 
-  renderFulfillments = ({ fulfillments }) => (
+  renderFulfillments = ({ fulfillments, fulfillmentEndDate }) => (
     <div className="font-weight-700 color-black">
       <Choose>
         <When condition={fulfillments.length === 0}>
@@ -412,6 +422,13 @@ class CampaignList extends Component {
               'GAMING-FULFILLMENT': I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.FULFILLMENT.GAMING_FULFILLMENT'),
             }}
           />
+          <If condition={fulfillmentEndDate}>
+            <div className="font-size-10">
+              {I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.GRID_VIEW.DATE_TO', {
+                time: moment.utc(fulfillmentEndDate).local().format('DD.MM.YYYY HH:mm'),
+              })}
+            </div>
+          </If>
         </Otherwise>
       </Choose>
     </div>
