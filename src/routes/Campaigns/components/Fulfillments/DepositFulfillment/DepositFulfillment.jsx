@@ -21,6 +21,15 @@ class DepositFulfillment extends PureComponent {
     }),
     locale: PropTypes.string.isRequired,
   };
+  static contextTypes = {
+    _reduxForm: PropTypes.object,
+  };
+
+  componentDidMount() {
+    const { name } = this.props;
+
+    this.context._reduxForm.autofill(`${name}.minAmount[0].amount`, 0.001);
+  }
 
   static defaultProps = {
     paymentMethods: {},
