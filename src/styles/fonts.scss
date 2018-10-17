@@ -23,6 +23,10 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.fa-calendar:before {
+  content: "\e90b"!important;
+}
+
 .icon-tags:before {
   content: "\e900";
 }

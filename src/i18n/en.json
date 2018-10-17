@@ -3064,6 +3064,22 @@
     "confirm": "Confirm"
   },
   "route": {
+    "reports": {
+      "component": {
+        "ReportList": {
+          "title": "Reports dashboard"
+        },
+        "FilterForm": {
+          "dateRange": "Date range",
+          "placeholders": {
+            "dateRange": {
+              "from": "Start date",
+              "to": "End date"
+            }
+          }
+        }
+      }
+    },
     "conditionalTags": {
       "component": {
         "ConditionalTagsList": {

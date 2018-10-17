@@ -229,9 +229,49 @@ const getPaymentRegulationLimits = gql`query getPaymentLimitRegulation($playerUU
   } 
 }`;
 
+const paymentReportQuery  = gql`query paymentReport(
+  $size: Int,
+  $page: Int,
+  $startDate: String,
+  $endDate: String,
+){
+  paymentReport(
+    size: $size,
+    page: $page,
+    endDate: $endDate
+    startDate: $startDate
+  ) {
+    data {
+      number,
+      page,
+      totalElements,
+      size,
+      last,
+      content {
+        _id
+        date
+        deposits {
+          currency
+          amount
+        }
+        withdrawals {
+          currency
+          amount
+        }
+        profit {
+          currency
+          amount
+        }
+      }
+    }
+  }
+}`;
+
+
 export {
   getClientPayments,
   getOperatorPaymentMethods,
+  paymentReportQuery,
   getClientPaymentsByUuid,
   getPaymentRegulationLimits,
 };
