@@ -23,7 +23,7 @@ class TagsAsync extends Component {
       variables: { text },
     });
 
-    return get(response, 'data.tagsByText.content', []).map(t => ({ value: t.tagId, label: t.tagName }));
+    return get(response, 'data.tagsByText.data.content', []).map(t => ({ value: t.tagId, label: t.tagName }));
   };
 
   render() {
