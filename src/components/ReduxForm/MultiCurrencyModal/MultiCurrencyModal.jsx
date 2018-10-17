@@ -62,7 +62,7 @@ class MultiCurrencyModal extends PureComponent {
 
     this.secondaryCurrencies.forEach(({ amount, currency }, index) => {
       this.props.change(`amounts[${index + 1}].currency`, currency);
-      this.props.change(`amounts[${index + 1}].amount`, (amount * baseCurrencyValue).toFixed(2));
+      this.props.change(`amounts[${index + 1}].amount`, (amount * baseCurrencyValue).toFixed(4));
     });
 
     this.props.change('amounts[0].currency', baseCurrencyCode);
@@ -131,7 +131,7 @@ class MultiCurrencyModal extends PureComponent {
                   <tr key={currency}>
                     <td>{currency}</td>
                     <td>{amount}</td>
-                    <td>{(amount * baseCurrencyValue).toFixed(2)}</td>
+                    <td>{(amount * baseCurrencyValue).toFixed(4)}</td>
                     <td>
                       <MultiCurrencyField
                         name={`amounts[${index + 1}]`}

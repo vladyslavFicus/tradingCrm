@@ -101,7 +101,7 @@ class MultiCurrencyValue extends Component {
 
       this.secondaryCurrencies.forEach(({ amount, currency }, index) => {
         currencies[index + 1] = {
-          amount: floatNormalize(amount * value).toFixed(2),
+          amount: floatNormalize(amount * value).toFixed(4),
           currency,
         };
       });
