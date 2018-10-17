@@ -10,7 +10,6 @@ import {
   SelectField,
   DateTimeField,
   RangeGroup,
-  MultiInputField,
   PeriodUnitField,
 } from '../../../../components/ReduxForm';
 import {
@@ -26,6 +25,7 @@ import {
   periods,
   periodsLabels,
 } from '../../constants';
+import TagsAsync from '../../../../components/TagsAsync';
 import NodeBuilder from '../NodeBuilder';
 import { BonusView } from '../Rewards/Bonus';
 import { FreeSpinView } from '../Rewards/FreeSpin';
@@ -41,7 +41,13 @@ import normalizePromoCode from '../../../../utils/normalizePromoCode';
 import countries from '../../../../utils/countryList';
 import { targetTypes, targetTypesLabels } from '../../../../constants/campaigns';
 import Countries from '../Countries';
-import { aggregationTypes, moneyTypes, spinTypes, roundTypes, gameFilters } from '../Fulfillments/GamingFulfillment/constants';
+import {
+  aggregationTypes,
+  moneyTypes,
+  spinTypes,
+  roundTypes,
+  gameFilters,
+} from '../Fulfillments/GamingFulfillment/constants';
 import '../../../../styles/campaigns.scss';
 
 const CAMPAIGN_NAME_MAX_LENGTH = 100;
@@ -256,7 +262,7 @@ class Form extends Component {
             <Field
               name="tags"
               label={I18n.t(attributeLabels.tags)}
-              component={MultiInputField}
+              component={TagsAsync}
               async
               disabled={disabled}
               placeholder={I18n.t('PLAYER_PROFILE.TAGS.ADD_TAGS')}
