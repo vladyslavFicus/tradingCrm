@@ -33,6 +33,10 @@ class MultiCurrencyValue extends Component {
     id: PropTypes.string,
   };
 
+  static contextTypes = {
+    _reduxForm: PropTypes.object,
+  };
+
   static defaultProps = {
     id: null,
     disabled: false,
@@ -45,10 +49,6 @@ class MultiCurrencyValue extends Component {
     className: null,
   };
 
-  static contextTypes = {
-    _reduxForm: PropTypes.object,
-  };
-
   state = {
     isTooltipOpen: false,
   };
@@ -58,7 +58,7 @@ class MultiCurrencyValue extends Component {
     const allCurrencies = get(nextOptions, 'signUp.post.currency.list', []);
 
     if (!nextOptionsLoading && this.baseCurrencyValue && formCurrencies.length !== allCurrencies.length) {
-      this.handleChangeBaseCurrencyAmount();
+      this.handleUpdateBaseCurrencyAmount();
     }
   }
 
@@ -90,21 +90,34 @@ class MultiCurrencyValue extends Component {
 
   id = this.props.id ? this.props.id.replace(/[[\]]/g, '') : v4().replace(/[0-9]/g, '');
 
-  handleChangeBaseCurrencyAmount = ({ target: { value } } = { target: { value: '' } }) => {
+  calculateCurrencies = (value) => {
     const currencies = [];
-    const baseCurrencyValue = value || this.baseCurrencyValue;
 
-    currencies[0] = {
-      amount: floatNormalize(baseCurrencyValue),
-      currency: this.baseCurrency,
-    };
-
-    this.secondaryCurrencies.forEach(({ amount, currency }, index) => {
-      currencies[index + 1] = {
-        amount: floatNormalize(amount * baseCurrencyValue).toFixed(2),
-        currency,
+    if (value || value === 0) {
+      currencies[0] = {
+        amount: floatNormalize(value),
+        currency: this.baseCurrency,
       };
-    });
+
+      this.secondaryCurrencies.forEach(({ amount, currency }, index) => {
+        currencies[index + 1] = {
+          amount: floatNormalize(amount * value).toFixed(2),
+          currency,
+        };
+      });
+    }
+
+    return currencies;
+  };
+
+  handleUpdateBaseCurrencyAmount = () => {
+    const currencies = this.calculateCurrencies(this.baseCurrencyValue);
+
+    this.setFields(currencies);
+  };
+
+  handleChangeBaseCurrencyAmount = ({ target: { value } }) => {
+    const currencies = this.calculateCurrencies(value);
 
     this.setFields(currencies);
   };
@@ -124,7 +137,7 @@ class MultiCurrencyValue extends Component {
     const allCurrencies = get(options, 'signUp.post.currency.list', []);
 
     if (formCurrencies.length !== allCurrencies.length) {
-      this.handleChangeBaseCurrencyAmount();
+      this.handleUpdateBaseCurrencyAmount();
     }
 
     modals.multiCurrencyModal.show({
