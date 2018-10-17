@@ -83,7 +83,7 @@ class AddTagsModal extends Component {
     }
 
     onClose();
-    onConfirm(result);
+    onConfirm();
   };
 
   render() {
