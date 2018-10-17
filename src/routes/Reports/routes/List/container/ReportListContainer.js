@@ -21,7 +21,7 @@ export default compose(
       paymentReport: {
         ...rest,
         paymentReport,
-        loadMoreTags: () => {
+        loadMoreReports: () => {
           const data = paymentReport && paymentReport.data ? paymentReport.data : {};
           createQueryPagination(fetchMore, { page: data.number + 1, size: 25 }, 'paymentReport.data');
         },
