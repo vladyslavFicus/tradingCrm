@@ -1,3 +1,3 @@
-import RepresentativeModal from './RepresentativeModal';
+import RepresentativeModalContainer from './RepresentativeModalContainer';
 
-export default RepresentativeModal;
+export default RepresentativeModalContainer;

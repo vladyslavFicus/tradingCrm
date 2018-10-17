@@ -77,6 +77,7 @@ export default compose(
         size: 20,
         ...!auth.isAdministration && { hierarchyUsers: get(auth, 'hierarchyUsers.clients') },
       },
+      fetchPolicy: 'network-only',
     }),
     props: ({ profiles: { profiles, fetchMore, ...rest } }) => {
       const newPage = get(profiles, 'data.page') || 1;

@@ -2721,6 +2721,8 @@
   },
   "CLIENTS": {
     "BULK_ACTIONS": "Bulk actions",
+    "RETENTION_INFO_UPDATED": "Clients retention info updated",
+    "SALES_INFO_UPDATED": "Clients sales info updated",
     "LIST": {
       "GRID_HEADER": {
         "CLIENT": "Client",

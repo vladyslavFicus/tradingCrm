@@ -13,6 +13,7 @@ import getColumns from './utils';
 
 class List extends Component {
   static propTypes = {
+    notify: PropTypes.func.isRequired,
     fetchPlayerMiniProfile: PropTypes.func.isRequired,
     locale: PropTypes.string.isRequired,
     onPlayerClick: PropTypes.func.isRequired,
@@ -168,28 +169,54 @@ class List extends Component {
     });
   };
 
-  handleUpdateRepresentative = async (type, { repId, status }) => {
+  handleUpdateRepresentative = async (type, { deskId, repId, status }) => {
     const {
+      notify,
       bulkRepresentativeUpdate,
       location: { query },
-      profiles: { profiles: { data: content } },
+      profiles: { refetch, profiles: { data: { content, totalElements } } },
+      modals: { representativeModal },
     } = this.props;
-    const { allRowsSelected, selectedRows, touchedRowsIds } = this.state;
 
+    const { allRowsSelected, selectedRows, touchedRowsIds } = this.state;
     const ids = allRowsSelected
       ? touchedRowsIds.map(index => content[index].playerUUID)
       : selectedRows;
 
-    const data = bulkRepresentativeUpdate({
+    const { data: { clients: { bulkRepresentativeUpdate: { error } } } } = await bulkRepresentativeUpdate({
       variables: {
+        deskId,
+        type,
         [type === deskTypes.SALES ? 'salesStatus' : 'retentionStatus']: status,
         [type === deskTypes.SALES ? 'salesRep' : 'retentionRep']: repId,
-        ...query && query.filters,
+        ...query && { searchParams: { ...query.filters } },
         allRowsSelected,
+        totalElements,
         ids,
       },
     });
-    console.log('data', data);
+
+    if (error) {
+      notify({
+        level: 'error',
+        title: I18n.t('COMMON.PROMOTE_FAILED'),
+        message: I18n.t('COMMON.SOMETHING_WRONG'),
+      });
+    } else {
+      refetch({
+        variables: {
+          ...query && query.filters,
+        },
+      });
+      notify({
+        level: 'success',
+        title: I18n.t('COMMON.SUCCESS'),
+        message: type === deskTypes.SALES
+          ? I18n.t('CLIENTS.SALES_INFO_UPDATED')
+          : I18n.t('CLIENTS.RETENTION_INFO_UPDATED'),
+      });
+    }
+    representativeModal.hide();
   };
 
   render() {
@@ -261,16 +288,14 @@ class List extends Component {
               <If condition={auth.isAdministration}>
                 <button
                   className="btn btn-default-outline"
-                  disabled
-                  // disabled={branchesLoading}
+                  disabled={branchesLoading}
                   onClick={this.handleTriggerRepModal(deskTypes.SALES)}
                 >
                   {I18n.t('COMMON.SALES')}
                 </button>
                 <button
                   className="btn btn-default-outline"
-                  disabled
-                  // disabled={branchesLoading}
+                  disabled={branchesLoading}
                   onClick={this.handleTriggerRepModal(deskTypes.RETENTION)}
                 >
                   {I18n.t('COMMON.RETENTION')}

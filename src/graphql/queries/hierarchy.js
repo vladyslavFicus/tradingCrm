@@ -30,6 +30,7 @@ const getUserBranchHierarchy = gql`query getUserBranchHierarchy(
           deskType
           language
           parentBranches
+          isDefault
         }
         TEAM {
           name
@@ -163,9 +164,32 @@ const getBranchHierarchy = gql`query getBranchHierarchy (
   }
 }`;
 
+const getUsersByBranch = gql`query getUsersByBranch(
+  $uuid: String!,
+) {
+  hierarchy {
+    usersByBranch (
+      uuid: $uuid,
+    ) {
+      error {
+        error
+        fields_errors
+      }
+      data {
+        uuid
+        userType
+        fullName
+        parentUsers
+        parentBranches
+      }
+    } 
+  }
+}`;
+
 export {
   getUserBranchHierarchy,
   getHierarchyUsersByType,
   getBranchInfo,
   getBranchHierarchy,
+  getUsersByBranch,
 };
