@@ -18,10 +18,12 @@ class FilterForm extends Component {
     onReset: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
     disabled: PropTypes.bool,
+    initialFilters: PropTypes.object,
   };
 
   static defaultProps = {
     disabled: false,
+    initialFilters: {},
   };
 
   startDateValidator = (value, values) => (values && values.endDate
@@ -40,12 +42,13 @@ class FilterForm extends Component {
   };
 
   render() {
-    const { onSubmit, disabled } = this.props;
+    const { onSubmit, disabled, initialFilters } = this.props;
 
     return (
       <Form
         onSubmit={onSubmit}
         validate={validator}
+        initialValues={initialFilters}
         keepDirtyOnReinitialize={false}
         render={({ handleSubmit, submitting, pristine }) => (
           <FormSpy subscription={{}}>

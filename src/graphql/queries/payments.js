@@ -229,7 +229,7 @@ const getPaymentRegulationLimits = gql`query getPaymentLimitRegulation($playerUU
   } 
 }`;
 
-const paymentReportQuery  = gql`query paymentReport(
+const paymentReportQuery = gql`query paymentReport(
   $size: Int,
   $page: Int,
   $startDate: String,
@@ -263,6 +263,9 @@ const paymentReportQuery  = gql`query paymentReport(
           amount
         }
       }
+    }
+    error {
+      error
     }
   }
 }`;

@@ -8,6 +8,7 @@ const services = keyMirror({
   campaign: null,
   cms: null,
   game_info: null,
+  payment_view: null,
   promotion: null,
   gaming_activity: null,
   trading_activity: null,

@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 import { I18n } from 'react-redux-i18n';
 import { get } from 'lodash';
-import { GridView, GridViewColumn, Card, CardBody, CardHeading } from '@newage/backoffice_ui';
+import { Card, CardBody, CardHeading, GridViewColumn, GridView } from '@newage/backoffice_ui';
 import PropTypes from 'prop-types';
 import FilterForm from './FilterForm';
 import history from '../../../../../router/history';
+import ReportItem from './ReportItem';
+import './ReportList.scss';
+import getStartDateOfMonth from '../../../../../utils/getStartDateOfMonth';
 
 class ReportList extends Component {
   static propTypes = {
@@ -47,25 +50,18 @@ class ReportList extends Component {
     }
   };
 
-  handleRefresh = (filters = {}) => {
+  handleRefresh = (filters = null) => {
     history.replace({ query: { filters } });
   };
 
-  renderDate = ({ date }) => date;
-  renderDeposits = ({ deposits }) => (
-    <For of={deposits} each="deposit">
-      {deposit.amount} {deposit.currency} <br />
-    </For>
-  );
-  renderWithdrawals = ({ withdrawals }) => (
-    <For of={withdrawals} each="withdrawal">
-      {withdrawal.amount} {withdrawal.currency} <br />
-    </For>
-  );
-  renderProfit = ({ profit: profits }) => (
-    <For of={profits} each="profit">
-      {profit.amount} {profit.currency} <br />
-    </For>
+  renderReportItem = report => (
+    <ReportItem
+      key={report.date}
+      date={report.date}
+      deposits={report.deposits}
+      withdrawals={report.withdrawals}
+      profits={report.profit}
+    />
   );
 
   render() {
@@ -79,31 +75,24 @@ class ReportList extends Component {
             {I18n.t('route.reports.component.ReportList.title')}
           </div>
         </CardHeading>
-        <FilterForm onSubmit={this.handleRefresh} onReset={this.handleRefresh} />
+        <FilterForm initialFilters={{ ...getStartDateOfMonth() }} onSubmit={this.handleRefresh} onReset={this.handleRefresh} />
         <CardBody>
-          <GridView
-            dataSource={paymentReport.content}
-            onPageChange={this.handlePageChange}
-            activePage={paymentReport.number + 1}
-            locale={locale}
-            totalPages={paymentReport.totalPages}
-            lazyLoad
-            last={paymentReport.last}
-            showNoResults={paymentReport.content.length === 0}
-          >
-            <GridViewColumn
-              render={this.renderDate}
-            />
-            <GridViewColumn
-              render={this.renderDeposits}
-            />
-            <GridViewColumn
-              render={this.renderWithdrawals}
-            />
-            <GridViewColumn
-              render={this.renderProfit}
-            />
-          </GridView>
+          <div className="report-list">
+            <GridView
+              dataSource={paymentReport.content}
+              onPageChange={this.handlePageChange}
+              activePage={paymentReport.number + 1}
+              locale={locale}
+              totalPages={paymentReport.totalPages}
+              lazyLoad
+              last={paymentReport.last}
+              showNoResults={paymentReport.content.length === 0}
+            >
+              <GridViewColumn
+                render={this.renderReportItem}
+              />
+            </GridView>
+          </div>
         </CardBody>
       </Card>
     );

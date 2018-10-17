@@ -60,6 +60,9 @@ export default {
     PAYMENT_METHODS_LIST: 'payment;GET;/methods',
     ACCOUNT_LOCK: 'payment;PUT;/accounts/{paymentAccountUUID}/lock',
   },
+  PAYMENT_VIEW: {
+    PAYMENT_REPORT: 'payment_view;GET;/payments/payment_report',
+  },
   PROMOTION: {
     LIST: 'promotion;GET;/campaigns',
     PLAYER_CAMPAIGN_ACTIVE_LIST: 'promotion;GET;/campaigns/{playerUUID}/active',

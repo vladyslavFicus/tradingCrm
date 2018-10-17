@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { createQueryPagination } from '@newage/backoffice_utils';
 import ReportList from '../components/ReportList';
 import { paymentReportQuery } from '../../../../../graphql/queries/payments';
-
+import getStartDateOfMonth from '../../../../../utils/getStartDateOfMonth';
 
 export default compose(
   connect(({ i18n: { locale } }) => ({ locale })),
@@ -12,8 +12,10 @@ export default compose(
     options: ({ location: { query } }) => ({
       fetchPolicy: 'network-only',
       variables: {
-        ...query ? query.filters : {},
-        size: 25,
+        ...query && query.filters ? query.filters : {
+          ...getStartDateOfMonth(),
+        },
+        size: 20,
         page: 0,
       },
     }),
