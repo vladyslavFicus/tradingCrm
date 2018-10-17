@@ -80,6 +80,7 @@ const falconSidebarMenu = [{
   label: I18n.t('SIDEBAR.TOP_MENU.MANAGEMENT'),
   icon: 'icon-operators sidebar-nav-item__icon--operators',
   isOpen: false,
+  onlyAdministrator: true,
   items: [{
     label: I18n.t('SIDEBAR.TOP_MENU.OFFICES'),
     url: '/offices',

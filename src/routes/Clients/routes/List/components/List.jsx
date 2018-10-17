@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { I18n } from 'react-redux-i18n';
-import { get } from 'lodash';
+import { get, uniq } from 'lodash';
 import { TextRow } from 'react-placeholder/lib/placeholders';
 import UserGridFilter from './UserGridFilter';
 import history from '../../../../../router/history';
@@ -9,10 +9,12 @@ import { deskTypes } from '../../../../../constants/hierarchyTypes';
 import GridView, { GridViewColumn } from '../../../../../components/GridView';
 import Placeholder from '../../../../../components/Placeholder';
 import withPlayerClick from '../../../../../utils/withPlayerClick';
+import { getUsersByBranch } from '../../../../../graphql/queries/hierarchy';
 import getColumns from './utils';
 
 class List extends Component {
   static propTypes = {
+    client: PropTypes.object.isRequired,
     notify: PropTypes.func.isRequired,
     fetchPlayerMiniProfile: PropTypes.func.isRequired,
     locale: PropTypes.string.isRequired,
@@ -100,12 +102,65 @@ class List extends Component {
     }
   };
 
-  handleFiltersChanged = (filters = {}) => {
+  handleFiltersChanged = async (filters = {}) => {
+    const {
+      client,
+      notify,
+    } = this.props;
+    let hierarchyData = [];
+
+    if (filters.desks) {
+      const { data: { hierarchy: { usersByBranch: { data, error } } } } = await client.query({
+        query: getUsersByBranch,
+        variables: { uuid: filters.desks },
+      });
+
+      if (error) {
+        notify({
+          level: 'error',
+          title: I18n.t('COMMON.PROMOTE_FAILED'),
+          message: I18n.t('COMMON.SOMETHING_WRONG'),
+        });
+
+        return;
+      }
+      hierarchyData = [...hierarchyData, ...data.map(({ uuid }) => uuid)];
+    }
+
+    if (filters.teams) {
+      const { data: { hierarchy: { usersByBranch: { data, error } } } } = await client.query({
+        query: getUsersByBranch,
+        variables: { uuid: filters.teams },
+      });
+
+      if (error) {
+        notify({
+          level: 'error',
+          title: I18n.t('COMMON.PROMOTE_FAILED'),
+          message: I18n.t('COMMON.SOMETHING_WRONG'),
+        });
+
+        return;
+      }
+      hierarchyData = [...hierarchyData, ...data.map(({ uuid }) => uuid)];
+    }
+
     this.setState({
       allRowsSelected: false,
       selectedRows: [],
       touchedRowsIds: [],
-    }, () => history.replace({ query: { filters } }));
+    }, () => history.replace({
+      query: {
+        filters: {
+          ...filters,
+          ...((filters.teams || filters.desks) && {
+            teams: null,
+            desks: null,
+            repIds: uniq(hierarchyData),
+          }),
+        },
+      },
+    }));
   }
 
   handleFilterReset = () => {
