@@ -41,7 +41,8 @@ class PlayerLimit extends PureComponent {
       profileStatus,
     } = this.props;
     const isUnlockButtonVisible = (
-      !!(unlockButtonLabel && unlockButtonClassName && onUnlockButtonClick) && profileStatus === statuses.ACTIVE
+      !!(unlockButtonLabel && unlockButtonClassName && onUnlockButtonClick)
+      && [statuses.INACTIVE, statuses.ACTIVE].indexOf(profileStatus) > -1
     );
 
     return (
