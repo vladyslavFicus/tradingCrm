@@ -32,3 +32,9 @@ export const userTypes = keyMirror({
   CUSTOMER: null,
   LEAD_CUSTOMER: null,
 });
+
+export const deskTypes = keyMirror({
+  RETENTION: null,
+  SALES: null,
+  NINJA: null,
+});

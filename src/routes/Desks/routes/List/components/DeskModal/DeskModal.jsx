@@ -130,7 +130,7 @@ const DeskModal = reduxForm({
   enableReinitialize: true,
   validate: createValidator({
     name: ['required', 'string'],
-    office: ['required', 'string'],
+    officeId: ['required', 'string'],
     language: ['required', 'string'],
     deskType: ['required', 'string'],
   }, translateLabels(deskModalAttributeLabels), false),

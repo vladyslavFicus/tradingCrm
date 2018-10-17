@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import moment from 'moment';
 import { connect } from 'react-redux';
 import { getFormValues } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
+import PropTypes from '../../../../../constants/propTypes';
 import { createValidator } from '../../../../../utils/validator';
 import { statusesLabels, filterLabels } from '../../../../../constants/user';
 import createDynamicForm, { FilterItem, FilterField, TYPES, SIZES } from '../../../../../components/DynamicFilters';
@@ -23,8 +23,8 @@ const DynamicFilters = createDynamicForm({
     desks: 'string',
     registrationDateFrom: 'regex:/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/',
     registrationDateTo: 'regex:/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/',
-    balanceFrom: 'integer',
-    balanceTo: 'integer',
+    tradingBalanceFrom: 'integer',
+    tradingBalanceFromTo: 'integer',
   }, filterLabels, false),
 });
 
@@ -49,7 +49,11 @@ class UserGridFilter extends Component {
     onSubmit: PropTypes.func.isRequired,
     currencies: PropTypes.arrayOf(PropTypes.string).isRequired,
     countries: PropTypes.object.isRequired,
+    teams: PropTypes.arrayOf(PropTypes.hierarchyBranch).isRequired,
+    desks: PropTypes.arrayOf(PropTypes.hierarchyBranch).isRequired,
+    branchesLoading: PropTypes.bool.isRequired,
   };
+
   static defaultProps = {
     currentValues: {},
     disabled: false,
@@ -78,6 +82,9 @@ class UserGridFilter extends Component {
       disabled,
       currencies,
       countries,
+      teams,
+      desks,
+      branchesLoading,
     } = this.props;
 
     return (
@@ -118,10 +125,15 @@ class UserGridFilter extends Component {
           size={SIZES.medium}
           type={TYPES.nas_select}
           placeholder={I18n.t('COMMON.SELECT_OPTION.NO_ITEMS')}
+          disabled={branchesLoading}
           default
         >
           <FilterField name="desks">
-            {[]}
+            {desks.map(({ uuid, name }) => (
+              <option key={uuid} value={uuid}>
+                {name}
+              </option>
+            ))}
           </FilterField>
         </FilterItem>
 
@@ -130,22 +142,15 @@ class UserGridFilter extends Component {
           size={SIZES.medium}
           type={TYPES.nas_select}
           placeholder={I18n.t('COMMON.SELECT_OPTION.NO_ITEMS')}
+          disabled={branchesLoading}
           default
         >
           <FilterField name="teams">
-            {[]}
-          </FilterField>
-        </FilterItem>
-
-        <FilterItem
-          label={I18n.t(filterLabels.offices)}
-          size={SIZES.medium}
-          type={TYPES.nas_select}
-          placeholder={I18n.t('COMMON.SELECT_OPTION.NO_ITEMS')}
-          default
-        >
-          <FilterField name="desks">
-            {[]}
+            {teams.map(({ uuid, name }) => (
+              <option key={uuid} value={uuid}>
+                {name}
+              </option>
+            ))}
           </FilterField>
         </FilterItem>
 
@@ -189,12 +194,12 @@ class UserGridFilter extends Component {
           default
         >
           <FilterField
-            name="balanceFrom"
+            name="tradingBalanceFrom"
             type="number"
             normalize={floatNormalize}
           />
           <FilterField
-            name="balanceTo"
+            name="tradingBalanceTo"
             type="number"
             normalize={floatNormalize}
           />

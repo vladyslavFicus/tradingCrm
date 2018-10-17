@@ -96,7 +96,7 @@ class TransactionsFilterForm extends Component {
           placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
           className="filter-row__medium"
         >
-          {Object.keys(types).map(type => (
+          {Object.keys(types).filter(i => typesLabels[i]).map(type => (
             <option key={type} value={type}>
               {renderLabel(type, typesLabels)}
             </option>

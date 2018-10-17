@@ -19,7 +19,6 @@ class DeskForm extends Component {
     pristine: PropTypes.bool.isRequired,
     submitting: PropTypes.bool.isRequired,
     onSubmit: PropTypes.func.isRequired,
-    change: PropTypes.func.isRequired,
     error: PropTypes.any,
     offices: PropTypes.arrayOf(PropTypes.branchHierarchyType).isRequired,
     desks: PropTypes.arrayOf(PropTypes.branchHierarchyType).isRequired,
@@ -42,7 +41,7 @@ class DeskForm extends Component {
     this.setState({
       selectedOffice,
       desks,
-    }, () => this.props.change('officeId', selectedOffice));
+    });
   };
 
   render() {

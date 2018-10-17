@@ -94,6 +94,7 @@ const clientsQuery = gql`query getProfiles(
   $searchValue: String,
   $status: String,
   $hierarchyUsers: [String],
+  $repIds: [String],
 ) {
   profiles(
     page: $page,
@@ -107,6 +108,7 @@ const clientsQuery = gql`query getProfiles(
     searchValue: $searchValue,
     status: $status,
     hierarchyUsers: $hierarchyUsers,
+    repIds: $repIds,
     ) {
       error {
         error
