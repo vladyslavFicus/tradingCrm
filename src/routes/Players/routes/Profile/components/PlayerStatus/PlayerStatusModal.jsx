@@ -16,6 +16,7 @@ const attributeLabels = {
   comment: 'Comment',
 };
 const availablePeriods = [
+  { durationAmount: 1, durationUnit: durationUnits.MONTHS },
   { durationAmount: 6, durationUnit: durationUnits.MONTHS },
   { durationAmount: 1, durationUnit: durationUnits.YEARS },
   { durationAmount: 2, durationUnit: durationUnits.YEARS },
