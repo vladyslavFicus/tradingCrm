@@ -39,13 +39,13 @@ class CreateBonusModal extends PureComponent {
     onSave: PropTypes.func,
   };
 
+  static contextTypes = {
+    _reduxForm: PropTypes.object,
+  };
+
   static defaultProps = {
     onSave: null,
     formValues: {},
-  };
-
-  static contextTypes = {
-    _reduxForm: PropTypes.object,
   };
 
   componentWillReceiveProps({ isOpen }) {
@@ -87,11 +87,11 @@ class CreateBonusModal extends PureComponent {
     });
 
     if (formData.prizeCapingType === customValueFieldTypes.ABSOLUTE) {
-      if (formData.capping) {
+      if (formData.capping && formData.capping.absolute && formData.capping.absolute.length > 0) {
         data.cappingAbsolute = formData.capping.absolute;
       }
 
-      if (formData.prize) {
+      if (formData.prize && formData.prize.absolute && formData.prize.absolute.length > 0) {
         data.prizeAbsolute = formData.prize.absolute;
       }
     } else {
