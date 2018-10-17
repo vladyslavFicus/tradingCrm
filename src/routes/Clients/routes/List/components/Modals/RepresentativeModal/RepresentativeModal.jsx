@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import { Field } from 'redux-form';
+import { Field, SubmissionError } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
 import PropTypes from '../../../../../../../constants/propTypes';
 import { deskTypes } from '../../../../../../../constants/hierarchyTypes';
 import { salesStatuses, salesStatusValues } from '../../../../../../../constants/salesStatuses';
 import { retentionStatuses, retentionStatusValues } from '../../../../../../../constants/retentionStatuses';
 import { NasSelectField } from '../../../../../../../components/ReduxForm';
+import { getUsersByBranch, getUserBranchHierarchy } from '../../../../../../../graphql/queries/hierarchy';
 import Select from '../../../../../../../components/Select';
 import renderLabel from '../../../../../../../utils/renderLabel';
 import attributeLabels from './constants';
@@ -20,12 +21,14 @@ class RepresentativeModal extends Component {
     pristine: PropTypes.bool.isRequired,
     submitting: PropTypes.bool.isRequired,
     onSubmit: PropTypes.func.isRequired,
+    change: PropTypes.func.isRequired,
     error: PropTypes.any,
     i18nPrefix: PropTypes.string.isRequired,
     clientsSelected: PropTypes.number.isRequired,
     type: PropTypes.string.isRequired,
     agents: PropTypes.arrayOf(PropTypes.userHierarchyType).isRequired,
     desks: PropTypes.arrayOf(PropTypes.hierarchyBranch).isRequired,
+    client: PropTypes.object.isRequired,
   };
 
   static defaultProps = {
@@ -36,20 +39,68 @@ class RepresentativeModal extends Component {
     super(props);
 
     this.state = {
-      selectedDesk: null,
-      selectedRep: null,
+      selectedDesk: '',
+      selectedRep: '',
+      agentsLoading: false,
+      deskLoading: false,
       desks: props.desks,
       agents: props.agents,
     };
   }
 
-  handleDeskChange = (selectedDesk) => {
-    // deskId
-    
+  handleDeskChange = async (selectedDesk) => {
+    this.setState({
+      agentsLoading: true,
+    });
+
+    const { data: { hierarchy: { usersByBranch: { data, error } } } } = await this.props.client.query({
+      query: getUsersByBranch,
+      variables: {
+        uuid: selectedDesk,
+      },
+    });
+
+    if (error) {
+      throw new SubmissionError({ _error: error.error });
+    }
+
+    this.setState({
+      agents: data || [],
+      selectedDesk,
+      agentsLoading: false,
+    }, () => this.props.change('deskId', selectedDesk));
   }
 
-  handleRepChange = (selectedRep) => {
-    // repId
+  handleRepChange = async (selectedRep) => {
+    const { type } = this.props;
+    this.setState({
+      deskLoading: true,
+    });
+
+    const { data: { hierarchy: { userBranchHierarchy: { data: { DESK }, error } } } } = await this.props.client.query({
+      query: getUserBranchHierarchy,
+      variables: { userId: selectedRep },
+    });
+    const desks = DESK ? DESK.filter(({ deskType }) => deskType === type) : [];
+
+    if (error) {
+      throw new SubmissionError({ _error: error.error });
+    }
+
+    this.setState({
+      desks,
+      selectedRep,
+      deskLoading: false,
+      ...(!this.state.selectedDesk && desks.length === 1 && { selectedDesk: desks[0].uuid }),
+    }, () => {
+      this.props.change('repId', selectedRep);
+      if (desks.length === 1) {
+        this.props.change('deskId', desks[0].uuid);
+      } else if (desks.length !== 0) {
+        const defaultDesk = desks.find(({ isDefault }) => isDefault);
+        this.props.change('deskId', defaultDesk ? defaultDesk.uuid : desks[0].uuid);
+      }
+    });
   }
 
   render() {
@@ -70,6 +121,8 @@ class RepresentativeModal extends Component {
     const {
       selectedDesk,
       selectedRep,
+      agentsLoading,
+      deskLoading,
       desks,
       agents,
     } = this.state;
@@ -98,7 +151,7 @@ class RepresentativeModal extends Component {
             value={selectedDesk}
             customClassName="form-group"
             placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
-            disabled={submitting}
+            disabled={deskLoading || submitting}
             onChange={this.handleDeskChange}
           >
             {desks.map(({ name, uuid }) => (
@@ -112,7 +165,7 @@ class RepresentativeModal extends Component {
             value={selectedRep}
             customClassName="form-group"
             placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
-            disabled={submitting}
+            disabled={agentsLoading || submitting}
             onChange={this.handleRepChange}
           >
             {agents.map(({ fullName, uuid }) => (
@@ -156,7 +209,7 @@ class RepresentativeModal extends Component {
           </button>
           <button
             type="submit"
-            disabled={invalid || pristine || submitting}
+            disabled={agentsLoading || deskLoading || invalid || pristine || submitting}
             className="btn btn-primary"
             form="representative-modal-form"
           >

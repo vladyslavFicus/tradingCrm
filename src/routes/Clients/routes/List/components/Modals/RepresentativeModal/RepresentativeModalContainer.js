@@ -1,5 +1,5 @@
-import { reduxForm } from 'react-redux';
-import { graphql, compose } from 'react-apollo';
+import { reduxForm } from 'redux-form';
+import { withApollo, compose } from 'react-apollo';
 import { createValidator, translateLabels } from '../../../../../../../utils/validator';
 import { salesStatusValues } from '../../../../../../../constants/salesStatuses';
 import { retentionStatusValues } from '../../../../../../../constants/retentionStatuses';
@@ -9,6 +9,7 @@ import attributeLabels from './constants';
 const FORM_NAME = 'representativeModalForm';
 
 export default compose(
+  withApollo,
   reduxForm({
     form: FORM_NAME,
     enableReinitialize: true,
