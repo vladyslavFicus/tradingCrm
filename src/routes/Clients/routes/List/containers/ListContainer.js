@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { graphql, compose } from 'react-apollo';
+import { withApollo, graphql, compose } from 'react-apollo';
 import moment from 'moment';
 import { get } from 'lodash';
 import countries from '../../../../../utils/countryList';
@@ -40,6 +40,7 @@ const mapActions = {
 };
 
 export default compose(
+  withApollo,
   withNotifications,
   withModals({
     representativeModal: RepresentativeModal,

@@ -21,7 +21,6 @@ const AcquisitionStatus = ({ acquisitionData, loading }) => (
                 </div>
               </div>
               <div className="operator-col">
-                <div>DK</div>
                 <div className="name">{acquisitionData[`${item}Rep`].fullName}</div>
               </div>
             </div>
