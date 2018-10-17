@@ -193,7 +193,7 @@ class SettingsView extends Component {
         variables: {
           ...formData,
           uuid: data.uuid,
-          rewards,
+          rewards: rewards.filter(({ uuid }) => uuid),
           fulfillments,
           tags: tagsToUpdate.map(v => v.uuid),
         },
