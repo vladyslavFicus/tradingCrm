@@ -4,8 +4,9 @@ import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Field, reduxForm, formValueSelector } from 'redux-form';
 import { createValidator } from '../../../../../../../../utils/validator';
 import { InputField, SelectField } from '../../../../../../../../components/ReduxForm';
-import { typesLabels, types } from '../../../../../../../../constants/limits';
+import { typesLabels, types, availableToAddLimitTypes } from '../../../../../../../../constants/limits';
 import PropTypes from '../../../../../../../../constants/propTypes';
+import renderLabel from '../../../../../../../../utils/renderLabel';
 
 const FORM_NAME = 'createLimitForm';
 const createLimitValuesSelector = formValueSelector(FORM_NAME);
@@ -48,14 +49,24 @@ class CreateLimitModal extends Component {
     onClose: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func.isRequired,
-    pristine: PropTypes.bool,
-    submitting: PropTypes.bool,
+    pristine: PropTypes.bool.isRequired,
+    submitting: PropTypes.bool.isRequired,
     autofill: PropTypes.func.isRequired,
-    valid: PropTypes.bool,
+    valid: PropTypes.bool.isRequired,
     currentValues: PropTypes.shape({
       type: PropTypes.string.isRequired,
     }),
     limitPeriods: PropTypes.limitPeriodEntity,
+  };
+  static defaultProps = {
+    currentValues: {},
+    limitPeriods: {},
+  };
+
+  handleChangeType = ({ target: { value } }) => {
+    const { limitPeriods, autofill } = this.props;
+
+    autofill('period', limitPeriods[value][0]);
   };
 
   renderPeriodField = () => {
@@ -114,12 +125,6 @@ class CreateLimitModal extends Component {
     );
   };
 
-  handleChangeType = ({ target: { value } }) => {
-    const { limitPeriods, autofill } = this.props;
-
-    autofill('period', limitPeriods[value][0]);
-  };
-
   render() {
     const {
       onClose,
@@ -146,9 +151,9 @@ class CreateLimitModal extends Component {
                   component={SelectField}
                   position="vertical"
                 >
-                  {Object.keys(typesLabels).map(status => (
+                  {availableToAddLimitTypes.map(status => (
                     <option key={status} value={status}>
-                      {typesLabels[status]}
+                      {renderLabel(status, typesLabels)}
                     </option>
                   ))}
                 </Field>

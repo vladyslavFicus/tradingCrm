@@ -25,6 +25,13 @@ const types = {
   REGULATION: 'regulation',
 };
 
+const availableToAddLimitTypes = [
+  types.SESSION_DURATION,
+  types.WAGER,
+  types.LOSS,
+  types.DEPOSIT,
+];
+
 const amountTypes = {
   MONEY: 'money',
   TIME: 'time',
@@ -71,4 +78,5 @@ export {
   timeUnits,
   amountTypes,
   valueTypeLabels,
+  availableToAddLimitTypes,
 };
