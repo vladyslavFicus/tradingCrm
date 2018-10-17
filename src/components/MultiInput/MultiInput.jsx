@@ -163,14 +163,9 @@ class MultiInput extends Component {
   };
 
   renderInput = (props) => {
-    const { placeholder } = this.props;
+    const { placeholder, disabled } = this.props;
 
-    if (props.isHidden) {
-      return <components.Input {...props} placeholder={placeholder} />;
-    }
-    return (
-      <components.Input {...props} placeholder={placeholder} />
-    );
+    return <components.Input {...props} placeholder={placeholder} isDisabled={disabled} />;
   };
 
   render() {
