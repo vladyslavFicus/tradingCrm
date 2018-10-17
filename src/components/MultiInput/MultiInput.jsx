@@ -100,7 +100,7 @@ class MultiInput extends Component {
     const { loadOptions } = this.props;
 
     return new Promise((resolve) => {
-      if (inputValue.length < 3 || typeof loadOptions !== 'function') {
+      if (!inputValue.length || typeof loadOptions !== 'function') {
         resolve();
       } else {
         const options = loadOptions(inputValue);
