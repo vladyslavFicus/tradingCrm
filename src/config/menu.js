@@ -189,6 +189,17 @@ const hrznSidebarMenu = [{
   icon: 'icon-tags',
   service: services.conditional_tag,
   permissions: new Permissions(permissions.CONDITIONAL_TAG.LIST),
+},
+{
+  label: I18n.t('SIDEBAR.TOP_MENU.REPORTING'),
+  icon: 'fa fa-chart-pie',
+  service: services.payment_view,
+  permissions: new Permissions(permissions.PAYMENT_VIEW.PAYMENT_REPORT),
+  isOpen: false,
+  items: [{
+    label: I18n.t('SIDEBAR.TOP_MENU.REPORTS_DASHBOARD'),
+    url: '/reports/list',
+  }],
 }];
 
 const sidebarTopMenu = config.market === markets.crm ? falconSidebarMenu : hrznSidebarMenu;

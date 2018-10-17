@@ -2,6 +2,8 @@
   "SIDEBAR": {
     "TOP_MENU": {
       "PLAYERS": "Игроки",
+      "REPORTING": "Cоставление отчетов",
+      "REPORTS_DASHBOARD": "Панель отчетов",
       "OPERATORS": "Операторы",
       "PAYMENTS": "Платежи",
       "TRANSACTIONS": "Транзакции",
@@ -2713,6 +2715,27 @@
     }
   },
   "route": {
+    "reports": {
+      "component": {
+        "ReportItem": {
+          "profit": "ПРИБЫЛЬ",
+          "deposits": "ОБЩИЕ ДЕПОЗИТЫ",
+          "withdrawals": "ОБЩИЕ ВЫВОДЫ"
+        },
+        "ReportList": {
+          "title": "Панель отчетов"
+        },
+        "FilterForm": {
+          "dateRange": "Диапазон дат",
+          "placeholders": {
+            "dateRange": {
+              "from": "Дата начала",
+              "to": "Дата окончания"
+            }
+          }
+        }
+      }
+    },
     "conditionalTags": {
       "component": {
         "ConditionalTagsList": {

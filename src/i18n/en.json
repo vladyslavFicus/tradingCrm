@@ -1,6 +1,8 @@
 {
   "SIDEBAR": {
     "TOP_MENU": {
+      "REPORTING": "Reporting",
+      "REPORTS_DASHBOARD": "Reports dashboard",
       "PLAYERS": "Players",
       "CLIENTS": "Clients",
       "LEADS": "Leads",
@@ -3064,6 +3066,27 @@
     "confirm": "Confirm"
   },
   "route": {
+    "reports": {
+      "component": {
+        "ReportList": {
+          "title": "Reports dashboard"
+        },
+        "ReportItem": {
+          "profit": "PROFIT",
+          "deposits": "TOTAL DEPOSITS",
+          "withdrawals": "TOTAL WITHDRAWALS"
+        },
+        "FilterForm": {
+          "dateRange": "Date range",
+          "placeholders": {
+            "dateRange": {
+              "from": "Start date",
+              "to": "End date"
+            }
+          }
+        }
+      }
+    },
     "conditionalTags": {
       "component": {
         "ConditionalTagsList": {

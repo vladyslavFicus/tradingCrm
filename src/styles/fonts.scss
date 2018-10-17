@@ -23,6 +23,10 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.fa-calendar:before {
+  content: "\e90b"!important;
+}
+
 .icon-tags:before {
   content: "\e900";
 }
@@ -59,7 +63,7 @@
 .icon-close-popup-profile:before {
   content: "\e90b";
 }
-.icon-calendar:before {
+.fa-calendar:before, icon-calendar:before {
   content: "\e90c";
 }
 .icon-times:before {
