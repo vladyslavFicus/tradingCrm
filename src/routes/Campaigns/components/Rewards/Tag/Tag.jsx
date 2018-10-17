@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { I18n } from 'react-redux-i18n';
 import { get } from 'lodash';
 import { Field, Fields } from 'redux-form';
-import { InputField } from '../../../../../components/ReduxForm';
+import TagsAsync from '../../../../../components/TagsAsync';
 
 class Tag extends Component {
   static propTypes = {
@@ -17,9 +17,11 @@ class Tag extends Component {
       <Field
         name={tagName.input.name}
         type="text"
-        component={InputField}
+        component={TagsAsync}
+        maxLength={1}
         label={I18n.t('CAMPAIGNS.REWARDS.TAG.NAME')}
         disabled={!!uuid.input.value}
+        async
       />
     );
   };

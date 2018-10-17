@@ -7,10 +7,8 @@ import { FORM_ERROR } from 'final-form';
 import { Modal, Button, InputField } from '@newage/backoffice_ui';
 import { createValidator } from '@newage/backoffice_utils';
 import { I18n } from 'react-redux-i18n';
-import {
-  MultiInputField,
-  FileInput,
-} from '../../../../../../components/ReduxForm';
+import { FileInput } from '../../../../../../components/ReduxForm';
+import TagsAsync from '../../../../../../components/TagsAsync';
 
 const schema = Joi.object().keys({
   name: Joi.string().required(),
@@ -136,7 +134,7 @@ class AddTagsModal extends Component {
               <Field
                 name="tag"
                 label={I18n.t('route.conditionalTags.component.AddTagsModal.tag')}
-                component={MultiInputField}
+                component={TagsAsync}
                 async
                 maxLength={1}
                 disabled={submitting}

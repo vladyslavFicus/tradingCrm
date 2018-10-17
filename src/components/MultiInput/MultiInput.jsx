@@ -17,6 +17,8 @@ class MultiInput extends Component {
     disabled: PropTypes.bool,
     onChange: PropTypes.func,
     onRemove: PropTypes.func,
+    onAdd: PropTypes.func,
+    loadOptions: PropTypes.func,
     initialValues: PropTypes.array,
     className: PropTypes.string,
     maxLength: PropTypes.number,
@@ -29,7 +31,9 @@ class MultiInput extends Component {
     onChange: null,
     maxLength: null,
     onRemove: null,
+    onAdd: null,
     initialValues: [],
+    loadOptions: null,
     className: null,
   };
 
@@ -38,22 +42,72 @@ class MultiInput extends Component {
     value: this.props.initialValues,
   };
 
-  handleChange = async (value, { action, removedValue }) => {
-    const { onChange, onRemove } = this.props;
+  setValue = (value, callback) => {
+    this.setState({
+      inputValue: '',
+      value,
+    }, () => {
+      if (typeof callback === 'function') {
+        callback();
+      }
+    });
+  };
 
-    if (action === 'remove-value' && typeof onRemove === 'function') {
-      const { success } = await onRemove(removedValue.value);
+  handleRemove = async (removedValue, currentValue) => {
+    const { onRemove } = this.props;
+
+    if (typeof onRemove === 'function') {
+      const { success } = await onRemove(removedValue);
 
       if (success) {
-        this.setState({ value });
+        this.setValue(currentValue);
       }
     }
+  };
+
+  handleAdd = async (addedValue, currentValue) => {
+    const { onAdd } = this.props;
+
+    if (typeof onAdd === 'function') {
+      const { success } = await onAdd(addedValue);
+
+      if (success) {
+        this.setValue(currentValue);
+      }
+    }
+  };
+
+  handleChange = async (value, meta) => {
+    const { action, removedValue } = meta;
+
+    const { onChange } = this.props;
+    const { inputValue } = this.state;
 
     if (typeof onChange === 'function') {
-      this.setState({ value }, () => {
-        onChange(getValues(value));
+      this.setValue(value, () => {
+        onChange(getLabels(value));
       });
+    } else if (action === 'remove-value') {
+      await this.handleRemove(removedValue.value, value);
+    } else if (action === 'select-option' && meta.option.value) {
+      await this.handleAdd(meta.option.label, value);
+    } else if (action === 'create-option') {
+      await this.handleAdd(inputValue, value);
     }
+  };
+
+  loadOptions = (inputValue) => {
+    const { loadOptions } = this.props;
+
+    return new Promise((resolve) => {
+      if (inputValue.length < 3 || typeof loadOptions !== 'function') {
+        resolve();
+      } else {
+        const options = loadOptions(inputValue);
+
+        resolve(options);
+      }
+    });
   };
 
   handleInputChange = (inputValue) => {
@@ -82,16 +136,10 @@ class MultiInput extends Component {
           if (typeof onAdd === 'function') {
             const response = await onAdd(inputValue);
             if (response.success) {
-              this.setState({
-                inputValue: '',
-                value: [...value, { label: inputValue, value: response.id }],
-              });
+              this.setValue([...value, { label: inputValue, value: response.id }]);
             }
           } else {
-            this.setState({
-              inputValue: '',
-              value: [...value, { label: inputValue, value: inputValue }],
-            }, () => {
+            this.setValue([...value, { label: inputValue, value: inputValue }], () => {
               onChange(getValues(this.state.value));
             });
           }
@@ -139,11 +187,11 @@ class MultiInput extends Component {
               IndicatorSeparator: null,
               Input: this.renderInput,
             }}
+            loadOptions={this.loadOptions}
             isMulti
             cacheOptions
             defaultOptions
             onChange={this.handleChange}
-            onKeyDown={this.handleKeyDown}
             onInputChange={this.handleInputChange}
             placeholder={null}
             value={value}

@@ -146,9 +146,11 @@ class SettingsView extends Component {
       }
     });
 
-    const rewards = await Promise.all(formData.rewards.map(async ({ uuid, deviceType, type, tagName }) => {
+    const rewards = await Promise.all(formData.rewards.map(async ({ uuid, deviceType, type, tagName: tagNames }) => {
       let tempUUID = uuid;
       if (!uuid && type === rewardTemplateTypes.TAG) {
+        const [tagName] = tagNames;
+
         const result = await createOrLinkTag({ variables: { tagName } });
         const { data: responseData } = get(result, 'data.tag.createOrLink', { data: '', error: '' });
 

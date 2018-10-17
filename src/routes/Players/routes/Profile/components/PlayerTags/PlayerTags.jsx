@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { get } from 'lodash';
 import { I18n } from 'react-redux-i18n';
 import PropTypes from '../../../../../../constants/propTypes';
-import MultiInput from '../../../../../../components/MultiInput';
+import TagsAsync from '../../../../../../components/TagsAsync';
 import './PlayerTags.scss';
 
 class PlayerTags extends Component {
@@ -74,7 +74,7 @@ class PlayerTags extends Component {
     const tags = get(playerTags, 'playerTags.content', []);
 
     return (
-      <MultiInput
+      <TagsAsync
         async
         onAdd={this.onAdd}
         onRemove={this.onRemove}

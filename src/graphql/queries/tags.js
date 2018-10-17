@@ -11,6 +11,18 @@ const playerTagsQuery = gql`
   }
 `;
 
+const tagsByTextQuery = gql`
+  query getTagsByText($text: String!) {
+    tagsByText(text: $text) {
+      content {
+        tagId
+        tagName
+      }
+    }
+  }
+`;
+
 export {
   playerTagsQuery,
+  tagsByTextQuery,
 };

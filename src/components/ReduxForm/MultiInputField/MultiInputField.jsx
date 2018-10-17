@@ -38,6 +38,7 @@ class MultiInputField extends Component {
     onIconClick: PropTypes.func,
     maxLength: PropTypes.number,
     helpText: PropTypes.node,
+    loadOptions: PropTypes.func,
   };
   static defaultProps = {
     className: null,
@@ -54,6 +55,7 @@ class MultiInputField extends Component {
     helpText: null,
     async: false,
     maxLength: null,
+    loadOptions: null,
   };
 
   renderInput = (props) => {
@@ -68,6 +70,7 @@ class MultiInputField extends Component {
       onIconClick,
       async,
       input: { onChange, value },
+      loadOptions,
     } = props;
 
     let inputField = (
@@ -78,6 +81,7 @@ class MultiInputField extends Component {
         placeholder={placeholder !== null ? placeholder : label}
         onChange={onChange}
         initialValues={value ? value.map(v => ({ label: v, value: v })) : []}
+        loadOptions={loadOptions}
       />
     );
 

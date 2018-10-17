@@ -177,7 +177,7 @@
     call-me-maybe "^1.0.1"
     glob-to-regexp "^0.3.0"
 
-"@newage/backoffice_ui@0.0.50":
+"@newage/backoffice_ui@0.0.52":
   version "0.0.52"
   resolved "https://nexus.newage.io/repository/hrzn-npm/@newage/backoffice_ui/-/backoffice_ui-0.0.52.tgz#74ae4f62c0d8a767e433212a3df38477b9579875"
   dependencies:
@@ -213,7 +213,7 @@
     recharts "^1.1.0"
     uuid "^3.3.2"
 
-"@newage/backoffice_utils@0.0.30":
+"@newage/backoffice_utils@0.0.31":
   version "0.0.31"
   resolved "https://nexus.newage.io/repository/hrzn-npm/@newage/backoffice_utils/-/backoffice_utils-0.0.31.tgz#95196365318656ce8984560069fdd4a50d60c32e"
   dependencies:
