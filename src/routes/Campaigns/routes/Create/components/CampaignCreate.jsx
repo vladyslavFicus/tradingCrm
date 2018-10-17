@@ -51,7 +51,7 @@ class CampaignCreate extends PureComponent {
     }));
     const campaignData = {
       ...formData,
-      rewards,
+      rewards: rewards.filter(({ uuid }) => uuid),
       fulfillments: [],
     };
 
