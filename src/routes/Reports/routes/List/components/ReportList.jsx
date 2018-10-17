@@ -8,27 +8,28 @@ import history from '../../../../../router/history';
 
 class ReportList extends Component {
   static propTypes = {
-    disableTag: PropTypes.func.isRequired,
-    modals: PropTypes.shape({
-      addTags: PropTypes.shape({
-        show: PropTypes.func.isRequired,
-        hide: PropTypes.func.isRequired,
-      }).isRequired,
-    }).isRequired,
-    conditionalTags: PropTypes.shape({
+    paymentReport: PropTypes.shape({
       refetch: PropTypes.func.isRequired,
-      loadMoreTags: PropTypes.func.isRequired,
-      conditionalTags: PropTypes.shape({
+      loadMoreReports: PropTypes.func.isRequired,
+      paymentReport: PropTypes.shape({
         data: PropTypes.shape({
           number: PropTypes.number,
           totalPages: PropTypes.number,
           last: PropTypes.bool,
           content: PropTypes.arrayOf(PropTypes.shape({
-            name: PropTypes.string,
-            count: PropTypes.number,
-            tag: PropTypes.string,
-            conditionStatus: PropTypes.string,
-            conditionType: PropTypes.string,
+            date: PropTypes.string,
+            profit: PropTypes.arrayOf(PropTypes.shape({
+              amount: PropTypes.number,
+              currency: PropTypes.string,
+            })),
+            withdrawals: PropTypes.arrayOf(PropTypes.shape({
+              amount: PropTypes.number,
+              currency: PropTypes.string,
+            })),
+            deposits: PropTypes.arrayOf(PropTypes.shape({
+              amount: PropTypes.number,
+              currency: PropTypes.string,
+            })),
           })),
         }),
       }),
@@ -38,11 +39,11 @@ class ReportList extends Component {
 
   handlePageChange = () => {
     const {
-      conditionalTags: { loading, loadMoreTags },
+      paymentReport: { loading, loadMoreReports },
     } = this.props;
 
     if (!loading) {
-      loadMoreTags();
+      loadMoreReports();
     }
   };
 
