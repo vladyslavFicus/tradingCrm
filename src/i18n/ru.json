@@ -2713,6 +2713,22 @@
     }
   },
   "route": {
+    "reports": {
+      "component": {
+        "ReportList": {
+          "title": "Панель отчетов"
+        },
+        "FilterForm": {
+          "dateRange": "Диапазон дат",
+          "placeholders": {
+            "dateRange": {
+              "from": "Дата начала",
+              "to": "Дата окончания"
+            }
+          }
+        }
+      }
+    },
     "conditionalTags": {
       "component": {
         "ConditionalTagsList": {
