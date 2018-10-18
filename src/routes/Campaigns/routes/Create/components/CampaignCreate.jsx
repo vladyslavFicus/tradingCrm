@@ -32,11 +32,11 @@ class CampaignCreate extends PureComponent {
       addGamingFulfillment,
     } = this.props;
 
-    const rewards = await Promise.all(formData.rewards.map(async ({ uuid, deviceType, type, tagName: tagNames }) => {
+    const rewards = await Promise.all(formData.rewards.map(async ({ uuid, deviceType, type, tagName: tagNames = [] }) => {
       let tempUUID = uuid;
       const [tagName] = tagNames;
 
-      if (!uuid && type === rewardTemplateTypes.TAG) {
+      if (!uuid && type === rewardTemplateTypes.TAG && tagName) {
         const result = await createOrLinkTag({ variables: { tagName } });
         const { data } = get(result, 'data.tag.createOrLink', { data: '', error: '' });
 
