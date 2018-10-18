@@ -6,7 +6,6 @@ import PropTypes from 'prop-types';
 import FilterForm from './FilterForm';
 import history from '../../../../../router/history';
 import ReportItem from './ReportItem';
-import './ReportList.scss';
 import getStartDateOfMonth from '../../../../../utils/getStartDateOfMonth';
 
 class ReportList extends Component {
@@ -75,24 +74,24 @@ class ReportList extends Component {
             {I18n.t('route.reports.component.ReportList.title')}
           </div>
         </CardHeading>
-        <FilterForm initialFilters={{ ...getStartDateOfMonth() }} onSubmit={this.handleRefresh} onReset={this.handleRefresh} />
+        <FilterForm
+          initialFilters={{ ...getStartDateOfMonth() }}
+          onSubmit={this.handleRefresh}
+          onReset={this.handleRefresh}
+        />
         <CardBody>
-          <div className="report-list">
-            <GridView
-              dataSource={paymentReport.content}
-              onPageChange={this.handlePageChange}
-              activePage={paymentReport.number + 1}
-              locale={locale}
-              totalPages={paymentReport.totalPages}
-              lazyLoad
-              last={paymentReport.last}
-              showNoResults={paymentReport.content.length === 0}
-            >
-              <GridViewColumn
-                render={this.renderReportItem}
-              />
-            </GridView>
-          </div>
+          <GridView
+            dataSource={paymentReport.content}
+            onPageChange={this.handlePageChange}
+            activePage={paymentReport.number + 1}
+            locale={locale}
+            totalPages={paymentReport.totalPages}
+            lazyLoad
+            last={paymentReport.last}
+            showNoResults={paymentReport.content.length === 0}
+          >
+            <GridViewColumn render={this.renderReportItem} />
+          </GridView>
         </CardBody>
       </Card>
     );
