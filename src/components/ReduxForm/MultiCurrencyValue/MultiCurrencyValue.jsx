@@ -5,6 +5,7 @@ import { get } from 'lodash';
 import MultiCurrencyField from './MultiCurrencyField';
 import { floatNormalize } from '../../../utils/inputNormalize';
 import MultiCurrencyTooltip from '../../../components/MultiCurrencyTooltip';
+import preventDefault from '../../../utils/preventDefault';
 
 class MultiCurrencyValue extends Component {
   static propTypes = {
@@ -18,6 +19,7 @@ class MultiCurrencyValue extends Component {
         hide: PropTypes.func.isRequired,
       }),
     }).isRequired,
+    change: PropTypes.func.isRequired,
     label: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
     optionCurrencies: PropTypes.shape({
       options: PropTypes.shape({
@@ -83,9 +85,9 @@ class MultiCurrencyValue extends Component {
   }
 
   setFields = (currencies) => {
-    const { _reduxForm: { autofill } } = this.context;
+    const { change } = this.props;
 
-    autofill(this.props.baseName, currencies);
+    change(this.props.baseName, currencies);
   };
 
   id = this.props.id ? this.props.id.replace(/[[\]]/g, '') : v4().replace(/[0-9]/g, '');
@@ -116,7 +118,8 @@ class MultiCurrencyValue extends Component {
     this.setFields(currencies);
   };
 
-  handleChangeBaseCurrencyAmount = ({ target: { value } }) => {
+  handleChangeBaseCurrencyAmount = ({ target: { value }, preventDefault }) => {
+    preventDefault();
     const currencies = this.calculateCurrencies(value);
 
     this.setFields(currencies);
@@ -176,6 +179,7 @@ class MultiCurrencyValue extends Component {
           showErrorMessage={showErrorMessage}
           disabled={disabled || loading}
           currency={baseCurrency}
+          onBlur={preventDefault}
           onChange={this.handleChangeBaseCurrencyAmount}
           inputAddon={<i className="icon icon-currencies multi-currency-icon" />}
           inputAddonPosition="right"
