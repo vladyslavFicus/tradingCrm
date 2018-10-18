@@ -10,6 +10,7 @@ import ExcludedPaymentMethods from './ExcludedPaymentMethods';
 class DepositFulfillment extends PureComponent {
   static propTypes = {
     disabled: PropTypes.bool.isRequired,
+    formValues: PropTypes.object.isRequired,
     name: PropTypes.string.isRequired,
     paymentMethods: PropTypes.shape({
       paymentMethods: PropTypes.shape({
@@ -26,9 +27,11 @@ class DepositFulfillment extends PureComponent {
   };
 
   componentDidMount() {
-    const { name } = this.props;
+    const { name, formValues } = this.props;
 
-    this.context._reduxForm.autofill(`${name}.minAmount[0].amount`, 0.001);
+    if (!get(formValues, `${name}.minAmount[0].amount`)) {
+      this.context._reduxForm.autofill(`${name}.minAmount[0].amount`, 0.001);
+    }
   }
 
   static defaultProps = {
