@@ -192,7 +192,7 @@ const hrznSidebarMenu = [{
 },
 {
   label: I18n.t('SIDEBAR.TOP_MENU.REPORTING'),
-  icon: 'fa fa-chart-pie',
+  icon: 'icon-reports',
   service: services.payment_view,
   permissions: new Permissions(permissions.PAYMENT_VIEW.PAYMENT_REPORT),
   isOpen: false,

@@ -3,9 +3,9 @@
 @font-face {
   font-family: 'backofficeMonolith';
   src:
-    url('../../public/fonts/backofficeMonolith.ttf?a2zjzm') format('truetype'),
-    url('../../public/fonts/backofficeMonolith.woff?a2zjzm') format('woff'),
-    url('../../public/fonts/backofficeMonolith.svg?a2zjzm#backoffice') format('svg');
+    url('../../public/fonts/backofficeMonolith.ttf?a3zjzm') format('truetype'),
+    url('../../public/fonts/backofficeMonolith.woff?a3zjzm') format('woff'),
+    url('../../public/fonts/backofficeMonolith.svg?a3zjzm#backoffice') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -27,71 +27,74 @@
   content: "\e90b"!important;
 }
 
-.icon-tags:before {
+.icon-reports:before {
   content: "\e900";
 }
-.icon-support:before {
+.icon-tags:before {
   content: "\e901";
 }
-.icon-callbacks:before {
+.icon-support:before {
   content: "\e902";
 }
-.icon-campaigns:before {
+.icon-callbacks:before {
   content: "\e903";
 }
-.icon-users:before {
+.icon-campaigns:before {
   content: "\e904";
 }
-.icon-operators:before {
+.icon-users:before {
   content: "\e905";
 }
-.icon-payments:before {
+.icon-operators:before {
   content: "\e906";
 }
-.icon-settings:before {
+.icon-payments:before {
   content: "\e907";
 }
-.icon-minimize-popup-profile:before {
+.icon-settings:before {
   content: "\e908";
 }
-.icon-currencies:before {
+.icon-minimize-popup-profile:before {
   content: "\e909";
 }
-.icon-filter:before {
+.icon-currencies:before {
   content: "\e90a";
 }
-.icon-close-popup-profile:before {
+.icon-filter:before {
   content: "\e90b";
 }
-.fa-calendar:before, .icon-calendar:before {
+.icon-close-popup-profile:before {
   content: "\e90c";
 }
-.icon-times:before {
+.icon-calendar:before {
   content: "\e90d";
 }
-.icon-arrow-down:before {
+.icon-times:before {
   content: "\e90e";
 }
-.icon-alert:before {
+.icon-arrow-down:before {
   content: "\e90f";
 }
-.icon-search:before {
+.icon-alert:before {
   content: "\e910";
 }
-.icon-nav-arrow-v:before {
+.icon-search:before {
   content: "\e911";
 }
-.icon-nav-arrow-h:before {
+.icon-nav-arrow-v:before {
   content: "\e912";
 }
-.icon-leads:before {
+.icon-nav-arrow-h:before {
   content: "\e913";
 }
-.icon-generate-password:before {
+.icon-leads:before {
   content: "\e914";
 }
-.icon-dashboard:before {
+.icon-generate-password:before {
   content: "\e915";
+}
+.icon-dashboard:before {
+  content: "\e916";
 }
 
 /*!
