@@ -151,7 +151,7 @@ class SettingsView extends Component {
       if (!uuid && type === rewardTemplateTypes.TAG) {
         const [tagName] = tagNames;
 
-        const result = await createOrLinkTag({ variables: { tagName } });
+        const result = await createOrLinkTag({ variables: { tagName} });
         const { data: responseData } = get(result, 'data.tag.createOrLink', { data: '', error: '' });
 
         if (responseData) {
