@@ -66,7 +66,7 @@ class ReportList extends Component {
 
   render() {
     const { paymentReport: data, locale } = this.props;
-    const paymentReport = get(data, 'paymentReport.data', { content: [] });
+    const paymentReport = get(data, 'paymentReport.data', { content: [] }) || { content: [] };
 
     return (
       <Card>
@@ -75,7 +75,8 @@ class ReportList extends Component {
             {I18n.t('route.reports.component.ReportList.title')}
           </div>
         </CardHeading>
-        <FilterForm initialFilters={{ ...getStartDateOfMonth() }} onSubmit={this.handleRefresh} onReset={this.handleRefresh} />
+        <FilterForm initialFilters={{ ...getStartDateOfMonth() }} onSubmit={this.handleRefresh}
+                    onReset={this.handleRefresh} />
         <CardBody>
           <div className="report-list">
             <GridView

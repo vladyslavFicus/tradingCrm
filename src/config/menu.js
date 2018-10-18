@@ -199,6 +199,7 @@ const hrznSidebarMenu = [{
   items: [{
     label: I18n.t('SIDEBAR.TOP_MENU.REPORTS_DASHBOARD'),
     url: '/reports/list',
+    permissions: new Permissions(permissions.PAYMENT_VIEW.PAYMENT_REPORT),
   }],
 }];
 
