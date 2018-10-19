@@ -12,6 +12,7 @@ import shallowEqual from '../../../../../utils/shallowEqual';
 const KEY = 'callbacks';
 const FETCH_ENTITIES = createRequestAction(`${KEY}/fetch-entities`);
 const EXPORT_ENTITIES = createRequestAction(`${KEY}/export-entities`);
+const UPDATE_ENTITY = createRequestAction(`${KEY}/update-entity`);
 const RESET = `${KEY}/reset`;
 
 function reset() {
@@ -39,6 +40,27 @@ function fetchEntities(filters={}) {
           FETCH_ENTITIES.REQUEST,
           FETCH_ENTITIES.SUCCESS,
           FETCH_ENTITIES.FAILURE,
+        ],
+      },
+    })}
+}
+
+function updateEntity(data) {
+  return async (dispatch, getState) => {
+    const { auth: { token } } = getState();
+    return dispatch({
+      [CALL_API]: {
+        endpoint: `/trading_callback/${data.id}`,
+        method: 'PUT',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        types: [
+          UPDATE_ENTITY.REQUEST,
+          UPDATE_ENTITY.SUCCESS,
+          UPDATE_ENTITY.FAILURE,
         ],
       },
     })}
@@ -149,6 +171,7 @@ const actionTypes = {
 const actionCreators = {
   fetchEntities,
   exportEntities,
+  updateEntity,
   reset,
 };
 

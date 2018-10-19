@@ -9,17 +9,41 @@ import { callbacksStatusesColor } from '../../../../../constants/callbacks';
 import Placeholder from '../../../../../components/Placeholder/index';
 import GridView from '../../../../../components/GridView/index';
 import GridViewColumn from '../../../../../components/GridView/GridViewColumn';
+import CallbackDetailsModal from '../../../../../components/CallbackDetailsModal';
+
+const MODAL_CALLBACK_DETAIL = 'callback-detail';
+const defaultModalState = {
+  name: null,
+  params: {},
+};
 
 class CallbacksList extends Component {
   static propTypes = {
     callbacks: PropTypes.object.isRequired,
     fetchEntities: PropTypes.func.isRequired,
     exportEntities: PropTypes.func.isRequired,
+    updateEntity: PropTypes.func.isRequired,
     locale: PropTypes.string,
+    fetchOperators: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
     locale: 'en',
+  };
+
+  static contextTypes = {
+    notes: PropTypes.shape({
+      onAddNote: PropTypes.func.isRequired,
+      onEditNote: PropTypes.func.isRequired,
+      onAddNoteClick: PropTypes.func.isRequired,
+      onEditNoteClick: PropTypes.func.isRequired,
+      setNoteChangedCallback: PropTypes.func.isRequired,
+      hidePopover: PropTypes.func.isRequired,
+    }),
+  };
+
+  state = {
+    modal: { ...defaultModalState },
   };
 
   componentDidMount() {
@@ -46,19 +70,64 @@ class CallbacksList extends Component {
     this.props.exportEntities();
   };
 
-  renderDateTime = time => (
+  handleOpenDetailModal = async (params) => {
+    this.setState({
+      modal: {
+        ...defaultModalState,
+        name: MODAL_CALLBACK_DETAIL,
+        params,
+      },
+    });
+  };
+
+  handleCloseModal = (callback) => {
+    this.setState({ modal: { ...defaultModalState } }, () => {
+      if (typeof callback === 'function') {
+        callback();
+      }
+    });
+  };
+
+  handleNoteClick = (target, note, data) => {
+    const { notes: { onEditNoteClick, onAddNoteClick } } = this.context;
+
+    if (note) {
+      onEditNoteClick(target, note, { placement: 'left' });
+    } else {
+      onAddNoteClick(target, data.callbackId, { placement: 'left' });
+    }
+  };
+
+  renderId = item => (
     <div>
-      <div>
-        {moment(time).format('DD.MM.YYYY')}
+      <div className="font-weight-700">
+        CB-{item.callbackId.split('-')[0]}
       </div>
       <div className="font-size-11">
-        {moment(time).format('HH:mm:ss')}
+        {I18n.t('COMMON.AUTHOR_BY')} {item.operatorId}
+      </div>
+    </div>
+  );
+
+  renderUser = item => (
+    <div className="font-weight-700">
+      {item.userId}
+    </div>
+  );
+
+  renderDateTime = (item, field) => (
+    <div>
+      <div className="font-weight-700">
+        {moment(item[field]).format('DD.MM.YYYY')}
+      </div>
+      <div className="font-size-11">
+        {moment(item[field]).format('HH:mm:ss')}
       </div>
     </div>
   );
 
   renderStatus = ({ status }) => (
-    <div className={classNames('font-weight-700 text-uppercase', callbacksStatusesColor[status].color)}>
+    <div className={classNames('font-weight-700 text-uppercase', callbacksStatusesColor[status])}>
       {status}
     </div>
   );
@@ -74,7 +143,10 @@ class CallbacksList extends Component {
       },
     },
     locale,
+    fetchOperators,
+    updateEntity,
     } = this.props;
+    const { modal } = this.state;
 
     return (
       <div className="card">
@@ -108,7 +180,7 @@ class CallbacksList extends Component {
 
           <div className="ml-auto">
             <button
-              disabled={!!totalElements}
+              disabled={!totalElements}
               className="btn btn-default-outline margin-left-15"
               onClick={this.handleExport}
               type="button"
@@ -123,40 +195,42 @@ class CallbacksList extends Component {
           onReset={this.handleFilterReset}
         />
 
-        <div className="card-body card-grid-multiselect">
+        <div className="card-body card-grid">
           <GridView
             tableClassName="table-hovered"
             dataSource={content}
             onPageChange={this.handlePageChanged}
+            onRowClick={this.handleOpenDetailModal}
             activePage={page}
             last={last}
             lazyLoad
-            multiselect
             locale={locale}
             showNoResults={!isLoading && content.length === 0}
           >
             <GridViewColumn
               name="id"
               header={I18n.t('CALLBACKS.GRID_HEADER.ID')}
+              render={this.renderId}
             />
             <GridViewColumn
               name="userId"
               header={I18n.t('CALLBACKS.GRID_HEADER.CLIENT')}
+              render={this.renderUser}
             />
             <GridViewColumn
               name="callbackTime"
               header={I18n.t('CALLBACKS.GRID_HEADER.TIME')}
-              render={this.renderDateTime}
+              render={data => this.renderDateTime(data, 'callbackTime')}
             />
             <GridViewColumn
               name="creationTime"
               header={I18n.t('CALLBACKS.GRID_HEADER.CREATED')}
-              render={this.renderDateTime}
+              render={data => this.renderDateTime(data, 'creationTime')}
             />
             <GridViewColumn
               name="updateTime"
               header={I18n.t('CALLBACKS.GRID_HEADER.MODIFIED')}
-              render={this.renderDateTime}
+              render={data => this.renderDateTime(data, 'updateTime')}
             />
             <GridViewColumn
               name="status"
@@ -165,6 +239,18 @@ class CallbacksList extends Component {
             />
           </GridView>
         </div>
+        {
+          modal.name === MODAL_CALLBACK_DETAIL &&
+            <CallbackDetailsModal
+              callback={modal.params}
+              isOpen
+              onClose={this.handleCloseModal}
+              onSubmit={updateEntity}
+              onNoteClick={this.handleNoteClick}
+              initialValues={modal.params}
+              fetchOperators={fetchOperators}
+            />
+        }
       </div>
     );
   }

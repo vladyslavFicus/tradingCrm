@@ -2989,6 +2989,12 @@
     "FILTER": {
       "ID": "Callback ID, Client ID",
       "DATE_RANGE": "Date & time range"
+    },
+    "MODAL": {
+      "TITLE": "Callback details",
+      "OPERATOR": "Operator",
+      "SELECT_OPERATOR": "Select operator",
+      "CALLBACK_DATE_AND_TIME": "Callback date & time"
     }
   },
   "common": {
