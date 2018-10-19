@@ -112,13 +112,17 @@ function lessOrSameValidator(inputValue, requirement, attribute) {
 
 function greaterOrSameValidator(inputValue, requirement, attribute) {
   const value = Number(inputValue);
+  const lessValue = Number(get(this.validator.input, requirement));
+
+  if (isNaN(lessValue)) {
+    return true;
+  }
 
   if (isNaN(value)) {
     this.validator.errors.add(attribute, 'Value must be a number');
 
     return false;
   }
-  const lessValue = Number(get(this.validator.input, requirement));
 
   return lessValue === 0 || value >= lessValue;
 }
