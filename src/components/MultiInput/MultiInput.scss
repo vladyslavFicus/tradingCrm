@@ -7,7 +7,7 @@
   &__value-container {
     flex-wrap: nowrap !important;
     max-width: 100%;
-    overflow-x: auto;
+    overflow-x: auto !important;
     overflow-y: hidden;
   }
   &__multi-value {
