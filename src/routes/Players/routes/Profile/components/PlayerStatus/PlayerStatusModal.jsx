@@ -25,7 +25,7 @@ const availablePeriods = [
 
 const periodValidation =
   `${availablePeriods.map(period => `${period.durationAmount} ` +
-  `${period.durationUnit}`).join()},${durationUnits.PERMANENT}`;
+    `${period.durationUnit}`).join()},${durationUnits.PERMANENT}`;
 
 class PlayerStatusModal extends Component {
   static propTypes = {
@@ -154,6 +154,9 @@ export default reduxForm({
 
     if (data.action === actions.SUSPEND || data.action === actions.PROLONG) {
       rules.period = `required|in:${periodValidation}`;
+    }
+
+    if (props.reasons && Object.keys(props.reasons).length) {
       rules.reason = `required|string|in:${Object.keys(props.reasons).join()}`;
     }
 
