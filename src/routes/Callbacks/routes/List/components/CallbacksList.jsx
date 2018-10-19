@@ -44,6 +44,8 @@ class CallbacksList extends Component {
 
   state = {
     modal: { ...defaultModalState },
+    filters: {},
+    page: 0,
   };
 
   componentDidMount() {
@@ -59,12 +61,19 @@ class CallbacksList extends Component {
     if (Array.isArray(filters.statuses)) {
       filters.statuses = filters.statuses.join(',');
     }
+    this.setState({ filters });
     this.props.fetchEntities(filters);
   };
 
   handleFilterReset = () => {
+    this.setState({ filters: {} });
     this.props.fetchEntities();
   };
+
+  handleRefresh = () => this.props.fetchEntities({
+    ...this.state.filters,
+    page: this.state.page,
+  });
 
   handleExport = () => {
     this.props.exportEntities();
@@ -80,12 +89,17 @@ class CallbacksList extends Component {
     });
   };
 
-  handleCloseModal = (callback) => {
+  handleCloseModal = (refetch) => {
     this.setState({ modal: { ...defaultModalState } }, () => {
-      if (typeof callback === 'function') {
-        callback();
+      if (refetch === true) {
+        this.handleRefresh();
       }
     });
+  };
+
+  onPageChange = (page) => {
+    this.setState({ page: page - 1 });
+    this.props.fetchEntities({ ...this.state.filters, page: page - 1 });
   };
 
   handleNoteClick = (target, note, data) => {
@@ -138,8 +152,9 @@ class CallbacksList extends Component {
       entities: {
         content,
         totalElements,
-        page,
+        totalPages,
         last,
+        number,
       },
     },
     locale,
@@ -199,9 +214,10 @@ class CallbacksList extends Component {
           <GridView
             tableClassName="table-hovered"
             dataSource={content}
-            onPageChange={this.handlePageChanged}
+            onPageChange={this.onPageChange}
+            activePage={number + 1}
+            totalPages={totalPages}
             onRowClick={this.handleOpenDetailModal}
-            activePage={page}
             last={last}
             lazyLoad
             locale={locale}

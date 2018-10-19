@@ -8,6 +8,7 @@ import PropTypes from '../../constants/propTypes';
 import NoteButton from '../NoteButton';
 import { NasSelectField, DateTimeField } from '../ReduxForm';
 import { createValidator } from '../../utils/validator';
+import parserErrorsFromServer from '../../utils/parseErrorsFromServer';
 
 
 class CallbackDetailsModal extends Component {
@@ -52,9 +53,11 @@ class CallbackDetailsModal extends Component {
   handleSubmit = async (data) => {
     const result = await this.props.onSubmit(data);
     if (!result || result.error) {
-      throw new SubmissionError({ _error: get(result, 'payload.message') || 'Something went wrong' });
+      const fieldErrors = get(result, 'payload.response.fields_errors', {});
+      const errors = parserErrorsFromServer(fieldErrors);
+      throw new SubmissionError(errors && Object.keys(errors).length || { _error: get(result, 'payload.response.message') || 'Something went wrong' });
     }
-    this.props.onClose();
+    this.props.onClose(true);
   };
 
   render() {
@@ -129,7 +132,7 @@ class CallbackDetailsModal extends Component {
             </Button>
             <Button
               type="submit"
-              disabled={pristine || submitting || error || !valid}
+              disabled={pristine || submitting || !!error || !valid}
             >
               {I18n.t('COMMON.SAVE_CHANGES')}
             </Button>

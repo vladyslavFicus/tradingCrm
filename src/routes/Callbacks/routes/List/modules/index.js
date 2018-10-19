@@ -57,6 +57,7 @@ function updateEntity(data) {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
         },
+        body: JSON.stringify(data),
         types: [
           UPDATE_ENTITY.REQUEST,
           UPDATE_ENTITY.SUCCESS,
@@ -132,12 +133,6 @@ const actionHandlers = {
     entities: {
       ...state.entities,
       ...payload,
-      // content: payload.number === 0
-      //   ? payload.content.map(mapProfile)
-      //   : [
-      //     ...state.entities.content,
-      //     ...payload.content.map(mapProfile),
-      //   ],
     },
     isLoading: false,
     receivedAt: endRequestTime,

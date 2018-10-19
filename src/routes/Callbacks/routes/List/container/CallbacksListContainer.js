@@ -11,17 +11,11 @@ const mapActionCreators = {
 };
 const mapStateToProps = (state) => {
   const {
-    auth: {
-      token,
-      uuid,
-    },
     i18n: { locale },
     callbacks,
   } = state;
 
   return {
-    token,
-    uuid,
     locale,
     callbacks,
   };
