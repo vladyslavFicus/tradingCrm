@@ -23,7 +23,7 @@ import {
 import { kycNoteTypes } from '../constants';
 import './View.scss';
 import PermissionContent from '../../../../../../../components/PermissionContent';
-import { CONDITIONS } from '../../../../../../../utils/permissions';
+import Permissions, { CONDITIONS } from '../../../../../../../utils/permissions';
 import permissions from '../../../../../../../config/permissions';
 import TabHeader from '../../../../../../../components/TabHeader';
 
@@ -35,6 +35,8 @@ const modalInitialState = {
   name: null,
   params: {},
 };
+
+const viewProfileFilesPermissions = new Permissions([permissions.USER_PROFILE.VIEW_FILES]);
 
 class View extends Component {
   static propTypes = {
@@ -115,7 +117,10 @@ class View extends Component {
       match: { params: { id: playerUUID } },
     } = this.props;
 
-    fetchFiles(playerUUID);
+    if (viewProfileFilesPermissions.check(this.context.permissions)) {
+      fetchFiles(playerUUID);
+    }
+
     const kycReasonsAction = await fetchKycReasons();
 
     console.info('kycReasonsAction');
