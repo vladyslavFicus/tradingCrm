@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { reduxForm, Field, SubmissionError } from 'redux-form';
-import { get } from "lodash";
+import { get } from 'lodash';
 import classNames from 'classnames';
 import { I18n } from 'react-redux-i18n';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
