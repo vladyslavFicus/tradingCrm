@@ -47,24 +47,21 @@ function fetchEntities(filters={}) {
 
 function updateEntity(data) {
   return async (dispatch, getState) => {
-    const { auth: { token } } = getState();
-    return dispatch({
-      [CALL_API]: {
-        endpoint: `/trading_callback/${data.id}`,
-        method: 'PUT',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify(data),
-        types: [
-          UPDATE_ENTITY.REQUEST,
-          UPDATE_ENTITY.SUCCESS,
-          UPDATE_ENTITY.FAILURE,
-        ],
+    const {auth: {token}} = getState();
+    return fetch(`/api/trading_callback/${data.callbackId}`, {
+      method: 'PUT',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
       },
-    })}
+      body: JSON.stringify(data),
+    }).then(data => {
+      return data.status && data.status === 200
+        ? dispatch({type: UPDATE_ENTITY.SUCCESS, payload: 'ok'})
+        : dispatch({type: UPDATE_ENTITY.FAILURE, payload: data});
+    });
+  };
 }
 
 function exportEntities(filters = {}) {

@@ -52,6 +52,11 @@ class CallbacksList extends Component {
     this.props.fetchEntities();
   }
 
+  onPageChange = (page) => {
+    this.setState({ page: page - 1 });
+    this.props.fetchEntities({ ...this.state.filters, page: page - 1 });
+  };
+
   handleFiltersChanged = (data = {}) => {
     const filters = { ...data };
     if (filters.playerOrOperator) {
@@ -97,11 +102,6 @@ class CallbacksList extends Component {
     });
   };
 
-  onPageChange = (page) => {
-    this.setState({ page: page - 1 });
-    this.props.fetchEntities({ ...this.state.filters, page: page - 1 });
-  };
-
   handleNoteClick = (target, note, data) => {
     const { notes: { onEditNoteClick, onAddNoteClick } } = this.context;
 
@@ -118,7 +118,7 @@ class CallbacksList extends Component {
         CB-{item.callbackId.split('-')[0]}
       </div>
       <div className="font-size-11">
-        {I18n.t('COMMON.AUTHOR_BY')} {item.operatorId}
+        {I18n.t('COMMON.AUTHOR_BY')} OP-{item.operatorId.split('-')[1] || item.operatorId || 'n/a'}
       </div>
     </div>
   );
