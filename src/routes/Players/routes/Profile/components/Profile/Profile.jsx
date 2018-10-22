@@ -41,6 +41,7 @@ import {
   Rewards,
 } from '../../routes';
 import { Route } from '../../../../../../router';
+import permissions from '../../../../../../config/permissions';
 
 const NOTE_POPOVER = 'note-popover';
 const popoverInitialState = {
@@ -61,6 +62,8 @@ const imageViewerInitialState = {
   isOpen: false,
   images: [],
 };
+
+const viewProfileFilesPermissions = new Permissions([permissions.USER_PROFILE.VIEW_FILES]);
 
 class Profile extends Component {
   static propTypes = {
@@ -271,7 +274,10 @@ class Profile extends Component {
       await fetchProfile(params.id);
       await pinnedNotes.refetch();
       await locks.refetch();
-      await fetchFiles(params.id);
+
+      if (viewProfileFilesPermissions.check(this.context.permissions)) {
+        await fetchFiles(params.id);
+      }
 
       if (needForceUpdate) {
         this.cacheChildrenComponents.forEach((component) => {
@@ -682,11 +688,13 @@ class Profile extends Component {
       }
         break;
       case statusActions.MANUAL_COOLOFF:
-        await suspendMutation({ variables: {
-          ...data,
-          duration: { amount: 1, unit: durationUnits.DAYS },
-          reason: manualCoolOffReason,
-        } });
+        await suspendMutation({
+          variables: {
+            ...data,
+            duration: { amount: 1, unit: durationUnits.DAYS },
+            reason: manualCoolOffReason,
+          }
+        });
         break;
       default:
         break;
