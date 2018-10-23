@@ -6,6 +6,7 @@ import { I18n } from 'react-redux-i18n';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import PropTypes from '../../constants/propTypes';
 import NoteButton from '../NoteButton';
+import { shortify } from '../../utils/uuid';
 import { NasSelectField, DateTimeField } from '../ReduxForm';
 import { createValidator } from '../../utils/validator';
 import parserErrorsFromServer from '../../utils/parseErrorsFromServer';
@@ -48,6 +49,7 @@ class CallbackDetailsModal extends Component {
     if(!result || result.error) {
       return;
     }
+
     const operatorsList = get(result, 'payload.content', []);
     this.setState({ operatorsList });
   };
@@ -91,7 +93,7 @@ class CallbackDetailsModal extends Component {
           <ModalBody>
             <div>
               <div className="font-weight-700">
-                CB-{callback.callbackId.split('-')[0]}
+                {shortify(callback.callbackId, 'CB')}
               </div>
               <div className="font-size-11">
                 {I18n.t('COMMON.AUTHOR_BY')} {callback.operatorId}
