@@ -10,7 +10,6 @@ import { NasSelectField, DateTimeField } from '../ReduxForm';
 import { createValidator } from '../../utils/validator';
 import parserErrorsFromServer from '../../utils/parseErrorsFromServer';
 
-
 class CallbackDetailsModal extends Component {
   static propTypes = {
     callback: PropTypes.object,
@@ -36,7 +35,7 @@ class CallbackDetailsModal extends Component {
   };
 
   state = {
-    operatorsList: null,
+    operatorsList: [],
   };
 
   componentDidMount() {
@@ -45,18 +44,24 @@ class CallbackDetailsModal extends Component {
 
   fetchOperators = async () => {
     const result = await this.props.fetchOperators({ size: 200 });
-    if(!result || result.error) return;
-    const operatorsList = get(result, 'payload.content', null);
-    this.setState({operatorsList});
+
+    if(!result || result.error) {
+      return;
+    }
+    const operatorsList = get(result, 'payload.content', []);
+    this.setState({ operatorsList });
   };
 
   handleSubmit = async (data) => {
     const result = await this.props.onSubmit(data);
+
     if (!result || result.error) {
       const fieldErrors = get(result, 'payload.response.fields_errors', {});
       const errors = parserErrorsFromServer(fieldErrors);
-      throw new SubmissionError(errors && Object.keys(errors).length || { _error: get(result, 'payload.response.message') || 'Something went wrong' });
+      throw new SubmissionError(errors && Object.keys(errors).length
+        || { _error: get(result, 'payload.response.message') || I18n.t('COMMON.SOMETHING_WRONG') });
     }
+
     this.props.onClose(true);
   };
 
@@ -75,7 +80,9 @@ class CallbackDetailsModal extends Component {
 
     const { operatorsList } = this.state;
 
-    if (!callback) return null;
+    if (!callback) {
+      return null;
+    }
 
     return (
       <Modal isOpen toggle={onClose} centered className={classNames(className, 'callback-detail-modal')}>
@@ -103,9 +110,9 @@ class CallbackDetailsModal extends Component {
                 component={NasSelectField}
                 searchable
               >
-                {operatorsList && operatorsList.map((item, index) => (
+                {operatorsList.map((item, index) => (
                   <option key={index} value={item.uuid}>{ `${item.firstName} ${item.lastName}`}</option>
-                )) || []}
+                ))}
               </Field>
               <Field
                 utc

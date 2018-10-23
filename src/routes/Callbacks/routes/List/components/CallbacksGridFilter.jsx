@@ -6,7 +6,7 @@ import { getFormValues } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
 import { callbacksStatuses, filterLabels } from '../../../../../constants/callbacks';
 import { createValidator } from '../../../../../utils/validator';
-import createDynamicForm, { FilterItem, FilterField, TYPES, SIZES } from '../../../../../components/DynamicFilters/index';
+import createDynamicForm, { FilterItem, FilterField, TYPES, SIZES } from '../../../../../components/DynamicFilters';
 
 const FORM_NAME = 'callbacksListGridFilter';
 const DynamicFilters = createDynamicForm({

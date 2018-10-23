@@ -5,6 +5,7 @@ import classNames from 'classnames';
 import { TextRow } from 'react-placeholder/lib/placeholders';
 import { I18n } from 'react-redux-i18n';
 import CallbacksGridFilter from './CallbacksGridFilter';
+import { shortify } from '../../../../../utils/uuid';
 import { callbacksStatusesColor } from '../../../../../constants/callbacks';
 import Placeholder from '../../../../../components/Placeholder/index';
 import GridView from '../../../../../components/GridView/index';
@@ -115,17 +116,17 @@ class CallbacksList extends Component {
   renderId = item => (
     <div>
       <div className="font-weight-700">
-        CB-{item.callbackId.split('-')[0]}
+        {shortify(item.callbackId, 'CB')}
       </div>
       <div className="font-size-11">
-        {I18n.t('COMMON.AUTHOR_BY')} OP-{item.operatorId.split('-')[1] || item.operatorId || 'n/a'}
+        {I18n.t('COMMON.AUTHOR_BY')} {shortify(item.operatorId, 'OP') || 'n/a'}
       </div>
     </div>
   );
 
   renderUser = item => (
     <div className="font-weight-700">
-      {item.userId}
+      {shortify(item.userId)}
     </div>
   );
 
