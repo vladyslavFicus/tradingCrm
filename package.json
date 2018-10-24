@@ -20,7 +20,7 @@
   "dependencies": {
     "@newage/backoffice_ui": "0.0.52",
     "@newage/backoffice_utils": "0.0.31",
-    "@newage/react-hoc": "^0.0.6",
+    "@newage/react-hoc": "^0.0.7",
     "apollo-cache-inmemory": "^1.2.0",
     "apollo-client": "^2.3.0",
     "apollo-client-preset": "^1.0.5",

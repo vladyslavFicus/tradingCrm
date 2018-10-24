@@ -22,6 +22,7 @@ import ModalPlayerInfo from '../ModalPlayerInfo';
 import TransactionStatus from '../TransactionStatus';
 import renderLabel from '../../utils/renderLabel';
 import PaymentAccount from '../PaymentAccount';
+import PlayerActivityReportButton from '../PlayerActivityReportButton';
 import IpFlag from '../IpFlag';
 
 class PaymentDetailModal extends Component {
@@ -94,6 +95,7 @@ class PaymentDetailModal extends Component {
         transactionTag,
       },
       playerProfile,
+      playerProfile: { playerUUID, fullName },
     } = this.props;
 
     if (!playerProfile) {
@@ -105,6 +107,14 @@ class PaymentDetailModal extends Component {
     if (paymentType === paymentsTypes.Withdraw && status === paymentStatuses.PENDING) {
       actions = (
         <span>
+          <PlayerActivityReportButton
+            playerUUID={playerUUID}
+            fullName={fullName}
+            buttonProps={{
+              className: 'margin-right-5',
+              color: 'primary',
+            }}
+          />
           <PermissionContent permissions={permissions.PAYMENTS.APPROVE_WITHDRAW}>
             <Button
               color="primary"

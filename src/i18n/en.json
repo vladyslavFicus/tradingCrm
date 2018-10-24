@@ -1268,7 +1268,8 @@
       },
       "ACTIONS": {
         "ADD_TRANSACTION": "Add transaction",
-        "EXPORT_TRANSACTIONS": "Export"
+        "EXPORT_TRANSACTIONS": "Export",
+        "ACTIVITY_REPORT": "Activity report"
       }
     },
     "CAMPAIGNS": {
@@ -2293,7 +2294,9 @@
             "LABEL": "Spin type",
             "VALUES": {
               "BET": "Bet",
-              "WIN": "Win"
+              "WIN": "Win",
+              "SPIN": "Spin",
+              "BONUS_ROUND_CHANCE": "Bonus round chance"
             }
           },
           "ROUND_TYPE": {
@@ -2992,13 +2995,23 @@
     "MANUAL_COOLOFF": "Manual Cooloff"
   },
   "common": {
+    "select": {
+      "default": "--Select--"
+    },
+    "any": "Any",
+    "reset": "Reset",
+    "by": "by",
+    "apply": "Apply",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
     "status": {
       "reasons": {
         "suspend": {
           "manual_cooloff": "Manual Cooloff"
         }
       }
-    }
+    },
+    "account": "account"
   },
   "NOTES": {
     "MODAL": {
@@ -3054,17 +3067,6 @@
       }
     }
   },
-  "common": {
-    "select": {
-      "default": "--Select--"
-    },
-    "any": "Any",
-    "reset": "Reset",
-    "by": "by",
-    "apply": "Apply",
-    "cancel": "Cancel",
-    "confirm": "Confirm"
-  },
   "route": {
     "reports": {
       "component": {
@@ -3095,8 +3097,7 @@
           "addTags": "+ Add condition",
           "name": "Condition",
           "count": "Entries",
-          "tag": "Tag",
-          "status": "Status"
+          "tag": "Tag"
         },
         "FilterForm": {
           "status": "Status",
@@ -3124,6 +3125,18 @@
   "rules": {
     "error": {
       "delete": "Rule hasn`t been removed"
+    }
+  },
+  "component": {
+    "PlayerActivityReportModal": {
+      "header": "Activity Report",
+      "date": "Snapshot date",
+      "actionDescription": "You are about to download the activity report for",
+      "dateDescription": "Please define the snapshot date, you would like to get the report for"
+    },
+    "PlayerActivityReportButton": {
+      "title": "Activity Report",
+      "failNotification": "Fail download activity report"
     }
   }
 }

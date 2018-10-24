@@ -1251,7 +1251,8 @@
       },
       "ACTIONS": {
         "ADD_TRANSACTION": "Добавить транзакцию",
-        "EXPORT_TRANSACTIONS": "Экспорт"
+        "EXPORT_TRANSACTIONS": "Экспорт",
+        "ACTIVITY_REPORT": "Отчет активности"
       },
       "GRID_COLUMNS": {
         "TRANSACTIONS": "",
@@ -2226,7 +2227,9 @@
             "LABEL": "Тип спина",
             "VALUES": {
               "BET": "Ставка",
-              "WIN": "Выигрыш"
+              "WIN": "Выигрыш",
+              "SPIN": "Спин",
+              "BONUS_ROUND_CHANCE": "Шанс бонус раунда"
             }
           },
           "ROUND_TYPE": {
@@ -2696,7 +2699,13 @@
           "manual_cooloff": "Manual Cooloff"
         }
       }
-    }
+    },
+    "cancel": "Отмена",
+    "confirm": "Подтверждение",
+    "account": "Аккаунт",
+    "reset": "Сброс",
+    "apply": "Применить",
+    "any": "Любое"
   },
   "NOTES": {
     "MODAL": {
@@ -2744,8 +2753,7 @@
           "addTags": "+ Добавить условие",
           "name": "Состояние",
           "count": "Записи",
-          "tag": "Тег",
-          "status": "Статус"
+          "tag": "Тег"
         },
         "FilterForm": {
           "status": "Статус",
@@ -2768,6 +2776,18 @@
           "file": "CSV файл"
         }
       }
+    }
+  },
+  "component": {
+    "PlayerActivityReportModal": {
+      "header": "Отчет активности",
+      "date": "Дата",
+      "actionDescription": "Вы собираетесь загрузить отчет об активности для",
+      "dateDescription": "Пожалуйста, укажите дату, для которой вы бы хотели получить отчет"
+    },
+    "PlayerActivityReportButton": {
+      "title": "Отчет активности",
+      "failNotification": "Не удалось скачать файл"
     }
   }
 }
