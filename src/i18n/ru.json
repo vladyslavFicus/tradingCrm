@@ -2321,7 +2321,8 @@
         "ADD_FREE_SPIN": "Создать шаблон",
         "TEMPLATE": "Шаблон",
         "STATUS": "Статус",
-        "DEVICE_TYPE": "Тип устройства"
+        "DEVICE_TYPE": "Тип устройства",
+        "DETAILS_NOT_FOUND": "Детали не найдены"
       },
       "CHOOSE_DEVICE_TYPE": "-- Выберите тип устройства--",
       "DEVICE_TYPE": {

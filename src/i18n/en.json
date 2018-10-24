@@ -2389,7 +2389,8 @@
         "ADD_FREE_SPIN": "Create template",
         "TEMPLATE": "Template",
         "STATUS": "Status",
-        "DEVICE_TYPE": "Device type"
+        "DEVICE_TYPE": "Device type",
+        "DETAILS_NOT_FOUND": "Details not found"
       },
       "CHOOSE_DEVICE_TYPE": "-- Choose device type --",
       "DEVICE_TYPE": {
