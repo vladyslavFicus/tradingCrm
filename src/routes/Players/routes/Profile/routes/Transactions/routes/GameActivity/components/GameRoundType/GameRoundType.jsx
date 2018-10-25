@@ -1,14 +1,15 @@
 import React from 'react';
 import classNames from 'classnames';
 import PropTypes from '../../../../../../../../../../constants/propTypes';
-import { types, typesLabels, typesProps } from './constants';
+import { gameRoundTypes } from '../../constants';
+import { typesLabels, typesProps } from './constants';
 import renderLabel from '../../../../../../../../../../utils/renderLabel';
 import './GameRoundType.scss';
 
 const GameRoundType = ({ gameRound }) => {
   const className = typesProps[gameRound.gameRoundType];
 
-  if (gameRound.gameRoundType === types.SPIN) {
+  if (gameRound.gameRoundType === gameRoundTypes.SPIN) {
     return null;
   }
 

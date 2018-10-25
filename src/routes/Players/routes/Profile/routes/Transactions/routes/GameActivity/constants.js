@@ -1,3 +1,4 @@
+import keyMirror from 'keymirror';
 import I18n from '../../../../../../../../utils/fake-i18n';
 
 const filterFormAttributeLabels = {
@@ -12,5 +13,17 @@ const filterFormAttributeLabels = {
   endDate: I18n.t('PLAYER_PROFILE.GAME_ACTIVITY.FILTER_FORM.END_DATE_LABEL'),
   dateRange: I18n.t('PLAYER_PROFILE.GAME_ACTIVITY.FILTER_FORM.ACTIVITY_DATE_RANGE'),
 };
+
+export const gameRoundTypes = keyMirror({
+  ADJUSTMENT: null,
+  FREE_SPIN: null,
+  SPORTBET: null,
+  OTHER: null,
+  SPIN: null,
+  BONUS_ROUND_FREESPIN: null,
+  BONUS_ROUND_BONUS: null,
+  BONUS_ROUND_CHANCE: null,
+  BONUS_ROUND_CARD: null,
+});
 
 export default filterFormAttributeLabels;

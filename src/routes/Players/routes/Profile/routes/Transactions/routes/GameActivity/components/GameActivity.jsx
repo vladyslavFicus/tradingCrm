@@ -8,6 +8,7 @@ import Amount from '../../../../../../../../../components/Amount';
 import Uuid from '../../../../../../../../../components/Uuid';
 import FilterForm from './FilterForm';
 import GameRoundType from './GameRoundType/GameRoundType';
+import { gameRoundTypes } from '../constants';
 import './GameActivity.scss';
 
 class GameActivity extends Component {
@@ -223,9 +224,18 @@ class GameActivity extends Component {
       );
     } else if (data[bonus] && data[bonus].amount) {
       sources = (
-        <div className="game-activity__amount font-size-11 color-danger">
-          BM
-        </div>
+        <Choose>
+          <When condition={data.gameRoundType === gameRoundTypes.FREE_SPIN}>
+            <div className="game-activity__amount font-size-11 game-activity__free-spin">
+              FS
+            </div>
+          </When>
+          <Otherwise>
+            <div className="game-activity__amount font-size-11 color-danger">
+              BM
+            </div>
+          </Otherwise>
+        </Choose>
       );
     }
 
