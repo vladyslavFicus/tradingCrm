@@ -2135,6 +2135,12 @@
     "REGISTRATIONS": ""
   },
   "CAMPAIGNS": {
+    "MONEY_TYPE": {
+      "LIST": {
+        "BONUS_MONEY": "Бонусные деньги",
+        "REAL_MONEY": "Реальные деньги"
+      }
+    },
     "CAMPAIGN_NAME": "Название кампании",
     "FREE_SPIN_TEMPLATE": "Фри-спин шаблон",
     "BONUS_TEMPLATE": "Бонус шаблон",
@@ -2146,6 +2152,7 @@
         "ERROR_TITLE": "Ошибка создания фри спина",
         "SUCCESS_TITLE": "Фри спин создан успешно"
       },
+      "MONEY_TYPE": "Тип денег",
       "PROVIDER": "Провайдер",
       "AGGREGATOR": "Агрегатор",
       "GAMES": "Игры",

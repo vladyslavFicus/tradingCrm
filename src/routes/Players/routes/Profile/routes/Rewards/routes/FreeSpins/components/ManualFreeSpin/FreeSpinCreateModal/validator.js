@@ -1,6 +1,7 @@
 import { get } from 'lodash';
 import { createValidator, translateLabels } from '../../../../../../../../../../../utils/validator';
 import { attributeLabels } from '../constants';
+import { moneyTypes } from '../../../../../../../../../../../constants/free-spin-template';
 
 export default (values, {
   aggregatorId,
@@ -34,10 +35,14 @@ export default (values, {
     displayLine2: ['string', 'max:255'],
     betMultiplier: ['integer', 'required'],
     bonusTemplateUUID: {
-      uuid: ['required', 'string'],
+      uuid: ['string'],
     },
     claimable: ['boolean'],
   };
+
+  if (values.moneyType === moneyTypes.BONUS_MONEY) {
+    rules.bonusTemplateUUID.uuid.push('required');
+  }
 
   if (gameId) {
     const { coinsMin, coinsMax } = get(games, 'games.content', []).find(i => i.gameId === gameId) || {};

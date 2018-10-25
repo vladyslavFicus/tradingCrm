@@ -156,6 +156,7 @@ const freeSpinTemplateMutation = gql`mutation freeSpinTemplateMutation(
   $gameId: String!
   $internalGameId: String!
   $comment: String
+  $moneyType: String
   $betMultiplier: Int
   $coinSize: Float
   $freeSpinLifeTime: Int!
@@ -183,6 +184,7 @@ const freeSpinTemplateMutation = gql`mutation freeSpinTemplateMutation(
     providerId: $providerId,
     gameId: $gameId,
     comment: $comment,
+    moneyType: $moneyType,
     internalGameId: $internalGameId,
     betMultiplier: $betMultiplier,
     coinSize: $coinSize,

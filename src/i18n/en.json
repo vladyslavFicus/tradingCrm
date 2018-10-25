@@ -2208,6 +2208,12 @@
   },
   "CAMPAIGNS": {
     "CAMPAIGN_NAME": "Campaign name",
+    "MONEY_TYPE": {
+      "LIST": {
+        "BONUS_MONEY": "Bonus money",
+        "REAL_MONEY": "Real money"
+      }
+    },
     "FREE_SPIN_TEMPLATE": "Free spin",
     "BONUS_TEMPLATE": "Bonus",
     "WAGERING_FULFILLMENT": "Wagering fulfillment",
@@ -2224,6 +2230,7 @@
       "GAME": "Default game",
       "SUPPORTED_GAMES": "Additional games",
       "GAME_TYPE": "Game type",
+      "MONEY_TYPE": "Money type",
       "NAME": "Name",
       "FREE_SPINS": "Free spins",
       "FREE_SPIN_REWARD": "Free spin reward",

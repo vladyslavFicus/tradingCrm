@@ -180,6 +180,7 @@ const freeSpinTemplateQuery = gql`query freeSpinTemplate($uuid: String!, $aggreg
       comment
       freeSpinsAmount
       betLevel
+      moneyType
       pageCode
       status
       displayLine1

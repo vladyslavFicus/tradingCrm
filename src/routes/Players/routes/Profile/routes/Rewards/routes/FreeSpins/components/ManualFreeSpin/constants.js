@@ -37,6 +37,7 @@ const attributeLabels = {
   displayLine1: I18n.t('CAMPAIGNS.FREE_SPIN.DISPLAY_LINE1'),
   displayLine2: I18n.t('CAMPAIGNS.FREE_SPIN.DISPLAY_LINE2'),
   bonusTemplate: I18n.t('CAMPAIGNS.FREE_SPIN.BONUS_TEMPLATE'),
+  moneyType: I18n.t('CAMPAIGNS.FREE_SPIN.MONEY_TYPE'),
   claimable: I18n.t('COMMON.CLAIMABLE'),
 };
 
