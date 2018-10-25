@@ -1421,7 +1421,9 @@
       "FREE_SPINS": "Free-spins",
       "STATUS": "Статус",
       "FREE_SPINS_AVAILABLE": "Доступны",
-      "FREE_SPINS_UNAVAILABLE": "Недоступны"
+      "FREE_SPINS_UNAVAILABLE": "Недоступны",
+      "KEYWORD": "Поиск",
+      "KEYWORD_PLACEHOLDER": "Название игры или ID игры"
     },
     "GAME_TYPE": "Тип игры",
     "FREE_SPINS_AVAILABILITY": "Наличие Free-spins",
