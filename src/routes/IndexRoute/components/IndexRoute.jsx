@@ -27,6 +27,7 @@ import Leads from '../../Leads';
 import Offices from '../../Offices';
 import Desks from '../../Desks';
 import Teams from '../../Teams';
+import Callbacks from '../../Callbacks';
 import rootConfig from '../../../config';
 import { markets } from '../../../constants/markets';
 
@@ -73,6 +74,7 @@ class IndexRoute extends PureComponent {
               <AppRoute path="/offices" layout={MainLayout} component={Offices} checkAuth />
               <AppRoute path="/desks" layout={MainLayout} component={Desks} checkAuth />
               <AppRoute path="/teams" layout={MainLayout} component={Teams} checkAuth />
+              <AppRoute path="/callbacks" layout={MainLayout} component={Callbacks} checkAuth />
             </When>
             <Otherwise>
               <AppRoute path="/players" layout={MainLayout} component={Players} checkAuth />
