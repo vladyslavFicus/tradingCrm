@@ -1,11 +1,12 @@
 import React, { PureComponent } from 'react';
 import { I18n } from 'react-redux-i18n';
 import { Button } from '@newage/backoffice_ui';
+import { downloadFile } from '@newage/backoffice_utils';
 import PropTypes from '../../constants/propTypes';
 import { services } from '../../constants/services';
 import permissions from '../../config/permissions';
 import Permissions from '../../utils/permissions';
-import downloadFile from '../../utils/downloadFile';
+import { getApiRoot } from '../../config';
 
 const playerActivityReportPermission = new Permissions([permissions.PLAYER_REPORT.ACTIVITY]);
 
@@ -37,7 +38,7 @@ class PlayerActivityReportButton extends PureComponent {
 
     const { success, error } = await downloadFile({
       contentType: 'text/csv',
-      urlPath: `player_report/${playerUUID}/activity?date=${date}`,
+      url: `${getApiRoot()}/player_report/${playerUUID}/activity?date=${date}`,
       fileName: `activity-report-${fullName}-${date}`,
       token,
     });
