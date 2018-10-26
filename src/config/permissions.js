@@ -54,6 +54,9 @@ export default {
     CHANGE_PASSWORD: 'auth;POST;/credentials/{uuid}/password',
     MARK_IS_TEST: 'profile;POST;/profiles/{playerUUID}/is-test',
   },
+  PLAYER_REPORT: {
+    ACTIVITY: 'player_report;GET;/{playerUUID}/activity',
+  },
   PAYMENT: {
     PLAYER_LIMITS_LIST: 'payment;GET;/limits/{playerUUID}',
     PLAYER_ACCOUNT_LIST: 'payment;GET;/accounts/{playerUUID}',

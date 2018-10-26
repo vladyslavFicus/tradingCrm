@@ -3,6 +3,7 @@ import { get } from 'lodash';
 import moment from 'moment';
 import { SubmissionError } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
+import { Button } from '@newage/backoffice_ui';
 import PropTypes from '../../../../../../../../../constants/propTypes';
 import GridView, { GridViewColumn } from '../../../../../../../../../components/GridView';
 import {
@@ -27,6 +28,7 @@ import GridPaymentAmount from '../../../../../../../../../components/GridPayment
 import IpFlag from '../../../../../../../../../components/IpFlag';
 import history from '../../../../../../../../../router/history';
 import getFingerprint from '../../../../../../../../../utils/fingerPrint';
+import PlayerActivityReportButton from '../../../../../../../../../components/PlayerActivityReportButton';
 
 const MODAL_PAYMENT_DETAIL = 'payment-detail';
 const MODAL_PAYMENT_ACTION_REASON = 'payment-action-reason';
@@ -254,7 +256,7 @@ class Payments extends Component {
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
-        paymentId = data.paymentId;
+        ({ paymentId } = data);
       }
     } else if (inputParams.type === paymentTypes.WITHDRAW_BY_PAYMENT_METHOD) {
       const withdraw = await createWithdraw({
@@ -269,7 +271,7 @@ class Payments extends Component {
       if (error) {
         throw new SubmissionError({ _error: [error.error], ...(error.fields_errors || {}) });
       } else {
-        paymentId = data.paymentId;
+        ({ paymentId } = data);
       }
     } else {
       if (inputParams.type !== paymentTypes.Withdraw) {
@@ -294,7 +296,7 @@ class Payments extends Component {
 
         throw new SubmissionError({ _error: errors });
       } else {
-        paymentId = action.payload.paymentId;
+        ({ paymentId } = action.payload);
       }
     }
 
@@ -359,6 +361,15 @@ class Payments extends Component {
       ...this.state.filters,
     }
   );
+
+  handleClickActivityReport = () => {
+    const {
+      modals: { playerActivityReportModal },
+      playerProfile: { playerUUID, fullName },
+    } = this.props;
+
+    playerActivityReportModal.show({ playerUUID, fullName });
+  };
 
   renderTransactionId = data => (
     <GridPaymentInfo
@@ -464,10 +475,21 @@ class Payments extends Component {
 
   renderPaymentActions = (handleOpenAddPaymentModal) => {
     const { filters } = this.state;
+    const { playerProfile: { playerUUID, fullName } } = this.props;
+
     const allowActions = Object.keys(filters).filter(i => filters[i]).length > 0;
 
     return (
       <Fragment>
+        <PlayerActivityReportButton
+          playerUUID={playerUUID}
+          fullName={fullName}
+          buttonProps={{
+            className: 'btn-primary-outline mr-2',
+            size: 'sm',
+            outline: true,
+          }}
+        />
         <button
           type="button"
           disabled={!allowActions}
