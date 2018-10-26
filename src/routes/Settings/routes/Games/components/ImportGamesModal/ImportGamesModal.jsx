@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Field, SubmissionError } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import attributeLabels from '../../constants';
+import { attributeLabels } from '../../constants';
 import stopPropagation from '../../../../../../utils/stopPropagation';
 import { NasSelectField, FileInput } from '../../../../../../components/ReduxForm';
 
