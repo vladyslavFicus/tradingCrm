@@ -92,6 +92,10 @@ class FreeSpinCreateModal extends Component {
     }
   }
 
+  componentDidMount() {
+    this.setField('moneyType', moneyTypes.BONUS_MONEY);
+  }
+
   componentWillUnmount() {
     if (this.pollingFreeSpinTemplate) {
       this.stopPollingFreeSpinTemplate();
