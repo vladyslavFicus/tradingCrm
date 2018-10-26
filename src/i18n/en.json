@@ -3131,7 +3131,7 @@
     "PlayerActivityReportModal": {
       "header": "Activity Report",
       "date": "Snapshot date",
-      "actionDescription": "You are about to download the activity report for",
+      "actionDescription": "You are about to download the activity report for %{fullName}",
       "dateDescription": "Please define the snapshot date, you would like to get the report for"
     },
     "PlayerActivityReportButton": {

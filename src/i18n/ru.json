@@ -2782,7 +2782,7 @@
     "PlayerActivityReportModal": {
       "header": "Отчет активности",
       "date": "Дата",
-      "actionDescription": "Вы собираетесь загрузить отчет об активности для",
+      "actionDescription": "Вы собираетесь загрузить отчет об активности для %{fullName}",
       "dateDescription": "Пожалуйста, укажите дату, для которой вы бы хотели получить отчет"
     },
     "PlayerActivityReportButton": {

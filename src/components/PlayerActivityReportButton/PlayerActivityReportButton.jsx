@@ -14,7 +14,7 @@ class PlayerActivityReportButton extends PureComponent {
     playerUUID: PropTypes.string.isRequired,
     fullName: PropTypes.string.isRequired,
     modals: PropTypes.shape({
-      playerActivityReportModal: PropTypes.modalType,
+      playerActivityReportModal: PropTypes.modalType.isRequired,
     }).isRequired,
     checkService: PropTypes.func.isRequired,
     buttonProps: PropTypes.object,

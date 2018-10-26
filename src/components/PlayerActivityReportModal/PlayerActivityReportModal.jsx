@@ -51,7 +51,7 @@ class PlayerActivityReportModal extends PureComponent {
             header={I18n.t('component.PlayerActivityReportModal.header')}
           >
             <div className="text-center font-weight-600">
-              {I18n.t('component.PlayerActivityReportModal.actionDescription')} {fullName} {'  '}
+              {I18n.t('component.PlayerActivityReportModal.actionDescription', { fullName })} {'  '}
               <Uuid className="font-weight-normal" uuid={playerUUID} /> {I18n.t('common.account')}
               <div className="mt-3">
                 {I18n.t('component.PlayerActivityReportModal.dateDescription')}
