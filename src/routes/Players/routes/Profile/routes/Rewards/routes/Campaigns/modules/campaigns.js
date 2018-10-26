@@ -16,7 +16,7 @@ function fetchCampaigns(playerUUID) {
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `campaign_aggregator/accessible/${playerUUID}?${buildQueryString({ size: 99999 })}`,
+        endpoint: `campaign_aggregator/accessible/${playerUUID}?${buildQueryString({ size: 10000 })}`,
         method: 'GET',
         headers: {
           Accept: 'application/json',
