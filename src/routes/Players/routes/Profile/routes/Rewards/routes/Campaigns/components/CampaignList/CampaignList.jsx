@@ -120,7 +120,7 @@ class CampaignList extends Component {
     unRegisterUpdateCacheListener(name);
   }
 
-  getCampaignUrl = (sourceType, uuid) => {
+  getCampaignUrl = (sourceType = sourceTypes.CAMPAIGN, uuid) => {
     if (sourceType === sourceTypes.PROMOTION) {
       return `/bonus-campaigns/view/${uuid}/settings`;
     } else if (sourceType === sourceTypes.CAMPAIGN) {
@@ -279,12 +279,12 @@ class CampaignList extends Component {
     }
   };
 
-  handleAddToCampaign = async ({ campaign: { uuid, sourceType } }) => {
+  handleAddToCampaign = async ({ campaign: { uuid } }) => {
     const { match: { params: { id: playerUUID } }, addPlayerToCampaign } = this.props;
 
-    console.log(`Add to campaign(uuid = ${uuid}, sourceType = ${sourceType}, playerUUID = ${playerUUID})`);
+    console.log(`Add to campaign(uuid = ${uuid}, playerUUID = ${playerUUID})`);
 
-    const addPlayerToCampaignAction = await addPlayerToCampaign({ uuid, sourceType, playerUUID });
+    const addPlayerToCampaignAction = await addPlayerToCampaign({ uuid, playerUUID });
 
     console.log(`Add to campaign::result = ${addPlayerToCampaignAction}`);
 
@@ -465,7 +465,6 @@ class CampaignList extends Component {
       deletePlayerFromCampaign,
     } = this.props;
     const items = [];
-    const sourceType = originalSourceType ? originalSourceType.toLowerCase() : null;
 
     if (state !== bonusCampaignStatuses.ACTIVE) {
       return null;
@@ -494,7 +493,6 @@ class CampaignList extends Component {
         onClick: () => this.handleActionClick({
           action: deletePlayerFromCampaign,
           uuid,
-          sourceType,
         }),
         visible: targetType !== targetTypes.ALL,
       });
@@ -512,7 +510,7 @@ class CampaignList extends Component {
     items.push({
       label: I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.RESET_PLAYER'),
       onClick: this.handleResetPlayerClick(uuid),
-      visible: originalSourceType === sourceTypes.CAMPAIGN,
+      visible: !originalSourceType || originalSourceType === sourceTypes.CAMPAIGN,
     });
 
     return <ActionsDropDown items={items} />;
@@ -603,15 +601,14 @@ class CampaignList extends Component {
             }
           />
         }
-        {
-          modal.name === ADD_PROMO_CODE_MODAL &&
+        <If condition={modal.name === ADD_PROMO_CODE_MODAL}>
           <AddPromoCodeModal
             {...modal.params}
             onClose={this.handleCloseModal}
             onSubmit={this.handleAddPromoCode}
             fullName={profile.fullName}
           />
-        }
+        </If>
       </div>
     );
   }
