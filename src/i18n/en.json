@@ -1467,7 +1467,9 @@
       "FREE_SPINS": "Free-spins",
       "STATUS": "Status",
       "FREE_SPINS_AVAILABLE": "Available",
-      "FREE_SPINS_UNAVAILABLE": "Unavailable"
+      "FREE_SPINS_UNAVAILABLE": "Unavailable",
+      "KEYWORD": "Search by",
+      "KEYWORD_PLACEHOLDER": "Game name or Game ID"
     },
     "GAME_TYPE": "Game type",
     "FREE_SPINS_AVAILABILITY": "Free-spins availability",
@@ -2305,7 +2307,9 @@
             "LABEL": "Spin type",
             "VALUES": {
               "BET": "Bet",
-              "WIN": "Win"
+              "WIN": "Win",
+              "SPIN": "Spin",
+              "BONUS_ROUND_CHANCE": "CHANCE"
             }
           },
           "ROUND_TYPE": {
@@ -3027,6 +3031,15 @@
     }
   },
   "common": {
+    "select": {
+      "default": "--Select--"
+    },
+    "any": "Any",
+    "reset": "Reset",
+    "by": "by",
+    "apply": "Apply",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
     "status": {
       "reasons": {
         "suspend": {
@@ -3089,17 +3102,6 @@
       }
     }
   },
-  "common": {
-    "select": {
-      "default": "--Select--"
-    },
-    "any": "Any",
-    "reset": "Reset",
-    "by": "by",
-    "apply": "Apply",
-    "cancel": "Cancel",
-    "confirm": "Confirm"
-  },
   "route": {
     "reports": {
       "component": {
@@ -3126,12 +3128,11 @@
       "component": {
         "ConditionalTagsList": {
           "title": "Conditional tags",
-          "status": "Condition status",
+          "status": "Status",
           "addTags": "+ Add condition",
           "name": "Condition",
           "count": "Entries",
-          "tag": "Tag",
-          "status": "Status"
+          "tag": "Tag"
         },
         "FilterForm": {
           "status": "Status",

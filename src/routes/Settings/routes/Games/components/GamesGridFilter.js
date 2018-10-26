@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { reduxForm, Field } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
-import { SelectField } from '../../../../../components/ReduxForm';
+import { InputField, SelectField } from '../../../../../components/ReduxForm';
 import { createValidator } from '../../../../../utils/validator';
-import attributeLabels from '../constants';
+import { attributeLabels, attributePlaceholders } from '../constants';
 import { typeLabels, gameProviderLabels, withLinesLabels } from '../../../../../constants/games';
 import renderLabel from '../../../../../utils/renderLabel';
 
@@ -43,6 +43,15 @@ class GamesGridFilter extends Component {
 
     return (
       <form className="filter-row" onSubmit={handleSubmit(onSubmit)}>
+        <Field
+          name="keyword"
+          type="text"
+          label={I18n.t(attributeLabels.keyword)}
+          placeholder={I18n.t(attributePlaceholders.keyword)}
+          inputAddon={<i className="icon icon-search" />}
+          component={InputField}
+          className="filter-row__big"
+        />
         <Field
           name="gameProvider"
           label={I18n.t(attributeLabels.gameProvider)}
@@ -109,6 +118,7 @@ class GamesGridFilter extends Component {
 export default reduxForm({
   form: 'gamesGridFilter',
   validate: createValidator({
+    keyword: 'string',
     gameProvider: 'string',
     gameType: 'string',
     platform: 'string',
