@@ -1422,7 +1422,9 @@
       "FREE_SPINS": "Free-spins",
       "STATUS": "Статус",
       "FREE_SPINS_AVAILABLE": "Доступны",
-      "FREE_SPINS_UNAVAILABLE": "Недоступны"
+      "FREE_SPINS_UNAVAILABLE": "Недоступны",
+      "KEYWORD": "Поиск",
+      "KEYWORD_PLACEHOLDER": "Название игры или ID игры"
     },
     "GAME_TYPE": "Тип игры",
     "FREE_SPINS_AVAILABILITY": "Наличие Free-spins",
@@ -2136,6 +2138,12 @@
     "REGISTRATIONS": ""
   },
   "CAMPAIGNS": {
+    "MONEY_TYPE": {
+      "LIST": {
+        "BONUS_MONEY": "Бонусные деньги",
+        "REAL_MONEY": "Реальные деньги"
+      }
+    },
     "CAMPAIGN_NAME": "Название кампании",
     "FREE_SPIN_TEMPLATE": "Фри-спин шаблон",
     "BONUS_TEMPLATE": "Бонус шаблон",
@@ -2147,6 +2155,7 @@
         "ERROR_TITLE": "Ошибка создания фри спина",
         "SUCCESS_TITLE": "Фри спин создан успешно"
       },
+      "MONEY_TYPE": "Тип денег",
       "PROVIDER": "Провайдер",
       "AGGREGATOR": "Агрегатор",
       "GAMES": "Игры",
@@ -2324,7 +2333,8 @@
         "ADD_FREE_SPIN": "Создать шаблон",
         "TEMPLATE": "Шаблон",
         "STATUS": "Статус",
-        "DEVICE_TYPE": "Тип устройства"
+        "DEVICE_TYPE": "Тип устройства",
+        "DETAILS_NOT_FOUND": "Детали не найдены"
       },
       "CHOOSE_DEVICE_TYPE": "-- Выберите тип устройства--",
       "DEVICE_TYPE": {

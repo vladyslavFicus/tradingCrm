@@ -32,6 +32,7 @@ const attributeLabels = {
   rhfpBet: I18n.t('CAMPAIGNS.FREE_SPIN.RHFP_BET'),
   nearestCost: I18n.t('CAMPAIGNS.FREE_SPIN.NEAREST_COST'),
   displayLine1: I18n.t('CAMPAIGNS.FREE_SPIN.DISPLAY_LINE1'),
+  moneyType: I18n.t('CAMPAIGNS.FREE_SPIN.MONEY_TYPE'),
   displayLine2: I18n.t('CAMPAIGNS.FREE_SPIN.DISPLAY_LINE2'),
   bonusTemplate: I18n.t('CAMPAIGNS.FREE_SPIN.BONUS_TEMPLATE'),
   claimable: I18n.t('COMMON.CLAIMABLE'),

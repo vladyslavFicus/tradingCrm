@@ -10,7 +10,11 @@ import stopPropagation from '../../../../../../utils/stopPropagation';
 import { attributeLabels, attributePlaceholders } from '../constants';
 import Amount from '../../../../../../components/Amount';
 import BonusView from '../../Bonus/BonusView';
-import { statuses as freeSpinTemplateStatuses } from '../../../../../../constants/free-spin-template';
+import {
+  statuses as freeSpinTemplateStatuses,
+  moneyTypes,
+  moneyTypeLabels,
+} from '../../../../../../constants/free-spin-template';
 import { freeSpinTemplateQuery } from '../../../../../../graphql/queries/campaigns';
 import {
   SelectField,
@@ -219,7 +223,7 @@ class FreeSpinCreateModal extends Component {
     }, 100);
   });
 
-  handleSubmit = async ({ betPerLine, supportedGames, bonusTemplateUUID: { uuid: bonusTemplateUUID }, ...data }) => {
+  handleSubmit = async ({ betPerLine, bonusTemplateUUID, supportedGames, ...data }) => {
     const {
       addFreeSpinTemplate, onSave, onCloseModal, reset, notify, games,
     } = this.props;
@@ -229,10 +233,14 @@ class FreeSpinCreateModal extends Component {
     ).internalGameId;
     const variables = {
       ...data,
-      bonusTemplateUUID,
       internalGameId,
       supportedGames: supportedGames ? supportedGames.map(i => JSON.parse(i)) : [],
     };
+
+    if (data.moneyType === moneyTypes.BONUS_MONEY) {
+      variables.bonusTemplateUUID = bonusTemplateUUID.uuid;
+    }
+
     const response = await addFreeSpinTemplate({ variables });
     const { error, fields_errors } = get(response, 'data.freeSpinTemplate.add.error') || {};
 
@@ -331,6 +339,9 @@ class FreeSpinCreateModal extends Component {
       aggregatorId,
       games,
       gameId,
+      currentValues: {
+        moneyType,
+      },
     } = this.props;
     const { aggregatorOptions } = this;
     const { baseCurrency } = this.currency;
@@ -361,6 +372,20 @@ class FreeSpinCreateModal extends Component {
             component={InputField}
           />
           <div className="row">
+            <Field
+              name="moneyType"
+              label={I18n.t(attributeLabels.moneyType)}
+              component={SelectField}
+              showErrorMessage={false}
+              className="col-md-6"
+              id="campaign-money-type"
+            >
+              {Object.keys(moneyTypes).map(type => (
+                <option key={type} value={type}>
+                  {I18n.t(moneyTypeLabels[type])}
+                </option>
+              ))}
+            </Field>
             <Field
               name="aggregatorId"
               disabled={!Object.keys(aggregatorOptions).length}
@@ -644,7 +669,7 @@ class FreeSpinCreateModal extends Component {
                 />
               </div>
             </div>
-            <If condition={fields.indexOf('bonusTemplateUUID') !== -1}>
+            <If condition={fields.indexOf('bonusTemplateUUID') !== -1 && moneyType === moneyTypes.BONUS_MONEY}>
               <BonusView
                 onChangeUUID={this.handleChangeBonusUUID}
                 uuid={bonusTemplateUUID.uuid}
