@@ -21,15 +21,17 @@ const ViewModalAdditional = ({ freeSpin, rates }) => (
         freeSpin={freeSpin}
       />
     </div>
-    <div className="modal-body-tabs__item">
-      <div className="modal-tab-label">
-        {I18n.t('PLAYER_PROFILE.FREE_SPINS.VIEW_MODAL.BONUS_SETTINGS')}
+    <If condition={freeSpin.bonus}>
+      <div className="modal-body-tabs__item">
+        <div className="modal-tab-label">
+          {I18n.t('PLAYER_PROFILE.FREE_SPINS.VIEW_MODAL.BONUS_SETTINGS')}
+        </div>
+        <BonusSettings
+          freeSpin={freeSpin}
+          rates={rates}
+        />
       </div>
-      <BonusSettings
-        freeSpin={freeSpin}
-        rates={rates}
-      />
-    </div>
+    </If>
   </div>
 );
 
