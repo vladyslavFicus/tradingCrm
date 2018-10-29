@@ -25,6 +25,7 @@ function mapProfile(item) {
     kycCompleted: item.kycPersonalStatus && item.kycPersonalStatus.status === statuses.VERIFIED
       && item.kycAddressStatus && item.kycAddressStatus.status === statuses.VERIFIED,
     age: moment().diff(item.birthDate, 'years'),
+    weight: item.weight || 0,
     signInIps: item.signInIps ? Object.values(item.signInIps).sort((a, b) => {
       if (a.sessionStart > b.sessionStart) {
         return -1;

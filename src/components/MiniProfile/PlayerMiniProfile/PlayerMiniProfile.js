@@ -24,7 +24,7 @@ const PlayerMiniProfile = ({ data }) => {
         <label className="mini-profile-label">{renderLabel(data.profileStatus, userStatusNames)}</label>
         <div className="mini-profile-type">{I18n.t('MINI_PROFILE.PLAYER')}</div>
         <div className="mini-profile-title">
-          <span className="font-weight-700">{data.fullName}</span> ({data.age})
+          <span className="font-weight-700">{data.fullName}</span> ({data.weight})
           {data.kycCompleted && <i className="fa fa-check text-success margin-left-5" />}
           <NoteIcon type="pinned" className="mini-profile__note-icon" />
         </div>
