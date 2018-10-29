@@ -36,6 +36,7 @@ const mapTransactions = transactions => transactions.map(({ player, ...transacti
   ...transaction,
   playerProfile: player ? {
     age: player.birthDate ? moment().diff(player.birthDate, 'years') : null,
+    weight: player.weight || 0,
     playerUUID: player.playerUUID,
     firstName: player.firstName || null,
     lastName: player.lastName || null,

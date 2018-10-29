@@ -51,7 +51,7 @@ class GridPlayerInfo extends Component {
               id={`${id ? `${id}-` : ''}players-list-${profile.playerUUID}-main`}
               onClick={this.handleClick}
             >
-              {profile.firstName} {profile.lastName} {!!profile.age && `(${profile.age})`}
+              {profile.firstName} {profile.lastName} {`(${profile.weight})`}
               {' '}
               {profile.kycCompleted && <i className="fa fa-check text-success" />}
             </div>

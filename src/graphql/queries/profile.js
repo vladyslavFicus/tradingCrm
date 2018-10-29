@@ -31,6 +31,7 @@ const profileQuery = gql`query profileData($playerUUID: String!){
       age
       profileVerified
       currency
+      weight
       firstName
       username
       languageCode

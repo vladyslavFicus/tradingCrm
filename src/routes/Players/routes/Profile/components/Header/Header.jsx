@@ -36,6 +36,7 @@ class Header extends Component {
     playerProfile: PropTypes.shape({
       address: PropTypes.string,
       affiliateId: PropTypes.string,
+      weight: PropTypes.number,
       birthDate: PropTypes.string,
       btag: PropTypes.string,
       city: PropTypes.string,
@@ -144,7 +145,7 @@ class Header extends Component {
     const {
       locks,
       playerProfile: {
-        age,
+        weight,
         firstName,
         username,
         languageCode,
@@ -202,16 +203,7 @@ class Header extends Component {
                       {I18n.t('PLAYER_PROFILE.PROFILE.HEADER.NO_FULLNAME')}
                     </Otherwise>
                   </Choose>
-                  {' '}
-                  <Choose>
-                    <When condition={age}>
-                      ({age})
-                    </When>
-                    <Otherwise>
-                      (?)
-                    </Otherwise>
-                  </Choose>
-                  {' '}
+                  {` (${weight}) `}
                   <If condition={profileVerified}>
                     <i className="fa fa-check text-success" />
                   </If>
