@@ -1,5 +1,6 @@
 server {
   client_max_body_size 0;
+  listen 9090;
 
   server_name _;
   root /opt/build;
