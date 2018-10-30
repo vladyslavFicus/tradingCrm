@@ -6,7 +6,7 @@ const config = _.merge({
       currencies: {},
     },
   },
-  market: 'casino',
+  market: 'crm',
   player: {
     files: {
       maxSize: 20,
@@ -114,19 +114,7 @@ function setBrandId(brandId) {
 
 function getLogo() {
   const brands = [
-    'hrzn_dev2',
-    'redbox',
-    'slottica',
-    'loki',
-    'vulcanprestige',
-    'vulcanprestige_prod',
-    'vulcanneon',
-    'vulcangold',
-    'gslots',
-    'cerberus',
-    'casino_999_dk',
     'nasfx',
-    'grandbet',
   ];
   const brandId = getBrandId();
 

@@ -2,19 +2,7 @@ import keyMirror from 'keymirror';
 import I18n from '../utils/fake-i18n';
 
 const brands = keyMirror({
-  hrzn_dev2: null,
-  vulcanprestige: null,
-  vulcanprestige_prod: null,
-  redbox: null,
-  slottica: null,
-  loki: null,
-  vulcanneon: null,
-  vulcangold: null,
-  gslots: null,
-  cerberus: null,
-  casino_999_dk: null,
   nasfx: null,
-  grandbet: null,
 });
 const departments = keyMirror({
   ADMINISTRATION: null,

@@ -50,5 +50,5 @@ module.exports = {
     unauthorized: [401],
     persist: { whitelist: ['auth', 'userPanels', 'language', 'settings'], keyPrefix: 'nas:' },
   },
-  market: 'casino',
+  market: 'crm',
 };

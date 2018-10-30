@@ -107,10 +107,10 @@ async function processConfig() {
 
   return {
     version: APP_VERSION,
-    market: NAS_MARKET || 'casino',
-    nas: { brand, graphqlRoot: `${projectConfig.hrzn.api_url}/graphql/gql` },
+    market: NAS_MARKET || 'crm',
+    nas: { brand, graphqlRoot: `${projectConfig.hrzn.api_url}/forex_graphql/gql` },
     sentry: {
-      dsn: 'https://b14abe232a0745fb974390113d879259@sentry.io/233061',
+      dsn: 'https://8505da2d9ffa4be5b8f9ac421a519237@sentry.io/1311946',
       options: {
         release: APP_VERSION,
         environment: APP_VERSION === 'dev' ? 'development' : NAS_PROJECT,

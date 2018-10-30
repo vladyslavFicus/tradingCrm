@@ -29,7 +29,7 @@ if (project.env === 'development') {
   _.set(
     appConfig,
     'nas.graphqlRoot',
-    process.env.GRAPHQL_ROOT || `${_.get(appConfig, 'nas.brand.api.url')}/graphql/gql`
+    process.env.GRAPHQL_ROOT || `${_.get(appConfig, 'nas.brand.api.url')}/forex_graphql/gql`
   );
 
   if (process.env.NAS_MARKET) {
