@@ -3,6 +3,7 @@ import I18n from '../utils/fake-i18n';
 
 const brands = keyMirror({
   nasfx: null,
+  cryptomb: null,
 });
 const departments = keyMirror({
   ADMINISTRATION: null,
@@ -23,57 +24,13 @@ const roles = keyMirror({
 });
 
 const brandsConfig = {
-  [brands.hrzn_dev2]: {
-    name: 'Horizon',
-    image: { src: '/img/brand/image/hrzn_dev2.png' },
-  },
-  [brands.vulcanprestige]: {
-    name: 'Vulcan Prestige',
-    image: { src: '/img/brand/image/vulcanprestige.png' },
-  },
-  [brands.vulcanprestige_prod]: {
-    name: 'Vulcan Prestige',
-    image: { src: '/img/brand/image/vulcanprestige.png' },
-  },
-  [brands.loki]: {
-    name: 'Loki',
-    image: { src: '/img/brand/image/loki.svg' },
-  },
-  [brands.redbox]: {
-    name: 'Redbox',
-    image: { src: '/img/brand/image/redbox.svg' },
-  },
-  [brands.slottica]: {
-    name: 'Slottica',
-    image: { src: '/img/brand/image/slottica.svg' },
-  },
-  [brands.vulcanneon]: {
-    name: 'Vulcan neon',
-    image: { src: '/img/brand/image/vulcanneon.jpg' },
-  },
-  [brands.vulcangold]: {
-    name: 'Vulcan gold',
-    image: { src: '/img/brand/image/vulcangold.svg' },
-  },
-  [brands.gslots]: {
-    name: 'Gslots',
-    image: { src: '/img/brand/image/gslots.svg' },
-  },
-  [brands.cerberus]: {
-    name: 'Cerberus',
-    image: { src: '/img/brand/image/cerberus.svg' },
-  },
-  [brands.casino_999_dk]: {
-    name: 'Casino 999 DK',
-    image: { src: '/img/brand/image/casino_999_dk.svg' },
+  [brands.cryptomb]: {
+    name: 'Cryptomb',
+    image: { src: '/img/brand/image/cryptomb-logo.svg' },
   },
   [brands.nasfx]: {
     name: 'Nasfx',
     image: { src: '/img/brand/image/nasfx_brand_logo.svg' },
-  },
-  [brands.grandbet]: {
-    name: 'GrandBet',
-    image: { src: '/img/brand/image/grandbet.svg' },
   },
 };
 const departmentsConfig = {
