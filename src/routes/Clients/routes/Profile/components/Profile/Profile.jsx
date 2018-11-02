@@ -382,7 +382,7 @@ class Profile extends Component {
     noteModal.show({
       type,
       onEdit: data => this.handleSubmitNoteClick(noteViewType.MODAL, data),
-      onDelete: () => this.handleDeleteNoteClick(noteViewType.MODAL, item.tagId),
+      onDelete: () => this.handleDeleteNoteClick(noteViewType.MODAL, item.noteId),
       tagType: item.tagType,
       initialValues: {
         ...item,
@@ -390,11 +390,11 @@ class Profile extends Component {
     });
   };
 
-  handleDeleteNoteClick = async (viewType, tagId) => {
+  handleDeleteNoteClick = async (viewType, noteId) => {
     const { removeNote } = this.props;
     const { noteChangedCallback } = this.state;
 
-    await removeNote({ variables: { tagId } });
+    await removeNote({ variables: { noteId } });
     this.handleNoteHide(viewType);
 
     if (typeof noteChangedCallback === 'function') {
@@ -420,10 +420,14 @@ class Profile extends Component {
       match: { params: { id: playerUUID } },
     } = this.props;
 
-    if (data.tagId) {
+    if (data.noteId) {
       const updatedNote = await updateNote({ variables: data });
 
       this.handleNoteHide(viewType);
+
+      if (typeof noteChangedCallback === 'function') {
+        noteChangedCallback();
+      }
 
       return updatedNote;
     }
