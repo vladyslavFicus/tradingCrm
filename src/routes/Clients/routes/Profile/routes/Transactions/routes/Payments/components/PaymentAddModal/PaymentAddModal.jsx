@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { Field, reduxForm, getFormValues } from 'redux-form';
 import { connect } from 'react-redux';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import { I18n } from 'react-redux-i18n';
+import { get } from 'lodash';
+import I18n from '../../../../../../../../../../utils/i18n';
 import { createValidator } from '../../../../../../../../../../utils/validator';
 import { InputField, NasSelectField } from '../../../../../../../../../../components/ReduxForm';
 import PropTypes from '../../../../../../../../../../constants/propTypes';
@@ -38,7 +39,7 @@ class PaymentAddModal extends Component {
       fromMt4Acc: PropTypes.string,
       toMt4Acc: PropTypes.string,
     }),
-    error: PropTypes.arrayOf(PropTypes.string),
+    error: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.string, PropTypes.object])),
     playerLimits: PropTypes.shape({
       entities: PropTypes.arrayOf(PropTypes.playerLimitEntity).isRequired,
       deposit: PropTypes.shape({
@@ -210,7 +211,7 @@ class PaymentAddModal extends Component {
           <If condition={errors.length}>
             <For each="error" index="index" of={errors}>
               <div key={index} className="alert alert-warning">
-                {I18n.t(error)}
+                {I18n.t(get(error, 'error') ? error.error : error)}
               </div>
             </For>
           </If>
@@ -348,6 +349,7 @@ const Form = reduxForm({
     let rules = {
       paymentType: 'required|string',
       amount: 'required|numeric',
+      externalReference: 'required|string',
     };
 
     if (data.paymentType === paymentTypes.Withdraw

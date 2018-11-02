@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react';
+import { get } from 'lodash';
 import { I18n } from 'react-redux-i18n';
 import PropTypes from '../../../../../../../constants/propTypes';
 import NotesGridFilter from './NotesGridFilter';
@@ -84,13 +85,15 @@ class Notes extends Component {
 
   render() {
     const {
-      notes: { notes, loading },
+      notes: { notes: data, loading },
       locale,
     } = this.props;
 
-    if (!notes) {
+    if (!data) {
       return null;
     }
+
+    const notes = get(data, 'data', { content: [] });
 
     return (
       <Fragment>

@@ -115,6 +115,7 @@ function setBrandId(brandId) {
 function getLogo() {
   const brands = [
     'nasfx',
+    'cryptomb',
   ];
   const brandId = getBrandId();
 

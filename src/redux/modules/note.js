@@ -1,7 +1,6 @@
 import { CALL_API } from 'redux-api-middleware';
-import { v4 } from 'uuid';
 import createRequestAction from '../../utils/createRequestAction';
-import { tagTypes } from './../../constants/tag';
+import buildQueryString from '../../utils/buildQueryString';
 
 const KEY = 'common/note';
 const ADD_NOTE = createRequestAction(`${KEY}/add`);
@@ -9,27 +8,24 @@ const EDIT_NOTE = createRequestAction(`${KEY}/edit`);
 const DELETE_NOTE = createRequestAction(`${KEY}/delete`);
 
 function fetchNotesByTargetUuids(type) {
-  return targetUUIDs => (dispatch, getState) => {
+  return targetUUID => (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
 
     return dispatch({
       [CALL_API]: {
-        endpoint: 'tag/tags/targets',
-        method: 'POST',
+        endpoint: `tag/note/search?${buildQueryString({ targetUUID })}`,
+        method: 'GET',
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({
-          targetUuids: targetUUIDs,
-        }),
         types: [
           type.REQUEST,
           type.SUCCESS,
           type.FAILURE,
         ],
-        bailout: !logged || !targetUUIDs.length,
+        bailout: !logged || !targetUUID.length,
       },
     });
   };
@@ -43,7 +39,7 @@ function addNote(type) {
 
     return dispatch({
       [CALL_API]: {
-        endpoint: 'tag/',
+        endpoint: 'tag/note',
         method: 'POST',
         types: [type.REQUEST, type.SUCCESS, type.FAILURE],
         headers: {
@@ -52,8 +48,6 @@ function addNote(type) {
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
-          tagId: `NOTE-${v4()}`,
-          tagType: tagTypes.NOTE,
           content,
           targets: [
             {
@@ -69,12 +63,12 @@ function addNote(type) {
 }
 
 function editNote(type) {
-  return (id, { tagId, targetUUID, content: newContent, pinned }) => (dispatch, getState) => {
+  return (id, { noteId, targetUUID, content, pinned }) => (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
 
     return dispatch({
       [CALL_API]: {
-        endpoint: 'tag/',
+        endpoint: `tag/note/${noteId}`,
         method: 'PUT',
         types: [type.REQUEST, type.SUCCESS, type.FAILURE],
         headers: {
@@ -83,9 +77,8 @@ function editNote(type) {
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
-          tagId,
           targetUUID,
-          newContent,
+          content,
           pinned,
         }),
         bailout: !logged,

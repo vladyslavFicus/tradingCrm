@@ -33,14 +33,14 @@ class View extends Component {
       </button>
     ));
   }
-  
+
   render() {
     const {
       playerProfile,
       locale,
     } = this.props;
 
-    const mt4Users = get(playerProfile, 'playerProfile.data.tradingProfile.mt4Users', []);
+    const mt4Users = get(playerProfile, 'playerProfile.data.tradingProfile.mt4Users') || [];
 
     return (
       <div className="tab-wrapper">
