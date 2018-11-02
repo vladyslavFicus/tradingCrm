@@ -49,10 +49,6 @@ class ApolloProvider extends PureComponent {
     this.constructor.client = this.createClient();
   }
 
-  state = {
-    isError: false,
-  };
-
   createClient() {
     const options = {
       uri: getGraphQLRoot(),
@@ -72,8 +68,6 @@ class ApolloProvider extends PureComponent {
       if (networkError) {
         console.log(`[Network error]: ${networkError}`);
       }
-
-      this.setState({ isError: true });
     });
 
     const authLink = setContext((_, { headers }) => {
@@ -92,10 +86,6 @@ class ApolloProvider extends PureComponent {
           case 'PlayerProfile':
             return object.playerUUID ?
               `${object.__typename}:${object.playerUUID}` :
-              null;
-          case 'Note':
-            return object.tagId ?
-              `${object.__typename}:${object.tagId}` :
               null;
           default:
             return object._id ? `${object.__typename}:${object._id}` : null;

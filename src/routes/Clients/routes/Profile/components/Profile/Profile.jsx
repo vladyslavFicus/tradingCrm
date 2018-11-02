@@ -694,7 +694,7 @@ class Profile extends Component {
               ips={get(profile, 'signInIps', [])}
               updateSubscription={this.handleUpdateSubscription}
               onEditNoteClick={this.handleEditNoteClick}
-              pinnedNotes={notes}
+              pinnedNotes={get(notes, 'data') || {}}
               acquisitionData={acquisitionData}
               loading={loading}
             />

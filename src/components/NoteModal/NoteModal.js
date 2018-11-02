@@ -4,7 +4,6 @@ import { reduxForm, Field } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
 import classNames from 'classnames';
 import PropTypes from '../../constants/propTypes';
-import { tagTypes } from '../../constants/tag';
 import { createValidator, translateLabels } from '../../utils/validator';
 import './NoteModal.scss';
 import { TextAreaField, SwitchField } from '../../components/ReduxForm';
@@ -17,11 +16,10 @@ class NoteModal extends Component {
     initialValues: PropTypes.shape({
       pinned: PropTypes.bool,
       content: PropTypes.string,
-      tagType: PropTypes.string.isRequired,
     }).isRequired,
     handleSubmit: PropTypes.func.isRequired,
     onCloseModal: PropTypes.func.isRequired,
-    isOpen: PropTypes.func.isRequired,
+    isOpen: PropTypes.bool.isRequired,
     invalid: PropTypes.bool.isRequired,
     submitting: PropTypes.bool.isRequired,
     type: PropTypes.oneOf(Object.keys(modalType)).isRequired,
@@ -33,32 +31,10 @@ class NoteModal extends Component {
     return this.props.type === modalType.DELETE;
   }
 
-  get deleteDescription() {
-    const { initialValues: { tagType } } = this.props;
-
-    return tagType === tagTypes.NOTE
-      ? I18n.t('NOTES.MODAL.REMOVE_DESCRIPTION')
-      : I18n.t('TAGS.MODAL.REMOVE_DESCRIPTION');
-  }
-
   get title() {
-    const { initialValues: { tagType } } = this.props;
-
-    if (tagType === tagTypes.NOTE) {
-      return this.isDeleteMode
-        ? I18n.t('NOTES.MODAL.DELETE_TITLE')
-        : I18n.t('NOTES.MODAL.EDIT_TITLE');
-    }
-
     return this.isDeleteMode
-      ? I18n.t('TAGS.MODAL.DELETE_TITLE')
-      : I18n.t('TAGS.MODAL.EDIT_TITLE');
-  }
-
-  get content() {
-    const { initialValues: { tagType, content, tagName } } = this.props;
-
-    return tagType === tagTypes.NOTE ? content : tagName;
+      ? I18n.t('NOTES.MODAL.DELETE_TITLE')
+      : I18n.t('NOTES.MODAL.EDIT_TITLE');
   }
 
   handleSubmit = (data) => {
@@ -69,31 +45,18 @@ class NoteModal extends Component {
 
   renderFields = () => {
     const {
-      props: {
-        initialValues: {
-          tagType,
-          tagName,
-        },
-      },
       isDeleteMode,
     } = this;
 
     return (
       <Fragment>
-        <Choose>
-          <When condition={tagType === tagTypes.NOTE}>
-            <Field
-              name="content"
-              label={I18n.t(attributeLabels.note)}
-              disabled={isDeleteMode}
-              component={TextAreaField}
-              showErrorMessage={false}
-            />
-          </When>
-          <Otherwise>
-            {tagName}
-          </Otherwise>
-        </Choose>
+        <Field
+          name="content"
+          label={I18n.t(attributeLabels.note)}
+          disabled={isDeleteMode}
+          component={TextAreaField}
+          showErrorMessage={false}
+        />
         <Field
           name="pinned"
           wrapperClassName="margin-top-30"
@@ -112,6 +75,7 @@ class NoteModal extends Component {
         isOpen,
         initialValues: {
           pinned,
+          content,
         },
         invalid,
         submitting,
@@ -136,10 +100,10 @@ class NoteModal extends Component {
           <Choose>
             <When condition={isDeleteMode}>
               <div className="text-center font-weight-700">
-                {this.deleteDescription}
+                {I18n.t('NOTES.MODAL.REMOVE_DESCRIPTION')}
               </div>
               <div className="remove-container card">
-                <div>{this.content}</div>
+                <div>{content}</div>
                 <If condition={pinned}>
                   <span className="note-item__pinned-note-badge note-badge">
                     {I18n.t('COMMON.PINNED')}

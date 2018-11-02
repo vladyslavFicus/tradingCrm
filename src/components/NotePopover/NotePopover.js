@@ -109,8 +109,8 @@ class NotePopover extends Component {
       );
   };
 
-  handleDelete = (tagId) => {
-    this.props.onDelete(tagId)
+  handleDelete = (noteId) => {
+    this.props.onDelete(noteId)
       .then(
         () => {
           if (typeof this.props.onSubmitSuccess === 'function') {
@@ -138,7 +138,7 @@ class NotePopover extends Component {
 
     const {
       item: {
-        tagId,
+        noteId,
         uuid,
         changedAt,
         changedBy,
@@ -175,7 +175,7 @@ class NotePopover extends Component {
           <div className="col-auto ml-auto">
             <button
               type="reset"
-              onClick={() => this.handleDelete(tagId || uuid)}
+              onClick={() => this.handleDelete(noteId || uuid)}
               className="fa fa-trash color-danger note-popover__delete-btn"
             />
           </div>
@@ -260,7 +260,7 @@ class NotePopover extends Component {
                 disabled={pristine || submitting || invalid}
               >
                 <Choose>
-                  <When condition={item && (item.uuid || item.tagId)}>
+                  <When condition={item && (item.uuid || item.noteId)}>
                     {I18n.t('COMMON.BUTTONS.UPDATE')}
                   </When>
                   <Otherwise>

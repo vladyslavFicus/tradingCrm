@@ -3,24 +3,23 @@ import update from 'react-addons-update';
 import { notesQuery } from '../queries/notes';
 
 const updateNoteMutation = gql`mutation updateNote(
-  $tagId: String!
   $targetUUID: String!
   $content: String!
   $pinned: Boolean!
+  $noteId: String!
 ) {
   note {
     update(
-       tagId: $tagId
+       noteId: $noteId
        targetUUID: $targetUUID
-       newContent: $content
+       content: $content
        pinned: $pinned
       ) {
       data {
-        tagName
         pinned
-        tagId
+        noteId
         content
-        tagType
+        _id
         targetUUID
         changedBy
         changedAt
@@ -47,28 +46,30 @@ const addNoteMutation = gql`mutation addNote(
     ) {
       data {
         playerUUID
-        tagName
         pinned
-        tagId
+        noteId
+        _id
         content
-        tagType
         targetUUID
         changedBy
         changedAt
+      }
+      error {
+        error
       }
     }
   }
 }`;
 
 const removeNoteMutation = gql`mutation removeNote(
-  $tagId: String!,
+  $noteId: String!,
 ) {
   note {
     remove(
-      tagId: $tagId,
+      noteId: $noteId,
       ) {
       data {
-        tagId
+        noteId
       }
       error {
         error
@@ -83,7 +84,7 @@ const addPinnedNote = (proxy, params, data) => {
   try {
     const { notes } = proxy.readQuery({ query: notesQuery, variables });
     const updatedNotes = update(notes, {
-      content: { $push: [data] },
+      data: { content: { $push: [data] } },
     });
     proxy.writeQuery({ query: notesQuery, variables, data: { notes: updatedNotes } });
   } catch (e) {
@@ -91,19 +92,20 @@ const addPinnedNote = (proxy, params, data) => {
   }
 };
 
-const removeNote = (proxy, variables, tagId) => {
+const removeNote = (proxy, variables, noteId) => {
   try {
-    const { notes: { content }, notes } = proxy.readQuery({ query: notesQuery, variables });
-    const selectedIndex = content.findIndex(({ tagId: noteUuid }) => noteUuid === tagId);
+    const { notes: { data: { content } }, notes } = proxy.readQuery({ query: notesQuery, variables });
+    const selectedIndex = content.findIndex(({ noteId: noteUuid }) => noteUuid === noteId);
     const updatedNotes = update(notes, {
-      content: { $splice: [[selectedIndex, 1]] },
+      data: {
+        content: { $splice: [[selectedIndex, 1]] },
+      },
     });
     proxy.writeQuery({ query: notesQuery, variables, data: { notes: updatedNotes } });
   } catch (e) {
     console.log(e);
   }
 };
-
 
 export {
   updateNoteMutation,
