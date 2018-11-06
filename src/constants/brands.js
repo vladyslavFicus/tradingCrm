@@ -15,6 +15,8 @@ const departments = keyMirror({
   IGROMAT: null,
   SALES: null,
   RETENTION: null,
+  DEALING: null,
+  COMPLIANCE: null,
 });
 const roles = keyMirror({
   ROLE1: null,
@@ -68,6 +70,14 @@ const departmentsConfig = {
   },
   [departments.RETENTION]: {
     name: I18n.t('CONSTANTS.SIGN_IN.DEPARTMENTS.RETENTION'),
+    image: '/img/departments/administration_dep_logo.svg',
+  },
+  [departments.DEALING]: {
+    name: I18n.t('CONSTANTS.SIGN_IN.DEPARTMENTS.DEALING'),
+    image: '/img/departments/administration_dep_logo.svg',
+  },
+  [departments.COMPLIANCE]: {
+    name: I18n.t('CONSTANTS.SIGN_IN.DEPARTMENTS.COMPLIANCE'),
     image: '/img/departments/administration_dep_logo.svg',
   },
 };
