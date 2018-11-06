@@ -1182,7 +1182,9 @@
         "E2E": "E2E",
         "IGROMAT": "Igromat",
         "SALES": "Sales",
-        "RETENTION": "Retention"
+        "RETENTION": "Retention",
+        "DEALING": "Dealing",
+        "COMPLIANCE": "Compliance"
       }
     },
     "BONUS_CAMPAIGNS": {
