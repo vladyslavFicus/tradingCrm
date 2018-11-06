@@ -124,7 +124,14 @@ class Header extends Component {
 
     const { permissions: currentPermissions } = this.context;
     const fullName = [firstName, lastName].filter(i => i).join(' ');
-    const { balance, equity, lastWithdrawalDate, lastDepositDate } = tradingProfile || { equity: '0', balance: '0' };
+    const {
+      balance,
+      equity,
+      lastWithdrawalDate,
+      lastDepositDate,
+      margin,
+      marginLevel,
+    } = tradingProfile || { equity: '0', balance: '0' };
 
     return (
       <Fragment>
@@ -219,7 +226,7 @@ class Header extends Component {
           <div className="header-block header-block_balance" id="player-profile-balance-block">
             <If condition={playerUUID}>
               <Balances
-                balances={{ balance, equity, currency }}
+                balances={{ balance, equity, currency, margin, marginLevel }}
                 lastDeposit={lastDepositDate}
                 lastWithdraw={lastWithdrawalDate}
                 playerUUID={playerUUID}

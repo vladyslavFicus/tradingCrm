@@ -259,6 +259,8 @@ const clientQuery = gql`query profileData($playerUUID: String!){
       isTest
       registrationDate
       tradingProfile {
+        margin
+        marginLevel
         isTestUser
         aquisitionRep {
           fullName
