@@ -38,6 +38,7 @@ class PaymentAddModal extends Component {
       paymentAccountUuid: PropTypes.string,
       fromMt4Acc: PropTypes.string,
       toMt4Acc: PropTypes.string,
+      mt4AccNoMoney: PropTypes.string,
     }),
     error: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.string, PropTypes.object])),
     playerLimits: PropTypes.shape({
@@ -165,16 +166,25 @@ class PaymentAddModal extends Component {
       className={`${className || 'col'} select-field-wrapper`}
       searchable={false}
       showErrorMessage={false}
-      singleOptionComponent={({ onClick, mt4 = {} }) => (
-        <div key={mt4.login} className="value-wrapper" onClick={onClick}>
-          <div className="header-block-middle">
-            {mt4.login}
+      singleOptionComponent={({ onClick, mt4 = {} }) => {
+        const notEnoughBalance = parseFloat(mt4.balance) < this.props.currentValues.amount;
+
+        return (
+          <div key={mt4.login} className="value-wrapper" onClick={notEnoughBalance ? () => {} : onClick}>
+            <div className="header-block-middle">
+              {mt4.login}
+              {notEnoughBalance &&
+                <span className="color-danger ml-2">
+                  {I18n.t('CLIENT_PROFILE.TRANSACTIONS.MODAL_CREATE.MT4_NO_MONEY')}
+                </span>
+              }
+            </div>
+            <div className="header-block-small">
+              {mt4.symbol}
+            </div>
           </div>
-          <div className="header-block-small">
-            {mt4.symbol}
-          </div>
-        </div>
-      )}
+        );
+      }}
     >
       {this.props.mt4Accounts.map(acc => (
         <option key={acc.login} value={acc.login} mt4={acc}>
@@ -182,7 +192,7 @@ class PaymentAddModal extends Component {
         </option>
       ))}
     </Field>
-  )
+  );
 
   render() {
     const {
@@ -353,7 +363,7 @@ const Form = reduxForm({
     };
 
     if (data.paymentType === paymentTypes.Withdraw
-        || data.paymentType === paymentTypes.Deposit) {
+      || data.paymentType === paymentTypes.Deposit) {
       rules = { ...rules, paymentAccountUuid: 'required|string' };
     }
 
