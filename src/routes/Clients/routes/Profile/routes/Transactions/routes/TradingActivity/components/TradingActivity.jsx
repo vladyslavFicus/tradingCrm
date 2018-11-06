@@ -1,9 +1,9 @@
 import React, { Component, Fragment } from 'react';
-import PropTypes from 'prop-types';
 import { get } from 'lodash';
 import { I18n } from 'react-redux-i18n';
-import { tradingActivityQuery } from '../../../../../../../../../graphql/queries/tradingActivity';
+import PropTypes from '../../../../../../../../../constants/propTypes';
 import GridView, { GridViewColumn } from '../../../../../../../../../components/GridView';
+import history from '../../../../../../../../../router/history';
 import FilterForm from './FilterForm';
 import { columns } from '../constants';
 
@@ -13,8 +13,11 @@ class TradingActivity extends Component {
     playerProfile: PropTypes.shape({
       playerProfile: PropTypes.object,
     }),
-    client: PropTypes.shape({
-      query: PropTypes.func.isRequired,
+    tradingActivity: PropTypes.shape({
+      loading: PropTypes.bool.isRequired,
+      clientTradingActivity: PropTypes.shape({
+        data: PropTypes.pageable(PropTypes.tradingActivity),
+      }),
     }).isRequired,
   };
 
@@ -22,104 +25,88 @@ class TradingActivity extends Component {
     playerProfile: {},
   };
 
-  state = {
-    tradingActivity: {},
-    mt4Accs: [],
+  componentWillUnmount() {
+    this.handleFilterReset();
   }
-
-  componentWillMount() {
-    const { playerProfile: { playerProfile } } = this.props;
-
-    if (this.props.playerProfile.playerProfile) {
-      const mt4Accs = get(playerProfile, 'data.tradingProfile.mt4Users') || [];
-      const loginIds = mt4Accs.map(item => item.login);
-
-      this.getTradingActivity({ loginIds });
-      this.setState({
-        mt4Accs,
-      });
-    }
-  }
-
-  componentWillReceiveProps = async (nextProps) => {
-    const { playerProfile: { playerProfile } } = this.props;
-    const { playerProfile: { playerProfile: nextPlayerProfile } } = nextProps;
-    if (!playerProfile && nextPlayerProfile) {
-      const mt4Accs = get(nextPlayerProfile, 'data.tradingProfile.mt4Users') || [];
-      const loginIds = mt4Accs.map(item => item.login);
-
-      this.getTradingActivity({ loginIds });
-      this.setState({
-        mt4Accs,
-      });
-    }
-  }
-
-  getTradingActivity = async (variables) => {
-    const { mt4Accs } = this.state;
-    const tradingActivity = await this.props.client.query({
-      query: tradingActivityQuery,
-      variables: {
-        ...variables,
-        ...(variables.loginIds && variables.loginIds.length > 0
-          ? { loginIds: variables.loginIds }
-          : { loginIds: mt4Accs.map(item => item.login) }),
-      },
-    });
-
-    this.setState({
-      tradingActivity,
-    });
-  };
 
   handlePageChanged = () => {
-    // need data to make this working
+    const {
+      tradingActivity: {
+        loadMore,
+        loading,
+      },
+    } = this.props;
+
+    if (!loading) {
+      loadMore();
+    }
   };
 
-  handleApplyFilters = (variables) => {
-    this.getTradingActivity(variables);
-  };
+  handleFilterReset = () => {
+    const { playerProfile } = this.props;
+    const loginIds = get(playerProfile, 'playerProfile.data.tradingProfile.mt4Users') || [];
+
+    history.replace({ query: { filters: { loginIds: loginIds.map(({ login }) => login) } } });
+  }
+
+  handleFiltersChanged = (filters = {}) => {
+    const { playerProfile } = this.props;
+    const loginIds = get(playerProfile, 'playerProfile.data.tradingProfile.mt4Users') || [];
+
+    history.replace({
+      query: {
+        filters: {
+          ...filters,
+          ...filters.loginIds
+            ? { loginIds: filters.loginIds }
+            : { loginIds: loginIds.map(({ login }) => login) },
+        },
+      },
+    });
+  }
 
   render() {
     const {
       locale,
+      tradingActivity,
+      tradingActivity: { loading },
+      playerProfile,
+      playerProfile: { loading: profileLoading },
     } = this.props;
 
-    const {
-      tradingActivity,
-      mt4Accs,
-    } = this.state;
+    const clientTradingActivity = get(tradingActivity, 'clientTradingActivity.data') || { content: [] };
+    const mt4Accs = get(playerProfile, 'playerProfile.data.tradingProfile.mt4Users') || [];
 
-    const clientTradingActivity = get(tradingActivity, 'data.clientTradingActivity') || {};
+    const profileError = get(playerProfile, 'playerProfile.error');
+    const error = get(tradingActivity, 'clientTradingActivity.error');
 
     return (
       <Fragment>
         <FilterForm
-          onSubmit={this.handleApplyFilters}
+          onSubmit={this.handleFiltersChanged}
+          onReset={this.handleFilterReset}
+          disabled={profileError || profileLoading}
           accounts={mt4Accs}
         />
-        <If condition={tradingActivity.loading !== undefined && !tradingActivity.loading}>
-          <div className="tab-wrapper">
-            <GridView
-              dataSource={clientTradingActivity.content}
-              onPageChange={this.handlePageChanged}
-              activePage={clientTradingActivity.number + 1}
-              totalPages={clientTradingActivity.totalPages}
-              lazyLoad
-              locale={locale}
-              showNoResults={clientTradingActivity.totalElements === 0}
-            >
-              { columns(I18n).map(({ name, header, render }) => (
-                <GridViewColumn
-                  key={name}
-                  name={name}
-                  header={header}
-                  render={render}
-                />
-              ))}
-            </GridView>
-          </div>
-        </If>
+        <div className="tab-wrapper">
+          <GridView
+            dataSource={clientTradingActivity.content}
+            onPageChange={this.handlePageChanged}
+            last={clientTradingActivity.last}
+            locale={locale}
+            showNoResults={error || (!loading && clientTradingActivity.totalElements === 0)}
+            lazyLoad
+          >
+            { columns(I18n).map(({ name, header, render }) => (
+              <GridViewColumn
+                key={name}
+                name={name}
+                header={header}
+                render={render}
+              />
+            ))}
+          </GridView>
+        </div>
       </Fragment>
     );
   }
