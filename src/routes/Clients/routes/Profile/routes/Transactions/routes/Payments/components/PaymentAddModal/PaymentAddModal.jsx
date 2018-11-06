@@ -38,7 +38,6 @@ class PaymentAddModal extends Component {
       paymentAccountUuid: PropTypes.string,
       fromMt4Acc: PropTypes.string,
       toMt4Acc: PropTypes.string,
-      mt4AccNoMoney: PropTypes.string,
     }),
     error: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.string, PropTypes.object])),
     playerLimits: PropTypes.shape({
