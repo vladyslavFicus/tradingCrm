@@ -154,7 +154,7 @@ class PaymentAddModal extends Component {
 
   renderMt4SelectField = (label, name, className) => (
     <Field
-      name={name || 'mt4Acc'}
+      name={name || 'login'}
       label={I18n.t(attributeLabels[label || 'fromMt4Acc'])}
       component={NasSelectField}
       placeholder={this.props.mt4Accounts.length === 0
@@ -263,7 +263,7 @@ class PaymentAddModal extends Component {
               <Choose>
                 <When condition={currentValues.paymentType === paymentTypes.Deposit}>
                   <Field
-                    name="paymentAccountUuid"
+                    name="paymentAccount"
                     label={attributeLabels.paymentAccount}
                     placeholder={I18n.t('PLAYER_PROFILE.TRANSACTIONS.MODAL_CREATE.CHOOSE_PAYMENT_ACCOUNT_LABEL')}
                     component={NasSelectField}
@@ -280,7 +280,7 @@ class PaymentAddModal extends Component {
                   <div className="col-auto arrow-icon-wrapper">
                     <i className="icon-arrow-down" />
                   </div>
-                  {this.renderMt4SelectField('toMt4Acc')}
+                  {this.renderMt4SelectField()}
                 </When>
                 <When condition={currentValues.paymentType === paymentTypes.Withdraw}>
                   {this.renderMt4SelectField()}
@@ -293,11 +293,11 @@ class PaymentAddModal extends Component {
                   {this.renderMt4SelectField('', '', 'col-6')}
                 </When>
                 <When condition={currentValues.paymentType === paymentTypes.Transfer}>
-                  {this.renderMt4SelectField('', 'fromMt4Acc')}
+                  {this.renderMt4SelectField('', 'source')}
                   <div className="col-auto arrow-icon-wrapper">
                     <i className="icon-arrow-down" />
                   </div>
-                  {this.renderMt4SelectField('toMt4Acc', 'toMt4Acc')}
+                  {this.renderMt4SelectField('toMt4Acc', 'target')}
                 </When>
               </Choose>
             </div>

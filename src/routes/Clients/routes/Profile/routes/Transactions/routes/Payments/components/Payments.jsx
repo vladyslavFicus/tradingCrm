@@ -208,7 +208,7 @@ class Payments extends Component {
   handleAddPayment = async (inputParams) => {
     const {
       addPayment,
-      match: { params: { id: playerUUID } },
+      match: { params: { id: profileId } },
       currencyCode,
       clientPayments: { refetch },
       playerProfile: { country, languageCode: language },
@@ -216,7 +216,7 @@ class Payments extends Component {
 
     const variables = {
       ...inputParams,
-      playerUUID,
+      profileId,
       country,
       language,
       currency: currencyCode,

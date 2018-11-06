@@ -895,7 +895,8 @@
         "CASH_BACK": "Cashback",
         "DEPOSIT": "Deposit",
         "WITHDRAW": "Withdraw",
-        "CONFISCATE": "Confiscate"
+        "CONFISCATE": "Confiscate",
+        "TRANSFER": "Transfer"
       }
     },
     "SUCCESS": "Success",

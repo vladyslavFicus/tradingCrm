@@ -97,6 +97,7 @@ const types = keyMirror({
   WITHDRAW_BY_PAYMENT_METHOD: null,
   Withdraw: null,
   Confiscate: null,
+  Transfer: null,
 });
 
 const customTypes = keyMirror({
@@ -154,6 +155,7 @@ const typesLabels = {
   [types.Deposit]: I18n.t('COMMON.PAYMENT.TYPE.DEPOSIT'),
   [types.Withdraw]: I18n.t('COMMON.PAYMENT.TYPE.WITHDRAW'),
   [types.Confiscate]: I18n.t('COMMON.PAYMENT.TYPE.CONFISCATE'),
+  [types.Transfer]: I18n.t('COMMON.PAYMENT.TYPE.TRANSFER'),
 };
 
 const typesProps = {
