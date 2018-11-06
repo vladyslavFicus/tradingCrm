@@ -41,7 +41,7 @@ export default compose(
       variables: {
         ...query ? query.filters : { playerUUID },
         page: 0,
-        limit: 5,
+        limit: 20,
       },
     }),
     props: ({ tradingActivity: { clientTradingActivity, fetchMore, ...rest } }) => {
