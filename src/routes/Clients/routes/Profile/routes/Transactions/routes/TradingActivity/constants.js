@@ -183,8 +183,8 @@ export const columns = i18n => [{
   header: i18n.t('CLIENT_PROFILE.TRADING_ACTIVITY.GRID_VIEW.OPEN_TIME'),
   render: ({ openTime }) => (
     <Fragment>
-      <div className="font-weight-700">{moment(openTime).format('DD.MM.YYYY')}</div>
-      <div className="font-size-11">{moment(openTime).format('HH:mm:ss')}</div>
+      <div className="font-weight-700">{moment(moment.unix(openTime)).format('DD.MM.YYYY')}</div>
+      <div className="font-size-11">{moment(moment.unix(openTime)).format('HH:mm:ss')}</div>
     </Fragment>
   ),
 }, {
@@ -192,9 +192,18 @@ export const columns = i18n => [{
   header: i18n.t('CLIENT_PROFILE.TRADING_ACTIVITY.GRID_VIEW.CLOSE_TIME'),
   render: ({ closeTime }) => (
     <Fragment>
-      <div className="font-weight-700">{closeTime ? moment(closeTime).format('DD.MM.YYYY') : '-'}</div>
+      <div className="font-weight-700">
+        <Choose>
+          <When condition={closeTime}>
+            {moment(moment.unix(closeTime)).format('DD.MM.YYYY')}
+          </When>
+          <Otherwise>
+            <span>&mdash;</span>
+          </Otherwise>
+        </Choose>
+      </div>
       <If condition={closeTime}>
-        <div className="font-size-11">{moment(closeTime).format('HH:mm:ss')}</div>
+        <div className="font-size-11">{moment(moment.unix(closeTime)).format('HH:mm:ss')}</div>
       </If>
     </Fragment>
   ),

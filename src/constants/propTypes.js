@@ -650,5 +650,32 @@ PropTypes.ruleType = PropTypes.shape({
   type: PropTypes.string,
   updatedBy: PropTypes.string,
 });
+PropTypes.tradingActivity = PropTypes.shape({
+  id: PropTypes.number.isRequired,
+  tradeId: PropTypes.number.isRequired,
+  login: PropTypes.number.isRequired,
+  symbol: PropTypes.string,
+  digits: PropTypes.number,
+  cmd: PropTypes.string,
+  volume: PropTypes.number,
+  openTime: PropTypes.number,
+  closeTime: PropTypes.number,
+  openPrice: PropTypes.number,
+  closePrice: PropTypes.number,
+  openRate: PropTypes.number,
+  closeRate: PropTypes.number,
+  stopLoss: PropTypes.number,
+  takeProfit: PropTypes.number,
+  expiration: PropTypes.number,
+  reason: PropTypes.string,
+  commission: PropTypes.number,
+  commissionAgent: PropTypes.number,
+  storage: PropTypes.number,
+  profit: PropTypes.number,
+  taxes: PropTypes.number,
+  magic: PropTypes.number,
+  comment: PropTypes.string,
+  timestamp: PropTypes.number,
+});
 
 export default PropTypes;

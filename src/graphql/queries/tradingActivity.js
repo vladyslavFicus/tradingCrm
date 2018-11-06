@@ -1,6 +1,7 @@
 import gql from 'graphql-tag';
 
 const tradingActivityQuery = gql`query clientTradingActivity(
+  $playerUUID: String,
   $tradeId: Int,
   $openTimeStart: String,
   $openTimeEnd: String,
@@ -18,6 +19,7 @@ const tradingActivityQuery = gql`query clientTradingActivity(
   $loginIds: [Int],
 ) {
   clientTradingActivity(
+    playerUUID: $playerUUID,
     tradeId: $tradeId,
     openTimeStart: $openTimeStart,
     openTimeEnd: $openTimeEnd,
@@ -33,39 +35,45 @@ const tradingActivityQuery = gql`query clientTradingActivity(
     page: $page,
     limit: $limit,
     loginIds: $loginIds,
-    ) {
-    page
-    number
-    totalElements
-    size
-    last
-      content {
-        id
-        tradeId
-        login
-        symbol
-        digits
-        cmd
-        volume
-        openTime
-        closeTime
-        openPrice
-        closePrice
-        openRate
-        closeRate
-        stopLoss
-        takeProfit
-        expiration
-        reason
-        commission
-        commissionAgent
-        storage
-        profit
-        taxes
-        magic
-        comment
-        timestamp
-      }
+  ) {
+    data {
+      page
+      number
+      totalElements
+      size
+      last
+        content {
+          id
+          tradeId
+          login
+          symbol
+          digits
+          cmd
+          volume
+          openTime
+          closeTime
+          openPrice
+          closePrice
+          openRate
+          closeRate
+          stopLoss
+          takeProfit
+          expiration
+          reason
+          commission
+          commissionAgent
+          storage
+          profit
+          taxes
+          magic
+          comment
+          timestamp
+        }
+    }
+    error {
+      error
+      fields_errors
+    }
   }
 }`;
 

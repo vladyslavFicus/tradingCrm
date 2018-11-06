@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { reduxForm, Field } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
+import moment from 'moment';
 import PropTypes from '../../../../../../../../../../constants/propTypes';
 import {
   InputField,
@@ -22,20 +23,16 @@ class FilterForm extends Component {
   static propTypes = {
     submitting: PropTypes.bool.isRequired,
     handleSubmit: PropTypes.func,
-    reset: PropTypes.func,
     change: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
     accounts: PropTypes.array,
+    onReset: PropTypes.func.isRequired,
+    disabled: PropTypes.bool.isRequired,
   };
 
   static defaultProps = {
     handleSubmit: null,
-    reset: null,
     accounts: [],
-  };
-
-  handleReset = () => {
-    this.props.reset();
   };
 
   handleApplyFilters = (values) => {
@@ -47,12 +44,17 @@ class FilterForm extends Component {
     this.props.onSubmit(variables);
   };
 
+  handleDataChange = (name, value) => {
+    this.props.change(name, value ? moment(value).format() : '');
+  }
+
   render() {
     const {
       submitting,
       handleSubmit,
       accounts,
-      change,
+      onReset,
+      disabled,
     } = this.props;
 
     return (
@@ -64,6 +66,7 @@ class FilterForm extends Component {
           placeholder={I18n.t(filterFormAttributeLabels.trade.placeholder)}
           component={InputField}
           className="filter-row__big"
+          disabled={disabled}
         />
         <Field
           name="loginIds"
@@ -72,6 +75,7 @@ class FilterForm extends Component {
           placeholder={I18n.t('COMMON.ALL')}
           multiple
           className="filter-row__medium"
+          disabled={disabled}
         >
           {accounts.map(acc => (
             <option key={acc.login} value={acc.login}>
@@ -84,6 +88,7 @@ class FilterForm extends Component {
           label={I18n.t(filterFormAttributeLabels.type)}
           component={SelectField}
           className="filter-row__medium"
+          disabled={disabled}
         >
           <option value="">{I18n.t('COMMON.ANY')}</option>
           {types.map(type => (
@@ -97,6 +102,7 @@ class FilterForm extends Component {
           label={I18n.t(filterFormAttributeLabels.symbol)}
           component={SelectField}
           className="filter-row__medium"
+          disabled={disabled}
         >
           <option value="">{I18n.t('COMMON.ANY')}</option>
           {symbols.map(symbol => (
@@ -114,12 +120,14 @@ class FilterForm extends Component {
             type="number"
             placeholder="0"
             component={InputField}
+            disabled={disabled}
           />
           <Field
             name="volumeTo"
             type="number"
             placeholder="0"
             component={InputField}
+            disabled={disabled}
           />
         </RangeGroup>
         <Field
@@ -127,6 +135,7 @@ class FilterForm extends Component {
           label={I18n.t(filterFormAttributeLabels.status)}
           component={SelectField}
           className="filter-row__medium"
+          disabled={disabled}
         >
           <option value="">{I18n.t('COMMON.ANY')}</option>
           {statuses.map(status => (
@@ -148,12 +157,13 @@ class FilterForm extends Component {
             customArrowIcon="-"
             keepOpenOnDateSelect
             firstDayOfWeek={1}
-            change={change}
+            change={this.handleDataChange}
             withTime
             periodKeys={{
               start: 'openTimeStart',
               end: 'openTimeEnd',
             }}
+            disabled={disabled}
           />
         </div>
         <div className="form-group filter-row__medium">
@@ -168,19 +178,20 @@ class FilterForm extends Component {
             customArrowIcon="-"
             keepOpenOnDateSelect
             firstDayOfWeek={1}
-            change={change}
+            change={this.handleDataChange}
             withTime
             periodKeys={{
               start: 'closeTimeStart',
               end: 'closeTimeEnd',
             }}
+            disabled={disabled}
           />
         </div>
         <div className="filter-row__button-block">
           <button
             disabled={submitting}
             className="btn btn-default"
-            onClick={this.handleReset}
+            onClick={onReset}
             type="reset"
           >
             {I18n.t('COMMON.RESET')}
