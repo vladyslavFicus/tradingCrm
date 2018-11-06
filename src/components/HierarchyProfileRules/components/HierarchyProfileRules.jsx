@@ -70,7 +70,7 @@ const HierarchyProfileRules = (title) => {
 
       const action = {
         parentBranch: id,
-        ruleType: actionRuleTypes.DEFAULT,
+        ruleType: actionRuleTypes.ROUND_ROBIN,
       };
       const { data: { rules: { createRule: { data, error } } } } = await createRule(
         {
