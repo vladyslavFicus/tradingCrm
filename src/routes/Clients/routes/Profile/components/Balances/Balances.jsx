@@ -33,6 +33,8 @@ class Balances extends Component {
       balance: PropTypes.string,
       equity: PropTypes.string,
       currency: PropTypes.string,
+      margin: PropTypes.number,
+      marginLevel: PropTypes.number,
     }),
     lastDeposit: PropTypes.string,
     lastWithdraw: PropTypes.string,
@@ -45,7 +47,7 @@ class Balances extends Component {
     selectValue: null,
     lastDeposit: null,
     lastWithdraw: null,
-  }
+  };
 
   state = {
     dropDownOpen: false,
@@ -67,7 +69,7 @@ class Balances extends Component {
   renderDropDown = (
     dropDownOpen,
     statistic,
-    { currency, balance, equity }
+    { currency, balance, equity, margin, marginLevel }
   ) => {
     const { lastDeposit, lastWithdraw, paymentStatistic: { loading } } = this.props;
     const { depositCount, withdrawCount } = statistic;
@@ -89,6 +91,12 @@ class Balances extends Component {
             </div>
             <div className="header-block-small">
               {I18n.t('CLIENT_PROFILE.PROFILE.HEADER.EQUITY')}: {currency} {Number(equity).toFixed(2)}
+            </div>
+            <div className="header-block-small">
+              {I18n.t('CLIENT_PROFILE.PROFILE.HEADER.MARGIN')}: {currency} {Number(margin).toFixed(2)}
+            </div>
+            <div className="header-block-small">
+              {I18n.t('CLIENT_PROFILE.PROFILE.HEADER.MARGIN_LEVEL')}: {currency} {Number(marginLevel).toFixed(2)}
             </div>
           </div>
         </DropdownToggle>
@@ -141,7 +149,7 @@ class Balances extends Component {
         </DropdownMenu>
       </Dropdown>
     );
-  }
+  };
 
   render() {
     const { dropDownOpen } = this.state;

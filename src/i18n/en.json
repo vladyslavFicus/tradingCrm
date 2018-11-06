@@ -2620,7 +2620,9 @@
       "TITLE": "Profile",
       "HEADER": {
         "EQUITY": "Equity",
-        "TRADING_VOLUME": "Trading volume"
+        "TRADING_VOLUME": "Trading volume",
+        "MARGIN": "Margin",
+        "MARGIN_LEVEL": "Margin level"
       }
     },
     "TRADING_ACTIVITY": {
