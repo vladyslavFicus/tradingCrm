@@ -1,0 +1,49 @@
+.header-block_player-limits {
+  padding-left: 0;
+  &-tab {
+    padding-left: 1.2rem;
+    cursor: pointer;
+    &_status {
+      font-size: 13px;
+      font-weight: 600;
+      color: #333;
+      &_is-locked {
+        text-transform: uppercase;
+        color: #CC0000;
+      }
+      &_is-allowed {
+        text-transform: uppercase;
+        color: #009900;
+      }
+    }
+    &_log {
+      font-size: 11px;
+    }
+  }
+}
+
+.limits-info {
+  padding: .75rem 1.2rem;
+  border-top: 1px solid #eee;
+  cursor: default;
+  .locks-container {
+    .limits-info_tab {
+      margin-bottom: 10px;
+    }
+  }
+  &_tab {
+    display: flex;
+    align-items: center;
+    &-content {
+      line-height: 1.2;
+    }
+    &-action {
+      margin-left: 10px;
+    }
+  }
+}
+
+.player-limits-actions {
+  flex-wrap: nowrap;
+  padding: 1rem 1.2rem;
+}

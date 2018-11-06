@@ -1,0 +1,13 @@
+.DS_STORE
+*.log
+tests/test-results.xml
+node_modules/
+bower_components/
+
+dist
+coverage
+
+.vscode/
+.idea/
+package-lock.json
+yarn.lock

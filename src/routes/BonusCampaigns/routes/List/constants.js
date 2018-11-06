@@ -1,0 +1,22 @@
+import I18n from '../../../../utils/fake-i18n';
+
+const attributeLabels = {
+  searchBy: I18n.t('BONUS_CAMPAIGNS.FILTER_FORM.SEARCH_BY'),
+  fulfillmentType: I18n.t('BONUS_CAMPAIGNS.FILTER_FORM.FULFILLMENT_TYPE'),
+  depositNumber: I18n.t('BONUS_CAMPAIGNS.FILTER_FORM.DEPOSIT_NUMBER'),
+  state: I18n.t('BONUS_CAMPAIGNS.FILTER_FORM.STATUS'),
+  optIn: I18n.t('BONUS_CAMPAIGNS.FILTER_FORM.OPT_IN'),
+  creationDate: I18n.t('BONUS_CAMPAIGNS.FILTER_FORM.CREATION_DATE'),
+  creationDateFrom: I18n.t('BONUS_CAMPAIGNS.FILTER_FORM.CREATION_DATE_FROM'),
+  creationDateTo: I18n.t('BONUS_CAMPAIGNS.FILTER_FORM.CREATION_DATE_TO'),
+  activityDate: I18n.t('BONUS_CAMPAIGNS.FILTER_FORM.ACTIVITY_DATE'),
+  activityDateFrom: I18n.t('BONUS_CAMPAIGNS.FILTER_FORM.ACTIVITY_DATE_FROM'),
+  activityDateTo: I18n.t('BONUS_CAMPAIGNS.FILTER_FORM.ACTIVITY_DATE_TO'),
+  promoCode: I18n.t('BONUS_CAMPAIGNS.FILTER_FORM.PROMO_CODE'),
+};
+const placeholders = {
+  searchBy: I18n.t('BONUS_CAMPAIGNS.FILTER_FORM.SEARCH_BY_PLACEHOLDER'),
+};
+
+
+export { attributeLabels, placeholders };

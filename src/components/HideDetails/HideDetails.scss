@@ -1,0 +1,11 @@
+.hide-details {
+  align-items: center;
+  &__divider {
+    border-top: 1px solid #eee;
+  }
+  &__action {
+    text-decoration: underline;
+    font-size: 11px;
+    color: #999;
+  }
+}

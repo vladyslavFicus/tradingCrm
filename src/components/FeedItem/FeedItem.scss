@@ -1,0 +1,78 @@
+@import "../../styles/variables";
+
+.feed-item {
+  display: flex;
+  align-items: flex-start;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  &__content-wrapper {
+    flex: 1;
+  }
+  &__heading {
+    line-height: 1.2;
+  }
+  &__status {
+    font-size: 14px;
+    font-weight: 700;
+    &.red {
+      color: red;
+    }
+    &.blue {
+      color: #003399;
+    }
+    &.green {
+      color: #009900;
+    }
+  }
+  &__uuid {
+    font-size: 11px;
+    color: #999;
+  }
+  &__author {
+    font-size: 13px;
+  }
+  &__author-name {
+    font-weight: 700;
+    &.blue {
+      color: $color-primary;
+    }
+  }
+  &__creation-date {
+    display: inline-block;
+    font-size: 11px;
+    color: #666;
+  }
+  &__collapse {
+    display: inline-block;
+    margin-left: 5px;
+    padding: 0;
+    border: none;
+    background: none;
+    text-decoration: underline;
+    font-size: 11px;
+    color: #666;
+    i {
+      display: inline-block;
+      margin-left: 4px;
+      vertical-align: middle;
+    }
+  }
+  &__content {
+    margin-top: 5px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    background-color: #f8fafd;
+    font-size: 12px;
+    line-height: 1.4;
+  }
+  &__content-value {
+    margin-left: 3px;
+    font-weight: 700;
+  }
+  &__rejection {
+    margin-top: 10px;
+    font-style: italic;
+    color: #000;
+  }
+}

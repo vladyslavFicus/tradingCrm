@@ -1,0 +1,30 @@
+.acquisition-status {
+  display: flex;
+  flex-direction: column;
+  .acquisition-item {
+    width: 100%;
+    display: flex;
+    align-items: flex-end;
+    border: solid 1px #cfcfcf;
+    border-radius: 5px;
+    padding: 5px 10px;
+    font-size: 12px;
+    font-weight: 700;
+    .status-col {
+      flex: 1 0 auto;
+      text-align: left;
+      text-transform: uppercase;
+      .status {
+        font-size: 15px;
+        font-weight: 600;
+      }
+    }
+    .operator-col {
+      flex: 1 0 auto;
+      text-align: right;
+      .name {
+        font-weight: 400;
+      }
+    }
+  }
+}
