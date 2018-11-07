@@ -2659,7 +2659,8 @@
         "PAYMENT_ACCOUNT": "",
         "EXTERNAL_REF": "",
         "FROM_MT4": "",
-        "TO_MT4": ""
+        "TO_MT4": "",
+        "MT4_NO_MONEY": ""
       }
     }
   },
