@@ -36,7 +36,7 @@ if (project.env === 'development') {
     _.set(appConfig, 'market', process.env.NAS_MARKET);
   }
 
-  app.use('/api', proxy(_.get(appConfig, 'nas.brand.api.url')));
+  app.use('/api', proxy(_.get(appConfig, 'nas.brand.api.url'), { limit: '10mb' }));
 
   logger.info('Enabling webpack development and HMR middleware');
   app.use(require('webpack-dev-middleware')(compiler, {
