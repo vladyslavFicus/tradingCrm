@@ -1,6 +1,7 @@
 import gql from 'graphql-tag';
 
 const tradingActivityQuery = gql`query clientTradingActivity(
+  $profileId: String!,
   $playerUUID: String,
   $tradeId: Int,
   $openTimeStart: String,
@@ -19,6 +20,7 @@ const tradingActivityQuery = gql`query clientTradingActivity(
   $loginIds: [Int],
 ) {
   clientTradingActivity(
+    profileId: $profileId,
     playerUUID: $playerUUID,
     tradeId: $tradeId,
     openTimeStart: $openTimeStart,
