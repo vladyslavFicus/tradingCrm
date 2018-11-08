@@ -24,6 +24,8 @@ const ContactForm = ({
       initialValues={{
         phone: contactData.phone,
         phoneCode: contactData.phoneCode,
+        phone2: contactData.phone2,
+        phoneCode2: contactData.phoneCode2,
       }}
     />
     <EmailForm
@@ -49,6 +51,8 @@ ContactForm.propTypes = {
   contactData: PropTypes.shape({
     phoneCode: PropTypes.string,
     phone: PropTypes.string,
+    phoneCode2: PropTypes.string,
+    phone2: PropTypes.string,
     email: PropTypes.string,
   }),
   phoneCodes: PropTypes.arrayOf(PropTypes.string).isRequired,

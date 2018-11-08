@@ -13,6 +13,8 @@ const FORM_NAME = 'updateProfilePhone';
 const attributeLabels = {
   phone: I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.LABEL.PHONE'),
   phoneCode: I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.LABEL.PHONE_CODE'),
+  AltPhone: I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.LABEL.ALT_PHONE'),
+  AltPhoneCode: I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.LABEL.YOUR_ALT_PHONE'),
 };
 
 class PhoneForm extends Component {
@@ -26,10 +28,14 @@ class PhoneForm extends Component {
     initialValues: PropTypes.shape({
       phoneCode: PropTypes.string,
       phone: PropTypes.string,
+      phoneCode2: PropTypes.string,
+      phone2: PropTypes.string,
     }),
     currentValues: PropTypes.shape({
       phoneCode: PropTypes.string,
       phone: PropTypes.string,
+      phoneCode2: PropTypes.string,
+      phone2: PropTypes.string,
     }),
     phoneCodes: PropTypes.arrayOf(PropTypes.string).isRequired,
     onVerifyPhoneClick: PropTypes.func.isRequired,
@@ -124,6 +130,28 @@ class PhoneForm extends Component {
             </div>
           </If>
         </div>
+        <div className="form-row">
+          <Field
+            type="text"
+            name="phoneCode2"
+            component={SelectField}
+            label={attributeLabels.AltPhone}
+            disabled={disabled}
+            className="col-3"
+          >
+            <option value="">{I18n.t('COMMON.SELECT_OPTION.DEFAULT')}</option>
+            {phoneCodes.map(code => <option key={code} value={code}>+{code}</option>)}
+          </Field>
+          <Field
+            type="text"
+            name="phone2"
+            component={InputField}
+            label=" "
+            disabled={disabled}
+            placeholder={attributeLabels.AltPhoneCode}
+            className="col-5"
+          />
+        </div>
       </form>
     );
   }
@@ -139,6 +167,8 @@ export default compose(
     validate: createValidator({
       phone: 'required|numeric',
       phoneCode: 'required|numeric',
+      phone2: 'required|numeric',
+      phoneCode2: 'required|numeric',
     }, attributeLabels, false),
     enableReinitialize: true,
   }),

@@ -127,9 +127,9 @@ class View extends Component {
 
   handleUpdatePhone = async (data) => {
     const { match: { params }, updatePhone } = this.props;
-    const { phone, phoneCode } = data;
+    const { phone, phoneCode, phone2, phoneCode2 } = data;
 
-    const action = await updatePhone(params.id, { phone, phoneCode });
+    const action = await updatePhone(params.id, { phone, phoneCode, phone2, phoneCode2 });
 
     if (action) {
       this.context.addNotification({
@@ -210,7 +210,7 @@ class View extends Component {
         reason: data[`${kycCategories.KYC_ADDRESS}_reason`],
       });
     }
-    
+
     if (unsavedNote) {
       this.context.onAddNote({ variables: { ...unsavedNote, targetUUID: playerUUID } });
     }
