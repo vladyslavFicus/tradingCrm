@@ -1,3 +1,5 @@
+require('./dotenv');
+
 const PORT = process.env.PORT || 3000;
 const logger = require('../lib/logger');
 
