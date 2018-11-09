@@ -292,6 +292,8 @@ const clientQuery = gql`query profileData($playerUUID: String!){
           balance
           equity
           symbol
+          leverage
+          name
         }
         firstDepositDate
         lastDepositDate
