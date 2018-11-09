@@ -40,6 +40,7 @@ class List extends Component {
     }).isRequired,
     modals: PropTypes.shape({
       representativeModal: PropTypes.modalType,
+      moveModal: PropTypes.modalType,
     }).isRequired,
     userBranchHierarchy: PropTypes.shape({
       hierarchy: PropTypes.shape({
@@ -65,6 +66,7 @@ class List extends Component {
       loading: PropTypes.bool.isRequired,
     }).isRequired,
     bulkRepresentativeUpdate: PropTypes.func.isRequired,
+    profileBulkUpdate: PropTypes.func.isRequired,
   };
 
   static contextTypes = {
@@ -119,7 +121,7 @@ class List extends Component {
       if (error) {
         notify({
           level: 'error',
-          title: I18n.t('COMMON.PROMOTE_FAILED'),
+          title: I18n.t('COMMON.BULK_UPDATE_FAILED'),
           message: I18n.t('COMMON.SOMETHING_WRONG'),
         });
 
@@ -137,7 +139,7 @@ class List extends Component {
       if (error) {
         notify({
           level: 'error',
-          title: I18n.t('COMMON.PROMOTE_FAILED'),
+          title: I18n.t('COMMON.BULK_UPDATE_FAILED'),
           message: I18n.t('COMMON.SOMETHING_WRONG'),
         });
 
@@ -211,9 +213,21 @@ class List extends Component {
     const {
       modals: { representativeModal },
       userBranchHierarchy: { hierarchy: { userBranchHierarchy: { data: { DESK } } } },
-      agents: { hierarchy: { hierarchyUsersByType: { data: { [`${type}_AGENT`]: agents } } } },
+      agents: { hierarchy: { hierarchyUsersByType: { data: {
+        [`${type}_AGENT`]: agents,
+        [`${type}_HOD`]: hods,
+        [`${type}_MANAGER`]: managers,
+        [`${type}_LEAD`]: leads,
+      } } } },
     } = this.props;
     const { selectedRows } = this.state;
+
+    const operators = [
+      ...agents || [],
+      ...hods || [],
+      ...managers || [],
+      ...leads || [],
+    ];
 
     const desks = DESK ? DESK.filter(({ deskType }) => deskType === deskTypes[type]) : [];
 
@@ -221,13 +235,13 @@ class List extends Component {
       onSubmit: values => this.handleUpdateRepresentative(type, values),
       i18nPrefix: `${type}_MODAL`,
       clientsSelected: selectedRows.length,
+      agents: operators,
       desks,
-      agents: agents || [],
       type,
     });
   };
 
-  handleUpdateRepresentative = async (type, { deskId, repId, status }) => {
+  handleUpdateRepresentative = async (type, { teamId, repId, status }) => {
     const {
       notify,
       bulkRepresentativeUpdate,
@@ -243,28 +257,32 @@ class List extends Component {
 
     const { data: { clients: { bulkRepresentativeUpdate: { error } } } } = await bulkRepresentativeUpdate({
       variables: {
-        deskId,
+        teamId,
         type,
-        [type === deskTypes.SALES ? 'salesStatus' : 'retentionStatus']: status,
-        [type === deskTypes.SALES ? 'salesRep' : 'retentionRep']: repId,
-        ...query && { searchParams: { ...query.filters } },
         allRowsSelected,
         totalElements,
         ids,
+        ...(type === deskTypes.SALES
+          ? { salesStatus: status, salesRep: repId }
+          : { retentionStatus: status, retentionRep: repId }),
+        ...query && { searchParams: { ...query.filters } },
       },
     });
 
     if (error) {
       notify({
         level: 'error',
-        title: I18n.t('COMMON.PROMOTE_FAILED'),
+        title: I18n.t('COMMON.BULK_UPDATE_FAILED'),
         message: I18n.t('COMMON.SOMETHING_WRONG'),
       });
     } else {
       refetch({
         variables: {
-          ...query && query.filters,
+          ...query ? query.filters : { registrationDateFrom: moment().startOf('day').utc().format() },
+          page: 1,
+          size: 20,
         },
+        fetchPolicy: 'network-only',
       });
       notify({
         level: 'success',
@@ -273,9 +291,78 @@ class List extends Component {
           ? I18n.t('CLIENTS.SALES_INFO_UPDATED')
           : I18n.t('CLIENTS.RETENTION_INFO_UPDATED'),
       });
+      this.setState({
+        selectedRows: [],
+        allRowsSelected: false,
+        touchedRowsIds: [],
+      });
     }
     representativeModal.hide();
   };
+
+  handleTriggerMoveModal = () => {
+    const { modals: { moveModal } } = this.props;
+    const { selectedRows } = this.state;
+
+    moveModal.show({
+      onSubmit: this.handleBulkMove,
+      clientsSelected: selectedRows.length,
+    });
+  }
+
+  handleBulkMove = async (values) => {
+    const {
+      notify,
+      profileBulkUpdate,
+      location: { query },
+      profiles: { refetch, profiles: { data: { content, totalElements } } },
+      modals: { moveModal },
+    } = this.props;
+
+    const { allRowsSelected, selectedRows, touchedRowsIds } = this.state;
+    const ids = allRowsSelected
+      ? touchedRowsIds.map(index => content[index].playerUUID)
+      : selectedRows;
+
+    const { data: { clients: { profileBulkUpdate: { error } } } } = await profileBulkUpdate({
+      variables: {
+        allRowsSelected,
+        totalElements,
+        ids,
+        ...values,
+        ...query && { searchParams: { ...query.filters } },
+      },
+    });
+
+    if (error) {
+      notify({
+        level: 'error',
+        title: I18n.t('COMMON.BULK_UPDATE_FAILED'),
+        message: I18n.t('COMMON.SOMETHING_WRONG'),
+      });
+    } else {
+      refetch({
+        variables: {
+          ...query ? query.filters : { registrationDateFrom: moment().startOf('day').utc().format() },
+          page: 1,
+          size: 20,
+        },
+        fetchPolicy: 'network-only',
+      });
+      notify({
+        level: 'success',
+        title: I18n.t('COMMON.SUCCESS'),
+        message: I18n.t('CLIENTS.ACQUISITION_STATUS_UPDATED'),
+      });
+      this.setState({
+        selectedRows: [],
+        allRowsSelected: false,
+        touchedRowsIds: [],
+      });
+    }
+
+    moveModal.hide();
+  }
 
   render() {
     const {
@@ -360,7 +447,7 @@ class List extends Component {
                 </button>
                 <button
                   className="btn btn-default-outline"
-                  onClick={this.handleMoveClients}
+                  onClick={this.handleTriggerMoveModal}
                 >
                   {I18n.t('COMMON.MOVE')}
                 </button>

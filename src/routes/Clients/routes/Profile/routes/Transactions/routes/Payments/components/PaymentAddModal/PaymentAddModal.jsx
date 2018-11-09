@@ -296,7 +296,7 @@ class PaymentAddModal extends Component {
                   <div className="col-auto arrow-icon-wrapper">
                     <i className="icon-arrow-down" />
                   </div>
-                  {this.renderMt4SelectField()}
+                  {this.renderMt4SelectField('toMt4Acc')}
                 </When>
                 <When condition={currentValues.paymentType === paymentTypes.Withdraw}>
                   {this.renderMt4SelectField()}
