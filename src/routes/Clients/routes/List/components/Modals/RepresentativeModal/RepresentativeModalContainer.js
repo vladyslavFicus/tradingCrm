@@ -16,6 +16,7 @@ export default compose(
     validate: (values, { desks, agents, i18nPrefix }) => createValidator({
       deskId: [`in:,${desks.map(({ uuid }) => uuid).join()}`],
       repId: [`in:,${agents.map(({ uuid }) => uuid).join()}`],
+      teamId: ['string'],
       status: [`in:,${[...Object.values(salesStatusValues), ...Object.values(retentionStatusValues)].join()}`],
     }, translateLabels(attributeLabels(i18nPrefix)), false)(values),
   }),

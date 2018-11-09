@@ -77,6 +77,36 @@ const getHierarchyUsersByType = gql`query getHierarchyUsersByType(
           userType
           fullName
         }
+        SALES_HOD {
+          uuid
+          userType
+          fullName
+        }
+        SALES_MANAGER {
+          uuid
+          userType
+          fullName
+        }
+        SALES_LEAD {
+          uuid
+          userType
+          fullName
+        }
+        RETENTION_HOD {
+          uuid
+          userType
+          fullName
+        }
+        RETENTION_MANAGER {
+          uuid
+          userType
+          fullName
+        }
+        RETENTION_LEAD {
+          uuid
+          userType
+          fullName
+        }
       }
     } 
   }
@@ -186,10 +216,38 @@ const getUsersByBranch = gql`query getUsersByBranch(
   }
 }`;
 
+const getBranchChildren = gql`query getBranchChildren(
+  $uuid: String!,
+) {
+  hierarchy {
+    branchChildren (
+      uuid: $uuid,
+    ) {
+      error {
+        error
+        fields_errors
+      }
+      data {
+        uuid
+        name
+        branchType
+        country
+        defaultUser
+        parentBranches
+        deskType
+        language
+        defaultBranch
+      }
+    }
+  }
+}`;
+
+
 export {
   getUserBranchHierarchy,
   getHierarchyUsersByType,
   getBranchInfo,
   getBranchHierarchy,
   getUsersByBranch,
+  getBranchChildren,
 };

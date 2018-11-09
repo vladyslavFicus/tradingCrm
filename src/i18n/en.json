@@ -939,7 +939,12 @@
     "SOMETHING_WRONG": "Something went wrong",
     "LANGUAGE": "Language",
     "UNTIL": "Until",
-    "ON": "On"
+    "ON": "On",
+    "BULK_UPDATE_FAILED": "Bulk update failed",
+    "AQUISITION_STATUSES": {
+      "SALES": "Sales",
+      "RETENTION": "Retention"
+    }
   },
   "FILES": {
     "UPLOAD_MODAL": {
@@ -2749,6 +2754,7 @@
     "BULK_ACTIONS": "Bulk actions",
     "RETENTION_INFO_UPDATED": "Clients retention info updated",
     "SALES_INFO_UPDATED": "Clients sales info updated",
+    "ACQUISITION_STATUS_UPDATED": "Acquisition status updated",
     "LIST": {
       "GRID_HEADER": {
         "CLIENT": "Client",
@@ -2764,6 +2770,11 @@
     },
     "MODALS": {
       "SUBMIT": "Apply changes",
+      "TEAM": "Team",
+      "MOVE_MODAL": {
+        "MOVE_HEADER": "Move",
+        "MOVE_LABEL": "Move to"
+      },
       "SALES_MODAL": {
         "HEADER": "Bulk action - Sales",
         "DESK": "Sales Desk",

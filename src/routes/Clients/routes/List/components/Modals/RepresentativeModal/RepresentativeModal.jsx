@@ -7,7 +7,11 @@ import { deskTypes } from '../../../../../../../constants/hierarchyTypes';
 import { salesStatuses, salesStatusValues } from '../../../../../../../constants/salesStatuses';
 import { retentionStatuses, retentionStatusValues } from '../../../../../../../constants/retentionStatuses';
 import { NasSelectField } from '../../../../../../../components/ReduxForm';
-import { getUsersByBranch, getUserBranchHierarchy } from '../../../../../../../graphql/queries/hierarchy';
+import {
+  getUsersByBranch,
+  getUserBranchHierarchy,
+  getBranchChildren,
+} from '../../../../../../../graphql/queries/hierarchy';
 import Select from '../../../../../../../components/Select';
 import renderLabel from '../../../../../../../utils/renderLabel';
 import attributeLabels from './constants';
@@ -41,22 +45,63 @@ class RepresentativeModal extends Component {
     this.state = {
       selectedDesk: '',
       selectedRep: '',
+      selectedTeam: '',
       agentsLoading: false,
       deskLoading: false,
+      teamsLoading: false,
       desks: props.desks,
       agents: props.agents,
+      teams: [],
     };
   }
 
   handleDeskChange = async (selectedDesk) => {
     this.setState({
-      agentsLoading: true,
+      teamsLoading: true,
+    });
+    const { selectedTeam, selectedRep } = this.state;
+
+    const { data: { hierarchy: { branchChildren: { data: teams, error } } } } = await this.props.client.query({
+      query: getBranchChildren,
+      variables: { uuid: selectedDesk },
     });
 
-    const { data: { hierarchy: { usersByBranch: { data, error } } } } = await this.props.client.query({
+    if (error) {
+      throw new SubmissionError({ _error: error.error });
+    }
+
+    this.setState({
+      teams: teams || [],
+      selectedDesk,
+      teamsLoading: false,
+      ...(selectedTeam && { selectedTeam: '' }),
+      ...(selectedRep && { selectedRep: '' }),
+    }, () => {
+      this.props.change('deskId', selectedDesk);
+
+      if (selectedTeam) {
+        this.props.change('teamId', null);
+      } else if (teams && teams.length === 1) {
+        this.props.change('teamId', teams[0].uuid);
+      }
+
+      if (selectedRep) {
+        this.props.change('repId', null);
+      }
+    });
+  }
+
+  handleTeamChange = async (selectedTeam) => {
+    this.setState({
+      agentsLoading: true,
+    });
+    const { client } = this.props;
+    const { selectedRep } = this.state;
+
+    const { data: { hierarchy: { usersByBranch: { data, error } } } } = await client.query({
       query: getUsersByBranch,
       variables: {
-        uuid: selectedDesk,
+        uuid: selectedTeam,
       },
     });
 
@@ -66,39 +111,47 @@ class RepresentativeModal extends Component {
 
     this.setState({
       agents: data || [],
-      selectedDesk,
+      selectedTeam,
       agentsLoading: false,
-    }, () => this.props.change('deskId', selectedDesk));
+    }, () => {
+      this.props.change('teamId', selectedTeam);
+
+      if (selectedRep) {
+        this.props.change('repId', null);
+      }
+
+      if (data && data.length === 1) {
+        this.props.change('repId', data[0].uuid);
+      }
+    });
   }
 
   handleRepChange = async (selectedRep) => {
-    const { type } = this.props;
     this.setState({
-      deskLoading: true,
+      teamsLoading: true,
     });
+    const { selectedTeam } = this.state;
 
-    const { data: { hierarchy: { userBranchHierarchy: { data: { DESK }, error } } } } = await this.props.client.query({
+    const { data: { hierarchy: { userBranchHierarchy: { data: { TEAM }, error } } } } = await this.props.client.query({
       query: getUserBranchHierarchy,
       variables: { userId: selectedRep },
     });
-    const desks = DESK ? DESK.filter(({ deskType }) => deskType === type) : [];
+
+    const teams = TEAM || null;
 
     if (error) {
       throw new SubmissionError({ _error: error.error });
     }
 
     this.setState({
-      desks,
       selectedRep,
-      deskLoading: false,
-      ...(!this.state.selectedDesk && desks.length === 1 && { selectedDesk: desks[0].uuid }),
+      teamsLoading: false,
+      ...(!selectedTeam && teams && teams.length === 1 && { selectedTeam: teams[0].uuid }),
     }, () => {
       this.props.change('repId', selectedRep);
-      if (desks.length === 1) {
-        this.props.change('deskId', desks[0].uuid);
-      } else if (desks.length !== 0) {
-        const defaultDesk = desks.find(({ isDefault }) => isDefault);
-        this.props.change('deskId', defaultDesk ? defaultDesk.uuid : desks[0].uuid);
+
+      if (teams && teams.length === 1) {
+        this.props.change('teamId', teams[0].uuid);
       }
     });
   }
@@ -121,10 +174,13 @@ class RepresentativeModal extends Component {
     const {
       selectedDesk,
       selectedRep,
+      selectedTeam,
       agentsLoading,
       deskLoading,
+      teamsLoading,
       desks,
       agents,
+      teams,
     } = this.state;
 
     return (
@@ -150,11 +206,31 @@ class RepresentativeModal extends Component {
           <Select
             value={selectedDesk}
             customClassName="form-group"
-            placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
-            disabled={deskLoading || submitting}
+            placeholder={!deskLoading && desks.length === 0
+              ? I18n.t('COMMON.SELECT_OPTION.NO_ITEMS')
+              : I18n.t('COMMON.SELECT_OPTION.DEFAULT')
+            }
+            disabled={deskLoading || desks.length === 0 || submitting}
             onChange={this.handleDeskChange}
           >
             {desks.map(({ name, uuid }) => (
+              <option key={uuid} value={uuid}>
+                {name}
+              </option>
+            ))}
+          </Select>
+          <span className="font-weight-600">{I18n.t(attributeLabels(i18nPrefix).team)}</span>
+          <Select
+            value={selectedTeam}
+            customClassName="form-group"
+            placeholder={selectedDesk && !teamsLoading && teams.length === 0
+              ? I18n.t('COMMON.SELECT_OPTION.NO_ITEMS')
+              : I18n.t('COMMON.SELECT_OPTION.DEFAULT')
+            }
+            disabled={!selectedDesk || teamsLoading || teams.length === 0 || submitting}
+            onChange={this.handleTeamChange}
+          >
+            {teams.map(({ name, uuid }) => (
               <option key={uuid} value={uuid}>
                 {name}
               </option>
@@ -164,8 +240,11 @@ class RepresentativeModal extends Component {
           <Select
             value={selectedRep}
             customClassName="form-group"
-            placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
-            disabled={agentsLoading || submitting}
+            placeholder={!agentsLoading && agents.length === 0
+              ? I18n.t('COMMON.SELECT_OPTION.NO_ITEMS')
+              : I18n.t('COMMON.SELECT_OPTION.DEFAULT')
+            }
+            disabled={agentsLoading || agents.length === 0 || submitting}
             onChange={this.handleRepChange}
           >
             {agents.map(({ fullName, uuid }) => (

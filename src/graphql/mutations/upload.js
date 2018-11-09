@@ -12,25 +12,23 @@ const leadCsvUpload = gql`mutation singleFileUpload(
         fields_errors
       }
       data {
-        leads {
-          id
-          brandId
-          name
-          surname
-          phone
-          mobile
-          status
-          email
-          country
-          source
-          salesAgent
-          salesStatus
-          birthDate
-          affiliate
-          gender
-          city
-          language
-        }
+        id
+        brandId
+        name
+        surname
+        phone
+        mobile
+        status
+        email
+        country
+        source
+        salesAgent
+        salesStatus
+        birthDate
+        affiliate
+        gender
+        city
+        language
       }
     }
   }
