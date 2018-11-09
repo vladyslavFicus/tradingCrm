@@ -5,11 +5,16 @@ import { I18n } from 'react-redux-i18n';
 export default [{
   name: 'tradingAcc',
   header: I18n.t('CLIENT_PROFILE.ACCOUNTS.GRID_COLUMNS.TRADING_ACC'),
-  render: ({ login }) => <div className="font-weight-700">{login}</div>,
-}, {
-  name: 'server',
-  header: I18n.t('CLIENT_PROFILE.ACCOUNTS.GRID_COLUMNS.SERVER'),
-  render: () => <div className="font-weight-700">MT4 Live</div>,
+  render: ({ name, login }) => (
+    <Fragment>
+      <div className="font-weight-700">
+        {name}
+      </div>
+      <div className="font-size-11">
+        MT4ID - {login}
+      </div>
+    </Fragment>
+  ),
 }, {
   name: 'balance',
   header: I18n.t('CLIENT_PROFILE.ACCOUNTS.GRID_COLUMNS.BALANCE/EQUITY'),
@@ -23,4 +28,12 @@ export default [{
       </div>
     </Fragment>
   ),
-}]
+}, {
+  name: 'leverage',
+  header: I18n.t('CLIENT_PROFILE.ACCOUNTS.GRID_COLUMNS.LEVERAGE'),
+  render: ({ leverage }) => <div className="font-weight-700">{leverage}</div>,
+}, {
+  name: 'server',
+  header: I18n.t('CLIENT_PROFILE.ACCOUNTS.GRID_COLUMNS.SERVER'),
+  render: () => <div className="font-weight-700">MT4 Live</div>,
+}];

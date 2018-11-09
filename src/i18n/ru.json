@@ -2573,7 +2573,8 @@
       "GRID_COLUMNS": {
         "TRADING_ACC": "",
         "SERVER": "",
-        "BALANCE/EQUITY": ""
+        "BALANCE/EQUITY": "",
+        "LEVERAGE": ""
       },
       "ADD_TRADING_ACC": ""
     },
