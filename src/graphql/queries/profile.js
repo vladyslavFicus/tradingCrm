@@ -133,6 +133,7 @@ const clientsQuery = gql`query getProfiles(
           languageCode
           profileStatus
           profileStatusDate
+          registrationDate
           tradingProfile {
             isTestUser
             aquisitionRep {

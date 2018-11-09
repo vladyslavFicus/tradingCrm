@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { I18n } from 'react-redux-i18n';
 import { get, uniq } from 'lodash';
+import moment from 'moment';
 import { TextRow } from 'react-placeholder/lib/placeholders';
 import UserGridFilter from './UserGridFilter';
 import history from '../../../../../router/history';
@@ -161,14 +162,16 @@ class List extends Component {
         },
       },
     }));
-  }
+  };
 
   handleFilterReset = () => {
+    const registrationDateFrom = moment().startOf('day').utc().format();
+
     this.setState({
       allRowsSelected: false,
       selectedRows: [],
       touchedRowsIds: [],
-    }, () => history.replace({ query: { filters: {} } }));
+    }, () => history.replace({ query: { filters: { registrationDateFrom } } }));
   };
 
   handlePlayerClick = (data) => {
