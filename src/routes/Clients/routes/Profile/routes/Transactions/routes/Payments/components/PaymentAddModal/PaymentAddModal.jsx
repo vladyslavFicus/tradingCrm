@@ -152,14 +152,19 @@ class PaymentAddModal extends Component {
     );
   };
 
-  renderMt4SelectOption = ({ onClick, mt4 = {} }) => {
-    const notEnoughBalance = parseFloat(mt4.balance) < this.props.currentValues.amount;
+  renderMt4SelectOption = name => ({ onClick, mt4 = {} }) => {
+    const { currentValues: { paymentType, amount } } = this.props;
+    const notEnoughBalance = parseFloat(mt4.balance) < amount;
 
     return (
-      <div key={mt4.login} className="value-wrapper" onClick={notEnoughBalance ? () => {} : onClick}>
+      <div
+        key={mt4.login}
+        className="value-wrapper"
+        onClick={notEnoughBalance && paymentType !== paymentTypes.Deposit && name !== 'target' ? () => {} : onClick}
+      >
         <div className="header-block-middle">
           {mt4.login}
-          <If condition={notEnoughBalance}>
+          <If condition={paymentType === paymentTypes.Deposit || name === 'target' ? false : notEnoughBalance}>
             <span className="color-danger ml-2">
               {I18n.t('CLIENT_PROFILE.TRANSACTIONS.MODAL_CREATE.MT4_NO_MONEY')}
             </span>
@@ -185,7 +190,7 @@ class PaymentAddModal extends Component {
       className={`${className || 'col'} select-field-wrapper`}
       searchable={false}
       showErrorMessage={false}
-      singleOptionComponent={this.renderMt4SelectOption}
+      singleOptionComponent={this.renderMt4SelectOption(name)}
     >
       {this.props.mt4Accounts.map(acc => (
         <option key={acc.login} value={acc.login} mt4={acc}>
