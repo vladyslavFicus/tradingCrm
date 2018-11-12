@@ -28,6 +28,8 @@ const profileQuery = gql`query profileData($playerUUID: String!){
         amount
         currency
       }
+      phone2
+      phoneCode2
       age
       profileVerified
       currency

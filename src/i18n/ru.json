@@ -86,7 +86,9 @@
         "VERIFY_EMAIL": "Подтвердить email",
         "LABEL": {
           "PHONE": "Телефон",
-          "PHONE_CODE": "Код"
+          "PHONE_CODE": "Код",
+          "ALT_PHONE": "Альт телефон",
+          "YOUR_ALT_PHONE": "Альтеративный телефон"
         }
       },
       "PERSONAL": {

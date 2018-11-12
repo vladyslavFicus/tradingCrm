@@ -812,6 +812,8 @@ const actionHandlers = {
     data: {
       ...state.data,
       ...payload,
+      phone2: payload.phone2 || null,
+      phoneCode2: payload.phoneCode2 || null,
     },
     isLoading: false,
     receivedAt: endRequestTime,

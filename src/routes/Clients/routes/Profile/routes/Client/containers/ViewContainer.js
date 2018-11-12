@@ -19,6 +19,8 @@ const mapStateToProps = ({
     email,
     phone,
     phoneCode,
+    phone2,
+    phoneCode2,
     title,
     firstName,
     lastName,
@@ -40,7 +42,7 @@ const mapStateToProps = ({
     addressData: {
       country, city, postCode, address,
     },
-    contactData: { email, phone, phoneCode },
+    contactData: { email, phone, phoneCode, phone2, phoneCode2 },
     canRefuseAll: (
       (profile.data.kycPersonalStatus && profile.data.kycPersonalStatus.status === kycStatuses.VERIFIED) ||
       (profile.data.kycAddressStatus && profile.data.kycAddressStatus.status === kycStatuses.VERIFIED)
