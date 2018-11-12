@@ -5,13 +5,16 @@ import { I18n } from 'react-redux-i18n';
 export default [{
   name: 'tradingAcc',
   header: I18n.t('CLIENT_PROFILE.ACCOUNTS.GRID_COLUMNS.TRADING_ACC'),
-  render: ({ name, login }) => (
+  render: ({ name, login, group }) => (
     <Fragment>
       <div className="font-weight-700">
         {name}
       </div>
       <div className="font-size-11">
         MT4ID - {login}
+      </div>
+      <div className="font-size-11">
+        {group}
       </div>
     </Fragment>
   ),

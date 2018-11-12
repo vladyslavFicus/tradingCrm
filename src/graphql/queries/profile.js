@@ -296,6 +296,7 @@ const clientQuery = gql`query profileData($playerUUID: String!){
           symbol
           leverage
           name
+          group
         }
         firstDepositDate
         lastDepositDate
