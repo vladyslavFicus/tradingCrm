@@ -1,32 +1,16 @@
 import React, { Component } from 'react';
 import moment from 'moment';
+import { withApollo, compose } from 'react-apollo';
 import { connect } from 'react-redux';
 import { getFormValues } from 'redux-form';
-import { I18n } from 'react-redux-i18n';
+import { isEqual } from 'lodash';
 import PropTypes from '../../../../../constants/propTypes';
-import { createValidator } from '../../../../../utils/validator';
 import { statusesLabels, filterLabels } from '../../../../../constants/user';
-import createDynamicForm, { FilterItem, FilterField, TYPES, SIZES } from '../../../../../components/DynamicFilters';
+import { FilterItem, FilterField, TYPES, SIZES } from '../../../../../components/DynamicFilters';
 import { floatNormalize } from '../../../../../utils/inputNormalize';
-import { acquisitionStatuses } from './constants';
-
-const FORM_NAME = 'userListGridFilter';
-const DynamicFilters = createDynamicForm({
-  form: FORM_NAME,
-  touchOnChange: true,
-  validate: (_, props) => createValidator({
-    keyword: 'string',
-    country: `in:,${Object.keys(props.countries).join()}`,
-    status: 'string',
-    acquisitionStatus: 'string',
-    teams: 'string',
-    desks: 'string',
-    registrationDateFrom: 'regex:/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/',
-    registrationDateTo: 'regex:/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/',
-    tradingBalanceFrom: 'integer',
-    tradingBalanceFromTo: 'integer',
-  }, filterLabels, false),
-});
+import I18n from '../../../../../utils/i18n';
+import { getBranchChildren } from '../../../../../graphql/queries/hierarchy';
+import { acquisitionStatuses, DynamicFilters, FORM_NAME, ANY, fieldNames } from './constants';
 
 class UserGridFilter extends Component {
   static propTypes = {
@@ -52,12 +36,29 @@ class UserGridFilter extends Component {
     teams: PropTypes.arrayOf(PropTypes.hierarchyBranch).isRequired,
     desks: PropTypes.arrayOf(PropTypes.hierarchyBranch).isRequired,
     branchesLoading: PropTypes.bool.isRequired,
+    client: PropTypes.object.isRequired,
   };
 
   static defaultProps = {
     currentValues: {},
     disabled: false,
   };
+
+  state = {
+    teams: this.props.teams,
+    teamLoading: false,
+    isDeskSelected: false,
+  };
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (!prevState.isDeskSelected && !isEqual(nextProps.teams, prevState.teams)) {
+      return {
+        teams: nextProps.teams,
+      };
+    }
+
+    return null;
+  }
 
   startDateValidator = toAttribute => (current) => {
     const { currentValues } = this.props;
@@ -75,6 +76,46 @@ class UserGridFilter extends Component {
       : true;
   };
 
+  handleFieldChange = async (fieldName, value, formChange) => {
+    const { client } = this.props;
+
+    switch (fieldName) {
+      case fieldNames.desks: {
+        this.setState({ teamLoading: true });
+        let teams = null;
+        let isDeskSelected = false;
+
+        if (value) {
+          const { data: { hierarchy: { branchChildren: { data: deskTeams, error } } } } = await client.query({
+            query: getBranchChildren,
+            variables: { uuid: value },
+          });
+
+          if (!error) {
+            teams = deskTeams;
+          }
+          isDeskSelected = true;
+        }
+
+        this.setState(
+          {
+            ...(teams && { teams }),
+            isDeskSelected,
+            teamLoading: false,
+          },
+          value ? null : () => formChange(fieldNames.teams, null),
+        );
+
+        break;
+      }
+
+      default:
+        break;
+    }
+
+    formChange(fieldName, value || null);
+  }
+
   render() {
     const {
       onSubmit,
@@ -82,10 +123,14 @@ class UserGridFilter extends Component {
       disabled,
       currencies,
       countries,
-      teams,
       desks,
       branchesLoading,
     } = this.props;
+
+    const {
+      teams,
+      teamLoading,
+    } = this.state;
 
     return (
       <DynamicFilters
@@ -124,14 +169,17 @@ class UserGridFilter extends Component {
           label={I18n.t(filterLabels.desks)}
           size={SIZES.medium}
           type={TYPES.nas_select}
-          placeholder={I18n.t('COMMON.SELECT_OPTION.NO_ITEMS')}
+          placeholder={(!branchesLoading && desks.length === 0)
+            ? I18n.t('COMMON.SELECT_OPTION.NO_ITEMS')
+            : I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
           disabled={branchesLoading}
+          onFieldChange={this.handleFieldChange}
           default
         >
           <FilterField name="desks">
-            {desks.map(({ uuid, name }) => (
-              <option key={uuid} value={uuid}>
-                {name}
+            {[ANY, ...desks].map(({ uuid, name }) => (
+              <option key={uuid || name} value={uuid}>
+                {I18n.t(name)}
               </option>
             ))}
           </FilterField>
@@ -141,14 +189,17 @@ class UserGridFilter extends Component {
           label={I18n.t(filterLabels.teams)}
           size={SIZES.medium}
           type={TYPES.nas_select}
-          placeholder={I18n.t('COMMON.SELECT_OPTION.NO_ITEMS')}
-          disabled={branchesLoading}
+          placeholder={((!branchesLoading || !teamLoading) && teams.length === 0)
+            ? I18n.t('COMMON.SELECT_OPTION.NO_ITEMS')
+            : I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
+          disabled={branchesLoading || teamLoading}
+          onFieldChange={this.handleFieldChange}
           default
         >
           <FilterField name="teams">
-            {teams.map(({ uuid, name }) => (
-              <option key={uuid} value={uuid}>
-                {name}
+            {[ANY, ...teams].map(({ uuid, name }) => (
+              <option key={uuid || name} value={uuid}>
+                {I18n.t(name)}
               </option>
             ))}
           </FilterField>
@@ -234,7 +285,10 @@ class UserGridFilter extends Component {
   }
 }
 
-export default connect(state => ({
-  form: FORM_NAME,
-  currentValues: getFormValues(FORM_NAME)(state),
-}))(UserGridFilter);
+export default compose(
+  withApollo,
+  connect(state => ({
+    form: FORM_NAME,
+    currentValues: getFormValues(FORM_NAME)(state),
+  })),
+)(UserGridFilter);

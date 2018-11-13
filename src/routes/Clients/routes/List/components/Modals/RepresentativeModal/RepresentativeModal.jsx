@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Field, SubmissionError } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
+import { isEqual } from 'lodash';
 import PropTypes from '../../../../../../../constants/propTypes';
 import { deskTypes } from '../../../../../../../constants/hierarchyTypes';
 import { salesStatuses, salesStatusValues } from '../../../../../../../constants/salesStatuses';
@@ -39,20 +40,28 @@ class RepresentativeModal extends Component {
     error: null,
   };
 
-  constructor(props) {
-    super(props);
+  state = {
+    selectedDesk: '',
+    selectedRep: '',
+    selectedTeam: '',
+    agentsLoading: false,
+    deskLoading: false,
+    teamsLoading: false,
+    desks: this.props.desks,
+    agents: this.props.agents,
+    teams: [],
+  };
 
-    this.state = {
-      selectedDesk: '',
-      selectedRep: '',
-      selectedTeam: '',
-      agentsLoading: false,
-      deskLoading: false,
-      teamsLoading: false,
-      desks: props.desks,
-      agents: props.agents,
-      teams: [],
-    };
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (!isEqual(nextProps.desks, prevState.desks)) {
+      return {
+        agents: nextProps.agents,
+        desks: nextProps.desks,
+        teams: [],
+      };
+    }
+
+    return null;
   }
 
   handleDeskChange = async (selectedDesk) => {

@@ -69,12 +69,14 @@ class NasSelectField extends Component {
       optionsHeader,
       searchable,
       singleOptionComponent,
+      onFieldChange,
       id,
     } = props;
 
     let inputField = (
       <Select
         {...input}
+        onChange={onFieldChange || input.onChange}
         placeholder={placeholder}
         showSearch={searchable}
         optionsHeader={optionsHeader}

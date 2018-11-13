@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { I18n } from 'react-redux-i18n';
-import { get, uniq } from 'lodash';
+import { get } from 'lodash';
 import moment from 'moment';
 import { TextRow } from 'react-placeholder/lib/placeholders';
 import UserGridFilter from './UserGridFilter';
@@ -115,7 +115,7 @@ class List extends Component {
     if (filters.desks) {
       const { data: { hierarchy: { usersByBranch: { data, error } } } } = await client.query({
         query: getUsersByBranch,
-        variables: { uuid: filters.desks },
+        variables: { uuid: filters.teams || filters.desks },
       });
 
       if (error) {
@@ -127,10 +127,8 @@ class List extends Component {
 
         return;
       }
-      hierarchyData = [...hierarchyData, ...data.map(({ uuid }) => uuid)];
-    }
-
-    if (filters.teams) {
+      hierarchyData = data.map(({ uuid }) => uuid);
+    } else if (filters.teams) {
       const { data: { hierarchy: { usersByBranch: { data, error } } } } = await client.query({
         query: getUsersByBranch,
         variables: { uuid: filters.teams },
@@ -145,7 +143,7 @@ class List extends Component {
 
         return;
       }
-      hierarchyData = [...hierarchyData, ...data.map(({ uuid }) => uuid)];
+      hierarchyData = data.map(({ uuid }) => uuid);
     }
 
     this.setState({
@@ -159,7 +157,7 @@ class List extends Component {
           ...((filters.teams || filters.desks) && {
             teams: null,
             desks: null,
-            repIds: uniq(hierarchyData),
+            repIds: hierarchyData,
           }),
         },
       },
