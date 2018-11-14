@@ -14,7 +14,7 @@ const DynamicFilters = createDynamicForm({
   form: FORM_NAME,
   touchOnChange: true,
   validate: (_, props) => createValidator({
-    nameOrEmailOrId: 'string',
+    searchKeyword: 'string',
     country: `in:,${Object.keys(props.countries).join()}`,
     status: 'string',
     teams: 'string',
@@ -27,7 +27,7 @@ const DynamicFilters = createDynamicForm({
 class UserGridFilter extends Component {
   static propTypes = {
     currentValues: PropTypes.shape({
-      nameOrEmailOrId: PropTypes.string,
+      searchKeyword: PropTypes.string,
       country: PropTypes.string,
       status: PropTypes.string,
       desks: PropTypes.string,
@@ -83,8 +83,8 @@ class UserGridFilter extends Component {
         <FilterItem label={I18n.t(filterLabels.searchValue)} size={SIZES.big} type={TYPES.input} default>
           <FilterField
             id="users-list-search-field"
-            name="nameOrEmailOrId"
-            placeholder="Name, email, ID..."
+            name="searchKeyword"
+            placeholder="Name, email, phone number, ID..."
             type="text"
           />
         </FilterItem>

@@ -2,7 +2,7 @@ import gql from 'graphql-tag';
 
 const leadsQuery = gql`query getLeads(
   $ids: [String],
-  $nameOrEmailOrId: String,
+  $searchKeyword: String,
   $registrationDateStart: String,
   $registrationDateEnd: String,
   $page: Int,
@@ -12,7 +12,7 @@ const leadsQuery = gql`query getLeads(
 ) {
   leads (
     ids: $ids,
-    nameOrEmailOrId: $nameOrEmailOrId,
+    searchKeyword: $searchKeyword,
     registrationDateStart: $registrationDateStart,
     registrationDateEnd: $registrationDateEnd,
     limit: $limit,
