@@ -2746,6 +2746,14 @@
         "SERVER": "Server",
         "BALANCE/EQUITY": "Balance / Equity",
         "LEVERAGE": "Leverage"
+      },
+      "MODAL_CREATE": {
+        "TITLE": "New trading account",
+        "NAME_LABEL": "Account name",
+        "MODE_LABEL": "Account type",
+        "CURRENCY_LABEL": "Currency",
+        "PASSWORD_LABEL": "Password",
+        "SUCCESSFULLY_CREATED": "Trading account have been successfully created"
       }
     }
   },
@@ -2887,7 +2895,13 @@
     },
     "TABS": {
       "RULES": {
-        "TITLE": "Office rules"
+        "TITLE": "Office rules",
+        "MODAL": {
+          "RULE_TYPES": {
+            "CLIENT": "",
+            "LEAD": ""
+          }
+        }
       }
     }
   },
@@ -3030,7 +3044,7 @@
     "MANUAL_COOLOFF": "Manual Cooloff"
   },
   "CALLBACKS": {
-    "CALLBACKS" : "Callbacks",
+    "CALLBACKS": "Callbacks",
     "CALLBACKS_FOUND": "Callbacks found",
     "GRID_HEADER": {
       "ID": "Callback ID",
@@ -3174,7 +3188,11 @@
           "tagsPlaceholder": "Enter tag",
           "name": "Title",
           "tag": "Tag",
-          "file": "CSV file"
+          "file": "CSV file",
+          "filePlaceholder": ""
+        },
+        "AddTagModal": {
+          "title": ""
         }
       }
     }

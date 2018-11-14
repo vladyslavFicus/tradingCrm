@@ -25,7 +25,7 @@ class NasSelectField extends Component {
     disabled: PropTypes.bool,
     meta: PropTypes.shape({
       touched: PropTypes.bool,
-      error: PropTypes.string,
+      error: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
     }).isRequired,
     inputAddon: PropTypes.oneOfType([
       PropTypes.string,
