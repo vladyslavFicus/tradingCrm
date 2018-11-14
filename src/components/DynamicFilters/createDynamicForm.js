@@ -150,6 +150,11 @@ class DynamicForm extends Component {
     }
   };
 
+  handleFilterValueChange = ({ name, onFieldChange }) => (value) => {
+    const { change } = this.props;
+    onFieldChange(name, value, change);
+  }
+
   renderFilter = (filter) => {
     let input;
     const { className } = this.props;
@@ -172,6 +177,7 @@ class DynamicForm extends Component {
           position="vertical"
           disabled={filter.disabled}
           placeholder={filter.placeholder}
+          {...(filter.onFieldChange && { onFieldChange: this.handleFilterValueChange(filter) })}
           {...filter.inputs[0]}
           labelAddon={removeButton}
         />
