@@ -3,6 +3,7 @@ import { I18n } from 'react-redux-i18n';
 import { get } from 'lodash';
 import PropTypes from '../../../../../../../../../constants/propTypes';
 import GridView, { GridViewColumn } from '../../../../../../../../../components/GridView';
+import ActionsDropDown from '../../../../../../../../../components/ActionsDropDown';
 import columns from './utils';
 
 class View extends PureComponent {
@@ -17,6 +18,7 @@ class View extends PureComponent {
     locale: PropTypes.string.isRequired,
     modals: PropTypes.shape({
       tradingAccountAddModal: PropTypes.modalType,
+      tradingAccountChangePasswordModal: PropTypes.modalType,
     }).isRequired,
   };
 
@@ -47,6 +49,17 @@ class View extends PureComponent {
     });
   };
 
+  renderActions = ({ login }) => (
+    <ActionsDropDown
+      items={[
+        {
+          label: I18n.t('CLIENT_PROFILE.ACCOUNTS.ACTIONS_DROPDOWN.CHANGE_PASSWORD'),
+          onClick: () => this.props.modals.tradingAccountChangePasswordModal.show({ login }),
+        },
+      ]}
+    />
+  );
+
   render() {
     const {
       playerProfile,
@@ -71,6 +84,11 @@ class View extends PureComponent {
               render={render}
             />
           ))}
+          <GridViewColumn
+            name="actions"
+            headerStyle={{ width: '5%' }}
+            render={this.renderActions}
+          />
         </GridView>
       </div>
     );

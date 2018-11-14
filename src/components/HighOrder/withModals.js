@@ -34,7 +34,7 @@ function createWithModals(modals) {
           <Fragment>
             <WrappedComponent {...this.props} modals={this.modalProps} />
             <For of={Object.keys(modals)} each="modal">
-              <If condition={!this.state[modal].initial}>
+              <If condition={this.state[modal].isOpen}>
                 {React.createElement(modals[modal], {
                   ...this.state[modal].data,
                   key: modal,

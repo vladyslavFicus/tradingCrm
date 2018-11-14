@@ -35,14 +35,12 @@ class TradingAccountAddModal extends PureComponent {
   onSubmit = async (data) => {
     const { profileId, createTradingAccount, notify, onCloseModal, onConfirm } = this.props;
 
-    const response = await createTradingAccount({
+    const { data: { tradingAccount: { create: { success } } } } = await createTradingAccount({
       variables: {
         ...data,
         profileId,
       },
     });
-
-    const { success } = response.data.tradingAccount.create;
 
     notify({
       level: success ? 'success' : 'error',
