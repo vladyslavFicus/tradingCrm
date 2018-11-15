@@ -20,6 +20,18 @@ const createTradingAccountMutation = gql`mutation createTradingAccount(
   }
 }`;
 
+const tradingAccountChangePasswordMutation = gql`mutation tradingAccountChangePassword(
+  $login: String!
+  $password: String!
+) {
+  tradingAccount {
+    changePassword(login: $login, password: $password) {
+      success
+    }
+  }
+}`;
+
 export {
   createTradingAccountMutation,
+  tradingAccountChangePasswordMutation,
 };

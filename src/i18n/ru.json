@@ -2641,6 +2641,15 @@
         "PASSWORD_LABEL": "",
         "TITLE": "",
         "SUCCESSFULLY_CREATED": ""
+      },
+      "ACTIONS_DROPDOWN": {
+        "CHANGE_PASSWORD": ""
+      },
+      "MODAL_CHANGE_PASSWORD": {
+        "TITLE": "",
+        "SUCCESSFULLY_CHANGED": "",
+        "NEW_PASSWORD": "",
+        "REPEAT_PASSWORD": ""
       }
     },
     "TRADING_ACTIVITY": {
