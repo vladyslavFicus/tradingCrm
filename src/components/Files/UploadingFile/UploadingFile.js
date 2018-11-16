@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import fileSize from 'filesize';
 import { Field } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
+import { InputField, NasSelectField } from '../../../components/ReduxForm';
 import NoteButton from '../../../components/NoteButton';
 import { targetTypes as noteTargetTypes } from '../../../constants/note';
 import { categoriesLabels } from '../../../constants/files';
@@ -107,11 +108,10 @@ class UploadingFile extends Component {
         <td className={`${blockName}__row-number`}>{number}.</td>
         <td className={`${blockName}__row-name`}>
           <Field
-            name={`${data.id}[name]`}
-            component="input"
+            name={`${data.id}.name`}
+            component={InputField}
             type="text"
             placeholder={I18n.t('FILES.UPLOAD_MODAL.FILE.TITLE_PLACEHOLDER')}
-            className="form-control"
           />
           <div className="font-size-11">
             <div title={data.file.name} className="font-weight-700">
@@ -126,8 +126,12 @@ class UploadingFile extends Component {
           targetType === targetTypes.FILES &&
           <td className={`${blockName}__row-category`}>
             <div className="form-group">
-              <Field name={`${data.id}[category]`} component="select" className="form-control">
-                <option>{I18n.t('FILES.UPLOAD_MODAL.FILE.CATEGORY_DEFAULT_OPTION')}</option>
+              <Field
+                name={`${data.id}.category`}
+                component={NasSelectField}
+                searchable={false}
+                placeholder={I18n.t('FILES.UPLOAD_MODAL.FILE.CATEGORY_DEFAULT_OPTION')}
+              >
                 {Object.keys(categoriesLabels).map(item => (
                   <option key={item} value={item}>{categoriesLabels[item]}</option>
                 ))}

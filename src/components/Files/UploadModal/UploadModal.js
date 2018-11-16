@@ -111,7 +111,6 @@ class UploadModal extends Component {
       },
       onClose,
       uploading,
-      invalid,
       submitting,
       handleSubmit,
       maxFileSize,
@@ -160,7 +159,7 @@ class UploadModal extends Component {
           <button
             type="submit"
             form="upload-modal-form"
-            disabled={submitting || invalid || uploading.length === 0 || uploading.some(i => i.uploading)}
+            disabled={submitting || uploading.length === 0 || uploading.some(i => i.uploading)}
             className="btn btn-primary"
           >
             {I18n.t('COMMON.BUTTONS.CONFIRM')}
@@ -175,17 +174,27 @@ const FORM_NAME = 'userUploadModal';
 
 export default reduxForm({
   form: FORM_NAME,
+  enableReinitialize: true,
+  keepDirtyOnReinitialize: true,
   validate: (data) => {
-    const rules = {};
+    const translatedLabels = translateLabels(attributeLabels);
 
-    Object.keys(data).map(i => (
-      rules[i] = {
+    const rules = {};
+    const labels = {};
+
+    Object.keys(data).forEach((id) => {
+      // Collect rules by field id. Example: { 'asod-as12-...': { name: ['required'] } }
+      rules[id] = {
         name: ['required', 'string', 'min:3'],
         category: ['required', 'string', `in:${Object.keys(categories).join()}`],
-      }
-    ));
+      };
 
-    return createValidator(rules, translateLabels(attributeLabels), false)(data);
+      // Collect labels by field id. Example: { 'asod-as12-123f.name': 'Name', 'asod-as12-123f.content': 'File' }
+      Object.keys(translatedLabels).forEach((key) => {
+        labels[`${id}.${key}`] = translatedLabels[key];
+      });
+    });
+
+    return createValidator(rules, labels, false)(data);
   },
-  enableReinitialize: true,
 })(UploadModal);
