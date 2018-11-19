@@ -1,53 +1,47 @@
 import React, { Component, Fragment } from 'react';
+import Transition from 'react-transition-group/Transition';
 
-function createWithModals(modals) {
-  return function withModals(WrappedComponent) {
-    return class Modals extends Component {
-      constructor(props, context) {
-        super(props, context);
-        this.state = Object.keys(modals)
-          .reduce((acc, curr) => ({ ...acc, [curr]: { isOpen: false, initial: true, data: {} } }), {});
-      }
+const DEFAULT_MODAL_TIMEOUT = 100;
 
-      get modalProps() {
-        return Object.keys(modals)
-          .reduce((acc, curr) => ({
-            ...acc,
-            [curr]: {
-              show: modalData => this.handleOpen(curr, modalData),
-              hide: () => this.handleClose(curr),
-              isOpen: this.state[curr].isOpen,
-            },
-          }), {});
-      }
+export default modals => WrappedComponent => class Modals extends Component {
+  state = Object.keys(modals).reduce((acc, curr) => ({ ...acc, [curr]: { isOpen: false, data: {} } }), {});
 
-      handleClose = (modal) => {
-        this.setState({ [modal]: { ...this.state[modal], isOpen: false } });
-      };
+  get modalProps() {
+    return Object.keys(modals)
+      .reduce((acc, curr) => ({
+        ...acc,
+        [curr]: {
+          show: modalData => this.handleOpen(curr, modalData),
+          hide: () => this.handleClose(curr),
+          isOpen: this.state[curr].isOpen,
+        },
+      }), {});
+  }
 
-      handleOpen = (modal, modalData) => {
-        this.setState({ [modal]: { isOpen: true, initial: false, data: modalData } });
-      };
+  handleOpen = (modal, modalData) => this.setState({ [modal]: { isOpen: true, data: modalData } });
 
-      render() {
-        return (
-          <Fragment>
-            <WrappedComponent {...this.props} modals={this.modalProps} />
-            <For of={Object.keys(modals)} each="modal">
-              <If condition={this.state[modal].isOpen}>
-                {React.createElement(modals[modal], {
-                  ...this.state[modal].data,
-                  key: modal,
-                  isOpen: this.state[modal].isOpen,
-                  onCloseModal: () => this.handleClose(modal),
-                })}
-              </If>
-            </For>
-          </Fragment>
-        );
-      }
-    };
-  };
-}
+  handleClose = modal => this.setState({ [modal]: { ...this.state[modal], isOpen: false } });
 
-export default createWithModals;
+  render() {
+    return (
+      <Fragment>
+        <WrappedComponent {...this.props} modals={this.modalProps} />
+        <For of={Object.keys(modals)} each="modal">
+          <Transition
+            mountOnEnter
+            unmountOnExit
+            key={modal}
+            in={this.state[modal].isOpen}
+            timeout={this.state[modal].timeout || DEFAULT_MODAL_TIMEOUT}
+          >
+            {() => React.createElement(modals[modal], {
+                ...this.state[modal].data,
+                isOpen: this.state[modal].isOpen,
+                onCloseModal: () => this.handleClose(modal),
+              })}
+          </Transition>
+        </For>
+      </Fragment>
+    );
+  }
+};
