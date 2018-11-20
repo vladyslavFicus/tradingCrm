@@ -1,0 +1,3 @@
+import RepresentativeUpdateModalContainer from './RepresentativeUpdateModalContainer';
+
+export default RepresentativeUpdateModalContainer;

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { I18n } from 'react-redux-i18n';
 import { get } from 'lodash';
 import moment from 'moment';
@@ -47,25 +47,13 @@ class List extends Component {
         userBranchHierarchy: PropTypes.shape({
           data: PropTypes.shape({
             DESK: PropTypes.arrayOf(PropTypes.branchHierarchyType),
+            TEAM: PropTypes.arrayOf(PropTypes.branchHierarchyType),
           }),
           error: PropTypes.object,
         }),
       }),
       loading: PropTypes.bool.isRequired,
     }).isRequired,
-    agents: PropTypes.shape({
-      hierarchy: PropTypes.shape({
-        hierarchyUsersByType: PropTypes.shape({
-          data: PropTypes.shape({
-            SALES_AGENT: PropTypes.arrayOf(PropTypes.userHierarchyType),
-            RETENTION_AGENT: PropTypes.arrayOf(PropTypes.userHierarchyType),
-          }),
-          error: PropTypes.object,
-        }),
-      }),
-      loading: PropTypes.bool.isRequired,
-    }).isRequired,
-    bulkRepresentativeUpdate: PropTypes.func.isRequired,
     profileBulkUpdate: PropTypes.func.isRequired,
   };
 
@@ -210,42 +198,8 @@ class List extends Component {
   handleTriggerRepModal = type => () => {
     const {
       modals: { representativeModal },
-      userBranchHierarchy: { hierarchy: { userBranchHierarchy: { data: { DESK } } } },
-      agents: { hierarchy: { hierarchyUsersByType: { data: {
-        [`${type}_AGENT`]: agents,
-        [`${type}_HOD`]: hods,
-        [`${type}_MANAGER`]: managers,
-        [`${type}_LEAD`]: leads,
-      } } } },
-    } = this.props;
-    const { selectedRows } = this.state;
-
-    const operators = [
-      ...agents || [],
-      ...hods || [],
-      ...managers || [],
-      ...leads || [],
-    ];
-
-    const desks = DESK ? DESK.filter(({ deskType }) => deskType === deskTypes[type]) : [];
-
-    representativeModal.show({
-      onSubmit: values => this.handleUpdateRepresentative(type, values),
-      i18nPrefix: `${type}_MODAL`,
-      clientsSelected: selectedRows.length,
-      agents: operators,
-      desks,
-      type,
-    });
-  };
-
-  handleUpdateRepresentative = async (type, { teamId, repId, status }) => {
-    const {
-      notify,
-      bulkRepresentativeUpdate,
       location: { query },
-      profiles: { refetch, profiles: { data: { content, totalElements } } },
-      modals: { representativeModal },
+      profiles: { profiles: { data: { content, totalElements } } },
     } = this.props;
 
     const { allRowsSelected, selectedRows, touchedRowsIds } = this.state;
@@ -253,49 +207,43 @@ class List extends Component {
       ? touchedRowsIds.map(index => content[index].playerUUID)
       : selectedRows;
 
-    const { data: { clients: { bulkRepresentativeUpdate: { error } } } } = await bulkRepresentativeUpdate({
-      variables: {
-        teamId,
-        type,
+    representativeModal.show({
+      type,
+      ids,
+      props: {
         allRowsSelected,
         totalElements,
-        ids,
-        ...(type === deskTypes.SALES
-          ? { salesStatus: status, salesRep: repId }
-          : { retentionStatus: status, retentionRep: repId }),
         ...query && { searchParams: { ...query.filters } },
       },
+      onSuccess: this.handleSuccessUpdateRepresentative,
+      header: (
+        <Fragment>
+          <div>{I18n.t(`CLIENTS.MODALS.${type}_MODAL.HEADER`)}</div>
+          <div className="font-size-11 color-yellow">{selectedRows.length}{' '}{I18n.t('COMMON.CLIENTS_SELECTED')}</div>
+        </Fragment>
+      ),
     });
+  };
 
-    if (error) {
-      notify({
-        level: 'error',
-        title: I18n.t('COMMON.BULK_UPDATE_FAILED'),
-        message: I18n.t('COMMON.SOMETHING_WRONG'),
-      });
-    } else {
-      refetch({
-        variables: {
-          ...query ? query.filters : { registrationDateFrom: moment().startOf('day').utc().format() },
-          page: 1,
-          size: 20,
-        },
-        fetchPolicy: 'network-only',
-      });
-      notify({
-        level: 'success',
-        title: I18n.t('COMMON.SUCCESS'),
-        message: type === deskTypes.SALES
-          ? I18n.t('CLIENTS.SALES_INFO_UPDATED')
-          : I18n.t('CLIENTS.RETENTION_INFO_UPDATED'),
-      });
-      this.setState({
-        selectedRows: [],
-        allRowsSelected: false,
-        touchedRowsIds: [],
-      });
-    }
-    representativeModal.hide();
+  handleSuccessUpdateRepresentative = async () => {
+    const {
+      location: { query },
+      profiles: { refetch },
+    } = this.props;
+
+    refetch({
+      variables: {
+        ...query ? query.filters : { registrationDateFrom: moment().startOf('day').utc().format() },
+        page: 1,
+        size: 20,
+      },
+      fetchPolicy: 'network-only',
+    });
+    this.setState({
+      selectedRows: [],
+      allRowsSelected: false,
+      touchedRowsIds: [],
+    });
   };
 
   handleTriggerMoveModal = () => {

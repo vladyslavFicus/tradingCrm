@@ -5,13 +5,13 @@ import { get } from 'lodash';
 import countries from '../../../../../utils/countryList';
 import { actionCreators as miniProfileActionCreators } from '../../../../../redux/modules/miniProfile';
 import { withNotifications, withModals } from '../../../../../components/HighOrder';
-import { getHierarchyUsersByType, getUserBranchHierarchy } from '../../../../../graphql/queries/hierarchy';
+import RepresentativeUpdateModal from '../../../../../components/RepresentativeUpdateModal';
+import { getUserBranchHierarchy } from '../../../../../graphql/queries/hierarchy';
 import { clientsBulkRepresentativeUpdate, clientsProfileBulkUpdate } from '../../../../../graphql/mutations/profile';
 import { clientsQuery } from '../../../../../graphql/queries/profile';
 import { departments } from '../../../../../constants/brands';
-import { userTypes } from '../../../../../constants/hierarchyTypes';
 import { actionCreators } from '../modules/list';
-import { RepresentativeModal, MoveModal } from '../components/Modals';
+import { MoveModal } from '../components/Modals';
 import List from '../components/List';
 
 const mapStateToProps = ({
@@ -43,7 +43,7 @@ export default compose(
   withApollo,
   withNotifications,
   withModals({
-    representativeModal: RepresentativeModal,
+    representativeModal: RepresentativeUpdateModal,
     moveModal: MoveModal,
   }),
   connect(mapStateToProps, mapActions),
@@ -52,22 +52,6 @@ export default compose(
   }),
   graphql(clientsProfileBulkUpdate, {
     name: 'profileBulkUpdate',
-  }),
-  graphql(getHierarchyUsersByType, {
-    name: 'agents',
-    options: {
-      variables: { userTypes: [
-        userTypes.SALES_AGENT,
-        userTypes.SALES_HOD,
-        userTypes.SALES_MANAGER,
-        userTypes.SALES_LEAD,
-        userTypes.RETENTION_HOD,
-        userTypes.RETENTION_MANAGER,
-        userTypes.RETENTION_LEAD,
-        userTypes.RETENTION_AGENT,
-      ] },
-      fetchPolicy: 'network-only',
-    },
   }),
   graphql(getUserBranchHierarchy, {
     name: 'userBranchHierarchy',

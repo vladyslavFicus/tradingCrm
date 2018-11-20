@@ -2,22 +2,22 @@ import React, { Component } from 'react';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Field, SubmissionError } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
-import { isEqual } from 'lodash';
-import PropTypes from '../../../../../../../constants/propTypes';
-import { deskTypes } from '../../../../../../../constants/hierarchyTypes';
-import { salesStatuses, salesStatusValues } from '../../../../../../../constants/salesStatuses';
-import { retentionStatuses, retentionStatusValues } from '../../../../../../../constants/retentionStatuses';
-import { NasSelectField } from '../../../../../../../components/ReduxForm';
+import { get } from 'lodash';
+import PropTypes from '../../constants/propTypes';
+import { deskTypes } from '../../constants/hierarchyTypes';
+import { salesStatuses, salesStatusValues } from '../../constants/salesStatuses';
+import { retentionStatuses, retentionStatusValues } from '../../constants/retentionStatuses';
+import { NasSelectField } from '../../components/ReduxForm';
 import {
   getUsersByBranch,
   getUserBranchHierarchy,
   getBranchChildren,
-} from '../../../../../../../graphql/queries/hierarchy';
-import Select from '../../../../../../../components/Select';
-import renderLabel from '../../../../../../../utils/renderLabel';
-import attributeLabels from './constants';
+} from '../../graphql/queries/hierarchy';
+import Select from '../../components/Select';
+import renderLabel from '../../utils/renderLabel';
+import { attributeLabels, components, getAgents, filterAgents } from './constants';
 
-class RepresentativeModal extends Component {
+class RepresentativeUpdateModal extends Component {
   static propTypes = {
     handleSubmit: PropTypes.func.isRequired,
     onCloseModal: PropTypes.func.isRequired,
@@ -25,19 +25,42 @@ class RepresentativeModal extends Component {
     invalid: PropTypes.bool.isRequired,
     pristine: PropTypes.bool.isRequired,
     submitting: PropTypes.bool.isRequired,
-    onSubmit: PropTypes.func.isRequired,
     change: PropTypes.func.isRequired,
     error: PropTypes.any,
-    i18nPrefix: PropTypes.string.isRequired,
-    clientsSelected: PropTypes.number.isRequired,
     type: PropTypes.string.isRequired,
-    agents: PropTypes.arrayOf(PropTypes.userHierarchyType).isRequired,
-    desks: PropTypes.arrayOf(PropTypes.hierarchyBranch).isRequired,
     client: PropTypes.object.isRequired,
+    onSuccess: PropTypes.func.isRequired,
+    userBranchHierarchy: PropTypes.shape({
+      hierarchy: PropTypes.shape({
+        userBranchHierarchy: PropTypes.shape({
+          data: PropTypes.shape({
+            DESK: PropTypes.arrayOf(PropTypes.branchHierarchyType),
+            TEAM: PropTypes.arrayOf(PropTypes.branchHierarchyType),
+          }),
+          error: PropTypes.object,
+        }),
+      }),
+      loading: PropTypes.bool.isRequired,
+    }).isRequired,
+    hierarchyUsers: PropTypes.shape({
+      hierarchy: PropTypes.shape({
+        hierarchyUsersByType: PropTypes.shape({
+          data: PropTypes.shape({
+            SALES_AGENT: PropTypes.arrayOf(PropTypes.userHierarchyType),
+            RETENTION_AGENT: PropTypes.arrayOf(PropTypes.userHierarchyType),
+          }),
+          error: PropTypes.object,
+        }),
+      }),
+      loading: PropTypes.bool.isRequired,
+    }).isRequired,
+    header: PropTypes.oneOfType([PropTypes.node, PropTypes.string]).isRequired,
+    additionalFields: PropTypes.array,
   };
 
   static defaultProps = {
     error: null,
+    additionalFields: null,
   };
 
   state = {
@@ -45,23 +68,29 @@ class RepresentativeModal extends Component {
     selectedRep: '',
     selectedTeam: '',
     agentsLoading: false,
-    deskLoading: false,
     teamsLoading: false,
-    desks: this.props.desks,
-    agents: this.props.agents,
+    desks: [],
+    agents: [],
     teams: [],
   };
 
-  static getDerivedStateFromProps(nextProps, prevState) {
-    if (!isEqual(nextProps.desks, prevState.desks)) {
-      return {
-        agents: nextProps.agents,
-        desks: nextProps.desks,
-        teams: [],
+  static getDerivedStateFromProps({ userBranchHierarchy, hierarchyUsers, type }, prevState) {
+    let newState = null;
+    const { DESK: desks } = get(userBranchHierarchy, 'hierarchy.userBranchHierarchy.data') || { DESK: null };
+    const agents = getAgents(hierarchyUsers, type);
+
+    // INFO: initial set desks and agents
+    if (Array.isArray(desks) && prevState.desks.length === 0) {
+      newState = {
+        desks: desks.filter(({ deskType }) => deskType === deskTypes[type]),
       };
     }
 
-    return null;
+    if (agents && prevState.agents.length === 0) {
+      newState = { ...newState, agents };
+    }
+
+    return newState;
   }
 
   handleDeskChange = async (selectedDesk) => {
@@ -104,7 +133,7 @@ class RepresentativeModal extends Component {
     this.setState({
       agentsLoading: true,
     });
-    const { client } = this.props;
+    const { client, type } = this.props;
     const { selectedRep } = this.state;
 
     const { data: { hierarchy: { usersByBranch: { data, error } } } } = await client.query({
@@ -113,13 +142,14 @@ class RepresentativeModal extends Component {
         uuid: selectedTeam,
       },
     });
+    const agents = filterAgents(data || [], type);
 
     if (error) {
       throw new SubmissionError({ _error: error.error });
     }
 
     this.setState({
-      agents: data || [],
+      agents,
       selectedTeam,
       agentsLoading: false,
     }, () => {
@@ -129,8 +159,8 @@ class RepresentativeModal extends Component {
         this.props.change('repId', null);
       }
 
-      if (data && data.length === 1) {
-        this.props.change('repId', data[0].uuid);
+      if (agents && agents.length === 1) {
+        this.props.change('repId', agents[0].uuid);
       }
     });
   }
@@ -139,23 +169,30 @@ class RepresentativeModal extends Component {
     this.setState({
       teamsLoading: true,
     });
+
     const { selectedTeam } = this.state;
+    const { client } = this.props;
+    let teams = null;
 
-    const { data: { hierarchy: { userBranchHierarchy: { data: { TEAM }, error } } } } = await this.props.client.query({
-      query: getUserBranchHierarchy,
-      variables: { userId: selectedRep },
-    });
+    if (!selectedTeam) {
+      const { data: { hierarchy: { userBranchHierarchy: { data: { TEAM }, error } } } } = await client.query({
+        query: getUserBranchHierarchy,
+        variables: { userId: selectedRep },
+      });
 
-    const teams = TEAM || null;
-
-    if (error) {
-      throw new SubmissionError({ _error: error.error });
+      if (error) {
+        throw new SubmissionError({ _error: error.error });
+      }
+      teams = TEAM || null;
     }
 
     this.setState({
       selectedRep,
       teamsLoading: false,
-      ...(!selectedTeam && teams && teams.length === 1 && { selectedTeam: teams[0].uuid }),
+      ...(!selectedTeam && teams && {
+        teams,
+        ...(teams.length === 1 && { selectedTeam: teams[0].uuid }),
+      }),
     }, () => {
       this.props.change('repId', selectedRep);
 
@@ -163,6 +200,53 @@ class RepresentativeModal extends Component {
         this.props.change('teamId', teams[0].uuid);
       }
     });
+  }
+
+  handleUpdateRepresentative = async ({ teamId, repId, status, aquisitionStatus }) => {
+    const {
+      notify,
+      onSuccess,
+      ids,
+      type,
+      bulkRepresentativeUpdate,
+      props,
+      onCloseModal,
+    } = this.props;
+
+    const { allRowsSelected, totalElements, searchParams } = props || {};
+
+    const { data: { clients: { bulkRepresentativeUpdate: { error } } } } = await bulkRepresentativeUpdate({
+      variables: {
+        ids,
+        teamId,
+        type,
+        allRowsSelected,
+        totalElements,
+        aquisitionStatus,
+        searchParams,
+        ...(type === deskTypes.SALES
+          ? { salesStatus: status, salesRep: repId }
+          : { retentionStatus: status, retentionRep: repId }),
+      },
+    });
+
+    if (error) {
+      notify({
+        level: 'error',
+        title: I18n.t('COMMON.BULK_UPDATE_FAILED'),
+        message: I18n.t('COMMON.SOMETHING_WRONG'),
+      });
+    } else {
+      notify({
+        level: 'success',
+        title: I18n.t('COMMON.SUCCESS'),
+        message: type === deskTypes.SALES
+          ? I18n.t('CLIENTS.SALES_INFO_UPDATED')
+          : I18n.t('CLIENTS.RETENTION_INFO_UPDATED'),
+      });
+      onCloseModal();
+      onSuccess();
+    }
   }
 
   render() {
@@ -173,11 +257,12 @@ class RepresentativeModal extends Component {
       invalid,
       pristine,
       submitting,
-      onSubmit,
       error,
-      i18nPrefix,
-      clientsSelected,
       type,
+      userBranchHierarchy: { loading: deskLoading },
+      hierarchyUsers: { loading: initAgentsLoading },
+      header,
+      additionalFields,
     } = this.props;
 
     const {
@@ -185,7 +270,6 @@ class RepresentativeModal extends Component {
       selectedRep,
       selectedTeam,
       agentsLoading,
-      deskLoading,
       teamsLoading,
       desks,
       agents,
@@ -198,20 +282,19 @@ class RepresentativeModal extends Component {
         isOpen={isOpen}
       >
         <ModalHeader toggle={onCloseModal}>
-          <div>{I18n.t(`CLIENTS.MODALS.${i18nPrefix}.HEADER`)}</div>
-          <div className="font-size-11 color-yellow">{clientsSelected}{' '}{I18n.t('COMMON.CLIENTS_SELECTED')}</div>
+          {header}
         </ModalHeader>
         <ModalBody
           tag="form"
           id="representative-modal-form"
-          onSubmit={handleSubmit(onSubmit)}
+          onSubmit={handleSubmit(this.handleUpdateRepresentative)}
         >
           <If condition={error}>
             <div className="mb-2 text-center color-danger">
               {error}
             </div>
           </If>
-          <span className="font-weight-600">{I18n.t(attributeLabels(i18nPrefix).desk)}</span>
+          <span className="font-weight-600">{I18n.t(attributeLabels(type).desk)}</span>
           <Select
             value={selectedDesk}
             customClassName="form-group"
@@ -228,7 +311,7 @@ class RepresentativeModal extends Component {
               </option>
             ))}
           </Select>
-          <span className="font-weight-600">{I18n.t(attributeLabels(i18nPrefix).team)}</span>
+          <span className="font-weight-600">{I18n.t(attributeLabels(type).team)}</span>
           <Select
             value={selectedTeam}
             customClassName="form-group"
@@ -245,15 +328,15 @@ class RepresentativeModal extends Component {
               </option>
             ))}
           </Select>
-          <span className="font-weight-600">{I18n.t(attributeLabels(i18nPrefix).representative)}</span>
+          <span className="font-weight-600">{I18n.t(attributeLabels(type).representative)}</span>
           <Select
             value={selectedRep}
             customClassName="form-group"
-            placeholder={!agentsLoading && agents.length === 0
+            placeholder={!agentsLoading && !initAgentsLoading && agents.length === 0
               ? I18n.t('COMMON.SELECT_OPTION.NO_ITEMS')
               : I18n.t('COMMON.SELECT_OPTION.DEFAULT')
             }
-            disabled={agentsLoading || agents.length === 0 || submitting}
+            disabled={agentsLoading || initAgentsLoading || agents.length === 0 || submitting}
             onChange={this.handleRepChange}
           >
             {agents.map(({ fullName, uuid }) => (
@@ -264,7 +347,7 @@ class RepresentativeModal extends Component {
           </Select>
           <Field
             name="status"
-            label={I18n.t(attributeLabels(i18nPrefix).status)}
+            label={I18n.t(attributeLabels(type).status)}
             component={NasSelectField}
             disabled={submitting}
             placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
@@ -286,6 +369,30 @@ class RepresentativeModal extends Component {
               </Otherwise>
             </Choose>
           </Field>
+          <If condition={Array.isArray(additionalFields)}>
+            {additionalFields.map(({ name, labelName, component, data }) => {
+              if (component === components[component]) {
+                return (
+                  <Field
+                    name={name}
+                    key={name}
+                    label={I18n.t(attributeLabels(type)[labelName])}
+                    component={NasSelectField}
+                    disabled={submitting}
+                    placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
+                  >
+                    {data.map(({ value, label }) => (
+                      <option key={value} value={value}>
+                        {I18n.t(label)}
+                      </option>
+                    ))}
+                  </Field>
+                );
+              }
+
+              return null;
+            })}
+          </If>
         </ModalBody>
         <ModalFooter>
           <button
@@ -297,7 +404,7 @@ class RepresentativeModal extends Component {
           </button>
           <button
             type="submit"
-            disabled={agentsLoading || deskLoading || invalid || pristine || submitting}
+            disabled={agentsLoading || deskLoading || initAgentsLoading || invalid || pristine || submitting}
             className="btn btn-primary"
             form="representative-modal-form"
           >
@@ -309,4 +416,4 @@ class RepresentativeModal extends Component {
   }
 }
 
-export default RepresentativeModal;
+export default RepresentativeUpdateModal;

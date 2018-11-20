@@ -36,7 +36,7 @@ import {
 } from '../../routes';
 import { Route } from '../../../../../../router';
 import { getAcquisitionFields } from './utils';
-import { userProfileTabs } from './constants';
+import { userProfileTabs, moveField } from './constants';
 
 const NOTE_POPOVER = 'note-popover';
 const popoverInitialState = {
@@ -134,6 +134,7 @@ class Profile extends Component {
     showImages: PropTypes.func.isRequired,
     registerUpdateCacheListener: PropTypes.func.isRequired,
     unRegisterUpdateCacheListener: PropTypes.func.isRequired,
+    triggerRepresentativeUpdateModal: PropTypes.func.isRequired,
   };
   static defaultProps = {
     lastIp: null,
@@ -162,6 +163,7 @@ class Profile extends Component {
       showImages: this.showImages,
       registerUpdateCacheListener: this.registerUpdateCacheListener,
       unRegisterUpdateCacheListener: this.unRegisterUpdateCacheListener,
+      triggerRepresentativeUpdateModal: this.triggerRepresentativeUpdateModal,
     };
   }
 
@@ -219,6 +221,23 @@ class Profile extends Component {
         cacheChildrenComponents.splice(index, 1);
       }
     }
+  };
+
+  triggerRepresentativeUpdateModal = type => () => {
+    const {
+      modals: { representativeModal },
+      playerProfile: { refetch },
+      match: { params: { id } },
+    } = this.props;
+
+    representativeModal.show({
+      type,
+      ids: [id],
+      initialValues: { aquisitionStatus: type },
+      header: I18n.t('CLIENT_PROFILE.MODALS.REPRESENTATIVE_UPDATE.HEADER', { type: type.toLowerCase() }),
+      additionalFields: [moveField],
+      onSuccess: () => refetch(),
+    });
   };
 
   handleLoadProfile = async (needForceUpdate = false) => {

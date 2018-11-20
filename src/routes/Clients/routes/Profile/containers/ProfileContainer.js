@@ -12,6 +12,7 @@ import { userProfileTabs } from '../../../../../config/menu';
 import { clientQuery, locksQuery } from '../../../../../graphql/queries/profile';
 import { notesQuery } from '../../../../../graphql/queries/notes';
 import ConfirmActionModal from '../../../../../components/Modal/ConfirmActionModal';
+import RepresentativeUpdateModal from '../../../../../components/RepresentativeUpdateModal';
 import NoteModal from '../../../../../components/NoteModal';
 import {
   updateSubscription,
@@ -91,6 +92,7 @@ export default compose(
   withModals({
     confirmActionModal: ConfirmActionModal,
     noteModal: NoteModal,
+    representativeModal: RepresentativeUpdateModal,
   }),
   connect(mapStateToProps, mapActions),
   graphql(blockMutation, {

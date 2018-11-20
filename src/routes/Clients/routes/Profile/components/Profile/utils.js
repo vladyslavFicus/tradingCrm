@@ -7,6 +7,7 @@ export const getAcquisitionFields = ({
   salesStatus,
   retentionRep,
   retentionStatus,
+  aquisitionStatus,
 }) => ({
   kycRep,
   kycStatus,
@@ -14,4 +15,5 @@ export const getAcquisitionFields = ({
   salesStatus,
   retentionRep,
   retentionStatus,
+  aquisitionStatus,
 });
