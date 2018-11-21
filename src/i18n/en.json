@@ -2764,6 +2764,11 @@
         "NEW_PASSWORD": "New password",
         "REPEAT_PASSWORD": "Repeat new password"
       }
+    },
+    "MODALS": {
+      "REPRESENTATIVE_UPDATE": {
+        "HEADER": "Client %{type} update"
+      }
     }
   },
   "TEMPORARY_UNTIL": {

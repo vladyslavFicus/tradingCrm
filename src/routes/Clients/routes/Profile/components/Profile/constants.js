@@ -1,5 +1,5 @@
-/* eslint-disable import/prefer-default-export */
 import { I18n } from 'react-redux-i18n';
+import { aquisitionStatuses } from '../../../../../../constants/aquisitionStatuses';
 
 export const userProfileTabs = [{
   label: I18n.t('CLIENT_PROFILE.TABS.PROFILE'),
@@ -20,3 +20,10 @@ export const userProfileTabs = [{
   label: I18n.t('CLIENT_PROFILE.TABS.FEED'),
   url: '/clients/:id/feed',
 }];
+
+export const moveField = {
+  name: 'aquisitionStatus',
+  labelName: 'move',
+  component: 'select',
+  data: aquisitionStatuses,
+};
