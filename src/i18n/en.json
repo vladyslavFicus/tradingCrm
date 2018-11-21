@@ -2217,7 +2217,10 @@
       "PAST_WEEK": "Past Week",
       "LAST_MONTH": "Last Month",
       "PAST_MONTH": "Past Month"
-    }
+    },
+    "LATEST_DEPOSITS": "Latest %{count} Deposits",
+    "LATEST_WITHDRAWALS": "Latest %{count} Withdrawals",
+    "LATEST_REGISTRATIONS": "Latest %{count} Registrations"
   },
   "CAMPAIGNS": {
     "CAMPAIGN_NAME": "Campaign name",

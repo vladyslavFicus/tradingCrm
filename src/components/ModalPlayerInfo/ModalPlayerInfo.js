@@ -1,7 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { I18n } from 'react-redux-i18n';
 import moment from 'moment';
-import Amount from '../Amount';
 import { statusColorNames } from '../../constants/user';
 import PropTypes from '../../constants/propTypes';
 import Uuid from '../Uuid';
@@ -48,14 +47,26 @@ class ModalPlayerInfo extends Component {
     </Fragment>
   );
 
-  renderBalance = ({ total, bonus, real }) => (
-    <Fragment>
-      <Amount tag="div" className="modal-header-tabs__label" {...total} />
-      <div className="font-size-11">
-        RM <Amount {...real} /> + BM <Amount {...bonus} />
-      </div>
-    </Fragment>
-  );
+  renderBalance = (profile) => {
+    const { currency, tradingProfile: { balance, equity, margin, marginLevel } } = profile;
+
+    return (
+      <Fragment>
+        <div className="header-block-middle">
+          {currency} {Number(balance).toFixed(2)}
+        </div>
+        <div className="header-block-small">
+          {I18n.t('CLIENT_PROFILE.PROFILE.HEADER.EQUITY')}: {currency} {Number(equity).toFixed(2)}
+        </div>
+        <div className="header-block-small">
+          {I18n.t('CLIENT_PROFILE.PROFILE.HEADER.MARGIN')}: {currency} {Number(margin).toFixed(2)}
+        </div>
+        <div className="header-block-small">
+          {I18n.t('CLIENT_PROFILE.PROFILE.HEADER.MARGIN_LEVEL')}: {currency} {Number(marginLevel).toFixed(2)}
+        </div>
+      </Fragment>
+    );
+  };
 
   render() {
     const { playerProfile } = this.props;
@@ -88,7 +99,7 @@ class ModalPlayerInfo extends Component {
               <div className="modal-tab-label">
                 {I18n.t('COMMON.BALANCE')}
               </div>
-              {this.renderBalance(playerProfile.balances)}
+              {this.renderBalance(playerProfile)}
             </div>
           </div>
         </Otherwise>

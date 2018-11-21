@@ -1,3 +1,3 @@
-import PaymentDetailModal from './PaymentDetailModal';
+import PaymentDetailModalContainer from './PaymentDetailModalContainer';
 
-export default PaymentDetailModal;
+export default PaymentDetailModalContainer;

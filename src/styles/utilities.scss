@@ -172,6 +172,13 @@ small {
   cursor: pointer;
 }
 
+.table-bordered tbody tr {
+  border-bottom: solid 1px #eee;
+  &:first-child {
+    border-top: solid 1px #eee;
+  }
+}
+
 .multi-currency-icon {
   font-size: 20px;
 }

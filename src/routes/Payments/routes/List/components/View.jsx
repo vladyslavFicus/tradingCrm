@@ -152,23 +152,12 @@ class View extends Component {
   };
 
   handleOpenDetailModal = async (params) => {
-    const { players } = this.props;
-    let playerProfile = players[params.payment.playerUUID];
-
-    if (!playerProfile) {
-      const action = await this.props.fetchPlayerProfile(params.payment.playerUUID);
-      playerProfile = action && !action.error
-        ? action.payload
-        : null;
-    }
-
     this.setState({
       modal: {
         ...defaultModalState,
         name: MODAL_PAYMENT_DETAIL,
         params: {
           ...params,
-          playerProfile,
         },
       },
     });
@@ -243,11 +232,7 @@ class View extends Component {
             modal.name === MODAL_PAYMENT_DETAIL &&
             <PaymentDetailModal
               {...modal.params}
-              isOpen
-              onClose={this.handleCloseModal}
-              onChangePaymentStatus={this.handleChangePaymentStatus}
-              onAskReason={this.handleAskReason}
-              onNoteClick={this.handleNoteClick}
+              onCloseModal={this.handleCloseModal}
             />
           }
 
