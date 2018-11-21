@@ -1,15 +1,15 @@
 import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
 import { I18n } from 'react-redux-i18n';
 import IpList from '../../../../../../components/Information/IpList';
-import Personal from './Personal';
-import Notes from './Notes';
 import PermissionContent from '../../../../../../components/PermissionContent';
 import { withServiceCheck } from '../../../../../../components/HighOrder';
 import permissions from '../../../../../../config/permissions';
-import PendingPayouts from './PendingPayouts';
-import AcquisitionStatus from './AcquisitionStatus';
 import { services } from '../../../../../../constants/services';
+import PropTypes from '../../../../../../constants/propTypes';
+import AcquisitionStatus from './AcquisitionStatus';
+import PendingPayouts from './PendingPayouts';
+import Personal from './Personal';
+import Notes from './Notes';
 
 class Information extends PureComponent {
   static propTypes = {

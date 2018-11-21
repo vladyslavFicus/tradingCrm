@@ -4,7 +4,7 @@ import { Field, reduxForm } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
 import PropTypes from '../../../../../../constants/propTypes';
 import { NasSelectField } from '../../../../../../components/ReduxForm';
-import aquisitionStatuses from '../../../../../../constants/aquisitionStatuses';
+import { aquisitionStatuses } from '../../../../../../constants/aquisitionStatuses';
 import { createValidator } from '../../../../../../utils/validator';
 
 class MoveModal extends PureComponent {

@@ -43,7 +43,7 @@ class PaymentsGrid extends PureComponent {
             <GridView
               dataSource={payments}
               showNoResults={payments.length === 0}
-              tableClassName="table-hovered table-bordered"
+              tableClassName="table-hovered"
             >
               {columns({
                 auth,

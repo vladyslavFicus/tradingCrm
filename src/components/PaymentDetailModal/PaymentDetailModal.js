@@ -35,66 +35,6 @@ class PaymentDetailModal extends Component {
     playerProfile: null,
   };
 
-  handleApproveClick = () => {
-    alert('Implementation will be later...');
-  };
-
-  handleRejectClick = () => {
-    alert('Implementation will be later...');
-  };
-
-  handleNoteClick = () => {
-    alert('Implementation will be later...');
-  };
-
-  renderActions = () => {
-    const {
-      payment: {
-        status,
-        paymentType,
-      },
-      profile: { playerProfile: { data: playerProfile } },
-    } = this.props;
-
-    let actions = null;
-
-    if (paymentType === paymentsTypes.Withdraw && status === paymentStatuses.PENDING) {
-      actions = (
-        <span>
-          <PlayerActivityReportButton
-            playerUUID={playerProfile.playerUUID}
-            fullName={`${playerProfile.firstName} ${playerProfile.lastName}`}
-            buttonProps={{
-              className: 'margin-right-5',
-              color: 'primary',
-            }}
-          />
-          <PermissionContent permissions={permissions.PAYMENTS.APPROVE_WITHDRAW}>
-            <Button
-              color="primary"
-              onClick={this.handleApproveClick}
-              className="margin-right-5"
-            >
-              {I18n.t('COMMON.APPROVE')}
-            </Button>
-          </PermissionContent>
-          <Button
-            color="danger"
-            onClick={this.handleRejectClick}
-          >
-            {I18n.t('COMMON.REJECT')}
-          </Button>
-        </span>
-      );
-    }
-
-    return (
-      <span className="payment-details-actions">
-        {actions}
-      </span>
-    );
-  };
-
   render() {
     const {
       profile,
@@ -194,14 +134,6 @@ class PaymentDetailModal extends Component {
                   }
                 </div>
               </div>
-              <div className="text-center">
-                <NoteButton
-                  id="payment-detail-modal-note"
-                  note={payment.note}
-                  onClick={this.handleNoteClick}
-                  targetEntity={payment}
-                />
-              </div>
             </Otherwise>
           </Choose>
         </ModalBody>
@@ -212,7 +144,6 @@ class PaymentDetailModal extends Component {
           >
             {I18n.t('COMMON.DEFER')}
           </Button>
-          {!this.props.profile.loading && this.renderActions()}
         </ModalFooter>
       </Modal>
     );

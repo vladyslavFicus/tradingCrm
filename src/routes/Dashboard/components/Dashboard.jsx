@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
 import { I18n } from 'react-redux-i18n';
+import { types, statuses } from '../../../constants/payment'
 import { RegistrationChart, DepositsAmount, DepositsCount, WithdrawsAmount, WithdrawsCount } from './Charts';
 import PaymentsGrid from './Grids/PaymentsGrid';
 import ClientsGrid from './Grids/ClientsGrid';
@@ -8,13 +9,13 @@ import './Dashboard.scss';
 const options = {
   DEPOSITS: {
     size: 10,
-    type: 'Deposit',
-    statuses: 'COMPLETED,PENDING',
+    type: types.Deposit,
+    statuses: [statuses.COMPLETED, statuses.PENDING].join(','),
   },
   WITHDRAWALS: {
     size: 10,
-    type: 'Withdraw',
-    statuses: 'COMPLETED,PENDING',
+    type: types.Withdraw,
+    statuses: [statuses.COMPLETED, statuses.PENDING].join(','),
   },
   REGISTRATIONS: {
     size: 10,
@@ -52,7 +53,7 @@ const Dashboard = () => (
     <div className="font-size-20 margin-bottom-15">
       {I18n.t('DASHBOARD.LATEST_WITHDRAWALS', { count: options.WITHDRAWALS.size })}
     </div>
-    <PaymentsGrid type="Withdraw" {...options.WITHDRAWALS} />
+    <PaymentsGrid {...options.WITHDRAWALS} />
 
     {/* Latest registrations */}
     <div className="font-size-20 margin-bottom-15">

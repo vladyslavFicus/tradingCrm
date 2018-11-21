@@ -39,7 +39,7 @@ class ClientsGrid extends PureComponent {
             <GridView
               dataSource={profilesEntities}
               showNoResults={profilesEntities.length === 0}
-              tableClassName="table-hovered table-bordered"
+              tableClassName="table-hovered"
             >
               {columns({ auth, fetchPlayerMiniProfile }).map(({ name, header, render }) => (
                 <GridViewColumn
