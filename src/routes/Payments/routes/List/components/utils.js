@@ -90,14 +90,21 @@ export default (
   name: 'tradingAcc',
   header: I18n.t('CONSTANTS.TRANSACTIONS.GRID_COLUMNS.TRADING_ACC'),
   render: ({ tradingAcc, symbol }) => (
-    <Fragment>
-      <div className="font-weight-700">
-        {tradingAcc}
-      </div>
-      <div className="font-size-11">
-        {symbol}
-      </div>
-    </Fragment>
+    <Choose>
+      <When condition={tradingAcc}>
+        <div className="font-weight-700">
+          {tradingAcc}
+        </div>
+        <div className="font-size-11">
+          {symbol}
+        </div>
+      </When>
+      <Otherwise>
+        <div className="font-weight-700">
+          <span>&mdash;</span>
+        </div>
+      </Otherwise>
+    </Choose>
   ),
 }, {
   name: 'paymentMethod',
