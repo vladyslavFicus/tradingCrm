@@ -69,6 +69,7 @@ class EmailForm extends Component {
         </PermissionContent>
         <div className="form-row">
           <Field
+            disabled
             name="email"
             label={attributeLabels.email}
             type="text"
