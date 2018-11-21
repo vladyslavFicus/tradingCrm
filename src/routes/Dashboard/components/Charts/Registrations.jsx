@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
-import { graphql } from 'react-apollo';
+import { connect } from 'react-redux';
+import { graphql, compose } from 'react-apollo';
 import { get } from 'lodash';
 import { I18n } from 'react-redux-i18n';
-import PropTypes from '../../../../constants/propTypes';
 import Chart from '../../../../components/Chart';
+import PropTypes from '../../../../constants/propTypes';
+import { departments } from '../../../../constants/brands';
 import { registeredUsersQuery } from '../../../../graphql/queries/statistics';
 import { ChartFooter, getChartSelectOptions, initialQueryParams } from './utils';
 
@@ -77,11 +79,23 @@ class Registrations extends Component {
     );
   }
 }
-export default graphql(registeredUsersQuery, {
-  options: () => ({
-    variables: {
-      ...initialQueryParams('registrationDateFrom', 'registrationDateTo'),
-    },
+
+const mapStateToProps = ({ auth }) => ({
+  auth: {
+    isAdministration: auth.department === departments.ADMINISTRATION,
+    hierarchyUsers: auth.hierarchyUsers,
+  },
+});
+
+export default compose(
+  connect(mapStateToProps),
+  graphql(registeredUsersQuery, {
+    options: ({ auth }) => ({
+      variables: {
+        ...!auth.isAdministration && { clientIds: get(auth, 'hierarchyUsers.clients') },
+        ...initialQueryParams('registrationDateFrom', 'registrationDateTo'),
+      },
+    }),
+    name: 'registeredUsers',
   }),
-  name: 'registeredUsers',
-})(Registrations);
+)(Registrations);

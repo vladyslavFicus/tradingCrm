@@ -1,9 +1,17 @@
 import gql from 'graphql-tag';
 
 const registeredUsersQuery = gql`
-  query getRegUsersStat($registrationDateFrom: String!, $registrationDateTo: String!) {
+  query getRegUsersStat(
+    $registrationDateFrom: String!,
+    $registrationDateTo: String!,
+    $clientIds: [String],
+  ) {
     statistics {
-      registrations(registrationDateFrom: $registrationDateFrom, registrationDateTo: $registrationDateTo) {
+      registrations(
+        registrationDateFrom: $registrationDateFrom,
+        registrationDateTo: $registrationDateTo,
+        clientIds: $clientIds,
+      ) {
         error {
           error
         }
@@ -20,9 +28,15 @@ const registeredUsersQuery = gql`
 `;
 
 const paymentsStatisticQuery = gql`
-  query getDepositsStat($dateFrom: String!, $dateTo: String!) {
+  query getDepositsStat(
+    $dateFrom: String!,
+    $dateTo: String!
+  ) {
     statistics {
-      payments(dateFrom: $dateFrom, dateTo: $dateTo) {
+      payments(
+        dateFrom: $dateFrom,
+        dateTo: $dateTo,
+      ) {
         error {
           error
         }
