@@ -120,9 +120,13 @@ small {
 
   tbody tr {
     color: #333;
+    border-bottom: solid 1px #eee;
+    &:first-child {
+      border-top: solid 1px #eee;
+    }
   }
 
-  tr, th {
+  th {
     border: none;
   }
 
@@ -209,12 +213,6 @@ small {
   }
   tbody tr.selected {
     background-color: rgba(81, 135, 189, 0.1);
-  }
-  tbody tr {
-    border-bottom: solid 1px #eee;
-    &:first-child {
-      border-top: solid 1px #eee;
-    }
   }
   tr th, tr td {
     padding-left: 25px;
