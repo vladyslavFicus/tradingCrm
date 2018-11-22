@@ -2737,6 +2737,11 @@
         "TO_MT4": "",
         "MT4_NO_MONEY": ""
       }
+    },
+    "MODALS": {
+      "REPRESENTATIVE_UPDATE": {
+        "HEADER": ""
+      }
     }
   },
   "TEMPORARY_UNTIL": {
@@ -3116,6 +3121,15 @@
       "REGISTRATION": "",
       "STATUS": ""
     },
-    "SUCCESS_PROMOTED": ""
+    "SUCCESS_PROMOTED": "",
+    "LEADS_UPLOAD_MODAL": {
+      "UPLOAD_CSV_TO_IMPORT_LEADS": "",
+      "SAMPLE_CSV": "",
+      "TITLE": ""
+    }
+  },
+  "FILE_DROPZONE": {
+    "DRAG_HERE_OR": "",
+    "BROWSE_FILES": ""
   }
 }

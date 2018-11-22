@@ -69,6 +69,7 @@
     "react-custom-scrollbars": "^4.2.1",
     "react-dates": "15.5.1",
     "react-dom": "^16.3.2",
+    "react-dropzone": "^7.0.1",
     "react-final-form": "^3.6.6",
     "react-images": "github:newageio/react-images",
     "react-infinite-scroller": "^1.0.15",

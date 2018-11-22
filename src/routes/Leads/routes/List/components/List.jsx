@@ -3,19 +3,19 @@ import moment from 'moment';
 import classNames from 'classnames';
 import { I18n } from 'react-redux-i18n';
 import { get } from 'lodash';
+import { NetworkStatus } from 'apollo-client';
 import { TextRow } from 'react-placeholder/lib/placeholders';
 import LeadsGridFilter from './LeadsGridFilter';
 import history from '../../../../../router/history';
 import PropTypes from '../../../../../constants/propTypes';
 import GridView, { GridViewColumn } from '../../../../../components/GridView';
 import Placeholder from '../../../../../components/Placeholder';
-import FileUpload from '../../../../../components/FileUpload';
 import { salesStatuses, salesStatusesColor } from '../../../../../constants/salesStatuses';
 import Uuid from '../../../../../components/Uuid';
 import MiniProfile from '../../../../../components/MiniProfile';
 import { types as miniProfileTypes } from '../../../../../constants/miniProfile';
 import CountryLabelWithFlag from '../../../../../components/CountryLabelWithFlag';
-import { leadStatuses, fileConfig } from '../../../constants';
+import { leadStatuses } from '../../../constants';
 
 class List extends Component {
   static propTypes = {
@@ -43,6 +43,7 @@ class List extends Component {
         show: PropTypes.func.isRequired,
         hide: PropTypes.func.isRequired,
       }).isRequired,
+      leadsUploadModal: PropTypes.modalType,
     }).isRequired,
     fileUpload: PropTypes.func.isRequired,
   };
@@ -185,20 +186,10 @@ class List extends Component {
     });
   };
 
-  handleUploadCSV = async (errors, file) => {
-    const { notify, leads: { refetch }, auth: { isAdministration } } = this.props;
+  handleUploadCSV = async ([file]) => {
+    const { notify, leads: { refetch }, auth: { isAdministration }, modals: { leadsUploadModal } } = this.props;
 
-    if (errors.length > 0) {
-      notify({
-        level: 'error',
-        title: I18n.t('COMMON.UPLOAD_FAILED'),
-        message: errors.join(', '),
-      });
-
-      return;
-    }
-
-    const { error } = await this.props.fileUpload({ variables: { file } });
+    const { data: { upload: { leadCsvUpload: { error } } } } = await this.props.fileUpload({ variables: { file } });
 
     if (error) {
       notify({
@@ -210,16 +201,24 @@ class List extends Component {
       return;
     }
 
-    if (isAdministration) {
-      await refetch();
-    }
+    leadsUploadModal.hide();
 
     notify({
       level: 'success',
       title: I18n.t('COMMON.SUCCESS'),
       message: I18n.t('COMMON.UPLOAD_SUCCESSFUL'),
     });
-  }
+
+    if (isAdministration) {
+      refetch();
+    }
+  };
+
+  handleLeadsUploadModalClick = () => {
+    this.props.modals.leadsUploadModal.show({
+      onDropAccepted: this.handleUploadCSV,
+    });
+  };
 
   renderLead = data => (
     <div id={data.id}>
@@ -278,6 +277,7 @@ class List extends Component {
       countries,
       leads: {
         loading,
+        networkStatus,
         leads,
       },
       location: { query },
@@ -353,12 +353,12 @@ class List extends Component {
           </If>
           <If condition={selectedRows.length === 0}>
             <div className="ml-auto">
-              <FileUpload
-                label={I18n.t('COMMON.UPLOAD')}
-                allowedSize={fileConfig.maxSize}
-                allowedTypes={fileConfig.types}
-                onChosen={this.handleUploadCSV}
-              />
+              <button
+                className="btn btn-default-outline margin-left-15"
+                onClick={this.handleLeadsUploadModalClick}
+              >
+                {I18n.t('COMMON.UPLOAD')}
+              </button>
               <button
                 disabled={!allowActions}
                 className="btn btn-default-outline margin-left-15"
@@ -387,13 +387,14 @@ class List extends Component {
             activePage={entities.page}
             last={entities.last}
             lazyLoad
+            loading={[NetworkStatus.loading, NetworkStatus.refetch].includes(networkStatus)}
             multiselect
             allRowsSelected={allRowsSelected}
             touchedRowsIds={touchedRowsIds}
             onAllRowsSelect={this.handleAllRowsSelect}
             onRowSelect={this.handleSelectRow}
             locale={locale}
-            showNoResults={!loading && entities.content.length === 0}
+            showNoResults={entities.content.length === 0}
             onRowClick={this.handleLeadClick}
           >
             <GridViewColumn

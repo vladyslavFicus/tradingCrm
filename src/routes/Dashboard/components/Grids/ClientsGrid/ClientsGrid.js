@@ -2,7 +2,6 @@ import React, { PureComponent } from 'react';
 import { get } from 'lodash';
 import PropTypes from '../../../../../constants/propTypes';
 import GridView, { GridViewColumn } from '../../../../../components/GridView';
-import ShortLoader from '../../../../../components/ShortLoader';
 import columns from './utils';
 
 class ClientsGrid extends PureComponent {
@@ -23,6 +22,7 @@ class ClientsGrid extends PureComponent {
   render() {
     const {
       profiles,
+      profiles: { loading },
       auth,
       fetchPlayerMiniProfile,
     } = this.props;
@@ -31,27 +31,21 @@ class ClientsGrid extends PureComponent {
 
     return (
       <div className="card card-body">
-        <Choose>
-          <When condition={profiles.loading}>
-            <ShortLoader />
-          </When>
-          <Otherwise>
-            <GridView
-              dataSource={profilesEntities}
-              showNoResults={profilesEntities.length === 0}
-              tableClassName="table-hovered"
-            >
-              {columns({ auth, fetchPlayerMiniProfile }).map(({ name, header, render }) => (
-                <GridViewColumn
-                  key={name}
-                  name={name}
-                  header={header}
-                  render={render}
-                />
-              ))}
-            </GridView>
-          </Otherwise>
-        </Choose>
+        <GridView
+          loading={loading}
+          dataSource={profilesEntities}
+          showNoResults={profilesEntities.length === 0}
+          tableClassName="table-hovered"
+        >
+          {columns({ auth, fetchPlayerMiniProfile }).map(({ name, header, render }) => (
+            <GridViewColumn
+              key={name}
+              name={name}
+              header={header}
+              render={render}
+            />
+          ))}
+        </GridView>
       </div>
     );
   }

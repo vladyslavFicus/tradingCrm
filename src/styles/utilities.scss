@@ -124,6 +124,10 @@ small {
     &:first-child {
       border-top: solid 1px #eee;
     }
+
+    &.no-border-bottom {
+      border-bottom: unset;
+    }
   }
 
   th {
@@ -268,5 +272,5 @@ small {
 }
 
 .card-grid-multiselect {
-  padding: 25px 0 !important;
+  padding: 25px 0;
 }

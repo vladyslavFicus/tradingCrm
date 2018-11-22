@@ -26,6 +26,7 @@ class GridView extends Component {
     summaryRow: PropTypes.object,
     rowClassName: PropTypes.func,
     lazyLoad: PropTypes.bool,
+    loading: PropTypes.bool,
     locale: PropTypes.string,
     showNoResults: PropTypes.bool,
     multiselect: PropTypes.bool,
@@ -47,6 +48,7 @@ class GridView extends Component {
     totalPages: null,
     rowClassName: null,
     lazyLoad: false,
+    loading: false,
     showNoResults: false,
     last: true,
     multiselect: false,
@@ -184,7 +186,7 @@ class GridView extends Component {
     <tr>
       {columns.map((item, key) => (
         <Choose>
-          <When condition={this.props.multiselect && key === 0}>
+          <When condition={this.props.multiselect && key === 0 && !this.props.loading}>
             <th key={key} {...item}>
               <span
                 className={classNames(
@@ -215,10 +217,15 @@ class GridView extends Component {
       : null
   );
 
+  renderLoading = columns => (
+    <GridViewLoader key="loading" className="infinite-preloader no-border-bottom" colSpan={columns.length} />
+  );
+
   renderBody = (columns) => {
     const {
       dataSource,
       lazyLoad,
+      loading,
       totalPages,
       activePage,
       last,
@@ -227,13 +234,17 @@ class GridView extends Component {
     const rows = dataSource.map((data, key) => this.renderRow(key, columns, data));
     const hasMore = totalPages && activePage ? totalPages > activePage : !last;
 
+    if (loading) {
+      return <tbody>{this.renderLoading(columns)}</tbody>;
+    }
+
     if (lazyLoad) {
       return (
         <InfiniteScroll
           loadMore={() => this.handlePageChange(activePage + 1)}
           element="tbody"
           hasMore={hasMore}
-          loader={<GridViewLoader key="loader" className="infinite-preloader" colSpan={columns.length} />}
+          loader={this.renderLoading(columns)}
         >
           {rows}
         </InfiniteScroll>
@@ -351,14 +362,15 @@ class GridView extends Component {
       showNoResults,
       dataSource,
       locale,
+      loading,
       multiselect,
     } = this.props;
 
-    if (showNoResults) {
+    if (!loading && showNoResults) {
       return <NotFoundContent locale={locale} />;
     }
 
-    if (!dataSource.length) {
+    if (!loading && !dataSource.length) {
       return null;
     }
 
