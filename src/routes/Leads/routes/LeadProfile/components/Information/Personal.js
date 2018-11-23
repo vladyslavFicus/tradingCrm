@@ -13,6 +13,7 @@ const Personal = ({
     birthDate,
     gender,
     phone,
+    phoneCode,
     email,
     country,
     city,
@@ -38,7 +39,7 @@ const Personal = ({
           />
           <PersonalInformationItem
             label={I18n.t('LEAD_PROFILE.DETAILS.PHONE')}
-            value={`+${phone}`}
+            value={`+${phoneCode}${phone}`}
           />
           <PersonalInformationItem
             label={I18n.t('LEAD_PROFILE.DETAILS.EMAIL')}
