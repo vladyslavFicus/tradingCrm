@@ -52,8 +52,8 @@ class TransactionStatus extends Component {
         {label}
       </DropdownToggle>
       <DropdownMenu>
-        {statusHistory.map(status => (
-          <DropdownItem key={status.reference} className="text-uppercase">
+        {statusHistory.map((status, i) => (
+          <DropdownItem key={`${status.reference}-${i}`} className="text-uppercase">
             <div className={classNames(statusesColor[status.paymentStatus], 'font-weight-700')}>
               {status.paymentStatus}
             </div>

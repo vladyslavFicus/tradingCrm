@@ -122,7 +122,7 @@ class Payments extends Component {
       if (action && !action.error && action.payload.content.length > 0) {
         handleOpenDetailModal({
           payment: action.payload.content[0],
-          onClose: () => {
+          onCloseModal: () => {
             handleCloseModal();
             history.replace(location.pathname.replace(`/${paymentUUID}`, ''));
           },
@@ -325,11 +325,7 @@ class Payments extends Component {
         {
           modal.name === MODAL_PAYMENT_DETAIL &&
           <PaymentDetailModal
-            playerProfile={playerProfile}
-            onClose={this.handleCloseModal}
-            onChangePaymentStatus={this.handleChangePaymentStatus}
-            onAskReason={this.handleAskReason}
-            onNoteClick={this.handleNoteClick}
+            onCloseModal={this.handleCloseModal}
             {...modal.params}
           />
         }

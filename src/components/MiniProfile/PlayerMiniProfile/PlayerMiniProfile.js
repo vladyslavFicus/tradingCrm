@@ -88,7 +88,7 @@ PlayerMiniProfile.propTypes = {
     playerUUID: PropTypes.string.isRequired,
     username: PropTypes.string.isRequired,
     languageCode: PropTypes.string.isRequired,
-    kycCompleted: PropTypes.string.isRequired,
+    kycCompleted: PropTypes.string,
     fullName: PropTypes.string.isRequired,
     age: PropTypes.number.isRequired,
     profileStatus: PropTypes.string.isRequired,
