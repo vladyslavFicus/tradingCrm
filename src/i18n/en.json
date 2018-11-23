@@ -2180,6 +2180,10 @@
       "MESSAGE": "To update your client version, please confirm this action"
     }
   },
+  "FILE_DROPZONE": {
+    "DRAG_HERE_OR": "Drag and drop file here or",
+    "BROWSE_FILES": "Browse files"
+  },
   "DASHBOARD": {
     "REGISTRATION_CHART": {
       "TITLE": "Registrations",
@@ -2838,7 +2842,12 @@
       "VOICE_MAIL": "Voice mail",
       "CONVERTED": "Converted"
     },
-    "SUCCESS_PROMOTED": "Lead was promoted to id %{id}"
+    "SUCCESS_PROMOTED": "Lead was promoted to id %{id}",
+    "LEADS_UPLOAD_MODAL": {
+      "TITLE": "Leads upload",
+      "UPLOAD_CSV_TO_IMPORT_LEADS": "Upload a CSV file to import new Leads",
+      "SAMPLE_CSV": "Sample CSV"
+    }
   },
   "LEAD_PROFILE": {
     "UPDATED": "Lead updated successfully",

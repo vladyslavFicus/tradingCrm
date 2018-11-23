@@ -2,7 +2,6 @@ import React, { PureComponent } from 'react';
 import { get } from 'lodash';
 import PropTypes from '../../../../../constants/propTypes';
 import GridView, { GridViewColumn } from '../../../../../components/GridView';
-import ShortLoader from '../../../../../components/ShortLoader';
 import columns from './utils';
 
 class PaymentsGrid extends PureComponent {
@@ -25,6 +24,7 @@ class PaymentsGrid extends PureComponent {
   render() {
     const {
       clientPayments,
+      clientPayments: { loading },
       auth,
       fetchPlayerMiniProfile,
       loadPaymentStatuses,
@@ -35,32 +35,26 @@ class PaymentsGrid extends PureComponent {
 
     return (
       <div className="card card-body">
-        <Choose>
-          <When condition={clientPayments.loading}>
-            <ShortLoader />
-          </When>
-          <Otherwise>
-            <GridView
-              dataSource={payments}
-              showNoResults={payments.length === 0}
-              tableClassName="table-hovered"
-            >
-              {columns({
-                auth,
-                modals,
-                fetchPlayerMiniProfile,
-                loadPaymentStatuses,
-              }).map(({ name, header, render }) => (
-                <GridViewColumn
-                  key={name}
-                  name={name}
-                  header={header}
-                  render={render}
-                />
-              ))}
-            </GridView>
-          </Otherwise>
-        </Choose>
+        <GridView
+          loading={loading}
+          dataSource={payments}
+          showNoResults={payments.length === 0}
+          tableClassName="table-hovered"
+        >
+          {columns({
+            auth,
+            modals,
+            fetchPlayerMiniProfile,
+            loadPaymentStatuses,
+          }).map(({ name, header, render }) => (
+            <GridViewColumn
+              key={name}
+              name={name}
+              header={header}
+              render={render}
+            />
+          ))}
+        </GridView>
       </div>
     );
   }

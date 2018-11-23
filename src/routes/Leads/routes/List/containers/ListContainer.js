@@ -9,6 +9,7 @@ import { leadsQuery } from '../../../../../graphql/queries/leads';
 import { bulkLeadPromote } from '../../../../../graphql/mutations/leads';
 import { leadCsvUpload } from '../../../../../graphql/mutations/upload';
 import { departments } from '../../../../../constants/brands';
+import LeadsUploadModal from '../components/LeadsUploadModal/LeadsUploadModal';
 import List from '../components/List';
 
 const mapStateToProps = ({
@@ -33,6 +34,7 @@ export default compose(
   withNotifications,
   withModals({
     promoteInfoModal: Modal,
+    leadsUploadModal: LeadsUploadModal,
   }),
   connect(mapStateToProps),
   graphql(leadCsvUpload, {
@@ -48,6 +50,7 @@ export default compose(
       location: { query },
       auth,
     }) => ({
+      notifyOnNetworkStatusChange: true,
       variables: {
         ...query
           ? query.filters
