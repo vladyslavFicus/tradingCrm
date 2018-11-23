@@ -30,6 +30,7 @@ class RepresentativeUpdateModal extends Component {
     type: PropTypes.string.isRequired,
     client: PropTypes.object.isRequired,
     onSuccess: PropTypes.func.isRequired,
+    initialValues: PropTypes.object,
     userBranchHierarchy: PropTypes.shape({
       hierarchy: PropTypes.shape({
         userBranchHierarchy: PropTypes.shape({
@@ -61,6 +62,7 @@ class RepresentativeUpdateModal extends Component {
   static defaultProps = {
     error: null,
     additionalFields: null,
+    initialValues: null,
   };
 
   state = {
@@ -263,6 +265,7 @@ class RepresentativeUpdateModal extends Component {
       hierarchyUsers: { loading: initAgentsLoading },
       header,
       additionalFields,
+      initialValues,
     } = this.props;
 
     const {
@@ -275,6 +278,9 @@ class RepresentativeUpdateModal extends Component {
       agents,
       teams,
     } = this.state;
+
+    const submitDisabled =
+      agentsLoading || deskLoading || initAgentsLoading || invalid || (!initialValues && pristine) || submitting;
 
     return (
       <Modal
@@ -404,7 +410,7 @@ class RepresentativeUpdateModal extends Component {
           </button>
           <button
             type="submit"
-            disabled={agentsLoading || deskLoading || initAgentsLoading || invalid || pristine || submitting}
+            disabled={submitDisabled}
             className="btn btn-primary"
             form="representative-modal-form"
           >
