@@ -1,15 +1,12 @@
 import { connect } from 'react-redux';
 import { graphql, compose } from 'react-apollo';
-import update from 'react-addons-update';
 import { withRouter } from 'react-router-dom';
 import { actionCreators } from '../modules';
 import { withNotifications, withModals } from '../../../../../components/HighOrder';
 import { actionCreators as filesActionCreators } from '../modules/files';
 import Profile from '../components/Profile';
 import config, { getBrandId } from '../../../../../config';
-import Permissions from '../../../../../utils/permissions';
-import { userProfileTabs } from '../../../../../config/menu';
-import { clientQuery, locksQuery } from '../../../../../graphql/queries/profile';
+import { clientQuery } from '../../../../../graphql/queries/profile';
 import { notesQuery } from '../../../../../graphql/queries/notes';
 import ConfirmActionModal from '../../../../../components/Modal/ConfirmActionModal';
 import RepresentativeUpdateModal from '../../../../../components/RepresentativeUpdateModal';
@@ -24,8 +21,6 @@ import {
   passwordResetRequest,
   changePassword,
 } from '../../../../../graphql/mutations/profile';
-import { lockMutation, unlockMutation } from '../../../../../graphql/mutations/payment';
-import { unlockLoginMutation } from '../../../../../graphql/mutations/auth';
 import {
   updateNoteMutation,
   removeNoteMutation,
@@ -67,8 +62,6 @@ const mapStateToProps = (state) => {
     profile,
     uploading,
     uploadModalInitialValues,
-    userProfileTabs: userProfileTabs
-      .filter(i => !(i.permissions instanceof Permissions) || i.permissions.check(currentPermissions)),
     locale,
     config: config.player,
   };
@@ -97,20 +90,6 @@ export default compose(
   connect(mapStateToProps, mapActions),
   graphql(blockMutation, {
     name: 'blockMutation',
-  }),
-  graphql(locksQuery, {
-    name: 'locks',
-    options: ({
-      match: {
-        params: {
-          id: playerUUID,
-        },
-      },
-    }) => ({
-      variables: {
-        playerUUID,
-      },
-    }),
   }),
   graphql(suspendMutation, {
     name: 'suspendMutation',
@@ -216,175 +195,6 @@ export default compose(
 
         if (!selectedNote && pinned) {
           addPinnedNote(proxy, { playerUUID, targetUUID }, data);
-        }
-      },
-    }),
-  }),
-  graphql(unlockMutation, {
-    name: 'unlockPayment',
-    options: ({
-      match: {
-        params: {
-          id: playerUUID,
-        },
-      },
-    }) => ({
-      update: (proxy, {
-        data: {
-          payment: {
-            unlock: {
-              data: {
-                id,
-              },
-            },
-          },
-        },
-      }) => {
-        const {
-          playerProfileLocks: {
-            payment,
-          },
-          playerProfileLocks,
-        } = proxy.readQuery({
-          query: locksQuery,
-          variables: {
-            playerUUID,
-          },
-        });
-
-        if (payment) {
-          const selectedIndex = payment.findIndex(({
-            id: paymentId,
-          }) => id === paymentId);
-          const updatedLocks = update(playerProfileLocks, {
-            payment: {
-              $splice: [
-                [selectedIndex, 1],
-              ],
-            },
-          });
-
-          proxy.writeQuery({
-            query: locksQuery,
-            variables: {
-              playerUUID,
-            },
-            data: {
-              playerProfileLocks: updatedLocks,
-            },
-          });
-        }
-      },
-    }),
-  }),
-  graphql(lockMutation, {
-    name: 'lockPayment',
-    options: ({
-      match: {
-        params: {
-          id: playerUUID,
-        },
-      },
-    }) => ({
-      update: (proxy, {
-        data: {
-          payment: {
-            lock: {
-              data,
-              error,
-            },
-          },
-        },
-      }) => {
-        if (!error) {
-          const {
-            playerProfileLocks: {
-              payment,
-            },
-            playerProfileLocks,
-          } = proxy.readQuery({
-            query: locksQuery,
-            variables: {
-              playerUUID,
-            },
-          });
-          const updatedLocks = update(playerProfileLocks, {
-            payment: payment ? {
-              $push: [data],
-            } : {
-              $set: [data],
-            },
-          });
-
-          proxy.writeQuery({
-            query: locksQuery,
-            variables: {
-              playerUUID,
-            },
-            data: {
-              playerProfileLocks: updatedLocks,
-            },
-          });
-        }
-      },
-    }),
-  }),
-  graphql(unlockLoginMutation, {
-    name: 'unlockLogin',
-    options: ({
-      match: {
-        params: {
-          id: playerUUID,
-        },
-      },
-    }) => ({
-      update: (proxy, {
-        data: {
-          auth: {
-            unlockLogin: {
-              data: {
-                success,
-              },
-            },
-          },
-        },
-      }) => {
-        const {
-          playerProfileLocks: {
-            login,
-          },
-          playerProfileLocks,
-        } = proxy.readQuery({
-          query: locksQuery,
-          variables: {
-            playerUUID,
-          },
-        });
-
-        if (login && success) {
-          const updatedLocks = update(playerProfileLocks, {
-            login: {
-              locked: {
-                $set: false,
-              },
-              expirationDate: {
-                $set: null,
-              },
-              reason: {
-                $set: null,
-              },
-            },
-          });
-
-          proxy.writeQuery({
-            query: locksQuery,
-            variables: {
-              playerUUID,
-            },
-            data: {
-              playerProfileLocks: updatedLocks,
-            },
-          });
         }
       },
     }),

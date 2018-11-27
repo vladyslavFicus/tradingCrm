@@ -1,8 +1,6 @@
 import { connect } from 'react-redux';
 import { compose, graphql } from 'react-apollo';
 import { get } from 'lodash';
-import moment from 'moment';
-import { paymentActions, chargebackReasons, rejectReasons } from '../../../../../constants/payment';
 import { departments } from '../../../../../constants/brands';
 import { actionCreators as miniProfileActionCreators } from '../../../../../redux/modules/miniProfile';
 import { getClientPayments } from '../../../../../graphql/queries/payments';
@@ -17,10 +15,6 @@ const mapStateToProps = ({
 }) => ({
   ...transactions,
   locale,
-  paymentActionReasons: {
-    [paymentActions.REJECT]: rejectReasons,
-    [paymentActions.CHARGEBACK]: chargebackReasons,
-  },
   auth: {
     brandId,
     uuid,
@@ -45,11 +39,13 @@ export default compose(
   connect(mapStateToProps, mapActions),
   graphql(getClientPayments, {
     name: 'clientPayments',
-    options: ({ location: { query } }) => ({
+    options: ({
+      location: { query },
+    }) => ({
       variables: {
         ...query && query.filters,
         page: 0,
-        size: 20,
+        limit: 20,
       },
     }),
     props: ({ clientPayments: { clientPayments, fetchMore, ...rest } }) => {
@@ -66,16 +62,32 @@ export default compose(
                 return previousResult;
               }
 
+              if (fetchMoreResult.clientPayments.error) {
+                return {
+                  ...previousResult,
+                  ...fetchMoreResult,
+                  clientPayments: {
+                    ...previousResult.clientPayments,
+                    ...fetchMoreResult.clientPayments,
+                  },
+                };
+              }
+
               return {
                 ...previousResult,
                 ...fetchMoreResult,
                 clientPayments: {
                   ...previousResult.clientPayments,
                   ...fetchMoreResult.clientPayments,
-                  content: [
-                    ...previousResult.clientPayments.content,
-                    ...fetchMoreResult.clientPayments.content,
-                  ],
+                  data: {
+                    ...previousResult.clientPayments.data,
+                    ...fetchMoreResult.clientPayments.data,
+                    page: fetchMoreResult.clientPayments.page,
+                    content: [
+                      ...previousResult.clientPayments.data.content,
+                      ...fetchMoreResult.clientPayments.data.content,
+                    ],
+                  },
                 },
               };
             },

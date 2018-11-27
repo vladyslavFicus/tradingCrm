@@ -17,7 +17,7 @@ import renderLabel from '../../../../../utils/renderLabel';
 export default (
   I18n,
   auth,
-  fetchPlayerMiniProfile
+  fetchPlayerMiniProfile,
 ) => [{
   name: 'client',
   header: I18n.t('CLIENTS.LIST.GRID_HEADER.CLIENT'),

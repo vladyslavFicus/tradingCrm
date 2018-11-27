@@ -4,20 +4,9 @@ import { get } from 'lodash';
 import PropTypes from '../../../../../../../../../constants/propTypes';
 import GridView, { GridViewColumn } from '../../../../../../../../../components/GridView';
 import { targetTypes } from '../../../../../../../../../constants/note';
-import TransactionsFilterForm from './TransactionsFilterForm';
-import PaymentDetailModal from '../../../../../../../../../components/PaymentDetailModal';
-import PaymentActionReasonModal from '../../../../../../../../../components/PaymentActionReasonModal';
-import PaymentAddModal from './PaymentAddModal';
 import history from '../../../../../../../../../router/history';
+import TransactionsFilterForm from './TransactionsFilterForm';
 import columns from './utils';
-
-const MODAL_PAYMENT_DETAIL = 'payment-detail';
-const MODAL_PAYMENT_ACTION_REASON = 'payment-action-reason';
-const MODAL_PAYMENT_ADD = 'payment-add';
-const defaultModalState = {
-  name: null,
-  params: {},
-};
 
 class Payments extends Component {
   static propTypes = {
@@ -32,9 +21,6 @@ class Payments extends Component {
     fetchEntities: PropTypes.func.isRequired,
     fetchFilters: PropTypes.func.isRequired,
     resetAll: PropTypes.func.isRequired,
-    loadPaymentStatuses: PropTypes.func.isRequired,
-    onChangePaymentStatus: PropTypes.func.isRequired,
-    loadPaymentAccounts: PropTypes.func.isRequired,
     manageNote: PropTypes.func.isRequired,
     resetNote: PropTypes.func.isRequired,
     currencyCode: PropTypes.string,
@@ -45,7 +31,6 @@ class Payments extends Component {
     }).isRequired,
     newPaymentNote: PropTypes.noteEntity,
     playerProfile: PropTypes.userProfile,
-    paymentActionReasons: PropTypes.paymentActionReasons,
     playerLimits: PropTypes.shape({
       entities: PropTypes.arrayOf(PropTypes.playerLimitEntity).isRequired,
       deposit: PropTypes.shape({
@@ -67,7 +52,13 @@ class Payments extends Component {
       refetch: PropTypes.func.isRequired,
       loading: PropTypes.bool.isRequired,
       loadMore: PropTypes.func.isRequired,
-      clientPaymentsByUuid: PropTypes.pageable(PropTypes.paymentEntity),
+      clientPaymentsByUuid: PropTypes.shape({
+        data: PropTypes.pageable(PropTypes.paymentEntity),
+        error: PropTypes.object,
+      }),
+    }).isRequired,
+    modals: PropTypes.shape({
+      addPayment: PropTypes.modalType,
     }).isRequired,
   };
 
@@ -85,11 +76,6 @@ class Payments extends Component {
     newPaymentNote: null,
     currencyCode: null,
     playerProfile: {},
-    paymentActionReasons: {},
-  };
-
-  state = {
-    modal: defaultModalState,
   };
 
   async componentDidMount() {
@@ -101,14 +87,10 @@ class Payments extends Component {
       },
       constructor: { name },
       handleRefresh,
-      handleOpenDetailModal,
-      handleCloseModal,
       handleOpenAddPaymentModal,
       props: {
-        match: { params: { id: playerUUID, paymentUUID } },
+        match: { params: { id: playerUUID } },
         fetchFilters,
-        fetchEntities,
-        location,
       },
     } = this;
 
@@ -116,20 +98,6 @@ class Payments extends Component {
     registerUpdateCacheListener(name, handleRefresh);
     fetchFilters(playerUUID);
     setNoteChangedCallback(handleRefresh);
-
-    if (paymentUUID) {
-      const action = await fetchEntities(playerUUID, { keyword: paymentUUID });
-
-      if (action && !action.error && action.payload.content.length > 0) {
-        handleOpenDetailModal({
-          payment: action.payload.content[0],
-          onCloseModal: () => {
-            handleCloseModal();
-            history.replace(location.pathname.replace(`/${paymentUUID}`, ''));
-          },
-        });
-      }
-    }
 
     setRenderActions(() => (
       <button className="btn btn-sm btn-primary-outline" onClick={handleOpenAddPaymentModal}>
@@ -209,19 +177,29 @@ class Payments extends Component {
   handleAddPayment = async (inputParams) => {
     const {
       addPayment,
-      match: { params: { id: profileId } },
+      match: { params: { id: uuid } },
       currencyCode,
       clientPayments: { refetch },
-      playerProfile: { country, languageCode: language },
+      playerProfile: {
+        country,
+        languageCode: language,
+        firstName,
+        lastName,
+      },
       fetchProfile,
+      modals: { addPayment: modal },
     } = this.props;
 
     const variables = {
       ...inputParams,
-      profileId,
-      country,
       language,
       currency: currencyCode,
+      playerProfile: {
+        country,
+        firstName,
+        lastName,
+        uuid,
+      },
     };
     const { data: { payment: { createClientPayment: { error } } } } = await addPayment({ variables });
 
@@ -232,68 +210,37 @@ class Payments extends Component {
         refetch(),
         fetchProfile(profileId),
       ]);
-      this.handleCloseModal();
+      modal.hide();
     }
   };
 
   handleOpenAddPaymentModal = () => {
-    this.setState({ modal: { name: MODAL_PAYMENT_ADD } });
-  };
+    const {
+      modals: { addPayment },
+      manageNote,
+      playerProfile,
+    } = this.props;
 
-  handleAskReason = (data) => {
-    this.handleCloseModal();
-
-    return this.handleOpenReasonModal({
-      ...data,
-      reasons: this.props.paymentActionReasons[data.action] || {},
-    });
-  };
-
-  handleOpenReasonModal = (params) => {
-    this.setState({
-      modal: {
-        ...defaultModalState,
-        name: MODAL_PAYMENT_ACTION_REASON,
-        params,
-      },
-    });
-  };
-
-  handleOpenDetailModal = (params) => {
-    this.setState({
-      modal: {
-        ...defaultModalState,
-        name: MODAL_PAYMENT_DETAIL,
-        params,
-      },
-    });
-  };
-
-  handleCloseModal = (callback) => {
-    this.setState({ modal: { ...defaultModalState } }, () => {
-      if (typeof callback === 'function') {
-        callback();
-      }
+    addPayment.show({
+      onSubmit: this.handleAddPayment,
+      playerProfile,
+      onManageNote: manageNote,
     });
   };
 
   render() {
-    const { modal } = this.state;
     const {
       filters: { data: availableFilters },
-      loadPaymentAccounts,
-      manageNote,
       playerProfile,
-      playerLimits,
       locale,
-      loadPaymentStatuses,
       clientPayments: {
         loading,
+        clientPaymentsByUuid,
       },
     } = this.props;
 
-    const mt4Users = get(playerProfile, 'tradingProfile.mt4Users');
-    const entities = get(this.props.clientPayments, 'clientPaymentsByUuid') || { content: [] };
+    const entities = get(clientPaymentsByUuid, 'data') || { content: [] };
+    const error = get(clientPaymentsByUuid, 'error');
 
     return (
       <Fragment>
@@ -312,12 +259,9 @@ class Payments extends Component {
             last={entities.last}
             lazyLoad
             locale={locale}
-            showNoResults={!loading && entities.content.length === 0}
+            showNoResults={!!error || (!loading && entities.content.length === 0)}
           >
-            {columns(
-              this.handleOpenDetailModal,
-              loadPaymentStatuses
-            ).map(({ name, header, render }) => (
+            {columns.map(({ name, header, render }) => (
               <GridViewColumn
                 key={name}
                 name={name}
@@ -327,38 +271,6 @@ class Payments extends Component {
             ))}
           </GridView>
         </div>
-        {
-          modal.name === MODAL_PAYMENT_DETAIL &&
-          <PaymentDetailModal
-            onCloseModal={this.handleCloseModal}
-            {...modal.params}
-          />
-        }
-
-        {
-          modal.name === MODAL_PAYMENT_ACTION_REASON &&
-          <PaymentActionReasonModal
-            {...modal.params}
-            onClose={this.handleCloseModal}
-            onChangePaymentStatus={this.handleChangePaymentStatus}
-            onNoteClick={this.handleNoteClick}
-            onSubmit={this.handleChangePaymentStatus}
-          />
-        }
-
-        {
-          modal.name === MODAL_PAYMENT_ADD &&
-          <PaymentAddModal
-            {...modal.params}
-            playerProfile={playerProfile}
-            onClose={this.handleCloseModal}
-            onLoadPaymentAccounts={() => loadPaymentAccounts(playerProfile.playerUUID)}
-            onSubmit={this.handleAddPayment}
-            onManageNote={manageNote}
-            playerLimits={playerLimits}
-            mt4Accounts={mt4Users}
-          />
-        }
       </Fragment>
     );
   }

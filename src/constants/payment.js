@@ -2,21 +2,65 @@ import keyMirror from 'keymirror';
 import I18n from '../utils/fake-i18n';
 
 const statuses = keyMirror({
-  APPROVED: null,
+  REJECTED: null,
   PENDING: null,
-  REFUSED: null,
   FAILED: null,
   COMPLETED: null,
-  CHARGEBACK: null,
 });
 
+const tradingStatuses = keyMirror({
+  PAYMENT_PENDING: null,
+  PAYMENT_FAILED: null,
+  PAYMENT_REFUSED: null,
+  PAYMENT_CHARGEBACK: null,
+  PAYMENT_COMPLETED: null,
+  TRANSACTION_FAILED: null,
+  TRANSACTION_COMPLETED: null,
+  MT4_FAILED: null,
+  MT4_COMPLETED: null,
+});
+
+const statusMapper = {
+  [statuses.COMPLETED]: [tradingStatuses.MT4_COMPLETED],
+  [statuses.FAILED]: [
+    tradingStatuses.MT4_FAILED,
+    tradingStatuses.PAYMENT_FAILED,
+    tradingStatuses.TRANSACTION_FAILED,
+  ],
+  [statuses.PENDING]: [
+    tradingStatuses.PAYMENT_PENDING,
+    tradingStatuses.PAYMENT_COMPLETED,
+    tradingStatuses.TRANSACTION_COMPLETED,
+    tradingStatuses.PAYMENT_FAILED,
+    tradingStatuses.TRANSACTION_FAILED,
+  ],
+  [statuses.REJECTED]: [tradingStatuses.PAYMENT_REFUSED],
+};
+
 const methods = keyMirror({
-  fakepal: null,
-  qiwi: null,
-  visa: null,
-  card: null,
-  mastercard: null,
-  yamoney: null,
+  SKRILL: null,
+  PAYPAL: null,
+  CREDIT_CARD: null,
+  B2CRYPTO: null,
+  PAYRETAILERS: null,
+  PAYTRIO: null,
+  WIRECAPITAL: null,
+  EFTPAY: null,
+});
+
+const aggregators = keyMirror({
+  CASHIER: null,
+  MANUAL: null,
+  NASPAY: null,
+});
+
+const manualPaymentMethods = keyMirror({
+  SYSTEM: null,
+  CREDIT_CARD: null,
+  WIRE: null,
+  EXTERNAL: null,
+  MIGRATION: null,
+  INTERNAL_TRANSFER: null,
 });
 
 const methodStatuses = keyMirror({
@@ -69,38 +113,55 @@ const accountStatusActions = {
   ],
 };
 
-const chargebackReasons = {
-  'PAYMENT.DEPOSIT_CHARGEBACK.REASONS.STOLEN_LOST_CC':
-    I18n.t('PAYMENT.DEPOSIT_CHARGEBACK.REASONS.STOLEN_LOST_CC'),
-  'PAYMENT.DEPOSIT_CHARGEBACK.REASONS.CUSTOMER_NOT_SATISFIED':
-    I18n.t('PAYMENT.DEPOSIT_CHARGEBACK.REASONS.CUSTOMER_NOT_SATISFIED'),
-};
-
-const rejectReasons = {
-  'PAYMENT.WITHDRAW_REJECT.REASONS.USING_DIFFERENT_PM':
-    I18n.t('PAYMENT.WITHDRAW_REJECT.REASONS.USING_DIFFERENT_PM'),
-  'PAYMENT.WITHDRAW_REJECT.REASONS.USING_3RD_PARTY_PM':
-    I18n.t('PAYMENT.WITHDRAW_REJECT.REASONS.USING_3RD_PARTY_PM'),
-  'PAYMENT.WITHDRAW_REJECT.REASONS.CUSTOMER_REQUEST':
-    I18n.t('PAYMENT.WITHDRAW_REJECT.REASONS.CUSTOMER_REQUEST'),
-};
-
-const paymentActions = {
-  REJECT: 'refuse',
-  CHARGEBACK: 'chargeback',
-  APPROVE: 'approve',
-};
-
 const types = keyMirror({
   Deposit: null,
-  DEPOSIT_BY_PAYMENT_METHOD: null,
-  WITHDRAW_BY_PAYMENT_METHOD: null,
   Withdraw: null,
   Confiscate: null,
   Transfer: null,
   CREDIT_IN: null,
   CREDIT_OUT: null,
 });
+
+const tradingTypes = keyMirror({
+  DEPOSIT: null,
+  WITHDRAW: null,
+  CONFISCATE: null,
+  TRANSFER_IN: null,
+  TRANSFER_OUT: null,
+  CREDIT_IN: null,
+  CREDIT_OUT: null,
+});
+
+const tradingTypesLabelsWithColor = {
+  [tradingTypes.DEPOSIT]: {
+    label: 'COMMON.PAYMENT_TYPE.DEPOSIT',
+    color: 'color-success',
+  },
+  [tradingTypes.WITHDRAW]: {
+    label: 'COMMON.PAYMENT_TYPE.WITHDRAW',
+    color: 'color-danger',
+  },
+  [tradingTypes.CONFISCATE]: {
+    label: 'COMMON.PAYMENT_TYPE.CONFISCATE',
+    color: 'color-danger',
+  },
+  [tradingTypes.TRANSFER_IN]: {
+    label: 'COMMON.PAYMENT_TYPE.TRANSFER_IN',
+    color: 'color-info',
+  },
+  [tradingTypes.TRANSFER_OUT]: {
+    label: 'COMMON.PAYMENT_TYPE.TRANSFER_OUT',
+    color: 'color-info',
+  },
+  [tradingTypes.CREDIT_IN]: {
+    label: 'COMMON.PAYMENT_TYPE.CREDIT_IN',
+    color: 'color-warning',
+  },
+  [tradingTypes.CREDIT_OUT]: {
+    label: 'COMMON.PAYMENT_TYPE.CREDIT_OUT',
+    color: 'color-warning',
+  },
+};
 
 const customTypes = keyMirror({
   NORMAL: null,
@@ -124,28 +185,40 @@ const customTypesProps = {
 
 const manualTypesLabels = {
   [types.Deposit]: 'Manual deposit',
-  [types.WITHDRAW_BY_PAYMENT_METHOD]: 'Withdraw by payment method',
-  [types.DEPOSIT_BY_PAYMENT_METHOD]: 'Deposit by payment method',
   [types.Withdraw]: 'Manual withdraw',
   [types.Confiscate]: 'Confiscate',
 };
 
 const statusesLabels = {
-  [statuses.APPROVED]: 'Approved',
-  [statuses.PENDING]: 'Pending',
-  [statuses.REFUSED]: 'Refused',
-  [statuses.FAILED]: 'Failed',
-  [statuses.COMPLETED]: 'Completed',
-  [statuses.CHARGEBACK]: 'Chargeback',
+  [statuses.PENDING]: 'COMMON.PAYMENT_STATUS.PENDING',
+  [statuses.REJECTED]: 'COMMON.PAYMENT_STATUS.REJECTED',
+  [statuses.FAILED]: 'COMMON.PAYMENT_STATUS.FAILED',
+  [statuses.COMPLETED]: 'COMMON.PAYMENT_STATUS.COMPLETED',
 };
 
 const methodsLabels = {
-  [methods.fakepla]: I18n.t('CONSTANTS.PAYMENT.PAYMENT_METHODS.FAKEPAL'),
-  [methods.qiwi]: I18n.t('CONSTANTS.PAYMENT.PAYMENT_METHODS.QIWI'),
-  [methods.visa]: I18n.t('CONSTANTS.PAYMENT.PAYMENT_METHODS.VISA'),
-  [methods.card]: I18n.t('CONSTANTS.PAYMENT.PAYMENT_METHODS.CARD'),
-  [methods.mastercard]: I18n.t('CONSTANTS.PAYMENT.PAYMENT_METHODS.MASTERCARD'),
-  [methods.yamoney]: I18n.t('CONSTANTS.PAYMENT.PAYMENT_METHODS.YANDEX_MONEY'),
+  [methods.SKRILL]: I18n.t('CONSTANTS.PAYMENT.PAYMENT_METHODS.SKRILL'),
+  [methods.PAYPAL]: I18n.t('CONSTANTS.PAYMENT.PAYMENT_METHODS.PAYPAL'),
+  [methods.CREDIT_CARD]: I18n.t('CONSTANTS.PAYMENT.PAYMENT_METHODS.CREDIT_CARD'),
+  [methods.B2CRYPTO]: I18n.t('CONSTANTS.PAYMENT.PAYMENT_METHODS.B2CRYPTO'),
+  [methods.PAYRETAILERS]: I18n.t('CONSTANTS.PAYMENT.PAYMENT_METHODS.PAYRETAILERS'),
+  [methods.WIRECAPITAL]: I18n.t('CONSTANTS.PAYMENT.PAYMENT_METHODS.WIRECAPITAL'),
+  [methods.EFTPAY]: I18n.t('CONSTANTS.PAYMENT.PAYMENT_METHODS.EFTPAY'),
+};
+
+const aggregatorsLabels = {
+  [aggregators.CASHIER]: 'CONSTANTS.PAYMENT.PAYMENT_AGGREGATORS.CASHIER',
+  [aggregators.MANUAL]: 'CONSTANTS.PAYMENT.PAYMENT_AGGREGATORS.MANUAL',
+  [aggregators.NASPAY]: 'CONSTANTS.PAYMENT.PAYMENT_AGGREGATORS.NASPAY',
+};
+
+const manualPaymentMethodsLabels = {
+  [manualPaymentMethods.SYSTEM]: 'CONSTANTS.TRANSACTIONS.FILTER_FORM.PAYMENT_ACCOUNTS.SYSTEM',
+  [manualPaymentMethods.CREDIT_CARD]: 'CONSTANTS.TRANSACTIONS.FILTER_FORM.PAYMENT_ACCOUNTS.CREDIT_CARD',
+  [manualPaymentMethods.WIRE]: 'CONSTANTS.TRANSACTIONS.FILTER_FORM.PAYMENT_ACCOUNTS.WIRE',
+  [manualPaymentMethods.EXTERNAL]: 'CONSTANTS.TRANSACTIONS.FILTER_FORM.PAYMENT_ACCOUNTS.EXTERNAL',
+  [manualPaymentMethods.MIGRATION]: 'CONSTANTS.TRANSACTIONS.FILTER_FORM.PAYMENT_ACCOUNTS.MIGRATION',
+  [manualPaymentMethods.INTERNAL_TRANSFER]: 'CONSTANTS.TRANSACTIONS.FILTER_FORM.PAYMENT_ACCOUNTS.INTERNAL_TRANSFER',
 };
 
 const methodsStatusesLabels = {
@@ -175,12 +248,10 @@ const typesProps = {
 };
 
 const statusesColor = {
-  [statuses.APPROVED]: 'color-success',
   [statuses.PENDING]: 'color-info',
-  [statuses.REFUSED]: 'color-warning',
+  [statuses.REJECTED]: 'color-danger',
   [statuses.FAILED]: 'color-danger',
   [statuses.COMPLETED]: 'color-success',
-  [statuses.CHARGEBACK]: 'color-secondary',
 };
 
 const methodStatusesColor = {
@@ -192,6 +263,7 @@ const initiators = keyMirror({
   PLAYER: null,
   OPERATOR: null,
 });
+
 const initiatorsLabels = {
   [initiators.PLAYER]: 'Player',
   [initiators.OPERATOR]: 'Operator',
@@ -199,8 +271,12 @@ const initiatorsLabels = {
 
 export {
   statuses,
+  tradingStatuses,
   statusesLabels,
+  statusMapper,
   methods,
+  aggregators,
+  manualPaymentMethods,
   methodStatuses,
   methodsStatusesLabels,
   methodsLabels,
@@ -209,18 +285,19 @@ export {
   customTypesLabels,
   customTypesProps,
   manualTypesLabels,
+  aggregatorsLabels,
+  manualPaymentMethodsLabels,
   typesLabels,
   typesProps,
   statusesColor,
   methodStatusesColor,
   methodStatusActions,
-  paymentActions,
   initiators,
   initiatorsLabels,
   accountStatuses,
   accountStatusLabels,
   accountStatusColors,
   accountStatusActions,
-  chargebackReasons,
-  rejectReasons,
+  tradingTypes,
+  tradingTypesLabelsWithColor,
 };

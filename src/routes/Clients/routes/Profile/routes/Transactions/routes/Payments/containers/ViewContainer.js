@@ -5,9 +5,10 @@ import moment from 'moment';
 import Payments from '../components/Payments';
 import { actionCreators as viewActionCreators } from '../modules';
 import { actionCreators as playerActionCreators } from '../../../../../modules';
-import { paymentActions, chargebackReasons, rejectReasons } from '../../../../../../../../../constants/payment';
+import { withModals } from '../../../../../../../../../components/HighOrder';
 import { addPaymentMutation } from '../../../../../../../../../graphql/mutations/payment';
 import { getClientPaymentsByUuid } from '../../../../../../../../../graphql/queries/payments';
+import PaymentAddModal from '../components/PaymentAddModal';
 
 const mapStateToProps = ({
   userTransactions,
@@ -19,10 +20,6 @@ const mapStateToProps = ({
   currencyCode: profile.data.currencyCode,
   playerProfile: profile.data,
   playerLimits,
-  paymentActionReasons: {
-    [paymentActions.REJECT]: rejectReasons,
-    [paymentActions.CHARGEBACK]: chargebackReasons,
-  },
 });
 
 const mapActions = {
@@ -39,6 +36,10 @@ const mapActions = {
 };
 
 export default compose(
+  withModals({
+    addPayment: PaymentAddModal,
+  }),
+  connect(mapStateToProps, mapActions),
   graphql(addPaymentMutation, {
     name: 'addPayment',
   }),
@@ -89,5 +90,4 @@ export default compose(
       };
     },
   }),
-  connect(mapStateToProps, mapActions),
 )(Payments);

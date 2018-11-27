@@ -1,21 +1,10 @@
 import React, { Component } from 'react';
-import { I18n } from 'react-redux-i18n';
 import { get } from 'lodash';
-import TransactionsFilterForm from '../../../components/TransactionsFilterForm';
 import PropTypes from '../../../../../constants/propTypes';
 import GridView, { GridViewColumn } from '../../../../../components/GridView';
-import PaymentDetailModal from '../../../../../components/PaymentDetailModal';
-import PaymentActionReasonModal from '../../../../../components/PaymentActionReasonModal';
-import { targetTypes } from '../../../../../constants/note';
 import history from '../../../../../router/history';
+import TransactionsFilterForm from './TransactionsFilterForm';
 import columns from './utils';
-
-const MODAL_PAYMENT_DETAIL = 'payment-detail';
-const MODAL_PAYMENT_ACTION_REASON = 'payment-action-reason';
-const defaultModalState = {
-  name: null,
-  params: {},
-};
 
 class View extends Component {
   static propTypes = {
@@ -33,7 +22,6 @@ class View extends Component {
     loadPaymentStatuses: PropTypes.func.isRequired,
     onChangePaymentStatus: PropTypes.func.isRequired,
     resetAll: PropTypes.func.isRequired,
-    paymentActionReasons: PropTypes.paymentActionReasons.isRequired,
     locale: PropTypes.string.isRequired,
     exportEntities: PropTypes.func.isRequired,
     fetchPlayerMiniProfile: PropTypes.func.isRequired,
@@ -43,7 +31,12 @@ class View extends Component {
     }).isRequired,
     currencies: PropTypes.arrayOf(PropTypes.string).isRequired,
     clientPayments: PropTypes.shape({
-      clientPayments: PropTypes.object,
+      clientPayments: PropTypes.shape({
+        data: PropTypes.pageable(PropTypes.paymentEntity),
+        error: PropTypes.shape({
+          error: PropTypes.any,
+        }),
+      }),
       loading: PropTypes.bool.isRequired,
       loadMore: PropTypes.func,
       refetch: PropTypes.func,
@@ -68,11 +61,8 @@ class View extends Component {
     },
   };
 
-  state = {
-    modal: { ...defaultModalState },
-  };
-
   componentDidMount() {
+    // TODO: fetch filters(payment methods) from graphQl
     this.props.fetchFilters();
     this.context.notes.setNoteChangedCallback(this.handleRefresh);
   }
@@ -112,63 +102,13 @@ class View extends Component {
     history.replace({});
   };
 
-  handleNoteClick = (target, note, data) => {
-    if (note) {
-      this.context.notes.onEditNoteClick(target, note, { placement: 'left' });
-    } else {
-      this.context.notes.onAddNoteClick(
-        target,
-        { playerUUID: data.playerUUID, targetUUID: data.paymentId, targetType: targetTypes.PAYMENT },
-        { placement: 'left' }
-      );
-    }
-  };
-
+  // this probably will use in another place
   handleChangePaymentStatus = (action, playerUUID, paymentId, options = {}) => {
     const { onChangePaymentStatus } = this.props;
 
     return onChangePaymentStatus({ action, playerUUID, paymentId, options })
       .then(this.handleRefresh)
       .then(this.handleCloseModal);
-  };
-
-  handleAskReason = (data) => {
-    this.handleCloseModal();
-
-    return this.handleOpenReasonModal({
-      ...data,
-      reasons: this.props.paymentActionReasons[data.action] || [],
-    });
-  };
-
-  handleOpenReasonModal = (params) => {
-    this.setState({
-      modal: {
-        ...defaultModalState,
-        name: MODAL_PAYMENT_ACTION_REASON,
-        params,
-      },
-    });
-  };
-
-  handleOpenDetailModal = async (params) => {
-    this.setState({
-      modal: {
-        ...defaultModalState,
-        name: MODAL_PAYMENT_DETAIL,
-        params: {
-          ...params,
-        },
-      },
-    });
-  };
-
-  handleCloseModal = (callback) => {
-    this.setState({ modal: { ...defaultModalState } }, () => {
-      if (typeof callback === 'function') {
-        callback();
-      }
-    });
   };
 
   render() {
@@ -179,20 +119,13 @@ class View extends Component {
       clientPayments,
       auth,
       fetchPlayerMiniProfile,
-      loadPaymentStatuses,
     } = this.props;
 
-    const { modal } = this.state;
-    const entities = get(clientPayments, 'clientPayments', { content: [] });
+    const entities = get(clientPayments, 'clientPayments.data') || { content: [] };
+    const error = get(clientPayments, 'clientPayments.error');
 
     return (
       <div className="card">
-        <div className="card-heading">
-          <span className="font-size-20" id="transactions-list-header">
-            {I18n.t('COMMON.PAYMENTS')}
-          </span>
-        </div>
-
         <TransactionsFilterForm
           onSubmit={this.handleFiltersChanged}
           onReset={this.handleFilterReset}
@@ -210,15 +143,13 @@ class View extends Component {
             last={entities.last}
             lazyLoad
             locale={locale}
-            showNoResults={!clientPayments.loading && entities.content.length === 0}
+            showNoResults={!!error || (!clientPayments.loading && entities.content.length === 0)}
           >
             {columns(
               {
                 auth,
                 fetchPlayerMiniProfile,
-                loadPaymentStatuses,
               },
-              this.handleOpenDetailModal,
             ).map(({ name, header, render }) => (
               <GridViewColumn
                 key={name}
@@ -228,23 +159,6 @@ class View extends Component {
               />
             ))}
           </GridView>
-          {
-            modal.name === MODAL_PAYMENT_DETAIL &&
-            <PaymentDetailModal
-              {...modal.params}
-              onCloseModal={this.handleCloseModal}
-            />
-          }
-
-          {
-            modal.name === MODAL_PAYMENT_ACTION_REASON &&
-            <PaymentActionReasonModal
-              {...modal.params}
-              onClose={this.handleCloseModal}
-              onChangePaymentStatus={this.handleChangePaymentStatus}
-              onNoteClick={this.handleNoteClick}
-            />
-          }
         </div>
       </div>
     );

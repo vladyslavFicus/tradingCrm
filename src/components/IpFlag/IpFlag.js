@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { I18n } from 'react-redux-i18n';
 import countryList from 'country-list';
@@ -10,7 +10,7 @@ const IpFlag = ({ id, country, ip }) => {
   const tooltipContent = [countryName, ip].filter(i => i).join(' - ');
 
   return (
-    <span>
+    <Fragment>
       <i id={id} className={classNames('fs-icon', { [`fs-${country ? country.toLowerCase() : ''}`]: country })} />
       <UncontrolledTooltip
         placement="top"
@@ -26,7 +26,7 @@ const IpFlag = ({ id, country, ip }) => {
             : I18n.t('COMMON.UNAVAILABLE')
         }
       </UncontrolledTooltip>
-    </span>
+    </Fragment>
   );
 };
 

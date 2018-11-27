@@ -105,6 +105,7 @@ class TransactionStatus extends Component {
         <div className={classNames(statusesColor[transactionStatus], 'font-weight-700 text-uppercase status')}>
           {renderLabel(transactionStatus, statusesLabels)}
           {
+            // will be implemented in CRYTPMB-190
             (transactionStatus === statuses.FAILED || transactionStatus === statuses.REFUSED) && !!transaction.reason &&
             <FailedStatusIcon id={`transaction-failure-reason-${transaction.paymentId}`}>
               {transaction.reason}

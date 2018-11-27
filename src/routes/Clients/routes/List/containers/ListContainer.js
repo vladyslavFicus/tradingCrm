@@ -1,6 +1,5 @@
 import { connect } from 'react-redux';
 import { withApollo, graphql, compose } from 'react-apollo';
-import moment from 'moment';
 import { get } from 'lodash';
 import countries from '../../../../../utils/countryList';
 import { actionCreators as miniProfileActionCreators } from '../../../../../redux/modules/miniProfile';
@@ -18,7 +17,7 @@ const mapStateToProps = ({
   usersList: list,
   i18n: { locale },
   options: { data: { currencyCodes } },
-  auth: { brandId, uuid, hierarchyUsers, department },
+  auth: { brandId, uuid, department },
 }) => ({
   list,
   locale,
@@ -27,7 +26,6 @@ const mapStateToProps = ({
   auth: {
     brandId,
     uuid,
-    hierarchyUsers,
     isAdministration: department === departments.ADMINISTRATION,
   },
 });

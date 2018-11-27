@@ -22,13 +22,6 @@ import Offices from '../../Offices';
 import Desks from '../../Desks';
 import Teams from '../../Teams';
 import Callbacks from '../../Callbacks';
-/* ------------- folders to delete ------------------- */
-// import Players from '../../Players';
-// import Transactions from '../../Transactions';
-// import Campaigns from '../../Campaigns';
-// import ConditionalTags from '../../ConditionalTags';
-// import Reports from '../../Reports';
-// import BonusCampaigns from '../../BonusCampaigns';
 
 class IndexRoute extends PureComponent {
   static propTypes = {

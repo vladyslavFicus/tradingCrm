@@ -2,101 +2,95 @@
 import React, { Fragment } from 'react';
 import { I18n } from 'react-redux-i18n';
 import moment from 'moment';
+import classNames from 'classnames';
 import GridPaymentInfo from '../../../../../components/GridPaymentInfo';
 import Uuid from '../../../../../components/Uuid';
 import GridPlayerInfo from '../../../../../components/GridPlayerInfo';
 import CountryLabelWithFlag from '../../../../../components/CountryLabelWithFlag';
-import TransactionStatus from '../../../../../components/TransactionStatus';
-import renderLabel from '../../../../../utils/renderLabel';
+import FailedStatusIcon from '../../../../../components/FailedStatusIcon';
 import {
-  customTypes as customPaymentTypes,
+  statuses,
   methodsLabels,
-  typesLabels,
-  typesProps, customTypesLabels, customTypesProps,
+  tradingTypesLabelsWithColor,
+  manualPaymentMethodsLabels,
+  aggregatorsLabels,
 } from '../../../../../constants/payment';
-import paymentAccounts from '../../../../../constants/paymentAccounts';
+import { getTradingStatusProps } from '../../../../../utils/paymentHelpers';
 
 export default (
   {
     auth,
     fetchPlayerMiniProfile,
-    loadPaymentStatuses,
   },
-  openModal,
 ) => [{
   name: 'paymentId',
   header: I18n.t('CONSTANTS.TRANSACTIONS.GRID_COLUMNS.TRANSACTIONS'),
   render: data => (
-    <GridPaymentInfo
-      payment={data}
-      onClick={() => openModal({ payment: data })}
-    />
+    <GridPaymentInfo payment={data} />
   ),
 }, {
   name: 'profile',
   header: I18n.t('CONSTANTS.TRANSACTIONS.GRID_COLUMNS.CLIENT'),
-  render: ({ playerProfile, playerUUID, paymentId }) => (
+  render: ({ playerProfile, language, paymentId }) => (
     <Choose>
       <When condition={playerProfile}>
         <GridPlayerInfo
-          profile={playerProfile}
+          profile={{
+            ...playerProfile,
+            playerUUID: playerProfile.uuid,
+            languageCode: language,
+          }}
           id={`transaction-${paymentId}`}
           fetchPlayerProfile={fetchPlayerMiniProfile}
           auth={auth}
         />
       </When>
       <Otherwise>
-        <Uuid uuid={playerUUID} uuidPrefix={playerUUID.indexOf('PLAYER') === -1 ? 'PL' : null} />
+        <Uuid uuid={playerProfile.uuid} uuidPrefix={playerProfile.uuid.indexOf('PLAYER') === -1 ? 'PL' : null} />
       </Otherwise>
     </Choose>
   ),
 }, {
   name: 'country',
   header: I18n.t('CONSTANTS.TRANSACTIONS.GRID_COLUMNS.COUNTRY'),
-  render: ({ playerProfile: { countryCode, languageCode } }) => (
+  render: ({ paymentMetadata: { country } }) => (
     <CountryLabelWithFlag
-      code={countryCode}
+      code={country}
       height="14"
-      languageCode={languageCode}
     />
   ),
 }, {
   name: 'paymentType',
   header: I18n.t('CONSTANTS.TRANSACTIONS.GRID_COLUMNS.PAYMENT_TYPE'),
-  render: ({ transactionTag, paymentType, paymentSystemRefs }) => (
-    <Fragment>
-      <Choose>
-        <When condition={transactionTag && transactionTag !== customPaymentTypes.NORMAL}>
-          <div {...customTypesProps[transactionTag]}>{renderLabel(transactionTag, customTypesLabels)}</div>
-        </When>
-        <Otherwise>
-          <div {...typesProps[paymentType]}>{renderLabel(paymentType, typesLabels)}</div>
-        </Otherwise>
-      </Choose>
-      <div className="font-size-11 text-uppercase">
-        {paymentSystemRefs.map((SystemRef, index) => (
-          <div key={`${SystemRef}-${index}`}>{SystemRef}</div>
-        ))}
-      </div>
-    </Fragment>
-  ),
+  render: ({ paymentType, externalReference }) => {
+    const { label, color } = tradingTypesLabelsWithColor[paymentType];
+
+    return (
+      <Fragment>
+        <div className={`text-uppercase font-weight-700 ${color}`}>{I18n.t(label)}</div>
+        <div className="font-size-11 text-uppercase">
+          {externalReference}
+        </div>
+      </Fragment>
+    );
+  },
 }, {
   name: 'amount',
   header: I18n.t('CONSTANTS.TRANSACTIONS.GRID_COLUMNS.AMOUNT'),
-  render: ({ currency, amount: { amount } }) => (
+  render: ({ currency, amount }) => (
     <div className="header-block-middle">{currency} {Number(amount).toFixed(2)}</div>
   ),
 }, {
   name: 'tradingAcc',
   header: I18n.t('CONSTANTS.TRANSACTIONS.GRID_COLUMNS.TRADING_ACC'),
-  render: ({ tradingAcc, symbol }) => (
+  render: ({ login, currency }) => (
     <Choose>
-      <When condition={tradingAcc}>
+      <When condition={login}>
         <div className="font-weight-700">
-          {tradingAcc}
+          {login}
         </div>
         <div className="font-size-11">
-          {symbol}
+          {currency}
         </div>
       </When>
       <Otherwise>
@@ -107,31 +101,46 @@ export default (
     </Choose>
   ),
 }, {
+  name: 'paymentAggregator',
+  header: I18n.t('CONSTANTS.TRANSACTIONS.GRID_COLUMNS.PAYMENT_AGGREGATOR'),
+  render: ({ paymentAggregator }) => (
+    <Choose>
+      <When condition={aggregatorsLabels[paymentAggregator]}>
+        <div className="font-weight-700">
+          {I18n.t(aggregatorsLabels[paymentAggregator])}
+        </div>
+      </When>
+      <Otherwise>
+        <div>&mdash;</div>
+      </Otherwise>
+    </Choose>
+  ),
+}, {
   name: 'paymentMethod',
   header: I18n.t('CONSTANTS.TRANSACTIONS.GRID_COLUMNS.PAYMENT_METHOD'),
-  render: ({ paymentMethod, paymentAccount, accountType }) => (
+  render: ({ paymentMethod }) => (
     <Choose>
       <When condition={!paymentMethod}>
-        <Choose>
-          <When condition={accountType}>
-            <div className="font-weight-700">
-              {paymentAccounts.find(item => item.value === accountType).label}
-            </div>
-          </When>
-          <Otherwise>
-            <span>&mdash;</span>
-          </Otherwise>
-        </Choose>
+        <div>&mdash;</div>
       </When>
       <Otherwise>
         <div className="font-weight-700">
-          {renderLabel(paymentMethod, methodsLabels)}
+          <Choose>
+            <When condition={methodsLabels[paymentMethod]}>
+              {I18n.t(methodsLabels[paymentMethod])}
+            </When>
+            <Otherwise>
+              <Choose>
+                <When condition={manualPaymentMethodsLabels[paymentMethod]}>
+                  {I18n.t(manualPaymentMethodsLabels[paymentMethod])}
+                </When>
+                <Otherwise>
+                  <div>&mdash;</div>
+                </Otherwise>
+              </Choose>
+            </Otherwise>
+          </Choose>
         </div>
-        <If condition={!!paymentAccount}>
-          <span className="font-size-11">
-            {paymentAccount}
-          </span>
-        </If>
       </Otherwise>
     </Choose>
   ),
@@ -151,10 +160,32 @@ export default (
 }, {
   name: 'status',
   header: I18n.t('CONSTANTS.TRANSACTIONS.GRID_COLUMNS.STATUS'),
-  render: data => (
-    <TransactionStatus
-      onLoadStatusHistory={() => loadPaymentStatuses(data.playerUUID, data.paymentId)}
-      transaction={data}
-    />
-  ),
+  render: ({ status, paymentId, reason, creationTime, createdBy }) => {
+    const { color, label } = getTradingStatusProps(status);
+
+    return (
+      <div>
+        <div className={classNames(color, 'font-weight-700 text-uppercase status')}>
+          {label}
+          <If condition={(status === statuses.FAILED || status === statuses.REJECTED) && !!reason}>
+            <FailedStatusIcon id={`transaction-failure-reason-${paymentId}`}>
+              {reason}
+            </FailedStatusIcon>
+          </If>
+        </div>
+        <div className="font-size-11">
+          {I18n.t('COMMON.DATE_ON', {
+            date: moment.utc(creationTime).local().format('DD.MM.YYYY - HH:mm:ss'),
+          })}
+        </div>
+        <If condition={createdBy}>
+          <div className="font-size-11">
+            {I18n.t('COMMON.AUTHOR_BY')}
+            {' '}
+            <Uuid uuid={createdBy} />
+          </div>
+        </If>
+      </div>
+    );
+  },
 }];
