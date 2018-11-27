@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "compile": "node build/scripts/compile",
-    "build": "cross-env NODE_ENV=production npm run compile",
+    "build": "cross-env rm -rf node_modules && NODE_ENV=production npm run compile",
     "start": "cross-env NODE_ENV=development npm run start:dev",
     "start:dev": "cross-env APP_ENV=development node build/scripts/start",
     "start:staging": "cross-env APP_ENV=staging node build/scripts/start",
