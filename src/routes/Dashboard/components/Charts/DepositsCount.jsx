@@ -8,7 +8,6 @@ const DepositsCount = () => (
     totalFieldName="totalDepositsCount"
     dataKey="deposits.count"
     headerTitle={I18n.t('DASHBOARD.DEPOSITS_COUNT_CHART.TITLE')}
-    footerTitle={I18n.t('DASHBOARD.DEPOSITS_COUNT_CHART.FOOTER_TITLE')}
     tooltipСontent={I18n.t('DASHBOARD.DEPOSITS_COUNT_CHART.TOOLTIP_TITLE')}
     noResultsText={I18n.t('DASHBOARD.DEPOSITS_COUNT_CHART.NO_RESULTS_TEXT')}
   />

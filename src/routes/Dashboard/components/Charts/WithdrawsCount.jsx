@@ -8,7 +8,6 @@ const WithdrawsCount = () => (
     totalFieldName="totalWithdrawsCount"
     dataKey="withdraws.count"
     headerTitle={I18n.t('DASHBOARD.WITHDRAWS_COUNT_CHART.TITLE')}
-    footerTitle={I18n.t('DASHBOARD.WITHDRAWS_COUNT_CHART.FOOTER_TITLE')}
     tooltipСontent={I18n.t('DASHBOARD.WITHDRAWS_COUNT_CHART.TOOLTIP_TITLE')}
     noResultsText={I18n.t('DASHBOARD.WITHDRAWS_COUNT_CHART.NO_RESULTS_TEXT')}
   />
