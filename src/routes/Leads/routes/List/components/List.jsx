@@ -238,11 +238,18 @@ class List extends Component {
   );
 
   renderCountry = ({ country, language }) => (
-    <CountryLabelWithFlag
-      code={country}
-      height="14"
-      languageCode={language}
-    />
+    <Choose>
+      <When condition={country}>
+        <CountryLabelWithFlag
+          code={country}
+          height="14"
+          languageCode={language}
+        />
+      </When>
+      <Otherwise>
+        <span>&mdash;</span>
+      </Otherwise>
+    </Choose>
   );
 
   renderStatus = ({ status }) => (
@@ -252,8 +259,15 @@ class List extends Component {
   );
 
   renderSales = ({ salesStatus }) => {
-    const className = salesStatusesColor[salesStatus];
+    if (!salesStatus) {
+      return (
+        <div className="font-weight-700 text-uppercase">
+          <span>&mdash;</span>
+        </div>
+      );
+    }
 
+    const className = salesStatusesColor[salesStatus];
     return (
       <div className={classNames('font-weight-700 text-uppercase', { [className]: className })}>
         {I18n.t(salesStatuses[salesStatus])}
