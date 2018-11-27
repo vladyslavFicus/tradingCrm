@@ -19,11 +19,11 @@
   }
   .select-field-wrapper {
     .select-block__label {
-      height: 50px;
+      height: auto;
       padding-top: 10px;
+      padding-bottom: 10px;
       .value-wrapper {
         position: relative;
-        bottom: 4px;
       }
     }
     .select-block__content {
@@ -39,7 +39,7 @@
   }
   .arrow-icon-wrapper {
     text-align: center;
-    margin-top: 35px;
+    margin-top: 3px;
     .icon-arrow-down {
       transform: rotate(270deg);
       display: inline-block;

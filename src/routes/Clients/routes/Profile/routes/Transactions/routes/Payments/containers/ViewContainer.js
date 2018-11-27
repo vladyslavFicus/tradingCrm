@@ -4,6 +4,7 @@ import { get } from 'lodash';
 import moment from 'moment';
 import Payments from '../components/Payments';
 import { actionCreators as viewActionCreators } from '../modules';
+import { actionCreators as playerActionCreators } from '../../../../../modules';
 import { paymentActions, chargebackReasons, rejectReasons } from '../../../../../../../../../constants/payment';
 import { addPaymentMutation } from '../../../../../../../../../graphql/mutations/payment';
 import { getClientPaymentsByUuid } from '../../../../../../../../../graphql/queries/payments';
@@ -25,6 +26,7 @@ const mapStateToProps = ({
 });
 
 const mapActions = {
+  fetchProfile: playerActionCreators.fetchProfile,
   fetchEntities: viewActionCreators.fetchEntities,
   fetchFilters: viewActionCreators.fetchFilters,
   onChangePaymentStatus: viewActionCreators.changePaymentStatus,
