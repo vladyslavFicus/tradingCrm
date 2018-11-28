@@ -64,7 +64,6 @@ export default compose(
   }),
   graphql(clientsQuery, {
     name: 'profiles',
-    skip: ({ auth }) => !(auth.isAdministration || get(auth, 'hierarchyUsers.clients')),
     options: ({ location: { query } }) => ({
       variables: {
         ...query && query.filters,

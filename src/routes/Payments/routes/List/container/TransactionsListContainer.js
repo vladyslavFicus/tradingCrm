@@ -45,7 +45,6 @@ export default compose(
   connect(mapStateToProps, mapActions),
   graphql(getClientPayments, {
     name: 'clientPayments',
-    skip: ({ auth }) => !(auth.isAdministration || get(auth, 'hierarchyUsers.clients')),
     options: ({ location: { query } }) => ({
       variables: {
         ...query && query.filters,
