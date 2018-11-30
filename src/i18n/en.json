@@ -62,7 +62,7 @@
           "FULLY_DISABLED": "Fully disabled"
         },
         "SEARCH_PLACEHOLDER": "Quick search",
-        "NO_RESULT_BY_SEARCH": "No countries begins from вЂњ%{search}вЂќ found in %{tabName}"
+        "NO_RESULT_BY_SEARCH": "No countries begins from “%{search}” found in %{tabName}"
       }
     },
     "DEPOSIT_CHARGEBACK": {
@@ -198,7 +198,7 @@
       "REFUSE_KYC_VERIFICATION": {
         "REASONS": {
           "UNCLEAR_OR_DARK_DOC": "Unclear document",
-          "NOT_ALL_FOUR_CORNERS": "Document is only partially visible вЂ“ all edges must be visible",
+          "NOT_ALL_FOUR_CORNERS": "Document is only partially visible – all edges must be visible",
           "EXPIRED_DOC": "Expired document"
         }
       },
@@ -860,7 +860,7 @@
     },
     "CONFIRM": "Confirm",
     "MGA_LIMIT": "MGA LIMIT",
-    "MGA_LIMIT_DESCRIPTION": "MGA Limit - the cumulative limit of в‚¬2300 on withdrawals for KYC not verified players is exceeded.",
+    "MGA_LIMIT_DESCRIPTION": "MGA Limit - the cumulative limit of €2300 on withdrawals for KYC not verified players is exceeded.",
     "CHOOSE_REASON": "-- Choose the reason --",
     "USED": "used %{value}",
     "LEFT": "left %{value}",
@@ -1591,8 +1591,8 @@
       "NOTIFICATIONS": {
         "UPDATE_TITLE": "Update bonus campaign",
         "ADD_PLAYERS": "Add players",
-        "UNSUCCESSFULLY": "Failed to save the СЃampaign",
-        "SUCCESSFULLY": "РЎampaign saved successfully",
+        "UNSUCCESSFULLY": "Failed to save the сampaign",
+        "SUCCESSFULLY": "Сampaign saved successfully",
         "ADD_CAMPAIGN": "Add campaign",
         "CAMPAIGN_COPIED": "Campaign copied",
         "RESET_PLAYER": "Reset player"
@@ -1852,9 +1852,9 @@
           "ACTION": "Upload action"
         },
         "DESCRIPTION": {
-          "ADD_PLAYER": "Players from the uploaded list will be added to campaignвЂ™s target. Those players who are already in the target of this campaign will be ignored",
-          "RESET_PLAYER": "FulfilmentsвЂ™ and rewardsвЂ™ states of the players from the uploaded list will be reseted. Those players will be able to fulfil the fulfilments and get the reward again. Players who are not in the target of this campaign will be ignored",
-          "SOFT_RESET_PLAYER": "FulfilmentsвЂ™ and rewardsвЂ™ states of the players from the uploaded list will be reseted only if a player has got the reward or his fulfilment period is passed. Those players who have started to fulfil the fulfilments but havenвЂ™t got the reward will not be affected by this reset. Players who are not in the target of this campaign will be added to the campaignвЂ™s target list"
+          "ADD_PLAYER": "Players from the uploaded list will be added to campaign’s target. Those players who are already in the target of this campaign will be ignored",
+          "RESET_PLAYER": "Fulfilments’ and rewards’ states of the players from the uploaded list will be reseted. Those players will be able to fulfil the fulfilments and get the reward again. Players who are not in the target of this campaign will be ignored",
+          "SOFT_RESET_PLAYER": "Fulfilments’ and rewards’ states of the players from the uploaded list will be reseted only if a player has got the reward or his fulfilment period is passed. Those players who have started to fulfil the fulfilments but haven’t got the reward will not be affected by this reset. Players who are not in the target of this campaign will be added to the campaign’s target list"
         }
       },
       "NOTIFICATION": {
@@ -2131,7 +2131,7 @@
       },
       "GET_OPERATORS_AUTHORITIES_ERROR": {
         "TITLE": "Loading failure",
-        "MESSAGE": "OperatorвЂ™s departments and roles loading has failed"
+        "MESSAGE": "Operator’s departments and roles loading has failed"
       },
       "ADD_AUTHORITY_ERROR": {
         "TITLE": "Failure on adding",
@@ -2469,8 +2469,8 @@
       },
       "NOTIFICATIONS": {
         "UPDATE_TITLE": "Update bonus campaign",
-        "UNSUCCESSFULLY": "Failed to save the СЃampaign",
-        "SUCCESSFULLY": "РЎampaign saved successfully",
+        "UNSUCCESSFULLY": "Failed to save the сampaign",
+        "SUCCESSFULLY": "Сampaign saved successfully",
         "ADD_CAMPAIGN": "Add campaign",
         "ADD_PLAYERS": "Add players to campaign",
         "REMOVE_ALL_PLAYERS": {
