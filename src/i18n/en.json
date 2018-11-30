@@ -947,6 +947,11 @@
     "AQUISITION_STATUSES": {
       "SALES": "Sales",
       "RETENTION": "Retention"
+    },
+    "CHART_FOOTER": {
+      "TOTAL": "Total",
+      "THIS_MONTH": "This month",
+      "TODAY": "Today"
     }
   },
   "FILES": {
@@ -2188,31 +2193,26 @@
   "DASHBOARD": {
     "REGISTRATION_CHART": {
       "TITLE": "Registrations",
-      "FOOTER_TITLE": "Total Registered",
       "TOOLTIP_TITLE": "Registered Users: ",
       "NO_RESULTS_TEXT": "No results for selected period"
     },
     "DEPOSITS_AMOUNT_CHART": {
       "TITLE": "Deposits Amount",
-      "FOOTER_TITLE": "Total Deposited Amount",
       "TOOLTIP_TITLE": "Deposited Amount: ",
       "NO_RESULTS_TEXT": "No results for selected period"
     },
     "DEPOSITS_COUNT_CHART": {
       "TITLE": "Deposits Count",
-      "FOOTER_TITLE": "Total Deposits Count",
       "TOOLTIP_TITLE": "Deposits Count: ",
       "NO_RESULTS_TEXT": "No results for selected period"
     },
     "WITHDRAWS_AMOUNT_CHART": {
       "TITLE": "Withdraws Amount",
-      "FOOTER_TITLE": "Total Withdrawn Amount",
       "TOOLTIP_TITLE": "Withdrawn Amount: ",
       "NO_RESULTS_TEXT": "No results for selected period"
     },
     "WITHDRAWS_COUNT_CHART": {
       "TITLE": "Withdraws Count",
-      "FOOTER_TITLE": "Total Withdraws Count",
       "TOOLTIP_TITLE": "Withdraws Count: ",
       "NO_RESULTS_TEXT": "No results for selected period"
     },

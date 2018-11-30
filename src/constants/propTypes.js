@@ -575,6 +575,10 @@ PropTypes.chartEntity = PropTypes.shape({
   entries: PropTypes.number.isRequired,
   entryDate: PropTypes.string.isRequired,
 });
+PropTypes.chartTotal = PropTypes.shape({
+  count: PropTypes.number,
+  error: PropTypes.string,
+});
 PropTypes.paymentEntry = PropTypes.shape({
   amount: PropTypes.number.isRequired,
   count: PropTypes.number.isRequired,
