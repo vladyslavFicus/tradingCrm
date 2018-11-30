@@ -1,116 +1,77 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import moment from 'moment';
 import classNames from 'classnames';
 import { TextRow } from 'react-placeholder/lib/placeholders';
 import { I18n } from 'react-redux-i18n';
-import CallbacksGridFilter from './CallbacksGridFilter';
+import { get } from 'lodash';
+import PropTypes from '../../../../../constants/propTypes';
+import history from '../../../../../router/history';
 import { shortify } from '../../../../../utils/uuid';
+import withPlayerClick from '../../../../../utils/withPlayerClick';
 import { callbacksStatusesColor } from '../../../../../constants/callbacks';
-import Placeholder from '../../../../../components/Placeholder/index';
-import GridView from '../../../../../components/GridView/index';
+import Placeholder from '../../../../../components/Placeholder';
+import GridView from '../../../../../components/GridView';
 import GridViewColumn from '../../../../../components/GridView/GridViewColumn';
-import CallbackDetailsModal from '../../../../../components/CallbackDetailsModal';
-
-const MODAL_CALLBACK_DETAIL = 'callback-detail';
-const defaultModalState = {
-  name: null,
-  params: {},
-};
+import Uuid from '../../../../../components/Uuid';
+import CallbacksGridFilter from './CallbacksGridFilter';
 
 class CallbacksList extends Component {
   static propTypes = {
     callbacks: PropTypes.object.isRequired,
-    fetchEntities: PropTypes.func.isRequired,
-    exportEntities: PropTypes.func.isRequired,
-    updateEntity: PropTypes.func.isRequired,
-    locale: PropTypes.string,
-    fetchOperators: PropTypes.func.isRequired,
+    modals: PropTypes.shape({
+      callbackDetails: PropTypes.modalType,
+    }).isRequired,
+    onPlayerClick: PropTypes.func.isRequired,
+    auth: PropTypes.shape({
+      brandId: PropTypes.string,
+      uuid: PropTypes.string,
+    }).isRequired,
   };
 
-  static defaultProps = {
-    locale: 'en',
-  };
+  onPageChange = () => {
+    const {
+      callbacks: {
+        loadMore,
+        loading,
+      },
+    } = this.props;
 
-  static contextTypes = {
-    notes: PropTypes.shape({
-      onAddNote: PropTypes.func.isRequired,
-      onEditNote: PropTypes.func.isRequired,
-      onAddNoteClick: PropTypes.func.isRequired,
-      onEditNoteClick: PropTypes.func.isRequired,
-      setNoteChangedCallback: PropTypes.func.isRequired,
-      hidePopover: PropTypes.func.isRequired,
-    }),
-  };
-
-  state = {
-    modal: { ...defaultModalState },
-    filters: {},
-    page: 0,
-  };
-
-  componentDidMount() {
-    this.props.fetchEntities();
-  }
-
-  onPageChange = (page) => {
-    this.setState({ page: page - 1 });
-    this.props.fetchEntities({ ...this.state.filters, page: page - 1 });
+    if (!loading) {
+      loadMore();
+    }
   };
 
   handleFiltersChanged = (data = {}) => {
     const filters = { ...data };
+
     if (filters.playerOrOperator) {
       filters.id = filters.playerOrOperator;
       filters.userId = filters.playerOrOperator;
     }
+
     if (Array.isArray(filters.statuses)) {
       filters.statuses = filters.statuses.join(',');
     }
-    this.setState({ filters });
-    this.props.fetchEntities(filters);
+
+    history.replace({ query: { filters } });
   };
 
   handleFilterReset = () => {
-    this.setState({ filters: {} });
-    this.props.fetchEntities();
+    history.replace({ query: { filters: {} } });
   };
 
-  handleRefresh = () => this.props.fetchEntities({
-    ...this.state.filters,
-    page: this.state.page,
-  });
-
-  handleExport = () => {
-    this.props.exportEntities();
+  handleOpenDetailModal = (callback) => {
+    this.props.modals.callbackDetails.show({ callback, initialValues: callback });
   };
 
-  handleOpenDetailModal = async (params) => {
-    this.setState({
-      modal: {
-        ...defaultModalState,
-        name: MODAL_CALLBACK_DETAIL,
-        params,
-      },
+  handleClientClick = ({ userId, client: { fullName } }) => (e) => {
+    e.stopPropagation();
+
+    this.props.onPlayerClick({
+      playerUUID: userId,
+      auth: this.props.auth,
+      firstName: fullName,
     });
-  };
-
-  handleCloseModal = (refetch) => {
-    this.setState({ modal: { ...defaultModalState } }, () => {
-      if (refetch === true) {
-        this.handleRefresh();
-      }
-    });
-  };
-
-  handleNoteClick = (target, note, data) => {
-    const { notes: { onEditNoteClick, onAddNoteClick } } = this.context;
-
-    if (note) {
-      onEditNoteClick(target, note, { placement: 'left' });
-    } else {
-      onAddNoteClick(target, data.callbackId, { placement: 'left' });
-    }
   };
 
   renderId = item => (
@@ -119,14 +80,30 @@ class CallbacksList extends Component {
         {shortify(item.callbackId, 'CB')}
       </div>
       <div className="font-size-11">
-        {I18n.t('COMMON.AUTHOR_BY')} {shortify(item.operatorId, 'OP') || 'n/a'}
+        {I18n.t('COMMON.AUTHOR_BY')} <Uuid uuid={item.operatorId} />
+      </div>
+    </div>
+  );
+
+  renderOperator = item => (
+    <div>
+      <div className="font-weight-700">
+        {item.operator.fullName}
+      </div>
+      <div className="font-size-11">
+        <Uuid uuid={item.operatorId} />
       </div>
     </div>
   );
 
   renderUser = item => (
-    <div className="font-weight-700">
-      {shortify(item.userId)}
+    <div>
+      <button className="font-weight-700" onClick={this.handleClientClick(item)}>
+        {item.client.fullName}
+      </button>
+      <div className="font-size-11">
+        <Uuid uuid={item.userId} />
+      </div>
     </div>
   );
 
@@ -148,27 +125,18 @@ class CallbacksList extends Component {
   );
 
   render() {
-    const { callbacks: {
-      isLoading,
-      entities: {
-        content,
-        totalElements,
-        totalPages,
-        last,
-        number,
-      },
-    },
-    locale,
-    fetchOperators,
-    updateEntity,
+    const {
+      callbacks,
+      callbacks: { loading },
     } = this.props;
-    const { modal } = this.state;
+
+    const entities = get(callbacks, 'callbacks.data') || { content: [] };
 
     return (
       <div className="card">
         <div className="card-heading">
           <Placeholder
-            ready={!isLoading && !!content}
+            ready={!loading}
             className={null}
             customPlaceholder={(
               <div>
@@ -178,10 +146,10 @@ class CallbacksList extends Component {
             )}
           >
             <Choose>
-              <When condition={!!totalElements}>
+              <When condition={!!entities.totalElements}>
                 <span className="font-size-20 height-55 users-list-header">
                   <div>
-                    <strong>{totalElements} </strong>
+                    <strong>{entities.totalElements} </strong>
                     {I18n.t('CALLBACKS.CALLBACKS')}
                   </div>
                 </span>
@@ -193,17 +161,6 @@ class CallbacksList extends Component {
               </Otherwise>
             </Choose>
           </Placeholder>
-
-          <div className="ml-auto">
-            <button
-              disabled={!totalElements}
-              className="btn btn-default-outline margin-left-15"
-              onClick={this.handleExport}
-              type="button"
-            >
-              {I18n.t('COMMON.EXPORT')}
-            </button>
-          </div>
         </div>
 
         <CallbacksGridFilter
@@ -213,21 +170,25 @@ class CallbacksList extends Component {
 
         <div className="card-body card-grid">
           <GridView
+            loading={loading}
             tableClassName="table-hovered"
-            dataSource={content}
+            dataSource={entities.content}
             onPageChange={this.onPageChange}
-            activePage={number + 1}
-            totalPages={totalPages}
+            activePage={entities.number + 1}
             onRowClick={this.handleOpenDetailModal}
-            last={last}
+            last={entities.last}
             lazyLoad
-            locale={locale}
-            showNoResults={!isLoading && content.length === 0}
+            showNoResults={entities.content.length === 0}
           >
             <GridViewColumn
               name="id"
               header={I18n.t('CALLBACKS.GRID_HEADER.ID')}
               render={this.renderId}
+            />
+            <GridViewColumn
+              name="operatorId"
+              header={I18n.t('CALLBACKS.GRID_HEADER.OPERATOR')}
+              render={this.renderOperator}
             />
             <GridViewColumn
               name="userId"
@@ -256,21 +217,9 @@ class CallbacksList extends Component {
             />
           </GridView>
         </div>
-        {
-          modal.name === MODAL_CALLBACK_DETAIL &&
-            <CallbackDetailsModal
-              callback={modal.params}
-              isOpen
-              onClose={this.handleCloseModal}
-              onSubmit={updateEntity}
-              onNoteClick={this.handleNoteClick}
-              initialValues={modal.params}
-              fetchOperators={fetchOperators}
-            />
-        }
       </div>
     );
   }
 }
 
-export default CallbacksList;
+export default withPlayerClick(CallbacksList);

@@ -35,7 +35,6 @@ class PaymentsChartWrapper extends Component {
     dataKey: PropTypes.string.isRequired,
     headerTitle: PropTypes.string.isRequired,
     tooltipСontent: PropTypes.string.isRequired,
-    footerTitle: PropTypes.string.isRequired,
     noResultsText: PropTypes.string.isRequired,
   };
 
@@ -54,7 +53,6 @@ class PaymentsChartWrapper extends Component {
       dataKey,
       headerTitle,
       tooltipСontent,
-      footerTitle,
       noResultsText,
     } = this.props;
 
@@ -78,7 +76,14 @@ class PaymentsChartWrapper extends Component {
                 stroke: color,
               },
             ]}
-            footer={<ChartFooter noResults={noResults} total={total} color={color} title={footerTitle} />}
+            footer={
+              <ChartFooter
+                noResults={noResults}
+                // fix untill new payment api
+                totals={{ total: { count: total } }}
+                color={color}
+              />
+            }
             loading={loading}
             noResults={noResults}
             noResultsText={noResultsText}

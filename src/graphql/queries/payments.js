@@ -13,7 +13,6 @@ const getClientPayments = gql`query getClientPayments(
   $endDate: String
   $amountLowerBound: String
   $amountUpperBound: String
-  $playerUUIDs: [String]
 ) {
   clientPayments (
     keyword: $keyword
@@ -28,7 +27,6 @@ const getClientPayments = gql`query getClientPayments(
     endDate: $endDate
     amountLowerBound: $amountLowerBound
     amountUpperBound: $amountUpperBound
-    playerUUIDs: $playerUUIDs
   ) {
     page
     number

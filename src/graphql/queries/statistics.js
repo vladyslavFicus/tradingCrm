@@ -27,6 +27,25 @@ const registeredUsersQuery = gql`
   }
 `;
 
+const registeredUsersTotalsQuery = gql`query getRegUsersStat($timezone: Int!) {
+  statistics {
+    registrationTotals(timezone: $timezone) {
+      today {
+        count
+        error
+      }
+      month {
+        count
+        error
+      }
+      total {
+        count
+        error
+      }
+    }
+  }
+}`;
+
 const paymentsStatisticQuery = gql`
   query getDepositsStat(
     $dateFrom: String!,
@@ -63,4 +82,8 @@ const paymentsStatisticQuery = gql`
   }
 `;
 
-export { registeredUsersQuery, paymentsStatisticQuery };
+export {
+  registeredUsersQuery,
+  paymentsStatisticQuery,
+  registeredUsersTotalsQuery,
+};

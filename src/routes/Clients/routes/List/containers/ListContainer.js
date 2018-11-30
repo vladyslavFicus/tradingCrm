@@ -64,16 +64,11 @@ export default compose(
   }),
   graphql(clientsQuery, {
     name: 'profiles',
-    skip: ({ auth }) => !(auth.isAdministration || get(auth, 'hierarchyUsers.clients')),
-    options: ({
-      location: { query },
-      auth,
-    }) => ({
+    options: ({ location: { query } }) => ({
       variables: {
-        ...query ? query.filters : { registrationDateFrom: moment().startOf('day').utc().format() },
+        ...query && query.filters,
         page: 1,
         size: 20,
-        ...!auth.isAdministration && { hierarchyUsers: get(auth, 'hierarchyUsers.clients') },
       },
       fetchPolicy: 'network-only',
     }),

@@ -851,7 +851,8 @@
       "COUNTRY": "-- Select country --",
       "UPLOAD_ACTION": "-- Select upload action --",
       "NO_ITEMS": "-- No items --",
-      "DEFAULT_MULTISELECT": "-- Select one or multiple options --"
+      "DEFAULT_MULTISELECT": "-- Select one or multiple options --",
+      "LOADING": "Loading..."
     },
     "DATE_OPTIONS": {
       "START_DATE": "Start date",
@@ -946,6 +947,11 @@
     "AQUISITION_STATUSES": {
       "SALES": "Sales",
       "RETENTION": "Retention"
+    },
+    "CHART_FOOTER": {
+      "TOTAL": "Total",
+      "THIS_MONTH": "This month",
+      "TODAY": "Today"
     },
     "ASSIGN": "Assign",
     "UN_ASSIGN": "Unassign"
@@ -1926,8 +1932,7 @@
         "DESKS": "Desks",
         "TEAMS": "Teams",
         "OFFICES": "Offices",
-        "SALES_STATUS": "Sales status",
-        "ASSIGN_STATUS": "Assign Status"
+        "SALES_STATUS": "Sales status"
       }
     }
   },

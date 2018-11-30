@@ -1,78 +1,71 @@
 import React, { Component } from 'react';
-import { reduxForm, Field, SubmissionError } from 'redux-form';
-import { get } from 'lodash';
+import { reduxForm, Field } from 'redux-form';
 import classNames from 'classnames';
 import { I18n } from 'react-redux-i18n';
+import { get } from 'lodash';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import PropTypes from '../../constants/propTypes';
-import NoteButton from '../NoteButton';
-import { shortify } from '../../utils/uuid';
-import { NasSelectField, DateTimeField } from '../ReduxForm';
 import { createValidator } from '../../utils/validator';
-import parserErrorsFromServer from '../../utils/parseErrorsFromServer';
+import { callbacksStatuses } from '../../constants/callbacks';
+import { NasSelectField, DateTimeField } from '../ReduxForm';
+import Uuid from '../Uuid';
 
 class CallbackDetailsModal extends Component {
   static propTypes = {
-    callback: PropTypes.object,
+    callback: PropTypes.object.isRequired,
+    operators: PropTypes.object.isRequired,
     className: PropTypes.string,
-    onClose: PropTypes.func.isRequired,
-    onNoteClick: PropTypes.func,
-    onSubmit: PropTypes.func.isRequired,
+    isOpen: PropTypes.bool.isRequired,
+    onCloseModal: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func.isRequired,
+    updateCallback: PropTypes.func.isRequired,
     error: PropTypes.string,
     submitting: PropTypes.bool,
     valid: PropTypes.bool,
     pristine: PropTypes.bool,
-    fetchOperators: PropTypes.func.isRequired,
   };
+
   static defaultProps = {
-    callback: null,
     className: '',
-    onNoteClick: null,
     error: null,
     submitting: false,
     valid: false,
     pristine: true,
   };
 
-  state = {
-    operatorsList: [],
-  };
+  handleSubmit = async ({ callbackId, operatorId, callbackTime, status }) => {
+    const { notify, onCloseModal } = this.props;
 
-  componentDidMount() {
-    this.fetchOperators();
-  }
+    const { data: { callback: { update: { error } } } } = await this.props.updateCallback({
+      variables: {
+        callbackId,
+        operatorId,
+        callbackTime,
+        status,
+      },
+    });
 
-  fetchOperators = async () => {
-    const result = await this.props.fetchOperators({ size: 200 });
+    notify({
+      level: error ? 'error' : 'success',
+      title: I18n.t('CALLBACKS.MODAL.TITLE'),
+      message: error
+        ? I18n.t('COMMON.SOMETHING_WRONG')
+        : I18n.t('CALLBACKS.MODAL.SUCCESSFULLY_UPDATED'),
+    });
 
-    if(!result || result.error) {
-      return;
+    if (!error) {
+      onCloseModal();
     }
-
-    const operatorsList = get(result, 'payload.content', []);
-    this.setState({ operatorsList });
-  };
-
-  handleSubmit = async (data) => {
-    const result = await this.props.onSubmit(data);
-
-    if (!result || result.error) {
-      const fieldErrors = get(result, 'payload.response.fields_errors', {});
-      const errors = parserErrorsFromServer(fieldErrors);
-      throw new SubmissionError(errors && Object.keys(errors).length
-        || { _error: get(result, 'payload.response.message') || I18n.t('COMMON.SOMETHING_WRONG') });
-    }
-
-    this.props.onClose(true);
   };
 
   render() {
     const {
-      onClose,
+      isOpen,
+      onCloseModal,
       className,
-      onNoteClick,
       callback,
+      operators,
+      operators: { loading },
       handleSubmit,
       error,
       submitting,
@@ -80,23 +73,19 @@ class CallbackDetailsModal extends Component {
       pristine,
     } = this.props;
 
-    const { operatorsList } = this.state;
-
-    if (!callback) {
-      return null;
-    }
+    const operatorsList = get(operators, 'operators.data.content', []);
 
     return (
-      <Modal isOpen toggle={onClose} centered className={classNames(className, 'callback-detail-modal')}>
-        <ModalHeader toggle={onClose}>{I18n.t('CALLBACKS.MODAL.TITLE')}</ModalHeader>
+      <Modal isOpen={isOpen} toggle={onCloseModal} className={classNames(className, 'callback-detail-modal')}>
+        <ModalHeader toggle={onCloseModal}>{I18n.t('CALLBACKS.MODAL.TITLE')}</ModalHeader>
         <form onSubmit={handleSubmit(this.handleSubmit)}>
           <ModalBody>
             <div>
               <div className="font-weight-700">
-                {shortify(callback.callbackId, 'CB')}
+                {callback.client.fullName}
               </div>
-              <div className="font-size-11">
-                {I18n.t('COMMON.AUTHOR_BY')} {callback.operatorId}
+              <div className="font-size-11 mb-3">
+                {I18n.t('COMMON.AUTHOR_BY')} <Uuid uuid={callback.operatorId} />
               </div>
             </div>
             <div>
@@ -108,39 +97,42 @@ class CallbackDetailsModal extends Component {
               <Field
                 name="operatorId"
                 label={I18n.t('CALLBACKS.MODAL.OPERATOR')}
-                placeholder={I18n.t('CALLBACKS.MODAL.SELECT_OPERATOR')}
+                placeholder={I18n.t(loading ? 'COMMON.SELECT_OPTION.LOADING' : 'CALLBACKS.MODAL.SELECT_OPERATOR')}
+                disabled={loading}
                 component={NasSelectField}
                 searchable
               >
-                {operatorsList.map((item, index) => (
-                  <option key={index} value={item.uuid}>{ `${item.firstName} ${item.lastName}`}</option>
+                {operatorsList.map(item => (
+                  <option key={item.uuid} value={item.uuid}>{item.fullName}</option>
                 ))}
               </Field>
               <Field
-                utc
+                withTime
+                closeOnSelect={false}
                 name="callbackTime"
                 label={I18n.t('CALLBACKS.MODAL.CALLBACK_DATE_AND_TIME')}
                 component={DateTimeField}
                 isValidDate={() => (true)}
               />
-            </div>
-            <div className="text-center">
-              <NoteButton
-                id="payment-detail-modal-note"
-                note={callback.note}
-                onClick={onNoteClick}
-                targetEntity={callback}
-              />
+              <Field
+                name="status"
+                label={I18n.t('CALLBACKS.MODAL.STATUS')}
+                component={NasSelectField}
+                searchable={false}
+              >
+                {Object.keys(callbacksStatuses).map(status => (
+                  <option key={status} value={status}>
+                    {I18n.t(callbacksStatuses[status])}
+                  </option>
+                ))}
+              </Field>
             </div>
           </ModalBody>
           <ModalFooter>
-            <Button
-              onClick={onClose}
-            >
-              {I18n.t('COMMON.CANCEL')}
-            </Button>
+            <Button onClick={onCloseModal}>{I18n.t('COMMON.CANCEL')}</Button>
             <Button
               type="submit"
+              color="primary"
               disabled={pristine || submitting || !!error || !valid}
             >
               {I18n.t('COMMON.SAVE_CHANGES')}
@@ -162,5 +154,6 @@ export default reduxForm({
   validate: createValidator({
     operatorId: ['required'],
     callbackTime: ['required'],
+    status: ['required'],
   }, attributeLabels, false),
 })(CallbackDetailsModal);

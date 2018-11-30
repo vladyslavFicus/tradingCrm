@@ -1,13 +1,9 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { graphql, compose } from 'react-apollo';
 import { get } from 'lodash';
 import { I18n } from 'react-redux-i18n';
-import Chart from '../../../../components/Chart';
-import PropTypes from '../../../../constants/propTypes';
-import { departments } from '../../../../constants/brands';
-import { registeredUsersQuery } from '../../../../graphql/queries/statistics';
-import { ChartFooter, getChartSelectOptions, initialQueryParams } from './utils';
+import PropTypes from '../../../../../constants/propTypes';
+import Chart from '../../../../../components/Chart';
+import { ChartFooter, getChartSelectOptions } from '../utils';
 
 const chartColor = '#c51d98';
 
@@ -26,6 +22,16 @@ class Registrations extends Component {
         }).isRequired,
       }),
     }).isRequired,
+    registeredUsersTotals: PropTypes.shape({
+      loading: PropTypes.bool.isRequired,
+      statistics: PropTypes.shape({
+        registrationTotals: PropTypes.shape({
+          total: PropTypes.chartTotal.isRequired,
+          month: PropTypes.chartTotal.isRequired,
+          today: PropTypes.chartTotal.isRequired,
+        }),
+      }),
+    }).isRequired,
   };
 
   handleSelectChange = ({ from: registrationDateFrom, to: registrationDateTo }) => {
@@ -38,13 +44,13 @@ class Registrations extends Component {
   render() {
     const {
       registeredUsers: { loading, statistics },
+      registeredUsersTotals: { loading: totalsLoading, statistics: totalsStatistics },
     } = this.props;
 
-    const { total, items } = get(statistics, 'registrations.data') || {
-      items: [],
-    };
+    const { items } = get(statistics, 'registrations.data') || { items: [] };
+    const totals = get(totalsStatistics, 'registrationTotals') || {};
+
     const error = get(statistics, 'registrations.error', {});
-    const noResults = !!error || (!loading && items.length === 0);
 
     return (
       <div className="card">
@@ -64,14 +70,13 @@ class Registrations extends Component {
             ]}
             footer={
               <ChartFooter
-                noResults={noResults}
-                total={total}
+                noResults={(!loading && items.length === 0)}
+                totals={totals}
                 color={chartColor}
-                title={I18n.t('DASHBOARD.REGISTRATION_CHART.FOOTER_TITLE')}
               />
             }
-            loading={loading}
-            noResults={noResults}
+            loading={loading || totalsLoading}
+            noResults={!!error}
             noResultsText={I18n.t('DASHBOARD.REGISTRATION_CHART.NO_RESULTS_TEXT')}
           />
         </div>
@@ -80,22 +85,4 @@ class Registrations extends Component {
   }
 }
 
-const mapStateToProps = ({ auth }) => ({
-  auth: {
-    isAdministration: auth.department === departments.ADMINISTRATION,
-    hierarchyUsers: auth.hierarchyUsers,
-  },
-});
-
-export default compose(
-  connect(mapStateToProps),
-  graphql(registeredUsersQuery, {
-    options: ({ auth }) => ({
-      variables: {
-        ...!auth.isAdministration && { clientIds: get(auth, 'hierarchyUsers.clients') },
-        ...initialQueryParams('registrationDateFrom', 'registrationDateTo'),
-      },
-    }),
-    name: 'registeredUsers',
-  }),
-)(Registrations);
+export default Registrations;

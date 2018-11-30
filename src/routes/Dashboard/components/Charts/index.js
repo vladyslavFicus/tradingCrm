@@ -1,4 +1,4 @@
-import RegistrationChart from './Registrations';
+import RegistrationChart from './Registrations/RegistrationsContainer';
 import DepositsAmount from './DepositsAmount';
 import DepositsCount from './DepositsCount';
 import WithdrawsAmount from './WithdrawsAmount';
