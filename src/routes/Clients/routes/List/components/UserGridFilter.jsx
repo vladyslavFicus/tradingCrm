@@ -10,7 +10,14 @@ import { FilterItem, FilterField, TYPES, SIZES } from '../../../../../components
 import { floatNormalize } from '../../../../../utils/inputNormalize';
 import I18n from '../../../../../utils/i18n';
 import { getBranchChildren } from '../../../../../graphql/queries/hierarchy';
-import { acquisitionStatuses, DynamicFilters, FORM_NAME, ANY, fieldNames } from './constants';
+import {
+  acquisitionStatuses,
+  DynamicFilters,
+  FORM_NAME,
+  ANY,
+  fieldNames,
+  assignStatuses,
+} from './constants';
 
 class UserGridFilter extends Component {
   static propTypes = {
@@ -230,6 +237,22 @@ class UserGridFilter extends Component {
         >
           <FilterField name="acquisitionStatus">
             {acquisitionStatuses.map(item => (
+              <option key={item.value} value={item.value}>
+                {I18n.t(item.label)}
+              </option>
+            ))}
+          </FilterField>
+        </FilterItem>
+
+        <FilterItem
+          label={I18n.t(filterLabels.assignStatus)}
+          size={SIZES.medium}
+          type={TYPES.nas_select}
+          placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
+          default
+        >
+          <FilterField name="assignStatus">
+            {assignStatuses.map(item => (
               <option key={item.value} value={item.value}>
                 {I18n.t(item.label)}
               </option>

@@ -13,6 +13,15 @@ const acquisitionStatuses = [{
   label: 'COMMON.RETENTION',
 }];
 
+const assignStatuses = [{
+  value: 'ASSIGN',
+  label: 'COMMON.ASSIGN',
+}, {
+  value: 'UN_ASSIGN',
+  label: 'COMMON.UN_ASSIGN',
+}];
+
+
 const fieldNames = keyMirror({
   desks: null,
   teams: null,
@@ -43,4 +52,5 @@ export {
   fieldNames,
   FORM_NAME,
   ANY,
+  assignStatuses,
 };
