@@ -851,7 +851,8 @@
       "COUNTRY": "-- Select country --",
       "UPLOAD_ACTION": "-- Select upload action --",
       "NO_ITEMS": "-- No items --",
-      "DEFAULT_MULTISELECT": "-- Select one or multiple options --"
+      "DEFAULT_MULTISELECT": "-- Select one or multiple options --",
+      "LOADING": "Loading..."
     },
     "DATE_OPTIONS": {
       "START_DATE": "Start date",
@@ -3088,7 +3089,8 @@
       "TITLE": "Callback details",
       "OPERATOR": "Operator",
       "SELECT_OPERATOR": "Select operator",
-      "CALLBACK_DATE_AND_TIME": "Callback date & time"
+      "CALLBACK_DATE_AND_TIME": "Callback date & time",
+      "SUCCESSFULLY_UPDATED": "Callback has been successfully updated"
     }
   },
   "common": {

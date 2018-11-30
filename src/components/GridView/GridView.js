@@ -68,9 +68,11 @@ class GridView extends Component {
     }
 
     return !shallowEqual(nextProps.dataSource, this.props.dataSource)
-      || (nextProps.locale !== this.props.locale) || nextProps.showNoResults !== this.props.showNoResults
-      || (this.props.touchedRowsIds.length !== nextProps.touchedRowsIds.length)
-      || (this.props.allRowsSelected !== nextProps.allRowsSelected);
+      || nextProps.locale !== this.props.locale
+      || nextProps.showNoResults !== this.props.showNoResults
+      || this.props.touchedRowsIds.length !== nextProps.touchedRowsIds.length
+      || this.props.allRowsSelected !== nextProps.allRowsSelected
+      || nextProps.loading !== this.props.loading;
   }
 
   onFiltersChanged = () => {

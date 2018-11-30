@@ -1,3 +1,1 @@
-import CallbackDetailsModal from './CallbackDetailsModal';
-
-export default CallbackDetailsModal;
+export { default } from './CallbackDetailsModalContainer';
