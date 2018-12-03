@@ -27,9 +27,8 @@ const leadProfileTabs = [{
 const fileConfig = {
   maxSize: 20,
   types: [
-    'text/csv',
-    'application/vnd.ms-excel',
-    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    // We should use exactly (not mime-type) .csv extension (because mime-type isn't recognized on Windows OS)
+    '.csv',
   ],
 };
 
