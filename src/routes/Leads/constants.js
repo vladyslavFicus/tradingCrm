@@ -26,7 +26,11 @@ const leadProfileTabs = [{
 
 const fileConfig = {
   maxSize: 20,
-  types: ['text/csv'],
+  types: [
+    'text/csv',
+    'application/vnd.ms-excel',
+    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+  ],
 };
 
 export {
