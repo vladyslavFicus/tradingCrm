@@ -1933,7 +1933,8 @@
         "TEAMS": "Teams",
         "OFFICES": "Offices",
         "SALES_STATUS": "Sales status",
-        "ASSIGN_STATUS": "Assign Status"
+        "ASSIGN_STATUS": "Assign Status",
+        "KYC_STATUS": "KYC Status"
       }
     }
   },
@@ -2019,7 +2020,8 @@
       "PENDING": "Pending",
       "VERIFIED": "Verified",
       "REFUSED": "Refused",
-      "DOCUMENTS_SENT": "Documents sent"
+      "DOCUMENTS_SENT": "Documents sent",
+      "NO_KYC": "No KYC"
     }
   },
   "PAYMENT_ACTION_REASON_MODAL": {
