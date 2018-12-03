@@ -952,7 +952,9 @@
       "TOTAL": "Total",
       "THIS_MONTH": "This month",
       "TODAY": "Today"
-    }
+    },
+    "ASSIGN": "Assign",
+    "UN_ASSIGN": "Unassign"
   },
   "FILES": {
     "UPLOAD_MODAL": {
@@ -1930,7 +1932,8 @@
         "DESKS": "Desks",
         "TEAMS": "Teams",
         "OFFICES": "Offices",
-        "SALES_STATUS": "Sales status"
+        "SALES_STATUS": "Sales status",
+        "ASSIGN_STATUS": "Assign Status"
       }
     }
   },

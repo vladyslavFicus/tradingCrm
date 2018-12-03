@@ -68,6 +68,7 @@ const filterLabels = {
   office: I18n.t('DESKS.FILTERS.OFFICE'),
   desk: I18n.t('DESKS.FILTERS.DESK'),
   language: I18n.t('COMMON.LANGUAGE'),
+  assignStatus: I18n.t('PROFILE.LIST.FILTERS.ASSIGN_STATUS'),
 };
 const statuses = keyMirror({
   INACTIVE: null,
