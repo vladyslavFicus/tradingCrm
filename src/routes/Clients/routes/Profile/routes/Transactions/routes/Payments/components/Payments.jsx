@@ -28,6 +28,7 @@ class Payments extends Component {
         statuses: PropTypes.arrayOf(PropTypes.string).isRequired,
       }).isRequired,
     }).isRequired,
+    fetchProfile: PropTypes.func.isRequired,
     fetchEntities: PropTypes.func.isRequired,
     fetchFilters: PropTypes.func.isRequired,
     resetAll: PropTypes.func.isRequired,
@@ -212,6 +213,7 @@ class Payments extends Component {
       currencyCode,
       clientPayments: { refetch },
       playerProfile: { country, languageCode: language },
+      fetchProfile,
     } = this.props;
 
     const variables = {
@@ -226,7 +228,10 @@ class Payments extends Component {
     if (error) {
       throw new SubmissionError({ _error: [error] });
     } else {
-      await refetch();
+      await Promise.all([
+        refetch(),
+        fetchProfile(profileId),
+      ]);
       this.handleCloseModal();
     }
   };

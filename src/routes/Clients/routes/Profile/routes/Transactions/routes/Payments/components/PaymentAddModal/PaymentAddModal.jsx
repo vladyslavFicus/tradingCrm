@@ -3,9 +3,10 @@ import { Field, reduxForm, getFormValues } from 'redux-form';
 import { connect } from 'react-redux';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { get } from 'lodash';
+import classNames from 'classnames';
 import I18n from '../../../../../../../../../../utils/i18n';
 import { createValidator } from '../../../../../../../../../../utils/validator';
-import { InputField, NasSelectField } from '../../../../../../../../../../components/ReduxForm';
+import { InputField, NasSelectField, DateTimeField } from '../../../../../../../../../../components/ReduxForm';
 import PropTypes from '../../../../../../../../../../constants/propTypes';
 import { typesLabels } from '../../../../../../../../../../constants/payment';
 import Currency from '../../../../../../../../../../components/Amount/Currency';
@@ -17,6 +18,7 @@ const attributeLabels = {
   amount: I18n.t('CLIENT_PROFILE.TRANSACTIONS.MODAL_CREATE.AMOUNT'),
   paymentAccount: I18n.t('CLIENT_PROFILE.TRANSACTIONS.MODAL_CREATE.PAYMENT_ACCOUNT'),
   externalReference: I18n.t('CLIENT_PROFILE.TRANSACTIONS.MODAL_CREATE.EXTERNAL_REF'),
+  expirationDate: I18n.t('CLIENT_PROFILE.TRANSACTIONS.MODAL_CREATE.EXPIRATION_DATE'),
   fromMt4Acc: I18n.t('CLIENT_PROFILE.TRANSACTIONS.MODAL_CREATE.FROM_MT4'),
   toMt4Acc: I18n.t('CLIENT_PROFILE.TRANSACTIONS.MODAL_CREATE.TO_MT4'),
 };
@@ -163,7 +165,7 @@ class PaymentAddModal extends Component {
         onClick={notEnoughBalance && paymentType !== paymentTypes.Deposit && name !== 'target' ? () => {} : onClick}
       >
         <div className="header-block-middle">
-          {mt4.login}
+          {mt4.name}
           <If condition={paymentType === paymentTypes.Deposit || name === 'target' ? false : notEnoughBalance}>
             <span className="color-danger ml-2">
               {I18n.t('CLIENT_PROFILE.TRANSACTIONS.MODAL_CREATE.MT4_NO_MONEY')}
@@ -171,7 +173,13 @@ class PaymentAddModal extends Component {
           </If>
         </div>
         <div className="header-block-small">
-          {mt4.symbol}
+          <div>MT4-ID {mt4.login}</div>
+          <div>{mt4.group}</div>
+          <If condition={[paymentTypes.CREDIT_IN, paymentTypes.CREDIT_OUT].includes(paymentType)}>
+            <div className={classNames({ 'color-danger': Number(mt4.credit) === 0 })}>
+              {I18n.t('CLIENT_PROFILE.TRANSACTIONS.MODAL_CREATE.CREDIT')}: {mt4.symbol} {mt4.credit}
+            </div>
+          </If>
         </div>
       </div>
     );
@@ -242,7 +250,7 @@ class PaymentAddModal extends Component {
           >
             {filteredPaymentTypes.map(type => (
               <option key={type} value={type}>
-                {paymentTypes[type]}
+                {I18n.t(typesLabels[type])}
               </option>
             ))}
           </Field>
@@ -274,8 +282,21 @@ class PaymentAddModal extends Component {
                   position="vertical"
                 />
               </If>
+              <If condition={currentValues && currentValues.paymentType === paymentTypes.CREDIT_IN}>
+                <Field
+                  withTime
+                  closeOnSelect={false}
+                  name="expirationDate"
+                  type="text"
+                  className="col-5"
+                  label={I18n.t(attributeLabels.expirationDate)}
+                  component={DateTimeField}
+                  position="vertical"
+                  isValidDate={() => true}
+                />
+              </If>
             </div>
-            <div className="form-row">
+            <div className="form-row align-items-center">
               <Choose>
                 <When condition={currentValues.paymentType === paymentTypes.Deposit}>
                   <Field
@@ -314,6 +335,12 @@ class PaymentAddModal extends Component {
                     <i className="icon-arrow-down" />
                   </div>
                   {this.renderMt4SelectField('toMt4Acc', 'target')}
+                </When>
+                <When condition={currentValues.paymentType === paymentTypes.CREDIT_IN}>
+                  {this.renderMt4SelectField('toMt4Acc', 'target', 'col-6')}
+                </When>
+                <When condition={currentValues.paymentType === paymentTypes.CREDIT_OUT}>
+                  {this.renderMt4SelectField('fromMt4Acc', 'target', 'col-6')}
                 </When>
               </Choose>
             </div>
@@ -371,6 +398,14 @@ const Form = reduxForm({
     if (data.paymentType === paymentTypes.Withdraw
         || data.paymentType === paymentTypes.Deposit) {
       rules = { ...rules, paymentAccountUuid: 'required|string' };
+    }
+
+    if (data.paymentType === paymentTypes.CREDIT_IN) {
+      rules = { ...rules, expirationDate: 'required|string' };
+    }
+
+    if ([paymentTypes.CREDIT_IN, paymentTypes.CREDIT_OUT].includes(data.paymentType)) {
+      rules = { ...rules, target: 'required|string' };
     }
 
     if (data.paymentType === paymentTypes.Transfer) {

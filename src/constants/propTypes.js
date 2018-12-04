@@ -535,6 +535,7 @@ PropTypes.rewardPlanAmount = PropTypes.shape({
 PropTypes.mt4User = PropTypes.shape({
   login: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
   balance: PropTypes.string,
+  credit: PropTypes.string,
   equity: PropTypes.string,
   symbol: PropTypes.string,
   leverage: PropTypes.string,

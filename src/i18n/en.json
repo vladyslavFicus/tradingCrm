@@ -899,7 +899,9 @@
         "DEPOSIT": "Deposit",
         "WITHDRAW": "Withdraw",
         "CONFISCATE": "Confiscate",
-        "TRANSFER": "Transfer"
+        "TRANSFER": "Transfer",
+        "CREDIT_IN": "Credit In",
+        "CREDIT_OUT": "Credit Out"
       }
     },
     "SUCCESS": "Success",
@@ -2732,9 +2734,11 @@
         "AMOUNT": "Amount",
         "PAYMENT_ACCOUNT": "Payment account",
         "EXTERNAL_REF": "External reference ID",
+        "EXPIRATION_DATE": "Expiration date & time",
         "FROM_MT4": "From MT4 Account",
         "TO_MT4": "To MT4 Account",
-        "MT4_NO_MONEY": "Insufficient funds"
+        "MT4_NO_MONEY": "Insufficient funds",
+        "CREDIT": "Credit"
       },
       "GRID_COLUMNS": {
         "TRANSACTION": "Transaction",
