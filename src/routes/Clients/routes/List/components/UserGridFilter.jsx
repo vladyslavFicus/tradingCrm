@@ -14,7 +14,6 @@ import {
   acquisitionStatuses,
   DynamicFilters,
   FORM_NAME,
-  ANY,
   fieldNames,
   assignStatuses,
   kycStatuses,
@@ -184,8 +183,8 @@ class UserGridFilter extends Component {
           onFieldChange={this.handleFieldChange}
           default
         >
-          <FilterField name="desks">
-            {[ANY, ...desks].map(({ uuid, name }) => (
+          <FilterField name="desks" withAnyOption>
+            {desks.map(({ uuid, name }) => (
               <option key={uuid || name} value={uuid}>
                 {I18n.t(name)}
               </option>
@@ -204,8 +203,8 @@ class UserGridFilter extends Component {
           onFieldChange={this.handleFieldChange}
           default
         >
-          <FilterField name="teams">
-            {[ANY, ...teams].map(({ uuid, name }) => (
+          <FilterField name="teams" withAnyOption>
+            {teams.map(({ uuid, name }) => (
               <option key={uuid || name} value={uuid}>
                 {I18n.t(name)}
               </option>
@@ -252,7 +251,7 @@ class UserGridFilter extends Component {
           placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
           default
         >
-          <FilterField name="assignStatus">
+          <FilterField name="assignStatus" withAnyOption>
             {assignStatuses.map(({ value, label }) => (
               <option key={value} value={value}>
                 {I18n.t(label)}
