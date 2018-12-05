@@ -18,6 +18,7 @@ import {
   fieldNames,
   assignStatuses,
   kycStatuses,
+  firstDepositStatuses,
 } from './constants';
 
 class UserGridFilter extends Component {
@@ -270,6 +271,22 @@ class UserGridFilter extends Component {
         >
           <FilterField name="kycStatus">
             {kycStatuses.map(({ value, label }) => (
+              <option key={value} value={value}>
+                {I18n.t(label)}
+              </option>
+            ))}
+          </FilterField>
+        </FilterItem>
+
+        <FilterItem
+          label={I18n.t(filterLabels.firstDeposit)}
+          size={SIZES.medium}
+          type={TYPES.nas_select}
+          placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
+          default
+        >
+          <FilterField name="firstDeposit">
+            {firstDepositStatuses.map(({ value, label }) => (
               <option key={value} value={value}>
                 {I18n.t(label)}
               </option>
