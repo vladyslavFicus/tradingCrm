@@ -21,6 +21,22 @@ const assignStatuses = [{
   label: 'COMMON.UN_ASSIGN',
 }];
 
+const kycStatuses = [{
+  value: 'NO_KYC',
+  label: 'KYC_REQUESTS.STATUS.NO_KYC',
+}, {
+  value: 'PENDING',
+  label: 'KYC_REQUESTS.STATUS.PENDING',
+}, {
+  value: 'VERIFIED',
+  label: 'KYC_REQUESTS.STATUS.VERIFIED',
+}, {
+  value: 'REFUSED',
+  label: 'KYC_REQUESTS.STATUS.REFUSED',
+}, {
+  value: 'DOCUMENTS_SENT',
+  label: 'KYC_REQUESTS.STATUS.DOCUMENTS_SENT',
+}];
 
 const fieldNames = keyMirror({
   desks: null,
@@ -53,4 +69,5 @@ export {
   FORM_NAME,
   ANY,
   assignStatuses,
+  kycStatuses,
 };

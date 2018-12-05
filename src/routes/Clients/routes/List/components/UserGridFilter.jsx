@@ -17,6 +17,7 @@ import {
   ANY,
   fieldNames,
   assignStatuses,
+  kycStatuses,
 } from './constants';
 
 class UserGridFilter extends Component {
@@ -252,9 +253,25 @@ class UserGridFilter extends Component {
           default
         >
           <FilterField name="assignStatus">
-            {assignStatuses.map(item => (
-              <option key={item.value} value={item.value}>
-                {I18n.t(item.label)}
+            {assignStatuses.map(({ value, label }) => (
+              <option key={value} value={value}>
+                {I18n.t(label)}
+              </option>
+            ))}
+          </FilterField>
+        </FilterItem>
+
+        <FilterItem
+          label={I18n.t(filterLabels.kycStatus)}
+          size={SIZES.medium}
+          type={TYPES.nas_select}
+          placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
+          default
+        >
+          <FilterField name="kycStatus">
+            {kycStatuses.map(({ value, label }) => (
+              <option key={value} value={value}>
+                {I18n.t(label)}
               </option>
             ))}
           </FilterField>

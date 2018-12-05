@@ -98,6 +98,7 @@ const clientsQuery = gql`query getProfiles(
   $status: String,
   $repIds: [String],
   $assignStatus: String,
+  $kycStatus: String,
 ) {
   profiles(
     page: $page,
@@ -112,6 +113,7 @@ const clientsQuery = gql`query getProfiles(
     status: $status,
     repIds: $repIds,
     assignStatus: $assignStatus,
+    kycStatus: $kycStatus
     ) {
       error {
         error
