@@ -955,8 +955,8 @@
       "THIS_MONTH": "This month",
       "TODAY": "Today"
     },
-    "ASSIGN": "Assign",
-    "UN_ASSIGN": "Unassign"
+    "ASSIGN": "Assigned",
+    "UN_ASSIGN": "Unassigned"
   },
   "FILES": {
     "UPLOAD_MODAL": {

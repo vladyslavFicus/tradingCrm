@@ -3,8 +3,6 @@ import { filterLabels } from '../../../../../constants/user';
 import createDynamicForm from '../../../../../components/DynamicFilters';
 import { createValidator } from '../../../../../utils/validator';
 
-const ANY = { value: null, name: 'COMMON.ANY' };
-
 const acquisitionStatuses = [{
   value: 'SALES',
   label: 'COMMON.SALES',
@@ -67,7 +65,6 @@ export {
   DynamicFilters,
   fieldNames,
   FORM_NAME,
-  ANY,
   assignStatuses,
   kycStatuses,
 };

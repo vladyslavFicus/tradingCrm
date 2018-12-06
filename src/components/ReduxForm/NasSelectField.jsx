@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import Select from '../Select';
 import FieldLabel from './FieldLabel';
+import I18n from '../../utils/i18n';
 
 class NasSelectField extends Component {
   static propTypes = {
@@ -38,6 +39,7 @@ class NasSelectField extends Component {
     id: PropTypes.string,
     className: PropTypes.string,
     helpText: PropTypes.node,
+    withAnyOption: PropTypes.bool,
   };
   static defaultProps = {
     position: 'vertical',
@@ -55,6 +57,7 @@ class NasSelectField extends Component {
     singleOptionComponent: null,
     id: null,
     helpText: null,
+    withAnyOption: false,
   };
 
   renderInput = (props) => {
@@ -71,6 +74,7 @@ class NasSelectField extends Component {
       singleOptionComponent,
       onFieldChange,
       id,
+      withAnyOption,
     } = props;
 
     let inputField = (
@@ -85,7 +89,7 @@ class NasSelectField extends Component {
         multiple={multiple}
         id={id}
       >
-        {children}
+        {[withAnyOption && <option key="any" value={null}>{I18n.t('COMMON.ANY')}</option>, ...children]}
       </Select>
     );
 
