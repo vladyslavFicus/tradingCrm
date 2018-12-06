@@ -36,6 +36,15 @@ const kycStatuses = [{
   label: 'KYC_REQUESTS.STATUS.DOCUMENTS_SENT',
 }];
 
+const firstDepositStatuses = [{
+  value: 'YES',
+  label: 'COMMON.YES',
+}, {
+  value: 'NO',
+  label: 'COMMON.NO',
+}];
+
+
 const fieldNames = keyMirror({
   desks: null,
   teams: null,
@@ -67,4 +76,5 @@ export {
   FORM_NAME,
   assignStatuses,
   kycStatuses,
+  firstDepositStatuses,
 };

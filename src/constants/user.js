@@ -70,6 +70,7 @@ const filterLabels = {
   language: I18n.t('COMMON.LANGUAGE'),
   assignStatus: I18n.t('PROFILE.LIST.FILTERS.ASSIGN_STATUS'),
   kycStatus: I18n.t('PROFILE.LIST.FILTERS.KYC_STATUS'),
+  firstDeposit: I18n.t('PROFILE.LIST.FILTERS.FIRST_DEPOSIT'),
 };
 const statuses = keyMirror({
   INACTIVE: null,

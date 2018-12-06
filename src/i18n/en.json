@@ -1936,7 +1936,8 @@
         "OFFICES": "Offices",
         "SALES_STATUS": "Sales status",
         "ASSIGN_STATUS": "Assign Status",
-        "KYC_STATUS": "KYC Status"
+        "KYC_STATUS": "KYC Status",
+        "FIRST_DEPOSIT": "First time deposit"
       }
     }
   },
