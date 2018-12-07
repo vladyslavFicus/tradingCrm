@@ -327,7 +327,16 @@ class Select extends PureComponent {
     );
   };
 
-  renderOptions = (options, selectedOptions, toSelectOptions, multiple, singleOptionComponent) => (
+  renderOptions = (
+    {
+      options,
+      originalSelectedOptions,
+      toSelectOptions,
+      multiple,
+      singleOptionComponent,
+      name,
+    }
+  ) => (
     multiple
       ? (
         <SelectMultipleOptions
@@ -335,12 +344,13 @@ class Select extends PureComponent {
           options={options}
           selectedOptions={toSelectOptions}
           onChange={this.handleSelectMultipleOptions}
+          name={name}
         />
       )
       : (
         <SelectSingleOptions
           options={options}
-          selectedOption={selectedOptions[0]}
+          selectedOption={originalSelectedOptions[0]}
           onChange={this.handleSelectSingleOption}
           bindActiveOption={this.bindActiveOptionRef}
           optionComponent={singleOptionComponent}
@@ -365,6 +375,7 @@ class Select extends PureComponent {
       disabled,
       customClassName,
       id,
+      name,
     } = this.props;
 
     const OptionsHeaderComponent = optionsHeader;
@@ -403,7 +414,16 @@ class Select extends PureComponent {
                 Options by query "{query}" not found...
               </div>
             }
-            {this.renderOptions(options, originalSelectedOptions, toSelectOptions, multiple, singleOptionComponent)}
+            {this.renderOptions(
+              {
+                options,
+                originalSelectedOptions,
+                toSelectOptions,
+                multiple,
+                singleOptionComponent,
+                name,
+              }
+            )}
           </div>
         </div>
       </div>

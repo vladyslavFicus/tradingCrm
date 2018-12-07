@@ -59,6 +59,7 @@ class SelectMultipleOptions extends PureComponent {
       headerButtonIconClassName,
       headerButtonText,
       headerButtonOnClick,
+      name,
     } = this.props;
 
     if (options.length === 0) {
@@ -95,11 +96,11 @@ class SelectMultipleOptions extends PureComponent {
               <input
                 type="checkbox"
                 className="custom-control-input"
-                id={option.label}
+                id={`${name} ${option.label}`}
                 checked={isActive}
                 onChange={e => this.handleChange(e, option)}
               />
-              <label className="custom-control-label" htmlFor={option.label}>
+              <label className="custom-control-label" htmlFor={`${name} ${option.label}`}>
                 {option.label}
               </label>
             </div>

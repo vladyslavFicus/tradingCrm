@@ -1943,7 +1943,7 @@
         "AGE_TO": "Age To",
         "CURRENCY": "Currency",
         "AFFILIATE_ID": "Affiliate ID",
-        "STATUS": "Status",
+        "STATUS": "Profile status",
         "TAGS": "Tags",
         "SEGMENTS": "Segments",
         "REG_DATE_RANGE": "Registration date range",
@@ -1957,6 +1957,7 @@
         "TEAMS": "Teams",
         "OFFICES": "Offices",
         "SALES_STATUS": "Sales status",
+        "RETENTION_STATUS": "Retention status",
         "ASSIGN_STATUS": "Assign Status",
         "KYC_STATUS": "KYC Status",
         "FIRST_DEPOSIT": "First time deposit"
