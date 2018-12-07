@@ -684,5 +684,20 @@ PropTypes.tradingActivity = PropTypes.shape({
   comment: PropTypes.string,
   timestamp: PropTypes.number,
 });
+PropTypes.callback = PropTypes.shape({
+  _id: PropTypes.string.isRequired,
+  status: PropTypes.string,
+  callbackTime: PropTypes.string,
+  creationTime: PropTypes.string,
+  updateTime: PropTypes.string,
+  userId: PropTypes.string,
+  operatorId: PropTypes.string,
+  client: PropTypes.shape({
+    fullName: PropTypes.string,
+  }),
+  operator: PropTypes.shape({
+    fullName: PropTypes.string,
+  }),
+});
 
 export default PropTypes;

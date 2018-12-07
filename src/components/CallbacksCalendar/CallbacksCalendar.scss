@@ -1,0 +1,28 @@
+.CallbacksCalendar {
+  height: 100%;
+
+  .rbc-header {
+    padding: 10px 0;
+  }
+
+  .rbc-row-content {
+    z-index: 1;
+  }
+
+  .rbc-event-content {
+    overflow: visible;
+  }
+
+  .rbc-month-row {
+    overflow: visible;
+  }
+
+  .rbc-row-segment {
+    padding: 0;
+    overflow: visible;
+  }
+
+  .rbc-today {
+    border: 1px solid #4a90e2;
+  }
+}

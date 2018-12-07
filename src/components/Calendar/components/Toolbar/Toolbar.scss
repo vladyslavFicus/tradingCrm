@@ -1,0 +1,17 @@
+.Toolbar {
+  background: #f2f4f8;
+  padding: 2% 0;
+
+  &__label {
+    margin: 0 20px;
+    font-size: 20px;
+    font-weight: 600;
+    min-width: 300px;
+    text-align: center;
+  }
+
+  &__arrow {
+    font-size: 40px;
+    color: #9b9b9b;
+  }
+}
