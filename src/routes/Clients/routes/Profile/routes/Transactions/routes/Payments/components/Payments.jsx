@@ -18,7 +18,6 @@ class Payments extends Component {
       }).isRequired,
     }).isRequired,
     fetchProfile: PropTypes.func.isRequired,
-    fetchEntities: PropTypes.func.isRequired,
     fetchFilters: PropTypes.func.isRequired,
     resetAll: PropTypes.func.isRequired,
     manageNote: PropTypes.func.isRequired,
@@ -208,7 +207,7 @@ class Payments extends Component {
     } else {
       await Promise.all([
         refetch(),
-        fetchProfile(profileId),
+        fetchProfile(uuid),
       ]);
       modal.hide();
     }
