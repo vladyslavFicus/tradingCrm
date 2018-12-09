@@ -45,7 +45,6 @@ export default compose(
   }),
   graphql(leadsQuery, {
     name: 'leads',
-    skip: ({ auth }) => !(auth.isAdministration || get(auth, 'hierarchyUsers.clients')),
     options: ({
       location: { query },
       auth,

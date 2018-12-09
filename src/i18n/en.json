@@ -956,7 +956,22 @@
       "TODAY": "Today"
     },
     "ASSIGN": "Assigned",
-    "UN_ASSIGN": "Unassigned"
+    "UN_ASSIGN": "Unassigned",
+    "PAYMENT_TYPE": {
+      "DEPOSIT": "Deposit",
+      "WITHDRAW": "Withdraw",
+      "CONFISCATE": "Confiscate",
+      "TRANSFER_IN": "Transfer in",
+      "TRANSFER_OUT": "Transfer Out",
+      "CREDIT_IN": "Credit in",
+      "CREDIT_OUT": "Credit out"
+    },
+    "PAYMENT_STATUS": {
+      "PENDING": "Pending",
+      "COMPLETED": "Completed",
+      "REJECTED": "Rejected",
+      "FAILED": "Failed"
+    }
   },
   "FILES": {
     "UPLOAD_MODAL": {
@@ -1221,12 +1236,18 @@
     },
     "PAYMENT": {
       "PAYMENT_METHODS": {
-        "FAKEPAL": "Fakepal",
-        "QIWI": "Qiwi",
-        "VISA": "Visa",
-        "CARD": "Credit card",
-        "MASTERCARD": "Mastercard",
-        "YANDEX_MONEY": "Yandex money"
+        "SKRILL": "Skrill",
+        "PAYPAL": "PayPal",
+        "CREDIT_CARD": "Credit card",
+        "B2CRYPTO": "B2Crypto",
+        "PAYRETAILERS": "Pay Retailers",
+        "WIRECAPITAL": "Wirecapital",
+        "EFTPAY": "EFTPay"
+      },
+      "PAYMENT_AGGREGATORS": {
+        "CASHIER": "Cashier",
+        "MANUAL": "Manual",
+        "NASPAY": "NasPay"
       },
       "PAYMENT_ACCOUNT": {
         "STATUS": {
@@ -1251,7 +1272,8 @@
         "DATE_TIME": "Date & Time",
         "STATUS": "Status",
         "TRANSACTIONS": "Transactions",
-        "PAYMENT_TYPE": "Payment type"
+        "PAYMENT_TYPE": "Payment type",
+        "PAYMENT_AGGREGATOR": "Payment aggregator"
       },
       "FILTER_FORM": {
         "ATTRIBUTES_LABELS": {

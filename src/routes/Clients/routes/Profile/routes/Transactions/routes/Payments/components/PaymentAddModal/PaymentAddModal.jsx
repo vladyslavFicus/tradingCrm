@@ -8,10 +8,14 @@ import I18n from '../../../../../../../../../../utils/i18n';
 import { createValidator } from '../../../../../../../../../../utils/validator';
 import { InputField, NasSelectField, DateTimeField } from '../../../../../../../../../../components/ReduxForm';
 import PropTypes from '../../../../../../../../../../constants/propTypes';
-import { typesLabels } from '../../../../../../../../../../constants/payment';
+import {
+  types as paymentTypes,
+  typesLabels,
+  manualPaymentMethods,
+  manualPaymentMethodsLabels,
+} from '../../../../../../../../../../constants/payment';
 import Currency from '../../../../../../../../../../components/Amount/Currency';
 import './PaymentAddModal.scss';
-import { paymentTypes, paymentAccounts } from './constants';
 
 const attributeLabels = {
   paymentType: I18n.t('CLIENT_PROFILE.TRANSACTIONS.MODAL_CREATE.TYPE'),
@@ -25,15 +29,13 @@ const attributeLabels = {
 
 class PaymentAddModal extends Component {
   static propTypes = {
-    playerProfile: PropTypes.userProfile.isRequired,
-    onClose: PropTypes.func.isRequired,
+    onCloseModal: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func.isRequired,
     onManageNote: PropTypes.func.isRequired,
     pristine: PropTypes.bool,
     submitting: PropTypes.bool,
     invalid: PropTypes.bool.isRequired,
-    onLoadPaymentAccounts: PropTypes.func.isRequired,
     currentValues: PropTypes.shape({
       paymentType: PropTypes.string,
       amount: PropTypes.string,
@@ -41,22 +43,8 @@ class PaymentAddModal extends Component {
       fromMt4Acc: PropTypes.string,
       toMt4Acc: PropTypes.string,
     }),
+    playerProfile: PropTypes.object.isRequired,
     error: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.string, PropTypes.object])),
-    playerLimits: PropTypes.shape({
-      entities: PropTypes.arrayOf(PropTypes.playerLimitEntity).isRequired,
-      deposit: PropTypes.shape({
-        locked: PropTypes.bool.isRequired,
-        canUnlock: PropTypes.bool.isRequired,
-      }).isRequired,
-      withdraw: PropTypes.shape({
-        locked: PropTypes.bool.isRequired,
-        canUnlock: PropTypes.bool.isRequired,
-      }).isRequired,
-      error: PropTypes.object,
-      isLoading: PropTypes.bool.isRequired,
-      receivedAt: PropTypes.number,
-    }).isRequired,
-    mt4Accounts: PropTypes.arrayOf(PropTypes.mt4User),
   };
 
   static contextTypes = {
@@ -70,30 +58,7 @@ class PaymentAddModal extends Component {
     pristine: false,
     currentValues: {},
     error: [],
-    mt4Accounts: [],
   };
-
-  state = {
-    availablePaymentAccounts: [],
-  };
-
-  async componentWillMount() {
-    const { onLoadPaymentAccounts, playerProfile: { currencyCode } } = this.props;
-
-    const action = await onLoadPaymentAccounts();
-    if (action && !action.error) {
-      const availablePaymentAccounts = action.payload.map(account => ({
-        uuid: account.uuid,
-        currency: account.lastPayment && account.lastPayment.currency ?
-          account.lastPayment.currency : currencyCode,
-        label: account.details,
-      }));
-
-      this.setState({
-        availablePaymentAccounts,
-      });
-    }
-  }
 
   getNotePopoverParams = () => ({
     placement: 'bottom',
@@ -109,49 +74,6 @@ class PaymentAddModal extends Component {
   handleDeleteNote = () => {
     this.props.onManageNote(null);
     this.context.hidePopover();
-  };
-
-  isPaymentMethodDisabled(type) {
-    const { playerLimits } = this.props;
-    let method = type.toLowerCase();
-
-    if (method === paymentTypes.Confiscate) {
-      method = 'withdraw';
-    }
-
-    return playerLimits[method] ? playerLimits[method].locked : false;
-  }
-
-  renderPaymentAccountField = () => {
-    const { currentValues } = this.props;
-    const { availablePaymentAccounts } = this.state;
-
-    if (!currentValues || currentValues.paymentType !== paymentTypes.Withdraw) {
-      return null;
-    }
-
-    const emptyOptionLabel = availablePaymentAccounts.length === 0
-      ? I18n.t('PLAYER_PROFILE.TRANSACTIONS.MODAL_CREATE.NO_PAYMENT_ACCOUNTS_LABEL')
-      : I18n.t('PLAYER_PROFILE.TRANSACTIONS.MODAL_CREATE.CHOOSE_PAYMENT_ACCOUNT_LABEL');
-
-    return (
-      <Field
-        name="paymentAccountUuid"
-        label={attributeLabels.paymentAccount}
-        placeholder={emptyOptionLabel}
-        disabled={availablePaymentAccounts.length === 0}
-        component={NasSelectField}
-        className="col select-field-wrapper"
-        showErrorMessage={false}
-        searchable={false}
-      >
-        {availablePaymentAccounts.map(item => (
-          <option key={item.uuid} value={item.uuid}>
-            {item.label}
-          </option>
-        ))}
-      </Field>
-    );
   };
 
   renderMt4SelectOption = name => ({ onClick, mt4 = {} }) => {
@@ -185,49 +107,51 @@ class PaymentAddModal extends Component {
     );
   };
 
-  renderMt4SelectField = (label, name, className) => (
-    <Field
-      name={name || 'login'}
-      label={I18n.t(attributeLabels[label || 'fromMt4Acc'])}
-      component={NasSelectField}
-      placeholder={this.props.mt4Accounts.length === 0
-        ? I18n.t('COMMON.SELECT_OPTION.NO_ITEMS')
-        : I18n.t('COMMON.SELECT_OPTION.DEFAULT')
-      }
-      disabled={this.props.mt4Accounts.length === 0}
-      className={`${className || 'col'} select-field-wrapper`}
-      searchable={false}
-      showErrorMessage={false}
-      singleOptionComponent={this.renderMt4SelectOption(name)}
-    >
-      {this.props.mt4Accounts.map(acc => (
-        <option key={acc.login} value={acc.login} mt4={acc}>
-          {`${acc.login}`}
-        </option>
-      ))}
-    </Field>
-  );
+  renderMt4SelectField = (label, name, className) => {
+    const { playerProfile: { tradingProfile: { mt4Users } } } = this.props;
+
+    return (
+      <Field
+        name={name || 'login'}
+        label={I18n.t(attributeLabels[label || 'fromMt4Acc'])}
+        component={NasSelectField}
+        placeholder={mt4Users.length === 0
+          ? I18n.t('COMMON.SELECT_OPTION.NO_ITEMS')
+          : I18n.t('COMMON.SELECT_OPTION.DEFAULT')
+        }
+        disabled={mt4Users.length === 0}
+        className={`${className || 'col'} select-field-wrapper`}
+        searchable={false}
+        showErrorMessage={false}
+        singleOptionComponent={this.renderMt4SelectOption(name)}
+      >
+        {mt4Users.map(acc => (
+          <option key={acc.login} value={acc.login} mt4={acc}>
+            {`${acc.login}`}
+          </option>
+        ))}
+      </Field>
+    );
+  };
 
   render() {
     const {
-      onClose,
+      onCloseModal,
       onSubmit,
       handleSubmit,
       pristine,
       submitting,
       invalid,
-      playerProfile,
+      playerProfile: {
+        currencyCode,
+      },
       currentValues,
       error: errors,
     } = this.props;
 
-    const filteredPaymentTypes = Object
-      .keys(paymentTypes)
-      .filter(type => !this.isPaymentMethodDisabled(type) && typesLabels[type]);
-
     return (
-      <Modal contentClassName="payment-modal" toggle={onClose} isOpen>
-        <ModalHeader toggle={onClose}>
+      <Modal contentClassName="payment-modal" toggle={onCloseModal} isOpen>
+        <ModalHeader toggle={onCloseModal}>
           {I18n.t('PLAYER_PROFILE.TRANSACTIONS.MODAL_CREATE.TITLE')}
         </ModalHeader>
         <ModalBody tag="form" id="new-transaction" className="container-fluid" onSubmit={handleSubmit(onSubmit)}>
@@ -248,7 +172,7 @@ class PaymentAddModal extends Component {
             searchable={false}
             showErrorMessage={false}
           >
-            {filteredPaymentTypes.map(type => (
+            {Object.values(paymentTypes).map(type => (
               <option key={type} value={type}>
                 {I18n.t(typesLabels[type])}
               </option>
@@ -264,11 +188,11 @@ class PaymentAddModal extends Component {
                 className="col-4"
                 inputAddon={
                   <Currency
-                    code={playerProfile.currencyCode}
+                    code={currencyCode}
                     showSymbol={false}
                   />
                 }
-                currencyCode={playerProfile.currencyCode}
+                currencyCode={currencyCode}
                 showErrorMessage={false}
                 component={InputField}
               />
@@ -300,7 +224,7 @@ class PaymentAddModal extends Component {
               <Choose>
                 <When condition={currentValues.paymentType === paymentTypes.Deposit}>
                   <Field
-                    name="paymentAccount"
+                    name="paymentMethod"
                     label={attributeLabels.paymentAccount}
                     placeholder={I18n.t('PLAYER_PROFILE.TRANSACTIONS.MODAL_CREATE.CHOOSE_PAYMENT_ACCOUNT_LABEL')}
                     component={NasSelectField}
@@ -308,9 +232,9 @@ class PaymentAddModal extends Component {
                     searchable={false}
                     showErrorMessage={false}
                   >
-                    {paymentAccounts.map(item => (
-                      <option key={item.value} value={item.value}>
-                        {item.label}
+                    {Object.values(manualPaymentMethods).map(item => (
+                      <option key={item} value={item}>
+                        {I18n.t(manualPaymentMethodsLabels[item])}
                       </option>
                     ))}
                   </Field>
@@ -321,10 +245,6 @@ class PaymentAddModal extends Component {
                 </When>
                 <When condition={currentValues.paymentType === paymentTypes.Withdraw}>
                   {this.renderMt4SelectField()}
-                  <div className="col-auto arrow-icon-wrapper">
-                    <i className="icon-arrow-down" />
-                  </div>
-                  {this.renderPaymentAccountField()}
                 </When>
                 <When condition={currentValues.paymentType === paymentTypes.Confiscate}>
                   {this.renderMt4SelectField('', '', 'col-6')}
@@ -360,7 +280,7 @@ class PaymentAddModal extends Component {
                 <button
                   type="reset"
                   className="btn btn-default-outline text-uppercase"
-                  onClick={onClose}
+                  onClick={onCloseModal}
                 >
                   {I18n.t('COMMON.CANCEL')}
                 </button>

@@ -53,14 +53,15 @@ class GridPlayerInfo extends Component {
             >
               {profile.firstName} {profile.lastName}
               {' '}
-              {profile.kycCompleted && <i className="fa fa-check text-success" />}
+              {/* when KYC functionality requirements finished
+                profile.kycCompleted && <i className="fa fa-check text-success" />
+              */}
             </div>
 
             <div
               className="font-size-11"
               id={`${id ? `${id}-` : ''}players-list-${profile.playerUUID}-additional`}
             >
-              {!!profile.username && <span>{profile.username} - </span>}
               <MiniProfile
                 target={profile.playerUUID}
                 dataSource={fetchPlayerProfile}

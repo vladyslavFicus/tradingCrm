@@ -3,23 +3,20 @@ import { getFormValues, reduxForm, Field } from 'redux-form';
 import { connect } from 'react-redux';
 import { I18n } from 'react-redux-i18n';
 import moment from 'moment';
-import PropTypes from '../../../../../../../../../../constants/propTypes';
-import { createValidator, translateLabels } from '../../../../../../../../../../utils/validator';
+import PropTypes from '../../../../../../constants/propTypes';
 import {
   types,
   typesLabels,
-  statuses,
-  statusesLabels,
   methodsLabels,
-} from '../../../../../../../../../../constants/payment';
-import {
-  InputField,
-  DateTimeField,
-  NasSelectField,
-  RangeGroup,
-} from '../../../../../../../../../../components/ReduxForm';
-import renderLabel from '../../../../../../../../../../utils/renderLabel';
-import { attributeLabels } from './constants';
+  statusesLabels,
+  statuses,
+} from '../../../../../../constants/payment';
+import { InputField, DateTimeField, NasSelectField, RangeGroup } from '../../../../../../components/ReduxForm';
+import { createValidator, translateLabels } from '../../../../../../utils/validator';
+import renderLabel from '../../../../../../utils/renderLabel';
+import countries from '../../../../../../utils/countryList';
+import { floatNormalize } from '../../../../../../utils/inputNormalize';
+import { attributeLabels, attributePlaceholders } from './constants';
 
 class TransactionsFilterForm extends Component {
   static propTypes = {
@@ -33,14 +30,14 @@ class TransactionsFilterForm extends Component {
     currentValues: PropTypes.shape({
       keyword: PropTypes.string,
       initiatorType: PropTypes.string,
-      type: PropTypes.string,
       statuses: PropTypes.arrayOf(PropTypes.string),
       paymentMethod: PropTypes.string,
       startDate: PropTypes.string,
       endDate: PropTypes.string,
     }),
-    paymentMethods: PropTypes.arrayOf(PropTypes.string).isRequired,
+    paymentMethods: PropTypes.arrayOf(PropTypes.paymentMethod).isRequired,
     invalid: PropTypes.bool,
+    currencies: PropTypes.arrayOf(PropTypes.string).isRequired,
   };
   static defaultProps = {
     invalid: true,
@@ -63,11 +60,9 @@ class TransactionsFilterForm extends Component {
   endDateValidator = (current) => {
     const { currentValues } = this.props;
 
-    return current.isSameOrBefore(moment()) && (
-      currentValues && currentValues.startDate
-        ? current.isSameOrAfter(moment(currentValues.startDate))
-        : true
-    );
+    return currentValues && currentValues.startDate
+      ? current.isSameOrAfter(moment(currentValues.startDate))
+      : true;
   };
 
   handleReset = () => {
@@ -84,10 +79,33 @@ class TransactionsFilterForm extends Component {
       onSubmit,
       paymentMethods,
       invalid,
+      currencies,
     } = this.props;
 
     return (
       <form className="filter-row" onSubmit={handleSubmit(onSubmit)}>
+        <Field
+          name="keyword"
+          type="text"
+          label={I18n.t(attributeLabels.keyword)}
+          placeholder={I18n.t(attributePlaceholders.keyword)}
+          component={InputField}
+          inputAddon={<i className="icon icon-search" />}
+          id="transactions-list-filters-search"
+          className="filter-row__big"
+        />
+        <Field
+          name="countryCode"
+          label={I18n.t(attributeLabels.country)}
+          placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
+          component={NasSelectField}
+          className="filter-row__medium"
+        >
+          {Object
+            .keys(countries)
+            .map(key => <option key={key} value={key}>{countries[key]}</option>)
+          }
+        </Field>
         <Field
           name="pamentType"
           label={I18n.t(attributeLabels.type)}
@@ -98,6 +116,19 @@ class TransactionsFilterForm extends Component {
           {Object.keys(types).filter(i => typesLabels[i]).map(type => (
             <option key={type} value={type}>
               {renderLabel(type, typesLabels)}
+            </option>
+          ))}
+        </Field>
+        <Field
+          name="paymentMethod"
+          label={I18n.t(attributeLabels.paymentMethod)}
+          component={NasSelectField}
+          placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
+          className="filter-row__medium"
+        >
+          {paymentMethods.map(method => (
+            <option key={method.uuid} value={method.methodName}>
+              {renderLabel(method.methodName, methodsLabels)}
             </option>
           ))}
         </Field>
@@ -116,15 +147,15 @@ class TransactionsFilterForm extends Component {
           ))}
         </Field>
         <Field
-          name="paymentMethod"
-          label={I18n.t(attributeLabels.paymentMethod)}
-          placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
+          name="currency"
+          label={I18n.t('COMMON.CURRENCY')}
           component={NasSelectField}
+          placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
           className="filter-row__medium"
         >
-          {paymentMethods.map(method => (
-            <option key={method} value={method}>
-              {renderLabel(method, methodsLabels)}
+          {currencies.map(item => (
+            <option key={item} value={item}>
+              {item}
             </option>
           ))}
         </Field>
@@ -134,19 +165,21 @@ class TransactionsFilterForm extends Component {
         >
           <Field
             name="amountLowerBound"
-            type="text"
+            type="number"
+            normalize={floatNormalize}
             placeholder="0.00"
             component={InputField}
           />
           <Field
             name="amountUpperBound"
-            type="text"
+            type="number"
+            normalize={floatNormalize}
             placeholder="0.00"
             component={InputField}
           />
         </RangeGroup>
         <RangeGroup
-          className="filter-row__dates"
+          className="filter-row__medium"
           label={I18n.t(attributeLabels.creationDateRange)}
         >
           <Field
@@ -188,16 +221,17 @@ class TransactionsFilterForm extends Component {
   }
 }
 
-const FORM_NAME = 'playerTransactionsFilter';
+const FORM_NAME = 'transactionsFilter';
 const FilterForm = reduxForm({
   form: FORM_NAME,
   touchOnChange: true,
   validate: createValidator({
-    keyword: 'numeric',
+    keyword: 'string',
     initiatorType: ['string'],
-    type: ['string', `in:${Object.keys(types).join()}`],
     statuses: ['array'],
     paymentMethod: 'string',
+    startDate: 'regex:/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/',
+    endDate: 'regex:/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/',
     amountLowerBound: 'numeric',
     amountUpperBound: 'numeric',
   }, translateLabels(attributeLabels), false),

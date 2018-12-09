@@ -6,7 +6,6 @@ import { shortify } from '../../../utils/uuid';
 import Uuid from '../../../components/Uuid';
 import Amount from '../../Amount';
 import './TransactionMiniProfile.scss';
-import { statuses } from '../../../constants/payment';
 import { paymentStatusNames, paymentTypesNames } from '../constants';
 import PropTypes from '../../../constants/propTypes';
 import PaymentAccount from '../../../components/PaymentAccount';
@@ -15,8 +14,8 @@ import NoteIcon from '../../NoteIcon';
 const TransactionMiniProfile = ({ data }) => {
   let authorUuidPrefix = null;
 
-  if (data.creatorUUID.indexOf('OPERATOR') === -1) {
-    authorUuidPrefix = data.creatorUUID.indexOf('PLAYER') === -1 ? 'PL' : null;
+  if (data.createdBy.indexOf('OPERATOR') === -1) {
+    authorUuidPrefix = data.createdBy.indexOf('PLAYER') === -1 ? 'PL' : null;
   }
 
   return (
@@ -36,7 +35,7 @@ const TransactionMiniProfile = ({ data }) => {
           {I18n.t('COMMON.AUTHOR_BY')}
           {' '}
           <Uuid
-            uuid={data.creatorUUID}
+            uuid={data.createdBy}
             uuidPrefix={authorUuidPrefix}
           />
         </div>
@@ -46,24 +45,6 @@ const TransactionMiniProfile = ({ data }) => {
           })}
         </div>
       </div>
-      {
-        data.status === statuses.FAILED &&
-        <div className="mini-profile-status-reason">
-          <div className="info-block">
-            <div className="info-block_status-reason">{I18n.t('MINI_PROFILE.ERROR_MESSAGE')}</div>
-            <div className="info-block_status-reason_body">{data.reason}</div>
-          </div>
-        </div>
-      }
-      {
-        data.status === statuses.REFUSED &&
-        <div className="mini-profile-status-reason">
-          <div className="info-block">
-            <div className="info-block_status-reason">{I18n.t('MINI_PROFILE.REJECTION_REASON')}</div>
-            <div className="info-block_status-reason_body">{data.reason}</div>
-          </div>
-        </div>
-      }
       <div className="mini-profile-content transaction-mini-profile-content">
         <div className="info-block">
           <div className="info-block-label">{I18n.t('MINI_PROFILE.PLAYER')}</div>
@@ -76,7 +57,7 @@ const TransactionMiniProfile = ({ data }) => {
               {data.playerProfile.username}
               {' - '}
               <Uuid
-                uuid={data.creatorUUID}
+                uuid={data.createdBy}
                 uuidPrefix={authorUuidPrefix}
               />
             </div>

@@ -9,6 +9,6 @@ export default () => new Promise((resolve) => {
         'pixel_ratio', 'hardware_concurrency', 'resolution', 'available_resolution',
         'timezone_offset', 'cpu_class', 'navigator_platform', 'do_not_track', 'regular_plugins',
       ].indexOf(key) > -1))
-      .reduce((result, item) => ({ ...result, [item.key]: [item.value] }), {}),
+      .reduce((result, { key, value }) => ({ ...result, [key]: [value] }), {}),
   }));
 });

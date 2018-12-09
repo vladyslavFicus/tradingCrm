@@ -28,57 +28,44 @@ const getClientPayments = gql`query getClientPayments(
     amountLowerBound: $amountLowerBound
     amountUpperBound: $amountUpperBound
   ) {
-    page
-    number
-    totalElements
-    size
-    last
-    content {
-      paymentId
-      playerUUID
-      creatorUUID
-      transactionTag
-      paymentSystemRefs
-      paymentType
-      amount {
-        amount
-        currency
-      }
-      amountBarrierReached
-      creationTime
-      country
-      clientIp
-      paymentMethod
-      paymentAccount
-      mobile
-      userAgent
-      playerProfile {
-        age
-        playerUUID
-        firstName
-        lastName
+    data {
+      page
+      number
+      totalElements
+      size
+      last
+      content {
         login
-        kycCompleted
-        languageCode
-        countryCode
-      }
-      paymentFlowStatuses {
+        paymentId
+        paymentType
+        status
+        currency
+        createdBy
         creationTime
-        initiatorId
-        initiatorType
-        paymentStatus
-        reason
-        reference
+        paymentMethod
+        paymentAggregator
+        accountType
+        amount
+        country
+        language
+        brandId
+        externalReference
+        playerProfile {
+          uuid
+          firstName
+          lastName
+          fullName
+        }
+        paymentMetadata {
+          clientIp
+          isMobile
+          userAgent
+          country
+        }
       }
-      creatorType
-      needApprove
-      fraud
-      status
-      currency
-      tradingAcc
-      symbol
-      accountType
-      externalReference
+    }
+    error {
+      error
     }
   } 
 }`;
@@ -113,56 +100,44 @@ const getClientPaymentsByUuid = gql`query getClientPayments(
     amountLowerBound: $amountLowerBound
     amountUpperBound: $amountUpperBound
   ) {
-    size
-    page
-    number
-    totalElements
-    last
-    content {
-      paymentId
-      playerUUID
-      creatorUUID
-      transactionTag
-      paymentSystemRefs
-      paymentType
-      amount {
-        amount
-        currency
-      }
-      amountBarrierReached
-      creationTime
-      country
-      clientIp
-      paymentMethod
-      paymentAccount
-      mobile
-      userAgent
-      playerProfile {
-        age
-        playerUUID
-        firstName
-        lastName
+    data {
+      page
+      number
+      totalElements
+      size
+      last
+      content {
         login
-        kycCompleted
-        languageCode
-      }
-      paymentFlowStatuses {
+        paymentId
+        paymentType
+        status
+        currency
+        createdBy
         creationTime
-        initiatorId
-        initiatorType
-        paymentStatus
-        reason
-        reference
+        paymentMethod
+        paymentAggregator
+        accountType
+        amount
+        country
+        language
+        brandId
+        externalReference
+        playerProfile {
+          uuid
+          firstName
+          lastName
+          fullName
+        }
+        paymentMetadata {
+          clientIp
+          isMobile
+          userAgent
+          country
+        }
       }
-      status
-      creatorType
-      currency
-      needApprove
-      fraud
-      tradingAcc
-      symbol
-      accountType
-      externalReference
+    }
+    error {
+      error
     }
   } 
 }`;
@@ -180,99 +155,9 @@ const getOperatorPaymentMethods = gql`query getOperatorPaymentMethods {
   } 
 }`;
 
-const getPaymentRegulationLimits = gql`query getPaymentLimitRegulation($playerUUID: String!) {
-  paymentRegulationLimits(playerUUID: $playerUUID) {
-    data {
-      _id
-      uuid
-      playerUUID
-      creationDate
-      startDate
-      expirationDate
-      status
-      author
-      statusAuthor
-      period
-      type
-      value {
-        type
-        limit {
-          amount
-          currency
-        }
-        used {
-          amount
-          currency
-        }
-        left {
-          amount
-          currency
-        }
-      }
-      note {
-        playerUUID
-        tagName
-        pinned
-        tagId
-        content
-        tagType
-        targetUUID
-        changedBy
-        changedAt
-      }
-    }
-    error {
-      error
-    }
-  } 
-}`;
-
-const paymentReportQuery = gql`query paymentReport(
-  $size: Int,
-  $page: Int,
-  $startDate: String,
-  $endDate: String,
-){
-  paymentReport(
-    size: $size,
-    page: $page,
-    endDate: $endDate
-    startDate: $startDate
-  ) {
-    data {
-      number,
-      page,
-      totalElements,
-      size,
-      last,
-      content {
-        _id
-        date
-        deposits {
-          currency
-          amount
-        }
-        withdrawals {
-          currency
-          amount
-        }
-        profit {
-          currency
-          amount
-        }
-      }
-    }
-    error {
-      error
-    }
-  }
-}`;
-
 
 export {
   getClientPayments,
-  getOperatorPaymentMethods,
-  paymentReportQuery,
   getClientPaymentsByUuid,
-  getPaymentRegulationLimits,
+  getOperatorPaymentMethods,
 };

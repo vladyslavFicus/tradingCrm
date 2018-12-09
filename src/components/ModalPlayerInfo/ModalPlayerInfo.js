@@ -14,59 +14,49 @@ class ModalPlayerInfo extends Component {
     playerProfile: null,
   };
 
-  renderPlayerInfo = profile => (
+  renderPlayerInfo = ({ firstName, lastName, birthDate, username, playerUUID }) => (
     <Fragment>
       <div className="modal-header-tabs__label">
-        {[profile.firstName, profile.lastName].join(' ')}
+        {[firstName, lastName].join(' ')}
         {' '}
-        {!!profile.birthDate && <span>({moment().diff(profile.birthDate, 'years')})</span>}
+        {!!birthDate && <span>({moment().diff(birthDate, 'years')})</span>}
       </div>
       <div className="font-size-11">
-        {profile.username}
+        {username}
         {' - '}
         <Uuid
-          uuid={profile.playerUUID}
-          uuidPrefix={profile.playerUUID.indexOf('PLAYER') === -1 ? 'PL' : null}
+          uuid={playerUUID}
+          uuidPrefix={playerUUID.indexOf('PLAYER') === -1 ? 'PL' : null}
           className="d-inline-block"
         />
       </div>
     </Fragment>
   );
 
-  renderPlayerStatus = profile => (
+  renderPlayerStatus = ({ profileStatus }) => (
     <Fragment>
-      <div className={`text-uppercase modal-header-tabs__label ${statusColorNames[profile.profileStatus]}`}>
-        {profile.profileStatus}
+      <div className={`text-uppercase modal-header-tabs__label ${statusColorNames[profileStatus]}`}>
+        {profileStatus}
       </div>
-      {
-        !!profile.suspendEndDate &&
-        <div className="font-size-11">
-          Until {moment.utc(profile.suspendEndDate).local().format('L')}
-        </div>
-      }
     </Fragment>
   );
 
-  renderBalance = (profile) => {
-    const { currency, tradingProfile: { balance, equity, margin, marginLevel } } = profile;
-
-    return (
-      <Fragment>
-        <div className="header-block-middle">
-          {currency} {Number(balance).toFixed(2)}
-        </div>
-        <div className="header-block-small">
-          {I18n.t('CLIENT_PROFILE.PROFILE.HEADER.EQUITY')}: {currency} {Number(equity).toFixed(2)}
-        </div>
-        <div className="header-block-small">
-          {I18n.t('CLIENT_PROFILE.PROFILE.HEADER.MARGIN')}: {currency} {Number(margin).toFixed(2)}
-        </div>
-        <div className="header-block-small">
-          {I18n.t('CLIENT_PROFILE.PROFILE.HEADER.MARGIN_LEVEL')}: {currency} {Number(marginLevel).toFixed(2)}
-        </div>
-      </Fragment>
-    );
-  };
+  renderBalance = ({ currency, tradingProfile: { balance, equity, margin, marginLevel } }) => (
+    <Fragment>
+      <div className="header-block-middle">
+        {currency} {Number(balance).toFixed(2)}
+      </div>
+      <div className="header-block-small">
+        {I18n.t('CLIENT_PROFILE.PROFILE.HEADER.EQUITY')}: {currency} {Number(equity).toFixed(2)}
+      </div>
+      <div className="header-block-small">
+        {I18n.t('CLIENT_PROFILE.PROFILE.HEADER.MARGIN')}: {currency} {Number(margin).toFixed(2)}
+      </div>
+      <div className="header-block-small">
+        {I18n.t('CLIENT_PROFILE.PROFILE.HEADER.MARGIN_LEVEL')}: {currency} {Number(marginLevel).toFixed(2)}
+      </div>
+    </Fragment>
+  );
 
   render() {
     const { playerProfile } = this.props;

@@ -17,6 +17,7 @@ const userStatusNames = {
   [userStatuses.COOLOFF]: 'cooloff',
 };
 
+// used only in Transaction Mini Profile, which is unused now
 const paymentStatusNames = {
   [paymentStatuses.COMPLETED]: 'completed',
   [paymentStatuses.PENDING]: 'pending',

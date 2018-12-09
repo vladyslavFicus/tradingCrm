@@ -52,7 +52,12 @@ const PlayerMiniProfile = ({ data }) => {
       <div className="mini-profile-content">
         <div className="info-block">
           <div className="info-block-label">{I18n.t('MINI_PROFILE.BALANCE')}</div>
-          <div className="info-block-content"><Amount {...data.balances.total} /></div>
+          <div className="info-block-content">
+            <Amount
+              amount={data.tradingProfile.balance}
+              currency={data.currency}
+            />
+          </div>
         </div>
         <div className="info-block">
           <div className="info-block-label">{I18n.t('MINI_PROFILE.LAST_LOGIN')}</div>

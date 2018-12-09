@@ -6,19 +6,18 @@ import { currencySettings as currencies } from './constants';
 const formatMoney = (amount) => {
   const n = amount.toString();
   const p = n.indexOf('.');
-  return n.replace(/\d(?=(?:\d{3})+(?:\.|$))/g, ($0, i) => p < 0 || i < p ? ($0 + ' ') : $0);
+  return n.replace(/\d(?=(?:\d{3})+(?:\.|$))/g, ($0, i) => (p < 0 || i < p ? `${$0} ` : $0));
 };
-
 
 const Amount = ({ tag, className, amount, currency, amountClassName, currencyClassName, id, amountId }) => {
   const parsedAmount = parseFloat(amount).toFixed(2);
-  if (isNaN(parsedAmount)) {
+  if (Number.isNaN(parsedAmount)) {
     return null;
   }
 
   let symbolOnLeft = true;
   if (currencies[currency]) {
-    symbolOnLeft = currencies[currency].symbolOnLeft;
+    ({ symbolOnLeft } = currencies[currency]);
   }
 
   const chunks = [
