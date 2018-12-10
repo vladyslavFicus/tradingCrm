@@ -2660,6 +2660,7 @@
       "PROFILE": "Profile",
       "TRANSACTIONS": "Transactions",
       "ACCOUNTS": "Accounts",
+      "CALLBACKS": "Callbacks",
       "FILES": "Files",
       "NOTES": "Notes",
       "FEED": "Feed"
@@ -3114,7 +3115,8 @@
       "STATUS": "Status"
     },
     "FILTER": {
-      "ID": "Callback ID, Client ID",
+      "CALLBACK_OR_OPERATOR": "Callback ID, Operator ID",
+      "CALLBACK_OR_PLAYER_OR_OPERATOR": "Callback ID, Player ID, Operator ID",
       "DATE_RANGE": "Date & time range"
     },
     "MODAL": {

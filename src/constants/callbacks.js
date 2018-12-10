@@ -11,7 +11,8 @@ export const callbacksStatusesColor = {
 };
 
 export const filterLabels = {
-  id: 'CALLBACKS.FILTER.ID',
+  callbackOrOperator: 'CALLBACKS.FILTER.CALLBACK_OR_OPERATOR',
+  callbackOrPlayerOrOperator: 'CALLBACKS.FILTER.CALLBACK_OR_PLAYER_OR_OPERATOR',
   searchValue: 'PROFILE.LIST.FILTERS.SEARCH',
   status: 'PROFILE.LIST.FILTERS.STATUS',
   date: 'CALLBACKS.FILTER.DATE_RANGE',

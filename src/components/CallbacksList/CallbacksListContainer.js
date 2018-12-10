@@ -1,10 +1,11 @@
 import { connect } from 'react-redux';
 import { compose, graphql } from 'react-apollo';
 import { get } from 'lodash';
-import { callbacksQuery } from '../../../../../graphql/queries/callbacks';
-import { withModals } from '../../../../../components/HighOrder';
-import CallbackDetailsModal from '../../../../../components/CallbackDetailsModal';
-import CallbacksList from '../components/CallbacksList';
+import { withRouter } from 'react-router-dom';
+import { callbacksQuery } from '../../graphql/queries/callbacks';
+import { withModals } from '../HighOrder';
+import CallbackDetailsModal from '../CallbackDetailsModal';
+import CallbacksList from './CallbacksList';
 
 const mapStateToProps = ({ auth: { brandId, uuid } }) => ({
   auth: {
@@ -14,18 +15,21 @@ const mapStateToProps = ({ auth: { brandId, uuid } }) => ({
 });
 
 export default compose(
+  withRouter,
   withModals({
     callbackDetails: CallbackDetailsModal,
   }),
   connect(mapStateToProps),
   graphql(callbacksQuery, {
     name: 'callbacks',
-    options: ({ location: { query } }) => ({
+    options: ({ location: { query = {} }, userId }) => ({
       variables: {
-        ...query && query.filters,
+        ...query.filters,
+        ...userId && { userId },
         page: 0,
         limit: 20,
       },
+      fetchPolicy: 'network-only',
     }),
     props: ({ callbacks: { callbacks, fetchMore, ...rest } }) => {
       const newPage = get(callbacks, 'data.number', 0);
