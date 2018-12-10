@@ -4,16 +4,23 @@ import moment from 'moment';
 import { connect } from 'react-redux';
 import { getFormValues } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
-import { callbacksStatuses, filterLabels } from '../../../../../constants/callbacks';
-import { createValidator } from '../../../../../utils/validator';
-import createDynamicForm, { FilterItem, FilterField, TYPES, SIZES } from '../../../../../components/DynamicFilters';
+import { callbacksStatuses, filterLabels } from '../../constants/callbacks';
+import { createValidator } from '../../utils/validator';
+import history from '../../router/history';
+import createDynamicForm, {
+  FilterItem,
+  FilterField,
+  TYPES,
+  SIZES,
+} from '../DynamicFilters';
 
 const FORM_NAME = 'callbacksListGridFilter';
+
 const DynamicFilters = createDynamicForm({
   form: FORM_NAME,
   touchOnChange: true,
   validate: createValidator({
-    nameOrEmailOrId: 'string',
+    searchKeyword: 'string',
     status: 'string',
     registrationDateStart: 'regex:/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/',
     registrationDateEnd: 'regex:/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/',
@@ -23,17 +30,48 @@ const DynamicFilters = createDynamicForm({
 class CallbacksGridFilter extends Component {
   static propTypes = {
     currentValues: PropTypes.shape({
-      nameOrEmailOrId: PropTypes.string,
+      searchKeyword: PropTypes.string,
       registrationDateStart: PropTypes.string,
       registrationDateEnd: PropTypes.string,
     }),
     disabled: PropTypes.bool,
-    onReset: PropTypes.func.isRequired,
-    onSubmit: PropTypes.func.isRequired,
+    searchKeywordPlaceholder: PropTypes.string,
   };
+
   static defaultProps = {
     currentValues: {},
     disabled: false,
+    searchKeywordPlaceholder: I18n.t(filterLabels.callbackOrPlayerOrOperator),
+  };
+
+  onSubmit = (data = {}) => {
+    const filters = { ...data };
+
+    if (filters.searchKeyword) {
+      switch (true) {
+        case (filters.searchKeyword.startsWith('OPERATOR')):
+          filters.operatorId = filters.searchKeyword;
+          break;
+
+        case (filters.searchKeyword.startsWith('PLAYER')):
+          filters.userId = filters.searchKeyword;
+          break;
+
+        default:
+          filters.id = filters.searchKeyword;
+          break;
+      }
+    }
+
+    if (Array.isArray(filters.statuses)) {
+      filters.statuses = filters.statuses.join(',');
+    }
+
+    history.replace({ query: { filters } });
+  };
+
+  onReset = () => {
+    history.replace({ query: { filters: {} } });
   };
 
   startDateValidator = toAttribute => (current) => {
@@ -54,23 +92,22 @@ class CallbacksGridFilter extends Component {
 
   render() {
     const {
-      onSubmit,
-      onReset,
       disabled,
+      searchKeywordPlaceholder,
     } = this.props;
 
     return (
       <DynamicFilters
         allowSubmit={disabled}
         allowReset={disabled}
-        onSubmit={onSubmit}
-        onReset={onReset}
+        onSubmit={this.onSubmit}
+        onReset={this.onReset}
       >
         <FilterItem label={I18n.t(filterLabels.searchValue)} size={SIZES.big} type={TYPES.input} default>
           <FilterField
             id="users-list-search-field"
-            name="playerOrOperator"
-            placeholder={I18n.t(filterLabels.id)}
+            name="searchKeyword"
+            placeholder={searchKeywordPlaceholder}
             type="text"
           />
         </FilterItem>

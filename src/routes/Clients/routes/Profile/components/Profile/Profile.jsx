@@ -33,6 +33,7 @@ import {
   Notes,
   Files,
   Feed,
+  Callbacks,
 } from '../../routes';
 import { Route } from '../../../../../../router';
 import { getAcquisitionFields } from './utils';
@@ -733,6 +734,7 @@ class Profile extends Component {
             <Route disableScroll path={`${path}/profile`} component={ClientView} />
             <Route disableScroll path={`${path}/transactions`} component={Transactions} />
             <Route disableScroll path={`${path}/accounts`} component={Accounts} />
+            <Route disableScroll path={`${path}/callbacks`} component={Callbacks} />
             <Route disableScroll path={`${path}/notes`} component={Notes} />
             <Route disableScroll path={`${path}/files`} component={Files} />
             <Route disableScroll path={`${path}/feed`} component={Feed} />
