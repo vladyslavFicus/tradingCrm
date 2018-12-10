@@ -2,23 +2,27 @@ import React, { PureComponent } from 'react';
 import { I18n } from 'react-redux-i18n';
 import { Link } from 'react-router-dom';
 import { get } from 'lodash';
-import CallbacksList, { CallbacksGridFilter } from '../../../../../components/CallbacksList';
-import Placeholder from '../../../../../components/Placeholder';
+import PropTypes from '../../../../../../constants/propTypes';
+import CallbacksList, { CallbacksGridFilter } from '../../../../../../components/CallbacksList';
+import Placeholder from '../../../../../../components/Placeholder';
 
 class Callbacks extends PureComponent {
-  state = {
-    loading: true,
-    totalElements: 0,
-  };
-
-  onCallbacksQuery = ({ loading, callbacks }) => {
-    const totalElements = get(callbacks, 'data.totalElements', 0);
-
-    this.setState({ loading, totalElements });
+  static propTypes = {
+    callbacks: PropTypes.shape({
+      loading: PropTypes.bool.isRequired,
+      callbacks: PropTypes.shape({
+        data: PropTypes.pageable(PropTypes.callback),
+      }),
+    }).isRequired,
   };
 
   render() {
-    const { loading, totalElements } = this.state;
+    const {
+      callbacks,
+      callbacks: { loading },
+    } = this.props;
+
+    const totalElements = get(callbacks, 'callbacks.data.totalElements', 0);
 
     return (
       <div className="card">
@@ -52,7 +56,7 @@ class Callbacks extends PureComponent {
         <CallbacksGridFilter disabled={loading} />
 
         <div className="card-body">
-          <CallbacksList onCallbacksQuery={this.onCallbacksQuery} />
+          <CallbacksList callbacks={callbacks} />
         </div>
       </div>
     );

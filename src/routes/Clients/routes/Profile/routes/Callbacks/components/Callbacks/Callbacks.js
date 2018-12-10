@@ -1,28 +1,49 @@
 import React, { Fragment, PureComponent } from 'react';
 import { I18n } from 'react-redux-i18n';
-import PropTypes from 'prop-types';
+import PropTypes from '../../../../../../../../constants/propTypes';
 import CallbacksList, { CallbacksGridFilter } from '../../../../../../../../components/CallbacksList';
 import TabHeader from '../../../../../../../../components/TabHeader';
 import { filterLabels } from '../../../../../../../../constants/callbacks';
 
 class Callbacks extends PureComponent {
   static propTypes = {
+    callbacks: PropTypes.object.isRequired,
     match: PropTypes.shape({
       params: PropTypes.shape({
         id: PropTypes.string.isRequired,
       }).isRequired,
     }).isRequired,
+    modals: PropTypes.shape({
+      callbackAdd: PropTypes.modalType,
+    }).isRequired,
+  };
+
+  handleOpenCallbackAddModal = () => {
+    const {
+      match: { params: { id: userId } },
+      callbacks: { refetch },
+    } = this.props;
+
+    this.props.modals.callbackAdd.show({
+      userId,
+      onConfirm: refetch,
+    });
   };
 
   render() {
-    const { match: { params: { id: userId } } } = this.props;
-
     return (
       <Fragment>
-        <TabHeader title={I18n.t('CLIENT_PROFILE.TABS.CALLBACKS')} />
+        <TabHeader title={I18n.t('CLIENT_PROFILE.TABS.CALLBACKS')}>
+          <button
+            className="btn btn-sm btn-default-outline"
+            onClick={this.handleOpenCallbackAddModal}
+          >
+            {I18n.t('CLIENT_PROFILE.CALLBACKS.ADD_CALLBACK')}
+          </button>
+        </TabHeader>
         <CallbacksGridFilter searchKeywordPlaceholder={I18n.t(filterLabels.callbackOrOperator)} />
         <div className="tab-wrapper">
-          <CallbacksList userId={userId} />
+          <CallbacksList withoutClientColumn callbacks={this.props.callbacks} />
         </div>
       </Fragment>
     );

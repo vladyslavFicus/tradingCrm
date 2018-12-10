@@ -21,20 +21,12 @@ class CallbacksList extends Component {
       brandId: PropTypes.string,
       uuid: PropTypes.string,
     }).isRequired,
-    userId: PropTypes.string,
-    onCallbacksQuery: PropTypes.func,
+    withoutClientColumn: PropTypes.bool,
   };
 
   static defaultProps = {
-    userId: null,
-    onCallbacksQuery: () => {},
+    withoutClientColumn: false,
   };
-
-  componentDidUpdate() {
-    const { onCallbacksQuery, callbacks } = this.props;
-
-    onCallbacksQuery(callbacks);
-  }
 
   onPageChange = () => {
     const {
@@ -117,7 +109,7 @@ class CallbacksList extends Component {
     const {
       callbacks,
       callbacks: { loading },
-      userId,
+      withoutClientColumn,
     } = this.props;
 
     const entities = get(callbacks, 'callbacks.data') || { content: [] };
@@ -144,7 +136,7 @@ class CallbacksList extends Component {
           header={I18n.t('CALLBACKS.GRID_HEADER.OPERATOR')}
           render={this.renderOperator}
         />
-        {!userId &&
+        {!withoutClientColumn &&
           <GridViewColumn
             name="userId"
             header={I18n.t('CALLBACKS.GRID_HEADER.CLIENT')}
