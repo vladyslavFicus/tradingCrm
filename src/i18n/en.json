@@ -2064,7 +2064,7 @@
     "HEADER_DEVICE": "Device",
     "HEADER_STATUS": "Status",
     "HEADER_AMOUNT": "Amount",
-    "HEADER_PAYMENT_METHOD": "Payment account",
+    "HEADER_PAYMENT_METHOD": "Payment method",
     "ACTIONS": {
       "MARK_AS_CHARGEBACK": "Mark as chargeback"
     },
@@ -2661,6 +2661,7 @@
       "PROFILE": "Profile",
       "TRANSACTIONS": "Transactions",
       "ACCOUNTS": "Accounts",
+      "CALLBACKS": "Callbacks",
       "FILES": "Files",
       "NOTES": "Notes",
       "FEED": "Feed"
@@ -2764,7 +2765,9 @@
         "FROM_MT4": "From MT4 Account",
         "TO_MT4": "To MT4 Account",
         "MT4_NO_MONEY": "Insufficient funds",
-        "CREDIT": "Credit"
+        "CREDIT": "Credit",
+        "BALANCE": "Balance",
+        "GROUP": "Group"
       },
       "GRID_COLUMNS": {
         "TRANSACTION": "Transaction",
@@ -2810,6 +2813,9 @@
       "REPRESENTATIVE_UPDATE": {
         "HEADER": "Client %{type} update"
       }
+    },
+    "CALLBACKS": {
+      "ADD_CALLBACK": "+ Add callback"
     }
   },
   "TEMPORARY_UNTIL": {
@@ -3115,8 +3121,16 @@
       "STATUS": "Status"
     },
     "FILTER": {
-      "ID": "Callback ID, Client ID",
+      "CALLBACK_OR_OPERATOR": "Callback ID, Operator ID",
+      "CALLBACK_OR_PLAYER_OR_OPERATOR": "Callback ID, Player ID, Operator ID",
       "DATE_RANGE": "Date & time range"
+    },
+    "CREATE_MODAL": {
+      "TITLE": "New callback",
+      "OPERATOR": "Operator",
+      "SELECT_OPERATOR": "Select operator",
+      "CALLBACK_DATE_AND_TIME": "Callback date & time",
+      "SUCCESSFULLY_CREATED": "Callback has been successfully created"
     },
     "MODAL": {
       "TITLE": "Callback details",

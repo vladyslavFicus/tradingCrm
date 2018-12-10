@@ -16,14 +16,11 @@ import {
 } from '../../../../../constants/payment';
 import paymentAccounts from '../../../../../constants/paymentAccounts';
 
-export default ({ auth, modals, fetchPlayerMiniProfile, loadPaymentStatuses }) => [{
+export default ({ auth, fetchPlayerMiniProfile, loadPaymentStatuses }) => [{
   name: 'paymentId',
   header: I18n.t('CONSTANTS.TRANSACTIONS.GRID_COLUMNS.TRANSACTIONS'),
   render: data => (
-    <GridPaymentInfo
-      payment={data}
-      onClick={() => modals.paymentDetail.show({ payment: data })}
-    />
+    <GridPaymentInfo payment={data} />
   ),
 }, {
   name: 'profile',

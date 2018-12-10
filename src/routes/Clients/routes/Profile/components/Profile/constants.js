@@ -11,6 +11,9 @@ export const userProfileTabs = [{
   label: I18n.t('CLIENT_PROFILE.TABS.ACCOUNTS'),
   url: '/clients/:id/accounts',
 }, {
+  label: I18n.t('CLIENT_PROFILE.TABS.CALLBACKS'),
+  url: '/clients/:id/callbacks',
+}, {
   label: I18n.t('CLIENT_PROFILE.TABS.FILES'),
   url: '/clients/:id/files',
 }, {

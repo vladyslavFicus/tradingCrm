@@ -4,6 +4,7 @@ import { v4 } from 'uuid';
 
 class Container extends Component {
   static propTypes = {
+    placement: PropTypes.string,
     children: PropTypes.node.isRequired,
     target: PropTypes.string.isRequired,
     dataSource: PropTypes.oneOfType([PropTypes.func, PropTypes.object]).isRequired,
@@ -24,6 +25,7 @@ class Container extends Component {
       hide: 500,
     },
     id: null,
+    placement: null,
   };
 
   componentDidMount() {
@@ -85,7 +87,7 @@ class Container extends Component {
 
   loadContent = async () => {
     const {
-      props: { dataSource, target, type },
+      props: { dataSource, target, type, placement },
       context: { miniProfile: { onShowMiniProfile } },
       id,
       onMouseEnterPopover,
@@ -101,10 +103,10 @@ class Container extends Component {
       const action = await dataSource(target);
 
       if (action && !action.error) {
-        onShowMiniProfile(`${id}-${target}`, action.payload, type, popoverMouseEvents);
+        onShowMiniProfile(`${id}-${target}`, action.payload, type, popoverMouseEvents, placement);
       }
     } else {
-      onShowMiniProfile(`${id}-${target}`, dataSource, type, popoverMouseEvents);
+      onShowMiniProfile(`${id}-${target}`, dataSource, type, popoverMouseEvents, placement);
     }
   };
 

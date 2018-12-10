@@ -39,12 +39,13 @@ class PaymentAddModal extends Component {
     currentValues: PropTypes.shape({
       paymentType: PropTypes.string,
       amount: PropTypes.string,
-      paymentAccountUuid: PropTypes.string,
       fromMt4Acc: PropTypes.string,
       toMt4Acc: PropTypes.string,
     }),
     playerProfile: PropTypes.object.isRequired,
     error: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.string, PropTypes.object])),
+    reset: PropTypes.func.isRequired,
+    change: PropTypes.func.isRequired,
   };
 
   static contextTypes = {
@@ -76,19 +77,30 @@ class PaymentAddModal extends Component {
     this.context.hidePopover();
   };
 
+  handlePaymentTypeChanged = (value) => {
+    const { change, reset } = this.props;
+
+    reset();
+    change('paymentType', value);
+  }
+
   renderMt4SelectOption = name => ({ onClick, mt4 = {} }) => {
     const { currentValues: { paymentType, amount } } = this.props;
     const notEnoughBalance = parseFloat(mt4.balance) < amount;
+    const warningMessage = (
+      [paymentTypes.Deposit, paymentTypes.CREDIT_IN].indexOf(paymentType) === -1
+      && name !== 'target'
+    );
 
     return (
       <div
         key={mt4.login}
         className="value-wrapper"
-        onClick={notEnoughBalance && paymentType !== paymentTypes.Deposit && name !== 'target' ? () => {} : onClick}
+        onClick={notEnoughBalance && warningMessage ? () => {} : onClick}
       >
         <div className="header-block-middle">
           {mt4.name}
-          <If condition={paymentType === paymentTypes.Deposit || name === 'target' ? false : notEnoughBalance}>
+          <If condition={warningMessage && notEnoughBalance}>
             <span className="color-danger ml-2">
               {I18n.t('CLIENT_PROFILE.TRANSACTIONS.MODAL_CREATE.MT4_NO_MONEY')}
             </span>
@@ -96,7 +108,10 @@ class PaymentAddModal extends Component {
         </div>
         <div className="header-block-small">
           <div>MT4-ID {mt4.login}</div>
-          <div>{mt4.group}</div>
+          <div className={classNames({ 'color-danger': Number(mt4.balance) === 0 })}>
+            {I18n.t('CLIENT_PROFILE.TRANSACTIONS.MODAL_CREATE.BALANCE')}: {mt4.symbol} {mt4.balance}
+          </div>
+          <div>{I18n.t('CLIENT_PROFILE.TRANSACTIONS.MODAL_CREATE.GROUP')}: {mt4.group}</div>
           <If condition={[paymentTypes.CREDIT_IN, paymentTypes.CREDIT_OUT].includes(paymentType)}>
             <div className={classNames({ 'color-danger': Number(mt4.credit) === 0 })}>
               {I18n.t('CLIENT_PROFILE.TRANSACTIONS.MODAL_CREATE.CREDIT')}: {mt4.symbol} {mt4.credit}
@@ -108,7 +123,8 @@ class PaymentAddModal extends Component {
   };
 
   renderMt4SelectField = (label, name, className) => {
-    const { playerProfile: { tradingProfile: { mt4Users } } } = this.props;
+    const { playerProfile: { tradingProfile } } = this.props;
+    const mt4Users = get(tradingProfile, 'mt4Users') || [];
 
     return (
       <Field
@@ -169,6 +185,7 @@ class PaymentAddModal extends Component {
             label={attributeLabels.paymentType}
             placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
             component={NasSelectField}
+            onFieldChange={this.handlePaymentTypeChanged}
             searchable={false}
             showErrorMessage={false}
           >
@@ -247,7 +264,7 @@ class PaymentAddModal extends Component {
                   {this.renderMt4SelectField()}
                 </When>
                 <When condition={currentValues.paymentType === paymentTypes.Confiscate}>
-                  {this.renderMt4SelectField('', '', 'col-6')}
+                  {this.renderMt4SelectField()}
                 </When>
                 <When condition={currentValues.paymentType === paymentTypes.Transfer}>
                   {this.renderMt4SelectField('', 'source')}
@@ -257,10 +274,10 @@ class PaymentAddModal extends Component {
                   {this.renderMt4SelectField('toMt4Acc', 'target')}
                 </When>
                 <When condition={currentValues.paymentType === paymentTypes.CREDIT_IN}>
-                  {this.renderMt4SelectField('toMt4Acc', 'target', 'col-6')}
+                  {this.renderMt4SelectField('toMt4Acc')}
                 </When>
                 <When condition={currentValues.paymentType === paymentTypes.CREDIT_OUT}>
-                  {this.renderMt4SelectField('fromMt4Acc', 'target', 'col-6')}
+                  {this.renderMt4SelectField('fromMt4Acc')}
                 </When>
               </Choose>
             </div>
@@ -308,34 +325,60 @@ const Form = reduxForm({
   initialValues: {
     paymentType: '',
   },
-  validate: (data) => {
+  validate: (
+    data,
+    { playerProfile: { tradingProfile: { mt4Users } }, currentValues }
+  ) => {
     let rules = {
       paymentType: 'required|string',
       amount: 'required|numeric',
       externalReference: 'required|string',
     };
 
-    if (data.paymentType === paymentTypes.Withdraw
-        || data.paymentType === paymentTypes.Deposit) {
-      rules = { ...rules, paymentAccountUuid: 'required|string' };
+    if ((data.paymentType === paymentTypes.Withdraw
+        || data.paymentType === paymentTypes.CREDIT_OUT
+        || data.paymentType === paymentTypes.Confiscate)
+        && currentValues.login
+        && currentValues.amount
+        && Number(mt4Users.find(({ login }) => login === currentValues.login).balance) < currentValues.amount) {
+      // make fake error to prevent submit when no funds on account
+      return { login: I18n.t('CLIENT_PROFILE.TRANSACTIONS.MODAL_CREATE.MT4_NO_MONEY') };
+    }
+
+    if (data.paymentType === paymentTypes.Deposit) {
+      rules = { ...rules, paymentMethod: 'required|string' };
     }
 
     if (data.paymentType === paymentTypes.CREDIT_IN) {
       rules = { ...rules, expirationDate: 'required|string' };
     }
 
-    if ([paymentTypes.CREDIT_IN, paymentTypes.CREDIT_OUT].includes(data.paymentType)) {
-      rules = { ...rules, target: 'required|string' };
-    }
-
     if (data.paymentType === paymentTypes.Transfer) {
       rules = {
         ...rules,
-        fromMt4Acc: 'required|numeric',
-        toMt4Acc: 'required|numeric',
+        source: 'required|string',
+        target: 'required|string',
       };
+
+      if (currentValues
+          && currentValues.source
+          && currentValues.amount
+          && Number(mt4Users.find(({ login }) => login === currentValues.source).balance) < currentValues.amount) {
+        // make fake error to prevent submit when no funds on account
+        return { source: I18n.t('CLIENT_PROFILE.TRANSACTIONS.MODAL_CREATE.MT4_NO_MONEY') };
+      }
+
+      if (currentValues
+          && currentValues.source
+          && currentValues.target
+          && currentValues.source === currentValues.target) {
+        return {
+          source: I18n.t('COMMON.SOMETHING_WRONG'),
+          target: I18n.t('COMMON.SOMETHING_WRONG'),
+        };
+      }
     } else {
-      rules = { ...rules, mt4Acc: 'required|numeric' };
+      rules = { ...rules, login: 'required|string' };
     }
 
     return createValidator(rules, attributeLabels, false)(data);

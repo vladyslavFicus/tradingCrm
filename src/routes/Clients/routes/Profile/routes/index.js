@@ -4,6 +4,7 @@ import Files from './Files';
 import Feed from './Feed';
 import Transactions from './Transactions';
 import Accounts from './Accounts';
+import Callbacks from './Callbacks';
 
 export {
   ClientView,
@@ -12,4 +13,5 @@ export {
   Feed,
   Transactions,
   Accounts,
+  Callbacks,
 };

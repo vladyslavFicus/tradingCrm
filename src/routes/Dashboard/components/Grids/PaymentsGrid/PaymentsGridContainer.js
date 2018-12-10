@@ -1,7 +1,5 @@
 import { connect } from 'react-redux';
 import { compose, graphql } from 'react-apollo';
-import { withModals } from '../../../../../components/HighOrder';
-import PaymentDetailModal from '../../../../../components/PaymentDetailModal/PaymentDetailModalContainer';
 import { getClientPayments } from '../../../../../graphql/queries/payments';
 import { actionCreators as miniProfileActionCreators } from '../../../../../redux/modules/miniProfile';
 import { actionCreators as transactionsActionCreators } from '../../../../../redux/modules/transactions';
@@ -20,9 +18,6 @@ const mapDispatchToProps = {
 };
 
 export default compose(
-  withModals({
-    paymentDetail: PaymentDetailModal,
-  }),
   connect(mapStateToProps, mapDispatchToProps),
   graphql(getClientPayments, {
     name: 'clientPayments',

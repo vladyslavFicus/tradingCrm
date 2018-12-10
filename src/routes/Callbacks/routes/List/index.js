@@ -1,5 +1,5 @@
 import { asyncRoute } from '../../../../router/index';
 
 export default asyncRoute(
-  () => import(/* webpackChunkName: "CallbacksListContainer" */ './container/CallbacksListContainer')
+  () => import(/* webpackChunkName: "CallbacksList" */ './components/CallbacksList')
 );

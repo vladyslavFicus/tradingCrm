@@ -17,6 +17,11 @@
     text-align: center;
   }
 
+  &__navigation {
+    display: flex;
+    margin-left: auto;
+  }
+
   .dropdown-menu {
     min-width: 100%;
     position: absolute;

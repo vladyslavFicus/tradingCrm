@@ -8,11 +8,13 @@ export default compose(
     name: 'acceptPayment',
   }),
   graphql(clientQuery, {
-    name: 'profile',
-    options: ({ payment: { playerUUID } }) => ({
+    options: ({
+      profileId: playerUUID,
+    }) => ({
       variables: {
         playerUUID,
       },
     }),
+    name: 'playerProfile',
   })
 )(PaymentDetailModal);
