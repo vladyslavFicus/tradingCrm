@@ -32,6 +32,10 @@ export default [{
     </Fragment>
   ),
 }, {
+  name: 'credit',
+  header: I18n.t('CLIENT_PROFILE.ACCOUNTS.GRID_COLUMNS.CREDIT'),
+  render: ({ credit, symbol }) => <div className="font-weight-700">{symbol} {Number(credit).toFixed(2)}</div>,
+}, {
   name: 'leverage',
   header: I18n.t('CLIENT_PROFILE.ACCOUNTS.GRID_COLUMNS.LEVERAGE'),
   render: ({ leverage }) => <div className="font-weight-700">{leverage}</div>,

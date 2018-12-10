@@ -541,6 +541,8 @@ PropTypes.mt4User = PropTypes.shape({
   leverage: PropTypes.string,
   name: PropTypes.string,
   group: PropTypes.string,
+  margin: PropTypes.string,
+  createdBy: PropTypes.string,
 });
 PropTypes.tradingProfile = PropTypes.shape({
   isTestUser: PropTypes.bool,

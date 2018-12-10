@@ -2788,7 +2788,8 @@
         "TRADING_ACC": "Trading acc",
         "SERVER": "Server",
         "BALANCE/EQUITY": "Balance / Equity",
-        "LEVERAGE": "Leverage"
+        "LEVERAGE": "Leverage",
+        "CREDIT": "Credit"
       },
       "ACTIONS_DROPDOWN": {
         "CHANGE_PASSWORD": "Change password"

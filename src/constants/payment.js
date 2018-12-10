@@ -116,7 +116,7 @@ const accountStatusActions = {
 const types = keyMirror({
   Deposit: null,
   Withdraw: null,
-  Confiscate: null,
+  // Confiscate: null,
   Transfer: null,
   CREDIT_IN: null,
   CREDIT_OUT: null,

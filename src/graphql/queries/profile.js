@@ -109,6 +109,9 @@ const clientQuery = gql`query profileData($playerUUID: String!){
           leverage
           name
           group
+          margin
+          createdBy
+          credit
         }
         firstDepositDate
         lastDepositDate
@@ -212,6 +215,10 @@ const clientsQuery = gql`query getProfiles(
               balance
               equity
               symbol
+              name
+              margin
+              createdBy
+              credit
             }
             firstDepositDate
             lastDepositDate
