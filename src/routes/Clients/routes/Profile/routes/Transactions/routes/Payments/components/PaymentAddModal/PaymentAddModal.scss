@@ -30,6 +30,10 @@
       .value-wrapper {
         padding-top: 5px;
         padding-bottom: 5px;
+        cursor: pointer;
+        &:not(:last-child) {
+          border-bottom: 1px solid grey;
+        }
       }
     }
     .select-icon {
