@@ -135,7 +135,7 @@ class CoreLayout extends Component {
     });
   };
 
-  handleShowMiniProfile = (target, params, type, popoverMouseEvents) => {
+  handleShowMiniProfile = (target, params, type, popoverMouseEvents, placement) => {
     this.setState({
       miniProfilePopover: {
         name: MINI_PROFILE_POPOVER,
@@ -144,6 +144,7 @@ class CoreLayout extends Component {
           target,
           type,
           popoverMouseEvents,
+          placement,
         },
       },
     });

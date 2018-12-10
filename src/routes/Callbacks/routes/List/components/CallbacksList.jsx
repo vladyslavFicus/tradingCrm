@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import { TextRow } from 'react-placeholder/lib/placeholders';
 import { I18n } from 'react-redux-i18n';
 import { get } from 'lodash';
+import { Link } from 'react-router-dom';
 import PropTypes from '../../../../../constants/propTypes';
 import history from '../../../../../router/history';
 import { shortify } from '../../../../../utils/uuid';
@@ -134,7 +135,7 @@ class CallbacksList extends Component {
 
     return (
       <div className="card">
-        <div className="card-heading">
+        <div className="card-heading justify-content-between">
           <Placeholder
             ready={!loading}
             className={null}
@@ -161,6 +162,9 @@ class CallbacksList extends Component {
               </Otherwise>
             </Choose>
           </Placeholder>
+          <Link to="/callbacks/calendar">
+            <i className="font-size-20 fa fa-calendar" />
+          </Link>
         </div>
 
         <CallbacksGridFilter

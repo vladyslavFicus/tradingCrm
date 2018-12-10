@@ -3,6 +3,7 @@ import classNames from 'classnames';
 import PropTypes from '../../constants/propTypes';
 import DepartmentsDropDown from '../DepartmentsDropDown';
 import HeaderNav from '../HeaderNav';
+import HeaderCallbacksCalendarDropdown from '../HeaderCallbacksCalendarDropdown';
 import Logo from '../Logo';
 import history from '../../router/history';
 import './Header.scss';
@@ -91,16 +92,19 @@ class Header extends Component {
             </div>
           </form>
         </If>
-        <HeaderNav
-          items={[
-            { label: 'My profile', onClick: () => this.props.onToggleProfile() },
-            {
-              label: 'Logout',
-              onClick: () => history.replace('/logout'),
-              id: 'profile-logout-button',
-            },
-          ]}
-        />
+        <div className="header__navigation">
+          <HeaderCallbacksCalendarDropdown />
+          <HeaderNav
+            items={[
+              { label: 'My profile', onClick: () => this.props.onToggleProfile() },
+              {
+                label: 'Logout',
+                onClick: () => history.replace('/logout'),
+                id: 'profile-logout-button',
+              },
+            ]}
+          />
+        </div>
       </header>
     );
   }
