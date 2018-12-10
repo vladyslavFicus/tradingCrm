@@ -11,7 +11,7 @@ import {
   types as paymentsTypes,
   manualPaymentMethods,
   tradingTypes,
-  tradingStatuses,
+  statusMapper,
 } from '../../constants/payment';
 import Amount from '../Amount';
 import { UncontrolledTooltip } from '../Reactstrap/Uncontrolled';
@@ -203,7 +203,7 @@ class PaymentDetailModal extends PureComponent {
           >
             {I18n.t('COMMON.DEFER')}
           </Button>
-          <If condition={paymentType === tradingTypes.WITHDRAW && status === tradingStatuses.PAYMENT_PENDING}>
+          <If condition={paymentType === tradingTypes.WITHDRAW && statusMapper.PENDING.indexOf(status) !== -1}>
             <Select
               placeholder={I18n.t('PAYMENT_DETAILS_MODAL.CHOOSE_PAYMENT_METHOD_LABEL')}
               className="col select-field-wrapper"
