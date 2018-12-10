@@ -10,7 +10,6 @@ import {
   manualPaymentMethodsLabels,
   types as paymentsTypes,
   manualPaymentMethods,
-  manualPaymentMethodsLabels,
   tradingTypes,
   tradingStatuses,
 } from '../../constants/payment';
