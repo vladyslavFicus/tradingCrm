@@ -227,6 +227,8 @@ class Payments extends Component {
     });
   };
 
+  handleModalActionSuccess = () => this.props.clientPayments.refetch();
+
   render() {
     const {
       filters: { data: availableFilters },
@@ -260,7 +262,7 @@ class Payments extends Component {
             locale={locale}
             showNoResults={!!error || (!loading && entities.content.length === 0)}
           >
-            {columns.map(({ name, header, render }) => (
+            {columns(this.handleModalActionSuccess).map(({ name, header, render }) => (
               <GridViewColumn
                 key={name}
                 name={name}

@@ -112,6 +112,8 @@ class View extends Component {
       .then(this.handleCloseModal);
   };
 
+  handleModalActionSuccess = () => this.props.clientPayments.refetch();
+
   render() {
     const {
       filters: { data: availableFilters },
@@ -157,6 +159,7 @@ class View extends Component {
                 auth,
                 fetchPlayerMiniProfile,
               },
+              this.handleModalActionSuccess,
             ).map(({ name, header, render }) => (
               <GridViewColumn
                 key={name}

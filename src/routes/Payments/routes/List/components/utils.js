@@ -22,11 +22,12 @@ export default (
     auth,
     fetchPlayerMiniProfile,
   },
+  onActionSuccess,
 ) => [{
   name: 'paymentId',
   header: I18n.t('CONSTANTS.TRANSACTIONS.GRID_COLUMNS.TRANSACTIONS'),
   render: data => (
-    <GridPaymentInfo payment={data} />
+    <GridPaymentInfo payment={data} onSuccess={onActionSuccess} />
   ),
 }, {
   name: 'profile',

@@ -41,6 +41,25 @@ const addPaymentMutation = gql`mutation createClientPayment(
   }
 }`;
 
+const acceptPayment = gql`mutation acceptPayment(
+$paymentId: String!,
+$paymentMethod: String,
+$typeAcc: String,  
+) {
+  payment {
+    acceptPayment (
+      paymentId: $paymentId,
+      paymentMethod: $paymentMethod,
+      typeAcc: $typeAcc,
+    ) {
+      data {
+        success
+      }
+    }
+  }
+}`;
+
 export {
   addPaymentMutation,
+  acceptPayment,
 };
