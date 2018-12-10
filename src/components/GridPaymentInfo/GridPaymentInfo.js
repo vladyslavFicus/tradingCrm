@@ -13,6 +13,7 @@ class GridPaymentInfo extends PureComponent {
     modals: PropTypes.shape({
       paymentDetail: PropTypes.modalType,
     }).isRequired,
+    onSuccess: PropTypes.func.isRequired,
   };
 
   handleOpenDetailModal = () => {
@@ -33,10 +34,11 @@ class GridPaymentInfo extends PureComponent {
         currency,
         playerProfile: { uuid },
       },
+      onSuccess,
     } = this.props;
 
     paymentDetail.show({
-      profileId: 'PLAYER-2e8e3611-9973-44e5-a337-51706d395304',
+      profileId: uuid,
       payment: {
         paymentId,
         paymentType,
@@ -51,6 +53,7 @@ class GridPaymentInfo extends PureComponent {
         amount,
         currency,
       },
+      onSuccess,
     });
   }
 

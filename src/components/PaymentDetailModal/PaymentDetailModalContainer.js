@@ -1,12 +1,18 @@
-import { graphql } from 'react-apollo';
+import { graphql, compose } from 'react-apollo';
 import { clientQuery } from '../../graphql/queries/profile';
+import { acceptPayment } from '../../graphql/mutations/payment';
 import PaymentDetailModal from './PaymentDetailModal';
 
-export default graphql(clientQuery, {
-  name: 'profile',
-  options: ({ payment: { playerUUID } }) => ({
-    variables: {
-      playerUUID,
-    },
+export default compose(
+  graphql(acceptPayment, {
+    name: 'acceptPayment',
   }),
-})(PaymentDetailModal);
+  graphql(clientQuery, {
+    name: 'profile',
+    options: ({ payment: { playerUUID } }) => ({
+      variables: {
+        playerUUID,
+      },
+    }),
+  })
+)(PaymentDetailModal);

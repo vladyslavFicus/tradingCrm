@@ -15,11 +15,11 @@ import Uuid from '../../../../../../../../../components/Uuid';
 import FailedStatusIcon from '../../../../../../../../../components/FailedStatusIcon';
 import { getTradingStatusProps } from '../../../../../../../../../utils/paymentHelpers';
 
-export default [{
+export default onActionSuccess => [{
   name: 'paymentId',
   header: I18n.t('CLIENT_PROFILE.TRANSACTIONS.GRID_COLUMNS.TRANSACTION'),
   render: data => (
-    <GridPaymentInfo payment={data} />
+    <GridPaymentInfo payment={data} onSuccess={onActionSuccess} />
   ),
 }, {
   name: 'paymentType',

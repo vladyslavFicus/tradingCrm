@@ -121,6 +121,8 @@ class View extends Component {
       fetchPlayerMiniProfile,
     } = this.props;
 
+    const handleModalActionSuccess = () => clientPayments.refetch();
+
     const entities = get(clientPayments, 'clientPayments.data') || { content: [] };
     const error = get(clientPayments, 'clientPayments.error');
 
@@ -150,6 +152,7 @@ class View extends Component {
                 auth,
                 fetchPlayerMiniProfile,
               },
+              handleModalActionSuccess,
             ).map(({ name, header, render }) => (
               <GridViewColumn
                 key={name}

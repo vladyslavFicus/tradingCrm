@@ -10,6 +10,10 @@ import PropTypes from '../../constants/propTypes';
 import {
   methodsLabels as paymentsMethodsLabels,
   types as paymentsTypes,
+  manualPaymentMethods,
+  manualPaymentMethodsLabels,
+  tradingTypes,
+  tradingStatuses,
 } from '../../constants/payment';
 import Amount from '../Amount';
 import { UncontrolledTooltip } from '../Reactstrap/Uncontrolled';
@@ -20,20 +24,52 @@ import ModalPlayerInfo from '../ModalPlayerInfo';
 import ShortLoader from '../ShortLoader';
 import renderLabel from '../../utils/renderLabel';
 import IpFlag from '../IpFlag';
+import Select from '../../components/Select';
 
 class PaymentDetailModal extends PureComponent {
   static propTypes = {
     className: PropTypes.string,
     onCloseModal: PropTypes.func.isRequired,
+    acceptPayment: PropTypes.func.isRequired,
     payment: PropTypes.object.isRequired,
     playerProfile: PropTypes.shape({
       loading: PropTypes.bool.isRequired,
     }).isRequired,
+    onSuccess: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
     className: '',
   };
+
+  state = {
+    selectedPaymentAcc: '',
+  }
+
+  handleAcceptPaymentClick = async (typeAcc) => {
+    const {
+      payment: { paymentId },
+      acceptPayment,
+      onCloseModal,
+      onSuccess,
+    } = this.props;
+
+    const { data: { payment: { acceptPayment: { data: { success } } } } } = await acceptPayment({ variables: {
+      paymentId,
+      paymentMethod: this.state.selectedPaymentAcc,
+      typeAcc,
+    },
+    });
+
+    if (success) {
+      onCloseModal();
+      onSuccess();
+    }
+  }
+
+  handlePaymentAccChange = (selectedPaymentAcc) => {
+    this.setState({ selectedPaymentAcc });
+  }
 
   render() {
     const {
@@ -48,6 +84,7 @@ class PaymentDetailModal extends PureComponent {
         userAgent,
         amount,
         currency,
+        status,
       },
       playerProfile: {
         loading,
@@ -156,6 +193,35 @@ class PaymentDetailModal extends PureComponent {
           >
             {I18n.t('COMMON.DEFER')}
           </Button>
+          <If condition={paymentType === tradingTypes.WITHDRAW && status === tradingStatuses.PAYMENT_PENDING}>
+            <Select
+              placeholder={I18n.t('PAYMENT_DETAILS_MODAL.CHOOSE_PAYMENT_METHOD_LABEL')}
+              className="col select-field-wrapper"
+              customClassName="form-group"
+              value={this.state.selectedPaymentAcc}
+              onChange={this.handlePaymentAccChange}
+            >
+              {Object.values(manualPaymentMethods).map(item => (
+                <option key={item} value={item}>
+                  {I18n.t(manualPaymentMethodsLabels[item])}
+                </option>
+              ))}
+            </Select>
+            <Button
+              onClick={() => this.handleAcceptPaymentClick('approve')}
+              className="btn btn-primary"
+              type="submit"
+            >
+              {I18n.t('COMMON.APPROVE')}
+            </Button>
+            <Button
+              onClick={() => this.handleAcceptPaymentClick('reject')}
+              className="btn btn-default"
+              type="submit"
+            >
+              {I18n.t('COMMON.REJECT')}
+            </Button>
+          </If>
         </ModalFooter>
       </Modal>
     );

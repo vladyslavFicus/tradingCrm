@@ -2071,7 +2071,8 @@
     "PLAYER_NOT_FOUND": {
       "TITLE": "Player not found!",
       "DESCRIPTION": "Some actions will be unavailable"
-    }
+    },
+    "CHOOSE_PAYMENT_METHOD_LABEL": "Choose payment method"
   },
   "MINI_PROFILE": {
     "PLAYER": "Player",
