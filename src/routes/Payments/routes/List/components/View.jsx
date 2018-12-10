@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { get } from 'lodash';
+import { I18n } from 'react-redux-i18n';
 import PropTypes from '../../../../../constants/propTypes';
 import GridView, { GridViewColumn } from '../../../../../components/GridView';
 import history from '../../../../../router/history';
@@ -126,6 +127,12 @@ class View extends Component {
 
     return (
       <div className="card">
+        <div className="card-heading">
+          <span className="font-size-20" id="transactions-list-header">
+            {I18n.t('COMMON.PAYMENTS')}
+          </span>
+        </div>
+
         <TransactionsFilterForm
           onSubmit={this.handleFiltersChanged}
           onReset={this.handleFilterReset}
