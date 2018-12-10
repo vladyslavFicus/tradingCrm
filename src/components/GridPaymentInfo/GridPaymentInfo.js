@@ -36,7 +36,7 @@ class GridPaymentInfo extends PureComponent {
     } = this.props;
 
     paymentDetail.show({
-      profileId: 'PLAYER-2e8e3611-9973-44e5-a337-51706d395304',
+      profileId: uuid,
       payment: {
         paymentId,
         paymentType,

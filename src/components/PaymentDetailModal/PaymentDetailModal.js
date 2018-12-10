@@ -4,11 +4,10 @@ import moment from 'moment';
 import classNames from 'classnames';
 import { I18n } from 'react-redux-i18n';
 import { get } from 'lodash';
-import { compose, graphql } from 'react-apollo';
-import { clientQuery } from '../../graphql/queries/profile';
 import PropTypes from '../../constants/propTypes';
 import {
-  methodsLabels as paymentsMethodsLabels,
+  methodsLabels,
+  manualPaymentMethodsLabels,
   types as paymentsTypes,
 } from '../../constants/payment';
 import Amount from '../Amount';
@@ -18,7 +17,6 @@ import ModalPlayerInfo from '../ModalPlayerInfo';
 // TODO
 // import TransactionStatus from '../TransactionStatus';
 import ShortLoader from '../ShortLoader';
-import renderLabel from '../../utils/renderLabel';
 import IpFlag from '../IpFlag';
 
 class PaymentDetailModal extends PureComponent {
@@ -63,7 +61,6 @@ class PaymentDetailModal extends PureComponent {
     return (
       <Modal isOpen toggle={onCloseModal} className={classNames(className, 'payment-detail-modal')}>
         <ModalHeader toggle={onCloseModal}>{I18n.t('PAYMENT_DETAILS_MODAL.TITLE')}</ModalHeader>
-
         <ModalBody>
           <Choose>
             <When condition={loading}>
@@ -142,7 +139,21 @@ class PaymentDetailModal extends PureComponent {
                     {I18n.t('PAYMENT_DETAILS_MODAL.HEADER_PAYMENT_METHOD')}
                   </div>
                   <div className="modal-footer-tabs__amount">
-                    {paymentMethod ? renderLabel(paymentMethod, paymentsMethodsLabels) : 'Manual'}
+                    <Choose>
+                      <When condition={methodsLabels[paymentMethod]}>
+                        {I18n.t(methodsLabels[paymentMethod])}
+                      </When>
+                      <Otherwise>
+                        <Choose>
+                          <When condition={manualPaymentMethodsLabels[paymentMethod]}>
+                            {I18n.t(manualPaymentMethodsLabels[paymentMethod])}
+                          </When>
+                          <Otherwise>
+                            <div>&mdash;</div>
+                          </Otherwise>
+                        </Choose>
+                      </Otherwise>
+                    </Choose>
                   </div>
                 </div>
               </div>
@@ -162,15 +173,4 @@ class PaymentDetailModal extends PureComponent {
   }
 }
 
-export default compose(
-  graphql(clientQuery, {
-    options: ({
-      profileId: playerUUID,
-    }) => ({
-      variables: {
-        playerUUID,
-      },
-    }),
-    name: 'playerProfile',
-  })
-)(PaymentDetailModal);
+export default PaymentDetailModal;

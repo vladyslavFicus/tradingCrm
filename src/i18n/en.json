@@ -2064,7 +2064,7 @@
     "HEADER_DEVICE": "Device",
     "HEADER_STATUS": "Status",
     "HEADER_AMOUNT": "Amount",
-    "HEADER_PAYMENT_METHOD": "Payment account",
+    "HEADER_PAYMENT_METHOD": "Payment method",
     "ACTIONS": {
       "MARK_AS_CHARGEBACK": "Mark as chargeback"
     },
@@ -2763,7 +2763,9 @@
         "FROM_MT4": "From MT4 Account",
         "TO_MT4": "To MT4 Account",
         "MT4_NO_MONEY": "Insufficient funds",
-        "CREDIT": "Credit"
+        "CREDIT": "Credit",
+        "BALANCE": "Balance",
+        "GROUP": "Group"
       },
       "GRID_COLUMNS": {
         "TRANSACTION": "Transaction",
