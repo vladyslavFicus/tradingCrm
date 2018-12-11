@@ -63,6 +63,7 @@ const filterLabels = {
   teams: I18n.t('PROFILE.LIST.FILTERS.TEAMS'),
   offices: I18n.t('PROFILE.LIST.FILTERS.OFFICES'),
   salesStatus: I18n.t('PROFILE.LIST.FILTERS.SALES_STATUS'),
+  retentionStatus: I18n.t('PROFILE.LIST.FILTERS.RETENTION_STATUS'),
   deskType: I18n.t('DESKS.GRID_FILTERS.DESK_TYPE_LABEL'),
   defaultDesk: I18n.t('DESKS.FILTERS.DEFAULT_DESK'),
   office: I18n.t('DESKS.FILTERS.OFFICE'),

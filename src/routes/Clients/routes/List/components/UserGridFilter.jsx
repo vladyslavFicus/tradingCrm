@@ -10,6 +10,8 @@ import { FilterItem, FilterField, TYPES, SIZES } from '../../../../../components
 import { floatNormalize } from '../../../../../utils/inputNormalize';
 import I18n from '../../../../../utils/i18n';
 import { getBranchChildren } from '../../../../../graphql/queries/hierarchy';
+import { salesStatuses } from '../../../../../constants/salesStatuses';
+import { retentionStatuses } from '../../../../../constants/retentionStatuses';
 import {
   acquisitionStatuses,
   DynamicFilters,
@@ -242,6 +244,36 @@ class UserGridFilter extends Component {
                 {I18n.t(item.label)}
               </option>
             ))}
+          </FilterField>
+        </FilterItem>
+
+        <FilterItem
+          label={I18n.t(filterLabels.salesStatus)}
+          size={SIZES.medium}
+          type={TYPES.nas_select}
+          placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
+          default
+        >
+          <FilterField name="salesStatuses" multiple>
+            {Object
+              .keys(salesStatuses)
+              .map(key => <option key={key} value={key}>{I18n.t(salesStatuses[key])}</option>)
+            }
+          </FilterField>
+        </FilterItem>
+
+        <FilterItem
+          label={I18n.t(filterLabels.retentionStatus)}
+          size={SIZES.medium}
+          type={TYPES.nas_select}
+          placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
+          default
+        >
+          <FilterField name="retentionStatuses" multiple>
+            {Object
+              .keys(retentionStatuses)
+              .map(key => <option key={key} value={key}>{I18n.t(retentionStatuses[key])}</option>)
+            }
           </FilterField>
         </FilterItem>
 
