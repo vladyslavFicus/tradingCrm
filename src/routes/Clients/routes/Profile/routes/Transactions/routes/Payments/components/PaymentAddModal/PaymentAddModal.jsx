@@ -82,25 +82,31 @@ class PaymentAddModal extends Component {
 
     reset();
     change('paymentType', value);
-  }
+  };
 
   renderMt4SelectOption = name => ({ onClick, mt4 = {} }) => {
     const { currentValues: { paymentType, amount } } = this.props;
-    const notEnoughBalance = parseFloat(mt4.balance) < amount;
-    const warningMessage = (
-      [paymentTypes.Deposit, paymentTypes.CREDIT_IN].indexOf(paymentType) === -1
+
+    const isInsufficientBalance = (
+      parseFloat(mt4.balance) < amount
+      && [paymentTypes.Withdraw, paymentTypes.Confiscate, paymentTypes.Transfer].includes(paymentType)
       && name !== 'target'
+    );
+
+    const isInsufficientCredit = (
+      parseFloat(mt4.credit) < amount
+      && [paymentTypes.CREDIT_OUT].includes(paymentType)
     );
 
     return (
       <div
         key={mt4.login}
         className="value-wrapper"
-        onClick={notEnoughBalance && warningMessage ? () => {} : onClick}
+        onClick={isInsufficientBalance || isInsufficientCredit ? () => {} : onClick}
       >
         <div className="header-block-middle">
           {mt4.name}
-          <If condition={warningMessage && notEnoughBalance}>
+          <If condition={isInsufficientBalance || isInsufficientCredit}>
             <span className="color-danger ml-2">
               {I18n.t('CLIENT_PROFILE.TRANSACTIONS.MODAL_CREATE.MT4_NO_MONEY')}
             </span>
@@ -335,13 +341,19 @@ const Form = reduxForm({
       externalReference: 'required|string',
     };
 
-    if ((data.paymentType === paymentTypes.Withdraw
-        || data.paymentType === paymentTypes.CREDIT_OUT
-        || data.paymentType === paymentTypes.Confiscate)
+    if ([paymentTypes.Withdraw, paymentTypes.Confiscate, paymentTypes.Transfer].includes(data.paymentType)
         && currentValues.login
         && currentValues.amount
         && Number(mt4Users.find(({ login }) => login === currentValues.login).balance) < currentValues.amount) {
       // make fake error to prevent submit when no funds on account
+      return { login: I18n.t('CLIENT_PROFILE.TRANSACTIONS.MODAL_CREATE.MT4_NO_MONEY') };
+    }
+
+    if ([paymentTypes.CREDIT_OUT].includes(data.paymentType)
+      && currentValues.login
+      && currentValues.amount
+      && Number(mt4Users.find(({ login }) => login === currentValues.login).credit) < currentValues.amount) {
+      // make fake error to prevent submit when no credit funds on account
       return { login: I18n.t('CLIENT_PROFILE.TRANSACTIONS.MODAL_CREATE.MT4_NO_MONEY') };
     }
 
