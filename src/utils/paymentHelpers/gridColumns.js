@@ -3,38 +3,27 @@ import React, { Fragment } from 'react';
 import { I18n } from 'react-redux-i18n';
 import moment from 'moment';
 import classNames from 'classnames';
-import GridPaymentInfo from '../../../../../components/GridPaymentInfo';
-import Uuid from '../../../../../components/Uuid';
-import GridPlayerInfo from '../../../../../components/GridPlayerInfo';
-import CountryLabelWithFlag from '../../../../../components/CountryLabelWithFlag';
-import FailedStatusIcon from '../../../../../components/FailedStatusIcon';
+import GridPaymentInfo from '../../components/GridPaymentInfo';
+import Uuid from '../../components/Uuid';
+import GridPlayerInfo from '../../components/GridPlayerInfo';
+import CountryLabelWithFlag from '../../components/CountryLabelWithFlag';
+import FailedStatusIcon from '../../components/FailedStatusIcon';
 import {
   statuses,
   methodsLabels,
   tradingTypesLabelsWithColor,
   manualPaymentMethodsLabels,
   aggregatorsLabels,
-} from '../../../../../constants/payment';
-import { getTradingStatusProps } from '../../../../../utils/paymentHelpers';
+} from '../../constants/payment';
+import { getTradingStatusProps } from './utils';
 
-export default (
-  {
-    auth,
-    fetchPlayerMiniProfile,
-  },
-  onActionSuccess,
-) => [{
-  name: 'paymentId',
-  header: I18n.t('CONSTANTS.TRANSACTIONS.GRID_COLUMNS.TRANSACTIONS'),
-  render: data => (
-    <GridPaymentInfo payment={data} onSuccess={onActionSuccess} />
-  ),
-}, {
+const expandedPaymentColumns = (auth, fetchPlayer) => [{
   name: 'profile',
   header: I18n.t('CONSTANTS.TRANSACTIONS.GRID_COLUMNS.CLIENT'),
   render: ({ playerProfile, language, paymentId }) => (
     <Choose>
       <When condition={playerProfile}>
+        {/* TODO add GRAPHQL fetch to */}
         <GridPlayerInfo
           profile={{
             ...playerProfile,
@@ -42,7 +31,7 @@ export default (
             languageCode: language,
           }}
           id={`transaction-${paymentId}`}
-          fetchPlayerProfile={fetchPlayerMiniProfile}
+          fetchPlayerProfile={fetchPlayer}
           auth={auth}
         />
       </When>
@@ -55,12 +44,33 @@ export default (
   name: 'country',
   header: I18n.t('CONSTANTS.TRANSACTIONS.GRID_COLUMNS.COUNTRY'),
   render: ({ paymentMetadata: { country } }) => (
-    <CountryLabelWithFlag
-      code={country}
-      height="14"
-    />
+    <Choose>
+      <When condition={country && country !== 'unknown'}>
+        <CountryLabelWithFlag
+          code={country}
+          height="14"
+        />
+      </When>
+      <Otherwise>
+        <div>&mdash;</div>
+      </Otherwise>
+    </Choose>
   ),
-}, {
+}];
+
+export default ({
+  paymentInfo: { onSuccess },
+  playerInfo,
+  clientView,
+}) => [{
+  name: 'paymentId',
+  header: I18n.t('CONSTANTS.TRANSACTIONS.GRID_COLUMNS.TRANSACTIONS'),
+  render: data => (
+    <GridPaymentInfo payment={data} onSuccess={onSuccess} />
+  ),
+},
+...(!clientView && expandedPaymentColumns(playerInfo.auth, playerInfo.fetchPlayer)),
+{
   name: 'paymentType',
   header: I18n.t('CONSTANTS.TRANSACTIONS.GRID_COLUMNS.PAYMENT_TYPE'),
   render: ({ paymentType, externalReference }) => {

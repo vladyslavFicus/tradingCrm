@@ -91,15 +91,6 @@ function fetchEntities(filters = {}, fetchNotes = fetchNotesFn) {
   };
 }
 
-function exportEntities(filters = {}) {
-  const queryString = qs.stringify(filters, { delimiter: '&' });
-  const type = EXPORT_ENTITIES;
-  const endPoint = `${getApiRoot()}/payment/payments?${queryString}`;
-  const fileName = `transactions-export-${moment().format('YYYY-MM-DD-HH-mm-ss')}.csv`;
-
-  return exportFile(type, endPoint, fileName);
-}
-
 function resetTransactions() {
   return {
     type: RESET_TRANSACTIONS,
@@ -185,7 +176,6 @@ const actionCreators = {
   fetchPaymentStatuses,
   changePaymentStatus,
   resetTransactions,
-  exportEntities,
 };
 
 export {

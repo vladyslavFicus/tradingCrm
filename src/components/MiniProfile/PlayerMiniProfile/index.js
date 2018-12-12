@@ -1,1 +1,1 @@
-export default from './PlayerMiniProfile';
+export { default } from './PlayerMiniProfile';

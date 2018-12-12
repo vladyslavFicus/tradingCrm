@@ -151,7 +151,12 @@ class UserGridFilter extends Component {
         currencies={currencies}
         countries={countries}
       >
-        <FilterItem label={I18n.t(filterLabels.searchValue)} size={SIZES.big} type={TYPES.input} default>
+        <FilterItem
+          label={I18n.t(filterLabels.searchValue)}
+          size={SIZES.big}
+          type={TYPES.input}
+          default
+        >
           <FilterField
             id="users-list-search-field"
             name="searchValue"

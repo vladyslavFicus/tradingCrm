@@ -5,11 +5,13 @@ import classNames from 'classnames';
 import { shortify } from '../../../utils/uuid';
 import Uuid from '../../../components/Uuid';
 import Amount from '../../Amount';
-import './TransactionMiniProfile.scss';
-import { paymentStatusNames, paymentTypesNames } from '../constants';
 import PropTypes from '../../../constants/propTypes';
+import { tradingTypesLabelsWithColor } from '../../../constants/payment';
 import PaymentAccount from '../../../components/PaymentAccount';
+import { getTradingStatusProps } from '../../../utils/paymentHelpers';
 import NoteIcon from '../../NoteIcon';
+import { paymentStatusNames } from '../constants';
+import './TransactionMiniProfile.scss';
 
 const TransactionMiniProfile = ({ data }) => {
   let authorUuidPrefix = null;
@@ -19,13 +21,19 @@ const TransactionMiniProfile = ({ data }) => {
   }
 
   return (
-    <div className={classNames('mini-profile transaction-mini-profile', paymentStatusNames[data.status])}>
+    <div
+      className={
+        classNames(
+          'mini-profile transaction-mini-profile',
+          paymentStatusNames[getTradingStatusProps[data.status].status]
+        )}
+    >
       <div className="mini-profile-header">
         <label className="mini-profile-label">{data.status}</label>
         <div className="mini-profile-type">{I18n.t('MINI_PROFILE.TRANSACTION')}</div>
         <div className="mini-profile-title">
-          <span className={classNames('transaction-status', paymentTypesNames[data.paymentType])}>
-            {data.paymentType}
+          <span className={classNames('transaction-status', tradingTypesLabelsWithColor[data.paymentType].color)}>
+            {I18n.t(tradingTypesLabelsWithColor[data.paymentType].label)}
           </span>
           {' '}
           <span className="font-weight-700">{shortify(data.paymentId, 'TA')}</span>
@@ -54,8 +62,6 @@ const TransactionMiniProfile = ({ data }) => {
               {data.playerProfile.kycCompleted && <i className="fa fa-check text-success margin-left-5" />}
             </div>
             <div className="info-block-description">
-              {data.playerProfile.username}
-              {' - '}
               <Uuid
                 uuid={data.createdBy}
                 uuidPrefix={authorUuidPrefix}

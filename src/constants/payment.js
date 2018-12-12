@@ -31,8 +31,6 @@ const statusMapper = {
     tradingStatuses.PAYMENT_PENDING,
     tradingStatuses.PAYMENT_COMPLETED,
     tradingStatuses.TRANSACTION_COMPLETED,
-    tradingStatuses.PAYMENT_FAILED,
-    tradingStatuses.TRANSACTION_FAILED,
   ],
   [statuses.REJECTED]: [tradingStatuses.PAYMENT_REFUSED],
 };
@@ -41,11 +39,6 @@ const methods = keyMirror({
   SKRILL: null,
   PAYPAL: null,
   CREDIT_CARD: null,
-  B2CRYPTO: null,
-  PAYRETAILERS: null,
-  PAYTRIO: null,
-  WIRECAPITAL: null,
-  EFTPAY: null,
 });
 
 const aggregators = keyMirror({
@@ -113,19 +106,10 @@ const accountStatusActions = {
   ],
 };
 
-const types = keyMirror({
-  Deposit: null,
-  Withdraw: null,
-  // Confiscate: null,
-  Transfer: null,
-  CREDIT_IN: null,
-  CREDIT_OUT: null,
-});
-
 const tradingTypes = keyMirror({
   DEPOSIT: null,
   WITHDRAW: null,
-  CONFISCATE: null,
+  // CONFISCATE: null,
   TRANSFER_IN: null,
   TRANSFER_OUT: null,
   CREDIT_IN: null,
@@ -141,10 +125,10 @@ const tradingTypesLabelsWithColor = {
     label: 'COMMON.PAYMENT_TYPE.WITHDRAW',
     color: 'color-danger',
   },
-  [tradingTypes.CONFISCATE]: {
-    label: 'COMMON.PAYMENT_TYPE.CONFISCATE',
-    color: 'color-danger',
-  },
+  // [tradingTypes.CONFISCATE]: {
+  //   label: 'COMMON.PAYMENT_TYPE.CONFISCATE',
+  //   color: 'color-danger',
+  // },
   [tradingTypes.TRANSFER_IN]: {
     label: 'COMMON.PAYMENT_TYPE.TRANSFER_IN',
     color: 'color-info',
@@ -183,12 +167,6 @@ const customTypesProps = {
   },
 };
 
-const manualTypesLabels = {
-  [types.Deposit]: 'Manual deposit',
-  [types.Withdraw]: 'Manual withdraw',
-  [types.Confiscate]: 'Confiscate',
-};
-
 const statusesLabels = {
   [statuses.PENDING]: 'COMMON.PAYMENT_STATUS.PENDING',
   [statuses.REJECTED]: 'COMMON.PAYMENT_STATUS.REJECTED',
@@ -200,10 +178,11 @@ const methodsLabels = {
   [methods.SKRILL]: I18n.t('CONSTANTS.PAYMENT.PAYMENT_METHODS.SKRILL'),
   [methods.PAYPAL]: I18n.t('CONSTANTS.PAYMENT.PAYMENT_METHODS.PAYPAL'),
   [methods.CREDIT_CARD]: I18n.t('CONSTANTS.PAYMENT.PAYMENT_METHODS.CREDIT_CARD'),
-  [methods.B2CRYPTO]: I18n.t('CONSTANTS.PAYMENT.PAYMENT_METHODS.B2CRYPTO'),
-  [methods.PAYRETAILERS]: I18n.t('CONSTANTS.PAYMENT.PAYMENT_METHODS.PAYRETAILERS'),
-  [methods.WIRECAPITAL]: I18n.t('CONSTANTS.PAYMENT.PAYMENT_METHODS.WIRECAPITAL'),
-  [methods.EFTPAY]: I18n.t('CONSTANTS.PAYMENT.PAYMENT_METHODS.EFTPAY'),
+  // [methods.B2CRYPTO]: I18n.t('CONSTANTS.PAYMENT.PAYMENT_METHODS.B2CRYPTO'),
+  // [methods.PAYRETAILERS]: I18n.t('CONSTANTS.PAYMENT.PAYMENT_METHODS.PAYRETAILERS'),
+  // [methods.WIRECAPITAL]: I18n.t('CONSTANTS.PAYMENT.PAYMENT_METHODS.WIRECAPITAL'),
+  // [methods.EFTPAY]: I18n.t('CONSTANTS.PAYMENT.PAYMENT_METHODS.EFTPAY'),
+  // [methods.CASHIER]: I18n.t('CONSTANTS.PAYMENT.PAYMENT_METHODS.CASHIER'),
 };
 
 const aggregatorsLabels = {
@@ -224,27 +203,6 @@ const manualPaymentMethodsLabels = {
 const methodsStatusesLabels = {
   [methodStatuses.ACTIVE]: 'Active',
   [methodStatuses.INACTIVE]: 'Inactive',
-};
-
-const typesLabels = {
-  [types.Deposit]: I18n.t('COMMON.PAYMENT.TYPE.DEPOSIT'),
-  [types.Withdraw]: I18n.t('COMMON.PAYMENT.TYPE.WITHDRAW'),
-  [types.Confiscate]: I18n.t('COMMON.PAYMENT.TYPE.CONFISCATE'),
-  [types.Transfer]: I18n.t('COMMON.PAYMENT.TYPE.TRANSFER'),
-  [types.CREDIT_IN]: I18n.t('COMMON.PAYMENT.TYPE.CREDIT_IN'),
-  [types.CREDIT_OUT]: I18n.t('COMMON.PAYMENT.TYPE.CREDIT_OUT'),
-};
-
-const typesProps = {
-  [types.Deposit]: {
-    className: 'text-uppercase font-weight-700 color-primary',
-  },
-  [types.Withdraw]: {
-    className: 'text-uppercase font-weight-700 color-danger',
-  },
-  [types.Confiscate]: {
-    className: 'text-uppercase font-weight-700 color-danger',
-  },
 };
 
 const statusesColor = {
@@ -280,15 +238,11 @@ export {
   methodStatuses,
   methodsStatusesLabels,
   methodsLabels,
-  types,
   customTypes,
   customTypesLabels,
   customTypesProps,
-  manualTypesLabels,
   aggregatorsLabels,
   manualPaymentMethodsLabels,
-  typesLabels,
-  typesProps,
   statusesColor,
   methodStatusesColor,
   methodStatusActions,

@@ -13,8 +13,7 @@
       background-image: linear-gradient(to right, #007b9e, #00d0ff);
     }
   }
-  &.refused,
-  &.chargeback {
+  &.refused, {
     border-color: #d0011b;
     background-color: #fedcdc;
     .mini-profile-label {
@@ -32,15 +31,6 @@
     margin-right: 8px;
     text-transform: uppercase;
     font-weight: bold;
-    &.deposit {
-      color: #0368cc;
-    }
-    &.withdraw {
-      color: #d0011b;
-    }
-    &.confiscate {
-      color: #FF0000;
-    }
   }
 }
 

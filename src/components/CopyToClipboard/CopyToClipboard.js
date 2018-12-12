@@ -28,10 +28,20 @@ class CopyToClipboard extends Component {
     highlight: false,
   };
 
+  componentDidMount() {
+    this.mounted = true;
+  }
+
+  componentWillUnmount() {
+    this.mounted = false;
+  }
+
   toggle = () => {
-    this.setState({
-      highlight: !this.state.highlight,
-    });
+    if (this.mounted) {
+      this.setState({
+        highlight: !this.state.highlight,
+      });
+    }
   };
 
   animate = () => {

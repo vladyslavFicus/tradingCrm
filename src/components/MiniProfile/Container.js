@@ -25,7 +25,7 @@ class Container extends Component {
       hide: 500,
     },
     id: null,
-    placement: null,
+    placement: 'right',
   };
 
   componentDidMount() {

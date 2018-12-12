@@ -8,7 +8,7 @@ import PropTypes from '../../constants/propTypes';
 import {
   methodsLabels,
   manualPaymentMethodsLabels,
-  types as paymentsTypes,
+  tradingTypes as paymentsTypes,
   manualPaymentMethods,
   tradingTypes,
   statusMapper,
@@ -91,7 +91,7 @@ class PaymentDetailModal extends PureComponent {
       className,
     } = this.props;
 
-    const isWithdraw = paymentType === paymentsTypes.Withdraw;
+    const isWithdraw = paymentType === paymentsTypes.WITHDRAW;
     const profile = get(playerProfile, 'data');
 
     return (

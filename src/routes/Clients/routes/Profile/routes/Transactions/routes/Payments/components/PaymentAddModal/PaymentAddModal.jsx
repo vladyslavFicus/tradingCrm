@@ -9,12 +9,11 @@ import { createValidator } from '../../../../../../../../../../utils/validator';
 import { InputField, NasSelectField, DateTimeField } from '../../../../../../../../../../components/ReduxForm';
 import PropTypes from '../../../../../../../../../../constants/propTypes';
 import {
-  types as paymentTypes,
-  typesLabels,
   manualPaymentMethods,
   manualPaymentMethodsLabels,
 } from '../../../../../../../../../../constants/payment';
 import Currency from '../../../../../../../../../../components/Amount/Currency';
+import { paymentMethods, paymentMethodsLabels } from './constants';
 import './PaymentAddModal.scss';
 
 const attributeLabels = {
@@ -89,13 +88,13 @@ class PaymentAddModal extends Component {
 
     const isInsufficientBalance = (
       parseFloat(mt4.balance) < amount
-      && [paymentTypes.Withdraw, paymentTypes.Confiscate, paymentTypes.Transfer].includes(paymentType)
+      && [paymentMethods.Withdraw, paymentMethods.Confiscate, paymentMethods.Transfer].includes(paymentType)
       && name !== 'target'
     );
 
     const isInsufficientCredit = (
       parseFloat(mt4.credit) < amount
-      && [paymentTypes.CREDIT_OUT].includes(paymentType)
+      && [paymentMethods.CREDIT_OUT].includes(paymentType)
     );
 
     return (
@@ -118,7 +117,7 @@ class PaymentAddModal extends Component {
             {I18n.t('CLIENT_PROFILE.TRANSACTIONS.MODAL_CREATE.BALANCE')}: {mt4.symbol} {mt4.balance}
           </div>
           <div>{I18n.t('CLIENT_PROFILE.TRANSACTIONS.MODAL_CREATE.GROUP')}: {mt4.group}</div>
-          <If condition={[paymentTypes.CREDIT_IN, paymentTypes.CREDIT_OUT].includes(paymentType)}>
+          <If condition={[paymentMethods.CREDIT_IN, paymentMethods.CREDIT_OUT].includes(paymentType)}>
             <div className={classNames({ 'color-danger': Number(mt4.credit) === 0 })}>
               {I18n.t('CLIENT_PROFILE.TRANSACTIONS.MODAL_CREATE.CREDIT')}: {mt4.symbol} {mt4.credit}
             </div>
@@ -195,10 +194,12 @@ class PaymentAddModal extends Component {
             searchable={false}
             showErrorMessage={false}
           >
-            {Object.values(paymentTypes).map(type => (
-              <option key={type} value={type}>
-                {I18n.t(typesLabels[type])}
-              </option>
+            {Object
+              .keys(paymentMethods)
+              .map(method => (
+                <option key={method} value={method}>
+                  {I18n.t(paymentMethodsLabels[method])}
+                </option>
             ))}
           </Field>
           <div className={`payment-fields ${(currentValues && currentValues.paymentType) ? 'visible' : ''}`}>
@@ -219,7 +220,7 @@ class PaymentAddModal extends Component {
                 showErrorMessage={false}
                 component={InputField}
               />
-              <If condition={currentValues && currentValues.paymentType === paymentTypes.Deposit}>
+              <If condition={currentValues && currentValues.paymentType === paymentMethods.DEPOSIT}>
                 <Field
                   name="externalReference"
                   type="text"
@@ -229,7 +230,7 @@ class PaymentAddModal extends Component {
                   position="vertical"
                 />
               </If>
-              <If condition={currentValues && currentValues.paymentType === paymentTypes.CREDIT_IN}>
+              <If condition={currentValues && currentValues.paymentType === paymentMethods.CREDIT_IN}>
                 <Field
                   withTime
                   closeOnSelect={false}
@@ -245,7 +246,7 @@ class PaymentAddModal extends Component {
             </div>
             <div className="form-row align-items-center">
               <Choose>
-                <When condition={currentValues.paymentType === paymentTypes.Deposit}>
+                <When condition={currentValues.paymentType === paymentMethods.DEPOSIT}>
                   <Field
                     name="paymentMethod"
                     label={attributeLabels.paymentAccount}
@@ -266,23 +267,23 @@ class PaymentAddModal extends Component {
                   </div>
                   {this.renderMt4SelectField('toMt4Acc')}
                 </When>
-                <When condition={currentValues.paymentType === paymentTypes.Withdraw}>
+                <When condition={currentValues.paymentType === paymentMethods.WITHDRAW}>
                   {this.renderMt4SelectField()}
                 </When>
-                <When condition={currentValues.paymentType === paymentTypes.Confiscate}>
+                <When condition={currentValues.paymentType === paymentMethods.CONFISCATE}>
                   {this.renderMt4SelectField()}
                 </When>
-                <When condition={currentValues.paymentType === paymentTypes.Transfer}>
+                <When condition={currentValues.paymentType === paymentMethods.TRANSFER}>
                   {this.renderMt4SelectField('', 'source')}
                   <div className="col-auto arrow-icon-wrapper">
                     <i className="icon-arrow-down" />
                   </div>
                   {this.renderMt4SelectField('toMt4Acc', 'target')}
                 </When>
-                <When condition={currentValues.paymentType === paymentTypes.CREDIT_IN}>
+                <When condition={currentValues.paymentType === paymentMethods.CREDIT_IN}>
                   {this.renderMt4SelectField('toMt4Acc')}
                 </When>
-                <When condition={currentValues.paymentType === paymentTypes.CREDIT_OUT}>
+                <When condition={currentValues.paymentType === paymentMethods.CREDIT_OUT}>
                   {this.renderMt4SelectField('fromMt4Acc')}
                 </When>
               </Choose>
@@ -341,7 +342,7 @@ const Form = reduxForm({
       externalReference: 'required|string',
     };
 
-    if ([paymentTypes.Withdraw, paymentTypes.Confiscate, paymentTypes.Transfer].includes(data.paymentType)
+    if ([paymentMethods.Withdraw, paymentMethods.Confiscate, paymentMethods.Transfer].includes(data.paymentType)
         && currentValues.login
         && currentValues.amount
         && Number(mt4Users.find(({ login }) => login === currentValues.login).balance) < currentValues.amount) {
@@ -349,7 +350,7 @@ const Form = reduxForm({
       return { login: I18n.t('CLIENT_PROFILE.TRANSACTIONS.MODAL_CREATE.MT4_NO_MONEY') };
     }
 
-    if ([paymentTypes.CREDIT_OUT].includes(data.paymentType)
+    if ([paymentMethods.CREDIT_OUT].includes(data.paymentType)
       && currentValues.login
       && currentValues.amount
       && Number(mt4Users.find(({ login }) => login === currentValues.login).credit) < currentValues.amount) {
@@ -357,15 +358,15 @@ const Form = reduxForm({
       return { login: I18n.t('CLIENT_PROFILE.TRANSACTIONS.MODAL_CREATE.MT4_NO_MONEY') };
     }
 
-    if (data.paymentType === paymentTypes.Deposit) {
+    if (data.paymentType === paymentMethods.Deposit) {
       rules = { ...rules, paymentMethod: 'required|string' };
     }
 
-    if (data.paymentType === paymentTypes.CREDIT_IN) {
+    if (data.paymentType === paymentMethods.CREDIT_IN) {
       rules = { ...rules, expirationDate: 'required|string' };
     }
 
-    if (data.paymentType === paymentTypes.Transfer) {
+    if (data.paymentType === paymentMethods.TRANSFER) {
       rules = {
         ...rules,
         source: 'required|string',

@@ -1,16 +1,17 @@
 import React, { Component, Fragment } from 'react';
 import { SubmissionError } from 'redux-form';
-import { get } from 'lodash';
+import { get, flatten, omitBy, isEmpty } from 'lodash';
 import PropTypes from '../../../../../../../../../constants/propTypes';
 import GridView, { GridViewColumn } from '../../../../../../../../../components/GridView';
 import { targetTypes } from '../../../../../../../../../constants/note';
+import { statusMapper } from '../../../../../../../../../constants/payment';
 import history from '../../../../../../../../../router/history';
-import TransactionsFilterForm from './TransactionsFilterForm';
-import columns from './utils';
+import { columns } from '../../../../../../../../../utils/paymentHelpers';
+import ListFilterForm from '../../../../../../../../../components/ListFilterForm';
+import fields from './filterFields';
 
 class Payments extends Component {
   static propTypes = {
-    transactions: PropTypes.pageableState(PropTypes.paymentEntity).isRequired,
     filters: PropTypes.shape({
       data: PropTypes.shape({
         paymentMethods: PropTypes.arrayOf(PropTypes.string).isRequired,
@@ -21,14 +22,12 @@ class Payments extends Component {
     fetchFilters: PropTypes.func.isRequired,
     resetAll: PropTypes.func.isRequired,
     manageNote: PropTypes.func.isRequired,
-    resetNote: PropTypes.func.isRequired,
     currencyCode: PropTypes.string,
     match: PropTypes.shape({
       params: PropTypes.shape({
         id: PropTypes.string,
       }).isRequired,
     }).isRequired,
-    newPaymentNote: PropTypes.noteEntity,
     playerProfile: PropTypes.userProfile,
     playerLimits: PropTypes.shape({
       entities: PropTypes.arrayOf(PropTypes.playerLimitEntity).isRequired,
@@ -45,7 +44,6 @@ class Payments extends Component {
       receivedAt: PropTypes.number,
     }).isRequired,
     locale: PropTypes.string.isRequired,
-    fetchActiveBonus: PropTypes.func.isRequired,
     addPayment: PropTypes.func.isRequired,
     clientPayments: PropTypes.shape({
       refetch: PropTypes.func.isRequired,
@@ -72,7 +70,6 @@ class Payments extends Component {
   };
 
   static defaultProps = {
-    newPaymentNote: null,
     currencyCode: null,
     playerProfile: {},
   };
@@ -149,23 +146,21 @@ class Payments extends Component {
   };
 
   handleFiltersChanged = (data = {}) => {
-    const filters = { ...data };
+    const filters = omitBy({ ...data }, isEmpty);
+    let statuses = null;
 
-    if (Array.isArray(filters.statuses)) {
-      filters.statuses = filters.statuses.join(',');
+    if (Array.isArray(filters.statuses) && filters.statuses.length > 0) {
+      statuses = flatten(filters.statuses.map(item => statusMapper[item]));
     }
 
-    history.replace({ query: { filters } });
-  };
-
-  handleChangePaymentStatus = (action, playerUUID, paymentId, options = {}) => {
-    const { onChangePaymentStatus } = this.props;
-
-    return onChangePaymentStatus({
-      action, playerUUID, paymentId, options,
-    })
-      .then(this.handleRefresh)
-      .then(this.handleCloseModal);
+    history.replace({
+      query: {
+        filters: {
+          ...filters,
+          ...statuses && { statuses },
+        },
+      },
+    });
   };
 
   handleFilterReset = () => {
@@ -231,8 +226,6 @@ class Payments extends Component {
 
   render() {
     const {
-      filters: { data: availableFilters },
-      playerProfile,
       locale,
       clientPayments: {
         loading,
@@ -245,11 +238,10 @@ class Payments extends Component {
 
     return (
       <Fragment>
-        <TransactionsFilterForm
+        <ListFilterForm
           onSubmit={this.handleFiltersChanged}
           onReset={this.handleFilterReset}
-          currencyCode={playerProfile.currencyCode}
-          {...availableFilters}
+          fields={fields}
         />
 
         <div className="tab-wrapper">
@@ -262,7 +254,10 @@ class Payments extends Component {
             locale={locale}
             showNoResults={!!error || (!loading && entities.content.length === 0)}
           >
-            {columns(this.handleModalActionSuccess).map(({ name, header, render }) => (
+            {columns({
+              paymentInfo: { onSuccess: this.handleModalActionSuccess },
+              clientView: true,
+            }).map(({ name, header, render }) => (
               <GridViewColumn
                 key={name}
                 name={name}
