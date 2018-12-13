@@ -18,6 +18,7 @@ import ResetPassword from '../../ResetPassword';
 import Operators from '../../Operators';
 import Dashboard from '../../Dashboard';
 import Leads from '../../Leads';
+import Hierarchy from '../../Hierarchy';
 import Offices from '../../Offices';
 import Desks from '../../Desks';
 import Teams from '../../Teams';
@@ -60,6 +61,7 @@ class IndexRoute extends PureComponent {
           <AppRoute path="/clients" layout={MainLayout} component={Clients} checkAuth />
           <AppRoute path="/leads" layout={MainLayout} component={Leads} checkAuth />
           <AppRoute path="/callbacks" layout={MainLayout} component={Callbacks} checkAuth />
+          <AppRoute path="/hierarchy" layout={MainLayout} component={Hierarchy} checkAuth />
           <If condition={isAdministration}>
             <AppRoute path="/operators" layout={MainLayout} component={Operators} checkAuth />
             <AppRoute path="/offices" layout={MainLayout} component={Offices} checkAuth />
@@ -71,7 +73,7 @@ class IndexRoute extends PureComponent {
           <AppRoute path="/sign-in" layout={BlackLayout} component={SignIn} />
           <AppRoute path="/set-password" layout={BlackLayout} component={SetPassword} />
           <AppRoute path="/reset-password" layout={BlackLayout} component={ResetPassword} />
-          <Route component={NotFound} />
+          <AppRoute component={NotFound} checkAuth={logged} />
         </Switch>
       </CoreLayout>
     );

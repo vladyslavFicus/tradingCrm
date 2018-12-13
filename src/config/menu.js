@@ -17,6 +17,10 @@ const sidebarTopMenu = [{
   url: '/leads/list',
   service: services.trading_lead_updater,
 }, {
+  label: I18n.t('SIDEBAR.TOP_MENU.HIERARCHY'),
+  icon: 'icon-organization',
+  url: '/hierarchy/tree',
+}, {
   label: I18n.t('SIDEBAR.TOP_MENU.MANAGEMENT'),
   icon: 'icon-operators sidebar-nav-item__icon--operators',
   isOpen: false,

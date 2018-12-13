@@ -625,8 +625,12 @@ PropTypes.branchHierarchyType = PropTypes.shape({
 PropTypes.userHierarchyType = PropTypes.shape({
   uuid: PropTypes.string.isRequired,
   userType: PropTypes.string.isRequired,
-  parentBranches: PropTypes.arrayOf(PropTypes.string),
-  parentUsers: PropTypes.arrayOf(PropTypes.string),
+  parentBranches: PropTypes.arrayOf(PropTypes.shape({
+    uuid: PropTypes.string.isRequired,
+  })),
+  parentUsers: PropTypes.arrayOf(PropTypes.shape({
+    uuid: PropTypes.string.isRequired,
+  })),
   fullName: PropTypes.string,
 });
 PropTypes.hierarchyBranch = PropTypes.shape({

@@ -25,6 +25,7 @@
       "CAMPAIGNS": "[NEW] Campaigns",
       "CMS_GAMES": "[CMS] Games",
       "MANAGEMENT": "Management",
+      "HIERARCHY": "Hierarchy",
       "OFFICES": "Offices",
       "DESKS": "Desks",
       "TEAMS": "Teams",
@@ -3043,6 +3044,9 @@
     }
   },
   "HIERARCHY": {
+    "TREE": {
+      "HEADING": "Hierarchy"
+    },
     "INFO_MODAL": {
       "HEADER": "Status",
       "OFFICE_BODY": "Office creation flow",
