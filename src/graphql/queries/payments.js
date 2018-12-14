@@ -48,7 +48,6 @@ const getClientPayments = gql`query getClientPayments(
         creationTime
         paymentMethod
         paymentAggregator
-        accountType
         amount
         country
         language
@@ -120,7 +119,6 @@ const getClientPaymentsByUuid = gql`query getClientPayments(
         creationTime
         paymentMethod
         paymentAggregator
-        accountType
         amount
         country
         language
