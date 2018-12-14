@@ -1,30 +1,19 @@
 import React, { Component } from 'react';
-import { get } from 'lodash';
+import { get, flatten, omitBy, isEmpty } from 'lodash';
 import { I18n } from 'react-redux-i18n';
 import PropTypes from '../../../../../constants/propTypes';
+import { statusMapper } from '../../../../../constants/payment';
 import GridView, { GridViewColumn } from '../../../../../components/GridView';
 import history from '../../../../../router/history';
-import TransactionsFilterForm from './TransactionsFilterForm';
-import columns from './utils';
+import { columns } from '../../../../../utils/paymentHelpers';
+import fields from './filterFields';
+import ListFilterForm from '../../../../../components/ListFilterForm';
 
 class View extends Component {
   static propTypes = {
-    players: PropTypes.objectOf(PropTypes.userProfile).isRequired,
-    transactions: PropTypes.pageableState(PropTypes.paymentEntity).isRequired,
-    filters: PropTypes.shape({
-      data: PropTypes.shape({
-        paymentMethods: PropTypes.arrayOf(PropTypes.paymentMethod).isRequired,
-        statuses: PropTypes.arrayOf(PropTypes.string).isRequired,
-      }).isRequired,
-    }).isRequired,
-    fetchEntities: PropTypes.func.isRequired,
-    fetchFilters: PropTypes.func.isRequired,
-    fetchPlayerProfile: PropTypes.func.isRequired,
-    loadPaymentStatuses: PropTypes.func.isRequired,
     onChangePaymentStatus: PropTypes.func.isRequired,
     resetAll: PropTypes.func.isRequired,
     locale: PropTypes.string.isRequired,
-    exportEntities: PropTypes.func.isRequired,
     fetchPlayerMiniProfile: PropTypes.func.isRequired,
     auth: PropTypes.shape({
       brandId: PropTypes.string.isRequired,
@@ -63,8 +52,6 @@ class View extends Component {
   };
 
   componentDidMount() {
-    // TODO: fetch filters(payment methods) from graphQl
-    this.props.fetchFilters();
     this.context.notes.setNoteChangedCallback(this.handleRefresh);
   }
 
@@ -89,13 +76,21 @@ class View extends Component {
   };
 
   handleFiltersChanged = (data = {}) => {
-    const filters = { ...data };
+    const filters = omitBy({ ...data }, isEmpty);
+    let statuses = null;
 
-    if (Array.isArray(filters.statuses)) {
-      filters.statuses = filters.statuses.join(',');
+    if (Array.isArray(filters.statuses) && filters.statuses.length > 0) {
+      statuses = flatten(filters.statuses.map(item => statusMapper[item]));
     }
 
-    history.replace({ query: { filters } });
+    history.replace({
+      query: {
+        filters: {
+          ...filters,
+          ...statuses && { statuses },
+        },
+      },
+    });
   };
 
   handleFilterReset = () => {
@@ -116,7 +111,6 @@ class View extends Component {
 
   render() {
     const {
-      filters: { data: availableFilters },
       locale,
       currencies,
       clientPayments,
@@ -135,13 +129,10 @@ class View extends Component {
           </span>
         </div>
 
-        <TransactionsFilterForm
+        <ListFilterForm
           onSubmit={this.handleFiltersChanged}
           onReset={this.handleFilterReset}
-          disabled
-          currencies={currencies}
-          {...availableFilters}
-          filterByType
+          fields={fields(currencies)}
         />
 
         <div className="card-body">
@@ -154,13 +145,10 @@ class View extends Component {
             locale={locale}
             showNoResults={!!error || (!clientPayments.loading && entities.content.length === 0)}
           >
-            {columns(
-              {
-                auth,
-                fetchPlayerMiniProfile,
-              },
-              this.handleModalActionSuccess,
-            ).map(({ name, header, render }) => (
+            {columns({
+              paymentInfo: { onSuccess: this.handleModalActionSuccess },
+              playerInfo: { auth, fetchPlayer: fetchPlayerMiniProfile },
+            }).map(({ name, header, render }) => (
               <GridViewColumn
                 key={name}
                 name={name}

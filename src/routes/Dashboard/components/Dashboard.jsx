@@ -1,21 +1,26 @@
 import React, { Fragment } from 'react';
 import { I18n } from 'react-redux-i18n';
-import { types, statuses } from '../../../constants/payment'
+import { flatten } from 'lodash';
+import { tradingTypes, statuses, statusMapper } from '../../../constants/payment';
 import { RegistrationChart, DepositsAmount, DepositsCount, WithdrawsAmount, WithdrawsCount } from './Charts';
 import PaymentsGrid from './Grids/PaymentsGrid';
 import ClientsGrid from './Grids/ClientsGrid';
 import './Dashboard.scss';
 
+const defaultChartProps = {
+  page: 0,
+  limit: 10,
+  statuses: flatten([statusMapper[statuses.COMPLETED], statusMapper[statuses.PENDING]]),
+};
+
 const options = {
   DEPOSITS: {
-    size: 10,
-    type: types.Deposit,
-    statuses: [statuses.COMPLETED, statuses.PENDING].join(','),
+    paymentTypes: [tradingTypes.DEPOSIT],
+    ...defaultChartProps,
   },
   WITHDRAWALS: {
-    size: 10,
-    type: types.Withdraw,
-    statuses: [statuses.COMPLETED, statuses.PENDING].join(','),
+    paymentTypes: [tradingTypes.WITHDRAW],
+    ...defaultChartProps,
   },
   REGISTRATIONS: {
     size: 10,
@@ -45,13 +50,13 @@ const Dashboard = () => (
 
     {/* Latest deposits */}
     <div className="font-size-20 margin-bottom-15">
-      {I18n.t('DASHBOARD.LATEST_DEPOSITS', { count: options.DEPOSITS.size })}
+      {I18n.t('DASHBOARD.LATEST_DEPOSITS', { count: options.DEPOSITS.limit })}
     </div>
     <PaymentsGrid {...options.DEPOSITS} />
 
     {/* Latest withdrawals */}
     <div className="font-size-20 margin-bottom-15">
-      {I18n.t('DASHBOARD.LATEST_WITHDRAWALS', { count: options.WITHDRAWALS.size })}
+      {I18n.t('DASHBOARD.LATEST_WITHDRAWALS', { count: options.WITHDRAWALS.limit })}
     </div>
     <PaymentsGrid {...options.WITHDRAWALS} />
 

@@ -1,5 +1,5 @@
-import { statusMapper, statusesLabels, statusesColor } from '../constants/payment';
-import renderLabel from './renderLabel';
+import { statusMapper, statusesLabels, statusesColor } from '../../constants/payment';
+import renderLabel from '../renderLabel';
 
 const revertedMapper = Object.entries(statusMapper);
 
@@ -17,6 +17,7 @@ export const getTradingStatusProps = (status) => {
   });
 
   return {
+    status: statusName,
     label: renderLabel(statusName, statusesLabels),
     color: statusesColor[statusName],
   };

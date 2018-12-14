@@ -964,7 +964,8 @@
       "TRANSFER_IN": "Transfer in",
       "TRANSFER_OUT": "Transfer Out",
       "CREDIT_IN": "Credit in",
-      "CREDIT_OUT": "Credit out"
+      "CREDIT_OUT": "Credit out",
+      "TRANSFER": "Transfer"
     },
     "PAYMENT_STATUS": {
       "PENDING": "Pending",
@@ -1282,6 +1283,7 @@
           "TYPE": "Transaction type",
           "STATUSES": "Transaction status",
           "PAYMENT_METHOD": "Payment method",
+          "PAYMENT_AGGREGATOR": "Payment aggregator",
           "START_DATE": "Start date",
           "END_DATE": "End date",
           "AMOUNT_FROM": "Amount from",

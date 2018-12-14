@@ -25,14 +25,9 @@ const mapStateToProps = ({
 });
 
 const mapActions = {
-  fetchEntities: actionCreators.fetchEntities,
-  fetchPlayerMiniProfile: miniProfileActionCreators.fetchPlayerProfile,
-  fetchFilters: actionCreators.fetchFilters,
-  fetchPlayerProfile: actionCreators.fetchPlayerProfile,
   onChangePaymentStatus: actionCreators.changePaymentStatus,
-  loadPaymentStatuses: actionCreators.fetchPaymentStatuses,
+  fetchPlayerMiniProfile: miniProfileActionCreators.fetchPlayerProfile,
   resetAll: actionCreators.resetAll,
-  exportEntities: actionCreators.exportEntities,
 };
 
 export default compose(
@@ -47,9 +42,10 @@ export default compose(
         page: 0,
         limit: 20,
       },
+      fetchPolicy: 'network-only',
     }),
     props: ({ clientPayments: { clientPayments, fetchMore, ...rest } }) => {
-      const newPage = get(clientPayments, 'number', 0);
+      const newPage = get(clientPayments, 'data.number', 0);
 
       return {
         clientPayments: {
@@ -82,7 +78,6 @@ export default compose(
                   data: {
                     ...previousResult.clientPayments.data,
                     ...fetchMoreResult.clientPayments.data,
-                    page: fetchMoreResult.clientPayments.page,
                     content: [
                       ...previousResult.clientPayments.data.content,
                       ...fetchMoreResult.clientPayments.data.content,

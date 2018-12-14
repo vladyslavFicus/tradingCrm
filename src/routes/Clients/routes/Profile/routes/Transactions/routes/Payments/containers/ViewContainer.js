@@ -1,7 +1,6 @@
 import { connect } from 'react-redux';
 import { graphql, compose } from 'react-apollo';
 import { get } from 'lodash';
-import moment from 'moment';
 import Payments from '../components/Payments';
 import { actionCreators as viewActionCreators } from '../modules';
 import { actionCreators as playerActionCreators } from '../../../../../modules';
@@ -50,16 +49,15 @@ export default compose(
       location: { query },
     }) => ({
       variables: {
-        ...query
-          ? query.filters
-          : { startDate: moment().startOf('day').utc().format(moment.HTML5_FMT.DATETIME_LOCAL_SECONDS) },
+        ...query && query.filters,
         playerUUID,
         page: 0,
-        size: 20,
+        limit: 20,
       },
+      fetchPolicy: 'network-only',
     }),
     props: ({ clientPayments: { clientPaymentsByUuid, fetchMore, ...rest } }) => {
-      const newPage = get(clientPaymentsByUuid, 'page') || 0;
+      const newPage = get(clientPaymentsByUuid, 'data.number', 0);
 
       return {
         clientPayments: {
@@ -72,16 +70,31 @@ export default compose(
                 return previousResult;
               }
 
+              if (fetchMoreResult.clientPaymentsByUuid.error) {
+                return {
+                  ...previousResult,
+                  ...fetchMoreResult,
+                  clientPaymentsByUuid: {
+                    ...previousResult.clientPaymentsByUuid,
+                    ...fetchMoreResult.clientPaymentsByUuid,
+                  },
+                };
+              }
+
               return {
                 ...previousResult,
                 ...fetchMoreResult,
                 clientPaymentsByUuid: {
                   ...previousResult.clientPaymentsByUuid,
                   ...fetchMoreResult.clientPaymentsByUuid,
-                  content: [
-                    ...previousResult.clientPaymentsByUuid.content,
-                    ...fetchMoreResult.clientPaymentsByUuid.content,
-                  ],
+                  data: {
+                    ...previousResult.clientPaymentsByUuid.data,
+                    ...fetchMoreResult.clientPaymentsByUuid.data,
+                    content: [
+                      ...previousResult.clientPaymentsByUuid.data.content,
+                      ...fetchMoreResult.clientPaymentsByUuid.data.content,
+                    ],
+                  },
                 },
               };
             },

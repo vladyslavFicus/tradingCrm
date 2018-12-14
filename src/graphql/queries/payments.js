@@ -1,32 +1,36 @@
 import gql from 'graphql-tag';
 
 const getClientPayments = gql`query getClientPayments(
-  $keyword: String
+  $searchParam: String
   $type: String
   $page: Int
-  $size: Int
-  $countryCode: String
+  $limit: Int
+  $country: String
   $statuses: [String]
+  $paymentTypes: [String]
+  $paymentAggregator: String
   $paymentMethod: String
   $currency: String
-  $startDate: String
-  $endDate: String
-  $amountLowerBound: String
-  $amountUpperBound: String
+  $creationTimeFrom: String
+  $creationTimeTo: String
+  $amountFrom: String
+  $amountTo: String
 ) {
   clientPayments (
-    keyword: $keyword
+    searchParam: $searchParam
     type: $type
     page: $page
-    size: $size
-    countryCode: $countryCode
+    limit: $limit
+    country: $country
     statuses: $statuses
+    paymentTypes: $paymentTypes
+    paymentAggregator: $paymentAggregator
     paymentMethod: $paymentMethod
     currency: $currency
-    startDate: $startDate
-    endDate: $endDate
-    amountLowerBound: $amountLowerBound
-    amountUpperBound: $amountUpperBound
+    creationTimeFrom: $creationTimeFrom
+    creationTimeTo: $creationTimeTo
+    amountFrom: $amountFrom
+    amountTo: $amountTo
   ) {
     data {
       page
@@ -72,33 +76,33 @@ const getClientPayments = gql`query getClientPayments(
 
 const getClientPaymentsByUuid = gql`query getClientPayments(
   $playerUUID: String!
-  $searchValue: String
+  $searchParam: String
   $type: String
   $page: Int
-  $size: Int
-  $country: String
+  $limit: Int
   $statuses: [String]
+  $paymentTypes: [String]
+  $paymentAggregator: String  
   $paymentMethod: String
-  $accountType: String
-  $startDate: String
-  $endDate: String
-  $amountLowerBound: String
-  $amountUpperBound: String
+  $creationTimeFrom: String
+  $creationTimeTo: String
+  $amountFrom: String
+  $amountTo: String
 ) {
   clientPaymentsByUuid (
     playerUUID: $playerUUID
-    searchValue: $searchValue
+    searchParam: $searchParam
     type: $type
     page: $page
-    size: $size
-    country: $country
+    limit: $limit
     statuses: $statuses
+    paymentTypes: $paymentTypes
+    paymentAggregator: $paymentAggregator    
     paymentMethod: $paymentMethod
-    accountType: $accountType
-    startDate: $startDate
-    endDate: $endDate
-    amountLowerBound: $amountLowerBound
-    amountUpperBound: $amountUpperBound
+    creationTimeFrom: $creationTimeFrom
+    creationTimeTo: $creationTimeTo
+    amountFrom: $amountFrom
+    amountTo: $amountTo
   ) {
     data {
       page
