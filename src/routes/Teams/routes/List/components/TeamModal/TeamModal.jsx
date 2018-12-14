@@ -59,6 +59,10 @@ class DeskForm extends Component {
 
     const { selectedOffice, desks } = this.state;
 
+    const deskPlaceholder = desks.length === 0
+      ? I18n.t('TEAMS.MODAL.NO_OFFICE_DESK')
+      : I18n.t('COMMON.SELECT_OPTION.DEFAULT');
+
     return (
       <Modal
         toggle={onCloseModal}
@@ -103,9 +107,10 @@ class DeskForm extends Component {
             label={I18n.t(attributeLabels.desk)}
             component={NasSelectField}
             disabled={!selectedOffice || submitting || desks.length === 0}
-            placeholder={selectedOffice && desks.length === 0
-              ? I18n.t('TEAMS.MODAL.NO_OFFICE_DESK')
-              : I18n.t('TEAMS.MODAL.SELECT_OFFICE_FIRST')}
+            placeholder={selectedOffice
+              ? deskPlaceholder
+              : I18n.t('TEAMS.MODAL.SELECT_OFFICE_FIRST')
+            }
           >
             {desks.map(({ name, uuid }) => (
               <option key={uuid} value={uuid}>
