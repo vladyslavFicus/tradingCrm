@@ -71,8 +71,8 @@ class RepresentativeUpdateModal extends Component {
     selectedTeam: '',
     agentsLoading: false,
     teamsLoading: false,
-    desks: [],
-    agents: [],
+    desks: null,
+    agents: null,
     teams: [],
   };
 
@@ -82,13 +82,12 @@ class RepresentativeUpdateModal extends Component {
     const agents = getAgents(hierarchyUsers, type);
 
     // INFO: initial set desks and agents
-    if (Array.isArray(desks) && prevState.desks.length === 0) {
+    if (Array.isArray(desks) && !prevState.desks) {
       newState = {
         desks: desks.filter(({ deskType }) => deskType === deskTypes[type]),
       };
     }
-
-    if (agents && prevState.agents.length === 0) {
+    if (agents && !prevState.agents) {
       newState = { ...newState, agents };
     }
 
@@ -119,13 +118,13 @@ class RepresentativeUpdateModal extends Component {
     }, () => {
       this.props.change('deskId', selectedDesk);
 
-      if (selectedTeam) {
+      if (this.state.selectedTeam) {
         this.props.change('teamId', null);
       } else if (teams && teams.length === 1) {
         this.props.change('teamId', teams[0].uuid);
       }
 
-      if (selectedRep) {
+      if (this.state.selectedRep) {
         this.props.change('repId', null);
       }
     });
@@ -136,7 +135,6 @@ class RepresentativeUpdateModal extends Component {
       agentsLoading: true,
     });
     const { client, type } = this.props;
-    const { selectedRep } = this.state;
 
     const { data: { hierarchy: { usersByBranch: { data, error } } } } = await client.query({
       query: getUsersByBranch,
@@ -157,7 +155,7 @@ class RepresentativeUpdateModal extends Component {
     }, () => {
       this.props.change('teamId', selectedTeam);
 
-      if (selectedRep) {
+      if (this.state.selectedRep) {
         this.props.change('repId', null);
       }
 
@@ -304,14 +302,14 @@ class RepresentativeUpdateModal extends Component {
           <Select
             value={selectedDesk}
             customClassName="form-group"
-            placeholder={!deskLoading && desks.length === 0
+            placeholder={!deskLoading && desks && desks.length === 0
               ? I18n.t('COMMON.SELECT_OPTION.NO_ITEMS')
               : I18n.t('COMMON.SELECT_OPTION.DEFAULT')
             }
-            disabled={deskLoading || desks.length === 0 || submitting}
+            disabled={deskLoading || (desks && desks.length === 0) || submitting}
             onChange={this.handleDeskChange}
           >
-            {desks.map(({ name, uuid }) => (
+            {(desks || []).map(({ name, uuid }) => (
               <option key={uuid} value={uuid}>
                 {name}
               </option>
@@ -338,14 +336,14 @@ class RepresentativeUpdateModal extends Component {
           <Select
             value={selectedRep}
             customClassName="form-group"
-            placeholder={!agentsLoading && !initAgentsLoading && agents.length === 0
+            placeholder={!agentsLoading && !initAgentsLoading && agents && agents.length === 0
               ? I18n.t('COMMON.SELECT_OPTION.NO_ITEMS')
               : I18n.t('COMMON.SELECT_OPTION.DEFAULT')
             }
-            disabled={agentsLoading || initAgentsLoading || agents.length === 0 || submitting}
+            disabled={agentsLoading || initAgentsLoading || (agents && agents.length === 0) || submitting}
             onChange={this.handleRepChange}
           >
-            {agents.map(({ fullName, uuid }) => (
+            {(agents || []).map(({ fullName, uuid }) => (
               <option key={uuid} value={uuid}>
                 {fullName}
               </option>

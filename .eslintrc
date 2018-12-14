@@ -12,6 +12,13 @@
     "promise",
     "jsx-control-statements"
   ],
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "paths": "src"
+      }
+    }
+  },
   "env": {
     "browser": true
   },

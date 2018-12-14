@@ -1,5 +1,23 @@
 import gql from 'graphql-tag';
 
+const getUserHierarchy = gql`query getUserHierarchy {
+  hierarchy {
+    userHierarchy {
+      data {
+        parentBranches {
+          uuid
+          branchType
+          name
+        }
+      }
+      error {
+        error
+        fields_errors
+      }
+    }
+  }
+}`;
+
 const getUserBranchHierarchy = gql`query getUserBranchHierarchy(
   $userId: String!,
 ) {
@@ -194,6 +212,48 @@ const getBranchHierarchy = gql`query getBranchHierarchy (
   }
 }`;
 
+const getBranchHierarchyTree = gql`  
+  fragment BranchTreeItem on HierarchyBranchTreeType {
+    uuid
+    name
+    branchType
+    users {
+      uuid
+      userType
+      operator {
+        fullName
+      }
+    }
+  }
+  
+  query getBranchHierarchyTree($branchUUID: String!) {
+    hierarchy {
+      # Maximum nested branches == 5 [COMPANY, BRAND, OFFICE, DESK, TEAM]
+      branchHierarchyTree(branchUUID: $branchUUID) {
+        data {
+          ...BranchTreeItem
+          children {
+            ...BranchTreeItem
+            children {
+              ...BranchTreeItem
+              children {
+                ...BranchTreeItem
+                children {
+                  ...BranchTreeItem
+                }
+              }
+            }
+          }
+        }
+        error {
+          error
+          fields_errors
+        }
+      }
+    }
+  }
+`;
+
 const getUsersByBranch = gql`query getUsersByBranch(
   $uuid: String!,
 ) {
@@ -209,8 +269,12 @@ const getUsersByBranch = gql`query getUsersByBranch(
         uuid
         userType
         fullName
-        parentUsers
-        parentBranches
+        parentUsers {
+          uuid
+        }
+        parentBranches {
+          uuid
+        }
       }
     } 
   }
@@ -244,10 +308,12 @@ const getBranchChildren = gql`query getBranchChildren(
 
 
 export {
+  getUserHierarchy,
   getUserBranchHierarchy,
   getHierarchyUsersByType,
   getBranchInfo,
   getBranchHierarchy,
+  getBranchHierarchyTree,
   getUsersByBranch,
   getBranchChildren,
 };
