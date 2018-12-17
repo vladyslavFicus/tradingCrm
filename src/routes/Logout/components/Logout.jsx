@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
+import Preloader from 'components/Preloader';
 
 class Logout extends Component {
   static propTypes = {
@@ -9,21 +10,14 @@ class Logout extends Component {
     client: PropTypes.object.isRequired,
   };
 
-  state = {
-    logged: this.props.logged,
-  };
-
-  async componentWillMount() {
-    if (this.state.logged) {
-      await this.props.logout();
-      await this.props.client.resetStore();
-      this.setState({ logged: false });
-    }
+  async componentDidMount() {
+    await this.props.client.resetStore();
+    await this.props.logout();
   }
 
   render() {
-    if (this.state.logged) {
-      return null;
+    if (this.props.logged) {
+      return <Preloader show />;
     }
 
     return <Redirect to="/" />;
