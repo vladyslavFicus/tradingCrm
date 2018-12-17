@@ -16,7 +16,7 @@ const mapStateToProps = ({
   usersList: list,
   i18n: { locale },
   options: { data: { currencyCodes } },
-  auth: { brandId, uuid, hierarchyUsers, department },
+  auth: { brandId, uuid, department },
 }) => ({
   list,
   locale,
@@ -25,7 +25,6 @@ const mapStateToProps = ({
   auth: {
     brandId,
     uuid,
-    hierarchyUsers,
     isAdministration: department === departments.ADMINISTRATION,
   },
 });
@@ -47,7 +46,6 @@ export default compose(
     name: 'leads',
     options: ({
       location: { query },
-      auth,
     }) => ({
       notifyOnNetworkStatusChange: true,
       variables: {
@@ -58,7 +56,6 @@ export default compose(
           },
         page: 0,
         limit: 10,
-        ...!auth.isAdministration && { ids: get(auth, 'hierarchyUsers.leads') },
       },
     }),
     props: ({ leads: { leads, fetchMore, ...rest } }) => {

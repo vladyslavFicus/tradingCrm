@@ -10,7 +10,7 @@ import View from '../components/View';
 const mapStateToProps = ({
   transactions,
   i18n: { locale },
-  auth: { brandId, uuid, hierarchyUsers, department },
+  auth: { brandId, uuid, department },
   options: { data: { currencyCodes } },
 }) => ({
   ...transactions,
@@ -18,7 +18,6 @@ const mapStateToProps = ({
   auth: {
     brandId,
     uuid,
-    hierarchyUsers,
     isAdministration: department === departments.ADMINISTRATION,
   },
   currencies: currencyCodes,

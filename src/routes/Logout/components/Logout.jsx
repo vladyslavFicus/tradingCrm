@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { withApollo } from 'react-apollo';
 
 class Logout extends Component {
   static propTypes = {
@@ -32,4 +30,4 @@ class Logout extends Component {
   }
 }
 
-export default connect(({ auth: { logged } }) => ({ logged }))(withApollo(Logout));
+export default Logout;

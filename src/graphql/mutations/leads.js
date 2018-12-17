@@ -89,7 +89,6 @@ const bulkLeadPromote = gql`mutation promoteToClient(
   $registrationDateStart: String,
   $salesStatus: tradingProfileSalesStatus,
   $totalRecords: Int,
-  $queryIds: [String],
 ) {
   leads {
     bulkPromote (
@@ -101,7 +100,6 @@ const bulkLeadPromote = gql`mutation promoteToClient(
       registrationDateStart: $registrationDateStart,
       salesStatus: $salesStatus,
       totalRecords: $totalRecords,
-      queryIds: $queryIds,
     ) {
       data
       error {
