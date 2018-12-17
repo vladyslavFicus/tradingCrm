@@ -8,8 +8,6 @@ import Preloader from '../../../components/Preloader';
 import { Brands, Departments } from '../../../components/Brands';
 import Copyrights from '../../../components/Copyrights';
 import sentry from '../../../utils/sentry';
-import rootConfig from '../../../config';
-import { markets } from '../../../constants/markets';
 
 class SignIn extends Component {
   static propTypes = {
@@ -136,7 +134,6 @@ class SignIn extends Component {
       fetchAuthorities,
       fetchProfile,
       reset,
-      fetchHierarchy,
     } = this.props;
     const token = requestToken || dataToken;
     const uuid = requestUuid || dataUuid;
@@ -147,10 +144,6 @@ class SignIn extends Component {
 
         if (action && !action.error) {
           setDepartmentsByBrand(departmentsByBrand);
-
-          if (rootConfig.market === markets.crm) {
-            await fetchHierarchy(uuid, action.payload.token);
-          }
         }
 
         this.resetStateTimeout = setTimeout(() => {

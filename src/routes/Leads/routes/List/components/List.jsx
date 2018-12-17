@@ -108,7 +108,6 @@ class List extends Component {
     const { allRowsSelected, selectedRows, touchedRowsIds } = this.state;
     const {
       promoteLead,
-      auth,
       notify,
       location: { query },
       leads: { leads: { data: { content, totalElements } }, refetch },
@@ -116,14 +115,12 @@ class List extends Component {
     } = this.props;
 
     const filters = get(query, 'filters');
-    const hierarchyIds = get(auth, 'hierarchyUsers.leads');
     const leadIds = allRowsSelected ? touchedRowsIds.map(index => content[index].id) : selectedRows;
 
     const { data: { leads: { bulkPromote: { data, error, errors } } } } = await promoteLead({
       variables: {
         allRecords: allRowsSelected,
         totalRecords: totalElements,
-        queryIds: allRowsSelected ? hierarchyIds : leadIds,
         leadIds,
         ...filters,
       },

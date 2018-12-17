@@ -5,8 +5,7 @@ import {
   actionCreators as authActionCreators,
 } from '../modules/auth';
 import sentry from '../../utils/sentry';
-import rootConfig, { getBrandId, setBrandId } from '../../config';
-import { markets } from '../../constants/markets';
+import { getBrandId, setBrandId } from '../../config';
 
 const triggerActions = {
   start: [
@@ -52,10 +51,6 @@ export default store => next => (action) => {
       if (auth && auth.uuid && auth.token && isAuthRehydrate) {
         store.dispatch(authActionCreators.fetchProfile(auth.uuid, auth.token));
         store.dispatch(authActionCreators.fetchAuthorities(auth.uuid, auth.token));
-
-        if (rootConfig.market === markets.crm) {
-          store.dispatch(authActionCreators.fetchHierarchy(auth.uuid, auth.token));
-        }
       }
     } else if (triggerActions.stop.indexOf(action.type) > -1) {
       setBrandId(null);
