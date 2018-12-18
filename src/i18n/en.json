@@ -1266,6 +1266,7 @@
       "GRID_COLUMNS": {
         "TRANSACTION": "Transaction",
         "CLIENT": "Client",
+        "ORIGINAL_AGENT": "Original Agent",
         "COUNTRY": "Country",
         "TYPE": "Type",
         "AMOUNT": "Amount",
