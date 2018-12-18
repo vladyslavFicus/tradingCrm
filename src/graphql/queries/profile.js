@@ -98,6 +98,7 @@ const clientQuery = gql`query profileData($playerUUID: String!){
         }
         retentionStatus
         balance
+        credit
         equity
         baseCurrencyEquity
         baseCurrencyBalance
