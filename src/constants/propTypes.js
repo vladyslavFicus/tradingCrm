@@ -286,6 +286,7 @@ PropTypes.paymentEntity = PropTypes.shape({
   externalReference: PropTypes.string,
   playerProfile: PropTypes.paymentPlayer,
   paymentMetadata: PropTypes.paymentMetadata,
+  originalAgent: PropTypes.paymentOriginalAgent,
 });
 PropTypes.paymentPlayer = PropTypes.shape({
   uuid: PropTypes.string.isRequired,
@@ -298,6 +299,10 @@ PropTypes.paymentMetadata = PropTypes.shape({
   isMobile: PropTypes.bool,
   userAgent: PropTypes.string.isRequired,
   country: PropTypes.string,
+});
+PropTypes.paymentOriginalAgent = PropTypes.shape({
+  uuid: PropTypes.string,
+  fullName: PropTypes.string,
 });
 PropTypes.userPaymentAccountEntity = PropTypes.shape({
   creationDate: PropTypes.string.isRequired,

@@ -17,7 +17,7 @@ import {
 } from '../../constants/payment';
 import { getTradingStatusProps } from './utils';
 
-const expandedPaymentColumns = (auth, fetchPlayer) => [{
+const clientColumn = (auth, fetchPlayer) => ({
   name: 'profile',
   header: I18n.t('CONSTANTS.TRANSACTIONS.GRID_COLUMNS.CLIENT'),
   render: ({ playerProfile, language, paymentId }) => (
@@ -40,7 +40,9 @@ const expandedPaymentColumns = (auth, fetchPlayer) => [{
       </Otherwise>
     </Choose>
   ),
-}, {
+});
+
+const countryColumn = {
   name: 'country',
   header: I18n.t('CONSTANTS.TRANSACTIONS.GRID_COLUMNS.COUNTRY'),
   render: ({ paymentMetadata: { country } }) => (
@@ -56,7 +58,7 @@ const expandedPaymentColumns = (auth, fetchPlayer) => [{
       </Otherwise>
     </Choose>
   ),
-}];
+};
 
 export default ({
   paymentInfo: { onSuccess },
@@ -69,7 +71,27 @@ export default ({
     <GridPaymentInfo payment={data} onSuccess={onSuccess} />
   ),
 },
-...(!clientView && expandedPaymentColumns(playerInfo.auth, playerInfo.fetchPlayer)),
+...(!clientView ? [clientColumn(playerInfo.auth, playerInfo.fetchPlayer)] : []),
+{
+  name: 'originalAgent',
+  header: I18n.t('CONSTANTS.TRANSACTIONS.GRID_COLUMNS.ORIGINAL_AGENT'),
+  render: ({ originalAgent }) => (
+    <Choose>
+      <When condition={originalAgent}>
+        <div className="font-weight-700">
+          {originalAgent.fullName}
+        </div>
+        <div className="font-size-11">
+          <Uuid uuid={originalAgent.uuid} />
+        </div>
+      </When>
+      <Otherwise>
+        <div>&mdash;</div>
+      </Otherwise>
+    </Choose>
+  ),
+},
+...(!clientView ? [countryColumn] : []),
 {
   name: 'paymentType',
   header: I18n.t('CONSTANTS.TRANSACTIONS.GRID_COLUMNS.PAYMENT_TYPE'),

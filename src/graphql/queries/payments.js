@@ -65,6 +65,10 @@ const getClientPayments = gql`query getClientPayments(
           userAgent
           country
         }
+        originalAgent {
+          uuid
+          fullName
+        }
       }
     }
     error {
@@ -135,6 +139,10 @@ const getClientPaymentsByUuid = gql`query getClientPayments(
           isMobile
           userAgent
           country
+        }
+        originalAgent {
+          uuid
+          fullName
         }
       }
     }
