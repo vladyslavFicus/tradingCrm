@@ -88,7 +88,7 @@ class PaymentAddModal extends Component {
 
     const isInsufficientBalance = (
       parseFloat(mt4.balance) < amount
-      && [paymentMethods.Withdraw, paymentMethods.Confiscate, paymentMethods.Transfer].includes(paymentType)
+      && [paymentMethods.WITHDRAW, paymentMethods.CONFISCATE, paymentMethods.TRANSFER].includes(paymentType)
       && name !== 'target'
     );
 
@@ -342,7 +342,7 @@ const Form = reduxForm({
       externalReference: 'required|string',
     };
 
-    if ([paymentMethods.Withdraw, paymentMethods.Confiscate, paymentMethods.Transfer].includes(data.paymentType)
+    if ([paymentMethods.WITHDRAW, paymentMethods.CONFISCATE, paymentMethods.TRANSFER].includes(data.paymentType)
         && currentValues.login
         && currentValues.amount
         && Number(mt4Users.find(({ login }) => login === currentValues.login).balance) < currentValues.amount) {
@@ -358,7 +358,7 @@ const Form = reduxForm({
       return { login: I18n.t('CLIENT_PROFILE.TRANSACTIONS.MODAL_CREATE.MT4_NO_MONEY') };
     }
 
-    if (data.paymentType === paymentMethods.Deposit) {
+    if (data.paymentType === paymentMethods.DEPOSIT) {
       rules = { ...rules, paymentMethod: 'required|string' };
     }
 
