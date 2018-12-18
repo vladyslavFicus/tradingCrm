@@ -69,7 +69,7 @@ class Balances extends Component {
   renderDropDown = (
     dropDownOpen,
     statistic,
-    { currency, balance, equity, margin, marginLevel }
+    { currency, balance, credit, equity, margin, marginLevel }
   ) => {
     const { lastDeposit, lastWithdraw, paymentStatistic: { loading } } = this.props;
     const { depositCount, withdrawCount } = statistic;
@@ -88,6 +88,9 @@ class Balances extends Component {
             <i className="fa fa-angle-down" />
             <div className="header-block-middle">
               {currency} {Number(balance).toFixed(2)}
+            </div>
+            <div className="header-block-small">
+              {I18n.t('CLIENT_PROFILE.PROFILE.HEADER.CREDIT')}: {currency} {Number(credit).toFixed(2)}
             </div>
             <div className="header-block-small">
               {I18n.t('CLIENT_PROFILE.PROFILE.HEADER.EQUITY')}: {currency} {Number(equity).toFixed(2)}

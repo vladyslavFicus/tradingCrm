@@ -2673,6 +2673,7 @@
     "PROFILE": {
       "TITLE": "Profile",
       "HEADER": {
+        "CREDIT": "Credit",
         "EQUITY": "Equity",
         "TRADING_VOLUME": "Trading volume",
         "MARGIN": "Margin",

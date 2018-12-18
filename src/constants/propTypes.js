@@ -555,6 +555,7 @@ PropTypes.tradingProfile = PropTypes.shape({
   retentionStatus: PropTypes.string,
   kycRep: PropTypes.tradingRepresentative,
   balance: PropTypes.string,
+  credit: PropTypes.string,
   equity: PropTypes.string,
   baseCurrencyBalance: PropTypes.string,
   baseCurrencyEquity: PropTypes.string,

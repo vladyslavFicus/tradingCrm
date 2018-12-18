@@ -41,10 +41,13 @@ class ModalPlayerInfo extends Component {
     </Fragment>
   );
 
-  renderBalance = ({ currency, tradingProfile: { balance, equity, margin, marginLevel } }) => (
+  renderBalance = ({ currency, tradingProfile: { balance, credit, equity, margin, marginLevel } }) => (
     <Fragment>
       <div className="header-block-middle">
         {currency} {Number(balance).toFixed(2)}
+      </div>
+      <div className="header-block-small">
+        {I18n.t('CLIENT_PROFILE.PROFILE.HEADER.CREDIT')}: {currency} {Number(credit).toFixed(2)}
       </div>
       <div className="header-block-small">
         {I18n.t('CLIENT_PROFILE.PROFILE.HEADER.EQUITY')}: {currency} {Number(equity).toFixed(2)}
