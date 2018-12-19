@@ -136,7 +136,6 @@ class CallbacksGridFilter extends Component {
           default
         >
           <FilterField
-            utc
             name="callbackTimeFrom"
             isValidDate={this.startDateValidator('callbackTimeTo')}
             timePresets
@@ -144,7 +143,6 @@ class CallbacksGridFilter extends Component {
             closeOnSelect={false}
           />
           <FilterField
-            utc
             name="callbackTimeTo"
             isValidDate={this.endDateValidator('callbackTimeFrom')}
             timePresets
