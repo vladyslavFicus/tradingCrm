@@ -66,7 +66,7 @@ export default [{
   placeholder: I18n.t('COMMON.SELECT_OPTION.DEFAULT'),
   className: fieldClassNames.MEDIUM,
   /* no logic for now, we have just one aggregator */
-  selectOptions: [aggregators.CASHIER]
+  selectOptions: [aggregators.CASHIER, aggregators.MANUAL]
     .map(value => ({ value, label: I18n.t(aggregatorsLabels[value]) })),
 }, {
   type: fieldTypes.SELECT,
