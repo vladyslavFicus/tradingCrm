@@ -5,14 +5,14 @@ import { get } from 'lodash';
 import {
   statusColorNames as userStatusColorNames,
   statusesLabels as userStatusesLabels,
-} from '../../../../../constants/user';
-import { salesStatuses, salesStatusesColor } from '../../../../../constants/salesStatuses';
-import { retentionStatuses, retentionStatusesColor } from '../../../../../constants/retentionStatuses';
-import GridPlayerInfo from '../../../../../components/GridPlayerInfo';
-import CountryLabelWithFlag from '../../../../../components/CountryLabelWithFlag';
-import GridEmptyValue from '../../../../../components/GridEmptyValue';
-import GridStatus from '../../../../../components/GridStatus';
-import renderLabel from '../../../../../utils/renderLabel';
+} from '../../../../../../constants/user';
+import { salesStatuses, salesStatusesColor } from '../../../../../../constants/salesStatuses';
+import { retentionStatuses, retentionStatusesColor } from '../../../../../../constants/retentionStatuses';
+import GridPlayerInfo from '../../../../../../components/GridPlayerInfo';
+import CountryLabelWithFlag from '../../../../../../components/CountryLabelWithFlag';
+import GridEmptyValue from '../../../../../../components/GridEmptyValue';
+import GridStatus from '../../../../../../components/GridStatus';
+import renderLabel from '../../../../../../utils/renderLabel';
 
 export default (
   I18n,
