@@ -53,6 +53,7 @@ export default {
     VERIFY_EMAIL: 'profile;POST;/verification/{playerUUID}',
     CHANGE_PASSWORD: 'auth;POST;/credentials/{uuid}/password',
     MARK_IS_TEST: 'profile;POST;/profiles/{playerUUID}/is-test',
+    CHANGE_ACQUISITION_STATUS: 'trading_hierarchy;POST;/bulk/user',
   },
   PLAYER_REPORT: {
     ACTIVITY: 'player_report;GET;/{playerUUID}/activity',

@@ -8,6 +8,8 @@ import history from '../../../../../router/history';
 import PropTypes from '../../../../../constants/propTypes';
 import { deskTypes } from '../../../../../constants/hierarchyTypes';
 import GridView, { GridViewColumn } from '../../../../../components/GridView';
+import PermissionContent from '../../../../../components/PermissionContent';
+import permissions from '../../../../../config/permissions';
 import Placeholder from '../../../../../components/Placeholder';
 import withPlayerClick from '../../../../../utils/withPlayerClick';
 import { getUsersByBranch } from '../../../../../graphql/queries/hierarchy';
@@ -376,7 +378,7 @@ class List extends Component {
           <If condition={entities.totalElements !== 0 && selectedRows.length !== 0}>
             <div className="grid-bulk-menu ml-auto">
               <span>{I18n.t('CLIENTS.BULK_ACTIONS')}</span>
-              <If condition={auth.isAdministration}>
+              <PermissionContent permissions={permissions.USER_PROFILE.CHANGE_ACQUISITION_STATUS}>
                 <button
                   className="btn btn-default-outline"
                   disabled={branchesLoading}
@@ -397,7 +399,7 @@ class List extends Component {
                 >
                   {I18n.t('COMMON.MOVE')}
                 </button>
-              </If>
+              </PermissionContent>
               <button
                 className="btn btn-default-outline"
                 // onClick={this.changeStatus}
