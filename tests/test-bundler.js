@@ -6,7 +6,6 @@ import dirtyChai from 'dirty-chai';
 import sinonChai from 'sinon-chai';
 import chaiEnzyme from 'chai-enzyme';
 import '../src/normalize';
-import appConfig from '../server/application.config';
 
 // Mocha / Chai
 // ------------------------------------
@@ -18,7 +17,6 @@ configure({ adapter: new Adapter() });
 global.chai = chai;
 global.expect = chai.expect;
 global.sinon = sinon;
-global.window.nas = appConfig;
 
 // Chai Plugins
 // ------------------------------------

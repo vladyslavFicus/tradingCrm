@@ -1,0 +1,12 @@
+{
+  "name": "forex_backoffice",
+  "version": "1.0.0",
+  "main": "run.js",
+  "author": "NAS",
+  "license": "MIT",
+  "dependencies": {
+    "@hrzn/zookeeper": "^1.0.3-alpha.40",
+    "uuid": "^3.3.2",
+    "yamljs": "^0.3.0"
+  }
+}

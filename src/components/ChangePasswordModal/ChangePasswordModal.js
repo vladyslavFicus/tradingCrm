@@ -7,7 +7,7 @@ import { InputField } from '../ReduxForm';
 import attributeLabels from './constants';
 import { createValidator } from '../../utils/validator';
 import Uuid from '../Uuid';
-import config from '../../config';
+import { getActiveBrandConfig } from '../../config';
 
 const ChangePasswordModal = ({ onClose, handleSubmit, onSubmit, fullName, playerUUID }) => (
   <Modal className="modal-danger change-password-modal" toggle={onClose} isOpen>
@@ -66,7 +66,7 @@ ChangePasswordModal.defaultProps = {
 export default reduxForm({
   form: 'changePlayerPassword',
   validate: createValidator({
-    password: ['required', `regex:${config.nas.validation.password}`],
+    password: ['required', `regex:${getActiveBrandConfig().password.pattern}`],
     repeatPassword: [
       'required',
       'same:password',

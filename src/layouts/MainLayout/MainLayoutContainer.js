@@ -14,8 +14,6 @@ import { markets } from '../../constants/markets';
 import { departments } from '../../constants/brands';
 import MainLayout from './MainLayout';
 
-const languages = getAvailableLanguages();
-
 const mapStateToProps = (state) => {
   const {
     userPanels,
@@ -48,7 +46,7 @@ const mapStateToProps = (state) => {
     activeUserPanel: activeUserPanel || null,
     activePanelIndex: userPanels.activeIndex,
     locale,
-    languages,
+    languages: getAvailableLanguages(),
   };
 };
 

@@ -21,34 +21,6 @@ const config = _.merge({
       ],
     },
   },
-  nas: {
-    brand: {
-      api: {
-        version: 'latest',
-        url: '',
-      },
-      currencies: {
-        base: 'EUR',
-        supported: [],
-      },
-    },
-    validation: {
-      password: '*',
-    },
-    limits: {
-      deposit: { cooloff: '7 DAYS', periods: ['24 HOURS', '7 DAYS', '30 DAYS'] },
-      wager: { cooloff: '7 DAYS', periods: ['24 HOURS', '7 DAYS', '30 DAYS'] },
-      loss: { cooloff: '7 DAYS', periods: ['24 HOURS', '7 DAYS', '30 DAYS'] },
-      session_duration: {
-        cooloff: '8 HOURS',
-        periods: ['5 HOURS', '10 HOURS', '15 HOURS', 'Other'],
-      },
-    },
-    locale: {
-      languages: [],
-      defaultLanguage: 'en',
-    },
-  },
   middlewares: {
     unauthorized: [401],
     persist: {
@@ -78,30 +50,24 @@ const config = _.merge({
   },
 }, (window.nas || {}));
 
-if (config.nas.brand) {
-  if (config.nas.brand.password && config.nas.brand.password.pattern) {
-    config.nas.validation.password = new RegExp(config.nas.brand.password.pattern, 'g');
-  }
-}
-
-function getLimitPeriods() {
-  return config.nas.limits || [];
-}
-
 function getApiRoot() {
   return '/api';
 }
 
 function getApiVersion() {
-  return _.get(window, 'nas.brand.api.version', _.get(config, 'nas.brand.api.version'));
+  return _.get(config, 'nas.brand.api.version');
 }
 
 function getAvailableLanguages() {
-  return _.get(config, 'nas.brand.locale.languages', []);
+  return _.get(window, 'app.brand.locales.languages', []);
 }
 
 function getGraphQLRoot() {
-  return config.nas.graphqlRoot;
+  return config.graphqlRoot;
+}
+
+function getActiveBrandConfig() {
+  return _.get(window, 'app.brand');
 }
 
 function getBrandId() {
@@ -110,6 +76,7 @@ function getBrandId() {
 
 function setBrandId(brandId) {
   window.app.brandId = brandId;
+  window.app.brand = brandId ? config.brands.find(brand => brand.id === brandId) : null;
 }
 
 function getLogo() {
@@ -145,7 +112,7 @@ export {
   getBrandId,
   setBrandId,
   getLogo,
-  getLimitPeriods,
+  getActiveBrandConfig,
   getAvailableLanguages,
   getVersion,
   getApiVersion,
