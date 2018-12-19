@@ -40,9 +40,6 @@ const mapStateToProps = (state) => {
     i18n: {
       locale,
     },
-    permissions: {
-      data: currentPermissions,
-    },
   } = state;
 
   const uploadModalInitialValues = {};
@@ -246,6 +243,7 @@ export default compose(
       },
     }),
     name: 'playerProfile',
+    fetchPolicy: 'network-only',
   }),
   graphql(notesQuery, {
     options: ({

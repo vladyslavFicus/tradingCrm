@@ -29,6 +29,7 @@ export default compose(
       variables: {
         playerUUID,
       },
+      fetchPolicy: 'network-only',
     }),
     name: 'playerProfile',
   })
