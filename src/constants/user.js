@@ -41,6 +41,7 @@ const attributeLabels = {
   username: 'Username',
   playerUUID: 'ID',
 };
+
 const filterLabels = {
   searchValue: I18n.t('PROFILE.LIST.FILTERS.SEARCH'),
   country: I18n.t('PROFILE.LIST.FILTERS.COUNTRY'),
@@ -73,23 +74,18 @@ const filterLabels = {
   kycStatus: I18n.t('PROFILE.LIST.FILTERS.KYC_STATUS'),
   firstDeposit: I18n.t('PROFILE.LIST.FILTERS.FIRST_DEPOSIT'),
 };
+
 const statuses = keyMirror({
   INACTIVE: null,
   ACTIVE: null,
   BLOCKED: null,
-  SUSPENDED: null,
-  PERMANENT_SUSPENDED: null,
-  COOLOFF: null,
-  MANUAL_COOLOFF: null,
 });
+
 const actions = keyMirror({
   BLOCK: null,
   UNBLOCK: null,
-  SUSPEND: null,
-  REMOVE: null,
-  PROLONG: null,
-  MANUAL_COOLOFF: null,
 });
+
 const reasons = {
   'PLAYER_PROFILE.PROFILE.BLOCK_REASONS.USER_REQUEST':
     I18n.t('PLAYER_PROFILE.PROFILE.BLOCK_REASONS.USER_REQUEST'),
@@ -102,6 +98,7 @@ const reasons = {
   'PLAYER_PROFILE.PROFILE.BLOCK_REASONS.OTHER':
     I18n.t('PLAYER_PROFILE.PROFILE.BLOCK_REASONS.OTHER'),
 };
+
 const unblockReasons = {
   'PLAYER_PROFILE.PROFILE.UNBLOCK_REASONS.CUSTOMER_REQUEST':
     I18n.t('PLAYER_PROFILE.PROFILE.UNBLOCK_REASONS.CUSTOMER_REQUEST'),
@@ -109,19 +106,13 @@ const unblockReasons = {
     I18n.t('PLAYER_PROFILE.PROFILE.UNBLOCK_REASONS.INVESTIGATION_COMPLETE'),
   'PLAYER_PROFILE.PROFILE.UNBLOCK_REASONS.OTHER': I18n.t('PLAYER_PROFILE.PROFILE.UNBLOCK_REASONS.OTHER'),
 };
-const selfExclusionReasons = {
-  'PLAYER_PROFILE.PROFILE.SELF_EXCLUSION_REASONS.USER_REQUEST':
-    I18n.t('PLAYER_PROFILE.PROFILE.SELF_EXCLUSION_REASONS.USER_REQUEST'),
-  'PLAYER_PROFILE.PROFILE.SELF_EXCLUSION_REASONS.OTHER':
-    I18n.t('PLAYER_PROFILE.PROFILE.SELF_EXCLUSION_REASONS.OTHER'),
-};
+
 const statusesLabels = {
   [statuses.INACTIVE]: I18n.t('STATUSES_LABELS.INACTIVE'),
   [statuses.ACTIVE]: I18n.t('STATUSES_LABELS.ACTIVE'),
   [statuses.BLOCKED]: I18n.t('STATUSES_LABELS.BLOCKED'),
-  [statuses.SUSPENDED]: I18n.t('STATUSES_LABELS.SELF_EXCLUDED'),
-  [statuses.COOLOFF]: I18n.t('STATUSES_LABELS.COOLOFF'),
 };
+
 const durationUnits = keyMirror({
   DAYS: null,
   WEEKS: null,
@@ -129,32 +120,15 @@ const durationUnits = keyMirror({
   YEARS: null,
   PERMANENT: null,
 });
+
 const statusActions = {
-  [statuses.INACTIVE]: [
-    {
-      action: actions.SUSPEND,
-      label: I18n.t('ACTIONS_LABELS.SELF_EXCLUSION'),
-      reasons: selfExclusionReasons,
-      permission: permissions.USER_PROFILE.SUSPEND,
-    },
-  ],
+  [statuses.INACTIVE]: [],
   [statuses.ACTIVE]: [
     {
       action: actions.BLOCK,
       label: I18n.t('ACTIONS_LABELS.BLOCK'),
       reasons,
       permission: permissions.USER_PROFILE.BLOCK,
-    },
-    {
-      action: actions.SUSPEND,
-      label: I18n.t('ACTIONS_LABELS.SELF_EXCLUSION'),
-      reasons: selfExclusionReasons,
-      permission: permissions.USER_PROFILE.SUSPEND,
-    },
-    {
-      action: actions.MANUAL_COOLOFF,
-      label: I18n.t('ACTIONS_LABELS.MANUAL_COOLOFF'),
-      permission: permissions.USER_PROFILE.SUSPEND,
     },
   ],
   [statuses.BLOCKED]: [
@@ -165,53 +139,17 @@ const statusActions = {
       permission: permissions.USER_PROFILE.UNBLOCK,
     },
   ],
-  [statuses.SUSPENDED]: [
-    {
-      action: actions.PROLONG,
-      label: I18n.t('ACTIONS_LABELS.PROLONG'),
-      reasons,
-      permission: permissions.USER_PROFILE.PROLONG,
-    },
-    {
-      action: actions.REMOVE,
-      label: I18n.t('ACTIONS_LABELS.REMOVE'),
-      reasons,
-      permission: permissions.USER_PROFILE.REMOVE,
-    },
-  ],
-  [statuses.PERMANENT_SUSPENDED]: [
-    {
-      action: actions.REMOVE,
-      label: I18n.t('ACTIONS_LABELS.REMOVE'),
-      reasons,
-      permission: permissions.USER_PROFILE.REMOVE,
-    },
-  ],
-  [statuses.COOLOFF]: [
-    {
-      action: actions.REMOVE,
-      label: I18n.t('ACTIONS_LABELS.RESUME'),
-      reasons,
-      permission: permissions.USER_PROFILE.REMOVE,
-    },
-  ],
 };
+
 const statusColorNames = {
   [statuses.ACTIVE]: 'color-success',
   [statuses.INACTIVE]: 'color-warning',
   [statuses.BLOCKED]: 'color-danger',
-  [statuses.SUSPENDED]: 'color-secondary',
-  [statuses.COOLOFF]: 'color-info',
-  [statuses.MANUAL_COOLOFF]: 'color-secondary',
 };
-const manualCoolOffReason = I18n.t('common.status.reasons.suspend.manual_cooloff');
+
 const actionsLabels = {
   [actions.BLOCK]: I18n.t('ACTIONS_LABELS.BLOCK'),
   [actions.UNBLOCK]: I18n.t('ACTIONS_LABELS.UNBLOCK'),
-  [actions.SUSPEND]: I18n.t('ACTIONS_LABELS.SUSPEND'),
-  [actions.REMOVE]: I18n.t('ACTIONS_LABELS.REMOVE'),
-  [actions.PROLONG]: I18n.t('ACTIONS_LABELS.PROLONG'),
-  [actions.MANUAL_COOLOFF]: I18n.t('ACTIONS_LABELS.MANUAL_COOLOFF'),
 };
 
 export {
@@ -225,6 +163,5 @@ export {
   filterLabels,
   unblockReasons,
   reasons,
-  manualCoolOffReason,
   actionsLabels,
 };
