@@ -237,7 +237,7 @@ class Profile extends Component {
       initialValues: { aquisitionStatus: type },
       header: I18n.t('CLIENT_PROFILE.MODALS.REPRESENTATIVE_UPDATE.HEADER', { type: type.toLowerCase() }),
       additionalFields: [moveField],
-      onSuccess: () => refetch(),
+      onSuccess: () => refetch({ fetchPolicy: 'network-only' }),
     });
   };
 
@@ -252,7 +252,7 @@ class Profile extends Component {
     } = this.props;
 
     if (!playerProfile.isLoading && !profile.isLoading) {
-      await playerProfile.refetch();
+      await playerProfile.refetch({ fetchPolicy: 'network-only' });
       await fetchProfile(params.id);
       await pinnedNotes.refetch();
       await fetchFiles(params.id);
