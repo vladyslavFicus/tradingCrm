@@ -3,8 +3,8 @@
 .feed-item {
   display: flex;
   align-items: flex-start;
-  margin-top: 10px;
-  margin-bottom: 20px;
+  padding: 10px 0;
+  border-bottom: solid 1px #eee;
   &__content-wrapper {
     flex: 1;
   }
