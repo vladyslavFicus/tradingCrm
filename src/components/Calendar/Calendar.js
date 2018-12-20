@@ -1,8 +1,8 @@
 import React, { PureComponent } from 'react';
-import BigCalendar, { Views } from 'react-big-calendar';
+import BigCalendar, { Views } from '@hrzn/react-big-calendar';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import 'react-big-calendar/lib/css/react-big-calendar.css';
+import '@hrzn/react-big-calendar/lib/css/react-big-calendar.css';
 import Toolbar from './components/Toolbar';
 
 const localizer = BigCalendar.momentLocalizer(moment);

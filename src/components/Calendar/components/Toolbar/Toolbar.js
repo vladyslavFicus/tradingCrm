@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { Navigate } from 'react-big-calendar';
+import { Navigate } from '@hrzn/react-big-calendar';
 import classNames from 'classnames';
 import './Toolbar.scss';
 

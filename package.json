@@ -21,6 +21,7 @@
   "author": "nassoft",
   "license": "MIT",
   "dependencies": {
+    "@hrzn/react-big-calendar": "^0.20.3",
     "@newage/backoffice_ui": "0.0.52",
     "@newage/backoffice_utils": "0.0.32",
     "@newage/react-hoc": "^0.0.7",
@@ -64,7 +65,6 @@
     "react": "^16.3.2",
     "react-addons-update": "^15.6.2",
     "react-apollo": "^2.1.3",
-    "react-big-calendar": "https://github.com/valeryq/react-big-calendar.git#master",
     "react-bootstrap": "0.32.1",
     "react-copy-to-clipboard": "^5.0.0",
     "react-custom-scrollbars": "^4.2.1",
