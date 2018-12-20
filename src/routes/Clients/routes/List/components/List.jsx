@@ -11,7 +11,7 @@ import GridView, { GridViewColumn } from '../../../../../components/GridView';
 import Placeholder from '../../../../../components/Placeholder';
 import withPlayerClick from '../../../../../utils/withPlayerClick';
 import { getUsersByBranch } from '../../../../../graphql/queries/hierarchy';
-import getColumns from './utils';
+import { columns } from './attributes';
 
 class List extends Component {
   static propTypes = {
@@ -443,7 +443,7 @@ class List extends Component {
             showNoResults={!loading && entities.content.length === 0}
             onRowClick={this.handlePlayerClick}
           >
-            {getColumns(I18n, auth, fetchPlayerMiniProfile)
+            {columns(I18n, auth, fetchPlayerMiniProfile)
               .map(({ name, header, render }) => (
                 <GridViewColumn
                   key={name}

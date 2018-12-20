@@ -3,6 +3,7 @@ import { omitBy, isNil } from 'lodash';
 import { InputField, DateTimeField, NasSelectField } from '../../components/ReduxForm';
 import normalizeBoolean from '../../utils/normalizeBoolean';
 import normalizeNumber from '../../utils/normalizeNumber';
+import { floatNormalize } from '../../utils/inputNormalize';
 
 export const fieldTypes = keyMirror({
   INPUT: null,
@@ -25,6 +26,7 @@ export const components = {
 export const normalize = {
   NUMBER: normalizeNumber,
   BOOLEAN: normalizeBoolean,
+  FLOAT: floatNormalize,
 };
 
 export const fieldClassNames = {
@@ -37,12 +39,13 @@ export const getValidationRules = fields => omitBy(fields
   .reduce((acc, {
     name,
     type,
+    inputType,
     fields: rangeFields,
     multiple,
   }) => {
     switch (type) {
       case (fieldTypes.INPUT): {
-        return { ...acc, [name]: 'string' };
+        return { ...acc, [name]: inputType === 'number' ? 'numeric' : 'string' };
       }
 
       case (fieldTypes.SELECT): {

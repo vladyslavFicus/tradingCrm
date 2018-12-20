@@ -18,6 +18,7 @@ class ListFilters extends Component {
     onReset: PropTypes.func.isRequired,
     currentValues: PropTypes.object,
     invalid: PropTypes.bool,
+    change: PropTypes.func.isRequired,
     fields: PropTypes.array.isRequired,
   };
 
@@ -46,6 +47,12 @@ class ListFilters extends Component {
       : true;
   };
 
+  handleSelectFieldChange = fieldName => (value) => {
+    const { change } = this.props;
+
+    this.props.onFieldChange(fieldName, value, change);
+  }
+
   handleReset = () => {
     this.props.reset();
     this.props.onReset();
@@ -61,6 +68,7 @@ class ListFilters extends Component {
         label,
         className,
         placeholder,
+        disabled,
         // input props
         inputType,
         inputAddon,
@@ -69,9 +77,11 @@ class ListFilters extends Component {
         multiple,
         withAnyOption,
         selectOptions,
+        onFieldChange,
         // date props
         dateValidator,
         pickerClassName,
+        closeOnSelect,
         // rangeProps
         fields: rangeFields,
       }) => {
@@ -80,6 +90,7 @@ class ListFilters extends Component {
           ...label && { label },
           ...className && { className },
           ...placeholder && { placeholder },
+          ...disabled && { disabled },
         };
         let filter = null;
 
@@ -105,6 +116,7 @@ class ListFilters extends Component {
                 {...commonProps}
                 component={components.SELECT}
                 multiple={multiple}
+                {...onFieldChange && { onFieldChange: this.handleSelectFieldChange(name) }}
                 {...withAnyOption
                   ? { withAnyOption }
                   : (!multiple && { withAnyOption: true })
@@ -136,6 +148,7 @@ class ListFilters extends Component {
                 {...commonProps}
                 utc
                 component={components.DATE}
+                {...(typeof closeOnSelect === 'boolean') && { closeOnSelect }}
                 {...dateValidator && { isValidDate }}
                 {...pickerClassName && { pickerClassName }}
               />
