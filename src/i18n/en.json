@@ -3111,13 +3111,9 @@
     "MANUAL_COOLOFF": "Manual Cooloff"
   },
   "STATUSES_LABELS": {
-    "INACTIVE": "Inactive",
-    "ACTIVE": "Active",
-    "BLOCKED": "Blocked",
-    "SUSPENDED": "Suspended",
-    "COOLOFF": "Cool off",
-    "SELF_EXCLUDED": "Self excluded",
-    "MANUAL_COOLOFF": "Manual Cooloff"
+    "INACTIVE": "Email Not Verified",
+    "ACTIVE": "Email Verified",
+    "BLOCKED": "Blocked"
   },
   "CALLBACKS": {
     "CALLBACKS": "Callbacks",
