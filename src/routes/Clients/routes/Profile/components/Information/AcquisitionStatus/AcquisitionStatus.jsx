@@ -1,14 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { I18n } from 'react-redux-i18n';
-import { connect } from 'react-redux';
-import { departments } from '../../../../../../../constants/brands';
+import Permissions from 'utils/permissions';
+import permissions from 'config/permissions';
 import transformAcquisitionData from './constants';
 import './AcquisitionStatus.scss';
 
+const changeAcquisitionStatus = new Permissions([permissions.USER_PROFILE.CHANGE_ACQUISITION_STATUS]);
+
 const AcquisitionStatus = (
-  { acquisitionData, loading, auth: { isAdministration } },
-  { triggerRepresentativeUpdateModal }
+  { acquisitionData, loading },
+  { triggerRepresentativeUpdateModal, permissions: currentPermissions }
 ) => (
   <div className="account-details__personal-info">
     <span className="account-details__label">
@@ -22,7 +24,11 @@ const AcquisitionStatus = (
               <div
                 key={label}
                 className={`acquisition-item border-${borderColor || 'color-neutral'}`}
-                onClick={isAdministration ? triggerRepresentativeUpdateModal(modalType) : null}
+                onClick={
+                  changeAcquisitionStatus.check(currentPermissions)
+                    ? triggerRepresentativeUpdateModal(modalType)
+                    : null
+                }
               >
                 <div className="status-col">
                   <div>{I18n.t(label)}</div>
@@ -45,21 +51,11 @@ const AcquisitionStatus = (
 AcquisitionStatus.propTypes = {
   acquisitionData: PropTypes.object.isRequired,
   loading: PropTypes.bool.isRequired,
-  auth: PropTypes.shape({
-    isAdministration: PropTypes.bool.isRequired,
-  }).isRequired,
 };
 
 AcquisitionStatus.contextTypes = {
   triggerRepresentativeUpdateModal: PropTypes.func.isRequired,
+  permissions: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
-const mapStateToProps = ({
-  auth: { department },
-}) => ({
-  auth: {
-    isAdministration: department === departments.ADMINISTRATION,
-  },
-});
-
-export default connect(mapStateToProps)(AcquisitionStatus);
+export default AcquisitionStatus;
