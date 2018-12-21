@@ -1,7 +1,7 @@
 const path = require('path');
 const ymlReader = require('yamljs');
-const { v4 } = require('uuid');
 const fetchBrandsConfig = require('./utils/fetch-brands-config');
+const { version } = require('./utils/version');
 
 const {
   NAS_PROJECT,
@@ -15,14 +15,12 @@ if (!NAS_PROJECT) {
   throw new Error('Missing required environment variable "NAS_PROJECT"');
 }
 
-const APP_VERSION = NODE_ENV === 'development' ? 'dev' : v4();
-
 module.exports = async () => {
   const platformConfig = ymlReader.load(path.resolve(SECRET_PATH, `application-${NAS_PROJECT}.yml`));
   const brandsConfig = await fetchBrandsConfig({ zookeeperUrl: platformConfig.zookeeper.url });
 
   const config = {
-    version: APP_VERSION,
+    version,
     apiRoot: API_ROOT || platformConfig.hrzn.api_url,
     graphqlRoot: GRAPHQL_ROOT || `${platformConfig.hrzn.api_url}/forex_graphql/gql`,
     brands: brandsConfig,
@@ -33,7 +31,7 @@ module.exports = async () => {
     config.sentry = {
       dsn: 'https://a3cff5493c3a4d0dbead367f8d01e700@sentry.io/1358381',
       options: {
-        release: APP_VERSION,
+        release: version,
         environment: NAS_PROJECT,
         ignoreErrors: ['Submit Validation Failed'],
       },
