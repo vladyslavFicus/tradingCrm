@@ -7,9 +7,9 @@
     "compile": "node build/scripts/compile",
     "build": "cross-env NODE_ENV=production npm run compile",
     "start": "cross-env NODE_ENV=development npm run start:dev",
-    "start:dev": "cross-env APP_ENV=development node build/scripts/start",
-    "start:staging": "cross-env APP_ENV=staging node build/scripts/start",
-    "start:production": "cross-env APP_ENV=production node build/scripts/start",
+    "start:dev": "cross-env APP_ENV=development node server/start",
+    "start:staging": "cross-env APP_ENV=staging node server/start",
+    "start:production": "cross-env APP_ENV=production node server/start",
     "test": "cross-env NODE_ENV=test karma start build/karma.config",
     "test:jenkins": "cross-env NODE_ENV=test karma start build/karma.config --reporter jenkins",
     "test:watch": "npm test -- --watch",
@@ -101,6 +101,7 @@
     "whatwg-fetch": "^2.0.3"
   },
   "devDependencies": {
+    "@hrzn/zookeeper": "^1.0.3-alpha.40",
     "autoprefixer": "^8.5.2",
     "babel-core": "^6.26.0",
     "babel-eslint": "8.2.3",
@@ -191,6 +192,7 @@
     "webpack-enhanced-brand-loader": "^1.2.1",
     "webpack-hot-middleware": "^2.22.2",
     "webpack-merge": "^4.1.2",
+    "yamljs": "^0.3.0",
     "yargs": "11.0.0"
   }
 }

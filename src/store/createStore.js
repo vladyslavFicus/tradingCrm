@@ -90,7 +90,7 @@ export default (initialState = {}, onComplete) => {
     let { language } = store.getState();
 
     if (!language) {
-      language = config.nas.locale.defaultLanguage;
+      language = 'en';
     }
 
     if (logged && token) {
