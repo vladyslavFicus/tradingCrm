@@ -1,10 +1,15 @@
 import React from 'react';
 import { I18n } from 'react-redux-i18n';
 import keyMirror from 'keymirror';
-import { fieldTypes, fieldClassNames, normalize, validators } from '../../../../../../components/ListFilterForm';
 import { statusesLabels, filterLabels } from '../../../../../../constants/user';
 import { salesStatuses } from '../../../../../../constants/salesStatuses';
 import { retentionStatuses } from '../../../../../../constants/retentionStatuses';
+import {
+  fieldTypes,
+  fieldClassNames,
+  normalize,
+  validators,
+} from '../../../../../../components/ReduxForm/ReduxFieldsConstructor';
 
 const acquisitionStatuses = [{
   value: 'SALES',

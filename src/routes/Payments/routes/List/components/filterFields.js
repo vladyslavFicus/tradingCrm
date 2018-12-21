@@ -1,7 +1,12 @@
 import React from 'react';
 import { uniq } from 'lodash';
 import { I18n } from 'react-redux-i18n';
-import { fieldTypes, fieldClassNames, normalize, validators } from '../../../../../components/ListFilterForm';
+import {
+  fieldTypes,
+  fieldClassNames,
+  normalize,
+  validators,
+} from '../../../../../components/ReduxForm/ReduxFieldsConstructor';
 import {
   methods,
   methodsLabels,
@@ -120,13 +125,15 @@ export default currencies => [{
   label: I18n.t(attributeLabels.amount),
   fields: [{
     type: fieldTypes.INPUT,
+    inputType: 'number',
     name: 'amountFrom',
-    normalize: normalize.NUMBER,
+    normalize: normalize.FLOAT,
     placeholder: '0.00',
   }, {
     type: fieldTypes.INPUT,
+    inputType: 'number',
     name: 'amountTo',
-    normalize: normalize.NUMBER,
+    normalize: normalize.FLOAT,
     placeholder: '0.00',
   }],
 }, {

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { get, flatten, omitBy, isEmpty } from 'lodash';
+import { get, flatten } from 'lodash';
 import { I18n } from 'react-redux-i18n';
 import PropTypes from '../../../../../constants/propTypes';
 import { statusMapper } from '../../../../../constants/payment';
@@ -76,10 +76,10 @@ class View extends Component {
   };
 
   handleFiltersChanged = (data = {}) => {
-    const filters = omitBy({ ...data }, isEmpty);
+    const filters = { ...data };
     let statuses = null;
 
-    if (Array.isArray(filters.statuses) && filters.statuses.length > 0) {
+    if (Array.isArray(filters.statuses)) {
       statuses = flatten(filters.statuses.map(item => statusMapper[item]));
     }
 

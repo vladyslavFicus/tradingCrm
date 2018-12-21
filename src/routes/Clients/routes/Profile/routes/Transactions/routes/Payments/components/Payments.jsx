@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { SubmissionError } from 'redux-form';
-import { get, flatten, omitBy, isEmpty } from 'lodash';
+import { get, flatten } from 'lodash';
 import PropTypes from '../../../../../../../../../constants/propTypes';
 import GridView, { GridViewColumn } from '../../../../../../../../../components/GridView';
 import { targetTypes } from '../../../../../../../../../constants/note';
@@ -146,17 +146,16 @@ class Payments extends Component {
   };
 
   handleFiltersChanged = (data = {}) => {
-    const filters = omitBy({ ...data }, isEmpty);
     let statuses = null;
 
-    if (Array.isArray(filters.statuses) && filters.statuses.length > 0) {
-      statuses = flatten(filters.statuses.map(item => statusMapper[item]));
+    if (Array.isArray(data.statuses)) {
+      statuses = flatten(data.statuses.map(item => statusMapper[item]));
     }
 
     history.replace({
       query: {
         filters: {
-          ...filters,
+          ...data,
           ...statuses && { statuses },
         },
       },

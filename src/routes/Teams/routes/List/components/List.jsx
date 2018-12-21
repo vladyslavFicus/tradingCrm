@@ -106,7 +106,7 @@ class List extends Component {
 
   renderTeam = ({ team: { name, uuid } }) => (
     <Fragment>
-      <div className="font-weight-700">
+      <div className="font-weight-700 cursor-pointer">
         {name}
       </div>
       <div className="font-size-11">

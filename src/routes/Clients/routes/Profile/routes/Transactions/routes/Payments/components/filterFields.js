@@ -6,7 +6,7 @@ import {
   fieldClassNames,
   normalize,
   validators,
-} from '../../../../../../../../../components/ListFilterForm';
+} from '../../../../../../../../../components/ReduxForm/ReduxFieldsConstructor';
 import {
   methods,
   methodsLabels,
@@ -108,12 +108,14 @@ export default [{
   fields: [{
     type: fieldTypes.INPUT,
     name: 'amountFrom',
-    normalize: normalize.NUMBER,
+    inputType: 'number',
+    normalize: normalize.FLOAT,
     placeholder: '0.00',
   }, {
     type: fieldTypes.INPUT,
     name: 'amountTo',
-    normalize: normalize.NUMBER,
+    inputType: 'number',
+    normalize: normalize.FLOAT,
     placeholder: '0.00',
   }],
 }, {
