@@ -35,9 +35,7 @@ const leadsQuery = gql`query getLeads(
         brandId
         name
         surname
-        phoneNumber
         phone
-        mobileNumber
         mobile
         status
         email
@@ -72,9 +70,7 @@ const leadProfileQuery = gql`query getLeadProfile(
       brandId
       name
       surname
-      phoneNumber
       phone
-      mobileNumber
       mobile
       status
       email
