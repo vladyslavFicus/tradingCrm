@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import StickyWrapper from '../StickyWrapper';
 
 const TabHeader = ({ title, children }) => (
-  <StickyWrapper top=".heading-fixed">
+  <StickyWrapper top={124}>
     <div className={classNames('tab-header', { 'row no-gutters': children })}>
       <div className={classNames('tab-header__title', { col: children })}>
         {title}

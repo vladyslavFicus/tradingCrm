@@ -5,7 +5,7 @@ import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { reduxForm, Field } from 'redux-form';
 import { InputField } from '../../../../../../../../../../components/ReduxForm';
 import { createValidator, translateLabels } from '../../../../../../../../../../utils/validator';
-import config from '../../../../../../../../../../config';
+import { getActiveBrandConfig } from '../../../../../../../../../../config';
 import attributeLabels from './constants';
 
 class TradingAccountChangePasswordModal extends PureComponent {
@@ -102,7 +102,7 @@ class TradingAccountChangePasswordModal extends PureComponent {
 export default reduxForm({
   form: 'tradingAccountChangePassword',
   validate: createValidator({
-    password: ['required', `regex:${config.nas.validation.password}`],
+    password: ['required', `regex:${getActiveBrandConfig().password.pattern}`],
     repeatPassword: [
       'required',
       'same:password',
