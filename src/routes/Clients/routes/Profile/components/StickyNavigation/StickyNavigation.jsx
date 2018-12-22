@@ -4,7 +4,7 @@ import PropTypes from '../../../../../../constants/propTypes';
 import StickyWrapper from '../../../../../../components/StickyWrapper';
 
 const StickyNavigation = ({ links, children }) => (
-  <StickyWrapper top={124}>
+  <StickyWrapper top=".heading-fixed">
     <div className="row no-gutters tab-header">
       <TabHeaderNav links={links} />
       <div className="col-auto">
