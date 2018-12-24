@@ -14,7 +14,6 @@ const Personal = ({
     birthDate,
     gender,
     phone,
-    phoneCode,
     email,
     country,
     city,
@@ -36,7 +35,16 @@ const Personal = ({
           <If condition={!loading}>
             <PersonalInformationItem
               label={I18n.t('LEAD_PROFILE.DETAILS.DATE_OF_BIRTH')}
-              value={moment.utc(birthDate).local().format('DD.MM.YYYY')}
+              value={
+                <Choose>
+                  <When condition={birthDate}>
+                    {moment.utc(birthDate).local().format('DD.MM.YYYY')}
+                  </When>
+                  <Otherwise>
+                    <span>&mdash;</span>
+                  </Otherwise>
+                </Choose>
+              }
             />
             <PersonalInformationItem
               label={I18n.t('LEAD_PROFILE.DETAILS.GENDER')}
@@ -44,7 +52,7 @@ const Personal = ({
             />
             <PersonalInformationItem
               label={I18n.t('LEAD_PROFILE.DETAILS.PHONE')}
-              value={`+${phoneCode}${phone}`}
+              value={phone}
             />
             <PersonalInformationItem
               label={I18n.t('LEAD_PROFILE.DETAILS.EMAIL')}
@@ -54,11 +62,16 @@ const Personal = ({
               label={I18n.t('LEAD_PROFILE.DETAILS.COUNTRY')}
               className="lead-country"
               value={
-                <Fragment>
-                  <Flag height={10} code={getCountryCode(country)} />
-                  {' '}
-                  {countryList[country.toUpperCase()]}
-                </Fragment>
+                <Choose>
+                  <When condition={country}>
+                    <Flag height={10} code={getCountryCode(country)} />
+                    {' '}
+                    {countryList[country.toUpperCase()]}
+                  </When>
+                  <Otherwise>
+                    <span>&mdash;</span>
+                  </Otherwise>
+                </Choose>
               }
             />
             <PersonalInformationItem

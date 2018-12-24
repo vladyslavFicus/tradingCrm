@@ -41,7 +41,10 @@ const leadsQuery = gql`query getLeads(
         email
         country
         source
-        salesAgent
+        salesAgent {
+          fullName
+          uuid
+        }
         salesStatus
         birthDate
         affiliate
@@ -76,7 +79,10 @@ const leadProfileQuery = gql`query getLeadProfile(
       email
       country
       source
-      salesAgent
+      salesAgent {
+        fullName
+        uuid
+      }
       salesStatus
       birthDate
       affiliate

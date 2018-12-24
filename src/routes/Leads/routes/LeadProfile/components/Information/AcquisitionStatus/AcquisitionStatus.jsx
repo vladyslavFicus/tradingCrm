@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import { salesStatuses, salesStatusesColor } from '../../../../../../../constants/salesStatuses';
 import './AcquisitionStatus.scss';
 
-const AcquisitionStatus = ({ data: { salesStatus, salesAgent }, loading }) => (
+const AcquisitionStatus = ({ data: { salesStatus, salesAgent }, loading }) => console.log('salesAgent', salesAgent) || (
   <div className="account-details__personal-info">
     <span className="account-details__label">
       {I18n.t('CLIENT_PROFILE.CLIENT.ACQUISITION.TITLE')}
@@ -16,13 +16,29 @@ const AcquisitionStatus = ({ data: { salesStatus, salesAgent }, loading }) => (
           <div className="acquisition-item">
             <div className="status-col">
               <div>{I18n.t('CLIENT_PROFILE.CLIENT.ACQUISITION.SALES')}</div>
-              <div className={classNames('status', salesStatusesColor[salesStatus])}>
-                {I18n.t(salesStatuses[salesStatus])}
-              </div>
+              <Choose>
+                <When condition={salesStatus}>
+                  <div className={classNames('status', salesStatusesColor[salesStatus])}>
+                    {I18n.t(salesStatuses[salesStatus])}
+                  </div>
+                </When>
+                <Otherwise>
+                  <span>&mdash;</span>
+                </Otherwise>
+              </Choose>
             </div>
             <div className="operator-col">
               <div>Sales DK</div>
-              <div className="name">{salesAgent}</div>
+              <div className="name">
+                <Choose>
+                  <When condition={salesAgent}>
+                    {salesAgent.fullName}
+                  </When>
+                  <Otherwise>
+                    <span>&mdash;</span>
+                  </Otherwise>
+                </Choose>
+              </div>
             </div>
           </div>
         </If>
@@ -34,7 +50,10 @@ const AcquisitionStatus = ({ data: { salesStatus, salesAgent }, loading }) => (
 AcquisitionStatus.propTypes = {
   data: PropTypes.shape({
     salesStatus: PropTypes.string,
-    salesAgent: PropTypes.string,
+    salesAgent: PropTypes.shape({
+      fullName: PropTypes.string,
+      uuid: PropTypes.string,
+    }),
   }),
   loading: PropTypes.bool.isRequired,
 };
