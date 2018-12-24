@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import { salesStatuses, salesStatusesColor } from '../../../../../../../constants/salesStatuses';
 import './AcquisitionStatus.scss';
 
-const AcquisitionStatus = ({ data: { salesStatus, salesAgent }, loading }) => console.log('salesAgent', salesAgent) || (
+const AcquisitionStatus = ({ data: { salesStatus, salesAgent }, loading }) => (
   <div className="account-details__personal-info">
     <span className="account-details__label">
       {I18n.t('CLIENT_PROFILE.CLIENT.ACQUISITION.TITLE')}
