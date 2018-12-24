@@ -11,7 +11,6 @@ const Personal = (props) => {
     data: {
       birthDate,
       gender,
-      phoneNumber,
       email,
       country,
       address,
@@ -22,6 +21,7 @@ const Personal = (props) => {
       city,
       affiliateId,
       btag,
+      tradingProfile,
     },
   } = props;
 
@@ -44,7 +44,7 @@ const Personal = (props) => {
           />
           <PersonalInformationItem
             label="Phone"
-            value={phoneNumber}
+            value={tradingProfile ? tradingProfile.phone1 : ''}
             verified={phoneNumberVerified}
           />
           <PersonalInformationItem
