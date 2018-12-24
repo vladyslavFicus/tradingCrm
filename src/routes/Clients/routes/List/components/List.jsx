@@ -154,15 +154,11 @@ class List extends Component {
     }));
   };
 
-  handleFilterReset = () => {
-    const registrationDateFrom = moment().startOf('day').utc().format();
-
-    this.setState({
-      allRowsSelected: false,
-      selectedRows: [],
-      touchedRowsIds: [],
-    }, () => history.replace({ query: { filters: { registrationDateFrom } } }));
-  };
+  handleFilterReset = () => this.setState({
+    allRowsSelected: false,
+    selectedRows: [],
+    touchedRowsIds: [],
+  }, () => history.replace({ query: null }));
 
   handlePlayerClick = (data) => {
     this.props.onPlayerClick({ ...data, auth: this.props.auth });
