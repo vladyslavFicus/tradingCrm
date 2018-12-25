@@ -297,47 +297,17 @@ const clientsProfileBulkUpdate = gql`mutation profileBulkUpdate(
 
 const updateMutation = gql`mutation update(
   $playerUUID: String!,
-  $firstName: String,
-  $lastName: String,
-  $gender: String,
-  $birthDate: String,
-  #  $languageCode: String,
-  $identifier: String,
-  $city: String,
-  $postCode: String,
-  $address: String,
-  $country: String,
   $phone1: String,
   $phone2: String,
 ){
   profile {
     update(
       playerUUID: $playerUUID,
-      firstName: $firstName,
-      lastName: $lastName,
-      gender: $gender,
-      birthDate: $birthDate,
-      #      languageCode: $languageCode,
-      identifier: $identifier,
-      city: $city,
-      postCode: $postCode,
-      address: $address,
-      country: $country,
       phone1: $phone1,
       phone2: $phone2,
     ) {
       data {
         playerUUID
-        firstName
-        lastName
-        gender
-        birthDate
-        #        languageCode
-        identifier
-        city
-        postCode
-        address
-        country
         tradingProfile {
           phone1
           phone2

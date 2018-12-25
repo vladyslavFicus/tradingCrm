@@ -139,7 +139,6 @@ export default compose(
     form: FORM_NAME,
     validate: createValidator({
       phone1: 'required|numeric',
-      phone2: 'required|numeric',
     }, attributeLabels, false),
     enableReinitialize: true,
   }),
