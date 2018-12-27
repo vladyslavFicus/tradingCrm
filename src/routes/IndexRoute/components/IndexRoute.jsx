@@ -30,11 +30,10 @@ class IndexRoute extends PureComponent {
     location: PropTypes.shape({
       search: PropTypes.string,
     }).isRequired,
-    isAdministration: PropTypes.bool.isRequired,
   };
 
   render() {
-    const { logged, location, isAdministration } = this.props;
+    const { logged, location } = this.props;
     const search = parse(location.search, {
       ignoreQueryPrefix: true,
     });
@@ -62,18 +61,16 @@ class IndexRoute extends PureComponent {
           <AppRoute path="/leads" layout={MainLayout} component={Leads} checkAuth />
           <AppRoute path="/callbacks" layout={MainLayout} component={Callbacks} checkAuth />
           <AppRoute path="/hierarchy" layout={MainLayout} component={Hierarchy} checkAuth />
-          <If condition={isAdministration}>
-            <AppRoute path="/operators" layout={MainLayout} component={Operators} checkAuth />
-            <AppRoute path="/offices" layout={MainLayout} component={Offices} checkAuth />
-            <AppRoute path="/desks" layout={MainLayout} component={Desks} checkAuth />
-            <AppRoute path="/teams" layout={MainLayout} component={Teams} checkAuth />
-          </If>
+          <AppRoute path="/operators" layout={MainLayout} component={Operators} checkAuth checkAdmin />
+          <AppRoute path="/offices" layout={MainLayout} component={Offices} checkAuth checkAdmin />
+          <AppRoute path="/desks" layout={MainLayout} component={Desks} checkAuth checkAdmin />
+          <AppRoute path="/teams" layout={MainLayout} component={Teams} checkAuth checkAdmin />
           <Route path="/logout" component={Logout} />
           {/* Public */}
           <AppRoute path="/sign-in" layout={BlackLayout} component={SignIn} />
           <AppRoute path="/set-password" layout={BlackLayout} component={SetPassword} />
           <AppRoute path="/reset-password" layout={BlackLayout} component={ResetPassword} />
-          <AppRoute component={NotFound} checkAuth={logged} />
+          <Route component={NotFound} />
         </Switch>
       </CoreLayout>
     );

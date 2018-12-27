@@ -90,7 +90,13 @@ class Route extends Component {
 
   render() {
     const {
-      disableScroll, checkAuth, logged, checkService, ...props
+      disableScroll,
+      checkAuth,
+      checkAdmin,
+      isAdministration,
+      logged,
+      checkService,
+      ...props
     } = this.props;
 
     if (!this.isValidPermissions) {
@@ -99,6 +105,10 @@ class Route extends Component {
 
     if (checkAuth && !logged) {
       return <Redirect to={{ pathname: '/sign-in', search: `returnUrl=${props.location.pathname}` }} />;
+    }
+
+    if (checkAdmin && !isAdministration) {
+      return <Redirect to="/not-found" />;
     }
 
     if (this.routeService && !checkService(this.routeService)) {
