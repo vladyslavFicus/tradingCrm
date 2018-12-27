@@ -8,7 +8,6 @@ const ContactForm = ({
   disabled,
   profile,
   contactData,
-  phoneCodes,
   onSubmitPhone,
   onSubmitEmail,
   onVerifyPhoneClick,
@@ -18,14 +17,11 @@ const ContactForm = ({
     <PhoneForm
       disabled={disabled}
       profile={profile}
-      phoneCodes={phoneCodes}
       onSubmit={onSubmitPhone}
       onVerifyPhoneClick={onVerifyPhoneClick}
       initialValues={{
-        phone: contactData.phone,
-        phoneCode: contactData.phoneCode,
+        phone1: contactData.phone1,
         phone2: contactData.phone2,
-        phoneCode2: contactData.phoneCode2,
       }}
     />
     <EmailForm
@@ -51,11 +47,9 @@ ContactForm.propTypes = {
   contactData: PropTypes.shape({
     phoneCode: PropTypes.string,
     phone: PropTypes.string,
-    phoneCode2: PropTypes.string,
     phone2: PropTypes.string,
     email: PropTypes.string,
   }),
-  phoneCodes: PropTypes.arrayOf(PropTypes.string).isRequired,
   onVerifyPhoneClick: PropTypes.func.isRequired,
   onVerifyEmailClick: PropTypes.func.isRequired,
   disabled: PropTypes.bool,

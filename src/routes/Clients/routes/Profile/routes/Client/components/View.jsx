@@ -125,8 +125,10 @@ class View extends Component {
     return action;
   };
 
-  handleUpdatePhone = async (data) => {
-    const { match: { params }, updatePhone } = this.props;
+  handleUpdatePhone = async () => {
+    // will be rewritten soon |> use data as input func param <|
+
+    /* const { match: { params }, updatePhone } = this.props;
     const { phone, phoneCode, phone2, phoneCode2 } = data;
 
     const action = await updatePhone(params.id, { phone, phoneCode, phone2, phoneCode2 });
@@ -139,7 +141,7 @@ class View extends Component {
           ${action.error ? I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY') : I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
       });
     }
-    return action;
+    return action; */
   };
 
   handleUpdateEmail = async (data) => {
@@ -455,7 +457,6 @@ class View extends Component {
                 <div className="card-body">
                   <ContactForm
                     profile={data}
-                    phoneCodes={metaData.phoneCodes}
                     contactData={contactData}
                     onSubmitPhone={this.handleUpdatePhone}
                     onSubmitEmail={this.handleUpdateEmail}
