@@ -54,7 +54,7 @@ class SkypeForm extends PureComponent {
             label={attributeLabels.skype}
             type="text"
             component={InputField}
-            position="vertical"
+            disabled
             className="col-8"
           />
         </div>

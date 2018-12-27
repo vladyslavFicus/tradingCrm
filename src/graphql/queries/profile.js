@@ -74,6 +74,8 @@ const clientQuery = gql`query profileData($playerUUID: String!){
       isTest
       registrationDate
       tradingProfile {
+        phone1
+        phone2
         margin
         marginLevel
         isTestUser
