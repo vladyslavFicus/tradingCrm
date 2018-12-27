@@ -1,3 +1,3 @@
 @Library("casino_jenkins") _
 
-yarnStaticPipeline()
+yarnStaticPipeline promoteTo: 'hrzn03_dev'
