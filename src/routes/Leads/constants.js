@@ -1,19 +1,20 @@
+import { statuses } from 'constants/leads';
 import I18n from '../../utils/fake-i18n';
 
 const leadStatuses = {
-  NEW: {
+  [statuses.NEW]: {
     label: I18n.t(I18n.t('LEADS.STATUSES.NEW')),
     color: 'color-info',
   },
-  NEVER_ANSWER: {
+  [statuses.NEVER_ANSWER]: {
     label: I18n.t('LEADS.STATUSES.NEVER_ANSWER'),
     color: 'color-danger',
   },
-  VOICE_MAIL: {
+  [statuses.VOICE_MAIL]: {
     label: I18n.t('LEADS.STATUSES.VOICE_MAIL'),
     color: 'color-warning',
   },
-  CONVERTED: {
+  [statuses.CONVERTED]: {
     label: I18n.t('LEADS.STATUSES.CONVERTED'),
     color: 'color-success',
   },

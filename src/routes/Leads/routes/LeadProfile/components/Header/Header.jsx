@@ -1,6 +1,7 @@
 import React from 'react';
 import moment from 'moment';
 import { I18n } from 'react-redux-i18n';
+import { statuses } from 'constants/leads';
 import Uuid from '../../../../../../components/Uuid';
 import PropTypes from '../../../../../../constants/propTypes';
 import PopoverButton from '../../../../../../components/PopoverButton';
@@ -33,14 +34,16 @@ const Header = ({
         </div>
       </ProfileHeaderPlaceholder>
       <div className="col-auto panel-heading-row__actions">
-        <PopoverButton
-          id="lead-promote-to-client"
-          className="btn btn-sm btn-default-outline"
-          onClick={onPromoteLeadClick}
-          disabled={loading || !!id}
-        >
-          {I18n.t('LEAD_PROFILE.HEADER.PROMOTE_TO_CLIENT')}
-        </PopoverButton>
+        <If condition={status && status !== statuses.CONVERTED}>
+          <PopoverButton
+            id="lead-promote-to-client"
+            className="btn btn-sm btn-default-outline"
+            onClick={onPromoteLeadClick}
+            disabled={loading}
+          >
+            {I18n.t('LEAD_PROFILE.HEADER.PROMOTE_TO_CLIENT')}
+          </PopoverButton>
+        </If>
       </div>
     </div>
     <div className="layout-quick-overview">
