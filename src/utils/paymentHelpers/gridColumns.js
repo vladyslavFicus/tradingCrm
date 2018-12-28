@@ -7,9 +7,10 @@ import GridPaymentInfo from '../../components/GridPaymentInfo';
 import Uuid from '../../components/Uuid';
 import GridPlayerInfo from '../../components/GridPlayerInfo';
 import CountryLabelWithFlag from '../../components/CountryLabelWithFlag';
-import FailedStatusIcon from '../../components/FailedStatusIcon';
+import FailedStatusContainer from '../../routes/Payments/routes/List/container/FailedStatusContainer';
 import {
-  statuses,
+  statusMapper,
+  tradingTypes,
   methodsLabels,
   tradingTypesLabelsWithColor,
   manualPaymentMethodsLabels,
@@ -193,17 +194,18 @@ export default ({
 }, {
   name: 'status',
   header: I18n.t('CONSTANTS.TRANSACTIONS.GRID_COLUMNS.STATUS'),
-  render: ({ status, paymentId, reason, creationTime, createdBy }) => {
+  render: ({ status, paymentId, creationTime, createdBy, paymentType }) => {
     const { color, label } = getTradingStatusProps(status);
-
     return (
       <div>
         <div className={classNames(color, 'font-weight-700 text-uppercase status')}>
           {label}
-          <If condition={(status === statuses.FAILED || status === statuses.REJECTED) && !!reason}>
-            <FailedStatusIcon id={`transaction-failure-reason-${paymentId}`}>
-              {reason}
-            </FailedStatusIcon>
+          <If condition={paymentType === tradingTypes.DEPOSIT && statusMapper.FAILED.indexOf(status) !== -1}>
+            <FailedStatusContainer
+              id={`transaction-failure-reason-${paymentId}`}
+              paymentId={paymentId}
+              uuid={playerInfo.auth.uuid}
+            />
           </If>
         </div>
         <div className="font-size-11">

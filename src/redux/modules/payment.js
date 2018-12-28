@@ -1,4 +1,4 @@
-import { CALL_API } from 'redux-api-middleware';
+import { CALL_API, getJSON } from 'redux-api-middleware';
 
 function changePaymentStatus(type) {
   return ({ action, playerUUID, paymentId, options = {} }) => (dispatch, getState) => {
@@ -43,7 +43,13 @@ function fetchPaymentStatuses(type) {
             type: type.REQUEST,
             meta: { id },
           },
-          type.SUCCESS,
+          {
+            type: type.SUCCESS,
+            payload: (action, state, res) => getJSON(res).then(json => ({
+              ...json[0],
+              paymentId: id,
+            })),
+          },
           type.FAILURE,
         ],
         bailout: !logged,

@@ -10,6 +10,7 @@ import players, {
   actionTypes as playersActionTypes,
   actionCreators as playersActionCreators,
 } from './players';
+import paymentStatusMessages from './paymentStatusMessages';
 
 const initialState = {
   transactions: transactionsInitialState,
@@ -37,4 +38,5 @@ export {
 export default combineReducers({
   transactions,
   players,
+  paymentStatusMessages,
 });

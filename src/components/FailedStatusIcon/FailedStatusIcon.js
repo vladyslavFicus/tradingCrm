@@ -1,30 +1,57 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { UncontrolledTooltip } from '../Reactstrap/Uncontrolled';
+import { Tooltip } from 'reactstrap';
 
-const FailedStatusIcon = ({ id, children, showTimeout, hideTimeout, iconClassName }) => (
-  <span className="failed-status-icon">
-    <i id={id} className={iconClassName} />
-    <UncontrolledTooltip
-      placement="bottom"
-      target={id}
-      delay={{ show: showTimeout, hide: hideTimeout }}
-    >
-      {children}
-    </UncontrolledTooltip>
-  </span>
-);
-FailedStatusIcon.propTypes = {
-  id: PropTypes.string.isRequired,
-  children: PropTypes.oneOfType([PropTypes.string, PropTypes.element]).isRequired,
-  showTimeout: PropTypes.number,
-  hideTimeout: PropTypes.number,
-  iconClassName: PropTypes.string,
-};
-FailedStatusIcon.defaultProps = {
-  iconClassName: 'transaction-failed-icon',
-  showTimeout: 350,
-  hideTimeout: 250,
-};
+class FailedStatusIcon extends Component {
+  static propTypes = {
+    id: PropTypes.string.isRequired,
+    children: PropTypes.oneOfType([PropTypes.string, PropTypes.element]).isRequired,
+    showTimeout: PropTypes.number,
+    hideTimeout: PropTypes.number,
+    iconClassName: PropTypes.string,
+    onOpen: PropTypes.func,
+  };
+
+  static defaultProps = {
+    iconClassName: 'transaction-failed-icon',
+    showTimeout: 350,
+    hideTimeout: 250,
+    onOpen: null,
+  };
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      tooltipOpen: false,
+    };
+  }
+
+  toggle = () => {
+    if (this.props.onOpen && !this.state.tooltipOpen) {
+      this.props.onOpen();
+    }
+    this.setState({
+      tooltipOpen: !this.state.tooltipOpen,
+    });
+  }
+
+  render() {
+    const { id, children, showTimeout, hideTimeout, iconClassName } = this.props;
+    return (
+      <span className="failed-status-icon">
+        <i id={id} className={iconClassName} />
+        <Tooltip
+          placement="bottom"
+          target={id}
+          isOpen={this.state.tooltipOpen}
+          delay={{ show: showTimeout, hide: hideTimeout }}
+          toggle={this.toggle}
+        >
+          {children}
+        </Tooltip>
+      </span>
+    );
+  }
+}
 
 export default FailedStatusIcon;
