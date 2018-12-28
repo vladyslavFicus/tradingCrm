@@ -4,10 +4,10 @@ import { compose } from 'redux';
 import { I18n } from 'react-redux-i18n';
 import { Field, reduxForm, getFormSyncErrors, getFormValues } from 'redux-form';
 import PropTypes from '../../../../../../../../constants/propTypes';
+import { InputField, SelectField } from '../../../../../../../../components/ReduxForm';
+import PermissionContent from '../../../../../../../../components/PermissionContent/PermissionContent';
 import { createValidator } from '../../../../../../../../utils/validator';
-import { InputField } from '../../../../../../../../components/ReduxForm';
-// import PermissionContent from '../../../../../../../../components/PermissionContent/PermissionContent';
-// import permissions from '../../../../../../../../config/permissions';
+import permissions from '../../../../../../../../config/permissions';
 
 const FORM_NAME = 'updateProfilePhone';
 const attributeLabels = {
@@ -17,8 +17,6 @@ const attributeLabels = {
   AltPhoneCode: I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.LABEL.YOUR_ALT_PHONE'),
 };
 
-// ----------- ALL COMMENTS IN THIS FILE - IS TEMPORARY FAST FIX ----------- //
-
 class PhoneForm extends Component {
   static propTypes = {
     handleSubmit: PropTypes.func,
@@ -26,7 +24,7 @@ class PhoneForm extends Component {
     dirty: PropTypes.bool,
     submitting: PropTypes.bool,
     valid: PropTypes.bool,
-    // profile: PropTypes.userProfile.isRequired,
+    profile: PropTypes.userProfile.isRequired,
     initialValues: PropTypes.shape({
       phone1: PropTypes.string,
       phone2: PropTypes.string,
@@ -36,7 +34,7 @@ class PhoneForm extends Component {
       phone2: PropTypes.string,
     }),
     onVerifyPhoneClick: PropTypes.func.isRequired,
-    // formSyncErrors: PropTypes.object,
+    formSyncErrors: PropTypes.object,
     disabled: PropTypes.bool,
   };
   static defaultProps = {
@@ -46,7 +44,7 @@ class PhoneForm extends Component {
     valid: true,
     initialValues: {},
     currentValues: {},
-    // formSyncErrors: {},
+    formSyncErrors: {},
     disabled: false,
   };
 
@@ -59,22 +57,22 @@ class PhoneForm extends Component {
   render() {
     const {
       handleSubmit,
-      onSubmit,
-      disabled,
       dirty,
       submitting,
       valid,
-      // initialValues,
-      // currentValues,
-      // formSyncErrors,
-      // profile,
+      disabled,
+      initialValues,
+      currentValues,
+      formSyncErrors,
+      profile,
+      onSubmit,
     } = this.props;
 
-    // const isPhoneDirty = currentValues.phone !== initialValues.phone ||
-    //   currentValues.phoneCode !== initialValues.phoneCode;
+    const isPhoneDirty = currentValues.phone !== initialValues.phone ||
+      currentValues.phoneCode !== initialValues.phoneCode;
 
-    // const isPhoneValid = !formSyncErrors.phone && !formSyncErrors.phoneCode;
-    // const isPhoneVerifiable = isPhoneValid && (isPhoneDirty || !profile.phoneNumberVerified);
+    const isPhoneValid = !formSyncErrors.phone && !formSyncErrors.phoneCode;
+    const isPhoneVerifiable = isPhoneValid && (isPhoneDirty || !profile.phoneNumberVerified);
 
     return (
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -96,10 +94,9 @@ class PhoneForm extends Component {
             type="text"
             component={InputField}
             label={attributeLabels.phone}
-            disabled
-            className="col-8"
+            disabled={disabled}
+            className="col-5"
           />
-          { /*
           <If condition={isPhoneVerifiable}>
             <PermissionContent permissions={permissions.USER_PROFILE.VERIFY_PHONE}>
               <div className="col-4 mt-4">
@@ -116,7 +113,6 @@ class PhoneForm extends Component {
               </button>
             </div>
           </If>
-          */ }
         </div>
         <div className="form-row">
           <Field
@@ -124,9 +120,9 @@ class PhoneForm extends Component {
             name="phone2"
             component={InputField}
             label={attributeLabels.AltPhone}
-            disabled
+            disabled={disabled}
             placeholder={attributeLabels.AltPhoneCode}
-            className="col-8"
+            className="col-5"
           />
         </div>
       </form>
@@ -143,7 +139,6 @@ export default compose(
     form: FORM_NAME,
     validate: createValidator({
       phone1: 'required|numeric',
-      phone2: 'numeric',
     }, attributeLabels, false),
     enableReinitialize: true,
   }),

@@ -45,8 +45,7 @@ ContactForm.propTypes = {
   onSubmitEmail: PropTypes.func.isRequired,
   profile: PropTypes.userProfile.isRequired,
   contactData: PropTypes.shape({
-    phoneCode: PropTypes.string,
-    phone: PropTypes.string,
+    phone1: PropTypes.string,
     phone2: PropTypes.string,
     email: PropTypes.string,
   }),

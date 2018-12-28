@@ -68,11 +68,6 @@ class View extends Component {
       postCode: PropTypes.string,
       address: PropTypes.string,
     }).isRequired,
-    contactData: PropTypes.shape({
-      email: PropTypes.string,
-      phoneCode: PropTypes.string,
-      phone: PropTypes.string,
-    }).isRequired,
     meta: PropTypes.meta.isRequired,
     verifyPhone: PropTypes.func.isRequired,
     verifyEmail: PropTypes.func.isRequired,
@@ -84,6 +79,7 @@ class View extends Component {
     verifyKycAll: PropTypes.func.isRequired,
     fetchKycReasons: PropTypes.func.isRequired,
     canUpdateProfile: PropTypes.bool,
+    profileUpdate: PropTypes.func.isRequired,
   };
   static contextTypes = {
     addNotification: PropTypes.func.isRequired,
@@ -125,23 +121,18 @@ class View extends Component {
     return action;
   };
 
-  handleUpdatePhone = async () => {
-    // will be rewritten soon |> use data as input func param <|
+  handleUpdatePhone = async (data) => {
+    const response = await this.props.profileUpdate({ variables: data });
 
-    /* const { match: { params }, updatePhone } = this.props;
-    const { phone, phoneCode, phone2, phoneCode2 } = data;
-
-    const action = await updatePhone(params.id, { phone, phoneCode, phone2, phoneCode2 });
-
-    if (action) {
+    if (response) {
       this.context.addNotification({
-        level: action.error ? 'error' : 'success',
+        level: response.error ? 'error' : 'success',
         title: I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.TITLE'),
         message: `${I18n.t('COMMON.ACTIONS.UPDATED')}
-          ${action.error ? I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY') : I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
+          ${response.error ? I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY') : I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
       });
     }
-    return action; */
+    return response;
   };
 
   handleUpdateEmail = async (data) => {
@@ -403,14 +394,29 @@ class View extends Component {
       },
       personalData,
       addressData,
-      contactData,
       locale,
       canUpdateProfile,
+      playerProfile: {
+        loading,
+      },
     } = this.props;
 
-    if (!receivedAt) {
+    if (!receivedAt || loading) {
       return null;
     }
+
+    const {
+      playerProfile: {
+        playerProfile: {
+          data: {
+            tradingProfile: {
+              phone1,
+              phone2,
+            },
+          },
+        },
+      },
+    } = this.props;
 
     return (
       <Fragment>
@@ -457,7 +463,7 @@ class View extends Component {
                 <div className="card-body">
                   <ContactForm
                     profile={data}
-                    contactData={contactData}
+                    contactData={{ phone1, phone2, email: data.email }}
                     onSubmitPhone={this.handleUpdatePhone}
                     onSubmitEmail={this.handleUpdateEmail}
                     onVerifyPhoneClick={this.handleVerifyPhone}

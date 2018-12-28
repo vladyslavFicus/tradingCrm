@@ -1,8 +1,11 @@
 import { connect } from 'react-redux';
+import { graphql, compose } from 'react-apollo';
 import View from '../components/View';
 import { actionCreators as profileActionCreators } from '../../../modules';
 import { actionCreators as filesActionCreators } from '../../../modules/files';
 import { statuses as kycStatuses } from '../../../../../../../constants/kyc';
+import { updateMutation } from '../../../../../../../graphql/mutations/profile';
+import { clientQuery } from '../../../../../../../graphql/queries/profile';
 import { getApiRoot } from '../../../../../../../config';
 import Permissions from '../../../../../../../utils/permissions';
 import permissions from '../../../../../../../config/permissions';
@@ -16,7 +19,6 @@ const mapStateToProps = ({
   options,
 }) => {
   const {
-    email,
     title,
     firstName,
     lastName,
@@ -28,10 +30,7 @@ const mapStateToProps = ({
     postCode,
     address,
     languageCode,
-    tradingProfile,
   } = profile.data;
-
-  const { phone1, phone2 } = tradingProfile || {};
 
   return {
     profile,
@@ -41,7 +40,6 @@ const mapStateToProps = ({
     addressData: {
       country, city, postCode, address,
     },
-    contactData: { email, phone1, phone2 },
     canRefuseAll: (
       (profile.data.kycPersonalStatus && profile.data.kycPersonalStatus.status === kycStatuses.VERIFIED) ||
       (profile.data.kycAddressStatus && profile.data.kycAddressStatus.status === kycStatuses.VERIFIED)
@@ -74,4 +72,24 @@ const mapActions = {
   fetchKycReasons: profileActionCreators.fetchKycReasons,
 };
 
-export default connect(mapStateToProps, mapActions)(View);
+export default compose(
+  connect(mapStateToProps, mapActions),
+  graphql(updateMutation, {
+    name: 'profileUpdate',
+    options: ({ match: { params: { id: playerUUID } } }) => ({ variables: { playerUUID } }),
+  }),
+  graphql(clientQuery, {
+    options: ({
+      match: {
+        params: {
+          id: playerUUID,
+        },
+      },
+    }) => ({
+      variables: {
+        playerUUID,
+      },
+    }),
+    name: 'playerProfile',
+  }),
+)(View);

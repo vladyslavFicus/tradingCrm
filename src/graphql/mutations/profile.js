@@ -295,6 +295,31 @@ const clientsProfileBulkUpdate = gql`mutation profileBulkUpdate(
   }
 }`;
 
+const updateMutation = gql`mutation update(
+  $playerUUID: String!,
+  $phone1: String,
+  $phone2: String,
+){
+  profile {
+    update(
+      playerUUID: $playerUUID,
+      phone1: $phone1,
+      phone2: $phone2,
+    ) {
+      data {
+        playerUUID
+        tradingProfile {
+          phone1
+          phone2
+        }
+      }
+      error {
+        error
+      }
+    }
+  }
+}`;
+
 export {
   updateSubscription,
   blockMutation,
@@ -309,4 +334,5 @@ export {
   markIsTestMutation,
   clientsBulkRepresentativeUpdate,
   clientsProfileBulkUpdate,
+  updateMutation,
 };

@@ -43,8 +43,7 @@ class LeadProfile extends Component {
         refetch,
         leadProfile: {
           data: {
-            phoneCode,
-            phoneNumber,
+            phone,
             city,
             brandId,
           },
@@ -58,14 +57,17 @@ class LeadProfile extends Component {
     const { data: { leads: { promote: { data, error } } } } = await promoteLead({
       variables: {
         ...values,
-        phone: phoneNumber,
-        phoneCode,
+        phone,
         city,
         brandId,
       },
     });
 
     if (error) {
+      if (!error.fields_errors) {
+        throw new SubmissionError({ _error: error.error });
+      }
+
       const formError = Object
         .entries(error.fields_errors)
         .map(([key, { error: err }]) => `${key}: ${err}`);
@@ -80,7 +82,7 @@ class LeadProfile extends Component {
         message: I18n.t('LEADS.SUCCESS_PROMOTED', { id: data.playerUUID }),
       });
     }
-  }
+  };
 
   triggerLeadModal = () => {
     const {
