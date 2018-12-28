@@ -31,6 +31,7 @@ const leadsQuery = gql`query getLeads(
       totalElements
       number
       content {
+        _id
         id
         brandId
         name
@@ -69,6 +70,7 @@ const leadProfileQuery = gql`query getLeadProfile(
       fields_errors
     }
     data {
+      _id
       id
       brandId
       name

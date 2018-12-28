@@ -49,11 +49,7 @@ export default compose(
     }) => ({
       notifyOnNetworkStatusChange: true,
       variables: {
-        ...query
-          ? query.filters
-          : {
-            registrationDateStart: moment().startOf('day').utc().format(moment.HTML5_FMT.DATETIME_LOCAL_SECONDS),
-          },
+        ...query && query.filters,
         page: 0,
         limit: 10,
       },
