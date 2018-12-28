@@ -201,9 +201,12 @@ class List extends Component {
     } = this.props;
 
     const { allRowsSelected, selectedRows, touchedRowsIds } = this.state;
+    console.log('OBJECT', { allRowsSelected, selectedRows, touchedRowsIds });
     const ids = allRowsSelected
       ? touchedRowsIds.map(index => content[index].playerUUID)
       : selectedRows;
+
+      console.log('ids', ids);
 
     representativeModal.show({
       type,

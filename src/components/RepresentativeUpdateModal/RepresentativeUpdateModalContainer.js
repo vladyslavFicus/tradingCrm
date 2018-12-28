@@ -7,6 +7,7 @@ import { salesStatusValues } from '../../constants/salesStatuses';
 import { retentionStatusValues } from '../../constants/retentionStatuses';
 import { userTypes } from '../../constants/hierarchyTypes';
 import { clientsBulkRepresentativeUpdate } from '../../graphql/mutations/profile';
+import { bulkLeadUpdate } from '../../graphql/mutations/leads';
 import { getHierarchyUsersByType, getUserBranchHierarchy } from '../../graphql/queries/hierarchy';
 import { withNotifications } from '../HighOrder';
 import RepresentativeUpdateModal from './RepresentativeUpdateModal';
@@ -22,6 +23,9 @@ export default compose(
   connect(mapStateToProps),
   graphql(clientsBulkRepresentativeUpdate, {
     name: 'bulkRepresentativeUpdate',
+  }),
+  graphql(bulkLeadUpdate, {
+    name: 'bulkLeadRepresentativeUpdate',
   }),
   graphql(getHierarchyUsersByType, {
     name: 'hierarchyUsers',

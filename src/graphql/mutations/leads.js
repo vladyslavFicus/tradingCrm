@@ -112,8 +112,45 @@ const bulkLeadPromote = gql`mutation promoteToClient(
   }
 }`;
 
+const bulkLeadUpdate = gql`mutation bulkLeadUpdate(
+  $leadIds: [String]!,
+  $operatorIds: [String],
+  $allRecords: Boolean,
+  $countries: [String],
+  $searchKeyword: String,
+  $registrationDateEnd: String,
+  $registrationDateStart: String,
+  $salesStatus: tradingProfileSalesStatus,
+  $totalRecords: Int,
+) {
+  leads {
+    bulkLeadUpdate (
+      leadIds: $leadIds,
+      operatorIds: $operatorIds,
+      allRecords: $allRecords,
+      countries: $countries,
+      searchKeyword: $searchKeyword,
+      registrationDateEnd: $registrationDateEnd,
+      registrationDateStart: $registrationDateStart,
+      salesStatus: $salesStatus,
+      totalRecords: $totalRecords,
+    ) {
+      data
+      error {
+        error
+        fields_errors
+      }
+      errors {
+        error
+        fields_errors
+      }
+    }
+  }
+}`;
+
 export {
   updateLeadProfile,
   promoteLeadToClient,
   bulkLeadPromote,
+  bulkLeadUpdate,
 };

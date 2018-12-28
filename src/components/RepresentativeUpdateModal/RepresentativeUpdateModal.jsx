@@ -4,7 +4,7 @@ import { Field, SubmissionError } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
 import { get } from 'lodash';
 import PropTypes from '../../constants/propTypes';
-import { deskTypes } from '../../constants/hierarchyTypes';
+import { deskTypes, userTypes } from '../../constants/hierarchyTypes';
 import { salesStatuses, salesStatusValues } from '../../constants/salesStatuses';
 import { retentionStatuses, retentionStatusValues } from '../../constants/retentionStatuses';
 import { NasSelectField } from '../../components/ReduxForm';
@@ -204,48 +204,69 @@ class RepresentativeUpdateModal extends Component {
 
   handleUpdateRepresentative = async ({ teamId, repId, status, aquisitionStatus }) => {
     const {
-      notify,
-      onSuccess,
       ids,
       type,
-      bulkRepresentativeUpdate,
       props,
+      notify,
+      userType,
+      onSuccess,
       onCloseModal,
+      bulkRepresentativeUpdate,
+      bulkLeadRepresentativeUpdate,
     } = this.props;
 
     const { allRowsSelected, totalElements, searchParams } = props || {};
 
-    const { data: { clients: { bulkRepresentativeUpdate: { error } } } } = await bulkRepresentativeUpdate({
-      variables: {
-        ids,
-        teamId,
-        type,
-        allRowsSelected,
-        totalElements,
-        aquisitionStatus,
-        searchParams,
-        ...(type === deskTypes.SALES
-          ? { salesStatus: status, salesRep: repId }
-          : { retentionStatus: status, retentionRep: repId }),
-      },
-    });
-
-    if (error) {
-      notify({
-        level: 'error',
-        title: I18n.t('COMMON.BULK_UPDATE_FAILED'),
-        message: I18n.t('COMMON.SOMETHING_WRONG'),
+    if (userType === userTypes.LEAD_CUSTOMER) {
+      const woah = await bulkLeadRepresentativeUpdate({
+        variables: {
+          leadIds: ids,
+          teamId,
+          type,
+          allRowsSelected,
+          totalElements,
+          aquisitionStatus,
+          searchParams,
+          ...(type === deskTypes.SALES
+            ? { salesStatus: status, salesRep: repId }
+            : { retentionStatus: status, retentionRep: repId }),
+        },
       });
-    } else {
-      notify({
-        level: 'success',
-        title: I18n.t('COMMON.SUCCESS'),
-        message: type === deskTypes.SALES
-          ? I18n.t('CLIENTS.SALES_INFO_UPDATED')
-          : I18n.t('CLIENTS.RETENTION_INFO_UPDATED'),
-      });
-      onCloseModal();
+      console.log('DO IT', woah);
       onSuccess();
+    } else {
+      const { data: { clients: { bulkRepresentativeUpdate: { error } } } } = await bulkRepresentativeUpdate({
+        variables: {
+          ids,
+          teamId,
+          type,
+          allRowsSelected,
+          totalElements,
+          aquisitionStatus,
+          searchParams,
+          ...(type === deskTypes.SALES
+            ? { salesStatus: status, salesRep: repId }
+            : { retentionStatus: status, retentionRep: repId }),
+        },
+      });
+
+      if (error) {
+        notify({
+          level: 'error',
+          title: I18n.t('COMMON.BULK_UPDATE_FAILED'),
+          message: I18n.t('COMMON.SOMETHING_WRONG'),
+        });
+      } else {
+        notify({
+          level: 'success',
+          title: I18n.t('COMMON.SUCCESS'),
+          message: type === deskTypes.SALES
+            ? I18n.t('CLIENTS.SALES_INFO_UPDATED')
+            : I18n.t('CLIENTS.RETENTION_INFO_UPDATED'),
+        });
+        onCloseModal();
+        onSuccess();
+      }
     }
   }
 
