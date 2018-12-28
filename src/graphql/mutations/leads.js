@@ -25,7 +25,19 @@ const updateLeadProfile = gql`mutation updateLead(
       gender: $gender,
       city: $city,
     ) {
-      data
+      data {
+        _id
+        id
+        name
+        surname
+        phone
+        mobile
+        email
+        country
+        birthDate
+        gender
+        city
+      }
       error {
         error
         fields_errors
@@ -40,7 +52,7 @@ const promoteLeadToClient = gql`mutation promoteLead(
   $firstName: String!,
   $lastName: String!,
   $country: String!,
-  $city: String!,
+  $city: String,
   $phone: String!,
   $languageCode: String!,
 ) {

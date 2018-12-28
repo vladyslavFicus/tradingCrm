@@ -351,12 +351,6 @@ class List extends Component {
               </button>
               <button
                 className="btn btn-default-outline"
-                onClick={this.handlePromoteToClient}
-              >
-                {I18n.t('COMMON.PROMOTE_TO_CLIENT')}
-              </button>
-              <button
-                className="btn btn-default-outline"
               >
                 {I18n.t('COMMON.EXPORT_SELECTED')}
               </button>
