@@ -48,6 +48,7 @@ export default compose(
     options: ({
       location: { query },
     }) => ({
+      fetchPolicy: 'network-only',
       notifyOnNetworkStatusChange: true,
       variables: {
         ...query && query.filters,

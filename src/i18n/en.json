@@ -2872,6 +2872,7 @@
     "LEADS": "Leads",
     "LEADS_FOUND": "Leads found",
     "LEADS_SELECTED": "Leads selected",
+    "SALES_INFO_UPDATED": "Leads sales info updated",
     "GRID_HEADER": {
       "LEAD": "Lead",
       "COUNTRY": "Country",

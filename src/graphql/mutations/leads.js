@@ -113,27 +113,25 @@ const bulkLeadPromote = gql`mutation promoteToClient(
 }`;
 
 const bulkLeadUpdate = gql`mutation bulkLeadUpdate(
-  $leadIds: [String]!,
-  $operatorIds: [String],
-  $allRecords: Boolean,
-  $countries: [String],
-  $searchKeyword: String,
-  $registrationDateEnd: String,
-  $registrationDateStart: String,
-  $salesStatus: tradingProfileSalesStatus,
-  $totalRecords: Int,
+  $teamId: String,
+  $salesRep: String
+  $salesStatus: String,
+  $type: String!,
+  $allRowsSelected: Boolean,
+  $ids: [String],
+  $totalElements: Int,
+  $searchParams: LeadSearchParams,
 ) {
   leads {
     bulkLeadUpdate (
-      leadIds: $leadIds,
-      operatorIds: $operatorIds,
-      allRecords: $allRecords,
-      countries: $countries,
-      searchKeyword: $searchKeyword,
-      registrationDateEnd: $registrationDateEnd,
-      registrationDateStart: $registrationDateStart,
+      teamId: $teamId,
+      salesRep: $salesRep
       salesStatus: $salesStatus,
-      totalRecords: $totalRecords,
+      type: $type,
+      allRowsSelected: $allRowsSelected,
+      ids: $ids,
+      totalElements: $totalElements,
+      searchParams: $searchParams,
     ) {
       data
       error {

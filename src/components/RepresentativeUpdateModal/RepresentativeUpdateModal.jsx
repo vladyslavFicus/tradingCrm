@@ -200,7 +200,7 @@ class RepresentativeUpdateModal extends Component {
         this.props.change('teamId', teams[0].uuid);
       }
     });
-  }
+  };
 
   handleUpdateRepresentative = async ({ teamId, repId, status, aquisitionStatus }) => {
     const {
@@ -217,58 +217,50 @@ class RepresentativeUpdateModal extends Component {
 
     const { allRowsSelected, totalElements, searchParams } = props || {};
 
+    const variables = {
+      ids,
+      teamId,
+      type,
+      allRowsSelected,
+      totalElements,
+      aquisitionStatus,
+      searchParams,
+      ...(type === deskTypes.SALES
+        ? { salesStatus: status, salesRep: repId }
+        : { retentionStatus: status, retentionRep: repId }),
+    };
+
+    let error = null;
+
     if (userType === userTypes.LEAD_CUSTOMER) {
-      const woah = await bulkLeadRepresentativeUpdate({
-        variables: {
-          leadIds: ids,
-          teamId,
-          type,
-          allRowsSelected,
-          totalElements,
-          aquisitionStatus,
-          searchParams,
-          ...(type === deskTypes.SALES
-            ? { salesStatus: status, salesRep: repId }
-            : { retentionStatus: status, retentionRep: repId }),
-        },
-      });
-      console.log('DO IT', woah);
-      onSuccess();
+      const response = await bulkLeadRepresentativeUpdate({ variables });
+
+      ({ error } = response.data.leads.bulkLeadUpdate);
     } else {
-      const { data: { clients: { bulkRepresentativeUpdate: { error } } } } = await bulkRepresentativeUpdate({
-        variables: {
-          ids,
-          teamId,
-          type,
-          allRowsSelected,
-          totalElements,
-          aquisitionStatus,
-          searchParams,
-          ...(type === deskTypes.SALES
-            ? { salesStatus: status, salesRep: repId }
-            : { retentionStatus: status, retentionRep: repId }),
-        },
+      const response = await bulkRepresentativeUpdate({ variables });
+
+      ({ error } = response.data.clients.bulkRepresentativeUpdate);
+    }
+
+    if (error) {
+      notify({
+        level: 'error',
+        title: I18n.t('COMMON.BULK_UPDATE_FAILED'),
+        message: I18n.t('COMMON.SOMETHING_WRONG'),
+      });
+    } else {
+      notify({
+        level: 'success',
+        title: I18n.t('COMMON.SUCCESS'),
+        message: userType === userTypes.LEAD_CUSTOMER
+          ? I18n.t(`LEADS.${type}_INFO_UPDATED`)
+          : I18n.t(`CLIENTS.${type}_INFO_UPDATED`),
       });
 
-      if (error) {
-        notify({
-          level: 'error',
-          title: I18n.t('COMMON.BULK_UPDATE_FAILED'),
-          message: I18n.t('COMMON.SOMETHING_WRONG'),
-        });
-      } else {
-        notify({
-          level: 'success',
-          title: I18n.t('COMMON.SUCCESS'),
-          message: type === deskTypes.SALES
-            ? I18n.t('CLIENTS.SALES_INFO_UPDATED')
-            : I18n.t('CLIENTS.RETENTION_INFO_UPDATED'),
-        });
-        onCloseModal();
-        onSuccess();
-      }
+      onCloseModal();
+      onSuccess();
     }
-  }
+  };
 
   render() {
     const {

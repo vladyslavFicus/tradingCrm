@@ -226,12 +226,9 @@ class List extends Component {
     } = this.props;
 
     const { allRowsSelected, selectedRows, touchedRowsIds } = this.state;
-    console.log('OBJECT', { allRowsSelected, selectedRows, touchedRowsIds });
     const ids = allRowsSelected
       ? touchedRowsIds.map(index => content[index].id)
       : selectedRows;
-
-    console.log('ids', ids);
 
     representativeModal.show({
       userType: userTypes.LEAD_CUSTOMER,
@@ -253,8 +250,8 @@ class List extends Component {
   };
 
   handleSuccessUpdateRepresentative = () => {
-    console.log('SUCCESS');
-  }
+    this.props.leads.refetch();
+  };
 
   renderLead = data => (
     <div id={data.id}>
