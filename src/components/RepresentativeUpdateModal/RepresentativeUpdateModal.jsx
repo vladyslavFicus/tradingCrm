@@ -4,7 +4,7 @@ import { Field, SubmissionError } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
 import { get } from 'lodash';
 import PropTypes from '../../constants/propTypes';
-import { deskTypes } from '../../constants/hierarchyTypes';
+import { deskTypes, userTypes } from '../../constants/hierarchyTypes';
 import { salesStatuses, salesStatusValues } from '../../constants/salesStatuses';
 import { retentionStatuses, retentionStatusValues } from '../../constants/retentionStatuses';
 import { NasSelectField } from '../../components/ReduxForm';
@@ -200,35 +200,47 @@ class RepresentativeUpdateModal extends Component {
         this.props.change('teamId', teams[0].uuid);
       }
     });
-  }
+  };
 
   handleUpdateRepresentative = async ({ teamId, repId, status, aquisitionStatus }) => {
     const {
-      notify,
-      onSuccess,
       ids,
       type,
-      bulkRepresentativeUpdate,
       props,
+      notify,
+      userType,
+      onSuccess,
       onCloseModal,
+      bulkRepresentativeUpdate,
+      bulkLeadRepresentativeUpdate,
     } = this.props;
 
     const { allRowsSelected, totalElements, searchParams } = props || {};
 
-    const { data: { clients: { bulkRepresentativeUpdate: { error } } } } = await bulkRepresentativeUpdate({
-      variables: {
-        ids,
-        teamId,
-        type,
-        allRowsSelected,
-        totalElements,
-        aquisitionStatus,
-        searchParams,
-        ...(type === deskTypes.SALES
-          ? { salesStatus: status, salesRep: repId }
-          : { retentionStatus: status, retentionRep: repId }),
-      },
-    });
+    const variables = {
+      ids,
+      teamId,
+      type,
+      allRowsSelected,
+      totalElements,
+      aquisitionStatus,
+      searchParams,
+      ...(type === deskTypes.SALES
+        ? { salesStatus: status, salesRep: repId }
+        : { retentionStatus: status, retentionRep: repId }),
+    };
+
+    let error = null;
+
+    if (userType === userTypes.LEAD_CUSTOMER) {
+      const response = await bulkLeadRepresentativeUpdate({ variables });
+
+      ({ error } = response.data.leads.bulkLeadUpdate);
+    } else {
+      const response = await bulkRepresentativeUpdate({ variables });
+
+      ({ error } = response.data.clients.bulkRepresentativeUpdate);
+    }
 
     if (error) {
       notify({
@@ -240,14 +252,15 @@ class RepresentativeUpdateModal extends Component {
       notify({
         level: 'success',
         title: I18n.t('COMMON.SUCCESS'),
-        message: type === deskTypes.SALES
-          ? I18n.t('CLIENTS.SALES_INFO_UPDATED')
-          : I18n.t('CLIENTS.RETENTION_INFO_UPDATED'),
+        message: userType === userTypes.LEAD_CUSTOMER
+          ? I18n.t(`LEADS.${type}_INFO_UPDATED`)
+          : I18n.t(`CLIENTS.${type}_INFO_UPDATED`),
       });
+
       onCloseModal();
       onSuccess();
     }
-  }
+  };
 
   render() {
     const {

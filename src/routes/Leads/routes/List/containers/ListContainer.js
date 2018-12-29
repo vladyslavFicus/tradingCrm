@@ -1,9 +1,9 @@
 import { connect } from 'react-redux';
 import { graphql, compose } from 'react-apollo';
-import moment from 'moment';
 import { get } from 'lodash';
 import Modal from '../../../../../components/Modal';
 import { withNotifications, withModals } from '../../../../../components/HighOrder';
+import RepresentativeUpdateModal from '../../../../../components/RepresentativeUpdateModal';
 import countries from '../../../../../utils/countryList';
 import { leadsQuery } from '../../../../../graphql/queries/leads';
 import { bulkLeadPromote } from '../../../../../graphql/mutations/leads';
@@ -34,6 +34,7 @@ export default compose(
   withModals({
     promoteInfoModal: Modal,
     leadsUploadModal: LeadsUploadModal,
+    representativeModal: RepresentativeUpdateModal,
   }),
   connect(mapStateToProps),
   graphql(leadCsvUpload, {
@@ -47,6 +48,7 @@ export default compose(
     options: ({
       location: { query },
     }) => ({
+      fetchPolicy: 'network-only',
       notifyOnNetworkStatusChange: true,
       variables: {
         ...query && query.filters,

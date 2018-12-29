@@ -8,12 +8,13 @@ import { TextRow } from 'react-placeholder/lib/placeholders';
 import LeadsGridFilter from './LeadsGridFilter';
 import history from '../../../../../router/history';
 import PropTypes from '../../../../../constants/propTypes';
+import { deskTypes, userTypes } from '../../../../../constants/hierarchyTypes';
+import { types as miniProfileTypes } from '../../../../../constants/miniProfile';
 import GridView, { GridViewColumn } from '../../../../../components/GridView';
 import Placeholder from '../../../../../components/Placeholder';
 import { salesStatuses, salesStatusesColor } from '../../../../../constants/salesStatuses';
 import Uuid from '../../../../../components/Uuid';
 import MiniProfile from '../../../../../components/MiniProfile';
-import { types as miniProfileTypes } from '../../../../../constants/miniProfile';
 import CountryLabelWithFlag from '../../../../../components/CountryLabelWithFlag';
 import { leadStatuses } from '../../../constants';
 
@@ -104,6 +105,35 @@ class List extends Component {
     history.push(`/leads/${id}`);
   };
 
+  handleSelectRow = (condition, index, touchedRowsIds) => {
+    const { leads: { leads: { data: { content } } } } = this.props;
+    const selectedRows = [...this.state.selectedRows];
+
+    if (condition) {
+      selectedRows.push(content[index].id);
+    } else {
+      selectedRows.splice(index, 1);
+    }
+
+    this.setState({
+      selectedRows,
+      touchedRowsIds,
+    });
+  };
+
+  handleAllRowsSelect = () => {
+    const { leads: { leads: { data: { totalElements } } } } = this.props;
+    const { allRowsSelected } = this.state;
+
+    this.setState({
+      allRowsSelected: !allRowsSelected,
+      touchedRowsIds: [],
+      selectedRows: allRowsSelected
+        ? []
+        : [...Array.from(Array(totalElements).keys())],
+    });
+  };
+
   handlePromoteToClient = async () => {
     const { allRowsSelected, selectedRows, touchedRowsIds } = this.state;
     const {
@@ -154,35 +184,6 @@ class List extends Component {
     }
   };
 
-  handleSelectRow = (condition, index, touchedRowsIds) => {
-    const { leads: { leads: { data: { content } } } } = this.props;
-    const selectedRows = [...this.state.selectedRows];
-
-    if (condition) {
-      selectedRows.push(content[index].id);
-    } else {
-      selectedRows.splice(index, 1);
-    }
-
-    this.setState({
-      selectedRows,
-      touchedRowsIds,
-    });
-  };
-
-  handleAllRowsSelect = () => {
-    const { leads: { leads: { data: { totalElements } } } } = this.props;
-    const { allRowsSelected } = this.state;
-
-    this.setState({
-      allRowsSelected: !allRowsSelected,
-      touchedRowsIds: [],
-      selectedRows: allRowsSelected
-        ? []
-        : [...Array.from(Array(totalElements).keys())],
-    });
-  };
-
   handleUploadCSV = async ([file]) => {
     const { notify, leads: { refetch }, auth: { isAdministration }, modals: { leadsUploadModal } } = this.props;
 
@@ -215,6 +216,41 @@ class List extends Component {
     this.props.modals.leadsUploadModal.show({
       onDropAccepted: this.handleUploadCSV,
     });
+  };
+
+  handleTriggerRepModal = () => {
+    const {
+      modals: { representativeModal },
+      location: { query },
+      leads: { leads: { data: { content, totalElements } } },
+    } = this.props;
+
+    const { allRowsSelected, selectedRows, touchedRowsIds } = this.state;
+    const ids = allRowsSelected
+      ? touchedRowsIds.map(index => content[index].id)
+      : selectedRows;
+
+    representativeModal.show({
+      userType: userTypes.LEAD_CUSTOMER,
+      type: deskTypes.SALES,
+      ids,
+      props: {
+        allRowsSelected,
+        totalElements,
+        ...query && { searchParams: { ...query.filters } },
+      },
+      onSuccess: this.handleSuccessUpdateRepresentative,
+      header: (
+        <Fragment>
+          <div>{I18n.t(`CLIENTS.MODALS.${deskTypes.SALES}_MODAL.HEADER`)}</div>
+          <div className="font-size-11 color-yellow">{selectedRows.length}{' '}{I18n.t('COMMON.LEADS_SELECTED')}</div>
+        </Fragment>
+      ),
+    });
+  };
+
+  handleSuccessUpdateRepresentative = () => {
+    this.props.leads.refetch();
   };
 
   renderLead = data => (
@@ -300,7 +336,7 @@ class List extends Component {
       touchedRowsIds,
     } = this.state;
 
-    const entities = get(this.props.leads, 'leads.data') || { content: [] };
+    const entities = get(leads, 'data') || { content: [] };
     const filters = get(query, 'filters', {});
 
     const allowActions = Object
@@ -346,6 +382,7 @@ class List extends Component {
               <span>Bulk actions</span>
               <button
                 className="btn btn-default-outline"
+                onClick={this.handleTriggerRepModal}
               >
                 {I18n.t('COMMON.SALES')}
               </button>
