@@ -1297,7 +1297,8 @@
           "AMOUNT_TO": "Amount to",
           "AMOUNT": "Amount",
           "CREATION_DATE_RANGE": "Creation date range",
-          "ACCOUNT_TYPE": "Account type"
+          "ACCOUNT_TYPE": "Account type",
+          "ORIGINAL_AGENT": "Original Agent"
         },
         "PAYMENT_ACCOUNTS": {
           "SYSTEM": "System",

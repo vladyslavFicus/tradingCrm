@@ -43,6 +43,7 @@ const reduxFieldsConstructor = (
         return null;
       }
 
+      let filter = null;
       const commonProps = {
         name,
         ...label && { label: I18n.t(label) },
@@ -50,7 +51,6 @@ const reduxFieldsConstructor = (
         ...placeholder && { placeholder: I18n.t(placeholder) },
         ...disabled && { disabled },
       };
-      let filter = null;
 
       switch (type) {
         case (fieldTypes.INPUT): {
@@ -120,7 +120,7 @@ const reduxFieldsConstructor = (
         case (fieldTypes.RANGE): {
           filter = (
             <RangeGroup
-              label={label}
+              label={I18n.t(label)}
               {...className && { className }}
             >
               {reduxFieldsConstructor(rangeFields, onSelectFieldChange, startDateValidator, endDateValidator)}

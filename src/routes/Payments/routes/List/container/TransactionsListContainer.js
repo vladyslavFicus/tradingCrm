@@ -4,6 +4,7 @@ import { get } from 'lodash';
 import { departments } from '../../../../../constants/brands';
 import { actionCreators as miniProfileActionCreators } from '../../../../../redux/modules/miniProfile';
 import { getClientPayments } from '../../../../../graphql/queries/payments';
+import { operatorsQuery } from '../../../../../graphql/queries/operators';
 import { actionCreators } from '../modules';
 import View from '../components/View';
 
@@ -31,6 +32,14 @@ const mapActions = {
 
 export default compose(
   connect(mapStateToProps, mapActions),
+  graphql(operatorsQuery, {
+    name: 'operators',
+    options: () => ({
+      variables: {
+        size: 2000,
+      },
+    }),
+  }),
   graphql(getClientPayments, {
     name: 'clientPayments',
     options: ({

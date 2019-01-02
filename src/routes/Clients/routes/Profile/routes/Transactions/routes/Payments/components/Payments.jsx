@@ -6,9 +6,8 @@ import GridView, { GridViewColumn } from '../../../../../../../../../components/
 import { targetTypes } from '../../../../../../../../../constants/note';
 import { statusMapper } from '../../../../../../../../../constants/payment';
 import history from '../../../../../../../../../router/history';
-import { columns } from '../../../../../../../../../utils/paymentHelpers';
+import { columns, filterFields } from '../../../../../../../../../utils/paymentHelpers';
 import ListFilterForm from '../../../../../../../../../components/ListFilterForm';
-import fields from './filterFields';
 
 class Payments extends Component {
   static propTypes = {
@@ -51,6 +50,13 @@ class Payments extends Component {
       loadMore: PropTypes.func.isRequired,
       clientPaymentsByUuid: PropTypes.shape({
         data: PropTypes.pageable(PropTypes.paymentEntity),
+        error: PropTypes.object,
+      }),
+    }).isRequired,
+    operators: PropTypes.shape({
+      loading: PropTypes.bool.isRequired,
+      operators: PropTypes.shape({
+        data: PropTypes.pageable(PropTypes.paymentOriginalAgent),
         error: PropTypes.object,
       }),
     }).isRequired,
@@ -230,17 +236,30 @@ class Payments extends Component {
         loading,
         clientPaymentsByUuid,
       },
+      operators: {
+        operators,
+        loading: operatorsLoading,
+      },
     } = this.props;
 
     const entities = get(clientPaymentsByUuid, 'data') || { content: [] };
     const error = get(clientPaymentsByUuid, 'error');
+
+    const originalAgents = get(operators, 'data.content') || [];
+    const disabledOriginalAgentField = get(operators, 'error') || operatorsLoading;
 
     return (
       <Fragment>
         <ListFilterForm
           onSubmit={this.handleFiltersChanged}
           onReset={this.handleFilterReset}
-          fields={fields}
+          fields={filterFields(
+            {
+              originalAgents,
+              disabledOriginalAgentField,
+            },
+            true,
+          )}
         />
 
         <div className="tab-wrapper">

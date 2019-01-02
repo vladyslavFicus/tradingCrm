@@ -15,6 +15,7 @@ const getClientPayments = gql`query getClientPayments(
   $creationTimeTo: String
   $amountFrom: String
   $amountTo: String
+  $agentIds: [String]
 ) {
   clientPayments (
     searchParam: $searchParam
@@ -31,6 +32,7 @@ const getClientPayments = gql`query getClientPayments(
     creationTimeTo: $creationTimeTo
     amountFrom: $amountFrom
     amountTo: $amountTo
+    agentIds: $agentIds
   ) {
     data {
       page
@@ -91,6 +93,7 @@ const getClientPaymentsByUuid = gql`query getClientPayments(
   $creationTimeTo: String
   $amountFrom: String
   $amountTo: String
+  $agentIds: [String]
 ) {
   clientPaymentsByUuid (
     playerUUID: $playerUUID
@@ -106,6 +109,7 @@ const getClientPaymentsByUuid = gql`query getClientPayments(
     creationTimeTo: $creationTimeTo
     amountFrom: $amountFrom
     amountTo: $amountTo
+    agentIds: $agentIds
   ) {
     data {
       page
