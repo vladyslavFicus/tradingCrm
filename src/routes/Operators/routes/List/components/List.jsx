@@ -5,6 +5,7 @@ import moment from 'moment';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import { I18n } from 'react-redux-i18n';
+import _ from 'lodash';
 import history from '../../../../../router/history';
 import GridView, { GridViewColumn } from '../../../../../components/GridView';
 import OperatorGridFilter from './OperatorGridFilter';
@@ -16,6 +17,7 @@ import Uuid from '../../../../../components/Uuid';
 import MiniProfile from '../../../../../components/MiniProfile';
 import { types as miniProfileTypes } from '../../../../../constants/miniProfile';
 import delay from '../../../../../utils/delay';
+import parseErrorsFromServer from '../../../../../utils/parseErrorsFromServer';
 
 class List extends Component {
   static propTypes = {
@@ -85,10 +87,12 @@ class List extends Component {
       onSubmitNewOperator, modals, addAuthority, notify,
     } = this.props;
     const action = await onSubmitNewOperator({ ...data, department, role });
-
-    if (action.error) {
-      throw new SubmissionError({ __error: action.payload });
+    const submitErrors = _.get(action.payload, 'response.fields_errors', null);
+    if (submitErrors) {
+      const errors = parseErrorsFromServer(submitErrors);
+      throw new SubmissionError(errors);
     }
+
 
     modals.createOperator.hide();
 

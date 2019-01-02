@@ -56,7 +56,6 @@ class CreateOperatorModal extends Component {
       isOpen,
       formValues,
     } = this.props;
-
     return (
       <Modal className="create-operator-modal" toggle={onCloseModal} isOpen={isOpen}>
         <ModalHeader toggle={onCloseModal}>{I18n.t('OPERATORS.MODALS.NEW_OPERATOR.TITLE')}</ModalHeader>
@@ -68,7 +67,7 @@ class CreateOperatorModal extends Component {
               label={I18n.t(attributeLabels.firstName)}
               component={InputField}
               position="vertical"
-              showErrorMessage={false}
+              showErrorMessage
               id="create-new-operator-first-name"
               className="col-md-6"
             />
@@ -78,7 +77,7 @@ class CreateOperatorModal extends Component {
               label={I18n.t(attributeLabels.lastName)}
               component={InputField}
               position="vertical"
-              showErrorMessage={false}
+              showErrorMessage
               id="create-new-operator-last-name"
               className="col-md-6"
             />
@@ -88,7 +87,7 @@ class CreateOperatorModal extends Component {
               label={I18n.t(attributeLabels.email)}
               component={InputField}
               position="vertical"
-              showErrorMessage={false}
+              showErrorMessage
               id="create-new-operator-email"
               className="col-md-6"
             />
@@ -98,7 +97,7 @@ class CreateOperatorModal extends Component {
               label={I18n.t(attributeLabels.phone)}
               component={InputField}
               position="vertical"
-              showErrorMessage={false}
+              showErrorMessage
               id="create-new-operator-phone"
               className="col-md-6"
             />

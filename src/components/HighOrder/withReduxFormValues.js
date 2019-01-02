@@ -21,6 +21,8 @@ function withReduxFormName(WrappedComponent) {
 export default function withReduxFormValues(WrappedComponent) {
   return compose(
     withReduxFormName,
-    connect((state, ownProps) => ({ formValues: getFormValues(ownProps.formName)(state) }))
+    connect((state, ownProps) => ({
+      formValues: getFormValues(ownProps.formName)(state),
+    }))
   )(WrappedComponent);
 }
