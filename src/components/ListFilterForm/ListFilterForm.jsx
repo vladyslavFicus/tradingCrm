@@ -1,12 +1,11 @@
-import React, { Component, Fragment } from 'react';
-import { getFormValues, reduxForm, Field } from 'redux-form';
+import React, { Component } from 'react';
+import { getFormValues, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
 import { I18n } from 'react-redux-i18n';
 import moment from 'moment';
 import PropTypes from '../../constants/propTypes';
-import { RangeGroup } from '../../components/ReduxForm';
 import { createValidator } from '../../utils/validator';
-import { fieldTypes, components, validators, getValidationRules } from './constants';
+import reduxFieldsConstructor, { getValidationRules } from '../ReduxForm/ReduxFieldsConstructor';
 
 class ListFilters extends Component {
   static propTypes = {
@@ -20,6 +19,7 @@ class ListFilters extends Component {
     invalid: PropTypes.bool,
     change: PropTypes.func.isRequired,
     fields: PropTypes.array.isRequired,
+    onFieldChange: PropTypes.func,
   };
 
   static defaultProps = {
@@ -29,6 +29,7 @@ class ListFilters extends Component {
     submitting: false,
     pristine: false,
     currentValues: null,
+    onFieldChange: () => {},
   };
 
   startDateValidator = fieldName => (current) => {
@@ -58,130 +59,6 @@ class ListFilters extends Component {
     this.props.onReset();
   };
 
-  renderFilterFields = fields => (!Array.isArray(fields)
-    ? null
-    : fields
-      .map(({
-        id,
-        type,
-        name,
-        label,
-        className,
-        placeholder,
-        disabled,
-        // input props
-        inputType,
-        inputAddon,
-        normalize,
-        // select props
-        multiple,
-        withAnyOption,
-        selectOptions,
-        onFieldChange,
-        // date props
-        dateValidator,
-        pickerClassName,
-        closeOnSelect,
-        // rangeProps
-        fields: rangeFields,
-      }) => {
-        const commonProps = {
-          name,
-          ...label && { label },
-          ...className && { className },
-          ...placeholder && { placeholder },
-          ...disabled && { disabled },
-        };
-        let filter = null;
-
-        switch (type) {
-          case (fieldTypes.INPUT): {
-            filter = (
-              <Field
-                {...commonProps}
-                id={id}
-                type={inputType || 'text'}
-                component={components.INPUT}
-                {...inputAddon && { inputAddon }}
-                {...normalize && { normalize }}
-              />
-            );
-
-            break;
-          }
-
-          case (fieldTypes.SELECT): {
-            filter = (
-              <Field
-                {...commonProps}
-                component={components.SELECT}
-                multiple={multiple}
-                {...onFieldChange && { onFieldChange: this.handleSelectFieldChange(name) }}
-                {...withAnyOption
-                  ? { withAnyOption }
-                  : (!multiple && { withAnyOption: true })
-                }
-              >
-                {selectOptions.map(({ value, label: optionLabel }) => (
-                  <option key={value} value={value}>
-                    {I18n.t(optionLabel)}
-                  </option>
-                ))}
-              </Field>
-            );
-
-            break;
-          }
-
-          case (fieldTypes.DATE): {
-            let isValidDate = null;
-
-            if (dateValidator.type === validators.START_DATE) {
-              isValidDate = this.startDateValidator(dateValidator.fieldName);
-            }
-
-            if (dateValidator.type === validators.END_DATE) {
-              isValidDate = this.endDateValidator(dateValidator.fieldName);
-            }
-            filter = (
-              <Field
-                {...commonProps}
-                utc
-                component={components.DATE}
-                {...(typeof closeOnSelect === 'boolean') && { closeOnSelect }}
-                {...dateValidator && { isValidDate }}
-                {...pickerClassName && { pickerClassName }}
-              />
-            );
-
-            break;
-          }
-
-          case (fieldTypes.RANGE): {
-            filter = (
-              <RangeGroup
-                label={label}
-                {...className && { className }}
-              >
-                {this.renderFilterFields(rangeFields)}
-              </RangeGroup>
-            );
-
-            break;
-          }
-
-          default: break;
-        }
-
-        return (
-          <Fragment key={name || label}>
-            {filter}
-          </Fragment>
-        );
-      })
-      .filter(item => item)
-  );
-
   render() {
     const {
       submitting,
@@ -194,7 +71,7 @@ class ListFilters extends Component {
 
     return (
       <form className="filter-row" onSubmit={handleSubmit(onSubmit)}>
-        {this.renderFilterFields(fields)}
+        {reduxFieldsConstructor(fields, this.handleSelectFieldChange, this.startDateValidator, this.endDateValidator)}
         <div className="filter-row__button-block">
           <button
             disabled={submitting || pristine}

@@ -752,6 +752,9 @@
     }
   },
   "COMMON": {
+    "TEAM": "Team",
+    "DESK": "Desk",
+    "OFFICE": "Office",
     "SAVE_CHANGES": "Save changes",
     "STATUS": "Status",
     "RESET": "Reset",
@@ -947,6 +950,8 @@
     "UNTIL": "Until",
     "ON": "On",
     "BULK_UPDATE_FAILED": "Bulk update failed",
+    "CHOOSE_OPERATOR": "Choose an operator",
+    "ADD_MANAGER_TO_BRANCH": "+ Add Manager",
     "AQUISITION_STATUSES": {
       "SALES": "Sales",
       "RETENTION": "Retention"
@@ -2220,6 +2225,21 @@
     "NEW_API_VERSION": {
       "TITLE": "Update your client version",
       "MESSAGE": "To update your client version, please confirm this action"
+    },
+    "ADD_OPERATOR_TO_BRANCH": {
+      "TITLE": "Add operator",
+      "ADD_TO_TEAM": "You are about to add Manager to the Team «%{branch}»",
+      "ADD_TO_DESK": "You are about to add Manager to the Desk «%{branch}». He will be able to see and manage all teams and operators inside this desk",
+      "ADD_TO_OFFICE": "You are about to add Manager to the Office «%{branch}». He will be able to see and manage all desks, teams and operators inside this office",
+      "NOTIFICATION": {
+        "FAILED": {
+          "OPERATOR_ADDED": "Operation failed"
+        },
+        "SUCCEED": {
+          "OPERATOR_ADDED": "Operator added successfully",
+          "OPERATOR_ADDED_DESC": "Operator %{operator} added to %{branchType} %{branchName}"
+        }
+      }
     }
   },
   "FILE_DROPZONE": {

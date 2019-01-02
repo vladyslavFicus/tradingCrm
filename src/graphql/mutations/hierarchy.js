@@ -4,14 +4,12 @@ const createOffice = gql`mutation createOffice(
   $name: String!,
   $country: String!,
   $officeManager: String!,
-  $operatorId: String!,
 ) {
   hierarchy {
     createOffice (
       name: $name,
       country: $country,
       officeManager: $officeManager,
-      operatorId: $operatorId,
     ) {
       data
       error
@@ -24,7 +22,6 @@ const createDesk = gql`mutation createDesk(
   $deskType: DeskTypeEnum!,
   $language: String!,
   $officeId: String!,
-  $operatorId: String!,
 ) {
   hierarchy {
     createDesk (
@@ -32,7 +29,6 @@ const createDesk = gql`mutation createDesk(
       deskType: $deskType,
       language: $language,
       officeId: $officeId,
-      operatorId: $operatorId,
     ) {
       data
       error
@@ -43,16 +39,28 @@ const createDesk = gql`mutation createDesk(
 const createTeam = gql`mutation createTeam(
   $name: String!,
   $deskId: String!,
-  $operatorId: String!,
 ) {
   hierarchy {
     createTeam (
       name: $name,
       deskId: $deskId,
-      operatorId: $operatorId,
     ) {
       data
       error
+    }
+  }
+}`;
+
+const addOperatorToBranch = gql`mutation addOperator(
+  $branchId: String!
+  $operatorId: String!
+) {
+  hierarchy {
+    addOperatorToBranch (
+      branchId: $branchId
+      operatorId: $operatorId
+    ) {
+      data
     }
   }
 }`;
@@ -61,4 +69,5 @@ export {
   createOffice,
   createDesk,
   createTeam,
+  addOperatorToBranch,
 };

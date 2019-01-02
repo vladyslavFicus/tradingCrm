@@ -1,9 +1,9 @@
 import keyMirror from 'keymirror';
 import { omitBy, isNil } from 'lodash';
-import { InputField, DateTimeField, NasSelectField } from '../../components/ReduxForm';
-import normalizeBoolean from '../../utils/normalizeBoolean';
-import normalizeNumber from '../../utils/normalizeNumber';
-import { floatNormalize } from '../../utils/inputNormalize';
+import { InputField, DateTimeField, NasSelectField } from '../../../components/ReduxForm';
+import normalizeBoolean from '../../../utils/normalizeBoolean';
+import normalizeNumber from '../../../utils/normalizeNumber';
+import { floatNormalize } from '../../../utils/inputNormalize';
 
 export const fieldTypes = keyMirror({
   INPUT: null,

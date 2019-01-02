@@ -28,6 +28,7 @@ const RangeGroup = ({ label, labelAddon, children, className, dividerClassName }
     </div>
   );
 };
+
 RangeGroup.propTypes = {
   label: PropTypes.string,
   labelAddon: PropTypes.any,
@@ -35,6 +36,7 @@ RangeGroup.propTypes = {
   className: PropTypes.string,
   dividerClassName: PropTypes.string,
 };
+
 RangeGroup.defaultProps = {
   label: null,
   labelAddon: null,

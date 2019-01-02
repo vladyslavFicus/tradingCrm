@@ -38,7 +38,6 @@ class List extends Component {
     countries: PropTypes.object.isRequired,
     auth: PropTypes.shape({
       isAdministration: PropTypes.bool.isRequired,
-      operatorId: PropTypes.string.isRequired,
     }).isRequired,
     offices: PropTypes.shape({
       loading: PropTypes.bool.isRequired,
@@ -81,17 +80,9 @@ class List extends Component {
       createOffice,
       offices: { refetch },
       modals: { officeModal, infoModal },
-      auth: { operatorId },
     } = this.props;
 
-    const { data: { hierarchy: { createOffice: { data, error } } } } = await createOffice(
-      {
-        variables: {
-          operatorId,
-          ...variables,
-        },
-      },
-    );
+    const { data: { hierarchy: { createOffice: { data, error } } } } = await createOffice({ variables });
 
     refetch();
     officeModal.hide();
@@ -107,7 +98,7 @@ class List extends Component {
 
   renderOffice = ({ office: { name, uuid } }) => (
     <Fragment>
-      <div className="font-weight-700">
+      <div className="font-weight-700 cursor-pointer">
         {name}
       </div>
       <div className="font-size-11">
