@@ -5,7 +5,6 @@ import { I18n } from 'react-redux-i18n';
 import classNames from 'classnames';
 import { shortifyInMiddle } from '../../../../../../utils/stringFormat';
 import { categoriesLabels } from '../../../../../../constants/files';
-import { targetTypes } from '../../../../../../constants/note';
 import GridView, { GridViewColumn } from '../../../../../../components/GridView';
 import FileStatusDropDown from '../../../../../../components/FileStatusDropDown';
 import NoteButton from '../../../../../../components/NoteButton';
@@ -25,19 +24,6 @@ class CommonFileGridView extends Component {
     headerClassName: null,
     tableClassName: null,
     onPreviewImageClick: null,
-  };
-
-  static contextTypes = {
-    onAddNoteClick: PropTypes.func.isRequired,
-    onEditNoteClick: PropTypes.func.isRequired,
-  };
-
-  handleNoteClick = (target, note, data) => {
-    if (note) {
-      this.context.onEditNoteClick(target, note, { placement: 'left' });
-    } else {
-      this.context.onAddNoteClick(data.uuid, targetTypes.FILE)(target, { placement: 'left' });
-    }
   };
 
   renderFileName = (data) => {
@@ -74,11 +60,11 @@ class CommonFileGridView extends Component {
 
   renderActions = data => (
     <span className="margin-left-5">
-      <button className="btn-transparent" onClick={e => this.props.onDownloadFileClick(e, data)}>
+      <button className="btn-transparent" onClick={() => this.props.onDownloadFileClick(data)}>
         <i className="fa fa-download" />
       </button>
       {' '}
-      <button className="btn-transparent color-danger" onClick={e => this.props.onDeleteFileClick(e, data)}>
+      <button className="btn-transparent color-danger" onClick={() => this.props.onDeleteFileClick(data)}>
         <i className="fa fa-trash" />
       </button>
     </span>
@@ -110,10 +96,9 @@ class CommonFileGridView extends Component {
 
   renderNote = data => (
     <NoteButton
-      id={`file-item-note-button-${data.fileId}`}
+      playerUUID={data.playerUUID}
+      targetUUID={data.uuid}
       note={data.note}
-      targetEntity={data}
-      onClick={this.handleNoteClick}
     />
   );
 

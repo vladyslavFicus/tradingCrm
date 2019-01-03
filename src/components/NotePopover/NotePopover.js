@@ -29,10 +29,13 @@ class NotePopover extends Component {
     target: PropTypes.string.isRequired,
     placement: PropTypes.string,
     isOpen: PropTypes.bool,
-    onSubmit: PropTypes.func.isRequired,
-    onDelete: PropTypes.func.isRequired,
-    onSubmitSuccess: PropTypes.func,
-    onSubmitFailure: PropTypes.func,
+    // Used for custom requests processing (will be emit on(*)Success event)
+    manual: PropTypes.bool,
+
+    onAddSuccess: PropTypes.func,
+    onAddFailure: PropTypes.func,
+    onUpdateSuccess: PropTypes.func,
+    onUpdateFailure: PropTypes.func,
     onDeleteSuccess: PropTypes.func,
     onDeleteFailure: PropTypes.func,
     defaultTitleLabel: PropTypes.string,
@@ -41,6 +44,7 @@ class NotePopover extends Component {
       pinned: PropTypes.bool,
       content: PropTypes.string,
       targetUUID: PropTypes.string,
+      playerUUID: PropTypes.string,
     }),
     submitting: PropTypes.bool,
     invalid: PropTypes.bool,
@@ -50,15 +54,12 @@ class NotePopover extends Component {
     className: PropTypes.string,
     id: PropTypes.string,
   };
+
   static defaultProps = {
     item: null,
     defaultTitleLabel: I18n.t('COMMON.NOTE'),
     placement: 'bottom',
     isOpen: false,
-    onSubmitSuccess: null,
-    onSubmitFailure: null,
-    onDeleteSuccess: null,
-    onDeleteFailure: null,
     handleSubmit: null,
     currentValues: null,
     submitting: false,
@@ -68,6 +69,101 @@ class NotePopover extends Component {
     hideArrow: false,
     className: null,
     id: null,
+    manual: false,
+    onAddSuccess: () => {},
+    onAddFailure: () => {},
+    onUpdateSuccess: () => {},
+    onUpdateFailure: () => {},
+    onDeleteSuccess: () => {},
+    onDeleteFailure: () => {},
+  };
+
+  /**
+   * Should return promise to resolve submitting property from redux-form
+   * @param data
+   * @return {Promise<void>}
+   */
+  onSubmit = async (data) => {
+    if (this.props.item) {
+      await this.handleUpdateNote(data);
+    } else {
+      await this.handleAddNote(data);
+    }
+  };
+
+  handleAddNote = async (variables) => {
+    const {
+      addNote,
+      toggle,
+      manual,
+      onAddSuccess,
+      onAddFailure,
+    } = this.props;
+
+    // If manual request processing --> emit successful event
+    if (manual) {
+      onAddSuccess(variables);
+      toggle();
+    } else {
+      const { data: { note: { add: { data, error } } } } = await addNote({ variables });
+
+      if (error) {
+        onAddFailure(error);
+      } else {
+        onAddSuccess(data);
+        toggle();
+      }
+    }
+  };
+
+  handleUpdateNote = async (variables) => {
+    const {
+      updateNote,
+      toggle,
+      manual,
+      onUpdateSuccess,
+      onUpdateFailure,
+    } = this.props;
+
+    // If manual request processing --> emit successful event
+    if (manual) {
+      onUpdateSuccess(variables);
+      toggle();
+    } else {
+      const { data: { note: { update: { data, error } } } } = await updateNote({ variables });
+
+      if (error) {
+        onUpdateFailure(error);
+      } else {
+        onUpdateSuccess(data);
+        toggle();
+      }
+    }
+  };
+
+  handleRemoveNote = async (noteId) => {
+    const {
+      removeNote,
+      toggle,
+      manual,
+      onDeleteSuccess,
+      onDeleteFailure,
+    } = this.props;
+
+    // If manual request processing --> emit successful event
+    if (manual) {
+      onDeleteSuccess(noteId);
+      toggle();
+    } else {
+      const { data: { note: { remove: { error } } } } = await removeNote({ variables: { noteId } });
+
+      if (error) {
+        onDeleteFailure(error);
+      } else {
+        onDeleteSuccess(noteId);
+        toggle();
+      }
+    }
   };
 
   handleHide = (ignoreChanges = false) => {
@@ -91,38 +187,6 @@ class NotePopover extends Component {
     if (shouldClose) {
       toggle();
     }
-  };
-
-  handleSubmit = (data) => {
-    this.props.onSubmit(data)
-      .then(
-        () => {
-          if (typeof this.props.onSubmitSuccess === 'function') {
-            this.props.onSubmitSuccess();
-          }
-        },
-        () => {
-          if (typeof this.props.onSubmitFailure === 'function') {
-            this.props.onSubmitFailure();
-          }
-        },
-      );
-  };
-
-  handleDelete = (noteId) => {
-    this.props.onDelete(noteId)
-      .then(
-        () => {
-          if (typeof this.props.onSubmitSuccess === 'function') {
-            this.props.onDeleteSuccess();
-          }
-        },
-        () => {
-          if (typeof this.props.onSubmitFailure === 'function') {
-            this.props.onDeleteFailure();
-          }
-        },
-      );
   };
 
   renderTitle = () => {
@@ -175,7 +239,7 @@ class NotePopover extends Component {
           <div className="col-auto ml-auto">
             <button
               type="reset"
-              onClick={() => this.handleDelete(noteId || uuid)}
+              onClick={() => this.handleRemoveNote(noteId || uuid)}
               className="fa fa-trash color-danger note-popover__delete-btn"
             />
           </div>
@@ -200,7 +264,6 @@ class NotePopover extends Component {
     const {
       item,
       placement,
-      onSubmit,
       target,
       isOpen,
       handleSubmit,
@@ -222,7 +285,7 @@ class NotePopover extends Component {
         className={classNames('note-popover', className)}
         hideArrow={hideArrow}
       >
-        <PopoverBody tag="form" onSubmit={handleSubmit(onSubmit)}>
+        <PopoverBody tag="form" onSubmit={handleSubmit(this.onSubmit)}>
           {this.renderTitle()}
           <Field
             name="content"

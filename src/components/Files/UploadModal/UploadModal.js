@@ -58,8 +58,8 @@ class UploadModal extends Component {
       number={index + 1}
       data={item}
       onCancelClick={this.props.onCancelFile}
-      onManageNote={this.props.onManageNote}
       targetType={this.props.targetType}
+      playerUUID={this.props.profile.playerUUID}
     />
   );
 

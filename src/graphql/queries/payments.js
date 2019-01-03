@@ -1,4 +1,5 @@
 import gql from 'graphql-tag';
+import { NoteFragment } from '../fragments/notes';
 
 const getClientPayments = gql`query getClientPayments(
   $searchParam: String
@@ -71,13 +72,17 @@ const getClientPayments = gql`query getClientPayments(
           uuid
           fullName
         }
+        note {
+          ...NoteFragment,
+        }
       }
     }
     error {
       error
     }
   } 
-}`;
+}
+${NoteFragment}`;
 
 const getClientPaymentsByUuid = gql`query getClientPayments(
   $playerUUID: String!
@@ -148,13 +153,17 @@ const getClientPaymentsByUuid = gql`query getClientPayments(
           uuid
           fullName
         }
+        note {
+          ...NoteFragment,
+        }
       }
     }
     error {
       error
     }
   } 
-}`;
+}
+${NoteFragment}`;
 
 const getOperatorPaymentMethods = gql`query getOperatorPaymentMethods {
   operatorPaymentMethods {

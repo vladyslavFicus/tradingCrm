@@ -21,6 +21,7 @@ const updateNoteMutation = gql`mutation updateNote(
         content
         _id
         targetUUID
+        playerUUID
         changedBy
         changedAt
       }
@@ -84,7 +85,7 @@ const addPinnedNote = (proxy, params, data) => {
   try {
     const { notes } = proxy.readQuery({ query: notesQuery, variables });
     const updatedNotes = update(notes, {
-      data: { content: { $push: [data] } },
+      data: { content: { $unshift: [data] } },
     });
     proxy.writeQuery({ query: notesQuery, variables, data: { notes: updatedNotes } });
   } catch (e) {

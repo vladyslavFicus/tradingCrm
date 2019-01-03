@@ -176,9 +176,12 @@ class Payments extends Component {
     history.replace({});
   };
 
-  handleAddPayment = async (inputParams) => {
+  handleAddPayment = async (data) => {
+    const { note, ...inputParams } = data;
+
     const {
       addPayment,
+      addNote,
       match: { params: { id: uuid } },
       currencyCode,
       clientPayments: { refetch },
@@ -203,15 +206,20 @@ class Payments extends Component {
         uuid,
       },
     };
-    const { data: { payment: { createClientPayment: { error } } } } = await addPayment({ variables });
+    const { data: { payment: { createClientPayment: { data: payment, error } } } } = await addPayment({ variables });
 
     if (error) {
       throw new SubmissionError({ _error: [error] });
     } else {
+      if (note) {
+        await addNote({ variables: { ...note, targetUUID: payment.paymentId } });
+      }
+
       await Promise.all([
         refetch(),
         fetchProfile(uuid),
       ]);
+
       modal.hide();
     }
   };
@@ -219,14 +227,12 @@ class Payments extends Component {
   handleOpenAddPaymentModal = () => {
     const {
       modals: { addPayment },
-      manageNote,
       playerProfile,
     } = this.props;
 
     addPayment.show({
       onSubmit: this.handleAddPayment,
       playerProfile,
-      onManageNote: manageNote,
     });
   };
 

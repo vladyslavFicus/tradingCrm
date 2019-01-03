@@ -16,7 +16,7 @@ export default compose(
     options: ({ match: { params: { id: playerUUID } }, location: { query } }) => ({
       fetchPolicy: 'cache-and-network',
       variables: {
-        playerUUID,
+        targetUUID: playerUUID,
         size: 25,
         page: 0,
         ...query ? query.filters : {},

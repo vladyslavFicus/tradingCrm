@@ -289,6 +289,7 @@ class Profile extends Component {
           target,
           initialValues: {
             targetUUID,
+            playerUUID: targetUUID,
             pinned: false,
           },
         },
@@ -744,10 +745,12 @@ class Profile extends Component {
         {
           popover.name === NOTE_POPOVER &&
           <NotePopover
-            toggle={this.handlePopoverHide}
             isOpen
-            onSubmit={data => this.handleSubmitNoteClick(noteViewType.POPOVER, data)}
-            onDelete={data => this.handleDeleteNoteClick(noteViewType.POPOVER, data)}
+            manual
+            toggle={this.handlePopoverHide}
+            onAddSuccess={data => this.handleSubmitNoteClick(noteViewType.POPOVER, data)}
+            onUpdateSuccess={data => this.handleSubmitNoteClick(noteViewType.POPOVER, data)}
+            onDeleteSuccess={data => this.handleDeleteNoteClick(noteViewType.POPOVER, data)}
             {...popover.params}
           />
         }

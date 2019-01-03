@@ -5,6 +5,7 @@ import moment from 'moment';
 import classNames from 'classnames';
 import GridPaymentInfo from '../../components/GridPaymentInfo';
 import Uuid from '../../components/Uuid';
+import NoteButton from '../../components/NoteButton';
 import GridPlayerInfo from '../../components/GridPlayerInfo';
 import CountryLabelWithFlag from '../../components/CountryLabelWithFlag';
 import FailedStatusContainer from '../../routes/Payments/routes/List/container/FailedStatusContainer';
@@ -221,6 +222,19 @@ export default ({
           </div>
         </If>
       </div>
+    );
+  },
+}, {
+  name: 'actions',
+  header: '',
+  render({ paymentId: targetUUID, playerProfile: { uuid: playerUUID }, note }) {
+    return (
+      <NoteButton
+        key={targetUUID}
+        targetUUID={targetUUID}
+        playerUUID={playerUUID}
+        note={note}
+      />
     );
   },
 }];

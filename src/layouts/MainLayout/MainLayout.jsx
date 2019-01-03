@@ -253,7 +253,7 @@ class MainLayout extends Component {
     }
   };
 
-  handleAddNoteClick = (target, targetUUID, params = {}) => {
+  handleAddNoteClick = (target, targetUUID, playerUUID, params = {}) => {
     this.updateState({
       popover: {
         name: NOTE_POPOVER,
@@ -262,6 +262,7 @@ class MainLayout extends Component {
           target,
           initialValues: {
             targetUUID,
+            playerUUID,
             pinned: false,
           },
         },
@@ -281,35 +282,6 @@ class MainLayout extends Component {
         },
       },
     });
-  };
-
-  handleDeleteNoteClick = async (uuid) => {
-    const { deleteNote } = this.props;
-    const { noteChangedCallback } = this.state;
-
-    await deleteNote(uuid);
-    this.handlePopoverHide();
-
-    if (typeof noteChangedCallback === 'function') {
-      noteChangedCallback();
-    }
-  };
-
-  handleSubmitNote = async (data) => {
-    const { addNote, editNote } = this.props;
-    const { noteChangedCallback } = this.state;
-
-    if (data.tagId) {
-      await editNote(data.tagId, data);
-    } else {
-      await addNote(data);
-    }
-
-    this.handlePopoverHide();
-
-    if (typeof noteChangedCallback === 'function') {
-      noteChangedCallback();
-    }
   };
 
   handlePopoverHide = () => {
@@ -393,8 +365,6 @@ class MainLayout extends Component {
           <NotePopover
             isOpen
             toggle={this.handlePopoverHide}
-            onSubmit={this.handleSubmitNote}
-            onDelete={this.handleDeleteNoteClick}
             {...popover.params}
           />
         </If>

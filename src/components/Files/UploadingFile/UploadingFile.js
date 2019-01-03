@@ -4,7 +4,6 @@ import { Field } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
 import { InputField, NasSelectField } from '../../../components/ReduxForm';
 import NoteButton from '../../../components/NoteButton';
-import { targetTypes as noteTargetTypes } from '../../../constants/note';
 import { categoriesLabels } from '../../../constants/files';
 import PropTypes from '../../../constants/propTypes';
 import { targetTypes } from '../constants';
@@ -17,48 +16,13 @@ class UploadingFile extends Component {
     number: PropTypes.number.isRequired,
     data: PropTypes.uploadingFile.isRequired,
     onCancelClick: PropTypes.func.isRequired,
-    onManageNote: PropTypes.func.isRequired,
     targetType: PropTypes.string,
+    playerUUID: PropTypes.string.isRequired,
   };
+
   static defaultProps = {
     blockName: 'uploading-file',
     targetType: targetTypes.FILES,
-  };
-
-  static contextTypes = {
-    onAddNoteClick: PropTypes.func.isRequired,
-    onEditNoteClick: PropTypes.func.isRequired,
-    hidePopover: PropTypes.func.isRequired,
-  };
-
-  getNotePopoverParams = () => ({
-    placement: 'left',
-    onSubmit: this.handleSubmitNote,
-    onDelete: this.handleDeleteNote,
-  });
-
-  handleSubmitNote = (data) => {
-    return new Promise((resolve) => {
-      this.props.onManageNote(this.props.data.id, data);
-      this.context.hidePopover();
-      resolve();
-    });
-  };
-
-  handleDeleteNote = () => {
-    return new Promise((resolve) => {
-      this.props.onManageNote(this.props.data.id, null);
-      this.context.hidePopover();
-      resolve();
-    });
-  };
-
-  handleNoteClick = (target, note, data) => {
-    if (note) {
-      this.context.onEditNoteClick(target, note, this.getNotePopoverParams());
-    } else {
-      this.context.onAddNoteClick(data.uuid, noteTargetTypes.FILE)(target, this.getNotePopoverParams());
-    }
   };
 
   handleDeleteFileClick = (e, item) => {
@@ -101,6 +65,7 @@ class UploadingFile extends Component {
       number,
       data,
       targetType,
+      playerUUID,
     } = this.props;
 
     return (
@@ -118,7 +83,7 @@ class UploadingFile extends Component {
               {shortifyInMiddle(data.file.name, 40)}
             </div>
             <div>
-              <Uuid uuid={data.fileUUID} />
+              {data.fileUUID && <Uuid uuid={data.fileUUID} />}
             </div>
           </div>
         </td>
@@ -130,6 +95,7 @@ class UploadingFile extends Component {
                 name={`${data.id}.category`}
                 component={NasSelectField}
                 searchable={false}
+                label=""
                 placeholder={I18n.t('FILES.UPLOAD_MODAL.FILE.CATEGORY_DEFAULT_OPTION')}
               >
                 {Object.keys(categoriesLabels).map(item => (
@@ -143,12 +109,16 @@ class UploadingFile extends Component {
           {this.renderStatus(data)}
         </td>
         <td className={`${blockName}__row-note`}>
-          <NoteButton
-            id={`uploading-file-item-note-button-${data.fileId}`}
-            note={data.note}
-            onClick={this.handleNoteClick}
-            targetEntity={data}
-          />
+          {
+            data.fileUUID &&
+            <NoteButton
+              playerUUID={playerUUID}
+              targetUUID={data.fileUUID}
+              onAddSuccess={this.handleSubmitNote}
+              onUpdateSuccess={this.handleSubmitNote}
+              onDeleteSuccess={this.handleDeleteNote}
+            />
+          }
         </td>
       </tr>
     );
