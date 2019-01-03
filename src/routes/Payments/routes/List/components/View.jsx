@@ -5,8 +5,7 @@ import PropTypes from '../../../../../constants/propTypes';
 import { statusMapper } from '../../../../../constants/payment';
 import GridView, { GridViewColumn } from '../../../../../components/GridView';
 import history from '../../../../../router/history';
-import { columns } from '../../../../../utils/paymentHelpers';
-import fields from './filterFields';
+import { columns, filterFields } from '../../../../../utils/paymentHelpers';
 import ListFilterForm from '../../../../../components/ListFilterForm';
 
 class View extends Component {
@@ -31,6 +30,13 @@ class View extends Component {
       loadMore: PropTypes.func,
       refetch: PropTypes.func,
     }),
+    operators: PropTypes.shape({
+      loading: PropTypes.bool.isRequired,
+      operators: PropTypes.shape({
+        data: PropTypes.pageable(PropTypes.paymentOriginalAgent),
+        error: PropTypes.object,
+      }),
+    }).isRequired,
   };
 
   static contextTypes = {
@@ -113,13 +119,23 @@ class View extends Component {
     const {
       locale,
       currencies,
-      clientPayments,
       auth,
       fetchPlayerMiniProfile,
+      clientPayments: {
+        clientPayments,
+        loading,
+      },
+      operators: {
+        operators,
+        loading: operatorsLoading,
+      },
     } = this.props;
 
-    const entities = get(clientPayments, 'clientPayments.data') || { content: [] };
-    const error = get(clientPayments, 'clientPayments.error');
+    const entities = get(clientPayments, 'data') || { content: [] };
+    const error = get(clientPayments, 'error');
+
+    const originalAgents = get(operators, 'data.content') || [];
+    const disabledOriginalAgentField = get(operators, 'error') || operatorsLoading;
 
     return (
       <div className="card">
@@ -132,7 +148,11 @@ class View extends Component {
         <ListFilterForm
           onSubmit={this.handleFiltersChanged}
           onReset={this.handleFilterReset}
-          fields={fields(currencies)}
+          fields={filterFields({
+            currencies,
+            originalAgents,
+            disabledOriginalAgentField,
+          })}
         />
 
         <div className="card-body">
@@ -143,7 +163,7 @@ class View extends Component {
             last={entities.last}
             lazyLoad
             locale={locale}
-            showNoResults={!!error || (!clientPayments.loading && entities.content.length === 0)}
+            showNoResults={!!error || (!loading && entities.content.length === 0)}
           >
             {columns({
               paymentInfo: { onSuccess: this.handleModalActionSuccess },

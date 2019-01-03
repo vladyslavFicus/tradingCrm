@@ -1,12 +1,11 @@
 import React from 'react';
 import { uniq } from 'lodash';
-import { I18n } from 'react-redux-i18n';
 import {
   fieldTypes,
   fieldClassNames,
   normalize,
   validators,
-} from '../../../../../../../../../components/ReduxForm/ReduxFieldsConstructor';
+} from '../../components/ReduxForm/ReduxFieldsConstructor';
 import {
   methods,
   methodsLabels,
@@ -18,8 +17,10 @@ import {
   aggregatorsLabels,
   statuses,
   statusesLabels,
-} from '../../../../../../../../../constants/payment';
-import renderLabel from '../../../../../../../../../utils/renderLabel';
+} from '../../constants/payment';
+import renderLabel from '../../utils/renderLabel';
+import countries from '../../utils/countryList';
+import I18n from '../fake-i18n';
 
 const attributeLabels = {
   keyword: 'CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.KEYWORD',
@@ -34,13 +35,42 @@ const attributeLabels = {
   amountUpperBound: 'CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.AMOUNT_TO',
   amount: 'CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.AMOUNT',
   creationDateRange: 'CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.CREATION_DATE_RANGE',
+  originalAgents: 'CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.ORIGINAL_AGENT',
+  country: 'COUNTRIES.GRID.LABEL.COUNTRY',
 };
 
 const attributePlaceholders = {
   keyword: 'CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_PLACEHOLDERS.KEYWORD',
 };
 
-export default [{
+const countryField = {
+  type: fieldTypes.SELECT,
+  name: 'country',
+  label: I18n.t(attributeLabels.country),
+  placeholder: I18n.t('COMMON.SELECT_OPTION.DEFAULT'),
+  className: fieldClassNames.MEDIUM,
+  selectOptions: Object
+    .keys(countries)
+    .map(key => ({ value: key, label: countries[key] })),
+};
+
+const currencyField = currencies => ({
+  type: fieldTypes.SELECT,
+  name: 'currency',
+  label: I18n.t('COMMON.CURRENCY'),
+  placeholder: I18n.t('COMMON.SELECT_OPTION.DEFAULT'),
+  className: fieldClassNames.MEDIUM,
+  selectOptions: currencies.map(value => ({ value, label: value })),
+});
+
+export default (
+  {
+    originalAgents,
+    disabledOriginalAgentField,
+    currencies,
+  },
+  isClientView,
+) => [{
   type: fieldTypes.INPUT,
   name: 'searchParam',
   label: I18n.t(attributeLabels.keyword),
@@ -48,7 +78,9 @@ export default [{
   inputAddon: <i className="icon icon-search" />,
   id: 'transactions-list-filters-search',
   className: fieldClassNames.BIG,
-}, {
+},
+!isClientView && countryField,
+{
   type: fieldTypes.SELECT,
   name: 'paymentTypes',
   label: I18n.t(attributeLabels.type),
@@ -102,6 +134,17 @@ export default [{
     .values(statuses)
     .map(value => ({ value, label: renderLabel(value, statusesLabels) })),
 }, {
+  type: fieldTypes.SELECT,
+  name: 'agentIds',
+  label: I18n.t(attributeLabels.originalAgents),
+  placeholder: I18n.t('COMMON.SELECT_OPTION.DEFAULT'),
+  className: fieldClassNames.MEDIUM,
+  disabled: disabledOriginalAgentField,
+  multiple: true,
+  selectOptions: originalAgents.map(({ fullName, uuid }) => ({ value: uuid, label: fullName })),
+},
+!isClientView && currencyField(currencies),
+{
   type: fieldTypes.RANGE,
   className: fieldClassNames.MEDIUM,
   label: I18n.t(attributeLabels.amount),
@@ -110,13 +153,13 @@ export default [{
     name: 'amountFrom',
     inputType: 'number',
     normalize: normalize.FLOAT,
-    placeholder: '0.00',
+    placeholder: '0',
   }, {
     type: fieldTypes.INPUT,
     name: 'amountTo',
     inputType: 'number',
     normalize: normalize.FLOAT,
-    placeholder: '0.00',
+    placeholder: '0',
   }],
 }, {
   type: fieldTypes.RANGE,

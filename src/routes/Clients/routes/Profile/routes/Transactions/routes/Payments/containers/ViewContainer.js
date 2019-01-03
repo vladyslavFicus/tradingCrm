@@ -7,6 +7,7 @@ import { actionCreators as playerActionCreators } from '../../../../../modules';
 import { withModals } from '../../../../../../../../../components/HighOrder';
 import { addPaymentMutation } from '../../../../../../../../../graphql/mutations/payment';
 import { getClientPaymentsByUuid } from '../../../../../../../../../graphql/queries/payments';
+import { operatorsQuery } from '../../../../../../../../../graphql/queries/operators';
 import PaymentAddModal from '../components/PaymentAddModal';
 
 const mapStateToProps = ({
@@ -41,6 +42,14 @@ export default compose(
   connect(mapStateToProps, mapActions),
   graphql(addPaymentMutation, {
     name: 'addPayment',
+  }),
+  graphql(operatorsQuery, {
+    name: 'operators',
+    options: () => ({
+      variables: {
+        size: 2000,
+      },
+    }),
   }),
   graphql(getClientPaymentsByUuid, {
     name: 'clientPayments',
