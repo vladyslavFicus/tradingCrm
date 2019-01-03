@@ -1,13 +1,13 @@
 import { CALL_API } from 'redux-api-middleware';
 import moment from 'moment';
 import qs from 'qs';
-import createReducer from '../../../../../utils/createReducer';
-import createRequestAction from '../../../../../utils/createRequestAction';
-import buildQueryString from '../../../../../utils/buildQueryString';
-import { sourceActionCreators as noteSourceActionCreators } from '../../../../../redux/modules/note';
-import { sourceActionCreators as paymentSourceActionCreators } from '../../../../../redux/modules/payment';
-import { getApiRoot } from '../../../../../config';
-import exportFile from '../../../../../utils/exportFile';
+import createReducer from '../../../utils/createReducer';
+import createRequestAction from '../../../utils/createRequestAction';
+import buildQueryString from '../../../utils/buildQueryString';
+import { sourceActionCreators as noteSourceActionCreators } from '../note';
+import { sourceActionCreators as paymentSourceActionCreators } from '../payment';
+import { getApiRoot } from '../../../config';
+import exportFile from '../../../utils/exportFile';
 
 const KEY = 'transactions/transactions';
 const FETCH_ENTITIES = createRequestAction(`${KEY}/fetch-entities`);

@@ -20,6 +20,9 @@ class Payments extends Component {
     fetchProfile: PropTypes.func.isRequired,
     fetchFilters: PropTypes.func.isRequired,
     resetAll: PropTypes.func.isRequired,
+    auth: PropTypes.shape({
+      uuid: PropTypes.string.isRequired,
+    }).isRequired,
     manageNote: PropTypes.func.isRequired,
     currencyCode: PropTypes.string,
     match: PropTypes.shape({
@@ -236,6 +239,7 @@ class Payments extends Component {
         loading,
         clientPaymentsByUuid,
       },
+      auth,
       operators: {
         operators,
         loading: operatorsLoading,
@@ -274,6 +278,7 @@ class Payments extends Component {
           >
             {columns({
               paymentInfo: { onSuccess: this.handleModalActionSuccess },
+              playerInfo: { auth },
               clientView: true,
             }).map(({ name, header, render }) => (
               <GridViewColumn

@@ -1,6 +1,6 @@
-import createReducer from '../../../../../utils/createReducer';
-import { sourceActionCreators } from '../../../../../redux/modules/payment';
-import createRequestAction from '../../../../../utils/createRequestAction';
+import createReducer from '../../../utils/createReducer';
+import { sourceActionCreators } from '../payment';
+import createRequestAction from '../../../utils/createRequestAction';
 
 const KEY = 'user/transactions';
 const FETCH_PAYMENT_STATUSES = createRequestAction(`${KEY}/fetch-payment-statuses`);

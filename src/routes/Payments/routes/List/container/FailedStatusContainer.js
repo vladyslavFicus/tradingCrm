@@ -1,6 +1,7 @@
 import { connect } from 'react-redux';
+import { I18n } from 'react-redux-i18n';
 import FailedStatusIcon from '../../../../../components/FailedStatusIcon';
-import { actionCreators } from '../modules/paymentStatusMessages';
+import { actionCreators } from '../../../../../redux/modules/transactions/paymentStatusMessages';
 
 export default connect(
   ({ transactions }) => ({ paymentStatusMessages: transactions.paymentStatusMessages }),
@@ -13,6 +14,6 @@ export default connect(
   }),
   (stateProps, dispatchProps, ownProps) => Object.assign({}, ownProps, stateProps, {
     onOpen: () => dispatchProps.onOpen(stateProps.paymentStatusMessages, ownProps.paymentId, ownProps.uuid),
-    children: stateProps.paymentStatusMessages[ownProps.paymentId] || '',
+    children: stateProps.paymentStatusMessages[ownProps.paymentId] || I18n.t('COMMON.SELECT_OPTION.LOADING'),
   })
 )(FailedStatusIcon);

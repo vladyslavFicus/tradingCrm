@@ -12,6 +12,7 @@ import options from '../redux/modules/profile/options';
 import modal from '../redux/modules/modal';
 import notifications from '../redux/modules/notifications';
 import dynamicFilters from '../components/DynamicFilters/reduxModule';
+import transactions from '../redux/modules/transactions';
 
 export const makeRootReducer = asyncReducers => combineReducers({
   auth,
@@ -27,6 +28,7 @@ export const makeRootReducer = asyncReducers => combineReducers({
   form: formReducer,
   i18n: i18nReducer,
   dynamicFilters,
+  transactions,
   ...asyncReducers,
 });
 

@@ -1,6 +1,6 @@
-import createReducer from '../../../../../utils/createReducer';
-import createRequestAction from '../../../../../utils/createRequestAction';
-import { actionCreators as profileActionCreators } from '../../../../../redux/modules/profile';
+import createReducer from '../../../utils/createReducer';
+import createRequestAction from '../../../utils/createRequestAction';
+import { actionCreators as profileActionCreators } from '../profile';
 
 const KEY = 'transactions/players';
 const FETCH_PROFILE = createRequestAction(`${KEY}/fetch-profile`);
