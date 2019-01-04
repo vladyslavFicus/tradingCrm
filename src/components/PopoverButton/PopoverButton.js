@@ -11,7 +11,9 @@ class PopoverButton extends Component {
     children: null,
   };
 
-  handleClick = () => {
+  handleClick = (e) => {
+    e.stopPropagation();
+
     const { onClick, id } = this.props;
 
     onClick(id, { id });

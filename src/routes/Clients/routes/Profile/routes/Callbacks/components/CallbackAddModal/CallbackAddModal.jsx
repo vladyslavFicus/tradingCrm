@@ -3,6 +3,7 @@ import { reduxForm, Field } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
 import { get } from 'lodash';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import NoteButton from 'components/NoteButton';
 import PropTypes from '../../../../../../../../constants/propTypes';
 import { createValidator } from '../../../../../../../../utils/validator';
 import { NasSelectField, DateTimeField } from '../../../../../../../../components/ReduxForm';
@@ -15,11 +16,13 @@ class CallbackAddModal extends Component {
     onCloseModal: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func.isRequired,
     createCallback: PropTypes.func.isRequired,
+    addNote: PropTypes.func.isRequired,
     error: PropTypes.string,
     submitting: PropTypes.bool,
     valid: PropTypes.bool,
     pristine: PropTypes.bool,
     onConfirm: PropTypes.func,
+    userId: PropTypes.string.isRequired,
   };
 
   static defaultProps = {
@@ -31,15 +34,27 @@ class CallbackAddModal extends Component {
     onConfirm: () => {},
   };
 
-  handleSubmit = async ({ operatorId, callbackTime }) => {
-    const { notify, onCloseModal, onConfirm } = this.props;
+  createNote = async (targetUUID) => {
+    const note = this.noteButton.getNote();
 
-    const { data: { callback: { create: { error } } } } = await this.props.createCallback({
+    if (note) {
+      await this.props.addNote({ variables: { ...this.noteButton.getNote(), targetUUID } });
+    }
+  };
+
+  handleSubmit = async ({ operatorId, callbackTime }) => {
+    const { notify, onCloseModal, onConfirm, createCallback } = this.props;
+
+    const { data: { callback: { create: { data, error } } } } = await createCallback({
       variables: {
         operatorId,
         callbackTime,
       },
     });
+
+    if (data && data._id) {
+      await this.createNote(data._id);
+    }
 
     notify({
       level: error ? 'error' : 'success',
@@ -67,6 +82,7 @@ class CallbackAddModal extends Component {
       submitting,
       valid,
       pristine,
+      userId,
     } = this.props;
 
     const operatorsList = get(operators, 'operators.data.content', []);
@@ -103,6 +119,14 @@ class CallbackAddModal extends Component {
                 label={I18n.t('CALLBACKS.CREATE_MODAL.CALLBACK_DATE_AND_TIME')}
                 component={DateTimeField}
                 isValidDate={() => (true)}
+              />
+            </div>
+            <div className="form-row justify-content-center">
+              <NoteButton
+                manual
+                ref={(ref) => { this.noteButton = ref; }}
+                placement="bottom"
+                playerUUID={userId}
               />
             </div>
           </ModalBody>

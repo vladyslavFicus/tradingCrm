@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { I18n } from 'react-redux-i18n';
 import classNames from 'classnames';
 import PropTypes from '../../constants/propTypes';
@@ -6,7 +6,7 @@ import PopoverButton from '../PopoverButton';
 import NoteIcon from '../NoteIcon';
 import './NoteButton.scss';
 
-class NoteButton extends Component {
+class NoteButton extends PureComponent {
   static contextTypes = {
     notes: PropTypes.shape({
       onAddNoteClick: PropTypes.func.isRequired,
@@ -15,6 +15,7 @@ class NoteButton extends Component {
   };
 
   static propTypes = {
+    id: PropTypes.string,
     targetUUID: PropTypes.string,
     playerUUID: PropTypes.string.isRequired,
     note: PropTypes.noteEntity,
@@ -30,6 +31,7 @@ class NoteButton extends Component {
   };
 
   static defaultProps = {
+    id: null,
     targetUUID: null,
     className: 'cursor-pointer',
     message: null,
@@ -46,6 +48,14 @@ class NoteButton extends Component {
   state = {
     note: this.props.note,
   };
+
+  static getDerivedStateFromProps(props) {
+    if (!props.manual) {
+      return { note: props.note };
+    }
+
+    return null;
+  }
 
   onAddSuccess = (note) => {
     this.setState({ note });
@@ -98,6 +108,7 @@ class NoteButton extends Component {
 
   render() {
     const {
+      id,
       withMessage,
       message,
       preview,
@@ -122,7 +133,7 @@ class NoteButton extends Component {
     return (
       <PopoverButton
         {...rest}
-        id={`note-button-${playerUUID}-${targetUUID}`}
+        id={id || `note-button-${playerUUID}-${targetUUID}`}
         onClick={this.handleClick}
         className={compiledClassName}
       >

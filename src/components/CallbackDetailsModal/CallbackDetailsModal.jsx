@@ -4,6 +4,8 @@ import classNames from 'classnames';
 import { I18n } from 'react-redux-i18n';
 import { get } from 'lodash';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import NoteButton from 'components/NoteButton';
+import ShortLoader from 'components/ShortLoader';
 import PropTypes from '../../constants/propTypes';
 import { createValidator } from '../../utils/validator';
 import { callbacksStatuses } from '../../constants/callbacks';
@@ -63,7 +65,7 @@ class CallbackDetailsModal extends Component {
       isOpen,
       onCloseModal,
       className,
-      callback,
+      callback: { loading: callbackLoading, callback: callbackData },
       operators,
       operators: { loading },
       handleSubmit,
@@ -74,59 +76,75 @@ class CallbackDetailsModal extends Component {
     } = this.props;
 
     const operatorsList = get(operators, 'operators.data.content', []);
+    const callback = get(callbackData, 'data');
 
     return (
       <Modal isOpen={isOpen} toggle={onCloseModal} className={classNames(className, 'callback-detail-modal')}>
         <ModalHeader toggle={onCloseModal}>{I18n.t('CALLBACKS.MODAL.TITLE')}</ModalHeader>
         <form onSubmit={handleSubmit(this.handleSubmit)}>
           <ModalBody>
-            <div>
-              <div className="font-weight-700">
-                {callback.client.fullName}
-              </div>
-              <div className="font-size-11 mb-3">
-                {I18n.t('COMMON.AUTHOR_BY')} <Uuid uuid={callback.operatorId} />
-              </div>
-            </div>
-            <div>
-              <If condition={error}>
-                <div className="alert alert-warning animated fadeIn">
-                  {error}
+            <Choose>
+              <When condition={callbackLoading}>
+                <ShortLoader />
+              </When>
+              <Otherwise>
+                <div>
+                  <div className="font-weight-700">
+                    {callback.client.fullName}
+                  </div>
+                  <div className="font-size-11 mb-3">
+                    {I18n.t('COMMON.AUTHOR_BY')} <Uuid uuid={callback.operatorId} />
+                  </div>
                 </div>
-              </If>
-              <Field
-                name="operatorId"
-                label={I18n.t('CALLBACKS.MODAL.OPERATOR')}
-                placeholder={I18n.t(loading ? 'COMMON.SELECT_OPTION.LOADING' : 'CALLBACKS.MODAL.SELECT_OPERATOR')}
-                disabled={loading}
-                component={NasSelectField}
-                searchable
-              >
-                {operatorsList.map(item => (
-                  <option key={item.uuid} value={item.uuid}>{item.fullName}</option>
-                ))}
-              </Field>
-              <Field
-                withTime
-                closeOnSelect={false}
-                name="callbackTime"
-                label={I18n.t('CALLBACKS.MODAL.CALLBACK_DATE_AND_TIME')}
-                component={DateTimeField}
-                isValidDate={() => (true)}
-              />
-              <Field
-                name="status"
-                label={I18n.t('CALLBACKS.MODAL.STATUS')}
-                component={NasSelectField}
-                searchable={false}
-              >
-                {Object.keys(callbacksStatuses).map(status => (
-                  <option key={status} value={status}>
-                    {I18n.t(callbacksStatuses[status])}
-                  </option>
-                ))}
-              </Field>
-            </div>
+                <div>
+                  <If condition={error}>
+                    <div className="alert alert-warning animated fadeIn">
+                      {error}
+                    </div>
+                  </If>
+                  <Field
+                    name="operatorId"
+                    label={I18n.t('CALLBACKS.MODAL.OPERATOR')}
+                    placeholder={I18n.t(loading ? 'COMMON.SELECT_OPTION.LOADING' : 'CALLBACKS.MODAL.SELECT_OPERATOR')}
+                    disabled={loading}
+                    component={NasSelectField}
+                    searchable
+                  >
+                    {operatorsList.map(item => (
+                      <option key={item.uuid} value={item.uuid}>{item.fullName}</option>
+                    ))}
+                  </Field>
+                  <Field
+                    withTime
+                    closeOnSelect={false}
+                    name="callbackTime"
+                    label={I18n.t('CALLBACKS.MODAL.CALLBACK_DATE_AND_TIME')}
+                    component={DateTimeField}
+                    isValidDate={() => (true)}
+                  />
+                  <Field
+                    name="status"
+                    label={I18n.t('CALLBACKS.MODAL.STATUS')}
+                    component={NasSelectField}
+                    searchable={false}
+                  >
+                    {Object.keys(callbacksStatuses).map(status => (
+                      <option key={status} value={status}>
+                        {I18n.t(callbacksStatuses[status])}
+                      </option>
+                    ))}
+                  </Field>
+                </div>
+                <div className="d-flex justify-content-center">
+                  <NoteButton
+                    id={`callback-details-note-${callback.callbackId}`}
+                    targetUUID={callback.callbackId}
+                    playerUUID={callback.userId}
+                    note={callback.note}
+                  />
+                </div>
+              </Otherwise>
+            </Choose>
           </ModalBody>
           <ModalFooter>
             <Button onClick={onCloseModal}>{I18n.t('COMMON.CANCEL')}</Button>

@@ -42,6 +42,7 @@ const getClientPayments = gql`query getClientPayments(
       size
       last
       content {
+        _id
         login
         paymentId
         paymentType
@@ -123,6 +124,7 @@ const getClientPaymentsByUuid = gql`query getClientPayments(
       size
       last
       content {
+        _id
         login
         paymentId
         paymentType

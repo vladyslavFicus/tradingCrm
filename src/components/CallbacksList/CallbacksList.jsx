@@ -3,6 +3,7 @@ import moment from 'moment';
 import classNames from 'classnames';
 import { I18n } from 'react-redux-i18n';
 import { get } from 'lodash';
+import NoteButton from 'components/NoteButton';
 import PropTypes from '../../constants/propTypes';
 import { shortify } from '../../utils/uuid';
 import withPlayerClick from '../../utils/withPlayerClick';
@@ -41,8 +42,8 @@ class CallbacksList extends Component {
     }
   };
 
-  handleOpenDetailModal = (callback) => {
-    this.props.modals.callbackDetails.show({ callback, initialValues: callback });
+  handleOpenDetailModal = ({ callbackId }) => {
+    this.props.modals.callbackDetails.show({ callbackId });
   };
 
   handleClientClick = ({ userId, client: { fullName } }) => (e) => {
@@ -105,6 +106,15 @@ class CallbacksList extends Component {
     </div>
   );
 
+  renderActions = ({ callbackId, userId, note }) => (
+    <NoteButton
+      key={callbackId}
+      targetUUID={callbackId}
+      playerUUID={userId}
+      note={note}
+    />
+  );
+
   render() {
     const {
       callbacks,
@@ -162,6 +172,11 @@ class CallbacksList extends Component {
           name="status"
           header={I18n.t('CALLBACKS.GRID_HEADER.STATUS')}
           render={this.renderStatus}
+        />
+        <GridViewColumn
+          name="actions"
+          header=""
+          render={this.renderActions}
         />
       </GridView>
     );

@@ -1,11 +1,15 @@
 import { compose, graphql } from 'react-apollo';
-import { withNotifications } from '../../../../../../../../components/HighOrder';
-import { operatorsQuery } from '../../../../../../../../graphql/queries/operators';
-import { createCallbackMutation } from '../../../../../../../../graphql/mutations/callbacks';
+import { withNotifications } from 'components/HighOrder';
+import { addNoteMutation } from 'graphql/mutations/note';
+import { operatorsQuery } from 'graphql/queries/operators';
+import { createCallbackMutation } from 'graphql/mutations/callbacks';
 import CallbackAddModal from './CallbackAddModal';
 
 export default compose(
   withNotifications,
+  graphql(addNoteMutation, {
+    name: 'addNote',
+  }),
   graphql(createCallbackMutation, {
     name: 'createCallback',
     options: ({ userId }) => ({

@@ -1,4 +1,5 @@
 import gql from 'graphql-tag';
+import { NoteFragment } from '../fragments/notes';
 
 const callbacksQuery = gql`query getCallbacks(
   $id: String,
@@ -41,6 +42,9 @@ const callbacksQuery = gql`query getCallbacks(
           client {
             fullName
           }
+          note {
+            ...NoteFragment,
+          }
         }
     }
     error {
@@ -48,8 +52,43 @@ const callbacksQuery = gql`query getCallbacks(
       fields_errors
     }
   }
-}`;
+}
+${NoteFragment}`;
+
+const callbackQuery = gql`query getCallback(
+  $id: String!,
+) {
+  callback(
+    id: $id,
+  ) {
+    data {
+      _id
+      operatorId
+      userId
+      callbackId
+      callbackTime
+      status
+      creationTime
+      updateTime
+      operator {
+        fullName
+      }
+      client {
+        fullName
+      }
+      note {
+        ...NoteFragment,
+      }
+    }
+    error {
+      error
+      fields_errors
+    }
+  }
+}
+${NoteFragment}`;
 
 export {
   callbacksQuery,
+  callbackQuery,
 };
