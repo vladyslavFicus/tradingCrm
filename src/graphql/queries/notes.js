@@ -1,8 +1,9 @@
 /* eslint-disable import/prefer-default-export */
 import gql from 'graphql-tag';
+import { NoteFragment } from '../fragments/notes';
 
 const notesQuery = gql`query notes(
-    $playerUUID: String!
+    $targetUUID: String!
     $pinned: Boolean
     $size: Int
     $changedAtTo: String
@@ -10,7 +11,7 @@ const notesQuery = gql`query notes(
     $targetType: String
   ){
   notes(
-    playerUUID: $playerUUID
+    targetUUID: $targetUUID
     pinned: $pinned
     size: $size
     changedAtTo: $changedAtTo
@@ -25,21 +26,15 @@ const notesQuery = gql`query notes(
       number
       last
       content {
-        _id
-        pinned
-        noteId
-        content
-        targetUUID
-        changedBy
-        changedAt
+        ...NoteFragment,
       }
     } error {
       error
     }
   }
-}`;
+}
+${NoteFragment}`;
 
 export {
   notesQuery,
 };
-

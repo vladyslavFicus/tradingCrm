@@ -15,7 +15,7 @@ const SwitchField = (props) => {
   return (
     <div className={wrapperClassName}>
       <ReactSwitch
-        on={input.value}
+        on={!!input.value}
         onClick={onClick}
         id={id}
       />

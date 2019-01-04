@@ -1,3 +1,1 @@
-import NotePopover from './NotePopover';
-
-export default NotePopover;
+export { default } from './NotePopoverContainer';

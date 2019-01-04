@@ -131,13 +131,13 @@ export default compose(
       refetchQueries: [{
         query: notesQuery,
         variables: {
-          playerUUID,
+          targetUUID: playerUUID,
           pinned: true,
         },
       }, {
         query: notesQuery,
         variables: {
-          playerUUID,
+          targetUUID: playerUUID,
           size: 25,
           page: 0,
           ...query ? query.filters : {},
@@ -177,7 +177,7 @@ export default compose(
         } = proxy.readQuery({
           query: notesQuery,
           variables: {
-            playerUUID,
+            targetUUID: playerUUID,
             pinned: true,
           },
         });
@@ -187,11 +187,11 @@ export default compose(
         }) => noteUuid === noteId);
 
         if (selectedNote && !pinned) {
-          removeNote(proxy, { playerUUID, pinned: true }, noteId);
+          removeNote(proxy, { targetUUID, pinned: true }, noteId);
         }
 
         if (!selectedNote && pinned) {
-          addPinnedNote(proxy, { playerUUID, targetUUID }, data);
+          addPinnedNote(proxy, { targetUUID }, data);
         }
       },
     }),
@@ -217,9 +217,9 @@ export default compose(
           },
         },
       }) => {
-        removeNote(proxy, { playerUUID, pinned: true }, noteId);
+        removeNote(proxy, { targetUUID: playerUUID, pinned: true }, noteId);
         removeNote(proxy, {
-          playerUUID,
+          targetUUID: playerUUID,
           size: 25,
           page: 0,
           ...query ? query.filters : {},
@@ -254,7 +254,7 @@ export default compose(
       },
     }) => ({
       variables: {
-        playerUUID,
+        targetUUID: playerUUID,
         pinned: true,
       },
     }),

@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { get } from 'lodash';
 import classNames from 'classnames';
+import NoteButton from 'components/NoteButton';
 import I18n from '../../../../../../../../../../utils/i18n';
 import { createValidator } from '../../../../../../../../../../utils/validator';
 import { InputField, NasSelectField, DateTimeField } from '../../../../../../../../../../components/ReduxForm';
@@ -31,7 +32,6 @@ class PaymentAddModal extends Component {
     onCloseModal: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func.isRequired,
-    onManageNote: PropTypes.func.isRequired,
     pristine: PropTypes.bool,
     submitting: PropTypes.bool,
     invalid: PropTypes.bool.isRequired,
@@ -47,12 +47,6 @@ class PaymentAddModal extends Component {
     change: PropTypes.func.isRequired,
   };
 
-  static contextTypes = {
-    onAddNoteClick: PropTypes.func.isRequired,
-    onEditNoteClick: PropTypes.func.isRequired,
-    hidePopover: PropTypes.func.isRequired,
-  };
-
   static defaultProps = {
     submitting: false,
     pristine: false,
@@ -60,20 +54,8 @@ class PaymentAddModal extends Component {
     error: [],
   };
 
-  getNotePopoverParams = () => ({
-    placement: 'bottom',
-    onSubmit: this.handleSubmitNote,
-    onDelete: this.handleDeleteNote,
-  });
-
-  handleSubmitNote = (data) => {
-    this.props.onManageNote(data);
-    this.context.hidePopover();
-  };
-
-  handleDeleteNote = () => {
-    this.props.onManageNote(null);
-    this.context.hidePopover();
+  onSubmit = async (data) => {
+    await this.props.onSubmit({ ...data, note: this.noteButton.getNote() });
   };
 
   handlePaymentTypeChanged = (value) => {
@@ -158,13 +140,13 @@ class PaymentAddModal extends Component {
   render() {
     const {
       onCloseModal,
-      onSubmit,
       handleSubmit,
       pristine,
       submitting,
       invalid,
       playerProfile: {
         currencyCode,
+        playerUUID,
       },
       currentValues,
       error: errors,
@@ -175,7 +157,7 @@ class PaymentAddModal extends Component {
         <ModalHeader toggle={onCloseModal}>
           {I18n.t('PLAYER_PROFILE.TRANSACTIONS.MODAL_CREATE.TITLE')}
         </ModalHeader>
-        <ModalBody tag="form" id="new-transaction" className="container-fluid" onSubmit={handleSubmit(onSubmit)}>
+        <ModalBody tag="form" id="new-transaction" className="container-fluid" onSubmit={handleSubmit(this.onSubmit)}>
 
           <If condition={errors.length}>
             <For each="error" index="index" of={errors}>
@@ -287,6 +269,14 @@ class PaymentAddModal extends Component {
                   {this.renderMt4SelectField('fromMt4Acc')}
                 </When>
               </Choose>
+            </div>
+            <div className="form-row justify-content-center">
+              <NoteButton
+                manual
+                ref={(ref) => { this.noteButton = ref; }}
+                placement="bottom"
+                playerUUID={playerUUID}
+              />
             </div>
           </div>
         </ModalBody>

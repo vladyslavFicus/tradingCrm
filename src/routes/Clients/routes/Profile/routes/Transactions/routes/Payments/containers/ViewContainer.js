@@ -1,6 +1,7 @@
 import { connect } from 'react-redux';
 import { graphql, compose } from 'react-apollo';
 import { get } from 'lodash';
+import { addNoteMutation } from 'graphql/mutations/note';
 import Payments from '../components/Payments';
 import { actionCreators as viewActionCreators } from '../modules';
 import { actionCreators as playerActionCreators } from '../../../../../modules';
@@ -42,6 +43,9 @@ export default compose(
     addPayment: PaymentAddModal,
   }),
   connect(mapStateToProps, mapActions),
+  graphql(addNoteMutation, {
+    name: 'addNote',
+  }),
   graphql(addPaymentMutation, {
     name: 'addPayment',
   }),

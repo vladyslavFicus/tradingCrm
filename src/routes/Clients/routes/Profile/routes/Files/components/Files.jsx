@@ -1,126 +1,98 @@
 import React, { Component, Fragment } from 'react';
+import { get } from 'lodash';
+import history from 'router/history';
 import PropTypes from '../../../../../../../constants/propTypes';
-import { targetTypes } from '../../../../../../../constants/note';
+import { actions } from '../../../../../../../constants/files';
+import { getApiRoot } from '../../../../../../../config';
 import { targetTypes as fileTargetTypes } from '../../../../../../../components/Files/constants';
 import FilesFilterForm from './FilesFilterForm';
 import CommonFileGridView from '../../../components/CommonFileGridView';
 import TabHeader from '../../../../../../../components/TabHeader';
 
 class Files extends Component {
+  static contextTypes = {
+    showImages: PropTypes.func.isRequired,
+    onUploadFileClick: PropTypes.func.isRequired,
+    setFileChangedCallback: PropTypes.func.isRequired,
+  };
+
   static propTypes = {
-    filesUrl: PropTypes.string.isRequired,
-    files: PropTypes.pageableState(PropTypes.fileEntity).isRequired,
+    files: PropTypes.shape({
+      data: PropTypes.pageable(PropTypes.fileEntity),
+      refetch: PropTypes.func.isRequired,
+    }).isRequired,
     match: PropTypes.shape({
       params: PropTypes.shape({
         id: PropTypes.string.isRequired,
       }).isRequired,
     }).isRequired,
-    fetchFilesAndNotes: PropTypes.func.isRequired,
-    changeFileStatusByAction: PropTypes.func.isRequired,
     downloadFile: PropTypes.func.isRequired,
-    locale: PropTypes.string.isRequired,
-  };
-  static contextTypes = {
-    onAddNoteClick: PropTypes.func.isRequired,
-    onEditNoteClick: PropTypes.func.isRequired,
-    setNoteChangedCallback: PropTypes.func.isRequired,
-    onUploadFileClick: PropTypes.func.isRequired,
-    setFileChangedCallback: PropTypes.func.isRequired,
-    onDeleteFileClick: PropTypes.func.isRequired,
-    showImages: PropTypes.func.isRequired,
-    registerUpdateCacheListener: PropTypes.func.isRequired,
-    unRegisterUpdateCacheListener: PropTypes.func.isRequired,
-  };
-  state = {
-    filters: {},
-    page: 0,
+    delete: PropTypes.func.isRequired,
+    refuse: PropTypes.func.isRequired,
+    verify: PropTypes.func.isRequired,
   };
 
   componentDidMount() {
-    const {
-      context: {
-        registerUpdateCacheListener,
-        setNoteChangedCallback,
-        setFileChangedCallback
-      },
-      constructor: { name },
-      handleRefresh,
-    } = this;
-
-
-    handleRefresh();
-    setNoteChangedCallback(handleRefresh);
-    setFileChangedCallback(handleRefresh);
-    registerUpdateCacheListener(name, handleRefresh);
+    this.context.setFileChangedCallback(this.props.files.refetch);
   }
 
   componentWillUnmount() {
-    const {
-      context: {
-        unRegisterUpdateCacheListener,
-        setNoteChangedCallback,
-        setFileChangedCallback,
-      },
-      constructor: { name },
-    } = this;
-
-    setNoteChangedCallback(null);
-    setFileChangedCallback(null);
-    unRegisterUpdateCacheListener(name);
+    this.context.setFileChangedCallback(null);
   }
 
-  getNotePopoverParams = () => ({
-    placement: 'left',
-  });
+  handlePageChanged = () => {
+    const {
+      files: {
+        loadMore,
+        loading,
+      },
+    } = this.props;
 
-  handleNoteClick = (target, note, data) => {
-    if (note) {
-      this.context.onEditNoteClick(target, note, this.getNotePopoverParams());
-    } else {
-      this.context.onAddNoteClick(data.uuid, targetTypes.FILE)(target, this.getNotePopoverParams());
+    if (!loading) {
+      loadMore();
     }
   };
 
-  handleRefresh = () => {
-    this.props.fetchFilesAndNotes(this.props.match.params.id, {
-      ...this.state.filters,
-      page: this.state.page,
-    });
-  };
-
-  handlePageChanged = (page) => {
-    if (!this.props.files.isLoading) {
-      this.setState({ page: page - 1 }, () => this.handleRefresh());
-    }
-  };
-
-  handleFiltersChanged = (filters = {}) => {
-    this.setState({ filters, page: 0 }, this.handleRefresh);
-  };
+  handleFiltersChanged = (filters = {}) => history.replace({ query: { filters } });
 
   handleStatusActionClick = (uuid, action) => {
-    this.props.changeFileStatusByAction(uuid, action);
+    const variables = { uuid };
+
+    switch (action) {
+      case actions.VERIFY:
+        this.props.verify({ variables });
+        break;
+      case actions.REFUSE:
+        this.props.refuse({ variables });
+        break;
+      default:
+        break;
+    }
   };
 
-  handleDownloadFileClick = (e, data) => {
-    e.preventDefault();
-
+  handleDownloadFileClick = (data) => {
     this.props.downloadFile(data);
   };
 
-  handleDeleteFileClick = (e, data) => {
-    this.context.onDeleteFileClick(e, data);
+  handleDeleteFileClick = async ({ uuid }) => {
+    const { data: { file: { delete: { error } } } } = await this.props.delete({ variables: { uuid } });
+
+    if (!error) {
+      this.props.files.refetch();
+    }
   };
 
   handlePreviewImageClick = (data) => {
-    this.context.showImages(`${this.props.filesUrl}${data.uuid}`, data.type);
+    this.context.showImages(`${getApiRoot()}/profile/files/download/${data.uuid}`, data.type);
   };
 
   render() {
     const {
-      files: { entities, noResults },
-      locale,
+      files,
+      files: { loading },
     } = this.props;
+
+    const entities = get(files, 'files', { content: [], totalPages: 0, number: 0 });
 
     return (
       <Fragment>
@@ -143,14 +115,14 @@ class Files extends Component {
             dataSource={entities.content}
             totalPages={entities.totalPages}
             activePage={entities.number + 1}
+            loading={loading && entities.content.length === 0}
             lazyLoad
             onPageChange={this.handlePageChanged}
             onStatusActionClick={this.handleStatusActionClick}
             onDownloadFileClick={this.handleDownloadFileClick}
             onDeleteFileClick={this.handleDeleteFileClick}
             onPreviewImageClick={this.handlePreviewImageClick}
-            locale={locale}
-            showNoResults={noResults}
+            showNoResults={entities.content.length === 0}
           />
         </div>
       </Fragment>
