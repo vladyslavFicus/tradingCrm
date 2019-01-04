@@ -119,6 +119,7 @@ class NoteButton extends PureComponent {
       onAddSuccess,
       onUpdateSuccess,
       onDeleteSuccess,
+      note: _note,
       ...rest
     } = this.props;
     const { note } = this.state;
