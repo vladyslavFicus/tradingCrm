@@ -45,8 +45,8 @@ class CallbacksCalendar extends PureComponent {
     this.props.callbacks.refetch({ callbackTimeFrom, callbackTimeTo });
   };
 
-  handleOpenDetailModal = (callback) => {
-    this.props.modals.callbackDetails.show({ callback, initialValues: callback });
+  handleOpenDetailModal = ({ callbackId }) => {
+    this.props.modals.callbackDetails.show({ callbackId });
   };
 
   render() {
