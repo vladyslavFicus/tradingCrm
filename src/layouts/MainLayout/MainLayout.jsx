@@ -297,10 +297,6 @@ class MainLayout extends Component {
   };
 
   render() {
-    if (window.isFrame) {
-      return this.props.children;
-    }
-
     const { popover, isOpenProfile } = this.state;
     const {
       children,
@@ -321,45 +317,52 @@ class MainLayout extends Component {
 
     return (
       <Fragment>
-        <Header
-          user={user}
-          languages={languages}
-          onLocaleChange={onLocaleChange}
-          onToggleProfile={this.onToggleProfile}
-          onDepartmentChange={changeDepartment}
-        />
+        <Choose>
+          <When condition={window.isFrame}>
+            {children}
+          </When>
+          <Otherwise>
+            <Header
+              user={user}
+              languages={languages}
+              onLocaleChange={onLocaleChange}
+              onToggleProfile={this.onToggleProfile}
+              onDepartmentChange={changeDepartment}
+            />
 
-        <Sidebar
-          init={initSidebar}
-          topMenu={sidebarTopMenu}
-          bottomMenu={sidebarBottomMenu}
-          menuItemClick={menuItemClick}
-          onToggleTab={toggleMenuTab}
-        />
+            <Sidebar
+              init={initSidebar}
+              topMenu={sidebarTopMenu}
+              bottomMenu={sidebarBottomMenu}
+              menuItemClick={menuItemClick}
+              onToggleTab={toggleMenuTab}
+            />
 
-        <main className="content-container">{children}</main>
+            <main className="content-container">{children}</main>
 
-        <MyProfileSidebar
-          isOpen={isOpenProfile}
-          languages={languages}
-          onSubmit={this.onProfileSubmit}
-          initialValues={{
-            language: locale,
-            ...user.data,
-          }}
-          onToggleProfile={this.onToggleProfile}
-        />
+            <MyProfileSidebar
+              isOpen={isOpenProfile}
+              languages={languages}
+              onSubmit={this.onProfileSubmit}
+              initialValues={{
+                language: locale,
+                ...user.data,
+              }}
+              onToggleProfile={this.onToggleProfile}
+            />
 
-        <UsersPanel
-          active={activeUserPanel}
-          items={userPanels}
-          onItemClick={this.handleUserPanelClick}
-          onRemove={removePanel}
-          onClose={this.handleCloseTabs}
-          onReplace={replace}
-        />
+            <UsersPanel
+              active={activeUserPanel}
+              items={userPanels}
+              onItemClick={this.handleUserPanelClick}
+              onRemove={removePanel}
+              onClose={this.handleCloseTabs}
+              onReplace={replace}
+            />
 
-        <BackToTop positionChange={userPanels.length > 0} />
+            <BackToTop positionChange={userPanels.length > 0} />
+          </Otherwise>
+        </Choose>
 
         <If condition={popover.name === NOTE_POPOVER}>
           <NotePopover
