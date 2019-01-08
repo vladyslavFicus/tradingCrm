@@ -1,0 +1,190 @@
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { Field } from 'redux-form';
+import { I18n } from 'react-redux-i18n';
+import { departmentsLabels, rolesLabels } from '../../../../../../constants/operators';
+import { CheckBox } from '../../../../../../components/ReduxForm';
+import Select from '../../../../../../components/Select';
+import reduxFieldsConstructor from '../../../../../../components/ReduxForm/ReduxFieldsConstructor';
+import { getBranchHierarchy } from '../../../../../../graphql/queries/hierarchy';
+import { branchTypes, branchField, formFields, fieldNames } from './constants';
+
+class CreateOperatorModal extends Component {
+  static propTypes = {
+    onCloseModal: PropTypes.func.isRequired,
+    onSubmit: PropTypes.func.isRequired,
+    handleSubmit: PropTypes.func.isRequired,
+    change: PropTypes.func,
+    departmentsRoles: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.string)).isRequired,
+    pristine: PropTypes.bool,
+    submitting: PropTypes.bool,
+    valid: PropTypes.bool,
+    isOpen: PropTypes.bool.isRequired,
+    formValues: PropTypes.shape({
+      department: PropTypes.string,
+      role: PropTypes.string,
+    }),
+    client: PropTypes.shape({
+      query: PropTypes.func.isRequired,
+    }).isRequired,
+    operatorId: PropTypes.string.isRequired,
+  };
+
+  static defaultProps = {
+    pristine: false,
+    submitting: false,
+    valid: false,
+    formValues: {},
+    change: null,
+  };
+
+  state = {
+    selectedBranchType: '',
+    branchesLoading: false,
+    branches: null,
+  };
+
+  handleSelectFieldChange = fieldName => (value) => {
+    const { change, departmentsRoles } = this.props;
+
+    if (fieldName === fieldNames.department) {
+      const roles = departmentsRoles[value];
+
+      if (roles.length > 0) {
+        change(fieldNames.role, roles[0]);
+      }
+    }
+
+    change(fieldName, value);
+  }
+
+  handleSelectChange = async (selectedBranchType) => {
+    this.setState({ branchesLoading: true });
+    const {
+      client,
+      notify,
+      operatorId,
+    } = this.props;
+
+    const branchType = selectedBranchType.toLowerCase();
+    const { data: { hierarchy: { branchHierarchy: { data, error } } } } = await client.query({
+      query: getBranchHierarchy,
+      variables: {
+        operatorId,
+        branchType,
+      },
+    });
+
+    if (error) {
+      notify({
+        level: 'error',
+        title: I18n.t('COMMON.FAIL'),
+        message: I18n.t('HIERARCHY.ERROR_LOADING_BRANCHES'),
+      });
+    } else {
+      const branches = data.map(({ [branchType]: { uuid, name } }) => ({ value: uuid, label: name }));
+
+      this.setState({
+        selectedBranchType,
+        branches,
+        branchesLoading: false,
+      });
+    }
+  }
+
+  render() {
+    const {
+      handleSubmit,
+      onSubmit,
+      departmentsRoles,
+      pristine,
+      submitting,
+      valid,
+      onCloseModal,
+      isOpen,
+      formValues,
+    } = this.props;
+
+    const {
+      selectedBranchType,
+      branchesLoading,
+      branches,
+    } = this.state;
+
+    return (
+      <Modal className="create-operator-modal" toggle={onCloseModal} isOpen={isOpen}>
+        <ModalHeader toggle={onCloseModal}>{I18n.t('OPERATORS.MODALS.NEW_OPERATOR.TITLE')}</ModalHeader>
+        <ModalBody id="create-operator-modal-form" tag="form" onSubmit={handleSubmit(onSubmit)}>
+          <div className="row">
+            {reduxFieldsConstructor(
+              formFields({
+                departmentsLabels,
+                departmentsRoles,
+                rolesLabels,
+                formValues,
+              }),
+              this.handleSelectFieldChange,
+            )}
+            <div className="form-group col-md-6">
+              <label>{I18n.t('COMMON.BRANCH_TYPE')}</label>
+              <Select
+                value={selectedBranchType}
+                placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
+                onChange={this.handleSelectChange}
+              >
+                {branchTypes.map(({ value, label }) => (
+                  <option key={value} value={value}>
+                    {I18n.t(label)}
+                  </option>
+                ))}
+              </Select>
+            </div>
+            {reduxFieldsConstructor([
+              branchField(
+                selectedBranchType,
+                branchesLoading,
+                branches,
+              )])}
+          </div>
+          <Field
+            name="sendMail"
+            type="checkbox"
+            component={CheckBox}
+            id="create-new-operator-send-invitation-checkbox"
+            label={I18n.t('OPERATORS.MODALS.NEW_OPERATOR.SEND_INVITATION')}
+          />
+        </ModalBody>
+        <ModalFooter>
+          <div className="row">
+            <div className="col-5 text-muted font-size-12 text-left">
+              <b>{I18n.t('OPERATORS.MODALS.NEW_OPERATOR.NOTE')}</b>
+              {':'}
+              {I18n.t('OPERATORS.MODALS.NEW_OPERATOR.NOTE_MESSAGE')}
+            </div>
+            <div className="col-7">
+              <button
+                type="button"
+                className="btn btn-default-outline"
+                onClick={onCloseModal}
+              >
+                {I18n.t('COMMON.BUTTONS.CANCEL')}
+              </button>
+              <button
+                type="submit"
+                disabled={pristine || submitting || !valid}
+                className="btn btn-primary ml-2"
+                id="create-new-operator-submit-button"
+                form="create-operator-modal-form"
+              >
+                {I18n.t('COMMON.BUTTONS.CREATE_AND_OPEN')}
+              </button>
+            </div>
+          </div>
+        </ModalFooter>
+      </Modal>
+    );
+  }
+}
+
+export default CreateOperatorModal;

@@ -1,5 +1,25 @@
 import gql from 'graphql-tag';
 
+const createHierarchyUser = gql`mutation createUser(
+  $userId: String!,
+  $userType: String!,
+  $branchId: String,
+) {
+  hierarchy {
+    createUser (
+      userId: $userId
+      userType: $userType
+      branchId: $branchId
+    ) {
+      data
+      error {
+        error
+        fields_errors
+      }
+    }
+  }
+}`;
+
 const createOffice = gql`mutation createOffice(
   $name: String!,
   $country: String!,
@@ -66,6 +86,7 @@ const addOperatorToBranch = gql`mutation addOperator(
 }`;
 
 export {
+  createHierarchyUser,
   createOffice,
   createDesk,
   createTeam,

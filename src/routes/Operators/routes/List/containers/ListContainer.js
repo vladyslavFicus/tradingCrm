@@ -1,16 +1,24 @@
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { getFormValues } from 'redux-form';
-import { actionCreators } from '../modules/list';
+import { graphql } from 'react-apollo';
 import { actionCreators as authoritiesActionCreators } from '../../../../../redux/modules/auth/authorities';
 import { actionCreators as miniProfileActionCreators } from '../../../../../redux/modules/miniProfile';
-import List from '../components/List';
+import { createHierarchyUser } from '../../../../../graphql/mutations/hierarchy';
 import { withModals, withNotifications } from '../../../../../components/HighOrder';
-import CreateOperatorModal from '../../../components/CreateOperatorModal';
+import CreateOperatorModalContainer from '../components/CreateOperatorModal';
+import { actionCreators } from '../modules/list';
+import List from '../components/List';
 
-const mapStateToProps = ({ operatorsList: list, i18n: { locale }, ...state }) => ({
+const mapStateToProps = ({
+  operatorsList: list,
+  i18n: { locale },
+  auth: { uuid },
+  ...state
+}) => ({
   list,
   locale,
+  operatorId: uuid,
   filterValues: getFormValues('operatorsListGridFilter')(state) || {},
 });
 
@@ -25,6 +33,9 @@ const mapActions = {
 
 export default compose(
   connect(mapStateToProps, mapActions),
-  withModals({ createOperator: CreateOperatorModal }),
-  withNotifications
+  withModals({ createOperator: CreateOperatorModalContainer }),
+  withNotifications,
+  graphql(createHierarchyUser, {
+    name: 'createHierarchyUser',
+  })
 )(List);

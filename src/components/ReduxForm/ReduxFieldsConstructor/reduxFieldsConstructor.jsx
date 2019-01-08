@@ -29,9 +29,10 @@ const reduxFieldsConstructor = (
       normalize,
       // select props
       multiple,
+      searchable,
       withAnyOption,
       selectOptions,
-      onFieldChange,
+      customOnChange,
       // date props
       dateValidator,
       pickerClassName,
@@ -77,7 +78,8 @@ const reduxFieldsConstructor = (
               {...commonProps}
               component={components.SELECT}
               multiple={multiple}
-              {...onFieldChange && { onFieldChange: onSelectFieldChange(name) }}
+              {...customOnChange && { onFieldChange: onSelectFieldChange(name) }}
+              {...(searchable === false) && { searchable }}
               {...(withAnyOption === false)
                 ? { withAnyOption }
                 : (!multiple && { withAnyOption: true })
