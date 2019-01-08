@@ -1072,7 +1072,8 @@
         "BI": "Business intelligence",
         "IGROMAT": "Igromat",
         "SALES": "Sales",
-        "RETENTION": "Retention"
+        "RETENTION": "Retention",
+        "FINANCE": "Finance"
       },
       "ROLES": {
         "ROLE1": "Executive",
