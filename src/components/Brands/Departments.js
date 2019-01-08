@@ -77,9 +77,7 @@ class Departments extends Component {
         {
           !canGoBack && brand &&
           <div className="form-page__single-brand_brand">
-            <div>
-              <img alt={brand.name} id={brand.id} {...brand.image} />
-            </div>
+            <img alt={brand.name} id={brand.id} {...brand.image} />
             <div className="form-page__single-brand_label">
               {brand.name}
             </div>

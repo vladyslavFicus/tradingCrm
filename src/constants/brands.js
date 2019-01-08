@@ -17,6 +17,7 @@ const departments = keyMirror({
   RETENTION: null,
   DEALING: null,
   COMPLIANCE: null,
+  FINANCE: null,
 });
 const roles = keyMirror({
   ROLE1: null,
@@ -78,6 +79,10 @@ const departmentsConfig = {
   },
   [departments.COMPLIANCE]: {
     name: I18n.t('CONSTANTS.SIGN_IN.DEPARTMENTS.COMPLIANCE'),
+    image: '/img/departments/administration_dep_logo.svg',
+  },
+  [departments.FINANCE]: {
+    name: I18n.t('CONSTANTS.SIGN_IN.DEPARTMENTS.FINANCE'),
     image: '/img/departments/administration_dep_logo.svg',
   },
 };
