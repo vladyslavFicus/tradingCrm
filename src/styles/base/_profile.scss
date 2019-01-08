@@ -13,3 +13,7 @@
     background-color: #fff;
   }
 }
+
+#lightboxBackdrop img {
+  pointer-events: none;
+}
