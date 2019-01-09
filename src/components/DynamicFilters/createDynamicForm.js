@@ -212,7 +212,7 @@ class DynamicForm extends Component {
             disabled={filter.disabled}
             {...from}
           />,
-          <Field component={DateTimeField} placeholder={toPl} {...to} />,
+          <Field component={DateTimeField} placeholder={toPl} isDateRangeEndValue {...to} />,
         ];
       }
 

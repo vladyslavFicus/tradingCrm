@@ -7195,6 +7195,18 @@ newage-react-datetime@^1.0.7:
     react-dom "16.3.2"
     react-onclickoutside "6.7.1"
 
+newage-react-datetime@^1.0.9:
+  version "1.0.9"
+  resolved "https://registry.yarnpkg.com/newage-react-datetime/-/newage-react-datetime-1.0.9.tgz#0e09e0fb85b8f2d8ff9ea5e2c581403e74fbdc5c"
+  dependencies:
+    classnames "^2.2.5"
+    moment "2.22.1"
+    object-assign "4.1.1"
+    prop-types "^15.6.0"
+    react "16.3.2"
+    react-dom "16.3.2"
+    react-onclickoutside "6.7.1"
+
 nice-try@^1.0.4:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/nice-try/-/nice-try-1.0.5.tgz#a3378a7696ce7d223e88fc9b764bd7ef1089e366"

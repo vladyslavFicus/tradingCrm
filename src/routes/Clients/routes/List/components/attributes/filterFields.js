@@ -189,7 +189,8 @@ export default (
       type: validators.START_DATE,
       fieldName: 'registrationDateTo',
     },
-    // pickerClassName: 'left-side',
+    withTime: true,
+    timePresets: true,
   }, {
     type: fieldTypes.DATE,
     name: 'registrationDateTo',
@@ -199,6 +200,9 @@ export default (
       type: validators.END_DATE,
       fieldName: 'registrationDateFrom',
     },
+    withTime: true,
+    timePresets: true,
+    isDateRangeEndValue: true,
   }],
 }];
 

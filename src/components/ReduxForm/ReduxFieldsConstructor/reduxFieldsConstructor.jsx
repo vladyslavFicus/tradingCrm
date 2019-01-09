@@ -36,6 +36,9 @@ const reduxFieldsConstructor = (
       dateValidator,
       pickerClassName,
       closeOnSelect,
+      withTime,
+      timePresets,
+      isDateRangeEndValue,
       // rangeProps
       fields: rangeFields,
     }) => {
@@ -111,6 +114,9 @@ const reduxFieldsConstructor = (
               {...(typeof closeOnSelect === 'boolean') && { closeOnSelect }}
               {...dateValidator && { isValidDate }}
               {...pickerClassName && { pickerClassName }}
+              {...withTime && { withTime }}
+              {...timePresets && { timePresets }}
+              {...isDateRangeEndValue && { isDateRangeEndValue }}
             />
           );
 

@@ -14,6 +14,7 @@ class DateTimeField extends Component {
     id: PropTypes.string,
     className: PropTypes.string,
     pickerClassName: PropTypes.string,
+    isDateRangeEndValue: PropTypes.bool,
     input: PropTypes.shape({
       onChange: PropTypes.func.isRequired,
       name: PropTypes.string,
@@ -56,6 +57,7 @@ class DateTimeField extends Component {
     closeOnSelect: true,
     withTime: false,
     timePresets: false,
+    isDateRangeEndValue: false,
     helpText: null,
   };
 
@@ -105,13 +107,22 @@ class DateTimeField extends Component {
     value && value.length === this.state.validLength && moment(value, this.state.ISOFormat).isValid()
   );
 
-  handleChange = (value) => {
-    const { input: { onChange }, utc } = this.props;
-
-    let formatValue = value;
-
-    if (value._isAMomentObject) {
-      formatValue = (utc ? moment.utc(value) : value).format(this.state.ISOFormat);
+  handleChange = (newValue) => {
+    const { input: { onChange, value }, utc, isDateRangeEndValue } = this.props;
+    const isCurrentValueValid = moment(value, this.state.ISOFormat, true).isValid() || value === '';
+    let formatValue = newValue;
+    if (newValue._isAMomentObject) {
+      if (isDateRangeEndValue && isCurrentValueValid) {
+        // if it's an end field in date range
+        const currentValue = utc ? moment.utc(value).local() : moment(value);
+        const diff = (value === '') ? 1 : Math.abs(currentValue.diff(newValue, 'days'));
+        if (diff >= 1) {
+          // if clicks on a day select, set time to 23.59
+          newValue.set({ hour: 23, minute: 59 });
+        }
+      }
+      const momentDate = utc ? moment.utc(newValue) : newValue;
+      formatValue = momentDate.format(this.state.ISOFormat);
     }
 
     onChange(formatValue);

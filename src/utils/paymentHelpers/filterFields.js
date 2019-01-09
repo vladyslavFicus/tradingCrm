@@ -174,6 +174,9 @@ export default (
       fieldName: 'creationTimeTo',
     },
     pickerClassName: 'left-side',
+    withTime: true,
+    timePresets: true,
+    closeOnSelect: false,
   }, {
     type: fieldTypes.DATE,
     name: 'creationTimeTo',
@@ -182,5 +185,9 @@ export default (
       type: validators.END_DATE,
       fieldName: 'creationTimeFrom',
     },
+    withTime: true,
+    timePresets: true,
+    isDateRangeEndValue: true,
+    closeOnSelect: false,
   }],
 }];
