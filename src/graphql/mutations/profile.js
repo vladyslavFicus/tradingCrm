@@ -299,18 +299,21 @@ const updateMutation = gql`mutation update(
   $playerUUID: String!,
   $phone1: String,
   $phone2: String,
+  $languageCode: String,
 ){
   profile {
     update(
       playerUUID: $playerUUID,
       phone1: $phone1,
       phone2: $phone2,
+      languageCode: $languageCode,
     ) {
       data {
         playerUUID
         tradingProfile {
           phone1
           phone2
+          languageCode,
         }
       }
       error {

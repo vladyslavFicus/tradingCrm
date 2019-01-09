@@ -124,6 +124,7 @@ const clientQuery = gql`query profileData($playerUUID: String!){
         withdrawalCount
         phone1
         phone2
+        languageCode
       }
       intendedAmountToSpend
       temporaryUntil
