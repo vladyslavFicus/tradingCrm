@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
-import { uniqBy } from 'lodash';
+import { get } from 'lodash';
 import moment from 'moment';
 import PropTypes from '../../../../../../../constants/propTypes';
 import { InputField, SelectField, DateTimeField, NasSelectField } from '../../../../../../../components/ReduxForm';
 import { createValidator } from '../../../../../../../utils/validator';
 import PermissionContent from '../../../../../../../components/PermissionContent';
+import { getAvailableLanguages } from '../../../../../../../config';
 import permissions from '../../../../../../../config/permissions';
 import languageNames from '../../../../../../../constants/languageNames';
 
@@ -100,9 +101,9 @@ class PersonalForm extends Component {
             disabled={disabled}
           >
             {
-              uniqBy(languageNames, 'languageCode').map(item => (
-                <option key={item.languageCode} value={item.languageCode}>
-                  {I18n.t(item.languageName)}
+              getAvailableLanguages().map(languageCode => (
+                <option key={languageCode} value={languageCode}>
+                  {I18n.t(get(languageNames.find(item => item.languageCode === languageCode), 'languageName'))}
                 </option>
               ))
             }

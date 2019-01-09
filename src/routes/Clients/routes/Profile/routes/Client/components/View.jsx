@@ -106,19 +106,29 @@ class View extends Component {
   };
 
   handleSubmitKYC = type => async (data) => {
-    const { match: { params: { id } }, submitData } = this.props;
+    const {
+      match: { params: { id } },
+      playerProfile: { playerProfile: { data: profile } },
+      submitData,
+      profileUpdate,
+    } = this.props;
 
     const action = await submitData(id, type, data);
-    if (action) {
-      this.context.addNotification({
-        level: action.error ? 'error' : 'success',
-        title: I18n.t('PLAYER_PROFILE.PROFILE.PERSONAL.TITLE'),
-        message: `Update ${action.error ? I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY') :
-          I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
-      });
+
+    let error = action && action.error;
+
+    if (data.languageCode !== profile.tradingProfile.languageCode) {
+      const result = await profileUpdate({ variables: data });
+
+      error = error || (result.error && result.error.error);
     }
 
-    return action;
+    this.context.addNotification({
+      level: error ? 'error' : 'success',
+      title: I18n.t('PLAYER_PROFILE.PROFILE.PERSONAL.TITLE'),
+      message: `Update ${error ? I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY') :
+        I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
+    });
   };
 
   handleUpdatePhone = async (data) => {
@@ -412,6 +422,7 @@ class View extends Component {
             tradingProfile: {
               phone1,
               phone2,
+              languageCode,
             },
           },
         },
@@ -438,7 +449,7 @@ class View extends Component {
               <div className="card margin-right-20">
                 <div className="card-body">
                   <PersonalForm
-                    initialValues={personalData}
+                    initialValues={{ ...personalData, languageCode }}
                     onSubmit={this.handleSubmitKYC(kycTypes.personal)}
                     disabled={!canUpdateProfile}
                   />
