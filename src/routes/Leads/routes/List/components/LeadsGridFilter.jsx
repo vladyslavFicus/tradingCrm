@@ -93,7 +93,7 @@ class UserGridFilter extends Component {
           label={I18n.t(filterLabels.country)}
           size={SIZES.medium}
           type={TYPES.nas_select}
-          placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
+          placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
           default
         >
           <FilterField name="countries" multiple>
@@ -132,7 +132,7 @@ class UserGridFilter extends Component {
           label={I18n.t(filterLabels.salesStatus)}
           size={SIZES.medium}
           type={TYPES.nas_select}
-          placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
+          placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
           default
         >
           <FilterField name="salesStatus">

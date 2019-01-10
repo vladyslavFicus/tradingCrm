@@ -47,7 +47,7 @@ const countryField = {
   type: fieldTypes.SELECT,
   name: 'country',
   label: I18n.t(attributeLabels.country),
-  placeholder: I18n.t('COMMON.SELECT_OPTION.DEFAULT'),
+  placeholder: I18n.t('COMMON.SELECT_OPTION.ANY'),
   className: fieldClassNames.MEDIUM,
   selectOptions: Object
     .keys(countries)
@@ -58,7 +58,7 @@ const currencyField = currencies => ({
   type: fieldTypes.SELECT,
   name: 'currency',
   label: I18n.t('COMMON.CURRENCY'),
-  placeholder: I18n.t('COMMON.SELECT_OPTION.DEFAULT'),
+  placeholder: I18n.t('COMMON.SELECT_OPTION.ANY'),
   className: fieldClassNames.MEDIUM,
   selectOptions: currencies.map(value => ({ value, label: value })),
 });
@@ -84,7 +84,7 @@ export default (
   type: fieldTypes.SELECT,
   name: 'paymentTypes',
   label: I18n.t(attributeLabels.type),
-  placeholder: I18n.t('COMMON.SELECT_OPTION.DEFAULT'),
+  placeholder: I18n.t('COMMON.SELECT_OPTION.ANY'),
   multiple: true,
   className: fieldClassNames.MEDIUM,
   selectOptions: Object
@@ -95,7 +95,7 @@ export default (
   type: fieldTypes.SELECT,
   name: 'paymentAggregator',
   label: I18n.t(attributeLabels.paymentAggregator),
-  placeholder: I18n.t('COMMON.SELECT_OPTION.DEFAULT'),
+  placeholder: I18n.t('COMMON.SELECT_OPTION.ANY'),
   className: fieldClassNames.MEDIUM,
   /* no logic for now, we have just one aggregator */
   selectOptions: [aggregators.CASHIER, aggregators.MANUAL]
@@ -104,7 +104,7 @@ export default (
   type: fieldTypes.SELECT,
   name: 'paymentMethod',
   label: I18n.t(attributeLabels.paymentMethod),
-  placeholder: I18n.t('COMMON.SELECT_OPTION.DEFAULT'),
+  placeholder: I18n.t('COMMON.SELECT_OPTION.ANY'),
   className: fieldClassNames.MEDIUM,
   selectOptions: uniq([...Object.keys(methods), ...Object.keys(manualPaymentMethods)])
     .map((method) => {
@@ -127,7 +127,7 @@ export default (
   type: fieldTypes.SELECT,
   name: 'statuses',
   label: I18n.t(attributeLabels.statuses),
-  placeholder: I18n.t('COMMON.SELECT_OPTION.DEFAULT'),
+  placeholder: I18n.t('COMMON.SELECT_OPTION.ANY'),
   className: fieldClassNames.MEDIUM,
   multiple: true,
   selectOptions: Object
@@ -137,7 +137,7 @@ export default (
   type: fieldTypes.SELECT,
   name: 'agentIds',
   label: I18n.t(attributeLabels.originalAgents),
-  placeholder: I18n.t('COMMON.SELECT_OPTION.DEFAULT'),
+  placeholder: I18n.t('COMMON.SELECT_OPTION.ANY'),
   className: fieldClassNames.MEDIUM,
   disabled: disabledOriginalAgentField,
   multiple: true,
