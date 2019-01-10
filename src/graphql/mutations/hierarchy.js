@@ -81,6 +81,10 @@ const addOperatorToBranch = gql`mutation addOperator(
       operatorId: $operatorId
     ) {
       data
+      error {
+        error
+        fields_errors
+      }
     }
   }
 }`;

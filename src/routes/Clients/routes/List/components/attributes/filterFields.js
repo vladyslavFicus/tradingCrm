@@ -90,7 +90,7 @@ export default (
     : I18n.t('COMMON.SELECT_OPTION.ANY'),
   className: fieldClassNames.MEDIUM,
   customOnChange: true,
-  disabled: branchesLoading,
+  disabled: branchesLoading || desks.length === 0,
   selectOptions: desks.map(({ uuid, name }) => ({ value: uuid, label: I18n.t(name) })),
 }, {
   type: fieldTypes.SELECT,
@@ -101,7 +101,7 @@ export default (
     : I18n.t('COMMON.SELECT_OPTION.ANY'),
   className: fieldClassNames.MEDIUM,
   customOnChange: true,
-  disabled: branchesLoading || teamLoading,
+  disabled: branchesLoading || teamLoading || teams.length === 0,
   selectOptions: teams.map(({ uuid, name }) => ({ value: uuid, label: I18n.t(name) })),
 }, {
   type: fieldTypes.SELECT,
