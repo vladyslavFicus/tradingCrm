@@ -856,7 +856,8 @@
       "UPLOAD_ACTION": "-- Select upload action --",
       "NO_ITEMS": "-- No items --",
       "DEFAULT_MULTISELECT": "-- Select one or multiple options --",
-      "LOADING": "Loading..."
+      "LOADING": "Loading...",
+      "ANY": "Any"
     },
     "DATE_OPTIONS": {
       "START_DATE": "Start date",

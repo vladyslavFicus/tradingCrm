@@ -44,7 +44,7 @@ const TeamsGridFilter = ({
       label={I18n.t(filterLabels.office)}
       size={SIZES.medium}
       type={TYPES.nas_select}
-      placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
+      placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
       disabled={hierarchyBranchesLoading || (Array.isArray(offices) && offices.length === 0)}
       default
     >
@@ -60,7 +60,7 @@ const TeamsGridFilter = ({
       label={I18n.t(filterLabels.desk)}
       size={SIZES.medium}
       type={TYPES.nas_select}
-      placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
+      placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
       disabled={hierarchyBranchesLoading || (Array.isArray(desks) && desks.length === 0)}
       default
     >

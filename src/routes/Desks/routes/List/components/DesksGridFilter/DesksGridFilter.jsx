@@ -44,7 +44,7 @@ const DesksGridFilter = ({
       label={I18n.t(filterLabels.office)}
       size={SIZES.medium}
       type={TYPES.nas_select}
-      placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
+      placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
       disabled={officesLoading || (Array.isArray(offices) && offices.length === 0)}
       default
     >
@@ -60,7 +60,7 @@ const DesksGridFilter = ({
       label={I18n.t(filterLabels.deskType)}
       size={SIZES.medium}
       type={TYPES.nas_select}
-      placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
+      placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
       default
     >
       <FilterField name="deskType">
@@ -75,7 +75,7 @@ const DesksGridFilter = ({
       label={I18n.t(filterLabels.defaultDesk)}
       size={SIZES.medium}
       type={TYPES.nas_select}
-      placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
+      placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
       default
     >
       <FilterField name="defaultDeskFlag">

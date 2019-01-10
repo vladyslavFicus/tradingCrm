@@ -76,7 +76,7 @@ export default (
   type: fieldTypes.SELECT,
   name: 'countries',
   label: I18n.t(filterLabels.country),
-  placeholder: I18n.t('COMMON.SELECT_OPTION.DEFAULT'),
+  placeholder: I18n.t('COMMON.SELECT_OPTION.ANY'),
   multiple: true,
   className: fieldClassNames.MEDIUM,
   selectOptions: Object
@@ -88,7 +88,7 @@ export default (
   label: I18n.t(filterLabels.desks),
   placeholder: (!branchesLoading && desks.length === 0)
     ? I18n.t('COMMON.SELECT_OPTION.NO_ITEMS')
-    : I18n.t('COMMON.SELECT_OPTION.DEFAULT'),
+    : I18n.t('COMMON.SELECT_OPTION.ANY'),
   className: fieldClassNames.MEDIUM,
   onFieldChange,
   disabled: branchesLoading,
@@ -99,7 +99,7 @@ export default (
   label: I18n.t(filterLabels.teams),
   placeholder: ((!branchesLoading || !teamLoading) && teams.length === 0)
     ? I18n.t('COMMON.SELECT_OPTION.NO_ITEMS')
-    : I18n.t('COMMON.SELECT_OPTION.DEFAULT'),
+    : I18n.t('COMMON.SELECT_OPTION.ANY'),
   className: fieldClassNames.MEDIUM,
   onFieldChange,
   disabled: branchesLoading || teamLoading,
@@ -108,21 +108,21 @@ export default (
   type: fieldTypes.SELECT,
   name: 'status',
   label: I18n.t(filterLabels.status),
-  placeholder: I18n.t('COMMON.SELECT_OPTION.DEFAULT'),
+  placeholder: I18n.t('COMMON.SELECT_OPTION.ANY'),
   className: fieldClassNames.MEDIUM,
   selectOptions: Object.keys(statusesLabels).map(value => ({ value, label: I18n.t(statusesLabels[value]) })),
 }, {
   type: fieldTypes.SELECT,
   name: 'acquisitionStatus',
   label: I18n.t(filterLabels.acquisitionStatus),
-  placeholder: I18n.t('COMMON.SELECT_OPTION.DEFAULT'),
+  placeholder: I18n.t('COMMON.SELECT_OPTION.ANY'),
   className: fieldClassNames.MEDIUM,
   selectOptions: acquisitionStatuses.map(({ value, label }) => ({ value, label: I18n.t(label) })),
 }, {
   type: fieldTypes.SELECT,
   name: 'salesStatuses',
   label: I18n.t(filterLabels.salesStatus),
-  placeholder: I18n.t('COMMON.SELECT_OPTION.DEFAULT'),
+  placeholder: I18n.t('COMMON.SELECT_OPTION.ANY'),
   className: fieldClassNames.MEDIUM,
   multiple: true,
   selectOptions: Object
@@ -132,7 +132,7 @@ export default (
   type: fieldTypes.SELECT,
   name: 'retentionStatuses',
   label: I18n.t(filterLabels.retentionStatus),
-  placeholder: I18n.t('COMMON.SELECT_OPTION.DEFAULT'),
+  placeholder: I18n.t('COMMON.SELECT_OPTION.ANY'),
   className: fieldClassNames.MEDIUM,
   multiple: true,
   selectOptions: Object
@@ -142,21 +142,21 @@ export default (
   type: fieldTypes.SELECT,
   name: 'assignStatus',
   label: I18n.t(filterLabels.assignStatus),
-  placeholder: I18n.t('COMMON.SELECT_OPTION.DEFAULT'),
+  placeholder: I18n.t('COMMON.SELECT_OPTION.ANY'),
   className: fieldClassNames.MEDIUM,
   selectOptions: assignStatuses.map(({ value, label }) => ({ value, label: I18n.t(label) })),
 }, {
   type: fieldTypes.SELECT,
   name: 'kycStatus',
   label: I18n.t(filterLabels.kycStatus),
-  placeholder: I18n.t('COMMON.SELECT_OPTION.DEFAULT'),
+  placeholder: I18n.t('COMMON.SELECT_OPTION.ANY'),
   className: fieldClassNames.MEDIUM,
   selectOptions: kycStatuses.map(({ value, label }) => ({ value, label: I18n.t(label) })),
 }, {
   type: fieldTypes.SELECT,
   name: 'firstDeposit',
   label: I18n.t(filterLabels.firstDeposit),
-  placeholder: I18n.t('COMMON.SELECT_OPTION.DEFAULT'),
+  placeholder: I18n.t('COMMON.SELECT_OPTION.ANY'),
   className: fieldClassNames.MEDIUM,
   selectOptions: firstDepositStatuses.map(({ value, label }) => ({ value, label: I18n.t(label) })),
 }, {
