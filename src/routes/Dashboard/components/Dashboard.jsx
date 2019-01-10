@@ -1,6 +1,5 @@
 import React, { Fragment } from 'react';
 import { I18n } from 'react-redux-i18n';
-import { flatten } from 'lodash';
 import { tradingTypes, statuses, statusMapper } from '../../../constants/payment';
 import { RegistrationChart, DepositsAmount, DepositsCount, WithdrawsAmount, WithdrawsCount } from './Charts';
 import PaymentsGrid from './Grids/PaymentsGrid';
@@ -10,7 +9,7 @@ import './Dashboard.scss';
 const defaultChartProps = {
   page: 0,
   limit: 10,
-  statuses: flatten([statusMapper[statuses.COMPLETED], statusMapper[statuses.PENDING]]),
+  statuses: statusMapper[statuses.COMPLETED],
 };
 
 const options = {
