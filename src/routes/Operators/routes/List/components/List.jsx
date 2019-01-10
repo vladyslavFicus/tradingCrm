@@ -5,19 +5,21 @@ import moment from 'moment';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import { I18n } from 'react-redux-i18n';
-import _ from 'lodash';
+import { get } from 'lodash';
 import history from '../../../../../router/history';
-import GridView, { GridViewColumn } from '../../../../../components/GridView';
-import OperatorGridFilter from './OperatorGridFilter';
 import {
   statusColorNames as operatorStatusColorNames,
   statusesLabels as operatorStatusesLabels,
 } from '../../../../../constants/operators';
+import { types as miniProfileTypes } from '../../../../../constants/miniProfile';
 import Uuid from '../../../../../components/Uuid';
 import MiniProfile from '../../../../../components/MiniProfile';
-import { types as miniProfileTypes } from '../../../../../constants/miniProfile';
+import GridView, { GridViewColumn } from '../../../../../components/GridView';
+import CountryLabelWithFlag from '../../../../../components/CountryLabelWithFlag';
 import delay from '../../../../../utils/delay';
 import parseErrorsFromServer from '../../../../../utils/parseErrorsFromServer';
+import { getUserTypeByDepartment } from './utils';
+import OperatorGridFilter from './OperatorGridFilter';
 
 class List extends Component {
   static propTypes = {
@@ -27,7 +29,6 @@ class List extends Component {
         hide: PropTypes.func.isRequired,
       }),
     }).isRequired,
-    isLoading: PropTypes.bool,
     onSubmitNewOperator: PropTypes.func.isRequired,
     fetchEntities: PropTypes.func.isRequired,
     filterValues: PropTypes.object,
@@ -77,27 +78,28 @@ class List extends Component {
   });
 
   handleFiltersChanged = (filters = {}) => {
-    console.info('Operators search: Filter submitted');
-
     this.setState({ filters, page: 0 }, () => this.handleRefresh());
   };
 
-  handleSubmitNewOperator = async ({ department, role, ...data }) => {
+  handleSubmitNewOperator = async ({ department, role, branch, ...data }) => {
     const {
-      onSubmitNewOperator, modals, addAuthority, notify,
+      onSubmitNewOperator,
+      modals: { createOperator },
+      addAuthority,
+      notify,
+      createHierarchyUser,
     } = this.props;
+
     const action = await onSubmitNewOperator({ ...data, department, role });
-    const submitErrors = _.get(action.payload, 'response.fields_errors', null);
+    const submitErrors = get(action.payload, 'response.fields_errors', null);
+
     if (submitErrors) {
       const errors = parseErrorsFromServer(submitErrors);
       throw new SubmissionError(errors);
     }
-
-
-    modals.createOperator.hide();
+    createOperator.hide();
 
     const { uuid } = action.payload;
-
     const hasAuthorities = await this.pollAuthorities(uuid);
 
     if (!hasAuthorities) {
@@ -118,11 +120,28 @@ class List extends Component {
       });
     }
 
+    const userType = getUserTypeByDepartment(department, role);
+    const { data: { hierarchy: { createUser: { error } } } } = await createHierarchyUser({
+      variables: {
+        userId: uuid,
+        userType,
+        ...branch && { branchId: branch },
+      },
+    });
+
+    if (error) {
+      notify({
+        level: 'error',
+        title: I18n.t('OPERATORS.NOTIFICATIONS.ADD_TO_HIERARCHY_ERROR.TITLE'),
+        message: I18n.t('OPERATORS.NOTIFICATIONS.ADD_TO_HIERARCHY_ERROR.MESSAGE'),
+      });
+    }
+
     history.push(`/operators/${uuid}/profile`);
   };
 
   handleOpenCreateModal = async () => {
-    const { fetchAuthoritiesOptions, modals, notify } = this.props;
+    const { fetchAuthoritiesOptions, modals, notify, operatorId } = this.props;
     const optionsAction = await fetchAuthoritiesOptions();
 
     if (!optionsAction.error) {
@@ -139,6 +158,7 @@ class List extends Component {
           role: department ? departmentRole[department][0] : null,
           sendMail: true,
         },
+        operatorId,
         departmentsRoles: departmentRole || {},
       });
     } else {
@@ -218,13 +238,19 @@ class List extends Component {
     </div>
   );
 
-  renderCountry = (data) => {
-    if (!data.country) {
-      return data.country;
-    }
-
-    return <i className={`fs-icon fs-${data.country.toLowerCase()}`} alt={data.country} />;
-  };
+  renderCountry = ({ country }) => (
+    <Choose>
+      <When condition={country}>
+        <CountryLabelWithFlag
+          code={country}
+          height="14"
+        />
+      </When>
+      <Otherwise>
+        <span>&mdash;</span>
+      </Otherwise>
+    </Choose>
+  );
 
   renderRegistered = data => (
     <div>

@@ -15,6 +15,7 @@ class CheckBox extends Component {
       error: PropTypes.string,
     }).isRequired,
   };
+
   static defaultProps = {
     id: null,
     input: null,
@@ -33,7 +34,7 @@ class CheckBox extends Component {
       meta: { touched, error },
     } = this.props;
 
-    return(
+    return (
       <div className={classNames('custom-control custom-checkbox text-left', className)}>
         <input
           {...input}

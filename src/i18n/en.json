@@ -848,6 +848,8 @@
     "APPROVE": "Approve",
     "REJECT": "Reject",
     "DEFER": "Defer",
+    "BRANCH_TYPE": "Branch type",
+    "BRANCH": "Branch",
     "SELECT_OPTION": {
       "DEFAULT": "-- Select --",
       "REASON": "-- Select reason --",
@@ -857,7 +859,8 @@
       "NO_ITEMS": "-- No items --",
       "DEFAULT_MULTISELECT": "-- Select one or multiple options --",
       "LOADING": "Loading...",
-      "ANY": "Any"
+      "ANY": "Any",
+      "SELECT_BRANCH_TYPE": "Select branch type first"
     },
     "DATE_OPTIONS": {
       "START_DATE": "Start date",
@@ -2177,6 +2180,10 @@
       "ADD_AUTHORITY_ERROR": {
         "TITLE": "Failure on adding",
         "MESSAGE": "Adding of department has failed"
+      },
+      "ADD_TO_HIERARCHY_ERROR": {
+        "TITLE": "Failure on adding",
+        "MESSAGE": "Adding operator to hierarchy has failed"
       }
     }
   },
@@ -3072,6 +3079,7 @@
     }
   },
   "HIERARCHY": {
+    "ERROR_LOADING_BRANCHES": "Error occured while loading branches",
     "TREE": {
       "HEADING": "Hierarchy"
     },

@@ -160,7 +160,7 @@ class List extends Component {
       notify({
         level: 'error',
         title: I18n.t('COMMON.PROMOTE_FAILED'),
-        message: error.error || error.field_errors || I18n.t('COMMON.SOMETHING_WRONG'),
+        message: error.error || error.fields_errors || I18n.t('COMMON.SOMETHING_WRONG'),
       });
     } else {
       const successAmount = data ? data.length : 0;
@@ -193,7 +193,7 @@ class List extends Component {
       notify({
         level: 'error',
         title: I18n.t('COMMON.UPLOAD_FAILED'),
-        message: error.error || error.field_errors || I18n.t('COMMON.SOMETHING_WRONG'),
+        message: error.error || error.fields_errors || I18n.t('COMMON.SOMETHING_WRONG'),
       });
 
       return;

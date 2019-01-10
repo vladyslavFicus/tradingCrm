@@ -36,38 +36,31 @@ class UserGridFilter extends Component {
   handleFieldChange = async (fieldName, value, formChange) => {
     const { client } = this.props;
 
-    switch (fieldName) {
-      case fieldNames.desks: {
-        this.setState({ teamLoading: true });
-        let teams = null;
-        let isDeskSelected = false;
+    if (fieldName === fieldNames.desks) {
+      this.setState({ teamLoading: true });
+      let teams = null;
+      let isDeskSelected = false;
 
-        if (value) {
-          const { data: { hierarchy: { branchChildren: { data: deskTeams, error } } } } = await client.query({
-            query: getBranchChildren,
-            variables: { uuid: value },
-          });
+      if (value) {
+        const { data: { hierarchy: { branchChildren: { data: deskTeams, error } } } } = await client.query({
+          query: getBranchChildren,
+          variables: { uuid: value },
+        });
 
-          if (!error) {
-            teams = deskTeams;
-          }
-          isDeskSelected = true;
+        if (!error) {
+          teams = deskTeams;
         }
-
-        this.setState(
-          {
-            ...(teams && { teams }),
-            isDeskSelected,
-            teamLoading: false,
-          },
-          value ? null : () => formChange(fieldNames.teams, null),
-        );
-
-        break;
+        isDeskSelected = true;
       }
 
-      default:
-        break;
+      this.setState(
+        {
+          ...(teams && { teams }),
+          isDeskSelected,
+          teamLoading: false,
+        },
+        value ? null : () => formChange(fieldNames.teams, null),
+      );
     }
 
     formChange(fieldName, value || null);
@@ -97,7 +90,6 @@ class UserGridFilter extends Component {
           teams,
           branchesLoading,
           teamLoading,
-          this.handleFieldChange,
         )}
         onFieldChange={this.handleFieldChange}
       />

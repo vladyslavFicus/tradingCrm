@@ -58,7 +58,7 @@ class AddOperatorToBranchModal extends Component {
       notify({
         level: 'error',
         title: I18n.t('MODALS.ADD_OPERATOR_TO_BRANCH.NOTIFICATION.FAILED.OPERATOR_ADDED'),
-        message: error.error || error.field_errors || I18n.t('COMMON.SOMETHING_WRONG'),
+        message: error.error || error.fields_errors || I18n.t('COMMON.SOMETHING_WRONG'),
       });
     } else {
       const { fullName } = content.find(({ uuid }) => uuid === operatorId) || { fullName: '' };

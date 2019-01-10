@@ -63,7 +63,6 @@ export default (
   teams,
   branchesLoading,
   teamLoading,
-  onFieldChange,
 ) => [{
   type: fieldTypes.INPUT,
   name: 'searchValue',
@@ -90,7 +89,7 @@ export default (
     ? I18n.t('COMMON.SELECT_OPTION.NO_ITEMS')
     : I18n.t('COMMON.SELECT_OPTION.ANY'),
   className: fieldClassNames.MEDIUM,
-  onFieldChange,
+  customOnChange: true,
   disabled: branchesLoading,
   selectOptions: desks.map(({ uuid, name }) => ({ value: uuid, label: I18n.t(name) })),
 }, {
@@ -101,7 +100,7 @@ export default (
     ? I18n.t('COMMON.SELECT_OPTION.NO_ITEMS')
     : I18n.t('COMMON.SELECT_OPTION.ANY'),
   className: fieldClassNames.MEDIUM,
-  onFieldChange,
+  customOnChange: true,
   disabled: branchesLoading || teamLoading,
   selectOptions: teams.map(({ uuid, name }) => ({ value: uuid, label: I18n.t(name) })),
 }, {
