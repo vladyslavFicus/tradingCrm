@@ -3036,8 +3036,7 @@
         "LANGUAGE": "Language",
         "DESK_TYPE_OPTIONS": {
           "RETENTION": "Retention",
-          "SALES": "Sales",
-          "NINJA": "Ninja"
+          "SALES": "Sales"
         }
       }
     },
@@ -3050,6 +3049,14 @@
     "TABS": {
       "RULES": {
         "TITLE": "Desk rules"
+      }
+    },
+    "RULES": {
+      "MODAL": {
+        "DISTRIBUTION": {
+          "DEFAULT": "DEFAULT",
+          "ROUND_ROBIN": "ROUND_ROBIN"
+        }
       }
     }
   },
@@ -3119,7 +3126,10 @@
           "COUNTRY": "Country",
           "LANGUAGE": "Language",
           "PRIORITY": "Rule priority",
-          "TYPE": "Rule type"
+          "TYPE": "Rule type",
+          "DEPOSIT_COUNT": "Deposit count",
+          "AMOUNT": "Deposit amount range",
+          "DISTRIBUTION": "Client distribution"
         }
       },
       "DELETE_MODAL": {

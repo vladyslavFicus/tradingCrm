@@ -1,15 +1,17 @@
 import React from 'react';
 import { get } from 'lodash';
-import { Switch, Redirect } from 'react-router-dom';
+import { Switch } from 'react-router-dom';
 import { Route } from '../../../../../router';
 import Tabs from '../../../../../components/Tabs';
 import HierarchyProfileRules from '../../../../../components/HierarchyProfileRules';
 import NotFound from '../../../../../routes/NotFound';
 import PropTypes from '../../../../../constants/propTypes';
 import deskProfileTabs from './constants';
+import { deskTypes } from '../../../../../constants/rules';
 import Header from './Header';
 
-const Rules = HierarchyProfileRules('DESKS.TABS.RULES.TITLE');
+const RulesRetention = HierarchyProfileRules('DESKS.TABS.RULES.TITLE', deskTypes.RETENTION);
+const RulesSales = HierarchyProfileRules('DESKS.TABS.RULES.TITLE', deskTypes.SALES);
 
 const DeskProfile = ({
   deskProfile: {
@@ -17,7 +19,7 @@ const DeskProfile = ({
     loading,
   },
   location,
-  match: { params, path, url },
+  match: { params, path },
 }) => {
   const data = get(hierarchy, 'branchInfo.data') || {};
   const error = get(hierarchy, 'branchInfo.error');
@@ -41,8 +43,8 @@ const DeskProfile = ({
       />
       <div className="card no-borders">
         <Switch>
-          <Route path={`${path}/rules`} component={Rules} />
-          <Redirect to={`${url}/rules`} />
+          <Route path={`${path}/rules/sales-rules`} component={RulesSales} />
+          <Route path={`${path}/rules/retention-rules`} component={RulesRetention} />
         </Switch>
       </div>
     </div>

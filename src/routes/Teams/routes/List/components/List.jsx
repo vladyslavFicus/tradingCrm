@@ -58,8 +58,8 @@ class List extends Component {
 
   handleFilterReset = () => history.replace({ query: { filters: {} } });
 
-  handleTeamClick = ({ team: { uuid } }) => {
-    history.push(`/teams/${uuid}`);
+  handleTeamClick = ({ team: { uuid }, desk: { deskType } }) => {
+    history.push(`/teams/${uuid}/rules/${deskType.toLowerCase()}-rules`);
   };
 
   triggerTeamModal = () => {

@@ -4,7 +4,7 @@ import { get } from 'lodash';
 import { SubmissionError } from 'redux-form';
 import PropTypes from '../../../constants/propTypes';
 import history from '../../../router/history';
-import { actionRuleTypes } from '../../../constants/rules';
+import { actionRuleTypes, deskTypes } from '../../../constants/rules';
 import TabHeader from '../../TabHeader';
 import GridView, { GridViewColumn } from '../../GridView';
 import Uuid from '../../Uuid';
@@ -13,7 +13,7 @@ import RulesFilters from './RulesGridFilters';
 import infoConfig from './constants';
 import './HierarchyProfileRules.scss';
 
-const HierarchyProfileRules = (title) => {
+const HierarchyProfileRules = (title, deskType) => {
   class RuleList extends Component {
     static propTypes = {
       rules: PropTypes.shape({
@@ -25,6 +25,7 @@ const HierarchyProfileRules = (title) => {
       }).isRequired,
       createRule: PropTypes.func.isRequired,
       deleteRule: PropTypes.func.isRequired,
+      deleteRuleRetention: PropTypes.func.isRequired,
       location: PropTypes.shape({
         query: PropTypes.object,
       }).isRequired,
@@ -32,6 +33,7 @@ const HierarchyProfileRules = (title) => {
       locale: PropTypes.string.isRequired,
       modals: PropTypes.shape({
         ruleModal: PropTypes.modalType,
+        ruleModalRetention: PropTypes.modalType,
         deleteModal: PropTypes.modalType,
       }).isRequired,
       match: PropTypes.shape({
@@ -55,6 +57,7 @@ const HierarchyProfileRules = (title) => {
 
       ruleModal.show({
         onSubmit: values => this.handleAddRule(values),
+        deskType,
       });
     }
 
@@ -62,25 +65,47 @@ const HierarchyProfileRules = (title) => {
       const {
         notify,
         createRule,
+        createRuleRetention,
         modals: { ruleModal },
         match: { params: { id } },
         auth: { uuid: createdBy },
         rules: { refetch },
       } = this.props;
 
-      const action = {
-        parentBranch: id,
-        ruleType: actionRuleTypes.ROUND_ROBIN,
-      };
-      const { data: { rules: { createRule: { data, error } } } } = await createRule(
-        {
-          variables: {
-            createdBy,
-            actions: [action],
-            ...variables,
+      let response;
+      let createRuleType = 'createRule';
+
+      if (deskType === deskTypes.RETENTION) {
+        const { ruleType, ...data } = variables;
+        createRuleType = 'createRuleRetention';
+        response = await createRuleRetention(
+          {
+            variables: {
+              createdBy,
+              actions: [{
+                parentBranch: id,
+                ruleType,
+              }],
+              ...data,
+            },
           },
-        },
-      );
+        );
+      } else {
+        response = await createRule(
+          {
+            variables: {
+              createdBy,
+              actions: [{
+                parentBranch: id,
+                ruleType: actionRuleTypes.ROUND_ROBIN,
+              }],
+              ...variables,
+            },
+          },
+        );
+      }
+
+      const { data: { rules: { [createRuleType]: { data, error } } } } = response;
 
       if (error) {
         notify({
@@ -104,11 +129,21 @@ const HierarchyProfileRules = (title) => {
       const {
         notify,
         deleteRule,
+        deleteRuleRetention,
         rules: { refetch },
         modals: { deleteModal },
       } = this.props;
+      let response;
+      let deleteRuleType = 'deleteRule';
 
-      const { data: { rules: { deleteRule: { data, error } } } } = await deleteRule({ variables: { uuid } });
+      if (deskType === deskTypes.RETENTION) {
+        deleteRuleType = 'deleteRuleRetention';
+        response = await deleteRuleRetention({ variables: { uuid } });
+      } else {
+        response = await deleteRule({ variables: { uuid } });
+      }
+
+      const { data: { rules: { [deleteRuleType]: { data, error } } } } = response;
 
       if (error) {
         deleteModal.hide();
@@ -131,8 +166,11 @@ const HierarchyProfileRules = (title) => {
     handleDeleteRuleClick = (uuid) => {
       const {
         modals: { deleteModal },
-        rules: { rules: { data } },
+        rules: { rules, rulesRetention },
       } = this.props;
+
+      const data = get(rules, 'data') || get(rulesRetention, 'data') || [];
+
       const { name } = data.find(({ uuid: ruleId }) => ruleId === uuid);
 
       deleteModal.show({
@@ -203,19 +241,20 @@ const HierarchyProfileRules = (title) => {
       const {
         rules: {
           rules,
+          rulesRetention,
           loading,
         },
         location: { query },
         countries,
         locale,
       } = this.props;
-      const error = get(rules, 'error');
+      const error = get(rules, 'error') || get(rulesRetention, 'error');
 
       if (error) {
         return null;
       }
 
-      const entities = get(rules, 'data') || [];
+      const entities = get(rules, 'data') || get(rulesRetention, 'data') || [];
       const filters = get(query, 'filters', {});
 
       const allowActions = Object
@@ -281,7 +320,7 @@ const HierarchyProfileRules = (title) => {
     }
   }
 
-  return withContainer(RuleList);
+  return withContainer(RuleList, deskType);
 };
 
 export default HierarchyProfileRules;

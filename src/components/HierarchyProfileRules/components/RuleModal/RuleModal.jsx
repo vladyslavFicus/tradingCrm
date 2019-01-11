@@ -6,8 +6,14 @@ import PropTypes from '../../../../constants/propTypes';
 import { createValidator, translateLabels } from '../../../../utils/validator';
 import countryList from '../../../../utils/countryList';
 import languages from '../../../../constants/languageNames';
-import { ruleTypes, priorities } from '../../../../constants/rules';
-import { InputField, NasSelectField } from '../../../ReduxForm';
+import {
+  ruleTypes,
+  priorities,
+  clientDistribution,
+  depositCount,
+  deskTypes,
+} from '../../../../constants/rules';
+import { InputField, NasSelectField, RangeGroup } from '../../../ReduxForm';
 import attributeLabels from './constants';
 
 const FORM_NAME = 'ruleModalForm';
@@ -21,6 +27,7 @@ const ModalForm = ({
   submitting,
   onSubmit,
   error,
+  deskType,
 }) => (
   <Modal
     toggle={onCloseModal}
@@ -61,20 +68,71 @@ const ModalForm = ({
             </option>
           ))}
         </Field>
-        <Field
-          name="type"
-          label={I18n.t(attributeLabels.type)}
-          component={NasSelectField}
-          disabled={submitting}
-          className="col-6"
-          placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
-        >
-          {ruleTypes.map(({ label, value }) => (
-            <option key={value} value={value}>
-              {I18n.t(label)}
-            </option>
-          ))}
-        </Field>
+        <Choose>
+          <When condition={deskType === deskTypes.RETENTION}>
+            <Field
+              name="depositCount"
+              label={I18n.t(attributeLabels.depositCount)}
+              component={NasSelectField}
+              disabled={submitting}
+              className="col-6"
+              placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
+            >
+              {depositCount.map(item => (
+                <option key={item} value={item}>
+                  {item.toString()}
+                </option>
+              ))}
+            </Field>
+            <RangeGroup
+              className="col-6"
+              label={I18n.t(attributeLabels.amount)}
+            >
+              <Field
+                name="depositAmountFrom"
+                type="number"
+                placeholder="0.00"
+                component={InputField}
+              />
+              <Field
+                name="depositAmountTo"
+                type="number"
+                placeholder="0.00"
+                component={InputField}
+              />
+            </RangeGroup>
+            <Field
+              name="ruleType"
+              label={I18n.t(attributeLabels.distribution)}
+              component={NasSelectField}
+              disabled={submitting}
+              className="col-6"
+              placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
+            >
+              {clientDistribution.map(({ label, value }) => (
+                <option key={value} value={value}>
+                  {I18n.t(label)}
+                </option>
+              ))}
+            </Field>
+          </When>
+          <Otherwise>
+            <Field
+              name="type"
+              label={I18n.t(attributeLabels.type)}
+              component={NasSelectField}
+              disabled={submitting}
+              className="col-6"
+              placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
+            >
+              {ruleTypes.map(({ label, value }) => (
+                <option key={value} value={value}>
+                  {I18n.t(label)}
+                </option>
+              ))}
+            </Field>
+          </Otherwise>
+        </Choose>
       </div>
       <Field
         name="countries"
@@ -134,6 +192,7 @@ ModalForm.propTypes = {
   submitting: PropTypes.bool.isRequired,
   onSubmit: PropTypes.func.isRequired,
   error: PropTypes.any,
+  deskType: PropTypes.string.isRequired,
 };
 
 ModalForm.defaultProps = {

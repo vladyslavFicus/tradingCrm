@@ -36,5 +36,4 @@ export const userTypes = keyMirror({
 export const deskTypes = keyMirror({
   RETENTION: null,
   SALES: null,
-  NINJA: null,
 });

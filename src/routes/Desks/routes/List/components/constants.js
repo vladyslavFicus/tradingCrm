@@ -6,9 +6,6 @@ const deskTypes = [{
 }, {
   label: I18n.t('DESKS.MODAL.LABELS.DESK_TYPE_OPTIONS.SALES'),
   value: 'SALES',
-}, {
-  label: I18n.t('DESKS.MODAL.LABELS.DESK_TYPE_OPTIONS.NINJA'),
-  value: 'NINJA',
 }];
 
 const defaultDeskFlag = [{

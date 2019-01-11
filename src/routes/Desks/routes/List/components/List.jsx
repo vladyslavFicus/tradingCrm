@@ -58,8 +58,8 @@ class List extends Component {
 
   handleFilterReset = () => history.replace({ query: { filters: {} } });
 
-  handleDeskClick = ({ desk: { uuid } }) => {
-    history.push(`/desks/${uuid}`);
+  handleDeskClick = ({ desk: { uuid }, desk: { deskType } }) => {
+    history.push(`/desks/${uuid}/rules/${deskType.toLowerCase()}-rules`);
   };
 
   triggerOfficeModal = () => {
