@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { SubmissionError } from 'redux-form';
 import { get, flatten } from 'lodash';
+import { I18n } from 'react-redux-i18n';
 import PropTypes from '../../../../../../../../../constants/propTypes';
 import GridView, { GridViewColumn } from '../../../../../../../../../components/GridView';
 import { targetTypes } from '../../../../../../../../../constants/note';
@@ -23,7 +24,6 @@ class Payments extends Component {
     auth: PropTypes.shape({
       uuid: PropTypes.string.isRequired,
     }).isRequired,
-    manageNote: PropTypes.func.isRequired,
     currencyCode: PropTypes.string,
     match: PropTypes.shape({
       params: PropTypes.shape({
@@ -106,7 +106,7 @@ class Payments extends Component {
 
     setRenderActions(() => (
       <button className="btn btn-sm btn-primary-outline" onClick={handleOpenAddPaymentModal}>
-        + Add transaction
+        {I18n.t('PLAYER_PROFILE.TRANSACTIONS.ADD_TRANSACTION')}
       </button>
     ));
   }

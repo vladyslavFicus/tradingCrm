@@ -17,8 +17,7 @@ import Amount from '../Amount';
 import { UncontrolledTooltip } from '../Reactstrap/Uncontrolled';
 import Uuid from '../Uuid';
 import ModalPlayerInfo from '../ModalPlayerInfo';
-// TODO
-// import TransactionStatus from '../TransactionStatus';
+import PaymentStatus from '../PaymentStatus';
 import ShortLoader from '../ShortLoader';
 import IpFlag from '../IpFlag';
 import Select from '../../components/Select';
@@ -70,6 +69,7 @@ class PaymentDetailModal extends PureComponent {
 
   render() {
     const {
+      payment,
       payment: {
         paymentId,
         paymentType,
@@ -92,7 +92,8 @@ class PaymentDetailModal extends PureComponent {
     } = this.props;
 
     const isWithdraw = paymentType === paymentsTypes.WITHDRAW;
-    const profile = get(playerProfile, 'data');
+    const profile = get(playerProfile, 'data') || null;
+    const error = get(playerProfile, 'error');
 
     return (
       <Modal isOpen toggle={onCloseModal} className={classNames(className, 'payment-detail-modal')}>
@@ -103,7 +104,7 @@ class PaymentDetailModal extends PureComponent {
               <ShortLoader height={25} />
             </When>
             <Otherwise>
-              <ModalPlayerInfo playerProfile={profile} />
+              <ModalPlayerInfo playerProfile={error || profile} />
               <div className="modal-body-tabs">
                 <div className="modal-body-tabs__item">
                   <div className="modal-tab-label">
@@ -154,8 +155,7 @@ class PaymentDetailModal extends PureComponent {
                   <div className="modal-tab-label">
                     {I18n.t('PAYMENT_DETAILS_MODAL.HEADER_STATUS')}
                   </div>
-                  -- in development --
-                  {/* <TransactionStatus transaction={payment} /> */}
+                  <PaymentStatus payment={payment} />
                 </div>
               </div>
               <div className="modal-footer-tabs">

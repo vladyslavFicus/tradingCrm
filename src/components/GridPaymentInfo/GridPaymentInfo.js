@@ -38,7 +38,6 @@ class GridPaymentInfo extends PureComponent {
     } = this.props;
 
     paymentDetail.show({
-      profileId: uuid,
       payment: {
         paymentId,
         paymentType,
@@ -52,6 +51,7 @@ class GridPaymentInfo extends PureComponent {
         createdBy,
         amount,
         currency,
+        playerProfile: { uuid },
       },
       onSuccess,
     });
