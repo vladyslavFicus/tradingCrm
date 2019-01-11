@@ -111,7 +111,7 @@ class List extends Component {
       if (error) {
         notify({
           level: 'error',
-          title: I18n.t('COMMON.BULK_UPDATE_FAILED'),
+          title: I18n.t('COMMON.FAILED'),
           message: I18n.t('COMMON.SOMETHING_WRONG'),
         });
 
@@ -127,7 +127,7 @@ class List extends Component {
       if (error) {
         notify({
           level: 'error',
-          title: I18n.t('COMMON.BULK_UPDATE_FAILED'),
+          title: I18n.t('COMMON.FAILED'),
           message: I18n.t('COMMON.SOMETHING_WRONG'),
         });
 

@@ -27,16 +27,14 @@ class HierarchyBranchTree extends PureComponent {
   };
 
   render() {
-    const {
-      branchHierarchyTree,
-      branchHierarchyTree: { loading },
-    } = this.props;
+    const { branchHierarchyTree: { loading, hierarchy } } = this.props;
 
-    const branchTree = get(branchHierarchyTree, 'hierarchy.branchHierarchyTree.data', {});
+    const branchTree = get(hierarchy, 'branchHierarchyTree.data') || {};
+    const error = get(hierarchy, 'branchHierarchyTree.error');
 
     return (
       <Choose>
-        <When condition={loading}>
+        <When condition={loading || error}>
           <ShortLoader />
         </When>
         <Otherwise>
