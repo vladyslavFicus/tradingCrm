@@ -239,7 +239,7 @@ class List extends Component {
 
         <div className="card-body">
           <SortableGridView
-            dataSource={paymentMethods}
+            dataSource={paymentMethods.filter(paymentMethod => paymentMethod.methodName === 'cashier')}
             onSortEnd={this.handleSortEnd}
           >
             <GridViewColumn
