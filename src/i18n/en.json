@@ -2947,8 +2947,20 @@
       "SOURCE": "Source",
       "AFFILIATE": "Affiliate"
     },
+    "PINNED_NOTES": {
+      "TITLE": "Pinned notes"
+    },
+    "NOTES": {
+      "TITLE": "Notes",
+      "FILTER": {
+        "LABELS": {
+          "CREATION_DATE_RANGE": "Creation date range"
+        }
+      }
+    },
     "TABS": {
-      "PROFILE": "Profile"
+      "PROFILE": "Profile",
+      "NOTES": "Notes"
     },
     "PERSONAL": {
       "INFO_TITLE": "Personal information",

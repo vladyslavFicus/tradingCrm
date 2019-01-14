@@ -2,6 +2,8 @@ import React from 'react';
 import moment from 'moment';
 import { I18n } from 'react-redux-i18n';
 import { statuses } from 'constants/leads';
+import permissions from 'config/permissions';
+import PermissionContent from 'components/PermissionContent';
 import Uuid from '../../../../../../components/Uuid';
 import PropTypes from '../../../../../../constants/propTypes';
 import PopoverButton from '../../../../../../components/PopoverButton';
@@ -20,6 +22,7 @@ const Header = ({
   },
   loading,
   onPromoteLeadClick,
+  onAddNoteClick,
 }) => (
   <div>
     <div className="row no-gutters panel-heading-row">
@@ -34,10 +37,19 @@ const Header = ({
         </div>
       </ProfileHeaderPlaceholder>
       <div className="col-auto panel-heading-row__actions">
+        <PermissionContent permissions={permissions.TAGS.ADD_TAG}>
+          <PopoverButton
+            id="header-add-note-button"
+            className="btn btn-sm btn-default-outline"
+            onClick={onAddNoteClick}
+          >
+            {I18n.t('PLAYER_PROFILE.PROFILE.HEADER.ADD_NOTE')}
+          </PopoverButton>
+        </PermissionContent>
         <If condition={status && status !== statuses.CONVERTED}>
           <PopoverButton
             id="lead-promote-to-client"
-            className="btn btn-sm btn-default-outline"
+            className="btn btn-sm btn-default-outline ml-3"
             onClick={onPromoteLeadClick}
             disabled={loading}
           >
@@ -84,6 +96,7 @@ Header.propTypes = {
   data: PropTypes.object,
   loading: PropTypes.bool.isRequired,
   onPromoteLeadClick: PropTypes.func.isRequired,
+  onAddNoteClick: PropTypes.func.isRequired,
 };
 
 Header.defaultProps = {

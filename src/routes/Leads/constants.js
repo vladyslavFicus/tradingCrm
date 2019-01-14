@@ -23,6 +23,9 @@ const leadStatuses = {
 const leadProfileTabs = [{
   label: I18n.t('LEAD_PROFILE.TABS.PROFILE'),
   url: '/leads/:id/profile',
+}, {
+  label: I18n.t('LEAD_PROFILE.TABS.NOTES'),
+  url: '/leads/:id/notes',
 }];
 
 const fileConfig = {

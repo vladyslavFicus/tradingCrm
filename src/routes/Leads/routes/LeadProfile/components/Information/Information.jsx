@@ -1,9 +1,12 @@
 import React from 'react';
+import permissions from 'config/permissions';
+import PermissionContent from 'components/PermissionContent';
 import Personal from './Personal';
 import PropTypes from '../../../../../../constants/propTypes';
 import AcquisitionStatus from './AcquisitionStatus';
+import Notes from './Notes';
 
-const Information = ({ data, loading }) => (
+const Information = ({ pinnedNotes, onEditNoteClick, data, loading }) => (
   <div className="account-details">
     <div className="row">
       <div className="col-md-4">
@@ -18,6 +21,14 @@ const Information = ({ data, loading }) => (
           loading={loading}
         />
       </div>
+      <PermissionContent permissions={permissions.TAGS.VIEW_TAGS}>
+        <div className="col">
+          <Notes
+            notes={pinnedNotes}
+            onEditNoteClick={onEditNoteClick}
+          />
+        </div>
+      </PermissionContent>
     </div>
   </div>
 );
@@ -25,10 +36,13 @@ const Information = ({ data, loading }) => (
 Information.propTypes = {
   data: PropTypes.object,
   loading: PropTypes.bool.isRequired,
+  pinnedNotes: PropTypes.object,
+  onEditNoteClick: PropTypes.func.isRequired,
 };
 
 Information.defaultProps = {
   data: {},
+  pinnedNotes: {},
 };
 
 export default Information;

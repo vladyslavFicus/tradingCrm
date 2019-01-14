@@ -6,6 +6,7 @@ const notesQuery = gql`query notes(
     $targetUUID: String!
     $pinned: Boolean
     $size: Int
+    $page: Int
     $changedAtTo: String
     $changedAtFrom: String
     $targetType: String
@@ -14,6 +15,7 @@ const notesQuery = gql`query notes(
     targetUUID: $targetUUID
     pinned: $pinned
     size: $size
+    page: $page
     changedAtTo: $changedAtTo
     changedAtFrom: $changedAtFrom
     targetType: $targetType
