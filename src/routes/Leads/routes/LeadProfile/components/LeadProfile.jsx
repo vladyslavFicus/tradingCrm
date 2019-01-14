@@ -3,6 +3,8 @@ import { I18n } from 'react-redux-i18n';
 import { get } from 'lodash';
 import { SubmissionError } from 'redux-form';
 import { Switch, Redirect } from 'react-router-dom';
+import NotePopover from 'components/NotePopover';
+import { viewType as noteViewType } from 'constants/note';
 import { Route } from '../../../../../router';
 import Tabs from '../../../../../components/Tabs';
 import NotFound from '../../../../../routes/NotFound';
@@ -10,8 +12,15 @@ import PropTypes from '../../../../../constants/propTypes';
 import HideDetails from '../../../../../components/HideDetails';
 import { leadProfileTabs } from '../../../constants';
 import Profile from '../routes/Profile';
+import Notes from '../routes/Notes';
 import Information from './Information';
 import Header from './Header';
+
+const NOTE_POPOVER = 'note-popover';
+const popoverInitialState = {
+  name: null,
+  params: {},
+};
 
 class LeadProfile extends Component {
   static propTypes = {
@@ -22,6 +31,16 @@ class LeadProfile extends Component {
         error: PropTypes.object,
       }),
       refetch: PropTypes.func.isRequired,
+    }).isRequired,
+    pinnedNotes: PropTypes.shape({
+      loading: PropTypes.bool.isRequired,
+      notes: PropTypes.shape({
+        content: PropTypes.arrayOf(PropTypes.shape({
+          author: PropTypes.string,
+          lastEditorUUID: PropTypes.string,
+          targetUUID: PropTypes.string,
+        })),
+      }),
     }).isRequired,
     promoteLead: PropTypes.func.isRequired,
     modals: PropTypes.shape({
@@ -34,6 +53,20 @@ class LeadProfile extends Component {
       url: PropTypes.string.isRequired,
     }).isRequired,
   };
+
+  static childContextTypes = {
+    onEditModalNoteClick: PropTypes.func.isRequired,
+  };
+
+  state = {
+    popover: { ...popoverInitialState },
+  };
+
+  getChildContext() {
+    return {
+      onEditModalNoteClick: this.handleEditModalNoteClick,
+    };
+  }
 
   handlePromoteLead = async (values) => {
     const {
@@ -110,7 +143,101 @@ class LeadProfile extends Component {
         languageCode: language,
       },
     });
-  }
+  };
+
+  handleEditModalNoteClick = (type, item) => () => {
+    const { modals: { noteModal } } = this.props;
+
+    noteModal.show({
+      type,
+      onEdit: data => this.handleSubmitNoteClick(noteViewType.MODAL, data),
+      onDelete: () => this.handleDeleteNoteClick(noteViewType.MODAL, item.noteId),
+      tagType: item.tagType,
+      initialValues: {
+        ...item,
+      },
+    });
+  };
+
+  handleNoteHide = (type) => {
+    const { modals: { noteModal } } = this.props;
+
+    if (type === noteViewType.POPOVER) {
+      this.setState({ popover: { name: null, params: {} } });
+    } else {
+      noteModal.hide();
+    }
+  };
+
+  handleAddNoteClick = (target, params = {}) => {
+    const {
+      match: { params: { id: leadUUID } },
+    } = this.props;
+
+    this.setState({
+      popover: {
+        name: NOTE_POPOVER,
+        params: {
+          placement: 'bottom',
+          ...params,
+          target,
+          initialValues: {
+            targetUUID: leadUUID,
+            playerUUID: `PLAYER-${leadUUID}`,
+            pinned: false,
+          },
+        },
+      },
+    });
+  };
+
+  handleEditNoteClick = (target, item, params = {}) => {
+    this.setState({
+      popover: {
+        name: NOTE_POPOVER,
+        params: {
+          ...params,
+          item,
+          target,
+          initialValues: { ...item },
+        },
+      },
+    });
+  };
+
+  handleSubmitNoteClick = async (viewType, data) => {
+    const {
+      updateNote,
+      addNote,
+      match: { params: { id: leadUUID } },
+    } = this.props;
+
+    if (data.noteId) {
+      const updatedNote = await updateNote({ variables: data });
+
+      this.handleNoteHide(viewType);
+
+      return updatedNote;
+    }
+
+    const response = await addNote({
+      variables: {
+        ...data,
+        playerUUID: `PLAYER-${leadUUID}`,
+      },
+    });
+
+    this.handleNoteHide(viewType);
+
+    return response;
+  };
+
+  handleDeleteNoteClick = async (viewType, noteId) => {
+    const { removeNote } = this.props;
+
+    await removeNote({ variables: { noteId } });
+    this.handleNoteHide(viewType);
+  };
 
   render() {
     const {
@@ -118,11 +245,14 @@ class LeadProfile extends Component {
         loading,
         leadProfile,
       },
+      pinnedNotes: { notes },
       location,
       match: { params, path, url },
     } = this.props;
 
-    const data = get(leadProfile, 'data') || {};
+    const { popover } = this.state;
+
+    const lead = get(leadProfile, 'data') || {};
     const error = get(leadProfile, 'error');
 
     if (error) {
@@ -133,14 +263,17 @@ class LeadProfile extends Component {
       <div className="profile">
         <div className="profile__info">
           <Header
-            data={data}
+            data={lead}
             loading={loading}
             onPromoteLeadClick={this.triggerLeadModal}
+            onAddNoteClick={this.handleAddNoteClick}
           />
           <HideDetails>
             <Information
-              data={data}
+              data={lead}
               loading={loading}
+              pinnedNotes={get(notes, 'data') || {}}
+              onEditNoteClick={this.handleEditNoteClick}
             />
           </HideDetails>
         </div>
@@ -152,9 +285,22 @@ class LeadProfile extends Component {
         <div className="card no-borders" >
           <Switch>
             <Route path={`${path}/profile`} component={Profile} />
+            <Route disableScroll path={`${path}/notes`} component={Notes} />
             <Redirect to={`${url}/profile`} />
           </Switch>
         </div>
+        {
+          popover.name === NOTE_POPOVER &&
+          <NotePopover
+            isOpen
+            manual
+            toggle={() => this.handleNoteHide(noteViewType.POPOVER)}
+            onAddSuccess={data => this.handleSubmitNoteClick(noteViewType.POPOVER, data)}
+            onUpdateSuccess={data => this.handleSubmitNoteClick(noteViewType.POPOVER, data)}
+            onDeleteSuccess={data => this.handleDeleteNoteClick(noteViewType.POPOVER, data)}
+            {...popover.params}
+          />
+        }
       </div>
     );
   }
