@@ -8,7 +8,7 @@ import { TextRow } from 'react-placeholder/lib/placeholders';
 import LeadsGridFilter from './LeadsGridFilter';
 import history from '../../../../../router/history';
 import PropTypes from '../../../../../constants/propTypes';
-import { deskTypes, userTypes } from '../../../../../constants/hierarchyTypes';
+import { deskTypes, userTypes, branchTypes } from '../../../../../constants/hierarchyTypes';
 import { types as miniProfileTypes } from '../../../../../constants/miniProfile';
 import GridView, { GridViewColumn } from '../../../../../components/GridView';
 import Placeholder from '../../../../../components/Placeholder';
@@ -16,6 +16,7 @@ import { salesStatuses, salesStatusesColor } from '../../../../../constants/sale
 import Uuid from '../../../../../components/Uuid';
 import MiniProfile from '../../../../../components/MiniProfile';
 import CountryLabelWithFlag from '../../../../../components/CountryLabelWithFlag';
+import GridStatusDeskTeam from '../../../../../components/GridStatusDeskTeam';
 import { leadStatuses } from '../../../constants';
 
 class List extends Component {
@@ -285,13 +286,20 @@ class List extends Component {
     </Choose>
   );
 
-  renderStatus = ({ status }) => (
-    <div className={classNames('font-weight-700 text-uppercase', leadStatuses[status].color)}>
-      {I18n.t(leadStatuses[status].label)}
-    </div>
+  renderStatus = ({ status, statusChangedDate }) => (
+    <Fragment>
+      <div className={classNames('font-weight-700 text-uppercase', leadStatuses[status].color)}>
+        {I18n.t(leadStatuses[status].label)}
+      </div>
+      <If condition={statusChangedDate}>
+        <div className="header-block-small">
+          {I18n.t('COMMON.SINCE', { date: moment.utc(statusChangedDate).local().format('DD.MM.YYYY') })}
+        </div>
+      </If>
+    </Fragment>
   );
 
-  renderSales = ({ salesStatus }) => {
+  renderSales = ({ salesStatus, salesAgent }) => {
     if (!salesStatus) {
       return (
         <div className="font-weight-700 text-uppercase">
@@ -301,10 +309,19 @@ class List extends Component {
     }
 
     const className = salesStatusesColor[salesStatus];
+
     return (
-      <div className={classNames('font-weight-700 text-uppercase', { [className]: className })}>
-        {I18n.t(salesStatuses[salesStatus])}
-      </div>
+      <Fragment>
+        <div className={classNames('font-weight-700 text-uppercase', { [className]: className })}>
+          {I18n.t(salesStatuses[salesStatus])}
+        </div>
+        <div className="header-block-small">
+          <GridStatusDeskTeam
+            fullName={salesAgent.fullName}
+            hierarchy={salesAgent.hierarchy}
+          />
+        </div>
+      </Fragment>
     );
   };
 

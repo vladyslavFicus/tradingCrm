@@ -32,7 +32,10 @@ GridStatus.propTypes = {
   wrapperClassName: PropTypes.string,
   colorClassName: PropTypes.string.isRequired,
   statusLabel: PropTypes.string.isRequired,
-  info: PropTypes.string,
+  info: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.element,
+  ]),
   infoLabel: PropTypes.func,
 };
 

@@ -53,7 +53,7 @@ export default compose(
       variables: {
         ...query && query.filters,
         page: 0,
-        limit: 10,
+        limit: 20,
       },
     }),
     props: ({ leads: { leads, fetchMore, ...rest } }) => {

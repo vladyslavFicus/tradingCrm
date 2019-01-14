@@ -1,4 +1,5 @@
 import gql from 'graphql-tag';
+import { HierarchyBranchFragment } from '../fragments/hierarchy';
 
 const getUserHierarchy = gql`query getUserHierarchy {
   hierarchy {
@@ -142,19 +143,15 @@ const getBranchInfo = gql`query getBranchInfo(
         fields_errors
       }
       data {
-        uuid
-        name
-        branchType
-        country
-        defaultUser
-        parentBranches
-        deskType
-        language
-        defaultBranch
+        ...HierarchyBranchFragment
+        parentBranches {
+          ...HierarchyBranchFragment
+        }
       }
     } 
   }
-}`;
+}
+${HierarchyBranchFragment}`;
 
 const getBranchHierarchy = gql`query getBranchHierarchy (
   $operatorId: String!,
@@ -184,7 +181,9 @@ const getBranchHierarchy = gql`query getBranchHierarchy (
           country
           defaultUser
           defaultBranch
-          parentBranches
+          parentBranch {
+            uuid
+          }
         }
         desk {
           uuid
@@ -193,7 +192,9 @@ const getBranchHierarchy = gql`query getBranchHierarchy (
           deskType
           defaultUser
           defaultBranch
-          parentBranches
+          parentBranch {
+            uuid
+          }
           isDefault
         }
         team {
@@ -201,7 +202,9 @@ const getBranchHierarchy = gql`query getBranchHierarchy (
           name
           defaultUser
           defaultBranch
-          parentBranches
+          parentBranch {
+            uuid
+          }
         }
       }
       error {
@@ -297,7 +300,9 @@ const getBranchChildren = gql`query getBranchChildren(
         branchType
         country
         defaultUser
-        parentBranches
+        parentBranch {
+          uuid
+        }
         deskType
         language
         defaultBranch

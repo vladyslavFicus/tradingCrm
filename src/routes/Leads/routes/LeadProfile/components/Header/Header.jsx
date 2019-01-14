@@ -16,7 +16,7 @@ const Header = ({
     country,
     registrationDate,
     status,
-    statusChangeDate,
+    statusChangedDate,
   },
   loading,
   onPromoteLeadClick,
@@ -54,9 +54,9 @@ const Header = ({
             <div className={`header-block-middle text-uppercase ${leadStatuses[status].color}`}>
               {I18n.t(leadStatuses[status].label)}
             </div>
-            <If condition={statusChangeDate}>
+            <If condition={statusChangedDate}>
               <div className="header-block-small">
-                {I18n.t('COMMON.SINCE', { date: moment.utc(statusChangeDate).local().format('DD.MM.YYYY') })}
+                {I18n.t('COMMON.SINCE', { date: moment.utc(statusChangedDate).local().format('DD.MM.YYYY') })}
               </div>
             </If>
           </If>

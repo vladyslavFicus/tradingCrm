@@ -45,6 +45,16 @@ const leadsQuery = gql`query getLeads(
         salesAgent {
           fullName
           uuid
+          hierarchy {
+            parentBranches {
+              name
+              branchType
+              parentBranch {
+                name
+                branchType
+              }
+            }
+          }
         }
         salesStatus
         birthDate
@@ -53,7 +63,7 @@ const leadsQuery = gql`query getLeads(
         city
         language
         registrationDate
-        statusChangeDate
+        statusChangedDate
       } 
     }
   } 
@@ -92,7 +102,7 @@ const leadProfileQuery = gql`query getLeadProfile(
       city
       language
       registrationDate
-      statusChangeDate
+      statusChangedDate
     }
   } 
 }`;

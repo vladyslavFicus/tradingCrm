@@ -7,11 +7,13 @@ import {
   statusesLabels as userStatusesLabels,
 } from '../../../../../../constants/user';
 import { salesStatuses, salesStatusesColor } from '../../../../../../constants/salesStatuses';
+import { branchTypes } from '../../../../../../constants/hierarchyTypes';
 import { retentionStatuses, retentionStatusesColor } from '../../../../../../constants/retentionStatuses';
 import GridPlayerInfo from '../../../../../../components/GridPlayerInfo';
 import CountryLabelWithFlag from '../../../../../../components/CountryLabelWithFlag';
 import GridEmptyValue from '../../../../../../components/GridEmptyValue';
 import GridStatus from '../../../../../../components/GridStatus';
+import GridStatusDeskTeam from '../../../../../../components/GridStatusDeskTeam';
 import renderLabel from '../../../../../../utils/renderLabel';
 
 export default (
@@ -88,7 +90,7 @@ export default (
   render: (data) => {
     const {
       salesStatus,
-      salesRep: { fullName },
+      salesRep: { fullName, hierarchy },
       aquisitionStatus,
     } = get(data, 'tradingProfile') || { salesRep: { fullName: '' } };
     const colorClassName = salesStatusesColor[salesStatus];
@@ -100,7 +102,12 @@ export default (
             wrapperClassName={aquisitionStatus === 'SALES' ? `border-${colorClassName}` : ''}
             colorClassName={colorClassName}
             statusLabel={renderLabel(salesStatus, salesStatuses)}
-            info={fullName}
+            info={
+              <GridStatusDeskTeam
+                fullName={fullName}
+                hierarchy={hierarchy}
+              />
+            }
           />
         </When>
         <Otherwise>
@@ -115,7 +122,7 @@ export default (
   render: (data) => {
     const {
       retentionStatus,
-      retentionRep: { fullName },
+      retentionRep: { fullName, hierarchy },
       aquisitionStatus,
     } = get(data, 'tradingProfile') || { retentionRep: { fullName: '' } };
     const colorClassName = retentionStatusesColor[retentionStatus];
@@ -127,7 +134,12 @@ export default (
             wrapperClassName={aquisitionStatus === 'RETENTION' ? `border-${colorClassName}` : ''}
             colorClassName={colorClassName}
             statusLabel={renderLabel(retentionStatus, retentionStatuses)}
-            info={fullName}
+            info={
+              <GridStatusDeskTeam
+                fullName={fullName}
+                hierarchy={hierarchy}
+              />
+            }
           />
         </When>
         <Otherwise>

@@ -209,11 +209,31 @@ const clientsQuery = gql`query getProfiles(
             salesRep {
               fullName
               uuid
+              hierarchy {
+                parentBranches {
+                  name
+                  branchType
+                  parentBranch {
+                    name
+                    branchType
+                  }
+                }
+              }
             }
             salesStatus
             retentionRep {
               fullName
               uuid
+              hierarchy {
+                parentBranches {
+                  name
+                  branchType
+                  parentBranch {
+                    name
+                    branchType
+                  }
+                }
+              }
             }
             retentionStatus
             balance
