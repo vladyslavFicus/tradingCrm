@@ -2,22 +2,18 @@
 import React, { Fragment } from 'react';
 import { I18n } from 'react-redux-i18n';
 import moment from 'moment';
-import classNames from 'classnames';
 import GridPaymentInfo from '../../components/GridPaymentInfo';
 import Uuid from '../../components/Uuid';
 import NoteButton from '../../components/NoteButton';
 import GridPlayerInfo from '../../components/GridPlayerInfo';
 import CountryLabelWithFlag from '../../components/CountryLabelWithFlag';
-import FailedStatusContainer from '../../routes/Payments/routes/List/container/FailedStatusContainer';
+import PaymentStatus from '../../components/PaymentStatus';
 import {
-  statusMapper,
-  tradingTypes,
   methodsLabels,
   tradingTypesLabelsWithColor,
   manualPaymentMethodsLabels,
   aggregatorsLabels,
 } from '../../constants/payment';
-import { getTradingStatusProps } from './utils';
 
 const clientColumn = (auth, fetchPlayer) => ({
   name: 'profile',
@@ -195,35 +191,7 @@ export default ({
 }, {
   name: 'status',
   header: I18n.t('CONSTANTS.TRANSACTIONS.GRID_COLUMNS.STATUS'),
-  render: ({ status, paymentId, creationTime, createdBy, paymentType }) => {
-    const { color, label } = getTradingStatusProps(status);
-    return (
-      <div>
-        <div className={classNames(color, 'font-weight-700 text-uppercase status')}>
-          {label}
-          <If condition={paymentType === tradingTypes.DEPOSIT && statusMapper.FAILED.indexOf(status) !== -1}>
-            <FailedStatusContainer
-              id={`transaction-failure-reason-${paymentId}`}
-              paymentId={paymentId}
-              uuid={playerInfo.auth.uuid}
-            />
-          </If>
-        </div>
-        <div className="font-size-11">
-          {I18n.t('COMMON.DATE_ON', {
-            date: moment.utc(creationTime).local().format('DD.MM.YYYY - HH:mm:ss'),
-          })}
-        </div>
-        <If condition={createdBy}>
-          <div className="font-size-11">
-            {I18n.t('COMMON.AUTHOR_BY')}
-            {' '}
-            <Uuid uuid={createdBy} />
-          </div>
-        </If>
-      </div>
-    );
-  },
+  render: payment => <PaymentStatus payment={payment} />,
 }, {
   name: 'actions',
   header: '',

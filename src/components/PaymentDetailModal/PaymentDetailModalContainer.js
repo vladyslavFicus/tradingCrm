@@ -9,10 +9,12 @@ export default compose(
   }),
   graphql(clientQuery, {
     options: ({
-      profileId: playerUUID,
+      payment: {
+        playerProfile: { uuid },
+      },
     }) => ({
       variables: {
-        playerUUID,
+        playerUUID: uuid,
       },
     }),
     name: 'playerProfile',

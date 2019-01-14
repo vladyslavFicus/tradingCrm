@@ -660,6 +660,7 @@
       }
     },
     "TRANSACTIONS": {
+      "ADD_TRANSACTION": "+ Add transaction",
       "MODAL_CREATE": {
         "NO_PAYMENT_ACCOUNTS_LABEL": "No payment accounts",
         "CHOOSE_PAYMENT_ACCOUNT_LABEL": "Choose payment account",
