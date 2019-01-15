@@ -13,9 +13,8 @@ import {
   getUserBranchHierarchy,
   getBranchChildren,
 } from '../../graphql/queries/hierarchy';
-import Select from '../../components/Select';
 import renderLabel from '../../utils/renderLabel';
-import { attributeLabels, components, getAgents, filterAgents } from './constants';
+import { attributeLabels, components, getAgents, filterAgents, fieldNames } from './constants';
 
 class RepresentativeUpdateModal extends Component {
   static propTypes = {
@@ -57,48 +56,48 @@ class RepresentativeUpdateModal extends Component {
     }).isRequired,
     header: PropTypes.oneOfType([PropTypes.node, PropTypes.string]).isRequired,
     additionalFields: PropTypes.array,
+    selectedDesk: PropTypes.string,
+    configs: PropTypes.shape({
+      multiAssign: PropTypes.bool,
+      allRowsSelected: PropTypes.bool,
+      totalElements: PropTypes.number,
+      searchParams: PropTypes.object,
+    }),
   };
 
   static defaultProps = {
     error: null,
     additionalFields: null,
     initialValues: null,
+    selectedDesk: null,
+    configs: {},
   };
 
   state = {
-    selectedDesk: '',
-    selectedRep: '',
-    selectedTeam: '',
     agentsLoading: false,
     teamsLoading: false,
-    desks: null,
     agents: null,
     teams: [],
   };
 
-  static getDerivedStateFromProps({ userBranchHierarchy, hierarchyUsers, type }, prevState) {
+  static getDerivedStateFromProps({ hierarchyUsers, type }, prevState) {
     let newState = null;
-    const { DESK: desks } = get(userBranchHierarchy, 'hierarchy.userBranchHierarchy.data') || { DESK: null };
     const agents = getAgents(hierarchyUsers, type);
 
-    // INFO: initial set desks and agents
-    if (Array.isArray(desks) && !prevState.desks) {
-      newState = {
-        desks: desks.filter(({ deskType }) => deskType === deskTypes[type]),
-      };
-    }
     if (agents && !prevState.agents) {
-      newState = { ...newState, agents };
+      newState = { agents };
     }
 
     return newState;
   }
 
   handleDeskChange = async (selectedDesk) => {
-    this.setState({
-      teamsLoading: true,
-    });
-    const { selectedTeam, selectedRep } = this.state;
+    this.setState({ teamsLoading: true });
+    const {
+      selectedTeam,
+      selectedRep,
+      change,
+    } = this.props;
 
     const { data: { hierarchy: { branchChildren: { data: teams, error } } } } = await this.props.client.query({
       query: getBranchChildren,
@@ -106,35 +105,36 @@ class RepresentativeUpdateModal extends Component {
     });
 
     if (error) {
+      this.setState({ teamsLoading: false });
       throw new SubmissionError({ _error: error.error });
+    }
+
+    change(fieldNames.DESK, selectedDesk);
+
+    if (teams && teams.length === 1) {
+      await this.handleTeamChange(teams[0].uuid);
+    } else if (selectedTeam) {
+      change(fieldNames.TEAM, null);
+    }
+
+    if (selectedRep) {
+      change(fieldNames.REPRESENTATIVE, null);
     }
 
     this.setState({
       teams: teams || [],
-      selectedDesk,
       teamsLoading: false,
-      ...(selectedTeam && { selectedTeam: '' }),
-      ...(selectedRep && { selectedRep: '' }),
-    }, () => {
-      this.props.change('deskId', selectedDesk);
-
-      if (this.state.selectedTeam) {
-        this.props.change('teamId', null);
-      } else if (teams && teams.length === 1) {
-        this.props.change('teamId', teams[0].uuid);
-      }
-
-      if (this.state.selectedRep) {
-        this.props.change('repId', null);
-      }
     });
   }
 
   handleTeamChange = async (selectedTeam) => {
-    this.setState({
-      agentsLoading: true,
-    });
-    const { client, type } = this.props;
+    this.setState({ agentsLoading: true });
+    const {
+      selectedRep,
+      client,
+      change,
+      type,
+    } = this.props;
 
     const { data: { hierarchy: { usersByBranch: { data, error } } } } = await client.query({
       query: getUsersByBranch,
@@ -142,63 +142,57 @@ class RepresentativeUpdateModal extends Component {
         uuid: selectedTeam,
       },
     });
-    const agents = filterAgents(data || [], type);
 
     if (error) {
+      this.setState({ agentsLoading: false });
       throw new SubmissionError({ _error: error.error });
+    }
+
+    const agents = filterAgents(data || [], type);
+    change(fieldNames.TEAM, selectedTeam);
+
+    if (agents && agents.length === 1) {
+      await this.handleRepChange(agents[0].uuid);
+    } else if (selectedRep) {
+      change(fieldNames.REPRESENTATIVE, null);
     }
 
     this.setState({
       agents,
-      selectedTeam,
       agentsLoading: false,
-    }, () => {
-      this.props.change('teamId', selectedTeam);
-
-      if (this.state.selectedRep) {
-        this.props.change('repId', null);
-      }
-
-      if (agents && agents.length === 1) {
-        this.props.change('repId', agents[0].uuid);
-      }
     });
   }
 
   handleRepChange = async (selectedRep) => {
-    this.setState({
-      teamsLoading: true,
-    });
-
-    const { selectedTeam } = this.state;
-    const { client } = this.props;
+    this.setState({ teamsLoading: true });
+    const { client, change, selectedTeam, configs: { multiAssign } } = this.props;
     let teams = null;
 
-    if (!selectedTeam) {
-      const { data: { hierarchy: { userBranchHierarchy: { data: { TEAM }, error } } } } = await client.query({
-        query: getUserBranchHierarchy,
-        variables: { userId: selectedRep },
-      });
+    if (selectedRep && !selectedTeam) {
+      if (!multiAssign
+          || (multiAssign && Array.isArray(selectedRep) && selectedRep.length === 1)) {
+        const { data: { hierarchy: { userBranchHierarchy: { data: { TEAM }, error } } } } = await client.query({
+          query: getUserBranchHierarchy,
+          variables: { userId: Array.isArray(selectedRep) ? selectedRep[0] : selectedRep },
+        });
 
-      if (error) {
-        throw new SubmissionError({ _error: error.error });
+        if (error) {
+          this.setState({ teamsLoading: false });
+          throw new SubmissionError({ _error: error.error });
+        }
+        teams = TEAM || null;
+
+        if (teams && teams.length === 1) {
+          this.handleTeamChange(teams[0].uuid);
+        }
       }
-      teams = TEAM || null;
     }
 
-    this.setState({
-      selectedRep,
-      teamsLoading: false,
-      ...(!selectedTeam && teams && {
-        teams,
-        ...(teams.length === 1 && { selectedTeam: teams[0].uuid }),
-      }),
-    }, () => {
-      this.props.change('repId', selectedRep);
+    change(fieldNames.REPRESENTATIVE, selectedRep);
 
-      if (teams && teams.length === 1) {
-        this.props.change('teamId', teams[0].uuid);
-      }
+    this.setState({
+      teamsLoading: false,
+      ...(!selectedTeam && teams && { teams }),
     });
   };
 
@@ -206,7 +200,7 @@ class RepresentativeUpdateModal extends Component {
     const {
       ids,
       type,
-      props,
+      configs,
       notify,
       userType,
       onSuccess,
@@ -215,7 +209,7 @@ class RepresentativeUpdateModal extends Component {
       bulkLeadRepresentativeUpdate,
     } = this.props;
 
-    const { allRowsSelected, totalElements, searchParams } = props || {};
+    const { allRowsSelected, totalElements, searchParams } = configs || {};
 
     const variables = {
       ids,
@@ -272,23 +266,24 @@ class RepresentativeUpdateModal extends Component {
       submitting,
       error,
       type,
-      userBranchHierarchy: { loading: deskLoading },
+      userBranchHierarchy: { loading: deskLoading, hierarchy },
       hierarchyUsers: { loading: initAgentsLoading },
       header,
       additionalFields,
       initialValues,
+      selectedDesk,
+      configs: { multiAssign },
     } = this.props;
 
     const {
-      selectedDesk,
-      selectedRep,
-      selectedTeam,
       agentsLoading,
       teamsLoading,
-      desks,
       agents,
       teams,
     } = this.state;
+
+    const { DESK: desks } = get(hierarchy, 'userBranchHierarchy.data') || { DESK: [] };
+    const filteredDesks = desks.filter(({ deskType }) => deskType === deskTypes[type]);
 
     const submitDisabled =
       agentsLoading || deskLoading || initAgentsLoading || invalid || (!initialValues && pristine) || submitting;
@@ -311,59 +306,59 @@ class RepresentativeUpdateModal extends Component {
               {error}
             </div>
           </If>
-          <span className="font-weight-600">{I18n.t(attributeLabels(type).desk)}</span>
-          <Select
-            value={selectedDesk}
-            customClassName="form-group"
-            placeholder={!deskLoading && desks && desks.length === 0
+          <Field
+            name={fieldNames.DESK}
+            label={I18n.t(attributeLabels(type).desk)}
+            placeholder={!deskLoading && filteredDesks && filteredDesks.length === 0
               ? I18n.t('COMMON.SELECT_OPTION.NO_ITEMS')
               : I18n.t('COMMON.SELECT_OPTION.DEFAULT')
             }
-            disabled={deskLoading || (desks && desks.length === 0) || submitting}
-            onChange={this.handleDeskChange}
+            component={NasSelectField}
+            onFieldChange={this.handleDeskChange}
           >
-            {(desks || []).map(({ name, uuid }) => (
+            {filteredDesks.map(({ name, uuid }) => (
               <option key={uuid} value={uuid}>
                 {name}
               </option>
             ))}
-          </Select>
-          <span className="font-weight-600">{I18n.t(attributeLabels(type).team)}</span>
-          <Select
-            value={selectedTeam}
-            customClassName="form-group"
+          </Field>
+          <Field
+            name={fieldNames.TEAM}
+            label={I18n.t(attributeLabels(type).team)}
             placeholder={selectedDesk && !teamsLoading && teams.length === 0
               ? I18n.t('COMMON.SELECT_OPTION.NO_ITEMS')
               : I18n.t('COMMON.SELECT_OPTION.DEFAULT')
             }
+            component={NasSelectField}
             disabled={!selectedDesk || teamsLoading || teams.length === 0 || submitting}
-            onChange={this.handleTeamChange}
+            onFieldChange={this.handleTeamChange}
           >
             {teams.map(({ name, uuid }) => (
               <option key={uuid} value={uuid}>
                 {name}
               </option>
             ))}
-          </Select>
-          <span className="font-weight-600">{I18n.t(attributeLabels(type).representative)}</span>
-          <Select
-            value={selectedRep}
-            customClassName="form-group"
+          </Field>
+          <Field
+            name={fieldNames.REPRESENTATIVE}
+            label={I18n.t(attributeLabels(type).representative)}
             placeholder={!agentsLoading && !initAgentsLoading && agents && agents.length === 0
               ? I18n.t('COMMON.SELECT_OPTION.NO_ITEMS')
               : I18n.t('COMMON.SELECT_OPTION.DEFAULT')
             }
+            component={NasSelectField}
+            multiple={multiAssign}
             disabled={agentsLoading || initAgentsLoading || (agents && agents.length === 0) || submitting}
-            onChange={this.handleRepChange}
+            onFieldChange={this.handleRepChange}
           >
             {(agents || []).map(({ fullName, uuid }) => (
               <option key={uuid} value={uuid}>
                 {fullName}
               </option>
             ))}
-          </Select>
+          </Field>
           <Field
-            name="status"
+            name={fieldNames.STATUS}
             label={I18n.t(attributeLabels(type).status)}
             component={NasSelectField}
             disabled={submitting}
