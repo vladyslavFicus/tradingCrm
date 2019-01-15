@@ -166,7 +166,7 @@ export default ({
                   {I18n.t(manualPaymentMethodsLabels[paymentMethod])}
                 </When>
                 <Otherwise>
-                  <div>&mdash;</div>
+                  <div>{paymentMethod}</div>
                 </Otherwise>
               </Choose>
             </Otherwise>
