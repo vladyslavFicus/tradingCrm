@@ -1255,7 +1255,8 @@
         "B2CRYPTO": "B2Crypto",
         "PAYRETAILERS": "Pay Retailers",
         "WIRECAPITAL": "Wirecapital",
-        "EFTPAY": "EFTPay"
+        "EFTPAY": "EFTPay",
+        "PAYTRIO": "Paytrio"
       },
       "PAYMENT_AGGREGATORS": {
         "CASHIER": "Cashier",
