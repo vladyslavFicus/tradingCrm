@@ -208,7 +208,7 @@ class List extends Component {
     representativeModal.show({
       type,
       ids,
-      props: {
+      configs: {
         allRowsSelected,
         totalElements,
         ...query && { searchParams: { ...query.filters } },

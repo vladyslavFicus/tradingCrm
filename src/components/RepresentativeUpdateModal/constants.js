@@ -14,6 +14,13 @@ export const components = keyMirror({
   select: null,
 });
 
+export const fieldNames = {
+  DESK: 'deskId',
+  TEAM: 'teamId',
+  REPRESENTATIVE: 'repId',
+  STATUS: 'status',
+};
+
 export const getAgents = (apolloResponse, userType) => {
   const users = get(apolloResponse, 'hierarchy.hierarchyUsersByType.data');
 

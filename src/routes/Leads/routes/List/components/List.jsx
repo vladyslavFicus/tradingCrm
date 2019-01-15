@@ -235,9 +235,10 @@ class List extends Component {
       userType: userTypes.LEAD_CUSTOMER,
       type: deskTypes.SALES,
       ids,
-      props: {
+      configs: {
         allRowsSelected,
         totalElements,
+        multiAssign: true,
         ...query && { searchParams: { ...query.filters } },
       },
       onSuccess: this.handleSuccessUpdateRepresentative,

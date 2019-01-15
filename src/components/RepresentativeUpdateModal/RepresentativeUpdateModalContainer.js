@@ -1,4 +1,4 @@
-import { reduxForm } from 'redux-form';
+import { reduxForm, formValueSelector } from 'redux-form';
 import { connect } from 'react-redux';
 import { withApollo, graphql, compose } from 'react-apollo';
 import { get } from 'lodash';
@@ -11,11 +11,17 @@ import { bulkLeadUpdate } from '../../graphql/mutations/leads';
 import { getHierarchyUsersByType, getUserBranchHierarchy } from '../../graphql/queries/hierarchy';
 import { withNotifications } from '../HighOrder';
 import RepresentativeUpdateModal from './RepresentativeUpdateModal';
-import { attributeLabels, getAgents } from './constants';
+import { attributeLabels, getAgents, fieldNames } from './constants';
 
 const FORM_NAME = 'representativeUpdateModalForm';
+const selector = formValueSelector(FORM_NAME);
 
-const mapStateToProps = ({ auth: { uuid } }) => ({ auth: { uuid } });
+const mapStateToProps = state => ({
+  auth: { uuid: state.auth.uuid },
+  selectedDesk: selector(state, fieldNames.DESK),
+  selectedTeam: selector(state, fieldNames.TEAM),
+  selectedRep: selector(state, fieldNames.REPRESENTATIVE),
+});
 
 export default compose(
   withApollo,
