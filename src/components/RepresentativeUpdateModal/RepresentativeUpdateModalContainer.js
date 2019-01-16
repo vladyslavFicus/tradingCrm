@@ -21,6 +21,7 @@ const mapStateToProps = state => ({
   selectedDesk: selector(state, fieldNames.DESK),
   selectedTeam: selector(state, fieldNames.TEAM),
   selectedRep: selector(state, fieldNames.REPRESENTATIVE),
+  currentStatus: selector(state, fieldNames.STATUS),
 });
 
 export default compose(
