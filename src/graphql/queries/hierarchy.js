@@ -340,7 +340,6 @@ const getBranchChildren = gql`query getBranchChildren(
   }
 }`;
 
-
 export {
   getUserHierarchy,
   getUserHierarchyById,
