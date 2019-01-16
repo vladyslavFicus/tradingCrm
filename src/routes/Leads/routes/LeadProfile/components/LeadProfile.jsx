@@ -11,6 +11,8 @@ import NotFound from '../../../../../routes/NotFound';
 import PropTypes from '../../../../../constants/propTypes';
 import HideDetails from '../../../../../components/HideDetails';
 import { leadProfileTabs } from '../../../constants';
+import { aquisitionStatusesNames } from '../../../../../constants/aquisitionStatuses';
+import { userTypes } from '../../../../../constants/hierarchyTypes';
 import Profile from '../routes/Profile';
 import Notes from '../routes/Notes';
 import Information from './Information';
@@ -56,6 +58,7 @@ class LeadProfile extends Component {
 
   static childContextTypes = {
     onEditModalNoteClick: PropTypes.func.isRequired,
+    triggerRepresentativeUpdateModal: PropTypes.func.isRequired,
   };
 
   state = {
@@ -65,6 +68,7 @@ class LeadProfile extends Component {
   getChildContext() {
     return {
       onEditModalNoteClick: this.handleEditModalNoteClick,
+      triggerRepresentativeUpdateModal: this.triggerRepresentativeUpdateModal,
     };
   }
 
@@ -115,6 +119,24 @@ class LeadProfile extends Component {
         message: I18n.t('LEADS.SUCCESS_PROMOTED', { id: data.playerUUID }),
       });
     }
+  };
+
+  triggerRepresentativeUpdateModal = () => {
+    const {
+      modals: { representativeModal },
+      leadProfile: { refetch },
+      match: { params: { id } },
+    } = this.props;
+
+    representativeModal.show({
+      type: aquisitionStatusesNames.SALES,
+      userType: userTypes.LEAD_CUSTOMER,
+      ids: [id],
+      initialValues: { aquisitionStatus: aquisitionStatusesNames.SALES },
+      header: I18n.t('CLIENT_PROFILE.MODALS.REPRESENTATIVE_UPDATE.HEADER',
+        { type: aquisitionStatusesNames.SALES.toLowerCase() }),
+      onSuccess: () => refetch({ fetchPolicy: 'network-only' }),
+    });
   };
 
   triggerLeadModal = () => {

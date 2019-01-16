@@ -2,10 +2,17 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { I18n } from 'react-redux-i18n';
 import classNames from 'classnames';
+import Permissions from 'utils/permissions';
+import permissions from 'config/permissions';
 import { salesStatuses, salesStatusesColor } from '../../../../../../../constants/salesStatuses';
 import './AcquisitionStatus.scss';
 
-const AcquisitionStatus = ({ data: { salesStatus, salesAgent }, loading }) => (
+const changeAcquisitionStatus = new Permissions([permissions.USER_PROFILE.CHANGE_ACQUISITION_STATUS]);
+
+const AcquisitionStatus = (
+  { data: { salesStatus, salesAgent }, loading },
+  { triggerRepresentativeUpdateModal, permissions: currentPermissions }
+) => (
   <div className="account-details__personal-info">
     <span className="account-details__label">
       {I18n.t('CLIENT_PROFILE.CLIENT.ACQUISITION.TITLE')}
@@ -13,7 +20,14 @@ const AcquisitionStatus = ({ data: { salesStatus, salesAgent }, loading }) => (
     <div className="card">
       <div className="card-body acquisition-status">
         <If condition={!loading}>
-          <div className="acquisition-item">
+          <div
+            className="acquisition-item"
+            onClick={
+              changeAcquisitionStatus.check(currentPermissions)
+                ? triggerRepresentativeUpdateModal
+                : null
+            }
+          >
             <div className="status-col">
               <div>{I18n.t('CLIENT_PROFILE.CLIENT.ACQUISITION.SALES')}</div>
               <Choose>
@@ -56,6 +70,11 @@ AcquisitionStatus.propTypes = {
     }),
   }),
   loading: PropTypes.bool.isRequired,
+};
+
+AcquisitionStatus.contextTypes = {
+  triggerRepresentativeUpdateModal: PropTypes.func.isRequired,
+  permissions: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
 AcquisitionStatus.defaultProps = {

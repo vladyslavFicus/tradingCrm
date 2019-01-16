@@ -13,12 +13,14 @@ import { withModals, withNotifications } from '../../../../../components/HighOrd
 import { leadProfileQuery } from '../../../../../graphql/queries/leads';
 import { promoteLeadToClient } from '../../../../../graphql/mutations/leads';
 import PromoteLeadModal from '../../../../../components/PromoteLeadModal';
+import RepresentativeUpdateModal from '../../../../../components/RepresentativeUpdateModal';
 
 export default compose(
   withNotifications,
   withModals({
     promoteLeadModal: PromoteLeadModal,
     noteModal: NoteModal,
+    representativeModal: RepresentativeUpdateModal,
   }),
   graphql(promoteLeadToClient, {
     name: 'promoteLead',

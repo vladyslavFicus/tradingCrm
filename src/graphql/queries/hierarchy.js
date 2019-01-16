@@ -19,6 +19,29 @@ const getUserHierarchy = gql`query getUserHierarchy {
   }
 }`;
 
+const getUserHierarchyById = gql`query getUserHierarchyById(
+$userId: String!,
+) {
+  hierarchy {
+    userHierarchyById (
+      userId: $userId,
+    ) {
+      data {
+        uuid
+        userType
+        parentUsers {
+          uuid
+          userType
+        }
+      }
+      error {
+        error
+        fields_errors
+      }
+    }
+  }
+}`;
+
 const getUserBranchHierarchy = gql`query getUserBranchHierarchy(
   $userId: String!,
 ) {
@@ -314,6 +337,7 @@ const getBranchChildren = gql`query getBranchChildren(
 
 export {
   getUserHierarchy,
+  getUserHierarchyById,
   getUserBranchHierarchy,
   getHierarchyUsersByType,
   getBranchInfo,
