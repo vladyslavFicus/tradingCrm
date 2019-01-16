@@ -420,7 +420,9 @@ class List extends Component {
 
     const entities = get(leads, 'data') || { content: [] };
     const filters = get(query, 'filters', {});
-    const { TEAM: teams, DESK: desks } = get(hierarchy, 'userBranchHierarchy.data') || { TEAM: [], DESK: [] };
+    const teams = get(hierarchy, 'userBranchHierarchy.data.TEAM') || [];
+    const desks = get(hierarchy, 'userBranchHierarchy.data.DESK') || [];
+
     const allowActions = Object
       .keys(filters)
       .filter(i => (filters[i] && Array.isArray(filters[i]) && filters[i].length > 0) || filters[i]).length > 0;

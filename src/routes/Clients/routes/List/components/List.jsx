@@ -328,7 +328,8 @@ class List extends Component {
     } = this.state;
 
     const entities = get(this.props.profiles, 'profiles.data') || { content: [] };
-    const { TEAM: teams, DESK: desks } = get(hierarchy, 'userBranchHierarchy.data') || { TEAM: [], DESK: [] };
+    const teams = get(hierarchy, 'userBranchHierarchy.data.TEAM') || [];
+    const desks = get(hierarchy, 'userBranchHierarchy.data.DESK') || [];
 
     return (
       <div className="card">
@@ -409,8 +410,8 @@ class List extends Component {
           onSubmit={this.handleFiltersChanged}
           onReset={this.handleFilterReset}
           countries={countries}
-          teams={teams || []}
-          desks={desks || []}
+          teams={teams}
+          desks={desks}
           branchesLoading={branchesLoading}
         />
 

@@ -10,6 +10,7 @@ export const buildTreeDataFromBranchTree = (branchTree, isChild = false) => {
     type: nodeTypes.BRANCH,
     branchType: branchTree.branchType,
     uuid: branchTree.uuid,
+    deskType: branchTree.deskType,
     expanded: true,
   };
 

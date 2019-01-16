@@ -249,6 +249,7 @@ const getBranchHierarchyTree = gql`
     uuid
     name
     branchType
+    deskType
     users {
       uuid
       userType

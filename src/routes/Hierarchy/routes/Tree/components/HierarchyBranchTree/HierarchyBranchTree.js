@@ -16,13 +16,14 @@ class HierarchyBranchTree extends PureComponent {
     }).isRequired,
   };
 
-  onNodeClick = ({ type, branchType, uuid }) => () => {
+  onNodeClick = ({ type, branchType, deskType, uuid }) => () => {
     if (type === nodeTypes.USER) {
       window.open(`/operators/${uuid}/profile`, '_blank');
     }
 
     if (type === nodeTypes.BRANCH && ![branchTypes.COMPANY, branchTypes.BRAND].includes(branchType)) {
-      window.open(`/${branchType.toLowerCase()}s/${uuid}`, '_blank');
+      const ruleUrl = deskType ? `/${deskType.toLowerCase()}-rules` : '';
+      window.open(`/${branchType.toLowerCase()}s/${uuid}/rules${ruleUrl}`, '_blank');
     }
   };
 
