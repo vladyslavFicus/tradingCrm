@@ -173,7 +173,7 @@ const getBranchInfo = gql`query getBranchInfo(
       }
       data {
         ...HierarchyBranchFragment
-        parentBranches {
+        parentBranch {
           ...HierarchyBranchFragment
         }
       }

@@ -186,12 +186,16 @@ const HierarchyProfileRules = (title, deskType) => {
         <div className="font-weight-700">
           {name}
         </div>
-        <div className="font-size-11">
-          <Uuid uuid={uuid} uuidPrefix="RL" />
-        </div>
-        <div className="font-size-11">
-          <Uuid uuid={createdBy} uuidPrefix="OP" />
-        </div>
+        <If condition={uuid}>
+          <div className="font-size-11">
+            <Uuid uuid={uuid} uuidPrefix="RL" />
+          </div>
+        </If>
+        <If condition={createdBy}>
+          <div className="font-size-11">
+            <Uuid uuid={createdBy} uuidPrefix="OP" />
+          </div>
+        </If>
       </Fragment>
     );
 
