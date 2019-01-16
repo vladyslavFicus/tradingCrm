@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
-import { withApollo } from 'react-apollo';
-import { isEqual } from 'lodash';
+import { isEqual, get } from 'lodash';
 import PropTypes from '../../../../../constants/propTypes';
-import { getBranchChildren } from '../../../../../graphql/queries/hierarchy';
 import ListFilterForm from '../../../../../components/ListFilterForm';
 import { filterFields, fieldNames } from './attributes';
 
@@ -14,12 +12,10 @@ class UserGridFilter extends Component {
     teams: PropTypes.arrayOf(PropTypes.hierarchyBranch).isRequired,
     desks: PropTypes.arrayOf(PropTypes.hierarchyBranch).isRequired,
     branchesLoading: PropTypes.bool.isRequired,
-    client: PropTypes.object.isRequired,
   };
 
   state = {
     teams: this.props.teams,
-    teamLoading: false,
     isDeskSelected: false,
   };
 
@@ -33,31 +29,22 @@ class UserGridFilter extends Component {
     return null;
   }
 
-  handleFieldChange = async (fieldName, value, formChange) => {
-    const { client } = this.props;
+  handleFieldChange = (fieldName, value, formChange) => {
+    const { teams } = this.props;
 
     if (fieldName === fieldNames.desks) {
-      this.setState({ teamLoading: true });
-      let teams = null;
+      let deskTeams = null;
       let isDeskSelected = false;
 
       if (value) {
-        const { data: { hierarchy: { branchChildren: { data: deskTeams, error } } } } = await client.query({
-          query: getBranchChildren,
-          variables: { uuid: value },
-        });
-
-        if (!error) {
-          teams = deskTeams;
-        }
+        deskTeams = teams.filter(team => value === get(team, 'parentBranch.uuid'));
         isDeskSelected = true;
       }
 
       this.setState(
         {
-          ...(teams && { teams }),
+          ...(deskTeams && { teams: deskTeams }),
           isDeskSelected,
-          teamLoading: false,
         },
         value ? null : () => formChange(fieldNames.teams, null),
       );
@@ -75,10 +62,7 @@ class UserGridFilter extends Component {
       branchesLoading,
     } = this.props;
 
-    const {
-      teams,
-      teamLoading,
-    } = this.state;
+    const { teams } = this.state;
 
     return (
       <ListFilterForm
@@ -89,7 +73,6 @@ class UserGridFilter extends Component {
           desks,
           teams,
           branchesLoading,
-          teamLoading,
         )}
         onFieldChange={this.handleFieldChange}
       />
@@ -97,4 +80,4 @@ class UserGridFilter extends Component {
   }
 }
 
-export default withApollo(UserGridFilter);
+export default UserGridFilter;

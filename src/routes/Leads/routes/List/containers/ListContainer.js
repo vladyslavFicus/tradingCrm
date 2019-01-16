@@ -1,9 +1,10 @@
 import { connect } from 'react-redux';
-import { graphql, compose } from 'react-apollo';
+import { graphql, compose, withApollo } from 'react-apollo';
 import { get } from 'lodash';
 import Modal from '../../../../../components/Modal';
 import { withNotifications, withModals } from '../../../../../components/HighOrder';
 import RepresentativeUpdateModal from '../../../../../components/RepresentativeUpdateModal';
+import { getUserBranchHierarchy } from '../../../../../graphql/queries/hierarchy';
 import countries from '../../../../../utils/countryList';
 import { leadsQuery } from '../../../../../graphql/queries/leads';
 import { bulkLeadPromote } from '../../../../../graphql/mutations/leads';
@@ -30,6 +31,7 @@ const mapStateToProps = ({
 });
 
 export default compose(
+  withApollo,
   withNotifications,
   withModals({
     promoteInfoModal: Modal,
@@ -42,6 +44,15 @@ export default compose(
   }),
   graphql(bulkLeadPromote, {
     name: 'promoteLead',
+  }),
+  graphql(getUserBranchHierarchy, {
+    name: 'userBranchHierarchy',
+    options: ({
+      auth: { uuid },
+    }) => ({
+      variables: { userId: uuid },
+      fetchPolicy: 'network-only',
+    }),
   }),
   graphql(leadsQuery, {
     name: 'leads',

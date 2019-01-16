@@ -8,7 +8,8 @@ import { TextRow } from 'react-placeholder/lib/placeholders';
 import LeadsGridFilter from './LeadsGridFilter';
 import history from '../../../../../router/history';
 import PropTypes from '../../../../../constants/propTypes';
-import { deskTypes, userTypes, branchTypes } from '../../../../../constants/hierarchyTypes';
+import { deskTypes, userTypes } from '../../../../../constants/hierarchyTypes';
+import { getUsersByBranch } from '../../../../../graphql/queries/hierarchy';
 import { types as miniProfileTypes } from '../../../../../constants/miniProfile';
 import GridView, { GridViewColumn } from '../../../../../components/GridView';
 import Placeholder from '../../../../../components/Placeholder';
@@ -35,6 +36,18 @@ class List extends Component {
       refetch: PropTypes.func,
       loading: PropTypes.bool.isRequired,
     }),
+    userBranchHierarchy: PropTypes.shape({
+      hierarchy: PropTypes.shape({
+        userBranchHierarchy: PropTypes.shape({
+          data: PropTypes.shape({
+            DESK: PropTypes.arrayOf(PropTypes.branchHierarchyType),
+            TEAM: PropTypes.arrayOf(PropTypes.branchHierarchyType),
+          }),
+          error: PropTypes.object,
+        }),
+      }),
+      loading: PropTypes.bool.isRequired,
+    }).isRequired,
     location: PropTypes.shape({
       query: PropTypes.shape({
         filters: PropTypes.object,
@@ -86,13 +99,63 @@ class List extends Component {
     }
   };
 
-  handleFiltersChanged = (filters = {}) => {
+  handleFiltersChanged = async (filters = {}) => {
+    const {
+      client,
+      notify,
+    } = this.props;
+    let hierarchyData = [];
+    if (filters.teams) {
+      const { data: { hierarchy: { usersByBranch: { data, error } } } } = await client.query({
+        query: getUsersByBranch,
+        variables: { uuid: filters.teams },
+      });
+
+      if (error) {
+        notify({
+          level: 'error',
+          title: I18n.t('COMMON.FAILED'),
+          message: I18n.t('COMMON.SOMETHING_WRONG'),
+        });
+
+        return;
+      }
+      hierarchyData = data.map(({ uuid }) => uuid);
+    } else if (filters.desks) {
+      const { data: { hierarchy: { usersByBranch: { data, error } } } } = await client.query({
+        query: getUsersByBranch,
+        variables: { uuid: filters.desks },
+      });
+
+      if (error) {
+        notify({
+          level: 'error',
+          title: I18n.t('COMMON.FAILED'),
+          message: I18n.t('COMMON.SOMETHING_WRONG'),
+        });
+
+        return;
+      }
+      hierarchyData = data.map(({ uuid }) => uuid);
+    }
+
     this.setState({
       allRowsSelected: false,
       selectedRows: [],
       touchedRowsIds: [],
-    }, () => history.replace({ query: { filters } }));
-  }
+    }, () => history.replace({
+      query: {
+        filters: {
+          ...filters,
+          ...((filters.teams || filters.desks) && {
+            teams: null,
+            desks: null,
+            salesAgents: hierarchyData,
+          }),
+        },
+      },
+    }));
+  };
 
   handleFilterReset = () => {
     this.setState({
@@ -340,6 +403,7 @@ class List extends Component {
       locale,
       currencies,
       countries,
+      userBranchHierarchy: { hierarchy, loading: branchesLoading },
       leads: {
         loading,
         networkStatus,
@@ -356,7 +420,7 @@ class List extends Component {
 
     const entities = get(leads, 'data') || { content: [] };
     const filters = get(query, 'filters', {});
-
+    const { TEAM: teams, DESK: desks } = get(hierarchy, 'userBranchHierarchy.data') || { TEAM: [], DESK: [] };
     const allowActions = Object
       .keys(filters)
       .filter(i => (filters[i] && Array.isArray(filters[i]) && filters[i].length > 0) || filters[i]).length > 0;
@@ -437,6 +501,9 @@ class List extends Component {
           disabled={!allowActions}
           currencies={currencies}
           countries={countries}
+          desks={desks}
+          teams={teams}
+          branchesLoading={branchesLoading}
         />
 
         <div className="card-body card-grid-multiselect">

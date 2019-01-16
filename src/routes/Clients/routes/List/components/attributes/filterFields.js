@@ -62,7 +62,6 @@ export default (
   desks,
   teams,
   branchesLoading,
-  teamLoading,
 ) => [{
   type: fieldTypes.INPUT,
   name: 'searchValue',
@@ -96,12 +95,12 @@ export default (
   type: fieldTypes.SELECT,
   name: 'teams',
   label: I18n.t(filterLabels.teams),
-  placeholder: ((!branchesLoading || !teamLoading) && teams.length === 0)
+  placeholder: (!branchesLoading && teams.length === 0)
     ? I18n.t('COMMON.SELECT_OPTION.NO_ITEMS')
     : I18n.t('COMMON.SELECT_OPTION.ANY'),
   className: fieldClassNames.MEDIUM,
   customOnChange: true,
-  disabled: branchesLoading || teamLoading || teams.length === 0,
+  disabled: branchesLoading || teams.length === 0,
   selectOptions: teams.map(({ uuid, name }) => ({ value: uuid, label: I18n.t(name) })),
 }, {
   type: fieldTypes.SELECT,

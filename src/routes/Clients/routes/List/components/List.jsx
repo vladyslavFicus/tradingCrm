@@ -101,11 +101,10 @@ class List extends Component {
       notify,
     } = this.props;
     let hierarchyData = [];
-
-    if (filters.desks) {
+    if (filters.teams) {
       const { data: { hierarchy: { usersByBranch: { data, error } } } } = await client.query({
         query: getUsersByBranch,
-        variables: { uuid: filters.teams || filters.desks },
+        variables: { uuid: filters.teams },
       });
 
       if (error) {
@@ -118,10 +117,10 @@ class List extends Component {
         return;
       }
       hierarchyData = data.map(({ uuid }) => uuid);
-    } else if (filters.teams) {
+    } else if (filters.desks) {
       const { data: { hierarchy: { usersByBranch: { data, error } } } } = await client.query({
         query: getUsersByBranch,
-        variables: { uuid: filters.teams },
+        variables: { uuid: filters.desks },
       });
 
       if (error) {
@@ -311,7 +310,6 @@ class List extends Component {
   render() {
     const {
       locale,
-      currencies,
       countries,
       profiles: {
         loading,
@@ -330,12 +328,7 @@ class List extends Component {
     } = this.state;
 
     const entities = get(this.props.profiles, 'profiles.data') || { content: [] };
-    const filters = get(query, 'filters', {});
     const { TEAM: teams, DESK: desks } = get(hierarchy, 'userBranchHierarchy.data') || { TEAM: [], DESK: [] };
-
-    const allowActions = Object
-      .keys(filters)
-      .filter(i => (filters[i] && Array.isArray(filters[i]) && filters[i].length > 0) || filters[i]).length > 0;
 
     return (
       <div className="card">
@@ -415,8 +408,6 @@ class List extends Component {
         <UserGridFilter
           onSubmit={this.handleFiltersChanged}
           onReset={this.handleFilterReset}
-          disabled={!allowActions}
-          currencies={currencies}
           countries={countries}
           teams={teams || []}
           desks={desks || []}

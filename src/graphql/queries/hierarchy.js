@@ -61,7 +61,9 @@ const getUserBranchHierarchy = gql`query getUserBranchHierarchy(
           defaultUser
           defaultBranch
           country
-          parentBranches
+          parentBranch {
+            uuid
+          }
         }
         DESK {
           name
@@ -71,7 +73,9 @@ const getUserBranchHierarchy = gql`query getUserBranchHierarchy(
           defaultBranch
           deskType
           language
-          parentBranches
+          parentBranch {
+            uuid
+          }
           isDefault
         }
         TEAM {
@@ -80,7 +84,9 @@ const getUserBranchHierarchy = gql`query getUserBranchHierarchy(
           branchType
           defaultUser
           defaultBranch
-          parentBranches
+          parentBranch {
+            uuid
+          }
         }
       }
     } 

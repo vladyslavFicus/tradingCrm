@@ -1,179 +1,81 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import moment from 'moment';
-import { connect } from 'react-redux';
-import { getFormValues } from 'redux-form';
-import { I18n } from 'react-redux-i18n';
-import { salesStatuses } from '../../../../../constants/salesStatuses';
-import { createValidator } from '../../../../../utils/validator';
-import { filterLabels } from '../../../../../constants/user';
-import createDynamicForm, { FilterItem, FilterField, TYPES, SIZES } from '../../../../../components/DynamicFilters';
+import { isEqual, get } from 'lodash';
+import PropTypes from '../../../../../constants/propTypes';
+import ListFilterForm from '../../../../../components/ListFilterForm';
+import filterFields, { fieldNames } from './attributes/filterFields';
 
-const FORM_NAME = 'leadsListGridFilter';
-const DynamicFilters = createDynamicForm({
-  form: FORM_NAME,
-  touchOnChange: true,
-  validate: (_, props) => createValidator({
-    searchKeyword: 'string',
-    country: `in:,${Object.keys(props.countries).join()}`,
-    status: 'string',
-    teams: 'string',
-    desks: 'string',
-    registrationDateStart: 'regex:/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/',
-    registrationDateEnd: 'regex:/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/',
-  }, filterLabels, false),
-});
-
-class UserGridFilter extends Component {
+class LeadsGridFilter extends Component {
   static propTypes = {
-    currentValues: PropTypes.shape({
-      searchKeyword: PropTypes.string,
-      country: PropTypes.string,
-      status: PropTypes.string,
-      desks: PropTypes.string,
-      teams: PropTypes.string,
-      registrationDateStart: PropTypes.string,
-      registrationDateEnd: PropTypes.string,
-    }),
-    disabled: PropTypes.bool,
     onReset: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
-    currencies: PropTypes.arrayOf(PropTypes.string).isRequired,
     countries: PropTypes.object.isRequired,
-  };
-  static defaultProps = {
-    currentValues: {},
-    disabled: false,
-  };
-
-  startDateValidator = toAttribute => (current) => {
-    const { currentValues } = this.props;
-
-    return currentValues && currentValues[toAttribute]
-      ? current.isSameOrBefore(moment(currentValues[toAttribute]))
-      : true;
+    teams: PropTypes.arrayOf(PropTypes.hierarchyBranch).isRequired,
+    desks: PropTypes.arrayOf(PropTypes.hierarchyBranch).isRequired,
+    branchesLoading: PropTypes.bool.isRequired,
   };
 
-  endDateValidator = fromAttribute => (current) => {
-    const { currentValues } = this.props;
-
-    return currentValues && currentValues[fromAttribute]
-      ? current.isSameOrAfter(moment(currentValues[fromAttribute]))
-      : true;
+  state = {
+    teams: this.props.teams,
+    isDeskSelected: false,
   };
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (!prevState.isDeskSelected && !isEqual(nextProps.teams, prevState.teams)) {
+      return {
+        teams: nextProps.teams,
+      };
+    }
+
+    return null;
+  }
+
+  handleFieldChange = (fieldName, value, formChange) => {
+    const { teams } = this.props;
+
+    if (fieldName === fieldNames.desks) {
+      let deskTeams = null;
+      let isDeskSelected = false;
+
+      if (value) {
+        deskTeams = teams.filter(team => value === get(team, 'parentBranch.uuid'));
+        isDeskSelected = true;
+      }
+
+      this.setState(
+        {
+          ...(deskTeams && { teams: deskTeams }),
+          isDeskSelected,
+        },
+        value ? null : () => formChange(fieldNames.teams, null),
+      );
+    }
+
+    formChange(fieldName, value || null);
+  }
 
   render() {
     const {
       onSubmit,
       onReset,
-      disabled,
-      currencies,
+      desks,
+      branchesLoading,
       countries,
     } = this.props;
-
+    const { teams } = this.state;
     return (
-      <DynamicFilters
-        allowSubmit={disabled}
-        allowReset={disabled}
+      <ListFilterForm
         onSubmit={onSubmit}
         onReset={onReset}
-        currencies={currencies}
-        countries={countries}
-      >
-        <FilterItem label={I18n.t(filterLabels.searchValue)} size={SIZES.big} type={TYPES.input} default>
-          <FilterField
-            id="users-list-search-field"
-            name="searchKeyword"
-            placeholder="Name, email, phone number, ID..."
-            type="text"
-          />
-        </FilterItem>
-
-        <FilterItem
-          label={I18n.t(filterLabels.country)}
-          size={SIZES.medium}
-          type={TYPES.nas_select}
-          placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
-          default
-        >
-          <FilterField name="countries" multiple>
-            {Object
-              .keys(countries)
-              .map(key => <option key={key} value={key}>{countries[key]}</option>)
-            }
-          </FilterField>
-        </FilterItem>
-
-        <FilterItem
-          label={I18n.t(filterLabels.desks)}
-          size={SIZES.medium}
-          type={TYPES.nas_select}
-          placeholder={I18n.t('COMMON.SELECT_OPTION.NO_ITEMS')}
-          default
-        >
-          <FilterField name="desks">
-            {[]}
-          </FilterField>
-        </FilterItem>
-
-        <FilterItem
-          label={I18n.t(filterLabels.teams)}
-          size={SIZES.medium}
-          type={TYPES.nas_select}
-          placeholder={I18n.t('COMMON.SELECT_OPTION.NO_ITEMS')}
-          default
-        >
-          <FilterField name="teams">
-            {[]}
-          </FilterField>
-        </FilterItem>
-
-        <FilterItem
-          label={I18n.t(filterLabels.salesStatus)}
-          size={SIZES.medium}
-          type={TYPES.nas_select}
-          placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
-          default
-        >
-          <FilterField name="salesStatus">
-            {Object.keys(salesStatuses).map(status => (
-              <option key={status} value={status}>
-                {I18n.t(salesStatuses[status])}
-              </option>
-            ))}
-          </FilterField>
-        </FilterItem>
-
-        <FilterItem
-          label={I18n.t(filterLabels.registrationDate)}
-          size={SIZES.big}
-          type={TYPES.range_date}
-          placeholder={`${I18n.t('COMMON.DATE_OPTIONS.START_DATE')}/${I18n.t('COMMON.DATE_OPTIONS.END_DATE')}`}
-          default
-        >
-          <FilterField
-            utc
-            name="registrationDateStart"
-            isValidDate={this.startDateValidator('registrationDateEnd')}
-            timePresets
-            withTime
-            closeOnSelect={false}
-          />
-          <FilterField
-            utc
-            name="registrationDateEnd"
-            isValidDate={this.endDateValidator('registrationDateStart')}
-            timePresets
-            withTime
-            closeOnSelect={false}
-          />
-        </FilterItem>
-      </DynamicFilters>
+        fields={filterFields(
+          countries,
+          desks,
+          teams,
+          branchesLoading,
+        )}
+        onFieldChange={this.handleFieldChange}
+      />
     );
   }
 }
 
-export default connect(state => ({
-  form: FORM_NAME,
-  currentValues: getFormValues(FORM_NAME)(state),
-}))(UserGridFilter);
+export default LeadsGridFilter;
