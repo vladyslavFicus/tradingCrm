@@ -627,7 +627,7 @@ PropTypes.branchHierarchyType = PropTypes.shape({
   deskType: PropTypes.string,
   country: PropTypes.string,
   language: PropTypes.string,
-  parentBranches: PropTypes.arrayOf(PropTypes.string),
+  parentBranch: PropTypes.object,
   defaultBranch: PropTypes.string,
   defaultUser: PropTypes.string,
 });

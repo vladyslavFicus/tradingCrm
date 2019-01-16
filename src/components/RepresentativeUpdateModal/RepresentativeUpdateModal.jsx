@@ -270,7 +270,7 @@ class RepresentativeUpdateModal extends Component {
       teams,
     } = this.state;
 
-    const { DESK: desks } = get(hierarchy, 'userBranchHierarchy.data') || { DESK: [] };
+    const desks = get(hierarchy, 'userBranchHierarchy.data.DESK') || [];
     const filteredDesks = desks.filter(({ deskType }) => deskType === deskTypes[type]);
 
     const submitDisabled =
@@ -302,6 +302,7 @@ class RepresentativeUpdateModal extends Component {
               ? I18n.t('COMMON.SELECT_OPTION.NO_ITEMS')
               : I18n.t('COMMON.SELECT_OPTION.ANY')
             }
+            disabled={filteredDesks.length === 0}
             component={NasSelectField}
             onFieldChange={this.handleDeskChange}
             withAnyOption

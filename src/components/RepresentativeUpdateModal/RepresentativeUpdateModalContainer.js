@@ -63,7 +63,7 @@ export default compose(
     form: FORM_NAME,
     enableReinitialize: true,
     validate: (values, { userBranchHierarchy, hierarchyUsers, type }) => {
-      const { DESK: desks } = get(userBranchHierarchy, 'hierarchy.userBranchHierarchy.data') || { DESK: [] };
+      const desks = get(userBranchHierarchy, 'hierarchy.userBranchHierarchy.data.DESK') || [];
       const users = getAgents(hierarchyUsers, type) || [];
 
       return createValidator({

@@ -20,27 +20,39 @@ class Departments extends Component {
 
   state = { step: 0, departments: [] };
 
+  componentDidMount() {
+    this.mounted = true;
+  }
+
   componentWillReceiveProps(nextProps) {
     const { logged } = this.props;
 
     if (logged !== nextProps.logged) {
       if (nextProps.logged) {
         this.activeTimeout = setTimeout(() => {
-          this.setState({ step: 1, departments: nextProps.departments });
+          if (this.mounted) {
+            this.setState({ step: 1, departments: nextProps.departments });
+          }
         }, 250);
       } else {
         this.activeTimeout = setTimeout(() => {
-          this.setState({ step: 0 }, () => {
-            this.activeTimeout = setTimeout(() => {
-              this.setState({ departments: nextProps.departments });
-            }, 200);
-          });
+          if (this.mounted) {
+            this.setState({ step: 0 }, () => {
+              this.activeTimeout = setTimeout(() => {
+                if (this.mounted) {
+                  this.setState({ departments: nextProps.departments });
+                }
+              }, 200);
+            });
+          }
         }, 370);
       }
     }
   }
 
   componentWillUnmount() {
+    this.mounted = false;
+
     if (this.activeTimeout !== null) {
       clearTimeout(this.activeTimeout);
       this.activeTimeout = null;
@@ -48,6 +60,7 @@ class Departments extends Component {
   }
 
   activeTimeout = null;
+  mounted = false;
 
   render() {
     const { step, departments } = this.state;
