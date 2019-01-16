@@ -10,7 +10,6 @@ import { retentionStatuses, retentionStatusValues } from '../../constants/retent
 import { NasSelectField } from '../../components/ReduxForm';
 import {
   getUsersByBranch,
-  getUserBranchHierarchy,
   getBranchChildren,
 } from '../../graphql/queries/hierarchy';
 import renderLabel from '../../utils/renderLabel';
@@ -57,6 +56,9 @@ class RepresentativeUpdateModal extends Component {
     header: PropTypes.oneOfType([PropTypes.node, PropTypes.string]).isRequired,
     additionalFields: PropTypes.array,
     selectedDesk: PropTypes.string,
+    selectedTeam: PropTypes.string,
+    selectedRep: PropTypes.string,
+    currentStatus: PropTypes.string,
     configs: PropTypes.shape({
       multiAssign: PropTypes.bool,
       allRowsSelected: PropTypes.bool,
@@ -70,6 +72,9 @@ class RepresentativeUpdateModal extends Component {
     additionalFields: null,
     initialValues: null,
     selectedDesk: null,
+    selectedTeam: null,
+    selectedRep: null,
+    currentStatus: null,
     configs: {},
   };
 
@@ -97,7 +102,20 @@ class RepresentativeUpdateModal extends Component {
       selectedTeam,
       selectedRep,
       change,
+      agents,
     } = this.props;
+
+    if (!selectedDesk) {
+      this.setState({
+        agents,
+        teams: [],
+      });
+      change(fieldNames.REPRESENTATIVE, null);
+      change(fieldNames.DESK, null);
+      change(fieldNames.TEAM, null);
+
+      return;
+    }
 
     const { data: { hierarchy: { branchChildren: { data: teams, error } } } } = await this.props.client.query({
       query: getBranchChildren,
@@ -152,7 +170,7 @@ class RepresentativeUpdateModal extends Component {
     change(fieldNames.TEAM, selectedTeam);
 
     if (agents && agents.length === 1) {
-      await this.handleRepChange(agents[0].uuid);
+      change(fieldNames.REPRESENTATIVE, agents[0].uuid);
     } else if (selectedRep) {
       change(fieldNames.REPRESENTATIVE, null);
     }
@@ -162,39 +180,6 @@ class RepresentativeUpdateModal extends Component {
       agentsLoading: false,
     });
   }
-
-  handleRepChange = async (selectedRep) => {
-    this.setState({ teamsLoading: true });
-    const { client, change, selectedTeam, configs: { multiAssign } } = this.props;
-    let teams = null;
-
-    if (selectedRep && !selectedTeam) {
-      if (!multiAssign
-          || (multiAssign && Array.isArray(selectedRep) && selectedRep.length === 1)) {
-        const { data: { hierarchy: { userBranchHierarchy: { data: { TEAM }, error } } } } = await client.query({
-          query: getUserBranchHierarchy,
-          variables: { userId: Array.isArray(selectedRep) ? selectedRep[0] : selectedRep },
-        });
-
-        if (error) {
-          this.setState({ teamsLoading: false });
-          throw new SubmissionError({ _error: error.error });
-        }
-        teams = TEAM || null;
-
-        if (teams && teams.length === 1) {
-          this.handleTeamChange(teams[0].uuid);
-        }
-      }
-    }
-
-    change(fieldNames.REPRESENTATIVE, selectedRep);
-
-    this.setState({
-      teamsLoading: false,
-      ...(!selectedTeam && teams && { teams }),
-    });
-  };
 
   handleUpdateRepresentative = async ({ teamId, repId, status, aquisitionStatus }) => {
     const {
@@ -272,6 +257,9 @@ class RepresentativeUpdateModal extends Component {
       additionalFields,
       initialValues,
       selectedDesk,
+      selectedTeam,
+      selectedRep,
+      currentStatus,
       configs: { multiAssign },
     } = this.props;
 
@@ -286,7 +274,8 @@ class RepresentativeUpdateModal extends Component {
     const filteredDesks = desks.filter(({ deskType }) => deskType === deskTypes[type]);
 
     const submitDisabled =
-      agentsLoading || deskLoading || initAgentsLoading || invalid || (!initialValues && pristine) || submitting;
+      agentsLoading || deskLoading || initAgentsLoading || invalid || (!initialValues && pristine)
+      || submitting || (!currentStatus && !selectedDesk && !selectedTeam && !selectedRep);
 
     return (
       <Modal
@@ -311,10 +300,11 @@ class RepresentativeUpdateModal extends Component {
             label={I18n.t(attributeLabels(type).desk)}
             placeholder={!deskLoading && filteredDesks && filteredDesks.length === 0
               ? I18n.t('COMMON.SELECT_OPTION.NO_ITEMS')
-              : I18n.t('COMMON.SELECT_OPTION.DEFAULT')
+              : I18n.t('COMMON.SELECT_OPTION.ANY')
             }
             component={NasSelectField}
             onFieldChange={this.handleDeskChange}
+            withAnyOption
           >
             {filteredDesks.map(({ name, uuid }) => (
               <option key={uuid} value={uuid}>
@@ -349,7 +339,6 @@ class RepresentativeUpdateModal extends Component {
             component={NasSelectField}
             multiple={multiAssign}
             disabled={agentsLoading || initAgentsLoading || (agents && agents.length === 0) || submitting}
-            onFieldChange={this.handleRepChange}
           >
             {(agents || []).map(({ fullName, uuid }) => (
               <option key={uuid} value={uuid}>
