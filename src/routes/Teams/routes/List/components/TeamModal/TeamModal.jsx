@@ -36,7 +36,7 @@ class DeskForm extends Component {
   handleOfficeChange = (selectedOffice) => {
     const { desks: allDesks } = this.props;
     const desks = allDesks
-      .filter(({ parentBranches }) => parentBranches && parentBranches.indexOf(selectedOffice) !== -1);
+      .filter(({ parentBranch }) => parentBranch && parentBranch.uuid === selectedOffice);
 
     this.setState({
       selectedOffice,
