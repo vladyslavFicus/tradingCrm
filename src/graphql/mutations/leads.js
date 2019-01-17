@@ -53,7 +53,10 @@ const promoteLeadToClient = gql`mutation promoteLead(
   $lastName: String!,
   $country: String!,
   $city: String,
+  $gender: String,
+  $birthDate: String,
   $phone: String!,
+  $phone2: String,
   $languageCode: String!,
 ) {
   leads {
@@ -64,7 +67,10 @@ const promoteLeadToClient = gql`mutation promoteLead(
       lastName: $lastName,
       country: $country,
       city: $city,
+      gender: $gender,
+      birthDate: $birthDate,
       phone: $phone,
+      phone2: $phone2,
       languageCode: $languageCode,
     ) {
       data {

@@ -101,7 +101,7 @@ class PromoteLead extends PureComponent {
               />
               <Field
                 name="password"
-                type="password"
+                type="text"
                 onIconClick={this.handleGeneratePassword}
                 inputAddon={<span className="icon-generate-password" />}
                 inputAddonPosition="right"
