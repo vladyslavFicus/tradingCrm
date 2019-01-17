@@ -74,23 +74,23 @@ export default (
   label: I18n.t(filterLabels.registrationDate),
   fields: [{
     type: fieldTypes.DATE,
-    name: 'registrationDateFrom',
+    name: 'registrationDateStart',
     placeholder: I18n.t('COMMON.DATE_OPTIONS.START_DATE'),
     closeOnSelect: false,
     dateValidator: {
       type: validators.START_DATE,
-      fieldName: 'registrationDateTo',
+      fieldName: 'registrationDateEnd',
     },
     withTime: true,
     timePresets: true,
   }, {
     type: fieldTypes.DATE,
-    name: 'registrationDateTo',
+    name: 'registrationDateEnd',
     placeholder: I18n.t('COMMON.DATE_OPTIONS.END_DATE'),
     closeOnSelect: false,
     dateValidator: {
       type: validators.END_DATE,
-      fieldName: 'registrationDateFrom',
+      fieldName: 'registrationDateStart',
     },
     withTime: true,
     timePresets: true,
