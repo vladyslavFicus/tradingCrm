@@ -9,6 +9,7 @@ const leadsQuery = gql`query getLeads(
   $limit: Int,
   $countries: [String],
   $salesAgents: [String],
+  $status: String,
   $salesStatus: tradingProfileSalesStatus,
 ) {
   leads (
@@ -21,6 +22,7 @@ const leadsQuery = gql`query getLeads(
     countries: $countries,
     salesStatus: $salesStatus,
     salesAgents: $salesAgents,
+    status: $status,
   ) {
     error {
       error

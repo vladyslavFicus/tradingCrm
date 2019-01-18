@@ -2,6 +2,7 @@ import React from 'react';
 import { I18n } from 'react-redux-i18n';
 import keyMirror from 'keymirror';
 import { filterLabels } from '../../../../../../constants/user';
+import { leadAccountStatuses } from '../../../../constants';
 import { salesStatuses } from '../../../../../../constants/salesStatuses';
 import {
   fieldTypes,
@@ -68,6 +69,18 @@ export default (
   selectOptions: Object
     .keys(salesStatuses)
     .map(value => ({ value, label: I18n.t(salesStatuses[value]) })),
+}, {
+  type: fieldTypes.SELECT,
+  name: 'status',
+  label: I18n.t(filterLabels.accountStatus),
+  placeholder: (!branchesLoading && teams.length === 0)
+    ? I18n.t('COMMON.SELECT_OPTION.NO_ITEMS')
+    : I18n.t('COMMON.SELECT_OPTION.DEFAULT'),
+  className: fieldClassNames.MEDIUM,
+  customOnChange: true,
+  selectOptions: Object
+    .values(leadAccountStatuses)
+    .map(({ label, value }) => ({ label, value })),
 }, {
   type: fieldTypes.RANGE,
   className: fieldClassNames.BIG,

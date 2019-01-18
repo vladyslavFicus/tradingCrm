@@ -20,6 +20,17 @@ const leadStatuses = {
   },
 };
 
+const leadAccountStatuses = {
+  [statuses.NEW]: {
+    label: I18n.t(I18n.t('LEADS.STATUSES.NEW')),
+    value: statuses.NEW,
+  },
+  [statuses.CONVERTED]: {
+    label: I18n.t('LEADS.STATUSES.CONVERTED'),
+    value: statuses.CONVERTED,
+  },
+};
+
 const leadProfileTabs = [{
   label: I18n.t('LEAD_PROFILE.TABS.PROFILE'),
   url: '/leads/:id/profile',
@@ -38,6 +49,7 @@ const fileConfig = {
 
 export {
   leadStatuses,
+  leadAccountStatuses,
   fileConfig,
   leadProfileTabs,
 };
