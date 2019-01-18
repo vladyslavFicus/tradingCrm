@@ -2,12 +2,12 @@
 import React, { Fragment } from 'react';
 import moment from 'moment';
 import { get } from 'lodash';
+import Uuid from 'components/Uuid';
 import {
   statusColorNames as userStatusColorNames,
   statusesLabels as userStatusesLabels,
 } from '../../../../../../constants/user';
 import { salesStatuses, salesStatusesColor } from '../../../../../../constants/salesStatuses';
-import { branchTypes } from '../../../../../../constants/hierarchyTypes';
 import { retentionStatuses, retentionStatusesColor } from '../../../../../../constants/retentionStatuses';
 import GridPlayerInfo from '../../../../../../components/GridPlayerInfo';
 import CountryLabelWithFlag from '../../../../../../components/CountryLabelWithFlag';
@@ -83,7 +83,21 @@ export default (
 }, {
   name: 'affiliate',
   header: I18n.t('CLIENTS.LIST.GRID_HEADER.AFFILIATE'),
-  render: ({ affiliateId }) => <span className="font-size-13">{affiliateId}</span> || <GridEmptyValue I18n={I18n} />,
+  render: (data) => {
+    const affiliateProfile = get(data, 'tradingProfile.affiliateProfileDocument');
+
+    return (
+      <Choose>
+        <When condition={affiliateProfile}>
+          <div className="header-block-middle">{affiliateProfile.affiliate.fullName}</div>
+          <Uuid className="header-block-small" uuid={affiliateProfile._id} />
+        </When>
+        <Otherwise>
+          <GridEmptyValue I18n={I18n} />
+        </Otherwise>
+      </Choose>
+    );
+  },
 }, {
   name: 'sales',
   header: I18n.t('CLIENTS.LIST.GRID_HEADER.SALES'),
