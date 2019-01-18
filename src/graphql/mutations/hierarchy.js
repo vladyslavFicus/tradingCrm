@@ -11,7 +11,6 @@ const createHierarchyUser = gql`mutation createUser(
       userType: $userType
       branchId: $branchId
     ) {
-      data
       error {
         error
         fields_errors
