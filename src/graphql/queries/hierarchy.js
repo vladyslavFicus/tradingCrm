@@ -33,6 +33,10 @@ $userId: String!,
           uuid
           userType
         }
+        parentBranches {
+          uuid
+          name
+        }
       }
       error {
         error

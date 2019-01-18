@@ -11,7 +11,6 @@ const createHierarchyUser = gql`mutation createUser(
       userType: $userType
       branchId: $branchId
     ) {
-      data
       error {
         error
         fields_errors
@@ -89,10 +88,40 @@ const addOperatorToBranch = gql`mutation addOperator(
   }
 }`;
 
+const updateUser = gql`mutation updateUser(
+  $operatorId: String!
+  $userType: String
+  $assignToBranch: String
+  $assignToOperator: String
+  $unassignFromBranch: String
+  $unassignFromOperator: String
+  $parentBranches: [String]
+  $parentUsers: [String]
+) {
+  hierarchy {
+    updateUser (
+      operatorId: $operatorId
+      userType: $userType
+      assignToBranch: $assignToBranch
+      assignToOperator: $assignToOperator
+      unassignFromBranch: $unassignFromBranch
+      unassignFromOperator: $unassignFromOperator
+      parentBranches: $parentBranches
+      parentUsers: $parentUsers
+    ) {
+      error {
+        error
+        fields_errors
+      }
+    }
+  }
+}`;
+
 export {
   createHierarchyUser,
   createOffice,
   createDesk,
   createTeam,
   addOperatorToBranch,
+  updateUser,
 };

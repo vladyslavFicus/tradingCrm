@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import { I18n } from 'react-redux-i18n';
+import { get } from 'lodash';
+import PropTypes from 'constants/propTypes';
+import { departmentsLabels, rolesLabels } from 'constants/operators';
+import renderLabel from 'utils/renderLabel';
+import Permissions from 'utils/permissions';
+import permissions from 'config/permissions';
+import HierarchyProfileForm from './HierarchyProfileForm';
 import PersonalForm from './PersonalForm';
 import DepartmentsForm from './DepartmentsForm';
-import PropTypes from '../../../../../../../constants/propTypes';
-import { departmentsLabels, rolesLabels } from '../../../../../../../constants/operators';
-import renderLabel from '../../../../../../../utils/renderLabel';
-import Permissions from '../../../../../../../utils/permissions';
-import permissions from '../../../../../../../config/permissions';
 
 const manageDepartmentsPermission = new Permissions([
   permissions.OPERATORS.ADD_AUTHORITY,
@@ -27,6 +29,16 @@ class View extends Component {
       isLoading: PropTypes.bool,
       receivedAt: PropTypes.any,
     }).isRequired,
+    userHierarchy: PropTypes.shape({
+      refetch: PropTypes.func.isRequired,
+      hierarchy: PropTypes.shape({
+        userHierarchyById: PropTypes.shape({
+          data: PropTypes.object,
+          error: PropTypes.object,
+        }),
+      }),
+      loading: PropTypes.bool.isRequired,
+    }).isRequired,
     fetchAuthority: PropTypes.func.isRequired,
     deleteAuthority: PropTypes.func.isRequired,
     addAuthority: PropTypes.func.isRequired,
@@ -37,16 +49,30 @@ class View extends Component {
       uuid: PropTypes.string,
     }).isRequired,
   };
+
   static contextTypes = {
     permissions: PropTypes.arrayOf(PropTypes.string).isRequired,
   };
+
   static defaultProps = {
     authorities: [],
   };
 
+  static childContextTypes = {
+    refetchHierarchy: PropTypes.func.isRequired,
+  };
+
+  getChildContext() {
+    return {
+      refetchHierarchy: this.handleRefetchHierarchy,
+    };
+  }
+
   componentDidMount() {
     this.props.fetchAuthoritiesOptions();
   }
+
+  handleRefetchHierarchy = () => this.props.userHierarchy.refetch({ fetchPolicy: 'network-only' });
 
   handleSubmit = data => this.props.updateProfile(this.props.match.params.id, data);
 
@@ -119,10 +145,15 @@ class View extends Component {
       authorities: { data: authorities },
       auth: { uuid },
       departmentsRoles,
+      userHierarchy: {
+        loading,
+        hierarchy,
+      },
     } = this.props;
-    const { permissions: currentPermissions } = this.context;
 
+    const { permissions: currentPermissions } = this.context;
     const allowEditPermissions = manageDepartmentsPermission.check(currentPermissions) && uuid !== profile.uuid;
+    const initialValues = get(hierarchy, 'userHierarchyById.data') || {};
 
     return (
       <div className="card-body">
@@ -175,6 +206,10 @@ class View extends Component {
             </If>
           </div>
         </div>
+        <HierarchyProfileForm
+          loading={loading}
+          initialValues={initialValues}
+        />
       </div>
     );
   }

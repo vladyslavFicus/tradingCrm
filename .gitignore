@@ -8,6 +8,7 @@ dist
 coverage
 
 .vscode/
+jsconfig.json
 .idea/
 package-lock.json
 yarn.lock

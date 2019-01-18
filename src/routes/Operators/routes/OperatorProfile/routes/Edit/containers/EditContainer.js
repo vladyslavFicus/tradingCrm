@@ -1,6 +1,7 @@
 import { connect } from 'react-redux';
-import { compose } from 'redux';
+import { compose, graphql } from 'react-apollo';
 import { get } from 'lodash';
+import { getUserHierarchyById } from 'graphql/queries/hierarchy';
 import Edit from '../components/Edit';
 import { actionCreators } from '../../../modules';
 import { actionCreators as authoritiesActionCreators } from '../../../../../../../redux/modules/auth/authorities';
@@ -28,5 +29,14 @@ const mapActions = {
 export default compose(
   withNotifications,
   connect(mapStateToProps, mapActions),
+  graphql(getUserHierarchyById, {
+    name: 'userHierarchy',
+    options: ({
+      match: { params: { id: userId } },
+    }) => ({
+      variables: { userId },
+      fetchPolicy: 'network-only',
+    }),
+  }),
 )(Edit);
 
