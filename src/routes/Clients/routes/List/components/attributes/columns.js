@@ -34,11 +34,18 @@ export default (
   name: 'country',
   header: I18n.t('CLIENTS.LIST.GRID_HEADER.COUNTRY'),
   render: ({ country, languageCode }) => (
-    <CountryLabelWithFlag
-      code={country}
-      height="14"
-      languageCode={languageCode}
-    />
+    <Choose>
+      <When condition={country}>
+        <CountryLabelWithFlag
+          code={country}
+          height="14"
+          languageCode={languageCode}
+        />
+      </When>
+      <Otherwise>
+        <GridEmptyValue I18n={I18n} />
+      </Otherwise>
+    </Choose>
   ),
 }, {
   name: 'balance',
