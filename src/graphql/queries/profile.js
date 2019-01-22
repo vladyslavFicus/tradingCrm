@@ -40,7 +40,6 @@ const clientQuery = gql`query profileData($playerUUID: String!){
       lastName
       email
       registrationDate
-      affiliateId
       suspendEndDate
       profileStatusAuthor
       profileStatusComment
@@ -123,6 +122,14 @@ const clientQuery = gql`query profileData($playerUUID: String!){
         depositCount
         withdrawalCount
         languageCode
+        affiliateProfileDocument {
+          _id
+          source
+          referral
+          affiliate {
+            fullName
+          }
+        }
       }
       intendedAmountToSpend
       temporaryUntil
@@ -186,7 +193,6 @@ const clientsQuery = gql`query getProfiles(
           lastName
           currency
           country
-          affiliateId
           username
           languageCode
           profileStatus
@@ -254,6 +260,12 @@ const clientsQuery = gql`query getProfiles(
             lastWithdrawalDate
             depositCount
             withdrawalCount
+            affiliateProfileDocument {
+              _id
+              affiliate {
+                fullName
+              }
+            }
           }
           signInIps {
             country
@@ -268,7 +280,7 @@ const clientsQuery = gql`query getProfiles(
     }
 }`;
 
-const realBaseCurrencyQuery = gql`query profileData($playerUUID: String!){
+const realBaseCurrencyQuery = gql`query realBaseCurrency($playerUUID: String!){
   playerProfile(playerUUID: $playerUUID) {
     data {
       realMoneyBalance {

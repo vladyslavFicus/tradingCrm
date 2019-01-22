@@ -1,6 +1,8 @@
 import React from 'react';
 import moment from 'moment';
+import { get } from 'lodash';
 import { I18n } from 'react-redux-i18n';
+import Uuid from 'components/Uuid';
 import PersonalInformationItem from '../../../../../../components/Information/PersonalInformationItem';
 import PropTypes from '../../../../../../constants/propTypes';
 import { statuses as kycStatuses } from '../../../../../../constants/kyc';
@@ -19,11 +21,11 @@ const Personal = (props) => {
       profileStatus,
       phoneNumberVerified,
       city,
-      affiliateId,
-      btag,
       tradingProfile,
     },
   } = props;
+
+  const affiliateProfile = get(tradingProfile, 'affiliateProfileDocument');
 
   return (
     <div className="account-details__personal-info">
@@ -67,14 +69,21 @@ const Personal = (props) => {
             value={city}
             verified={kycAddressStatus && kycAddressStatus.status === kycStatuses.VERIFIED}
           />
-          <PersonalInformationItem
-            label="Source"
-            value={affiliateId || <span className="color-default">no source</span>}
-          />
-          <PersonalInformationItem
-            label="B-TAG"
-            value={btag || <span className="color-default">no b-tag</span>}
-          />
+          <If condition={affiliateProfile}>
+            <PersonalInformationItem
+              label="Affiliate"
+              value={affiliateProfile.affiliate.fullName}
+            />
+            <strong>AffiliateID</strong>: <Uuid uuid={affiliateProfile._id} />
+            <PersonalInformationItem
+              label="Source"
+              value={affiliateProfile.source || <span className="color-default">no-source</span>}
+            />
+            <PersonalInformationItem
+              label="Referral"
+              value={affiliateProfile.referral || <span className="color-default">no-referral</span>}
+            />
+          </If>
         </div>
       </div>
     </div>
