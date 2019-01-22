@@ -2,23 +2,23 @@ import React, { Component, Fragment } from 'react';
 import moment from 'moment';
 import classNames from 'classnames';
 import { I18n } from 'react-redux-i18n';
-import { get } from 'lodash';
+import { get, omit } from 'lodash';
 import { NetworkStatus } from 'apollo-client';
 import { TextRow } from 'react-placeholder/lib/placeholders';
-import LeadsGridFilter from './LeadsGridFilter';
-import history from '../../../../../router/history';
-import PropTypes from '../../../../../constants/propTypes';
-import { deskTypes, userTypes } from '../../../../../constants/hierarchyTypes';
-import { getUsersByBranch } from '../../../../../graphql/queries/hierarchy';
-import { types as miniProfileTypes } from '../../../../../constants/miniProfile';
-import GridView, { GridViewColumn } from '../../../../../components/GridView';
-import Placeholder from '../../../../../components/Placeholder';
-import { salesStatuses, salesStatusesColor } from '../../../../../constants/salesStatuses';
-import Uuid from '../../../../../components/Uuid';
-import MiniProfile from '../../../../../components/MiniProfile';
-import CountryLabelWithFlag from '../../../../../components/CountryLabelWithFlag';
-import GridStatusDeskTeam from '../../../../../components/GridStatusDeskTeam';
+import { getUsersByBranch } from 'graphql/queries/hierarchy';
+import { types as miniProfileTypes } from 'constants/miniProfile';
+import GridView, { GridViewColumn } from 'components/GridView';
+import Placeholder from 'components/Placeholder';
+import Uuid from 'components/Uuid';
+import MiniProfile from 'components/MiniProfile';
+import CountryLabelWithFlag from 'components/CountryLabelWithFlag';
+import GridStatusDeskTeam from 'components/GridStatusDeskTeam';
+import { deskTypes, userTypes } from 'constants/hierarchyTypes';
+import { salesStatuses, salesStatusesColor } from 'constants/salesStatuses';
+import PropTypes from 'constants/propTypes';
+import history from 'router/history';
 import { leadStatuses } from '../../../constants';
+import LeadsGridFilter from './LeadsGridFilter';
 
 class List extends Component {
   static propTypes = {
@@ -302,7 +302,7 @@ class List extends Component {
         allRowsSelected,
         totalElements,
         multiAssign: true,
-        ...query && { searchParams: { ...query.filters } },
+        ...query && { searchParams: { ...omit(query.filters, ['size']) } },
       },
       onSuccess: this.handleSuccessUpdateRepresentative,
       header: (
