@@ -1,14 +1,13 @@
 import { connect } from 'react-redux';
 import { withApollo, graphql, compose } from 'react-apollo';
 import { get } from 'lodash';
-import countries from '../../../../../utils/countryList';
+import { withNotifications, withModals } from 'components/HighOrder';
+import RepresentativeUpdateModal from 'components/RepresentativeUpdateModal';
+import { getUserBranchHierarchy } from 'graphql/queries/hierarchy';
+import { clientsBulkRepresentativeUpdate, clientsProfileBulkUpdate } from 'graphql/mutations/profile';
+import { clientsQuery } from 'graphql/queries/profile';
+import countries from 'utils/countryList';
 import { actionCreators as miniProfileActionCreators } from '../../../../../redux/modules/miniProfile';
-import { withNotifications, withModals } from '../../../../../components/HighOrder';
-import RepresentativeUpdateModal from '../../../../../components/RepresentativeUpdateModal';
-import { getUserBranchHierarchy } from '../../../../../graphql/queries/hierarchy';
-import { clientsBulkRepresentativeUpdate, clientsProfileBulkUpdate } from '../../../../../graphql/mutations/profile';
-import { clientsQuery } from '../../../../../graphql/queries/profile';
-import { departments } from '../../../../../constants/brands';
 import { actionCreators } from '../modules/list';
 import { MoveModal } from '../components/Modals';
 import List from '../components/List';
@@ -23,11 +22,7 @@ const mapStateToProps = ({
   locale,
   currencies: currencyCodes,
   countries,
-  auth: {
-    brandId,
-    uuid,
-    isAdministration: department === departments.ADMINISTRATION,
-  },
+  auth: { brandId, uuid, department },
 });
 
 const mapActions = {

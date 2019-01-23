@@ -1,17 +1,16 @@
 import { connect } from 'react-redux';
 import { compose, graphql } from 'react-apollo';
 import { get } from 'lodash';
-import { departments } from '../../../../../constants/brands';
-import { actionCreators as miniProfileActionCreators } from '../../../../../redux/modules/miniProfile';
-import { getClientPayments } from '../../../../../graphql/queries/payments';
-import { actionCreators } from '../../../../../redux/modules/transactions/';
-import { operatorsQuery } from '../../../../../graphql/queries/operators';
+import { getClientPayments } from 'graphql/queries/payments';
+import { actionCreators } from 'redux/modules/transactions/';
+import { operatorsQuery } from 'graphql/queries/operators';
+import { actionCreators as miniProfileActionCreators } from 'redux/modules/miniProfile';
 import View from '../components/View';
 
 const mapStateToProps = ({
   transactions,
   i18n: { locale },
-  auth: { brandId, uuid, department },
+  auth: { brandId, uuid },
   options: { data: { currencyCodes } },
 }) => ({
   ...transactions,
@@ -19,7 +18,6 @@ const mapStateToProps = ({
   auth: {
     brandId,
     uuid,
-    isAdministration: department === departments.ADMINISTRATION,
   },
   currencies: currencyCodes,
 });
