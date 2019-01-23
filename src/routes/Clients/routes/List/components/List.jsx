@@ -3,16 +3,17 @@ import { I18n } from 'react-redux-i18n';
 import { get } from 'lodash';
 import moment from 'moment';
 import { TextRow } from 'react-placeholder/lib/placeholders';
+import history from 'router/history';
+import permissions from 'config/permissions';
+import PropTypes from 'constants/propTypes';
+import { deskTypes } from 'constants/hierarchyTypes';
+import { departments } from 'constants/brands';
+import GridView, { GridViewColumn } from 'components/GridView';
+import PermissionContent from 'components/PermissionContent';
+import Placeholder from 'components/Placeholder';
+import withPlayerClick from 'utils/withPlayerClick';
+import { getUsersByBranch } from 'graphql/queries/hierarchy';
 import UserGridFilter from './UserGridFilter';
-import history from '../../../../../router/history';
-import PropTypes from '../../../../../constants/propTypes';
-import { deskTypes } from '../../../../../constants/hierarchyTypes';
-import GridView, { GridViewColumn } from '../../../../../components/GridView';
-import PermissionContent from '../../../../../components/PermissionContent';
-import permissions from '../../../../../config/permissions';
-import Placeholder from '../../../../../components/Placeholder';
-import withPlayerClick from '../../../../../utils/withPlayerClick';
-import { getUsersByBranch } from '../../../../../graphql/queries/hierarchy';
 import { columns } from './attributes';
 
 class List extends Component {
@@ -22,7 +23,6 @@ class List extends Component {
     fetchPlayerMiniProfile: PropTypes.func.isRequired,
     locale: PropTypes.string.isRequired,
     onPlayerClick: PropTypes.func.isRequired,
-    currencies: PropTypes.arrayOf(PropTypes.string).isRequired,
     countries: PropTypes.object.isRequired,
     auth: PropTypes.shape({
       brandId: PropTypes.string,
@@ -317,7 +317,6 @@ class List extends Component {
       },
       fetchPlayerMiniProfile,
       auth,
-      location: { query },
       userBranchHierarchy: { hierarchy, loading: branchesLoading },
     } = this.props;
 
@@ -369,20 +368,24 @@ class List extends Component {
             <div className="grid-bulk-menu ml-auto">
               <span>{I18n.t('CLIENTS.BULK_ACTIONS')}</span>
               <PermissionContent permissions={permissions.USER_PROFILE.CHANGE_ACQUISITION_STATUS}>
-                <button
-                  className="btn btn-default-outline"
-                  disabled={branchesLoading}
-                  onClick={this.handleTriggerRepModal(deskTypes.SALES)}
-                >
-                  {I18n.t('COMMON.SALES')}
-                </button>
-                <button
-                  className="btn btn-default-outline"
-                  disabled={branchesLoading}
-                  onClick={this.handleTriggerRepModal(deskTypes.RETENTION)}
-                >
-                  {I18n.t('COMMON.RETENTION')}
-                </button>
+                <If condition={auth.department !== departments.RETENTION}>
+                  <button
+                    className="btn btn-default-outline"
+                    disabled={branchesLoading}
+                    onClick={this.handleTriggerRepModal(deskTypes.SALES)}
+                  >
+                    {I18n.t('COMMON.SALES')}
+                  </button>
+                </If>
+                <If condition={auth.department !== departments.SALES}>
+                  <button
+                    className="btn btn-default-outline"
+                    disabled={branchesLoading}
+                    onClick={this.handleTriggerRepModal(deskTypes.RETENTION)}
+                  >
+                    {I18n.t('COMMON.RETENTION')}
+                  </button>
+                </If>
                 <button
                   className="btn btn-default-outline"
                   onClick={this.handleTriggerMoveModal}
