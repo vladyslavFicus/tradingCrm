@@ -715,5 +715,9 @@ PropTypes.callback = PropTypes.shape({
     fullName: PropTypes.string,
   }),
 });
+PropTypes.operatorsList = PropTypes.arrayOf(PropTypes.shape({
+  uuid: PropTypes.string,
+  fullName: PropTypes.string,
+}));
 
 export default PropTypes;

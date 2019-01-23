@@ -46,7 +46,7 @@ class UserGridFilter extends Component {
           ...(deskTeams && { teams: deskTeams }),
           isDeskSelected,
         },
-        value ? null : () => formChange(fieldNames.teams, null),
+        value ? () => formChange(fieldNames.teams, null) : null,
       );
     }
 

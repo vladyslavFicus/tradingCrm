@@ -49,9 +49,9 @@ class ListFilters extends Component {
   };
 
   handleSelectFieldChange = fieldName => (value) => {
-    const { change } = this.props;
+    const { change, currentValues } = this.props;
 
-    this.props.onFieldChange(fieldName, value, change);
+    this.props.onFieldChange(fieldName, value, change, currentValues);
   }
 
   handleReset = () => {

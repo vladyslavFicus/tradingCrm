@@ -62,6 +62,7 @@ const filterLabels = {
   acquisitionStatus: I18n.t('PROFILE.LIST.FILTERS.ACQUISITION_STATUS'),
   desks: I18n.t('PROFILE.LIST.FILTERS.DESKS'),
   teams: I18n.t('PROFILE.LIST.FILTERS.TEAMS'),
+  operators: I18n.t('SIDEBAR.TOP_MENU.OPERATORS'),
   offices: I18n.t('PROFILE.LIST.FILTERS.OFFICES'),
   salesStatus: I18n.t('PROFILE.LIST.FILTERS.SALES_STATUS'),
   accountStatus: I18n.t('PROFILE.LIST.FILTERS.ACCOUNT_STATUS'),

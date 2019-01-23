@@ -5,18 +5,18 @@ import { I18n } from 'react-redux-i18n';
 import { get, omit } from 'lodash';
 import { NetworkStatus } from 'apollo-client';
 import { TextRow } from 'react-placeholder/lib/placeholders';
-import { getUsersByBranch } from 'graphql/queries/hierarchy';
+
+import history from 'router/history';
+import PropTypes from 'constants/propTypes';
+import { deskTypes, userTypes } from 'constants/hierarchyTypes';
 import { types as miniProfileTypes } from 'constants/miniProfile';
 import GridView, { GridViewColumn } from 'components/GridView';
 import Placeholder from 'components/Placeholder';
+import { salesStatuses, salesStatusesColor } from 'constants/salesStatuses';
 import Uuid from 'components/Uuid';
 import MiniProfile from 'components/MiniProfile';
 import CountryLabelWithFlag from 'components/CountryLabelWithFlag';
 import GridStatusDeskTeam from 'components/GridStatusDeskTeam';
-import { deskTypes, userTypes } from 'constants/hierarchyTypes';
-import { salesStatuses, salesStatusesColor } from 'constants/salesStatuses';
-import PropTypes from 'constants/propTypes';
-import history from 'router/history';
 import { leadStatuses } from '../../../constants';
 import LeadsGridFilter from './LeadsGridFilter';
 
@@ -24,8 +24,6 @@ class List extends Component {
   static propTypes = {
     notify: PropTypes.func.isRequired,
     locale: PropTypes.string.isRequired,
-    currencies: PropTypes.arrayOf(PropTypes.string).isRequired,
-    countries: PropTypes.object.isRequired,
     auth: PropTypes.object.isRequired,
     promoteLead: PropTypes.func.isRequired,
     leads: PropTypes.shape({
@@ -36,18 +34,6 @@ class List extends Component {
       refetch: PropTypes.func,
       loading: PropTypes.bool.isRequired,
     }),
-    userBranchHierarchy: PropTypes.shape({
-      hierarchy: PropTypes.shape({
-        userBranchHierarchy: PropTypes.shape({
-          data: PropTypes.shape({
-            DESK: PropTypes.arrayOf(PropTypes.branchHierarchyType),
-            TEAM: PropTypes.arrayOf(PropTypes.branchHierarchyType),
-          }),
-          error: PropTypes.object,
-        }),
-      }),
-      loading: PropTypes.bool.isRequired,
-    }).isRequired,
     location: PropTypes.shape({
       query: PropTypes.shape({
         filters: PropTypes.object,
@@ -80,10 +66,15 @@ class List extends Component {
     selectedRows: [],
     allRowsSelected: false,
     touchedRowsIds: [],
+    hierarchyOperators: [],
   };
 
   componentWillUnmount() {
     this.handleFilterReset();
+  }
+
+  setDesksTeamsOperators = (hierarchyOperators) => {
+    this.setState({ hierarchyOperators });
   }
 
   handlePageChanged = () => {
@@ -100,44 +91,7 @@ class List extends Component {
   };
 
   handleFiltersChanged = async (filters = {}) => {
-    const {
-      client,
-      notify,
-    } = this.props;
-    let hierarchyData = [];
-    if (filters.teams) {
-      const { data: { hierarchy: { usersByBranch: { data, error } } } } = await client.query({
-        query: getUsersByBranch,
-        variables: { uuid: filters.teams },
-      });
-
-      if (error) {
-        notify({
-          level: 'error',
-          title: I18n.t('COMMON.FAILED'),
-          message: I18n.t('COMMON.SOMETHING_WRONG'),
-        });
-
-        return;
-      }
-      hierarchyData = data.map(({ uuid }) => uuid);
-    } else if (filters.desks) {
-      const { data: { hierarchy: { usersByBranch: { data, error } } } } = await client.query({
-        query: getUsersByBranch,
-        variables: { uuid: filters.desks },
-      });
-
-      if (error) {
-        notify({
-          level: 'error',
-          title: I18n.t('COMMON.FAILED'),
-          message: I18n.t('COMMON.SOMETHING_WRONG'),
-        });
-
-        return;
-      }
-      hierarchyData = data.map(({ uuid }) => uuid);
-    }
+    const { hierarchyOperators } = this.state;
 
     this.setState({
       allRowsSelected: false,
@@ -150,7 +104,7 @@ class List extends Component {
           ...((filters.teams || filters.desks) && {
             teams: null,
             desks: null,
-            salesAgents: hierarchyData,
+            salesAgents: filters.salesAgents || hierarchyOperators,
           }),
         },
       },
@@ -401,9 +355,6 @@ class List extends Component {
   render() {
     const {
       locale,
-      currencies,
-      countries,
-      userBranchHierarchy: { hierarchy, loading: branchesLoading },
       leads: {
         loading,
         networkStatus,
@@ -420,8 +371,6 @@ class List extends Component {
 
     const entities = get(leads, 'data') || { content: [] };
     const filters = get(query, 'filters', {});
-    const teams = get(hierarchy, 'userBranchHierarchy.data.TEAM') || [];
-    const desks = get(hierarchy, 'userBranchHierarchy.data.DESK') || [];
 
     const allowActions = Object
       .keys(filters)
@@ -501,11 +450,7 @@ class List extends Component {
           onSubmit={this.handleFiltersChanged}
           onReset={this.handleFilterReset}
           disabled={!allowActions}
-          currencies={currencies}
-          countries={countries}
-          desks={desks}
-          teams={teams}
-          branchesLoading={branchesLoading}
+          setDesksTeamsOperators={this.setDesksTeamsOperators}
         />
 
         <div className="card-body card-grid-multiselect">

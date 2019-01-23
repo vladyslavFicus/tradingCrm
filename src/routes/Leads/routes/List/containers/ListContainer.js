@@ -5,11 +5,10 @@ import update from 'immutability-helper';
 import Modal from 'components/Modal';
 import { withNotifications, withModals } from 'components/HighOrder';
 import RepresentativeUpdateModal from 'components/RepresentativeUpdateModal';
-import { getUserBranchHierarchy } from 'graphql/queries/hierarchy';
+import countries from 'utils/countryList';
 import { leadsQuery } from 'graphql/queries/leads';
 import { bulkLeadPromote } from 'graphql/mutations/leads';
 import { leadCsvUpload } from 'graphql/mutations/upload';
-import countries from 'utils/countryList';
 import { departments } from 'constants/brands';
 import LeadsUploadModal from '../components/LeadsUploadModal/LeadsUploadModal';
 import List from '../components/List';
@@ -17,12 +16,10 @@ import List from '../components/List';
 const mapStateToProps = ({
   usersList: list,
   i18n: { locale },
-  options: { data: { currencyCodes } },
   auth: { brandId, uuid, department },
 }) => ({
   list,
   locale,
-  currencies: currencyCodes,
   countries,
   auth: {
     brandId,
@@ -45,15 +42,6 @@ export default compose(
   }),
   graphql(bulkLeadPromote, {
     name: 'promoteLead',
-  }),
-  graphql(getUserBranchHierarchy, {
-    name: 'userBranchHierarchy',
-    options: ({
-      auth: { uuid },
-    }) => ({
-      variables: { userId: uuid },
-      fetchPolicy: 'network-only',
-    }),
   }),
   graphql(leadsQuery, {
     name: 'leads',
