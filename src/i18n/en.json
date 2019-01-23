@@ -931,6 +931,7 @@
     "EXPORT_SELECTED": "Export selected",
     "CLIENTS_FOUND": "Clients found",
     "CLIENTS_SELECTED": "Clients selected",
+    "UNLIMITED": "Unlimited",
     "LANGUAGE_NAME": {
       "EN": "English",
       "RU": "Russian",
@@ -983,6 +984,9 @@
       "COMPLETED": "Completed",
       "REJECTED": "Rejected",
       "FAILED": "Failed"
+    },
+    "FILTERS": {
+      "SEARCH_LIMIT": "Search limit"
     }
   },
   "FILES": {

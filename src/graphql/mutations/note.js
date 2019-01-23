@@ -1,5 +1,5 @@
 import gql from 'graphql-tag';
-import update from 'react-addons-update';
+import update from 'immutability-helper';
 import { notesQuery } from '../queries/notes';
 
 const updateNoteMutation = gql`mutation updateNote(

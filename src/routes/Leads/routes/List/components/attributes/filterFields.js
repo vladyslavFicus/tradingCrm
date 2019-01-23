@@ -7,6 +7,7 @@ import { salesStatuses } from '../../../../../../constants/salesStatuses';
 import {
   fieldTypes,
   fieldClassNames,
+  normalize,
   validators,
 } from '../../../../../../components/ReduxForm/ReduxFieldsConstructor';
 
@@ -109,5 +110,13 @@ export default (
     timePresets: true,
     isDateRangeEndValue: true,
   }],
+}, {
+  type: fieldTypes.INPUT,
+  inputType: 'number',
+  name: 'size',
+  normalize: normalize.NUMBER,
+  label: I18n.t('COMMON.FILTERS.SEARCH_LIMIT'),
+  placeholder: I18n.t('COMMON.UNLIMITED'),
+  className: fieldClassNames.SMALL,
 }];
 
