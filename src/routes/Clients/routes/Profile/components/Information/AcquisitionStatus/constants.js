@@ -1,9 +1,10 @@
-import { aquisitionStatuses, aquisitionStatusesNames } from '../../../../../../../constants/aquisitionStatuses';
-import { salesStatusesColor, salesStatuses } from '../../../../../../../constants/salesStatuses';
-import { retentionStatusesColor, retentionStatuses } from '../../../../../../../constants/retentionStatuses';
-import renderLabel from '../../../../../../../utils/renderLabel';
+import { departments } from 'constants/brands';
+import { aquisitionStatuses, aquisitionStatusesNames } from 'constants/aquisitionStatuses';
+import { salesStatusesColor, salesStatuses } from 'constants/salesStatuses';
+import { retentionStatusesColor, retentionStatuses } from 'constants/retentionStatuses';
+import renderLabel from 'utils/renderLabel';
 
-const transformAcquisitionData = data => aquisitionStatuses.map(({ value, label }) => {
+const transformAcquisitionData = (data, department) => aquisitionStatuses.map(({ value, label }) => {
   const type = value.toLowerCase();
   const {
     [`${type}Status`]: status,
@@ -22,6 +23,7 @@ const transformAcquisitionData = data => aquisitionStatuses.map(({ value, label 
         borderColor: aquisitionStatus === value ? statusColor : null,
         repName: representative.fullName,
         modalType: value,
+        allowAction: department !== departments.RETENTION,
       };
     }
     case aquisitionStatusesNames.RETENTION: {
@@ -34,6 +36,7 @@ const transformAcquisitionData = data => aquisitionStatuses.map(({ value, label 
         borderColor: aquisitionStatus === value ? statusColor : null,
         repName: representative.fullName,
         modalType: value,
+        allowAction: department !== departments.SALES,
       };
     }
     default:

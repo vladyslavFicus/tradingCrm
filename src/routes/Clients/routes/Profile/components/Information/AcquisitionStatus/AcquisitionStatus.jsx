@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { I18n } from 'react-redux-i18n';
+import { connect } from 'react-redux';
 import Permissions from 'utils/permissions';
 import permissions from 'config/permissions';
 import transformAcquisitionData from './constants';
@@ -9,7 +10,7 @@ import './AcquisitionStatus.scss';
 const changeAcquisitionStatus = new Permissions([permissions.USER_PROFILE.CHANGE_ACQUISITION_STATUS]);
 
 const AcquisitionStatus = (
-  { acquisitionData, loading },
+  { acquisitionData, department, loading },
   { triggerRepresentativeUpdateModal, permissions: currentPermissions }
 ) => (
   <div className="account-details__personal-info">
@@ -19,13 +20,13 @@ const AcquisitionStatus = (
     <div className="card">
       <div className="card-body acquisition-status">
         <If condition={!loading}>
-          {transformAcquisitionData(acquisitionData)
-            .map(({ label, statusLabel, statusColor, borderColor, repName, modalType }) => (
+          {transformAcquisitionData(acquisitionData, department)
+            .map(({ label, statusLabel, statusColor, borderColor, repName, modalType, allowAction }) => (
               <div
                 key={label}
                 className={`acquisition-item border-${borderColor || 'color-neutral'}`}
                 onClick={
-                  changeAcquisitionStatus.check(currentPermissions)
+                  changeAcquisitionStatus.check(currentPermissions) && allowAction
                     ? triggerRepresentativeUpdateModal(modalType)
                     : null
                 }
@@ -51,6 +52,7 @@ const AcquisitionStatus = (
 AcquisitionStatus.propTypes = {
   acquisitionData: PropTypes.object.isRequired,
   loading: PropTypes.bool.isRequired,
+  department: PropTypes.string.isRequired,
 };
 
 AcquisitionStatus.contextTypes = {
@@ -58,4 +60,4 @@ AcquisitionStatus.contextTypes = {
   permissions: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
-export default AcquisitionStatus;
+export default connect(({ auth: { department } }) => ({ department }))(AcquisitionStatus);
