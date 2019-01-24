@@ -2,10 +2,10 @@ import gql from 'graphql-tag';
 
 const updateLeadProfile = gql`mutation updateLead(
   $id: String!,
-  $name: String!,
-  $surname: String!,
-  $phone: String!,
-  $mobile: String!,
+  $name: String,
+  $surname: String,
+  $phone: String,
+  $mobile: String,
   $email: String,
   $country: String,
   $birthDate: String,
