@@ -40,7 +40,7 @@ const branchField = (
     type: fieldTypes.SELECT,
     name: 'branch',
     label: I18n.t(attributeLabels.branch),
-    disabled: branchesLoading || !branchTypeSelected,
+    disabled: branchesLoading || !branchTypeSelected || options.length === 0,
     placeholder: branchTypeSelected ? placeholder : I18n.t('COMMON.SELECT_OPTION.SELECT_BRANCH_TYPE'),
     withAnyOption: false,
     className: 'col-md-6',
