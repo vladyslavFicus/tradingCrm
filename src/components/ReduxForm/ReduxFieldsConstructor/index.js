@@ -1,5 +1,13 @@
 import reduxFieldsConstructor from './reduxFieldsConstructor';
-import { fieldTypes, fieldClassNames, normalize, validators, components, getValidationRules } from './constants';
+import {
+  fieldTypes,
+  fieldClassNames,
+  normalize,
+  validators,
+  parser,
+  components,
+  getValidationRules,
+} from './constants';
 
 export {
   fieldTypes,
@@ -7,6 +15,7 @@ export {
   normalize,
   components,
   validators,
+  parser,
   getValidationRules,
 };
 

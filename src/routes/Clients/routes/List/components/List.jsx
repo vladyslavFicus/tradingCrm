@@ -1,7 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { I18n } from 'react-redux-i18n';
 import { get } from 'lodash';
-import moment from 'moment';
 import { TextRow } from 'react-placeholder/lib/placeholders';
 import history from 'router/history';
 import permissions from 'config/permissions';
@@ -230,8 +229,8 @@ class List extends Component {
 
     refetch({
       variables: {
-        ...query ? query.filters : { registrationDateFrom: moment().startOf('day').utc().format() },
-        page: 1,
+        ...query && query.filters,
+        page: 0,
         size: 20,
       },
       fetchPolicy: 'network-only',
@@ -286,8 +285,8 @@ class List extends Component {
     } else {
       refetch({
         variables: {
-          ...query ? query.filters : { registrationDateFrom: moment().startOf('day').utc().format() },
-          page: 1,
+          ...query && query.filters,
+          page: 0,
           size: 20,
         },
         fetchPolicy: 'network-only',

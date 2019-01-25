@@ -5,7 +5,6 @@ import { I18n } from 'react-redux-i18n';
 import { get, omit } from 'lodash';
 import { NetworkStatus } from 'apollo-client';
 import { TextRow } from 'react-placeholder/lib/placeholders';
-
 import history from 'router/history';
 import PropTypes from 'constants/propTypes';
 import { deskTypes, userTypes } from 'constants/hierarchyTypes';

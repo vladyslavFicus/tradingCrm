@@ -60,13 +60,13 @@ export default compose(
     options: ({ location: { query } }) => ({
       variables: {
         ...query && query.filters,
-        page: 1,
+        page: 0,
         size: 20,
       },
       fetchPolicy: 'network-only',
     }),
     props: ({ profiles: { profiles, fetchMore, ...rest } }) => {
-      const newPage = get(profiles, 'data.page') || 1;
+      const newPage = get(profiles, 'data.page') || 0;
 
       return {
         profiles: {
