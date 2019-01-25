@@ -32,6 +32,10 @@ class ListFilters extends Component {
     onFieldChange: () => {},
   };
 
+  state = {
+    isSubmited: false,
+  };
+
   startDateValidator = fieldName => (current) => {
     const { currentValues } = this.props;
 
@@ -57,24 +61,30 @@ class ListFilters extends Component {
   handleReset = () => {
     this.props.reset();
     this.props.onReset();
+    this.setState({ isSubmited: false });
   };
+
+  handleSubmit = (values) => {
+    this.props.onSubmit(values);
+    if (!this.state.isSubmited) this.setState({ isSubmited: true });
+  }
 
   render() {
     const {
       submitting,
       pristine,
       handleSubmit,
-      onSubmit,
       invalid,
       fields,
     } = this.props;
+    const { isSubmited } = this.state;
 
     return (
-      <form className="filter-row" onSubmit={handleSubmit(onSubmit)}>
+      <form className="filter-row" onSubmit={handleSubmit(this.handleSubmit)}>
         {reduxFieldsConstructor(fields, this.handleSelectFieldChange, this.startDateValidator, this.endDateValidator)}
         <div className="filter-row__button-block">
           <button
-            disabled={submitting || pristine}
+            disabled={!isSubmited || submitting}
             className="btn btn-default"
             onClick={this.handleReset}
             type="reset"
