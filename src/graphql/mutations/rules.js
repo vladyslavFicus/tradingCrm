@@ -3,8 +3,8 @@ import gql from 'graphql-tag';
 const createRule = gql`mutation createRule(
   $name: String!,
   $priority: Int!,
-  $countries: [String]!,
-  $languages: [String]!,
+  $countries: [String],
+  $languages: [String],
   $type: RuleTypeEnum!,
   $actions: [RuleActionsInputType]!,
   $createdBy: String!,

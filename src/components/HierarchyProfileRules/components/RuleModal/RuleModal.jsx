@@ -205,8 +205,8 @@ const RuleModal = reduxForm({
   validate: createValidator({
     name: ['required', 'string'],
     priority: ['required', `in:,${priorities.join()}`],
-    countries: ['required', `in:,${Object.keys(countryList).join()}`],
-    languages: ['required', `in:,${languages.map(({ languageCode }) => languageCode).join()}`],
+    countries: [`in:,${Object.keys(countryList).join()}`],
+    languages: [`in:,${languages.map(({ languageCode }) => languageCode).join()}`],
     type: ['required', `in:,${ruleTypes.map(({ value }) => value).join()}`],
   }, translateLabels(attributeLabels), false),
 })(ModalForm);
