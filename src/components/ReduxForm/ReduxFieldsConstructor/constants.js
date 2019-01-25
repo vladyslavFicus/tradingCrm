@@ -35,6 +35,10 @@ export const fieldClassNames = {
   SMALL: 'filter-row__small',
 };
 
+export const parser = {
+  ONLY_POSITIVE: value => (value >= 0 ? value : Math.abs(value)),
+};
+
 export const getValidationRules = fields => omitBy(fields
   .reduce((acc, {
     name,

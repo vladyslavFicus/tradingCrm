@@ -23,6 +23,7 @@ const reduxFieldsConstructor = (
       className,
       placeholder,
       disabled,
+      parse,
       // input props
       inputType,
       inputAddon,
@@ -54,6 +55,7 @@ const reduxFieldsConstructor = (
         ...className && { className },
         ...placeholder && { placeholder: I18n.t(placeholder) },
         ...disabled && { disabled },
+        ...parse && { parse },
       };
 
       switch (type) {

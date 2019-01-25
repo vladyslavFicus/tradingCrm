@@ -67,7 +67,7 @@ export default compose(
         if (size && totalElements >= size) {
           leadsResponse = update(leadsResponse, { data: { totalElements: { $set: size } } });
 
-          if ((newPage + 1) * responseSize > size) {
+          if ((newPage + 1) * responseSize >= size) {
             leadsResponse = update(leadsResponse, {
               data: {
                 content: { $splice: [[size, content.length]] },

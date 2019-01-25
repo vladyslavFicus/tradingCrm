@@ -9,6 +9,7 @@ import {
   fieldClassNames,
   normalize,
   validators,
+  parser,
 } from '../../../../../../components/ReduxForm/ReduxFieldsConstructor';
 
 export const fieldNames = keyMirror({
@@ -128,6 +129,7 @@ export default (
   inputType: 'number',
   name: 'size',
   normalize: normalize.NUMBER,
+  parse: parser.ONLY_POSITIVE,
   label: I18n.t('COMMON.FILTERS.SEARCH_LIMIT'),
   placeholder: I18n.t('COMMON.UNLIMITED'),
   className: fieldClassNames.SMALL,

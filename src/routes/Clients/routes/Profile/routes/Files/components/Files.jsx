@@ -115,6 +115,7 @@ class Files extends Component {
             dataSource={entities.content}
             totalPages={entities.totalPages}
             activePage={entities.number + 1}
+            last={entities.last}
             loading={loading && entities.content.length === 0}
             lazyLoad
             onPageChange={this.handlePageChanged}

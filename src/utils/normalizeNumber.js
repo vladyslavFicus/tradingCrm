@@ -1,1 +1,1 @@
-export default value => (value === undefined ? undefined : parseInt(value));
+export default value => (!value ? value : parseInt(value));
