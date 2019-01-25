@@ -45,6 +45,8 @@ const leadsQuery = gql`query getLeads(
         status
         email
         country
+        convertedByOperatorUuid
+        convertedToClientUuid
         source
         salesAgent {
           fullName
@@ -107,6 +109,8 @@ const leadProfileQuery = gql`query getLeadProfile(
       language
       registrationDate
       statusChangedDate
+      convertedByOperatorUuid
+      convertedToClientUuid
     }
   } 
 }`;

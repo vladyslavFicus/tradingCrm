@@ -2967,7 +2967,8 @@
       "NEW": "New",
       "NEVER_ANSWER": "Never answer",
       "VOICE_MAIL": "Voice mail",
-      "CONVERTED": "Converted"
+      "CONVERTED": "Converted",
+      "SELF_CONVETED": "self-converted"
     },
     "SUCCESS_PROMOTED": "Lead was promoted to id %{id}",
     "LEADS_UPLOAD_MODAL": {

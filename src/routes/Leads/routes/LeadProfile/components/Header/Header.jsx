@@ -4,11 +4,12 @@ import { I18n } from 'react-redux-i18n';
 import { statuses } from 'constants/leads';
 import permissions from 'config/permissions';
 import PermissionContent from 'components/PermissionContent';
-import Uuid from '../../../../../../components/Uuid';
-import PropTypes from '../../../../../../constants/propTypes';
-import PopoverButton from '../../../../../../components/PopoverButton';
-import ProfileHeaderPlaceholder from '../../../../../../components/ProfileHeaderPlaceholder';
+import Uuid from 'components/Uuid';
+import PropTypes from 'constants/propTypes';
+import PopoverButton from 'components/PopoverButton';
+import ProfileHeaderPlaceholder from 'components/ProfileHeaderPlaceholder';
 import { leadStatuses } from '../../../../constants';
+import ConvertedBy from '../../../../components/ConvertedBy';
 
 const Header = ({
   data: {
@@ -19,6 +20,8 @@ const Header = ({
     registrationDate,
     status,
     statusChangedDate,
+    convertedByOperatorUuid,
+    convertedToClientUuid,
   },
   loading,
   onPromoteLeadClick,
@@ -71,6 +74,10 @@ const Header = ({
                 {I18n.t('COMMON.SINCE', { date: moment.utc(statusChangedDate).local().format('DD.MM.YYYY') })}
               </div>
             </If>
+            <ConvertedBy
+              convertedToClientUuid={convertedToClientUuid}
+              convertedByOperatorUuid={convertedByOperatorUuid}
+            />
           </If>
         </div>
       </div>

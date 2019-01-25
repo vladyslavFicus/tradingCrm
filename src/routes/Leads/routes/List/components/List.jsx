@@ -19,6 +19,7 @@ import CountryLabelWithFlag from 'components/CountryLabelWithFlag';
 import GridStatusDeskTeam from 'components/GridStatusDeskTeam';
 import { leadStatuses } from '../../../constants';
 import LeadsGridFilter from './LeadsGridFilter';
+import ConvertedBy from '../../../components/ConvertedBy';
 
 class List extends Component {
   static propTypes = {
@@ -304,7 +305,7 @@ class List extends Component {
     </Choose>
   );
 
-  renderStatus = ({ status, statusChangedDate }) => (
+  renderStatus = ({ status, statusChangedDate, convertedByOperatorUuid, convertedToClientUuid }) => (
     <Fragment>
       <div className={classNames('font-weight-700 text-uppercase', leadStatuses[status].color)}>
         {I18n.t(leadStatuses[status].label)}
@@ -314,6 +315,10 @@ class List extends Component {
           {I18n.t('COMMON.SINCE', { date: moment.utc(statusChangedDate).local().format('DD.MM.YYYY') })}
         </div>
       </If>
+      <ConvertedBy
+        convertedToClientUuid={convertedToClientUuid}
+        convertedByOperatorUuid={convertedByOperatorUuid}
+      />
     </Fragment>
   );
 
