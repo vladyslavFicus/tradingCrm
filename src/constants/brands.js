@@ -4,6 +4,7 @@ import I18n from '../utils/fake-i18n';
 const brands = keyMirror({
   nasfx: null,
   cryptomb: null,
+  bycrypto: null,
 });
 const departments = keyMirror({
   ADMINISTRATION: null,
@@ -34,6 +35,10 @@ const brandsConfig = {
   [brands.nasfx]: {
     name: 'Nasfx',
     image: { src: '/img/brand/image/nasfx_brand_logo.svg' },
+  },
+  [brands.bycrypto]: {
+    name: 'Bycrypto',
+    image: { src: '/img/brand/image/bycrypto-logo.svg' },
   },
 };
 const departmentsConfig = {
