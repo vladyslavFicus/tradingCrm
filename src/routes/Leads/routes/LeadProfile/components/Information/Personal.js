@@ -3,6 +3,7 @@ import moment from 'moment';
 import { I18n } from 'react-redux-i18n';
 import { get } from 'lodash';
 import Flag from 'react-world-flags';
+import Uuid from 'components/Uuid';
 import PropTypes from '../../../../../../constants/propTypes';
 import languageNames from '../../../../../../constants/languageNames';
 import PersonalInformationItem from '../../../../../../components/Information/PersonalInformationItem';
@@ -20,6 +21,7 @@ const Personal = ({
     language,
     source,
     affiliate,
+    convertedToClientUuid,
   },
 }) => {
   const profileLanguage = get('languageName', languageNames.find(item => item.languageCode === language))
@@ -90,6 +92,11 @@ const Personal = ({
               label={I18n.t('LEAD_PROFILE.DETAILS.AFFILIATE')}
               value={affiliate}
             />
+            <If condition={convertedToClientUuid}>
+              <strong>{I18n.t('LEAD_PROFILE.DETAILS.CONVERTED_TO_CLIENT')}</strong>
+              {': '}
+              <Uuid uuid={convertedToClientUuid} />
+            </If>
           </If>
         </div>
       </div>

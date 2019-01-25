@@ -456,7 +456,6 @@ class List extends Component {
           disabled={!allowActions}
           setDesksTeamsOperators={this.setDesksTeamsOperators}
         />
-
         <div className="card-body card-grid-multiselect">
           <GridView
             tableClassName="table-hovered"

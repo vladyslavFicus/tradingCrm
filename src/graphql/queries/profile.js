@@ -130,6 +130,7 @@ const clientQuery = gql`query profileData($playerUUID: String!){
             fullName
           }
         }
+        convertedFromLeadUuid
       }
       intendedAmountToSpend
       temporaryUntil

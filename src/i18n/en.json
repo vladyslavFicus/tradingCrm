@@ -2902,6 +2902,22 @@
     },
     "CALLBACKS": {
       "ADD_CALLBACK": "+ Add callback"
+    },
+    "DETAILS": {
+      "DATE_OF_BIRTH": "Date of birth",
+      "GENDER": "Gender",
+      "PHONE": "Phone",
+      "EMAIL": "Email",
+      "FULL_ADDRESS": "Full address",
+      "COUNTRY": "Country",
+      "CITY": "City",
+      "AFFILIATE": "Affiliate",
+      "SOURCE": "Source",
+      "REFERRAL": "Referral",
+      "CONVERTED_FROM_LEAD": "Converted from Lead",
+      "AFFILIATE_ID": "AffiliateID",
+      "NO_SOURCE": "no-source",
+      "NO_REFERRAL": "no-referral"
     }
   },
   "TEMPORARY_UNTIL": {
@@ -2994,7 +3010,8 @@
       "CITY": "City",
       "LANGUAGE": "Language",
       "SOURCE": "Source",
-      "AFFILIATE": "Affiliate"
+      "AFFILIATE": "Affiliate",
+      "CONVERTED_TO_CLIENT": "Converted to Client"
     },
     "PINNED_NOTES": {
       "TITLE": "Pinned notes"

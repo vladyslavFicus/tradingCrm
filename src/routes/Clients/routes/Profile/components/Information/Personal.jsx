@@ -35,54 +35,63 @@ const Personal = (props) => {
       <div className="card">
         <div className="card-body">
           <PersonalInformationItem
-            label="Date of birth"
+            label={I18n.t('CLIENT_PROFILE.DETAILS.DATE_OF_BIRTH')}
             value={birthDate ? moment(birthDate).format('DD.MM.YYYY') : null}
             verified={kycPersonalStatus && kycPersonalStatus.status === kycStatuses.VERIFIED}
           />
           <PersonalInformationItem
-            label="Gender"
+            label={I18n.t('CLIENT_PROFILE.DETAILS.GENDER')}
             value={gender}
             verified={kycPersonalStatus && kycPersonalStatus.status === kycStatuses.VERIFIED}
           />
           <PersonalInformationItem
-            label="Phone"
+            label={I18n.t('CLIENT_PROFILE.DETAILS.PHONE')}
             value={tradingProfile ? tradingProfile.phone1 : ''}
             verified={phoneNumberVerified}
           />
           <PersonalInformationItem
-            label="Email"
+            label={I18n.t('CLIENT_PROFILE.DETAILS.EMAIL')}
             value={email}
             verified={profileStatus === userStatuses.ACTIVE}
           />
           <PersonalInformationItem
-            label="Full address"
+            label={I18n.t('CLIENT_PROFILE.DETAILS.FULL_ADDRESS')}
             value={address}
             verified={kycAddressStatus && kycAddressStatus.status === kycStatuses.VERIFIED}
           />
           <PersonalInformationItem
-            label="Country"
+            label={I18n.t('CLIENT_PROFILE.DETAILS.COUNTRY')}
             value={country}
             verified={kycAddressStatus && kycAddressStatus.status === kycStatuses.VERIFIED}
           />
           <PersonalInformationItem
-            label="City"
+            label={I18n.t('CLIENT_PROFILE.DETAILS.CITY')}
             value={city}
             verified={kycAddressStatus && kycAddressStatus.status === kycStatuses.VERIFIED}
           />
           <If condition={affiliateProfile}>
             <PersonalInformationItem
-              label="Affiliate"
+              label={I18n.t('CLIENT_PROFILE.DETAILS.AFFILIATE')}
               value={affiliateProfile.affiliate.fullName}
             />
-            <strong>AffiliateID</strong>: <Uuid uuid={affiliateProfile._id} />
+            <strong>{I18n.t('CLIENT_PROFILE.DETAILS.AFFILIATE_ID')}</strong>: <Uuid uuid={affiliateProfile._id} />
             <PersonalInformationItem
-              label="Source"
-              value={affiliateProfile.source || <span className="color-default">no-source</span>}
+              label={I18n.t('CLIENT_PROFILE.DETAILS.SOURCE')}
+              value={
+                affiliateProfile.source ||
+                <span className="color-default">{I18n.t('CLIENT_PROFILE.DETAILS.NO_SOURCE')}</span>
+              }
             />
             <PersonalInformationItem
-              label="Referral"
-              value={affiliateProfile.referral || <span className="color-default">no-referral</span>}
+              label={I18n.t('CLIENT_PROFILE.DETAILS.REFERRAL')}
+              value={affiliateProfile.referral ||
+              <span className="color-default">{I18n.t('CLIENT_PROFILE.DETAILS.NO_REFERRAL')}</span>}
             />
+          </If>
+          <If condition={tradingProfile && tradingProfile.convertedFromLeadUuid}>
+            <strong>{I18n.t('CLIENT_PROFILE.DETAILS.CONVERTED_FROM_LEAD')}</strong>
+            {': '}
+            <Uuid uuid={tradingProfile.convertedFromLeadUuid} />
           </If>
         </div>
       </div>
