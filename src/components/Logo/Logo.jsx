@@ -5,7 +5,12 @@ import { getLogo } from '../../config';
 
 const Logo = ({ className, to }) => (
   <Link className={className} to={to}>
-    <img className="w-100 h-100" src={getLogo()} alt="current-casino-logo" />
+    <img
+      className="w-100 h-100"
+      src={getLogo()}
+      alt="current-casino-logo"
+      onError={(e) => { e.target.src = '/img/logo-placeholder.svg'; } }
+    />
   </Link>
 );
 

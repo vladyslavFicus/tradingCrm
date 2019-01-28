@@ -80,17 +80,7 @@ function setBrandId(brandId) {
 }
 
 function getLogo() {
-  const brands = [
-    'nasfx',
-    'cryptomb',
-  ];
-  const brandId = getBrandId();
-
-  if (brands.indexOf(brandId) > -1) {
-    return `/img/brand/logo/${brandId}.svg`;
-  }
-
-  return '/img/logo-placeholder.svg';
+  return `/img/brand/logo/${getBrandId()}.svg`;
 }
 
 function getVersion() {
