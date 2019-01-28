@@ -3,12 +3,11 @@ import PropTypes from 'prop-types';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Field } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
-import { departmentsLabels, rolesLabels } from '../../../../../../constants/operators';
-import { CheckBox } from '../../../../../../components/ReduxForm';
-import Select from '../../../../../../components/Select';
-import reduxFieldsConstructor from '../../../../../../components/ReduxForm/ReduxFieldsConstructor';
-import { getBranchHierarchy } from '../../../../../../graphql/queries/hierarchy';
-import { branchTypes, branchField, formFields, fieldNames } from './constants';
+import { departmentsLabels, rolesLabels } from 'constants/operators';
+import { CheckBox } from 'components/ReduxForm';
+import Select from 'components/Select';
+import reduxFieldsConstructor from 'components/ReduxForm/ReduxFieldsConstructor';
+import { branchField, formFields, fieldNames } from './constants';
 
 class CreateOperatorModal extends Component {
   static propTypes = {
@@ -25,10 +24,14 @@ class CreateOperatorModal extends Component {
       department: PropTypes.string,
       role: PropTypes.string,
     }),
-    client: PropTypes.shape({
-      query: PropTypes.func.isRequired,
+    branchHierarchy: PropTypes.shape({
+      loading: PropTypes.bool.isRequired,
+      teams: PropTypes.array,
+      desks: PropTypes.array,
+      offices: PropTypes.array,
+      brands: PropTypes.array,
+      branchTypes: PropTypes.array,
     }).isRequired,
-    operatorId: PropTypes.string.isRequired,
   };
 
   static defaultProps = {
@@ -41,7 +44,6 @@ class CreateOperatorModal extends Component {
 
   state = {
     selectedBranchType: '',
-    branchesLoading: false,
     branches: null,
   };
 
@@ -60,37 +62,13 @@ class CreateOperatorModal extends Component {
   }
 
   handleSelectChange = async (selectedBranchType) => {
-    this.setState({ branchesLoading: true });
-    const {
-      client,
-      notify,
-      operatorId,
-    } = this.props;
+    const { branchHierarchy } = this.props;
+    const branches = branchHierarchy[selectedBranchType].map(({ uuid, name }) => ({ value: uuid, label: name }));
 
-    const branchType = selectedBranchType.toLowerCase();
-    const { data: { hierarchy: { branchHierarchy: { data, error } } } } = await client.query({
-      query: getBranchHierarchy,
-      variables: {
-        operatorId,
-        branchType,
-      },
+    this.setState({
+      selectedBranchType,
+      branches,
     });
-
-    if (error) {
-      notify({
-        level: 'error',
-        title: I18n.t('COMMON.FAIL'),
-        message: I18n.t('HIERARCHY.ERROR_LOADING_BRANCHES'),
-      });
-    } else {
-      const branches = data.map(({ [branchType]: { uuid, name } }) => ({ value: uuid, label: name }));
-
-      this.setState({
-        selectedBranchType,
-        branches,
-        branchesLoading: false,
-      });
-    }
   }
 
   render() {
@@ -104,11 +82,14 @@ class CreateOperatorModal extends Component {
       onCloseModal,
       isOpen,
       formValues,
+      branchHierarchy: {
+        loading,
+        branchTypes,
+      },
     } = this.props;
 
     const {
       selectedBranchType,
-      branchesLoading,
       branches,
     } = this.state;
 
@@ -130,7 +111,8 @@ class CreateOperatorModal extends Component {
               <label>{I18n.t('COMMON.BRANCH_TYPE')}</label>
               <Select
                 value={selectedBranchType}
-                placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
+                placeholder={loading ? I18n.t('COMMON.SELECT_OPTION.LOADING') : I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
+                disabled={loading}
                 onChange={this.handleSelectChange}
               >
                 {branchTypes.map(({ value, label }) => (
@@ -143,7 +125,6 @@ class CreateOperatorModal extends Component {
             {reduxFieldsConstructor([
               branchField(
                 selectedBranchType,
-                branchesLoading,
                 branches,
               )])}
           </div>

@@ -20,7 +20,7 @@ const getUserHierarchy = gql`query getUserHierarchy {
 }`;
 
 const getUserHierarchyById = gql`query getUserHierarchyById(
-$userId: String!,
+  $userId: String!,
 ) {
   hierarchy {
     userHierarchyById (
@@ -34,6 +34,7 @@ $userId: String!,
           userType
         }
         parentBranches {
+          branchType
           uuid
           name
         }
@@ -91,6 +92,18 @@ const getUserBranchHierarchy = gql`query getUserBranchHierarchy(
           parentBranch {
             uuid
           }
+        }
+        BRAND {
+          name
+          uuid
+          branchType
+          defaultUser
+          defaultBranch
+          country
+          parentBranch {
+            uuid
+          }
+          isDefault
         }
       }
     } 

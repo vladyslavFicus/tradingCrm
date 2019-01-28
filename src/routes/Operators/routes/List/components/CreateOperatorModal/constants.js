@@ -1,9 +1,7 @@
-import { omit } from 'lodash';
 import keyMirror from 'keymirror';
-import { fieldTypes } from '../../../../../../components/ReduxForm/ReduxFieldsConstructor';
-import I18n from '../../../../../../utils/fake-i18n';
-import renderLabel from '../../../../../../utils/renderLabel';
-import { branchTypes as branches } from '../../../../../../constants/hierarchyTypes';
+import { fieldTypes } from 'components/ReduxForm/ReduxFieldsConstructor';
+import I18n from 'utils/fake-i18n';
+import renderLabel from 'utils/renderLabel';
 
 const attributeLabels = {
   firstName: I18n.t('COMMON.FIRST_NAME'),
@@ -20,16 +18,10 @@ const fieldNames = keyMirror({
   role: null,
 });
 
-const branchTypes = Object
-  .keys(omit(
-    branches,
-    [branches.COMPANY, branches.BRAND]
-  ))
-  .map(value => ({ value, label: I18n.t(`COMMON.${value}`) }));
+const getBranchOption = branchType => [{ value: branchType, label: I18n.t(`COMMON.${branchType}`) }];
 
 const branchField = (
   branchTypeSelected,
-  branchesLoading,
   options,
 ) => {
   const placeholder = (!Array.isArray(options) || options.length === 0)
@@ -40,7 +32,7 @@ const branchField = (
     type: fieldTypes.SELECT,
     name: 'branch',
     label: I18n.t(attributeLabels.branch),
-    disabled: branchesLoading || !branchTypeSelected || options.length === 0,
+    disabled: !branchTypeSelected || options.length === 0,
     placeholder: branchTypeSelected ? placeholder : I18n.t('COMMON.SELECT_OPTION.SELECT_BRANCH_TYPE'),
     withAnyOption: false,
     className: 'col-md-6',
@@ -106,8 +98,8 @@ const formFields = ({
 
 export {
   attributeLabels,
-  branchTypes,
   branchField,
   formFields,
   fieldNames,
+  getBranchOption,
 };

@@ -158,10 +158,10 @@ class HierarchyProfileForm extends Component {
               </div>
               <Choose>
                 <When condition={Array.isArray(parentBranches) && parentBranches.length}>
-                  {parentBranches.map(({ uuid, name }) => (
+                  {parentBranches.map(({ uuid, name, branchType }) => (
                     <div key={uuid} className="margin-bottom-10">
                       <strong>
-                        {name}
+                        {I18n.t(`COMMON.${branchType}`)}: {name}
                       </strong>
                       <strong className="margin-left-20">
                         <i
