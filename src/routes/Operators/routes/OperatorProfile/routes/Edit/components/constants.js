@@ -1,4 +1,4 @@
-import I18n from '../../../../../../../utils/fake-i18n';
+import I18n from 'utils/fake-i18n';
 
 const attributeLabels = {
   department: I18n.t('OPERATORS.PROFILE.DEPARTMENTS.LABELS.DEPARTMENT'),
