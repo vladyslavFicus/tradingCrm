@@ -381,7 +381,7 @@ const Form = reduxForm({
         };
       }
     } else {
-      rules = { ...rules, login: 'required|string' };
+      rules = { ...rules, login: 'required|numeric' };
     }
 
     return createValidator(rules, attributeLabels, false)(data);
