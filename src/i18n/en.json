@@ -810,6 +810,10 @@
         "TITLE": "Copied",
         "MESSAGE": "Full UUID has been copied to clipboard"
       },
+      "COPY_FULL_REFERENCE_ID": {
+        "TITLE": "Copied",
+        "MESSAGE": "Full external reference id has been copied to clipboard"
+      },
       "PERMISSION_DENIED": {
         "TITLE": "Error",
         "MESSAGE": "Permission denied"

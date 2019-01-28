@@ -95,13 +95,19 @@ export default ({
   header: I18n.t('CONSTANTS.TRANSACTIONS.GRID_COLUMNS.PAYMENT_TYPE'),
   render: ({ paymentType, externalReference }) => {
     const { label, color } = tradingTypesLabelsWithColor[paymentType];
-
     return (
       <Fragment>
         <div className={`text-uppercase font-weight-700 ${color}`}>{I18n.t(label)}</div>
-        <div className="font-size-11 text-uppercase">
-          {externalReference}
-        </div>
+        <If condition={externalReference}>
+          <div className="font-size-11 text-uppercase">
+            <Uuid
+              uuid={externalReference}
+              length={10}
+              notificationTitle="COMMON.NOTIFICATIONS.COPY_FULL_REFERENCE_ID.TITLE"
+              notificationMessage="COMMON.NOTIFICATIONS.COPY_FULL_REFERENCE_ID.MESSAGE"
+            />
+          </div>
+        </If>
       </Fragment>
     );
   },
