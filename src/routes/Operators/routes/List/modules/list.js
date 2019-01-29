@@ -1,7 +1,6 @@
 import { CALL_API } from 'redux-api-middleware';
 import get from 'lodash/get';
 import createRequestAction from '../../../../../utils/createRequestAction';
-import buildQueryString from '../../../../../utils/buildQueryString';
 import createReducer from '../../../../../utils/createReducer';
 
 const KEY = 'operators/list';
@@ -30,33 +29,6 @@ function createOperator(data) {
           CREATE_OPERATOR.REQUEST,
           CREATE_OPERATOR.SUCCESS,
           CREATE_OPERATOR.FAILURE,
-        ],
-        bailout: !logged,
-      },
-    });
-  };
-}
-
-function fetchEntities(filters = {}) {
-  return (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
-
-    return dispatch({
-      [CALL_API]: {
-        endpoint: `operator/operators?${buildQueryString(filters)}`,
-        method: 'GET',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        types: [
-          {
-            type: FETCH_ENTITIES.REQUEST,
-            meta: { filters },
-          },
-          FETCH_ENTITIES.SUCCESS,
-          FETCH_ENTITIES.FAILURE,
         ],
         bailout: !logged,
       },
@@ -117,7 +89,6 @@ const actionTypes = {
   FETCH_ENTITIES,
 };
 const actionCreators = {
-  fetchEntities,
   createOperator,
 };
 

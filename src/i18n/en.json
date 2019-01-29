@@ -935,6 +935,7 @@
     "CHANGE_STATUS": "Change status",
     "EXPORT_SELECTED": "Export selected",
     "CLIENTS_FOUND": "Clients found",
+    "OPERATORS_FOUND": "Operators found",
     "CLIENTS_SELECTED": "Clients selected",
     "UNLIMITED": "Unlimited",
     "LANGUAGE_NAME": {

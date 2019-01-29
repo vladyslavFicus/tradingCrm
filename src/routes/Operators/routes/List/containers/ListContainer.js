@@ -2,9 +2,11 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { getFormValues } from 'redux-form';
 import { graphql } from 'react-apollo';
+import { get } from 'lodash';
 import { actionCreators as authoritiesActionCreators } from '../../../../../redux/modules/auth/authorities';
 import { actionCreators as miniProfileActionCreators } from '../../../../../redux/modules/miniProfile';
 import { createHierarchyUser } from '../../../../../graphql/mutations/hierarchy';
+import { managementOperatorsQuery } from '../../../../../graphql/queries/operators';
 import { withModals, withNotifications } from '../../../../../components/HighOrder';
 import CreateOperatorModalContainer from '../components/CreateOperatorModal';
 import { actionCreators } from '../modules/list';
@@ -23,7 +25,6 @@ const mapStateToProps = ({
 });
 
 const mapActions = {
-  fetchEntities: actionCreators.fetchEntities,
   onSubmitNewOperator: actionCreators.createOperator,
   fetchOperatorMiniProfile: miniProfileActionCreators.fetchOperatorProfile,
   addAuthority: authoritiesActionCreators.addAuthority,
@@ -37,5 +38,63 @@ export default compose(
   withNotifications,
   graphql(createHierarchyUser, {
     name: 'createHierarchyUser',
+  }),
+  graphql(managementOperatorsQuery, {
+    name: 'operators',
+    options: ({ location: { query } }) => ({
+      variables: {
+        ...query && query.filters,
+        page: 0,
+        size: 20,
+      },
+      fetchPolicy: 'network-only',
+    }),
+    props: ({ operators: { operators, fetchMore, ...rest } }) => {
+      const newPage = get(operators, 'data.page') || 0;
+
+      return {
+        operators: {
+          ...rest,
+          operators,
+          loadMore: () => fetchMore({
+            variables: { page: newPage + 1 },
+            updateQuery: (previousResult, { fetchMoreResult }) => {
+              if (!fetchMoreResult) {
+                return previousResult;
+              }
+
+              if (fetchMoreResult.operators.error) {
+                return {
+                  ...previousResult,
+                  ...fetchMoreResult,
+                  operators: {
+                    ...previousResult.operators,
+                    ...fetchMoreResult.operators,
+                  },
+                };
+              }
+
+              return {
+                ...previousResult,
+                ...fetchMoreResult,
+                operators: {
+                  ...previousResult.operators,
+                  ...fetchMoreResult.operators,
+                  data: {
+                    ...previousResult.operators.data,
+                    ...fetchMoreResult.operators.data,
+                    page: fetchMoreResult.operators.data.page,
+                    content: [
+                      ...previousResult.operators.data.content,
+                      ...fetchMoreResult.operators.data.content,
+                    ],
+                  },
+                },
+              };
+            },
+          }),
+        },
+      };
+    },
   })
 )(List);

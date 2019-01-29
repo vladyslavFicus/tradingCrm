@@ -6,6 +6,8 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import { I18n } from 'react-redux-i18n';
 import { get } from 'lodash';
+import Placeholder from 'components/Placeholder';
+import { TextRow } from 'react-placeholder/lib/placeholders';
 import history from '../../../../../router/history';
 import {
   statusColorNames as operatorStatusColorNames,
@@ -30,28 +32,31 @@ class List extends Component {
       }),
     }).isRequired,
     onSubmitNewOperator: PropTypes.func.isRequired,
-    fetchEntities: PropTypes.func.isRequired,
     filterValues: PropTypes.object,
-    list: PropTypes.object,
     locale: PropTypes.string.isRequired,
     fetchOperatorMiniProfile: PropTypes.func.isRequired,
     addAuthority: PropTypes.func.isRequired,
     fetchAuthorities: PropTypes.func.isRequired,
     fetchAuthoritiesOptions: PropTypes.func.isRequired,
+    operators: PropTypes.shape({
+      operators: PropTypes.shape({
+        data: PropTypes.pageable(PropTypes.any),
+      }),
+      loadMore: PropTypes.func,
+      loading: PropTypes.bool.isRequired,
+    }),
   };
   static defaultProps = {
     filterValues: null,
-    list: null,
+    operators: {
+      operators: {},
+      loading: false,
+    },
   };
 
   state = {
     filters: {},
-    page: 0,
   };
-
-  componentWillMount() {
-    this.handleRefresh();
-  }
 
   pollAuthorities = async (uuid, retryCount = 3) => {
     const authoritiesAction = await this.props.fetchAuthorities(uuid);
@@ -66,19 +71,29 @@ class List extends Component {
     return !authoritiesAction.error;
   };
 
-  handlePageChanged = (page) => {
-    if (!this.props.list.isLoading) {
-      this.setState({ page: page - 1 }, () => this.handleRefresh());
+  handlePageChanged = () => {
+    const {
+      operators: {
+        loadMore,
+        loading,
+      },
+    } = this.props;
+
+    if (!loading) {
+      loadMore();
     }
   };
 
-  handleRefresh = () => this.props.fetchEntities({
-    ...this.state.filters,
-    page: this.state.page,
-  });
-
   handleFiltersChanged = (filters = {}) => {
-    this.setState({ filters, page: 0 }, () => this.handleRefresh());
+    this.setState({ filters }, () => {
+      history.replace({
+        query: {
+          filters: {
+            ...filters,
+          },
+        },
+      });
+    });
   };
 
   handleSubmitNewOperator = async ({ department, role, branch, ...data }) => {
@@ -222,9 +237,7 @@ class List extends Component {
   renderOperator = data => (
     <div>
       <div className="font-weight-700" id={`operator-list-${data.uuid}-main`}>
-        <Link to={`/operators/${data.uuid}/profile`}>
-          {[data.firstName, data.lastName].join(' ')}
-        </Link>
+        <Link to={`/operators/${data.uuid}/profile`}>{data.fullName}</Link>
       </div>
       <div className="font-size-11" id={`operator-list-${data.uuid}-additional`}>
         <MiniProfile
@@ -266,17 +279,43 @@ class List extends Component {
   render() {
     const { filters } = this.state;
     const {
-      list: { entities, noResults },
+      operators,
+      operators: { loading },
       filterValues,
       locale,
     } = this.props;
 
+    const entities = get(operators, 'operators.data', { content: [] });
+
     return (
       <div className="card">
         <div className="card-heading">
-          <span className="font-size-20" id="operators-list-header">
-            {I18n.t('OPERATORS.HEADING')}
-          </span>
+          <Placeholder
+            ready={!loading && !!operators}
+            className={null}
+            customPlaceholder={(
+              <div>
+                <TextRow className="animated-background" style={{ width: '220px', height: '20px' }} />
+                <TextRow className="animated-background" style={{ width: '220px', height: '12px' }} />
+              </div>
+            )}
+          >
+            <Choose>
+              <When condition={!!entities.totalElements}>
+                <span className="font-size-20 height-55">
+                  <div>
+                    <strong>{entities.totalElements} </strong>
+                    {I18n.t('COMMON.OPERATORS_FOUND')}
+                  </div>
+                </span>
+              </When>
+              <Otherwise>
+                <span className="font-size-20">
+                  {I18n.t('OPERATORS.HEADING')}
+                </span>
+              </Otherwise>
+            </Choose>
+          </Placeholder>
 
           <button
             className="btn btn-default-outline ml-auto"
@@ -297,11 +336,12 @@ class List extends Component {
           <GridView
             dataSource={entities.content}
             onPageChange={this.handlePageChanged}
-            activePage={entities.number + 1}
-            totalPages={entities.totalPages}
+            activePage={entities.page}
+            last={entities.last}
             lazyLoad
             locale={locale}
-            showNoResults={noResults}
+            showNoResults={!loading && entities.content.length === 0}
+            loading={loading}
           >
             <GridViewColumn
               name="uuid"
