@@ -5,7 +5,6 @@ const { version } = require('./utils/version');
 
 const {
   NAS_PROJECT,
-  API_ROOT,
   GRAPHQL_ROOT,
   SECRET_PATH = '/forex_backoffice/lib/etc/',
   NODE_ENV = 'development',
@@ -21,8 +20,8 @@ module.exports = async () => {
 
   const config = {
     version,
-    apiRoot: API_ROOT || platformConfig.hrzn.api_url,
-    graphqlRoot: GRAPHQL_ROOT || `${platformConfig.hrzn.api_url}/forex_graphql/gql`,
+    apiRoot: platformConfig.hrzn.api_url,
+    graphqlRoot: GRAPHQL_ROOT || '/api/forex_graphql/gql',
     brands: brandsConfig,
   };
 
@@ -33,6 +32,7 @@ module.exports = async () => {
       options: {
         release: version,
         environment: NAS_PROJECT,
+        tags: { platformVersion: version },
         ignoreErrors: ['Submit Validation Failed'],
       },
     };

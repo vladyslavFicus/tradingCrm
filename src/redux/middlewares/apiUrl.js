@@ -11,7 +11,7 @@ export default () => next => (action) => {
         ...action[CALL_API],
         headers: {
           ...action[CALL_API].headers,
-          'X-HRZN-Version': getApiVersion(),
+          'X-CLIENT-Version': getApiVersion(),
         },
         endpoint: `${apiRoot}/${action[CALL_API].endpoint.replace(/^\//, '')}`,
       },

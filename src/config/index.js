@@ -55,7 +55,7 @@ function getApiRoot() {
 }
 
 function getApiVersion() {
-  return _.get(config, 'nas.brand.api.version');
+  return config.version;
 }
 
 function getAvailableLanguages() {
