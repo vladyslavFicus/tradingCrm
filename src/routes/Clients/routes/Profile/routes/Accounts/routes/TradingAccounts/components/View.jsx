@@ -41,10 +41,10 @@ class View extends PureComponent {
   }
 
   showTradingAccountAddModal = () => {
-    const profileId = get(this.props.playerProfile, 'playerProfile.data.playerUUID');
-
+    const { playerUUID: profileId, currency } = get(this.props.playerProfile, 'playerProfile.data', {});
     this.props.modals.tradingAccountAddModal.show({
       profileId,
+      currency,
       onConfirm: this.props.playerProfile.refetch,
     });
   };

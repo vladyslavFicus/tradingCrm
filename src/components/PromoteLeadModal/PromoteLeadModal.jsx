@@ -2,11 +2,11 @@ import React, { PureComponent } from 'react';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { reduxForm, Field } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
-import PropTypes from '../../constants/propTypes';
-import languages from '../../constants/languageNames';
-import { createValidator, translateLabels } from '../../utils/validator';
-import countryList from '../../utils/countryList';
-import { InputField, NasSelectField } from '../../components/ReduxForm';
+import PropTypes from 'constants/propTypes';
+import languages from 'constants/languageNames';
+import { createValidator, translateLabels } from 'utils/validator';
+import countryList from 'utils/countryList';
+import { InputField, NasSelectField } from 'components/ReduxForm';
 import attributeLabels from './constants';
 
 const FORM_NAME = 'promoteLeadModalForm';
@@ -30,6 +30,7 @@ class PromoteLead extends PureComponent {
         lastName,
       },
       error,
+      supportedCurrencies,
       onSubmit,
     } = this.props;
 
@@ -82,6 +83,20 @@ class PromoteLead extends PureComponent {
                   </option>
                 ))}
               </Field>
+              <If condition={supportedCurrencies.length > 1}>
+                <Field
+                  name="currency"
+                  component={NasSelectField}
+                  label={I18n.t(attributeLabels.currency)}
+                  placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
+                >
+                  {
+                    supportedCurrencies.map(currency => (
+                      <option key={currency} value={currency}>{currency}</option>
+                    ))
+                  }
+                </Field>
+              </If>
               <Field
                 name="salesRepresentative"
                 label={I18n.t(attributeLabels.salesRepresentative)}
@@ -160,6 +175,7 @@ PromoteLead.propTypes = {
     lastName: PropTypes.string.isRequired,
   }).isRequired,
   handleSubmit: PropTypes.func.isRequired,
+  supportedCurrencies: PropTypes.array.isRequired,
   change: PropTypes.func.isRequired,
   onCloseModal: PropTypes.func.isRequired,
   isOpen: PropTypes.bool.isRequired,
@@ -185,6 +201,7 @@ const PromoteLeadModal = reduxForm({
     password: ['required', 'string', 'min:6'],
     languageCode: ['required', 'string'],
     country: ['required', 'string'],
+    currency: ['required', 'string'],
   }, translateLabels(attributeLabels), false),
 })(PromoteLead);
 

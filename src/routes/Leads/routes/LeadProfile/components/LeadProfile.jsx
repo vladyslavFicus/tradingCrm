@@ -5,14 +5,15 @@ import { SubmissionError } from 'redux-form';
 import { Switch, Redirect } from 'react-router-dom';
 import NotePopover from 'components/NotePopover';
 import { viewType as noteViewType } from 'constants/note';
-import { Route } from '../../../../../router';
-import Tabs from '../../../../../components/Tabs';
-import NotFound from '../../../../../routes/NotFound';
-import PropTypes from '../../../../../constants/propTypes';
-import HideDetails from '../../../../../components/HideDetails';
+import { getActiveBrandConfig } from 'config';
+import Tabs from 'components/Tabs';
+import NotFound from 'routes/NotFound';
+import PropTypes from 'constants/propTypes';
+import HideDetails from 'components/HideDetails';
+import { aquisitionStatusesNames } from 'constants/aquisitionStatuses';
+import { userTypes } from 'constants/hierarchyTypes';
 import { leadProfileTabs } from '../../../constants';
-import { aquisitionStatusesNames } from '../../../../../constants/aquisitionStatuses';
-import { userTypes } from '../../../../../constants/hierarchyTypes';
+import { Route } from '../../../../../router';
 import Profile from '../routes/Profile';
 import Notes from '../routes/Notes';
 import Information from './Information';
@@ -161,13 +162,17 @@ class LeadProfile extends Component {
       modals: { promoteLeadModal },
     } = this.props;
 
+    const brandConfig = getActiveBrandConfig();
+
     promoteLeadModal.show({
       onSubmit: values => this.handlePromoteLead(values),
+      supportedCurrencies: get(brandConfig, 'currencies.supported') || [],
       initialValues: {
         firstName: name,
         lastName: surname,
         email,
         country,
+        currency: get(brandConfig, 'currencies.base'),
         phone,
         phone2: mobile,
         gender,

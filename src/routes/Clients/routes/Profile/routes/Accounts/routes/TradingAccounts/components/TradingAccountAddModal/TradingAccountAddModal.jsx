@@ -14,7 +14,7 @@ class TradingAccountAddModal extends PureComponent {
     profileId: PropTypes.string.isRequired,
     error: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.string, PropTypes.object])),
     accountTypes: PropTypes.array,
-    currencies: PropTypes.array,
+    currency: PropTypes.string,
     change: PropTypes.func.isRequired,
     onCloseModal: PropTypes.func.isRequired,
     isOpen: PropTypes.bool.isRequired,
@@ -28,16 +28,17 @@ class TradingAccountAddModal extends PureComponent {
   static defaultProps = {
     error: null,
     accountTypes: accountTypesList,
-    currencies: [],
+    currency: null,
     onConfirm: () => {},
   };
 
   onSubmit = async (data) => {
-    const { profileId, createTradingAccount, notify, onCloseModal, onConfirm } = this.props;
+    const { profileId, createTradingAccount, notify, onCloseModal, onConfirm, currency } = this.props;
 
     const { data: { tradingAccount: { create: { success } } } } = await createTradingAccount({
       variables: {
         ...data,
+        currency,
         profileId,
       },
     });
@@ -68,7 +69,6 @@ class TradingAccountAddModal extends PureComponent {
       submitting,
       invalid,
       accountTypes,
-      currencies,
       error,
     } = this.props;
 
@@ -102,17 +102,6 @@ class TradingAccountAddModal extends PureComponent {
           >
             {accountTypes.map((item, index) => (
               <option key={index} value={item.mode}>{item.label}</option>
-            ))}
-          </Field>
-          <Field
-            name="currency"
-            component={NasSelectField}
-            label={I18n.t(attributeLabels.currency)}
-            placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
-            searchable={false}
-          >
-            {currencies.map((item, index) => (
-              <option key={index} value={item}>{item}</option>
             ))}
           </Field>
           <Field
