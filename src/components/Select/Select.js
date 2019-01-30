@@ -77,7 +77,7 @@ class Select extends PureComponent {
 
       this.updateState({
         originalOptions: options,
-        options: filterOptionsByQuery(query, [...options]),
+        options: this.filterSelectedOptions(filterOptionsByQuery(query, [...options]), selectedOptions, multiple),
         selectedOptions,
         originalSelectedOptions: selectedOptions,
       });
