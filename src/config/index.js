@@ -80,7 +80,7 @@ function setBrandId(brandId) {
 }
 
 function getLogo() {
-  return `/img/brand/logo/${getBrandId()}.svg`;
+  return `/img/brand/header/${getBrandId()}.svg`;
 }
 
 function getVersion() {
