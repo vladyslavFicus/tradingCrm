@@ -5,6 +5,7 @@ const brands = keyMirror({
   nasfx: null,
   cryptomb: null,
   bycrypto: null,
+  snpbrokers: null,
 });
 const departments = keyMirror({
   ADMINISTRATION: null,
@@ -30,15 +31,19 @@ const roles = keyMirror({
 const brandsConfig = {
   [brands.cryptomb]: {
     name: 'Cryptomb',
-    image: { src: '/img/brand/image/cryptomb-logo.svg' },
+    image: { src: '/img/brand/choose-brand/cryptomb.svg' },
   },
   [brands.nasfx]: {
     name: 'Nasfx',
-    image: { src: '/img/brand/image/nasfx_brand_logo.svg' },
+    image: { src: '/img/brand/choose-brand/nasfx.svg' },
   },
   [brands.bycrypto]: {
     name: 'Bycrypto',
-    image: { src: '/img/brand/image/bycrypto-logo.svg' },
+    image: { src: '/img/brand/choose-brand/bycrypto.svg' },
+  },
+  [brands.snpbrokers]: {
+    name: 'Snpbrokers',
+    image: { src: '/img/brand/choose-brand/snpbrokers.svg' },
   },
 };
 const departmentsConfig = {
