@@ -359,8 +359,8 @@ const Form = reduxForm({
     if (data.paymentType === paymentMethods.TRANSFER) {
       rules = {
         ...rules,
-        source: 'required|string',
-        target: 'required|string',
+        source: 'required|numeric',
+        target: 'required|numeric',
       };
 
       if (currentValues
