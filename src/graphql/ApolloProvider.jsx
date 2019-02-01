@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { ApolloProvider as ReactApolloProvider } from 'react-apollo';
 import { ApolloClient } from 'apollo-client';
 import { from, split } from 'apollo-link';
@@ -8,14 +9,16 @@ import { onError } from 'apollo-link-error';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { BatchHttpLink } from 'apollo-link-batch-http';
 import { createUploadLink } from 'apollo-upload-client';
-import { getGraphQLRoot } from '../config';
+import { actionCreators as modalActionCreators } from 'redux/modules/modal';
+import { types as modalTypes } from 'constants/modals';
+import { getGraphQLRoot, getApiVersion } from '../config';
 
 const __DEV__ = process.env.NODE_ENV === 'development';
 
 const isObject = node => typeof node === 'object' && node !== null;
 
 const hasFiles = (node, found = []) => {
-  Object.keys(node).forEach(key => {
+  Object.keys(node).forEach((key) => {
     if (!isObject(node[key]) || found.length > 0) {
       return;
     }
@@ -35,12 +38,10 @@ const hasFiles = (node, found = []) => {
 };
 
 class ApolloProvider extends PureComponent {
-  static contextTypes = {
-    store: PropTypes.object.isRequired,
-  };
-
   static propTypes = {
     children: PropTypes.element.isRequired,
+    authToken: PropTypes.string.isRequired,
+    triggerVersionModal: PropTypes.func.isRequired,
   };
 
   constructor(props) {
@@ -49,7 +50,7 @@ class ApolloProvider extends PureComponent {
     this.constructor.client = this.createClient();
   }
 
-  createClient() {
+  createClient = () => {
     const options = {
       uri: getGraphQLRoot(),
       batchInterval: 50,
@@ -60,22 +61,28 @@ class ApolloProvider extends PureComponent {
       new BatchHttpLink(options)
     );
     const errorLink = onError(({ graphQLErrors, response, networkError }) => {
+      console.log('graphQLErrors', graphQLErrors);
+      console.log('networkError', networkError);
+      console.log('response', response);
       if (graphQLErrors) {
         graphQLErrors.map(({ message, locations, path }) =>
           console.log(`[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`));
       }
 
       if (networkError) {
+        this.props.triggerVersionModal({ name: modalTypes.NEW_API_VERSION });
         console.log(`[Network error]: ${networkError}`);
       }
     });
 
     const authLink = setContext((_, { headers }) => {
-      const { auth: { token } } = this.context.store.getState();
+      const { authToken } = this.props;
+
       return {
         headers: {
           ...headers,
-          authorization: token ? `Bearer ${token}` : undefined,
+          authorization: authToken ? `Bearer ${authToken}` : undefined,
+          'X-CLIENT-Version': getApiVersion(),
         },
       };
     });
@@ -109,4 +116,7 @@ class ApolloProvider extends PureComponent {
   }
 }
 
-export default ApolloProvider;
+export default connect(
+  ({ auth: { token } }) => ({ authToken: token }),
+  { triggerVersionModal: modalActionCreators.open },
+)(ApolloProvider);

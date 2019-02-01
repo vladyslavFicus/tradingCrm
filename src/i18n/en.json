@@ -776,6 +776,10 @@
     "FOR": "for",
     "FIRST_NAME": "First name",
     "LAST_NAME": "Last name",
+    "UPDATE_VERSION_MODAL": {
+      "TEXT": "Backoffice has been updated. To continue working with it click the button below. It will reload the page and update you Backoffice version.",
+      "TITLE": "Update your client version"
+    },
     "BUTTONS": {
       "CANCEL": "Cancel",
       "CONFIRM": "Confirm",
@@ -786,7 +790,8 @@
       "EXPORT_AS_CSV": "Export as CSV",
       "UPDATE": "Update",
       "DELETE": "Delete",
-      "PROMOTE": "Promote"
+      "PROMOTE": "Promote",
+      "UPDATE_NOW": "Update now"
     },
     "ACTIONS": {
       "ON": "Turn on",

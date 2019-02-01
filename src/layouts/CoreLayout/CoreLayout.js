@@ -9,8 +9,7 @@ import { actionCreators as windowActionCreators, actionTypes as windowActionType
 import { actionCreators as notificationCreators } from '../../redux/modules/notifications';
 import DebugPanel from '../../components/DebugPanel';
 import { types as modalsTypes } from '../../constants/modals';
-import ConfirmActionModal from '../../components/Modal/ConfirmActionModal';
-import { actionCreators as modalActionCreators } from '../../redux/modules/modal';
+import UpdateVersionModal from '../../components/UpdateVersionModal';
 import { withModals } from '../../components/HighOrder';
 import parseJson from '../../utils/parseJson';
 import '../../styles/style.scss';
@@ -24,7 +23,6 @@ const MINI_PROFILE_POPOVER = 'mini-profile-popover';
 class CoreLayout extends Component {
   static propTypes = {
     children: PropTypes.element.isRequired,
-    closeModal: PropTypes.func.isRequired,
     modal: PropTypes.shape({
       name: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
       params: PropTypes.object,
@@ -36,7 +34,7 @@ class CoreLayout extends Component {
     })),
     removeNotification: PropTypes.func.isRequired,
     modals: PropTypes.shape({
-      confirmActionModal: PropTypes.modalType,
+      updateVersionModal: PropTypes.modalType,
     }).isRequired,
   };
   static childContextTypes = {
@@ -88,8 +86,7 @@ class CoreLayout extends Component {
   componentWillReceiveProps({ notifications: nextNotifications, modal: { name: nextModalName } }) {
     const {
       notifications: currentNotifications,
-      modals: { confirmActionModal },
-      closeModal,
+      modals: { updateVersionModal },
     } = this.props;
     const haveNewNotifications = nextNotifications
       .some(({ id }) => currentNotifications.findIndex(notification => notification.id === id) === -1);
@@ -103,11 +100,9 @@ class CoreLayout extends Component {
 
     if (
       nextModalName === modalsTypes.NEW_API_VERSION &&
-      !confirmActionModal.isOpen
+      !updateVersionModal.isOpen
     ) {
-      confirmActionModal.show({
-        onSubmit: this.handleReloadPage,
-        onCloseCallback: closeModal,
+      updateVersionModal.show({
         modalTitle: I18n.t('MODALS.NEW_API_VERSION.TITLE'),
         actionText: I18n.t('MODALS.NEW_API_VERSION.MESSAGE'),
       });
@@ -124,8 +119,6 @@ class CoreLayout extends Component {
       this.notificationNode.addNotification(mergedParams);
     }
   };
-
-  handleReloadPage = () => location.reload(true);
 
   handleHideMiniProfile = (callback) => {
     this.setState({ miniProfilePopover: { ...popoverInitialState } }, () => {
@@ -193,14 +186,14 @@ const mapStateToProps = ({ modal, notifications }) => ({
   modal,
   notifications,
 });
+
 const mapActions = {
-  closeModal: modalActionCreators.close,
   removeNotification: notificationCreators.remove,
 };
 
 export default compose(
   withModals({
-    confirmActionModal: ConfirmActionModal,
+    updateVersionModal: UpdateVersionModal,
   }),
   connect(mapStateToProps, mapActions),
 )(CoreLayout);

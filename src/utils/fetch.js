@@ -8,7 +8,7 @@ const customFetch = async (url, options) => {
       nextOptions.headers = {};
     }
 
-    nextOptions.headers['X-HRZN-Version'] = getApiVersion();
+    nextOptions.headers['X-CLIENT-Version'] = getApiVersion();
   }
 
   const response = await fetch(url, nextOptions);
