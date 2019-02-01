@@ -18,4 +18,10 @@ export default [{
 }, {
   languageName: I18n.t('COMMON.LANGUAGE_NAME.UA'),
   languageCode: 'ua',
+}, {
+  languageName: I18n.t('COMMON.LANGUAGE_NAME.ZH'),
+  languageCode: 'zh',
+}, {
+  languageName: I18n.t('COMMON.LANGUAGE_NAME.AR'),
+  languageCode: 'ar',
 }];
