@@ -1,11 +1,10 @@
 import { connect } from 'react-redux';
 import { graphql, compose, withApollo } from 'react-apollo';
-import { get, isEmpty } from 'lodash';
-import update from 'immutability-helper';
 import Modal from 'components/Modal';
 import { withNotifications, withModals } from 'components/HighOrder';
 import RepresentativeUpdateModal from 'components/RepresentativeUpdateModal';
 import countries from 'utils/countryList';
+import limitItems from 'utils/limitItems';
 import { leadsQuery } from 'graphql/queries/leads';
 import { bulkLeadPromote } from 'graphql/mutations/leads';
 import { leadCsvUpload } from 'graphql/mutations/upload';
@@ -57,33 +56,14 @@ export default compose(
       },
     }),
     props: ({ leads: { leads, fetchMore, ...rest }, ownProps: { location } }) => {
-      let leadsResponse = leads ? { ...leads } : null;
-      const newPage = get(leadsResponse, 'data.number') || 0;
-
-      if (leadsResponse && !isEmpty(leadsResponse.data)) {
-        const { totalElements, content, size: responseSize } = leadsResponse.data;
-        const size = get(location, 'query.filters.size');
-
-        if (size && totalElements >= size) {
-          leadsResponse = update(leadsResponse, { data: { totalElements: { $set: size } } });
-
-          if ((newPage + 1) * responseSize >= size) {
-            leadsResponse = update(leadsResponse, {
-              data: {
-                content: { $splice: [[size, content.length]] },
-                last: { $set: true },
-              },
-            });
-          }
-        }
-      }
+      const { response, currentPage } = limitItems(leads, location);
 
       return {
         leads: {
           ...rest,
-          leads: leadsResponse,
+          leads: response,
           loadMore: () => fetchMore({
-            variables: { page: newPage + 1 },
+            variables: { page: currentPage + 1 },
             updateQuery: (previousResult, { fetchMoreResult }) => {
               if (!fetchMoreResult) {
                 return previousResult;

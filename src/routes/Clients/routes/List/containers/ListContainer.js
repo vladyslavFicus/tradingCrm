@@ -1,12 +1,12 @@
 import { connect } from 'react-redux';
 import { withApollo, graphql, compose } from 'react-apollo';
-import { get } from 'lodash';
 import { withNotifications, withModals } from 'components/HighOrder';
 import RepresentativeUpdateModal from 'components/RepresentativeUpdateModal';
 import { getUserBranchHierarchy } from 'graphql/queries/hierarchy';
 import { clientsBulkRepresentativeUpdate, clientsProfileBulkUpdate } from 'graphql/mutations/profile';
 import { clientsQuery } from 'graphql/queries/profile';
 import countries from 'utils/countryList';
+import limitItems from 'utils/limitItems';
 import { actionCreators as miniProfileActionCreators } from '../../../../../redux/modules/miniProfile';
 import { actionCreators } from '../modules/list';
 import { MoveModal } from '../components/Modals';
@@ -65,15 +65,15 @@ export default compose(
       },
       fetchPolicy: 'network-only',
     }),
-    props: ({ profiles: { profiles, fetchMore, ...rest } }) => {
-      const newPage = get(profiles, 'data.page') || 0;
+    props: ({ profiles: { profiles, fetchMore, ...rest }, ownProps: { location } }) => {
+      const { response, currentPage } = limitItems(profiles, location);
 
       return {
         profiles: {
           ...rest,
-          profiles,
+          profiles: response,
           loadMore: () => fetchMore({
-            variables: { page: newPage + 1 },
+            variables: { page: currentPage + 1 },
             updateQuery: (previousResult, { fetchMoreResult }) => {
               if (!fetchMoreResult) {
                 return previousResult;
