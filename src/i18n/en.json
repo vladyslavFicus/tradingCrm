@@ -939,12 +939,15 @@
     "CLIENTS_SELECTED": "Clients selected",
     "UNLIMITED": "Unlimited",
     "LANGUAGE_NAME": {
+      "UA": "Ukrainian",
+      "ZH": "Chinese",
+      "AR": "Arabic",
       "EN": "English",
       "RU": "Russian",
       "ES": "Spanish",
       "DE": "German",
       "IT": "Italian",
-      "UA": "Ukrainian"
+      "FR": "French"
     },
     "COMMENT": "Comment",
     "UPLOAD": "Upload",
