@@ -11,13 +11,11 @@ import GridView, { GridViewColumn } from 'components/GridView';
 import PermissionContent from 'components/PermissionContent';
 import Placeholder from 'components/Placeholder';
 import withPlayerClick from 'utils/withPlayerClick';
-import { getUsersByBranch } from 'graphql/queries/hierarchy';
-import UserGridFilter from './UserGridFilter';
+import UserGridFilter from './UsersGridFilter';
 import { columns } from './attributes';
 
 class List extends Component {
   static propTypes = {
-    client: PropTypes.object.isRequired,
     notify: PropTypes.func.isRequired,
     fetchPlayerMiniProfile: PropTypes.func.isRequired,
     locale: PropTypes.string.isRequired,
@@ -75,10 +73,15 @@ class List extends Component {
     selectedRows: [],
     allRowsSelected: false,
     touchedRowsIds: [],
+    hierarchyOperators: [],
   };
 
   componentWillUnmount() {
     this.handleFilterReset();
+  }
+
+  setDesksTeamsOperators = (hierarchyOperators) => {
+    this.setState({ hierarchyOperators });
   }
 
   handlePageChanged = () => {
@@ -95,44 +98,7 @@ class List extends Component {
   };
 
   handleFiltersChanged = async (filters = {}) => {
-    const {
-      client,
-      notify,
-    } = this.props;
-    let hierarchyData = [];
-    if (filters.teams) {
-      const { data: { hierarchy: { usersByBranch: { data, error } } } } = await client.query({
-        query: getUsersByBranch,
-        variables: { uuid: filters.teams },
-      });
-
-      if (error) {
-        notify({
-          level: 'error',
-          title: I18n.t('COMMON.FAILED'),
-          message: I18n.t('COMMON.SOMETHING_WRONG'),
-        });
-
-        return;
-      }
-      hierarchyData = data.map(({ uuid }) => uuid);
-    } else if (filters.desks) {
-      const { data: { hierarchy: { usersByBranch: { data, error } } } } = await client.query({
-        query: getUsersByBranch,
-        variables: { uuid: filters.desks },
-      });
-
-      if (error) {
-        notify({
-          level: 'error',
-          title: I18n.t('COMMON.FAILED'),
-          message: I18n.t('COMMON.SOMETHING_WRONG'),
-        });
-
-        return;
-      }
-      hierarchyData = data.map(({ uuid }) => uuid);
-    }
+    const { hierarchyOperators } = this.state;
 
     this.setState({
       allRowsSelected: false,
@@ -145,7 +111,7 @@ class List extends Component {
           ...((filters.teams || filters.desks) && {
             teams: null,
             desks: null,
-            repIds: hierarchyData,
+            repIds: filters.repIds || hierarchyOperators,
           }),
         },
       },
@@ -415,6 +381,7 @@ class List extends Component {
           teams={teams}
           desks={desks}
           branchesLoading={branchesLoading}
+          setDesksTeamsOperators={this.setDesksTeamsOperators}
         />
 
         <div className="card-body card-grid-multiselect">

@@ -55,6 +55,7 @@ const firstDepositStatuses = [{
 export const fieldNames = keyMirror({
   desks: null,
   teams: null,
+  repIds: null,
 });
 
 export default (
@@ -62,6 +63,8 @@ export default (
   desks,
   teams,
   branchesLoading,
+  operators,
+  operatorsLoading,
 ) => [{
   type: fieldTypes.INPUT,
   name: 'searchValue',
@@ -102,6 +105,15 @@ export default (
   customOnChange: true,
   disabled: branchesLoading || teams.length === 0,
   selectOptions: teams.map(({ uuid, name }) => ({ value: uuid, label: I18n.t(name) })),
+}, {
+  type: fieldTypes.SELECT,
+  name: 'repIds',
+  label: I18n.t(filterLabels.operators),
+  placeholder: I18n.t('COMMON.SELECT_OPTION.DEFAULT'),
+  className: fieldClassNames.MEDIUM,
+  multiple: true,
+  disabled: operatorsLoading || operators.length === 0,
+  selectOptions: operators.map(({ uuid, fullName }) => ({ value: uuid, label: I18n.t(fullName) })),
 }, {
   type: fieldTypes.SELECT,
   name: 'status',
