@@ -50,7 +50,7 @@ export default {
     REFUSE_FILE: 'profile;DELETE;files/{uuid}/status/refuse',
     DELETE_FILE: 'profile;DELETE;files/{playerUUID}/{fileUUID}',
     VERIFY_PHONE: 'profile;POST;/verification/{playerUUID}/phone',
-    VERIFY_EMAIL: 'profile;POST;/verification/{playerUUID}',
+    VERIFY_EMAIL: 'profile;POST;/verification/{playerUUID}/email',
     CHANGE_PASSWORD: 'auth;POST;/credentials/{uuid}/password',
     MARK_IS_TEST: 'profile;POST;/profiles/{playerUUID}/is-test',
     CHANGE_ACQUISITION_STATUS: 'trading_hierarchy;POST;/bulk/user',

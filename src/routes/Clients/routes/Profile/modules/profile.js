@@ -500,7 +500,7 @@ function verifyEmail(playerUUID) {
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `/profile/verification/${playerUUID}`,
+        endpoint: `/profile/verification/${playerUUID}/email`,
         method: 'POST',
         types: [VERIFY_PROFILE_EMAIL.REQUEST, VERIFY_PROFILE_EMAIL.SUCCESS, VERIFY_PROFILE_EMAIL.FAILURE],
         headers: {
