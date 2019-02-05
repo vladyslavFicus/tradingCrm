@@ -22,6 +22,7 @@ const Personal = ({
     source,
     affiliate,
     convertedToClientUuid,
+    statusChangedDate,
   },
 }) => {
   const profileLanguage = get('languageName', languageNames.find(item => item.languageCode === language))
@@ -93,9 +94,16 @@ const Personal = ({
               value={affiliate}
             />
             <If condition={convertedToClientUuid}>
-              <strong>{I18n.t('LEAD_PROFILE.DETAILS.CONVERTED_TO_CLIENT')}</strong>
-              {': '}
-              <Uuid uuid={convertedToClientUuid} />
+              <div>
+                <strong>{I18n.t('LEAD_PROFILE.DETAILS.CONVERTED_TO_CLIENT')}</strong>
+                {': '}
+                <Uuid uuid={convertedToClientUuid} />
+              </div>
+              <div>
+                <strong>{I18n.t('LEAD_PROFILE.DETAILS.CONVERTED_SINCE')}</strong>
+                {': '}
+                {moment.utc(statusChangedDate).local().format('DD.MM.YYYY HH:mm:ss')}
+              </div>
             </If>
           </If>
         </div>

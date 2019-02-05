@@ -311,7 +311,7 @@ class List extends Component {
       </div>
       <If condition={statusChangedDate}>
         <div className="header-block-small">
-          {I18n.t('COMMON.SINCE', { date: moment.utc(statusChangedDate).local().format('DD.MM.YYYY') })}
+          {I18n.t('COMMON.SINCE', { date: moment.utc(statusChangedDate).local().format('DD.MM.YYYY HH:mm:ss') })}
         </div>
       </If>
       <ConvertedBy

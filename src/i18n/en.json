@@ -3027,7 +3027,8 @@
       "LANGUAGE": "Language",
       "SOURCE": "Source",
       "AFFILIATE": "Affiliate",
-      "CONVERTED_TO_CLIENT": "Converted to Client"
+      "CONVERTED_TO_CLIENT": "Converted to Client",
+      "CONVERTED_SINCE": "Converted since"
     },
     "PINNED_NOTES": {
       "TITLE": "Pinned notes"
