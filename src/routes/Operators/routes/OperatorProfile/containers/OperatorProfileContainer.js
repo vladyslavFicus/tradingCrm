@@ -30,6 +30,7 @@ const mapActions = {
   onSendInvitation: actionCreators.sendInvitation,
   fetchAuthority: actionCreators.fetchAuthority,
   fetchProfile: actionCreators.fetchProfile,
+  fetchForexOperator: actionCreators.fetchForexOperator,
 };
 
 export default compose(

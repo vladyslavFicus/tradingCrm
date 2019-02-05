@@ -27,6 +27,7 @@ class OperatorProfileLayout extends Component {
     onSendInvitation: PropTypes.func.isRequired,
     fetchAuthority: PropTypes.func.isRequired,
     fetchProfile: PropTypes.func.isRequired,
+    fetchForexOperator: PropTypes.func.isRequired,
     authorities: PropTypes.object.isRequired,
     isLoading: PropTypes.bool.isRequired,
     error: PropTypes.any,
@@ -40,8 +41,8 @@ class OperatorProfileLayout extends Component {
   };
 
   componentDidMount() {
-    const { fetchProfile, fetchAuthority, match: { params: { id } } } = this.props;
-
+    const { fetchProfile, fetchAuthority, fetchForexOperator, match: { params: { id } } } = this.props;
+    fetchForexOperator(id);
     fetchProfile(id);
     fetchAuthority(id);
   }

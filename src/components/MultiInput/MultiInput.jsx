@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { includes } from 'lodash';
+import { includes, difference } from 'lodash';
 import { components } from 'react-select';
 import CreatableSelect from 'react-select/lib/Creatable';
 import AsyncCreatableSelect from 'react-select/lib/AsyncCreatable';
@@ -41,6 +41,16 @@ class MultiInput extends Component {
     inputValue: '',
     value: this.props.initialValues,
   };
+
+  static getDerivedStateFromProps({ initialValues }, { value }) {
+    if (difference(initialValues, value).length) {
+      return {
+        value: initialValues,
+      };
+    }
+
+    return null;
+  }
 
   setValue = (value, callback) => {
     this.setState({

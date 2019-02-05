@@ -9,12 +9,15 @@ import { withNotifications } from '../../../../../../../components/HighOrder';
 
 const mapStateToProps = ({
   auth: { uuid },
-  operatorProfile: { view, authorities },
+  operatorProfile: { view, authorities, forexOperator },
   authorities: { data: authoritiesData },
 }) => ({
   auth: { uuid },
   profile: view,
   authorities,
+  allowedIpAddresses: forexOperator.data.permission.allowedIpAddresses,
+  forbiddenCountries: forexOperator.data.permission.forbiddenCountries,
+  isForexOperatorCreated: !(get(forexOperator, 'error.status') === 404),
   departmentsRoles: get(authoritiesData, 'post.departmentRole', {}),
 });
 
@@ -24,6 +27,8 @@ const mapActions = {
   addAuthority: actionCreators.addAuthority,
   deleteAuthority: actionCreators.deleteAuthority,
   fetchAuthoritiesOptions: authoritiesActionCreators.fetchAuthoritiesOptions,
+  createForexOperator: actionCreators.createForexOperator,
+  updateForexOperator: actionCreators.updateForexOperator,
 };
 
 export default compose(

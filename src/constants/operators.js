@@ -53,6 +53,7 @@ const departments = keyMirror({
   ADMINISTRATION: null,
   SALES: null,
   RETENTION: null,
+  AFFILIATE_PARTNER: null,
 });
 const departmentsLabels = {
   [departments.CS]: I18n.t('CONSTANTS.OPERATORS.DEPARTMENTS.CS'),

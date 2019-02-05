@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { I18n } from 'react-redux-i18n';
-import { get } from 'lodash';
+import { get, omit } from 'lodash';
 import PropTypes from 'constants/propTypes';
-import { departmentsLabels, rolesLabels } from 'constants/operators';
+import { departmentsLabels, rolesLabels, departments } from 'constants/operators';
 import renderLabel from 'utils/renderLabel';
 import Permissions from 'utils/permissions';
 import permissions from 'config/permissions';
@@ -39,7 +39,12 @@ class View extends Component {
       }),
       loading: PropTypes.bool.isRequired,
     }).isRequired,
+    allowedIpAddresses: PropTypes.arrayOf(PropTypes.string).isRequired,
+    forbiddenCountries: PropTypes.arrayOf(PropTypes.string).isRequired,
+    isForexOperatorCreated: PropTypes.bool.isRequired,
     fetchAuthority: PropTypes.func.isRequired,
+    updateForexOperator: PropTypes.func.isRequired,
+    createForexOperator: PropTypes.func.isRequired,
     deleteAuthority: PropTypes.func.isRequired,
     addAuthority: PropTypes.func.isRequired,
     fetchAuthoritiesOptions: PropTypes.func.isRequired,
@@ -74,7 +79,29 @@ class View extends Component {
 
   handleRefetchHierarchy = () => this.props.userHierarchy.refetch({ fetchPolicy: 'network-only' });
 
-  handleSubmit = data => this.props.updateProfile(this.props.match.params.id, data);
+  handleSubmit = (data) => {
+    const {
+      isForexOperatorCreated,
+      updateProfile,
+      match: { params: { id: operatorUUID } },
+      updateForexOperator,
+      createForexOperator,
+    } = this.props;
+    const reqBody = {
+      permission: {
+        allowedIpAddresses: data.allowedIpAddresses,
+        forbiddenCountries: data.forbiddenCountries,
+      },
+      uuid: operatorUUID,
+    };
+
+    updateProfile(operatorUUID, omit(data, ['allowedIpAddresses', 'forbiddenCountries']));
+    if (isForexOperatorCreated) {
+      updateForexOperator(reqBody);
+    } else {
+      createForexOperator(reqBody);
+    }
+  }
 
   handleDeleteAuthority = async (department, role) => {
     const {
@@ -142,6 +169,8 @@ class View extends Component {
   render() {
     const {
       profile: { data: profile, receivedAt: profileLoaded },
+      allowedIpAddresses,
+      forbiddenCountries,
       authorities: { data: authorities },
       auth: { uuid },
       departmentsRoles,
@@ -161,12 +190,15 @@ class View extends Component {
           <div className="card-body">
             <If condition={profileLoaded}>
               <PersonalForm
+                isPartner={!!authorities.find(authority => authority.department === departments.AFFILIATE_PARTNER)}
                 initialValues={{
                   firstName: profile.firstName,
                   lastName: profile.lastName,
                   country: profile.country,
                   email: profile.email,
                   phoneNumber: profile.phoneNumber,
+                  allowedIpAddresses,
+                  forbiddenCountries,
                 }}
                 onSubmit={this.handleSubmit}
               />
