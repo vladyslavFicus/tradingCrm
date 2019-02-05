@@ -37,23 +37,6 @@ const hasFiles = (node, found = []) => {
   return found.length > 0;
 };
 
-const customFetch = (uri, options) => fetch(uri, options)
-  .then(res => ({
-    text: () => res.text()
-      .then((text) => {
-        if (res.status === 426) {
-          return JSON.stringify({
-            errors: [{
-              status: res.status,
-              message: 'Backoffice version has changed',
-            }],
-          });
-        }
-
-        return text;
-      }),
-  }));
-
 class ApolloProvider extends PureComponent {
   static propTypes = {
     children: PropTypes.element.isRequired,
@@ -63,7 +46,7 @@ class ApolloProvider extends PureComponent {
 
   static defaultProps = {
     authToken: '',
-  }
+  };
 
   constructor(props) {
     super(props);
@@ -75,7 +58,6 @@ class ApolloProvider extends PureComponent {
     const options = {
       uri: getGraphQLRoot(),
       batchInterval: 50,
-      fetch: customFetch,
     };
 
     const httpLink = split(
@@ -86,15 +68,17 @@ class ApolloProvider extends PureComponent {
 
     const errorLink = onError(({ graphQLErrors, networkError }) => {
       if (graphQLErrors) {
-        graphQLErrors.map(({ message, locations, path, status }) => {
-          if (status === 426) {
-            this.props.triggerVersionModal({ name: modalTypes.NEW_API_VERSION });
-          }
+        graphQLErrors.forEach(({ message, locations, path }) => {
           console.log(`[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`);
         });
       }
 
       if (networkError) {
+        if (networkError.statusCode === 426) {
+          this.props.triggerVersionModal({ name: modalTypes.NEW_API_VERSION });
+          return;
+        }
+
         console.log(`[Network error]: ${networkError}`);
       }
     });
