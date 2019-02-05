@@ -94,7 +94,7 @@ const getClientPaymentsByUuid = gql`query getClientPayments(
   $statuses: [String]
   $paymentTypes: [String]
   $paymentAggregator: String  
-  $paymentMethod: String
+  $paymentMethod: [String]
   $creationTimeFrom: String
   $creationTimeTo: String
   $amountFrom: String

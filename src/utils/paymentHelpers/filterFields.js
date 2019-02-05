@@ -104,6 +104,7 @@ export default (
   type: fieldTypes.SELECT,
   name: 'paymentMethod',
   label: I18n.t(attributeLabels.paymentMethod),
+  multiple: true,
   placeholder: I18n.t('COMMON.SELECT_OPTION.ANY'),
   className: fieldClassNames.MEDIUM,
   selectOptions: uniq([...Object.keys(methods), ...Object.keys(manualPaymentMethods)])
