@@ -29,7 +29,7 @@ export default (url, options) => {
           xhr.setRequestHeader(key, options.headers[key]);
         });
       }
-      xhr.setRequestHeader('X-HRZN-Version', getApiVersion());
+      xhr.setRequestHeader('X-CLIENT-Version', getApiVersion());
       xhr.send(options.body || null);
     }),
     abort: () => xhr.abort(),
