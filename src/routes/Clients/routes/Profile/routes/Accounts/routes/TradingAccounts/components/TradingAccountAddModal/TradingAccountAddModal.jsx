@@ -2,10 +2,11 @@ import React, { PureComponent } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { I18n } from 'react-redux-i18n';
-import { createValidator, translateLabels } from '../../../../../../../../../../utils/validator';
-import { generate } from '../../../../../../../../../../utils/password';
-import { InputField, NasSelectField } from '../../../../../../../../../../components/ReduxForm';
-import PropTypes from '../../../../../../../../../../constants/propTypes';
+import { createValidator, translateLabels } from 'utils/validator';
+import { generate } from 'utils/password';
+import { getActiveBrandConfig } from 'config';
+import { InputField, NasSelectField } from 'components/ReduxForm';
+import PropTypes from 'constants/propTypes';
 import { accountTypes as accountTypesList, attributeLabels } from './constants';
 import './TradingAccountAddModal.scss';
 
@@ -153,7 +154,7 @@ const TradingAccountAddModalRedux = reduxForm({
     name: ['required', 'string', 'max:25', 'min:4'],
     mode: ['required', 'string'],
     currency: ['required', 'string'],
-    password: ['required', 'string', 'min:6'],
+    password: ['required', `regex:${getActiveBrandConfig().password.pattern}`],
   }, translateLabels(attributeLabels)),
 })(TradingAccountAddModal);
 

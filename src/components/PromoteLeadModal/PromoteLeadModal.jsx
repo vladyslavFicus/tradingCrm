@@ -5,6 +5,7 @@ import { I18n } from 'react-redux-i18n';
 import PropTypes from 'constants/propTypes';
 import languages from 'constants/languageNames';
 import { createValidator, translateLabels } from 'utils/validator';
+import { getActiveBrandConfig } from 'config';
 import countryList from 'utils/countryList';
 import { InputField, NasSelectField } from 'components/ReduxForm';
 import attributeLabels from './constants';
@@ -198,7 +199,7 @@ const PromoteLeadModal = reduxForm({
     firstName: ['required', 'string'],
     lastName: ['required', 'string'],
     email: ['required', 'string'],
-    password: ['required', 'string', 'min:6'],
+    password: ['required', `regex:${getActiveBrandConfig().password.pattern}`],
     languageCode: ['required', 'string'],
     country: ['required', 'string'],
     currency: ['required', 'string'],
