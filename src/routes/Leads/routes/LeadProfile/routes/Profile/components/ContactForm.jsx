@@ -38,7 +38,7 @@ const PhoneForm = ({
       <Field
         name="email"
         type="email"
-        label={attributeLabels.email}
+        label={I18n.t(attributeLabels.email)}
         component={InputField}
         className="col-4"
       />
