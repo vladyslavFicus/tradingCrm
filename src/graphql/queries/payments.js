@@ -10,7 +10,7 @@ const getClientPayments = gql`query getClientPayments(
   $statuses: [String]
   $paymentTypes: [String]
   $paymentAggregator: String
-  $paymentMethod: String
+  $paymentMethod: [String]
   $currency: String
   $creationTimeFrom: String
   $creationTimeTo: String
