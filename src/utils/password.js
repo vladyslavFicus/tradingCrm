@@ -1,4 +1,4 @@
-const generate = () => `A${Math.random().toString(36)}1#`;
+const generate = () => `A1#${Math.random().toString(36)}`.substr(0, 16);
 
 export {
   generate,

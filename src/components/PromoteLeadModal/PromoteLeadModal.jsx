@@ -4,9 +4,10 @@ import { reduxForm, Field } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
 import PropTypes from 'constants/propTypes';
 import languages from 'constants/languageNames';
-import { createValidator, translateLabels } from 'utils/validator';
 import { getActiveBrandConfig } from 'config';
+import { createValidator, translateLabels } from 'utils/validator';
 import countryList from 'utils/countryList';
+import { generate } from 'utils/password';
 import { InputField, NasSelectField } from 'components/ReduxForm';
 import attributeLabels from './constants';
 
@@ -14,8 +15,7 @@ const FORM_NAME = 'promoteLeadModalForm';
 
 class PromoteLead extends PureComponent {
   handleGeneratePassword = () => {
-    const value = `A${Math.random().toString(36)}1#`;
-    this.props.change('password', value);
+    this.props.change('password', generate());
   }
 
   render() {
