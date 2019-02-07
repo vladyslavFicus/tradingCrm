@@ -102,7 +102,7 @@ export default (
     .map(value => ({ value, label: I18n.t(aggregatorsLabels[value]) })),
 }, {
   type: fieldTypes.SELECT,
-  name: 'paymentMethod',
+  name: 'paymentMethods',
   label: I18n.t(attributeLabels.paymentMethod),
   multiple: true,
   placeholder: I18n.t('COMMON.SELECT_OPTION.ANY'),

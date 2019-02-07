@@ -10,7 +10,7 @@ const getClientPayments = gql`query getClientPayments(
   $statuses: [String]
   $paymentTypes: [String]
   $paymentAggregator: String
-  $paymentMethod: [String]
+  $paymentMethods: [String]
   $currency: String
   $creationTimeFrom: String
   $creationTimeTo: String
@@ -27,7 +27,7 @@ const getClientPayments = gql`query getClientPayments(
     statuses: $statuses
     paymentTypes: $paymentTypes
     paymentAggregator: $paymentAggregator
-    paymentMethod: $paymentMethod
+    paymentMethods: $paymentMethods
     currency: $currency
     creationTimeFrom: $creationTimeFrom
     creationTimeTo: $creationTimeTo
@@ -94,7 +94,7 @@ const getClientPaymentsByUuid = gql`query getClientPayments(
   $statuses: [String]
   $paymentTypes: [String]
   $paymentAggregator: String  
-  $paymentMethod: [String]
+  $paymentMethods: [String]
   $creationTimeFrom: String
   $creationTimeTo: String
   $amountFrom: String
@@ -110,7 +110,7 @@ const getClientPaymentsByUuid = gql`query getClientPayments(
     statuses: $statuses
     paymentTypes: $paymentTypes
     paymentAggregator: $paymentAggregator    
-    paymentMethod: $paymentMethod
+    paymentMethods: $paymentMethods
     creationTimeFrom: $creationTimeFrom
     creationTimeTo: $creationTimeTo
     amountFrom: $amountFrom
