@@ -2,13 +2,16 @@ import React, { Component, Fragment } from 'react';
 import { SubmissionError } from 'redux-form';
 import { get, flatten } from 'lodash';
 import { I18n } from 'react-redux-i18n';
-import PropTypes from '../../../../../../../../../constants/propTypes';
-import GridView, { GridViewColumn } from '../../../../../../../../../components/GridView';
-import { targetTypes } from '../../../../../../../../../constants/note';
-import { statusMapper } from '../../../../../../../../../constants/payment';
-import history from '../../../../../../../../../router/history';
-import { columns, filterFields } from '../../../../../../../../../utils/paymentHelpers';
-import ListFilterForm from '../../../../../../../../../components/ListFilterForm';
+import PermissionContent from 'components/PermissionContent';
+import permissions from 'config/permissions';
+import PropTypes from 'constants/propTypes';
+import GridView, { GridViewColumn } from 'components/GridView';
+import { targetTypes } from 'constants/note';
+import { statusMapper } from 'constants/payment';
+import history from 'router/history';
+import { columns, filterFields } from 'utils/paymentHelpers';
+import ListFilterForm from 'components/ListFilterForm';
+import { CONDITIONS } from 'utils/permissions';
 
 class Payments extends Component {
   static propTypes = {
@@ -105,9 +108,20 @@ class Payments extends Component {
     setNoteChangedCallback(handleRefresh);
 
     setRenderActions(() => (
-      <button className="btn btn-sm btn-primary-outline" onClick={handleOpenAddPaymentModal}>
-        {I18n.t('PLAYER_PROFILE.TRANSACTIONS.ADD_TRANSACTION')}
-      </button>
+      <PermissionContent
+        permissions={[
+          permissions.PAYMENT.DEPOSIT,
+          permissions.PAYMENT.WITHDRAW,
+          permissions.PAYMENT.CREDIT_IN,
+          permissions.PAYMENT.CREDIT_OUT,
+          permissions.PAYMENT.TRANSFER,
+        ]}
+        permissionsCondition={CONDITIONS.OR}
+      >
+        <button className="btn btn-sm btn-primary-outline" onClick={handleOpenAddPaymentModal}>
+          {I18n.t('PLAYER_PROFILE.TRANSACTIONS.ADD_TRANSACTION')}
+        </button>
+      </PermissionContent>
     ));
   }
 

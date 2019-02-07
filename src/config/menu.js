@@ -1,5 +1,7 @@
-import I18n from '../utils/fake-i18n';
-import { services } from '../constants/services';
+import I18n from 'utils/fake-i18n';
+import { services } from 'constants/services';
+import Permissions from 'utils/permissions';
+import permissions from './permissions';
 
 const sidebarTopMenu = [{
   label: I18n.t('SIDEBAR.TOP_MENU.DASHBOARD'),
@@ -20,6 +22,7 @@ const sidebarTopMenu = [{
   label: I18n.t('SIDEBAR.TOP_MENU.HIERARCHY'),
   icon: 'icon-organization',
   url: '/hierarchy/tree',
+  permissions: new Permissions(permissions.HIERARCHY.GET_TREE),
 }, {
   label: I18n.t('SIDEBAR.TOP_MENU.MANAGEMENT'),
   icon: 'icon-operators sidebar-nav-item__icon--operators',

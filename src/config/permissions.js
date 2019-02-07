@@ -13,6 +13,9 @@ export default {
     ADD_AUTHORITY: 'auth;POST;/credentials/{uuid}/authorities',
     DELETE_AUTHORITY: 'auth;DELETE;/credentials/{uuid}/authorities',
   },
+  HIERARCHY: {
+    GET_TREE: 'trading_hierarchy_updater;GET;/branch/hierarchy/{uuid}',
+  },
   USER_PROFILE: {
     SEND_ACTIVATION_LINK: 'profile;POST;/profiles/{playerUUID}/send-activation-link',
     GET_RESET_PASSWORD_TOKEN: 'auth;GET;/password/reset-token?playerUUID={playerUUID}',
@@ -63,6 +66,11 @@ export default {
     PLAYER_ACCOUNT_LIST: 'payment;GET;/accounts/{playerUUID}',
     PAYMENT_METHODS_LIST: 'payment;GET;/methods',
     ACCOUNT_LOCK: 'payment;PUT;/accounts/{paymentAccountUUID}/lock',
+    DEPOSIT: 'trading_payment;POST;/deposit',
+    WITHDRAW: 'trading_payment;POST;/withdraw',
+    CREDIT_IN: 'trading_payment;POST;/credit_in',
+    CREDIT_OUT: 'trading_payment;POST;/credit_out',
+    TRANSFER: 'trading_payment;POST;/transfer',
   },
   PAYMENT_VIEW: {
     PAYMENT_REPORT: 'payment_view;GET;/payments/payment_report',
