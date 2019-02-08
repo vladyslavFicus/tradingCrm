@@ -10,6 +10,7 @@ import { InMemoryCache } from 'apollo-cache-inmemory';
 import { BatchHttpLink } from 'apollo-link-batch-http';
 import { createUploadLink } from 'apollo-upload-client';
 import { actionCreators as modalActionCreators } from 'redux/modules/modal';
+import { actionTypes as authActionTypes } from 'redux/modules/auth';
 import { types as modalTypes } from 'constants/modals';
 import { getGraphQLRoot, getApiVersion } from '../config';
 
@@ -42,6 +43,7 @@ class ApolloProvider extends PureComponent {
     children: PropTypes.element.isRequired,
     authToken: PropTypes.string,
     triggerVersionModal: PropTypes.func.isRequired,
+    logout: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -68,7 +70,13 @@ class ApolloProvider extends PureComponent {
 
     const errorLink = onError(({ graphQLErrors, networkError }) => {
       if (graphQLErrors) {
-        graphQLErrors.forEach(({ message, locations, path }) => {
+        graphQLErrors.forEach(({ message, locations, path, extensions }) => {
+          if (extensions && extensions.code === 'UNAUTHENTICATED') {
+            this.props.logout();
+
+            return;
+          }
+
           console.log(`[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`);
         });
       }
@@ -113,7 +121,7 @@ class ApolloProvider extends PureComponent {
       cache,
       connectToDevTools: __DEV__,
     });
-  }
+  };
 
   render() {
     return (
@@ -124,7 +132,11 @@ class ApolloProvider extends PureComponent {
   }
 }
 
-export default connect(
-  ({ auth: { token } }) => ({ authToken: token }),
-  { triggerVersionModal: modalActionCreators.open },
-)(ApolloProvider);
+const mapStateToProps = ({ auth: { token } }) => ({ authToken: token });
+
+const mapDispatchToProps = dispatch => ({
+  triggerVersionModal: options => dispatch(modalActionCreators.open(options)),
+  logout: () => dispatch({ type: authActionTypes.LOGOUT.SUCCESS }),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ApolloProvider);
