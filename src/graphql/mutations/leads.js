@@ -128,7 +128,7 @@ const bulkLeadUpdate = gql`mutation bulkLeadUpdate(
   $salesStatus: String,
   $type: String!,
   $allRowsSelected: Boolean,
-  $ids: [String],
+  $leads: [LeadBulkUpdateType],
   $totalElements: Int,
   $searchParams: LeadSearchParams,
 ) {
@@ -139,7 +139,7 @@ const bulkLeadUpdate = gql`mutation bulkLeadUpdate(
       salesStatus: $salesStatus,
       type: $type,
       allRowsSelected: $allRowsSelected,
-      ids: $ids,
+      leads: $leads,
       totalElements: $totalElements,
       searchParams: $searchParams,
     ) {

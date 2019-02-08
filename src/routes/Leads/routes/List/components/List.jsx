@@ -16,9 +16,10 @@ import Uuid from 'components/Uuid';
 import MiniProfile from 'components/MiniProfile';
 import CountryLabelWithFlag from 'components/CountryLabelWithFlag';
 import GridStatusDeskTeam from 'components/GridStatusDeskTeam';
-import { leadStatuses } from '../../../constants';
-import LeadsGridFilter from './LeadsGridFilter';
 import ConvertedBy from '../../../components/ConvertedBy';
+import { leadStatuses } from '../../../constants';
+import { getLeadsData } from './utils';
+import LeadsGridFilter from './LeadsGridFilter';
 
 class List extends Component {
   static propTypes = {
@@ -243,15 +244,13 @@ class List extends Component {
       leads: { leads: { data: { content, totalElements } } },
     } = this.props;
 
-    const { allRowsSelected, selectedRows, touchedRowsIds } = this.state;
-    const ids = allRowsSelected
-      ? touchedRowsIds.map(index => content[index].id)
-      : selectedRows;
+    const { allRowsSelected, selectedRows } = this.state;
+    const leads = getLeadsData(this.state, totalElements, content);
 
     representativeModal.show({
       userType: userTypes.LEAD_CUSTOMER,
       type: deskTypes.SALES,
-      ids,
+      leads,
       configs: {
         allRowsSelected,
         totalElements,
@@ -269,7 +268,17 @@ class List extends Component {
   };
 
   handleSuccessUpdateRepresentative = () => {
-    this.props.leads.refetch();
+    const { location: { query } } = this.props;
+
+    this.props.leads.refetch({
+      fetchPolicy: 'network-only',
+      notifyOnNetworkStatusChange: true,
+      variables: {
+        ...query && query.filters,
+        page: 0,
+        limit: 20,
+      },
+    });
   };
 
   renderLead = data => (
@@ -438,14 +447,16 @@ class List extends Component {
               >
                 {I18n.t('COMMON.UPLOAD')}
               </button>
-              {/*<button*/}
-                {/*disabled={!allowActions}*/}
-                {/*className="btn btn-default-outline margin-left-15"*/}
-                {/*onClick={this.handleExport}*/}
-                {/*type="button"*/}
-              {/*>*/}
-                {/*{I18n.t('COMMON.EXPORT')}*/}
-              {/*</button>*/}
+              {/*
+                <button
+                  disabled={!allowActions}
+                  className="btn btn-default-outline margin-left-15"
+                  onClick={this.handleExport}
+                  type="button"
+                >
+                  {I18n.t('COMMON.EXPORT')}
+                </button>
+              */}
             </div>
           </If>
         </div>
