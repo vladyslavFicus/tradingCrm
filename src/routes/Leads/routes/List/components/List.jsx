@@ -120,7 +120,7 @@ class List extends Component {
   };
 
   handleLeadClick = ({ id }) => {
-    history.push(`/leads/${id}`);
+    window.open(`/leads/${id}`, '_blank');
   };
 
   handleSelectRow = (condition, index, touchedRowsIds) => {
