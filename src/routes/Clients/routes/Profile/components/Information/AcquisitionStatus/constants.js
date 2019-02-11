@@ -21,7 +21,7 @@ const transformAcquisitionData = (data, department) => aquisitionStatuses.map(({
         statusColor,
         statusLabel: renderLabel(status, salesStatuses),
         borderColor: aquisitionStatus === value ? statusColor : null,
-        repName: representative.fullName,
+        repName: representative && representative.fullName,
         modalType: value,
         allowAction: department !== departments.RETENTION,
       };
@@ -34,7 +34,7 @@ const transformAcquisitionData = (data, department) => aquisitionStatuses.map(({
         statusColor,
         statusLabel: renderLabel(status, retentionStatuses),
         borderColor: aquisitionStatus === value ? statusColor : null,
-        repName: representative.fullName,
+        repName: representative && representative.fullName,
         modalType: value,
         allowAction: department !== departments.SALES,
       };
