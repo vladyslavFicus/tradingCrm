@@ -111,9 +111,9 @@ export default (
   render: (data) => {
     const {
       salesStatus,
-      salesRep: { fullName, hierarchy },
+      salesRep,
       aquisitionStatus,
-    } = get(data, 'tradingProfile') || { salesRep: { fullName: '' } };
+    } = get(data, 'tradingProfile');
     const colorClassName = salesStatusesColor[salesStatus];
 
     return (
@@ -124,10 +124,12 @@ export default (
             colorClassName={colorClassName}
             statusLabel={renderLabel(salesStatus, salesStatuses)}
             info={
-              <GridStatusDeskTeam
-                fullName={fullName}
-                hierarchy={hierarchy}
-              />
+              <If condition={salesRep}>
+                <GridStatusDeskTeam
+                  fullName={salesRep.fullName}
+                  hierarchy={salesRep.hierarchy}
+                />
+              </If>
             }
           />
         </When>
@@ -143,9 +145,9 @@ export default (
   render: (data) => {
     const {
       retentionStatus,
-      retentionRep: { fullName, hierarchy },
+      retentionRep,
       aquisitionStatus,
-    } = get(data, 'tradingProfile') || { retentionRep: { fullName: '' } };
+    } = get(data, 'tradingProfile');
     const colorClassName = retentionStatusesColor[retentionStatus];
 
     return (
@@ -156,10 +158,12 @@ export default (
             colorClassName={colorClassName}
             statusLabel={renderLabel(retentionStatus, retentionStatuses)}
             info={
-              <GridStatusDeskTeam
-                fullName={fullName}
-                hierarchy={hierarchy}
-              />
+              <If condition={retentionRep}>
+                <GridStatusDeskTeam
+                  fullName={retentionRep.fullName}
+                  hierarchy={retentionRep.hierarchy}
+                />
+              </If>
             }
           />
         </When>

@@ -4,6 +4,7 @@ import { I18n } from 'react-redux-i18n';
 import moment from 'moment';
 import { get } from 'lodash';
 import Uuid from 'components/Uuid';
+import GridStatusDeskTeam from 'components/GridStatusDeskTeam';
 import {
   statusColorNames as userStatusColorNames,
   statusesLabels as userStatusesLabels,
@@ -107,9 +108,9 @@ export default ({ auth, fetchPlayerMiniProfile }) => [{
   render: (data) => {
     const {
       salesStatus,
-      salesRep: { fullName },
+      salesRep,
       aquisitionStatus,
-    } = get(data, 'tradingProfile') || { salesRep: { fullName: '' } };
+    } = get(data, 'tradingProfile');
     const colorClassName = salesStatusesColor[salesStatus];
 
     return (
@@ -119,7 +120,14 @@ export default ({ auth, fetchPlayerMiniProfile }) => [{
             wrapperClassName={aquisitionStatus === 'SALES' ? `border-${colorClassName}` : ''}
             colorClassName={colorClassName}
             statusLabel={renderLabel(salesStatus, salesStatuses)}
-            info={fullName}
+            info={
+              <If condition={salesRep}>
+                <GridStatusDeskTeam
+                  fullName={salesRep.fullName}
+                  hierarchy={salesRep.hierarchy}
+                />
+              </If>
+            }
           />
         </When>
         <Otherwise>
@@ -134,9 +142,9 @@ export default ({ auth, fetchPlayerMiniProfile }) => [{
   render: (data) => {
     const {
       retentionStatus,
-      retentionRep: { fullName },
+      retentionRep,
       aquisitionStatus,
-    } = get(data, 'tradingProfile') || { retentionRep: { fullName: '' } };
+    } = get(data, 'tradingProfile');
     const colorClassName = retentionStatusesColor[retentionStatus];
 
     return (
@@ -146,7 +154,14 @@ export default ({ auth, fetchPlayerMiniProfile }) => [{
             wrapperClassName={aquisitionStatus === 'RETENTION' ? `border-${colorClassName}` : ''}
             colorClassName={colorClassName}
             statusLabel={renderLabel(retentionStatus, retentionStatuses)}
-            info={fullName}
+            info={
+              <If condition={retentionRep}>
+                <GridStatusDeskTeam
+                  fullName={retentionRep.fullName}
+                  hierarchy={retentionRep.hierarchy}
+                />
+              </If>
+            }
           />
         </When>
         <Otherwise>
