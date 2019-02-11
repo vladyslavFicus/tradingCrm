@@ -70,10 +70,12 @@ const Personal = (props) => {
             verified={kycAddressStatus && kycAddressStatus.status === kycStatuses.VERIFIED}
           />
           <If condition={affiliateProfile}>
-            <PersonalInformationItem
-              label={I18n.t('CLIENT_PROFILE.DETAILS.AFFILIATE')}
-              value={affiliateProfile.affiliate.fullName}
-            />
+            <If condition={affiliateProfile.affiliate}>
+              <PersonalInformationItem
+                label={I18n.t('CLIENT_PROFILE.DETAILS.AFFILIATE')}
+                value={affiliateProfile.affiliate.fullName}
+              />
+            </If>
             <strong>{I18n.t('CLIENT_PROFILE.DETAILS.AFFILIATE_ID')}</strong>: <Uuid uuid={affiliateProfile._id} />
             <PersonalInformationItem
               label={I18n.t('CLIENT_PROFILE.DETAILS.SOURCE')}

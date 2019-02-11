@@ -96,7 +96,9 @@ export default (
     return (
       <Choose>
         <When condition={affiliateProfile}>
-          <div className="header-block-middle">{affiliateProfile.affiliate.fullName}</div>
+          <If condition={affiliateProfile.affiliate}>
+            <div className="header-block-middle">{affiliateProfile.affiliate.fullName}</div>
+          </If>
           <Uuid className="header-block-small" uuid={affiliateProfile._id} />
         </When>
         <Otherwise>
