@@ -237,14 +237,14 @@ const markIsTestMutation = gql`mutation markIsTest($playerUUID: String!, $isTest
 
 const clientsBulkRepresentativeUpdate = gql`mutation bulkRepresentativeUpdate(
   $teamId: String,
-  $salesRep: String
-  $retentionRep: String,
+  $salesRep: [String]
+  $retentionRep: [String],
   $salesStatus: String,
   $retentionStatus: String,
   $aquisitionStatus: String,
   $type: String!,
   $allRowsSelected: Boolean,
-  $ids: [String],
+  $clients: [ClientBulkUpdateType],
   $totalElements: Int,
   $searchParams: ClientSearchParams,
 ) {
@@ -258,7 +258,7 @@ const clientsBulkRepresentativeUpdate = gql`mutation bulkRepresentativeUpdate(
       aquisitionStatus: $aquisitionStatus,
       type: $type,
       allRowsSelected: $allRowsSelected,
-      ids: $ids,
+      clients: $clients,
       totalElements: $totalElements,
       searchParams: $searchParams,
     ) {

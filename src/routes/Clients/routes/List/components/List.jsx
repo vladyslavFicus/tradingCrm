@@ -13,6 +13,7 @@ import Placeholder from 'components/Placeholder';
 import withPlayerClick from 'utils/withPlayerClick';
 import UserGridFilter from './UsersGridFilter';
 import { columns } from './attributes';
+import { getClientsData } from './utils';
 
 class List extends Component {
   static propTypes = {
@@ -164,17 +165,16 @@ class List extends Component {
       profiles: { profiles: { data: { content, totalElements } } },
     } = this.props;
 
-    const { allRowsSelected, selectedRows, touchedRowsIds } = this.state;
-    const ids = allRowsSelected
-      ? touchedRowsIds.map(index => content[index].playerUUID)
-      : selectedRows;
+    const { allRowsSelected, selectedRows } = this.state;
+    const clients = getClientsData(this.state, totalElements, type, content);
 
     representativeModal.show({
       type,
-      ids,
+      clients,
       configs: {
         allRowsSelected,
         totalElements,
+        multiAssign: true,
         ...query && { searchParams: { ...query.filters } },
       },
       onSuccess: this.handleSuccessUpdateRepresentative,

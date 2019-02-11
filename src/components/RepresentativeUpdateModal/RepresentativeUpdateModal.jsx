@@ -3,16 +3,16 @@ import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Field, SubmissionError } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
 import { get, omit } from 'lodash';
-import PropTypes from '../../constants/propTypes';
-import { deskTypes, userTypes } from '../../constants/hierarchyTypes';
-import { salesStatuses, salesStatusValues } from '../../constants/salesStatuses';
-import { retentionStatuses, retentionStatusValues } from '../../constants/retentionStatuses';
-import { NasSelectField } from '../../components/ReduxForm';
+import PropTypes from 'constants/propTypes';
+import { deskTypes, userTypes } from 'constants/hierarchyTypes';
+import { salesStatuses, salesStatusValues } from 'constants/salesStatuses';
+import { retentionStatuses, retentionStatusValues } from 'constants/retentionStatuses';
+import { NasSelectField } from 'components/ReduxForm';
 import {
   getUsersByBranch,
   getBranchChildren,
-} from '../../graphql/queries/hierarchy';
-import renderLabel from '../../utils/renderLabel';
+} from 'graphql/queries/hierarchy';
+import renderLabel from 'utils/renderLabel';
 import { attributeLabels, components, getAgents, filterAgents, fieldNames } from './constants';
 
 class RepresentativeUpdateModal extends Component {
@@ -57,7 +57,7 @@ class RepresentativeUpdateModal extends Component {
     additionalFields: PropTypes.array,
     selectedDesk: PropTypes.string,
     selectedTeam: PropTypes.string,
-    selectedRep: PropTypes.string,
+    selectedRep: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
     currentStatus: PropTypes.string,
     configs: PropTypes.shape({
       multiAssign: PropTypes.bool,
@@ -183,7 +183,7 @@ class RepresentativeUpdateModal extends Component {
 
   handleUpdateRepresentative = async ({ teamId, repId, status, aquisitionStatus }) => {
     const {
-      ids,
+      clients,
       type,
       configs,
       notify,
@@ -197,7 +197,7 @@ class RepresentativeUpdateModal extends Component {
     const { allRowsSelected, totalElements, searchParams } = configs || {};
 
     const variables = {
-      ids,
+      clients,
       teamId,
       type,
       allRowsSelected,
