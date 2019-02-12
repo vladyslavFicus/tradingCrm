@@ -1333,7 +1333,7 @@
           "MIGRATION": "Migration",
           "INTERNAL_TRANSFER": "Internal transfer",
           "ELECTRONIC": "Electronic",
-          "NONE": "None"
+          "BONUS": "Bonus"
         },
         "ATTRIBUTES_PLACEHOLDERS": {
           "KEYWORD": "Transaction ID, Player, External reference",

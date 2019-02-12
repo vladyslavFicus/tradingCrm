@@ -56,7 +56,7 @@ const manualPaymentMethods = keyMirror({
   MIGRATION: null,
   INTERNAL_TRANSFER: null,
   ELECTRONIC: null,
-  NONE: null,
+  BONUS: null,
 });
 
 const methodStatuses = keyMirror({
@@ -203,7 +203,7 @@ const manualPaymentMethodsLabels = {
   [manualPaymentMethods.MIGRATION]: 'CONSTANTS.TRANSACTIONS.FILTER_FORM.PAYMENT_ACCOUNTS.MIGRATION',
   [manualPaymentMethods.INTERNAL_TRANSFER]: 'CONSTANTS.TRANSACTIONS.FILTER_FORM.PAYMENT_ACCOUNTS.INTERNAL_TRANSFER',
   [manualPaymentMethods.ELECTRONIC]: 'CONSTANTS.TRANSACTIONS.FILTER_FORM.PAYMENT_ACCOUNTS.ELECTRONIC',
-  [manualPaymentMethods.NONE]: 'CONSTANTS.TRANSACTIONS.FILTER_FORM.PAYMENT_ACCOUNTS.NONE',
+  [manualPaymentMethods.BONUS]: 'CONSTANTS.TRANSACTIONS.FILTER_FORM.PAYMENT_ACCOUNTS.BONUS',
 };
 
 const methodsStatusesLabels = {
