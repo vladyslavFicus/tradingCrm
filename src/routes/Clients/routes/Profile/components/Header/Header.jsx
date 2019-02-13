@@ -3,23 +3,23 @@ import moment from 'moment';
 import classNames from 'classnames';
 import { SubmissionError } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
-import PropTypes from '../../../../../../constants/propTypes';
-import PlayerStatus from '../PlayerStatus';
-import ActionsDropDown from '../../../../../../components/ActionsDropDown';
-import Balances from '../Balances';
-import PopoverButton from '../../../../../../components/PopoverButton';
-import permissions from '../../../../../../config/permissions';
-import Permissions from '../../../../../../utils/permissions';
-import Volume from '../Volume';
-import ProfileLastLogin from '../../../../../../components/ProfileLastLogin';
-import Uuid from '../../../../../../components/Uuid';
-import HeaderPlayerPlaceholder from '../HeaderPlayerPlaceholder';
-import { statuses } from '../../../../../../constants/user';
-import { services } from '../../../../../../constants/services';
-import PermissionContent from '../../../../../../components/PermissionContent';
-import { withServiceCheck } from '../../../../../../components/HighOrder';
-import StickyWrapper from '../../../../../../components/StickyWrapper';
+import PropTypes from 'constants/propTypes';
+import ActionsDropDown from 'components/ActionsDropDown';
+import PopoverButton from 'components/PopoverButton';
+import permissions from 'config/permissions';
+import Permissions from 'utils/permissions';
+import ProfileLastLogin from 'components/ProfileLastLogin';
+import Uuid from 'components/Uuid';
+import { statuses } from 'constants/user';
+import { services } from 'constants/services';
+import PermissionContent from 'components/PermissionContent';
+import { withServiceCheck } from 'components/HighOrder';
+import StickyWrapper from 'components/StickyWrapper';
 import ActivePlan from '../ActivePlan';
+import PlayerStatus from '../PlayerStatus';
+import Volume from '../Volume';
+import Balances from '../Balances';
+import HeaderPlayerPlaceholder from '../HeaderPlayerPlaceholder';
 
 const sendActivationLinkPermission = new Permissions([permissions.USER_PROFILE.SEND_ACTIVATION_LINK]);
 
@@ -65,6 +65,10 @@ class Header extends Component {
     onChangePasswordClick: PropTypes.func.isRequired,
     onShareProfileClick: PropTypes.func.isRequired,
     checkService: PropTypes.func.isRequired,
+    unlockLogin: PropTypes.func.isRequired,
+    loginLock: PropTypes.shape({
+      lock: PropTypes.bool,
+    }).isRequired,
   };
 
   static contextTypes = {
@@ -120,6 +124,10 @@ class Header extends Component {
       onChangePasswordClick,
       onShareProfileClick,
       checkService,
+      unlockLogin,
+      loginLock: {
+        lock,
+      },
     } = this.props;
 
     const { permissions: currentPermissions } = this.context;
@@ -163,6 +171,15 @@ class Header extends Component {
               </div>
             </HeaderPlayerPlaceholder>
             <div className="panel-heading-row__actions">
+              <If condition={lock}>
+                <button
+                  onClick={unlockLogin}
+                  type="button"
+                  className="btn btn-sm mx-3 btn-primary"
+                >
+                  {I18n.t('PLAYER_PROFILE.PROFILE.HEADER.UNLOCK')}
+                </button>
+              </If>
               <PermissionContent permissions={permissions.TAGS.ADD_TAG}>
                 <PopoverButton
                   id="header-add-note-button"

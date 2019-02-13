@@ -2,11 +2,13 @@ import { connect } from 'react-redux';
 import { graphql, compose } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
 import { withNotifications, withModals } from 'components/HighOrder';
+import config, { getBrandId } from 'config';
+import { clientQuery, getLoginLock } from 'graphql/queries/profile';
+import { notesQuery } from 'graphql/queries/notes';
 import ConfirmActionModal from 'components/Modal/ConfirmActionModal';
 import RepresentativeUpdateModal from 'components/RepresentativeUpdateModal';
 import NoteModal from 'components/NoteModal';
-import { clientQuery } from 'graphql/queries/profile';
-import { notesQuery } from 'graphql/queries/notes';
+import { unlockLoginMutation } from 'graphql/mutations/auth';
 import {
   updateSubscription,
   blockMutation,
@@ -24,10 +26,9 @@ import {
   removeNote,
   addPinnedNote,
 } from 'graphql/mutations/note';
-import config, { getBrandId } from 'config';
-import { actionCreators } from '../modules';
 import { actionCreators as filesActionCreators } from '../modules/files';
 import Profile from '../components/Profile';
+import { actionCreators } from '../modules';
 
 const mapStateToProps = (state) => {
   const {
@@ -93,6 +94,37 @@ export default compose(
   }),
   graphql(suspendProlong, {
     name: 'suspendProlong',
+  }),
+  graphql(unlockLoginMutation, {
+    options: ({
+      match: {
+        params: {
+          id: playerUUID,
+        },
+      },
+    }) => ({
+      refetchQueries: [{
+        query: getLoginLock,
+        variables: {
+          playerUUID,
+        },
+      }],
+    }),
+    name: 'unlockLoginMutation',
+  }),
+  graphql(getLoginLock, {
+    options: ({
+      match: {
+        params: {
+          id: playerUUID,
+        },
+      },
+    }) => ({
+      variables: {
+        playerUUID,
+      },
+    }),
+    name: 'getLoginLock',
   }),
   graphql(passwordResetRequest, {
     name: 'passwordResetRequest',

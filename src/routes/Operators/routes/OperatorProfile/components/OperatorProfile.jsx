@@ -1,16 +1,17 @@
 import React, { Component } from 'react';
 import { I18n } from 'react-redux-i18n';
 import { Switch, Redirect } from 'react-router-dom';
-import { Route } from '../../../../../router';
-import Information from '../components/Information';
-import Tabs from '../../../../../components/Tabs';
-import NotFound from '../../../../../routes/NotFound';
-import { operatorProfileTabs } from '../../../../../config/menu';
-import Header from '../components/Header';
-import PropTypes from '../../../../../constants/propTypes';
-import HideDetails from '../../../../../components/HideDetails';
+import { get } from 'lodash';
+import { Route } from 'router';
+import Tabs from 'components/Tabs';
+import NotFound from 'routes/NotFound';
+import { operatorProfileTabs } from 'config/menu';
+import PropTypes from 'constants/propTypes';
+import HideDetails from 'components/HideDetails';
 import Edit from '../routes/Edit';
 import Feed from '../routes/Feed';
+import Information from '../components/Information';
+import Header from '../components/Header';
 
 class OperatorProfileLayout extends Component {
   static propTypes = {
@@ -34,6 +35,7 @@ class OperatorProfileLayout extends Component {
     modals: PropTypes.shape({
       confirmActionModal: PropTypes.modalType,
     }).isRequired,
+    getLoginLock: PropTypes.object.isRequired,
   };
 
   static defaultProps={
@@ -118,6 +120,26 @@ class OperatorProfileLayout extends Component {
     });
   };
 
+  unlockLogin = async () => {
+    const { unlockLoginMutation, match: { params: { id: playerUUID } }, notify } = this.props;
+    const response = await unlockLoginMutation({ variables: { playerUUID } });
+    const success = get(response, 'data.auth.unlockLogin.data.success');
+
+    if (success) {
+      notify({
+        level: 'success',
+        title: I18n.t('OPERATOR_PROFILE.NOTIFICATIONS.SUCCESS_UNLOCK.TITLE'),
+        message: I18n.t('OPERATOR_PROFILE.NOTIFICATIONS.SUCCESS_UNLOCK.MESSAGE'),
+      });
+    } else {
+      notify({
+        level: 'error',
+        title: I18n.t('OPERATOR_PROFILE.NOTIFICATIONS.ERROR_UNLOCK.TITLE'),
+        message: I18n.t('OPERATOR_PROFILE.NOTIFICATIONS.ERROR_UNLOCK.MESSAGE'),
+      });
+    }
+  }
+
   render() {
     const {
       location,
@@ -128,7 +150,10 @@ class OperatorProfileLayout extends Component {
       availableStatuses,
       changeStatus,
       authorities: { data: authorities },
+      getLoginLock,
     } = this.props;
+
+    const loginLock = get(getLoginLock, 'loginLock', {});
 
     if (error) {
       return <NotFound />;
@@ -147,6 +172,8 @@ class OperatorProfileLayout extends Component {
             onResetPasswordClick={this.handleResetPasswordClick}
             onSendInvitationClick={this.handleSendInvitationClick}
             onStatusChange={changeStatus}
+            unlockLogin={this.unlockLogin}
+            loginLock={loginLock}
           />
           <HideDetails>
             <Information

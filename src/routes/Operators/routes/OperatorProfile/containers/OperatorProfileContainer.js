@@ -1,10 +1,12 @@
 import { connect } from 'react-redux';
-import { compose } from 'redux';
+import { graphql, compose } from 'react-apollo';
+import { unlockLoginMutation } from 'graphql/mutations/auth';
+import { getLoginLock } from 'graphql/queries/profile';
+import { statusActions } from 'constants/operators';
+import { withModals, withNotifications } from 'components/HighOrder';
+import ConfirmActionModal from 'components/Modal/ConfirmActionModal';
 import OperatorProfile from '../components/OperatorProfile';
 import { actionCreators } from '../modules';
-import { statusActions } from '../../../../../constants/operators';
-import { withModals } from '../../../../../components/HighOrder';
-import ConfirmActionModal from '../../../../../components/Modal/ConfirmActionModal';
 
 const mapStateToProps = (state) => {
   const {
@@ -38,4 +40,36 @@ export default compose(
     confirmActionModal: ConfirmActionModal,
   }),
   connect(mapStateToProps, mapActions),
+  graphql(unlockLoginMutation, {
+    options: ({
+      match: {
+        params: {
+          id: playerUUID,
+        },
+      },
+    }) => ({
+      refetchQueries: [{
+        query: getLoginLock,
+        variables: {
+          playerUUID,
+        },
+      }],
+    }),
+    name: 'unlockLoginMutation',
+  }),
+  graphql(getLoginLock, {
+    options: ({
+      match: {
+        params: {
+          id: playerUUID,
+        },
+      },
+    }) => ({
+      variables: {
+        playerUUID,
+      },
+    }),
+    name: 'getLoginLock',
+  }),
+  withNotifications,
 )(OperatorProfile);

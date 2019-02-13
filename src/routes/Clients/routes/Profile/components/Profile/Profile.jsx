@@ -3,18 +3,19 @@ import ImageViewer from 'react-images';
 import { get } from 'lodash';
 import { I18n } from 'react-redux-i18n';
 import { Switch, Redirect } from 'react-router-dom';
+import Tabs from 'components/Tabs';
+import Modal from 'components/Modal';
+import { Route } from 'router';
 import Permissions from 'utils/permissions';
-import getFileBlobUrl from 'utils/getFileBlobUrl';
 import {
   actions as statusActions,
   statusActions as userStatuses,
   statuses as playerProfileStatuses,
 } from 'constants/user';
+import NotePopover from 'components/NotePopover';
 import PropTypes from 'constants/propTypes';
 import { viewType as noteViewType } from 'constants/note';
-import Tabs from 'components/Tabs';
-import Modal from 'components/Modal';
-import NotePopover from 'components/NotePopover';
+import getFileBlobUrl from 'utils/getFileBlobUrl';
 import {
   UploadModal as UploadFileModal,
   DeleteModal as DeleteFileModal,
@@ -22,8 +23,6 @@ import {
 import ChangePasswordModal from 'components/ChangePasswordModal';
 import BackToTop from 'components/BackToTop';
 import HideDetails from 'components/HideDetails';
-import { Route } from 'router';
-import NotFound from '../../../../../NotFound';
 import {
   ClientView,
   Transactions,
@@ -33,11 +32,12 @@ import {
   Feed,
   Callbacks,
 } from '../../routes';
-import Header from '../Header';
-import Information from '../Information';
-import ShareLinkModal from '../ShareLinkModal';
+import NotFound from '../../../../../NotFound';
 import { getAcquisitionFields } from './utils';
 import { userProfileTabs, moveField } from './constants';
+import ShareLinkModal from '../ShareLinkModal';
+import Information from '../Information';
+import Header from '../Header';
 
 const NOTE_POPOVER = 'note-popover';
 const popoverInitialState = {
@@ -117,6 +117,7 @@ class Profile extends Component {
       confirmActionModal: PropTypes.modalType,
       noteModal: PropTypes.modalType,
     }).isRequired,
+    getLoginLock: PropTypes.object.isRequired,
   };
   static contextTypes = {
     permissions: PropTypes.array.isRequired,
@@ -266,6 +267,26 @@ class Profile extends Component {
       }
     }
   };
+
+  unlockLogin = async () => {
+    const { unlockLoginMutation, match: { params: { id: playerUUID } }, notify } = this.props;
+    const response = await unlockLoginMutation({ variables: { playerUUID } });
+    const success = get(response, 'data.auth.unlockLogin.data.success');
+
+    if (success) {
+      notify({
+        level: 'success',
+        title: I18n.t('PLAYER_PROFILE.NOTIFICATIONS.SUCCESS_UNLOCK.TITLE'),
+        message: I18n.t('PLAYER_PROFILE.NOTIFICATIONS.SUCCESS_UNLOCK.MESSAGE'),
+      });
+    } else {
+      notify({
+        level: 'error',
+        title: I18n.t('PLAYER_PROFILE.NOTIFICATIONS.ERROR_UNLOCK.TITLE'),
+        message: I18n.t('PLAYER_PROFILE.NOTIFICATIONS.ERROR_UNLOCK.MESSAGE'),
+      });
+    }
+  }
 
   handleOpenModal = (name, params) => {
     this.setState({
@@ -692,10 +713,12 @@ class Profile extends Component {
         },
       },
       locale,
+      getLoginLock,
     } = this.props;
 
     const profile = get(playerProfile, 'data');
     const acquisitionData = get(profile, 'tradingProfile') ? getAcquisitionFields(profile.tradingProfile) : {};
+    const loginLock = get(getLoginLock, 'loginLock', {});
 
     return (
       <Fragment>
@@ -711,6 +734,8 @@ class Profile extends Component {
             onResetPasswordClick={this.handleResetPasswordClick}
             onProfileActivateClick={this.handleProfileActivateClick}
             onRefreshClick={() => this.handleLoadProfile(true)}
+            unlockLogin={this.unlockLogin}
+            loginLock={loginLock}
             loaded={!loading}
             onChangePasswordClick={this.handleChangePasswordClick}
             onShareProfileClick={this.handleShareProfileClick}

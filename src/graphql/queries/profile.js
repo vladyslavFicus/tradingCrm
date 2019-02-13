@@ -319,10 +319,17 @@ const clientPaymentsStatistic = gql`query clientPaymentsStatistic(
   }
 }`;
 
+const getLoginLock = gql`query getLoginLock($playerUUID: String!) {
+  loginLock(playerUUID: $playerUUID) {
+    lock
+  }
+}`;
+
 export {
   realBaseCurrencyQuery,
   clientPaymentsStatistic,
   clientsQuery,
   clientQuery,
+  getLoginLock,
 };
 

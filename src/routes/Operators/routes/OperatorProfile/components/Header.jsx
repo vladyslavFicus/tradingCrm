@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import moment from 'moment';
 import { Button } from 'reactstrap';
 import { I18n } from 'react-redux-i18n';
-import Uuid from '../../../../../components/Uuid';
-import { statusColorNames, statuses } from '../../../../../constants/operators';
+import Uuid from 'components/Uuid';
+import { statusColorNames, statuses } from 'constants/operators';
+import PropTypes from 'constants/propTypes';
+import PermissionContent from 'components/PermissionContent';
+import permissions from 'config/permissions';
 import AccountStatus from './AccountStatus';
-import PropTypes from '../../../../../constants/propTypes';
-import PermissionContent from '../../../../../components/PermissionContent';
-import permissions from '../../../../../config/permissions';
 
 class Header extends Component {
   static propTypes = {
@@ -21,6 +21,10 @@ class Header extends Component {
     onStatusChange: PropTypes.func.isRequired,
     onResetPasswordClick: PropTypes.func.isRequired,
     onSendInvitationClick: PropTypes.func.isRequired,
+    unlockLogin: PropTypes.func.isRequired,
+    loginLock: PropTypes.shape({
+      lock: PropTypes.bool,
+    }).isRequired,
   };
 
   handleStatusChange = (data) => {
@@ -44,6 +48,10 @@ class Header extends Component {
       availableStatuses,
       onResetPasswordClick,
       onSendInvitationClick,
+      unlockLogin,
+      loginLock: {
+        lock,
+      },
     } = this.props;
 
     return (
@@ -61,6 +69,15 @@ class Header extends Component {
             </span>
           </div>
           <div className="col-auto panel-heading-row__actions">
+            <If condition={lock}>
+              <button
+                onClick={unlockLogin}
+                type="button"
+                className="btn btn-sm mx-3 btn-primary"
+              >
+                {I18n.t('OPERATOR_PROFILE.PROFILE.HEADER.UNLOCK')}
+              </button>
+            </If>
             {
               operatorStatus === statuses.INACTIVE &&
               <PermissionContent permissions={permissions.OPERATORS.OPERATOR_SEND_INVITATION}>

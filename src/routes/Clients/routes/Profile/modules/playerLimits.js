@@ -92,26 +92,6 @@ function unlockWallet({ playerUUID, type, reason }) {
   };
 }
 
-function unlockLogin(uuid) {
-  return (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
-
-    return dispatch({
-      [CALL_API]: {
-        endpoint: `auth/credentials/${uuid}/lock`,
-        method: 'DELETE',
-        types: [UNLOCK_LOGIN.REQUEST, UNLOCK_LOGIN.SUCCESS, UNLOCK_LOGIN.FAILURE],
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        bailout: !logged,
-      },
-    });
-  };
-}
-
 function playerLimitAction({
   playerUUID, action, type, reason,
 }) {
@@ -191,7 +171,6 @@ const actionTypes = {
 const actionCreators = {
   checkLock,
   playerLimitAction,
-  unlockLogin,
 };
 
 export {

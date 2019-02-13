@@ -234,7 +234,8 @@
       },
       "HEADER": {
         "ADD_NOTE": "Add note",
-        "NO_FULLNAME": "No name"
+        "NO_FULLNAME": "No name",
+        "UNLOCK": "Unlock login"
       },
       "RESET_PASSWORD_MODAL": {
         "TITLE": "Password reset - Confirmation",
@@ -440,6 +441,14 @@
       "SUCCESS_SET_NEW_PASSWORD": {
         "TITLE": "Success",
         "MESSAGE": "Password changed successfully"
+      },
+      "SUCCESS_UNLOCK": {
+        "TITLE": "Success",
+        "MESSAGE": " Client unlocked successfully"
+      },
+      "ERROR_UNLOCK": {
+        "TITLE": "Error",
+        "MESSAGE": "Client unlocked unsuccessfully"
       },
       "SET_PLAYER_AS_TEST": "Set player as test",
       "UN_SET_PLAYER_AS_TEST": "Unset player as test"
@@ -1490,6 +1499,21 @@
     },
     "PERSONAL_INFORMATION": {
       "TITLE": "Personal information"
+    },
+    "PROFILE": {
+      "HEADER": {
+        "UNLOCK": "Unlock login"
+      }
+    },
+    "NOTIFICATIONS": {
+      "SUCCESS_UNLOCK": {
+        "TITLE": "success",
+        "MESSAGE": "Operator unlocked successfully"
+      }
+    },
+    "ERROR_UNLOCK": {
+      "TITLE": "error",
+      "MESSAGE": "Operator unlocked unsuccessfully"
     }
   },
   "FEED_ITEM": {
