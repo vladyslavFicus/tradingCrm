@@ -115,7 +115,7 @@ export default (
       salesStatus,
       salesRep,
       aquisitionStatus,
-    } = get(data, 'tradingProfile');
+    } = get(data, 'tradingProfile') || {};
     const colorClassName = salesStatusesColor[salesStatus];
 
     return (
@@ -149,7 +149,7 @@ export default (
       retentionStatus,
       retentionRep,
       aquisitionStatus,
-    } = get(data, 'tradingProfile');
+    } = get(data, 'tradingProfile') || {};
     const colorClassName = retentionStatusesColor[retentionStatus];
 
     return (
