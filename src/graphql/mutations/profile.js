@@ -271,30 +271,6 @@ const clientsBulkRepresentativeUpdate = gql`mutation bulkRepresentativeUpdate(
   }
 }`;
 
-const clientsProfileBulkUpdate = gql`mutation profileBulkUpdate(
-  $aquisitionStatus: String,
-  $allRowsSelected: Boolean!,
-  $ids: [String],
-  $totalElements: Int,
-  $searchParams: ClientSearchParams,
-) {
-  clients {
-    profileBulkUpdate (
-      aquisitionStatus: $aquisitionStatus,
-      allRowsSelected: $allRowsSelected,
-      ids: $ids,
-      totalElements: $totalElements,
-      searchParams: $searchParams,
-    ) {
-      data
-      error {
-        error
-        fields_errors
-      }
-    }
-  }
-}`;
-
 const updateMutation = gql`mutation update(
   $playerUUID: String!,
   $phone1: String,
@@ -336,6 +312,5 @@ export {
   updateBTAGMutation,
   markIsTestMutation,
   clientsBulkRepresentativeUpdate,
-  clientsProfileBulkUpdate,
   updateMutation,
 };

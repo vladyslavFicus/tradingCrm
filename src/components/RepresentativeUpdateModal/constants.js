@@ -19,6 +19,7 @@ export const fieldNames = {
   TEAM: 'teamId',
   REPRESENTATIVE: 'repId',
   STATUS: 'status',
+  ACQUISITION: 'aquisitionStatus',
 };
 
 export const getAgents = (apolloResponse, userType) => {

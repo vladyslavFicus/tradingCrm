@@ -3,7 +3,7 @@ import { withApollo, graphql, compose } from 'react-apollo';
 import { withNotifications, withModals } from 'components/HighOrder';
 import RepresentativeUpdateModal from 'components/RepresentativeUpdateModal';
 import { getUserBranchHierarchy } from 'graphql/queries/hierarchy';
-import { clientsBulkRepresentativeUpdate, clientsProfileBulkUpdate } from 'graphql/mutations/profile';
+import { clientsBulkRepresentativeUpdate } from 'graphql/mutations/profile';
 import { clientsQuery } from 'graphql/queries/profile';
 import countries from 'utils/countryList';
 import limitItems from 'utils/limitItems';
@@ -42,9 +42,6 @@ export default compose(
   connect(mapStateToProps, mapActions),
   graphql(clientsBulkRepresentativeUpdate, {
     name: 'bulkRepresentativeUpdate',
-  }),
-  graphql(clientsProfileBulkUpdate, {
-    name: 'profileBulkUpdate',
   }),
   graphql(getUserBranchHierarchy, {
     name: 'userBranchHierarchy',

@@ -21,6 +21,7 @@ const mapStateToProps = state => ({
   selectedDesk: selector(state, fieldNames.DESK),
   selectedTeam: selector(state, fieldNames.TEAM),
   selectedRep: selector(state, fieldNames.REPRESENTATIVE),
+  selectedAcquisition: selector(state, fieldNames.ACQUISITION),
   currentStatus: selector(state, fieldNames.STATUS),
 });
 
@@ -70,6 +71,7 @@ export default compose(
         deskId: [`in:,${desks.map(({ uuid }) => uuid).join()}`],
         repId: [`in:,${users.map(({ uuid }) => uuid).join()}`],
         teamId: ['string'],
+        aquisitionStatus: ['string'],
         status: [`in:,${[...Object.values(salesStatusValues), ...Object.values(retentionStatusValues)].join()}`],
       }, translateLabels(attributeLabels(type)), false)(values);
     },

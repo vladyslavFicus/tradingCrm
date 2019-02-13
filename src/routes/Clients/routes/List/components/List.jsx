@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { I18n } from 'react-redux-i18n';
-import { get } from 'lodash';
+import { get, omit } from 'lodash';
 import { TextRow } from 'react-placeholder/lib/placeholders';
 import history from 'router/history';
 import permissions from 'config/permissions';
@@ -54,7 +54,7 @@ class List extends Component {
       }),
       loading: PropTypes.bool.isRequired,
     }).isRequired,
-    profileBulkUpdate: PropTypes.func.isRequired,
+    bulkRepresentativeUpdate: PropTypes.func.isRequired,
   };
 
   static contextTypes = {
@@ -221,24 +221,24 @@ class List extends Component {
   handleBulkMove = async (values) => {
     const {
       notify,
-      profileBulkUpdate,
+      bulkRepresentativeUpdate,
       location: { query },
       profiles: { refetch, profiles: { data: { content, totalElements } } },
       modals: { moveModal },
     } = this.props;
+    const { allRowsSelected } = this.state;
 
-    const { allRowsSelected, selectedRows, touchedRowsIds } = this.state;
-    const ids = allRowsSelected
-      ? touchedRowsIds.map(index => content[index].playerUUID)
-      : selectedRows;
+    const type = values.aquisitionStatus;
+    const clients = getClientsData(this.state, totalElements, type, content);
 
-    const { data: { clients: { profileBulkUpdate: { error } } } } = await profileBulkUpdate({
+    const { data: { clients: { bulkRepresentativeUpdate: { error } } } } = await bulkRepresentativeUpdate({
       variables: {
+        clients,
+        type,
         allRowsSelected,
         totalElements,
-        ids,
         ...values,
-        ...query && { searchParams: { ...query.filters } },
+        ...query && { searchParams: omit(query.filters, ['desks', 'teams']) },
       },
     });
 

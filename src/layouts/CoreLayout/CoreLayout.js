@@ -3,16 +3,16 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { I18n } from 'react-redux-i18n';
 import NotificationContainer from 'react-notification-system';
-import PropTypes from '../../constants/propTypes';
-import MiniProfilePopover from '../../components/MiniProfilePopover';
-import { actionCreators as windowActionCreators, actionTypes as windowActionTypes } from '../../redux/modules/window';
-import { actionCreators as notificationCreators } from '../../redux/modules/notifications';
-import DebugPanel from '../../components/DebugPanel';
-import { types as modalsTypes } from '../../constants/modals';
-import UpdateVersionModal from '../../components/UpdateVersionModal';
-import { withModals } from '../../components/HighOrder';
-import parseJson from '../../utils/parseJson';
-import '../../styles/style.scss';
+import PropTypes from 'constants/propTypes';
+import { types as modalsTypes } from 'constants/modals';
+import { actionCreators as windowActionCreators, actionTypes as windowActionTypes } from 'redux/modules/window';
+import { actionCreators as notificationCreators } from 'redux/modules/notifications';
+import MiniProfilePopover from 'components/MiniProfilePopover';
+import DebugPanel from 'components/DebugPanel';
+import UpdateVersionModal from 'components/UpdateVersionModal';
+import { withModals } from 'components/HighOrder';
+import parseJson from 'utils/parseJson';
+import 'styles/style.scss';
 
 const popoverInitialState = {
   name: null,
@@ -102,10 +102,7 @@ class CoreLayout extends Component {
       nextModalName === modalsTypes.NEW_API_VERSION &&
       !updateVersionModal.isOpen
     ) {
-      updateVersionModal.show({
-        modalTitle: I18n.t('MODALS.NEW_API_VERSION.TITLE'),
-        actionText: I18n.t('MODALS.NEW_API_VERSION.MESSAGE'),
-      });
+      updateVersionModal.show();
     }
   }
 

@@ -127,17 +127,21 @@ class LeadProfile extends Component {
   triggerRepresentativeUpdateModal = () => {
     const {
       modals: { representativeModal },
-      leadProfile: { refetch },
+      leadProfile: { refetch, leadProfile: { data } },
       match: { params: { id } },
     } = this.props;
+
+    const unassignFrom = get(data, 'salesAgent.uuid') || null;
 
     representativeModal.show({
       type: aquisitionStatusesNames.SALES,
       userType: userTypes.LEAD_CUSTOMER,
-      ids: [id],
+      leads: [{ uuid: id, unassignFrom }],
       initialValues: { aquisitionStatus: aquisitionStatusesNames.SALES },
-      header: I18n.t('CLIENT_PROFILE.MODALS.REPRESENTATIVE_UPDATE.HEADER',
-        { type: aquisitionStatusesNames.SALES.toLowerCase() }),
+      header: I18n.t(
+        'CLIENT_PROFILE.MODALS.REPRESENTATIVE_UPDATE.HEADER',
+        { type: aquisitionStatusesNames.SALES.toLowerCase() }
+      ),
       onSuccess: () => refetch({ fetchPolicy: 'network-only' }),
     });
   };

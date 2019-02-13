@@ -1,16 +1,12 @@
 import { connect } from 'react-redux';
 import { graphql, compose } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
-import { actionCreators } from '../modules';
-import { withNotifications, withModals } from '../../../../../components/HighOrder';
-import { actionCreators as filesActionCreators } from '../modules/files';
-import Profile from '../components/Profile';
-import config, { getBrandId } from '../../../../../config';
-import { clientQuery } from '../../../../../graphql/queries/profile';
-import { notesQuery } from '../../../../../graphql/queries/notes';
-import ConfirmActionModal from '../../../../../components/Modal/ConfirmActionModal';
-import RepresentativeUpdateModal from '../../../../../components/RepresentativeUpdateModal';
-import NoteModal from '../../../../../components/NoteModal';
+import { withNotifications, withModals } from 'components/HighOrder';
+import ConfirmActionModal from 'components/Modal/ConfirmActionModal';
+import RepresentativeUpdateModal from 'components/RepresentativeUpdateModal';
+import NoteModal from 'components/NoteModal';
+import { clientQuery } from 'graphql/queries/profile';
+import { notesQuery } from 'graphql/queries/notes';
 import {
   updateSubscription,
   blockMutation,
@@ -20,14 +16,18 @@ import {
   unblockMutation,
   passwordResetRequest,
   changePassword,
-} from '../../../../../graphql/mutations/profile';
+} from 'graphql/mutations/profile';
 import {
   updateNoteMutation,
   removeNoteMutation,
   addNoteMutation,
   removeNote,
   addPinnedNote,
-} from '../../../../../graphql/mutations/note';
+} from 'graphql/mutations/note';
+import config, { getBrandId } from 'config';
+import { actionCreators } from '../modules';
+import { actionCreators as filesActionCreators } from '../modules/files';
+import Profile from '../components/Profile';
 
 const mapStateToProps = (state) => {
   const {
@@ -243,7 +243,6 @@ export default compose(
       },
     }),
     name: 'playerProfile',
-    fetchPolicy: 'network-only',
   }),
   graphql(notesQuery, {
     options: ({

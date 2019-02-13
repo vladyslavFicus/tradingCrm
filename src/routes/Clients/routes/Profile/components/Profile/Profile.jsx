@@ -3,29 +3,27 @@ import ImageViewer from 'react-images';
 import { get } from 'lodash';
 import { I18n } from 'react-redux-i18n';
 import { Switch, Redirect } from 'react-router-dom';
-import Tabs from '../../../../../../components/Tabs';
-import Modal from '../../../../../../components/Modal';
-import NotFound from '../../../../../NotFound';
-import Permissions from '../../../../../../utils/permissions';
+import Permissions from 'utils/permissions';
+import getFileBlobUrl from 'utils/getFileBlobUrl';
 import {
   actions as statusActions,
   statusActions as userStatuses,
   statuses as playerProfileStatuses,
-} from '../../../../../../constants/user';
-import Header from '../Header';
-import NotePopover from '../../../../../../components/NotePopover';
-import Information from '../Information';
-import PropTypes from '../../../../../../constants/propTypes';
-import { viewType as noteViewType } from '../../../../../../constants/note';
-import getFileBlobUrl from '../../../../../../utils/getFileBlobUrl';
+} from 'constants/user';
+import PropTypes from 'constants/propTypes';
+import { viewType as noteViewType } from 'constants/note';
+import Tabs from 'components/Tabs';
+import Modal from 'components/Modal';
+import NotePopover from 'components/NotePopover';
 import {
   UploadModal as UploadFileModal,
   DeleteModal as DeleteFileModal,
-} from '../../../../../../components/Files';
-import ChangePasswordModal from '../../../../../../components/ChangePasswordModal';
-import ShareLinkModal from '../ShareLinkModal';
-import BackToTop from '../../../../../../components/BackToTop';
-import HideDetails from '../../../../../../components/HideDetails';
+} from 'components/Files';
+import ChangePasswordModal from 'components/ChangePasswordModal';
+import BackToTop from 'components/BackToTop';
+import HideDetails from 'components/HideDetails';
+import { Route } from 'router';
+import NotFound from '../../../../../NotFound';
 import {
   ClientView,
   Transactions,
@@ -35,7 +33,9 @@ import {
   Feed,
   Callbacks,
 } from '../../routes';
-import { Route } from '../../../../../../router';
+import Header from '../Header';
+import Information from '../Information';
+import ShareLinkModal from '../ShareLinkModal';
 import { getAcquisitionFields } from './utils';
 import { userProfileTabs, moveField } from './constants';
 
@@ -227,17 +227,19 @@ class Profile extends Component {
   triggerRepresentativeUpdateModal = type => () => {
     const {
       modals: { representativeModal },
-      playerProfile: { refetch },
+      playerProfile: { refetch, playerProfile: { data } },
       match: { params: { id } },
     } = this.props;
 
+    const unassignFrom = get(data, `tradingProfile.${type.toLowerCase()}Rep.uuid`) || null;
+
     representativeModal.show({
       type,
-      ids: [id],
+      clients: [{ uuid: id, unassignFrom }],
       initialValues: { aquisitionStatus: type },
       header: I18n.t('CLIENT_PROFILE.MODALS.REPRESENTATIVE_UPDATE.HEADER', { type: type.toLowerCase() }),
       additionalFields: [moveField],
-      onSuccess: () => refetch({ fetchPolicy: 'network-only' }),
+      onSuccess: () => refetch(),
     });
   };
 

@@ -58,6 +58,7 @@ class RepresentativeUpdateModal extends Component {
     selectedDesk: PropTypes.string,
     selectedTeam: PropTypes.string,
     selectedRep: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
+    selectedAcquisition: PropTypes.string,
     currentStatus: PropTypes.string,
     configs: PropTypes.shape({
       multiAssign: PropTypes.bool,
@@ -74,6 +75,7 @@ class RepresentativeUpdateModal extends Component {
     selectedDesk: null,
     selectedTeam: null,
     selectedRep: null,
+    selectedAcquisition: null,
     currentStatus: null,
     configs: {},
   };
@@ -194,7 +196,12 @@ class RepresentativeUpdateModal extends Component {
       bulkLeadRepresentativeUpdate,
     } = this.props;
 
+    let representative = null;
     const { allRowsSelected, totalElements, searchParams } = configs || {};
+
+    if (repId) {
+      representative = Array.isArray(repId) ? repId : [repId];
+    }
 
     const variables = {
       clients,
@@ -205,8 +212,8 @@ class RepresentativeUpdateModal extends Component {
       aquisitionStatus,
       searchParams: omit(searchParams, ['desks', 'teams']),
       ...(type === deskTypes.SALES
-        ? { salesStatus: status, salesRep: repId }
-        : { retentionStatus: status, retentionRep: repId }),
+        ? { salesStatus: status, salesRep: representative }
+        : { retentionStatus: status, retentionRep: representative }),
     };
 
     let error = null;
@@ -259,6 +266,7 @@ class RepresentativeUpdateModal extends Component {
       selectedDesk,
       selectedTeam,
       selectedRep,
+      selectedAcquisition,
       currentStatus,
       configs: { multiAssign },
     } = this.props;
@@ -274,8 +282,8 @@ class RepresentativeUpdateModal extends Component {
     const filteredDesks = desks.filter(({ deskType }) => deskType === deskTypes[type]);
 
     const submitDisabled =
-      agentsLoading || deskLoading || initAgentsLoading || invalid || (!initialValues && pristine)
-      || submitting || (!currentStatus && !selectedDesk && !selectedTeam && !selectedRep);
+      agentsLoading || deskLoading || initAgentsLoading || invalid || (initialValues ? false : pristine)
+      || submitting || (!currentStatus && !selectedDesk && !selectedTeam && !selectedRep && !selectedAcquisition);
 
     return (
       <Modal
