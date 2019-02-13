@@ -1,12 +1,14 @@
 import { graphql, compose } from 'react-apollo';
 import { connect } from 'react-redux';
+import { getBranchChildren, getBranchInfo } from 'graphql/queries/hierarchy';
+import { getRules, getRulesRetention } from 'graphql/queries/rules';
+import { createRule, createRuleRetention, deleteRule, deleteRuleRetention } from 'graphql/mutations/rules';
+import countryList from 'utils/countryList';
+import { deskTypes } from 'constants/rules';
+import { branchTypes } from 'constants/hierarchyTypes';
+import RuleModal from '../components/RuleModal';
 import { withNotifications, withModals } from '../../HighOrder';
 import ConfirmActionModal from '../../Modal/ConfirmActionModal';
-import { getRules, getRulesRetention } from '../../../graphql/queries/rules';
-import { createRule, createRuleRetention, deleteRule, deleteRuleRetention } from '../../../graphql/mutations/rules';
-import countryList from '../../../utils/countryList';
-import RuleModal from '../components/RuleModal';
-import { deskTypes } from '../../../constants/rules';
 
 const mapStateToProps = ({
   i18n: { locale },
@@ -17,7 +19,7 @@ const mapStateToProps = ({
   locale,
 });
 
-export default (Component, type) => compose(
+export default (Component, type, branchType) => compose(
   withNotifications,
   withModals({
     ruleModal: RuleModal,
@@ -35,6 +37,36 @@ export default (Component, type) => compose(
   }),
   graphql(deleteRuleRetention, {
     name: 'deleteRuleRetention',
+  }),
+  graphql(getBranchInfo, {
+    options: ({
+      match: {
+        params: {
+          id: branchId,
+        },
+      },
+    }) => ({
+      variables: {
+        branchId,
+      },
+    }),
+    skip: branchType !== branchTypes.TEAM,
+    name: 'getBranchInfo',
+  }),
+  graphql(getBranchChildren, {
+    name: 'getBranchChildren',
+    options: ({
+      match: {
+        params: {
+          id: parentId,
+        },
+      },
+    }) => ({
+      variables: {
+        uuid: parentId,
+      },
+    }),
+    skip: branchType !== branchTypes.DESK,
   }),
   type === deskTypes.RETENTION ?
     graphql(getRulesRetention, {

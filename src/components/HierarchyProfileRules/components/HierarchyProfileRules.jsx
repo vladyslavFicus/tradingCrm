@@ -2,9 +2,10 @@ import React, { Component, Fragment } from 'react';
 import { I18n } from 'react-redux-i18n';
 import { get } from 'lodash';
 import { SubmissionError } from 'redux-form';
-import PropTypes from '../../../constants/propTypes';
-import history from '../../../router/history';
-import { actionRuleTypes, deskTypes } from '../../../constants/rules';
+import { branchTypes } from 'constants/hierarchyTypes';
+import PropTypes from 'constants/propTypes';
+import history from 'router/history';
+import { actionRuleTypes, deskTypes } from 'constants/rules';
 import TabHeader from '../../TabHeader';
 import GridView, { GridViewColumn } from '../../GridView';
 import Uuid from '../../Uuid';
@@ -13,7 +14,7 @@ import RulesFilters from './RulesGridFilters';
 import infoConfig from './constants';
 import './HierarchyProfileRules.scss';
 
-const HierarchyProfileRules = (title, deskType) => {
+const HierarchyProfileRules = (title, deskType, branchType) => {
   class RuleList extends Component {
     static propTypes = {
       rules: PropTypes.shape({
@@ -44,6 +45,13 @@ const HierarchyProfileRules = (title, deskType) => {
       auth: PropTypes.shape({
         uuid: PropTypes.string.isRequired,
       }).isRequired,
+      getBranchChildren: PropTypes.object,
+      getBranchInfo: PropTypes.object,
+    };
+
+    static defaultProps = {
+      getBranchChildren: {},
+      getBranchInfo: {},
     };
 
     handleFiltersChanged = (filters = {}) => history.replace({ query: { filters } })
@@ -59,6 +67,36 @@ const HierarchyProfileRules = (title, deskType) => {
         onSubmit: values => this.handleAddRule(values),
         deskType,
       });
+    }
+
+    handleRenderButtonAddRule = (type) => {
+      let renderButton;
+
+      switch (type) {
+        case (branchTypes.DESK): {
+          const { getBranchChildren } = this.props;
+          const teams = get(getBranchChildren, 'hierarchy.branchChildren.data');
+
+          if (!getBranchChildren.loading) {
+            renderButton = !!(teams && teams.length && teams.some(({ defaultUser }) => !!defaultUser));
+          }
+          break;
+        }
+        case (branchTypes.TEAM): {
+          const { getBranchInfo } = this.props;
+          const branchInfo = get(getBranchInfo, 'hierarchy.branchInfo.data');
+
+          if (!getBranchInfo.loading) {
+            renderButton = !!branchInfo.defaultUser;
+          }
+          break;
+        }
+        default: {
+          renderButton = true;
+        }
+      }
+
+      return renderButton ? this.renderButtonAddRule() : null;
     }
 
     handleAddRule = async (variables) => {
@@ -181,6 +219,18 @@ const HierarchyProfileRules = (title, deskType) => {
       });
     };
 
+    renderButtonAddRule = () => (
+      <TabHeader title={I18n.t(title)}>
+        <button
+          type="submit"
+          className="btn btn-sm btn-outline"
+          onClick={this.triggerRuleModal}
+        >
+          + {I18n.t('HIERARCHY.PROFILE_RULE_TAB.ADD_RULE')}
+        </button>
+      </TabHeader>
+    );
+
     renderRule = ({ uuid, name, createdBy }) => (
       <Fragment>
         <div className="font-weight-700">
@@ -267,15 +317,7 @@ const HierarchyProfileRules = (title, deskType) => {
 
       return (
         <Fragment>
-          <TabHeader title={I18n.t(title)}>
-            <button
-              type="submit"
-              className="btn btn-sm btn-outline"
-              onClick={this.triggerRuleModal}
-            >
-              + {I18n.t('HIERARCHY.PROFILE_RULE_TAB.ADD_RULE')}
-            </button>
-          </TabHeader>
+          {this.handleRenderButtonAddRule(branchType)}
 
           <RulesFilters
             onSubmit={this.handleFiltersChanged}
@@ -324,7 +366,7 @@ const HierarchyProfileRules = (title, deskType) => {
     }
   }
 
-  return withContainer(RuleList, deskType);
+  return withContainer(RuleList, deskType, branchType);
 };
 
 export default HierarchyProfileRules;

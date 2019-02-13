@@ -1,17 +1,18 @@
 import React from 'react';
 import { get } from 'lodash';
 import { Switch } from 'react-router-dom';
-import { Route } from '../../../../../router';
-import Tabs from '../../../../../components/Tabs';
-import HierarchyProfileRules from '../../../../../components/HierarchyProfileRules';
-import NotFound from '../../../../../routes/NotFound';
-import PropTypes from '../../../../../constants/propTypes';
+import { branchTypes } from 'constants/hierarchyTypes';
+import { Route } from 'router';
+import Tabs from 'components/Tabs';
+import HierarchyProfileRules from 'components/HierarchyProfileRules';
+import NotFound from 'routes/NotFound';
+import PropTypes from 'constants/propTypes';
+import { deskTypes } from 'constants/rules';
 import teamProfileTabs from './constants';
-import { deskTypes } from '../../../../../constants/rules';
 import Header from './Header';
 
-const RulesRetention = HierarchyProfileRules('TEAMS.TABS.RULES.TITLE', deskTypes.RETENTION);
-const RulesSales = HierarchyProfileRules('TEAMS.TABS.RULES.TITLE', deskTypes.SALES);
+const RulesRetention = HierarchyProfileRules('TEAMS.TABS.RULES.TITLE', deskTypes.RETENTION, branchTypes.TEAM);
+const RulesSales = HierarchyProfileRules('TEAMS.TABS.RULES.TITLE', deskTypes.SALES, branchTypes.TEAM);
 
 const TeamProfile = ({
   teamProfile: {
