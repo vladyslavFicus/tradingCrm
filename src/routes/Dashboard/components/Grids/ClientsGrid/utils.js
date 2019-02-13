@@ -112,7 +112,7 @@ export default ({ auth, fetchPlayerMiniProfile }) => [{
       salesStatus,
       salesRep,
       aquisitionStatus,
-    } = get(data, 'tradingProfile');
+    } = get(data, 'tradingProfile') || {};
     const colorClassName = salesStatusesColor[salesStatus];
 
     return (
@@ -146,7 +146,7 @@ export default ({ auth, fetchPlayerMiniProfile }) => [{
       retentionStatus,
       retentionRep,
       aquisitionStatus,
-    } = get(data, 'tradingProfile');
+    } = get(data, 'tradingProfile') || {};
     const colorClassName = retentionStatusesColor[retentionStatus];
 
     return (

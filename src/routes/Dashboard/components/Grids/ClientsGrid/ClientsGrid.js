@@ -36,6 +36,7 @@ class ClientsGrid extends PureComponent {
           dataSource={profilesEntities}
           showNoResults={profilesEntities.length === 0}
           tableClassName="table-hovered"
+          rowClassName={({ tradingProfile }) => !tradingProfile && 'disabled'}
         >
           {columns({ auth, fetchPlayerMiniProfile }).map(({ name, header, render }) => (
             <GridViewColumn
