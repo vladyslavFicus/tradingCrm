@@ -6,7 +6,7 @@ const addPaymentMutation = gql`mutation createClientPayment(
   $paymentType: String!,
   $externalReference: String,
   $expirationDate: String,
-  $login: String,
+  $login: Int,
   $target: String,
   $source: String,
   $country: String,
