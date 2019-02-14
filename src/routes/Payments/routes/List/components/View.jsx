@@ -164,6 +164,7 @@ class View extends Component {
             lazyLoad
             locale={locale}
             showNoResults={!!error || (!loading && entities.content.length === 0)}
+            loading={loading}
           >
             {columns({
               paymentInfo: { onSuccess: this.handleModalActionSuccess },

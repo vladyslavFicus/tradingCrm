@@ -69,9 +69,11 @@ class CallbacksList extends Component {
 
   renderOperator = item => (
     <div>
-      <div className="font-weight-700">
-        {item.operator.fullName}
-      </div>
+      <If condition={item.operator}>
+        <div className="font-weight-700">
+          {item.operator.fullName}
+        </div>
+      </If>
       <div className="font-size-11">
         <Uuid uuid={item.operatorId} />
       </div>
@@ -80,9 +82,11 @@ class CallbacksList extends Component {
 
   renderUser = item => (
     <div>
-      <button className="font-weight-700" onClick={this.handleClientClick(item)}>
-        {item.client.fullName}
-      </button>
+      <If condition={item.client}>
+        <button className="font-weight-700" onClick={this.handleClientClick(item)}>
+          {item.client.fullName}
+        </button>
+      </If>
       <div className="font-size-11">
         <Uuid uuid={item.userId} />
       </div>

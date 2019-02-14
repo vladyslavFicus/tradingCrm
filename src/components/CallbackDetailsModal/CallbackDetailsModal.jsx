@@ -89,9 +89,11 @@ class CallbackDetailsModal extends Component {
               </When>
               <Otherwise>
                 <div>
-                  <div className="font-weight-700">
-                    {callback.client.fullName}
-                  </div>
+                  <If condition={callback.client}>
+                    <div className="font-weight-700">
+                      {callback.client.fullName}
+                    </div>
+                  </If>
                   <div className="font-size-11 mb-3">
                     {I18n.t('COMMON.AUTHOR_BY')} <Uuid uuid={callback.operatorId} />
                   </div>
