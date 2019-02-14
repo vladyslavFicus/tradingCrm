@@ -402,6 +402,7 @@ class List extends Component {
             showNoResults={!loading && entities.content.length === 0}
             onRowClick={this.handlePlayerClick}
             rowClassName={({ tradingProfile }) => !tradingProfile && 'disabled'}
+            loading={loading && entities.content.length === 0}
           >
             {columns(I18n, auth, fetchPlayerMiniProfile)
               .map(({ name, header, render }) => (
