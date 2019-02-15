@@ -31,15 +31,15 @@ const registeredUsersTotalsQuery = gql`query getRegUsersStat($timezone: Int!) {
   statistics {
     registrationTotals(timezone: $timezone) {
       today {
-        count
+        value
         error
       }
       month {
-        count
+        value
         error
       }
       total {
-        count
+        value
         error
       }
     }
@@ -47,35 +47,46 @@ const registeredUsersTotalsQuery = gql`query getRegUsersStat($timezone: Int!) {
 }`;
 
 const paymentsStatisticQuery = gql`
-  query getDepositsStat(
-    $dateFrom: String!,
-    $dateTo: String!
+  query getPaymentsStat(
+    $dateFrom: String,
+    $dateTo: String,
+    $detalization: detalizationEnum,
+    $paymentStatus: String,
+    $paymentType: String,
+    $profileIds: [String],
+    $additionalStatistics: [additionalStatisticInput]
   ) {
     statistics {
       payments(
         dateFrom: $dateFrom,
         dateTo: $dateTo,
+        detalization: $detalization,
+        paymentStatus: $paymentStatus,
+        paymentType: $paymentType,
+        profileIds: $profileIds
+        additionalStatistics: $additionalStatistics
       ) {
         error {
           error
         }
         data {
           items {
-            deposits {
-              amount
-              count
-              entryDate
-            }
-            withdraws {
-              amount
-              count
-              entryDate
-            }
+            amount
+            count
+            entryDate
           }
-          totalDepositsAmount
-          totalDepositsCount
-          totalWithdrawsAmount
-          totalWithdrawsCount
+          itemsTotal {
+            totalAmount
+            totalCount
+          }
+          additionalTotal {
+            totalAmount
+            totalCount
+            todayAmount
+            todayCount
+            monthAmount
+            monthCount
+          }
         }
       }
     }

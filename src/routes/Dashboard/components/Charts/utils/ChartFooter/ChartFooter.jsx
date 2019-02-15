@@ -1,6 +1,7 @@
 import React from 'react';
 import { I18n } from 'react-redux-i18n';
-import PropTypes from '../../../../../../constants/propTypes';
+import PropTypes from 'constants/propTypes';
+import { getAvailableCurrencies } from 'config';
 import './ChartFooter.scss';
 
 const totalColumns = [{
@@ -18,6 +19,7 @@ const ChartFooter = ({
   noResults,
   totals,
   color,
+  withCurrency,
 }) => (
   <div className="chart-footer">
     {totalColumns.map(({ key, label }) => (
@@ -31,7 +33,12 @@ const ChartFooter = ({
                 <Otherwise><span>&mdash;</span></Otherwise>
               </Choose>
             </When>
-            <Otherwise>{totals[key].count}</Otherwise>
+            <Otherwise>
+              {withCurrency ? Number(totals[key].value).toFixed(2) : totals[key].value}
+              <If condition={withCurrency}>
+                {` ${getAvailableCurrencies().base || ''}`}
+              </If>
+            </Otherwise>
           </Choose>
         </div>
       </div>
@@ -47,6 +54,11 @@ ChartFooter.propTypes = {
     today: PropTypes.chartTotal,
   }).isRequired,
   color: PropTypes.string.isRequired,
+  withCurrency: PropTypes.bool,
+};
+
+ChartFooter.defaultProps = {
+  withCurrency: false,
 };
 
 export default ChartFooter;

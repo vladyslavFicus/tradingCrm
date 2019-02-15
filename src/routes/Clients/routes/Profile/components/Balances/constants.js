@@ -1,22 +1,40 @@
 import moment from 'moment';
 
-export const selectItems = [{
-  label: 'Last 7 days',
-  value: moment().subtract(7, 'days').format(),
-}, {
-  label: 'Last month',
-  value: moment().subtract(1, 'month').format(),
-}, {
-  label: 'Last 3 month',
-  value: moment().subtract(3, 'month').format(),
-}];
-
 export const formName = 'balanceForm';
 
-export const initialQueryParams = {
-  limit: 9999,
-  startDate: moment().subtract(7, 'days'),
-  endDate: moment().format(),
-};
+export const selectItems = [{
+  label: 'Last 7 days',
+  value: moment()
+    .subtract(6, 'days')
+    .startOf('day')
+    .format(),
+}, {
+  label: 'Last month',
+  value: moment()
+    .subtract(1, 'month')
+    .add(1, 'days')
+    .startOf('day')
+    .format(),
+}, {
+  label: 'Last 3 month',
+  value: moment()
+    .subtract(3, 'month')
+    .add(1, 'days')
+    .startOf('day')
+    .format(),
+}];
 
-export const moneyObj = { amount: 0, currency: 'EUR' };
+export const initialQueryParams = (paymentType, paymentStatus) => ({
+  dateFrom: moment()
+    .subtract(6, 'days')
+    .startOf('day')
+    .format(),
+  dateTo: moment()
+    .add(1, 'day')
+    .startOf('day')
+    .format(),
+  paymentType,
+  paymentStatus,
+});
+
+export const moneyObj = { totalAmount: 0, totalCount: 0 };

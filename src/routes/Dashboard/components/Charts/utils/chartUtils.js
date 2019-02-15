@@ -1,7 +1,42 @@
 import moment from 'moment';
 import { I18n } from 'react-redux-i18n';
+import keyMirror from 'keymirror';
 
-export const initialQueryParams = (fromName, toName) => ({
+const detalization = keyMirror({
+  PER_DAYS: null,
+  PER_HOURS: null,
+  PER_MINUTES: null,
+});
+
+/*
+  Array to get total of today, month and all time
+  position is important! (connected to GQL resolver)
+  0: today
+  1: month
+  2: total
+*/
+const defaultAdditionalStatistics = [{
+  dateFrom: moment()
+    .startOf('day')
+    .format(),
+  dateTo: moment()
+    .add(1, 'day')
+    .startOf('day')
+    .format(),
+}, {
+  dateFrom: moment()
+    .startOf('month')
+    .format(),
+  dateTo: moment()
+    .endOf('month')
+    .format(),
+}, {
+  dateTo: moment()
+    .endOf('day')
+    .format(),
+}];
+
+export const initialDateQueryParams = (fromName, toName) => ({
   [fromName]: moment()
     .subtract(6, 'days')
     .startOf('day')
@@ -10,6 +45,13 @@ export const initialQueryParams = (fromName, toName) => ({
     .add(1, 'day')
     .startOf('day')
     .format(),
+});
+
+export const initialPaymentQueryParams = (from, to, args) => ({
+  ...initialDateQueryParams(from, to),
+  detalization: detalization.PER_DAYS,
+  additionalStatistics: defaultAdditionalStatistics,
+  ...args,
 });
 
 export const getChartSelectOptions = () => [
@@ -67,3 +109,21 @@ export const getChartSelectOptions = () => [
       .format(),
   },
 ];
+
+export const mapTotalObject = (object, selector) => (object
+  ? Object
+    .entries(object)
+    .reduce((acc, [key, value]) => {
+      const position = key.toLowerCase().indexOf(selector);
+
+      if (position !== -1) {
+        return {
+          ...acc,
+          [key.substring(0, position)]: { value },
+        };
+      }
+
+      return acc;
+    }, {})
+  : {}
+);
