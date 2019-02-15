@@ -5,7 +5,7 @@ import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { get } from 'lodash';
 import classNames from 'classnames';
 import NoteButton from 'components/NoteButton';
-import { parseDecimal } from 'utils/inputNormalize';
+import { floatNormalize } from 'utils/inputNormalize';
 import I18n from '../../../../../../../../../../utils/i18n';
 import { createValidator } from '../../../../../../../../../../utils/validator';
 import { InputField, NasSelectField, DateTimeField } from '../../../../../../../../../../components/ReduxForm';
@@ -193,7 +193,7 @@ class PaymentAddModal extends Component {
                 type="text"
                 placeholder="0.00"
                 className="col-4"
-                normalize={parseDecimal}
+                normalize={floatNormalize}
                 inputAddon={
                   <Currency
                     code={currencyCode}
