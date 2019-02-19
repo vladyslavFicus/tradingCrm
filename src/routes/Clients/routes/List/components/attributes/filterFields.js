@@ -70,10 +70,17 @@ export default (
   type: fieldTypes.INPUT,
   name: 'searchValue',
   label: I18n.t(filterLabels.searchValue),
-  placeholder: 'Name, email, ID...',
+  placeholder: I18n.t('COMMON.SEARCH_BY.CLIENT'),
   inputAddon: <i className="icon icon-search" />,
   id: 'users-list-search-field',
   className: fieldClassNames.BIG,
+}, {
+  type: fieldTypes.INPUT,
+  name: 'searchAffiliate',
+  label: I18n.t(filterLabels.searchValue),
+  placeholder: I18n.t('COMMON.SEARCH_BY.AFFILIATE'),
+  inputAddon: <i className="icon icon-search" />,
+  className: fieldClassNames.MEDIUM,
 }, {
   type: fieldTypes.SELECT,
   name: 'countries',

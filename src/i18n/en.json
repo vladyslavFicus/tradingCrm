@@ -882,6 +882,10 @@
       "ANY": "Any",
       "SELECT_BRANCH_TYPE": "Select branch type first"
     },
+    "SEARCH_BY": {
+      "CLIENT": "Name, email, ID",
+      "AFFILIATE": "Affiliate ID, source"
+    },
     "DATE_OPTIONS": {
       "START_DATE": "Start date",
       "END_DATE": "End date"

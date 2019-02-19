@@ -157,7 +157,8 @@ const clientsQuery = gql`query getProfiles(
   $kycStatus: String,
   $firstDeposit: String,
   $salesStatuses: [String],
-  $retentionStatuses: [String]
+  $retentionStatuses: [String],
+  $searchAffiliate: String,
 ) {
   profiles(
     page: $page,
@@ -176,6 +177,7 @@ const clientsQuery = gql`query getProfiles(
     firstDeposit: $firstDeposit
     salesStatuses: $salesStatuses
     retentionStatuses: $retentionStatuses
+    searchAffiliate: $searchAffiliate
     ) {
       error {
         error
