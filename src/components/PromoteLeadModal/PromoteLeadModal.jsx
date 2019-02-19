@@ -16,7 +16,7 @@ const FORM_NAME = 'promoteLeadModalForm';
 class PromoteLead extends PureComponent {
   handleGeneratePassword = () => {
     this.props.change('password', generate());
-  }
+  };
 
   render() {
     const {
@@ -98,15 +98,6 @@ class PromoteLead extends PureComponent {
                   }
                 </Field>
               </If>
-              <Field
-                name="salesRepresentative"
-                label={I18n.t(attributeLabels.salesRepresentative)}
-                component={NasSelectField}
-                placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
-                disabled
-              >
-                <option />
-              </Field>
             </div>
             <div className="col-6">
               <Field
@@ -135,15 +126,6 @@ class PromoteLead extends PureComponent {
                     {I18n.t(languageName)}
                   </option>
                 ))}
-              </Field>
-              <Field
-                name="salesDesk"
-                label={I18n.t(attributeLabels.salesDesk)}
-                component={NasSelectField}
-                placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
-                disabled
-              >
-                <option />
               </Field>
             </div>
           </div>
