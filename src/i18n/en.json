@@ -3217,6 +3217,10 @@
       "DESK_BODY": "Desk creation flow",
       "TEAM_BODY": "Team creation flow"
     },
+    "PROFILE_RULE_TOOLTIP": {
+      "DESK": "﻿Desk doesn't have teams or no operators in underlying teams",
+      "TEAM": "Team doesn't have operators"
+    },
     "PROFILE_RULE_TAB": {
       "NAME": "Rules",
       "ADD_RULE": "Add Rule",

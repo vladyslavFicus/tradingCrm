@@ -2,10 +2,12 @@ import React, { Component, Fragment } from 'react';
 import { I18n } from 'react-redux-i18n';
 import { get } from 'lodash';
 import { SubmissionError } from 'redux-form';
+import classNames from 'classnames';
 import { branchTypes } from 'constants/hierarchyTypes';
 import PropTypes from 'constants/propTypes';
 import history from 'router/history';
 import { actionRuleTypes, deskTypes } from 'constants/rules';
+import { UncontrolledTooltip } from '../../Reactstrap/Uncontrolled';
 import TabHeader from '../../TabHeader';
 import GridView, { GridViewColumn } from '../../GridView';
 import Uuid from '../../Uuid';
@@ -70,7 +72,7 @@ const HierarchyProfileRules = (title, deskType, branchType) => {
     }
 
     handleRenderButtonAddRule = (type) => {
-      let renderButton;
+      let data = {};
 
       switch (type) {
         case (branchTypes.DESK): {
@@ -78,7 +80,10 @@ const HierarchyProfileRules = (title, deskType, branchType) => {
           const teams = get(getBranchChildren, 'hierarchy.branchChildren.data');
 
           if (!getBranchChildren.loading) {
-            renderButton = !!(teams && teams.length && teams.some(({ defaultUser }) => !!defaultUser));
+            data = {
+              enabled: !!(teams && teams.length && teams.some(({ defaultUser }) => !!defaultUser)),
+              message: I18n.t('HIERARCHY.PROFILE_RULE_TOOLTIP.DESK'),
+            };
           }
           break;
         }
@@ -87,16 +92,19 @@ const HierarchyProfileRules = (title, deskType, branchType) => {
           const branchInfo = get(getBranchInfo, 'hierarchy.branchInfo.data');
 
           if (!getBranchInfo.loading) {
-            renderButton = !!branchInfo.defaultUser;
+            data = {
+              enabled: !!branchInfo.defaultUser,
+              message: I18n.t('HIERARCHY.PROFILE_RULE_TOOLTIP.TEAM'),
+            };
           }
           break;
         }
         default: {
-          renderButton = true;
+          data = { enabled: true };
         }
       }
 
-      return renderButton ? this.renderButtonAddRule() : null;
+      return this.renderButtonAddRule(data);
     }
 
     handleAddRule = async (variables) => {
@@ -219,16 +227,28 @@ const HierarchyProfileRules = (title, deskType, branchType) => {
       });
     };
 
-    renderButtonAddRule = () => (
-      <TabHeader title={I18n.t(title)}>
-        <button
-          type="submit"
-          className="btn btn-sm btn-outline"
-          onClick={this.triggerRuleModal}
-        >
-          + {I18n.t('HIERARCHY.PROFILE_RULE_TAB.ADD_RULE')}
-        </button>
-      </TabHeader>
+    renderButtonAddRule = ({ enabled, message }) => (
+      <Fragment>
+        <TabHeader title={I18n.t(title)}>
+          <button
+            id="add-rule"
+            type="submit"
+            className={classNames(!enabled && 'disabled', 'btn btn-sm btn-outline')}
+            onClick={enabled ? this.triggerRuleModal : null}
+          >
+            + {I18n.t('HIERARCHY.PROFILE_RULE_TAB.ADD_RULE')}
+          </button>
+        </TabHeader>
+
+        <If condition={!enabled && message}>
+          <UncontrolledTooltip
+            placement="bottom"
+            target="add-rule"
+          >
+            {message}
+          </UncontrolledTooltip>
+        </If>
+      </Fragment>
     );
 
     renderRule = ({ uuid, name, createdBy }) => (
