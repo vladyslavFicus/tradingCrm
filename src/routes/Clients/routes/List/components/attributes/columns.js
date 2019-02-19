@@ -97,29 +97,31 @@ export default (
     return (
       <Choose>
         <When condition={affiliateProfile}>
-          <div>
-            <a
-              className="header-block-middle"
-              target="_blank"
-              rel="noopener noreferrer"
-              href={`/operators/${affiliateProfile._id}`}
-            >
-              {affiliateProfile.affiliate.fullName}
-            </a>
-          </div>
-          <If condition={affiliateProfile.source}>
-            <div id={`${data.playerUUID}`}>
-              <Uuid className="header-block-small" uuidPostfix="..." length={12} uuid={affiliateProfile.source} />
+          <If condition={affiliateProfile.affiliate}>
+            <div>
+              <a
+                className="header-block-middle"
+                target="_blank"
+                rel="noopener noreferrer"
+                href={`/operators/${affiliateProfile._id}`}
+              >
+                {affiliateProfile.affiliate.fullName}
+              </a>
             </div>
-            <UncontrolledTooltip
-              placement="bottom-start"
-              target={`${data.playerUUID}`}
-              delay={{
-                show: 350, hide: 250,
-              }}
-            >
-              {affiliateProfile.source}
-            </UncontrolledTooltip>
+            <If condition={affiliateProfile.source}>
+              <div id={`${data.playerUUID}`}>
+                <Uuid className="header-block-small" uuidPostfix="..." length={12} uuid={affiliateProfile.source} />
+              </div>
+              <UncontrolledTooltip
+                placement="bottom-start"
+                target={`${data.playerUUID}`}
+                delay={{
+                  show: 350, hide: 250,
+                }}
+              >
+                {affiliateProfile.source}
+              </UncontrolledTooltip>
+            </If>
           </If>
         </When>
         <Otherwise>
