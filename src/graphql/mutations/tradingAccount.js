@@ -21,7 +21,7 @@ const createTradingAccountMutation = gql`mutation createTradingAccount(
 }`;
 
 const tradingAccountChangePasswordMutation = gql`mutation tradingAccountChangePassword(
-  $login: String!
+  $login: Int!
   $password: String!
 ) {
   tradingAccount {
