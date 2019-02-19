@@ -265,6 +265,7 @@ const clientsQuery = gql`query getProfiles(
             withdrawalCount
             affiliateProfileDocument {
               _id
+              source
               affiliate {
                 fullName
               }

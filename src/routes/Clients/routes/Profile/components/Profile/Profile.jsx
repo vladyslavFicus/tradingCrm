@@ -3,19 +3,18 @@ import ImageViewer from 'react-images';
 import { get } from 'lodash';
 import { I18n } from 'react-redux-i18n';
 import { Switch, Redirect } from 'react-router-dom';
-import Tabs from 'components/Tabs';
-import Modal from 'components/Modal';
-import { Route } from 'router';
 import Permissions from 'utils/permissions';
+import getFileBlobUrl from 'utils/getFileBlobUrl';
 import {
   actions as statusActions,
   statusActions as userStatuses,
   statuses as playerProfileStatuses,
 } from 'constants/user';
-import NotePopover from 'components/NotePopover';
 import PropTypes from 'constants/propTypes';
 import { viewType as noteViewType } from 'constants/note';
-import getFileBlobUrl from 'utils/getFileBlobUrl';
+import Tabs from 'components/Tabs';
+import Modal from 'components/Modal';
+import NotePopover from 'components/NotePopover';
 import {
   UploadModal as UploadFileModal,
   DeleteModal as DeleteFileModal,
@@ -23,6 +22,8 @@ import {
 import ChangePasswordModal from 'components/ChangePasswordModal';
 import BackToTop from 'components/BackToTop';
 import HideDetails from 'components/HideDetails';
+import { Route } from 'router';
+import NotFound from '../../../../../NotFound';
 import {
   ClientView,
   Transactions,
@@ -32,12 +33,11 @@ import {
   Feed,
   Callbacks,
 } from '../../routes';
-import NotFound from '../../../../../NotFound';
+import Header from '../Header';
+import Information from '../Information';
+import ShareLinkModal from '../ShareLinkModal';
 import { getAcquisitionFields } from './utils';
 import { userProfileTabs, moveField } from './constants';
-import ShareLinkModal from '../ShareLinkModal';
-import Information from '../Information';
-import Header from '../Header';
 
 const NOTE_POPOVER = 'note-popover';
 const popoverInitialState = {

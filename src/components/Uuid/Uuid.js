@@ -6,6 +6,7 @@ import { shortify } from '../../utils/uuid';
 const Uuid = ({
   uuid: inputUUID,
   uuidPrefix,
+  uuidPostfix,
   uuidPartsCount,
   notify,
   notificationLevel,
@@ -28,7 +29,7 @@ const Uuid = ({
       notificationMessage={notificationMessage}
       className={className}
     >
-      <span>{shortify(uuid, uuidPrefix, uuidPartsCount)}</span>
+      <span>{shortify(uuid, uuidPrefix, uuidPartsCount, uuidPostfix, length)}</span>
     </CopyToClipboard>
   );
 };
@@ -36,6 +37,7 @@ const Uuid = ({
 Uuid.propTypes = {
   uuid: PropTypes.string.isRequired,
   uuidPrefix: PropTypes.string,
+  uuidPostfix: PropTypes.string,
   uuidPartsCount: PropTypes.number,
   notify: PropTypes.bool,
   notificationLevel: PropTypes.string,
@@ -47,6 +49,7 @@ Uuid.propTypes = {
 
 Uuid.defaultProps = {
   uuidPrefix: null,
+  uuidPostfix: null,
   uuidPartsCount: 2,
   notificationLevel: 'info',
   notificationTitle: 'COMMON.NOTIFICATIONS.COPY_FULL_UUID.TITLE',

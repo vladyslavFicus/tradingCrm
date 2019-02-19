@@ -6,6 +6,7 @@ const statuses = keyMirror({
   PENDING: null,
   FAILED: null,
   COMPLETED: null,
+  CANCELED: null,
 });
 
 const tradingStatuses = keyMirror({
@@ -18,6 +19,7 @@ const tradingStatuses = keyMirror({
   TRANSACTION_COMPLETED: null,
   MT4_FAILED: null,
   MT4_COMPLETED: null,
+  PAYMENT_CANCELED: null,
 });
 
 const statusMapper = {
@@ -33,6 +35,7 @@ const statusMapper = {
     tradingStatuses.TRANSACTION_COMPLETED,
   ],
   [statuses.REJECTED]: [tradingStatuses.PAYMENT_REFUSED],
+  [statuses.CANCELED]: [tradingStatuses.PAYMENT_CANCELED],
 };
 
 const methods = keyMirror({
@@ -173,6 +176,7 @@ const customTypesProps = {
 const statusesLabels = {
   [statuses.PENDING]: 'COMMON.PAYMENT_STATUS.PENDING',
   [statuses.REJECTED]: 'COMMON.PAYMENT_STATUS.REJECTED',
+  [statuses.CANCELED]: 'COMMON.PAYMENT_STATUS.CANCELED',
   [statuses.FAILED]: 'COMMON.PAYMENT_STATUS.FAILED',
   [statuses.COMPLETED]: 'COMMON.PAYMENT_STATUS.COMPLETED',
 };
@@ -214,6 +218,7 @@ const methodsStatusesLabels = {
 const statusesColor = {
   [statuses.PENDING]: 'color-info',
   [statuses.REJECTED]: 'color-danger',
+  [statuses.CANCELED]: 'color-danger',
   [statuses.FAILED]: 'color-danger',
   [statuses.COMPLETED]: 'color-success',
 };

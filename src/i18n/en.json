@@ -1010,7 +1010,8 @@
       "PENDING": "Pending",
       "COMPLETED": "Completed",
       "REJECTED": "Rejected",
-      "FAILED": "Failed"
+      "FAILED": "Failed",
+      "CANCELED": "Canceled"
     },
     "FILTERS": {
       "SEARCH_LIMIT": "Search limit"
