@@ -6,6 +6,7 @@ const brands = keyMirror({
   cryptomb: null,
   bycrypto: null,
   snpbrokers: null,
+  rbctrade: null,
 });
 const departments = keyMirror({
   ADMINISTRATION: null,
@@ -44,6 +45,10 @@ const brandsConfig = {
   [brands.snpbrokers]: {
     name: 'Snpbrokers',
     image: { src: '/img/brand/choose-brand/snpbrokers.svg' },
+  },
+  [brands.rbctrade]: {
+    name: 'RBCtrade',
+    image: { src: '/img/brand/choose-brand/rbctrade.svg' },
   },
 };
 const departmentsConfig = {
