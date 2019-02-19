@@ -16,13 +16,14 @@ class HierarchyBranchTree extends PureComponent {
     }).isRequired,
   };
 
-  onNodeClick = ({ type, branchType, deskType, uuid }) => () => {
+  onNodeClick = ({ type, branchType, deskType, uuid }, parent = {}) => () => {
     if (type === nodeTypes.USER) {
       window.open(`/operators/${uuid}/profile`, '_blank');
     }
 
     if (type === nodeTypes.BRANCH && ![branchTypes.COMPANY, branchTypes.BRAND].includes(branchType)) {
-      const ruleUrl = deskType ? `/${deskType.toLowerCase()}-rules` : '';
+      const _deskType = deskType || parent.deskType;
+      const ruleUrl = _deskType ? `/${_deskType.toLowerCase()}-rules` : '';
       window.open(`/${branchType.toLowerCase()}s/${uuid}/rules${ruleUrl}`, '_blank');
     }
   };
@@ -43,8 +44,8 @@ class HierarchyBranchTree extends PureComponent {
             isVirtualized={false}
             canDrag={false}
             treeData={buildTreeDataFromBranchTree(branchTree)}
-            generateNodeProps={({ node }) => ({
-              onClick: this.onNodeClick(node),
+            generateNodeProps={({ node, parentNode }) => ({
+              onClick: this.onNodeClick(node, parentNode),
               className: node.type === nodeTypes.USER ? 'HierarchyBranchTree__userNode' : null,
             })}
           />
