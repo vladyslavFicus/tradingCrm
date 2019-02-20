@@ -16,6 +16,7 @@ class BrandsView extends Component {
     uuid: PropTypes.string.isRequired,
     changeDepartment: PropTypes.func.isRequired,
     fetchAuthorities: PropTypes.func.isRequired,
+    client: PropTypes.object.isRequired,
   };
 
   constructor(props) {
@@ -31,6 +32,7 @@ class BrandsView extends Component {
 
   componentDidMount() {
     this.mounted = true;
+    this.props.client.resetStore();
 
     setTimeout(() => {
       this.updateState({ loading: false });
