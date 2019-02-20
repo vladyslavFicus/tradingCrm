@@ -114,7 +114,7 @@ const OfficeModal = reduxForm({
   validate: createValidator({
     name: ['required', 'string'],
     country: ['required', 'string'],
-    officeManager: ['string'],
+    officeManager: ['required', 'string'],
   }, translateLabels(attributeLabels), false),
 })(OfficeForm);
 
