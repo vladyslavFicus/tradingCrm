@@ -139,7 +139,7 @@ class LeadProfile extends Component {
       leads: [{ uuid: id, unassignFrom }],
       initialValues: { aquisitionStatus: aquisitionStatusesNames.SALES },
       header: I18n.t(
-        'CLIENT_PROFILE.MODALS.REPRESENTATIVE_UPDATE.HEADER',
+        'LEAD_PROFILE.MODALS.REPRESENTATIVE_UPDATE.HEADER',
         { type: aquisitionStatusesNames.SALES.toLowerCase() }
       ),
       onSuccess: () => refetch({ fetchPolicy: 'network-only' }),
