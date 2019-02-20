@@ -3105,6 +3105,11 @@
         "SALES_REP": "Assign Sales representative",
         "SALES_DESK": "Assign Sales desk"
       }
+    },
+    "MODALS": {
+      "REPRESENTATIVE_UPDATE": {
+        "HEADER": "Lead %{type} update"
+      }
     }
   },
   "OFFICES": {
