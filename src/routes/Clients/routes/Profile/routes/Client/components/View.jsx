@@ -431,7 +431,7 @@ class View extends Component {
 
     return (
       <Fragment>
-        <TabHeader title={I18n.t('CLIENT_PROFILE.PROFILE.TITLE')}>
+        {/* <TabHeader title={I18n.t('CLIENT_PROFILE.PROFILE.TITLE')}>
           <PermissionContent permissions={permissions.USER_PROFILE.REQUEST_KYC}>
             <button
               id="request-kyc-button"
@@ -442,7 +442,7 @@ class View extends Component {
               {I18n.t('PLAYER_PROFILE.PROFILE.REQUEST_KYC_VERIFICATION')}
             </button>
           </PermissionContent>
-        </TabHeader>
+        </TabHeader> */}
         <div className="tab-wrapper">
           <div className="client-flex-wrapper">
             <div className="client-big-col">
