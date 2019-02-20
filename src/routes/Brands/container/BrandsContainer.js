@@ -1,6 +1,7 @@
 import { connect } from 'react-redux';
+import { withApollo, compose } from 'react-apollo';
 import { actionCreators as authActionCreators } from '../../../redux/modules/auth';
-import SignIn from '../components/BrandsView';
+import BrandsView from '../components/BrandsView';
 
 const mapActionCreators = {
   changeDepartment: authActionCreators.changeDepartment,
@@ -24,4 +25,7 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, mapActionCreators)(SignIn);
+export default compose(
+  withApollo,
+  connect(mapStateToProps, mapActionCreators),
+)(BrandsView);
