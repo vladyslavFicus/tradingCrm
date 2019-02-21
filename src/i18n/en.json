@@ -2949,6 +2949,7 @@
       "ADD_CALLBACK": "+ Add callback"
     },
     "DETAILS": {
+      "CLIENT_TYPE": "Client type",
       "DATE_OF_BIRTH": "Date of birth",
       "GENDER": "Gender",
       "PHONE": "Phone",
@@ -2962,7 +2963,12 @@
       "CONVERTED_FROM_LEAD": "Converted from Lead",
       "AFFILIATE_ID": "AffiliateID",
       "NO_SOURCE": "no-source",
-      "NO_REFERRAL": "no-referral"
+      "NO_REFERRAL": "no-referral",
+      "NONE": "None",
+      "INDIVIDUAL_RETAIL": "Individual retail",
+      "INDIVIDUAL_PROFESSIONAL": "Individual Professional",
+      "CORPORATE_RETAIL": "Corporate Retail",
+      "CORPORATE_PROFESSIONAL": "Corporate Professional"
     }
   },
   "TEMPORARY_UNTIL": {

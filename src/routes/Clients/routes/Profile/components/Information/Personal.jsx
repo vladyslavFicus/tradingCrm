@@ -26,6 +26,7 @@ const Personal = (props) => {
   } = props;
 
   const affiliateProfile = get(tradingProfile, 'affiliateProfileDocument');
+  const clientType = get(tradingProfile, 'clientType');
 
   return (
     <div className="account-details__personal-info">
@@ -34,6 +35,12 @@ const Personal = (props) => {
       </span>
       <div className="card">
         <div className="card-body">
+          <If condition={!!clientType}>
+            <PersonalInformationItem
+              label={I18n.t('CLIENT_PROFILE.DETAILS.CLIENT_TYPE')}
+              value={I18n.t(`CLIENT_PROFILE.DETAILS.${clientType}`)}
+            />
+          </If>
           <PersonalInformationItem
             label={I18n.t('CLIENT_PROFILE.DETAILS.DATE_OF_BIRTH')}
             value={birthDate ? moment(birthDate).format('DD.MM.YYYY') : null}
