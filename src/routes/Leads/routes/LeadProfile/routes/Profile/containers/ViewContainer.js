@@ -6,7 +6,7 @@ import { withNotifications } from '../../../../../../../components/HighOrder';
 import { leadProfileQuery } from '../../../../../../../graphql/queries/leads';
 import { updateLeadProfile } from '../../../../../../../graphql/mutations/leads';
 import { createValidator } from '../../../../../../../utils/validator';
-import countryList from '../../../../../../../utils/countryList';
+import countryList, { getCountryCode } from '../../../../../../../utils/countryList';
 import { attributeLabels } from '../constants';
 import View from '../components/View';
 
@@ -42,7 +42,7 @@ const mapStateToProps = (_, { leadProfile: { leadProfile } }) => {
       phone,
       mobile,
       email,
-      country,
+      country: getCountryCode(country),
       birthDate,
       gender,
       city,
@@ -78,7 +78,7 @@ export default compose(
       lastName: 'string',
       birthDate: 'regex:/^\\d{4}-\\d{2}-\\d{2}$/',
       identifier: 'string',
-      country: `in:,${countryCodes.join()}`,
+      country: `in:${countryCodes.join()}`,
       city: ['string', 'min:3'],
       postCode: ['string', 'min:3'],
       address: 'string',

@@ -2,8 +2,8 @@ import React, { PureComponent, Fragment } from 'react';
 import { Field } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
 import moment from 'moment';
-import PropTypes from '../../../../../../../constants/propTypes';
-import { InputField, SelectField, DateTimeField } from '../../../../../../../components/ReduxForm';
+import PropTypes from 'constants/propTypes';
+import { InputField, NasSelectField, DateTimeField } from 'components/ReduxForm';
 import { attributeLabels, genders, AGE_YEARS_CONSTRAINT } from '../constants';
 
 class PersonalForm extends PureComponent {
@@ -63,9 +63,11 @@ class PersonalForm extends PureComponent {
             name="gender"
             label={I18n.t(attributeLabels.gender)}
             type="text"
-            component={SelectField}
+            component={NasSelectField}
             disabled={disabled}
+            placeholder="UNDEFINED"
             className="col-lg"
+            searchable={false}
           >
             {genders.map(item => (
               <option key={item} value={item}>

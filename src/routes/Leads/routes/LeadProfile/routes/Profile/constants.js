@@ -1,6 +1,6 @@
 import I18n from '../../../../../../utils/fake-i18n';
 
-export const genders = ['UNDEFINED', 'MALE', 'FEMALE'];
+export const genders = ['MALE', 'FEMALE'];
 
 export const AGE_YEARS_CONSTRAINT = 18;
 

@@ -18,6 +18,7 @@ const AddressForm = ({ disabled }) => (
         name="country"
         label={I18n.t(attributeLabels.country)}
         type="text"
+        placeholder="UNDEFINED"
         className="col-lg-6"
         component={NasSelectField}
         disabled={disabled}

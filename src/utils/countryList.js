@@ -6,7 +6,7 @@ const countryCodeSource = {
 };
 
 export const getCountryCode = (value) => {
-  const code = value.toUpperCase();
+  const code = value && value.toUpperCase();
   return countryCodeSource[code] || code;
 };
 
