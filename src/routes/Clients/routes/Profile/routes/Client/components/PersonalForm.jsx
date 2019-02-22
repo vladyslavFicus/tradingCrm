@@ -3,13 +3,14 @@ import { Field, reduxForm } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
 import { get } from 'lodash';
 import moment from 'moment';
-import PropTypes from '../../../../../../../constants/propTypes';
-import { InputField, SelectField, DateTimeField, NasSelectField } from '../../../../../../../components/ReduxForm';
-import { createValidator } from '../../../../../../../utils/validator';
-import PermissionContent from '../../../../../../../components/PermissionContent';
-import { getAvailableLanguages } from '../../../../../../../config';
-import permissions from '../../../../../../../config/permissions';
-import languageNames from '../../../../../../../constants/languageNames';
+import PropTypes from 'constants/propTypes';
+import { InputField, SelectField, DateTimeField, NasSelectField } from 'components/ReduxForm';
+import { createValidator } from 'utils/validator';
+import PermissionContent from 'components/PermissionContent';
+import { getAvailableLanguages } from 'config';
+import permissions from 'config/permissions';
+import languageNames from 'constants/languageNames';
+import countryList from 'utils/countryList';
 
 const genders = ['UNDEFINED', 'MALE', 'FEMALE'];
 const attributeLabels = {
@@ -18,6 +19,10 @@ const attributeLabels = {
   languageCode: I18n.t('PLAYER_PROFILE.PROFILE.PERSONAL.LABEL.LANGUAGE'),
   birthDate: I18n.t('PLAYER_PROFILE.PROFILE.PERSONAL.LABEL.DATE_OF_BIRTH'),
   gender: I18n.t('PLAYER_PROFILE.PROFILE.PERSONAL.LABEL.GENDER'),
+  passportNumber: I18n.t('PLAYER_PROFILE.PROFILE.PERSONAL.LABEL.PASSPORT_NUMBER'),
+  expirationDate: I18n.t('PLAYER_PROFILE.PROFILE.PERSONAL.LABEL.PASSPORT_EXPARATION_DATE'),
+  countryOfIssue: I18n.t('PLAYER_PROFILE.PROFILE.PERSONAL.LABEL.PASSPORT_ISSUE_COUNTRY'),
+  passportIssueDate: I18n.t('PLAYER_PROFILE.PROFILE.PERSONAL.LABEL.PASSPORT_ISSUE_DATE'),
 };
 
 const AGE_YEARS_CONSTRAINT = 18;
@@ -132,6 +137,50 @@ class PersonalForm extends Component {
             ))}
           </Field>
         </div>
+        <div className="row">
+          <Field
+            name="passportNumber"
+            label={attributeLabels.passportNumber}
+            type="text"
+            component={InputField}
+            disabled={disabled}
+            className="col-lg-6"
+          />
+          <Field
+            name="expirationDate"
+            label={attributeLabels.expirationDate}
+            component={DateTimeField}
+            timeFormat={null}
+            isValidDate={() => true}
+            disabled={disabled}
+            className="col-lg-3"
+          />
+        </div>
+        <div className="row">
+          <Field
+            name="countryOfIssue"
+            label={I18n.t(attributeLabels.countryOfIssue)}
+            component={NasSelectField}
+            disabled={disabled}
+            placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
+            className="col-lg-4"
+          >
+            {Object.entries(countryList).map(([key, value]) => (
+              <option key={key} value={key}>
+                {value}
+              </option>
+            ))}
+          </Field>
+          <Field
+            name="passportIssueDate"
+            label={attributeLabels.passportIssueDate}
+            component={DateTimeField}
+            timeFormat={null}
+            isValidDate={() => true}
+            disabled={disabled}
+            className="col-lg-3"
+          />
+        </div>
       </form>
     );
   }
@@ -145,6 +194,10 @@ export default reduxForm({
     lastName: 'string',
     birthDate: 'regex:/^\\d{4}-\\d{2}-\\d{2}$/',
     identifier: 'string',
+    passportNumber: 'string',
+    expirationDate: 'regex:/^\\d{4}-\\d{2}-\\d{2}$/',
+    countryOfIssue: 'string',
+    passportIssueDate: 'regex:/^\\d{4}-\\d{2}-\\d{2}$/',
   }, attributeLabels, false),
   enableReinitialize: true,
 })(PersonalForm);

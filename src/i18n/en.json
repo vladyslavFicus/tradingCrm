@@ -108,7 +108,11 @@
           "LANGUAGE": "Language",
           "DATE_OF_BIRTH": "Date of birth",
           "GENDER": "Gender",
-          "IDENTIFIER": "ID Number"
+          "IDENTIFIER": "ID Number",
+          "PASSPORT_NUMBER": "Passport number",
+          "PASSPORT_EXPARATION_DATE": "Passport expiration date",
+          "PASSPORT_ISSUE_COUNTRY": "Passport country of issue",
+          "PASSPORT_ISSUE_DATE": "Passport issue date"
         },
         "TEST_PLAYER": "Test player"
       },

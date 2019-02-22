@@ -78,6 +78,12 @@ const clientQuery = gql`query profileData($playerUUID: String!){
         margin
         marginLevel
         isTestUser
+        passport {
+          passportNumber
+          passportIssueDate
+          expirationDate
+          countryOfIssue
+        }
         aquisitionRep {
           fullName
           uuid

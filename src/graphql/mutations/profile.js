@@ -276,6 +276,10 @@ const updateMutation = gql`mutation update(
   $phone1: String,
   $phone2: String,
   $languageCode: String,
+  $passportNumber: String,
+  $expirationDate: String,
+  $countryOfIssue: String,
+  $passportIssueDate: String
 ){
   profile {
     update(
@@ -283,13 +287,23 @@ const updateMutation = gql`mutation update(
       phone1: $phone1,
       phone2: $phone2,
       languageCode: $languageCode,
+      passportNumber: $passportNumber,
+      expirationDate: $expirationDate,
+      countryOfIssue: $countryOfIssue,
+      passportIssueDate: $passportIssueDate
     ) {
       data {
         playerUUID
         tradingProfile {
           phone1
           phone2
-          languageCode,
+          languageCode
+          passport {
+            passportNumber
+            expirationDate
+            countryOfIssue
+            passportIssueDate
+          }
         }
       }
       error {

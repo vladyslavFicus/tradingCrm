@@ -1,22 +1,24 @@
 import React, { Component, Fragment } from 'react';
 import { I18n } from 'react-redux-i18n';
 import { SubmissionError } from 'redux-form';
-import PropTypes from '../../../../../../../constants/propTypes';
+import { get } from 'lodash';
+import PropTypes from 'constants/propTypes';
+import {
+  types as kycTypes,
+  categories as kycCategories,
+} from 'constants/kyc';
 import PersonalForm from './PersonalForm';
 import AddressForm from './AddressForm';
 import ContactForm from './ContactForm';
 import RefuseModal from './Kyc/RefuseModal';
 import SimpleConfirmationModal from './Kyc/SimpleConfirmationModal';
 import RequestKycVerificationModal from './Kyc/RequestKycVerificationModal';
-import {
-  types as kycTypes,
-  categories as kycCategories,
-} from '../../../../../../../constants/kyc';
+
 import { kycNoteTypes } from '../constants';
 import './View.scss';
-import TabHeader from '../../../../../../../components/TabHeader';
-import PermissionContent from '../../../../../../../components/PermissionContent';
-import permissions from '../../../../../../../config/permissions';
+// import TabHeader from 'components/TabHeader';
+// import PermissionContent from 'components/PermissionContent';
+// import permissions from 'config/permissions';
 
 const REFUSE_MODAL = 'refuse-modal';
 const VERIFY_MODAL = 'verify-modal';
@@ -117,11 +119,9 @@ class View extends Component {
 
     let error = action && action.error;
 
-    if (data.languageCode !== profile.tradingProfile.languageCode) {
-      const result = await profileUpdate({ variables: data });
+    const result = await profileUpdate({ variables: data });
 
-      error = error || (result.error && result.error.error);
-    }
+    error = error || (result.error && result.error.error);
 
     this.context.addNotification({
       level: error ? 'error' : 'success',
@@ -423,6 +423,7 @@ class View extends Component {
               phone1,
               phone2,
               languageCode,
+              passport,
             },
           },
         },
@@ -449,7 +450,11 @@ class View extends Component {
               <div className="card margin-right-20">
                 <div className="card-body">
                   <PersonalForm
-                    initialValues={{ ...personalData, languageCode }}
+                    initialValues={{
+                      ...passport,
+                      ...personalData,
+                      languageCode,
+                    }}
                     onSubmit={this.handleSubmitKYC(kycTypes.personal)}
                     disabled={!canUpdateProfile}
                   />
