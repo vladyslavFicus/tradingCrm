@@ -72,7 +72,9 @@ class GridView extends Component {
       || nextProps.showNoResults !== this.props.showNoResults
       || this.props.touchedRowsIds.length !== nextProps.touchedRowsIds.length
       || this.props.allRowsSelected !== nextProps.allRowsSelected
-      || nextProps.loading !== this.props.loading;
+      || nextProps.loading !== this.props.loading
+      || nextProps.totalPages !== this.props.totalPages
+      || nextProps.last !== this.props.last;
   }
 
   onFiltersChanged = () => {
