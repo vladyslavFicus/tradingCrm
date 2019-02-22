@@ -133,6 +133,10 @@ export default {
   TRADING_ACTIVITY: {
     CLIENT_TRADING_ACTIVITY: 'trading_activity;GET;/',
   },
+  TRADING_ACCOUNT: {
+    CREATE: 'trading_mt4_updater;POST;/user',
+    UPDATE_PASSWORD: 'trading_mt4_updater;PUT;/user/password',
+  },
   FREE_SPIN: {
     PLAYER_FREE_SPIN_LIST: 'free_spin;GET;/free-spins/{playerUUID}',
   },

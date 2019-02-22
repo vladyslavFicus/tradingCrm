@@ -26,7 +26,7 @@ export default compose(
   graphql(paymentsStatisticQuery, {
     options: ({ playerUUID }) => ({
       variables: {
-        profileIds: [playerUUID],
+        playerUUID,
         ...initialQueryParams(tradingTypes.DEPOSIT, tradingStatuses.MT4_COMPLETED),
       },
     }),
@@ -35,7 +35,7 @@ export default compose(
   graphql(paymentsStatisticQuery, {
     options: ({ playerUUID }) => ({
       variables: {
-        profileIds: [playerUUID],
+        playerUUID,
         ...initialQueryParams(tradingTypes.WITHDRAW, tradingStatuses.MT4_COMPLETED),
       },
     }),

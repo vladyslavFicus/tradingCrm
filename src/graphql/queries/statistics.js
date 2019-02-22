@@ -50,11 +50,11 @@ const paymentsStatisticQuery = gql`
   query getPaymentsStat(
     $dateFrom: String,
     $dateTo: String,
-    $detalization: detalizationEnum,
+    $detalization: DetalizationEnum,
     $paymentStatus: String,
     $paymentType: String,
-    $profileIds: [String],
-    $additionalStatistics: [additionalStatisticInput]
+    $playerUUID: String,
+    $additionalStatistics: [AdditionalStatisticInput]
   ) {
     statistics {
       payments(
@@ -63,7 +63,7 @@ const paymentsStatisticQuery = gql`
         detalization: $detalization,
         paymentStatus: $paymentStatus,
         paymentType: $paymentType,
-        profileIds: $profileIds
+        playerUUID: $playerUUID
         additionalStatistics: $additionalStatistics
       ) {
         error {

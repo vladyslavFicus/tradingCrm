@@ -161,8 +161,10 @@ class Balances extends Component {
                   name="date"
                   component={SelectField}
                 >
-                  {selectItems.map(item => (
-                    <option key={item.value} value={item.value}>{item.label}</option>
+                  {selectItems.map(({ value, label }) => (
+                    <option key={value} value={value}>
+                      {label}
+                    </option>
                   ))}
                 </Field>
               </form>

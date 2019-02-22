@@ -2,6 +2,12 @@
 import React, { Fragment } from 'react';
 import { I18n } from 'react-redux-i18n';
 
+export const actionColumn = render => ({
+  name: 'actions',
+  headerStyle: { width: '5%' },
+  render,
+});
+
 export default [{
   name: 'tradingAcc',
   header: I18n.t('CLIENT_PROFILE.ACCOUNTS.GRID_COLUMNS.TRADING_ACC'),

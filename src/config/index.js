@@ -62,10 +62,6 @@ function getAvailableLanguages() {
   return _.get(window, 'app.brand.locales.languages', []);
 }
 
-function getAvailableCurrencies() {
-  return _.get(window, 'app.brand.currencies', {});
-}
-
 function getGraphQLRoot() {
   return config.graphqlRoot;
 }
@@ -108,7 +104,6 @@ export {
   getLogo,
   getActiveBrandConfig,
   getAvailableLanguages,
-  getAvailableCurrencies,
   getVersion,
   getApiVersion,
   getDomain,

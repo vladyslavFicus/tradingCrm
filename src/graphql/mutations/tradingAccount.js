@@ -16,6 +16,10 @@ const createTradingAccountMutation = gql`mutation createTradingAccount(
       password: $password,
     ) {
       success
+      error {
+        error
+        fields_errors
+      }
     }
   }
 }`;
@@ -27,6 +31,10 @@ const tradingAccountChangePasswordMutation = gql`mutation tradingAccountChangePa
   tradingAccount {
     changePassword(login: $login, password: $password) {
       success
+      error {
+        error
+        fields_errors
+      }
     }
   }
 }`;

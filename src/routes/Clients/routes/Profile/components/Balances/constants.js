@@ -35,6 +35,7 @@ export const initialQueryParams = (paymentType, paymentStatus) => ({
     .format(),
   paymentType,
   paymentStatus,
+  detalization: 'PER_DAYS',
 });
 
 export const moneyObj = { totalAmount: 0, totalCount: 0 };

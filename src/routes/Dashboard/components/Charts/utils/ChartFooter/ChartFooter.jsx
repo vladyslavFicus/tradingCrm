@@ -1,7 +1,7 @@
 import React from 'react';
 import { I18n } from 'react-redux-i18n';
 import PropTypes from 'constants/propTypes';
-import { getAvailableCurrencies } from 'config';
+import { getActiveBrandConfig } from 'config';
 import './ChartFooter.scss';
 
 const totalColumns = [{
@@ -36,7 +36,7 @@ const ChartFooter = ({
             <Otherwise>
               {withCurrency ? Number(totals[key].value).toFixed(2) : totals[key].value}
               <If condition={withCurrency}>
-                {` ${getAvailableCurrencies().base || ''}`}
+                {` ${getActiveBrandConfig().currencies.base || ''}`}
               </If>
             </Otherwise>
           </Choose>
