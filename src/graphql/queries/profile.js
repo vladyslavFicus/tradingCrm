@@ -3,14 +3,6 @@ import gql from 'graphql-tag';
 const clientQuery = gql`query profileData($playerUUID: String!){
   playerProfile(playerUUID: $playerUUID) {
     data {
-      accumulatedDeposits {
-        amount
-        currency
-      }
-      accumulatedWithdrawals {
-        amount
-        currency
-      }
       playerUUID
       realMoneyBalance {
         amount

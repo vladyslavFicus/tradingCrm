@@ -1,5 +1,5 @@
-import PaymentsChartWrapper from './PaymentsChartWrapper';
+import paymentsChartWrapper from './PaymentsChartWrapper';
 import ChartFooter from './ChartFooter';
-import { initialQueryParams, getChartSelectOptions } from './chartUtils';
+import { initialDateQueryParams, initialPaymentQueryParams, getChartSelectOptions } from './chartUtils';
 
-export { PaymentsChartWrapper, initialQueryParams, ChartFooter, getChartSelectOptions };
+export { paymentsChartWrapper, initialDateQueryParams, initialPaymentQueryParams, ChartFooter, getChartSelectOptions };

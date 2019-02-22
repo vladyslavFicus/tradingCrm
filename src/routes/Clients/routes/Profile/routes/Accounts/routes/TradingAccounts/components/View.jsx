@@ -1,10 +1,13 @@
 import React, { PureComponent } from 'react';
 import { I18n } from 'react-redux-i18n';
 import { get } from 'lodash';
-import PropTypes from '../../../../../../../../../constants/propTypes';
-import GridView, { GridViewColumn } from '../../../../../../../../../components/GridView';
-import ActionsDropDown from '../../../../../../../../../components/ActionsDropDown';
-import columns from './utils';
+import PropTypes from 'constants/propTypes';
+import permissions from 'config/permissions';
+import PermissionContent from 'components/PermissionContent';
+import GridView, { GridViewColumn } from 'components/GridView';
+import ActionsDropDown from 'components/ActionsDropDown';
+import Permissions, { CONDITIONS } from 'utils/permissions';
+import columns, { actionColumn } from './utils';
 
 class View extends PureComponent {
   static propTypes = {
@@ -24,6 +27,7 @@ class View extends PureComponent {
 
   static contextTypes = {
     setRenderActions: PropTypes.func.isRequired,
+    permissions: PropTypes.arrayOf(PropTypes.string).isRequired,
   };
 
   componentDidMount() {
@@ -34,9 +38,11 @@ class View extends PureComponent {
     } = this;
 
     setRenderActions(() => (
-      <button type="button" className="btn btn-default-outline" onClick={this.showTradingAccountAddModal}>
-        {I18n.t('CLIENT_PROFILE.ACCOUNTS.ADD_TRADING_ACC')}
-      </button>
+      <PermissionContent permissions={permissions.TRADING_ACCOUNT.CREATE}>
+        <button type="button" className="btn btn-default-outline" onClick={this.showTradingAccountAddModal}>
+          {I18n.t('CLIENT_PROFILE.ACCOUNTS.ADD_TRADING_ACC')}
+        </button>
+      </PermissionContent>
     ));
   }
 
@@ -65,8 +71,11 @@ class View extends PureComponent {
       playerProfile,
       locale,
     } = this.props;
+    const { permissions: currentPermissions } = this.context;
 
     const mt4Users = get(playerProfile, 'playerProfile.data.tradingProfile.mt4Users') || [];
+    const updatePassPermission =
+      (new Permissions(permissions.TRADING_ACCOUNT.UPDATE_PASSWORD, CONDITIONS.AND)).check(currentPermissions);
 
     return (
       <div className="tab-wrapper">
@@ -76,19 +85,18 @@ class View extends PureComponent {
           locale={locale}
           showNoResults={!playerProfile.loading && mt4Users.length === 0}
         >
-          {columns.map(({ name, header, render }) => (
+          {[
+            ...columns,
+            ...(updatePassPermission ? [actionColumn(this.renderActions)] : []),
+          ].map(({ name, header, headerStyle, render }) => (
             <GridViewColumn
               key={name}
               name={name}
               header={header}
+              headerStyle={headerStyle}
               render={render}
             />
           ))}
-          <GridViewColumn
-            name="actions"
-            headerStyle={{ width: '5%' }}
-            render={this.renderActions}
-          />
         </GridView>
       </div>
     );

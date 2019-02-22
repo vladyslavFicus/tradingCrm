@@ -23,7 +23,7 @@ import ChangePasswordModal from 'components/ChangePasswordModal';
 import BackToTop from 'components/BackToTop';
 import HideDetails from 'components/HideDetails';
 import { Route } from 'router';
-import NotFound from '../../../../../NotFound';
+import NotFound from 'routes/NotFound';
 import {
   ClientView,
   Transactions,

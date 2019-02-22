@@ -1,7 +1,7 @@
 import { Component } from 'react';
 import PropTypes from 'prop-types';
-import shallowEqual from '../../utils/shallowEqual';
-import Permissions, { CONDITIONS } from '../../utils/permissions';
+import shallowEqual from 'utils/shallowEqual';
+import Permissions, { CONDITIONS } from 'utils/permissions';
 
 class PermissionContent extends Component {
   static propTypes = {
