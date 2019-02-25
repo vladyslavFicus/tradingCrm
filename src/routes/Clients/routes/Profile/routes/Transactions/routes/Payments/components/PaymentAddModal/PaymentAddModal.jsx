@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { Field, reduxForm, getFormValues } from 'redux-form';
 import { connect } from 'react-redux';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
@@ -28,7 +28,7 @@ const attributeLabels = {
   toMt4Acc: I18n.t('CLIENT_PROFILE.TRANSACTIONS.MODAL_CREATE.TO_MT4'),
 };
 
-class PaymentAddModal extends Component {
+class PaymentAddModal extends PureComponent {
   static propTypes = {
     onCloseModal: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
@@ -38,7 +38,7 @@ class PaymentAddModal extends Component {
     invalid: PropTypes.bool.isRequired,
     currentValues: PropTypes.shape({
       paymentType: PropTypes.string,
-      amount: PropTypes.string,
+      amount: PropTypes.number,
       fromMt4Acc: PropTypes.string,
       toMt4Acc: PropTypes.string,
     }),
@@ -190,7 +190,7 @@ class PaymentAddModal extends Component {
               <Field
                 name="amount"
                 label={attributeLabels.amount}
-                type="text"
+                type="number"
                 placeholder="0.00"
                 className="col-4"
                 normalize={floatNormalize}
