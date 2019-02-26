@@ -154,7 +154,7 @@ const TradingAccountAddModalRedux = reduxForm({
     name: ['required', 'string', 'max:25', 'min:4'],
     mode: ['required', 'string'],
     currency: ['required', 'string'],
-    password: ['required', `regex:${getActiveBrandConfig().password.pattern}`],
+    password: ['required', `regex:${getActiveBrandConfig().password.mt4_pattern}`],
   }, translateLabels(attributeLabels)),
 })(TradingAccountAddModal);
 

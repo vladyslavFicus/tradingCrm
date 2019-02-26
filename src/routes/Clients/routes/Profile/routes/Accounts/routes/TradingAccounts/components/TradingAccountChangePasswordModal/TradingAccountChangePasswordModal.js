@@ -102,7 +102,7 @@ class TradingAccountChangePasswordModal extends PureComponent {
 export default reduxForm({
   form: 'tradingAccountChangePassword',
   validate: createValidator({
-    password: ['required', `regex:${getActiveBrandConfig().password.pattern}`],
+    password: ['required', `regex:${getActiveBrandConfig().password.mt4_pattern}`],
     repeatPassword: [
       'required',
       'same:password',
