@@ -49,6 +49,7 @@ export default compose(
       phone: 'min:3',
       department: 'required',
       role: 'required',
+      branch: 'required',
     }, translateLabels(attributeLabels), false),
   }),
   withReduxFormValues,

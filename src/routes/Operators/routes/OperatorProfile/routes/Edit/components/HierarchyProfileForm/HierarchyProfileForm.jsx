@@ -163,13 +163,15 @@ class HierarchyProfileForm extends Component {
                       <strong>
                         {I18n.t(`COMMON.${branchType}`)}: {name}
                       </strong>
-                      <strong className="margin-left-20">
-                        <i
-                          id={uuid}
-                          onClick={this.handleRemoveBranch(uuid)}
-                          className="fa fa-trash cursor-pointer color-danger"
-                        />
-                      </strong>
+                      <If condition={parentBranches.length !== 1}>
+                        <strong className="margin-left-20">
+                          <i
+                            id={uuid}
+                            onClick={this.handleRemoveBranch(uuid)}
+                            className="fa fa-trash cursor-pointer color-danger"
+                          />
+                        </strong>
+                      </If>
                     </div>
                   )) }
                 </When>
