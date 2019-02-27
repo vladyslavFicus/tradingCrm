@@ -35,7 +35,8 @@
       "CONDITIONAL_TAGS": "Conditional tags"
     },
     "BOTTOM_MENU": {
-      "SUPPORT": "Support"
+      "SUPPORT": "Support",
+      "RELEASE_NOTES": "Release notes"
     }
   },
   "MY_PROFILE_SIDEBAR": {
