@@ -109,7 +109,7 @@ export default (
   className: fieldClassNames.MEDIUM,
   selectOptions: uniq([...Object.keys(methods), ...Object.keys(manualPaymentMethods)])
     .map((method) => {
-      let label = null;
+      let label = method;
 
       if (methodsLabels[method]) {
         label = I18n.t(methodsLabels[method]);
@@ -154,13 +154,13 @@ export default (
     name: 'amountFrom',
     inputType: 'number',
     normalize: normalize.FLOAT,
-    placeholder: '0',
+    placeholder: '0.0',
   }, {
     type: fieldTypes.INPUT,
     name: 'amountTo',
     inputType: 'number',
     normalize: normalize.FLOAT,
-    placeholder: '0',
+    placeholder: '0.0',
   }],
 }, {
   type: fieldTypes.RANGE,

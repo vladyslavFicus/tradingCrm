@@ -14,8 +14,8 @@ const getClientPayments = gql`query getClientPayments(
   $currency: String
   $creationTimeFrom: String
   $creationTimeTo: String
-  $amountFrom: String
-  $amountTo: String
+  $amountFrom: Float
+  $amountTo: Float
   $agentIds: [String]
 ) {
   clientPayments (
@@ -97,8 +97,8 @@ const getClientPaymentsByUuid = gql`query getClientPayments(
   $paymentMethods: [String]
   $creationTimeFrom: String
   $creationTimeTo: String
-  $amountFrom: String
-  $amountTo: String
+  $amountFrom: Float
+  $amountTo: Float
   $agentIds: [String]
 ) {
   clientPaymentsByUuid (
