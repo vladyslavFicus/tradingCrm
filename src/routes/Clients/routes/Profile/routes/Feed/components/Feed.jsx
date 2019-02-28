@@ -1,24 +1,26 @@
 import React, { Component, Fragment } from 'react';
-import { I18n } from 'react-redux-i18n';
+import history from 'router/history';
+import { get } from 'lodash';
+import parseJson from 'utils/parseJson';
 import PropTypes from '../../../../../../../constants/propTypes';
 import ListView from '../../../../../../../components/ListView';
 import FeedItem from '../../../../../../../components/FeedItem';
 import FeedFilterForm from './FeedFilterForm';
-import TabHeader from '../../../../../../../components/TabHeader';
 
 class Feed extends Component {
   static propTypes = {
-    feed: PropTypes.pageableState(PropTypes.auditEntity).isRequired,
-    feedTypes: PropTypes.shape({
-      data: PropTypes.arrayOf(PropTypes.string).isRequired,
+    feeds: PropTypes.shape({
+      refetch: PropTypes.func.isRequired,
+      loading: PropTypes.bool.isRequired,
+      loadMoreFeeds: PropTypes.func.isRequired,
+      feeds: PropTypes.shape({
+        content: PropTypes.arrayOf(PropTypes.shape({
+          targetUUID: PropTypes.string,
+        })),
+      }),
     }).isRequired,
-    fetchFeed: PropTypes.func.isRequired,
-    fetchFeedTypes: PropTypes.func.isRequired,
-    exportFeed: PropTypes.func.isRequired,
-    match: PropTypes.shape({
-      params: PropTypes.shape({
-        id: PropTypes.string.isRequired,
-      }).isRequired,
+    feedTypes: PropTypes.shape({
+      data: PropTypes.arrayOf(PropTypes.string),
     }).isRequired,
     locale: PropTypes.string.isRequired,
   };
@@ -28,26 +30,13 @@ class Feed extends Component {
     unRegisterUpdateCacheListener: PropTypes.func.isRequired,
   };
 
-  state = {
-    filters: {},
-    page: 0,
-  };
-
   componentDidMount() {
     const {
       context: { registerUpdateCacheListener },
       constructor: { name },
-      props: {
-        fetchFeedTypes,
-        match: { params: { id: playerUUID } },
-      },
-      handleRefresh,
-      handleFiltersChanged,
     } = this;
 
-    handleFiltersChanged();
-    fetchFeedTypes(playerUUID);
-    registerUpdateCacheListener(name, handleRefresh);
+    registerUpdateCacheListener(name, this.props.feeds.refetch);
   }
 
   componentWillUnmount() {
@@ -59,55 +48,51 @@ class Feed extends Component {
     unRegisterUpdateCacheListener(name);
   }
 
-  handleRefresh = () => {
-    this.props.fetchFeed(this.props.match.params.id, {
-      ...this.state.filters,
-      page: this.state.page,
-    });
-  };
+  handlePageChanged = () => {
+    const {
+      feeds: {
+        loading,
+        loadMoreFeeds,
+      },
+    } = this.props;
 
-  handlePageChanged = (page) => {
-    if (!this.props.feed.isLoading) {
-      this.setState({ page: page - 1 }, () => this.handleRefresh());
+    if (!loading) {
+      loadMoreFeeds();
     }
   };
 
   handleFiltersChanged = (filters = {}) => {
-    this.setState({ filters, page: 0 }, this.handleRefresh);
+    history.replace({ query: { filters } });
   };
 
-  handleExportClick = () => {
-    this.props.exportFeed(this.props.match.params.id, {
-      ...this.state.filters,
-      page: this.state.page,
-    });
-  };
+  mapAuditEntities = entities => entities.map(entity => (
+    typeof entity.details === 'string'
+      ? { ...entity, details: parseJson(entity.details) }
+      : entity
+  ));
 
   render() {
     const {
-      feed: { entities, exporting, noResults },
-      feedTypes: { data: availableTypes },
+      feeds: { feeds: data, loading },
+      feedTypes: { feedTypes },
       locale,
     } = this.props;
 
+    const feeds = get(data, 'data') || { content: [] };
+    const content = this.mapAuditEntities(feeds.content);
+
+    const feedTypesList = get(feedTypes, 'data') || {};
+    const availableTypes = Object.keys(feedTypesList).filter(key => (!!feedTypesList[key] && key !== '__typename'));
+
     return (
       <Fragment>
-        <TabHeader title="Feed">
-          <button
-            disabled={exporting}
-            className="btn btn-sm btn-default-outline"
-            onClick={this.handleExportClick}
-          >
-            {I18n.t('COMMON.EXPORT')}
-          </button>
-        </TabHeader>
         <FeedFilterForm
           availableTypes={availableTypes}
           onSubmit={this.handleFiltersChanged}
         />
         <div className="tab-wrapper">
           <ListView
-            dataSource={entities.content}
+            dataSource={content}
             onPageChange={this.handlePageChanged}
             render={(item, key) => {
               const options = {
@@ -132,11 +117,12 @@ class Feed extends Component {
                 />
               );
             }}
-            activePage={entities.number + 1}
-            totalPages={entities.totalPages}
+            activePage={feeds.number + 1}
+            totalPages={feeds.totalPages}
+            last={feeds.last}
             lazyLoad
             locale={locale}
-            showNoResults={noResults}
+            showNoResults={!loading && !content.length}
           />
         </div>
       </Fragment>

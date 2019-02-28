@@ -73,7 +73,7 @@ class FeedFilterForm extends Component {
           className="filter-row__medium"
         />
         <Field
-          name="actionType"
+          name="auditLogType"
           label={I18n.t(attributeLabels.actionType)}
           component={SelectField}
           className="filter-row__medium"
@@ -136,7 +136,7 @@ export default connect(state => ({
   touchOnChange: true,
   validate: createValidator({
     searchBy: 'string',
-    actionType: 'string',
+    auditLogType: 'string',
     creationDateFrom: 'regex:/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/',
     creationDateTo: 'regex:/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/',
   }, translateLabels(attributeLabels), false),
