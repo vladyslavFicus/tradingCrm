@@ -1354,7 +1354,8 @@
           "MIGRATION": "Migration",
           "INTERNAL_TRANSFER": "Internal transfer",
           "ELECTRONIC": "Electronic",
-          "BONUS": "Bonus"
+          "BONUS": "Bonus",
+          "PAYRETAILERS": "Payretailers"
         },
         "ATTRIBUTES_PLACEHOLDERS": {
           "KEYWORD": "Transaction ID, Player, External reference",

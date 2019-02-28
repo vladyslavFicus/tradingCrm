@@ -60,6 +60,7 @@ const manualPaymentMethods = keyMirror({
   INTERNAL_TRANSFER: null,
   ELECTRONIC: null,
   BONUS: null,
+  PAYRETAILERS: null,
 });
 
 const methodStatuses = keyMirror({
@@ -208,6 +209,7 @@ const manualPaymentMethodsLabels = {
   [manualPaymentMethods.INTERNAL_TRANSFER]: 'CONSTANTS.TRANSACTIONS.FILTER_FORM.PAYMENT_ACCOUNTS.INTERNAL_TRANSFER',
   [manualPaymentMethods.ELECTRONIC]: 'CONSTANTS.TRANSACTIONS.FILTER_FORM.PAYMENT_ACCOUNTS.ELECTRONIC',
   [manualPaymentMethods.BONUS]: 'CONSTANTS.TRANSACTIONS.FILTER_FORM.PAYMENT_ACCOUNTS.BONUS',
+  [manualPaymentMethods.PAYRETAILERS]: 'CONSTANTS.TRANSACTIONS.FILTER_FORM.PAYMENT_ACCOUNTS.PAYRETAILERS',
 };
 
 const methodsStatusesLabels = {
