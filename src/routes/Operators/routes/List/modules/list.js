@@ -1,40 +1,9 @@
-import { CALL_API } from 'redux-api-middleware';
 import get from 'lodash/get';
 import createRequestAction from '../../../../../utils/createRequestAction';
 import createReducer from '../../../../../utils/createReducer';
 
 const KEY = 'operators/list';
-const CREATE_OPERATOR = createRequestAction(`${KEY}/create-operator`);
 const FETCH_ENTITIES = createRequestAction(`${KEY}/entities`);
-
-function createOperator(data) {
-  return (dispatch, getState) => {
-    const { auth: { token, logged, brandId } } = getState();
-
-    return dispatch({
-      [CALL_API]: {
-        endpoint: 'operator/operators',
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          ...data,
-          sendMail: !!data.sendMail,
-          brandId,
-        }),
-        types: [
-          CREATE_OPERATOR.REQUEST,
-          CREATE_OPERATOR.SUCCESS,
-          CREATE_OPERATOR.FAILURE,
-        ],
-        bailout: !logged,
-      },
-    });
-  };
-}
 
 const initialState = {
   entities: {
@@ -88,12 +57,8 @@ const actionHandlers = {
 const actionTypes = {
   FETCH_ENTITIES,
 };
-const actionCreators = {
-  createOperator,
-};
 
 export {
-  actionCreators,
   actionTypes,
   initialState,
 };

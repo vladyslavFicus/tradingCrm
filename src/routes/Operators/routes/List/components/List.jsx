@@ -5,23 +5,25 @@ import moment from 'moment';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import { I18n } from 'react-redux-i18n';
-import { get } from 'lodash';
+import { get, startCase } from 'lodash';
 import Placeholder from 'components/Placeholder';
 import { TextRow } from 'react-placeholder/lib/placeholders';
-import history from '../../../../../router/history';
+import history from 'router/history';
 import {
   statusColorNames as operatorStatusColorNames,
   statusesLabels as operatorStatusesLabels,
-} from '../../../../../constants/operators';
-import { types as miniProfileTypes } from '../../../../../constants/miniProfile';
-import Uuid from '../../../../../components/Uuid';
-import MiniProfile from '../../../../../components/MiniProfile';
-import GridView, { GridViewColumn } from '../../../../../components/GridView';
-import CountryLabelWithFlag from '../../../../../components/CountryLabelWithFlag';
-import delay from '../../../../../utils/delay';
-import parseErrorsFromServer from '../../../../../utils/parseErrorsFromServer';
+  operatorTypes,
+} from 'constants/operators';
+import { types as miniProfileTypes } from 'constants/miniProfile';
+import Uuid from 'components/Uuid';
+import MiniProfile from 'components/MiniProfile';
+import GridView, { GridViewColumn } from 'components/GridView';
+import CountryLabelWithFlag from 'components/CountryLabelWithFlag';
+import delay from 'utils/delay';
+import parseErrorsFromServer from 'utils/parseErrorsFromServer';
 import { getUserTypeByDepartment } from './utils';
 import OperatorGridFilter from './OperatorGridFilter';
+
 
 class List extends Component {
   static propTypes = {
@@ -31,11 +33,10 @@ class List extends Component {
         hide: PropTypes.func.isRequired,
       }),
     }).isRequired,
-    onSubmitNewOperator: PropTypes.func.isRequired,
+    submitNewOperator: PropTypes.func.isRequired,
     filterValues: PropTypes.object,
     locale: PropTypes.string.isRequired,
     fetchOperatorMiniProfile: PropTypes.func.isRequired,
-    addAuthority: PropTypes.func.isRequired,
     fetchAuthorities: PropTypes.func.isRequired,
     fetchAuthoritiesOptions: PropTypes.func.isRequired,
     operators: PropTypes.shape({
@@ -45,6 +46,7 @@ class List extends Component {
       loadMore: PropTypes.func,
       loading: PropTypes.bool.isRequired,
     }),
+    operatorType: PropTypes.string,
   };
   static defaultProps = {
     filterValues: null,
@@ -52,6 +54,7 @@ class List extends Component {
       operators: {},
       loading: false,
     },
+    operatorType: operatorTypes.OPERATOR,
   };
 
   state = {
@@ -98,15 +101,20 @@ class List extends Component {
 
   handleSubmitNewOperator = async ({ department, role, branch, ...data }) => {
     const {
-      onSubmitNewOperator,
       modals: { createOperator },
-      addAuthority,
       notify,
-      createHierarchyUser,
+      submitNewOperator,
     } = this.props;
+    const userType = getUserTypeByDepartment(department, role);
+    const operatorType = this.props.operatorType.toLowerCase();
 
-    const action = await onSubmitNewOperator({ ...data, department, role });
-    const submitErrors = get(action.payload, 'response.fields_errors', null);
+    const {
+      data: operatorData,
+    } = await submitNewOperator({ variables: { ...data, department, role, userType, branchId: branch } });
+
+    const newOperator = get(operatorData, `${operatorType}.create${startCase(operatorType)}.data`);
+    const newOperatorError = get(operatorData, `${operatorType}.create${startCase(operatorType)}.error`);
+    const submitErrors = get(newOperatorError, 'fields_errors', null);
 
     if (submitErrors) {
       const errors = parseErrorsFromServer(submitErrors);
@@ -114,7 +122,7 @@ class List extends Component {
     }
     createOperator.hide();
 
-    const { uuid } = action.payload;
+    const { uuid } = newOperator;
     const hasAuthorities = await this.pollAuthorities(uuid);
 
     if (!hasAuthorities) {
@@ -125,40 +133,13 @@ class List extends Component {
       });
     }
 
-    const addAuthorityAction = await addAuthority(uuid, department, role);
-
-    if (addAuthorityAction.error) {
-      notify({
-        level: 'error',
-        title: I18n.t('OPERATORS.NOTIFICATIONS.ADD_AUTHORITY_ERROR.TITLE'),
-        message: I18n.t('OPERATORS.NOTIFICATIONS.ADD_AUTHORITY_ERROR.MESSAGE'),
-      });
-    }
-
-    const userType = getUserTypeByDepartment(department, role);
-    const { data: { hierarchy: { createUser: { error } } } } = await createHierarchyUser({
-      variables: {
-        userId: uuid,
-        userType,
-        ...branch && { branchId: branch },
-      },
-    });
-
-    if (error) {
-      notify({
-        level: 'error',
-        title: I18n.t('OPERATORS.NOTIFICATIONS.ADD_TO_HIERARCHY_ERROR.TITLE'),
-        message: I18n.t('OPERATORS.NOTIFICATIONS.ADD_TO_HIERARCHY_ERROR.MESSAGE'),
-      });
-    }
-
-    history.push(`/operators/${uuid}/profile`);
+    history.push(`/${operatorType.toLowerCase()}s/${uuid}/profile`);
   };
 
   handleOpenCreateModal = async () => {
-    const { fetchAuthoritiesOptions, modals, notify, operatorId } = this.props;
+    const { fetchAuthoritiesOptions, modals, notify, operatorId, operatorType } = this.props;
     const optionsAction = await fetchAuthoritiesOptions();
-
+    const isPartner = operatorType === operatorTypes.PARTNER;
     if (!optionsAction.error) {
       const { departmentRole } = optionsAction.payload.post;
 
@@ -166,13 +147,16 @@ class List extends Component {
 
       const [department] = Object.keys(departmentRole);
 
+      const initialValues = {
+        department,
+        role: department ? departmentRole[department][0] : null,
+        sendMail: true,
+      };
+
       modals.createOperator.show({
         onSubmit: this.handleSubmitNewOperator,
-        initialValues: {
-          department,
-          role: department ? departmentRole[department][0] : null,
-          sendMail: true,
-        },
+        isPartner,
+        initialValues,
         operatorId,
         departmentsRoles: departmentRole || {},
       });
@@ -234,18 +218,18 @@ class List extends Component {
     </div>
   );
 
-  renderOperator = data => (
+  renderOperator = ({ uuid, fullName }) => (
     <div>
-      <div className="font-weight-700" id={`operator-list-${data.uuid}-main`}>
-        <Link to={`/operators/${data.uuid}/profile`}>{data.fullName}</Link>
+      <div className="font-weight-700" id={`operator-list-${uuid}-main`}>
+        <Link to={`/${this.props.operatorType.toLowerCase()}s/${uuid}/profile`}>{fullName}</Link>
       </div>
-      <div className="font-size-11" id={`operator-list-${data.uuid}-additional`}>
+      <div className="font-size-11" id={`operator-list-${uuid}-additional`}>
         <MiniProfile
-          target={data.uuid}
+          target={uuid}
           type={miniProfileTypes.OPERATOR}
           dataSource={this.handleLoadOperatorMiniProfile}
         >
-          <Uuid uuid={data.uuid} />
+          <Uuid uuid={uuid} />
         </MiniProfile>
       </div>
     </div>
@@ -283,6 +267,7 @@ class List extends Component {
       operators: { loading },
       filterValues,
       locale,
+      operatorType,
     } = this.props;
 
     const entities = get(operators, 'operators.data', { content: [] });
@@ -305,13 +290,13 @@ class List extends Component {
                 <span className="font-size-20 height-55">
                   <div>
                     <strong>{entities.totalElements} </strong>
-                    {I18n.t('COMMON.OPERATORS_FOUND')}
+                    {I18n.t(`COMMON.${operatorType}S_FOUND`)}
                   </div>
                 </span>
               </When>
               <Otherwise>
                 <span className="font-size-20">
-                  {I18n.t('OPERATORS.HEADING')}
+                  {I18n.t(`${operatorType}S.HEADING`)}
                 </span>
               </Otherwise>
             </Choose>
@@ -322,7 +307,7 @@ class List extends Component {
             onClick={this.handleOpenCreateModal}
             id="create-new-operator-button"
           >
-            {I18n.t('OPERATORS.CREATE_OPERATOR_BUTTON')}
+            {I18n.t(`${operatorType}S.CREATE_OPERATOR_BUTTON`)}
           </button>
         </div>
 
@@ -345,22 +330,22 @@ class List extends Component {
           >
             <GridViewColumn
               name="uuid"
-              header="Operator"
+              header={I18n.t(`${operatorType}S.GRID_HEADER.${operatorType}S`)}
               render={this.renderOperator}
             />
             <GridViewColumn
               name="country"
-              header="Country"
+              header={I18n.t('OPERATORS.GRID_HEADER.COUNTRY')}
               render={this.renderCountry}
             />
             <GridViewColumn
               name="registered"
-              header="Registered"
+              header={I18n.t('OPERATORS.GRID_HEADER.REGISTERED')}
               render={this.renderRegistered}
             />
             <GridViewColumn
               name="status"
-              header="Status"
+              header={I18n.t('OPERATORS.GRID_HEADER.STATUS')}
               render={this.renderStatus}
             />
           </GridView>

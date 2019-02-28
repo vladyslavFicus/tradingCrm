@@ -31,6 +31,8 @@ export const userTypes = keyMirror({
   SUPPORT_AGENT: null,
   CUSTOMER: null,
   LEAD_CUSTOMER: null,
+  AFFILIATE_PARTNER: null,
+  AFFILIATE_MANAGER: null,
 });
 
 export const userTypeLabels = {
@@ -56,6 +58,8 @@ export const userTypeLabels = {
   [userTypes.SUPPORT_AGENT]: 'CONSTANTS.HIERARCHY.USER_TYPES.SUPPORT_AGENT',
   [userTypes.CUSTOMER]: 'CONSTANTS.HIERARCHY.USER_TYPES.CUSTOMER',
   [userTypes.LEAD_CUSTOMER]: 'CONSTANTS.HIERARCHY.USER_TYPES.LEAD_CUSTOMER',
+  [userTypes.AFFILIATE_PARTNER]: 'CONSTANTS.HIERARCHY.USER_TYPES.AFFILIATE_PARTNER',
+  [userTypes.AFFILIATE_MANAGER]: 'CONSTANTS.HIERARCHY.USER_TYPES.AFFILIATE_MANAGER',
 };
 
 export const deskTypes = keyMirror({

@@ -1,14 +1,14 @@
 import { connect } from 'react-redux';
-import { get } from 'lodash';
 import { graphql, compose } from 'react-apollo';
+import { get } from 'lodash';
 import { unlockLoginMutation } from 'graphql/mutations/auth';
 import { getLoginLock } from 'graphql/queries/profile';
-import { operatorQuery } from 'graphql/queries/operators';
-import { statusActions } from 'constants/operators';
+import { partnerQuery } from 'graphql/queries/partners';
+import { statusActions, operatorTypes } from 'constants/operators';
 import { withModals, withNotifications } from 'components/HighOrder';
 import ConfirmActionModal from 'components/Modal/ConfirmActionModal';
-import OperatorProfile from '../components/OperatorProfile';
-import { actionCreators } from '../modules';
+import OperatorProfile from 'routes/Operators/routes/OperatorProfile/components/OperatorProfile';
+import { actionCreators } from 'routes/Operators/routes/OperatorProfile/modules';
 
 const mapActions = {
   changeStatus: actionCreators.changeStatus,
@@ -20,7 +20,7 @@ export default compose(
   withModals({
     confirmActionModal: ConfirmActionModal,
   }),
-  connect(null, mapActions),
+  connect(() => ({ operatorType: operatorTypes.PARTNER }), mapActions),
   graphql(unlockLoginMutation, {
     options: ({
       match: {
@@ -52,24 +52,24 @@ export default compose(
     }),
     name: 'getLoginLock',
   }),
-  graphql(operatorQuery, {
-    name: 'getOperator',
+  graphql(partnerQuery, {
+    name: 'getPartner',
     options: ({ match: { params: { id } } }) => ({
       variables: { uuid: id },
       fetchPolicy: 'network-only',
     }),
-    props: ({ getOperator }) => {
-      const { authorities, ...operatorProfile } = get(getOperator, 'operator.data', {});
+    props: ({ getPartner }) => {
+      const { authorities, ...partnerProfile } = get(getPartner, 'partner.data', {});
       return {
-        isLoading: get(getOperator, 'loading', true),
+        isLoading: get(getPartner, 'loading', true),
         authorities: authorities || {},
         data: {
-          ...operatorProfile,
+          ...partnerProfile,
         },
-        error: get(getOperator, 'operator.error.error'),
-        refetchOperator: getOperator.refetch,
-        availableStatuses: operatorProfile.operatorStatus && statusActions[operatorProfile.operatorStatus]
-          ? statusActions[operatorProfile.operatorStatus]
+        error: get(getPartner, 'partner.error.error'),
+        refetchOperator: getPartner.refetch,
+        availableStatuses: partnerProfile.operatorStatus && statusActions[partnerProfile.operatorStatus]
+          ? statusActions[partnerProfile.operatorStatus]
           : [],
       };
     },

@@ -6,30 +6,36 @@ const statuses = keyMirror({
   ACTIVE: null,
   CLOSED: null,
 });
+
 const actions = keyMirror({
   ACTIVE: null,
   CLOSED: null,
 });
+
 const statusesLabels = {
   [statuses.INACTIVE]: 'Inactive',
   [statuses.ACTIVE]: 'Active',
   [statuses.CLOSED]: 'Closed',
 };
+
 const statusColorNames = {
   [statuses.ACTIVE]: 'color-success',
   [statuses.INACTIVE]: 'color-default',
   [statuses.CLOSED]: 'color-danger',
 };
+
 const closeReasons = {
   'OPERATOR_PROFILE.CLOSE_REASONS.PENDING_INVESTIGATION':
     I18n.t('OPERATOR_PROFILE.CLOSE_REASONS.PENDING_INVESTIGATION'),
   'OPERATOR_PROFILE.CLOSE_REASONS.TERMINATED':
     I18n.t('OPERATOR_PROFILE.CLOSE_REASONS.TERMINATED'),
 };
+
 const activeReasons = {
   'OPERATOR_PROFILE.ACTIVATE_REASONS.ACTIVATE':
     I18n.t('OPERATOR_PROFILE.ACTIVATE_REASONS.ACTIVATE'),
 };
+
 const statusActions = {
   [statuses.ACTIVE]: [
     {
@@ -46,6 +52,7 @@ const statusActions = {
     },
   ],
 };
+
 const departments = keyMirror({
   CS: null,
   RFP: null,
@@ -54,7 +61,9 @@ const departments = keyMirror({
   SALES: null,
   RETENTION: null,
   AFFILIATE_PARTNER: null,
+  AFFILIATE_MANAGER: null,
 });
+
 const departmentsLabels = {
   [departments.CS]: I18n.t('CONSTANTS.OPERATORS.DEPARTMENTS.CS'),
   [departments.RFP]: I18n.t('CONSTANTS.OPERATORS.DEPARTMENTS.RFP'),
@@ -66,18 +75,25 @@ const departmentsLabels = {
   [departments.SALES]: I18n.t('CONSTANTS.OPERATORS.DEPARTMENTS.SALES'),
   [departments.RETENTION]: I18n.t('CONSTANTS.OPERATORS.DEPARTMENTS.RETENTION'),
 };
+
 const roles = keyMirror({
   ROLE1: null,
   ROLE2: null,
   ROLE3: null,
   ROLE4: null,
 });
+
 const rolesLabels = {
   [roles.ROLE1]: I18n.t('CONSTANTS.OPERATORS.ROLES.ROLE1'),
   [roles.ROLE2]: I18n.t('CONSTANTS.OPERATORS.ROLES.ROLE2'),
   [roles.ROLE3]: I18n.t('CONSTANTS.OPERATORS.ROLES.ROLE3'),
   [roles.ROLE4]: I18n.t('CONSTANTS.OPERATORS.ROLES.ROLE4'),
 };
+
+const operatorTypes = keyMirror({
+  OPERATOR: null,
+  PARTNER: null,
+});
 
 export {
   actions,
@@ -89,4 +105,5 @@ export {
   departmentsLabels,
   roles,
   rolesLabels,
+  operatorTypes,
 };

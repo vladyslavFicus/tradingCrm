@@ -19,6 +19,7 @@ class CreateOperatorModal extends Component {
     pristine: PropTypes.bool,
     submitting: PropTypes.bool,
     valid: PropTypes.bool,
+    isPartner: PropTypes.bool.isRequired,
     isOpen: PropTypes.bool.isRequired,
     formValues: PropTypes.shape({
       department: PropTypes.string,
@@ -82,6 +83,7 @@ class CreateOperatorModal extends Component {
       onCloseModal,
       isOpen,
       formValues,
+      isPartner,
       branchHierarchy: {
         loading,
         branchTypes,
@@ -104,7 +106,7 @@ class CreateOperatorModal extends Component {
                 departmentsRoles,
                 rolesLabels,
                 formValues,
-              }),
+              }, isPartner),
               this.handleSelectFieldChange,
             )}
             <div className="form-group col-md-6">

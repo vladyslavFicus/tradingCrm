@@ -16,6 +16,7 @@ import Settings from 'routes/Settings';
 import SetPassword from 'routes/SetPassword';
 import ResetPassword from 'routes/ResetPassword';
 import Operators from 'routes/Operators';
+import Partners from 'routes/Partners';
 import Dashboard from 'routes/Dashboard';
 import Leads from 'routes/Leads';
 import Hierarchy from 'routes/Hierarchy';
@@ -61,10 +62,11 @@ class IndexRoute extends PureComponent {
           <AppRoute path="/leads" layout={MainLayout} component={Leads} checkAuth />
           <AppRoute path="/callbacks" layout={MainLayout} component={Callbacks} checkAuth />
           <AppRoute path="/hierarchy" layout={MainLayout} component={Hierarchy} checkAuth />
-          <AppRoute path="/operators" layout={MainLayout} component={Operators} checkAuth checkAdmin />
-          <AppRoute path="/offices" layout={MainLayout} component={Offices} checkAuth checkAdmin />
-          <AppRoute path="/desks" layout={MainLayout} component={Desks} checkAuth checkAdmin />
-          <AppRoute path="/teams" layout={MainLayout} component={Teams} checkAuth checkAdmin />
+          <AppRoute path="/operators" layout={MainLayout} component={Operators} checkAuth />
+          <AppRoute path="/partners" layout={MainLayout} component={Partners} checkAuth />
+          <AppRoute path="/offices" layout={MainLayout} component={Offices} checkAuth />
+          <AppRoute path="/desks" layout={MainLayout} component={Desks} checkAuth />
+          <AppRoute path="/teams" layout={MainLayout} component={Teams} checkAuth />
           <Route path="/logout" component={Logout} />
           {/* Public */}
           <AppRoute path="/sign-in" layout={BlackLayout} component={SignIn} />

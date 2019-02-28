@@ -15,6 +15,11 @@ export default {
   },
   HIERARCHY: {
     GET_TREE: 'trading_hierarchy_updater;GET;/branch/hierarchy/{uuid}',
+    GET_DESKS: 'trading_hierarchy_updater;POST;/branch/hierarchy/user/{uuid}/desk',
+    GET_TEAMS: 'trading_hierarchy_updater;POST;/branch/hierarchy/user/{uuid}/team',
+    GET_OFFICES: 'trading_hierarchy_updater;POST;/branch/hierarchy/user/{uuid}/office',
+    GET_OPERATORS: 'trading_hierarchy_updater;GET;/user/{uuid}/operators',
+    GET_AFFILIATE_PARTNERS: 'trading_hierarchy_updater;GET;/user/{uuid}/affiliate-partners',
   },
   USER_PROFILE: {
     SEND_ACTIVATION_LINK: 'profile;POST;/profiles/{playerUUID}/send-activation-link',

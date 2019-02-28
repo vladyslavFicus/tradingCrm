@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { I18n } from 'react-redux-i18n';
-import { get, omit } from 'lodash';
+import { get } from 'lodash';
 import PropTypes from 'constants/propTypes';
 import { departmentsLabels, rolesLabels, departments } from 'constants/operators';
 import renderLabel from 'utils/renderLabel';
@@ -26,8 +26,6 @@ class View extends Component {
     profile: PropTypes.shape({
       data: PropTypes.operatorProfile,
       error: PropTypes.any,
-      isLoading: PropTypes.bool,
-      receivedAt: PropTypes.any,
     }).isRequired,
     userHierarchy: PropTypes.shape({
       refetch: PropTypes.func.isRequired,
@@ -39,12 +37,8 @@ class View extends Component {
       }),
       loading: PropTypes.bool.isRequired,
     }).isRequired,
-    allowedIpAddresses: PropTypes.arrayOf(PropTypes.string).isRequired,
-    forbiddenCountries: PropTypes.arrayOf(PropTypes.string).isRequired,
-    isForexOperatorCreated: PropTypes.bool.isRequired,
-    fetchAuthority: PropTypes.func.isRequired,
-    updateForexOperator: PropTypes.func.isRequired,
-    createForexOperator: PropTypes.func.isRequired,
+    allowedIpAddresses: PropTypes.arrayOf(PropTypes.string),
+    forbiddenCountries: PropTypes.arrayOf(PropTypes.string),
     deleteAuthority: PropTypes.func.isRequired,
     addAuthority: PropTypes.func.isRequired,
     fetchAuthoritiesOptions: PropTypes.func.isRequired,
@@ -61,6 +55,8 @@ class View extends Component {
 
   static defaultProps = {
     authorities: [],
+    allowedIpAddresses: [],
+    forbiddenCountries: [],
   };
 
   static childContextTypes = {
@@ -81,94 +77,68 @@ class View extends Component {
 
   handleSubmit = (data) => {
     const {
-      isForexOperatorCreated,
       updateProfile,
       match: { params: { id: operatorUUID } },
-      updateForexOperator,
-      createForexOperator,
     } = this.props;
-    const reqBody = {
-      permission: {
-        allowedIpAddresses: data.allowedIpAddresses,
-        forbiddenCountries: data.forbiddenCountries,
-      },
-      uuid: operatorUUID,
-    };
 
-    updateProfile(operatorUUID, omit(data, ['allowedIpAddresses', 'forbiddenCountries']));
-    if (isForexOperatorCreated) {
-      updateForexOperator(reqBody);
-    } else {
-      createForexOperator(reqBody);
-    }
+    updateProfile({
+      variables: {
+        uuid: operatorUUID,
+        ...data,
+      },
+    });
   }
 
   handleDeleteAuthority = async (department, role) => {
     const {
-      match: { params: { id: operatorUUID } }, fetchAuthority, deleteAuthority, notify,
+      match: { params: { id: operatorUUID } }, deleteAuthority, notify,
     } = this.props;
-    const deleteAuthorityAction = await deleteAuthority(operatorUUID, department, role);
 
-    if (deleteAuthorityAction.error) {
+    const deletedAuthority = await deleteAuthority({
+      variables: {
+        uuid: operatorUUID,
+        department,
+        role,
+      },
+    });
+    if (get(deletedAuthority, 'data.operator.removeDepartment.error', null)) {
       notify({
         level: 'error',
         title: I18n.t('OPERATORS.NOTIFICATIONS.DELETE_AUTHORITY_ERROR.TITLE'),
         message: I18n.t('OPERATORS.NOTIFICATIONS.DELETE_AUTHORITY_ERROR.MESSAGE'),
       });
-
-      return deleteAuthorityAction;
     }
-
-    const fetchAuthorityAction = await fetchAuthority(operatorUUID);
-
-    if (fetchAuthorityAction.error) {
-      notify({
-        level: 'error',
-        title: I18n.t('OPERATORS.NOTIFICATIONS.GET_AUTHORITIES_ERROR.TITLE'),
-        message: I18n.t('OPERATORS.NOTIFICATIONS.GET_AUTHORITIES_ERROR.MESSAGE'),
-      });
-
-      return fetchAuthorityAction;
-    }
-
-    return fetchAuthorityAction;
+    return deletedAuthority;
   };
 
-  handleAddAuthority = async (data) => {
+  handleAddAuthority = async ({
+    department,
+    role,
+  }) => {
     const {
-      match: { params: { id: operatorUUID } }, fetchAuthority, addAuthority, notify,
+      match: { params: { id: operatorUUID } }, addAuthority, notify,
     } = this.props;
 
-    const addAuthorityAction = await addAuthority(operatorUUID, data);
-
-    if (addAuthorityAction.error) {
+    const addedAuthority = await addAuthority({
+      variables: {
+        uuid: operatorUUID,
+        department,
+        role,
+      },
+    });
+    if (get(addedAuthority, 'data.operator.addDepartment.error', null)) {
       notify({
         level: 'error',
         title: I18n.t('OPERATORS.NOTIFICATIONS.ADD_AUTHORITY_ERROR.TITLE'),
         message: I18n.t('OPERATORS.NOTIFICATIONS.ADD_AUTHORITY_ERROR.MESSAGE'),
       });
-
-      return addAuthorityAction;
     }
-
-    const fetchAuthorityAction = await fetchAuthority(operatorUUID);
-
-    if (fetchAuthorityAction.error) {
-      notify({
-        level: 'error',
-        title: I18n.t('OPERATORS.NOTIFICATIONS.GET_OPERATORS_AUTHORITIES_ERROR.TITLE'),
-        message: I18n.t('OPERATORS.NOTIFICATIONS.GET_OPERATORS_AUTHORITIES_ERROR.MESSAGE'),
-      });
-
-      return fetchAuthorityAction;
-    }
-
-    return fetchAuthorityAction;
+    return addedAuthority;
   };
 
   render() {
     const {
-      profile: { data: profile, receivedAt: profileLoaded },
+      profile: { data: profile },
       allowedIpAddresses,
       forbiddenCountries,
       authorities: { data: authorities },
@@ -188,21 +158,19 @@ class View extends Component {
       <div className="card-body">
         <div className="card">
           <div className="card-body">
-            <If condition={profileLoaded}>
-              <PersonalForm
-                isPartner={!!authorities.find(authority => authority.department === departments.AFFILIATE_PARTNER)}
-                initialValues={{
-                  firstName: profile.firstName,
-                  lastName: profile.lastName,
-                  country: profile.country,
-                  email: profile.email,
-                  phoneNumber: profile.phoneNumber,
-                  allowedIpAddresses,
-                  forbiddenCountries,
-                }}
-                onSubmit={this.handleSubmit}
-              />
-            </If>
+            <PersonalForm
+              isPartner={!!authorities.find(authority => authority.department === departments.AFFILIATE_PARTNER)}
+              initialValues={{
+                firstName: profile.firstName,
+                lastName: profile.lastName,
+                country: profile.country,
+                email: profile.email,
+                phoneNumber: profile.phoneNumber,
+                allowedIpAddresses,
+                forbiddenCountries,
+              }}
+              onSubmit={this.handleSubmit}
+            />
           </div>
         </div>
         <div className="card">
@@ -238,10 +206,12 @@ class View extends Component {
             </If>
           </div>
         </div>
-        <HierarchyProfileForm
-          loading={loading}
-          initialValues={initialValues}
-        />
+        <If condition={allowEditPermissions}>
+          <HierarchyProfileForm
+            loading={loading}
+            initialValues={initialValues}
+          />
+        </If>
       </div>
     );
   }

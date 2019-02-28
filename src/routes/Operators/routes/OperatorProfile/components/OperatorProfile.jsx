@@ -2,15 +2,17 @@ import React, { Component } from 'react';
 import { I18n } from 'react-redux-i18n';
 import { Switch, Redirect } from 'react-router-dom';
 import { get } from 'lodash';
-import { Route } from 'router';
 import Tabs from 'components/Tabs';
 import NotFound from 'routes/NotFound';
-import { operatorProfileTabs } from 'config/menu';
+import { operatorTypes } from 'constants/operators';
+import * as menu from 'config/menu';
 import PropTypes from 'constants/propTypes';
 import HideDetails from 'components/HideDetails';
-import Edit from '../routes/Edit';
-import Feed from '../routes/Feed';
+import { default as PartnerEdit } from 'routes/Partners/routes/OperatorProfile/routes/Edit';
+import { Route } from 'router';
 import Information from '../components/Information';
+import { default as OperatorEdit } from '../routes/Edit';
+import Feed from '../routes/Feed';
 import Header from '../components/Header';
 
 class OperatorProfileLayout extends Component {
@@ -24,30 +26,24 @@ class OperatorProfileLayout extends Component {
     data: PropTypes.operatorProfile.isRequired,
     availableStatuses: PropTypes.array.isRequired,
     changeStatus: PropTypes.func.isRequired,
+    refetchOperator: PropTypes.func.isRequired,
     onResetPassword: PropTypes.func.isRequired,
     onSendInvitation: PropTypes.func.isRequired,
-    fetchAuthority: PropTypes.func.isRequired,
-    fetchProfile: PropTypes.func.isRequired,
-    fetchForexOperator: PropTypes.func.isRequired,
     authorities: PropTypes.object.isRequired,
     isLoading: PropTypes.bool.isRequired,
     error: PropTypes.any,
     modals: PropTypes.shape({
       confirmActionModal: PropTypes.modalType,
     }).isRequired,
+    operatorType: PropTypes.string,
     getLoginLock: PropTypes.object.isRequired,
   };
 
   static defaultProps={
     error: null,
-  };
 
-  componentDidMount() {
-    const { fetchProfile, fetchAuthority, fetchForexOperator, match: { params: { id } } } = this.props;
-    fetchForexOperator(id);
-    fetchProfile(id);
-    fetchAuthority(id);
-  }
+    operatorType: operatorTypes.OPERATOR,
+  };
 
   handleResetPasswordClick = () => {
     const {
@@ -149,7 +145,9 @@ class OperatorProfileLayout extends Component {
       error,
       availableStatuses,
       changeStatus,
+      refetchOperator,
       authorities: { data: authorities },
+      operatorType,
       getLoginLock,
     } = this.props;
 
@@ -172,6 +170,7 @@ class OperatorProfileLayout extends Component {
             onResetPasswordClick={this.handleResetPasswordClick}
             onSendInvitationClick={this.handleSendInvitationClick}
             onStatusChange={changeStatus}
+            refetchOperator={refetchOperator}
             unlockLogin={this.unlockLogin}
             loginLock={loginLock}
           />
@@ -183,13 +182,16 @@ class OperatorProfileLayout extends Component {
           </HideDetails>
         </div>
         <Tabs
-          items={operatorProfileTabs}
+          items={menu[`${operatorType.toLowerCase()}ProfileTabs`]}
           location={location}
           params={params}
         />
         <div className="card no-borders" >
           <Switch>
-            <Route path={`${path}/profile`} component={Edit} />
+            <Route
+              path={`${path}/profile`}
+              component={operatorType === operatorTypes.OPERATOR ? OperatorEdit : PartnerEdit}
+            />
             <Route path={`${path}/feed`} component={Feed} />
             <Redirect to={`${url}/profile`} />
           </Switch>

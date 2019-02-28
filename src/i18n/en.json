@@ -7,6 +7,7 @@
       "CLIENTS": "Clients",
       "LEADS": "Leads",
       "OPERATORS": "Operators",
+      "PARTNERS": "Partners",
       "PAYMENTS": "Payments",
       "TRANSACTIONS": "Transactions",
       "PAYMENT_METHODS": "Payment methods",
@@ -958,6 +959,7 @@
     "EXPORT_SELECTED": "Export selected",
     "CLIENTS_FOUND": "Clients found",
     "OPERATORS_FOUND": "Operators found",
+    "PARTNERS_FOUND": "Partners found",
     "CLIENTS_SELECTED": "Clients selected",
     "UNLIMITED": "Unlimited",
     "LANGUAGE_NAME": {
@@ -1435,6 +1437,8 @@
     },
     "HIERARCHY": {
       "USER_TYPES": {
+        "AFFILIATE_PARTNER": "Affiliate Partner",
+        "AFFILIATE_MANAGER": "Affiliate Manager",
         "COMPANY_ADMIN": "Company admin",
         "BRAND_ADMIN": "Brand admin",
         "SALES_HOD": "Sales HOD",
@@ -2260,6 +2264,12 @@
           "WHITE_LISTED_IP": "White listed IPs",
           "RESTRICTED_COUNTRIES": "Restricted countries"
         }
+      },
+      "GRID_HEADER": {
+        "OPERATOR": "Operator",
+        "COUNTRY": "Country",
+        "REGISTERED": "Registered",
+        "STATUS": "Status"
       }
     },
     "NOTIFICATIONS": {
@@ -2283,6 +2293,13 @@
         "TITLE": "Failure on adding",
         "MESSAGE": "Adding operator to hierarchy has failed"
       }
+    }
+  },
+  "PARTNERS": {
+    "HEADING": "PARTNERS",
+    "CREATE_OPERATOR_BUTTON": "+ New partner",
+    "GRID_HEADER": {
+      "PARTNER": "Partner"
     }
   },
   "PAYMENT_METHOD_LIMIT_POPOVER": {

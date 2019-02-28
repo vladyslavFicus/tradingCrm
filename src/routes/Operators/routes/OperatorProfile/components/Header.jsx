@@ -19,6 +19,7 @@ class Header extends Component {
       reasons: PropTypes.object,
     })).isRequired,
     onStatusChange: PropTypes.func.isRequired,
+    refetchOperator: PropTypes.func.isRequired,
     onResetPasswordClick: PropTypes.func.isRequired,
     onSendInvitationClick: PropTypes.func.isRequired,
     unlockLogin: PropTypes.func.isRequired,
@@ -27,10 +28,10 @@ class Header extends Component {
     }).isRequired,
   };
 
-  handleStatusChange = (data) => {
-    const { data: profileData, onStatusChange } = this.props;
-
-    onStatusChange({ ...data, uuid: profileData.uuid });
+  handleStatusChange = async (data) => {
+    const { data: profileData, onStatusChange, refetchOperator } = this.props;
+    await onStatusChange({ ...data, uuid: profileData.uuid });
+    refetchOperator();
   };
 
   render() {

@@ -1,7 +1,7 @@
 import { graphql, compose } from 'react-apollo';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import rootConfig, { getAvailableLanguages } from '../../config';
+import { getAvailableLanguages } from '../../config';
 import { withModals } from '../../components/HighOrder';
 import MultiCurrencyModal from '../../components/ReduxForm/MultiCurrencyModal';
 import { actionCreators as authActionCreators } from '../../redux/modules/auth';
@@ -10,8 +10,6 @@ import { actionCreators as noteActionCreators } from '../../redux/modules/note';
 import { actionCreators as userPanelsActionCreators } from '../../redux/modules/user-panels';
 import { actionCreators as appActionCreators } from '../../redux/modules/app';
 import { servicesQuery } from '../../graphql/queries/options';
-import { markets } from '../../constants/markets';
-import { departments } from '../../constants/brands';
 import MainLayout from './MainLayout';
 
 const mapStateToProps = (state) => {
@@ -30,11 +28,6 @@ const mapStateToProps = (state) => {
   ));
 
   const activeUserPanel = userPanels.items.find(p => p.uuid === userPanels.activeIndex);
-
-  if (rootConfig.market === markets.crm
-      && auth.department !== departments.ADMINISTRATION) {
-    app.sidebarTopMenu = app.sidebarTopMenu.filter(({ onlyAdministrator }) => !onlyAdministrator);
-  }
 
   return {
     app,

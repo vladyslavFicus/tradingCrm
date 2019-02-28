@@ -27,20 +27,27 @@ const sidebarTopMenu = [{
   label: I18n.t('SIDEBAR.TOP_MENU.MANAGEMENT'),
   icon: 'icon-operators sidebar-nav-item__icon--operators',
   isOpen: false,
-  onlyAdministrator: true,
   items: [{
     label: I18n.t('SIDEBAR.TOP_MENU.OFFICES'),
     url: '/offices',
+    permissions: new Permissions(permissions.HIERARCHY.GET_OFFICES),
   }, {
     label: I18n.t('SIDEBAR.TOP_MENU.DESKS'),
     url: '/desks',
+    permissions: new Permissions(permissions.HIERARCHY.GET_DESKS),
   }, {
     label: I18n.t('SIDEBAR.TOP_MENU.TEAMS'),
     url: '/teams',
+    permissions: new Permissions(permissions.HIERARCHY.GET_TEAMS),
   }, {
     label: I18n.t('SIDEBAR.TOP_MENU.OPERATORS'),
     url: '/operators',
     service: services.operator,
+    permissions: new Permissions(permissions.HIERARCHY.GET_OPERATORS),
+  }, {
+    label: I18n.t('SIDEBAR.TOP_MENU.PARTNERS'),
+    url: '/partners',
+    permissions: new Permissions(permissions.HIERARCHY.GET_AFFILIATE_PARTNERS),
   }],
 }, {
   label: I18n.t('SIDEBAR.TOP_MENU.PAYMENTS'),
@@ -85,9 +92,14 @@ const operatorProfileTabs = [
   { label: 'Profile', url: '/operators/:id/profile' },
   { label: 'Feed', url: '/operators/:id/feed' },
 ];
+const partnerProfileTabs = [
+  { label: 'Profile', url: '/partners/:id/profile' },
+  { label: 'Feed', url: '/partners/:id/feed' },
+];
 
 export {
   operatorProfileTabs,
+  partnerProfileTabs,
   bonusCampaignTabs,
   newBonusCampaignTabs,
   sidebarTopMenu,

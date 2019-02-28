@@ -40,12 +40,7 @@ const branchField = (
   };
 };
 
-const formFields = ({
-  departmentsLabels,
-  departmentsRoles,
-  rolesLabels,
-  formValues,
-}) => [{
+const commonFields = [{
   type: fieldTypes.INPUT,
   name: 'firstName',
   label: I18n.t(attributeLabels.firstName),
@@ -73,7 +68,14 @@ const formFields = ({
   id: 'create-new-operator-phone',
   className: 'col-md-6',
   showErrorMessage: true,
-}, {
+}];
+
+const operatorAdditionalFields = (
+  departmentsLabels,
+  departmentsRoles,
+  rolesLabels,
+  formValues
+) => [{
   type: fieldTypes.SELECT,
   name: fieldNames.department,
   label: I18n.t(attributeLabels.department),
@@ -95,6 +97,22 @@ const formFields = ({
   selectOptions: formValues.department && departmentsRoles[formValues.department]
     .map(value => ({ value, label: renderLabel(value, rolesLabels) })),
 }];
+
+const formFields = ({
+  departmentsLabels,
+  departmentsRoles,
+  rolesLabels,
+  formValues,
+}, isPartner) => [
+  ...commonFields,
+  ...(!isPartner
+    ? operatorAdditionalFields(departmentsLabels,
+      departmentsRoles,
+      rolesLabels,
+      formValues)
+    : []
+  ),
+];
 
 export {
   attributeLabels,

@@ -14,6 +14,12 @@ export const getUserTypeByDepartment = (department, role) => {
     case departments.SALES: {
       return roleMapper(department)[role];
     }
+    case departments.AFFILIATE_PARTNER: {
+      return departments.AFFILIATE_PARTNER;
+    }
+    case departments.AFFILIATE_MANAGER: {
+      return departments.AFFILIATE_MANAGER;
+    }
     default:
       return 'BRAND_ADMIN';
   }

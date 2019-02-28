@@ -78,7 +78,43 @@ const managementOperatorsQuery = gql`query getOperators(
   }
 }`;
 
+const operatorQuery = gql`query getOperatorByUUID(
+  $uuid: String!,
+) {
+  operator(uuid: $uuid) {
+    data {
+      _id
+      country
+      email
+      fullName
+      firstName
+      lastName
+      operatorStatus
+      phoneNumber
+      registeredBy
+      registrationDate
+      statusChangeAuthor
+      statusChangeDate
+      statusReason
+      uuid
+      authorities {
+        data {
+          brandId
+          department
+          id
+          role
+        }
+      }
+    }
+    error {
+      error
+      fields_errors
+    }
+  }
+}`;
+
 export {
+  operatorQuery,
   operatorsQuery,
   managementOperatorsQuery,
 };

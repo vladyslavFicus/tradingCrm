@@ -5,11 +5,12 @@ import { graphql } from 'react-apollo';
 import { get } from 'lodash';
 import { actionCreators as authoritiesActionCreators } from 'redux/modules/auth/authorities';
 import { actionCreators as miniProfileActionCreators } from 'redux/modules/miniProfile';
-import { createOperator } from 'graphql/mutations/operators';
-import { managementOperatorsQuery } from 'graphql/queries/operators';
+import { partnersQuery } from 'graphql/queries/partners';
+import { createPartner } from 'graphql/mutations/partners';
 import { withModals, withNotifications } from 'components/HighOrder';
 import CreateOperatorModalContainer from 'components/CreateOperatorModal';
-import List from '../components/List';
+import List from 'routes/Operators/routes/List/components/List';
+import { operatorTypes } from 'constants/operators';
 
 const mapStateToProps = ({
   operatorsList: list,
@@ -21,6 +22,7 @@ const mapStateToProps = ({
   locale,
   operatorId: uuid,
   filterValues: getFormValues('operatorsListGridFilter')(state) || {},
+  operatorType: operatorTypes.PARTNER,
 });
 
 const mapActions = {
@@ -33,10 +35,10 @@ export default compose(
   connect(mapStateToProps, mapActions),
   withModals({ createOperator: CreateOperatorModalContainer }),
   withNotifications,
-  graphql(createOperator, {
+  graphql(createPartner, {
     name: 'submitNewOperator',
   }),
-  graphql(managementOperatorsQuery, {
+  graphql(partnersQuery, {
     name: 'operators',
     options: ({ location: { query } }) => ({
       variables: {
@@ -46,13 +48,13 @@ export default compose(
       },
       fetchPolicy: 'network-only',
     }),
-    props: ({ operators: { operators, fetchMore, ...rest } }) => {
-      const newPage = get(operators, 'data.page') || 0;
+    props: ({ operators: { partners, fetchMore, ...rest } }) => {
+      const newPage = get(partners, 'data.page') || 0;
 
       return {
         operators: {
           ...rest,
-          operators,
+          operators: partners,
           loadMore: () => fetchMore({
             variables: { page: newPage + 1 },
             updateQuery: (previousResult, { fetchMoreResult }) => {
@@ -60,13 +62,13 @@ export default compose(
                 return previousResult;
               }
 
-              if (fetchMoreResult.operators.error) {
+              if (fetchMoreResult.partners.error) {
                 return {
                   ...previousResult,
                   ...fetchMoreResult,
                   operators: {
-                    ...previousResult.operators,
-                    ...fetchMoreResult.operators,
+                    ...previousResult.partners,
+                    ...fetchMoreResult.partners,
                   },
                 };
               }
@@ -75,15 +77,15 @@ export default compose(
                 ...previousResult,
                 ...fetchMoreResult,
                 operators: {
-                  ...previousResult.operators,
-                  ...fetchMoreResult.operators,
+                  ...previousResult.partners,
+                  ...fetchMoreResult.partners,
                   data: {
-                    ...previousResult.operators.data,
-                    ...fetchMoreResult.operators.data,
-                    page: fetchMoreResult.operators.data.page,
+                    ...previousResult.partners.data,
+                    ...fetchMoreResult.partners.data,
+                    page: fetchMoreResult.partners.data.page,
                     content: [
-                      ...previousResult.operators.data.content,
-                      ...fetchMoreResult.operators.data.content,
+                      ...previousResult.partners.data.content,
+                      ...fetchMoreResult.partners.data.content,
                     ],
                   },
                 },

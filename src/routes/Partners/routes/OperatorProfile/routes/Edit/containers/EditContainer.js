@@ -2,11 +2,12 @@ import { connect } from 'react-redux';
 import { compose, graphql } from 'react-apollo';
 import { get, set } from 'lodash';
 import { getUserHierarchyById } from 'graphql/queries/hierarchy';
-import { operatorQuery } from 'graphql/queries/operators';
-import { updateOperator, addDepartment, removeDepartment } from 'graphql/mutations/operators';
-import Edit from '../components/Edit';
-import { actionCreators as authoritiesActionCreators } from '../../../../../../../redux/modules/auth/authorities';
-import { withNotifications } from '../../../../../../../components/HighOrder';
+import { partnerQuery } from 'graphql/queries/partners';
+import { updatePartner } from 'graphql/mutations/partners';
+import { addDepartment, removeDepartment } from 'graphql/mutations/operators';
+import { actionCreators as authoritiesActionCreators } from 'redux/modules/auth/authorities';
+import { withNotifications } from 'components/HighOrder';
+import Edit from 'routes/Operators/routes/OperatorProfile/routes/Edit/components/Edit';
 
 const mapStateToProps = ({
   auth: { uuid, brandId },
@@ -24,7 +25,16 @@ const mapActions = {
 export default compose(
   withNotifications,
   connect(mapStateToProps, mapActions),
-  graphql(updateOperator, {
+  graphql(getUserHierarchyById, {
+    name: 'userHierarchy',
+    options: ({
+      match: { params: { id: userId } },
+    }) => ({
+      variables: { userId },
+      fetchPolicy: 'network-only',
+    }),
+  }),
+  graphql(updatePartner, {
     name: 'updateProfile',
   }),
   graphql(addDepartment, {
@@ -34,12 +44,12 @@ export default compose(
     }) => ({
       update: (store, { data }) => {
         const storeData = store.readQuery({
-          query: operatorQuery,
+          query: partnerQuery,
           variables: { uuid },
         });
         const authorities = get(data, 'operator.addDepartment.data.authorities', []);
-        set(storeData, 'operator.data.authorities.data', authorities);
-        store.writeQuery({ query: operatorQuery, variables: { uuid }, data: storeData });
+        set(storeData, 'partner.data.authorities.data', authorities);
+        store.writeQuery({ query: partnerQuery, variables: { uuid }, data: storeData });
       },
     }),
   }),
@@ -50,35 +60,28 @@ export default compose(
     }) => ({
       update: (store, { data }) => {
         const storeData = store.readQuery({
-          query: operatorQuery,
+          query: partnerQuery,
           variables: { uuid },
         });
         const authorities = get(data, 'operator.removeDepartment.data.authorities', []);
-        set(storeData, 'operator.data.authorities.data', authorities);
-        store.writeQuery({ query: operatorQuery, variables: { uuid }, data: storeData });
+        set(storeData, 'partner.data.authorities.data', authorities);
+        store.writeQuery({ query: partnerQuery, variables: { uuid }, data: storeData });
       },
     }),
   }),
-  graphql(getUserHierarchyById, {
-    name: 'userHierarchy',
-    options: ({
-      match: { params: { id: userId } },
-    }) => ({
-      variables: { userId },
-      fetchPolicy: 'network-only',
-    }),
-  }),
-  graphql(operatorQuery, {
+  graphql(partnerQuery, {
     options: ({ match: { params: { id } } }) => ({
       variables: { uuid: id },
     }),
-    props: ({ data: { operator } }) => {
-      const { authorities, ...operatorProfile } = get(operator, 'data', {});
+    props: ({ data: { partner } }) => {
+      const { authorities, forexOperator, ...partnerProfile } = get(partner, 'data', {});
       return {
         authorities: authorities || {},
+        allowedIpAddresses: get(forexOperator, 'data.permission.allowedIpAddresses') || [],
+        forbiddenCountries: get(forexOperator, 'data.permission.forbiddenCountries') || [],
         profile: {
           data: {
-            ...operatorProfile,
+            ...partnerProfile,
           },
         },
       };
