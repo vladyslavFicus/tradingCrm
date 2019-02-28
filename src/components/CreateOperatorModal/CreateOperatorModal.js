@@ -63,8 +63,10 @@ class CreateOperatorModal extends Component {
   }
 
   handleSelectChange = async (selectedBranchType) => {
-    const { branchHierarchy } = this.props;
+    const { branchHierarchy, change } = this.props;
     const branches = branchHierarchy[selectedBranchType].map(({ uuid, name }) => ({ value: uuid, label: name }));
+
+    change('branch', null);
 
     this.setState({
       selectedBranchType,
