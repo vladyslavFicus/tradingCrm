@@ -63,7 +63,7 @@ class IndexRoute extends PureComponent {
           <AppRoute path="/leads" layout={MainLayout} component={Leads} checkAuth />
           <AppRoute path="/callbacks" layout={MainLayout} component={Callbacks} checkAuth />
           <AppRoute path="/hierarchy" layout={MainLayout} component={Hierarchy} checkAuth />
-          <AppRoute path="/operators" layout={MainLayout} component={Operators} checkAuth checkAdmin />
+          <AppRoute path="/operators" layout={MainLayout} component={Operators} checkAuth />
           <AppRoute path="/partners" layout={MainLayout} component={Partners} checkAuth />
           <AppRoute path="/offices" layout={MainLayout} component={Offices} checkAuth checkAdmin />
           <AppRoute path="/desks" layout={MainLayout} component={Desks} checkAuth checkAdmin />
