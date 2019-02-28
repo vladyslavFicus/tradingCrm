@@ -270,7 +270,7 @@ class List extends Component {
       operatorType,
     } = this.props;
 
-    const entities = get(operators, 'operators.data', { content: [] });
+    const entities = get(operators, 'operators.data') || { content: [] };
 
     return (
       <div className="card">
