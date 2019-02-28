@@ -12,8 +12,8 @@ const services = keyMirror({
   promotion: null,
   gaming_activity: null,
   trading_activity: null,
+  trading_payment: null,
   trading_lead_updater: null,
-  reconciliation: null,
   conditional_tag: null,
   player_report: null,
 });

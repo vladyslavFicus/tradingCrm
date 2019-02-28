@@ -7,7 +7,7 @@ const sidebarTopMenu = [{
   label: I18n.t('SIDEBAR.TOP_MENU.DASHBOARD'),
   icon: 'icon-dashboard',
   url: '/dashboard',
-  service: services.reconciliation,
+  service: services.trading_payment,
 }, {
   label: I18n.t('SIDEBAR.TOP_MENU.CLIENTS'),
   icon: 'icon-users',
@@ -77,9 +77,11 @@ const sidebarTopMenu = [{
   }],
 }];
 
-const sidebarBottomMenu = [
-  { label: I18n.t('SIDEBAR.BOTTOM_MENU.SUPPORT'), icon: 'icon-support', url: '#' },
-];
+const sidebarBottomMenu = [{
+  label: I18n.t('SIDEBAR.BOTTOM_MENU.RELEASE_NOTES'),
+  icon: 'icon-support',
+  url: '/release-notes',
+}];
 
 const bonusCampaignTabs = [
   { label: 'Settings', url: '/bonus-campaigns/view/:id/settings' },
