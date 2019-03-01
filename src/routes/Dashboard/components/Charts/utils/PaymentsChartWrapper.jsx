@@ -37,7 +37,7 @@ export default (paymentType, paymentStatus) => {
       color: PropTypes.string.isRequired,
       dataKey: PropTypes.string.isRequired,
       headerTitle: PropTypes.string.isRequired,
-      tooltipСontent: PropTypes.string.isRequired,
+      tooltipContent: PropTypes.string.isRequired,
       noResultsText: PropTypes.string.isRequired,
       showFooterCurrency: PropTypes.bool,
     };
@@ -59,7 +59,7 @@ export default (paymentType, paymentStatus) => {
         color,
         dataKey,
         headerTitle,
-        tooltipСontent,
+        tooltipContent,
         noResultsText,
         showFooterCurrency,
       } = this.props;
@@ -76,7 +76,7 @@ export default (paymentType, paymentStatus) => {
               selectOptions={getChartSelectOptions()}
               onSelectChange={this.handleSelectChange}
               data={items}
-              tooltipСontent={tooltipСontent}
+              tooltipContent={tooltipContent}
               lines={[
                 {
                   type: 'monotone',

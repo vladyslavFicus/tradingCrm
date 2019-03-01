@@ -23,7 +23,7 @@ class Chart extends Component {
       stroke: PropTypes.string,
       horizontal: PropTypes.bool,
     }),
-    tooltipСontent: PropTypes.string,
+    tooltipContent: PropTypes.string,
     lines: PropTypes.arrayOf(
       PropTypes.shape({
         type: PropTypes.string.isRequired,
@@ -43,7 +43,7 @@ class Chart extends Component {
     height: 200,
     data: [],
     yAxis: { minTickGap: 40, axisLine: false },
-    tooltipСontent: null,
+    tooltipContent: null,
     cartesianGrid: { stroke: '#eee', horizontal: false },
   }
 
@@ -72,7 +72,7 @@ class Chart extends Component {
       data,
       yAxis: { minTickGap, axisLine },
       cartesianGrid: { stroke, horizontal },
-      tooltipСontent,
+      tooltipContent,
       lines,
       footer,
       loading,
@@ -114,7 +114,7 @@ class Chart extends Component {
                   <LineChart data={data}>
                     <YAxis minTickGap={minTickGap} axisLine={axisLine} />
                     <CartesianGrid stroke={stroke} horizontal={horizontal} />
-                    <Tooltip {...(tooltipСontent && { content: CustomTooltip(tooltipСontent) })} />
+                    <Tooltip {...(tooltipContent && { content: CustomTooltip(tooltipContent) })} />
                     {lines.map(({
                       type: lineType,
                       dataKey,

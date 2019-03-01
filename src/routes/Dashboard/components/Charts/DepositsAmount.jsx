@@ -11,7 +11,7 @@ const DepositsAmount = () => (
     dataKey="amount"
     showFooterCurrency
     headerTitle={I18n.t('DASHBOARD.DEPOSITS_AMOUNT_CHART.TITLE')}
-    tooltipСontent={I18n.t('DASHBOARD.DEPOSITS_AMOUNT_CHART.TOOLTIP_TITLE')}
+    tooltipContent={I18n.t('DASHBOARD.DEPOSITS_AMOUNT_CHART.TOOLTIP_TITLE')}
     noResultsText={I18n.t('DASHBOARD.DEPOSITS_AMOUNT_CHART.NO_RESULTS_TEXT')}
   />
 );

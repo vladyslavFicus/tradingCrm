@@ -60,7 +60,7 @@ class Registrations extends Component {
             selectOptions={getChartSelectOptions()}
             onSelectChange={this.handleSelectChange}
             data={items}
-            tooltipСontent={I18n.t('DASHBOARD.REGISTRATION_CHART.TOOLTIP_TITLE')}
+            tooltipContent={I18n.t('DASHBOARD.REGISTRATION_CHART.TOOLTIP_TITLE')}
             lines={[
               {
                 type: 'monotone',

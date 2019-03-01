@@ -10,7 +10,7 @@ const WithdrawsCount = () => (
     color="#ff7a21"
     dataKey="count"
     headerTitle={I18n.t('DASHBOARD.WITHDRAWS_COUNT_CHART.TITLE')}
-    tooltipСontent={I18n.t('DASHBOARD.WITHDRAWS_COUNT_CHART.TOOLTIP_TITLE')}
+    tooltipContent={I18n.t('DASHBOARD.WITHDRAWS_COUNT_CHART.TOOLTIP_TITLE')}
     noResultsText={I18n.t('DASHBOARD.WITHDRAWS_COUNT_CHART.NO_RESULTS_TEXT')}
   />
 );
