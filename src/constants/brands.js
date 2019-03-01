@@ -8,7 +8,7 @@ const brands = keyMirror({
   snpbrokers: null,
   rbctrade: null,
   cryptobull: null,
-  royalbank: null,
+  royalbanc: null,
 });
 const departments = keyMirror({
   ADMINISTRATION: null,
@@ -56,9 +56,9 @@ const brandsConfig = {
     name: 'Crypto-bull',
     // image: { src: '/img/brand/choose-brand/crypto-bull.svg' },
   },
-  [brands.royalbank]: {
-    name: 'Royalbank',
-    // image: { src: '/img/brand/choose-brand/royalbank.svg' },
+  [brands.royalbanc]: {
+    name: 'Royalbanc',
+    // image: { src: '/img/brand/choose-brand/royalbanc.svg' },
   },
 };
 const departmentsConfig = {
