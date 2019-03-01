@@ -19,7 +19,6 @@ import Uuid from 'components/Uuid';
 import MiniProfile from 'components/MiniProfile';
 import GridView, { GridViewColumn } from 'components/GridView';
 import CountryLabelWithFlag from 'components/CountryLabelWithFlag';
-import delay from 'utils/delay';
 import parseErrorsFromServer from 'utils/parseErrorsFromServer';
 import { getUserTypeByDepartment } from './utils';
 import OperatorGridFilter from './OperatorGridFilter';
@@ -122,6 +121,7 @@ class List extends Component {
       const { departmentRole } = optionsAction.payload.post;
 
       delete departmentRole.PLAYER;
+      delete departmentRole.AFFILIATE_PARTNER;
 
       const [department] = Object.keys(departmentRole);
 

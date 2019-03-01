@@ -8,6 +8,7 @@ import { addDepartment, removeDepartment } from 'graphql/mutations/operators';
 import { actionCreators as authoritiesActionCreators } from 'redux/modules/auth/authorities';
 import { withNotifications } from 'components/HighOrder';
 import Edit from 'routes/Operators/routes/OperatorProfile/routes/Edit/components/Edit';
+import { operatorTypes } from 'constants/operators';
 
 const mapStateToProps = ({
   auth: { uuid, brandId },
@@ -16,6 +17,7 @@ const mapStateToProps = ({
   auth: { uuid },
   brandId,
   departmentsRoles: get(authoritiesData, 'post.departmentRole', {}),
+  operatorType: operatorTypes.PARTNER,
 });
 
 const mapActions = {

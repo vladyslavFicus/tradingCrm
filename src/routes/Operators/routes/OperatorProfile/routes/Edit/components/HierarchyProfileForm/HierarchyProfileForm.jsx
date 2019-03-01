@@ -12,6 +12,7 @@ import { attributeLabels, fieldNames } from './constants';
 class HierarchyProfileForm extends Component {
   static propTypes = {
     loading: PropTypes.bool.isRequired,
+    isPartner: PropTypes.bool.isRequired,
     handleSubmit: PropTypes.func.isRequired,
     pristine: PropTypes.bool.isRequired,
     submitting: PropTypes.bool.isRequired,
@@ -108,6 +109,7 @@ class HierarchyProfileForm extends Component {
       handleSubmit,
       pristine,
       submitting,
+      isPartner,
       initialValues: {
         parentBranches,
       },
@@ -137,7 +139,7 @@ class HierarchyProfileForm extends Component {
                   className="col-4"
                 >
                   {Object
-                    .keys(omit(userTypes, [userTypes.CUSTOMER, userTypes.LEAD_CUSTOMER]))
+                    .keys(omit(userTypes, [userTypes.CUSTOMER, userTypes.LEAD_CUSTOMER, !isPartner && userTypes.AFFILIATE_PARTNER]))
                     .map(value => (
                       <option key={value} value={value}>
                         {I18n.t(userTypeLabels[value])}

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { I18n } from 'react-redux-i18n';
 import { get } from 'lodash';
 import PropTypes from 'constants/propTypes';
-import { departmentsLabels, rolesLabels, departments } from 'constants/operators';
+import { departmentsLabels, rolesLabels, operatorTypes } from 'constants/operators';
 import renderLabel from 'utils/renderLabel';
 import Permissions from 'utils/permissions';
 import permissions from 'config/permissions';
@@ -41,6 +41,7 @@ class View extends Component {
     forbiddenCountries: PropTypes.arrayOf(PropTypes.string),
     deleteAuthority: PropTypes.func.isRequired,
     addAuthority: PropTypes.func.isRequired,
+    operatorType: PropTypes.string,
     fetchAuthoritiesOptions: PropTypes.func.isRequired,
     authorities: PropTypes.oneOfType([PropTypes.authorityEntity, PropTypes.object]),
     departmentsRoles: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.string)).isRequired,
@@ -54,6 +55,7 @@ class View extends Component {
   };
 
   static defaultProps = {
+    operatorType: operatorTypes.OPERATOR,
     authorities: [],
     allowedIpAddresses: [],
     forbiddenCountries: [],
@@ -148,18 +150,22 @@ class View extends Component {
         loading,
         hierarchy,
       },
+      operatorType,
     } = this.props;
 
     const { permissions: currentPermissions } = this.context;
     const allowEditPermissions = manageDepartmentsPermission.check(currentPermissions) && uuid !== profile.uuid;
     const initialValues = get(hierarchy, 'userHierarchyById.data') || {};
+    const isPartner = operatorType === operatorTypes.PARTNER;
+
+    if (!isPartner) delete departmentsRoles.AFFILIATE_PARTNER;
 
     return (
       <div className="card-body">
         <div className="card">
           <div className="card-body">
             <PersonalForm
-              isPartner={!!authorities.find(authority => authority.department === departments.AFFILIATE_PARTNER)}
+              isPartner={isPartner}
               initialValues={{
                 firstName: profile.firstName,
                 lastName: profile.lastName,
@@ -208,6 +214,7 @@ class View extends Component {
         </div>
         <If condition={allowEditPermissions}>
           <HierarchyProfileForm
+            isPartner={isPartner}
             loading={loading}
             initialValues={initialValues}
           />
