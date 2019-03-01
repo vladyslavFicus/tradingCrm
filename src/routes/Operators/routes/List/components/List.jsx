@@ -61,19 +61,6 @@ class List extends Component {
     filters: {},
   };
 
-  pollAuthorities = async (uuid, retryCount = 3) => {
-    const authoritiesAction = await this.props.fetchAuthorities(uuid);
-
-    const nextRetryCount = retryCount - 1;
-    if (authoritiesAction.error && nextRetryCount > 0) {
-      await delay(1000 * (3 - nextRetryCount));
-
-      return this.pollAuthorities(uuid, nextRetryCount);
-    }
-
-    return !authoritiesAction.error;
-  };
-
   handlePageChanged = () => {
     const {
       operators: {
@@ -123,15 +110,6 @@ class List extends Component {
     createOperator.hide();
 
     const { uuid } = newOperator;
-    const hasAuthorities = await this.pollAuthorities(uuid);
-
-    if (!hasAuthorities) {
-      notify({
-        level: 'error',
-        title: I18n.t('OPERATORS.NOTIFICATIONS.GET_OPERATORS_AUTHORITIES_ERROR.TITLE'),
-        message: I18n.t('OPERATORS.NOTIFICATIONS.GET_OPERATORS_AUTHORITIES_ERROR.MESSAGE'),
-      });
-    }
 
     history.push(`/${operatorType.toLowerCase()}s/${uuid}/profile`);
   };
