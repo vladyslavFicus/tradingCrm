@@ -175,7 +175,7 @@ class List extends Component {
         allRowsSelected,
         totalElements,
         multiAssign: true,
-        ...query && { searchParams: { ...query.filters } },
+        ...query && { searchParams: { ...omit(query.filters, ['size']) } },
       },
       onSuccess: this.handleSuccessUpdateRepresentative,
       header: (
