@@ -61,6 +61,7 @@ class NotesGridFilter extends Component {
           label={I18n.t('PLAYER_PROFILE.NOTES.FILTER.LABELS.CREATION_DATE_RANGE')}
         >
           <Field
+            utc
             name="changedAtFrom"
             placeholder={I18n.t(attributeLabels.from)}
             component={DateTimeField}
@@ -68,6 +69,7 @@ class NotesGridFilter extends Component {
             pickerClassName="left-side"
           />
           <Field
+            utc
             name="changedAtTo"
             placeholder={I18n.t(attributeLabels.to)}
             component={DateTimeField}
