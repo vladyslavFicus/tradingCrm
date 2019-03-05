@@ -158,6 +158,7 @@ const clientsQuery = gql`query getProfiles(
   $salesStatuses: [String],
   $retentionStatuses: [String],
   $searchAffiliate: String,
+  $searchName: String,
 ) {
   profiles(
     page: $page,
@@ -177,6 +178,7 @@ const clientsQuery = gql`query getProfiles(
     salesStatuses: $salesStatuses
     retentionStatuses: $retentionStatuses
     searchAffiliate: $searchAffiliate
+    searchName: $searchName
     ) {
       error {
         error

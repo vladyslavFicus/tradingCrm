@@ -889,8 +889,9 @@
       "SELECT_BRANCH_TYPE": "Select branch type first"
     },
     "SEARCH_BY": {
-      "CLIENT": "Name, email, ID",
-      "AFFILIATE": "Affiliate ID, source"
+      "CLIENT": "Email, ID",
+      "AFFILIATE": "Affiliate ID, source",
+      "NAME": "Name"
     },
     "DATE_OPTIONS": {
       "START_DATE": "Start date",
