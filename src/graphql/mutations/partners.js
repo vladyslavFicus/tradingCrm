@@ -5,8 +5,8 @@ const createPartner = gql`mutation createPartner(
   $email: String!,
   $firstName: String!,
   $lastName: String!,
+  $password: String!,
   $phone: String,
-  $sendMail: Boolean!,
 ) {
   partner {
     createPartner(
@@ -15,7 +15,7 @@ const createPartner = gql`mutation createPartner(
       firstName: $firstName,
       lastName: $lastName,
       phone: $phone,
-      sendMail: $sendMail,
+      password: $password,
     ) {
       data {
         country

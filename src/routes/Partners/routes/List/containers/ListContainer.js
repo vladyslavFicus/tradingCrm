@@ -8,9 +8,9 @@ import { actionCreators as miniProfileActionCreators } from 'redux/modules/miniP
 import { partnersQuery } from 'graphql/queries/partners';
 import { createPartner } from 'graphql/mutations/partners';
 import { withModals, withNotifications } from 'components/HighOrder';
-import CreateOperatorModalContainer from 'components/CreateOperatorModal';
 import List from 'routes/Operators/routes/List/components/List';
 import { operatorTypes } from 'constants/operators';
+import CreatePartnerModalContainer from '../components/CreatePartnerModal';
 
 const mapStateToProps = ({
   operatorsList: list,
@@ -33,7 +33,7 @@ const mapActions = {
 
 export default compose(
   connect(mapStateToProps, mapActions),
-  withModals({ createOperator: CreateOperatorModalContainer }),
+  withModals({ createOperator: CreatePartnerModalContainer }),
   withNotifications,
   graphql(createPartner, {
     name: 'submitNewOperator',

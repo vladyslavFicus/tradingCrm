@@ -114,9 +114,9 @@ class List extends Component {
   };
 
   handleOpenCreateModal = async () => {
-    const { fetchAuthoritiesOptions, modals, notify, operatorId, operatorType } = this.props;
+    const { fetchAuthoritiesOptions, modals, notify, operatorId } = this.props;
     const optionsAction = await fetchAuthoritiesOptions();
-    const isPartner = operatorType === operatorTypes.PARTNER;
+
     if (!optionsAction.error) {
       const { departmentRole } = optionsAction.payload.post;
 
@@ -133,7 +133,6 @@ class List extends Component {
 
       modals.createOperator.show({
         onSubmit: this.handleSubmitNewOperator,
-        isPartner,
         initialValues,
         operatorId,
         departmentsRoles: departmentRole || {},

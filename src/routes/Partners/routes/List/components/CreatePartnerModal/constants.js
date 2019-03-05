@@ -1,7 +1,7 @@
+import React from 'react';
 import keyMirror from 'keymirror';
 import { fieldTypes } from 'components/ReduxForm/ReduxFieldsConstructor';
 import I18n from 'utils/fake-i18n';
-import renderLabel from 'utils/renderLabel';
 
 const attributeLabels = {
   firstName: I18n.t('COMMON.FIRST_NAME'),
@@ -11,6 +11,7 @@ const attributeLabels = {
   department: I18n.t('COMMON.DEPARTMENT'),
   role: I18n.t('COMMON.ROLE'),
   branch: I18n.t('COMMON.BRANCH'),
+  password: I18n.t('COMMON.PASSWORD'),
 };
 
 const fieldNames = keyMirror({
@@ -40,7 +41,7 @@ const branchField = (
   };
 };
 
-const commonFields = [{
+const formFields = handleGeneratePassword => [{
   type: fieldTypes.INPUT,
   name: 'firstName',
   label: I18n.t(attributeLabels.firstName),
@@ -63,56 +64,21 @@ const commonFields = [{
   showErrorMessage: true,
 }, {
   type: fieldTypes.INPUT,
+  name: 'password',
+  label: I18n.t(attributeLabels.password),
+  onIconClick: handleGeneratePassword,
+  inputAddon: <span className="icon-generate-password" />,
+  inputAddonPosition: 'right',
+  className: 'col-md-6',
+  showErrorMessage: true,
+}, {
+  type: fieldTypes.INPUT,
   name: 'phone',
   label: I18n.t(attributeLabels.phone),
   id: 'create-new-operator-phone',
   className: 'col-md-6',
   showErrorMessage: true,
 }];
-
-const operatorAdditionalFields = (
-  departmentsLabels,
-  departmentsRoles,
-  rolesLabels,
-  formValues
-) => [{
-  type: fieldTypes.SELECT,
-  name: fieldNames.department,
-  label: I18n.t(attributeLabels.department),
-  customOnChange: true,
-  withAnyOption: false,
-  searchable: false,
-  className: 'col-md-6',
-  selectOptions: Object
-    .keys(departmentsRoles)
-    .map(value => ({ value, label: renderLabel(value, departmentsLabels) })),
-}, {
-  type: fieldTypes.SELECT,
-  name: fieldNames.role,
-  label: I18n.t(attributeLabels.role),
-  disabled: !formValues,
-  withAnyOption: false,
-  searchable: false,
-  className: 'col-md-6',
-  selectOptions: formValues.department && departmentsRoles[formValues.department]
-    .map(value => ({ value, label: renderLabel(value, rolesLabels) })),
-}];
-
-const formFields = ({
-  departmentsLabels,
-  departmentsRoles,
-  rolesLabels,
-  formValues,
-}, isPartner) => [
-  ...commonFields,
-  ...(!isPartner
-    ? operatorAdditionalFields(departmentsLabels,
-      departmentsRoles,
-      rolesLabels,
-      formValues)
-    : []
-  ),
-];
 
 export {
   attributeLabels,

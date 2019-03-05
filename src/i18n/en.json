@@ -931,6 +931,7 @@
     "NOTE": "Note",
     "CREATED": "Created",
     "LAST_CHANGED": "Last changed",
+    "PASSWORD": "Password",
     "PAYMENT": {
       "TYPE": {
         "TIP": "Tip",
@@ -2300,6 +2301,7 @@
   },
   "PARTNERS": {
     "HEADING": "PARTNERS",
+    "NEW_PARTNER": "New partner",
     "CREATE_OPERATOR_BUTTON": "+ New partner",
     "GRID_HEADER": {
       "PARTNER": "Partner"

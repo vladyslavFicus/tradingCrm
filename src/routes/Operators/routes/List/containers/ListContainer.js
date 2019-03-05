@@ -8,7 +8,7 @@ import { actionCreators as miniProfileActionCreators } from 'redux/modules/miniP
 import { createOperator } from 'graphql/mutations/operators';
 import { managementOperatorsQuery } from 'graphql/queries/operators';
 import { withModals, withNotifications } from 'components/HighOrder';
-import CreateOperatorModalContainer from 'components/CreateOperatorModal';
+import CreateOperatorModalContainer from '../components/CreateOperatorModal';
 import List from '../components/List';
 
 const mapStateToProps = ({

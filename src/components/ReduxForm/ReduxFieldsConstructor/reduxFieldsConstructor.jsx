@@ -27,6 +27,7 @@ const reduxFieldsConstructor = (
       // input props
       inputType,
       inputAddon,
+      onIconClick,
       normalize,
       // select props
       multiple,
@@ -67,6 +68,7 @@ const reduxFieldsConstructor = (
               type={inputType || 'text'}
               component={components.INPUT}
               {...inputAddon && { inputAddon }}
+              {...onIconClick && { onIconClick }}
               {...normalize && { normalize }}
             />
           );
