@@ -54,11 +54,11 @@ const brandsConfig = {
   },
   [brands.cryptobull]: {
     name: 'Crypto-bull',
-    // image: { src: '/img/brand/choose-brand/crypto-bull.svg' },
+    image: { src: '/img/brand/choose-brand/cryptobull.svg' },
   },
   [brands.royalbanc]: {
     name: 'Royalbanc',
-    // image: { src: '/img/brand/choose-brand/royalbanc.svg' },
+    image: { src: '/img/brand/choose-brand/royalbanc.svg' },
   },
 };
 const departmentsConfig = {
