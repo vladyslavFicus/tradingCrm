@@ -1,94 +1,68 @@
 import React, { Component, Fragment } from 'react';
-import { I18n } from 'react-redux-i18n';
-import PropTypes from '../../../../../../../constants/propTypes';
-import ListView from '../../../../../../../components/ListView';
-import FeedItem from '../../../../../../../components/FeedItem';
+import { get } from 'lodash';
+import history from 'router/history';
+import parseJson from 'utils/parseJson';
+import PropTypes from 'constants/propTypes';
+import ListView from 'components/ListView';
+import FeedItem from 'components/FeedItem';
 import FeedFilterForm from './FeedFilterForm';
 
 class View extends Component {
   static propTypes = {
-    feed: PropTypes.pageableState(PropTypes.auditEntity).isRequired,
-    feedTypes: PropTypes.shape({
-      data: PropTypes.arrayOf(PropTypes.string).isRequired,
+    feeds: PropTypes.shape({
+      refetch: PropTypes.func.isRequired,
+      loading: PropTypes.bool.isRequired,
+      loadMoreFeeds: PropTypes.func.isRequired,
+      feeds: PropTypes.shape({
+        content: PropTypes.arrayOf(PropTypes.shape({
+          targetUUID: PropTypes.string,
+        })),
+      }),
     }).isRequired,
-    fetchFeed: PropTypes.func.isRequired,
-    exportFeed: PropTypes.func.isRequired,
-    match: PropTypes.shape({
-      params: PropTypes.shape({
-        id: PropTypes.string,
-      }).isRequired,
+    feedTypes: PropTypes.shape({
+      data: PropTypes.arrayOf(PropTypes.string),
     }).isRequired,
     locale: PropTypes.string.isRequired,
   };
 
-  state = {
-    filters: {},
-    page: 0,
-  };
+  handlePageChanged = () => {
+    const {
+      feeds: {
+        loading,
+        loadMoreFeeds,
+      },
+    } = this.props;
 
-  componentDidMount() {
-    this.props.fetchFeed(this.props.match.params.id);
-    this.handleFiltersChanged();
-  }
-
-  handleRefresh = () => {
-    this.props.fetchFeed(this.props.match.params.id, {
-      ...this.state.filters,
-      page: this.state.page,
-    });
-  };
-
-  handlePageChanged = (page) => {
-    if (!this.props.feed.isLoading) {
-      this.setState({ page: page - 1 }, () => this.handleRefresh());
+    if (!loading) {
+      loadMoreFeeds();
     }
   };
 
   handleFiltersChanged = (filters = {}) => {
-    this.setState({
-      filters,
-      page: 0,
-    }, () => this.handleRefresh());
+    history.replace({ query: { filters } });
   };
 
-  handleExportClick = () => {
-    this.props.exportFeed(this.props.match.params.id, {
-      ...this.state.filters,
-      page: this.state.page,
-    });
-  };
+  mapAuditEntities = entities => entities.map(entity => (
+    typeof entity.details === 'string'
+      ? { ...entity, details: parseJson(entity.details) }
+      : entity
+  ));
 
   render() {
     const {
-      feed: {
-        entities,
-        exporting,
-        noResults,
-      },
-      feedTypes: {
-        data: availableTypes,
-      },
+      feeds: { feeds: data, loading },
+      feedTypes: { feedTypes },
       locale,
     } = this.props;
 
+    const feeds = get(data, 'data') || { content: [] };
+    const content = this.mapAuditEntities(feeds.content);
+
+    const feedTypesList = get(feedTypes, 'data') || {};
+    const availableTypes = Object.keys(feedTypesList).filter(key => (!!feedTypesList[key] && key !== '__typename'));
+
     return (
       <Fragment>
-        <div className="row no-gutters tab-header">
-          <div className="col tab-header__title">
-            {I18n.t('OPERATOR_PROFILE.FEED.TITLE')}
-          </div>
-          <div className="col-auto">
-            <button
-              type="button"
-              disabled={exporting}
-              className="btn btn-default-outline btn-sm"
-              onClick={this.handleExportClick}
-            >
-              {I18n.t('COMMON.EXPORT')}
-            </button>
-          </div>
-        </div>
-
         <FeedFilterForm
           availableTypes={availableTypes}
           onSubmit={this.handleFiltersChanged}
@@ -96,7 +70,7 @@ class View extends Component {
 
         <div className="tab-wrapper">
           <ListView
-            dataSource={entities.content}
+            dataSource={content}
             onPageChange={this.handlePageChanged}
             render={(item, key) => {
               const options = {
@@ -121,11 +95,12 @@ class View extends Component {
                 />
               );
             }}
-            activePage={entities.number + 1}
-            totalPages={entities.totalPages}
+            activePage={feeds.number + 1}
+            totalPages={feeds.totalPages}
+            last={feeds.last}
             lazyLoad
             locale={locale}
-            showNoResults={noResults}
+            showNoResults={!loading && !content.length}
           />
         </div>
       </Fragment>
