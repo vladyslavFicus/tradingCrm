@@ -4,8 +4,9 @@
   .acquisition-item {
     width: 100%;
     display: flex;
-    align-items: flex-end;
-    border: solid 1px #cfcfcf;
+    align-items: center;
+    border-width: 1px;
+    border-style: solid;
     border-radius: 5px;
     padding: 5px 10px;
     font-size: 12px;

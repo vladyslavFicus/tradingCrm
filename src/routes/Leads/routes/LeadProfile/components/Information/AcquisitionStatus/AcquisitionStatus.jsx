@@ -4,7 +4,8 @@ import { I18n } from 'react-redux-i18n';
 import classNames from 'classnames';
 import Permissions from 'utils/permissions';
 import permissions from 'config/permissions';
-import { salesStatuses, salesStatusesColor } from '../../../../../../../constants/salesStatuses';
+import { salesStatuses, salesStatusesColor } from 'constants/salesStatuses';
+import { branchTypes } from 'constants/hierarchyTypes';
 import './AcquisitionStatus.scss';
 
 const changeAcquisitionStatus = new Permissions([permissions.USER_PROFILE.CHANGE_ACQUISITION_STATUS]);
@@ -12,54 +13,87 @@ const changeAcquisitionStatus = new Permissions([permissions.USER_PROFILE.CHANGE
 const AcquisitionStatus = (
   { data: { salesStatus, salesAgent }, loading },
   { triggerRepresentativeUpdateModal, permissions: currentPermissions }
-) => (
-  <div className="account-details__personal-info">
-    <span className="account-details__label">
-      {I18n.t('CLIENT_PROFILE.CLIENT.ACQUISITION.TITLE')}
-    </span>
-    <div className="card">
-      <div className="card-body acquisition-status">
-        <If condition={!loading}>
-          <div
-            className="acquisition-item"
-            onClick={
-              changeAcquisitionStatus.check(currentPermissions)
-                ? triggerRepresentativeUpdateModal
-                : null
-            }
-          >
-            <div className="status-col">
-              <div>{I18n.t('CLIENT_PROFILE.CLIENT.ACQUISITION.SALES')}</div>
-              <Choose>
-                <When condition={salesStatus}>
-                  <div className={classNames('status', salesStatusesColor[salesStatus])}>
-                    {I18n.t(salesStatuses[salesStatus])}
-                  </div>
-                </When>
-                <Otherwise>
-                  <span>&mdash;</span>
-                </Otherwise>
-              </Choose>
-            </div>
-            <div className="operator-col">
-              <div>Sales DK</div>
-              <div className="name">
+) => {
+  let team = null;
+  let desk = null;
+
+  if (salesAgent) {
+    const branches = salesAgent.hierarchy ? salesAgent.hierarchy.parentBranches : null;
+    // Find operator team and desk. If team is absent -> find desk in branches
+
+    if (branches) {
+      team = branches.find(branch => branch.branchType === branchTypes.TEAM);
+      desk = team ? team.parentBranch : branches.find(branch => branch.branchType === branchTypes.DESK);
+    }
+  }
+
+  const colorClassName = salesStatus && salesStatusesColor[salesStatus];
+
+  return (
+    <div className="account-details__personal-info">
+      <span className="account-details__label">
+        {I18n.t('CLIENT_PROFILE.CLIENT.ACQUISITION.TITLE')}
+      </span>
+      <div className="card">
+        <div className="card-body acquisition-status">
+          <If condition={!loading}>
+            <div
+              className={
+                classNames(
+                  'acquisition-item',
+                  { [`border-${colorClassName}`]: colorClassName },
+                )
+              }
+              onClick={
+                changeAcquisitionStatus.check(currentPermissions)
+                  ? triggerRepresentativeUpdateModal
+                  : null
+              }
+            >
+              <div className="status-col">
+                <div>{I18n.t('CLIENT_PROFILE.CLIENT.ACQUISITION.SALES')}</div>
                 <Choose>
-                  <When condition={salesAgent}>
-                    {salesAgent.fullName}
+                  <When condition={salesStatus}>
+                    <div className={classNames('status', colorClassName)}>
+                      {I18n.t(salesStatuses[salesStatus])}
+                    </div>
                   </When>
                   <Otherwise>
                     <span>&mdash;</span>
                   </Otherwise>
                 </Choose>
               </div>
+              <div className="operator-col">
+                <div>
+                  <Choose>
+                    <When condition={salesAgent}>
+                      {salesAgent.fullName}
+                    </When>
+                    <Otherwise>
+                      <span>&mdash;</span>
+                    </Otherwise>
+                  </Choose>
+                </div>
+                <div className="name">
+                  <If condition={desk}>
+                    <div>
+                      <b>{I18n.t('DESKS.GRID_HEADER.DESK')}:</b> {desk.name}
+                    </div>
+                  </If>
+                  <If condition={team}>
+                    <div>
+                      <b>{I18n.t('TEAMS.GRID_HEADER.TEAM')}:</b> {team.name}
+                    </div>
+                  </If>
+                </div>
+              </div>
             </div>
-          </div>
-        </If>
+          </If>
+        </div>
       </div>
     </div>
-  </div>
-);
+  );
+}
 
 AcquisitionStatus.propTypes = {
   data: PropTypes.shape({

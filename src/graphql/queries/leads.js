@@ -100,6 +100,16 @@ const leadProfileQuery = gql`query getLeadProfile(
       salesAgent {
         fullName
         uuid
+        hierarchy {
+          parentBranches {
+            name
+            branchType
+            parentBranch {
+              name
+              branchType
+            }
+          }
+        }
       }
       salesStatus
       birthDate
