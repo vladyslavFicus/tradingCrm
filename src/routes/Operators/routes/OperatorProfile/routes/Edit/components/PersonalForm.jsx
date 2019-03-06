@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
 import PropTypes from 'constants/propTypes';
-import { InputField, SelectField, MultiInputField, NasSelectField } from 'components/ReduxForm';
+import { InputField, SelectField, MultiInputField, NasSelectField, CheckBox } from 'components/ReduxForm';
 import { createValidator, translateLabels } from 'utils/validator';
 import countries from 'utils/countryList';
 import { personalFormAttributeLabels as attributeLabels } from './constants';
@@ -136,6 +136,18 @@ class PersonalForm extends PureComponent {
                   .map(key => <option key={key} value={key}>{countries[key]}</option>)
                 }
               </Field>
+              <Field
+                name="showNotes"
+                type="checkbox"
+                component={CheckBox}
+                label={I18n.t('PARTNERS.SHOW_NOTES')}
+              />
+              <Field
+                name="showSalesStatus"
+                type="checkbox"
+                component={CheckBox}
+                label={I18n.t('PARTNERS.SHOW_SALES_STATUS')}
+              />
             </div>
           </If>
         </div>

@@ -2305,7 +2305,9 @@
     "CREATE_OPERATOR_BUTTON": "+ New partner",
     "GRID_HEADER": {
       "PARTNER": "Partner"
-    }
+    },
+    "SHOW_NOTES": "Show notes",
+    "SHOW_SALES_STATUS": "Show sales status"
   },
   "PAYMENT_METHOD_LIMIT_POPOVER": {
     "ENABLE_LIMIT_TYPE": "Enable %{type}",

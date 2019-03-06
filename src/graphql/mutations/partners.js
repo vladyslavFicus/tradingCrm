@@ -48,6 +48,8 @@ const updatePartner = gql`mutation updatePartner(
   $country: String,
   $allowedIpAddresses: [String],
   $forbiddenCountries: [String],
+  $showNotes: Boolean,
+  $showSalesStatus: Boolean,
 ) {
   partner {
     updatePartner(
@@ -58,6 +60,8 @@ const updatePartner = gql`mutation updatePartner(
       country: $country,
       allowedIpAddresses: $allowedIpAddresses,
       forbiddenCountries: $forbiddenCountries,
+      showNotes: $showNotes,
+      showSalesStatus: $showSalesStatus,
     ) {
       data {
         _id
@@ -79,6 +83,8 @@ const updatePartner = gql`mutation updatePartner(
             permission {
               allowedIpAddresses
               forbiddenCountries
+              showNotes
+              showSalesStatus
             }
           }
         }

@@ -56,6 +56,8 @@ const partnerQuery = gql`query getPartnerByUUID(
           permission {
             allowedIpAddresses
             forbiddenCountries
+            showNotes
+            showSalesStatus
           }
         }
       }

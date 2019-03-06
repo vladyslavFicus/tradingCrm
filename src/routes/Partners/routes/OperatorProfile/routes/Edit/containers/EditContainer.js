@@ -81,6 +81,8 @@ export default compose(
         authorities: authorities || {},
         allowedIpAddresses: get(forexOperator, 'data.permission.allowedIpAddresses') || [],
         forbiddenCountries: get(forexOperator, 'data.permission.forbiddenCountries') || [],
+        showNotes: get(forexOperator, 'data.permission.showNotes') || false,
+        showSalesStatus: get(forexOperator, 'data.permission.showSalesStatus') || false,
         profile: {
           data: {
             ...partnerProfile,

@@ -39,6 +39,8 @@ class View extends Component {
     }).isRequired,
     allowedIpAddresses: PropTypes.arrayOf(PropTypes.string),
     forbiddenCountries: PropTypes.arrayOf(PropTypes.string),
+    showNotes: PropTypes.bool,
+    showSalesStatus: PropTypes.bool,
     deleteAuthority: PropTypes.func.isRequired,
     addAuthority: PropTypes.func.isRequired,
     operatorType: PropTypes.string,
@@ -56,6 +58,8 @@ class View extends Component {
 
   static defaultProps = {
     operatorType: operatorTypes.OPERATOR,
+    showNotes: false,
+    showSalesStatus: false,
     authorities: [],
     allowedIpAddresses: [],
     forbiddenCountries: [],
@@ -143,6 +147,8 @@ class View extends Component {
       profile: { data: profile },
       allowedIpAddresses,
       forbiddenCountries,
+      showNotes,
+      showSalesStatus,
       authorities: { data: authorities },
       auth: { uuid },
       departmentsRoles,
@@ -174,6 +180,8 @@ class View extends Component {
                 phoneNumber: profile.phoneNumber,
                 allowedIpAddresses,
                 forbiddenCountries,
+                showNotes,
+                showSalesStatus,
               }}
               onSubmit={this.handleSubmit}
             />
