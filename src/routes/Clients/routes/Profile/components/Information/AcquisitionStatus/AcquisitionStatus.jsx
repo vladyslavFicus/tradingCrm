@@ -21,7 +21,7 @@ const AcquisitionStatus = (
       <div className="card-body acquisition-status">
         <If condition={!loading}>
           {transformAcquisitionData(acquisitionData, department)
-            .map(({ label, statusLabel, statusColor, borderColor, repName, modalType, allowAction }) => (
+            .map(({ label, statusLabel, statusColor, borderColor, repName, modalType, allowAction, desk, team }) => (
               <div
                 key={label}
                 className={`acquisition-item border-${borderColor || 'color-neutral'}`}
@@ -38,7 +38,19 @@ const AcquisitionStatus = (
                   </div>
                 </div>
                 <div className="operator-col">
-                  <div className="name">{repName}</div>
+                  <div>{repName}</div>
+                  <div className="name">
+                    <If condition={desk}>
+                      <div>
+                        <b>{I18n.t('DESKS.GRID_HEADER.DESK')}:</b> {desk.name}
+                      </div>
+                    </If>
+                    <If condition={team}>
+                      <div>
+                        <b>{I18n.t('TEAMS.GRID_HEADER.TEAM')}:</b> {team.name}
+                      </div>
+                    </If>
+                  </div>
                 </div>
               </div>
             ))

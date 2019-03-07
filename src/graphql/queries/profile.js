@@ -89,11 +89,31 @@ const clientQuery = gql`query profileData($playerUUID: String!){
         salesRep {
           fullName
           uuid
+          hierarchy {
+            parentBranches {
+              name
+              branchType
+              parentBranch {
+                name
+                branchType
+              }
+            }
+          }
         }
         salesStatus
         retentionRep {
           fullName
           uuid
+          hierarchy {
+            parentBranches {
+              name
+              branchType
+              parentBranch {
+                name
+                branchType
+              }
+            }
+          }
         }
         retentionStatus
         clientType
