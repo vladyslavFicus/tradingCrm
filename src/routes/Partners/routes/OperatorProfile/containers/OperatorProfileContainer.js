@@ -59,7 +59,7 @@ export default compose(
       fetchPolicy: 'network-only',
     }),
     props: ({ getPartner }) => {
-      const { authorities, ...partnerProfile } = get(getPartner, 'partner.data', {});
+      const { authorities, ...partnerProfile } = get(getPartner, 'partner.data') || {};
       return {
         isLoading: get(getPartner, 'loading', true),
         authorities: authorities || {},

@@ -59,7 +59,7 @@ export default compose(
       fetchPolicy: 'network-only',
     }),
     props: ({ getOperator }) => {
-      const { authorities, ...operatorProfile } = get(getOperator, 'operator.data', {});
+      const { authorities, ...operatorProfile } = get(getOperator, 'operator.data') || {};
       return {
         isLoading: get(getOperator, 'loading', true),
         authorities: authorities || {},
