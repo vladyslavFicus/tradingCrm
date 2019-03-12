@@ -23,6 +23,10 @@ export const salesStatuses = {
   DUPLICATE: 'CONSTANTS.SALES_STATUSES.DUPLICATE',
   VOICEMAIL: 'CONSTANTS.SALES_STATUSES.VOICEMAIL',
   NEVER_ANSWER: 'CONSTANTS.SALES_STATUSES.NEVER_ANSWER',
+  HIGH_POTENTIAL: 'CONSTANTS.SALES_STATUSES.HIGH_POTENTIAL',
+  LOW_POTENTIAL: 'CONSTANTS.SALES_STATUSES.LOW_POTENTIAL',
+  CONVERTED: 'CONSTANTS.SALES_STATUSES.CONVERTED',
+  CALLBACK: 'CONSTANTS.SALES_STATUSES.CALLBACK',
 };
 
 export const salesStatusesColor = {
@@ -48,6 +52,10 @@ export const salesStatusesColor = {
   DUPLICATE: 'color-warning',
   VOICEMAIL: 'color-info',
   NEVER_ANSWER: 'color-danger',
+  HIGH_POTENTIAL: 'color-info',
+  LOW_POTENTIAL: 'color-warning',
+  CONVERTED: 'color-success',
+  CALLBACK: 'color-info',
 };
 
 export const salesStatusValues = keyMirror({
@@ -73,4 +81,8 @@ export const salesStatusValues = keyMirror({
   DUPLICATE: null,
   VOICEMAIL: null,
   NEVER_ANSWER: null,
+  HIGH_POTENTIAL: null,
+  LOW_POTENTIAL: null,
+  CONVERTED: null,
+  CALLBACK: null,
 });
