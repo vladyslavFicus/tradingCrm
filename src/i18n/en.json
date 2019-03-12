@@ -1417,7 +1417,11 @@
       "WRONG_NUMBER": "Wrong number",
       "DUPLICATE": "Duplicate",
       "VOICEMAIL": "Voicemail",
-      "NEVER_ANSWER": "Never answer"
+      "NEVER_ANSWER": "Never answer",
+      "HIGH_POTENTIAL": "High potential",
+      "LOW_POTENTIAL": "Low potential",
+      "CONVERTED": "Converted",
+      "CALLBACK": "Callback"
     },
     "RETENTION_STATUSES": {
       "NEW": "New",
