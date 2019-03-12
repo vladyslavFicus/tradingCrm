@@ -57,6 +57,10 @@ const getClientPayments = gql`query getClientPayments(
         language
         brandId
         externalReference
+        paymentMigrationId
+        userMigrationId
+        normalizedAmount
+        declineReason
         playerProfile {
           uuid
           firstName
@@ -139,6 +143,10 @@ const getClientPaymentsByUuid = gql`query getClientPayments(
         language
         brandId
         externalReference
+        paymentMigrationId
+        userMigrationId
+        normalizedAmount
+        declineReason
         playerProfile {
           uuid
           firstName

@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 import { I18n } from 'react-redux-i18n';
 import classNames from 'classnames';
 import moment from 'moment';
+import FailedStatusIcon from 'components/FailedStatusIcon';
 import {
   statusMapper,
   tradingTypes,
@@ -19,6 +20,7 @@ const PaymentStatus = ({
     createdBy,
     paymentType,
     playerProfile: { uuid },
+    declineReason,
   },
 }) => {
   const { color, label } = getTradingStatusProps(status);
@@ -32,6 +34,11 @@ const PaymentStatus = ({
             paymentId={paymentId}
             uuid={uuid}
           />
+        </If>
+        <If condition={statusMapper.REJECTED.indexOf(status) !== -1}>
+          <FailedStatusIcon id={`transaction-failure-reason-${paymentId}`}>
+            {declineReason}
+          </FailedStatusIcon>
         </If>
       </div>
       <div className="font-size-11">

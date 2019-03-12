@@ -2,6 +2,7 @@
 import React, { Fragment } from 'react';
 import { I18n } from 'react-redux-i18n';
 import moment from 'moment';
+import { getActiveBrandConfig } from 'config';
 import GridPaymentInfo from '../../components/GridPaymentInfo';
 import Uuid from '../../components/Uuid';
 import NoteButton from '../../components/NoteButton';
@@ -66,7 +67,19 @@ export default ({
   name: 'paymentId',
   header: I18n.t('CONSTANTS.TRANSACTIONS.GRID_COLUMNS.TRANSACTIONS'),
   render: data => (
-    <GridPaymentInfo payment={data} onSuccess={onSuccess} />
+    <Fragment>
+      <GridPaymentInfo payment={data} onSuccess={onSuccess} />
+      <If condition={data.userMigrationId}>
+        <div>
+          <Uuid className="header-block-small" uuidPostfix="..." length={15} uuid={data.userMigrationId} />
+        </div>
+      </If>
+      <If condition={data.paymentMigrationId}>
+        <div>
+          <Uuid className="header-block-small" uuidPostfix="..." length={15} uuid={data.paymentMigrationId} />
+        </div>
+      </If>
+    </Fragment>
   ),
 },
 ...(!clientView ? [clientColumn(playerInfo.auth, playerInfo.fetchPlayer)] : []),
@@ -114,8 +127,13 @@ export default ({
 }, {
   name: 'amount',
   header: I18n.t('CONSTANTS.TRANSACTIONS.GRID_COLUMNS.AMOUNT'),
-  render: ({ currency, amount }) => (
-    <div className="header-block-middle">{currency} {Number(amount).toFixed(2)}</div>
+  render: ({ currency, amount, normalizedAmount }) => (
+    <Fragment>
+      <div className="header-block-middle">{currency} {Number(amount).toFixed(2)}</div>
+      <div className="font-size-11">
+        {`(${getActiveBrandConfig().currencies.base} ${Number(normalizedAmount).toFixed(2)})`}
+      </div>
+    </Fragment>
   ),
 }, {
   name: 'tradingAcc',
