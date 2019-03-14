@@ -1436,7 +1436,12 @@
       "INVALID_LANGUAGE": "Invalid language",
       "SEASSIONS_ONLY": "Sessions only",
       "RECOVERY_DEPOSITOR": "Recovery depositor",
-      "RECEIVED_WITHDRAWAL": "Received withdrawal"
+      "RECEIVED_WITHDRAWAL": "Received withdrawal",
+      "INVALID": "Invalid",
+      "ACTIVE": "Active",
+      "DEPOSIT_WITH_ME": "Deposit with me",
+      "RECOVER": "Recover",
+      "NO_ANSWER": "No answer"
     },
     "CALLBACKS": {
       "SUCCESS": "Success",

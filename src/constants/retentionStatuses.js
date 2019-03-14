@@ -14,6 +14,11 @@ export const retentionStatuses = {
   SEASSIONS_ONLY: 'CONSTANTS.RETENTION_STATUSES.SEASSIONS_ONLY',
   RECOVERY_DEPOSITOR: 'CONSTANTS.RETENTION_STATUSES.RECOVERY_DEPOSITOR',
   RECEIVED_WITHDRAWAL: 'CONSTANTS.RETENTION_STATUSES.RECEIVED_WITHDRAWAL',
+  INVALID: 'CONSTANTS.RETENTION_STATUSES.INVALID',
+  ACTIVE: 'CONSTANTS.RETENTION_STATUSES.ACTIVE',
+  DEPOSIT_WITH_ME: 'CONSTANTS.RETENTION_STATUSES.DEPOSIT_WITH_ME',
+  RECOVER: 'CONSTANTS.RETENTION_STATUSES.RECOVER',
+  NO_ANSWER: 'CONSTANTS.RETENTION_STATUSES.NO_ANSWER',
 };
 
 export const retentionStatusesColor = {
@@ -30,6 +35,11 @@ export const retentionStatusesColor = {
   SEASSIONS_ONLY: 'color-info',
   RECOVERY_DEPOSITOR: 'color-success',
   RECEIVED_WITHDRAWAL: 'color-success',
+  INVALID: 'color-danger',
+  ACTIVE: 'color-info',
+  DEPOSIT_WITH_ME: 'color-info',
+  RECOVER: 'color-info',
+  NO_ANSWER: 'color-warning',
 };
 
 export const retentionStatusValues = keyMirror({
@@ -46,4 +56,9 @@ export const retentionStatusValues = keyMirror({
   SEASSIONS_ONLY: null,
   RECOVERY_DEPOSITOR: null,
   RECEIVED_WITHDRAWAL: null,
+  INVALID: null,
+  ACTIVE: null,
+  DEPOSIT_WITH_ME: null,
+  RECOVER: null,
+  NO_ANSWER: null,
 });
