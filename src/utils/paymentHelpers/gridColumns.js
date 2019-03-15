@@ -44,7 +44,7 @@ const clientColumn = (auth, fetchPlayer) => ({
 const countryColumn = {
   name: 'country',
   header: I18n.t('CONSTANTS.TRANSACTIONS.GRID_COLUMNS.COUNTRY'),
-  render: ({ paymentMetadata: { country } }) => (
+  render: ({ playerProfile: { country } }) => (
     <Choose>
       <When condition={country && country !== 'unknown'}>
         <CountryLabelWithFlag
