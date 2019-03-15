@@ -66,6 +66,7 @@ const getClientPayments = gql`query getClientPayments(
           firstName
           lastName
           fullName
+          country
         }
         paymentMetadata {
           clientIp
