@@ -12,7 +12,7 @@ const RESET_SIGN_IN = `${KEY}/reset`;
 function signIn(data) {
   return async dispatch => dispatch({
     [CALL_API]: {
-      endpoint: '/auth/signin',
+      endpoint: '/auth/signin/operator',
       method: 'POST',
       headers: {
         Accept: 'application/json',

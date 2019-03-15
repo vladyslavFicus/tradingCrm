@@ -23,7 +23,7 @@ const updateProfile = operatorSourceActionCreators.updateProfile(UPDATE_PROFILE)
 function signIn(data) {
   return async dispatch => dispatch({
     [CALL_API]: {
-      endpoint: '/auth/signin',
+      endpoint: '/auth/signin/operator',
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -72,7 +72,7 @@ function changeDepartment(department, brandId, token = null) {
     return dispatch({
       [CALL_API]: {
         method: 'POST',
-        endpoint: `/auth/signin/${brandId}/${department}`,
+        endpoint: `/auth/signin/operator/${brandId}/${department}`,
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
