@@ -74,6 +74,10 @@ function getBrandId() {
   return _.get(window, 'app.brandId');
 }
 
+function getPaymentReason() {
+  return _.get(window, 'app.brand.payment.reasons');
+}
+
 function setBrandId(brandId) {
   window.app.brandId = brandId;
   window.app.brand = brandId ? config.brands.find(brand => brand.id === brandId) : null;
@@ -108,6 +112,7 @@ export {
   getApiVersion,
   getDomain,
   getGraphQLRoot,
+  getPaymentReason,
 };
 
 export default config;

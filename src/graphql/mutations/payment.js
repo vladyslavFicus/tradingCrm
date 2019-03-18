@@ -44,12 +44,14 @@ const addPaymentMutation = gql`mutation createClientPayment(
 const acceptPayment = gql`mutation acceptPayment(
 $paymentId: String!,
 $paymentMethod: String,
+$declineReason: String,
 $typeAcc: String,  
 ) {
   payment {
     acceptPayment (
       paymentId: $paymentId,
       paymentMethod: $paymentMethod,
+      declineReason: $declineReason,
       typeAcc: $typeAcc,
     ) {
       data {

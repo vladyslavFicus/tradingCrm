@@ -4,12 +4,12 @@ import moment from 'moment';
 import classNames from 'classnames';
 import { I18n } from 'react-redux-i18n';
 import { get } from 'lodash';
+import { RejectForm, ApproveForm } from './ViewForm';
 import PropTypes from '../../constants/propTypes';
 import {
   methodsLabels,
   manualPaymentMethodsLabels,
   tradingTypes as paymentsTypes,
-  manualPaymentMethods,
   tradingTypes,
   statusMapper,
 } from '../../constants/payment';
@@ -20,7 +20,7 @@ import ModalPlayerInfo from '../ModalPlayerInfo';
 import PaymentStatus from '../PaymentStatus';
 import ShortLoader from '../ShortLoader';
 import IpFlag from '../IpFlag';
-import Select from '../../components/Select';
+import './PaymentDetailModal.scss';
 
 class PaymentDetailModal extends PureComponent {
   static propTypes = {
@@ -38,11 +38,7 @@ class PaymentDetailModal extends PureComponent {
     className: '',
   };
 
-  state = {
-    selectedPaymentAcc: '',
-  }
-
-  handleAcceptPaymentClick = async (typeAcc) => {
+  onSubmit = typeAcc => async ({ paymentMethod, rejectionReason }) => {
     const {
       payment: { paymentId },
       acceptPayment,
@@ -52,7 +48,8 @@ class PaymentDetailModal extends PureComponent {
 
     const { data: { payment: { acceptPayment: { data: { success } } } } } = await acceptPayment({ variables: {
       paymentId,
-      paymentMethod: this.state.selectedPaymentAcc,
+      paymentMethod,
+      declineReason: rejectionReason,
       typeAcc,
     },
     });
@@ -61,10 +58,6 @@ class PaymentDetailModal extends PureComponent {
       onCloseModal();
       onSuccess();
     }
-  }
-
-  handlePaymentAccChange = (selectedPaymentAcc) => {
-    this.setState({ selectedPaymentAcc });
   }
 
   render() {
@@ -197,40 +190,23 @@ class PaymentDetailModal extends PureComponent {
           </Choose>
         </ModalBody>
         <ModalFooter>
-          <Button
-            onClick={onCloseModal}
-            className="mr-auto"
+          <div className={
+            classNames(
+              'col-2',
+              paymentType === tradingTypes.WITHDRAW && statusMapper.PENDING.indexOf(status) !== -1 && 'button-defer'
+            )
+          }
           >
-            {I18n.t('COMMON.DEFER')}
-          </Button>
+            <Button
+              onClick={onCloseModal}
+              className="mr-auto"
+            >
+              {I18n.t('COMMON.DEFER')}
+            </Button>
+          </div>
           <If condition={paymentType === tradingTypes.WITHDRAW && statusMapper.PENDING.indexOf(status) !== -1}>
-            <Select
-              placeholder={I18n.t('PAYMENT_DETAILS_MODAL.CHOOSE_PAYMENT_METHOD_LABEL')}
-              className="col select-field-wrapper"
-              customClassName="form-group"
-              value={this.state.selectedPaymentAcc}
-              onChange={this.handlePaymentAccChange}
-            >
-              {Object.values(manualPaymentMethods).map(item => (
-                <option key={item} value={item}>
-                  {I18n.t(manualPaymentMethodsLabels[item])}
-                </option>
-              ))}
-            </Select>
-            <Button
-              onClick={() => this.handleAcceptPaymentClick('approve')}
-              className="btn btn-primary"
-              type="submit"
-            >
-              {I18n.t('COMMON.APPROVE')}
-            </Button>
-            <Button
-              onClick={() => this.handleAcceptPaymentClick('reject')}
-              className="btn btn-default"
-              type="submit"
-            >
-              {I18n.t('COMMON.REJECT')}
-            </Button>
+            <ApproveForm onSubmit={this.onSubmit} />
+            <RejectForm onSubmit={this.onSubmit} />
           </If>
         </ModalFooter>
       </Modal>

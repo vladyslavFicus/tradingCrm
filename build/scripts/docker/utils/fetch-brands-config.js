@@ -29,11 +29,19 @@ async function fetchBrandsConfigs({ zookeeperUrl }) {
         getZookeeperBrandPropertyPath(id, 'nas.brand.password')
       );
 
+      const payment = await getProperty(
+        zookeeperClient,
+        getZookeeperBrandPropertyPath(id, 'nas.brand.payment')
+      );
+
       return {
         id,
         currencies,
         locales,
         password,
+        payment: {
+          reasons: payment.reasons,
+        },
       };
     })
   );

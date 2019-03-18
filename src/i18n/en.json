@@ -2180,6 +2180,7 @@
     "HEADER_STATUS": "Status",
     "HEADER_AMOUNT": "Amount",
     "HEADER_PAYMENT_METHOD": "Payment method",
+    "REJECTION_REASON": "Rejection reason",
     "ACTIONS": {
       "MARK_AS_CHARGEBACK": "Mark as chargeback"
     },
@@ -2187,7 +2188,8 @@
       "TITLE": "Player not found!",
       "DESCRIPTION": "Some actions will be unavailable"
     },
-    "CHOOSE_PAYMENT_METHOD_LABEL": "Choose payment method"
+    "CHOOSE_PAYMENT_METHOD_LABEL": "Choose payment method",
+    "CHOOSE_REJECTION_REASONS_LABEL": "Rejection reason"
   },
   "MINI_PROFILE": {
     "PLAYER": "Player",
