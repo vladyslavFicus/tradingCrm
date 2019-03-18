@@ -58,7 +58,7 @@ const FeedInfoOperatorCreation = ({ data }) => (
       {I18n.t('FEED_ITEM.OPERATOR_CREATION.INVITATION_SENT')}:
       <span className="feed-item__content-value">
         <Choose>
-          <When condition={data.details.invitationSent}>
+          <When condition={JSON.parse(data.details.invitationSent)}>
             {I18n.t('FEED_ITEM.OPERATOR_CREATION.INVITATION_SENT_SUCCESS')}
           </When>
           <Otherwise>
