@@ -9,6 +9,7 @@ const brands = keyMirror({
   rbctrade: null,
   cryptobull: null,
   royalbanc: null,
+  '365gcc': null,
 });
 const departments = keyMirror({
   ADMINISTRATION: null,
@@ -59,6 +60,10 @@ const brandsConfig = {
   [brands.royalbanc]: {
     name: 'Royalbanc',
     image: { src: '/img/brand/choose-brand/royalbanc.svg' },
+  },
+  [brands['365gcc']]: {
+    name: '365gcc',
+    image: { src: '/img/brand/choose-brand/365gcc.svg' },
   },
 };
 const departmentsConfig = {
