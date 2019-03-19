@@ -36,6 +36,7 @@ class InputField extends Component {
     id: PropTypes.string,
     onIconClick: PropTypes.func,
     helpText: PropTypes.node,
+    step: PropTypes.string,
   };
   static defaultProps = {
     className: null,
@@ -51,6 +52,7 @@ class InputField extends Component {
     id: null,
     onIconClick: null,
     helpText: null,
+    step: null,
   };
 
   renderHorizontal = (props) => {
@@ -154,6 +156,7 @@ class InputField extends Component {
       label,
       id,
       onIconClick,
+      step,
     } = props;
 
     let inputField = (
@@ -164,6 +167,7 @@ class InputField extends Component {
         type={type}
         className="form-control"
         placeholder={placeholder !== null ? placeholder : label}
+        step={step}
       />
     );
 
