@@ -49,7 +49,7 @@ RejectForm.propTypes = {
 
 export default reduxForm({
   form: formName,
-  validate: createValidator({
+  validate: values => createValidator({
     rejectionReason: ['required'],
-  }, translateLabels(attributeLabels), false),
+  }, translateLabels(attributeLabels), false)(values),
 })(RejectForm);

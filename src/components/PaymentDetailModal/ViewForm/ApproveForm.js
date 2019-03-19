@@ -52,7 +52,7 @@ ApproveForm.propTypes = {
 
 export default reduxForm({
   form: formName,
-  validate: createValidator({
+  validate: values => createValidator({
     paymentMethod: ['required'],
-  }, translateLabels(attributeLabels), false),
+  }, translateLabels(attributeLabels), false)(values),
 })(ApproveForm);
