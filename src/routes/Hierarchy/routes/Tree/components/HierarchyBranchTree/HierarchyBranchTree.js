@@ -3,7 +3,7 @@ import { get } from 'lodash';
 import PropTypes from 'prop-types';
 import Tree from 'components/Tree';
 import ShortLoader from 'components/ShortLoader';
-import { branchTypes } from 'constants/hierarchyTypes';
+import { branchTypes, userTypes } from 'constants/hierarchyTypes';
 import { buildTreeDataFromBranchTree } from './utils';
 import { nodeTypes } from './constants';
 import './HierarchyBranchTree.scss';
@@ -16,9 +16,10 @@ class HierarchyBranchTree extends PureComponent {
     }).isRequired,
   };
 
-  onNodeClick = ({ type, branchType, deskType, uuid }, parent = {}) => () => {
+  onNodeClick = ({ type, branchType, deskType, uuid, userType }, parent = {}) => () => {
     if (type === nodeTypes.USER) {
-      window.open(`/operators/${uuid}/profile`, '_blank');
+      const rootUrl = userType === userTypes.AFFILIATE_PARTNER ? 'partners' : 'operators';
+      window.open(`/${rootUrl}/${uuid}/profile`, '_blank');
     }
 
     if (type === nodeTypes.BRANCH && ![branchTypes.COMPANY, branchTypes.BRAND].includes(branchType)) {
