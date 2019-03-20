@@ -2,6 +2,109 @@ import React, { Fragment } from 'react';
 
 const ReleaseNotes = () => (
   <Fragment>
+    <h1>Release notes 19/Mar/19 - Version 16</h1>
+    <h2>What has been done</h2>
+    <ul>
+      <li>Password validation on client portal changed</li>
+      <li>New retention statuses added</li>
+      <li>New sales statuses added</li>
+      <li>Password validation errors on client portal translation</li>
+    </ul>
+
+    <h2>Bugs & Fixes</h2>
+    <ul>
+      <li>Lead profile - desk and team name will be displayed correctly</li>
+      <li>Strange request hierarchy behaviour</li>
+      <li>Operator profile visibility is fixed</li>
+      <li>Hierarchy - assignment fixed</li>
+      <li>
+        Default operator will be removed or reassigned from hierarchy branch if this operator
+        was removed from hierarchy branch
+      </li>
+      <li>Operators with the same email can&apos;t be created on the same environment</li>
+      <li>Payment country will always be the same as client&apos;s country</li>
+      <li>Client search by name was optimized</li>
+      <li>Fix on normalized amount in payments</li>
+      <li>Fix on affiliate detail information</li>
+    </ul>
+
+
+    <h1>Release notes 12/Mar/19 - Version 15</h1>
+
+    <h2>What has been done</h2>
+    <ul>
+      <li>Sales status and Notes can be enabled for affiliate partners in partner profile</li>
+      <li>Dashboards are showing correct numbers - transactions with payment method &quot;Bonus&quot; are ignored</li>
+      <li>Affiliate Partner&apos;s API access can be disable/enabled by changing partner&apos;s status.</li>
+    </ul>
+
+    <h2>Bugs & Fixes</h2>
+    <ul>
+      <li>Client Profile Notes tab - Date Range filter fixed</li>
+      <li>Client grid fixes</li>
+      <li>Clients search by email improved</li>
+    </ul>
+
+    <h1>Release notes 05/Mar/19 - Version 14</h1>
+    <h2>What has been done</h2>
+    <ul>
+      <li>Release notes are available in Backoffice</li>
+      <li>Client types are added for regulated brands</li>
+      <li>Identification fields are added to client profile</li>
+      <li>Payretailers option added in the Payment method filter</li>
+    </ul>
+
+    <h2>Bugs & Fixes</h2>
+    <ul>
+      <li>Sales representative change on lead id fixed</li>
+      <li>Operator creation is fixed</li>
+      <li>Problem with feed search by action types if solved</li>
+    </ul>
+
+    <h1>Release notes 26/Feb/19 - Version 13</h1>
+    <h2>What has been done</h2>
+    <ul>
+      <li>Dashboards are improved and showing numbers based on hierarchy</li>
+      <li>Client can be searched by Source and Affiliate ID</li>
+      <li>Operator will not be assigned to Office/Desk/Team on it&apos;s creation</li>
+      <li>Leads self-conversion is improved</li>
+      <li>
+        Clients and Operators who has been blocked by &quot;too many attempts&quot;
+        can now be unblocked in corresponding profile
+      </li>
+      <li>Simple passwords are allowed for clients (min. 6 symbols, min. 1 letter, min. 1 number)</li>
+      <li>Multi-currency is configured for all brands usd/uer</li>
+      <li>Personal manager widget on Client portal is temporary removed</li>
+      <li>On operator creation it is required to assign him to any hierarchy branch</li>
+      <li>Client search - Search by email was improved</li>
+      <li>Client portal supports opening in iframe</li>
+      <li>
+        Clients are being redirected to finance page of the Client portal after autologin
+        (For registrations via affiliate API)
+      </li>
+      <li>Validation on phone field is improved</li>
+      <li>Sales and Retention agents are not allowed to make manual transaction</li>
+    </ul>
+
+    <h2>Bugs & Fixes</h2>
+    <ul>
+      <li>Search results will be updated after bulk actions has been applied</li>
+      <li>Operator names were sometimes hidden in clients profile and hierarchy tree - fixed</li>
+      <li>Leads - Lead Profile update was fixed</li>
+      <li>Team&apos;s Rules grid is fixed</li>
+      <li>Total deposit amount and count shows are shown based on hierarchy</li>
+      <li>Leads - Leads gender can be saved to his profile</li>
+      <li>Leads - Search by email works correct</li>
+      <li>Clients Search - Preloader on grid was fixed</li>
+      <li>Leads emails uniqueness is guaranteed for a brand not for environment</li>
+      <li>Language name are not shortened on Client portal any more</li>
+      <li>On assign of an agent the acquisition status will not change any more</li>
+      <li>Clients reassignment by the CRM is fixed</li>
+      <li>Leads - Leads Upload improved</li>
+      <li>Client searching by range of balances is fixed</li>
+      <li>Office creation is fixed</li>
+    </ul>
+
     <h1>Release notes 19/Feb/19 - Version 12</h1>
     <h2>What has been done</h2>
     <ul>
