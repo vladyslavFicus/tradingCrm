@@ -10,7 +10,9 @@ const brands = keyMirror({
   cryptobull: null,
   royalbanc: null,
   '365gcc': null,
+  finaxis: null,
 });
+
 const departments = keyMirror({
   ADMINISTRATION: null,
   CS: null,
@@ -25,6 +27,7 @@ const departments = keyMirror({
   COMPLIANCE: null,
   FINANCE: null,
 });
+
 const roles = keyMirror({
   ROLE1: null,
   ROLE2: null,
@@ -64,6 +67,10 @@ const brandsConfig = {
   [brands['365gcc']]: {
     name: '365gcc',
     image: { src: '/img/brand/choose-brand/365gcc.svg' },
+  },
+  [brands.finaxis]: {
+    name: 'Finaxis',
+    image: { src: '/img/brand/choose-brand/finaxis.svg' },
   },
 };
 const departmentsConfig = {
