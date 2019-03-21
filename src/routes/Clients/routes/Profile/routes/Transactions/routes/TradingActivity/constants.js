@@ -149,7 +149,7 @@ export const columns = i18n => [{
   render: ({ login, symbol }) => (
     <Fragment>
       <div className="font-weight-700">{login}</div>
-      <div className="font-size-11">{`${symbol.slice(0, 3)}-${symbol.slice(3, 6)}`}</div>
+      <div className="font-size-11">{symbol}</div>
     </Fragment>
   ),
 }, {
@@ -173,7 +173,7 @@ export const columns = i18n => [{
 }, {
   name: 'swap',
   header: i18n.t('CLIENT_PROFILE.TRADING_ACTIVITY.GRID_VIEW.SWAP'),
-  render: ({ volume }) => <div className="font-weight-700">{volume}</div>,
+  render: ({ storage }) => <div className="font-weight-700">{storage}</div>,
 }, {
   name: 'p&l',
   header: i18n.t('CLIENT_PROFILE.TRADING_ACTIVITY.GRID_VIEW.P&L'),

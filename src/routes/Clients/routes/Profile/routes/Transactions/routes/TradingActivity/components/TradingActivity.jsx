@@ -97,7 +97,7 @@ class TradingActivity extends Component {
             showNoResults={error || (!loading && clientTradingActivity.totalElements === 0)}
             lazyLoad
           >
-            { columns(I18n).map(({ name, header, render }) => (
+            {columns(I18n).map(({ name, header, render }) => (
               <GridViewColumn
                 key={name}
                 name={name}
