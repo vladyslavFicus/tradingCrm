@@ -27,7 +27,7 @@ export default compose(
   graphql(getUserBranchHierarchy, {
     name: 'branchHierarchy',
     options: ({ userId }) => ({
-      variables: { userId },
+      variables: { userId, withoutBrandFilter: true },
       fetchPolicy: 'network-only',
     }),
     props: ({ branchHierarchy: { hierarchy, loading } }) => {

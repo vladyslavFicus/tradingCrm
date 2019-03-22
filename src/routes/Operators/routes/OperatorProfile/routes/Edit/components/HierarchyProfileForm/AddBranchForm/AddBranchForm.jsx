@@ -4,6 +4,7 @@ import Select from 'components/Select';
 import ShortLoader from 'components/ShortLoader';
 import reduxFieldsConstructor from 'components/ReduxForm/ReduxFieldsConstructor';
 import PropTypes from 'constants/propTypes';
+import { branchTypes as branchNames } from 'constants/hierarchyTypes';
 import { branchField, fieldNames } from './utils';
 
 class AddBranchForm extends Component {
@@ -77,8 +78,21 @@ class AddBranchForm extends Component {
       currentBranches,
       branchHierarchy,
     } = this.props;
+    let branches;
 
-    let branches = branchHierarchy[selectedBranchType].map(({ uuid, name }) => ({ value: uuid, label: name }));
+    branches = branchHierarchy[selectedBranchType].map((
+      {
+        uuid,
+        name,
+        brandId,
+        parentBranch: { uuid: parentBranchUuid },
+      }
+    ) => (
+      {
+        value: uuid,
+        label: this.hierarchyTree(selectedBranchType, parentBranchUuid, name, brandId),
+      }
+    ));
 
     if (Array.isArray(currentBranches) && currentBranches.length) {
       branches = branches.filter(({ value }) => !currentBranches.includes(value));
@@ -88,6 +102,50 @@ class AddBranchForm extends Component {
       selectedBranchType,
       branches,
     });
+  }
+
+  hierarchyTree = (type, parentBranchUuid, name, brandId) => {
+    const { branchHierarchy } = this.props;
+    const NOT_FOUND = 'Not Found';
+    let hierarchyTree;
+
+    switch (type) {
+      case (branchNames.TEAM): {
+        const desk = branchHierarchy[branchNames.DESK].find(({ uuid }) => (uuid === parentBranchUuid));
+        const { name: deskName, parentBranch: { uuid: officeUuid } } = desk || {};
+
+        const office = branchHierarchy[branchNames.OFFICE].find(({ uuid }) => (uuid === officeUuid));
+        const { name: officeName } = office || {};
+
+        hierarchyTree = (
+          <div>{brandId} &rarr; {officeName || NOT_FOUND} &rarr; {deskName || NOT_FOUND} &rarr;&nbsp;
+            <span className="color-info">{name}</span>
+          </div>
+        );
+
+        break;
+      }
+      case (branchNames.DESK): {
+        const office = branchHierarchy[branchNames.OFFICE].find(({ uuid }) => (uuid === parentBranchUuid));
+        const { name: officeName } = office || {};
+
+        hierarchyTree = (
+          <div>{brandId} &rarr; {officeName || NOT_FOUND} &rarr; <span className="color-info">{name}</span></div>
+        );
+
+        break;
+      }
+      case (branchNames.OFFICE): {
+        hierarchyTree = <div>{brandId} &rarr; <span className="color-info">{name}</span></div>;
+
+        break;
+      }
+      default: {
+        hierarchyTree = <div>{name}</div>;
+      }
+    }
+
+    return hierarchyTree;
   }
 
   render() {
@@ -138,6 +196,7 @@ class AddBranchForm extends Component {
               branchField(
                 selectedBranchType,
                 branches,
+                true,
               )])}
             <div className="filter-row__button-block">
               <button

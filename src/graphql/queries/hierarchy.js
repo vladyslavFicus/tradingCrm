@@ -49,10 +49,12 @@ const getUserHierarchyById = gql`query getUserHierarchyById(
 
 const getUserBranchHierarchy = gql`query getUserBranchHierarchy(
   $userId: String!,
+  $withoutBrandFilter: Boolean,
 ) {
   hierarchy {
     userBranchHierarchy (
       userId: $userId,
+      withoutBrandFilter: $withoutBrandFilter,
     ) {
       error {
         error
@@ -66,6 +68,7 @@ const getUserBranchHierarchy = gql`query getUserBranchHierarchy(
           defaultUser
           defaultBranch
           country
+          brandId
           parentBranch {
             uuid
           }
@@ -78,6 +81,7 @@ const getUserBranchHierarchy = gql`query getUserBranchHierarchy(
           defaultBranch
           deskType
           language
+          brandId
           parentBranch {
             uuid
           }
@@ -89,6 +93,7 @@ const getUserBranchHierarchy = gql`query getUserBranchHierarchy(
           branchType
           defaultUser
           defaultBranch
+          brandId
           parentBranch {
             uuid
           }

@@ -4,7 +4,7 @@ import classNames from 'classnames';
 
 const OptionPropType = PropTypes.shape({
   key: PropTypes.string,
-  label: PropTypes.string,
+  label: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.object]),
 });
 

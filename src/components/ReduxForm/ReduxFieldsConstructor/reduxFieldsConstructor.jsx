@@ -35,6 +35,7 @@ const reduxFieldsConstructor = (
       withAnyOption,
       selectOptions,
       customOnChange,
+      withoutI18n,
       // date props
       dateValidator,
       pickerClassName,
@@ -91,7 +92,7 @@ const reduxFieldsConstructor = (
             >
               {selectOptions.map(({ value, label: optionLabel }) => (
                 <option key={value} value={value}>
-                  {I18n.t(optionLabel)}
+                  {withoutI18n ? optionLabel : I18n.t(optionLabel)}
                 </option>
               ))}
             </Field>

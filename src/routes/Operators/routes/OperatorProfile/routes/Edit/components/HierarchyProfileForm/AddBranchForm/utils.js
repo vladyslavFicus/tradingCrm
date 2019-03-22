@@ -10,6 +10,7 @@ const getBranchOption = branchType => [{ value: branchType, label: I18n.t(`COMMO
 const branchField = (
   branchTypeSelected,
   options,
+  withoutI18n,
 ) => {
   const placeholder = (!Array.isArray(options) || options.length === 0)
     ? I18n.t('COMMON.SELECT_OPTION.NO_ITEMS')
@@ -24,6 +25,7 @@ const branchField = (
     withAnyOption: false,
     className: 'col-md-4',
     selectOptions: options || [],
+    withoutI18n,
   };
 };
 
