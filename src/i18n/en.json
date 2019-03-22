@@ -3007,7 +3007,9 @@
       "INDIVIDUAL_RETAIL": "Individual retail",
       "INDIVIDUAL_PROFESSIONAL": "Individual Professional",
       "CORPORATE_RETAIL": "Corporate Retail",
-      "CORPORATE_PROFESSIONAL": "Corporate Professional"
+      "CORPORATE_PROFESSIONAL": "Corporate Professional",
+      "FNX_STATUS": "FNS Status",
+      "MIGRATION_ID": "Migration ID"
     }
   },
   "TEMPORARY_UNTIL": {

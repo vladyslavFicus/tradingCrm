@@ -102,6 +102,16 @@ const Personal = (props) => {
             {': '}
             <Uuid uuid={tradingProfile.convertedFromLeadUuid} />
           </If>
+          <If condition={tradingProfile && tradingProfile.migrationId}>
+            <strong>{I18n.t('CLIENT_PROFILE.DETAILS.MIGRATION_ID')}</strong>
+            {': '}
+            <Uuid uuid={tradingProfile.migrationId} />
+          </If>
+          <If condition={tradingProfile && tradingProfile.fnsStatus}>
+            <strong>{I18n.t('CLIENT_PROFILE.DETAILS.FNS_STATUS')}</strong>
+            {': '}
+            <Uuid uuid={tradingProfile.fnsStatus} />
+          </If>
         </div>
       </div>
     </div>

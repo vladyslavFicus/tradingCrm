@@ -130,6 +130,8 @@ const clientQuery = gql`query profileData($playerUUID: String!){
           }
         }
         convertedFromLeadUuid
+        migrationId
+        fnsStatus
       }
       intendedAmountToSpend
       temporaryUntil
