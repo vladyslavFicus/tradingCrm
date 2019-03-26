@@ -169,7 +169,7 @@ export const columns = i18n => [{
 }, {
   name: 'comission',
   header: i18n.t('CLIENT_PROFILE.TRADING_ACTIVITY.GRID_VIEW.COMISSION'),
-  render: ({ commission }) => <div className="font-weight-700">{commission}</div>,
+  render: ({ commission }) => <div className="font-weight-700">{Number(commission).toFixed(2)}</div>,
 }, {
   name: 'swap',
   header: i18n.t('CLIENT_PROFILE.TRADING_ACTIVITY.GRID_VIEW.SWAP'),
