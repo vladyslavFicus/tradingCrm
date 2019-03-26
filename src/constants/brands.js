@@ -11,6 +11,8 @@ const brands = keyMirror({
   royalbanc: null,
   '365gcc': null,
   finaxis: null,
+  finfuture: null,
+  investlead: null,
 });
 
 const departments = keyMirror({
@@ -71,6 +73,14 @@ const brandsConfig = {
   [brands.finaxis]: {
     name: 'Finaxis',
     image: { src: '/img/brand/choose-brand/finaxis.svg' },
+  },
+  [brands.finfuture]: {
+      name: 'Finfuture',
+      image: { src: '/img/brand/choose-brand/finfuture.svg' },
+  },
+  [brands.investlead]: {
+      name: 'Investlead',
+      image: { src: '/img/brand/choose-brand/investlead.svg' },
   },
 };
 const departmentsConfig = {
