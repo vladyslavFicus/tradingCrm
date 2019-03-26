@@ -91,6 +91,7 @@ class AddBranchForm extends Component {
       {
         value: uuid,
         label: this.hierarchyTree(selectedBranchType, parentBranchUuid, name, brandId),
+        search: name,
       }
     ));
 

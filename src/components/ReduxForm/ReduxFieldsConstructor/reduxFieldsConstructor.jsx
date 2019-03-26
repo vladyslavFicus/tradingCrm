@@ -90,8 +90,8 @@ const reduxFieldsConstructor = (
                 : (!multiple && { withAnyOption: true })
               }
             >
-              {selectOptions.map(({ value, label: optionLabel }) => (
-                <option key={value} value={value}>
+              {selectOptions.map(({ value, label: optionLabel, ...rest }) => (
+                <option key={value} value={value} {...rest}>
                   {withoutI18n ? optionLabel : I18n.t(optionLabel)}
                 </option>
               ))}
