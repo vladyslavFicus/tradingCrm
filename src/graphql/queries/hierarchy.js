@@ -117,10 +117,12 @@ const getUserBranchHierarchy = gql`query getUserBranchHierarchy(
 
 const getHierarchyUsersByType = gql`query getHierarchyUsersByType(
   $userTypes: [String]!,
+  $onlyActive: Boolean,
 ) {
   hierarchy {
     hierarchyUsersByType (
       userTypes: $userTypes,
+      onlyActive: $onlyActive,
     ) {
       error {
         error
@@ -131,51 +133,61 @@ const getHierarchyUsersByType = gql`query getHierarchyUsersByType(
           uuid
           userType
           fullName
+          operatorStatus
         }
         BRAND_ADMIN {
           uuid
           userType
           fullName
+          operatorStatus
         }
         SALES_AGENT {
           uuid
           userType
           fullName
+          operatorStatus
         }
         RETENTION_AGENT {
           uuid
           userType
           fullName
+          operatorStatus
         }
         SALES_HOD {
           uuid
           userType
           fullName
+          operatorStatus
         }
         SALES_MANAGER {
           uuid
           userType
           fullName
+          operatorStatus
         }
         SALES_LEAD {
           uuid
           userType
           fullName
+          operatorStatus
         }
         RETENTION_HOD {
           uuid
           userType
           fullName
+          operatorStatus
         }
         RETENTION_MANAGER {
           uuid
           userType
           fullName
+          operatorStatus
         }
         RETENTION_LEAD {
           uuid
           userType
           fullName
+          operatorStatus
         }
       }
     } 
