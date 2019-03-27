@@ -13,6 +13,7 @@ const brands = keyMirror({
   finaxis: null,
   finfuture: null,
   investlead: null,
+  fxnobel: null,
 });
 
 const departments = keyMirror({
@@ -81,6 +82,10 @@ const brandsConfig = {
   [brands.investlead]: {
       name: 'Investlead',
       image: { src: '/img/brand/choose-brand/investlead.svg' },
+  },
+  [brands.fxnobel]: {
+        name: 'FXnobel',
+        image: { src: '/img/brand/choose-brand/fxnobel.svg' },
   },
 };
 const departmentsConfig = {
