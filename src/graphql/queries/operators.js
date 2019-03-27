@@ -29,6 +29,7 @@ const operatorsQuery = gql`query getOperators(
         content {
           uuid
           fullName
+          operatorStatus
         }
     }
     error {

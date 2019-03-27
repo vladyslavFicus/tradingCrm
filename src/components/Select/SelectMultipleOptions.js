@@ -82,6 +82,7 @@ class SelectMultipleOptions extends PureComponent {
           const optionProps = {
             key: option.key,
             className: classNames(
+              option.props.className,
               'custom-control custom-checkbox select-block-option',
               { 'is-selected': isActive },
             ),

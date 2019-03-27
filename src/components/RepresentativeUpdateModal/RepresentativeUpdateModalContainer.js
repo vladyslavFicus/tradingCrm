@@ -38,16 +38,19 @@ export default compose(
   graphql(getHierarchyUsersByType, {
     name: 'hierarchyUsers',
     options: {
-      variables: { userTypes: [
-        userTypes.SALES_AGENT,
-        userTypes.SALES_HOD,
-        userTypes.SALES_MANAGER,
-        userTypes.SALES_LEAD,
-        userTypes.RETENTION_HOD,
-        userTypes.RETENTION_MANAGER,
-        userTypes.RETENTION_LEAD,
-        userTypes.RETENTION_AGENT,
-      ] },
+      variables: {
+        userTypes: [
+          userTypes.SALES_AGENT,
+          userTypes.SALES_HOD,
+          userTypes.SALES_MANAGER,
+          userTypes.SALES_LEAD,
+          userTypes.RETENTION_HOD,
+          userTypes.RETENTION_MANAGER,
+          userTypes.RETENTION_LEAD,
+          userTypes.RETENTION_AGENT,
+        ],
+        onlyActive: true,
+      },
       fetchPolicy: 'network-only',
     },
   }),

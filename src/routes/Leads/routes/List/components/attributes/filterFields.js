@@ -1,6 +1,7 @@
 import React from 'react';
 import { I18n } from 'react-redux-i18n';
 import keyMirror from 'keymirror';
+import { statuses } from 'constants/operators';
 import { filterLabels } from '../../../../../../constants/user';
 import { leadAccountStatuses } from '../../../../constants';
 import { salesStatuses } from '../../../../../../constants/salesStatuses';
@@ -73,7 +74,13 @@ export default (
   className: fieldClassNames.MEDIUM,
   multiple: true,
   disabled: operatorsLoading || operators.length === 0,
-  selectOptions: operators.map(({ uuid, fullName }) => ({ value: uuid, label: I18n.t(fullName) })),
+  selectOptions: operators.map(({ uuid, fullName, operatorStatus }) => (
+    {
+      value: uuid,
+      label: I18n.t(fullName),
+      className: operatorStatus === statuses.INACTIVE || operatorStatus === statuses.CLOSED ? 'color-inactive' : '',
+    }
+  )),
 }, {
   type: fieldTypes.SELECT,
   name: 'salesStatuses',

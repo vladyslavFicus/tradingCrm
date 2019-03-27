@@ -2,6 +2,7 @@ import { departments } from 'constants/brands';
 import { aquisitionStatuses, aquisitionStatusesNames } from 'constants/aquisitionStatuses';
 import { salesStatusesColor, salesStatuses } from 'constants/salesStatuses';
 import { retentionStatusesColor, retentionStatuses } from 'constants/retentionStatuses';
+import { branchTypes } from 'constants/hierarchyTypes';
 import renderLabel from 'utils/renderLabel';
 
 const transformAcquisitionData = (data, department) => aquisitionStatuses.map(({ value, label }) => {
@@ -11,6 +12,19 @@ const transformAcquisitionData = (data, department) => aquisitionStatuses.map(({
     [`${type}Rep`]: representative,
     aquisitionStatus,
   } = data;
+
+  let team = null;
+  let desk = null;
+
+  if (representative) {
+    const branches = representative.hierarchy ? representative.hierarchy.parentBranches : null;
+    // Find operator team and desk. If team is absent -> find desk in branches
+
+    if (branches) {
+      team = branches.find(branch => branch.branchType === branchTypes.TEAM);
+      desk = team ? team.parentBranch : branches.find(branch => branch.branchType === branchTypes.DESK);
+    }
+  }
 
   switch (value) {
     case aquisitionStatusesNames.SALES: {
@@ -24,6 +38,8 @@ const transformAcquisitionData = (data, department) => aquisitionStatuses.map(({
         repName: representative && representative.fullName,
         modalType: value,
         allowAction: department !== departments.RETENTION,
+        team,
+        desk,
       };
     }
     case aquisitionStatusesNames.RETENTION: {
@@ -37,6 +53,8 @@ const transformAcquisitionData = (data, department) => aquisitionStatuses.map(({
         repName: representative && representative.fullName,
         modalType: value,
         allowAction: department !== departments.SALES,
+        team,
+        desk,
       };
     }
     default:
