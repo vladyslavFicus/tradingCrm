@@ -13,6 +13,10 @@ export default {
     ADD_AUTHORITY: 'auth;POST;/credentials/{uuid}/authorities',
     DELETE_AUTHORITY: 'auth;DELETE;/credentials/{uuid}/authorities',
   },
+  LEADS: {
+    GET_LEADS: 'trading_lead_updater;POST;/search',
+    GET_LEAD_BY_ID: 'trading_lead_updater;POST;/{id}',
+  },
   HIERARCHY: {
     GET_TREE: 'trading_hierarchy_updater;GET;/branch/hierarchy/{uuid}',
     GET_DESKS: 'trading_hierarchy_updater;POST;/branch/hierarchy/user/{uuid}/desk',

@@ -14,6 +14,14 @@ const routePermissions = {
   '/bonus-campaigns/list': permissions.PROMOTION.LIST,
   '/operators/list': permissions.OPERATORS.OPERATORS_LIST_VIEW,
   '/operators/:id': permissions.OPERATORS.PROFILE_VIEW,
+  '/leads/list': permissions.LEADS.GET_LEADS,
+  '/leads/:id': permissions.LEADS.GET_LEAD_BY_ID,
+  '/teams/list': permissions.HIERARCHY.GET_TEAMS,
+  '/teams/:id': permissions.HIERARCHY.GET_TEAMS,
+  '/desks/list': permissions.HIERARCHY.GET_DESKS,
+  '/desks/:id': permissions.HIERARCHY.GET_DESKS,
+  '/offices/list': permissions.HIERARCHY.GET_OFFICES,
+  '/offices/:id': permissions.HIERARCHY.GET_OFFICES,
 };
 
 export default {
