@@ -87,6 +87,10 @@ const brandsConfig = {
         name: 'FXnobel',
         image: { src: '/img/brand/choose-brand/fxnobel.svg' },
   },
+  [brands.fxnobel]: {
+          name: 'FinAnalytics',
+          image: { src: '/img/brand/choose-brand/finanalytics.svg' },
+  },
 };
 const departmentsConfig = {
   [departments.CS]: {
