@@ -85,15 +85,13 @@ class AddBranchForm extends Component {
         uuid,
         name,
         brandId,
-        parentBranch: { uuid: parentBranchUuid },
+        parentBranch,
       }
-    ) => (
-      {
-        value: uuid,
-        label: this.hierarchyTree(selectedBranchType, parentBranchUuid, name, brandId),
-        search: name,
-      }
-    ));
+    ) => ({
+      value: uuid,
+      label: this.hierarchyTree(selectedBranchType, parentBranch, name, brandId),
+      search: name,
+    }));
 
     if (Array.isArray(currentBranches) && currentBranches.length) {
       branches = branches.filter(({ value }) => !currentBranches.includes(value));
@@ -105,9 +103,10 @@ class AddBranchForm extends Component {
     });
   }
 
-  hierarchyTree = (type, parentBranchUuid, name, brandId) => {
+  hierarchyTree = (type, parentBranch, name, brandId) => {
     const { branchHierarchy } = this.props;
     const NOT_FOUND = 'Not Found';
+    const parentBranchUuid = parentBranch && parentBranch.uuid;
     let hierarchyTree;
 
     switch (type) {
