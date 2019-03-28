@@ -84,12 +84,12 @@ const brandsConfig = {
       image: { src: '/img/brand/choose-brand/investlead.svg' },
   },
   [brands.fxnobel]: {
-        name: 'FXnobel',
-        image: { src: '/img/brand/choose-brand/fxnobel.svg' },
+      name: 'FXnobel',
+      image: { src: '/img/brand/choose-brand/fxnobel.svg' },
   },
   [brands.fxnobel]: {
-          name: 'FinAnalytics',
-          image: { src: '/img/brand/choose-brand/finanalytics.svg' },
+      name: 'FinAnalytics',
+      image: { src: '/img/brand/choose-brand/finanalytics.svg' },
   },
 };
 const departmentsConfig = {
