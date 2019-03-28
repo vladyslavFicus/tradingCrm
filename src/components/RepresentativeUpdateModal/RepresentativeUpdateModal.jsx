@@ -159,6 +159,7 @@ class RepresentativeUpdateModal extends Component {
     const { data: { hierarchy: { usersByBranch: { data, error } } } } = await client.query({
       query: getUsersByBranch,
       variables: {
+        onlyActive: true,
         uuid: selectedTeam,
       },
     });
