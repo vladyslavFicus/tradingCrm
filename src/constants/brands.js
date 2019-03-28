@@ -14,6 +14,7 @@ const brands = keyMirror({
   finfuture: null,
   investlead: null,
   fxnobel: null,
+  finanalytics: null,
 });
 
 const departments = keyMirror({
@@ -76,20 +77,20 @@ const brandsConfig = {
     image: { src: '/img/brand/choose-brand/finaxis.svg' },
   },
   [brands.finfuture]: {
-      name: 'Finfuture',
-      image: { src: '/img/brand/choose-brand/finfuture.svg' },
+    name: 'Finfuture',
+    image: { src: '/img/brand/choose-brand/finfuture.svg' },
   },
   [brands.investlead]: {
-      name: 'Investlead',
-      image: { src: '/img/brand/choose-brand/investlead.svg' },
+    name: 'Investlead',
+    image: { src: '/img/brand/choose-brand/investlead.svg' },
   },
   [brands.fxnobel]: {
-      name: 'FXnobel',
-      image: { src: '/img/brand/choose-brand/fxnobel.svg' },
+    name: 'FXnobel',
+    image: { src: '/img/brand/choose-brand/fxnobel.svg' },
   },
-  [brands.fxnobel]: {
-      name: 'FinAnalytics',
-      image: { src: '/img/brand/choose-brand/finanalytics.svg' },
+  [brands.finanalytics]: {
+    name: 'FinAnalytics',
+    image: { src: '/img/brand/choose-brand/finanalytics.svg' },
   },
 };
 const departmentsConfig = {
