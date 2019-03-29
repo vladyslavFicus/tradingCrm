@@ -1,7 +1,16 @@
 import I18n from 'utils/fake-i18n';
 import { services } from 'constants/services';
+import { departments, roles } from 'constants/brands';
 import Permissions from 'utils/permissions';
 import permissions from './permissions';
+
+const operatorsExcludeAuthorities = [{
+  department: departments.SALES,
+  role: roles.ROLE1,
+}, {
+  department: departments.RETENTION,
+  role: roles.ROLE1,
+}];
 
 const sidebarTopMenu = [{
   label: I18n.t('SIDEBAR.TOP_MENU.DASHBOARD'),
@@ -18,6 +27,7 @@ const sidebarTopMenu = [{
   icon: 'icon-leads sidebar-nav-item__icon--leads',
   url: '/leads/list',
   service: services.trading_lead_updater,
+  permissions: new Permissions(permissions.LEADS.GET_LEADS),
 }, {
   label: I18n.t('SIDEBAR.TOP_MENU.HIERARCHY'),
   icon: 'icon-organization',
@@ -44,6 +54,7 @@ const sidebarTopMenu = [{
     url: '/operators',
     service: services.operator,
     permissions: new Permissions(permissions.HIERARCHY.GET_OPERATORS),
+    excludeAuthorities: operatorsExcludeAuthorities,
   }, {
     label: I18n.t('SIDEBAR.TOP_MENU.PARTNERS'),
     url: '/partners',
@@ -106,4 +117,5 @@ export {
   newBonusCampaignTabs,
   sidebarTopMenu,
   sidebarBottomMenu,
+  operatorsExcludeAuthorities,
 };

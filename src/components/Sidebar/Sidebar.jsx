@@ -13,9 +13,11 @@ class Sidebar extends Component {
     menuItemClick: PropTypes.func.isRequired,
     init: PropTypes.func.isRequired,
   };
+
   static contextTypes = {
     services: PropTypes.arrayOf(PropTypes.string),
     permissions: PropTypes.arrayOf(PropTypes.string).isRequired,
+    user: PropTypes.object,
   };
 
   state = {
@@ -23,24 +25,24 @@ class Sidebar extends Component {
   };
 
   componentDidMount() {
-    const { services, permissions } = this.context;
+    const { services, permissions, user: { department, role } } = this.context;
     const sidebarAnimation = new TimeLineLite({ paused: true });
 
     sidebarAnimation.fromTo(this.sidebar, 0.15, { width: '60px' }, { width: '240px' });
     this.sidebarAnimation = sidebarAnimation;
 
     if (services.length) {
-      this.props.init(permissions, services);
+      this.props.init(permissions, services, { department, role });
     }
   }
 
   componentWillReceiveProps(_, { services: nextServices }) {
-    const { services, permissions } = this.context;
+    const { services, permissions, user: { department, role } } = this.context;
 
     if (!services.length && nextServices.length) {
       const { init, menuItemClick } = this.props;
 
-      init(permissions, nextServices);
+      init(permissions, nextServices, { department, role });
       menuItemClick();
     }
   }

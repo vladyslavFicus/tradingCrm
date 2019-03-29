@@ -25,6 +25,7 @@ import Desks from 'routes/Desks';
 import Teams from 'routes/Teams';
 import Callbacks from 'routes/Callbacks';
 import ReleaseNotes from 'routes/ReleaseNotes';
+import { operatorsExcludeAuthorities } from 'config/menu';
 
 class IndexRoute extends PureComponent {
   static propTypes = {
@@ -63,7 +64,13 @@ class IndexRoute extends PureComponent {
           <AppRoute path="/leads" layout={MainLayout} component={Leads} checkAuth />
           <AppRoute path="/callbacks" layout={MainLayout} component={Callbacks} checkAuth />
           <AppRoute path="/hierarchy" layout={MainLayout} component={Hierarchy} checkAuth />
-          <AppRoute path="/operators" layout={MainLayout} component={Operators} checkAuth />
+          <AppRoute
+            path="/operators"
+            layout={MainLayout}
+            component={Operators}
+            excludeAuthorities={operatorsExcludeAuthorities}
+            checkAuth
+          />
           <AppRoute path="/partners" layout={MainLayout} component={Partners} checkAuth />
           <AppRoute path="/offices" layout={MainLayout} component={Offices} checkAuth />
           <AppRoute path="/desks" layout={MainLayout} component={Desks} checkAuth />

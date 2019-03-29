@@ -82,6 +82,21 @@ class Route extends Component {
     return !currentRoutePermissions || new Permissions(currentRoutePermissions).check(permissions);
   }
 
+  get isValidAuthority() {
+    const {
+      excludeAuthorities,
+      authority,
+    } = this.props;
+
+    if (Array.isArray(excludeAuthorities) && excludeAuthorities.length) {
+      return !excludeAuthorities.some(({ department, role }) => (
+        (department === authority.department) && (role === authority.role)
+      ));
+    }
+
+    return true;
+  }
+
   get routeService() {
     const { path } = this.props;
 
@@ -92,23 +107,17 @@ class Route extends Component {
     const {
       disableScroll,
       checkAuth,
-      checkAdmin,
-      isAdministration,
       logged,
       checkService,
       ...props
     } = this.props;
 
-    if (!this.isValidPermissions) {
+    if (!this.isValidPermissions || !this.isValidAuthority) {
       return <Forbidden />;
     }
 
     if (checkAuth && !logged) {
       return <Redirect to={{ pathname: '/sign-in', search: `returnUrl=${props.location.pathname}` }} />;
-    }
-
-    if (checkAdmin && !isAdministration) {
-      return <Redirect to="/not-found" />;
     }
 
     if (this.routeService && !checkService(this.routeService)) {

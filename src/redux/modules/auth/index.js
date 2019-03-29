@@ -175,12 +175,13 @@ function successSignInReducer(state, action) {
 
   return {
     ...state,
-    brandId: tokenData.brandId,
     token,
     uuid,
     login,
     logged: true,
+    brandId: tokenData.brandId,
     department: tokenData.department,
+    role: tokenData.role,
   };
 }
 
