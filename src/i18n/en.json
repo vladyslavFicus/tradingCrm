@@ -1357,7 +1357,9 @@
           "INTERNAL_TRANSFER": "Internal transfer",
           "ELECTRONIC": "Electronic",
           "BONUS": "Bonus",
-          "PAYRETAILERS": "Payretailers"
+          "PAYRETAILERS": "Payretailers",
+          "RECALL": "Recall",
+          "CHARGEBACK": "Chargeback"
         },
         "ATTRIBUTES_PLACEHOLDERS": {
           "KEYWORD": "Transaction ID, Player, External reference",
