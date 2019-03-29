@@ -25,6 +25,7 @@ import Desks from 'routes/Desks';
 import Teams from 'routes/Teams';
 import Callbacks from 'routes/Callbacks';
 import ReleaseNotes from 'routes/ReleaseNotes';
+import PersonalDashboard from 'routes/PersonalDashboard';
 import { operatorsExcludeAuthorities } from 'config/menu';
 
 class IndexRoute extends PureComponent {
@@ -59,6 +60,7 @@ class IndexRoute extends PureComponent {
           <AppRoute path="/brands" layout={BlackLayout} component={Brands} checkAuth />
           <AppRoute path="/settings" layout={MainLayout} component={Settings} checkAuth />
           <AppRoute path="/dashboard" layout={MainLayout} component={Dashboard} checkAuth />
+          <AppRoute path="/personal-dashboard" layout={MainLayout} component={PersonalDashboard} checkAuth />
           <AppRoute path="/payments" layout={MainLayout} component={Payments} checkAuth />
           <AppRoute path="/clients" layout={MainLayout} component={Clients} checkAuth />
           <AppRoute path="/leads" layout={MainLayout} component={Leads} checkAuth />
