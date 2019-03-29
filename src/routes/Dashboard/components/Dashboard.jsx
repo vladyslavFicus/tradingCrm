@@ -68,7 +68,7 @@ import ShortLoader from 'components/ShortLoader';
 //   </Fragment>
 // );
 
-const METABASE_SITE_URL = 'http://metabase.beti.io';
+const METABASE_SITE_URL = 'https://metabase.beti.io';
 
 const NewDashboard = React.memo(
   ({ metabaseToken: { loading, getMetabaseToken } }) => (
