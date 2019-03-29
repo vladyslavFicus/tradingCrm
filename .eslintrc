@@ -9,6 +9,7 @@
   "plugins": [
     "babel",
     "react",
+    "react-hooks",
     "promise",
     "jsx-control-statements"
   ],
@@ -80,6 +81,8 @@
     "react/no-array-index-key": "off",
     "default-case": 0,
     "import/prefer-default-export": 0,
-    "no-underscore-dangle": 0
+    "no-underscore-dangle": 0,
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn"
   }
 }
