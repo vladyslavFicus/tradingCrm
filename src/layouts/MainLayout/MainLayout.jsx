@@ -141,7 +141,6 @@ class MainLayout extends Component {
 
     this.state = {
       location,
-      noteChangedCallback: null,
       popover: { ...popoverInitialState },
       isOpenProfile: false,
     };

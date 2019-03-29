@@ -15,8 +15,16 @@ const operatorsExcludeAuthorities = [{
 const sidebarTopMenu = [{
   label: I18n.t('SIDEBAR.TOP_MENU.DASHBOARD'),
   icon: 'icon-dashboard',
-  url: '/dashboard',
   service: services.trading_payment,
+  items: [{
+    label: I18n.t('SIDEBAR.TOP_MENU.DASHBOARD_ITEMS.DEFAULT'),
+    url: '/dashboard',
+    permissions: new Permissions(permissions.HIERARCHY.GET_OFFICES),
+  }, {
+    label: I18n.t('SIDEBAR.TOP_MENU.DASHBOARD_ITEMS.PERSONAL'),
+    url: '/personal-dashboard',
+    permissions: new Permissions(permissions.HIERARCHY.GET_DESKS),
+  }],
 }, {
   label: I18n.t('SIDEBAR.TOP_MENU.CLIENTS'),
   icon: 'icon-users',
