@@ -23,11 +23,16 @@ import parseErrorsFromServer from 'utils/parseErrorsFromServer';
 import { getUserTypeByDepartment } from './utils';
 import OperatorGridFilter from './OperatorGridFilter';
 
+const EMAIL_ALREADY_EXIST = 'Email already exists';
 
 class List extends Component {
   static propTypes = {
     modals: PropTypes.shape({
       createOperator: PropTypes.shape({
+        show: PropTypes.func.isRequired,
+        hide: PropTypes.func.isRequired,
+      }),
+      existingOperator: PropTypes.shape({
         show: PropTypes.func.isRequired,
         hide: PropTypes.func.isRequired,
       }),
@@ -85,10 +90,12 @@ class List extends Component {
     });
   };
 
-  handleSubmitNewOperator = async ({ department, role, branch, ...data }) => {
+  handleSubmitNewOperator = async ({ department, role, branch, email, ...data }) => {
     const {
-      modals: { createOperator },
-      notify,
+      modals: {
+        createOperator,
+        existingOperator,
+      },
       submitNewOperator,
     } = this.props;
     const userType = getUserTypeByDepartment(department, role);
@@ -96,7 +103,7 @@ class List extends Component {
 
     const {
       data: operatorData,
-    } = await submitNewOperator({ variables: { ...data, department, role, userType, branchId: branch } });
+    } = await submitNewOperator({ variables: { ...data, department, role, email, userType, branchId: branch } });
 
     const newOperator = get(operatorData, `${operatorType}.create${startCase(operatorType)}.data`);
     const newOperatorError = get(operatorData, `${operatorType}.create${startCase(operatorType)}.error`);
@@ -104,6 +111,17 @@ class List extends Component {
 
     if (submitErrors) {
       const errors = parseErrorsFromServer(submitErrors);
+
+      if (errors.email && errors.email === EMAIL_ALREADY_EXIST) {
+        createOperator.hide();
+        existingOperator.show({
+          department,
+          role,
+          branchId: branch,
+          email,
+        });
+      }
+
       throw new SubmissionError(errors);
     }
     createOperator.hide();

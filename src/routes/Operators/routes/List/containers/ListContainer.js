@@ -9,6 +9,7 @@ import { createOperator } from 'graphql/mutations/operators';
 import { managementOperatorsQuery } from 'graphql/queries/operators';
 import { withModals, withNotifications } from 'components/HighOrder';
 import CreateOperatorModalContainer from '../components/CreateOperatorModal';
+import ExistingOperatorModal from '../components/ExistingOperatorModal';
 import List from '../components/List';
 
 const mapStateToProps = ({
@@ -31,7 +32,10 @@ const mapActions = {
 
 export default compose(
   connect(mapStateToProps, mapActions),
-  withModals({ createOperator: CreateOperatorModalContainer }),
+  withModals({
+    createOperator: CreateOperatorModalContainer,
+    existingOperator: ExistingOperatorModal,
+  }),
   withNotifications,
   graphql(createOperator, {
     name: 'submitNewOperator',

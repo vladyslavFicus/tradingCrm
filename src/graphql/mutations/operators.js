@@ -1,6 +1,5 @@
 import gql from 'graphql-tag';
 
-
 const createOperator = gql`mutation createOperator(
   $branchId: String,
   $department: String!,
@@ -140,9 +139,34 @@ const addDepartment = gql`mutation addDepartment(
   }
 }`;
 
+const addExistingOperator = gql`mutation addExistingOperator(
+  $email: String!,
+  $department: String!,
+  $role: String!,
+  $branchId: String,
+) {
+  operator {
+    addExistingOperator(
+      email: $email,
+      department: $department,
+      role: $role,
+      branchId: $branchId,
+    ) {
+      data {
+        uuid
+      }
+      error {
+        error
+        fields_errors
+      }
+    }
+  }
+}`;
+
 export {
   addDepartment,
   removeDepartment,
   createOperator,
   updateOperator,
+  addExistingOperator,
 };

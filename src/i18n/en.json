@@ -806,7 +806,8 @@
       "UPDATE": "Update",
       "DELETE": "Delete",
       "PROMOTE": "Promote",
-      "UPDATE_NOW": "Update now"
+      "UPDATE_NOW": "Update now",
+      "YES": "YES"
     },
     "ACTIONS": {
       "ON": "Turn on",
@@ -2232,6 +2233,11 @@
         "SEND_INVITATION": "Send invitation",
         "NOTE": "Note",
         "NOTE_MESSAGE": "You will be able to set additional departments in operator`s profile once it`s created"
+      },
+      "EXISTING_OPERATOR": {
+        "TITLE": "Existing operator",
+        "MESSAGE": "Operator exits in another brand. Would you like to add permissions for this operator to have access to",
+        "BRAND": "%{brand}?"
       }
     },
     "LIST": {
@@ -2309,6 +2315,10 @@
       "ADD_TO_HIERARCHY_ERROR": {
         "TITLE": "Failure on adding",
         "MESSAGE": "Adding operator to hierarchy has failed"
+      },
+      "EXISTING_OPERATOR_ERROR": {
+        "TITLE": "Failure on adding",
+        "MESSAGE": "Assign in the current brand is failed"
       }
     }
   },
