@@ -92,6 +92,10 @@ const brandsConfig = {
     name: 'FinAnalytics',
     image: { src: '/img/brand/choose-brand/finanalytics.svg' },
   },
+  [brands.ptbanc]: {
+    name: 'PTbanc',
+    image: { src: '/img/brand/choose-brand/ptbanc.svg' },
+  },
 };
 const departmentsConfig = {
   [departments.CS]: {
