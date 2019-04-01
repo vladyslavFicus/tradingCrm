@@ -15,6 +15,7 @@ const brands = keyMirror({
   investlead: null,
   fxnobel: null,
   finanalytics: null,
+  ptbanc: null,
 });
 
 const departments = keyMirror({
