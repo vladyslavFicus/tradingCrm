@@ -27,6 +27,12 @@ export const salesStatuses = {
   LOW_POTENTIAL: 'CONSTANTS.SALES_STATUSES.LOW_POTENTIAL',
   CONVERTED: 'CONSTANTS.SALES_STATUSES.CONVERTED',
   CALLBACK: 'CONSTANTS.SALES_STATUSES.CALLBACK',
+  POTENTIAL_HIGH: 'CONSTANTS.SALES_STATUSES.POTENTIAL_HIGH',
+  POTENTIAL_LOW: 'CONSTANTS.SALES_STATUSES.POTENTIAL_LOW',
+  NO_INTEREST: 'CONSTANTS.SALES_STATUSES.NO_INTEREST',
+  INITIAL_CALL: 'CONSTANTS.SALES_STATUSES.INITIAL_CALL',
+  NO_MONEY: 'CONSTANTS.SALES_STATUSES.NO_MONEY',
+  TEST: 'CONSTANTS.SALES_STATUSES.TEST',
 };
 
 export const salesStatusesColor = {
@@ -56,6 +62,12 @@ export const salesStatusesColor = {
   LOW_POTENTIAL: 'color-warning',
   CONVERTED: 'color-success',
   CALLBACK: 'color-info',
+  POTENTIAL_HIGH: 'color-info',
+  POTENTIAL_LOW: 'color-warning',
+  NO_INTEREST: 'color-warning',
+  INITIAL_CALL: 'color-info',
+  NO_MONEY: 'color-warning',
+  TEST: 'color-danger',
 };
 
 export const salesStatusValues = keyMirror({
@@ -85,4 +97,10 @@ export const salesStatusValues = keyMirror({
   LOW_POTENTIAL: null,
   CONVERTED: null,
   CALLBACK: null,
+  POTENTIAL_HIGH: null,
+  POTENTIAL_LOW: null,
+  NO_INTEREST: null,
+  INITIAL_CALL: null,
+  NO_MONEY: null,
+  TEST: null,
 });
