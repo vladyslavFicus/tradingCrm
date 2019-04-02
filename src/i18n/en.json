@@ -1424,7 +1424,13 @@
       "HIGH_POTENTIAL": "High potential",
       "LOW_POTENTIAL": "Low potential",
       "CONVERTED": "Converted",
-      "CALLBACK": "Callback"
+      "CALLBACK": "Callback",
+      "POTENTIAL_HIGH": "Potential high",
+      "POTENTIAL_LOW": "Potential low",
+      "NO_INTEREST": "No interest",
+      "INITIAL_CALL": "Initial call",
+      "NO_MONEY": "No money",
+      "TEST": "Test"
     },
     "RETENTION_STATUSES": {
       "NEW": "New",
@@ -1444,7 +1450,12 @@
       "ACTIVE": "Active",
       "DEPOSIT_WITH_ME": "Deposit with me",
       "RECOVER": "Recover",
-      "NO_ANSWER": "No answer"
+      "NO_ANSWER": "No answer",
+      "DEPOSITOR": "Depositor",
+      "ACTIVE_VIP": "Active VIP",
+      "PAMM": "PAMM",
+      "NEED_DOCS": "Need docs",
+      "NO_TRADES": "No trades"
     },
     "CALLBACKS": {
       "SUCCESS": "Success",
