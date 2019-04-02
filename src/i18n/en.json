@@ -32,6 +32,10 @@
       "TEAMS": "Teams",
       "CALLBACKS": "Callbacks",
       "DASHBOARD": "Dashboard",
+      "DASHBOARD_ITEMS": {
+        "DEFAULT": "Default",
+        "PERSONAL": "Personal"
+      },
       "CONDITIONAL_TAGS": "Conditional tags"
     },
     "BOTTOM_MENU": {
@@ -3519,6 +3523,12 @@
     "PlayerActivityReportButton": {
       "title": "Activity Report",
       "failNotification": "Fail download activity report"
+    }
+  },
+  "clients": {
+    "bulkUpdate": {
+      "moveForbidden": "You can’t perform this action, as some of selected clients do not have assigned %{type} representatives",
+      "detailedTypeError": "Some of the selected clients don’t have assigned %{type} representatives. Please unselect those users or assign %{type} agents."
     }
   }
 }

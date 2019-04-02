@@ -24,6 +24,7 @@ import BackToTop from 'components/BackToTop';
 import HideDetails from 'components/HideDetails';
 import { Route } from 'router';
 import NotFound from 'routes/NotFound';
+import { deskTypes } from 'constants/hierarchyTypes';
 import {
   ClientView,
   Transactions,
@@ -232,11 +233,18 @@ class Profile extends Component {
       match: { params: { id } },
     } = this.props;
 
-    const unassignFrom = get(data, `tradingProfile.${type.toLowerCase()}Rep.uuid`) || null;
+    const representativePath = type === deskTypes.SALES
+      ? `${deskTypes.RETENTION.toLowerCase()}Rep.uuid`
+      : `${deskTypes.SALES.toLowerCase()}Rep.uuid`;
+
+    const unassignFromOperator = get(data, `tradingProfile.${representativePath}`) || null;
 
     representativeModal.show({
       type,
-      clients: [{ uuid: id, unassignFrom }],
+      clients: [{
+        uuid: id,
+        ...(unassignFromOperator && { unassignFromOperator }),
+      }],
       initialValues: { aquisitionStatus: type },
       header: I18n.t('CLIENT_PROFILE.MODALS.REPRESENTATIVE_UPDATE.HEADER', { type: type.toLowerCase() }),
       additionalFields: [moveField],

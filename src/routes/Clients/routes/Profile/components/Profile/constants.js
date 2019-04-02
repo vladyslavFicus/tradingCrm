@@ -28,5 +28,6 @@ export const moveField = {
   name: 'aquisitionStatus',
   labelName: 'move',
   component: 'select',
+  disabled: true,
   data: aquisitionStatuses,
 };

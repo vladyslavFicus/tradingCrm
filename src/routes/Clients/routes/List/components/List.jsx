@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { I18n } from 'react-redux-i18n';
 import { get, omit } from 'lodash';
 import { TextRow } from 'react-placeholder/lib/placeholders';
+import { SubmissionError } from 'redux-form';
 import history from 'router/history';
 import permissions from 'config/permissions';
 import PropTypes from 'constants/propTypes';
@@ -164,9 +165,9 @@ class List extends Component {
       location: { query },
       profiles: { profiles: { data: { content, totalElements } } },
     } = this.props;
-
     const { allRowsSelected, selectedRows } = this.state;
-    const clients = getClientsData(this.state, totalElements, type, content);
+
+    const clients = getClientsData(this.state, totalElements, { type }, content);
 
     representativeModal.show({
       type,
@@ -209,16 +210,24 @@ class List extends Component {
   };
 
   handleTriggerMoveModal = () => {
-    const { modals: { moveModal } } = this.props;
+    const {
+      modals: { moveModal },
+      profiles: { profiles: { data: { content, totalElements } } },
+    } = this.props;
     const { selectedRows } = this.state;
 
     moveModal.show({
       onSubmit: this.handleBulkMove,
       clientsSelected: selectedRows.length,
+      selectedData: {
+        ...this.state,
+        content,
+        totalElements,
+      },
     });
   }
 
-  handleBulkMove = async (values) => {
+  handleBulkMove = async ({ aquisitionStatus }) => {
     const {
       notify,
       bulkRepresentativeUpdate,
@@ -228,26 +237,39 @@ class List extends Component {
     } = this.props;
     const { allRowsSelected } = this.state;
 
-    const type = values.aquisitionStatus;
-    const clients = getClientsData(this.state, totalElements, type, content);
+    const type = aquisitionStatus;
+    const isMoveAction = true;
+    const clients = getClientsData(this.state, totalElements, { type, isMoveAction }, content);
 
     const { data: { clients: { bulkRepresentativeUpdate: { error } } } } = await bulkRepresentativeUpdate({
       variables: {
         clients,
+        isMoveAction,
         type,
         allRowsSelected,
         totalElements,
-        ...values,
-        ...query && { searchParams: omit(query.filters, ['desks', 'teams']) },
+        ...query && { searchParams: omit(query.filters, ['desks', 'teams', 'size']) },
       },
     });
 
     if (error) {
+      // when we try to move clients, when they don't have assigned {{type}} representative
+      // GQL will return exact this error and we catch it to show custom message
+      const condition = error.error && error.error === 'clients.bulkUpdate.moveForbidden';
+
       notify({
         level: 'error',
         title: I18n.t('COMMON.BULK_UPDATE_FAILED'),
-        message: I18n.t('COMMON.SOMETHING_WRONG'),
+        message: condition
+          ? I18n.t(error.error, { type })
+          : I18n.t('COMMON.SOMETHING_WRONG'),
       });
+
+      if (condition) {
+        throw new SubmissionError({
+          _error: I18n.t('clients.bulkUpdate.detailedTypeError', { type }),
+        });
+      }
     } else {
       refetch({
         variables: {
@@ -257,19 +279,21 @@ class List extends Component {
         },
         fetchPolicy: 'network-only',
       });
+
       notify({
         level: 'success',
         title: I18n.t('COMMON.SUCCESS'),
         message: I18n.t('CLIENTS.ACQUISITION_STATUS_UPDATED'),
       });
+
       this.setState({
         selectedRows: [],
         allRowsSelected: false,
         touchedRowsIds: [],
       });
-    }
 
-    moveModal.hide();
+      moveModal.hide();
+    }
   }
 
   render() {
