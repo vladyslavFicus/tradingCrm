@@ -33,6 +33,7 @@ export const salesStatuses = {
   INITIAL_CALL: 'CONSTANTS.SALES_STATUSES.INITIAL_CALL',
   NO_MONEY: 'CONSTANTS.SALES_STATUSES.NO_MONEY',
   TEST: 'CONSTANTS.SALES_STATUSES.TEST',
+  DEPOSITOR: 'CONSTANTS.SALES_STATUSES.DEPOSITOR',
 };
 
 export const salesStatusesColor = {
@@ -68,6 +69,7 @@ export const salesStatusesColor = {
   INITIAL_CALL: 'color-info',
   NO_MONEY: 'color-warning',
   TEST: 'color-danger',
+  DEPOSITOR: 'color-success',
 };
 
 export const salesStatusValues = keyMirror({
@@ -103,4 +105,5 @@ export const salesStatusValues = keyMirror({
   INITIAL_CALL: null,
   NO_MONEY: null,
   TEST: null,
+  DEPOSITOR: null,
 });
