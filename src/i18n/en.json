@@ -1430,7 +1430,8 @@
       "NO_INTEREST": "No interest",
       "INITIAL_CALL": "Initial call",
       "NO_MONEY": "No money",
-      "TEST": "Test"
+      "TEST": "Test",
+      "DEPOSITOR": "Depositor"
     },
     "RETENTION_STATUSES": {
       "NEW": "New",
