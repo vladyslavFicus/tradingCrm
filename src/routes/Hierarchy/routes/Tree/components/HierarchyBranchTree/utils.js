@@ -11,7 +11,7 @@ export const buildTreeDataFromBranchTree = (branchTree, isChild = false) => {
     branchType: branchTree.branchType,
     uuid: branchTree.uuid,
     deskType: branchTree.deskType,
-    expanded: true,
+    expanded: false,
   };
 
   if (hasChildren || hasUsers) {

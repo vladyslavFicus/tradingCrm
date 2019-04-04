@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import SortableTree from 'react-sortable-tree';
+import SortableTree, { toggleExpandedForAll, changeNodeAtPath, defaultGetNodeKey } from 'react-sortable-tree';
 import PropTypes from 'prop-types';
 import 'react-sortable-tree/style.css';
 import NodeContentRenderer from './NodeContentRenderer';
@@ -26,6 +26,18 @@ class Tree extends PureComponent {
     this.props.onChange(treeData);
   };
 
+  expandAllNodes = (node, path) => (e) => {
+    const [newNode] = toggleExpandedForAll({ treeData: [node], expanded: true });
+
+    this.setState(({ treeData }) => ({
+      treeData: changeNodeAtPath({ treeData, path, getNodeKey: defaultGetNodeKey, newNode }),
+    }));
+
+    if (e) {
+      e.stopPropagation();
+    }
+  };
+
   render() {
     return (
       <SortableTree
@@ -33,6 +45,10 @@ class Tree extends PureComponent {
         {...this.props}
         treeData={this.state.treeData}
         onChange={this.onChange}
+        generateNodeProps={({ ...args }) => this.props.generateNodeProps({
+          ...args,
+          expandAllNodes: this.expandAllNodes(args.node, args.path),
+        })}
       />
     );
   }
