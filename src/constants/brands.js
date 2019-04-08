@@ -16,6 +16,7 @@ const brands = keyMirror({
   fxnobel: null,
   finanalytics: null,
   ptbanc: null,
+  trustfx: null,
 });
 
 const departments = keyMirror({
@@ -96,6 +97,10 @@ const brandsConfig = {
   [brands.ptbanc]: {
     name: 'PTbanc',
     image: { src: '/img/brand/choose-brand/ptbanc.svg' },
+  },
+  [brands.trustfx]: {
+    name: 'TrustFX',
+    image: { src: '/img/brand/choose-brand/trustfx.svg' },
   },
 };
 const departmentsConfig = {
