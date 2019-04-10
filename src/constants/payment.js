@@ -63,6 +63,7 @@ const manualPaymentMethods = keyMirror({
   PAYRETAILERS: null,
   RECALL: null,
   CHARGEBACK: null,
+  CASHIER: null,
 });
 
 const methodStatuses = keyMirror({
@@ -214,6 +215,7 @@ const manualPaymentMethodsLabels = {
   [manualPaymentMethods.PAYRETAILERS]: 'CONSTANTS.TRANSACTIONS.FILTER_FORM.PAYMENT_ACCOUNTS.PAYRETAILERS',
   [manualPaymentMethods.RECALL]: 'CONSTANTS.TRANSACTIONS.FILTER_FORM.PAYMENT_ACCOUNTS.RECALL',
   [manualPaymentMethods.CHARGEBACK]: 'CONSTANTS.TRANSACTIONS.FILTER_FORM.PAYMENT_ACCOUNTS.CHARGEBACK',
+  [manualPaymentMethods.CASHIER]: 'CONSTANTS.TRANSACTIONS.FILTER_FORM.PAYMENT_ACCOUNTS.CASHIER',
 };
 
 const methodsStatusesLabels = {
