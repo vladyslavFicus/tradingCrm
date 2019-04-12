@@ -12,7 +12,7 @@ import './NotePopover.scss';
 import Uuid from '../Uuid';
 import { TextAreaField, SwitchField } from '../../components/ReduxForm';
 
-const MAX_CONTENT_LENGTH = 500;
+const MAX_CONTENT_LENGTH = 1000;
 const FORM_NAME = 'notePopoverForm';
 const attributeLabels = {
   pinned: 'Pin',

@@ -30,6 +30,8 @@ import { actionCreators as filesActionCreators } from '../modules/files';
 import Profile from '../components/Profile';
 import { actionCreators } from '../modules';
 
+const PINNED_NOTES_SIZE = 100;
+
 const mapStateToProps = (state) => {
   const {
     profile: {
@@ -163,6 +165,7 @@ export default compose(
       refetchQueries: [{
         query: notesQuery,
         variables: {
+          size: PINNED_NOTES_SIZE,
           targetUUID: playerUUID,
           pinned: true,
         },
@@ -211,6 +214,7 @@ export default compose(
           variables: {
             targetUUID: playerUUID,
             pinned: true,
+            size: PINNED_NOTES_SIZE,
           },
         });
 
@@ -219,11 +223,11 @@ export default compose(
         }) => noteUuid === noteId);
 
         if (selectedNote && !pinned) {
-          removeNote(proxy, { targetUUID, pinned: true }, noteId);
+          removeNote(proxy, { targetUUID, pinned: true, size: PINNED_NOTES_SIZE }, noteId);
         }
 
         if (!selectedNote && pinned) {
-          addPinnedNote(proxy, { targetUUID }, data);
+          addPinnedNote(proxy, { targetUUID, size: PINNED_NOTES_SIZE }, data);
         }
       },
     }),
@@ -249,7 +253,7 @@ export default compose(
           },
         },
       }) => {
-        removeNote(proxy, { targetUUID: playerUUID, pinned: true }, noteId);
+        removeNote(proxy, { targetUUID: playerUUID, pinned: true, size: PINNED_NOTES_SIZE }, noteId);
         removeNote(proxy, {
           targetUUID: playerUUID,
           size: 25,
@@ -285,6 +289,7 @@ export default compose(
       },
     }) => ({
       variables: {
+        size: PINNED_NOTES_SIZE,
         targetUUID: playerUUID,
         pinned: true,
       },
