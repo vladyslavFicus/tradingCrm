@@ -131,12 +131,15 @@ class LeadProfile extends Component {
       match: { params: { id } },
     } = this.props;
 
-    const unassignFrom = get(data, 'salesAgent.uuid') || null;
+    const unassignFromOperator = get(data, 'salesAgent.uuid') || null;
 
     representativeModal.show({
       type: aquisitionStatusesNames.SALES,
       userType: userTypes.LEAD_CUSTOMER,
-      leads: [{ uuid: id, unassignFrom }],
+      leads: [{
+        uuid: id,
+        ...(unassignFromOperator && unassignFromOperator),
+      }],
       initialValues: { aquisitionStatus: aquisitionStatusesNames.SALES },
       header: I18n.t(
         'LEAD_PROFILE.MODALS.REPRESENTATIVE_UPDATE.HEADER',

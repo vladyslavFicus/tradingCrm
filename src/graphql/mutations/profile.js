@@ -181,68 +181,14 @@ const suspendMutation = gql`mutation suspend(
   }
 }`;
 
-const updateBTAGMutation = gql`mutation updateBTAG(
-  $playerUUID: String!,
-  $btag: String!,
-){
-  profile {
-    updateBTAG(
-      playerUUID: $playerUUID,
-      btag: $btag,
-      ) {
-      data {
-        playerUUID
-        btag
-      }
-      error {
-        error
-      }
-    }
-  }
-}`;
-
-const updateAffiliateMutation = gql`mutation updateAffiliate(
-  $playerUUID: String!,
-  $affiliateId: String!,
-){
-  profile {
-    updateAffiliate(
-      playerUUID: $playerUUID,
-      affiliateId: $affiliateId,
-      ) {
-      data {
-        playerUUID
-        affiliateId
-      }
-      error {
-        error
-      }
-    }
-  }
-}`;
-
-const markIsTestMutation = gql`mutation markIsTest($playerUUID: String!, $isTest: Boolean!){
-  profile {
-    markIsTest(playerUUID: $playerUUID, isTest: $isTest) {
-      data {
-        playerUUID
-        isTest
-      }
-      error {
-        error
-      }
-    }
-  }
-}`;
-
 const clientsBulkRepresentativeUpdate = gql`mutation bulkRepresentativeUpdate(
   $teamId: String,
   $salesRep: [String]
   $retentionRep: [String],
   $salesStatus: String,
   $retentionStatus: String,
-  $aquisitionStatus: String,
   $type: String!,
+  $isMoveAction: Boolean,
   $allRowsSelected: Boolean,
   $clients: [ClientBulkUpdateType],
   $totalElements: Int,
@@ -255,8 +201,8 @@ const clientsBulkRepresentativeUpdate = gql`mutation bulkRepresentativeUpdate(
       retentionRep: $retentionRep,
       salesStatus: $salesStatus,
       retentionStatus: $retentionStatus,
-      aquisitionStatus: $aquisitionStatus,
       type: $type,
+      isMoveAction: $isMoveAction,
       allRowsSelected: $allRowsSelected,
       clients: $clients,
       totalElements: $totalElements,
@@ -322,9 +268,6 @@ export {
   resumeMutation,
   passwordResetRequest,
   changePassword,
-  updateAffiliateMutation,
-  updateBTAGMutation,
-  markIsTestMutation,
   clientsBulkRepresentativeUpdate,
   updateMutation,
 };

@@ -1,11 +1,13 @@
 import React, { PureComponent } from 'react';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import { Field, reduxForm } from 'redux-form';
+import { Field, reduxForm, SubmissionError } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
-import PropTypes from '../../../../../../constants/propTypes';
-import { NasSelectField } from '../../../../../../components/ReduxForm';
-import { aquisitionStatuses } from '../../../../../../constants/aquisitionStatuses';
-import { createValidator } from '../../../../../../utils/validator';
+import PropTypes from 'constants/propTypes';
+import { NasSelectField } from 'components/ReduxForm';
+import { withNotifications } from 'components/HighOrder';
+import { aquisitionStatuses } from 'constants/aquisitionStatuses';
+import { createValidator } from 'utils/validator';
+import { checkMovePermission } from './utils';
 
 class MoveModal extends PureComponent {
   static propTypes = {
@@ -18,11 +20,36 @@ class MoveModal extends PureComponent {
     onSubmit: PropTypes.func.isRequired,
     error: PropTypes.any,
     clientsSelected: PropTypes.number.isRequired,
+    selectedData: PropTypes.object,
+    notify: PropTypes.func.isRequired,
   };
 
-  static defaultProps ={
+  static defaultProps = {
+    selectedData: {},
     error: null,
   };
+
+  handleMoveSubmit = ({ aquisitionStatus }) => {
+    const { selectedData, notify } = this.props;
+
+    const actionForbidden = checkMovePermission({ ...selectedData, aquisitionStatus });
+
+    if (actionForbidden) {
+      const type = aquisitionStatus.toLowerCase();
+
+      notify({
+        level: 'error',
+        title: I18n.t('COMMON.BULK_UPDATE_FAILED'),
+        message: I18n.t('clients.bulkUpdate.moveForbidden', { type }),
+      });
+
+      throw new SubmissionError({
+        _error: I18n.t('clients.bulkUpdate.detailedTypeError', { type }),
+      });
+    }
+
+    this.props.onSubmit({ aquisitionStatus });
+  }
 
   render() {
     const {
@@ -32,7 +59,6 @@ class MoveModal extends PureComponent {
       invalid,
       pristine,
       submitting,
-      onSubmit,
       error,
       clientsSelected,
     } = this.props;
@@ -49,7 +75,7 @@ class MoveModal extends PureComponent {
         <ModalBody
           tag="form"
           id="move-modal-form"
-          onSubmit={handleSubmit(onSubmit)}
+          onSubmit={handleSubmit(this.handleMoveSubmit)}
         >
           <If condition={error}>
             <div className="mb-2 text-center color-danger">
@@ -94,8 +120,10 @@ class MoveModal extends PureComponent {
 
 const FORM_NAME = 'moveModalForm';
 
-export default reduxForm({
-  form: FORM_NAME,
-  enableReinitialize: true,
-  validate: values => createValidator({ aquisitionStatus: ['string', 'required'] }, {}, false)(values),
-})(MoveModal);
+export default withNotifications(
+  reduxForm({
+    form: FORM_NAME,
+    enableReinitialize: true,
+    validate: values => createValidator({ aquisitionStatus: ['string', 'required'] }, {}, false)(values),
+  })(MoveModal)
+);

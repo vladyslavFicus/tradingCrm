@@ -88,14 +88,13 @@ class RepresentativeUpdateModal extends Component {
   };
 
   static getDerivedStateFromProps({ hierarchyUsers, type }, prevState) {
-    let newState = null;
     const agents = getAgents(hierarchyUsers, type);
 
     if (agents && !prevState.agents) {
-      newState = { agents };
+      return { agents };
     }
 
-    return newState;
+    return null;
   }
 
   handleDeskChange = async (selectedDesk) => {
@@ -184,9 +183,10 @@ class RepresentativeUpdateModal extends Component {
     });
   }
 
-  handleUpdateRepresentative = async ({ teamId, repId, status, aquisitionStatus }) => {
+  handleUpdateRepresentative = async ({ teamId, repId, status }) => {
     const {
       clients,
+      leads,
       type,
       configs,
       notify,
@@ -205,12 +205,10 @@ class RepresentativeUpdateModal extends Component {
     }
 
     const variables = {
-      clients,
       teamId,
       type,
       allRowsSelected,
       totalElements,
-      aquisitionStatus,
       searchParams: omit(searchParams, ['desks', 'teams']),
       ...(type === deskTypes.SALES
         ? { salesStatus: status, salesRep: representative }
@@ -220,11 +218,15 @@ class RepresentativeUpdateModal extends Component {
     let error = null;
 
     if (userType === userTypes.LEAD_CUSTOMER) {
-      const response = await bulkLeadRepresentativeUpdate({ variables });
+      const response = await bulkLeadRepresentativeUpdate({
+        variables: { ...variables, leads },
+      });
 
       ({ error } = response.data.leads.bulkLeadUpdate);
     } else {
-      const response = await bulkRepresentativeUpdate({ variables });
+      const response = await bulkRepresentativeUpdate({
+        variables: { ...variables, clients },
+      });
 
       ({ error } = response.data.clients.bulkRepresentativeUpdate);
     }
@@ -348,7 +350,8 @@ class RepresentativeUpdateModal extends Component {
             }
             component={NasSelectField}
             multiple={multiAssign}
-            disabled={agentsLoading || initAgentsLoading || (agents && agents.length === 0) || submitting}
+            disabled={agentsLoading || initAgentsLoading || submitting || (agents && agents.length === 0)
+            }
           >
             {(agents || []).map(({ fullName, uuid }) => (
               <option key={uuid} value={uuid}>
@@ -381,7 +384,7 @@ class RepresentativeUpdateModal extends Component {
             </Choose>
           </Field>
           <If condition={Array.isArray(additionalFields)}>
-            {additionalFields.map(({ name, labelName, component, data }) => {
+            {additionalFields.map(({ name, disabled, labelName, component, data }) => {
               if (component === components[component]) {
                 return (
                   <Field
@@ -389,7 +392,7 @@ class RepresentativeUpdateModal extends Component {
                     key={name}
                     label={I18n.t(attributeLabels(type)[labelName])}
                     component={NasSelectField}
-                    disabled={submitting}
+                    disabled={disabled || submitting}
                     placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
                   >
                     {data.map(({ value, label }) => (

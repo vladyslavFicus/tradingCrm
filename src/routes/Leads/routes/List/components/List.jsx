@@ -248,9 +248,9 @@ class List extends Component {
     const leads = getLeadsData(this.state, totalElements, content);
 
     representativeModal.show({
+      leads,
       userType: userTypes.LEAD_CUSTOMER,
       type: deskTypes.SALES,
-      leads,
       configs: {
         allRowsSelected,
         totalElements,
