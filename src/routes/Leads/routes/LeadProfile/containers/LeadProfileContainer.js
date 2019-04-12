@@ -15,6 +15,8 @@ import { promoteLeadToClient } from '../../../../../graphql/mutations/leads';
 import PromoteLeadModal from '../../../../../components/PromoteLeadModal';
 import RepresentativeUpdateModal from '../../../../../components/RepresentativeUpdateModal';
 
+const PINNED_NOTES_SIZE = 100;
+
 export default compose(
   withNotifications,
   withModals({
@@ -43,6 +45,7 @@ export default compose(
   graphql(notesQuery, {
     options: ({ match: { params: { id } } }) => ({
       variables: {
+        size: PINNED_NOTES_SIZE,
         targetUUID: id,
         pinned: true,
       },
@@ -55,6 +58,7 @@ export default compose(
       refetchQueries: [{
         query: notesQuery,
         variables: {
+          size: PINNED_NOTES_SIZE,
           targetUUID: id,
           pinned: true,
         },
@@ -95,6 +99,7 @@ export default compose(
         } = proxy.readQuery({
           query: notesQuery,
           variables: {
+            size: PINNED_NOTES_SIZE,
             targetUUID: id,
             pinned: true,
           },
@@ -103,11 +108,11 @@ export default compose(
         const selectedNote = content.find(({ noteId: noteUUID }) => noteUUID === noteId);
 
         if (selectedNote && !pinned) {
-          removeNote(proxy, { targetUUID, pinned: true }, noteId);
+          removeNote(proxy, { targetUUID, pinned: true, size: PINNED_NOTES_SIZE }, noteId);
         }
 
         if (!selectedNote && pinned) {
-          addPinnedNote(proxy, { targetUUID }, data);
+          addPinnedNote(proxy, { targetUUID, size: PINNED_NOTES_SIZE }, data);
         }
       },
     }),
@@ -126,7 +131,7 @@ export default compose(
           },
         },
       }) => {
-        removeNote(proxy, { targetUUID: id, pinned: true }, noteId);
+        removeNote(proxy, { targetUUID: id, pinned: true, size: PINNED_NOTES_SIZE }, noteId);
         removeNote(proxy, {
           targetUUID: id,
           size: 25,
