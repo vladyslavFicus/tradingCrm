@@ -3,6 +3,7 @@ import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Field, SubmissionError } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
 import { get, omit } from 'lodash';
+import { actionCreators as windowActionCreators } from 'redux/modules/window';
 import PropTypes from 'constants/propTypes';
 import { deskTypes, userTypes } from 'constants/hierarchyTypes';
 import { salesStatuses, salesStatusValues } from 'constants/salesStatuses';
@@ -261,6 +262,10 @@ class RepresentativeUpdateModal extends Component {
 
       onCloseModal();
       onSuccess();
+
+      if (window.isFrame) {
+        window.dispatchAction(windowActionCreators.updateClientList());
+      }
     }
   };
 

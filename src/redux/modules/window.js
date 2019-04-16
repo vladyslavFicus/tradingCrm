@@ -6,6 +6,7 @@ const NAVIGATE_TO = `${KEY}/navigate-to`;
 const VIEW_PLAYER_PROFILE = `${KEY}/view-player-profile`;
 const CLOSE_PROFILE_TAB = `${KEY}/close-profile-tab`;
 const OPERATOR_ACTIVITY = `${KEY}/operator-activity`;
+const UPDATE_CLIENT_LIST = `${KEY}/update-client-list`;
 
 function changeLocale(locale) {
   return {
@@ -52,6 +53,10 @@ function operatorActivity() {
   return { type: OPERATOR_ACTIVITY };
 }
 
+function updateClientList() {
+  return { type: UPDATE_CLIENT_LIST };
+}
+
 const actionTypes = {
   NOTIFICATION,
   CHANGE_LOCALE,
@@ -60,6 +65,7 @@ const actionTypes = {
   VIEW_PLAYER_PROFILE,
   CLOSE_PROFILE_TAB,
   OPERATOR_ACTIVITY,
+  UPDATE_CLIENT_LIST,
 };
 const actionCreators = {
   changeLocale,
@@ -69,6 +75,7 @@ const actionCreators = {
   viewPlayerProfile,
   closeProfileTab,
   operatorActivity,
+  updateClientList,
 };
 
 export {

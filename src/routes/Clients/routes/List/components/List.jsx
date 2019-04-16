@@ -3,6 +3,7 @@ import { I18n } from 'react-redux-i18n';
 import { get, omit } from 'lodash';
 import { TextRow } from 'react-placeholder/lib/placeholders';
 import { SubmissionError } from 'redux-form';
+import { actionTypes as windowActionTypes } from 'redux/modules/window';
 import history from 'router/history';
 import permissions from 'config/permissions';
 import PropTypes from 'constants/propTypes';
@@ -11,6 +12,7 @@ import { departments } from 'constants/brands';
 import GridView, { GridViewColumn } from 'components/GridView';
 import PermissionContent from 'components/PermissionContent';
 import Placeholder from 'components/Placeholder';
+import parseJson from 'utils/parseJson';
 import withPlayerClick from 'utils/withPlayerClick';
 import UserGridFilter from './UsersGridFilter';
 import { columns } from './attributes';
@@ -31,6 +33,7 @@ class List extends Component {
       profiles: PropTypes.shape({
         data: PropTypes.pageable(PropTypes.any),
       }),
+      refetch: PropTypes.func.isRequired,
       loadMore: PropTypes.func,
       loading: PropTypes.bool.isRequired,
     }),
@@ -77,6 +80,26 @@ class List extends Component {
     touchedRowsIds: [],
     hierarchyOperators: [],
   };
+
+  componentDidMount() {
+    if (!window.isFrame) {
+      window.addEventListener('message', ({ data, origin }) => {
+        if (origin === window.location.origin) {
+          if (typeof data === 'string') {
+            const action = parseJson(data, null);
+
+            if (
+              action
+              && action.type === windowActionTypes.UPDATE_CLIENT_LIST
+              && this.props.profiles
+            ) {
+              this.props.profiles.refetch();
+            }
+          }
+        }
+      });
+    }
+  }
 
   componentWillUnmount() {
     this.handleFilterReset();
