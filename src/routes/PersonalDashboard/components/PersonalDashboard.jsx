@@ -1,7 +1,7 @@
 import React from 'react';
 import ShortLoader from 'components/ShortLoader';
 
-const METABASE_SITE_URL = 'https://metabase.beti.io';
+const METABASE_SITE_URL = 'https://metabase.flcn.pro';
 
 const NewDashboard = React.memo(
   ({ metabaseToken: { loading, getMetabaseToken } }) => (

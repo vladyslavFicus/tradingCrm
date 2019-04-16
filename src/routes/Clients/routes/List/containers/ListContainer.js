@@ -42,6 +42,7 @@ export default compose(
   connect(mapStateToProps, mapActions),
   graphql(clientsBulkRepresentativeUpdate, {
     name: 'bulkRepresentativeUpdate',
+    options: { refetchQueries: () => ['getProfiles'] },
   }),
   graphql(getUserBranchHierarchy, {
     name: 'userBranchHierarchy',

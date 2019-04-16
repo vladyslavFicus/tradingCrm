@@ -238,6 +238,7 @@ class Profile extends Component {
       : `${deskTypes.SALES.toLowerCase()}Rep.uuid`;
 
     const unassignFromOperator = get(data, `tradingProfile.${representativePath}`) || null;
+    const assignToOperator = get(data, `tradingProfile.${type.toLowerCase()}Rep.uuid`) || null;
 
     representativeModal.show({
       type,
@@ -245,6 +246,7 @@ class Profile extends Component {
         uuid: id,
         ...(unassignFromOperator && { unassignFromOperator }),
       }],
+      currentInactiveOperator: assignToOperator,
       initialValues: { aquisitionStatus: type },
       header: I18n.t('CLIENT_PROFILE.MODALS.REPRESENTATIVE_UPDATE.HEADER', { type: type.toLowerCase() }),
       additionalFields: [moveField],

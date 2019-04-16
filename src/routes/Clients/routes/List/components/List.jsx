@@ -189,19 +189,6 @@ class List extends Component {
   };
 
   handleSuccessUpdateRepresentative = async () => {
-    const {
-      location: { query },
-      profiles: { refetch },
-    } = this.props;
-
-    refetch({
-      variables: {
-        ...query && query.filters,
-        page: 0,
-        size: 20,
-      },
-      fetchPolicy: 'network-only',
-    });
     this.setState({
       selectedRows: [],
       allRowsSelected: false,
@@ -232,7 +219,7 @@ class List extends Component {
       notify,
       bulkRepresentativeUpdate,
       location: { query },
-      profiles: { refetch, profiles: { data: { content, totalElements } } },
+      profiles: { profiles: { data: { content, totalElements } } },
       modals: { moveModal },
     } = this.props;
     const { allRowsSelected } = this.state;
@@ -271,15 +258,6 @@ class List extends Component {
         });
       }
     } else {
-      refetch({
-        variables: {
-          ...query && query.filters,
-          page: 0,
-          size: 20,
-        },
-        fetchPolicy: 'network-only',
-      });
-
       notify({
         level: 'success',
         title: I18n.t('COMMON.SUCCESS'),

@@ -66,6 +66,7 @@ class RepresentativeUpdateModal extends Component {
       totalElements: PropTypes.number,
       searchParams: PropTypes.object,
     }),
+    currentInactiveOperator: PropTypes.string,
   };
 
   static defaultProps = {
@@ -78,6 +79,7 @@ class RepresentativeUpdateModal extends Component {
     selectedAcquisition: null,
     currentStatus: null,
     configs: {},
+    currentInactiveOperator: null,
   };
 
   state = {
@@ -185,7 +187,6 @@ class RepresentativeUpdateModal extends Component {
 
   handleUpdateRepresentative = async ({ teamId, repId, status }) => {
     const {
-      clients,
       leads,
       type,
       configs,
@@ -224,6 +225,18 @@ class RepresentativeUpdateModal extends Component {
 
       ({ error } = response.data.leads.bulkLeadUpdate);
     } else {
+      const {
+        clients,
+        currentInactiveOperator,
+      } = this.props;
+
+      // when move performed on client profile and no rep selected
+      // manually pass assignToOperator and add move flag
+      if (currentInactiveOperator && !repId) {
+        clients[0] = { ...clients[0], assignToOperator: currentInactiveOperator };
+        variables.isMoveAction = true;
+      }
+
       const response = await bulkRepresentativeUpdate({
         variables: { ...variables, clients },
       });

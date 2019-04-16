@@ -31,6 +31,7 @@ export default compose(
   connect(mapStateToProps),
   graphql(clientsBulkRepresentativeUpdate, {
     name: 'bulkRepresentativeUpdate',
+    options: { refetchQueries: () => ['getProfiles'] },
   }),
   graphql(bulkLeadUpdate, {
     name: 'bulkLeadRepresentativeUpdate',
