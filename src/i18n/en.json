@@ -1445,7 +1445,7 @@
       "PAMM": "PAMM",
       "NEED_DOCS": "Need docs",
       "NO_TRADES": "No trades",
-      "REASSIGN": "No trades"
+      "REASSIGN": "Reassign"
     },
     "CALLBACKS": {
       "SUCCESS": "Success",
