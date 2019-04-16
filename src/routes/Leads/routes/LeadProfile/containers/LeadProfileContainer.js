@@ -38,7 +38,7 @@ export default compose(
       variables: {
         leadId,
       },
-      fetchPolicy: 'cache-and-network',
+      fetchPolicy: 'network-only',
     }),
     name: 'leadProfile',
   }),

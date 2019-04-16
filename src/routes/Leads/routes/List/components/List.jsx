@@ -273,11 +273,9 @@ class List extends Component {
     this.props.leads.refetch({
       fetchPolicy: 'network-only',
       notifyOnNetworkStatusChange: true,
-      variables: {
-        ...query && query.filters,
-        page: 0,
-        limit: 20,
-      },
+      ...query && query.filters,
+      page: 0,
+      limit: 20,
     });
   };
 

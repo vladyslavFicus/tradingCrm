@@ -93,7 +93,12 @@ class List extends Component {
               && action.type === windowActionTypes.UPDATE_CLIENT_LIST
               && this.props.profiles
             ) {
-              this.props.profiles.refetch();
+              this.props.profiles.refetch({
+                ...this.props.location.query && this.props.location.query.filters,
+                page: 0,
+                size: 20,
+                fetchPolicy: 'network-only',
+              });
             }
           }
         }

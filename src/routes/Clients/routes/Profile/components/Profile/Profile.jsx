@@ -265,7 +265,7 @@ class Profile extends Component {
     } = this.props;
 
     if (!playerProfile.isLoading && !profile.isLoading) {
-      await playerProfile.refetch({ fetchPolicy: 'network-only' });
+      await playerProfile.refetch();
       await fetchProfile(params.id);
       await pinnedNotes.refetch();
       await fetchFiles(params.id);
