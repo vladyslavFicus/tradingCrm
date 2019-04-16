@@ -138,7 +138,7 @@ class LeadProfile extends Component {
       userType: userTypes.LEAD_CUSTOMER,
       leads: [{
         uuid: id,
-        ...(unassignFromOperator && unassignFromOperator),
+        ...(unassignFromOperator && { unassignFromOperator }),
       }],
       initialValues: { aquisitionStatus: aquisitionStatusesNames.SALES },
       header: I18n.t(
