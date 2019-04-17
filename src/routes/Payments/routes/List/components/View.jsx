@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { get, flatten } from 'lodash';
 import { I18n } from 'react-redux-i18n';
-import PropTypes from '../../../../../constants/propTypes';
-import { statusMapper } from '../../../../../constants/payment';
-import GridView, { GridViewColumn } from '../../../../../components/GridView';
-import history from '../../../../../router/history';
-import { columns, filterFields } from '../../../../../utils/paymentHelpers';
-import ListFilterForm from '../../../../../components/ListFilterForm';
+import PropTypes from 'constants/propTypes';
+import { statusMapper } from 'constants/payment';
+import GridView, { GridViewColumn } from 'components/GridView';
+import history from 'router/history';
+import { columns, filterFields } from 'utils/paymentHelpers';
+import ListFilterForm from 'components/ListFilterForm';
 
 class View extends Component {
   static propTypes = {
@@ -50,12 +50,22 @@ class View extends Component {
     }),
   };
 
+  static childContextTypes = {
+    getApolloRequestState: PropTypes.func.isRequired,
+  };
+
   static defaultProps = {
     clientPayments: {
       clientPayments: { content: [] },
       loading: false,
     },
   };
+
+  getChildContext() {
+    return {
+      getApolloRequestState: this.handleGetRequestState,
+    };
+  }
 
   componentDidMount() {
     this.context.notes.setNoteChangedCallback(this.handleRefresh);
@@ -66,7 +76,14 @@ class View extends Component {
     this.props.resetAll();
   }
 
-  handleRefresh = () => this.props.clientPayments.refetch();
+  handleRefresh = () => this.props.clientPayments.refetch({
+    ...this.props.location.query && this.props.location.query.filters,
+    page: 0,
+    limit: 20,
+    fetchPolicy: 'network-only',
+  });
+
+  handleGetRequestState = () => this.props.clientPayments.loading;
 
   handlePageChanged = () => {
     const {

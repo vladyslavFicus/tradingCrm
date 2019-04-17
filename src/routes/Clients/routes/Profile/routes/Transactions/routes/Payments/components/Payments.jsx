@@ -71,6 +71,11 @@ class Payments extends Component {
     }).isRequired,
   };
 
+  static defaultProps = {
+    currencyCode: null,
+    playerProfile: {},
+  };
+
   static contextTypes = {
     onAddNoteClick: PropTypes.func.isRequired,
     onAddNote: PropTypes.func.isRequired,
@@ -81,10 +86,15 @@ class Payments extends Component {
     unRegisterUpdateCacheListener: PropTypes.func.isRequired,
   };
 
-  static defaultProps = {
-    currencyCode: null,
-    playerProfile: {},
+  static childContextTypes = {
+    getApolloRequestState: PropTypes.func.isRequired,
   };
+
+  getChildContext() {
+    return {
+      getApolloRequestState: this.handleGetRequestState,
+    };
+  }
 
   async componentDidMount() {
     const {
@@ -154,6 +164,8 @@ class Payments extends Component {
   };
 
   handleRefresh = () => this.props.clientPayments.refetch();
+
+  handleGetRequestState = () => this.props.clientPayments.loading;
 
   handlePageChanged = () => {
     const {
@@ -295,6 +307,7 @@ class Payments extends Component {
             lazyLoad
             locale={locale}
             showNoResults={!!error || (!loading && entities.content.length === 0)}
+            loading={loading}
           >
             {columns({
               paymentInfo: { onSuccess: this.handleModalActionSuccess },

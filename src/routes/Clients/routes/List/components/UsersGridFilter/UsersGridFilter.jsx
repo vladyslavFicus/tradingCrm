@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { isEqual, get } from 'lodash';
 import { I18n } from 'react-redux-i18n';
 import { getUsersByBranch } from 'graphql/queries/hierarchy';
-import PropTypes from '../../../../../../constants/propTypes';
-import ListFilterForm from '../../../../../../components/ListFilterForm/index';
-import { filterFields, fieldNames } from '../attributes/index';
+import PropTypes from 'constants/propTypes';
+import ListFilterForm from 'components/ListFilterForm';
+import { filterFields, fieldNames } from '../attributes';
 
 class UserGridFilter extends Component {
   static propTypes = {
@@ -92,18 +92,18 @@ class UserGridFilter extends Component {
         break;
       }
       case (fieldName === fieldNames.teams
-        && this.isValueInForm(formValues, fieldNames.desks)): {
+        && this.isValueInForm(formValues, fieldNames.desks)
+      ): {
         this.filterOperators(formValues[fieldNames.desks], formChange);
         break;
       }
       case (fieldName === fieldNames.desks
-        && this.isValueInForm(formValues, fieldNames.teams)): {
+        && this.isValueInForm(formValues, fieldNames.teams)
+      ): {
         this.filterOperators(formValues[fieldNames.teams], formChange);
         break;
       }
-      default: {
-        this.setState({ filteredOperators: operators });
-      }
+      default: this.setState({ filteredOperators: operators });
     }
 
     formChange(fieldName, value || null);
