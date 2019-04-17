@@ -67,6 +67,10 @@ class List extends Component {
     }),
   };
 
+  static childContextTypes = {
+    getApolloRequestState: PropTypes.func.isRequired,
+  };
+
   static defaultProps = {
     profiles: {
       profiles: {},
@@ -80,6 +84,12 @@ class List extends Component {
     touchedRowsIds: [],
     hierarchyOperators: [],
   };
+
+  getChildContext() {
+    return {
+      getApolloRequestState: this.handleGetRequestState,
+    };
+  }
 
   componentDidMount() {
     if (!window.isFrame) {
@@ -113,6 +123,8 @@ class List extends Component {
   setDesksTeamsOperators = (hierarchyOperators) => {
     this.setState({ hierarchyOperators });
   }
+
+  handleGetRequestState = () => this.props.profiles.loading;
 
   handlePageChanged = () => {
     const {
@@ -432,7 +444,7 @@ class List extends Component {
             showNoResults={!loading && entities.content.length === 0}
             onRowClick={this.handlePlayerClick}
             rowClassName={({ tradingProfile }) => !tradingProfile && 'disabled'}
-            loading={loading && entities.content.length === 0}
+            loading={loading}
           >
             {columns(I18n, auth, fetchPlayerMiniProfile)
               .map(({ name, header, render }) => (

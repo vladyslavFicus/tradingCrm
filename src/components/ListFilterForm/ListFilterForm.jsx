@@ -3,6 +3,7 @@ import { getFormValues, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
 import { I18n } from 'react-redux-i18n';
 import moment from 'moment';
+import { isEqual } from 'lodash';
 import PropTypes from '../../constants/propTypes';
 import { createValidator } from '../../utils/validator';
 import reduxFieldsConstructor, { getValidationRules } from '../ReduxForm/ReduxFieldsConstructor';
@@ -32,8 +33,13 @@ class ListFilters extends Component {
     onFieldChange: () => {},
   };
 
+  static contextTypes = {
+    getApolloRequestState: PropTypes.func,
+  };
+
   state = {
-    isSubmited: false,
+    resetDisabled: true,
+    prevValues: null,
   };
 
   startDateValidator = fieldName => (current) => {
@@ -59,14 +65,37 @@ class ListFilters extends Component {
   }
 
   handleReset = () => {
+    const { getApolloRequestState } = this.context;
+    // do nothing if request is already performing
+    if (getApolloRequestState && getApolloRequestState()) {
+      return;
+    }
+
     this.props.reset();
     this.props.onReset();
-    this.setState({ isSubmited: false });
+    this.setState({ resetDisabled: true });
   };
 
   handleSubmit = (values) => {
-    this.props.onSubmit(values);
-    if (!this.state.isSubmited) this.setState({ isSubmited: true });
+    const { prevValues } = this.state;
+    const { getApolloRequestState } = this.context;
+    let requestId = null;
+
+    // do nothing if request is already performing
+    if (getApolloRequestState && getApolloRequestState()) {
+      return;
+    }
+
+    // Hack to make refetch if APPLY clicked and filters remained same
+    if (isEqual(prevValues, values)) {
+      requestId = Math.random().toString(36).slice(8);
+    }
+
+    this.props.onSubmit({ ...values, ...(requestId && { requestId }) });
+
+    this.setState({ prevValues: values });
+
+    if (this.state.resetDisabled) this.setState({ resetDisabled: false });
   }
 
   render() {
@@ -77,14 +106,14 @@ class ListFilters extends Component {
       invalid,
       fields,
     } = this.props;
-    const { isSubmited } = this.state;
+    const { resetDisabled } = this.state;
 
     return (
       <form className="filter-row" onSubmit={handleSubmit(this.handleSubmit)}>
         {reduxFieldsConstructor(fields, this.handleSelectFieldChange, this.startDateValidator, this.endDateValidator)}
         <div className="filter-row__button-block">
           <button
-            disabled={!isSubmited || submitting}
+            disabled={resetDisabled || submitting}
             className="btn btn-default"
             onClick={this.handleReset}
             type="reset"

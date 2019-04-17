@@ -127,7 +127,6 @@ export default (
       value: uuid,
       label: I18n.t(fullName),
       className: operatorStatus === statuses.INACTIVE || operatorStatus === statuses.CLOSED ? 'color-inactive' : '',
-
     }
   )),
 }, {

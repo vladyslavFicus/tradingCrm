@@ -21,6 +21,12 @@ import { leadStatuses } from '../../../constants';
 import { getLeadsData } from './utils';
 import LeadsGridFilter from './LeadsGridFilter';
 
+const loadingNetworkStatuses = [
+  NetworkStatus.loading,
+  NetworkStatus.refetch,
+  NetworkStatus.setVariables,
+];
+
 class List extends Component {
   static propTypes = {
     notify: PropTypes.func.isRequired,
@@ -50,18 +56,28 @@ class List extends Component {
     fileUpload: PropTypes.func.isRequired,
   };
 
-  static contextTypes = {
-    miniProfile: PropTypes.shape({
-      onShowMiniProfile: PropTypes.func.isRequired,
-    }),
-  };
-
   static defaultProps = {
     leads: {
       leads: {},
       loading: false,
     },
   };
+
+  static contextTypes = {
+    miniProfile: PropTypes.shape({
+      onShowMiniProfile: PropTypes.func.isRequired,
+    }),
+  };
+
+  static childContextTypes = {
+    getApolloRequestState: PropTypes.func.isRequired,
+  };
+
+  getChildContext() {
+    return {
+      getApolloRequestState: this.handleGetRequestState,
+    };
+  }
 
   state = {
     selectedRows: [],
@@ -73,6 +89,8 @@ class List extends Component {
   componentWillUnmount() {
     this.handleFilterReset();
   }
+
+  handleGetRequestState = () => this.props.leads.loading;
 
   setDesksTeamsOperators = (hierarchyOperators) => {
     this.setState({ hierarchyOperators });
@@ -473,7 +491,7 @@ class List extends Component {
             activePage={entities.page}
             last={entities.last}
             lazyLoad
-            loading={[NetworkStatus.loading, NetworkStatus.refetch].includes(networkStatus)}
+            loading={loadingNetworkStatuses.includes(networkStatus)}
             multiselect
             allRowsSelected={allRowsSelected}
             touchedRowsIds={touchedRowsIds}
