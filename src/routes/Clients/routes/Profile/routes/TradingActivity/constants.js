@@ -2,7 +2,7 @@
 import React, { Fragment } from 'react';
 import classNames from 'classnames';
 import moment from 'moment';
-import I18n from '../../../../../../../../utils/fake-i18n';
+import I18n from 'utils/fake-i18n';
 import { getTypeColor } from './utils';
 
 export const filterFormAttributeLabels = {

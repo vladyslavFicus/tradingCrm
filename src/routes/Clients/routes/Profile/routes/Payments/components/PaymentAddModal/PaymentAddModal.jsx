@@ -5,16 +5,13 @@ import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { get } from 'lodash';
 import classNames from 'classnames';
 import NoteButton from 'components/NoteButton';
+import PropTypes from 'constants/propTypes';
+import { manualPaymentMethods, manualPaymentMethodsLabels } from 'constants/payment';
+import { InputField, NasSelectField, DateTimeField } from 'components/ReduxForm';
+import Currency from 'components/Amount/Currency';
+import I18n from 'utils/i18n';
 import { floatNormalize } from 'utils/inputNormalize';
-import I18n from '../../../../../../../../../../utils/i18n';
-import { createValidator } from '../../../../../../../../../../utils/validator';
-import { InputField, NasSelectField, DateTimeField } from '../../../../../../../../../../components/ReduxForm';
-import PropTypes from '../../../../../../../../../../constants/propTypes';
-import {
-  manualPaymentMethods,
-  manualPaymentMethodsLabels,
-} from '../../../../../../../../../../constants/payment';
-import Currency from '../../../../../../../../../../components/Amount/Currency';
+import { createValidator } from 'utils/validator';
 import { paymentMethods, paymentMethodsLabels } from './constants';
 import './PaymentAddModal.scss';
 

@@ -27,7 +27,8 @@ import NotFound from 'routes/NotFound';
 import { deskTypes } from 'constants/hierarchyTypes';
 import {
   ClientView,
-  Transactions,
+  Payments,
+  TradingActivity,
   Accounts,
   Notes,
   Files,
@@ -770,7 +771,8 @@ class Profile extends Component {
         <div className="card no-borders">
           <Switch>
             <Route disableScroll path={`${path}/profile`} component={ClientView} />
-            <Route disableScroll path={`${path}/transactions`} component={Transactions} />
+            <Route disableScroll path={`${path}/payments`} component={Payments} />
+            <Route disableScroll path={`${path}/trading-activity`} component={TradingActivity} />
             <Route disableScroll path={`${path}/accounts`} component={Accounts} />
             <Route disableScroll path={`${path}/callbacks`} component={Callbacks} />
             <Route disableScroll path={`${path}/notes`} component={Notes} />

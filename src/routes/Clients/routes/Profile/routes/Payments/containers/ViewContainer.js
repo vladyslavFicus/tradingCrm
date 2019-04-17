@@ -2,13 +2,13 @@ import { connect } from 'react-redux';
 import { graphql, compose } from 'react-apollo';
 import { get } from 'lodash';
 import { addNoteMutation } from 'graphql/mutations/note';
+import { addPaymentMutation } from 'graphql/mutations/payment';
+import { getClientPaymentsByUuid } from 'graphql/queries/payments';
+import { operatorsQuery } from 'graphql/queries/operators';
+import { withModals } from 'components/HighOrder';
 import Payments from '../components/Payments';
 import { actionCreators as viewActionCreators } from '../modules';
-import { actionCreators as playerActionCreators } from '../../../../../modules';
-import { withModals } from '../../../../../../../../../components/HighOrder';
-import { addPaymentMutation } from '../../../../../../../../../graphql/mutations/payment';
-import { getClientPaymentsByUuid } from '../../../../../../../../../graphql/queries/payments';
-import { operatorsQuery } from '../../../../../../../../../graphql/queries/operators';
+import { actionCreators as playerActionCreators } from '../../../modules';
 import PaymentAddModal from '../components/PaymentAddModal';
 
 const mapStateToProps = ({

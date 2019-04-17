@@ -1,9 +1,10 @@
 import React, { Component, Fragment } from 'react';
 import { get } from 'lodash';
 import { I18n } from 'react-redux-i18n';
-import PropTypes from '../../../../../../../../../constants/propTypes';
-import GridView, { GridViewColumn } from '../../../../../../../../../components/GridView';
-import history from '../../../../../../../../../router/history';
+import PropTypes from 'constants/propTypes';
+import GridView, { GridViewColumn } from 'components/GridView';
+import TabHeader from 'components/TabHeader';
+import history from 'router/history';
 import FilterForm from './FilterForm';
 import { columns } from '../constants';
 
@@ -82,6 +83,7 @@ class TradingActivity extends Component {
 
     return (
       <Fragment>
+        <TabHeader title={I18n.t('CONSTANTS.TRANSACTIONS.ROUTES.TRADING_ACTIVITY')} />
         <FilterForm
           onSubmit={this.handleFiltersChanged}
           onReset={this.handleFilterReset}

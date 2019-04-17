@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Route as DomRoute, matchPath, Redirect } from 'react-router-dom';
-import Forbidden from '../../routes/Forbidden';
-import Permissions from '../../utils/permissions';
+import Forbidden from 'routes/Forbidden';
+import Permissions from 'utils/permissions';
 
 class Route extends Component {
   static propTypes = {

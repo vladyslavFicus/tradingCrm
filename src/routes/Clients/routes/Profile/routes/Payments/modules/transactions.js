@@ -1,10 +1,10 @@
 import { CALL_API } from 'redux-api-middleware';
-import createReducer from '../../../../../../../../../utils/createReducer';
-import createRequestAction from '../../../../../../../../../utils/createRequestAction';
-import buildQueryString from '../../../../../../../../../utils/buildQueryString';
-import { sourceActionCreators as noteSourceActionCreators } from '../../../../../../../../../redux/modules/note';
-import { sourceActionCreators as bonusActionCreators } from '../../../../../../../../../redux/modules/bonus';
-import { sourceActionCreators as paymentSourceActionCreators } from '../../../../../../../../../redux/modules/payment';
+import createReducer from 'utils/createReducer';
+import createRequestAction from 'utils/createRequestAction';
+import buildQueryString from 'utils/buildQueryString';
+import { sourceActionCreators as noteSourceActionCreators } from 'redux/modules/note';
+import { sourceActionCreators as bonusActionCreators } from 'redux/modules/bonus';
+import { sourceActionCreators as paymentSourceActionCreators } from 'redux/modules/payment';
 
 const KEY = 'user/payments';
 const FETCH_ENTITIES = createRequestAction(`${KEY}/fetch-payments`);

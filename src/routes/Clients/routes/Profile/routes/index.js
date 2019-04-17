@@ -2,7 +2,8 @@ import ClientView from './Client';
 import Notes from './Notes';
 import Files from './Files';
 import Feed from './Feed';
-import Transactions from './Transactions';
+import Payments from './Payments';
+import TradingActivity from './TradingActivity';
 import Accounts from './Accounts';
 import Callbacks from './Callbacks';
 
@@ -11,7 +12,8 @@ export {
   Notes,
   Files,
   Feed,
-  Transactions,
+  Payments,
+  TradingActivity,
   Accounts,
   Callbacks,
 };

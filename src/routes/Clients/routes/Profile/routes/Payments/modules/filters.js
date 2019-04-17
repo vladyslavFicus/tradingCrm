@@ -1,7 +1,7 @@
 import { CALL_API } from 'redux-api-middleware';
-import createReducer from '../../../../../../../../../utils/createReducer';
-import createRequestAction from '../../../../../../../../../utils/createRequestAction';
-import { statuses } from '../../../../../../../../../constants/payment';
+import createReducer from 'utils/createReducer';
+import createRequestAction from 'utils/createRequestAction';
+import { statuses } from 'constants/payment';
 
 const KEY = 'transactions/filters';
 const FETCH_FILTERS = createRequestAction(`${KEY}/fetch-filters`);
