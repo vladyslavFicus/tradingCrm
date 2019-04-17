@@ -2,6 +2,8 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { I18n } from 'react-redux-i18n';
 import { Link } from 'react-router-dom';
+import { withServiceCheck } from 'components/HighOrder';
+import Permissions from 'utils/permissions';
 import './Tabs.scss';
 
 class Tabs extends PureComponent {
@@ -16,6 +18,7 @@ class Tabs extends PureComponent {
     params: PropTypes.shape({
       id: PropTypes.string,
     }),
+    checkService: PropTypes.func.isRequired,
   };
 
   static contextTypes = {
@@ -27,12 +30,23 @@ class Tabs extends PureComponent {
     params: {},
   };
 
+  filterItem = ({ permissions: perm, service }) => {
+    const isValidPermissions = !perm || perm.check(this.context.permissions);
+    const isValidService = !service || (service && this.props.checkService(service));
+
+    return isValidPermissions && isValidService;
+  }
+
   render() {
-    const { items, params, location: { pathname } } = this.props;
+    const {
+      items,
+      params,
+      location: { pathname },
+    } = this.props;
 
     return (
       <ul className="tabs">
-        {items.map((item) => {
+        {items.filter(this.filterItem).map((item) => {
           const url = item.url.replace(/:id/, params.id);
 
           return (
@@ -57,4 +71,4 @@ class Tabs extends PureComponent {
   }
 }
 
-export default Tabs;
+export default withServiceCheck(Tabs);

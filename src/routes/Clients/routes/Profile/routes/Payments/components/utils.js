@@ -9,11 +9,11 @@ import {
   manualPaymentMethodsLabels,
   aggregatorsLabels,
   tradingTypesLabelsWithColor,
-} from '../../../../../../../../../constants/payment';
-import GridPaymentInfo from '../../../../../../../../../components/GridPaymentInfo';
-import Uuid from '../../../../../../../../../components/Uuid';
-import FailedStatusIcon from '../../../../../../../../../components/FailedStatusIcon';
-import { getTradingStatusProps } from '../../../../../../../../../utils/paymentHelpers';
+} from 'constants/payment';
+import GridPaymentInfo from 'components/GridPaymentInfo';
+import Uuid from 'components/Uuid';
+import FailedStatusIcon from 'components/FailedStatusIcon';
+import { getTradingStatusProps } from 'utils/paymentHelpers';
 
 export default onActionSuccess => [{
   name: 'paymentId',

@@ -1,4 +1,4 @@
-import { tradingTypes, tradingTypesLabelsWithColor } from '../../../../../../../../../../constants/payment';
+import { tradingTypes, tradingTypesLabelsWithColor } from 'constants/payment';
 
 const TRANSFER = 'TRANSFER';
 

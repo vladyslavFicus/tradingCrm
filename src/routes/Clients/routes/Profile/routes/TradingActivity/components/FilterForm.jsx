@@ -2,20 +2,20 @@ import React, { Component } from 'react';
 import { reduxForm, Field } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
 import moment from 'moment';
-import PropTypes from '../../../../../../../../../../constants/propTypes';
+import PropTypes from 'constants/propTypes';
 import {
   InputField,
   SelectField,
   DateRangePicker,
   RangeGroup,
   NasSelectField,
-} from '../../../../../../../../../../components/ReduxForm';
+} from 'components/ReduxForm';
 import {
   types,
   symbols,
   statuses,
   filterFormAttributeLabels,
-} from '../../constants';
+} from '../constants';
 
 const FORM_NAME = 'userTradingActivityFilter';
 
@@ -44,7 +44,7 @@ class FilterForm extends Component {
     this.props.onSubmit(variables);
   };
 
-  handleDataChange = (name, value) => {
+  handleDateChange = (name, value) => {
     this.props.change(name, value ? moment(value).format() : '');
   }
 
@@ -157,7 +157,7 @@ class FilterForm extends Component {
             customArrowIcon="-"
             keepOpenOnDateSelect
             firstDayOfWeek={1}
-            change={this.handleDataChange}
+            change={this.handleDateChange}
             withTime
             periodKeys={{
               start: 'openTimeStart',
@@ -178,7 +178,7 @@ class FilterForm extends Component {
             customArrowIcon="-"
             keepOpenOnDateSelect
             firstDayOfWeek={1}
-            change={this.handleDataChange}
+            change={this.handleDateChange}
             withTime
             periodKeys={{
               start: 'closeTimeStart',
@@ -209,7 +209,6 @@ class FilterForm extends Component {
   }
 }
 
-export default (reduxForm({
+export default reduxForm({
   form: FORM_NAME,
-  // validate,
-})(FilterForm));
+})(FilterForm);

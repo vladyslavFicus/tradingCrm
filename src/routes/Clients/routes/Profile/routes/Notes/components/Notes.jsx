@@ -1,12 +1,12 @@
 import React, { Component, Fragment } from 'react';
 import { get } from 'lodash';
 import { I18n } from 'react-redux-i18n';
-import PropTypes from '../../../../../../../constants/propTypes';
+import PropTypes from 'constants/propTypes';
+import ListView from 'components/ListView';
+import TabHeader from 'components/TabHeader';
+import history from 'router/history';
+import NoteItem from 'components/NoteItem';
 import NotesGridFilter from './NotesGridFilter';
-import ListView from '../../../../../../../components/ListView';
-import TabHeader from '../../../../../../../components/TabHeader';
-import history from '../../../../../../../router/history';
-import NoteItem from '../../../../../../../components/NoteItem';
 
 class Notes extends Component {
   static propTypes = {
