@@ -2,8 +2,121 @@ import React, { Fragment } from 'react';
 
 const ReleaseNotes = () => (
   <Fragment>
-    <h1>Falcon CRM - Release notes</h1>
-    <br />
+    <h1>
+      Falcon CRM
+      <br />
+      Release notes
+    </h1>
+    <p />
+    <h1>16/Apr/19 - Version 19</h1>
+    <h2>What has been done</h2>
+    <ul>
+      <li>
+        <p>Applications &amp; Webtrader buttons on client portal redesigned</p>
+      </li>
+      <li>
+        {/* eslint-disable-next-line max-len */}
+        <p>
+          Leads will be assigned to a current operator if a non-existing
+          operator was specified in the uploaded CSV file
+        </p>
+      </li>
+      <li>
+        <p>Terms &amp; Condition link on Client portal signup page added</p>
+      </li>
+      <li>
+        <p>Assign lost in hierarchy clients to operators</p>
+      </li>
+      <li>
+        <p>&quot;CASHIER&quot; option to the payment method filter added</p>
+      </li>
+    </ul>
+    <h2>Bugs &amp; Fixes</h2>
+    <ul>
+      <li>
+        <p>Assign and Reassigning clients flow is fixed</p>
+      </li>
+      <li>
+        <p>Move client to another Acquisition status fixed</p>
+      </li>
+      <li>
+        <p>Email validation on the Signin page fixed</p>
+      </li>
+    </ul>
+    <p />
+    <hr />
+    <h1>09/Apr/19 - Version 18</h1>
+    <h2>What has been done</h2>
+    <ul>
+      <li>
+        <p>Rejection reason selection on withdrawal requests has been added</p>
+      </li>
+      <li>
+        <p>
+          Affiliate partner&apos;s API access can be blocked in operator&rsquo;s
+          profile
+        </p>
+      </li>
+      <li>
+        <p>Migrated client&apos;s password recovery flow has been implemented</p>
+        <ul>
+          <li>
+            <p>
+              Client who tries to login to client portal with his old password
+              is asked to reset it for security reasons
+            </p>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <p>
+          Client search - Operators in status &quot;inactive&quot; and
+          &quot;closed&quot; are highlighted with gray color in drop-down list
+          on &quot;Operator&quot; filter
+        </p>
+      </li>
+      <li>
+        <p>
+          Operators in status &quot;inactive&quot; and &quot;closed&quot; are
+          hidden in assignment popup
+        </p>
+      </li>
+      <li>
+        <p>
+          Payment methods Recall and Chargeback has been added on manual
+          transactions
+        </p>
+      </li>
+      <li>
+        <p>Personal dashboard has been added from Metabase to CRM</p>
+      </li>
+      <li>
+        <p>
+          Hierarchy Tree allows to expand branches of hierarchy level by level
+        </p>
+      </li>
+    </ul>
+    <h2>Bugs &amp; Fixes</h2>
+    <ul>
+      <li>
+        <p>Permissions fixes on front side based on departments and roles</p>
+      </li>
+      <li>
+        <p>
+          Language selection does not overlay notification icon in Client portal
+        </p>
+      </li>
+      <li>
+        <p>
+          Lead/Clients - Operator filter is not being disabled when in Sales
+          status filter any status was selected
+        </p>
+      </li>
+      <li>
+        <p>Client&apos;s personal info update fixed</p>
+      </li>
+    </ul>
+    <hr />
     <h1>2/Apr/19 - Version 17</h1>
     <h2>What has been done</h2>
     <ul>
@@ -32,6 +145,7 @@ const ReleaseNotes = () => (
         <p>Fixed - Payment doesn&rsquo;t have original agent</p>
       </li>
     </ul>
+    <hr />
     <h1>19/Mar/19 - Version 16</h1>
     <h2>What has been done</h2>
     <ul>
@@ -82,11 +196,11 @@ const ReleaseNotes = () => (
       </li>
       <li>
         <p>
-          Operators with the same email can't be created on the same environment
+          Operators with the same email can&apos;t be created on the same environment
         </p>
       </li>
       <li>
-        <p>Payment country will always be the same as client's country</p>
+        <p>Payment country will always be the same as client&apos;s country</p>
       </li>
       <li>
         <p>Client search by name was optimized</p>
@@ -98,6 +212,7 @@ const ReleaseNotes = () => (
         <p>Fix on affiliate detail information</p>
       </li>
     </ul>
+    <hr />
     <h1>12/Mar/19 - Version 15</h1>
     <h2>What has been done</h2>
     <ul>
@@ -115,7 +230,7 @@ const ReleaseNotes = () => (
       </li>
       <li>
         <p>
-          Affiliate Partner's are created in the Affiliate partner department by
+          Affiliate Partner&apos;s are created in the Affiliate partner department by
           default
         </p>
       </li>
@@ -129,12 +244,10 @@ const ReleaseNotes = () => (
         <p>Client grid fixes</p>
       </li>
       <li>
-        <p>
-          Clients search by email improved
-          <br />
-        </p>
+        <p>Clients search by email improved</p>
       </li>
     </ul>
+    <hr />
     <h1>05/Mar/19 - Version 14</h1>
     <h2>What has been done</h2>
     <ul>
@@ -162,6 +275,7 @@ const ReleaseNotes = () => (
         <p>Problem with feed search by action types if solved</p>
       </li>
     </ul>
+    <hr />
     <h1>26/Feb/19 - Version 13</h1>
     <h2>What has been done</h2>
     <ul>
@@ -269,6 +383,7 @@ const ReleaseNotes = () => (
         <p>Office creation is fixed</p>
       </li>
     </ul>
+    <hr />
     <h1>19/Feb/19 - Version 12</h1>
     <h2>What has been done</h2>
     <ul>
@@ -285,6 +400,7 @@ const ReleaseNotes = () => (
         <p>Password generator improved</p>
       </li>
     </ul>
+    <hr />
     <h1>12/Feb/19 - Version 11</h1>
     <h2>What has been done</h2>
     <ul>
@@ -313,7 +429,7 @@ const ReleaseNotes = () => (
       <li>
         <p>
           Affiliate API - Allows to register clients via API, get clients of the
-          affiliate and get client's details by email or UUID
+          affiliate and get client&apos;s details by email or UUID
         </p>
       </li>
       <li>
@@ -336,7 +452,7 @@ const ReleaseNotes = () => (
       </li>
       <li>
         <p>
-          Hierarchy - Operators' assigned Brands / Desks / Teams can be reviewed
+          Hierarchy - Operator&apos;s assigned Brands / Desks / Teams can be reviewed
           and changed in operators profile
         </p>
       </li>
@@ -410,7 +526,7 @@ const ReleaseNotes = () => (
       </li>
       <li>
         <p>
-          Permissions - Retention and Sales agents can't see the Hierarchy
+          Permissions - Retention and Sales agents can&apos;t see the Hierarchy
           section in Backoffice
         </p>
       </li>
@@ -421,6 +537,7 @@ const ReleaseNotes = () => (
         </p>
       </li>
     </ul>
+    <hr />
     <h1>05/Feb/19 - Version 10</h1>
     <h2>What has been done</h2>
     <ul>
@@ -443,6 +560,7 @@ const ReleaseNotes = () => (
         <p>Hierarchy - Operators are being shown based on Hierarchy</p>
       </li>
     </ul>
+    <hr />
     <h1>29/Jan/19 - Version 9</h1>
     <h2>What has been done</h2>
     <ul>
@@ -465,6 +583,7 @@ const ReleaseNotes = () => (
         <p>Leads - Sales status filter fixed</p>
       </li>
     </ul>
+    <hr />
     <h1>22/Jan/19 - Version 8</h1>
     <h2>What has been done</h2>
     <ul>
@@ -519,6 +638,7 @@ const ReleaseNotes = () => (
         <p>Error messages are improved on leads CSV file uploads</p>
       </li>
     </ul>
+    <hr />
     <h1>15/Jan/19 - Version 7</h1>
     <h2>What has been done</h2>
     <ul>
@@ -606,6 +726,7 @@ const ReleaseNotes = () => (
         <p>Leads - Promotion of lead to client is fixed</p>
       </li>
     </ul>
+    <hr />
     <h1>08/Jan/19 - Version 6</h1>
     <h2>What has been done</h2>
     <ul>
@@ -619,6 +740,7 @@ const ReleaseNotes = () => (
         <p>Payments - Deposit has been fixed</p>
       </li>
     </ul>
+    <hr />
     <h1>01/Jan/19 - Version 5</h1>
     <h2>What has been done</h2>
     <ul>
@@ -663,6 +785,7 @@ const ReleaseNotes = () => (
         <p>Payments - Manual transactions can now be filtered</p>
       </li>
     </ul>
+    <hr />
     <h1>25/Dec/18 - Version 4</h1>
     <h2>What has been done</h2>
     <ul>
@@ -706,6 +829,7 @@ const ReleaseNotes = () => (
         <p>Credit out validation has been fixed</p>
       </li>
     </ul>
+    <hr />
     <h1>18/Dec/18 - Version 3</h1>
     <h2>What has been done</h2>
     <ul>
@@ -760,6 +884,7 @@ const ReleaseNotes = () => (
         <p>Client search - Filter Assigned/Unassigned has been improvement</p>
       </li>
     </ul>
+    <hr />
     <h1>11/Dec/18 - Version 2</h1>
     <h2>What has been done</h2>
     <ul>
@@ -775,6 +900,7 @@ const ReleaseNotes = () => (
         </p>
       </li>
     </ul>
+    <hr />
     <h1>04/Dec/18 - Version 1</h1>
     <h2>What has been done</h2>
     <ul>
@@ -806,6 +932,7 @@ const ReleaseNotes = () => (
         <p>Bugs on Hierarchy has been fixed</p>
       </li>
     </ul>
+    <hr />
     <h1>Release notes - Version Alpha MVP</h1>
     <h2>What has been done</h2>
     <ul>
