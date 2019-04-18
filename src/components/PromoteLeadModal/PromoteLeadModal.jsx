@@ -71,6 +71,7 @@ class PromoteLead extends PureComponent {
                 type="text"
                 label={I18n.t(attributeLabels.email)}
                 component={InputField}
+                disabled
               />
               <Field
                 name="country"

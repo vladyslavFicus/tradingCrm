@@ -30,7 +30,7 @@ export default (
   type: fieldTypes.INPUT,
   name: 'searchKeyword',
   label: I18n.t(filterLabels.searchValue),
-  placeholder: 'Name, email, phone number, ID...',
+  placeholder: I18n.t('COMMON.SEARCH_BY.LEAD'),
   id: 'users-list-search-field',
   inputAddon: <i className="icon icon-search" />,
   className: fieldClassNames.BIG,
