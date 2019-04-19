@@ -33,17 +33,20 @@ const kycStatuses = [{
   value: 'NO_KYC',
   label: 'KYC_REQUESTS.STATUS.NO_KYC',
 }, {
-  value: 'PENDING',
-  label: 'KYC_REQUESTS.STATUS.PENDING',
+  value: 'AWAITING_REVIEW',
+  label: 'KYC_REQUESTS.STATUS.AWAITING_REVIEW',
 }, {
-  value: 'VERIFIED',
-  label: 'KYC_REQUESTS.STATUS.VERIFIED',
+  value: 'PARTIAL',
+  label: 'KYC_REQUESTS.STATUS.PARTIAL',
 }, {
-  value: 'REFUSED',
-  label: 'KYC_REQUESTS.STATUS.REFUSED',
+  value: 'APPROVED',
+  label: 'KYC_REQUESTS.STATUS.APPROVED',
 }, {
-  value: 'DOCUMENTS_SENT',
-  label: 'KYC_REQUESTS.STATUS.DOCUMENTS_SENT',
+  value: 'REJECTED',
+  label: 'KYC_REQUESTS.STATUS.REJECTED',
+}, {
+  value: 'RISK',
+  label: 'KYC_REQUESTS.STATUS.RISK',
 }];
 
 const firstDepositStatuses = [{
