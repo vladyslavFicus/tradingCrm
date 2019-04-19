@@ -2162,11 +2162,13 @@
       "AUTO": "Automatically"
     },
     "STATUS": {
+      "NO_KYC": "No KYC",
+      "AWAITING_REVIEW": "Awaiting review",
+      "PARTIAL": "Partial",
+      "APPROVED": "Approved",
+      "REJECTED": "Rejected",
       "PENDING": "Pending",
-      "VERIFIED": "Verified",
-      "REFUSED": "Refused",
-      "DOCUMENTS_SENT": "Documents sent",
-      "NO_KYC": "No KYC"
+      "RISK": "Risk"
     }
   },
   "PAYMENT_ACTION_REASON_MODAL": {
