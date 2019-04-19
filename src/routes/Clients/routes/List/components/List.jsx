@@ -8,7 +8,7 @@ import history from 'router/history';
 import permissions from 'config/permissions';
 import PropTypes from 'constants/propTypes';
 import { deskTypes } from 'constants/hierarchyTypes';
-import { departments } from 'constants/brands';
+import { departments, roles } from 'constants/brands';
 import GridView, { GridViewColumn } from 'components/GridView';
 import PermissionContent from 'components/PermissionContent';
 import Placeholder from 'components/Placeholder';
@@ -393,12 +393,17 @@ class List extends Component {
                     {I18n.t('COMMON.RETENTION')}
                   </button>
                 </If>
-                <button
-                  className="btn btn-default-outline"
-                  onClick={this.handleTriggerMoveModal}
+                <If condition={
+                  !(auth.role === roles.ROLE1
+                  && (auth.department === departments.RETENTION || auth.department === departments.SALES))}
                 >
-                  {I18n.t('COMMON.MOVE')}
-                </button>
+                  <button
+                    className="btn btn-default-outline"
+                    onClick={this.handleTriggerMoveModal}
+                  >
+                    {I18n.t('COMMON.MOVE')}
+                  </button>
+                </If>
               </PermissionContent>
               <button
                 className="btn btn-default-outline"
