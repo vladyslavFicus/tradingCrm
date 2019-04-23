@@ -12,7 +12,7 @@ import { createUploadLink } from 'apollo-upload-client';
 import { actionCreators as modalActionCreators } from 'redux/modules/modal';
 import { actionTypes as authActionTypes } from 'redux/modules/auth';
 import { types as modalTypes } from 'constants/modals';
-import { getGraphQLRoot, getApiVersion } from '../config';
+import config, { getGraphQLRoot, getApiVersion } from '../config';
 
 const __DEV__ = process.env.NODE_ENV === 'development';
 
@@ -93,6 +93,8 @@ class ApolloProvider extends PureComponent {
 
     const authLink = setContext((_, { headers }) => {
       const { authToken } = this.props;
+      console.log('in AUTH link', getApiVersion());
+      console.log('configzxx', config);
 
       return {
         headers: {

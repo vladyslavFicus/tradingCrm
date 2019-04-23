@@ -16,11 +16,9 @@ COPY ./.yarnrc /opt/docker/
 COPY ./build/scripts/docker/ /opt/docker/
 COPY ./build/scripts/docker/nginx.conf $NGINX_CONF_OUTPUT
 
-RUN cd /opt/docker && yarn
+RUN cd /opt/docker && yarn && yarn global add pm2
 RUN chmod +x /opt/entrypoint.sh
 
 ENTRYPOINT ["/opt/entrypoint.sh"]
-
-HEALTHCHECK CMD curl --fail http://localhost:9090/health || exit 1
 
 EXPOSE $PORT

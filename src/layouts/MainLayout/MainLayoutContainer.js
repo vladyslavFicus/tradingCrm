@@ -9,7 +9,6 @@ import { actionCreators as languageActionCreators } from '../../redux/modules/la
 import { actionCreators as noteActionCreators } from '../../redux/modules/note';
 import { actionCreators as userPanelsActionCreators } from '../../redux/modules/user-panels';
 import { actionCreators as appActionCreators } from '../../redux/modules/app';
-import { servicesQuery } from '../../graphql/queries/options';
 import MainLayout from './MainLayout';
 
 const mapStateToProps = (state) => {
@@ -63,11 +62,5 @@ const mapActionCreators = {
 export default compose(
   connect(mapStateToProps, mapActionCreators),
   withModals({ multiCurrencyModal: MultiCurrencyModal }),
-  graphql(servicesQuery, {
-    name: 'optionServices',
-    options: {
-      fetchPolicy: 'network-only',
-    },
-  }),
   withRouter,
 )(MainLayout);

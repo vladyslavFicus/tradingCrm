@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { I18n } from 'react-redux-i18n';
 import { Link } from 'react-router-dom';
 import { withServiceCheck } from 'components/HighOrder';
-import Permissions from 'utils/permissions';
 import './Tabs.scss';
 
 class Tabs extends PureComponent {

@@ -42,8 +42,8 @@ createStore({}, (store) => {
   }
 
   createWindowMessageService(store);
-  createInactivityService({ store });
-  createTokenService({ store });
+  // createInactivityService({ store });
+  // createTokenService({ store });
 
   render();
 });

@@ -22,7 +22,8 @@ function writeRandomConfigSrcPath(htmlPath) {
 }
 
 function createHealth() {
-  fs.writeFileSync('/opt/health.json', JSON.stringify({ status: 'UP' }), { encoding: 'utf8' });
+  console.log('DO NOTHING?)');
+  // fs.writeFileSync('/opt/health.json', JSON.stringify({ status: 'UP' }), { encoding: 'utf8' });
 }
 
 function buildNginxConfig() {

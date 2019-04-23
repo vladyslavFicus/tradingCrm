@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { SubmissionError } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
-import { get, isEqualWith } from 'lodash';
+import { isEqualWith } from 'lodash';
 import PropTypes from 'constants/propTypes';
 import NotePopover from 'components/NotePopover';
 import Header from 'components/Header';
@@ -86,17 +86,11 @@ class MainLayout extends Component {
     history: PropTypes.shape({
       location: PropTypes.object.isRequired,
     }).isRequired,
-    optionServices: PropTypes.shape({
-      options: PropTypes.shape({
-        services: PropTypes.arrayOf(PropTypes.string),
-      }),
-    }),
   };
   static defaultProps = {
     permissions: [],
     activeUserPanel: null,
     activePanelIndex: null,
-    optionServices: {},
   };
   static contextTypes = {
     addNotification: PropTypes.func.isRequired,
@@ -160,7 +154,6 @@ class MainLayout extends Component {
       removePanel,
       settings,
       modals,
-      optionServices,
     } = this.props;
 
     return {
@@ -172,7 +165,6 @@ class MainLayout extends Component {
       addPanel,
       removePanel,
       modals,
-      services: get(optionServices, 'options.services', []),
       notes: {
         onAddNote: this.props.addNote,
         onEditNote: this.props.editNote,
