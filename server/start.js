@@ -3,7 +3,7 @@ const express = require('express');
 const path = require('path');
 const webpack = require('webpack');
 const compress = require('compression');
-const proxy = require('express-http-proxy');
+const tokenMiddleware = require('@hrzn/express-token-middleware');
 const logger = require('../build/lib/logger');
 const webpackConfig = require('../build/config/webpack.dev');
 const buildConfig = require('../build/scripts/docker/buildConfig');
@@ -23,7 +23,14 @@ const start = async () => {
 
     const config = await buildConfig();
 
-    app.use('/api', proxy(config.apiRoot, { limit: '10mb' }));
+    const rewriteProxy = [];
+
+    // for local development
+    if (process.env.GRAPHQL_ROOT) {
+      rewriteProxy.push({ regexp: /\/gql/, url: process.env.GRAPHQL_ROOT });
+    }
+
+    app.use('/api', tokenMiddleware({ apiUrl: config.apiRoot, rewriteProxy, limit: '50mb' }));
 
     logger.info('Enabling webpack development and HMR middleware');
 

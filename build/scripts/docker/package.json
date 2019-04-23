@@ -6,6 +6,8 @@
   "license": "MIT",
   "dependencies": {
     "@hrzn/zookeeper": "^1.0.3-alpha.40",
+    "@hrzn/express-token-middleware": "^1.0.14",
+    "express": "^4.15.4",
     "uuid": "^3.3.2",
     "yamljs": "^0.3.0"
   }

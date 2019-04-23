@@ -525,7 +525,7 @@ function fetchKycReasons() {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
+          // Authorization: `Bearer ${token}`,
         },
         types: [
           FETCH_KYC_REASONS.REQUEST,

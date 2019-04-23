@@ -5,7 +5,7 @@ const { version } = require('./utils/version');
 
 const {
   NAS_PROJECT,
-  GRAPHQL_ROOT,
+  // GRAPHQL_ROOT,
   SECRET_PATH = '/forex_backoffice/lib/etc/',
   NODE_ENV = 'development',
 } = process.env;
@@ -21,7 +21,7 @@ module.exports = async () => {
   const config = {
     version,
     apiRoot: platformConfig.hrzn.api_url,
-    graphqlRoot: GRAPHQL_ROOT || '/api/forex_graphql/gql',
+    graphqlRoot: '/api/forex_graphql/gql',
     brands: brandsConfig,
   };
 
