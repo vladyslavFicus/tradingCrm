@@ -9,7 +9,7 @@ const Logo = ({ className, to }) => (
       className="w-100 h-100"
       src={getLogo()}
       alt="current-casino-logo"
-      onError={(e) => { e.target.src = '/img/logo-placeholder.svg'; } }
+      onError={(e) => { e.target.src = '/img/logo-placeholder.svg'; }}
     />
   </Link>
 );

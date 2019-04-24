@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import classNames from 'classnames';
+import { connect } from 'react-redux';
 import PropTypes from '../../constants/propTypes';
 import BrandItem from './BrandItem';
 import Greeting from '../Greeting';
@@ -10,9 +11,11 @@ class Brands extends Component {
     logged: PropTypes.bool.isRequired,
     brands: PropTypes.arrayOf(PropTypes.brand).isRequired,
     onSelect: PropTypes.func.isRequired,
+    showBrandsGreeting: PropTypes.bool,
   };
   static defaultProps = {
     activeBrand: null,
+    showBrandsGreeting: false,
   };
 
   constructor(props) {
@@ -85,10 +88,11 @@ class Brands extends Component {
     const {
       brands,
       onSelect,
+      showBrandsGreeting,
     } = this.props;
 
     const className = classNames('form-page__multibrand', {
-      fadeInUp: step > 0,
+      fadeInUp: step > 0 && showBrandsGreeting,
     });
     const headingClassName = classNames('form-page__multibrand_heading', {
       'fadeOut-text': (!reverseStep && step > 3) || (reverseStep && step > 1) || brands.length === 1,
@@ -137,4 +141,8 @@ class Brands extends Component {
   }
 }
 
-export default Brands;
+const mapStateToProps = ({ signIn }) => ({
+  ...(signIn ? { showBrandsGreeting: signIn.showBrandsGreeting } : { showBrandsGreeting: true })
+});
+
+export default connect(mapStateToProps)(Brands);

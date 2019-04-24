@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import classNames from 'classnames';
-import PropTypes from '../../constants/propTypes';
+import PropTypes from 'constants/propTypes';
 import DepartmentsDropDown from '../DepartmentsDropDown';
 import HeaderNav from '../HeaderNav';
 import HeaderCallbacksCalendarDropdown from '../HeaderCallbacksCalendarDropdown';

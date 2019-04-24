@@ -8,6 +8,7 @@ const KEY = 'sign-in';
 const SIGN_IN = createRequestAction(`${KEY}/sign-in`);
 const SELECT_BRAND = `${KEY}/select-brand`;
 const RESET_SIGN_IN = `${KEY}/reset`;
+const HIDE_BRAND_VIEW = `${KEY}/trigger-brand-view`;
 
 function signIn(data) {
   return async dispatch => dispatch({
@@ -38,8 +39,17 @@ function selectBrand(brand) {
   };
 }
 
-function reset() {
-  return { type: RESET_SIGN_IN };
+function hideBrandView() {
+  return {
+    type: HIDE_BRAND_VIEW,
+  };
+}
+
+function reset(showBrandsGreeting) {
+  return {
+    type: RESET_SIGN_IN,
+    payload: showBrandsGreeting,
+  };
 }
 
 const initialState = {
@@ -47,6 +57,7 @@ const initialState = {
   brand: null,
   brands: [],
   fullName: null,
+  showBrandsGreeting: true,
   departments: [],
   data: {
     token: null,
@@ -69,6 +80,7 @@ const actionHandlers = {
       fullName: `${firstName} ${lastName}`,
       data: { ...state.data, ...action.payload },
       logged: true,
+      showBrandsGreeting: true,
     };
 
     if (brands.length === 1) {
@@ -104,17 +116,20 @@ const actionHandlers = {
       departments: Object.keys(brandDepartments).map(mapDepartments(brandDepartments)),
     };
   },
-  [RESET_SIGN_IN]: () => ({ ...initialState }),
+  [RESET_SIGN_IN]: (_, action) => ({ ...initialState, showBrandsGreeting: action.payload }),
+  [HIDE_BRAND_VIEW]: state => ({ ...state, showBrandsGreeting: false }),
 };
 const actionTypes = {
   SIGN_IN,
   SELECT_BRAND,
   RESET_SIGN_IN,
+  HIDE_BRAND_VIEW,
 };
 const actionCreators = {
   signIn,
   selectBrand,
   reset,
+  hideBrandView,
 };
 
 export {

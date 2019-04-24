@@ -69,6 +69,7 @@ class SignInForm extends Component {
       submitting,
       error,
     } = this.props;
+
     const className = classNames('form-page__form', {
       fadeInUp: step === 0,
       fadeOutLeft: step > 0,

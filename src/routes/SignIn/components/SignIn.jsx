@@ -22,6 +22,7 @@ class SignIn extends Component {
     logged: PropTypes.bool.isRequired,
     brands: PropTypes.arrayOf(PropTypes.brand).isRequired,
     departments: PropTypes.arrayOf(PropTypes.department).isRequired,
+    hideBrandView: PropTypes.func.isRequired,
     data: PropTypes.shape({
       uuid: PropTypes.string,
       token: PropTypes.string,
@@ -39,6 +40,8 @@ class SignIn extends Component {
 
   componentDidMount() {
     this.mounted = true;
+    // dirty hack
+    this.props.hideBrandView();
 
     setTimeout(() => {
       if (this.mounted) {
@@ -64,7 +67,7 @@ class SignIn extends Component {
       this.resetStateTimeout = null;
     }
 
-    this.props.reset();
+    this.props.reset(true);
   }
 
   mounted = false;
@@ -133,7 +136,6 @@ class SignIn extends Component {
       setDepartmentsByBrand,
       fetchAuthorities,
       fetchProfile,
-      reset,
     } = this.props;
     const token = requestToken || dataToken;
     const uuid = requestUuid || dataUuid;
@@ -145,14 +147,6 @@ class SignIn extends Component {
         if (action && !action.error) {
           setDepartmentsByBrand(departmentsByBrand);
         }
-
-        this.resetStateTimeout = setTimeout(() => {
-          if (this.mounted) {
-            this.setState({ loading: false }, () => {
-              reset();
-            });
-          }
-        }, 2000);
 
         if (action) {
           if (!action.error) {
