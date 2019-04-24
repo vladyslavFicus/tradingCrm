@@ -83,6 +83,9 @@ class ApolloProvider extends PureComponent {
 
       if (networkError) {
         if (networkError.statusCode === 426) {
+          console.log('IN APOLLO PROVIDERRR', networkError);
+          console.log('graphQLErrors', graphQLErrors);
+          console.log('getApiVersion()', getApiVersion());
           this.props.triggerVersionModal({ name: modalTypes.NEW_API_VERSION });
           return;
         }
@@ -93,8 +96,6 @@ class ApolloProvider extends PureComponent {
 
     const authLink = setContext((_, { headers }) => {
       const { authToken } = this.props;
-      console.log('in AUTH link', getApiVersion());
-      console.log('configzxx', config);
 
       return {
         headers: {

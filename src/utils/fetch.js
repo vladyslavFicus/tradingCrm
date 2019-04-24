@@ -14,6 +14,7 @@ const customFetch = async (url, options) => {
   const response = await fetch(url, nextOptions);
 
   if (response.status === 426) {
+    console.log('THROW FROM CUSTOM FETCH', response);
     window.app.onApiVersionChanged();
     throw new Error('Invalid app version');
   }

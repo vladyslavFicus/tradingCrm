@@ -27,10 +27,16 @@ class Sidebar extends Component {
   };
 
   componentDidMount() {
+    const { permissions, user: { department, role } } = this.context;
+    const { optionServices: { options } } = this.props;
     const sidebarAnimation = new TimeLineLite({ paused: true });
 
     sidebarAnimation.fromTo(this.sidebar, 0.15, { width: '60px' }, { width: '240px' });
     this.sidebarAnimation = sidebarAnimation;
+
+    if (options && options.length) {
+      this.props.init(permissions, options, { department, role });
+    }
   }
 
   componentDidUpdate({ optionServices: { options: prevOptions } }, prevState) {

@@ -30,7 +30,18 @@ const start = async () => {
       rewriteProxy.push({ regexp: /\/gql/, url: process.env.GRAPHQL_ROOT });
     }
 
-    app.use('/api', tokenMiddleware({ apiUrl: config.apiRoot, rewriteProxy, limit: '50mb' }));
+    const versionMiddleware = (req, res, next) => {
+      const clientVersion = req.get('x-client-version');
+
+      if (clientVersion && clientVersion !== config.version) {
+        console.log('IN LOCAL? NO WAY');
+        return res.status(426).send();
+      }
+
+      return next();
+    };
+
+    app.use('/api', versionMiddleware, tokenMiddleware({ apiUrl: config.apiRoot, rewriteProxy, limit: '50mb' }));
 
     logger.info('Enabling webpack development and HMR middleware');
 

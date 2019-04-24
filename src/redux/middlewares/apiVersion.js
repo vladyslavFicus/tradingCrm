@@ -12,6 +12,7 @@ export default (store) => {
       action && action.error && regExp.test(action.type)
       && action.payload && action.payload.status === 426
     ) {
+      console.log('IN API VERSION REDUX MIDDLEWARE', action.payload);
       window.app.onApiVersionChanged();
     }
 

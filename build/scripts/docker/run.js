@@ -10,12 +10,23 @@ const INDEX_HTML_PATH = '/opt/build/index.html';
 
   const config = await buildConfig();
 
+  const versionMiddleware = (req, res, next) => {
+    const clientVersion = req.get('x-client-version');
+
+    if (clientVersion && clientVersion !== config.version) {
+      console.log('THROW FROM MIDDLWARE', clientVersion, config.version);
+      return res.status(426).send();
+    }
+
+    return next();
+  };
+
   await buildNginxConfig();
   await saveConfig(config);
   await writeRandomConfigSrcPath(INDEX_HTML_PATH);
   await createHealth();
 
-  app.use('/api', tokenMiddleware({ apiUrl: 'http://kong', limit: '50mb' }));
+  app.use('/api', versionMiddleware, tokenMiddleware({ apiUrl: 'http://kong', limit: '50mb' }));
 
   app.listen(3000, () => console.log('Server is running at http://localhost:3000'));
 })();
