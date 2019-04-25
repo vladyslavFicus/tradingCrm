@@ -9,7 +9,7 @@ const DELETE_NOTE = createRequestAction(`${KEY}/delete`);
 
 function fetchNotesByTargetUuids(type) {
   return targetUUID => (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
+    const { auth: { logged } } = getState();
 
     return dispatch({
       [CALL_API]: {
@@ -18,7 +18,6 @@ function fetchNotesByTargetUuids(type) {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
         },
         types: [
           type.REQUEST,
@@ -34,7 +33,7 @@ function fetchNotesByTargetUuids(type) {
 function addNote(type) {
   return ({ content, pinned, targetUUID }) => (dispatch, getState) => {
     const {
-      auth: { token, logged },
+      auth: { logged },
     } = getState();
 
     return dispatch({
@@ -45,7 +44,6 @@ function addNote(type) {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
           content,
@@ -63,8 +61,8 @@ function addNote(type) {
 }
 
 function editNote(type) {
-  return (id, { noteId, targetUUID, content, pinned }) => (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
+  return (_, { noteId, targetUUID, content, pinned }) => (dispatch, getState) => {
+    const { auth: { logged } } = getState();
 
     return dispatch({
       [CALL_API]: {
@@ -74,7 +72,6 @@ function editNote(type) {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
           targetUUID,
@@ -89,7 +86,7 @@ function editNote(type) {
 
 function deleteNote(type) {
   return id => (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
+    const { auth: { logged } } = getState();
 
     return dispatch({
       [CALL_API]: {
@@ -99,7 +96,6 @@ function deleteNote(type) {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
         },
         bailout: !logged,
       },

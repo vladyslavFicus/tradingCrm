@@ -34,8 +34,8 @@ class Sidebar extends Component {
     sidebarAnimation.fromTo(this.sidebar, 0.15, { width: '60px' }, { width: '240px' });
     this.sidebarAnimation = sidebarAnimation;
 
-    if (options && options.length) {
-      this.props.init(permissions, options, { department, role });
+    if (options && options.services.length) {
+      this.props.init(permissions, options.services, { department, role });
     }
   }
 

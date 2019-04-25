@@ -12,7 +12,7 @@ import { createUploadLink } from 'apollo-upload-client';
 import { actionCreators as modalActionCreators } from 'redux/modules/modal';
 import { actionTypes as authActionTypes } from 'redux/modules/auth';
 import { types as modalTypes } from 'constants/modals';
-import config, { getGraphQLRoot, getApiVersion } from '../config';
+import { getGraphQLRoot, getApiVersion } from '../config';
 
 const __DEV__ = process.env.NODE_ENV === 'development';
 
@@ -41,13 +41,8 @@ const hasFiles = (node, found = []) => {
 class ApolloProvider extends PureComponent {
   static propTypes = {
     children: PropTypes.element.isRequired,
-    authToken: PropTypes.string,
     triggerVersionModal: PropTypes.func.isRequired,
     logout: PropTypes.func.isRequired,
-  };
-
-  static defaultProps = {
-    authToken: '',
   };
 
   constructor(props) {
@@ -83,9 +78,6 @@ class ApolloProvider extends PureComponent {
 
       if (networkError) {
         if (networkError.statusCode === 426) {
-          console.log('IN APOLLO PROVIDERRR', networkError);
-          console.log('graphQLErrors', graphQLErrors);
-          console.log('getApiVersion()', getApiVersion());
           this.props.triggerVersionModal({ name: modalTypes.NEW_API_VERSION });
           return;
         }
@@ -95,12 +87,9 @@ class ApolloProvider extends PureComponent {
     });
 
     const authLink = setContext((_, { headers }) => {
-      const { authToken } = this.props;
-
       return {
         headers: {
           ...headers,
-          authorization: authToken ? `Bearer ${authToken}` : undefined,
           'X-CLIENT-Version': getApiVersion(),
         },
       };
@@ -135,11 +124,9 @@ class ApolloProvider extends PureComponent {
   }
 }
 
-const mapStateToProps = ({ auth: { token } }) => ({ authToken: token });
-
 const mapDispatchToProps = dispatch => ({
   triggerVersionModal: options => dispatch(modalActionCreators.open(options)),
   logout: () => dispatch({ type: authActionTypes.LOGOUT.SUCCESS }),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(ApolloProvider);
+export default connect(mapDispatchToProps)(ApolloProvider);

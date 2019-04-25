@@ -20,7 +20,7 @@ const mapCountries = payload => Object.keys(payload).sort().reduce((result, item
 
 function fetchEntities(filters) {
   return (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
+    const { auth: { logged } } = getState();
 
     return dispatch({
       [CALL_API]: {
@@ -29,7 +29,6 @@ function fetchEntities(filters) {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
         },
         types: [
           FETCH_ENTITIES.REQUEST,
@@ -44,7 +43,7 @@ function fetchEntities(filters) {
 
 function disableLimit(methodUUID, limitUUID) {
   return (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
+    const { auth: { logged } } = getState();
 
     return dispatch({
       [CALL_API]: {
@@ -53,7 +52,6 @@ function disableLimit(methodUUID, limitUUID) {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
         },
         types: [
           DISABLE_LIMIT.REQUEST,
@@ -68,7 +66,7 @@ function disableLimit(methodUUID, limitUUID) {
 
 function enableLimit(methodUUID, limitUUID) {
   return (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
+    const { auth: { logged } } = getState();
 
     return dispatch({
       [CALL_API]: {
@@ -77,7 +75,6 @@ function enableLimit(methodUUID, limitUUID) {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
         },
         types: [
           ENABLE_LIMIT.REQUEST,
@@ -92,7 +89,7 @@ function enableLimit(methodUUID, limitUUID) {
 
 function changeStatus(methodUUID, status) {
   return (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
+    const { auth: { logged } } = getState();
 
     return dispatch({
       [CALL_API]: {
@@ -101,7 +98,6 @@ function changeStatus(methodUUID, status) {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({ status }),
         types: [
@@ -117,7 +113,7 @@ function changeStatus(methodUUID, status) {
 
 function changeLimit(methodUUID, limitUUID, params) {
   return (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
+    const { auth: { logged } } = getState();
 
     return dispatch({
       [CALL_API]: {
@@ -126,7 +122,6 @@ function changeLimit(methodUUID, limitUUID, params) {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(params),
         types: [
@@ -142,7 +137,7 @@ function changeLimit(methodUUID, limitUUID, params) {
 
 function getCountryAvailability(methodUUID) {
   return (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
+    const { auth: { logged } } = getState();
 
     return dispatch({
       [CALL_API]: {
@@ -151,7 +146,6 @@ function getCountryAvailability(methodUUID) {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
         },
         types: [
           GET_COUNTRY_AVAILABILITY.REQUEST,
@@ -174,7 +168,7 @@ function getCountryAvailability(methodUUID) {
 
 function changePaymentMethodOrder(params) {
   return (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
+    const { auth: { logged } } = getState();
 
     return dispatch({
       [CALL_API]: {
@@ -183,7 +177,6 @@ function changePaymentMethodOrder(params) {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(params),
         types: [

@@ -45,29 +45,9 @@ function signIn(data) {
   });
 }
 
-function refreshToken(outsideToken = null) {
-  return (dispatch, getState) => {
-    const { auth: { token, logged, refreshingToken } } = getState();
-
-    return dispatch({
-      [CALL_API]: {
-        method: 'GET',
-        endpoint: `/auth/token/renew?token=${outsideToken || token}`,
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${outsideToken || token}`,
-        },
-        types: [REFRESH_TOKEN.REQUEST, REFRESH_TOKEN.SUCCESS, REFRESH_TOKEN.FAILURE],
-        bailout: (!outsideToken && !token) || !logged || refreshingToken,
-      },
-    });
-  };
-}
-
 function changeDepartment(department, brandId, token = null) {
   return async (dispatch, getState) => {
-    const { auth: { token: currentToken, logged } } = getState();
+    const { auth: { logged } } = getState();
 
     return dispatch({
       [CALL_API]: {
@@ -76,7 +56,6 @@ function changeDepartment(department, brandId, token = null) {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token || currentToken}`,
         },
         body: JSON.stringify({
           device: await getFingerprint(),
@@ -89,22 +68,18 @@ function changeDepartment(department, brandId, token = null) {
 }
 
 function logout() {
-  return (dispatch, getState) => {
-    const { auth: { token } } = getState();
-
-    return dispatch({
+  return dispatch =>
+    dispatch({
       [CALL_API]: {
         endpoint: '/auth/logout',
         method: 'GET',
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
         },
         types: [LOGOUT.REQUEST, LOGOUT.SUCCESS, LOGOUT.FAILURE],
       },
     }).then(() => dispatch(optionsActionCreators.reset()));
-  };
 }
 
 function resetPasswordConfirm(type) {
@@ -128,7 +103,7 @@ function resetPasswordConfirm(type) {
 
 function passwordResetRequest(type) {
   return (uuid, sendEmail = true) => (dispatch, getState) => {
-    const { auth: { token, logged, brandId } } = getState();
+    const { auth: { logged, brandId } } = getState();
 
     return dispatch({
       [CALL_API]: {
@@ -137,7 +112,6 @@ function passwordResetRequest(type) {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
         },
         types: [
           type.REQUEST,
@@ -267,7 +241,6 @@ const actionCreators = {
   fetchAuthorities,
   changeDepartment,
   logout,
-  refreshToken,
   resetPasswordConfirm,
   updateProfile,
   setDepartmentsByBrand,

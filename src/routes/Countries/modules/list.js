@@ -19,7 +19,7 @@ const mapCountries = payload => payload.map(item => mapCountry(item));
 
 function fetchEntities(filters) {
   return (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
+    const { auth: { logged } } = getState();
 
     return dispatch({
       [CALL_API]: {
@@ -28,7 +28,6 @@ function fetchEntities(filters) {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
         },
         types: [
           FETCH_ENTITIES.REQUEST,
@@ -43,7 +42,7 @@ function fetchEntities(filters) {
 
 function denyCountry(countryCode) {
   return (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
+    const { auth: { logged } } = getState();
 
     return dispatch({
       [CALL_API]: {
@@ -52,7 +51,6 @@ function denyCountry(countryCode) {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
         },
         types: [
           FORBID_COUNTRY.REQUEST,
@@ -67,7 +65,7 @@ function denyCountry(countryCode) {
 
 function allowCountry(countryCode) {
   return (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
+    const { auth: { logged } } = getState();
 
     return dispatch({
       [CALL_API]: {
@@ -76,7 +74,6 @@ function allowCountry(countryCode) {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
         },
         types: [
           ALLOW_COUNTRY.REQUEST,

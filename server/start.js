@@ -34,7 +34,6 @@ const start = async () => {
       const clientVersion = req.get('x-client-version');
 
       if (clientVersion && clientVersion !== config.version) {
-        console.log('IN LOCAL? NO WAY');
         return res.status(426).send();
       }
 

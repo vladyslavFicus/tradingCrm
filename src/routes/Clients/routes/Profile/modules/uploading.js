@@ -22,7 +22,7 @@ function updateProgress(id, progress) {
 
 function uploadFile(file, errors, targetUuid) {
   return async (dispatch, getState) => {
-    const { auth: { token, fullName } } = getState();
+    const { auth: { fullName } } = getState();
     const id = v4();
 
     if (errors && errors.length) {
@@ -45,7 +45,6 @@ function uploadFile(file, errors, targetUuid) {
         method: 'POST',
         headers: {
           Accept: 'application/json',
-          Authorization: `Bearer ${token}`,
         },
         body: buildFormData(formParams),
         onprogress: (e) => {

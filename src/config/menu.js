@@ -100,13 +100,6 @@ const sidebarBottomMenu = [{
   url: '/release-notes',
 }];
 
-const bonusCampaignTabs = [
-  { label: 'Settings', url: '/bonus-campaigns/view/:id/settings' },
-  { label: 'Feed', url: '/bonus-campaigns/view/:id/feed' },
-];
-const newBonusCampaignTabs = [
-  { label: 'Settings', url: '/campaigns/view/:id/settings' },
-];
 const operatorProfileTabs = [
   { label: 'Profile', url: '/operators/:id/profile' },
   { label: 'Feed', url: '/operators/:id/feed' },
@@ -119,8 +112,6 @@ const partnerProfileTabs = [
 export {
   operatorProfileTabs,
   partnerProfileTabs,
-  bonusCampaignTabs,
-  newBonusCampaignTabs,
   sidebarTopMenu,
   sidebarBottomMenu,
   operatorsExcludeAuthorities,

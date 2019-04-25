@@ -2,7 +2,7 @@ import fetch from './fetch';
 import downloadBlob from './downloadBlob';
 
 export default (type, endpoint, fileName) => async (dispatch, getState) => {
-  const { auth: { token, logged } } = getState();
+  const { auth: { logged } } = getState();
 
   if (!logged) {
     return dispatch({ type: type.FAILURE, error: true });
@@ -14,7 +14,6 @@ export default (type, endpoint, fileName) => async (dispatch, getState) => {
       headers: {
         Accept: 'text/csv',
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
       },
     });
 

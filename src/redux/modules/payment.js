@@ -2,7 +2,7 @@ import { CALL_API, getJSON } from 'redux-api-middleware';
 
 function changePaymentStatus(type) {
   return ({ action, playerUUID, paymentId, options = {} }) => (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
+    const { auth: { logged } } = getState();
 
     return dispatch({
       [CALL_API]: {
@@ -11,7 +11,6 @@ function changePaymentStatus(type) {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(options),
         types: [
@@ -27,7 +26,7 @@ function changePaymentStatus(type) {
 
 function fetchPaymentStatuses(type) {
   return (playerUUID, id) => (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
+    const { auth: { logged } } = getState();
 
     return dispatch({
       [CALL_API]: {
@@ -36,7 +35,6 @@ function fetchPaymentStatuses(type) {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
         },
         types: [
           {
@@ -60,7 +58,7 @@ function fetchPaymentStatuses(type) {
 
 function fetchPaymentAccounts(type) {
   return playerUUID => (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
+    const { auth: { logged } } = getState();
 
     return dispatch({
       [CALL_API]: {
@@ -69,7 +67,6 @@ function fetchPaymentAccounts(type) {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
         },
         types: [
           type.REQUEST,
@@ -84,7 +81,7 @@ function fetchPaymentAccounts(type) {
 
 function fetchPaymentMethods(type) {
   return () => (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
+    const { auth: { logged } } = getState();
 
     return dispatch({
       [CALL_API]: {
@@ -93,7 +90,6 @@ function fetchPaymentMethods(type) {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
         },
         types: [
           type.REQUEST,

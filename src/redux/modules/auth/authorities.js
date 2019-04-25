@@ -21,7 +21,7 @@ const FETCH_AUTHORITIES_OPTIONS = createRequestAction(`${KEY}/fetch-options`);
 
 function addAuthority(uuid, department, role) {
   return (dispatch, getState) => {
-    const { auth: { token, logged, brandId } } = getState();
+    const { auth: { logged, brandId } } = getState();
 
     return dispatch({
       [CALL_API]: {
@@ -30,7 +30,6 @@ function addAuthority(uuid, department, role) {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({ brandId, department, role }),
         types: [
@@ -46,7 +45,7 @@ function addAuthority(uuid, department, role) {
 
 function deleteAuthority(uuid, department, role) {
   return (dispatch, getState) => {
-    const { auth: { token, logged, brandId } } = getState();
+    const { auth: { logged, brandId } } = getState();
 
     return dispatch({
       [CALL_API]: {
@@ -55,7 +54,6 @@ function deleteAuthority(uuid, department, role) {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({ brandId, department, role }),
         types: [
@@ -71,7 +69,7 @@ function deleteAuthority(uuid, department, role) {
 
 function fetchAuthorities(uuid) {
   return (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
+    const { auth: { logged } } = getState();
 
     return dispatch({
       [CALL_API]: {
@@ -80,7 +78,6 @@ function fetchAuthorities(uuid) {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
         },
         types: [
           FETCH_AUTHORITIES_OPTIONS.REQUEST,
@@ -95,7 +92,7 @@ function fetchAuthorities(uuid) {
 
 function fetchAuthoritiesOptions() {
   return (dispatch, getState) => {
-    const { auth: { token, logged, uuid } } = getState();
+    const { auth: { logged, uuid } } = getState();
 
     return dispatch({
       [CALL_API]: {
@@ -104,7 +101,6 @@ function fetchAuthoritiesOptions() {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
         },
         types: [
           FETCH_AUTHORITIES_OPTIONS.REQUEST,

@@ -35,7 +35,6 @@ const mapActions = {
   manageNote: viewActionCreators.manageNote,
   resetNote: viewActionCreators.resetNote,
   resetAll: viewActionCreators.resetAll,
-  fetchActiveBonus: viewActionCreators.fetchActiveBonus,
 };
 
 export default compose(

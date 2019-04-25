@@ -12,7 +12,7 @@ const UNLOCK_LOGIN = createRequestAction(`${KEY}/unlock-login`);
 
 function checkLoginLock(uuid) {
   return (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
+    const { auth: { logged } } = getState();
 
     return dispatch({
       [CALL_API]: {
@@ -21,7 +21,6 @@ function checkLoginLock(uuid) {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
         },
         types: [CHECK_LOGIN_LOCK.REQUEST, CHECK_LOGIN_LOCK.SUCCESS, CHECK_LOGIN_LOCK.FAILURE],
         bailout: !logged,
@@ -32,7 +31,7 @@ function checkLoginLock(uuid) {
 
 function checkLock(uuid) {
   return (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
+    const { auth: { logged } } = getState();
 
     return dispatch({
       [CALL_API]: {
@@ -41,7 +40,6 @@ function checkLock(uuid) {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
         },
         types: [CHECK_LOCK.REQUEST, CHECK_LOCK.SUCCESS, CHECK_LOCK.FAILURE],
         bailout: !logged,
@@ -52,7 +50,7 @@ function checkLock(uuid) {
 
 function lockWallet({ playerUUID, type, reason }) {
   return (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
+    const { auth: { logged } } = getState();
 
     return dispatch({
       [CALL_API]: {
@@ -62,7 +60,6 @@ function lockWallet({ playerUUID, type, reason }) {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({ reason, playerUUID }),
         bailout: !logged,
@@ -73,7 +70,7 @@ function lockWallet({ playerUUID, type, reason }) {
 
 function unlockWallet({ playerUUID, type, reason }) {
   return (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
+    const { auth: { logged } } = getState();
 
     return dispatch({
       [CALL_API]: {
@@ -83,7 +80,6 @@ function unlockWallet({ playerUUID, type, reason }) {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({ reason }),
         bailout: !logged,

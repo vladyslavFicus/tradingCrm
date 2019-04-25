@@ -1,13 +1,10 @@
 import { CALL_API } from 'redux-api-middleware';
 import moment from 'moment';
-import qs from 'qs';
 import createReducer from '../../../utils/createReducer';
 import createRequestAction from '../../../utils/createRequestAction';
 import buildQueryString from '../../../utils/buildQueryString';
 import { sourceActionCreators as noteSourceActionCreators } from '../note';
 import { sourceActionCreators as paymentSourceActionCreators } from '../payment';
-import { getApiRoot } from '../../../config';
-import exportFile from '../../../utils/exportFile';
 
 const KEY = 'transactions/transactions';
 const FETCH_ENTITIES = createRequestAction(`${KEY}/fetch-entities`);
@@ -60,7 +57,7 @@ const mapNotesToTransactions = (transactions, notes) => {
 
 function fetchEntities(filters = {}, fetchNotes = fetchNotesFn) {
   return async (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
+    const { auth: { logged } } = getState();
 
     const action = await dispatch({
       [CALL_API]: {
@@ -69,7 +66,6 @@ function fetchEntities(filters = {}, fetchNotes = fetchNotesFn) {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
         },
         types: [
           {

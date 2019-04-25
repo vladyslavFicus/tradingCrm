@@ -95,7 +95,7 @@ const fetchProfileMapResponse = (response) => {
 
 function fetchProfile(type) {
   return uuid => (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
+    const { auth: { logged } } = getState();
 
     return dispatch({
       [CALL_API]: {
@@ -104,13 +104,12 @@ function fetchProfile(type) {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
         },
         types: [
           type.REQUEST,
           {
             type: type.SUCCESS,
-            payload: (action, state, res) => {
+            payload: (__, ___, res) => {
               const contentType = res.headers.get('Content-Type');
               if (contentType && ~contentType.indexOf('json')) {
                 return res.json().then(json => fetchProfileMapResponse(json));
@@ -120,7 +119,7 @@ function fetchProfile(type) {
           {
             type: type.FAILURE,
             meta: { uuid },
-            payload: (payload, state, response) => response,
+            payload: (__, ___, response) => response,
           },
         ],
         bailout: !logged,
@@ -131,7 +130,7 @@ function fetchProfile(type) {
 
 function profileActivateRequest(type) {
   return uuid => (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
+    const { auth: { logged } } = getState();
 
     return dispatch({
       [CALL_API]: {
@@ -139,7 +138,6 @@ function profileActivateRequest(type) {
         method: 'POST',
         headers: {
           Accept: 'application/json',
-          Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',
         },
         types: [
@@ -155,7 +153,7 @@ function profileActivateRequest(type) {
 
 function updateProfile(type) {
   return (uuid, data) => (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
+    const { auth: { logged } } = getState();
 
     return dispatch({
       [CALL_API]: {
@@ -163,7 +161,6 @@ function updateProfile(type) {
         method: 'PUT',
         headers: {
           Accept: 'application/json',
-          Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(data),
@@ -176,7 +173,7 @@ function updateProfile(type) {
 
 function fetchEntities(type) {
   return (filters = {}) => (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
+    const { auth: { logged } } = getState();
     const queryString = buildQueryString(
       _.omitBy({ page: 0, ...filters }, (val, key) => !val || key === 'playerUuidList')
     );
@@ -188,7 +185,6 @@ function fetchEntities(type) {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
         },
         body: filters.playerUuidList ? JSON.stringify({ playerUuidList: filters.playerUuidList }) : undefined,
         types: [
@@ -209,7 +205,7 @@ function fetchEntities(type) {
 
 function fetchESEntities(type) {
   return (filters = {}) => (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
+    const { auth: { logged } } = getState();
     const queryString = buildQueryString(
       _.omitBy({ page: 0, ...filters }, (val, key) => !val || key === 'playerUuidList')
     );
@@ -221,7 +217,6 @@ function fetchESEntities(type) {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
         },
         body: filters.playerUuidList ? JSON.stringify({ playerUuidList: filters.playerUuidList }) : undefined,
         types: [

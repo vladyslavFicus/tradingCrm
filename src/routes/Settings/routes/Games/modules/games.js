@@ -41,7 +41,7 @@ function fetchGames(filters = {}) {
 
 function resetServerGames() {
   return (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
+    const { auth: { logged } } = getState();
 
     return dispatch({
       [CALL_API]: {
@@ -50,7 +50,6 @@ function resetServerGames() {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
         },
         types: [
           RESET_SERVER_GAMES.REQUEST,

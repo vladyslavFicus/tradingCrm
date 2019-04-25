@@ -1,7 +1,7 @@
 const express = require('express');
 const tokenMiddleware = require('@hrzn/express-token-middleware');
 const buildConfig = require('./buildConfig');
-const { saveConfig, writeRandomConfigSrcPath, createHealth, buildNginxConfig } = require('./utils/config-file');
+const { saveConfig, writeRandomConfigSrcPath, buildNginxConfig } = require('./utils/config-file');
 
 const INDEX_HTML_PATH = '/opt/build/index.html';
 
@@ -14,7 +14,6 @@ const INDEX_HTML_PATH = '/opt/build/index.html';
     const clientVersion = req.get('x-client-version');
 
     if (clientVersion && clientVersion !== config.version) {
-      console.log('THROW FROM MIDDLWARE', clientVersion, config.version);
       return res.status(426).send();
     }
 
@@ -24,7 +23,6 @@ const INDEX_HTML_PATH = '/opt/build/index.html';
   await buildNginxConfig();
   await saveConfig(config);
   await writeRandomConfigSrcPath(INDEX_HTML_PATH);
-  await createHealth();
 
   app.use('/api', versionMiddleware, tokenMiddleware({ apiUrl: 'http://kong', limit: '50mb' }));
 
