@@ -72,6 +72,9 @@ class NoteItem extends Component {
         targetUUID,
         pinned,
         content,
+        operator: {
+          fullName,
+        },
       },
     } = this.props;
 
@@ -80,6 +83,7 @@ class NoteItem extends Component {
     return (
       <div className="note-item">
         <div className="note-item__content-wrapper">
+          <b>{fullName}</b>
           <div className="note-item__heading">
             <If condition={changedBy}>
               <MiniProfile

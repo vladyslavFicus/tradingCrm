@@ -9,6 +9,9 @@ const NoteFragment = gql`fragment NoteFragment on Note {
   pinned
   changedAt
   changedBy
+  operator {
+    fullName
+  }
 }`;
 
 export {

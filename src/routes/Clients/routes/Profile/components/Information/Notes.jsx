@@ -73,6 +73,7 @@ class Notes extends Component {
     >
       <div className="note-content">
         <If condition={item.changedBy}>
+          <b>{item.operator.fullName}</b>
           <div className="note-content__author">
             {I18n.t('COMMON.AUTHOR_BY')}
             <MiniProfile
