@@ -77,6 +77,10 @@ class ApolloProvider extends PureComponent {
       }
 
       if (networkError) {
+        if (networkError.statusCode === 401) {
+          this.props.logout();
+        }
+
         if (networkError.statusCode === 426) {
           this.props.triggerVersionModal({ name: modalTypes.NEW_API_VERSION });
           return;
@@ -129,4 +133,4 @@ const mapDispatchToProps = dispatch => ({
   logout: () => dispatch({ type: authActionTypes.LOGOUT.SUCCESS }),
 });
 
-export default connect(mapDispatchToProps)(ApolloProvider);
+export default connect(null, mapDispatchToProps)(ApolloProvider);

@@ -177,7 +177,7 @@ class SignIn extends Component {
         <div className="wrapper">
           <div className="form-page">
             <div className="form-page__logo">
-              <img src="/img/horizon-logo.svg" alt="logo" />
+              <img src="/img/falcon-full-logo.svg" alt="logo" />
             </div>
 
             <SignInForm
