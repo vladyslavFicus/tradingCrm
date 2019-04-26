@@ -5,7 +5,6 @@ const { version } = require('./utils/version');
 
 const {
   NAS_PROJECT,
-  // GRAPHQL_ROOT,
   SECRET_PATH = '/forex_backoffice/lib/etc/',
   NODE_ENV = 'development',
 } = process.env;

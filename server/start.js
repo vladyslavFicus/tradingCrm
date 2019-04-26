@@ -40,7 +40,11 @@ const start = async () => {
       return next();
     };
 
-    app.use('/api', versionMiddleware, tokenMiddleware({ apiUrl: config.apiRoot, rewriteProxy, limit: '50mb' }));
+    app.use(
+      '/api',
+      versionMiddleware,
+      tokenMiddleware({ apiUrl: config.apiRoot, rewriteProxy, limit: '50mb' })
+    );
 
     logger.info('Enabling webpack development and HMR middleware');
 
