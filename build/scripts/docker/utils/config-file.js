@@ -21,10 +21,6 @@ function writeRandomConfigSrcPath(htmlPath) {
   fs.writeFileSync(htmlPath, result);
 }
 
-function createHealth() {
-  fs.writeFileSync('/opt/health.json', JSON.stringify({ status: 'UP' }), { encoding: 'utf8' });
-}
-
 function buildNginxConfig() {
   let config = fs.readFileSync(process.env.NGINX_CONF_OUTPUT, { encoding: 'UTF8' });
 
@@ -38,6 +34,5 @@ function buildNginxConfig() {
 module.exports = {
   buildNginxConfig,
   saveConfig,
-  createHealth,
   writeRandomConfigSrcPath,
 };

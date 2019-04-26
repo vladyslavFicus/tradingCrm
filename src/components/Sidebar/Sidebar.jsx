@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
+import { graphql } from 'react-apollo';
 import Scrollbars from 'react-custom-scrollbars';
 import { TimelineLite as TimeLineLite } from 'gsap';
+import PropTypes from 'constants/propTypes';
+import { servicesQuery } from '../../graphql/queries/options';
 import SidebarNav from '../SidebarNav';
-import PropTypes from '../../constants/propTypes';
 import './Sidebar.scss';
 
 class Sidebar extends Component {
@@ -25,31 +27,31 @@ class Sidebar extends Component {
   };
 
   componentDidMount() {
-    const { services, permissions, user: { department, role } } = this.context;
+    const { permissions, user: { department, role } } = this.context;
+    const { optionServices: { options } } = this.props;
     const sidebarAnimation = new TimeLineLite({ paused: true });
 
     sidebarAnimation.fromTo(this.sidebar, 0.15, { width: '60px' }, { width: '240px' });
     this.sidebarAnimation = sidebarAnimation;
 
-    if (services.length) {
-      this.props.init(permissions, services, { department, role });
+    if (options && options.services.length) {
+      this.props.init(permissions, options.services, { department, role });
     }
   }
 
-  componentWillReceiveProps(_, { services: nextServices }) {
-    const { services, permissions, user: { department, role } } = this.context;
+  componentDidUpdate({ optionServices: { options: prevOptions } }, prevState) {
+    const { isOpen } = this.state;
+    const { topMenu, optionServices: { options } } = this.props;
 
-    if (!services.length && nextServices.length) {
+    if (options && options.services.length
+      && (!prevOptions || prevOptions.services.length !== options.services.length)
+    ) {
       const { init, menuItemClick } = this.props;
+      const { permissions, user: { department, role } } = this.context;
 
-      init(permissions, nextServices, { department, role });
+      init(permissions, options.services, { department, role });
       menuItemClick();
     }
-  }
-
-  componentDidUpdate(_, prevState) {
-    const { isOpen } = this.state;
-    const { topMenu } = this.props;
 
     if (topMenu.length && !this.navLinkAnimated) {
       this.navLinkAnimated = true;
@@ -124,4 +126,9 @@ class Sidebar extends Component {
   }
 }
 
-export default Sidebar;
+export default graphql(servicesQuery, {
+  name: 'optionServices',
+  options: {
+    fetchPolicy: 'network-only',
+  },
+})(Sidebar);

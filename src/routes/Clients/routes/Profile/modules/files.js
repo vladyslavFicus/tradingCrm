@@ -21,7 +21,7 @@ const fetchFiles = filesSourceActionCreators.fetchFiles(FETCH_FILES);
 
 function saveFiles(playerUUID, data) {
   return (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
+    const { auth: { logged } } = getState();
 
     return dispatch({
       [CALL_API]: {
@@ -30,7 +30,6 @@ function saveFiles(playerUUID, data) {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(data),
         types: [
@@ -46,14 +45,13 @@ function saveFiles(playerUUID, data) {
 
 function uploadProfileFile(playerUUID, type, file) {
   return async (dispatch, getState) => {
-    const { auth: { token, fullName } } = getState();
+    const { auth: { fullName } } = getState();
 
     const uploadUrl = `${getApiRoot()}/profile/files`;
     const xhr = asyncFileUpload(uploadUrl, {
       method: 'POST',
       headers: {
         Accept: 'application/json',
-        Authorization: `Bearer ${token}`,
       },
       body: buildFormData({
         file,
@@ -80,7 +78,7 @@ function uploadProfileFile(playerUUID, type, file) {
 
 function downloadFile(data) {
   return async (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
+    const { auth: { logged } } = getState();
 
     if (!logged) {
       return dispatch({ type: DOWNLOAD_FILE.FAILURE, payload: new Error('Unauthorized') });
@@ -92,7 +90,6 @@ function downloadFile(data) {
       headers: {
         Accept: data.type,
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
       },
     });
 
@@ -105,7 +102,7 @@ function downloadFile(data) {
 
 function deleteFile(playerUUID, fileUUID) {
   return (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
+    const { auth: { logged } } = getState();
 
     return dispatch({
       [CALL_API]: {
@@ -114,7 +111,6 @@ function deleteFile(playerUUID, fileUUID) {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
         },
         types: [
           DELETE_FILE.REQUEST,

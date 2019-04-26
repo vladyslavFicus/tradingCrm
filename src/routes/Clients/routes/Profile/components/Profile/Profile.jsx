@@ -616,7 +616,6 @@ class Profile extends Component {
         headers: {
           Accept: type,
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${this.props.auth.token}`,
         },
       }),
     }];

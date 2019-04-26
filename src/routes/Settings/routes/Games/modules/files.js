@@ -23,8 +23,7 @@ function updateProgress(id, progress) {
 }
 
 function uploadFile(file, aggregatorId = '', errors = []) {
-  return async (dispatch, getState) => {
-    const { auth: { token } } = getState();
+  return async (dispatch) => {
     const id = v4();
 
     if (errors && errors.length) {
@@ -38,7 +37,6 @@ function uploadFile(file, aggregatorId = '', errors = []) {
         method: 'PUT',
         headers: {
           Accept: 'application/json',
-          Authorization: `Bearer ${token}`,
         },
         body: buildFormData({ file }),
         onprogress: (e) => {
@@ -63,7 +61,7 @@ function uploadFile(file, aggregatorId = '', errors = []) {
 
 function downloadFile(name = 'games.csv') {
   return async (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
+    const { auth: { logged } } = getState();
 
     dispatch({ type: DOWNLOAD_FILE.REQUEST });
 
@@ -77,7 +75,6 @@ function downloadFile(name = 'games.csv') {
       headers: {
         Accept: 'text/csv',
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
       },
     });
 

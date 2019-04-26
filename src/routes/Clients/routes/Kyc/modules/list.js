@@ -9,7 +9,7 @@ const RESET = `${KEY}/reset`;
 
 function fetchEntities(filters = {}) {
   return (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
+    const { auth: { logged } } = getState();
 
     return dispatch({
       [CALL_API]: {
@@ -18,7 +18,6 @@ function fetchEntities(filters = {}) {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
         },
         types: [
           {

@@ -4,7 +4,7 @@ import buildQueryString from '../../../utils/buildQueryString';
 
 function fetchFiles(type) {
   return (playerUUID, filters = { page: 0 }) => (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
+    const { auth: { logged } } = getState();
 
     return dispatch({
       [CALL_API]: {
@@ -13,7 +13,6 @@ function fetchFiles(type) {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
         },
         types: [
           {
@@ -31,7 +30,7 @@ function fetchFiles(type) {
 
 function verifyFile(type) {
   return uuid => (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
+    const { auth: { logged } } = getState();
 
     return dispatch({
       [CALL_API]: {
@@ -40,7 +39,6 @@ function verifyFile(type) {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
         },
         types: [
           type.REQUEST,
@@ -55,7 +53,7 @@ function verifyFile(type) {
 
 function refuseFile(type) {
   return uuid => (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
+    const { auth: { logged } } = getState();
 
     return dispatch({
       [CALL_API]: {
@@ -64,7 +62,6 @@ function refuseFile(type) {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
         },
         types: [
           type.REQUEST,

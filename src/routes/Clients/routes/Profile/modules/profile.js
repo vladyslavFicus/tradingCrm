@@ -105,7 +105,7 @@ const resetPasswordConfirm = authActionCreators.passwordResetConfirm(RESET_PASSW
 
 function changePassword(uuid, password) {
   return (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
+    const { auth: { logged } } = getState();
 
     return dispatch({
       [CALL_API]: {
@@ -114,7 +114,6 @@ function changePassword(uuid, password) {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({ password }),
         types: [
@@ -130,7 +129,7 @@ function changePassword(uuid, password) {
 
 function updateProfile(uuid, data) {
   return (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
+    const { auth: { logged } } = getState();
 
     return dispatch({
       [CALL_API]: {
@@ -138,7 +137,6 @@ function updateProfile(uuid, data) {
         method: 'PUT',
         headers: {
           Accept: 'application/json',
-          Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(data),
@@ -158,7 +156,7 @@ function updateProfile(uuid, data) {
 
 function updatePhone(uuid, data) {
   return (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
+    const { auth: { logged } } = getState();
 
     return dispatch({
       [CALL_API]: {
@@ -166,7 +164,6 @@ function updatePhone(uuid, data) {
         method: 'PUT',
         headers: {
           Accept: 'application/json',
-          Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(data),
@@ -190,7 +187,7 @@ function updatePhone(uuid, data) {
 
 function updateEmail(uuid, data) {
   return (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
+    const { auth: { logged } } = getState();
 
     return dispatch({
       [CALL_API]: {
@@ -198,7 +195,6 @@ function updateEmail(uuid, data) {
         method: 'PUT',
         headers: {
           Accept: 'application/json',
-          Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(data),
@@ -218,7 +214,7 @@ function updateEmail(uuid, data) {
 
 function updateSubscription(playerUUID, data, updatedSubscription) {
   return (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
+    const { auth: { logged } } = getState();
 
     return dispatch({
       [CALL_API]: {
@@ -232,7 +228,6 @@ function updateSubscription(playerUUID, data, updatedSubscription) {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(data),
         bailout: !logged,
@@ -243,7 +238,7 @@ function updateSubscription(playerUUID, data, updatedSubscription) {
 
 function submitData(playerUUID, type, data) {
   return (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
+    const { auth: { logged } } = getState();
 
     return dispatch({
       [CALL_API]: {
@@ -252,7 +247,6 @@ function submitData(playerUUID, type, data) {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(data),
         types: [
@@ -274,7 +268,7 @@ function submitData(playerUUID, type, data) {
 
 function verifyData(playerUUID, type) {
   return (dispatch, getState) => {
-    const { auth: { token, logged, uuid }, settings: { sendMail } } = getState();
+    const { auth: { logged, uuid }, settings: { sendMail } } = getState();
 
     return dispatch({
       [CALL_API]: {
@@ -283,7 +277,6 @@ function verifyData(playerUUID, type) {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
         },
         types: [
           VERIFY_DATA.REQUEST,
@@ -306,7 +299,7 @@ function verifyData(playerUUID, type) {
 
 function verifyKycAll(playerUUID) {
   return (dispatch, getState) => {
-    const { auth: { token, logged, uuid }, settings: { sendMail } } = getState();
+    const { auth: { logged, uuid }, settings: { sendMail } } = getState();
 
     return dispatch({
       [CALL_API]: {
@@ -315,7 +308,6 @@ function verifyKycAll(playerUUID) {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
         },
         types: [
           VERIFY_KYC_ALL.REQUEST,
@@ -337,7 +329,7 @@ function verifyKycAll(playerUUID) {
 
 function refuseData(playerUUID, type, data) {
   return (dispatch, getState) => {
-    const { auth: { token, logged, uuid }, settings: { sendMail } } = getState();
+    const { auth: { logged, uuid }, settings: { sendMail } } = getState();
 
     return dispatch({
       [CALL_API]: {
@@ -346,7 +338,6 @@ function refuseData(playerUUID, type, data) {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(data),
         types: [
@@ -371,7 +362,7 @@ function refuseData(playerUUID, type, data) {
 
 function suspendProfile({ playerUUID, ...data }) {
   return (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
+    const { auth: { logged } } = getState();
 
     return dispatch({
       [CALL_API]: {
@@ -381,7 +372,6 @@ function suspendProfile({ playerUUID, ...data }) {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(data),
         bailout: !logged,
@@ -392,7 +382,7 @@ function suspendProfile({ playerUUID, ...data }) {
 
 function prolongProfile({ playerUUID, ...data }) {
   return (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
+    const { auth: { logged } } = getState();
 
     return dispatch({
       [CALL_API]: {
@@ -402,7 +392,6 @@ function prolongProfile({ playerUUID, ...data }) {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(data),
         bailout: !logged,
@@ -413,7 +402,7 @@ function prolongProfile({ playerUUID, ...data }) {
 
 function blockProfile({ playerUUID, ...data }) {
   return (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
+    const { auth: { logged } } = getState();
 
     return dispatch({
       [CALL_API]: {
@@ -423,7 +412,6 @@ function blockProfile({ playerUUID, ...data }) {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(data),
         bailout: !logged,
@@ -434,7 +422,7 @@ function blockProfile({ playerUUID, ...data }) {
 
 function unblockProfile({ playerUUID, ...data }) {
   return (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
+    const { auth: { logged } } = getState();
 
     return dispatch({
       [CALL_API]: {
@@ -444,7 +432,6 @@ function unblockProfile({ playerUUID, ...data }) {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(data),
         bailout: !logged,
@@ -455,7 +442,7 @@ function unblockProfile({ playerUUID, ...data }) {
 
 function resumeProfile({ playerUUID, ...data }) {
   return (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
+    const { auth: { logged } } = getState();
 
     return dispatch({
       [CALL_API]: {
@@ -465,7 +452,6 @@ function resumeProfile({ playerUUID, ...data }) {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(data),
         bailout: !logged,
@@ -476,7 +462,7 @@ function resumeProfile({ playerUUID, ...data }) {
 
 function verifyPhone(playerUUID) {
   return (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
+    const { auth: { logged } } = getState();
 
     return dispatch({
       [CALL_API]: {
@@ -486,7 +472,6 @@ function verifyPhone(playerUUID) {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
         },
         bailout: !logged,
       },
@@ -496,7 +481,7 @@ function verifyPhone(playerUUID) {
 
 function verifyEmail(playerUUID) {
   return (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
+    const { auth: { logged } } = getState();
 
     return dispatch({
       [CALL_API]: {
@@ -506,7 +491,6 @@ function verifyEmail(playerUUID) {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
         },
         bailout: !logged,
       },
@@ -525,7 +509,6 @@ function fetchKycReasons() {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
         },
         types: [
           FETCH_KYC_REASONS.REQUEST,
@@ -717,7 +700,7 @@ function manageKycNote(type, data) {
 
 function sendKycRequestVerification(playerUUID, params) {
   return (dispatch, getState) => {
-    const { auth: { token, logged, uuid }, settings: { sendMail } } = getState();
+    const { auth: { logged, uuid }, settings: { sendMail } } = getState();
 
     return dispatch({
       [CALL_API]: {
@@ -726,7 +709,6 @@ function sendKycRequestVerification(playerUUID, params) {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(params),
         types: [

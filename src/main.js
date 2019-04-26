@@ -4,8 +4,6 @@ import bootstrap from './bootstrap';
 import createStore from './store/createStore';
 import AppContainer from './containers/AppContainer';
 import createWindowMessageService from './services/window-message';
-import createInactivityService from './services/inactivity';
-import createTokenService from './services/token';
 
 bootstrap();
 
@@ -42,8 +40,6 @@ createStore({}, (store) => {
   }
 
   createWindowMessageService(store);
-  createInactivityService({ store });
-  createTokenService({ store });
 
   render();
 });

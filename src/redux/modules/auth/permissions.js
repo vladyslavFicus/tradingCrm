@@ -11,7 +11,7 @@ const SET_PERMISSIONS = `${KEY}/set-permissions`;
 
 function fetchPermissions(outsideToken = null) {
   return (dispatch, getState) => {
-    const { auth: { token, logged }, permissions: { receivedAt, isLoading } } = getState();
+    const { auth: { logged }, permissions: { receivedAt, isLoading } } = getState();
 
     return dispatch({
       [CALL_API]: {
@@ -20,7 +20,6 @@ function fetchPermissions(outsideToken = null) {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${outsideToken || token}`,
         },
         types: [
           FETCH_PERMISSIONS.REQUEST,

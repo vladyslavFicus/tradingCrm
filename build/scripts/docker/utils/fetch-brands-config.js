@@ -34,6 +34,11 @@ async function fetchBrandsConfigs({ zookeeperUrl }) {
         getZookeeperBrandPropertyPath(id, 'nas.brand.payment')
       );
 
+      const jwt = await getProperty(
+        zookeeperClient,
+        getZookeeperBrandPropertyPath(id, 'nas.brand.jwt')
+      );
+
       return {
         id,
         currencies,
@@ -42,6 +47,7 @@ async function fetchBrandsConfigs({ zookeeperUrl }) {
         payment: {
           reasons: payment.reasons,
         },
+        jwt,
       };
     })
   );

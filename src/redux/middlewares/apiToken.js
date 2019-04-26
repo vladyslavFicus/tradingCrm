@@ -1,7 +1,6 @@
 import { CALL_API, isValidRSAA } from 'redux-api-middleware';
 import { actionTypes as authActionTypes } from '../modules/auth';
 import { actionCreators as windowActionCreators } from '../modules/window';
-import history from '../../router/history';
 
 export default store => next => (action) => {
   if (isValidRSAA(action)) {

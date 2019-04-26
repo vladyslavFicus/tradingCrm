@@ -21,6 +21,7 @@
   "author": "nassoft",
   "license": "MIT",
   "dependencies": {
+    "@hrzn/express-token-middleware": "^1.0.14",
     "@hrzn/react-big-calendar": "^0.20.3",
     "@newage/backoffice_ui": "0.0.52",
     "@newage/backoffice_utils": "0.0.32",

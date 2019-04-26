@@ -3,12 +3,10 @@ import createReducer from 'utils/createReducer';
 import createRequestAction from 'utils/createRequestAction';
 import buildQueryString from 'utils/buildQueryString';
 import { sourceActionCreators as noteSourceActionCreators } from 'redux/modules/note';
-import { sourceActionCreators as bonusActionCreators } from 'redux/modules/bonus';
 import { sourceActionCreators as paymentSourceActionCreators } from 'redux/modules/payment';
 
 const KEY = 'user/payments';
 const FETCH_ENTITIES = createRequestAction(`${KEY}/fetch-payments`);
-const FETCH_ACTIVE_BONUS = createRequestAction(`${KEY}/fetch-active-bonus`);
 const FETCH_PAYMENT_STATUSES = createRequestAction(`${KEY}/fetch-payment-statuses`);
 const CHANGE_PAYMENT_STATUS = createRequestAction(`${KEY}/change-payment-status`);
 const FETCH_NOTES = createRequestAction(`${KEY}/fetch-notes`);
@@ -24,8 +22,6 @@ const fetchPaymentStatuses = paymentSourceActionCreators.fetchPaymentStatuses(FE
 const changePaymentStatus = paymentSourceActionCreators.changePaymentStatus(CHANGE_PAYMENT_STATUS);
 const fetchPaymentAccounts = paymentSourceActionCreators.fetchPaymentAccounts(FETCH_PAYMENT_ACCOUNTS);
 
-const fetchActiveBonus = bonusActionCreators.fetchActiveBonus(FETCH_ACTIVE_BONUS);
-
 const fetchNotesFn = noteSourceActionCreators.fetchNotesByTargetUuids(FETCH_NOTES);
 const mapNotesToTransactions = (transactions, notes) => {
   if (!notes || Object.keys(notes).length === 0) {
@@ -40,7 +36,7 @@ const mapNotesToTransactions = (transactions, notes) => {
 
 function fetchEntities(playerUUID, filters = {}, fetchNotes = fetchNotesFn) {
   return async (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
+    const { auth: { logged } } = getState();
 
     const action = await dispatch({
       [CALL_API]: {
@@ -49,7 +45,6 @@ function fetchEntities(playerUUID, filters = {}, fetchNotes = fetchNotesFn) {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
         },
         types: [
           {
@@ -187,7 +182,6 @@ const actionCreators = {
   manageNote,
   resetNote,
   resetTransactions,
-  fetchActiveBonus,
 };
 
 export {

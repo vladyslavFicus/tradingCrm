@@ -1,3 +1,5 @@
+// --------------------- UNUSED NOW ---------------------------- //
+
 import _ from 'lodash';
 import history from '../router/history';
 import { actionCreators as authActionCreators, actionTypes as authActionTypes } from '../redux/modules/auth';

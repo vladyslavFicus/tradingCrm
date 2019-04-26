@@ -18,7 +18,7 @@ const updateProfile = operatorSourceActionCreators.updateProfile(UPDATE_PROFILE)
 
 function changeStatus(data) {
   return (dispatch, getState) => {
-    const { auth: { token, logged, uuid: currentUUID } } = getState();
+    const { auth: { logged, uuid: currentUUID } } = getState();
 
     return dispatch({
       [CALL_API]: {
@@ -32,7 +32,6 @@ function changeStatus(data) {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
           ...data,

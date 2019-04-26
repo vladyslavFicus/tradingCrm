@@ -8,7 +8,7 @@ const FETCH_FILTERS = createRequestAction(`${KEY}/fetch-filters`);
 
 function fetchFilters(playerUUID) {
   return (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
+    const { auth: { logged } } = getState();
 
     return dispatch({
       [CALL_API]: {
@@ -17,7 +17,6 @@ function fetchFilters(playerUUID) {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
         },
         types: [FETCH_FILTERS.REQUEST, FETCH_FILTERS.SUCCESS, FETCH_FILTERS.FAILURE],
         bailout: !logged,

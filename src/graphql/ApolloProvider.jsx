@@ -41,13 +41,8 @@ const hasFiles = (node, found = []) => {
 class ApolloProvider extends PureComponent {
   static propTypes = {
     children: PropTypes.element.isRequired,
-    authToken: PropTypes.string,
     triggerVersionModal: PropTypes.func.isRequired,
     logout: PropTypes.func.isRequired,
-  };
-
-  static defaultProps = {
-    authToken: '',
   };
 
   constructor(props) {
@@ -92,12 +87,9 @@ class ApolloProvider extends PureComponent {
     });
 
     const authLink = setContext((_, { headers }) => {
-      const { authToken } = this.props;
-
       return {
         headers: {
           ...headers,
-          authorization: authToken ? `Bearer ${authToken}` : undefined,
           'X-CLIENT-Version': getApiVersion(),
         },
       };
@@ -132,11 +124,9 @@ class ApolloProvider extends PureComponent {
   }
 }
 
-const mapStateToProps = ({ auth: { token } }) => ({ authToken: token });
-
 const mapDispatchToProps = dispatch => ({
   triggerVersionModal: options => dispatch(modalActionCreators.open(options)),
   logout: () => dispatch({ type: authActionTypes.LOGOUT.SUCCESS }),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(ApolloProvider);
+export default connect(mapDispatchToProps)(ApolloProvider);

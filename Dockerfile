@@ -1,4 +1,4 @@
-FROM registry.newage.io/newage/frontend:1.0.0
+FROM registry.newage.io/newage/frontend:3.0.0
 
 RUN mkdir /etc/nginx/logs && touch /etc/nginx/logs/static.log
 
@@ -16,11 +16,9 @@ COPY ./.yarnrc /opt/docker/
 COPY ./build/scripts/docker/ /opt/docker/
 COPY ./build/scripts/docker/nginx.conf $NGINX_CONF_OUTPUT
 
-RUN cd /opt/docker && yarn
+RUN cd /opt/docker && yarn && yarn global add pm2
 RUN chmod +x /opt/entrypoint.sh
 
 ENTRYPOINT ["/opt/entrypoint.sh"]
-
-HEALTHCHECK CMD curl --fail http://localhost:9090/health || exit 1
 
 EXPOSE $PORT

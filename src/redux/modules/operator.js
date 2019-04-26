@@ -4,7 +4,7 @@ import { actionCreators as optionsActionCreators } from './profile/options';
 
 function updateProfile(type) {
   return (uuid, data) => (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
+    const { auth: { logged } } = getState();
 
     return dispatch({
       [CALL_API]: {
@@ -12,7 +12,6 @@ function updateProfile(type) {
         method: 'PUT',
         headers: {
           Accept: 'application/json',
-          Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
@@ -32,7 +31,7 @@ function updateProfile(type) {
 
 function passwordResetRequest(type) {
   return uuid => (dispatch, getState) => {
-    const { auth: { token, logged, brandId } } = getState();
+    const { auth: { logged, brandId } } = getState();
 
     return dispatch({
       [CALL_API]: {
@@ -41,7 +40,6 @@ function passwordResetRequest(type) {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
         },
         types: [
           type.REQUEST,
@@ -56,7 +54,7 @@ function passwordResetRequest(type) {
 
 function sendInvitationRequest(type) {
   return operatorUUID => (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
+    const { auth: { logged } } = getState();
 
     return dispatch({
       [CALL_API]: {
@@ -65,7 +63,6 @@ function sendInvitationRequest(type) {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
         },
         types: [
           type.REQUEST,
@@ -103,7 +100,7 @@ function passwordResetConfirm(type) {
 
 function fetchProfile(type) {
   return (uuid, insideToken = null) => (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
+    const { auth: { logged } } = getState();
 
     return dispatch({
       [CALL_API]: {
@@ -112,7 +109,6 @@ function fetchProfile(type) {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${insideToken || token}`,
         },
         types: [
           type.REQUEST,
@@ -134,7 +130,7 @@ function fetchAuthorities(type) {
     const decodedToken = jwtDecode(token);
 
     if (decodedToken) {
-      brandId = decodedToken.brandId;
+      ({ brandId } = decodedToken);
     }
 
     return dispatch({
@@ -144,7 +140,6 @@ function fetchAuthorities(type) {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
         },
         types: [
           type.REQUEST,

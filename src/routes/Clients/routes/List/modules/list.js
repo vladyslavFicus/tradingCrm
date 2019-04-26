@@ -55,7 +55,7 @@ function reset() {
 
 function exportEntities(filters = {}) {
   return async (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
+    const { auth: { logged } } = getState();
 
     if (!logged) {
       return dispatch({ type: EXPORT_ENTITIES.FAILURE, error: true });
@@ -71,7 +71,6 @@ function exportEntities(filters = {}) {
         headers: {
           Accept: 'text/csv',
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
         },
       });
 

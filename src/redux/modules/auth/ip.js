@@ -3,7 +3,7 @@ import buildQueryString from '../../../utils/buildQueryString';
 
 function fetchEntities(type) {
   return (uuid, filters = {}) => (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
+    const { auth: { logged } } = getState();
 
     return dispatch({
       [CALL_API]: {
@@ -12,7 +12,6 @@ function fetchEntities(type) {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
         },
         types: [
           {
