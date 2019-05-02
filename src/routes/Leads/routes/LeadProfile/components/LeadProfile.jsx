@@ -145,7 +145,7 @@ class LeadProfile extends Component {
         'LEAD_PROFILE.MODALS.REPRESENTATIVE_UPDATE.HEADER',
         { type: aquisitionStatusesNames.SALES.toLowerCase() }
       ),
-      onSuccess: () => refetch({ fetchPolicy: 'network-only' }),
+      onSuccess: () => refetch(),
     });
   };
 

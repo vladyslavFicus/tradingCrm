@@ -37,6 +37,7 @@ class View extends Component {
         error: PropTypes.object,
       }),
     }).isRequired,
+    location: PropTypes.object.isRequired,
   };
 
   static contextTypes = {
@@ -78,9 +79,9 @@ class View extends Component {
 
   handleRefresh = () => this.props.clientPayments.refetch({
     ...this.props.location.query && this.props.location.query.filters,
+    requestId: Math.random().toString(36).slice(2),
     page: 0,
     limit: 20,
-    fetchPolicy: 'network-only',
   });
 
   handleGetRequestState = () => this.props.clientPayments.loading;
@@ -129,8 +130,6 @@ class View extends Component {
       .then(this.handleRefresh)
       .then(this.handleCloseModal);
   };
-
-  handleModalActionSuccess = () => this.props.clientPayments.refetch();
 
   render() {
     const {
@@ -184,7 +183,7 @@ class View extends Component {
             loading={loading}
           >
             {columns({
-              paymentInfo: { onSuccess: this.handleModalActionSuccess },
+              paymentInfo: { onSuccess: this.handleRefresh },
               playerInfo: { auth, fetchPlayer: fetchPlayerMiniProfile },
             }).map(({ name, header, render }) => (
               <GridViewColumn

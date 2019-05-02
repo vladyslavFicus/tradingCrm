@@ -88,7 +88,7 @@ class ListFilters extends Component {
 
     // Hack to make refetch if APPLY clicked and filters remained same
     if (isEqual(prevValues, values)) {
-      requestId = Math.random().toString(36).slice(8);
+      requestId = Math.random().toString(36).slice(2);
     }
 
     this.props.onSubmit({ ...values, ...(requestId && { requestId }) });

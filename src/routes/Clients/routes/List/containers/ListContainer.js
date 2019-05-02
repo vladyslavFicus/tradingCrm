@@ -42,7 +42,6 @@ export default compose(
   connect(mapStateToProps, mapActions),
   graphql(clientsBulkRepresentativeUpdate, {
     name: 'bulkRepresentativeUpdate',
-    options: { refetchQueries: () => ['getProfiles'] },
   }),
   graphql(getUserBranchHierarchy, {
     name: 'userBranchHierarchy',
@@ -58,10 +57,10 @@ export default compose(
     options: ({ location: { query } }) => ({
       variables: {
         ...query && query.filters,
+        requestId: Math.random().toString(36).slice(2),
         page: 0,
         size: 20,
       },
-      fetchPolicy: 'network-only',
     }),
     props: ({ profiles: { profiles, fetchMore, ...rest }, ownProps: { location } }) => {
       const { response, currentPage } = limitItems(profiles, location);
