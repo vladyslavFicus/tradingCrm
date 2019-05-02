@@ -97,7 +97,7 @@ export const getClientsData = (
 
       return (filteredArr || selectedRows)
         .map(index => (
-          index
+          index || !Number.isNaN(index)
             ? getClientUpdateObject(clients, touchedRowsIds, { index }, { type, isMoveAction })
             : null
         ));
