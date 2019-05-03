@@ -5,6 +5,7 @@ import { withNotifications, withModals } from 'components/HighOrder';
 import RepresentativeUpdateModal from 'components/RepresentativeUpdateModal';
 import countries from 'utils/countryList';
 import limitItems from 'utils/limitItems';
+import { graphql as customGql } from 'graphql/utils';
 import { leadsQuery } from 'graphql/queries/leads';
 import { bulkLeadPromote } from 'graphql/mutations/leads';
 import { leadCsvUpload } from 'graphql/mutations/upload';
@@ -42,7 +43,7 @@ export default compose(
   graphql(bulkLeadPromote, {
     name: 'promoteLead',
   }),
-  graphql(leadsQuery, {
+  customGql(leadsQuery, {
     name: 'leads',
     options: ({
       location: { query },
@@ -50,7 +51,6 @@ export default compose(
       notifyOnNetworkStatusChange: true,
       variables: {
         ...query && query.filters,
-        requestId: Math.random().toString(36).slice(2),
         page: 0,
         limit: 20,
       },

@@ -103,12 +103,7 @@ class List extends Component {
               && action.type === windowActionTypes.UPDATE_CLIENT_LIST
               && this.props.profiles
             ) {
-              this.props.profiles.refetch({
-                ...this.props.location.query && this.props.location.query.filters,
-                requestId: Math.random().toString(36).slice(2),
-                page: 0,
-                size: 20,
-              });
+              this.props.profiles.refetch();
             }
           }
         }
@@ -302,7 +297,7 @@ class List extends Component {
   }
 
   handleSuccessListUpdate = async () => {
-    const { profiles: { refetch }, location: { query } } = this.props;
+    const { profiles: { refetch } } = this.props;
 
     this.setState({
       selectedRows: [],
@@ -310,12 +305,7 @@ class List extends Component {
       touchedRowsIds: [],
     });
 
-    refetch({
-      ...query && query.filters,
-      requestId: Math.random().toString(36).slice(2),
-      page: 0,
-      size: 20,
-    });
+    refetch();
   };
 
   render() {

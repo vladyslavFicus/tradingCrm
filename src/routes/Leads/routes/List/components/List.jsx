@@ -225,7 +225,6 @@ class List extends Component {
     const {
       notify,
       leads: { refetch },
-      location: { query },
       auth: { isAdministration },
       modals: { leadsUploadModal },
     } = this.props;
@@ -251,12 +250,7 @@ class List extends Component {
     });
 
     if (isAdministration) {
-      refetch({
-        ...query && query.filters,
-        requestId: Math.random().toString(36).slice(2),
-        page: 0,
-        limit: 20,
-      });
+      refetch();
     }
   };
 
@@ -297,14 +291,7 @@ class List extends Component {
   };
 
   handleSuccessUpdateLeadList = () => {
-    const { location: { query } } = this.props;
-
-    this.props.leads.refetch({
-      ...query && query.filters,
-      requestId: Math.random().toString(36).slice(2),
-      page: 0,
-      limit: 20,
-    });
+    this.props.leads.refetch();
 
     this.setState({
       selectedRows: [],

@@ -7,6 +7,7 @@ import { clientsBulkRepresentativeUpdate } from 'graphql/mutations/profile';
 import { clientsQuery } from 'graphql/queries/profile';
 import countries from 'utils/countryList';
 import limitItems from 'utils/limitItems';
+import { graphql as customGql } from 'graphql/utils';
 import { actionCreators as miniProfileActionCreators } from '../../../../../redux/modules/miniProfile';
 import { actionCreators } from '../modules/list';
 import { MoveModal } from '../components/Modals';
@@ -52,15 +53,15 @@ export default compose(
       fetchPolicy: 'network-only',
     }),
   }),
-  graphql(clientsQuery, {
+  customGql(clientsQuery, {
     name: 'profiles',
     options: ({ location: { query } }) => ({
       variables: {
         ...query && query.filters,
-        requestId: Math.random().toString(36).slice(2),
         page: 0,
         size: 20,
       },
+      fetchPolicy: 'network-only',
     }),
     props: ({ profiles: { profiles, fetchMore, ...rest }, ownProps: { location } }) => {
       const { response, currentPage } = limitItems(profiles, location);
