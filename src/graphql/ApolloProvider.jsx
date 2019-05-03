@@ -90,14 +90,12 @@ class ApolloProvider extends PureComponent {
       }
     });
 
-    const authLink = setContext((_, { headers }) => {
-      return {
-        headers: {
-          ...headers,
-          'X-CLIENT-Version': getApiVersion(),
-        },
-      };
-    });
+    const authLink = setContext((_, { headers }) => ({
+      headers: {
+        ...headers,
+        'X-CLIENT-Version': getApiVersion(),
+      },
+    }));
 
     const cache = new InMemoryCache({
       dataIdFromObject: (object) => {

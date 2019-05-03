@@ -103,12 +103,7 @@ class List extends Component {
               && action.type === windowActionTypes.UPDATE_CLIENT_LIST
               && this.props.profiles
             ) {
-              this.props.profiles.refetch({
-                ...this.props.location.query && this.props.location.query.filters,
-                page: 0,
-                size: 20,
-                fetchPolicy: 'network-only',
-              });
+              this.props.profiles.refetch();
             }
           }
         }
@@ -218,21 +213,13 @@ class List extends Component {
         multiAssign: true,
         ...query && { searchParams: { ...omit(query.filters, ['size']) } },
       },
-      onSuccess: this.handleSuccessUpdateRepresentative,
+      onSuccess: this.handleSuccessListUpdate,
       header: (
         <Fragment>
           <div>{I18n.t(`CLIENTS.MODALS.${type}_MODAL.HEADER`)}</div>
           <div className="font-size-11 color-yellow">{selectedRows.length}{' '}{I18n.t('COMMON.CLIENTS_SELECTED')}</div>
         </Fragment>
       ),
-    });
-  };
-
-  handleSuccessUpdateRepresentative = async () => {
-    this.setState({
-      selectedRows: [],
-      allRowsSelected: false,
-      touchedRowsIds: [],
     });
   };
 
@@ -304,15 +291,22 @@ class List extends Component {
         message: I18n.t('CLIENTS.ACQUISITION_STATUS_UPDATED'),
       });
 
-      this.setState({
-        selectedRows: [],
-        allRowsSelected: false,
-        touchedRowsIds: [],
-      });
-
+      this.handleSuccessListUpdate();
       moveModal.hide();
     }
   }
+
+  handleSuccessListUpdate = async () => {
+    const { profiles: { refetch } } = this.props;
+
+    this.setState({
+      selectedRows: [],
+      allRowsSelected: false,
+      touchedRowsIds: [],
+    });
+
+    refetch();
+  };
 
   render() {
     const {

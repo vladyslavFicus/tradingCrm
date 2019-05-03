@@ -73,12 +73,6 @@ class List extends Component {
     getApolloRequestState: PropTypes.func.isRequired,
   };
 
-  getChildContext() {
-    return {
-      getApolloRequestState: this.handleGetRequestState,
-    };
-  }
-
   state = {
     selectedRows: [],
     allRowsSelected: false,
@@ -86,15 +80,21 @@ class List extends Component {
     hierarchyOperators: [],
   };
 
+  getChildContext() {
+    return {
+      getApolloRequestState: this.handleGetRequestState,
+    };
+  }
+
   componentWillUnmount() {
     this.handleFilterReset();
   }
 
-  handleGetRequestState = () => this.props.leads.loading;
-
   setDesksTeamsOperators = (hierarchyOperators) => {
     this.setState({ hierarchyOperators });
   }
+
+  handleGetRequestState = () => this.props.leads.loading;
 
   handlePageChanged = () => {
     const {
@@ -177,7 +177,7 @@ class List extends Component {
       promoteLead,
       notify,
       location: { query },
-      leads: { leads: { data: { content, totalElements } }, refetch },
+      leads: { leads: { data: { content, totalElements } } },
       modals: { promoteInfoModal },
     } = this.props;
 
@@ -217,12 +217,17 @@ class List extends Component {
         ),
       });
 
-      refetch();
+      this.handleSuccessUpdateLeadList();
     }
   };
 
   handleUploadCSV = async ([file]) => {
-    const { notify, leads: { refetch }, auth: { isAdministration }, modals: { leadsUploadModal } } = this.props;
+    const {
+      notify,
+      leads: { refetch },
+      auth: { isAdministration },
+      modals: { leadsUploadModal },
+    } = this.props;
 
     const { data: { upload: { leadCsvUpload: { error } } } } = await this.props.fileUpload({ variables: { file } });
 
@@ -275,7 +280,7 @@ class List extends Component {
         multiAssign: true,
         ...query && { searchParams: { ...omit(query.filters, ['size']) } },
       },
-      onSuccess: this.handleSuccessUpdateRepresentative,
+      onSuccess: this.handleSuccessUpdateLeadList,
       header: (
         <Fragment>
           <div>{I18n.t(`CLIENTS.MODALS.${deskTypes.SALES}_MODAL.HEADER`)}</div>
@@ -285,15 +290,13 @@ class List extends Component {
     });
   };
 
-  handleSuccessUpdateRepresentative = () => {
-    const { location: { query } } = this.props;
+  handleSuccessUpdateLeadList = () => {
+    this.props.leads.refetch();
 
-    this.props.leads.refetch({
-      fetchPolicy: 'network-only',
-      notifyOnNetworkStatusChange: true,
-      ...query && query.filters,
-      page: 0,
-      limit: 20,
+    this.setState({
+      selectedRows: [],
+      allRowsSelected: false,
+      touchedRowsIds: [],
     });
   };
 

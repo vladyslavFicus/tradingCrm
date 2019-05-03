@@ -79,7 +79,7 @@ class View extends Component {
     this.props.fetchAuthoritiesOptions();
   }
 
-  handleRefetchHierarchy = () => this.props.userHierarchy.refetch({ fetchPolicy: 'network-only' });
+  handleRefetchHierarchy = () => this.props.userHierarchy.refetch();
 
   handleSubmit = (data) => {
     const {
