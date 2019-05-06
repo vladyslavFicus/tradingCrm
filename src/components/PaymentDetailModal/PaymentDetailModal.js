@@ -4,14 +4,20 @@ import moment from 'moment';
 import classNames from 'classnames';
 import { I18n } from 'react-redux-i18n';
 import { get } from 'lodash';
+import { Field, reduxForm } from 'redux-form';
+import { departments, roles } from 'constants/brands';
+import { createValidator, translateLabels } from 'utils/validator';
 import { RejectForm, ApproveForm } from './ViewForm';
 import PropTypes from '../../constants/propTypes';
 import {
   methodsLabels,
   manualPaymentMethodsLabels,
+  manualPaymentMethods,
   tradingTypes as paymentsTypes,
   tradingTypes,
   statusMapper,
+  statusesLabels,
+  statuses,
 } from '../../constants/payment';
 import Amount from '../Amount';
 import { UncontrolledTooltip } from '../Reactstrap/Uncontrolled';
@@ -20,7 +26,15 @@ import ModalPlayerInfo from '../ModalPlayerInfo';
 import PaymentStatus from '../PaymentStatus';
 import ShortLoader from '../ShortLoader';
 import IpFlag from '../IpFlag';
+import renderLabel from '../../utils/renderLabel';
+import { NasSelectField } from '../ReduxForm/index';
+import attributeLabels from './constants';
 import './PaymentDetailModal.scss';
+
+const formName = 'ChangePayment';
+const ERROR_STATUS = 'ERROR_STATUS';
+const ERROR_METHOD = 'ERROR_METHOD';
+const ERROR = 'ERROR';
 
 class PaymentDetailModal extends PureComponent {
   static propTypes = {
@@ -32,6 +46,15 @@ class PaymentDetailModal extends PureComponent {
       loading: PropTypes.bool.isRequired,
     }).isRequired,
     onSuccess: PropTypes.func.isRequired,
+    handleSubmit: PropTypes.func.isRequired,
+    invalid: PropTypes.bool.isRequired,
+    pristine: PropTypes.bool.isRequired,
+    submitting: PropTypes.bool.isRequired,
+    auth: PropTypes.shape({
+      department: PropTypes.string,
+      role: PropTypes.string,
+    }).isRequired,
+    notify: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -60,8 +83,82 @@ class PaymentDetailModal extends PureComponent {
     }
   }
 
+  handleSubmit = async ({ paymentMethod, paymentStatus }) => {
+    const {
+      payment: { paymentId },
+      changePaymentMethod,
+      changePaymentStatus,
+      notify,
+      onCloseModal,
+      onSuccess,
+    } = this.props;
+    const errors = [];
+
+    if (paymentMethod) {
+      const {
+        data: {
+          payment: {
+            changePaymentMethod: {
+              data: { success },
+            },
+          },
+        },
+      } = await changePaymentMethod({
+        variables: {
+          paymentId,
+          paymentMethod,
+        },
+      });
+
+      if (!success) {
+        errors.push(ERROR_METHOD);
+      }
+    }
+
+    if (paymentStatus) {
+      const {
+        data: {
+          payment: {
+            changePaymentStatus: {
+              data: { success },
+            },
+          },
+        },
+      } = await changePaymentStatus({
+        variables: {
+          paymentId,
+          paymentStatus,
+        },
+      });
+
+      if (!success) {
+        errors.push(ERROR_STATUS);
+      }
+    }
+
+    if (errors.length) {
+      onCloseModal();
+
+      notify({
+        level: 'error',
+        title: I18n.t('COMMON.FAIL'),
+        message: I18n.t(`PAYMENT_DETAILS_MODAL.NOTIFICATIONS.${errors.length === 2 ? ERROR : errors[0]}`),
+      });
+    } else {
+      onCloseModal();
+      onSuccess();
+
+      notify({
+        level: 'success',
+        title: I18n.t('COMMON.SUCCESS'),
+        message: I18n.t('PAYMENT_DETAILS_MODAL.NOTIFICATIONS.SUCCESSFULLY'),
+      });
+    }
+  }
+
   render() {
     const {
+      auth,
       payment,
       payment: {
         paymentId,
@@ -82,6 +179,10 @@ class PaymentDetailModal extends PureComponent {
       },
       onCloseModal,
       className,
+      handleSubmit,
+      pristine,
+      invalid,
+      submitting,
     } = this.props;
 
     const isWithdraw = paymentType === paymentsTypes.WITHDRAW;
@@ -190,28 +291,73 @@ class PaymentDetailModal extends PureComponent {
           </Choose>
         </ModalBody>
         <ModalFooter>
-          <div className={
-            classNames(
-              'col-2',
-              paymentType === tradingTypes.WITHDRAW && statusMapper.PENDING.indexOf(status) !== -1 && 'button-defer'
-            )
-          }
-          >
-            <Button
-              onClick={onCloseModal}
-              className="mr-auto"
+          <div className="d-flex flex-column width-full">
+            <If condition={
+              !statusMapper.PENDING.includes(status) && (auth.role === roles.ROLE4
+                && [departments.ADMINISTRATION, departments.FINANCE].includes(auth.department))
+              }
             >
-              {I18n.t('COMMON.DEFER')}
-            </Button>
+              <form className="row">
+                <Field
+                  label={I18n.t('PAYMENT_DETAILS_MODAL.CHANGE_STATUS')}
+                  className="col-6 mt-3 mx-auto"
+                  component={NasSelectField}
+                  name="paymentStatus"
+                  placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
+                >
+                  {Object.entries(statusMapper).filter(([item]) => item !== statuses.PENDING).map(([key, value]) => (
+                    <option key={key} value={value[0]}>
+                      {renderLabel(key, statusesLabels)}
+                    </option>
+                  ))}
+                </Field>
+                <Field
+                  label={I18n.t('PAYMENT_DETAILS_MODAL.CHANGE_PAYMENT_METHOD')}
+                  className="col-6 mt-3 mx-auto"
+                  component={NasSelectField}
+                  name="paymentMethod"
+                  placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
+                >
+                  {Object.values(manualPaymentMethods).map(item => (
+                    <option key={item} value={item}>
+                      {I18n.t(manualPaymentMethodsLabels[item])}
+                    </option>
+                  ))}
+                </Field>
+              </form>
+            </If>
+            <div className="d-flex align-items-end justify-content-between width-full">
+              <Button className="btn btn-default" onClick={onCloseModal}>
+                {I18n.t('COMMON.DEFER')}
+              </Button>
+              <If condition={
+                !statusMapper.PENDING.includes(status) && (auth.role === roles.ROLE4
+                  && [departments.ADMINISTRATION, departments.FINANCE].includes(auth.department))}
+              >
+                <Button
+                  onClick={handleSubmit(this.handleSubmit)}
+                  className="margin-left-15 btn btn-primary"
+                  disabled={pristine || invalid || submitting}
+                >
+                  {I18n.t('COMMON.SAVE_CHANGES')}
+                </Button>
+              </If>
+              <If condition={paymentType === tradingTypes.WITHDRAW && statusMapper.PENDING.includes(status)}>
+                <ApproveForm onSubmit={this.onSubmit} />
+                <RejectForm onSubmit={this.onSubmit} />
+              </If>
+            </div>
           </div>
-          <If condition={paymentType === tradingTypes.WITHDRAW && statusMapper.PENDING.indexOf(status) !== -1}>
-            <ApproveForm onSubmit={this.onSubmit} />
-            <RejectForm onSubmit={this.onSubmit} />
-          </If>
         </ModalFooter>
       </Modal>
     );
   }
 }
 
-export default PaymentDetailModal;
+export default reduxForm({
+  form: formName,
+  validate: values => createValidator({
+    paymentMethod: ['string'],
+    paymentStatus: ['string'],
+  }, translateLabels(attributeLabels), false)(values),
+})(PaymentDetailModal);

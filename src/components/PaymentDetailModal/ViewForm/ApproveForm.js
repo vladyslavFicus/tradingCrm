@@ -20,7 +20,7 @@ const ApproveForm = (props) => {
   } = props;
 
   return (
-    <form className="col-5">
+    <form className="flex-1 margin-left-15 margin-right-15">
       <Field
         label={I18n.t('PAYMENT_DETAILS_MODAL.CHOOSE_PAYMENT_METHOD_LABEL')}
         customClassName="form-group"

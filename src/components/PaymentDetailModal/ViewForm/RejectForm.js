@@ -17,7 +17,7 @@ const RejectForm = (props) => {
   } = props;
 
   return (
-    <form className="col-5">
+    <form className="flex-1">
       <Field
         label={I18n.t('PAYMENT_DETAILS_MODAL.CHOOSE_REJECTION_REASONS_LABEL')}
         customClassName="form-group"

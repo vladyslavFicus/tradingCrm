@@ -2188,6 +2188,8 @@
     "HEADER_AMOUNT": "Amount",
     "HEADER_PAYMENT_METHOD": "Payment method",
     "REJECTION_REASON": "Rejection reason",
+    "CHANGE_PAYMENT_METHOD": "Change payment method",
+    "CHANGE_STATUS": "Change status",
     "ACTIONS": {
       "MARK_AS_CHARGEBACK": "Mark as chargeback"
     },
@@ -2196,7 +2198,13 @@
       "DESCRIPTION": "Some actions will be unavailable"
     },
     "CHOOSE_PAYMENT_METHOD_LABEL": "Choose payment method",
-    "CHOOSE_REJECTION_REASONS_LABEL": "Rejection reason"
+    "CHOOSE_REJECTION_REASONS_LABEL": "Rejection reason",
+    "NOTIFICATIONS": {
+      "SUCCESSFULLY": "Payment updated successfully",
+      "ERROR": "Update of the payment failed",
+      "ERROR_STATUS": "Update of the payment status is failed",
+      "ERROR_METHOD": "Update of the payment method is failed"
+    }
   },
   "MINI_PROFILE": {
     "PLAYER": "Player",
