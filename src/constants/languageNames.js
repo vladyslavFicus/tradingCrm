@@ -17,7 +17,7 @@ export default [{
   languageCode: 'it',
 }, {
   languageName: I18n.t('COMMON.LANGUAGE_NAME.UA'),
-  languageCode: 'ua',
+  languageCode: 'uk',
 }, {
   languageName: I18n.t('COMMON.LANGUAGE_NAME.ZH'),
   languageCode: 'zh',
