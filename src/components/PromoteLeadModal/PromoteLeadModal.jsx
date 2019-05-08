@@ -1,10 +1,11 @@
 import React, { PureComponent } from 'react';
+import { get } from 'lodash';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { reduxForm, Field } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
 import PropTypes from 'constants/propTypes';
 import languages from 'constants/languageNames';
-import { getActiveBrandConfig } from 'config';
+import { getActiveBrandConfig, getAvailableLanguages } from 'config';
 import { createValidator, translateLabels } from 'utils/validator';
 import countryList from 'utils/countryList';
 import { generate } from 'utils/password';
@@ -122,9 +123,9 @@ class PromoteLead extends PureComponent {
                 component={NasSelectField}
                 placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
               >
-                {languages.map(({ languageName, languageCode }) => (
+                {getAvailableLanguages().map(languageCode => (
                   <option key={languageCode} value={languageCode}>
-                    {I18n.t(languageName)}
+                    {I18n.t(get(languages.find(item => item.languageCode === languageCode), 'languageName'))}
                   </option>
                 ))}
               </Field>
