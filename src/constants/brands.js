@@ -14,6 +14,7 @@ const brands = keyMirror({
   finfuture: null,
   investlead: null,
   fxnobel: null,
+  fxnobels: null,
   finanalytics: null,
   ptbanc: null,
   trustfx: null,
@@ -90,6 +91,10 @@ const brandsConfig = {
     name: 'FXnobel',
     image: { src: '/img/brand/choose-brand/fxnobel.svg' },
   },
+  [brands.fxnobels]: {
+      name: 'FXnobels',
+      image: { src: '/img/brand/choose-brand/fxnobels.svg' },
+    },
   [brands.finanalytics]: {
     name: 'FinAnalytics',
     image: { src: '/img/brand/choose-brand/finanalytics.svg' },
