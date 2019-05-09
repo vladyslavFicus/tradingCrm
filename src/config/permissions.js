@@ -80,6 +80,10 @@ export default {
     CREDIT_IN: 'trading_payment;POST;/credit_in',
     CREDIT_OUT: 'trading_payment;POST;/credit_out',
     TRANSFER: 'trading_payment;POST;/transfer',
+    APPROVE: 'trading_payment;PUT;/approve',
+    REJECT: 'trading_payment;PUT;/reject',
+    CHANGE_STATUS: 'trading_payment;PUT;/{paymentId}/status',
+    CHANGE_METHOD: 'trading_payment;PUT;/{paymentId}/method',
   },
   PAYMENT_VIEW: {
     PAYMENT_REPORT: 'payment_view;GET;/payments/payment_report',

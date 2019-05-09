@@ -70,6 +70,7 @@ class Payments extends Component {
     modals: PropTypes.shape({
       addPayment: PropTypes.modalType,
     }).isRequired,
+    addNote: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
