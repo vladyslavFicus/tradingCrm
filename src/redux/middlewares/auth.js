@@ -4,7 +4,6 @@ import {
   actionTypes as authActionTypes,
   actionCreators as authActionCreators,
 } from '../modules/auth';
-import sentry from '../../utils/sentry';
 import { getBrandId, setBrandId } from '../../config';
 
 const triggerActions = {
@@ -38,12 +37,6 @@ export default store => next => (action) => {
         if (getBrandId() !== tokenData.brandId) {
           setBrandId(tokenData.brandId);
         }
-
-        sentry.setUserContext({
-          uuid: auth.uuid,
-          token: auth.token,
-          ...jwtDecode(auth.token),
-        });
       }
 
       const isAuthRehydrate = !!action.payload.language;
