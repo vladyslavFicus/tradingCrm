@@ -333,7 +333,6 @@ class MainLayout extends Component {
 
             <MyProfileSidebar
               isOpen={isOpenProfile}
-              languages={languages}
               onSubmit={this.onProfileSubmit}
               initialValues={{
                 language: locale,

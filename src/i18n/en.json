@@ -2946,6 +2946,9 @@
       "ACQUISITION": {
         "TITLE": "Acquisition Status",
         "SALES": "Sales"
+      },
+      "REGISTERED": {
+        "TITLE": "Registered"
       }
     },
     "TRANSACTIONS": {

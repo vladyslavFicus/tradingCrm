@@ -256,7 +256,7 @@ class Header extends Component {
           </div>
           <ProfileLastLogin lastIp={lastIp} />
           <div className="header-block">
-            <div className="header-block-title">Registered</div>
+            <div className="header-block-title">{I18n.t('CLIENT_PROFILE.CLIENT.REGISTERED.TITLE')}</div>
             <div className="header-block-middle">
               {moment.utc(registrationDate).local().fromNow()}
             </div>

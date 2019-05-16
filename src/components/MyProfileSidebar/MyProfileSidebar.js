@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import { I18n } from 'react-redux-i18n';
 import onClickOutside from 'react-onclickoutside';
 import PropTypes from '../../constants/propTypes';
+import locales from '../../i18n';
 import { InputField, SelectField } from '../ReduxForm';
 import { createValidator, translateLabels } from '../../utils/validator';
 import { attributeLabels } from './constants';
@@ -15,7 +16,6 @@ const validator = createValidator({
 
 class MyProfileSidebar extends Component {
   static propTypes = {
-    languages: PropTypes.arrayOf(PropTypes.string).isRequired,
     isOpen: PropTypes.bool.isRequired,
     onSubmit: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func,
@@ -48,7 +48,6 @@ class MyProfileSidebar extends Component {
   render() {
     const {
       isOpen,
-      languages,
       handleSubmit,
       onSubmit,
       submitting,
@@ -83,7 +82,7 @@ class MyProfileSidebar extends Component {
               component={SelectField}
               position="vertical"
             >
-              {languages.map(lang => (
+              {Object.keys(locales).map(lang => (
                 <option key={lang} value={lang}>
                   {lang}
                 </option>

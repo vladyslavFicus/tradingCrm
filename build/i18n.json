@@ -1,7 +1,8 @@
 {
   "languages": [
     "ru",
-    "en"
+    "en",
+    "zh"
   ],
   "sourceDir": "../src",
   "outputDir": "../src/i18n"
