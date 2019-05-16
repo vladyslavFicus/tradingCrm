@@ -51,7 +51,10 @@ class List extends Component {
       loading: PropTypes.bool.isRequired,
     }),
     operatorType: PropTypes.string,
+    operatorId: PropTypes.string.isRequired,
+    notify: PropTypes.func.isRequired,
   };
+
   static defaultProps = {
     filterValues: null,
     operators: {

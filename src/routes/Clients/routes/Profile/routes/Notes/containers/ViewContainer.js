@@ -6,8 +6,10 @@ import { notesQuery } from '.././../../../../../../graphql/queries/notes';
 
 const mapStateToProps = ({
   i18n: { locale },
+  auth: { department },
 }) => ({
   locale,
+  department,
 });
 
 export default compose(

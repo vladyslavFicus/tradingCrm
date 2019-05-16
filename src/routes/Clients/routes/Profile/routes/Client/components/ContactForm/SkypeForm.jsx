@@ -4,8 +4,8 @@ import { compose } from 'redux';
 import { I18n } from 'react-redux-i18n';
 import PropTypes from 'prop-types';
 import { Field, reduxForm, getFormSyncErrors, getFormValues } from 'redux-form';
-import { InputField } from '../../../../../../../../components/ReduxForm';
-import { createValidator } from '../../../../../../../../utils/validator';
+import { InputField } from 'components/ReduxForm';
+import { createValidator } from 'utils/validator';
 
 const FORM_NAME = 'updateSkypeProfile';
 const attributeLabels = {

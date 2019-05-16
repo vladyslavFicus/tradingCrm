@@ -120,10 +120,16 @@ class Profile extends Component {
       noteModal: PropTypes.modalType,
     }).isRequired,
     getLoginLock: PropTypes.object.isRequired,
+    passwordResetRequest: PropTypes.func.isRequired,
+    removeNote: PropTypes.func.isRequired,
+    unlockLoginMutation: PropTypes.func.isRequired,
+    profile: PropTypes.object.isRequired,
   };
+
   static contextTypes = {
     permissions: PropTypes.array.isRequired,
   };
+
   static childContextTypes = {
     onAddNote: PropTypes.func.isRequired,
     onEditNote: PropTypes.func.isRequired,

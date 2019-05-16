@@ -2,9 +2,9 @@ import React from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
 import { uniqBy } from 'lodash';
-import { InputField, TextAreaField, NasSelectField } from '../../../../../../../components/ReduxForm';
-import PropTypes from '../../../../../../../constants/propTypes';
-import { createValidator } from '../../../../../../../utils/validator';
+import { InputField, TextAreaField, NasSelectField } from 'components/ReduxForm';
+import PropTypes from 'constants/propTypes';
+import { createValidator } from 'utils/validator';
 
 const attributeLabels = {
   country: I18n.t('PLAYER_PROFILE.PROFILE.ADDRESS.LABEL.COUNTRY'),

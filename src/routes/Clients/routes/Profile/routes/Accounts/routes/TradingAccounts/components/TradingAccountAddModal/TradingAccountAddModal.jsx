@@ -24,6 +24,7 @@ class TradingAccountAddModal extends PureComponent {
     handleSubmit: PropTypes.func.isRequired,
     createTradingAccount: PropTypes.func.isRequired,
     onConfirm: PropTypes.func,
+    notify: PropTypes.func.isRequired,
   };
 
   static defaultProps = {

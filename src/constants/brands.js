@@ -26,8 +26,6 @@ const departments = keyMirror({
   RFP: null,
   MARKETING: null,
   BI: null,
-  E2E: null,
-  IGROMAT: null,
   SALES: null,
   RETENTION: null,
   DEALING: null,
@@ -92,9 +90,9 @@ const brandsConfig = {
     image: { src: '/img/brand/choose-brand/fxnobel.svg' },
   },
   [brands.fxnobels]: {
-      name: 'FXnobels',
-      image: { src: '/img/brand/choose-brand/fxnobels.svg' },
-    },
+    name: 'FXnobels',
+    image: { src: '/img/brand/choose-brand/fxnobels.svg' },
+  },
   [brands.finanalytics]: {
     name: 'FinAnalytics',
     image: { src: '/img/brand/choose-brand/finanalytics.svg' },

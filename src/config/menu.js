@@ -80,14 +80,6 @@ const sidebarTopMenu = [{
   icon: 'icon-settings',
   isOpen: false,
   items: [{
-    label: I18n.t('SIDEBAR.TOP_MENU.CMS_GAMES'),
-    url: '/settings/cms-games',
-    service: services.cms,
-  }, {
-    label: I18n.t('SIDEBAR.TOP_MENU.GAMES'),
-    url: '/settings/games',
-    service: services.game_info,
-  }, {
     label: I18n.t('SIDEBAR.TOP_MENU.PAYMENT_METHODS'),
     url: '/settings/paymentMethods',
     service: services.payment,

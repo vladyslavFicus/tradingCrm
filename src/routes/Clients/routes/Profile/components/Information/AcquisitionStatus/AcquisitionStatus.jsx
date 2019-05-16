@@ -4,7 +4,7 @@ import { I18n } from 'react-redux-i18n';
 import { connect } from 'react-redux';
 import Permissions from 'utils/permissions';
 import permissions from 'config/permissions';
-import transformAcquisitionData from './constants';
+import transformAcquisitionData from './utils';
 import './AcquisitionStatus.scss';
 
 const changeAcquisitionStatus = new Permissions([permissions.USER_PROFILE.CHANGE_ACQUISITION_STATUS]);

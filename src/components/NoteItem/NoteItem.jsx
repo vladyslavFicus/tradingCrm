@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import { I18n } from 'react-redux-i18n';
+import { departments } from 'constants/brands';
 import Uuid from '../Uuid';
 import { entities, entitiesPrefixes } from '../../constants/uuid';
 import { tagTypes } from '../../constants/tag';
@@ -23,6 +24,11 @@ class NoteItem extends Component {
     handleNoteClick: PropTypes.func.isRequired,
     fetchOperatorMiniProfile: PropTypes.func.isRequired,
     fetchAuthorities: PropTypes.func.isRequired,
+    department: PropTypes.string,
+  };
+
+  static defaultProps = {
+    department: null,
   };
 
   get content() {
@@ -76,6 +82,7 @@ class NoteItem extends Component {
           fullName,
         },
       },
+      department,
     } = this.props;
 
     const [targetType] = targetUUID.split('-', 1);
@@ -129,6 +136,7 @@ class NoteItem extends Component {
                 {
                   label: I18n.t('COMMON.ACTIONS.DELETE'),
                   onClick: handleNoteClick(modalType.DELETE, data),
+                  ...(department && { visible: department !== departments.CS }),
                 },
               ]}
             />

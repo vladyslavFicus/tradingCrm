@@ -3,11 +3,11 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { I18n } from 'react-redux-i18n';
 import { Field, reduxForm, getFormSyncErrors, getFormValues } from 'redux-form';
-import PropTypes from '../../../../../../../../constants/propTypes';
-import { InputField, SelectField } from '../../../../../../../../components/ReduxForm';
-import PermissionContent from '../../../../../../../../components/PermissionContent/PermissionContent';
-import { createValidator } from '../../../../../../../../utils/validator';
-import permissions from '../../../../../../../../config/permissions';
+import PropTypes from 'constants/propTypes';
+import { InputField } from 'components/ReduxForm';
+import PermissionContent from 'components/PermissionContent/PermissionContent';
+import permissions from 'config/permissions';
+import { createValidator } from 'utils/validator';
 
 const FORM_NAME = 'updateProfilePhone';
 const attributeLabels = {

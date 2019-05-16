@@ -163,4 +163,10 @@ export default {
   CONDITIONAL_TAG: {
     LIST: 'conditional_tag;GET;/',
   },
+  SETTINGS: {
+    CHANGE_LIMIT: 'payment;POST;/methods/{uuid}/{limitUUID}',
+    ENABLE_METHOD: 'payment;POST;/methods/{uuid}/{limitUUID}/enable',
+    DISABLE_METHOD: 'payment;POST;/methods/{uuid}/{limitUUID}/disable',
+    CHANGE_STATUS: 'payment;POST;/methods/{uuid}',
+  },
 };
