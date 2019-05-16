@@ -10,7 +10,6 @@ const MyProfileSidebarWrapper = props => (
 );
 
 MyProfileSidebarWrapper.propTypes = {
-  languages: PropTypes.arrayOf(PropTypes.string).isRequired,
   isOpen: PropTypes.bool.isRequired,
   onSubmit: PropTypes.func.isRequired,
   onToggleProfile: PropTypes.func.isRequired,
