@@ -10,10 +10,10 @@ import PropTypes from 'constants/propTypes';
 import HideDetails from 'components/HideDetails';
 import PartnerEdit from 'routes/Partners/routes/OperatorProfile/routes/Edit';
 import { Route } from 'router';
-import Information from '../components/Information';
 import OperatorEdit from '../routes/Edit';
 import Feed from '../routes/Feed';
-import Header from '../components/Header';
+import Information from './Information';
+import Header from './Header';
 
 class OperatorProfileLayout extends Component {
   static propTypes = {

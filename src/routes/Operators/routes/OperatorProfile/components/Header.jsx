@@ -92,12 +92,14 @@ class Header extends Component {
             }
             {
               operatorStatus === statuses.ACTIVE &&
-              <Button
-                className="btn-sm btn-default-outline"
-                onClick={onResetPasswordClick}
-              >
-                Reset Password
-              </Button>
+              <PermissionContent permissions={permissions.OPERATORS.RESET_PASSWORD}>
+                <Button
+                  className="btn-sm btn-default-outline"
+                  onClick={onResetPasswordClick}
+                >
+                  Reset Password
+                </Button>
+              </PermissionContent>
             }
           </div>
         </div>
@@ -109,7 +111,11 @@ class Header extends Component {
               label={
                 <div className="dropdown-tab">
                   <div className="header-block-title">Account Status</div>
-                  {availableStatuses.length > 0 && <i className="fa fa-angle-down" />}
+                  <If condition={availableStatuses.length > 0}>
+                    <PermissionContent permissions={permissions.OPERATORS.UPDATE_STATUS}>
+                      <i className="fa fa-angle-down" />
+                    </PermissionContent>
+                  </If>
                   <div className={`header-block-middle ${statusColorNames[operatorStatus]}`}>{operatorStatus}</div>
                   {
                     operatorStatus === statuses.ACTIVE && !!statusChangeDate &&

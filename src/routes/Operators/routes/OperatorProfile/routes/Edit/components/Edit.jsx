@@ -50,6 +50,7 @@ class View extends Component {
     auth: PropTypes.shape({
       uuid: PropTypes.string,
     }).isRequired,
+    notify: PropTypes.func.isRequired,
   };
 
   static contextTypes = {

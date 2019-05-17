@@ -13,6 +13,8 @@ export default {
     ADD_AUTHORITY: 'auth;POST;/credentials/{uuid}/authorities',
     DELETE_AUTHORITY: 'auth;DELETE;/credentials/{uuid}/authorities',
     UPDATE_PROFILE: 'operator;PUT;/operators/{uuid}',
+    RESET_PASSWORD: 'operator;POST;/password/{brand}/{uuid}/reset/request',
+    UPDATE_STATUS: 'operator;PUT;/operators/status',
   },
   LEADS: {
     GET_LEADS: 'trading_lead_updater;POST;/search',
@@ -62,7 +64,7 @@ export default {
     UPLOAD_FILE: 'profile;POST;/files',
     VERIFY_FILE: 'profile;PUT;files/{uuid}/status/verify',
     REFUSE_FILE: 'profile;DELETE;files/{uuid}/status/refuse',
-    DELETE_FILE: 'profile;DELETE;files/{playerUUID}/{fileUUID}',
+    DELETE_FILE: 'profile;DELETE;/files/{playerUUID}/{fileUUID}',
     VERIFY_PHONE: 'profile;POST;/verification/{playerUUID}/phone',
     VERIFY_EMAIL: 'profile;POST;/verification/{playerUUID}/email',
     CHANGE_PASSWORD: 'auth;POST;/credentials/{uuid}/password',

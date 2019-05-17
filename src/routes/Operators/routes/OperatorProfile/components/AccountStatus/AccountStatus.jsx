@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
+import PermissionContent from 'components/PermissionContent';
+import permissions from 'config/permissions';
 import AccountStatusModal from './AccountStatusModal';
 import { statuses } from '../../../../../../constants/user';
 
@@ -70,22 +72,25 @@ class AccountStatus extends Component {
         aria-expanded={dropDownOpen}
       >
         {label}
-        <i className="fa fa-angle-down" />
+        <PermissionContent permissions={permissions.OPERATORS.UPDATE_STATUS}>
+          <i className="fa fa-angle-down" />
+        </PermissionContent>
       </DropdownToggle>
-
-      <DropdownMenu>
-        {
-          availableStatuses.map(({ label: statusLabel, reasons, ...rest }) => (
-            <DropdownItem
-              key={rest.action}
-              {...rest}
-              onClick={this.handleStatusClick.bind(this, { statusLabel, reasons, ...rest })}
-            >
-              {statusLabel}
-            </DropdownItem>
-          ))
-        }
-      </DropdownMenu>
+      <PermissionContent permissions={permissions.OPERATORS.UPDATE_STATUS}>
+        <DropdownMenu>
+          {
+            availableStatuses.map(({ label: statusLabel, reasons, ...rest }) => (
+              <DropdownItem
+                key={rest.action}
+                {...rest}
+                onClick={this.handleStatusClick.bind(this, { statusLabel, reasons, ...rest })}
+              >
+                {statusLabel}
+              </DropdownItem>
+            ))
+          }
+        </DropdownMenu>
+      </PermissionContent>
     </Dropdown>
   );
 
