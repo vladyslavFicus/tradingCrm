@@ -24,6 +24,7 @@ export default {
     GET_OFFICES: 'trading_hierarchy_updater;POST;/branch/hierarchy/user/{uuid}/office',
     GET_OPERATORS: 'trading_hierarchy_updater;GET;/user/{uuid}/operators',
     GET_AFFILIATE_PARTNERS: 'trading_hierarchy_updater;GET;/user/{uuid}/affiliate-partners',
+    GET_BRANCH_BY_ID: 'trading_hierarchy;GET;/branch/{uuid}',
   },
   USER_PROFILE: {
     SEND_ACTIVATION_LINK: 'profile;POST;/profiles/{playerUUID}/send-activation-link',
@@ -66,6 +67,9 @@ export default {
     CHANGE_PASSWORD: 'auth;POST;/credentials/{uuid}/password',
     MARK_IS_TEST: 'profile;POST;/profiles/{playerUUID}/is-test',
     CHANGE_ACQUISITION_STATUS: 'trading_hierarchy;POST;/bulk/user',
+  },
+  FILES: {
+    UPLOAD_FILE: 'profile;POST;/files/confirm/{playerUUID}',
   },
   PLAYER_REPORT: {
     ACTIVITY: 'player_report;GET;/{playerUUID}/activity',

@@ -3,7 +3,9 @@ import { get } from 'lodash';
 import history from 'router/history';
 import TabHeader from 'components/TabHeader';
 import { targetTypes as fileTargetTypes } from 'components/Files/constants';
+import PermissionContent from 'components/PermissionContent';
 import { getApiRoot } from 'config';
+import permissions from 'config/permissions';
 import PropTypes from 'constants/propTypes';
 import { actions } from 'constants/files';
 import FilesFilterForm from './FilesFilterForm';
@@ -97,15 +99,17 @@ class Files extends Component {
     return (
       <Fragment>
         <TabHeader title="Files">
-          <button
-            type="button"
-            className="btn btn-sm btn-primary-outline"
-            onClick={() => this.context.onUploadFileClick({
-              targetType: fileTargetTypes.FILES,
-            })}
-          >
-            + Upload file
-          </button>
+          <PermissionContent permissions={permissions.FILES.UPLOAD_FILE}>
+            <button
+              type="button"
+              className="btn btn-sm btn-primary-outline"
+              onClick={() => this.context.onUploadFileClick({
+                targetType: fileTargetTypes.FILES,
+              })}
+            >
+              + Upload file
+            </button>
+          </PermissionContent>
         </TabHeader>
         <FilesFilterForm
           onSubmit={this.handleFiltersChanged}

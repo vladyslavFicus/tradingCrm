@@ -3,12 +3,14 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import { I18n } from 'react-redux-i18n';
 import classNames from 'classnames';
-import { shortifyInMiddle } from '../../../../../../utils/stringFormat';
-import { categoriesLabels } from '../../../../../../constants/files';
-import GridView, { GridViewColumn } from '../../../../../../components/GridView';
-import FileStatusDropDown from '../../../../../../components/FileStatusDropDown';
-import NoteButton from '../../../../../../components/NoteButton';
-import Uuid from '../../../../../../components/Uuid';
+import { shortifyInMiddle } from 'utils/stringFormat';
+import { categoriesLabels } from 'constants/files';
+import PermissionContent from 'components/PermissionContent';
+import GridView, { GridViewColumn } from 'components/GridView';
+import FileStatusDropDown from 'components/FileStatusDropDown';
+import NoteButton from 'components/NoteButton';
+import Uuid from 'components/Uuid';
+import permissions from 'config/permissions';
 
 class CommonFileGridView extends Component {
   static propTypes = {
@@ -64,9 +66,11 @@ class CommonFileGridView extends Component {
         <i className="fa fa-download" />
       </button>
       {' '}
-      <button className="btn-transparent color-danger" onClick={() => this.props.onDeleteFileClick(data)}>
-        <i className="fa fa-trash" />
-      </button>
+      <PermissionContent permissions={permissions.USER_PROFILE.DELETE_FILE}>
+        <button className="btn-transparent color-danger" onClick={() => this.props.onDeleteFileClick(data)}>
+          <i className="fa fa-trash" />
+        </button>
+      </PermissionContent>
     </span>
   );
 

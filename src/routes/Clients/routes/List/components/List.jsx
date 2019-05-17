@@ -387,8 +387,9 @@ class List extends Component {
                     {I18n.t('COMMON.RETENTION')}
                   </button>
                 </If>
-                <If condition={auth.role === roles.ROLE4
-                  && [departments.ADMINISTRATION, departments.SALES, departments.RETENTION].includes(auth.department)}
+                <If condition={(auth.role === roles.ROLE4
+                  && [departments.ADMINISTRATION, departments.SALES, departments.RETENTION].includes(auth.department))
+                  || auth.department === departments.CS}
                 >
                   <button
                     className="btn btn-default-outline"

@@ -1,14 +1,14 @@
 import { connect } from 'react-redux';
 import { graphql, compose } from 'react-apollo';
-import View from '../components/View';
+import { statuses as kycStatuses } from 'constants/kyc';
+import { updateMutation } from 'graphql/mutations/profile';
+import { clientQuery } from 'graphql/queries/profile';
+import { getApiRoot } from 'config';
+import Permissions from 'utils/permissions';
+import permissions from 'config/permissions';
 import { actionCreators as profileActionCreators } from '../../../modules';
 import { actionCreators as filesActionCreators } from '../../../modules/files';
-import { statuses as kycStatuses } from '../../../../../../../constants/kyc';
-import { updateMutation } from '../../../../../../../graphql/mutations/profile';
-import { clientQuery } from '../../../../../../../graphql/queries/profile';
-import { getApiRoot } from '../../../../../../../config';
-import Permissions from '../../../../../../../utils/permissions';
-import permissions from '../../../../../../../config/permissions';
+import View from '../components/View';
 
 const updateProfilePermissions = new Permissions(permissions.USER_PROFILE.UPDATE_PROFILE);
 
@@ -52,6 +52,7 @@ const mapStateToProps = ({
     canUpdateProfile: updateProfilePermissions.check(currentPermissions.data),
   };
 };
+
 const mapActions = {
   fetchProfile: profileActionCreators.fetchProfile,
   submitData: profileActionCreators.submitData,

@@ -4,13 +4,13 @@ import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap
 import classNames from 'classnames';
 import moment from 'moment';
 import { I18n } from 'react-redux-i18n';
-import FailureReasonIcon from '../../../../../../components/FailureReasonIcon';
+import FailureReasonIcon from 'components/FailureReasonIcon';
+import { statuses, statusColorNames, statusesLabels, durationUnits } from 'constants/user';
+import Uuid from 'components/Uuid';
+import renderLabel from 'utils/renderLabel';
+import Permissions, { CONDITIONS } from 'utils/permissions';
+import permissions from 'config/permissions';
 import PlayerStatusModal from './PlayerStatusModal';
-import { statuses, statusColorNames, statusesLabels, durationUnits } from '../../../../../../constants/user';
-import Uuid from '../../../../../../components/Uuid';
-import renderLabel from '../../../../../../utils/renderLabel';
-import Permissions, { CONDITIONS } from '../../../../../../utils/permissions';
-import permissions from '../../../../../../config/permissions';
 
 const initialState = {
   dropDownOpen: false,

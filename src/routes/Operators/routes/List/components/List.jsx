@@ -14,11 +14,13 @@ import {
   statusesLabels as operatorStatusesLabels,
   operatorTypes,
 } from 'constants/operators';
+import permissions from 'config/permissions';
 import { types as miniProfileTypes } from 'constants/miniProfile';
 import Uuid from 'components/Uuid';
 import MiniProfile from 'components/MiniProfile';
 import GridView, { GridViewColumn } from 'components/GridView';
 import CountryLabelWithFlag from 'components/CountryLabelWithFlag';
+import PermissionContent from 'components/PermissionContent';
 import parseErrorsFromServer from 'utils/parseErrorsFromServer';
 import { getUserTypeByDepartment } from './utils';
 import OperatorGridFilter from './OperatorGridFilter';
@@ -299,14 +301,15 @@ class List extends Component {
               </Otherwise>
             </Choose>
           </Placeholder>
-
-          <button
-            className="btn btn-default-outline ml-auto"
-            onClick={this.handleOpenCreateModal}
-            id="create-new-operator-button"
-          >
-            {I18n.t(`${operatorType}S.CREATE_OPERATOR_BUTTON`)}
-          </button>
+          <PermissionContent permissions={permissions.OPERATORS.CREATE}>
+            <button
+              className="btn btn-default-outline ml-auto"
+              onClick={this.handleOpenCreateModal}
+              id="create-new-operator-button"
+            >
+              {I18n.t(`${operatorType}S.CREATE_OPERATOR_BUTTON`)}
+            </button>
+          </PermissionContent>
         </div>
 
         <OperatorGridFilter

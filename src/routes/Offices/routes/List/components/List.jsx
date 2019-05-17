@@ -2,13 +2,13 @@ import React, { Component, Fragment } from 'react';
 import { I18n } from 'react-redux-i18n';
 import { get } from 'lodash';
 import { TextRow } from 'react-placeholder/lib/placeholders';
+import history from 'router/history';
+import PropTypes from 'constants/propTypes';
+import GridView, { GridViewColumn } from 'components/GridView';
+import Placeholder from 'components/Placeholder';
+import Uuid from 'components/Uuid';
+import CountryLabelWithFlag from 'components/CountryLabelWithFlag';
 import OfficesGridFilter from './OfficesGridFilter';
-import history from '../../../../../router/history';
-import PropTypes from '../../../../../constants/propTypes';
-import GridView, { GridViewColumn } from '../../../../../components/GridView';
-import Placeholder from '../../../../../components/Placeholder';
-import Uuid from '../../../../../components/Uuid';
-import CountryLabelWithFlag from '../../../../../components/CountryLabelWithFlag';
 
 class List extends Component {
   static propTypes = {
