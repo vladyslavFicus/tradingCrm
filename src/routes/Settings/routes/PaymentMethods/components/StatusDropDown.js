@@ -10,6 +10,7 @@ class StatusDropDown extends Component {
   static propTypes = {
     status: PropTypes.string.isRequired,
     onStatusChange: PropTypes.func.isRequired,
+    readOnly: PropTypes.bool.isRequired,
   };
 
   state = {
@@ -24,7 +25,7 @@ class StatusDropDown extends Component {
 
   render() {
     const { dropDownOpen } = this.state;
-    const { status } = this.props;
+    const { status, readOnly } = this.props;
 
     const label = (
       <div className={classNames('font-weight-700', methodStatusesColor[status])}>
@@ -47,17 +48,19 @@ class StatusDropDown extends Component {
         >
           {label}
         </DropdownToggle>
-        <DropdownMenu>
-          {methodStatusActions[status].map(item => (
-            <DropdownItem
-              onClick={() => this.props.onStatusChange(item.action)}
-              className="text-uppercase font-weight-700"
-              key={item.label}
-            >
-              {item.label}
-            </DropdownItem>
-          ))}
-        </DropdownMenu>
+        <If condition={!readOnly}>
+          <DropdownMenu>
+            {methodStatusActions[status].map(item => (
+              <DropdownItem
+                onClick={() => this.props.onStatusChange(item.action)}
+                className="text-uppercase font-weight-700"
+                key={item.label}
+              >
+                {item.label}
+              </DropdownItem>
+            ))}
+          </DropdownMenu>
+        </If>
       </Dropdown>
     );
   }

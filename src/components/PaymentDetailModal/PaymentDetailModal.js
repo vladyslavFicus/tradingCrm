@@ -5,10 +5,8 @@ import classNames from 'classnames';
 import { I18n } from 'react-redux-i18n';
 import { get } from 'lodash';
 import { Field, reduxForm } from 'redux-form';
-import { departments, roles } from 'constants/brands';
-import { createValidator, translateLabels } from 'utils/validator';
-import { RejectForm, ApproveForm } from './ViewForm';
-import PropTypes from '../../constants/propTypes';
+import permissions from 'config/permissions';
+import PropTypes from 'constants/propTypes';
 import {
   methodsLabels,
   manualPaymentMethodsLabels,
@@ -18,7 +16,10 @@ import {
   statusMapper,
   statusesLabels,
   statuses,
-} from '../../constants/payment';
+} from 'constants/payment';
+import { createValidator, translateLabels } from 'utils/validator';
+import renderLabel from 'utils/renderLabel';
+import Permissions from 'utils/permissions';
 import Amount from '../Amount';
 import { UncontrolledTooltip } from '../Reactstrap/Uncontrolled';
 import Uuid from '../Uuid';
@@ -26,9 +27,9 @@ import ModalPlayerInfo from '../ModalPlayerInfo';
 import PaymentStatus from '../PaymentStatus';
 import ShortLoader from '../ShortLoader';
 import IpFlag from '../IpFlag';
-import renderLabel from '../../utils/renderLabel';
 import { NasSelectField } from '../ReduxForm/index';
 import attributeLabels from './constants';
+import { RejectForm, ApproveForm } from './ViewForm';
 import './PaymentDetailModal.scss';
 
 const formName = 'ChangePayment';
@@ -50,11 +51,13 @@ class PaymentDetailModal extends PureComponent {
     invalid: PropTypes.bool.isRequired,
     pristine: PropTypes.bool.isRequired,
     submitting: PropTypes.bool.isRequired,
-    auth: PropTypes.shape({
-      department: PropTypes.string,
-      role: PropTypes.string,
-    }).isRequired,
     notify: PropTypes.func.isRequired,
+    changePaymentMethod: PropTypes.func.isRequired,
+    changePaymentStatus: PropTypes.func.isRequired,
+  };
+
+  static contextTypes = {
+    permissions: PropTypes.array.isRequired,
   };
 
   static defaultProps = {
@@ -81,6 +84,19 @@ class PaymentDetailModal extends PureComponent {
       onCloseModal();
       onSuccess();
     }
+  };
+
+  get readOnly() {
+    const { permissions: currentPermission } = this.context;
+    const permittedRights = [
+      permissions.PAYMENT.APPROVE,
+      permissions.PAYMENT.REJECT,
+      permissions.PAYMENT.CHANGE_STATUS,
+      permissions.PAYMENT.CHANGE_METHOD,
+    ];
+
+    // INFO: if have permission return false
+    return !(new Permissions(permittedRights).check(currentPermission));
   }
 
   handleSubmit = async ({ paymentMethod, paymentStatus }) => {
@@ -154,11 +170,10 @@ class PaymentDetailModal extends PureComponent {
         message: I18n.t('PAYMENT_DETAILS_MODAL.NOTIFICATIONS.SUCCESSFULLY'),
       });
     }
-  }
+  };
 
   render() {
     const {
-      auth,
       payment,
       payment: {
         paymentId,
@@ -292,61 +307,67 @@ class PaymentDetailModal extends PureComponent {
         </ModalBody>
         <ModalFooter>
           <div className="d-flex flex-column width-full">
-            <If condition={
-              !statusMapper.PENDING.includes(status) && (auth.role === roles.ROLE4
-                && [departments.ADMINISTRATION, departments.FINANCE].includes(auth.department))
-              }
-            >
-              <form className="row">
-                <Field
-                  label={I18n.t('PAYMENT_DETAILS_MODAL.CHANGE_STATUS')}
-                  className="col-6 mt-3 mx-auto"
-                  component={NasSelectField}
-                  name="paymentStatus"
-                  placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
-                >
-                  {Object.entries(statusMapper).filter(([item]) => item !== statuses.PENDING).map(([key, value]) => (
-                    <option key={key} value={value[0]}>
-                      {renderLabel(key, statusesLabels)}
-                    </option>
-                  ))}
-                </Field>
-                <Field
-                  label={I18n.t('PAYMENT_DETAILS_MODAL.CHANGE_PAYMENT_METHOD')}
-                  className="col-6 mt-3 mx-auto"
-                  component={NasSelectField}
-                  name="paymentMethod"
-                  placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
-                >
-                  {Object.values(manualPaymentMethods).map(item => (
-                    <option key={item} value={item}>
-                      {I18n.t(manualPaymentMethodsLabels[item])}
-                    </option>
-                  ))}
-                </Field>
-              </form>
-            </If>
-            <div className="d-flex align-items-end justify-content-between width-full">
-              <Button className="btn btn-default" onClick={onCloseModal}>
-                {I18n.t('COMMON.DEFER')}
-              </Button>
-              <If condition={
-                !statusMapper.PENDING.includes(status) && (auth.role === roles.ROLE4
-                  && [departments.ADMINISTRATION, departments.FINANCE].includes(auth.department))}
-              >
-                <Button
-                  onClick={handleSubmit(this.handleSubmit)}
-                  className="margin-left-15 btn btn-primary"
-                  disabled={pristine || invalid || submitting}
-                >
-                  {I18n.t('COMMON.SAVE_CHANGES')}
-                </Button>
-              </If>
-              <If condition={paymentType === tradingTypes.WITHDRAW && statusMapper.PENDING.includes(status)}>
-                <ApproveForm onSubmit={this.onSubmit} />
-                <RejectForm onSubmit={this.onSubmit} />
-              </If>
-            </div>
+            <Choose>
+              <When condition={this.readOnly}>
+                <div className="d-flex align-items-end justify-content-between width-full">
+                  <Button className="btn btn-default" onClick={onCloseModal}>
+                    {I18n.t('COMMON.DEFER')}
+                  </Button>
+                </div>
+              </When>
+              <Otherwise>
+                <If condition={!statusMapper.PENDING.includes(status)}>
+                  <form className="row">
+                    <Field
+                      label={I18n.t('PAYMENT_DETAILS_MODAL.CHANGE_STATUS')}
+                      className="col-6 mt-3 mx-auto"
+                      component={NasSelectField}
+                      name="paymentStatus"
+                      placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
+                    >
+                      {Object
+                        .entries(statusMapper)
+                        .filter(([item]) => item !== statuses.PENDING).map(([key, value]) => (
+                          <option key={key} value={value[0]}>
+                            {renderLabel(key, statusesLabels)}
+                          </option>
+                      ))}
+                    </Field>
+                    <Field
+                      label={I18n.t('PAYMENT_DETAILS_MODAL.CHANGE_PAYMENT_METHOD')}
+                      className="col-6 mt-3 mx-auto"
+                      component={NasSelectField}
+                      name="paymentMethod"
+                      placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
+                    >
+                      {Object.values(manualPaymentMethods).map(item => (
+                        <option key={item} value={item}>
+                          {I18n.t(manualPaymentMethodsLabels[item])}
+                        </option>
+                      ))}
+                    </Field>
+                  </form>
+                </If>
+                <div className="d-flex align-items-end justify-content-between width-full">
+                  <Button className="btn btn-default" onClick={onCloseModal}>
+                    {I18n.t('COMMON.DEFER')}
+                  </Button>
+                  <If condition={!statusMapper.PENDING.includes(status)}>
+                    <Button
+                      onClick={handleSubmit(this.handleSubmit)}
+                      className="margin-left-15 btn btn-primary"
+                      disabled={pristine || invalid || submitting}
+                    >
+                      {I18n.t('COMMON.SAVE_CHANGES')}
+                    </Button>
+                  </If>
+                  <If condition={paymentType === tradingTypes.WITHDRAW && statusMapper.PENDING.includes(status)}>
+                    <ApproveForm onSubmit={this.onSubmit} />
+                    <RejectForm onSubmit={this.onSubmit} />
+                  </If>
+                </div>
+              </Otherwise>
+            </Choose>
           </div>
         </ModalFooter>
       </Modal>

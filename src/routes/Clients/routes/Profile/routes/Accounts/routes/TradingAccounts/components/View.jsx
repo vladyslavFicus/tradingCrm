@@ -6,7 +6,7 @@ import permissions from 'config/permissions';
 import PermissionContent from 'components/PermissionContent';
 import GridView, { GridViewColumn } from 'components/GridView';
 import ActionsDropDown from 'components/ActionsDropDown';
-import Permissions, { CONDITIONS } from 'utils/permissions';
+import Permissions from 'utils/permissions';
 import columns, { actionColumn } from './utils';
 
 class View extends PureComponent {
@@ -75,7 +75,7 @@ class View extends PureComponent {
 
     const mt4Users = get(playerProfile, 'playerProfile.data.tradingProfile.mt4Users') || [];
     const updatePassPermission =
-      (new Permissions(permissions.TRADING_ACCOUNT.UPDATE_PASSWORD, CONDITIONS.AND)).check(currentPermissions);
+      (new Permissions(permissions.TRADING_ACCOUNT.UPDATE_PASSWORD)).check(currentPermissions);
 
     return (
       <div className="tab-wrapper">

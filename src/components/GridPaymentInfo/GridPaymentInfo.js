@@ -1,8 +1,8 @@
 import React, { PureComponent } from 'react';
 import { I18n } from 'react-redux-i18n';
 import { compose } from 'react-apollo';
-import PropTypes from '../../constants/propTypes';
-import { shortify } from '../../utils/uuid';
+import PropTypes from 'constants/propTypes';
+import { shortify } from 'utils/uuid';
 import { withModals } from '../HighOrder';
 import PaymentDetailModal from '../PaymentDetailModal';
 import Uuid from '../Uuid';

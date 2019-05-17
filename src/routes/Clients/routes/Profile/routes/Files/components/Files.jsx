@@ -1,13 +1,13 @@
 import React, { Component, Fragment } from 'react';
 import { get } from 'lodash';
 import history from 'router/history';
-import PropTypes from '../../../../../../../constants/propTypes';
-import { actions } from '../../../../../../../constants/files';
-import { getApiRoot } from '../../../../../../../config';
-import { targetTypes as fileTargetTypes } from '../../../../../../../components/Files/constants';
+import TabHeader from 'components/TabHeader';
+import { targetTypes as fileTargetTypes } from 'components/Files/constants';
+import { getApiRoot } from 'config';
+import PropTypes from 'constants/propTypes';
+import { actions } from 'constants/files';
 import FilesFilterForm from './FilesFilterForm';
 import CommonFileGridView from '../../../components/CommonFileGridView';
-import TabHeader from '../../../../../../../components/TabHeader';
 
 class Files extends Component {
   static contextTypes = {

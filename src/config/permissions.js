@@ -80,6 +80,10 @@ export default {
     CREDIT_IN: 'trading_payment;POST;/credit_in',
     CREDIT_OUT: 'trading_payment;POST;/credit_out',
     TRANSFER: 'trading_payment;POST;/transfer',
+    APPROVE: 'trading_payment;PUT;/approve',
+    REJECT: 'trading_payment;PUT;/reject',
+    CHANGE_STATUS: 'trading_payment;PUT;/{paymentId}/status',
+    CHANGE_METHOD: 'trading_payment;PUT;/{paymentId}/method',
   },
   PAYMENT_VIEW: {
     PAYMENT_REPORT: 'payment_view;GET;/payments/payment_report',
@@ -158,5 +162,11 @@ export default {
   },
   CONDITIONAL_TAG: {
     LIST: 'conditional_tag;GET;/',
+  },
+  SETTINGS: {
+    CHANGE_LIMIT: 'payment;POST;/methods/{uuid}/{limitUUID}',
+    ENABLE_METHOD: 'payment;POST;/methods/{uuid}/{limitUUID}/enable',
+    DISABLE_METHOD: 'payment;POST;/methods/{uuid}/{limitUUID}/disable',
+    CHANGE_STATUS: 'payment;POST;/methods/{uuid}',
   },
 };

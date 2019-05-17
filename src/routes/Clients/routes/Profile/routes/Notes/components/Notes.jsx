@@ -23,7 +23,9 @@ class Notes extends Component {
       }),
     }).isRequired,
     locale: PropTypes.string.isRequired,
+    department: PropTypes.string.isRequired,
   };
+
   static contextTypes = {
     onAddNoteClick: PropTypes.func.isRequired,
     onEditModalNoteClick: PropTypes.func.isRequired,
@@ -81,7 +83,13 @@ class Notes extends Component {
     }
   };
 
-  renderItem = data => <NoteItem data={data} handleNoteClick={this.context.onEditModalNoteClick} />;
+  renderItem = data => (
+    <NoteItem
+      data={data}
+      department={this.props.department}
+      handleNoteClick={this.context.onEditModalNoteClick}
+    />
+  );
 
   render() {
     const {

@@ -68,7 +68,7 @@ class PersonalForm extends Component {
           </div>
           <PermissionContent permissions={permissions.USER_PROFILE.UPDATE_PROFILE}>
             <div className="col-auto">
-              <If condition={!pristine && !submitting && !disabled && valid}>
+              <If condition={!pristine && !submitting && valid && !disabled}>
                 <button className="btn btn-sm btn-primary" type="submit" id="profile-personal-info-save-btn">
                   {I18n.t('COMMON.SAVE_CHANGES')}
                 </button>

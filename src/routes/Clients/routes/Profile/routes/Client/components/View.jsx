@@ -1,7 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { I18n } from 'react-redux-i18n';
 import { SubmissionError } from 'redux-form';
-import { get } from 'lodash';
 import PropTypes from 'constants/propTypes';
 import {
   types as kycTypes,
@@ -82,12 +81,16 @@ class View extends Component {
     fetchKycReasons: PropTypes.func.isRequired,
     canUpdateProfile: PropTypes.bool,
     profileUpdate: PropTypes.func.isRequired,
+    fetchProfile: PropTypes.func.isRequired,
+    playerProfile: PropTypes.object.isRequired,
   };
+
   static contextTypes = {
     addNotification: PropTypes.func.isRequired,
     showImages: PropTypes.func.isRequired,
     onAddNote: PropTypes.func.isRequired,
   };
+
   static defaultProps = {
     canUpdateProfile: false,
   };
@@ -110,7 +113,6 @@ class View extends Component {
   handleSubmitKYC = type => async (data) => {
     const {
       match: { params: { id } },
-      playerProfile: { playerProfile: { data: profile } },
       submitData,
       profileUpdate,
     } = this.props;
@@ -275,9 +277,8 @@ class View extends Component {
 
   handleVerifyClick = (verifyType) => {
     const { profile: { data: { fullName } } } = this.props;
-
-    console.info(`Verify button clicked - ${verifyType}`);
     const kycVerifyModalStaticParams = {};
+
     if (verifyType === kycCategories.KYC_PERSONAL) {
       kycVerifyModalStaticParams.modalTitle =
         I18n.t('PLAYER_PROFILE.PROFILE.VERIFY_KYC.MODAL.TITLE.PERSONAL');

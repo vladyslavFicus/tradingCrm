@@ -18,8 +18,8 @@ const transformAcquisitionData = (data, department) => aquisitionStatuses.map(({
 
   if (representative) {
     const branches = representative.hierarchy ? representative.hierarchy.parentBranches : null;
-    // Find operator team and desk. If team is absent -> find desk in branches
 
+    // INFO: Find operator team and desk. If team is absent -> find desk in branches
     if (branches) {
       team = branches.find(branch => branch.branchType === branchTypes.TEAM);
       desk = team ? team.parentBranch : branches.find(branch => branch.branchType === branchTypes.DESK);

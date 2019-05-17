@@ -1,5 +1,5 @@
-import { departments, roles } from '../../../../../constants/operators';
-import { userTypes } from '../../../../../constants/hierarchyTypes';
+import { departments, roles } from 'constants/operators';
+import { userTypes } from 'constants/hierarchyTypes';
 
 const roleMapper = department => ({
   [roles.ROLE4]: userTypes[`${department}_HOD`],

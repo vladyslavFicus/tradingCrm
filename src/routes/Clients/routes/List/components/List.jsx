@@ -387,9 +387,8 @@ class List extends Component {
                     {I18n.t('COMMON.RETENTION')}
                   </button>
                 </If>
-                <If condition={
-                  !(auth.role === roles.ROLE1
-                  && (auth.department === departments.RETENTION || auth.department === departments.SALES))}
+                <If condition={auth.role === roles.ROLE4
+                  && [departments.ADMINISTRATION, departments.SALES, departments.RETENTION].includes(auth.department)}
                 >
                   <button
                     className="btn btn-default-outline"
@@ -399,18 +398,26 @@ class List extends Component {
                   </button>
                 </If>
               </PermissionContent>
-              <button
-                className="btn btn-default-outline"
-                // onClick={this.changeStatus}
-              >
-                {I18n.t('COMMON.CHANGE_STATUS')}
-              </button>
-              <button
-                className="btn btn-default-outline"
-                // onClick={this.handleExportSelected}
-              >
-                {I18n.t('COMMON.EXPORT_SELECTED')}
-              </button>
+              { false && (
+                /* INFO: this is unused right now
+                 * as soon as this functionality comes alive
+                 * we need to add permissions here and handlers
+                */
+                <Fragment>
+                  <button
+                    className="btn btn-default-outline"
+                    // onClick={this.changeStatus}
+                  >
+                    {I18n.t('COMMON.CHANGE_STATUS')}
+                  </button>
+                  <button
+                    className="btn btn-default-outline"
+                    // onClick={this.handleExportSelected}
+                  >
+                    {I18n.t('COMMON.EXPORT_SELECTED')}
+                  </button>
+                </Fragment>
+              )}
             </div>
           </If>
         </div>

@@ -2,14 +2,16 @@ import React, { Component } from 'react';
 import { SortableHandle } from 'react-sortable-hoc';
 import classNames from 'classnames';
 import { I18n } from 'react-redux-i18n';
-import SortableGridView from '../../../../../components/GridView/SortableGridView';
-import { GridViewColumn } from '../../../../../components/GridView';
-import Amount from '../../../../../components/Amount';
-import MethodGridFilter from './MethodsGridFilter';
-import LimitPopover from '../../../../../components/PaymentMethodLimitPopover';
+import SortableGridView from 'components/GridView/SortableGridView';
+import { GridViewColumn } from 'components/GridView';
+import Amount from 'components/Amount';
+import LimitPopover from 'components/PaymentMethodLimitPopover';
+import PopoverButton from 'components/PopoverButton';
+import permissions from 'config/permissions';
+import PropTypes from 'constants/propTypes';
+import Permissions from 'utils/permissions';
 import AvailabilityPopover from './AvailabilityPopover';
-import PopoverButton from '../../../../../components/PopoverButton';
-import PropTypes from '../../../../../constants/propTypes';
+import MethodGridFilter from './MethodsGridFilter';
 import StatusDropDown from './StatusDropDown';
 import './List.scss';
 
@@ -33,6 +35,11 @@ class List extends Component {
     getCountryAvailability: PropTypes.func.isRequired,
     paymentMethods: PropTypes.arrayOf(PropTypes.paymentMethod),
   };
+
+  static contextTypes = {
+    permissions: PropTypes.array.isRequired,
+  };
+
   static defaultProps = {
     paymentMethods: [],
   };
@@ -45,6 +52,19 @@ class List extends Component {
 
   componentDidMount() {
     this.handleRefresh();
+  }
+
+  get readOnly() {
+    const { permissions: currentPermission } = this.context;
+
+    const permittedRights = [
+      permissions.SETTINGS.CHANGE_LIMIT,
+      permissions.SETTINGS.ENABLE_METHOD,
+      permissions.SETTINGS.DISABLE_METHOD,
+      permissions.SETTINGS.CHANGE_STATUS,
+    ];
+
+    return !(new Permissions(permittedRights).check(currentPermission));
   }
 
   handleRefresh = () => {
@@ -138,6 +158,7 @@ class List extends Component {
     <StatusDropDown
       status={data.status}
       onStatusChange={this.handleChangeStatus(data.uuid)}
+      readOnly={this.readOnly}
     />
   );
 
@@ -182,25 +203,32 @@ class List extends Component {
   renderLimit = (data, column) => {
     const item = data[column.name];
 
+    const handleLimitPopoverClick = id => this.handleSetLimitClick(id, {
+      ...item,
+      methodUUID: data.uuid,
+      limitUUID: item.uuid,
+      type: column.name,
+      limitType: column.name === 'depositLimit'
+        ? I18n.t('PAYMENT_METHOD_LIMIT_POPOVER.DEPOSITS')
+        : I18n.t('PAYMENT_METHOD_LIMIT_POPOVER.WITHDRAWALS'),
+    });
+
     return (
       <PopoverButton
         id={`payment-method-limit-${item.uuid}`}
-        onClick={id => this.handleSetLimitClick(id, {
-          ...item,
-          methodUUID: data.uuid,
-          limitUUID: item.uuid,
-          type: column.name,
-          limitType: column.name === 'depositLimit'
-            ? I18n.t('PAYMENT_METHOD_LIMIT_POPOVER.DEPOSITS')
-            : I18n.t('PAYMENT_METHOD_LIMIT_POPOVER.WITHDRAWALS'),
-        })}
+        onClick={this.readOnly
+          ? () => {}
+          : handleLimitPopoverClick
+        }
         className={classNames(
           'payment-method-toggle',
           { open: `${column.name}-${data.uuid}` === this.state.activePopoverUUID },
         )}
       >
         {this.renderLimitRepresentation(data, column)}
-        <i className="fa fa-angle-down payment-method-toggle__caret" />
+        <If condition={!this.readOnly}>
+          <i className="fa fa-angle-down payment-method-toggle__caret" />
+        </If>
       </PopoverButton>
     );
   };

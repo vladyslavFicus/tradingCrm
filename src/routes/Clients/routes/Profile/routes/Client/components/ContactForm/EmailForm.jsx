@@ -4,11 +4,11 @@ import { compose } from 'redux';
 import { I18n } from 'react-redux-i18n';
 import PropTypes from 'prop-types';
 import { Field, reduxForm, getFormSyncErrors, getFormValues } from 'redux-form';
-import { InputField } from '../../../../../../../../components/ReduxForm';
-import PermissionContent from '../../../../../../../../components/PermissionContent/PermissionContent';
-import permissions from '../../../../../../../../config/permissions';
-import { createValidator } from '../../../../../../../../utils/validator';
-import { statuses as playerStatuses } from '../../../../../../../../constants/user';
+import { InputField } from 'components/ReduxForm';
+import PermissionContent from 'components/PermissionContent/PermissionContent';
+import permissions from 'config/permissions';
+import { statuses as playerStatuses } from 'constants/user';
+import { createValidator } from 'utils/validator';
 
 const FORM_NAME = 'updateProfileEmail';
 const attributeLabels = {
