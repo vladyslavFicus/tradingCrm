@@ -14,7 +14,9 @@ class PersonalForm extends PureComponent {
     onSubmit: PropTypes.func.isRequired,
     pristine: PropTypes.bool,
     submitting: PropTypes.bool,
+    disabled: PropTypes.bool.isRequired,
   };
+
   static defaultProps = {
     handleSubmit: null,
     pristine: false,
@@ -28,6 +30,7 @@ class PersonalForm extends PureComponent {
       pristine,
       submitting,
       isPartner,
+      disabled,
     } = this.props;
 
     return (
@@ -36,17 +39,17 @@ class PersonalForm extends PureComponent {
           <div className="col-xl-6 personal-form-heading">
             {I18n.t('OPERATOR_PROFILE.PERSONAL_INFORMATION.TITLE')}
           </div>
-          {!(pristine || submitting) &&
-          <div className="col-xl-6 text-right">
-            <button
-              className="btn btn-sm btn-primary pull-right"
-              type="submit"
-              id="operators-profile-save-changes-button"
-            >
-              {I18n.t('COMMON.SAVE_CHANGES')}
-            </button>
-          </div>
-          }
+          <If condition={!(pristine || submitting) && !disabled}>
+            <div className="col-xl-6 text-right">
+              <button
+                className="btn btn-sm btn-primary pull-right"
+                type="submit"
+                id="operators-profile-save-changes-button"
+              >
+                {I18n.t('COMMON.SAVE_CHANGES')}
+              </button>
+            </div>
+          </If>
         </div>
         <div className="row">
           <div className="col-xl-4">
@@ -57,6 +60,7 @@ class PersonalForm extends PureComponent {
               component={InputField}
               showErrorMessage
               position="vertical"
+              disabled={disabled}
               id="operators-profile-first-name"
             />
           </div>
@@ -67,6 +71,7 @@ class PersonalForm extends PureComponent {
               type="text"
               component={InputField}
               showErrorMessage
+              disabled={disabled}
               position="vertical"
               id="operators-profile-last-name"
             />
@@ -93,6 +98,7 @@ class PersonalForm extends PureComponent {
               type="text"
               component={InputField}
               showErrorMessage
+              disabled={disabled}
               position="vertical"
               id="operators-profile-phone-number"
             />
@@ -103,6 +109,7 @@ class PersonalForm extends PureComponent {
               label={I18n.t(attributeLabels.country)}
               type="text"
               component={SelectField}
+              disabled={disabled}
               position="vertical"
             >
               <option value="">{I18n.t('COMMON.SELECT_OPTION.COUNTRY')}</option>

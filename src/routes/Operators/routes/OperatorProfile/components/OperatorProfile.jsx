@@ -8,10 +8,10 @@ import { operatorTypes } from 'constants/operators';
 import * as menu from 'config/menu';
 import PropTypes from 'constants/propTypes';
 import HideDetails from 'components/HideDetails';
-import { default as PartnerEdit } from 'routes/Partners/routes/OperatorProfile/routes/Edit';
+import PartnerEdit from 'routes/Partners/routes/OperatorProfile/routes/Edit';
 import { Route } from 'router';
 import Information from '../components/Information';
-import { default as OperatorEdit } from '../routes/Edit';
+import OperatorEdit from '../routes/Edit';
 import Feed from '../routes/Feed';
 import Header from '../components/Header';
 
@@ -37,6 +37,8 @@ class OperatorProfileLayout extends Component {
     }).isRequired,
     operatorType: PropTypes.string,
     getLoginLock: PropTypes.object.isRequired,
+    unlockLoginMutation: PropTypes.func.isRequired,
+    notify: PropTypes.func.isRequired,
   };
 
   static defaultProps={

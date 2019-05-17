@@ -12,6 +12,7 @@ export default {
     OPERATOR_SEND_INVITATION: 'operator;PUT;/operators/{uuid}/send/invitation',
     ADD_AUTHORITY: 'auth;POST;/credentials/{uuid}/authorities',
     DELETE_AUTHORITY: 'auth;DELETE;/credentials/{uuid}/authorities',
+    UPDATE_PROFILE: 'operator;PUT;/operators/{uuid}',
   },
   LEADS: {
     GET_LEADS: 'trading_lead_updater;POST;/search',

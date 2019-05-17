@@ -79,6 +79,13 @@ class View extends Component {
     this.props.fetchAuthoritiesOptions();
   }
 
+  get readOnly() {
+    const { permissions: currentPermission } = this.context;
+    const permittedRights = [permissions.OPERATORS.UPDATE_PROFILE];
+
+    return !(new Permissions(permittedRights).check(currentPermission));
+  }
+
   handleRefetchHierarchy = () => this.props.userHierarchy.refetch();
 
   handleSubmit = (data) => {
@@ -183,6 +190,7 @@ class View extends Component {
                 showNotes,
                 showSalesStatus,
               }}
+              disabled={this.readOnly}
               onSubmit={this.handleSubmit}
             />
           </div>
