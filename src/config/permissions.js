@@ -13,7 +13,7 @@ export default {
     ADD_AUTHORITY: 'auth;POST;/credentials/{uuid}/authorities',
     DELETE_AUTHORITY: 'auth;DELETE;/credentials/{uuid}/authorities',
     UPDATE_PROFILE: 'operator;PUT;/operators/{uuid}',
-    RESET_PASSWORD: 'operator;POST;/password/{brand}/{uuid}/reset/request',
+    RESET_PASSWORD: 'auth;POST;/password/{brand}/{uuid}/reset/request',
     UPDATE_STATUS: 'operator;PUT;/operators/status',
   },
   LEADS: {
