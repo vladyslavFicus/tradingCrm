@@ -146,6 +146,7 @@ class Profile extends Component {
     unRegisterUpdateCacheListener: PropTypes.func.isRequired,
     triggerRepresentativeUpdateModal: PropTypes.func.isRequired,
   };
+
   static defaultProps = {
     lastIp: null,
   };

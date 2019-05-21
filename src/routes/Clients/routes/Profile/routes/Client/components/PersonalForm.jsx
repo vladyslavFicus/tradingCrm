@@ -36,6 +36,11 @@ class PersonalForm extends Component {
     disabled: PropTypes.bool,
     valid: PropTypes.bool,
   };
+
+  static contextTypes = {
+    tradingOperatorAccessDisabled: PropTypes.bool.isRequired,
+  }
+
   static defaultProps = {
     handleSubmit: null,
     pristine: false,
@@ -60,6 +65,8 @@ class PersonalForm extends Component {
       valid,
     } = this.props;
 
+    const { tradingOperatorAccessDisabled } = this.context;
+
     return (
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="row margin-bottom-20">
@@ -82,7 +89,7 @@ class PersonalForm extends Component {
             label={attributeLabels.firstName}
             type="text"
             component={InputField}
-            disabled={disabled}
+            disabled={disabled || tradingOperatorAccessDisabled}
             id="users-profile-first-name"
             className="col-lg-6"
           />
@@ -91,7 +98,7 @@ class PersonalForm extends Component {
             label={attributeLabels.lastName}
             type="text"
             component={InputField}
-            disabled={disabled}
+            disabled={disabled || tradingOperatorAccessDisabled}
             id="users-profile-last-name"
             className="col-lg-6"
           />

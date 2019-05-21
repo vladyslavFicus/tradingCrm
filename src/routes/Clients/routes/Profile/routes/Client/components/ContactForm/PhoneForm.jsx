@@ -37,6 +37,11 @@ class PhoneForm extends Component {
     formSyncErrors: PropTypes.object,
     disabled: PropTypes.bool,
   };
+
+  static contextTypes = {
+    tradingOperatorAccessDisabled: PropTypes.bool.isRequired,
+  };
+
   static defaultProps = {
     handleSubmit: null,
     dirty: false,
@@ -68,6 +73,8 @@ class PhoneForm extends Component {
       onSubmit,
     } = this.props;
 
+    const { tradingOperatorAccessDisabled } = this.context;
+
     const isPhoneDirty = currentValues.phone !== initialValues.phone ||
       currentValues.phoneCode !== initialValues.phoneCode;
 
@@ -94,7 +101,7 @@ class PhoneForm extends Component {
             type="text"
             component={InputField}
             label={attributeLabels.phone}
-            disabled={disabled}
+            disabled={disabled || tradingOperatorAccessDisabled}
             className="col-5"
           />
           <If condition={isPhoneVerifiable}>

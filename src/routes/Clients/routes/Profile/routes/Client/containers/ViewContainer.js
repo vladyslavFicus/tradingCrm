@@ -16,6 +16,7 @@ const mapStateToProps = ({
   profile: { profile, files },
   i18n: { locale },
   permissions: currentPermissions,
+  auth: { department, role },
   options,
 }) => {
   const {
@@ -50,6 +51,7 @@ const mapStateToProps = ({
     locale,
     filesUrl: `${getApiRoot()}/profile/files/download/`,
     canUpdateProfile: updateProfilePermissions.check(currentPermissions.data),
+    auth: { department, role },
   };
 };
 

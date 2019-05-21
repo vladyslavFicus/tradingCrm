@@ -6,6 +6,7 @@ import {
   types as kycTypes,
   categories as kycCategories,
 } from 'constants/kyc';
+import { roles, departments } from 'constants/brands';
 import PersonalForm from './PersonalForm';
 import AddressForm from './AddressForm';
 import ContactForm from './ContactForm';
@@ -83,6 +84,14 @@ class View extends Component {
     profileUpdate: PropTypes.func.isRequired,
     fetchProfile: PropTypes.func.isRequired,
     playerProfile: PropTypes.object.isRequired,
+    auth: PropTypes.shape({
+      department: PropTypes.string.isRequired,
+      role: PropTypes.string.isRequired,
+    }).isRequired,
+  };
+
+  static childContextTypes = {
+    tradingOperatorAccessDisabled: PropTypes.bool.isRequired,
   };
 
   static contextTypes = {
@@ -99,6 +108,10 @@ class View extends Component {
     modal: { ...modalInitialState },
   };
 
+  getChildContext = () => ({
+    tradingOperatorAccessDisabled: this.tradingOperatorAccessDisabled,
+  });
+
   async componentDidMount() {
     const kycReasonsAction = await this.props.fetchKycReasons();
 
@@ -109,6 +122,12 @@ class View extends Component {
   onManageKycNote = type => (data) => {
     this.props.manageKycNote(type, data);
   };
+
+  get tradingOperatorAccessDisabled() {
+    const { auth: { department, role } } = this.props;
+
+    return role === roles.ROLE1 && ([departments.RETENTION, departments.SALES].includes(department));
+  }
 
   handleSubmitKYC = type => async (data) => {
     const {
