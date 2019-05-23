@@ -8,6 +8,76 @@ const ReleaseNotes = () => (
       Release notes
     </h1>
     <p />
+    <h1>17/May/19 - Version 22</h1>
+    <h2>What has been done</h2>
+    <ul>
+      <li>
+        <p>
+          Automatic refresh of the search results after a bulk action is applied
+        </p>
+      </li>
+    </ul>
+    <h2>Bugs &amp; Fixes</h2>
+    <ul>
+      <li>
+        <p>
+          Validation error on promote lead to client with Ukrainian language is
+          fixed
+        </p>
+      </li>
+      <li>
+        <p>Affiliate partner can get clients with a lot of notes via API</p>
+      </li>
+      <li>
+        <p>
+          Customer service permissions for changing Desk, Team, Representative
+          are set
+        </p>
+      </li>
+      <li>
+        <p>Client portal caching problem fixed</p>
+      </li>
+    </ul>
+    <h1>7/May/19 - Version 21</h1>
+    <h2>What has been done</h2>
+    <ul>
+      <li>
+        <p>Default Leverage per regulation can be defined per brand</p>
+      </li>
+      <li>
+        <p>Transaction's status can be changed manually</p>
+      </li>
+      <li>
+        <p>Client portal refactoring + responsive design</p>
+      </li>
+      <li>
+        <p>Simplified first deposit flow in refactored client portal enabled</p>
+      </li>
+      <li>
+        <p>
+          Fields validation improved on new affiliate’s client registration via
+          API
+        </p>
+      </li>
+      <li>
+        <p>
+          Trading accounts are being created with a default leverage of the
+          group
+        </p>
+      </li>
+    </ul>
+    <h2>Bugs &amp; Fixes</h2>
+    <ul>
+      <li>
+        <p>Problem with creating mt4 accounts fixed</p>
+      </li>
+      <li>
+        <p>New team button works and team lists are fixed</p>
+      </li>
+      <li>
+        <p>Affiliate API - Save birth date fixed</p>
+      </li>
+    </ul>
     <h1>16/Apr/19 - Version 19</h1>
     <h2>What has been done</h2>
     <ul>
@@ -15,7 +85,6 @@ const ReleaseNotes = () => (
         <p>Applications &amp; Webtrader buttons on client portal redesigned</p>
       </li>
       <li>
-        {/* eslint-disable-next-line max-len */}
         <p>
           Leads will be assigned to a current operator if a non-existing
           operator was specified in the uploaded CSV file
@@ -53,12 +122,11 @@ const ReleaseNotes = () => (
       </li>
       <li>
         <p>
-          Affiliate partner&apos;s API access can be blocked in operator&rsquo;s
-          profile
+          Affiliate partner's API access can be blocked in operator’s profile
         </p>
       </li>
       <li>
-        <p>Migrated client&apos;s password recovery flow has been implemented</p>
+        <p>Migrated clients' password recovery flow has been implemented</p>
         <ul>
           <li>
             <p>
@@ -113,7 +181,7 @@ const ReleaseNotes = () => (
         </p>
       </li>
       <li>
-        <p>Client&apos;s personal info update fixed</p>
+        <p>Client's personal info update fixed</p>
       </li>
     </ul>
     <hr />
@@ -130,7 +198,7 @@ const ReleaseNotes = () => (
     <h2>Bugs &amp; Fixes</h2>
     <ul>
       <li>
-        <p>Show only current brand&rsquo;s offices/desks/teams</p>
+        <p>Show only current brand’s offices/desks/teams</p>
       </li>
       <li>
         <p>Wrong trading history information displayed in CP and BO</p>
@@ -142,7 +210,7 @@ const ReleaseNotes = () => (
         <p>Fixed problem entering payment amount with cents</p>
       </li>
       <li>
-        <p>Fixed - Payment doesn&rsquo;t have original agent</p>
+        <p>Fixed - Payment doesn’t have original agent</p>
       </li>
     </ul>
     <hr />
@@ -196,11 +264,11 @@ const ReleaseNotes = () => (
       </li>
       <li>
         <p>
-          Operators with the same email can&apos;t be created on the same environment
+          Operators with the same email can't be created on the same environment
         </p>
       </li>
       <li>
-        <p>Payment country will always be the same as client&apos;s country</p>
+        <p>Payment country will always be the same as client's country</p>
       </li>
       <li>
         <p>Client search by name was optimized</p>
@@ -225,12 +293,12 @@ const ReleaseNotes = () => (
       <li>
         <p>
           Dashboards are showing correct numbers - transactions with payment
-          method &ldquo;Bonus&quot; are ignored
+          method “Bonus&quot; are ignored
         </p>
       </li>
       <li>
         <p>
-          Affiliate Partner&apos;s are created in the Affiliate partner department by
+          Affiliate Partner's are created in the Affiliate partner department by
           default
         </p>
       </li>
@@ -429,7 +497,7 @@ const ReleaseNotes = () => (
       <li>
         <p>
           Affiliate API - Allows to register clients via API, get clients of the
-          affiliate and get client&apos;s details by email or UUID
+          affiliate and get client's details by email or UUID
         </p>
       </li>
       <li>
@@ -452,7 +520,7 @@ const ReleaseNotes = () => (
       </li>
       <li>
         <p>
-          Hierarchy - Operator&apos;s assigned Brands / Desks / Teams can be reviewed
+          Hierarchy - Operators' assigned Brands / Desks / Teams can be reviewed
           and changed in operators profile
         </p>
       </li>
@@ -526,7 +594,7 @@ const ReleaseNotes = () => (
       </li>
       <li>
         <p>
-          Permissions - Retention and Sales agents can&apos;t see the Hierarchy
+          Permissions - Retention and Sales agents can't see the Hierarchy
           section in Backoffice
         </p>
       </li>
