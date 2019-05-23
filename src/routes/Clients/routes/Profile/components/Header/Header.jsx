@@ -53,7 +53,7 @@ class Header extends Component {
       profileStatusComment: PropTypes.string,
       tradingProfile: PropTypes.tradingProfile,
     }),
-    questionnaireLastData: PropTypes.object.isRequired,
+    questionnaireLastData: PropTypes.object,
     onRefreshClick: PropTypes.func.isRequired,
     isLoadingProfile: PropTypes.bool.isRequired,
     lastIp: PropTypes.ipEntity,
@@ -82,6 +82,9 @@ class Header extends Component {
     playerProfile: {},
     availableStatuses: [],
     loaded: false,
+
+    // Can be null when brand is unregulated
+    questionnaireLastData: null,
   };
 
   handleStatusChange = (data) => {
