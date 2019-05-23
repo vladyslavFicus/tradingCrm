@@ -102,7 +102,7 @@ class Profile extends Component {
     questionnaireLastData: PropTypes.shape({
       loading: PropTypes.bool.isRequired,
       questionnaire: PropTypes.object,
-    }).isRequired,
+    }),
     uploadModalInitialValues: PropTypes.object.isRequired,
     cancelFile: PropTypes.func.isRequired,
     resetUploading: PropTypes.func.isRequired,
@@ -153,6 +153,9 @@ class Profile extends Component {
 
   static defaultProps = {
     lastIp: null,
+
+    // Can be null for unregulated brands
+    questionnaireLastData: null,
   };
 
   state = {
@@ -273,14 +276,18 @@ class Profile extends Component {
       fetchFiles,
       fetchProfile,
       profile,
+      questionnaireLastData,
       match: { params },
     } = this.props;
 
     if (!playerProfile.isLoading && !profile.isLoading) {
-      await playerProfile.refetch();
-      await fetchProfile(params.id);
-      await pinnedNotes.refetch();
-      await fetchFiles(params.id);
+      await Promise.all([
+        playerProfile.refetch(),
+        fetchProfile(params.id),
+        pinnedNotes.refetch(),
+        fetchFiles(params.id),
+        ...[questionnaireLastData && questionnaireLastData.refetch()],
+      ]);
 
       if (needForceUpdate) {
         this.cacheChildrenComponents.forEach((component) => {
