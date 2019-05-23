@@ -8,10 +8,12 @@ import { setContext } from 'apollo-link-context';
 import { onError } from 'apollo-link-error';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { BatchHttpLink } from 'apollo-link-batch-http';
+import { HttpLink } from 'apollo-link-http';
 import { createUploadLink } from 'apollo-upload-client';
 import { actionCreators as modalActionCreators } from 'redux/modules/modal';
 import { actionTypes as authActionTypes } from 'redux/modules/auth';
 import { types as modalTypes } from 'constants/modals';
+import queryNames from 'constants/apolloQueryNames';
 import { getGraphQLRoot, getApiVersion } from '../config';
 
 const __DEV__ = process.env.NODE_ENV === 'development';
@@ -57,10 +59,17 @@ class ApolloProvider extends PureComponent {
       batchInterval: 50,
     };
 
+    // INFO: move heavy request out of batching, so other data don`t hangout
+    const batchSplitLink = split(
+      ({ operationName }) => Object.values(queryNames).includes(operationName),
+      new HttpLink(options),
+      new BatchHttpLink(options)
+    );
+
     const httpLink = split(
       ({ variables }) => hasFiles(variables),
       createUploadLink(options),
-      new BatchHttpLink(options)
+      batchSplitLink,
     );
 
     const errorLink = onError(({ graphQLErrors, networkError }) => {

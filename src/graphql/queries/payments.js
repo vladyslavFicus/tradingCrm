@@ -1,7 +1,8 @@
 import gql from 'graphql-tag';
+import queryNames from 'constants/apolloQueryNames';
 import { NoteFragment } from '../fragments/notes';
 
-const getClientPayments = gql`query getClientPayments(
+const getClientPayments = gql`query ${queryNames.paymentsQuery}(
   $searchParam: String
   $type: String
   $page: Int
@@ -90,7 +91,7 @@ const getClientPayments = gql`query getClientPayments(
 }
 ${NoteFragment}`;
 
-const getClientPaymentsByUuid = gql`query getClientPayments(
+const getClientPaymentsByUuid = gql`query ${queryNames.paymentsQuery}(
   $playerUUID: String!
   $searchParam: String
   $type: String
