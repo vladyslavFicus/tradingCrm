@@ -130,6 +130,36 @@
       }
     }
   }
+
+  &_questionnaire {
+    padding-left: 0;
+
+    &_link {
+      font-weight: 400;
+      color: #007bff;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+
+    .dropdown-menu {
+      top: 110% !important;
+      border: 1px solid #eee;
+    }
+
+    .dropdown-menu .dropdown-item {
+      padding: 10px 0 10px 1.2rem;
+      border-bottom: 1px solid #eee;
+      &:last-child {
+        border-bottom: none;
+      }
+      &:hover {
+        color: inherit;
+        background-color: #f2f2f2;
+      }
+    }
+  }
 }
 
 .dropdown-highlight:before {

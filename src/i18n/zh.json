@@ -2949,6 +2949,19 @@
       },
       "REGISTERED": {
         "TITLE": "已注册"
+      },
+      "QUESTIONNAIRE": {
+        "TITLE": "问卷",
+        "VERSION": "Version",
+        "SCORE": "Score",
+        "DOWNLOAD_PDF": "Download PDF",
+        "STATUS_CHANGED": "Questionnaire status successfully changed",
+        "STATUSES": {
+          "NOT_PASSED": "Not passed",
+          "PASSED": "Passed",
+          "APPROVED": "已批准",
+          "REJECTED": "已拒绝"
+        }
       }
     },
     "TRANSACTIONS": {

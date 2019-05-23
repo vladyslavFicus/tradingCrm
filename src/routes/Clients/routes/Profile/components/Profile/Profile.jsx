@@ -99,6 +99,10 @@ class Profile extends Component {
         loading: PropTypes.bool,
       }),
     }).isRequired,
+    questionnaireLastData: PropTypes.shape({
+      loading: PropTypes.bool.isRequired,
+      questionnaire: PropTypes.object,
+    }).isRequired,
     uploadModalInitialValues: PropTypes.object.isRequired,
     cancelFile: PropTypes.func.isRequired,
     resetUploading: PropTypes.func.isRequired,
@@ -731,6 +735,7 @@ class Profile extends Component {
       },
       locale,
       getLoginLock,
+      questionnaireLastData,
     } = this.props;
 
     const profile = get(playerProfile, 'data');
@@ -742,6 +747,7 @@ class Profile extends Component {
         <div className="profile__info">
           <Header
             playerProfile={profile}
+            questionnaireLastData={questionnaireLastData}
             locale={locale}
             lastIp={get(profile, 'signInIps.0')}
             availableStatuses={this.availableStatuses}

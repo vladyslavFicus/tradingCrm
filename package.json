@@ -100,7 +100,7 @@
     "whatwg-fetch": "^2.0.3"
   },
   "devDependencies": {
-    "@hrzn/zookeeper": "^1.0.3-alpha.40",
+    "@hrzn/zookeeper": "1.0.3-alpha.53",
     "autoprefixer": "^8.5.2",
     "babel-core": "^6.26.0",
     "babel-eslint": "8.2.3",

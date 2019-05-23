@@ -1,5 +1,5 @@
 const zookeeper = require('node-zookeeper-client');
-const { getChildren, getProperty } = require('@hrzn/zookeeper');
+const { getChildren, castToBoolean, getProperty } = require('@hrzn/zookeeper');
 
 function getZookeeperBrandPropertyPath(brand, property) {
   return `/system/${brand}/nas/brand/${property}`;
@@ -34,6 +34,11 @@ async function fetchBrandsConfigs({ zookeeperUrl }) {
         getZookeeperBrandPropertyPath(id, 'nas.brand.payment')
       );
 
+      const regulation = await getProperty(
+        zookeeperClient,
+        getZookeeperBrandPropertyPath(id, 'nas.brand.regulation'),
+      );
+
       return {
         id,
         currencies,
@@ -41,6 +46,9 @@ async function fetchBrandsConfigs({ zookeeperUrl }) {
         password,
         payment: {
           reasons: payment.reasons,
+        },
+        regulation: {
+          isActive: castToBoolean(regulation.isActive),
         },
       };
     })

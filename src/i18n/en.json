@@ -2949,6 +2949,19 @@
       },
       "REGISTERED": {
         "TITLE": "Registered"
+      },
+      "QUESTIONNAIRE": {
+        "TITLE": "Questionnaire",
+        "VERSION": "Version",
+        "SCORE": "Score",
+        "DOWNLOAD_PDF": "Download PDF",
+        "STATUS_CHANGED": "Questionnaire status successfully changed",
+        "STATUSES": {
+          "NOT_PASSED": "Not passed",
+          "PASSED": "Passed",
+          "APPROVED": "Approved",
+          "REJECTED": "Rejected"
+        }
       }
     },
     "TRANSACTIONS": {

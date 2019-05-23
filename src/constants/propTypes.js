@@ -720,4 +720,13 @@ PropTypes.operatorsList = PropTypes.arrayOf(PropTypes.shape({
   fullName: PropTypes.string,
 }));
 
+PropTypes.questionnaireLastData = PropTypes.shape({
+  uuid: PropTypes.string,
+  status: PropTypes.string,
+  score: PropTypes.number,
+  version: PropTypes.number,
+  reviewedBy: PropTypes.string,
+  updatedAt: PropTypes.string,
+});
+
 export default PropTypes;

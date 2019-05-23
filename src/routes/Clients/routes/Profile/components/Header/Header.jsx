@@ -3,6 +3,7 @@ import moment from 'moment';
 import classNames from 'classnames';
 import { SubmissionError } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
+import { getActiveBrandConfig } from 'config';
 import PropTypes from 'constants/propTypes';
 import ActionsDropDown from 'components/ActionsDropDown';
 import PopoverButton from 'components/PopoverButton';
@@ -17,9 +18,9 @@ import { withServiceCheck } from 'components/HighOrder';
 import StickyWrapper from 'components/StickyWrapper';
 import ActivePlan from '../ActivePlan';
 import PlayerStatus from '../PlayerStatus';
-import Volume from '../Volume';
 import Balances from '../Balances';
 import HeaderPlayerPlaceholder from '../HeaderPlayerPlaceholder';
+import Questionnaire from '../Questionnaire';
 
 const sendActivationLinkPermission = new Permissions([permissions.USER_PROFILE.SEND_ACTIVATION_LINK]);
 
@@ -52,6 +53,7 @@ class Header extends Component {
       profileStatusComment: PropTypes.string,
       tradingProfile: PropTypes.tradingProfile,
     }),
+    questionnaireLastData: PropTypes.object.isRequired,
     onRefreshClick: PropTypes.func.isRequired,
     isLoadingProfile: PropTypes.bool.isRequired,
     lastIp: PropTypes.ipEntity,
@@ -128,6 +130,7 @@ class Header extends Component {
       loginLock: {
         lock,
       },
+      questionnaireLastData,
     } = this.props;
 
     const { permissions: currentPermissions } = this.context;
@@ -251,9 +254,9 @@ class Header extends Component {
               />
             </If>
           </div>
-          <div className="header-block header-block_player-volume">
-            <Volume />
-          </div>
+          <If condition={getActiveBrandConfig().regulation.isActive}>
+            <Questionnaire questionnaireLastData={questionnaireLastData} profileUUID={playerUUID} />
+          </If>
           <ProfileLastLogin lastIp={lastIp} />
           <div className="header-block">
             <div className="header-block-title">{I18n.t('CLIENT_PROFILE.CLIENT.REGISTERED.TITLE')}</div>
