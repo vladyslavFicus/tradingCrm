@@ -1,6 +1,7 @@
 import gql from 'graphql-tag';
+import queryNames from 'constants/apolloQueryNames';
 
-const leadsQuery = gql`query getLeads(
+const leadsQuery = gql`query ${queryNames.leadsQuery}(
   $ids: [String],
   $searchKeyword: String,
   $registrationDateStart: String,

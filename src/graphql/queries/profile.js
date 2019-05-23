@@ -1,4 +1,5 @@
 import gql from 'graphql-tag';
+import queryNames from 'constants/apolloQueryNames';
 
 const clientQuery = gql`query profileData($playerUUID: String!){
   playerProfile(playerUUID: $playerUUID) {
@@ -162,7 +163,7 @@ const clientQuery = gql`query profileData($playerUUID: String!){
   }
 }`;
 
-const clientsQuery = gql`query getProfiles(
+const clientsQuery = gql`query ${queryNames.clientsQuery}(
   $page: Int,
   $size: Int,
   $acquisitionStatus: String,
