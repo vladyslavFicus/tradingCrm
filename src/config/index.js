@@ -78,6 +78,10 @@ function getPaymentReason() {
   return _.get(window, 'app.brand.payment.reasons');
 }
 
+function getClickToCall() {
+  return _.get(window, 'app.brand.clickToCall');
+}
+
 function setBrandId(brandId) {
   window.app.brandId = brandId;
   window.app.brand = brandId ? config.brands.find(brand => brand.id === brandId) : null;
@@ -113,6 +117,7 @@ export {
   getDomain,
   getGraphQLRoot,
   getPaymentReason,
+  getClickToCall,
 };
 
 export default config;

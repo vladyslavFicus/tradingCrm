@@ -34,6 +34,11 @@ async function fetchBrandsConfigs({ zookeeperUrl }) {
         getZookeeperBrandPropertyPath(id, 'nas.brand.payment')
       );
 
+      const clickToCall = await getProperty(
+        zookeeperClient,
+        getZookeeperBrandPropertyPath(id, 'nas.brand.clickToCall')
+      );
+
       const regulation = await getProperty(
         zookeeperClient,
         getZookeeperBrandPropertyPath(id, 'nas.brand.regulation'),
@@ -49,6 +54,10 @@ async function fetchBrandsConfigs({ zookeeperUrl }) {
         },
         regulation: {
           isActive: castToBoolean(regulation.isActive),
+        },
+        clickToCall: {
+          isActive: clickToCall ? castToBoolean(clickToCall.isActive) : false,
+          url: clickToCall ? clickToCall.url : false,
         },
       };
     })

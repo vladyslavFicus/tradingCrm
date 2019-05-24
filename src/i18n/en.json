@@ -267,7 +267,8 @@
       },
       "REWARD_PLANS": {
         "TITLE": "Reward plans"
-      }
+      },
+      "CLICK_TO_CALL_FAILED": "Call failed "
     },
     "GAME_ACTIVITY": {
       "FILTER_FORM": {
@@ -3032,6 +3033,7 @@
       "DATE_OF_BIRTH": "Date of birth",
       "GENDER": "Gender",
       "PHONE": "Phone",
+      "ALT_PHONE": "Alternative phone",
       "EMAIL": "Email",
       "FULL_ADDRESS": "Full address",
       "COUNTRY": "Country",

@@ -259,6 +259,14 @@ const updateMutation = gql`mutation update(
   }
 }`;
 
+const clickToCall = gql`mutation clickToCall($agent: String!, $number: String!) {
+  profile {
+    clickToCall(agent: $agent, number: $number) {
+      success
+    }
+  }
+}`;
+
 export {
   updateSubscription,
   blockMutation,
@@ -270,4 +278,5 @@ export {
   changePassword,
   clientsBulkRepresentativeUpdate,
   updateMutation,
+  clickToCall,
 };
