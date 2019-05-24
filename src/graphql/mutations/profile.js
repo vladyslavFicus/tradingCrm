@@ -267,6 +267,14 @@ const clickToCall = gql`mutation clickToCall($agent: String!, $number: String!) 
   }
 }`;
 
+const updateFATCA = gql`mutation updateFATCA($profileId: String!, $fatca: FATCAInput) {
+  profile {
+    updateFATCA(profileId: $profileId, fatca: $fatca) {
+      success
+    }
+  }
+}`;
+
 export {
   updateSubscription,
   blockMutation,
@@ -279,4 +287,5 @@ export {
   clientsBulkRepresentativeUpdate,
   updateMutation,
   clickToCall,
+  updateFATCA,
 };

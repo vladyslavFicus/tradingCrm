@@ -57,7 +57,7 @@ async function fetchBrandsConfigs({ zookeeperUrl }) {
         },
         clickToCall: {
           isActive: clickToCall ? castToBoolean(clickToCall.isActive) : false,
-          url: clickToCall ? clickToCall.url : false,
+          url: clickToCall ? clickToCall.url : null,
         },
       };
     })

@@ -1,13 +1,16 @@
 import React, { PureComponent } from 'react';
+import { graphql, compose } from 'react-apollo';
 import moment from 'moment';
 import { get } from 'lodash';
-import { I18n } from 'react-redux-i18n';
 import { connect } from 'react-redux';
-import { graphql, compose } from 'react-apollo';
+import { I18n } from 'react-redux-i18n';
 import Uuid from 'components/Uuid';
 import { withNotifications } from 'components/HighOrder';
-import { clickToCall } from 'graphql/mutations/profile';
 import { getClickToCall } from 'config';
+import PermissionContent from 'components/PermissionContent';
+import permissions from 'config/permissions';
+import { clickToCall, updateFATCA as updateFATCAMutation } from 'graphql/mutations/profile';
+import FatcaForm from './FatcaForm';
 import PersonalInformationItem from '../../../../../../components/Information/PersonalInformationItem';
 import PropTypes from '../../../../../../constants/propTypes';
 import { statuses as kycStatuses } from '../../../../../../constants/kyc';
@@ -36,14 +39,42 @@ class Personal extends PureComponent {
       username: PropTypes.string,
       playerUUID: PropTypes.string,
     }),
+    updateFATCA: PropTypes.func.isRequired,
     phoneNumber: PropTypes.string,
     notify: PropTypes.func.isRequired,
     clickToCall: PropTypes.func.isRequired,
+    loading: PropTypes.bool.isRequired,
   }
 
   static defaultProps = {
     data: {},
     phoneNumber: '',
+  };
+
+  handleFATCAChanged = async ({ provided }) => {
+    const {
+      data: { playerUUID: profileId },
+      updateFATCA,
+      notify,
+    } = this.props;
+
+    const { data: { profile: { updateFATCA: { success } } } } = await updateFATCA({
+      variables: {
+        profileId,
+        fatca: {
+          provided,
+        },
+
+      },
+    });
+
+    notify({
+      level: success ? 'success' : 'error',
+      title: I18n.t('CLIENT_PROFILE.FATCA.UPDATE_STATUS'),
+      message: success
+        ? I18n.t('COMMON.SUCCESS')
+        : I18n.t('COMMON.SOMETHING_WRONG'),
+    });
   };
 
   handleClickToCall = number => async () => {
@@ -80,6 +111,7 @@ class Personal extends PureComponent {
         phoneNumberVerified,
         city,
       },
+      loading,
     } = this.props;
 
     const withCall = getClickToCall().isActive;
@@ -181,6 +213,14 @@ class Personal extends PureComponent {
               {': '}
               <Uuid uuid={tradingProfile.fnsStatus} />
             </If>
+            <If condition={!loading}>
+              <PermissionContent permissions={permissions.USER_PROFILE.CHANGE_FATCA_STATUS}>
+                <FatcaForm
+                  handleChange={this.handleFATCAChanged}
+                  initialValues={{ provided: get(tradingProfile, 'fatca.provided', false) }}
+                />
+              </PermissionContent>
+            </If>
           </div>
         </div>
       </div>
@@ -191,7 +231,6 @@ class Personal extends PureComponent {
 export default compose(
   withNotifications,
   connect(({ auth: { data: { phoneNumber } } }) => ({ phoneNumber })),
-  graphql(clickToCall, {
-    name: 'clickToCall',
-  }),
+  graphql(clickToCall, { name: 'clickToCall' }),
+  graphql(updateFATCAMutation, { name: 'updateFATCA' })
 )(Personal);

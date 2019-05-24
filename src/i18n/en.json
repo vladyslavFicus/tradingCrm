@@ -3052,6 +3052,10 @@
       "CORPORATE_PROFESSIONAL": "Corporate Professional",
       "FNX_STATUS": "FNS Status",
       "MIGRATION_ID": "Migration ID"
+    },
+    "FATCA": {
+      "TITLE": "FATCA",
+      "UPDATE_STATUS": "Update FATCA"
     }
   },
   "TEMPORARY_UNTIL": {

@@ -3050,6 +3050,10 @@
       "CORPORATE_PROFESSIONAL": "企业专业账户",
       "FNX_STATUS": "FNS状态",
       "MIGRATION_ID": "转移ID"
+    },
+    "FATCA": {
+      "TITLE": "FATCA",
+      "UPDATE_STATUS": "更新 FATCA"
     }
   },
   "TEMPORARY_UNTIL": {

@@ -70,6 +70,7 @@ export default {
     CHANGE_PASSWORD: 'auth;POST;/credentials/{uuid}/password',
     MARK_IS_TEST: 'profile;POST;/profiles/{playerUUID}/is-test',
     CHANGE_ACQUISITION_STATUS: 'trading_hierarchy;POST;/bulk/user',
+    CHANGE_FATCA_STATUS: 'trading_profile;PUT;/regulated',
   },
   FILES: {
     UPLOAD_FILE: 'profile;POST;/files/confirm/{playerUUID}',
