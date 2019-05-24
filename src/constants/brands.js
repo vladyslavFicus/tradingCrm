@@ -19,6 +19,7 @@ const brands = keyMirror({
   ptbanc: null,
   trustfx: null,
   ifg: null,
+  alliancecapital: null,
 });
 
 const departments = keyMirror({
@@ -109,6 +110,10 @@ const brandsConfig = {
   [brands.ifg]: {
     name: 'IFG',
     image: { src: '/img/brand/choose-brand/ifg.svg' },
+  },
+  [brands.alliancecapital]: {
+    name: 'Alliance Capital',
+    image: { src: '/img/brand/choose-brand/alliancecapital.svg' },
   },
 };
 const departmentsConfig = {
