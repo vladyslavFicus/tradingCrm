@@ -89,7 +89,9 @@ class PersonalForm extends PureComponent {
           </div>
         </div>
         <hr />
-        <div className="personal-form-heading margin-bottom-20">Contacts</div>
+        <div className="personal-form-heading margin-bottom-20">
+          {I18n.t('OPERATOR_PROFILE.DETAILS.LABEL.CONTACTS')}
+        </div>
         <div className="row">
           <div className="col-xl-4">
             <Field

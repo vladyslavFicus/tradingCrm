@@ -67,7 +67,7 @@ class FeedFilterForm extends Component {
           name="searchBy"
           type="text"
           label={I18n.t(attributeLabels.searchBy)}
-          placeholder="Action ID, Operator ID, IP"
+          placeholder={I18n.t('PLAYER_PROFILE.FEED.FILTER_FORM.LABELS.SEARCH_BY_PLACEHOLDER')}
           component={InputField}
           inputAddon={<i className="icon icon-search" />}
           className="filter-row__medium"

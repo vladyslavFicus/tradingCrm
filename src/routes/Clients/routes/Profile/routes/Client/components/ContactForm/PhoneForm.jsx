@@ -10,12 +10,12 @@ import permissions from 'config/permissions';
 import { createValidator } from 'utils/validator';
 
 const FORM_NAME = 'updateProfilePhone';
-const attributeLabels = {
+const attributeLabels = () => ({
   phone: I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.LABEL.PHONE'),
   phoneCode: I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.LABEL.PHONE_CODE'),
   AltPhone: I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.LABEL.ALT_PHONE'),
   AltPhoneCode: I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.LABEL.YOUR_ALT_PHONE'),
-};
+});
 
 class PhoneForm extends Component {
   static propTypes = {
@@ -100,7 +100,7 @@ class PhoneForm extends Component {
             name="phone1"
             type="text"
             component={InputField}
-            label={attributeLabels.phone}
+            label={attributeLabels().phone}
             disabled={disabled || tradingOperatorAccessDisabled}
             className="col-5"
           />
@@ -126,9 +126,9 @@ class PhoneForm extends Component {
             type="text"
             name="phone2"
             component={InputField}
-            label={attributeLabels.AltPhone}
+            label={attributeLabels().AltPhone}
             disabled={disabled}
-            placeholder={attributeLabels.AltPhoneCode}
+            placeholder={attributeLabels().AltPhoneCode}
             className="col-5"
           />
         </div>
@@ -139,6 +139,7 @@ class PhoneForm extends Component {
 
 export default compose(
   connect(state => ({
+    locale: state.i18n.locale,
     currentValues: getFormValues(FORM_NAME)(state),
     formSyncErrors: getFormSyncErrors(FORM_NAME)(state),
   })),
@@ -146,7 +147,7 @@ export default compose(
     form: FORM_NAME,
     validate: createValidator({
       phone1: 'required|numeric',
-    }, attributeLabels, false),
+    }, attributeLabels(), false),
     enableReinitialize: true,
   }),
 )(PhoneForm);

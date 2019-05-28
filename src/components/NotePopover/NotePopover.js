@@ -57,7 +57,7 @@ class NotePopover extends Component {
 
   static defaultProps = {
     item: null,
-    defaultTitleLabel: I18n.t('COMMON.NOTE'),
+    defaultTitleLabel: null,
     placement: 'bottom',
     isOpen: false,
     handleSubmit: null,
@@ -195,7 +195,7 @@ class NotePopover extends Component {
     if (!item) {
       return (
         <div className="note-popover__title">
-          {defaultTitleLabel}
+          {defaultTitleLabel || I18n.t('COMMON.NOTE')}
         </div>
       );
     }
@@ -303,7 +303,7 @@ class NotePopover extends Component {
               <Field
                 name="pinned"
                 wrapperClassName="margin-top-5"
-                label="Pin"
+                label={I18n.t('NOTES.MODAL.PIN')}
                 component={SwitchField}
                 id={id ? `${id}-pin-btn` : null}
               />

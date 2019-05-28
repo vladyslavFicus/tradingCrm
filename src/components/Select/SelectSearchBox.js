@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { I18n } from 'react-redux-i18n';
 import './SelectSearchBox.scss';
 
 class SelectSearchBox extends Component {
@@ -9,7 +10,7 @@ class SelectSearchBox extends Component {
     onChange: PropTypes.func.isRequired,
   };
   static defaultProps = {
-    placeholder: 'Search',
+    placeholder: null,
     query: '',
   };
 
@@ -22,7 +23,7 @@ class SelectSearchBox extends Component {
         <input
           type="text"
           className="form-control"
-          placeholder={placeholder}
+          placeholder={placeholder || I18n.t('common.select.default_placeholder')}
           onChange={onChange}
           value={query}
         />

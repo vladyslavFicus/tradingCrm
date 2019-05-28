@@ -36,7 +36,7 @@ const DesksGridFilter = ({
     <FilterItem label={I18n.t(filterLabels.searchValue)} size={SIZES.medium} type={TYPES.input} default>
       <FilterField
         name="keyword"
-        placeholder="Name"
+        placeholder={I18n.t('COMMON.NAME')}
         type="text"
       />
     </FilterItem>

@@ -1,4 +1,4 @@
-import { I18n } from 'react-redux-i18n';
+import I18n from 'utils/fake-i18n';
 import { aquisitionStatuses } from 'constants/aquisitionStatuses';
 import Permissions from 'utils/permissions';
 import permissions from 'config/permissions';

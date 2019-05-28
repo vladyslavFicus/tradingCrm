@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import classNames from 'classnames';
+import { I18n } from 'react-redux-i18n';
 import PropTypes from 'constants/propTypes';
 import DepartmentsDropDown from '../DepartmentsDropDown';
 import HeaderNav from '../HeaderNav';
@@ -96,9 +97,9 @@ class Header extends Component {
           <HeaderCallbacksCalendarDropdown />
           <HeaderNav
             items={[
-              { label: 'My profile', onClick: () => this.props.onToggleProfile() },
+              { label: I18n.t('HEADER_PROFILE.MY_PROFILE'), onClick: () => this.props.onToggleProfile() },
               {
-                label: 'Logout',
+                label: I18n.t('HEADER_PROFILE.LOGOUT'),
                 onClick: () => history.replace('/logout'),
                 id: 'profile-logout-button',
               },

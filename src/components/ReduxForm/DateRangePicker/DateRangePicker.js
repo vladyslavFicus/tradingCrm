@@ -93,7 +93,12 @@ class DateRangePicker extends React.Component {
 
   render() {
     const { focusedInput, startDate, endDate } = this.state;
-    const { periodKeys: { start, end }, anchorDirection } = this.props;
+    const {
+      periodKeys: { start, end },
+      anchorDirection,
+      startDatePlaceholderText,
+      endDatePlaceholderText,
+    } = this.props;
 
     const props = omit(this.props, [
       'autoFocus',
@@ -110,6 +115,8 @@ class DateRangePicker extends React.Component {
       <div className="date-range-picker">
         <DateRangePickerController
           {...props}
+          startDatePlaceholderText={startDatePlaceholderText || I18n.t('COMMON.DATE_RANGE.START_DATE')}
+          endDatePlaceholderText={endDatePlaceholderText || I18n.t('COMMON.DATE_RANGE.END_DATE')}
           renderCalendarInfo={this.renderDatePresets}
           onDatesChange={this.onDatesChange}
           onFocusChange={this.onFocusChange}
@@ -167,9 +174,9 @@ DateRangePicker.defaultProps = {
   initialStartDate: null,
   initialEndDate: null,
   startDateId: START_DATE,
-  startDatePlaceholderText: 'Start Date',
+  startDatePlaceholderText: null,
   endDateId: END_DATE,
-  endDatePlaceholderText: 'End Date',
+  endDatePlaceholderText: null,
   disabled: false,
   required: false,
   screenReaderInputMessage: '',

@@ -85,7 +85,7 @@ class CommonFileGridView extends Component {
     <div className="font-weight-700">
       {
         data.category && categoriesLabels[data.category]
-          ? categoriesLabels[data.category]
+          ? I18n.t(categoriesLabels[data.category])
           : data.category
       }
     </div>

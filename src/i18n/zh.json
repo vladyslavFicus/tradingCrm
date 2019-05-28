@@ -43,6 +43,10 @@
       "RELEASE_NOTES": "发布说明"
     }
   },
+  "HEADER_PROFILE": {
+    "MY_PROFILE": "我的资料",
+    "LOGOUT": "退出"
+  },
   "MY_PROFILE_SIDEBAR": {
     "MY_PROFILE": "我的资料",
     "DETAILS": "个人信息",
@@ -723,6 +727,7 @@
       "FILTER_FORM": {
         "LABELS": {
           "SEARCH_BY": "搜索人",
+          "SEARCH_BY_PLACEHOLDER": "操作ID、操作员ID、IP",
           "ACTION_TYPES": "操作类型",
           "CREATION_DATE_FROM": "创建起始日期",
           "CREATION_DATE_TO": "创建截至日期",
@@ -772,6 +777,7 @@
     }
   },
   "COMMON": {
+    "NAME": "姓名",
     "TEAM": "团队",
     "DESK": "服务台",
     "OFFICE": "办公室",
@@ -903,6 +909,11 @@
       "START_DATE": "开始日期",
       "END_DATE": "结束日期"
     },
+    "GENDERS": {
+      "MALE": "男性",
+      "FEMALE": "女性",
+      "UNDEFINED": "未定义"
+    },
     "CONFIRM": "确认",
     "MGA_LIMIT": "MGA限制",
     "MGA_LIMIT_DESCRIPTION": "MGA限制 - 已超过KYC未验证的玩家的提款累积限制2300欧元。",
@@ -1030,6 +1041,10 @@
     },
     "FILTERS": {
       "SEARCH_LIMIT": "搜索限制"
+    },
+    "DATE_RANGE": {
+      "START_DATE": "开始日期",
+      "END_DATE": "结束日期"
     }
   },
   "FILES": {
@@ -1071,6 +1086,21 @@
         "NOTE": "注释",
         "STATUS": "状态"
       }
+    },
+    "ACTIONS": {
+      "VERIFY": "验证",
+      "REFUSE": "拒绝"
+    },
+    "STATUSES": {
+      "UNDER_REVIEW": "Under review",
+      "VERIFIED": "已验证",
+      "REFUSED": "Refused"
+    },
+    "CATEGORIES": {
+      "KYC_PAYMENT_ACCOUNT": "KYC - Payment account",
+      "KYC_PERSONAL": "KYC - Personal",
+      "KYC_ADDRESS": "KYC - Address",
+      "KYC_OTHER": "Other"
     }
   },
   "CONSTANTS": {
@@ -1483,6 +1513,11 @@
     }
   },
   "OPERATOR_PROFILE": {
+    "RESET_PASSWORD": "重置密码",
+    "TABS": {
+      "PROFILE": "资料",
+      "FEED": "资讯"
+    },
     "FEED": {
       "FILTER_FORM": {
         "SEARCH_BY_LABEL": "搜索人",
@@ -1493,12 +1528,14 @@
       "TITLE": "资讯"
     },
     "DETAILS": {
+      "SEND_INVITATION": "发送邀请",
       "LABEL": {
         "ADDITIONAL_INFORMATION": "额外信息",
         "DEPARTMENTS": "部门",
         "PERSONAL_INFORMATION": "个人信息",
         "FIRST_NAME": "名字",
         "LAST_NAME": "姓氏",
+        "CONTACTS": "联系人",
         "EMAIL": "电子邮箱",
         "COUNTRY": "国家",
         "PHONE_NUMBER": "电话号码",
@@ -2252,6 +2289,17 @@
         "BRAND": "%{brand}吗？"
       }
     },
+    "STATUSES": {
+      "ACTIVE": "活跃",
+      "INACTIVE": "非活跃",
+      "CLOSED": "平仓"
+    },
+    "GRID_HEADER": {
+      "OPERATOR": "操作员",
+      "COUNTRY": "国家",
+      "REGISTERED": "已注册",
+      "STATUS": "状态"
+    },
     "LIST": {
       "FILTER_FORM": {
         "LABEL": {
@@ -2299,12 +2347,6 @@
           "WHITE_LISTED_IP": "白名单中的 IP",
           "RESTRICTED_COUNTRIES": "受限国家"
         }
-      },
-      "GRID_HEADER": {
-        "OPERATOR": "操作员",
-        "COUNTRY": "国家",
-        "REGISTERED": "已注册",
-        "STATUS": "状态"
       }
     },
     "NOTIFICATIONS": {
@@ -2364,12 +2406,29 @@
     "DESCRIPTION": "抱歉，您没有足够的权限来查看此页面。如果您认为您错误地接收了此信息，请联系您网站的管理员。"
   },
   "PAYMENT_METHODS": {
+    "TITLE": "Payment Methods",
     "FILTER_FORM": {
       "LABELS": {
         "ALL_STATUSES": "所有状态",
         "STATUS": "状态",
         "COUNTRY": "国家"
       }
+    },
+    "GRID": {
+      "ORDER": "Order",
+      "PAYMENT_METHOD": "Payment Method",
+      "DEPOSIT": "Deposit",
+      "WITHDRAWAL": "Withdrawal",
+      "AVAILABILITY": "Availability",
+      "STATUS": "Status"
+    },
+    "STATUSES": {
+      "ACTIVE": "活跃",
+      "INACTIVE": "非活跃"
+    },
+    "ACTIONS": {
+      "ACTIVATE": "Activate",
+      "DEACTIVATE": "Deactivate"
     }
   },
   "ADVANCED_OPTIONS": {
@@ -2941,7 +3000,12 @@
         "LAST": "收盘价",
         "DEPOSITED": "已存款",
         "WITHDRAWAL": "取款",
-        "WITHDRAWN": "已提款"
+        "WITHDRAWN": "已提款",
+        "PERIOD_PRESETS": {
+          "LAST_7_DAYS": "最近 7 天",
+          "LAST_MONTH": "上月",
+          "LAST_3_MONTHS": "最近 3 个月"
+        }
       },
       "ACQUISITION": {
         "TITLE": "收购状态",
@@ -3416,7 +3480,10 @@
   },
   "common": {
     "select": {
-      "default": "-- 选择 --"
+      "default": "-- 选择 --",
+      "default_placeholder": "Search",
+      "available_options": "Available options",
+      "options_not_found": "Options by query \"%{query}\" not found..."
     },
     "any": "任何",
     "reset": "重置",

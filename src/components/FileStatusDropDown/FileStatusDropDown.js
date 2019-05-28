@@ -15,7 +15,7 @@ import renderLabel from '../../utils/renderLabel';
 
 class FileStatusDropDown extends Component {
   static propTypes = {
-    status: PropTypes.status.isRequired,
+    status: PropTypes.object.isRequired,
     onStatusChange: PropTypes.func.isRequired,
   };
   static contextTypes = {
@@ -76,7 +76,7 @@ class FileStatusDropDown extends Component {
               className={classNames('text-uppercase font-weight-700', actionsColorNames[item.action])}
               key={item.label}
             >
-              {item.label}
+              {I18n.t(item.label)}
             </DropdownItem>
           ))}
         </DropdownMenu>

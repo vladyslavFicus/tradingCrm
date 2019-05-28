@@ -12,8 +12,13 @@ import permissions from 'config/permissions';
 import languageNames from 'constants/languageNames';
 import countryList from 'utils/countryList';
 
-const genders = ['UNDEFINED', 'MALE', 'FEMALE'];
-const attributeLabels = {
+const genders = () => ({
+  UNDEFINED: I18n.t('COMMON.GENDERS.UNDEFINED'),
+  MALE: I18n.t('COMMON.GENDERS.MALE'),
+  FEMALE: I18n.t('COMMON.GENDERS.FEMALE'),
+});
+
+const attributeLabels = () => ({
   firstName: I18n.t('PLAYER_PROFILE.PROFILE.PERSONAL.LABEL.FIRST_NAME'),
   lastName: I18n.t('PLAYER_PROFILE.PROFILE.PERSONAL.LABEL.LAST_NAME'),
   languageCode: I18n.t('PLAYER_PROFILE.PROFILE.PERSONAL.LABEL.LANGUAGE'),
@@ -23,7 +28,7 @@ const attributeLabels = {
   expirationDate: I18n.t('PLAYER_PROFILE.PROFILE.PERSONAL.LABEL.PASSPORT_EXPARATION_DATE'),
   countryOfIssue: I18n.t('PLAYER_PROFILE.PROFILE.PERSONAL.LABEL.PASSPORT_ISSUE_COUNTRY'),
   passportIssueDate: I18n.t('PLAYER_PROFILE.PROFILE.PERSONAL.LABEL.PASSPORT_ISSUE_DATE'),
-};
+});
 
 const AGE_YEARS_CONSTRAINT = 18;
 
@@ -39,7 +44,7 @@ class PersonalForm extends Component {
 
   static contextTypes = {
     tradingOperatorAccessDisabled: PropTypes.bool.isRequired,
-  }
+  };
 
   static defaultProps = {
     handleSubmit: null,
@@ -86,7 +91,7 @@ class PersonalForm extends Component {
         <div className="row">
           <Field
             name="firstName"
-            label={attributeLabels.firstName}
+            label={attributeLabels().firstName}
             type="text"
             component={InputField}
             disabled={disabled || tradingOperatorAccessDisabled}
@@ -95,7 +100,7 @@ class PersonalForm extends Component {
           />
           <Field
             name="lastName"
-            label={attributeLabels.lastName}
+            label={attributeLabels().lastName}
             type="text"
             component={InputField}
             disabled={disabled || tradingOperatorAccessDisabled}
@@ -106,7 +111,7 @@ class PersonalForm extends Component {
         <div className="row">
           <Field
             name="languageCode"
-            label={attributeLabels.languageCode}
+            label={attributeLabels().languageCode}
             type="text"
             className="col-lg-4"
             component={NasSelectField}
@@ -122,7 +127,7 @@ class PersonalForm extends Component {
           </Field>
           <Field
             name="birthDate"
-            label={attributeLabels.birthDate}
+            label={attributeLabels().birthDate}
             component={DateTimeField}
             timeFormat={null}
             disabled={disabled}
@@ -131,15 +136,15 @@ class PersonalForm extends Component {
           />
           <Field
             name="gender"
-            label={attributeLabels.gender}
+            label={attributeLabels().gender}
             type="text"
             component={SelectField}
             disabled={disabled}
             className="col-lg-3"
           >
-            {genders.map(item => (
-              <option key={item} value={item}>
-                {item}
+            {Object.entries(genders()).map(([key, value]) => (
+              <option key={key} value={key}>
+                {value}
               </option>
             ))}
           </Field>
@@ -147,7 +152,7 @@ class PersonalForm extends Component {
         <div className="row">
           <Field
             name="passportNumber"
-            label={attributeLabels.passportNumber}
+            label={attributeLabels().passportNumber}
             type="text"
             component={InputField}
             disabled={disabled}
@@ -155,7 +160,7 @@ class PersonalForm extends Component {
           />
           <Field
             name="expirationDate"
-            label={attributeLabels.expirationDate}
+            label={attributeLabels().expirationDate}
             component={DateTimeField}
             timeFormat={null}
             isValidDate={() => true}
@@ -166,7 +171,7 @@ class PersonalForm extends Component {
         <div className="row">
           <Field
             name="countryOfIssue"
-            label={I18n.t(attributeLabels.countryOfIssue)}
+            label={I18n.t(attributeLabels().countryOfIssue)}
             component={NasSelectField}
             disabled={disabled}
             placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
@@ -180,7 +185,7 @@ class PersonalForm extends Component {
           </Field>
           <Field
             name="passportIssueDate"
-            label={attributeLabels.passportIssueDate}
+            label={attributeLabels().passportIssueDate}
             component={DateTimeField}
             timeFormat={null}
             isValidDate={() => true}
@@ -205,6 +210,6 @@ export default reduxForm({
     expirationDate: 'regex:/^\\d{4}-\\d{2}-\\d{2}$/',
     countryOfIssue: 'string',
     passportIssueDate: 'regex:/^\\d{4}-\\d{2}-\\d{2}$/',
-  }, attributeLabels, false),
+  }, attributeLabels(), false),
   enableReinitialize: true,
 })(PersonalForm);

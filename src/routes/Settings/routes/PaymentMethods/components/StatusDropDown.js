@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { I18n } from 'react-redux-i18n';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import classNames from 'classnames';
 import {
@@ -31,7 +32,7 @@ class StatusDropDown extends Component {
       <div className={classNames('font-weight-700', methodStatusesColor[status])}>
         {
           methodsStatusesLabels[status]
-            ? methodsStatusesLabels[status]
+            ? I18n.t(methodsStatusesLabels[status])
             : status
         }
       </div>
@@ -56,7 +57,7 @@ class StatusDropDown extends Component {
                 className="text-uppercase font-weight-700"
                 key={item.label}
               >
-                {item.label}
+                {I18n.t(item.label)}
               </DropdownItem>
             ))}
           </DropdownMenu>

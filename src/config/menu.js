@@ -93,12 +93,12 @@ const sidebarBottomMenu = [{
 }];
 
 const operatorProfileTabs = [
-  { label: 'Profile', url: '/operators/:id/profile' },
-  { label: 'Feed', url: '/operators/:id/feed' },
+  { label: I18n.t('OPERATOR_PROFILE.TABS.PROFILE'), url: '/operators/:id/profile' },
+  { label: I18n.t('OPERATOR_PROFILE.TABS.FEED'), url: '/operators/:id/feed' },
 ];
 const partnerProfileTabs = [
-  { label: 'Profile', url: '/partners/:id/profile' },
-  { label: 'Feed', url: '/partners/:id/feed' },
+  { label: I18n.t('OPERATOR_PROFILE.TABS.PROFILE'), url: '/partners/:id/profile' },
+  { label: I18n.t('OPERATOR_PROFILE.TABS.FEED'), url: '/partners/:id/feed' },
 ];
 
 export {

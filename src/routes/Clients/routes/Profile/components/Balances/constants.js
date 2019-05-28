@@ -1,22 +1,23 @@
+import I18n from 'utils/fake-i18n';
 import moment from 'moment';
 
 export const formName = 'balanceForm';
 
 export const selectItems = [{
-  label: 'Last 7 days',
+  label: I18n.t('CLIENT_PROFILE.CLIENT.BALANCES.PERIOD_PRESETS.LAST_7_DAYS'),
   value: moment()
     .subtract(6, 'days')
     .startOf('day')
     .format(),
 }, {
-  label: 'Last month',
+  label: I18n.t('CLIENT_PROFILE.CLIENT.BALANCES.PERIOD_PRESETS.LAST_MONTH'),
   value: moment()
     .subtract(1, 'month')
     .add(1, 'days')
     .startOf('day')
     .format(),
 }, {
-  label: 'Last 3 month',
+  label: I18n.t('CLIENT_PROFILE.CLIENT.BALANCES.PERIOD_PRESETS.LAST_3_MONTHS'),
   value: moment()
     .subtract(3, 'month')
     .add(1, 'days')

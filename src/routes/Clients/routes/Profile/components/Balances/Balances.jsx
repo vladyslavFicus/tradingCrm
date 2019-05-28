@@ -163,7 +163,7 @@ class Balances extends Component {
                 >
                   {selectItems.map(({ value, label }) => (
                     <option key={value} value={value}>
-                      {label}
+                      {I18n.t(label)}
                     </option>
                   ))}
                 </Field>

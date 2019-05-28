@@ -6,13 +6,13 @@ import { InputField, TextAreaField, NasSelectField } from 'components/ReduxForm'
 import PropTypes from 'constants/propTypes';
 import { createValidator } from 'utils/validator';
 
-const attributeLabels = {
+const attributeLabels = () => ({
   country: I18n.t('PLAYER_PROFILE.PROFILE.ADDRESS.LABEL.COUNTRY'),
   city: I18n.t('PLAYER_PROFILE.PROFILE.ADDRESS.LABEL.CITY'),
   postCode: I18n.t('PLAYER_PROFILE.PROFILE.ADDRESS.LABEL.POST_CODE'),
   address: I18n.t('PLAYER_PROFILE.PROFILE.ADDRESS.LABEL.FULL_ADDR'),
   PObox: I18n.t('PLAYER_PROFILE.PROFILE.ADDRESS.LABEL.PO_BOX'),
-};
+});
 
 const AddressForm = ({
   pristine,
@@ -40,7 +40,7 @@ const AddressForm = ({
     <div className="row">
       <Field
         name="country"
-        label={attributeLabels.country}
+        label={attributeLabels().country}
         type="text"
         className="col-lg-4"
         component={NasSelectField}
@@ -56,7 +56,7 @@ const AddressForm = ({
       </Field>
       <Field
         name="city"
-        label={attributeLabels.city}
+        label={attributeLabels().city}
         type="text"
         component={InputField}
         disabled={disabled}
@@ -64,7 +64,7 @@ const AddressForm = ({
       />
       <Field
         name="PObox"
-        label={attributeLabels.PObox}
+        label={attributeLabels().PObox}
         type="text"
         component={InputField}
         disabled={disabled}
@@ -72,7 +72,7 @@ const AddressForm = ({
       />
       <Field
         name="postCode"
-        label={attributeLabels.postCode}
+        label={attributeLabels().postCode}
         type="text"
         component={InputField}
         disabled={disabled}
@@ -81,7 +81,7 @@ const AddressForm = ({
     </div>
     <Field
       name="address"
-      label={attributeLabels.address}
+      label={attributeLabels().address}
       component={TextAreaField}
       disabled={disabled}
       id="profile-address-textarea"
@@ -127,7 +127,7 @@ export default reduxForm({
 
     return createValidator(
       rules,
-      attributeLabels,
+      attributeLabels(),
       false,
     )(values);
   },

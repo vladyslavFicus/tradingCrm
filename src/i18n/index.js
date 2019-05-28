@@ -1,3 +1,5 @@
+import 'moment/locale/zh-cn';
+
 import en from './en.json';
 import ru from './ru.json';
 import zh from './zh.json';

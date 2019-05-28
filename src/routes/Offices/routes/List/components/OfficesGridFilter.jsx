@@ -34,7 +34,7 @@ const OfficesGridFilter = ({
       <FilterField
         id="users-list-search-field"
         name="keyword"
-        placeholder="Name"
+        placeholder={I18n.t('COMMON.NAME')}
         type="text"
       />
     </FilterItem>

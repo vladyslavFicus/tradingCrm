@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { I18n } from 'react-redux-i18n';
 import moment from 'moment';
-import { statusColorNames } from '../../constants/user';
+import { statusColorNames, statusesLabels } from '../../constants/user';
 import PropTypes from '../../constants/propTypes';
 import Uuid from '../Uuid';
 import './ModalPlayerInfo.scss';
@@ -36,7 +36,7 @@ class ModalPlayerInfo extends Component {
   renderPlayerStatus = ({ profileStatus }) => (
     <Fragment>
       <div className={`text-uppercase modal-header-tabs__label ${statusColorNames[profileStatus]}`}>
-        {profileStatus}
+        {I18n.t(statusesLabels[profileStatus])}
       </div>
     </Fragment>
   );

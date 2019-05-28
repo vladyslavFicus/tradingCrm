@@ -75,7 +75,7 @@ class OperatorGridFilter extends Component {
           component={SelectField}
           className="filter-row__medium"
         >
-          <option value="">Any</option>
+          <option value="">{I18n.t('common.any')}</option>
           {Object.keys(countries).map(key => (
             <option key={key} value={key}>{countries[key]}</option>
           ))}
@@ -86,10 +86,10 @@ class OperatorGridFilter extends Component {
           component={SelectField}
           className="filter-row__medium"
         >
-          <option value="">Any</option>
+          <option value="">{I18n.t('common.any')}</option>
           {Object.keys(statusesLabels).map(status => (
             <option key={status} value={status}>
-              {statusesLabels[status]}
+              {I18n.t(statusesLabels[status])}
             </option>
           ))}
         </Field>

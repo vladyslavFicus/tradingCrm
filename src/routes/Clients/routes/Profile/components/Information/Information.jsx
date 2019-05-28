@@ -20,6 +20,7 @@ class Information extends PureComponent {
     checkService: PropTypes.func.isRequired,
     acquisitionData: PropTypes.object.isRequired,
     loading: PropTypes.bool.isRequired,
+    locale: PropTypes.string.isRequired,
   };
 
   static defaultProps = {
@@ -36,13 +37,14 @@ class Information extends PureComponent {
       checkService,
       acquisitionData,
       loading,
+      locale,
     } = this.props;
 
     return (
       <div className="account-details">
         <div className="row">
           <div className="col-md-3">
-            <Personal data={data} loading={loading} />
+            <Personal data={data} loading={loading} locale={locale} />
           </div>
           <div className="col-md-3">
             <AcquisitionStatus
@@ -61,6 +63,7 @@ class Information extends PureComponent {
               <Notes
                 notes={pinnedNotes}
                 onEditNoteClick={onEditNoteClick}
+                locale={locale}
               />
             </div>
           </PermissionContent>

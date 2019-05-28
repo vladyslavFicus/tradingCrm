@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import { I18n } from 'react-redux-i18n';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import onClickOutside from 'react-onclickoutside';
@@ -29,7 +30,7 @@ class Select extends PureComponent {
     placeholder: 'Any',
     multiple: false,
     value: null,
-    searchPlaceholder: 'Search',
+    searchPlaceholder: null,
     optionsHeader: null,
     singleOptionComponent: null,
     disabled: false,
@@ -342,7 +343,7 @@ class Select extends PureComponent {
     multiple
       ? (
         <SelectMultipleOptions
-          headerText="available options"
+          headerText={I18n.t('common.select.available_options')}
           options={options}
           selectedOptions={toSelectOptions}
           onChange={this.handleSelectMultipleOptions}
@@ -402,7 +403,7 @@ class Select extends PureComponent {
             showSearchBar &&
             <SelectSearchBox
               query={query}
-              placeholder={searchPlaceholder}
+              placeholder={searchPlaceholder || I18n.t('common.select.default_placeholder')}
               onChange={this.handleSearch}
               ref={this.bindSearchBarRef}
             />
@@ -413,7 +414,7 @@ class Select extends PureComponent {
             {
               !!query && options.length === 0 &&
               <div className="text-muted font-size-10 margin-10">
-                Options by query "{query}" not found...
+                {I18n.t('common.select.options_not_found', { query })}
               </div>
             }
             {this.renderOptions(

@@ -779,6 +779,7 @@ class Profile extends Component {
               pinnedNotes={get(notes, 'data') || {}}
               acquisitionData={acquisitionData}
               loading={loading}
+              locale={locale}
             />
           </HideDetails>
         </div>

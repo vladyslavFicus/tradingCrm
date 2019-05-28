@@ -90,13 +90,13 @@ const methodStatusActions = {
   [methodStatuses.ACTIVE]: [
     {
       action: methodStatuses.INACTIVE,
-      label: 'Deactivate',
+      label: I18n.t('PAYMENT_METHODS.ACTIONS.DEACTIVATE'),
     },
   ],
   [methodStatuses.INACTIVE]: [
     {
       action: methodStatuses.ACTIVE,
-      label: 'Activate',
+      label: I18n.t('PAYMENT_METHODS.ACTIONS.ACTIVE'),
     },
   ],
 };
@@ -219,8 +219,8 @@ const manualPaymentMethodsLabels = {
 };
 
 const methodsStatusesLabels = {
-  [methodStatuses.ACTIVE]: 'Active',
-  [methodStatuses.INACTIVE]: 'Inactive',
+  [methodStatuses.ACTIVE]: I18n.t('PAYMENT_METHODS.STATUSES.ACTIVE'),
+  [methodStatuses.INACTIVE]: I18n.t('PAYMENT_METHODS.STATUSES.INACTIVE'),
 };
 
 const statusesColor = {

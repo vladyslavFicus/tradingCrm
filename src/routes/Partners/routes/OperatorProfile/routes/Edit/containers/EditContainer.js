@@ -13,9 +13,11 @@ import { operatorTypes } from 'constants/operators';
 const mapStateToProps = ({
   auth: { uuid, brandId },
   authorities: { data: authoritiesData },
+  i18n: { locale },
 }) => ({
   auth: { uuid },
   brandId,
+  locale,
   departmentsRoles: get(authoritiesData, 'post.departmentRole', {}),
   operatorType: operatorTypes.PARTNER,
 });

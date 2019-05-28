@@ -254,20 +254,21 @@ class Header extends Component {
                 lastDeposit={lastDepositDate}
                 lastWithdraw={lastWithdrawalDate}
                 playerUUID={playerUUID}
+                locale={locale}
               />
             </If>
           </div>
           <If condition={getActiveBrandConfig().regulation.isActive}>
             <Questionnaire questionnaireLastData={questionnaireLastData} profileUUID={playerUUID} />
           </If>
-          <ProfileLastLogin lastIp={lastIp} />
+          <ProfileLastLogin lastIp={lastIp} locale={locale} />
           <div className="header-block">
             <div className="header-block-title">{I18n.t('CLIENT_PROFILE.CLIENT.REGISTERED.TITLE')}</div>
             <div className="header-block-middle">
               {moment.utc(registrationDate).local().fromNow()}
             </div>
             <div className="header-block-small">
-              on {moment.utc(registrationDate).local().format('DD.MM.YYYY')}
+              {I18n.t('COMMON.ON')} {moment.utc(registrationDate).local().format('DD.MM.YYYY')}
             </div>
           </div>
           <If condition={checkService(services.dwh)}>

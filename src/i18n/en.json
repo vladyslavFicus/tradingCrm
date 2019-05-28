@@ -43,6 +43,10 @@
       "RELEASE_NOTES": "Release notes"
     }
   },
+  "HEADER_PROFILE": {
+    "MY_PROFILE": "My Profile",
+    "LOGOUT": "Logout"
+  },
   "MY_PROFILE_SIDEBAR": {
     "MY_PROFILE": "My Profile",
     "DETAILS": "Personal details",
@@ -724,6 +728,7 @@
       "FILTER_FORM": {
         "LABELS": {
           "SEARCH_BY": "Search by",
+          "SEARCH_BY_PLACEHOLDER": "Action ID, Operator ID, IP",
           "ACTION_TYPES": "Action types",
           "CREATION_DATE_FROM": "Creation date from",
           "CREATION_DATE_TO": "Creation date to",
@@ -773,6 +778,7 @@
     }
   },
   "COMMON": {
+    "NAME": "Name",
     "TEAM": "Team",
     "DESK": "Desk",
     "OFFICE": "Office",
@@ -904,6 +910,11 @@
       "START_DATE": "Start date",
       "END_DATE": "End date"
     },
+    "GENDERS": {
+      "MALE": "Male",
+      "FEMALE": "Female",
+      "UNDEFINED": "Undefined"
+    },
     "CONFIRM": "Confirm",
     "MGA_LIMIT": "MGA LIMIT",
     "MGA_LIMIT_DESCRIPTION": "MGA Limit - the cumulative limit of €2300 on withdrawals for KYC not verified players is exceeded.",
@@ -997,7 +1008,7 @@
     "SOMETHING_WRONG": "Something went wrong",
     "LANGUAGE": "Language",
     "UNTIL": "Until",
-    "ON": "On",
+    "ON": "on",
     "BULK_UPDATE_FAILED": "Bulk update failed",
     "CHOOSE_OPERATOR": "Choose an operator",
     "ADD_MANAGER_TO_BRANCH": "+ Add Manager",
@@ -1031,6 +1042,10 @@
     },
     "FILTERS": {
       "SEARCH_LIMIT": "Search limit"
+    },
+    "DATE_RANGE": {
+      "START_DATE": "Start date",
+      "END_DATE": "End date"
     }
   },
   "FILES": {
@@ -1072,6 +1087,21 @@
         "NOTE": "Note",
         "STATUS": "Status"
       }
+    },
+    "ACTIONS": {
+      "VERIFY": "Verify",
+      "REFUSE": "Refuse"
+    },
+    "STATUSES": {
+      "UNDER_REVIEW": "Under review",
+      "VERIFIED": "Verified",
+      "REFUSED": "Refused"
+    },
+    "CATEGORIES": {
+      "KYC_PAYMENT_ACCOUNT": "KYC - Payment account",
+      "KYC_PERSONAL": "KYC - Personal",
+      "KYC_ADDRESS": "KYC - Address",
+      "KYC_OTHER": "Other"
     }
   },
   "CONSTANTS": {
@@ -1484,6 +1514,11 @@
     }
   },
   "OPERATOR_PROFILE": {
+    "RESET_PASSWORD": "Reset password",
+    "TABS": {
+      "PROFILE": "Profile",
+      "FEED": "Feed"
+    },
     "FEED": {
       "FILTER_FORM": {
         "SEARCH_BY_LABEL": "Search by",
@@ -1494,12 +1529,14 @@
       "TITLE": "Feed"
     },
     "DETAILS": {
+      "SEND_INVITATION": "Send invitation",
       "LABEL": {
         "ADDITIONAL_INFORMATION": "Additional information",
         "DEPARTMENTS": "Departments",
         "PERSONAL_INFORMATION": "Personal information",
         "FIRST_NAME": "First name",
         "LAST_NAME": "Last name",
+        "CONTACTS": "Contacts",
         "EMAIL": "Email",
         "COUNTRY": "Country",
         "PHONE_NUMBER": "Phone number",
@@ -2253,6 +2290,17 @@
         "BRAND": "%{brand}?"
       }
     },
+    "STATUSES": {
+      "ACTIVE": "Active",
+      "INACTIVE": "Inactive",
+      "CLOSED": "Closed"
+    },
+    "GRID_HEADER": {
+      "OPERATOR": "Operator",
+      "COUNTRY": "Country",
+      "REGISTERED": "Registered",
+      "STATUS": "Status"
+    },
     "LIST": {
       "FILTER_FORM": {
         "LABEL": {
@@ -2300,12 +2348,6 @@
           "WHITE_LISTED_IP": "White listed IPs",
           "RESTRICTED_COUNTRIES": "Restricted countries"
         }
-      },
-      "GRID_HEADER": {
-        "OPERATOR": "Operator",
-        "COUNTRY": "Country",
-        "REGISTERED": "Registered",
-        "STATUS": "Status"
       }
     },
     "NOTIFICATIONS": {
@@ -2365,12 +2407,29 @@
     "DESCRIPTION": "Sorry, you do not have sufficient rights to view this page. Please contact your site admin if you think you have received this message in error."
   },
   "PAYMENT_METHODS": {
+    "TITLE": "Payment Methods",
     "FILTER_FORM": {
       "LABELS": {
         "ALL_STATUSES": "All statuses",
         "STATUS": "Status",
         "COUNTRY": "Country"
       }
+    },
+    "GRID": {
+      "ORDER": "Order",
+      "PAYMENT_METHOD": "Payment Method",
+      "DEPOSIT": "Deposit",
+      "WITHDRAWAL": "Withdrawal",
+      "AVAILABILITY": "Availability",
+      "STATUS": "Status"
+    },
+    "STATUSES": {
+      "ACTIVE": "Active",
+      "INACTIVE": "Inactive"
+    },
+    "ACTIONS": {
+      "ACTIVATE": "Activate",
+      "DEACTIVATE": "Deactivate"
     }
   },
   "ADVANCED_OPTIONS": {
@@ -2942,7 +3001,12 @@
         "LAST": "last",
         "DEPOSITED": "Deposited",
         "WITHDRAWAL": "Withdrawals",
-        "WITHDRAWN": "Withdrawn"
+        "WITHDRAWN": "Withdrawn",
+        "PERIOD_PRESETS": {
+          "LAST_7_DAYS": "Last 7 days",
+          "LAST_MONTH": "Last month",
+          "LAST_3_MONTHS": "Last 3 month"
+        }
       },
       "ACQUISITION": {
         "TITLE": "Acquisition Status",
@@ -3418,7 +3482,10 @@
   },
   "common": {
     "select": {
-      "default": "--Select--"
+      "default": "--Select--",
+      "default_placeholder": "Search",
+      "available_options": "Available options",
+      "options_not_found": "Options by query \"%{query}\" not found..."
     },
     "any": "Any",
     "reset": "Reset",

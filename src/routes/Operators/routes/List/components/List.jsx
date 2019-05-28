@@ -207,7 +207,7 @@ class List extends Component {
           classNames(operatorStatusColorNames[data.operatorStatus], 'text-uppercase font-weight-700')
         }
       >
-        {operatorStatusesLabels[data.operatorStatus] || data.operatorStatus}
+        {I18n.t(operatorStatusesLabels[data.operatorStatus]) || data.operatorStatus}
       </div>
       {
         data.statusChangeDate &&
@@ -331,7 +331,7 @@ class List extends Component {
           >
             <GridViewColumn
               name="uuid"
-              header={I18n.t(`${operatorType}S.GRID_HEADER.${operatorType}S`)}
+              header={I18n.t('OPERATORS.GRID_HEADER.OPERATOR')}
               render={this.renderOperator}
             />
             <GridViewColumn

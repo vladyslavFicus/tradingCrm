@@ -1,7 +1,12 @@
+import moment from 'moment';
+import Validator from 'validatorjs';
 import { SET_LOCALE } from 'react-redux-i18n';
 import createReducer from '../../utils/createReducer';
 
 function setLocale(language) {
+  Validator.useLang(language);
+  moment.locale(language === 'zh' ? 'zh-cn' : language);
+
   return {
     type: SET_LOCALE,
     locale: language,

@@ -258,7 +258,7 @@ class List extends Component {
     return (
       <div className="card">
         <div className="card-heading font-size-20">
-          Payment methods
+          {I18n.t('PAYMENT_METHODS.TITLE')}
         </div>
 
         <MethodGridFilter
@@ -272,24 +272,24 @@ class List extends Component {
           >
             <GridViewColumn
               name="order"
-              header="Order"
+              header={I18n.t('PAYMENT_METHODS.GRID.ORDER')}
               className="font-weight-700"
               render={data => <DragHandle order={data.order} />}
             />
             <GridViewColumn
               name="methodName"
-              header="Payment Method"
+              header={I18n.t('PAYMENT_METHODS.GRID.PAYMENT_METHOD')}
               className="font-weight-700 text-uppercase"
             />
             <GridViewColumn
               name="depositLimit"
-              header="Deposit"
+              header={I18n.t('PAYMENT_METHODS.GRID.DEPOSIT')}
               render={this.renderLimit}
               className="font-weight-700"
             />
             <GridViewColumn
               name="withdrawLimit"
-              header="Withdrawal"
+              header={I18n.t('PAYMENT_METHODS.GRID.WITHDRAWAL')}
               render={this.renderLimit}
               className="font-weight-700"
             />
@@ -297,7 +297,7 @@ class List extends Component {
               !filters.countryCode &&
               <GridViewColumn
                 name="availability"
-                header="Availability"
+                header={I18n.t('PAYMENT_METHODS.GRID.AVAILABILITY')}
                 className="text-center"
                 headerClassName="text-center"
                 render={this.renderCountryAvailability}
@@ -307,7 +307,7 @@ class List extends Component {
               !filters.countryCode &&
               <GridViewColumn
                 name="status"
-                header="Status"
+                header={I18n.t('PAYMENT_METHODS.GRID.STATUS')}
                 render={this.renderStatus}
                 className="text-uppercase"
               />

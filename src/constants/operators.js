@@ -13,9 +13,9 @@ const actions = keyMirror({
 });
 
 const statusesLabels = {
-  [statuses.INACTIVE]: 'Inactive',
-  [statuses.ACTIVE]: 'Active',
-  [statuses.CLOSED]: 'Closed',
+  [statuses.INACTIVE]: I18n.t('OPERATORS.STATUSES.INACTIVE'),
+  [statuses.ACTIVE]: I18n.t('OPERATORS.STATUSES.ACTIVE'),
+  [statuses.CLOSED]: I18n.t('OPERATORS.STATUSES.CLOSED'),
 };
 
 const statusColorNames = {

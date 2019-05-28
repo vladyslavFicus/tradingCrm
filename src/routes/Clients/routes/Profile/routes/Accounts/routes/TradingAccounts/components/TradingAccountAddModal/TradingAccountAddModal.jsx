@@ -96,17 +96,6 @@ class TradingAccountAddModal extends PureComponent {
             component={InputField}
           />
           <Field
-            name="mode"
-            component={NasSelectField}
-            label={I18n.t(attributeLabels.mode)}
-            placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
-            searchable={false}
-          >
-            {accountTypes.map((item, index) => (
-              <option key={index} value={item.mode}>{item.label}</option>
-            ))}
-          </Field>
-          <Field
             name="password"
             type="text"
             onIconClick={this.handleGeneratePassword}
@@ -149,6 +138,7 @@ const FORM_NAME = 'createTradingAccountAccountForm';
 const TradingAccountAddModalRedux = reduxForm({
   form: FORM_NAME,
   initialValues: {
+    mode: 'live',
     password: generate(),
   },
   validate: createValidator({

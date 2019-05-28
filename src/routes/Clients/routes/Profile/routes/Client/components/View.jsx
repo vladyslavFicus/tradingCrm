@@ -147,7 +147,7 @@ class View extends Component {
     this.context.addNotification({
       level: error ? 'error' : 'success',
       title: I18n.t('PLAYER_PROFILE.PROFILE.PERSONAL.TITLE'),
-      message: `Update ${error ? I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY') :
+      message: `${I18n.t('COMMON.ACTIONS.UPDATED')} ${error ? I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY') :
         I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
     });
   };

@@ -3,7 +3,7 @@ import moment from 'moment';
 import { Button } from 'reactstrap';
 import { I18n } from 'react-redux-i18n';
 import Uuid from 'components/Uuid';
-import { statusColorNames, statuses } from 'constants/operators';
+import { statusColorNames, statuses, statusesLabels } from 'constants/operators';
 import PropTypes from 'constants/propTypes';
 import PermissionContent from 'components/PermissionContent';
 import permissions from 'config/permissions';
@@ -86,7 +86,7 @@ class Header extends Component {
                   className="btn-sm btn-default-outline margin-right-10"
                   onClick={onSendInvitationClick}
                 >
-                  Send Invitation
+                  {I18n.t('OPERATOR_PROFILE.DETAILS.SEND_INVITATION')}
                 </Button>
               </PermissionContent>
             }
@@ -97,7 +97,7 @@ class Header extends Component {
                   className="btn-sm btn-default-outline"
                   onClick={onResetPasswordClick}
                 >
-                  Reset Password
+                  {I18n.t('OPERATOR_PROFILE.RESET_PASSWORD')}
                 </Button>
               </PermissionContent>
             }
@@ -110,17 +110,19 @@ class Header extends Component {
               onStatusChange={this.handleStatusChange}
               label={
                 <div className="dropdown-tab">
-                  <div className="header-block-title">Account Status</div>
+                  <div className="header-block-title">{I18n.t('COMMON.ACCOUNT_STATUS')}</div>
                   <If condition={availableStatuses.length > 0}>
                     <PermissionContent permissions={permissions.OPERATORS.UPDATE_STATUS}>
                       <i className="fa fa-angle-down" />
                     </PermissionContent>
                   </If>
-                  <div className={`header-block-middle ${statusColorNames[operatorStatus]}`}>{operatorStatus}</div>
+                  <div className={`header-block-middle ${statusColorNames[operatorStatus]}`}>
+                    {I18n.t(statusesLabels[operatorStatus])}
+                  </div>
                   {
                     operatorStatus === statuses.ACTIVE && !!statusChangeDate &&
                     <div className="header-block-small">
-                      Since {moment.utc(statusChangeDate).local().format('DD.MM.YYYY')}
+                      {I18n.t('COMMON.SINCE', { date: moment.utc(statusChangeDate).local().format('DD.MM.YYYY') })}
                     </div>
                   }
                   {
@@ -146,7 +148,7 @@ class Header extends Component {
             />
           </div>
           <div className="header-block">
-            <div className="header-block-title">Registered</div>
+            <div className="header-block-title">{I18n.t('OPERATORS.GRID_HEADER.REGISTERED')}</div>
             {
               registrationDate &&
               <div>
@@ -154,7 +156,7 @@ class Header extends Component {
                   {moment.utc(registrationDate).local().fromNow()}
                 </div>
                 <div className="header-block-small">
-                  on {moment.utc(registrationDate).local().format('DD.MM.YYYY HH:mm')}
+                  {I18n.t('COMMON.ON')} {moment.utc(registrationDate).local().format('DD.MM.YYYY HH:mm')}
                 </div>
               </div>
             }
