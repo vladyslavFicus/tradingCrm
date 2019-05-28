@@ -99,7 +99,7 @@ class UploadingFile extends Component {
                 placeholder={I18n.t('FILES.UPLOAD_MODAL.FILE.CATEGORY_DEFAULT_OPTION')}
               >
                 {Object.keys(categoriesLabels).map(item => (
-                  <option key={item} value={item}>{categoriesLabels[item]}</option>
+                  <option key={item} value={item}>{I18n.t(categoriesLabels[item])}</option>
                 ))}
               </Field>
             </div>
