@@ -40,15 +40,15 @@ class Personal extends PureComponent {
       playerUUID: PropTypes.string,
     }),
     updateFATCA: PropTypes.func.isRequired,
-    phoneNumber: PropTypes.string,
+    operatorPhoneNumber: PropTypes.string,
     notify: PropTypes.func.isRequired,
     clickToCall: PropTypes.func.isRequired,
     loading: PropTypes.bool.isRequired,
-  }
+  };
 
   static defaultProps = {
     data: {},
-    phoneNumber: '',
+    operatorPhoneNumber: null,
   };
 
   handleFATCAChanged = async ({ provided }) => {
@@ -78,12 +78,13 @@ class Personal extends PureComponent {
   };
 
   handleClickToCall = number => async () => {
-    const { notify } = this.props;
+    const { notify, operatorPhoneNumber } = this.props;
+
     const { data: { profile: { clickToCall: { success } } } } = await this.props.clickToCall(
       {
         variables: {
           number,
-          agent: this.props.phoneNumber,
+          agent: operatorPhoneNumber,
         },
       }
     );
@@ -95,7 +96,7 @@ class Personal extends PureComponent {
         message: I18n.t('PLAYER_PROFILE.PROFILE.CLICK_TO_CALL_FAILED'),
       });
     }
-  }
+  };
 
   render() {
     const {
@@ -111,10 +112,11 @@ class Personal extends PureComponent {
         phoneNumberVerified,
         city,
       },
+      operatorPhoneNumber,
       loading,
     } = this.props;
 
-    const withCall = getClickToCall().isActive;
+    const withCall = getClickToCall().isActive && !!operatorPhoneNumber;
 
     const tradingProfile = get(this.props.data, 'tradingProfile') || {};
     const affiliateProfile = get(tradingProfile, 'affiliateProfileDocument');
@@ -230,7 +232,7 @@ class Personal extends PureComponent {
 
 export default compose(
   withNotifications,
-  connect(({ auth: { data: { phoneNumber } } }) => ({ phoneNumber })),
+  connect(({ auth: { data: { phoneNumber: operatorPhoneNumber } } }) => ({ operatorPhoneNumber })),
   graphql(clickToCall, { name: 'clickToCall' }),
   graphql(updateFATCAMutation, { name: 'updateFATCA' })
 )(Personal);
