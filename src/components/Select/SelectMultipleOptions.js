@@ -97,11 +97,11 @@ class SelectMultipleOptions extends PureComponent {
               <input
                 type="checkbox"
                 className="custom-control-input"
-                id={`${name} ${option.label}`}
+                id={`${option.value} ${option.label}`}
                 checked={isActive}
                 onChange={e => this.handleChange(e, option)}
               />
-              <label className="custom-control-label" htmlFor={`${name} ${option.label}`}>
+              <label className="custom-control-label" htmlFor={`${option.value} ${option.label}`}>
                 {option.label}
               </label>
             </div>
