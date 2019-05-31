@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import { I18n } from 'react-redux-i18n';
 import { departments } from 'constants/brands';
+import permissions from 'config/permissions';
+import Permissions from 'utils/permissions';
 import Uuid from '../Uuid';
 import { entities, entitiesPrefixes } from '../../constants/uuid';
 import { tagTypes } from '../../constants/tag';
@@ -132,11 +134,13 @@ class NoteItem extends Component {
                 {
                   label: I18n.t('COMMON.ACTIONS.EDIT'),
                   onClick: handleNoteClick(modalType.EDIT, data),
+                  permissions: new Permissions(permissions.TAGS.NOTES.UPDATE_NOTE),
                 },
                 {
                   label: I18n.t('COMMON.ACTIONS.DELETE'),
                   onClick: handleNoteClick(modalType.DELETE, data),
                   ...(department && { visible: department !== departments.CS }),
+                  permissions: new Permissions(permissions.TAGS.NOTES.DELETE_NOTE),
                 },
               ]}
             />
