@@ -164,6 +164,10 @@ export default {
   TAGS: {
     ADD_TAG: 'tag;POST;/',
     VIEW_TAGS: 'tag;GET;/tags/{playerUUID}',
+    NOTES: {
+      UPDATE_NOTE: 'tag;PUT;/note/{noteId}',
+      DELETE_NOTE: 'tag;DELETE;/note/{noteId}',
+    },
   },
   CMS_GAMES: {
     VIEW_LIST: 'cms_game;GET;/',
