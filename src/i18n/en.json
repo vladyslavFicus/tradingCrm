@@ -901,7 +901,7 @@
       "SELECT_BRANCH_TYPE": "Select branch type first"
     },
     "SEARCH_BY": {
-      "CLIENT": "Name, Email, Phone, ID",
+      "CLIENT": "Name, Email, Phone, ID, MT4 ID",
       "LEAD": "Name, Email, Phone, ID",
       "AFFILIATE": "Affiliate ID, source",
       "NAME": "Name"
