@@ -900,7 +900,7 @@
       "SELECT_BRANCH_TYPE": "先选择分支类型"
     },
     "SEARCH_BY": {
-      "CLIENT": "姓名、邮箱、手机、ID",
+      "CLIENT": "姓名、邮箱、手机、ID、MT4 ID",
       "LEAD": "姓名、邮箱、手机、ID",
       "AFFILIATE": "联营 ID，来源",
       "NAME": "姓名"
