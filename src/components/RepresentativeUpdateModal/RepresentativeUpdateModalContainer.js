@@ -70,9 +70,14 @@ export default compose(
       const desks = get(userBranchHierarchy, 'hierarchy.userBranchHierarchy.data.DESK') || [];
       const users = getAgents(hierarchyUsers, type) || [];
 
+      let repIdRules = null;
+      if (values.aquisitionStatus) {
+        repIdRules = 'required';
+      }
+
       return createValidator({
         deskId: [`in:,${desks.map(({ uuid }) => uuid).join()}`],
-        repId: [`in:,${users.map(({ uuid }) => uuid).join()}`],
+        repId: [`in:,${users.map(({ uuid }) => uuid).join()}`, repIdRules],
         teamId: ['string'],
         aquisitionStatus: ['string'],
         status: [`in:,${[...Object.values(salesStatusValues), ...Object.values(retentionStatusValues)].join()}`],

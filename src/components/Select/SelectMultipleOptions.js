@@ -1,7 +1,8 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import deleteFromArray from '../../utils/deleteFromArray';
+import { v4 } from 'uuid';
+import deleteFromArray from 'utils/deleteFromArray';
 
 const OptionPropType = PropTypes.shape({
   key: PropTypes.string.isRequired,
@@ -43,11 +44,11 @@ class SelectMultipleOptions extends PureComponent {
     }
   };
 
-  handleChange = (e, option) => {
-    return e.target.checked
+  handleChange = (e, option) => (
+    e.target.checked
       ? this.handleAddOption(option)
-      : this.handleDeleteOption(option);
-  };
+      : this.handleDeleteOption(option)
+  );
 
   render() {
     const {
@@ -59,7 +60,6 @@ class SelectMultipleOptions extends PureComponent {
       headerButtonIconClassName,
       headerButtonText,
       headerButtonOnClick,
-      name,
     } = this.props;
 
     if (options.length === 0) {
@@ -78,6 +78,7 @@ class SelectMultipleOptions extends PureComponent {
           </button>
         }
         {options.map((option) => {
+          const uniq = v4();
           const isActive = selectedOptions.indexOf(option) > -1;
           const optionProps = {
             key: option.key,
@@ -97,11 +98,11 @@ class SelectMultipleOptions extends PureComponent {
               <input
                 type="checkbox"
                 className="custom-control-input"
-                id={`${option.value} ${option.label}`}
+                id={`${uniq}-${option.value}`}
                 checked={isActive}
                 onChange={e => this.handleChange(e, option)}
               />
-              <label className="custom-control-label" htmlFor={`${option.value} ${option.label}`}>
+              <label className="custom-control-label" htmlFor={`${uniq}-${option.value}`}>
                 {option.label}
               </label>
             </div>
