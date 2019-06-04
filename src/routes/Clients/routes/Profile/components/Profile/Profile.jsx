@@ -262,9 +262,8 @@ class Profile extends Component {
         ...(unassignFromOperator && { unassignFromOperator }),
       }],
       currentInactiveOperator: assignToOperator,
-      initialValues: { aquisitionStatus: type },
       header: I18n.t('CLIENT_PROFILE.MODALS.REPRESENTATIVE_UPDATE.HEADER', { type: type.toLowerCase() }),
-      additionalFields: [moveField],
+      additionalFields: [moveField(type)],
       onSuccess: () => refetch(),
     });
   };

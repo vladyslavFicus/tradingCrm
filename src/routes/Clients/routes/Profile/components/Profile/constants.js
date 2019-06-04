@@ -33,10 +33,9 @@ export const userProfileTabs = [{
   url: '/clients/:id/feed',
 }];
 
-export const moveField = {
+export const moveField = type => ({
   name: 'aquisitionStatus',
   labelName: 'move',
   component: 'select',
-  disabled: true,
-  data: aquisitionStatuses,
-};
+  data: [aquisitionStatuses.find(({ value }) => type === value)],
+});

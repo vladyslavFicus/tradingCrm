@@ -186,6 +186,16 @@ class RepresentativeUpdateModal extends Component {
     });
   }
 
+  handleRepChange = (selectedOperator) => {
+    const {
+      change,
+      type,
+    } = this.props;
+
+    change(fieldNames.ACQUISITION, type);
+    change(fieldNames.REPRESENTATIVE, selectedOperator);
+  }
+
   handleUpdateRepresentative = async ({ teamId, repId, status }) => {
     const {
       leads,
@@ -231,9 +241,11 @@ class RepresentativeUpdateModal extends Component {
         currentInactiveOperator,
       } = this.props;
 
-      // when move performed on client profile and no rep selected
-      // manually pass assignToOperator and add move flag
-      if (currentInactiveOperator && !repId) {
+      /* INFO
+      * when move performed on client profile and rep selected
+      * manually pass assignToOperator and add move flag
+      */
+      if (currentInactiveOperator && repId) {
         clients[0] = { ...clients[0], assignToOperator: currentInactiveOperator };
         variables.isMoveAction = true;
       }
@@ -368,6 +380,7 @@ class RepresentativeUpdateModal extends Component {
             }
             component={NasSelectField}
             multiple={multiAssign}
+            onFieldChange={this.handleRepChange}
             disabled={agentsLoading || initAgentsLoading || submitting || (agents && agents.length === 0)
             }
           >
