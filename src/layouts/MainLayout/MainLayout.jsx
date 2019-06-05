@@ -342,6 +342,7 @@ class MainLayout extends Component {
             />
 
             <UsersPanel
+              locale={locale}
               active={activeUserPanel}
               items={userPanels}
               onItemClick={this.handleUserPanelClick}

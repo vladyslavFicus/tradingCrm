@@ -25,6 +25,7 @@ class UsersPanel extends Component {
         hide: PropTypes.func.isRequired,
       }),
     }).isRequired,
+    locale: PropTypes.string.isRequired,
   };
   static defaultProps = {
     active: null,
@@ -94,6 +95,7 @@ class UsersPanel extends Component {
       onClose,
       onRemove,
       onItemClick,
+      locale,
     } = this.props;
 
     const currentItems = items.slice(0, MAX_ACTIVE_TAB);
@@ -148,7 +150,7 @@ class UsersPanel extends Component {
             return (
               <iframe
                 id={item.uuid}
-                key={item.uuid}
+                key={`${item.uuid}-${locale}`}
                 title={item.uuid}
                 className={className}
                 frameBorder={0}

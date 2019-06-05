@@ -121,7 +121,7 @@ class Questionnaire extends PureComponent {
       <i className="fa fa-angle-down" />
       <div className="header-block-middle">
         <span className={classNames('text-uppercase', statusColors[questionnaire.status])}>
-          {questionnaire.status}
+          {I18n.t(`CLIENT_PROFILE.CLIENT.QUESTIONNAIRE.STATUSES.${questionnaire.status}`)}
         </span>
       </div>
       <div className="header-block-small">

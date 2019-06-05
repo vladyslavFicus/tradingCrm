@@ -1092,15 +1092,15 @@
       "REFUSE": "拒绝"
     },
     "STATUSES": {
-      "UNDER_REVIEW": "Under review",
+      "UNDER_REVIEW": "审核中",
       "VERIFIED": "已验证",
-      "REFUSED": "Refused"
+      "REFUSED": "已拒绝"
     },
     "CATEGORIES": {
-      "KYC_PAYMENT_ACCOUNT": "KYC - Payment account",
-      "KYC_PERSONAL": "KYC - Personal",
-      "KYC_ADDRESS": "KYC - Address",
-      "KYC_OTHER": "Other"
+      "KYC_PAYMENT_ACCOUNT": "KYC - 支付账户",
+      "KYC_PERSONAL": "KYC - 个人",
+      "KYC_ADDRESS": "KYC - 地址",
+      "KYC_OTHER": "其他"
     }
   },
   "CONSTANTS": {
@@ -2406,7 +2406,7 @@
     "DESCRIPTION": "抱歉，您没有足够的权限来查看此页面。如果您认为您错误地接收了此信息，请联系您网站的管理员。"
   },
   "PAYMENT_METHODS": {
-    "TITLE": "Payment Methods",
+    "TITLE": "支付方式",
     "FILTER_FORM": {
       "LABELS": {
         "ALL_STATUSES": "所有状态",
@@ -2415,20 +2415,20 @@
       }
     },
     "GRID": {
-      "ORDER": "Order",
-      "PAYMENT_METHOD": "Payment Method",
-      "DEPOSIT": "Deposit",
-      "WITHDRAWAL": "Withdrawal",
-      "AVAILABILITY": "Availability",
-      "STATUS": "Status"
+      "ORDER": "订单",
+      "PAYMENT_METHOD": "支付方式",
+      "DEPOSIT": "入金",
+      "WITHDRAWAL": "取款",
+      "AVAILABILITY": "可用性",
+      "STATUS": "状态"
     },
     "STATUSES": {
       "ACTIVE": "活跃",
       "INACTIVE": "非活跃"
     },
     "ACTIONS": {
-      "ACTIVATE": "Activate",
-      "DEACTIVATE": "Deactivate"
+      "ACTIVATE": "激活",
+      "DEACTIVATE": "注销"
     }
   },
   "ADVANCED_OPTIONS": {
@@ -3016,13 +3016,13 @@
       },
       "QUESTIONNAIRE": {
         "TITLE": "问卷",
-        "VERSION": "Version",
-        "SCORE": "Score",
-        "DOWNLOAD_PDF": "Download PDF",
-        "STATUS_CHANGED": "Questionnaire status successfully changed",
+        "VERSION": "版本",
+        "SCORE": "得分",
+        "DOWNLOAD_PDF": "下载PDF",
+        "STATUS_CHANGED": "问卷状态已成功更新",
         "STATUSES": {
-          "NOT_PASSED": "Not passed",
-          "PASSED": "Passed",
+          "NOT_PASSED": "未通过",
+          "PASSED": "已通过",
           "APPROVED": "已批准",
           "REJECTED": "已拒绝"
         }
@@ -3481,9 +3481,9 @@
   "common": {
     "select": {
       "default": "-- 选择 --",
-      "default_placeholder": "Search",
-      "available_options": "Available options",
-      "options_not_found": "Options by query \"%{query}\" not found..."
+      "default_placeholder": "搜索",
+      "available_options": "可用选择",
+      "options_not_found": "未找到查询 \"%{query}\" 的选择..."
     },
     "any": "任何",
     "reset": "重置",
