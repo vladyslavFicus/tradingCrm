@@ -904,7 +904,8 @@
       "CLIENT": "Name, Email, Phone, ID, MT4 ID",
       "LEAD": "Name, Email, Phone, ID",
       "AFFILIATE": "Affiliate ID, source",
-      "NAME": "Name"
+      "NAME": "Name",
+      "MIGRATION_ID": "Migration ID"
     },
     "DATE_OPTIONS": {
       "START_DATE": "Start date",

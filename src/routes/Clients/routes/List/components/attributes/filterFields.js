@@ -86,6 +86,13 @@ export default (
   inputAddon: <i className="icon icon-search" />,
   className: fieldClassNames.MEDIUM,
 }, {
+  type: fieldTypes.INPUT,
+  name: 'searchMigrationId',
+  label: I18n.t(filterLabels.searchValue),
+  placeholder: I18n.t('COMMON.SEARCH_BY.MIGRATION_ID'),
+  inputAddon: <i className="icon icon-search" />,
+  className: fieldClassNames.MEDIUM,
+}, {
   type: fieldTypes.SELECT,
   name: 'countries',
   label: I18n.t(filterLabels.country),
