@@ -12,6 +12,7 @@ const leadsQuery = gql`query ${queryNames.leadsQuery}(
   $salesAgents: [String],
   $status: String,
   $salesStatuses: [tradingProfileSalesStatus],
+  $migrationId: String,
 ) {
   leads (
     ids: $ids,
@@ -24,6 +25,7 @@ const leadsQuery = gql`query ${queryNames.leadsQuery}(
     salesStatuses: $salesStatuses,
     salesAgents: $salesAgents,
     status: $status,
+    migrationId: $migrationId,
   ) {
     error {
       error
@@ -71,6 +73,7 @@ const leadsQuery = gql`query ${queryNames.leadsQuery}(
         language
         registrationDate
         statusChangedDate
+        migrationId
       } 
     }
   } 
@@ -122,6 +125,7 @@ const leadProfileQuery = gql`query getLeadProfile(
       statusChangedDate
       convertedByOperatorUuid
       convertedToClientUuid
+      migrationId
     }
   } 
 }`;
