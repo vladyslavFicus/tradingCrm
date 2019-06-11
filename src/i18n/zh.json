@@ -903,7 +903,8 @@
       "CLIENT": "姓名、邮箱、手机、ID、MT4 ID",
       "LEAD": "姓名、邮箱、手机、ID",
       "AFFILIATE": "联营 ID，来源",
-      "NAME": "姓名"
+      "NAME": "姓名",
+      "MIGRATION_ID": "Migration ID"
     },
     "DATE_OPTIONS": {
       "START_DATE": "开始日期",
