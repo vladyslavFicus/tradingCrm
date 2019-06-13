@@ -20,6 +20,8 @@ const brands = keyMirror({
   trustfx: null,
   ifg: null,
   alliancecapital: null,
+  everfxglobal: null,
+  everfxcn: null,
 });
 
 const departments = keyMirror({
@@ -114,6 +116,14 @@ const brandsConfig = {
   [brands.alliancecapital]: {
     name: 'Alliance Capital',
     image: { src: '/img/brand/choose-brand/alliancecapital.svg' },
+  },
+  [brands.everfxglobal]: {
+    name: 'EverFX Global',
+    image: { src: '/img/brand/choose-brand/everfxglobal.svg' },
+  },
+  [brands.everfxcn]: {
+    name: 'EverFX CN',
+    image: { src: '/img/brand/choose-brand/everfxcn.svg' },
   },
 };
 const departmentsConfig = {
