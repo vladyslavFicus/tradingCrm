@@ -189,7 +189,6 @@ class Payments extends Component {
       addPayment,
       addNote,
       match: { params: { id: uuid } },
-      currencyCode,
       clientPayments: { refetch },
       playerProfile: {
         country,
@@ -204,7 +203,6 @@ class Payments extends Component {
     const variables = {
       ...inputParams,
       language,
-      currency: currencyCode,
       playerProfile: {
         country,
         firstName,

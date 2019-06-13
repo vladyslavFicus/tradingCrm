@@ -58,7 +58,16 @@ class PaymentAddModal extends PureComponent {
   };
 
   onSubmit = async (data) => {
-    await this.props.onSubmit({ ...data, note: this.noteButton.getNote() });
+    await this.props.onSubmit({
+      ...data,
+      note: this.noteButton.getNote(),
+    });
+  };
+
+  getSourceAccount = ({ login, source }) => {
+    const mt4Accounts = this.props.playerProfile.tradingProfile.mt4Users;
+
+    return mt4Accounts.find(account => [login, source].includes(account.login));
   };
 
   handlePaymentTypeChanged = (value) => {
@@ -118,6 +127,7 @@ class PaymentAddModal extends PureComponent {
 
     return (
       <Field
+        key={name || 'login'}
         name={name || 'login'}
         label={I18n.t(attributeLabels[label || 'fromMt4Acc'])}
         component={NasSelectField}
@@ -148,12 +158,13 @@ class PaymentAddModal extends PureComponent {
       submitting,
       invalid,
       playerProfile: {
-        currencyCode,
         playerUUID,
       },
       currentValues,
       error: errors,
     } = this.props;
+
+    const sourceAccount = this.getSourceAccount(currentValues);
 
     return (
       <Modal contentClassName="payment-modal" toggle={onCloseModal} isOpen>
@@ -189,49 +200,6 @@ class PaymentAddModal extends PureComponent {
             ))}
           </Field>
           <div className={`payment-fields ${(currentValues && currentValues.paymentType) ? 'visible' : ''}`}>
-            <div className="row">
-              <Field
-                name="amount"
-                label={attributeLabels.amount}
-                type="number"
-                step="any"
-                placeholder="0.00"
-                className="col-4"
-                normalize={floatNormalize}
-                inputAddon={
-                  <Currency
-                    code={currencyCode}
-                    showSymbol={false}
-                  />
-                }
-                currencyCode={currencyCode}
-                showErrorMessage={false}
-                component={InputField}
-              />
-              <If condition={currentValues && currentValues.paymentType === paymentMethods.DEPOSIT.name}>
-                <Field
-                  name="externalReference"
-                  type="text"
-                  className="col-8"
-                  label={I18n.t(attributeLabels.externalReference)}
-                  component={InputField}
-                  position="vertical"
-                />
-              </If>
-              <If condition={currentValues && currentValues.paymentType === paymentMethods.CREDIT_IN.name}>
-                <Field
-                  withTime
-                  closeOnSelect={false}
-                  name="expirationDate"
-                  type="text"
-                  className="col-5"
-                  label={I18n.t(attributeLabels.expirationDate)}
-                  component={DateTimeField}
-                  position="vertical"
-                  isValidDate={() => true}
-                />
-              </If>
-            </div>
             <div className="form-row align-items-center">
               <Choose>
                 <When condition={currentValues.paymentType === paymentMethods.DEPOSIT.name}>
@@ -272,6 +240,43 @@ class PaymentAddModal extends PureComponent {
                   {this.renderMt4SelectField('fromMt4Acc')}
                 </When>
               </Choose>
+            </div>
+            <div className="row">
+              <Field
+                name="amount"
+                label={attributeLabels.amount}
+                type="number"
+                step="any"
+                placeholder="0.00"
+                className="col-4"
+                normalize={floatNormalize}
+                inputAddon={sourceAccount && <Currency code={sourceAccount.symbol} showSymbol={false} />}
+                showErrorMessage={false}
+                component={InputField}
+              />
+              <If condition={currentValues && currentValues.paymentType === paymentMethods.DEPOSIT.name}>
+                <Field
+                  name="externalReference"
+                  type="text"
+                  className="col-8"
+                  label={I18n.t(attributeLabels.externalReference)}
+                  component={InputField}
+                  position="vertical"
+                />
+              </If>
+              <If condition={currentValues && currentValues.paymentType === paymentMethods.CREDIT_IN.name}>
+                <Field
+                  withTime
+                  closeOnSelect={false}
+                  name="expirationDate"
+                  type="text"
+                  className="col-5"
+                  label={I18n.t(attributeLabels.expirationDate)}
+                  component={DateTimeField}
+                  position="vertical"
+                  isValidDate={() => true}
+                />
+              </If>
             </div>
             <div className="form-row justify-content-center">
               <NoteButton
