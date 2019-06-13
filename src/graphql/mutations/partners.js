@@ -7,6 +7,7 @@ const createPartner = gql`mutation createPartner(
   $lastName: String!,
   $password: String!,
   $phone: String,
+  $type: String,
 ) {
   partner {
     createPartner(
@@ -16,6 +17,7 @@ const createPartner = gql`mutation createPartner(
       lastName: $lastName,
       phone: $phone,
       password: $password,
+      type: $type,
     ) {
       data {
         country

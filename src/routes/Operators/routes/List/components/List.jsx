@@ -105,10 +105,11 @@ class List extends Component {
     } = this.props;
     const userType = getUserTypeByDepartment(department, role);
     const operatorType = this.props.operatorType.toLowerCase();
+    const type = data.isIB ? 'IB' : undefined;
 
     const {
       data: operatorData,
-    } = await submitNewOperator({ variables: { ...data, department, role, email, userType, branchId: branch } });
+    } = await submitNewOperator({ variables: { ...data, department, role, email, userType, branchId: branch, type } });
 
     const newOperator = get(operatorData, `${operatorType}.create${startCase(operatorType)}.data`);
     const newOperatorError = get(operatorData, `${operatorType}.create${startCase(operatorType)}.error`);

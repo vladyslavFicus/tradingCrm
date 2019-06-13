@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { Field } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
+import { getActiveBrandConfig } from 'config';
 import Select from 'components/Select';
+import CheckBox from 'components/ReduxForm/CheckBox';
 import reduxFieldsConstructor from 'components/ReduxForm/ReduxFieldsConstructor';
 import { generate } from 'utils/password';
 import { branchField, formFields } from './constants';
 
-class CreateOperatorModal extends Component {
+class CreatePartnerModal extends Component {
   static propTypes = {
     onCloseModal: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
@@ -53,7 +56,7 @@ class CreateOperatorModal extends Component {
       selectedBranchType,
       branches,
     });
-  }
+  };
 
   render() {
     const {
@@ -104,6 +107,19 @@ class CreateOperatorModal extends Component {
                 branches,
               )])}
           </div>
+          <If condition={getActiveBrandConfig().regulation.isActive}>
+            <div className="row">
+              <div className="form-group col-md-6">
+                <Field
+                  className="d-inline-block"
+                  name="isIB"
+                  component={CheckBox}
+                  type="checkbox"
+                  label="Is IB?"
+                />
+              </div>
+            </div>
+          </If>
         </ModalBody>
         <ModalFooter>
           <div className="row">
@@ -137,4 +153,4 @@ class CreateOperatorModal extends Component {
   }
 }
 
-export default CreateOperatorModal;
+export default CreatePartnerModal;
