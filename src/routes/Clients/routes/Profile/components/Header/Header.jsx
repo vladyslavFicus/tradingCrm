@@ -23,6 +23,7 @@ import HeaderPlayerPlaceholder from '../HeaderPlayerPlaceholder';
 import Questionnaire from '../Questionnaire';
 
 const sendActivationLinkPermission = new Permissions([permissions.USER_PROFILE.SEND_ACTIVATION_LINK]);
+const changePasswordPermission = new Permissions([permissions.USER_PROFILE.CHANGE_PASSWORD]);
 
 class Header extends Component {
   static propTypes = {
@@ -221,6 +222,9 @@ class Header extends Component {
                     {
                       label: I18n.t('PLAYER_PROFILE.PROFILE.ACTIONS_DROPDOWN.CHANGE_PASSWORD'),
                       onClick: onChangePasswordClick,
+                      visible: (
+                        changePasswordPermission.check(currentPermissions)
+                      ),
                     },
                     {
                       label: I18n.t('PLAYER_PROFILE.PROFILE.ACTIONS_DROPDOWN.SHARE_PROFILE'),
