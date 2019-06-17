@@ -116,6 +116,10 @@ const accountStatusActions = {
   ],
 };
 
+const hrznTypes = keyMirror({
+  CONFISCATE: null,
+});
+
 const tradingTypes = keyMirror({
   DEPOSIT: null,
   WITHDRAW: null,
@@ -135,10 +139,6 @@ const tradingTypesLabelsWithColor = {
     label: 'COMMON.PAYMENT_TYPE.WITHDRAW',
     color: 'color-danger',
   },
-  // [tradingTypes.CONFISCATE]: {
-  //   label: 'COMMON.PAYMENT_TYPE.CONFISCATE',
-  //   color: 'color-danger',
-  // },
   [tradingTypes.TRANSFER_IN]: {
     label: 'COMMON.PAYMENT_TYPE.TRANSFER_IN',
     color: 'color-info',
@@ -154,6 +154,10 @@ const tradingTypesLabelsWithColor = {
   [tradingTypes.CREDIT_OUT]: {
     label: 'COMMON.PAYMENT_TYPE.CREDIT_OUT',
     color: 'color-warning',
+  },
+  [hrznTypes.CONFISCATE]: {
+    label: 'COMMON.PAYMENT_TYPE.CONFISCATE',
+    color: 'color-danger',
   },
 };
 
