@@ -157,6 +157,7 @@ class View extends Component {
       <div className="card">
         <div className="card-heading">
           <span className="font-size-20" id="transactions-list-header">
+            <strong>{entities.totalElements} </strong>
             {I18n.t('COMMON.PAYMENTS')}
           </span>
         </div>
