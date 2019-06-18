@@ -250,6 +250,11 @@ class RepresentativeUpdateModal extends Component {
         variables.isMoveAction = true;
       }
 
+      // When chosen repId and it was on client profile page --> we set repId as assignToOperator field
+      if (repId && !Array.isArray(repId)) {
+        clients[0] = { ...clients[0], assignToOperator: repId };
+      }
+
       const response = await bulkRepresentativeUpdate({
         variables: { ...variables, clients },
       });
