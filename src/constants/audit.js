@@ -29,6 +29,7 @@ const types = keyMirror({
   PLAYER_PROFILE_SELF_EXCLUSION_COOLOFF: null,
   PLAYER_PROFILE_RESUMED: null,
   ACCEPTED_TERMS: null,
+  PROFILE_ASSIGN: null,
 });
 const typesLabels = {
   [types.LOG_IN]: I18n.t('CONSTANTS.AUDIT.TYPES.LOG_IN'),
@@ -58,6 +59,7 @@ const typesLabels = {
   [types.PLAYER_PROFILE_SELF_EXCLUSION_COOLOFF]: I18n.t('CONSTANTS.AUDIT.TYPES.PLAYER_PROFILE_STATUS_CHANGED'),
   [types.PLAYER_PROFILE_RESUMED]: I18n.t('CONSTANTS.AUDIT.TYPES.PLAYER_PROFILE_STATUS_CHANGED'),
   [types.ACCEPTED_TERMS]: I18n.t('CONSTANTS.AUDIT.TYPES.ACCEPTED_TERMS'),
+  [types.PROFILE_ASSIGN]: I18n.t('CONSTANTS.AUDIT.TYPES.PROFILE_ASSIGN'),
 };
 const typesClassNames = {
   [types.LOG_IN]: 'blue',
@@ -86,6 +88,7 @@ const typesClassNames = {
   [types.PLAYER_PROFILE_SELF_EXCLUSION_COOLOFF]: 'blue',
   [types.PLAYER_PROFILE_RESUMED]: 'blue',
   [types.ACCEPTED_TERMS]: 'blue',
+  [types.PROFILE_ASSIGN]: 'blue',
 };
 
 export {

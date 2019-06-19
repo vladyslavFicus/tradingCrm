@@ -1150,7 +1150,8 @@
         "CHANGE_PASSWORD": "Change password",
         "NEM_ID_SIGN_IN": "NEM-ID sign in",
         "PLAYER_PROFILE_STATUS_CHANGED": "Status change",
-        "ACCEPTED_TERMS": "Terms & conditions accepted"
+        "ACCEPTED_TERMS": "Terms & conditions accepted",
+        "PROFILE_ASSIGN": "Assignment"
       },
       "KYC_CONFIRMATION": {
         "TRANSACTION": "Transaction ID",
@@ -1162,6 +1163,13 @@
       "ROFUS_VERIFICATION": {
         "ACTION": "Action",
         "RESULT": "Result"
+      },
+      "PROFILE_ASSIGN": {
+        "ASSIGNED_BY_NAME": "Assigned by Name",
+        "ASSIGNED_BY_UUID": "Assigned by Uuid",
+        "ACQUISITION_STATUS": "Acquisition status",
+        "ASSIGNED_TO_UUID": "Assigned to Uuid",
+        "ASSIGNED_TO_NAME": "Assigned to name"
       }
     },
     "OPERATORS": {

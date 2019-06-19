@@ -44,6 +44,9 @@ const feedsQuery = gql`query getFeeds(
         targetUuid
         type
         uuid
+        operator {
+          fullName
+        }
       } 
     }
   } 
@@ -63,6 +66,7 @@ const feedTypesQuery = gql`query getFeedTypes($playerUUID: String!) {
       PLAYER_PROFILE_REGISTERED
       LOG_OUT
       FAILED_LOGIN_ATTEMPT
+      PROFILE_ASSIGN
     } 
   }
 }`;

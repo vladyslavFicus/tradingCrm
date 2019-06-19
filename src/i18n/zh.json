@@ -1149,7 +1149,8 @@
         "CHANGE_PASSWORD": "更改密码",
         "NEM_ID_SIGN_IN": "NEM-ID 登录",
         "PLAYER_PROFILE_STATUS_CHANGED": "状态变化",
-        "ACCEPTED_TERMS": "条款与条件已接受"
+        "ACCEPTED_TERMS": "条款与条件已接受",
+        "PROFILE_ASSIGN": "Assignment"
       },
       "KYC_CONFIRMATION": {
         "TRANSACTION": "交易 ID",
@@ -1161,6 +1162,13 @@
       "ROFUS_VERIFICATION": {
         "ACTION": "操作",
         "RESULT": "结果"
+      },
+      "PROFILE_ASSIGN": {
+        "ASSIGNED_BY_NAME": "Assigned by Name",
+        "ASSIGNED_BY_UUID": "Assigned by Uuid",
+        "ACQUISITION_STATUS": "Acquisition status",
+        "ASSIGNED_TO_UUID": "Assigned to Uuid",
+        "ASSIGNED_TO_NAME": "Assigned to name"
       }
     },
     "OPERATORS": {

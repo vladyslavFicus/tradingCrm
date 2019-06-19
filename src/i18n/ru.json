@@ -1018,7 +1018,8 @@
         "CHANGE_PASSWORD": "Изменение пароля",
         "NEM_ID_SIGN_IN": "NEM-ID вход",
         "PLAYER_PROFILE_STATUS_CHANGED": "Изменение статуса",
-        "ACCEPTED_TERMS": "Приняты условия использования"
+        "ACCEPTED_TERMS": "Приняты условия использования",
+        "PROFILE_ASSIGN": "Назначение"
       },
       "KYC_CONFIRMATION": {
         "TRANSACTION": "ID транзакции",
@@ -1030,6 +1031,13 @@
       "ROFUS_VERIFICATION": {
         "ACTION": "Действие",
         "RESULT": "Результат"
+      },
+      "PROFILE_ASSIGN": {
+        "ASSIGNED_BY_NAME": "Имя назначающего",
+        "ASSIGNED_BY_UUID": "Uuid назначающего",
+        "ACQUISITION_STATUS": "Статус",
+        "ASSIGNED_TO_UUID": "Uuid назначеного",
+        "ASSIGNED_TO_NAME": "Полное имя назначеного"
       }
     },
     "OPERATORS": {

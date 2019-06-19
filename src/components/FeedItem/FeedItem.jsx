@@ -21,6 +21,7 @@ import FeedInfoProfileBlocks from './FeedInfoProfileBlocks';
 import FeedInfoRofusVerification from './FeedInfoRofusVerification';
 import FeedInfoPlayerProfileStatusChanged from './FeedInfoPlayerProfileStatusChanged';
 import FeedInfoTermsAccepted from './FeedInfoTermsAccepted';
+import FeedProfileAssign from './FeedProfileAssign';
 import Uuid from '../Uuid';
 import './FeedItem.scss';
 
@@ -81,6 +82,8 @@ class FeedItem extends Component {
         return <FeedInfoPlayerProfileStatusChanged data={data} />;
       case types.ACCEPTED_TERMS:
         return <FeedInfoTermsAccepted data={data} />;
+      case types.PROFILE_ASSIGN:
+        return <FeedProfileAssign data={data} />;
       default:
         return null;
     }
