@@ -37,6 +37,10 @@ const getUserHierarchyById = gql`query getUserHierarchyById(
           branchType
           uuid
           name
+          brandId
+          parentBranch {
+            uuid
+          }
         }
       }
       error {

@@ -3,7 +3,7 @@ import { I18n } from 'react-redux-i18n';
 import { Field } from 'redux-form';
 import { omit } from 'lodash';
 import PropTypes from 'constants/propTypes';
-import { userTypes, userTypeLabels } from 'constants/hierarchyTypes';
+import { userTypes, userTypeLabels, branchTypes as branchNames } from 'constants/hierarchyTypes';
 import ShortLoader from 'components/ShortLoader';
 import { NasSelectField } from 'components/ReduxForm';
 import AddBranchForm from './AddBranchForm';
@@ -17,6 +17,14 @@ class HierarchyProfileForm extends Component {
     pristine: PropTypes.bool.isRequired,
     submitting: PropTypes.bool.isRequired,
     initialValues: PropTypes.object,
+    branchHierarchy: PropTypes.shape({
+      loading: PropTypes.bool.isRequired,
+      teams: PropTypes.array,
+      desks: PropTypes.array,
+      offices: PropTypes.array,
+      brands: PropTypes.array,
+      branchTypes: PropTypes.array,
+    }).isRequired,
   };
 
   static defaultProps = {
@@ -103,6 +111,51 @@ class HierarchyProfileForm extends Component {
     }
   }
 
+  hierarchyTree = (type, parentBranch, name, brandId) => {
+    const { branchHierarchy } = this.props;
+    const NOT_FOUND = 'Not Found';
+    const parentBranchUuid = parentBranch && parentBranch.uuid;
+    let hierarchyTree;
+
+    switch (type) {
+      case (branchNames.TEAM): {
+        const desk = branchHierarchy[branchNames.DESK].find(({ uuid }) => (uuid === parentBranchUuid));
+        const { name: deskName, parentBranch: { uuid: officeUuid } } = desk || {};
+
+        const office = branchHierarchy[branchNames.OFFICE].find(({ uuid }) => (uuid === officeUuid));
+        const { name: officeName } = office || {};
+
+        hierarchyTree = (
+          <div>{brandId} &rarr; {officeName || NOT_FOUND} &rarr; {deskName || NOT_FOUND} &rarr;&nbsp;
+            <span className="color-info">{name}</span>
+          </div>
+        );
+
+        break;
+      }
+      case (branchNames.DESK): {
+        const office = branchHierarchy[branchNames.OFFICE].find(({ uuid }) => (uuid === parentBranchUuid));
+        const { name: officeName } = office || {};
+
+        hierarchyTree = (
+          <div>{brandId} &rarr; {officeName || NOT_FOUND} &rarr; <span className="color-info">{name}</span></div>
+        );
+
+        break;
+      }
+      case (branchNames.OFFICE): {
+        hierarchyTree = <div>{brandId} &rarr; <span className="color-info">{name}</span></div>;
+
+        break;
+      }
+      default: {
+        hierarchyTree = <div>{name}</div>;
+      }
+    }
+
+    return hierarchyTree;
+  }
+
   render() {
     const {
       loading,
@@ -110,6 +163,7 @@ class HierarchyProfileForm extends Component {
       pristine,
       submitting,
       isPartner,
+      branchHierarchy,
       initialValues: {
         parentBranches,
       },
@@ -160,13 +214,13 @@ class HierarchyProfileForm extends Component {
               </div>
               <Choose>
                 <When condition={Array.isArray(parentBranches) && parentBranches.length}>
-                  {parentBranches.map(({ uuid, name, branchType }) => (
+                  {parentBranches.map(({ uuid, name, branchType, brandId, parentBranch }) => (
                     <div key={uuid} className="margin-bottom-10">
                       <strong>
                         {I18n.t(`COMMON.${branchType}`)}: {name}
                       </strong>
                       <If condition={parentBranches.length !== 1}>
-                        <strong className="margin-left-20">
+                        <strong className="margin-20">
                           <i
                             id={uuid}
                             onClick={this.handleRemoveBranch(uuid)}
@@ -174,6 +228,11 @@ class HierarchyProfileForm extends Component {
                           />
                         </strong>
                       </If>
+                      <strong className="d-inline-block">
+                        {this.hierarchyTree(branchType, {
+                          uuid: parentBranch ? parentBranch.uuid : null,
+                        }, name, brandId)}
+                      </strong>
                     </div>
                   )) }
                 </When>
@@ -192,6 +251,8 @@ class HierarchyProfileForm extends Component {
               </button>
               <If condition={branchFormVisibility}>
                 <AddBranchForm
+                  branchHierarchy={branchHierarchy}
+                  hierarchyTree={this.hierarchyTree}
                   hideForm={this.toggleBranchForm}
                   currentBranches={
                     Array.isArray(parentBranches) ? parentBranches.map(({ uuid }) => uuid) : null
