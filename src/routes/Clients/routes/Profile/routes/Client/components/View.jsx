@@ -11,6 +11,7 @@ import PersonalForm from './PersonalForm';
 import AddressForm from './AddressForm';
 import ContactForm from './ContactForm';
 import RefuseModal from './Kyc/RefuseModal';
+import KycStatus from './Kyc/KycStatus';
 import SimpleConfirmationModal from './Kyc/SimpleConfirmationModal';
 import RequestKycVerificationModal from './Kyc/RequestKycVerificationModal';
 
@@ -444,6 +445,7 @@ class View extends Component {
               phone2,
               languageCode,
               passport,
+              kycStatus,
             },
           },
         },
@@ -495,6 +497,11 @@ class View extends Component {
               </div>
             </div>
             <div className="client-small-col">
+              <div className="card">
+                <div className="card-body">
+                  <KycStatus initialValues={{ kycStatus }} playerUUID={data.playerUUID} />
+                </div>
+              </div>
               <div className="card">
                 <div className="card-body">
                   <ContactForm

@@ -225,7 +225,8 @@ const updateMutation = gql`mutation update(
   $passportNumber: String,
   $expirationDate: String,
   $countryOfIssue: String,
-  $passportIssueDate: String
+  $passportIssueDate: String,
+  $kycStatus: String,
 ){
   profile {
     update(
@@ -236,7 +237,8 @@ const updateMutation = gql`mutation update(
       passportNumber: $passportNumber,
       expirationDate: $expirationDate,
       countryOfIssue: $countryOfIssue,
-      passportIssueDate: $passportIssueDate
+      passportIssueDate: $passportIssueDate,
+      kycStatus: $kycStatus,
     ) {
       data {
         playerUUID
@@ -244,6 +246,7 @@ const updateMutation = gql`mutation update(
           phone1
           phone2
           languageCode
+          kycStatus
           passport {
             passportNumber
             expirationDate

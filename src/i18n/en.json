@@ -165,6 +165,24 @@
           "REASON_LABEL": "Reason"
         }
       },
+      "KYC_STATUS": {
+        "TITLE": "KYC status",
+        "CURRENT_STATUS": "Current KYC status",
+        "SUCCESS_RESPONSE": "Successfully updated KYC status",
+        "STATUS": {
+          "NO_KYC": "No KYC",
+          "AWAITING_REVIEW": "Awaiting review",
+          "PARTIAL": "Partial",
+          "PARTIAL_KYC_CAN_TRADE": "Partial KYC can trade",
+          "FLAGGED_NON_COMPLIANT": "Flagged non compliant",
+          "REFUNDED_NON_COMPLIANT": "Refunded non compliant",
+          "PRIOR_TO_REFUND": "Prior to refund",
+          "APPROVED": "Approved",
+          "REJECTED": "Rejected",
+          "PENDING": "Pending",
+          "RISK": "Risk"
+        }
+      },
       "KYC_STATUS_TITLE": {
         "NOT_REQUESTED": "Not requested",
         "VERIFIED": "Verified",
