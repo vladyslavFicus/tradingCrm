@@ -23,6 +23,9 @@ const brands = keyMirror({
   everfxglobal: null,
   everfxcn: null,
   agm: null,
+  apf: null,
+  kronosinvest: null,
+  glad2trade: null,
 });
 
 const departments = keyMirror({
@@ -129,6 +132,18 @@ const brandsConfig = {
   [brands.agm]: {
     name: 'AGM',
     image: { src: '/img/brand/choose-brand/agm.svg' },
+  },
+  [brands.apf]: {
+    name: 'AFP',
+    image: { src: '/img/brand/choose-brand/afp.svg' },
+  },
+  [brands.kronosinvest]: {
+    name: 'Kronos Invest',
+    image: { src: '/img/brand/choose-brand/kronosinvest.svg' },
+  },
+  [brands.glad2trade]: {
+    name: 'Glad2Trade',
+    image: { src: '/img/brand/choose-brand/glad2trade.svg' },
   },
 };
 const departmentsConfig = {
