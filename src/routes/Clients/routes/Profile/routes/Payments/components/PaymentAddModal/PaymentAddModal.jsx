@@ -65,7 +65,7 @@ class PaymentAddModal extends PureComponent {
   };
 
   getSourceAccount = ({ login, source }) => {
-    const mt4Accounts = this.props.playerProfile.tradingProfile.mt4Users;
+    const mt4Accounts = this.props.playerProfile.tradingProfile.mt4Users || [];
 
     return mt4Accounts.find(account => [login, source].includes(account.login));
   };
