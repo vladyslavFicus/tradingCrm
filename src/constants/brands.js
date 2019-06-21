@@ -130,6 +130,18 @@ const brandsConfig = {
     name: 'AGM',
     image: { src: '/img/brand/choose-brand/agm.svg' },
   },
+  [brands.agm]: {
+    name: 'AFP',
+    image: { src: '/img/brand/choose-brand/afp.svg' },
+  },
+  [brands.agm]: {
+    name: 'Kronos Invest',
+    image: { src: '/img/brand/choose-brand/kronosinvest.svg' },
+  },
+  [brands.agm]: {
+    name: 'Glad2Trade',
+    image: { src: '/img/brand/choose-brand/glad2trade.svg' },
+  },
 };
 const departmentsConfig = {
   [departments.CS]: {
