@@ -82,6 +82,8 @@ const getClientPayments = gql`query ${queryNames.paymentsQuery}(
         note {
           ...NoteFragment,
         }
+        modificationTime
+        modifiedBy
       }
     }
     error {
@@ -168,6 +170,8 @@ const getClientPaymentsByUuid = gql`query ${queryNames.paymentsQuery}(
         note {
           ...NoteFragment,
         }
+        modificationTime
+        modifiedBy
       }
     }
     error {

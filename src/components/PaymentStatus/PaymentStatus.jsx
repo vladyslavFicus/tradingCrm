@@ -16,11 +16,11 @@ const PaymentStatus = ({
   payment: {
     status,
     paymentId,
-    creationTime,
-    createdBy,
     paymentType,
     playerProfile: { uuid },
     declineReason,
+    modifiedBy,
+    modificationTime,
   },
 }) => {
   const { color, label } = getTradingStatusProps(status);
@@ -41,16 +41,18 @@ const PaymentStatus = ({
           </FailedStatusIcon>
         </If>
       </div>
-      <div className="font-size-11">
-        {I18n.t('COMMON.DATE_ON', {
-          date: moment.utc(creationTime).local().format('DD.MM.YYYY - HH:mm:ss'),
-        })}
-      </div>
-      <If condition={createdBy}>
+      <If condition={modificationTime}>
+        <div className="font-size-11">
+          {I18n.t('COMMON.DATE_ON', {
+            date: moment.utc(modificationTime).local().format('DD.MM.YYYY - HH:mm:ss'),
+          })}
+        </div>
+      </If>
+      <If condition={modifiedBy}>
         <div className="font-size-11">
           {I18n.t('COMMON.AUTHOR_BY')}
           {' '}
-          <Uuid uuid={createdBy} />
+          <Uuid uuid={modifiedBy} />
         </div>
       </If>
     </Fragment>
@@ -61,8 +63,8 @@ PaymentStatus.propTypes = {
   payment: PropTypes.shape({
     status: PropTypes.string,
     paymentId: PropTypes.string.isRequired,
-    creationTime: PropTypes.string,
-    createdBy: PropTypes.string,
+    modificationTime: PropTypes.string,
+    modifiedBy: PropTypes.string,
     paymentType: PropTypes.string,
     playerProfile: PropTypes.shape({
       uuid: PropTypes.string.isRequired,
