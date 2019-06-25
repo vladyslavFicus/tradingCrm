@@ -130,12 +130,12 @@ const brandsConfig = {
     image: { src: '/img/brand/choose-brand/everfxcn.svg' },
   },
   [brands.agm]: {
-    name: 'AGM',
+    name: 'Absolute GM',
     image: { src: '/img/brand/choose-brand/agm.svg' },
   },
   [brands.apf]: {
-    name: 'AFP',
-    image: { src: '/img/brand/choose-brand/afp.svg' },
+    name: 'Aurum PF',
+    image: { src: '/img/brand/choose-brand/apf.svg' },
   },
   [brands.kronosinvest]: {
     name: 'Kronos Invest',
