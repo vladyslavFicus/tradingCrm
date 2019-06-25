@@ -47,6 +47,18 @@ const kycStatuses = [{
 }, {
   value: 'RISK',
   label: 'KYC_REQUESTS.STATUS.RISK',
+}, {
+  value: 'PARTIAL_KYC_CAN_TRADE',
+  label: 'KYC_REQUESTS.STATUS.PARTIAL_KYC_CAN_TRADE',
+}, {
+  value: 'FLAGGED_NON_COMPLIANT',
+  label: 'KYC_REQUESTS.STATUS.FLAGGED_NON_COMPLIANT',
+}, {
+  value: 'REFUNDED_NON_COMPLIANT',
+  label: 'KYC_REQUESTS.STATUS.REFUNDED_NON_COMPLIANT',
+}, {
+  value: 'PRIOR_TO_REFUND',
+  label: 'KYC_REQUESTS.STATUS.PRIOR_TO_REFUND',
 }];
 
 const firstDepositStatuses = [{

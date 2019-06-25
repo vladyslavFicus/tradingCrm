@@ -2232,7 +2232,11 @@
       "APPROVED": "已批准",
       "REJECTED": "已拒绝",
       "PENDING": "待审核",
-      "RISK": "风险"
+      "RISK": "风险",
+      "PARTIAL_KYC_CAN_TRADE": "Partial KYC can trade",
+      "FLAGGED_NON_COMPLIANT": "Flagged non compliant",
+      "REFUNDED_NON_COMPLIANT": "Refunded non compliant",
+      "PRIOR_TO_REFUND": "Prior to refund"
     }
   },
   "PAYMENT_ACTION_REASON_MODAL": {
