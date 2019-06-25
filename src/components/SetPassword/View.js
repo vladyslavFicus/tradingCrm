@@ -44,13 +44,11 @@ class View extends Component {
 
     return (
       <div className="form-page-container">
-        <div className="wrapper">
-          <div className="form-page">
-            <div className="form-page__logo">
-              <img src="/img/falcon-full-logo.svg" alt="logo" />
-            </div>
-            <ViewForm onSubmit={this.handleSubmit} />
-          </div>
+        <div className="form-page__logo">
+          <img src="/img/falcon-full-logo.svg" alt="logo" />
+        </div>
+        <div className="form-page">
+          <ViewForm onSubmit={this.handleSubmit} />
         </div>
         <div className="form-page__copyright">
           Copyright © {(new Date()).getFullYear()} by Newage

@@ -174,33 +174,31 @@ class SignIn extends Component {
     return (
       <div className="form-page-container">
         <Preloader show={loading} />
-        <div className="wrapper">
-          <div className="form-page">
-            <div className="form-page__logo">
-              <img src="/img/falcon-full-logo.svg" alt="logo" />
-            </div>
+        <div className="form-page__logo">
+          <img src="/img/falcon-full-logo.svg" alt="logo" />
+        </div>
 
-            <SignInForm
-              logged={logged}
-              onSubmit={this.handleSubmit}
-            />
+        <div className="form-page">
+          <SignInForm
+            logged={logged}
+            onSubmit={this.handleSubmit}
+          />
 
-            <Brands
-              logged={logged}
-              activeBrand={brand}
-              brands={brands}
-              onSelect={this.handleSelectBrand}
-            />
+          <Brands
+            logged={logged}
+            activeBrand={brand}
+            brands={brands}
+            onSelect={this.handleSelectBrand}
+          />
 
-            <Departments
-              logged={logged && !!brand}
-              brand={brand}
-              canGoBack={brands.length > 1}
-              departments={departments}
-              onSelect={({ id }) => this.handleSelectDepartment(brand.brand, id)}
-              onBackClick={() => selectBrand(null)}
-            />
-          </div>
+          <Departments
+            logged={logged && !!brand}
+            brand={brand}
+            canGoBack={brands.length > 1}
+            departments={departments}
+            onSelect={({ id }) => this.handleSelectDepartment(brand.brand, id)}
+            onBackClick={() => selectBrand(null)}
+          />
         </div>
 
         <Copyrights />

@@ -117,29 +117,25 @@ class BrandsView extends Component {
     return (
       <div className="form-page-container">
         <Preloader show={loading} />
-        <div className="wrapper">
-          <div className="form-page">
-            <div className="form-page__logo">
-              <img src="/img/falcon-full-logo.svg" alt="logo" />
-            </div>
-
-            <Brands
-              logged
-              activeBrand={brand}
-              brands={brands}
-              onSelect={this.handleSelectBrand}
-            />
-
-            <Departments
-              logged={!!brand}
-              brand={brand}
-              canGoBack={brands.length > 1}
-              departments={departments}
-              onSelect={({ id }) => this.handleSelectDepartment(brand.brand, id)}
-              onBackClick={() => this.handleSelectBrand(null)}
-            />
-          </div>
+        <div className="form-page__logo">
+          <img src="/img/falcon-full-logo.svg" alt="logo" />
         </div>
+
+        <Brands
+          logged
+          activeBrand={brand}
+          brands={brands}
+          onSelect={this.handleSelectBrand}
+        />
+
+        <Departments
+          logged={!!brand}
+          brand={brand}
+          canGoBack={brands.length > 1}
+          departments={departments}
+          onSelect={({ id }) => this.handleSelectDepartment(brand.brand, id)}
+          onBackClick={() => this.handleSelectBrand(null)}
+        />
 
         <Copyrights />
       </div>
