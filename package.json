@@ -72,6 +72,7 @@
     "react-dom": "^16.8.6",
     "react-dropzone": "^7.0.1",
     "react-final-form": "^3.6.6",
+    "react-helmet": "^5.2.1",
     "react-images": "github:newageio/react-images",
     "react-infinite-scroller": "^1.0.15",
     "react-notification-system": "^0.2.15",
