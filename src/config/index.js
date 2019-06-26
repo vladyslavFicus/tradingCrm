@@ -74,6 +74,10 @@ function getBrandId() {
   return _.get(window, 'app.brandId');
 }
 
+function getEnvironment() {
+  return _.get(window, 'nas.environment');
+}
+
 function getPaymentReason() {
   return _.get(window, 'app.brand.payment.reasons');
 }
@@ -109,6 +113,7 @@ export {
   getApiRoot,
   getBrandId,
   setBrandId,
+  getEnvironment,
   getLogo,
   getActiveBrandConfig,
   getAvailableLanguages,

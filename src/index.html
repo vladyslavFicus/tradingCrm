@@ -5,15 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>NAS Dashboard</title>
     <link href="/favicon.ico" rel="shortcut icon">
-    <script src="/vendor/raven/raven-v3-24-0.min.js" crossorigin="anonymous"></script>
     <script type="application/javascript" src="/config.js"></script>
-    <script>
-      if (window.nas.sentry && window.Raven) {
-        window.Raven
-          .config(window.nas.sentry.dsn, window.nas.sentry.options)
-          .install();
-      }
-    </script>
     <script>
       window.isFrame = window.parent && window.parent !== window && !!window.parent.postMessage;
     </script>

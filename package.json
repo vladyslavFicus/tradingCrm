@@ -26,6 +26,7 @@
     "@newage/backoffice_ui": "0.0.52",
     "@newage/backoffice_utils": "0.0.32",
     "@newage/react-hoc": "^0.0.7",
+    "@sentry/browser": "^5.4.3",
     "apollo-cache-inmemory": "^1.4.3",
     "apollo-client": "^2.4.13",
     "apollo-link": "^1.2.8",

@@ -1,6 +1,6 @@
 import { get } from 'lodash';
+import * as Sentry from '@sentry/browser';
 import { actionCreators as notificationActions } from '../modules/notifications';
-import sentry from '../../utils/sentry';
 import { getBrandId, getVersion } from '../../config';
 
 const regExp = new RegExp('-failure$');
@@ -13,7 +13,7 @@ export default () => next => (action) => {
     && action.payload.response && [400, 401, 403, 404, 423].indexOf(status) === -1
     && (!action.payload.response.message || action.payload.response.message !== 'JWT_TOKEN_EXPIRED')
   ) {
-    sentry.captureMessage(`API error - ${action.type}`, {
+    Sentry.captureMessage(`API error - ${action.type}`, {
       level: 'warning',
       extra: {
         action,
