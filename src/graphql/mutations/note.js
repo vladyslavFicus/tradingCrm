@@ -1,6 +1,7 @@
 import gql from 'graphql-tag';
 import update from 'immutability-helper';
 import { notesQuery } from '../queries/notes';
+import { NoteFragment } from '../fragments/notes';
 
 const updateNoteMutation = gql`mutation updateNote(
   $targetUUID: String!
@@ -16,21 +17,15 @@ const updateNoteMutation = gql`mutation updateNote(
        pinned: $pinned
       ) {
       data {
-        pinned
-        noteId
-        content
-        _id
-        targetUUID
-        playerUUID
-        changedBy
-        changedAt
+        ...NoteFragment
       }
       error {
         error
       }
     }
   }
-}`;
+}
+${NoteFragment}`;
 
 const addNoteMutation = gql`mutation addNote(
   $content: String!
@@ -46,21 +41,15 @@ const addNoteMutation = gql`mutation addNote(
       playerUUID: $playerUUID
     ) {
       data {
-        playerUUID
-        pinned
-        noteId
-        _id
-        content
-        targetUUID
-        changedBy
-        changedAt
+        ...NoteFragment
       }
       error {
         error
       }
     }
   }
-}`;
+}
+${NoteFragment}`;
 
 const removeNoteMutation = gql`mutation removeNote(
   $noteId: String!,

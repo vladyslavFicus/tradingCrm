@@ -4,6 +4,7 @@ import {
   removeNoteMutation,
   updateNoteMutation,
 } from 'graphql/mutations/note';
+import { NoteFragment } from 'graphql/fragments/notes';
 import NotePopover from './NotePopover';
 
 const ENTITIES = [
@@ -14,7 +15,10 @@ const ENTITIES = [
 
 const addToApolloCache = targetUUID => (cache, { data: { note: { add: { data } } } }) => {
   if (data) {
-    cache.data.set(`${data.__typename}:${data.noteId}`, data);
+    cache.writeFragment({
+      fragment: NoteFragment,
+      data,
+    });
 
     ENTITIES.forEach((entity) => {
       const item = cache.data.get(`${entity}:${targetUUID}`);
