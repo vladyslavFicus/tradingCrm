@@ -5,7 +5,6 @@ import GridPlayerInfoPlaceholder from '../GridPlayerInfoPlaceholder';
 import Uuid from '../../components/Uuid';
 import { types as miniProfileTypes } from '../../constants/miniProfile';
 import MiniProfile from '../../components/MiniProfile';
-import withPlayerClick from '../../utils/withPlayerClick';
 
 class GridPlayerInfo extends Component {
   static propTypes = {
@@ -14,7 +13,6 @@ class GridPlayerInfo extends Component {
     fetchPlayerProfile: PropTypes.func.isRequired,
     mainInfoClassName: PropTypes.string,
     clickable: PropTypes.bool,
-    onPlayerClick: PropTypes.func.isRequired,
     auth: PropTypes.shape({
       brandId: PropTypes.string.isRequired,
       uuid: PropTypes.string.isRequired,
@@ -30,12 +28,9 @@ class GridPlayerInfo extends Component {
     e.preventDefault();
     e.stopPropagation();
 
-    const { onPlayerClick, profile, auth } = this.props;
+    const { profile: { playerUUID } } = this.props;
 
-    onPlayerClick({
-      ...profile,
-      auth,
-    });
+    window.open(`/clients/${playerUUID}/profile`, '_blank');
   };
 
   render() {
@@ -81,4 +76,4 @@ class GridPlayerInfo extends Component {
   }
 }
 
-export default withPlayerClick(GridPlayerInfo);
+export default GridPlayerInfo;

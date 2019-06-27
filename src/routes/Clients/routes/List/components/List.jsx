@@ -13,7 +13,6 @@ import GridView, { GridViewColumn } from 'components/GridView';
 import PermissionContent from 'components/PermissionContent';
 import Placeholder from 'components/Placeholder';
 import parseJson from 'utils/parseJson';
-import withPlayerClick from 'utils/withPlayerClick';
 import UserGridFilter from './UsersGridFilter';
 import { columns } from './attributes';
 import { getClientsData } from './utils';
@@ -23,7 +22,6 @@ class List extends Component {
     notify: PropTypes.func.isRequired,
     fetchPlayerMiniProfile: PropTypes.func.isRequired,
     locale: PropTypes.string.isRequired,
-    onPlayerClick: PropTypes.func.isRequired,
     countries: PropTypes.object.isRequired,
     auth: PropTypes.shape({
       brandId: PropTypes.string,
@@ -161,8 +159,8 @@ class List extends Component {
     touchedRowsIds: [],
   }, () => history.replace({ query: null }));
 
-  handlePlayerClick = (data) => {
-    this.props.onPlayerClick({ ...data, auth: this.props.auth });
+  handlePlayerClick = ({ playerUUID }) => {
+    window.open(`/clients/${playerUUID}/profile`, '_blank');
   };
 
   handleSelectRow = (condition, index, touchedRowsIds) => {
@@ -470,4 +468,4 @@ class List extends Component {
   }
 }
 
-export default withPlayerClick(List);
+export default List;

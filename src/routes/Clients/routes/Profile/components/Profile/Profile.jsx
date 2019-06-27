@@ -3,6 +3,7 @@ import ImageViewer from 'react-images';
 import { get } from 'lodash';
 import { I18n } from 'react-redux-i18n';
 import { Switch, Redirect } from 'react-router-dom';
+import Helmet from 'react-helmet';
 import Permissions from 'utils/permissions';
 import getFileBlobUrl from 'utils/getFileBlobUrl';
 import {
@@ -750,6 +751,9 @@ class Profile extends Component {
 
     return (
       <Fragment>
+        <If condition={profile}>
+          <Helmet title={`${profile.firstName} ${profile.lastName}`} />
+        </If>
         <div className="profile__info">
           <Header
             playerProfile={profile}
