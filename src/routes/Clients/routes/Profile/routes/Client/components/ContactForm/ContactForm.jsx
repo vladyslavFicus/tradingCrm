@@ -31,6 +31,7 @@ const ContactForm = ({
       onVerifyEmailClick={onVerifyEmailClick}
       initialValues={{
         email: contactData.email,
+        email2: contactData.email2,
       }}
     />
     <SkypeForm

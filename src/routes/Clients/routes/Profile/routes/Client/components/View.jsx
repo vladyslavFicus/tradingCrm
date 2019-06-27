@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { I18n } from 'react-redux-i18n';
-import { SubmissionError } from 'redux-form';
+import { get } from 'lodash';
 import PropTypes from 'constants/propTypes';
 import {
   types as kycTypes,
@@ -153,38 +153,89 @@ class View extends Component {
     });
   };
 
-  handleUpdatePhone = async (data) => {
-    const response = await this.props.profileUpdate({ variables: data });
+  handleUpdatePhone = async ({ phone1, phone2 }) => {
+    const {
+      profileUpdate,
+      profileLimitedUpdate,
+      profile: {
+        data: {
+          tradingProfile: {
+            phone1: currentPhone,
+            phone2: currentPhone2,
+          },
+        },
+      },
+    } = this.props;
 
-    if (response) {
-      this.context.addNotification({
-        level: response.error ? 'error' : 'success',
-        title: I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.TITLE'),
-        message: `${I18n.t('COMMON.ACTIONS.UPDATED')}
-          ${response.error ? I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY') : I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
-      });
-    }
-    return response;
-  };
+    let errors = false;
 
-  handleUpdateEmail = async (data) => {
-    const { match: { params }, updateEmail } = this.props;
+    if (phone1 !== currentPhone) {
+      const { error } = await profileUpdate({ variables: { phone1 } });
 
-    const action = await updateEmail(params.id, data);
-
-    if (action) {
-      if (!action.error) {
-        this.context.addNotification({
-          level: 'success',
-          title: I18n.t('PLAYER_PROFILE.PROFILE.EMAIL.TITLE'),
-          message: `${I18n.t('COMMON.ACTIONS.UPDATED')} ${I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
-        });
-      } else {
-        throw new SubmissionError({ email: I18n.t(action.payload.response.error) });
+      if (error) {
+        errors = true;
       }
     }
 
-    return action;
+    if (phone2 !== currentPhone2) {
+      const { data: { profile } } = await profileLimitedUpdate({ variables: { phone2 } });
+
+      if (!get(profile, 'limitedUpdate.success', false)) {
+        errors = true;
+      }
+    }
+
+    this.context.addNotification({
+      level: errors ? 'error' : 'success',
+      title: I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.TITLE'),
+      message: `${I18n.t('COMMON.ACTIONS.UPDATED')}
+        ${errors
+        ? I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY')
+        : I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
+    });
+  };
+
+  handleUpdateEmail = async ({ email, email2 }) => {
+    const {
+      match: { params },
+      updateEmail,
+      profileLimitedUpdate,
+      profile: {
+        data: {
+          email: currentEmail,
+          tradingProfile: {
+            email2: currentEmail2,
+          },
+        },
+      },
+    } = this.props;
+
+    let errors = false;
+
+    if (email !== currentEmail) {
+      const { error } = await updateEmail(params.id, email);
+
+      if (error) {
+        errors = true;
+      }
+    }
+
+    if (email2 !== currentEmail2) {
+      const { data: { profile } } = await profileLimitedUpdate({ variables: { email2 } });
+
+      if (!get(profile, 'limitedUpdate.success', false)) {
+        errors = true;
+      }
+    }
+
+    this.context.addNotification({
+      level: errors ? 'error' : 'success',
+      title: I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.TITLE'),
+      message: `${I18n.t('COMMON.ACTIONS.UPDATED')}
+        ${errors
+        ? I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY')
+        : I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
+    });
   };
 
   handleVerify = async () => {
@@ -506,7 +557,7 @@ class View extends Component {
                 <div className="card-body">
                   <ContactForm
                     profile={data}
-                    contactData={{ phone1, phone2, email: data.email }}
+                    contactData={{ phone1, phone2, email: data.email, email2: data.tradingProfile.email2 }}
                     onSubmitPhone={this.handleUpdatePhone}
                     onSubmitEmail={this.handleUpdateEmail}
                     onVerifyPhoneClick={this.handleVerifyPhone}

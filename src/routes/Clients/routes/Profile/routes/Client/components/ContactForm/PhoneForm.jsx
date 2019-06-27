@@ -127,7 +127,6 @@ class PhoneForm extends Component {
             name="phone2"
             component={InputField}
             label={attributeLabels().AltPhone}
-            disabled={disabled}
             placeholder={attributeLabels().AltPhoneCode}
             className="col-5"
           />

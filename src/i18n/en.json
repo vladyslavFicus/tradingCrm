@@ -278,7 +278,8 @@
         "ERROR_NOTIFICATION_TEXT": "Failed to send reset password link via email"
       },
       "EMAIL": {
-        "TITLE": "Email"
+        "TITLE": "Email",
+        "ALT_EMAIL": "Alt Email"
       },
       "SELF_EXCLUSION_REASONS": {
         "USER_REQUEST": "User request",
@@ -808,6 +809,7 @@
     "EXPORT": "Export",
     "FROM": "from",
     "EMAIL": "Email",
+    "EMAIL_ALT": "Alt Email",
     "SKYPE": "Skype",
     "IMPORT": "Import",
     "PHONE": "Phone",

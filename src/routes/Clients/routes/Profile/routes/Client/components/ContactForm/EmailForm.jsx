@@ -13,6 +13,7 @@ import { createValidator } from 'utils/validator';
 const FORM_NAME = 'updateProfileEmail';
 const attributeLabels = {
   email: I18n.t('COMMON.EMAIL'),
+  email2: I18n.t('COMMON.EMAIL_ALT'),
 };
 
 class EmailForm extends Component {
@@ -85,6 +86,13 @@ class EmailForm extends Component {
               </div>
             </PermissionContent>
           </If>
+          <Field
+            name="email2"
+            label={attributeLabels.email2}
+            type="text"
+            component={InputField}
+            className="col-8"
+          />
           <If condition={profileStatus !== playerStatuses.INACTIVE}>
             <div className="col-4 mt-4">
               <button type="button" className="btn btn-verified">
@@ -107,6 +115,7 @@ export default compose(
     form: FORM_NAME,
     validate: createValidator({
       email: 'required|email',
+      email2: 'email',
     }, attributeLabels, false),
     enableReinitialize: true,
   }),

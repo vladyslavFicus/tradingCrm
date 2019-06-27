@@ -278,7 +278,8 @@
         "ERROR_NOTIFICATION_TEXT": "未能通过邮件发送重置密码链接"
       },
       "EMAIL": {
-        "TITLE": "电子邮箱"
+        "TITLE": "电子邮箱",
+        "ALT_EMAIL": "Alt Email"
       },
       "SELF_EXCLUSION_REASONS": {
         "USER_REQUEST": "用户请求",
@@ -807,6 +808,7 @@
     "EXPORT": "输出",
     "FROM": "从",
     "EMAIL": "电子邮箱",
+    "EMAIL_ALT": "Alt Email",
     "SKYPE": "Skype",
     "IMPORT": "导入",
     "PHONE": "电话",

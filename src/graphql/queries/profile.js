@@ -71,6 +71,7 @@ const clientQuery = gql`query profileData($playerUUID: String!){
         margin
         marginLevel
         isTestUser
+        email2
         passport {
           passportNumber
           passportIssueDate

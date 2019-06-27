@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { graphql, compose } from 'react-apollo';
 import { statuses as kycStatuses } from 'constants/kyc';
-import { updateMutation } from 'graphql/mutations/profile';
+import { updateMutation, updateLimitProfileMutation } from 'graphql/mutations/profile';
 import { clientQuery } from 'graphql/queries/profile';
 import { getApiRoot } from 'config';
 import Permissions from 'utils/permissions';
@@ -80,6 +80,10 @@ export default compose(
   graphql(updateMutation, {
     name: 'profileUpdate',
     options: ({ match: { params: { id: playerUUID } } }) => ({ variables: { playerUUID } }),
+  }),
+  graphql(updateLimitProfileMutation, {
+    name: 'profileLimitedUpdate',
+    options: ({ match: { params: { id: profileId } } }) => ({ variables: { profileId } }),
   }),
   graphql(clientQuery, {
     options: ({
