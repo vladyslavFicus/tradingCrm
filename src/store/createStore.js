@@ -4,6 +4,7 @@ import thunk from 'redux-thunk';
 import { persistStore, autoRehydrate } from 'redux-persist';
 import { loadTranslations, syncTranslationWithStore } from 'react-redux-i18n';
 import crosstabSync from 'redux-persist-crosstab';
+import * as Sentry from '@sentry/browser';
 import makeRootReducer from './reducers';
 import apiUrl from '../redux/middlewares/apiUrl';
 import authMiddleware from '../redux/middlewares/auth';
@@ -19,7 +20,6 @@ import translations from '../i18n';
 import { actionCreators as permissionsActionCreators } from '../redux/modules/auth/permissions';
 import { actionCreators as userPanelsActionCreators } from '../redux/modules/user-panels';
 import history from '../router/history';
-import sentry from '../utils/sentry';
 
 export default (initialState = {}, onComplete) => {
   const middleware = [
@@ -71,16 +71,20 @@ export default (initialState = {}, onComplete) => {
   );
 
   store.subscribe(() => {
-    const { auth, language, settings } = store.getState();
-
-    sentry.setExtraContext({ language });
-    sentry.setExtraContext({ settings });
+    const { auth } = store.getState();
 
     if (auth.logged) {
-      sentry.setExtraContext({
-        uuid: auth.uuid,
-        brandId: auth.brandId,
-        department: auth.department,
+      // Set user scope for Sentry exceptions
+      Sentry.configureScope((scope) => {
+        scope.setUser({
+          id: auth.uuid,
+          email: auth.login,
+          brand: auth.brandId,
+          department: auth.department,
+          role: auth.role,
+        });
+
+        scope.setTag('brand', auth.brandId);
       });
     }
   });

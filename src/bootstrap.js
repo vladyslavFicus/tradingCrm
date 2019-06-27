@@ -1,6 +1,16 @@
-import sentry from './utils/sentry';
+import * as Sentry from '@sentry/browser';
+import { getEnvironment, getVersion } from 'config';
 
 export default () => {
+  // Sentry initialization
+  if (process.env.NODE_ENV !== 'development') {
+    Sentry.init({
+      dsn: 'https://a3cff5493c3a4d0dbead367f8d01e700@sentry.io/1358381',
+      environment: getEnvironment(),
+      release: getVersion(),
+    });
+  }
+
   if (window) {
     window.showDebugPanel = false;
     window.reduxLocked = false;
@@ -13,8 +23,6 @@ export default () => {
     if (typeof window.location.origin === 'undefined') {
       window.location.origin = `${window.location.protocol}//${window.location.host}`;
     }
-
-    window.addEventListener('error', sentry.captureException);
 
     window.dispatchAction = (action) => {
       if (window.isFrame) {
