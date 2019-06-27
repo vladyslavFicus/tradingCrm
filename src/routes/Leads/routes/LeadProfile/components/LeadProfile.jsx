@@ -180,7 +180,7 @@ class LeadProfile extends Component {
         email,
         country,
         currency: get(brandConfig, 'currencies.base'),
-        phone,
+        phone1: phone,
         phone2: mobile,
         gender,
         birthDate,
