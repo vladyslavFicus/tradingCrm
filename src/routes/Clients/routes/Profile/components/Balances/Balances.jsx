@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import classNames from 'classnames';
 import { Field } from 'redux-form';
-import { get } from 'lodash';
+import { get, groupBy, sumBy } from 'lodash';
 import { I18n } from 'react-redux-i18n';
 import moment from 'moment';
+import { getActiveBrandConfig } from 'config';
 import PropTypes from 'constants/propTypes';
 import { SelectField } from 'components/ReduxForm';
 import ShortLoader from 'components/ShortLoader';
@@ -42,12 +43,14 @@ class Balances extends Component {
       loading: PropTypes.bool.isRequired,
     }).isRequired,
     balances: PropTypes.shape({
-      balance: PropTypes.string,
-      equity: PropTypes.string,
+      baseCurrencyBalance: PropTypes.string,
+      baseCurrencyCredit: PropTypes.string,
+      baseCurrencyEquity: PropTypes.string,
+      baseCurrencyMargin: PropTypes.string,
       currency: PropTypes.string,
-      margin: PropTypes.number,
       marginLevel: PropTypes.number,
     }),
+    mt4Users: PropTypes.arrayOf(PropTypes.mt4User),
     lastDeposit: PropTypes.string,
     lastWithdraw: PropTypes.string,
     selectValue: PropTypes.string,
@@ -55,6 +58,7 @@ class Balances extends Component {
 
   static defaultProps = {
     balances: {},
+    mt4Users: [],
     selectValue: null,
     lastDeposit: null,
     lastWithdraw: null,
@@ -105,8 +109,10 @@ class Balances extends Component {
 
   renderDropDown = (
     dropDownOpen,
-    { currency, balance, credit, equity, margin, marginLevel }
+    { baseCurrencyBalance, baseCurrencyCredit, baseCurrencyEquity, baseCurrencyMargin }
   ) => {
+    const baseCurrency = getActiveBrandConfig().currencies.base;
+
     const {
       lastDeposit,
       lastWithdraw,
@@ -126,6 +132,18 @@ class Balances extends Component {
     const depositError = get(statistics, 'payments.error');
     const withdrawError = get(statistics, 'payments.error');
 
+    // ======= Calculate sum of trading accounts balances by currency  ======= //
+    const accountsByCurrency = groupBy(this.props.mt4Users, 'symbol');
+
+    // Sum account balances by each unique currency
+    const balancesByCurrency = Object.keys(accountsByCurrency).map(currency => ({
+      currency,
+      balance: sumBy(accountsByCurrency[currency], 'balance'),
+      credit: sumBy(accountsByCurrency[currency], 'credit'),
+      equity: sumBy(accountsByCurrency[currency], 'equity'),
+      margin: sumBy(accountsByCurrency[currency], 'margin'),
+    }), {});
+
     return (
       <Dropdown isOpen={dropDownOpen} toggle={this.toggle}>
         <DropdownToggle
@@ -137,25 +155,48 @@ class Balances extends Component {
             <div className="header-block-title">{I18n.t('CLIENT_PROFILE.CLIENT.BALANCES.BALANCE')}</div>
             <i className="fa fa-angle-down" />
             <div className="header-block-middle">
-              {currency} {Number(balance).toFixed(2)}
+              {baseCurrency} {Number(baseCurrencyBalance).toFixed(2)}
             </div>
             <div className="header-block-small">
-              {I18n.t('CLIENT_PROFILE.PROFILE.HEADER.CREDIT')}: {currency} {Number(credit).toFixed(2)}
+              {I18n.t('CLIENT_PROFILE.PROFILE.HEADER.CREDIT')}: {baseCurrency} {Number(baseCurrencyCredit).toFixed(2)}
             </div>
             <div className="header-block-small">
-              {I18n.t('CLIENT_PROFILE.PROFILE.HEADER.EQUITY')}: {currency} {Number(equity).toFixed(2)}
+              {I18n.t('CLIENT_PROFILE.PROFILE.HEADER.EQUITY')}: {baseCurrency} {Number(baseCurrencyEquity).toFixed(2)}
             </div>
             <div className="header-block-small">
-              {I18n.t('CLIENT_PROFILE.PROFILE.HEADER.MARGIN')}: {currency} {Number(margin).toFixed(2)}
-            </div>
-            <div className="header-block-small">
-              {I18n.t('CLIENT_PROFILE.PROFILE.HEADER.MARGIN_LEVEL')}: {currency} {Number(marginLevel).toFixed(2)}
+              {I18n.t('CLIENT_PROFILE.PROFILE.HEADER.MARGIN')}: {baseCurrency} {Number(baseCurrencyMargin).toFixed(2)}
             </div>
           </div>
         </DropdownToggle>
         <DropdownMenu>
           <div className="dropdown-menu__content">
             <DropdownItem toggle={false}>
+              <If condition={balancesByCurrency.length}>
+                <div className="row margin-0 margin-bottom-15 balance-list">
+                  {balancesByCurrency.map(balance => (
+                    <div key={balance.currency} className="col-6 balance-item">
+                      <div className="header-block-title">
+                        {balance.currency} {I18n.t('CLIENT_PROFILE.CLIENT.BALANCES.BALANCE')}
+                      </div>
+                      <div className="header-block-middle">
+                        {balance.currency} {Number(balance.balance).toFixed(2)}
+                      </div>
+                      <div className="header-block-small">
+                        {I18n.t('CLIENT_PROFILE.PROFILE.HEADER.CREDIT')}:&nbsp;
+                        {balance.currency} {Number(balance.credit).toFixed(2)}
+                      </div>
+                      <div className="header-block-small">
+                        {I18n.t('CLIENT_PROFILE.PROFILE.HEADER.EQUITY')}:&nbsp;
+                        {balance.currency} {Number(balance.equity).toFixed(2)}
+                      </div>
+                      <div className="header-block-small">
+                        {I18n.t('CLIENT_PROFILE.PROFILE.HEADER.MARGIN')}:&nbsp;
+                        {balance.currency} {Number(balance.margin).toFixed(2)}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </If>
               <form className="balance-select-field">
                 <Field
                   name="date"
@@ -209,11 +250,11 @@ class Balances extends Component {
                   <div className="row">
                     <div className="col-6">
                       <div className="header-block-title">{I18n.t('CLIENT_PROFILE.CLIENT.BALANCES.DEPOSITED')}</div>
-                      <div className="header-block-middle">{currency}: {Number(depositAmount).toFixed(2)}</div>
+                      <div className="header-block-middle">{baseCurrency}: {Number(depositAmount).toFixed(2)}</div>
                     </div>
                     <div className="col-6">
                       <div className="header-block-title">{I18n.t('CLIENT_PROFILE.CLIENT.BALANCES.WITHDRAWN')}</div>
-                      <div className="header-block-middle">{currency}: {Number(withdrawAmount).toFixed(2)}</div>
+                      <div className="header-block-middle">{baseCurrency}: {Number(withdrawAmount).toFixed(2)}</div>
                     </div>
                   </div>
                 </DropdownItem>
