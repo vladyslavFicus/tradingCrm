@@ -138,18 +138,18 @@ class HierarchyProfileForm extends Component {
         const { name: officeName } = office || {};
 
         hierarchyTree = (
-          <div>{brandId} &rarr; {officeName || NOT_FOUND} &rarr; <span className="color-info">{name}</span></div>
+          <div>&nbsp;{brandId} &rarr; {officeName || NOT_FOUND} &rarr; <span className="color-info">{name}</span></div>
         );
 
         break;
       }
       case (branchNames.OFFICE): {
-        hierarchyTree = <div>{brandId} &rarr; <span className="color-info">{name}</span></div>;
+        hierarchyTree = <div>&nbsp;{brandId} &rarr; <span className="color-info">{name}</span></div>;
 
         break;
       }
       default: {
-        hierarchyTree = <div>{name}</div>;
+        hierarchyTree = <div>&nbsp;{name}</div>;
       }
     }
 
