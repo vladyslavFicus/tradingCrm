@@ -151,7 +151,7 @@ class Header extends Component {
 
     return (
       <Fragment>
-        <StickyWrapper top={0} innerZ={3} activeClass="heading-fixed">
+        <StickyWrapper top={48} innerZ={3} activeClass="heading-fixed">
           <div className="panel-heading-row">
             <HeaderPlayerPlaceholder ready={loaded}>
               <div className="panel-heading-row__info">
