@@ -310,7 +310,7 @@ export default compose(
         profileUUID: playerUUID,
       },
     }),
-    skip: !getActiveBrandConfig().regulation.isActive,
+    skip: () => !getActiveBrandConfig().regulation.isActive,
     name: 'questionnaireLastData',
   }),
   withNotifications,
