@@ -539,14 +539,14 @@ PropTypes.rewardPlanAmount = PropTypes.shape({
 });
 PropTypes.mt4User = PropTypes.shape({
   login: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
-  balance: PropTypes.string,
-  credit: PropTypes.string,
-  equity: PropTypes.string,
+  balance: PropTypes.number,
+  credit: PropTypes.number,
+  equity: PropTypes.number,
   symbol: PropTypes.string,
   leverage: PropTypes.string,
   name: PropTypes.string,
   group: PropTypes.string,
-  margin: PropTypes.string,
+  margin: PropTypes.number,
   createdBy: PropTypes.string,
 });
 PropTypes.tradingProfile = PropTypes.shape({

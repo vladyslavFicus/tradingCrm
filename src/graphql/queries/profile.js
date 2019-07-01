@@ -122,8 +122,10 @@ const clientQuery = gql`query profileData($playerUUID: String!){
         balance
         credit
         equity
-        baseCurrencyEquity
         baseCurrencyBalance
+        baseCurrencyCredit
+        baseCurrencyEquity
+        baseCurrencyMargin
         mt4Users {
           login
           balance

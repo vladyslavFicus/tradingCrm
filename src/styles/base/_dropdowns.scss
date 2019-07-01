@@ -1,5 +1,6 @@
 .show>.dropdown-menu {
   animation: dropdown-slide-bottom .15s both .05s ease-in-out;
+  z-index: 5;
 }
 
 @keyframes dropdown-slide-bottom {
