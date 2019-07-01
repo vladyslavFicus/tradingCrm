@@ -30,6 +30,9 @@ const assignStatuses = [{
 }];
 
 const kycStatuses = [{
+  value: 'PENDING',
+  label: 'KYC_REQUESTS.STATUS.PENDING',
+}, {
   value: 'NO_KYC',
   label: 'KYC_REQUESTS.STATUS.NO_KYC',
 }, {

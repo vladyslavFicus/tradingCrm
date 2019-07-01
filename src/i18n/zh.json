@@ -168,20 +168,7 @@
       "KYC_STATUS": {
         "TITLE": "KYC",
         "CURRENT_STATUS": "当前KYC状态",
-        "SUCCESS_RESPONSE": "成功更新KYC状态",
-        "STATUS": {
-          "NO_KYC": "无 KYC",
-          "AWAITING_REVIEW": "待审核",
-          "PARTIAL": "Partial",
-          "PARTIAL_KYC_CAN_TRADE": "部分KYC即可交易",
-          "FLAGGED_NON_COMPLIANT": "标记的不合格情况",
-          "REFUNDED_NON_COMPLIANT": "退款的不合格情况",
-          "PRIOR_TO_REFUND": "退款前",
-          "APPROVED": "已批准",
-          "REJECTED": "已拒绝",
-          "PENDING": "待审核",
-          "RISK": "风险"
-        }
+        "SUCCESS_RESPONSE": "成功更新KYC状态"
       },
       "KYC_STATUS_TITLE": {
         "NOT_REQUESTED": "未请求",
@@ -2231,14 +2218,14 @@
       "NO_KYC": "无 KYC",
       "AWAITING_REVIEW": "待审核",
       "PARTIAL": "部分",
+      "PARTIAL_KYC_CAN_TRADE": "部分KYC即可交易",
+      "FLAGGED_NON_COMPLIANT": "标记的不合格情况",
+      "REFUNDED_NON_COMPLIANT": "退款的不合格情况",
+      "PRIOR_TO_REFUND": "退款前",
       "APPROVED": "已批准",
       "REJECTED": "已拒绝",
       "PENDING": "待审核",
-      "RISK": "风险",
-      "PARTIAL_KYC_CAN_TRADE": "Partial KYC can trade",
-      "FLAGGED_NON_COMPLIANT": "Flagged non compliant",
-      "REFUNDED_NON_COMPLIANT": "Refunded non compliant",
-      "PRIOR_TO_REFUND": "Prior to refund"
+      "RISK": "风险"
     }
   },
   "PAYMENT_ACTION_REASON_MODAL": {
