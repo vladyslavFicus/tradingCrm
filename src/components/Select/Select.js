@@ -154,19 +154,37 @@ class Select extends PureComponent {
   };
 
   handleResetSelectedOptions = () => {
-    this.updateState({ toSelectOptions: [], selectedOptions: [], originalSelectedOptions: [] });
+    this.updateState({
+      options: [...this.state.originalOptions],
+      toSelectOptions: [],
+      selectedOptions: [],
+      originalSelectedOptions: [],
+    });
+  };
+
+  toggleSelectAllOptions = () => {
+    const { toSelectOptions, options } = this.state;
+
+    // If not all options selected --> select all
+    if (toSelectOptions.length !== options.length) {
+      this.updateState({
+        toSelectOptions: [...options],
+        options: [...options],
+      });
+    } else {
+      this.updateState({ toSelectOptions: [] });
+    }
   };
 
   handleDeleteSelectedOption = (options) => {
-    const { query, originalSelectedOptions, originalOptions } = this.state;
-    const { multiple } = this.props;
+    const { query, originalSelectedOptions } = this.state;
     const deletedOptions = originalSelectedOptions.filter(option => options.indexOf(option) === -1);
     const newOriginalSelectedOptions = deletedOptions
       .reduce((res, option) => deleteFromArray(res, option), originalSelectedOptions);
 
     if (originalSelectedOptions.length !== newOriginalSelectedOptions.length) {
       this.updateState({
-        options: this.filterSelectedOptions(originalOptions, originalSelectedOptions, multiple),
+        options: [...this.state.options, ...deletedOptions],
         originalSelectedOptions: newOriginalSelectedOptions,
         selectedOptions: filterOptionsByQuery(query, newOriginalSelectedOptions),
       });
@@ -343,7 +361,18 @@ class Select extends PureComponent {
     multiple
       ? (
         <SelectMultipleOptions
+          className="select-block__selected-options"
           headerText={I18n.t('common.select.available_options')}
+          headerButtonClassName={classNames({
+          'select-all-options': options.length !== toSelectOptions.length,
+          'clear-selected-options': options.length === toSelectOptions.length,
+        })}
+          headerButtonIconClassName={classNames({
+            'fa fa-check-square': options.length !== toSelectOptions.length,
+            'icon icon-times': options.length === toSelectOptions.length,
+          })}
+          headerButtonText={options.length === toSelectOptions.length ? 'Clear' : I18n.t('COMMON.ALL')}
+          headerButtonOnClick={this.toggleSelectAllOptions}
           options={options}
           selectedOptions={toSelectOptions}
           onChange={this.handleSelectMultipleOptions}
