@@ -3,6 +3,7 @@ import React, { Fragment } from 'react';
 import { I18n } from 'react-redux-i18n';
 import moment from 'moment';
 import { get } from 'lodash';
+import { getActiveBrandConfig } from 'config';
 import Uuid from 'components/Uuid';
 import GridStatusDeskTeam from 'components/GridStatusDeskTeam';
 import {
@@ -48,13 +49,18 @@ export default ({ auth, fetchPlayerMiniProfile }) => [{
   name: 'balance',
   header: I18n.t('CLIENTS.LIST.GRID_HEADER.BALANCE'),
   render: (data) => {
+    const currency = getActiveBrandConfig().currencies.base;
     const tradingProfile = get(data, 'tradingProfile') || {};
+
     return (
       <Choose>
-        <When condition={tradingProfile.balance && tradingProfile.equity}>
-          <div className="header-block-middle">{data.currency} {Number(tradingProfile.balance).toFixed(2)}</div>
+        <When condition={tradingProfile.baseCurrencyBalance && tradingProfile.baseCurrencyEquity}>
+          <div className="header-block-middle">
+            {currency} {Number(tradingProfile.baseCurrencyBalance).toFixed(2)}
+          </div>
           <div className="header-block-small">
-            {I18n.t('CLIENT_PROFILE.PROFILE.HEADER.EQUITY')}: {data.currency} {Number(tradingProfile.equity).toFixed(2)}
+            {I18n.t('CLIENT_PROFILE.PROFILE.HEADER.EQUITY')}:&nbsp;
+            {currency} {Number(tradingProfile.baseCurrencyEquity).toFixed(2)}
           </div>
         </When>
         <Otherwise>

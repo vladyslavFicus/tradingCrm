@@ -2,6 +2,7 @@
 import React, { Fragment } from 'react';
 import moment from 'moment';
 import { get } from 'lodash';
+import { getActiveBrandConfig } from 'config';
 import { UncontrolledTooltip } from 'components/Reactstrap/Uncontrolled';
 import Uuid from 'components/Uuid';
 import {
@@ -52,19 +53,19 @@ export default (
   name: 'balance',
   header: I18n.t('CLIENTS.LIST.GRID_HEADER.BALANCE'),
   render: (data) => {
+    const currency = getActiveBrandConfig().currencies.base;
     const tradingProfile = get(data, 'tradingProfile') || {};
+
     return (
-      <Choose>
-        <When condition={tradingProfile.balance && tradingProfile.equity}>
-          <div className="header-block-middle">{data.currency} {Number(tradingProfile.balance).toFixed(2)}</div>
-          <div className="header-block-small">
-            {I18n.t('CLIENT_PROFILE.PROFILE.HEADER.EQUITY')}: {data.currency} {Number(tradingProfile.equity).toFixed(2)}
-          </div>
-        </When>
-        <Otherwise>
-          <GridEmptyValue I18n={I18n} />
-        </Otherwise>
-      </Choose>
+      <div>
+        <div className="header-block-middle">
+          {currency} {Number(tradingProfile.baseCurrencyBalance).toFixed(2)}
+        </div>
+        <div className="header-block-small">
+          {I18n.t('CLIENT_PROFILE.PROFILE.HEADER.EQUITY')}:&nbsp;
+          {currency} {Number(tradingProfile.baseCurrencyEquity).toFixed(2)}
+        </div>
+      </div>
     );
   },
 }, {
