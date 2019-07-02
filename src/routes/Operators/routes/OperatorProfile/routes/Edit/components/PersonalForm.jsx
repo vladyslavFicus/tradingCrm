@@ -157,6 +157,12 @@ class PersonalForm extends PureComponent {
                 component={CheckBox}
                 label={I18n.t('PARTNERS.SHOW_SALES_STATUS')}
               />
+              <Field
+                name="showFTDAmount"
+                type="checkbox"
+                component={CheckBox}
+                label={I18n.t('PARTNERS.SHOW_FTD_AMOUNT')}
+              />
             </div>
           </If>
         </div>

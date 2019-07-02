@@ -52,6 +52,7 @@ const updatePartner = gql`mutation updatePartner(
   $forbiddenCountries: [String],
   $showNotes: Boolean,
   $showSalesStatus: Boolean,
+  $showFTDAmount: Boolean,
 ) {
   partner {
     updatePartner(
@@ -64,6 +65,7 @@ const updatePartner = gql`mutation updatePartner(
       forbiddenCountries: $forbiddenCountries,
       showNotes: $showNotes,
       showSalesStatus: $showSalesStatus,
+      showFTDAmount: $showFTDAmount,
     ) {
       data {
         _id
@@ -87,6 +89,7 @@ const updatePartner = gql`mutation updatePartner(
               forbiddenCountries
               showNotes
               showSalesStatus
+              showFTDAmount
             }
           }
         }
