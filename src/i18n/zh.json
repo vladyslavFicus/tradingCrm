@@ -3015,6 +3015,7 @@
     },
     "CLIENT": {
       "BALANCES": {
+        "TOTAL_BALANCE": "总余额",
         "BALANCE": "余额",
         "DEPOSIT": "存款",
         "LAST": "收盘价",

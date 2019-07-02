@@ -3016,6 +3016,7 @@
     },
     "CLIENT": {
       "BALANCES": {
+        "TOTAL_BALANCE": "Total balance",
         "BALANCE": "Balance",
         "DEPOSIT": "Deposits",
         "LAST": "last",

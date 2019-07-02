@@ -152,7 +152,7 @@ class Balances extends Component {
           aria-expanded={dropDownOpen}
         >
           <div className="dropdown-tab">
-            <div className="header-block-title">{I18n.t('CLIENT_PROFILE.CLIENT.BALANCES.BALANCE')}</div>
+            <div className="header-block-title">{I18n.t('CLIENT_PROFILE.CLIENT.BALANCES.TOTAL_BALANCE')}</div>
             <i className="fa fa-angle-down" />
             <div className="header-block-middle">
               {baseCurrency} {Number(baseCurrencyBalance).toFixed(2)}
