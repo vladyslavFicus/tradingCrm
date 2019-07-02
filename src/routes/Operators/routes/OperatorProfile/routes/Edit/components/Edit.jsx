@@ -41,6 +41,7 @@ class View extends Component {
     forbiddenCountries: PropTypes.arrayOf(PropTypes.string),
     showNotes: PropTypes.bool,
     showSalesStatus: PropTypes.bool,
+    showFTDAmount: PropTypes.bool,
     deleteAuthority: PropTypes.func.isRequired,
     addAuthority: PropTypes.func.isRequired,
     operatorType: PropTypes.string,
@@ -62,6 +63,7 @@ class View extends Component {
     operatorType: operatorTypes.OPERATOR,
     showNotes: false,
     showSalesStatus: false,
+    showFTDAmount: false,
     authorities: [],
     allowedIpAddresses: [],
     forbiddenCountries: [],
@@ -158,6 +160,7 @@ class View extends Component {
       forbiddenCountries,
       showNotes,
       showSalesStatus,
+      showFTDAmount,
       authorities: { data: authorities },
       auth: { uuid },
       departmentsRoles,
@@ -192,6 +195,7 @@ class View extends Component {
                 forbiddenCountries,
                 showNotes,
                 showSalesStatus,
+                showFTDAmount,
               }}
               disabled={this.readOnly}
               onSubmit={this.handleSubmit}

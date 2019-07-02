@@ -2404,7 +2404,8 @@
       "PARTNER": "合作伙伴"
     },
     "SHOW_NOTES": "展示备注",
-    "SHOW_SALES_STATUS": "展示销售状态"
+    "SHOW_SALES_STATUS": "展示销售状态",
+    "SHOW_FTD_AMOUNT": "Show FTD Amount"
   },
   "PAYMENT_METHOD_LIMIT_POPOVER": {
     "ENABLE_LIMIT_TYPE": "允许 %{type}",

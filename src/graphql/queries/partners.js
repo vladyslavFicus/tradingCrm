@@ -70,6 +70,7 @@ const partnerQuery = gql`query getPartnerByUUID(
             forbiddenCountries
             showNotes
             showSalesStatus
+            showFTDAmount
           }
         }
       }

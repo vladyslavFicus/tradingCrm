@@ -85,6 +85,7 @@ export default compose(
         forbiddenCountries: get(forexOperator, 'data.permission.forbiddenCountries') || [],
         showNotes: get(forexOperator, 'data.permission.showNotes') || false,
         showSalesStatus: get(forexOperator, 'data.permission.showSalesStatus') || false,
+        showFTDAmount: get(forexOperator, 'data.permission.showFTDAmount') || false,
         profile: {
           data: {
             ...partnerProfile,

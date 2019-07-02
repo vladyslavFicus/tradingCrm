@@ -2405,7 +2405,8 @@
       "PARTNER": "Partner"
     },
     "SHOW_NOTES": "Show notes",
-    "SHOW_SALES_STATUS": "Show sales status"
+    "SHOW_SALES_STATUS": "Show sales status",
+    "SHOW_FTD_AMOUNT": "Show FTD Amount"
   },
   "PAYMENT_METHOD_LIMIT_POPOVER": {
     "ENABLE_LIMIT_TYPE": "Enable %{type}",
