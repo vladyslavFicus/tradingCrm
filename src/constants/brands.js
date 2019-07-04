@@ -26,6 +26,7 @@ const brands = keyMirror({
   apf: null,
   kronosinvest: null,
   glad2trade: null,
+  rainbowgroupltd: null,
 });
 
 const departments = keyMirror({
@@ -144,6 +145,10 @@ const brandsConfig = {
   [brands.glad2trade]: {
     name: 'Glad2Trade',
     image: { src: '/img/brand/choose-brand/glad2trade.svg' },
+  },
+  [brands.rainbowgroupltd]: {
+    name: 'Rainbow Group LTD',
+    image: { src: '/img/brand/choose-brand/rainbowgroupltd.svg' },
   },
 };
 const departmentsConfig = {
