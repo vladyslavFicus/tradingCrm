@@ -187,10 +187,6 @@
     }
   }
   &__department {
-    position: absolute;
-    top: 70px;
-    right: 0;
-    left: 0;
     display: none;
     &_return {
       font-size: 20px;
@@ -214,14 +210,12 @@
     }
     .form-page__multibrand_call-to-action {
       position: relative;
-      top: 160px;
     }
     &_block {
       display: flex;
       flex-flow: row wrap;
       justify-content: center;
       position: relative;
-      top: 170px;
     }
     .department-item {
       display: flex;
