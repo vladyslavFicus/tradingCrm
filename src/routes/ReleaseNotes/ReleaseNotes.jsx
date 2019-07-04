@@ -2,37 +2,119 @@ import React, { Fragment } from 'react';
 
 const ReleaseNotes = () => (
   <Fragment>
-    <h1>
-      Falcon CRM
-      <br />
-      Release notes
-    </h1>
-    <p />
-    <h1>17/May/19 - Version 22</h1>
+    <h1>Falcon CRM<br />Release notes</h1>
+    <h1>27/June/19 - Version 24</h1>
     <h2>What has been done</h2>
     <ul>
       <li>
-        <p>
-          Automatic refresh of the search results after a bulk action is applied
-        </p>
+        <p>Multilanguage autologin - Client portal opens in a defined by affiliate language</p>
+      </li>
+      <li>
+        <p>Multicurrency profiles - an ability for a client to have trading accounts in different currencies</p>
+      </li>
+      <li>
+        <p>Search clients by MT4 trading account ID</p>
+      </li>
+      <li>
+        <p>Trades details are being recalculated on Swap updates</p>
+      </li>
+      <li>
+        <p>Removed currency on client portal signup</p>
+      </li>
+      <li>
+        <p>Date, time and operator who have made status update of the transaction is being stored and displayed in Backoffice</p>
       </li>
     </ul>
     <h2>Bugs &amp; Fixes</h2>
     <ul>
       <li>
-        <p>
-          Validation error on promote lead to client with Ukrainian language is
-          fixed
-        </p>
+        <p>Operators in client search filter are being displayed correctly</p>
+      </li>
+      <li>
+        <p>Inconsistency of balances - fixed</p>
+      </li>
+      <li>
+        <p>Issue with selecting of operators which have the same name - resolved</p>
+      </li>
+      <li>
+        <p>Client assign bug - fixed</p>
+      </li>
+      <li>
+        <p>Client portal styling issues after implementation multi-currency - fixed</p>
+      </li>
+    </ul>
+    <h1>31/May/19 - Version 23</h1>
+    <h2>What has been done</h2>
+    <ul>
+      <li>
+        <p>New Client Portal</p>
+      </li>
+      <li>
+        <p>Script created for automatic creation of daily - clients reports</p>
+      </li>
+      <li>
+        <p>Link added "new trading account" on deposit page of client portal in case if client does not have trading accounts</p>
+      </li>
+      <li>
+        <p>FATCA form provided toggle in clients profile added</p>
+      </li>
+      <li>
+        <p>Customer Service role created with requested permissions</p>
+      </li>
+      <li>
+        <p>Translations to Chinese for Backoffice and Client Portal added</p>
+      </li>
+      <li>
+        <p>Status webtrader button can be displayed on client portal per brand</p>
+      </li>
+    </ul>
+    <h2>Bugs &amp; Fixes</h2>
+    <ul>
+      <li>
+        <p>Client grid reloads after move client to sales or retention</p>
+      </li>
+      <li>
+        <p>Multi assign bug - fixed</p>
+      </li>
+      <li>
+        <p>Wrong assignment by rule - fixed</p>
+      </li>
+      <li>
+        <p>Wrong transfer behavior on Client Portal - fixed</p>
+      </li>
+      <li>
+        <p>Search filters on Partners - fixed</p>
+      </li>
+      <li>
+        <p>Issue with bulk actions on limited searches of Clients and Leads - fixed</p>
+      </li>
+      <li>
+        <p>Operator assigned to brand doesn't see all users - fixed</p>
+      </li>
+      <li>
+        <p>Operator can't be set to brand/company - fixed</p>
+      </li>
+      <li>
+        <p>An operator see clients and operators that he shouldn't - fixed</p>
+      </li>
+    </ul>
+    <h1>17/May/19 - Version 22</h1>
+    <h2>What has been done</h2>
+    <ul>
+      <li>
+        <p>Automatic refresh of the search results after a bulk action is applied</p>
+      </li>
+    </ul>
+    <h2>Bugs &amp; Fixes</h2>
+    <ul>
+      <li>
+        <p>Validation error on promote lead to client with Ukrainian language is fixed</p>
       </li>
       <li>
         <p>Affiliate partner can get clients with a lot of notes via API</p>
       </li>
       <li>
-        <p>
-          Customer service permissions for changing Desk, Team, Representative
-          are set
-        </p>
+        <p>Customer service permissions for changing Desk, Team, Representative are set</p>
       </li>
       <li>
         <p>Client portal caching problem fixed</p>
@@ -54,16 +136,10 @@ const ReleaseNotes = () => (
         <p>Simplified first deposit flow in refactored client portal enabled</p>
       </li>
       <li>
-        <p>
-          Fields validation improved on new affiliate’s client registration via
-          API
-        </p>
+        <p>Fields validation improved on new affiliate&rsquo;s client registration via API</p>
       </li>
       <li>
-        <p>
-          Trading accounts are being created with a default leverage of the
-          group
-        </p>
+        <p>Trading accounts are being created with a default leverage of the group</p>
       </li>
     </ul>
     <h2>Bugs &amp; Fixes</h2>
@@ -85,10 +161,7 @@ const ReleaseNotes = () => (
         <p>Applications &amp; Webtrader buttons on client portal redesigned</p>
       </li>
       <li>
-        <p>
-          Leads will be assigned to a current operator if a non-existing
-          operator was specified in the uploaded CSV file
-        </p>
+        <p>Leads will be assigned to a current operator if a non-existing operator was specified in the uploaded CSV file</p>
       </li>
       <li>
         <p>Terms &amp; Condition link on Client portal signup page added</p>
@@ -97,7 +170,7 @@ const ReleaseNotes = () => (
         <p>Assign lost in hierarchy clients to operators</p>
       </li>
       <li>
-        <p>&quot;CASHIER&quot; option to the payment method filter added</p>
+        <p>"CASHIER" option to the payment method filter added</p>
       </li>
     </ul>
     <h2>Bugs &amp; Fixes</h2>
@@ -112,7 +185,6 @@ const ReleaseNotes = () => (
         <p>Email validation on the Signin page fixed</p>
       </li>
     </ul>
-    <p />
     <hr />
     <h1>09/Apr/19 - Version 18</h1>
     <h2>What has been done</h2>
@@ -121,47 +193,30 @@ const ReleaseNotes = () => (
         <p>Rejection reason selection on withdrawal requests has been added</p>
       </li>
       <li>
-        <p>
-          Affiliate partner's API access can be blocked in operator’s profile
-        </p>
+        <p>Affiliate partner's API access can be blocked in operator&rsquo;s profile</p>
       </li>
       <li>
         <p>Migrated clients' password recovery flow has been implemented</p>
         <ul>
           <li>
-            <p>
-              Client who tries to login to client portal with his old password
-              is asked to reset it for security reasons
-            </p>
+            <p>Client who tries to login to client portal with his old password is asked to reset it for security reasons</p>
           </li>
         </ul>
       </li>
       <li>
-        <p>
-          Client search - Operators in status &quot;inactive&quot; and
-          &quot;closed&quot; are highlighted with gray color in drop-down list
-          on &quot;Operator&quot; filter
-        </p>
+        <p>Client search - Operators in status "inactive" and "closed" are highlighted with gray color in drop-down list on "Operator" filter</p>
       </li>
       <li>
-        <p>
-          Operators in status &quot;inactive&quot; and &quot;closed&quot; are
-          hidden in assignment popup
-        </p>
+        <p>Operators in status "inactive" and "closed" are hidden in assignment popup</p>
       </li>
       <li>
-        <p>
-          Payment methods Recall and Chargeback has been added on manual
-          transactions
-        </p>
+        <p>Payment methods Recall and Chargeback has been added on manual transactions</p>
       </li>
       <li>
         <p>Personal dashboard has been added from Metabase to CRM</p>
       </li>
       <li>
-        <p>
-          Hierarchy Tree allows to expand branches of hierarchy level by level
-        </p>
+        <p>Hierarchy Tree allows to expand branches of hierarchy level by level</p>
       </li>
     </ul>
     <h2>Bugs &amp; Fixes</h2>
@@ -170,15 +225,10 @@ const ReleaseNotes = () => (
         <p>Permissions fixes on front side based on departments and roles</p>
       </li>
       <li>
-        <p>
-          Language selection does not overlay notification icon in Client portal
-        </p>
+        <p>Language selection does not overlay notification icon in Client portal</p>
       </li>
       <li>
-        <p>
-          Lead/Clients - Operator filter is not being disabled when in Sales
-          status filter any status was selected
-        </p>
+        <p>Lead/Clients - Operator filter is not being disabled when in Sales status filter any status was selected</p>
       </li>
       <li>
         <p>Client's personal info update fixed</p>
@@ -198,7 +248,7 @@ const ReleaseNotes = () => (
     <h2>Bugs &amp; Fixes</h2>
     <ul>
       <li>
-        <p>Show only current brand’s offices/desks/teams</p>
+        <p>Show only current brand&rsquo;s offices/desks/teams</p>
       </li>
       <li>
         <p>Wrong trading history information displayed in CP and BO</p>
@@ -210,7 +260,7 @@ const ReleaseNotes = () => (
         <p>Fixed problem entering payment amount with cents</p>
       </li>
       <li>
-        <p>Fixed - Payment doesn’t have original agent</p>
+        <p>Fixed - Payment doesn&rsquo;t have original agent</p>
       </li>
     </ul>
     <hr />
@@ -242,10 +292,7 @@ const ReleaseNotes = () => (
         </ul>
       </li>
       <li>
-        <p>
-          Password validation errors on client portal translated to all
-          languages
-        </p>
+        <p>Password validation errors on client portal translated to all languages</p>
       </li>
     </ul>
     <h2>Bugs &amp; Fixes</h2>
@@ -257,15 +304,10 @@ const ReleaseNotes = () => (
         <p>Operator profile visibility is fixed</p>
       </li>
       <li>
-        <p>
-          Default operator will be removed or reassigned from hierarchy branch
-          if this operator was removed from hierarchy branch
-        </p>
+        <p>Default operator will be removed or reassigned from hierarchy branch if this operator was removed from hierarchy branch</p>
       </li>
       <li>
-        <p>
-          Operators with the same email can't be created on the same environment
-        </p>
+        <p>Operators with the same email can't be created on the same environment</p>
       </li>
       <li>
         <p>Payment country will always be the same as client's country</p>
@@ -285,22 +327,13 @@ const ReleaseNotes = () => (
     <h2>What has been done</h2>
     <ul>
       <li>
-        <p>
-          Sales status and Notes can be enabled for affiliate partners in
-          partner profile
-        </p>
+        <p>Sales status and Notes can be enabled for affiliate partners in partner profile</p>
       </li>
       <li>
-        <p>
-          Dashboards are showing correct numbers - transactions with payment
-          method “Bonus&quot; are ignored
-        </p>
+        <p>Dashboards are showing correct numbers - transactions with payment method &ldquo;Bonus" are ignored</p>
       </li>
       <li>
-        <p>
-          Affiliate Partner's are created in the Affiliate partner department by
-          default
-        </p>
+        <p>Affiliate Partner's are created in the Affiliate partner department by default</p>
       </li>
     </ul>
     <h2>Bugs &amp; Fixes</h2>
@@ -332,9 +365,7 @@ const ReleaseNotes = () => (
     <h2>Bugs &amp; Fixes</h2>
     <ul>
       <li>
-        <p>
-          The ability to change Sales representative on Lead profile is fixed
-        </p>
+        <p>The ability to change Sales representative on Lead profile is fixed</p>
       </li>
       <li>
         <p>Operator creation is fixed</p>
@@ -354,30 +385,21 @@ const ReleaseNotes = () => (
         <p>Client can be searched by Source and Affiliate ID</p>
       </li>
       <li>
-        <p>
-          Operator will not be auto assigned to Office/Desk/Team on it's
-          creation
-        </p>
+        <p>Operator will not be auto assigned to Office/Desk/Team on it's creation</p>
       </li>
       <li>
         <p>Leads self-conversion is improved</p>
         <ul>
           <li>
-            <p>
-              When lead making registration on CP he will be auto assigned to
-              the same sale agent as the lead was
-            </p>
+            <p>When lead making registration on CP he will be auto assigned to the same sale agent as the lead was</p>
           </li>
         </ul>
       </li>
       <li>
-        <p>
-          Clients and Operators who has been blocked by &quot;too many
-          attempts&quot; can now be unblocked in corresponding profile
-        </p>
+        <p>Clients and Operators who has been blocked by "too many attempts" can now be unblocked in corresponding profile</p>
       </li>
       <li>
-        <p>Simple passwords are allowed for clients </p>
+        <p>Simple passwords are allowed for clients</p>
         <ul>
           <li>
             <p>min. 6 symbols, min. 1 letter, min. 1 number</p>
@@ -385,33 +407,22 @@ const ReleaseNotes = () => (
         </ul>
       </li>
       <li>
-        <p>
-          On operator creation it is required to assign him to any hierarchy
-          branch
-        </p>
+        <p>On operator creation it is required to assign him to any hierarchy branch</p>
       </li>
       <li>
         <p>Client search - Search by email was improved</p>
       </li>
       <li>
-        <p>
-          Clients are being redirected to finance page of the Client portal
-          after autologin (For registrations via affiliate API)
-        </p>
+        <p>Clients are being redirected to finance page of the Client portal after autologin (For registrations via affiliate API)</p>
       </li>
       <li>
-        <p>
-          Sales and Retention agents are not allowed to make manual transaction
-        </p>
+        <p>Sales and Retention agents are not allowed to make manual transaction</p>
       </li>
     </ul>
     <h2>Bugs &amp; Fixes</h2>
     <ul>
       <li>
-        <p>
-          Operator names were sometimes hidden in clients profile and hierarchy
-          tree - fixed
-        </p>
+        <p>Operator names were sometimes hidden in clients profile and hierarchy tree - fixed</p>
       </li>
       <li>
         <p>Leads - Lead Profile update was fixed</p>
@@ -426,17 +437,13 @@ const ReleaseNotes = () => (
         <p>Clients Search - Preloader on grid was fixed</p>
       </li>
       <li>
-        <p>
-          Leads emails uniqueness is guaranteed for a brand not for environment
-        </p>
+        <p>Leads emails uniqueness is guaranteed for a brand not for environment</p>
       </li>
       <li>
         <p>Language name are not shortened on Client portal any more</p>
       </li>
       <li>
-        <p>
-          On assign of an agent the acquisition status will not change any more
-        </p>
+        <p>On assign of an agent the acquisition status will not change any more</p>
       </li>
       <li>
         <p>Clients reassignment by the CRM is fixed</p>
@@ -482,29 +489,16 @@ const ReleaseNotes = () => (
         <p>Clients search - Filter clients by assigned operators</p>
       </li>
       <li>
-        <p>
-          Clients search - Limit filter allow to limit an amount of found
-          clients
-        </p>
+        <p>Clients search - Limit filter allow to limit an amount of found clients</p>
       </li>
       <li>
-        <p>
-          On client creation rules will be ignored if lead with the same email
-          has assigned sales agent, so that client will get the same sales agent
-          assigned
-        </p>
+        <p>On client creation rules will be ignored if lead with the same email has assigned sales agent, so that client will get the same sales agent assigned</p>
       </li>
       <li>
-        <p>
-          Affiliate API - Allows to register clients via API, get clients of the
-          affiliate and get client's details by email or UUID
-        </p>
+        <p>Affiliate API - Allows to register clients via API, get clients of the affiliate and get client's details by email or UUID</p>
       </li>
       <li>
-        <p>
-          Affiliate API - Autologin link will be sent in response to successful
-          client signup via API
-        </p>
+        <p>Affiliate API - Autologin link will be sent in response to successful client signup via API</p>
       </li>
       <li>
         <p>Leads - Limit filter allow to limit the amount of found leads</p>
@@ -513,29 +507,16 @@ const ReleaseNotes = () => (
         <p>Leads - Converted by operator on leads is being shown in the grid</p>
       </li>
       <li>
-        <p>
-          Ability to manage restricted countries and white listed IPs for
-          affiliates was added
-        </p>
+        <p>Ability to manage restricted countries and white listed IPs for affiliates was added</p>
       </li>
       <li>
-        <p>
-          Hierarchy - Operators' assigned Brands / Desks / Teams can be reviewed
-          and changed in operators profile
-        </p>
+        <p>Hierarchy - Operators' assigned Brands / Desks / Teams can be reviewed and changed in operators profile</p>
       </li>
       <li>
-        <p>
-          Temporary solution on Multi-Currency - client can choose currency on
-          sign up, but can have MT4 trading accounts in his profiles currency
-          only.
-        </p>
+        <p>Temporary solution on Multi-Currency - client can choose currency on sign up, but can have MT4 trading accounts in his profiles currency only.</p>
       </li>
       <li>
-        <p>
-          The ability to have a MT4 accounts in different currencies by creating
-          multiple client profiles
-        </p>
+        <p>The ability to have a MT4 accounts in different currencies by creating multiple client profiles</p>
       </li>
       <li>
         <p>Leads - Search for Leads by Source and Affiliate</p>
@@ -544,10 +525,7 @@ const ReleaseNotes = () => (
         <p>Lead UUID will be displayed in clients profile after conversion</p>
       </li>
       <li>
-        <p>
-          Operator who created Office, Desk or Team will not be assigned to it
-          any more
-        </p>
+        <p>Operator who created Office, Desk or Team will not be assigned to it any more</p>
       </li>
       <li>
         <p>Leads profile can be opened in a new browser tab</p>
@@ -559,17 +537,10 @@ const ReleaseNotes = () => (
         <p>Client Portal - Right to left languages support added</p>
       </li>
       <li>
-        <p>
-          Client Portal - Russian, Chinise, Italian, Arabic, German and Spanish
-          languages has been added
-        </p>
+        <p>Client Portal - Russian, Chinise, Italian, Arabic, German and Spanish languages has been added</p>
       </li>
       <li>
-        <p>
-          &quot;Backoffice has been updated&quot; and &quot;Client portal has
-          been updated&quot; popups has been added to prevent users of using old
-          version of application.
-        </p>
+        <p>"Backoffice has been updated" and "Client portal has been updated" popups has been added to prevent users of using old version of application.</p>
       </li>
       <li>
         <p>Payments - Payment method filter got multiselect option</p>
@@ -593,16 +564,10 @@ const ReleaseNotes = () => (
         <p>Leads - Sales status filter fixed</p>
       </li>
       <li>
-        <p>
-          Permissions - Retention and Sales agents can't see the Hierarchy
-          section in Backoffice
-        </p>
+        <p>Permissions - Retention and Sales agents can't see the Hierarchy section in Backoffice</p>
       </li>
       <li>
-        <p>
-          Client portal - Deposit flow has been simplified. Client does not have
-          to select payment method.
-        </p>
+        <p>Client portal - Deposit flow has been simplified. Client does not have to select payment method.</p>
       </li>
     </ul>
     <hr />
@@ -613,10 +578,7 @@ const ReleaseNotes = () => (
         <p>Leads - Filter leads by assigned operators</p>
       </li>
       <li>
-        <p>
-          Payments - Electronic payment and None payment methods are added for
-          manual transactions
-        </p>
+        <p>Payments - Electronic payment and None payment methods are added for manual transactions</p>
       </li>
       <li>
         <p>Leads optimization - 10x performance grow</p>
@@ -633,16 +595,10 @@ const ReleaseNotes = () => (
     <h2>What has been done</h2>
     <ul>
       <li>
-        <p>
-          Emails will convert to lowercase on search and email change. Old
-          emails on production are migrated to lowercase.
-        </p>
+        <p>Emails will convert to lowercase on search and email change. Old emails on production are migrated to lowercase.</p>
       </li>
       <li>
-        <p>
-          Retention manager is able to change retention status in clients grid
-          and profile
-        </p>
+        <p>Retention manager is able to change retention status in clients grid and profile</p>
       </li>
     </ul>
     <h2>Bugs &amp; Fixes</h2>
@@ -659,9 +615,7 @@ const ReleaseNotes = () => (
         <p>Clients search - Desks and teams are displayed on client grid</p>
       </li>
       <li>
-        <p>
-          Leads - Assign sales agents and change sales status from leads profile
-        </p>
+        <p>Leads - Assign sales agents and change sales status from leads profile</p>
       </li>
       <li>
         <p>Leads - Assign of selected leads to many operators</p>
@@ -697,10 +651,7 @@ const ReleaseNotes = () => (
         <p>Client Portal Signup form fixed</p>
       </li>
       <li>
-        <p>
-          Payments - Decimals are now allowed to enter in manual transaction
-          amount field
-        </p>
+        <p>Payments - Decimals are now allowed to enter in manual transaction amount field</p>
       </li>
       <li>
         <p>Error messages are improved on leads CSV file uploads</p>
@@ -711,15 +662,10 @@ const ReleaseNotes = () => (
     <h2>What has been done</h2>
     <ul>
       <li>
-        <p>
-          Leads - Lead's sales representative name is displayed in leads grid
-          and profile
-        </p>
+        <p>Leads - Lead's sales representative name is displayed in leads grid and profile</p>
       </li>
       <li>
-        <p>
-          Payments - Error message is displayed on failed payment transactions
-        </p>
+        <p>Payments - Error message is displayed on failed payment transactions</p>
       </li>
       <li>
         <p>Leads - Assign of selected leads to many agents with equally</p>
@@ -728,10 +674,7 @@ const ReleaseNotes = () => (
         <p>Hierarchy - Ability to add an Operator to the Desk or Team</p>
       </li>
       <li>
-        <p>
-          Notes - Payment transactions internal note can be added, changed and
-          deleted
-        </p>
+        <p>Notes - Payment transactions internal note can be added, changed and deleted</p>
       </li>
       <li>
         <p>Payments - Filter payment transactions by Original agent</p>
@@ -740,10 +683,7 @@ const ReleaseNotes = () => (
         <p>Clients search - Search clients by phone or alternative phone</p>
       </li>
       <li>
-        <p>
-          Dashboard - Only completed deposits/withdrawals are displayed on
-          dashboard
-        </p>
+        <p>Dashboard - Only completed deposits/withdrawals are displayed on dashboard</p>
       </li>
       <li>
         <p>Documents - Preview of uploaded files</p>
@@ -752,19 +692,13 @@ const ReleaseNotes = () => (
         <p>Leads - Bulk assign to sales agent</p>
       </li>
       <li>
-        <p>
-          Leads - Set status Converted on leads profile, while client signed up
-          with the same email
-        </p>
+        <p>Leads - Set status Converted on leads profile, while client signed up with the same email</p>
       </li>
       <li>
         <p>Payments - Filter payment transactions by list of Original Agents</p>
       </li>
       <li>
-        <p>
-          Hierarchy - Ability to add an operator to Brand/Office/Desk/Team on
-          it's creation
-        </p>
+        <p>Hierarchy - Ability to add an operator to Brand/Office/Desk/Team on it's creation</p>
       </li>
       <li>
         <p>Notes - Ability to add a note on callbacks</p>
@@ -813,20 +747,13 @@ const ReleaseNotes = () => (
     <h2>What has been done</h2>
     <ul>
       <li>
-        <p>
-          Payments - Original Agent of transaction is being stored and displayed
-          in transaction details
-        </p>
+        <p>Payments - Original Agent of transaction is being stored and displayed in transaction details</p>
       </li>
       <li>
-        <p>
-          Callbacks - Personal calendar is available at the header of Backoffice
-        </p>
+        <p>Callbacks - Personal calendar is available at the header of Backoffice</p>
       </li>
       <li>
-        <p>
-          Universal sales and retention rules for all countries and languages
-        </p>
+        <p>Universal sales and retention rules for all countries and languages</p>
       </li>
       <li>
         <p>Total credit amount is shown at clients profile header</p>
@@ -858,25 +785,16 @@ const ReleaseNotes = () => (
     <h2>What has been done</h2>
     <ul>
       <li>
-        <p>
-          Payments - External Reference ID are displayed in transactions details
-        </p>
+        <p>Payments - External Reference ID are displayed in transactions details</p>
       </li>
       <li>
-        <p>
-          Payments - Last 10 Deposits and Withdrawals on dashboard are displayed
-          based on Hierarchy
-        </p>
+        <p>Payments - Last 10 Deposits and Withdrawals on dashboard are displayed based on Hierarchy</p>
       </li>
       <li>
-        <p>
-          Leads - By default 20 last added Leads are displayed in leads grid
-        </p>
+        <p>Leads - By default 20 last added Leads are displayed in leads grid</p>
       </li>
       <li>
-        <p>
-          Hierarchy visualization feature allows to see the hierarchy structure
-        </p>
+        <p>Hierarchy visualization feature allows to see the hierarchy structure</p>
       </li>
       <li>
         <p>Approve and Reject of Withdrawal requests has been improved</p>
@@ -908,33 +826,22 @@ const ReleaseNotes = () => (
         <p>Withdrawal requests can now be approved by an operator</p>
       </li>
       <li>
-        <p>
-          By default operators see last 20 Clients and Payments in the
-          corresponding grids
-        </p>
+        <p>By default operators see last 20 Clients and Payments in the corresponding grids</p>
       </li>
       <li>
         <p>Internal transfer validation has been improved</p>
       </li>
       <li>
-        <p>
-          Credit-in/out Feature - Operators can manually add or subtract credit
-          on clients Trading account
-        </p>
+        <p>Credit-in/out Feature - Operators can manually add or subtract credit on clients Trading account</p>
       </li>
       <li>
-        <p>
-          New payment flow with support of Naspay cashier has been implemented
-        </p>
+        <p>New payment flow with support of Naspay cashier has been implemented</p>
       </li>
       <li>
         <p>Payment transactions search has been improved</p>
       </li>
       <li>
-        <p>
-          Credit IN and OUT transactions are now available in transactions
-          history of the client
-        </p>
+        <p>Credit IN and OUT transactions are now available in transactions history of the client</p>
       </li>
       <li>
         <p>Callbacks - Calendar view</p>
@@ -963,9 +870,7 @@ const ReleaseNotes = () => (
         <p>Leads can now be assigned to an agent by upload of the CSV file</p>
       </li>
       <li>
-        <p>
-          You can filter clients by choosing Assigned or Unassigned to an agent
-        </p>
+        <p>You can filter clients by choosing Assigned or Unassigned to an agent</p>
       </li>
     </ul>
     <hr />
@@ -973,10 +878,7 @@ const ReleaseNotes = () => (
     <h2>What has been done</h2>
     <ul>
       <li>
-        <p>
-          Last 10 registrations, deposits, and withdrawals are displayed on
-          Backoffice dashboard based on Hierarchy
-        </p>
+        <p>Last 10 registrations, deposits, and withdrawals are displayed on Backoffice dashboard based on Hierarchy</p>
       </li>
       <li>
         <p>Lead Upload Example Template has been added</p>
@@ -1005,28 +907,19 @@ const ReleaseNotes = () => (
     <h2>What has been done</h2>
     <ul>
       <li>
-        <p>
-          Bulk action on clients - now you can perform bulk actions on selected
-          clients
-        </p>
+        <p>Bulk action on clients - now you can perform bulk actions on selected clients</p>
       </li>
       <li>
         <p>We have configured payments via Naspay</p>
       </li>
       <li>
-        <p>
-          Clients search allows one to search for clients by UUID, Email and
-          Name
-        </p>
+        <p>Clients search allows one to search for clients by UUID, Email and Name</p>
       </li>
       <li>
         <p>Client portal has been created</p>
       </li>
       <li>
-        <p>
-          Create an MT4 Trading Account and update it's password right from the
-          client's profile in Backoffice
-        </p>
+        <p>Create an MT4 Trading Account and update it's password right from the client's profile in Backoffice</p>
       </li>
       <li>
         <p>Manual Deposit &amp; Withdrawal feature has been added</p>
@@ -1044,10 +937,6 @@ const ReleaseNotes = () => (
         <p>Trading History can now be reviewed in clients profile</p>
       </li>
     </ul>
-    <p>
-      <br />
-      <br />
-    </p>
   </Fragment>
 );
 
