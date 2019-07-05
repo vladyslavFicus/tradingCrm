@@ -19,7 +19,6 @@ const OfficeForm = ({
   submitting,
   onSubmit,
   error,
-  officeManagers,
 }) => (
   <Modal
     toggle={onCloseModal}
@@ -58,19 +57,6 @@ const OfficeForm = ({
           </option>
         ))}
       </Field>
-      <Field
-        name="officeManager"
-        label={I18n.t(attributeLabels.officeManager)}
-        component={NasSelectField}
-        disabled={submitting || (Array.isArray(officeManagers) && officeManagers.length === 0)}
-        placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
-      >
-        {officeManagers.map(({ uuid, fullName }) => (
-          <option key={uuid} value={uuid}>
-            {fullName}
-          </option>
-        ))}
-      </Field>
     </ModalBody>
     <ModalFooter>
       <button
@@ -101,7 +87,6 @@ OfficeForm.propTypes = {
   submitting: PropTypes.bool.isRequired,
   onSubmit: PropTypes.func.isRequired,
   error: PropTypes.any,
-  officeManagers: PropTypes.arrayOf(PropTypes.userHierarchyType).isRequired,
 };
 
 OfficeForm.defaultProps = {
@@ -114,7 +99,6 @@ const OfficeModal = reduxForm({
   validate: createValidator({
     name: ['required', 'string'],
     country: ['required', 'string'],
-    officeManager: ['required', 'string'],
   }, translateLabels(attributeLabels), false),
 })(OfficeForm);
 

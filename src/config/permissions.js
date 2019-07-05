@@ -21,12 +21,12 @@ export default {
     GET_LEAD_BY_ID: 'trading_lead_updater;GET;/{id}',
   },
   HIERARCHY: {
-    GET_TREE: 'trading_hierarchy_updater;GET;/branch/hierarchy/{uuid}',
-    GET_DESKS: 'trading_hierarchy_updater;POST;/branch/hierarchy/user/{uuid}/desk',
-    GET_TEAMS: 'trading_hierarchy_updater;POST;/branch/hierarchy/user/{uuid}/team',
-    GET_OFFICES: 'trading_hierarchy_updater;POST;/branch/hierarchy/user/{uuid}/office',
-    GET_OPERATORS: 'trading_hierarchy_updater;GET;/user/{uuid}/operators',
-    GET_AFFILIATE_PARTNERS: 'trading_hierarchy_updater;GET;/user/{uuid}/affiliate-partners',
+    GET_TREE: 'trading_hierarchy;GET;/branch/hierarchy/{uuid}',
+    GET_DESKS: 'trading_hierarchy;POST;/branch/hierarchy/user/{uuid}/desk',
+    GET_TEAMS: 'trading_hierarchy;POST;/branch/hierarchy/user/{uuid}/team',
+    GET_OFFICES: 'trading_hierarchy;POST;/branch/hierarchy/user/{uuid}/office',
+    GET_OPERATORS: 'trading_hierarchy;GET;/user/{uuid}/operators',
+    GET_AFFILIATE_PARTNERS: 'trading_hierarchy;GET;/user/{uuid}/affiliate-partners',
     GET_BRANCH_BY_ID: 'trading_hierarchy;GET;/branch/{uuid}',
   },
   USER_PROFILE: {
@@ -69,7 +69,7 @@ export default {
     VERIFY_EMAIL: 'profile;POST;/verification/{playerUUID}/email',
     CHANGE_PASSWORD: 'auth;POST;/credentials/{uuid}/password',
     MARK_IS_TEST: 'profile;POST;/profiles/{playerUUID}/is-test',
-    CHANGE_ACQUISITION_STATUS: 'trading_hierarchy;POST;/bulk/user',
+    CHANGE_ACQUISITION_STATUS: 'trading_hierarchy_updater;PUT;/bulk/user/relationship/parent-user',
     CHANGE_FATCA_STATUS: 'trading_profile;PUT;/regulated',
   },
   FILES: {

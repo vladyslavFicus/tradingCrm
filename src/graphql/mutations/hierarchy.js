@@ -22,13 +22,11 @@ const createHierarchyUser = gql`mutation createUser(
 const createOffice = gql`mutation createOffice(
   $name: String!,
   $country: String!,
-  $officeManager: String!,
 ) {
   hierarchy {
     createOffice (
       name: $name,
       country: $country,
-      officeManager: $officeManager,
     ) {
       data
       error

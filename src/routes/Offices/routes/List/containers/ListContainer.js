@@ -31,13 +31,6 @@ export default compose(
   graphql(createOffice, {
     name: 'createOffice',
   }),
-  graphql(getHierarchyUsersByType, {
-    name: 'officeManagers',
-    options: {
-      variables: { userTypes: [userTypes.COMPANY_ADMIN, userTypes.BRAND_ADMIN] },
-      fetchPolicy: 'network-only',
-    },
-  }),
   graphql(getBranchHierarchy, {
     name: 'offices',
     options: ({

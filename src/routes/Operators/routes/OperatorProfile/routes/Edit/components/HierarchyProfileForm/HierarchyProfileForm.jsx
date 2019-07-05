@@ -83,6 +83,7 @@ class HierarchyProfileForm extends Component {
       updateOperatorHierarchy,
       initialValues: { parentBranches },
       match: { params: { id } },
+      reset,
     } = this.props;
 
     const { data: { hierarchy: { updateUser: { error } } } } = await updateOperatorHierarchy({
@@ -107,7 +108,8 @@ class HierarchyProfileForm extends Component {
         title: I18n.t('COMMON.SUCCESS'),
         message: I18n.t('OPERATORS.PROFILE.HIERARCHY.SUCCESS_REMOVE_BRANCH', { name }),
       });
-      refetchHierarchy();
+      await refetchHierarchy();
+      reset();
     }
   }
 

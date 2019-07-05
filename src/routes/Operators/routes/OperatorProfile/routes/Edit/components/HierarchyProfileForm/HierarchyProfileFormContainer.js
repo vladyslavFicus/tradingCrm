@@ -54,5 +54,6 @@ export default compose(
   reduxForm({
     form: FORM_NAME,
     enableReinitialize: true,
+    keepDirtyOnReinitialize: true,
   }),
 )(HierarchyProfileForm);

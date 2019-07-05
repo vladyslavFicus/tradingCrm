@@ -19,18 +19,6 @@ class List extends Component {
         filters: PropTypes.object,
       }),
     }).isRequired,
-    officeManagers: PropTypes.shape({
-      hierarchy: PropTypes.shape({
-        hierarchyUsersByType: PropTypes.shape({
-          data: PropTypes.shape({
-            BRAND_ADMIN: PropTypes.arrayOf(PropTypes.userHierarchyType),
-            COMPANY_ADMIN: PropTypes.arrayOf(PropTypes.userHierarchyType),
-          }),
-          error: PropTypes.object,
-        }),
-      }),
-      loading: PropTypes.bool.isRequired,
-    }).isRequired,
     modals: PropTypes.shape({
       officeModal: PropTypes.modalType,
       infoModal: PropTypes.modalType,
@@ -64,16 +52,10 @@ class List extends Component {
   };
 
   triggerOfficeModal = () => {
-    const {
-      modals: { officeModal },
-      officeManagers: { hierarchy: { hierarchyUsersByType: { data: { COMPANY_ADMIN = [], BRAND_ADMIN = [] } } } },
-    } = this.props;
+    const { modals: { officeModal } } = this.props;
 
-    officeModal.show({
-      onSubmit: values => this.handleAddOffice(values),
-      officeManagers: [...(COMPANY_ADMIN || []), ...(BRAND_ADMIN || [])],
-    });
-  }
+    officeModal.show({ onSubmit: values => this.handleAddOffice(values) });
+  };
 
   handleAddOffice = async (variables) => {
     const {
@@ -130,13 +112,11 @@ class List extends Component {
       },
       location: { query },
       countries,
-      officeManagers: { hierarchy, loading: officeManagersLoading },
       auth: { isAdministration },
     } = this.props;
 
     const entities = get(offices, 'branchHierarchy.data') || [];
     const error = get(offices, 'branchHierarchy.error');
-    const officeManagersError = get(hierarchy, 'hierarchyUsersByType.error');
     const filters = get(query, 'filters', {});
 
     const allowActions = Object
@@ -165,7 +145,7 @@ class List extends Component {
               <button
                 className="btn btn-default-outline"
                 onClick={this.triggerOfficeModal}
-                disabled={error || officeManagersLoading || officeManagersError}
+                disabled={error}
                 type="button"
               >
                 {I18n.t('OFFICES.ADD_OFFICE')}
