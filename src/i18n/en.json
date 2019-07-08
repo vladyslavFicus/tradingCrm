@@ -3121,6 +3121,7 @@
       "PHONE": "Phone",
       "ALT_PHONE": "Alternative phone",
       "EMAIL": "Email",
+      "ALT_EMAIL": "Alternative Email",
       "FULL_ADDRESS": "Full address",
       "COUNTRY": "Country",
       "CITY": "City",

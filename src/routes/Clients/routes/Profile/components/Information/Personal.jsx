@@ -165,6 +165,11 @@ class Personal extends PureComponent {
               verified={profileStatus === userStatuses.ACTIVE}
             />
             <PersonalInformationItem
+              label={I18n.t('CLIENT_PROFILE.DETAILS.ALT_EMAIL')}
+              value={tradingProfile.email2}
+              verified={profileStatus === userStatuses.ACTIVE}
+            />
+            <PersonalInformationItem
               label={I18n.t('CLIENT_PROFILE.DETAILS.FULL_ADDRESS')}
               value={address}
               verified={kycAddressStatus && kycAddressStatus.status === kycStatuses.VERIFIED}

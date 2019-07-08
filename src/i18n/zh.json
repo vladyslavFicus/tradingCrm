@@ -3119,6 +3119,7 @@
       "GENDER": "性别",
       "PHONE": "电话",
       "EMAIL": "电子邮箱",
+      "ALT_EMAIL": "其他 电子邮箱",
       "FULL_ADDRESS": "完整地址",
       "COUNTRY": "国家",
       "CITY": "城市",
