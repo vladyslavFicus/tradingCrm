@@ -5,6 +5,8 @@ import { reduxForm, Field, getFormValues } from 'redux-form';
 import moment from 'moment';
 import { I18n } from 'react-redux-i18n';
 import classNames from 'classnames';
+import permissions from 'config/permissions';
+import PermissionContent from 'components/PermissionContent';
 import PropTypes from '../../constants/propTypes';
 import { createValidator } from '../../utils/validator';
 import { entitiesPrefixes } from '../../constants/uuid';
@@ -237,11 +239,13 @@ class NotePopover extends Component {
             </If>
           </div>
           <div className="col-auto ml-auto">
-            <button
-              type="reset"
-              onClick={() => this.handleRemoveNote(noteId || uuid)}
-              className="fa fa-trash color-danger note-popover__delete-btn"
-            />
+            <PermissionContent permissions={permissions.TAGS.NOTES.DELETE_NOTE}>
+              <button
+                type="reset"
+                onClick={() => this.handleRemoveNote(noteId || uuid)}
+                className="fa fa-trash color-danger note-popover__delete-btn"
+              />
+            </PermissionContent>
           </div>
         </div>
       </PopoverHeader>
@@ -316,21 +320,28 @@ class NotePopover extends Component {
               >
                 {I18n.t('COMMON.BUTTONS.CANCEL')}
               </button>
-
-              <button
-                type="submit"
-                className="btn btn-primary btn-sm text-uppercase font-weight-700"
-                disabled={pristine || submitting || invalid}
-              >
-                <Choose>
-                  <When condition={item && (item.uuid || item.noteId)}>
-                    {I18n.t('COMMON.BUTTONS.UPDATE')}
-                  </When>
-                  <Otherwise>
+              <Choose>
+                <When condition={item && (item.uuid || item.noteId)}>
+                  <PermissionContent permissions={permissions.TAGS.NOTES.UPDATE_NOTE}>
+                    <button
+                      type="submit"
+                      className="btn btn-primary btn-sm text-uppercase font-weight-700"
+                      disabled={pristine || submitting || invalid}
+                    >
+                      {I18n.t('COMMON.BUTTONS.UPDATE')}
+                    </button>
+                  </PermissionContent>
+                </When>
+                <Otherwise>
+                  <button
+                    type="submit"
+                    className="btn btn-primary btn-sm text-uppercase font-weight-700"
+                    disabled={pristine || submitting || invalid}
+                  >
                     {I18n.t('COMMON.BUTTONS.SAVE')}
-                  </Otherwise>
-                </Choose>
-              </button>
+                  </button>
+                </Otherwise>
+              </Choose>
             </div>
           </div>
         </PopoverBody>
