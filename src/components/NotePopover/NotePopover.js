@@ -7,6 +7,7 @@ import { I18n } from 'react-redux-i18n';
 import classNames from 'classnames';
 import permissions from 'config/permissions';
 import PermissionContent from 'components/PermissionContent';
+import Permissions from 'utils/permissions';
 import PropTypes from '../../constants/propTypes';
 import { createValidator } from '../../utils/validator';
 import { entitiesPrefixes } from '../../constants/uuid';
@@ -24,6 +25,8 @@ const validator = createValidator({
   content: ['required', 'string', `between:3,${MAX_CONTENT_LENGTH}`],
   pinned: ['required', 'boolean'],
 }, attributeLabels, false);
+
+const updateNotePermissions = new Permissions(permissions.TAGS.NOTES.UPDATE_NOTE);
 
 class NotePopover extends Component {
   static propTypes = {
@@ -78,6 +81,10 @@ class NotePopover extends Component {
     onUpdateFailure: () => {},
     onDeleteSuccess: () => {},
     onDeleteFailure: () => {},
+  };
+
+  static contextTypes = {
+    permissions: PropTypes.arrayOf(PropTypes.string).isRequired,
   };
 
   /**
@@ -292,6 +299,7 @@ class NotePopover extends Component {
         <PopoverBody tag="form" onSubmit={handleSubmit(this.onSubmit)}>
           {this.renderTitle()}
           <Field
+            disabled={item && !updateNotePermissions.check(this.context.permissions)}
             name="content"
             component={TextAreaField}
             showErrorMessage={false}
@@ -304,13 +312,15 @@ class NotePopover extends Component {
                   {currentValues && currentValues.content ? currentValues.content.length : 0}
                 </span>/{MAX_CONTENT_LENGTH}
               </div>
-              <Field
-                name="pinned"
-                wrapperClassName="margin-top-5"
-                label={I18n.t('NOTES.MODAL.PIN')}
-                component={SwitchField}
-                id={id ? `${id}-pin-btn` : null}
-              />
+              <If condition={!item || updateNotePermissions.check(this.context.permissions)}>
+                <Field
+                  name="pinned"
+                  wrapperClassName="margin-top-5"
+                  label={I18n.t('NOTES.MODAL.PIN')}
+                  component={SwitchField}
+                  id={id ? `${id}-pin-btn` : null}
+                />
+              </If>
             </div>
             <div className="col text-right">
               <button
