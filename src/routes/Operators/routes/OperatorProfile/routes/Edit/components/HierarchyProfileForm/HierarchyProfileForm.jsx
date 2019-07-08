@@ -128,7 +128,7 @@ class HierarchyProfileForm extends Component {
         const { name: officeName } = office || {};
 
         hierarchyTree = (
-          <div>{brandId} &rarr; {officeName || NOT_FOUND} &rarr; {deskName || NOT_FOUND} &rarr;&nbsp;
+          <div>&nbsp;{brandId} &rarr; {officeName || NOT_FOUND} &rarr; {deskName || NOT_FOUND} &rarr;&nbsp;
             <span className="color-info">{name}</span>
           </div>
         );
