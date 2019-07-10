@@ -31,21 +31,16 @@ const prodConfig = {
             loader: 'css-loader',
             options: {
               sourceMap: project.sourcemaps,
-              minimize: {
-                autoprefixer: {
-                  add: true,
-                  remove: true,
-                  browsers: ['last 2 versions'],
-                },
-                discardComments: {
-                  removeAll: true,
-                },
-                discardUnused: false,
-                mergeIdents: false,
-                reduceIdents: false,
-                safe: true,
-                sourcemap: project.sourcemaps,
-              },
+            },
+          },
+          {
+            loader: 'postcss-loader',
+            options: {
+              ident: 'postcss',
+              plugins: [
+                require('autoprefixer')(),
+                require('cssnano')(),
+              ],
             },
           },
           {

@@ -37,31 +37,13 @@ module.exports = merge(common, {
           {
             loader: 'css-loader',
             options: {
-              options: {
-                sourceMap: false,
-                minimize: {
-                  autoprefixer: {
-                    add: true,
-                    remove: true,
-                    browsers: ['last 2 versions'],
-                  },
-                  discardComments: {
-                    removeAll: true,
-                  },
-                  discardUnused: false,
-                  mergeIdents: false,
-                  reduceIdents: false,
-                  safe: true,
-                  sourcemap: true,
-                },
-              },
-
+              sourceMap: false,
             },
           },
           {
             loader: 'fast-sass-loader',
             options: {
-              sourcemap: true,
+              sourcemap: false,
               includePaths: [
                 path.join(SRC_DIR, project.main),
               ],
