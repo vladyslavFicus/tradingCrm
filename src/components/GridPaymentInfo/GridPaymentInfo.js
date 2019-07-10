@@ -33,6 +33,7 @@ class GridPaymentInfo extends PureComponent {
         amount,
         currency,
         playerProfile: { uuid },
+        originalAgent,
       },
       onSuccess,
     } = this.props;
@@ -52,6 +53,7 @@ class GridPaymentInfo extends PureComponent {
         amount,
         currency,
         playerProfile: { uuid },
+        originalAgent,
       },
       onSuccess,
     });

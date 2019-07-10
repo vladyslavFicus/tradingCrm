@@ -787,6 +787,7 @@
     "NAME": "Name",
     "TEAM": "Team",
     "DESK": "Desk",
+    "CLIENT": "Client",
     "OFFICE": "Office",
     "BRAND": "Brand",
     "SAVE_CHANGES": "Save changes",
@@ -2267,6 +2268,9 @@
       "ERROR_STATUS": "Update of the payment status is failed",
       "ERROR_METHOD": "Update of the payment method is failed"
     }
+  },
+  "CHANGE_ORIGINAL_AGENT": {
+    "TITLE": "Original Agent"
   },
   "MINI_PROFILE": {
     "PLAYER": "Player",

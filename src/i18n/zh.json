@@ -786,6 +786,7 @@
     "NAME": "姓名",
     "TEAM": "团队",
     "DESK": "服务台",
+    "CLIENT": "客户",
     "OFFICE": "办公室",
     "BRAND": "品牌",
     "SAVE_CHANGES": "保存更改",
@@ -2266,6 +2267,9 @@
       "ERROR_STATUS": "更新付款状态失败",
       "ERROR_METHOD": "更新付款方式失败"
     }
+  },
+  "CHANGE_ORIGINAL_AGENT": {
+    "TITLE": "原始代理"
   },
   "MINI_PROFILE": {
     "PLAYER": "玩家",

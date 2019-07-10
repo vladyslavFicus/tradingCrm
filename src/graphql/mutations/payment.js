@@ -91,9 +91,26 @@ const changePaymentStatus = gql`mutation changePaymentStatus(
   }
 }`;
 
+const changeOriginalAgent = gql`mutation changeOriginalAgent(
+  $paymentId: String!,
+  $agentId: String,
+  $agentName: String,
+) {
+  payment {
+    changeOriginalAgent (
+      paymentId: $paymentId,
+      agentId: $agentId,
+      agentName: $agentName,
+    ) {
+      success
+    }
+  }
+}`;
+
 export {
   addPaymentMutation,
   acceptPayment,
   changePaymentStatus,
   changePaymentMethod,
+  changeOriginalAgent,
 };

@@ -20,6 +20,7 @@ import {
 import { createValidator, translateLabels } from 'utils/validator';
 import renderLabel from 'utils/renderLabel';
 import Permissions from 'utils/permissions';
+import ChangeOriginalAgent from 'components/ChangeOriginalAgent';
 import Amount from '../Amount';
 import { UncontrolledTooltip } from '../Reactstrap/Uncontrolled';
 import Uuid from '../Uuid';
@@ -187,6 +188,7 @@ class PaymentDetailModal extends PureComponent {
         amount,
         currency,
         status,
+        originalAgent,
       },
       playerProfile: {
         loading,
@@ -213,7 +215,15 @@ class PaymentDetailModal extends PureComponent {
               <ShortLoader height={25} />
             </When>
             <Otherwise>
-              <ModalPlayerInfo playerProfile={error || profile} />
+              <ModalPlayerInfo
+                playerProfile={error || profile}
+                renderMiddleColumn={() => (
+                  <ChangeOriginalAgent
+                    paymentId={paymentId}
+                    initialValues={{ agentId: originalAgent ? originalAgent.uuid : null }}
+                  />
+                )}
+              />
               <div className="modal-body-tabs">
                 <div className="modal-body-tabs__item">
                   <div className="modal-tab-label">
