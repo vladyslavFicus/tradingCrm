@@ -57,7 +57,7 @@
     "keymirror": "^0.1.1",
     "lodash": "^4.17.4",
     "moment": "^2.18.1",
-    "newage-react-datetime": "^1.0.9",
+    "newage-react-datetime-improved": "^1.0.11",
     "normalize.css": "8.0.0",
     "object-assign": "^4.1.1",
     "phantomjs-polyfill": "^0.0.2",

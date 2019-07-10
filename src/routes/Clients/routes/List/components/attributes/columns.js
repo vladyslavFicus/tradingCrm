@@ -211,6 +211,32 @@ export default (
     </Fragment>
   ),
 }, {
+  name: 'lastNote',
+  header: I18n.t('CLIENTS.LIST.GRID_HEADER.LAST_NOTE'),
+  render: ({ playerUUID, lastNote, lastNoteDate }) => (
+    <Choose>
+      <When condition={lastNote}>
+        <div className="max-width-200">
+          <div className="font-weight-700">{moment.utc(lastNoteDate).local().format('DD.MM.YYYY')}</div>
+          <div className="font-size-11">{moment.utc(lastNoteDate).local().format('HH:mm:ss')}</div>
+          <div className="text-truncate-2-lines max-height-35 font-size-11" id={`${playerUUID}-note`}>{lastNote}</div>
+          <UncontrolledTooltip
+            placement="bottom-start"
+            target={`${playerUUID}-note`}
+            delay={{
+              show: 350, hide: 250,
+            }}
+          >
+            {lastNote}
+          </UncontrolledTooltip>
+        </div>
+      </When>
+      <Otherwise>
+        <GridEmptyValue I18n={I18n} />
+      </Otherwise>
+    </Choose>
+  ),
+}, {
   name: 'status',
   header: I18n.t('CLIENTS.LIST.GRID_HEADER.STATUS'),
   render: ({ profileStatus, profileStatusDate }) => (

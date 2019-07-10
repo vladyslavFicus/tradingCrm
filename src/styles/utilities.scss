@@ -224,7 +224,7 @@ table {
   tbody tr.selected {
     background-color: rgba(81, 135, 189, 0.1);
   }
-  tr th, tr td {
+  tr th:first-child, tr td:first-child {
     padding-left: 25px;
     padding-right: 25px;
     position: relative;

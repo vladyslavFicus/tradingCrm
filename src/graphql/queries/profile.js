@@ -178,6 +178,14 @@ const clientsQuery = gql`query ${queryNames.clientsQuery}(
   $tradingBalanceTo: Float,
   $registrationDateFrom: String,
   $registrationDateTo: String,
+  $lastNoteDateFrom: String,
+  $lastNoteDateTo: String,
+  $lastTradeDateFrom: String,
+  $lastTradeDateTo: String,
+  $lastLoginDateFrom: String,
+  $lastLoginDateTo: String,
+  $lastModificationDateFrom: String,
+  $lastModificationDateTo: String,
   $searchValue: String,
   $status: String,
   $repIds: [String],
@@ -198,6 +206,14 @@ const clientsQuery = gql`query ${queryNames.clientsQuery}(
     countries: $countries,
     registrationDateFrom: $registrationDateFrom,
     registrationDateTo: $registrationDateTo,
+    lastNoteDateFrom: $lastNoteDateFrom,
+    lastNoteDateTo: $lastNoteDateTo,
+    lastTradeDateFrom: $lastTradeDateFrom,
+    lastTradeDateTo: $lastTradeDateTo,
+    lastLoginDateFrom: $lastLoginDateFrom,
+    lastLoginDateTo: $lastLoginDateTo,
+    lastModificationDateFrom: $lastModificationDateFrom,
+    lastModificationDateTo: $lastModificationDateTo,
     searchValue: $searchValue,
     status: $status,
     repIds: $repIds,
@@ -309,6 +325,8 @@ const clientsQuery = gql`query ${queryNames.clientsQuery}(
             sessionId
             uuid
           }
+          lastNote
+          lastNoteDate
         }
       }
     }

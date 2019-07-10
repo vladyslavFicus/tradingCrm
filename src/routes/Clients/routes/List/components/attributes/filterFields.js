@@ -255,6 +255,118 @@ export default (
     isDateRangeEndValue: true,
   }],
 }, {
+  type: fieldTypes.RANGE,
+  className: fieldClassNames.BIG,
+  label: I18n.t(filterLabels.lastNoteDate),
+  fields: [{
+    type: fieldTypes.DATE,
+    name: 'lastNoteDateFrom',
+    placeholder: I18n.t('COMMON.DATE_OPTIONS.START_DATE'),
+    closeOnSelect: false,
+    dateValidator: {
+      type: validators.START_DATE,
+      fieldName: 'lastNoteDateTo',
+    },
+    withTime: true,
+    timePresets: true,
+  }, {
+    type: fieldTypes.DATE,
+    name: 'lastNoteDateTo',
+    placeholder: I18n.t('COMMON.DATE_OPTIONS.END_DATE'),
+    closeOnSelect: false,
+    dateValidator: {
+      type: validators.END_DATE,
+      fieldName: 'lastNoteDateFrom',
+    },
+    withTime: true,
+    timePresets: true,
+    isDateRangeEndValue: true,
+  }],
+}, {
+  type: fieldTypes.RANGE,
+  className: fieldClassNames.BIG,
+  label: I18n.t(filterLabels.lastTradeDate),
+  fields: [{
+    type: fieldTypes.DATE,
+    name: 'lastTradeDateFrom',
+    placeholder: I18n.t('COMMON.DATE_OPTIONS.START_DATE'),
+    closeOnSelect: false,
+    dateValidator: {
+      type: validators.START_DATE,
+      fieldName: 'lastTradeDateTo',
+    },
+    withTime: true,
+    timePresets: true,
+  }, {
+    type: fieldTypes.DATE,
+    name: 'lastTradeDateTo',
+    placeholder: I18n.t('COMMON.DATE_OPTIONS.END_DATE'),
+    closeOnSelect: false,
+    dateValidator: {
+      type: validators.END_DATE,
+      fieldName: 'lastTradeDateFrom',
+    },
+    withTime: true,
+    timePresets: true,
+    isDateRangeEndValue: true,
+  }],
+}, {
+  type: fieldTypes.RANGE,
+  className: fieldClassNames.BIG,
+  label: I18n.t(filterLabels.lastLoginDate),
+  fields: [{
+    type: fieldTypes.DATE,
+    name: 'lastLoginDateFrom',
+    placeholder: I18n.t('COMMON.DATE_OPTIONS.START_DATE'),
+    closeOnSelect: false,
+    dateValidator: {
+      type: validators.START_DATE,
+      fieldName: 'lastLoginDateTo',
+    },
+    withTime: true,
+    timePresets: true,
+  }, {
+    type: fieldTypes.DATE,
+    name: 'lastLoginDateTo',
+    placeholder: I18n.t('COMMON.DATE_OPTIONS.END_DATE'),
+    closeOnSelect: false,
+    dateValidator: {
+      type: validators.END_DATE,
+      fieldName: 'lastLoginDateFrom',
+    },
+    withTime: true,
+    timePresets: true,
+    isDateRangeEndValue: true,
+  }],
+}, {
+  type: fieldTypes.RANGE,
+  className: fieldClassNames.BIG,
+  label: I18n.t(filterLabels.lastModificationDate),
+  fields: [{
+    type: fieldTypes.DATE,
+    name: 'lastModificationDateFrom',
+    placeholder: I18n.t('COMMON.DATE_OPTIONS.START_DATE'),
+    closeOnSelect: false,
+    dateValidator: {
+      type: validators.START_DATE,
+      fieldName: 'lastModificationDateTo',
+    },
+    withTime: true,
+    timePresets: true,
+  }, {
+    type: fieldTypes.DATE,
+    name: 'lastModificationDateTo',
+    placeholder: I18n.t('COMMON.DATE_OPTIONS.END_DATE'),
+    closeOnSelect: false,
+    dateValidator: {
+      type: validators.END_DATE,
+      fieldName: 'lastModificationDateFrom',
+    },
+    withTime: true,
+    timePresets: true,
+    isDateRangeEndValue: true,
+  }],
+}, {
   type: fieldTypes.INPUT,
   inputType: 'number',
   name: 'size',
@@ -264,4 +376,3 @@ export default (
   placeholder: I18n.t('COMMON.UNLIMITED'),
   className: fieldClassNames.SMALL,
 }];
-

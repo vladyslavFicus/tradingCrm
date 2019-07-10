@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import DateTime from 'newage-react-datetime';
+import DateTime from 'newage-react-datetime-improved';
 import './DateTimeField.scss';
 import FieldLabel from '../FieldLabel';
 
@@ -126,13 +126,34 @@ class DateTimeField extends Component {
     }
 
     onChange(formatValue);
+
+    this.handleInputFieldFocus();
   };
 
-  handleInputFieldFocus = () => {
+  handleInputFieldFocus = (recalculatePickerPosition = false) => {
     if (this.inputNode) {
       this.inputNode.focus();
+
+      if (recalculatePickerPosition) {
+        this.recalculatePickerPosition();
+      }
     }
   };
+
+  /**
+   * Should be executed on next event loop tick when picker will already rendered
+   *
+   * @return {number}
+   */
+  recalculatePickerPosition = () => setTimeout(() => {
+    const pickerDOM = this._ref.componentNode.querySelector('.rdtPicker');
+
+    const pickerBoundingClientReact = pickerDOM.getBoundingClientRect();
+
+    if (pickerBoundingClientReact.left < 0) {
+      pickerDOM.style.left = '0px';
+    }
+  }, 0);
 
   renderInput = () => {
     const {
@@ -151,16 +172,21 @@ class DateTimeField extends Component {
     return (
       <div className="input-group">
         <DateTime
+          ref={(ref) => { this._ref = ref; }}
           className={pickerClassName}
           dateFormat={dateFormat}
           timeFormat={timeFormat}
           onChange={this.handleChange}
+          onViewModeChange={this.handleInputFieldFocus}
+          onNavigateBack={this.handleInputFieldFocus}
+          onNavigateForward={this.handleInputFieldFocus}
           value={this.getValue()}
           inputProps={{
             id,
             disabled,
             placeholder,
             ref: (node) => { this.inputNode = node; },
+            onMouseDown: this.recalculatePickerPosition,
           }}
           isValidDate={isValidDate}
           closeOnSelect={closeOnSelect}
@@ -171,7 +197,7 @@ class DateTimeField extends Component {
           <button
             type="button"
             className="input-group-text input-group-addon date-time-icon"
-            onClick={this.handleInputFieldFocus}
+            onClick={() => this.handleInputFieldFocus(true)}
           >
             <i className="icon icon-calendar" />
           </button>

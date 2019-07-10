@@ -2120,6 +2120,10 @@
         "REG_DATE_RANGE": "注册日期范围",
         "REG_DATE_FROM": "注册起始日期",
         "REG_DATE_TO": "注册截至日期",
+        "LAST_NOTE_DATE": "Last note date",
+        "LAST_TRADE_DATE": "Last trade date",
+        "LAST_LOGIN_DATE": "Last login date",
+        "LAST_MODIFICATION_DATE": "Last modification date",
         "BALANCE": "余额",
         "BALANCE_FROM": "起始余额",
         "BALANCE_TO": "截止余额",
@@ -3162,6 +3166,7 @@
         "SALES": "销售",
         "RETENTION": "保留",
         "REGISTRATION": "注册",
+        "LAST_NOTE": "Last note",
         "STATUS": "状态"
       }
     },

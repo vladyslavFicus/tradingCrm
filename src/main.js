@@ -1,3 +1,5 @@
+import 'styles/vendor.scss';
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import bootstrap from './bootstrap';

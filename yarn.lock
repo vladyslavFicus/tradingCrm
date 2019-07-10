@@ -7430,9 +7430,9 @@ netmask@^1.0.6:
   version "1.0.6"
   resolved "https://registry.yarnpkg.com/netmask/-/netmask-1.0.6.tgz#20297e89d86f6f6400f250d9f4f6b4c1945fcd35"
 
-newage-react-datetime@^1.0.7:
-  version "1.0.7"
-  resolved "https://registry.yarnpkg.com/newage-react-datetime/-/newage-react-datetime-1.0.7.tgz#8ed90444593f089c8964803293c4bc6d116a556f"
+newage-react-datetime-improved@^1.0.11:
+  version "1.0.11"
+  resolved "https://registry.yarnpkg.com/newage-react-datetime-improved/-/newage-react-datetime-improved-1.0.11.tgz#ba39f95f0862a5903abbda372d49065e21b776c9"
   dependencies:
     classnames "^2.2.5"
     moment "2.22.1"
@@ -7440,11 +7440,11 @@ newage-react-datetime@^1.0.7:
     prop-types "^15.6.0"
     react "16.3.2"
     react-dom "16.3.2"
-    react-onclickoutside "6.7.1"
+    react-onclickoutside "^6.8.0"
 
-newage-react-datetime@^1.0.9:
-  version "1.0.9"
-  resolved "https://registry.yarnpkg.com/newage-react-datetime/-/newage-react-datetime-1.0.9.tgz#0e09e0fb85b8f2d8ff9ea5e2c581403e74fbdc5c"
+newage-react-datetime@^1.0.7:
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/newage-react-datetime/-/newage-react-datetime-1.0.7.tgz#8ed90444593f089c8964803293c4bc6d116a556f"
   dependencies:
     classnames "^2.2.5"
     moment "2.22.1"
@@ -9133,6 +9133,10 @@ react-notification-system@^0.2.15:
 react-onclickoutside@6.7.1, react-onclickoutside@^6.5.0:
   version "6.7.1"
   resolved "https://registry.yarnpkg.com/react-onclickoutside/-/react-onclickoutside-6.7.1.tgz#6a5b5b8b4eae6b776259712c89c8a2b36b17be93"
+
+react-onclickoutside@^6.8.0:
+  version "6.8.0"
+  resolved "https://registry.yarnpkg.com/react-onclickoutside/-/react-onclickoutside-6.8.0.tgz#9f91b5b3ed59f4d9e43fd71620dc200773a4d569"
 
 react-overlays@^0.8.0, react-overlays@^0.8.3:
   version "0.8.3"

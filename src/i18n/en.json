@@ -2121,6 +2121,10 @@
         "REG_DATE_RANGE": "Registration date range",
         "REG_DATE_FROM": "Registered From",
         "REG_DATE_TO": "Registered To",
+        "LAST_NOTE_DATE": "Last note date",
+        "LAST_TRADE_DATE": "Last trade date",
+        "LAST_LOGIN_DATE": "Last login date",
+        "LAST_MODIFICATION_DATE": "Last modification date",
         "BALANCE": "Balance",
         "BALANCE_FROM": "Balance From",
         "BALANCE_TO": "Balance To",
@@ -3164,6 +3168,7 @@
         "SALES": "Sales",
         "RETENTION": "Retention",
         "REGISTRATION": "Registration",
+        "LAST_NOTE": "Last note",
         "STATUS": "Status"
       }
     },

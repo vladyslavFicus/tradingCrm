@@ -40,7 +40,7 @@ class GridPlayerInfo extends Component {
       <GridPlayerInfoPlaceholder ready={!!profile} firstLaunchOnly>
         {
           !!profile &&
-          <div>
+          <div className="max-width-200">
             <div
               className={classNames(mainInfoClassName, { 'cursor-pointer': !!clickable })}
               id={`${id ? `${id}-` : ''}players-list-${profile.playerUUID}-main`}
