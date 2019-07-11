@@ -1,4 +1,4 @@
-FROM registry.newage.io/newage/frontend:3.0.0
+FROM registry.flcn.pro/newage/frontend:3.0.0
 
 RUN mkdir /etc/nginx/logs && touch /etc/nginx/logs/static.log
 

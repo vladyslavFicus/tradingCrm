@@ -4,7 +4,7 @@
 
 "@hrzn/express-token-middleware@^1.0.14":
   version "1.0.15"
-  resolved "https://nexus.newage.io/repository/hrzn-npm/@hrzn/express-token-middleware/-/express-token-middleware-1.0.15.tgz#e9d0071455ea472db30e4f79f4e951ca02672ead"
+  resolved "https://nexus.flcn.pro/repository/hrzn-npm/@hrzn/express-token-middleware/-/express-token-middleware-1.0.15.tgz#e9d0071455ea472db30e4f79f4e951ca02672ead"
   dependencies:
     "@hrzn/sdk-auth" "1.2.4"
     co-body "^6.0.0"
@@ -16,7 +16,7 @@
 
 "@hrzn/sdk-auth@1.2.4":
   version "1.2.4"
-  resolved "https://nexus.newage.io/repository/hrzn-npm/@hrzn/sdk-auth/-/sdk-auth-1.2.4.tgz#597e90bb8f315bff864838d68244ec10c80be585"
+  resolved "https://nexus.flcn.pro/repository/hrzn-npm/@hrzn/sdk-auth/-/sdk-auth-1.2.4.tgz#597e90bb8f315bff864838d68244ec10c80be585"
   dependencies:
     "@hrzn/sdk-core" "^1.2.2"
     "@hrzn/sdk-utils" "^1.1.15"
@@ -24,7 +24,7 @@
 
 "@hrzn/sdk-core@^1.2.2":
   version "1.2.2"
-  resolved "https://nexus.newage.io/repository/hrzn-npm/@hrzn/sdk-core/-/sdk-core-1.2.2.tgz#1ff2c711c5c253dbac8a1348cbff2e1c11f4bfe5"
+  resolved "https://nexus.flcn.pro/repository/hrzn-npm/@hrzn/sdk-core/-/sdk-core-1.2.2.tgz#1ff2c711c5c253dbac8a1348cbff2e1c11f4bfe5"
   dependencies:
     "@hrzn/sdk-utils" "^1.1.15"
     es6-promise "^4.2.5"
@@ -34,13 +34,13 @@
 
 "@hrzn/sdk-utils@^1.1.15":
   version "1.1.15"
-  resolved "https://nexus.newage.io/repository/hrzn-npm/@hrzn/sdk-utils/-/sdk-utils-1.1.15.tgz#129359bf8d0db21115478cebef6d7ef57cb6fd7b"
+  resolved "https://nexus.flcn.pro/repository/hrzn-npm/@hrzn/sdk-utils/-/sdk-utils-1.1.15.tgz#129359bf8d0db21115478cebef6d7ef57cb6fd7b"
   dependencies:
     loose-envify "^1.4.0"
 
 "@hrzn/zookeeper@1.0.3-alpha.53":
   version "1.0.3-alpha.53"
-  resolved "https://nexus.newage.io/repository/hrzn-npm/@hrzn/zookeeper/-/zookeeper-1.0.3-alpha.53.tgz#aef9aeff228c9e766fafcc98c2d3478e75c76a07"
+  resolved "https://nexus.flcn.pro/repository/hrzn-npm/@hrzn/zookeeper/-/zookeeper-1.0.3-alpha.53.tgz#aef9aeff228c9e766fafcc98c2d3478e75c76a07"
   dependencies:
     lodash "^4.17.11"
     loose-envify "^1.4.0"
