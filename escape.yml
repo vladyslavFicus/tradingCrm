@@ -1,7 +1,7 @@
 name: hrzn/forex_backoffice
 version: 0.0.@
 extends:
-- hrzn/escape_docker-latest
+- devops/escape_docker-latest
 
 inputs:
 - id: docker_build_path
