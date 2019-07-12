@@ -12,7 +12,7 @@ WORKDIR $BUILD_PATH
 ADD ./dist $BUILD_PATH
 ADD ./entrypoint.sh /opt/entrypoint.sh
 
-COPY ./.yarnrc /opt/docker/
+COPY ./.npmrc /opt/docker/
 COPY ./build/scripts/docker/ /opt/docker/
 COPY ./build/scripts/docker/nginx.conf $NGINX_CONF_OUTPUT
 
