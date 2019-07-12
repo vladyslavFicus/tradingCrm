@@ -3,7 +3,7 @@ import { graphql, compose } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
 import { get } from 'lodash';
 import { connect } from 'react-redux';
-import { updateUser } from 'graphql/mutations/hierarchy';
+import { updateUser, removeOperatorFromBranch } from 'graphql/mutations/hierarchy';
 import { withNotifications } from 'components/HighOrder';
 import { getUserBranchHierarchy } from 'graphql/queries/hierarchy';
 import { branchTypes as branchNames } from 'constants/hierarchyTypes';
@@ -19,6 +19,9 @@ export default compose(
   withNotifications,
   graphql(updateUser, {
     name: 'updateOperatorHierarchy',
+  }),
+  graphql(removeOperatorFromBranch, {
+    name: 'removeOperatorFromBranch',
   }),
   graphql(getUserBranchHierarchy, {
     name: 'branchHierarchy',

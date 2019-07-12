@@ -80,16 +80,16 @@ class HierarchyProfileForm extends Component {
   handleRemoveBranch = branchId => async () => {
     const {
       notify,
-      updateOperatorHierarchy,
+      removeOperatorFromBranch,
       initialValues: { parentBranches },
       match: { params: { id } },
       reset,
     } = this.props;
 
-    const { data: { hierarchy: { updateUser: { error } } } } = await updateOperatorHierarchy({
+    const { data: { hierarchy: { removeOperatorFromBranch: { error } } } } = await removeOperatorFromBranch({
       variables: {
         operatorId: id,
-        unassignFromBranch: branchId,
+        branchId,
       },
     });
 

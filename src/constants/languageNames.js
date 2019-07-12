@@ -24,4 +24,7 @@ export default [{
 }, {
   languageName: I18n.t('COMMON.LANGUAGE_NAME.AR'),
   languageCode: 'ar',
+}, {
+  languageName: I18n.t('COMMON.LANGUAGE_NAME.TR'),
+  languageCode: 'tr',
 }];

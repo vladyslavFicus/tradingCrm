@@ -68,7 +68,7 @@ const createTeam = gql`mutation createTeam(
   }
 }`;
 
-const addOperatorToBranch = gql`mutation addOperator(
+const addOperatorToBranch = gql`mutation addOperatorToBranch(
   $branchId: String!
   $operatorId: String!
 ) {
@@ -86,26 +86,32 @@ const addOperatorToBranch = gql`mutation addOperator(
   }
 }`;
 
+const removeOperatorFromBranch = gql`mutation removeOperatorFromBranch(
+$branchId: String!
+$operatorId: String!
+) {
+  hierarchy {
+    removeOperatorFromBranch (
+      branchId: $branchId
+      operatorId: $operatorId
+    ) {
+      data
+      error {
+        error
+        fields_errors
+      }
+    }
+  }
+}`;
+
 const updateUser = gql`mutation updateUser(
   $operatorId: String!
   $userType: String
-  $assignToBranch: String
-  $assignToOperator: String
-  $unassignFromBranch: String
-  $unassignFromOperator: String
-  $parentBranches: [String]
-  $parentUsers: [String]
 ) {
   hierarchy {
     updateUser (
       operatorId: $operatorId
       userType: $userType
-      assignToBranch: $assignToBranch
-      assignToOperator: $assignToOperator
-      unassignFromBranch: $unassignFromBranch
-      unassignFromOperator: $unassignFromOperator
-      parentBranches: $parentBranches
-      parentUsers: $parentUsers
     ) {
       error {
         error
@@ -121,5 +127,6 @@ export {
   createDesk,
   createTeam,
   addOperatorToBranch,
+  removeOperatorFromBranch,
   updateUser,
 };
