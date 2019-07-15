@@ -1037,6 +1037,7 @@
       "DEPOSIT": "Deposit",
       "WITHDRAW": "Withdraw",
       "CONFISCATE": "Confiscate",
+      "FEE": "Fee",
       "TRANSFER_IN": "Transfer in",
       "TRANSFER_OUT": "Transfer Out",
       "CREDIT_IN": "Credit in",

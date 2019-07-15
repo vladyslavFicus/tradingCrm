@@ -139,6 +139,11 @@ const tradingTypesLabelsWithColor = {
     label: 'COMMON.PAYMENT_TYPE.WITHDRAW',
     color: 'color-danger',
   },
+  // Special type for transaction with type FEE
+  FEE: {
+    label: 'COMMON.PAYMENT_TYPE.FEE',
+    color: 'color-success',
+  },
   [tradingTypes.TRANSFER_IN]: {
     label: 'COMMON.PAYMENT_TYPE.TRANSFER_IN',
     color: 'color-info',

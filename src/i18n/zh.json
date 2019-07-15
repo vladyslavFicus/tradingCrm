@@ -1036,6 +1036,7 @@
       "DEPOSIT": "入金",
       "WITHDRAW": "提款",
       "CONFISCATE": "没收",
+      "FEE": "费用",
       "TRANSFER_IN": "转入",
       "TRANSFER_OUT": "转出",
       "CREDIT_IN": "存入",
