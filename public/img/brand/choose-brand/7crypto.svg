@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="120px" height="97px" viewBox="0 0 120 97" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 54.1 (76490) - https://sketchapp.com -->
+    <title>BO_Brand_logo</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="88.8144319%" y1="2.86064442%" x2="14.3533672%" y2="71.7335737%" id="linearGradient-1">
+            <stop stop-color="#42A5F4" offset="0%"></stop>
+            <stop stop-color="#1875D1" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="88.8576109%" y1="50.0008115%" x2="5.97781035%" y2="50.0008115%" id="linearGradient-2">
+            <stop stop-color="#1A5D1F" offset="0%"></stop>
+            <stop stop-color="#2D7C31" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="-0.000198004178%" y1="50.0005162%" x2="100.000065%" y2="50.0005162%" id="linearGradient-3">
+            <stop stop-color="#66BA69" offset="0%"></stop>
+            <stop stop-color="#388E3B" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="20.1222133%" y1="50.002517%" x2="83.6824058%" y2="50.002517%" id="linearGradient-4">
+            <stop stop-color="#86C888" offset="0%"></stop>
+            <stop stop-color="#64B867" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="21.0287127%" y1="50.002517%" x2="81.0990646%" y2="50.002517%" id="linearGradient-5">
+            <stop stop-color="#8BCB8D" offset="0%"></stop>
+            <stop stop-color="#83C685" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="-0.00780229853%" y1="50.002517%" x2="100.001931%" y2="50.002517%" id="linearGradient-6">
+            <stop stop-color="#A5D6A7" offset="0%"></stop>
+            <stop stop-color="#80C683" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="BO_Brand_logo" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group-2" transform="translate(6.000000, 1.000000)">
+            <path d="M74.0547829,31.1732174 L38.7364884,67.127 L54.716814,94.924 L97.7706279,51.0728261 L104.23376,44.4740435 C106.573659,42.1362174 106.980922,38.9153043 106.014605,36.2652174 L106.014605,36.2652174 L105.912581,35.9529565 C104.792814,33.2516522 102.248868,31.1732174 98.8381395,31.1732174 L98.8381395,31.1732174 L74.0547829,31.1732174 Z" id="Fill-18" fill="url(#linearGradient-1)"></path>
+            <path d="M91.611907,13.3008261 L85.1487752,19.8996087 L74.0547829,31.1732174 L98.8381395,31.1732174 C102.248868,31.1732174 104.792814,33.2516522 105.912581,35.9529565 L105.912581,35.9529565 L93.3429845,4.98791304 C94.3598992,7.68921739 94.004062,10.9109565 91.611907,13.3008261" id="Fill-21" fill="url(#linearGradient-2)"></path>
+            <path d="M47.4963876,-5.68434189e-14 L56.4536977,15.5866087 L39.755062,15.5866087 L48.7115426,31.1732174 L74.0547829,31.1732174 L85.1487752,19.8987826 L91.611907,13.3008261 C94.004062,10.9109565 94.3598992,7.68921739 93.3429845,4.98791304 L93.3429845,4.98791304 L93.2915581,4.83178261 C92.2232171,2.13047826 89.627845,-5.68434189e-14 86.2179457,-5.68434189e-14 L86.2179457,-5.68434189e-14 L47.4963876,-5.68434189e-14 Z" id="Fill-24" fill="url(#linearGradient-3)"></path>
+            <polygon id="Fill-27" fill="url(#linearGradient-4)" points="13.9406899 -5.5067062e-14 22.898 15.5866087 39.5949767 15.5866087 30.6393256 -5.5067062e-14"></polygon>
+            <polygon id="Fill-30" fill="url(#linearGradient-5)" points="14.6565116 20.6934783 20.6327519 31.0922609 31.7731938 31.0922609 25.7977829 20.6934783"></polygon>
+            <polygon id="Fill-33" fill="url(#linearGradient-6)" points="-1.33226763e-14 8.43847826 4.10581395 15.5866087 11.7641938 15.5866087 7.65672093 8.43847826"></polygon>
+        </g>
+    </g>
+</svg>

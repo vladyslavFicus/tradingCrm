@@ -27,6 +27,13 @@ const brands = keyMirror({
   kronosinvest: null,
   glad2trade: null,
   rainbowgroupltd: null,
+  snpbroker: null,
+  virtualstocks: null,
+  '7crypto': null,
+  royalfunds: null,
+  mycapital: null,
+  wisefunds: null,
+  aurumpro: null,
 });
 
 const departments = keyMirror({
@@ -149,6 +156,34 @@ const brandsConfig = {
   [brands.rainbowgroupltd]: {
     name: 'Rainbow Group LTD',
     image: { src: '/img/brand/choose-brand/rainbowgroupltd.svg' },
+  },
+  [brands.snpbroker]: {
+    name: 'Snpbroker',
+    image: { src: '/img/brand/choose-brand/snpbroker.svg' },
+  },
+  [brands.virtualstocks]: {
+    name: 'Virtual Stocks',
+    image: { src: '/img/brand/choose-brand/virtualstocks.svg' },
+  },
+  [brands['7crypto']]: {
+    name: '7crypto',
+    image: { src: '/img/brand/choose-brand/7crypto.svg' },
+  },
+  [brands.royalfunds]: {
+    name: 'Royal Funds',
+    image: { src: '/img/brand/choose-brand/royalfunds.svg' },
+  },
+  [brands.mycapital]: {
+    name: 'Mycapital',
+    image: { src: '/img/brand/choose-brand/mycapital.svg' },
+  },
+  [brands.wisefunds]: {
+    name: 'Wisefunds',
+    image: { src: '/img/brand/choose-brand/wisefunds.svg' },
+  },
+  [brands.rainbowgroupltd]: {
+    name: 'AurumPro',
+    image: { src: '/img/brand/choose-brand/aurumpro.svg' },
   },
 };
 const departmentsConfig = {
