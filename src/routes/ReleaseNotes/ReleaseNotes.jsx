@@ -3,6 +3,49 @@ import React, { Fragment } from 'react';
 const ReleaseNotes = () => (
   <Fragment>
     <h1>Falcon CRM<br />Release notes</h1>
+    <h1>11/July/19 - Version 25</h1>
+    <h2>What has been done</h2>
+    <ul>
+      <li>
+        <p>Option to select all items in multi select filters added</p>
+      </li>
+      <li>
+        <p>Secondary email field in clients profile added</p>
+      </li>
+      <li>
+        <p>Document upload texts on Client portal changed and translated</p>
+      </li>
+      <li>
+        <p>Trading accounts are creating with client's transliterated full name</p>
+      </li>
+      <li>
+        <p>New registered clients get KYC Status "No KYC"</p>
+      </li>
+      <li>
+        <p>Restricted countries removed from &ldquo;Country&rdquo; dropdown on Client portal sign up form</p>
+      </li>
+      <li>
+        <p>Hierarchy path on assigned branches in operator&rsquo;s profile</p>
+      </li>
+      <li>
+        <p>Autologin url for Affiliate API</p>
+      </li>
+      <li>
+        <p>Achievements on Client portal&rsquo;s dashboard page added</p>
+      </li>
+    </ul>
+    <h2>Bugs &amp; Fixes</h2>
+    <ul>
+      <li>
+        <p>Sales and retention managers is stored after applying retention rule</p>
+      </li>
+      <li>
+        <p>User created improved</p>
+      </li>
+      <li>
+        <p>Fix on removing a hierarchy branch on operators profile</p>
+      </li>
+    </ul>
     <h1>27/June/19 - Version 24</h1>
     <h2>What has been done</h2>
     <ul>

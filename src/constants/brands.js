@@ -34,6 +34,8 @@ const brands = keyMirror({
   mycapital: null,
   wisefunds: null,
   aurumpro: null,
+  creditwise: null,
+  stockfunds: null,
 });
 
 const departments = keyMirror({
@@ -181,9 +183,17 @@ const brandsConfig = {
     name: 'Wisefunds',
     image: { src: '/img/brand/choose-brand/wisefunds.svg' },
   },
-  [brands.rainbowgroupltd]: {
-    name: 'AurumPro',
+  [brands.aurumpro]: {
+    name: 'Aurum Pro',
     image: { src: '/img/brand/choose-brand/aurumpro.svg' },
+  },
+  [brands.creditwise]: {
+    name: 'Credit Wise',
+    image: { src: '/img/brand/choose-brand/creditwise.svg' },
+  },
+  [brands.stockfunds]: {
+    name: 'Stock Funds',
+    image: { src: '/img/brand/choose-brand/stockfunds.svg' },
   },
 };
 const departmentsConfig = {
