@@ -24,6 +24,7 @@ import Questionnaire from '../Questionnaire';
 
 const sendActivationLinkPermission = new Permissions([permissions.USER_PROFILE.SEND_ACTIVATION_LINK]);
 const changePasswordPermission = new Permissions([permissions.USER_PROFILE.CHANGE_PASSWORD]);
+const resetPasswordPermission = new Permissions([permissions.OPERATORS.RESET_PASSWORD]);
 
 class Header extends Component {
   static propTypes = {
@@ -139,6 +140,7 @@ class Header extends Component {
 
     const { permissions: currentPermissions } = this.context;
     const fullName = [firstName, lastName].filter(i => i).join(' ');
+    const isInactive = profileStatus === statuses.INACTIVE;
     const {
       baseCurrencyBalance,
       baseCurrencyCredit,
@@ -211,21 +213,17 @@ class Header extends Component {
                       id: 'reset-password-option',
                       label: I18n.t('PLAYER_PROFILE.PROFILE.ACTIONS_DROPDOWN.RESET_PASSWORD'),
                       onClick: onResetPasswordClick,
+                      visible: resetPasswordPermission.check(currentPermissions),
                     },
                     {
                       label: I18n.t('PLAYER_PROFILE.PROFILE.ACTIONS_DROPDOWN.SEND_ACTIVATION_LINK'),
                       onClick: onProfileActivateClick,
-                      visible: (
-                        sendActivationLinkPermission.check(currentPermissions)
-                        && profileStatus === statuses.INACTIVE
-                      ),
+                      visible: sendActivationLinkPermission.check(currentPermissions) && isInactive,
                     },
                     {
                       label: I18n.t('PLAYER_PROFILE.PROFILE.ACTIONS_DROPDOWN.CHANGE_PASSWORD'),
                       onClick: onChangePasswordClick,
-                      visible: (
-                        changePasswordPermission.check(currentPermissions)
-                      ),
+                      visible: changePasswordPermission.check(currentPermissions),
                     },
                     {
                       label: I18n.t('PLAYER_PROFILE.PROFILE.ACTIONS_DROPDOWN.SHARE_PROFILE'),
