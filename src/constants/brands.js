@@ -27,7 +27,7 @@ const brands = keyMirror({
   kronosinvest: null,
   glad2trade: null,
   rainbowgroupltd: null,
-  snpbroker: null,
+  snpbrokerpsp: null,
   virtualstocks: null,
   '7crypto': null,
   royalfunds: null,
@@ -159,9 +159,9 @@ const brandsConfig = {
     name: 'Rainbow Group LTD',
     image: { src: '/img/brand/choose-brand/rainbowgroupltd.svg' },
   },
-  [brands.snpbroker]: {
+  [brands.snpbrokerpsp]: {
     name: 'Snpbroker',
-    image: { src: '/img/brand/choose-brand/snpbroker.svg' },
+    image: { src: '/img/brand/choose-brand/snpbrokerpsp.svg' },
   },
   [brands.virtualstocks]: {
     name: 'Virtual Stocks',
