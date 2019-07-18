@@ -206,19 +206,25 @@ class Personal extends PureComponent {
               />
             </If>
             <If condition={tradingProfile.convertedFromLeadUuid}>
-              <strong>{I18n.t('CLIENT_PROFILE.DETAILS.CONVERTED_FROM_LEAD')}</strong>
-              {': '}
-              <Uuid uuid={tradingProfile.convertedFromLeadUuid} />
+              <div>
+                <strong>{I18n.t('CLIENT_PROFILE.DETAILS.CONVERTED_FROM_LEAD')}</strong>
+                {': '}
+                <Uuid uuid={tradingProfile.convertedFromLeadUuid} />
+              </div>
             </If>
             <If condition={tradingProfile.migrationId}>
-              <strong>{I18n.t('CLIENT_PROFILE.DETAILS.MIGRATION_ID')}</strong>
-              {': '}
-              <Uuid uuid={tradingProfile.migrationId} />
+              <div>
+                <strong>{I18n.t('CLIENT_PROFILE.DETAILS.MIGRATION_ID')}</strong>
+                {': '}
+                <Uuid uuid={tradingProfile.migrationId} />
+              </div>
             </If>
             <If condition={tradingProfile.fnsStatus}>
-              <strong>{I18n.t('CLIENT_PROFILE.DETAILS.FNS_STATUS')}</strong>
-              {': '}
-              <Uuid uuid={tradingProfile.fnsStatus} />
+              <div>
+                <strong>{I18n.t('CLIENT_PROFILE.DETAILS.FNS_STATUS')}</strong>
+                {': '}
+                <Uuid uuid={tradingProfile.fnsStatus} />
+              </div>
             </If>
             <If condition={!loading}>
               <PermissionContent permissions={permissions.USER_PROFILE.CHANGE_FATCA_STATUS}>
