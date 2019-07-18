@@ -24,6 +24,32 @@ const createTradingAccountMutation = gql`mutation createTradingAccount(
   }
 }`;
 
+const updateTradingAccountMutation = gql`mutation updateTradingAccount(
+  $name: String
+  $mode: String
+  $currency: String
+  $isReadOnly: Boolean
+  $profileId: String!
+  $login: Int!
+) {
+  tradingAccount {
+    update(
+      profileId: $profileId,
+      login: $login,
+      name: $name,
+      mode: $mode,
+      currency: $currency,
+      isReadOnly: $isReadOnly,
+    ) {
+      success
+      error {
+        error
+        fields_errors
+      }
+    }
+  }
+}`;
+
 const tradingAccountChangePasswordMutation = gql`mutation tradingAccountChangePassword(
   $login: Int!
   $password: String!
@@ -41,5 +67,6 @@ const tradingAccountChangePasswordMutation = gql`mutation tradingAccountChangePa
 
 export {
   createTradingAccountMutation,
+  updateTradingAccountMutation,
   tradingAccountChangePasswordMutation,
 };

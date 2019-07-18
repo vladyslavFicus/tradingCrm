@@ -3095,10 +3095,19 @@
         "SERVER": "服务器",
         "BALANCE/EQUITY": "余额 / 净值",
         "LEVERAGE": "杠杆",
-        "CREDIT": "存款金额"
+        "CREDIT": "存款金额",
+        "TRADING_STATUS": "交易状态"
+      },
+      "TRADING_STATUS": {
+        "DISABLED": "禁用",
+        "ENABLED": "启用",
+        "UPDATED_BY": "达%{updatedBy}",
+        "UPDATED_AT": "在 %{updatedAt}"
       },
       "ACTIONS_DROPDOWN": {
-        "CHANGE_PASSWORD": "更改密码"
+        "CHANGE_PASSWORD": "更改密码",
+        "DISABLE": "Disable",
+        "ENABLE": "Enable"
       },
       "MODAL_CREATE": {
         "TITLE": "新交易账户",

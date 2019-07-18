@@ -3096,10 +3096,19 @@
         "SERVER": "Server",
         "BALANCE/EQUITY": "Balance / Equity",
         "LEVERAGE": "Leverage",
-        "CREDIT": "Credit"
+        "CREDIT": "Credit",
+        "TRADING_STATUS": "Trading status"
+      },
+      "TRADING_STATUS": {
+        "DISABLED": "Disabled",
+        "ENABLED": "Enabled",
+        "UPDATED_BY": "by %{updatedBy}",
+        "UPDATED_AT": "at %{updatedAt}"
       },
       "ACTIONS_DROPDOWN": {
-        "CHANGE_PASSWORD": "Change password"
+        "CHANGE_PASSWORD": "Change password",
+        "DISABLE": "Disable",
+        "ENABLE": "Enable"
       },
       "MODAL_CREATE": {
         "TITLE": "New trading account",

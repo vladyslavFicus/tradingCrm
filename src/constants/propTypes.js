@@ -548,6 +548,12 @@ PropTypes.mt4User = PropTypes.shape({
   group: PropTypes.string,
   margin: PropTypes.number,
   createdBy: PropTypes.string,
+  isReadOnly: PropTypes.bool,
+  readOnlyUpdateTime: PropTypes.string,
+  readOnlyUpdatedBy: PropTypes.shape({
+    _id: PropTypes.string,
+    fullName: PropTypes.string,
+  }),
 });
 PropTypes.tradingProfile = PropTypes.shape({
   isTestUser: PropTypes.bool,

@@ -137,6 +137,12 @@ const clientQuery = gql`query profileData($playerUUID: String!){
           margin
           createdBy
           credit
+          isReadOnly
+          readOnlyUpdateTime
+          readOnlyUpdatedBy {
+            _id
+            fullName
+          }
         }
         firstDepositDate
         lastDepositDate

@@ -23,6 +23,7 @@ class View extends PureComponent {
       tradingAccountAddModal: PropTypes.modalType,
       tradingAccountChangePasswordModal: PropTypes.modalType,
     }).isRequired,
+    updateTradingAccount: PropTypes.func.isRequired,
   };
 
   static contextTypes = {
@@ -54,12 +55,24 @@ class View extends PureComponent {
     });
   };
 
-  renderActions = ({ login }) => (
+  handleSetTradingAccountReadonly = (login, isReadOnly) => () => this.props.updateTradingAccount({
+    variables: {
+      profileId: get(this.props.playerProfile, 'playerProfile.data.playerUUID'),
+      login,
+      isReadOnly,
+    },
+  }).then(() => this.props.playerProfile.refetch());
+
+  renderActions = ({ login, isReadOnly }) => (
     <ActionsDropDown
       items={[
         {
           label: I18n.t('CLIENT_PROFILE.ACCOUNTS.ACTIONS_DROPDOWN.CHANGE_PASSWORD'),
           onClick: () => this.props.modals.tradingAccountChangePasswordModal.show({ login }),
+        },
+        {
+          label: I18n.t(`CLIENT_PROFILE.ACCOUNTS.ACTIONS_DROPDOWN.${!isReadOnly ? 'DISABLE' : 'ENABLE'}`),
+          onClick: this.handleSetTradingAccountReadonly(login, !isReadOnly),
         },
       ]}
     />

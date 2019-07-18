@@ -2639,7 +2639,14 @@
         "TRADING_ACC": "",
         "SERVER": "",
         "BALANCE/EQUITY": "",
-        "LEVERAGE": ""
+        "LEVERAGE": "",
+        "TRADING_STATUS": "Статус трейдинга"
+      },
+      "TRADING_STATUS": {
+        "DISABLED": "Включен",
+        "ENABLED": "Отключен",
+        "UPDATED_BY": "кем: %{updatedBy}",
+        "UPDATED_AT": "когда: %{updatedAt}"
       },
       "ADD_TRADING_ACC": "",
       "MODAL_CREATE": {
@@ -2651,7 +2658,9 @@
         "SUCCESSFULLY_CREATED": ""
       },
       "ACTIONS_DROPDOWN": {
-        "CHANGE_PASSWORD": ""
+        "CHANGE_PASSWORD": "",
+        "DISABLE": "Отключить",
+        "ENABLE": "Включить"
       },
       "MODAL_CHANGE_PASSWORD": {
         "TITLE": "",

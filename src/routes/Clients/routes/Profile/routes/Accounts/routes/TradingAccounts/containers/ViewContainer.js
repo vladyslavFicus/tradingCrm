@@ -5,6 +5,7 @@ import { clientQuery } from '../../../../../../../../../graphql/queries/profile'
 import View from '../components/View';
 import TradingAccountAddModalContainer from './TradingAccountAddModalContainer';
 import TradingAccountChangePasswordModalContainer from './TradingAccountChangePasswordModalContainer';
+import { updateTradingAccountMutation } from '../../../../../../../../../graphql/mutations/tradingAccount';
 
 const mapStateToProps = ({
   i18n: { locale },
@@ -18,6 +19,7 @@ export default compose(
     tradingAccountChangePasswordModal: TradingAccountChangePasswordModalContainer,
   }),
   connect(mapStateToProps),
+  graphql(updateTradingAccountMutation, { name: 'updateTradingAccount' }),
   graphql(clientQuery, {
     options: ({
       match: {
