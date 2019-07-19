@@ -180,7 +180,7 @@ const brandsConfig = {
     image: { src: '/img/brand/choose-brand/mycapital.svg' },
   },
   [brands.wisefunds]: {
-    name: 'Wisefunds',
+    name: 'Wise Funds',
     image: { src: '/img/brand/choose-brand/wisefunds.svg' },
   },
   [brands.aurumpro]: {
