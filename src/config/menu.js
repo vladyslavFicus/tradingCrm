@@ -32,7 +32,7 @@ const sidebarTopMenu = [{
   label: I18n.t('SIDEBAR.TOP_MENU.LEADS'),
   icon: 'icon-leads sidebar-nav-item__icon--leads',
   url: '/leads/list',
-  service: services.trading_lead_updater,
+  service: services.trading_lead,
   permissions: new Permissions(permissions.LEADS.GET_LEADS),
 }, {
   label: I18n.t('SIDEBAR.TOP_MENU.HIERARCHY'),

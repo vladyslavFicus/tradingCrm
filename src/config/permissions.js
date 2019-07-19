@@ -17,8 +17,8 @@ export default {
     UPDATE_STATUS: 'operator;PUT;/operators/status',
   },
   LEADS: {
-    GET_LEADS: 'trading_lead_updater;POST;/search',
-    GET_LEAD_BY_ID: 'trading_lead_updater;GET;/{id}',
+    GET_LEADS: 'trading_lead;POST;/leads/search',
+    GET_LEAD_BY_ID: 'trading_lead;GET;/lead/{id}',
   },
   HIERARCHY: {
     GET_TREE: 'trading_hierarchy;GET;/branch/hierarchy/{uuid}',
