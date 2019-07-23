@@ -147,10 +147,11 @@ export default (
   className: fieldClassNames.MEDIUM,
   multiple: true,
   disabled: operatorsLoading || operators.length === 0,
+  withoutI18n: true,
   selectOptions: operators.map(({ uuid, fullName, operatorStatus }) => (
     {
       value: uuid,
-      label: I18n.t(fullName),
+      label: fullName,
       className: operatorStatus === statuses.INACTIVE || operatorStatus === statuses.CLOSED ? 'color-inactive' : '',
     }
   )),
