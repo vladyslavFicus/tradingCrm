@@ -16,6 +16,9 @@ import Uuid from 'components/Uuid';
 import MiniProfile from 'components/MiniProfile';
 import CountryLabelWithFlag from 'components/CountryLabelWithFlag';
 import GridStatusDeskTeam from 'components/GridStatusDeskTeam';
+import GridStatus from 'components/GridStatus';
+import GridEmptyValue from 'components/GridEmptyValue';
+import renderLabel from 'utils/renderLabel';
 import ConvertedBy from '../../../components/ConvertedBy';
 import { leadStatuses } from '../../../constants';
 import { getLeadsData } from './utils';
@@ -350,28 +353,28 @@ class List extends Component {
   );
 
   renderSales = ({ salesStatus, salesAgent }) => {
-    if (!salesStatus) {
-      return (
-        <div className="font-weight-700 text-uppercase">
-          <span>&mdash;</span>
-        </div>
-      );
-    }
-
     const className = salesStatusesColor[salesStatus];
 
     return (
-      <Fragment>
-        <div className={classNames('font-weight-700 text-uppercase', { [className]: className })}>
-          {I18n.t(salesStatuses[salesStatus])}
-        </div>
-        <div className="header-block-small">
-          <GridStatusDeskTeam
-            fullName={salesAgent.fullName}
-            hierarchy={salesAgent.hierarchy}
+      <Choose>
+        <When condition={salesAgent}>
+          <GridStatus
+            colorClassName={className}
+            statusLabel={renderLabel(salesStatus, salesStatuses)}
+            info={
+              <If condition={salesAgent}>
+                <GridStatusDeskTeam
+                  fullName={salesAgent.fullName}
+                  hierarchy={salesAgent.hierarchy}
+                />
+              </If>
+            }
           />
-        </div>
-      </Fragment>
+        </When>
+        <Otherwise>
+          <GridEmptyValue I18n={I18n} />
+        </Otherwise>
+      </Choose>
     );
   };
 

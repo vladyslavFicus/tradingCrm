@@ -11,25 +11,7 @@ const leadCsvUpload = gql`mutation singleFileUpload(
         error
         fields_errors
       }
-      data {
-        id
-        brandId
-        name
-        surname
-        phone
-        mobile
-        status
-        email
-        country
-        source
-        salesAgent
-        salesStatus
-        birthDate
-        affiliate
-        gender
-        city
-        language
-      }
+      success
     }
   }
 }`;
