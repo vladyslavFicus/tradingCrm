@@ -37,6 +37,7 @@ const brands = keyMirror({
   creditwise: null,
   stockfunds: null,
   everfx: null,
+  cryptobase: null,
 });
 
 const departments = keyMirror({
@@ -199,6 +200,10 @@ const brandsConfig = {
   [brands.everfx]: {
     name: 'EverFX',
     image: { src: '/img/brand/choose-brand/everfx.svg' },
+  },
+  [brands.cryptobase]: {
+    name: 'Cryptobase',
+    image: { src: '/img/brand/choose-brand/cryptobase.svg' },
   },
 };
 const departmentsConfig = {
