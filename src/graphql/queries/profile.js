@@ -78,6 +78,8 @@ const clientQuery = gql`query profileData($playerUUID: String!){
           expirationDate
           countryOfIssue
         }
+        countrySpecificIdentifier
+        countrySpecificIdentifierType
         aquisitionRep {
           fullName
           uuid

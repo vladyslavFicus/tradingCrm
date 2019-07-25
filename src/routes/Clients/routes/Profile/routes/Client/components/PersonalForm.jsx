@@ -11,6 +11,7 @@ import { getAvailableLanguages } from 'config';
 import permissions from 'config/permissions';
 import languageNames from 'constants/languageNames';
 import countryList from 'utils/countryList';
+import { COUNTRY_SPECIFIC_IDENTIFIER_TYPES } from './constants';
 
 const genders = () => ({
   UNDEFINED: I18n.t('COMMON.GENDERS.UNDEFINED'),
@@ -28,6 +29,8 @@ const attributeLabels = () => ({
   expirationDate: I18n.t('PLAYER_PROFILE.PROFILE.PERSONAL.LABEL.PASSPORT_EXPARATION_DATE'),
   countryOfIssue: I18n.t('PLAYER_PROFILE.PROFILE.PERSONAL.LABEL.PASSPORT_ISSUE_COUNTRY'),
   passportIssueDate: I18n.t('PLAYER_PROFILE.PROFILE.PERSONAL.LABEL.PASSPORT_ISSUE_DATE'),
+  countrySpecificIdentifier: I18n.t('PLAYER_PROFILE.PROFILE.PERSONAL.LABEL.COUNTRY_SPECIFIC_IDENTIFIER'),
+  countrySpecificIdentifierType: I18n.t('PLAYER_PROFILE.PROFILE.PERSONAL.LABEL.COUNTRY_SPECIFIC_IDENTIFIER_TYPE'),
 });
 
 const AGE_YEARS_CONSTRAINT = 18;
@@ -129,6 +132,7 @@ class PersonalForm extends Component {
           </Field>
           <Field
             name="birthDate"
+            type="text"
             label={attributeLabels().birthDate}
             component={DateTimeField}
             timeFormat={null}
@@ -162,6 +166,7 @@ class PersonalForm extends Component {
           />
           <Field
             name="expirationDate"
+            type="text"
             label={attributeLabels().expirationDate}
             component={DateTimeField}
             timeFormat={null}
@@ -173,6 +178,7 @@ class PersonalForm extends Component {
         <div className="row">
           <Field
             name="countryOfIssue"
+            type="text"
             label={I18n.t(attributeLabels().countryOfIssue)}
             component={NasSelectField}
             disabled={disabled}
@@ -187,6 +193,7 @@ class PersonalForm extends Component {
           </Field>
           <Field
             name="passportIssueDate"
+            type="text"
             label={attributeLabels().passportIssueDate}
             component={DateTimeField}
             timeFormat={null}
@@ -194,6 +201,30 @@ class PersonalForm extends Component {
             disabled={disabled}
             className="col-lg-3"
           />
+        </div>
+        <div className="row">
+          <Field
+            name="countrySpecificIdentifier"
+            type="text"
+            label={attributeLabels().countrySpecificIdentifier}
+            component={InputField}
+            disabled={disabled}
+            className="col-lg-3"
+          />
+          <Field
+            name="countrySpecificIdentifierType"
+            type="text"
+            label={I18n.t(attributeLabels().countrySpecificIdentifierType)}
+            component={NasSelectField}
+            disabled={disabled}
+            className="col-lg-4"
+          >
+            {COUNTRY_SPECIFIC_IDENTIFIER_TYPES.map(item => (
+              <option key={item} value={item}>
+                {I18n.t(`PLAYER_PROFILE.PROFILE.PERSONAL.LABEL.COUNTRY_SPECIFIC_IDENTIFIER_TYPES.${item}`)}
+              </option>
+            ))}
+          </Field>
         </div>
       </form>
     );

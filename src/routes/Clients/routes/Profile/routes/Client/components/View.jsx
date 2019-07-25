@@ -497,6 +497,8 @@ class View extends Component {
               languageCode,
               passport,
               kycStatus,
+              countrySpecificIdentifier,
+              countrySpecificIdentifierType,
             },
           },
         },
@@ -526,7 +528,11 @@ class View extends Component {
                     initialValues={{
                       ...passport,
                       ...personalData,
+                      countrySpecificIdentifier,
+                      countrySpecificIdentifierType,
                       languageCode,
+                      countrySpecificIdentifier,
+                      countrySpecificIdentifierType,
                     }}
                     onSubmit={this.handleSubmitKYC(kycTypes.personal)}
                     disabled={!canUpdateProfile}

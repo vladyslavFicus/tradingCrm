@@ -227,6 +227,8 @@ const updateMutation = gql`mutation update(
   $countryOfIssue: String,
   $passportIssueDate: String,
   $kycStatus: String,
+  $countrySpecificIdentifier: String,
+  $countrySpecificIdentifierType: String,
 ){
   profile {
     update(
@@ -239,6 +241,8 @@ const updateMutation = gql`mutation update(
       countryOfIssue: $countryOfIssue,
       passportIssueDate: $passportIssueDate,
       kycStatus: $kycStatus,
+      countrySpecificIdentifier: $countrySpecificIdentifier,
+      countrySpecificIdentifierType: $countrySpecificIdentifierType,
     ) {
       data {
         playerUUID
@@ -253,6 +257,8 @@ const updateMutation = gql`mutation update(
             countryOfIssue
             passportIssueDate
           }
+          countrySpecificIdentifier
+          countrySpecificIdentifierType
         }
       }
       error {
