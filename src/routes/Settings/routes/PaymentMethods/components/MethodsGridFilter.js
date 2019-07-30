@@ -50,7 +50,7 @@ class MethodsGridFilter extends Component {
           <option value="">{I18n.t('PAYMENT_METHODS.FILTER_FORM.LABELS.ALL_STATUSES')}</option>
           {Object.keys(methodsStatusesLabels).map(status => (
             <option key={status} value={status}>
-              {methodsStatusesLabels[status]}
+              {I18n.t(methodsStatusesLabels[status])}
             </option>
           ))}
         </Field>

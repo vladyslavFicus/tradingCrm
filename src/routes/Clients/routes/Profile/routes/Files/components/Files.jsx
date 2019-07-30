@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { get } from 'lodash';
+import { I18n } from 'react-redux-i18n';
 import history from 'router/history';
 import TabHeader from 'components/TabHeader';
 import { targetTypes as fileTargetTypes } from 'components/Files/constants';
@@ -98,7 +99,7 @@ class Files extends Component {
 
     return (
       <Fragment>
-        <TabHeader title="Files">
+        <TabHeader title={I18n.t('FILES.TITLE')}>
           <PermissionContent permissions={permissions.FILES.UPLOAD_FILE}>
             <button
               type="button"
@@ -107,7 +108,7 @@ class Files extends Component {
                 targetType: fileTargetTypes.FILES,
               })}
             >
-              + Upload file
+              {I18n.t('COMMON.BUTTONS.UPLOAD_FILE')}
             </button>
           </PermissionContent>
         </TabHeader>

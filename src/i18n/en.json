@@ -117,24 +117,24 @@
           "COUNTRY_SPECIFIC_IDENTIFIER_TYPES": {
             "TEN_DSS_DIGIT_INVESTOR_SHARE": "10 DSS digit investor share",
             "ELEVEN_DIGIT_PERSONAL_ID": "11 digit personal id",
-            "BELGIAN_NATIONAL_NUMBER": "Belgian National Number",        
-            "BULGARIAN_PERSONAL_NUMBER": "Bulgarian Personal Number",        
-            "CONCAT": "CONCAT",        
-            "ESTONIAN_PERSONAL_IDENTIFICATION_CODE": "Estonian Personal Identification Code",        
-            "FISCAL_CODE": "Fiscal code",        
-            "NATIONAL_IDENTIFICATION_NUMBER": "National identification number",        
-            "NATIONAL_IDENTIFICATION_NUMBER_COD_NUMERIC_PERSONAL": "National Identification Number (Cod Numeric Personal)",        
-            "NATIONAL_IDENTIFICATION_NUMBER_PESEL": "National Identification Number (PESEL)",        
-            "NATIONAL_PASSPORT_NUMBER": "National Passport Number",        
-            "PERSONAL_CODE_ASMENS_KODAS": "Personal code (Asmens kodas)",        
-            "PERSONAL_CODE_PERSONAS_KODS": "Personal code (Personas kods)",        
-            "PERSONAL_IDENTIFICATION_NUMBER": "Personal Identification Number",        
-            "PERSONAL_IDENTITY_CODE": "Personal identity code",        
+            "BELGIAN_NATIONAL_NUMBER": "Belgian National Number",
+            "BULGARIAN_PERSONAL_NUMBER": "Bulgarian Personal Number",
+            "CONCAT": "CONCAT",
+            "ESTONIAN_PERSONAL_IDENTIFICATION_CODE": "Estonian Personal Identification Code",
+            "FISCAL_CODE": "Fiscal code",
+            "NATIONAL_IDENTIFICATION_NUMBER": "National identification number",
+            "NATIONAL_IDENTIFICATION_NUMBER_COD_NUMERIC_PERSONAL": "National Identification Number (Cod Numeric Personal)",
+            "NATIONAL_IDENTIFICATION_NUMBER_PESEL": "National Identification Number (PESEL)",
+            "NATIONAL_PASSPORT_NUMBER": "National Passport Number",
+            "PERSONAL_CODE_ASMENS_KODAS": "Personal code (Asmens kodas)",
+            "PERSONAL_CODE_PERSONAS_KODS": "Personal code (Personas kods)",
+            "PERSONAL_IDENTIFICATION_NUMBER": "Personal Identification Number",
+            "PERSONAL_IDENTITY_CODE": "Personal identity code",
             "PERSONAL_IDENTITY_CODE_TEN_DIGITS_ALPHANUMERICAL_DDMMYYXXXX": "Personal identity code - 10 digits alphanumerical: DDMMYYXXXX",
             "PERSONAL_IDENTITY_CODE_KENNITALA_ICELAND": "Personal Identity Code (Kennitala / Iceland)",
-            "PERSONAL_IDENTITY_NUMBER": "Personal identity number",        
-            "PERSONAL_NUMBER": "Personal number",        
-            "TAX_IDENTIFICATION_NUMBER": "Tax identification number",        
+            "PERSONAL_IDENTITY_NUMBER": "Personal identity number",
+            "PERSONAL_NUMBER": "Personal number",
+            "TAX_IDENTIFICATION_NUMBER": "Tax identification number",
             "TAX_NUMBER": "Tax number",
             "UK_NATIONAL_INSURANCE_NUMBER": "UK National Insurance number"
           }
@@ -724,6 +724,8 @@
     }
   },
   "FILES": {
+    "TITLE": "Files",
+    "SEARCH_PLACEHOLDER": "File name, File ID",
     "UPLOAD_MODAL": {
       "FILE": {
         "TITLE": "Title",
@@ -807,7 +809,44 @@
         "NEM_ID_SIGN_IN": "NEM-ID sign in",
         "PLAYER_PROFILE_STATUS_CHANGED": "Status change",
         "ACCEPTED_TERMS": "Terms & conditions accepted",
-        "PROFILE_ASSIGN": "Assignment"
+        "PROFILE_ASSIGN": "Assignment",
+        "ACCEPTED_TERMS_UUID": "Accepted terms Uuid",
+        "ADDRESS": "Address",
+        "ADDRESS_KYC_METADATA": "Address files",
+        "KYC_ADDRESS_STATUS": "Address status",
+        "AFFILIATE_ID": "Affiliate ID",
+        "BIRTH_DATE": "Birth date",
+        "BTAG": "B-Tag",
+        "CITY": "City",
+        "COMPLETED": "Profile completion",
+        "CONFIRMED_EMAIL": "Confirmed email",
+        "COUNTRY": "Country",
+        "EMAIL": "E-mail",
+        "FIRST_NAME": "First name",
+        "GENDER": "Gender",
+        "ID": "Profile ID",
+        "IDENTIFIER": "Passport ID",
+        "KYC_COMPLETED": "KYC Completion",
+        "LANGUAGE_CODE": "Language",
+        "LAST_NAME": "Last name",
+        "MARKETING_MAIL": "Marketing Mails",
+        "MARKETING_SMS": "Marketing SMS",
+        "PERSONAL_KYC_METADATA": "Personal files",
+        "KYC_PERSONAL_STATUS": "Personal status",
+        "PHONE_NUMBER": "Phone number",
+        "PHONE_NUMBER_VERIFIED": "Phone number verification",
+        "POST_CODE": "Post code",
+        "PROFILE_STATUS": "Status",
+        "PROFILE_STATUS_COMMENT": "Status comment",
+        "PROFILE_STATUS_REASON": "Status reason",
+        "REGISTRATION_DATE": "Registration date",
+        "REGISTRATION_IP": "Registration IP",
+        "SUSPEND_END_DATE": "Suspend end date",
+        "TITLE": "Title",
+        "TOKEN": "Token",
+        "TOKEN_EXPIRATION_DATE": "Token expiration date",
+        "USERNAME": "Username",
+        "PLAYER_UUID": "ID"
       },
       "KYC_CONFIRMATION": {
         "TRANSACTION": "Transaction ID",
@@ -2061,8 +2100,8 @@
         "TITLE": "Office rules",
         "MODAL": {
           "RULE_TYPES": {
-            "CLIENT": "",
-            "LEAD": ""
+            "CLIENT": "Client",
+            "LEAD": "Lead"
           }
         }
       }

@@ -713,6 +713,8 @@
     "CREATE": ""
   },
   "FILES": {
+    "TITLE": "文件",
+    "SEARCH_PLACEHOLDER": "文件 名称, 文件 ID",
     "UPLOAD_MODAL": {
       "FILE": {
         "TITLE": "名称",
@@ -796,7 +798,44 @@
         "NEM_ID_SIGN_IN": "NEM-ID 登录",
         "PLAYER_PROFILE_STATUS_CHANGED": "状态变化",
         "ACCEPTED_TERMS": "条款与条件已接受",
-        "PROFILE_ASSIGN": "分配"
+        "PROFILE_ASSIGN": "分配",
+        "ACCEPTED_TERMS_UUID": "接受Uuid条款",
+        "ADDRESS": "地址",
+        "ADDRESS_KYC_METADATA": "地址文件",
+        "KYC_ADDRESS_STATUS": "地址状态",
+        "AFFILIATE_ID": "联营 ID",
+        "BIRTH_DATE": "出生日期",
+        "BTAG": "B标签",
+        "CITY": "城市",
+        "COMPLETED": "个人资料填写完成",
+        "CONFIRMED_EMAIL": "确认电子邮箱",
+        "COUNTRY": "国家",
+        "EMAIL": "电子邮箱",
+        "FIRST_NAME": "名字",
+        "GENDER": "性别",
+        "ID": "个人资料ID",
+        "IDENTIFIER": "护照ID",
+        "KYC_COMPLETED": "完成KYC审查",
+        "LANGUAGE_CODE": "语言",
+        "LAST_NAME": "姓氏",
+        "MARKETING_MAIL": "营销邮件",
+        "MARKETING_SMS": "营销短信",
+        "PERSONAL_KYC_METADATA": "个人资料",
+        "KYC_PERSONAL_STATUS": "个人状态",
+        "PHONE_NUMBER": "电话号码",
+        "PHONE_NUMBER_VERIFIED": "电话验证",
+        "POST_CODE": "邮编",
+        "PROFILE_STATUS": "状态",
+        "PROFILE_STATUS_COMMENT": "状态解释",
+        "PROFILE_STATUS_REASON": "状态原因",
+        "REGISTRATION_DATE": "注册日期",
+        "REGISTRATION_IP": "注册IP",
+        "SUSPEND_END_DATE": "中止结束日",
+        "TITLE": "名称",
+        "TOKEN": "令牌",
+        "TOKEN_EXPIRATION_DATE": "令牌到期日",
+        "USERNAME": "用户名",
+        "PLAYER_UUID": "ID"
       },
       "KYC_CONFIRMATION": {
         "TRANSACTION": "交易 ID",
@@ -1846,7 +1885,7 @@
         "SUCCESSFULLY_CREATED": "已成功创建交易账户"
       },
       "MODAL_CHANGE_PASSWORD": {
-        "TITLE": "更改交易账户 - % 的密码{login}",
+        "TITLE": "更改交易账户 的密码 - %{login}",
         "SUCCESSFULLY_CHANGED": "密码已成功更改",
         "NEW_PASSWORD": "新密码",
         "REPEAT_PASSWORD": "重新输入新密码"
@@ -2061,8 +2100,8 @@
         "TITLE": "办公室规则",
         "MODAL": {
           "RULE_TYPES": {
-            "CLIENT": "",
-            "LEAD": ""
+            "CLIENT": "客户",
+            "LEAD": "潜在客户"
           }
         }
       }

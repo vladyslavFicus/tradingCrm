@@ -59,7 +59,7 @@ class FilesFilterForm extends Component {
           name="searchBy"
           type="text"
           label={I18n.t(attributeLabels.keyword)}
-          placeholder="File name, File ID"
+          placeholder={I18n.t('FILES.SEARCH_PLACEHOLDER')}
           component={InputField}
           inputAddon={<i className="icon icon-search" />}
           className="filter-row__big"
@@ -73,7 +73,7 @@ class FilesFilterForm extends Component {
           <option value="">{I18n.t('COMMON.ANY')}</option>
           {Object.keys(categoriesLabels).map(category => (
             <option key={category} value={category}>
-              {categoriesLabels[category]}
+              {I18n.t(categoriesLabels[category])}
             </option>
           ))}
         </Field>
@@ -132,4 +132,4 @@ export default connect(state => ({
     uploadDateFrom: 'regex:/^\\d{4}-\\d{2}-\\d{2}$/',
     uploadDateTo: 'regex:/^\\d{4}-\\d{2}-\\d{2}$/',
   }, translateLabels(attributeLabels), false),
-})(FilesFilterForm),);
+})(FilesFilterForm));

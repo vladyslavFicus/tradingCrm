@@ -329,7 +329,7 @@ class MainLayout extends Component {
               onToggleTab={toggleMenuTab}
             />
 
-            <main className="content-container">{children}</main>
+            <main key={locale} className="content-container">{children}</main>
 
             <MyProfileSidebar
               isOpen={isOpenProfile}
