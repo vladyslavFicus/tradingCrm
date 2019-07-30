@@ -21,6 +21,8 @@ import { actionCreators as permissionsActionCreators } from '../redux/modules/au
 import { actionCreators as userPanelsActionCreators } from '../redux/modules/user-panels';
 import history from '../router/history';
 
+const __DEV__ = process.env.NODE_ENV === 'development';
+
 export default (initialState = {}, onComplete) => {
   const middleware = [
     thunk,

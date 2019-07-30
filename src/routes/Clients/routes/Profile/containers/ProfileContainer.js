@@ -36,7 +36,6 @@ const PINNED_NOTES_SIZE = 100;
 const mapStateToProps = (state) => {
   const {
     profile: {
-      playerLimits,
       uploading,
       profile,
     },
@@ -59,7 +58,6 @@ const mapStateToProps = (state) => {
 
   return {
     auth,
-    playerLimits,
     profile,
     uploading,
     uploadModalInitialValues,

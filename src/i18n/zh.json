@@ -11,20 +11,10 @@
       "PAYMENTS": "支付",
       "TRANSACTIONS": "交易",
       "PAYMENT_METHODS": "支付方式",
-      "BONUS_CAMPAIGNS": "赠金计划",
-      "PLAYER_LIABILITY": "玩家责任",
-      "REVENUE": "收益",
-      "OPEN_LOOP": "开路模式",
-      "GAMES": "游戏",
       "COUNTRIES": "国家",
-      "PLAYERS_SEARCH": "玩家搜索",
       "CLIENTS_SEARCH": "客户搜索",
       "PLAYERS_KYC_REQUEST": "KYC 请求",
       "SETTINGS": "设置",
-      "NEW_CAMPAIGNS": "新项目",
-      "NEW_CAMPAIGNS_FULFILLMENTS": "实践",
-      "CAMPAIGNS": "[NEW] 项目",
-      "CMS_GAMES": "[CMS] 游戏",
       "MANAGEMENT": "管理",
       "HIERARCHY": "层次结构",
       "OFFICES": "办公室",
@@ -35,8 +25,7 @@
       "DASHBOARD_ITEMS": {
         "DEFAULT": "默认",
         "PERSONAL": "个人"
-      },
-      "CONDITIONAL_TAGS": "条件标签"
+      }
     },
     "BOTTOM_MENU": {
       "SUPPORT": "支持",
@@ -275,56 +264,7 @@
       "ACTIVE_PLAN": {
         "TITLE": "活跃计划"
       },
-      "REWARD_PLANS": {
-        "TITLE": "奖金计划"
-      }
-    },
-    "GAME_ACTIVITY": {
-      "FILTER_FORM": {
-        "KEYWORD_LABEL": "搜索人",
-        "PROVIDERS_LABEL": "提供商",
-        "GAMES_LABEL": "游戏",
-        "GAME_TYPES_LABEL": "游戏类型",
-        "BET_TYPES_LABEL": "赌注类型",
-        "WIN_TYPES_LABEL": "获胜类型",
-        "START_DATE_LABEL": "开始日期",
-        "END_DATE_LABEL": "结束日期",
-        "KEYWORD_INPUT_PLACEHOLDER": "游戏回合ID、游戏ID、提供商ID",
-        "ACTIVITY_DATE_RANGE": "活动日期范围",
-        "AGGREGATORS_LABEL": "聚合者"
-      },
-      "PENDING_STATUS": "待审核",
-      "TITLE": "游戏活动",
-      "GRID_VIEW": {
-        "JACKPOT": "头奖",
-        "GAME_ROUND": "游戏回合",
-        "GAME": "游戏",
-        "BET_DATE": "下注日期",
-        "BET_AMOUNT": "下注金额",
-        "WIN_DATE": "获胜日期",
-        "WIN_AMOUNT": "获胜金额",
-        "BALANCE_BEFORE": "之前",
-        "BALANCE_AFTER": "之后",
-        "PENDING_BALANCE": "待审核",
-        "BALANCE": "余额",
-        "DEVICE": "设备"
-      },
-      "GAME_ROUND_TYPE": {
-        "FREE_SPIN": "免费旋转",
-        "SPORTBET": "体育博彩",
-        "OTHER": "其他",
-        "BONUS_ROUND_BONUS": "奖金回合",
-        "BONUS_ROUND_CHANCE": "机会",
-        "BONUS_ROUND_CARD": "卡",
-        "BONUS_ROUND_FREESPIN": "奖金回合免费旋转",
-        "ADJUSTMENT": "调整"
-      },
-      "NOTIFICATIONS": {
-        "INVALID_DATE_RANGE": {
-          "TITLE": "日期范围太宽泛",
-          "MESSAGE": "超过14天的最大日期范围"
-        }
-      }
+      "CLICK_TO_CALL_FAILED": ""
     },
     "MARKETING": {
       "SENDINGS": {
@@ -351,100 +291,6 @@
       },
       "TITLE": "支付账户",
       "ATTACHED_FILES": "已添加的文件"
-    },
-    "BONUS": {
-      "MODAL_CREATE": {
-        "TITLE": "手动奖金",
-        "CHOOSE_CURRENCY": "-- 选择 --",
-        "LABELS": {
-          "PLAYER_UUID": "玩家 UUID",
-          "LABEL": "姓名",
-          "PRIORITY": "优先顺序",
-          "CURRENCY": "货币",
-          "STATE": "状态",
-          "GRANTED_AMOUNT": "拨款金额",
-          "AMOUNT_TO_WAGE": "下注金额",
-          "CREATED_DATE": "已创建日期",
-          "EXPIRATION_DATE": "过期日期",
-          "PRIZE": "奖项",
-          "CAPPING": "封顶",
-          "OPT_IN": "选择加入",
-          "CONVERTED": "已转换",
-          "WAGERED": "已下注",
-          "MONEY_TYPE_PRIORITY": "下注",
-          "LOCK_AMOUNT_STRATEGY": "提款锁",
-          "CLAIMABLE": "可领取",
-          "MAX_BET": "最大下注额",
-          "NAME": "姓名",
-          "MAX_GRANTED_AMOUNT": "最大拨款金额",
-          "WAGERING_REQUIREMENT": "赌注要求",
-          "LIFE_TIME": "时间限制",
-          "CUSTOM_TEMPLATE": "自定义模板",
-          "TEMPLATE": "模板",
-          "PRIZE_CAPPING_TYPE": "奖项封顶类型"
-        },
-        "LOCK_AMOUNT_STRATEGY": {
-          "LOCK_ALL": "全部锁定",
-          "LOCK_PARTIAL": "锁定奖金 + 已存金额",
-          "LOCK_BONUS": "锁定奖金资金"
-        },
-        "MONEY_TYPE_USAGE": {
-          "REAL_MONEY": "首选真实资金",
-          "BONUS_MONEY": "首选奖金资金"
-        },
-        "WAGERING_REQUIREMENT_CUSTOM_VALUE_TYPE": {
-          "ABSOLUTE": "全部",
-          "PERCENTAGE": "百分比"
-        }
-      },
-      "CANCEL_BONUS": "取消奖金",
-      "PLAYER_NOT_FOUND": "未找到玩家",
-      "MANUAL_CREATION_FAILURE": "错误",
-      "AMOUNT_TO_WAGE_PREPENDED_TEXT": "来源",
-      "TITLE": "奖金",
-      "MANUAL_BONUS_BUTTON": "+ 手动奖金",
-      "GRID_VIEW": {
-        "BONUS": "奖金",
-        "AVAILABLE": "可用",
-        "PRIORITY": "优先顺序",
-        "GRANTED": "已拨款",
-        "WAGERED": "已下注",
-        "TO_WAGER": "押注",
-        "CLAIMABLE": "可领取",
-        "BONUS_STATUS": "状态",
-        "NOTE": "注释"
-      },
-      "CLAIM_BONUS": "领取奖金",
-      "LOCKED_GRANTED": "已锁定：",
-      "FILTER_FORM": {
-        "LABEL": {
-          "KEYWORD": "奖金 ID、奖金名称、拨款方......",
-          "ASSIGNED_BY": "分配方",
-          "STATES": "奖金状态",
-          "TYPE": "奖金类型",
-          "START_DATE": "开始日期",
-          "END_DATE": "结束日期",
-          "DATE_RANGE": "可用日期范围"
-        }
-      },
-      "PERMIT_BONUS_CONVERSION": "许可转换",
-      "MODAL_VIEW": {
-        "TITLE": "奖金详情",
-        "BONUS_INFO": {
-          "BONUS": "奖金",
-          "AVAILABLE": "可用",
-          "STATUS": "状态",
-          "PRIZE_CAPPING": "奖项/封顶",
-          "CLAIMABLE": "可领取",
-          "MAX_BET": "最大赌注"
-        },
-        "BONUS_STATS": {
-          "GRANTED": "已拨款",
-          "WAGERED": "已下注",
-          "TO_WAGER": "押注",
-          "TOTAL_TO_WAGER": "押注总额"
-        }
-      }
     },
     "NOTIFICATIONS": {
       "COPY_FULL_UUID": {
@@ -496,197 +342,6 @@
     },
     "PINNED_NOTES": {
       "TITLE": "嵌入的备注"
-    },
-    "BONUS_CAMPAIGNS": {
-      "TITLE": "合格项目",
-      "GRID_VIEW": {
-        "CAMPAIGN": "项目",
-        "DATE_TO": "至 %{time}",
-        "AVAILABLE": "可用",
-        "PRIORITY": "优先顺序",
-        "BONUS_TYPE": "奖金类型",
-        "OPT_IN_STATUS": "选择加入状态",
-        "TARGET_TYPE": "目标",
-        "FULFILLMENTS": "实践",
-        "REWARDS": "奖金",
-        "PLAYER_STATUS": "选择加入状态"
-      },
-      "OPTED_IN": "已选择加入",
-      "OPT_OUT": "已选择退出",
-      "DECLINE": "拒绝",
-      "MODALS": {
-        "ADD_TO_CAMPAIGN": {
-          "TITLE": "添加至项目",
-          "CAMPAIGN_ID_LABEL": "项目",
-          "ACTION": "您将要添加玩家 %{fullName} 至一个项目的目标",
-          "CAMPAIGN_ID_PLACEHOLDER": "选择项目",
-          "CAMPAIGN": "项目",
-          "AVAILABILITY": "可用性",
-          "STATUS": "状态",
-          "ACTIVE_ONLY": "进行活跃"
-        },
-        "ADD_PROMO_CODE": {
-          "TITLE": "将优惠代码添加至玩家",
-          "ACTION": "您将要添加优惠代码至玩家 %{fullName}",
-          "LABEL": {
-            "PROMO_CODE": "优惠代码"
-          }
-        },
-        "DEVICE_TYPE": {
-          "CHOOSE_DEVICE_TYPE_TEXT": "选择设备类型",
-          "CONFIRM_ACTION_TEXT": "您真的希望确认这一操作吗？"
-        }
-      },
-      "NOTIFICATIONS": {
-        "FETCH_CAMPAIGNS_ERROR": {
-          "TITLE": "错误",
-          "MESSAGE": "加载项目出错"
-        },
-        "SUCCESS_ADD_PLAYER_TO_CAMPAIGN": {
-          "TITLE": "成功",
-          "MESSAGE": "玩家已成功添加至项目。"
-        },
-        "FAILURE_ADD_PLAYER_TO_CAMPAIGN": {
-          "TITLE": "错误",
-          "MESSAGE": "无法将玩家添加至项目。"
-        },
-        "SUCCESS_ADD_PROMO_CODE": {
-          "TITLE": "成功",
-          "MESSAGE": "玩家已通过促销代码成功添加至项目目标"
-        }
-      },
-      "ADD_TO_CAMPAIGN_BUTTON": "+ 添加至项目",
-      "ADD_PROMO_CODE_BUTTON": "+ 添加优惠代码",
-      "OPT_IN": "选择加入",
-      "UN_TARGET": "取消目标",
-      "FULFILLMENT": {
-        "NO_FULFILLMENT": "无任务",
-        "DEPOSIT": "入金",
-        "WAGERING": "下注",
-        "PROFILE_COMPLETION": "个人资料填写完成",
-        "GAMING_FULFILLMENT": "游戏 FF"
-      },
-      "REWARDS": {
-        "BONUS": "奖金",
-        "FREE_SPIN": "免费旋转",
-        "TAG": "标签"
-      },
-      "RESET_PLAYER": "重置玩家",
-      "OPT_IN_NOT_REQUIRED": "不要求选择加入"
-    },
-    "FREE_SPINS": {
-      "BONUS_SETTINGS": {
-        "MULTIPLIER": "乘数",
-        "PRIZE": "奖项",
-        "CAPPING": "封顶",
-        "LIFE_TIME": "时间限制",
-        "LIFE_TIME_DAYS": "%{count} 天"
-      },
-      "FREE_SPIN_AVAILABLE_PERIOD": {
-        "DATE_TO": "至 %{time}"
-      },
-      "FREE_SPIN_SETTINGS": {
-        "LINES": "每次旋转的押注线数",
-        "BET_PER_LINE": "每条线的赌注",
-        "SPIN_VALUE": "旋转次数值",
-        "CLAIMABLE": "可领取"
-      },
-      "CANCEL_FREE_SPIN": "取消免费旋转",
-      "GRID_VIEW": {
-        "FREE_SPIN_COUNT": "%{count} 次旋转",
-        "SPIN_VALUE": "旋转次数值",
-        "TOTAL_VALUE": "总次数",
-        "FREE_SPIN": "免费旋转",
-        "AVAILABILITY": "可用性",
-        "GRANTED": "已拨款",
-        "STATUS": "状态",
-        "NOTE": "注释",
-        "GAME": "提供商与游戏",
-        "ACTIONS": "操作"
-      },
-      "VIEW_MODAL": {
-        "FREE_SPIN": "免费旋转",
-        "PROVIDER_AND_GAME": "提供商与游戏",
-        "STATUS": "状态",
-        "AVAILABLE": "可用",
-        "SPIN_SETTINGS": "旋转设置",
-        "BONUS_SETTINGS": "奖金设置",
-        "STATISTICS_GRANTED_TITLE": "已拨款",
-        "STATISTICS_GRANTED_COUNT": "%{count} 次旋转",
-        "STATISTICS_TOTAL_VALUE_TITLE": "总次数",
-        "STATISTICS_PLAYED_TITLE": "已玩",
-        "STATISTICS_PLAYED_COUNT": "%{count} 次旋转",
-        "STATISTICS_WINNINGS_TITLE": "获胜",
-        "TITLE": "免费旋转详情"
-      },
-      "EXPORT_BUTTON": "输出",
-      "MANUAL_FREE_SPIN_BUTTON": "+ 手动免费旋转",
-      "NOTIFICATIONS": {
-        "CANCEL_FREE_SPIN_ERROR": "未能取消免费旋转",
-        "ASSIGN_FREE_SPIN_TO_PLAYER": "将免费旋转分配至玩家",
-        "CLAIM_FREE_SPIN_TO_PLAYER": "申领免费旋转至玩家",
-        "DECLINE_FREE_SPIN_TO_PLAYER": "拒绝免费旋转"
-      },
-      "FREE_SPIN_TEMPLATE": "免费旋转模板",
-      "BONUS_TEMPLATE": "奖金模板",
-      "CLAIM": "申领",
-      "DECLINE": "拒绝"
-    },
-    "FREE_SPIN": {
-      "MODAL_CREATE": {
-        "TITLE": "创建免费旋转",
-        "CHOOSE_PROVIDER": "-- 选择 --",
-        "CHOOSE_GAME": "-- 选择 --",
-        "CHOOSE_GAME_TYPE": "-- 选择 --",
-        "CHOOSE_LINES_PER_SPIN": "-- 选择 --",
-        "GAME_TYPES": {
-          "MOBILE": "手机版",
-          "DESKTOP": "桌面版"
-        },
-        "ATTRIBUTES_LABELS": {
-          "NAME": "姓名",
-          "START_DATE": "开始日期",
-          "END_DATE": "结束日期",
-          "AVAILABILITY_DATE_RANGE": "免费旋转时间限制",
-          "PROVIDER": "提供商",
-          "GAME": "游戏",
-          "FREE_SPINS_AMOUNT": "免费旋转金额",
-          "LINES_PER_SPIN": "每次旋转的押注线数",
-          "BET_PER_LINE": "每条线的赌注",
-          "PRIZE": "奖项",
-          "CAPPING": "封顶",
-          "MULTIPLIER": "乘数",
-          "BONUS_LIFE_TIME": "奖金时间限制",
-          "MONEY_TYPE_PRIORITY": "下注",
-          "COIN_SIZE": "游戏币价格",
-          "NUMBER_OF_COINS": "游戏币数量",
-          "BET_LEVEL": "押注水平",
-          "COIN_VALUE_LEVEL": "游戏币价值水平",
-          "APPROXE_BET_VALUE": "大概押注值",
-          "CUSTOM_TEMPLATE": "自定义模板",
-          "TEMPLATE": "模板",
-          "USE_TEMPLATE": "使用模板"
-        },
-        "FREE_SPIN_VALUE": "免费旋转值",
-        "TOTAL_VALUE": "总次数",
-        "CHOOSE_COIN_SIZE": "-- 选择 --",
-        "CHOOSE_NUMBER_OF_COINS": "-- 选择 --",
-        "BUTTON": "创建免费旋转",
-        "CHOOSE_PAGE_CODE": "-- 选择 --",
-        "CHOOSE_AGGREGATOR": "-- 选择 --"
-      },
-      "MODAL_CANCEL": {
-        "TITLE": "取消免费旋转",
-        "ACTION_TEXT": "您将要 %{action}\"%{title}\"",
-        "ENTITY_NAME": "免费旋转",
-        "CUSTOM_REASON_PLACEHOLDER": "原因",
-        "CANCEL_BUTTON": "取消免费旋转",
-        "CONSTANTS": {
-          "REASON_LABEL": "原因",
-          "CUSTOM_REASON_LABEL": "自定义原因"
-        },
-        "CLOSE_BUTTON": "关闭"
-      }
     },
     "TRANSACTIONS": {
       "ADD_TRANSACTION": "+ 添加交易",
@@ -760,7 +415,6 @@
     "MENU": {
       "PROFILE": "资料",
       "TRANSACTIONS": "交易",
-      "REWARDS": "奖金",
       "PAYMENT_ACCOUNTS": "支付账户",
       "LIMITS": "限制",
       "FILES": "文件",
@@ -861,10 +515,7 @@
       "COPY_FULL_IP": {
         "MESSAGE": "IP地址已复制至剪贴板"
       },
-      "COPY_PROFILE_LINK": "个人资料链接已复制至您的剪贴板",
-      "COPY_INTERNAL_GAME_ID": {
-        "MESSAGE": "内部游戏id已复制至剪贴板"
-      }
+      "COPY_PROFILE_LINK": "个人资料链接已复制至您的剪贴板"
     },
     "OR": "或者",
     "TO": "至",
@@ -1056,7 +707,10 @@
     "DATE_RANGE": {
       "START_DATE": "开始日期",
       "END_DATE": "结束日期"
-    }
+    },
+    "LEADS_SELECTED": "",
+    "FAILED": "",
+    "CREATE": ""
   },
   "FILES": {
     "UPLOAD_MODAL": {
@@ -1183,37 +837,6 @@
         "ROLE4": "部门主管"
       }
     },
-    "BONUS": {
-      "STATUSES": {
-        "INACTIVE": "非活跃",
-        "IN_PROGRESS": "操作中",
-        "WAGERING_COMPLETE": "已转换",
-        "CONSUMED": "已消耗",
-        "CANCELLED": "已取消",
-        "EXPIRED": "已过期"
-      },
-      "TYPES": {
-        "FIRST_DEPOSIT": "第一笔存款",
-        "PROFILE_COMPLETED": "个人资料填写完成",
-        "MANUAL": "无存款",
-        "WITHOUT_FULFILLMENT": "无任务",
-        "FREE_SPIN": "免费旋转",
-        "DEPOSIT": "入金"
-      },
-      "ASSIGN": {
-        "MANUAL": "由操作员执行",
-        "CAMPAIGN": "由项目执行"
-      },
-      "MONEY_TYPE_USAGE": {
-        "REAL_MONEY": "首选真实资金",
-        "BONUS_MONEY": "首选奖金资金"
-      },
-      "ROUTES": {
-        "BONUSES": "奖金",
-        "ELIGIBLE_CAMPAIGNS": "合格项目",
-        "FREE_SPINS": "免费旋转"
-      }
-    },
     "COUNTRIES": {
       "TYPES": {
         "ALLOWED": "已允许",
@@ -1224,94 +847,12 @@
         "ALLOW": "允许"
       }
     },
-    "BONUS_CAMPAIGN": {
-      "CAMPAIGN_TYPE": {
-        "DEPOSIT": "入金",
-        "PROFILE_COMPLETED": "个人资料填写完成",
-        "WITHOUT_FULFILLMENT": "无任务"
-      },
-      "STATUSES": {
-        "DRAFT": "草稿",
-        "PENDING": "待审核",
-        "ACTIVE": "活跃",
-        "FINISHED": "已完成",
-        "CANCELED": "已取消"
-      },
-      "TARGET_TYPES": {
-        "ALL": "所有玩家",
-        "TARGET_LIST": "选定玩家",
-        "LINKED_CAMPAIGN": "已关联的项目"
-      },
-      "STATUS_ACTIONS": {
-        "ACTIVATE_CAMPAIGN": "激活项目",
-        "CANCEL_CAMPAIGN": "取消项目",
-        "ACTIVATE_CAMPAIGN_BUTTON": "激活项目",
-        "CANCEL_CAMPAIGN_BUTTON": "确认项目取消"
-      },
-      "STATUS_ACTIONS_LABELS": {
-        "ACTIVATE": "激活",
-        "CANCEL": "取消"
-      },
-      "MONEY_TYPE_USAGE": {
-        "REAL_MONEY": "首选真实资金",
-        "BONUS_MONEY": "首选奖金资金"
-      },
-      "LOCK_AMOUNT_STRATEGY": {
-        "LABEL": "提款锁",
-        "LOCK_ALL": "锁定所有资金",
-        "LOCK_PARTIAL": "锁定奖金 + 已存金额",
-        "LOCK_BONUS": "锁定奖金资金"
-      },
-      "REWARD_TYPE": {
-        "BONUS": "奖金",
-        "FREE_SPIN": "免费旋转"
-      }
-    },
-    "GAMING_ACTIVITY": {
-      "REAL_MONEY": "真实资金",
-      "BONUS_MONEY": "奖金资金",
-      "REAL_AND_BONUS_MONEY": "真实 + 奖金资金"
-    },
     "DEVICES": {
       "TYPES": {
         "MOBILE": "手机版",
         "DESKTOP": "桌面版",
         "TABLET": "平板端",
         "UNKNOWN": "未知"
-      }
-    },
-    "FREE_SPIN": {
-      "STATUSES": {
-        "CANCELED": "已取消",
-        "FORFEITED": "已没收",
-        "ACTIVE": "活跃",
-        "SCHEDULED": "已预订",
-        "PENDING": "待审核",
-        "FAILED": "失败",
-        "PLAYED": "已玩"
-      },
-      "STATUS_ACTIONS_LABELS": {
-        "CANCEL": "取消免费旋转"
-      }
-    },
-    "FREE_SPINS": {
-      "FILTER_FORM": {
-        "ATTRIBUTES_LABELS": {
-          "SEARCH_BY": "搜索人",
-          "ASSIGNED": "已分配",
-          "PROVIDER": "提供商",
-          "GAME": "游戏",
-          "START_DATE": "开始日期",
-          "END_DATE": "结束日期",
-          "AVAILABILITY_DATE_RANGE": "可用日期范围"
-        },
-        "ATTRIBUTES_PLACEHOLDERS": {
-          "SEARCH_BY": "免费旋转ID、名称"
-        },
-        "AUTHOR_TYPES": {
-          "CAMPAIGN": "项目",
-          "OPERATOR": "操作员"
-        }
       }
     },
     "SIGN_IN": {
@@ -1326,21 +867,8 @@
         "SALES": "销售",
         "RETENTION": "保留",
         "DEALING": "交易",
-        "COMPLIANCE": "合规"
-      }
-    },
-    "BONUS_CAMPAIGNS": {
-      "FILTER_FORM": {
-        "ATTRIBUTES_LABELS": {
-          "SEARCH_BY": "搜索人",
-          "BONUS_TYPE": "奖金类型",
-          "AVAILABILITY_DATE_RANGE": "可用日期范围",
-          "START_DATE": "开始日期",
-          "END_DATE": "结束日期"
-        },
-        "ATTRIBUTES_PLACEHOLDERS": {
-          "SEARCH_BY": "项目名称"
-        }
+        "COMPLIANCE": "合规",
+        "FINANCE": ""
       }
     },
     "PAYMENT": {
@@ -1352,7 +880,8 @@
         "PAYRETAILERS": "Pay Retailers",
         "WIRECAPITAL": "Wirecapital",
         "EFTPAY": "EFTPay",
-        "PAYTRIO": "Paytrio"
+        "PAYTRIO": "Paytrio",
+        "CASHIER": ""
       },
       "PAYMENT_AGGREGATORS": {
         "CASHIER": "收银台",
@@ -1424,33 +953,12 @@
       },
       "ROUTES": {
         "PAYMENTS": "支付",
-        "GAMING_ACTIVITY": "游戏活动",
         "TRADING_ACTIVITY": "交易活动"
       },
       "ACTIONS": {
         "ADD_TRANSACTION": "添加交易",
         "EXPORT_TRANSACTIONS": "输出",
         "ACTIVITY_REPORT": "活动报告"
-      }
-    },
-    "CAMPAIGNS": {
-      "STATUSES": {
-        "ACTIVE": "活跃",
-        "DRAFT": "草稿"
-      },
-      "FULFILLMENT_TYPES": {
-        "WAGERING": "下注",
-        "DEPOSIT": "入金"
-      },
-      "REWARD_TYPES": {
-        "BONUS": "奖金",
-        "FREE_SPIN": "免费旋转"
-      },
-      "TARGET_TYPES": {
-        "ALL": "所有玩家",
-        "TARGET_LIST": "选定玩家",
-        "LINKED_CAMPAIGN": "已关联的项目完成情况",
-        "REGISTRATION": "注册"
       }
     },
     "SALES_STATUSES": {
@@ -1596,6 +1104,10 @@
       "SUCCESS_UNLOCK": {
         "TITLE": "成功",
         "MESSAGE": "操作员解锁成功"
+      },
+      "ERROR_UNLOCK": {
+        "TITLE": "",
+        "MESSAGE": ""
       }
     },
     "ERROR_UNLOCK": {
@@ -1659,44 +1171,6 @@
     "DESCRIPTION": "本网站的这一部分仅供访客访问。",
     "LOGOUT_BUTTON": "退出"
   },
-  "GAMES": {
-    "TITLE": "游戏",
-    "EXPORT_BUTTON": "输出",
-    "UPLOAD_FILE_BUTTON": "导入",
-    "RESET_BUTTON": "重置游戏",
-    "AGGREGATOR": "聚合者",
-    "IMPORT_MODAL": {
-      "HEADER": "导入游戏",
-      "NOTIFICATIONS": {
-        "SUCCESSFULLY": "成功导入",
-        "UNSUCCESSFULLY": "导入失败"
-      },
-      "FILE": "文件",
-      "AGGREGATOR": {
-        "ALL": "所有"
-      }
-    },
-    "GRID": {
-      "GAME": "游戏",
-      "PROVIDER": "提供商",
-      "PLATFORM": "平台",
-      "TECHNOLOGY": "技术",
-      "FREE_SPINS": "免费旋转",
-      "STATUS": "状态",
-      "FREE_SPINS_AVAILABLE": "可用",
-      "FREE_SPINS_UNAVAILABLE": "不可用",
-      "KEYWORD": "搜索人",
-      "KEYWORD_PLACEHOLDER": "游戏名称或游戏ID"
-    },
-    "GAME_TYPE": "游戏类型",
-    "FREE_SPINS_AVAILABILITY": "免费旋转可用性",
-    "MOBILE": "手机版",
-    "DESKTOP": "桌面版",
-    "MICROGAMING": "微博游戏",
-    "GREENTUBE": "Greentube",
-    "NETENT": "NetEnt",
-    "STAKELOGIC": "Stakelogic"
-  },
   "ERRORS": {
     "FILE": {
       "INVALID_FILE_EXTENSION": "无效的文件扩展",
@@ -1720,392 +1194,10 @@
       }
     }
   },
-  "BONUS_CAMPAIGNS": {
-    "GRID_VIEW": {
-      "DATE_TIME_AT": "在 %{time}",
-      "CAMPAIGN": "项目",
-      "FULFILLMENT_TYPE": "类型",
-      "CREATED": "已创建",
-      "START_DATE": "开始日期",
-      "END_DATE": "结束日期",
-      "STATUS": "状态",
-      "GRANTED_TO": "至 %{count} 玩家",
-      "GRANTED_TO_1": "至 %{count} 玩家",
-      "GRANTED": "已拨款",
-      "TOTAL_OPT_IN_PLAYERS": "选择加入：%{count} 个玩家",
-      "TOTAL_OPT_IN_PLAYERS_1": "选择加入：%{count} 玩家",
-      "TOTAL_SELECTED_PLAYERS": "已选定：%{count} 个玩家",
-      "TOTAL_SELECTED_PLAYERS_1": "已选定：%{count} 玩家",
-      "TYPE": "目标类型"
-    },
-    "TITLE": "赠金计划",
-    "FILTER_FORM": {
-      "SEARCH_BY": "搜索人",
-      "FULFILLMENT_TYPE": "任务类型",
-      "STATUS": "状态",
-      "OPT_IN": "类型",
-      "CREATION_DATE": "创建日期范围",
-      "ACTIVITY_DATE": "活动日期范围",
-      "CREATION_DATE_FROM": "创建起始日期",
-      "CREATION_DATE_TO": "创建截至日期",
-      "ACTIVITY_DATE_FROM": "活动起始日期",
-      "ACTIVITY_DATE_TO": "活动截止日期",
-      "SEARCH_BY_PLACEHOLDER": "活动、操作员",
-      "DEPOSIT_NUMBER_OPTION": "充值",
-      "DEPOSIT_NUMBER": "充值编号",
-      "PROMO_CODE": "促销代码"
-    },
-    "BUTTON_CREATE_CAMPAIGN": "+ 添加项目",
-    "VIEW": {
-      "DETAILS": {
-        "LABEL": {
-          "GRANTED": "已拨款",
-          "WAGERED": "已下注",
-          "CONVERTED": "已转换",
-          "CREATED": "已创建",
-          "TARGET": "目标",
-          "TARGET_TYPE": "目标类型",
-          "PLAYERS_SELECTED": "选定玩家",
-          "PLAYERS_OPT_IN": "选择加入玩家",
-          "REWARD_PARAMS": "任务与奖励参数",
-          "FULFILLMENT_TYPE": "任务类型",
-          "RATIO": "比率",
-          "MULTIPLAYER": "多重玩家",
-          "LIFE_TIME": "时间限制",
-          "CAMPAIGN_START": "项目开始",
-          "CAMPAIGN_END": "项目结束",
-          "PRIZE": "奖项",
-          "CAPPING": "封顶",
-          "MONEY_TYPE_PRIORITY": "押注：%{priority}",
-          "CONTENT": "内容",
-          "COMPLETE": "完成",
-          "EDIT_CONTENT": "编辑内容"
-        },
-        "GRANTED_TO": "至 %{count} 玩家",
-        "GRANTED_TO_0": "至 %{count} 玩家",
-        "GRANTED_TO_1": "至 %{count} 玩家",
-        "CLONE_OF": "克隆"
-      },
-      "NOTIFICATIONS": {
-        "UPDATE_TITLE": "更新奖金项目",
-        "ADD_PLAYERS": "添加玩家",
-        "UNSUCCESSFULLY": "未能保存项目",
-        "SUCCESSFULLY": "项目已成功保存",
-        "ADD_CAMPAIGN": "添加项目",
-        "CAMPAIGN_COPIED": "已复制项目",
-        "RESET_PLAYER": "重置玩家"
-      },
-      "BUTTON": {
-        "ADD_PLAYERS": "+ 添加玩家"
-      },
-      "CHANGE_STATUS_ERROR": "更改状态失败"
-    },
-    "CREATE_MODAL": {
-      "TITLE": "新奖金项目",
-      "NAME_LABEL": "姓名",
-      "START_DATE_LABEL": "开始日期",
-      "END_DATE_LABEL": "结束日期",
-      "CURRENCY_LABEL": "货币",
-      "MONEY_TYPE_PRIORITY_LABEL": "下注",
-      "LIFETIME_LABEL": "时间限制",
-      "RATIO_LABEL": "比率",
-      "RATIO_VALUE_LABEL": "比值",
-      "RATION_TYPE_LABEL": "比率类型",
-      "CAPPING_LABEL": "封顶",
-      "CAPPING_VALUE_LABEL": "封顶值",
-      "CAPPING_TYPE_LABEL": "封顶类型",
-      "PRIZE_LABEL": "奖项",
-      "PRIZE_VALUE_LABEL": "奖项值",
-      "PRIZE_TYPE_LABEL": "奖项类型",
-      "MULTIPLIER_LABEL": "乘数",
-      "CAMPAIGN_TYPE_LABEL": "项目类型",
-      "MIN_AMOUNT_LABEL": "最低金额",
-      "MAX_AMOUNT_LABEL": "最高金额",
-      "TARGET_TYPE_LABEL": "目标类型",
-      "OPT_IN_LABEL": "选择加入",
-      "LOCK_AMOUNT_STRATEGY_LABEL": "锁定金额策略",
-      "CHOOSE_CURRENCY": "-- 选择货币 --",
-      "CHOOSE_TARGET_TYPE": "-- 选择目标类型 --",
-      "CHOOSE_LOCK_AMOUNT_STRATEGY": "-- 选择锁定 --",
-      "CLAIMABLE_LABEL": "可领取",
-      "PROMO_CODE": "优惠代码"
-    },
-    "SETTINGS": {
-      "LABEL": {
-        "CAMPAIGN_NAME": "项目名称（内部）",
-        "TARGET_TYPE": "目标类型",
-        "CURRENCY": "货币",
-        "CAPPING": "封顶",
-        "CAMPAIGN_RATIO": "比率",
-        "CONVERSION_PRIZE": "奖项",
-        "OPT_IN": "选择加入",
-        "CAMPAIGN_TYPE": "项目类型",
-        "MIN_AMOUNT": "最低金额",
-        "MAX_AMOUNT": "最高金额",
-        "MIN_AMOUNT_PLACEHOLDER": "最低",
-        "MAX_AMOUNT_PLACEHOLDER": "最高",
-        "RATIO_TOOLTIP": "充值：已拨奖金",
-        "CAMPAIGN_PERIOD": "项目期限",
-        "DESCRIPTION": "描述",
-        "BASE_CURRENCY": "基础货币",
-        "MIN_PRIZE": "最低金额",
-        "OPT_IN_REQUIRED": "要求选择加入",
-        "AFFILIATES": "联营",
-        "EXCLUDE": "排除",
-        "COUNTRIES": "国家",
-        "START_DATE": "开始日期",
-        "END_DATE": "结束日期",
-        "LOCK_AMOUNT_STRATEGY_LABEL": "锁定策略",
-        "PROMO_CODE": "优惠代码",
-        "OPT_IN_PERIOD": "选择加入超时",
-        "CHOOSE_CAMPAIGN": "选择项目",
-        "EXCLUDED_COUNTRIES": "排除国家"
-      },
-      "CHOOSE_CURRENCY": "-- 选择 --",
-      "CHOOSE_TARGET_TYPE": "-- 选择 --",
-      "TARGET": "目标",
-      "CAMPAIGN_SETTINGS": "项目设置",
-      "FULFILLMENTS": "实践",
-      "REWARDS": "奖金",
-      "DEPOSIT_AMOUNT": "充值金额",
-      "FULFILLMENT": {
-        "LABEL": {
-          "ADD_FULFILLMENT": "添加任务"
-        },
-        "DEPOSIT": {
-          "LABEL": "入金",
-          "NUMBER_OPTION": "充值"
-        },
-        "PROFILE_COMPLETED": {
-          "LABEL": "个人资料填写完成"
-        },
-        "SELECT_FULFILLMENT": "-- 选择任务 --",
-        "NO_FULFILLMENTS": {
-          "LABEL": "无任务"
-        },
-        "DEPOSIT_NUMBER_LABEL": "充值编号",
-        "RESTRICTED_PAYMENT_METHODS": "受限的支付方式"
-      },
-      "SELECT_PERIOD": "- 期限 -",
-      "MODAL": {
-        "CHOOSE_CAMPAIGN": {
-          "TITLE": "选择项目",
-          "MESSAGE": "只有已成功转换所选项目奖金的玩家才会成为您正在设置的项目的目标。"
-        }
-      },
-      "NO_SELECTED_LINKED_CAMPAIGN": "无所选的已关联项目"
-    },
-    "CHANGE_STATUS_MODAL": {
-      "CUSTOM_REASON_PLACEHOLDER": "自定义原因",
-      "CANCEL_BUTTON": "取消",
-      "TITLE": "更改奖金项目状态",
-      "ACTION_TEXT": "您即将 %{action} %{title}",
-      "ENTITY_NAME": "项目"
-    },
-    "STATUS_DROPDOWN_MODAL": {
-      "CONSTANTS": {
-        "REASON_LABEL": "原因",
-        "CUSTOM_REASON_LABEL": "自定义原因"
-      }
-    },
-    "STATUS_DROPDOWN": {
-      "TITLE": "项目状态"
-    },
-    "OPTIONS": {
-      "CLONE_LABEL": "克隆项目"
-    },
-    "FULFILLMENTS": {
-      "ADD_FULFILLMENT": "添加任务",
-      "REGISTRATION_FULFILLMENT": "注册任务",
-      "DEPOSIT_FULFILLMENT": "充值任务",
-      "DEPOSIT_AMOUNT_RANGE": "充值金额范围",
-      "WAGERING_FULFILLMENT": "下注任务",
-      "LOGIN_FULFILLMENT": "登录任务",
-      "CAMPAIGN_FULFILLMENT": "项目任务",
-      "EMAIL_VERIFICATION_FULFILLMENT": "邮件验证任务",
-      "PHONE_VERIFICATION_FULFILLMENT": "手机验证任务",
-      "WAGERED_AMOUNT_ALL_GAMES": "所有游戏的下注额为 > X",
-      "WAGERED_AMOUNT_ONE_GAME": "一个游戏或选定游戏数量的下注金额为 > X",
-      "AMOUNT_TO_WAGER": "下注金额",
-      "EXCLUDE_BONUS_MONEY": "从下注中排除奖金资金",
-      "CHOOSE_CAMPAIGN": "- 选择项目 -",
-      "DEPOSIT": {
-        "MIN_AMOUNT": "最低金额",
-        "MAX_AMOUNT": "最高金额",
-        "LOCK_AMOUNT_STRATEGY": "锁定金额策略"
-      }
-    },
-    "REWARDS": {
-      "ADD_REWARD": "添加奖金",
-      "DEPOSIT": "入金",
-      "BONUS_DEPOSIT": "奖金 + 充值",
-      "REAL_MONEY_FIRST": "首选真实资金",
-      "BONUS_MONEY_FIRST": "首选奖金资金",
-      "BONUS": {
-        "CAMPAIGN_RATIO": {
-          "VALUE": "比率",
-          "TYPE": "类型"
-        },
-        "MULTIPLIER": "乘数",
-        "BONUS_LIFE_TIME": "时间限制",
-        "MONEY_TYPE_PRIORITY": "下注类型",
-        "BONUS_REWARD": "奖金奖励",
-        "GRANT": "拨款",
-        "LIMITS": "限制",
-        "MULTIPLIERS_TYPE": "乘数类型",
-        "MONEY_TYPE_PRIOR": "资金类型优先顺序",
-        "LIFE_TIME": "时间限制",
-        "PLACEHOLDERS": {
-          "DAYS": "天",
-          "NOT_SET": "未设置"
-        },
-        "MAX_BET": "最大赌注",
-        "MAX_GRANTED_AMOUNT": "最大拨款金额",
-        "NAME": "姓名",
-        "TEMPLATE": "模板",
-        "WAGERING_REQUIREMENT": "赌注要求",
-        "LOCK_AMOUNT_STRATEGY": "锁定金额策略",
-        "CAPPING": "封顶",
-        "PRIZE": "奖项",
-        "COUNT": "计算",
-        "PAGE_CODE": "页面代码",
-        "BET_LEVEL": "押注水平",
-        "COIN_SIZE": "游戏币大小",
-        "RHFP_BET": "Rhfp 赌注",
-        "BET_MULTIPLIER": "赌注乘数",
-        "COMMENT": "评论",
-        "PRIZE_CAPPING_TYPE": "奖项与封顶类型"
-      },
-      "FREE_SPIN": {
-        "ADD_REWARDS": "添加奖金",
-        "SELECT_REWARDS": "选择奖金",
-        "NEAREST_COST": "最接近的费用",
-        "DISPLAY_LINE1": "展示押注线 1",
-        "DISPLAY_LINE2": "展示押注线 2",
-        "BET_PER_LINE": "每条线的赌注",
-        "TEMPLATE": "模板",
-        "CHOOSE_TEMPLATE": "-- 选择模板 --",
-        "PRIZE": "奖项",
-        "WAGERING": "下注",
-        "CAPPING": "封顶",
-        "CREATION_ERROR": "免费旋转创建错误",
-        "MONEY_PRIORITY": "资金类型优先顺序",
-        "FREE_SPIN_REWARD": "免费旋转奖励",
-        "FREE_SPINS": "免费旋转",
-        "SPIN_VALUE": "旋转次数值",
-        "TOTAL_VALUE": "总次数",
-        "NAME": "名称",
-        "PROVIDER": "提供商",
-        "GAMES": "游戏",
-        "GAME_TYPE": "游戏类型",
-        "LIFE_TIME": "时间限制",
-        "PLACEHOLDERS": {
-          "DAYS": "天",
-          "NOT_SET": "未设置"
-        },
-        "AGGREGATOR": "聚合者"
-      },
-      "BONUS_TEMPLATE": {
-        "CREATION_ERROR": "奖金模板创建错误"
-      },
-      "FREE_SPIN_LIFE_TIME": "免费旋转时间限制"
-    },
-    "CURRENCY_CALC_MODAL": {
-      "HEADER": "不同货币的价值",
-      "BODY": {
-        "MIN_DEPOSIT": "最低充值金额范围",
-        "RECALC": "重新计算",
-        "RECALC_WARNING": "重新计算将重置所有的自定义值",
-        "CURRENCY": "货币",
-        "RATE": "比率",
-        "CALCULATED": "已计算",
-        "CUSTOMIZED": "已自定义"
-      }
-    },
-    "REMOVE_PLAYERS": {
-      "BUTTON": "移除所有玩家",
-      "MODAL_TEXT": "您即将从本项目的目标中移除所有玩家。",
-      "SUCCESS_NOTIFICATION": "所有玩家都已成功移除",
-      "ERROR_NOTIFICATION": "未能移除所有玩家"
-    },
-    "VIEW_TABS": {
-      "SETTINGS": "设置"
-    },
-    "NEW_CAMPAIGN": "新项目",
-    "SAVE_NEW_CAMPAIGN": "保存新项目",
-    "WAGERING_FULFILLMENTS": {
-      "ADD": {
-        "ADD_BUTTON": "添加下注任务"
-      },
-      "LIST": {
-        "CREATE_BUTTON": "创建下注任务",
-        "TITLE": "下注任务"
-      }
-    },
-    "UPLOAD_PLAYERS": {
-      "MODAL": {
-        "TITLE": "上传玩家",
-        "LABEL": {
-          "STATUS": "上传状态",
-          "ACTION": "上传操作"
-        },
-        "DESCRIPTION": {
-          "ADD_PLAYER": "上传列表中的玩家将被添加到项目的目标中。那些已经成为此项目目标的玩家将被忽略",
-          "RESET_PLAYER": "将重置上传列表中玩家的任务和奖励状态。这些成员将能够完成任务并再次获得奖励。那些不是此项目目标的玩家将被忽略",
-          "SOFT_RESET_PLAYER": "仅当一个玩家已获得奖励或其任务期限已过时，才将重置上传列表中玩家的任务和奖励状态。那些已经开始完成任务但没有获得奖励的玩家将不会受到此重置的影响。不在此项目目标中的玩家将被添加到项目的目标列表中"
-        }
-      },
-      "NOTIFICATION": {
-        "ADD_PLAYER": "添加玩家",
-        "RESET_PLAYER": "重置玩家",
-        "SOFT_RESET_PLAYER": "软重置玩家"
-      },
-      "UPLOAD_PLAYERS": "上传玩家"
-    }
-  },
   "PROFILE": {
     "LAST_LOGIN": {
       "TITLE": "最近一次的登录",
       "FROM_COUNTRY": "自 %{country}"
-    },
-    "REWARD_PLAN": {
-      "TITLE": {
-        "LOTTERY": "奖券",
-        "BONUS": "奖金",
-        "RUNES": "忠诚点数",
-        "CASH_BACKS": "返现",
-        "FREE_SPINS": "免费旋转"
-      },
-      "MODAL": {
-        "LOTTERY": {
-          "TITLE": "待完成的奖券支付",
-          "INPUT_LABEL": "奖券金额",
-          "ACTION_TEXT": "您即将修改待完成的奖券支付"
-        },
-        "BONUS": {
-          "TITLE": "待完成的奖金支付",
-          "INPUT_LABEL": "奖励金额",
-          "ACTION_TEXT": "您即将修改待完成的奖金支付"
-        },
-        "RUNES": {
-          "TITLE": "忠诚点数",
-          "INPUT_LABEL": "忠诚点数",
-          "ACTION_TEXT": "您即将修改忠诚点数"
-        },
-        "CASH_BACKS": {
-          "TITLE": "待完成的返现支付",
-          "INPUT_LABEL": "返现金额",
-          "ACTION_TEXT": "您即将修改待完成的返现支付"
-        },
-        "FREE_SPINS": {
-          "TITLE": "待完成的免费旋转支付",
-          "INPUT_LABEL": "免费旋转金额",
-          "ACTION_TEXT": "您即将修改待完成的免费旋转支付"
-        }
-      },
-      "NOTIFICATION": {
-        "UPDATE_MESSAGE": "更新奖金金额计划"
-      }
     },
     "LIST": {
       "FILTERS": {
@@ -2232,7 +1324,10 @@
       "APPROVED": "已批准",
       "REJECTED": "已拒绝",
       "PENDING": "待审核",
-      "RISK": "风险"
+      "RISK": "风险",
+      "VERIFIED": "",
+      "REFUSED": "",
+      "DOCUMENTS_SENT": ""
     }
   },
   "PAYMENT_ACTION_REASON_MODAL": {
@@ -2268,7 +1363,8 @@
       "ERROR": "更新付款失败",
       "ERROR_STATUS": "更新付款状态失败",
       "ERROR_METHOD": "更新付款方式失败"
-    }
+    },
+    "ORIGINAL_AGENT": ""
   },
   "CHANGE_ORIGINAL_AGENT": {
     "TITLE": "原始代理"
@@ -2284,18 +1380,14 @@
     "ERROR_MESSAGE": "错误信息",
     "REJECTION_REASON": "拒绝原因",
     "OPERATOR": "操作员",
-    "CAMPAIGN": "项目",
     "CREATED": "已创建",
     "LAUNCHED": "已推出",
     "CANCELED": "已取消",
     "DATE_RANGE": "日期范围",
     "RANGE_NOT_SELECTED": "未选择",
     "TARGET": "目标",
-    "FULFILLMENT": "任务",
-    "REWARD": "奖励",
     "OPTED_IN": "选择加入 %{value} 个玩家",
     "SELECTED": "已选定 %{value} 个玩家",
-    "BONUS": "奖金",
     "LEADS": {
       "LEAD_CREATED": "已创建的线索",
       "SALES": "销售",
@@ -2459,7 +1551,8 @@
     },
     "ACTIONS": {
       "ACTIVATE": "激活",
-      "DEACTIVATE": "注销"
+      "DEACTIVATE": "注销",
+      "ACTIVE": ""
     }
   },
   "ADVANCED_OPTIONS": {
@@ -2540,318 +1633,6 @@
     "LATEST_WITHDRAWALS": "最新%{count} 提款",
     "LATEST_REGISTRATIONS": "最新 %{count} 注册"
   },
-  "CAMPAIGNS": {
-    "CAMPAIGN_NAME": "项目名称",
-    "MONEY_TYPE": {
-      "LIST": {
-        "BONUS_MONEY": "奖金资金",
-        "REAL_MONEY": "真实资金"
-      }
-    },
-    "FREE_SPIN_TEMPLATE": "免费旋转",
-    "BONUS_TEMPLATE": "奖金",
-    "WAGERING_FULFILLMENT": "下注任务",
-    "SELECT_REWARD": "-- 选择奖金 --",
-    "SELECT_FULFILLMENT": "-- 选择任务 --",
-    "FREE_SPIN": {
-      "CREATE": {
-        "ERROR_TITLE": "免费旋转创建错误",
-        "SUCCESS_TITLE": "免费旋转已成功创建"
-      },
-      "PROVIDER": "提供商",
-      "AGGREGATOR": "聚合者",
-      "GAMES": "游戏",
-      "GAME": "默认游戏",
-      "SUPPORTED_GAMES": "额外游戏",
-      "GAME_TYPE": "游戏类型",
-      "MONEY_TYPE": "资金类型",
-      "NAME": "姓名",
-      "FREE_SPINS": "免费旋转",
-      "FREE_SPIN_REWARD": "免费旋转奖励",
-      "BET_PER_LINE": "每条线的赌注",
-      "FREE_SPIN_LIFE_TIME": "免费旋转时间限制",
-      "PRIZE": "奖项",
-      "DENOMINATION": "面值",
-      "COINS": "游戏币",
-      "SPIN_VALUE": "旋转次数值",
-      "TOTAL_VALUE": "总次数",
-      "LINES_PER_SPIN": "每次旋转的押注线数",
-      "BET_LEVEL": "押注水平",
-      "COIN_SIZE": "游戏币大小",
-      "PAGE_CODE": "页面代码",
-      "COMMENT": "评论",
-      "BET_MULTIPLIER": "赌注乘数",
-      "NEAREST_COST": "最接近的费用",
-      "DISPLAY_LINE1": "展示押注线 1",
-      "DISPLAY_LINE2": "展示押注线 2",
-      "RHFP_BET": "Rhfp 赌注",
-      "BONUS_TEMPLATE": "奖金模板",
-      "PLACEHOLDERS": {
-        "DAYS": "天数"
-      },
-      "HEADER": "免费旋转模板",
-      "CHOOSE_CURRENCY": "-- 选择货币 --",
-      "CHOOSE_AGGREGATOR": "-- 选择聚合者 --",
-      "CHOOSE_PROVIDER": "-- 选择提供商 --",
-      "CHOOSE_PAGE_CODE": "-- 选择页面代码 --",
-      "WAGERING": "下注",
-      "CAPPING": "封顶",
-      "MONEY_PRIORITY": "资金优先顺序"
-    },
-    "DEPOSIT_FULFILLMENT": "充值任务",
-    "SETTINGS": {
-      "FULFILLMENTS": {
-        "DEPOSIT": {
-          "DEPOSIT_AMOUNT_RANGE": "充值金额范围",
-          "DEPOSIT_NUMBER_LABEL": "充值编号",
-          "NUMBER_OPTION": "充值",
-          "RESTRICTED_PAYMENT_METHODS": "排除的支付方式",
-          "MIN_AMOUNT": "最低金额",
-          "MAX_AMOUNT": "最高金额",
-          "ANY_NUMBER": "任何充值"
-        },
-        "WAGERING": {
-          "LABEL": {
-            "AMOUNT_TO_WAGER": "下注金额"
-          }
-        },
-        "SELECT_FULFILLMENT": "选择任务",
-        "ADD_FULFILLMENT": "添加任务",
-        "TITLE": "实践",
-        "GAMING": {
-          "AGGREGATION_TYPE": {
-            "LABEL": "聚合类型",
-            "VALUES": {
-              "COUNT": "计算",
-              "SUM": "总计",
-              "INROWCOUNT": "连续计算"
-            }
-          },
-          "MONEY_TYPE": {
-            "LABEL": "资金类型",
-            "VALUES": {
-              "ALL": "所有",
-              "REAL": "真实",
-              "BONUS": "奖金"
-            }
-          },
-          "SPIN_TYPE": {
-            "LABEL": "旋转类型",
-            "VALUES": {
-              "BET": "赌注",
-              "WIN": "获胜",
-              "SPIN": "旋转",
-              "BONUS_ROUND_CHANCE": "机会"
-            }
-          },
-          "ROUND_TYPE": {
-            "LABEL": "回合类型",
-            "VALUES": {
-              "SPIN": "旋转",
-              "BONUS_ROUND_CHANCE": "奖金机会"
-            }
-          },
-          "GAME_FILTER": {
-            "LABEL": "游戏筛选条件",
-            "VALUES": {
-              "ALL": "所有",
-              "PROVIDER": "提供商",
-              "CUSTOM": "自定义"
-            }
-          },
-          "GAME_LIST": {
-            "LABEL": "游戏列表"
-          },
-          "MIN_SUM": {
-            "LABEL": "最低总额"
-          }
-        }
-      },
-      "REWARDS": {
-        "BONUS": {
-          "LABEL": {
-            "NAME": "奖金",
-            "BONUS_REWARD": "奖金奖励",
-            "GRANT": "拨款",
-            "CAPPING": "封顶",
-            "MULTIPLIER": "乘数",
-            "MONEY_TYPE_PRIOR": "资金优先顺序",
-            "MAX_BET": "最大赌注",
-            "MAX_GRANTED_AMOUNT": "最大拨款金额",
-            "LIFE_TIME": "时间限制",
-            "WAGERING_REQUIREMENT": "下注",
-            "LOCK_AMOUNT_STRATEGY": "锁定策略",
-            "PLACEHOLDERS": {
-              "DAYS": "天",
-              "NOT_SET": "未设置"
-            },
-            "MIN_PRIZE": "最低金额",
-            "MONEY_TYPE_PRIORITY": "资金类型优先顺序",
-            "BONUS_LIFE_TIME": "奖金时间限制",
-            "CLAIMABLE": "可领取",
-            "PRIZE": "奖项",
-            "PRIZE_CAPPING_TYPE": "奖项与封顶类型",
-            "TEMPLATE": "模板",
-            "WAGERING_REQUIREMENT_TYPE": "赌注要求类型"
-          },
-          "TEMPLATES": "奖金模板",
-          "ADD_BONUS_TEMPLATE": "创建模板",
-          "WAGERING_REQUIREMENT_TYPE": {
-            "ABSOLUTE": "全部",
-            "BONUS": "奖金",
-            "DEPOSIT": "入金",
-            "BONUS_AND_DEPOSIT": "奖金与充值"
-          }
-        },
-        "CREATE_BONUS_MODAL": {
-          "TITLE": "创建奖金模板"
-        },
-        "SELECT_REWARD": "选择奖金",
-        "ADD_REWARD": "添加奖金",
-        "TITLE": "奖金"
-      },
-      "CAMPAIGN_SETTINGS": "项目设置",
-      "LABEL": {
-        "CAMPAIGN_PERIOD": "项目期限",
-        "OPT_IN": "类型",
-        "OPT_IN_REQUIRED": "要求选择加入",
-        "CAMPAIGN_NAME": "项目名称（内部）",
-        "TARGET_TYPE": "目标类型",
-        "PROMO_CODE": "优惠代码",
-        "TAGS": "标签"
-      },
-      "TARGET": "目标类型",
-      "CHOOSE_TARGET_TYPE": "-- 选择目标类型 --",
-      "OPT_IN_PERIOD": "选择加入超时",
-      "SELECT_PERIOD": "- 期限 -",
-      "FULFILLMENT_PERIOD": "任务期限",
-      "PERIOD": "期限"
-    },
-    "REWARDS": {
-      "TAG": {
-        "TITLE": "标签",
-        "NAME": "姓名"
-      },
-      "FREE_SPIN": {
-        "LIFE_TIME": "时间限制",
-        "ADD_FREE_SPIN": "创建模板",
-        "TEMPLATE": "模板",
-        "STATUS": "状态",
-        "DEVICE_TYPE": "设备类型",
-        "DETAILS_NOT_FOUND": "未找到详情"
-      },
-      "CHOOSE_DEVICE_TYPE": "-- 选择设备类型 --",
-      "DEVICE_TYPE": {
-        "ALL": "所有",
-        "MOBILE": "手机版",
-        "DESKTOP": "桌面版"
-      }
-    },
-    "NODE_VALIDATION": {
-      "FULFILLMENTS": "请添加至少一个任务",
-      "REWARDS": "请添加至少一个奖励"
-    },
-    "CHANGE_STATUS_MODAL": {
-      "CUSTOM_REASON_PLACEHOLDER": "自定义原因",
-      "CANCEL_BUTTON": "取消",
-      "TITLE": "更改奖金项目状态",
-      "ACTION_TEXT": "您即将 %{action} %{title}",
-      "ENTITY_NAME": "项目"
-    },
-    "STATUS_DROPDOWN": {
-      "TITLE": "状态"
-    },
-    "NEW_CAMPAIGN": "新项目",
-    "SAVE_NEW_CAMPAIGN": "保存新项目",
-    "TITLE": "赠金计划",
-    "BUTTON_CREATE_CAMPAIGN": "+ 添加项目",
-    "GRID_VIEW": {
-      "DATE_TIME_AT": "在 %{time}",
-      "CAMPAIGN": "项目",
-      "CREATED": "已创建",
-      "STATUS": "状态"
-    },
-    "VIEW": {
-      "DETAILS": {
-        "LABEL": {
-          "CREATED": "已创建"
-        }
-      },
-      "NOTIFICATIONS": {
-        "UPDATE_TITLE": "更新奖金项目",
-        "UNSUCCESSFULLY": "未能保存项目",
-        "SUCCESSFULLY": "项目已成功保存",
-        "ADD_CAMPAIGN": "添加项目",
-        "ADD_PLAYERS": "将玩家添加至项目",
-        "REMOVE_ALL_PLAYERS": {
-          "TITLE": "移除所有玩家",
-          "ERROR": "移除玩家时出错",
-          "SUCCESS": "已移除所有玩家"
-        },
-        "RESET_PLAYERS": "重置玩家",
-        "FULL_RESET": {
-          "TITLE": "完全重置项目",
-          "ERROR": "完全移除项目出错",
-          "SUCCESS": "已完成完全重置"
-        }
-      },
-      "BUTTON": {
-        "ADD_PLAYERS": "+ 添加玩家",
-        "ADD_RESET_PLAYERS": "+ 重置玩家"
-      }
-    },
-    "STATUS_DROPDOWN_MODAL": {
-      "CONSTANTS": {
-        "REASON_LABEL": "原因",
-        "CUSTOM_REASON_LABEL": "自定义原因"
-      }
-    },
-    "WAGERING_FULFILLMENTS": {
-      "ADD": {
-        "ADD_BUTTON": "添加下注任务"
-      },
-      "LIST": {
-        "CREATE_BUTTON": "创建下注任务",
-        "TITLE": "下注任务"
-      }
-    },
-    "LIST": {
-      "GRID_VIEW_FILTER": {
-        "SEARCH_BY": {
-          "LABEL": "搜索人",
-          "PLACEHOLDER": "活动、操作员"
-        },
-        "STATUS": {
-          "LABEL": "状态"
-        },
-        "FULFILLMENT_TYPE": {
-          "LABEL": "任务类型"
-        },
-        "CAMPAIGN_TYPE": {
-          "LABEL": "项目类型"
-        },
-        "CREATION_DATE": {
-          "LABEL": "创建日期范围"
-        },
-        "ACTIVITY_DATE": {
-          "LABEL": "活动日期范围"
-        },
-        "TARGET_TYPE": {
-          "LABEL": "目标类型"
-        }
-      }
-    },
-    "REMOVE_PLAYERS": {
-      "BUTTON": "移除所有玩家",
-      "MODAL_TEXT": "您即将从本项目的目标中移除所有玩家。"
-    },
-    "FULL_RESET": {
-      "BUTTON": "完全重置",
-      "MODAL_TEXT": "您将对该项目执行强制重置。所有目标玩家任务状态将会被重置。"
-    },
-    "GAMING_FULFILLMENT": "游戏任务",
-    "PROFILE_COMPLETED_FULFILLMENT": "个人资料填写完成"
-  },
   "MULTI_CURRENCY_MODAL": {
     "TITLE": "不同货币的价值",
     "CUSTOMIZED": "已自定义",
@@ -2872,59 +1653,6 @@
     "FIRST_TEXT": "如需打开个人资料",
     "SECOND_TEXT": "您必须关闭至少1个已打开的个人资料。",
     "CLOSE_SELECTED_BUTTON": "关闭选定个人资料"
-  },
-  "CMS_GAMES": {
-    "GRID_VIEW": {
-      "STATUS": {
-        "INACTIVE": "非活跃",
-        "ACTIVE": "活跃"
-      },
-      "FREE_SPINS_STATUS": {
-        "NOT_AVAILABLE": "不可用",
-        "AVAILABLE": "可用 / 非活跃",
-        "ACTIVE": "可用 / 活跃"
-      },
-      "PLATFORM": {
-        "DESKTOP": "桌面版",
-        "MOBILE": "手机版",
-        "DESKTOP_AND_MOBILE": "桌面版和手机版"
-      },
-      "HEADER": {
-        "GAME": "游戏",
-        "PROVIDER": "提供商",
-        "PLATFORM": "平台",
-        "TECHNOLOGY": "技术",
-        "FREE_SPINS_STATUS": "免费旋转",
-        "STATUS": "状态"
-      }
-    },
-    "GRID_VIEW_FILTER": {
-      "PROVIDER": "提供商",
-      "PLATFORM": "平台",
-      "TECHNOLOGY": "技术",
-      "FREE_SPINS_STATUS": "免费旋转可用性",
-      "STATUS": "状态"
-    },
-    "TITLE": "CMS 游戏列表"
-  },
-  "FREE_SPIN": {
-    "BONUS": {
-      "GRANT": "拨款",
-      "MAX_GRANT_AMOUNT": "最大拨款金额",
-      "WAGERING_REQUIREMENT": "赌注要求",
-      "MONEY_PRIORITY": "资金优先顺序",
-      "MAX_BET": "最大赌注",
-      "BONUS_LIFETIME": "奖金时间限制",
-      "LIFE_TIME_DAYS": "%{count} 天",
-      "LOCK_AMOUNT_STRATEGY": "锁定金额策略",
-      "PRIZE": "奖项",
-      "CAPPING": "封顶",
-      "CLAIMABLE": "可领取"
-    },
-    "FREE_SPIN_AMOUNT": "免费旋转金额",
-    "COIN_SIZE": "游戏币大小",
-    "BET_MULTIPLIER": "乘数",
-    "RHFP_BET": "Rhfp 赌注"
   },
   "SET_PASSWORD": {
     "TITLE": "设置您的密码",
@@ -3155,7 +1883,9 @@
       "CORPORATE_RETAIL": "企业零售账户",
       "CORPORATE_PROFESSIONAL": "企业专业账户",
       "FNX_STATUS": "FNS状态",
-      "MIGRATION_ID": "转移ID"
+      "MIGRATION_ID": "转移ID",
+      "ALT_PHONE": "",
+      "FNS_STATUS": ""
     },
     "FATCA": {
       "TITLE": "FATCA",
@@ -3499,7 +2229,8 @@
       "TIME": "回拨时间",
       "CREATED": "已创建",
       "MODIFIED": "已修改",
-      "STATUS": "状态"
+      "STATUS": "状态",
+      "OPERATOR": ""
     },
     "FILTER": {
       "CALLBACK_OR_OPERATOR": "回拨 ID、操作员 ID",
@@ -3511,14 +2242,16 @@
       "OPERATOR": "操作员",
       "SELECT_OPERATOR": "选择操作员",
       "CALLBACK_DATE_AND_TIME": "回拨时间与日期",
-      "SUCCESSFULLY_CREATED": "回拨已成功创建"
+      "SUCCESSFULLY_CREATED": "回拨已成功创建",
+      "TIME": ""
     },
     "MODAL": {
       "TITLE": "回拨详情",
       "OPERATOR": "操作员",
       "SELECT_OPERATOR": "选择操作员",
       "CALLBACK_DATE_AND_TIME": "回拨时间与日期",
-      "SUCCESSFULLY_UPDATED": "回拨已成功更新"
+      "SUCCESSFULLY_UPDATED": "回拨已成功更新",
+      "STATUS": ""
     }
   },
   "common": {

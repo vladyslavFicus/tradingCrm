@@ -5,6 +5,7 @@ node_modules/
 bower_components/
 
 dist
+build
 coverage
 
 .vscode/

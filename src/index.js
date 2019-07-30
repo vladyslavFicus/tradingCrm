@@ -1,0 +1,33 @@
+import 'styles/vendor.scss';
+
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { getBackofficeBrand } from 'config';
+import bootstrap from './bootstrap';
+import createStore from './store/createStore';
+import AppContainer from './containers/AppContainer';
+import createWindowMessageService from './services/window-message';
+
+const __DEV__ = process.env.NODE_ENV === 'development';
+
+bootstrap();
+
+createStore({}, (store) => {
+  const MOUNT_NODE = document.getElementById('root');
+
+  let render = () => {
+    // Check if backoffice brand wasn't found
+    if (!getBackofficeBrand()) {
+      ReactDOM.render(
+        'Brand not found in cookie: brand=BRAND_NAME or in process.env.NAS_BRAND or in local brand configuration',
+        MOUNT_NODE,
+      );
+    } else {
+      ReactDOM.render(<AppContainer store={store} />, MOUNT_NODE);
+    }
+  };
+
+  createWindowMessageService(store);
+
+  render();
+});

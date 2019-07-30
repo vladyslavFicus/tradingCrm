@@ -16,7 +16,6 @@ import { services } from 'constants/services';
 import PermissionContent from 'components/PermissionContent';
 import { withServiceCheck } from 'components/HighOrder';
 import StickyWrapper from 'components/StickyWrapper';
-import ActivePlan from '../ActivePlan';
 import PlayerStatus from '../PlayerStatus';
 import Balances from '../Balances';
 import HeaderPlayerPlaceholder from '../HeaderPlayerPlaceholder';
@@ -282,9 +281,6 @@ class Header extends Component {
               {I18n.t('COMMON.ON')} {moment.utc(registrationDate).local().format('DD.MM.YYYY')}
             </div>
           </div>
-          <If condition={checkService(services.dwh)}>
-            <ActivePlan playerUUID={playerUUID} />
-          </If>
         </div>
       </Fragment>
     );

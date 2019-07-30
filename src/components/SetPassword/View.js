@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { parse } from 'qs';
 import { SubmissionError } from 'redux-form';
 import { get } from 'lodash';
+import { getBackofficeBrand } from 'config';
+import Copyrights from 'components/Copyrights';
 import ViewForm from './ViewForm';
 import LoggedForbidden from '../LoggedForbidden';
 
@@ -45,14 +47,14 @@ class View extends Component {
     return (
       <div className="form-page-container">
         <div className="form-page__logo">
-          <img src="/img/falcon-full-logo.svg" alt="logo" />
+          <img src={getBackofficeBrand().themeConfig.logo} alt="logo" />
         </div>
         <div className="form-page">
           <ViewForm onSubmit={this.handleSubmit} />
         </div>
-        <div className="form-page__copyright">
-          Copyright © {(new Date()).getFullYear()} by Newage
-        </div>
+
+        <Copyrights />
+
       </div>
     );
   }

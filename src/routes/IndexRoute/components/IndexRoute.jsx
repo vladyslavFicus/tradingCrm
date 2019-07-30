@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { parse } from 'qs';
 import { AppRoute, Route } from 'router';
 import Helmet from 'react-helmet';
+import { getBackofficeBrand } from 'config';
 import NotFound from 'routes/NotFound';
 import CoreLayout from 'layouts/CoreLayout';
 import BlackLayout from 'layouts/BlackLayout';
@@ -47,7 +48,13 @@ class IndexRoute extends PureComponent {
     return (
       <CoreLayout>
         <Fragment>
-          <Helmet title="FALCON" />
+          <Helmet
+            titleTemplate={`${getBackofficeBrand().id.toUpperCase()} | %s`}
+            defaultTitle={getBackofficeBrand().id.toUpperCase()}
+            link={[
+              { rel: 'shortcut icon', href: getBackofficeBrand().themeConfig.favicon },
+            ]}
+          />
           <Switch>
             <Choose>
               <When condition={logged}>

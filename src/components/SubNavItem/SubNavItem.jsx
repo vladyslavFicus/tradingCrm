@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { I18n } from 'react-redux-i18n';
 import PropTypes from 'prop-types';
+import history from 'router/history';
 import './SubNavItem.scss';
 
 class SubNavItem extends Component {
@@ -11,18 +12,27 @@ class SubNavItem extends Component {
     onMenuItemClick: PropTypes.func.isRequired,
   };
 
+  /**
+   * Handle menu item click for prevent animation freezing
+   * @param url
+   */
+  handleMenuItemClick = (url) => {
+    this.props.onMenuItemClick();
+
+    setTimeout(() => history.push(url), 300);
+  };
+
   render() {
     const {
       label,
       url,
-      onMenuItemClick,
     } = this.props;
 
     return (
-      <Link className="sub-nav-item" to={url} onClick={onMenuItemClick}>
+      <div className="sub-nav-item" to={url} onClick={() => this.handleMenuItemClick(url)}>
         <i className="icon-nav-arrow-v sub-nav-item__icon" />
         {I18n.t(label)}
-      </Link>
+      </div>
     );
   }
 }

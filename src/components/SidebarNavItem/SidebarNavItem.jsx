@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { findDOMNode } from 'react-dom';
 import classNames from 'classnames';
 import { I18n } from 'react-redux-i18n';
-import { Link } from 'react-router-dom';
 import TimelineLite from 'gsap/TimelineLite';
+import history from 'router/history';
 import SubNav from '../SubNav';
 import PropTypes from '../../constants/propTypes';
 import './SidebarNavItem.scss';
@@ -61,6 +61,16 @@ class NavItem extends Component {
     this.navItemAnimation = navItemAnimation;
   };
 
+  /**
+   * Handle menu item click for prevent animation freezing
+   * @param url
+   */
+  handleMenuItemClick = (url) => {
+    this.props.onMenuItemClick();
+
+    setTimeout(() => history.push(url), 300);
+  };
+
   render() {
     const {
       label,
@@ -106,10 +116,9 @@ class NavItem extends Component {
           />
         </If>
         <If condition={!withSubmenu}>
-          <Link
+          <div
             className="sidebar-nav-item__link"
-            to={url}
-            onClick={onMenuItemClick}
+            onClick={() => this.handleMenuItemClick(url)}
           >
             <If condition={!!icon}>
               <i className={classNames(icon, 'sidebar-nav-item__icon')} />
@@ -117,7 +126,7 @@ class NavItem extends Component {
             <span className="sidebar-nav-item__label">
               {I18n.t(label)}
             </span>
-          </Link>
+          </div>
         </If>
       </li>
     );

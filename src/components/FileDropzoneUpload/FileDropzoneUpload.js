@@ -1,5 +1,5 @@
 import React from 'react';
-import Dropzone, { DropzoneProps } from 'react-dropzone';
+import Dropzone from 'react-dropzone';
 import { I18n } from 'react-redux-i18n';
 import classNames from 'classnames';
 import './FileDropzoneUpload.scss';
@@ -21,10 +21,6 @@ const FileDropzoneUpload = props => (
   </Dropzone>
 );
 
-FileDropzoneUpload.propTypes = {
-  ...DropzoneProps,
-};
-
-export { DropzoneProps as FileDropzoneUploadProps };
+FileDropzoneUpload.propTypes = Dropzone.propTypes;
 
 export default FileDropzoneUpload;

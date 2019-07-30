@@ -1,1 +1,1 @@
-export default from './OperatorMiniProfile';
+export { default } from './OperatorMiniProfile';

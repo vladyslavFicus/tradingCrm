@@ -6,8 +6,6 @@ import PropTypes from '../../constants/propTypes';
 import './UsersPanel.scss';
 import { withModals } from '../../components/HighOrder';
 import ReplaceTabsModal from './ReplaceTabsModal';
-import config from '../../config';
-import { markets } from '../../constants/markets';
 
 const MAX_ACTIVE_TAB = 5;
 
@@ -116,21 +114,12 @@ class UsersPanel extends Component {
       [footerActiveClassName]: !!active,
     });
 
-    const iframeRootSrc = config.market === markets.crm ? 'clients' : 'players';
-
     return (
       <div className={blockClassName}>
         <div className="users-panel-content" style={{ visibility: active ? 'visible' : 'hidden' }}>
           <div className="users-panel-title">
             <div className="header-text">
-              <Choose>
-                <When condition={config.market === markets.crm}>
-                  {I18n.t('COMMON.CRM_USER_DEFINITION')}
-                </When>
-                <Otherwise>
-                  {I18n.t('COMMON.CASINO_USER_DEFINITION')}
-                </Otherwise>
-              </Choose>
+              {I18n.t('COMMON.CRM_USER_DEFINITION')}
             </div>
             <div
               className="user-panel-icon icon-minimize-popup-profile"
@@ -154,7 +143,7 @@ class UsersPanel extends Component {
                 title={item.uuid}
                 className={className}
                 frameBorder={0}
-                src={`/${iframeRootSrc}/${item.uuid}/${item.path || 'profile'}`}
+                src={`/clients/${item.uuid}/${item.path || 'profile'}`}
                 style={{
                   height: active && active.uuid === item.uuid ? 'calc(100vh - 160px)' : '0',
                   margin: active && active.uuid === item.uuid ? '0 auto' : '0',

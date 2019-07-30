@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import { I18n } from 'react-redux-i18n';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import PropTypes from 'prop-types';
-import FileDropzoneUpload, { FileDropzoneUploadProps } from '../FileDropzoneUpload';
+import FileDropzoneUpload from '../FileDropzoneUpload';
 
 class FileDropzoneUploadModal extends PureComponent {
   static propTypes = {
@@ -11,7 +11,7 @@ class FileDropzoneUploadModal extends PureComponent {
     isOpen: PropTypes.bool.isRequired,
     onCloseModal: PropTypes.func.isRequired,
     contentClassName: PropTypes.string,
-    ...FileDropzoneUploadProps,
+    ...FileDropzoneUpload.propTypes,
   };
 
   static defaultProps = {

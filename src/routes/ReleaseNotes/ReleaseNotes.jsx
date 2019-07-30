@@ -1,8 +1,10 @@
 import React, { Fragment } from 'react';
+import { startCase } from 'lodash';
+import { getBackofficeBrand } from 'config';
 
 const ReleaseNotes = () => (
   <Fragment>
-    <h1>Falcon CRM<br />Release notes</h1>
+    <h1>{startCase(getBackofficeBrand().id)} CRM<br />Release notes</h1>
     <h1>11/July/19 - Version 25</h1>
     <h2>What has been done</h2>
     <ul>

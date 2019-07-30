@@ -196,7 +196,7 @@
       text-shadow: 0 2px 4px #000;
       cursor: pointer;
       &::before {
-        content: url("../../../public/img/arrow-left-icon.svg");
+        content: url("/img/arrow-left-icon.svg");
         position: relative;
         top: 9px;
         right: 5px;

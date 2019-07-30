@@ -1,11 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { getBackofficeBrand } from 'config';
 import './BlackLayout.scss';
 
 const BlackLayout = ({
   children,
 }) => (
-  <div className="crm-background">
+  <div
+    className="crm-background"
+    style={{ backgroundImage: `url(${getBackofficeBrand().themeConfig.authBackground})` }}
+  >
     {children}
   </div>
 );

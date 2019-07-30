@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import backofficeBrands from '../backoffice_brands';
 
 const config = _.merge({
   components: {
@@ -6,7 +7,6 @@ const config = _.merge({
       currencies: {},
     },
   },
-  market: 'crm',
   player: {
     files: {
       maxSize: 20,
@@ -30,24 +30,7 @@ const config = _.merge({
     crossTabPersistFrame: { whitelist: ['auth'], keyPrefix: 'nas:' },
     crossTabPersistPage: { whitelist: ['auth', 'userPanels'], keyPrefix: 'nas:' },
   },
-  modules: {
-    bonusCampaign: {
-      cancelReasons: {
-        CANCEL_REASON_1: 'CONSTANTS.BONUS_CAMPAIGNS.CANCELLATION_REASONS.CANCEL_REASON_1',
-        CANCEL_REASON_2: 'CONSTANTS.BONUS_CAMPAIGNS.CANCELLATION_REASONS.CANCEL_REASON_2',
-        CANCEL_REASON_3: 'CONSTANTS.BONUS_CAMPAIGNS.CANCELLATION_REASONS.CANCEL_REASON_3',
-        CANCEL_REASON_4: 'CONSTANTS.BONUS_CAMPAIGNS.CANCELLATION_REASONS.CANCEL_REASON_4',
-      },
-    },
-    freeSpin: {
-      cancelReasons: {
-        CANCEL_REASON_1: 'CONSTANTS.FREE_SPINS.CANCELLATION_REASONS.CANCEL_REASON_1',
-        CANCEL_REASON_2: 'CONSTANTS.FREE_SPINS.CANCELLATION_REASONS.CANCEL_REASON_2',
-        CANCEL_REASON_3: 'CONSTANTS.FREE_SPINS.CANCELLATION_REASONS.CANCEL_REASON_3',
-        CANCEL_REASON_4: 'CONSTANTS.FREE_SPINS.CANCELLATION_REASONS.CANCEL_REASON_4',
-      },
-    },
-  },
+  backofficeBrands,
 }, (window.nas || {}));
 
 function getApiRoot() {
@@ -109,6 +92,34 @@ function getDomain() {
   return '';
 }
 
+// ============= Backoffice multi-brand configuration ============= //
+
+/**
+ * Get backoffice brand from config
+ *
+ * @return {*}
+ */
+const getBackofficeBrand = () => config.backofficeBrand;
+
+/**
+ * Set backoffice brand to config
+ *
+ * @param brandId
+ */
+const setBackofficeBrand = (brandId) => {
+  config.backofficeBrand = config.backofficeBrands[brandId];
+
+  // Set brand id to configuration for future usage
+  if (config.backofficeBrand) {
+    config.backofficeBrand.id = brandId;
+  }
+
+  // Dynamically import styles for brand if it's required
+  if (typeof _.get(config.backofficeBrand, 'importStyle') === 'function') {
+    config.backofficeBrand.importStyle();
+  }
+};
+
 export {
   getApiRoot,
   getBrandId,
@@ -123,6 +134,10 @@ export {
   getGraphQLRoot,
   getPaymentReason,
   getClickToCall,
+
+  // ==== Backoffice configuration ==== //
+  getBackofficeBrand,
+  setBackofficeBrand,
 };
 
 export default config;

@@ -3,7 +3,6 @@ import jwtDecode from 'jwt-decode';
 import createReducer from '../../../utils/createReducer';
 import createRequestAction from '../../../utils/createRequestAction';
 import { sourceActionCreators as operatorSourceActionCreators } from '../operator';
-import getFingerprint from '../../../utils/fingerPrint';
 import { actionCreators as optionsActionCreators } from '../profile/options';
 
 const KEY = 'auth';
@@ -29,10 +28,7 @@ function signIn(data) {
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({
-        ...data,
-        device: await getFingerprint(),
-      }),
+      body: JSON.stringify(data),
       types: [
         {
           type: SIGN_IN.REQUEST,
@@ -57,9 +53,6 @@ function changeDepartment(department, brandId, token = null) {
           Accept: 'application/json',
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          device: await getFingerprint(),
-        }),
         types: [CHANGE_AUTHORITY.REQUEST, CHANGE_AUTHORITY.SUCCESS, CHANGE_AUTHORITY.FAILURE],
         bailout: !logged && !token,
       },

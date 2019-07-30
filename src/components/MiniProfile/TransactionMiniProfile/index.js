@@ -1,1 +1,1 @@
-export default from './TransactionMiniProfile';
+export { default } from './TransactionMiniProfile';

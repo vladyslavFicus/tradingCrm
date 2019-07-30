@@ -2,6 +2,8 @@ import { REHYDRATE } from 'redux-persist/constants';
 import createReducer from '../../utils/createReducer';
 import { playerProfileViewTypes } from '../../constants';
 
+const __DEV__ = process.env.NODE_ENV === 'development';
+
 const KEY = 'settings';
 const CHANGE_EMAIL_NOTIFICATION_SETTING = `${KEY}/change-email-notification-setting`;
 

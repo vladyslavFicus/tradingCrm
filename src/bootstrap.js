@@ -1,5 +1,6 @@
 import * as Sentry from '@sentry/browser';
-import { getEnvironment, getVersion } from 'config';
+import Cookies from 'js-cookie';
+import { getEnvironment, getVersion, setBackofficeBrand } from 'config';
 
 export default () => {
   // Sentry initialization
@@ -10,6 +11,9 @@ export default () => {
       release: getVersion(),
     });
   }
+
+  // Set brand for application instance
+  setBackofficeBrand(Cookies.get('brand') || window.nas.defaultBackofficeBrand);
 
   if (window) {
     window.showDebugPanel = false;

@@ -13,7 +13,7 @@ import PaymentAddModal from '../components/PaymentAddModal';
 
 const mapStateToProps = ({
   userTransactions,
-  profile: { profile, playerLimits },
+  profile: { profile },
   auth: { uuid },
   i18n: { locale },
 }) => ({
@@ -22,7 +22,6 @@ const mapStateToProps = ({
   currencyCode: profile.data.currencyCode,
   playerProfile: profile.data,
   auth: { uuid },
-  playerLimits,
 });
 
 const mapActions = {

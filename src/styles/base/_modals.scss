@@ -10,12 +10,6 @@
     .modal-dialog {
       transform: translateY(10%);
     }
-    .create-free-spin-modal {
-      transform: translateY(0);
-    }
-    .create-bonus-modal {
-      transform: translateY(0);
-    }
   }
   &.fade.show {
     opacity: 1;
@@ -114,23 +108,11 @@
       max-width: none;
     }
   }
-  .create-bonus-campaign-modal {
-    width: 900px;
-  }
-  .create-bonus-modal {
-    width: 750px;
-  }
   .create-operator-modal {
     width: 655px;
   }
   .existing-operator-modal {
     width: 655px;
-  }
-  .view-free-spin-modal {
-    width: 750px;
-  }
-  .create-free-spin-modal {
-    width: 605px;
   }
   &-tab-label {
     margin-bottom: 3px;

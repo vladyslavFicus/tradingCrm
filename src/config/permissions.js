@@ -1,10 +1,4 @@
 export default {
-  REPORTS: {
-    PLAYER_LIABILITY_VIEW: 'mga_report;GET;/reports/player-liability',
-    PLAYER_LIABILITY_FILES_VIEW: 'mga_report;GET;/reports/player-liability/files',
-    PLAYER_LIABILITY_FILE_VIEW: 'mga_report;GET;/reports/player-liability/files/{file}',
-    VAT_VIEW: 'mga_report;GET;/reports/vat',
-  },
   OPERATORS: {
     OPERATORS_LIST_VIEW: 'operator;GET;/operators',
     PROFILE_VIEW: 'operator;GET;/operators/{uuid}',
@@ -75,11 +69,7 @@ export default {
   FILES: {
     UPLOAD_FILE: 'profile;POST;/files/confirm/{playerUUID}',
   },
-  PLAYER_REPORT: {
-    ACTIVITY: 'player_report;GET;/{playerUUID}/activity',
-  },
   PAYMENT: {
-    PLAYER_LIMITS_LIST: 'payment;GET;/limits/{playerUUID}',
     PLAYER_ACCOUNT_LIST: 'payment;GET;/accounts/{playerUUID}',
     PAYMENT_METHODS_LIST: 'payment;GET;/methods',
     ACCOUNT_LOCK: 'payment;PUT;/accounts/{paymentAccountUUID}/lock',
@@ -96,37 +86,6 @@ export default {
   PAYMENT_VIEW: {
     PAYMENT_REPORT: 'payment_view;GET;/payments/payment_report',
   },
-  PROMOTION: {
-    LIST: 'promotion;GET;/campaigns',
-    PLAYER_CAMPAIGN_ACTIVE_LIST: 'promotion;GET;/campaigns/{playerUUID}/active',
-    PLAYER_CAMPAIGN_AVAILABLE_LIST: 'promotion;GET;/campaigns/{playerUUID}/available',
-  },
-  CAMPAIGNS: {
-    LIST: 'campaign;GET;/',
-    CREATE: 'campaign;POST;/',
-    UPDATE: 'campaign;PUT;/{uuid}',
-    VIEW: 'campaign;GET;/{uuid}',
-    CLONE: 'campaign;POST;/{uuid}/clone',
-    UPLOAD_PLAYERS: 'campaign;PUT;/{uuid}/player-list',
-    UPLOAD_RESET_PLAYERS: 'campaign;PUT;/{uuid}/reset-player-states',
-    UPLOAD_SOFT_RESET_PLAYERS: 'campaign;PUT;/{uuid}/add-soft-reset-player-states',
-  },
-  CAMPAIGN_AGGREGATOR: {
-    OPT_IN: 'campaign_aggregator;PUT;/{uuid}/optin/{playerUUID}',
-    OPT_OUT: 'campaign_aggregator;PUT;/{uuid}/optout/{playerUUID}',
-  },
-  WAGERING_FULFILLMENT: {
-    LIST: 'wagering_fulfillment;GET;/',
-    VIEW: 'wagering_fulfillment;GET;/{uuid}',
-    CREATE: 'wagering_fulfillment;POST;/',
-  },
-  DEPOSIT_FULFILLMENT: {
-    VIEW: 'deposit_fulfillment;GET;/{uuid}',
-    CREATE: 'deposit_fulfillment;POST;/',
-  },
-  GAME_INFO: {
-    GET_GAME_LIST_CSV: 'game_info;GET;/games',
-  },
   PAYMENTS: {
     PLAYER_PAYMENTS_LIST: 'payment;GET;/payments/{playerUUID}',
     LIST: 'payment;GET;/payments',
@@ -137,29 +96,12 @@ export default {
   AUDIT: {
     PLAYER_AUDIT_LOGS: 'audit;GET;/audit/logs/{playerUUID}',
   },
-  BONUS: {
-    PLAYER_BONUSES_LIST: 'bonus;GET;/bonuses/{playerUUID}',
-  },
-  BONUS_TEMPLATE: {
-    VIEW: 'bonus_template;GET;/templates/{uuid}',
-    CREATE: 'bonus_template;POST;/templates',
-  },
-  FREE_SPIN_TEMPLATE: {
-    VIEW: 'free_spin_template;GET;/templates/{aggregatorId}/{uuid}',
-    CREATE: 'free_spin_template;POST;/templates/{aggregatorId}',
-  },
-  GAMING_ACTIVITY: {
-    PLAYER_GAMING_ACTIVITY: 'gaming_activity;GET;/gaming/activity/{playerUUID}',
-  },
   TRADING_ACTIVITY: {
     CLIENT_TRADING_ACTIVITY: 'trading_activity;GET;/',
   },
   TRADING_ACCOUNT: {
     CREATE: 'trading_mt4_updater;POST;/user',
     UPDATE_PASSWORD: 'trading_mt4_updater;PUT;/user/password',
-  },
-  FREE_SPIN: {
-    PLAYER_FREE_SPIN_LIST: 'free_spin;GET;/free-spins/{playerUUID}',
   },
   TAGS: {
     ADD_TAG: 'tag;POST;/',
@@ -168,12 +110,6 @@ export default {
       UPDATE_NOTE: 'tag;PUT;/note/{noteId}',
       DELETE_NOTE: 'tag;DELETE;/note/{noteId}',
     },
-  },
-  CMS_GAMES: {
-    VIEW_LIST: 'cms_game;GET;/',
-  },
-  CONDITIONAL_TAG: {
-    LIST: 'conditional_tag;GET;/',
   },
   SETTINGS: {
     CHANGE_LIMIT: 'payment;POST;/methods/{uuid}/{limitUUID}',

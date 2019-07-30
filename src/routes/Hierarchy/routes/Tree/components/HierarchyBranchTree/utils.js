@@ -16,14 +16,14 @@ export const buildTreeDataFromBranchTree = (branchTree, isChild = false) => {
 
   if (hasChildren || hasUsers) {
     treeData.children = [
-      ...hasChildren && branchTree.children.map(tree => buildTreeDataFromBranchTree(tree, true)),
-      ...hasUsers && branchTree.users.map(user => ({
+      ...hasChildren ? branchTree.children.map(tree => buildTreeDataFromBranchTree(tree, true)) : [],
+      ...hasUsers ? branchTree.users.map(user => ({
         title: user.operator.fullName,
         subtitle: user.userType,
         type: nodeTypes.USER,
         userType: user.userType,
         uuid: user.uuid,
-      })),
+      })) : [],
     ];
   }
 

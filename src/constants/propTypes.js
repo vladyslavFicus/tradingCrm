@@ -1,6 +1,4 @@
 import PropTypes from 'prop-types';
-import { types as limitTypes } from './limits';
-import { countryStrategies } from './bonus-campaigns';
 
 PropTypes.price = PropTypes.shape({
   amount: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
@@ -64,82 +62,6 @@ PropTypes.noteEntity = PropTypes.shape({
   changedBy: PropTypes.string,
   pinned: PropTypes.bool,
   targetUUID: PropTypes.string,
-});
-PropTypes.gamingActivityEntity = PropTypes.shape({
-  betDate: PropTypes.string,
-  bonusBetAmount: PropTypes.price,
-  bonusWinAmount: PropTypes.price,
-  gameId: PropTypes.string.isRequired,
-  gameProviderId: PropTypes.string.isRequired,
-  gameRoundId: PropTypes.string.isRequired,
-  gameSessionId: PropTypes.string.isRequired,
-  playerUUID: PropTypes.string.isRequired,
-  realBetAmount: PropTypes.price,
-  realWinAmount: PropTypes.price,
-  totalBetAmount: PropTypes.price,
-  totalWinAmount: PropTypes.price,
-  winDate: PropTypes.string,
-  gameRoundType: PropTypes.string,
-});
-PropTypes.limitEntity = PropTypes.shape({
-  author: PropTypes.string.isRequired,
-  creationDate: PropTypes.string.isRequired,
-  expirationDate: PropTypes.any,
-  period: PropTypes.oneOfType([
-    PropTypes.object,
-    PropTypes.number,
-  ]),
-  playerUUID: PropTypes.string.isRequired,
-  startDate: PropTypes.oneOfType([
-    PropTypes.object,
-    PropTypes.string,
-  ]),
-  status: PropTypes.string.isRequired,
-  statusAuthor: PropTypes.string.isRequired,
-  uuid: PropTypes.string.isRequired,
-  value: PropTypes.shape({
-    type: PropTypes.string.isRequired,
-    limit: PropTypes.oneOfType([
-      PropTypes.object,
-      PropTypes.number,
-    ]),
-    left: PropTypes.oneOfType([
-      PropTypes.object,
-      PropTypes.number,
-    ]),
-    used: PropTypes.oneOfType([
-      PropTypes.object,
-      PropTypes.number,
-    ]),
-  }).isRequired,
-});
-PropTypes.bonusEntity = PropTypes.shape({
-  amountToWage: PropTypes.price,
-  balance: PropTypes.price,
-  bonusLifeTime: PropTypes.oneOfType([PropTypes.number, PropTypes.object]),
-  bonusType: PropTypes.string,
-  bonusUUID: PropTypes.string,
-  campaignUUID: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-  cancellerUUID: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-  cancellationReason: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-  capping: PropTypes.price,
-  createdDate: PropTypes.string,
-  currency: PropTypes.string,
-  endDate: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-  expirationDate: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-  grantedAmount: PropTypes.price,
-  id: PropTypes.number,
-  label: PropTypes.string,
-  operatorUUID: PropTypes.string,
-  optIn: PropTypes.bool,
-  playerUUID: PropTypes.string,
-  priority: PropTypes.number,
-  prize: PropTypes.price,
-  startDate: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-  state: PropTypes.string,
-  wagered: PropTypes.price,
-  convertedAmount: PropTypes.number,
-  claimable: PropTypes.bool.isRequired,
 });
 PropTypes.fileEntity = PropTypes.shape({
   author: PropTypes.string.isRequired,
@@ -226,12 +148,6 @@ PropTypes.operatorProfile = PropTypes.shape({
   statusChangeAuthor: PropTypes.any,
   statusChangeDate: PropTypes.any,
   uuid: PropTypes.string,
-});
-PropTypes.limitPeriodEntity = PropTypes.shape({
-  [limitTypes.DEPOSIT]: PropTypes.arrayOf(PropTypes.string).isRequired,
-  [limitTypes.SESSION_DURATION]: PropTypes.arrayOf(PropTypes.string).isRequired,
-  [limitTypes.LOSS]: PropTypes.arrayOf(PropTypes.string).isRequired,
-  [limitTypes.WAGER]: PropTypes.arrayOf(PropTypes.string).isRequired,
 });
 PropTypes.navSubItem = PropTypes.shape({
   label: PropTypes.string.isRequired,
@@ -332,15 +248,6 @@ PropTypes.paymentActionReasons = PropTypes.shape({
   reject: PropTypes.object,
   chargeback: PropTypes.object,
 });
-PropTypes.playerLimitEntity = PropTypes.shape({
-  author: PropTypes.string.isRequired,
-  authorUUID: PropTypes.any,
-  id: PropTypes.number.isRequired,
-  playerUUID: PropTypes.string.isRequired,
-  reason: PropTypes.string.isRequired,
-  startLock: PropTypes.string.isRequired,
-  type: PropTypes.string.isRequired,
-});
 PropTypes.countryAccessEntity = PropTypes.shape({
   allowed: PropTypes.bool.isRequired,
   countryCode: PropTypes.string.isRequired,
@@ -349,89 +256,6 @@ PropTypes.countryAccessEntity = PropTypes.shape({
 PropTypes.customValue = PropTypes.shape({
   type: PropTypes.string.isRequired,
   value: PropTypes.number.isRequired,
-});
-PropTypes.bonusCampaignEntity = PropTypes.shape({
-  authorUUID: PropTypes.string,
-  bonusLifeTime: PropTypes.number,
-  campaignName: PropTypes.string,
-  uuid: PropTypes.string,
-  creationDate: PropTypes.string,
-  optInPeriod: PropTypes.oneOfType([PropTypes.object, PropTypes.number]),
-  optInPeriodTimeUnit: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
-  linkedCampaignUUID: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
-  currency: PropTypes.string,
-  grantedSum: PropTypes.number,
-  grantedTotal: PropTypes.number,
-  endDate: PropTypes.string,
-  fulfillmentType: PropTypes.string,
-  countryStrategy: PropTypes.oneOf([
-    countryStrategies.INCLUDE,
-    countryStrategies.EXCLUDE,
-  ]),
-  countries: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-  optIn: PropTypes.bool,
-  claimable: PropTypes.bool,
-  startDate: PropTypes.string,
-  state: PropTypes.string,
-  stateReason: PropTypes.string,
-  statusChangedDate: PropTypes.string,
-  targetType: PropTypes.string,
-  wagerWinMultiplier: PropTypes.number,
-});
-PropTypes.newBonusCampaignEntity = PropTypes.shape({
-  uuid: PropTypes.string,
-  state: PropTypes.string,
-  name: PropTypes.string,
-  authorUUID: PropTypes.string,
-});
-PropTypes.freeSpinEntity = PropTypes.shape({
-  aggregatorId: PropTypes.string,
-  authorUUID: PropTypes.string,
-  betPerLine: PropTypes.price,
-  capping: PropTypes.price,
-  currencyCode: PropTypes.string,
-  endDate: PropTypes.string,
-  error: PropTypes.any,
-  freeSpinStatus: PropTypes.string,
-  freeSpinsAmount: PropTypes.number,
-  gameId: PropTypes.string,
-  gameName: PropTypes.string,
-  linesPerSpin: PropTypes.number,
-  name: PropTypes.string,
-  playerUUID: PropTypes.string,
-  prize: PropTypes.price,
-  providerId: PropTypes.string,
-  reason: PropTypes.any,
-  startDate: PropTypes.string,
-  spinValue: PropTypes.price,
-  status: PropTypes.string,
-  statusChangedAuthorUUID: PropTypes.string,
-  statusChangedDate: PropTypes.any,
-  totalValue: PropTypes.price,
-  uuid: PropTypes.string,
-  playedCount: PropTypes.number,
-  winning: PropTypes.price,
-  claimable: PropTypes.bool,
-});
-PropTypes.freeSpinListEntity = PropTypes.shape({
-  uuid: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-});
-PropTypes.bonusTemplateListEntity = PropTypes.shape({
-  uuid: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-});
-PropTypes.gameEntity = PropTypes.shape({
-  aggregatorId: PropTypes.string.isRequired,
-  disabled: PropTypes.bool.isRequired,
-  fullGameName: PropTypes.string.isRequired,
-  gameId: PropTypes.string.isRequired,
-  gameInfoType: PropTypes.string.isRequired,
-  gameProviderId: PropTypes.string.isRequired,
-  gameType: PropTypes.string.isRequired,
-  lines: PropTypes.any,
-  startGameUrl: PropTypes.string.isRequired,
-  stopGameUrl: PropTypes.string.isRequired,
 });
 PropTypes.userDeviceEntity = PropTypes.shape({
   deviceType: PropTypes.string.isRequired,
@@ -532,10 +356,6 @@ PropTypes.subTabRouteEntity = PropTypes.shape({
 PropTypes.modalType = PropTypes.shape({
   show: PropTypes.func.isRequired,
   hide: PropTypes.func.isRequired,
-});
-PropTypes.rewardPlanAmount = PropTypes.shape({
-  amount: PropTypes.number,
-  isActive: PropTypes.bool,
 });
 PropTypes.mt4User = PropTypes.shape({
   login: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,

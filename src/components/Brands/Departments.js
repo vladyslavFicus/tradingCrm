@@ -83,7 +83,7 @@ class Departments extends Component {
             ? <div className="form-page__multibrand_heading"><Greeting /></div>
             : (
               <div className="form-page__department_return" onClick={onBackClick}>
-                All <span className="return-label">brands</span>
+                <span className="return-label">All brands</span>
               </div>
             )
         }

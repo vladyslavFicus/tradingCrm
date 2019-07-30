@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { SubmissionError } from 'redux-form';
 import { Redirect } from 'react-router-dom';
 import { get } from 'lodash';
+import { getBackofficeBrand } from 'config';
 import PropTypes from '../../../constants/propTypes';
 import Preloader from '../../../components/Preloader';
 import { Brands, Departments } from '../../../components/Brands';
@@ -118,7 +119,7 @@ class BrandsView extends Component {
       <div className="form-page-container">
         <Preloader show={loading} />
         <div className="form-page__logo">
-          <img src="/img/falcon-full-logo.svg" alt="logo" />
+          <img src={getBackofficeBrand().themeConfig.logo} alt="logo" />
         </div>
 
         <Brands

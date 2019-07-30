@@ -4,10 +4,8 @@ import IpList from '../../../../../../components/Information/IpList';
 import PermissionContent from '../../../../../../components/PermissionContent';
 import { withServiceCheck } from '../../../../../../components/HighOrder';
 import permissions from '../../../../../../config/permissions';
-import { services } from '../../../../../../constants/services';
 import PropTypes from '../../../../../../constants/propTypes';
 import AcquisitionStatus from './AcquisitionStatus';
-import PendingPayouts from './PendingPayouts';
 import Personal from './Personal';
 import Notes from './Notes';
 
@@ -55,9 +53,6 @@ class Information extends PureComponent {
           <div className="col-md-2">
             <IpList label={I18n.t('PLAYER_PROFILE.IP_LIST.TITLE')} ips={ips} />
           </div>
-          <If condition={checkService(services.dwh)}>
-            <PendingPayouts playerUUID={data.playerUUID} />
-          </If>
           <PermissionContent permissions={permissions.TAGS.VIEW_TAGS}>
             <div className="col">
               <Notes

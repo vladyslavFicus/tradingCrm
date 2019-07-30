@@ -1,7 +1,6 @@
 import { CALL_API } from 'redux-api-middleware';
 import createReducer from '../../../utils/createReducer';
 import createRequestAction from '../../../utils/createRequestAction';
-import getFingerprint from '../../../utils/fingerPrint';
 import { mapBrands, mapDepartments } from '../../../utils/brands';
 
 const KEY = 'sign-in';
@@ -19,10 +18,7 @@ function signIn(data) {
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({
-        ...data,
-        device: await getFingerprint(),
-      }),
+      body: JSON.stringify(data),
       types: [
         SIGN_IN.REQUEST,
         SIGN_IN.SUCCESS,

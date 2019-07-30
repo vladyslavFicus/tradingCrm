@@ -3,7 +3,6 @@ import { services } from '../constants/services';
 
 const routeServices = {
   '/players/:id/transactions/trading-activity': services.trading_activity,
-  '/players/:id/transactions/game-activity': services.gaming_activity,
 };
 
 const routePermissions = {

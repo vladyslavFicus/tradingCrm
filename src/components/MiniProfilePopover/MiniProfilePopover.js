@@ -6,7 +6,6 @@ import {
   TransactionMiniProfile,
   OperatorMiniProfile,
   PlayerMiniProfile,
-  BonusCampaignMiniProfile,
   LeadMiniProfile,
 } from '../../components/MiniProfile';
 
@@ -37,8 +36,6 @@ class MiniProfilePopover extends Component {
         return <OperatorMiniProfile data={data} />;
       case miniProfileTypes.PLAYER:
         return <PlayerMiniProfile data={data} />;
-      case miniProfileTypes.CAMPAIGN:
-        return <BonusCampaignMiniProfile data={data} />;
       case miniProfileTypes.LEAD:
         return <LeadMiniProfile data={data} />;
       default:

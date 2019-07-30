@@ -1,1 +1,1 @@
-export { default, FileDropzoneUploadProps } from './FileDropzoneUpload';
+export { default } from './FileDropzoneUpload';

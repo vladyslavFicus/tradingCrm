@@ -35,20 +35,6 @@ class Payments extends Component {
       }).isRequired,
     }).isRequired,
     playerProfile: PropTypes.userProfile,
-    playerLimits: PropTypes.shape({
-      entities: PropTypes.arrayOf(PropTypes.playerLimitEntity).isRequired,
-      deposit: PropTypes.shape({
-        locked: PropTypes.bool.isRequired,
-        canUnlock: PropTypes.bool.isRequired,
-      }).isRequired,
-      withdraw: PropTypes.shape({
-        locked: PropTypes.bool.isRequired,
-        canUnlock: PropTypes.bool.isRequired,
-      }).isRequired,
-      error: PropTypes.object,
-      isLoading: PropTypes.bool.isRequired,
-      receivedAt: PropTypes.number,
-    }).isRequired,
     locale: PropTypes.string.isRequired,
     addPayment: PropTypes.func.isRequired,
     clientPayments: PropTypes.shape({
