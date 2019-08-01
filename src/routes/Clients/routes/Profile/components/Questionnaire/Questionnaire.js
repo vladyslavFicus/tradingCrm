@@ -2,7 +2,6 @@ import React, { PureComponent } from 'react';
 import { get } from 'lodash';
 import moment from 'moment';
 import { I18n } from 'react-redux-i18n';
-import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import classNames from 'classnames';
 import { graphql, compose } from 'react-apollo';
 import { getApiRoot } from 'config';
@@ -31,19 +30,6 @@ class Questionnaire extends PureComponent {
 
   static defaultProps = {
     profileUUID: null,
-  };
-
-  state = {
-    dropDownOpen: false,
-  };
-
-  /**
-   * Toggle dropdown
-   */
-  toggle = () => {
-    this.setState({
-      dropDownOpen: !this.state.dropDownOpen,
-    });
   };
 
   /**
@@ -118,19 +104,15 @@ class Questionnaire extends PureComponent {
   renderLabel = questionnaire => (
     <div className="header-block">
       <div className="header-block-title">{I18n.t('CLIENT_PROFILE.CLIENT.QUESTIONNAIRE.TITLE')}</div>
-      <i className="fa fa-angle-down" />
       <div className="header-block-middle">
         <span className={classNames('text-uppercase', statusColors[questionnaire.status])}>
           {I18n.t(`CLIENT_PROFILE.CLIENT.QUESTIONNAIRE.STATUSES.${questionnaire.status}`)}
         </span>
       </div>
       <div className="header-block-small">
-        <If condition={questionnaire.reviewedBy}>
-          <div>
-            <span>{I18n.t('common.by')} <Uuid uuid={questionnaire.reviewedBy} /></span>
-            <span> {I18n.t('COMMON.ON')} {moment.utc(questionnaire.updatedAt).local().format('DD.MM.YYYY HH:mm')}</span>
-          </div>
-        </If>
+        <div>
+          <span>{I18n.t('COMMON.ON')} {moment.utc(questionnaire.updatedAt).local().format('DD.MM.YYYY HH:mm')}</span>
+        </div>
         <div>
           <span>{I18n.t('CLIENT_PROFILE.CLIENT.QUESTIONNAIRE.VERSION')}: {questionnaire.version}</span>
         </div>
@@ -156,47 +138,22 @@ class Questionnaire extends PureComponent {
     const questionnaire = get(questionnaireResponse, 'lastProfileData.data');
     const error = get(questionnaireResponse, 'lastProfileData.error.error');
 
-    const dropDownClassName = classNames('dropdown-highlight', 'cursor-pointer', {
-      'dropdown-open': this.state.dropDownOpen,
-    });
-
     return (
       <div className="header-block header-block_questionnaire">
-        <div className={dropDownClassName}>
-          <div className="dropdown-highlight">
-            {/* Render "NOT PASSED" status if questionnaire form not found on backend */}
-            <If condition={!questionnaire && error === 'error.entity.not.found'}>
-              <div className="header-block">
-                <div className="header-block-title">{I18n.t('CLIENT_PROFILE.CLIENT.QUESTIONNAIRE.TITLE')}</div>
-                <div className="header-block-middle">
-                  <span className="color-inactive text-uppercase">
-                    {I18n.t('CLIENT_PROFILE.CLIENT.QUESTIONNAIRE.STATUSES.NOT_PASSED')}
-                  </span>
-                </div>
-              </div>
-            </If>
-            <If condition={questionnaire}>
-              <Dropdown isOpen={this.state.dropDownOpen} toggle={this.toggle} onClick={this.toggle}>
-                <DropdownToggle
-                  tag="div"
-                  onClick={this.toggle}
-                  data-toggle="dropdown"
-                  aria-expanded={this.state.dropDownOpen}
-                >
-                  {this.renderLabel(questionnaire)}
-                </DropdownToggle>
-                <DropdownMenu>
-                  <DropdownItem onClick={this.handleChangeStatus(statuses.APPROVED)}>
-                    <span className="text-uppercase color-success font-weight-700">{I18n.t('COMMON.APPROVE')}</span>
-                  </DropdownItem>
-                  <DropdownItem onClick={this.handleChangeStatus(statuses.REJECTED)}>
-                    <span className="text-uppercase color-danger font-weight-700">{I18n.t('COMMON.REJECT')}</span>
-                  </DropdownItem>
-                </DropdownMenu>
-              </Dropdown>
-            </If>
+        {/* Render "NOT PASSED" status if questionnaire form not found on backend */}
+        <If condition={!questionnaire && error === 'error.entity.not.found'}>
+          <div className="header-block">
+            <div className="header-block-title">{I18n.t('CLIENT_PROFILE.CLIENT.QUESTIONNAIRE.TITLE')}</div>
+            <div className="header-block-middle">
+              <span className="color-inactive text-uppercase">
+                {I18n.t('CLIENT_PROFILE.CLIENT.QUESTIONNAIRE.STATUSES.NOT_PASSED')}
+              </span>
+            </div>
           </div>
-        </div>
+        </If>
+        <If condition={questionnaire}>
+          {this.renderLabel(questionnaire)}
+        </If>
       </div>
     );
   }

@@ -8,7 +8,6 @@ const questionnaireLasDataQuery = gql`query getLastQuestionnaireData($profileUUI
         status
         score
         version
-        reviewedBy
         updatedAt
       } error {
         error
