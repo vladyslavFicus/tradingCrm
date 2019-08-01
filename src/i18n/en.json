@@ -1034,6 +1034,7 @@
       "NO_MONEY": "No money",
       "TEST": "Test",
       "DEPOSITOR": "Depositor",
+      "DO_NOT_CALL": "Do not call",
       "INVALID_COUNTRY": "Invalid country"
     },
     "RETENTION_STATUSES": {
@@ -1051,6 +1052,11 @@
       "PAMM": "PAMM",
       "NEED_DOCS": "Need docs",
       "NO_TRADES": "No trades",
+      "POTENTIAL_HIGH": "Potential high",
+      "POTENTIAL_LOW": "Potential low",
+      "NO_INTEREST": "No interest",
+      "UNDER_18": "Under 18",
+      "INVALID_LANGUAGE": "Invalid language",
       "REASSIGN": "Reassign"
     },
     "CALLBACKS": {

@@ -1025,6 +1025,7 @@
       "NO_MONEY": "无资金",
       "TEST": "测试",
       "DEPOSITOR": "存款人",
+      "DO_NOT_CALL": "Do not call",
       "INVALID_COUNTRY": "国家无效"
     },
     "RETENTION_STATUSES": {
@@ -1042,6 +1043,11 @@
       "PAMM": "PAMM",
       "NEED_DOCS": "需要文件",
       "NO_TRADES": "无交易",
+      "POTENTIAL_HIGH": "Potential high",
+      "POTENTIAL_LOW": "Potential low",
+      "NO_INTEREST": "No interest",
+      "UNDER_18": "Under 18",
+      "INVALID_LANGUAGE": "Invalid language",
       "REASSIGN": "重新分配"
     },
     "CALLBACKS": {

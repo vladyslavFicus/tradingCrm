@@ -25,6 +25,7 @@ export const salesStatuses = {
   NO_MONEY: 'CONSTANTS.SALES_STATUSES.NO_MONEY',
   TEST: 'CONSTANTS.SALES_STATUSES.TEST',
   DEPOSITOR: 'CONSTANTS.SALES_STATUSES.DEPOSITOR',
+  DO_NOT_CALL: 'CONSTANTS.SALES_STATUSES.DO_NOT_CALL',
   INVALID_COUNTRY: 'CONSTANTS.SALES_STATUSES.INVALID_COUNTRY',
 };
 
@@ -53,6 +54,7 @@ export const salesStatusesColor = {
   NO_MONEY: 'color-warning',
   TEST: 'color-danger',
   DEPOSITOR: 'color-success',
+  DO_NOT_CALL: 'color-danger',
   INVALID_COUNTRY: 'color-danger',
 };
 
@@ -81,5 +83,6 @@ export const salesStatusValues = keyMirror({
   NO_MONEY: null,
   TEST: null,
   DEPOSITOR: null,
+  DO_NOT_CALL: null,
   INVALID_COUNTRY: null,
 });
