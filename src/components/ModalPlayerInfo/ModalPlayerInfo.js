@@ -43,9 +43,6 @@ class ModalPlayerInfo extends Component {
         {I18n.t('CLIENT_PROFILE.PROFILE.HEADER.CREDIT')}: {currency} {Number(credit).toFixed(2)}
       </div>
       <div className="header-block-small">
-        {I18n.t('CLIENT_PROFILE.PROFILE.HEADER.EQUITY')}: {currency} {Number(equity).toFixed(2)}
-      </div>
-      <div className="header-block-small">
         {I18n.t('CLIENT_PROFILE.PROFILE.HEADER.MARGIN')}: {currency} {Number(margin).toFixed(2)}
       </div>
       <div className="header-block-small">

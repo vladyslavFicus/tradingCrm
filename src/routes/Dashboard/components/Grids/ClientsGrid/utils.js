@@ -54,13 +54,9 @@ export default ({ auth, fetchPlayerMiniProfile }) => [{
 
     return (
       <Choose>
-        <When condition={tradingProfile.baseCurrencyBalance && tradingProfile.baseCurrencyEquity}>
+        <When condition={tradingProfile.baseCurrencyBalance}>
           <div className="header-block-middle">
             {currency} {Number(tradingProfile.baseCurrencyBalance).toFixed(2)}
-          </div>
-          <div className="header-block-small">
-            {I18n.t('CLIENT_PROFILE.PROFILE.HEADER.EQUITY')}:&nbsp;
-            {currency} {Number(tradingProfile.baseCurrencyEquity).toFixed(2)}
           </div>
         </When>
         <Otherwise>

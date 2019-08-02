@@ -1869,7 +1869,7 @@
       "GRID_COLUMNS": {
         "TRADING_ACC": "Trading acc",
         "SERVER": "Server",
-        "BALANCE/EQUITY": "Balance / Equity",
+        "BALANCE/EQUITY": "Balance",
         "LEVERAGE": "Leverage",
         "CREDIT": "Credit",
         "TRADING_STATUS": "Trading status"

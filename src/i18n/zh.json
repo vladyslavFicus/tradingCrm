@@ -1868,7 +1868,7 @@
       "GRID_COLUMNS": {
         "TRADING_ACC": "交易账户",
         "SERVER": "服务器",
-        "BALANCE/EQUITY": "余额 / 净值",
+        "BALANCE/EQUITY": "余额",
         "LEVERAGE": "杠杆",
         "CREDIT": "存款金额",
         "TRADING_STATUS": "交易状态"

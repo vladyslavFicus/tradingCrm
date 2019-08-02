@@ -34,9 +34,6 @@ export default [{
       <div className="font-weight-700">
         {symbol} {Number(balance).toFixed(2)}
       </div>
-      <div className="font-size-11">
-        {symbol} {Number(equity).toFixed(2)}
-      </div>
     </Fragment>
   ),
 }, {

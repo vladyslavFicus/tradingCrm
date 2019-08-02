@@ -2,6 +2,7 @@ import React from 'react';
 import moment from 'moment';
 import { I18n } from 'react-redux-i18n';
 import classNames from 'classnames';
+import { getActiveBrandConfig } from 'config';
 import PropTypes from '../../../constants/propTypes';
 import Uuid from '../../Uuid';
 import Amount from '../../Amount';
@@ -17,6 +18,8 @@ const PlayerMiniProfile = ({ data }) => {
   if (data.signInIps.length) {
     lastLogin = data.signInIps[0].sessionStart;
   }
+
+  const currency = getActiveBrandConfig().currencies.base;
 
   return (
     <div className={classNames('mini-profile mini-profile', userStatusNames[data.profileStatus])}>
@@ -54,8 +57,8 @@ const PlayerMiniProfile = ({ data }) => {
           <div className="info-block-label">{I18n.t('MINI_PROFILE.BALANCE')}</div>
           <div className="info-block-content">
             <Amount
-              amount={data.tradingProfile.balance}
-              currency={data.currency}
+              amount={data.tradingProfile.baseCurrencyBalance}
+              currency={currency}
             />
           </div>
         </div>

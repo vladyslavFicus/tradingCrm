@@ -161,9 +161,6 @@ class Balances extends Component {
               {I18n.t('CLIENT_PROFILE.PROFILE.HEADER.CREDIT')}: {baseCurrency} {Number(baseCurrencyCredit).toFixed(2)}
             </div>
             <div className="header-block-small">
-              {I18n.t('CLIENT_PROFILE.PROFILE.HEADER.EQUITY')}: {baseCurrency} {Number(baseCurrencyEquity).toFixed(2)}
-            </div>
-            <div className="header-block-small">
               {I18n.t('CLIENT_PROFILE.PROFILE.HEADER.MARGIN')}: {baseCurrency} {Number(baseCurrencyMargin).toFixed(2)}
             </div>
           </div>
@@ -184,10 +181,6 @@ class Balances extends Component {
                       <div className="header-block-small">
                         {I18n.t('CLIENT_PROFILE.PROFILE.HEADER.CREDIT')}:&nbsp;
                         {balance.currency} {Number(balance.credit).toFixed(2)}
-                      </div>
-                      <div className="header-block-small">
-                        {I18n.t('CLIENT_PROFILE.PROFILE.HEADER.EQUITY')}:&nbsp;
-                        {balance.currency} {Number(balance.equity).toFixed(2)}
                       </div>
                       <div className="header-block-small">
                         {I18n.t('CLIENT_PROFILE.PROFILE.HEADER.MARGIN')}:&nbsp;
