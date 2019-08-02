@@ -4,17 +4,18 @@ import moment from 'moment';
 import { get } from 'lodash';
 import { connect } from 'react-redux';
 import { I18n } from 'react-redux-i18n';
+import { getClickToCall } from 'config';
 import Uuid from 'components/Uuid';
 import { withNotifications } from 'components/HighOrder';
-import { getClickToCall } from 'config';
 import PermissionContent from 'components/PermissionContent';
 import permissions from 'config/permissions';
 import { clickToCall, updateFATCA as updateFATCAMutation } from 'graphql/mutations/profile';
+import PersonalInformationItem from 'components/Information/PersonalInformationItem';
+import NotificationDetailsItem from 'components/Information/NotificationDetailsItem';
+import PropTypes from 'constants/propTypes';
+import { statuses as kycStatuses } from 'constants/kyc';
+import { statuses as userStatuses } from 'constants/user';
 import FatcaForm from './FatcaForm';
-import PersonalInformationItem from '../../../../../../components/Information/PersonalInformationItem';
-import PropTypes from '../../../../../../constants/propTypes';
-import { statuses as kycStatuses } from '../../../../../../constants/kyc';
-import { statuses as userStatuses } from '../../../../../../constants/user';
 
 class Personal extends PureComponent {
   static propTypes = {
@@ -121,6 +122,12 @@ class Personal extends PureComponent {
     const tradingProfile = get(this.props.data, 'tradingProfile') || {};
     const affiliateProfile = get(tradingProfile, 'affiliateProfileDocument');
     const clientType = get(tradingProfile, 'clientType');
+
+    const {
+      gdpr,
+      spam,
+      webCookies,
+    } = tradingProfile;
 
     return (
       <div className="account-details__personal-info">
@@ -233,6 +240,55 @@ class Personal extends PureComponent {
                   initialValues={{ provided: get(tradingProfile, 'fatca.provided', false) }}
                 />
               </PermissionContent>
+            </If>
+            <If condition={gdpr && spam && webCookies}>
+              <div className="account-details__label margin-top-15">
+                {I18n.t('CLIENT_PROFILE.DETAILS.GDPR.TITLE')}
+              </div>
+              <NotificationDetailsItem
+                label={I18n.t('CLIENT_PROFILE.DETAILS.GDPR.SMS')}
+                value={gdpr.sms}
+              />
+              <NotificationDetailsItem
+                label={I18n.t('CLIENT_PROFILE.DETAILS.GDPR.EMAIL')}
+                value={gdpr.email}
+              />
+              <NotificationDetailsItem
+                label={I18n.t('CLIENT_PROFILE.DETAILS.GDPR.PHONE')}
+                value={gdpr.phone}
+              />
+              <NotificationDetailsItem
+                label={I18n.t('CLIENT_PROFILE.DETAILS.GDPR.SOCIAL_MEDIA')}
+                value={gdpr.socialMedia}
+              />
+              <div className="account-details__label margin-top-15">
+                {I18n.t('CLIENT_PROFILE.DETAILS.SPAM.TITLE')}
+              </div>
+              <NotificationDetailsItem
+                label={I18n.t('CLIENT_PROFILE.DETAILS.SPAM.MARKET_NEWS')}
+                value={spam.marketNews}
+              />
+              <NotificationDetailsItem
+                label={I18n.t('CLIENT_PROFILE.DETAILS.SPAM.INFORMATION')}
+                value={spam.information}
+              />
+              <NotificationDetailsItem
+                label={I18n.t('CLIENT_PROFILE.DETAILS.SPAM.EDUCATIONAL')}
+                value={spam.educational}
+              />
+              <NotificationDetailsItem
+                label={I18n.t('CLIENT_PROFILE.DETAILS.SPAM.PROMOS_OFFERS')}
+                value={spam.promosAndOffers}
+              />
+              <NotificationDetailsItem
+                label={I18n.t('CLIENT_PROFILE.DETAILS.SPAM.STATISTICS_SUMMARY')}
+                value={spam.statisticsAndSummary}
+              />
+              <NotificationDetailsItem
+                className='margin-top-15'
+                label={I18n.t('CLIENT_PROFILE.DETAILS.WEB_COOKIES.TITLE')}
+                value={webCookies.enabled}
+              />
             </If>
           </div>
         </div>

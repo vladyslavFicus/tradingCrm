@@ -477,6 +477,8 @@
     "FOR": "for",
     "FIRST_NAME": "First name",
     "LAST_NAME": "Last name",
+    "DISABLED": "Disabled",
+    "ENABLED": "Enabled",
     "UPDATE_VERSION_MODAL": {
       "TEXT": "Backoffice has been updated. To continue working with it click the button below. It will reload the page and update you Backoffice version.",
       "TITLE": "Update your client version"
@@ -1930,7 +1932,25 @@
       "CORPORATE_RETAIL": "Corporate Retail",
       "CORPORATE_PROFESSIONAL": "Corporate Professional",
       "FNX_STATUS": "FNS Status",
-      "MIGRATION_ID": "Migration ID"
+      "MIGRATION_ID": "Migration ID",
+      "GDPR": {
+        "TITLE": "GDPR",
+        "EMAIL": "Email",
+        "PHONE": "Phone",
+        "SOCIAL_MEDIA": "Social Media",
+        "SMS": "SMS"
+      },
+      "SPAM": {
+        "TITLE": "SPAM",
+        "MARKET_NEWS": "Market News",
+        "INFORMATION": "Information",
+        "EDUCATIONAL": "Educational",
+        "PROMOS_OFFERS": "Promos & offers",
+        "STATISTICS_SUMMARY": "Statistics & Summary"
+      },
+      "WEB_COOKIES": {
+        "TITLE": "Web Cookies"
+      }
     },
     "FATCA": {
       "TITLE": "FATCA",

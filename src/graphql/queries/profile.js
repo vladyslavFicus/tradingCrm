@@ -66,6 +66,22 @@ const clientQuery = gql`query profileData($playerUUID: String!){
       isTest
       registrationDate
       tradingProfile {
+        gdpr {
+          sms
+          email
+          phone
+          socialMedia
+        }
+        spam {
+          marketNews,
+          information,
+          educational,
+          promosAndOffers,
+          statisticsAndSummary,
+        }
+        webCookies {
+          enabled,
+        }
         phone1
         phone2
         margin

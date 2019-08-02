@@ -463,6 +463,8 @@
     "FOR": "针对",
     "FIRST_NAME": "名字",
     "LAST_NAME": "姓氏",
+    "DISABLED": "禁用",
+    "ENABLED": "启用",
     "UPDATE_VERSION_MODAL": {
       "TEXT": "后台已更新。如需继续操作，请点击下方按钮。页面将刷新并更新您的后台版本。",
       "TITLE": "更新您的客户端版本"
@@ -1930,7 +1932,25 @@
       "FNX_STATUS": "FNS状态",
       "MIGRATION_ID": "转移ID",
       "ALT_PHONE": "",
-      "FNS_STATUS": ""
+      "FNS_STATUS": "",
+      "GDPR": {
+        "TITLE": "通用数据保护条例（GDPR）",
+        "EMAIL": "电子邮箱",
+        "PHONE": "电话",
+        "SOCIAL_MEDIA": "社交媒体",
+        "SMS": "手机短信"
+      },
+      "SPAM": {
+        "TITLE": "垃圾邮件",
+        "MARKET_NEWS": "市场新闻",
+        "INFORMATION": "信息",
+        "EDUCATIONAL": "教育",
+        "PROMOS_OFFERS": "促销和优惠",
+        "STATISTICS_SUMMARY": "统计数据和概要"
+      },
+      "WEB_COOKIES": {
+        "TITLE": "网页Cookies"
+      }
     },
     "FATCA": {
       "TITLE": "FATCA",
