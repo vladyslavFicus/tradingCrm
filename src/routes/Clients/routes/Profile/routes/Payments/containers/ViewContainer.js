@@ -4,6 +4,7 @@ import { get } from 'lodash';
 import { addNoteMutation } from 'graphql/mutations/note';
 import { addPaymentMutation } from 'graphql/mutations/payment';
 import { getClientPaymentsByUuid } from 'graphql/queries/payments';
+import { clientQuery } from 'graphql/queries/profile';
 import { operatorsQuery } from 'graphql/queries/operators';
 import { withModals } from 'components/HighOrder';
 import Payments from '../components/Payments';
@@ -20,7 +21,6 @@ const mapStateToProps = ({
   ...userTransactions,
   locale,
   currencyCode: profile.data.currencyCode,
-  playerProfile: profile.data,
   auth: { uuid },
 });
 
@@ -54,6 +54,20 @@ export default compose(
         size: 2000,
       },
     }),
+  }),
+  graphql(clientQuery, {
+    options: ({
+      match: {
+        params: {
+          id: playerUUID,
+        },
+      },
+    }) => ({
+      variables: {
+        playerUUID,
+      },
+    }),
+    name: 'playerProfile',
   }),
   graphql(getClientPaymentsByUuid, {
     name: 'clientPayments',

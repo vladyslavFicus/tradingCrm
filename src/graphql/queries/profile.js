@@ -28,6 +28,7 @@ const clientQuery = gql`query profileData($playerUUID: String!){
       username
       languageCode
       city
+      country
       phoneNumber
       phoneNumberVerified
       lastName

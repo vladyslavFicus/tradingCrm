@@ -34,7 +34,12 @@ class Payments extends Component {
         id: PropTypes.string,
       }).isRequired,
     }).isRequired,
-    playerProfile: PropTypes.userProfile,
+    playerProfile: PropTypes.shape({
+      playerProfile: PropTypes.shape({
+        data: PropTypes.userProfile.isRequired,
+      }),
+      refetch: PropTypes.func.isRequired,
+    }),
     locale: PropTypes.string.isRequired,
     addPayment: PropTypes.func.isRequired,
     clientPayments: PropTypes.shape({
@@ -61,7 +66,6 @@ class Payments extends Component {
 
   static defaultProps = {
     currencyCode: null,
-    playerProfile: {},
   };
 
   static contextTypes = {
@@ -176,15 +180,17 @@ class Payments extends Component {
       addNote,
       match: { params: { id: uuid } },
       clientPayments: { refetch },
-      playerProfile: {
-        country,
-        languageCode: language,
-        firstName,
-        lastName,
-      },
+      playerProfile: { playerProfile },
       fetchProfile,
       modals: { addPayment: modal },
     } = this.props;
+
+    const {
+      country,
+      languageCode: language,
+      firstName,
+      lastName,
+  } = playerProfile.data;
 
     const variables = {
       ...inputParams,
@@ -217,12 +223,14 @@ class Payments extends Component {
   handleOpenAddPaymentModal = () => {
     const {
       modals: { addPayment },
-      playerProfile,
+      playerProfile: { playerProfile: { data }, refetch },
     } = this.props;
+
+    refetch();
 
     addPayment.show({
       onSubmit: this.handleAddPayment,
-      playerProfile,
+      playerProfile: data,
     });
   };
 
