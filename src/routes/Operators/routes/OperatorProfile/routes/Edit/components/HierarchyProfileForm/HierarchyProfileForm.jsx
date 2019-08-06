@@ -31,7 +31,7 @@ class HierarchyProfileForm extends Component {
 
   static defaultProps = {
     initialValues: {},
-  }
+  };
 
   static contextTypes = {
     refetchHierarchy: PropTypes.func.isRequired,
@@ -45,7 +45,7 @@ class HierarchyProfileForm extends Component {
     this.setState({
       branchFormVisibility: !this.state.branchFormVisibility,
     });
-  }
+  };
 
   handleSubmitUserTypeChange = async ({ [fieldNames.USER_TYPE]: userType }) => {
     const {
@@ -113,7 +113,7 @@ class HierarchyProfileForm extends Component {
       await refetchHierarchy();
       reset();
     }
-  }
+  };
 
   hierarchyTree = (type, parentBranch, name, brandId) => {
     const { branchHierarchy } = this.props;
@@ -122,7 +122,7 @@ class HierarchyProfileForm extends Component {
     let hierarchyTree;
 
     switch (type) {
-      case (branchNames.TEAM): {
+      case branchNames.TEAM: {
         const desk = branchHierarchy[branchNames.DESK].find(({ uuid }) => (uuid === parentBranchUuid));
         const { name: deskName, parentBranch: { uuid: officeUuid } } = desk || {};
 
@@ -137,7 +137,7 @@ class HierarchyProfileForm extends Component {
 
         break;
       }
-      case (branchNames.DESK): {
+      case branchNames.DESK: {
         const office = branchHierarchy[branchNames.OFFICE].find(({ uuid }) => (uuid === parentBranchUuid));
         const { name: officeName } = office || {};
 
@@ -147,7 +147,7 @@ class HierarchyProfileForm extends Component {
 
         break;
       }
-      case (branchNames.OFFICE): {
+      case branchNames.OFFICE: {
         hierarchyTree = <div className="hierarchy__tree">&nbsp;{brandId} &rarr; <span className="color-info">{name}</span></div>;
 
         break;
@@ -158,7 +158,7 @@ class HierarchyProfileForm extends Component {
     }
 
     return hierarchyTree;
-  }
+  };
 
   render() {
     const {

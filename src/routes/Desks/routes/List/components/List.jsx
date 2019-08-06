@@ -4,6 +4,8 @@ import { get } from 'lodash';
 import { TextRow } from 'react-placeholder/lib/placeholders';
 import history from 'router/history';
 import PropTypes from 'constants/propTypes';
+import permissions from 'config/permissions';
+import PermissionContent from 'components/PermissionContent';
 import GridView, { GridViewColumn } from 'components/GridView';
 import Placeholder from 'components/Placeholder';
 import Uuid from 'components/Uuid';
@@ -35,7 +37,6 @@ class List extends Component {
       infoModal: PropTypes.modalType,
     }).isRequired,
     auth: PropTypes.shape({
-      isAdministration: PropTypes.bool.isRequired,
       userId: PropTypes.string.isRequired,
     }).isRequired,
     desks: PropTypes.shape({
@@ -151,7 +152,6 @@ class List extends Component {
       },
       userBranchHierarchy: { hierarchy, loading: userBranchHierarchyLoading },
       location: { query },
-      auth: { isAdministration },
     } = this.props;
 
     const entities = get(desks, 'branchHierarchy.data') || [];
@@ -180,7 +180,7 @@ class List extends Component {
               {I18n.t('DESKS.DESKS')}
             </span>
           </Placeholder>
-          <If condition={isAdministration}>
+          <PermissionContent permissions={permissions.HIERARCHY.CREATE_BRANCH}>
             <div className="ml-auto">
               <button
                 className="btn btn-default-outline"
@@ -191,7 +191,7 @@ class List extends Component {
                 {I18n.t('DESKS.ADD_DESK')}
               </button>
             </div>
-          </If>
+          </PermissionContent>
         </div>
 
         <DesksGridFilter

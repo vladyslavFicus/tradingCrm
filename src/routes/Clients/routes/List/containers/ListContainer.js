@@ -50,7 +50,7 @@ export default compose(
       auth: { uuid },
     }) => ({
       variables: { userId: uuid },
-      fetchPolicy: 'network-only',
+      fetchPolicy: 'cache-and-network',
     }),
   }),
   customGql(clientsQuery, {
@@ -61,7 +61,7 @@ export default compose(
         page: 0,
         size: 20,
       },
-      fetchPolicy: 'network-only',
+      fetchPolicy: 'cache-and-network',
     }),
     props: ({ profiles: { profiles, fetchMore, ...rest }, ownProps: { location } }) => {
       const { response, currentPage } = limitItems(profiles, location);

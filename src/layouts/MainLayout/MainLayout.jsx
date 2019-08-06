@@ -307,7 +307,7 @@ class MainLayout extends Component {
     } = this.props;
 
     return (
-      <Fragment>
+      <Fragment key={user.department}>
         <Choose>
           <When condition={window.isFrame}>
             {children}

@@ -4,6 +4,8 @@ import { get } from 'lodash';
 import { TextRow } from 'react-placeholder/lib/placeholders';
 import history from 'router/history';
 import PropTypes from 'constants/propTypes';
+import permissions from 'config/permissions';
+import PermissionContent from 'components/PermissionContent';
 import GridView, { GridViewColumn } from 'components/GridView';
 import Placeholder from 'components/Placeholder';
 import Uuid from 'components/Uuid';
@@ -24,9 +26,6 @@ class List extends Component {
       infoModal: PropTypes.modalType,
     }).isRequired,
     countries: PropTypes.object.isRequired,
-    auth: PropTypes.shape({
-      isAdministration: PropTypes.bool.isRequired,
-    }).isRequired,
     offices: PropTypes.shape({
       loading: PropTypes.bool.isRequired,
       refetch: PropTypes.func.isRequired,
@@ -112,7 +111,6 @@ class List extends Component {
       },
       location: { query },
       countries,
-      auth: { isAdministration },
     } = this.props;
 
     const entities = get(offices, 'branchHierarchy.data') || [];
@@ -140,7 +138,7 @@ class List extends Component {
               {I18n.t('OFFICES.OFFICES')}
             </span>
           </Placeholder>
-          <If condition={isAdministration}>
+          <PermissionContent permissions={permissions.HIERARCHY.CREATE_BRANCH}>
             <div className="ml-auto">
               <button
                 className="btn btn-default-outline"
@@ -151,7 +149,7 @@ class List extends Component {
                 {I18n.t('OFFICES.ADD_OFFICE')}
               </button>
             </div>
-          </If>
+          </PermissionContent>
         </div>
 
         <OfficesGridFilter

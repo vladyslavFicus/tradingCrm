@@ -60,12 +60,12 @@ class AddBranchForm extends Component {
     } else {
       const { branches } = this.state;
       const { refetchHierarchy } = this.context;
-      const { label } = branches.find(({ value }) => value === branchId) || { label: '' };
+      const { search } = branches.find(({ value }) => value === branchId) || { label: '' };
 
       notify({
         level: 'success',
         title: I18n.t('COMMON.SUCCESS'),
-        message: I18n.t('OPERATORS.PROFILE.HIERARCHY.BRANCH_ADDED', { name: label }),
+        message: I18n.t('OPERATORS.PROFILE.HIERARCHY.BRANCH_ADDED', { name: search }),
       });
       hideForm();
       refetchHierarchy();

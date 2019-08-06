@@ -3,7 +3,6 @@ import moment from 'moment';
 import classNames from 'classnames';
 import { I18n } from 'react-redux-i18n';
 import { get, omit } from 'lodash';
-import { NetworkStatus } from 'apollo-client';
 import { TextRow } from 'react-placeholder/lib/placeholders';
 import history from 'router/history';
 import PropTypes from 'constants/propTypes';
@@ -23,12 +22,6 @@ import ConvertedBy from '../../../components/ConvertedBy';
 import { leadStatuses } from '../../../constants';
 import { getLeadsData } from './utils';
 import LeadsGridFilter from './LeadsGridFilter';
-
-const loadingNetworkStatuses = [
-  NetworkStatus.loading,
-  NetworkStatus.refetch,
-  NetworkStatus.setVariables,
-];
 
 class List extends Component {
   static propTypes = {
@@ -228,7 +221,6 @@ class List extends Component {
     const {
       notify,
       leads: { refetch },
-      auth: { isAdministration },
       modals: { leadsUploadModal },
     } = this.props;
 
@@ -252,9 +244,7 @@ class List extends Component {
       message: I18n.t('COMMON.UPLOAD_SUCCESSFUL'),
     });
 
-    if (isAdministration) {
-      refetch();
-    }
+    refetch();
   };
 
   handleLeadsUploadModalClick = () => {
@@ -454,11 +444,6 @@ class List extends Component {
               >
                 {I18n.t('COMMON.SALES')}
               </button>
-              <button
-                className="btn btn-default-outline"
-              >
-                {I18n.t('COMMON.EXPORT_SELECTED')}
-              </button>
             </div>
           </If>
           <If condition={selectedRows.length === 0}>
@@ -497,7 +482,7 @@ class List extends Component {
             activePage={entities.page}
             last={entities.last}
             lazyLoad
-            loading={loadingNetworkStatuses.includes(networkStatus)}
+            loading={loading && entities.content.length === 0}
             multiselect
             allRowsSelected={allRowsSelected}
             touchedRowsIds={touchedRowsIds}

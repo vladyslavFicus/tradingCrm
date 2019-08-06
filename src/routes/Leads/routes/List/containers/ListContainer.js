@@ -5,18 +5,16 @@ import { withNotifications, withModals } from 'components/HighOrder';
 import RepresentativeUpdateModal from 'components/RepresentativeUpdateModal';
 import countries from 'utils/countryList';
 import limitItems from 'utils/limitItems';
-import { graphql as customGql } from 'graphql/utils';
 import { leadsQuery } from 'graphql/queries/leads';
 import { bulkLeadPromote } from 'graphql/mutations/leads';
 import { leadCsvUpload } from 'graphql/mutations/upload';
-import { departments } from 'constants/brands';
 import LeadsUploadModal from '../components/LeadsUploadModal/LeadsUploadModal';
 import List from '../components/List';
 
 const mapStateToProps = ({
   usersList: list,
   i18n: { locale },
-  auth: { brandId, uuid, department },
+  auth: { brandId, uuid },
 }) => ({
   list,
   locale,
@@ -24,7 +22,6 @@ const mapStateToProps = ({
   auth: {
     brandId,
     uuid,
-    isAdministration: department === departments.ADMINISTRATION,
   },
 });
 
@@ -43,12 +40,12 @@ export default compose(
   graphql(bulkLeadPromote, {
     name: 'promoteLead',
   }),
-  customGql(leadsQuery, {
+  graphql(leadsQuery, {
     name: 'leads',
     options: ({
       location: { query },
     }) => ({
-      notifyOnNetworkStatusChange: true,
+      fetchPolicy: 'cache-and-network',
       variables: {
         ...query && query.filters,
         page: 0,

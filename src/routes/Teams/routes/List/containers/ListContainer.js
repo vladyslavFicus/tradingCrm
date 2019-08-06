@@ -4,18 +4,16 @@ import { withModals } from '../../../../../components/HighOrder';
 import HierarchyInfoModal from '../../../../../components/HierarchyInfoModal';
 import { getUserBranchHierarchy, getBranchHierarchy } from '../../../../../graphql/queries/hierarchy';
 import { createTeam } from '../../../../../graphql/mutations/hierarchy';
-import { departments } from '../../../../../constants/brands';
 import { branchTypes } from '../../../../../constants/hierarchyTypes';
 import TeamModal from '../components/TeamModal';
 import List from '../components/List';
 
 const mapStateToProps = ({
   i18n: { locale },
-  auth: { department, uuid: userId },
+  auth: { uuid: userId },
 }) => ({
   locale,
   auth: {
-    isAdministration: department === departments.ADMINISTRATION,
     userId,
   },
 });

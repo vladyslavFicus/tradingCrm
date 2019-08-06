@@ -22,6 +22,7 @@ export default {
     GET_OPERATORS: 'trading_hierarchy;GET;/user/{uuid}/operators',
     GET_AFFILIATE_PARTNERS: 'trading_hierarchy;GET;/user/{uuid}/affiliate-partners',
     GET_BRANCH_BY_ID: 'trading_hierarchy;GET;/branch/{uuid}',
+    CREATE_BRANCH: 'trading_hierarchy_updater;POST;/branch',
   },
   USER_PROFILE: {
     SEND_ACTIVATION_LINK: 'profile;POST;/profiles/{playerUUID}/send-activation-link',

@@ -52,7 +52,6 @@ class View extends Component {
       uuid: PropTypes.string,
     }).isRequired,
     notify: PropTypes.func.isRequired,
-    locale: PropTypes.string.isRequired,
   };
 
   static contextTypes = {
@@ -104,7 +103,7 @@ class View extends Component {
         ...data,
       },
     });
-  }
+  };
 
   handleDeleteAuthority = async (department, role) => {
     const {
@@ -169,7 +168,6 @@ class View extends Component {
         hierarchy,
       },
       operatorType,
-      locale,
     } = this.props;
 
     const { permissions: currentPermissions } = this.context;
@@ -199,7 +197,6 @@ class View extends Component {
               }}
               disabled={this.readOnly}
               onSubmit={this.handleSubmit}
-              locale={locale}
             />
           </div>
         </div>
