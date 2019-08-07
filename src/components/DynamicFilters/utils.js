@@ -29,9 +29,9 @@ const getCurrentFilters = (array, props) => array
   .sort((a, b) => {
     if (a.default && b.default) {
       return 0;
-    } else if (a.default && !b.default) {
+    } if (a.default && !b.default) {
       return -1;
-    } else if (!a.default && b.default) {
+    } if (!a.default && b.default) {
       return 1;
     }
 

@@ -75,8 +75,8 @@ class PhoneForm extends Component {
 
     const { tradingOperatorAccessDisabled } = this.context;
 
-    const isPhoneDirty = currentValues.phone !== initialValues.phone ||
-      currentValues.phoneCode !== initialValues.phoneCode;
+    const isPhoneDirty = currentValues.phone !== initialValues.phone
+      || currentValues.phoneCode !== initialValues.phoneCode;
 
     const isPhoneValid = !formSyncErrors.phone && !formSyncErrors.phoneCode;
     const isPhoneVerifiable = isPhoneValid && (isPhoneDirty || !profile.phoneNumberVerified);

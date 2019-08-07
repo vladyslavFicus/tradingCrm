@@ -9,7 +9,7 @@ import Uuid from '../Uuid';
 import { entities, entitiesPrefixes } from '../../constants/uuid';
 import { tagTypes } from '../../constants/tag';
 import ActionsDropDown from '../ActionsDropDown';
-import MiniProfile from '../../components/MiniProfile';
+import MiniProfile from '../MiniProfile';
 import { types as miniProfileTypes } from '../../constants/miniProfile';
 import { modalType } from '../NoteModal/constants';
 import './NoteItem.scss';

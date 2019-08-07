@@ -14,7 +14,7 @@ Object.keys(components).forEach((key) => {
     };
 
     toggle = () => {
-      this.setState({ isOpen: !this.state.isOpen });
+      this.setState(({ isOpen }) => ({ isOpen: !isOpen }));
     };
 
     render() {
@@ -27,7 +27,7 @@ Object.keys(components).forEach((key) => {
   components[key] = Uncontrolled;
 });
 
-const UncontrolledTooltip = components.UncontrolledTooltip;
+const { UncontrolledTooltip } = components;
 
 export {
   UncontrolledTooltip,

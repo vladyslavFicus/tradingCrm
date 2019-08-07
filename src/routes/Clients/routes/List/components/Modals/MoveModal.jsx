@@ -125,5 +125,5 @@ export default withNotifications(
     form: FORM_NAME,
     enableReinitialize: true,
     validate: values => createValidator({ aquisitionStatus: ['string', 'required'] }, {}, false)(values),
-  })(MoveModal)
+  })(MoveModal),
 );

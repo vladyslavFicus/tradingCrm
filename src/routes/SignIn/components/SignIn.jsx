@@ -28,9 +28,14 @@ class SignIn extends Component {
       departmentsByBrand: PropTypes.objectOf(PropTypes.objectOf(PropTypes.string)),
     }).isRequired,
   };
+
   static defaultProps = {
     brand: null,
   };
+
+  mounted = false;
+
+  resetStateTimeout = null;
 
   state = {
     loading: true,
@@ -69,23 +74,17 @@ class SignIn extends Component {
     this.props.reset(true);
   }
 
-  mounted = false;
-  resetStateTimeout = null;
-
   handleSubmit = async (data) => {
     const { signIn } = this.props;
     const action = await signIn(data);
 
     if (action) {
       if (!action.error) {
-        console.info('Sign in successful');
-
         if (this.mounted) {
           this.setState({ logged: true }, async () => {
             const { departmentsByBrand, token, uuid } = action.payload;
 
             const brands = Object.keys(departmentsByBrand);
-            console.info(`Logged with ${brands.length} brands`);
 
             if (brands.length === 1) {
               const departments = Object.keys(departmentsByBrand[brands[0]]);
@@ -94,12 +93,12 @@ class SignIn extends Component {
                 return this.handleSelectDepartment(brands[0], departments[0], token, uuid);
               }
             }
+
+            return null;
           });
         }
       } else {
         const error = get(action, 'payload.response.error', action.payload.message);
-
-        console.info(`Sign in failure, reason: ${error}`);
 
         throw new SubmissionError({ _error: error });
       }

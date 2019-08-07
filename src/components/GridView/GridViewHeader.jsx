@@ -3,6 +3,7 @@ import { getGridColumn } from './utils';
 
 class GridViewHeader extends Component {
   static propTypes = {};
+
   static defaultProps = {};
 
   constructor(props) {

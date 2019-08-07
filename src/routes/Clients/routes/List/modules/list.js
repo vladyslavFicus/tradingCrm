@@ -29,7 +29,7 @@ function mapProfile(item) {
     signInIps: item.signInIps ? Object.values(item.signInIps).sort((a, b) => {
       if (a.sessionStart > b.sessionStart) {
         return -1;
-      } else if (b.sessionStart > a.sessionStart) {
+      } if (b.sessionStart > a.sessionStart) {
         return 1;
       }
 
@@ -62,7 +62,7 @@ function exportEntities(filters = {}) {
     }
 
     const queryString = buildQueryString(
-      _.omitBy({ page: 0, ...filters }, val => !val)
+      _.omitBy({ page: 0, ...filters }, val => !val),
     );
 
     try {

@@ -18,6 +18,7 @@ class SelectSingleOptions extends PureComponent {
     bindActiveOption: PropTypes.func,
     optionComponent: PropTypes.oneOfType([PropTypes.func]),
   };
+
   static defaultProps = {
     className: 'select-block__options',
     optionClassName: 'select-block__options-item',

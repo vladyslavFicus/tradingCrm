@@ -1,3 +1,4 @@
+/* eslint no-bitwise: ["error", { "allow": ["~"] }] */
 import { CALL_API } from 'redux-api-middleware';
 import countries from 'country-list';
 import createReducer from '../../../../../utils/createReducer';
@@ -156,6 +157,8 @@ function getCountryAvailability(methodUUID) {
               if (contentType && ~contentType.indexOf('json')) {
                 return res.json().then(json => mapCountries(json));
               }
+
+              return null;
             },
           },
           GET_COUNTRY_AVAILABILITY.FAILURE,

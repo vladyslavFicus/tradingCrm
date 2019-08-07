@@ -6,13 +6,13 @@ const GridViewColumn = ({ children }) => (
 );
 
 GridViewColumn.propTypes = {
-  name: PropTypes.string.isRequired,
-  header: PropTypes.string,
-  headerClassName: PropTypes.string,
-  headerStyle: PropTypes.object,
-  render: PropTypes.func,
-  className: PropTypes.string,
-  style: PropTypes.object,
+  name: PropTypes.string.isRequired, // eslint-disable-line
+  header: PropTypes.string, // eslint-disable-line
+  headerClassName: PropTypes.string, // eslint-disable-line
+  headerStyle: PropTypes.object, // eslint-disable-line
+  render: PropTypes.func, // eslint-disable-line
+  className: PropTypes.string, // eslint-disable-line
+  style: PropTypes.object, // eslint-disable-line
   children: PropTypes.any,
 };
 

@@ -1,11 +1,10 @@
 import keyMirror from 'keymirror';
 
 const pushCondition = ctx => (condition, permissions) => {
+  const formattedPermissions = Array.isArray(permissions) ? [condition, permissions] : [condition, [permissions]];
   ctx.__permissions = ctx.__permissions.length
     ? [condition, [ctx.__permissions, permissions]]
-    : Array.isArray(permissions)
-      ? [condition, permissions]
-      : [condition, [permissions]];
+    : formattedPermissions;
 
   return ctx;
 };
@@ -54,7 +53,7 @@ class Permissions {
   checkPermissions = (condition, allowedPermissions, currentPermissions) => {
     if (condition === CONDITIONS.OR) {
       return allowedPermissions.some(item => this.checkPermissionItem(currentPermissions, item));
-    } else if (condition === CONDITIONS.AND) {
+    } if (condition === CONDITIONS.AND) {
       return allowedPermissions.every(item => this.checkPermissionItem(currentPermissions, item));
     }
 
@@ -66,7 +65,7 @@ class Permissions {
 
     if (typeOfItem === 'string') {
       return currentPermissions.indexOf(item) > -1;
-    } else if (typeOfItem === 'object' && Array.isArray(item) && item.length) {
+    } if (typeOfItem === 'object' && Array.isArray(item) && item.length) {
       const [condition, allowedPermissions] = item;
       if (condition !== CONDITIONS.AND && condition !== CONDITIONS.OR) {
         return item.every(i => this.checkPermissionItem(currentPermissions, i));

@@ -15,6 +15,7 @@ class CountriesGridFilter extends Component {
     submitting: PropTypes.bool,
     onSubmit: PropTypes.func.isRequired,
   };
+
   static defaultProps = {
     handleSubmit: null,
     submitting: false,
@@ -48,7 +49,7 @@ class CountriesGridFilter extends Component {
             disabled={submitting}
             className="btn btn-default"
             onClick={this.handleReset}
-            type="reset"
+            type="button"
           >
             {I18n.t('COMMON.RESET')}
           </button>

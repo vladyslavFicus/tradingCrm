@@ -341,7 +341,7 @@ class PaymentDetailModal extends PureComponent {
                           <option key={key} value={value[0]}>
                             {renderLabel(key, statusesLabels)}
                           </option>
-                      ))}
+                        ))}
                     </Field>
                     <Field
                       label={I18n.t('PAYMENT_DETAILS_MODAL.CHANGE_PAYMENT_METHOD')}

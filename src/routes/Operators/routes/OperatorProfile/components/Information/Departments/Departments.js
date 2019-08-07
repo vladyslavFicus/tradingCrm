@@ -15,11 +15,11 @@ const Departments = ({ authorities }) => (
           {I18n.t('OPERATOR_PROFILE.DETAILS.LABEL.DEPARTMENTS')}
         </span>
         {
-          !!authorities.length &&
-          <div className="margin-top-5">
-            {
-              authorities.map(authority =>
-                (
+          !!authorities.length
+          && (
+            <div className="margin-top-5">
+              {
+                authorities.map(authority => (
                   <span key={authority.id} className="badge badge-black">
                     <div className="badge-department">
                       { renderLabel(authority.department, departmentsLabels) }
@@ -28,10 +28,10 @@ const Departments = ({ authorities }) => (
                       { renderLabel(authority.role, rolesLabels) }
                     </div>
                   </span>
-                )
-              )
-            }
-          </div>
+                ))
+              }
+            </div>
+          )
         }
       </div>
     </div>

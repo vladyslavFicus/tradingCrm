@@ -40,6 +40,7 @@ class DateTimeField extends Component {
     timePresets: PropTypes.bool,
     helpText: PropTypes.node,
   };
+
   static defaultProps = {
     id: null,
     label: null,

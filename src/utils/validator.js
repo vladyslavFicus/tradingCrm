@@ -10,7 +10,7 @@ function nextDateValidator(value, requirement) {
 function lessThanValidator(inputValue, requirement, attribute) {
   const value = Number(inputValue);
 
-  if (isNaN(value)) {
+  if (Number.isNaN(value)) {
     this.validator.errors.add(attribute, 'Value must be a number');
 
     return false;
@@ -22,8 +22,7 @@ function lessThanValidator(inputValue, requirement, attribute) {
     const currentAttributeLabel = this.validator.messages._getAttributeName(attribute);
 
     this.validator.errors.add(attribute,
-      `The "${currentAttributeLabel}" must be less than "${targetAttributeLabel}"`
-    );
+      `The "${currentAttributeLabel}" must be less than "${targetAttributeLabel}"`);
 
     return false;
   }
@@ -47,7 +46,7 @@ function daysRangeBetweenValidator(value, requirement, attribute) {
       this.validator.errors.add(
         attribute,
         `The difference between "${currentAttributeLabel}" and "${targetAttributeLabel}" 
-        must not be greater than ${daysDifferenceCriteria} days`
+        must not be greater than ${daysDifferenceCriteria} days`,
       );
 
       return false;
@@ -60,7 +59,7 @@ function daysRangeBetweenValidator(value, requirement, attribute) {
 function greaterThanValidator(inputValue, requirement, attribute) {
   const value = Number(inputValue);
 
-  if (isNaN(value)) {
+  if (Number.isNaN(value)) {
     this.validator.errors.add(attribute, 'Value must be a number');
 
     return false;
@@ -72,8 +71,7 @@ function greaterThanValidator(inputValue, requirement, attribute) {
     const currentAttributeLabel = this.validator.messages._getAttributeName(attribute);
 
     this.validator.errors.add(attribute,
-      `The "${currentAttributeLabel}" must be greater than "${targetAttributeLabel}"`
-    );
+      `The "${currentAttributeLabel}" must be greater than "${targetAttributeLabel}"`);
 
     return false;
   }
@@ -88,7 +86,7 @@ function greaterValidator(inputValue, requirement) {
 function lessOrSameValidator(inputValue, requirement, attribute) {
   const value = Number(inputValue);
 
-  if (isNaN(value)) {
+  if (Number.isNaN(value)) {
     this.validator.errors.add(attribute, 'Value must be a number');
 
     return false;
@@ -101,8 +99,7 @@ function lessOrSameValidator(inputValue, requirement, attribute) {
     const currentAttributeLabel = this.validator.messages._getAttributeName(attribute);
 
     this.validator.errors.add(attribute,
-      `The "${currentAttributeLabel}" must be less than or same "${targetAttributeLabel}"`
-    );
+      `The "${currentAttributeLabel}" must be less than or same "${targetAttributeLabel}"`);
 
     return false;
   }
@@ -114,11 +111,11 @@ function greaterOrSameValidator(inputValue, requirement, attribute) {
   const value = Number(inputValue);
   const lessValue = Number(get(this.validator.input, requirement));
 
-  if (isNaN(lessValue)) {
+  if (Number.isNaN(lessValue)) {
     return true;
   }
 
-  if (isNaN(value)) {
+  if (Number.isNaN(value)) {
     this.validator.errors.add(attribute, 'Value must be a number');
 
     return false;
@@ -134,8 +131,8 @@ function periodGreaterOrSameValidator(inputValue, requirement, attribute) {
   const lessValue = parseInt(get(this.validator.input, requirement), 10);
   const lessValueTimeUnit = get(this.validator.input, `${requirement}TimeUnit`);
 
-  const isGreater = moment.duration(value, valueUnit).asMinutes() >=
-    moment.duration(lessValue, lessValueTimeUnit).asMinutes();
+  const isGreater = moment.duration(value, valueUnit).asMinutes()
+    >= moment.duration(lessValue, lessValueTimeUnit).asMinutes();
 
   if (!isGreater) {
     this.validator.errors.add(attribute, `The "${attribute}" must be same or greater than "${requirement}"`);
@@ -158,7 +155,7 @@ function customValueTypeValidator(inputValue, _, attribute) {
     } else {
       const value = Number(inputValue);
 
-      if (isNaN(value)) {
+      if (Number.isNaN(value)) {
         this.validator.errors.add(attribute, 'Value must be a number');
 
         return false;
@@ -198,16 +195,17 @@ const createValidator = (rules, attributeLabels = {}, multipleErrors = true) => 
 
   if (validation.fails()) {
     const flattenErrors = multipleErrors ? validation.errors.all() : getFirstErrors(validation.errors.all());
-    const nestedErrors = zipObjectDeep(Object.keys(flattenErrors), Object.values(flattenErrors));
 
-    return nestedErrors;
+    return zipObjectDeep(Object.keys(flattenErrors), Object.values(flattenErrors));
   }
 
   return {};
 };
 
-const translateLabels = labels =>
-  Object.keys(labels).reduce((res, name) => ({ ...res, [name]: I18n.t(labels[name]) }), {});
+const translateLabels = labels => Object.keys(labels).reduce((res, name) => ({
+  ...res,
+  [name]: I18n.t(labels[name]),
+}), {});
 
 export {
   createValidator,

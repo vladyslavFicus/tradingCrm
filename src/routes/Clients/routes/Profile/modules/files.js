@@ -73,6 +73,8 @@ function uploadProfileFile(playerUUID, type, file) {
         return dispatch(fetchFiles(playerUUID, { category: type, size: 999 }));
       }
     }
+
+    return null;
   };
 }
 

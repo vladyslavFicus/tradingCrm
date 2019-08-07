@@ -24,4 +24,3 @@ export const getUserTypeByDepartment = (department, role) => {
       return 'BRAND_ADMIN';
   }
 };
-

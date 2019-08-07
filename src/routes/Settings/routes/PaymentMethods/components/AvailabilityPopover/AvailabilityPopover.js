@@ -28,6 +28,7 @@ class AvailabilityPopover extends Component {
     toggle: PropTypes.func,
     countries: PropTypes.object,
   };
+
   static defaultProps = {
     placement: 'left-start',
     toggle: null,
@@ -50,33 +51,29 @@ class AvailabilityPopover extends Component {
     let result;
     switch (activeTab) {
       case tabs.DEPOSIT:
-        result = Object.keys(countries).filter(key =>
-          !countries[key].depositLimit.disabled
-        );
+        result = Object.keys(countries).filter(key => !countries[key].depositLimit.disabled);
         break;
       case tabs.WITHDRAW:
-        result = Object.keys(countries).filter(key =>
-          !countries[key].withdrawLimit.disabled
-        );
+        result = Object.keys(countries).filter(key => !countries[key].withdrawLimit.disabled);
         break;
       case tabs.FULLY_DISABLED:
-        result = Object.keys(countries).filter(key =>
-          countries[key].depositLimit.disabled && countries[key].withdrawLimit.disabled
-        );
+        result = Object.keys(countries)
+          .filter(key => countries[key].depositLimit.disabled && countries[key].withdrawLimit.disabled);
         break;
       default:
         result = [];
     }
 
-    return result.filter(country => country.startsWith(search)).reduce((result, item) => {
+    return result.filter(country => country.startsWith(search)).reduce((_result, item) => {
       const countryFirstLetter = item.charAt(0);
 
-      if (result[countryFirstLetter]) {
-        result[countryFirstLetter].push(item);
+      if (_result[countryFirstLetter]) {
+        _result[countryFirstLetter].push(item);
       } else {
-        result = { ...result, [countryFirstLetter]: [item] };
+        return { ..._result, [countryFirstLetter]: [item] };
       }
-      return result;
+
+      return _result;
     }, {});
   };
 
@@ -139,19 +136,19 @@ class AvailabilityPopover extends Component {
     const tabCountries = this.getTabCountries();
 
     const tabListElements = [];
-    Object.keys(tabCountries).map((letter, key) => {
+    Object.keys(tabCountries).forEach((letter, key) => {
       tabListElements.push(
         <div className="font-weight-700" key={[`${key}-${letter}`]}>
           {letter}
-        </div>
+        </div>,
       );
 
-      tabCountries[letter].map((country) => {
+      tabCountries[letter].forEach((country) => {
         tabListElements.push(
           <div key={[`${key}-${country}`]}>
             <span className="font-weight-700 margin-right-5">{country}</span>
             <span className="availability-popover__tab-value">{this.renderLimit(country)}</span>
-          </div>
+          </div>,
         );
       });
     });

@@ -12,7 +12,6 @@ import Permissions from 'utils/permissions';
 import ProfileLastLogin from 'components/ProfileLastLogin';
 import Uuid from 'components/Uuid';
 import { statuses } from 'constants/user';
-import { services } from 'constants/services';
 import PermissionContent from 'components/PermissionContent';
 import { withServiceCheck } from 'components/HighOrder';
 import StickyWrapper from 'components/StickyWrapper';
@@ -67,7 +66,6 @@ class Header extends Component {
     loaded: PropTypes.bool,
     onChangePasswordClick: PropTypes.func.isRequired,
     onShareProfileClick: PropTypes.func.isRequired,
-    checkService: PropTypes.func.isRequired,
     unlockLogin: PropTypes.func.isRequired,
     loginLock: PropTypes.shape({
       lock: PropTypes.bool,
@@ -129,7 +127,6 @@ class Header extends Component {
       loaded,
       onChangePasswordClick,
       onShareProfileClick,
-      checkService,
       unlockLogin,
       loginLock: {
         lock,
@@ -168,11 +165,13 @@ class Header extends Component {
                   {username}
                   {' - '}
                   {
-                    playerUUID &&
-                    <Uuid
-                      uuid={playerUUID}
-                      uuidPrefix={playerUUID.indexOf('PLAYER') === -1 ? 'PL' : null}
-                    />
+                    playerUUID
+                    && (
+                      <Uuid
+                        uuid={playerUUID}
+                        uuidPrefix={playerUUID.indexOf('PLAYER') === -1 ? 'PL' : null}
+                      />
+                    )
                   }
                   {' - '}
                   {languageCode}
@@ -199,6 +198,7 @@ class Header extends Component {
                 </PopoverButton>
               </PermissionContent>
               <button
+                type="button"
                 className="btn btn-sm btn-default-outline mx-3"
                 onClick={onRefreshClick}
                 id="refresh-page-button"

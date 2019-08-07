@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { get } from 'lodash';
 import MultiCurrencyField from './MultiCurrencyField';
 import { floatNormalize } from '../../../utils/inputNormalize';
-import MultiCurrencyTooltip from '../../../components/MultiCurrencyTooltip';
+import MultiCurrencyTooltip from '../../MultiCurrencyTooltip';
 import preventDefault from '../../../utils/preventDefault';
 
 class MultiCurrencyValue extends Component {
@@ -51,6 +51,8 @@ class MultiCurrencyValue extends Component {
     className: null,
   };
 
+  id = this.props.id ? this.props.id.replace(/[[\]]/g, '') : v4().replace(/[0-9]/g, '');
+
   state = {
     isTooltipOpen: false,
   };
@@ -90,8 +92,6 @@ class MultiCurrencyValue extends Component {
     change(this.props.baseName, currencies);
   };
 
-  id = this.props.id ? this.props.id.replace(/[[\]]/g, '') : v4().replace(/[0-9]/g, '');
-
   calculateCurrencies = (value) => {
     const currencies = [];
 
@@ -118,8 +118,8 @@ class MultiCurrencyValue extends Component {
     this.setFields(currencies);
   };
 
-  handleChangeBaseCurrencyAmount = ({ target: { value }, preventDefault }) => {
-    preventDefault();
+  handleChangeBaseCurrencyAmount = ({ target: { value }, preventDefault: _preventDefault }) => {
+    _preventDefault();
     const currencies = this.calculateCurrencies(value);
 
     this.setFields(currencies);
@@ -153,7 +153,7 @@ class MultiCurrencyValue extends Component {
   };
 
   handleToggleTooltip = () => {
-    this.setState({ isTooltipOpen: !this.state.isTooltipOpen });
+    this.setState(({ isTooltipOpen }) => ({ isTooltipOpen: !isTooltipOpen }));
   };
 
   render() {

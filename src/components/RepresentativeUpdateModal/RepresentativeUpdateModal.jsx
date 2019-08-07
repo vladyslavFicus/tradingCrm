@@ -184,7 +184,7 @@ class RepresentativeUpdateModal extends Component {
       agents,
       agentsLoading: false,
     });
-  }
+  };
 
   handleRepChange = (selectedOperator) => {
     const {
@@ -194,7 +194,7 @@ class RepresentativeUpdateModal extends Component {
 
     change(fieldNames.ACQUISITION, type);
     change(fieldNames.REPRESENTATIVE, selectedOperator);
-  }
+  };
 
   handleUpdateRepresentative = async ({ teamId, repId, status }) => {
     const {
@@ -319,9 +319,15 @@ class RepresentativeUpdateModal extends Component {
     const desks = get(hierarchy, 'userBranchHierarchy.data.DESK') || [];
     const filteredDesks = desks.filter(({ deskType }) => deskType === deskTypes[type]);
 
-    const submitDisabled =
-      agentsLoading || deskLoading || initAgentsLoading || invalid || (initialValues ? false : pristine)
-      || submitting || (!currentStatus && !selectedDesk && !selectedTeam && !selectedRep && !selectedAcquisition);
+    const submitDisabled = (
+      agentsLoading
+      || deskLoading
+      || initAgentsLoading
+      || invalid
+      || (initialValues ? false : pristine)
+      || submitting
+      || (!currentStatus && !selectedDesk && !selectedTeam && !selectedRep && !selectedAcquisition)
+    );
 
     return (
       <Modal

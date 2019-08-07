@@ -9,9 +9,9 @@ import permissions from '../../../../../../../../../config/permissions';
 const NotVerified = (props) => {
   const { step, title, onRefuse, onVerify, status } = props;
 
-  const requestStatus = step === stepStatuses.WAITING_FOR_DOCUMENTS ?
-    I18n.t('PLAYER_PROFILE.PROFILE.KYC_VERIFICATION.WAITING_FOR_DOCUMENTS') :
-    I18n.t('PLAYER_PROFILE.PROFILE.KYC_VERIFICATION.PENDING');
+  const requestStatus = step === stepStatuses.WAITING_FOR_DOCUMENTS
+    ? I18n.t('PLAYER_PROFILE.PROFILE.KYC_VERIFICATION.WAITING_FOR_DOCUMENTS')
+    : I18n.t('PLAYER_PROFILE.PROFILE.KYC_VERIFICATION.PENDING');
 
   return (
     <div className="panel-body__content-container">

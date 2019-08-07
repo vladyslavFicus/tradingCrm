@@ -25,6 +25,7 @@ class FeedFilterForm extends Component {
     availableTypes: PropTypes.arrayOf(PropTypes.string),
     invalid: PropTypes.bool,
   };
+
   static defaultProps = {
     currentValues: {},
     availableTypes: [],
@@ -110,7 +111,7 @@ class FeedFilterForm extends Component {
             disabled={submitting}
             className="btn btn-default"
             onClick={this.handleReset}
-            type="reset"
+            type="button"
           >
             {I18n.t('COMMON.RESET')}
           </button>

@@ -4,7 +4,7 @@ import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { I18n } from 'react-redux-i18n';
 import { shortify } from '../../utils/uuid';
 import deleteFromArray from '../../utils/deleteFromArray';
-import Uuid from '../../components/Uuid';
+import Uuid from '../Uuid';
 
 const initialState = {
   itemsToRemove: [],
@@ -104,7 +104,7 @@ class ReplaceTabsModal extends Component {
 
         <ModalFooter>
           <button
-            type="reset"
+            type="button"
             className="btn btn-default-outline margin-right-5"
             onClick={this.handleClose}
           >

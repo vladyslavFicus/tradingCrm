@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
 
-export default (PagenableFilterable) => class PagenableFilterableComponent extends Component {
-
+export default PagenableFilterable => class PagenableFilterableComponent extends Component {
   constructor(props) {
     super(props);
 
     this.handlePageChanged = this.handlePageChanged.bind(this);
     this.handleFiltersChanged = this.handleFiltersChanged.bind(this);
+  }
+
+  componentWillMount() {
+    this.handleFiltersChanged();
   }
 
   handlePageChanged(page, filters = {}) {
@@ -19,15 +22,13 @@ export default (PagenableFilterable) => class PagenableFilterableComponent exten
     this.props.fetchEntities({ ...filters, page: 0 });
   }
 
-  componentWillMount() {
-    this.handleFiltersChanged();
-  }
-
   render() {
-    return <PagenableFilterable
-      {...this.props}
-      handlePageChanged={ this.handlePageChanged }
-      handleFiltersChanged={ this.handleFiltersChanged }
-    />;
+    return (
+      <PagenableFilterable
+        {...this.props}
+        handlePageChanged={this.handlePageChanged}
+        handleFiltersChanged={this.handleFiltersChanged}
+      />
+    );
   }
 };

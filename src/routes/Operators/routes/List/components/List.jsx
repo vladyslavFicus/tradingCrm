@@ -211,10 +211,12 @@ class List extends Component {
         {I18n.t(operatorStatusesLabels[data.operatorStatus]) || data.operatorStatus}
       </div>
       {
-        data.statusChangeDate &&
-        <div className="font-size-11">
-          {I18n.t('COMMON.SINCE', { date: moment.utc(data.statusChangeDate).local().format('DD.MM.YYYY') })}
-        </div>
+        data.statusChangeDate
+        && (
+          <div className="font-size-11">
+            {I18n.t('COMMON.SINCE', { date: moment.utc(data.statusChangeDate).local().format('DD.MM.YYYY') })}
+          </div>
+        )
       }
     </div>
   );
@@ -304,6 +306,7 @@ class List extends Component {
           </Placeholder>
           <PermissionContent permissions={permissions.OPERATORS.CREATE}>
             <button
+              type="button"
               className="btn btn-default-outline ml-auto"
               onClick={this.handleOpenCreateModal}
               id="create-new-operator-button"

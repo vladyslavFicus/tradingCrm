@@ -4,7 +4,6 @@ import PropTypes from '../../constants/propTypes';
 
 class LoggedForbidden extends Component {
   static propTypes = {
-    logged: PropTypes.bool.isRequired,
     logout: PropTypes.func.isRequired,
   };
 
@@ -21,7 +20,7 @@ class LoggedForbidden extends Component {
 
               <p className="color-black">{I18n.t('LOGGED_FORBIDDEN.DESCRIPTION')}</p>
               <p>
-                <button className="btn btn-default" onClick={logout}>
+                <button type="button" className="btn btn-default" onClick={logout}>
                   {I18n.t('LOGGED_FORBIDDEN.LOGOUT_BUTTON')}
                 </button>
               </p>

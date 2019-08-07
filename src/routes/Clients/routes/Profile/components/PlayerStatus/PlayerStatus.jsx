@@ -38,9 +38,11 @@ class PlayerStatus extends Component {
     profileStatusComment: PropTypes.string,
     statusAuthor: PropTypes.string,
   };
+
   static contextTypes = {
     permissions: PropTypes.arrayOf(PropTypes.string).isRequired,
   };
+
   static defaultProps = {
     reason: null,
     endDate: null,
@@ -53,9 +55,9 @@ class PlayerStatus extends Component {
   state = { ...initialState };
 
   toggle = () => {
-    this.setState({
-      dropDownOpen: !this.state.dropDownOpen,
-    });
+    this.setState(({ dropDownOpen }) => ({
+      dropDownOpen: !dropDownOpen,
+    }));
   };
 
   handleStatusClick = (action) => {
@@ -100,27 +102,22 @@ class PlayerStatus extends Component {
 
   renderDropDown = (label, availableStatuses, dropDownOpen) => (
     <Dropdown isOpen={dropDownOpen} toggle={this.toggle} onClick={this.toggle}>
-      <DropdownToggle
-        tag="div"
-        onClick={this.toggle}
-        data-toggle="dropdown"
-        aria-expanded={dropDownOpen}
-      >
+      <DropdownToggle tag="div">
         {label}
       </DropdownToggle>
 
       <DropdownMenu>
         {
           availableStatuses.map(({
-          label: statusLabel, reasons, permission, ...rest
-        }) => (
-          <DropdownItem
-            key={rest.action}
-            {...rest}
-            onClick={() => this.handleStatusClick({ statusLabel, reasons, ...rest })}
-          >
-            <span className="text-uppercase">{I18n.t(statusLabel)}</span>
-          </DropdownItem>
+            label: statusLabel, reasons, permission, ...rest
+          }) => (
+            <DropdownItem
+              key={rest.action}
+              {...rest}
+              onClick={() => this.handleStatusClick({ statusLabel, reasons, ...rest })}
+            >
+              <span className="text-uppercase">{I18n.t(statusLabel)}</span>
+            </DropdownItem>
           ))
         }
       </DropdownMenu>
@@ -171,10 +168,12 @@ class PlayerStatus extends Component {
         </div>
         {this.renderAuthor(statusAuthor)}
         {
-          !!endDate &&
-          <div className="header-block-small">
-            {I18n.t('COMMON.DATE_UNTIL', { date: moment.utc(endDate).local().format('DD.MM.YYYY') })}
-          </div>
+          !!endDate
+          && (
+            <div className="header-block-small">
+              {I18n.t('COMMON.DATE_UNTIL', { date: moment.utc(endDate).local().format('DD.MM.YYYY') })}
+            </div>
+          )
         }
       </div>
     );
@@ -195,14 +194,16 @@ class PlayerStatus extends Component {
           />
         </If>
         {
-          availableStatuses.length > 0 && modal.show &&
-          <PlayerStatusModal
-            locale={locale}
-            title="Change account status"
-            {...modal.params}
-            onSubmit={this.handleSubmit}
-            onHide={this.handleModalHide}
-          />
+          availableStatuses.length > 0 && modal.show
+          && (
+            <PlayerStatusModal
+              locale={locale}
+              title="Change account status"
+              {...modal.params}
+              onSubmit={this.handleSubmit}
+              onHide={this.handleModalHide}
+            />
+          )
         }
       </div>
     );

@@ -20,7 +20,7 @@ class MultiCurrencyView extends Component {
   };
 
   handleTogglePopover = () => {
-    this.setState({ isTooltipOpen: !this.state.isTooltipOpen });
+    this.setState(({ isTooltipOpen }) => ({ isTooltipOpen: !isTooltipOpen }));
   };
 
   render() {

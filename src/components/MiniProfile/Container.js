@@ -14,11 +14,13 @@ class Container extends Component {
     }),
     id: PropTypes.string,
   };
+
   static contextTypes = {
     miniProfile: PropTypes.shape({
       onShowMiniProfile: PropTypes.func.isRequired,
     }),
   };
+
   static defaultProps = {
     delay: {
       show: 500,
@@ -27,6 +29,8 @@ class Container extends Component {
     id: null,
     placement: 'right',
   };
+
+  id = this.props.id ? this.props.id.replace(/[[\]]/g, '') : v4().replace(/[0-9]/g, '');
 
   componentDidMount() {
     this.addTargetEvents();
@@ -59,8 +63,6 @@ class Container extends Component {
     }
   };
 
-  id = this.props.id ? this.props.id.replace(/[[\]]/g, '') : v4().replace(/[0-9]/g, '');
-
   addTargetEvents = () => {
     this.target.addEventListener('mouseover', this.onMouseOver, true);
     this.target.addEventListener('mouseout', this.onMouseLeave, true);
@@ -70,16 +72,6 @@ class Container extends Component {
     this.target.removeEventListener('mouseover', this.onMouseOver, true);
     this.target.removeEventListener('mouseout', this.onMouseLeave, true);
   };
-
-  clearShowTimeout() {
-    clearTimeout(this.showTimeout);
-    this.showTimeout = null;
-  }
-
-  clearHideTimeout() {
-    clearTimeout(this.hideTimeout);
-    this.hideTimeout = null;
-  }
 
   show = () => this.loadContent();
 
@@ -109,6 +101,16 @@ class Container extends Component {
       onShowMiniProfile(`${id}-${target}`, dataSource, type, popoverMouseEvents, placement);
     }
   };
+
+  clearShowTimeout() {
+    clearTimeout(this.showTimeout);
+    this.showTimeout = null;
+  }
+
+  clearHideTimeout() {
+    clearTimeout(this.hideTimeout);
+    this.hideTimeout = null;
+  }
 
   render() {
     const { children, target } = this.props;

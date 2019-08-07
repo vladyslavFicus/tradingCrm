@@ -2,7 +2,7 @@ import parseJSON from './parseJson';
 import { getApiVersion } from '../config';
 
 export default (url, options) => {
-  const xhr = new XMLHttpRequest();
+  const xhr = new window.XMLHttpRequest();
   if (typeof options.onprogress === 'function') {
     xhr.upload.onprogress = options.onprogress;
   }

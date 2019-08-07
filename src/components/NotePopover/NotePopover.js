@@ -13,7 +13,7 @@ import { createValidator } from '../../utils/validator';
 import { entitiesPrefixes } from '../../constants/uuid';
 import './NotePopover.scss';
 import Uuid from '../Uuid';
-import { TextAreaField, SwitchField } from '../../components/ReduxForm';
+import { TextAreaField, SwitchField } from '../ReduxForm';
 
 const MAX_CONTENT_LENGTH = 1000;
 const FORM_NAME = 'notePopoverForm';
@@ -248,7 +248,7 @@ class NotePopover extends Component {
           <div className="col-auto ml-auto">
             <PermissionContent permissions={permissions.TAGS.NOTES.DELETE_NOTE}>
               <button
-                type="reset"
+                type="button"
                 onClick={() => this.handleRemoveNote(noteId || uuid)}
                 className="fa fa-trash color-danger note-popover__delete-btn"
               />

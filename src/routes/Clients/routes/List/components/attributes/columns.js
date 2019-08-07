@@ -145,14 +145,14 @@ export default (
             wrapperClassName={aquisitionStatus === 'SALES' ? `border-${colorClassName}` : ''}
             colorClassName={colorClassName}
             statusLabel={renderLabel(salesStatus, salesStatuses)}
-            info={
+            info={(
               <If condition={salesRep}>
                 <GridStatusDeskTeam
                   fullName={salesRep.fullName}
                   hierarchy={salesRep.hierarchy}
                 />
               </If>
-            }
+            )}
           />
         </When>
         <Otherwise>
@@ -179,14 +179,14 @@ export default (
             wrapperClassName={aquisitionStatus === 'RETENTION' ? `border-${colorClassName}` : ''}
             colorClassName={colorClassName}
             statusLabel={renderLabel(retentionStatus, retentionStatuses)}
-            info={
+            info={(
               <If condition={retentionRep}>
                 <GridStatusDeskTeam
                   fullName={retentionRep.fullName}
                   hierarchy={retentionRep.hierarchy}
                 />
               </If>
-            }
+            )}
           />
         </When>
         <Otherwise>

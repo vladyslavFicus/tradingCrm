@@ -20,11 +20,14 @@ class SignInForm extends Component {
     submitting: PropTypes.bool,
     error: PropTypes.string,
   };
+
   static defaultProps = {
     handleSubmit: null,
     submitting: false,
     error: null,
   };
+
+  timeouts = [];
 
   state = {
     step: 0,
@@ -39,7 +42,7 @@ class SignInForm extends Component {
           this.timeouts.push(
             setTimeout(() => {
               this.setState({ step: 2 });
-            }, 350)
+            }, 350),
           );
         });
       } else {
@@ -54,13 +57,7 @@ class SignInForm extends Component {
     }
   }
 
-  timeouts = [];
-
-  handleSubmit = (data) => {
-    console.info('Sign in data submitted.');
-
-    return this.props.onSubmit(data);
-  };
+  handleSubmit = data => this.props.onSubmit(data);
 
   render() {
     const { step } = this.state;

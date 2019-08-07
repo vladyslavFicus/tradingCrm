@@ -22,9 +22,8 @@ const availablePeriods = [
   { durationAmount: 5, durationUnit: durationUnits.YEARS },
 ];
 
-const periodValidation =
-  `${availablePeriods.map(period => `${period.durationAmount} ` +
-  `${period.durationUnit}`).join()},${durationUnits.PERMANENT}`;
+const periodValidation = `${availablePeriods.map(period => `${period.durationAmount} `
+  + `${period.durationUnit}`).join()},${durationUnits.PERMANENT}`;
 
 class PlayerStatusModal extends Component {
   static propTypes = {
@@ -96,10 +95,12 @@ class PlayerStatusModal extends Component {
       <Modal isOpen toggle={onHide} className={className}>
         <form onSubmit={handleSubmit(onSubmit)}>
           {
-            !!title &&
-            <ModalHeader toggle={onHide}>
-              {title}
-            </ModalHeader>
+            !!title
+            && (
+              <ModalHeader toggle={onHide}>
+                {title}
+              </ModalHeader>
+            )
           }
           <ModalBody>
             {(action === actions.SUSPEND || action === actions.PROLONG) && this.renderPeriodSelect()}
@@ -114,7 +115,7 @@ class PlayerStatusModal extends Component {
           </ModalBody>
 
           <ModalFooter>
-            <button className="btn btn-default-outline mr-auto" onClick={onHide}>
+            <button type="button" className="btn btn-default-outline mr-auto" onClick={onHide}>
               {I18n.t('COMMON.BUTTONS.CANCEL')}
             </button>
             <button type="submit" className="btn btn-danger">

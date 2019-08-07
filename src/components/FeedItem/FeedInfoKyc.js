@@ -4,7 +4,7 @@ import { I18n } from 'react-redux-i18n';
 import PropTypes from '../../constants/propTypes';
 import { attributeLabels } from '../../constants/user';
 import { types } from '../../constants/audit';
-import Uuid from '../../components/Uuid';
+import Uuid from '../Uuid';
 
 const formatters = {
   uploadedFileList: [() => null],
@@ -12,9 +12,9 @@ const formatters = {
   creationDate: [() => null],
   birthDate: [value => moment(value).format('DD.MM.YYYY')],
 };
-const formatValue = (attribute, value) => formatters[attribute]
+const formatValue = (attribute, value) => (formatters[attribute]
   ? formatters[attribute].reduce((res, formatter) => formatter(res), value)
-  : value;
+  : value);
 
 const FeedInfoKyc = ({ data }) => (
   <Fragment>
@@ -30,14 +30,16 @@ const FeedInfoKyc = ({ data }) => (
           : data.details[attribute].toString(),
       );
 
-      return value === null ? null : (
-        <Fragment key={attribute}>
-          {attributeLabels[attribute] || attribute}:
-          <span className="feed-item__content-value">
-            {value}
-          </span>
-          <br />
-        </Fragment>
+      return (
+        <If condition={value !== null}>
+          <Fragment key={attribute}>
+            {attributeLabels[attribute] || attribute}:
+            <span className="feed-item__content-value">
+              {value}
+            </span>
+            <br />
+          </Fragment>
+        </If>
       );
     })}
     <If condition={data.details.uploadedFileList && data.details.uploadedFileList.length > 0}>

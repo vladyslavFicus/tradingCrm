@@ -69,9 +69,9 @@ class SortableGridView extends Component {
   }
 
   onSortEnd = ({ oldIndex, newIndex }) => {
-    this.setState({
-      dataSource: arrayMove(this.state.dataSource, oldIndex, newIndex),
-    }, () => this.props.onSortEnd({ from: oldIndex + 1, to: newIndex + 1 }));
+    this.setState(({ dataSource }) => ({
+      dataSource: arrayMove(dataSource, oldIndex, newIndex),
+    }), () => this.props.onSortEnd({ from: oldIndex + 1, to: newIndex + 1 }));
   };
 
   recognizeHeaders = grids => (
@@ -108,14 +108,16 @@ class SortableGridView extends Component {
           {this.renderHead(this.recognizeHeaders(columns))}
         </thead>
         {
-          dataSource &&
-          <SortableList
-            useDragHandle
-            columns={columns}
-            items={dataSource}
-            onSortEnd={this.onSortEnd}
-            helperClass="drag-content"
-          />
+          dataSource
+          && (
+            <SortableList
+              useDragHandle
+              columns={columns}
+              items={dataSource}
+              onSortEnd={this.onSortEnd}
+              helperClass="drag-content"
+            />
+          )
         }
       </table>
     );

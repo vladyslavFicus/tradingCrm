@@ -3,8 +3,8 @@ import { withApollo } from 'react-apollo';
 import { get } from 'lodash';
 import PropTypes from '../../constants/propTypes';
 import { tagsByTextQuery } from '../../graphql/queries/tags';
-import MultiInput from '../../components/MultiInput';
-import MultiInputField from '../../components/ReduxForm/MultiInputField';
+import MultiInput from '../MultiInput';
+import MultiInputField from '../ReduxForm/MultiInputField';
 
 class TagsAsync extends Component {
   static propTypes = {
@@ -13,6 +13,7 @@ class TagsAsync extends Component {
     }).isRequired,
     input: PropTypes.object,
   };
+
   static defaultProps = {
     input: null,
   };

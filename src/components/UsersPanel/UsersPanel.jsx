@@ -4,7 +4,7 @@ import { I18n } from 'react-redux-i18n';
 import UsersPanelItem from '../UsersPanelItem';
 import PropTypes from '../../constants/propTypes';
 import './UsersPanel.scss';
-import { withModals } from '../../components/HighOrder';
+import { withModals } from '../HighOrder';
 import ReplaceTabsModal from './ReplaceTabsModal';
 
 const MAX_ACTIVE_TAB = 5;
@@ -25,6 +25,7 @@ class UsersPanel extends Component {
     }).isRequired,
     locale: PropTypes.string.isRequired,
   };
+
   static defaultProps = {
     active: null,
   };
@@ -52,8 +53,8 @@ class UsersPanel extends Component {
     }
 
     if (
-      (items.length <= MAX_ACTIVE_TAB && nextItems.length > MAX_ACTIVE_TAB) ||
-      (!replaceTabsModal.isOpen && items.length > MAX_ACTIVE_TAB)
+      (items.length <= MAX_ACTIVE_TAB && nextItems.length > MAX_ACTIVE_TAB)
+      || (!replaceTabsModal.isOpen && items.length > MAX_ACTIVE_TAB)
     ) {
       replaceTabsModal.show({
         onSubmit: this.handleReplace,
@@ -64,9 +65,9 @@ class UsersPanel extends Component {
     }
 
     if (
-      items.length > MAX_ACTIVE_TAB &&
-      nextItems.length <= MAX_ACTIVE_TAB &&
-      replaceTabsModal.isOpen
+      items.length > MAX_ACTIVE_TAB
+      && nextItems.length <= MAX_ACTIVE_TAB
+      && replaceTabsModal.isOpen
     ) {
       replaceTabsModal.hide();
     }
@@ -133,7 +134,7 @@ class UsersPanel extends Component {
           {currentItems.map((item) => {
             const className = classNames(
               'user-panel-content-frame',
-              active && active.color ? `user-panel-content-frame-${active.color}` : ''
+              active && active.color ? `user-panel-content-frame-${active.color}` : '',
             );
 
             return (
@@ -164,7 +165,7 @@ class UsersPanel extends Component {
             />
           ))}
 
-          <button className="btn-transparent users-panel-footer__close" onClick={onClose}>
+          <button type="button" className="btn-transparent users-panel-footer__close" onClick={onClose}>
             &times;
           </button>
         </div>

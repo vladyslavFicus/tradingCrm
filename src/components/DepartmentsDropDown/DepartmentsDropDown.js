@@ -11,6 +11,7 @@ class DepartmentsDropDown extends Component {
     current: PropTypes.authorityEntity,
     onChange: PropTypes.func.isRequired,
   };
+
   static defaultProps = {
     current: {},
   };
@@ -20,7 +21,7 @@ class DepartmentsDropDown extends Component {
   };
 
   handleToggleState = () => {
-    this.setState({ active: !this.state.active });
+    this.setState(({ active }) => ({ active: !active }));
   };
 
   renderLabel = (entityValue, labels) => (entityValue && labels[entityValue]
@@ -58,9 +59,6 @@ class DepartmentsDropDown extends Component {
             <DropdownToggle
               className="departments-dropdown-menu__toggle"
               tag="button"
-              onClick={this.handleToggleState}
-              data-toggle="dropdown"
-              aria-expanded={active}
               id="department-toggle"
             >
               <div className="departments-dropdown-menu__department">

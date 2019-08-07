@@ -47,4 +47,6 @@ export default ({ getState }) => next => (action) => {
 
     return result;
   }
+
+  return null;
 };

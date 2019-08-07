@@ -7,7 +7,7 @@ export function shortify(uuid, manualPrefix = null, size = 2, manualPostfix = nu
   if (elements.length < 2 || uuid.length < 12) {
     if (manualPrefix) {
       return `${manualPrefix}-${uuid}`;
-    } else if (manualPostfix && !(uuid.length < length)) {
+    } if (manualPostfix && !(uuid.length < length)) {
       return `${uuid}${manualPostfix}`;
     }
 

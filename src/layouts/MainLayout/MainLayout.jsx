@@ -87,14 +87,17 @@ class MainLayout extends Component {
       location: PropTypes.object.isRequired,
     }).isRequired,
   };
+
   static defaultProps = {
     permissions: [],
     activeUserPanel: null,
     activePanelIndex: null,
   };
+
   static contextTypes = {
     addNotification: PropTypes.func.isRequired,
   };
+
   static childContextTypes = {
     settings: PropTypes.shape({
       sendMail: PropTypes.bool.isRequired,
@@ -127,6 +130,8 @@ class MainLayout extends Component {
     }).isRequired,
     services: PropTypes.arrayOf(PropTypes.string),
   };
+
+  mounted = false;
 
   constructor(props, context) {
     super(props, context);
@@ -235,8 +240,6 @@ class MainLayout extends Component {
   setNoteChangedCallback = (cb) => {
     this.updateState({ noteChangedCallback: cb });
   };
-
-  mounted = false;
 
   updateState = (...args) => {
     if (this.mounted) {

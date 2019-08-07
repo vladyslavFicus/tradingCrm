@@ -3,11 +3,11 @@ import { I18n } from 'react-redux-i18n';
 import moment from 'moment';
 import classNames from 'classnames';
 import { shortify } from '../../../utils/uuid';
-import Uuid from '../../../components/Uuid';
+import Uuid from '../../Uuid';
 import Amount from '../../Amount';
 import PropTypes from '../../../constants/propTypes';
 import { tradingTypesLabelsWithColor } from '../../../constants/payment';
-import PaymentAccount from '../../../components/PaymentAccount';
+import PaymentAccount from '../../PaymentAccount';
 import { getTradingStatusProps } from '../../../utils/paymentHelpers';
 import NoteIcon from '../../NoteIcon';
 import { paymentStatusNames } from '../constants';
@@ -25,7 +25,7 @@ const TransactionMiniProfile = ({ data }) => {
       className={
         classNames(
           'mini-profile transaction-mini-profile',
-          paymentStatusNames[getTradingStatusProps[data.status].status]
+          paymentStatusNames[getTradingStatusProps[data.status].status],
         )}
     >
       <div className="mini-profile-header">
@@ -78,21 +78,25 @@ const TransactionMiniProfile = ({ data }) => {
           </div>
         </div>
         {
-          data.paymentMethod &&
-          <div className="info-block">
-            <div className="info-block-label">{I18n.t('PAYMENT_DETAILS_MODAL.HEADER_PAYMENT_METHOD')}</div>
-            <div className="info-block-content">
-              <div className="info-block-heading">
-                {data.paymentMethod}
-              </div>
-              {
-                data.paymentAccount &&
-                <div className="info-block-description">
-                  <PaymentAccount account={data.paymentAccount} />
+          data.paymentMethod
+          && (
+            <div className="info-block">
+              <div className="info-block-label">{I18n.t('PAYMENT_DETAILS_MODAL.HEADER_PAYMENT_METHOD')}</div>
+              <div className="info-block-content">
+                <div className="info-block-heading">
+                  {data.paymentMethod}
                 </div>
-              }
+                {
+                  data.paymentAccount
+                && (
+                  <div className="info-block-description">
+                    <PaymentAccount account={data.paymentAccount} />
+                  </div>
+                )
+                }
+              </div>
             </div>
-          </div>
+          )
         }
       </div>
     </div>

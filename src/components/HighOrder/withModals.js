@@ -20,7 +20,7 @@ export default modals => WrappedComponent => class Modals extends Component {
 
   handleOpen = (modal, modalData) => this.setState({ [modal]: { isOpen: true, data: modalData } });
 
-  handleClose = modal => this.setState({ [modal]: { ...this.state[modal], isOpen: false } });
+  handleClose = modal => this.setState(state => ({ [modal]: { ...state[modal], isOpen: false } }));
 
   render() {
     return (
@@ -35,10 +35,10 @@ export default modals => WrappedComponent => class Modals extends Component {
             timeout={this.state[modal].timeout || DEFAULT_MODAL_TIMEOUT}
           >
             {() => React.createElement(modals[modal], {
-                ...this.state[modal].data,
-                isOpen: this.state[modal].isOpen,
-                onCloseModal: () => this.handleClose(modal),
-              })}
+              ...this.state[modal].data,
+              isOpen: this.state[modal].isOpen,
+              onCloseModal: () => this.handleClose(modal),
+            })}
           </Transition>
         </For>
       </Fragment>

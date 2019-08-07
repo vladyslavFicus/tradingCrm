@@ -192,7 +192,7 @@ class FilterForm extends Component {
             disabled={submitting}
             className="btn btn-default"
             onClick={onReset}
-            type="reset"
+            type="button"
           >
             {I18n.t('COMMON.RESET')}
           </button>

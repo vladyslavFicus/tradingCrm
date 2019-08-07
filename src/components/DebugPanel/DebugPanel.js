@@ -27,11 +27,11 @@ class DebugPanel extends Component {
     }
   }
 
-  handleReduxLock = (e) => {
+  handleReduxLock = () => {
     this.setState({ reduxLocked: true });
   };
 
-  handleReduxUnLock = (e) => {
+  handleReduxUnLock = () => {
     this.setState({ reduxLocked: false });
   };
 

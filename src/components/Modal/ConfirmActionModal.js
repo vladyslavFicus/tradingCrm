@@ -17,6 +17,7 @@ class ConfirmActionModal extends Component {
     isOpen: PropTypes.bool.isRequired,
     onCloseCallback: PropTypes.func,
   };
+
   static defaultProps = {
     modalTitle: 'Confirm action',
     actionText: 'Do you really want to confirm this action?',
@@ -65,6 +66,7 @@ class ConfirmActionModal extends Component {
 
         <ModalFooter>
           <button
+            type="button"
             onClick={this.handleClose}
             className="btn btn-default-outline mr-auto"
           >

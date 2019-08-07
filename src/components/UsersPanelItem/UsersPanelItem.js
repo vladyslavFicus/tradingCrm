@@ -14,9 +14,9 @@ class UsersPanelItem extends Component {
     onRemoveClick: PropTypes.func.isRequired,
     login: PropTypes.string.isRequired,
   };
+
   static defaultProps = {
     active: false,
-    login: '',
     fullName: '',
   };
 
@@ -45,7 +45,11 @@ class UsersPanelItem extends Component {
           <div className="users-panel-footer__tab__info">
             {!!login && `${login} - `}{shortify(uuid, uuid.indexOf('PLAYER') === -1 ? 'PL' : '')}
           </div>
-          <button className="btn-transparent users-panel-footer__tab__close" onClick={this.handleRemoveClick}>
+          <button
+            type="button"
+            className="btn-transparent users-panel-footer__tab__close"
+            onClick={this.handleRemoveClick}
+          >
             <i className="fa fa-times-circle" />
           </button>
         </div>

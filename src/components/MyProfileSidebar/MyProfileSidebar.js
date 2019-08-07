@@ -22,6 +22,7 @@ class MyProfileSidebar extends Component {
     onToggleProfile: PropTypes.func.isRequired,
     submitting: PropTypes.bool,
   };
+
   static defaultProps = {
     handleSubmit: null,
     submitting: false,
@@ -58,7 +59,7 @@ class MyProfileSidebar extends Component {
       <div
         className={classNames(
           'my-profile',
-          { slideInRight: isOpen, slideOutRight: initialized && !isOpen }
+          { slideInRight: isOpen, slideOutRight: initialized && !isOpen },
         )}
       >
         <div className="my-profile__header">

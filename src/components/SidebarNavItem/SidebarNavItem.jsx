@@ -20,6 +20,7 @@ class NavItem extends Component {
     index: PropTypes.number.isRequired,
     isSidebarOpen: PropTypes.bool.isRequired,
   };
+
   static defaultProps = {
     isOpen: null,
     onToggleTab: null,
@@ -52,7 +53,7 @@ class NavItem extends Component {
 
   initAnimation = () => {
     const navItemAnimation = new TimelineLite({ paused: true });
-    const submenuDomNode = findDOMNode(this.submenu);
+    const submenuDomNode = findDOMNode(this.submenu); // eslint-disable-line
 
     navItemAnimation.fromTo(submenuDomNode, 0.15, { height: 0 }, { height: submenuDomNode.scrollHeight })
       .fromTo(this.icon, 0.15, { rotation: 0 }, { rotation: 180 }, 0)
@@ -104,13 +105,13 @@ class NavItem extends Component {
             </span>
             <If condition={withSubmenu}>
               <i
-                ref={node => this.icon = node}
+                ref={(node) => { this.icon = node; }}
                 className="icon-nav-arrow-h sidebar-nav-item__arrow"
               />
             </If>
           </button>
           <SubNav
-            ref={node => this.submenu = node}
+            ref={(node) => { this.submenu = node; }}
             items={items}
             onMenuItemClick={onMenuItemClick}
           />

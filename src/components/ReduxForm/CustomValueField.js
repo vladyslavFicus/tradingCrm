@@ -64,12 +64,16 @@ const CustomValueField = (props) => {
             </Field>
           </div>
         </div>
-        {!!errors[`${basename}.value`] && <div className="form-control-feedback">
-          {errors[`${basename}.value`]}
-        </div>}
-        {!!errors[`${basename}.type`] && <div className="form-control-feedback">
-          {errors[`${basename}.type`]}
-        </div>}
+        {!!errors[`${basename}.value`] && (
+          <div className="form-control-feedback">
+            {errors[`${basename}.value`]}
+          </div>
+        )}
+        {!!errors[`${basename}.type`] && (
+          <div className="form-control-feedback">
+            {errors[`${basename}.type`]}
+          </div>
+        )}
       </div>
     </div>
   );

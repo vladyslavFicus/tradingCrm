@@ -14,5 +14,5 @@ export default compose(
     logged,
     permissions,
     authority: { department, role },
-  }))
+  })),
 )(Route);

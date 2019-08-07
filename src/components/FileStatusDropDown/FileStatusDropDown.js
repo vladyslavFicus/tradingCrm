@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import classNames from 'classnames';
 import { I18n } from 'react-redux-i18n';
-import Uuid from '../../components/Uuid';
+import Uuid from '../Uuid';
 import {
   statuses,
   statusActions,
@@ -18,6 +18,7 @@ class FileStatusDropDown extends Component {
     status: PropTypes.object.isRequired,
     onStatusChange: PropTypes.func.isRequired,
   };
+
   static contextTypes = {
     permissions: PropTypes.arrayOf(PropTypes.string).isRequired,
   };
@@ -27,9 +28,9 @@ class FileStatusDropDown extends Component {
   };
 
   toggle = () => {
-    this.setState({
-      dropDownOpen: !this.state.dropDownOpen,
-    });
+    this.setState(({ dropDownOpen }) => ({
+      dropDownOpen: !dropDownOpen,
+    }));
   };
 
   render() {
@@ -46,10 +47,12 @@ class FileStatusDropDown extends Component {
           <i className="fa fa-angle-down" />
         </div>
         {
-          status.value !== statuses.PENDING &&
-          <div className="font-size-11">
-            {I18n.t('COMMON.AUTHOR_BY')} <Uuid uuid={status.author} />
-          </div>
+          status.value !== statuses.PENDING
+          && (
+            <div className="font-size-11">
+              {I18n.t('COMMON.AUTHOR_BY')} <Uuid uuid={status.author} />
+            </div>
+          )
         }
       </div>
     );
@@ -62,9 +65,6 @@ class FileStatusDropDown extends Component {
       <Dropdown isOpen={dropDownOpen} toggle={this.toggle} className="status-dropdown">
         <DropdownToggle
           tag="div"
-          onClick={this.toggle}
-          data-toggle="dropdown"
-          aria-expanded={dropDownOpen}
           className="cursor-pointer"
         >
           {label}

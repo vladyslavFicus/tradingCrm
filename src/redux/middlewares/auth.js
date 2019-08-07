@@ -20,7 +20,7 @@ export default store => next => (action) => {
   if (action) {
     if (action.type === REHYDRATE) {
       if (action.payload.auth && action.payload.auth.isLoading) {
-        action.payload.auth.isLoading = false;
+        action.payload.auth.isLoading = false; // eslint-disable-line
       }
     }
 
@@ -28,7 +28,7 @@ export default store => next => (action) => {
       let auth = action.payload;
 
       if (action.type === REHYDRATE) {
-        auth = action.payload.auth;
+        ({ auth } = action.payload);
       }
 
       if (auth && auth.token) {

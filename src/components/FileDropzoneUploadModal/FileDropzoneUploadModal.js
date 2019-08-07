@@ -11,7 +11,7 @@ class FileDropzoneUploadModal extends PureComponent {
     isOpen: PropTypes.bool.isRequired,
     onCloseModal: PropTypes.func.isRequired,
     contentClassName: PropTypes.string,
-    ...FileDropzoneUpload.propTypes,
+    ...FileDropzoneUpload.propTypes, // eslint-disable-line
   };
 
   static defaultProps = {

@@ -124,7 +124,7 @@ class PersonalForm extends Component {
               getAvailableLanguages().map(languageCode => (
                 <option key={languageCode} value={languageCode}>
                   {I18n.t(
-                    get(languageNames.find(item => item.languageCode === languageCode), 'languageName', languageCode)
+                    get(languageNames.find(item => item.languageCode === languageCode), 'languageName', languageCode),
                   )}
                 </option>
               ))

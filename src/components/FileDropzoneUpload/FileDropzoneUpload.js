@@ -15,7 +15,7 @@ const FileDropzoneUpload = props => (
       <img src="/img/upload-icon.svg" className="FileDropzoneUpload-upload-image" alt="" />
       <div className="FileDropzoneUpload-info">
         <p>{I18n.t('FILE_DROPZONE.DRAG_HERE_OR')}</p>
-        <button className="FileDropzoneUpload-button">{I18n.t('FILE_DROPZONE.BROWSE_FILES')}</button>
+        <button type="button" className="FileDropzoneUpload-button">{I18n.t('FILE_DROPZONE.BROWSE_FILES')}</button>
       </div>
     </div>
   </Dropzone>

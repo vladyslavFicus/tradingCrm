@@ -20,6 +20,10 @@ class BrandsView extends Component {
     client: PropTypes.object.isRequired,
   };
 
+  mounted = false;
+
+  resetStateTimeout = null;
+
   constructor(props) {
     super(props);
 
@@ -50,15 +54,11 @@ class BrandsView extends Component {
     }
   }
 
-  mounted = false;
-
   updateState = (...args) => {
     if (this.mounted) {
       this.setState(...args);
     }
   };
-
-  resetStateTimeout = null;
 
   handleSelectBrand = (brand) => {
     let departments = [];

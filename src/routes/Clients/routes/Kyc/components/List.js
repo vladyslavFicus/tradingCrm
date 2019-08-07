@@ -31,6 +31,7 @@ class List extends Component {
       uuid: PropTypes.string.isRequired,
     }).isRequired,
   };
+
   static defaultProps = {
     filterValues: {},
   };
@@ -54,6 +55,7 @@ class List extends Component {
       this.setState({ page: page - 1 }, () => this.handleRefresh());
     }
   };
+
   handleRefresh = () => this.props.fetchEntities({
     ...this.state.filters,
     page: this.state.page,
@@ -72,7 +74,7 @@ class List extends Component {
         _.pull(statuses, kysStatusTypes.FULLY_VERIFIED);
       }
 
-      statuses.map((status) => {
+      statuses.forEach((status) => {
         const [statusKey, statusValue] = status.split('.');
 
         if (customStatusFilters[statusKey]) {
@@ -147,10 +149,12 @@ class List extends Component {
         <div className="font-size-11">
           {date}
           {
-            status === kycStatuses.VERIFIED &&
-            <div>
-              {I18n.t('COMMON.AUTHOR_BY')} <Uuid uuid={address.authorUUID} />
-            </div>
+            status === kycStatuses.VERIFIED
+            && (
+              <div>
+                {I18n.t('COMMON.AUTHOR_BY')} <Uuid uuid={address.authorUUID} />
+              </div>
+            )
           }
         </div>
       </Fragment>

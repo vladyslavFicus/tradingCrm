@@ -34,6 +34,7 @@ class SelectField extends Component {
     className: PropTypes.string,
     helpText: PropTypes.node,
   };
+
   static defaultProps = {
     id: null,
     position: 'vertical',

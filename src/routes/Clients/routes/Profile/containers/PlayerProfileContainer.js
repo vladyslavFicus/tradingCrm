@@ -8,4 +8,3 @@ export default connect(({
   settings,
   auth,
 }))(Profile);
-

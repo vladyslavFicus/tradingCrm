@@ -5,6 +5,7 @@ const I18n = {
     try {
       return reduxI18n.t(key, ...rest);
     } catch (e) {
+      // eslint-disable-next-line
       console.warn(`${key} not found in translations.`);
 
       return key;

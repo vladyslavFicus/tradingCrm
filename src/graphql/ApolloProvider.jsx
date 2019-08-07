@@ -27,8 +27,8 @@ const hasFiles = (node, found = []) => {
     }
 
     if (
-      (typeof File !== 'undefined' && node[key] instanceof File) ||
-      (typeof Blob !== 'undefined' && node[key] instanceof Blob)
+      (typeof File !== 'undefined' && node[key] instanceof window.File)
+      || (typeof Blob !== 'undefined' && node[key] instanceof window.Blob)
     ) {
       found.push(node[key]);
       return;
@@ -63,7 +63,7 @@ class ApolloProvider extends PureComponent {
     const batchSplitLink = split(
       ({ operationName }) => Object.values(queryNames).includes(operationName),
       new HttpLink(options),
-      new BatchHttpLink(options)
+      new BatchHttpLink(options),
     );
 
     const httpLink = split(
@@ -81,6 +81,7 @@ class ApolloProvider extends PureComponent {
             return;
           }
 
+          // eslint-disable-next-line
           console.log(`[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`);
         });
       }
@@ -95,6 +96,7 @@ class ApolloProvider extends PureComponent {
           return;
         }
 
+        // eslint-disable-next-line
         console.log(`[Network error]: ${networkError}`);
       }
     });
@@ -110,9 +112,9 @@ class ApolloProvider extends PureComponent {
       dataIdFromObject: (object) => {
         switch (object.__typename) {
           case 'PlayerProfile':
-            return object.playerUUID ?
-              `${object.__typename}:${object.playerUUID}` :
-              null;
+            return object.playerUUID
+              ? `${object.__typename}:${object.playerUUID}`
+              : null;
           default:
             return object._id ? `${object.__typename}:${object._id}` : null;
         }

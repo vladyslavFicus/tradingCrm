@@ -24,6 +24,7 @@ class Select extends PureComponent {
     customClassName: PropTypes.string,
     id: PropTypes.string,
   };
+
   static defaultProps = {
     onChange: null,
     showSearch: null,
@@ -37,6 +38,8 @@ class Select extends PureComponent {
     customClassName: null,
     id: null,
   };
+
+  mounted = false;
 
   constructor(props) {
     super(props);
@@ -100,8 +103,6 @@ class Select extends PureComponent {
     this.mounted = false;
   }
 
-  mounted = false;
-
   updateState = (...args) => {
     if (this.mounted) {
       this.setState(...args);
@@ -123,7 +124,7 @@ class Select extends PureComponent {
     this[name] = node;
   };
 
-  bindSearchBarRef = this.bindRef('searchBarRef');
+  bindSearchBarRef = this.bindRef('searchBarRef'); // eslint-disable-line
 
   bindActiveOptionRef = this.bindRef('activeOptionRef');
 
@@ -224,7 +225,7 @@ class Select extends PureComponent {
     newValue = newValue.map(option => option.value);
 
     this.updateState({ opened: false }, () => {
-      requestAnimationFrame(() => {
+      window.requestAnimationFrame(() => {
         this.updateState({
           query: '',
           options: originalOptions,
@@ -272,7 +273,7 @@ class Select extends PureComponent {
 
     if (type === 'function') {
       return showSearch();
-    } else if (type === 'boolean') {
+    } if (type === 'boolean') {
       return showSearch;
     }
 
@@ -330,13 +331,20 @@ class Select extends PureComponent {
         ? toSelectOptions[0] : null;
 
       if (!option && originalSelectedOptions.length) {
-        option = originalSelectedOptions[0];
+        [option] = originalSelectedOptions;
       }
 
       if (option) {
-        placeholder = OptionCustomComponent
-          ? <OptionCustomComponent {...option.props} />
-          : option.label;
+        placeholder = (
+          <Choose>
+            <When condition={OptionCustomComponent}>
+              <OptionCustomComponent {...option.props} />
+            </When>
+            <Otherwise>
+              {option.label}
+            </Otherwise>
+          </Choose>
+        );
       }
     }
 
@@ -356,17 +364,17 @@ class Select extends PureComponent {
       multiple,
       singleOptionComponent,
       name,
-    }
+    },
   ) => (
-    multiple
-      ? (
+    <Choose>
+      <When condition={multiple}>
         <SelectMultipleOptions
           className="select-block__selected-options"
           headerText={I18n.t('common.select.available_options')}
           headerButtonClassName={classNames({
-          'select-all-options': options.length !== toSelectOptions.length,
-          'clear-selected-options': options.length === toSelectOptions.length,
-        })}
+            'select-all-options': options.length !== toSelectOptions.length,
+            'clear-selected-options': options.length === toSelectOptions.length,
+          })}
           headerButtonIconClassName={classNames({
             'fa fa-check-square': options.length !== toSelectOptions.length,
             'icon icon-times': options.length === toSelectOptions.length,
@@ -378,8 +386,8 @@ class Select extends PureComponent {
           onChange={this.handleSelectMultipleOptions}
           name={name}
         />
-      )
-      : (
+      </When>
+      <Otherwise>
         <SelectSingleOptions
           options={options}
           selectedOption={originalSelectedOptions[0]}
@@ -387,7 +395,8 @@ class Select extends PureComponent {
           bindActiveOption={this.bindActiveOptionRef}
           optionComponent={singleOptionComponent}
         />
-      )
+      </Otherwise>
+    </Choose>
   );
 
   render() {
@@ -429,22 +438,26 @@ class Select extends PureComponent {
 
         <div className={selectBlockClassName}>
           {
-            showSearchBar &&
-            <SelectSearchBox
-              query={query}
-              placeholder={searchPlaceholder || I18n.t('common.select.default_placeholder')}
-              onChange={this.handleSearch}
-              ref={this.bindSearchBarRef}
-            />
+            showSearchBar
+            && (
+              <SelectSearchBox
+                query={query}
+                placeholder={searchPlaceholder || I18n.t('common.select.default_placeholder')}
+                onChange={this.handleSearch}
+                ref={this.bindSearchBarRef}
+              />
+            )
           }
           <div className="select-block__container" ref={this.bindContainerRef}>
             {OptionsHeaderComponent && <OptionsHeaderComponent />}
             {multiple && this.renderSelectedOptions(originalSelectedOptions, selectedOptions)}
             {
-              !!query && options.length === 0 &&
-              <div className="text-muted font-size-10 margin-10">
-                {I18n.t('common.select.options_not_found', { query })}
-              </div>
+              !!query && options.length === 0
+              && (
+                <div className="text-muted font-size-10 margin-10">
+                  {I18n.t('common.select.options_not_found', { query })}
+                </div>
+              )
             }
             {this.renderOptions(
               {
@@ -454,7 +467,7 @@ class Select extends PureComponent {
                 multiple,
                 singleOptionComponent,
                 name,
-              }
+              },
             )}
           </div>
         </div>

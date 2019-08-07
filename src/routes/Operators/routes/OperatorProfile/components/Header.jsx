@@ -80,26 +80,30 @@ class Header extends Component {
               </button>
             </If>
             {
-              operatorStatus === statuses.INACTIVE &&
-              <PermissionContent permissions={permissions.OPERATORS.OPERATOR_SEND_INVITATION}>
-                <Button
-                  className="btn-sm btn-default-outline margin-right-10"
-                  onClick={onSendInvitationClick}
-                >
-                  {I18n.t('OPERATOR_PROFILE.DETAILS.SEND_INVITATION')}
-                </Button>
-              </PermissionContent>
+              operatorStatus === statuses.INACTIVE
+              && (
+                <PermissionContent permissions={permissions.OPERATORS.OPERATOR_SEND_INVITATION}>
+                  <Button
+                    className="btn-sm btn-default-outline margin-right-10"
+                    onClick={onSendInvitationClick}
+                  >
+                    {I18n.t('OPERATOR_PROFILE.DETAILS.SEND_INVITATION')}
+                  </Button>
+                </PermissionContent>
+              )
             }
             {
-              operatorStatus === statuses.ACTIVE &&
-              <PermissionContent permissions={permissions.OPERATORS.RESET_PASSWORD}>
-                <Button
-                  className="btn-sm btn-default-outline"
-                  onClick={onResetPasswordClick}
-                >
-                  {I18n.t('OPERATOR_PROFILE.RESET_PASSWORD')}
-                </Button>
-              </PermissionContent>
+              operatorStatus === statuses.ACTIVE
+              && (
+                <PermissionContent permissions={permissions.OPERATORS.RESET_PASSWORD}>
+                  <Button
+                    className="btn-sm btn-default-outline"
+                    onClick={onResetPasswordClick}
+                  >
+                    {I18n.t('OPERATOR_PROFILE.RESET_PASSWORD')}
+                  </Button>
+                </PermissionContent>
+              )
             }
           </div>
         </div>
@@ -108,7 +112,7 @@ class Header extends Component {
             <AccountStatus
               profileStatus={operatorStatus}
               onStatusChange={this.handleStatusChange}
-              label={
+              label={(
                 <div className="dropdown-tab">
                   <div className="header-block-title">{I18n.t('COMMON.ACCOUNT_STATUS')}</div>
                   <If condition={availableStatuses.length > 0}>
@@ -120,45 +124,55 @@ class Header extends Component {
                     {I18n.t(statusesLabels[operatorStatus])}
                   </div>
                   {
-                    operatorStatus === statuses.ACTIVE && !!statusChangeDate &&
-                    <div className="header-block-small">
-                      {I18n.t('COMMON.SINCE', { date: moment.utc(statusChangeDate).local().format('DD.MM.YYYY') })}
-                    </div>
+                    operatorStatus === statuses.ACTIVE && !!statusChangeDate
+                    && (
+                      <div className="header-block-small">
+                        {I18n.t('COMMON.SINCE', { date: moment.utc(statusChangeDate).local().format('DD.MM.YYYY') })}
+                      </div>
+                    )
                   }
                   {
-                    operatorStatus === statuses.CLOSED &&
-                    <div>
-                      {
-                        statusChangeAuthor &&
-                        <div className="header-block-small">
-                          {I18n.t('COMMON.AUTHOR_BY')} <Uuid uuid={statusChangeAuthor} uuidPrefix="OP" />
-                        </div>
-                      }
-                      {
-                        statusChangeDate &&
-                        <div className="header-block-small">
+                    operatorStatus === statuses.CLOSED
+                    && (
+                      <div>
+                        {
+                          statusChangeAuthor
+                        && (
+                          <div className="header-block-small">
+                            {I18n.t('COMMON.AUTHOR_BY')} <Uuid uuid={statusChangeAuthor} uuidPrefix="OP" />
+                          </div>
+                        )
+                        }
+                        {
+                          statusChangeDate
+                        && (
+                          <div className="header-block-small">
                           on {moment.utc(statusChangeDate).local().format('DD.MM.YYYY')}
-                        </div>
-                      }
-                    </div>
+                          </div>
+                        )
+                        }
+                      </div>
+                    )
                   }
                 </div>
-              }
+              )}
               availableStatuses={availableStatuses}
             />
           </div>
           <div className="header-block">
             <div className="header-block-title">{I18n.t('OPERATORS.GRID_HEADER.REGISTERED')}</div>
             {
-              registrationDate &&
-              <div>
-                <div className="header-block-middle">
-                  {moment.utc(registrationDate).local().fromNow()}
+              registrationDate
+              && (
+                <div>
+                  <div className="header-block-middle">
+                    {moment.utc(registrationDate).local().fromNow()}
+                  </div>
+                  <div className="header-block-small">
+                    {I18n.t('COMMON.ON')} {moment.utc(registrationDate).local().format('DD.MM.YYYY HH:mm')}
+                  </div>
                 </div>
-                <div className="header-block-small">
-                  {I18n.t('COMMON.ON')} {moment.utc(registrationDate).local().format('DD.MM.YYYY HH:mm')}
-                </div>
-              </div>
+              )
             }
           </div>
         </div>

@@ -11,10 +11,13 @@ class StickyWrapper extends Component {
     innerZ: PropTypes.number,
     activeClass: PropTypes.string,
   };
+
   static defaultProps = {
     innerZ: 2,
     activeClass: 'active',
   };
+
+  mounted = false;
 
   componentDidMount() {
     this.mounted = true;
@@ -23,8 +26,6 @@ class StickyWrapper extends Component {
   componentWillUnmount() {
     this.mounted = false;
   }
-
-  mounted = false;
 
   render() {
     const { children, top, innerZ, activeClass } = this.props;

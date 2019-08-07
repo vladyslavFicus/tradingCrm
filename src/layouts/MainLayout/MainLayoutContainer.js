@@ -1,4 +1,4 @@
-import { graphql, compose } from 'react-apollo';
+import { compose } from 'react-apollo';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { getAvailableLanguages } from '../../config';
@@ -21,9 +21,9 @@ const mapStateToProps = (state) => {
     settings,
   } = state;
   const userPanelsByManager = userPanels.items.filter(userTab => (
-    userTab.auth &&
-    userTab.auth.brandId === auth.brandId &&
-    userTab.auth.uuid === auth.uuid
+    userTab.auth
+    && userTab.auth.brandId === auth.brandId
+    && userTab.auth.uuid === auth.uuid
   ));
 
   const activeUserPanel = userPanels.items.find(p => p.uuid === userPanels.activeIndex);

@@ -13,5 +13,5 @@ const mapStateToProps = ({
 
 export default compose(
   connect(mapStateToProps),
-  withServiceCheck
+  withServiceCheck,
 )(Accounts);

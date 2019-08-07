@@ -90,7 +90,7 @@ class List extends Component {
           operatorId,
           ...variables,
         },
-      }
+      },
     );
 
     refetch();

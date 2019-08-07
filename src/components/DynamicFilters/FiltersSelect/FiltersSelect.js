@@ -20,13 +20,12 @@ class FiltersSelect extends Component {
   constructor(props) {
     super(props);
 
-    const originalOptions = props.options.map(this.mapOptions);
+    this.originalOptions = props.options.map(this.mapOptions);
     this.state = {
       opened: false,
       query: '',
-      originalOptions,
-      options: originalOptions,
-      withSearchBar: originalOptions.length > 5,
+      options: this.originalOptions,
+      withSearchBar: this.originalOptions.length > 5,
     };
   }
 
@@ -34,12 +33,11 @@ class FiltersSelect extends Component {
     const { options } = this.props;
 
     if (!shallowEqual(options, nextOptions)) {
-      const originalOptions = nextOptions.map(this.mapOptions);
+      this.originalOptions = nextOptions.map(this.mapOptions);
 
       this.setState({
-        originalOptions,
-        options: originalOptions,
-        withSearchBar: originalOptions.length > 5,
+        options: this.originalOptions,
+        withSearchBar: this.originalOptions.length > 5,
       });
     }
   }
@@ -68,12 +66,12 @@ class FiltersSelect extends Component {
     if (e === null) {
       this.setState({
         query: '',
-        options: this.state.originalOptions,
+        options: this.originalOptions,
       });
     } else {
       this.setState({
         query: e.target.value,
-        options: filterOptionsByQuery(e.target.value, this.state.originalOptions),
+        options: filterOptionsByQuery(e.target.value, this.originalOptions),
       });
     }
   };
@@ -130,11 +128,13 @@ class FiltersSelect extends Component {
         <div className={className}>
           <div className={selectBlockClassName}>
             {
-              withSearchBar &&
-              <SelectSearchBox
-                query={query}
-                onChange={this.handleSearch}
-              />
+              withSearchBar
+              && (
+                <SelectSearchBox
+                  query={query}
+                  onChange={this.handleSearch}
+                />
+              )
             }
             <div className="select-block__container">
               {this.renderOptions()}

@@ -13,12 +13,17 @@ class Departments extends Component {
     canGoBack: PropTypes.bool,
     brand: PropTypes.brand,
   };
+
   static defaultProps = {
     canGoBack: false,
     brand: null,
   };
 
   state = { step: 0, departments: [] };
+
+  activeTimeout = null;
+
+  mounted = false;
 
   componentDidMount() {
     this.mounted = true;
@@ -59,9 +64,6 @@ class Departments extends Component {
     }
   }
 
-  activeTimeout = null;
-  mounted = false;
-
   render() {
     const { step, departments } = this.state;
     const { onSelect, onBackClick, canGoBack, brand } = this.props;
@@ -78,24 +80,26 @@ class Departments extends Component {
 
     return (
       <div className={className}>
-        {
-          !canGoBack
-            ? <div className="form-page__multibrand_heading"><Greeting /></div>
-            : (
-              <div className="form-page__department_return" onClick={onBackClick}>
-                <span className="return-label">All brands</span>
-              </div>
-            )
-        }
-        {
-          !canGoBack && brand &&
+        <Choose>
+          <When condition={!canGoBack}>
+            <div className="form-page__multibrand_heading"><Greeting /></div>
+          </When>
+          <Otherwise>
+            <div className="form-page__department_return" onClick={onBackClick}>
+              <span className="return-label">All brands</span>
+            </div>
+          </Otherwise>
+        </Choose>
+
+        <If condition={!canGoBack && brand}>
           <div className="form-page__single-brand_brand">
             <img alt={brand.name} id={brand.id} {...brand.image} />
             <div className="form-page__single-brand_label">
               {brand.name}
             </div>
           </div>
-        }
+        </If>
+
         <div className="form-page__multibrand_call-to-action">
           {canGoBack ? 'And now, choose the department' : 'Please, choose  the department'}
         </div>

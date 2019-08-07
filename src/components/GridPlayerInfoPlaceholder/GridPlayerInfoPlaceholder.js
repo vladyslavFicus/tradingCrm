@@ -23,4 +23,8 @@ GridPlayerInfoPlaceholder.propTypes = {
   children: PropTypes.any.isRequired,
 };
 
+GridPlayerInfoPlaceholder.defaultProps = {
+  ready: false,
+};
+
 export default GridPlayerInfoPlaceholder;

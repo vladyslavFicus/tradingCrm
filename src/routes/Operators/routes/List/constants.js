@@ -15,4 +15,3 @@ export {
 };
 
 export default attributeLabels;
-

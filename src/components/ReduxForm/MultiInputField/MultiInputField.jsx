@@ -6,7 +6,6 @@ import MultiInput from '../../MultiInput';
 
 class MultiInputField extends Component {
   static propTypes = {
-    async: PropTypes.bool,
     className: PropTypes.string,
     input: PropTypes.shape({
       name: PropTypes.string,
@@ -21,12 +20,6 @@ class MultiInputField extends Component {
       PropTypes.string,
       PropTypes.node,
     ]),
-    placeholder: PropTypes.string,
-    inputAddon: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.node,
-    ]),
-    inputAddonPosition: PropTypes.oneOf(['left', 'right']),
     position: PropTypes.oneOf(['horizontal', 'vertical']),
     showErrorMessage: PropTypes.bool,
     disabled: PropTypes.bool,
@@ -35,11 +28,9 @@ class MultiInputField extends Component {
       error: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
     }).isRequired,
     labelClassName: PropTypes.string,
-    onIconClick: PropTypes.func,
-    maxLength: PropTypes.number,
     helpText: PropTypes.node,
-    loadOptions: PropTypes.func,
   };
+
   static defaultProps = {
     className: null,
     label: null,
@@ -47,15 +38,8 @@ class MultiInputField extends Component {
     position: 'vertical',
     showErrorMessage: true,
     disabled: false,
-    placeholder: '',
-    inputAddon: null,
-    inputAddonPosition: 'left',
     labelClassName: null,
-    onIconClick: null,
     helpText: null,
-    async: false,
-    maxLength: null,
-    loadOptions: null,
   };
 
   renderInput = (props) => {
@@ -110,11 +94,11 @@ class MultiInputField extends Component {
                   { clickable: onIconClick },
                 )}
                 onClick={onIconClick}
-                id={
+                id={(
                   <If condition={id}>
                     {`${id}-right-icon`}
                   </If>
-                }
+                )}
               >
                 {inputAddon}
               </span>

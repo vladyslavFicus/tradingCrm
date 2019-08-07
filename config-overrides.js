@@ -1,8 +1,7 @@
 const path = require('path');
-const { override, useEslintRc, addBabelPlugin, disableEsLint } = require('customize-cra');
+const { override, useEslintRc, addBabelPlugin } = require('customize-cra');
 
 module.exports = override(
-  // useEslintRc(path.resolve('.eslintrc.json')),
-  disableEsLint(),
+  useEslintRc(path.resolve('.eslintrc.json')),
   addBabelPlugin('module:jsx-control-statements'),
 );

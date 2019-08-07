@@ -10,7 +10,7 @@ const NotificationDetailsItem = ({
 }) => (
   <div className={className}>
     <strong>{label}</strong>:
-    <span className={classNames('font-weight-700 float-right', value ? 'color-success': 'color-danger')}>
+    <span className={classNames('font-weight-700 float-right', value ? 'color-success' : 'color-danger')}>
       {I18n.t(`COMMON.${value ? 'ENABLED' : 'DISABLED'}`)}
     </span>
   </div>

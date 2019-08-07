@@ -5,7 +5,7 @@ import { persistStore, autoRehydrate } from 'redux-persist';
 import { loadTranslations, syncTranslationWithStore } from 'react-redux-i18n';
 import crosstabSync from 'redux-persist-crosstab';
 import * as Sentry from '@sentry/browser';
-import makeRootReducer from './reducers';
+import reducers from './reducers';
 import apiUrl from '../redux/middlewares/apiUrl';
 import authMiddleware from '../redux/middlewares/auth';
 import apiToken from '../redux/middlewares/apiToken';
@@ -15,6 +15,7 @@ import requestTime from '../redux/middlewares/requestTime';
 import catcher from '../redux/middlewares/catcher';
 import { actionCreators as languageActionCreators } from '../redux/modules/language';
 import unauthorized from '../redux/middlewares/unauthorized';
+import windowMiddleware from '../redux/middlewares/window';
 import config from '../config';
 import translations from '../i18n';
 import { actionCreators as permissionsActionCreators } from '../redux/modules/auth/permissions';
@@ -37,14 +38,14 @@ export default (initialState = {}, onComplete) => {
   );
 
   if (window.isFrame) {
-    middleware.push(require('../redux/middlewares/window').default);
+    middleware.push(windowMiddleware);
   }
 
   middleware.push(
     authMiddleware,
     apiErrors,
     apiVersion,
-    requestTime
+    requestTime,
   );
 
   // ======================================================
@@ -64,12 +65,12 @@ export default (initialState = {}, onComplete) => {
   // Store Instantiation and HMR Setup
   // ======================================================
   const store = createStore(
-    makeRootReducer(),
+    reducers(),
     initialState,
     composeEnhancers(
       applyMiddleware(...middleware),
-      ...enhancers
-    )
+      ...enhancers,
+    ),
   );
 
   store.subscribe(() => {
@@ -120,15 +121,8 @@ export default (initialState = {}, onComplete) => {
 
   crosstabSync(
     persist,
-    window.isFrame ? config.middlewares.crossTabPersistFrame : config.middlewares.crossTabPersistPage
+    window.isFrame ? config.middlewares.crossTabPersistFrame : config.middlewares.crossTabPersistPage,
   );
 
   store.asyncReducers = {};
-
-  if (module.hot) {
-    module.hot.accept('./reducers', () => {
-      const reducers = require('./reducers').default;
-      store.replaceReducer(reducers(store.asyncReducers));
-    });
-  }
 };

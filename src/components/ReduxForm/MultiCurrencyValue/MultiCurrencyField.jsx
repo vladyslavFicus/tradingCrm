@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Field } from 'redux-form';
-import { InputField } from '../../../components/ReduxForm';
+import { InputField } from '..';
 import { floatNormalize } from '../../../utils/inputNormalize';
 
 const MultiCurrencyField = ({ label, name, id, className, ...rest }) => (

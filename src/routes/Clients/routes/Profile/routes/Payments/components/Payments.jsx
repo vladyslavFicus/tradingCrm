@@ -28,7 +28,6 @@ class Payments extends Component {
     auth: PropTypes.shape({
       uuid: PropTypes.string.isRequired,
     }).isRequired,
-    currencyCode: PropTypes.string,
     match: PropTypes.shape({
       params: PropTypes.shape({
         id: PropTypes.string,
@@ -65,7 +64,7 @@ class Payments extends Component {
   };
 
   static defaultProps = {
-    currencyCode: null,
+    playerProfile: null,
   };
 
   static contextTypes = {
@@ -190,7 +189,7 @@ class Payments extends Component {
       languageCode: language,
       firstName,
       lastName,
-  } = playerProfile.data;
+    } = playerProfile.data;
 
     const variables = {
       ...inputParams,
@@ -269,7 +268,7 @@ class Payments extends Component {
             ]}
             permissionsCondition={CONDITIONS.OR}
           >
-            <button className="btn btn-sm btn-primary-outline" onClick={this.handleOpenAddPaymentModal}>
+            <button type="button" className="btn btn-sm btn-primary-outline" onClick={this.handleOpenAddPaymentModal}>
               {I18n.t('PLAYER_PROFILE.TRANSACTIONS.ADD_TRANSACTION')}
             </button>
           </PermissionContent>

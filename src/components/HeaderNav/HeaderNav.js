@@ -17,7 +17,7 @@ class HeaderNav extends Component {
   };
 
   handleToggleState = () => {
-    this.setState({ active: !this.state.active });
+    this.setState(({ active }) => ({ active: !active }));
   };
 
   render() {
@@ -33,9 +33,6 @@ class HeaderNav extends Component {
         <DropdownToggle
           className="header-nav__toggle"
           tag="button"
-          onClick={this.handleToggleState}
-          data-toggle="dropdown"
-          aria-expanded={active}
           id="profile-logout-toggle"
         >
           <i className="fa fa-user" />

@@ -68,8 +68,8 @@ export default (Component, type, branchType) => compose(
     }),
     skip: branchType !== branchTypes.DESK,
   }),
-  type === deskTypes.RETENTION ?
-    graphql(getRulesRetention, {
+  type === deskTypes.RETENTION
+    ? graphql(getRulesRetention, {
       options: ({
         match: {
           params: {
@@ -85,8 +85,7 @@ export default (Component, type, branchType) => compose(
       }),
       name: 'rules',
     })
-    :
-    graphql(getRules, {
+    : graphql(getRules, {
       options: ({
         match: {
           params: {
@@ -101,5 +100,5 @@ export default (Component, type, branchType) => compose(
         },
       }),
       name: 'rules',
-    })
+    }),
 )(Component);

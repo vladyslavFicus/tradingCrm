@@ -56,8 +56,11 @@ export default function asyncRoute(getComponent, getReducers, key) {
     render() {
       const { shouldLoadReducers, reducersLoaded, RouteComponent } = this.state;
 
-      return (RouteComponent && (!shouldLoadReducers || reducersLoaded))
-        ? <RouteComponent {...this.props} /> : null;
+      return (
+        <If condition={RouteComponent && (!shouldLoadReducers || reducersLoaded)}>
+          <RouteComponent {...this.props} />
+        </If>
+      );
     }
   };
 }

@@ -24,11 +24,11 @@ const OperatorMiniProfile = ({ data }) => (
         {data.country && <span>{` - ${data.country}`}</span>}
       </div>
       {
-        !!data.authorities.length &&
-        <div className="operator-mini-profile-departments">
-          {
-            data.authorities.map(authority =>
-              (
+        !!data.authorities.length
+        && (
+          <div className="operator-mini-profile-departments">
+            {
+              data.authorities.map(authority => (
                 <div className="operator-mini-profile-department" key={authority.id}>
                   <span className="font-weight-700">
                     {renderLabel(authority.department, departmentsLabels)}
@@ -36,10 +36,10 @@ const OperatorMiniProfile = ({ data }) => (
                   {' - '}
                   <span>{ renderLabel(authority.role, rolesLabels) }</span>
                 </div>
-              )
-            )
-          }
-        </div>
+              ))
+            }
+          </div>
+        )
       }
     </div>
     <div className="mini-profile-content">

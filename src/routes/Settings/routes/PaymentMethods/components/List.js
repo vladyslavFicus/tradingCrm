@@ -243,8 +243,8 @@ class List extends Component {
         <i
           aria-hidden="true"
           className={classNames('fa font-size-30 fa-globe', {
-            'color-info': popover.params.methodUUID === data.uuid &&
-            popover.name === PAYMENT_METHOD_AVAILABILITY_POPOVER,
+            'color-info': popover.params.methodUUID === data.uuid
+            && popover.name === PAYMENT_METHOD_AVAILABILITY_POPOVER,
           })}
         />
       </PopoverButton>
@@ -294,47 +294,55 @@ class List extends Component {
               className="font-weight-700"
             />
             {
-              !filters.countryCode &&
-              <GridViewColumn
-                name="availability"
-                header={I18n.t('PAYMENT_METHODS.GRID.AVAILABILITY')}
-                className="text-center"
-                headerClassName="text-center"
-                render={this.renderCountryAvailability}
-              />
+              !filters.countryCode
+              && (
+                <GridViewColumn
+                  name="availability"
+                  header={I18n.t('PAYMENT_METHODS.GRID.AVAILABILITY')}
+                  className="text-center"
+                  headerClassName="text-center"
+                  render={this.renderCountryAvailability}
+                />
+              )
             }
             {
-              !filters.countryCode &&
-              <GridViewColumn
-                name="status"
-                header={I18n.t('PAYMENT_METHODS.GRID.STATUS')}
-                render={this.renderStatus}
-                className="text-uppercase"
-              />
+              !filters.countryCode
+              && (
+                <GridViewColumn
+                  name="status"
+                  header={I18n.t('PAYMENT_METHODS.GRID.STATUS')}
+                  render={this.renderStatus}
+                  className="text-uppercase"
+                />
+              )
             }
           </SortableGridView>
         </div>
 
         {
-          popover.name === PAYMENT_METHOD_LIMIT_POPOVER &&
-          <LimitPopover
-            toggle={this.handlePopoverHide}
-            isOpen
-            onSubmit={this.handleChangeLimit}
-            onDisable={this.handleDisableLimit}
-            onEnable={this.handleEnabledLimit}
-            {...popover.params}
-          />
+          popover.name === PAYMENT_METHOD_LIMIT_POPOVER
+          && (
+            <LimitPopover
+              toggle={this.handlePopoverHide}
+              isOpen
+              onSubmit={this.handleChangeLimit}
+              onDisable={this.handleDisableLimit}
+              onEnable={this.handleEnabledLimit}
+              {...popover.params}
+            />
+          )
         }
 
         {
-          popover.name === PAYMENT_METHOD_AVAILABILITY_POPOVER &&
-          <AvailabilityPopover
-            toggle={this.handlePopoverHide}
-            isOpen
-            onSubmit={this.handleChangeLimit}
-            {...popover.params}
-          />
+          popover.name === PAYMENT_METHOD_AVAILABILITY_POPOVER
+          && (
+            <AvailabilityPopover
+              toggle={this.handlePopoverHide}
+              isOpen
+              onSubmit={this.handleChangeLimit}
+              {...popover.params}
+            />
+          )
         }
       </div>
     );

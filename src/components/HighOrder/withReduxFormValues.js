@@ -23,6 +23,6 @@ export default function withReduxFormValues(WrappedComponent) {
     withReduxFormName,
     connect((state, ownProps) => ({
       formValues: getFormValues(ownProps.formName)(state),
-    }))
+    })),
   )(WrappedComponent);
 }

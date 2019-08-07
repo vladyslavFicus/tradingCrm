@@ -13,11 +13,13 @@ class ShareLinkModal extends Component {
     notificationTitle: PropTypes.string,
     notificationMessage: PropTypes.string,
   };
+
   static defaultProps = {
     notificationLevel: 'success',
     notificationTitle: I18n.t('COMMON.NOTIFICATIONS.COPIED'),
     notificationMessage: I18n.t('COMMON.NOTIFICATIONS.COPY_PROFILE_LINK'),
   };
+
   static contextTypes = {
     addNotification: PropTypes.func.isRequired,
   };
@@ -59,7 +61,7 @@ class ShareLinkModal extends Component {
                 notificationTitle={notificationTitle}
                 notificationMessage={notificationMessage}
               >
-                <button className="btn btn-primary-outline share-profile-modal__copy-button">
+                <button type="button" className="btn btn-primary-outline share-profile-modal__copy-button">
                   {I18n.t('SHARE_LINK_MODAL.COPY_LINK')}
                 </button>
               </CopyToClipboard>

@@ -41,4 +41,8 @@ DateRangePickerWrapper.propTypes = {
   onDatesChange: PropTypes.func,
 };
 
+DateRangePickerWrapper.defaultProps = {
+  onDatesChange: () => {},
+};
+
 export default DateRangePickerWrapper;

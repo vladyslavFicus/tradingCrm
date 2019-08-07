@@ -14,10 +14,12 @@ const AccountStatusModal = ({
   <Modal isOpen toggle={onHide}>
     <form onSubmit={handleSubmit(onSubmit)}>
       {
-        !!title &&
-        <ModalHeader toggle={onHide}>
-          {title}
-        </ModalHeader>
+        !!title
+        && (
+          <ModalHeader toggle={onHide}>
+            {title}
+          </ModalHeader>
+        )
       }
       <ModalBody>
         <Field
@@ -36,7 +38,7 @@ const AccountStatusModal = ({
       </ModalBody>
 
       <ModalFooter>
-        <button className="btn btn-default-outline mr-auto" onClick={onHide}>
+        <button type="button" className="btn btn-default-outline mr-auto" onClick={onHide}>
           {I18n.t('COMMON.BUTTONS.CANCEL')}
         </button>
         <button

@@ -13,6 +13,7 @@ class FailureReasonIcon extends Component {
     id: PropTypes.string,
     profileStatusComment: PropTypes.string,
   };
+
   static defaultProps = {
     reason: null,
     statusDate: null,
@@ -20,12 +21,13 @@ class FailureReasonIcon extends Component {
     id: 'failure-reason-icon',
     profileStatusComment: '',
   };
+
   state = {
     popoverOpen: false,
   };
 
   togglePopoverOpen = () => {
-    this.setState({ popoverOpen: !this.state.popoverOpen });
+    this.setState(({ popoverOpen }) => ({ popoverOpen: !popoverOpen }));
   };
 
   renderPopoverContent(id) {
@@ -80,6 +82,7 @@ class FailureReasonIcon extends Component {
       <Fragment>
         <button
           id={id}
+          type="button"
           className="failure-reason-icon"
           onClick={this.togglePopoverOpen}
         />

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Pagination } from 'react-bootstrap';
 import InfiniteScroll from 'react-infinite-scroller';
 import shallowEqual from '../../utils/shallowEqual';
-import NotFoundContent from '../../components/NotFoundContent';
+import NotFoundContent from '../NotFoundContent';
 
 class ListView extends Component {
   static propTypes = {
@@ -18,6 +18,7 @@ class ListView extends Component {
     showNoResults: PropTypes.bool,
     last: PropTypes.bool,
   };
+
   static defaultProps = {
     defaultFilters: {},
     lazyLoad: false,

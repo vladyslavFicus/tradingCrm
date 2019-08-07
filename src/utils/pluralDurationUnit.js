@@ -31,13 +31,13 @@ export default (amount, unit, locale = 'en') => {
   let pluralForm = '';
   switch (true) {
     case (amount % 10 === 1 && amount % 100 !== 11):
-      pluralForm = forms[0];
+      [pluralForm] = forms;
       break;
     case (amount % 10 >= 2 && amount % 10 <= 4 && (amount % 100 < 10 || amount % 100 >= 20)):
-      pluralForm = forms[1];
+      [, pluralForm] = forms;
       break;
     default:
-      pluralForm = forms[2];
+      [, , pluralForm] = forms;
   }
 
   return `${amount} ${pluralForm}`;

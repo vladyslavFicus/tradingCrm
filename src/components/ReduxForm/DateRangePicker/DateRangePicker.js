@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React from 'react';
 import { I18n } from 'react-redux-i18n';
 import PropTypes from 'prop-types';
@@ -148,12 +149,6 @@ class DateRangePicker extends React.Component {
 }
 
 DateRangePicker.propTypes = {
-  autoFocus: PropTypes.bool,
-  autoFocusEndDate: PropTypes.bool,
-  initialStartDate: momentPropTypes.momentObj,
-  initialEndDate: momentPropTypes.momentObj,
-  anchorDirection: PropTypes.string,
-
   ...omit(DateRangePickerShape, [
     'startDate',
     'endDate',
@@ -163,6 +158,12 @@ DateRangePicker.propTypes = {
     'onDatesChange',
     'anchorDirection',
   ]),
+
+  autoFocus: PropTypes.bool,
+  autoFocusEndDate: PropTypes.bool,
+  initialStartDate: momentPropTypes.momentObj,
+  initialEndDate: momentPropTypes.momentObj,
+  anchorDirection: PropTypes.string,
 
   withTime: PropTypes.bool,
   dateFormat: PropTypes.string,

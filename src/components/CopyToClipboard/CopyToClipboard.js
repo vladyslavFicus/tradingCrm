@@ -15,11 +15,13 @@ class CopyToClipboard extends Component {
     notificationMessage: PropTypes.string.isRequired,
     notify: PropTypes.bool,
   };
+
   static defaultProps = {
     className: null,
     notify: false,
     notificationLevel: 'info',
   };
+
   static contextTypes = {
     addNotification: PropTypes.func.isRequired,
   };
@@ -38,9 +40,9 @@ class CopyToClipboard extends Component {
 
   toggle = () => {
     if (this.mounted) {
-      this.setState({
-        highlight: !this.state.highlight,
-      });
+      this.setState(({ highlight }) => ({
+        highlight: !highlight,
+      }));
     }
   };
 

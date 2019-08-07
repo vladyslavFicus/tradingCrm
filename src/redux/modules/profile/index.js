@@ -1,3 +1,4 @@
+/* eslint no-bitwise: ["error", { "allow": ["~"] }] */
 import { CALL_API } from 'redux-api-middleware';
 import _ from 'lodash';
 import moment from 'moment';
@@ -66,7 +67,7 @@ const fetchProfileMapResponse = (response) => {
     signInIps: signInIps ? Object.values(signInIps).sort((a, b) => {
       if (a.sessionStart > b.sessionStart) {
         return -1;
-      } else if (b.sessionStart > a.sessionStart) {
+      } if (b.sessionStart > a.sessionStart) {
         return 1;
       }
 
@@ -114,6 +115,8 @@ function fetchProfile(type) {
               if (contentType && ~contentType.indexOf('json')) {
                 return res.json().then(json => fetchProfileMapResponse(json));
               }
+
+              return null;
             },
           },
           {
@@ -175,7 +178,7 @@ function fetchEntities(type) {
   return (filters = {}) => (dispatch, getState) => {
     const { auth: { logged } } = getState();
     const queryString = buildQueryString(
-      _.omitBy({ page: 0, ...filters }, (val, key) => !val || key === 'playerUuidList')
+      _.omitBy({ page: 0, ...filters }, (val, key) => !val || key === 'playerUuidList'),
     );
 
     return dispatch({
@@ -207,7 +210,7 @@ function fetchESEntities(type) {
   return (filters = {}) => (dispatch, getState) => {
     const { auth: { logged } } = getState();
     const queryString = buildQueryString(
-      _.omitBy({ page: 0, ...filters }, (val, key) => !val || key === 'playerUuidList')
+      _.omitBy({ page: 0, ...filters }, (val, key) => !val || key === 'playerUuidList'),
     );
 
     return dispatch({

@@ -110,5 +110,5 @@ export default compose(
         },
       };
     },
-  })
+  }),
 )(List);

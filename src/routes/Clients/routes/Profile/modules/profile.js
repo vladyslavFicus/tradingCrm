@@ -525,13 +525,13 @@ function changeStatus({ action, ...data }) {
   return (dispatch) => {
     if (action === actions.BLOCK) {
       return dispatch(blockProfile(data));
-    } else if (action === actions.UNBLOCK) {
+    } if (action === actions.UNBLOCK) {
       return dispatch(unblockProfile(data));
-    } else if (action === actions.PROLONG) {
+    } if (action === actions.PROLONG) {
       return dispatch(prolongProfile(data));
-    } else if (action === actions.SUSPEND) {
+    } if (action === actions.SUSPEND) {
       return dispatch(suspendProfile(data));
-    } else if (action === actions.REMOVE) {
+    } if (action === actions.REMOVE) {
       return dispatch(resumeProfile(data));
     }
 

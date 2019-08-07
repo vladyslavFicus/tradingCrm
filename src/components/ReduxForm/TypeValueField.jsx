@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import { get } from 'lodash';
 import classNames from 'classnames';
 import { Field, Fields } from 'redux-form';
+import { InputField, SelectField, MultiCurrencyValue } from 'components/ReduxForm';
 import renderLabel from '../../utils/renderLabel';
-import { InputField, SelectField, MultiCurrencyValue } from '../../components/ReduxForm';
 import { customValueFieldTypesLabels, customValueFieldTypes } from '../../constants/form';
 import { withReduxFormValues } from '../HighOrder';
 

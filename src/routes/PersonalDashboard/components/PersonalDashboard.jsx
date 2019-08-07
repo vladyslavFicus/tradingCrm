@@ -23,7 +23,7 @@ const NewDashboard = React.memo(
         <ShortLoader />
       </Otherwise>
     </Choose>
-  )
+  ),
 );
 
 export default NewDashboard;

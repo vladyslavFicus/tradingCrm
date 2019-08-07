@@ -68,7 +68,7 @@ class Notes extends Component {
           hideArrow: true,
           className: 'notes-button__popover',
           id,
-        }
+        },
       )}
     >
       <div className="note-content">

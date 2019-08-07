@@ -26,5 +26,5 @@ export default compose(
       },
     }),
     name: 'playerProfile',
-  })
+  }),
 )(PaymentDetailModal);

@@ -7,7 +7,7 @@ import {
   OperatorMiniProfile,
   PlayerMiniProfile,
   LeadMiniProfile,
-} from '../../components/MiniProfile';
+} from '../MiniProfile';
 
 class MiniProfilePopover extends Component {
   static propTypes = {
@@ -46,16 +46,21 @@ class MiniProfilePopover extends Component {
   render() {
     const { placement, target, popoverMouseEvents } = this.props;
 
-    const popoverContent = popoverMouseEvents ?
-      (
-        <div
-          onMouseEnter={popoverMouseEvents.enter}
-          onMouseLeave={popoverMouseEvents.leave}
-        >
+    const popoverContent = (
+      <Choose>
+        <When condition={popoverMouseEvents}>
+          <div
+            onMouseEnter={popoverMouseEvents.enter}
+            onMouseLeave={popoverMouseEvents.leave}
+          >
+            {this.renderMiniProfile()}
+          </div>
+        </When>
+        <Otherwise>
           {this.renderMiniProfile()}
-        </div>
-      )
-      : this.renderMiniProfile();
+        </Otherwise>
+      </Choose>
+    );
 
     return (
       <Popover

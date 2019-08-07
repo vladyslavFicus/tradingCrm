@@ -49,7 +49,12 @@ class HierarchyBranchTree extends PureComponent {
               onClick: this.onNodeClick(node, parentNode),
               className: node.type === nodeTypes.USER ? 'HierarchyBranchTree__userNode' : null,
               buttons: (!node.expanded && node.children) ? [
-                <button title="Expand all down" onClick={expandAllNodes} className="HierarchyBranchTree__expandAll">
+                <button
+                  type="button"
+                  title="Expand all down"
+                  onClick={expandAllNodes}
+                  className="HierarchyBranchTree__expandAll"
+                >
                   <i className="fa fa-arrow-down" />
                 </button>,
               ] : [],

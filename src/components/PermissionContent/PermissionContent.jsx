@@ -12,9 +12,11 @@ class PermissionContent extends Component {
     ]).isRequired,
     permissionsCondition: PropTypes.oneOf([CONDITIONS.OR, CONDITIONS.AND]),
   };
+
   static contextTypes = {
     permissions: PropTypes.arrayOf(PropTypes.string).isRequired,
   };
+
   static defaultProps = {
     permissionsCondition: CONDITIONS.AND,
   };
@@ -41,8 +43,8 @@ class PermissionContent extends Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    return nextState.visible !== this.state.visible ||
-      !shallowEqual(nextProps.children, this.props.children);
+    return nextState.visible !== this.state.visible
+      || !shallowEqual(nextProps.children, this.props.children);
   }
 
   render() {

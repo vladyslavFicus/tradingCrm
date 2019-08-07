@@ -22,7 +22,8 @@ class LocaleSwitcher extends Component {
             color=""
             onClick={() => this.handleChoose(language)}
             active={currentLocale === language}
-          >{language}</Button>
+          >{language}
+          </Button>
         ))}
       </ButtonGroup>
     );

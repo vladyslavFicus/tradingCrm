@@ -22,4 +22,3 @@ export const getTradingStatusProps = (status) => {
     color: statusesColor[statusName],
   };
 };
-

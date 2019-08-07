@@ -72,7 +72,7 @@ export default (document, operationOptions) => WrappedComponent => class extends
       originalRefetch();
     }
 
-    this.setState({ variables: { ...this.state.variables, ...newVariables } });
+    this.setState(({ variables }) => ({ variables: { ...variables, ...newVariables } }));
   };
 
   /**

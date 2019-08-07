@@ -1,10 +1,10 @@
-import React  from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { Field, reduxForm } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
 import { Link } from 'react-router-dom';
 import { createValidator, translateLabels } from '../../utils/validator';
-import { InputField } from '../../components/ReduxForm';
+import { InputField } from '../ReduxForm';
 import attributeLabels from './constants';
 
 const formName = 'resetPasswordForm';

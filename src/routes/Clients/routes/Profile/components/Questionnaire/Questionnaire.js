@@ -5,13 +5,12 @@ import { I18n } from 'react-redux-i18n';
 import classNames from 'classnames';
 import { graphql, compose } from 'react-apollo';
 import { getApiRoot } from 'config';
-import Uuid from 'components/Uuid';
 import { withNotifications } from 'components/HighOrder';
 import downloadBlob from 'utils/downloadBlob';
 import PropTypes from 'constants/propTypes';
 import fetch from 'utils/fetch';
 import { changeStatusMutation } from 'graphql/mutations/questionnaire';
-import { statuses, statusColors } from './constants';
+import { statusColors } from './constants';
 
 
 class Questionnaire extends PureComponent {
@@ -120,7 +119,7 @@ class Questionnaire extends PureComponent {
           <span>{I18n.t('CLIENT_PROFILE.CLIENT.QUESTIONNAIRE.SCORE')}: {questionnaire.score}</span>
         </div>
         <div className="margin-top-10">
-          <button className="header-block_questionnaire_link" onClick={this.downloadPdf}>
+          <button type="button" className="header-block_questionnaire_link" onClick={this.downloadPdf}>
             <i className="fa-download" /> {I18n.t('CLIENT_PROFILE.CLIENT.QUESTIONNAIRE.DOWNLOAD_PDF')}
           </button>
         </div>

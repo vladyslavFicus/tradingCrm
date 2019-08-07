@@ -57,7 +57,7 @@ class GridPaymentInfo extends PureComponent {
       },
       onSuccess,
     });
-  }
+  };
 
   render() {
     const {
@@ -70,6 +70,7 @@ class GridPaymentInfo extends PureComponent {
     return (
       <div id={`payment-${paymentId}`}>
         <button
+          type="button"
           className="btn-transparent-text font-weight-700"
           onClick={this.handleOpenDetailModal}
           id={`transaction-${paymentId}`}

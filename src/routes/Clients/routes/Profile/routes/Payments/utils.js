@@ -5,8 +5,8 @@ const startDateValidator = currentValues => (current) => {
     return false;
   }
 
-  return currentValues && currentValues.endDate ?
-    current.isSameOrBefore(moment(currentValues.endDate)) : true;
+  return currentValues && currentValues.endDate
+    ? current.isSameOrBefore(moment(currentValues.endDate)) : true;
 };
 
 const endDateValidator = currentValues => (current) => {

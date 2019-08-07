@@ -34,5 +34,5 @@ export default compose(
       fetchPolicy: 'network-only',
     }),
     name: 'playerProfile',
-  })
+  }),
 )(View);

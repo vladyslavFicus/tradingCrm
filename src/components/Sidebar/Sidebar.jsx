@@ -22,6 +22,8 @@ class Sidebar extends Component {
     user: PropTypes.object,
   };
 
+  navLinkAnimated = false;
+
   state = {
     isOpen: false,
   };
@@ -71,8 +73,6 @@ class Sidebar extends Component {
     }, this.props.menuItemClick);
   };
 
-  navLinkAnimated = false;
-
   open = () => {
     if (!this.state.isOpen) {
       this.setState({ isOpen: true });
@@ -97,7 +97,7 @@ class Sidebar extends Component {
 
     return (
       <aside
-        ref={node => this.sidebar = node}
+        ref={(node) => { this.sidebar = node; }}
         className="sidebar"
         onMouseEnter={this.open}
         onMouseLeave={this.close}

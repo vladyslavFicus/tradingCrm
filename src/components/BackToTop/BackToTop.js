@@ -7,6 +7,7 @@ class BackToTop extends Component {
   static propTypes = {
     positionChange: PropTypes.bool,
   };
+
   static defaultProps = {
     positionChange: false,
   };
@@ -14,6 +15,8 @@ class BackToTop extends Component {
   state = {
     isVisible: false,
   };
+
+  mounted = false;
 
   componentDidMount() {
     this.mounted = true;
@@ -27,8 +30,6 @@ class BackToTop extends Component {
     window.removeEventListener('scroll', this.handleScroll);
   }
 
-  mounted = false;
-
   updateState = (...args) => {
     if (this.mounted) {
       this.setState(...args);
@@ -37,8 +38,8 @@ class BackToTop extends Component {
 
   handleScroll = () => {
     if (
-      document.documentElement.scrollTop > document.documentElement.clientHeight ||
-      document.body.scrollTop > document.body.clientHeight
+      document.documentElement.scrollTop > document.documentElement.clientHeight
+      || document.body.scrollTop > document.body.clientHeight
     ) {
       this.updateState({ isVisible: true });
     } else {
@@ -57,6 +58,7 @@ class BackToTop extends Component {
 
     return (
       <button
+        type="button"
         className={classNames(
           'fa fa-caret-up back-to-top',
           { 'is-visible': isVisible },

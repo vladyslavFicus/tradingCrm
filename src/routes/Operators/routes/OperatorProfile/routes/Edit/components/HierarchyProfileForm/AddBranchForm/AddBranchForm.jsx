@@ -86,7 +86,7 @@ class AddBranchForm extends Component {
         name,
         brandId,
         parentBranch,
-      }
+      },
     ) => ({
       value: uuid,
       label: hierarchyTree(selectedBranchType, parentBranch, name, brandId),
@@ -164,7 +164,7 @@ class AddBranchForm extends Component {
               <button
                 onClick={hideForm}
                 className="btn btn-default"
-                type="reset"
+                type="button"
               >
                 {I18n.t('COMMON.CANCEL')}
               </button>

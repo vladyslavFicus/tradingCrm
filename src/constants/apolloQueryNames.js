@@ -1,5 +1,5 @@
 // queries which should skip batching
-export default{
+export default {
   clientsQuery: 'getProfiles',
   leadsQuery: 'getLeads',
   paymentsQuery: 'getClientPayments',

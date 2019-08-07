@@ -23,6 +23,7 @@ class KycGridFilter extends Component {
     onSubmit: PropTypes.func.isRequired,
     invalid: PropTypes.bool.isRequired,
   };
+
   static defaultProps = {
     filterValues: {},
   };
@@ -95,7 +96,7 @@ class KycGridFilter extends Component {
             disabled={submitting || pristine}
             className="btn btn-default"
             onClick={this.handleReset}
-            type="reset"
+            type="button"
           >
             {I18n.t('COMMON.RESET')}
           </button>

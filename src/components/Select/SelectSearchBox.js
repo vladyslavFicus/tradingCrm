@@ -9,6 +9,7 @@ class SelectSearchBox extends Component {
     query: PropTypes.string,
     onChange: PropTypes.func.isRequired,
   };
+
   static defaultProps = {
     placeholder: null,
     query: '',

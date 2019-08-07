@@ -11,7 +11,7 @@ const changeAcquisitionStatus = new Permissions([permissions.USER_PROFILE.CHANGE
 
 const AcquisitionStatus = (
   { acquisitionData, department, loading },
-  { triggerRepresentativeUpdateModal, permissions: currentPermissions }
+  { triggerRepresentativeUpdateModal, permissions: currentPermissions },
 ) => (
   <div className="account-details__personal-info">
     <span className="account-details__label">

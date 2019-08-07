@@ -22,9 +22,11 @@ class Documents extends Component {
     onChangeStatus: PropTypes.func.isRequired,
     onDocumentClick: PropTypes.func,
   };
+
   static defaultProps = {
     onDocumentClick: null,
   };
+
   static contextTypes = {
     permissions: PropTypes.arrayOf(PropTypes.string).isRequired,
     onDeleteFileClick: PropTypes.func.isRequired,

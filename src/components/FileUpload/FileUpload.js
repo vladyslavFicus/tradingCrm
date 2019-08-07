@@ -11,6 +11,7 @@ class FileUpload extends Component {
     allowedTypes: PropTypes.array,
     singleMode: PropTypes.bool,
   };
+
   static defaultProps = {
     allowedSize: 2,
     allowedTypes: [],

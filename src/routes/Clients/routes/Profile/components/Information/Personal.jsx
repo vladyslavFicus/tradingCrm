@@ -87,7 +87,7 @@ class Personal extends PureComponent {
           number,
           agent: operatorPhoneNumber,
         },
-      }
+      },
     );
 
     if (!success) {
@@ -200,14 +200,14 @@ class Personal extends PureComponent {
               <PersonalInformationItem
                 label={I18n.t('CLIENT_PROFILE.DETAILS.SOURCE')}
                 value={
-                  affiliateProfile.source ||
-                  <span className="color-default">{I18n.t('CLIENT_PROFILE.DETAILS.NO_SOURCE')}</span>
+                  affiliateProfile.source
+                  || <span className="color-default">{I18n.t('CLIENT_PROFILE.DETAILS.NO_SOURCE')}</span>
                 }
               />
               <PersonalInformationItem
                 label={I18n.t('CLIENT_PROFILE.DETAILS.REFERRAL')}
-                value={affiliateProfile.referral ||
-                <span className="color-default">{I18n.t('CLIENT_PROFILE.DETAILS.NO_REFERRAL')}</span>}
+                value={affiliateProfile.referral
+                || <span className="color-default">{I18n.t('CLIENT_PROFILE.DETAILS.NO_REFERRAL')}</span>}
               />
             </If>
             <If condition={tradingProfile.convertedFromLeadUuid}>
@@ -283,7 +283,7 @@ class Personal extends PureComponent {
                 value={spam.statisticsAndSummary}
               />
               <NotificationDetailsItem
-                className='margin-top-15'
+                className="margin-top-15"
                 label={I18n.t('CLIENT_PROFILE.DETAILS.WEB_COOKIES.TITLE')}
                 value={webCookies.enabled}
               />
@@ -299,5 +299,5 @@ export default compose(
   withNotifications,
   connect(({ auth: { data: { phoneNumber: operatorPhoneNumber } } }) => ({ operatorPhoneNumber })),
   graphql(clickToCall, { name: 'clickToCall' }),
-  graphql(updateFATCAMutation, { name: 'updateFATCA' })
+  graphql(updateFATCAMutation, { name: 'updateFATCA' }),
 )(Personal);

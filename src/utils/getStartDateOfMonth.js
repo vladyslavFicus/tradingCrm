@@ -1,9 +1,9 @@
 import moment from 'moment';
 
 export default function () {
-  const date = new Date(),
-    y = date.getFullYear(),
-    m = date.getMonth();
+  const date = new Date();
+  const y = date.getFullYear();
+  const m = date.getMonth();
   const firstDay = new Date(y, m, 1);
   const lastDay = new Date(y, m + 1, 0);
 

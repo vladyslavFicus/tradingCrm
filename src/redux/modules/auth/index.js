@@ -61,18 +61,17 @@ function changeDepartment(department, brandId, token = null) {
 }
 
 function logout() {
-  return dispatch =>
-    dispatch({
-      [CALL_API]: {
-        endpoint: '/auth/logout',
-        method: 'GET',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-        types: [LOGOUT.REQUEST, LOGOUT.SUCCESS, LOGOUT.FAILURE],
+  return dispatch => dispatch({
+    [CALL_API]: {
+      endpoint: '/auth/logout',
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
       },
-    }).then(() => dispatch(optionsActionCreators.reset()));
+      types: [LOGOUT.REQUEST, LOGOUT.SUCCESS, LOGOUT.FAILURE],
+    },
+  }).then(() => dispatch(optionsActionCreators.reset()));
 }
 
 function resetPasswordConfirm(type) {

@@ -7,5 +7,5 @@ const mapStateToProps = ({ auth: { logged } }) => ({ logged });
 
 export default compose(
   withRouter,
-  connect(mapStateToProps)
+  connect(mapStateToProps),
 )(IndexRoute);

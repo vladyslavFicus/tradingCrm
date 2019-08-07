@@ -21,6 +21,7 @@ class OffsetGridView extends Component {
     children: PropTypes.arrayOf(PropTypes.element).isRequired,
     hasMore: PropTypes.bool,
   };
+
   static defaultProps = {
     rows: [],
     rowClassName: null,

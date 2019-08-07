@@ -15,6 +15,7 @@ class TransactionStatus extends Component {
     transaction: PropTypes.paymentEntity.isRequired,
     onLoadStatusHistory: PropTypes.func,
   };
+
   static defaultProps = {
     onLoadStatusHistory: null,
   };
@@ -25,9 +26,9 @@ class TransactionStatus extends Component {
   };
 
   toggle = () => {
-    this.setState({
-      dropDownOpen: !this.state.dropDownOpen,
-    }, async () => {
+    this.setState(({ dropDownOpen }) => ({
+      dropDownOpen: !dropDownOpen,
+    }), async () => {
       if (this.state.dropDownOpen) {
         const action = await this.props.onLoadStatusHistory();
 
@@ -44,9 +45,6 @@ class TransactionStatus extends Component {
     <Dropdown isOpen={dropDownOpen} toggle={this.toggle} className="status-dropdown">
       <DropdownToggle
         tag="button"
-        onClick={this.toggle}
-        data-toggle="dropdown"
-        aria-expanded={dropDownOpen}
         className="btn-transparent-text text-left cursor-pointer"
       >
         {label}
@@ -106,20 +104,24 @@ class TransactionStatus extends Component {
           {renderLabel(transactionStatus, statusesLabels)}
           {
             // will be implemented in CRYTPMB-190
-            (transactionStatus === statuses.FAILED || transactionStatus === statuses.REFUSED) && !!transaction.reason &&
-            <FailedStatusIcon id={`transaction-failure-reason-${transaction.paymentId}`}>
-              {transaction.reason}
-            </FailedStatusIcon>
+            (transactionStatus === statuses.FAILED || transactionStatus === statuses.REFUSED) && !!transaction.reason
+            && (
+              <FailedStatusIcon id={`transaction-failure-reason-${transaction.paymentId}`}>
+                {transaction.reason}
+              </FailedStatusIcon>
+            )
           }
           <i className="fa fa-angle-down" />
         </div>
         {
-          authorUUID &&
-          <div className="font-size-11">
-            {I18n.t('COMMON.AUTHOR_BY')}
-            {' '}
-            <Uuid {...authorUUID} />
-          </div>
+          authorUUID
+          && (
+            <div className="font-size-11">
+              {I18n.t('COMMON.AUTHOR_BY')}
+              {' '}
+              <Uuid {...authorUUID} />
+            </div>
+          )
         }
         <div className="font-size-11">
           {I18n.t('COMMON.DATE_ON', {

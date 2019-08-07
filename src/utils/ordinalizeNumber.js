@@ -4,12 +4,12 @@ export default (n, locale = 'en') => {
 
     if (n === 2 || n === 6 || n === 7 || n === 8) {
       return `${n}${s[1]}`;
-    } else if (n === 3) {
+    } if (n === 3) {
       return `${n}${s[2]}`;
     }
 
     return `${n}${s[0]}`;
-  } else if (locale === 'en') {
+  } if (locale === 'en') {
     const s = ['th', 'st', 'nd', 'rd'];
     const v = n % 100;
 

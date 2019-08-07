@@ -37,6 +37,7 @@ class DynamicForm extends Component {
     addItem: PropTypes.func.isRequired,
     removeItem: PropTypes.func.isRequired,
   };
+
   static defaultProps = {
     className: 'filter-row',
     allowSubmit: false,
@@ -153,17 +154,19 @@ class DynamicForm extends Component {
   handleFilterValueChange = ({ name, onFieldChange }) => (value) => {
     const { change } = this.props;
     onFieldChange(name, value, change);
-  }
+  };
 
   renderFilter = (filter) => {
     let input;
     const { className } = this.props;
-    const removeButton = filter.default ? null : (
-      <button
-        className="icon icon-times label-clear"
-        onClick={() => this.handleRemoveFilter(filter.uuid)}
-        type="button"
-      />
+    const removeButton = (
+      <If condition={!filter.default}>
+        <button
+          className="icon icon-times label-clear"
+          onClick={() => this.handleRemoveFilter(filter.uuid)}
+          type="button"
+        />
+      </If>
     );
 
     const component = TYPES_COMPONENTS[filter.type];
@@ -256,7 +259,7 @@ class DynamicForm extends Component {
               disabled={submitting || (allowReset && pristine)}
               className="btn btn-default"
               onClick={this.handleReset}
-              type="reset"
+              type="button"
             >
               {I18n.t('COMMON.RESET')}
             </button>

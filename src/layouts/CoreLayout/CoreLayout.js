@@ -37,6 +37,7 @@ class CoreLayout extends Component {
       updateVersionModal: PropTypes.modalType,
     }).isRequired,
   };
+
   static childContextTypes = {
     addNotification: PropTypes.func.isRequired,
     miniProfile: PropTypes.shape({
@@ -44,6 +45,7 @@ class CoreLayout extends Component {
       onHideMiniProfile: PropTypes.func.isRequired,
     }),
   };
+
   static defaultProps = {
     notifications: [],
   };
@@ -99,8 +101,8 @@ class CoreLayout extends Component {
     }
 
     if (
-      nextModalName === modalsTypes.NEW_API_VERSION &&
-      !updateVersionModal.isOpen
+      nextModalName === modalsTypes.NEW_API_VERSION
+      && !updateVersionModal.isOpen
     ) {
       updateVersionModal.show();
     }

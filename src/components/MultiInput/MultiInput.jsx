@@ -125,7 +125,7 @@ class MultiInput extends Component {
     const { value } = this.state;
 
     if (maxLength && value && value.length === maxLength) {
-      return null;
+      return;
     }
 
     this.setState({ inputValue });
@@ -156,7 +156,11 @@ class MultiInput extends Component {
         }
         event.persist();
         break;
+      default:
+        break;
     }
+
+    return null;
   };
 
   renderDropdownIndicator = (props) => {

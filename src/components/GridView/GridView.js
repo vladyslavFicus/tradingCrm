@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import shallowEqual from '../../utils/shallowEqual';
 import GridViewColumn from './GridViewColumn';
-import NotFoundContent from '../../components/NotFoundContent';
+import NotFoundContent from '../NotFoundContent';
 import PermissionContent from '../PermissionContent';
 import GridViewLoader from './GridViewLoader';
 import { getGridColumn } from './utils';
@@ -35,6 +35,7 @@ class GridView extends Component {
     onAllRowsSelect: PropTypes.func,
     onRowSelect: PropTypes.func,
   };
+
   static defaultProps = {
     tableClassName: null,
     headerClassName: 'text-uppercase',
@@ -81,12 +82,12 @@ class GridView extends Component {
     this.props.onFiltersChanged(this.state.filters);
   };
 
-  setFilters = filters => this.setState({
+  setFilters = filters => this.setState(state => ({
     filters: {
-      ...this.state.filters,
+      ...state.filters,
       ...filters,
     },
-  }, this.onFiltersChanged);
+  }), this.onFiltersChanged);
 
   getRowClassName = (data) => {
     let className = this.props.rowClassName;
@@ -196,7 +197,7 @@ class GridView extends Component {
                 className={classNames(
                   'grid-select-checkbox',
                   { 'header-unselect': (this.props.allRowsSelected && this.props.touchedRowsIds.length !== 0) },
-                  { active: (this.props.allRowsSelected && this.props.touchedRowsIds.length === 0) }
+                  { active: (this.props.allRowsSelected && this.props.touchedRowsIds.length === 0) },
                 )}
                 onClick={this.props.onAllRowsSelect}
               />
@@ -212,13 +213,20 @@ class GridView extends Component {
   );
 
   renderFilters = columns => (
-    columns.some(column => !!column)
-      ? (
-        <tr>
-          {columns.map((item, key) => (item ? <td key={key} {...item} /> : <td key={key} />))}
-        </tr>
-      )
-      : null
+    <If condition={columns.some(column => !!column)}>
+      <tr>
+        {columns.map((item, key) => (
+          <Choose>
+            <When condition={item}>
+              <td key={key} {...item} />
+            </When>
+            <Otherwise>
+              <td key={key} />
+            </Otherwise>
+          </Choose>
+        ))}
+      </tr>
+    </If>
   );
 
   renderLoading = columns => (
@@ -265,7 +273,7 @@ class GridView extends Component {
         key={key}
         className={classNames(
           this.getRowClassName(data),
-          { selected: this.getRowState(key.toString()) }
+          { selected: this.getRowState(key.toString()) },
         )}
         onClick={() => {
           if (typeof onRowClick === 'function') {
@@ -303,7 +311,7 @@ class GridView extends Component {
           <span
             className={classNames(
               'grid-select-checkbox',
-              { active }
+              { active },
             )}
             onClick={this.handleSelectRow}
             id={`checkbox-${rowIndex}`}

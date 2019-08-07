@@ -8,6 +8,7 @@ class ProfileLastLogin extends PureComponent {
     className: PropTypes.string,
     lastIp: PropTypes.ipEntity,
   };
+
   static defaultProps = {
     className: 'header-block',
     lastIp: null,

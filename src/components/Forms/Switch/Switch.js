@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
-import ReactSwitch from '../../../components/ReactSwitch';
+import ReactSwitch from '../../ReactSwitch';
 
 class Switch extends Component {
   static propTypes = {
@@ -9,6 +9,7 @@ class Switch extends Component {
     handleSwitch: PropTypes.func.isRequired,
     disabled: PropTypes.bool,
   };
+
   static defaultProps = {
     disabled: false,
   };
@@ -25,13 +26,13 @@ class Switch extends Component {
     return null;
   }
 
-  toggle = () => {
-    this.setState({
-      active: !this.state.active,
-    });
-  };
-
   revert = _.debounce(this.toggle, 301);
+
+  toggle = () => {
+    this.setState(({ active }) => ({
+      active: !active,
+    }));
+  };
 
   handleSwitch = async () => {
     this.toggle();

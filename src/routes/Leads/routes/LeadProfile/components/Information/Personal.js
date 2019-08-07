@@ -38,7 +38,7 @@ const Personal = ({
           <If condition={!loading}>
             <PersonalInformationItem
               label={I18n.t('LEAD_PROFILE.DETAILS.DATE_OF_BIRTH')}
-              value={
+              value={(
                 <Choose>
                   <When condition={birthDate}>
                     {moment.utc(birthDate).local().format('DD.MM.YYYY')}
@@ -47,7 +47,7 @@ const Personal = ({
                     <span>&mdash;</span>
                   </Otherwise>
                 </Choose>
-              }
+              )}
             />
             <PersonalInformationItem
               label={I18n.t('LEAD_PROFILE.DETAILS.GENDER')}
@@ -64,7 +64,7 @@ const Personal = ({
             <PersonalInformationItem
               label={I18n.t('LEAD_PROFILE.DETAILS.COUNTRY')}
               className="lead-country"
-              value={
+              value={(
                 <Choose>
                   <When condition={country}>
                     <Flag height={10} code={getCountryCode(country)} />
@@ -75,7 +75,7 @@ const Personal = ({
                     <span>&mdash;</span>
                   </Otherwise>
                 </Choose>
-              }
+              )}
             />
             <PersonalInformationItem
               label={I18n.t('LEAD_PROFILE.DETAILS.CITY')}

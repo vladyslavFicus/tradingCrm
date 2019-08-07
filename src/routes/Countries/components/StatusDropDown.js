@@ -17,9 +17,9 @@ class StatusDropDown extends Component {
   };
 
   toggle = () => {
-    this.setState({
-      dropDownOpen: !this.state.dropDownOpen,
-    });
+    this.setState(({ dropDownOpen }) => ({
+      dropDownOpen: !dropDownOpen,
+    }));
   };
 
   render() {
@@ -34,12 +34,7 @@ class StatusDropDown extends Component {
 
     return (
       <Dropdown isOpen={dropDownOpen} toggle={this.toggle}>
-        <DropdownToggle
-          tag="div"
-          onClick={this.toggle}
-          data-toggle="dropdown"
-          aria-expanded={dropDownOpen}
-        >
+        <DropdownToggle tag="div">
           {label}
         </DropdownToggle>
         <DropdownMenu>

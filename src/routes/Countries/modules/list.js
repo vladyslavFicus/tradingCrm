@@ -90,7 +90,7 @@ function changeStatus(action, countryCode) {
   return (dispatch) => {
     if (action === accessTypes.FORBIDDEN) {
       return dispatch(denyCountry(countryCode));
-    } else if (action === accessTypes.ALLOWED) {
+    } if (action === accessTypes.ALLOWED) {
       return dispatch(allowCountry(countryCode));
     }
 

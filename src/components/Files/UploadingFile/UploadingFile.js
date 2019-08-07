@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import fileSize from 'filesize';
 import { Field } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
-import { InputField, NasSelectField } from '../../../components/ReduxForm';
-import NoteButton from '../../../components/NoteButton';
+import { InputField, NasSelectField } from '../../ReduxForm';
+import NoteButton from '../../NoteButton';
 import { categoriesLabels } from '../../../constants/files';
 import PropTypes from '../../../constants/propTypes';
 import { targetTypes } from '../constants';
-import Uuid from '../../../components/Uuid';
+import Uuid from '../../Uuid';
 import { shortifyInMiddle } from '../../../utils/stringFormat';
 
 class UploadingFile extends Component {
@@ -39,9 +39,16 @@ class UploadingFile extends Component {
     );
 
     if (!data.uploading) {
-      status = !data.error
-        ? <span className="color-success">{I18n.t('FILES.UPLOAD_MODAL.FILE.UPLOADED')}</span>
-        : <span className="color-danger">{I18n.t('FILES.UPLOAD_MODAL.FILE.FAILED')}</span>;
+      status = (
+        <Choose>
+          <When condition={!data.error}>
+            <span className="color-success">{I18n.t('FILES.UPLOAD_MODAL.FILE.UPLOADED')}</span>
+          </When>
+          <Otherwise>
+            <span className="color-danger">{I18n.t('FILES.UPLOAD_MODAL.FILE.FAILED')}</span>
+          </Otherwise>
+        </Choose>
+      );
     }
 
     return (
@@ -52,7 +59,7 @@ class UploadingFile extends Component {
           ({fileSize(data.file.size)})
         </span>
         {' '}
-        <button className="btn-transparent" onClick={e => this.handleDeleteFileClick(e, data)}>
+        <button type="button" className="btn-transparent" onClick={e => this.handleDeleteFileClick(e, data)}>
           <i className="color-danger fa fa-trash" />
         </button>
       </span>
@@ -88,36 +95,40 @@ class UploadingFile extends Component {
           </div>
         </td>
         {
-          targetType === targetTypes.FILES &&
-          <td className={`${blockName}__row-category`}>
-            <div className="form-group">
-              <Field
-                name={`${data.id}.category`}
-                component={NasSelectField}
-                searchable={false}
-                label=""
-                placeholder={I18n.t('FILES.UPLOAD_MODAL.FILE.CATEGORY_DEFAULT_OPTION')}
-              >
-                {Object.keys(categoriesLabels).map(item => (
-                  <option key={item} value={item}>{I18n.t(categoriesLabels[item])}</option>
-                ))}
-              </Field>
-            </div>
-          </td>
+          targetType === targetTypes.FILES
+          && (
+            <td className={`${blockName}__row-category`}>
+              <div className="form-group">
+                <Field
+                  name={`${data.id}.category`}
+                  component={NasSelectField}
+                  searchable={false}
+                  label=""
+                  placeholder={I18n.t('FILES.UPLOAD_MODAL.FILE.CATEGORY_DEFAULT_OPTION')}
+                >
+                  {Object.keys(categoriesLabels).map(item => (
+                    <option key={item} value={item}>{I18n.t(categoriesLabels[item])}</option>
+                  ))}
+                </Field>
+              </div>
+            </td>
+          )
         }
         <td className={`${blockName}__row-status`}>
           {this.renderStatus(data)}
         </td>
         <td className={`${blockName}__row-note`}>
           {
-            data.fileUUID &&
-            <NoteButton
-              playerUUID={playerUUID}
-              targetUUID={data.fileUUID}
-              onAddSuccess={this.handleSubmitNote}
-              onUpdateSuccess={this.handleSubmitNote}
-              onDeleteSuccess={this.handleDeleteNote}
-            />
+            data.fileUUID
+            && (
+              <NoteButton
+                playerUUID={playerUUID}
+                targetUUID={data.fileUUID}
+                onAddSuccess={this.handleSubmitNote}
+                onUpdateSuccess={this.handleSubmitNote}
+                onDeleteSuccess={this.handleDeleteNote}
+              />
+            )
           }
         </td>
       </tr>

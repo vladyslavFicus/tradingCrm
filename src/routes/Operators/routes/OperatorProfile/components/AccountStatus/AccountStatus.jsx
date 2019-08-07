@@ -25,14 +25,14 @@ class AccountStatus extends Component {
 
   static defaultProps ={
     profileStatus: '',
-  }
+  };
 
   state = { ...initialState };
 
   toggle = () => {
-    this.setState({
-      dropDownOpen: !this.state.dropDownOpen,
-    });
+    this.setState(({ dropDownOpen }) => ({
+      dropDownOpen: !dropDownOpen,
+    }));
   };
 
   handleStatusClick = (action) => {
@@ -65,12 +65,7 @@ class AccountStatus extends Component {
 
   renderDropDown = (label, availableStatuses, dropDownOpen) => (
     <Dropdown isOpen={dropDownOpen} toggle={this.toggle} onClick={this.toggle}>
-      <DropdownToggle
-        tag="div"
-        onClick={this.toggle}
-        data-toggle="dropdown"
-        aria-expanded={dropDownOpen}
-      >
+      <DropdownToggle tag="div">
         {label}
         <PermissionContent permissions={permissions.OPERATORS.UPDATE_STATUS}>
           <i className="fa fa-angle-down" />
@@ -83,7 +78,7 @@ class AccountStatus extends Component {
               <DropdownItem
                 key={rest.action}
                 {...rest}
-                onClick={this.handleStatusClick.bind(this, { statusLabel, reasons, ...rest })}
+                onClick={() => this.handleStatusClick({ statusLabel, reasons, ...rest })}
               >
                 {statusLabel}
               </DropdownItem>
@@ -112,13 +107,15 @@ class AccountStatus extends Component {
         }
 
         {
-          availableStatuses.length > 0 && modal.show &&
-          <AccountStatusModal
-            title="Change account status"
-            {...modal.params}
-            onSubmit={this.handleSubmit}
-            onHide={this.handleModalHide}
-          />
+          availableStatuses.length > 0 && modal.show
+          && (
+            <AccountStatusModal
+              title="Change account status"
+              {...modal.params}
+              onSubmit={this.handleSubmit}
+              onHide={this.handleModalHide}
+            />
+          )
         }
       </div>
     );

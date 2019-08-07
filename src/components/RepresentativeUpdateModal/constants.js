@@ -39,8 +39,8 @@ export const getAgents = (apolloResponse, userType) => {
 
 export const filterAgents = (agents, type) => agents
   .filter(({ userType }) => (
-    userType === `${type}_AGENT` ||
-    userType === `${type}_HOD` ||
-    userType === `${type}_MANAGER` ||
-    userType === `${type}_LEAD`
+    userType === `${type}_AGENT`
+    || userType === `${type}_HOD`
+    || userType === `${type}_MANAGER`
+    || userType === `${type}_LEAD`
   ));

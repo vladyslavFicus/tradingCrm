@@ -95,5 +95,5 @@ export default compose(
         },
       };
     },
-  })
+  }),
 )(List);

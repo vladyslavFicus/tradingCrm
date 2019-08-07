@@ -28,7 +28,7 @@ class HierarchyUserBranchItem extends PureComponent {
     return (
       <div>
         -
-        <button className="HierarchyUserBranchItem__branchLink" onClick={this.toggleHierarchyTree}>
+        <button type="button" className="HierarchyUserBranchItem__branchLink" onClick={this.toggleHierarchyTree}>
           {name}
         </button> [{branchType}]
         {isOpen && <HierarchyBranchTree branchUUID={uuid} />}

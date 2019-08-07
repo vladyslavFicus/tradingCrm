@@ -27,8 +27,6 @@ class List extends Component {
   static propTypes = {
     notify: PropTypes.func.isRequired,
     locale: PropTypes.string.isRequired,
-    auth: PropTypes.object.isRequired,
-    promoteLead: PropTypes.func.isRequired,
     leads: PropTypes.shape({
       leads: PropTypes.shape({
         data: PropTypes.pageable(PropTypes.lead),
@@ -88,7 +86,7 @@ class List extends Component {
 
   setDesksTeamsOperators = (hierarchyOperators) => {
     this.setState({ hierarchyOperators });
-  }
+  };
 
   handleGetRequestState = () => this.props.leads.loading;
 
@@ -140,17 +138,20 @@ class List extends Component {
 
   handleSelectRow = (condition, index, touchedRowsIds) => {
     const { leads: { leads: { data: { content } } } } = this.props;
-    const selectedRows = [...this.state.selectedRows];
 
-    if (condition) {
-      selectedRows.push(content[index].id);
-    } else {
-      selectedRows.splice(index, 1);
-    }
+    this.setState((state) => {
+      const selectedRows = [...state.selectedRows];
 
-    this.setState({
-      selectedRows,
-      touchedRowsIds,
+      if (condition) {
+        selectedRows.push(content[index].id);
+      } else {
+        selectedRows.splice(index, 1);
+      }
+
+      return {
+        selectedRows,
+        touchedRowsIds,
+      };
     });
   };
 
@@ -165,56 +166,6 @@ class List extends Component {
         ? []
         : [...Array.from(Array(totalElements).keys())],
     });
-  };
-
-  handlePromoteToClient = async () => {
-    const { allRowsSelected, selectedRows, touchedRowsIds } = this.state;
-    const {
-      promoteLead,
-      notify,
-      location: { query },
-      leads: { leads: { data: { content, totalElements } } },
-      modals: { promoteInfoModal },
-    } = this.props;
-
-    const filters = get(query, 'filters');
-    const leadIds = allRowsSelected ? touchedRowsIds.map(index => content[index].id) : selectedRows;
-
-    const { data: { leads: { bulkPromote: { data, error, errors } } } } = await promoteLead({
-      variables: {
-        allRecords: allRowsSelected,
-        totalRecords: totalElements,
-        leadIds,
-        ...filters,
-      },
-    });
-
-    if (error) {
-      notify({
-        level: 'error',
-        title: I18n.t('COMMON.PROMOTE_FAILED'),
-        message: error.error || error.fields_errors || I18n.t('COMMON.SOMETHING_WRONG'),
-      });
-    } else {
-      const successAmount = data ? data.length : 0;
-      const failedAmount = errors ? errors.length : 0;
-
-      promoteInfoModal.show({
-        header: I18n.t('LEADS.PROMOTE_INFO_MODAL.HEADER'),
-        body: (
-          <Fragment>
-            <strong>
-              {I18n.t('LEADS.PROMOTE_INFO_MODAL.BODY', {
-                successAmount,
-                total: successAmount + failedAmount,
-              })}
-            </strong>
-          </Fragment>
-        ),
-      });
-
-      this.handleSuccessUpdateLeadList();
-    }
   };
 
   handleUploadCSV = async ([file]) => {
@@ -351,14 +302,14 @@ class List extends Component {
           <GridStatus
             colorClassName={className}
             statusLabel={renderLabel(salesStatus, salesStatuses)}
-            info={
+            info={(
               <If condition={salesAgent}>
                 <GridStatusDeskTeam
                   fullName={salesAgent.fullName}
                   hierarchy={salesAgent.hierarchy}
                 />
               </If>
-            }
+            )}
           />
         </When>
         <Otherwise>
@@ -382,7 +333,6 @@ class List extends Component {
       locale,
       leads: {
         loading,
-        networkStatus,
         leads,
       },
       location: { query },
@@ -439,6 +389,7 @@ class List extends Component {
             <div className="grid-bulk-menu ml-auto">
               <span>Bulk actions</span>
               <button
+                type="button"
                 className="btn btn-default-outline"
                 onClick={this.handleTriggerRepModal}
               >
@@ -449,6 +400,7 @@ class List extends Component {
           <If condition={selectedRows.length === 0}>
             <div className="ml-auto">
               <button
+                type="button"
                 className="btn btn-default-outline margin-left-15"
                 onClick={this.handleLeadsUploadModalClick}
               >

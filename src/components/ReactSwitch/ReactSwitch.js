@@ -11,6 +11,7 @@ class ReactSwitch extends Component {
     disabled: PropTypes.bool,
     id: PropTypes.string,
   };
+
   static defaultProps = {
     className: '',
     disabled: false,

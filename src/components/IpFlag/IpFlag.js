@@ -23,11 +23,14 @@ const IpFlag = ({ id, country, ip }) => {
           hide: 250,
         }}
       >
-        {
-          ip
-            ? <span>{tooltipContent}</span>
-            : I18n.t('COMMON.UNAVAILABLE')
-        }
+        <Choose>
+          <When condition={ip}>
+            <span>{tooltipContent}</span>
+          </When>
+          <Otherwise>
+            {I18n.t('COMMON.UNAVAILABLE')}
+          </Otherwise>
+        </Choose>
       </UncontrolledTooltip>
     </span>
   );

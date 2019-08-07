@@ -15,13 +15,11 @@ class UploadModal extends Component {
   static propTypes = {
     profile: PropTypes.object,
     uploading: PropTypes.arrayOf(PropTypes.uploadingFile).isRequired,
-    invalid: PropTypes.bool.isRequired,
     submitting: PropTypes.bool.isRequired,
     handleSubmit: PropTypes.func.isRequired,
     onClose: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
     onCancelFile: PropTypes.func.isRequired,
-    onManageNote: PropTypes.func.isRequired,
     uploadFile: PropTypes.func.isRequired,
     targetType: PropTypes.string.isRequired,
     fileInitialValues: PropTypes.object,
@@ -29,9 +27,13 @@ class UploadModal extends Component {
     maxFileSize: PropTypes.number,
     allowedFileTypes: PropTypes.arrayOf(PropTypes.string),
   };
+
   static defaultProps = {
     maxFileSize: 2,
     allowedFileTypes: ['image/jpeg', 'image/png'],
+    profile: null,
+    fileInitialValues: null,
+    targetUuid: null,
   };
 
   handleSubmit = (data) => {
@@ -72,10 +74,12 @@ class UploadModal extends Component {
             {I18n.t('FILES.UPLOAD_MODAL.FILE.TITLE')}
           </th>
           {
-            this.props.targetType === targetTypes.FILES &&
-            <th className="uploading-files__header-category">
-              {I18n.t('FILES.UPLOAD_MODAL.FILE.CATEGORY')}
-            </th>
+            this.props.targetType === targetTypes.FILES
+            && (
+              <th className="uploading-files__header-category">
+                {I18n.t('FILES.UPLOAD_MODAL.FILE.CATEGORY')}
+              </th>
+            )
           }
           <th className="uploading-files__header-status">
             {I18n.t('FILES.UPLOAD_MODAL.FILE.STATUS')}

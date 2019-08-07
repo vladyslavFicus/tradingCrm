@@ -8,7 +8,7 @@ export const paymentMethods = {
     .filter(name => ([tradingTypes.TRANSFER_IN, tradingTypes.TRANSFER_OUT].indexOf(name) === -1))
     .reduce(
       (acc, curr) => ({ ...acc, [curr]: { name: curr, permission: permissions.PAYMENT[curr] } }),
-      {}
+      {},
     ),
   [TRANSFER]: { name: TRANSFER, permission: permissions.PAYMENT.TRANSFER },
 };

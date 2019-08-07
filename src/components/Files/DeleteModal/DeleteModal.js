@@ -35,10 +35,10 @@ const DeleteModal = ({ playerProfile, file, onSuccess, onClose }) => {
         <div className="margin-bottom-20"> {I18n.t('FILES.DELETE_MODAL.WARNING_TEXT')} </div>
       </ModalBody>
       <ModalFooter>
-        <button className="btn btn-default-outline mr-auto" onClick={onClose}>
+        <button type="button" className="btn btn-default-outline mr-auto" onClick={onClose}>
           {I18n.t('COMMON.BUTTONS.CANCEL')}
         </button>
-        <button className="btn btn-danger" onClick={onSuccess}>
+        <button type="button" className="btn btn-danger" onClick={onSuccess}>
           {I18n.t('FILES.DELETE_MODAL.BUTTONS.DELETE')}
         </button>
       </ModalFooter>

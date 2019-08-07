@@ -42,8 +42,8 @@ const mapStateToProps = ({
       country, city, postCode, address,
     },
     canRefuseAll: (
-      (profile.data.kycPersonalStatus && profile.data.kycPersonalStatus.status === kycStatuses.VERIFIED) ||
-      (profile.data.kycAddressStatus && profile.data.kycAddressStatus.status === kycStatuses.VERIFIED)
+      (profile.data.kycPersonalStatus && profile.data.kycPersonalStatus.status === kycStatuses.VERIFIED)
+      || (profile.data.kycAddressStatus && profile.data.kycAddressStatus.status === kycStatuses.VERIFIED)
     ),
     files,
     meta: options,

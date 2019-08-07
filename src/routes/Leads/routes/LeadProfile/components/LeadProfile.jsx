@@ -143,7 +143,7 @@ class LeadProfile extends Component {
       initialValues: { aquisitionStatus: aquisitionStatusesNames.SALES },
       header: I18n.t(
         'LEAD_PROFILE.MODALS.REPRESENTATIVE_UPDATE.HEADER',
-        { type: aquisitionStatusesNames.SALES.toLowerCase() }
+        { type: aquisitionStatusesNames.SALES.toLowerCase() },
       ),
       onSuccess: () => refetch(),
     });
@@ -326,7 +326,7 @@ class LeadProfile extends Component {
           location={location}
           params={params}
         />
-        <div className="card no-borders" >
+        <div className="card no-borders">
           <Switch>
             <Route path={`${path}/profile`} component={Profile} />
             <Route disableScroll path={`${path}/notes`} component={Notes} />
@@ -334,16 +334,18 @@ class LeadProfile extends Component {
           </Switch>
         </div>
         {
-          popover.name === NOTE_POPOVER &&
-          <NotePopover
-            isOpen
-            manual
-            toggle={() => this.handleNoteHide(noteViewType.POPOVER)}
-            onAddSuccess={data => this.handleSubmitNoteClick(noteViewType.POPOVER, data)}
-            onUpdateSuccess={data => this.handleSubmitNoteClick(noteViewType.POPOVER, data)}
-            onDeleteSuccess={data => this.handleDeleteNoteClick(noteViewType.POPOVER, data)}
-            {...popover.params}
-          />
+          popover.name === NOTE_POPOVER
+          && (
+            <NotePopover
+              isOpen
+              manual
+              toggle={() => this.handleNoteHide(noteViewType.POPOVER)}
+              onAddSuccess={data => this.handleSubmitNoteClick(noteViewType.POPOVER, data)}
+              onUpdateSuccess={data => this.handleSubmitNoteClick(noteViewType.POPOVER, data)}
+              onDeleteSuccess={data => this.handleDeleteNoteClick(noteViewType.POPOVER, data)}
+              {...popover.params}
+            />
+          )
         }
       </div>
     );

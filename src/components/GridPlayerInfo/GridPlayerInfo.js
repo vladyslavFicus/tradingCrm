@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import classNames from 'classnames';
 import PropTypes from '../../constants/propTypes';
 import GridPlayerInfoPlaceholder from '../GridPlayerInfoPlaceholder';
-import Uuid from '../../components/Uuid';
+import Uuid from '../Uuid';
 import { types as miniProfileTypes } from '../../constants/miniProfile';
-import MiniProfile from '../../components/MiniProfile';
+import MiniProfile from '../MiniProfile';
 
 class GridPlayerInfo extends Component {
   static propTypes = {
@@ -18,6 +18,7 @@ class GridPlayerInfo extends Component {
       uuid: PropTypes.string.isRequired,
     }).isRequired,
   };
+
   static defaultProps = {
     id: null,
     mainInfoClassName: 'font-weight-700',
@@ -38,8 +39,7 @@ class GridPlayerInfo extends Component {
 
     return (
       <GridPlayerInfoPlaceholder ready={!!profile} firstLaunchOnly>
-        {
-          !!profile &&
+        <If condition={!!profile}>
           <div className="max-width-200">
             <div
               className={classNames(mainInfoClassName, { 'cursor-pointer': !!clickable })}
@@ -70,7 +70,7 @@ class GridPlayerInfo extends Component {
               {!!profile.languageCode && <span> - {profile.languageCode}</span>}
             </div>
           </div>
-        }
+        </If>
       </GridPlayerInfoPlaceholder>
     );
   }

@@ -7,14 +7,13 @@ import { generate } from 'utils/password';
 import { getActiveBrandConfig } from 'config';
 import { InputField, NasSelectField } from 'components/ReduxForm';
 import PropTypes from 'constants/propTypes';
-import { accountTypes as accountTypesList, attributeLabels } from './constants';
+import { attributeLabels } from './constants';
 import './TradingAccountAddModal.scss';
 
 class TradingAccountAddModal extends PureComponent {
   static propTypes = {
     profileId: PropTypes.string.isRequired,
     error: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.string, PropTypes.object])),
-    accountTypes: PropTypes.array,
     change: PropTypes.func.isRequired,
     onCloseModal: PropTypes.func.isRequired,
     isOpen: PropTypes.bool.isRequired,
@@ -28,7 +27,6 @@ class TradingAccountAddModal extends PureComponent {
 
   static defaultProps = {
     error: null,
-    accountTypes: accountTypesList,
     onConfirm: () => {},
   };
 
@@ -67,7 +65,6 @@ class TradingAccountAddModal extends PureComponent {
       isOpen,
       submitting,
       invalid,
-      accountTypes,
       error,
     } = this.props;
 
@@ -118,7 +115,7 @@ class TradingAccountAddModal extends PureComponent {
             <div className="row">
               <div className="col">
                 <button
-                  type="reset"
+                  type="button"
                   className="btn btn-default-outline text-uppercase"
                   onClick={onCloseModal}
                 >

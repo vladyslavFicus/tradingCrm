@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import { graphql, compose } from 'react-apollo';
 import { createQueryPagination } from '@newage/backoffice_utils';
 import Notes from '../components/Notes';
-import { notesQuery } from '.././../../../../../../graphql/queries/notes';
+import { notesQuery } from '../../../../../../../graphql/queries/notes';
 
 const mapStateToProps = ({
   i18n: { locale },
@@ -33,5 +33,5 @@ export default compose(
       },
     }),
     name: 'notes',
-  })
+  }),
 )(Notes);

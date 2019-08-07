@@ -77,7 +77,7 @@ export const getClientsData = (
   { allRowsSelected, touchedRowsIds, selectedRows },
   totalElements,
   { type, isMoveAction },
-  clients
+  clients,
 ) => {
   let filteredArr = null;
 

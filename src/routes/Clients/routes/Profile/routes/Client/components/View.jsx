@@ -113,13 +113,6 @@ class View extends Component {
     tradingOperatorAccessDisabled: this.tradingOperatorAccessDisabled,
   });
 
-  async componentDidMount() {
-    const kycReasonsAction = await this.props.fetchKycReasons();
-
-    console.info('kycReasonsAction');
-    console.info(kycReasonsAction ? JSON.stringify(kycReasonsAction.payload) : kycReasonsAction);
-  }
-
   onManageKycNote = type => (data) => {
     this.props.manageKycNote(type, data);
   };
@@ -148,8 +141,8 @@ class View extends Component {
     this.context.addNotification({
       level: error ? 'error' : 'success',
       title: I18n.t('PLAYER_PROFILE.PROFILE.PERSONAL.TITLE'),
-      message: `${I18n.t('COMMON.ACTIONS.UPDATED')} ${error ? I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY') :
-        I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
+      message: `${I18n.t('COMMON.ACTIONS.UPDATED')} ${error ? I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY')
+        : I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
     });
   };
 
@@ -249,9 +242,9 @@ class View extends Component {
     const action = await verifyData(playerUUID, verifyType);
     if (action) {
       if (action.error) {
-        const message = kycCategories.KYC_ADDRESS ?
-          I18n.t('PLAYER_PROFILE.PROFILE.ADDRESS.VERIFY_KYC.ERROR') :
-          I18n.t('PLAYER_PROFILE.PROFILE.PERSONAL.VERIFY_KYC.ERROR');
+        const message = kycCategories.KYC_ADDRESS
+          ? I18n.t('PLAYER_PROFILE.PROFILE.ADDRESS.VERIFY_KYC.ERROR')
+          : I18n.t('PLAYER_PROFILE.PROFILE.PERSONAL.VERIFY_KYC.ERROR');
         this.context.addNotification({
           level: 'error',
           title: I18n.t('PLAYER_PROFILE.PROFILE.VERIFY_KYC.TITLE'),
@@ -262,9 +255,6 @@ class View extends Component {
       }
     }
 
-    if (action && !action.error) {
-      console.info(`Verify success - ${verifyType}`);
-    }
     this.handleCloseModal();
     this.handleResetNote(kycNoteTypes.verify);
   };
@@ -348,22 +338,20 @@ class View extends Component {
 
   handleVerifyClick = (verifyType) => {
     const { profile: { data: { fullName } } } = this.props;
-    const kycVerifyModalStaticParams = {};
+    let kycVerifyModalStaticParams = {};
 
     if (verifyType === kycCategories.KYC_PERSONAL) {
-      kycVerifyModalStaticParams.modalTitle =
-        I18n.t('PLAYER_PROFILE.PROFILE.VERIFY_KYC.MODAL.TITLE.PERSONAL');
-      kycVerifyModalStaticParams.actionText =
-        I18n.t('PLAYER_PROFILE.PROFILE.VERIFY_KYC.MODAL.ACTION_TEXT.PERSONAL', { fullName });
-      kycVerifyModalStaticParams.submitButtonLabel =
-        I18n.t('PLAYER_PROFILE.PROFILE.VERIFY_KYC.MODAL.SUBMIT_BUTTON_LABEL.PERSONAL');
+      kycVerifyModalStaticParams = {
+        modalTitle: I18n.t('PLAYER_PROFILE.PROFILE.VERIFY_KYC.MODAL.TITLE.PERSONAL'),
+        actionText: I18n.t('PLAYER_PROFILE.PROFILE.VERIFY_KYC.MODAL.ACTION_TEXT.PERSONAL', { fullName }),
+        submitButtonLabel: I18n.t('PLAYER_PROFILE.PROFILE.VERIFY_KYC.MODAL.SUBMIT_BUTTON_LABEL.PERSONAL'),
+      };
     } else if (verifyType === kycCategories.KYC_ADDRESS) {
-      kycVerifyModalStaticParams.modalTitle =
-        I18n.t('PLAYER_PROFILE.PROFILE.VERIFY_KYC.MODAL.TITLE.ADDRESS');
-      kycVerifyModalStaticParams.actionText =
-        I18n.t('PLAYER_PROFILE.PROFILE.VERIFY_KYC.MODAL.ACTION_TEXT.ADDRESS', { fullName });
-      kycVerifyModalStaticParams.submitButtonLabel =
-        I18n.t('PLAYER_PROFILE.PROFILE.VERIFY_KYC.MODAL.SUBMIT_BUTTON_LABEL.ADDRESS');
+      kycVerifyModalStaticParams = {
+        modalTitle: I18n.t('PLAYER_PROFILE.PROFILE.VERIFY_KYC.MODAL.TITLE.ADDRESS'),
+        actionText: I18n.t('PLAYER_PROFILE.PROFILE.VERIFY_KYC.MODAL.ACTION_TEXT.ADDRESS', { fullName }),
+        submitButtonLabel: I18n.t('PLAYER_PROFILE.PROFILE.VERIFY_KYC.MODAL.SUBMIT_BUTTON_LABEL.ADDRESS'),
+      };
     }
 
     this.handleOpenModal(VERIFY_MODAL, {
@@ -528,8 +516,6 @@ class View extends Component {
                     initialValues={{
                       ...passport,
                       ...personalData,
-                      countrySpecificIdentifier,
-                      countrySpecificIdentifierType,
                       languageCode,
                       countrySpecificIdentifier,
                       countrySpecificIdentifierType,
@@ -577,56 +563,64 @@ class View extends Component {
         </div>
 
         {
-          modal.name === REFUSE_MODAL &&
-          <RefuseModal
-            note={refuse}
-            {...modal.params}
-            profile={data}
-            onSubmit={this.handleRefuse}
-            onClose={this.handleCloseModal}
-            onManageNote={this.onManageKycNote(kycNoteTypes.refuse)}
-          />
+          modal.name === REFUSE_MODAL
+          && (
+            <RefuseModal
+              note={refuse}
+              {...modal.params}
+              profile={data}
+              onSubmit={this.handleRefuse}
+              onClose={this.handleCloseModal}
+              onManageNote={this.onManageKycNote(kycNoteTypes.refuse)}
+            />
+          )
         }
 
         {
-          modal.name === VERIFY_MODAL &&
-          <SimpleConfirmationModal
-            note={verify}
-            {...modal.params}
-            form="verifyModal"
-            profile={data}
-            onSubmit={this.handleVerify}
-            onClose={this.handleCloseModal}
-            onManageNote={this.onManageKycNote(kycNoteTypes.verify)}
-          />
+          modal.name === VERIFY_MODAL
+          && (
+            <SimpleConfirmationModal
+              note={verify}
+              {...modal.params}
+              form="verifyModal"
+              profile={data}
+              onSubmit={this.handleVerify}
+              onClose={this.handleCloseModal}
+              onManageNote={this.onManageKycNote(kycNoteTypes.verify)}
+            />
+          )
         }
 
         {
-          modal.name === REQUEST_KYC_VERIFICATION_MODAL &&
-          <RequestKycVerificationModal
-            note={kycRequest}
-            locale={locale}
-            title={I18n.t('PLAYER_PROFILE.PROFILE.SEND_KYC_REQUEST.TITLE')}
-            show
-            {...modal.params}
-            onSubmit={this.handleRequestKycVerify}
-            onClose={this.handleCloseModal}
-            onManageNote={this.onManageKycNote(kycNoteTypes.kycRequest)}
-          />
+          modal.name === REQUEST_KYC_VERIFICATION_MODAL
+          && (
+            <RequestKycVerificationModal
+              note={kycRequest}
+              locale={locale}
+              title={I18n.t('PLAYER_PROFILE.PROFILE.SEND_KYC_REQUEST.TITLE')}
+              show
+              {...modal.params}
+              onSubmit={this.handleRequestKycVerify}
+              onClose={this.handleCloseModal}
+              onManageNote={this.onManageKycNote(kycNoteTypes.kycRequest)}
+            />
+          )
         }
 
         {
-          modal.name === KYC_VERIFY_ALL_MODAL &&
-          <SimpleConfirmationModal
-            note={verifyAll}
-            form="verifyAllModal"
-            locale={locale}
-            {...modal.params}
-            profile={data}
-            onSubmit={this.handleKycVerifyAll}
-            onClose={this.handleCloseModal}
-            onManageNote={this.onManageKycNote(kycNoteTypes.verifyAll)}
-          />
+          modal.name === KYC_VERIFY_ALL_MODAL
+          && (
+            <SimpleConfirmationModal
+              note={verifyAll}
+              form="verifyAllModal"
+              locale={locale}
+              {...modal.params}
+              profile={data}
+              onSubmit={this.handleKycVerifyAll}
+              onClose={this.handleCloseModal}
+              onManageNote={this.onManageKycNote(kycNoteTypes.verifyAll)}
+            />
+          )
         }
       </Fragment>
     );

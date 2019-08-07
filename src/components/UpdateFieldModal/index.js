@@ -1,3 +1,1 @@
-import UpdateFieldModal from './UpdateFieldModal';
-
-export default UpdateFieldModal;
+export { default } from './UpdateFieldModal';

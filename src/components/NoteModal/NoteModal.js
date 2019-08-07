@@ -6,7 +6,7 @@ import classNames from 'classnames';
 import PropTypes from '../../constants/propTypes';
 import { createValidator, translateLabels } from '../../utils/validator';
 import './NoteModal.scss';
-import { TextAreaField, SwitchField } from '../../components/ReduxForm';
+import { TextAreaField, SwitchField } from '../ReduxForm';
 import { attributeLabels, modalType } from './constants';
 
 const FORM_NAME = 'noteModalForm';

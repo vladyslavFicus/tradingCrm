@@ -1,4 +1,3 @@
-import history from '../../router/history';
 import { actionTypes } from '../modules/auth';
 import { actionTypes as windowActionTypes, actionCreators as windowActionCreators } from '../modules/window';
 

@@ -9,10 +9,12 @@ const Modal = ({ header, body, footer, onCloseModal, ...rest }) => (
       {body}
     </ModalBody>
     {
-      footer &&
-      <ModalFooter>
-        {footer}
-      </ModalFooter>
+      footer
+      && (
+        <ModalFooter>
+          {footer}
+        </ModalFooter>
+      )
     }
   </BootstrapModal>
 );

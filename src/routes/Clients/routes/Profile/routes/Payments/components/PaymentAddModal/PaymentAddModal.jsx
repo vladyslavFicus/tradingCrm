@@ -197,7 +197,7 @@ class PaymentAddModal extends PureComponent {
                 <option key={key} value={key}>
                   {I18n.t(paymentMethodsLabels[key].label)}
                 </option>
-            ))}
+              ))}
           </Field>
           <div className={`payment-fields ${(currentValues && currentValues.paymentType) ? 'visible' : ''}`}>
             <div className="form-row align-items-center">
@@ -300,7 +300,7 @@ class PaymentAddModal extends PureComponent {
               </div>
               <div className="col">
                 <button
-                  type="reset"
+                  type="button"
                   className="btn btn-default-outline text-uppercase"
                   onClick={onCloseModal}
                 >
@@ -332,7 +332,7 @@ const Form = reduxForm({
   },
   validate: (
     data,
-    { playerProfile: { tradingProfile: { mt4Users } }, currentValues }
+    { playerProfile: { tradingProfile: { mt4Users } }, currentValues },
   ) => {
     let rules = {
       paymentType: 'required|string',

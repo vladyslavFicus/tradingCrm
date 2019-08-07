@@ -23,7 +23,7 @@ export const checkMovePermission = ({
     // and if there is no unselected client
     if (!touchedRowsIds.length && content.length === totalElements) {
       return content.some(
-        ({ tradingProfile: { [`${type}Rep`]: representative } }) => !(representative && representative.uuid)
+        ({ tradingProfile: { [`${type}Rep`]: representative } }) => !(representative && representative.uuid),
       );
     }
 

@@ -137,7 +137,7 @@ export const columns = i18n => [{
     <div
       className={classNames(
         getTypeColor(types.find(item => item.value === cmd).value),
-        'font-weight-700'
+        'font-weight-700',
       )}
     >
       {i18n.t(types.find(item => item.value === cmd).label)}
@@ -215,7 +215,7 @@ export const columns = i18n => [{
       className={classNames(
         { 'color-danger': closeTime },
         { 'color-success': !closeTime },
-        'font-weight-700 text-uppercase'
+        'font-weight-700 text-uppercase',
       )}
     >
       <Choose>

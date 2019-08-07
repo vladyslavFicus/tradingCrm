@@ -16,6 +16,7 @@ class DropDown extends Component {
     ]),
     toggleId: PropTypes.string,
   };
+
   static defaultProps = {
     className: null,
     rightPlacement: false,
@@ -30,7 +31,7 @@ class DropDown extends Component {
   };
 
   toggleState = () => {
-    this.setState({ isOpen: !this.state.isOpen });
+    this.setState(({ isOpen }) => ({ isOpen: !isOpen }));
   };
 
   render() {
@@ -50,9 +51,6 @@ class DropDown extends Component {
         <DropdownToggle
           className={toggleClassName}
           tag="button"
-          onClick={this.toggleState}
-          data-toggle="dropdown"
-          aria-expanded={isOpen}
           id={toggleId}
         >
           <If condition={label}>

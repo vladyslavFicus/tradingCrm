@@ -33,7 +33,7 @@ class Header extends PureComponent {
       ),
       branch: { uuid, name, branchType },
     });
-  }
+  };
 
   render() {
     const {
@@ -59,6 +59,7 @@ class Header extends PureComponent {
         </ProfileHeaderPlaceholder>
         <div className="panel-heading-row__actions">
           <button
+            type="button"
             className="btn btn-default-outline mx-3"
             onClick={this.handleOpenManagerModal}
             disabled={loading}

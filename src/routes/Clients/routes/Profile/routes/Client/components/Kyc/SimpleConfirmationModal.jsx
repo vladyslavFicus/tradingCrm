@@ -19,6 +19,7 @@ class SimpleConfirmationModal extends PureComponent {
     onManageNote: PropTypes.func.isRequired,
     form: PropTypes.string.isRequired,
   };
+
   static defaultProps = {
     className: 'modal-danger',
     modalTitle: 'KYC - verification',
@@ -26,6 +27,7 @@ class SimpleConfirmationModal extends PureComponent {
     submitButtonLabel: 'verify',
     note: null,
   };
+
   static contextTypes = {
     onAddNoteClick: PropTypes.func.isRequired,
     onEditNoteClick: PropTypes.func.isRequired,

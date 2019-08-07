@@ -11,7 +11,7 @@ export default (store) => {
 
           if (action && Object.values(windowActionTypes).indexOf(action.type) > -1) {
             if (action.type === windowActionTypes.OPERATOR_ACTIVITY) {
-              window.dispatchEvent(new CustomEvent('mousemove'));
+              window.dispatchEvent(new window.CustomEvent('mousemove'));
             } else if (action.type === windowActionTypes.NAVIGATE_TO) {
               history.push(action.payload);
             } else {

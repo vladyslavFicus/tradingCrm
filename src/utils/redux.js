@@ -16,10 +16,10 @@ export function createAction(type, payload = {}) {
   return { type, ...payload };
 }
 
-export function createReducer(handlers, initialState, state, action) {
+export function createReducer(handlers, initialState, _state, _action) {
   return ((state = initialState, action) => {
     const handler = handlers[action.type];
 
     return handler ? handler(state, action) : state;
-  })(state, action);
+  })(_state, _action);
 }

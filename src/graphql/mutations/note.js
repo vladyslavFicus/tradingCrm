@@ -78,7 +78,7 @@ const addPinnedNote = (proxy, params, data) => {
     });
     proxy.writeQuery({ query: notesQuery, variables, data: { notes: updatedNotes } });
   } catch (e) {
-    console.log(e);
+    // Do nothing...
   }
 };
 
@@ -93,7 +93,7 @@ const removeNote = (proxy, variables, noteId) => {
     });
     proxy.writeQuery({ query: notesQuery, variables, data: { notes: updatedNotes } });
   } catch (e) {
-    console.log(e);
+    // Do nothing...
   }
 };
 

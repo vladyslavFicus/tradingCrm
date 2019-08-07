@@ -29,7 +29,7 @@ export default [{
 }, {
   name: 'balance',
   header: I18n.t('CLIENT_PROFILE.ACCOUNTS.GRID_COLUMNS.BALANCE/EQUITY'),
-  render: ({ balance, equity, symbol }) => (
+  render: ({ balance, symbol }) => (
     <Fragment>
       <div className="font-weight-700">
         {symbol} {Number(balance).toFixed(2)}

@@ -102,14 +102,14 @@ class Balances extends Component {
   }
 
   toggle = () => {
-    this.setState({
-      dropDownOpen: !this.state.dropDownOpen,
-    });
+    this.setState(({ dropDownOpen }) => ({
+      dropDownOpen: !dropDownOpen,
+    }));
   };
 
   renderDropDown = (
     dropDownOpen,
-    { baseCurrencyBalance, baseCurrencyCredit, baseCurrencyEquity, baseCurrencyMargin }
+    { baseCurrencyBalance, baseCurrencyCredit, baseCurrencyMargin },
   ) => {
     const baseCurrency = getActiveBrandConfig().currencies.base;
 

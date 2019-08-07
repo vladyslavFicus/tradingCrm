@@ -115,7 +115,7 @@ class List extends Component {
 
   setDesksTeamsOperators = (hierarchyOperators) => {
     this.setState({ hierarchyOperators });
-  }
+  };
 
   handleGetRequestState = () => this.props.profiles.loading;
 
@@ -165,17 +165,20 @@ class List extends Component {
 
   handleSelectRow = (condition, index, touchedRowsIds) => {
     const { profiles: { profiles: { data: { content } } } } = this.props;
-    const selectedRows = [...this.state.selectedRows];
 
-    if (condition) {
-      selectedRows.push(content[index].playerUUID);
-    } else {
-      selectedRows.splice(index, 1);
-    }
+    this.setState((state) => {
+      const selectedRows = [...state.selectedRows];
 
-    this.setState({
-      selectedRows,
-      touchedRowsIds,
+      if (condition) {
+        selectedRows.push(content[index].playerUUID);
+      } else {
+        selectedRows.splice(index, 1);
+      }
+
+      return {
+        selectedRows,
+        touchedRowsIds,
+      };
     });
   };
 
@@ -237,7 +240,7 @@ class List extends Component {
         totalElements,
       },
     });
-  }
+  };
 
   handleBulkMove = async ({ aquisitionStatus }) => {
     const {
@@ -292,7 +295,7 @@ class List extends Component {
       this.handleSuccessListUpdate();
       moveModal.hide();
     }
-  }
+  };
 
   handleSuccessListUpdate = async () => {
     const { profiles: { refetch } } = this.props;
@@ -369,6 +372,7 @@ class List extends Component {
               <PermissionContent permissions={permissions.USER_PROFILE.CHANGE_ACQUISITION_STATUS}>
                 <If condition={auth.department !== departments.RETENTION}>
                   <button
+                    type="button"
                     className="btn btn-default-outline"
                     disabled={branchesLoading}
                     onClick={this.handleTriggerRepModal(deskTypes.SALES)}
@@ -378,6 +382,7 @@ class List extends Component {
                 </If>
                 <If condition={auth.department !== departments.SALES}>
                   <button
+                    type="button"
                     className="btn btn-default-outline"
                     disabled={branchesLoading}
                     onClick={this.handleTriggerRepModal(deskTypes.RETENTION)}
@@ -390,6 +395,7 @@ class List extends Component {
                   || auth.department === departments.CS}
                 >
                   <button
+                    type="button"
                     className="btn btn-default-outline"
                     onClick={this.handleTriggerMoveModal}
                   >
@@ -397,26 +403,6 @@ class List extends Component {
                   </button>
                 </If>
               </PermissionContent>
-              { false && (
-                /* INFO: this is unused right now
-                 * as soon as this functionality comes alive
-                 * we need to add permissions here and handlers
-                */
-                <Fragment>
-                  <button
-                    className="btn btn-default-outline"
-                    // onClick={this.changeStatus}
-                  >
-                    {I18n.t('COMMON.CHANGE_STATUS')}
-                  </button>
-                  <button
-                    className="btn btn-default-outline"
-                    // onClick={this.handleExportSelected}
-                  >
-                    {I18n.t('COMMON.EXPORT_SELECTED')}
-                  </button>
-                </Fragment>
-              )}
             </div>
           </If>
         </div>

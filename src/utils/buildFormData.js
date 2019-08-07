@@ -1,9 +1,9 @@
 export default (data) => {
-  const formData = new FormData();
+  const formData = new window.FormData();
 
-  for (let key in data) {
+  Object.keys(data).forEach((key) => {
     formData.set(key, data[key]);
-  }
+  });
 
   return formData;
 };

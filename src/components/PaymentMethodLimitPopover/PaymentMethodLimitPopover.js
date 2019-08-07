@@ -5,9 +5,9 @@ import { I18n } from 'react-redux-i18n';
 import classNames from 'classnames';
 import PropTypes from '../../constants/propTypes';
 import { createValidator } from '../../utils/validator';
-import { InputField, RangeGroup } from '../../components/ReduxForm';
+import { InputField, RangeGroup } from '../ReduxForm';
 import './PaymentMethodLimitPopover.scss';
-import { Currency } from '../../components/Amount';
+import { Currency } from '../Amount';
 
 const attributeLabels = {
   min: I18n.t('COMMON.MIN'),
@@ -38,6 +38,7 @@ class PaymentMethodLimitPopover extends Component {
     currencyCode: PropTypes.string,
     className: PropTypes.string,
   };
+
   static defaultProps = {
     placement: 'bottom-start',
     submitting: false,
@@ -67,6 +68,7 @@ class PaymentMethodLimitPopover extends Component {
       <Choose>
         <When condition={limitDisabled}>
           <button
+            type="button"
             className="payment-limit-popover__title-action color-success"
             onClick={() => onEnable(methodUUID, limitUUID)}
           >
@@ -75,6 +77,7 @@ class PaymentMethodLimitPopover extends Component {
         </When>
         <Otherwise>
           <button
+            type="button"
             className="payment-limit-popover__title-action color-danger"
             onClick={() => onDisable(methodUUID, limitUUID)}
           >

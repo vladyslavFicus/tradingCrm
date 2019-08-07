@@ -68,13 +68,13 @@ class Registrations extends Component {
                 stroke: chartColor,
               },
             ]}
-            footer={
+            footer={(
               <ChartFooter
                 noResults={(!loading && items.length === 0)}
                 totals={totals}
                 color={chartColor}
               />
-            }
+            )}
             loading={loading || totalsLoading}
             noResults={!!error}
             noResultsText={I18n.t('DASHBOARD.REGISTRATION_CHART.NO_RESULTS_TEXT')}

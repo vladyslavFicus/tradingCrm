@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Popover, PopoverHeader, PopoverBody } from 'reactstrap';
+import { Popover } from 'reactstrap';
 import CallbacksCalendar from '../CallbacksCalendar';
 import './HeaderCallbacksCalendarDropdown.scss';
 
@@ -16,7 +16,7 @@ class HeaderCallbacksCalendarDropdown extends Component {
   handleToggleState = () => {
     // Additional check if callback details modal is open for prevent dropdown close
     if (!this.callbacksCalendar || !this.callbacksCalendar.props.modals.callbackDetails.isOpen) {
-      this.setState({ isOpen: !this.state.isOpen });
+      this.setState(({ isOpen }) => ({ isOpen: !isOpen }));
     }
   };
 
@@ -28,6 +28,7 @@ class HeaderCallbacksCalendarDropdown extends Component {
       <div className="HeaderCallbacksCalendarDropdown">
         <button
           id="CallbacksCalendar"
+          type="button"
           className="HeaderCallbacksCalendarDropdown__toggle"
           onClick={this.handleToggleState}
         >

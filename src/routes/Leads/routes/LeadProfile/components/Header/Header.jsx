@@ -84,15 +84,17 @@ const Header = ({
       <div className="header-block">
         <div className="header-block-title">{I18n.t('LEAD_PROFILE.HEADER.REGISTERED')}</div>
         {
-          registrationDate &&
-          <div>
-            <div className="header-block-middle">
-              {moment.utc(registrationDate).local().fromNow()}
-            </div>
-            <div className="header-block-small">
+          registrationDate
+          && (
+            <div>
+              <div className="header-block-middle">
+                {moment.utc(registrationDate).local().fromNow()}
+              </div>
+              <div className="header-block-small">
               on {moment.utc(registrationDate).local().format('DD.MM.YYYY HH:mm')}
+              </div>
             </div>
-          </div>
+          )
         }
       </div>
     </div>

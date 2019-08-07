@@ -22,6 +22,7 @@ class Header extends Component {
     }).isRequired,
     onDepartmentChange: PropTypes.func.isRequired,
   };
+
   static defaultProps = {
     showSearch: false,
   };

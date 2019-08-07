@@ -148,4 +148,3 @@ export default (
   placeholder: I18n.t('COMMON.UNLIMITED'),
   className: fieldClassNames.SMALL,
 }];
-

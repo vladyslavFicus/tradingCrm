@@ -4,7 +4,7 @@ import { size } from 'lodash';
 import moment from 'moment';
 import { I18n } from 'react-redux-i18n';
 import PropTypes from '../../constants/propTypes';
-import LetterIcon from '../../components/LetterIcon';
+import LetterIcon from '../LetterIcon';
 import { types, typesLabels, typesClassNames } from '../../constants/audit';
 import FeedInfoLogin from './FeedInfoLogin';
 import FeedInfoLogout from './FeedInfoLogout';
@@ -31,12 +31,13 @@ class FeedItem extends Component {
     color: PropTypes.oneOf(['orange', 'blue']).isRequired,
     data: PropTypes.auditEntity.isRequired,
   };
+
   state = {
     opened: false,
   };
 
   handleToggleClick = () => {
-    this.setState({ opened: !this.state.opened });
+    this.setState(({ opened }) => ({ opened: !opened }));
   };
 
   renderInformation = (data) => {
@@ -145,7 +146,7 @@ class FeedItem extends Component {
               </If>
             </span>
             <If condition={hasInformation}>
-              <button className="feed-item__collapse" onClick={this.handleToggleClick}>
+              <button type="button" className="feed-item__collapse" onClick={this.handleToggleClick}>
                 {I18n.t(`COMMON.DETAILS_COLLAPSE.${opened ? 'HIDE' : 'SHOW'}`)}
                 <i className={`fa fa-caret-${opened ? 'up' : 'down'}`} />
               </button>

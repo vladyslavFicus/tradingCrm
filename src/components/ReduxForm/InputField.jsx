@@ -38,6 +38,7 @@ class InputField extends Component {
     helpText: PropTypes.node,
     step: PropTypes.string,
   };
+
   static defaultProps = {
     className: null,
     label: null,
@@ -196,11 +197,11 @@ class InputField extends Component {
                   { clickable: onIconClick },
                 )}
                 onClick={onIconClick}
-                id={
+                id={(
                   <If condition={id}>
                     {`${id}-right-icon`}
                   </If>
-                }
+                )}
               >
                 {inputAddon}
               </span>

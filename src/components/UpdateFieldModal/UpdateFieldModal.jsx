@@ -3,7 +3,7 @@ import { Modal } from 'reactstrap';
 import PropTypes from '../../constants/propTypes';
 import UpdateFieldForm from './UpdateFieldForm';
 
-const UpdateFieldModal = ({ ...props, isOpen, form, onCloseModal }) => (
+const UpdateFieldModal = ({ isOpen, form, onCloseModal, ...props }) => (
   <Modal isOpen={isOpen} toggle={onCloseModal} className="modal-danger">
     <UpdateFieldForm key={form} {...props} />
   </Modal>

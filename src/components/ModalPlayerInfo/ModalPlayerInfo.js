@@ -10,6 +10,7 @@ class ModalPlayerInfo extends Component {
     playerProfile: PropTypes.userProfile,
     renderMiddleColumn: PropTypes.func,
   };
+
   static defaultProps = {
     playerProfile: null,
     renderMiddleColumn: () => {},
@@ -34,7 +35,7 @@ class ModalPlayerInfo extends Component {
     </Fragment>
   );
 
-  renderBalance = ({ currency, tradingProfile: { balance, credit, equity, margin, marginLevel } }) => (
+  renderBalance = ({ currency, tradingProfile: { balance, credit, margin, marginLevel } }) => (
     <Fragment>
       <div className="header-block-middle">
         {currency} {Number(balance).toFixed(2)}

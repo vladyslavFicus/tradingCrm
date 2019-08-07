@@ -1,6 +1,6 @@
 import parseJson from './parseJson';
 
-const storage = localStorage;
+const storage = window.localStorage;
 
 export default {
   get(key, isObject = false) {

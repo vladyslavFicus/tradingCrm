@@ -8,5 +8,5 @@ export default connect(
   {
     onSubmit: actionCreators.resetPasswordConfirm,
     logout: authActionCreators.logout,
-  }
+  },
 )(View);

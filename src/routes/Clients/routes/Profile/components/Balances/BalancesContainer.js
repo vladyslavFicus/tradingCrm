@@ -40,5 +40,5 @@ export default compose(
       },
     }),
     name: 'withdrawPaymentStatistic',
-  })
+  }),
 )(Balances);

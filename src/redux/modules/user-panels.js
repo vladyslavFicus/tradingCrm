@@ -1,6 +1,6 @@
 import { I18n } from 'react-redux-i18n';
 import createReducer from '../../utils/createReducer';
-import { actionTypes as windowActionTypes } from '../modules/window';
+import { actionTypes as windowActionTypes } from './window';
 import { actionTypes as authActionTypes } from './auth';
 
 const KEY = 'user-panels';
@@ -76,10 +76,9 @@ const actionHandlers = {
     activeIndex: state.activeIndex !== action.payload ? action.payload : null,
   }),
   [ADD]: (state, action) => {
-    const panelsByManager = state.items.filter(panel =>
-      panel.auth &&
-      panel.auth.brandId === action.payload.auth.brandId &&
-      panel.auth.uuid === action.payload.auth.uuid);
+    const panelsByManager = state.items.filter(panel => panel.auth
+      && panel.auth.brandId === action.payload.auth.brandId
+      && panel.auth.uuid === action.payload.auth.uuid);
 
     const existIndex = panelsByManager.findIndex(item => item.uuid === action.payload.uuid);
 

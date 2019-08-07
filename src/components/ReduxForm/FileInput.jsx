@@ -9,7 +9,7 @@ class FileInput extends PureComponent {
     input: PropTypes.shape({
       name: PropTypes.string,
       value: PropTypes.any,
-      onChange: PropTypes.func.isRequired
+      onChange: PropTypes.func.isRequired,
     }).isRequired,
     label: PropTypes.oneOfType([
       PropTypes.string,
@@ -23,6 +23,7 @@ class FileInput extends PureComponent {
     id: PropTypes.string,
     showErrorMessage: PropTypes.bool,
   };
+
   static defaultProps = {
     className: null,
     label: null,

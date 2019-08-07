@@ -71,8 +71,8 @@ const actionHandlers = {
           });
         }
       } else if (
-        (!(item.permissions instanceof Permissions) || item.permissions.check(currentPermissions)) &&
-        (!item.service || services.includes(item.service))
+        (!(item.permissions instanceof Permissions) || item.permissions.check(currentPermissions))
+        && (!item.service || services.includes(item.service))
       ) {
         result.push(item);
       }
@@ -108,7 +108,7 @@ const actionHandlers = {
 
         return {
           ...menuItem,
-          isOpen: isSubMenu && !!items.find(subMenuItem => subMenuItem.url === location.pathname),
+          isOpen: isSubMenu && !!items.find(subMenuItem => subMenuItem.url === window.location.pathname),
         };
       }),
     };

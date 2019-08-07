@@ -123,7 +123,7 @@ class AddOperatorToBranchModal extends Component {
           </ModalBody>
           <ModalFooter>
             <button
-              type="reset"
+              type="button"
               className="btn btn-default-outline"
               onClick={onCloseModal}
             >

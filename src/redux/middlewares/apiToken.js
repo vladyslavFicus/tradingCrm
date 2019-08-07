@@ -19,5 +19,5 @@ export default store => next => (action) => {
     }
   }
 
-  return next(action);
+  return next(action); // eslint-disable-line
 };

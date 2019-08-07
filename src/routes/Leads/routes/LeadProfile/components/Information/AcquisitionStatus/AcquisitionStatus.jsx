@@ -12,7 +12,7 @@ const changeAcquisitionStatus = new Permissions([permissions.USER_PROFILE.CHANGE
 
 const AcquisitionStatus = (
   { data: { salesStatus, salesAgent }, loading },
-  { triggerRepresentativeUpdateModal, permissions: currentPermissions }
+  { triggerRepresentativeUpdateModal, permissions: currentPermissions },
 ) => {
   let team = null;
   let desk = null;
@@ -93,7 +93,7 @@ const AcquisitionStatus = (
       </div>
     </div>
   );
-}
+};
 
 AcquisitionStatus.propTypes = {
   data: PropTypes.shape({

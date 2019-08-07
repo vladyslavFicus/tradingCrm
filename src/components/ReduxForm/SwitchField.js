@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ReactSwitch from '../../components/ReactSwitch';
+import ReactSwitch from '../ReactSwitch';
 
 const SwitchField = (props) => {
   const {

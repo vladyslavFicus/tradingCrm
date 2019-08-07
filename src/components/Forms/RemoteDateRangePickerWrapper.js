@@ -36,4 +36,10 @@ RemoteDateRangePickerWrapper.propTypes = {
   endDate: PropTypes.object,
 };
 
+RemoteDateRangePickerWrapper.defaultProps = {
+  onDatesChange: () => {},
+  startDate: null,
+  endDate: null,
+};
+
 export default RemoteDateRangePickerWrapper;

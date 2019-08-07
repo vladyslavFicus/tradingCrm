@@ -13,10 +13,13 @@ class Brands extends Component {
     onSelect: PropTypes.func.isRequired,
     showBrandsGreeting: PropTypes.bool,
   };
+
   static defaultProps = {
     activeBrand: null,
     showBrandsGreeting: false,
   };
+
+  activeTimeout = null;
 
   constructor(props) {
     super(props);
@@ -81,8 +84,6 @@ class Brands extends Component {
     }
   }
 
-  activeTimeout = null;
-
   render() {
     const { step, reverseStep, activeBrand } = this.state;
     const {
@@ -142,7 +143,7 @@ class Brands extends Component {
 }
 
 const mapStateToProps = ({ signIn }) => ({
-  ...(signIn ? { showBrandsGreeting: signIn.showBrandsGreeting } : { showBrandsGreeting: true })
+  ...(signIn ? { showBrandsGreeting: signIn.showBrandsGreeting } : { showBrandsGreeting: true }),
 });
 
 export default connect(mapStateToProps)(Brands);

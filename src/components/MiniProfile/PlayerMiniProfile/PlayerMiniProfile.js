@@ -42,15 +42,17 @@ const PlayerMiniProfile = ({ data }) => {
         </div>
       </div>
       {
-        (data.profileStatus === statuses.BLOCKED || data.profileStatus === statuses.SUSPENDED) &&
-        <div className="mini-profile-status-reason">
-          <div className="info-block">
-            <div className="info-block_status-reason">{I18n.t('MINI_PROFILE.STATUS_REASON')}</div>
-            <div className="info-block_status-reason_body">
-              {I18n.t(data.profileStatusReason)}
+        (data.profileStatus === statuses.BLOCKED || data.profileStatus === statuses.SUSPENDED)
+        && (
+          <div className="mini-profile-status-reason">
+            <div className="info-block">
+              <div className="info-block_status-reason">{I18n.t('MINI_PROFILE.STATUS_REASON')}</div>
+              <div className="info-block_status-reason_body">
+                {I18n.t(data.profileStatusReason)}
+              </div>
             </div>
           </div>
-        </div>
+        )
       }
       <div className="mini-profile-content">
         <div className="info-block">

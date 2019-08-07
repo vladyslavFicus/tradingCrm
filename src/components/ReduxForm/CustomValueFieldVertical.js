@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Field, FormSection } from 'redux-form';
 import renderLabel from '../../utils/renderLabel';
-import { InputField, SelectField } from '../../components/ReduxForm';
+import { InputField, SelectField } from '.';
 import { customValueFieldTypesLabels, customValueFieldTypes } from '../../constants/form';
 
 const CustomValueFieldVertical = (props) => {
@@ -44,14 +44,12 @@ const CustomValueFieldVertical = (props) => {
             position="vertical"
           >
             {
-              children ||
-              typeValues.map(key =>
-                (
-                  <option key={key} value={key}>
-                    {renderLabel(key, customValueFieldTypesLabels)}
-                  </option>
-                )
-              )
+              children
+              || typeValues.map(key => (
+                <option key={key} value={key}>
+                  {renderLabel(key, customValueFieldTypesLabels)}
+                </option>
+              ))
             }
           </Field>
         </div>

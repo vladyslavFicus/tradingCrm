@@ -18,6 +18,7 @@ class FeedFilterForm extends Component {
     currentValues: PropTypes.object,
     availableTypes: PropTypes.arrayOf(PropTypes.string),
   };
+
   static defaultProps = {
     currentValues: {},
     handleSubmit: null,
@@ -102,7 +103,7 @@ class FeedFilterForm extends Component {
             disabled={submitting}
             className="btn btn-default"
             onClick={this.handleReset}
-            type="reset"
+            type="button"
           >
             {I18n.t('COMMON.RESET')}
           </button>
@@ -132,5 +133,5 @@ export default connect(state => ({
       creationDateFrom: 'string',
       creationDateTo: 'string',
     }, translateLabels(attributeLabels), false),
-  })(FeedFilterForm)
+  })(FeedFilterForm),
 );

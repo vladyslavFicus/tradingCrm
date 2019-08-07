@@ -9,7 +9,7 @@ const localizer = BigCalendar.momentLocalizer(moment);
 
 class Calendar extends PureComponent {
   static propTypes = {
-    ...BigCalendar.propTypes,
+    ...BigCalendar.propTypes, // eslint-disable-line
     onRangeChange: PropTypes.func,
   };
 

@@ -5,7 +5,7 @@ import { currencySettings as currencies } from './constants';
 const Currency = ({ code, showSymbol, ...rest }) => {
   let symbol = code;
   if (showSymbol && currencies[code]) {
-    symbol = currencies[code].symbol;
+    ({ symbol } = currencies[code]);
   }
 
   return <span {...rest}>{symbol}</span>;

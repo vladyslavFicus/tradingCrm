@@ -42,7 +42,7 @@ const TeamProfile = ({
         location={location}
         params={params}
       />
-      <div className="card no-borders" >
+      <div className="card no-borders">
         <Switch>
           <Route path={`${path}/rules/sales-rules`} component={RulesSales} />
           <Route path={`${path}/rules/retention-rules`} component={RulesRetention} />

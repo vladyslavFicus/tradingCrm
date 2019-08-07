@@ -159,6 +159,8 @@ class Profile extends Component {
     questionnaireLastData: null,
   };
 
+  cacheChildrenComponents = [];
+
   state = {
     popover: { ...popoverInitialState },
     modal: { ...modalInitialState },
@@ -220,8 +222,6 @@ class Profile extends Component {
   setFileChangedCallback = (cb) => {
     this.setState({ fileChangedCallback: cb });
   };
-
-  cacheChildrenComponents = [];
 
   registerUpdateCacheListener = (componentName, handler) => {
     this.cacheChildrenComponents.push({
@@ -315,16 +315,16 @@ class Profile extends Component {
         message: I18n.t('PLAYER_PROFILE.NOTIFICATIONS.ERROR_UNLOCK.MESSAGE'),
       });
     }
-  }
+  };
 
   handleOpenModal = (name, params) => {
-    this.setState({
+    this.setState(({ modal }) => ({
       modal: {
-        ...this.state.modal,
+        ...modal,
         name,
         params,
       },
-    });
+    }));
   };
 
   handleCloseModal = () => {
@@ -612,7 +612,7 @@ class Profile extends Component {
             </span>
           ),
           footer: (
-            <button className="btn btn-default-outline mr-auto" onClick={this.handleCloseModal}>
+            <button type="button" className="btn btn-default-outline mr-auto" onClick={this.handleCloseModal}>
               {I18n.t('COMMON.BUTTONS.CANCEL')}
             </button>
           ),
@@ -805,70 +805,84 @@ class Profile extends Component {
           </Switch>
         </div>
         {
-          popover.name === NOTE_POPOVER &&
-          <NotePopover
-            isOpen
-            manual
-            toggle={this.handlePopoverHide}
-            onAddSuccess={data => this.handleSubmitNoteClick(noteViewType.POPOVER, data)}
-            onUpdateSuccess={data => this.handleSubmitNoteClick(noteViewType.POPOVER, data)}
-            onDeleteSuccess={data => this.handleDeleteNoteClick(noteViewType.POPOVER, data)}
-            {...popover.params}
-          />
+          popover.name === NOTE_POPOVER
+          && (
+            <NotePopover
+              isOpen
+              manual
+              toggle={this.handlePopoverHide}
+              onAddSuccess={data => this.handleSubmitNoteClick(noteViewType.POPOVER, data)}
+              onUpdateSuccess={data => this.handleSubmitNoteClick(noteViewType.POPOVER, data)}
+              onDeleteSuccess={data => this.handleDeleteNoteClick(noteViewType.POPOVER, data)}
+              {...popover.params}
+            />
+          )
         }
         {
-          modal.name === MODAL_UPLOAD_FILE &&
-          <UploadFileModal
-            {...modal.params}
-            onClose={this.handleCloseUploadModal}
-            uploading={Object.values(uploading)}
-            initialValues={uploadModalInitialValues}
-            uploadFile={this.props.uploadFile}
-            onCancelFile={this.handleUploadingFileDelete}
-            onSubmit={this.handleSubmitUploadModal}
-            onManageNote={updateNote}
-            maxFileSize={config.files.maxSize}
-            allowedFileTypes={config.files.types}
-          />
+          modal.name === MODAL_UPLOAD_FILE
+          && (
+            <UploadFileModal
+              {...modal.params}
+              onClose={this.handleCloseUploadModal}
+              uploading={Object.values(uploading)}
+              initialValues={uploadModalInitialValues}
+              uploadFile={this.props.uploadFile}
+              onCancelFile={this.handleUploadingFileDelete}
+              onSubmit={this.handleSubmitUploadModal}
+              onManageNote={updateNote}
+              maxFileSize={config.files.maxSize}
+              allowedFileTypes={config.files.types}
+            />
+          )
         }
         {
-          modal.name === MODAL_DELETE_FILE &&
-          <DeleteFileModal
-            {...modal.params}
-            playerProfile={playerProfile}
-            onClose={this.handleCloseModal}
-          />
+          modal.name === MODAL_DELETE_FILE
+          && (
+            <DeleteFileModal
+              {...modal.params}
+              playerProfile={playerProfile}
+              onClose={this.handleCloseModal}
+            />
+          )
         }
         {
-          modal.name === MODAL_INFO &&
-          <Modal
-            isOpen
-            onClose={this.handleCloseModal}
-            {...modal.params}
-          />
+          modal.name === MODAL_INFO
+          && (
+            <Modal
+              isOpen
+              onClose={this.handleCloseModal}
+              {...modal.params}
+            />
+          )
         }
         {
-          modal.name === MODAL_WALLET_LIMIT &&
-          <Modal
-            isOpen
-            onCloseModal={this.handleCloseModal}
-            {...modal.params}
-          />
+          modal.name === MODAL_WALLET_LIMIT
+          && (
+            <Modal
+              isOpen
+              onCloseModal={this.handleCloseModal}
+              {...modal.params}
+            />
+          )
         }
         {
-          modal.name === MODAL_CHANGE_PASSWORD &&
-          <ChangePasswordModal
-            {...modal.params}
-            onClose={this.handleCloseModal}
-            onSubmit={this.handleSubmitNewPassword}
-          />
+          modal.name === MODAL_CHANGE_PASSWORD
+          && (
+            <ChangePasswordModal
+              {...modal.params}
+              onClose={this.handleCloseModal}
+              onSubmit={this.handleSubmitNewPassword}
+            />
+          )
         }
         {
-          modal.name === MODAL_SHARE_PROFILE && playerProfile &&
-          <ShareLinkModal
-            onClose={this.handleCloseModal}
-            playerUUID={id}
-          />
+          modal.name === MODAL_SHARE_PROFILE && playerProfile
+          && (
+            <ShareLinkModal
+              onClose={this.handleCloseModal}
+              playerUUID={id}
+            />
+          )
         }
         <ImageViewer
           backdropClosesModal

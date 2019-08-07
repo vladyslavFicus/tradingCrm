@@ -1,4 +1,4 @@
-import { actionCreators as modalActionCreators } from '../../redux/modules/modal';
+import { actionCreators as modalActionCreators } from '../modules/modal';
 import { types as modalTypes } from '../../constants/modals';
 
 const regExp = new RegExp('-failure$');
@@ -8,8 +8,8 @@ export default (store) => {
 
   return next => (action) => {
     if (
-      !window.isFrame &&
-      action && action.error && regExp.test(action.type)
+      !window.isFrame
+      && action && action.error && regExp.test(action.type)
       && action.payload && action.payload.status === 426
     ) {
       window.app.onApiVersionChanged();

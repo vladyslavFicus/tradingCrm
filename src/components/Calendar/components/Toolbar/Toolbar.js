@@ -15,6 +15,7 @@ class Toolbar extends PureComponent {
   };
 
   navigateNext = () => this.props.onNavigate(Navigate.NEXT);
+
   navigatePrev = () => this.props.onNavigate(Navigate.PREVIOUS);
 
   viewNamesGroup(messages) {
@@ -24,6 +25,7 @@ class Toolbar extends PureComponent {
       return views.map(name => (
         <button
           key={name}
+          type="button"
           className={classNames('btn', { 'btn-primary': view === name })}
           onClick={() => this.props.onView(name)}
         >
@@ -42,13 +44,13 @@ class Toolbar extends PureComponent {
       <div className="Toolbar d-flex align-items-center justify-content-between">
         <div className="col-3" />
         <div className="d-flex justify-content-center align-items-center col-6">
-          <button className="Toolbar__arrow" onClick={this.navigatePrev}>
+          <button type="button" className="Toolbar__arrow" onClick={this.navigatePrev}>
             <i className="fa fa-angle-left" />
           </button>
 
           <span className="Toolbar__label">{label}</span>
 
-          <button className="Toolbar__arrow" onClick={this.navigateNext}>
+          <button type="button" className="Toolbar__arrow" onClick={this.navigateNext}>
             <i className="fa fa-angle-right" />
           </button>
         </div>

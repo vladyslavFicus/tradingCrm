@@ -8,14 +8,12 @@ import createStore from './store/createStore';
 import AppContainer from './containers/AppContainer';
 import createWindowMessageService from './services/window-message';
 
-const __DEV__ = process.env.NODE_ENV === 'development';
-
 bootstrap();
 
 createStore({}, (store) => {
   const MOUNT_NODE = document.getElementById('root');
 
-  let render = () => {
+  const render = () => {
     // Check if backoffice brand wasn't found
     if (!getBackofficeBrand()) {
       ReactDOM.render(

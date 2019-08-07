@@ -7,6 +7,7 @@ class PopoverButton extends Component {
     onClick: PropTypes.func.isRequired,
     children: PropTypes.node,
   };
+
   static defaultProps = {
     children: null,
   };

@@ -27,6 +27,7 @@ class RequestKycVerificationModal extends Component {
     onManageNote: PropTypes.func.isRequired,
     reasons: PropTypes.arrayOf(PropTypes.string),
   };
+
   static defaultProps = {
     playerUUID: '',
     fullName: '',
@@ -37,6 +38,7 @@ class RequestKycVerificationModal extends Component {
     handleSubmit: null,
     reasons: [],
   };
+
   static contextTypes = {
     onAddNoteClick: PropTypes.func.isRequired,
     onEditNoteClick: PropTypes.func.isRequired,

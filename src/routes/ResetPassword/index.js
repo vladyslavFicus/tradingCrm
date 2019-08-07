@@ -1,5 +1,5 @@
-
 import { asyncRoute } from '../../router';
 
-export default asyncRoute(() =>
- import(/* webpackChunkName: "ResetPasswordContainer" */ './containers/ResetPasswordContainer'));
+export default asyncRoute(
+  () => import(/* webpackChunkName: "ResetPasswordContainer" */ './containers/ResetPasswordContainer'),
+);

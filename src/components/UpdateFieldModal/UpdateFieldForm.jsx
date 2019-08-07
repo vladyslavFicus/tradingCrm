@@ -22,14 +22,13 @@ class UpdateFieldForm extends Component {
     fieldLabel: PropTypes.string.isRequired,
     actionText: PropTypes.string,
     isOpen: PropTypes.bool.isRequired,
-    fieldRules: PropTypes.arrayOf(PropTypes.string),
     title: PropTypes.string.isRequired,
     reset: PropTypes.func.isRequired,
   };
+
   static defaultProps = {
     submitting: false,
     actionText: '',
-    fieldRules: [],
     pristine: false,
     invalid: true,
   };
@@ -110,5 +109,5 @@ export default compose(
       [fieldName]: fieldRules,
     }, translateLabels({ [fieldName]: I18n.t(fieldLabel) }), false),
   }),
-  withNotifications
+  withNotifications,
 )(UpdateFieldForm);

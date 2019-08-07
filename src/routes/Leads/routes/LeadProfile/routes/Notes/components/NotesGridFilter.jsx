@@ -79,7 +79,7 @@ class NotesGridFilter extends Component {
             disabled={submitting}
             className="btn btn-default"
             onClick={this.handleReset}
-            type="reset"
+            type="button"
           >
             {I18n.t('COMMON.RESET')}
           </button>

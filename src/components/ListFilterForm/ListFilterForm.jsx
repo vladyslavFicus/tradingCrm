@@ -96,7 +96,7 @@ class ListFilters extends Component {
     this.setState({ prevValues: values });
 
     if (this.state.resetDisabled) this.setState({ resetDisabled: false });
-  }
+  };
 
   render() {
     const {
@@ -116,7 +116,7 @@ class ListFilters extends Component {
             disabled={resetDisabled || submitting}
             className="btn btn-default"
             onClick={this.handleReset}
-            type="reset"
+            type="button"
           >
             {I18n.t('COMMON.RESET')}
           </button>

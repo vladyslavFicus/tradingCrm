@@ -42,9 +42,9 @@ class HierarchyProfileForm extends Component {
   };
 
   toggleBranchForm = () => {
-    this.setState({
-      branchFormVisibility: !this.state.branchFormVisibility,
-    });
+    this.setState(({ branchFormVisibility }) => ({
+      branchFormVisibility: !branchFormVisibility,
+    }));
   };
 
   handleSubmitUserTypeChange = async ({ [fieldNames.USER_TYPE]: userType }) => {
@@ -130,7 +130,8 @@ class HierarchyProfileForm extends Component {
         const { name: officeName } = office || {};
 
         hierarchyTree = (
-          <div className="hierarchy__tree">&nbsp;{brandId} &rarr; {officeName || NOT_FOUND} &rarr; {deskName || NOT_FOUND} &rarr;&nbsp;
+          <div className="hierarchy__tree">
+            &nbsp;{brandId} &rarr; {officeName || NOT_FOUND} &rarr; {deskName || NOT_FOUND} &rarr;&nbsp;
             <span className="color-info">{name}</span>
           </div>
         );
@@ -142,13 +143,19 @@ class HierarchyProfileForm extends Component {
         const { name: officeName } = office || {};
 
         hierarchyTree = (
-          <div className="hierarchy__tree">&nbsp;{brandId} &rarr; {officeName || NOT_FOUND} &rarr; <span className="color-info">{name}</span></div>
+          <div className="hierarchy__tree">
+            &nbsp;{brandId} &rarr; {officeName || NOT_FOUND} &rarr; <span className="color-info">{name}</span>
+          </div>
         );
 
         break;
       }
       case branchNames.OFFICE: {
-        hierarchyTree = <div className="hierarchy__tree">&nbsp;{brandId} &rarr; <span className="color-info">{name}</span></div>;
+        hierarchyTree = (
+          <div className="hierarchy__tree">
+            &nbsp;{brandId} &rarr; <span className="color-info">{name}</span>
+          </div>
+        );
 
         break;
       }
@@ -197,7 +204,11 @@ class HierarchyProfileForm extends Component {
                   className="col-4"
                 >
                   {Object
-                    .keys(omit(userTypes, [userTypes.CUSTOMER, userTypes.LEAD_CUSTOMER, !isPartner && userTypes.AFFILIATE_PARTNER]))
+                    .keys(omit(userTypes, [
+                      userTypes.CUSTOMER,
+                      userTypes.LEAD_CUSTOMER,
+                      !isPartner && userTypes.AFFILIATE_PARTNER,
+                    ]))
                     .map(value => (
                       <option key={value} value={value}>
                         {I18n.t(userTypeLabels[value])}
@@ -244,6 +255,7 @@ class HierarchyProfileForm extends Component {
                 </Otherwise>
               </Choose>
               <button
+                type="button"
                 className="btn btn-sm margin-bottom-10"
                 disabled={branchFormVisibility}
                 onClick={this.toggleBranchForm}

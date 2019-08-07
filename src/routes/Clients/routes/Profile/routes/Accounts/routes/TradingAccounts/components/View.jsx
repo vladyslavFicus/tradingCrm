@@ -86,8 +86,8 @@ class View extends PureComponent {
     const { permissions: currentPermissions } = this.context;
 
     const mt4Users = get(playerProfile, 'playerProfile.data.tradingProfile.mt4Users') || [];
-    const updatePassPermission =
-      (new Permissions(permissions.TRADING_ACCOUNT.UPDATE_PASSWORD)).check(currentPermissions);
+    const updatePassPermission = (new Permissions(permissions.TRADING_ACCOUNT.UPDATE_PASSWORD))
+      .check(currentPermissions);
 
     return (
       <div className="tab-wrapper">

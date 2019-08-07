@@ -59,6 +59,7 @@ class RefuseModal extends Component {
     note: PropTypes.noteEntity,
     onManageNote: PropTypes.func.isRequired,
   };
+
   static defaultProps = {
     handleSubmit: null,
     className: 'modal-danger',
@@ -69,15 +70,12 @@ class RefuseModal extends Component {
     invalid: false,
     selectedValues: null,
   };
+
   static contextTypes = {
     onAddNoteClick: PropTypes.func.isRequired,
     onEditNoteClick: PropTypes.func.isRequired,
     hidePopover: PropTypes.func.isRequired,
   };
-
-  componentDidMount() {
-    console.info(`reasons: ${JSON.stringify(this.props.reasons)}`);
-  }
 
   getNotePopoverParams = () => ({
     placement: 'bottom',

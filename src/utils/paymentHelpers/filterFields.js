@@ -18,8 +18,8 @@ import {
   statuses,
   statusesLabels,
 } from '../../constants/payment';
-import renderLabel from '../../utils/renderLabel';
-import countries from '../../utils/countryList';
+import renderLabel from '../renderLabel';
+import countries from '../countryList';
 import I18n from '../fake-i18n';
 
 const attributeLabels = {

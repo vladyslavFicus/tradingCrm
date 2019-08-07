@@ -82,7 +82,7 @@ const actionHandlers = {
     if (brands.length === 1) {
       const brandDepartments = departmentsByBrand[brands[0]];
       const departments = Object.keys(brandDepartments);
-      newState.brand = newState.brands[0];
+      [newState.brand] = newState.brands;
 
       if (departments.length < 2) {
         return newState;

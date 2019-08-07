@@ -109,13 +109,13 @@ class OperatorProfileLayout extends Component {
   };
 
   handleOpenModal = (name, params) => {
-    this.setState({
+    this.setState(({ modal }) => ({
       modal: {
-        ...this.state.modal,
+        ...modal,
         name,
         params,
       },
-    });
+    }));
   };
 
   unlockLogin = async () => {
@@ -136,7 +136,7 @@ class OperatorProfileLayout extends Component {
         message: I18n.t('OPERATOR_PROFILE.NOTIFICATIONS.ERROR_UNLOCK.MESSAGE'),
       });
     }
-  }
+  };
 
   render() {
     const {
@@ -188,7 +188,7 @@ class OperatorProfileLayout extends Component {
           location={location}
           params={params}
         />
-        <div className="card no-borders" >
+        <div className="card no-borders">
           <Switch>
             <Route
               path={`${path}/profile`}

@@ -21,7 +21,7 @@ export default (paymentType, paymentStatus) => {
                   amount: PropTypes.number,
                   count: PropTypes.number,
                   entryDate: PropTypes.string,
-                }).isRequired
+                }).isRequired,
               ).isRequired,
               totalCount: PropTypes.number,
               totalAmount: PropTypes.number,
@@ -84,14 +84,14 @@ export default (paymentType, paymentStatus) => {
                   stroke: color,
                 },
               ]}
-              footer={
+              footer={(
                 <ChartFooter
                   noResults={noResults}
                   totals={mapTotalObject(additionalTotal, dataKey)}
                   color={color}
                   withCurrency={showFooterCurrency}
                 />
-              }
+              )}
               loading={loading}
               noResults={noResults}
               noResultsText={noResultsText}

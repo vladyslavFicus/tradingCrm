@@ -30,10 +30,10 @@ class FailedStatusIcon extends Component {
     if (this.props.onOpen && !this.state.tooltipOpen) {
       this.props.onOpen();
     }
-    this.setState({
-      tooltipOpen: !this.state.tooltipOpen,
-    });
-  }
+    this.setState(({ tooltipOpen }) => ({
+      tooltipOpen: !tooltipOpen,
+    }));
+  };
 
   render() {
     const { id, children, showTimeout, hideTimeout, iconClassName } = this.props;

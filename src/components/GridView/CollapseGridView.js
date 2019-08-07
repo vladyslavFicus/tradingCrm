@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import GridViewColumn from './GridViewColumn';
-import NotFoundContent from '../../components/NotFoundContent';
+import NotFoundContent from '../NotFoundContent';
 
 class CollapseGridView extends Component {
   static propTypes = {
@@ -92,7 +92,7 @@ class CollapseGridView extends Component {
           <td colSpan={columns.length}>
             {renderCollapseBlock(data)}
           </td>
-        </tr>
+        </tr>,
       );
     }
 

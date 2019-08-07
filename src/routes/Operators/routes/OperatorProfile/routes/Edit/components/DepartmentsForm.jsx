@@ -25,6 +25,7 @@ class DepartmentsForm extends Component {
       role: PropTypes.string,
     }),
   };
+
   static defaultProps = {
     handleSubmit: null,
     change: null,
@@ -52,9 +53,9 @@ class DepartmentsForm extends Component {
   }
 
   toggleShow = () => {
-    this.setState({
-      show: !this.state.show,
-    });
+    this.setState(({ show }) => ({
+      show: !show,
+    }));
   };
 
   handleSubmitAndHide = async (params) => {
@@ -85,7 +86,7 @@ class DepartmentsForm extends Component {
     return (
       <div>
         <If condition={!this.state.show && !!availableDepartments.length}>
-          <button className="btn btn-sm" onClick={this.toggleShow}>
+          <button type="button" className="btn btn-sm" onClick={this.toggleShow}>
             {I18n.t('OPERATORS.PROFILE.DEPARTMENTS.ADD_BUTTON_LABEL')}
           </button>
         </If>
@@ -133,7 +134,7 @@ class DepartmentsForm extends Component {
               <button
                 onClick={this.toggleShow}
                 className="btn btn-default"
-                type="reset"
+                type="button"
               >
                 {I18n.t('COMMON.CANCEL')}
               </button>
@@ -168,5 +169,5 @@ export default compose(
       return createValidator(rules, translateLabels(attributeLabels), false)(values);
     },
   }),
-  withReduxFormValues
+  withReduxFormValues,
 )(DepartmentsForm);

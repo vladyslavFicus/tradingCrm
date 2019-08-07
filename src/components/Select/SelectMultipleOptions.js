@@ -22,6 +22,7 @@ class SelectMultipleOptions extends PureComponent {
     headerButtonText: PropTypes.string,
     headerButtonOnClick: PropTypes.func,
   };
+
   static defaultProps = {
     headerButtonClassName: null,
     headerButtonIconClassName: null,
@@ -72,10 +73,12 @@ class SelectMultipleOptions extends PureComponent {
           {headerText}
         </div>
         {
-          headerButtonClassName && headerButtonOnClick && headerButtonIconClassName && headerButtonText &&
-          <button type="button" className={headerButtonClassName} onClick={headerButtonOnClick}>
-            <i className={headerButtonIconClassName} /> {headerButtonText}
-          </button>
+          headerButtonClassName && headerButtonOnClick && headerButtonIconClassName && headerButtonText
+          && (
+            <button type="button" className={headerButtonClassName} onClick={headerButtonOnClick}>
+              <i className={headerButtonIconClassName} /> {headerButtonText}
+            </button>
+          )
         }
         {options.map((option) => {
           const uniq = v4();

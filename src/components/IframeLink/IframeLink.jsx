@@ -7,6 +7,7 @@ class IframeLink extends Component {
   static propTypes = {
     to: PropTypes.oneOfType([PropTypes.object, PropTypes.string]).isRequired,
   };
+
   state = { isFrameVersion: window.isFrame };
 
   handleClick = (e) => {

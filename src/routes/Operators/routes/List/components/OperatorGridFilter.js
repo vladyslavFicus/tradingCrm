@@ -19,6 +19,7 @@ class OperatorGridFilter extends Component {
     change: PropTypes.func.isRequired,
     invalid: PropTypes.bool,
   };
+
   static defaultProps = {
     invalid: true,
     handleSubmit: null,
@@ -118,7 +119,7 @@ class OperatorGridFilter extends Component {
             disabled={submitting}
             className="btn btn-default"
             onClick={this.handleReset}
-            type="reset"
+            type="button"
           >
             {I18n.t('COMMON.RESET')}
           </button>

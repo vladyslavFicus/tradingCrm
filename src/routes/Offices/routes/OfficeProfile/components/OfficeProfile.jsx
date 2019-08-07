@@ -3,7 +3,7 @@ import { get } from 'lodash';
 import { Switch, Redirect } from 'react-router-dom';
 import { Route } from '../../../../../router';
 import Tabs from '../../../../../components/Tabs';
-import NotFound from '../../../../../routes/NotFound';
+import NotFound from '../../../../NotFound';
 import PropTypes from '../../../../../constants/propTypes';
 import HierarchyProfileRules from '../../../../../components/HierarchyProfileRules';
 import officeProfileTabs from './constants';
@@ -39,7 +39,7 @@ const OfficeProfile = ({
         location={location}
         params={params}
       />
-      <div className="card no-borders" >
+      <div className="card no-borders">
         <Switch>
           <Route path={`${path}/rules`} component={Rules} />
           <Redirect to={`${url}/rules`} />

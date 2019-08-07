@@ -22,6 +22,7 @@ class CommonFileGridView extends Component {
     onDeleteFileClick: PropTypes.func.isRequired,
     onPreviewImageClick: PropTypes.func,
   };
+
   static defaultProps = {
     headerClassName: null,
     tableClassName: null,
@@ -33,9 +34,8 @@ class CommonFileGridView extends Component {
     const onClick = isClickable
       ? () => this.props.onPreviewImageClick(data)
       : null;
-    const uuidPrefix = data.author.indexOf('OPERATOR') === -1
-      ? data.author.indexOf('PLAYER') === -1 ? 'PL' : null
-      : null;
+    const playerPrefix = data.author.indexOf('PLAYER') === -1 ? 'PL' : null;
+    const uuidPrefix = data.author.indexOf('OPERATOR') === -1 ? playerPrefix : null;
 
     return (
       <div>
@@ -62,12 +62,16 @@ class CommonFileGridView extends Component {
 
   renderActions = data => (
     <span className="margin-left-5">
-      <button className="btn-transparent" onClick={() => this.props.onDownloadFileClick(data)}>
+      <button type="button" className="btn-transparent" onClick={() => this.props.onDownloadFileClick(data)}>
         <i className="fa fa-download" />
       </button>
       {' '}
       <PermissionContent permissions={permissions.USER_PROFILE.DELETE_FILE}>
-        <button className="btn-transparent color-danger" onClick={() => this.props.onDeleteFileClick(data)}>
+        <button
+          type="button"
+          className="btn-transparent color-danger"
+          onClick={() => this.props.onDeleteFileClick(data)}
+        >
           <i className="fa fa-trash" />
         </button>
       </PermissionContent>

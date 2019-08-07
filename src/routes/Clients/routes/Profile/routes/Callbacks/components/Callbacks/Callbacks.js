@@ -35,6 +35,7 @@ class Callbacks extends PureComponent {
       <Fragment>
         <TabHeader title={I18n.t('CLIENT_PROFILE.TABS.CALLBACKS')}>
           <button
+            type="button"
             className="btn btn-sm btn-default-outline"
             onClick={this.handleOpenCallbackAddModal}
           >

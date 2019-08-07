@@ -1,6 +1,6 @@
-import I18n from '../../../../../../utils/fake-i18n';
-import Permissions from '../../../../../../utils/permissions';
-import permissions from '../../../../../../../src/config/permissions';
+import I18n from 'utils/fake-i18n';
+import Permissions from 'utils/permissions';
+import permissions from 'config/permissions';
 
 const routes = [{
   url: '/trading-accounts',

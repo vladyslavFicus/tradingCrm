@@ -10,6 +10,7 @@ class FileUpload extends Component {
     singleMode: PropTypes.bool,
     className: PropTypes.string,
   };
+
   static defaultProps = {
     label: 'Upload file',
     singleMode: true,

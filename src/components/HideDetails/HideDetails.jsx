@@ -8,12 +8,13 @@ class HideDetails extends Component {
   static propTypes = {
     children: PropTypes.node.isRequired,
   };
+
   state = {
     collapsed: false,
   };
 
   handleCollapseBlock = () => {
-    this.setState({ collapsed: !this.state.collapsed });
+    this.setState(({ collapsed }) => ({ collapsed: !collapsed }));
   };
 
   render() {
@@ -25,6 +26,7 @@ class HideDetails extends Component {
         <div className="row no-gutters hide-details">
           <div className="col hide-details__divider" />
           <button
+            type="button"
             className="col-auto px-3 btn-transparent hide-details__action"
             onClick={this.handleCollapseBlock}
           >

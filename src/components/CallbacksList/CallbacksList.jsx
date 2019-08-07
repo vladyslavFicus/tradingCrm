@@ -83,7 +83,7 @@ class CallbacksList extends Component {
   renderUser = item => (
     <div>
       <If condition={item.client}>
-        <button className="font-weight-700" onClick={this.handleClientClick(item)}>
+        <button type="button" className="font-weight-700" onClick={this.handleClientClick(item)}>
           {item.client.fullName}
         </button>
       </If>
@@ -150,12 +150,14 @@ class CallbacksList extends Component {
           header={I18n.t('CALLBACKS.GRID_HEADER.OPERATOR')}
           render={this.renderOperator}
         />
-        {!withoutClientColumn &&
-          <GridViewColumn
-            name="userId"
-            header={I18n.t('CALLBACKS.GRID_HEADER.CLIENT')}
-            render={this.renderUser}
-          />
+        {!withoutClientColumn
+          && (
+            <GridViewColumn
+              name="userId"
+              header={I18n.t('CALLBACKS.GRID_HEADER.CLIENT')}
+              render={this.renderUser}
+            />
+          )
         }
         <GridViewColumn
           name="callbackTime"
