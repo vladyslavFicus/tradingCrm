@@ -26,8 +26,15 @@ const sidebarTopMenu = [{
 }, {
   label: I18n.t('SIDEBAR.TOP_MENU.CLIENTS'),
   icon: 'icon-users',
-  url: '/clients/list',
-  service: services.profile,
+  isOpen: false,
+  items: [{
+    label: I18n.t('SIDEBAR.TOP_MENU.SEARCH_CLIENTS'),
+    url: '/clients/list',
+    service: services.profile,
+  }, {
+    label: I18n.t('SIDEBAR.TOP_MENU.KYC_DOCUMENTS'),
+    url: '/clients/kyc-documents',
+  }],
 }, {
   label: I18n.t('SIDEBAR.TOP_MENU.LEADS'),
   icon: 'icon-leads sidebar-nav-item__icon--leads',

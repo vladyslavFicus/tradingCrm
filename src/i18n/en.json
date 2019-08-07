@@ -25,7 +25,9 @@
       "DASHBOARD_ITEMS": {
         "DEFAULT": "Default",
         "PERSONAL": "Personal"
-      }
+      },
+      "SEARCH_CLIENTS": "Search clients",
+      "KYC_DOCUMENTS": "KYC documents"
     },
     "BOTTOM_MENU": {
       "SUPPORT": "Support",
@@ -479,6 +481,7 @@
     "LAST_NAME": "Last name",
     "DISABLED": "Disabled",
     "ENABLED": "Enabled",
+    "KYC_DOCUMENTS": "KYC documents",
     "UPDATE_VERSION_MODAL": {
       "TEXT": "Backoffice has been updated. To continue working with it click the button below. It will reload the page and update you Backoffice version.",
       "TITLE": "Update your client version"
@@ -728,6 +731,7 @@
   "FILES": {
     "TITLE": "Files",
     "SEARCH_PLACEHOLDER": "File name, File ID",
+    "STATUS_CHANGED": "File status successfully changed",
     "UPLOAD_MODAL": {
       "FILE": {
         "TITLE": "Title",
@@ -761,20 +765,32 @@
     "GRID": {
       "COLUMN": {
         "NAME": "File",
+        "CLIENT": "Client",
         "DATE_TIME": "Date & Time",
         "CATEGORY": "Category",
         "NOTE": "Note",
         "STATUS": "Status"
       }
     },
+    "FILTER": {
+      "DOCUMENT_STATUS": "Document Status",
+      "UPLOAD_DATA_RANGE": "Upload data range",
+      "SEARCH_BY": "Search by",
+      "DATE_FROM": "Start date",
+      "DATE_TO": "End date"
+    },
     "ACTIONS": {
       "VERIFY": "Verify",
       "REFUSE": "Refuse"
     },
     "STATUSES": {
-      "UNDER_REVIEW": "Under review",
-      "VERIFIED": "Verified",
-      "REFUSED": "Refused"
+      "NEW": "New",
+      "APPROVED": "Approved",
+      "REJECTED": "Rejected",
+      "NOT_VERIFIED": "Not verified",
+      "NOT_VERIFIED_APPROVED": "Not verified approved",
+      "DELETED": "Deleted",
+      "OTHER": "Other"
     },
     "CATEGORIES": {
       "KYC_PAYMENT_ACCOUNT": "KYC - Payment account",

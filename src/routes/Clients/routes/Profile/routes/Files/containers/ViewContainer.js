@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import { graphql, compose } from 'react-apollo';
 import { get } from 'lodash';
 import { filesQuery } from 'graphql/queries/files';
-import { verifyMutation, refuseMutation, deleteMutation } from 'graphql/mutations/files';
+import { verifyMutation, refuseMutation, deleteMutation, updateFileStatusMutation } from 'graphql/mutations/files';
 import Files from '../components/Files';
 import { actionCreators as filesActionCreators } from '../../../modules/files';
 
@@ -25,6 +25,9 @@ export default compose(
     }) => ({
       variables: { playerUUID },
     }),
+  }),
+  graphql(updateFileStatusMutation, {
+    name: 'updateFileStatus',
   }),
   graphql(filesQuery, {
     name: 'files',

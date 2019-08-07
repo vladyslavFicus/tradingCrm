@@ -53,8 +53,20 @@ const deleteMutation = gql`mutation fileDeleteMutation(
   }
 }`;
 
+const updateFileStatusMutation = gql`mutation updateFileStatusMutation(
+  $fileUUID: String!
+  $documentStatus: String!
+) {
+  file {
+    updateFileStatus(fileUUID: $fileUUID, documentStatus: $documentStatus) {
+      success
+    }
+  }
+}`;
+
 export {
   deleteMutation,
   refuseMutation,
   verifyMutation,
+  updateFileStatusMutation,
 };

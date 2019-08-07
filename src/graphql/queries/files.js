@@ -34,6 +34,7 @@ const filesQuery = gql`query files(
       realName
       author
       category
+      statusDocument
       status {
         value
         comment
@@ -50,6 +51,52 @@ const filesQuery = gql`query files(
 }
 ${NoteFragment}`;
 
+const fileListQuery = gql`query fileList(
+  $size: Int,
+  $page: Int,
+  $searchBy: String,
+  $uploadDateFrom: String,
+  $uploadDateTo: String,
+  $documentStatus: String,
+){
+  fileList(
+    size: $size,
+    page: $page,
+    searchBy: $searchBy,
+    uploadDateFrom: $uploadDateFrom,
+    uploadDateTo: $uploadDateTo,
+    documentStatus: $documentStatus,
+  ) {
+    last
+    number
+    page
+    size
+    totalElements
+    totalPages
+    content {
+      _id
+      uuid
+      playerUUID
+      targetUUID
+      fullName
+      fileName
+      realName
+      author
+      documentCategory
+      statusDocument
+      status {
+        value
+        comment
+        editDate
+        author
+      }
+      type
+      uploadDate
+    }
+  }
+}`;
+
 export {
   filesQuery,
+  fileListQuery,
 };

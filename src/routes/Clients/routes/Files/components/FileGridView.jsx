@@ -4,29 +4,24 @@ import moment from 'moment';
 import { I18n } from 'react-redux-i18n';
 import classNames from 'classnames';
 import { shortifyInMiddle } from 'utils/stringFormat';
-import { categoriesLabels } from 'constants/files';
-import PermissionContent from 'components/PermissionContent';
+import { categoriesLabels, statusesLabels } from 'constants/files';
 import GridView, { GridViewColumn } from 'components/GridView';
-import FileStatusDropDown from 'components/FileStatusDropDown';
-import NoteButton from 'components/NoteButton';
 import Uuid from 'components/Uuid';
-import permissions from 'config/permissions';
 
-class CommonFileGridView extends Component {
+class CommonFileListGridView extends Component {
   static propTypes = {
     headerClassName: PropTypes.string,
     tableClassName: PropTypes.string,
     dataSource: PropTypes.array.isRequired,
-    onStatusActionClick: PropTypes.func.isRequired,
-    onDownloadFileClick: PropTypes.func.isRequired,
-    onDeleteFileClick: PropTypes.func.isRequired,
     onPreviewImageClick: PropTypes.func,
+    renderFullName: PropTypes.func,
   };
 
   static defaultProps = {
     headerClassName: null,
     tableClassName: null,
     onPreviewImageClick: null,
+    renderFullName: () => {},
   };
 
   renderFileName = (data) => {
@@ -43,10 +38,10 @@ class CommonFileGridView extends Component {
           className={classNames('font-weight-700', { 'cursor-pointer': isClickable })}
           onClick={onClick}
         >
-          {data.name}
+          {data.fileName}
         </div>
         <div title={data.realName} className="font-size-11">
-          {data.name === data.realName ? null : `${shortifyInMiddle(data.realName, 40)} - `}
+          {data.fileName === data.realName ? null : `${shortifyInMiddle(data.realName, 40)} - `}
           <Uuid uuid={data.uuid} />
         </div>
         <div className="font-size-11">
@@ -60,24 +55,6 @@ class CommonFileGridView extends Component {
     );
   };
 
-  renderActions = data => (
-    <span className="margin-left-5">
-      <button type="button" className="btn-transparent" onClick={() => this.props.onDownloadFileClick(data)}>
-        <i className="fa fa-download" />
-      </button>
-      {' '}
-      <PermissionContent permissions={permissions.USER_PROFILE.DELETE_FILE}>
-        <button
-          type="button"
-          className="btn-transparent color-danger"
-          onClick={() => this.props.onDeleteFileClick(data)}
-        >
-          <i className="fa fa-trash" />
-        </button>
-      </PermissionContent>
-    </span>
-  );
-
   renderDate = column => data => (
     <div>
       <div className="font-weight-700">{moment.utc(data[column]).local().format('DD.MM.YYYY')}</div>
@@ -88,48 +65,27 @@ class CommonFileGridView extends Component {
   renderCategory = data => (
     <div className="font-weight-700">
       {
-        data.category && categoriesLabels[data.category]
-          ? I18n.t(categoriesLabels[data.category])
-          : data.category
+        data.documentCategory && categoriesLabels[data.documentCategory]
+          ? I18n.t(categoriesLabels[data.documentCategory])
+          : data.documentCategory
       }
     </div>
   );
 
-  renderStatus = data => (
-    <FileStatusDropDown
-      status={data.status}
-      statusDocument={data.statusDocument}
-      onStatusChange={action => this.props.onStatusActionClick(data.uuid, action)}
-    />
-  );
-
-  renderNote = data => (
-    <NoteButton
-      playerUUID={data.playerUUID}
-      targetUUID={data.uuid}
-      note={data.note}
-    />
-  );
-
   render() {
-    const {
-      onStatusActionClick, onDownloadFileClick, onDeleteFileClick, ...rest
-    } = this.props;
-
     return (
       <GridView
-        {...rest}
+        {...this.props}
       >
+        <GridViewColumn
+          name="fullName"
+          header={I18n.t('FILES.GRID.COLUMN.CLIENT')}
+          render={this.props.renderFullName}
+        />
         <GridViewColumn
           name="fileName"
           header={I18n.t('FILES.GRID.COLUMN.NAME')}
           render={this.renderFileName}
-        />
-        <GridViewColumn
-          name="actions"
-          header=""
-          headerClassName="width-60"
-          render={this.renderActions}
         />
         <GridViewColumn
           name="date"
@@ -144,16 +100,15 @@ class CommonFileGridView extends Component {
         <GridViewColumn
           name="status"
           header={I18n.t('FILES.GRID.COLUMN.STATUS')}
-          render={this.renderStatus}
-        />
-        <GridViewColumn
-          name="note"
-          header={I18n.t('FILES.GRID.COLUMN.NOTE')}
-          render={this.renderNote}
+          render={data => (
+            <div className="text-uppercase font-weight-700">
+              {I18n.t(statusesLabels[data.statusDocument])}
+            </div>
+          )}
         />
       </GridView>
     );
   }
 }
 
-export default CommonFileGridView;
+export default CommonFileListGridView;

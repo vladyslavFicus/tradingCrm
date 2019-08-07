@@ -12,7 +12,6 @@ import fetch from 'utils/fetch';
 import { changeStatusMutation } from 'graphql/mutations/questionnaire';
 import { statusColors } from './constants';
 
-
 class Questionnaire extends PureComponent {
   static propTypes = {
     questionnaireLastData: PropTypes.shape({

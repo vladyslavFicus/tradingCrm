@@ -1,14 +1,14 @@
 import React, { Component, Fragment } from 'react';
 import { get } from 'lodash';
-import { I18n } from 'react-redux-i18n';
 import history from 'router/history';
+import { I18n } from 'react-redux-i18n';
 import TabHeader from 'components/TabHeader';
+import { withNotifications } from 'components/HighOrder';
 import { targetTypes as fileTargetTypes } from 'components/Files/constants';
 import PermissionContent from 'components/PermissionContent';
 import { getApiRoot } from 'config';
 import permissions from 'config/permissions';
 import PropTypes from 'constants/propTypes';
-import { actions } from 'constants/files';
 import FilesFilterForm from './FilesFilterForm';
 import CommonFileGridView from '../../../components/CommonFileGridView';
 
@@ -31,8 +31,7 @@ class Files extends Component {
     }).isRequired,
     downloadFile: PropTypes.func.isRequired,
     delete: PropTypes.func.isRequired,
-    refuse: PropTypes.func.isRequired,
-    verify: PropTypes.func.isRequired,
+    updateFileStatus: PropTypes.func.isRequired,
   };
 
   componentDidMount() {
@@ -58,18 +57,26 @@ class Files extends Component {
 
   handleFiltersChanged = (filters = {}) => history.replace({ query: { filters } });
 
-  handleStatusActionClick = (uuid, action) => {
-    const variables = { uuid };
+  handleStatusActionClick = async (uuid, documentStatus) => {
+    const { files: { refetch }, notify } = this.props;
 
-    switch (action) {
-      case actions.VERIFY:
-        this.props.verify({ variables });
-        break;
-      case actions.REFUSE:
-        this.props.refuse({ variables });
-        break;
-      default:
-        break;
+    const { data: { file: { updateFileStatus: { success } } } } = await this.props.updateFileStatus({
+      variables: {
+        fileUUID: uuid,
+        documentStatus,
+      },
+    });
+
+    notify({
+      level: success ? 'success' : 'error',
+      title: I18n.t('FILES.TITLE'),
+      message: success
+        ? I18n.t('FILES.STATUS_CHANGED')
+        : I18n.t('COMMON.SOMETHING_WRONG'),
+    });
+
+    if (success) {
+      refetch();
     }
   };
 
@@ -136,4 +143,4 @@ class Files extends Component {
   }
 }
 
-export default Files;
+export default withNotifications(Files);

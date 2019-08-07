@@ -25,7 +25,9 @@
       "DASHBOARD_ITEMS": {
         "DEFAULT": "默认",
         "PERSONAL": "个人"
-      }
+      },
+      "SEARCH_CLIENTS": "搜索人 客户",
+      "KYC_DOCUMENTS": "KYC 文件"
     },
     "BOTTOM_MENU": {
       "SUPPORT": "支持",
@@ -465,6 +467,7 @@
     "LAST_NAME": "姓氏",
     "DISABLED": "禁用",
     "ENABLED": "启用",
+    "KYC_DOCUMENTS": "KYC documents",
     "UPDATE_VERSION_MODAL": {
       "TEXT": "后台已更新。如需继续操作，请点击下方按钮。页面将刷新并更新您的后台版本。",
       "TITLE": "更新您的客户端版本"
@@ -717,6 +720,7 @@
   "FILES": {
     "TITLE": "文件",
     "SEARCH_PLACEHOLDER": "文件 名称, 文件 ID",
+    "STATUS_CHANGED": "File status successfully changed",
     "UPLOAD_MODAL": {
       "FILE": {
         "TITLE": "名称",
@@ -750,20 +754,32 @@
     "GRID": {
       "COLUMN": {
         "NAME": "文件",
+        "CLIENT": "客户",
         "DATE_TIME": "日期和时间",
         "CATEGORY": "类别",
         "NOTE": "注释",
         "STATUS": "状态"
       }
     },
+    "FILTER": {
+      "DOCUMENT_STATUS": "Document Status",
+      "UPLOAD_DATA_RANGE": "Upload data range",
+      "SEARCH_BY": "Search by",
+      "DATE_FROM": "Start date",
+      "DATE_TO": "End date"
+    },
     "ACTIONS": {
       "VERIFY": "验证",
       "REFUSE": "拒绝"
     },
     "STATUSES": {
-      "UNDER_REVIEW": "审核中",
-      "VERIFIED": "已验证",
-      "REFUSED": "已拒绝"
+      "NEW": "新",
+      "APPROVED": "已批准",
+      "REJECTED": "已拒绝",
+      "NOT_VERIFIED": "未验证",
+      "NOT_VERIFIED_APPROVED": "not verified approved",
+      "DELETED": "deleted",
+      "OTHER": "其他"
     },
     "CATEGORIES": {
       "KYC_PAYMENT_ACCOUNT": "KYC - 支付账户",

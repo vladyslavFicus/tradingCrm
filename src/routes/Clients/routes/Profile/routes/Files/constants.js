@@ -1,4 +1,4 @@
-import I18n from '../../../../../../utils/fake-i18n';
+import I18n from 'utils/fake-i18n';
 
 const attributeLabels = {
   keyword: I18n.t('PLAYER_PROFILE.FILES.FILTER_FORM.LABEL.SEARCH_BY'),

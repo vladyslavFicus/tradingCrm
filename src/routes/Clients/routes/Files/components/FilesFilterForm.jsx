@@ -5,11 +5,11 @@ import moment from 'moment';
 import { I18n } from 'react-redux-i18n';
 import { createValidator, translateLabels } from 'utils/validator';
 import PropTypes from 'constants/propTypes';
-import { categoriesLabels } from 'constants/files';
-import { InputField, SelectField, DateTimeField, RangeGroup } from 'components/ReduxForm/index';
+import { statuses, statusesLabels } from 'constants/files';
+import { InputField, SelectField, DateTimeField, RangeGroup } from 'components/ReduxForm';
 import { attributeLabels } from '../constants';
 
-class FilesFilterForm extends Component {
+class FileListFilterForm extends Component {
   static propTypes = {
     submitting: PropTypes.bool.isRequired,
     handleSubmit: PropTypes.func.isRequired,
@@ -59,27 +59,27 @@ class FilesFilterForm extends Component {
           name="searchBy"
           type="text"
           label={I18n.t(attributeLabels.keyword)}
-          placeholder={I18n.t('FILES.SEARCH_PLACEHOLDER')}
+          placeholder="Name, UUID"
           component={InputField}
           inputAddon={<i className="icon icon-search" />}
           className="filter-row__big"
         />
         <Field
-          name="fileCategory"
-          label={I18n.t(attributeLabels.fileCategory)}
+          name="documentStatus"
+          label={I18n.t(attributeLabels.documentStatus)}
           component={SelectField}
           className="filter-row__small"
         >
           <option value="">{I18n.t('COMMON.ANY')}</option>
-          {Object.keys(categoriesLabels).map(category => (
-            <option key={category} value={category}>
-              {I18n.t(categoriesLabels[category])}
+          {Object.keys(statuses).map(value => (
+            <option key={value} value={value}>
+              {I18n.t(statusesLabels[value])}
             </option>
           ))}
         </Field>
         <RangeGroup
           className="filter-row__dates"
-          label={I18n.t('PLAYER_PROFILE.FILES.FILTER_FORM.LABEL.DATE_RANGE')}
+          label={I18n.t('FILES.FILTER.UPLOAD_DATA_RANGE')}
         >
           <Field
             name="uploadDateFrom"
@@ -128,8 +128,7 @@ export default connect(state => ({
   touchOnChange: true,
   validate: createValidator({
     searchBy: 'string',
-    category: 'string',
     uploadDateFrom: 'regex:/^\\d{4}-\\d{2}-\\d{2}$/',
     uploadDateTo: 'regex:/^\\d{4}-\\d{2}-\\d{2}$/',
   }, translateLabels(attributeLabels), false),
-})(FilesFilterForm));
+})(FileListFilterForm));
