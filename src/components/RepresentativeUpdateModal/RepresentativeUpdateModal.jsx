@@ -147,7 +147,7 @@ class RepresentativeUpdateModal extends Component {
       teams: teams || [],
       teamsLoading: false,
     });
-  }
+  };
 
   handleTeamChange = async (selectedTeam) => {
     this.setState({ agentsLoading: true });
@@ -187,16 +187,12 @@ class RepresentativeUpdateModal extends Component {
   };
 
   handleRepChange = (selectedOperator) => {
-    const {
-      change,
-      type,
-    } = this.props;
+    const { change } = this.props;
 
-    change(fieldNames.ACQUISITION, type);
     change(fieldNames.REPRESENTATIVE, selectedOperator);
   };
 
-  handleUpdateRepresentative = async ({ teamId, repId, status }) => {
+  handleUpdateRepresentative = async ({ teamId, repId, status, aquisitionStatus }) => {
     const {
       leads,
       type,
@@ -245,7 +241,7 @@ class RepresentativeUpdateModal extends Component {
       * when move performed on client profile and rep selected
       * manually pass assignToOperator and add move flag
       */
-      if (currentInactiveOperator && repId) {
+      if (aquisitionStatus) {
         clients[0] = { ...clients[0], assignToOperator: currentInactiveOperator };
         variables.isMoveAction = true;
       }
