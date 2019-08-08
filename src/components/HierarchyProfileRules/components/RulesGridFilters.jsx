@@ -40,7 +40,7 @@ const RulesGridFilters = ({
     <FilterItem label={I18n.t(filterLabels.searchValue)} size={SIZES.medium} type={TYPES.input} default>
       <FilterField
         name="createdByOrUuid"
-        placeholder="Name"
+        placeholder="Operator UUID, Rule UUID"
         type="text"
       />
     </FilterItem>

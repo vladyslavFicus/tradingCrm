@@ -63,6 +63,10 @@ const sidebarTopMenu = [{
     url: '/teams',
     permissions: new Permissions(permissions.HIERARCHY.GET_TEAMS),
   }, {
+    label: I18n.t('SIDEBAR.TOP_MENU.SALES_RULES'),
+    url: '/sales-rules',
+    permissions: new Permissions(permissions.SALES_RULES.GET_RULES),
+  }, {
     label: I18n.t('SIDEBAR.TOP_MENU.OPERATORS'),
     url: '/operators',
     service: services.operator,

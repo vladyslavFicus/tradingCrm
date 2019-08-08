@@ -56,9 +56,9 @@ const HierarchyProfileRules = (title, deskType, branchType) => {
       getBranchInfo: {},
     };
 
-    handleFiltersChanged = (filters = {}) => history.replace({ query: { filters } })
+    handleFiltersChanged = (filters = {}) => history.replace({ query: { filters } });
 
-    handleFilterReset = () => history.replace({ query: { filters: {} } })
+    handleFilterReset = () => history.replace({ query: { filters: {} } });
 
     triggerRuleModal = () => {
       const {
@@ -69,13 +69,13 @@ const HierarchyProfileRules = (title, deskType, branchType) => {
         onSubmit: values => this.handleAddRule(values),
         deskType,
       });
-    }
+    };
 
     handleRenderButtonAddRule = (type) => {
       let data = {};
 
       switch (type) {
-        case (branchTypes.DESK): {
+        case branchTypes.DESK: {
           const { getBranchChildren } = this.props;
           const teams = get(getBranchChildren, 'hierarchy.branchChildren.data');
 
@@ -87,7 +87,7 @@ const HierarchyProfileRules = (title, deskType, branchType) => {
           }
           break;
         }
-        case (branchTypes.TEAM): {
+        case branchTypes.TEAM: {
           const { getBranchInfo } = this.props;
           const branchInfo = get(getBranchInfo, 'hierarchy.branchInfo.data');
 
@@ -105,7 +105,7 @@ const HierarchyProfileRules = (title, deskType, branchType) => {
       }
 
       return this.renderButtonAddRule(data);
-    }
+    };
 
     handleAddRule = async (variables) => {
       const {
@@ -207,7 +207,7 @@ const HierarchyProfileRules = (title, deskType, branchType) => {
           message: I18n.t('HIERARCHY.PROFILE_RULE_TAB.RULE_DELETED', { id: data.uuid }),
         });
       }
-    }
+    };
 
     handleDeleteRuleClick = (uuid) => {
       const {

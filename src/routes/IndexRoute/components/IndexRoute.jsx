@@ -25,6 +25,7 @@ import Hierarchy from 'routes/Hierarchy';
 import Offices from 'routes/Offices';
 import Desks from 'routes/Desks';
 import Teams from 'routes/Teams';
+import SalesRules from 'routes/SalesRules';
 import Callbacks from 'routes/Callbacks';
 import ReleaseNotes from 'routes/ReleaseNotes';
 import PersonalDashboard from 'routes/PersonalDashboard';
@@ -87,6 +88,7 @@ class IndexRoute extends PureComponent {
             <AppRoute path="/offices" layout={MainLayout} component={Offices} checkAuth />
             <AppRoute path="/desks" layout={MainLayout} component={Desks} checkAuth />
             <AppRoute path="/teams" layout={MainLayout} component={Teams} checkAuth />
+            <AppRoute path="/sales-rules" layout={MainLayout} component={SalesRules} checkAuth />
             <AppRoute path="/release-notes" layout={MainLayout} component={ReleaseNotes} checkAuth />
             <Route path="/logout" component={Logout} />
             {/* Public */}

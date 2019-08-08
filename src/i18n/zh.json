@@ -20,6 +20,7 @@
       "OFFICES": "办公室",
       "DESKS": "部门",
       "TEAMS": "团队",
+      "SALES_RULES": "Sales rules",
       "CALLBACKS": "召回",
       "DASHBOARD": "主面板",
       "DASHBOARD_ITEMS": {
@@ -2224,6 +2225,9 @@
         "TITLE": "团队规则"
       }
     }
+  },
+  "SALES_RULES": {
+    "TITLE": "Sales rules"
   },
   "HIERARCHY": {
     "ERROR_LOADING_BRANCHES": "加载分支时出错",

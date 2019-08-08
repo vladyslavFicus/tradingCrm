@@ -24,6 +24,9 @@ export default {
     GET_BRANCH_BY_ID: 'trading_hierarchy;GET;/branch/{uuid}',
     CREATE_BRANCH: 'trading_hierarchy_updater;POST;/branch',
   },
+  SALES_RULES: {
+    GET_RULES: 'trading_rules_profile;GET;/',
+  },
   USER_PROFILE: {
     SEND_ACTIVATION_LINK: 'profile;POST;/profiles/{playerUUID}/send-activation-link',
     GET_RESET_PASSWORD_TOKEN: 'auth;GET;/password/reset-token?playerUUID={playerUUID}',

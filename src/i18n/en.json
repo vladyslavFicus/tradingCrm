@@ -20,6 +20,7 @@
       "OFFICES": "Offices",
       "DESKS": "Desks",
       "TEAMS": "Teams",
+      "SALES_RULES": "Sales rules",
       "CALLBACKS": "Callbacks",
       "DASHBOARD": "Dashboard",
       "DASHBOARD_ITEMS": {
@@ -2224,6 +2225,9 @@
         "TITLE": "Team rules"
       }
     }
+  },
+  "SALES_RULES": {
+    "TITLE": "Sales rules"
   },
   "HIERARCHY": {
     "ERROR_LOADING_BRANCHES": "Error occured while loading branches",
