@@ -33,7 +33,7 @@ class ShareLinkModal extends Component {
       notificationMessage,
     } = this.props;
 
-    const inputValue = `${getDomain()}/players/${playerUUID}/profile`;
+    const inputValue = `${getDomain()}/clients/${playerUUID}/profile`;
 
     return (
       <Modal className="share-profile-modal" toggle={onClose} isOpen>
