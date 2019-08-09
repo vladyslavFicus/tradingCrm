@@ -31,7 +31,7 @@ class Files extends Component {
   };
 
   renderFullName = ({ playerUUID, fullName }) => (
-    <div className="font-size-11">
+    <div>
       <div
         className="font-weight-700 cursor-pointer"
         onClick={() => window.open(`/clients/${playerUUID}/profile`, '_blank')}
