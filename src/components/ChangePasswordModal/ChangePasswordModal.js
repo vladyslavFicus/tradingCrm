@@ -43,7 +43,7 @@ const ChangePasswordModal = ({ onClose, handleSubmit, onSubmit, fullName, player
         <button type="button" className="btn btn-default-outline" onClick={onClose}>
           {I18n.t('COMMON.BUTTONS.CANCEL')}
         </button>
-        <button type="button" className="btn btn-danger">
+        <button type="submit" className="btn btn-danger">
           {I18n.t('COMMON.BUTTONS.SAVE_NEW_PASSWORD')}
         </button>
       </ModalFooter>
