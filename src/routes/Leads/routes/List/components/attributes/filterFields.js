@@ -47,6 +47,7 @@ export default (
   label: I18n.t(filterLabels.country),
   placeholder: I18n.t('COMMON.SELECT_OPTION.DEFAULT'),
   multiple: true,
+  withoutI18n: true,
   className: fieldClassNames.MEDIUM,
   selectOptions: Object
     .keys(countries)
@@ -60,8 +61,9 @@ export default (
     : I18n.t('COMMON.SELECT_OPTION.DEFAULT'),
   className: fieldClassNames.MEDIUM,
   customOnChange: true,
+  withoutI18n: true,
   disabled: branchesLoading || desks.length === 0,
-  selectOptions: desks.map(({ uuid, name }) => ({ value: uuid, label: I18n.t(name) })),
+  selectOptions: desks.map(({ uuid, name }) => ({ value: uuid, label: name })),
 }, {
   type: fieldTypes.SELECT,
   name: 'teams',
@@ -71,8 +73,9 @@ export default (
     : I18n.t('COMMON.SELECT_OPTION.DEFAULT'),
   className: fieldClassNames.MEDIUM,
   customOnChange: true,
+  withoutI18n: true,
   disabled: branchesLoading || teams.length === 0,
-  selectOptions: teams.map(({ uuid, name }) => ({ value: uuid, label: I18n.t(name) })),
+  selectOptions: teams.map(({ uuid, name }) => ({ value: uuid, label: name })),
 }, {
   type: fieldTypes.SELECT,
   name: 'salesAgents',
@@ -80,11 +83,12 @@ export default (
   placeholder: I18n.t('COMMON.SELECT_OPTION.DEFAULT'),
   className: fieldClassNames.MEDIUM,
   multiple: true,
+  withoutI18n: true,
   disabled: operatorsLoading || operators.length === 0,
   selectOptions: operators.map(({ uuid, fullName, operatorStatus }) => (
     {
       value: uuid,
-      label: I18n.t(fullName),
+      label: fullName,
       className: operatorStatus === statuses.INACTIVE || operatorStatus === statuses.CLOSED ? 'color-inactive' : '',
     }
   )),
