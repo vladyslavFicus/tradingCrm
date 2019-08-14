@@ -101,7 +101,7 @@ class PlayerStatus extends Component {
   };
 
   renderDropDown = (label, availableStatuses, dropDownOpen) => (
-    <Dropdown isOpen={dropDownOpen} toggle={this.toggle} onClick={this.toggle}>
+    <Dropdown isOpen={dropDownOpen} toggle={this.toggle}>
       <DropdownToggle tag="div">
         {label}
       </DropdownToggle>

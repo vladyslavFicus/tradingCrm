@@ -64,7 +64,7 @@ class AccountStatus extends Component {
   };
 
   renderDropDown = (label, availableStatuses, dropDownOpen) => (
-    <Dropdown isOpen={dropDownOpen} toggle={this.toggle} onClick={this.toggle}>
+    <Dropdown isOpen={dropDownOpen} toggle={this.toggle}>
       <DropdownToggle tag="div">
         {label}
         <PermissionContent permissions={permissions.OPERATORS.UPDATE_STATUS}>
