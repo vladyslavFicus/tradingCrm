@@ -9,6 +9,7 @@ import PermissionContent from 'components/PermissionContent';
 import GridView, { GridViewColumn } from 'components/GridView';
 import FileStatusDropDown from 'components/FileStatusDropDown';
 import NoteButton from 'components/NoteButton';
+import GridEmptyValue from 'components/GridEmptyValue';
 import Uuid from 'components/Uuid';
 import permissions from 'config/permissions';
 
@@ -78,11 +79,20 @@ class CommonFileGridView extends Component {
     </span>
   );
 
-  renderDate = column => data => (
-    <div>
-      <div className="font-weight-700">{moment.utc(data[column]).local().format('DD.MM.YYYY')}</div>
-      <div className="font-size-11">{moment.utc(data[column]).local().format('HH:mm:ss')}</div>
-    </div>
+  renderDate = (column, withTime = true) => data => (
+    <Choose>
+      <When condition={data[column]}>
+        <div>
+          <div className="font-weight-700">{moment.utc(data[column]).local().format('DD.MM.YYYY')}</div>
+          <If condition={withTime}>
+            <div className="font-size-11">{moment.utc(data[column]).local().format('HH:mm:ss')}</div>
+          </If>
+        </div>
+      </When>
+      <Otherwise>
+        <GridEmptyValue I18n={I18n} />
+      </Otherwise>
+    </Choose>
   );
 
   renderCategory = data => (
@@ -130,6 +140,11 @@ class CommonFileGridView extends Component {
           header=""
           headerClassName="width-60"
           render={this.renderActions}
+        />
+        <GridViewColumn
+          name="expirationTime"
+          header={I18n.t('FILES.GRID.COLUMN.EXPIRATION_DATE')}
+          render={this.renderDate('expirationTime', false)}
         />
         <GridViewColumn
           name="date"

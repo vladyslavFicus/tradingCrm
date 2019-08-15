@@ -43,6 +43,7 @@ const filesQuery = gql`query files(
       }
       type
       uploadDate
+      expirationTime
       note {
         ...NoteFragment,
       }
@@ -92,6 +93,7 @@ const fileListQuery = gql`query fileList(
       }
       type
       uploadDate
+      expirationTime
     }
   }
 }`;

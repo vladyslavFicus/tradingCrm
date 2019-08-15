@@ -756,6 +756,7 @@
       "COLUMN": {
         "NAME": "文件",
         "CLIENT": "客户",
+        "EXPIRATION_DATE": "过期日期",
         "DATE_TIME": "日期和时间",
         "CATEGORY": "类别",
         "NOTE": "注释",

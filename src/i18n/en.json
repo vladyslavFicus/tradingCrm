@@ -767,6 +767,7 @@
       "COLUMN": {
         "NAME": "File",
         "CLIENT": "Client",
+        "EXPIRATION_DATE": "Expiration date",
         "DATE_TIME": "Date & Time",
         "CATEGORY": "Category",
         "NOTE": "Note",

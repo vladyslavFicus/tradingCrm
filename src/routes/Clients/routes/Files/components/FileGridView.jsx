@@ -6,6 +6,7 @@ import classNames from 'classnames';
 import { shortifyInMiddle } from 'utils/stringFormat';
 import { categoriesLabels, statusesLabels } from 'constants/files';
 import GridView, { GridViewColumn } from 'components/GridView';
+import GridEmptyValue from 'components/GridEmptyValue';
 import Uuid from 'components/Uuid';
 
 class CommonFileListGridView extends Component {
@@ -41,9 +42,9 @@ class CommonFileListGridView extends Component {
           {data.fileName}
         </div>
         <div title={data.realName} className="font-size-11">
-          {data.fileName === data.realName ? null : `${shortifyInMiddle(data.realName, 40)} - `}
-          <Uuid uuid={data.uuid} />
+          {data.fileName === data.realName ? null : shortifyInMiddle(data.realName, 40)}
         </div>
+        <Uuid className="font-size-11" uuid={data.uuid} />
         <div className="font-size-11">
           {'by '}
           <Uuid
@@ -55,11 +56,20 @@ class CommonFileListGridView extends Component {
     );
   };
 
-  renderDate = column => data => (
-    <div>
-      <div className="font-weight-700">{moment.utc(data[column]).local().format('DD.MM.YYYY')}</div>
-      <div className="font-size-11">{moment.utc(data[column]).local().format('HH:mm:ss')}</div>
-    </div>
+  renderDate = column => (data, withTime = true) => (
+    <Choose>
+      <When condition={data[column]}>
+        <div>
+          <div className="font-weight-700">{moment.utc(data[column]).local().format('DD.MM.YYYY')}</div>
+          <If condition={withTime}>
+            <div className="font-size-11">{moment.utc(data[column]).local().format('HH:mm:ss')}</div>
+          </If>
+        </div>
+      </When>
+      <Otherwise>
+        <GridEmptyValue I18n={I18n} />
+      </Otherwise>
+    </Choose>
   );
 
   renderCategory = data => (
@@ -86,6 +96,11 @@ class CommonFileListGridView extends Component {
           name="fileName"
           header={I18n.t('FILES.GRID.COLUMN.NAME')}
           render={this.renderFileName}
+        />
+        <GridViewColumn
+          name="expirationTime"
+          header={I18n.t('FILES.GRID.COLUMN.EXPIRATION_DATE')}
+          render={this.renderDate('expirationTime', false)}
         />
         <GridViewColumn
           name="date"

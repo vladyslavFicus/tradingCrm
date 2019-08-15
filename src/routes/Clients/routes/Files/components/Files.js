@@ -40,7 +40,7 @@ class Files extends Component {
       </div>
       <Uuid uuid={playerUUID} />
     </div>
-  )
+  );
 
   render() {
     const {
