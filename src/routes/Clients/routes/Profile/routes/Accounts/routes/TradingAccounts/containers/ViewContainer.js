@@ -34,7 +34,7 @@ export default compose(
         ...query && query.filters,
         playerUUID,
       },
-      fetchPolicy: 'network-only',
+      fetchPolicy: 'no-cache',
     }),
     name: 'playerProfile',
   }),

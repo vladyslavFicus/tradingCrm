@@ -32,14 +32,20 @@ class View extends PureComponent {
   static contextTypes = {
     setRenderActions: PropTypes.func.isRequired,
     permissions: PropTypes.arrayOf(PropTypes.string).isRequired,
+    registerUpdateCacheListener: PropTypes.func.isRequired,
+    unRegisterUpdateCacheListener: PropTypes.func.isRequired,
   };
 
   componentDidMount() {
     const {
       context: {
         setRenderActions,
+        registerUpdateCacheListener,
+        constructor: { name },
       },
     } = this;
+
+    registerUpdateCacheListener(name, this.props.playerProfile.refetch);
 
     setRenderActions(() => (
       <PermissionContent permissions={permissions.TRADING_ACCOUNT.CREATE}>
@@ -48,6 +54,15 @@ class View extends PureComponent {
         </button>
       </PermissionContent>
     ));
+  }
+
+  componentWillUnmount() {
+    const {
+      context: { unRegisterUpdateCacheListener },
+      constructor: { name },
+    } = this;
+
+    unRegisterUpdateCacheListener(name);
   }
 
   showTradingAccountAddModal = () => {
@@ -89,7 +104,7 @@ class View extends PureComponent {
     });
   };
 
-  handleFilterReset = () => history.replace({ query: { filters: {} } })
+  handleFilterReset = () => history.replace({ query: { filters: {} } });
 
   render() {
     const {
