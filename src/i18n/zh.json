@@ -566,7 +566,7 @@
     },
     "SEARCH_BY": {
       "CLIENT": "姓名、邮箱、手机、ID、MT4 ID",
-      "LEAD": "姓名、邮箱、手机、ID",
+      "LEAD": "姓名、邮箱、手机、ID, source",
       "AFFILIATE": "联营 ID，来源",
       "NAME": "姓名",
       "MIGRATION_ID": "Migration ID"

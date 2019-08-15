@@ -580,7 +580,7 @@
     },
     "SEARCH_BY": {
       "CLIENT": "Name, Email, Phone, ID, MT4 ID",
-      "LEAD": "Name, Email, Phone, ID",
+      "LEAD": "Name, Email, Phone, ID, source",
       "AFFILIATE": "Affiliate ID, source",
       "NAME": "Name",
       "MIGRATION_ID": "Migration ID"
