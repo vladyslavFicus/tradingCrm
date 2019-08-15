@@ -1,13 +1,16 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import { I18n } from 'react-redux-i18n';
 import { get } from 'lodash';
+import history from 'router/history';
 import PropTypes from 'constants/propTypes';
 import permissions from 'config/permissions';
 import PermissionContent from 'components/PermissionContent';
 import GridView, { GridViewColumn } from 'components/GridView';
 import ActionsDropDown from 'components/ActionsDropDown';
+import ListFilterForm from 'components/ListFilterForm';
 import Permissions from 'utils/permissions';
 import columns, { actionColumn } from './utils';
+import filterFields from './filterFields';
 
 class View extends PureComponent {
   static propTypes = {
@@ -78,6 +81,16 @@ class View extends PureComponent {
     />
   );
 
+  handleFiltersChanged = (filters = {}) => {
+    history.replace({
+      query: {
+        filters: { ...filters },
+      },
+    });
+  };
+
+  handleFilterReset = () => history.replace({ query: { filters: {} } })
+
   render() {
     const {
       playerProfile,
@@ -90,27 +103,35 @@ class View extends PureComponent {
       .check(currentPermissions);
 
     return (
-      <div className="tab-wrapper">
-        <GridView
-          tableClassName="table-hovered"
-          dataSource={mt4Users}
-          locale={locale}
-          showNoResults={!playerProfile.loading && mt4Users.length === 0}
-        >
-          {[
-            ...columns,
-            ...(updatePassPermission ? [actionColumn(this.renderActions)] : []),
-          ].map(({ name, header, headerStyle, render }) => (
-            <GridViewColumn
-              key={name}
-              name={name}
-              header={header}
-              headerStyle={headerStyle}
-              render={render}
-            />
-          ))}
-        </GridView>
-      </div>
+      <Fragment>
+        <ListFilterForm
+          onSubmit={this.handleFiltersChanged}
+          onReset={this.handleFilterReset}
+          initialValues={{ accountType: playerProfile.variables.accountType }}
+          fields={filterFields()}
+        />
+        <div className="tab-wrapper">
+          <GridView
+            tableClassName="table-hovered"
+            dataSource={mt4Users}
+            locale={locale}
+            showNoResults={!playerProfile.loading && mt4Users.length === 0}
+          >
+            {[
+              ...columns,
+              ...(updatePassPermission ? [actionColumn(this.renderActions)] : []),
+            ].map(({ name, header, headerStyle, render }) => (
+              <GridViewColumn
+                key={name}
+                name={name}
+                header={header}
+                headerStyle={headerStyle}
+                render={render}
+              />
+            ))}
+          </GridView>
+        </div>
+      </Fragment>
     );
   }
 }

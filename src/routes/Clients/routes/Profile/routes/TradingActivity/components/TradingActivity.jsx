@@ -70,7 +70,7 @@ class TradingActivity extends Component {
     const {
       locale,
       tradingActivity,
-      tradingActivity: { loading },
+      tradingActivity: { loading, variables },
       playerProfile,
       playerProfile: { loading: profileLoading },
     } = this.props;
@@ -89,6 +89,7 @@ class TradingActivity extends Component {
           onReset={this.handleFilterReset}
           disabled={profileError || profileLoading}
           accounts={mt4Accs}
+          initialValues={{ tradeType: variables.tradeType }}
         />
         <div className="tab-wrapper">
           <GridView

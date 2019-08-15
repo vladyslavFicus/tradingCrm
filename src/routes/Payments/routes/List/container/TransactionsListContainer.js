@@ -44,6 +44,7 @@ export default compose(
       location: { query },
     }) => ({
       variables: {
+        accountType: 'LIVE',
         ...query && query.filters,
         page: 0,
         limit: 20,

@@ -5,7 +5,7 @@ import {
   fieldClassNames,
   normalize,
   validators,
-} from '../../components/ReduxForm/ReduxFieldsConstructor';
+} from 'components/ReduxForm/ReduxFieldsConstructor';
 import {
   methods,
   methodsLabels,
@@ -17,9 +17,10 @@ import {
   aggregatorsLabels,
   statuses,
   statusesLabels,
-} from '../../constants/payment';
-import renderLabel from '../renderLabel';
-import countries from '../countryList';
+} from 'constants/payment';
+import renderLabel from 'utils/renderLabel';
+import countries from 'utils/countryList';
+import { accountTypes } from 'constants/accountTypes';
 import I18n from '../fake-i18n';
 
 const attributeLabels = {
@@ -37,6 +38,7 @@ const attributeLabels = {
   creationDateRange: 'CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.CREATION_DATE_RANGE',
   originalAgents: 'CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.ORIGINAL_AGENT',
   country: 'COUNTRIES.GRID.LABEL.COUNTRY',
+  accountType: 'CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.ACCOUNT_TYPE',
 };
 
 const attributePlaceholders = {
@@ -191,4 +193,11 @@ export default (
     isDateRangeEndValue: true,
     closeOnSelect: false,
   }],
+}, {
+  type: fieldTypes.SELECT,
+  name: 'accountType',
+  label: I18n.t(attributeLabels.accountType),
+  placeholder: I18n.t('COMMON.SELECT_OPTION.ANY'),
+  className: fieldClassNames.MEDIUM,
+  selectOptions: accountTypes.map(({ label, value }) => ({ value, label })),
 }];

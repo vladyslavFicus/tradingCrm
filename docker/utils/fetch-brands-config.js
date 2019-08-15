@@ -16,32 +16,37 @@ async function fetchBrandsConfigs({ zookeeperUrl }) {
     brands.map(async (id) => {
       const currencies = await getProperty(
         zookeeperClient,
-        getZookeeperBrandPropertyPath(id, 'nas.brand.currencies')
+        getZookeeperBrandPropertyPath(id, 'nas.brand.currencies'),
       );
 
       const locales = await getProperty(
         zookeeperClient,
-        getZookeeperBrandPropertyPath(id, 'nas.brand.locale')
+        getZookeeperBrandPropertyPath(id, 'nas.brand.locale'),
       );
 
       const password = await getProperty(
         zookeeperClient,
-        getZookeeperBrandPropertyPath(id, 'nas.brand.password')
+        getZookeeperBrandPropertyPath(id, 'nas.brand.password'),
       );
 
       const payment = await getProperty(
         zookeeperClient,
-        getZookeeperBrandPropertyPath(id, 'nas.brand.payment')
+        getZookeeperBrandPropertyPath(id, 'nas.brand.payment'),
       );
 
       const clickToCall = await getProperty(
         zookeeperClient,
-        getZookeeperBrandPropertyPath(id, 'nas.brand.clickToCall')
+        getZookeeperBrandPropertyPath(id, 'nas.brand.clickToCall'),
       );
 
       const regulation = await getProperty(
         zookeeperClient,
         getZookeeperBrandPropertyPath(id, 'nas.brand.regulation'),
+      );
+
+      const demoGroups = await getProperty(
+        zookeeperClient,
+        getZookeeperBrandPropertyPath(id, 'nas.brand.mt4.demo_groups'),
       );
 
       return {
@@ -59,8 +64,9 @@ async function fetchBrandsConfigs({ zookeeperUrl }) {
           isActive: clickToCall ? castToBoolean(clickToCall.isActive) : false,
           url: clickToCall ? clickToCall.url : null,
         },
+        isDemoAvailable: !!demoGroups,
       };
-    })
+    }),
   );
 
   zookeeperClient.close();

@@ -17,6 +17,7 @@ const tradingActivityQuery = gql`query clientTradingActivity(
   $page: Int,
   $limit: Int,
   $loginIds: [Int],
+  $tradeType: String,
 ) {
   clientTradingActivity(
     playerUUID: $playerUUID,
@@ -35,6 +36,7 @@ const tradingActivityQuery = gql`query clientTradingActivity(
     page: $page,
     limit: $limit,
     loginIds: $loginIds,
+    tradeType: $tradeType,
   ) {
     data {
       page
@@ -45,6 +47,7 @@ const tradingActivityQuery = gql`query clientTradingActivity(
         content {
           id
           tradeId
+          tradeType
           login
           symbol
           digits

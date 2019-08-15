@@ -7,6 +7,7 @@ import { generate } from 'utils/password';
 import { getActiveBrandConfig } from 'config';
 import { InputField, NasSelectField } from 'components/ReduxForm';
 import PropTypes from 'constants/propTypes';
+import { accountTypes } from 'constants/accountTypes';
 import { attributeLabels } from './constants';
 import './TradingAccountAddModal.scss';
 
@@ -30,10 +31,14 @@ class TradingAccountAddModal extends PureComponent {
     onConfirm: () => {},
   };
 
+  state = {
+    accountType: null,
+  };
+
   onSubmit = async (data) => {
     const { profileId, createTradingAccount, notify, onCloseModal, onConfirm } = this.props;
 
-    const { data: { tradingAccount: { create: { success } } } } = await createTradingAccount({
+    const { data: { tradingAccount: { create: { success, error } } } } = await createTradingAccount({
       variables: {
         ...data,
         profileId,
@@ -45,7 +50,7 @@ class TradingAccountAddModal extends PureComponent {
       title: I18n.t('CLIENT_PROFILE.ACCOUNTS.MODAL_CREATE.TITLE'),
       message: success
         ? I18n.t('CLIENT_PROFILE.ACCOUNTS.MODAL_CREATE.SUCCESSFULLY_CREATED')
-        : I18n.t('COMMON.SOMETHING_WRONG'),
+        : I18n.t(error.error) || I18n.t('COMMON.SOMETHING_WRONG'),
     });
 
     if (success) {
@@ -82,6 +87,38 @@ class TradingAccountAddModal extends PureComponent {
             <div className="mb-2 text-center color-danger">
               {error}
             </div>
+          </If>
+          <If condition={getActiveBrandConfig().isDemoAvailable}>
+            <Field
+              name="accountType"
+              component={NasSelectField}
+              label="Account Type"
+              placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
+              searchable={false}
+              onFieldChange={(value) => {
+                this.setState({ accountType: value });
+                this.props.change('accountType', value);
+              }}
+            >
+              {accountTypes.map(({ value, label }) => (
+                <option key={value} value={value}>{I18n.t(label)}</option>
+              ))}
+            </Field>
+            <If condition={this.state.accountType === 'DEMO'}>
+              <Field
+                name="amount"
+                component={NasSelectField}
+                label="Amount"
+                placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
+                searchable={false}
+              >
+                {[100, 500, 1000, 5000, 10000, 50000, 100000].map(value => (
+                  <option key={value} value={value}>
+                    {I18n.l(value, { style: 'decimal' })}
+                  </option>
+                ))}
+              </Field>
+            </If>
           </If>
           <Field
             name="name"
@@ -143,15 +180,15 @@ const FORM_NAME = 'createTradingAccountAccountForm';
 const TradingAccountAddModalRedux = reduxForm({
   form: FORM_NAME,
   initialValues: {
-    mode: 'live',
     password: generate(),
+    accountType: 'LIVE',
   },
-  validate: createValidator({
+  validate: values => createValidator({
     name: ['required', 'string', 'max:25', 'min:4'],
-    mode: ['required', 'string'],
     currency: ['required', 'string'],
     password: ['required', `regex:${getActiveBrandConfig().password.mt4_pattern}`],
-  }, translateLabels(attributeLabels)),
+    amount: values.accountType === 'DEMO' && 'required',
+  }, translateLabels(attributeLabels))(values),
 })(TradingAccountAddModal);
 
 export default TradingAccountAddModalRedux;

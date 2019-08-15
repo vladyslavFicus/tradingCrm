@@ -3,6 +3,7 @@ import React, { Fragment } from 'react';
 import classNames from 'classnames';
 import moment from 'moment';
 import I18n from 'utils/fake-i18n';
+import Badge from 'components/Badge';
 import { getTypeColor } from './utils';
 
 export const filterFormAttributeLabels = {
@@ -17,6 +18,7 @@ export const filterFormAttributeLabels = {
   status: I18n.t('CLIENT_PROFILE.TRADING_ACTIVITY.FILTER_FORM.STATUS_LABEL'),
   openTimeRange: I18n.t('CLIENT_PROFILE.TRADING_ACTIVITY.FILTER_FORM.OPEN_TIME_RANGE_LABEL'),
   closeTimeRange: I18n.t('CLIENT_PROFILE.TRADING_ACTIVITY.FILTER_FORM.CLOSE_TIME_RANGE_LABEL'),
+  accountType: 'CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.ACCOUNT_TYPE',
 };
 
 export const types = [{
@@ -127,8 +129,14 @@ export const statuses = [{
 export const columns = i18n => [{
   name: 'trade',
   header: i18n.t('CLIENT_PROFILE.TRADING_ACTIVITY.GRID_VIEW.TRADE'),
-  render: ({ tradeId }) => (
-    <div className="font-weight-700">{tradeId}</div>
+  render: ({ tradeId, tradeType }) => (
+    <Badge
+      text={i18n.t(`CONSTANTS.ACCOUNT_TYPE.${tradeType}`)}
+      info={tradeType === 'DEMO'}
+      success={tradeType === 'LIVE'}
+    >
+      <div className="font-weight-700">TR-{tradeId}</div>
+    </Badge>
   ),
 }, {
   name: 'type',

@@ -39,6 +39,7 @@ export default compose(
       location: { query },
     }) => ({
       variables: {
+        tradeType: 'LIVE',
         ...query ? query.filters : { playerUUID },
         page: 0,
         limit: 20,

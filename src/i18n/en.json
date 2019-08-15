@@ -980,7 +980,8 @@
         "STATUS": "Status",
         "TRANSACTIONS": "Transactions",
         "PAYMENT_TYPE": "Payment type",
-        "PAYMENT_AGGREGATOR": "Payment aggregator"
+        "PAYMENT_AGGREGATOR": "Payment aggregator",
+        "ACCOUNT_TYPE": "Account type"
       },
       "FILTER_FORM": {
         "ATTRIBUTES_LABELS": {
@@ -1110,6 +1111,10 @@
         "CUSTOMER": "Customer",
         "LEAD_CUSTOMER": "Lead customer"
       }
+    },
+    "ACCOUNT_TYPE": {
+      "DEMO": "Demo",
+      "LIVE": "Live"
     }
   },
   "OPERATOR_PROFILE": {
@@ -1334,7 +1339,12 @@
       "duplicated": "Profile is duplicated"
     },
     "user": {
-      "logon-attempts-limit-reached": "by 5 failed login attempts"
+      "logon-attempts-limit-reached": "by 5 failed login attempts",
+      "account": {
+        "create": {
+          "restriction": "You can't create more accounts for this currency"
+        }
+      }
     },
     "campaign": {
       "command": {
@@ -1889,7 +1899,8 @@
         "BALANCE/EQUITY": "Balance",
         "LEVERAGE": "Leverage",
         "CREDIT": "Credit",
-        "TRADING_STATUS": "Trading status"
+        "TRADING_STATUS": "Trading status",
+        "ACC_TYPE": "Account Type"
       },
       "TRADING_STATUS": {
         "DISABLED": "Disabled",

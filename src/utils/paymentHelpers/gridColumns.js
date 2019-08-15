@@ -3,12 +3,12 @@ import React, { Fragment } from 'react';
 import { I18n } from 'react-redux-i18n';
 import moment from 'moment';
 import { getActiveBrandConfig } from 'config';
-import GridPaymentInfo from '../../components/GridPaymentInfo';
-import Uuid from '../../components/Uuid';
-import NoteButton from '../../components/NoteButton';
-import GridPlayerInfo from '../../components/GridPlayerInfo';
-import CountryLabelWithFlag from '../../components/CountryLabelWithFlag';
-import PaymentStatus from '../../components/PaymentStatus';
+import GridPaymentInfo from 'components/GridPaymentInfo';
+import Uuid from 'components/Uuid';
+import NoteButton from 'components/NoteButton';
+import GridPlayerInfo from 'components/GridPlayerInfo';
+import CountryLabelWithFlag from 'components/CountryLabelWithFlag';
+import PaymentStatus from 'components/PaymentStatus';
 import {
   methodsLabels,
   tradingTypesLabelsWithColor,

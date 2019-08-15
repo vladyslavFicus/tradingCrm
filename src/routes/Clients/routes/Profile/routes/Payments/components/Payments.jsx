@@ -241,6 +241,7 @@ class Payments extends Component {
       clientPayments: {
         loading,
         clientPaymentsByUuid,
+        variables,
       },
       auth,
       operators: {
@@ -276,6 +277,7 @@ class Payments extends Component {
         <ListFilterForm
           onSubmit={this.handleFiltersChanged}
           onReset={this.handleFilterReset}
+          initialValues={{ accountType: variables.accountType }}
           fields={filterFields(
             {
               originalAgents,

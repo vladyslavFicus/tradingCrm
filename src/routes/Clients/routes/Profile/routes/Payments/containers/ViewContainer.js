@@ -4,8 +4,8 @@ import { get } from 'lodash';
 import { addNoteMutation } from 'graphql/mutations/note';
 import { addPaymentMutation } from 'graphql/mutations/payment';
 import { getClientPaymentsByUuid } from 'graphql/queries/payments';
-import { clientQuery } from 'graphql/queries/profile';
 import { operatorsQuery } from 'graphql/queries/operators';
+import { clientQuery } from 'graphql/queries/profile';
 import { withModals } from 'components/HighOrder';
 import Payments from '../components/Payments';
 import { actionCreators as viewActionCreators } from '../modules';
@@ -40,6 +40,20 @@ export default compose(
   withModals({
     addPayment: PaymentAddModal,
   }),
+  graphql(clientQuery, {
+    options: ({
+      match: {
+        params: {
+          id: playerUUID,
+        },
+      },
+    }) => ({
+      variables: {
+        playerUUID,
+      },
+    }),
+    name: 'playerProfile',
+  }),
   connect(mapStateToProps, mapActions),
   graphql(addNoteMutation, {
     name: 'addNote',
@@ -55,20 +69,6 @@ export default compose(
       },
     }),
   }),
-  graphql(clientQuery, {
-    options: ({
-      match: {
-        params: {
-          id: playerUUID,
-        },
-      },
-    }) => ({
-      variables: {
-        playerUUID,
-      },
-    }),
-    name: 'playerProfile',
-  }),
   graphql(getClientPaymentsByUuid, {
     name: 'clientPayments',
     options: ({
@@ -76,6 +76,7 @@ export default compose(
       location: { query },
     }) => ({
       variables: {
+        accountType: 'LIVE',
         ...query && query.filters,
         playerUUID,
         page: 0,

@@ -18,6 +18,7 @@ const getClientPayments = gql`query ${queryNames.paymentsQuery}(
   $amountFrom: Float
   $amountTo: Float
   $agentIds: [String]
+  $accountType: String
 ) {
   clientPayments (
     searchParam: $searchParam
@@ -35,6 +36,7 @@ const getClientPayments = gql`query ${queryNames.paymentsQuery}(
     amountFrom: $amountFrom
     amountTo: $amountTo
     agentIds: $agentIds
+    accountType: $accountType
   ) {
     data {
       page
@@ -108,6 +110,7 @@ const getClientPaymentsByUuid = gql`query ${queryNames.paymentsQuery}(
   $amountFrom: Float
   $amountTo: Float
   $agentIds: [String]
+  $accountType: String
 ) {
   clientPaymentsByUuid (
     playerUUID: $playerUUID
@@ -124,6 +127,7 @@ const getClientPaymentsByUuid = gql`query ${queryNames.paymentsQuery}(
     amountFrom: $amountFrom
     amountTo: $amountTo
     agentIds: $agentIds
+    accountType: $accountType
   ) {
     data {
       page

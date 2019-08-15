@@ -27,8 +27,11 @@ export default compose(
           id: playerUUID,
         },
       },
+      location: { query },
     }) => ({
       variables: {
+        accountType: 'LIVE',
+        ...query && query.filters,
         playerUUID,
       },
       fetchPolicy: 'network-only',

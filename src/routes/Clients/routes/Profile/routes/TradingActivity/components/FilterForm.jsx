@@ -3,6 +3,7 @@ import { reduxForm, Field } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
 import moment from 'moment';
 import PropTypes from 'constants/propTypes';
+import { accountTypes } from 'constants/accountTypes';
 import {
   InputField,
   SelectField,
@@ -187,6 +188,21 @@ class FilterForm extends Component {
             disabled={disabled}
           />
         </div>
+        <Field
+          name="tradeType"
+          label={I18n.t(filterFormAttributeLabels.accountType)}
+          component={SelectField}
+          placeholder={I18n.t('COMMON.ALL')}
+          className="filter-row__medium"
+          disabled={disabled}
+        >
+          <option value="">{I18n.t('COMMON.ANY')}</option>
+          {accountTypes.map(({ label, value }) => (
+            <option key={value} value={value}>
+              {I18n.t(label)}
+            </option>
+          ))}
+        </Field>
         <div className="filter-row__button-block">
           <button
             disabled={submitting}

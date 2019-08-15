@@ -2,7 +2,10 @@
 import React, { Fragment } from 'react';
 import { I18n } from 'react-redux-i18n';
 import { Link } from 'react-router-dom';
+import classNames from 'classnames';
 import moment from 'moment';
+import { accountTypesLabels } from 'constants/accountTypes';
+import Badge from 'components/Badge';
 
 export const actionColumn = render => ({
   name: 'actions',
@@ -13,11 +16,17 @@ export const actionColumn = render => ({
 export default [{
   name: 'tradingAcc',
   header: I18n.t('CLIENT_PROFILE.ACCOUNTS.GRID_COLUMNS.TRADING_ACC'),
-  render: ({ name, login, group }) => (
+  render: ({ name, login, group, accountType }) => (
     <Fragment>
-      <div className="font-weight-700">
-        {name}
-      </div>
+      <Badge
+        text={I18n.t(accountTypesLabels[accountType].label)}
+        info={accountType === 'DEMO'}
+        success={accountType === 'LIVE'}
+      >
+        <div className="font-weight-700">
+          {name}
+        </div>
+      </Badge>
       <div className="font-size-11">
         MT4ID - {login}
       </div>
@@ -49,7 +58,11 @@ export default [{
   header: I18n.t('CLIENT_PROFILE.ACCOUNTS.GRID_COLUMNS.TRADING_STATUS'),
   render: ({ isReadOnly, readOnlyUpdateTime, readOnlyUpdatedBy }) => (
     <Fragment>
-      <div className="font-weight-700 text-uppercase color-info">
+      <div className={classNames('font-weight-700 text-uppercase', {
+        'color-danger': isReadOnly,
+        'color-success': !isReadOnly,
+      })}
+      >
         {I18n.t(`CLIENT_PROFILE.ACCOUNTS.TRADING_STATUS.${!isReadOnly ? 'ENABLED' : 'DISABLED'}`)}
       </div>
       <If condition={readOnlyUpdatedBy}>
@@ -71,5 +84,5 @@ export default [{
 }, {
   name: 'server',
   header: I18n.t('CLIENT_PROFILE.ACCOUNTS.GRID_COLUMNS.SERVER'),
-  render: () => <div className="font-weight-700">MT4 Live</div>,
+  render: ({ accountType }) => <div className="font-weight-700">MT4 {accountType}</div>,
 }];

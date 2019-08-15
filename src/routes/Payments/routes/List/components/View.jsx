@@ -165,6 +165,7 @@ class View extends Component {
         <ListFilterForm
           onSubmit={this.handleFiltersChanged}
           onReset={this.handleFilterReset}
+          initialValues={{ accountType: 'LIVE' }}
           fields={filterFields({
             currencies,
             originalAgents,

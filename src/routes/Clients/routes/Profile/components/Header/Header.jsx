@@ -260,7 +260,7 @@ class Header extends Component {
                   currency,
                   marginLevel,
                 }}
-                mt4Users={mt4Users}
+                mt4Users={mt4Users.filter(account => account.accountType !== 'DEMO')}
                 lastDeposit={lastDepositDate}
                 lastWithdraw={lastWithdrawalDate}
                 playerUUID={playerUUID}

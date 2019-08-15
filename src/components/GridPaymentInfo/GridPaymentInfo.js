@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import { I18n } from 'react-redux-i18n';
 import { compose } from 'react-apollo';
 import PropTypes from 'constants/propTypes';
+import Badge from 'components/Badge';
 import { shortify } from 'utils/uuid';
 import { withModals } from '../HighOrder';
 import PaymentDetailModal from '../PaymentDetailModal';
@@ -64,19 +65,26 @@ class GridPaymentInfo extends PureComponent {
       payment: {
         paymentId,
         createdBy,
+        paymentType,
       },
     } = this.props;
 
     return (
       <div id={`payment-${paymentId}`}>
-        <button
-          type="button"
-          className="btn-transparent-text font-weight-700"
-          onClick={this.handleOpenDetailModal}
-          id={`transaction-${paymentId}`}
+        <Badge
+          text={I18n.t(`CONSTANTS.ACCOUNT_TYPE.${paymentType === 'DEMO_DEPOSIT' ? 'DEMO' : 'LIVE'}`)}
+          info={paymentType === 'DEMO_DEPOSIT'}
+          success={paymentType !== 'DEMO_DEPOSIT'}
         >
-          {shortify(paymentId, 'TA')}
-        </button>
+          <button
+            type="button"
+            className="btn-transparent-text font-weight-700"
+            onClick={this.handleOpenDetailModal}
+            id={`transaction-${paymentId}`}
+          >
+            {shortify(paymentId, 'TA')}
+          </button>
+        </Badge>
         <div className="font-size-11">
           {I18n.t('COMMON.AUTHOR_BY')}
           <Uuid uuid={createdBy || paymentId} />

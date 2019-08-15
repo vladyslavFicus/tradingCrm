@@ -1,9 +1,13 @@
 import gql from 'graphql-tag';
 import queryNames from 'constants/apolloQueryNames';
 
-const clientQuery = gql`query profileData($playerUUID: String!){
-  playerProfile(playerUUID: $playerUUID) {
+const clientQuery = gql`query profileData($playerUUID: String!, $accountType: String){
+  playerProfile(playerUUID: $playerUUID, accountType: $accountType) {
     data {
+      country
+      languageCode
+      firstName
+      lastName
       playerUUID
       realMoneyBalance {
         amount
@@ -146,6 +150,7 @@ const clientQuery = gql`query profileData($playerUUID: String!){
         baseCurrencyEquity
         baseCurrencyMargin
         mt4Users {
+          accountType
           login
           balance
           equity

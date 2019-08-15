@@ -4,9 +4,11 @@ import { connect } from 'react-redux';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { get } from 'lodash';
 import classNames from 'classnames';
+import Badge from 'components/Badge';
 import NoteButton from 'components/NoteButton';
 import PropTypes from 'constants/propTypes';
 import { manualPaymentMethods, manualPaymentMethodsLabels } from 'constants/payment';
+import { accountTypesLabels } from 'constants/accountTypes';
 import { InputField, NasSelectField, DateTimeField } from 'components/ReduxForm';
 import Currency from 'components/Amount/Currency';
 import I18n from 'utils/i18n';
@@ -98,7 +100,14 @@ class PaymentAddModal extends PureComponent {
         onClick={isInsufficientBalance || isInsufficientCredit ? () => {} : onClick}
       >
         <div className="header-block-middle">
-          {mt4.name}
+          <Badge
+            center
+            text={I18n.t(accountTypesLabels[mt4.accountType].label)}
+            info={mt4.accountType === 'DEMO'}
+            success={mt4.accountType === 'LIVE'}
+          >
+            {mt4.name}
+          </Badge>
           <If condition={isInsufficientBalance || isInsufficientCredit}>
             <span className="color-danger ml-2">
               {I18n.t('CLIENT_PROFILE.TRANSACTIONS.MODAL_CREATE.MT4_NO_MONEY')}
@@ -122,7 +131,14 @@ class PaymentAddModal extends PureComponent {
   };
 
   renderMt4SelectField = (label, name, className) => {
-    const { playerProfile: { tradingProfile } } = this.props;
+    const {
+      playerProfile: {
+        tradingProfile,
+      },
+      currentValues: {
+        paymentType,
+      },
+    } = this.props;
     const mt4Users = get(tradingProfile, 'mt4Users') || [];
 
     return (
@@ -141,11 +157,20 @@ class PaymentAddModal extends PureComponent {
         showErrorMessage={false}
         singleOptionComponent={this.renderMt4SelectOption(name)}
       >
-        {mt4Users.map(acc => (
-          <option key={acc.login} value={acc.login} mt4={acc}>
-            {`${acc.login}`}
-          </option>
-        ))}
+        {mt4Users
+          .filter(i => !(i.accountType === 'DEMO'
+            && [
+              paymentMethods.CREDIT_IN.name,
+              paymentMethods.CREDIT_OUT.name,
+              paymentMethods.TRANSFER.name,
+              paymentMethods.WITHDRAW.name,
+            ]
+              .includes(paymentType)))
+          .map(acc => (
+            <option key={acc.login} value={acc.login} mt4={acc}>
+              {`${acc.login}`}
+            </option>
+          ))}
       </Field>
     );
   };
