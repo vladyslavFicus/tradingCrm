@@ -998,6 +998,7 @@
           "AMOUNT_TO": "Amount to",
           "AMOUNT": "Amount",
           "CREATION_DATE_RANGE": "Creation date range",
+          "MODIFICATION_DATE_RANGE": "Modification date range",
           "ACCOUNT_TYPE": "Account type",
           "ORIGINAL_AGENT": "Original Agent"
         },

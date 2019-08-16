@@ -38,7 +38,7 @@ class Files extends Component {
       >
         {fullName}
       </div>
-      <Uuid uuid={playerUUID} />
+      <Uuid className="font-size-11" uuid={playerUUID} />
     </div>
   );
 

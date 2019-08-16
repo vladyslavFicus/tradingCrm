@@ -15,6 +15,8 @@ const getClientPayments = gql`query ${queryNames.paymentsQuery}(
   $currency: String
   $creationTimeFrom: String
   $creationTimeTo: String
+  $modificationTimeFrom: String
+  $modificationTimeTo: String
   $amountFrom: Float
   $amountTo: Float
   $agentIds: [String]
@@ -33,6 +35,8 @@ const getClientPayments = gql`query ${queryNames.paymentsQuery}(
     currency: $currency
     creationTimeFrom: $creationTimeFrom
     creationTimeTo: $creationTimeTo
+    modificationTimeFrom: $modificationTimeFrom
+    modificationTimeTo: $modificationTimeTo
     amountFrom: $amountFrom
     amountTo: $amountTo
     agentIds: $agentIds
@@ -107,6 +111,8 @@ const getClientPaymentsByUuid = gql`query ${queryNames.paymentsQuery}(
   $paymentMethods: [String]
   $creationTimeFrom: String
   $creationTimeTo: String
+  $modificationTimeFrom: String
+  $modificationTimeTo: String
   $amountFrom: Float
   $amountTo: Float
   $agentIds: [String]
@@ -124,6 +130,8 @@ const getClientPaymentsByUuid = gql`query ${queryNames.paymentsQuery}(
     paymentMethods: $paymentMethods
     creationTimeFrom: $creationTimeFrom
     creationTimeTo: $creationTimeTo
+    modificationTimeFrom: $modificationTimeFrom
+    modificationTimeTo: $modificationTimeTo
     amountFrom: $amountFrom
     amountTo: $amountTo
     agentIds: $agentIds

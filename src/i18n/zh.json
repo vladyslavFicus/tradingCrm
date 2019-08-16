@@ -989,6 +989,7 @@
           "AMOUNT_TO": "金额转至",
           "AMOUNT": "金额",
           "CREATION_DATE_RANGE": "创建日期范围",
+          "MODIFICATION_DATE_RANGE": "Modification date range",
           "ACCOUNT_TYPE": "账户类型",
           "ORIGINAL_AGENT": "原始代理"
         },

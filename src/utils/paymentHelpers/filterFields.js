@@ -36,6 +36,7 @@ const attributeLabels = {
   amountUpperBound: 'CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.AMOUNT_TO',
   amount: 'CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.AMOUNT',
   creationDateRange: 'CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.CREATION_DATE_RANGE',
+  modificationDateRange: 'CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.MODIFICATION_DATE_RANGE',
   originalAgents: 'CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.ORIGINAL_AGENT',
   country: 'COUNTRIES.GRID.LABEL.COUNTRY',
   accountType: 'CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.ACCOUNT_TYPE',
@@ -187,6 +188,35 @@ export default (
     dateValidator: {
       type: validators.END_DATE,
       fieldName: 'creationTimeFrom',
+    },
+    withTime: true,
+    timePresets: true,
+    isDateRangeEndValue: true,
+    closeOnSelect: false,
+  }],
+}, {
+  type: fieldTypes.RANGE,
+  className: fieldClassNames.BIG,
+  label: I18n.t(attributeLabels.modificationDateRange),
+  fields: [{
+    type: fieldTypes.DATE,
+    name: 'modificationTimeFrom',
+    placeholder: I18n.t(attributeLabels.startDate),
+    dateValidator: {
+      type: validators.START_DATE,
+      fieldName: 'modificationTimeTo',
+    },
+    pickerClassName: 'left-side',
+    withTime: true,
+    timePresets: true,
+    closeOnSelect: false,
+  }, {
+    type: fieldTypes.DATE,
+    name: 'modificationTimeTo',
+    placeholder: I18n.t(attributeLabels.endDate),
+    dateValidator: {
+      type: validators.END_DATE,
+      fieldName: 'modificationTimeFrom',
     },
     withTime: true,
     timePresets: true,
