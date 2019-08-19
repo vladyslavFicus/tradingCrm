@@ -1,6 +1,7 @@
 import React, { Fragment, PureComponent } from 'react';
 import { I18n } from 'react-redux-i18n';
 import { get } from 'lodash';
+import { Link } from 'react-router-dom';
 import { TextRow } from 'react-placeholder/lib/placeholders';
 import history from 'router/history';
 import PropTypes from 'constants/propTypes';
@@ -104,6 +105,7 @@ class SalesRules extends PureComponent {
     fieldName,
     translateMultiple,
     translateSingle,
+    withUpperCase,
   }) => ({ [fieldName]: arr }) => (
     <Choose>
       <When condition={arr.length > 0}>
@@ -119,7 +121,7 @@ class SalesRules extends PureComponent {
           </Choose>
         </div>
         <div className="font-size-12">
-          {arr.join(' ').toUpperCase()}
+          {withUpperCase ? arr.join(', ').toUpperCase() : arr.join(', ')}
         </div>
       </When>
       <Otherwise>
@@ -132,6 +134,32 @@ class SalesRules extends PureComponent {
     <div className="font-weight-700">
       {priority}
     </div>
+  );
+
+  renderPartner = ({ partners }) => (
+    <Choose>
+      <When condition={partners.length > 0}>
+        <div className="font-weight-700">
+          {`${partners.length} `}
+          <Choose>
+            <When condition={partners.length === 1}>
+              {I18n.t('HIERARCHY.PROFILE_RULE_TAB.GRID.PARTNER')}
+            </When>
+            <Otherwise>
+              {I18n.t('HIERARCHY.PROFILE_RULE_TAB.GRID.PARTNERS')}
+            </Otherwise>
+          </Choose>
+        </div>
+        {partners.map(({ uuid, fullName }) => (
+          <div key={uuid}>
+            <Link to={`/partners/${uuid}/profile`}>{fullName}</Link>
+          </div>
+        ))}
+      </When>
+      <Otherwise>
+        <span>&mdash;</span>
+      </Otherwise>
+    </Choose>
   );
 
   renderRemoveIcon = ({ uuid }) => (
@@ -176,6 +204,7 @@ class SalesRules extends PureComponent {
           </Placeholder>
         </div>
         <RulesFilters
+          initialValues={filters}
           onSubmit={this.handleFiltersChanged}
           onReset={this.handleFilterReset}
           disabled={!allowActions}
@@ -203,6 +232,16 @@ class SalesRules extends PureComponent {
               name="languages"
               header={I18n.t('HIERARCHY.PROFILE_RULE_TAB.GRID_HEADER.LANGUAGE')}
               render={this.renderRuleInfo(infoConfig.languages)}
+            />
+            <GridViewColumn
+              name="partners"
+              header={I18n.t('HIERARCHY.PROFILE_RULE_TAB.GRID_HEADER.PARTNER')}
+              render={this.renderPartner}
+            />
+            <GridViewColumn
+              name="sources"
+              header={I18n.t('HIERARCHY.PROFILE_RULE_TAB.GRID_HEADER.SOURCE')}
+              render={this.renderRuleInfo(infoConfig.sources)}
             />
             <GridViewColumn
               name="priority"

@@ -4,7 +4,6 @@ import { components } from 'react-select';
 import CreatableSelect from 'react-select/lib/Creatable';
 import AsyncCreatableSelect from 'react-select/lib/AsyncCreatable';
 import PropTypes from 'prop-types';
-import { UncontrolledTooltip } from 'reactstrap';
 import './MultiInput.scss';
 
 const getValues = value => (Array.isArray(value) ? value.map(v => v.value) : []);
@@ -163,19 +162,6 @@ class MultiInput extends Component {
     return null;
   };
 
-  renderDropdownIndicator = (props) => {
-    const { placeholder } = this.props;
-
-    return components.DropdownIndicator && (
-      <components.DropdownIndicator {...props}>
-        <i className="fa fa-plus cursor-pointer" id="multi-input-add" />
-        <UncontrolledTooltip placement="top" target="multi-input-add">
-          {placeholder}
-        </UncontrolledTooltip>
-      </components.DropdownIndicator>
-    );
-  };
-
   renderInput = (props) => {
     const { placeholder, disabled } = this.props;
 
@@ -191,7 +177,7 @@ class MultiInput extends Component {
         <When condition={async}>
           <AsyncCreatableSelect
             components={{
-              DropdownIndicator: this.renderDropdownIndicator,
+              DropdownIndicator: null,
               ClearIndicator: null,
               IndicatorSeparator: null,
               Input: this.renderInput,
@@ -214,7 +200,7 @@ class MultiInput extends Component {
         <Otherwise>
           <CreatableSelect
             components={{
-              DropdownIndicator: this.renderDropdownIndicator,
+              DropdownIndicator: null,
               ClearIndicator: null,
               IndicatorSeparator: null,
               Input: this.renderInput,

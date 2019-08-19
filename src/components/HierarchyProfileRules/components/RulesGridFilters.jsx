@@ -29,8 +29,10 @@ const RulesGridFilters = ({
   onReset,
   disabled,
   countries,
+  initialValues,
 }) => (
   <DynamicFilters
+    initialValues={initialValues}
     allowSubmit={disabled}
     allowReset={disabled}
     onSubmit={onSubmit}
@@ -51,6 +53,7 @@ const RulesGridFilters = ({
       type={TYPES.nas_select}
       placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
       default
+      withAnyOption
     >
       <FilterField name="country">
         {Object
@@ -66,6 +69,7 @@ const RulesGridFilters = ({
       type={TYPES.nas_select}
       placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
       default
+      withAnyOption
     >
       <FilterField name="language">
         {languages.map(({ languageName, languageCode }) => (
@@ -83,10 +87,12 @@ RulesGridFilters.propTypes = {
   onReset: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   countries: PropTypes.object.isRequired,
+  initialValues: PropTypes.object,
 };
 
 RulesGridFilters.defaultProps = {
   disabled: false,
+  initialValues: null,
 };
 
 export default connect(state => ({

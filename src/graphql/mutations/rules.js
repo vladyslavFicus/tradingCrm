@@ -5,6 +5,8 @@ const createRule = gql`mutation createRule(
   $priority: Int!,
   $countries: [String],
   $languages: [String],
+  $affiliateUUIDs: [String],
+  $sources: [String],
   $type: RuleTypeEnum!,
   $actions: [RuleActionsInputType]!,
   $createdBy: String!,
@@ -15,6 +17,8 @@ const createRule = gql`mutation createRule(
       priority: $priority,
       countries: $countries,
       languages: $languages,
+      affiliateUUIDs: $affiliateUUIDs,
+      sources: $sources,
       type: $type,
       actions: $actions,
       createdBy: $createdBy,
@@ -37,6 +41,7 @@ const createRule = gql`mutation createRule(
       error {
         error
         fields_errors
+        errorParameters
       }
     }
   }

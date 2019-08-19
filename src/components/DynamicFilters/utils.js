@@ -3,7 +3,7 @@ import { v4 } from 'uuid';
 import FilterField from './FilterField';
 
 const mapFilter = (element) => {
-  const { label, size, type, placeholder, disabled, children, onFieldChange } = element.props;
+  const { label, size, type, placeholder, disabled, children, onFieldChange, withAnyOption } = element.props;
   const childrenList = React.Children
     .toArray(children)
     .filter(child => child.type === FilterField);
@@ -16,6 +16,7 @@ const mapFilter = (element) => {
     placeholder,
     disabled,
     onFieldChange,
+    withAnyOption,
     default: element.props.default,
     inputs: childrenList.map(child => ({ ...child.props, key: child.props.name })),
   };

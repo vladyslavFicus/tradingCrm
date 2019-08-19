@@ -2268,7 +2268,9 @@
         "COUNTRIES": "Countries",
         "COUNTRY": "Country",
         "LANGUAGES": "Languages",
-        "LANGUAGE": "Language"
+        "LANGUAGE": "Language",
+        "SOURCE": "Source",
+        "SOURCES": "Sources"
       },
       "GRID_HEADER": {
         "RULE": "Rule",
@@ -2276,6 +2278,7 @@
         "LANGUAGE": "Language",
         "SOURCE": "Source",
         "AFFILIATE": "Affiliate",
+        "PARTNER": "Partner",
         "PRIORITY": "Priority",
         "ACTION": "Action"
       },
@@ -2290,7 +2293,9 @@
           "TYPE": "Rule type",
           "DEPOSIT_COUNT": "Deposit count",
           "AMOUNT": "Deposit amount range",
-          "DISTRIBUTION": "Client distribution"
+          "DISTRIBUTION": "Client distribution",
+          "PARTNER": "Partner",
+          "SOURCE": "Source"
         }
       },
       "DELETE_MODAL": {
@@ -2486,7 +2491,12 @@
   },
   "rules": {
     "error": {
-      "delete": "Rule hasn`t been removed"
+      "delete": "Rule hasn`t been removed",
+      "entity": {
+        "already": {
+          "exist": "Rule intersects with another rule \"%{ruleName}\""
+        }
+      }
     }
   },
   "component": {

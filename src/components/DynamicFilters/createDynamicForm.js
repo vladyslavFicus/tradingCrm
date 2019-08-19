@@ -180,6 +180,7 @@ class DynamicForm extends Component {
           position="vertical"
           disabled={filter.disabled}
           placeholder={filter.placeholder}
+          withAnyOption={filter.withAnyOption}
           {...(filter.onFieldChange && { onFieldChange: this.handleFilterValueChange(filter) })}
           {...filter.inputs[0]}
           labelAddon={removeButton}
@@ -283,6 +284,7 @@ export default (options) => {
 
   return connect(state => ({
     formName: options.form,
+    enableReinitialize: true,
     selectedFilters: state.dynamicFilters && state.dynamicFilters[options.form]
       ? state.dynamicFilters[options.form]
       : [],

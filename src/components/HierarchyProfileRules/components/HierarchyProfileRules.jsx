@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { I18n } from 'react-redux-i18n';
 import { get } from 'lodash';
 import { SubmissionError } from 'redux-form';
+import { Link } from 'react-router-dom';
 import classNames from 'classnames';
 import { branchTypes } from 'constants/hierarchyTypes';
 import PropTypes from 'constants/propTypes';
@@ -159,7 +160,28 @@ const HierarchyProfileRules = (title, deskType, branchType) => {
           title: I18n.t('COMMON.FAIL'),
           message: I18n.t('HIERARCHY.PROFILE_RULE_TAB.RULE_NOT_CREATED'),
         });
-        throw new SubmissionError({ _error: error.error });
+
+        let _error = error.error;
+
+        if (error.error === 'error.entity.already.exist') {
+          _error = (
+            <>
+              <div>
+                <Link
+                  to={{
+                    pathname: '/sales-rules',
+                    query: { filters: { createdByOrUuid: error.errorParameters.ruleUuid } },
+                  }}
+                >
+                  {I18n.t(`rules.${error.error}`, error.errorParameters)}
+                </Link>
+              </div>
+              <Uuid uuid={error.errorParameters.ruleUuid} uuidPrefix="RL" />
+            </>
+          );
+        }
+
+        throw new SubmissionError({ _error });
       } else {
         await refetch();
         ruleModal.hide();
@@ -273,6 +295,7 @@ const HierarchyProfileRules = (title, deskType, branchType) => {
       fieldName,
       translateMultiple,
       translateSingle,
+      withUpperCase,
     }) => ({ [fieldName]: arr }) => (
       <Choose>
         <When condition={arr.length > 0}>
@@ -288,7 +311,7 @@ const HierarchyProfileRules = (title, deskType, branchType) => {
             </Choose>
           </div>
           <div className="font-size-12">
-            {arr.join(' ').toUpperCase()}
+            {withUpperCase ? arr.join(', ').toUpperCase() : arr.join(', ')}
           </div>
         </When>
         <Otherwise>
@@ -301,6 +324,32 @@ const HierarchyProfileRules = (title, deskType, branchType) => {
       <div className="font-weight-700">
         {priority}
       </div>
+    );
+
+    renderPartner = ({ partners }) => (
+      <Choose>
+        <When condition={partners.length > 0}>
+          <div className="font-weight-700">
+            {`${partners.length} `}
+            <Choose>
+              <When condition={partners.length === 1}>
+                {I18n.t('HIERARCHY.PROFILE_RULE_TAB.GRID.PARTNER')}
+              </When>
+              <Otherwise>
+                {I18n.t('HIERARCHY.PROFILE_RULE_TAB.GRID.PARTNERS')}
+              </Otherwise>
+            </Choose>
+          </div>
+          {partners.map(({ uuid, fullName }) => (
+            <div key={uuid}>
+              <Link to={`/partners/${uuid}/profile`}>{fullName}</Link>
+            </div>
+          ))}
+        </When>
+        <Otherwise>
+          <span>&mdash;</span>
+        </Otherwise>
+      </Choose>
     );
 
     renderRemoveIcon = ({ uuid }) => (
@@ -369,6 +418,18 @@ const HierarchyProfileRules = (title, deskType, branchType) => {
                 header={I18n.t('HIERARCHY.PROFILE_RULE_TAB.GRID_HEADER.LANGUAGE')}
                 render={this.renderRuleInfo(infoConfig.languages)}
               />
+              <If condition={deskType === deskTypes.SALES}>
+                <GridViewColumn
+                  name="partners"
+                  header={I18n.t('HIERARCHY.PROFILE_RULE_TAB.GRID_HEADER.PARTNER')}
+                  render={this.renderPartner}
+                />
+                <GridViewColumn
+                  name="sources"
+                  header={I18n.t('HIERARCHY.PROFILE_RULE_TAB.GRID_HEADER.SOURCE')}
+                  render={this.renderRuleInfo(infoConfig.sources)}
+                />
+              </If>
               <GridViewColumn
                 name="priority"
                 header={I18n.t('HIERARCHY.PROFILE_RULE_TAB.GRID_HEADER.PRIORITY')}

@@ -32,6 +32,11 @@ const getRules = gql`query getRules(
       uuid
       countries
       languages
+      partners {
+        uuid,
+        fullName,
+      }
+      sources
       priority
       name
       type

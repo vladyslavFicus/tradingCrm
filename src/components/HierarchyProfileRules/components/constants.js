@@ -10,5 +10,11 @@ export default {
     fieldName: 'languages',
     translateMultiple: I18n.t('HIERARCHY.PROFILE_RULE_TAB.GRID.LANGUAGES'),
     translateSingle: I18n.t('HIERARCHY.PROFILE_RULE_TAB.GRID.LANGUAGE'),
+    withUpperCase: true,
+  },
+  sources: {
+    fieldName: 'sources',
+    translateMultiple: I18n.t('HIERARCHY.PROFILE_RULE_TAB.GRID.SOURCES'),
+    translateSingle: I18n.t('HIERARCHY.PROFILE_RULE_TAB.GRID.SOURCE'),
   },
 };

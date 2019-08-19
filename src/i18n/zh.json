@@ -2268,7 +2268,9 @@
         "COUNTRIES": "国家",
         "COUNTRY": "国家",
         "LANGUAGES": "语言",
-        "LANGUAGE": "语言"
+        "LANGUAGE": "语言",
+        "SOURCE": "Source",
+        "SOURCES": "Sources"
       },
       "GRID_HEADER": {
         "RULE": "规则",
@@ -2276,6 +2278,7 @@
         "LANGUAGE": "语言",
         "SOURCE": "来源",
         "AFFILIATE": "联营",
+        "PARTNER": "Partner",
         "PRIORITY": "优先顺序",
         "ACTION": "操作"
       },
@@ -2290,7 +2293,9 @@
           "TYPE": "规则类型",
           "DEPOSIT_COUNT": "充值次数",
           "AMOUNT": "充值金额范围",
-          "DISTRIBUTION": "客户分布"
+          "DISTRIBUTION": "客户分布",
+          "PARTNER": "Partner",
+          "SOURCE": "Source"
         }
       },
       "DELETE_MODAL": {
@@ -2489,7 +2494,12 @@
   },
   "rules": {
     "error": {
-      "delete": "规则未被移除"
+      "delete": "规则未被移除",
+      "entity": {
+        "already": {
+          "exist": "Rule intersects with another rule \"%{ruleName}\""
+        }
+      }
     }
   },
   "component": {
