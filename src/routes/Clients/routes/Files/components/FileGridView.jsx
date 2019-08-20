@@ -56,7 +56,7 @@ class CommonFileListGridView extends Component {
     );
   };
 
-  renderDate = column => (data, withTime = true) => (
+  renderDate = (column, withTime = true) => data => (
     <Choose>
       <When condition={data[column]}>
         <div>
