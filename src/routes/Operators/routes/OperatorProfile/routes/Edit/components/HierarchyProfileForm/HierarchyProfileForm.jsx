@@ -117,21 +117,30 @@ class HierarchyProfileForm extends Component {
 
   hierarchyTree = (type, parentBranch, name, brandId) => {
     const { branchHierarchy } = this.props;
-    const NOT_FOUND = 'Not Found';
     const parentBranchUuid = parentBranch && parentBranch.uuid;
     let hierarchyTree;
 
     switch (type) {
       case branchNames.TEAM: {
         const desk = branchHierarchy[branchNames.DESK].find(({ uuid }) => (uuid === parentBranchUuid));
-        const { name: deskName, parentBranch: { uuid: officeUuid } } = desk || {};
+
+        if (!desk) {
+          return null;
+        }
+
+        const { name: deskName, parentBranch: { uuid: officeUuid } } = desk;
 
         const office = branchHierarchy[branchNames.OFFICE].find(({ uuid }) => (uuid === officeUuid));
-        const { name: officeName } = office || {};
+
+        if (!office) {
+          return null;
+        }
+
+        const { name: officeName } = office;
 
         hierarchyTree = (
           <div className="hierarchy__tree">
-            &nbsp;{brandId} &rarr; {officeName || NOT_FOUND} &rarr; {deskName || NOT_FOUND} &rarr;&nbsp;
+            &nbsp;{brandId} &rarr; {officeName} &rarr; {deskName} &rarr;&nbsp;
             <span className="color-info">{name}</span>
           </div>
         );
@@ -140,11 +149,16 @@ class HierarchyProfileForm extends Component {
       }
       case branchNames.DESK: {
         const office = branchHierarchy[branchNames.OFFICE].find(({ uuid }) => (uuid === parentBranchUuid));
-        const { name: officeName } = office || {};
+
+        if (!office) {
+          return null;
+        }
+
+        const { name: officeName } = office;
 
         hierarchyTree = (
           <div className="hierarchy__tree">
-            &nbsp;{brandId} &rarr; {officeName || NOT_FOUND} &rarr; <span className="color-info">{name}</span>
+            &nbsp;{brandId} &rarr; {officeName} &rarr; <span className="color-info">{name}</span>
           </div>
         );
 
@@ -229,24 +243,30 @@ class HierarchyProfileForm extends Component {
               </div>
               <Choose>
                 <When condition={Array.isArray(parentBranches) && parentBranches.length}>
-                  {parentBranches.map(({ uuid, name, branchType, brandId, parentBranch }) => (
-                    <div key={uuid} className="margin-bottom-10">
-                      <strong>
-                        {I18n.t(`COMMON.${branchType}`)}: {this.hierarchyTree(branchType, {
-                          uuid: parentBranch ? parentBranch.uuid : null,
-                        }, name, brandId)}
-                      </strong>
-                      <If condition={parentBranches.length !== 1}>
-                        <strong className="margin-20">
-                          <i
-                            id={uuid}
-                            onClick={this.handleRemoveBranch(uuid)}
-                            className="fa fa-trash cursor-pointer color-danger"
-                          />
-                        </strong>
+                  {parentBranches.map(({ uuid, name, branchType, brandId, parentBranch }) => {
+                    const hierarchyTree = this.hierarchyTree(branchType, {
+                      uuid: parentBranch ? parentBranch.uuid : null,
+                    }, name, brandId);
+
+                    return (
+                      <If condition={hierarchyTree}>
+                        <div key={uuid} className="margin-bottom-10">
+                          <strong>
+                            {I18n.t(`COMMON.${branchType}`)}: {hierarchyTree}
+                          </strong>
+                          <If condition={parentBranches.length !== 1}>
+                            <strong className="margin-20">
+                              <i
+                                id={uuid}
+                                onClick={this.handleRemoveBranch(uuid)}
+                                className="fa fa-trash cursor-pointer color-danger"
+                              />
+                            </strong>
+                          </If>
+                        </div>
                       </If>
-                    </div>
-                  )) }
+                    );
+                  })}
                 </When>
                 <Otherwise>
                   <div className="margin-bottom-10">
