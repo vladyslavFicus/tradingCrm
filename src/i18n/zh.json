@@ -1112,6 +1112,7 @@
   },
   "OPERATOR_PROFILE": {
     "RESET_PASSWORD": "重置密码",
+    "CHANGE_PASSWORD": "更改密码",
     "TABS": {
       "PROFILE": "资料",
       "FEED": "资讯"
@@ -1151,6 +1152,12 @@
         "TITLE": "发送邀请至操作员 - 确认",
         "ACTION_TEXT": "您即将发送邀请至操作员",
         "CONFIRM_ACTION": "发送邀请"
+      },
+      "CHANGE_PASSWORD": {
+        "TITLE": "更改玩家密码",
+        "SUCCESSFULLY_CHANGED": "密码已成功更改",
+        "NEW_PASSWORD": "新密码",
+        "REPEAT_PASSWORD": "重新输入新密码"
       }
     },
     "IP_LIST": {
@@ -1179,6 +1186,14 @@
       "ERROR_UNLOCK": {
         "TITLE": "",
         "MESSAGE": ""
+      },
+      "ERROR_SET_NEW_PASSWORD": {
+        "TITLE": "错误",
+        "MESSAGE": "未能更改密码"
+      },
+      "SUCCESS_SET_NEW_PASSWORD": {
+        "TITLE": "成功",
+        "MESSAGE": "密码已成功更改"
       }
     },
     "ERROR_UNLOCK": {

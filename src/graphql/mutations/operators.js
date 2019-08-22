@@ -163,10 +163,19 @@ const addExistingOperator = gql`mutation addExistingOperator(
   }
 }`;
 
+const changePassword = gql`mutation changePassword($playerUUID: String!, $password: String!) {
+  profile {
+    changePassword(playerUUID: $playerUUID, password: $password) {
+      success
+    }
+  }
+}`;
+
 export {
   addDepartment,
   removeDepartment,
   createOperator,
   updateOperator,
   addExistingOperator,
+  changePassword,
 };

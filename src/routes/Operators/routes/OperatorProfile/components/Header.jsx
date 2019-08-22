@@ -21,6 +21,7 @@ class Header extends Component {
     onStatusChange: PropTypes.func.isRequired,
     refetchOperator: PropTypes.func.isRequired,
     onResetPasswordClick: PropTypes.func.isRequired,
+    onChangePasswordClick: PropTypes.func.isRequired,
     onSendInvitationClick: PropTypes.func.isRequired,
     unlockLogin: PropTypes.func.isRequired,
     loginLock: PropTypes.shape({
@@ -48,6 +49,7 @@ class Header extends Component {
       },
       availableStatuses,
       onResetPasswordClick,
+      onChangePasswordClick,
       onSendInvitationClick,
       unlockLogin,
       loginLock: {
@@ -104,6 +106,16 @@ class Header extends Component {
                   </Button>
                 </PermissionContent>
               )
+            }
+            {
+              <PermissionContent permissions={permissions.OPERATORS.CHANGE_PASSWORD}>
+                <Button
+                  className="btn-sm btn-default-outline"
+                  onClick={onChangePasswordClick}
+                >
+                  {I18n.t('OPERATOR_PROFILE.CHANGE_PASSWORD')}
+                </Button>
+              </PermissionContent>
             }
           </div>
         </div>

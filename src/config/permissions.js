@@ -9,6 +9,7 @@ export default {
     UPDATE_PROFILE: 'operator;PUT;/operators/{uuid}',
     RESET_PASSWORD: 'auth;POST;/password/{brand}/{uuid}/reset/request',
     UPDATE_STATUS: 'operator;PUT;/operators/status',
+    CHANGE_PASSWORD: 'auth;POST;/credentials/operator/{uuid}/password',
   },
   LEADS: {
     GET_LEADS: 'trading_lead;POST;/leads/search',

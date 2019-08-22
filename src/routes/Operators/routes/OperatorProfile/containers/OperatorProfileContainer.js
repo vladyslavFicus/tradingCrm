@@ -2,6 +2,7 @@ import { connect } from 'react-redux';
 import { get } from 'lodash';
 import { graphql, compose } from 'react-apollo';
 import { unlockLoginMutation } from 'graphql/mutations/auth';
+import { changePassword } from 'graphql/mutations/operators';
 import { getLoginLock } from 'graphql/queries/profile';
 import { operatorQuery } from 'graphql/queries/operators';
 import { statusActions } from 'constants/operators';
@@ -73,6 +74,9 @@ export default compose(
           : [],
       };
     },
+  }),
+  graphql(changePassword, {
+    name: 'changePassword',
   }),
   withNotifications,
 )(OperatorProfile);

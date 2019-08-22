@@ -10,10 +10,17 @@ import PropTypes from 'constants/propTypes';
 import HideDetails from 'components/HideDetails';
 import PartnerEdit from 'routes/Partners/routes/OperatorProfile/routes/Edit';
 import { Route } from 'router';
+import ChangePasswordModal from 'components/ChangeOperatorPasswordModal';
 import OperatorEdit from '../routes/Edit';
 import Feed from '../routes/Feed';
 import Information from './Information';
 import Header from './Header';
+
+const MODAL_CHANGE_PASSWORD = 'change-password-modal';
+const modalInitialState = {
+  name: null,
+  params: {},
+};
 
 class OperatorProfileLayout extends Component {
   static propTypes = {
@@ -26,6 +33,7 @@ class OperatorProfileLayout extends Component {
     data: PropTypes.operatorProfile.isRequired,
     availableStatuses: PropTypes.array.isRequired,
     changeStatus: PropTypes.func.isRequired,
+    changePassword: PropTypes.func.isRequired,
     refetchOperator: PropTypes.func.isRequired,
     onResetPassword: PropTypes.func.isRequired,
     onSendInvitation: PropTypes.func.isRequired,
@@ -45,6 +53,10 @@ class OperatorProfileLayout extends Component {
     error: null,
 
     operatorType: operatorTypes.OPERATOR,
+  };
+
+  state = {
+    modal: { ...modalInitialState },
   };
 
   handleResetPasswordClick = () => {
@@ -108,6 +120,36 @@ class OperatorProfileLayout extends Component {
     confirmActionModal.hide();
   };
 
+  handleChangePasswordClick = () => {
+    const { data: operatorProfile } = this.props;
+
+    this.handleOpenModal(MODAL_CHANGE_PASSWORD, {
+      fullName: `${operatorProfile.firstName} ${operatorProfile.lastName}`,
+      operatorUUID: `${operatorProfile.uuid}`,
+    });
+  };
+
+  handleSubmitNewPassword = async ({ password }) => {
+    const { changePassword, notify, match: { params: { id: playerUUID } } } = this.props;
+
+    const response = await changePassword({ variables: { password, playerUUID } });
+    const success = get(response, 'data.profile.changePassword.success');
+
+    notify({
+      level: !success ? 'error' : 'success',
+      title: !success
+        ? I18n.t('OPERATOR_PROFILE.NOTIFICATIONS.ERROR_SET_NEW_PASSWORD.TITLE')
+        : I18n.t('OPERATOR_PROFILE.NOTIFICATIONS.SUCCESS_SET_NEW_PASSWORD.TITLE'),
+      message: !success
+        ? I18n.t('OPERATOR_PROFILE.NOTIFICATIONS.ERROR_SET_NEW_PASSWORD.MESSAGE')
+        : I18n.t('OPERATOR_PROFILE.NOTIFICATIONS.SUCCESS_SET_NEW_PASSWORD.MESSAGE'),
+    });
+
+    if (success) {
+      this.handleCloseModal();
+    }
+  };
+
   handleOpenModal = (name, params) => {
     this.setState(({ modal }) => ({
       modal: {
@@ -116,6 +158,10 @@ class OperatorProfileLayout extends Component {
         params,
       },
     }));
+  };
+
+  handleCloseModal = () => {
+    this.setState({ modal: { ...modalInitialState } });
   };
 
   unlockLogin = async () => {
@@ -139,6 +185,8 @@ class OperatorProfileLayout extends Component {
   };
 
   render() {
+    const { modal } = this.state;
+
     const {
       location,
       match: { params, path, url },
@@ -170,6 +218,7 @@ class OperatorProfileLayout extends Component {
             data={data}
             availableStatuses={availableStatuses}
             onResetPasswordClick={this.handleResetPasswordClick}
+            onChangePasswordClick={this.handleChangePasswordClick}
             onSendInvitationClick={this.handleSendInvitationClick}
             onStatusChange={changeStatus}
             refetchOperator={refetchOperator}
@@ -198,6 +247,16 @@ class OperatorProfileLayout extends Component {
             <Redirect to={`${url}/profile`} />
           </Switch>
         </div>
+        {
+          modal.name === MODAL_CHANGE_PASSWORD
+          && (
+            <ChangePasswordModal
+              {...modal.params}
+              onClose={this.handleCloseModal}
+              onSubmit={this.handleSubmitNewPassword}
+            />
+          )
+        }
       </div>
     );
   }
