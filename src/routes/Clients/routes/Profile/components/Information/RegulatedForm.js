@@ -2,7 +2,6 @@ import React from 'react';
 import { reduxForm, Field } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
 import { SwitchField } from 'components/ReduxForm';
-import { createValidator } from 'utils/validator';
 
 const FORM_NAME = 'regulatedForm';
 
@@ -27,10 +26,6 @@ const RegualtedReduxForm = reduxForm({
     props.handleChange(values);
   },
   enableReinitialize: true,
-  validate: createValidator({
-    'fatca.provided': ['boolean'],
-    crs: ['boolean'],
-  }),
 })(RegulatedForm);
 
 export default RegualtedReduxForm;
