@@ -189,6 +189,7 @@ const clientQuery = gql`query profileData($playerUUID: String!, $accountType: St
         fatca {
           provided
         }
+        crs
       }
       intendedAmountToSpend
       temporaryUntil

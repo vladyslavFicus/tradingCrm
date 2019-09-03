@@ -3,13 +3,14 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { ApolloProvider as ReactApolloProvider } from 'react-apollo';
 import { ApolloClient } from 'apollo-client';
-import { from, split } from 'apollo-link';
+import { from, split, ApolloLink } from 'apollo-link';
 import { setContext } from 'apollo-link-context';
 import { onError } from 'apollo-link-error';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { BatchHttpLink } from 'apollo-link-batch-http';
 import { HttpLink } from 'apollo-link-http';
 import { createUploadLink } from 'apollo-upload-client';
+import omitTypename from 'graphql/utils/omitTypename';
 import { actionCreators as modalActionCreators } from 'redux/modules/modal';
 import { actionTypes as authActionTypes } from 'redux/modules/auth';
 import { types as modalTypes } from 'constants/modals';
@@ -108,6 +109,15 @@ class ApolloProvider extends PureComponent {
       },
     }));
 
+    const createOmitTypenameLink = new ApolloLink((data, forward) => {
+      const operation = data;
+
+      if (operation.variables && !operation.variables.file) {
+        operation.variables = JSON.parse(JSON.stringify(operation.variables), omitTypename);
+      }
+      return forward(operation);
+    });
+
     const cache = new InMemoryCache({
       dataIdFromObject: (object) => {
         switch (object.__typename) {
@@ -122,7 +132,7 @@ class ApolloProvider extends PureComponent {
     });
 
     return new ApolloClient({
-      link: from([errorLink, authLink, httpLink]),
+      link: from([createOmitTypenameLink, errorLink, authLink, httpLink]),
       cache,
       connectToDevTools: __DEV__,
     });

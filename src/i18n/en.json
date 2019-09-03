@@ -1998,8 +1998,10 @@
       }
     },
     "FATCA": {
-      "TITLE": "FATCA",
-      "UPDATE_STATUS": "Update FATCA"
+      "TITLE": "FATCA"
+    },
+    "CRS": {
+      "TITLE": "CRS"
     }
   },
   "TEMPORARY_UNTIL": {

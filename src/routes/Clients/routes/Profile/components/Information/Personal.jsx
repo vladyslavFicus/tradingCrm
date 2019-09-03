@@ -9,13 +9,13 @@ import Uuid from 'components/Uuid';
 import { withNotifications } from 'components/HighOrder';
 import PermissionContent from 'components/PermissionContent';
 import permissions from 'config/permissions';
-import { clickToCall, updateFATCA as updateFATCAMutation } from 'graphql/mutations/profile';
+import { clickToCall, updateRegulated as updateRegulatedMutation } from 'graphql/mutations/profile';
 import PersonalInformationItem from 'components/Information/PersonalInformationItem';
 import NotificationDetailsItem from 'components/Information/NotificationDetailsItem';
 import PropTypes from 'constants/propTypes';
 import { statuses as kycStatuses } from 'constants/kyc';
 import { statuses as userStatuses } from 'constants/user';
-import FatcaForm from './FatcaForm';
+import RegulatedForm from './RegulatedForm';
 
 class Personal extends PureComponent {
   static propTypes = {
@@ -40,7 +40,7 @@ class Personal extends PureComponent {
       username: PropTypes.string,
       playerUUID: PropTypes.string,
     }),
-    updateFATCA: PropTypes.func.isRequired,
+    updateRegulated: PropTypes.func.isRequired,
     operatorPhoneNumber: PropTypes.string,
     notify: PropTypes.func.isRequired,
     clickToCall: PropTypes.func.isRequired,
@@ -52,29 +52,29 @@ class Personal extends PureComponent {
     operatorPhoneNumber: null,
   };
 
-  handleFATCAChanged = async ({ provided }) => {
+  handleRegulatedChanged = async ({ provided, ...variables }) => {
     const {
       data: { playerUUID: profileId },
-      updateFATCA,
+      updateRegulated,
       notify,
     } = this.props;
 
-    const { data: { profile: { updateFATCA: { success } } } } = await updateFATCA({
+    const { data: { profile: { updateRegulated: { success } } } } = await updateRegulated({
       variables: {
         profileId,
         fatca: {
           provided,
         },
-
+        ...variables,
       },
     });
 
     notify({
       level: success ? 'success' : 'error',
-      title: I18n.t('CLIENT_PROFILE.FATCA.UPDATE_STATUS'),
+      title: I18n.t('COMMON.ACTIONS.UPDATED'),
       message: success
-        ? I18n.t('COMMON.SUCCESS')
-        : I18n.t('COMMON.SOMETHING_WRONG'),
+        ? I18n.t('COMMON.ACTIONS.SUCCESSFULLY')
+        : I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY'),
     });
   };
 
@@ -233,60 +233,63 @@ class Personal extends PureComponent {
             </If>
             <If condition={!loading}>
               <PermissionContent permissions={permissions.USER_PROFILE.CHANGE_FATCA_STATUS}>
-                <FatcaForm
-                  handleChange={this.handleFATCAChanged}
-                  initialValues={{ provided: get(tradingProfile, 'fatca.provided', false) }}
+                <RegulatedForm
+                  handleChange={this.handleRegulatedChanged}
+                  initialValues={{
+                    fatca: get(tradingProfile, 'fatca'),
+                    crs: get(tradingProfile, 'crs'),
+                  }}
                 />
               </PermissionContent>
-            </If>
-            <If condition={getActiveBrandConfig().regulation.isActive}>
-              <div className="account-details__label margin-top-15">
-                {I18n.t('CLIENT_PROFILE.DETAILS.GDPR.TITLE')}
-              </div>
-              <NotificationDetailsItem
-                label={I18n.t('CLIENT_PROFILE.DETAILS.GDPR.SMS')}
-                value={gdpr.sms}
-              />
-              <NotificationDetailsItem
-                label={I18n.t('CLIENT_PROFILE.DETAILS.GDPR.EMAIL')}
-                value={gdpr.email}
-              />
-              <NotificationDetailsItem
-                label={I18n.t('CLIENT_PROFILE.DETAILS.GDPR.PHONE')}
-                value={gdpr.phone}
-              />
-              <NotificationDetailsItem
-                label={I18n.t('CLIENT_PROFILE.DETAILS.GDPR.SOCIAL_MEDIA')}
-                value={gdpr.socialMedia}
-              />
-              <div className="account-details__label margin-top-15">
-                {I18n.t('CLIENT_PROFILE.DETAILS.SPAM.TITLE')}
-              </div>
-              <NotificationDetailsItem
-                label={I18n.t('CLIENT_PROFILE.DETAILS.SPAM.MARKET_NEWS')}
-                value={spam.marketNews}
-              />
-              <NotificationDetailsItem
-                label={I18n.t('CLIENT_PROFILE.DETAILS.SPAM.INFORMATION')}
-                value={spam.information}
-              />
-              <NotificationDetailsItem
-                label={I18n.t('CLIENT_PROFILE.DETAILS.SPAM.EDUCATIONAL')}
-                value={spam.educational}
-              />
-              <NotificationDetailsItem
-                label={I18n.t('CLIENT_PROFILE.DETAILS.SPAM.PROMOS_OFFERS')}
-                value={spam.promosAndOffers}
-              />
-              <NotificationDetailsItem
-                label={I18n.t('CLIENT_PROFILE.DETAILS.SPAM.STATISTICS_SUMMARY')}
-                value={spam.statisticsAndSummary}
-              />
-              <NotificationDetailsItem
-                className="margin-top-15"
-                label={I18n.t('CLIENT_PROFILE.DETAILS.WEB_COOKIES.TITLE')}
-                value={webCookies.enabled}
-              />
+              <If condition={getActiveBrandConfig().regulation.isActive}>
+                <div className="account-details__label margin-top-15">
+                  {I18n.t('CLIENT_PROFILE.DETAILS.GDPR.TITLE')}
+                </div>
+                <NotificationDetailsItem
+                  label={I18n.t('CLIENT_PROFILE.DETAILS.GDPR.SMS')}
+                  value={gdpr.sms}
+                />
+                <NotificationDetailsItem
+                  label={I18n.t('CLIENT_PROFILE.DETAILS.GDPR.EMAIL')}
+                  value={gdpr.email}
+                />
+                <NotificationDetailsItem
+                  label={I18n.t('CLIENT_PROFILE.DETAILS.GDPR.PHONE')}
+                  value={gdpr.phone}
+                />
+                <NotificationDetailsItem
+                  label={I18n.t('CLIENT_PROFILE.DETAILS.GDPR.SOCIAL_MEDIA')}
+                  value={gdpr.socialMedia}
+                />
+                <div className="account-details__label margin-top-15">
+                  {I18n.t('CLIENT_PROFILE.DETAILS.SPAM.TITLE')}
+                </div>
+                <NotificationDetailsItem
+                  label={I18n.t('CLIENT_PROFILE.DETAILS.SPAM.MARKET_NEWS')}
+                  value={spam.marketNews}
+                />
+                <NotificationDetailsItem
+                  label={I18n.t('CLIENT_PROFILE.DETAILS.SPAM.INFORMATION')}
+                  value={spam.information}
+                />
+                <NotificationDetailsItem
+                  label={I18n.t('CLIENT_PROFILE.DETAILS.SPAM.EDUCATIONAL')}
+                  value={spam.educational}
+                />
+                <NotificationDetailsItem
+                  label={I18n.t('CLIENT_PROFILE.DETAILS.SPAM.PROMOS_OFFERS')}
+                  value={spam.promosAndOffers}
+                />
+                <NotificationDetailsItem
+                  label={I18n.t('CLIENT_PROFILE.DETAILS.SPAM.STATISTICS_SUMMARY')}
+                  value={spam.statisticsAndSummary}
+                />
+                <NotificationDetailsItem
+                  className="margin-top-15"
+                  label={I18n.t('CLIENT_PROFILE.DETAILS.WEB_COOKIES.TITLE')}
+                  value={webCookies.enabled}
+                />
+              </If>
             </If>
           </div>
         </div>
@@ -299,5 +302,5 @@ export default compose(
   withNotifications,
   connect(({ auth: { data: { phoneNumber: operatorPhoneNumber } } }) => ({ operatorPhoneNumber })),
   graphql(clickToCall, { name: 'clickToCall' }),
-  graphql(updateFATCAMutation, { name: 'updateFATCA' }),
+  graphql(updateRegulatedMutation, { name: 'updateRegulated' }),
 )(Personal);
