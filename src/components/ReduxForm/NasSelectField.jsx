@@ -90,7 +90,7 @@ class NasSelectField extends Component {
         multiple={multiple}
         id={id}
       >
-        {[withAnyOption && <option key="any" value="">{I18n.t('COMMON.ANY')}</option>, ...children]}
+        {[withAnyOption && <option key="any" value={null}>{I18n.t('COMMON.ANY')}</option>, ...children]}
       </Select>
     );
 
