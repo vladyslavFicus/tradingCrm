@@ -184,7 +184,7 @@ const TradingAccountAddModalRedux = reduxForm({
     accountType: 'LIVE',
   },
   validate: values => createValidator({
-    name: ['required', 'string', 'max:25', 'min:4'],
+    name: ['required', 'string', 'max:50', 'min:4'],
     currency: ['required', 'string'],
     password: ['required', `regex:${getActiveBrandConfig().password.mt4_pattern}`],
     amount: values.accountType === 'DEMO' && 'required',
