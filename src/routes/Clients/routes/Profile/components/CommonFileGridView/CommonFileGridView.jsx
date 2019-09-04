@@ -5,13 +5,13 @@ import { I18n } from 'react-redux-i18n';
 import classNames from 'classnames';
 import { shortifyInMiddle } from 'utils/stringFormat';
 import { categoriesLabels } from 'constants/files';
-import PermissionContent from 'components/PermissionContent';
+// import PermissionContent from 'components/PermissionContent';
 import GridView, { GridViewColumn } from 'components/GridView';
 import FileStatusDropDown from 'components/FileStatusDropDown';
 import NoteButton from 'components/NoteButton';
 import GridEmptyValue from 'components/GridEmptyValue';
 import Uuid from 'components/Uuid';
-import permissions from 'config/permissions';
+// import permissions from 'config/permissions';
 
 class CommonFileGridView extends Component {
   static propTypes = {
@@ -67,7 +67,7 @@ class CommonFileGridView extends Component {
         <i className="fa fa-download" />
       </button>
       {' '}
-      <PermissionContent permissions={permissions.USER_PROFILE.DELETE_FILE}>
+      {/* <PermissionContent permissions={permissions.USER_PROFILE.DELETE_FILE}>
         <button
           type="button"
           className="btn-transparent color-danger"
@@ -75,7 +75,7 @@ class CommonFileGridView extends Component {
         >
           <i className="fa fa-trash" />
         </button>
-      </PermissionContent>
+      </PermissionContent> */}
     </span>
   );
 
