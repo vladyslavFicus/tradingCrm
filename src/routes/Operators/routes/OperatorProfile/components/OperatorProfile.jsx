@@ -13,6 +13,7 @@ import { Route } from 'router';
 import ChangePasswordModal from 'components/ChangeOperatorPasswordModal';
 import OperatorEdit from '../routes/Edit';
 import Feed from '../routes/Feed';
+import SalesRules from '../routes/SalesRules';
 import Information from './Information';
 import Header from './Header';
 
@@ -244,6 +245,7 @@ class OperatorProfileLayout extends Component {
               component={operatorType === operatorTypes.OPERATOR ? OperatorEdit : PartnerEdit}
             />
             <Route path={`${path}/feed`} component={Feed} />
+            <Route path={`${path}/sales-rules`} component={SalesRules} />
             <Redirect to={`${url}/profile`} />
           </Switch>
         </div>

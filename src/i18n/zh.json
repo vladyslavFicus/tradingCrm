@@ -1115,7 +1115,8 @@
     "CHANGE_PASSWORD": "更改密码",
     "TABS": {
       "PROFILE": "资料",
-      "FEED": "资讯"
+      "FEED": "资讯",
+      "SALES_RULES": "Sales Rules"
     },
     "FEED": {
       "FILTER_FORM": {

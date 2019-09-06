@@ -1124,7 +1124,8 @@
     "CHANGE_PASSWORD": "Change password",
     "TABS": {
       "PROFILE": "Profile",
-      "FEED": "Feed"
+      "FEED": "Feed",
+      "SALES_RULES": "Sales Rules"
     },
     "FEED": {
       "FILTER_FORM": {
