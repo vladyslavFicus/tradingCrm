@@ -144,6 +144,17 @@
         },
         "TEST_PLAYER": "Test player"
       },
+      "BANK_DETAILS": {
+        "TITLE": "Bank Details",
+        "ACCOUNT_HOLDER_NAME": "Name of Account Holder",
+        "ACCOUNT_NUMBER": "Bank Account number",
+        "BRANCH_NAME": "Branch Name",
+        "CITY": "Bank City",
+        "NAME": "Bank Name",
+        "PROVINCE": "Bank Province",
+        "SWIFT_CODE": "Bank Code/SWIFT",
+        "WITHDRAW_AREA": "Withdrawal Bank Area"
+      },
       "ADDITIONAL": {
         "TITLE": "Additional information"
       },

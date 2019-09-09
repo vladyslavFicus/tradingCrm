@@ -88,6 +88,16 @@ const clientQuery = gql`query profileData($playerUUID: String!, $accountType: St
         webCookies {
           enabled,
         }
+        bankDetails {
+          accountHolderName,
+          accountNumber,
+          branchName,
+          city,
+          name,
+          province,
+          swiftCode,
+          withdrawalArea,
+        }
         phone1
         phone2
         margin

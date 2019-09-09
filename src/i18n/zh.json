@@ -118,6 +118,17 @@
         },
         "TEST_PLAYER": "测试玩家"
       },
+      "BANK_DETAILS": {
+        "TITLE": "银行详细信息",
+        "ACCOUNT_HOLDER_NAME": "账户持有人姓名",
+        "ACCOUNT_NUMBER": "银行帐号",
+        "BRANCH_NAME": "分行名称",
+        "CITY": "银行所处城市",
+        "NAME": "银行名称",
+        "PROVINCE": "银行所处省份",
+        "SWIFT_CODE": "银行代码/SWIFT",
+        "WITHDRAW_AREA": "取款银行地区"
+      },
       "ADDITIONAL": {
         "TITLE": "额外信息"
       },

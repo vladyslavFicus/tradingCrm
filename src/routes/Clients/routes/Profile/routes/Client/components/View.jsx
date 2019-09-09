@@ -16,6 +16,7 @@ import KycStatus from './Kyc/KycStatus';
 import SimpleConfirmationModal from './Kyc/SimpleConfirmationModal';
 import RequestKycVerificationModal from './Kyc/RequestKycVerificationModal';
 import TransferAvailability from './TransferAvailability';
+import BankDetailsForm from './BankDetailsForm';
 
 import { kycNoteTypes } from '../constants';
 import './View.scss';
@@ -490,6 +491,7 @@ class View extends Component {
               countrySpecificIdentifier,
               countrySpecificIdentifierType,
               enableInternalTransfer,
+              bankDetails,
             },
           },
         },
@@ -541,6 +543,16 @@ class View extends Component {
                   />
                 </div>
               </div>
+              <Regulated>
+                <div className="card margin-right-20">
+                  <div className="card-body">
+                    <BankDetailsForm
+                      initialValues={bankDetails}
+                      disabled
+                    />
+                  </div>
+                </div>
+              </Regulated>
             </div>
             <div className="client-small-col">
               <div className="card">
