@@ -2,8 +2,10 @@ import React, { Fragment, PureComponent } from 'react';
 import { I18n } from 'react-redux-i18n';
 import { get } from 'lodash';
 import { Link } from 'react-router-dom';
+import { SubmissionError } from 'redux-form';
 import { TextRow } from 'react-placeholder/lib/placeholders';
 import PropTypes from 'constants/propTypes';
+import { actionRuleTypes, deskTypes } from 'constants/rules';
 import Uuid from 'components/Uuid';
 import GridView from 'components/GridView';
 import GridViewColumn from 'components/GridView/GridViewColumn';
@@ -23,6 +25,77 @@ class SalesRules extends PureComponent {
     modals: PropTypes.shape({
       deleteModal: PropTypes.modalType,
     }).isRequired,
+  };
+
+  triggerRuleModal = () => {
+    const {
+      modals: { ruleModal },
+    } = this.props;
+
+    ruleModal.show({
+      onSubmit: values => this.handleAddRule(values),
+      deskType: deskTypes.SALES,
+    });
+  };
+
+  handleAddRule = async (variables) => {
+    const {
+      notify,
+      createRule,
+      modals: { ruleModal },
+      match: { params: { id } },
+      rules: { refetch },
+    } = this.props;
+
+    const { data: { rules: { createRule: { data, error } } } } = await createRule(
+      {
+        variables: {
+          actions: [{
+            parentUser: id,
+            ruleType: actionRuleTypes.ROUND_ROBIN,
+          }],
+          ...variables,
+        },
+      },
+    );
+
+    if (error) {
+      notify({
+        level: 'error',
+        title: I18n.t('COMMON.FAIL'),
+        message: I18n.t('HIERARCHY.PROFILE_RULE_TAB.RULE_NOT_CREATED'),
+      });
+
+      let _error = error.error;
+
+      if (error.error === 'error.entity.already.exist') {
+        _error = (
+          <>
+            <div>
+              <Link
+                to={{
+                  pathname: '/sales-rules',
+                  query: { filters: { createdByOrUuid: error.errorParameters.ruleUuid } },
+                }}
+              >
+                {I18n.t(`rules.${error.error}`, error.errorParameters)}
+              </Link>
+            </div>
+            <Uuid uuid={error.errorParameters.ruleUuid} uuidPrefix="RL" />
+          </>
+        );
+      }
+
+      throw new SubmissionError({ _error });
+    } else {
+      await refetch();
+      ruleModal.hide();
+      notify({
+        level: 'success',
+        title: I18n.t('COMMON.SUCCESS'),
+        message: I18n.t('HIERARCHY.PROFILE_RULE_TAB.RULE_CREATED', { id: data.uuid }),
+      });
+    }
   };
 
   handleDeleteRule = uuid => async () => {
@@ -184,6 +257,16 @@ class SalesRules extends PureComponent {
               {entities.length} {I18n.t('SALES_RULES.TITLE')}
             </span>
           </Placeholder>
+          <div className="ml-auto">
+            <button
+              id="add-rule"
+              type="submit"
+              className="btn btn-sm btn-outline"
+              onClick={this.triggerRuleModal}
+            >
+              + {I18n.t('HIERARCHY.PROFILE_RULE_TAB.ADD_RULE')}
+            </button>
+          </div>
         </div>
 
         <div className="card-body">

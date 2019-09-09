@@ -115,7 +115,6 @@ const HierarchyProfileRules = (title, deskType, branchType) => {
         createRuleRetention,
         modals: { ruleModal },
         match: { params: { id } },
-        auth: { uuid: createdBy },
         rules: { refetch },
       } = this.props;
 
@@ -128,7 +127,6 @@ const HierarchyProfileRules = (title, deskType, branchType) => {
         response = await createRuleRetention(
           {
             variables: {
-              createdBy,
               actions: [{
                 parentBranch: id,
                 ruleType,
@@ -141,7 +139,6 @@ const HierarchyProfileRules = (title, deskType, branchType) => {
         response = await createRule(
           {
             variables: {
-              createdBy,
               actions: [{
                 parentBranch: id,
                 ruleType: actionRuleTypes.ROUND_ROBIN,

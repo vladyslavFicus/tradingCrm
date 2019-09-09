@@ -12,10 +12,8 @@ import ConfirmActionModal from '../../Modal/ConfirmActionModal';
 
 const mapStateToProps = ({
   i18n: { locale },
-  auth: { uuid },
 }) => ({
   countries: countryList,
-  auth: { uuid },
   locale,
 });
 
