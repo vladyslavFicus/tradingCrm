@@ -214,6 +214,10 @@
           "EXPIRED_DOC": "文件过期"
         }
       },
+      "TRANSFER_AVAILABILITY": {
+        "TITLE": "Transfer Availability",
+        "LABEL": "Transfer"
+      },
       "CHANGE_PASSWORD_MODAL": {
         "TITLE": "更改玩家密码",
         "WARNING_HEADER": "您即将更改密码",

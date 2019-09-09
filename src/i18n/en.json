@@ -240,6 +240,10 @@
           "EXPIRED_DOC": "Expired document"
         }
       },
+      "TRANSFER_AVAILABILITY": {
+        "TITLE": "Transfer Availability",
+        "LABEL": "Transfer"
+      },
       "CHANGE_PASSWORD_MODAL": {
         "TITLE": "Change player`s password",
         "WARNING_HEADER": "You are about to change password",

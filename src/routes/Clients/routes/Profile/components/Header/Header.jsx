@@ -3,8 +3,8 @@ import moment from 'moment';
 import classNames from 'classnames';
 import { SubmissionError } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
-import { getActiveBrandConfig } from 'config';
 import PropTypes from 'constants/propTypes';
+import Regulated from 'components/Regulation';
 import ActionsDropDown from 'components/ActionsDropDown';
 import PopoverButton from 'components/PopoverButton';
 import permissions from 'config/permissions';
@@ -268,9 +268,9 @@ class Header extends Component {
               />
             </If>
           </div>
-          <If condition={getActiveBrandConfig().regulation.isActive}>
+          <Regulated>
             <Questionnaire questionnaireLastData={questionnaireLastData} profileUUID={playerUUID} />
-          </If>
+          </Regulated>
           <ProfileLastLogin lastIp={lastIp} locale={locale} />
           <div className="header-block">
             <div className="header-block-title">{I18n.t('CLIENT_PROFILE.CLIENT.REGISTERED.TITLE')}</div>

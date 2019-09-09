@@ -7,6 +7,7 @@ import {
   categories as kycCategories,
 } from 'constants/kyc';
 import { roles, departments } from 'constants/brands';
+import Regulated from 'components/Regulation';
 import PersonalForm from './PersonalForm';
 import AddressForm from './AddressForm';
 import ContactForm from './ContactForm';
@@ -14,6 +15,7 @@ import RefuseModal from './Kyc/RefuseModal';
 import KycStatus from './Kyc/KycStatus';
 import SimpleConfirmationModal from './Kyc/SimpleConfirmationModal';
 import RequestKycVerificationModal from './Kyc/RequestKycVerificationModal';
+import TransferAvailability from './TransferAvailability';
 
 import { kycNoteTypes } from '../constants';
 import './View.scss';
@@ -487,6 +489,7 @@ class View extends Component {
               kycStatus,
               countrySpecificIdentifier,
               countrySpecificIdentifierType,
+              enableInternalTransfer,
             },
           },
         },
@@ -545,6 +548,18 @@ class View extends Component {
                   <KycStatus initialValues={{ kycStatus }} playerUUID={data.playerUUID} />
                 </div>
               </div>
+              <Regulated>
+                <div className="card">
+                  <div className="card-body">
+                    <TransferAvailability
+                      initialValues={{
+                        enableInternalTransfer: +enableInternalTransfer,
+                      }}
+                      playerUUID={data.playerUUID}
+                    />
+                  </div>
+                </div>
+              </Regulated>
               <div className="card">
                 <div className="card-body">
                   <ContactForm

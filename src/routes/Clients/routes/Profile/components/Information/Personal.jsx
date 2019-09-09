@@ -4,7 +4,8 @@ import moment from 'moment';
 import { get } from 'lodash';
 import { connect } from 'react-redux';
 import { I18n } from 'react-redux-i18n';
-import { getClickToCall, getActiveBrandConfig } from 'config';
+import { getClickToCall } from 'config';
+import Regulated from 'components/Regulation';
 import Uuid from 'components/Uuid';
 import { withNotifications } from 'components/HighOrder';
 import PermissionContent from 'components/PermissionContent';
@@ -241,7 +242,7 @@ class Personal extends PureComponent {
                   }}
                 />
               </PermissionContent>
-              <If condition={getActiveBrandConfig().regulation.isActive}>
+              <Regulated>
                 <div className="account-details__label margin-top-15">
                   {I18n.t('CLIENT_PROFILE.DETAILS.GDPR.TITLE')}
                 </div>
@@ -289,7 +290,7 @@ class Personal extends PureComponent {
                   label={I18n.t('CLIENT_PROFILE.DETAILS.WEB_COOKIES.TITLE')}
                   value={webCookies.enabled}
                 />
-              </If>
+              </Regulated>
             </If>
           </div>
         </div>

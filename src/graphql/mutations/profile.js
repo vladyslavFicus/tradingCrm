@@ -229,6 +229,7 @@ const updateMutation = gql`mutation update(
   $kycStatus: String,
   $countrySpecificIdentifier: String,
   $countrySpecificIdentifierType: String,
+  $enableInternalTransfer: Boolean,
 ){
   profile {
     update(
@@ -243,6 +244,7 @@ const updateMutation = gql`mutation update(
       kycStatus: $kycStatus,
       countrySpecificIdentifier: $countrySpecificIdentifier,
       countrySpecificIdentifierType: $countrySpecificIdentifierType,
+      enableInternalTransfer: $enableInternalTransfer,
     ) {
       data {
         playerUUID
@@ -259,6 +261,7 @@ const updateMutation = gql`mutation update(
           }
           countrySpecificIdentifier
           countrySpecificIdentifierType
+          enableInternalTransfer
         }
       }
       error {

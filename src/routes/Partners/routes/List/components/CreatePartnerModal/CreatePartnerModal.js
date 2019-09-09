@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Field } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
-import { getActiveBrandConfig } from 'config';
+import Regulated from 'components/Regulation';
 import Select from 'components/Select';
 import CheckBox from 'components/ReduxForm/CheckBox';
 import reduxFieldsConstructor from 'components/ReduxForm/ReduxFieldsConstructor';
@@ -107,7 +107,7 @@ class CreatePartnerModal extends Component {
                 branches,
               )])}
           </div>
-          <If condition={getActiveBrandConfig().regulation.isActive}>
+          <Regulated>
             <div className="row">
               <div className="form-group col-md-6">
                 <Field
@@ -119,7 +119,7 @@ class CreatePartnerModal extends Component {
                 />
               </div>
             </div>
-          </If>
+          </Regulated>
         </ModalBody>
         <ModalFooter>
           <div className="row">

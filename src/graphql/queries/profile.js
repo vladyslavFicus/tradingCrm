@@ -71,6 +71,7 @@ const clientQuery = gql`query profileData($playerUUID: String!, $accountType: St
       isTest
       registrationDate
       tradingProfile {
+        enableInternalTransfer
         gdpr {
           sms
           email
