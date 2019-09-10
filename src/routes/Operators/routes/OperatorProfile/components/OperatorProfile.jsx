@@ -7,6 +7,7 @@ import NotFound from 'routes/NotFound';
 import { operatorTypes } from 'constants/operators';
 import * as menu from 'config/menu';
 import PropTypes from 'constants/propTypes';
+import { isSales } from 'constants/hierarchyTypes';
 import HideDetails from 'components/HideDetails';
 import PartnerEdit from 'routes/Partners/routes/OperatorProfile/routes/Edit';
 import { Route } from 'router';
@@ -203,6 +204,13 @@ class OperatorProfileLayout extends Component {
     } = this.props;
 
     const loginLock = get(getLoginLock, 'loginLock', {});
+    const userType = get(data, 'hierarchy.userType');
+    const tabs = [...menu[`${operatorType.toLowerCase()}ProfileTabs`]];
+
+    // Check if operator is SALES to show sales rules tab
+    if (isSales(userType)) {
+      tabs.splice(1, 0, { label: I18n.t('OPERATOR_PROFILE.TABS.SALES_RULES'), url: '/operators/:id/sales-rules' });
+    }
 
     if (error) {
       return <NotFound />;
@@ -234,7 +242,7 @@ class OperatorProfileLayout extends Component {
           </HideDetails>
         </div>
         <Tabs
-          items={menu[`${operatorType.toLowerCase()}ProfileTabs`]}
+          items={tabs}
           location={location}
           params={params}
         />
@@ -244,8 +252,10 @@ class OperatorProfileLayout extends Component {
               path={`${path}/profile`}
               component={operatorType === operatorTypes.OPERATOR ? OperatorEdit : PartnerEdit}
             />
+            <If condition={isSales(userType)}>
+              <Route path={`${path}/sales-rules`} component={SalesRules} />
+            </If>
             <Route path={`${path}/feed`} component={Feed} />
-            <Route path={`${path}/sales-rules`} component={SalesRules} />
             <Redirect to={`${url}/profile`} />
           </Switch>
         </div>

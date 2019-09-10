@@ -105,7 +105,6 @@ const sidebarBottomMenu = [{
 
 const operatorProfileTabs = [
   { label: I18n.t('OPERATOR_PROFILE.TABS.PROFILE'), url: '/operators/:id/profile' },
-  { label: I18n.t('OPERATOR_PROFILE.TABS.SALES_RULES'), url: '/operators/:id/sales-rules' },
   { label: I18n.t('OPERATOR_PROFILE.TABS.FEED'), url: '/operators/:id/feed' },
 ];
 const partnerProfileTabs = [

@@ -66,3 +66,17 @@ export const deskTypes = keyMirror({
   RETENTION: null,
   SALES: null,
 });
+
+/**
+ * Check if userType is sales
+ *
+ * @param userType
+ *
+ * @return {boolean}
+ */
+export const isSales = userType => [
+  userTypes.SALES_AGENT,
+  userTypes.SALES_LEAD,
+  userTypes.SALES_MANAGER,
+  userTypes.SALES_HOD,
+].includes(userType);

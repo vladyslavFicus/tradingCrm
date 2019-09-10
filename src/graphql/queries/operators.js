@@ -106,6 +106,9 @@ const operatorQuery = gql`query getOperatorByUUID(
           role
         }
       }
+      hierarchy {
+        userType
+      }
     }
     error {
       error
