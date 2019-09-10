@@ -17,7 +17,6 @@ class Accounts extends PureComponent {
       path: PropTypes.string.isRequired,
       url: PropTypes.string.isRequired,
     }).isRequired,
-    checkService: PropTypes.func.isRequired,
   };
 
   static childContextTypes = {
@@ -38,13 +37,11 @@ class Accounts extends PureComponent {
     const {
       currentPermissions,
       match: { url },
-      checkService,
     } = this.props;
 
     return routes
       .map(i => ({ ...i, url: `${url}${i.url}` }))
-      .filter(i => (!(i.permissions instanceof Permissions) || i.permissions.check(currentPermissions))
-        && (i.service ? checkService(i.service) : true));
+      .filter(i => (!(i.permissions instanceof Permissions) || i.permissions.check(currentPermissions)));
   }
 
   setRenderActions = renderActions => this.setState({ renderActions });

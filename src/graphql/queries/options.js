@@ -17,13 +17,6 @@ const currencyQuery = gql`query signUpOptions($brandId: String!) {
   }
 }`;
 
-const servicesQuery = gql`query servicesOptions {
-  options {
-    services
-  }
-}`;
-
 export {
   currencyQuery,
-  servicesQuery,
 };

@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
-import { graphql } from 'react-apollo';
 import Scrollbars from 'react-custom-scrollbars';
 import { TimelineLite as TimeLineLite } from 'gsap';
 import PropTypes from 'constants/propTypes';
-import { servicesQuery } from '../../graphql/queries/options';
 import SidebarNav from '../SidebarNav';
 import './Sidebar.scss';
 
@@ -17,7 +15,6 @@ class Sidebar extends Component {
   };
 
   static contextTypes = {
-    services: PropTypes.arrayOf(PropTypes.string),
     permissions: PropTypes.arrayOf(PropTypes.string).isRequired,
     user: PropTypes.object,
   };
@@ -30,32 +27,18 @@ class Sidebar extends Component {
 
   componentDidMount() {
     const { permissions, user: { department, role } } = this.context;
-    const { optionServices: { options } } = this.props;
     const sidebarAnimation = new TimeLineLite({ paused: true });
 
     sidebarAnimation.fromTo(this.sidebar, 0.15, { width: '60px' }, { width: '240px' });
     this.sidebarAnimation = sidebarAnimation;
 
-    if (options && options.services.length) {
-      this.props.init(permissions, options.services, { department, role });
-    }
+    this.props.init(permissions, { department, role });
   }
 
-  componentDidUpdate({ optionServices: { options: prevOptions } }, prevState) {
+  componentDidUpdate(_prevProps, prevState) {
     const { isOpen } = this.state;
-    const { topMenu, optionServices: { options } } = this.props;
 
-    if (options && options.services.length
-      && (!prevOptions || prevOptions.services.length !== options.services.length)
-    ) {
-      const { init, menuItemClick } = this.props;
-      const { permissions, user: { department, role } } = this.context;
-
-      init(permissions, options.services, { department, role });
-      menuItemClick();
-    }
-
-    if (topMenu.length && !this.navLinkAnimated) {
+    if (this.props.topMenu.length && !this.navLinkAnimated) {
       this.navLinkAnimated = true;
       this.sidebarAnimation.fromTo('.sidebar-nav-item__label', 0.15, { autoAlpha: 0 }, { autoAlpha: 1 });
     }
@@ -126,9 +109,4 @@ class Sidebar extends Component {
   }
 }
 
-export default graphql(servicesQuery, {
-  name: 'optionServices',
-  options: {
-    fetchPolicy: 'network-only',
-  },
-})(Sidebar);
+export default Sidebar;

@@ -11,7 +11,6 @@ class Route extends Component {
     checkAuth: PropTypes.bool,
     location: PropTypes.object.isRequired,
     history: PropTypes.object.isRequired,
-    checkService: PropTypes.func.isRequired,
     path: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.shape({
@@ -97,18 +96,11 @@ class Route extends Component {
     return true;
   }
 
-  get routeService() {
-    const { path } = this.props;
-
-    return Route.config.routeServices[path];
-  }
-
   render() {
     const {
       disableScroll,
       checkAuth,
       logged,
-      checkService,
       ...props
     } = this.props;
 
@@ -118,10 +110,6 @@ class Route extends Component {
 
     if (checkAuth && !logged) {
       return <Redirect to={{ pathname: '/sign-in', search: `returnUrl=${props.location.pathname}` }} />;
-    }
-
-    if (this.routeService && !checkService(this.routeService)) {
-      return <Redirect to="/not-found" />;
     }
 
     return <DomRoute {...props} />;

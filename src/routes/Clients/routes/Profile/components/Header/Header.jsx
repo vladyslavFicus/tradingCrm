@@ -13,7 +13,6 @@ import ProfileLastLogin from 'components/ProfileLastLogin';
 import Uuid from 'components/Uuid';
 import { statuses } from 'constants/user';
 import PermissionContent from 'components/PermissionContent';
-import { withServiceCheck } from 'components/HighOrder';
 import StickyWrapper from 'components/StickyWrapper';
 import PlayerStatus from '../PlayerStatus';
 import Balances from '../Balances';
@@ -287,4 +286,4 @@ class Header extends Component {
   }
 }
 
-export default withServiceCheck(Header);
+export default Header;

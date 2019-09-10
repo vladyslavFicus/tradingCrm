@@ -25,12 +25,11 @@ function menuItemClick() {
   };
 }
 
-function initSidebar(userPermissions, services, authority) {
+function initSidebar(userPermissions, authority) {
   return {
     type: INIT_SIDEBAR,
     payload: {
       userPermissions,
-      services,
       authority,
     },
   };
@@ -47,13 +46,11 @@ const actionTypes = {
   MENU_ITEM_CLICK,
 };
 const actionHandlers = {
-  [INIT_SIDEBAR]: (state, { payload: { userPermissions: currentPermissions, services, authority } }) => {
+  [INIT_SIDEBAR]: (state, { payload: { userPermissions: currentPermissions, authority } }) => {
     const permissionMenu = sidebarTopMenu.reduce((result, item) => {
       if (item.items) {
         const subItems = item.items.filter((i) => {
           const isValidPermission = !(i.permissions instanceof Permissions) || i.permissions.check(currentPermissions);
-
-          const isServiceUp = !i.service || services.includes(i.service);
 
           const isValidAuthorities = !(Array.isArray(i.excludeAuthorities)
             && i.excludeAuthorities.length
@@ -61,7 +58,7 @@ const actionHandlers = {
               (department === authority.department) && (role === authority.role)
             )));
 
-          return isValidPermission && isServiceUp && isValidAuthorities;
+          return isValidPermission && isValidAuthorities;
         });
 
         if (subItems.length) {
@@ -70,10 +67,7 @@ const actionHandlers = {
             items: subItems,
           });
         }
-      } else if (
-        (!(item.permissions instanceof Permissions) || item.permissions.check(currentPermissions))
-        && (!item.service || services.includes(item.service))
-      ) {
+      } else if (!(item.permissions instanceof Permissions) || item.permissions.check(currentPermissions)) {
         result.push(item);
       }
 

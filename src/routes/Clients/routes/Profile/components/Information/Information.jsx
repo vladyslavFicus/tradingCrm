@@ -1,10 +1,9 @@
 import React, { PureComponent } from 'react';
 import { I18n } from 'react-redux-i18n';
-import IpList from '../../../../../../components/Information/IpList';
-import PermissionContent from '../../../../../../components/PermissionContent';
-import { withServiceCheck } from '../../../../../../components/HighOrder';
-import permissions from '../../../../../../config/permissions';
-import PropTypes from '../../../../../../constants/propTypes';
+import IpList from 'components/Information/IpList';
+import PermissionContent from 'components/PermissionContent';
+import permissions from 'config/permissions';
+import PropTypes from 'constants/propTypes';
 import AcquisitionStatus from './AcquisitionStatus';
 import Personal from './Personal';
 import Notes from './Notes';
@@ -66,4 +65,4 @@ class Information extends PureComponent {
   }
 }
 
-export default withServiceCheck(Information);
+export default Information;
