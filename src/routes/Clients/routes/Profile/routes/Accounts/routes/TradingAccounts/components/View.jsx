@@ -81,20 +81,22 @@ class View extends PureComponent {
     },
   }).then(() => this.props.playerProfile.refetch());
 
-  renderActions = ({ login, isReadOnly }) => (
-    <ActionsDropDown
-      items={[
-        {
-          label: I18n.t('CLIENT_PROFILE.ACCOUNTS.ACTIONS_DROPDOWN.CHANGE_PASSWORD'),
-          onClick: () => this.props.modals.tradingAccountChangePasswordModal.show({ login }),
-        },
-        {
-          label: I18n.t(`CLIENT_PROFILE.ACCOUNTS.ACTIONS_DROPDOWN.${!isReadOnly ? 'DISABLE' : 'ENABLE'}`),
-          onClick: this.handleSetTradingAccountReadonly(login, !isReadOnly),
-        },
-      ]}
-    />
-  );
+  renderActions = ({ login, isReadOnly, accountType }) => {
+    const items = [
+      {
+        label: I18n.t('CLIENT_PROFILE.ACCOUNTS.ACTIONS_DROPDOWN.CHANGE_PASSWORD'),
+        onClick: () => this.props.modals.tradingAccountChangePasswordModal.show({ login }),
+      },
+    ];
+
+    if (accountType !== 'DEMO') {
+      items.push({
+        label: I18n.t(`CLIENT_PROFILE.ACCOUNTS.ACTIONS_DROPDOWN.${!isReadOnly ? 'DISABLE' : 'ENABLE'}`),
+        onClick: this.handleSetTradingAccountReadonly(login, !isReadOnly),
+      });
+    }
+    return (<ActionsDropDown items={items} />);
+  };
 
   handleFiltersChanged = (filters = {}) => {
     history.replace({
