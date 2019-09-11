@@ -107,6 +107,7 @@ const operatorQuery = gql`query getOperatorByUUID(
         }
       }
       hierarchy {
+        uuid
         userType
       }
     }

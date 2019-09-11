@@ -122,9 +122,9 @@ class ApolloProvider extends PureComponent {
       dataIdFromObject: (object) => {
         switch (object.__typename) {
           case 'PlayerProfile':
-            return object.playerUUID
-              ? `${object.__typename}:${object.playerUUID}`
-              : null;
+            return object.playerUUID ? `${object.__typename}:${object.playerUUID}` : null;
+          case 'HierarchyUserType':
+            return object.uuid ? `${object.__typename}:${object.uuid}` : null;
           default:
             return object._id ? `${object.__typename}:${object._id}` : null;
         }
