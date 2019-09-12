@@ -1434,6 +1434,7 @@
       "REFUNDED_NON_COMPLIANT": "Refunded non compliant",
       "PRIOR_TO_REFUND": "Prior to refund",
       "APPROVED": "Approved",
+      "APPROVED_AWAITING_REVIEW": "Approved awaiting review",
       "REJECTED": "Rejected",
       "PENDING": "Pending",
       "RISK": "Risk"

@@ -45,6 +45,9 @@ const kycStatuses = [{
   value: 'APPROVED',
   label: 'KYC_REQUESTS.STATUS.APPROVED',
 }, {
+  value: 'APPROVED_AWAITING_REVIEW',
+  label: 'KYC_REQUESTS.STATUS.APPROVED_AWAITING_REVIEW',
+}, {
   value: 'REJECTED',
   label: 'KYC_REQUESTS.STATUS.REJECTED',
 }, {

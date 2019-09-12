@@ -1429,6 +1429,7 @@
       "REFUNDED_NON_COMPLIANT": "退款的不合格情况",
       "PRIOR_TO_REFUND": "退款前",
       "APPROVED": "已批准",
+      "APPROVED_AWAITING_REVIEW": "已批准待审核",
       "REJECTED": "已拒绝",
       "PENDING": "待审核",
       "RISK": "风险",
