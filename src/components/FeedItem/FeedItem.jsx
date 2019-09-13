@@ -22,6 +22,7 @@ import FeedInfoRofusVerification from './FeedInfoRofusVerification';
 import FeedInfoPlayerProfileStatusChanged from './FeedInfoPlayerProfileStatusChanged';
 import FeedInfoTermsAccepted from './FeedInfoTermsAccepted';
 import FeedProfileAssign from './FeedProfileAssign';
+import FeedInfoChangeLeverageRequest from './FeedInfoChangeLeverageRequest';
 import Uuid from '../Uuid';
 import './FeedItem.scss';
 
@@ -85,6 +86,8 @@ class FeedItem extends Component {
         return <FeedInfoTermsAccepted data={data} />;
       case types.PROFILE_ASSIGN:
         return <FeedProfileAssign data={data} />;
+      case types.CHANGE_LEVERAGE_REQUESTED:
+        return <FeedInfoChangeLeverageRequest data={data} />;
       default:
         return null;
     }

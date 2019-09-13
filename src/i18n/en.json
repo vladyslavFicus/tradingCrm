@@ -881,7 +881,8 @@
         "TOKEN": "Token",
         "TOKEN_EXPIRATION_DATE": "Token expiration date",
         "USERNAME": "Username",
-        "PLAYER_UUID": "ID"
+        "PLAYER_UUID": "ID",
+        "CHANGE_LEVERAGE_REQUESTED": "Change leverage Request"
       },
       "KYC_CONFIRMATION": {
         "TRANSACTION": "Transaction ID",

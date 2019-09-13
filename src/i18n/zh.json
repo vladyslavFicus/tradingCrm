@@ -870,7 +870,8 @@
         "TOKEN": "令牌",
         "TOKEN_EXPIRATION_DATE": "令牌到期日",
         "USERNAME": "用户名",
-        "PLAYER_UUID": "ID"
+        "PLAYER_UUID": "ID",
+        "CHANGE_LEVERAGE_REQUESTED": "成功更改杠杆 请求"
       },
       "KYC_CONFIRMATION": {
         "TRANSACTION": "交易 ID",

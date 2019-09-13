@@ -67,6 +67,7 @@ const feedTypesQuery = gql`query getFeedTypes($playerUUID: String!) {
       LOG_OUT
       FAILED_LOGIN_ATTEMPT
       PROFILE_ASSIGN
+      CHANGE_LEVERAGE_REQUESTED
     } 
   }
 }`;

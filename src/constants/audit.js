@@ -30,6 +30,7 @@ const types = keyMirror({
   PLAYER_PROFILE_RESUMED: null,
   ACCEPTED_TERMS: null,
   PROFILE_ASSIGN: null,
+  CHANGE_LEVERAGE_REQUESTED: null,
 });
 const typesLabels = {
   [types.LOG_IN]: I18n.t('CONSTANTS.AUDIT.TYPES.LOG_IN'),
@@ -60,6 +61,7 @@ const typesLabels = {
   [types.PLAYER_PROFILE_RESUMED]: I18n.t('CONSTANTS.AUDIT.TYPES.PLAYER_PROFILE_STATUS_CHANGED'),
   [types.ACCEPTED_TERMS]: I18n.t('CONSTANTS.AUDIT.TYPES.ACCEPTED_TERMS'),
   [types.PROFILE_ASSIGN]: I18n.t('CONSTANTS.AUDIT.TYPES.PROFILE_ASSIGN'),
+  [types.CHANGE_LEVERAGE_REQUESTED]: I18n.t('CONSTANTS.AUDIT.TYPES.CHANGE_LEVERAGE_REQUESTED'),
 };
 const typesClassNames = {
   [types.LOG_IN]: 'blue',
@@ -89,6 +91,7 @@ const typesClassNames = {
   [types.PLAYER_PROFILE_RESUMED]: 'blue',
   [types.ACCEPTED_TERMS]: 'blue',
   [types.PROFILE_ASSIGN]: 'blue',
+  [types.CHANGE_LEVERAGE_REQUESTED]: 'blue',
 };
 
 export {
