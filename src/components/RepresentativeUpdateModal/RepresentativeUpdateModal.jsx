@@ -217,7 +217,7 @@ class RepresentativeUpdateModal extends Component {
       type,
       allRowsSelected,
       totalElements,
-      searchParams: omit(searchParams, ['desks', 'teams']),
+      searchParams: omit(searchParams, ['desk', 'team']),
       ...(type === deskTypes.SALES
         ? { salesStatus: status, salesRep: representative }
         : { retentionStatus: status, retentionRep: representative }),

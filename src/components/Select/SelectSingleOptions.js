@@ -16,7 +16,7 @@ class SelectSingleOptions extends PureComponent {
     options: PropTypes.arrayOf(OptionPropType),
     selectedOption: OptionPropType,
     bindActiveOption: PropTypes.func,
-    optionComponent: PropTypes.oneOfType([PropTypes.func]),
+    optionComponent: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
   };
 
   static defaultProps = {
@@ -35,6 +35,7 @@ class SelectSingleOptions extends PureComponent {
       className,
       optionClassName,
       onChange,
+      handleSelectHide,
       bindActiveOption,
       optionComponent,
     } = this.props;
@@ -65,7 +66,7 @@ class SelectSingleOptions extends PureComponent {
           return (
             <Choose>
               <When condition={OptionCustomComponent}>
-                <OptionCustomComponent {...optionProps} />
+                <OptionCustomComponent hideSelect={() => handleSelectHide()} {...optionProps} />
               </When>
               <Otherwise>
                 <div {...optionProps}>{option.label}</div>

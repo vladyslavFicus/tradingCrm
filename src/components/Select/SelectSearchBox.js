@@ -40,6 +40,7 @@ const filterOptionsByQuery = (query, options) => {
   if (query === '') {
     return options;
   }
+
   const lowerCasedQuery = query.toLowerCase();
 
   return options.filter(({ label, props: { search } }) => {

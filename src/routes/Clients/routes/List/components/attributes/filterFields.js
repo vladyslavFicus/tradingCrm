@@ -76,8 +76,8 @@ const firstDepositStatuses = [{
 }];
 
 export const fieldNames = keyMirror({
-  desks: null,
-  teams: null,
+  desk: null,
+  team: null,
   repIds: null,
 });
 
@@ -123,7 +123,7 @@ export default (
     .map(value => ({ value, label: countries[value] })),
 }, {
   type: fieldTypes.SELECT,
-  name: 'desks',
+  name: fieldNames.desk,
   label: I18n.t(filterLabels.desks),
   placeholder: (!branchesLoading && desks.length === 0)
     ? I18n.t('COMMON.SELECT_OPTION.NO_ITEMS')
@@ -135,7 +135,7 @@ export default (
   selectOptions: desks.map(({ uuid, name }) => ({ value: uuid, label: name })),
 }, {
   type: fieldTypes.SELECT,
-  name: 'teams',
+  name: fieldNames.team,
   label: I18n.t(filterLabels.teams),
   placeholder: (!branchesLoading && teams.length === 0)
     ? I18n.t('COMMON.SELECT_OPTION.NO_ITEMS')

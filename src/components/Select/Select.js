@@ -13,16 +13,18 @@ class Select extends PureComponent {
   static propTypes = {
     children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.element), PropTypes.node]).isRequired,
     onChange: PropTypes.func,
-    placeholder: PropTypes.string,
+    placeholder: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
     multiple: PropTypes.bool,
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.array, PropTypes.object]),
     showSearch: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
     searchPlaceholder: PropTypes.string,
     optionsHeader: PropTypes.func,
-    singleOptionComponent: PropTypes.func,
+    singleOptionComponent: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
     disabled: PropTypes.bool,
     customClassName: PropTypes.string,
     id: PropTypes.string,
+    withArrowDown: PropTypes.bool,
+    customArrowComponent: PropTypes.object,
   };
 
   static defaultProps = {
@@ -37,6 +39,8 @@ class Select extends PureComponent {
     disabled: false,
     customClassName: null,
     id: null,
+    withArrowDown: true,
+    customArrowComponent: null,
   };
 
   mounted = false;
@@ -88,11 +92,19 @@ class Select extends PureComponent {
     }
 
     if (!this.shallowEqual(value, nextProps.value)) {
+      const opts = [...this.filterOptions(nextProps.children)];
+      // happened when after choosing value, we add more options to select
+      if (opts.length > options) {
+        options = opts;
+      }
+
       const originalSelectedOptions = nextProps.multiple
-        ? originalOptions.filter(option => nextProps.value.indexOf(option.value) > -1)
-        : [originalOptions.find(option => option.value === nextProps.value)].filter(option => option);
+        ? options.filter(option => nextProps.value.indexOf(option.value) > -1)
+        : [options.find(option => option.value === nextProps.value)].filter(option => option);
+
       this.updateState({
-        options: this.filterSelectedOptions(originalOptions, originalSelectedOptions, nextProps.multiple),
+        ...(opts.length > options && { originalOptions: opts }),
+        options: this.filterSelectedOptions(options, originalSelectedOptions, nextProps.multiple),
         originalSelectedOptions,
         selectedOptions: filterOptionsByQuery(query, originalSelectedOptions),
       });
@@ -262,6 +274,12 @@ class Select extends PureComponent {
     }
   };
 
+  handleHideSelect = () => (
+    this.setState({
+      opened: false,
+    })
+  );
+
   hasSearchBar = () => {
     const { showSearch } = this.props;
 
@@ -314,7 +332,14 @@ class Select extends PureComponent {
 
   renderLabel = () => {
     const { originalSelectedOptions, toSelectOptions } = this.state;
-    const { multiple, placeholder: inputPlaceholder, singleOptionComponent } = this.props;
+    const {
+      multiple,
+      placeholder: inputPlaceholder,
+      singleOptionComponent,
+      withArrowDown,
+      customArrowComponent,
+    } = this.props;
+
     let placeholder = inputPlaceholder;
 
     if (multiple) {
@@ -338,7 +363,7 @@ class Select extends PureComponent {
         placeholder = (
           <Choose>
             <When condition={OptionCustomComponent}>
-              <OptionCustomComponent {...option.props} />
+              <OptionCustomComponent {...option.props} hideSelect={this.handleHideSelect} selected />
             </When>
             <Otherwise>
               {option.label}
@@ -350,7 +375,16 @@ class Select extends PureComponent {
 
     return (
       <div className="form-control select-block__label" onClick={this.handleInputClick}>
-        <i className="icon icon-arrow-down select-icon" />
+        <Choose>
+          <When condition={customArrowComponent}>
+            {customArrowComponent}
+          </When>
+          <Otherwise>
+            <If condition={withArrowDown}>
+              <i className="icon icon-arrow-down select-icon" />
+            </If>
+          </Otherwise>
+        </Choose>
         {placeholder}
       </div>
     );
@@ -393,6 +427,7 @@ class Select extends PureComponent {
           selectedOption={originalSelectedOptions[0]}
           onChange={this.handleSelectSingleOption}
           bindActiveOption={this.bindActiveOptionRef}
+          handleSelectHide={this.handleHideSelect}
           optionComponent={singleOptionComponent}
         />
       </Otherwise>

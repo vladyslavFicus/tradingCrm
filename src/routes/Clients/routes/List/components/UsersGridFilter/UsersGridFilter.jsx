@@ -3,8 +3,10 @@ import { isEqual, get } from 'lodash';
 import { I18n } from 'react-redux-i18n';
 import { getUsersByBranch } from 'graphql/queries/hierarchy';
 import PropTypes from 'constants/propTypes';
+import { filterSetTypes } from 'constants/filterSet';
 import ListFilterForm from 'components/ListFilterForm';
 import { filterFields, fieldNames } from '../attributes';
+import { AppoloRequestContext } from '../List';
 
 class UserGridFilter extends Component {
   static propTypes = {
@@ -16,7 +18,12 @@ class UserGridFilter extends Component {
     branchesLoading: PropTypes.bool.isRequired,
     operators: PropTypes.operatorsList.isRequired,
     operatorsLoading: PropTypes.bool.isRequired,
+    initialValues: PropTypes.object,
   };
+
+  static defaultProps = {
+    initialValues: null,
+  }
 
   state = {
     teams: this.props.teams,
@@ -35,7 +42,7 @@ class UserGridFilter extends Component {
   }
 
   filterOperators = async (value, formChange) => {
-    const { client, operators, setDesksTeamsOperators, notify } = this.props;
+    const { client, operators, notify } = this.props;
     let desksTeamsOperators = [];
 
     formChange(fieldNames.repIds, null);
@@ -57,7 +64,6 @@ class UserGridFilter extends Component {
     }
 
     desksTeamsOperators = data && data.map(({ uuid }) => uuid);
-    setDesksTeamsOperators(desksTeamsOperators);
 
     const filteredOperators = operators.filter(operator => desksTeamsOperators.indexOf(operator.uuid) !== -1);
     this.setState({ filteredOperators, branchOperatorsLoading: false });
@@ -68,7 +74,7 @@ class UserGridFilter extends Component {
   handleFieldChange = (fieldName, value, formChange, formValues) => {
     const { teams, operators } = this.props;
 
-    if (fieldName === fieldNames.desks) {
+    if (fieldName === fieldNames.desk) {
       let deskTeams = null;
       let isDeskSelected = false;
 
@@ -82,7 +88,7 @@ class UserGridFilter extends Component {
           ...(deskTeams && { teams: deskTeams }),
           isDeskSelected,
         },
-        value ? () => formChange(fieldNames.teams, null) : null,
+        value ? () => formChange(fieldNames.team, null) : null,
       );
     }
 
@@ -91,16 +97,16 @@ class UserGridFilter extends Component {
         this.filterOperators(value, formChange);
         break;
       }
-      case (fieldName === fieldNames.teams
-        && this.isValueInForm(formValues, fieldNames.desks)
+      case (fieldName === fieldNames.team
+        && this.isValueInForm(formValues, fieldNames.desk)
       ): {
-        this.filterOperators(formValues[fieldNames.desks], formChange);
+        this.filterOperators(formValues[fieldNames.desk], formChange);
         break;
       }
-      case (fieldName === fieldNames.desks
-        && this.isValueInForm(formValues, fieldNames.teams)
+      case (fieldName === fieldNames.desk
+        && this.isValueInForm(formValues, fieldNames.team)
       ): {
-        this.filterOperators(formValues[fieldNames.teams], formChange);
+        this.filterOperators(formValues[fieldNames.team], formChange);
         break;
       }
       default: this.setState({ filteredOperators: operators });
@@ -118,24 +124,35 @@ class UserGridFilter extends Component {
       branchesLoading,
       operatorsLoading,
       operators,
+      initialValues,
     } = this.props;
 
     const { teams, filteredOperators, branchOperatorsLoading } = this.state;
 
+    // Filter operators, when Filter set applied with desk or teams
+    const initialOperators = initialValues && initialValues.branchRepresentatives;
+
     return (
-      <ListFilterForm
-        onSubmit={onSubmit}
-        onReset={onReset}
-        fields={filterFields(
-          countries,
-          desks,
-          teams,
-          branchesLoading,
-          filteredOperators || operators,
-          operatorsLoading || branchOperatorsLoading,
+      <AppoloRequestContext.Consumer>
+        {requestInProgress => (
+          <ListFilterForm
+            onSubmit={onSubmit}
+            initialValues={initialValues}
+            onReset={onReset}
+            filterSetType={filterSetTypes.CLIENT}
+            fields={filterFields(
+              countries,
+              desks,
+              teams,
+              branchesLoading,
+              filteredOperators || initialOperators || operators,
+              operatorsLoading || branchOperatorsLoading,
+            )}
+            onFieldChange={this.handleFieldChange}
+            queryRequestInProgress={requestInProgress}
+          />
         )}
-        onFieldChange={this.handleFieldChange}
-      />
+      </AppoloRequestContext.Consumer>
     );
   }
 }

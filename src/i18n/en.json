@@ -2427,6 +2427,45 @@
       "EDIT_TITLE": "Edit tag"
     }
   },
+  "FILTER_SET": {
+    "CREATE_MODAL": {
+      "HEADER": "Save new filter set",
+      "FIELDS": {
+        "FILTER_NAME": "Filter name",
+        "FAVOURITE": "Is favourite?"
+      }
+    },
+    "CREATE": {
+      "FAILED": "Creating new filter set failed",
+      "FAILED_DESC": "Creating failed with error - %{desc}",
+      "SUCCESS": "Filter %{name} created successfully"
+    },
+    "UPDATE_MODAL": {
+      "HEADER": "Update filter set",
+      "FIELDS": {
+        "FILTER_NAME": "Filter name"
+      }
+    },
+    "UPDATE": {
+      "FAILED": "Updating filter set failed",
+      "FAILED_DESC": "Updating failed with error - %{desc}",
+      "SUCCESS": "Filter %{name} updated successfully"
+    },
+    "SELECT_OPTION": {
+      "SAVE": "Save",
+      "SAVE_AS": "Save as...",
+      "DELETE": "Delete"
+    },
+    "LOADING_FAILED": "Failed to load filter set",
+    "UPDATE_FAVOURITE": {
+      "ERROR": "Failed to update favourite",
+      "SUCCESS": "Filter set updated successfully"
+    },
+    "REMOVE_FILTER": {
+      "ERROR": "Failed to delete filter set",
+      "SUCCESS": "Filter set deleted successfully"
+    }
+  },
   "hierarchy": {
     "offices": {
       "success": {

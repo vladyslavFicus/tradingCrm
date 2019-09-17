@@ -238,6 +238,8 @@ const clientsQuery = gql`query ${queryNames.clientsQuery}(
   $retentionStatuses: [String],
   $searchAffiliate: String,
   $migrationId: String,
+  $desk: String,
+  $team: String,
 ) {
   profiles(
     page: $page,
@@ -266,7 +268,9 @@ const clientsQuery = gql`query ${queryNames.clientsQuery}(
     retentionStatuses: $retentionStatuses
     searchAffiliate: $searchAffiliate
     migrationId: $migrationId
-    ) {
+    desk: $desk,
+    team: $team,
+  ) {
       error {
         error
       }

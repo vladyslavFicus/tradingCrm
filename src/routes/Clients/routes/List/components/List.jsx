@@ -17,6 +17,8 @@ import UserGridFilter from './UsersGridFilter';
 import { columns } from './attributes';
 import { getClientsData } from './utils';
 
+export const AppoloRequestContext = React.createContext(false);
+
 class List extends Component {
   static propTypes = {
     notify: PropTypes.func.isRequired,
@@ -39,6 +41,7 @@ class List extends Component {
       query: PropTypes.shape({
         filters: PropTypes.object,
       }),
+      filterSetValues: PropTypes.object,
     }).isRequired,
     modals: PropTypes.shape({
       representativeModal: PropTypes.modalType,
@@ -80,7 +83,6 @@ class List extends Component {
     selectedRows: [],
     allRowsSelected: false,
     touchedRowsIds: [],
-    hierarchyOperators: [],
   };
 
   getChildContext() {
@@ -113,10 +115,6 @@ class List extends Component {
     this.handleFilterReset();
   }
 
-  setDesksTeamsOperators = (hierarchyOperators) => {
-    this.setState({ hierarchyOperators });
-  };
-
   handleGetRequestState = () => this.props.profiles.loading;
 
   handlePageChanged = () => {
@@ -133,23 +131,18 @@ class List extends Component {
   };
 
   handleFiltersChanged = async (filters = {}) => {
-    const { hierarchyOperators } = this.state;
+    const { location: { filterSetValues } } = this.props;
 
     this.setState({
       allRowsSelected: false,
       selectedRows: [],
       touchedRowsIds: [],
     }, () => history.replace({
-      query: {
-        filters: {
-          ...filters,
-          ...((filters.teams || filters.desks) && {
-            teams: null,
-            desks: null,
-            repIds: filters.repIds || hierarchyOperators,
-          }),
-        },
-      },
+      // Not to rewrite form initial Values if exist
+      ...(filterSetValues && {
+        filterSetValues,
+      }),
+      query: { filters },
     }));
   };
 
@@ -263,7 +256,7 @@ class List extends Component {
         type,
         allRowsSelected,
         totalElements,
-        ...query && { searchParams: omit(query.filters, ['desks', 'teams', 'size']) },
+        ...query && { searchParams: omit(query.filters, ['desk', 'team', 'size']) },
       },
     });
 
@@ -320,6 +313,7 @@ class List extends Component {
       fetchPlayerMiniProfile,
       auth,
       userBranchHierarchy: { hierarchy, loading: branchesLoading },
+      location: { filterSetValues },
     } = this.props;
 
     const {
@@ -407,15 +401,17 @@ class List extends Component {
           </If>
         </div>
 
-        <UserGridFilter
-          onSubmit={this.handleFiltersChanged}
-          onReset={this.handleFilterReset}
-          countries={countries}
-          teams={teams}
-          desks={desks}
-          branchesLoading={branchesLoading}
-          setDesksTeamsOperators={this.setDesksTeamsOperators}
-        />
+        <AppoloRequestContext.Provider value={this.props.profiles.loading}>
+          <UserGridFilter
+            onSubmit={this.handleFiltersChanged}
+            onReset={this.handleFilterReset}
+            countries={countries}
+            teams={teams}
+            desks={desks}
+            branchesLoading={branchesLoading}
+            initialValues={filterSetValues}
+          />
+        </AppoloRequestContext.Provider>
 
         <div className="card-body card-grid-multiselect">
           <GridView

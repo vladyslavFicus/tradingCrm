@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import { getFormValues, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
 import { I18n } from 'react-redux-i18n';
@@ -6,9 +6,10 @@ import moment from 'moment';
 import { isEqual } from 'lodash';
 import PropTypes from '../../constants/propTypes';
 import { createValidator } from '../../utils/validator';
+import FilterSet from '../FilterSet';
 import reduxFieldsConstructor, { getValidationRules } from '../ReduxForm/ReduxFieldsConstructor';
 
-class ListFilters extends Component {
+class ListFilters extends PureComponent {
   static propTypes = {
     reset: PropTypes.func,
     handleSubmit: PropTypes.func,
@@ -21,6 +22,8 @@ class ListFilters extends Component {
     change: PropTypes.func.isRequired,
     fields: PropTypes.array.isRequired,
     onFieldChange: PropTypes.func,
+    filterSetType: PropTypes.string,
+    queryRequestInProgress: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -30,7 +33,9 @@ class ListFilters extends Component {
     submitting: false,
     pristine: false,
     currentValues: null,
+    filterSetType: null,
     onFieldChange: () => {},
+    queryRequestInProgress: false,
   };
 
   static contextTypes = {
@@ -39,8 +44,11 @@ class ListFilters extends Component {
 
   state = {
     resetDisabled: true,
+    visible: true,
     prevValues: null,
   };
+
+  resetFilterSet = null;
 
   startDateValidator = fieldName => (current) => {
     const { currentValues } = this.props;
@@ -73,8 +81,19 @@ class ListFilters extends Component {
 
     this.props.reset();
     this.props.onReset();
+
+    if (this.props.filterSetType) {
+      this.resetFilterSet();
+    }
+
     this.setState({ resetDisabled: true });
   };
+
+  handleToggleVisibility = () => (
+    this.setState(({ visible }) => ({
+      visible: !visible,
+    }))
+  );
 
   handleSubmit = (values) => {
     const { prevValues } = this.state;
@@ -104,32 +123,60 @@ class ListFilters extends Component {
       pristine,
       handleSubmit,
       invalid,
+      change,
       fields,
+      reset,
+      currentValues,
+      filterSetType,
+      queryRequestInProgress,
     } = this.props;
-    const { resetDisabled } = this.state;
+
+    const { resetDisabled, visible } = this.state;
+
+    const disabled = pristine ? resetDisabled : false;
 
     return (
-      <form className="filter-row" onSubmit={handleSubmit(this.handleSubmit)}>
-        {reduxFieldsConstructor(fields, this.handleSelectFieldChange, this.startDateValidator, this.endDateValidator)}
-        <div className="filter-row__button-block">
-          <button
-            disabled={resetDisabled || submitting}
-            className="btn btn-default"
-            onClick={this.handleReset}
-            type="button"
-          >
-            {I18n.t('COMMON.RESET')}
-          </button>
-          <button
-            disabled={submitting || pristine || invalid}
-            className="btn btn-primary"
-            type="submit"
-            id="transactions-list-filters-apply-button"
-          >
-            {I18n.t('COMMON.APPLY')}
-          </button>
-        </div>
-      </form>
+      <Fragment>
+        <If condition={filterSetType}>
+          <FilterSet
+            type={filterSetType}
+            currentFormValues={currentValues}
+            toggleVisibility={this.handleToggleVisibility}
+            formChange={change}
+            resetForm={reset}
+            resetFilterSet={(func) => { this.resetFilterSet = func; }}
+            submitFilters={this.handleSubmit}
+            apolloRequestInProgress={queryRequestInProgress}
+          />
+        </If>
+        <If condition={visible}>
+          <form className="filter-row" onSubmit={handleSubmit(this.handleSubmit)}>
+            {reduxFieldsConstructor(
+              fields,
+              this.handleSelectFieldChange,
+              this.startDateValidator,
+              this.endDateValidator,
+            )}
+            <div className="filter-row__button-block">
+              <button
+                disabled={disabled || submitting}
+                className="btn btn-default"
+                onClick={this.handleReset}
+                type="button"
+              >
+                {I18n.t('COMMON.RESET')}
+              </button>
+              <button
+                disabled={submitting || invalid}
+                className="btn btn-primary"
+                type="submit"
+              >
+                {I18n.t('COMMON.APPLY')}
+              </button>
+            </div>
+          </form>
+        </If>
+      </Fragment>
     );
   }
 }
@@ -144,4 +191,5 @@ const ListFilterForm = reduxForm({
 
 export default connect(state => ({
   currentValues: getFormValues(FORM_NAME)(state),
+  enableReinitialize: true,
 }))(ListFilterForm);
