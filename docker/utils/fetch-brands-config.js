@@ -1,77 +1,37 @@
-const zookeeper = require('node-zookeeper-client');
-const { getChildren, castToBoolean, getProperty } = require('@hrzn/zookeeper');
+const getBrandsConfig = require('@hrzn/brands-config');
+const mapZookeeperBrandsConfig = require('./mapZookeeperBrandsConfig');
 
-function getZookeeperBrandPropertyPath(brand, property) {
-  return `/system/${brand}/nas/brand/${property}`;
-}
+async function fetchBrandsConfig({ zookeeperUrl, onBrandsConfigUpdated }) {
+  const timerId = setInterval(() => {
+    console.log('\x1b[31m', '❌ Zookeeper configuration can not be loaded in 10 sec... Check your VPN!', '\x1b[31m');
+  }, 10000);
 
-async function fetchBrandsConfigs({ zookeeperUrl }) {
-  const zookeeperClient = zookeeper.createClient(zookeeperUrl);
+  console.log('\x1b[32m', '⏳ Zookeeper configuration loading...', '\x1b[37m');
 
-  zookeeperClient.connect();
+  const options = {
+    watchFunction: config => onBrandsConfigUpdated(mapZookeeperBrandsConfig(config)),
+  };
 
-  const brands = await getChildren(zookeeperClient, '/system');
-
-  const brandsConfig = await Promise.all(
-    brands.map(async (id) => {
-      const currencies = await getProperty(
-        zookeeperClient,
-        getZookeeperBrandPropertyPath(id, 'nas.brand.currencies'),
-      );
-
-      const locales = await getProperty(
-        zookeeperClient,
-        getZookeeperBrandPropertyPath(id, 'nas.brand.locale'),
-      );
-
-      const password = await getProperty(
-        zookeeperClient,
-        getZookeeperBrandPropertyPath(id, 'nas.brand.password'),
-      );
-
-      const payment = await getProperty(
-        zookeeperClient,
-        getZookeeperBrandPropertyPath(id, 'nas.brand.payment'),
-      );
-
-      const clickToCall = await getProperty(
-        zookeeperClient,
-        getZookeeperBrandPropertyPath(id, 'nas.brand.clickToCall'),
-      );
-
-      const regulation = await getProperty(
-        zookeeperClient,
-        getZookeeperBrandPropertyPath(id, 'nas.brand.regulation'),
-      );
-
-      const demoGroups = await getProperty(
-        zookeeperClient,
-        getZookeeperBrandPropertyPath(id, 'nas.brand.mt4.demo_groups'),
-      );
-
-      return {
-        id,
-        currencies,
-        locales,
-        password,
-        payment: {
-          reasons: payment.reasons,
-        },
-        regulation: {
-          isActive: castToBoolean(regulation.isActive),
-        },
-        clickToCall: {
-          isActive: clickToCall ? castToBoolean(clickToCall.isActive) : false,
-          url: clickToCall ? clickToCall.url : null,
-        },
-        isDemoAvailable: !!demoGroups,
-      };
-    }),
+  const brandsConfig = await getBrandsConfig(
+    zookeeperUrl,
+    [
+      'nas.brand.currencies',
+      'nas.brand.locale',
+      'nas.brand.password',
+      'nas.brand.payment',
+      'nas.brand.clickToCall',
+      'nas.brand.regulation',
+      'nas.brand.mt4.demo_groups',
+    ],
+    null,
+    options,
   );
 
-  zookeeperClient.close();
+  clearInterval(timerId);
 
-  return brandsConfig;
+  console.log('\x1b[32m', '✅ Zookeeper configuration loaded successfully', '\x1b[37m');
+
+  return mapZookeeperBrandsConfig(brandsConfig);
 }
 
-module.exports = fetchBrandsConfigs;
+module.exports = fetchBrandsConfig;

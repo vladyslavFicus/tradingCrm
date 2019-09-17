@@ -5,9 +5,10 @@
   "author": "NAS",
   "license": "MIT",
   "dependencies": {
-    "@hrzn/zookeeper": "1.0.3-alpha.53",
+    "@hrzn/brands-config": "1.0.7",
     "@hrzn/express-token-middleware": "^1.0.14",
     "express": "^4.15.4",
+    "lodash": "^4.17.15",
     "uuid": "^3.3.2",
     "yamljs": "^0.3.0"
   }

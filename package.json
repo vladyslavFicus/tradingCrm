@@ -17,6 +17,7 @@
   "author": "nassoft",
   "license": "MIT",
   "dependencies": {
+    "@hrzn/brands-config": "1.0.7",
     "@hrzn/express-token-middleware": "^1.0.14",
     "@hrzn/react-big-calendar": "^0.20.3",
     "@newage/backoffice_ui": "0.0.52",
@@ -91,7 +92,6 @@
     "whatwg-fetch": "^2.0.3"
   },
   "devDependencies": {
-    "@hrzn/zookeeper": "1.0.3-alpha.53",
     "customize-cra": "^0.4.1",
     "env-cmd": "8.0.2",
     "eslint": "^5.16.0",

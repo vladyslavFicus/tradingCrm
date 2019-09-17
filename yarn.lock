@@ -930,6 +930,16 @@
   dependencies:
     "@hapi/hoek" "8.x.x"
 
+"@hrzn/brands-config@1.0.7":
+  version "1.0.7"
+  resolved "https://nexus.flcn.pro/repository/hrzn-npm/@hrzn/brands-config/-/brands-config-1.0.7.tgz#78e02d073e5ff00c0f0c1c2b8e997bb258117185"
+  integrity sha512-wI8aU1JFST63iJUwPTH0qt9X2R3+PyifGRQzZoOoh09KO/stzv+3VUueVfgvBp9VT4+PYwM6ZRiebbY1sRy1Mg==
+  dependencies:
+    "@hrzn/zookeeper" "^1.0.14"
+    lodash "^4.17.11"
+    loose-envify "^1.4.0"
+    node-zookeeper-client "^0.2.2"
+
 "@hrzn/express-token-middleware@^1.0.14":
   version "1.0.14"
   resolved "https://nexus.flcn.pro/repository/hrzn-npm/@hrzn/express-token-middleware/-/express-token-middleware-1.0.14.tgz#2bdadf431d70da2b29d9059ed5b2843fd3df2252"
@@ -983,9 +993,10 @@
   dependencies:
     loose-envify "^1.4.0"
 
-"@hrzn/zookeeper@1.0.3-alpha.53":
-  version "1.0.3-alpha.53"
-  resolved "https://nexus.flcn.pro/repository/hrzn-npm/@hrzn/zookeeper/-/zookeeper-1.0.3-alpha.53.tgz#aef9aeff228c9e766fafcc98c2d3478e75c76a07"
+"@hrzn/zookeeper@^1.0.14":
+  version "1.0.14"
+  resolved "https://nexus.flcn.pro/repository/hrzn-npm/@hrzn/zookeeper/-/zookeeper-1.0.14.tgz#a77f08877d6115e3e3062576aa159a48192ecad8"
+  integrity sha512-/Ftl7dnyOsUPTUt9sNZIeAAhcNtTMJ4iq3F/pJ5urvDmULCIgm4Wm1gADAyuvSBsFiu6xmbD0gVdMAlq5fbdzw==
   dependencies:
     lodash "^4.17.11"
     loose-envify "^1.4.0"

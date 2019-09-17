@@ -7,8 +7,15 @@ const {
   APP_VERSION = 'dev',
 } = process.env;
 
-module.exports = async () => {
-  const brandsConfig = await fetchBrandsConfig({ zookeeperUrl: platformConfig.zookeeper.url });
+/**
+ * Build application config
+ *
+ * @param onBrandsConfigUpdated Callback when brands config was updated remotely (on zookeeper)
+ *
+ * @return Promise
+ */
+module.exports = async (onBrandsConfigUpdated) => {
+  const brandsConfig = await fetchBrandsConfig({ zookeeperUrl: platformConfig.zookeeper.url, onBrandsConfigUpdated });
 
   return {
     version: APP_VERSION,

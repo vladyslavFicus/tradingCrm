@@ -71,7 +71,7 @@ function getClickToCall() {
 
 function setBrandId(brandId) {
   window.app.brandId = brandId;
-  window.app.brand = brandId ? config.brands.find(brand => brand.id === brandId) : null;
+  window.app.brand = config.brands[brandId];
 }
 
 function getLogo() {

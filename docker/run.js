@@ -5,10 +5,20 @@ const { saveConfig, writeRandomConfigSrcPath, buildNginxConfig } = require('./ut
 
 const INDEX_HTML_PATH = '/opt/build/index.html';
 
+let config = null;
+
 (async () => {
   const app = express();
 
-  const config = await buildConfig();
+  // Callback when brand configs changed remotely. We need to write new config to config.js file
+  const onBrandsConfigUpdated = async (brands) => {
+    config.brands = brands;
+
+    await saveConfig(config);
+    await writeRandomConfigSrcPath(INDEX_HTML_PATH);
+  };
+
+  config = await buildConfig(onBrandsConfigUpdated);
 
   const versionMiddleware = (req, res, next) => {
     const clientVersion = req.get('x-client-version');
