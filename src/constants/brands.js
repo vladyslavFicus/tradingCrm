@@ -148,8 +148,8 @@ const brandsConfig = {
     image: { src: '/img/brand/choose-brand/agm.svg' },
   },
   [brands.agmpsp]: {
-    name: 'Absolute GM',
-    image: { src: '/img/brand/choose-brand/agm.svg' },
+    name: 'Absolute GM PSP',
+    image: { src: '/img/brand/choose-brand/agmpsp.svg' },
   },
   [brands.apf]: {
     name: 'Aurum PF',
