@@ -23,6 +23,7 @@ const brands = keyMirror({
   everfxglobal: null,
   everfxcn: null,
   agm: null,
+  agmpsp: null,
   apf: null,
   kronosinvest: null,
   gladtotrade: null,
@@ -145,6 +146,10 @@ const brandsConfig = {
   [brands.agm]: {
     name: 'Absolute GM',
     image: { src: '/img/brand/choose-brand/agm.svg' },
+  },
+  [brands.agmpsp]: {
+    name: 'Absolute GM PSP',
+    image: { src: '/img/brand/choose-brand/agmpsp.svg' },
   },
   [brands.apf]: {
     name: 'Aurum PF',
