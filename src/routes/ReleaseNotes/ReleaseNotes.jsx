@@ -6,6 +6,130 @@ import { getBackofficeBrand } from 'config';
 const ReleaseNotes = () => (
   <Fragment>
     <h1>{startCase(getBackofficeBrand().id)} CRM<br />Release notes</h1>
+    <h1 id="18/Sep/19---Version-28">18/Sep/19 - Version 28</h1>
+    <h2 id="What-has-been-done">What has been done</h2>
+    <ul className="ak-ul">
+      <li>
+        <p>Internal Transfer can be enabled/disabled per Client</p>
+      </li>
+      <li>
+        <p>Limit on Trading Accounts, per client</p>
+      </li>
+      <li>
+        <p>Limit on real and demo accounts, per brand</p>
+      </li>
+      <li>
+        <p>Sales rules for an Operator</p>
+      </li>
+      <li>
+        <p>Clients can enter their bank details information on Clients Portal</p>
+      </li>
+      <li>
+        <p>CRS (Self certification) tick add to clients profile</p>
+      </li>
+      <li>
+        <p>Clients and leads can have one assigned operator only</p>
+      </li>
+      <li>
+        <p>Support of MOTO transactions</p>
+      </li>
+    </ul>
+    <h2 id="Bugs-and-Fixes-">Bugs and Fixes</h2>
+    <ul className="ak-ul">
+      <li>
+        <p>Client&rsquo;s deposits count update fixed</p>
+      </li>
+      <li>
+        <p>Client's language is being updated correctly</p>
+      </li>
+      <li>
+        <p>MOTO transactions can be recognized by "NasPay" aggrigator</p>
+      </li>
+      <li>
+        <p>Trading can't be disabled for Demo accounts</p>
+      </li>
+      <li>
+        <p>DEMO accounts are excluded from base balance calculation</p>
+      </li>
+    </ul>
+    <h1 id="29/August/19---Version-27">29/August/19 - Version 27</h1>
+    <h2 id="What-has-been-done">What has been done</h2>
+    <ul className="ak-ul">
+      <li>
+        <p>Leverage synchronization with MT4 replica</p>
+      </li>
+      <li>
+        <p>Allow client to change password of his MT4 trading accounts on Client Portal</p>
+      </li>
+      <li>
+        <p>Add search leads by source</p>
+      </li>
+      <li>
+        <p>Add ability to change operator/partner password from Backoffice</p>
+      </li>
+      <li>
+        <p>Deny a client profile creation if the country from the signup request is restricted</p>
+      </li>
+      <li>
+        <p>Add filter &ldquo;Completed / Rejected date&rdquo; to Payments in Backoffice</p>
+      </li>
+      <li>
+        <p>Create Brand administrator role (Customer service : Role4) with all permissions in all services</p>
+      </li>
+      <li>
+        <p>Add Rules section on Backoffice</p>
+      </li>
+    </ul>
+    <h2 id="Bugs-and-Fixes-">Bugs and Fixes</h2>
+    <ul className="ak-ul">
+      <li>
+        <p>Client Profile. Share Profile Link fixed</p>
+      </li>
+      <li>
+        <p>Individual move to sales/retention on clients profile fixed</p>
+      </li>
+      <li>
+        <p>Add insensitive check of restricted countries for partner's clients creation</p>
+      </li>
+    </ul>
+    <p>&nbsp;</p>
+    <h1 id="18/July/19---Version-26">18/July/19 - Version 26</h1>
+    <h2 id="What-has-been-done.1">What has been done</h2>
+    <ul className="ak-ul">
+      <li>
+        <p>Client can cancel withdraw request on Client Portal</p>
+      </li>
+      <li>
+        <p>Added Turkish locale for Client Portal</p>
+      </li>
+      <li>
+        <p>Last comment date range filter on clients search</p>
+      </li>
+      <li>
+        <p>Last trade date range filter on clients search</p>
+      </li>
+      <li>
+        <p>Last modified date range filter on client search</p>
+      </li>
+      <li>
+        <p>KYC Status changes to "Awaiting Review" when a client uploads a file</p>
+      </li>
+      <li>
+        <p>Multi currency transfers in Backoffice</p>
+      </li>
+      <li>
+        <p>Transfer with Fee transaction added for multi currency transfers</p>
+      </li>
+      <li>
+        <p>Original agent can be changed on transaction details popup in Backoffice</p>
+      </li>
+    </ul>
+    <h2 id="Bugs-&amp;-Fixes">Bugs &amp; Fixes</h2>
+    <ul className="ak-ul">
+      <li>
+        <p>Fixed - Errors when client translates Client Portal with Google translate</p>
+      </li>
+    </ul>
     <h1>11/July/19 - Version 25</h1>
     <h2>What has been done</h2>
     <ul>
