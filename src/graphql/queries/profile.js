@@ -162,6 +162,7 @@ const clientQuery = gql`query profileData($playerUUID: String!, $accountType: St
         baseCurrencyMargin
         mt4Users {
           accountType
+          archived
           login
           balance
           equity

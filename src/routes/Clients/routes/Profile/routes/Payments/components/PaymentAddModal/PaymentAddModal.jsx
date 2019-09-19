@@ -158,7 +158,7 @@ class PaymentAddModal extends PureComponent {
         singleOptionComponent={this.renderMt4SelectOption(name)}
       >
         {mt4Users
-          .filter(i => !(i.accountType === 'DEMO'
+          .filter(i => !i.archived && !(i.accountType === 'DEMO'
             && [
               paymentMethods.CREDIT_IN.name,
               paymentMethods.CREDIT_OUT.name,

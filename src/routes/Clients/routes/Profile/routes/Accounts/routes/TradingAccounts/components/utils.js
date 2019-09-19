@@ -16,12 +16,13 @@ export const actionColumn = render => ({
 export default [{
   name: 'tradingAcc',
   header: I18n.t('CLIENT_PROFILE.ACCOUNTS.GRID_COLUMNS.TRADING_ACC'),
-  render: ({ name, login, group, accountType }) => (
+  render: ({ name, login, group, accountType, archived }) => (
     <Fragment>
       <Badge
-        text={I18n.t(accountTypesLabels[accountType].label)}
-        info={accountType === 'DEMO'}
-        success={accountType === 'LIVE'}
+        text={I18n.t(archived ? 'CONSTANTS.ARCHIVED' : accountTypesLabels[accountType].label)}
+        info={accountType === 'DEMO' && !archived}
+        success={accountType === 'LIVE' && !archived}
+        danger={archived}
       >
         <div className="font-weight-700">
           {name}

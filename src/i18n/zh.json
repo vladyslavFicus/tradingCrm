@@ -1124,7 +1124,8 @@
     "ACCOUNT_TYPE": {
       "DEMO": "Demo",
       "LIVE": "Live"
-    }
+    },
+    "ARCHIVED": "Archived"
   },
   "OPERATOR_PROFILE": {
     "RESET_PASSWORD": "重置密码",

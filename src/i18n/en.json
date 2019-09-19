@@ -1133,7 +1133,8 @@
     "ACCOUNT_TYPE": {
       "DEMO": "Demo",
       "LIVE": "Live"
-    }
+    },
+    "ARCHIVED": "Archived"
   },
   "OPERATOR_PROFILE": {
     "RESET_PASSWORD": "Reset password",
