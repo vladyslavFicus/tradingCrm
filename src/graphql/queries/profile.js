@@ -190,6 +190,7 @@ const clientQuery = gql`query profileData($playerUUID: String!, $accountType: St
           _id
           source
           referral
+          sms
           affiliate {
             fullName
           }

@@ -127,6 +127,7 @@ class Personal extends PureComponent {
     const gdpr = get(tradingProfile, 'gdpr') || {};
     const spam = get(tradingProfile, 'spam') || {};
     const webCookies = get(tradingProfile, 'webCookies') || {};
+    const affiliateProfileDocument = get(tradingProfile, 'affiliateProfileDocument') || {};
 
     return (
       <div className="account-details__personal-info">
@@ -242,6 +243,10 @@ class Personal extends PureComponent {
                   }}
                 />
               </PermissionContent>
+              <PersonalInformationItem
+                label="SMS"
+                value={affiliateProfileDocument.sms}
+              />
               <Regulated>
                 <div className="account-details__label margin-top-15">
                   {I18n.t('CLIENT_PROFILE.DETAILS.GDPR.TITLE')}
