@@ -1,6 +1,7 @@
 import { reduxForm } from 'redux-form';
 import { get } from 'lodash';
 import { compose, graphql } from 'react-apollo';
+import { getActiveBrandConfig } from 'config';
 import { createValidator, translateLabels } from 'utils/validator';
 import { withReduxFormValues } from 'components/HighOrder';
 import { branchTypes as branchNames } from 'constants/hierarchyTypes';
@@ -46,6 +47,7 @@ export default compose(
       firstName: ['required', 'string', 'min:3'],
       lastName: ['required', 'string', 'min:3'],
       email: ['required', 'email'],
+      password: ['required', `regex:${getActiveBrandConfig().password.pattern}`],
       phone: 'min:3',
       department: 'required',
       role: 'required',
