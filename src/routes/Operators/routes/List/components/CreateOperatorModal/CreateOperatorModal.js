@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import { Field } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
 import { departmentsLabels, rolesLabels } from 'constants/operators';
-import { CheckBox } from 'components/ReduxForm';
 import Select from 'components/Select';
+import { generate } from 'utils/password';
 import reduxFieldsConstructor from 'components/ReduxForm/ReduxFieldsConstructor';
 import { branchField, formFields, fieldNames } from './constants';
 
@@ -45,6 +44,10 @@ class CreateOperatorModal extends Component {
   state = {
     selectedBranchType: '',
     branches: null,
+  };
+
+  handleGeneratePassword = () => {
+    this.props.change('password', generate());
   };
 
   handleSelectFieldChange = fieldName => (value) => {
@@ -106,7 +109,7 @@ class CreateOperatorModal extends Component {
                 departmentsRoles,
                 rolesLabels,
                 formValues,
-              }),
+              }, this.handleGeneratePassword),
               this.handleSelectFieldChange,
             )}
             <div className="form-group col-md-6">
@@ -130,13 +133,6 @@ class CreateOperatorModal extends Component {
                 branches,
               )])}
           </div>
-          <Field
-            name="sendMail"
-            type="checkbox"
-            component={CheckBox}
-            id="create-new-operator-send-invitation-checkbox"
-            label={I18n.t('OPERATORS.MODALS.NEW_OPERATOR.SEND_INVITATION')}
-          />
         </ModalBody>
         <ModalFooter>
           <div className="row">

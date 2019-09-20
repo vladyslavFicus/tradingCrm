@@ -1,3 +1,4 @@
+import React from 'react';
 import keyMirror from 'keymirror';
 import { fieldTypes } from 'components/ReduxForm/ReduxFieldsConstructor';
 import I18n from 'utils/fake-i18n';
@@ -46,7 +47,7 @@ const formFields = ({
   departmentsRoles,
   rolesLabels,
   formValues,
-}) => [{
+}, handleGeneratePassword) => [{
   type: fieldTypes.INPUT,
   name: 'firstName',
   label: I18n.t(attributeLabels.firstName),
@@ -65,6 +66,15 @@ const formFields = ({
   name: 'email',
   label: I18n.t(attributeLabels.email),
   id: 'create-new-operator-email',
+  className: 'col-md-6',
+  showErrorMessage: true,
+}, {
+  type: fieldTypes.INPUT,
+  name: 'password',
+  label: I18n.t(attributeLabels.password),
+  onIconClick: handleGeneratePassword,
+  inputAddon: <span className="icon-generate-password" />,
+  inputAddonPosition: 'right',
   className: 'col-md-6',
   showErrorMessage: true,
 }, {

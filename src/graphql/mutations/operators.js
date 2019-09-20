@@ -6,9 +6,9 @@ const createOperator = gql`mutation createOperator(
   $email: String!,
   $firstName: String!,
   $lastName: String!,
+  $password: String!,
   $phone: String,
   $role: String!,
-  $sendMail: Boolean!,
   $userType: String!,
 ) {
   operator {
@@ -19,9 +19,9 @@ const createOperator = gql`mutation createOperator(
       firstName: $firstName,
       lastName: $lastName,
       phone: $phone,
+      password: $password,
       role: $role,
       userType: $userType,
-      sendMail: $sendMail,
     ) {
       data {
         country
