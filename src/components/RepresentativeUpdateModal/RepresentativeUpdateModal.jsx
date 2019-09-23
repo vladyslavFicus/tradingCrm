@@ -175,7 +175,7 @@ class RepresentativeUpdateModal extends Component {
     change(fieldNames.TEAM, selectedTeam);
 
     if (agents && agents.length === 1) {
-      change(fieldNames.REPRESENTATIVE, agents[0].uuid);
+      change(fieldNames.REPRESENTATIVE, [agents[0].uuid]);
     } else if (selectedRep) {
       change(fieldNames.REPRESENTATIVE, null);
     }
