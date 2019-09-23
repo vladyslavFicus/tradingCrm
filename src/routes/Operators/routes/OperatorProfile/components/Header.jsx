@@ -99,7 +99,7 @@ class Header extends Component {
               && (
                 <PermissionContent permissions={permissions.OPERATORS.RESET_PASSWORD}>
                   <Button
-                    className="btn-sm btn-default-outline"
+                    className="btn-sm btn-default-outline margin-right-10"
                     onClick={onResetPasswordClick}
                   >
                     {I18n.t('OPERATOR_PROFILE.RESET_PASSWORD')}
