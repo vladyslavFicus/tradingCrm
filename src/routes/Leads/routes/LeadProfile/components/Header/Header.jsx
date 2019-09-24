@@ -40,7 +40,7 @@ const Header = ({
         </div>
       </ProfileHeaderPlaceholder>
       <div className="col-auto panel-heading-row__actions">
-        <PermissionContent permissions={permissions.TAGS.ADD_TAG}>
+        <PermissionContent permissions={permissions.NOTES.ADD_NOTE}>
           <PopoverButton
             id="header-add-note-button"
             className="btn btn-sm btn-default-outline"

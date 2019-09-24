@@ -50,7 +50,7 @@ class Information extends PureComponent {
           <div className="col-md-2">
             <IpList label={I18n.t('PLAYER_PROFILE.IP_LIST.TITLE')} ips={ips} />
           </div>
-          <PermissionContent permissions={permissions.TAGS.VIEW_TAGS}>
+          <PermissionContent permissions={permissions.NOTES.VIEW_NOTES}>
             <div className="col">
               <Notes
                 notes={pinnedNotes}

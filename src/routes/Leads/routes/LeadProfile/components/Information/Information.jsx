@@ -21,7 +21,7 @@ const Information = ({ pinnedNotes, onEditNoteClick, data, loading }) => (
           loading={loading}
         />
       </div>
-      <PermissionContent permissions={permissions.TAGS.VIEW_TAGS}>
+      <PermissionContent permissions={permissions.NOTES.VIEW_NOTES}>
         <div className="col">
           <Notes
             notes={pinnedNotes}

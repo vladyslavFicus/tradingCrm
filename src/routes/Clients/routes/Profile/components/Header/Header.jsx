@@ -187,7 +187,7 @@ class Header extends Component {
                   {I18n.t('PLAYER_PROFILE.PROFILE.HEADER.UNLOCK')}
                 </button>
               </If>
-              <PermissionContent permissions={permissions.TAGS.ADD_TAG}>
+              <PermissionContent permissions={permissions.NOTES.ADD_NOTE}>
                 <PopoverButton
                   id="header-add-note-button"
                   className="btn btn-sm btn-default-outline"

@@ -134,13 +134,13 @@ class NoteItem extends Component {
                 {
                   label: I18n.t('COMMON.ACTIONS.EDIT'),
                   onClick: handleNoteClick(modalType.EDIT, data),
-                  permissions: new Permissions(permissions.TAGS.NOTES.UPDATE_NOTE),
+                  permissions: new Permissions(permissions.NOTES.UPDATE_NOTE),
                 },
                 {
                   label: I18n.t('COMMON.ACTIONS.DELETE'),
                   onClick: handleNoteClick(modalType.DELETE, data),
                   ...(department && { visible: department !== departments.CS }),
-                  permissions: new Permissions(permissions.TAGS.NOTES.DELETE_NOTE),
+                  permissions: new Permissions(permissions.NOTES.DELETE_NOTE),
                 },
               ]}
             />

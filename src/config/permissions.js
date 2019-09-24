@@ -108,13 +108,11 @@ export default {
     CREATE: 'trading_mt4_updater;POST;/user',
     UPDATE_PASSWORD: 'trading_mt4_updater;PUT;/user/password',
   },
-  TAGS: {
-    ADD_TAG: 'tag;POST;/',
-    VIEW_TAGS: 'tag;GET;/tags/{playerUUID}',
-    NOTES: {
-      UPDATE_NOTE: 'tag;PUT;/note/{noteId}',
-      DELETE_NOTE: 'tag;DELETE;/note/{noteId}',
-    },
+  NOTES: {
+    ADD_NOTE: 'forex_note;POST;/',
+    VIEW_NOTES: 'forex_note;POST;/search',
+    UPDATE_NOTE: 'forex_note;PUT;/{noteId}',
+    DELETE_NOTE: 'forex_note;DELETE;/{noteId}',
   },
   SETTINGS: {
     CHANGE_LIMIT: 'payment;POST;/methods/{uuid}/{limitUUID}',

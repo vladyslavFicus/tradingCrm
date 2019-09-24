@@ -26,7 +26,7 @@ const validator = createValidator({
   pinned: ['required', 'boolean'],
 }, attributeLabels, false);
 
-const updateNotePermissions = new Permissions(permissions.TAGS.NOTES.UPDATE_NOTE);
+const updateNotePermissions = new Permissions(permissions.NOTES.UPDATE_NOTE);
 
 class NotePopover extends Component {
   static propTypes = {
@@ -246,7 +246,7 @@ class NotePopover extends Component {
             </If>
           </div>
           <div className="col-auto ml-auto">
-            <PermissionContent permissions={permissions.TAGS.NOTES.DELETE_NOTE}>
+            <PermissionContent permissions={permissions.NOTES.DELETE_NOTE}>
               <button
                 type="button"
                 onClick={() => this.handleRemoveNote(noteId || uuid)}
@@ -332,7 +332,7 @@ class NotePopover extends Component {
               </button>
               <Choose>
                 <When condition={item && (item.uuid || item.noteId)}>
-                  <PermissionContent permissions={permissions.TAGS.NOTES.UPDATE_NOTE}>
+                  <PermissionContent permissions={permissions.NOTES.UPDATE_NOTE}>
                     <button
                       type="submit"
                       className="btn btn-primary btn-sm text-uppercase font-weight-700"
