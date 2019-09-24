@@ -179,27 +179,13 @@ class Payments extends Component {
       addNote,
       match: { params: { id: uuid } },
       clientPayments: { refetch },
-      playerProfile: { playerProfile },
       fetchProfile,
       modals: { addPayment: modal },
     } = this.props;
 
-    const {
-      country,
-      languageCode: language,
-      firstName,
-      lastName,
-    } = playerProfile.data;
-
     const variables = {
       ...inputParams,
-      language,
-      playerProfile: {
-        country,
-        firstName,
-        lastName,
-        uuid,
-      },
+      profileUUID: uuid,
     };
     const { data: { payment: { createClientPayment: { data: payment, error } } } } = await addPayment({ variables });
 

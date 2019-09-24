@@ -9,9 +9,8 @@ const addPaymentMutation = gql`mutation createClientPayment(
   $target: Int,
   $source: Int,
   $country: String,
-  $language: String,
   $paymentMethod: String,
-  $playerProfile: PlayerProfileInput,
+  $profileUUID: String
 ) {
   payment {
     createClientPayment (
@@ -23,9 +22,8 @@ const addPaymentMutation = gql`mutation createClientPayment(
       source: $source,
       target: $target,
       country: $country,
-      language: $language,
       paymentMethod: $paymentMethod,
-      playerProfile: $playerProfile,
+      profileUUID: $profileUUID
     ) {
       data {
         paymentId

@@ -3,21 +3,14 @@ import { I18n } from 'react-redux-i18n';
 import classNames from 'classnames';
 import moment from 'moment';
 import FailedStatusIcon from 'components/FailedStatusIcon';
-import {
-  statusMapper,
-  tradingTypes,
-} from '../../constants/payment';
 import PropTypes from '../../constants/propTypes';
 import { getTradingStatusProps } from '../../utils/paymentHelpers';
 import Uuid from '../Uuid';
-import FailedStatusContainer from '../../routes/Payments/routes/List/container/FailedStatusContainer';
 
 const PaymentStatus = ({
   payment: {
     status,
     paymentId,
-    paymentType,
-    playerProfile: { uuid },
     declineReason,
     modifiedBy,
     modificationTime,
@@ -28,14 +21,7 @@ const PaymentStatus = ({
     <Fragment>
       <div className={classNames(color, 'font-weight-700 text-uppercase status')}>
         {label}
-        <If condition={paymentType === tradingTypes.DEPOSIT && statusMapper.FAILED.indexOf(status) !== -1}>
-          <FailedStatusContainer
-            id={`transaction-failure-reason-${paymentId}`}
-            paymentId={paymentId}
-            uuid={uuid}
-          />
-        </If>
-        <If condition={statusMapper.REJECTED.indexOf(status) !== -1}>
+        <If condition={declineReason != null}>
           <FailedStatusIcon id={`transaction-failure-reason-${paymentId}`}>
             {declineReason}
           </FailedStatusIcon>
