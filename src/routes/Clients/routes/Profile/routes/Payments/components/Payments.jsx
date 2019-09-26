@@ -16,15 +16,7 @@ import { CONDITIONS } from 'utils/permissions';
 
 class Payments extends Component {
   static propTypes = {
-    filters: PropTypes.shape({
-      data: PropTypes.shape({
-        paymentMethods: PropTypes.arrayOf(PropTypes.string).isRequired,
-        statuses: PropTypes.arrayOf(PropTypes.string).isRequired,
-      }).isRequired,
-    }).isRequired,
     fetchProfile: PropTypes.func.isRequired,
-    fetchFilters: PropTypes.func.isRequired,
-    resetAll: PropTypes.func.isRequired,
     auth: PropTypes.shape({
       uuid: PropTypes.string.isRequired,
     }).isRequired,
@@ -94,15 +86,10 @@ class Payments extends Component {
       },
       constructor: { name },
       handleRefresh,
-      props: {
-        match: { params: { id: playerUUID } },
-        fetchFilters,
-      },
     } = this;
 
     handleRefresh();
     registerUpdateCacheListener(name, handleRefresh);
-    fetchFilters(playerUUID);
     setNoteChangedCallback(handleRefresh);
   }
 
@@ -113,10 +100,8 @@ class Payments extends Component {
         setNoteChangedCallback,
       },
       constructor: { name },
-      props: { resetAll },
     } = this;
 
-    resetAll();
     setNoteChangedCallback(null);
     unRegisterUpdateCacheListener(name);
   }
@@ -167,7 +152,6 @@ class Payments extends Component {
   };
 
   handleFilterReset = () => {
-    this.props.resetAll();
     history.replace({});
   };
 

@@ -8,7 +8,6 @@ import { operatorsQuery } from 'graphql/queries/operators';
 import { clientQuery } from 'graphql/queries/profile';
 import { withModals } from 'components/HighOrder';
 import Payments from '../components/Payments';
-import { actionCreators as viewActionCreators } from '../modules';
 import { actionCreators as playerActionCreators } from '../../../modules';
 import PaymentAddModal from '../components/PaymentAddModal';
 
@@ -26,14 +25,6 @@ const mapStateToProps = ({
 
 const mapActions = {
   fetchProfile: playerActionCreators.fetchProfile,
-  fetchEntities: viewActionCreators.fetchEntities,
-  fetchFilters: viewActionCreators.fetchFilters,
-  onChangePaymentStatus: viewActionCreators.changePaymentStatus,
-  loadPaymentStatuses: viewActionCreators.fetchPaymentStatuses,
-  loadPaymentAccounts: viewActionCreators.fetchPaymentAccounts,
-  manageNote: viewActionCreators.manageNote,
-  resetNote: viewActionCreators.resetNote,
-  resetAll: viewActionCreators.resetAll,
 };
 
 export default compose(

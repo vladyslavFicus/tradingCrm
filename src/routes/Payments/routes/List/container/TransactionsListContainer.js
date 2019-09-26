@@ -2,7 +2,6 @@ import { connect } from 'react-redux';
 import { compose, graphql } from 'react-apollo';
 import { get } from 'lodash';
 import { getClientPayments } from 'graphql/queries/payments';
-import { actionCreators } from 'redux/modules/transactions/';
 import { operatorsQuery } from 'graphql/queries/operators';
 import { actionCreators as miniProfileActionCreators } from 'redux/modules/miniProfile';
 import View from '../components/View';
@@ -23,9 +22,7 @@ const mapStateToProps = ({
 });
 
 const mapActions = {
-  onChangePaymentStatus: actionCreators.changePaymentStatus,
   fetchPlayerMiniProfile: miniProfileActionCreators.fetchPlayerProfile,
-  resetAll: actionCreators.resetAll,
 };
 
 export default compose(

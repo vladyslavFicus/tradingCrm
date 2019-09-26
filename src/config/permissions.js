@@ -43,13 +43,8 @@ export default {
     ADD_PROMO_CODE_TO_PLAYER: 'promotion;PUT;/campaigns/{playerUUID}/by-promo-code/{promoCode}',
     ADD_TAG: 'profile;POST;/profiles/{playerUUID}/tags',
     DELETE_TAG: 'profile;DELETE;/profiles/{playerUUID}/tags/{tagId}',
-    LOCK_DEPOSIT: 'payment;POST;/lock/deposit',
-    LOCK_WITHDRAW: 'payment;POST;/lock/withdraw',
-    UNLOCK_DEPOSIT: 'payment;POST;/lock/{playerUUID}/deposit',
-    UNLOCK_WITHDRAW: 'payment;POST;/lock/{playerUUID}/withdraw',
     UNLOCK_LOGIN: 'auth;DELETE;/credentials/{playerUUID}/lock',
     GET_LOGIN_LOCK: 'auth;GET;/credentials/{uuid}/lock',
-    GET_PAYMENT_LOCKS: 'payment;GET;/lock/{uuid}',
     UPDATE_MARKETING_SETTINGS: 'profile;PUT;/profiles/{playerUUID}/subscription',
     REQUEST_KYC: 'profile;POST;/kyc/{playerUUID}/request',
     KYC_VERIFY_ALL: 'profile;POST;/kyc/{playerUUID}/verify',
@@ -75,9 +70,6 @@ export default {
     UPLOAD_FILE: 'profile;POST;/files/confirm/{playerUUID}',
   },
   PAYMENT: {
-    PLAYER_ACCOUNT_LIST: 'payment;GET;/accounts/{playerUUID}',
-    PAYMENT_METHODS_LIST: 'payment;GET;/methods',
-    ACCOUNT_LOCK: 'payment;PUT;/accounts/{paymentAccountUUID}/lock',
     DEPOSIT: 'trading_payment;POST;/deposit',
     WITHDRAW: 'trading_payment;POST;/withdraw',
     CREDIT_IN: 'trading_payment;POST;/credit_in',
@@ -88,15 +80,8 @@ export default {
     CHANGE_STATUS: 'trading_payment;PUT;/{paymentId}/status',
     CHANGE_METHOD: 'trading_payment;PUT;/{paymentId}/method',
   },
-  PAYMENT_VIEW: {
-    PAYMENT_REPORT: 'payment_view;GET;/payments/payment_report',
-  },
   PAYMENTS: {
-    PLAYER_PAYMENTS_LIST: 'payment;GET;/payments/{playerUUID}',
-    LIST: 'payment;GET;/payments',
-    APPROVE_WITHDRAW: 'payment;POST;/payments/{playerUUID}/{paymentId}/approve',
-    REFUSE_WITHDRAW: 'payment;POST;/payments/{playerUUID}/{paymentId}/refuse',
-    CHARGEBACK_DEPOSIT: 'payment;POST;/payments/{playerUUID}/{paymentId}/chargeback',
+    PLAYER_PAYMENTS_LIST: 'trading_payment;POST;/search',
   },
   AUDIT: {
     PLAYER_AUDIT_LOGS: 'audit;GET;/audit/logs/{playerUUID}',
@@ -113,11 +98,5 @@ export default {
     VIEW_NOTES: 'forex_note;POST;/search',
     UPDATE_NOTE: 'forex_note;PUT;/{noteId}',
     DELETE_NOTE: 'forex_note;DELETE;/{noteId}',
-  },
-  SETTINGS: {
-    CHANGE_LIMIT: 'payment;POST;/methods/{uuid}/{limitUUID}',
-    ENABLE_METHOD: 'payment;POST;/methods/{uuid}/{limitUUID}/enable',
-    DISABLE_METHOD: 'payment;POST;/methods/{uuid}/{limitUUID}/disable',
-    CHANGE_STATUS: 'payment;POST;/methods/{uuid}',
   },
 };

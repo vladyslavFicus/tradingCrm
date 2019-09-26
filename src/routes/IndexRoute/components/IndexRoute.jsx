@@ -14,7 +14,6 @@ import Logout from 'routes/Logout';
 import Brands from 'routes/Brands';
 import Clients from 'routes/Clients';
 import Payments from 'routes/Payments';
-import Settings from 'routes/Settings';
 import SetPassword from 'routes/SetPassword';
 import ResetPassword from 'routes/ResetPassword';
 import Operators from 'routes/Operators';
@@ -69,7 +68,6 @@ class IndexRoute extends PureComponent {
             </Choose>
             {/* Private */}
             <AppRoute path="/brands" layout={BlackLayout} component={Brands} checkAuth />
-            <AppRoute path="/settings" layout={MainLayout} component={Settings} checkAuth />
             <AppRoute path="/dashboard" layout={MainLayout} component={Dashboard} checkAuth />
             <AppRoute path="/personal-dashboard" layout={MainLayout} component={PersonalDashboard} checkAuth />
             <AppRoute path="/payments" layout={MainLayout} component={Payments} checkAuth />

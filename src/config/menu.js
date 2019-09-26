@@ -86,16 +86,7 @@ const sidebarTopMenu = [{
   label: I18n.t('SIDEBAR.TOP_MENU.CALLBACKS'),
   icon: 'icon-callbacks',
   url: '/callbacks',
-}, /* {
-  label: I18n.t('SIDEBAR.TOP_MENU.SETTINGS'),
-  icon: 'icon-settings',
-  isOpen: false,
-  items: [{
-    label: I18n.t('SIDEBAR.TOP_MENU.PAYMENT_METHODS'),
-    url: '/settings/paymentMethods',
-    service: services.payment,
-  }],
-} */];
+}];
 
 const sidebarBottomMenu = [{
   label: I18n.t('SIDEBAR.BOTTOM_MENU.RELEASE_NOTES'),

@@ -10,8 +10,6 @@ import ListFilterForm from 'components/ListFilterForm';
 
 class View extends Component {
   static propTypes = {
-    onChangePaymentStatus: PropTypes.func.isRequired,
-    resetAll: PropTypes.func.isRequired,
     locale: PropTypes.string.isRequired,
     fetchPlayerMiniProfile: PropTypes.func.isRequired,
     auth: PropTypes.shape({
@@ -74,7 +72,6 @@ class View extends Component {
 
   componentWillUnmount() {
     this.context.notes.setNoteChangedCallback(null);
-    this.props.resetAll();
   }
 
   handleRefresh = () => this.props.clientPayments.refetch({
@@ -118,17 +115,7 @@ class View extends Component {
   };
 
   handleFilterReset = () => {
-    this.props.resetAll();
     history.replace({});
-  };
-
-  // this probably will use in another place
-  handleChangePaymentStatus = (action, playerUUID, paymentId, options = {}) => {
-    const { onChangePaymentStatus } = this.props;
-
-    return onChangePaymentStatus({ action, playerUUID, paymentId, options })
-      .then(this.handleRefresh)
-      .then(this.handleCloseModal);
   };
 
   render() {
