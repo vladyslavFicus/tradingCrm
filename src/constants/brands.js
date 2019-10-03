@@ -3,6 +3,7 @@ import I18n from '../utils/fake-i18n';
 
 const brands = keyMirror({
   nasfx: null,
+  terrafinance: null,
   cryptomb: null,
   bycrypto: null,
   snpbrokers: null,
@@ -122,6 +123,10 @@ const brandsConfig = {
   [brands.ptbanc]: {
     name: 'PTbanc',
     image: { src: '/img/brand/choose-brand/ptbanc.svg' },
+  },
+  [brands.terrafinance]: {
+    name: 'Terra Finance',
+    image: { src: '/img/brand/choose-brand/terrafinance.svg' },
   },
   [brands.trustfx]: {
     name: 'TrustFX',
