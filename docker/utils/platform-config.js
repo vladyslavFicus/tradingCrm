@@ -3,7 +3,7 @@ const ymlReader = require('yamljs');
 
 const {
   NAS_PROJECT,
-  SECRET_PATH = '/forex_backoffice/lib/etc/',
+  SECRET_PATH = '/backoffice/lib/etc/',
 } = process.env;
 
 if (!NAS_PROJECT) {

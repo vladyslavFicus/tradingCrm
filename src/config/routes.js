@@ -1,9 +1,4 @@
 import permissions from './permissions';
-import { services } from '../constants/services';
-
-const routeServices = {
-  '/players/:id/transactions/trading-activity': services.trading_activity,
-};
 
 const routePermissions = {
   '/players/list': permissions.USER_PROFILE.PROFILES_LIST,
@@ -22,5 +17,4 @@ const routePermissions = {
 
 export default {
   routePermissions,
-  routeServices,
 };

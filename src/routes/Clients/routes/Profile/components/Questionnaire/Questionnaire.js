@@ -84,7 +84,7 @@ class Questionnaire extends PureComponent {
 
     const { profileUUID } = this.props;
 
-    const requestUrl = `${getApiRoot()}/forex_questionnaire/pdf/${profileUUID}`;
+    const requestUrl = `${getApiRoot()}/questionnaire/pdf/${profileUUID}`;
 
     const response = await fetch(requestUrl, {
       method: 'GET',

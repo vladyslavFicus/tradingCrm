@@ -1,4 +1,4 @@
-name: hrzn/forex_backoffice
+name: falcon/backoffice
 version: 0.0.@
 extends:
 - devops/escape_docker-latest

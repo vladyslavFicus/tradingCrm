@@ -20,7 +20,7 @@ module.exports = async (onBrandsConfigUpdated) => {
   return {
     version: APP_VERSION,
     apiRoot: platformConfig.hrzn.api_url,
-    graphqlRoot: '/api/forex_graphql/gql',
+    graphqlRoot: '/api/backoffice-graphql/gql',
     brands: brandsConfig,
     environment: NAS_PROJECT,
     defaultBackofficeBrand: NAS_BRAND,

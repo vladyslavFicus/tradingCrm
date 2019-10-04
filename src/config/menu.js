@@ -1,5 +1,4 @@
 import I18n from 'utils/fake-i18n';
-import { services } from 'constants/services';
 import { departments, roles } from 'constants/brands';
 import Permissions from 'utils/permissions';
 import permissions from './permissions';
@@ -15,7 +14,6 @@ const operatorsExcludeAuthorities = [{
 const sidebarTopMenu = [{
   label: I18n.t('SIDEBAR.TOP_MENU.DASHBOARD'),
   icon: 'icon-dashboard',
-  service: services.trading_payment,
   items: [{
     label: I18n.t('SIDEBAR.TOP_MENU.DASHBOARD_ITEMS.DEFAULT'),
     url: '/dashboard',
@@ -30,7 +28,6 @@ const sidebarTopMenu = [{
   items: [{
     label: I18n.t('SIDEBAR.TOP_MENU.SEARCH_CLIENTS'),
     url: '/clients/list',
-    service: services.profile,
   }, {
     label: I18n.t('SIDEBAR.TOP_MENU.KYC_DOCUMENTS'),
     url: '/clients/kyc-documents',
@@ -39,7 +36,6 @@ const sidebarTopMenu = [{
   label: I18n.t('SIDEBAR.TOP_MENU.LEADS'),
   icon: 'icon-leads sidebar-nav-item__icon--leads',
   url: '/leads/list',
-  service: services.trading_lead,
   permissions: new Permissions(permissions.LEADS.GET_LEADS),
 }, {
   label: I18n.t('SIDEBAR.TOP_MENU.HIERARCHY'),
@@ -69,7 +65,6 @@ const sidebarTopMenu = [{
   }, {
     label: I18n.t('SIDEBAR.TOP_MENU.OPERATORS'),
     url: '/operators',
-    service: services.operator,
     permissions: new Permissions(permissions.HIERARCHY.GET_OPERATORS),
     excludeAuthorities: operatorsExcludeAuthorities,
   }, {
@@ -81,7 +76,6 @@ const sidebarTopMenu = [{
   label: I18n.t('SIDEBAR.TOP_MENU.PAYMENTS'),
   icon: 'icon-payments sidebar-nav-item__icon--payments',
   url: '/payments',
-  service: services.payment,
 }, {
   label: I18n.t('SIDEBAR.TOP_MENU.CALLBACKS'),
   icon: 'icon-callbacks',
