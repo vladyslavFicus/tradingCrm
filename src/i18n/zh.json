@@ -767,6 +767,16 @@
       "WARNING_TEXT": "操作无法取消！",
       "ACTION_TEXT": "您即将删除文件 %{fileName}，该文件来自 %{player} - %{shortUUID} - 账户"
     },
+    "CONFIRM_ACTION_MODAL": {
+      "TITLE": "删除文件 - 确认",
+      "BUTTONS": {
+        "DELETE": "确认"
+      },
+      "WARNING_TEXT": "操作无法取消！",
+      "ACTION_TEXT": "Are you sure that you want to delete file \"%{fileName}\"?",
+      "FILE_DELETED": "File successfully deleted",
+      "FILE_NOT_DELETED": "File is not deleted by technical reason"
+    },
     "GRID": {
       "COLUMN": {
         "NAME": "文件",

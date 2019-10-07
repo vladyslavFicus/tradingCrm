@@ -3,6 +3,8 @@ import { graphql, compose } from 'react-apollo';
 import { get } from 'lodash';
 import { filesQuery } from 'graphql/queries/files';
 import { verifyMutation, refuseMutation, deleteMutation, updateFileStatusMutation } from 'graphql/mutations/files';
+import { withNotifications, withModals } from 'components/HighOrder';
+import ConfirmActionModal from 'components/Modal/ConfirmActionModal';
 import Files from '../components/Files';
 import { actionCreators as filesActionCreators } from '../../../modules/files';
 
@@ -12,6 +14,10 @@ const mapDispathToProps = {
 
 export default compose(
   connect(null, mapDispathToProps),
+  withNotifications,
+  withModals({
+    deleteModal: ConfirmActionModal,
+  }),
   graphql(verifyMutation, {
     name: 'verify',
   }),

@@ -778,6 +778,16 @@
       "WARNING_TEXT": "This action can not be undone!",
       "ACTION_TEXT": "You are about to delete file %{fileName} from %{player} - %{shortUUID} - account"
     },
+    "CONFIRM_ACTION_MODAL": {
+      "TITLE": "Delete file - Confirmation",
+      "BUTTONS": {
+        "DELETE": "Confirm"
+      },
+      "WARNING_TEXT": "This action can not be undone!",
+      "ACTION_TEXT": "Are you sure that you want to delete file \"%{fileName}\"?",
+      "FILE_DELETED": "File successfully deleted",
+      "FILE_NOT_DELETED": "File is not deleted by technical reason"
+    },
     "GRID": {
       "COLUMN": {
         "NAME": "File",

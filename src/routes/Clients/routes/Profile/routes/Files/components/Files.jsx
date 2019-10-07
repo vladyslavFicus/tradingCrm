@@ -29,6 +29,9 @@ class Files extends Component {
         id: PropTypes.string.isRequired,
       }).isRequired,
     }).isRequired,
+    modals: PropTypes.shape({
+      deleteModal: PropTypes.modalType,
+    }).isRequired,
     downloadFile: PropTypes.func.isRequired,
     delete: PropTypes.func.isRequired,
     updateFileStatus: PropTypes.func.isRequired,
@@ -84,13 +87,44 @@ class Files extends Component {
     this.props.downloadFile(data);
   };
 
-  handleDeleteFileClick = async ({ uuid }) => {
+  handleDeleteFile = uuid => async () => {
+    const {
+      notify,
+      modals: { deleteModal },
+    } = this.props;
+
     const { data: { file: { delete: { error } } } } = await this.props.delete({ variables: { uuid } });
 
-    if (!error) {
+    deleteModal.hide();
+
+    if (error) {
+      notify({
+        level: 'error',
+        title: I18n.t('COMMON.FAIL'),
+        message: I18n.t('FILES.CONFIRM_ACTION_MODAL.FILE_NOT_DELETED'),
+      });
+    } else {
       this.props.files.refetch();
+      notify({
+        level: 'success',
+        title: I18n.t('COMMON.SUCCESS'),
+        message: I18n.t('FILES.CONFIRM_ACTION_MODAL.FILE_DELETED'),
+      });
     }
-  };
+  }
+
+  handleDeleteFileClick = (data) => {
+    const { deleteModal } = this.props.modals;
+
+    deleteModal.show({
+      onSubmit: this.handleDeleteFile(data.uuid),
+      modalTitle: I18n.t('FILES.CONFIRM_ACTION_MODAL.TITLE'),
+      actionText: I18n.t('FILES.CONFIRM_ACTION_MODAL.ACTION_TEXT', {
+        fileName: data.name,
+      }),
+      submitButtonLabel: I18n.t('FILES.CONFIRM_ACTION_MODAL.BUTTONS.DELETE'),
+    });
+  }
 
   handlePreviewImageClick = (data) => {
     this.context.showImages(`${getApiRoot()}/profile/files/download/${data.uuid}`, data.type);
