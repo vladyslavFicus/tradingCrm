@@ -17,7 +17,7 @@ const RejectForm = (props) => {
   } = props;
 
   return (
-    <form className="flex-1">
+    <form className="d-flex flex-column justify-content-between flex-1">
       <Field
         label={I18n.t('PAYMENT_DETAILS_MODAL.CHOOSE_REJECTION_REASONS_LABEL')}
         customClassName="form-group"
@@ -31,13 +31,15 @@ const RejectForm = (props) => {
           </option>
         ))}
       </Field>
-      <Button
-        onClick={handleSubmit(onSubmit('reject'))}
-        className="btn btn-default payment-detail-modal__button"
-        type="submit"
-      >
-        {I18n.t('COMMON.REJECT')}
-      </Button>
+      <div>
+        <Button
+          onClick={handleSubmit(onSubmit('reject'))}
+          className="btn btn-default payment-detail-modal__button"
+          type="submit"
+        >
+          {I18n.t('COMMON.REJECT')}
+        </Button>
+      </div>
     </form>
   );
 };

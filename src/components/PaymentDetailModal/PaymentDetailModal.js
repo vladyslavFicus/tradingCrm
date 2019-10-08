@@ -358,10 +358,14 @@ class PaymentDetailModal extends PureComponent {
                     </Field>
                   </form>
                 </If>
-                <div className="d-flex align-items-end justify-content-between width-full">
-                  <Button className="btn btn-default" onClick={onCloseModal}>
-                    {I18n.t('COMMON.DEFER')}
-                  </Button>
+                <div className="d-flex justify-content-between width-full">
+                  <div className="d-flex align-items-end">
+                    <div>
+                      <Button className="btn btn-default" onClick={onCloseModal}>
+                        {I18n.t('COMMON.DEFER')}
+                      </Button>
+                    </div>
+                  </div>
                   <If condition={!statusMapper.PENDING.includes(status)}>
                     <Button
                       onClick={handleSubmit(this.handleSubmit)}
