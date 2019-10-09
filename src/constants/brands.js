@@ -4,6 +4,7 @@ import I18n from '../utils/fake-i18n';
 const brands = keyMirror({
   nasfx: null,
   terrafinance: null,
+  '24newstrade': null,
   cryptomb: null,
   bycrypto: null,
   snpbrokers: null,
@@ -135,6 +136,10 @@ const brandsConfig = {
   [brands.ifg]: {
     name: 'IFG',
     image: { src: '/img/brand/choose-brand/ifg.svg' },
+  },
+  [brands['24newstrade']]: {
+    name: '24newstrade',
+    image: { src: '/img/brand/choose-brand/24newstrade.svg' },
   },
   [brands.alliancecapital]: {
     name: 'Alliance Capital',

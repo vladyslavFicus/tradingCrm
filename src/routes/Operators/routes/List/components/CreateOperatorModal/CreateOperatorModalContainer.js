@@ -44,8 +44,8 @@ export default compose(
   reduxForm({
     form: 'operatorCreateForm',
     validate: createValidator({
-      firstName: ['required', 'string', 'min:3'],
-      lastName: ['required', 'string', 'min:3'],
+      firstName: ['required', 'string', 'min:2'],
+      lastName: ['required', 'string', 'min:2'],
       email: ['required', 'email'],
       password: ['required', `regex:${getActiveBrandConfig().password.pattern}`],
       phone: 'min:3',
