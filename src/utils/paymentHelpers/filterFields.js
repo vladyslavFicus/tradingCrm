@@ -6,6 +6,7 @@ import {
   normalize,
   validators,
 } from 'components/ReduxForm/ReduxFieldsConstructor';
+import { statuses as operatorsStasuses } from 'constants/operators';
 import {
   methods,
   methodsLabels,
@@ -145,7 +146,13 @@ export default (
   className: fieldClassNames.MEDIUM,
   disabled: disabledOriginalAgentField,
   multiple: true,
-  selectOptions: originalAgents.map(({ fullName, uuid }) => ({ value: uuid, label: fullName })),
+  selectOptions: originalAgents.map(({ fullName, uuid, operatorStatus }) => ({
+    value: uuid,
+    label: fullName,
+    className:
+      operatorStatus === operatorsStasuses.INACTIVE || operatorStatus === operatorsStasuses.CLOSED
+        ? 'color-inactive' : '',
+  })),
 },
 !isClientView && currencyField(currencies),
 {
