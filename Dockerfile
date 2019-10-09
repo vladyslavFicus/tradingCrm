@@ -1,4 +1,4 @@
-FROM registry.flcn.pro/newage/frontend:3.0.0
+FROM registry.flcn.pro/addons/frontend:1.0.0
 
 RUN mkdir /etc/nginx/logs && touch /etc/nginx/logs/static.log
 
@@ -16,8 +16,7 @@ COPY ./.npmrc /opt/docker/
 COPY ./docker/ /opt/docker/
 COPY ./docker/nginx.conf $NGINX_CONF_OUTPUT
 
-RUN cd /opt/docker && yarn && yarn global add pm2
-RUN chmod +x /opt/entrypoint.sh
+RUN cd /opt/docker && yarn && chmod +x /opt/entrypoint.sh
 
 ENTRYPOINT ["/opt/entrypoint.sh"]
 

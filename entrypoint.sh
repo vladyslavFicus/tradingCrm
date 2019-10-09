@@ -1,7 +1,6 @@
-#!/usr/bin/env sh
+#!/bin/sh
+set -e
 
-pm2 start /opt/docker/run.js
+node /opt/docker/run.js &
 
-$(which nginx) -g "daemon off;"
-
-exec "$@"
+$(which openresty) -g "daemon off;"
