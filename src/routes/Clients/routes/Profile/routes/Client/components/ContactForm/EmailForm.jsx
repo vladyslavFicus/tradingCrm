@@ -22,7 +22,6 @@ class EmailForm extends Component {
       email: PropTypes.string,
     }),
     dirty: PropTypes.bool,
-    submitting: PropTypes.bool,
     valid: PropTypes.bool,
     disabled: PropTypes.bool,
     onVerifyEmailClick: PropTypes.func.isRequired,
@@ -34,7 +33,6 @@ class EmailForm extends Component {
   static defaultProps = {
     currentValues: {},
     dirty: false,
-    submitting: false,
     valid: true,
     disabled: false,
     profileStatus: '',
@@ -50,7 +48,6 @@ class EmailForm extends Component {
     const {
       handleSubmit,
       dirty,
-      submitting,
       valid,
       disabled,
       profileStatus,
@@ -61,7 +58,7 @@ class EmailForm extends Component {
       <form onSubmit={handleSubmit(onSubmit)}>
         <PermissionContent permissions={permissions.USER_PROFILE.UPDATE_EMAIL}>
           <div className="text-right">
-            <If condition={dirty && !submitting && valid && !disabled}>
+            <If condition={dirty && valid && !disabled}>
               <button className="btn btn-sm btn-primary" type="submit">
                 {I18n.t('COMMON.SAVE_CHANGES')}
               </button>

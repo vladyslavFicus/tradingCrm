@@ -1,6 +1,5 @@
 import React, { Component, Fragment } from 'react';
 import { I18n } from 'react-redux-i18n';
-import { get } from 'lodash';
 import PropTypes from 'constants/propTypes';
 import {
   types as kycTypes,
@@ -92,6 +91,7 @@ class View extends Component {
       department: PropTypes.string.isRequired,
       role: PropTypes.string.isRequired,
     }).isRequired,
+    refetchProfileDataOnSave: PropTypes.func.isRequired,
   };
 
   static childContextTypes = {
@@ -161,6 +161,7 @@ class View extends Component {
           },
         },
       },
+      refetchProfileDataOnSave,
     } = this.props;
 
     let errors = false;
@@ -174,10 +175,12 @@ class View extends Component {
     }
 
     if (phone2 !== currentPhone2) {
-      const { data: { profile } } = await profileLimitedUpdate({ variables: { phone2 } });
+      const { error } = await profileLimitedUpdate({ variables: { phone2 } });
 
-      if (!get(profile, 'limitedUpdate.success', false)) {
+      if (error) {
         errors = true;
+      } else {
+        refetchProfileDataOnSave();
       }
     }
 
@@ -204,6 +207,7 @@ class View extends Component {
           },
         },
       },
+      refetchProfileDataOnSave,
     } = this.props;
 
     let errors = false;
@@ -217,10 +221,12 @@ class View extends Component {
     }
 
     if (email2 !== currentEmail2) {
-      const { data: { profile } } = await profileLimitedUpdate({ variables: { email2 } });
+      const { error } = await profileLimitedUpdate({ variables: { email2 } });
 
-      if (!get(profile, 'limitedUpdate.success', false)) {
+      if (error) {
         errors = true;
+      } else {
+        refetchProfileDataOnSave();
       }
     }
 

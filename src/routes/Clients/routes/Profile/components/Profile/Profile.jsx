@@ -793,7 +793,11 @@ class Profile extends Component {
         />
         <div className="card no-borders">
           <Switch>
-            <Route disableScroll path={`${path}/profile`} component={ClientView} />
+            <Route
+              disableScroll
+              path={`${path}/profile`}
+              render={props => <ClientView refetchProfileDataOnSave={() => this.handleLoadProfile(true)} {...props} />}
+            />
             <Route disableScroll path={`${path}/payments`} component={Payments} />
             <Route disableScroll path={`${path}/trading-activity`} component={TradingActivity} />
             <Route disableScroll path={`${path}/accounts`} component={Accounts} />

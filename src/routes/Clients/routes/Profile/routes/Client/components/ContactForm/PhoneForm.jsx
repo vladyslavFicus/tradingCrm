@@ -22,7 +22,6 @@ class PhoneForm extends Component {
     handleSubmit: PropTypes.func,
     onSubmit: PropTypes.func.isRequired,
     dirty: PropTypes.bool,
-    submitting: PropTypes.bool,
     valid: PropTypes.bool,
     profile: PropTypes.userProfile.isRequired,
     initialValues: PropTypes.shape({
@@ -45,7 +44,6 @@ class PhoneForm extends Component {
   static defaultProps = {
     handleSubmit: null,
     dirty: false,
-    submitting: false,
     valid: true,
     initialValues: {},
     currentValues: {},
@@ -63,7 +61,6 @@ class PhoneForm extends Component {
     const {
       handleSubmit,
       dirty,
-      submitting,
       valid,
       disabled,
       initialValues,
@@ -88,7 +85,7 @@ class PhoneForm extends Component {
             {I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.TITLE')}
           </div>
           <div className="col-auto">
-            <If condition={dirty && !submitting && valid && !disabled}>
+            <If condition={dirty && valid && !disabled}>
               <button className="btn btn-sm btn-primary" type="submit">
                 {I18n.t('COMMON.SAVE_CHANGES')}
               </button>

@@ -282,7 +282,7 @@ const updateLimitProfileMutation = gql`mutation update(
       phone2: $phone2,
       email2: $email2
     ) {
-      success
+      success,
     }
   }
 }`;
