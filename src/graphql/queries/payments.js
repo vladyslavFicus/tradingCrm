@@ -7,7 +7,7 @@ const getClientPayments = gql`query ${queryNames.paymentsQuery}(
   $type: String
   $page: Int
   $limit: Int
-  $country: String
+  $countries: [String]
   $statuses: [String]
   $paymentTypes: [String]
   $paymentAggregator: String
@@ -27,7 +27,7 @@ const getClientPayments = gql`query ${queryNames.paymentsQuery}(
     type: $type
     page: $page
     limit: $limit
-    country: $country
+    countries: $countries
     statuses: $statuses
     paymentTypes: $paymentTypes
     paymentAggregator: $paymentAggregator

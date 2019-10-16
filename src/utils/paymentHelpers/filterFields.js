@@ -49,9 +49,10 @@ const attributePlaceholders = {
 
 const countryField = {
   type: fieldTypes.SELECT,
-  name: 'country',
+  name: 'countries',
   label: I18n.t(attributeLabels.country),
   placeholder: I18n.t('COMMON.SELECT_OPTION.ANY'),
+  multiple: true,
   className: fieldClassNames.MEDIUM,
   selectOptions: Object
     .keys(countries)
