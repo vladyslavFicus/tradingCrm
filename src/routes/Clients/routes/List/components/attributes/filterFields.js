@@ -381,5 +381,5 @@ export default (
   parse: parser.ONLY_POSITIVE,
   label: I18n.t('COMMON.FILTERS.SEARCH_LIMIT'),
   placeholder: I18n.t('COMMON.UNLIMITED'),
-  className: fieldClassNames.SMALL,
+  className: fieldClassNames.MEDIUM,
 }];

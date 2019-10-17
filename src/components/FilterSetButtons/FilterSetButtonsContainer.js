@@ -1,14 +1,19 @@
-import { graphql, compose, withApollo } from 'react-apollo';
+import { graphql, compose } from 'react-apollo';
 import { get } from 'lodash';
+import { deleteFilterSet } from 'graphql/mutations/filterSet';
 import { filterSetByUserIdQuery } from 'graphql/queries/filterSet';
-import { updateFavourite } from 'graphql/mutations/filterSet';
 import { filterSetTypes } from 'constants/filterSet';
-import { withNotifications } from 'components/HighOrder';
-import FilterSet from './FilterSet';
+import { withNotifications, withModals } from '../HighOrder';
+import ActionFilterModal from './ActionFilterModal';
+import ConfirmActionModal from '../Modal/ConfirmActionModal';
+import FilterSetButtons from './FilterSetButtons';
 
 export default compose(
   withNotifications,
-  withApollo,
+  withModals({
+    actionFilterModal: ActionFilterModal,
+    confirmActionModal: ConfirmActionModal,
+  }),
   graphql(filterSetByUserIdQuery, {
     name: 'filterSet',
     options: ({ type }) => ({
@@ -32,7 +37,7 @@ export default compose(
       };
     },
   }),
-  graphql(updateFavourite, {
-    name: 'updateFavourite',
+  graphql(deleteFilterSet, {
+    name: 'deleteFilter',
   }),
-)(FilterSet);
+)(FilterSetButtons);

@@ -2439,12 +2439,24 @@
     }
   },
   "FILTER_SET": {
+    "DROPDOWN": {
+      "LABEL": "Custom Filters Sets",
+      "LIST": {
+        "TITLE": "View",
+        "FAVORITE": "Favourite"
+      }
+    },
     "CREATE_MODAL": {
       "HEADER": "Save new filter set",
       "FIELDS": {
         "FILTER_NAME": "Filter name",
         "FAVOURITE": "Is favourite?"
       }
+    },
+    "REMOVE_MODAL": {
+      "TITLE": "Remove filter - Confirmation",
+      "TEXT": "Are you sure that you want to remove filter?",
+      "BUTTON_ACTION": "Remove filter"
     },
     "CREATE": {
       "FAILED": "Creating new filter set failed",
@@ -2462,9 +2474,9 @@
       "FAILED_DESC": "Updating failed with error - %{desc}",
       "SUCCESS": "Filter %{name} updated successfully"
     },
-    "SELECT_OPTION": {
+    "BUTTONS": {
       "SAVE": "Save",
-      "SAVE_AS": "Save as...",
+      "SAVE_AS": "Save as",
       "DELETE": "Delete"
     },
     "LOADING_FAILED": "Failed to load filter set",

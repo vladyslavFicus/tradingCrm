@@ -1,0 +1,43 @@
+.filter {
+  &-button {
+    background-color: #fff;
+    border: 1px solid #cfcfcf;
+    border-radius: 3px;
+    box-sizing: border-box;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 37px;
+    margin-right: 15px;
+    padding: 0 13px;
+    transition: border-color 0.2s ease, color 0.2s ease;
+    height: 39px;
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+}
+
+
+// # Modifiers
+.filter {
+  &-button {
+    &--blue {
+      color: #5187bd;
+
+      &:hover {
+        border-color: #4085de;
+        color: #0190da;
+      }
+    }
+
+    &--red {
+      color: #bd5151;
+
+      &:hover {
+        border-color: #fb434a;
+        color: #fb434a;
+      }
+    }
+  }
+}

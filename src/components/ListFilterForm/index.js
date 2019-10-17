@@ -1,3 +1,1 @@
-import ListFilterForm from './ListFilterForm';
-
-export default ListFilterForm;
+export { default } from './ListFilterFormContainer';

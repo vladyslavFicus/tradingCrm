@@ -1,99 +1,53 @@
-import React, { PureComponent, Fragment } from 'react';
-import PropTypes from 'constants/propTypes';
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 import { I18n } from 'react-redux-i18n';
-import { Dropdown, DropdownToggle, DropdownMenu, Tooltip } from 'reactstrap';
+import { Dropdown, DropdownMenu, DropdownToggle } from 'reactstrap';
 import classNames from 'classnames';
-import history from 'router/history';
 import { filterSetByIdQuery } from 'graphql/queries/filterSet';
-import { filterActionOptions, divider, actionTypes } from './attributes';
 import FilterSelectOption from './FilterSelectOption';
 import './FilterSet.scss';
 
 class FilterSet extends PureComponent {
   static propTypes = {
-    modals: PropTypes.shape({
-      actionFilterModal: PropTypes.modalType,
-    }).isRequired,
-    currentFormValues: PropTypes.object,
-    errorLoading: PropTypes.object,
-    toggleVisibility: PropTypes.func.isRequired,
-    filtersLoading: PropTypes.bool.isRequired,
     favourite: PropTypes.arrayOf(PropTypes.object).isRequired,
+    handleSelectFilterDropdownItem: PropTypes.func.isRequired,
+    handleToggleFiltersVisibility: PropTypes.func.isRequired,
     common: PropTypes.arrayOf(PropTypes.object).isRequired,
-    filtersRefetch: PropTypes.func.isRequired,
-    deleteFilter: PropTypes.func.isRequired,
-    resetFilterSet: PropTypes.func.isRequired,
-    resetForm: PropTypes.func.isRequired,
-    submitFilters: PropTypes.func.isRequired,
     apolloRequestInProgress: PropTypes.bool.isRequired,
+    handleHistoryReplace: PropTypes.func.isRequired,
+    filtersLoading: PropTypes.bool.isRequired,
+    filtersRefetch: PropTypes.func.isRequired,
+    submitFilters: PropTypes.func.isRequired,
+    client: PropTypes.object.isRequired,
+    errorLoading: PropTypes.object,
+    selectValue: PropTypes.string,
   };
 
   static defaultProps = {
-    currentFormValues: null,
     errorLoading: null,
+    selectValue: '',
   };
 
   state = {
+    sortedByFavorites: false,
     filterSetLoading: false,
+    isOpenDropdown: false,
     filtersVisible: true,
-    selectValue: '',
     searchInputValue: '',
-    tooltipOpen: {},
   };
 
-  componentDidMount() {
-    this.props.resetFilterSet(this.handleResetFilter);
-  }
-
-  handleResetFilter = () => this.setState({ selectValue: '' });
-
-  handleHistoryReplace = (filterSetValues) => {
-    let { location: { query } } = history;
-
-    if (!filterSetValues) {
-      query = null;
-    }
-
-    return history.replace({
-      // Prevent location query from override if exist
-      query,
-      filterSetValues,
-    });
-  }
-
-  handleSaveNewFilter = () => {
+  handleSetFilterValues = async (uuid) => {
     const {
-      modals: { actionFilterModal },
-      currentFormValues,
+      handleSelectFilterDropdownItem,
+      handleHistoryReplace,
+      submitFilters,
+      notify,
+      client,
     } = this.props;
 
     this.setState({
-      dropdownOpen: false,
-    });
-
-    actionFilterModal.show({
-      action: actionTypes.CREATE,
-      fields: currentFormValues,
-      onSuccess: this.handleApplyNewFilter,
-    });
-  };
-
-  handleApplyNewFilter = async (closeModal, { uuid }) => {
-    const { filtersRefetch } = this.props;
-
-    await filtersRefetch();
-
-    this.setState({
-      selectValue: uuid,
-    }, () => closeModal());
-  }
-
-  handleSetFilterValues = async (uuid) => {
-    const { client, notify, submitFilters } = this.props;
-
-    this.setState({
       filterSetLoading: true,
-      dropdownOpen: false,
+      isOpenDropdown: false,
     });
 
     const { data: { filterSet: { data, error } } } = await client.query({
@@ -111,54 +65,18 @@ class FilterSet extends PureComponent {
       return;
     }
 
-    // INFO: setting filter set history data
-    this.handleHistoryReplace(data);
-    // Submit query
+    handleHistoryReplace(data);
     submitFilters(data);
 
-    this.setState({
-      filterSetLoading: false,
-      selectValue: uuid,
-    });
-  }
+    this.setState({ filterSetLoading: false });
 
-  handleUpdateExistFilter = () => {
-    const {
-      modals: { actionFilterModal },
-      currentFormValues,
-      favourite,
-      common,
-    } = this.props;
+    handleSelectFilterDropdownItem(uuid);
+  };
 
-    const { selectValue } = this.state;
-
-    this.setState({
-      dropdownOpen: false,
-    });
-
-    actionFilterModal.show({
-      fields: currentFormValues,
-      onSuccess: this.handleApplyFilterUpdate,
-      filterId: selectValue,
-      initialValues: { name: [...favourite, ...common].find(({ uuid }) => uuid === selectValue).name },
-      action: actionTypes.UPDATE,
-    });
-  }
-
-  handleApplyFilterUpdate = async (closeModal) => {
-    const { filtersRefetch } = this.props;
-
-    await filtersRefetch();
-
-    closeModal();
-  }
-
-  handleUpdateFavourite = async (uuid, newValue) => {
+  handleUpdateFavorite = async (uuid, newValue) => {
     const { updateFavourite, notify, filtersRefetch } = this.props;
 
-    this.setState({
-      filterSetLoading: true,
-    });
+    this.setState({ filterSetLoading: true });
 
     const { data: { filterSet: { updateFavourite: { error } } } } = await updateFavourite({
       variables: {
@@ -185,195 +103,89 @@ class FilterSet extends PureComponent {
       message: I18n.t('FILTER_SET.UPDATE_FAVOURITE.SUCCESS'),
     });
 
-    this.setState({
-      filterSetLoading: false,
-    });
-  };
-
-  handleRemoveFilter = async () => {
-    const { deleteFilter, notify, filtersRefetch, resetForm } = this.props;
-    const { selectValue } = this.state;
-
-    this.setState({
-      filterSetLoading: true,
-      dropdownOpen: false,
-    });
-
-    const { data: { filterSet: { delete: { error } } } } = await deleteFilter({
-      variables: { uuid: selectValue },
-    });
-
-    if (error) {
-      notify({
-        level: 'error',
-        title: I18n.t('FILTER_SET.REMOVE_FILTER.ERROR'),
-        message: error.error || error.fields_errors || I18n.t('COMMON.SOMETHING_WRONG'),
-      });
-
-      return;
-    }
-
-    notify({
-      level: 'success',
-      title: I18n.t('COMMON.SUCCESS'),
-      message: I18n.t('FILTER_SET.REMOVE_FILTER.SUCCESS'),
-    });
-
-    await filtersRefetch();
-
-    this.setState({
-      selectValue: '',
-      filterSetLoading: false,
-    }, () => {
-      resetForm();
-      this.handleHistoryReplace(null);
-    });
-  }
-
-  handleSelectChange = selectValue => this.setState({ selectValue });
-
-  handleToggleTooltip = (e) => {
-    const { tooltipOpen } = this.state;
-    const copyObj = { ...tooltipOpen };
-    const { target: { id: targetId, parentNode: { id: parentId } } } = e;
-    const id = (targetId || parentId).replace('favourite-', '');
-
-    if (copyObj[id]) {
-      delete copyObj[id];
-    } else {
-      copyObj[id] = id;
-    }
-
-    this.setState({ tooltipOpen: copyObj });
-  }
-
-  handleToggleFiltersVisibility = () => (
-    this.setState(({ filtersVisible }) => ({
-      filtersVisible: !filtersVisible,
-    }), () => this.props.toggleVisibility())
-  )
-
-  handleResetFormAndFilters = (e) => {
-    e.stopPropagation();
-
-    this.setState({
-      selectValue: '',
-    }, () => {
-      this.props.resetForm();
-      this.handleHistoryReplace(null);
-    });
+    this.setState({ filterSetLoading: false });
   };
 
   handleToggleDropdown = () => {
-    this.setState(({ dropdownOpen }) => ({
-      dropdownOpen: !dropdownOpen,
+    this.setState(({ isOpenDropdown }) => ({
+      isOpenDropdown: !isOpenDropdown,
     }));
-  }
+  };
 
-  handleSearchFilters = (e) => {
-    const { value } = e.target;
+  handleSearchFilters = ({ target: { value } }) => {
+    this.setState({ searchInputValue: value });
+  };
 
-    this.setState({
-      searchInputValue: value,
-    });
-  }
+  handleToogleSortFiltesListByFavorite = () => {
+    this.setState(({ sortedByFavorites }) => ({
+      sortedByFavorites: !sortedByFavorites,
+    }));
+  };
+
+  handleToggleFiltersFormVisibility = () => (
+    this.setState(({ filtersVisible }) => ({
+      filtersVisible: !filtersVisible,
+    }), this.props.handleToggleFiltersVisibility())
+  );
 
   render() {
     const {
+      common,
+      favourite,
+      selectValue,
       errorLoading,
       filtersLoading,
-      currentFormValues,
-      favourite,
-      common,
       apolloRequestInProgress,
     } = this.props;
 
     const {
-      dropdownOpen,
-      filterSetLoading,
-      selectValue,
       filtersVisible,
+      isOpenDropdown,
       searchInputValue,
+      filterSetLoading,
+      sortedByFavorites,
     } = this.state;
 
-    const isFilterLength = !!(favourite.length || common.length);
+    const filtersList = [...favourite, ...common];
 
-    const disabled = filtersLoading || errorLoading || filterSetLoading || (!isFilterLength && !currentFormValues);
+    const isDisabledDropdown = filtersLoading || errorLoading || filterSetLoading || (filtersList.length === 0);
 
     const dropdownOptions = searchInputValue
-      ? [...favourite, ...common].filter(({ name }) => name.includes(searchInputValue))
-      : [
-        ...favourite,
-        ...(favourite.length && common.length ? [divider()] : []),
-        ...common,
-        ...filterActionOptions(
-          currentFormValues,
-          selectValue,
-          this.handleSaveNewFilter,
-          this.handleUpdateExistFilter,
-          this.handleRemoveFilter,
-        ),
-      ];
+      ? filtersList.filter(({ name }) => name.includes(searchInputValue))
+      : filtersList;
 
-    const activeFilter = [...favourite, ...common].find(({ uuid }) => uuid === selectValue);
-    const activeFilterName = activeFilter ? activeFilter.name : '';
+    const sortedDropdownOptions = sortedByFavorites
+      ? dropdownOptions.sort((a, b) => b.favourite - a.favourite)
+      : dropdownOptions.sort((a, b) => a.name.localeCompare(b.name));
+
+    const activeFilter = filtersList.find(({ uuid }) => uuid === selectValue);
+    const activeFilterName = activeFilter ? activeFilter.name : I18n.t('COMMON.SELECT_OPTION.DEFAULT');
 
     return (
-      <div className="filter-set-row row">
-        <div
-          className={classNames(
-            'col-8',
-            'favourite-wrapper',
-            { disabled: disabled || apolloRequestInProgress },
-          )}
-        >
-          {favourite.map(({ uuid, name }) => (
-            <Fragment key={uuid}>
-              <div
-                id={`favourite-${uuid}`}
-                className={classNames(
-                  'favourite-item',
-                  { active: selectValue === uuid },
-                )}
-                onClick={() => this.handleSetFilterValues(uuid)}
-              >
-                <span className="favoutire-item__text">{name}</span>
-              </div>
-              <Tooltip
-                placement="top"
-                target={`favourite-${uuid}`}
-                isOpen={!!this.state.tooltipOpen[uuid]}
-                delay={{ show: 500, hide: 250 }}
-                toggle={this.handleToggleTooltip}
-              >
-                {name}
-              </Tooltip>
-            </Fragment>
-          ))}
-        </div>
-        <div className="col-4 dropdown-wrapper">
+      <div className={classNames('filter-favorites', { 'is-filters-visible': filtersVisible })}>
+        <div className="filter-favorites__dropdown-container">
           <Dropdown
-            className={classNames('favourite-dropdown', { disabled: disabled || apolloRequestInProgress })}
-            isOpen={dropdownOpen}
+            className={
+              classNames('filter-favorites__dropdown', { 'is-disabled': isDisabledDropdown || apolloRequestInProgress })
+            }
             toggle={this.handleToggleDropdown}
+            isOpen={isOpenDropdown}
           >
-            <DropdownToggle disabled={disabled || apolloRequestInProgress} tag="div">
-              <Choose>
-                <When condition={selectValue}>
-                  <div className="selected-item-wrapper">
-                    <div className="value">
-                      {activeFilterName}
-                    </div>
-                    <div className="close-cross" onClick={this.handleResetFormAndFilters} />
-                  </div>
-                </When>
-                <Otherwise>
-                  <div className="dropdown-placeholder" />
-                </Otherwise>
-              </Choose>
+            <div className="filter-favorites__dropdown-label">
+              {I18n.t('FILTER_SET.DROPDOWN.LABEL')}
+            </div>
+
+            <DropdownToggle className="filter-favorites__dropdown-head form-control" tag="div">
+              <div
+                className={classNames('filter-favorites__dropdown-head-value', { 'is-placeholder': !activeFilter })}
+              >
+                {activeFilterName}
+              </div>
+              <i className="filter-favorites__dropdown-head-icon icon icon-arrow-down select-icon" />
             </DropdownToggle>
-            <DropdownMenu right>
-              <div className="select-search-box">
+
+            <DropdownMenu className="filter-favorites__dropdown-drop" right>
+              <div className="filter-favorites__dropdown-search select-search-box">
                 <i className="icon icon-search select-search-box__icon-left" />
                 <input
                   type="text"
@@ -381,7 +193,6 @@ class FilterSet extends PureComponent {
                   placeholder={I18n.t('common.select.default_placeholder')}
                   onChange={this.handleSearchFilters}
                   value={searchInputValue}
-                  disabled={disabled || apolloRequestInProgress}
                 />
                 <If condition={searchInputValue}>
                   <i
@@ -392,35 +203,72 @@ class FilterSet extends PureComponent {
               </div>
               <Choose>
                 <When condition={dropdownOptions.length}>
-                  {dropdownOptions
-                    .filter(item => item)
-                    .map(filter => (
-                      <FilterSelectOption
-                        key={filter.uuid}
-                        onClick={this.handleSetFilterValues}
-                        onUpdateFavourite={this.handleUpdateFavourite}
-                        filter={filter}
-                        activeId={selectValue}
-                      />
-                    ))
-                  }
+                  <div className="filter-favorites__dropdown-list">
+                    <Choose>
+                      <When condition={activeFilter}>
+                        <div className="filter-favorites__dropdown-list-top">
+                          <div className="filter-favorites__dropdown-list-title">
+                            Selected options
+                          </div>
+                        </div>
+                        <FilterSelectOption
+                          filter={activeFilter}
+                          key={activeFilter.uuid}
+                          activeId={selectValue}
+                          handleSelectFilter={this.handleSetFilterValues}
+                          handleUpdateFavorite={this.handleUpdateFavorite}
+                        />
+                      </When>
+                    </Choose>
+
+                    <div className="filter-favorites__dropdown-list-top">
+                      <div className="filter-favorites__dropdown-list-title">
+                        {I18n.t('FILTER_SET.DROPDOWN.LIST.TITLE')}
+                      </div>
+                      <div
+                        className="filter-favorites__dropdown-list-sort"
+                        onClick={this.handleToogleSortFiltesListByFavorite}
+                      >
+                        {
+                          sortedByFavorites
+                            ? I18n.t('COMMON.ALL')
+                            : <><i />{I18n.t('FILTER_SET.DROPDOWN.LIST.FAVORITE')}</>
+                        }
+                      </div>
+                    </div>
+                    {sortedDropdownOptions
+                      .filter(item => item !== activeFilter)
+                      .map(filter => (
+                        <FilterSelectOption
+                          filter={filter}
+                          key={filter.uuid}
+                          activeId={selectValue}
+                          handleSelectFilter={this.handleSetFilterValues}
+                          handleUpdateFavorite={this.handleUpdateFavorite}
+                        />
+                      ))
+                    }
+                  </div>
                 </When>
                 <Otherwise>
-                  <div className="text-muted">
-                    {I18n.t('common.select.options_not_found', { query: searchInputValue })}
+                  <div className="filter-favorites__dropdown-list">
+                    <div className="filter-favorites__dropdown-not-found font-size-10 text-muted margin-10">
+                      {I18n.t('common.select.options_not_found', { query: searchInputValue })}
+                    </div>
                   </div>
                 </Otherwise>
               </Choose>
             </DropdownMenu>
           </Dropdown>
-          <div
-            className={classNames(
-              'filter-switcher',
-              { minimize: filtersVisible },
-            )}
-            onClick={this.handleToggleFiltersVisibility}
-          />
         </div>
+
+        <div
+          className={classNames(
+            'filter-switcher',
+            { 'is-closed': !filtersVisible },
+          )}
+          onClick={this.handleToggleFiltersFormVisibility}
+        />
       </div>
     );
   }

@@ -1,23 +1,61 @@
 import React, { Fragment } from 'react';
-import { v4 } from 'uuid';
-import { filterTypes } from '../attributes';
-import ActionSelectOption from './ActionSelectOption';
-import ViewSelectOption from './ViewSelectOption';
-import DividerSelectOption from './DividerSelectOption';
+import classNames from 'classnames';
+import PropTypes from 'constants/propTypes';
 
-const FilterSelectOption = ({ filter = { name: v4() }, ...rest }) => (
-  <Fragment key={filter.uuid}>
-    <If condition={filter.type === filterTypes.ACTION}>
-      <ActionSelectOption data={filter} {...rest} />
-    </If>
-    <If condition={filter.type === filterTypes.DIVIDER}>
-      <DividerSelectOption fullWidth={filter.dividerFullWidth} />
-    </If>
-    { /* HACK: not to map backend data, all options without type treated like VIEW */ }
-    <If condition={!filter.type}>
-      <ViewSelectOption data={filter} {...rest} />
-    </If>
-  </Fragment>
-);
+
+const FilterSelectOption = ({
+  handleUpdateFavorite,
+  handleSelectFilter,
+  activeId,
+  filter,
+}) => {
+  const handleOptionClick = () => {
+    if (activeId !== filter.uuid && handleSelectFilter) {
+      handleSelectFilter(filter.uuid);
+    }
+  };
+
+  const handleStarClick = (event) => {
+    event.stopPropagation();
+    handleUpdateFavorite(filter.uuid, !filter.favourite);
+  };
+
+  return (
+    <Fragment key={filter.uuid}>
+      <div
+        className={classNames(
+          'filter-favorites__dropdown-item',
+          { 'is-active': activeId === filter.uuid },
+        )}
+        onClick={handleOptionClick}
+      >
+        <div
+          className={classNames(
+            'filter-favorites__dropdown-item-star',
+            { 'is-active': filter.favourite },
+          )}
+          onClick={handleStarClick}
+        />
+
+        <div className="filter-favorites__dropdown-item-title">{filter.name}</div>
+      </div>
+    </Fragment>
+  );
+};
+
+
+FilterSelectOption.propTypes = {
+  handleUpdateFavorite: PropTypes.func.isRequired,
+  handleSelectFilter: PropTypes.func,
+  filter: PropTypes.object,
+  activeId: PropTypes.string,
+};
+
+FilterSelectOption.defaultProps = {
+  filter: {},
+  activeId: null,
+  handleSelectFilter: null,
+};
+
 
 export default React.memo(FilterSelectOption);
