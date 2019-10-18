@@ -5,6 +5,8 @@ import { Dropdown, DropdownMenu, DropdownToggle } from 'reactstrap';
 import classNames from 'classnames';
 import { filterSetByIdQuery } from 'graphql/queries/filterSet';
 import FilterSelectOption from './FilterSelectOption';
+import { ReactComponent as FavoriteStarIcon } from './icons/favorites-star.svg';
+import { ReactComponent as SwitcherIcon } from './icons/switcher.svg';
 import './FilterSet.scss';
 
 class FilterSet extends PureComponent {
@@ -232,7 +234,12 @@ class FilterSet extends PureComponent {
                         {
                           sortedByFavorites
                             ? I18n.t('COMMON.ALL')
-                            : <><i />{I18n.t('FILTER_SET.DROPDOWN.LIST.FAVORITE')}</>
+                            : (
+                              <>
+                                <FavoriteStarIcon />
+                                {I18n.t('FILTER_SET.DROPDOWN.LIST.FAVORITE')}
+                              </>
+                            )
                         }
                       </div>
                     </div>
@@ -260,6 +267,16 @@ class FilterSet extends PureComponent {
               </Choose>
             </DropdownMenu>
           </Dropdown>
+        </div>
+
+        <div
+          className={classNames(
+            'filter-switcher',
+            { 'is-closed': !filtersVisible },
+          )}
+          onClick={this.handleToggleFiltersFormVisibility}
+        >
+          <SwitcherIcon />
         </div>
 
         <div

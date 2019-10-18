@@ -72,29 +72,28 @@
           &:hover {
             color: #000;
 
-            & i {
-              &:before {
-                filter: grayscale(0);
-                opacity: 1;
-              }
+            & svg {
+              opacity: 1;
+            }
+
+            & path {
+              fill: #5187bd;
             }
           }
 
-          & i {
-            &:before {
-              content: '';
-              background-image: url("/img/filterSet/favorites-active.svg");
-              background-repeat: no-repeat;
-              background-size: cover;
-              filter: grayscale(100%);
-              opacity: 0.6;
-              transition: filter 0.2s ease, opacity 0.2s ease;
-              position: absolute;
-              top: 2px;
-              left: -15px;
-              height: 10px;
-              width: 11px;
-            }
+          & svg {
+            opacity: 0.6;
+            transition: opacity 0.2s ease;
+            position: relative;
+            top: -2px;
+            left: -4px;
+            display: inline-block;
+            height: 11px;
+            width: 11px;
+          }
+
+          & path {
+            fill: #7f7f7f;
           }
         }
       }
@@ -114,7 +113,9 @@
         }
 
         &:hover &-star {
-          filter: grayscale(0);
+          & path {
+            fill: #5187bd;
+          }
         }
 
         &-star,
@@ -125,23 +126,36 @@
 
         &-star {
           cursor: pointer;
-          filter: grayscale(100%);
           margin-right: 6px;
           transition: filter 0.2s ease;
           position: relative;
           height: 24px;
           width: 24px;
 
-          &:before {
-            background-image: url("/img/filterSet/favorites-inactive.svg");
-            content: '';
-            position: absolute;
-            top: 5px;
+          & svg {
+            position: relative;
             left: 5px;
-            height: 13px;
+
+            height: 14px;
             width: 14px;
           }
+
+          & path {
+            fill: #7f7f7f;
+            transition: fill 0.2s ease, opacity 0.2s ease;
+
+            &:first-child {
+              opacity: 0;
+            }
+          }
         }
+      }
+
+      &-item {
+        cursor: pointer;
+        padding: 0 5px;
+        margin-bottom: 5px;
+        position: relative;
 
         &-title {
           color: #4A4A4A;
@@ -172,27 +186,25 @@
     height: 39px;
     width: 39px;
 
-    &:before {
-      content: '';
-      background-image: url("/img/filterSet/switcher.svg");
-      background-repeat: no-repeat;
-      filter: grayscale(100%);
-      transform: translate(-50%, -50%);
-      transform-origin: 50% 50%;
-      transition: filter 0.2s ease;
-      position: absolute;
-      top: 50%;
-      left: 50%;
+    & svg {
+      position: relative;
+      top: 6px;
+      left: 14px;
       height: 17px;
       width: 8px;
+    }
+
+    & path {
+      fill: #cfcfcf;
+      transition: fill 0.2s ease;
     }
 
     &:hover {
       background-color: #f9fcfe;
       border-color: #d5dce9;
       
-      &:before {
-        filter: grayscale(0);
+      & path {
+        fill: #5187bd;
       }
     }
   }
@@ -260,8 +272,10 @@
       &-item {
         &-star {
           &.is-active {
-            &:before {
-              background-image: url("/img/filterSet/favorites-active.svg");
+            & path {
+              &:first-child {
+                opacity: 1;
+              }
             }
           }
         }
@@ -271,8 +285,8 @@
 
   &-switcher {
     &.is-closed {
-      &:before {
-        transform: translate(-50%, -50%) rotate(180deg);
+      & svg {
+        transform: rotate(180deg);
       }
     }
   }

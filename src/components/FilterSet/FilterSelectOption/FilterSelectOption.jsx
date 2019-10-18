@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import classNames from 'classnames';
 import PropTypes from 'constants/propTypes';
-
+import { ReactComponent as FavoriteStarIcon } from '../icons/favorites-star.svg';
 
 const FilterSelectOption = ({
   handleUpdateFavorite,
@@ -35,7 +35,9 @@ const FilterSelectOption = ({
             { 'is-active': filter.favourite },
           )}
           onClick={handleStarClick}
-        />
+        >
+          <FavoriteStarIcon />
+        </div>
 
         <div className="filter-favorites__dropdown-item-title">{filter.name}</div>
       </div>
