@@ -26,7 +26,7 @@ export default {
     CREATE_BRANCH: 'hierarchy-updater;POST;/branch',
   },
   SALES_RULES: {
-    GET_RULES: 'trading_rules_profile;GET;/',
+    GET_RULES: 'rules-profile;GET;/',
   },
   USER_PROFILE: {
     SEND_ACTIVATION_LINK: 'profile;POST;/profiles/{playerUUID}/send-activation-link',
