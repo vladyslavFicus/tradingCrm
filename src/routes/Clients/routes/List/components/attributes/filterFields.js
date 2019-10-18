@@ -218,7 +218,7 @@ export default (
   selectOptions: firstDepositStatuses.map(({ value, label }) => ({ value, label: I18n.t(label) })),
 }, {
   type: fieldTypes.RANGE,
-  className: fieldClassNames.SMALL,
+  className: fieldClassNames.MEDIUM,
   label: I18n.t(filterLabels.balance),
   fields: [{
     type: fieldTypes.INPUT,

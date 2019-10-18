@@ -6,7 +6,6 @@ import { get } from 'lodash';
 import NoteButton from 'components/NoteButton';
 import PropTypes from '../../constants/propTypes';
 import { shortify } from '../../utils/uuid';
-import withPlayerClick from '../../utils/withPlayerClick';
 import { callbacksStatusesColor } from '../../constants/callbacks';
 import GridView, { GridViewColumn } from '../GridView';
 import Uuid from '../Uuid';
@@ -17,7 +16,6 @@ class CallbacksList extends Component {
     modals: PropTypes.shape({
       callbackDetails: PropTypes.modalType,
     }).isRequired,
-    onPlayerClick: PropTypes.func.isRequired,
     auth: PropTypes.shape({
       brandId: PropTypes.string,
       uuid: PropTypes.string,
@@ -46,14 +44,11 @@ class CallbacksList extends Component {
     this.props.modals.callbackDetails.show({ callbackId });
   };
 
-  handleClientClick = ({ userId, client: { fullName } }) => (e) => {
+  handleClientClick = ({ userId }) => (e) => {
+    e.preventDefault();
     e.stopPropagation();
 
-    this.props.onPlayerClick({
-      playerUUID: userId,
-      auth: this.props.auth,
-      firstName: fullName,
-    });
+    window.open(`/clients/${userId}/profile`, '_blank');
   };
 
   renderId = item => (
@@ -189,4 +184,4 @@ class CallbacksList extends Component {
   }
 }
 
-export default withPlayerClick(CallbacksList);
+export default CallbacksList;

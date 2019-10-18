@@ -236,6 +236,6 @@ export default (
   name: 'accountType',
   label: I18n.t(attributeLabels.accountType),
   placeholder: I18n.t('COMMON.SELECT_OPTION.ANY'),
-  className: fieldClassNames.MEDIUM,
+  className: fieldClassNames.SMALL,
   selectOptions: accountTypes.map(({ label, value }) => ({ value, label })),
 }];
