@@ -161,7 +161,11 @@ class FilterSetButtons extends Component {
             onClick={this.handleSaveNewFilter}
             type="button"
           >
-            {I18n.t('FILTER_SET.BUTTONS.SAVE_AS')}
+            {
+              selectValue
+                ? I18n.t('FILTER_SET.BUTTONS.SAVE_AS')
+                : I18n.t('FILTER_SET.BUTTONS.SAVE')
+            }
           </button>
 
           <If condition={selectValue}>

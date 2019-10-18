@@ -26,6 +26,13 @@
         cursor: pointer;
         transition: border-radius 0.2s ease;
         position: relative;
+
+        &-value {
+          overflow: hidden;
+          padding: 0 20px 0 0;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
       }
 
       &-drop {

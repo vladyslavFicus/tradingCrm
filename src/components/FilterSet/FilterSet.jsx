@@ -153,7 +153,7 @@ class FilterSet extends PureComponent {
     const isDisabledDropdown = filtersLoading || errorLoading || filterSetLoading || (filtersList.length === 0);
 
     const dropdownOptions = searchInputValue
-      ? filtersList.filter(({ name }) => name.includes(searchInputValue))
+      ? filtersList.filter(({ name }) => name.toLowerCase().includes(searchInputValue.toLowerCase()))
       : filtersList;
 
     const sortedDropdownOptions = sortedByFavorites
