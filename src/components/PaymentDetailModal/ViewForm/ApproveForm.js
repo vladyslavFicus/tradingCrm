@@ -20,7 +20,7 @@ const ApproveForm = (props) => {
   } = props;
 
   return (
-    <form className="flex-1 margin-left-15 margin-right-15">
+    <form className="d-flex flex-column justify-content-between flex-1 margin-left-15 margin-right-15">
       <Field
         label={I18n.t('PAYMENT_DETAILS_MODAL.CHOOSE_PAYMENT_METHOD_LABEL')}
         customClassName="form-group"
@@ -34,13 +34,15 @@ const ApproveForm = (props) => {
           </option>
         ))}
       </Field>
-      <Button
-        onClick={handleSubmit(onSubmit('approve'))}
-        className="btn btn-primary payment-detail-modal__button"
-        type="submit"
-      >
-        {I18n.t('COMMON.APPROVE')}
-      </Button>
+      <div>
+        <Button
+          onClick={handleSubmit(onSubmit('approve'))}
+          className="btn btn-primary payment-detail-modal__button"
+          type="submit"
+        >
+          {I18n.t('COMMON.APPROVE')}
+        </Button>
+      </div>
     </form>
   );
 };
