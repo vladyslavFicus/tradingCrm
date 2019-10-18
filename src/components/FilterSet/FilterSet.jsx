@@ -278,14 +278,6 @@ class FilterSet extends PureComponent {
         >
           <SwitcherIcon />
         </div>
-
-        <div
-          className={classNames(
-            'filter-switcher',
-            { 'is-closed': !filtersVisible },
-          )}
-          onClick={this.handleToggleFiltersFormVisibility}
-        />
       </div>
     );
   }
