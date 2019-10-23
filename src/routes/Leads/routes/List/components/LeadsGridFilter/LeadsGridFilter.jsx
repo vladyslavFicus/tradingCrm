@@ -64,7 +64,7 @@ class LeadsGridFilter extends Component {
 
     const filteredOperators = operators.filter(operator => desksTeamsOperators.indexOf(operator.uuid) !== -1);
     this.setState({ filteredOperators, branchOperatorsLoading: false });
-  }
+  };
 
   isValueInForm = (formValues, field) => !!(formValues && formValues[field]);
 
@@ -90,7 +90,7 @@ class LeadsGridFilter extends Component {
     }
 
     switch (true) {
-      case (!!value): {
+      case ([fieldNames.desks, fieldNames.teams].includes(fieldName) && !!value): {
         this.filterOperators(value, formChange);
         break;
       }
@@ -110,7 +110,7 @@ class LeadsGridFilter extends Component {
     }
 
     formChange(fieldName, value || null);
-  }
+  };
 
   render() {
     const {

@@ -1,13 +1,14 @@
 import React, { PureComponent } from 'react';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Field, reduxForm, SubmissionError } from 'redux-form';
-import { graphql, compose } from 'react-apollo';
+import { graphql, compose, withApollo } from 'react-apollo';
 import { I18n } from 'react-redux-i18n';
 import PropTypes from 'constants/propTypes';
 import { filterSetTypes } from 'constants/filterSet';
 import { InputField, CheckBox } from 'components/ReduxForm';
 import { withNotifications } from 'components/HighOrder';
 import { createFilterSet, updateFilterSet } from 'graphql/mutations/filterSet';
+import { filterSetByIdQuery } from 'graphql/queries/filterSet';
 import { createValidator } from 'utils/validator';
 import { actionTypes } from '../attributes';
 
@@ -22,6 +23,7 @@ class ActionFilterModal extends PureComponent {
     notify: PropTypes.func.isRequired,
     action: PropTypes.string.isRequired,
     filterId: PropTypes.string,
+    client: PropTypes.object.isRequired,
   };
 
   static defaultProps = {
@@ -38,6 +40,7 @@ class ActionFilterModal extends PureComponent {
       updateFilterSetMutation,
       onSuccess,
       onCloseModal,
+      filterId: uuid,
     } = this.props;
 
     let error = null;
@@ -56,10 +59,17 @@ class ActionFilterModal extends PureComponent {
       ({ data: { filterSet: { update: { error, success: data } } } } = await updateFilterSetMutation({
         variables: {
           name,
-          uuid: this.props.filterId,
+          uuid,
           fields: JSON.stringify(fields),
         },
       }));
+
+      // Refetch concrete filter set by id to update it in apollo cache
+      await this.props.client.query({
+        query: filterSetByIdQuery,
+        variables: { uuid },
+        fetchPolicy: 'network-only',
+      });
     }
 
     if (error) {
@@ -159,6 +169,7 @@ const FORM_NAME = 'actionFilterSetForm';
 
 export default compose(
   withNotifications,
+  withApollo,
   reduxForm({
     form: FORM_NAME,
     enableReinitialize: true,
