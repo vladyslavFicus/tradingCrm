@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Field, SubmissionError } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
-import { get, omit } from 'lodash';
+import { get } from 'lodash';
 import { actionCreators as windowActionCreators } from 'redux/modules/window';
 import PropTypes from 'constants/propTypes';
 import { deskTypes, userTypes } from 'constants/hierarchyTypes';
@@ -217,7 +217,7 @@ class RepresentativeUpdateModal extends Component {
       type,
       allRowsSelected,
       totalElements,
-      searchParams: omit(searchParams, ['desk', 'team']),
+      searchParams,
       ...(type === deskTypes.SALES
         ? { salesStatus: status, salesRep: representative }
         : { retentionStatus: status, retentionRep: representative }),

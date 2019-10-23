@@ -256,7 +256,7 @@ class List extends Component {
         type,
         allRowsSelected,
         totalElements,
-        ...query && { searchParams: omit(query.filters, ['desk', 'team', 'size']) },
+        ...query && { searchParams: omit(query.filters, ['size']) },
       },
     });
 

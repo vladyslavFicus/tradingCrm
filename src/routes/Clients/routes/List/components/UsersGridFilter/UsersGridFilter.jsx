@@ -129,9 +129,6 @@ class UserGridFilter extends Component {
 
     const { teams, filteredOperators, branchOperatorsLoading } = this.state;
 
-    // Filter operators, when Filter set applied with desk or teams
-    const initialOperators = initialValues && initialValues.branchRepresentatives;
-
     return (
       <AppoloRequestContext.Consumer>
         {requestInProgress => (
@@ -145,7 +142,7 @@ class UserGridFilter extends Component {
               desks,
               teams,
               branchesLoading,
-              filteredOperators || initialOperators || operators,
+              filteredOperators || operators,
               operatorsLoading || branchOperatorsLoading,
             )}
             onFieldChange={this.handleFieldChange}
