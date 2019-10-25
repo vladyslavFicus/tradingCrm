@@ -27,6 +27,7 @@ const statusMapper = {
   [statuses.FAILED]: [
     tradingStatuses.MT4_FAILED,
     tradingStatuses.PAYMENT_FAILED,
+    tradingStatuses.TRANSACTION_FAILED,
   ],
   [statuses.PENDING]: [
     tradingStatuses.PAYMENT_PENDING,
