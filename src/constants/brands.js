@@ -42,7 +42,7 @@ const brands = keyMirror({
   everfx: null,
   cryptobase: null,
   ecosales: null,
-  dobby:null,
+  dobby: null,
 });
 
 const departments = keyMirror({
@@ -222,13 +222,13 @@ const brandsConfig = {
     name: 'Cryptobase',
     image: { src: '/img/brand/choose-brand/cryptobase.svg' },
   },
-  [brands.dobby]: {
-    name: 'Dobby',
-    image: { src: '/img/brand/choose-brand/dobby.svg' },
-  },
   [brands.ecosales]: {
     name: 'Ecosales',
     image: { src: '/img/brand/choose-brand/ecosales.svg' },
+  },
+  [brands.dobby]: {
+    name: 'Dobby',
+    image: { src: '/img/brand/choose-brand/dobby.svg' },
   },
 };
 const departmentsConfig = {
