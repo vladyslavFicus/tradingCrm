@@ -222,7 +222,7 @@ class List extends Component {
         allRowsSelected,
         totalElements,
         multiAssign: true,
-        ...query && { searchParams: { ...omit(query.filters, ['size']) } },
+        ...query && { searchParams: { ...omit(query.filters, ['size', 'teams', 'desks']) } },
       },
       onSuccess: this.handleSuccessUpdateLeadList,
       header: (
