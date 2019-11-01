@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { SubmissionError } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
 import { isEqualWith } from 'lodash';
+import config from 'config';
 import PropTypes from 'constants/propTypes';
 import NotePopover from 'components/NotePopover';
 import Header from 'components/Header';
@@ -309,6 +310,8 @@ class MainLayout extends Component {
       initSidebar,
     } = this.props;
 
+    const isShowProductionAlert = user.department === 'ADMINISTRATION' && config.environment.includes('prod');
+
     return (
       <Fragment key={user.department}>
         <Choose>
@@ -355,6 +358,13 @@ class MainLayout extends Component {
             />
 
             <BackToTop positionChange={userPanels.length > 0} />
+
+            {/* Notify ADMINISTRATION role if it's production environment */}
+            <If condition={isShowProductionAlert}>
+              <div className="production-footer">
+                <span role="img" aria-label="fire">==== 🔥 PRODUCTION 🔥 ====</span>
+              </div>
+            </If>
           </Otherwise>
         </Choose>
 
