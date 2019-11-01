@@ -43,6 +43,8 @@ const brands = keyMirror({
   cryptobase: null,
   ecosales: null,
   dobby: null,
+  topinvestus: null,
+  topinvestuspsp: null,
 });
 
 const departments = keyMirror({
@@ -229,6 +231,14 @@ const brandsConfig = {
   [brands.dobby]: {
     name: 'Dobby',
     image: { src: '/img/brand/choose-brand/dobby.svg' },
+  },
+  [brands.topinvestus]: {
+    name: 'Topinvestus.co',
+    image: { src: '/img/brand/choose-brand/topinvestus.svg' },
+  },
+  [brands.topinvestuspsp]: {
+    name: 'Topinvestus.com',
+    image: { src: '/img/brand/choose-brand/topinvestuspsp.svg' },
   },
 };
 const departmentsConfig = {
