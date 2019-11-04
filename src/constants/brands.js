@@ -45,6 +45,8 @@ const brands = keyMirror({
   dobby: null,
   topinvestus: null,
   topinvestuspsp: null,
+  skycapital: null,
+  skycapitals: null,
 });
 
 const departments = keyMirror({
@@ -239,6 +241,14 @@ const brandsConfig = {
   [brands.topinvestuspsp]: {
     name: 'Topinvestus.com',
     image: { src: '/img/brand/choose-brand/topinvestuspsp.svg' },
+  },
+  [brands.skycapital]: {
+    name: 'Skycapital',
+    image: { src: '/img/brand/choose-brand/skycapital.svg' },
+  },
+  [brands.skycapitals]: {
+    name: 'Skycapitals',
+    image: { src: '/img/brand/choose-brand/skycapitals.svg' },
   },
 };
 const departmentsConfig = {
