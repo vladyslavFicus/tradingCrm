@@ -54,6 +54,7 @@ const countryField = {
   placeholder: I18n.t('COMMON.SELECT_OPTION.ANY'),
   multiple: true,
   className: fieldClassNames.MEDIUM,
+  withoutI18n: true,
   selectOptions: Object
     .keys(countries)
     .map(key => ({ value: key, label: countries[key] })),

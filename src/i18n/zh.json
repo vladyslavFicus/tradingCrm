@@ -773,9 +773,9 @@
         "DELETE": "确认"
       },
       "WARNING_TEXT": "操作无法取消！",
-      "ACTION_TEXT": "Are you sure that you want to delete file \"%{fileName}\"?",
-      "FILE_DELETED": "File successfully deleted",
-      "FILE_NOT_DELETED": "File is not deleted by technical reason"
+      "ACTION_TEXT": "您确定您想删除文件\"%{fileName}\"吗？",
+      "FILE_DELETED": "文件成功删除",
+      "FILE_NOT_DELETED": "由于技术原因文件未删除"
     },
     "GRID": {
       "COLUMN": {
@@ -2443,17 +2443,17 @@
   },
   "FILTER_SET": {
     "DROPDOWN": {
-      "LABEL": "Custom Filters Sets",
+      "LABEL": "自定义过滤器设置",
       "LIST": {
-        "TITLE": "View",
-        "FAVORITE": "Favourite"
+        "TITLE": "查看",
+        "FAVORITE": "“喜欢”"
       }
     },
     "CREATE_MODAL": {
-      "HEADER": "Save new filter set",
+      "HEADER": "保存新的过滤器设置",
       "FIELDS": {
-        "FILTER_NAME": "Filter name",
-        "FAVOURITE": "Is favourite?"
+        "FILTER_NAME": "过滤器名称",
+        "FAVOURITE": "是否“喜欢”？"
       }
     },
     "REMOVE_MODAL": {
@@ -2462,34 +2462,34 @@
       "BUTTON_ACTION": "Remove filter"
     },
     "CREATE": {
-      "FAILED": "Creating new filter set failed",
-      "FAILED_DESC": "Creating failed with error - %{desc}",
-      "SUCCESS": "Filter %{name} created successfully"
+      "FAILED": "创建新过滤器设置失败",
+      "FAILED_DESC": "创建失败，出现错误-％{desc}",
+      "SUCCESS": "过滤器%{name}设置成功"
     },
     "UPDATE_MODAL": {
-      "HEADER": "Update filter set",
+      "HEADER": "更新过滤器设置",
       "FIELDS": {
-        "FILTER_NAME": "Filter name"
+        "FILTER_NAME": "过滤器名称"
       }
     },
     "UPDATE": {
-      "FAILED": "Updating filter set failed",
-      "FAILED_DESC": "Updating failed with error - %{desc}",
-      "SUCCESS": "Filter %{name} updated successfully"
+      "FAILED": "更新过滤器设置失败",
+      "FAILED_DESC": "更新失败，出现错误-％{desc}",
+      "SUCCESS": "过滤器%{name}更新成功"
     },
     "BUTTONS": {
-      "SAVE": "Save",
-      "SAVE_AS": "Save as",
-      "DELETE": "Delete"
+      "SAVE": "保存",
+      "SAVE_AS": "另存为",
+      "DELETE": "删除"
     },
-    "LOADING_FAILED": "Failed to load filter set",
+    "LOADING_FAILED": "加载过滤器设置失败",
     "UPDATE_FAVOURITE": {
-      "ERROR": "Failed to update favourite",
-      "SUCCESS": "Filter set updated successfully"
+      "ERROR": "更新“喜欢”失败",
+      "SUCCESS": "过滤器设置更新成功"
     },
     "REMOVE_FILTER": {
-      "ERROR": "Failed to delete filter set",
-      "SUCCESS": "Filter set deleted successfully"
+      "ERROR": "删除过滤器设置失败",
+      "SUCCESS": "过滤器设置成功删除"
     }
   },
   "hierarchy": {
