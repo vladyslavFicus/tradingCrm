@@ -18,6 +18,7 @@ const tradingActivityQuery = gql`query clientTradingActivity(
   $limit: Int,
   $loginIds: [Int],
   $tradeType: String,
+  $agentIds: [String],
 ) {
   clientTradingActivity(
     playerUUID: $playerUUID,
@@ -37,6 +38,7 @@ const tradingActivityQuery = gql`query clientTradingActivity(
     limit: $limit,
     loginIds: $loginIds,
     tradeType: $tradeType,
+    agentIds: $agentIds,
   ) {
     data {
       page
@@ -71,6 +73,10 @@ const tradingActivityQuery = gql`query clientTradingActivity(
           magic
           comment
           timestamp
+          originalAgent {
+            uuid
+            fullName
+          }
         }
     }
     error {

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { reduxForm, Field } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
 import moment from 'moment';
+import { get } from 'lodash';
 import PropTypes from 'constants/propTypes';
 import { accountTypes } from 'constants/accountTypes';
 import {
@@ -11,6 +12,7 @@ import {
   RangeGroup,
   NasSelectField,
 } from 'components/ReduxForm';
+import { statuses as operatorsStasuses } from 'constants/operators';
 import {
   types,
   symbols,
@@ -29,6 +31,13 @@ class FilterForm extends Component {
     accounts: PropTypes.array,
     onReset: PropTypes.func.isRequired,
     disabled: PropTypes.bool.isRequired,
+    operators: PropTypes.shape({
+      loading: PropTypes.bool.isRequired,
+      operators: PropTypes.shape({
+        data: PropTypes.pageable(PropTypes.tradingActivityOriginalAgent),
+        error: PropTypes.object,
+      }),
+    }).isRequired,
   };
 
   static defaultProps = {
@@ -56,7 +65,14 @@ class FilterForm extends Component {
       accounts,
       onReset,
       disabled,
+      operators: {
+        operators,
+        loading: operatorsLoading,
+      },
     } = this.props;
+
+    const originalAgents = get(operators, 'data.content') || [];
+    const disabledOriginalAgentField = get(operators, 'error') || operatorsLoading;
 
     return (
       <form className="filter-row" onSubmit={handleSubmit(this.handleApplyFilters)}>
@@ -109,6 +125,27 @@ class FilterForm extends Component {
           {symbols.map(symbol => (
             <option key={symbol.value} value={symbol.value}>
               {I18n.t(symbol.label)}
+            </option>
+          ))}
+        </Field>
+        <Field
+          name="agentIds"
+          label={I18n.t(filterFormAttributeLabels.agentIds)}
+          component={NasSelectField}
+          placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
+          multiple
+          className="filter-row__medium"
+          disabled={disabledOriginalAgentField}
+        >
+          {originalAgents.map(({ fullName, uuid, operatorStatus }) => (
+            <option
+              key={uuid}
+              value={uuid}
+              className={operatorStatus === operatorsStasuses.INACTIVE
+                || operatorStatus === operatorsStasuses.CLOSE
+                ? 'color-inactive' : ''}
+            >
+              {I18n.t(fullName)}
             </option>
           ))}
         </Field>

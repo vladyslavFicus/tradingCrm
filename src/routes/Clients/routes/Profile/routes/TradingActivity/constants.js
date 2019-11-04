@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import moment from 'moment';
 import I18n from 'utils/fake-i18n';
 import Badge from 'components/Badge';
+import Uuid from 'components/Uuid';
 import { getTypeColor } from './utils';
 
 export const filterFormAttributeLabels = {
@@ -14,6 +15,7 @@ export const filterFormAttributeLabels = {
   type: I18n.t('CLIENT_PROFILE.TRADING_ACTIVITY.FILTER_FORM.TYPE_LABEL'),
   loginIds: I18n.t('CLIENT_PROFILE.TRADING_ACTIVITY.FILTER_FORM.LOGIN_IDS'),
   symbol: I18n.t('CLIENT_PROFILE.TRADING_ACTIVITY.FILTER_FORM.SYMBOL_LABEL'),
+  agentIds: I18n.t('CLIENT_PROFILE.TRADING_ACTIVITY.FILTER_FORM.ORIGINAL_AGENT_LABEL'),
   volume: I18n.t('CLIENT_PROFILE.TRADING_ACTIVITY.FILTER_FORM.VOLUME_LABEL'),
   status: I18n.t('CLIENT_PROFILE.TRADING_ACTIVITY.FILTER_FORM.STATUS_LABEL'),
   openTimeRange: I18n.t('CLIENT_PROFILE.TRADING_ACTIVITY.FILTER_FORM.OPEN_TIME_RANGE_LABEL'),
@@ -126,16 +128,22 @@ export const statuses = [{
   label: I18n.t('CLIENT_PROFILE.TRADING_ACTIVITY.FILTER_FORM.STATUSES.CLOSED'),
 }];
 
-export const columns = i18n => [{
+export const columns = (i18n, changeOriginalAgent) => [{
   name: 'trade',
   header: i18n.t('CLIENT_PROFILE.TRADING_ACTIVITY.GRID_VIEW.TRADE'),
-  render: ({ tradeId, tradeType }) => (
+  render: ({ tradeId, tradeType, originalAgent }) => (
     <Badge
       text={i18n.t(`CONSTANTS.ACCOUNT_TYPE.${tradeType}`)}
       info={tradeType === 'DEMO'}
       success={tradeType === 'LIVE'}
     >
-      <div className="font-weight-700">TR-{tradeId}</div>
+      <button
+        type="button"
+        className="btn-transparent-text font-weight-700"
+        onClick={() => changeOriginalAgent(tradeId, originalAgent && originalAgent.uuid)}
+      >
+        TR-{tradeId}
+      </button>
     </Badge>
   ),
 }, {
@@ -159,6 +167,24 @@ export const columns = i18n => [{
       <div className="font-weight-700">{login}</div>
       <div className="font-size-11">{symbol}</div>
     </Fragment>
+  ),
+}, {
+  name: 'originalAgent',
+  header: i18n.t('CLIENT_PROFILE.TRADING_ACTIVITY.GRID_VIEW.ORIGINAL_AGENT'),
+  render: ({ originalAgent }) => (
+    <Choose>
+      <When condition={originalAgent}>
+        <div className="font-weight-700">
+          {originalAgent.fullName}
+        </div>
+        <div className="font-size-11">
+          <Uuid uuid={originalAgent.uuid} />
+        </div>
+      </When>
+      <Otherwise>
+        <div>&mdash;</div>
+      </Otherwise>
+    </Choose>
   ),
 }, {
   name: 'openPrice',

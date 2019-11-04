@@ -20,6 +20,10 @@ class TradingActivity extends Component {
         data: PropTypes.pageable(PropTypes.tradingActivity),
       }),
     }).isRequired,
+    operators: PropTypes.object.isRequired,
+    modals: PropTypes.shape({
+      changeOriginalAgentModal: PropTypes.modalType,
+    }).isRequired,
   };
 
   static defaultProps = {
@@ -66,6 +70,16 @@ class TradingActivity extends Component {
     });
   }
 
+  showChangeOriginalAgentModal = (tradeId, agentId) => {
+    const { tradingActivity, modals: { changeOriginalAgentModal } } = this.props;
+
+    changeOriginalAgentModal.show({
+      tradeId,
+      agentId,
+      onSuccess: tradingActivity.refetch,
+    });
+  }
+
   render() {
     const {
       locale,
@@ -73,6 +87,7 @@ class TradingActivity extends Component {
       tradingActivity: { loading, variables },
       playerProfile,
       playerProfile: { loading: profileLoading },
+      operators,
     } = this.props;
 
     const clientTradingActivity = get(tradingActivity, 'clientTradingActivity.data') || { content: [] };
@@ -89,6 +104,7 @@ class TradingActivity extends Component {
           onReset={this.handleFilterReset}
           disabled={profileError || profileLoading}
           accounts={mt4Accs}
+          operators={operators}
           initialValues={{ tradeType: variables.tradeType }}
         />
         <div className="tab-wrapper">
@@ -100,7 +116,7 @@ class TradingActivity extends Component {
             showNoResults={error || (!loading && clientTradingActivity.totalElements === 0)}
             lazyLoad
           >
-            {columns(I18n).map(({ name, header, render }) => (
+            {columns(I18n, this.showChangeOriginalAgentModal).map(({ name, header, render }) => (
               <GridViewColumn
                 key={name}
                 name={name}

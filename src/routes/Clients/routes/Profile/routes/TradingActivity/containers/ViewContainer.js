@@ -2,8 +2,11 @@ import { graphql, compose, withApollo } from 'react-apollo';
 import { connect } from 'react-redux';
 import { get } from 'lodash';
 import { clientQuery } from 'graphql/queries/profile';
+import { operatorsQuery } from 'graphql/queries/operators';
 import { tradingActivityQuery } from 'graphql/queries/tradingActivity';
+import { withModals } from 'components/HighOrder';
 import TradingActivity from '../components/TradingActivity';
+import ChangeOriginalAgentModal from '../components/ChangeOriginalAgentModal';
 
 const mapStateToProps = ({
   i18n: { locale },
@@ -12,8 +15,19 @@ const mapStateToProps = ({
 });
 
 export default compose(
+  withModals({
+    changeOriginalAgentModal: ChangeOriginalAgentModal,
+  }),
   withApollo,
   connect(mapStateToProps),
+  graphql(operatorsQuery, {
+    name: 'operators',
+    options: () => ({
+      variables: {
+        size: 2000,
+      },
+    }),
+  }),
   graphql(clientQuery, {
     options: ({
       match: {

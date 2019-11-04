@@ -1487,6 +1487,13 @@
       "ERROR_METHOD": "Update of the payment method is failed"
     }
   },
+  "TRADING_ACTIVITY_MODAL": {
+    "TITLE": "Change agent",
+    "NOTIFICATIONS": {
+      "SUCCESSFULLY": "Original agent changed successfully",
+      "ERROR": "Change of the original agent failed"
+    }
+  },
   "CHANGE_ORIGINAL_AGENT": {
     "TITLE": "Original Agent"
   },
@@ -1812,6 +1819,7 @@
         "TRADE": "Trade",
         "TYPE": "Type",
         "TRADING_ACC": "Trading Acc.",
+        "ORIGINAL_AGENT": "Original Agent",
         "OPEN_PRICE": "Open price",
         "CLOSE_PRICE": "Close price",
         "VOLUME": "Volume",
@@ -1827,6 +1835,7 @@
         "TRADE_PLACEHOLDER": "Trade ID",
         "TYPE_LABEL": "Type",
         "SYMBOL_LABEL": "Symbol",
+        "ORIGINAL_AGENT_LABEL": "Original Agent",
         "VOLUME_LABEL": "Volume",
         "STATUS_LABEL": "Status",
         "OPEN_TIME_RANGE_LABEL": "Open time range",

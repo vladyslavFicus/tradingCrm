@@ -220,6 +220,10 @@ PropTypes.paymentOriginalAgent = PropTypes.shape({
   uuid: PropTypes.string,
   fullName: PropTypes.string,
 });
+PropTypes.tradingActivityOriginalAgent = PropTypes.shape({
+  uuid: PropTypes.string,
+  fullName: PropTypes.string,
+});
 PropTypes.userPaymentAccountEntity = PropTypes.shape({
   creationDate: PropTypes.string.isRequired,
   details: PropTypes.string.isRequired,
