@@ -38,6 +38,8 @@ class FilterForm extends Component {
         error: PropTypes.object,
       }),
     }).isRequired,
+    reset: PropTypes.func.isRequired,
+    pristine: PropTypes.bool.isRequired,
   };
 
   static defaultProps = {
@@ -58,17 +60,24 @@ class FilterForm extends Component {
     this.props.change(name, value ? moment(value).format() : '');
   }
 
+  resetForm = () => {
+    const { reset, onReset } = this.props;
+
+    onReset();
+    reset();
+  }
+
   render() {
     const {
       submitting,
       handleSubmit,
       accounts,
-      onReset,
       disabled,
       operators: {
         operators,
         loading: operatorsLoading,
       },
+      pristine,
     } = this.props;
 
     const originalAgents = get(operators, 'data.content') || [];
@@ -242,9 +251,9 @@ class FilterForm extends Component {
         </Field>
         <div className="filter-row__button-block">
           <button
-            disabled={submitting}
+            disabled={pristine || submitting}
             className="btn btn-default"
-            onClick={onReset}
+            onClick={this.resetForm}
             type="button"
           >
             {I18n.t('COMMON.RESET')}

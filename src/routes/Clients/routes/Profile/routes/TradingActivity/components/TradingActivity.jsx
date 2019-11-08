@@ -51,7 +51,13 @@ class TradingActivity extends Component {
     const { playerProfile } = this.props;
     const loginIds = get(playerProfile, 'playerProfile.data.tradingProfile.mt4Users') || [];
 
-    history.replace({ query: { filters: { loginIds: loginIds.map(({ login }) => login) } } });
+    history.replace({
+      query: {
+        filters: {
+          loginIds: loginIds.map(({ login }) => login),
+        },
+      },
+    });
   }
 
   handleFiltersChanged = (filters = {}) => {
