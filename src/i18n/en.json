@@ -2096,7 +2096,8 @@
       "COUNTRY": "Country",
       "SALES": "Sales",
       "REGISTRATION": "Registration",
-      "STATUS": "Status"
+      "STATUS": "Status",
+      "LAST_NOTE": "Last note"
     },
     "PROMOTE_INFO_MODAL": {
       "HEADER": "Promoted leads information",

@@ -11,6 +11,7 @@ import { types as miniProfileTypes } from 'constants/miniProfile';
 import GridView, { GridViewColumn } from 'components/GridView';
 import Placeholder from 'components/Placeholder';
 import { salesStatuses, salesStatusesColor } from 'constants/salesStatuses';
+import { UncontrolledTooltip } from 'components/Reactstrap/Uncontrolled';
 import Uuid from 'components/Uuid';
 import MiniProfile from 'components/MiniProfile';
 import CountryLabelWithFlag from 'components/CountryLabelWithFlag';
@@ -276,23 +277,6 @@ class List extends Component {
     </Choose>
   );
 
-  renderStatus = ({ status, statusChangedDate, convertedByOperatorUuid, convertedToClientUuid }) => (
-    <Fragment>
-      <div className={classNames('font-weight-700 text-uppercase', leadStatuses[status].color)}>
-        {I18n.t(leadStatuses[status].label)}
-      </div>
-      <If condition={statusChangedDate}>
-        <div className="header-block-small">
-          {I18n.t('COMMON.SINCE', { date: moment.utc(statusChangedDate).local().format('DD.MM.YYYY HH:mm:ss') })}
-        </div>
-      </If>
-      <ConvertedBy
-        convertedToClientUuid={convertedToClientUuid}
-        convertedByOperatorUuid={convertedByOperatorUuid}
-      />
-    </Fragment>
-  );
-
   renderSales = ({ salesStatus, salesAgent }) => {
     const className = salesStatusesColor[salesStatus];
 
@@ -325,6 +309,47 @@ class List extends Component {
       <div className="font-size-11">
         {moment.utc(registrationDate).local().format('HH:mm:ss')}
       </div>
+    </Fragment>
+  );
+
+  renderLastNote = ({ id, lastNote }) => (
+    <Choose>
+      <When condition={lastNote && lastNote.content}>
+        <div className="max-width-200">
+          <div className="font-weight-700">{moment.utc(lastNote.changedAt).local().format('DD.MM.YYYY')}</div>
+          <div className="font-size-11">{moment.utc(lastNote.changedAt).local().format('HH:mm:ss')}</div>
+          <div className="text-truncate-2-lines max-height-35 font-size-11" id={`${id}-note`}>{lastNote.content}</div>
+          <UncontrolledTooltip
+            placement="bottom-start"
+            target={`${id}-note`}
+            delay={{
+              show: 350, hide: 250,
+            }}
+          >
+            {lastNote.content}
+          </UncontrolledTooltip>
+        </div>
+      </When>
+      <Otherwise>
+        <GridEmptyValue I18n={I18n} />
+      </Otherwise>
+    </Choose>
+  );
+
+  renderStatus = ({ status, statusChangedDate, convertedByOperatorUuid, convertedToClientUuid }) => (
+    <Fragment>
+      <div className={classNames('font-weight-700 text-uppercase', leadStatuses[status].color)}>
+        {I18n.t(leadStatuses[status].label)}
+      </div>
+      <If condition={statusChangedDate}>
+        <div className="header-block-small">
+          {I18n.t('COMMON.SINCE', { date: moment.utc(statusChangedDate).local().format('DD.MM.YYYY HH:mm:ss') })}
+        </div>
+      </If>
+      <ConvertedBy
+        convertedToClientUuid={convertedToClientUuid}
+        convertedByOperatorUuid={convertedByOperatorUuid}
+      />
     </Fragment>
   );
 
@@ -463,6 +488,11 @@ class List extends Component {
               name="registrationDate"
               header={I18n.t('LEADS.GRID_HEADER.REGISTRATION')}
               render={this.renderRegistrationDate}
+            />
+            <GridViewColumn
+              name="lastNote"
+              header={I18n.t('LEADS.GRID_HEADER.LAST_NOTE')}
+              render={this.renderLastNote}
             />
             <GridViewColumn
               name="status"

@@ -2087,7 +2087,8 @@
       "COUNTRY": "国家",
       "SALES": "销售",
       "REGISTRATION": "注册",
-      "STATUS": "状态"
+      "STATUS": "状态",
+      "LAST_NOTE": "Last note"
     },
     "PROMOTE_INFO_MODAL": {
       "HEADER": "推广的潜在客户信息",

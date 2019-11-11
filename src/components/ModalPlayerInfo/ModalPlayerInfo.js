@@ -1,9 +1,9 @@
 import React, { Component, Fragment } from 'react';
 import { I18n } from 'react-redux-i18n';
 import moment from 'moment';
+import { getActiveBrandConfig } from 'config';
 import PropTypes from '../../constants/propTypes';
 import Uuid from '../Uuid';
-import { getActiveBrandConfig } from '../../config';
 import './ModalPlayerInfo.scss';
 
 class ModalPlayerInfo extends Component {

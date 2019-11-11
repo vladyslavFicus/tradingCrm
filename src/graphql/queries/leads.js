@@ -74,6 +74,10 @@ const leadsQuery = gql`query ${queryNames.leadsQuery}(
         registrationDate
         statusChangedDate
         migrationId
+        lastNote {
+          changedAt
+          content
+        }
       } 
     }
   } 
