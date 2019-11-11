@@ -1,7 +1,7 @@
 import gql from 'graphql-tag';
 
 const updateLeadProfile = gql`mutation updateLead(
-  $id: String!,
+  $uuid: String!,
   $name: String,
   $surname: String,
   $phone: String,
@@ -14,7 +14,7 @@ const updateLeadProfile = gql`mutation updateLead(
 ) {
   leads {
     update (
-      id: $id,
+      uuid: $uuid,
       name: $name,
       surname: $surname,
       phone: $phone,
@@ -27,7 +27,7 @@ const updateLeadProfile = gql`mutation updateLead(
     ) {
       data {
         _id
-        id
+        uuid
         name
         surname
         phone

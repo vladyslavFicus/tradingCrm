@@ -2,7 +2,7 @@ import gql from 'graphql-tag';
 import queryNames from 'constants/apolloQueryNames';
 
 const leadsQuery = gql`query ${queryNames.leadsQuery}(
-  $ids: [String],
+  $uuids: [String],
   $searchKeyword: String,
   $registrationDateStart: String,
   $registrationDateEnd: String,
@@ -15,7 +15,7 @@ const leadsQuery = gql`query ${queryNames.leadsQuery}(
   $migrationId: String,
 ) {
   leads (
-    ids: $ids,
+    uuids: $uuids,
     searchKeyword: $searchKeyword,
     registrationDateStart: $registrationDateStart,
     registrationDateEnd: $registrationDateEnd,
@@ -39,7 +39,7 @@ const leadsQuery = gql`query ${queryNames.leadsQuery}(
       number
       content {
         _id
-        id
+        uuid
         brandId
         name
         surname
@@ -91,7 +91,7 @@ const leadProfileQuery = gql`query getLeadProfile(
     }
     data {
       _id
-      id
+      uuid
       brandId
       name
       surname

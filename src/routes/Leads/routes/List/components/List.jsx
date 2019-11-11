@@ -132,8 +132,8 @@ class List extends Component {
     }, () => history.replace({ query: { filters: {} } }));
   };
 
-  handleLeadClick = ({ id }) => {
-    window.open(`/leads/${id}`, '_blank');
+  handleLeadClick = ({ uuid }) => {
+    window.open(`/leads/${uuid}`, '_blank');
   };
 
   handleSelectRow = (condition, index, touchedRowsIds) => {
@@ -143,7 +143,7 @@ class List extends Component {
       const selectedRows = [...state.selectedRows];
 
       if (condition) {
-        selectedRows.push(content[index].id);
+        selectedRows.push(content[index].uuid);
       } else {
         selectedRows.splice(index, 1);
       }
@@ -245,17 +245,17 @@ class List extends Component {
   };
 
   renderLead = data => (
-    <div id={data.id}>
+    <div id={data.uuid}>
       <div className="font-weight-700">
         {data.name} {data.surname}
       </div>
       <div className="font-size-11">
         <MiniProfile
-          target={data.id}
+          target={data.uuid}
           dataSource={data}
           type={miniProfileTypes.LEAD}
         >
-          <Uuid uuid={data.id} uuidPrefix="LE" />
+          <Uuid uuid={data.uuid} uuidPrefix="LE" />
         </MiniProfile>
       </div>
     </div>

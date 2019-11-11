@@ -84,7 +84,7 @@ class LeadProfile extends Component {
             phone,
             city,
             brandId,
-            id,
+            uuid,
           },
         },
       },
@@ -99,7 +99,7 @@ class LeadProfile extends Component {
         phone,
         city,
         brandId,
-        leadUuid: id,
+        leadUuid: uuid,
       },
     });
 

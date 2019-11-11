@@ -13,7 +13,7 @@ import ConvertedBy from '../../../../components/ConvertedBy';
 
 const Header = ({
   data: {
-    id,
+    uuid,
     name,
     surname,
     country,
@@ -35,7 +35,7 @@ const Header = ({
             {`${name} ${surname}`}
           </div>
           <span className="panel-heading-row__info-ids">
-            {!!id && <Uuid uuid={id} uuidPrefix="LE" />} {country && ` - ${country}`}
+            {!!uuid && <Uuid uuid={uuid} uuidPrefix="LE" />} {country && ` - ${country}`}
           </span>
         </div>
       </ProfileHeaderPlaceholder>

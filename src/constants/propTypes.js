@@ -424,7 +424,7 @@ PropTypes.paymentEntry = PropTypes.shape({
   entryDate: PropTypes.string.isRequired,
 });
 PropTypes.lead = PropTypes.shape({
-  id: PropTypes.string.isRequired,
+  uuid: PropTypes.string.isRequired,
   brandId: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   surname: PropTypes.string.isRequired,

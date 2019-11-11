@@ -20,7 +20,7 @@ const mapStateToProps = (_, { leadProfile: { leadProfile } }) => {
   }
 
   const {
-    id,
+    uuid,
     brandId,
     name,
     surname,
@@ -35,7 +35,7 @@ const mapStateToProps = (_, { leadProfile: { leadProfile } }) => {
 
   return {
     initialValues: {
-      id,
+      uuid,
       brandId,
       name,
       surname,
