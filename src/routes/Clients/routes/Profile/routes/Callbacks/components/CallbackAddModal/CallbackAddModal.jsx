@@ -4,9 +4,10 @@ import { I18n } from 'react-redux-i18n';
 import { get } from 'lodash';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import NoteButton from 'components/NoteButton';
-import PropTypes from '../../../../../../../../constants/propTypes';
-import { createValidator } from '../../../../../../../../utils/validator';
-import { NasSelectField, DateTimeField } from '../../../../../../../../components/ReduxForm';
+import PropTypes from 'constants/propTypes';
+import { createValidator } from 'utils/validator';
+import { targetTypes } from 'constants/note';
+import { NasSelectField, DateTimeField } from 'components/ReduxForm';
 
 class CallbackAddModal extends Component {
   static propTypes = {
@@ -38,7 +39,13 @@ class CallbackAddModal extends Component {
     const note = this.noteButton.getNote();
 
     if (note) {
-      await this.props.addNote({ variables: { ...this.noteButton.getNote(), targetUUID } });
+      await this.props.addNote({
+        variables: {
+          ...this.noteButton.getNote(),
+          targetUUID,
+          targetType: targetTypes.CALLBACK,
+        },
+      });
     }
   };
 

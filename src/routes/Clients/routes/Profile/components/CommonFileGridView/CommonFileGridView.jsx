@@ -5,6 +5,7 @@ import { I18n } from 'react-redux-i18n';
 import classNames from 'classnames';
 import { shortifyInMiddle } from 'utils/stringFormat';
 import { categoriesLabels } from 'constants/files';
+import { targetTypes } from 'constants/note';
 import PermissionContent from 'components/PermissionContent';
 import GridView, { GridViewColumn } from 'components/GridView';
 import FileStatusDropDown from 'components/FileStatusDropDown';
@@ -117,6 +118,7 @@ class CommonFileGridView extends Component {
     <NoteButton
       playerUUID={data.playerUUID}
       targetUUID={data.uuid}
+      targetType={targetTypes.FILE}
       note={data.note}
     />
   );

@@ -51,6 +51,7 @@ class NotePopover extends Component {
       targetUUID: PropTypes.string,
       playerUUID: PropTypes.string,
     }),
+    targetType: PropTypes.string,
     submitting: PropTypes.bool,
     invalid: PropTypes.bool,
     pristine: PropTypes.bool,
@@ -67,6 +68,7 @@ class NotePopover extends Component {
     isOpen: false,
     handleSubmit: null,
     currentValues: null,
+    targetType: '',
     submitting: false,
     invalid: false,
     pristine: false,
@@ -93,10 +95,12 @@ class NotePopover extends Component {
    * @return {Promise<void>}
    */
   onSubmit = async (data) => {
-    if (this.props.item) {
+    const { item, targetType } = this.props;
+
+    if (item) {
       await this.handleUpdateNote(data);
     } else {
-      await this.handleAddNote(data);
+      await this.handleAddNote({ ...data, targetType });
     }
   };
 

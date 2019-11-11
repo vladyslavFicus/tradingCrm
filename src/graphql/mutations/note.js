@@ -32,6 +32,7 @@ const addNoteMutation = gql`mutation addNote(
   $targetUUID: String!
   $pinned: Boolean!
   $playerUUID: String!
+  $targetType: String!
 ) {
   note {
     add(
@@ -39,6 +40,7 @@ const addNoteMutation = gql`mutation addNote(
       targetUUID: $targetUUID
       pinned: $pinned
       playerUUID: $playerUUID
+      targetType: $targetType
     ) {
       data {
         ...NoteFragment

@@ -3,6 +3,7 @@ import React, { Fragment } from 'react';
 import { I18n } from 'react-redux-i18n';
 import moment from 'moment';
 import { getActiveBrandConfig } from 'config';
+import { targetTypes } from 'constants/note';
 import GridPaymentInfo from 'components/GridPaymentInfo';
 import Uuid from 'components/Uuid';
 import NoteButton from 'components/NoteButton';
@@ -223,6 +224,7 @@ export default ({
     return (
       <NoteButton
         key={targetUUID}
+        targetType={targetTypes.PAYMENT}
         targetUUID={targetUUID}
         playerUUID={playerUUID}
         note={note}

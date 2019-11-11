@@ -1,8 +1,8 @@
 import React, { PureComponent } from 'react';
 import { get } from 'lodash';
-import PropTypes from '../../../../../constants/propTypes';
-import GridView, { GridViewColumn } from '../../../../../components/GridView';
-import { columns } from '../../../../../utils/paymentHelpers';
+import PropTypes from 'constants/propTypes';
+import GridView, { GridViewColumn } from 'components/GridView';
+import { columns } from 'utils/paymentHelpers';
 
 class PaymentsGrid extends PureComponent {
   static propTypes = {

@@ -248,13 +248,14 @@ class MainLayout extends Component {
     }
   };
 
-  handleAddNoteClick = (target, targetUUID, playerUUID, params = {}) => {
+  handleAddNoteClick = (target, targetUUID, playerUUID, targetType, params = {}) => {
     this.updateState({
       popover: {
         name: NOTE_POPOVER,
         params: {
           ...params,
           target,
+          targetType,
           initialValues: {
             targetUUID,
             playerUUID,

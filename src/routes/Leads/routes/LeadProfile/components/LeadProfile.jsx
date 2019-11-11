@@ -4,7 +4,7 @@ import { get } from 'lodash';
 import { SubmissionError } from 'redux-form';
 import { Switch, Redirect } from 'react-router-dom';
 import NotePopover from 'components/NotePopover';
-import { viewType as noteViewType } from 'constants/note';
+import { viewType as noteViewType, targetTypes } from 'constants/note';
 import { getActiveBrandConfig } from 'config';
 import Tabs from 'components/Tabs';
 import NotFound from 'routes/NotFound';
@@ -225,6 +225,7 @@ class LeadProfile extends Component {
           placement: 'bottom',
           ...params,
           target,
+          targetType: targetTypes.LEAD,
           initialValues: {
             targetUUID: leadUUID,
             playerUUID: `PLAYER-${leadUUID}`,

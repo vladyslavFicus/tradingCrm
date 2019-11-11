@@ -2,7 +2,10 @@ import keyMirror from 'keymirror';
 
 const targetTypes = keyMirror({
   PROFILE: null,
+  PLAYER: null,
+  LEAD: null,
   PAYMENT: null,
+  CALLBACK: null,
   FILE: null,
   LIMIT: null,
   PAYMENT_ACCOUNT: null,
@@ -10,6 +13,7 @@ const targetTypes = keyMirror({
   KYC_VERIFY: null,
   KYC_REFUSE: null,
 });
+
 const targetTypesLabels = {
   [targetTypes.PROFILE]: 'Profile',
   [targetTypes.PAYMENT]: 'Payment',
@@ -20,6 +24,7 @@ const targetTypesLabels = {
   [targetTypes.KYC_REQUEST_VERIFICATION]: 'KYC Verify',
   [targetTypes.KYC_REQUEST_VERIFICATION]: 'KYC Refuse',
 };
+
 const viewType = keyMirror({
   POPOVER: null,
   MODAL: null,

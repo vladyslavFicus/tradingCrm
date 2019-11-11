@@ -3,10 +3,11 @@ import moment from 'moment';
 import classNames from 'classnames';
 import { I18n } from 'react-redux-i18n';
 import { get } from 'lodash';
+import PropTypes from 'constants/propTypes';
+import { targetTypes } from 'constants/note';
+import { callbacksStatusesColor } from 'constants/callbacks';
 import NoteButton from 'components/NoteButton';
-import PropTypes from '../../constants/propTypes';
-import { shortify } from '../../utils/uuid';
-import { callbacksStatusesColor } from '../../constants/callbacks';
+import { shortify } from 'utils/uuid';
 import GridView, { GridViewColumn } from '../GridView';
 import Uuid from '../Uuid';
 
@@ -108,6 +109,7 @@ class CallbacksList extends Component {
   renderActions = ({ callbackId, userId, note }) => (
     <NoteButton
       key={callbackId}
+      targetType={targetTypes.CALLBACK}
       targetUUID={callbackId}
       playerUUID={userId}
       note={note}

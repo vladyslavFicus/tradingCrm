@@ -7,6 +7,7 @@ import classNames from 'classnames';
 import Badge from 'components/Badge';
 import NoteButton from 'components/NoteButton';
 import PropTypes from 'constants/propTypes';
+import { targetTypes } from 'constants/note';
 import { manualPaymentMethods, manualPaymentMethodsLabels } from 'constants/payment';
 import { accountTypesLabels } from 'constants/accountTypes';
 import { InputField, NasSelectField, DateTimeField } from 'components/ReduxForm';
@@ -309,6 +310,7 @@ class PaymentAddModal extends PureComponent {
                 ref={(ref) => { this.noteButton = ref; }}
                 placement="bottom"
                 playerUUID={playerUUID}
+                targetType={targetTypes.PAYMENT}
               />
             </div>
           </div>

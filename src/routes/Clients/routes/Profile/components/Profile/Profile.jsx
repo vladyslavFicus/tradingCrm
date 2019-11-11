@@ -12,7 +12,7 @@ import {
   statuses as playerProfileStatuses,
 } from 'constants/user';
 import PropTypes from 'constants/propTypes';
-import { viewType as noteViewType } from 'constants/note';
+import { viewType as noteViewType, targetTypes } from 'constants/note';
 import Tabs from 'components/Tabs';
 import Modal from 'components/Modal';
 import NotePopover from 'components/NotePopover';
@@ -339,6 +339,7 @@ class Profile extends Component {
           placement: 'bottom',
           ...params,
           target,
+          targetType: targetTypes.PLAYER,
           initialValues: {
             targetUUID,
             playerUUID: targetUUID,
