@@ -17,8 +17,6 @@ import UserGridFilter from './UsersGridFilter';
 import { columns } from './attributes';
 import { getClientsData } from './utils';
 
-export const AppoloRequestContext = React.createContext(false);
-
 class List extends Component {
   static propTypes = {
     notify: PropTypes.func.isRequired,
@@ -304,16 +302,13 @@ class List extends Component {
 
   render() {
     const {
+      auth,
       locale,
       countries,
-      profiles: {
-        loading,
-        profiles,
-      },
       fetchPlayerMiniProfile,
-      auth,
-      userBranchHierarchy: { hierarchy, loading: branchesLoading },
       location: { filterSetValues },
+      profiles: { loading, profiles },
+      userBranchHierarchy: { hierarchy, loading: branchesLoading },
     } = this.props;
 
     const {
@@ -401,17 +396,16 @@ class List extends Component {
           </If>
         </div>
 
-        <AppoloRequestContext.Provider value={this.props.profiles.loading}>
-          <UserGridFilter
-            onSubmit={this.handleFiltersChanged}
-            onReset={this.handleFilterReset}
-            countries={countries}
-            teams={teams}
-            desks={desks}
-            branchesLoading={branchesLoading}
-            initialValues={filterSetValues}
-          />
-        </AppoloRequestContext.Provider>
+        <UserGridFilter
+          desks={desks}
+          teams={teams}
+          countries={countries}
+          isFetchingProfileData={loading}
+          initialValues={filterSetValues}
+          onReset={this.handleFilterReset}
+          branchesLoading={branchesLoading}
+          onSubmit={this.handleFiltersChanged}
+        />
 
         <div className="card-body card-grid-multiselect">
           <GridView

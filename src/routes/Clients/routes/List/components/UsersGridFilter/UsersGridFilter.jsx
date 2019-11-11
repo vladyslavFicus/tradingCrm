@@ -6,7 +6,6 @@ import PropTypes from 'constants/propTypes';
 import { filterSetTypes } from 'constants/filterSet';
 import ListFilterForm from 'components/ListFilterForm';
 import { filterFields, fieldNames } from '../attributes';
-import { AppoloRequestContext } from '../List';
 
 class UserGridFilter extends Component {
   static propTypes = {
@@ -16,6 +15,7 @@ class UserGridFilter extends Component {
     teams: PropTypes.arrayOf(PropTypes.hierarchyBranch).isRequired,
     desks: PropTypes.arrayOf(PropTypes.hierarchyBranch).isRequired,
     branchesLoading: PropTypes.bool.isRequired,
+    isFetchingProfileData: PropTypes.bool.isRequired,
     operators: PropTypes.operatorsList.isRequired,
     operatorsLoading: PropTypes.bool.isRequired,
     initialValues: PropTypes.object,
@@ -117,39 +117,36 @@ class UserGridFilter extends Component {
 
   render() {
     const {
-      onSubmit,
-      onReset,
-      countries,
       desks,
-      branchesLoading,
-      operatorsLoading,
+      onReset,
+      onSubmit,
+      countries,
       operators,
       initialValues,
+      branchesLoading,
+      operatorsLoading,
+      isFetchingProfileData,
     } = this.props;
 
     const { teams, filteredOperators, branchOperatorsLoading } = this.state;
 
     return (
-      <AppoloRequestContext.Consumer>
-        {requestInProgress => (
-          <ListFilterForm
-            onSubmit={onSubmit}
-            initialValues={initialValues}
-            onReset={onReset}
-            filterSetType={filterSetTypes.CLIENT}
-            fields={filterFields(
-              countries,
-              desks,
-              teams,
-              branchesLoading,
-              filteredOperators || operators,
-              operatorsLoading || branchOperatorsLoading,
-            )}
-            onFieldChange={this.handleFieldChange}
-            queryRequestInProgress={requestInProgress}
-          />
+      <ListFilterForm
+        onSubmit={onSubmit}
+        initialValues={initialValues}
+        onReset={onReset}
+        filterSetType={filterSetTypes.CLIENT}
+        fields={filterFields(
+          countries,
+          desks,
+          teams,
+          branchesLoading,
+          filteredOperators || initialOperators || operators,
+          operatorsLoading || branchOperatorsLoading,
         )}
-      </AppoloRequestContext.Consumer>
+        onFieldChange={this.handleFieldChange}
+        isFetchingProfileData={isFetchingProfileData}
+      />
     );
   }
 }

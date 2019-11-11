@@ -22,7 +22,7 @@ class ListFilters extends PureComponent {
     onReset: PropTypes.func.isRequired,
     fields: PropTypes.array.isRequired,
     onSubmit: PropTypes.func.isRequired,
-    queryRequestInProgress: PropTypes.bool,
+    isFetchingProfileData: PropTypes.bool.isRequired,
   };
 
   static defaultProps = {
@@ -34,11 +34,6 @@ class ListFilters extends PureComponent {
     currentValues: null,
     filterSetType: null,
     onFieldChange: () => {},
-    queryRequestInProgress: false,
-  };
-
-  static contextTypes = {
-    getApolloRequestState: PropTypes.func,
   };
 
   state = {
@@ -74,10 +69,9 @@ class ListFilters extends PureComponent {
   }
 
   handleReset = () => {
-    const { getApolloRequestState } = this.context;
-    const { reset, onReset, filterSetType } = this.props;
-    // do nothing if request is already performing
-    if (getApolloRequestState && getApolloRequestState()) {
+    const { reset, onReset, filterSetType, isFetchingProfileData } = this.props;
+
+    if (isFetchingProfileData) {
       return;
     }
 
@@ -93,11 +87,11 @@ class ListFilters extends PureComponent {
 
   handleSubmit = (values) => {
     const { prevValues, resetDisabled } = this.state;
-    const { getApolloRequestState } = this.context;
+    const { isFetchingProfileData } = this.props;
+
     let requestId = null;
 
-    // do nothing if request is already performing
-    if (getApolloRequestState && getApolloRequestState()) {
+    if (isFetchingProfileData) {
       return;
     }
 
@@ -147,7 +141,7 @@ class ListFilters extends PureComponent {
       handleSubmit,
       currentValues,
       filterSetType,
-      queryRequestInProgress,
+      isFetchingProfileData,
     } = this.props;
 
     const {
@@ -166,7 +160,7 @@ class ListFilters extends PureComponent {
             type={filterSetType}
             submitFilters={this.handleSubmit}
             selectValue={selectedFilterDropdownItem}
-            apolloRequestInProgress={queryRequestInProgress}
+            isFetchingProfileData={isFetchingProfileData}
             handleHistoryReplace={this.handleHistoryReplace}
             handleToggleFiltersVisibility={this.handleToggleFiltersVisibility}
             handleSelectFilterDropdownItem={this.handleSelectFilterDropdownItem}
