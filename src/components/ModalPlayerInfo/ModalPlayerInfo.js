@@ -3,6 +3,7 @@ import { I18n } from 'react-redux-i18n';
 import moment from 'moment';
 import PropTypes from '../../constants/propTypes';
 import Uuid from '../Uuid';
+import { getActiveBrandConfig } from '../../config';
 import './ModalPlayerInfo.scss';
 
 class ModalPlayerInfo extends Component {
@@ -35,22 +36,23 @@ class ModalPlayerInfo extends Component {
     </Fragment>
   );
 
-  renderBalance = ({ currency, tradingProfile: { balance, credit, margin, marginLevel } }) => (
-    <Fragment>
-      <div className="header-block-middle">
-        {currency} {Number(balance).toFixed(2)}
-      </div>
-      <div className="header-block-small">
-        {I18n.t('CLIENT_PROFILE.PROFILE.HEADER.CREDIT')}: {currency} {Number(credit).toFixed(2)}
-      </div>
-      <div className="header-block-small">
-        {I18n.t('CLIENT_PROFILE.PROFILE.HEADER.MARGIN')}: {currency} {Number(margin).toFixed(2)}
-      </div>
-      <div className="header-block-small">
-        {I18n.t('CLIENT_PROFILE.PROFILE.HEADER.MARGIN_LEVEL')}: {currency} {Number(marginLevel).toFixed(2)}
-      </div>
-    </Fragment>
-  );
+  renderBalance = ({ tradingProfile: { baseCurrencyBalance, baseCurrencyCredit, baseCurrencyMargin } }) => {
+    const currency = getActiveBrandConfig().currencies.base;
+
+    return (
+      <Fragment>
+        <div className="header-block-middle">
+          {currency} {Number(baseCurrencyBalance).toFixed(2)}
+        </div>
+        <div className="header-block-small">
+          {I18n.t('CLIENT_PROFILE.PROFILE.HEADER.CREDIT')}: {currency} {Number(baseCurrencyCredit).toFixed(2)}
+        </div>
+        <div className="header-block-small">
+          {I18n.t('CLIENT_PROFILE.PROFILE.HEADER.MARGIN')}: {currency} {Number(baseCurrencyMargin).toFixed(2)}
+        </div>
+      </Fragment>
+    );
+  };
 
   render() {
     const { playerProfile } = this.props;

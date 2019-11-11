@@ -268,6 +268,7 @@ class GridView extends Component {
 
   renderRow = (key, columns, data) => {
     const { onRowClick } = this.props;
+
     return (
       <tr
         key={key}
