@@ -141,7 +141,7 @@ class UserGridFilter extends Component {
           desks,
           teams,
           branchesLoading,
-          filteredOperators || initialOperators || operators,
+          filteredOperators || operators,
           operatorsLoading || branchOperatorsLoading,
         )}
         onFieldChange={this.handleFieldChange}
