@@ -49,6 +49,7 @@ const brands = keyMirror({
   skycapitals: null,
   globedemy: null,
   vetoro: null,
+  mercuryo: null,
 });
 
 const departments = keyMirror({
@@ -259,6 +260,10 @@ const brandsConfig = {
   [brands.vetoro]: {
     name: 'Vetoro',
     image: { src: '/img/brand/choose-brand/vetoro.svg' },
+  },
+  [brands.mercuryo]: {
+    name: 'Mercuryo',
+    image: { src: '/img/brand/choose-brand/mercuryo.svg' },
   },
 };
 const departmentsConfig = {
