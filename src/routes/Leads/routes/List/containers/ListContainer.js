@@ -2,6 +2,7 @@ import { connect } from 'react-redux';
 import { graphql, compose, withApollo } from 'react-apollo';
 import Modal from 'components/Modal';
 import { withNotifications, withModals } from 'components/HighOrder';
+import ConfirmActionModal from 'components/Modal/ConfirmActionModal';
 import RepresentativeUpdateModal from 'components/RepresentativeUpdateModal';
 import countries from 'utils/countryList';
 import limitItems from 'utils/limitItems';
@@ -32,6 +33,7 @@ export default compose(
     promoteInfoModal: Modal,
     leadsUploadModal: LeadsUploadModal,
     representativeModal: RepresentativeUpdateModal,
+    confirmationModal: ConfirmActionModal,
   }),
   connect(mapStateToProps),
   graphql(leadCsvUpload, {

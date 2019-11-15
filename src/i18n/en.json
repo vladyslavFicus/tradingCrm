@@ -677,6 +677,7 @@
     "PARTNERS_FOUND": "Partners found",
     "CLIENTS_SELECTED": "Clients selected",
     "UNLIMITED": "Unlimited",
+    "NOT_MORE_CAN_SELECTED": "Not more than %{max} can be selected",
     "LANGUAGE_NAME": {
       "UA": "Ukrainian",
       "ZH": "Chinese",

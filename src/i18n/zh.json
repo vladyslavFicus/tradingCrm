@@ -663,6 +663,7 @@
     "PARTNERS_FOUND": "找到合作伙伴",
     "CLIENTS_SELECTED": "已选择客户",
     "UNLIMITED": "无限制",
+    "NOT_MORE_CAN_SELECTED": "Not more than %{max} can be selected",
     "LANGUAGE_NAME": {
       "UA": "乌克兰语",
       "ZH": "中文",

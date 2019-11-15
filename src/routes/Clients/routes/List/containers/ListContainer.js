@@ -1,6 +1,7 @@
 import { connect } from 'react-redux';
 import { withApollo, graphql, compose } from 'react-apollo';
 import { withNotifications, withModals } from 'components/HighOrder';
+import ConfirmActionModal from 'components/Modal/ConfirmActionModal';
 import RepresentativeUpdateModal from 'components/RepresentativeUpdateModal';
 import { getUserBranchHierarchy } from 'graphql/queries/hierarchy';
 import { clientsBulkRepresentativeUpdate } from 'graphql/mutations/profile';
@@ -39,6 +40,7 @@ export default compose(
   withModals({
     representativeModal: RepresentativeUpdateModal,
     moveModal: MoveModal,
+    confirmationModal: ConfirmActionModal,
   }),
   connect(mapStateToProps, mapActions),
   graphql(clientsBulkRepresentativeUpdate, {

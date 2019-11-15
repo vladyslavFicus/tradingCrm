@@ -24,6 +24,8 @@ import { leadStatuses } from '../../../constants';
 import { getLeadsData } from './utils';
 import LeadsGridFilter from './LeadsGridFilter';
 
+const MAX_SELECTED_ROWS = 10000;
+
 class List extends Component {
   static propTypes = {
     notify: PropTypes.func.isRequired,
@@ -42,10 +44,8 @@ class List extends Component {
       }),
     }).isRequired,
     modals: PropTypes.shape({
-      promoteInfoModal: PropTypes.shape({
-        show: PropTypes.func.isRequired,
-        hide: PropTypes.func.isRequired,
-      }).isRequired,
+      confirmationModal: PropTypes.modalType,
+      promoteInfoModal: PropTypes.modalType,
       leadsUploadModal: PropTypes.modalType,
     }).isRequired,
     fileUpload: PropTypes.func.isRequired,
@@ -157,16 +157,29 @@ class List extends Component {
   };
 
   handleAllRowsSelect = () => {
-    const { leads: { leads: { data: { totalElements } } } } = this.props;
+    const { leads: { leads: { data: { totalElements } } }, modals: { confirmationModal } } = this.props;
     const { allRowsSelected } = this.state;
+    const selectedRows = allRowsSelected
+      ? []
+      : [...Array.from(Array(totalElements > MAX_SELECTED_ROWS ? MAX_SELECTED_ROWS : totalElements).keys())];
 
     this.setState({
       allRowsSelected: !allRowsSelected,
       touchedRowsIds: [],
-      selectedRows: allRowsSelected
-        ? []
-        : [...Array.from(Array(totalElements).keys())],
+      selectedRows,
     });
+
+    // Check if selected all rows and total elements more than max available elements to execute action
+    if (!allRowsSelected && totalElements > MAX_SELECTED_ROWS) {
+      const max = selectedRows.length.toLocaleString('en');
+
+      confirmationModal.show({
+        onSubmit: confirmationModal.hide,
+        modalTitle: `${max} ${I18n.t('LEADS.LEADS_SELECTED')}`,
+        actionText: I18n.t('COMMON.NOT_MORE_CAN_SELECTED', { max }),
+        submitButtonLabel: I18n.t('COMMON.OK'),
+      });
+    }
   };
 
   handleUploadCSV = async ([file]) => {
@@ -221,7 +234,7 @@ class List extends Component {
       type: deskTypes.SALES,
       configs: {
         allRowsSelected,
-        totalElements,
+        totalElements: selectedRows.length,
         multiAssign: true,
         ...query && { searchParams: { ...omit(query.filters, ['size', 'teams', 'desks']) } },
       },

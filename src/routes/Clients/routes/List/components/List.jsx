@@ -17,6 +17,8 @@ import UserGridFilter from './UsersGridFilter';
 import { columns } from './attributes';
 import { getClientsData } from './utils';
 
+const MAX_SELECTED_ROWS = 10000;
+
 class List extends Component {
   static propTypes = {
     notify: PropTypes.func.isRequired,
@@ -42,6 +44,7 @@ class List extends Component {
       filterSetValues: PropTypes.object,
     }).isRequired,
     modals: PropTypes.shape({
+      confirmationModal: PropTypes.modalType,
       representativeModal: PropTypes.modalType,
       moveModal: PropTypes.modalType,
     }).isRequired,
@@ -174,16 +177,29 @@ class List extends Component {
   };
 
   handleAllRowsSelect = () => {
-    const { profiles: { profiles: { data: { totalElements } } } } = this.props;
+    const { profiles: { profiles: { data: { totalElements } } }, modals: { confirmationModal } } = this.props;
     const { allRowsSelected } = this.state;
+    const selectedRows = allRowsSelected
+      ? []
+      : [...Array.from(Array(totalElements > MAX_SELECTED_ROWS ? MAX_SELECTED_ROWS : totalElements).keys())];
 
     this.setState({
       allRowsSelected: !allRowsSelected,
       touchedRowsIds: [],
-      selectedRows: allRowsSelected
-        ? []
-        : [...Array.from(Array(totalElements).keys())],
+      selectedRows,
     });
+
+    // Check if selected all rows and total elements more than max available elements to execute action
+    if (!allRowsSelected && totalElements > MAX_SELECTED_ROWS) {
+      const max = selectedRows.length.toLocaleString('en');
+
+      confirmationModal.show({
+        onSubmit: confirmationModal.hide,
+        modalTitle: `${max} ${I18n.t('COMMON.CLIENTS_SELECTED')}`,
+        actionText: I18n.t('COMMON.NOT_MORE_CAN_SELECTED', { max }),
+        submitButtonLabel: I18n.t('COMMON.OK'),
+      });
+    }
   };
 
   handleTriggerRepModal = type => () => {
@@ -201,7 +217,7 @@ class List extends Component {
       clients,
       configs: {
         allRowsSelected,
-        totalElements,
+        totalElements: selectedRows.length,
         multiAssign: true,
         ...query && { searchParams: { ...omit(query.filters, ['size']) } },
       },
