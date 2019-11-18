@@ -930,15 +930,14 @@
   dependencies:
     "@hapi/hoek" "8.x.x"
 
-"@hrzn/brands-config@1.0.7":
-  version "1.0.7"
-  resolved "https://nexus.flcn.pro/repository/hrzn-npm/@hrzn/brands-config/-/brands-config-1.0.7.tgz#78e02d073e5ff00c0f0c1c2b8e997bb258117185"
-  integrity sha512-wI8aU1JFST63iJUwPTH0qt9X2R3+PyifGRQzZoOoh09KO/stzv+3VUueVfgvBp9VT4+PYwM6ZRiebbY1sRy1Mg==
+"@hrzn/brands-config@1.0.10":
+  version "1.0.10"
+  resolved "https://nexus.flcn.pro/repository/hrzn-npm/@hrzn/brands-config/-/brands-config-1.0.10.tgz#11e2f43d4c5eb65aac45600b518b08372f2ed85f"
+  integrity sha512-D9eg1duSXc578tTcbH5/HDwT4tOmRji/vTiv8DsnTQW2XwgfbX9ulJb36KFrXw5phuIZN4OUZx6zeHgegPvgGQ==
   dependencies:
-    "@hrzn/zookeeper" "^1.0.14"
+    "@hrzn/zookeeper" "^1.0.15"
     lodash "^4.17.11"
     loose-envify "^1.4.0"
-    node-zookeeper-client "^0.2.2"
 
 "@hrzn/express-token-middleware@^1.0.14":
   version "1.0.14"
@@ -993,14 +992,16 @@
   dependencies:
     loose-envify "^1.4.0"
 
-"@hrzn/zookeeper@^1.0.14":
-  version "1.0.14"
-  resolved "https://nexus.flcn.pro/repository/hrzn-npm/@hrzn/zookeeper/-/zookeeper-1.0.14.tgz#a77f08877d6115e3e3062576aa159a48192ecad8"
-  integrity sha512-/Ftl7dnyOsUPTUt9sNZIeAAhcNtTMJ4iq3F/pJ5urvDmULCIgm4Wm1gADAyuvSBsFiu6xmbD0gVdMAlq5fbdzw==
+"@hrzn/zookeeper@^1.0.15":
+  version "1.0.15"
+  resolved "https://nexus.flcn.pro/repository/hrzn-npm/@hrzn/zookeeper/-/zookeeper-1.0.15.tgz#92a36d3bf002f5b310917b54fda2f8231eb3d6e9"
+  integrity sha512-YjEf/EofbriPupSFv9CQreu62SN+JvdyWdzJSFrQ0kh7R9rAntK/dXFvk+wP6lIIaQqGj+2WzYt9CW05YJ89dA==
   dependencies:
+    events "^3.0.0"
     lodash "^4.17.11"
     loose-envify "^1.4.0"
-    node-zookeeper-client "^0.2.2"
+    node-zookeeper-client "^1.1.0"
+    util "^0.12.1"
 
 "@jest/console@^24.7.1":
   version "24.7.1"
@@ -5695,6 +5696,11 @@ is-accessor-descriptor@^1.0.0:
   dependencies:
     kind-of "^6.0.0"
 
+is-arguments@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/is-arguments/-/is-arguments-1.0.4.tgz#3faf966c7cba0ff437fb31f6250082fcf0448cf3"
+  integrity sha512-xPh0Rmt8NE65sNzvyUmWgI1tz3mKq74lGA0mL8LYZcoIzKOzDh6HmrYm3d18k60nHerC8A9Km8kYu87zfSFnLA==
+
 is-arrayish@^0.2.1:
   version "0.2.1"
   resolved "https://registry.yarnpkg.com/is-arrayish/-/is-arrayish-0.2.1.tgz#77c99840527aa8ecb1a8ba697b80645a7a926a9d"
@@ -5809,6 +5815,11 @@ is-fullwidth-code-point@^2.0.0:
 is-generator-fn@^2.0.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/is-generator-fn/-/is-generator-fn-2.1.0.tgz#7d140adc389aaf3011a8f2a2a4cfa6faadffb118"
+
+is-generator-function@^1.0.7:
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/is-generator-function/-/is-generator-function-1.0.7.tgz#d2132e529bb0000a7f80794d4bdf5cd5e5813522"
+  integrity sha512-YZc5EwyO4f2kWCax7oegfuSr9mFz1ZvieNYBEjmukLxgXfBUbxAWGVF7GZf0zidYtoBl3WvC07YK0wT76a+Rtw==
 
 is-glob@^3.1.0:
   version "3.1.0"
@@ -7327,9 +7338,10 @@ node-sass@^4.12.0:
     stdout-stream "^1.4.0"
     "true-case-path" "^1.0.2"
 
-node-zookeeper-client@^0.2.2:
-  version "0.2.2"
-  resolved "https://registry.yarnpkg.com/node-zookeeper-client/-/node-zookeeper-client-0.2.2.tgz#097bda01999eef8f602ce068b632600069dbf685"
+node-zookeeper-client@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/node-zookeeper-client/-/node-zookeeper-client-1.1.0.tgz#256c5b79d00108eff349d68d1efe7a5e78933e89"
+  integrity sha512-Vp9kP8noRV6LcNcHg4/1wjDfxLDbRfnaXoBIbw87ZkG1fPi4H/mIs9ko5dNrniAq7wK6ugBEUGZ1Wzy0VkMnFw==
   dependencies:
     async "~0.2.7"
     underscore "~1.4.4"
@@ -11175,6 +11187,17 @@ util@^0.11.0:
   resolved "https://registry.yarnpkg.com/util/-/util-0.11.1.tgz#3236733720ec64bb27f6e26f421aaa2e1b588d61"
   dependencies:
     inherits "2.0.3"
+
+util@^0.12.1:
+  version "0.12.1"
+  resolved "https://registry.yarnpkg.com/util/-/util-0.12.1.tgz#f908e7b633e7396c764e694dd14e716256ce8ade"
+  integrity sha512-MREAtYOp+GTt9/+kwf00IYoHZyjM8VU4aVrkzUlejyqaIjd2GztVl5V9hGXKlvBKE3gENn/FMfHE5v6hElXGcQ==
+  dependencies:
+    inherits "^2.0.3"
+    is-arguments "^1.0.4"
+    is-generator-function "^1.0.7"
+    object.entries "^1.1.0"
+    safe-buffer "^5.1.2"
 
 utila@^0.4.0, utila@~0.4:
   version "0.4.0"

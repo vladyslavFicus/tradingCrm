@@ -5,7 +5,7 @@
   "author": "NAS",
   "license": "MIT",
   "dependencies": {
-    "@hrzn/brands-config": "1.0.7",
+    "@hrzn/brands-config": "1.0.10",
     "@hrzn/express-token-middleware": "^1.0.14",
     "express": "^4.15.4",
     "lodash": "^4.17.15",

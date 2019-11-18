@@ -17,7 +17,7 @@
   "author": "nassoft",
   "license": "MIT",
   "dependencies": {
-    "@hrzn/brands-config": "1.0.7",
+    "@hrzn/brands-config": "1.0.10",
     "@hrzn/express-token-middleware": "^1.0.14",
     "@hrzn/react-big-calendar": "^0.20.3",
     "@newage/backoffice_ui": "0.0.52",
@@ -101,7 +101,6 @@
     "express-http-proxy": "^1.0.7",
     "husky": "^3.0.2",
     "jsx-control-statements": "^3.2.8",
-    "node-zookeeper-client": "^0.2.2",
     "react-app-rewired": "^2.1.3",
     "sentry-release": "1.0.10",
     "yamljs": "^0.3.0"
