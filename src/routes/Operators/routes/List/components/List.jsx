@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { SubmissionError } from 'redux-form';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
 import classNames from 'classnames';
@@ -21,11 +20,10 @@ import MiniProfile from 'components/MiniProfile';
 import GridView, { GridViewColumn } from 'components/GridView';
 import CountryLabelWithFlag from 'components/CountryLabelWithFlag';
 import PermissionContent from 'components/PermissionContent';
-import parseErrorsFromServer from 'utils/parseErrorsFromServer';
 import { getUserTypeByDepartment } from './utils';
 import OperatorGridFilter from './OperatorGridFilter';
 
-const EMAIL_ALREADY_EXIST = 'Email already exists';
+const EMAIL_ALREADY_EXIST = 'error.validation.email.exists';
 
 class List extends Component {
   static propTypes = {
@@ -113,23 +111,20 @@ class List extends Component {
 
     const newOperator = get(operatorData, `${operatorType}.create${startCase(operatorType)}.data`);
     const newOperatorError = get(operatorData, `${operatorType}.create${startCase(operatorType)}.error`);
-    const submitErrors = get(newOperatorError, 'fields_errors', null);
+    const error = get(newOperatorError, 'error', null);
 
-    if (submitErrors) {
-      const errors = parseErrorsFromServer(submitErrors);
+    if (error === EMAIL_ALREADY_EXIST) {
+      createOperator.hide();
+      existingOperator.show({
+        department,
+        role,
+        branchId: branch,
+        email,
+      });
 
-      if (errors.email && errors.email === EMAIL_ALREADY_EXIST) {
-        createOperator.hide();
-        existingOperator.show({
-          department,
-          role,
-          branchId: branch,
-          email,
-        });
-      }
-
-      throw new SubmissionError(errors);
+      return;
     }
+
     createOperator.hide();
 
     const { uuid } = newOperator;

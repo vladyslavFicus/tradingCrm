@@ -14,7 +14,6 @@ export default compose(
         role,
         brandId,
       },
-      fetchPolicy: 'network-only',
     }),
   }),
 )(ExistingOperatorModal);
