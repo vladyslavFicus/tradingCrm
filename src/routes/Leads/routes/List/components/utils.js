@@ -5,13 +5,13 @@ export const getLeadsData = ({ allRowsSelected, touchedRowsIds, selectedRows }, 
     if (!touchedRowsIds.length && leads.length === totalElements) {
       return selectedRows
         .map((_, index) => ({
-          uuid: leads[index].id,
+          uuid: leads[index].uuid,
           unassignFromOperator: get(leads[index], 'salesAgent.uuid') || null,
         }));
     }
 
     return touchedRowsIds
-      .map(index => ({ uuid: leads[index].id }));
+      .map(index => ({ uuid: leads[index].uuid }));
   }
 
   return selectedRows
