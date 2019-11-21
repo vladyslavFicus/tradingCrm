@@ -294,25 +294,18 @@ class List extends Component {
     const className = salesStatusesColor[salesStatus];
 
     return (
-      <Choose>
-        <When condition={salesAgent}>
-          <GridStatus
-            colorClassName={className}
-            statusLabel={renderLabel(salesStatus, salesStatuses)}
-            info={(
-              <If condition={salesAgent}>
-                <GridStatusDeskTeam
-                  fullName={salesAgent.fullName}
-                  hierarchy={salesAgent.hierarchy}
-                />
-              </If>
-            )}
-          />
-        </When>
-        <Otherwise>
-          <GridEmptyValue I18n={I18n} />
-        </Otherwise>
-      </Choose>
+      <GridStatus
+        colorClassName={className}
+        statusLabel={renderLabel(salesStatus, salesStatuses)}
+        info={(
+          <If condition={salesAgent}>
+            <GridStatusDeskTeam
+              fullName={salesAgent.fullName}
+              hierarchy={salesAgent.hierarchy}
+            />
+          </If>
+        )}
+      />
     );
   };
 
