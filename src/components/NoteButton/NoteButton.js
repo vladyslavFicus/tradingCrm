@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import { I18n } from 'react-redux-i18n';
 import classNames from 'classnames';
+import { omit } from 'lodash';
 import PropTypes from '../../constants/propTypes';
 import PopoverButton from '../PopoverButton';
 import NoteIcon from '../NoteIcon';
@@ -118,16 +119,19 @@ class NoteButton extends PureComponent {
       className,
       targetUUID,
       playerUUID,
-      manual,
-      onAddSuccess,
-      onUpdateSuccess,
-      onDeleteSuccess,
-      note: _note,
       ...rest
     } = this.props;
     const { note } = this.state;
 
     const compiledClassName = classNames(className, { 'note-preview': preview && !!note });
+    const buttonProps = omit(rest, [
+      'manual',
+      'note',
+      'targetType',
+      'onAddSuccess',
+      'onUpdateSuccess',
+      'onDeleteSuccess',
+    ]);
     let msg = null;
 
     if (withMessage) {
@@ -136,10 +140,10 @@ class NoteButton extends PureComponent {
 
     return (
       <PopoverButton
-        {...rest}
         id={id || `note-button-${playerUUID}-${targetUUID}`}
         onClick={this.handleClick}
         className={compiledClassName}
+        {...buttonProps}
       >
         <Choose>
           <When condition={note}>
