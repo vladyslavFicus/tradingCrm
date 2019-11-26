@@ -326,12 +326,12 @@ const getBranchHierarchyTree = gql`
 `;
 
 const getUsersByBranch = gql`query getUsersByBranch(
-  $uuid: String!,
+  $uuids: [String]!,
   $onlyActive: Boolean,
 ) {
   hierarchy {
     usersByBranch (
-      uuid: $uuid,
+      uuids: $uuids,
       onlyActive: $onlyActive,
     ) {
       error {

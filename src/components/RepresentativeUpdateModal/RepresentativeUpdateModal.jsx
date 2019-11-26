@@ -162,7 +162,7 @@ class RepresentativeUpdateModal extends Component {
       query: getUsersByBranch,
       variables: {
         onlyActive: true,
-        uuid: selectedTeam,
+        uuids: [selectedTeam],
       },
     });
 

@@ -13,3 +13,4 @@ jsconfig.json
 .idea/
 package-lock.json
 .env
+.prettierrc

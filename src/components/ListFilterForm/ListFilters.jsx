@@ -22,7 +22,7 @@ class ListFilters extends PureComponent {
     onReset: PropTypes.func.isRequired,
     fields: PropTypes.array.isRequired,
     onSubmit: PropTypes.func.isRequired,
-    isFetchingProfileData: PropTypes.bool.isRequired,
+    isFetchingProfileData: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -34,6 +34,7 @@ class ListFilters extends PureComponent {
     currentValues: null,
     filterSetType: null,
     onFieldChange: () => {},
+    isFetchingProfileData: false,
   };
 
   state = {

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { isEqual, get } from 'lodash';
+import { isEqual } from 'lodash';
 import { I18n } from 'react-redux-i18n';
 import { getUsersByBranch } from 'graphql/queries/hierarchy';
 import PropTypes from 'constants/propTypes';
@@ -50,7 +50,7 @@ class UserGridFilter extends Component {
 
     const { data: { hierarchy: { usersByBranch: { data, error } } } } = await client.query({
       query: getUsersByBranch,
-      variables: { uuid: value },
+      variables: { uuids: value },
     });
 
     if (error) {
@@ -79,7 +79,9 @@ class UserGridFilter extends Component {
       let isDeskSelected = false;
 
       if (value) {
-        deskTeams = teams.filter(team => value === get(team, 'parentBranch.uuid'));
+        deskTeams = teams.filter(({ parentBranch: { uuid: teamUUID } }) => (
+          value.some(uuid => uuid === teamUUID)
+        ));
         isDeskSelected = true;
       }
 
@@ -115,10 +117,18 @@ class UserGridFilter extends Component {
     formChange(fieldName, value || null);
   }
 
+  handleResetForm = () => {
+    const { teams, onReset } = this.props;
+
+    this.setState({
+      teams,
+      filteredOperators: null,
+    }, onReset);
+  }
+
   render() {
     const {
       desks,
-      onReset,
       onSubmit,
       countries,
       operators,
@@ -134,7 +144,7 @@ class UserGridFilter extends Component {
       <ListFilterForm
         onSubmit={onSubmit}
         initialValues={initialValues}
-        onReset={onReset}
+        onReset={this.handleResetForm}
         filterSetType={filterSetTypes.CLIENT}
         fields={filterFields(
           countries,

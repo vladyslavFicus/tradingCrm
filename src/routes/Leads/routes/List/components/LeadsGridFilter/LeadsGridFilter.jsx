@@ -46,7 +46,7 @@ class LeadsGridFilter extends Component {
 
     const { data: { hierarchy: { usersByBranch: { data, error } } } } = await client.query({
       query: getUsersByBranch,
-      variables: { uuid: value },
+      variables: { uuids: [value] },
     });
 
     if (error) {
@@ -112,10 +112,18 @@ class LeadsGridFilter extends Component {
     formChange(fieldName, value || null);
   };
 
+  handleResetForm = () => {
+    const { teams, onReset } = this.props;
+
+    this.setState({
+      teams,
+      filteredOperators: null,
+    }, onReset);
+  }
+
   render() {
     const {
       onSubmit,
-      onReset,
       desks,
       branchesLoading,
       countries,
@@ -127,7 +135,7 @@ class LeadsGridFilter extends Component {
     return (
       <ListFilterForm
         onSubmit={onSubmit}
-        onReset={onReset}
+        onReset={this.handleResetForm}
         fields={filterFields(
           countries,
           desks,

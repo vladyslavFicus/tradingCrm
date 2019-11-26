@@ -128,6 +128,7 @@ export default (
   placeholder: (!branchesLoading && desks.length === 0)
     ? I18n.t('COMMON.SELECT_OPTION.NO_ITEMS')
     : I18n.t('COMMON.SELECT_OPTION.ANY'),
+  multiple: true,
   className: fieldClassNames.MEDIUM,
   customOnChange: true,
   withoutI18n: true,
@@ -140,6 +141,7 @@ export default (
   placeholder: (!branchesLoading && teams.length === 0)
     ? I18n.t('COMMON.SELECT_OPTION.NO_ITEMS')
     : I18n.t('COMMON.SELECT_OPTION.ANY'),
+  multiple: true,
   className: fieldClassNames.MEDIUM,
   customOnChange: true,
   withoutI18n: true,
@@ -166,6 +168,7 @@ export default (
   name: 'status',
   label: I18n.t(filterLabels.status),
   placeholder: I18n.t('COMMON.SELECT_OPTION.ANY'),
+  multiple: true,
   className: fieldClassNames.MEDIUM,
   selectOptions: Object.keys(statusesLabels).map(value => ({ value, label: I18n.t(statusesLabels[value]) })),
 }, {
@@ -207,6 +210,7 @@ export default (
   name: 'kycStatus',
   label: I18n.t(filterLabels.kycStatus),
   placeholder: I18n.t('COMMON.SELECT_OPTION.ANY'),
+  multiple: true,
   className: fieldClassNames.MEDIUM,
   selectOptions: kycStatuses.map(({ value, label }) => ({ value, label: I18n.t(label) })),
 }, {
