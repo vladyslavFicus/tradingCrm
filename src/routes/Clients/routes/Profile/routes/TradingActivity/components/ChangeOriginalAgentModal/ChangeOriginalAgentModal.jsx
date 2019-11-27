@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { Modal, ModalHeader, ModalBody } from 'reactstrap';
 import classNames from 'classnames';
-import { I18n } from 'react-redux-i18n';
+import I18n from 'i18n-js';
 import PropTypes from 'constants/propTypes';
 import ChangeOriginalAgent from 'components/ChangeOriginalAgent/ChangeOriginalAgentTradingActivity';
 

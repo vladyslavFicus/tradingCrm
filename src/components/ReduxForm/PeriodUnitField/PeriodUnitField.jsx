@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Field } from 'redux-form';
-import { I18n } from 'react-redux-i18n';
+import I18n from 'i18n-js';
 import classNames from 'classnames';
 import { intNormalize } from '../../../utils/inputNormalize';
 import InputField from '../InputField';

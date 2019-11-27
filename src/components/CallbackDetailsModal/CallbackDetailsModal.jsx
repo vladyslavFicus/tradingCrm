@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { reduxForm, Field } from 'redux-form';
 import classNames from 'classnames';
-import { I18n } from 'react-redux-i18n';
+import I18n from 'i18n-js';
 import { get } from 'lodash';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import NoteButton from 'components/NoteButton';

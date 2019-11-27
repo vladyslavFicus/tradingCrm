@@ -1,32 +1,10 @@
-import { connect } from 'react-redux';
 import { compose, graphql } from 'react-apollo';
 import { get } from 'lodash';
 import { getClientPayments } from 'graphql/queries/payments';
 import { operatorsQuery } from 'graphql/queries/operators';
-import { actionCreators as miniProfileActionCreators } from 'redux/modules/miniProfile';
 import View from '../components/View';
 
-const mapStateToProps = ({
-  transactions,
-  i18n: { locale },
-  auth: { brandId, uuid },
-  options: { data: { currencyCodes } },
-}) => ({
-  ...transactions,
-  locale,
-  auth: {
-    brandId,
-    uuid,
-  },
-  currencies: currencyCodes,
-});
-
-const mapActions = {
-  fetchPlayerMiniProfile: miniProfileActionCreators.fetchPlayerProfile,
-};
-
 export default compose(
-  connect(mapStateToProps, mapActions),
   graphql(operatorsQuery, {
     name: 'operators',
     options: () => ({

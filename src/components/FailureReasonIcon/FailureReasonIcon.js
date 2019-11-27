@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { I18n } from 'react-redux-i18n';
+import I18n from 'i18n-js';
 import { Popover, PopoverHeader, PopoverBody } from 'reactstrap';
 import Uuid from '../Uuid';
 import './FailureReasonIcon.scss';

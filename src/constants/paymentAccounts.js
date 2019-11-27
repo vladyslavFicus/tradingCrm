@@ -1,4 +1,4 @@
-import { I18n } from 'react-redux-i18n';
+import I18n from 'i18n-js';
 
 export default [{
   label: I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.PAYMENT_ACCOUNTS.SYSTEM'),

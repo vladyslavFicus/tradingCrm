@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import fileSize from 'filesize';
 import { Field } from 'redux-form';
-import { I18n } from 'react-redux-i18n';
+import I18n from 'i18n-js';
 import { InputField, NasSelectField } from '../../ReduxForm';
 import NoteButton from '../../NoteButton';
 import { categoriesLabels } from '../../../constants/files';

@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { I18n } from 'react-redux-i18n';
+import I18n from 'i18n-js';
 import { get } from 'lodash';
 import { TextRow } from 'react-placeholder/lib/placeholders';
 import history from 'router/history';
@@ -13,7 +13,6 @@ import TeamsGridFilter from './TeamsGridFilter';
 
 class List extends Component {
   static propTypes = {
-    locale: PropTypes.string.isRequired,
     createTeam: PropTypes.func.isRequired,
     userBranchHierarchy: PropTypes.shape({
       hierarchy: PropTypes.shape({
@@ -35,9 +34,6 @@ class List extends Component {
     modals: PropTypes.shape({
       teamModal: PropTypes.modalType,
       infoModal: PropTypes.modalType,
-    }).isRequired,
-    auth: PropTypes.shape({
-      userId: PropTypes.string.isRequired,
     }).isRequired,
     teams: PropTypes.shape({
       loading: PropTypes.bool.isRequired,
@@ -81,17 +77,9 @@ class List extends Component {
       createTeam,
       teams: { refetch },
       modals: { teamModal, infoModal },
-      auth: { userId: operatorId },
     } = this.props;
 
-    const { data: { hierarchy: { createTeam: { data, error } } } } = await createTeam(
-      {
-        variables: {
-          operatorId,
-          ...variables,
-        },
-      },
-    );
+    const { data: { hierarchy: { createTeam: { data, error } } } } = await createTeam({ variables });
 
     refetch();
     teamModal.hide();
@@ -150,7 +138,6 @@ class List extends Component {
 
   render() {
     const {
-      locale,
       teams: {
         loading,
         hierarchy: teams,
@@ -213,7 +200,6 @@ class List extends Component {
           <GridView
             dataSource={entities}
             last
-            locale={locale}
             showNoResults={!loading && entities.length === 0}
             onRowClick={this.handleTeamClick}
           >

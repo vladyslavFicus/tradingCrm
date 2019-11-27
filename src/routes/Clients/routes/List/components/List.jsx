@@ -1,8 +1,7 @@
 import React, { Component, Fragment } from 'react';
-import { I18n } from 'react-redux-i18n';
+import I18n from 'i18n-js';
 import { get, omit } from 'lodash';
 import { TextRow } from 'react-placeholder/lib/placeholders';
-import { SubmissionError } from 'redux-form';
 import { actionTypes as windowActionTypes } from 'redux/modules/window';
 import history from 'router/history';
 import permissions from 'config/permissions';
@@ -21,13 +20,10 @@ const MAX_SELECTED_ROWS = 10000;
 
 class List extends Component {
   static propTypes = {
-    notify: PropTypes.func.isRequired,
-    fetchPlayerMiniProfile: PropTypes.func.isRequired,
-    locale: PropTypes.string.isRequired,
-    countries: PropTypes.object.isRequired,
     auth: PropTypes.shape({
-      brandId: PropTypes.string,
-      uuid: PropTypes.string,
+      department: PropTypes.string.isRequired,
+      role: PropTypes.string.isRequired,
+      uuid: PropTypes.string.isRequired,
     }).isRequired,
     profiles: PropTypes.shape({
       profiles: PropTypes.shape({
@@ -60,13 +56,6 @@ class List extends Component {
       }),
       loading: PropTypes.bool.isRequired,
     }).isRequired,
-    bulkRepresentativeUpdate: PropTypes.func.isRequired,
-  };
-
-  static contextTypes = {
-    miniProfile: PropTypes.shape({
-      onShowMiniProfile: PropTypes.func.isRequired,
-    }),
   };
 
   static childContextTypes = {
@@ -140,9 +129,7 @@ class List extends Component {
       touchedRowsIds: [],
     }, () => history.replace({
       // Not to rewrite form initial Values if exist
-      ...(filterSetValues && {
-        filterSetValues,
-      }),
+      ...(filterSetValues && { filterSetValues }),
       query: { filters },
     }));
   };
@@ -153,20 +140,19 @@ class List extends Component {
     touchedRowsIds: [],
   }, () => history.replace({ query: null }));
 
-  handlePlayerClick = ({ playerUUID }) => {
-    window.open(`/clients/${playerUUID}/profile`, '_blank');
+  handlePlayerClick = ({ uuid }) => {
+    window.open(`/clients/${uuid}/profile`, '_blank');
   };
 
-  handleSelectRow = (condition, index, touchedRowsIds) => {
-    const { profiles: { profiles: { data: { content } } } } = this.props;
-
+  handleSelectRow = (isAllRowsSelected, rowIndex, touchedRowsIds) => {
     this.setState((state) => {
       const selectedRows = [...state.selectedRows];
 
-      if (condition) {
-        selectedRows.push(content[index].playerUUID);
+      if (isAllRowsSelected) {
+        selectedRows.push(rowIndex);
       } else {
-        selectedRows.splice(index, 1);
+        const unselectedRowIndex = selectedRows.findIndex(item => item === rowIndex);
+        selectedRows.splice(unselectedRowIndex, 1);
       }
 
       return {
@@ -186,7 +172,9 @@ class List extends Component {
     this.setState({
       allRowsSelected: !allRowsSelected,
       touchedRowsIds: [],
-      selectedRows,
+      selectedRows: allRowsSelected
+        ? []
+        : [...Array(totalElements).keys()],
     });
 
     // Check if selected all rows and total elements more than max available elements to execute action
@@ -219,7 +207,7 @@ class List extends Component {
         allRowsSelected,
         totalElements: selectedRows.length,
         multiAssign: true,
-        ...query && { searchParams: { ...omit(query.filters, ['size']) } },
+        ...query && { searchParams: omit(query.filters, ['page.size']) },
       },
       onSuccess: this.handleSuccessListUpdate,
       header: (
@@ -234,74 +222,19 @@ class List extends Component {
   handleTriggerMoveModal = () => {
     const {
       modals: { moveModal },
-      profiles: { profiles: { data: { content, totalElements } } },
-    } = this.props;
-    const { selectedRows } = this.state;
-
-    moveModal.show({
-      onSubmit: this.handleBulkMove,
-      clientsSelected: selectedRows.length,
-      selectedData: {
-        ...this.state,
-        content,
-        totalElements,
-      },
-    });
-  };
-
-  handleBulkMove = async ({ aquisitionStatus }) => {
-    const {
-      notify,
-      bulkRepresentativeUpdate,
       location: { query },
       profiles: { profiles: { data: { content, totalElements } } },
-      modals: { moveModal },
     } = this.props;
-    const { allRowsSelected } = this.state;
 
-    const type = aquisitionStatus;
-    const isMoveAction = true;
-    const clients = getClientsData(this.state, totalElements, { type, isMoveAction }, content);
-
-    const { data: { clients: { bulkRepresentativeUpdate: { error } } } } = await bulkRepresentativeUpdate({
-      variables: {
-        clients,
-        isMoveAction,
-        type,
-        allRowsSelected,
+    moveModal.show({
+      content,
+      configs: {
         totalElements,
-        ...query && { searchParams: omit(query.filters, ['size']) },
+        ...this.state,
+        ...query && { searchParams: omit(query.filters, ['page.size']) },
       },
+      onSuccess: this.handleSuccessListUpdate,
     });
-
-    if (error) {
-      // when we try to move clients, when they don't have assigned {{type}} representative
-      // GQL will return exact this error and we catch it to show custom message
-      const condition = error.error && error.error === 'clients.bulkUpdate.moveForbidden';
-
-      notify({
-        level: 'error',
-        title: I18n.t('COMMON.BULK_UPDATE_FAILED'),
-        message: condition
-          ? I18n.t(error.error, { type })
-          : I18n.t('COMMON.SOMETHING_WRONG'),
-      });
-
-      if (condition) {
-        throw new SubmissionError({
-          _error: I18n.t('clients.bulkUpdate.detailedTypeError', { type }),
-        });
-      }
-    } else {
-      notify({
-        level: 'success',
-        title: I18n.t('COMMON.SUCCESS'),
-        message: I18n.t('CLIENTS.ACQUISITION_STATUS_UPDATED'),
-      });
-
-      this.handleSuccessListUpdate();
-      moveModal.hide();
-    }
   };
 
   handleSuccessListUpdate = async () => {
@@ -319,9 +252,6 @@ class List extends Component {
   render() {
     const {
       auth,
-      locale,
-      countries,
-      fetchPlayerMiniProfile,
       location: { filterSetValues },
       profiles: { loading, profiles },
       userBranchHierarchy: { hierarchy, loading: branchesLoading },
@@ -415,7 +345,6 @@ class List extends Component {
         <UserGridFilter
           desks={desks}
           teams={teams}
-          countries={countries}
           isFetchingProfileData={loading}
           initialValues={filterSetValues}
           onReset={this.handleFilterReset}
@@ -437,22 +366,18 @@ class List extends Component {
             touchedRowsIds={touchedRowsIds}
             onAllRowsSelect={this.handleAllRowsSelect}
             onRowSelect={this.handleSelectRow}
-            locale={locale}
             showNoResults={!loading && entities.content.length === 0}
             onRowClick={this.handlePlayerClick}
-            rowClassName={({ tradingProfile }) => !tradingProfile && 'disabled'}
             loading={loading && entities.content.length === 0}
           >
-            {columns(I18n, auth, fetchPlayerMiniProfile)
-              .map(({ name, header, render }) => (
-                <GridViewColumn
-                  key={name}
-                  name={name}
-                  header={header}
-                  render={render}
-                />
-              ))
-            }
+            {columns().map(({ name, header, render }) => (
+              <GridViewColumn
+                key={name}
+                name={name}
+                header={header}
+                render={render}
+              />
+            ))}
           </GridView>
         </div>
       </div>

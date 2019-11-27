@@ -1,7 +1,7 @@
 import React from 'react';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { reduxForm, Field } from 'redux-form';
-import { I18n } from 'react-redux-i18n';
+import I18n from 'i18n-js';
 import PropTypes from '../../../../../../constants/propTypes';
 import { createValidator, translateLabels } from '../../../../../../utils/validator';
 import { InputField, NasSelectField } from '../../../../../../components/ReduxForm';

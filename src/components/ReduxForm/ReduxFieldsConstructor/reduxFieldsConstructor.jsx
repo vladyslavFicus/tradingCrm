@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { I18n } from 'react-redux-i18n';
+import I18n from 'i18n-js';
 import { Field } from 'redux-form';
 import RangeGroup from '../RangeGroup';
 import { fieldTypes, components, validators } from './constants';
@@ -24,6 +24,7 @@ const reduxFieldsConstructor = (
       placeholder,
       disabled,
       parse,
+      withoutI18n,
       // input props
       inputType,
       inputAddon,
@@ -35,7 +36,7 @@ const reduxFieldsConstructor = (
       withAnyOption,
       selectOptions,
       customOnChange,
-      withoutI18n,
+      optionsWithoutI18n,
       // date props
       dateValidator,
       pickerClassName,
@@ -53,9 +54,9 @@ const reduxFieldsConstructor = (
       let filter = null;
       const commonProps = {
         name,
-        ...label && { label: I18n.t(label) },
+        ...label && { label: withoutI18n ? label : I18n.t(label) },
         ...className && { className },
-        ...placeholder && { placeholder: I18n.t(placeholder) },
+        ...placeholder && { placeholder: withoutI18n ? placeholder : I18n.t(placeholder) },
         ...disabled && { disabled },
         ...parse && { parse },
       };
@@ -92,7 +93,7 @@ const reduxFieldsConstructor = (
             >
               {selectOptions.map(({ value, label: optionLabel, ...rest }) => (
                 <option key={value} value={value} {...rest}>
-                  {withoutI18n ? optionLabel : I18n.t(optionLabel)}
+                  {optionsWithoutI18n ? optionLabel : I18n.t(optionLabel)}
                 </option>
               ))}
             </Field>

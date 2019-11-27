@@ -26,7 +26,7 @@ const logout = (store) => {
     const returnUrl = location && location.pathname && !/(sign-in)/.test(location.pathname)
       ? location.pathname
       : '';
-    history.push(`/sign-in${returnUrl ? `?returnUrl=${returnUrl}` : ''}`);
+    history.push(`/sign-in${(returnUrl) ? `?returnUrl=${returnUrl}` : ''}`);
   }
 };
 

@@ -1,4 +1,4 @@
-import { I18n } from 'react-redux-i18n';
+import I18n from 'i18n-js';
 
 export default function (inputError, map) {
   const formField = map[inputError.split('.').slice(-1).pop()];

@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { I18n } from 'react-redux-i18n';
+import I18n from 'i18n-js';
 import FileDropzoneUploadModal from '../../../../../../components/FileDropzoneUploadModal/index';
 import { fileConfig } from '../../../../constants';
 import './LeadsUploadModal.scss';

@@ -22,7 +22,6 @@ class Feed extends Component {
     feedTypes: PropTypes.shape({
       data: PropTypes.arrayOf(PropTypes.string),
     }).isRequired,
-    locale: PropTypes.string.isRequired,
   };
 
   static contextTypes = {
@@ -75,7 +74,6 @@ class Feed extends Component {
     const {
       feeds: { feeds: data, loading },
       feedTypes: { feedTypes },
-      locale,
     } = this.props;
 
     const feeds = get(data, 'data') || { content: [] };
@@ -121,7 +119,6 @@ class Feed extends Component {
             totalPages={feeds.totalPages}
             last={feeds.last}
             lazyLoad
-            locale={locale}
             showNoResults={!loading && !content.length}
           />
         </div>

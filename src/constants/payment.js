@@ -1,5 +1,4 @@
 import keyMirror from 'keymirror';
-import I18n from '../utils/fake-i18n';
 
 const statuses = keyMirror({
   REJECTED: null,
@@ -76,8 +75,8 @@ const accountStatuses = keyMirror({
 });
 
 const accountStatusLabels = {
-  [accountStatuses.ACTIVE]: I18n.t('CONSTANTS.PAYMENT.PAYMENT_ACCOUNT.STATUS.ACTIVE'),
-  [accountStatuses.LOCKED]: I18n.t('CONSTANTS.PAYMENT.PAYMENT_ACCOUNT.STATUS.LOCKED'),
+  [accountStatuses.ACTIVE]: 'CONSTANTS.PAYMENT.PAYMENT_ACCOUNT.STATUS.ACTIVE',
+  [accountStatuses.LOCKED]: 'CONSTANTS.PAYMENT.PAYMENT_ACCOUNT.STATUS.LOCKED',
 };
 
 const accountStatusColors = {
@@ -89,13 +88,13 @@ const methodStatusActions = {
   [methodStatuses.ACTIVE]: [
     {
       action: methodStatuses.INACTIVE,
-      label: I18n.t('PAYMENT_METHODS.ACTIONS.DEACTIVATE'),
+      label: 'PAYMENT_METHODS.ACTIONS.DEACTIVATE',
     },
   ],
   [methodStatuses.INACTIVE]: [
     {
       action: methodStatuses.ACTIVE,
-      label: I18n.t('PAYMENT_METHODS.ACTIONS.ACTIVE'),
+      label: 'PAYMENT_METHODS.ACTIONS.ACTIVE',
     },
   ],
 };
@@ -104,13 +103,13 @@ const accountStatusActions = {
   [accountStatuses.ACTIVE]: [
     {
       action: accountStatuses.LOCKED,
-      label: I18n.t('CONSTANTS.PAYMENT.PAYMENT_ACCOUNT.ACTION.LOCK'),
+      label: 'CONSTANTS.PAYMENT.PAYMENT_ACCOUNT.ACTION.LOCK',
     },
   ],
   [accountStatuses.LOCKED]: [
     {
       action: accountStatuses.ACTIVE,
-      label: I18n.t('CONSTANTS.PAYMENT.PAYMENT_ACCOUNT.ACTION.ACTIVATE'),
+      label: 'CONSTANTS.PAYMENT.PAYMENT_ACCOUNT.ACTION.ACTIVATE',
     },
   ],
 };
@@ -176,8 +175,8 @@ const customTypes = keyMirror({
 });
 
 const customTypesLabels = {
-  [customTypes.TIP]: I18n.t('COMMON.PAYMENT.TYPE.TIP'),
-  [customTypes.CASH_BACK]: I18n.t('COMMON.PAYMENT.TYPE.CASH_BACK'),
+  [customTypes.TIP]: 'COMMON.PAYMENT.TYPE.TIP',
+  [customTypes.CASH_BACK]: 'COMMON.PAYMENT.TYPE.CASH_BACK',
 };
 
 const customTypesProps = {
@@ -198,15 +197,15 @@ const statusesLabels = {
 };
 
 const methodsLabels = {
-  [methods.SKRILL]: I18n.t('CONSTANTS.PAYMENT.PAYMENT_METHODS.SKRILL'),
-  [methods.PAYPAL]: I18n.t('CONSTANTS.PAYMENT.PAYMENT_METHODS.PAYPAL'),
-  [methods.CREDIT_CARD]: I18n.t('CONSTANTS.PAYMENT.PAYMENT_METHODS.CREDIT_CARD'),
-  [methods.PAYTRIO]: I18n.t('CONSTANTS.PAYMENT.PAYMENT_METHODS.PAYTRIO'),
-  // [methods.B2CRYPTO]: I18n.t('CONSTANTS.PAYMENT.PAYMENT_METHODS.B2CRYPTO'),
-  // [methods.PAYRETAILERS]: I18n.t('CONSTANTS.PAYMENT.PAYMENT_METHODS.PAYRETAILERS'),
-  // [methods.WIRECAPITAL]: I18n.t('CONSTANTS.PAYMENT.PAYMENT_METHODS.WIRECAPITAL'),
-  // [methods.EFTPAY]: I18n.t('CONSTANTS.PAYMENT.PAYMENT_METHODS.EFTPAY'),
-  // [methods.CASHIER]: I18n.t('CONSTANTS.PAYMENT.PAYMENT_METHODS.CASHIER'),
+  [methods.SKRILL]: 'CONSTANTS.PAYMENT.PAYMENT_METHODS.SKRILL',
+  [methods.PAYPAL]: 'CONSTANTS.PAYMENT.PAYMENT_METHODS.PAYPAL',
+  [methods.CREDIT_CARD]: 'CONSTANTS.PAYMENT.PAYMENT_METHODS.CREDIT_CARD',
+  [methods.PAYTRIO]: 'CONSTANTS.PAYMENT.PAYMENT_METHODS.PAYTRIO',
+  // [methods.B2CRYPTO]: 'CONSTANTS.PAYMENT.PAYMENT_METHODS.B2CRYPTO',
+  // [methods.PAYRETAILERS]: 'CONSTANTS.PAYMENT.PAYMENT_METHODS.PAYRETAILERS',
+  // [methods.WIRECAPITAL]: 'CONSTANTS.PAYMENT.PAYMENT_METHODS.WIRECAPITAL',
+  // [methods.EFTPAY]: 'CONSTANTS.PAYMENT.PAYMENT_METHODS.EFTPAY',
+  // [methods.CASHIER]: 'CONSTANTS.PAYMENT.PAYMENT_METHODS.CASHIER',
 };
 
 const aggregatorsLabels = {
@@ -231,8 +230,8 @@ const manualPaymentMethodsLabels = {
 };
 
 const methodsStatusesLabels = {
-  [methodStatuses.ACTIVE]: I18n.t('PAYMENT_METHODS.STATUSES.ACTIVE'),
-  [methodStatuses.INACTIVE]: I18n.t('PAYMENT_METHODS.STATUSES.INACTIVE'),
+  [methodStatuses.ACTIVE]: 'PAYMENT_METHODS.STATUSES.ACTIVE',
+  [methodStatuses.INACTIVE]: 'PAYMENT_METHODS.STATUSES.INACTIVE',
 };
 
 const statusesColor = {

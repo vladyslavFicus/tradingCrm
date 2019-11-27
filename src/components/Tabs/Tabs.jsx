@@ -1,7 +1,8 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { I18n } from 'react-redux-i18n';
+import I18n from 'i18n-js';
 import { Link } from 'react-router-dom';
+import { withPermission } from 'providers/PermissionsProvider';
 import './Tabs.scss';
 
 class Tabs extends PureComponent {
@@ -16,10 +17,9 @@ class Tabs extends PureComponent {
     params: PropTypes.shape({
       id: PropTypes.string,
     }),
-  };
-
-  static contextTypes = {
-    permissions: PropTypes.arrayOf(PropTypes.string).isRequired,
+    permission: PropTypes.shape({
+      permissions: PropTypes.arrayOf(PropTypes.string).isRequired,
+    }).isRequired,
   };
 
   static defaultProps = {
@@ -27,7 +27,7 @@ class Tabs extends PureComponent {
     params: {},
   };
 
-  filterItem = ({ permissions: perm }) => !perm || perm.check(this.context.permissions);
+  filterItem = ({ permissions: perm }) => !perm || perm.check(this.props.permission.permissions);
 
   render() {
     const {
@@ -63,4 +63,4 @@ class Tabs extends PureComponent {
   }
 }
 
-export default Tabs;
+export default withPermission(Tabs);

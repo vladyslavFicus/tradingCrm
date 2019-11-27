@@ -1,5 +1,4 @@
 import React from 'react';
-import { I18n } from 'react-redux-i18n';
 import keyMirror from 'keymirror';
 import { statuses } from 'constants/operators';
 import { filterLabels } from '../../../../../../constants/user';
@@ -29,61 +28,69 @@ export default (
 ) => [{
   type: fieldTypes.INPUT,
   name: 'searchKeyword',
-  label: I18n.t(filterLabels.searchValue),
-  placeholder: I18n.t('COMMON.SEARCH_BY.LEAD'),
+  label: filterLabels.searchValue,
+  placeholder: 'COMMON.SEARCH_BY.LEAD',
   id: 'users-list-search-field',
   inputAddon: <i className="icon icon-search" />,
   className: fieldClassNames.BIG,
 }, {
   type: fieldTypes.INPUT,
   name: 'migrationId',
-  label: I18n.t(filterLabels.searchValue),
-  placeholder: I18n.t('COMMON.SEARCH_BY.MIGRATION_ID'),
+  label: filterLabels.searchValue,
+  placeholder: 'COMMON.SEARCH_BY.MIGRATION_ID',
   inputAddon: <i className="icon icon-search" />,
   className: fieldClassNames.MEDIUM,
 }, {
   type: fieldTypes.SELECT,
   name: 'countries',
-  label: I18n.t(filterLabels.country),
-  placeholder: I18n.t('COMMON.SELECT_OPTION.DEFAULT'),
+  label: filterLabels.country,
+  placeholder: 'COMMON.SELECT_OPTION.DEFAULT',
   multiple: true,
-  withoutI18n: true,
   className: fieldClassNames.MEDIUM,
   selectOptions: Object
     .keys(countries)
-    .map(value => ({ value, label: countries[value] })),
+    .map(value => ({
+      value,
+      label: countries[value],
+    })),
+  optionsWithoutI18n: true,
 }, {
   type: fieldTypes.SELECT,
   name: 'desks',
-  label: I18n.t(filterLabels.desks),
+  label: filterLabels.desks,
   placeholder: (!branchesLoading && desks.length === 0)
-    ? I18n.t('COMMON.SELECT_OPTION.NO_ITEMS')
-    : I18n.t('COMMON.SELECT_OPTION.DEFAULT'),
+    ? 'COMMON.SELECT_OPTION.NO_ITEMS'
+    : 'COMMON.SELECT_OPTION.DEFAULT',
   className: fieldClassNames.MEDIUM,
   customOnChange: true,
-  withoutI18n: true,
   disabled: branchesLoading || desks.length === 0,
-  selectOptions: desks.map(({ uuid, name }) => ({ value: uuid, label: name })),
+  selectOptions: desks.map(({ uuid, name }) => ({
+    value: uuid,
+    label: name,
+  })),
+  optionsWithoutI18n: true,
 }, {
   type: fieldTypes.SELECT,
   name: 'teams',
-  label: I18n.t(filterLabels.teams),
+  label: filterLabels.teams,
   placeholder: (!branchesLoading && teams.length === 0)
-    ? I18n.t('COMMON.SELECT_OPTION.NO_ITEMS')
-    : I18n.t('COMMON.SELECT_OPTION.DEFAULT'),
+    ? 'COMMON.SELECT_OPTION.NO_ITEMS'
+    : 'COMMON.SELECT_OPTION.DEFAULT',
   className: fieldClassNames.MEDIUM,
   customOnChange: true,
-  withoutI18n: true,
   disabled: branchesLoading || teams.length === 0,
-  selectOptions: teams.map(({ uuid, name }) => ({ value: uuid, label: name })),
+  selectOptions: teams.map(({ uuid, name }) => ({
+    value: uuid,
+    label: name,
+  })),
+  optionsWithoutI18n: true,
 }, {
   type: fieldTypes.SELECT,
   name: 'salesAgents',
-  label: I18n.t(filterLabels.operators),
-  placeholder: I18n.t('COMMON.SELECT_OPTION.DEFAULT'),
+  label: filterLabels.operators,
+  placeholder: 'COMMON.SELECT_OPTION.DEFAULT',
   className: fieldClassNames.MEDIUM,
   multiple: true,
-  withoutI18n: true,
   disabled: operatorsLoading || operators.length === 0,
   selectOptions: operators.map(({ uuid, fullName, operatorStatus }) => (
     {
@@ -92,23 +99,27 @@ export default (
       className: operatorStatus === statuses.INACTIVE || operatorStatus === statuses.CLOSED ? 'color-inactive' : '',
     }
   )),
+  optionsWithoutI18n: true,
 }, {
   type: fieldTypes.SELECT,
   name: 'salesStatuses',
-  label: I18n.t(filterLabels.salesStatus),
-  placeholder: I18n.t('COMMON.SELECT_OPTION.DEFAULT'),
+  label: filterLabels.salesStatus,
+  placeholder: 'COMMON.SELECT_OPTION.DEFAULT',
   className: fieldClassNames.MEDIUM,
   multiple: true,
   selectOptions: Object
     .keys(salesStatuses)
-    .map(value => ({ value, label: I18n.t(salesStatuses[value]) })),
+    .map(value => ({
+      value,
+      label: salesStatuses[value],
+    })),
 }, {
   type: fieldTypes.SELECT,
   name: 'status',
-  label: I18n.t(filterLabels.accountStatus),
+  label: filterLabels.accountStatus,
   placeholder: (!branchesLoading && teams.length === 0)
-    ? I18n.t('COMMON.SELECT_OPTION.NO_ITEMS')
-    : I18n.t('COMMON.SELECT_OPTION.DEFAULT'),
+    ? 'COMMON.SELECT_OPTION.NO_ITEMS'
+    : 'COMMON.SELECT_OPTION.DEFAULT',
   className: fieldClassNames.MEDIUM,
   customOnChange: true,
   selectOptions: Object
@@ -117,11 +128,11 @@ export default (
 }, {
   type: fieldTypes.RANGE,
   className: fieldClassNames.BIG,
-  label: I18n.t(filterLabels.registrationDate),
+  label: filterLabels.registrationDate,
   fields: [{
     type: fieldTypes.DATE,
     name: 'registrationDateStart',
-    placeholder: I18n.t('COMMON.DATE_OPTIONS.START_DATE'),
+    placeholder: 'COMMON.DATE_OPTIONS.START_DATE',
     closeOnSelect: false,
     dateValidator: {
       type: validators.START_DATE,
@@ -132,7 +143,7 @@ export default (
   }, {
     type: fieldTypes.DATE,
     name: 'registrationDateEnd',
-    placeholder: I18n.t('COMMON.DATE_OPTIONS.END_DATE'),
+    placeholder: 'COMMON.DATE_OPTIONS.END_DATE',
     closeOnSelect: false,
     dateValidator: {
       type: validators.END_DATE,
@@ -148,7 +159,7 @@ export default (
   name: 'size',
   normalize: normalize.NUMBER,
   parse: parser.ONLY_POSITIVE,
-  label: I18n.t('COMMON.FILTERS.SEARCH_LIMIT'),
-  placeholder: I18n.t('COMMON.UNLIMITED'),
+  label: 'COMMON.FILTERS.SEARCH_LIMIT',
+  placeholder: 'COMMON.UNLIMITED',
   className: fieldClassNames.SMALL,
 }];

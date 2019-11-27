@@ -1,10 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { DropdownItem } from 'reactstrap';
+import { withPermission } from 'providers/PermissionsProvider';
 import Permissions from 'utils/permissions';
 import DropDown from '../DropDown';
 
-const ActionsDropDown = ({ items }, { permissions: currentPermissions }) => {
+const ActionsDropDown = ({ items, permission: { permissions: currentPermissions } }) => {
   const visibleItems = items.filter((item) => {
     const isValidPermission = !(item.permissions instanceof Permissions) || item.permissions.check(currentPermissions);
 
@@ -40,10 +41,9 @@ ActionsDropDown.propTypes = {
     label: PropTypes.string,
     onClick: PropTypes.func,
   })).isRequired,
+  permission: PropTypes.shape({
+    permissions: PropTypes.arrayOf(PropTypes.string).isRequired,
+  }).isRequired,
 };
 
-ActionsDropDown.contextTypes = {
-  permissions: PropTypes.array.isRequired,
-};
-
-export default ActionsDropDown;
+export default withPermission(ActionsDropDown);

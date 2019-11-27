@@ -1,15 +1,13 @@
 import { compose, graphql } from 'react-apollo';
-import { connect } from 'react-redux';
 import { getMetabaseTokenQuery } from 'graphql/queries/metabase';
+import { withStorage } from 'providers/StorageProvider';
 import PersonalDashboard from './PersonalDashboard';
 
-const mapStateToProps = ({ auth: { uuid } }) => ({ agent_id: uuid });
-
 export default compose(
-  connect(mapStateToProps),
+  withStorage(['auth']),
   graphql(getMetabaseTokenQuery, {
-    options: ({ agent_id }) => ({ /* eslint-disable-line */
-      variables: { agent_id },
+    options: ({ auth: { uuid } }) => ({
+      variables: { agent_id: uuid },
     }),
     name: 'metabaseToken',
   }),

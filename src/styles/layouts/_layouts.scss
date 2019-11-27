@@ -1,0 +1,30 @@
+.l-container {
+  @include inline-block;
+  
+  margin: 0 auto;
+
+  max-width: 1366px;
+  height: calc(100% - 108px); // 108px - is a Header component height
+  width: 100%;
+}
+
+.l-content {
+  margin: 0 auto;
+  height: 100%;
+  width: calc(100% - 136px); // 136 => 68 * 2 => 68 - aside margin on the page
+}
+
+.l-left,
+.l-right {
+  @include inline-block;
+
+  height: 100%;
+}
+
+.l-left {
+  width: 600px;
+}
+
+.l-right {
+  width: calc(100% - 600px);
+}

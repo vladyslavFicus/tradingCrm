@@ -1,16 +1,9 @@
 import { compose } from 'redux';
-import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import { withStorage } from 'providers/StorageProvider';
+import { withPermission } from 'providers/PermissionsProvider';
 import Route from './Route';
 
 export default compose(
   withRouter,
-  connect(({
-    auth: { logged, department, role },
-    permissions: { data: permissions },
-  }) => ({
-    logged,
-    permissions,
-    authority: { department, role },
-  })),
-)(Route);
+)(withStorage(['auth', 'token'])(withPermission(Route)));

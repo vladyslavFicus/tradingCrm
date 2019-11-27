@@ -1,27 +1,31 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Redirect } from 'react-router-dom';
+import { withStorage } from 'providers/StorageProvider';
 import Preloader from 'components/Preloader';
 
 class Logout extends Component {
   static propTypes = {
     logout: PropTypes.func.isRequired,
-    logged: PropTypes.bool.isRequired,
     client: PropTypes.object.isRequired,
   };
 
   async componentDidMount() {
-    await this.props.client.resetStore();
-    await this.props.logout();
+    const { logout, storage, client } = this.props;
+
+    try {
+      await logout();
+    } catch (e) {
+      // Do nothing if token was invalid or something else...
+    } finally {
+      storage.remove('token');
+      storage.remove('auth');
+      client.resetStore();
+    }
   }
 
   render() {
-    if (this.props.logged) {
-      return <Preloader show />;
-    }
-
-    return <Redirect to="/" />;
+    return <Preloader isVisible />;
   }
 }
 
-export default Logout;
+export default withStorage(Logout);

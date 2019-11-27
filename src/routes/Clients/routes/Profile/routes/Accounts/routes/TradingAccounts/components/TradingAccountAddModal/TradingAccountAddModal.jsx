@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import { I18n } from 'react-redux-i18n';
+import I18n from 'i18n-js';
 import { createValidator, translateLabels } from 'utils/validator';
 import { generate } from 'utils/password';
 import { getActiveBrandConfig } from 'config';
@@ -123,13 +123,13 @@ class TradingAccountAddModal extends PureComponent {
           <Field
             name="name"
             type="text"
-            label={I18n.t(attributeLabels.name)}
+            label={attributeLabels.name}
             component={InputField}
           />
           <Field
             name="currency"
             component={NasSelectField}
-            label={I18n.t(attributeLabels.currency)}
+            label={attributeLabels.currency}
             placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
             searchable={false}
           >
@@ -143,7 +143,7 @@ class TradingAccountAddModal extends PureComponent {
             onIconClick={this.handleGeneratePassword}
             inputAddon={<span className="icon-generate-password" />}
             inputAddonPosition="right"
-            label={I18n.t(attributeLabels.password)}
+            label={attributeLabels.password}
             component={InputField}
           />
         </ModalBody>

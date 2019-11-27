@@ -1,0 +1,90 @@
+.chart {
+  background-color: #fff;
+  border: 1px solid rgba(0,0,0,.125);
+  border-radius: 5px;
+  margin-right: 25px;
+  padding: 25px;
+  left: 0;
+  display: inline-block;
+  vertical-align: top;
+  width: calc(33.3% - 16.6px);
+
+  &:nth-child(3n) {
+    margin-right: 0;
+  }
+
+  &:nth-child(n + 4) {
+    margin-top: 25px;
+  }
+
+  &__title,
+  &__select {
+    display: inline-block;
+    vertical-align: top;
+  }
+
+  &__title {
+    font-size: 20px;
+    line-height: 35px;
+    width: calc(100% - 130px);
+  }
+
+  &__select {
+    height: 35px;
+    width: 130px;
+
+    // # need to remove rewrite this class after refacoring .form-control
+    & .form-control {
+      line-height: 18px;
+      height: 100%;
+    }
+
+    // # need to remove rewrite this class after refacoring .form-control
+    .select__toggle-icon {
+      top: 55%;
+    }
+  }
+
+  &__body {
+    margin: 10px 0;
+  }
+
+  &__loader,
+  &__error {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 200px;
+  }
+
+  &__error {
+    font-size: 18px;
+    letter-spacing: 0.1em;
+  }
+
+  &__grapfic {
+    left: -35px;
+  }
+
+  &__footer {
+    margin-top: 15px;
+    display: flex;
+    justify-content: space-around;
+
+    &-item {
+      
+
+      &-title {
+        font-size: 10px;
+        text-align: center;
+        text-transform: uppercase;
+      }
+
+      &-value {
+        font-size: 13px;
+        font-weight: bold;
+        text-align: center;
+      }
+    }
+  }
+}

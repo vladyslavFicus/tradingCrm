@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { I18n } from 'react-redux-i18n';
+import I18n from 'i18n-js';
 import { Switch, Redirect } from 'react-router-dom';
 import { get } from 'lodash';
 import Tabs from 'components/Tabs';
@@ -9,9 +9,8 @@ import * as menu from 'config/menu';
 import PropTypes from 'constants/propTypes';
 import { isSales } from 'constants/hierarchyTypes';
 import HideDetails from 'components/HideDetails';
-import PartnerEdit from 'routes/Partners/routes/OperatorProfile/routes/Edit';
-import { Route } from 'router';
 import ChangePasswordModal from 'components/ChangeOperatorPasswordModal';
+import { Route } from 'router';
 import OperatorEdit from '../routes/Edit';
 import Feed from '../routes/Feed';
 import SalesRules from '../routes/SalesRules';
@@ -37,8 +36,8 @@ class OperatorProfileLayout extends Component {
     changeStatus: PropTypes.func.isRequired,
     changePassword: PropTypes.func.isRequired,
     refetchOperator: PropTypes.func.isRequired,
-    onResetPassword: PropTypes.func.isRequired,
-    onSendInvitation: PropTypes.func.isRequired,
+    resetPassword: PropTypes.func.isRequired,
+    sendInvitation: PropTypes.func.isRequired,
     authorities: PropTypes.object.isRequired,
     isLoading: PropTypes.bool.isRequired,
     error: PropTypes.any,
@@ -80,16 +79,18 @@ class OperatorProfileLayout extends Component {
 
   handleResetPasswordSubmit = async () => {
     const {
+      resetPassword,
+      brand: { brand },
+      match: { params: { id } },
       modals: { confirmActionModal },
-      onResetPassword,
-      match: {
-        params: {
-          id: operatorUUID,
-        },
-      },
     } = this.props;
 
-    await onResetPassword(operatorUUID);
+    await resetPassword({
+      variables: {
+        uuid: id,
+        brand,
+      },
+    });
 
     confirmActionModal.hide();
   };
@@ -112,12 +113,12 @@ class OperatorProfileLayout extends Component {
 
   handleSendInvitationSubmit = async () => {
     const {
-      data,
-      onSendInvitation,
+      data: { uuid },
+      sendInvitation,
       modals: { confirmActionModal },
     } = this.props;
 
-    await onSendInvitation(data.uuid);
+    await sendInvitation({ variables: { uuid } });
 
     confirmActionModal.hide();
   };
@@ -209,7 +210,10 @@ class OperatorProfileLayout extends Component {
 
     // Check if operator is SALES to show sales rules tab
     if (isSales(userType)) {
-      tabs.splice(1, 0, { label: I18n.t('OPERATOR_PROFILE.TABS.SALES_RULES'), url: '/operators/:id/sales-rules' });
+      tabs.splice(1, 0, {
+        label: 'OPERATOR_PROFILE.TABS.SALES_RULES',
+        url: '/operators/:id/sales-rules',
+      });
     }
 
     if (error) {
@@ -248,10 +252,7 @@ class OperatorProfileLayout extends Component {
         />
         <div className="card no-borders">
           <Switch>
-            <Route
-              path={`${path}/profile`}
-              component={operatorType === operatorTypes.OPERATOR ? OperatorEdit : PartnerEdit}
-            />
+            <Route path={`${path}/profile`} component={OperatorEdit} />
             <If condition={isSales(userType)}>
               <Route path={`${path}/sales-rules`} component={SalesRules} />
             </If>

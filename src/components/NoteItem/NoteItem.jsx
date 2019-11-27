@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import { I18n } from 'react-redux-i18n';
+import I18n from 'i18n-js';
 import { departments } from 'constants/brands';
 import permissions from 'config/permissions';
 import Permissions from 'utils/permissions';
@@ -9,8 +9,6 @@ import Uuid from '../Uuid';
 import { entities, entitiesPrefixes } from '../../constants/uuid';
 import { tagTypes } from '../../constants/tag';
 import ActionsDropDown from '../ActionsDropDown';
-import MiniProfile from '../MiniProfile';
-import { types as miniProfileTypes } from '../../constants/miniProfile';
 import { modalType } from '../NoteModal/constants';
 import './NoteItem.scss';
 
@@ -24,8 +22,6 @@ class NoteItem extends Component {
       pinned: PropTypes.bool,
     }).isRequired,
     handleNoteClick: PropTypes.func.isRequired,
-    fetchOperatorMiniProfile: PropTypes.func.isRequired,
-    fetchAuthorities: PropTypes.func.isRequired,
     department: PropTypes.string,
   };
 
@@ -38,37 +34,6 @@ class NoteItem extends Component {
 
     return tagType === tagTypes.NOTE ? content : tagName;
   }
-
-  handleLoadOperatorMiniProfile = async (uuid) => {
-    const { fetchOperatorMiniProfile, fetchAuthorities } = this.props;
-
-    const action = await fetchOperatorMiniProfile(uuid);
-
-    if (!action || action.error) {
-      return {
-        error: true,
-        payload: action ? action.payload : null,
-      };
-    }
-
-    const payload = { ...action.payload };
-
-    const authoritiesAction = await fetchAuthorities(uuid);
-
-    if (!authoritiesAction || authoritiesAction.error) {
-      return {
-        error: true,
-        payload: authoritiesAction ? authoritiesAction.payload : null,
-      };
-    }
-
-    payload.authorities = authoritiesAction.payload;
-
-    return {
-      error: false,
-      payload,
-    };
-  };
 
   render() {
     const {
@@ -95,13 +60,7 @@ class NoteItem extends Component {
           <b>{fullName}</b>
           <div className="note-item__heading">
             <If condition={changedBy}>
-              <MiniProfile
-                target={changedBy}
-                type={miniProfileTypes.OPERATOR}
-                dataSource={this.handleLoadOperatorMiniProfile}
-              >
-                <Uuid uuid={changedBy} uuidPrefix={entitiesPrefixes[entities.operator]} />
-              </MiniProfile>
+              <Uuid uuid={changedBy} uuidPrefix={entitiesPrefixes[entities.operator]} />
             </If>
             <div className="note-item__edition-date">
               <Choose>

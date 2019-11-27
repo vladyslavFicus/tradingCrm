@@ -1,5 +1,5 @@
 import React, { Fragment, PureComponent } from 'react';
-import { I18n } from 'react-redux-i18n';
+import I18n from 'i18n-js';
 import { get } from 'lodash';
 import { Link } from 'react-router-dom';
 import { TextRow } from 'react-placeholder/lib/placeholders';

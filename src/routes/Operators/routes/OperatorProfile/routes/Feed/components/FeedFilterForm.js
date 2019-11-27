@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { reduxForm, Field, getFormValues } from 'redux-form';
 import moment from 'moment';
-import { I18n } from 'react-redux-i18n';
+import I18n from 'i18n-js';
 import { filterFormAttributeLabels as attributeLabels } from '../constants';
 import { createValidator, translateLabels } from '../../../../../../../utils/validator';
 import PropTypes from '../../../../../../../constants/propTypes';

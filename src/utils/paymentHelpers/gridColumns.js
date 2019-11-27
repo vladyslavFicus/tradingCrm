@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import React, { Fragment } from 'react';
-import { I18n } from 'react-redux-i18n';
+import I18n from 'i18n-js';
 import moment from 'moment';
 import { getActiveBrandConfig } from 'config';
 import { targetTypes } from 'constants/note';
@@ -17,13 +17,12 @@ import {
   aggregatorsLabels,
 } from '../../constants/payment';
 
-const clientColumn = (auth, fetchPlayer) => ({
+const clientColumn = () => ({
   name: 'profile',
   header: I18n.t('CONSTANTS.TRANSACTIONS.GRID_COLUMNS.CLIENT'),
   render: ({ playerProfile, language, paymentId }) => (
     <Choose>
       <When condition={playerProfile}>
-        {/* TODO add GRAPHQL fetch to */}
         <GridPlayerInfo
           profile={{
             ...playerProfile,
@@ -31,8 +30,6 @@ const clientColumn = (auth, fetchPlayer) => ({
             languageCode: language,
           }}
           id={`transaction-${paymentId}`}
-          fetchPlayerProfile={fetchPlayer}
-          auth={auth}
         />
       </When>
       <Otherwise>
@@ -42,7 +39,7 @@ const clientColumn = (auth, fetchPlayer) => ({
   ),
 });
 
-const countryColumn = {
+const countryColumn = () => ({
   name: 'country',
   header: I18n.t('CONSTANTS.TRANSACTIONS.GRID_COLUMNS.COUNTRY'),
   render: ({ playerProfile: { country } }) => (
@@ -58,11 +55,10 @@ const countryColumn = {
       </Otherwise>
     </Choose>
   ),
-};
+});
 
 export default ({
   paymentInfo: { onSuccess },
-  playerInfo,
   clientView,
 }) => [{
   name: 'paymentId',
@@ -83,7 +79,7 @@ export default ({
     </Fragment>
   ),
 },
-...(!clientView ? [clientColumn(playerInfo.auth, playerInfo.fetchPlayer)] : []),
+...(!clientView ? [clientColumn()] : []),
 {
   name: 'originalAgent',
   header: I18n.t('CONSTANTS.TRANSACTIONS.GRID_COLUMNS.ORIGINAL_AGENT'),
@@ -103,7 +99,7 @@ export default ({
     </Choose>
   ),
 },
-...(!clientView ? [countryColumn] : []),
+...(!clientView ? [countryColumn()] : []),
 {
   name: 'paymentType',
   header: I18n.t('CONSTANTS.TRANSACTIONS.GRID_COLUMNS.PAYMENT_TYPE'),
@@ -224,7 +220,7 @@ export default ({
     return (
       <NoteButton
         key={targetUUID}
-        targetType={targetTypes.PAYMENT}
+        noteTargetType={targetTypes.PAYMENT}
         targetUUID={targetUUID}
         playerUUID={playerUUID}
         note={note}

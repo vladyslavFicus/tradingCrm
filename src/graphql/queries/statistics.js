@@ -2,14 +2,14 @@ import gql from 'graphql-tag';
 
 const registeredUsersQuery = gql`
   query getRegUsersStat(
-    $registrationDateFrom: String!,
-    $registrationDateTo: String!,
+    $dateFrom: String!,
+    $dateTo: String!,
     $clientIds: [String],
   ) {
     statistics {
       registrations(
-        registrationDateFrom: $registrationDateFrom,
-        registrationDateTo: $registrationDateTo,
+        registrationDateFrom: $dateFrom,
+        registrationDateTo: $dateTo,
         clientIds: $clientIds,
       ) {
         error {
@@ -74,10 +74,6 @@ const paymentsStatisticQuery = gql`
             amount
             count
             entryDate
-          }
-          itemsTotal {
-            totalAmount
-            totalCount
           }
           additionalTotal {
             totalAmount

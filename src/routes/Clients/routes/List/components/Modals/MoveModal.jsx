@@ -1,66 +1,121 @@
 import React, { PureComponent } from 'react';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import { Field, reduxForm, SubmissionError } from 'redux-form';
-import { I18n } from 'react-redux-i18n';
+import { Field, SubmissionError } from 'redux-form';
+import I18n from 'i18n-js';
 import PropTypes from 'constants/propTypes';
 import { NasSelectField } from 'components/ReduxForm';
-import { withNotifications } from 'components/HighOrder';
 import { aquisitionStatuses } from 'constants/aquisitionStatuses';
-import { createValidator } from 'utils/validator';
 import { checkMovePermission } from './utils';
+import { getClientsData } from '../utils';
 
 class MoveModal extends PureComponent {
   static propTypes = {
-    handleSubmit: PropTypes.func.isRequired,
-    onCloseModal: PropTypes.func.isRequired,
+    error: PropTypes.any,
+    configs: PropTypes.shape({
+      allRowsSelected: PropTypes.bool,
+      totalElements: PropTypes.number,
+      selectedRows: PropTypes.arrayOf(PropTypes.number),
+      touchedRowsIds: PropTypes.arrayOf(PropTypes.string),
+      searchParams: PropTypes.object,
+    }).isRequired,
+    notify: PropTypes.func.isRequired,
     isOpen: PropTypes.bool.isRequired,
     invalid: PropTypes.bool.isRequired,
     pristine: PropTypes.bool.isRequired,
+    onSuccess: PropTypes.func.isRequired,
     submitting: PropTypes.bool.isRequired,
-    onSubmit: PropTypes.func.isRequired,
-    error: PropTypes.any,
-    clientsSelected: PropTypes.number.isRequired,
-    selectedData: PropTypes.object,
-    notify: PropTypes.func.isRequired,
+    onCloseModal: PropTypes.func.isRequired,
+    handleSubmit: PropTypes.func.isRequired,
+    content: PropTypes.arrayOf(PropTypes.object).isRequired,
+    bulkRepresentativeUpdate: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
-    selectedData: {},
     error: null,
   };
 
-  handleMoveSubmit = ({ aquisitionStatus }) => {
-    const { selectedData, notify } = this.props;
+  handleMoveSubmit = async ({ acquisitionStatus }) => {
+    const {
+      notify,
+      configs,
+      configs: {
+        totalElements,
+      },
+      content,
+      onSuccess,
+      onCloseModal,
+      bulkRepresentativeUpdate,
+    } = this.props;
 
-    const actionForbidden = checkMovePermission({ ...selectedData, aquisitionStatus });
+    const actionForbidden = checkMovePermission({ ...configs, content, acquisitionStatus });
+    const type = acquisitionStatus;
 
     if (actionForbidden) {
-      const type = aquisitionStatus.toLowerCase();
+      const typeLowercased = acquisitionStatus.toLowerCase();
+      notify({
+        level: 'error',
+        title: I18n.t('COMMON.BULK_UPDATE_FAILED'),
+        message: I18n.t('clients.bulkUpdate.moveForbidden', { type: typeLowercased }),
+      });
+
+      throw new SubmissionError({
+        _error: I18n.t('clients.bulkUpdate.detailedTypeError', { type: typeLowercased }),
+      });
+    }
+
+    const isMoveAction = true;
+    const clients = getClientsData(configs, totalElements, { type, isMoveAction }, content);
+
+    const { error } = await bulkRepresentativeUpdate({
+      variables: {
+        type,
+        clients,
+        isMoveAction,
+        totalElements,
+        ...configs,
+      },
+    });
+
+    if (error) {
+      // when we try to move clients, when they don't have assigned {{type}} representative
+      // GQL will return exact this error and we catch it to show custom message
+      const condition = error.error && error.error === 'clients.bulkUpdate.moveForbidden';
 
       notify({
         level: 'error',
         title: I18n.t('COMMON.BULK_UPDATE_FAILED'),
-        message: I18n.t('clients.bulkUpdate.moveForbidden', { type }),
+        message: condition
+          ? I18n.t(error.error, { type })
+          : I18n.t('COMMON.SOMETHING_WRONG'),
       });
 
-      throw new SubmissionError({
-        _error: I18n.t('clients.bulkUpdate.detailedTypeError', { type }),
+      if (condition) {
+        throw new SubmissionError({
+          _error: I18n.t('clients.bulkUpdate.detailedTypeError', { type }),
+        });
+      }
+    } else {
+      notify({
+        level: 'success',
+        title: I18n.t('COMMON.SUCCESS'),
+        message: I18n.t('CLIENTS.ACQUISITION_STATUS_UPDATED'),
       });
+
+      onCloseModal();
+      onSuccess();
     }
-
-    this.props.onSubmit({ aquisitionStatus });
   }
 
   render() {
     const {
-      handleSubmit,
-      onCloseModal,
+      error,
       isOpen,
       invalid,
       pristine,
       submitting,
-      error,
-      clientsSelected,
+      onCloseModal,
+      handleSubmit,
+      configs: { selectedRows },
     } = this.props;
 
     return (
@@ -70,7 +125,7 @@ class MoveModal extends PureComponent {
       >
         <ModalHeader toggle={onCloseModal}>
           <div>{I18n.t('CLIENTS.MODALS.MOVE_MODAL.MOVE_HEADER')}</div>
-          <div className="font-size-11 color-yellow">{clientsSelected}{' '}{I18n.t('COMMON.CLIENTS_SELECTED')}</div>
+          <div className="font-size-11 color-yellow">{selectedRows.length}{' '}{I18n.t('COMMON.CLIENTS_SELECTED')}</div>
         </ModalHeader>
         <ModalBody
           tag="form"
@@ -83,7 +138,7 @@ class MoveModal extends PureComponent {
             </div>
           </If>
           <Field
-            name="aquisitionStatus"
+            name="acquisitionStatus"
             label={I18n.t('CLIENTS.MODALS.MOVE_MODAL.MOVE_LABEL')}
             component={NasSelectField}
             disabled={submitting}
@@ -118,12 +173,4 @@ class MoveModal extends PureComponent {
   }
 }
 
-const FORM_NAME = 'moveModalForm';
-
-export default withNotifications(
-  reduxForm({
-    form: FORM_NAME,
-    enableReinitialize: true,
-    validate: values => createValidator({ aquisitionStatus: ['string', 'required'] }, {}, false)(values),
-  })(MoveModal),
-);
+export default MoveModal;

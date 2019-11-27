@@ -5,6 +5,7 @@ const {
   NAS_PROJECT,
   NAS_BRAND = 'falcon',
   APP_VERSION = 'dev',
+  GRAPHQL_ROOT,
 } = process.env;
 
 /**
@@ -20,7 +21,7 @@ module.exports = async (onBrandsConfigUpdated) => {
   return {
     version: APP_VERSION,
     apiRoot: platformConfig.hrzn.api_url,
-    graphqlRoot: '/api/backoffice-graphql/gql',
+    graphqlRoot: GRAPHQL_ROOT || '/api/backoffice-graphql/gql',
     brands: brandsConfig,
     environment: NAS_PROJECT,
     defaultBackofficeBrand: NAS_BRAND,

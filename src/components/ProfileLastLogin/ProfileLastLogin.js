@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import moment from 'moment';
-import { I18n } from 'react-redux-i18n';
+import I18n from 'i18n-js';
 import PropTypes from '../../constants/propTypes';
 
 class ProfileLastLogin extends PureComponent {
@@ -29,13 +29,13 @@ class ProfileLastLogin extends PureComponent {
           </When>
           <Otherwise>
             <div className="header-block-middle" key="time-ago">
-              {lastIp.sessionStart && moment.utc(lastIp.sessionStart).local().fromNow()}
+              {lastIp.startedAt && moment.utc(lastIp.startedAt).local().fromNow()}
             </div>
             <div className="header-block-small">
-              {lastIp.sessionStart && moment.utc(lastIp.sessionStart).local().format('DD.MM.YYYY HH:mm')}
+              {lastIp.startedAt && moment.utc(lastIp.startedAt).local().format('DD.MM.YYYY HH:mm')}
             </div>
             <div className="header-block-small">
-              {lastIp.country && I18n.t('PROFILE.LAST_LOGIN.FROM_COUNTRY', { country: lastIp.country })}
+              {lastIp.countryCode && I18n.t('PROFILE.LAST_LOGIN.FROM_COUNTRY', { country: lastIp.countryCode })}
             </div>
           </Otherwise>
         </Choose>

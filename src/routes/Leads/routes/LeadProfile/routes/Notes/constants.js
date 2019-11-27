@@ -1,8 +1,6 @@
-import I18n from '../../../../../../utils/fake-i18n';
-
 const attributeLabels = {
-  from: I18n.t('COMMON.FROM'),
-  to: I18n.t('COMMON.TO'),
+  from: 'COMMON.FROM',
+  to: 'COMMON.TO',
 };
 
 export { attributeLabels };

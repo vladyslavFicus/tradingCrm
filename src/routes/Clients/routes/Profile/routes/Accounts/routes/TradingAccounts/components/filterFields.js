@@ -1,4 +1,3 @@
-import { I18n } from 'react-redux-i18n';
 import { accountTypes } from 'constants/accountTypes';
 import {
   fieldTypes,
@@ -12,8 +11,8 @@ const attributeLabels = {
 export default () => [{
   type: fieldTypes.SELECT,
   name: 'accountType',
-  label: I18n.t(attributeLabels.accountType),
-  placeholder: I18n.t('COMMON.SELECT_OPTION.ANY'),
+  label: attributeLabels.accountType,
+  placeholder: 'COMMON.SELECT_OPTION.ANY',
   className: fieldClassNames.SMALL,
   selectOptions: accountTypes.map(({ label, value }) => ({ value, label })),
 }];

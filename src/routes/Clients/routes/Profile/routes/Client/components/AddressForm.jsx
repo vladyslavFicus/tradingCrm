@@ -1,10 +1,10 @@
 import React from 'react';
 import { Field, reduxForm } from 'redux-form';
-import { I18n } from 'react-redux-i18n';
-import { uniqBy } from 'lodash';
+import I18n from 'i18n-js';
 import { InputField, TextAreaField, NasSelectField } from 'components/ReduxForm';
 import PropTypes from 'constants/propTypes';
 import { createValidator } from 'utils/validator';
+import countries from 'utils/countryList';
 
 const attributeLabels = () => ({
   country: I18n.t('PLAYER_PROFILE.PROFILE.ADDRESS.LABEL.COUNTRY'),
@@ -20,9 +20,6 @@ const AddressForm = ({
   handleSubmit,
   onSubmit,
   disabled,
-  meta: {
-    countries,
-  },
 }) => (
   <form onSubmit={handleSubmit(onSubmit)}>
     <div className="row margin-bottom-20">
@@ -39,19 +36,16 @@ const AddressForm = ({
     </div>
     <div className="row">
       <Field
-        name="country"
+        name="countryCode"
         label={attributeLabels().country}
         type="text"
         className="col-lg-4"
         component={NasSelectField}
         disabled={disabled}
       >
-        {
-          uniqBy(countries, 'countryCode').map(item => (
-            <option key={`${item.countryCode}-${item.phoneCode}`} value={item.countryCode}>
-              {item.countryName}
-            </option>
-          ))
+        {Object
+          .keys(countries)
+          .map(key => <option key={key} value={key}>{countries[key]}</option>)
         }
       </Field>
       <Field
@@ -115,11 +109,11 @@ AddressForm.defaultProps = {
 export default reduxForm({
   form: 'updateProfileAddress',
   enableReinitialize: true,
-  validate: (values, props) => {
-    const { meta: { countryCodes } } = props;
+  validate: (values) => {
+    // const { meta: { countryCodes } } = props;
 
     const rules = {
-      country: ['required', `in:,${countryCodes.join()}`],
+      // country: [`in:,${countryCodes.join()}`],
       city: ['string', 'min:3'],
       postCode: ['string', 'min:3'],
       address: ['string'],

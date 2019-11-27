@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { get } from 'lodash';
 import history from 'router/history';
-import { I18n } from 'react-redux-i18n';
+import I18n from 'i18n-js';
 import TabHeader from 'components/TabHeader';
 import { withNotifications } from 'components/HighOrder';
 import { targetTypes as fileTargetTypes } from 'components/Files/constants';

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { I18n } from 'react-redux-i18n';
+import I18n from 'i18n-js';
 import Flag from 'react-world-flags';
 import languageNames from '../../constants/languageNames';
 import { getCountryCode } from '../../utils/countryList';

@@ -1,6 +1,6 @@
 import React from 'react';
 import { reduxForm, Field } from 'redux-form';
-import { I18n } from 'react-redux-i18n';
+import I18n from 'i18n-js';
 import { SwitchField } from 'components/ReduxForm';
 
 const FORM_NAME = 'regulatedForm';
@@ -8,7 +8,7 @@ const FORM_NAME = 'regulatedForm';
 const RegulatedForm = () => (
   <form>
     <Field
-      name="fatca.provided"
+      name="fatca"
       label={I18n.t('CLIENT_PROFILE.FATCA.TITLE')}
       component={SwitchField}
     />

@@ -1,6 +1,6 @@
 import { graphql, compose } from 'react-apollo';
+import { getBranchInfo } from 'graphql/queries/hierarchy';
 import OfficeProfile from '../components/OfficeProfile';
-import { getBranchInfo } from '../../../../../graphql/queries/hierarchy';
 
 export default compose(
   graphql(getBranchInfo, {

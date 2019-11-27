@@ -4,7 +4,6 @@ import { NoteFragment } from '../fragments/notes';
 const callbacksQuery = gql`query getCallbacks(
   $id: String,
   $userId: String,
-  $operatorId: String,
   $statuses: [CallbackStatusEnum],
   $callbackTimeFrom: String,
   $callbackTimeTo: String,
@@ -14,7 +13,6 @@ const callbacksQuery = gql`query getCallbacks(
   callbacks(
     id: $id,
     userId: $userId,
-    operatorId: $operatorId,
     statuses: $statuses,
     callbackTimeFrom: $callbackTimeFrom,
     callbackTimeTo: $callbackTimeTo,

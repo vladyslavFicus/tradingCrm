@@ -2,10 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getFormValues } from 'redux-form';
-import { I18n } from 'react-redux-i18n';
-import { createValidator } from '../../../utils/validator';
-import languages from '../../../constants/languageNames';
-import { filterLabels } from '../../../constants/user';
+import I18n from 'i18n-js';
+import countryList from 'utils/countryList';
+import { createValidator } from 'utils/validator';
+import languages from 'constants/languageNames';
+import { filterLabels } from 'constants/user';
 import createDynamicForm, {
   FilterItem,
   FilterField,
@@ -17,9 +18,9 @@ const FORM_NAME = 'rulesListGridFilter';
 const DynamicFilters = createDynamicForm({
   form: FORM_NAME,
   touchOnChange: true,
-  validate: (_, props) => createValidator({
+  validate: () => createValidator({
     searchBy: 'string',
-    country: `in:,${Object.keys(props.countries).join()}`,
+    country: `in:,${Object.keys(countryList).join()}`,
     language: 'string',
   }, filterLabels, false),
 });
@@ -28,7 +29,6 @@ const RulesGridFilters = ({
   onSubmit,
   onReset,
   disabled,
-  countries,
   initialValues,
 }) => (
   <DynamicFilters
@@ -37,7 +37,7 @@ const RulesGridFilters = ({
     allowReset={disabled}
     onSubmit={onSubmit}
     onReset={onReset}
-    countries={countries}
+    countries={countryList}
   >
     <FilterItem label={I18n.t(filterLabels.searchValue)} size={SIZES.medium} type={TYPES.input} default>
       <FilterField
@@ -57,8 +57,8 @@ const RulesGridFilters = ({
     >
       <FilterField name="country">
         {Object
-          .keys(countries)
-          .map(key => <option key={key} value={key}>{countries[key]}</option>)
+          .keys(countryList)
+          .map(key => <option key={key} value={key}>{countryList[key]}</option>)
         }
       </FilterField>
     </FilterItem>
@@ -86,7 +86,6 @@ RulesGridFilters.propTypes = {
   disabled: PropTypes.bool,
   onReset: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
-  countries: PropTypes.object.isRequired,
   initialValues: PropTypes.object,
 };
 

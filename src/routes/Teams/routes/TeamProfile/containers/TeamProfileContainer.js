@@ -1,5 +1,5 @@
 import { graphql, compose } from 'react-apollo';
-import { getBranchInfo } from '../../../../../graphql/queries/hierarchy';
+import { getBranchInfo } from 'graphql/queries/hierarchy';
 import TeamProfile from '../components/TeamProfile';
 
 export default compose(

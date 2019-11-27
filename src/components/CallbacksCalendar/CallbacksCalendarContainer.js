@@ -13,10 +13,9 @@ export default compose(
   }),
   graphql(callbacksQuery, {
     name: 'callbacks',
-    options: ({ operatorId }) => ({
+    options: () => ({
       fetchPolicy: 'cache-and-network',
       variables: {
-        operatorId,
         callbackTimeFrom: Calendar.firstVisibleDate(),
         callbackTimeTo: Calendar.lastVisibleDate(),
         limit: 2000,

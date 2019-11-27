@@ -1,8 +1,8 @@
 import React, { Component, Fragment } from 'react';
 import moment from 'moment';
 import classNames from 'classnames';
-import { SubmissionError } from 'redux-form';
-import { I18n } from 'react-redux-i18n';
+import I18n from 'i18n-js';
+import { withPermission } from 'providers/PermissionsProvider';
 import PropTypes from 'constants/propTypes';
 import Regulated from 'components/Regulation';
 import ActionsDropDown from 'components/ActionsDropDown';
@@ -12,8 +12,10 @@ import Permissions from 'utils/permissions';
 import ProfileLastLogin from 'components/ProfileLastLogin';
 import Uuid from 'components/Uuid';
 import { statuses } from 'constants/user';
+import { withNotifications } from 'components/HighOrder';
 import PermissionContent from 'components/PermissionContent';
 import StickyWrapper from 'components/StickyWrapper';
+import customTimeout from 'utils/customTimeout';
 import PlayerStatus from '../PlayerStatus';
 import Balances from '../Balances';
 import HeaderPlayerPlaceholder from '../HeaderPlayerPlaceholder';
@@ -25,43 +27,15 @@ const resetPasswordPermission = new Permissions([permissions.OPERATORS.RESET_PAS
 
 class Header extends Component {
   static propTypes = {
-    playerProfile: PropTypes.shape({
-      address: PropTypes.string,
-      affiliateId: PropTypes.string,
-      birthDate: PropTypes.string,
-      btag: PropTypes.string,
-      city: PropTypes.string,
-      completed: PropTypes.bool,
-      country: PropTypes.string,
-      currency: PropTypes.string,
-      email: PropTypes.string,
-      firstName: PropTypes.string,
-      gender: PropTypes.string,
-      profileVerified: PropTypes.bool,
-      languageCode: PropTypes.string,
-      lastName: PropTypes.string,
-      marketingMail: PropTypes.bool,
-      marketingSMS: PropTypes.bool,
-      phoneNumber: PropTypes.string,
-      phoneNumberVerified: PropTypes.bool,
-      postCode: PropTypes.string,
-      login: PropTypes.string,
-      username: PropTypes.string,
-      playerUUID: PropTypes.string,
-      signInIps: PropTypes.arrayOf(PropTypes.ipEntity),
-      profileStatusComment: PropTypes.string,
-      tradingProfile: PropTypes.tradingProfile,
-    }),
+    newProfile: PropTypes.newProfile,
     questionnaireLastData: PropTypes.object,
     onRefreshClick: PropTypes.func.isRequired,
     isLoadingProfile: PropTypes.bool.isRequired,
-    lastIp: PropTypes.ipEntity,
     availableStatuses: PropTypes.array,
     onAddNoteClick: PropTypes.func.isRequired,
     onStatusChange: PropTypes.func.isRequired,
     onResetPasswordClick: PropTypes.func.isRequired,
     onProfileActivateClick: PropTypes.func.isRequired,
-    locale: PropTypes.string.isRequired,
     loaded: PropTypes.bool,
     onChangePasswordClick: PropTypes.func.isRequired,
     onShareProfileClick: PropTypes.func.isRequired,
@@ -69,15 +43,11 @@ class Header extends Component {
     loginLock: PropTypes.shape({
       lock: PropTypes.bool,
     }).isRequired,
-  };
-
-  static contextTypes = {
-    permissions: PropTypes.arrayOf(PropTypes.string).isRequired,
+    permission: PropTypes.permission.isRequired,
   };
 
   static defaultProps = {
-    lastIp: null,
-    playerProfile: {},
+    newProfile: {},
     availableStatuses: [],
     loaded: false,
 
@@ -85,44 +55,70 @@ class Header extends Component {
     questionnaireLastData: null,
   };
 
-  handleStatusChange = (data) => {
-    const { playerProfile, onStatusChange } = this.props;
+  state = {
+    isRunningReloadAnimation: false,
+  }
 
-    if (playerProfile && playerProfile.playerUUID) {
-      onStatusChange({ ...data, playerUUID: playerProfile.playerUUID });
-    } else {
-      throw new SubmissionError({ _error: 'User uuid not found.' });
+  componentDidUpdate() {
+    const { isRunningReloadAnimation } = this.state;
+
+    if (isRunningReloadAnimation) {
+      customTimeout(() => {
+        this.setState({ isRunningReloadAnimation: false });
+      }, 1000);
+    }
+  }
+
+  handleStatusChange = async ({ action, comment, reason }) => {
+    const {
+      newProfile: {
+        uuid,
+      },
+      onStatusChange,
+      notify,
+    } = this.props;
+
+    if (uuid) {
+      const {
+        data: {
+          profile: {
+            changeProfileStatus: {
+              success,
+            },
+          },
+        },
+      } = await onStatusChange({
+        variables: {
+          status: action,
+          playerUUID: uuid,
+          comment,
+          reason,
+        },
+      });
+
+      notify({
+        level: success ? 'success' : 'error',
+        message: success
+          ? I18n.t('COMMON.SUCCESS')
+          : I18n.t('COMMON.SOMETHING_WRONG'),
+      });
     }
   };
 
+  onHandeReloadClick = () => {
+    const { onRefreshClick } = this.props;
+
+    this.setState({ isRunningReloadAnimation: true });
+    onRefreshClick();
+  }
+
   render() {
     const {
-      playerProfile: {
-        age,
-        firstName,
-        username,
-        languageCode,
-        currency,
-        lastName,
-        profileStatusAuthor,
-        profileStatusDate,
-        profileStatusReason,
-        profileStatusComment,
-        suspendEndDate,
-        profileStatus,
-        profileVerified,
-        playerUUID,
-        registrationDate,
-        tradingProfile,
-      },
       availableStatuses,
       onAddNoteClick,
       onResetPasswordClick,
       onProfileActivateClick,
-      lastIp,
-      onRefreshClick,
       isLoadingProfile,
-      locale,
       loaded,
       onChangePasswordClick,
       onShareProfileClick,
@@ -131,21 +127,40 @@ class Header extends Component {
         lock,
       },
       questionnaireLastData,
+      permission: {
+        permissions: currentPermissions,
+      },
+      newProfile: {
+        age,
+        firstName,
+        lastName,
+        uuid,
+        registrationDetails: {
+          registrationDate,
+        },
+        profileVerified,
+        status: {
+          changedAt,
+          changedBy,
+          comment,
+          reason,
+          type: statusType,
+        },
+        profileView: {
+          balance: {
+            amount,
+            credit,
+          },
+          lastSignInSessions,
+        },
+        tradingAccount,
+      },
     } = this.props;
 
-    const { permissions: currentPermissions } = this.context;
+    const { isRunningReloadAnimation } = this.state;
+
     const fullName = [firstName, lastName].filter(i => i).join(' ');
-    const isInactive = profileStatus === statuses.INACTIVE;
-    const {
-      baseCurrencyBalance,
-      baseCurrencyCredit,
-      baseCurrencyEquity,
-      baseCurrencyMargin,
-      lastWithdrawalDate,
-      lastDepositDate,
-      marginLevel,
-      mt4Users,
-    } = tradingProfile || {};
+    const isInactive = statusType === statuses.INACTIVE;
 
     return (
       <Fragment>
@@ -161,19 +176,15 @@ class Header extends Component {
                   {profileVerified && <i className="fa fa-check text-success" />}
                 </div>
                 <div className="panel-heading-row__info-ids">
-                  {username}
-                  {' - '}
                   {
-                    playerUUID
+                    uuid
                     && (
                       <Uuid
-                        uuid={playerUUID}
-                        uuidPrefix={playerUUID.indexOf('PLAYER') === -1 ? 'PL' : null}
+                        uuid={uuid}
+                        uuidPrefix={uuid.indexOf('PLAYER') === -1 ? 'PL' : null}
                       />
                     )
                   }
-                  {' - '}
-                  {languageCode}
                 </div>
               </div>
             </HeaderPlayerPlaceholder>
@@ -199,10 +210,14 @@ class Header extends Component {
               <button
                 type="button"
                 className="btn btn-sm btn-default-outline mx-3"
-                onClick={onRefreshClick}
+                onClick={this.onHandeReloadClick}
                 id="refresh-page-button"
               >
-                <i className={classNames('fa fa-refresh', { 'fa-spin': isLoadingProfile })} />
+                <i
+                  className={classNames(
+                    'fa fa-refresh', { 'fa-spin': isRunningReloadAnimation || isLoadingProfile },
+                  )}
+                />
               </button>
               <If condition={!isLoadingProfile}>
                 <ActionsDropDown
@@ -237,40 +252,33 @@ class Header extends Component {
         <div className="layout-quick-overview">
           <div className="header-block header-block_account">
             <PlayerStatus
-              locale={locale}
-              statusDate={profileStatusDate}
-              statusAuthor={profileStatusAuthor}
-              profileStatusComment={profileStatusComment}
-              endDate={suspendEndDate}
-              status={profileStatus}
-              reason={profileStatusReason}
+              statusDate={changedAt}
+              statusAuthor={changedBy}
+              profileStatusComment={comment}
+              status={statusType}
+              reason={reason}
               onChange={this.handleStatusChange}
               availableStatuses={availableStatuses}
             />
           </div>
           <div className="header-block header-block_balance" id="player-profile-balance-block">
-            <If condition={playerUUID}>
+            <If condition={uuid}>
               <Balances
                 balances={{
-                  baseCurrencyBalance,
-                  baseCurrencyCredit,
-                  baseCurrencyEquity,
-                  baseCurrencyMargin,
-                  currency,
-                  marginLevel,
+                  amount,
+                  credit,
                 }}
-                mt4Users={mt4Users && mt4Users.filter(account => account.accountType !== 'DEMO')}
-                lastDeposit={lastDepositDate}
-                lastWithdraw={lastWithdrawalDate}
-                playerUUID={playerUUID}
-                locale={locale}
+                tradingAccounts={tradingAccount && tradingAccount.filter(account => account.accountType !== 'DEMO')}
+                lastDeposit={null}
+                lastWithdraw={null}
+                uuid={uuid}
               />
             </If>
           </div>
           <Regulated>
-            <Questionnaire questionnaireLastData={questionnaireLastData} profileUUID={playerUUID} />
+            <Questionnaire questionnaireLastData={questionnaireLastData} profileUUID={uuid} />
           </Regulated>
-          <ProfileLastLogin lastIp={lastIp} locale={locale} />
+          <ProfileLastLogin lastIp={lastSignInSessions ? lastSignInSessions[0] : null} />
           <div className="header-block">
             <div className="header-block-title">{I18n.t('CLIENT_PROFILE.CLIENT.REGISTERED.TITLE')}</div>
             <div className="header-block-middle">
@@ -286,4 +294,4 @@ class Header extends Component {
   }
 }
 
-export default Header;
+export default withPermission(withNotifications(Header));

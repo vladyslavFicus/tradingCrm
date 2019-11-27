@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { I18n } from 'react-redux-i18n';
+import I18n from 'i18n-js';
 import { Field, reduxForm, getFormSyncErrors, getFormValues } from 'redux-form';
 import PropTypes from 'constants/propTypes';
 import { InputField } from 'components/ReduxForm';
@@ -25,12 +25,12 @@ class PhoneForm extends Component {
     valid: PropTypes.bool,
     profile: PropTypes.userProfile.isRequired,
     initialValues: PropTypes.shape({
-      phone1: PropTypes.string,
-      phone2: PropTypes.string,
+      phone: PropTypes.string,
+      additionalPhone: PropTypes.string,
     }),
     currentValues: PropTypes.shape({
-      phone1: PropTypes.string,
-      phone2: PropTypes.string,
+      phone: PropTypes.string,
+      additionalPhone: PropTypes.string,
     }),
     onVerifyPhoneClick: PropTypes.func.isRequired,
     formSyncErrors: PropTypes.object,
@@ -72,11 +72,9 @@ class PhoneForm extends Component {
 
     const { tradingOperatorAccessDisabled } = this.context;
 
-    const isPhoneDirty = currentValues.phone !== initialValues.phone
-      || currentValues.phoneCode !== initialValues.phoneCode;
-
+    const isPhoneDirty = currentValues.phone !== initialValues.phone;
     const isPhoneValid = !formSyncErrors.phone && !formSyncErrors.phoneCode;
-    const isPhoneVerifiable = isPhoneValid && (isPhoneDirty || !profile.phoneNumberVerified);
+    const isPhoneVerifiable = isPhoneValid && (isPhoneDirty || !profile.phoneVerified);
 
     return (
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -94,7 +92,7 @@ class PhoneForm extends Component {
         </div>
         <div className="form-row">
           <Field
-            name="phone1"
+            name="phone"
             type="text"
             component={InputField}
             label={attributeLabels().phone}
@@ -110,7 +108,7 @@ class PhoneForm extends Component {
               </div>
             </PermissionContent>
           </If>
-          <If condition={!isPhoneDirty && profile.phoneNumberVerified}>
+          <If condition={!isPhoneDirty && profile.phoneVerified}>
             <div className="col-4 mt-4">
               <button type="button" className="btn btn-verified">
                 <i className="fa fa-check-circle-o" /> {I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.VERIFIED')}
@@ -121,7 +119,7 @@ class PhoneForm extends Component {
         <div className="form-row">
           <Field
             type="text"
-            name="phone2"
+            name="additionalPhone"
             component={InputField}
             label={attributeLabels().AltPhone}
             placeholder={attributeLabels().AltPhoneCode}
@@ -135,14 +133,13 @@ class PhoneForm extends Component {
 
 export default compose(
   connect(state => ({
-    locale: state.i18n.locale,
     currentValues: getFormValues(FORM_NAME)(state),
     formSyncErrors: getFormSyncErrors(FORM_NAME)(state),
   })),
   reduxForm({
     form: FORM_NAME,
     validate: createValidator({
-      phone1: 'required|numeric',
+      phone: 'required|string',
     }, attributeLabels(), false),
     enableReinitialize: true,
   }),

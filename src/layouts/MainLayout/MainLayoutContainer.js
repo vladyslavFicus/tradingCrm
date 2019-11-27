@@ -1,11 +1,11 @@
-import { compose } from 'react-apollo';
+import { compose, graphql } from 'react-apollo';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import { permissionsQuery } from 'graphql/queries/auth';
+import { withPermission } from 'providers/PermissionsProvider';
 import { getAvailableLanguages } from '../../config';
 import { withModals } from '../../components/HighOrder';
 import MultiCurrencyModal from '../../components/ReduxForm/MultiCurrencyModal';
-import { actionCreators as authActionCreators } from '../../redux/modules/auth';
-import { actionCreators as languageActionCreators } from '../../redux/modules/language';
 import { actionCreators as noteActionCreators } from '../../redux/modules/note';
 import { actionCreators as userPanelsActionCreators } from '../../redux/modules/user-panels';
 import { actionCreators as appActionCreators } from '../../redux/modules/app';
@@ -16,8 +16,6 @@ const mapStateToProps = (state) => {
     userPanels,
     auth,
     app,
-    permissions: { data: permissions },
-    i18n: { locale },
     settings,
   } = state;
   const userPanelsByManager = userPanels.items.filter(userTab => (
@@ -32,18 +30,15 @@ const mapStateToProps = (state) => {
     app,
     settings,
     user: auth,
-    permissions,
     userPanels: userPanels.items,
     userPanelsByManager,
     activeUserPanel: activeUserPanel || null,
     activePanelIndex: userPanels.activeIndex,
-    locale,
     languages: getAvailableLanguages(),
   };
 };
 
 const mapActionCreators = {
-  changeDepartment: authActionCreators.changeDepartment,
   addPanel: userPanelsActionCreators.add,
   removePanel: userPanelsActionCreators.remove,
   resetPanels: userPanelsActionCreators.reset,
@@ -52,15 +47,16 @@ const mapActionCreators = {
   addNote: noteActionCreators.addNote,
   editNote: noteActionCreators.editNote,
   deleteNote: noteActionCreators.deleteNote,
-  onLocaleChange: languageActionCreators.setLocale,
   toggleMenuTab: appActionCreators.toggleMenuTab,
   menuItemClick: appActionCreators.menuItemClick,
   initSidebar: appActionCreators.initSidebar,
-  updateOperatorProfile: authActionCreators.updateProfile,
 };
 
 export default compose(
   connect(mapStateToProps, mapActionCreators),
   withModals({ multiCurrencyModal: MultiCurrencyModal }),
   withRouter,
-)(MainLayout);
+  graphql(permissionsQuery, {
+    name: 'getPermissions',
+  }),
+)(withPermission(MainLayout));

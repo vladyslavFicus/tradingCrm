@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { isEqual } from 'lodash';
-import { I18n } from 'react-redux-i18n';
+import I18n from 'i18n-js';
 import { getUsersByBranch } from 'graphql/queries/hierarchy';
 import PropTypes from 'constants/propTypes';
 import { filterSetTypes } from 'constants/filterSet';
@@ -11,7 +11,6 @@ class UserGridFilter extends Component {
   static propTypes = {
     onReset: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
-    countries: PropTypes.object.isRequired,
     teams: PropTypes.arrayOf(PropTypes.hierarchyBranch).isRequired,
     desks: PropTypes.arrayOf(PropTypes.hierarchyBranch).isRequired,
     branchesLoading: PropTypes.bool.isRequired,
@@ -45,7 +44,7 @@ class UserGridFilter extends Component {
     const { client, operators, notify } = this.props;
     let desksTeamsOperators = [];
 
-    formChange(fieldNames.repIds, null);
+    formChange(fieldNames.operators, null);
     this.setState({ branchOperatorsLoading: true });
 
     const { data: { hierarchy: { usersByBranch: { data, error } } } } = await client.query({
@@ -99,13 +98,13 @@ class UserGridFilter extends Component {
         this.filterOperators(value, formChange);
         break;
       }
-      case (fieldName === fieldNames.team
+      case (fieldName === fieldNames.teams
         && this.isValueInForm(formValues, fieldNames.desk)
       ): {
         this.filterOperators(formValues[fieldNames.desk], formChange);
         break;
       }
-      case (fieldName === fieldNames.desk
+      case (fieldName === fieldNames.desks
         && this.isValueInForm(formValues, fieldNames.team)
       ): {
         this.filterOperators(formValues[fieldNames.team], formChange);
@@ -130,7 +129,6 @@ class UserGridFilter extends Component {
     const {
       desks,
       onSubmit,
-      countries,
       operators,
       initialValues,
       branchesLoading,
@@ -147,7 +145,6 @@ class UserGridFilter extends Component {
         onReset={this.handleResetForm}
         filterSetType={filterSetTypes.CLIENT}
         fields={filterFields(
-          countries,
           desks,
           teams,
           branchesLoading,

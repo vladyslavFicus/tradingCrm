@@ -8,8 +8,7 @@ const ContactForm = ({
   disabled,
   profile,
   contactData,
-  onSubmitPhone,
-  onSubmitEmail,
+  onSubmit,
   onVerifyPhoneClick,
   onVerifyEmailClick,
 }) => (
@@ -17,37 +16,36 @@ const ContactForm = ({
     <PhoneForm
       disabled={disabled}
       profile={profile}
-      onSubmit={onSubmitPhone}
+      onSubmit={onSubmit}
       onVerifyPhoneClick={onVerifyPhoneClick}
       initialValues={{
-        phone1: contactData.phone1,
-        phone2: contactData.phone2,
+        phone: contactData.phone,
+        additionalPhone: contactData.additionalPhone,
       }}
     />
     <EmailForm
       disabled={disabled}
-      profileStatus={profile.profileStatus}
-      onSubmit={onSubmitEmail}
+      emailVerified={profile.emailVerified}
+      onSubmit={onSubmit}
       onVerifyEmailClick={onVerifyEmailClick}
       initialValues={{
         email: contactData.email,
-        email2: contactData.email2,
+        additionalEmail: contactData.additionalEmail,
       }}
     />
     <SkypeForm
       disabled={disabled}
-      onSubmit={onSubmitEmail}
+      onSubmit={onSubmit}
     />
   </Fragment>
 );
 
 ContactForm.propTypes = {
-  onSubmitPhone: PropTypes.func.isRequired,
-  onSubmitEmail: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
   profile: PropTypes.userProfile.isRequired,
   contactData: PropTypes.shape({
-    phone1: PropTypes.string,
-    phone2: PropTypes.string,
+    phone: PropTypes.string,
+    additionalPhone: PropTypes.string,
     email: PropTypes.string,
   }),
   onVerifyPhoneClick: PropTypes.func.isRequired,

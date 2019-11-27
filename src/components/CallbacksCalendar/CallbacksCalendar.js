@@ -30,7 +30,6 @@ class CallbacksCalendar extends PureComponent {
 
   constructor(props) {
     super(props);
-
     props.componentRef(this);
   }
 

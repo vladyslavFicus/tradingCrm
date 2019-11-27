@@ -1,11 +1,9 @@
 import { combineReducers } from 'redux';
 import { reducer as formReducer } from 'redux-form';
-import { i18nReducer } from 'react-redux-i18n';
 import auth from '../redux/modules/auth';
 import authorities from '../redux/modules/auth/authorities';
 import permissions from '../redux/modules/auth/permissions';
 import userPanels from '../redux/modules/user-panels';
-import language from '../redux/modules/language';
 import app from '../redux/modules/app';
 import settings from '../redux/modules/settings';
 import options from '../redux/modules/profile/options';
@@ -18,14 +16,12 @@ export const makeRootReducer = asyncReducers => combineReducers({
   authorities,
   permissions,
   userPanels,
-  language,
   app,
   settings,
   options,
   notifications,
   modal,
   form: formReducer,
-  i18n: i18nReducer,
   dynamicFilters,
   ...asyncReducers,
 });

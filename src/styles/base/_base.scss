@@ -1,0 +1,40 @@
+html,
+body {
+  font-size: 14px;
+  height: 100%;
+  min-width: 1366px;
+  width: 100%;
+}
+
+body {
+  background-color: #f2f2f2;
+  color: #333;
+  font-family: $font-open-sans;
+  font-weight: 400;
+  overflow-x: auto;
+  position: relative;
+  -webkit-font-smoothing: antialiased;
+  -webkit-text-size-adjust: 100%;
+  -moz-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none;
+
+  & > div {
+    position: initial;
+  }
+}
+
+a, i {
+  position: relative;
+}
+
+img {
+  // @include full-size;
+  // object-fit: cover;
+  // display: block;
+}

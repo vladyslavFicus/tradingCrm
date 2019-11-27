@@ -1,19 +1,17 @@
 import React, { Component, Fragment } from 'react';
 import moment from 'moment';
 import classNames from 'classnames';
-import { I18n } from 'react-redux-i18n';
+import I18n from 'i18n-js';
 import { get, omit } from 'lodash';
 import { TextRow } from 'react-placeholder/lib/placeholders';
 import history from 'router/history';
 import PropTypes from 'constants/propTypes';
 import { deskTypes, userTypes } from 'constants/hierarchyTypes';
-import { types as miniProfileTypes } from 'constants/miniProfile';
 import GridView, { GridViewColumn } from 'components/GridView';
 import Placeholder from 'components/Placeholder';
 import { salesStatuses, salesStatusesColor } from 'constants/salesStatuses';
 import { UncontrolledTooltip } from 'components/Reactstrap/Uncontrolled';
 import Uuid from 'components/Uuid';
-import MiniProfile from 'components/MiniProfile';
 import CountryLabelWithFlag from 'components/CountryLabelWithFlag';
 import GridStatusDeskTeam from 'components/GridStatusDeskTeam';
 import GridStatus from 'components/GridStatus';
@@ -29,7 +27,6 @@ const MAX_SELECTED_ROWS = 10000;
 class List extends Component {
   static propTypes = {
     notify: PropTypes.func.isRequired,
-    locale: PropTypes.string.isRequired,
     leads: PropTypes.shape({
       leads: PropTypes.shape({
         data: PropTypes.pageable(PropTypes.lead),
@@ -56,12 +53,6 @@ class List extends Component {
       leads: {},
       loading: false,
     },
-  };
-
-  static contextTypes = {
-    miniProfile: PropTypes.shape({
-      onShowMiniProfile: PropTypes.func.isRequired,
-    }),
   };
 
   static childContextTypes = {
@@ -258,22 +249,20 @@ class List extends Component {
     });
   };
 
-  renderLead = data => (
-    <div id={data.uuid}>
-      <div className="font-weight-700">
-        {data.name} {data.surname}
+  renderLead = (data) => {
+    const { uuid, name, surname } = data;
+
+    return (
+      <div id={uuid}>
+        <div className="font-weight-700">
+          {name} {surname}
+        </div>
+        <div className="font-size-11">
+          <Uuid uuid={uuid} uuidPrefix="LE" />
+        </div>
       </div>
-      <div className="font-size-11">
-        <MiniProfile
-          target={data.uuid}
-          dataSource={data}
-          type={miniProfileTypes.LEAD}
-        >
-          <Uuid uuid={data.uuid} uuidPrefix="LE" />
-        </MiniProfile>
-      </div>
-    </div>
-  );
+    );
+  };
 
   renderCountry = ({ country, language }) => (
     <Choose>
@@ -296,7 +285,7 @@ class List extends Component {
     return (
       <GridStatus
         colorClassName={className}
-        statusLabel={renderLabel(salesStatus, salesStatuses)}
+        statusLabel={I18n.t(renderLabel(salesStatus, salesStatuses))}
         info={(
           <If condition={salesAgent}>
             <GridStatusDeskTeam
@@ -361,7 +350,6 @@ class List extends Component {
 
   render() {
     const {
-      locale,
       leads: {
         loading,
         leads,
@@ -456,6 +444,7 @@ class List extends Component {
           onReset={this.handleFilterReset}
           disabled={!allowActions}
           setDesksTeamsOperators={this.setDesksTeamsOperators}
+          isFetchingProfileData={loading}
         />
         <div className="card-body card-grid-multiselect">
           <GridView
@@ -471,7 +460,6 @@ class List extends Component {
             touchedRowsIds={touchedRowsIds}
             onAllRowsSelect={this.handleAllRowsSelect}
             onRowSelect={this.handleSelectRow}
-            locale={locale}
             showNoResults={entities.content.length === 0}
             onRowClick={this.handleLeadClick}
           >

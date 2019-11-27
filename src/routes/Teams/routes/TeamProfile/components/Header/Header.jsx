@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { I18n } from 'react-redux-i18n';
+import I18n from 'i18n-js';
 import PropTypes from '../../../../../../constants/propTypes';
 import Uuid from '../../../../../../components/Uuid';
 import ProfileHeaderPlaceholder from '../../../../../../components/ProfileHeaderPlaceholder';

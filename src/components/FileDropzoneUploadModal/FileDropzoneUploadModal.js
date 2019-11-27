@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { I18n } from 'react-redux-i18n';
+import I18n from 'i18n-js';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import PropTypes from 'prop-types';
 import FileDropzoneUpload from '../FileDropzoneUpload';

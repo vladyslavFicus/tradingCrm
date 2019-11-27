@@ -53,6 +53,10 @@ function getActiveBrandConfig() {
   return _.get(window, 'app.brand');
 }
 
+function getBrand() {
+  return _.get(window, 'app.brand');
+}
+
 function getBrandId() {
   return _.get(window, 'app.brandId');
 }
@@ -92,21 +96,11 @@ function getDomain() {
   return '';
 }
 
-// ============= Backoffice multi-brand configuration ============= //
+function getBackofficeBrand() {
+  return config.backofficeBrand;
+}
 
-/**
- * Get backoffice brand from config
- *
- * @return {*}
- */
-const getBackofficeBrand = () => config.backofficeBrand;
-
-/**
- * Set backoffice brand to config
- *
- * @param brandId
- */
-const setBackofficeBrand = (brandId) => {
+function setBackofficeBrand(brandId) {
   config.backofficeBrand = config.backofficeBrands[brandId];
 
   // Set brand id to configuration for future usage
@@ -118,10 +112,11 @@ const setBackofficeBrand = (brandId) => {
   if (typeof _.get(config.backofficeBrand, 'importStyle') === 'function') {
     config.backofficeBrand.importStyle();
   }
-};
+}
 
 export {
   getApiRoot,
+  getBrand,
   getBrandId,
   setBrandId,
   getEnvironment,
@@ -134,8 +129,6 @@ export {
   getGraphQLRoot,
   getPaymentReason,
   getClickToCall,
-
-  // ==== Backoffice configuration ==== //
   getBackofficeBrand,
   setBackofficeBrand,
 };

@@ -1,16 +1,15 @@
-import { connect } from 'react-redux';
 import { graphql, compose, withApollo } from 'react-apollo';
 import { get } from 'lodash';
+import { withStorage } from 'providers/StorageProvider';
 import { withNotifications } from 'components/HighOrder';
 import { getUserBranchHierarchy } from 'graphql/queries/hierarchy';
-import countries from 'utils/countryList';
 import { operatorsQuery } from 'graphql/queries/operators';
 import UsersGridFilter from './UsersGridFilter';
 
 export default compose(
   withApollo,
   withNotifications,
-  connect(({ auth: { uuid } }) => ({ countries, auth: { uuid } })),
+  withStorage(['auth']),
   graphql(operatorsQuery, {
     name: 'operators',
     options: () => ({

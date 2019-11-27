@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import { reduxForm, Field } from 'redux-form';
-import { I18n } from 'react-redux-i18n';
+import I18n from 'i18n-js';
 import { InputField, SelectField, DateRangePicker } from '../../../../../components/ReduxForm';
 import { createValidator, translateLabels } from '../../../../../utils/validator';
 import { attributeLabels } from '../constants';

@@ -6,12 +6,6 @@ import files, {
   initialState as filesInitialState,
 } from './files';
 
-import profile, {
-  actionCreators as profileActionCreators,
-  actionTypes as profileActionTypes,
-  initialState as profileInitialState,
-} from './profile';
-
 import uploading, {
   initialState as uploadingInitialState,
   actionTypes as uploadingActionTypes,
@@ -19,18 +13,15 @@ import uploading, {
 } from './uploading';
 
 const actionCreators = {
-  ...profileActionCreators,
   ...uploadingActionCreators,
   ...filesActionCreators,
 };
 const actionTypes = {
-  ...profileActionTypes,
   ...uploadingActionTypes,
   ...filesActionTypes,
 };
 const initialState = {
   files: filesInitialState,
-  profile: profileInitialState,
   uploading: uploadingInitialState,
 };
 
@@ -41,6 +32,5 @@ export {
 };
 export default combineReducers({
   files,
-  profile,
   uploading,
 });

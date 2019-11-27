@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { compose } from 'redux';
 import { reduxForm, Field } from 'redux-form';
 import { ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import { I18n } from 'react-redux-i18n';
+import I18n from 'i18n-js';
 import { get } from 'lodash';
 import { withNotifications } from '../HighOrder';
 import { createValidator, translateLabels } from '../../utils/validator';

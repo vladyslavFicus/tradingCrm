@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { get } from 'lodash';
-import { I18n } from 'react-redux-i18n';
+import I18n from 'i18n-js';
 import PropTypes from 'constants/propTypes';
 import GridView, { GridViewColumn } from 'components/GridView';
 import TabHeader from 'components/TabHeader';
@@ -10,7 +10,6 @@ import { columns } from '../constants';
 
 class TradingActivity extends Component {
   static propTypes = {
-    locale: PropTypes.string.isRequired,
     playerProfile: PropTypes.shape({
       playerProfile: PropTypes.object,
     }),
@@ -88,7 +87,6 @@ class TradingActivity extends Component {
 
   render() {
     const {
-      locale,
       tradingActivity,
       tradingActivity: { loading, variables },
       playerProfile,
@@ -118,11 +116,10 @@ class TradingActivity extends Component {
             dataSource={clientTradingActivity.content}
             onPageChange={this.handlePageChanged}
             last={clientTradingActivity.last}
-            locale={locale}
             showNoResults={error || (!loading && clientTradingActivity.totalElements === 0)}
             lazyLoad
           >
-            {columns(I18n, this.showChangeOriginalAgentModal).map(({ name, header, render }) => (
+            {columns(this.showChangeOriginalAgentModal).map(({ name, header, render }) => (
               <GridViewColumn
                 key={name}
                 name={name}

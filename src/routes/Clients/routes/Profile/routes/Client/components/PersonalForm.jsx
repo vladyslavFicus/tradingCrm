@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
-import { I18n } from 'react-redux-i18n';
+import I18n from 'i18n-js';
 import { get } from 'lodash';
 import moment from 'moment';
 import PropTypes from 'constants/propTypes';
@@ -22,7 +22,7 @@ const genders = () => ({
 const attributeLabels = () => ({
   firstName: I18n.t('PLAYER_PROFILE.PROFILE.PERSONAL.LABEL.FIRST_NAME'),
   lastName: I18n.t('PLAYER_PROFILE.PROFILE.PERSONAL.LABEL.LAST_NAME'),
-  languageCode: I18n.t('PLAYER_PROFILE.PROFILE.PERSONAL.LABEL.LANGUAGE'),
+  language: I18n.t('PLAYER_PROFILE.PROFILE.PERSONAL.LABEL.LANGUAGE'),
   birthDate: I18n.t('PLAYER_PROFILE.PROFILE.PERSONAL.LABEL.DATE_OF_BIRTH'),
   gender: I18n.t('PLAYER_PROFILE.PROFILE.PERSONAL.LABEL.GENDER'),
   passportNumber: I18n.t('PLAYER_PROFILE.PROFILE.PERSONAL.LABEL.PASSPORT_NUMBER'),
@@ -81,7 +81,7 @@ class PersonalForm extends Component {
           <div className="col personal-form-heading">
             {I18n.t('PLAYER_PROFILE.PROFILE.PERSONAL.TITLE')}
           </div>
-          <PermissionContent permissions={permissions.USER_PROFILE.UPDATE_PROFILE}>
+          <PermissionContent permissions={permissions.USER_PROFILE.UPDATE_PERSONAL_INFORMATION}>
             <div className="col-auto">
               <If condition={!pristine && !submitting && valid && !disabled}>
                 <button className="btn btn-sm btn-primary" type="submit" id="profile-personal-info-save-btn">
@@ -113,8 +113,8 @@ class PersonalForm extends Component {
         </div>
         <div className="row">
           <Field
-            name="languageCode"
-            label={attributeLabels().languageCode}
+            name="language"
+            label={attributeLabels().language}
             type="text"
             className="col-lg-4"
             component={NasSelectField}
@@ -157,7 +157,7 @@ class PersonalForm extends Component {
         </div>
         <div className="row">
           <Field
-            name="passportNumber"
+            name="passport.number"
             label={attributeLabels().passportNumber}
             type="text"
             component={InputField}
@@ -165,7 +165,7 @@ class PersonalForm extends Component {
             className="col-lg-6"
           />
           <Field
-            name="expirationDate"
+            name="passport.expirationDate"
             type="text"
             label={attributeLabels().expirationDate}
             component={DateTimeField}
@@ -177,9 +177,9 @@ class PersonalForm extends Component {
         </div>
         <div className="row">
           <Field
-            name="countryOfIssue"
+            name="passport.countryOfIssue"
             type="text"
-            label={I18n.t(attributeLabels().countryOfIssue)}
+            label={attributeLabels().countryOfIssue}
             component={NasSelectField}
             disabled={disabled}
             placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
@@ -192,7 +192,7 @@ class PersonalForm extends Component {
             ))}
           </Field>
           <Field
-            name="passportIssueDate"
+            name="passport.issueDate"
             type="text"
             label={attributeLabels().passportIssueDate}
             component={DateTimeField}
@@ -204,7 +204,7 @@ class PersonalForm extends Component {
         </div>
         <div className="row">
           <Field
-            name="countrySpecificIdentifier"
+            name="passport.countrySpecificIdentifier"
             type="text"
             label={attributeLabels().countrySpecificIdentifier}
             component={InputField}
@@ -212,9 +212,9 @@ class PersonalForm extends Component {
             className="col-lg-3"
           />
           <Field
-            name="countrySpecificIdentifierType"
+            name="passport.countrySpecificIdentifierType"
             type="text"
-            label={I18n.t(attributeLabels().countrySpecificIdentifierType)}
+            label={attributeLabels().countrySpecificIdentifierType}
             component={NasSelectField}
             disabled={disabled}
             className="col-lg-4"

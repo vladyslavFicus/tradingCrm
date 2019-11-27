@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { get } from 'lodash';
-import { I18n } from 'react-redux-i18n';
+import I18n from 'i18n-js';
 import { Link } from 'react-router-dom';
 import CallbacksCalendarComponent from '../../../../../../components/CallbacksCalendar';
 import Placeholder from '../../../../../../components/Placeholder';

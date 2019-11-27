@@ -1,6 +1,6 @@
 import React from 'react';
 import Dropzone from 'react-dropzone';
-import { I18n } from 'react-redux-i18n';
+import I18n from 'i18n-js';
 import classNames from 'classnames';
 import './FileDropzoneUpload.scss';
 

@@ -1,18 +1,18 @@
 import React from 'react';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import { I18n } from 'react-redux-i18n';
+import I18n from 'i18n-js';
 import PropTypes from '../../../constants/propTypes';
 import { shortify } from '../../../utils/uuid';
 
-const DeleteModal = ({ playerProfile, file, onSuccess, onClose }) => {
+const DeleteModal = ({ newProfile, file, onSuccess, onClose }) => {
   const {
     data: {
       firstName,
       lastName,
       username,
-      playerUUID,
+      uuid,
     },
-  } = playerProfile;
+  } = newProfile;
 
   const player = firstName || lastName ? [firstName, lastName].join(' ') : username;
 
@@ -28,7 +28,7 @@ const DeleteModal = ({ playerProfile, file, onSuccess, onClose }) => {
             __html: I18n.t('FILES.DELETE_MODAL.ACTION_TEXT', {
               fileName: file.name,
               player,
-              shortUUID: `<span class="font-weight-100">${shortify(playerUUID)}</span>`,
+              shortUUID: `<span class="font-weight-100">${shortify(uuid)}</span>`,
             }),
           }}
         />
@@ -47,7 +47,7 @@ const DeleteModal = ({ playerProfile, file, onSuccess, onClose }) => {
 };
 
 DeleteModal.propTypes = {
-  playerProfile: PropTypes.object.isRequired,
+  newProfile: PropTypes.object.isRequired,
   file: PropTypes.fileEntity.isRequired,
   onSuccess: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,

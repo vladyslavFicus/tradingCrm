@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { findDOMNode } from 'react-dom';
 import classNames from 'classnames';
-import { I18n } from 'react-redux-i18n';
+import I18n from 'i18n-js';
 import TimelineLite from 'gsap/TimelineLite';
 import history from 'router/history';
 import SubNav from '../SubNav';

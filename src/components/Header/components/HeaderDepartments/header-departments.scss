@@ -1,0 +1,89 @@
+.header-departments {
+  display: inline-block;
+
+  &__list {
+    border: none;
+    border-radius: 0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    padding: 4px 0;
+    top: 100% !important;
+    min-width: 100%;
+    width: auto;
+  }
+}
+
+.header-department {
+  padding: 9px 25px;
+
+  &:hover:not(.header-department--current) &__title {
+    color: #000;
+  }
+
+  &__title,
+  &__role {
+    font-weight: 600;
+    line-height: 1em;;
+  }
+
+  &__title {
+    color: #666;
+    font-size: 14px;
+    transition: color 0.2s ease;
+  }
+
+  &__role {
+    color: #999;
+    font-size: 12px;
+    margin-top: 3px;
+  }
+
+  &__caret {
+    color: #fff;
+    font-weight: 300;
+    opacity: 0.5;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    position: absolute;
+    top: 19px;
+    right: 4px;
+  }
+}
+
+// # Modifiers
+.header-department {
+  &--current {
+    & .header-department {
+      &__title {
+        color: #fff;
+        font-size: 15px;
+      }
+    }
+  }
+
+  &--with-arrow {
+    cursor: pointer;
+
+    &:hover {
+      & .header-department {
+        &__caret {
+          opacity: 1;
+        }
+
+        &__title {
+          color: #fff;
+        }
+      }
+    }
+  }
+}
+
+// # States
+.header-department {
+  &.is-open {
+    .header-department {
+      &__caret {
+        opacity: 1;
+        transform: rotate(180deg);
+      }
+    }
+  }
+}

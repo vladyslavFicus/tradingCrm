@@ -1,12 +1,9 @@
-import { connect } from 'react-redux';
-import { actionCreators } from '../modules';
-import { actionCreators as authActionCreators } from '../../../redux/modules/auth';
-import View from '../../../components/SetPassword/View';
+import { graphql, compose } from 'react-apollo';
+import { resetPasswordMutation } from 'graphql/mutations/auth';
+import ResetPassword from '../components/ResetPassword';
 
-export default connect(
-  state => ({ logged: state.auth.logged, title: 'Password reset' }),
-  {
-    onSubmit: actionCreators.resetPasswordConfirm,
-    logout: authActionCreators.logout,
-  },
-)(View);
+export default compose(
+  graphql(resetPasswordMutation, {
+    name: 'resetPasswordMutation',
+  }),
+)(ResetPassword);

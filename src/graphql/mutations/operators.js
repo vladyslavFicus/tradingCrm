@@ -156,16 +156,59 @@ const addExistingOperator = gql`mutation addExistingOperator(
         uuid
       }
       error {
-        error
+        error,
         fields_errors
       }
     }
   }
 }`;
 
-const changePassword = gql`mutation changePassword($playerUUID: String!, $password: String!) {
+const changePassword = gql`mutation changePassword(
+  $playerUUID: String!,
+  $password: String!
+) {
   profile {
     changePassword(playerUUID: $playerUUID, password: $password) {
+      success
+    }
+  }
+}`;
+
+const changeStatus = gql`mutation changeStatus(
+  $uuid: String!,
+  $reason: String!,
+  $status: String!
+) {
+  operator {
+    changeStatus(
+      uuid: $uuid,
+      reason: $reason,
+      status: $status
+    ) {
+      success
+    }
+  }
+}`;
+
+const passwordResetRequest = gql`mutation passwordResetRequest(
+  $brand: String!,
+  $uuid: String!
+) {
+  profile {
+    passwordResetRequest(
+      playerUUID: $uuid,
+      brandId: $brand
+    ) {
+      success
+    }
+  }
+}`;
+
+const sendInvitation = gql`mutation sendInvitation(
+  $uuid: String!
+) {
+  operator {
+    sendInvitation(uuid: $uuid) {
       success
     }
   }
@@ -178,4 +221,7 @@ export {
   updateOperator,
   addExistingOperator,
   changePassword,
+  passwordResetRequest,
+  sendInvitation,
+  changeStatus,
 };

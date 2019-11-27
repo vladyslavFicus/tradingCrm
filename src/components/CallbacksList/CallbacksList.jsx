@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import moment from 'moment';
 import classNames from 'classnames';
-import { I18n } from 'react-redux-i18n';
+import I18n from 'i18n-js';
 import { get } from 'lodash';
 import PropTypes from 'constants/propTypes';
 import { targetTypes } from 'constants/note';
@@ -16,10 +16,6 @@ class CallbacksList extends Component {
     callbacks: PropTypes.object.isRequired,
     modals: PropTypes.shape({
       callbackDetails: PropTypes.modalType,
-    }).isRequired,
-    auth: PropTypes.shape({
-      brandId: PropTypes.string,
-      uuid: PropTypes.string,
     }).isRequired,
     withoutClientColumn: PropTypes.bool,
   };
@@ -109,7 +105,7 @@ class CallbacksList extends Component {
   renderActions = ({ callbackId, userId, note }) => (
     <NoteButton
       key={callbackId}
-      targetType={targetTypes.CALLBACK}
+      noteTargetType={targetTypes.CALLBACK}
       targetUUID={callbackId}
       playerUUID={userId}
       note={note}

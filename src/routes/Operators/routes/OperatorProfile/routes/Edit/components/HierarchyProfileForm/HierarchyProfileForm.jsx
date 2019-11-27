@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { I18n } from 'react-redux-i18n';
+import I18n from 'i18n-js';
 import { Field } from 'redux-form';
 import { omit } from 'lodash';
 import PropTypes from 'constants/propTypes';

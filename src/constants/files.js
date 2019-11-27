@@ -1,5 +1,4 @@
 import keyMirror from 'keymirror';
-import I18n from 'utils/fake-i18n';
 
 const actions = keyMirror({
   VERIFY: null,
@@ -14,10 +13,10 @@ const categories = keyMirror({
 });
 
 const categoriesLabels = {
-  [categories.PAYMENT_ACCOUNT]: I18n.t('FILES.CATEGORIES.KYC_PAYMENT_ACCOUNT'),
-  [categories.KYC_PERSONAL]: I18n.t('FILES.CATEGORIES.KYC_PERSONAL'),
-  [categories.KYC_ADDRESS]: I18n.t('FILES.CATEGORIES.KYC_ADDRESS'),
-  [categories.OTHER]: I18n.t('FILES.CATEGORIES.KYC_OTHER'),
+  [categories.PAYMENT_ACCOUNT]: 'FILES.CATEGORIES.KYC_PAYMENT_ACCOUNT',
+  [categories.KYC_PERSONAL]: 'FILES.CATEGORIES.KYC_PERSONAL',
+  [categories.KYC_ADDRESS]: 'FILES.CATEGORIES.KYC_ADDRESS',
+  [categories.OTHER]: 'FILES.CATEGORIES.KYC_OTHER',
 };
 
 const statuses = keyMirror({
@@ -31,13 +30,13 @@ const statuses = keyMirror({
 });
 
 const statusesLabels = {
-  [statuses.NEW]: I18n.t('FILES.STATUSES.NEW'),
-  [statuses.APPROVED]: I18n.t('FILES.STATUSES.APPROVED'),
-  [statuses.REJECTED]: I18n.t('FILES.STATUSES.REJECTED'),
-  [statuses.NOT_VERIFIED]: I18n.t('FILES.STATUSES.NOT_VERIFIED'),
-  [statuses.NOT_VERIFIED_APPROVED]: I18n.t('FILES.STATUSES.NOT_VERIFIED_APPROVED'),
-  [statuses.DELETED]: I18n.t('FILES.STATUSES.DELETED'),
-  [statuses.OTHER]: I18n.t('FILES.STATUSES.OTHER'),
+  [statuses.NEW]: 'FILES.STATUSES.NEW',
+  [statuses.APPROVED]: 'FILES.STATUSES.APPROVED',
+  [statuses.REJECTED]: 'FILES.STATUSES.REJECTED',
+  [statuses.NOT_VERIFIED]: 'FILES.STATUSES.NOT_VERIFIED',
+  [statuses.NOT_VERIFIED_APPROVED]: 'FILES.STATUSES.NOT_VERIFIED_APPROVED',
+  [statuses.DELETED]: 'FILES.STATUSES.DELETED',
+  [statuses.OTHER]: 'FILES.STATUSES.OTHER',
 };
 
 export {

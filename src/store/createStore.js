@@ -2,7 +2,6 @@ import { applyMiddleware, compose, createStore } from 'redux';
 import { apiMiddleware } from 'redux-api-middleware';
 import thunk from 'redux-thunk';
 import { persistStore, autoRehydrate } from 'redux-persist';
-import { loadTranslations, syncTranslationWithStore } from 'react-redux-i18n';
 import crosstabSync from 'redux-persist-crosstab';
 import * as Sentry from '@sentry/browser';
 import reducers from './reducers';
@@ -13,11 +12,8 @@ import apiErrors from '../redux/middlewares/apiErrors';
 import apiVersion from '../redux/middlewares/apiVersion';
 import requestTime from '../redux/middlewares/requestTime';
 import catcher from '../redux/middlewares/catcher';
-import { actionCreators as languageActionCreators } from '../redux/modules/language';
 import unauthorized from '../redux/middlewares/unauthorized';
-import windowMiddleware from '../redux/middlewares/window';
 import config from '../config';
-import translations from '../i18n';
 import { actionCreators as permissionsActionCreators } from '../redux/modules/auth/permissions';
 import { actionCreators as userPanelsActionCreators } from '../redux/modules/user-panels';
 import history from '../router/history';
@@ -36,10 +32,6 @@ export default (initialState = {}, onComplete) => {
     apiMiddleware,
     unauthorized(config.middlewares.unauthorized),
   );
-
-  if (window.isFrame) {
-    middleware.push(windowMiddleware);
-  }
 
   middleware.push(
     authMiddleware,
@@ -94,11 +86,6 @@ export default (initialState = {}, onComplete) => {
 
   const persist = persistStore(store, config.middlewares.persist, async () => {
     const { auth: { logged, token } } = store.getState();
-    let { language } = store.getState();
-
-    if (!language) {
-      language = 'en';
-    }
 
     if (logged && token) {
       await store.dispatch(permissionsActionCreators.fetchPermissions(token));
@@ -111,10 +98,6 @@ export default (initialState = {}, onComplete) => {
         }
       });
     }
-
-    syncTranslationWithStore(store);
-    store.dispatch(loadTranslations(translations));
-    store.dispatch(languageActionCreators.setLocale(language));
 
     onComplete(store);
   });

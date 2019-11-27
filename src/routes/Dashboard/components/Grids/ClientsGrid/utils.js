@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import React, { Fragment } from 'react';
-import { I18n } from 'react-redux-i18n';
+import I18n from 'i18n-js';
 import moment from 'moment';
 import { get } from 'lodash';
 import { getActiveBrandConfig } from 'config';
@@ -9,23 +9,21 @@ import GridStatusDeskTeam from 'components/GridStatusDeskTeam';
 import {
   statusColorNames as userStatusColorNames,
   statusesLabels as userStatusesLabels,
-} from '../../../../../constants/user';
-import { salesStatuses, salesStatusesColor } from '../../../../../constants/salesStatuses';
-import { retentionStatuses, retentionStatusesColor } from '../../../../../constants/retentionStatuses';
-import GridPlayerInfo from '../../../../../components/GridPlayerInfo';
-import CountryLabelWithFlag from '../../../../../components/CountryLabelWithFlag';
-import GridEmptyValue from '../../../../../components/GridEmptyValue';
-import GridStatus from '../../../../../components/GridStatus';
-import renderLabel from '../../../../../utils/renderLabel';
+} from 'constants/user';
+import { salesStatuses, salesStatusesColor } from 'constants/salesStatuses';
+import { retentionStatuses, retentionStatusesColor } from 'constants/retentionStatuses';
+import GridPlayerInfo from 'components/GridPlayerInfo';
+import CountryLabelWithFlag from 'components/CountryLabelWithFlag';
+import GridEmptyValue from 'components/GridEmptyValue';
+import GridStatus from 'components/GridStatus';
+import renderLabel from 'utils/renderLabel';
 
-export default ({ auth, fetchPlayerMiniProfile }) => [{
+export default () => [{
   name: 'client',
   header: I18n.t('CLIENTS.LIST.GRID_HEADER.CLIENT'),
   render: data => (
     <GridPlayerInfo
-      fetchPlayerProfile={fetchPlayerMiniProfile}
       profile={data}
-      auth={auth}
     />
   ),
 }, {
@@ -123,7 +121,7 @@ export default ({ auth, fetchPlayerMiniProfile }) => [{
           <GridStatus
             wrapperClassName={aquisitionStatus === 'SALES' ? `border-${colorClassName}` : ''}
             colorClassName={colorClassName}
-            statusLabel={renderLabel(salesStatus, salesStatuses)}
+            statusLabel={I18n.t(renderLabel(salesStatus, salesStatuses))}
             info={(
               <If condition={salesRep}>
                 <GridStatusDeskTeam
@@ -157,7 +155,7 @@ export default ({ auth, fetchPlayerMiniProfile }) => [{
           <GridStatus
             wrapperClassName={aquisitionStatus === 'RETENTION' ? `border-${colorClassName}` : ''}
             colorClassName={colorClassName}
-            statusLabel={renderLabel(retentionStatus, retentionStatuses)}
+            statusLabel={I18n.t(renderLabel(retentionStatus, retentionStatuses))}
             info={(
               <If condition={retentionRep}>
                 <GridStatusDeskTeam
@@ -191,7 +189,7 @@ export default ({ auth, fetchPlayerMiniProfile }) => [{
   render: ({ profileStatus, profileStatusDate }) => (
     <GridStatus
       colorClassName={userStatusColorNames[profileStatus]}
-      statusLabel={renderLabel(profileStatus, userStatusesLabels)}
+      statusLabel={I18n.t(renderLabel(profileStatus, userStatusesLabels))}
       info={profileStatusDate}
       infoLabel={date => I18n.t('COMMON.SINCE', { date: moment.utc(date).local().format('DD.MM.YYYY HH:mm') })}
     />

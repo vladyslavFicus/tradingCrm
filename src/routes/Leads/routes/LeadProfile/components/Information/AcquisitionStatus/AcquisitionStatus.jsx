@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { I18n } from 'react-redux-i18n';
+import I18n from 'i18n-js';
 import classNames from 'classnames';
 import Permissions from 'utils/permissions';
 import permissions from 'config/permissions';
+import { withPermission } from 'providers/PermissionsProvider';
 import { salesStatuses, salesStatusesColor } from 'constants/salesStatuses';
 import { branchTypes } from 'constants/hierarchyTypes';
 import './AcquisitionStatus.scss';
@@ -11,8 +12,8 @@ import './AcquisitionStatus.scss';
 const changeAcquisitionStatus = new Permissions([permissions.USER_PROFILE.CHANGE_ACQUISITION_STATUS]);
 
 const AcquisitionStatus = (
-  { data: { salesStatus, salesAgent }, loading },
-  { triggerRepresentativeUpdateModal, permissions: currentPermissions },
+  { data: { salesStatus, salesAgent }, loading, permission: { permissions: currentPermissions } },
+  { triggerRepresentativeUpdateModal },
 ) => {
   let team = null;
   let desk = null;
@@ -103,16 +104,18 @@ AcquisitionStatus.propTypes = {
       uuid: PropTypes.string,
     }),
   }),
+  permission: PropTypes.shape({
+    permissions: PropTypes.arrayOf(PropTypes.string).isRequired,
+  }).isRequired,
   loading: PropTypes.bool.isRequired,
 };
 
 AcquisitionStatus.contextTypes = {
   triggerRepresentativeUpdateModal: PropTypes.func.isRequired,
-  permissions: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
 AcquisitionStatus.defaultProps = {
   data: {},
 };
 
-export default AcquisitionStatus;
+export default withPermission(AcquisitionStatus);

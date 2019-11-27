@@ -14,7 +14,6 @@ class ListView extends Component {
     onPageChange: PropTypes.func,
     activePage: PropTypes.number,
     totalPages: PropTypes.number,
-    locale: PropTypes.string.isRequired,
     showNoResults: PropTypes.bool,
     last: PropTypes.bool,
   };
@@ -37,7 +36,6 @@ class ListView extends Component {
     const {
       lazyLoad,
       dataSource,
-      locale,
       showNoResults,
     } = this.props;
 
@@ -46,7 +44,7 @@ class ListView extends Component {
     }
 
     return !shallowEqual(nextProps.dataSource, dataSource)
-      || (nextProps.locale !== locale) || nextProps.showNoResults !== showNoResults;
+      || nextProps.showNoResults !== showNoResults;
   }
 
   handlePageChange = (eventKey) => {
@@ -134,12 +132,11 @@ class ListView extends Component {
   render() {
     const {
       showNoResults,
-      locale,
       lazyLoad,
     } = this.props;
 
     if (showNoResults) {
-      return <NotFoundContent locale={locale} />;
+      return <NotFoundContent />;
     }
 
     return (

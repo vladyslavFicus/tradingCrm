@@ -11,11 +11,6 @@ class PaymentsGrid extends PureComponent {
       loading: PropTypes.bool.isRequired,
       refetch: PropTypes.func.isRequired,
     }).isRequired,
-    auth: PropTypes.shape({
-      brandId: PropTypes.string.isRequired,
-      uuid: PropTypes.string.isRequired,
-    }).isRequired,
-    fetchPlayerMiniProfile: PropTypes.func.isRequired,
   };
 
   handleModalActionSuccess = () => this.props.clientPayments.refetch();
@@ -24,8 +19,6 @@ class PaymentsGrid extends PureComponent {
     const {
       clientPayments,
       clientPayments: { loading },
-      auth,
-      fetchPlayerMiniProfile,
     } = this.props;
 
     const payments = get(clientPayments, 'clientPayments.data.content', []);
@@ -41,7 +34,6 @@ class PaymentsGrid extends PureComponent {
         >
           {columns({
             paymentInfo: { onSuccess: this.handleModalActionSuccess },
-            playerInfo: { auth, fetchPlayer: fetchPlayerMiniProfile },
           }).map(({ name, header, render }) => (
             <GridViewColumn
               key={name}

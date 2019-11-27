@@ -20,14 +20,14 @@ const partnersQuery = gql`query getPartners(
       totalElements
       size
       last
-        content {
-          uuid
-          fullName
-          registrationDate
-          operatorStatus
-          statusChangeDate
-          country
-        }
+      content {
+        uuid
+        fullName
+        createdAt
+        status
+        statusChangeDate
+        country
+      }
     }
     error {
       error
@@ -42,36 +42,32 @@ const partnerQuery = gql`query getPartnerByUUID(
   partner(uuid: $uuid) {
     data {
       _id
-      country
-      email
-      fullName
+      uuid
       firstName
       lastName
-      operatorStatus
-      phoneNumber
-      registeredBy
-      registrationDate
-      statusChangeAuthor
+      fullName
+      email
+      phone
+      country
+      status
       statusChangeDate
+      statusChangeAuthor
       statusReason
-      uuid
+      createdBy
+      createdAt
+      permission {
+        allowedIpAddresses
+        forbiddenCountries
+        showNotes
+        showSalesStatus
+        showFTDAmount
+      }
       authorities {
         data {
           brandId
           department
           id
           role
-        }
-      }
-      forexOperator {
-        data {
-          permission {
-            allowedIpAddresses
-            forbiddenCountries
-            showNotes
-            showSalesStatus
-            showFTDAmount
-          }
         }
       }
     }

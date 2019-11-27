@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { I18n } from 'react-redux-i18n';
+import I18n from 'i18n-js';
 import { get } from 'lodash';
 import { SubmissionError } from 'redux-form';
 import { Link } from 'react-router-dom';
@@ -33,8 +33,6 @@ const HierarchyProfileRules = (title, deskType, branchType) => {
       location: PropTypes.shape({
         query: PropTypes.object,
       }).isRequired,
-      countries: PropTypes.object.isRequired,
-      locale: PropTypes.string.isRequired,
       modals: PropTypes.shape({
         ruleModal: PropTypes.modalType,
         ruleModalRetention: PropTypes.modalType,
@@ -44,9 +42,6 @@ const HierarchyProfileRules = (title, deskType, branchType) => {
         params: PropTypes.shape({
           id: PropTypes.string.isRequired,
         }).isRequired,
-      }).isRequired,
-      auth: PropTypes.shape({
-        uuid: PropTypes.string.isRequired,
       }).isRequired,
       getBranchChildren: PropTypes.object,
       getBranchInfo: PropTypes.object,
@@ -365,8 +360,6 @@ const HierarchyProfileRules = (title, deskType, branchType) => {
           loading,
         },
         location: { query },
-        countries,
-        locale,
       } = this.props;
       const error = get(rules, 'error') || get(rulesRetention, 'error');
 
@@ -389,14 +382,12 @@ const HierarchyProfileRules = (title, deskType, branchType) => {
             onSubmit={this.handleFiltersChanged}
             onReset={this.handleFilterReset}
             disabled={!allowActions || error}
-            countries={countries}
           />
 
           <div className="card-body">
             <GridView
               dataSource={entities}
               last
-              locale={locale}
               showNoResults={!loading && entities.length === 0}
               onRowClick={this.handleOfficeClick}
             >

@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Field, reduxForm, SubmissionError } from 'redux-form';
 import { graphql, compose, withApollo } from 'react-apollo';
-import { I18n } from 'react-redux-i18n';
+import I18n from 'i18n-js';
 import PropTypes from 'constants/propTypes';
 import { filterSetTypes } from 'constants/filterSet';
 import { InputField, CheckBox } from 'components/ReduxForm';

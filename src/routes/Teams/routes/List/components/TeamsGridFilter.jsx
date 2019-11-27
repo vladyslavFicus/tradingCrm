@@ -1,11 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { getFormValues } from 'redux-form';
-import { I18n } from 'react-redux-i18n';
-import PropTypes from '../../../../../constants/propTypes';
-import { createValidator } from '../../../../../utils/validator';
-import { filterLabels } from '../../../../../constants/user';
-import createDynamicForm, { FilterItem, FilterField, TYPES, SIZES } from '../../../../../components/DynamicFilters';
+import I18n from 'i18n-js';
+import PropTypes from 'constants/propTypes';
+import { createValidator } from 'utils/validator';
+import { filterLabels } from 'constants/user';
+import createDynamicForm, { FilterItem, FilterField, TYPES, SIZES } from 'components/DynamicFilters';
 
 const FORM_NAME = 'teamsListGridFilter';
 const DynamicFilters = createDynamicForm({

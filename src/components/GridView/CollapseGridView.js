@@ -16,7 +16,6 @@ class CollapseGridView extends Component {
     rowClassName: PropTypes.func,
     openUUID: PropTypes.string,
     collapsedDataFieldName: PropTypes.string.isRequired,
-    locale: PropTypes.string.isRequired,
     showNoResults: PropTypes.bool,
   };
 
@@ -112,10 +111,10 @@ class CollapseGridView extends Component {
   };
 
   render() {
-    const { tableClassName, headerClassName, locale, showNoResults, dataSource } = this.props;
+    const { tableClassName, headerClassName, showNoResults, dataSource } = this.props;
 
     if (showNoResults) {
-      return <NotFoundContent locale={locale} />;
+      return <NotFoundContent />;
     }
 
     if (!dataSource.length) {

@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { I18n } from 'react-redux-i18n';
+import I18n from 'i18n-js';
 import { get } from 'lodash';
 import { TextRow } from 'react-placeholder/lib/placeholders';
 import history from 'router/history';
@@ -14,7 +14,6 @@ import OfficesGridFilter from './OfficesGridFilter';
 
 class List extends Component {
   static propTypes = {
-    locale: PropTypes.string.isRequired,
     createOffice: PropTypes.func.isRequired,
     location: PropTypes.shape({
       query: PropTypes.shape({
@@ -25,7 +24,6 @@ class List extends Component {
       officeModal: PropTypes.modalType,
       infoModal: PropTypes.modalType,
     }).isRequired,
-    countries: PropTypes.object.isRequired,
     offices: PropTypes.shape({
       loading: PropTypes.bool.isRequired,
       refetch: PropTypes.func.isRequired,
@@ -104,13 +102,11 @@ class List extends Component {
 
   render() {
     const {
-      locale,
       offices: {
         loading,
         hierarchy: offices,
       },
       location: { query },
-      countries,
     } = this.props;
 
     const entities = get(offices, 'branchHierarchy.data') || [];
@@ -156,14 +152,12 @@ class List extends Component {
           onSubmit={this.handleFiltersChanged}
           onReset={this.handleFilterReset}
           disabled={!allowActions || error}
-          countries={countries}
         />
 
         <div className="card-body">
           <GridView
             dataSource={entities}
             last
-            locale={locale}
             showNoResults={!loading && entities.length === 0}
             onRowClick={this.handleOfficeClick}
           >

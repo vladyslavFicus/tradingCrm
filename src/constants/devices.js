@@ -1,5 +1,4 @@
 import keyMirror from 'keymirror';
-import I18n from '../utils/fake-i18n';
 
 const types = keyMirror({
   MOBILE: null,
@@ -18,10 +17,10 @@ const operatingSystems = keyMirror({
 });
 
 const typesLabels = {
-  [types.MOBILE]: I18n.t('CONSTANTS.DEVICES.TYPES.MOBILE'),
-  [types.DESKTOP]: I18n.t('CONSTANTS.DEVICES.TYPES.DESKTOP'),
-  [types.UNKNOWN]: I18n.t('CONSTANTS.DEVICES.TYPES.UNKNOWN'),
-  [types.TABLET]: I18n.t('CONSTANTS.DEVICES.TYPES.TABLET'),
+  [types.MOBILE]: 'CONSTANTS.DEVICES.TYPES.MOBILE',
+  [types.DESKTOP]: 'CONSTANTS.DEVICES.TYPES.DESKTOP',
+  [types.UNKNOWN]: 'CONSTANTS.DEVICES.TYPES.UNKNOWN',
+  [types.TABLET]: 'CONSTANTS.DEVICES.TYPES.TABLET',
 };
 
 const operatingSystemsLabels = {

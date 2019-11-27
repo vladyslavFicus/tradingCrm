@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import I18n from 'i18n-js';
 import Select from '../Select';
 import FieldLabel from './FieldLabel';
-import I18n from '../../utils/i18n';
 
 class NasSelectField extends Component {
   static propTypes = {

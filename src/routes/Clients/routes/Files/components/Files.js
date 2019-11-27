@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { get } from 'lodash';
-import { I18n } from 'react-redux-i18n';
+import I18n from 'i18n-js';
 import PropTypes from 'constants/propTypes';
 import history from 'router/history';
 import Uuid from 'components/Uuid';

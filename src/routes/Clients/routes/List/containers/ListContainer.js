@@ -1,70 +1,65 @@
-import { connect } from 'react-redux';
 import { withApollo, graphql, compose } from 'react-apollo';
-import { withNotifications, withModals } from 'components/HighOrder';
+import { get } from 'lodash';
+import { withModals } from 'components/HighOrder';
+import { withStorage } from 'providers/StorageProvider';
 import ConfirmActionModal from 'components/Modal/ConfirmActionModal';
 import RepresentativeUpdateModal from 'components/RepresentativeUpdateModal';
 import { getUserBranchHierarchy } from 'graphql/queries/hierarchy';
-import { clientsBulkRepresentativeUpdate } from 'graphql/mutations/profile';
 import { clientsQuery } from 'graphql/queries/profile';
-import countries from 'utils/countryList';
 import limitItems from 'utils/limitItems';
-import { graphql as customGql } from 'graphql/utils';
-import { actionCreators as miniProfileActionCreators } from '../../../../../redux/modules/miniProfile';
-import { actionCreators } from '../modules/list';
-import { MoveModal } from '../components/Modals';
+import MoveModal from '../components/Modals';
 import List from '../components/List';
-
-const mapStateToProps = ({
-  usersList: list,
-  i18n: { locale },
-  options: { data: { currencyCodes } },
-  auth: { brandId, uuid, department, role },
-}) => ({
-  list,
-  locale,
-  currencies: currencyCodes,
-  countries,
-  auth: { brandId, uuid, department, role },
-});
-
-const mapActions = {
-  fetchESEntities: actionCreators.fetchESEntities,
-  fetchPlayerMiniProfile: miniProfileActionCreators.fetchPlayerProfile,
-  exportEntities: actionCreators.exportEntities,
-  reset: actionCreators.reset,
-};
 
 export default compose(
   withApollo,
-  withNotifications,
   withModals({
     representativeModal: RepresentativeUpdateModal,
     moveModal: MoveModal,
     confirmationModal: ConfirmActionModal,
   }),
-  connect(mapStateToProps, mapActions),
-  graphql(clientsBulkRepresentativeUpdate, {
-    name: 'bulkRepresentativeUpdate',
-  }),
+  withStorage(['auth']),
   graphql(getUserBranchHierarchy, {
     name: 'userBranchHierarchy',
-    options: ({
-      auth: { uuid },
-    }) => ({
-      variables: { userId: uuid },
+    options: () => ({
       fetchPolicy: 'cache-and-network',
     }),
   }),
-  customGql(clientsQuery, {
+  graphql(clientsQuery, {
     name: 'profiles',
-    options: ({ location: { query } }) => ({
-      variables: {
-        ...query && query.filters,
-        page: 0,
-        size: 20,
-      },
-      fetchPolicy: 'cache-and-network',
-    }),
+    options: ({ location: { query } }) => {
+      const filters = (query) ? query.filters : null;
+      const firstTimeDeposit = get(filters, 'firstTimeDeposit', false);
+
+      if (firstTimeDeposit) {
+        filters.firstTimeDeposit = Boolean(parseInt(firstTimeDeposit, 10));
+      }
+
+      // The backend expected to get desks and teams like arrays of strings
+      // but for now, redux form returns just strings for desks and teams
+      // because selects didn't hava multivalues flag
+      if (filters) {
+        if (filters.desks && !Array.isArray(filters.desks)) {
+          filters.desks = [filters.desks];
+        }
+
+        if (filters.teams && !Array.isArray(filters.teams)) {
+          filters.teams = [filters.teams];
+        }
+      }
+
+      return {
+        fetchPolicy: 'cache-and-network',
+        variables: {
+          args: {
+            ...filters,
+            page: {
+              from: 0,
+              size: 20,
+            },
+          },
+        },
+      };
+    },
     props: ({ profiles: { profiles, fetchMore, ...rest }, ownProps: { location } }) => {
       const { response, currentPage } = limitItems(profiles, location);
 
@@ -73,7 +68,7 @@ export default compose(
           ...rest,
           profiles: response,
           loadMore: () => fetchMore({
-            variables: { page: currentPage + 1 },
+            variables: { args: { page: { from: currentPage + 1 } } },
             updateQuery: (previousResult, { fetchMoreResult }) => {
               if (!fetchMoreResult) {
                 return previousResult;

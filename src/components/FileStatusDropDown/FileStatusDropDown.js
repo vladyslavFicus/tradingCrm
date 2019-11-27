@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
-import { I18n } from 'react-redux-i18n';
+import I18n from 'i18n-js';
 import Uuid from '../Uuid';
 import {
   statuses,

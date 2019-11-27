@@ -1,11 +1,11 @@
 import React, { Component, Fragment } from 'react';
 import { graphql, compose } from 'react-apollo';
-import { I18n } from 'react-redux-i18n';
+import I18n from 'i18n-js';
 import PropTypes from 'prop-types';
 import { Field, reduxForm } from 'redux-form';
 import { withNotifications } from 'components/HighOrder';
 import { SelectField } from 'components/ReduxForm';
-import { updateMutation } from 'graphql/mutations/profile';
+import { updateKYCStatusMutation } from 'graphql/mutations/profile';
 import { createValidator } from 'utils/validator';
 
 const FORM_NAME = 'kycStatus';
@@ -105,7 +105,7 @@ export default compose(
     }),
     enableReinitialize: true,
   }),
-  graphql(updateMutation, {
+  graphql(updateKYCStatusMutation, {
     name: 'updateKycStatus',
   }),
 )(KycStatus);

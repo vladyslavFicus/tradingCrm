@@ -3,20 +3,13 @@ import classNames from 'classnames';
 import PropTypes from '../../constants/propTypes';
 import GridPlayerInfoPlaceholder from '../GridPlayerInfoPlaceholder';
 import Uuid from '../Uuid';
-import { types as miniProfileTypes } from '../../constants/miniProfile';
-import MiniProfile from '../MiniProfile';
 
 class GridPlayerInfo extends Component {
   static propTypes = {
     id: PropTypes.string,
     profile: PropTypes.userProfile.isRequired,
-    fetchPlayerProfile: PropTypes.func.isRequired,
     mainInfoClassName: PropTypes.string,
     clickable: PropTypes.bool,
-    auth: PropTypes.shape({
-      brandId: PropTypes.string.isRequired,
-      uuid: PropTypes.string.isRequired,
-    }).isRequired,
   };
 
   static defaultProps = {
@@ -29,13 +22,14 @@ class GridPlayerInfo extends Component {
     e.preventDefault();
     e.stopPropagation();
 
-    const { profile: { playerUUID } } = this.props;
+    const { profile: { uuid } } = this.props;
 
-    window.open(`/clients/${playerUUID}/profile`, '_blank');
+    window.open(`/clients/${uuid}/profile`, '_blank');
   };
 
   render() {
-    const { fetchPlayerProfile, profile, clickable, mainInfoClassName, id } = this.props;
+    const { profile, clickable, mainInfoClassName, id } = this.props;
+    const { uuid, firstName, lastName, language } = profile;
 
     return (
       <GridPlayerInfoPlaceholder ready={!!profile} firstLaunchOnly>
@@ -43,31 +37,21 @@ class GridPlayerInfo extends Component {
           <div className="max-width-200">
             <div
               className={classNames(mainInfoClassName, { 'cursor-pointer': !!clickable })}
-              id={`${id ? `${id}-` : ''}players-list-${profile.playerUUID}-main`}
+              id={`${id ? `${id}-` : ''}players-list-${uuid}-main`}
               onClick={this.handleClick}
             >
-              {profile.firstName} {profile.lastName}
-              {' '}
-              {/* when KYC functionality requirements finished
-                profile.kycCompleted && <i className="fa fa-check text-success" />
-              */}
+              {firstName} {lastName}
             </div>
 
             <div
               className="font-size-11"
-              id={`${id ? `${id}-` : ''}players-list-${profile.playerUUID}-additional`}
+              id={`${id ? `${id}-` : ''}players-list-${uuid}-additional`}
             >
-              <MiniProfile
-                target={profile.playerUUID}
-                dataSource={fetchPlayerProfile}
-                type={miniProfileTypes.PLAYER}
-              >
-                <Uuid
-                  uuid={profile.playerUUID}
-                  uuidPrefix={profile.playerUUID.indexOf('PLAYER') === -1 ? 'PL' : ''}
-                />
-              </MiniProfile>
-              {!!profile.languageCode && <span> - {profile.languageCode}</span>}
+              <Uuid
+                uuid={uuid}
+                uuidPrefix={uuid.indexOf('PLAYER') === -1 ? 'PL' : ''}
+              />
+              {!!language && <span> - {language}</span>}
             </div>
           </div>
         </If>

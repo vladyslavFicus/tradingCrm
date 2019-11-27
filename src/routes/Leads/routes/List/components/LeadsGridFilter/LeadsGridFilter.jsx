@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { isEqual, get } from 'lodash';
-import { I18n } from 'react-redux-i18n';
+import I18n from 'i18n-js';
 import PropTypes from 'constants/propTypes';
 import ListFilterForm from 'components/ListFilterForm';
 import { getUsersByBranch } from 'graphql/queries/hierarchy';
@@ -18,6 +18,7 @@ class LeadsGridFilter extends Component {
     branchesLoading: PropTypes.bool.isRequired,
     setDesksTeamsOperators: PropTypes.func.isRequired,
     notify: PropTypes.func.isRequired,
+    isFetchingProfileData: PropTypes.bool.isRequired,
   };
 
   state = {
@@ -128,12 +129,14 @@ class LeadsGridFilter extends Component {
       branchesLoading,
       countries,
       operatorsLoading,
+      isFetchingProfileData,
       operators,
     } = this.props;
     const { teams, filteredOperators, branchOperatorsLoading } = this.state;
 
     return (
       <ListFilterForm
+        isFetchingProfileData={isFetchingProfileData}
         onSubmit={onSubmit}
         onReset={this.handleResetForm}
         fields={filterFields(

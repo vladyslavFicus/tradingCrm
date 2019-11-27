@@ -1,0 +1,143 @@
+@import '../../styles/helpers/mixins';
+
+$input-height: 40px;
+
+.input {
+  margin-bottom: 20px;
+
+  &__body {
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  &__label {
+    color: #546e7a;
+    font-size: 15px;
+    font-weight: 500;
+  }
+
+  &__control {
+    border: solid 1px #cfcfcf;
+    border-radius: 3px;
+    box-sizing: border-box;
+    color: #000000;
+    font-size: 15px;
+    margin-top: 5px;
+    padding: 0 8px;
+    text-overflow: ellipsis;
+    display: block;
+    height: $input-height;
+    width: 100%;
+
+    &:focus {
+      border-color: #4990e2;
+    }
+
+    &:disabled {
+      background-color: #f6f6f6;
+    }
+
+    @include placeholder {
+      color: #9b9b9b;
+    }
+  }
+
+  &__icon {
+    font-size: 25px;
+    position: absolute;
+    top: 50%;
+    left: 8px;
+  }
+
+  &__footer {
+    position: relative;
+  }
+
+  &__error {
+    color: #d0021b;
+    font-size: 12px;
+    margin-top: 4px;
+  }
+
+  &__error-icon {
+    font-size: 14px;
+    margin-right: 5px;
+    top: -3px;
+    display: inline-block;
+    vertical-align: bottom;
+  }
+
+  &__addition {
+    background-color: #eee;
+    border-radius: 3px 0 0 3px;
+    border-right: solid 1px #cfcfcf;
+    box-sizing: border-box;
+    color: #9b9b9b;
+    font-size: 15px;
+    line-height: $input-height;
+    text-align: center;
+    position: absolute;
+    top: 22px;
+    left: 1px;
+    height: $input-height - 2px;
+    width: 48px;
+  }
+
+  &__verified-message {
+    color: #3bb477;
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 1.5;
+    display: flex;
+    justify-content: flex-end;
+  }
+}
+
+// # Modifiers
+.input {
+  &--has-icon {
+    .input__control {
+      padding-left: 40px;
+    }
+  }
+
+  &--has-error {
+    .input__control {
+      border-color: #d0011b;
+    }
+  }
+
+  &--has-addition {
+    .input__control {
+      padding-left: 64px;
+    }
+  }
+
+  &--is-disabled {
+    .input__control {
+      border-color: #edeff5;
+      -webkit-text-fill-color: #bec2d5;
+      -webkit-opacity: 1;
+    }
+
+    &:hover {
+      .input__body {
+        .input__icon {
+          border-color: #edeff5;
+        }
+      }
+    }
+  }
+
+  &--verified {
+    margin-bottom: -5px;
+  }
+
+  &__control {
+    &--verified,
+    &--verified:disabled {
+      background-color: #f0faf5;
+      border-color: #3bb477;
+    }
+  }
+}

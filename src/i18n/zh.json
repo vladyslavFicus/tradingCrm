@@ -39,17 +39,6 @@
     "MY_PROFILE": "我的资料",
     "LOGOUT": "退出"
   },
-  "MY_PROFILE_SIDEBAR": {
-    "MY_PROFILE": "我的资料",
-    "DETAILS": "个人信息",
-    "SAVE_BUTTON": "保存更改",
-    "NOTIFICATION_SUCCESS_TITLE": "资料",
-    "NOTIFICATION_SUCCESS_MESSAGE": "已保存更改",
-    "ATTRIBUTES_LABELS": {
-      "PHONE": "电话",
-      "LANGUAGE": "语言"
-    }
-  },
   "PAYMENT": {
     "METHODS": {
       "LIMITS": {
@@ -492,6 +481,7 @@
       "CANCEL": "取消",
       "CONFIRM": "确认",
       "UPLOAD_FILE": "+ 上传文件",
+      "CREATE": "创造",
       "CREATE_AND_OPEN": "创建并保存",
       "SAVE_NEW_PASSWORD": "保存新密码",
       "SAVE": "保存",
@@ -1281,11 +1271,6 @@
       "TERMS_UUID": "UUID"
     }
   },
-  "LOGGED_FORBIDDEN": {
-    "TITLE": "访问被拒绝",
-    "DESCRIPTION": "本网站的这一部分仅供访客访问。",
-    "LOGOUT_BUTTON": "退出"
-  },
   "ERRORS": {
     "FILE": {
       "INVALID_FILE_EXTENSION": "无效的文件扩展",
@@ -1293,20 +1278,6 @@
     },
     "DATE": {
       "INVALID_DATE": "\"%{attributeName}\" 为无效"
-    }
-  },
-  "COUNTRIES": {
-    "TITLE": "国家",
-    "FILTER": {
-      "LABELS": {
-        "ACCESS": "访问"
-      }
-    },
-    "GRID": {
-      "LABEL": {
-        "COUNTRY": "国家",
-        "ACCESS": "访问"
-      }
     }
   },
   "PROFILE": {
@@ -1385,7 +1356,8 @@
         "create": {
           "restriction": "You can't create more accounts for this currency"
         }
-      }
+      },
+      "locked": "用户已锁定，请联系客服支持"
     },
     "campaign": {
       "command": {
@@ -1402,6 +1374,9 @@
       "name": {
         "already-exists": "名字已存在"
       }
+    },
+    "access": {
+      "unauthorized": "错误的用户名/密码"
     }
   },
   "NOTE_BUTTON": {
@@ -1489,32 +1464,6 @@
   },
   "CHANGE_ORIGINAL_AGENT": {
     "TITLE": "原始代理"
-  },
-  "MINI_PROFILE": {
-    "PLAYER": "玩家",
-    "STATUS_REASON": "状态原因",
-    "BALANCE": "余额",
-    "LAST_LOGIN": "最近一次的登录",
-    "DEPOSITED": "已存款",
-    "REGISTERED": "已注册",
-    "TRANSACTION": "交易",
-    "ERROR_MESSAGE": "错误信息",
-    "REJECTION_REASON": "拒绝原因",
-    "OPERATOR": "操作员",
-    "CREATED": "已创建",
-    "LAUNCHED": "已推出",
-    "CANCELED": "已取消",
-    "DATE_RANGE": "日期范围",
-    "RANGE_NOT_SELECTED": "未选择",
-    "TARGET": "目标",
-    "OPTED_IN": "选择加入 %{value} 个玩家",
-    "SELECTED": "已选定 %{value} 个玩家",
-    "LEADS": {
-      "LEAD_CREATED": "已创建的线索",
-      "SALES": "销售",
-      "COUNTRY": "国家",
-      "LEAD": "潜在客户"
-    }
   },
   "OPERATORS": {
     "HEADING": "运营商",
@@ -1718,30 +1667,28 @@
     "BROWSE_FILES": "浏览文件"
   },
   "DASHBOARD": {
+    "CHART": {
+      "NO_RESULTS_TEXT": "所选期间无结果"
+    },
     "REGISTRATION_CHART": {
       "TITLE": "注册",
-      "TOOLTIP_TITLE": "注册用户： ",
-      "NO_RESULTS_TEXT": "所选期间无结果"
+      "TOOLTIP_TITLE": "注册用户： "
     },
     "DEPOSITS_AMOUNT_CHART": {
       "TITLE": "充值金额",
-      "TOOLTIP_TITLE": "充值金额： ",
-      "NO_RESULTS_TEXT": "所选期间无结果"
+      "TOOLTIP_TITLE": "充值金额： "
     },
     "DEPOSITS_COUNT_CHART": {
       "TITLE": "充值次数",
-      "TOOLTIP_TITLE": "充值次数： ",
-      "NO_RESULTS_TEXT": "所选期间无结果"
+      "TOOLTIP_TITLE": "充值次数： "
     },
     "WITHDRAWS_AMOUNT_CHART": {
       "TITLE": "提款金额",
-      "TOOLTIP_TITLE": "提款金额： ",
-      "NO_RESULTS_TEXT": "所选期间无结果"
+      "TOOLTIP_TITLE": "提款金额： "
     },
     "WITHDRAWS_COUNT_CHART": {
       "TITLE": "提款次数",
-      "TOOLTIP_TITLE": "提款次数： ",
-      "NO_RESULTS_TEXT": "所选期间无结果"
+      "TOOLTIP_TITLE": "提款次数： "
     },
     "CHART_SELECT_OPTIONS": {
       "CURRENT_WEEK": "当其星期",
@@ -1775,8 +1722,8 @@
     "SECOND_TEXT": "您必须关闭至少1个已打开的个人资料。",
     "CLOSE_SELECTED_BUTTON": "关闭选定个人资料"
   },
-  "SET_PASSWORD": {
-    "TITLE": "设置您的密码",
+  "RESET_PASSWORD": {
+    "TITLE": "设置密码",
     "PASSWORD": "密码",
     "REPEAT_PASSWORD": "重新输入密码",
     "PASSWORD_SETTLED": "您已成功设置新密码",
@@ -2318,7 +2265,9 @@
         "LANGUAGES": "语言",
         "LANGUAGE": "语言",
         "SOURCE": "Source",
-        "SOURCES": "Sources"
+        "SOURCES": "Sources",
+        "PARTNER": "合作伙伴",
+        "PARTNERS": "合作伙伴"
       },
       "GRID_HEADER": {
         "RULE": "规则",
@@ -2326,7 +2275,7 @@
         "LANGUAGE": "语言",
         "SOURCE": "来源",
         "AFFILIATE": "联营",
-        "PARTNER": "Partner",
+        "PARTNER": "合作伙伴",
         "PRIORITY": "优先顺序",
         "ACTION": "操作"
       },
@@ -2342,7 +2291,7 @@
           "DEPOSIT_COUNT": "充值次数",
           "AMOUNT": "充值金额范围",
           "DISTRIBUTION": "客户分布",
-          "PARTNER": "Partner",
+          "PARTNER": "合作伙伴",
           "SOURCE": "Source"
         }
       },
@@ -2377,11 +2326,11 @@
     "GRID_HEADER": {
       "ID": "回拨 ID",
       "CLIENT": "客户",
+      "OPERATOR": "操作员",
       "TIME": "回拨时间",
       "CREATED": "已创建",
       "MODIFIED": "已修改",
-      "STATUS": "状态",
-      "OPERATOR": ""
+      "STATUS": "状态"
     },
     "FILTER": {
       "CALLBACK_OR_OPERATOR": "回拨 ID、操作员 ID",

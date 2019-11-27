@@ -1,10 +1,8 @@
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { getFormValues } from 'redux-form';
-import { graphql } from 'react-apollo';
+import { graphql, withApollo } from 'react-apollo';
 import { get } from 'lodash';
-import { actionCreators as authoritiesActionCreators } from 'redux/modules/auth/authorities';
-import { actionCreators as miniProfileActionCreators } from 'redux/modules/miniProfile';
 import { createOperator } from 'graphql/mutations/operators';
 import { managementOperatorsQuery } from 'graphql/queries/operators';
 import { withModals, withNotifications } from 'components/HighOrder';
@@ -12,26 +10,13 @@ import CreateOperatorModalContainer from '../components/CreateOperatorModal';
 import ExistingOperatorModal from '../components/ExistingOperatorModal';
 import List from '../components/List';
 
-const mapStateToProps = ({
-  operatorsList: list,
-  i18n: { locale },
-  auth: { uuid },
-  ...state
-}) => ({
-  list,
-  locale,
-  operatorId: uuid,
+const mapStateToProps = state => ({
   filterValues: getFormValues('operatorsListGridFilter')(state) || {},
 });
 
-const mapActions = {
-  fetchOperatorMiniProfile: miniProfileActionCreators.fetchOperatorProfile,
-  fetchAuthorities: authoritiesActionCreators.fetchAuthorities,
-  fetchAuthoritiesOptions: authoritiesActionCreators.fetchAuthoritiesOptions,
-};
-
 export default compose(
-  connect(mapStateToProps, mapActions),
+  connect(mapStateToProps, null),
+  withApollo,
   withModals({
     createOperator: CreateOperatorModalContainer,
     existingOperator: ExistingOperatorModal,

@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import moment from 'moment';
 import classNames from 'classnames';
-import { I18n } from 'react-redux-i18n';
+import I18n from 'i18n-js';
 import { get } from 'lodash';
 import { Field, reduxForm } from 'redux-form';
 import permissions from 'config/permissions';

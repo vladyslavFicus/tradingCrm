@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import { connect } from 'react-redux';
 import { getFormValues } from 'redux-form';
-import { I18n } from 'react-redux-i18n';
+import I18n from 'i18n-js';
 import { callbacksStatuses, filterLabels } from '../../constants/callbacks';
 import { createValidator } from '../../utils/validator';
 import history from '../../router/history';

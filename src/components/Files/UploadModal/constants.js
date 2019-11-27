@@ -1,12 +1,6 @@
-import I18n from '../../../utils/fake-i18n';
-
 const attributeLabels = {
-  name: I18n.t('FILES.UPLOAD_MODAL.FILE.TITLE'),
-  category: I18n.t('FILES.UPLOAD_MODAL.FILE.CATEGORY'),
-};
-
-export {
-  attributeLabels,
+  name: 'FILES.UPLOAD_MODAL.FILE.TITLE',
+  category: 'FILES.UPLOAD_MODAL.FILE.CATEGORY',
 };
 
 export default attributeLabels;

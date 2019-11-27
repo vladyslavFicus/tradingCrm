@@ -82,51 +82,72 @@ PropTypes.uploadingFile = PropTypes.shape({
   error: PropTypes.string,
 });
 PropTypes.userProfile = PropTypes.shape({
-  acceptedTermsUUID: PropTypes.string,
-  address: PropTypes.string,
-  addressKycMetaData: PropTypes.arrayOf(PropTypes.fileEntity),
-  kycAddressStatus: PropTypes.kycStatus,
-  affiliateId: PropTypes.string,
-  birthDate: PropTypes.string,
-  btag: PropTypes.string,
-  city: PropTypes.string,
-  completed: PropTypes.bool,
-  country: PropTypes.string,
-  email: PropTypes.string,
-  firstName: PropTypes.string,
-  gender: PropTypes.string,
-  id: PropTypes.number,
-  identifier: PropTypes.any,
-  kycCompleted: PropTypes.bool,
-  languageCode: PropTypes.string,
-  lastName: PropTypes.string,
-  marketingMail: PropTypes.bool,
-  marketingSMS: PropTypes.bool,
-  personalKycMetaData: PropTypes.arrayOf(PropTypes.fileEntity),
-  kycPersonalStatus: PropTypes.kycStatus,
-  phoneNumber: PropTypes.string,
-  phoneNumberVerified: PropTypes.bool,
-  postCode: PropTypes.string,
-  profileStatus: PropTypes.string,
-  profileStatusComment: PropTypes.any,
-  profileStatusReason: PropTypes.string,
-  profileStatusDate: PropTypes.string,
-  profileStatusAuthor: PropTypes.string,
-  registrationDate: PropTypes.string,
-  registrationIP: PropTypes.string,
-  suspendEndDate: PropTypes.any,
-  title: PropTypes.string,
-  token: PropTypes.string,
-  tokenExpirationDate: PropTypes.string,
-  login: PropTypes.string,
-  username: PropTypes.string,
-  playerUUID: PropTypes.string,
-  signInIps: PropTypes.arrayOf(PropTypes.ipEntity),
-  balances: PropTypes.shape({
-    total: PropTypes.price.isRequired,
-    bonus: PropTypes.price.isRequired,
-    real: PropTypes.price.isRequired,
+  acquisition: PropTypes.shape({
+    acquisitionStatus: PropTypes.string,
+    retentionRepresentative: PropTypes.string,
+    retentionStatus: PropTypes.string,
+    retentionOperator: PropTypes.shape({
+      firstName: PropTypes.string,
+      hierarchy: PropTypes.shape({
+        parentBranches: PropTypes.arrayOf(
+          PropTypes.shape({
+            name: PropTypes.string,
+            branchType: PropTypes.string,
+            parentBranch: PropTypes.shape({
+              name: PropTypes.string,
+              branchType: PropTypes.string,
+            }),
+          }),
+        ),
+      }),
+    }),
+    salesRepresentative: PropTypes.string,
+    salesStatus: PropTypes.string,
+    salesOperator: PropTypes.shape({
+      firstName: PropTypes.string,
+      hierarchy: PropTypes.shape({
+        parentBranches: PropTypes.arrayOf(
+          PropTypes.shape({
+            name: PropTypes.string,
+            branchType: PropTypes.string,
+            parentBranch: PropTypes.shape({
+              name: PropTypes.string,
+              branchType: PropTypes.string,
+            }),
+          }),
+        ),
+      }),
+    }),
   }),
+  address: PropTypes.shape({
+    countryCode: PropTypes.string,
+  }),
+  affiliate: PropTypes.shape({
+    firstName: PropTypes.string,
+    source: PropTypes.string,
+    uuid: PropTypes.string.isRequired,
+  }),
+  balance: PropTypes.shape({
+    amount: PropTypes.string,
+    currency: PropTypes.string,
+  }),
+  firstName: PropTypes.string,
+  lastName: PropTypes.string,
+  lastNote: PropTypes.shape({
+    changedAt: PropTypes.string,
+    content: PropTypes.string,
+    uuid: PropTypes.string.isRequired,
+  }),
+  languageCode: PropTypes.string.isRequired,
+  paymentDetails: PropTypes.shape({
+    depositsCount: PropTypes.number,
+    lastDepositTime: PropTypes.string,
+  }),
+  status: PropTypes.shape({
+    changedAt: PropTypes.string,
+    type: PropTypes.string,
+  }),
+  uuid: PropTypes.string.isRequired,
 });
 PropTypes.authorityEntity = PropTypes.shape({
   id: PropTypes.number.isRequired,
@@ -147,6 +168,18 @@ PropTypes.operatorProfile = PropTypes.shape({
   registrationDate: PropTypes.string,
   statusChangeAuthor: PropTypes.any,
   statusChangeDate: PropTypes.any,
+  uuid: PropTypes.string,
+});
+PropTypes.partnerProfile = PropTypes.shape({
+  country: PropTypes.string,
+  email: PropTypes.string,
+  firstName: PropTypes.string,
+  lastName: PropTypes.string,
+  status: PropTypes.string,
+  phone: PropTypes.string,
+  createdAt: PropTypes.string,
+  statusChangeAuthor: PropTypes.string,
+  statusChangeDate: PropTypes.string,
   uuid: PropTypes.string,
 });
 PropTypes.navSubItem = PropTypes.shape({
@@ -549,7 +582,6 @@ PropTypes.operatorsList = PropTypes.arrayOf(PropTypes.shape({
   uuid: PropTypes.string,
   fullName: PropTypes.string,
 }));
-
 PropTypes.questionnaireLastData = PropTypes.shape({
   uuid: PropTypes.string,
   status: PropTypes.string,
@@ -557,6 +589,214 @@ PropTypes.questionnaireLastData = PropTypes.shape({
   version: PropTypes.number,
   reviewedBy: PropTypes.string,
   updatedAt: PropTypes.string,
+});
+PropTypes.auth = PropTypes.shape({
+  department: PropTypes.string.isRequired,
+  role: PropTypes.string.isRequired,
+  uuid: PropTypes.string.isRequired,
+});
+PropTypes.permission = PropTypes.shape({
+  permissions: PropTypes.arrayOf(PropTypes.string).isRequired,
+});
+PropTypes.storage = PropTypes.shape({
+  get: PropTypes.func.isRequired,
+  set: PropTypes.func.isRequired,
+  remove: PropTypes.func.isRequired,
+});
+PropTypes.paymentsStatistic = PropTypes.shape({
+  refetch: PropTypes.func.isRequired,
+  loading: PropTypes.bool.isRequired,
+  statistics: PropTypes.shape({
+    payments: PropTypes.shape({
+      data: PropTypes.shape({
+        additionalTotal: PropTypes.shape({
+          totalCount: PropTypes.number,
+          totalAmount: PropTypes.number,
+          monthCount: PropTypes.number,
+          monthAmount: PropTypes.number,
+          todayCount: PropTypes.number,
+          todayAmount: PropTypes.number,
+        }).isRequired,
+        items: PropTypes.arrayOf(
+          PropTypes.shape({
+            amount: PropTypes.number,
+            count: PropTypes.number,
+            entryDate: PropTypes.string,
+          }).isRequired,
+        ).isRequired,
+      }),
+      error: PropTypes.object,
+    }).isRequired,
+  }),
+});
+PropTypes.brand = PropTypes.shape({
+  image: PropTypes.shape({
+    src: PropTypes.string.isRequired,
+    style: PropTypes.shape({
+      width: PropTypes.string,
+      height: PropTypes.string,
+    }),
+  }).isRequired,
+  name: PropTypes.string.isRequired,
+  isActive: PropTypes.bool,
+  onClick: PropTypes.func,
+});
+PropTypes.newProfile = PropTypes.shape({
+  acquisition: PropTypes.shape({
+    acquisitionStatus: PropTypes.string,
+    retentionRepresentative: PropTypes.string,
+    retentionStatus: PropTypes.string,
+    retentionOperator: PropTypes.object, // operator shape
+    salesRepresentative: PropTypes.string,
+    salesStatus: PropTypes.string,
+    salesOperator: PropTypes.object, // operator shape
+  }),
+  address: PropTypes.shape({
+    address: PropTypes.string,
+    city: PropTypes.string,
+    countryCode: PropTypes.string,
+    postCode: PropTypes.string,
+    state: PropTypes.string,
+  }),
+  affiliate: PropTypes.shape({
+    externalId: PropTypes.string,
+    firstName: PropTypes.string,
+    referral: PropTypes.string,
+    sms: PropTypes.string,
+    source: PropTypes.string,
+    uuid: PropTypes.string,
+  }),
+  age: PropTypes.number,
+  bankDetails: PropTypes.shape({
+    accountHolderName: PropTypes.string,
+    accountNumber: PropTypes.string,
+    branchName: PropTypes.string,
+    city: PropTypes.string,
+    name: PropTypes.string,
+    province: PropTypes.string,
+    swiftCode: PropTypes.string,
+    withdrawalArea: PropTypes.string,
+  }),
+  birthDate: PropTypes.string,
+  brandId: PropTypes.string,
+  clientType: PropTypes.string,
+  configuration: PropTypes.shape({
+    crs: PropTypes.bool,
+    fatca: PropTypes.bool,
+    gdpr: PropTypes.shape({
+      email: PropTypes.bool,
+      phone: PropTypes.bool,
+      sms: PropTypes.bool,
+      socialMedia: PropTypes.bool,
+    }),
+    internalTransfer: PropTypes.bool,
+    subscription: PropTypes.shape({
+      educational: PropTypes.bool,
+      information: PropTypes.bool,
+      marketNews: PropTypes.bool,
+      promosAndOffers: PropTypes.bool,
+      statisticsAndSummary: PropTypes.bool,
+    }),
+    webCookies: PropTypes.shape({
+      enabled: PropTypes.bool,
+    }),
+  }),
+  contacts: PropTypes.shape({
+    additionalEmail: PropTypes.string,
+    additionalPhone: PropTypes.string,
+    email: PropTypes.string,
+    phone: PropTypes.string,
+  }),
+  convertedFromLeadUuid: PropTypes.string,
+  emailVerified: PropTypes.bool,
+  firstName: PropTypes.string,
+  gender: PropTypes.string,
+  identificationNumber: PropTypes.string,
+  kyc: PropTypes.shape({
+    changedAt: PropTypes.string,
+    status: PropTypes.string,
+  }),
+  languageCode: PropTypes.string,
+  lastName: PropTypes.string,
+  lastUpdatedBy: PropTypes.string,
+  lastUpdatedDate: PropTypes.string,
+  migrationId: PropTypes.string,
+  passport: PropTypes.shape({
+    countryOfIssue: PropTypes.string,
+    countrySpecificIdentifier: PropTypes.string,
+    countrySpecificIdentifierType: PropTypes.string,
+    expirationDate: PropTypes.string,
+    issueDate: PropTypes.string,
+    number: PropTypes.string,
+  }),
+  phoneVerified: PropTypes.bool,
+  profileVerified: PropTypes.bool,
+  profileView: PropTypes.shape({
+    balance: PropTypes.shape({
+      amount: PropTypes.string,
+      credit: PropTypes.string,
+    }),
+    lastSignInSessions: PropTypes.arrayOf(PropTypes.shape({
+      countryCode: PropTypes.string,
+      ip: PropTypes.string,
+      startedAt: PropTypes.string,
+    })),
+    registrationDetails: PropTypes.shape({
+      deviceDetails: PropTypes.shape({
+        deviceType: PropTypes.string,
+        operatingSystem: PropTypes.string,
+      }),
+      inetDetails: PropTypes.shape({
+        host: PropTypes.string,
+        ipAddress: PropTypes.string,
+        referer: PropTypes.string,
+      }),
+      locationDetails: PropTypes.shape({
+        city: PropTypes.string,
+        countryCode: PropTypes.string,
+        region: PropTypes.string,
+      }),
+      registeredBy: PropTypes.string,
+      registrationDate: PropTypes.string,
+      userAgent: PropTypes.string,
+    }),
+    status: PropTypes.shape({
+      changedAt: PropTypes.string,
+      changedBy: PropTypes.string,
+      comment: PropTypes.string,
+      reason: PropTypes.string,
+      type: PropTypes.string,
+    }),
+    tradingAccount: PropTypes.arrayOf(PropTypes.object),
+    uuid: PropTypes.string.isRequired,
+  }),
+  registrationDetails: PropTypes.shape({
+    deviceDetails: PropTypes.shape({
+      deviceType: PropTypes.string,
+      operatingSystem: PropTypes.string,
+    }),
+    inetDetails: PropTypes.shape({
+      host: PropTypes.string,
+      ipAddress: PropTypes.string,
+      referer: PropTypes.string,
+    }),
+    locationDetails: PropTypes.shape({
+      city: PropTypes.string,
+      countryCode: PropTypes.string,
+      region: PropTypes.string,
+    }),
+    registeredBy: PropTypes.string,
+    registrationDate: PropTypes.string,
+    userAgent: PropTypes.string,
+  }),
+  status: PropTypes.shape({
+    changedAt: PropTypes.string,
+    changedBy: PropTypes.string,
+    comment: PropTypes.string,
+    reason: PropTypes.string,
+    type: PropTypes.string,
+  }),
+  uuid: PropTypes.string.isRequired,
 });
 
 export default PropTypes;

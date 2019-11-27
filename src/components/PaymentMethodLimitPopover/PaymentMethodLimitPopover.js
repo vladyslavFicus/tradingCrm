@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Popover, PopoverBody } from 'reactstrap';
 import { reduxForm, Field } from 'redux-form';
-import { I18n } from 'react-redux-i18n';
+import I18n from 'i18n-js';
 import classNames from 'classnames';
 import PropTypes from '../../constants/propTypes';
 import { createValidator } from '../../utils/validator';

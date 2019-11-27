@@ -1,29 +1,26 @@
-import { connect } from 'react-redux';
 import { compose, graphql } from 'react-apollo';
 import { get, set } from 'lodash';
 import { getUserHierarchyById } from 'graphql/queries/hierarchy';
 import { operatorQuery } from 'graphql/queries/operators';
 import { updateOperator, addDepartment, removeDepartment } from 'graphql/mutations/operators';
+import { authoritiesOptionsQuery } from 'graphql/queries/auth';
+import { withStorage } from 'providers/StorageProvider';
+import { withNotifications } from 'components/HighOrder';
 import Edit from '../components/Edit';
-import { actionCreators as authoritiesActionCreators } from '../../../../../../../redux/modules/auth/authorities';
-import { withNotifications } from '../../../../../../../components/HighOrder';
-
-const mapStateToProps = ({
-  auth: { uuid, brandId },
-  authorities: { data: authoritiesData },
-}) => ({
-  auth: { uuid },
-  brandId,
-  departmentsRoles: get(authoritiesData, 'post.departmentRole', {}),
-});
-
-const mapActions = {
-  fetchAuthoritiesOptions: authoritiesActionCreators.fetchAuthoritiesOptions,
-};
 
 export default compose(
+  withStorage(['auth', 'brand']),
   withNotifications,
-  connect(mapStateToProps, mapActions),
+  graphql(authoritiesOptionsQuery, {
+    name: 'authoritiesOptions',
+    props: ({ authoritiesOptions }) => {
+      const departmentsRoles = get(authoritiesOptions, 'authoritiesOptions.data.post.departmentRole', {});
+
+      return {
+        departmentsRoles,
+      };
+    },
+  }),
   graphql(updateOperator, {
     name: 'updateProfile',
   }),
@@ -75,7 +72,7 @@ export default compose(
     props: ({ data: { operator } }) => {
       const { authorities, ...operatorProfile } = get(operator, 'data', {});
       return {
-        authorities: authorities || {},
+        authorities: authorities || [],
         profile: {
           data: {
             ...operatorProfile,

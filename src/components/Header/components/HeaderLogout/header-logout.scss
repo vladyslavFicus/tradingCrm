@@ -1,0 +1,16 @@
+.header-logout {
+  color: #ccc;
+  cursor: pointer;
+  font-size: 22px;
+  line-height: 51px;
+  text-align: center;
+  transition: color 0.2s ease;
+  display: inline-block;
+  vertical-align: top;
+  height: 49px;
+  width: 40px;
+
+  &:hover {
+    color: #fff;
+  }
+}

@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import I18n from '../../utils/i18n';
+import I18n from 'i18n-js';
 import renderLabel from '../../utils/renderLabel';
 import { statusesLabels } from '../../constants/user';
 

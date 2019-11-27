@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { I18n } from 'react-redux-i18n';
+import I18n from 'i18n-js';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import CopyToClipboard from '../../../../../../components/CopyToClipboard';
 import { getDomain } from '../../../../../../config';
@@ -16,8 +16,8 @@ class ShareLinkModal extends Component {
 
   static defaultProps = {
     notificationLevel: 'success',
-    notificationTitle: I18n.t('COMMON.NOTIFICATIONS.COPIED'),
-    notificationMessage: I18n.t('COMMON.NOTIFICATIONS.COPY_PROFILE_LINK'),
+    notificationTitle: 'COMMON.NOTIFICATIONS.COPIED',
+    notificationMessage: 'COMMON.NOTIFICATIONS.COPY_PROFILE_LINK',
   };
 
   static contextTypes = {

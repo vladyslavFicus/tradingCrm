@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { reduxForm } from 'redux-form';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import { I18n } from 'react-redux-i18n';
+import I18n from 'i18n-js';
 import PropTypes from '../../../constants/propTypes';
 import FileUpload from '../../FileUpload';
 import { categories } from '../../../constants/files';
@@ -9,7 +9,7 @@ import { createValidator, translateLabels } from '../../../utils/validator';
 import UploadingFile from '../UploadingFile';
 import { targetTypes } from '../constants';
 import { shortify } from '../../../utils/uuid';
-import { attributeLabels } from './constants';
+import attributeLabels from './constants';
 
 class UploadModal extends Component {
   static propTypes = {

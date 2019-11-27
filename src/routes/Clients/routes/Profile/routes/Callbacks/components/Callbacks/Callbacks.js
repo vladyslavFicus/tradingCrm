@@ -1,5 +1,5 @@
 import React, { Fragment, PureComponent } from 'react';
-import { I18n } from 'react-redux-i18n';
+import I18n from 'i18n-js';
 import PropTypes from '../../../../../../../../constants/propTypes';
 import CallbacksList, { CallbacksGridFilter } from '../../../../../../../../components/CallbacksList';
 import TabHeader from '../../../../../../../../components/TabHeader';

@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { I18n } from 'react-redux-i18n';
+import I18n from 'i18n-js';
 import PropTypes from 'prop-types';
 import { Field, reduxForm, getFormSyncErrors, getFormValues } from 'redux-form';
 import { InputField } from 'components/ReduxForm';

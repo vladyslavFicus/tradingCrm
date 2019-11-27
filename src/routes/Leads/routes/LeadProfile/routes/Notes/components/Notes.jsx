@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { get } from 'lodash';
-import { I18n } from 'react-redux-i18n';
+import I18n from 'i18n-js';
 import PropTypes from '../../../../../../../constants/propTypes';
 import NotesGridFilter from './NotesGridFilter';
 import ListView from '../../../../../../../components/ListView';
@@ -22,7 +22,6 @@ class Notes extends Component {
         })),
       }),
     }).isRequired,
-    locale: PropTypes.string.isRequired,
   };
 
   static contextTypes = {
@@ -53,7 +52,6 @@ class Notes extends Component {
   render() {
     const {
       notes: { notes: data, loading },
-      locale,
     } = this.props;
 
     if (!data) {
@@ -77,7 +75,6 @@ class Notes extends Component {
             totalPages={notes.totalPages}
             last={notes.last}
             lazyLoad
-            locale={locale}
             showNoResults={!loading && !notes.content.length}
           />
         </div>

@@ -10,6 +10,7 @@ import { InMemoryCache } from 'apollo-cache-inmemory';
 import { BatchHttpLink } from 'apollo-link-batch-http';
 import { HttpLink } from 'apollo-link-http';
 import { createUploadLink } from 'apollo-upload-client';
+import { withStorage } from 'providers/StorageProvider';
 import omitTypename from 'graphql/utils/omitTypename';
 import { actionCreators as modalActionCreators } from 'redux/modules/modal';
 import { actionTypes as authActionTypes } from 'redux/modules/auth';
@@ -46,6 +47,7 @@ class ApolloProvider extends PureComponent {
     children: PropTypes.element.isRequired,
     triggerVersionModal: PropTypes.func.isRequired,
     logout: PropTypes.func.isRequired,
+    ...withStorage.propTypes,
   };
 
   constructor(props) {
@@ -102,12 +104,17 @@ class ApolloProvider extends PureComponent {
       }
     });
 
-    const authLink = setContext((_, { headers }) => ({
-      headers: {
-        ...headers,
-        'X-CLIENT-Version': getApiVersion(),
-      },
-    }));
+    const authLink = setContext((_, { headers }) => {
+      const token = this.props.storage.get('token');
+
+      return {
+        headers: {
+          ...headers,
+          authorization: token ? `Bearer ${token}` : undefined,
+          'X-CLIENT-Version': getApiVersion(),
+        },
+      };
+    });
 
     const createOmitTypenameLink = new ApolloLink((data, forward) => {
       const operation = data;
@@ -152,4 +159,4 @@ const mapDispatchToProps = dispatch => ({
   logout: () => dispatch({ type: authActionTypes.LOGOUT.SUCCESS }),
 });
 
-export default connect(null, mapDispatchToProps)(ApolloProvider);
+export default connect(null, mapDispatchToProps)(withStorage(ApolloProvider));

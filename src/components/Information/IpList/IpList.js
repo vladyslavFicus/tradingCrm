@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { I18n } from 'react-redux-i18n';
+import I18n from 'i18n-js';
 import PropTypes from '../../../constants/propTypes';
 import CopyToClipboard from '../../CopyToClipboard';
 
@@ -15,35 +15,37 @@ const IpList = (props) => {
 
   return (
     <Fragment>
-      <div className="account-details__label">
-        {label}
-      </div>
-      <div className="card">
-        <div className="card-body">
-          <Choose>
-            <When condition={ips && ips.length > 0}>
-              {ips.map(item => (
-                <div className="ip-container" key={item.ip}>
-                  <i
-                    className={`fs-icon fs-${item.country.toLowerCase()}`}
-                    style={{ marginRight: 10 }}
-                  />
-                  <CopyToClipboard
-                    text={item.ip}
-                    notify={notify}
-                    notificationLevel={notificationLevel}
-                    notificationTitle={notificationTitle}
-                    notificationMessage={notificationMessage}
-                  >
-                    <span>{item.ip}</span>
-                  </CopyToClipboard>
-                </div>
-              ))}
-            </When>
-            <Otherwise>
-              {''}
-            </Otherwise>
-          </Choose>
+      <div className="account-details__personal-info">
+        <span className="account-details__label">
+          {label}
+        </span>
+        <div className="card">
+          <div className="card-body">
+            <Choose>
+              <When condition={ips && ips.length > 0}>
+                {ips.map(item => (
+                  <div className="ip-container" key={item.ip}>
+                    <i
+                      className={`fs-icon fs-${item.countryCode.toLowerCase()}`}
+                      style={{ marginRight: 10 }}
+                    />
+                    <CopyToClipboard
+                      text={item.ip}
+                      notify={notify}
+                      notificationLevel={notificationLevel}
+                      notificationTitle={notificationTitle}
+                      notificationMessage={notificationMessage}
+                    >
+                      <span>{item.ip}</span>
+                    </CopyToClipboard>
+                  </div>
+                ))}
+              </When>
+              <Otherwise>
+                {''}
+              </Otherwise>
+            </Choose>
+          </div>
         </div>
       </div>
     </Fragment>

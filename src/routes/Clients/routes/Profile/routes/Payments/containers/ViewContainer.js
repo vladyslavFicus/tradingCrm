@@ -5,7 +5,6 @@ import { addNoteMutation } from 'graphql/mutations/note';
 import { addPaymentMutation } from 'graphql/mutations/payment';
 import { getClientPaymentsByUuid } from 'graphql/queries/payments';
 import { operatorsQuery } from 'graphql/queries/operators';
-import { clientQuery } from 'graphql/queries/profile';
 import { withModals } from 'components/HighOrder';
 import Payments from '../components/Payments';
 import { actionCreators as playerActionCreators } from '../../../modules';
@@ -14,13 +13,9 @@ import PaymentAddModal from '../components/PaymentAddModal';
 const mapStateToProps = ({
   userTransactions,
   profile: { profile },
-  auth: { uuid },
-  i18n: { locale },
 }) => ({
   ...userTransactions,
-  locale,
   currencyCode: profile.data.currencyCode,
-  auth: { uuid },
 });
 
 const mapActions = {
@@ -30,20 +25,6 @@ const mapActions = {
 export default compose(
   withModals({
     addPayment: PaymentAddModal,
-  }),
-  graphql(clientQuery, {
-    options: ({
-      match: {
-        params: {
-          id: playerUUID,
-        },
-      },
-    }) => ({
-      variables: {
-        playerUUID,
-      },
-    }),
-    name: 'playerProfile',
   }),
   connect(mapStateToProps, mapActions),
   graphql(addNoteMutation, {

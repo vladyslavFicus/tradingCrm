@@ -1,45 +1,38 @@
+/* eslint-disable */
 /* eslint-disable react/prop-types */
 import React, { Fragment } from 'react';
 import moment from 'moment';
+import I18n from 'i18n-js';
 import { get } from 'lodash';
 import { getActiveBrandConfig } from 'config';
+import { statusColorNames, statusesLabels } from 'constants/user';
+import { salesStatuses, salesStatusesColor } from 'constants/salesStatuses';
+import { retentionStatuses, retentionStatusesColor } from 'constants/retentionStatuses';
+import GridPlayerInfo from 'components/GridPlayerInfo';
+import CountryLabelWithFlag from 'components/CountryLabelWithFlag';
 import { UncontrolledTooltip } from 'components/Reactstrap/Uncontrolled';
+import GridStatusDeskTeam from 'components/GridStatusDeskTeam';
+import GridEmptyValue from 'components/GridEmptyValue';
+import GridStatus from 'components/GridStatus';
 import Uuid from 'components/Uuid';
-import {
-  statusColorNames as userStatusColorNames,
-  statusesLabels as userStatusesLabels,
-} from '../../../../../../constants/user';
-import { salesStatuses, salesStatusesColor } from '../../../../../../constants/salesStatuses';
-import { retentionStatuses, retentionStatusesColor } from '../../../../../../constants/retentionStatuses';
-import GridPlayerInfo from '../../../../../../components/GridPlayerInfo';
-import CountryLabelWithFlag from '../../../../../../components/CountryLabelWithFlag';
-import GridEmptyValue from '../../../../../../components/GridEmptyValue';
-import GridStatus from '../../../../../../components/GridStatus';
-import GridStatusDeskTeam from '../../../../../../components/GridStatusDeskTeam';
-import renderLabel from '../../../../../../utils/renderLabel';
+import renderLabel from 'utils/renderLabel';
 
-export default (
-  I18n,
-  auth,
-  fetchPlayerMiniProfile,
-) => [{
+export default () => [{
   name: 'client',
   header: I18n.t('CLIENTS.LIST.GRID_HEADER.CLIENT'),
   render: data => (
     <GridPlayerInfo
-      fetchPlayerProfile={fetchPlayerMiniProfile}
       profile={data}
-      auth={auth}
     />
   ),
 }, {
   name: 'country',
   header: I18n.t('CLIENTS.LIST.GRID_HEADER.COUNTRY'),
-  render: ({ country, languageCode }) => (
+  render: ({ address: { countryCode }, languageCode }) => (
     <Choose>
-      <When condition={country}>
+      <When condition={countryCode}>
         <CountryLabelWithFlag
-          code={country}
+          code={countryCode}
           height="14"
           languageCode={languageCode}
         />
@@ -48,18 +41,18 @@ export default (
         <GridEmptyValue I18n={I18n} />
       </Otherwise>
     </Choose>
-  ),
+  )
 }, {
   name: 'balance',
   header: I18n.t('CLIENTS.LIST.GRID_HEADER.BALANCE'),
   render: (data) => {
     const currency = getActiveBrandConfig().currencies.base;
-    const tradingProfile = get(data, 'tradingProfile') || {};
+    const amount = get(data, 'balance.amount') || 0;
 
     return (
       <div>
         <div className="header-block-middle">
-          {currency} {Number(tradingProfile.baseCurrencyBalance).toFixed(2)}
+          {currency} {Number(amount).toFixed(2)}
         </div>
       </div>
     );
@@ -68,15 +61,16 @@ export default (
   name: 'deposits',
   header: I18n.t('CLIENTS.LIST.GRID_HEADER.DEPOSITS'),
   render: (data) => {
-    const tradingProfile = get(data, 'tradingProfile') || {};
+    const { depositsCount, lastDepositTime } = get(data, 'paymentDetails') || {};
+
     return (
       <Choose>
-        <When condition={tradingProfile.lastDepositDate}>
-          <div className="font-weight-700">{tradingProfile.depositCount}</div>
+        <When condition={lastDepositTime}>
+          <div className="font-weight-700">{depositsCount}</div>
           <div className="font-size-11">
             {I18n.t('CLIENT_PROFILE.CLIENT.BALANCES.LAST')}
             {' '}
-            {moment(tradingProfile.lastDepositDate).format('DD.MM.YYYY')}
+            {moment(lastDepositTime).format('DD.MM.YYYY')}
           </div>
         </When>
         <Otherwise>
@@ -89,37 +83,35 @@ export default (
   name: 'affiliate',
   header: I18n.t('CLIENTS.LIST.GRID_HEADER.AFFILIATE'),
   render: (data) => {
-    const affiliateProfile = get(data, 'tradingProfile.affiliateProfileDocument');
+    const { uuid, firstName, source } = get(data, 'affiliate') || {};
 
     return (
       <Choose>
-        <When condition={affiliateProfile}>
-          <If condition={affiliateProfile.affiliate}>
-            <div>
+        <When condition={uuid}>
+          <div>
               <a
                 className="header-block-middle"
                 target="_blank"
                 rel="noopener noreferrer"
-                href={`/operators/${affiliateProfile._id}`}
+                href={`/operators/${uuid}`}
               >
-                {affiliateProfile.affiliate.fullName}
+                {firstName}
               </a>
             </div>
-            <If condition={affiliateProfile.source}>
-              <div id={`${data.playerUUID}`}>
-                <Uuid className="header-block-small" uuidPostfix="..." length={12} uuid={affiliateProfile.source} />
+            <If condition={source}>
+              <div id={`${data.uuid}`}>
+                <Uuid className="header-block-small" uuidPostfix="..." length={12} uuid={source} />
               </div>
               <UncontrolledTooltip
                 placement="bottom-start"
-                target={`${data.playerUUID}`}
+                target={`${data.uuid}`}
                 delay={{
                   show: 350, hide: 250,
                 }}
               >
-                {affiliateProfile.source}
+                {source}
               </UncontrolledTooltip>
             </If>
-          </If>
         </When>
         <Otherwise>
           <GridEmptyValue I18n={I18n} />
@@ -132,24 +124,25 @@ export default (
   header: I18n.t('CLIENTS.LIST.GRID_HEADER.SALES'),
   render: (data) => {
     const {
+      acquisitionStatus,
       salesStatus,
-      salesRep,
-      aquisitionStatus,
-    } = get(data, 'tradingProfile') || {};
+      salesOperator,
+    } = get(data, 'acquisition') || {};
+
     const colorClassName = salesStatusesColor[salesStatus];
 
     return (
       <Choose>
         <When condition={salesStatus}>
           <GridStatus
-            wrapperClassName={aquisitionStatus === 'SALES' ? `border-${colorClassName}` : ''}
+            wrapperClassName={acquisitionStatus === 'SALES' ? `border-${colorClassName}` : ''}
             colorClassName={colorClassName}
-            statusLabel={renderLabel(salesStatus, salesStatuses)}
+            statusLabel={I18n.t(renderLabel(salesStatus, salesStatuses))}
             info={(
-              <If condition={salesRep}>
+              <If condition={salesOperator}>
                 <GridStatusDeskTeam
-                  fullName={salesRep.fullName}
-                  hierarchy={salesRep.hierarchy}
+                  fullName={salesOperator.fullName}
+                  hierarchy={salesOperator.hierarchy}
                 />
               </If>
             )}
@@ -166,24 +159,25 @@ export default (
   header: I18n.t('CLIENTS.LIST.GRID_HEADER.RETENTION'),
   render: (data) => {
     const {
+      acquisitionStatus,
       retentionStatus,
-      retentionRep,
-      aquisitionStatus,
-    } = get(data, 'tradingProfile') || {};
+      retentionOperator,
+    } = get(data, 'acquisition') || {};
+
     const colorClassName = retentionStatusesColor[retentionStatus];
 
     return (
       <Choose>
         <When condition={retentionStatus}>
           <GridStatus
-            wrapperClassName={aquisitionStatus === 'RETENTION' ? `border-${colorClassName}` : ''}
+            wrapperClassName={acquisitionStatus === 'RETENTION' ? `border-${colorClassName}` : ''}
             colorClassName={colorClassName}
-            statusLabel={renderLabel(retentionStatus, retentionStatuses)}
+            statusLabel={I18n.t(renderLabel(retentionStatus, retentionStatuses))}
             info={(
-              <If condition={retentionRep}>
+              <If condition={retentionOperator}>
                 <GridStatusDeskTeam
-                  fullName={retentionRep.fullName}
-                  hierarchy={retentionRep.hierarchy}
+                  fullName={retentionOperator.fullName}
+                  hierarchy={retentionOperator.hierarchy}
                 />
               </If>
             )}
@@ -209,38 +203,46 @@ export default (
 }, {
   name: 'lastNote',
   header: I18n.t('CLIENTS.LIST.GRID_HEADER.LAST_NOTE'),
-  render: ({ playerUUID, lastNote, lastNoteDate }) => (
-    <Choose>
-      <When condition={lastNote}>
-        <div className="max-width-200">
-          <div className="font-weight-700">{moment.utc(lastNoteDate).local().format('DD.MM.YYYY')}</div>
-          <div className="font-size-11">{moment.utc(lastNoteDate).local().format('HH:mm:ss')}</div>
-          <div className="text-truncate-2-lines max-height-35 font-size-11" id={`${playerUUID}-note`}>{lastNote}</div>
-          <UncontrolledTooltip
-            placement="bottom-start"
-            target={`${playerUUID}-note`}
-            delay={{
-              show: 350, hide: 250,
-            }}
-          >
-            {lastNote}
-          </UncontrolledTooltip>
-        </div>
-      </When>
-      <Otherwise>
-        <GridEmptyValue I18n={I18n} />
-      </Otherwise>
-    </Choose>
-  ),
+  render: (data) => {
+    const { uuid, changedAt, content } = get(data, 'lastNote') || {};
+    
+    return (
+      <Choose>
+        <When condition={uuid}>
+          <div className="max-width-200">
+            <div className="font-weight-700">{moment.utc(changedAt).local().format('DD.MM.YYYY')}</div>
+            <div className="font-size-11">{moment.utc(changedAt).local().format('HH:mm:ss')}</div>
+            <div className="text-truncate-2-lines max-height-35 font-size-11" id={`${uuid}-note`}>{content}</div>
+            <UncontrolledTooltip
+              placement="bottom-start"
+              target={`${uuid}-note`}
+              delay={{
+                show: 350, hide: 250,
+              }}
+            >
+              {content}
+            </UncontrolledTooltip>
+          </div>
+        </When>
+        <Otherwise>
+          <GridEmptyValue I18n={I18n} />
+        </Otherwise>
+      </Choose>
+    );
+  },
 }, {
   name: 'status',
   header: I18n.t('CLIENTS.LIST.GRID_HEADER.STATUS'),
-  render: ({ profileStatus, profileStatusDate }) => (
-    <GridStatus
-      colorClassName={userStatusColorNames[profileStatus]}
-      statusLabel={renderLabel(profileStatus, userStatusesLabels)}
-      info={profileStatusDate}
-      infoLabel={date => I18n.t('COMMON.SINCE', { date: moment.utc(date).local().format('DD.MM.YYYY HH:mm') })}
-    />
-  ),
+  render: (data) => {
+    const { changedAt, type } = get(data, 'status') || {};
+
+    return (
+      <GridStatus
+        colorClassName={statusColorNames[type]}
+        statusLabel={I18n.t(renderLabel(type, statusesLabels))}
+        info={changedAt}
+        infoLabel={date => I18n.t('COMMON.SINCE', { date: moment.utc(date).local().format('DD.MM.YYYY HH:mm') })}
+      />
+    )
+  },
 }];

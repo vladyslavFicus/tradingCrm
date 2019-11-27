@@ -1,0 +1,28 @@
+.header-calendar {
+  display: inline-block;
+  vertical-align: top;
+
+  &__head {
+    color: #ccc;
+    font-size: 18px;
+    line-height: 50px;
+    text-align: center;
+    transition: color 0.2s ease;
+    height: 49px;
+    width: 40px;
+
+    &:hover {
+      color: #fff;
+    }
+  }
+
+  &__popover {
+    max-width: inherit;
+    z-index: 6;
+  }
+
+  &__view {
+    height: 90vh;
+    width: calc(90vh * 1.4);
+  }
+}

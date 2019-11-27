@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import classNames from 'classnames';
-import { I18n } from 'react-redux-i18n';
+import I18n from 'i18n-js';
 import moment from 'moment';
 import _ from 'lodash';
 import KycGridFilter from './KycGridFilter';
@@ -21,11 +21,9 @@ import { statusTypesKeys } from '../constants';
 class List extends Component {
   static propTypes = {
     fetchEntities: PropTypes.func.isRequired,
-    fetchPlayerMiniProfile: PropTypes.func.isRequired,
     list: PropTypes.pageableState(PropTypes.kycRequestEntity).isRequired,
     filterValues: PropTypes.object,
     reset: PropTypes.func.isRequired,
-    locale: PropTypes.string.isRequired,
     auth: PropTypes.shape({
       brandId: PropTypes.string.isRequired,
       uuid: PropTypes.string.isRequired,
@@ -103,7 +101,6 @@ class List extends Component {
   renderUserInfo = data => (
     <GridPlayerInfo
       profile={data}
-      fetchPlayerProfile={this.props.fetchPlayerMiniProfile}
       auth={this.props.auth}
     />
   );
@@ -162,7 +159,7 @@ class List extends Component {
   };
 
   render() {
-    const { list: { entities, noResults }, filterValues, locale } = this.props;
+    const { list: { entities, noResults }, filterValues } = this.props;
     const { filters } = this.state;
 
     return (
@@ -175,11 +172,9 @@ class List extends Component {
           onReset={this.handleFilterReset}
           initialValues={filters}
           filterValues={filterValues}
-          locale={locale}
         />
         <div className="card-body">
           <GridView
-            locale={locale}
             dataSource={entities.content}
             onPageChange={this.handlePageChanged}
             activePage={entities.number + 1}

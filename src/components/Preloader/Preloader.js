@@ -1,16 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import './preloader.scss';
 
 class Preloader extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { display: props.show ? 'block' : 'none' };
+
+    this.state = {
+      display: props.isVisible ? 'block' : 'none',
+    };
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.show !== nextProps.show) {
-      if (nextProps.show) {
+    if (this.props.isVisible !== nextProps.isVisible) {
+      if (nextProps.isVisible) {
         this.setState({ display: 'block' });
       } else {
         setTimeout(() => this.setState({ display: 'none' }), 200);
@@ -20,21 +24,22 @@ class Preloader extends React.Component {
 
   render() {
     const { display } = this.state;
-    const { show } = this.props;
+    const { isVisible } = this.props;
 
     return (
-      <div className={classNames('preloader', { fade: !show })} style={{ display }}>
-        <div className="loader" />
+      <div className={classNames('preloader', { 'is-fading': !isVisible })} style={{ display }}>
+        <div className="preloader__item" />
       </div>
     );
   }
 }
 
 Preloader.propTypes = {
-  show: PropTypes.bool,
+  isVisible: PropTypes.bool,
 };
+
 Preloader.defaultProps = {
-  show: false,
+  isVisible: false,
 };
 
 export default Preloader;

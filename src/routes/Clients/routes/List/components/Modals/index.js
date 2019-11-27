@@ -1,5 +1,1 @@
-import MoveModal from './MoveModal';
-
-export {
-  MoveModal,
-};
+export { default } from './MoveModalContainer';

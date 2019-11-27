@@ -3,11 +3,9 @@ import PropTypes from 'prop-types';
 import { getBackofficeBrand } from 'config';
 import './BlackLayout.scss';
 
-const BlackLayout = ({
-  children,
-}) => (
+const BlackLayout = ({ children }) => (
   <div
-    className="crm-background"
+    className="black-layout"
     style={{ backgroundImage: `url(${getBackofficeBrand().themeConfig.authBackground})` }}
   >
     {children}

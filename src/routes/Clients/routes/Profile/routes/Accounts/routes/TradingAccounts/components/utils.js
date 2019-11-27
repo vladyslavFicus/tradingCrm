@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import React, { Fragment } from 'react';
-import { I18n } from 'react-redux-i18n';
+import I18n from 'i18n-js';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames';
 import moment from 'moment';

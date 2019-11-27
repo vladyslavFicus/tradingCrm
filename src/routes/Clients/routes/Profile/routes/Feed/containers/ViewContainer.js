@@ -1,16 +1,10 @@
-import { connect } from 'react-redux';
 import { graphql, compose, withApollo } from 'react-apollo';
 import { feedsQuery, feedTypesQuery } from 'graphql/queries/audit';
 import { createQueryPagination } from '@newage/backoffice_utils';
 import Feed from '../components/Feed';
 
-const mapStateToProps = state => ({
-  ...state.i18n,
-});
-
 export default compose(
   withApollo,
-  connect(mapStateToProps),
   graphql(feedTypesQuery, {
     name: 'feedTypes',
     options: ({

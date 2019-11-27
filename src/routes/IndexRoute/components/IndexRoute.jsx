@@ -14,7 +14,6 @@ import Logout from 'routes/Logout';
 import Brands from 'routes/Brands';
 import Clients from 'routes/Clients';
 import Payments from 'routes/Payments';
-import SetPassword from 'routes/SetPassword';
 import ResetPassword from 'routes/ResetPassword';
 import Operators from 'routes/Operators';
 import Partners from 'routes/Partners';
@@ -29,17 +28,24 @@ import Callbacks from 'routes/Callbacks';
 import ReleaseNotes from 'routes/ReleaseNotes';
 import PersonalDashboard from 'routes/PersonalDashboard';
 import { operatorsExcludeAuthorities } from 'config/menu';
+import { withStorage } from 'providers/StorageProvider';
 
 class IndexRoute extends PureComponent {
   static propTypes = {
-    logged: PropTypes.bool.isRequired,
     location: PropTypes.shape({
       search: PropTypes.string,
     }).isRequired,
+    token: PropTypes.string,
+    auth: PropTypes.object,
+  };
+
+  static defaultProps = {
+    token: null,
+    auth: null,
   };
 
   render() {
-    const { logged, location } = this.props;
+    const { token, auth, location } = this.props;
     const search = parse(location.search, {
       ignoreQueryPrefix: true,
     });
@@ -57,16 +63,15 @@ class IndexRoute extends PureComponent {
           />
           <Switch>
             <Choose>
-              <When condition={logged}>
+              <When condition={token && auth}>
                 <Redirect from="/sign-in" to={returnUrl} />
-                <Redirect from="/(set-password|reset-password)" to="/" />
                 <Redirect exact from="/" to="/dashboard" />
               </When>
               <Otherwise>
                 <Redirect exact from="/" to="/sign-in" />
               </Otherwise>
             </Choose>
-            {/* Private */}
+
             <AppRoute path="/brands" layout={BlackLayout} component={Brands} checkAuth />
             <AppRoute path="/dashboard" layout={MainLayout} component={Dashboard} checkAuth />
             <AppRoute path="/personal-dashboard" layout={MainLayout} component={PersonalDashboard} checkAuth />
@@ -88,10 +93,9 @@ class IndexRoute extends PureComponent {
             <AppRoute path="/teams" layout={MainLayout} component={Teams} checkAuth />
             <AppRoute path="/sales-rules" layout={MainLayout} component={SalesRules} checkAuth />
             <AppRoute path="/release-notes" layout={MainLayout} component={ReleaseNotes} checkAuth />
-            <Route path="/logout" component={Logout} />
+            <Route path="/logout" component={Logout} checkAuth />
             {/* Public */}
             <AppRoute path="/sign-in" layout={BlackLayout} component={SignIn} />
-            <AppRoute path="/set-password" layout={BlackLayout} component={SetPassword} />
             <AppRoute path="/reset-password" layout={BlackLayout} component={ResetPassword} />
             <Route component={NotFound} />
           </Switch>
@@ -101,4 +105,4 @@ class IndexRoute extends PureComponent {
   }
 }
 
-export default IndexRoute;
+export default withStorage(['token', 'auth'])(IndexRoute);

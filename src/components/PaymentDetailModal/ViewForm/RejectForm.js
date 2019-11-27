@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Field, reduxForm } from 'redux-form';
-import { I18n } from 'react-redux-i18n';
+import I18n from 'i18n-js';
 import { Button } from 'reactstrap';
 import { getPaymentReason } from 'config/index';
 import attributeLabels from '../constants';

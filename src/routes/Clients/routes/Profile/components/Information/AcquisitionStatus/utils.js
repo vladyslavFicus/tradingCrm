@@ -9,15 +9,15 @@ const transformAcquisitionData = (data, department) => aquisitionStatuses.map(({
   const type = value.toLowerCase();
   const {
     [`${type}Status`]: status,
-    [`${type}Rep`]: representative,
-    aquisitionStatus,
+    [`${type}Operator`]: operator,
+    acquisitionStatus,
   } = data;
 
   let team = null;
   let desk = null;
 
-  if (representative) {
-    const branches = representative.hierarchy ? representative.hierarchy.parentBranches : null;
+  if (operator) {
+    const branches = operator.hierarchy ? operator.hierarchy.parentBranches : null;
 
     // INFO: Find operator team and desk. If team is absent -> find desk in branches
     if (branches) {
@@ -34,8 +34,8 @@ const transformAcquisitionData = (data, department) => aquisitionStatuses.map(({
         label,
         statusColor,
         statusLabel: renderLabel(status, salesStatuses),
-        borderColor: aquisitionStatus === value ? statusColor : null,
-        repName: representative && representative.fullName,
+        borderColor: acquisitionStatus === value ? statusColor : null,
+        repName: operator && operator.fullName,
         modalType: value,
         allowAction: department !== departments.RETENTION,
         team,
@@ -49,8 +49,8 @@ const transformAcquisitionData = (data, department) => aquisitionStatuses.map(({
         label,
         statusColor,
         statusLabel: renderLabel(status, retentionStatuses),
-        borderColor: aquisitionStatus === value ? statusColor : null,
-        repName: representative && representative.fullName,
+        borderColor: acquisitionStatus === value ? statusColor : null,
+        repName: operator && operator.fullName,
         modalType: value,
         allowAction: department !== departments.SALES,
         team,

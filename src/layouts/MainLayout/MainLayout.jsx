@@ -1,15 +1,13 @@
-import React, { Component, Fragment } from 'react';
-import { SubmissionError } from 'redux-form';
-import { I18n } from 'react-redux-i18n';
-import { isEqualWith } from 'lodash';
+/* eslint-disable */
+
+import React, { PureComponent, Fragment } from 'react';
+import { get } from 'lodash';
 import config from 'config';
 import PropTypes from 'constants/propTypes';
 import NotePopover from 'components/NotePopover';
 import Header from 'components/Header';
 import Sidebar from 'components/Sidebar';
 import UsersPanel from 'components/UsersPanel';
-import MyProfileSidebar from 'components/MyProfileSidebar';
-import parserErrorsFromServer from 'utils/parseErrorsFromServer';
 import BackToTop from 'components/BackToTop';
 import './MainLayout.scss';
 
@@ -19,12 +17,9 @@ const popoverInitialState = {
   params: {},
 };
 
-class MainLayout extends Component {
+class MainLayout extends PureComponent {
   static propTypes = {
     children: PropTypes.any.isRequired,
-    locale: PropTypes.string.isRequired,
-    languages: PropTypes.arrayOf(PropTypes.string).isRequired,
-    onLocaleChange: PropTypes.func.isRequired,
     settings: PropTypes.shape({
       sendMail: PropTypes.bool.isRequired,
       playerProfileViewType: PropTypes.oneOf(['page', 'frame']).isRequired,
@@ -60,8 +55,6 @@ class MainLayout extends Component {
         })),
       })).isRequired,
     }).isRequired,
-    permissions: PropTypes.array,
-    changeDepartment: PropTypes.func.isRequired,
     activeUserPanel: PropTypes.userPanelItem,
     userPanels: PropTypes.arrayOf(PropTypes.userPanelItem).isRequired,
     userPanelsByManager: PropTypes.arrayOf(PropTypes.userPanelItem).isRequired,
@@ -73,7 +66,6 @@ class MainLayout extends Component {
     addNote: PropTypes.func.isRequired,
     editNote: PropTypes.func.isRequired,
     deleteNote: PropTypes.func.isRequired,
-    updateOperatorProfile: PropTypes.func.isRequired,
     toggleMenuTab: PropTypes.func.isRequired,
     menuItemClick: PropTypes.func.isRequired,
     activePanelIndex: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
@@ -90,7 +82,6 @@ class MainLayout extends Component {
   };
 
   static defaultProps = {
-    permissions: [],
     activeUserPanel: null,
     activePanelIndex: null,
   };
@@ -110,9 +101,6 @@ class MainLayout extends Component {
       uuid: PropTypes.string,
     }).isRequired,
     location: PropTypes.object,
-    permissions: PropTypes.array,
-    changeDepartment: PropTypes.func.isRequired,
-    locale: PropTypes.string.isRequired,
     addPanel: PropTypes.func.isRequired,
     removePanel: PropTypes.func.isRequired,
     notes: PropTypes.shape({
@@ -142,7 +130,6 @@ class MainLayout extends Component {
     this.state = {
       location,
       popover: { ...popoverInitialState },
-      isOpenProfile: false,
     };
 
     if (userPanels.some(panel => !panel.auth)) {
@@ -153,9 +140,6 @@ class MainLayout extends Component {
   getChildContext() {
     const {
       user,
-      permissions,
-      changeDepartment,
-      locale,
       addPanel,
       removePanel,
       settings,
@@ -165,9 +149,6 @@ class MainLayout extends Component {
     return {
       settings,
       user,
-      permissions,
-      changeDepartment,
-      locale,
       addPanel,
       removePanel,
       modals,
@@ -202,44 +183,8 @@ class MainLayout extends Component {
     this.mounted = false;
   }
 
-  onProfileSubmit = async ({ language, ...nextData }) => {
-    const {
-      user: { uuid, data },
-      locale,
-      onLocaleChange,
-      updateOperatorProfile,
-    } = this.props;
-
-    if (language !== locale) {
-      onLocaleChange(language);
-    }
-
-    if (!isEqualWith(data, nextData)) {
-      const action = await updateOperatorProfile(uuid, nextData);
-
-      if (action) {
-        if (action.error && action.payload.response.fields_errors) {
-          const errors = parserErrorsFromServer(action.payload.response.fields_errors);
-          throw new SubmissionError(errors);
-        } else if (action.payload.response && action.payload.response.error) {
-          throw new SubmissionError({ __error: action.payload.response.error });
-        } else {
-          this.context.addNotification({
-            level: 'success',
-            title: I18n.t('MY_PROFILE_SIDEBAR.NOTIFICATION_SUCCESS_TITLE'),
-            message: I18n.t('MY_PROFILE_SIDEBAR.NOTIFICATION_SUCCESS_MESSAGE'),
-          });
-        }
-      }
-    }
-  };
-
-  onToggleProfile = () => {
-    this.updateState({ isOpenProfile: !this.state.isOpenProfile });
-  };
-
-  setNoteChangedCallback = (cb) => {
-    this.updateState({ noteChangedCallback: cb });
+  setNoteChangedCallback = (callback) => {
+    this.updateState({ noteChangedCallback: callback });
   };
 
   updateState = (...args) => {
@@ -293,25 +238,33 @@ class MainLayout extends Component {
   };
 
   render() {
-    const { popover, isOpenProfile } = this.state;
+    const { popover } = this.state;
     const {
       children,
       userPanelsByManager: userPanels,
       activeUserPanel,
       removePanel,
-      onLocaleChange,
-      languages,
       app: { sidebarTopMenu, sidebarBottomMenu },
-      locale,
       user,
       toggleMenuTab,
       menuItemClick,
       replace,
-      changeDepartment,
       initSidebar,
+      getPermissions: {
+        permission,
+        loading,
+      },
     } = this.props;
 
     const isShowProductionAlert = user.department === 'ADMINISTRATION' && config.environment.includes('prod');
+
+    if (loading) {
+      return null;
+    }
+
+    const currentPermissions = get(permission, 'data') || [];
+
+    this.props.permission.set(currentPermissions);
 
     return (
       <Fragment key={user.department}>
@@ -320,13 +273,7 @@ class MainLayout extends Component {
             {children}
           </When>
           <Otherwise>
-            <Header
-              user={user}
-              languages={languages}
-              onLocaleChange={onLocaleChange}
-              onToggleProfile={this.onToggleProfile}
-              onDepartmentChange={changeDepartment}
-            />
+            <Header />
 
             <Sidebar
               init={initSidebar}
@@ -334,22 +281,12 @@ class MainLayout extends Component {
               bottomMenu={sidebarBottomMenu}
               menuItemClick={menuItemClick}
               onToggleTab={toggleMenuTab}
+              permissions={currentPermissions}
             />
 
-            <main key={locale} className="content-container">{children}</main>
-
-            <MyProfileSidebar
-              isOpen={isOpenProfile}
-              onSubmit={this.onProfileSubmit}
-              initialValues={{
-                language: locale,
-                ...user.data,
-              }}
-              onToggleProfile={this.onToggleProfile}
-            />
+            <main className="content-container">{children}</main>
 
             <UsersPanel
-              locale={locale}
               active={activeUserPanel}
               items={userPanels}
               onItemClick={this.handleUserPanelClick}

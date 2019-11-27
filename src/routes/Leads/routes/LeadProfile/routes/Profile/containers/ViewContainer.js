@@ -2,11 +2,11 @@ import { graphql, compose } from 'react-apollo';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import { get } from 'lodash';
-import { withNotifications } from '../../../../../../../components/HighOrder';
-import { leadProfileQuery } from '../../../../../../../graphql/queries/leads';
-import { updateLeadProfile } from '../../../../../../../graphql/mutations/leads';
-import { createValidator } from '../../../../../../../utils/validator';
-import countryList, { getCountryCode } from '../../../../../../../utils/countryList';
+import { leadProfileQuery } from 'graphql/queries/leads';
+import { updateLeadProfile } from 'graphql/mutations/leads';
+import { createValidator } from 'utils/validator';
+import countryList, { getCountryCode } from 'utils/countryList';
+import { withNotifications } from 'components/HighOrder';
 import { attributeLabels } from '../constants';
 import View from '../components/View';
 

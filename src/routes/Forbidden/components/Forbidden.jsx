@@ -1,5 +1,5 @@
 import React from 'react';
-import { I18n } from 'react-redux-i18n';
+import I18n from 'i18n-js';
 
 const Forbidden = () => (
   <section className="page-content">

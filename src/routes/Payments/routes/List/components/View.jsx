@@ -1,22 +1,19 @@
 import React, { Component } from 'react';
+import { TextRow } from 'react-placeholder/lib/placeholders';
 import { get, flatten } from 'lodash';
-import { I18n } from 'react-redux-i18n';
-import PropTypes from 'constants/propTypes';
-import { statusMapper } from 'constants/payment';
-import GridView, { GridViewColumn } from 'components/GridView';
+import I18n from 'i18n-js';
+import { getActiveBrandConfig } from 'config';
 import history from 'router/history';
-import { columns, filterFields } from 'utils/paymentHelpers';
+import PropTypes from 'constants/propTypes';
+import { withStorage } from 'providers/StorageProvider';
+import { statusMapper } from 'constants/payment';
+import Placeholder from 'components/Placeholder';
 import ListFilterForm from 'components/ListFilterForm';
+import GridView, { GridViewColumn } from 'components/GridView';
+import { columns, filterFields } from 'utils/paymentHelpers';
 
 class View extends Component {
   static propTypes = {
-    locale: PropTypes.string.isRequired,
-    fetchPlayerMiniProfile: PropTypes.func.isRequired,
-    auth: PropTypes.shape({
-      brandId: PropTypes.string.isRequired,
-      uuid: PropTypes.string.isRequired,
-    }).isRequired,
-    currencies: PropTypes.arrayOf(PropTypes.string).isRequired,
     clientPayments: PropTypes.shape({
       clientPayments: PropTypes.shape({
         data: PropTypes.pageable(PropTypes.paymentEntity),
@@ -36,6 +33,7 @@ class View extends Component {
       }),
     }).isRequired,
     location: PropTypes.object.isRequired,
+    auth: PropTypes.auth.isRequired,
   };
 
   static contextTypes = {
@@ -120,10 +118,7 @@ class View extends Component {
 
   render() {
     const {
-      locale,
-      currencies,
       auth,
-      fetchPlayerMiniProfile,
       clientPayments: {
         clientPayments,
         loading,
@@ -134,6 +129,8 @@ class View extends Component {
       },
     } = this.props;
 
+    const currencies = getActiveBrandConfig().currencies.supported;
+
     const entities = get(clientPayments, 'data') || { content: [] };
     const error = get(clientPayments, 'error');
 
@@ -143,10 +140,27 @@ class View extends Component {
     return (
       <div className="card">
         <div className="card-heading">
-          <span className="font-size-20" id="transactions-list-header">
-            <strong>{entities.totalElements} </strong>
-            {I18n.t('COMMON.PAYMENTS')}
-          </span>
+          <Placeholder
+            ready={!loading && !!operators}
+            className={null}
+            customPlaceholder={(
+              <TextRow className="animated-background" style={{ width: '200px', height: '20px' }} />
+            )}
+          >
+            <Choose>
+              <When condition={!!entities.totalElements}>
+                <span className="font-size-20">
+                  <strong>{entities.totalElements} </strong>
+                  {I18n.t('COMMON.PAYMENTS')}
+                </span>
+              </When>
+              <Otherwise>
+                <span className="font-size-20">
+                  {I18n.t('COMMON.PAYMENTS')}
+                </span>
+              </Otherwise>
+            </Choose>
+          </Placeholder>
         </div>
 
         <ListFilterForm
@@ -167,13 +181,12 @@ class View extends Component {
             activePage={entities.number + 1}
             last={entities.last}
             lazyLoad
-            locale={locale}
             showNoResults={!!error || (!loading && entities.content.length === 0)}
             loading={loading}
           >
             {columns({
               paymentInfo: { onSuccess: this.handleRefresh },
-              playerInfo: { auth, fetchPlayer: fetchPlayerMiniProfile },
+              playerInfo: { auth },
             }).map(({ name, header, render }) => (
               <GridViewColumn
                 key={name}
@@ -189,4 +202,4 @@ class View extends Component {
   }
 }
 
-export default View;
+export default withStorage(['auth'])(View);

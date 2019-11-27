@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { reduxForm, Field, getFormValues } from 'redux-form';
 import moment from 'moment';
-import { I18n } from 'react-redux-i18n';
+import I18n from 'i18n-js';
 import { createValidator, translateLabels } from '../../../../../../../utils/validator';
 import PropTypes from '../../../../../../../constants/propTypes';
 import { typesLabels } from '../../../../../../../constants/audit';
@@ -82,7 +82,7 @@ class FeedFilterForm extends Component {
           <option value="">{I18n.t('COMMON.ALL_ACTIONS')}</option>
           {availableTypes.map(type => (
             <option key={type} value={type}>
-              {renderLabel(type, typesLabels)}
+              {I18n.t(renderLabel(type, typesLabels))}
             </option>
           ))}
         </Field>

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import classNames from 'classnames';
-import { I18n } from 'react-redux-i18n';
+import I18n from 'i18n-js';
+import { withStorage } from 'providers/StorageProvider';
 import UsersPanelItem from '../UsersPanelItem';
 import PropTypes from '../../constants/propTypes';
 import './UsersPanel.scss';
@@ -174,4 +175,4 @@ class UsersPanel extends Component {
   }
 }
 
-export default withModals({ replaceTabsModal: ReplaceTabsModal })(UsersPanel);
+export default withStorage(['locale'])(withModals({ replaceTabsModal: ReplaceTabsModal })(UsersPanel));

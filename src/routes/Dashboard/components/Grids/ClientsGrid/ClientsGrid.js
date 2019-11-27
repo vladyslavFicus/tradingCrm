@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { get } from 'lodash';
-import PropTypes from '../../../../../constants/propTypes';
-import GridView, { GridViewColumn } from '../../../../../components/GridView';
+import PropTypes from 'constants/propTypes';
+import GridView, { GridViewColumn } from 'components/GridView';
 import columns from './utils';
 
 class ClientsGrid extends PureComponent {
@@ -12,19 +12,12 @@ class ClientsGrid extends PureComponent {
       }),
       loading: PropTypes.bool.isRequired,
     }).isRequired,
-    auth: PropTypes.shape({
-      brandId: PropTypes.string.isRequired,
-      uuid: PropTypes.string.isRequired,
-    }).isRequired,
-    fetchPlayerMiniProfile: PropTypes.func.isRequired,
   };
 
   render() {
     const {
       profiles,
       profiles: { loading },
-      auth,
-      fetchPlayerMiniProfile,
     } = this.props;
 
     const profilesEntities = get(profiles, 'profiles.data.content', []);
@@ -38,7 +31,7 @@ class ClientsGrid extends PureComponent {
           tableClassName="table-hovered"
           rowClassName={({ tradingProfile }) => !tradingProfile && 'disabled'}
         >
-          {columns({ auth, fetchPlayerMiniProfile }).map(({ name, header, render }) => (
+          {columns().map(({ name, header, render }) => (
             <GridViewColumn
               key={name}
               name={name}

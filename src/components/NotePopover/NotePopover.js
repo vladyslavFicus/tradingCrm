@@ -3,11 +3,12 @@ import { connect } from 'react-redux';
 import { Popover, PopoverHeader, PopoverBody } from 'reactstrap';
 import { reduxForm, Field, getFormValues } from 'redux-form';
 import moment from 'moment';
-import { I18n } from 'react-redux-i18n';
+import I18n from 'i18n-js';
 import classNames from 'classnames';
 import permissions from 'config/permissions';
 import PermissionContent from 'components/PermissionContent';
 import Permissions from 'utils/permissions';
+import { withPermission } from 'providers/PermissionsProvider';
 import PropTypes from '../../constants/propTypes';
 import { createValidator } from '../../utils/validator';
 import { entitiesPrefixes } from '../../constants/uuid';
@@ -51,7 +52,7 @@ class NotePopover extends Component {
       targetUUID: PropTypes.string,
       playerUUID: PropTypes.string,
     }),
-    targetType: PropTypes.string,
+    noteTargetType: PropTypes.string,
     submitting: PropTypes.bool,
     invalid: PropTypes.bool,
     pristine: PropTypes.bool,
@@ -59,6 +60,7 @@ class NotePopover extends Component {
     hideArrow: PropTypes.bool,
     className: PropTypes.string,
     id: PropTypes.string,
+    permission: PropTypes.permission.isRequired,
   };
 
   static defaultProps = {
@@ -68,7 +70,7 @@ class NotePopover extends Component {
     isOpen: false,
     handleSubmit: null,
     currentValues: null,
-    targetType: '',
+    noteTargetType: '',
     submitting: false,
     invalid: false,
     pristine: false,
@@ -85,22 +87,18 @@ class NotePopover extends Component {
     onDeleteFailure: () => {},
   };
 
-  static contextTypes = {
-    permissions: PropTypes.arrayOf(PropTypes.string).isRequired,
-  };
-
   /**
    * Should return promise to resolve submitting property from redux-form
    * @param data
    * @return {Promise<void>}
    */
   onSubmit = async (data) => {
-    const { item, targetType } = this.props;
+    const { item, noteTargetType } = this.props;
 
     if (item) {
       await this.handleUpdateNote(data);
     } else {
-      await this.handleAddNote({ ...data, targetType });
+      await this.handleAddNote({ ...data, targetType: noteTargetType });
     }
   };
 
@@ -289,6 +287,9 @@ class NotePopover extends Component {
       hideArrow,
       className,
       id,
+      permission: {
+        permissions: currentPermissions,
+      },
     } = this.props;
 
     return (
@@ -303,7 +304,7 @@ class NotePopover extends Component {
         <PopoverBody tag="form" onSubmit={handleSubmit(this.onSubmit)}>
           {this.renderTitle()}
           <Field
-            disabled={item && !updateNotePermissions.check(this.context.permissions)}
+            disabled={item && !updateNotePermissions.check(currentPermissions)}
             name="content"
             component={TextAreaField}
             showErrorMessage={false}
@@ -316,7 +317,7 @@ class NotePopover extends Component {
                   {currentValues && currentValues.content ? currentValues.content.length : 0}
                 </span>/{MAX_CONTENT_LENGTH}
               </div>
-              <If condition={!item || updateNotePermissions.check(this.context.permissions)}>
+              <If condition={!item || updateNotePermissions.check(currentPermissions)}>
                 <Field
                   name="pinned"
                   wrapperClassName="margin-top-5"
@@ -371,4 +372,4 @@ const NoteForm = reduxForm({
 
 export default connect(state => ({
   currentValues: getFormValues(FORM_NAME)(state),
-}))(NoteForm);
+}))(withPermission(NoteForm));

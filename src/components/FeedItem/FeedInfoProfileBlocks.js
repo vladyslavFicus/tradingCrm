@@ -1,5 +1,4 @@
 import React from 'react';
-import I18n from '../../utils/fake-i18n';
 import PropTypes from '../../constants/propTypes';
 import {
   reasons as blockReasons,
@@ -11,8 +10,8 @@ import renderLabel from '../../utils/renderLabel';
 import FeedDetails from './FeedDetails';
 
 const attributeLabels = {
-  reason: I18n.t('COMMON.REASON'),
-  profileStatus: I18n.t('COMMON.STATUS'),
+  reason: 'COMMON.REASON',
+  profileStatus: 'COMMON.STATUS',
 };
 
 const FeedInfoProfileBlocks = ({ data: { details, type } }) => {

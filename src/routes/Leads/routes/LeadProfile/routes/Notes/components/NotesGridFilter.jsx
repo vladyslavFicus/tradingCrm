@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { reduxForm, Field, getFormValues } from 'redux-form';
 import { connect } from 'react-redux';
 import moment from 'moment';
-import { I18n } from 'react-redux-i18n';
+import I18n from 'i18n-js';
 import { createValidator, translateLabels } from '../../../../../../../utils/validator';
 import { DateTimeField, RangeGroup } from '../../../../../../../components/ReduxForm';
 import { attributeLabels } from '../constants';

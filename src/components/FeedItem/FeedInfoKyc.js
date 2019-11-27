@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import moment from 'moment';
-import { I18n } from 'react-redux-i18n';
+import I18n from 'i18n-js';
 import PropTypes from '../../constants/propTypes';
 import { attributeLabels } from '../../constants/user';
 import { types } from '../../constants/audit';

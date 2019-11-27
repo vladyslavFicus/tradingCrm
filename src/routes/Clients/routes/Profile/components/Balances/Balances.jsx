@@ -3,7 +3,7 @@ import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap
 import classNames from 'classnames';
 import { Field } from 'redux-form';
 import { get, groupBy, sumBy } from 'lodash';
-import { I18n } from 'react-redux-i18n';
+import I18n from 'i18n-js';
 import moment from 'moment';
 import { getActiveBrandConfig } from 'config';
 import PropTypes from 'constants/propTypes';
@@ -43,14 +43,11 @@ class Balances extends Component {
       loading: PropTypes.bool.isRequired,
     }).isRequired,
     balances: PropTypes.shape({
-      baseCurrencyBalance: PropTypes.string,
-      baseCurrencyCredit: PropTypes.string,
-      baseCurrencyEquity: PropTypes.string,
-      baseCurrencyMargin: PropTypes.string,
+      amount: PropTypes.string,
+      credit: PropTypes.string,
       currency: PropTypes.string,
-      marginLevel: PropTypes.number,
     }),
-    mt4Users: PropTypes.arrayOf(PropTypes.mt4User),
+    tradingAccounts: PropTypes.arrayOf(PropTypes.mt4User),
     lastDeposit: PropTypes.string,
     lastWithdraw: PropTypes.string,
     selectValue: PropTypes.string,
@@ -58,7 +55,7 @@ class Balances extends Component {
 
   static defaultProps = {
     balances: {},
-    mt4Users: [],
+    tradingAccounts: [],
     selectValue: null,
     lastDeposit: null,
     lastWithdraw: null,
@@ -109,7 +106,7 @@ class Balances extends Component {
 
   renderDropDown = (
     dropDownOpen,
-    { baseCurrencyBalance, baseCurrencyCredit, baseCurrencyMargin },
+    { amount, credit },
   ) => {
     const baseCurrency = getActiveBrandConfig().currencies.base;
 
@@ -133,15 +130,13 @@ class Balances extends Component {
     const withdrawError = get(statistics, 'payments.error');
 
     // ======= Calculate sum of trading accounts balances by currency  ======= //
-    const accountsByCurrency = groupBy(this.props.mt4Users, 'symbol');
+    const accountsByCurrency = groupBy(this.props.tradingAccounts, 'currency');
 
     // Sum account balances by each unique currency
     const balancesByCurrency = Object.keys(accountsByCurrency).map(currency => ({
       currency,
       balance: sumBy(accountsByCurrency[currency], 'balance'),
       credit: sumBy(accountsByCurrency[currency], 'credit'),
-      equity: sumBy(accountsByCurrency[currency], 'equity'),
-      margin: sumBy(accountsByCurrency[currency], 'margin'),
     }), {});
 
     return (
@@ -155,13 +150,10 @@ class Balances extends Component {
             <div className="header-block-title">{I18n.t('CLIENT_PROFILE.CLIENT.BALANCES.TOTAL_BALANCE')}</div>
             <i className="fa fa-angle-down" />
             <div className="header-block-middle">
-              {baseCurrency} {Number(baseCurrencyBalance).toFixed(2)}
+              {baseCurrency} {Number(amount).toFixed(2)}
             </div>
             <div className="header-block-small">
-              {I18n.t('CLIENT_PROFILE.PROFILE.HEADER.CREDIT')}: {baseCurrency} {Number(baseCurrencyCredit).toFixed(2)}
-            </div>
-            <div className="header-block-small">
-              {I18n.t('CLIENT_PROFILE.PROFILE.HEADER.MARGIN')}: {baseCurrency} {Number(baseCurrencyMargin).toFixed(2)}
+              {I18n.t('CLIENT_PROFILE.PROFILE.HEADER.CREDIT')}: {baseCurrency} {Number(credit).toFixed(2)}
             </div>
           </div>
         </DropdownToggle>
@@ -181,10 +173,6 @@ class Balances extends Component {
                       <div className="header-block-small">
                         {I18n.t('CLIENT_PROFILE.PROFILE.HEADER.CREDIT')}:&nbsp;
                         {balance.currency} {Number(balance.credit).toFixed(2)}
-                      </div>
-                      <div className="header-block-small">
-                        {I18n.t('CLIENT_PROFILE.PROFILE.HEADER.MARGIN')}:&nbsp;
-                        {balance.currency} {Number(balance.margin).toFixed(2)}
                       </div>
                     </div>
                   ))}

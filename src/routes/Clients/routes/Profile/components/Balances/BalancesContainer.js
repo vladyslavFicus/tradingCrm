@@ -24,18 +24,18 @@ export default compose(
   connect(mapStateToProps),
   reduxFormConfig,
   graphql(paymentsStatisticQuery, {
-    options: ({ playerUUID }) => ({
+    options: ({ uuid }) => ({
       variables: {
-        playerUUID,
+        playerUUID: uuid,
         ...initialQueryParams(tradingTypes.DEPOSIT, tradingStatuses.MT4_COMPLETED),
       },
     }),
     name: 'depositPaymentStatistic',
   }),
   graphql(paymentsStatisticQuery, {
-    options: ({ playerUUID }) => ({
+    options: ({ uuid }) => ({
       variables: {
-        playerUUID,
+        playerUUID: uuid,
         ...initialQueryParams(tradingTypes.WITHDRAW, tradingStatuses.MT4_COMPLETED),
       },
     }),

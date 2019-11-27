@@ -1,15 +1,14 @@
 import React, { Component, Fragment } from 'react';
 import ImageViewer from 'react-images';
 import { get } from 'lodash';
-import { I18n } from 'react-redux-i18n';
+import I18n from 'i18n-js';
 import { Switch, Redirect } from 'react-router-dom';
 import Helmet from 'react-helmet';
+import { withPermission } from 'providers/PermissionsProvider';
 import Permissions from 'utils/permissions';
 import getFileBlobUrl from 'utils/getFileBlobUrl';
 import {
-  actions as statusActions,
   statusActions as userStatuses,
-  statuses as playerProfileStatuses,
 } from 'constants/user';
 import PropTypes from 'constants/propTypes';
 import { viewType as noteViewType, targetTypes } from 'constants/note';
@@ -25,7 +24,6 @@ import BackToTop from 'components/BackToTop';
 import HideDetails from 'components/HideDetails';
 import { Route } from 'router';
 import NotFound from 'routes/NotFound';
-import { deskTypes } from 'constants/hierarchyTypes';
 import {
   ClientView,
   Payments,
@@ -39,7 +37,6 @@ import {
 import Header from '../Header';
 import Information from '../Information';
 import ShareLinkModal from '../ShareLinkModal';
-import { getAcquisitionFields } from './utils';
 import { userProfileTabs, moveField } from './constants';
 
 const NOTE_POPOVER = 'note-popover';
@@ -80,26 +77,17 @@ class Profile extends Component {
         })),
       }),
     }).isRequired,
-    lastIp: PropTypes.ipEntity,
     location: PropTypes.object.isRequired,
+    // # Config Needed for files
     config: PropTypes.shape({
       files: PropTypes.shape({
         maxSize: PropTypes.number.isRequired,
         types: PropTypes.arrayOf(PropTypes.string).isRequired,
       }).isRequired,
     }).isRequired,
-    auth: PropTypes.shape({
-      token: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
-    }).isRequired,
     updateSubscription: PropTypes.func.isRequired,
     addNote: PropTypes.func.isRequired,
     updateNote: PropTypes.func.isRequired,
-    activateProfile: PropTypes.func.isRequired,
-    playerProfile: PropTypes.shape({
-      playerProfile: PropTypes.shape({
-        loading: PropTypes.bool,
-      }),
-    }).isRequired,
     questionnaireLastData: PropTypes.shape({
       loading: PropTypes.bool.isRequired,
       questionnaire: PropTypes.object,
@@ -110,16 +98,13 @@ class Profile extends Component {
     uploading: PropTypes.object.isRequired,
     fetchFiles: PropTypes.func.isRequired,
     uploadFile: PropTypes.func.isRequired,
-    locale: PropTypes.string.isRequired,
     saveFiles: PropTypes.func.isRequired,
     deleteFile: PropTypes.func.isRequired,
-    changePassword: PropTypes.func.isRequired,
     blockMutation: PropTypes.func.isRequired,
     unblockMutation: PropTypes.func.isRequired,
     suspendProlong: PropTypes.func.isRequired,
     suspendMutation: PropTypes.func.isRequired,
     resumeMutation: PropTypes.func.isRequired,
-    fetchProfile: PropTypes.func.isRequired,
     modals: PropTypes.shape({
       confirmActionModal: PropTypes.modalType,
       noteModal: PropTypes.modalType,
@@ -129,10 +114,7 @@ class Profile extends Component {
     removeNote: PropTypes.func.isRequired,
     unlockLoginMutation: PropTypes.func.isRequired,
     profile: PropTypes.object.isRequired,
-  };
-
-  static contextTypes = {
-    permissions: PropTypes.array.isRequired,
+    permission: PropTypes.permission.isRequired,
   };
 
   static childContextTypes = {
@@ -153,8 +135,6 @@ class Profile extends Component {
   };
 
   static defaultProps = {
-    lastIp: null,
-
     // Can be null for unregulated brands
     questionnaireLastData: null,
   };
@@ -188,31 +168,17 @@ class Profile extends Component {
     };
   }
 
-  componentDidMount() {
-    const { match: { params: { id } }, fetchProfile } = this.props;
-
-    fetchProfile(id);
-  }
-
   get availableStatuses() {
-    const { playerProfile } = this.props;
-    let profileStatus = get(playerProfile, 'playerProfile.data.profileStatus');
+    const { newProfile, permission: { permissions } } = this.props;
+    const profileStatus = get(newProfile, 'newProfile.data.status.type');
 
     if (!profileStatus) {
       return [];
     }
 
-    if (profileStatus === playerProfileStatuses.SUSPENDED) {
-      const permanent = get(playerProfile, 'playerProfile.data.profileStatusPermanent', false);
-
-      if (permanent) {
-        profileStatus = playerProfileStatuses.PERMANENT_SUSPENDED;
-      }
-    }
-
     return userStatuses[profileStatus]
       .filter(action => (new Permissions([action.permission]))
-        .check(this.context.permissions));
+        .check(permissions));
   }
 
   setNoteChangedCallback = (cb) => {
@@ -245,22 +211,16 @@ class Profile extends Component {
   triggerRepresentativeUpdateModal = type => () => {
     const {
       modals: { representativeModal },
-      playerProfile: { refetch, playerProfile: { data } },
+      newProfile: { refetch, newProfile: { data } },
       match: { params: { id } },
     } = this.props;
 
-    const representativePath = type === deskTypes.SALES
-      ? `${deskTypes.RETENTION.toLowerCase()}Rep.uuid`
-      : `${deskTypes.SALES.toLowerCase()}Rep.uuid`;
-
-    const unassignFromOperator = get(data, `tradingProfile.${representativePath}`) || null;
-    const assignToOperator = get(data, `tradingProfile.${type.toLowerCase()}Rep.uuid`) || null;
+    const assignToOperator = get(data, `acquisition.${type.toLowerCase()}Representative`) || null;
 
     representativeModal.show({
       type,
       clients: [{
         uuid: id,
-        ...(unassignFromOperator && { unassignFromOperator }),
       }],
       currentInactiveOperator: assignToOperator,
       header: I18n.t('CLIENT_PROFILE.MODALS.REPRESENTATIVE_UPDATE.HEADER', { type: type.toLowerCase() }),
@@ -269,23 +229,19 @@ class Profile extends Component {
     });
   };
 
+  // #
   handleLoadProfile = async (needForceUpdate = false) => {
     const {
-      playerProfile,
+      newProfile,
       pinnedNotes,
-      fetchFiles,
-      fetchProfile,
-      profile,
       questionnaireLastData,
-      match: { params },
     } = this.props;
 
-    if (!playerProfile.isLoading && !profile.isLoading) {
+    if (!newProfile.loading) {
       await Promise.all([
-        playerProfile.refetch(),
-        fetchProfile(params.id),
+        // # !!! Todo: need to add file refetch here after attachment service will be done
+        newProfile.refetch(),
         pinnedNotes.refetch(),
-        fetchFiles(params.id),
         ...[questionnaireLastData && questionnaireLastData.refetch()],
       ]);
 
@@ -350,16 +306,19 @@ class Profile extends Component {
     });
   };
 
+  // # !!! Todo: make it work after attachment api build
   handleUploadFileClick = (params) => {
-    this.setState({
-      modal: {
-        name: MODAL_UPLOAD_FILE,
-        params: {
-          profile: get(this.props, 'playerProfile.playerProfile.data', {}),
-          ...params,
-        },
-      },
-    });
+    console.info('Profile handleUploadFileClick => Todo: make it work after ATTACHMENT api build');
+    return params;
+    // this.setState({
+    //   modal: {
+    //     name: MODAL_UPLOAD_FILE,
+    //     params: {
+    //       profile: get(this.props, 'playerProfile.playerProfile.data', {}),
+    //       ...params,
+    //     },
+    //   },
+    // });
   };
 
   handleCloseUploadModal = () => {
@@ -528,8 +487,8 @@ class Profile extends Component {
 
   handleResetPasswordClick = () => {
     const {
-      playerProfile: {
-        playerProfile: {
+      newProfile: {
+        newProfile: {
           data: {
             firstName,
             lastName,
@@ -598,28 +557,32 @@ class Profile extends Component {
     }
   };
 
+  // # !!! Todo: Need to rebuild usin /admin/profiles/{uuid}/verification/email/link
   handleProfileActivateClick = async () => {
-    const { activateProfile, playerProfile: { playerProfile: { data: { playerUUID, email } } } } = this.props;
+    console.info(
+      'Profile: handleProfileActivateClick => Need to rebuild usin /admin/profiles/{uuid}/verification/email/link',
+    );
+    // const { activateProfile, playerProfile: { playerProfile: { data: { playerUUID, email } } } } = this.props;
 
-    if (playerUUID) {
-      const action = await activateProfile(playerUUID);
+    // if (playerUUID) {
+    //   const action = await activateProfile(playerUUID);
 
-      if (action && !action.error) {
-        this.handleOpenModal(MODAL_INFO, {
-          header: 'Send user activation link',
-          body: (
-            <span>
-              Activation link has been sent to <strong>{email || playerUUID}</strong>.
-            </span>
-          ),
-          footer: (
-            <button type="button" className="btn btn-default-outline mr-auto" onClick={this.handleCloseModal}>
-              {I18n.t('COMMON.BUTTONS.CANCEL')}
-            </button>
-          ),
-        });
-      }
-    }
+    //   if (action && !action.error) {
+    //     this.handleOpenModal(MODAL_INFO, {
+    //       header: 'Send user activation link',
+    //       body: (
+    //         <span>
+    //           Activation link has been sent to <strong>{email || playerUUID}</strong>.
+    //         </span>
+    //       ),
+    //       footer: (
+    //         <button type="button" className="btn btn-default-outline mr-auto" onClick={this.handleCloseModal}>
+    //           {I18n.t('COMMON.BUTTONS.CANCEL')}
+    //         </button>
+    //       ),
+    //     });
+    //   }
+    // }
   };
 
   handleUpdateSubscription = async (data) => {
@@ -658,11 +621,21 @@ class Profile extends Component {
   };
 
   handleChangePasswordClick = () => {
-    const { playerProfile: { playerProfile: { data: playerProfile } } } = this.props;
+    const {
+      newProfile: {
+        newProfile: {
+          data: {
+            firstName,
+            lastName,
+            uuid,
+          },
+        },
+      },
+    } = this.props;
 
     this.handleOpenModal(MODAL_CHANGE_PASSWORD, {
-      fullName: `${playerProfile.firstName} ${playerProfile.lastName}`,
-      playerUUID: `${playerProfile.authorUuid}`,
+      fullName: `${firstName} ${lastName}`,
+      playerUUID: uuid,
     });
   };
 
@@ -670,61 +643,15 @@ class Profile extends Component {
     this.handleOpenModal(MODAL_SHARE_PROFILE);
   };
 
-  handleChangeStatus = async ({ action, ...data }) => {
-    const {
-      blockMutation,
-      unblockMutation,
-      suspendProlong,
-      suspendMutation,
-      resumeMutation,
-    } = this.props;
-
-    switch (action) {
-      case statusActions.BLOCK:
-        await blockMutation({ variables: data });
-        break;
-      case statusActions.UNBLOCK:
-        await unblockMutation({ variables: data });
-        break;
-      case statusActions.REMOVE:
-        await resumeMutation({ variables: data });
-        break;
-      case statusActions.SUSPEND: {
-        const { durationAmount, durationUnit, ...variables } = data;
-        let duration;
-
-        if (durationAmount && durationUnit) {
-          duration = { amount: durationAmount, unit: durationUnit };
-        }
-
-        await suspendMutation({ variables: { ...variables, duration } });
-      }
-        break;
-      case statusActions.PROLONG: {
-        const { durationAmount, durationUnit, ...variables } = data;
-        let duration;
-
-        if (durationAmount && durationUnit) {
-          duration = { amount: durationAmount, unit: durationUnit };
-        }
-
-        await suspendProlong({ variables: { ...variables, duration } });
-      }
-        break;
-      default:
-        break;
-    }
-  };
-
   render() {
-    if (get(this.props, 'playerProfile.playerProfile.error')) {
+    if (get(this.props, 'newProfile.newProfile.error')) {
       return <NotFound />;
     }
 
     const { modal, popover, imageViewer: imageViewerState } = this.state;
     const {
-      playerProfile: {
-        playerProfile,
+      newProfile: {
+        newProfile,
         loading,
       },
       match: { params },
@@ -741,28 +668,31 @@ class Profile extends Component {
           id,
         },
       },
-      locale,
       getLoginLock,
       questionnaireLastData,
+      changeProfileStatus,
     } = this.props;
 
-    const profile = get(playerProfile, 'data');
-    const acquisitionData = get(profile, 'tradingProfile') ? getAcquisitionFields(profile.tradingProfile) : {};
     const loginLock = get(getLoginLock, 'loginLock', {});
+    const newProfileData = get(newProfile, 'data') || {};
+    const acquisitionData = get(newProfileData, 'acquisition') || {};
+    const lastSignInSessions = get(newProfileData, 'profileView.lastSignInSessions') || [];
+
+    if (loading) {
+      return null;
+    }
 
     return (
       <Fragment>
-        <If condition={profile}>
-          <Helmet title={`${profile.firstName} ${profile.lastName}`} />
+        <If condition={newProfileData}>
+          <Helmet title={`${newProfileData.firstName} ${newProfileData.lastName}`} />
         </If>
         <div className="profile__info">
           <Header
-            playerProfile={profile}
+            newProfile={newProfileData}
             questionnaireLastData={questionnaireLastData}
-            locale={locale}
-            lastIp={get(profile, 'signInIps.0')}
             availableStatuses={this.availableStatuses}
-            onStatusChange={this.handleChangeStatus}
+            onStatusChange={changeProfileStatus}
             isLoadingProfile={loading}
             onAddNoteClick={this.handleAddNoteClick(params.id)}
             onResetPasswordClick={this.handleResetPasswordClick}
@@ -776,14 +706,13 @@ class Profile extends Component {
           />
           <HideDetails>
             <Information
-              data={profile}
-              ips={get(profile, 'signInIps', [])}
+              newProfile={newProfileData}
+              ips={lastSignInSessions}
               updateSubscription={this.handleUpdateSubscription}
               onEditNoteClick={this.handleEditNoteClick}
               pinnedNotes={get(notes, 'data') || {}}
               acquisitionData={acquisitionData}
               loading={loading}
-              locale={locale}
             />
           </HideDetails>
         </div>
@@ -845,7 +774,7 @@ class Profile extends Component {
           && (
             <DeleteFileModal
               {...modal.params}
-              playerProfile={playerProfile}
+              newProfile={newProfile}
               onClose={this.handleCloseModal}
             />
           )
@@ -881,7 +810,7 @@ class Profile extends Component {
           )
         }
         {
-          modal.name === MODAL_SHARE_PROFILE && playerProfile
+          modal.name === MODAL_SHARE_PROFILE && newProfile
           && (
             <ShareLinkModal
               onClose={this.handleCloseModal}
@@ -901,4 +830,4 @@ class Profile extends Component {
   }
 }
 
-export default Profile;
+export default withPermission(Profile);

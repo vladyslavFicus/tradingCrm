@@ -6,17 +6,13 @@ import config, { getActiveBrandConfig, getBrandId } from 'config';
 import ConfirmActionModal from 'components/Modal/ConfirmActionModal';
 import RepresentativeUpdateModal from 'components/RepresentativeUpdateModal';
 import NoteModal from 'components/NoteModal';
-import { clientQuery, getLoginLock } from 'graphql/queries/profile';
+import { getLoginLock, newProfile } from 'graphql/queries/profile';
 import { notesQuery } from 'graphql/queries/notes';
 import { questionnaireLasDataQuery } from 'graphql/queries/questionnaire';
 import { unlockLoginMutation } from 'graphql/mutations/auth';
 import {
   updateSubscription,
-  blockMutation,
-  resumeMutation,
-  suspendMutation,
-  suspendProlong,
-  unblockMutation,
+  changeProfileStatusMutation,
   passwordResetRequest,
   changePassword,
 } from 'graphql/mutations/profile';
@@ -40,9 +36,6 @@ const mapStateToProps = (state) => {
       profile,
     },
     auth,
-    i18n: {
-      locale,
-    },
   } = state;
 
   const uploadModalInitialValues = {};
@@ -61,14 +54,11 @@ const mapStateToProps = (state) => {
     profile,
     uploading,
     uploadModalInitialValues,
-    locale,
-    config: config.player,
+    config: config.player, // # Needed for files api but it takes from global config file
   };
 };
 
 const mapActions = {
-  changePassword: actionCreators.changePassword,
-  activateProfile: actionCreators.activateProfile,
   uploadFile: actionCreators.uploadFile,
   cancelFile: actionCreators.cancelFile,
   resetUploading: actionCreators.resetUploading,
@@ -76,25 +66,19 @@ const mapActions = {
   saveFiles: filesActionCreators.saveFiles,
   deleteFile: filesActionCreators.deleteFile,
   downloadFile: filesActionCreators.downloadFile,
-  fetchProfile: actionCreators.fetchProfile,
 };
 
 export default compose(
   withRouter,
+  withNotifications,
   withModals({
     confirmActionModal: ConfirmActionModal,
     noteModal: NoteModal,
     representativeModal: RepresentativeUpdateModal,
   }),
   connect(mapStateToProps, mapActions),
-  graphql(blockMutation, {
-    name: 'blockMutation',
-  }),
-  graphql(suspendMutation, {
-    name: 'suspendMutation',
-  }),
-  graphql(suspendProlong, {
-    name: 'suspendProlong',
+  graphql(changeProfileStatusMutation, {
+    name: 'changeProfileStatus',
   }),
   graphql(unlockLoginMutation, {
     options: ({
@@ -144,12 +128,6 @@ export default compose(
   }),
   graphql(changePassword, {
     name: 'changePassword',
-  }),
-  graphql(resumeMutation, {
-    name: 'resumeMutation',
-  }),
-  graphql(unblockMutation, {
-    name: 'unblockMutation',
   }),
   graphql(addNoteMutation, {
     name: 'addNote',
@@ -265,7 +243,7 @@ export default compose(
   graphql(updateSubscription, {
     name: 'updateSubscription',
   }),
-  graphql(clientQuery, {
+  graphql(newProfile, {
     options: ({
       match: {
         params: {
@@ -277,7 +255,7 @@ export default compose(
         playerUUID,
       },
     }),
-    name: 'playerProfile',
+    name: 'newProfile',
   }),
   graphql(notesQuery, {
     options: ({
@@ -311,5 +289,4 @@ export default compose(
     skip: () => !getActiveBrandConfig().regulation.isActive,
     name: 'questionnaireLastData',
   }),
-  withNotifications,
 )(Profile);

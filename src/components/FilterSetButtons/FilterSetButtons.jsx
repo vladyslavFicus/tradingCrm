@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'constants/propTypes';
-import { I18n } from 'react-redux-i18n';
+import I18n from 'i18n-js';
 import classNames from 'classnames';
 import { actionTypes } from './attributes';
 import './FilterSetButtons.scss';

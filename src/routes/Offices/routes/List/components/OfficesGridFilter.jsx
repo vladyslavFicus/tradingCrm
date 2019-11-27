@@ -2,18 +2,19 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getFormValues } from 'redux-form';
-import { I18n } from 'react-redux-i18n';
-import { createValidator } from '../../../../../utils/validator';
-import { filterLabels } from '../../../../../constants/user';
-import createDynamicForm, { FilterItem, FilterField, TYPES, SIZES } from '../../../../../components/DynamicFilters';
+import I18n from 'i18n-js';
+import { filterLabels } from 'constants/user';
+import createDynamicForm, { FilterItem, FilterField, TYPES, SIZES } from 'components/DynamicFilters';
+import { createValidator } from 'utils/validator';
+import countries from 'utils/countryList';
 
 const FORM_NAME = 'officesListGridFilter';
 const DynamicFilters = createDynamicForm({
   form: FORM_NAME,
   touchOnChange: true,
-  validate: (_, props) => createValidator({
+  validate: () => createValidator({
     searchBy: 'string',
-    country: `in:,${Object.keys(props.countries).join()}`,
+    country: `in:,${Object.keys(countries).join()}`,
   }, filterLabels, false),
 });
 
@@ -21,7 +22,6 @@ const OfficesGridFilter = ({
   onSubmit,
   onReset,
   disabled,
-  countries,
 }) => (
   <DynamicFilters
     allowSubmit={disabled}
@@ -60,7 +60,6 @@ OfficesGridFilter.propTypes = {
   disabled: PropTypes.bool,
   onReset: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
-  countries: PropTypes.object.isRequired,
 };
 
 OfficesGridFilter.defaultProps = {

@@ -1,59 +1,20 @@
 import { connect } from 'react-redux';
 import { graphql, compose } from 'react-apollo';
-import { statuses as kycStatuses } from 'constants/kyc';
-import { updateMutation, updateLimitProfileMutation } from 'graphql/mutations/profile';
-import { clientQuery } from 'graphql/queries/profile';
-import { getApiRoot } from 'config';
-import Permissions from 'utils/permissions';
-import permissions from 'config/permissions';
+import {
+  updateMutation,
+  updateLimitProfileMutation,
+  updatePersonalInformationMutation,
+  updateContactsMutation,
+  updateAddressMutation,
+  verifyPhoneMutation,
+  verifyEmailMutation,
+} from 'graphql/mutations/profile';
+import { withNotifications } from 'components/HighOrder';
+import { newProfile } from 'graphql/queries/profile';
+import { withStorage } from 'providers/StorageProvider';
 import { actionCreators as profileActionCreators } from '../../../modules';
 import { actionCreators as filesActionCreators } from '../../../modules/files';
 import View from '../components/View';
-
-const updateProfilePermissions = new Permissions(permissions.USER_PROFILE.UPDATE_PROFILE);
-
-const mapStateToProps = ({
-  profile: { profile, files },
-  i18n: { locale },
-  permissions: currentPermissions,
-  auth: { department, role },
-  options,
-}) => {
-  const {
-    title,
-    firstName,
-    lastName,
-    birthDate,
-    identifier,
-    gender,
-    country,
-    city,
-    postCode,
-    address,
-    languageCode,
-  } = profile.data;
-
-  return {
-    profile,
-    personalData: {
-      title, firstName, lastName, birthDate, identifier, gender, languageCode,
-    },
-    addressData: {
-      country, city, postCode, address,
-    },
-    canRefuseAll: (
-      (profile.data.kycPersonalStatus && profile.data.kycPersonalStatus.status === kycStatuses.VERIFIED)
-      || (profile.data.kycAddressStatus && profile.data.kycAddressStatus.status === kycStatuses.VERIFIED)
-    ),
-    files,
-    meta: options,
-    canVerifyAll: !profile.data.kycCompleted,
-    locale,
-    filesUrl: `${getApiRoot()}/profile/files/download/`,
-    canUpdateProfile: updateProfilePermissions.check(currentPermissions.data),
-    auth: { department, role },
-  };
-};
 
 const mapActions = {
   fetchProfile: profileActionCreators.fetchProfile,
@@ -66,7 +27,6 @@ const mapActions = {
   uploadFile: profileActionCreators.uploadProfileFile,
   downloadFile: filesActionCreators.downloadFile,
   changeFileStatusByAction: profileActionCreators.changeFileStatusByAction,
-  verifyPhone: profileActionCreators.verifyPhone,
   verifyEmail: profileActionCreators.verifyEmail,
   manageKycNote: profileActionCreators.manageKycNote,
   resetNote: profileActionCreators.resetNote,
@@ -76,27 +36,37 @@ const mapActions = {
 };
 
 export default compose(
-  connect(mapStateToProps, mapActions),
+  connect(null, mapActions),
+  withNotifications,
+  graphql(updatePersonalInformationMutation, {
+    name: 'updatePersonalInformation',
+  }),
   graphql(updateMutation, {
     name: 'profileUpdate',
+    options: ({ match: { params: { id: playerUUID } } }) => ({ variables: { playerUUID } }),
+  }),
+  graphql(updateAddressMutation, {
+    name: 'updateAddress',
+    options: ({ match: { params: { id: playerUUID } } }) => ({ variables: { playerUUID } }),
+  }),
+  graphql(verifyPhoneMutation, {
+    name: 'verifyPhone',
+    options: ({ match: { params: { id: playerUUID } } }) => ({ variables: { playerUUID } }),
+  }),
+  graphql(verifyEmailMutation, {
+    name: 'verifyEmail',
+    options: ({ match: { params: { id: playerUUID } } }) => ({ variables: { playerUUID } }),
+  }),
+  graphql(updateContactsMutation, {
+    name: 'updateContacts',
     options: ({ match: { params: { id: playerUUID } } }) => ({ variables: { playerUUID } }),
   }),
   graphql(updateLimitProfileMutation, {
     name: 'profileLimitedUpdate',
     options: ({ match: { params: { id: profileId } } }) => ({ variables: { profileId } }),
   }),
-  graphql(clientQuery, {
-    options: ({
-      match: {
-        params: {
-          id: playerUUID,
-        },
-      },
-    }) => ({
-      variables: {
-        playerUUID,
-      },
-    }),
-    name: 'playerProfile',
+  graphql(newProfile, {
+    name: 'newProfile',
+    options: ({ match: { params: { id: playerUUID } } }) => ({ variables: { playerUUID } }),
   }),
-)(View);
+)(withStorage(['auth'])(View));

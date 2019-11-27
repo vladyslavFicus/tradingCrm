@@ -7,7 +7,6 @@ import Permissions from 'utils/permissions';
 class Route extends Component {
   static propTypes = {
     disableScroll: PropTypes.bool,
-    logged: PropTypes.bool.isRequired,
     checkAuth: PropTypes.bool,
     location: PropTypes.object.isRequired,
     history: PropTypes.object.isRequired,
@@ -20,14 +19,20 @@ class Route extends Component {
         search: PropTypes.string,
       }),
     ]),
-    permissions: PropTypes.arrayOf(PropTypes.string),
+    permission: PropTypes.shape({
+      permissions: PropTypes.arrayOf(PropTypes.string),
+    }).isRequired,
+    auth: PropTypes.shape({
+      department: PropTypes.string,
+      role: PropTypes.string,
+    }),
   };
 
   static defaultProps = {
     path: undefined,
     disableScroll: false,
-    permissions: [],
     checkAuth: false,
+    auth: {},
   };
 
   static config = {};
@@ -73,7 +78,9 @@ class Route extends Component {
   get isValidPermissions() {
     const {
       path,
-      permissions,
+      permission: {
+        permissions,
+      },
     } = this.props;
 
     const currentRoutePermissions = Route.config.routePermissions[path];
@@ -84,23 +91,28 @@ class Route extends Component {
   get isValidAuthority() {
     const {
       excludeAuthorities,
-      authority,
+      auth,
     } = this.props;
 
     if (Array.isArray(excludeAuthorities) && excludeAuthorities.length) {
       return !excludeAuthorities.some(({ department, role }) => (
-        (department === authority.department) && (role === authority.role)
+        (department === auth.department) && (role === auth.role)
       ));
     }
 
     return true;
   }
 
+  get routeService() {
+    const { path } = this.props;
+
+    return Route.config.routeServices[path];
+  }
+
   render() {
     const {
-      disableScroll,
       checkAuth,
-      logged,
+      token,
       ...props
     } = this.props;
 
@@ -108,8 +120,13 @@ class Route extends Component {
       return <Forbidden />;
     }
 
-    if (checkAuth && !logged) {
-      return <Redirect to={{ pathname: '/sign-in', search: `returnUrl=${props.location.pathname}` }} />;
+    if (checkAuth && !token) {
+      const { pathname } = props.location;
+      return (
+        <Redirect
+          to={{ pathname: '/sign-in', search: (pathname !== '/logout') ? `returnUrl=${pathname}` : '' }}
+        />
+      );
     }
 
     return <DomRoute {...props} />;

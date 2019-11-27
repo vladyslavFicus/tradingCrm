@@ -1,5 +1,6 @@
 import { Component } from 'react';
-import PropTypes from 'prop-types';
+import PropTypes from 'constants/propTypes';
+import { withPermission } from 'providers/PermissionsProvider';
 import shallowEqual from 'utils/shallowEqual';
 import Permissions, { CONDITIONS } from 'utils/permissions';
 
@@ -10,22 +11,19 @@ class PermissionContent extends Component {
       PropTypes.string,
       PropTypes.array,
     ]).isRequired,
+    permission: PropTypes.permission.isRequired,
     permissionsCondition: PropTypes.oneOf([CONDITIONS.OR, CONDITIONS.AND]),
-  };
-
-  static contextTypes = {
-    permissions: PropTypes.arrayOf(PropTypes.string).isRequired,
   };
 
   static defaultProps = {
     permissionsCondition: CONDITIONS.AND,
   };
 
-  constructor(props, context) {
+  constructor(props) {
     super(props);
 
     this.state = {
-      visible: (new Permissions(props.permissions, props.permissionsCondition)).check(context.permissions),
+      visible: (new Permissions(props.permissions, props.permissionsCondition)).check(props.permission.permissions),
     };
   }
 
@@ -55,4 +53,4 @@ class PermissionContent extends Component {
   }
 }
 
-export default PermissionContent;
+export default withPermission(PermissionContent);

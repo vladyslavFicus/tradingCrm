@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { I18n } from 'react-redux-i18n';
+import I18n from 'i18n-js';
 import { Nav, NavItem } from 'reactstrap';
 import PropTypes from '../../constants/propTypes';
 import './TabHeaderNav.scss';

@@ -1,5 +1,7 @@
+/* eslint-disable */
+
 import React, { PureComponent } from 'react';
-import { I18n } from 'react-redux-i18n';
+import I18n from 'i18n-js';
 import IpList from 'components/Information/IpList';
 import PermissionContent from 'components/PermissionContent';
 import permissions from 'config/permissions';
@@ -10,17 +12,16 @@ import Notes from './Notes';
 
 class Information extends PureComponent {
   static propTypes = {
-    data: PropTypes.object,
+    newProfile: PropTypes.object,
     onEditNoteClick: PropTypes.func.isRequired,
     ips: PropTypes.array.isRequired,
     pinnedNotes: PropTypes.object,
     acquisitionData: PropTypes.object.isRequired,
     loading: PropTypes.bool.isRequired,
-    locale: PropTypes.string.isRequired,
   };
 
   static defaultProps = {
-    data: {},
+    newProfile: {},
     pinnedNotes: {},
   };
 
@@ -32,14 +33,14 @@ class Information extends PureComponent {
       onEditNoteClick,
       acquisitionData,
       loading,
-      locale,
+      newProfile,
     } = this.props;
 
     return (
       <div className="account-details">
         <div className="row">
           <div className="col-md-3">
-            <Personal data={data} loading={loading} locale={locale} />
+            <Personal newProfile={newProfile} loading={loading} />
           </div>
           <div className="col-md-3">
             <AcquisitionStatus
@@ -55,7 +56,6 @@ class Information extends PureComponent {
               <Notes
                 notes={pinnedNotes}
                 onEditNoteClick={onEditNoteClick}
-                locale={locale}
               />
             </div>
           </PermissionContent>

@@ -2,7 +2,6 @@ import { reduxForm } from 'redux-form';
 import { graphql, compose } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
 import { get } from 'lodash';
-import { connect } from 'react-redux';
 import { updateUser, removeOperatorFromBranch } from 'graphql/mutations/hierarchy';
 import { withNotifications } from 'components/HighOrder';
 import { getUserBranchHierarchy } from 'graphql/queries/hierarchy';
@@ -11,10 +10,8 @@ import HierarchyProfileForm from './HierarchyProfileForm';
 import { getBranchOption } from './AddBranchForm/utils';
 
 const FORM_NAME = 'HierarchyOperatorProfileForm';
-const mapStateToProps = ({ auth: { uuid } }) => ({ userId: uuid });
 
 export default compose(
-  connect(mapStateToProps),
   withRouter,
   withNotifications,
   graphql(updateUser, {
@@ -25,8 +22,8 @@ export default compose(
   }),
   graphql(getUserBranchHierarchy, {
     name: 'branchHierarchy',
-    options: ({ userId }) => ({
-      variables: { userId, withoutBrandFilter: true },
+    options: () => ({
+      variables: { withoutBrandFilter: true },
       fetchPolicy: 'network-only',
     }),
     props: ({ branchHierarchy: { hierarchy, loading } }) => {

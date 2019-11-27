@@ -1,15 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import { I18n } from 'react-redux-i18n';
-import { connect } from 'react-redux';
-import { actionCreators as authoritiesActionCreators } from '../../../../../../redux/modules/auth/authorities';
-import { actionCreators as miniProfileActionCreators } from '../../../../../../redux/modules/miniProfile';
+import I18n from 'i18n-js';
 import { entities, entitiesPrefixes } from '../../../../../../constants/uuid';
 import PopoverButton from '../../../../../../components/PopoverButton';
 import Uuid from '../../../../../../components/Uuid/index';
-import MiniProfile from '../../../../../../components/MiniProfile';
-import { types as miniProfileTypes } from '../../../../../../constants/miniProfile';
 
 class Notes extends Component {
   static propTypes = {
@@ -20,39 +15,6 @@ class Notes extends Component {
       })),
     }).isRequired,
     onEditNoteClick: PropTypes.func.isRequired,
-    fetchOperatorMiniProfile: PropTypes.func.isRequired,
-    fetchAuthorities: PropTypes.func.isRequired,
-  };
-
-  handleLoadOperatorMiniProfile = async (uuid) => {
-    const { fetchOperatorMiniProfile, fetchAuthorities } = this.props;
-
-    const action = await fetchOperatorMiniProfile(uuid);
-
-    if (!action || action.error) {
-      return {
-        error: true,
-        payload: action ? action.payload : null,
-      };
-    }
-
-    const payload = { ...action.payload };
-
-    const authoritiesAction = await fetchAuthorities(uuid);
-
-    if (!authoritiesAction || authoritiesAction.error) {
-      return {
-        error: true,
-        payload: authoritiesAction ? authoritiesAction.payload : null,
-      };
-    }
-
-    payload.authorities = authoritiesAction.payload;
-
-    return {
-      error: false,
-      payload,
-    };
   };
 
   renderItem = item => (
@@ -76,13 +38,7 @@ class Notes extends Component {
           <b>{item.operator.fullName}</b>
           <div className="note-content__author">
             {I18n.t('COMMON.AUTHOR_BY')}
-            <MiniProfile
-              target={item.changedBy}
-              type={miniProfileTypes.OPERATOR}
-              dataSource={this.handleLoadOperatorMiniProfile}
-            >
-              <Uuid uuid={item.changedBy} uuidPrefix={entitiesPrefixes[entities.operator]} />
-            </MiniProfile>
+            <Uuid uuid={item.changedBy} uuidPrefix={entitiesPrefixes[entities.operator]} />
           </div>
         </If>
         <small>
@@ -125,9 +81,4 @@ class Notes extends Component {
   }
 }
 
-const mapActions = {
-  fetchOperatorMiniProfile: miniProfileActionCreators.fetchOperatorProfile,
-  fetchAuthorities: authoritiesActionCreators.fetchAuthorities,
-};
-
-export default connect(null, mapActions)(Notes);
+export default Notes;

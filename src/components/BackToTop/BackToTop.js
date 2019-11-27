@@ -60,9 +60,9 @@ class BackToTop extends Component {
       <button
         type="button"
         className={classNames(
-          'fa fa-caret-up back-to-top',
+          'back-to-top fa fa-caret-up',
           { 'is-visible': isVisible },
-          { positionChange },
+          { 'has-changed-position': positionChange },
         )}
         onClick={this.scrollToTop}
       />

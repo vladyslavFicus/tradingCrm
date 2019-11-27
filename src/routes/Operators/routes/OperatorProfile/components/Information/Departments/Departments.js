@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { I18n } from 'react-redux-i18n';
+import I18n from 'i18n-js';
 import renderLabel from '../../../../../../../utils/renderLabel';
 import { departmentsLabels, rolesLabels } from '../../../../../../../constants/operators';
 
@@ -25,7 +25,7 @@ const Departments = ({ authorities }) => (
                       { renderLabel(authority.department, departmentsLabels) }
                     </div>
                     <div className="badge-role">
-                      { renderLabel(authority.role, rolesLabels) }
+                      { I18n.t(renderLabel(authority.role, rolesLabels)) }
                     </div>
                   </span>
                 ))

@@ -1,16 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { ReactComponent as Loader } from './loader.svg';
 
 const ShortLoader = ({ height }) => (
-  <div className="text-center">
-    <img src="/img/infinite_preloader.svg" alt="preloader" height={height} />
+  <div className="u-center">
+    <Loader height={height} />
   </div>
 );
+
 ShortLoader.propTypes = {
   height: PropTypes.number,
 };
+
 ShortLoader.defaultProps = {
-  height: 27,
+  height: 25,
 };
 
 export default ShortLoader;

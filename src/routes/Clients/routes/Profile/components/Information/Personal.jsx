@@ -1,16 +1,20 @@
+/* eslint-disable */
+
 import React, { PureComponent } from 'react';
 import { graphql, compose } from 'react-apollo';
 import moment from 'moment';
 import { get } from 'lodash';
-import { connect } from 'react-redux';
-import { I18n } from 'react-redux-i18n';
+import I18n from 'i18n-js';
 import { getClickToCall } from 'config';
 import Regulated from 'components/Regulation';
 import Uuid from 'components/Uuid';
 import { withNotifications } from 'components/HighOrder';
 import PermissionContent from 'components/PermissionContent';
 import permissions from 'config/permissions';
-import { clickToCall, updateRegulated as updateRegulatedMutation } from 'graphql/mutations/profile';
+import {
+  clickToCall,
+  updateConfigurationMutation,
+} from 'graphql/mutations/profile';
 import PersonalInformationItem from 'components/Information/PersonalInformationItem';
 import NotificationDetailsItem from 'components/Information/NotificationDetailsItem';
 import PropTypes from 'constants/propTypes';
@@ -20,7 +24,7 @@ import RegulatedForm from './RegulatedForm';
 
 class Personal extends PureComponent {
   static propTypes = {
-    data: PropTypes.shape({
+    newProfile: PropTypes.shape({
       address: PropTypes.string,
       affiliateId: PropTypes.string,
       birthDate: PropTypes.string,
@@ -49,23 +53,20 @@ class Personal extends PureComponent {
   };
 
   static defaultProps = {
-    data: {},
+    newProfile: {},
     operatorPhoneNumber: null,
   };
 
-  handleRegulatedChanged = async ({ provided, ...variables }) => {
+  handleRegulatedChanged = async (variables) => {
     const {
-      data: { playerUUID: profileId },
-      updateRegulated,
+      newProfile: { uuid: playerUUID },
+      updateConfiguration,
       notify,
     } = this.props;
 
-    const { data: { profile: { updateRegulated: { success } } } } = await updateRegulated({
+    const { data: { profile: { updateConfiguration: { success } } } } = await updateConfiguration({
       variables: {
-        profileId,
-        fatca: {
-          provided,
-        },
+        playerUUID,
         ...variables,
       },
     });
@@ -101,33 +102,46 @@ class Personal extends PureComponent {
   };
 
   render() {
+    if (this.props.loading) {
+      return null;
+    }
+
     const {
-      data: {
+      newProfile: {
         birthDate,
         gender,
-        email,
-        country,
-        address,
-        kycAddressStatus,
-        kycPersonalStatus,
+        convertedFromLeadUuid,
+        migrationId,
+        contacts: {
+          email,
+          phone,
+          additionalEmail,
+          additionalPhone,
+        },
+        address: {
+          countryCode,
+          city,
+          address: fullAddress,
+        },
         profileStatus,
-        phoneNumberVerified,
-        city,
+        phoneVerified,
+        configuration: {
+          crs,
+          fatca,
+          gdpr,
+          webCookies,
+          subscription,
+        },
+        kyc: {
+          status,
+        },
+        affiliate,
+        clientType,
       },
-      operatorPhoneNumber,
       loading,
     } = this.props;
 
-    const withCall = getClickToCall().isActive && !!operatorPhoneNumber;
-
-    const tradingProfile = get(this.props.data, 'tradingProfile') || {};
-    const affiliateProfile = get(tradingProfile, 'affiliateProfileDocument');
-    const clientType = get(tradingProfile, 'clientType');
-
-    const gdpr = get(tradingProfile, 'gdpr') || {};
-    const spam = get(tradingProfile, 'spam') || {};
-    const webCookies = get(tradingProfile, 'webCookies') || {};
-    const affiliateProfileDocument = get(tradingProfile, 'affiliateProfileDocument') || {};
+    const withCall = getClickToCall().isActive;
 
     return (
       <div className="account-details__personal-info">
@@ -145,26 +159,26 @@ class Personal extends PureComponent {
             <PersonalInformationItem
               label={I18n.t('CLIENT_PROFILE.DETAILS.DATE_OF_BIRTH')}
               value={birthDate ? moment(birthDate).format('DD.MM.YYYY') : null}
-              verified={kycPersonalStatus && kycPersonalStatus.status === kycStatuses.VERIFIED}
+              verified={status === kycStatuses.VERIFIED}
             />
             <PersonalInformationItem
               label={I18n.t('CLIENT_PROFILE.DETAILS.GENDER')}
               value={gender}
-              verified={kycPersonalStatus && kycPersonalStatus.status === kycStatuses.VERIFIED}
+              verified={status === kycStatuses.VERIFIED}
             />
             <PersonalInformationItem
               label={I18n.t('CLIENT_PROFILE.DETAILS.PHONE')}
-              value={tradingProfile.phone1}
-              verified={phoneNumberVerified}
+              value={phone}
+              verified={phoneVerified}
               withCall={withCall}
-              onClickToCall={this.handleClickToCall(tradingProfile.phone1)}
+              onClickToCall={this.handleClickToCall(phone)}
             />
             <PersonalInformationItem
               label={I18n.t('CLIENT_PROFILE.DETAILS.ALT_PHONE')}
-              value={tradingProfile.phone2}
-              verified={phoneNumberVerified}
+              value={additionalPhone}
+              verified={phoneVerified}
               withCall={withCall}
-              onClickToCall={this.handleClickToCall(tradingProfile.phone2)}
+              onClickToCall={this.handleClickToCall(additionalPhone)}
             />
             <PersonalInformationItem
               label={I18n.t('CLIENT_PROFILE.DETAILS.EMAIL')}
@@ -173,79 +187,70 @@ class Personal extends PureComponent {
             />
             <PersonalInformationItem
               label={I18n.t('CLIENT_PROFILE.DETAILS.ALT_EMAIL')}
-              value={tradingProfile.email2}
+              value={additionalEmail}
               verified={profileStatus === userStatuses.ACTIVE}
             />
             <PersonalInformationItem
               label={I18n.t('CLIENT_PROFILE.DETAILS.FULL_ADDRESS')}
-              value={address}
-              verified={kycAddressStatus && kycAddressStatus.status === kycStatuses.VERIFIED}
+              value={fullAddress}
+              verified={status === kycStatuses.VERIFIED}
             />
             <PersonalInformationItem
               label={I18n.t('CLIENT_PROFILE.DETAILS.COUNTRY')}
-              value={country}
-              verified={kycAddressStatus && kycAddressStatus.status === kycStatuses.VERIFIED}
+              value={countryCode}
+              verified={status === kycStatuses.VERIFIED}
             />
             <PersonalInformationItem
               label={I18n.t('CLIENT_PROFILE.DETAILS.CITY')}
               value={city}
-              verified={kycAddressStatus && kycAddressStatus.status === kycStatuses.VERIFIED}
+              verified={status === kycStatuses.VERIFIED}
             />
-            <If condition={affiliateProfile}>
-              <If condition={affiliateProfile.affiliate}>
-                <PersonalInformationItem
-                  label={I18n.t('CLIENT_PROFILE.DETAILS.AFFILIATE')}
-                  value={affiliateProfile.affiliate.fullName}
-                />
-              </If>
-              <strong>{I18n.t('CLIENT_PROFILE.DETAILS.AFFILIATE_ID')}</strong>: <Uuid uuid={affiliateProfile._id} />
+            <If condition={affiliate}>
+              <PersonalInformationItem
+                label={I18n.t('CLIENT_PROFILE.DETAILS.AFFILIATE')}
+                value={affiliate.firstName}
+              />
+              <strong>{I18n.t('CLIENT_PROFILE.DETAILS.AFFILIATE_ID')}</strong>: <Uuid uuid={affiliate.uuid} />
               <PersonalInformationItem
                 label={I18n.t('CLIENT_PROFILE.DETAILS.SOURCE')}
                 value={
-                  affiliateProfile.source
+                  affiliate.source
                   || <span className="color-default">{I18n.t('CLIENT_PROFILE.DETAILS.NO_SOURCE')}</span>
                 }
               />
               <PersonalInformationItem
                 label={I18n.t('CLIENT_PROFILE.DETAILS.REFERRAL')}
-                value={affiliateProfile.referral
+                value={affiliate.referral
                 || <span className="color-default">{I18n.t('CLIENT_PROFILE.DETAILS.NO_REFERRAL')}</span>}
               />
             </If>
-            <If condition={tradingProfile.convertedFromLeadUuid}>
+            <If condition={convertedFromLeadUuid}>
               <div>
                 <strong>{I18n.t('CLIENT_PROFILE.DETAILS.CONVERTED_FROM_LEAD')}</strong>
                 {': '}
-                <Uuid uuid={tradingProfile.convertedFromLeadUuid} />
+                <Uuid uuid={convertedFromLeadUuid} />
               </div>
             </If>
-            <If condition={tradingProfile.migrationId}>
+            <If condition={migrationId}>
               <div>
                 <strong>{I18n.t('CLIENT_PROFILE.DETAILS.MIGRATION_ID')}</strong>
                 {': '}
-                <Uuid uuid={tradingProfile.migrationId} />
-              </div>
-            </If>
-            <If condition={tradingProfile.fnsStatus}>
-              <div>
-                <strong>{I18n.t('CLIENT_PROFILE.DETAILS.FNS_STATUS')}</strong>
-                {': '}
-                <Uuid uuid={tradingProfile.fnsStatus} />
+                <Uuid uuid={migrationId} />
               </div>
             </If>
             <If condition={!loading}>
-              <PermissionContent permissions={permissions.USER_PROFILE.CHANGE_FATCA_STATUS}>
+              <PermissionContent permissions={permissions.USER_PROFILE.CHANGE_CONFIGURATION}>
                 <RegulatedForm
                   handleChange={this.handleRegulatedChanged}
                   initialValues={{
-                    fatca: get(tradingProfile, 'fatca'),
-                    crs: get(tradingProfile, 'crs'),
+                    fatca,
+                    crs,
                   }}
                 />
               </PermissionContent>
               <PersonalInformationItem
                 label="SMS"
-                value={affiliateProfileDocument.sms}
+                value={affiliate && affiliate.sms}
               />
               <Regulated>
                 <div className="account-details__label margin-top-15">
@@ -272,23 +277,23 @@ class Personal extends PureComponent {
                 </div>
                 <NotificationDetailsItem
                   label={I18n.t('CLIENT_PROFILE.DETAILS.SPAM.MARKET_NEWS')}
-                  value={spam.marketNews}
+                  value={subscription.marketNews}
                 />
                 <NotificationDetailsItem
                   label={I18n.t('CLIENT_PROFILE.DETAILS.SPAM.INFORMATION')}
-                  value={spam.information}
+                  value={subscription.information}
                 />
                 <NotificationDetailsItem
                   label={I18n.t('CLIENT_PROFILE.DETAILS.SPAM.EDUCATIONAL')}
-                  value={spam.educational}
+                  value={subscription.educational}
                 />
                 <NotificationDetailsItem
                   label={I18n.t('CLIENT_PROFILE.DETAILS.SPAM.PROMOS_OFFERS')}
-                  value={spam.promosAndOffers}
+                  value={subscription.promosAndOffers}
                 />
                 <NotificationDetailsItem
                   label={I18n.t('CLIENT_PROFILE.DETAILS.SPAM.STATISTICS_SUMMARY')}
-                  value={spam.statisticsAndSummary}
+                  value={subscription.statisticsAndSummary}
                 />
                 <NotificationDetailsItem
                   className="margin-top-15"
@@ -306,7 +311,10 @@ class Personal extends PureComponent {
 
 export default compose(
   withNotifications,
-  connect(({ auth: { data: { phoneNumber: operatorPhoneNumber } } }) => ({ operatorPhoneNumber })),
-  graphql(clickToCall, { name: 'clickToCall' }),
-  graphql(updateRegulatedMutation, { name: 'updateRegulated' }),
+  graphql(clickToCall, {
+    name: 'clickToCall'
+  }),
+  graphql(updateConfigurationMutation, {
+    name: 'updateConfiguration',
+  }),
 )(Personal);

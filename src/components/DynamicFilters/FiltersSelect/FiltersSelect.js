@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import classNames from 'classnames';
 import onClickOutside from 'react-onclickoutside';
 import PropTypes from 'prop-types';
-import { I18n } from 'react-redux-i18n';
+import I18n from 'i18n-js';
 import './FiltersSelect.scss';
 import SelectSingleOptions from '../../Select/SelectSingleOptions';
 import SelectSearchBox, { filterOptionsByQuery } from '../../Select/SelectSearchBox';

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import classNames from 'classnames';
 import moment from 'moment';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
-import { I18n } from 'react-redux-i18n';
+import I18n from 'i18n-js';
 import _ from 'lodash';
 import PropTypes from '../../constants/propTypes';
 import { statusesColor, statusesLabels, statuses, initiators } from '../../constants/payment';

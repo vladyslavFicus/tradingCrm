@@ -1,10 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { I18n } from 'react-redux-i18n';
+import I18n from 'i18n-js';
+import { withStorage } from 'providers/StorageProvider';
 import { Redirect } from 'react-router-dom';
 
-const NotFound = ({ logged }) => {
-  if (!logged) {
+const NotFound = ({ token }) => {
+  if (!token) {
     return <Redirect to="/sign-in" />;
   }
 
@@ -23,7 +24,7 @@ const NotFound = ({ logged }) => {
 };
 
 NotFound.propTypes = {
-  logged: PropTypes.bool.isRequired,
+  token: PropTypes.string.isRequired,
 };
 
-export default NotFound;
+export default withStorage(['token'])(NotFound);

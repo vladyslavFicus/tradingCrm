@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { I18n } from 'react-redux-i18n';
+import I18n from 'i18n-js';
 import moment from 'moment';
 import { getActiveBrandConfig } from 'config';
 import PropTypes from '../../constants/propTypes';

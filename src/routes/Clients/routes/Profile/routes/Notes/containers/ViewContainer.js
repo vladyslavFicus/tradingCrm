@@ -1,19 +1,10 @@
-import { connect } from 'react-redux';
 import { graphql, compose } from 'react-apollo';
+import { withStorage } from 'providers/StorageProvider';
 import { createQueryPagination } from '@newage/backoffice_utils';
+import { notesQuery } from 'graphql/queries/notes';
 import Notes from '../components/Notes';
-import { notesQuery } from '../../../../../../../graphql/queries/notes';
-
-const mapStateToProps = ({
-  i18n: { locale },
-  auth: { department },
-}) => ({
-  locale,
-  department,
-});
 
 export default compose(
-  connect(mapStateToProps),
   graphql(notesQuery, {
     options: ({ match: { params: { id: playerUUID } }, location: { query } }) => ({
       fetchPolicy: 'cache-and-network',
@@ -36,4 +27,4 @@ export default compose(
     }),
     name: 'notes',
   }),
-)(Notes);
+)(withStorage(['auth'])(Notes));

@@ -1,5 +1,6 @@
 import React, { PureComponent, Fragment } from 'react';
 import { Switch, Redirect } from 'react-router-dom';
+import { withPermission } from 'providers/PermissionsProvider';
 import Permissions from '../../../../../../../utils/permissions';
 import { Route } from '../../../../../../../router';
 import PropTypes from '../../../../../../../constants/propTypes';
@@ -9,13 +10,15 @@ import { routes } from '../constants';
 
 class Accounts extends PureComponent {
   static propTypes = {
-    currentPermissions: PropTypes.array.isRequired,
     match: PropTypes.shape({
       params: PropTypes.shape({
         id: PropTypes.string,
       }).isRequired,
       path: PropTypes.string.isRequired,
       url: PropTypes.string.isRequired,
+    }).isRequired,
+    permission: PropTypes.shape({
+      permissions: PropTypes.arrayOf(PropTypes.string),
     }).isRequired,
   };
 
@@ -35,13 +38,15 @@ class Accounts extends PureComponent {
 
   get tabs() {
     const {
-      currentPermissions,
       match: { url },
+      permission: {
+        permissions,
+      },
     } = this.props;
 
     return routes
       .map(i => ({ ...i, url: `${url}${i.url}` }))
-      .filter(i => (!(i.permissions instanceof Permissions) || i.permissions.check(currentPermissions)));
+      .filter(i => (!(i.permissions instanceof Permissions) || i.permissions.check(permissions)));
   }
 
   setRenderActions = renderActions => this.setState({ renderActions });
@@ -78,4 +83,4 @@ class Accounts extends PureComponent {
   }
 }
 
-export default Accounts;
+export default withPermission(Accounts);

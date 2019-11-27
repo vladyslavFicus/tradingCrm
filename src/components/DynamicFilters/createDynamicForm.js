@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { reduxForm, Field } from 'redux-form';
 import { isEqual } from 'lodash';
-import { I18n } from 'react-redux-i18n';
+import I18n from 'i18n-js';
 import FilterItem from './FilterItem';
 import { InputField, SelectField, DateTimeField, NasSelectField, RangeGroup } from '../ReduxForm';
 import { TYPES } from './constants';

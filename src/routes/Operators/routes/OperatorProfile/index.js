@@ -1,7 +1,1 @@
-import { asyncRoute } from '../../../../router';
-
-export default asyncRoute(
-  () => import(/* webpackChunkName: "OperatorProfileContainer" */ './containers/OperatorProfileContainer'),
-  () => import(/* webpackChunkName: "OperatorProfileReducers" */ './modules'),
-  'operatorProfile',
-);
+export { default } from './containers/OperatorProfileContainer';

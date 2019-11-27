@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { compose, graphql } from 'react-apollo';
 import { Field, reduxForm } from 'redux-form';
 import { get } from 'lodash';
-import { I18n } from 'react-redux-i18n';
+import I18n from 'i18n-js';
 import { operatorsQuery } from 'graphql/queries/operators';
 import { changeOriginalAgent } from 'graphql/mutations/payment';
 import { NasSelectField } from '../ReduxForm/index';

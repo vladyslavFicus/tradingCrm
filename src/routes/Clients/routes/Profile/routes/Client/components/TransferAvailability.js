@@ -1,16 +1,16 @@
 import React, { PureComponent, Fragment } from 'react';
 import { graphql, compose } from 'react-apollo';
-import { I18n } from 'react-redux-i18n';
+import I18n from 'i18n-js';
 import PropTypes from 'prop-types';
 import { Field, reduxForm } from 'redux-form';
 import { withNotifications } from 'components/HighOrder';
 import { SelectField } from 'components/ReduxForm';
-import { updateMutation } from 'graphql/mutations/profile';
+import { updateConfigurationMutation } from 'graphql/mutations/profile';
 
 class TransferAvailability extends PureComponent {
   static propTypes = {
     initialValues: PropTypes.shape({
-      enableInternalTransfer: PropTypes.number,
+      internalTransfer: PropTypes.number,
     }),
     notify: PropTypes.func.isRequired,
     disabled: PropTypes.bool,
@@ -22,12 +22,12 @@ class TransferAvailability extends PureComponent {
     initialValues: {},
   };
 
-  handleChangeTransfer = async ({ enableInternalTransfer }) => {
-    const { playerUUID, profileUpdate, notify } = this.props;
-    const { error } = await profileUpdate({
+  handleChangeTransfer = async ({ internalTransfer }) => {
+    const { playerUUID, updateConfiguration, notify } = this.props;
+    const { error } = await updateConfiguration({
       variables: {
         playerUUID,
-        enableInternalTransfer: !!enableInternalTransfer,
+        internalTransfer: !!internalTransfer,
       },
     });
 
@@ -54,7 +54,7 @@ class TransferAvailability extends PureComponent {
         <form onSubmit={handleSubmit(this.handleChangeTransfer)}>
           <div className="form-row">
             <Field
-              name="enableInternalTransfer"
+              name="internalTransfer"
               label={I18n.t('PLAYER_PROFILE.PROFILE.TRANSFER_AVAILABILITY.LABEL')}
               disabled={disabled}
               component={SelectField}
@@ -86,7 +86,7 @@ export default compose(
     form: 'transferAvailability',
     enableReinitialize: true,
   }),
-  graphql(updateMutation, {
-    name: 'profileUpdate',
+  graphql(updateConfigurationMutation, {
+    name: 'updateConfiguration',
   }),
 )(TransferAvailability);

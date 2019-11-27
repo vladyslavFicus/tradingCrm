@@ -1,5 +1,4 @@
 const express = require('express');
-const tokenMiddleware = require('@hrzn/express-token-middleware');
 const buildConfig = require('./buildConfig');
 const { saveConfig, writeRandomConfigSrcPath, buildNginxConfig } = require('./utils/config-file');
 
@@ -34,7 +33,7 @@ let config = null;
   await saveConfig(config);
   await writeRandomConfigSrcPath(INDEX_HTML_PATH);
 
-  app.use('/api', versionMiddleware, tokenMiddleware({ apiUrl: 'http://kong', limit: '50mb' }));
+  app.use('/api', versionMiddleware);
 
   app.listen(3000, () => console.log('Server is running at http://localhost:3000'));
 })();

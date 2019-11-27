@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { I18n } from 'react-redux-i18n';
+import I18n from 'i18n-js';
 import { get } from 'lodash';
 import { TextRow } from 'react-placeholder/lib/placeholders';
 import history from 'router/history';
@@ -14,7 +14,6 @@ import DesksGridFilter from './DesksGridFilter';
 
 class List extends Component {
   static propTypes = {
-    locale: PropTypes.string.isRequired,
     createDesk: PropTypes.func.isRequired,
     userBranchHierarchy: PropTypes.shape({
       hierarchy: PropTypes.shape({
@@ -35,9 +34,6 @@ class List extends Component {
     modals: PropTypes.shape({
       deskModal: PropTypes.modalType,
       infoModal: PropTypes.modalType,
-    }).isRequired,
-    auth: PropTypes.shape({
-      userId: PropTypes.string.isRequired,
     }).isRequired,
     desks: PropTypes.shape({
       loading: PropTypes.bool.isRequired,
@@ -80,17 +76,9 @@ class List extends Component {
       createDesk,
       desks: { refetch },
       modals: { deskModal, infoModal },
-      auth: { userId: operatorId },
     } = this.props;
 
-    const { data: { hierarchy: { createDesk: { data, error } } } } = await createDesk(
-      {
-        variables: {
-          operatorId,
-          ...variables,
-        },
-      },
-    );
+    const { data: { hierarchy: { createDesk: { data, error } } } } = await createDesk({ variables });
 
     refetch();
     deskModal.hide();
@@ -145,7 +133,6 @@ class List extends Component {
 
   render() {
     const {
-      locale,
       desks: {
         loading,
         hierarchy: desks,
@@ -206,7 +193,6 @@ class List extends Component {
           <GridView
             dataSource={entities}
             last
-            locale={locale}
             showNoResults={!loading && entities.length === 0}
             onRowClick={this.handleDeskClick}
           >

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import classNames from 'classnames';
 import { size } from 'lodash';
 import moment from 'moment';
-import { I18n } from 'react-redux-i18n';
+import I18n from 'i18n-js';
 import PropTypes from '../../constants/propTypes';
 import LetterIcon from '../LetterIcon';
 import { types, typesLabels, typesClassNames } from '../../constants/audit';

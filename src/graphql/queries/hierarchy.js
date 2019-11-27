@@ -52,12 +52,10 @@ const getUserHierarchyById = gql`query getUserHierarchyById(
 }`;
 
 const getUserBranchHierarchy = gql`query getUserBranchHierarchy(
-  $userId: String!,
   $withoutBrandFilter: Boolean,
 ) {
   hierarchy {
     userBranchHierarchy (
-      userId: $userId,
       withoutBrandFilter: $withoutBrandFilter,
     ) {
       error {
@@ -221,7 +219,6 @@ const getBranchInfo = gql`query getBranchInfo(
 ${HierarchyBranchFragment}`;
 
 const getBranchHierarchy = gql`query getBranchHierarchy (
-  $operatorId: String!,
   $branchType: String!,
   $keyword: String,
   $officeUuid: String,
@@ -232,7 +229,6 @@ const getBranchHierarchy = gql`query getBranchHierarchy (
 ) {
   hierarchy {
     branchHierarchy (
-      operatorId: $operatorId,
       branchType: $branchType,
       keyword: $keyword,
       officeUuid: $officeUuid,

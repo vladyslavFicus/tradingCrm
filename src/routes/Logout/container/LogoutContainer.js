@@ -1,12 +1,10 @@
-import { connect } from 'react-redux';
-import { withApollo, compose } from 'react-apollo';
+import { graphql, withApollo, compose } from 'react-apollo';
+import { logout } from 'graphql/mutations/auth';
 import Logout from '../components/Logout';
-import { actionCreators } from '../../../redux/modules/auth';
 
 export default compose(
   withApollo,
-  connect(
-    ({ auth: { logged } }) => ({ logged }),
-    { logout: actionCreators.logout },
-  ),
+  graphql(logout, {
+    name: 'logout',
+  }),
 )(Logout);

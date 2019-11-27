@@ -3,12 +3,13 @@ import PropTypes from 'prop-types';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import classNames from 'classnames';
 import moment from 'moment';
-import { I18n } from 'react-redux-i18n';
+import I18n from 'i18n-js';
+import { withPermission } from 'providers/PermissionsProvider';
 import FailureReasonIcon from 'components/FailureReasonIcon';
 import { statuses, statusColorNames, statusesLabels, durationUnits } from 'constants/user';
 import Uuid from 'components/Uuid';
 import renderLabel from 'utils/renderLabel';
-import Permissions, { CONDITIONS } from 'utils/permissions';
+import Permissions from 'utils/permissions';
 import permissions from 'config/permissions';
 import PlayerStatusModal from './PlayerStatusModal';
 
@@ -19,33 +20,24 @@ const initialState = {
     params: {},
   },
 };
-const changeStatusPermissions = new Permissions([
-  permissions.USER_PROFILE.PROLONG,
-  permissions.USER_PROFILE.BLOCK,
-  permissions.USER_PROFILE.UNBLOCK,
-  permissions.USER_PROFILE.SUSPEND,
-], CONDITIONS.OR);
+const changeStatusPermissions = new Permissions(permissions.USER_PROFILE.STATUS);
 
 class PlayerStatus extends Component {
   static propTypes = {
     status: PropTypes.oneOf(Object.keys(statuses)),
     reason: PropTypes.string,
-    endDate: PropTypes.string,
     availableStatuses: PropTypes.array.isRequired,
     onChange: PropTypes.func.isRequired,
-    locale: PropTypes.string.isRequired,
     statusDate: PropTypes.string,
     profileStatusComment: PropTypes.string,
     statusAuthor: PropTypes.string,
-  };
-
-  static contextTypes = {
-    permissions: PropTypes.arrayOf(PropTypes.string).isRequired,
+    permission: PropTypes.shape({
+      permissions: PropTypes.arrayOf(PropTypes.string).isRequired,
+    }).isRequired,
   };
 
   static defaultProps = {
     reason: null,
-    endDate: null,
     status: null,
     statusDate: null,
     statusAuthor: null,
@@ -148,13 +140,14 @@ class PlayerStatus extends Component {
       reason,
       statusDate,
       statusAuthor,
-      endDate,
-      locale,
       profileStatusComment,
+      permission: {
+        permissions: currentPermissions,
+      },
     } = this.props;
 
     const { dropDownOpen, modal } = this.state;
-    const canChangeStatus = changeStatusPermissions.check(this.context.permissions);
+    const canChangeStatus = changeStatusPermissions.check(currentPermissions);
     const dropDownClassName = classNames('dropdown-highlight', {
       'cursor-pointer': availableStatuses.length > 0,
       'dropdown-open': dropDownOpen,
@@ -164,17 +157,9 @@ class PlayerStatus extends Component {
         <div className="header-block-title">{I18n.t('COMMON.ACCOUNT_STATUS')}</div>
         {availableStatuses.length > 0 && canChangeStatus && <i className="fa fa-angle-down" />}
         <div className={classNames(statusColorNames[status], 'header-block-middle text-uppercase')}>
-          {renderLabel(status, statusesLabels)}
+          {I18n.t(renderLabel(status, statusesLabels))}
         </div>
         {this.renderAuthor(statusAuthor)}
-        {
-          !!endDate
-          && (
-            <div className="header-block-small">
-              {I18n.t('COMMON.DATE_UNTIL', { date: moment.utc(endDate).local().format('DD.MM.YYYY') })}
-            </div>
-          )
-        }
       </div>
     );
 
@@ -185,7 +170,7 @@ class PlayerStatus extends Component {
     return (
       <div className={dropDownClassName}>
         {this.renderDropDown(label, availableStatuses, dropDownOpen, modal)}
-        <If condition={status === statuses.BLOCKED || status === statuses.SUSPENDED}>
+        <If condition={status === statuses.BLOCKED}>
           <FailureReasonIcon
             reason={reason}
             statusDate={moment.utc(statusDate).local().format('YYYY-MM-DD HH:mm:ss')}
@@ -197,7 +182,6 @@ class PlayerStatus extends Component {
           availableStatuses.length > 0 && modal.show
           && (
             <PlayerStatusModal
-              locale={locale}
               title="Change account status"
               {...modal.params}
               onSubmit={this.handleSubmit}
@@ -210,4 +194,4 @@ class PlayerStatus extends Component {
   }
 }
 
-export default PlayerStatus;
+export default withPermission(PlayerStatus);

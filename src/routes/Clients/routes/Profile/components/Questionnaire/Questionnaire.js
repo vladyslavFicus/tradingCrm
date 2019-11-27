@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { get } from 'lodash';
 import moment from 'moment';
-import { I18n } from 'react-redux-i18n';
+import I18n from 'i18n-js';
 import classNames from 'classnames';
 import { graphql, compose } from 'react-apollo';
 import { getApiRoot } from 'config';

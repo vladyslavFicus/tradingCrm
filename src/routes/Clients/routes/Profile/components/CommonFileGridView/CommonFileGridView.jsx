@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import { I18n } from 'react-redux-i18n';
+import I18n from 'i18n-js';
 import classNames from 'classnames';
 import { shortifyInMiddle } from 'utils/stringFormat';
 import { categoriesLabels } from 'constants/files';
@@ -118,7 +118,7 @@ class CommonFileGridView extends Component {
     <NoteButton
       playerUUID={data.playerUUID}
       targetUUID={data.uuid}
-      targetType={targetTypes.FILE}
+      noteTargetType={targetTypes.FILE}
       note={data.note}
     />
   );

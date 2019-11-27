@@ -1,37 +1,23 @@
 import gql from 'graphql-tag';
 
 const createPartner = gql`mutation createPartner(
-  $branchId: String,
   $email: String!,
   $firstName: String!,
   $lastName: String!,
   $password: String!,
   $phone: String,
-  $type: String,
+  $affiliateType: String,
 ) {
   partner {
     createPartner(
-      branchId: $branchId,
       email: $email,
       firstName: $firstName,
       lastName: $lastName,
       phone: $phone,
       password: $password,
-      type: $type,
+      affiliateType: $affiliateType,
     ) {
       data {
-        country
-        email
-        fullName
-        firstName
-        lastName
-        operatorStatus
-        phoneNumber
-        registeredBy
-        registrationDate
-        statusChangeAuthor
-        statusChangeDate
-        statusReason
         uuid
       }
       error {
@@ -46,26 +32,20 @@ const updatePartner = gql`mutation updatePartner(
   $uuid: String!,
   $firstName: String!,
   $lastName: String!,
-  $phoneNumber: String,
+  $phone: String,
   $country: String,
-  $allowedIpAddresses: [String],
-  $forbiddenCountries: [String],
-  $showNotes: Boolean,
-  $showSalesStatus: Boolean,
-  $showFTDAmount: Boolean,
+  $email: String,
+  $permission: PartnerPermissionUpdate,
 ) {
   partner {
     updatePartner(
       uuid: $uuid,
       firstName: $firstName,
       lastName: $lastName,
-      phoneNumber: $phoneNumber
+      phone: $phone,
       country: $country,
-      allowedIpAddresses: $allowedIpAddresses,
-      forbiddenCountries: $forbiddenCountries,
-      showNotes: $showNotes,
-      showSalesStatus: $showSalesStatus,
-      showFTDAmount: $showFTDAmount,
+      email: $email,
+      permission: $permission,
     ) {
       data {
         _id
@@ -74,24 +54,20 @@ const updatePartner = gql`mutation updatePartner(
         fullName
         firstName
         lastName
-        operatorStatus
-        phoneNumber
-        registeredBy
-        registrationDate
+        status
+        phone
+        createdBy
+        createdAt
         statusChangeAuthor
         statusChangeDate
         statusReason
         uuid
-        forexOperator {
-          data {
-            permission {
-              allowedIpAddresses
-              forbiddenCountries
-              showNotes
-              showSalesStatus
-              showFTDAmount
-            }
-          }
+        permission {
+          allowedIpAddresses
+          forbiddenCountries
+          showNotes
+          showSalesStatus
+          showFTDAmount
         }
       }
       error {
@@ -110,7 +86,24 @@ const changePassword = gql`mutation changePassword($playerUUID: String!, $passwo
   }
 }`;
 
+const changeStatus = gql`mutation changeStatus(
+  $uuid: String!,
+  $reason: String!,
+  $status: String!
+) {
+  partner {
+    changeStatus(
+      uuid: $uuid,
+      reason: $reason,
+      status: $status
+    ) {
+      success
+    }
+  }
+}`;
+
 export {
+  changeStatus,
   createPartner,
   updatePartner,
   changePassword,

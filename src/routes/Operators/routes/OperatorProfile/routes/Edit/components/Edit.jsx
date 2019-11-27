@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { I18n } from 'react-redux-i18n';
+import I18n from 'i18n-js';
 import { get } from 'lodash';
 import PropTypes from 'constants/propTypes';
 import { departmentsLabels, rolesLabels, operatorTypes } from 'constants/operators';
 import renderLabel from 'utils/renderLabel';
 import Permissions from 'utils/permissions';
 import permissions from 'config/permissions';
+import { withPermission } from 'providers/PermissionsProvider';
 import HierarchyProfileForm from './HierarchyProfileForm';
 import PersonalForm from './PersonalForm';
 import DepartmentsForm from './DepartmentsForm';
@@ -45,17 +46,13 @@ class View extends Component {
     deleteAuthority: PropTypes.func.isRequired,
     addAuthority: PropTypes.func.isRequired,
     operatorType: PropTypes.string,
-    fetchAuthoritiesOptions: PropTypes.func.isRequired,
     authorities: PropTypes.oneOfType([PropTypes.authorityEntity, PropTypes.object]),
     departmentsRoles: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.string)).isRequired,
     auth: PropTypes.shape({
       uuid: PropTypes.string,
     }).isRequired,
     notify: PropTypes.func.isRequired,
-  };
-
-  static contextTypes = {
-    permissions: PropTypes.arrayOf(PropTypes.string).isRequired,
+    permission: PropTypes.permission.isRequired,
   };
 
   static defaultProps = {
@@ -78,30 +75,36 @@ class View extends Component {
     };
   }
 
-  componentDidMount() {
-    this.props.fetchAuthoritiesOptions();
-  }
-
   get readOnly() {
-    const { permissions: currentPermission } = this.context;
     const permittedRights = [permissions.OPERATORS.UPDATE_PROFILE];
 
-    return !(new Permissions(permittedRights).check(currentPermission));
+    return !(new Permissions(permittedRights).check(this.props.permission.permissions));
   }
 
   handleRefetchHierarchy = () => this.props.userHierarchy.refetch();
 
-  handleSubmit = (data) => {
+  handleSubmit = async (data) => {
     const {
-      updateProfile,
       match: { params: { id: operatorUUID } },
+      updateProfile,
+      notify,
     } = this.props;
 
-    updateProfile({
+    const { data: { operator: { updateOperator: { error } } } } = await updateProfile({
       variables: {
         uuid: operatorUUID,
         ...data,
       },
+    });
+
+    notify({
+      level: error ? 'error' : 'success',
+      title: error
+        ? I18n.t('OPERATORS.NOTIFICATIONS.UPDATE_OPERATOR_ERROR.TITLE')
+        : I18n.t('OPERATORS.NOTIFICATIONS.UPDATE_OPERATOR_SUCCESS.TITLE'),
+      message: error
+        ? I18n.t('OPERATORS.NOTIFICATIONS.UPDATE_OPERATOR_ERROR.MESSAGE')
+        : I18n.t('OPERATORS.NOTIFICATIONS.UPDATE_OPERATOR_SUCCESS.MESSAGE'),
     });
   };
 
@@ -110,21 +113,23 @@ class View extends Component {
       match: { params: { id: operatorUUID } }, deleteAuthority, notify,
     } = this.props;
 
-    const deletedAuthority = await deleteAuthority({
+    const { data: { operator: { removeDepartment: { error } } } } = await deleteAuthority({
       variables: {
         uuid: operatorUUID,
         department,
         role,
       },
     });
-    if (get(deletedAuthority, 'data.operator.removeDepartment.error', null)) {
-      notify({
-        level: 'error',
-        title: I18n.t('OPERATORS.NOTIFICATIONS.DELETE_AUTHORITY_ERROR.TITLE'),
-        message: I18n.t('OPERATORS.NOTIFICATIONS.DELETE_AUTHORITY_ERROR.MESSAGE'),
-      });
-    }
-    return deletedAuthority;
+
+    notify({
+      level: error ? 'error' : 'success',
+      title: error
+        ? I18n.t('OPERATORS.NOTIFICATIONS.DELETE_AUTHORITY_ERROR.TITLE')
+        : I18n.t('OPERATORS.NOTIFICATIONS.DELETE_AUTHORITY_SUCCESS.TITLE'),
+      message: error
+        ? I18n.t('OPERATORS.NOTIFICATIONS.DELETE_AUTHORITY_ERROR.MESSAGE')
+        : I18n.t('OPERATORS.NOTIFICATIONS.DELETE_AUTHORITY_SUCCESS.MESSAGE'),
+    });
   };
 
   handleAddAuthority = async ({
@@ -142,13 +147,18 @@ class View extends Component {
         role,
       },
     });
-    if (get(addedAuthority, 'data.operator.addDepartment.error', null)) {
-      notify({
-        level: 'error',
-        title: I18n.t('OPERATORS.NOTIFICATIONS.ADD_AUTHORITY_ERROR.TITLE'),
-        message: I18n.t('OPERATORS.NOTIFICATIONS.ADD_AUTHORITY_ERROR.MESSAGE'),
-      });
-    }
+    const { data: { operator: { addDepartment: { error } } } } = addedAuthority;
+
+    notify({
+      level: error ? 'error' : 'success',
+      title: error
+        ? I18n.t('OPERATORS.NOTIFICATIONS.ADD_AUTHORITY_ERROR.TITLE')
+        : I18n.t('OPERATORS.NOTIFICATIONS.ADD_AUTHORITY_SUCCESS.TITLE'),
+      message: error
+        ? I18n.t('OPERATORS.NOTIFICATIONS.ADD_AUTHORITY_ERROR.MESSAGE')
+        : I18n.t('OPERATORS.NOTIFICATIONS.ADD_AUTHORITY_SUCCESS.MESSAGE'),
+    });
+
     return addedAuthority;
   };
 
@@ -160,7 +170,7 @@ class View extends Component {
       showNotes,
       showSalesStatus,
       showFTDAmount,
-      authorities: { data: authorities },
+      authorities,
       auth: { uuid },
       departmentsRoles,
       userHierarchy: {
@@ -168,14 +178,18 @@ class View extends Component {
         hierarchy,
       },
       operatorType,
+      permission: {
+        permissions: currentPermissions,
+      },
     } = this.props;
 
-    const { permissions: currentPermissions } = this.context;
     const allowEditPermissions = manageDepartmentsPermission.check(currentPermissions) && uuid !== profile.uuid;
     const initialValues = get(hierarchy, 'userHierarchyById.data') || {};
     const isPartner = operatorType === operatorTypes.PARTNER;
 
-    if (!isPartner) delete departmentsRoles.AFFILIATE_PARTNER;
+    if (!isPartner && departmentsRoles) {
+      delete departmentsRoles.AFFILIATE_PARTNER;
+    }
 
     return (
       <div className="card-body">
@@ -206,12 +220,12 @@ class View extends Component {
               {I18n.t('OPERATORS.PROFILE.DEPARTMENTS.LABEL')}
             </div>
             {
-              authorities.map(authority => (
+              authorities.data ? authorities.data.map(authority => (
                 <div key={authority.id} className="margin-bottom-20">
                   <strong>
                     {renderLabel(authority.department, departmentsLabels)}
                     {' - '}
-                    {renderLabel(authority.role, rolesLabels)}
+                    {I18n.t(renderLabel(authority.role, rolesLabels))}
                   </strong>
                   <If condition={allowEditPermissions}>
                     <strong className="margin-left-20">
@@ -222,12 +236,12 @@ class View extends Component {
                     </strong>
                   </If>
                 </div>
-              ))
+              )) : null
             }
-            <If condition={allowEditPermissions}>
+            <If condition={allowEditPermissions && departmentsRoles}>
               <DepartmentsForm
                 onSubmit={this.handleAddAuthority}
-                authorities={authorities}
+                authorities={authorities.data ? authorities.data : []}
                 departmentsRoles={departmentsRoles}
               />
             </If>
@@ -245,4 +259,4 @@ class View extends Component {
   }
 }
 
-export default View;
+export default withPermission(View);

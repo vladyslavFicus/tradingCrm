@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { get } from 'lodash';
 import classNames from 'classnames';
+import I18n from 'i18n-js';
 import Badge from 'components/Badge';
 import NoteButton from 'components/NoteButton';
 import PropTypes from 'constants/propTypes';
@@ -12,7 +13,6 @@ import { manualPaymentMethods, manualPaymentMethodsLabels } from 'constants/paym
 import { accountTypesLabels } from 'constants/accountTypes';
 import { InputField, NasSelectField, DateTimeField } from 'components/ReduxForm';
 import Currency from 'components/Amount/Currency';
-import I18n from 'utils/i18n';
 import Permissions from 'utils/permissions';
 import { floatNormalize } from 'utils/inputNormalize';
 import { createValidator } from 'utils/validator';
@@ -310,7 +310,7 @@ class PaymentAddModal extends PureComponent {
                 ref={(ref) => { this.noteButton = ref; }}
                 placement="bottom"
                 playerUUID={playerUUID}
-                targetType={targetTypes.PAYMENT}
+                noteTargetType={targetTypes.PAYMENT}
               />
             </div>
           </div>

@@ -12,8 +12,7 @@ import { attributeLabels, getBranchOption } from './constants';
 export default compose(
   graphql(getUserBranchHierarchy, {
     name: 'branchHierarchy',
-    options: ({ operatorId }) => ({
-      variables: { userId: operatorId },
+    options: () => ({
       fetchPolicy: 'network-only',
     }),
     props: ({ branchHierarchy: { hierarchy, loading } }) => {

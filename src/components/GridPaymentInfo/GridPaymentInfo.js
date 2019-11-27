@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { I18n } from 'react-redux-i18n';
+import I18n from 'i18n-js';
 import { compose } from 'react-apollo';
 import PropTypes from 'constants/propTypes';
 import Badge from 'components/Badge';

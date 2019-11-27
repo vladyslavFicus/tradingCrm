@@ -1,5 +1,5 @@
 import Validator from 'validatorjs';
-import { I18n } from 'react-redux-i18n';
+import I18n from 'i18n-js';
 import { get, zipObjectDeep } from 'lodash';
 import moment from 'moment';
 
@@ -174,6 +174,16 @@ function customValueTypeValidator(inputValue, _, attribute) {
   return false;
 }
 
+function listedIPsValidator(listOfIPs) {
+  return listOfIPs.reduce((acc, ip) => {
+    if (!ip.match(/\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b/)) {
+      // eslint-disable-next-line no-param-reassign
+      acc = false;
+    }
+    return acc;
+  }, true);
+}
+
 Validator.register('nextDate', nextDateValidator, 'The :attribute must be equal or bigger');
 Validator.register('lessThan', lessThanValidator, 'The :attribute must be less');
 Validator.register('greaterThan', greaterThanValidator, 'The :attribute must be greater');
@@ -183,6 +193,7 @@ Validator.register('lessOrSame', lessOrSameValidator, 'The :attribute must be le
 Validator.register('greaterOrSame', greaterOrSameValidator, 'The :attribute must be greater');
 Validator.register('periodGreaterOrSame', periodGreaterOrSameValidator, 'The :attribute must be greater');
 Validator.register('customTypeValue.value', customValueTypeValidator, 'The :attribute must be a valid CustomType');
+Validator.register("listedIP's", listedIPsValidator, 'The IP address must be valid. Example: 101.220.33.40');
 
 const getFirstErrors = errors => Object.keys(errors).reduce((result, current) => ({
   ...result,

@@ -1,4 +1,4 @@
-import 'styles/vendor.scss';
+import 'styles/old/vendor.scss';
 
 import React from 'react';
 import ReactDOM from 'react-dom';

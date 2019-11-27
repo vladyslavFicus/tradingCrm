@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import moment from 'moment';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
-import { I18n } from 'react-redux-i18n';
+import I18n from 'i18n-js';
 import { get, startCase } from 'lodash';
 import Placeholder from 'components/Placeholder';
 import { TextRow } from 'react-placeholder/lib/placeholders';
@@ -14,12 +14,11 @@ import {
   operatorTypes,
 } from 'constants/operators';
 import permissions from 'config/permissions';
-import { types as miniProfileTypes } from 'constants/miniProfile';
 import Uuid from 'components/Uuid';
-import MiniProfile from 'components/MiniProfile';
 import GridView, { GridViewColumn } from 'components/GridView';
 import CountryLabelWithFlag from 'components/CountryLabelWithFlag';
 import PermissionContent from 'components/PermissionContent';
+import { authoritiesOptionsQuery } from 'graphql/queries/auth';
 import { getUserTypeByDepartment } from './utils';
 import OperatorGridFilter from './OperatorGridFilter';
 
@@ -39,10 +38,6 @@ class List extends Component {
     }).isRequired,
     submitNewOperator: PropTypes.func.isRequired,
     filterValues: PropTypes.object,
-    locale: PropTypes.string.isRequired,
-    fetchOperatorMiniProfile: PropTypes.func.isRequired,
-    fetchAuthorities: PropTypes.func.isRequired,
-    fetchAuthoritiesOptions: PropTypes.func.isRequired,
     operators: PropTypes.shape({
       operators: PropTypes.shape({
         data: PropTypes.pageable(PropTypes.any),
@@ -51,7 +46,6 @@ class List extends Component {
       loading: PropTypes.bool.isRequired,
     }),
     operatorType: PropTypes.string,
-    operatorId: PropTypes.string.isRequired,
     notify: PropTypes.func.isRequired,
   };
 
@@ -103,11 +97,12 @@ class List extends Component {
     } = this.props;
     const userType = getUserTypeByDepartment(department, role);
     const operatorType = this.props.operatorType.toLowerCase();
-    const type = data.isIB ? 'IB' : undefined;
 
     const {
       data: operatorData,
-    } = await submitNewOperator({ variables: { ...data, department, role, email, userType, branchId: branch, type } });
+    } = await submitNewOperator({
+      variables: { ...data, userType, department, role, email, branchId: branch },
+    });
 
     const newOperator = get(operatorData, `${operatorType}.create${startCase(operatorType)}.data`);
     const newOperatorError = get(operatorData, `${operatorType}.create${startCase(operatorType)}.error`);
@@ -133,12 +128,22 @@ class List extends Component {
   };
 
   handleOpenCreateModal = async () => {
-    const { fetchAuthoritiesOptions, modals, notify, operatorId } = this.props;
-    const optionsAction = await fetchAuthoritiesOptions();
+    const { modals, notify, client } = this.props;
 
-    if (!optionsAction.error) {
-      const { departmentRole } = optionsAction.payload.post;
+    const {
+      data: {
+        authoritiesOptions: {
+          data: {
+            post: {
+              departmentRole,
+            },
+          },
+          error,
+        },
+      },
+    } = await client.query({ query: authoritiesOptionsQuery });
 
+    if (!error) {
       delete departmentRole.PLAYER;
       delete departmentRole.AFFILIATE_PARTNER;
 
@@ -147,13 +152,11 @@ class List extends Component {
       const initialValues = {
         department,
         role: department ? departmentRole[department][0] : null,
-        sendMail: true,
       };
 
       modals.createOperator.show({
         onSubmit: this.handleSubmitNewOperator,
         initialValues,
-        operatorId,
         departmentsRoles: departmentRole || {},
       });
     } else {
@@ -163,37 +166,6 @@ class List extends Component {
         message: I18n.t('OPERATORS.NOTIFICATIONS.GET_AUTHORITIES_ERROR.MESSAGE'),
       });
     }
-  };
-
-  handleLoadOperatorMiniProfile = async (uuid) => {
-    const { fetchOperatorMiniProfile, fetchAuthorities } = this.props;
-
-    const action = await fetchOperatorMiniProfile(uuid);
-
-    if (!action || action.error) {
-      return {
-        error: true,
-        payload: action ? action.payload : null,
-      };
-    }
-
-    const payload = { ...action.payload };
-
-    const authoritiesAction = await fetchAuthorities(uuid);
-
-    if (!authoritiesAction || authoritiesAction.error) {
-      return {
-        error: true,
-        payload: authoritiesAction ? authoritiesAction.payload : null,
-      };
-    }
-
-    payload.authorities = authoritiesAction.payload;
-
-    return {
-      error: false,
-      payload,
-    };
   };
 
   renderStatus = data => (
@@ -222,13 +194,7 @@ class List extends Component {
         <Link to={`/${this.props.operatorType.toLowerCase()}s/${uuid}/profile`}>{fullName}</Link>
       </div>
       <div className="font-size-11" id={`operator-list-${uuid}-additional`}>
-        <MiniProfile
-          target={uuid}
-          type={miniProfileTypes.OPERATOR}
-          dataSource={this.handleLoadOperatorMiniProfile}
-        >
-          <Uuid uuid={uuid} />
-        </MiniProfile>
+        <Uuid uuid={uuid} />
       </div>
     </div>
   );
@@ -264,7 +230,6 @@ class List extends Component {
       operators,
       operators: { loading },
       filterValues,
-      locale,
       operatorType,
     } = this.props;
 
@@ -324,7 +289,6 @@ class List extends Component {
             activePage={entities.page}
             last={entities.last}
             lazyLoad
-            locale={locale}
             showNoResults={!loading && entities.content.length === 0}
             loading={loading}
           >

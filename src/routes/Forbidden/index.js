@@ -1,3 +1,3 @@
-import ForbiddenContainer from './containers/ForbiddenContainer';
+import Forbidden from './components/Forbidden';
 
-export default ForbiddenContainer;
+export default Forbidden;

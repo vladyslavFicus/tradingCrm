@@ -6,7 +6,7 @@
  * @param  {string[]} touchedRowsIds - selected OR unselected row indexes
  * @param  {Object[]} content - all clients which are loaded on the screen yet
  * @param  {number} totalElements - number of total clients on page
- * @param  {ENUM: [SALES, RETENTION]} aquisitionStatus - acquisition status
+ * @param  {ENUM: [SALES, RETENTION]} acquisitionStatus - acquisition status
  * @return {boolean}
  */
 export const checkMovePermission = ({
@@ -14,16 +14,16 @@ export const checkMovePermission = ({
   touchedRowsIds,
   content,
   totalElements,
-  aquisitionStatus,
+  acquisitionStatus,
 }) => {
-  const type = aquisitionStatus.toLowerCase();
+  const type = acquisitionStatus.toLowerCase();
 
   if (allRowsSelected) {
     // check whether number of selected clients on the screen is equal all possible clients on that page
     // and if there is no unselected client
     if (!touchedRowsIds.length && content.length === totalElements) {
       return content.some(
-        ({ tradingProfile: { [`${type}Rep`]: representative } }) => !(representative && representative.uuid),
+        ({ acquisition: { [`${type}Representative`]: representative } }) => !(representative),
       );
     }
 
@@ -33,8 +33,8 @@ export const checkMovePermission = ({
   }
 
   return touchedRowsIds.some((index) => {
-    const rep = content[index].tradingProfile[`${type}Rep`];
+    const representative = content[index].acquisition[`${type}Representative`];
 
-    return !(rep && rep.uuid);
+    return !(representative);
   });
 };

@@ -1,211 +1,164 @@
 import gql from 'graphql-tag';
 import queryNames from 'constants/apolloQueryNames';
 
-const clientQuery = gql`query profileData($playerUUID: String!, $accountType: String){
-  playerProfile(playerUUID: $playerUUID, accountType: $accountType) {
+const newProfile = gql`query newProfile($playerUUID: String!){
+  newProfile(playerUUID: $playerUUID) {
     data {
-      country
-      languageCode
-      firstName
-      lastName
-      playerUUID
-      realMoneyBalance {
-        amount
-        currency
-      }
-      bonusBalance {
-        amount
-        currency
-      }
-      withdrawableAmount {
-        amount
-        currency
-      }
-      totalBalance {
-        amount
-        currency
-      }
       age
-      profileVerified
-      currency
-      firstName
-      username
-      languageCode
-      city
-      country
-      phoneNumber
-      phoneNumberVerified
-      lastName
-      email
-      registrationDate
-      suspendEndDate
-      profileStatusAuthor
-      profileStatusComment
-      profileStatusPermanent
-      profileStatusReason
-      profileStatusDate
-      profileStatus
-      gender
-      playerUUID
-      btag
       birthDate
-      marketingMail
-      marketingSMS
-      tailorMadeEmail
-      tailorMadeSMS
-      device {
-        lastSignInCountryCode
-        lastSignInIP
-        lastSignInDate
-        hash
-        totalSignIn
+      brandId
+      clientType
+      convertedFromLeadUuid
+      firstName
+      gender
+      identificationNumber
+      languageCode
+      lastUpdatedBy
+      lastUpdatedDate
+      lastName
+      migrationId
+      uuid
+      emailVerified
+      phoneVerified
+      profileVerified
+      acquisition {
+        acquisitionStatus
+        retentionRepresentative
+        retentionStatus
+        retentionOperator {
+          fullName
+          hierarchy {
+            parentBranches {
+              name
+              branchType
+              parentBranch {
+                name
+                branchType
+              }
+            }
+          }
+        }
+        salesRepresentative
+        salesStatus
+        salesOperator {
+          fullName
+          hierarchy {
+            parentBranches {
+              name
+              branchType
+              parentBranch {
+                name
+                branchType
+              }
+            }
+          }
+        }
+      },
+      address {
+        address
+        city
+        countryCode
+        postCode
+        state
       }
-      signInIps {
-        country
-        sessionStart
-        browserAgent
-        ip
-        sessionId
+      affiliate {
+        externalId
+        firstName
+        referral
+        sms
+        source
         uuid
       }
-      isTest
-      registrationDate
-      tradingProfile {
-        enableInternalTransfer
+      bankDetails {
+        accountHolderName
+        accountNumber
+        branchName
+        city
+        name
+        province
+        swiftCode
+        withdrawalArea
+      }
+      configuration {
+        crs
+        fatca
+        internalTransfer
         gdpr {
           sms
           email
           phone
           socialMedia
         }
-        spam {
-          marketNews,
-          information,
-          educational,
-          promosAndOffers,
-          statisticsAndSummary,
+        subscription {
+          marketNews
+          information
+          educational
+          promosAndOffers
+          statisticsAndSummary
         }
         webCookies {
-          enabled,
+          enabled
         }
-        bankDetails {
-          accountHolderName,
-          accountNumber,
-          branchName,
-          city,
-          name,
-          province,
-          swiftCode,
-          withdrawalArea,
-        }
-        phone1
-        phone2
-        margin
-        marginLevel
-        isTestUser
-        email2
-        passport {
-          passportNumber
-          passportIssueDate
-          expirationDate
-          countryOfIssue
-        }
+      }
+      contacts {
+        additionalEmail
+        additionalPhone
+        email
+        phone
+      }
+      passport {
+        countryOfIssue
         countrySpecificIdentifier
         countrySpecificIdentifierType
-        aquisitionRep {
-          fullName
-          uuid
+        expirationDate
+        issueDate
+        number
+      }
+      kyc {
+        status
+      }
+      registrationDetails {
+        deviceDetails {
+          deviceType
+          operatingSystem
         }
-        aquisitionStatus
-        kycRep {
-          fullName
-          uuid
+        inetDetails {
+          host
+          ipAddress
+          referer
         }
-        kycStatus
-        salesRep {
-          fullName
-          uuid
-          hierarchy {
-            parentBranches {
-              name
-              branchType
-              parentBranch {
-                name
-                branchType
-              }
-            }
-          }
+        locationDetails {
+          city
+          countryCode
+          region
         }
-        salesStatus
-        retentionRep {
-          fullName
-          uuid
-          hierarchy {
-            parentBranches {
-              name
-              branchType
-              parentBranch {
-                name
-                branchType
-              }
-            }
-          }
+        registeredBy
+        registrationDate
+        userAgent
+      }
+      status {
+        changedAt
+        changedBy
+        comment
+        reason
+        type
+      }
+      profileView {
+        balance {
+          amount
+          credit
         }
-        retentionStatus
-        clientType
+        lastSignInSessions {
+          ip
+          countryCode
+        }
+      }
+      tradingAccount {
+        currency
         balance
         credit
-        equity
-        baseCurrencyBalance
-        baseCurrencyCredit
-        baseCurrencyEquity
-        baseCurrencyMargin
-        mt4Users {
-          accountType
-          archived
-          login
-          balance
-          equity
-          symbol
-          leverage
-          name
-          group
-          margin
-          createdBy
-          credit
-          isReadOnly
-          readOnlyUpdateTime
-          readOnlyUpdatedBy {
-            _id
-            fullName
-          }
-        }
-        firstDepositDate
-        lastDepositDate
-        firstWithdrawalDate
-        lastWithdrawalDate
-        depositCount
-        withdrawalCount
-        languageCode
-        affiliateProfileDocument {
-          _id
-          source
-          referral
-          sms
-          affiliate {
-            fullName
-          }
-        }
-        convertedFromLeadUuid
-        migrationId
-        fnsStatus
-        fatca {
-          provided
-        }
-        crs
+        margin
       }
-      intendedAmountToSpend
-      temporaryUntil
     }
     error {
       error
@@ -214,64 +167,10 @@ const clientQuery = gql`query profileData($playerUUID: String!, $accountType: St
 }`;
 
 const clientsQuery = gql`query ${queryNames.clientsQuery}(
-  $page: Int,
-  $size: Int,
-  $acquisitionStatus: String,
-  $countries: [String],
-  $tradingBalanceFrom: Float,
-  $tradingBalanceTo: Float,
-  $registrationDateFrom: String,
-  $registrationDateTo: String,
-  $lastNoteDateFrom: String,
-  $lastNoteDateTo: String,
-  $lastTradeDateFrom: String,
-  $lastTradeDateTo: String,
-  $lastLoginDateFrom: String,
-  $lastLoginDateTo: String,
-  $lastModificationDateFrom: String,
-  $lastModificationDateTo: String,
-  $searchValue: String,
-  $status: [String],
-  $repIds: [String],
-  $assignStatus: String,
-  $kycStatus: [String],
-  $firstDeposit: String,
-  $salesStatuses: [String],
-  $retentionStatuses: [String],
-  $searchAffiliate: String,
-  $migrationId: String,
-  $desk: [String],
-  $team: [String],
+  $args: ClientSearchParams
 ) {
   profiles(
-    page: $page,
-    size: $size,
-    acquisitionStatus: $acquisitionStatus,
-    tradingBalanceFrom: $tradingBalanceFrom,
-    tradingBalanceTo: $tradingBalanceTo,
-    countries: $countries,
-    registrationDateFrom: $registrationDateFrom,
-    registrationDateTo: $registrationDateTo,
-    lastNoteDateFrom: $lastNoteDateFrom,
-    lastNoteDateTo: $lastNoteDateTo,
-    lastTradeDateFrom: $lastTradeDateFrom,
-    lastTradeDateTo: $lastTradeDateTo,
-    lastLoginDateFrom: $lastLoginDateFrom,
-    lastLoginDateTo: $lastLoginDateTo,
-    lastModificationDateFrom: $lastModificationDateFrom,
-    lastModificationDateTo: $lastModificationDateTo,
-    searchValue: $searchValue,
-    status: $status,
-    repIds: $repIds,
-    assignStatus: $assignStatus,
-    kycStatus: $kycStatus
-    firstDeposit: $firstDeposit
-    salesStatuses: $salesStatuses
-    retentionStatuses: $retentionStatuses
-    searchAffiliate: $searchAffiliate
-    migrationId: $migrationId
-    desk: $desk,
-    team: $team,
+    args: $args
   ) {
       error {
         error
@@ -280,36 +179,16 @@ const clientsQuery = gql`query ${queryNames.clientsQuery}(
         page
         number
         totalElements
+        totalPages
         size
         last
         content {
-          playerUUID
-          kycCompleted
-          age
-          firstName
-          lastName
-          currency
-          country
-          username
-          languageCode
-          profileStatus
-          profileStatusDate
-          registrationDate
-          tradingProfile {
-            isTestUser
-            aquisitionRep {
+          acquisition {
+            acquisitionStatus
+            retentionStatus
+            retentionRepresentative
+            retentionOperator {
               fullName
-              uuid
-            }
-            aquisitionStatus
-            kycRep {
-              fullName
-              uuid
-            }
-            kycStatus
-            salesRep {
-              fullName
-              uuid
               hierarchy {
                 parentBranches {
                   name
@@ -322,9 +201,9 @@ const clientsQuery = gql`query ${queryNames.clientsQuery}(
               }
             }
             salesStatus
-            retentionRep {
+            salesRepresentative
+            salesOperator {
               fullName
-              uuid
               hierarchy {
                 parentBranches {
                   name
@@ -336,45 +215,35 @@ const clientsQuery = gql`query ${queryNames.clientsQuery}(
                 }
               }
             }
-            retentionStatus
-            balance
-            equity
-            baseCurrencyEquity
-            baseCurrencyBalance
-            mt4Users {
-              login
-              balance
-              equity
-              symbol
-              name
-              margin
-              createdBy
-              credit
-            }
-            firstDepositDate
-            lastDepositDate
-            firstWithdrawalDate
-            lastWithdrawalDate
-            depositCount
-            withdrawalCount
-            affiliateProfileDocument {
-              _id
-              source
-              affiliate {
-                fullName
-              }
-            }
           }
-          signInIps {
-            country
-            sessionStart
-            browserAgent
-            ip
-            sessionId
+          address {
+            countryCode
+          }
+          affiliate {
+            firstName
+            source
             uuid
           }
-          lastNote
-          lastNoteDate
+          balance {
+            amount
+          }
+          firstName
+          languageCode
+          lastName
+          lastNote {
+            changedAt
+            content
+            uuid
+          }
+          paymentDetails {
+            depositsCount
+            lastDepositTime
+          }
+          status {
+            changedAt
+            type
+          }
+          uuid
         }
       }
     }
@@ -428,6 +297,6 @@ export {
   realBaseCurrencyQuery,
   clientPaymentsStatistic,
   clientsQuery,
-  clientQuery,
   getLoginLock,
+  newProfile,
 };

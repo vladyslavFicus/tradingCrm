@@ -1,11 +1,17 @@
+import I18n from 'i18n-js';
+
+// Import moment locales
 import 'moment/locale/zh-cn';
 
+// Import application locales
 import en from './en.json';
-import ru from './ru.json';
 import zh from './zh.json';
 
-export default {
+I18n.translations = {
   en,
-  ru,
   zh,
 };
+
+I18n.defaultLocale = 'en';
+
+export default I18n;

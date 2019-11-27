@@ -1,14 +1,16 @@
-const tokenMiddleware = require('@hrzn/express-token-middleware');
+const proxy = require('http-proxy-middleware');
 const platformConfig = require('../docker/utils/platform-config');
 const buildConfig = require('../docker/buildConfig');
 
 let config = null;
 
 module.exports = (app) => {
-  app.use('/api', tokenMiddleware({
-    apiUrl: platformConfig.hrzn.api_url,
-    rewriteProxy: [{ regexp: /\/gql/, url: process.env.GRAPHQL_ROOT }],
-    limit: '50mb',
+  app.use(proxy('/api', {
+    target: platformConfig.hrzn.api_url,
+    pathRewrite: {
+      '^/api': '',
+    },
+    changeOrigin: true,
   }));
 
   app.get('/config.js', async (req, res) => {

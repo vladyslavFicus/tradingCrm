@@ -1,27 +1,21 @@
-import { connect } from 'react-redux';
 import { get } from 'lodash';
 import { graphql, compose } from 'react-apollo';
+import { withStorage } from 'providers/StorageProvider';
 import { unlockLoginMutation } from 'graphql/mutations/auth';
-import { changePassword } from 'graphql/mutations/operators';
+import { changePassword, sendInvitation, passwordResetRequest, changeStatus } from 'graphql/mutations/operators';
 import { getLoginLock } from 'graphql/queries/profile';
 import { operatorQuery } from 'graphql/queries/operators';
 import { statusActions } from 'constants/operators';
 import { withModals, withNotifications } from 'components/HighOrder';
 import ConfirmActionModal from 'components/Modal/ConfirmActionModal';
 import OperatorProfile from '../components/OperatorProfile';
-import { actionCreators } from '../modules';
-
-const mapActions = {
-  changeStatus: actionCreators.changeStatus,
-  onResetPassword: actionCreators.resetPassword,
-  onSendInvitation: actionCreators.sendInvitation,
-};
 
 export default compose(
+  withStorage(['auth', 'brand']),
+  withNotifications,
   withModals({
     confirmActionModal: ConfirmActionModal,
   }),
-  connect(null, mapActions),
   graphql(unlockLoginMutation, {
     options: ({
       match: {
@@ -75,8 +69,16 @@ export default compose(
       };
     },
   }),
+  graphql(changeStatus, {
+    name: 'changeStatus',
+  }),
   graphql(changePassword, {
     name: 'changePassword',
   }),
-  withNotifications,
+  graphql(passwordResetRequest, {
+    name: 'resetPassword',
+  }),
+  graphql(sendInvitation, {
+    name: 'sendInvitation',
+  }),
 )(OperatorProfile);

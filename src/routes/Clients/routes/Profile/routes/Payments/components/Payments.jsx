@@ -1,7 +1,8 @@
 import React, { Component, Fragment } from 'react';
 import { SubmissionError } from 'redux-form';
 import { get, flatten } from 'lodash';
-import { I18n } from 'react-redux-i18n';
+import I18n from 'i18n-js';
+import { withStorage } from 'providers/StorageProvider';
 import PermissionContent from 'components/PermissionContent';
 import permissions from 'config/permissions';
 import PropTypes from 'constants/propTypes';
@@ -16,10 +17,6 @@ import { CONDITIONS } from 'utils/permissions';
 
 class Payments extends Component {
   static propTypes = {
-    fetchProfile: PropTypes.func.isRequired,
-    auth: PropTypes.shape({
-      uuid: PropTypes.string.isRequired,
-    }).isRequired,
     match: PropTypes.shape({
       params: PropTypes.shape({
         id: PropTypes.string,
@@ -31,7 +28,6 @@ class Payments extends Component {
       }),
       refetch: PropTypes.func.isRequired,
     }),
-    locale: PropTypes.string.isRequired,
     addPayment: PropTypes.func.isRequired,
     clientPayments: PropTypes.shape({
       refetch: PropTypes.func.isRequired,
@@ -53,6 +49,7 @@ class Payments extends Component {
       addPayment: PropTypes.modalType,
     }).isRequired,
     addNote: PropTypes.func.isRequired,
+    auth: PropTypes.auth.isRequired,
   };
 
   static defaultProps = {
@@ -207,7 +204,6 @@ class Payments extends Component {
 
   render() {
     const {
-      locale,
       clientPayments: {
         loading,
         clientPaymentsByUuid,
@@ -264,7 +260,6 @@ class Payments extends Component {
             activePage={entities.number + 1}
             last={entities.last}
             lazyLoad
-            locale={locale}
             showNoResults={!!error || (!loading && entities.content.length === 0)}
             loading={loading}
           >
@@ -287,4 +282,4 @@ class Payments extends Component {
   }
 }
 
-export default Payments;
+export default withStorage(['auth'])(Payments);

@@ -1,4 +1,4 @@
-import { I18n } from 'react-redux-i18n';
+import I18n from 'i18n-js';
 
 export const attributeLabels = {
   name: I18n.t('CLIENT_PROFILE.ACCOUNTS.MODAL_CREATE.NAME_LABEL'),

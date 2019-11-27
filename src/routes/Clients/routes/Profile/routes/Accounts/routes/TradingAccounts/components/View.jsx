@@ -1,5 +1,5 @@
 import React, { PureComponent, Fragment } from 'react';
-import { I18n } from 'react-redux-i18n';
+import I18n from 'i18n-js';
 import { get } from 'lodash';
 import history from 'router/history';
 import PropTypes from 'constants/propTypes';
@@ -21,7 +21,6 @@ class View extends PureComponent {
         mt4Users: PropTypes.arrayOf(PropTypes.mt4User),
       }),
     }).isRequired,
-    locale: PropTypes.string.isRequired,
     modals: PropTypes.shape({
       tradingAccountAddModal: PropTypes.modalType,
       tradingAccountChangePasswordModal: PropTypes.modalType,
@@ -114,10 +113,7 @@ class View extends PureComponent {
   handleFilterReset = () => history.replace({ query: { filters: {} } });
 
   render() {
-    const {
-      playerProfile,
-      locale,
-    } = this.props;
+    const { playerProfile } = this.props;
     const { permissions: currentPermissions } = this.context;
 
     const mt4Users = get(playerProfile, 'playerProfile.data.tradingProfile.mt4Users') || [];
@@ -136,7 +132,6 @@ class View extends PureComponent {
           <GridView
             tableClassName="table-hovered"
             dataSource={mt4Users}
-            locale={locale}
             showNoResults={!playerProfile.loading && mt4Users.length === 0}
           >
             {[

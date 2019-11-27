@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" style="white-space:pre" viewBox="0 0 32 23">
+  <style>
+    @keyframes jumper_mo { 0% { offset-distance: 0%; animation-timing-function: cubic-bezier(0.42,0,1,1); } 60% { offset-distance: 39.655%; animation-timing-function: cubic-bezier(0.376079,0,0.7103,0.400268); } 80% { offset-distance: 82.576%; animation-timing-function: cubic-bezier(0.387334,0.275989,1,1); } 100% { offset-distance: 100%; } }
+    @keyframes a0_t { 0% { transform: translate(16px,18px); animation-timing-function: cubic-bezier(0.42,0,1,1); } 40% { transform: translate(5px,18px); animation-timing-function: cubic-bezier(0.42,0,1,1); } 100% { transform: translate(5px,18px); } }
+    @keyframes a1_t { 0% { transform: translate(27px,18px); animation-timing-function: cubic-bezier(0.42,0,1,1); } 40% { transform: translate(16px,18px); animation-timing-function: cubic-bezier(0.470094,0,1,1); } 100% { transform: translate(16px,18px); } }
+  </style>
+  <circle id="jumper" r="4" fill="#9addfc" stroke="none" style="animation:jumper_mo .5s linear infinite both;offset-path:path('M5,18C7.9117,13.9649,9.5,6,16,6C28,5.5,26.8413,18.8912,26.7849,18C26.5,13.5,27,12.5214,27,18');offset-rotate:0deg"/>
+  <circle r="4" fill="#9addfc" style="animation:a0_t .5s linear infinite both" transform="translate(16 18)"/>
+  <circle r="4" fill="#9addfc" style="animation:a1_t .5s linear infinite both" transform="translate(27 18)"/>
+</svg>

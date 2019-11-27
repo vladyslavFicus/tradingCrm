@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { I18n } from 'react-redux-i18n';
+import I18n from 'i18n-js';
 import PropTypes from 'prop-types';
 import history from 'router/history';
 import './SubNavItem.scss';

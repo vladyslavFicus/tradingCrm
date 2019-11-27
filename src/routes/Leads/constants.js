@@ -1,41 +1,40 @@
 import { statuses } from 'constants/leads';
-import I18n from '../../utils/fake-i18n';
 
 const leadStatuses = {
   [statuses.NEW]: {
-    label: I18n.t(I18n.t('LEADS.STATUSES.NEW')),
+    label: 'LEADS.STATUSES.NEW',
     color: 'color-info',
   },
   [statuses.NEVER_ANSWER]: {
-    label: I18n.t('LEADS.STATUSES.NEVER_ANSWER'),
+    label: 'LEADS.STATUSES.NEVER_ANSWER',
     color: 'color-danger',
   },
   [statuses.VOICE_MAIL]: {
-    label: I18n.t('LEADS.STATUSES.VOICE_MAIL'),
+    label: 'LEADS.STATUSES.VOICE_MAIL',
     color: 'color-warning',
   },
   [statuses.CONVERTED]: {
-    label: I18n.t('LEADS.STATUSES.CONVERTED'),
+    label: 'LEADS.STATUSES.CONVERTED',
     color: 'color-success',
   },
 };
 
 const leadAccountStatuses = {
   [statuses.NEW]: {
-    label: I18n.t(I18n.t('LEADS.STATUSES.NEW')),
+    label: 'LEADS.STATUSES.NEW',
     value: statuses.NEW,
   },
   [statuses.CONVERTED]: {
-    label: I18n.t('LEADS.STATUSES.CONVERTED'),
+    label: 'LEADS.STATUSES.CONVERTED',
     value: statuses.CONVERTED,
   },
 };
 
 const leadProfileTabs = [{
-  label: I18n.t('LEAD_PROFILE.TABS.PROFILE'),
+  label: 'LEAD_PROFILE.TABS.PROFILE',
   url: '/leads/:id/profile',
 }, {
-  label: I18n.t('LEAD_PROFILE.TABS.NOTES'),
+  label: 'LEAD_PROFILE.TABS.NOTES',
   url: '/leads/:id/notes',
 }];
 

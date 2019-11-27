@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { reduxForm, Field } from 'redux-form';
-import { I18n } from 'react-redux-i18n';
+import I18n from 'i18n-js';
 import { get } from 'lodash';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import NoteButton from 'components/NoteButton';
@@ -144,7 +144,7 @@ class CallbackAddModal extends Component {
               color="primary"
               disabled={pristine || submitting || !!error || !valid}
             >
-              {I18n.t('COMMON.CREATE')}
+              {I18n.t('COMMON.BUTTONS.CREATE')}
             </Button>
           </ModalFooter>
         </form>

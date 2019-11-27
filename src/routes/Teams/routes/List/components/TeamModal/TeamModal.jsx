@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { reduxForm, Field } from 'redux-form';
-import { I18n } from 'react-redux-i18n';
-import PropTypes from '../../../../../../constants/propTypes';
-import { createValidator, translateLabels } from '../../../../../../utils/validator';
-import { InputField, NasSelectField } from '../../../../../../components/ReduxForm';
-import Select from '../../../../../../components/Select';
+import I18n from 'i18n-js';
+import PropTypes from 'constants/propTypes';
+import Select from 'components/Select';
+import { InputField, NasSelectField } from 'components/ReduxForm';
+import { createValidator, translateLabels } from 'utils/validator';
 import attributeLabels from './constants';
 
 const FORM_NAME = 'deskModalForm';

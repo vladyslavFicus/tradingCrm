@@ -1,8 +1,10 @@
 import countryList from 'country-list';
 
 const countryCodeSource = {
+  EN: 'GB',
   UK: 'GB',
   ENG: 'GB_ENG',
+  ZH: 'CN',
 };
 
 export const getCountryCode = (value) => {

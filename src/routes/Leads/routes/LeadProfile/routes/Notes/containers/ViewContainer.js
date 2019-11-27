@@ -1,17 +1,9 @@
-import { connect } from 'react-redux';
 import { graphql, compose } from 'react-apollo';
 import { createQueryPagination } from '@newage/backoffice_utils';
 import Notes from '../components/Notes';
 import { notesQuery } from '../../../../../../../graphql/queries/notes';
 
-const mapStateToProps = ({
-  i18n: { locale },
-}) => ({
-  locale,
-});
-
 export default compose(
-  connect(mapStateToProps),
   graphql(notesQuery, {
     options: ({ match: { params: { id } }, location: { query } }) => ({
       fetchPolicy: 'cache-and-network',

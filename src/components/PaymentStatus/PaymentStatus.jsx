@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { I18n } from 'react-redux-i18n';
+import I18n from 'i18n-js';
 import classNames from 'classnames';
 import moment from 'moment';
 import FailedStatusIcon from 'components/FailedStatusIcon';
@@ -20,7 +20,7 @@ const PaymentStatus = ({
   return (
     <Fragment>
       <div className={classNames(color, 'font-weight-700 text-uppercase status')}>
-        {label}
+        {I18n.t(label)}
         <If condition={declineReason != null}>
           <FailedStatusIcon id={`transaction-failure-reason-${paymentId}`}>
             {declineReason}

@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { I18n } from 'react-redux-i18n';
+import I18n from 'i18n-js';
 import classNames from 'classnames';
 import { omit } from 'lodash';
 import PropTypes from '../../constants/propTypes';
@@ -19,7 +19,7 @@ class NoteButton extends PureComponent {
     id: PropTypes.string,
     targetUUID: PropTypes.string,
     playerUUID: PropTypes.string.isRequired,
-    targetType: PropTypes.string,
+    noteTargetType: PropTypes.string,
     note: PropTypes.noteEntity,
     className: PropTypes.string,
     preview: PropTypes.bool,
@@ -35,7 +35,7 @@ class NoteButton extends PureComponent {
   static defaultProps = {
     id: null,
     targetUUID: null,
-    targetType: '',
+    noteTargetType: '',
     className: 'cursor-pointer',
     message: null,
     note: null,
@@ -91,7 +91,7 @@ class NoteButton extends PureComponent {
       placement,
       targetUUID,
       playerUUID,
-      targetType,
+      noteTargetType,
     } = this.props;
     const { note } = this.state;
 
@@ -106,7 +106,7 @@ class NoteButton extends PureComponent {
     if (note) {
       onEditNoteClick(id, note, params);
     } else {
-      onAddNoteClick(id, targetUUID, playerUUID, targetType, params);
+      onAddNoteClick(id, targetUUID, playerUUID, noteTargetType, params);
     }
   };
 

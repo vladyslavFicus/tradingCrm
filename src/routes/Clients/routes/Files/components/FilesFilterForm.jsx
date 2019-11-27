@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { reduxForm, Field, getFormValues } from 'redux-form';
 import moment from 'moment';
-import { I18n } from 'react-redux-i18n';
+import I18n from 'i18n-js';
 import { createValidator, translateLabels } from 'utils/validator';
 import PropTypes from 'constants/propTypes';
 import { statuses, statusesLabels } from 'constants/files';

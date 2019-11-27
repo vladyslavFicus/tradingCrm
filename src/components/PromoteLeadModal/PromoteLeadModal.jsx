@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import { get } from 'lodash';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { reduxForm, Field } from 'redux-form';
-import { I18n } from 'react-redux-i18n';
+import I18n from 'i18n-js';
 import PropTypes from 'constants/propTypes';
 import languages from 'constants/languageNames';
 import { getActiveBrandConfig, getAvailableLanguages } from 'config';

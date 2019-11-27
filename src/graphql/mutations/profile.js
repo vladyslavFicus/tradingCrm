@@ -29,106 +29,20 @@ const updateSubscription = gql`mutation updateSubscription(
   }
 }`;
 
-const blockMutation = gql`mutation block(
-  $playerUUID: String!,
-  $reason: String!,
-  $comment: String
-) {
-  profile {
-    block(
-      playerUUID: $playerUUID,
-      reason: $reason,
-      comment: $comment
-      ) {
-      data {
-        playerUUID
-        profileStatus
-        profileStatusReason
-        profileStatusDate
-      }
-      error {
-        error
-      }
-    }
-  }
-}`;
-
-const unblockMutation = gql`mutation unblock(
-  $playerUUID: String!,
-  $reason: String!,
-  $comment: String
-) {
-  profile {
-    unblock(
-      playerUUID: $playerUUID,
-      reason: $reason,
-      comment: $comment
-      ) {
-      data {
-        playerUUID
-        profileStatus
-        profileStatusReason
-        profileStatusDate
-      }
-      error {
-        error
-      }
-    }
-  }
-}`;
-
-const resumeMutation = gql`mutation resume(
+const changeProfileStatusMutation = gql`mutation changeProfileStatus(
   $playerUUID: String!,
   $reason: String!,
   $comment: String,
+  $status: String!,
 ) {
   profile {
-    resume(
+    changeProfileStatus(
       playerUUID: $playerUUID,
       reason: $reason,
-      comment: $comment
+      comment: $comment,
+      status: $status,
       ) {
-      data {
-        playerUUID
-        profileStatus
-        profileStatusReason
-        profileStatusDate
-      }
-      error {
-        error
-      }
-    }
-  }
-}`;
-
-const suspendProlong = gql`mutation suspendProlong(
-  $playerUUID: String!,
-  $reason: String!,
-  $duration: SuspendDuration,
-  $permanent: Boolean,
-  $comment: String
-) {
-  profile {
-    suspendProlong(
-      playerUUID: $playerUUID,
-      reason: $reason,
-      duration: $duration,
-      permanent: $permanent,
-      comment: $comment
-      ) {
-      data {
-        playerUUID
-        profileStatus
-        profileStatusAuthor
-        profileStatusPermanent
-        profileStatusReason
-        profileStatusDate
-        profileStatusComment
-        suspendEndDate
-      }
-      error {
-        error
-      }
+      success
     }
   }
 }`;
@@ -149,42 +63,10 @@ const changePassword = gql`mutation changePassword($playerUUID: String!, $passwo
   }
 }`;
 
-const suspendMutation = gql`mutation suspend(
-  $playerUUID: String!,
-  $reason: String!,
-  $duration: SuspendDuration,
-  $permanent: Boolean,
-  $comment: String
-){
-  profile {
-    suspend(
-      playerUUID: $playerUUID,
-      reason: $reason,
-      duration: $duration,
-      permanent: $permanent,
-      comment: $comment
-      ) {
-      data {
-        playerUUID
-        profileStatus
-        profileStatusAuthor
-        profileStatusPermanent
-        profileStatusReason
-        profileStatusDate
-        profileStatusComment
-        suspendEndDate
-      }
-      error {
-        error
-      }
-    }
-  }
-}`;
-
 const clientsBulkRepresentativeUpdate = gql`mutation bulkRepresentativeUpdate(
   $teamId: String,
-  $salesRep: [String]
-  $retentionRep: [String],
+  $salesRepresentative: [String],
+  $retentionRepresentative: [String],
   $salesStatus: String,
   $retentionStatus: String,
   $type: String!,
@@ -197,8 +79,8 @@ const clientsBulkRepresentativeUpdate = gql`mutation bulkRepresentativeUpdate(
   clients {
     bulkRepresentativeUpdate (
       teamId: $teamId,
-      salesRep: $salesRep
-      retentionRep: $retentionRep,
+      salesRepresentative: $salesRepresentative
+      retentionRepresentative: $retentionRepresentative,
       salesStatus: $salesStatus,
       retentionStatus: $retentionStatus,
       type: $type,
@@ -287,9 +169,9 @@ const updateLimitProfileMutation = gql`mutation update(
   }
 }`;
 
-const clickToCall = gql`mutation clickToCall($agent: String!, $number: String!) {
+const clickToCall = gql`mutation clickToCall($number: String!) {
   profile {
-    clickToCall(agent: $agent, number: $number) {
+    clickToCall(number: $number) {
       success
     }
   }
@@ -297,7 +179,7 @@ const clickToCall = gql`mutation clickToCall($agent: String!, $number: String!) 
 
 const updateRegulated = gql`mutation updateRegulated(
   $profileId: String!,
-  $fatca: FATCAInput,
+  $fatca: Boolean!,
   $crs: Boolean
 ) {
   profile {
@@ -311,13 +193,128 @@ const updateRegulated = gql`mutation updateRegulated(
   }
 }`;
 
+const updatePersonalInformationMutation = gql`mutation updatePersonalInformation(
+  $playerUUID: String!,
+  $firstName: String,
+  $lastName: String,
+  $languageCode: String,
+  $gender: String,
+  $birthDate: String,
+  $passport: PassportInput,
+) {
+  profile {
+    updatePersonalInformation(
+      playerUUID: $playerUUID,
+      firstName: $firstName,
+      lastName: $lastName,
+      languageCode: $languageCode,
+      gender: $gender,
+      birthDate: $birthDate,
+      passport: $passport,
+    ) {
+      success
+    }
+  }
+}`;
+
+const updateKYCStatusMutation = gql`mutation updateKYCStatus(
+  $playerUUID: String!,
+  $kycStatus: String,
+) {
+  profile {
+    updateKYCStatus(
+      playerUUID: $playerUUID,
+      kycStatus: $kycStatus,
+    ) {
+      success
+    }
+  }
+}`;
+
+const updateConfigurationMutation = gql`mutation updateConfiguration(
+  $playerUUID: String!,
+  $internalTransfer: Boolean,
+  $crs: Boolean,
+  $fatca: Boolean,
+) {
+  profile {
+    updateConfiguration(
+      playerUUID: $playerUUID,
+      internalTransfer: $internalTransfer,
+      crs: $crs,
+      fatca: $fatca,
+    ) {
+      success
+    }
+  }
+}`;
+
+const updateContactsMutation = gql`mutation updateContacts(
+  $playerUUID: String!,
+  $phone: String,
+  $additionalPhone: String,
+  $additionalEmail: String,
+  $email: String,
+) {
+  profile {
+    updateContacts(
+      playerUUID: $playerUUID,
+      phone: $phone,
+      additionalPhone: $additionalPhone,
+      additionalEmail: $additionalEmail,
+      email: $email,
+    ) {
+      success
+    }
+  }
+}`;
+
+const updateAddressMutation = gql`mutation updateAddress(
+  $playerUUID: String!,
+  $countryCode: String,
+  $city: String,
+  $state: String,
+  $postCode: String,
+  $address: String,
+) {
+  profile {
+    updateAddress(
+      playerUUID: $playerUUID,
+      countryCode: $countryCode,
+      city: $city,
+      state: $state,
+      postCode: $postCode,
+      address: $address,
+    ) {
+      success
+    }
+  }
+}`;
+
+const verifyPhoneMutation = gql`mutation verifyPhone(
+  $playerUUID: String!,
+  $phone: String,
+) {
+  profile {
+    verifyPhone(
+      playerUUID: $playerUUID,
+      phone: $phone,
+    ) {
+      success
+    }
+  }
+}`;
+
+const verifyEmailMutation = gql`mutation verifyEmail($playerUUID: String!) {
+  profile {
+    verifyEmail(playerUUID: $playerUUID) {
+      success
+    }
+  }
+}`;
+
 export {
   updateSubscription,
-  blockMutation,
-  unblockMutation,
-  suspendProlong,
-  suspendMutation,
-  resumeMutation,
   passwordResetRequest,
   changePassword,
   clientsBulkRepresentativeUpdate,
@@ -325,4 +322,12 @@ export {
   clickToCall,
   updateRegulated,
   updateLimitProfileMutation,
+  updatePersonalInformationMutation,
+  updateKYCStatusMutation,
+  updateConfigurationMutation,
+  updateContactsMutation,
+  verifyPhoneMutation,
+  verifyEmailMutation,
+  updateAddressMutation,
+  changeProfileStatusMutation,
 };

@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Field, reduxForm } from 'redux-form';
-import { I18n } from 'react-redux-i18n';
+import I18n from 'i18n-js';
+import { withStorage } from 'providers/StorageProvider';
 import { createValidator } from '../../../../../../utils/validator';
 import { TextAreaField, SelectField } from '../../../../../../components/ReduxForm';
 import { actions, durationUnits } from '../../../../../../constants/user';
@@ -128,7 +129,7 @@ class PlayerStatusModal extends Component {
   }
 }
 
-export default reduxForm({
+export default withStorage(['locale'])(reduxForm({
   form: 'playerStatusModal',
   validate: (data, props) => {
     const rules = {
@@ -142,4 +143,4 @@ export default reduxForm({
 
     return createValidator(rules, attributeLabels, false)(data);
   },
-})(PlayerStatusModal);
+})(PlayerStatusModal));

@@ -1,19 +1,18 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { I18n } from 'react-redux-i18n';
+import I18n from 'i18n-js';
 import PropTypes from 'prop-types';
 import { Field, reduxForm, getFormSyncErrors, getFormValues } from 'redux-form';
 import { InputField } from 'components/ReduxForm';
 import PermissionContent from 'components/PermissionContent/PermissionContent';
 import permissions from 'config/permissions';
-import { statuses as playerStatuses } from 'constants/user';
 import { createValidator } from 'utils/validator';
 
 const FORM_NAME = 'updateProfileEmail';
 const attributeLabels = {
   email: I18n.t('COMMON.EMAIL'),
-  email2: I18n.t('COMMON.EMAIL_ALT'),
+  additionalEmail: I18n.t('COMMON.EMAIL_ALT'),
 };
 
 class EmailForm extends Component {
@@ -27,7 +26,7 @@ class EmailForm extends Component {
     onVerifyEmailClick: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func.isRequired,
-    profileStatus: PropTypes.string,
+    emailVerified: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -35,7 +34,7 @@ class EmailForm extends Component {
     dirty: false,
     valid: true,
     disabled: false,
-    profileStatus: '',
+    emailVerified: false,
   };
 
   handleVerifyEmailClick = () => {
@@ -50,13 +49,13 @@ class EmailForm extends Component {
       dirty,
       valid,
       disabled,
-      profileStatus,
+      emailVerified,
       onSubmit,
     } = this.props;
 
     return (
       <form onSubmit={handleSubmit(onSubmit)}>
-        <PermissionContent permissions={permissions.USER_PROFILE.UPDATE_EMAIL}>
+        <PermissionContent permissions={permissions.USER_PROFILE.UPDATE_CONTACTS}>
           <div className="text-right">
             <If condition={dirty && valid && !disabled}>
               <button className="btn btn-sm btn-primary" type="submit">
@@ -74,7 +73,7 @@ class EmailForm extends Component {
             component={InputField}
             className="col-8"
           />
-          <If condition={profileStatus === playerStatuses.INACTIVE}>
+          <If condition={!emailVerified}>
             <PermissionContent permissions={permissions.USER_PROFILE.VERIFY_EMAIL}>
               <div className="col-4 mt-4">
                 <button type="button" className="btn btn-primary" onClick={this.handleVerifyEmailClick}>
@@ -84,13 +83,13 @@ class EmailForm extends Component {
             </PermissionContent>
           </If>
           <Field
-            name="email2"
-            label={attributeLabels.email2}
+            name="additionalEmail"
+            label={attributeLabels.additionalEmail}
             type="text"
             component={InputField}
             className="col-8"
           />
-          <If condition={profileStatus !== playerStatuses.INACTIVE}>
+          <If condition={emailVerified}>
             <div className="col-4 mt-4">
               <button type="button" className="btn btn-verified">
                 <i className="fa fa-check-circle-o" /> {I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.VERIFIED')}
@@ -112,7 +111,7 @@ export default compose(
     form: FORM_NAME,
     validate: createValidator({
       email: 'required|email',
-      email2: 'email',
+      additionalEmail: 'email',
     }, attributeLabels, false),
     enableReinitialize: true,
   }),

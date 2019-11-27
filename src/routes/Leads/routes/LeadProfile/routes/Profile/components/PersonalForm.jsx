@@ -1,6 +1,6 @@
 import React, { PureComponent, Fragment } from 'react';
 import { Field } from 'redux-form';
-import { I18n } from 'react-redux-i18n';
+import I18n from 'i18n-js';
 import moment from 'moment';
 import PropTypes from 'constants/propTypes';
 import { InputField, NasSelectField, DateTimeField } from 'components/ReduxForm';

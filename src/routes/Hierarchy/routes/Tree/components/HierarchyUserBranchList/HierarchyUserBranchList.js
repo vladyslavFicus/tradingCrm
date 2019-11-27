@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { get } from 'lodash';
-import { I18n } from 'react-redux-i18n';
+import I18n from 'i18n-js';
 import PropTypes from 'prop-types';
 import ShortLoader from 'components/ShortLoader';
 import HierarchyUserBranchItem from '../HierarchyUserBranchItem';

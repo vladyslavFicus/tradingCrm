@@ -1,5 +1,5 @@
 import React from 'react';
-import I18n from '../../utils/fake-i18n';
+import I18n from 'i18n-js';
 import PropTypes from '../../constants/propTypes';
 import FeedDetails from './FeedDetails';
 

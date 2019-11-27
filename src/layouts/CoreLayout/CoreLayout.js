@@ -1,24 +1,17 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { I18n } from 'react-redux-i18n';
+import I18n from 'i18n-js';
 import NotificationContainer from 'react-notification-system';
 import PropTypes from 'constants/propTypes';
 import { types as modalsTypes } from 'constants/modals';
 import { actionCreators as windowActionCreators, actionTypes as windowActionTypes } from 'redux/modules/window';
 import { actionCreators as notificationCreators } from 'redux/modules/notifications';
-import MiniProfilePopover from 'components/MiniProfilePopover';
 import DebugPanel from 'components/DebugPanel';
 import UpdateVersionModal from 'components/UpdateVersionModal';
 import { withModals } from 'components/HighOrder';
 import parseJson from 'utils/parseJson';
-import 'styles/style.scss';
-
-const popoverInitialState = {
-  name: null,
-  params: {},
-};
-const MINI_PROFILE_POPOVER = 'mini-profile-popover';
+import 'styles/main.scss';
 
 class CoreLayout extends Component {
   static propTypes = {
@@ -40,10 +33,6 @@ class CoreLayout extends Component {
 
   static childContextTypes = {
     addNotification: PropTypes.func.isRequired,
-    miniProfile: PropTypes.shape({
-      onShowMiniProfile: PropTypes.func.isRequired,
-      onHideMiniProfile: PropTypes.func.isRequired,
-    }),
   };
 
   static defaultProps = {
@@ -52,16 +41,11 @@ class CoreLayout extends Component {
 
   state = {
     isFrameVersion: window.isFrame,
-    miniProfilePopover: { ...popoverInitialState },
   };
 
   getChildContext() {
     return {
       addNotification: this.handleNotify,
-      miniProfile: {
-        onShowMiniProfile: this.handleShowMiniProfile,
-        onHideMiniProfile: this.handleHideMiniProfile,
-      },
     };
   }
 
@@ -119,31 +103,8 @@ class CoreLayout extends Component {
     }
   };
 
-  handleHideMiniProfile = (callback) => {
-    this.setState({ miniProfilePopover: { ...popoverInitialState } }, () => {
-      if (typeof callback === 'function') {
-        callback();
-      }
-    });
-  };
-
-  handleShowMiniProfile = (target, params, type, popoverMouseEvents, placement) => {
-    this.setState({
-      miniProfilePopover: {
-        name: MINI_PROFILE_POPOVER,
-        params: {
-          data: params,
-          target,
-          type,
-          popoverMouseEvents,
-          placement,
-        },
-      },
-    });
-  };
-
   render() {
-    const { isFrameVersion, miniProfilePopover } = this.state;
+    const { isFrameVersion } = this.state;
     const { children } = this.props;
 
     return (
@@ -168,12 +129,6 @@ class CoreLayout extends Component {
                 },
               },
             }}
-          />
-        </If>
-
-        <If condition={miniProfilePopover.name === MINI_PROFILE_POPOVER}>
-          <MiniProfilePopover
-            {...miniProfilePopover.params}
           />
         </If>
       </Fragment>

@@ -1,4 +1,4 @@
-import { I18n } from 'react-redux-i18n';
+import I18n from 'i18n-js';
 
 export default errorsFromServer => Object.keys(errorsFromServer).reduce((res, name) => ({
   ...res,

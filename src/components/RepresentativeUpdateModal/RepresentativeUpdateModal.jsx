@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Field, SubmissionError } from 'redux-form';
-import { I18n } from 'react-redux-i18n';
+import I18n from 'i18n-js';
 import { get } from 'lodash';
 import { actionCreators as windowActionCreators } from 'redux/modules/window';
 import PropTypes from 'constants/propTypes';
@@ -192,7 +192,7 @@ class RepresentativeUpdateModal extends Component {
     change(fieldNames.REPRESENTATIVE, selectedOperator);
   };
 
-  handleUpdateRepresentative = async ({ teamId, repId, status, aquisitionStatus }) => {
+  handleUpdateRepresentative = async ({ teamId, repId, status, acquisitionStatus }) => {
     const {
       leads,
       type,
@@ -219,18 +219,18 @@ class RepresentativeUpdateModal extends Component {
       totalElements,
       searchParams,
       ...(type === deskTypes.SALES
-        ? { salesStatus: status, salesRep: representative }
-        : { retentionStatus: status, retentionRep: representative }),
+        ? { salesStatus: status, salesRepresentative: representative }
+        : { retentionStatus: status, retentionRepresentative: representative }),
     };
 
     let error = null;
 
     if (userType === userTypes.LEAD_CUSTOMER) {
-      const response = await bulkLeadRepresentativeUpdate({
+      const { error: responseError } = await bulkLeadRepresentativeUpdate({
         variables: { ...variables, leads },
       });
 
-      ({ error } = response.data.leads.bulkLeadUpdate);
+      error = responseError;
     } else {
       const {
         clients,
@@ -239,23 +239,22 @@ class RepresentativeUpdateModal extends Component {
 
       /* INFO
       * when move performed on client profile and rep selected
-      * manually pass assignToOperator and add move flag
+      * manually pass salesRepresentative or retentionRepresentative
+      * and add move flag
       */
-      if (aquisitionStatus) {
-        clients[0] = { ...clients[0], assignToOperator: currentInactiveOperator };
+      if (acquisitionStatus) {
+        clients[0] = {
+          ...clients[0],
+          [`${acquisitionStatus.toLowerCase()}Representative`]: currentInactiveOperator,
+        };
         variables.isMoveAction = true;
       }
 
-      // When chosen repId and it was on client profile page --> we set repId as assignToOperator field
-      if (repId && !Array.isArray(repId)) {
-        clients[0] = { ...clients[0], assignToOperator: repId };
-      }
-
-      const response = await bulkRepresentativeUpdate({
+      const { error: responseError } = await bulkRepresentativeUpdate({
         variables: { ...variables, clients },
       });
 
-      ({ error } = response.data.clients.bulkRepresentativeUpdate);
+      error = responseError;
     }
 
     if (error) {
@@ -280,7 +279,7 @@ class RepresentativeUpdateModal extends Component {
         window.dispatchAction(windowActionCreators.updateClientList());
       }
     }
-  };
+  }
 
   render() {
     const {
@@ -388,8 +387,7 @@ class RepresentativeUpdateModal extends Component {
             component={NasSelectField}
             multiple={multiAssign}
             onFieldChange={this.handleRepChange}
-            disabled={agentsLoading || initAgentsLoading || submitting || (agents && agents.length === 0)
-            }
+            disabled={agentsLoading || initAgentsLoading || submitting || (agents && agents.length === 0)}
           >
             {(agents || []).map(({ fullName, uuid }) => (
               <option key={uuid} value={uuid}>
@@ -408,14 +406,14 @@ class RepresentativeUpdateModal extends Component {
               <When condition={type === deskTypes.SALES}>
                 {Object.entries(salesStatusValues).map(([, value]) => (
                   <option key={value} value={value}>
-                    {renderLabel(value, salesStatuses)}
+                    {I18n.t(renderLabel(value, salesStatuses))}
                   </option>
                 ))}
               </When>
               <Otherwise>
                 {Object.entries(retentionStatusValues).map(([, value]) => (
                   <option key={value} value={value}>
-                    {renderLabel(value, retentionStatuses)}
+                    {I18n.t(renderLabel(value, retentionStatuses))}
                   </option>
                 ))}
               </Otherwise>

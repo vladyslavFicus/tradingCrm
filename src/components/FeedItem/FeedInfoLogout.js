@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import moment from 'moment';
 import humanizeDuration from 'humanize-duration';
-import { I18n } from 'react-redux-i18n';
+import I18n from 'i18n-js';
 import PropTypes from '../../constants/propTypes';
 
 const humanizeDurationConfig = {

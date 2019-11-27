@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import moment from 'moment';
 import { Button } from 'reactstrap';
-import { I18n } from 'react-redux-i18n';
+import I18n from 'i18n-js';
 import Uuid from 'components/Uuid';
 import { statusColorNames, statuses, statusesLabels } from 'constants/operators';
 import PropTypes from 'constants/propTypes';
@@ -29,9 +29,15 @@ class Header extends Component {
     }).isRequired,
   };
 
-  handleStatusChange = async (data) => {
+  handleStatusChange = async ({ reason, status }) => {
     const { data: profileData, onStatusChange, refetchOperator } = this.props;
-    await onStatusChange({ ...data, uuid: profileData.uuid });
+    await onStatusChange({
+      variables: {
+        reason,
+        status,
+        uuid: profileData.uuid,
+      },
+    });
     refetchOperator();
   };
 

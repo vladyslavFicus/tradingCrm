@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import { Field } from 'redux-form';
-import { I18n } from 'react-redux-i18n';
+import I18n from 'i18n-js';
 import { InputField, NasSelectField } from '../../../../../../../components/ReduxForm';
 import PropTypes from '../../../../../../../constants/propTypes';
 import countryList from '../../../../../../../utils/countryList';

@@ -27,7 +27,6 @@ class GridView extends Component {
     rowClassName: PropTypes.func,
     lazyLoad: PropTypes.bool,
     loading: PropTypes.bool,
-    locale: PropTypes.string,
     showNoResults: PropTypes.bool,
     multiselect: PropTypes.bool,
     allRowsSelected: PropTypes.bool,
@@ -41,7 +40,6 @@ class GridView extends Component {
     headerClassName: 'text-uppercase',
     defaultFilters: {},
     summaryRow: null,
-    locale: null,
     onFiltersChanged: null,
     onPageChange: null,
     onRowClick: null,
@@ -69,7 +67,6 @@ class GridView extends Component {
     }
 
     return !shallowEqual(nextProps.dataSource, this.props.dataSource)
-      || nextProps.locale !== this.props.locale
       || nextProps.showNoResults !== this.props.showNoResults
       || this.props.touchedRowsIds.length !== nextProps.touchedRowsIds.length
       || this.props.allRowsSelected !== nextProps.allRowsSelected
@@ -165,10 +162,10 @@ class GridView extends Component {
 
     if (index === -1) {
       touchedRowsIds.push(rowIndex);
-      this.props.onRowSelect(!allRowsSelected, rowIndex, touchedRowsIds);
+      this.props.onRowSelect(!allRowsSelected, parseInt(rowIndex, 10), touchedRowsIds);
     } else {
       touchedRowsIds.splice(index, 1);
-      this.props.onRowSelect(allRowsSelected, index, touchedRowsIds);
+      this.props.onRowSelect(allRowsSelected, parseInt(rowIndex, 10), touchedRowsIds);
     }
   };
 
@@ -374,13 +371,12 @@ class GridView extends Component {
       lazyLoad,
       showNoResults,
       dataSource,
-      locale,
       loading,
       multiselect,
     } = this.props;
 
     if (!loading && showNoResults) {
-      return <NotFoundContent locale={locale} />;
+      return <NotFoundContent />;
     }
 
     if (!loading && !dataSource.length) {

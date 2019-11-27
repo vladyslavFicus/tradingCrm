@@ -2,6 +2,7 @@ import { reduxForm, formValueSelector } from 'redux-form';
 import { connect } from 'react-redux';
 import { withApollo, graphql, compose } from 'react-apollo';
 import { get } from 'lodash';
+import { withStorage } from 'providers/StorageProvider';
 import { createValidator, translateLabels } from '../../utils/validator';
 import { salesStatusValues } from '../../constants/salesStatuses';
 import { retentionStatusValues } from '../../constants/retentionStatuses';
@@ -17,7 +18,6 @@ const FORM_NAME = 'representativeUpdateModalForm';
 const selector = formValueSelector(FORM_NAME);
 
 const mapStateToProps = state => ({
-  auth: { uuid: state.auth.uuid },
   selectedDesk: selector(state, fieldNames.DESK),
   selectedTeam: selector(state, fieldNames.TEAM),
   selectedRep: selector(state, fieldNames.REPRESENTATIVE),
@@ -28,6 +28,7 @@ const mapStateToProps = state => ({
 export default compose(
   withApollo,
   withNotifications,
+  withStorage(['auth']),
   connect(mapStateToProps),
   graphql(clientsBulkRepresentativeUpdate, {
     name: 'bulkRepresentativeUpdate',
@@ -74,7 +75,7 @@ export default compose(
         deskId: [`in:,${desks.map(({ uuid }) => uuid).join()}`],
         repId: [`in:,${users.map(({ uuid }) => uuid).join()}`],
         teamId: ['string'],
-        aquisitionStatus: ['string'],
+        acquisitionStatus: ['string'],
         status: [`in:,${[...Object.values(salesStatusValues), ...Object.values(retentionStatusValues)].join()}`],
       }, translateLabels(attributeLabels(type)), false)(values);
     },

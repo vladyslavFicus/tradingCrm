@@ -1,13 +1,12 @@
 import keyMirror from 'keymirror';
 import { get } from 'lodash';
-import I18n from '../../utils/fake-i18n';
 
 export const attributeLabels = type => ({
-  desk: I18n.t(`CLIENTS.MODALS.${type}_MODAL.DESK`),
-  team: I18n.t('CLIENTS.MODALS.TEAM'),
-  representative: I18n.t(`CLIENTS.MODALS.${type}_MODAL.REPRESENTATIVE`),
-  status: I18n.t(`CLIENTS.MODALS.${type}_MODAL.STATUS`),
-  move: I18n.t('CLIENTS.MODALS.MOVE_MODAL.MOVE_LABEL'),
+  desk: `CLIENTS.MODALS.${type}_MODAL.DESK`,
+  team: 'CLIENTS.MODALS.TEAM',
+  representative: `CLIENTS.MODALS.${type}_MODAL.REPRESENTATIVE`,
+  status: `CLIENTS.MODALS.${type}_MODAL.STATUS`,
+  move: 'CLIENTS.MODALS.MOVE_MODAL.MOVE_LABEL',
 });
 
 export const components = keyMirror({

@@ -1,0 +1,15 @@
+const attributeLabels = {
+  keyword: 'PARTNERS.LIST.FILTER_FORM.LABEL.KEYWORD',
+  country: 'PARTNERS.LIST.FILTER_FORM.LABEL.COUNTRY',
+  status: 'PARTNERS.LIST.FILTER_FORM.LABEL.STATUS',
+  department: 'PARTNERS.LIST.FILTER_FORM.LABEL.DEPARTMENT',
+  role: 'PARTNERS.LIST.FILTER_FORM.LABEL.ROLE',
+  registrationDateFrom: 'PARTNERS.LIST.FILTER_FORM.LABEL.REGISTRATION_DATE_FROM',
+  registrationDateTo: 'PARTNERS.LIST.FILTER_FORM.LABEL.REGISTRATION_DATE_TO',
+};
+
+export {
+  attributeLabels,
+};
+
+export default attributeLabels;
