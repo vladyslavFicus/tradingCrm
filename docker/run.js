@@ -1,4 +1,5 @@
 const http = require('http');
+const { exec } = require('child_process');
 const buildConfig = require('./buildConfig');
 const { saveConfig, writeRandomConfigSrcPath, buildNginxConfig } = require('./utils/config-file');
 
@@ -20,6 +21,8 @@ let config = null;
   await buildNginxConfig();
   await saveConfig(config);
   await writeRandomConfigSrcPath(INDEX_HTML_PATH);
+
+  exec('nginx -s reload');
 
   // We need http server to proxy requests from nginx to know that background process still a live
   // In this background process we listen zookeeper watcher events to auto-update brands configuration
