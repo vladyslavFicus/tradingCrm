@@ -1,6 +1,5 @@
 import createReducer from '../../../../../../../utils/createReducer';
 import createRequestAction from '../../../../../../../utils/createRequestAction';
-import { actions as filesActions } from '../../../../../../../constants/files';
 import { sourceActionCreators as noteSourceActionCreators } from '../../../../../../../redux/modules/note';
 import { sourceActionCreators as filesSourceActionCreators } from '../../../../../../../redux/modules/profile/files';
 
@@ -11,10 +10,6 @@ const VERIFY_FILE = createRequestAction(`${KEY}/verify-file`);
 const REFUSE_FILE = createRequestAction(`${KEY}/refuse-file`);
 
 const fetchNotes = noteSourceActionCreators.fetchNotesByTargetUuids(FETCH_NOTES);
-const changeFileStatusByAction = filesSourceActionCreators.changeStatusByAction({
-  [filesActions.VERIFY]: VERIFY_FILE,
-  [filesActions.REFUSE]: REFUSE_FILE,
-});
 const mapNotesToFiles = (items, notes) => {
   if (!notes || Object.keys(notes).length === 0) {
     return items;
@@ -130,7 +125,6 @@ const actionTypes = {
 const actionCreators = {
   fetchFiles,
   fetchFilesAndNotes,
-  changeFileStatusByAction,
 };
 
 export {

@@ -23,24 +23,11 @@ const updateContactsPermissions = new Permissions(permissions.USER_PROFILE.UPDAT
 
 class View extends Component {
   static propTypes = {
-    verifyData: PropTypes.func.isRequired,
-    refuseData: PropTypes.func.isRequired,
-    updateProfile: PropTypes.func.isRequired,
-    updatePhone: PropTypes.func.isRequired,
-    updateEmail: PropTypes.func.isRequired,
-    uploadFile: PropTypes.func.isRequired,
     downloadFile: PropTypes.func.isRequired,
-    changeFileStatusByAction: PropTypes.func.isRequired,
     verifyPhone: PropTypes.func.isRequired,
     verifyEmail: PropTypes.func.isRequired,
-    manageKycNote: PropTypes.func.isRequired,
-    resetNote: PropTypes.func.isRequired,
-    sendKycRequestVerification: PropTypes.func.isRequired,
-    verifyKycAll: PropTypes.func.isRequired,
-    fetchKycReasons: PropTypes.func.isRequired,
     canUpdateProfile: PropTypes.bool,
     profileUpdate: PropTypes.func.isRequired,
-    fetchProfile: PropTypes.func.isRequired,
     auth: PropTypes.shape({
       department: PropTypes.string.isRequired,
       role: PropTypes.string.isRequired,

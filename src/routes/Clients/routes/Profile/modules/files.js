@@ -1,7 +1,7 @@
 import { CALL_API } from 'redux-api-middleware';
 import fetch from '../../../../../utils/fetch';
 import { getApiRoot } from '../../../../../config';
-import { actions, categories } from '../../../../../constants/files';
+import { categories } from '../../../../../constants/files';
 import { sourceActionCreators as filesSourceActionCreators } from '../../../../../redux/modules/profile/files';
 import createReducer from '../../../../../utils/createReducer';
 import createRequestAction from '../../../../../utils/createRequestAction';
@@ -126,11 +126,6 @@ function deleteFile(playerUUID, fileUUID) {
   };
 }
 
-const changeFileStatusByAction = filesSourceActionCreators.changeStatusByAction({
-  [actions.VERIFY]: VERIFY_FILE,
-  [actions.REFUSE]: REFUSE_FILE,
-});
-
 const initialState = {
   identity: [],
   address: [],
@@ -250,7 +245,6 @@ const actionCreators = {
   downloadFile,
   deleteFile,
   uploadProfileFile,
-  changeFileStatusByAction,
 };
 
 export {

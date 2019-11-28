@@ -177,22 +177,6 @@ const clickToCall = gql`mutation clickToCall($number: String!) {
   }
 }`;
 
-const updateRegulated = gql`mutation updateRegulated(
-  $profileId: String!,
-  $fatca: Boolean!,
-  $crs: Boolean
-) {
-  profile {
-    updateRegulated(
-      profileId: $profileId,
-      fatca: $fatca,
-      crs: $crs
-    ) {
-      success
-    }
-  }
-}`;
-
 const updatePersonalInformationMutation = gql`mutation updatePersonalInformation(
   $playerUUID: String!,
   $firstName: String,
@@ -320,7 +304,6 @@ export {
   clientsBulkRepresentativeUpdate,
   updateMutation,
   clickToCall,
-  updateRegulated,
   updateLimitProfileMutation,
   updatePersonalInformationMutation,
   updateKYCStatusMutation,

@@ -105,7 +105,7 @@ class CallbacksList extends Component {
   renderActions = ({ callbackId, userId, note }) => (
     <NoteButton
       key={callbackId}
-      noteTargetType={targetTypes.CALLBACK}
+      targetType={targetTypes.CALLBACK}
       targetUUID={callbackId}
       playerUUID={userId}
       note={note}
