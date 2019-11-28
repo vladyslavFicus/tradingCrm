@@ -1,4 +1,5 @@
-const express = require('express');
+const http = require('http');
+const { exec } = require('child_process');
 const buildConfig = require('./buildConfig');
 const { saveConfig, writeRandomConfigSrcPath, buildNginxConfig } = require('./utils/config-file');
 
@@ -7,8 +8,6 @@ const INDEX_HTML_PATH = '/opt/build/index.html';
 let config = null;
 
 (async () => {
-  const app = express();
-
   // Callback when brand configs changed remotely. We need to write new config to config.js file
   const onBrandsConfigUpdated = async (brands) => {
     config.brands = brands;
@@ -19,21 +18,13 @@ let config = null;
 
   config = await buildConfig(onBrandsConfigUpdated);
 
-  const versionMiddleware = (req, res, next) => {
-    const clientVersion = req.get('x-client-version');
-
-    if (clientVersion && clientVersion !== config.version) {
-      return res.status(426).send();
-    }
-
-    return next();
-  };
-
   await buildNginxConfig();
   await saveConfig(config);
   await writeRandomConfigSrcPath(INDEX_HTML_PATH);
 
-  app.use('/api', versionMiddleware);
+  exec('nginx -s reload');
 
-  app.listen(3000, () => console.log('Server is running at http://localhost:3000'));
+  // We need http server to proxy requests from nginx to know that background process still a live
+  // In this background process we listen zookeeper watcher events to auto-update brands configuration
+  http.createServer((_, res) => res.end(JSON.stringify({ status: 'UP' }))).listen(3000);
 })();

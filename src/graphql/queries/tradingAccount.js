@@ -11,6 +11,21 @@ const tradingAccountOptions = gql`
     }
   }`;
 
+const getTradingAccount = gql`query getTradingAccount($uuid: String!, $accountType: String) {
+    tradingAccount(uuid: $uuid, accountType: $accountType) {
+      currency
+      balance
+      credit
+      margin
+      name
+      login
+      group
+      accountType
+      archived
+    }
+  }`;
+
 export {
   tradingAccountOptions,
+  getTradingAccount,
 };
