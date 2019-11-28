@@ -46,7 +46,7 @@ export default {
     STATUS: 'profile;PUT;/admin/profiles/{uuid}/status',
     PROLONG: 'profile;PUT;/profiles/{playerUUID}/suspend/prolong',
     REMOVE: 'profile;PUT;/profiles/{playerUUID}/resume',
-    PROFILE_VIEW: 'profile;GET;/profiles/{playerUUID}',
+    PROFILE_VIEW: 'profile;GET;/admin/profiles/{uuid}',
     PROFILE_DEVICES_VIEW: 'profile;GET;/profiles/{playerUUID}/devices',
     PROFILES_LIST: 'profile;GET;/profiles',
     ADD_TO_CAMPAIGN: 'promotion;PUT;/campaigns/{id}/players-list/{playerUUID}',

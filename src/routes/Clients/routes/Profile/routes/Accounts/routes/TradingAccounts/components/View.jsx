@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import React, { PureComponent, Fragment } from 'react';
 import I18n from 'i18n-js';
 import { get } from 'lodash';
@@ -14,9 +16,7 @@ import filterFields from './filterFields';
 
 class View extends PureComponent {
   static propTypes = {
-    playerProfile: PropTypes.shape({
-      refetch: PropTypes.func.isRequired,
-      loading: PropTypes.bool.isRequired,
+    getTradingAccount: PropTypes.shape({
       playerProfile: PropTypes.shape({
         mt4Users: PropTypes.arrayOf(PropTypes.mt4User),
       }),
@@ -44,7 +44,7 @@ class View extends PureComponent {
       },
     } = this;
 
-    registerUpdateCacheListener(name, this.props.playerProfile.refetch);
+    registerUpdateCacheListener(name, this.props.newProfile.refetch);
 
     setRenderActions(() => (
       <PermissionContent permissions={permissions.TRADING_ACCOUNT.CREATE}>
@@ -113,10 +113,11 @@ class View extends PureComponent {
   handleFilterReset = () => history.replace({ query: { filters: {} } });
 
   render() {
-    const { playerProfile } = this.props;
+    const { getTradingAccount } = this.props;
     const { permissions: currentPermissions } = this.context;
 
-    const mt4Users = get(playerProfile, 'playerProfile.data.tradingProfile.mt4Users') || [];
+    const tradingAccounts = get(getTradingAccount, 'tradingAccount') || [];
+
     const updatePassPermission = (new Permissions(permissions.TRADING_ACCOUNT.UPDATE_PASSWORD))
       .check(currentPermissions);
 
@@ -125,14 +126,14 @@ class View extends PureComponent {
         <ListFilterForm
           onSubmit={this.handleFiltersChanged}
           onReset={this.handleFilterReset}
-          initialValues={{ accountType: playerProfile.variables.accountType }}
+          initialValues={{ accountType: getTradingAccount.variables.accountType }}
           fields={filterFields()}
         />
         <div className="tab-wrapper">
           <GridView
             tableClassName="table-hovered"
-            dataSource={mt4Users}
-            showNoResults={!playerProfile.loading && mt4Users.length === 0}
+            dataSource={tradingAccounts}
+            showNoResults={!getTradingAccount.loading && tradingAccounts.length === 0}
           >
             {[
               ...columns,
