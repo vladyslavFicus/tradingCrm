@@ -118,7 +118,7 @@ class CommonFileGridView extends Component {
     <NoteButton
       playerUUID={data.playerUUID}
       targetUUID={data.uuid}
-      noteTargetType={targetTypes.FILE}
+      targetType={targetTypes.FILE}
       note={data.note}
     />
   );

@@ -19,7 +19,7 @@ class NoteButton extends PureComponent {
     id: PropTypes.string,
     targetUUID: PropTypes.string,
     playerUUID: PropTypes.string.isRequired,
-    noteTargetType: PropTypes.string,
+    targetType: PropTypes.string,
     note: PropTypes.noteEntity,
     className: PropTypes.string,
     preview: PropTypes.bool,
@@ -35,7 +35,7 @@ class NoteButton extends PureComponent {
   static defaultProps = {
     id: null,
     targetUUID: null,
-    noteTargetType: '',
+    targetType: '',
     className: 'cursor-pointer',
     message: null,
     note: null,
@@ -91,7 +91,7 @@ class NoteButton extends PureComponent {
       placement,
       targetUUID,
       playerUUID,
-      noteTargetType,
+      targetType,
     } = this.props;
     const { note } = this.state;
 
@@ -106,7 +106,7 @@ class NoteButton extends PureComponent {
     if (note) {
       onEditNoteClick(id, note, params);
     } else {
-      onAddNoteClick(id, targetUUID, playerUUID, noteTargetType, params);
+      onAddNoteClick(id, targetUUID, playerUUID, targetType, params);
     }
   };
 

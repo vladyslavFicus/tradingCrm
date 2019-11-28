@@ -100,11 +100,6 @@ class Profile extends Component {
     uploadFile: PropTypes.func.isRequired,
     saveFiles: PropTypes.func.isRequired,
     deleteFile: PropTypes.func.isRequired,
-    blockMutation: PropTypes.func.isRequired,
-    unblockMutation: PropTypes.func.isRequired,
-    suspendProlong: PropTypes.func.isRequired,
-    suspendMutation: PropTypes.func.isRequired,
-    resumeMutation: PropTypes.func.isRequired,
     modals: PropTypes.shape({
       confirmActionModal: PropTypes.modalType,
       noteModal: PropTypes.modalType,
@@ -113,7 +108,6 @@ class Profile extends Component {
     passwordResetRequest: PropTypes.func.isRequired,
     removeNote: PropTypes.func.isRequired,
     unlockLoginMutation: PropTypes.func.isRequired,
-    profile: PropTypes.object.isRequired,
     permission: PropTypes.permission.isRequired,
   };
 

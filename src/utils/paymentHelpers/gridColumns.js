@@ -220,7 +220,7 @@ export default ({
     return (
       <NoteButton
         key={targetUUID}
-        noteTargetType={targetTypes.PAYMENT}
+        targetType={targetTypes.PAYMENT}
         targetUUID={targetUUID}
         playerUUID={playerUUID}
         note={note}

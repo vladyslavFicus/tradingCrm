@@ -41,12 +41,12 @@ PropTypes.pageableState = content => PropTypes.shape({
   error: PropTypes.object,
 });
 PropTypes.ipEntity = PropTypes.shape({
-  browserAgent: PropTypes.string.isRequired,
-  sessionId: PropTypes.string.isRequired,
-  sessionStart: PropTypes.string.isRequired,
-  country: PropTypes.string.isRequired,
-  ip: PropTypes.string.isRequired,
-  uuid: PropTypes.string.isRequired,
+  browserAgent: PropTypes.string,
+  sessionId: PropTypes.string,
+  sessionStart: PropTypes.string,
+  country: PropTypes.string,
+  ip: PropTypes.string,
+  uuid: PropTypes.string,
 });
 PropTypes.operatorIpEntity = PropTypes.shape({
   agent: PropTypes.string.isRequired,
@@ -768,7 +768,7 @@ PropTypes.newProfile = PropTypes.shape({
       type: PropTypes.string,
     }),
     tradingAccount: PropTypes.arrayOf(PropTypes.object),
-    uuid: PropTypes.string.isRequired,
+    uuid: PropTypes.string,
   }),
   registrationDetails: PropTypes.shape({
     deviceDetails: PropTypes.shape({

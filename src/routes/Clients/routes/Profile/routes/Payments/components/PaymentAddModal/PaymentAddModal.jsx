@@ -310,7 +310,7 @@ class PaymentAddModal extends PureComponent {
                 ref={(ref) => { this.noteButton = ref; }}
                 placement="bottom"
                 playerUUID={playerUUID}
-                noteTargetType={targetTypes.PAYMENT}
+                targetType={targetTypes.PAYMENT}
               />
             </div>
           </div>
