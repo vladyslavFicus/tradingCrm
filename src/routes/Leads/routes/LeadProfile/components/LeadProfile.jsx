@@ -5,7 +5,6 @@ import { SubmissionError } from 'redux-form';
 import { Switch, Redirect } from 'react-router-dom';
 import NotePopover from 'components/NotePopover';
 import { viewType as noteViewType, targetTypes } from 'constants/note';
-import { getActiveBrandConfig } from 'config';
 import Tabs from 'components/Tabs';
 import NotFound from 'routes/NotFound';
 import PropTypes from 'constants/propTypes';
@@ -77,30 +76,12 @@ class LeadProfile extends Component {
     const {
       notify,
       promoteLead,
-      leadProfile: {
-        refetch,
-        leadProfile: {
-          data: {
-            phone,
-            city,
-            brandId,
-            uuid,
-          },
-        },
-      },
-      modals: {
-        promoteLeadModal,
-      },
+      leadProfile: { refetch },
+      modals: { promoteLeadModal },
     } = this.props;
 
     const { data: { leads: { promote: { data, error } } } } = await promoteLead({
-      variables: {
-        ...values,
-        phone,
-        city,
-        brandId,
-        leadUuid: uuid,
-      },
+      variables: { args: values },
     });
 
     if (error) {
@@ -119,7 +100,7 @@ class LeadProfile extends Component {
       notify({
         level: 'success',
         title: I18n.t('COMMON.SUCCESS'),
-        message: I18n.t('LEADS.SUCCESS_PROMOTED', { id: data.playerUUID }),
+        message: I18n.t('LEADS.SUCCESS_PROMOTED', { id: data.uuid }),
       });
     }
   };
@@ -154,37 +135,37 @@ class LeadProfile extends Component {
       leadProfile: {
         leadProfile: {
           data: {
-            name,
-            surname,
             email,
-            country,
-            language,
             phone,
             gender,
             birthDate,
-            mobile,
+            name: firstName,
+            surname: lastName,
+            country: countryCode,
+            language: languageCode,
+            mobile: additionalPhone,
           },
         },
       },
       modals: { promoteLeadModal },
     } = this.props;
 
-    const brandConfig = getActiveBrandConfig();
-
     promoteLeadModal.show({
       onSubmit: values => this.handlePromoteLead(values),
-      supportedCurrencies: get(brandConfig, 'currencies.supported') || [],
       initialValues: {
-        firstName: name,
-        lastName: surname,
-        email,
-        country,
-        currency: get(brandConfig, 'currencies.base'),
-        phone1: phone,
-        phone2: mobile,
+        address: {
+          countryCode,
+        },
+        contacts: {
+          email,
+          phone,
+          additionalPhone,
+        },
         gender,
+        lastName,
+        firstName,
         birthDate,
-        languageCode: language,
+        languageCode,
       },
     });
   };
