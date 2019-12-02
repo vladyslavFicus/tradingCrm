@@ -1404,7 +1404,7 @@
         "SALES_STATUS": "Sales status",
         "RETENTION_STATUS": "Retention status",
         "ASSIGN_STATUS": "Assign Status",
-        "KYC_STATUS": "KYC Status",
+        "KYC_STATUSES": "KYC Statuses",
         "FIRST_DEPOSIT": "First time deposit"
       }
     }

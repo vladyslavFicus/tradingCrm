@@ -76,7 +76,7 @@ const filterLabels = {
   desk: 'DESKS.FILTERS.DESK',
   language: 'COMMON.LANGUAGE',
   assignStatus: 'PROFILE.LIST.FILTERS.ASSIGN_STATUS',
-  kycStatus: 'PROFILE.LIST.FILTERS.KYC_STATUS',
+  kycStatuses: 'PROFILE.LIST.FILTERS.KYC_STATUSES',
   firstDeposit: 'PROFILE.LIST.FILTERS.FIRST_DEPOSIT',
   searchLimit: 'COMMON.FILTERS.SEARCH_LIMIT',
 };
