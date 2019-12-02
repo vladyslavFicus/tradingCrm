@@ -454,7 +454,7 @@ class RepresentativeUpdateModal extends Component {
           </button>
           <button
             type="submit"
-            disabled={submitDisabled}
+            disabled={submitDisabled || (Array.isArray(agents) && agents.length === 0)}
             className="btn btn-primary"
             form="representative-modal-form"
           >
