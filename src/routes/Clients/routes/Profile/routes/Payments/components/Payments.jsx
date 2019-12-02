@@ -1,8 +1,9 @@
+/* eslint-disable */
+
 import React, { Component, Fragment } from 'react';
 import { SubmissionError } from 'redux-form';
 import { get, flatten } from 'lodash';
 import I18n from 'i18n-js';
-import { withStorage } from 'providers/StorageProvider';
 import PermissionContent from 'components/PermissionContent';
 import permissions from 'config/permissions';
 import PropTypes from 'constants/propTypes';
@@ -22,12 +23,6 @@ class Payments extends Component {
         id: PropTypes.string,
       }).isRequired,
     }).isRequired,
-    playerProfile: PropTypes.shape({
-      playerProfile: PropTypes.shape({
-        data: PropTypes.userProfile.isRequired,
-      }),
-      refetch: PropTypes.func.isRequired,
-    }),
     addPayment: PropTypes.func.isRequired,
     clientPayments: PropTypes.shape({
       refetch: PropTypes.func.isRequired,
@@ -45,15 +40,12 @@ class Payments extends Component {
         error: PropTypes.object,
       }),
     }).isRequired,
+    newProfile: PropTypes.newProfile,
     modals: PropTypes.shape({
       addPayment: PropTypes.modalType,
     }).isRequired,
     addNote: PropTypes.func.isRequired,
     auth: PropTypes.auth.isRequired,
-  };
-
-  static defaultProps = {
-    playerProfile: null,
   };
 
   static contextTypes = {
@@ -68,6 +60,10 @@ class Payments extends Component {
   static childContextTypes = {
     getApolloRequestState: PropTypes.func.isRequired,
   };
+
+  static defaultProps = {
+    newProfile: {},
+  }
 
   getChildContext() {
     return {
@@ -159,8 +155,8 @@ class Payments extends Component {
       addPayment,
       addNote,
       match: { params: { id: uuid } },
-      clientPayments: { refetch },
-      fetchProfile,
+      clientPayments,
+      newProfile,
       modals: { addPayment: modal },
     } = this.props;
 
@@ -168,6 +164,7 @@ class Payments extends Component {
       ...inputParams,
       profileUUID: uuid,
     };
+
     const { data: { payment: { createClientPayment: { data: payment, error } } } } = await addPayment({ variables });
 
     if (error) {
@@ -178,8 +175,8 @@ class Payments extends Component {
       }
 
       await Promise.all([
-        refetch(),
-        fetchProfile(uuid),
+        clientPayments.refetch(),
+        newProfile.refetch(),
       ]);
 
       modal.hide();
@@ -188,15 +185,12 @@ class Payments extends Component {
 
   handleOpenAddPaymentModal = () => {
     const {
-      modals: { addPayment },
-      playerProfile: { playerProfile: { data }, refetch },
-    } = this.props;
-
-    refetch();
+      newProfile: { newProfile: { data } },
+      modals: { addPayment } } = this.props;
 
     addPayment.show({
       onSubmit: this.handleAddPayment,
-      playerProfile: data,
+      newProfile: data,
     });
   };
 
@@ -209,18 +203,17 @@ class Payments extends Component {
         clientPaymentsByUuid,
         variables,
       },
-      auth,
       operators: {
         operators,
         loading: operatorsLoading,
       },
     } = this.props;
 
-    const entities = get(clientPaymentsByUuid, 'data') || { content: [] };
-    const error = get(clientPaymentsByUuid, 'error');
-
     const originalAgents = get(operators, 'data.content') || [];
     const disabledOriginalAgentField = get(operators, 'error') || operatorsLoading;
+
+    const paymentsData = get(clientPaymentsByUuid, 'data') || { content: [] };
+    const error = get(clientPaymentsByUuid, 'error');
 
     return (
       <Fragment>
@@ -255,17 +248,16 @@ class Payments extends Component {
 
         <div className="tab-wrapper">
           <GridView
-            dataSource={entities.content}
+            dataSource={paymentsData.content}
             onPageChange={this.handlePageChanged}
-            activePage={entities.number + 1}
-            last={entities.last}
+            activePage={paymentsData.number + 1}
+            last={paymentsData.last}
             lazyLoad
-            showNoResults={!!error || (!loading && entities.content.length === 0)}
+            showNoResults={!!error || (!loading && paymentsData.content.length === 0)}
             loading={loading}
           >
             {columns({
               paymentInfo: { onSuccess: this.handleModalActionSuccess },
-              playerInfo: { auth },
               clientView: true,
             }).map(({ name, header, render }) => (
               <GridViewColumn
@@ -282,4 +274,4 @@ class Payments extends Component {
   }
 }
 
-export default withStorage(['auth'])(Payments);
+export default Payments;

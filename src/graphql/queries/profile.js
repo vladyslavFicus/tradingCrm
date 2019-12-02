@@ -154,9 +154,14 @@ const newProfile = gql`query newProfile($playerUUID: String!){
         }
       }
       tradingAccount {
-        currency
+        accountUUID
+        accountType
+        archived
         balance
         credit
+        currency
+        group
+        login
         margin
       }
     }

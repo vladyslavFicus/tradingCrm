@@ -1,5 +1,5 @@
 import { asyncRoute } from 'router';
 
 export default asyncRoute(
-  () => import(/* webpackChunkName: "ProfileTransactionPaymentsContainer" */ './containers/ViewContainer'),
+  () => import(/* webpackChunkName: "ProfileTransactionPaymentsContainer" */ './containers/PaymentsContainer'),
 );

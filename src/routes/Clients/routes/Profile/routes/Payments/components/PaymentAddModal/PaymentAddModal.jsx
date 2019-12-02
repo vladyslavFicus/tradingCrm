@@ -1,6 +1,7 @@
+/* eslint-disable */
+
 import React, { PureComponent } from 'react';
-import { Field, reduxForm, getFormValues } from 'redux-form';
-import { connect } from 'react-redux';
+import { Field } from 'redux-form';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { get } from 'lodash';
 import classNames from 'classnames';
@@ -15,19 +16,8 @@ import { InputField, NasSelectField, DateTimeField } from 'components/ReduxForm'
 import Currency from 'components/Amount/Currency';
 import Permissions from 'utils/permissions';
 import { floatNormalize } from 'utils/inputNormalize';
-import { createValidator } from 'utils/validator';
-import { paymentMethods, paymentMethodsLabels } from './constants';
+import { paymentMethods, paymentMethodsLabels, attributeLabels } from './constants';
 import './PaymentAddModal.scss';
-
-const attributeLabels = {
-  paymentType: I18n.t('CLIENT_PROFILE.TRANSACTIONS.MODAL_CREATE.TYPE'),
-  amount: I18n.t('CLIENT_PROFILE.TRANSACTIONS.MODAL_CREATE.AMOUNT'),
-  paymentAccount: I18n.t('CLIENT_PROFILE.TRANSACTIONS.MODAL_CREATE.PAYMENT_ACCOUNT'),
-  externalReference: I18n.t('CLIENT_PROFILE.TRANSACTIONS.MODAL_CREATE.EXTERNAL_REF'),
-  expirationDate: I18n.t('CLIENT_PROFILE.TRANSACTIONS.MODAL_CREATE.EXPIRATION_DATE'),
-  fromMt4Acc: I18n.t('CLIENT_PROFILE.TRANSACTIONS.MODAL_CREATE.FROM_MT4'),
-  toMt4Acc: I18n.t('CLIENT_PROFILE.TRANSACTIONS.MODAL_CREATE.TO_MT4'),
-};
 
 class PaymentAddModal extends PureComponent {
   static propTypes = {
@@ -43,20 +33,17 @@ class PaymentAddModal extends PureComponent {
       fromMt4Acc: PropTypes.string,
       toMt4Acc: PropTypes.string,
     }),
-    playerProfile: PropTypes.object.isRequired,
+    newProfile: PropTypes.newProfile,
     error: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.string, PropTypes.object])),
     reset: PropTypes.func.isRequired,
     change: PropTypes.func.isRequired,
-  };
-
-  static contextTypes = {
-    permissions: PropTypes.array.isRequired,
   };
 
   static defaultProps = {
     submitting: false,
     pristine: false,
     currentValues: {},
+    newProfile: {},
     error: [],
   };
 
@@ -68,9 +55,9 @@ class PaymentAddModal extends PureComponent {
   };
 
   getSourceAccount = ({ login, source }) => {
-    const mt4Accounts = this.props.playerProfile.tradingProfile.mt4Users || [];
+    const { tradingAccount } = this.props.newProfile;
 
-    return mt4Accounts.find(account => [login, source].includes(account.login));
+    return tradingAccount.find(account => [login, source].includes(account.login));
   };
 
   handlePaymentTypeChanged = (value) => {
@@ -118,12 +105,12 @@ class PaymentAddModal extends PureComponent {
         <div className="header-block-small">
           <div>MT4-ID {mt4.login}</div>
           <div className={classNames({ 'color-danger': Number(mt4.balance) === 0 })}>
-            {I18n.t('CLIENT_PROFILE.TRANSACTIONS.MODAL_CREATE.BALANCE')}: {mt4.symbol} {mt4.balance}
+            {I18n.t('CLIENT_PROFILE.TRANSACTIONS.MODAL_CREATE.BALANCE')}: {mt4.currency} {mt4.balance}
           </div>
           <div>{I18n.t('CLIENT_PROFILE.TRANSACTIONS.MODAL_CREATE.GROUP')}: {mt4.group}</div>
           <If condition={[paymentMethods.CREDIT_IN.name, paymentMethods.CREDIT_OUT.name].includes(paymentType)}>
             <div className={classNames({ 'color-danger': Number(mt4.credit) === 0 })}>
-              {I18n.t('CLIENT_PROFILE.TRANSACTIONS.MODAL_CREATE.CREDIT')}: {mt4.symbol} {mt4.credit}
+              {I18n.t('CLIENT_PROFILE.TRANSACTIONS.MODAL_CREATE.CREDIT')}: {mt4.currency} {mt4.credit}
             </div>
           </If>
         </div>
@@ -133,43 +120,47 @@ class PaymentAddModal extends PureComponent {
 
   renderMt4SelectField = (label, name, className) => {
     const {
-      playerProfile: {
-        tradingProfile,
+      newProfile: {
+        tradingAccount,
       },
       currentValues: {
         paymentType,
       },
     } = this.props;
-    const mt4Users = get(tradingProfile, 'mt4Users') || [];
 
     return (
       <Field
-        key={name || 'login'}
-        name={name || 'login'}
-        label={I18n.t(attributeLabels[label || 'fromMt4Acc'])}
+        key={name || 'accountUUID'}
+        name={name || 'accountUUID'}
+        label={attributeLabels[label || 'fromMt4Acc']}
         component={NasSelectField}
-        placeholder={mt4Users.length === 0
+        placeholder={tradingAccount.length === 0
           ? I18n.t('COMMON.SELECT_OPTION.NO_ITEMS')
           : I18n.t('COMMON.SELECT_OPTION.DEFAULT')
         }
-        disabled={mt4Users.length === 0}
+        disabled={tradingAccount.length === 0}
         className={`${className || 'col'} select-field-wrapper`}
         searchable={false}
         showErrorMessage={false}
         singleOptionComponent={this.renderMt4SelectOption(name)}
       >
-        {mt4Users
-          .filter(i => !i.archived && !(i.accountType === 'DEMO'
-            && [
-              paymentMethods.CREDIT_IN.name,
-              paymentMethods.CREDIT_OUT.name,
-              paymentMethods.TRANSFER.name,
-              paymentMethods.WITHDRAW.name,
-            ]
-              .includes(paymentType)))
-          .map(acc => (
-            <option key={acc.login} value={acc.login} mt4={acc}>
-              {`${acc.login}`}
+        {tradingAccount
+          .filter(
+            account => {
+              return !account.archived && !(
+                account.accountType === 'DEMO'
+                  && [
+                    paymentMethods.CREDIT_IN.name,
+                    paymentMethods.CREDIT_OUT.name,
+                    paymentMethods.TRANSFER.name,
+                    paymentMethods.WITHDRAW.name,
+                  ].includes(paymentType)
+                )
+            }
+          )
+          .map(account => (
+            <option key={account.accountUUID} value={account.accountUUID} mt4={account}>
+              {`${account.login}`}
             </option>
           ))}
       </Field>
@@ -183,12 +174,17 @@ class PaymentAddModal extends PureComponent {
       pristine,
       submitting,
       invalid,
-      playerProfile: {
-        playerUUID,
+      newProfile: {
+        uuid
+      },
+      permission: {
+        permissions
       },
       currentValues,
       error: errors,
     } = this.props;
+
+    console.log('this.props', this.props);
 
     const sourceAccount = this.getSourceAccount(currentValues);
 
@@ -197,6 +193,7 @@ class PaymentAddModal extends PureComponent {
         <ModalHeader toggle={onCloseModal}>
           {I18n.t('PLAYER_PROFILE.TRANSACTIONS.MODAL_CREATE.TITLE')}
         </ModalHeader>
+
         <ModalBody tag="form" id="new-transaction" className="container-fluid" onSubmit={handleSubmit(this.onSubmit)}>
 
           <If condition={errors.length}>
@@ -218,7 +215,7 @@ class PaymentAddModal extends PureComponent {
           >
             {Object
               .entries(paymentMethods)
-              .filter(([, { permission }]) => (new Permissions(permission)).check(this.context.permissions))
+              .filter(([, { permission }]) => (new Permissions(permission)).check(permissions))
               .map(([key]) => (
                 <option key={key} value={key}>
                   {I18n.t(paymentMethodsLabels[key].label)}
@@ -228,6 +225,7 @@ class PaymentAddModal extends PureComponent {
           <div className={`payment-fields ${(currentValues && currentValues.paymentType) ? 'visible' : ''}`}>
             <div className="form-row align-items-center">
               <Choose>
+
                 <When condition={currentValues.paymentType === paymentMethods.DEPOSIT.name}>
                   <Field
                     name="paymentMethod"
@@ -247,11 +245,13 @@ class PaymentAddModal extends PureComponent {
                   <div className="col-auto arrow-icon-wrapper">
                     <i className="icon-arrow-down" />
                   </div>
-                  {this.renderMt4SelectField('toMt4Acc')}
+                  {this.renderMt4SelectField('toMt4Acc')} 
                 </When>
+
                 <When condition={currentValues.paymentType === paymentMethods.WITHDRAW.name}>
                   {this.renderMt4SelectField()}
                 </When>
+
                 <When condition={currentValues.paymentType === paymentMethods.TRANSFER.name}>
                   {this.renderMt4SelectField('', 'source')}
                   <div className="col-auto arrow-icon-wrapper">
@@ -259,9 +259,11 @@ class PaymentAddModal extends PureComponent {
                   </div>
                   {this.renderMt4SelectField('toMt4Acc', 'target')}
                 </When>
+
                 <When condition={currentValues.paymentType === paymentMethods.CREDIT_IN.name}>
                   {this.renderMt4SelectField('toMt4Acc')}
                 </When>
+
                 <When condition={currentValues.paymentType === paymentMethods.CREDIT_OUT.name}>
                   {this.renderMt4SelectField('fromMt4Acc')}
                 </When>
@@ -276,7 +278,7 @@ class PaymentAddModal extends PureComponent {
                 placeholder="0.00"
                 className="col-4"
                 normalize={floatNormalize}
-                inputAddon={sourceAccount && <Currency code={sourceAccount.symbol} showSymbol={false} />}
+                inputAddon={sourceAccount && <Currency code={sourceAccount.currency} showSymbol={false} />}
                 showErrorMessage={false}
                 component={InputField}
               />
@@ -285,7 +287,7 @@ class PaymentAddModal extends PureComponent {
                   name="externalReference"
                   type="text"
                   className="col-8"
-                  label={I18n.t(attributeLabels.externalReference)}
+                  label={attributeLabels.externalReference}
                   component={InputField}
                   position="vertical"
                 />
@@ -297,7 +299,7 @@ class PaymentAddModal extends PureComponent {
                   name="expirationDate"
                   type="text"
                   className="col-5"
-                  label={I18n.t(attributeLabels.expirationDate)}
+                  label={attributeLabels.expirationDate}
                   component={DateTimeField}
                   position="vertical"
                   isValidDate={() => true}
@@ -309,7 +311,7 @@ class PaymentAddModal extends PureComponent {
                 manual
                 ref={(ref) => { this.noteButton = ref; }}
                 placement="bottom"
-                playerUUID={playerUUID}
+                playerUUID={uuid}
                 targetType={targetTypes.PAYMENT}
               />
             </div>
@@ -350,82 +352,4 @@ class PaymentAddModal extends PureComponent {
   }
 }
 
-const FORM_NAME = 'createPaymentForm';
-
-const Form = reduxForm({
-  form: FORM_NAME,
-  initialValues: {
-    paymentType: '',
-  },
-  validate: (
-    data,
-    { playerProfile: { tradingProfile: { mt4Users } }, currentValues },
-  ) => {
-    let rules = {
-      paymentType: 'required|string',
-      amount: 'required|numeric',
-      externalReference: 'required|string',
-    };
-
-    if ([
-      paymentMethods.WITHDRAW.name,
-      paymentMethods.TRANSFER.name,
-    ].includes(data.paymentType)
-        && currentValues.login
-        && currentValues.amount
-        && Number(mt4Users.find(({ login }) => login === currentValues.login).balance) < currentValues.amount) {
-      // make fake error to prevent submit when no funds on account
-      return { login: I18n.t('CLIENT_PROFILE.TRANSACTIONS.MODAL_CREATE.MT4_NO_MONEY') };
-    }
-
-    if ([paymentMethods.CREDIT_OUT.name].includes(data.paymentType)
-      && currentValues.login
-      && currentValues.amount
-      && Number(mt4Users.find(({ login }) => login === currentValues.login).credit) < currentValues.amount) {
-      // make fake error to prevent submit when no credit funds on account
-      return { login: I18n.t('CLIENT_PROFILE.TRANSACTIONS.MODAL_CREATE.MT4_NO_MONEY') };
-    }
-
-    if (data.paymentType === paymentMethods.DEPOSIT.name) {
-      rules = { ...rules, paymentMethod: 'required|string' };
-    }
-
-    if (data.paymentType === paymentMethods.CREDIT_IN.name) {
-      rules = { ...rules, expirationDate: 'required|string' };
-    }
-
-    if (data.paymentType === paymentMethods.TRANSFER.name) {
-      rules = {
-        ...rules,
-        source: 'required|numeric',
-        target: 'required|numeric',
-      };
-
-      if (currentValues
-          && currentValues.source
-          && currentValues.amount
-          && Number(mt4Users.find(({ login }) => login === currentValues.source).balance) < currentValues.amount) {
-        // make fake error to prevent submit when no funds on account
-        return { source: I18n.t('CLIENT_PROFILE.TRANSACTIONS.MODAL_CREATE.MT4_NO_MONEY') };
-      }
-
-      if (currentValues
-          && currentValues.source
-          && currentValues.target
-          && currentValues.source === currentValues.target) {
-        return {
-          source: I18n.t('COMMON.SOMETHING_WRONG'),
-          target: I18n.t('COMMON.SOMETHING_WRONG'),
-        };
-      }
-    } else {
-      rules = { ...rules, login: 'required|numeric' };
-    }
-
-    return createValidator(rules, attributeLabels, false)(data);
-  },
-})(PaymentAddModal);
-
-export default connect(state => ({
-  currentValues: getFormValues(FORM_NAME)(state),
-}))(Form);
+export default PaymentAddModal;

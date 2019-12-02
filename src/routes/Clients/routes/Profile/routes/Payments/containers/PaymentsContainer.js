@@ -1,32 +1,18 @@
-import { connect } from 'react-redux';
 import { graphql, compose } from 'react-apollo';
 import { get } from 'lodash';
 import { addNoteMutation } from 'graphql/mutations/note';
 import { addPaymentMutation } from 'graphql/mutations/payment';
 import { getClientPaymentsByUuid } from 'graphql/queries/payments';
 import { operatorsQuery } from 'graphql/queries/operators';
+import { newProfile } from 'graphql/queries/profile';
+import { withStorage } from 'providers/StorageProvider';
 import { withModals } from 'components/HighOrder';
 import Payments from '../components/Payments';
-import { actionCreators as playerActionCreators } from '../../../modules';
 import PaymentAddModal from '../components/PaymentAddModal';
 
-const mapStateToProps = ({
-  userTransactions,
-  profile: { profile },
-}) => ({
-  ...userTransactions,
-  currencyCode: profile.data.currencyCode,
-});
-
-const mapActions = {
-  fetchProfile: playerActionCreators.fetchProfile,
-};
-
 export default compose(
-  withModals({
-    addPayment: PaymentAddModal,
-  }),
-  connect(mapStateToProps, mapActions),
+  withStorage(['auth']),
+  withModals({ addPayment: PaymentAddModal }),
   graphql(addNoteMutation, {
     name: 'addNote',
   }),
@@ -40,6 +26,20 @@ export default compose(
         size: 2000,
       },
     }),
+  }),
+  graphql(newProfile, {
+    options: ({
+      match: {
+        params: {
+          id: playerUUID,
+        },
+      },
+    }) => ({
+      variables: {
+        playerUUID,
+      },
+    }),
+    name: 'newProfile',
   }),
   graphql(getClientPaymentsByUuid, {
     name: 'clientPayments',

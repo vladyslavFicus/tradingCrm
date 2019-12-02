@@ -1,3 +1,1 @@
-import PaymentAddModal from './PaymentAddModal';
-
-export default PaymentAddModal;
+export { default } from './PaymentAddModalContainer';
