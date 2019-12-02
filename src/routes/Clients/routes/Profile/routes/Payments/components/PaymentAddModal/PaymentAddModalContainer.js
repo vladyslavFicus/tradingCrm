@@ -1,5 +1,6 @@
 import { compose } from 'react-apollo';
 import { connect } from 'react-redux';
+import I18n from 'i18n-js';
 import { reduxForm, getFormValues } from 'redux-form';
 import { withPermission } from 'providers/PermissionsProvider';
 import { createValidator } from 'utils/validator';
