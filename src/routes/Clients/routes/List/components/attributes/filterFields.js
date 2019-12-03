@@ -168,7 +168,7 @@ export default (
   optionsWithoutI18n: true,
 }, {
   type: fieldTypes.SELECT,
-  name: 'status',
+  name: 'statuses',
   label: filterLabels.status,
   placeholder: 'COMMON.SELECT_OPTION.ANY',
   className: fieldClassNames.MEDIUM,
