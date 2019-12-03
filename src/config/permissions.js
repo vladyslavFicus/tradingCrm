@@ -103,8 +103,8 @@ export default {
     CLIENT_TRADING_ACTIVITY: 'trading-activity;GET;/',
   },
   TRADING_ACCOUNT: {
-    CREATE: 'mt4-updater;POST;/user',
-    UPDATE_PASSWORD: 'mt4-updater;PUT;/user/password',
+    CREATE: 'trading-account;POST;/account',
+    UPDATE_PASSWORD: 'trading-account;PUT;/account/{accountUUID}/password',
   },
   NOTES: {
     ADD_NOTE: 'note;POST;/',

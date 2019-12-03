@@ -1,5 +1,6 @@
 import { graphql, compose } from 'react-apollo';
 import { withModals } from 'components/HighOrder';
+import { withPermission } from 'providers/PermissionsProvider';
 import { getTradingAccount } from 'graphql/queries/tradingAccount';
 import { newProfile } from 'graphql/queries/profile';
 import { updateTradingAccountMutation } from 'graphql/mutations/tradingAccount';
@@ -12,6 +13,7 @@ export default compose(
     tradingAccountAddModal: TradingAccountAddModalContainer,
     tradingAccountChangePasswordModal: TradingAccountChangePasswordModalContainer,
   }),
+  withPermission,
   graphql(updateTradingAccountMutation, { name: 'updateTradingAccount' }),
   graphql(getTradingAccount, {
     options: ({

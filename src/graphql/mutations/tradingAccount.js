@@ -30,18 +30,18 @@ const updateTradingAccountMutation = gql`mutation updateTradingAccount(
   $name: String
   $mode: String
   $currency: String
-  $isReadOnly: Boolean
+  $readOnly: Boolean
   $profileId: String!
-  $login: Int!
+  $accountUUID: String!
 ) {
   tradingAccount {
     update(
       profileId: $profileId,
-      login: $login,
+      accountUUID: $accountUUID,
       name: $name,
       mode: $mode,
       currency: $currency,
-      isReadOnly: $isReadOnly,
+      readOnly: $readOnly,
     ) {
       success
       error {
@@ -53,11 +53,12 @@ const updateTradingAccountMutation = gql`mutation updateTradingAccount(
 }`;
 
 const tradingAccountChangePasswordMutation = gql`mutation tradingAccountChangePassword(
-  $login: Int!
+  $profileUUID: String!
   $password: String!
+  $accountUUID: String!
 ) {
   tradingAccount {
-    changePassword(login: $login, password: $password) {
+    changePassword(profileUUID: $profileUUID, password: $password, accountUUID: $accountUUID) {
       success
       error {
         error

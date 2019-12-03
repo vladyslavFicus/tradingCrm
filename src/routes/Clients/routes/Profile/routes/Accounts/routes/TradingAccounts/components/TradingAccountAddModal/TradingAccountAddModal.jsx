@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
-import { Field, reduxForm } from 'redux-form';
+import { Field, reduxForm, formValueSelector } from 'redux-form';
+import { connect } from 'react-redux';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import I18n from 'i18n-js';
 import { createValidator, translateLabels } from 'utils/validator';
@@ -14,6 +15,7 @@ import './TradingAccountAddModal.scss';
 class TradingAccountAddModal extends PureComponent {
   static propTypes = {
     profileId: PropTypes.string.isRequired,
+    accountType: PropTypes.string.isRequired,
     error: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.string, PropTypes.object])),
     change: PropTypes.func.isRequired,
     onCloseModal: PropTypes.func.isRequired,
@@ -29,10 +31,6 @@ class TradingAccountAddModal extends PureComponent {
   static defaultProps = {
     error: null,
     onConfirm: () => {},
-  };
-
-  state = {
-    accountType: null,
   };
 
   onSubmit = async (data) => {
@@ -96,7 +94,6 @@ class TradingAccountAddModal extends PureComponent {
               placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
               searchable={false}
               onFieldChange={(value) => {
-                this.setState({ accountType: value });
                 this.props.change('accountType', value);
               }}
             >
@@ -104,7 +101,7 @@ class TradingAccountAddModal extends PureComponent {
                 <option key={value} value={value}>{I18n.t(label)}</option>
               ))}
             </Field>
-            <If condition={this.state.accountType === 'DEMO'}>
+            <If condition={this.props.accountType === 'DEMO'}>
               <Field
                 name="amount"
                 component={NasSelectField}
@@ -114,7 +111,7 @@ class TradingAccountAddModal extends PureComponent {
               >
                 {[100, 500, 1000, 5000, 10000, 50000, 100000].map(value => (
                   <option key={value} value={value}>
-                    {I18n.l(value, { style: 'decimal' })}
+                    {I18n.l('currency', value, { style: 'decimal' })}
                   </option>
                 ))}
               </Field>
@@ -177,6 +174,12 @@ class TradingAccountAddModal extends PureComponent {
 
 const FORM_NAME = 'createTradingAccountAccountForm';
 
+const selector = formValueSelector(FORM_NAME);
+
+const mapStateToProps = state => ({
+  accountType: selector(state, 'accountType'),
+});
+
 const TradingAccountAddModalRedux = reduxForm({
   form: FORM_NAME,
   initialValues: {
@@ -191,4 +194,4 @@ const TradingAccountAddModalRedux = reduxForm({
   }, translateLabels(attributeLabels))(values),
 })(TradingAccountAddModal);
 
-export default TradingAccountAddModalRedux;
+export default connect(mapStateToProps)(TradingAccountAddModalRedux);

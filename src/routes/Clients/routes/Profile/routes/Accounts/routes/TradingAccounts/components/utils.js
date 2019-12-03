@@ -57,19 +57,19 @@ export default [{
 }, {
   name: 'tradingStatus',
   header: I18n.t('CLIENT_PROFILE.ACCOUNTS.GRID_COLUMNS.TRADING_STATUS'),
-  render: ({ isReadOnly, readOnlyUpdateTime, readOnlyUpdatedBy }) => (
+  render: ({ readOnly, readOnlyUpdateTime, readOnlyUpdatedBy, operator }) => (
     <Fragment>
       <div className={classNames('font-weight-700 text-uppercase', {
-        'color-danger': isReadOnly,
-        'color-success': !isReadOnly,
+        'color-danger': readOnly,
+        'color-success': !readOnly,
       })}
       >
-        {I18n.t(`CLIENT_PROFILE.ACCOUNTS.TRADING_STATUS.${!isReadOnly ? 'ENABLED' : 'DISABLED'}`)}
+        {I18n.t(`CLIENT_PROFILE.ACCOUNTS.TRADING_STATUS.${!readOnly ? 'ENABLED' : 'DISABLED'}`)}
       </div>
       <If condition={readOnlyUpdatedBy}>
-        <Link to={`/operators/${readOnlyUpdatedBy._id}`}>
+        <Link to={`/operators/${readOnlyUpdatedBy}`}>
           <div className="font-size-11 font-weight-700">
-            {I18n.t('CLIENT_PROFILE.ACCOUNTS.TRADING_STATUS.UPDATED_BY', { updatedBy: readOnlyUpdatedBy.fullName })}
+            {I18n.t('CLIENT_PROFILE.ACCOUNTS.TRADING_STATUS.UPDATED_BY', { updatedBy: operator.fullName })}
           </div>
         </Link>
       </If>

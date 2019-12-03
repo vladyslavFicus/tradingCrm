@@ -21,15 +21,18 @@ class TradingAccountChangePasswordModal extends PureComponent {
 
   onSubmit = async ({ password }) => {
     const {
-      login,
+      accountUUID,
+      profileUUID,
       notify,
+      login,
       onCloseModal,
       tradingAccountChangePassword,
     } = this.props;
 
     const { data: { tradingAccount: { changePassword: { success } } } } = await tradingAccountChangePassword({
       variables: {
-        login,
+        accountUUID,
+        profileUUID,
         password,
       },
     });

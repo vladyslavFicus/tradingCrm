@@ -65,33 +65,33 @@ class View extends PureComponent {
   }
 
   showTradingAccountAddModal = () => {
-    const { playerUUID: profileId } = get(this.props.playerProfile, 'playerProfile.data', {});
     this.props.modals.tradingAccountAddModal.show({
-      profileId,
-      onConfirm: this.props.playerProfile.refetch,
+      profileId: get(this.props.newProfile, 'newProfile.data.uuid'),
+      onConfirm: this.props.getTradingAccount.refetch,
     });
   };
 
-  handleSetTradingAccountReadonly = (login, isReadOnly) => () => this.props.updateTradingAccount({
+  handleSetTradingAccountReadonly = (accountUUID, readOnly) => () => this.props.updateTradingAccount({
     variables: {
-      profileId: get(this.props.playerProfile, 'playerProfile.data.playerUUID'),
-      login,
-      isReadOnly,
+      profileId: get(this.props.newProfile, 'newProfile.data.uuid'),
+      accountUUID,
+      readOnly,
     },
-  }).then(() => this.props.playerProfile.refetch());
+  }).then(() => this.props.getTradingAccount.refetch());
 
-  renderActions = ({ login, isReadOnly, accountType, archived }) => {
+  renderActions = ({ readOnly, accountType, archived, accountUUID, profileUUID, login }) => {
+
     const items = [
       {
         label: I18n.t('CLIENT_PROFILE.ACCOUNTS.ACTIONS_DROPDOWN.CHANGE_PASSWORD'),
-        onClick: () => this.props.modals.tradingAccountChangePasswordModal.show({ login }),
+        onClick: () => this.props.modals.tradingAccountChangePasswordModal.show({ accountUUID, profileUUID, login }),
       },
     ];
 
     if (accountType !== 'DEMO') {
       items.push({
-        label: I18n.t(`CLIENT_PROFILE.ACCOUNTS.ACTIONS_DROPDOWN.${!isReadOnly ? 'DISABLE' : 'ENABLE'}`),
-        onClick: this.handleSetTradingAccountReadonly(login, !isReadOnly),
+        label: I18n.t(`CLIENT_PROFILE.ACCOUNTS.ACTIONS_DROPDOWN.${!readOnly ? 'DISABLE' : 'ENABLE'}`),
+        onClick: this.handleSetTradingAccountReadonly(accountUUID, !readOnly),
       });
     }
 
@@ -103,6 +103,11 @@ class View extends PureComponent {
   };
 
   handleFiltersChanged = (filters = {}) => {
+    /* temporary solution  */
+    if (!filters.accountType) {
+      filters.accountType = '';
+    }
+
     history.replace({
       query: {
         filters: { ...filters },
@@ -113,8 +118,10 @@ class View extends PureComponent {
   handleFilterReset = () => history.replace({ query: { filters: {} } });
 
   render() {
-    const { getTradingAccount } = this.props;
-    const { permissions: currentPermissions } = this.context;
+    const {
+      getTradingAccount,
+      permission: { permissions: currentPermissions },
+    } = this.props;
 
     const tradingAccounts = get(getTradingAccount, 'tradingAccount') || [];
 
