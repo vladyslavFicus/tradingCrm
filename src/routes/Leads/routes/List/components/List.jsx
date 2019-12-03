@@ -425,16 +425,6 @@ class List extends Component {
               >
                 {I18n.t('COMMON.UPLOAD')}
               </button>
-              {/*
-                <button
-                  disabled={!allowActions}
-                  className="btn btn-default-outline margin-left-15"
-                  onClick={this.handleExport}
-                  type="button"
-                >
-                  {I18n.t('COMMON.EXPORT')}
-                </button>
-              */}
             </div>
           </If>
         </div>

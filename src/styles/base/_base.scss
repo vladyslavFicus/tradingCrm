@@ -1,6 +1,6 @@
 html,
 body {
-  font-size: 14px;
+  font-size: 1rem;
   height: 100%;
   min-width: 1366px;
   width: 100%;
@@ -17,12 +17,6 @@ body {
   -webkit-text-size-adjust: 100%;
   -moz-text-size-adjust: 100%;
   -ms-text-size-adjust: 100%;
-  -webkit-touch-callout: none; /* iOS Safari */
-  -webkit-user-select: none; /* Safari */
-  -khtml-user-select: none; /* Konqueror HTML */
-  -moz-user-select: none; /* Firefox */
-  -ms-user-select: none; /* Internet Explorer/Edge */
-  user-select: none;
 
   & > div {
     position: initial;
@@ -31,10 +25,4 @@ body {
 
 a, i {
   position: relative;
-}
-
-img {
-  // @include full-size;
-  // object-fit: cover;
-  // display: block;
 }

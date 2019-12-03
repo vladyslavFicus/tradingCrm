@@ -184,8 +184,6 @@ class PaymentAddModal extends PureComponent {
       error: errors,
     } = this.props;
 
-    console.log('this.props', this.props);
-
     const sourceAccount = this.getSourceAccount(currentValues);
 
     return (
