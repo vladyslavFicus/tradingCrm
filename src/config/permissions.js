@@ -40,7 +40,6 @@ export default {
     GET_RULES: 'rules-profile;GET;/',
   },
   USER_PROFILE: {
-    SEND_ACTIVATION_LINK: 'profile;POST;/admin/profiles/{uuid}/verification/email/link',
     GET_RESET_PASSWORD_TOKEN: 'auth;GET;/password/reset-token?playerUUID={playerUUID}',
     SUSPEND: 'profile;PUT;/profiles/{playerUUID}/suspend',
     STATUS: 'profile;PUT;/admin/profiles/{uuid}/status',

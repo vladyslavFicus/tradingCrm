@@ -243,9 +243,7 @@
       },
       "ACTIONS_DROPDOWN": {
         "RESET_PASSWORD": "重置密码",
-        "SEND_ACTIVATION_LINK": "发送激活链接",
-        "CHANGE_PASSWORD": "更改密码",
-        "SHARE_PROFILE": "分享个人资料"
+        "CHANGE_PASSWORD": "更改密码"
       },
       "HEADER": {
         "ADD_NOTE": "添加备注",

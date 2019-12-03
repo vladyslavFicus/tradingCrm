@@ -244,6 +244,9 @@ const clientsQuery = gql`query ${queryNames.clientsQuery}(
             depositsCount
             lastDepositTime
           }
+          registrationDetails {
+            registrationDate
+          }
           status {
             changedAt
             type

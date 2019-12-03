@@ -11,7 +11,6 @@ import permissions from 'config/permissions';
 import Permissions from 'utils/permissions';
 import ProfileLastLogin from 'components/ProfileLastLogin';
 import Uuid from 'components/Uuid';
-import { statuses } from 'constants/user';
 import { withNotifications } from 'components/HighOrder';
 import PermissionContent from 'components/PermissionContent';
 import StickyWrapper from 'components/StickyWrapper';
@@ -21,7 +20,6 @@ import Balances from '../Balances';
 import HeaderPlayerPlaceholder from '../HeaderPlayerPlaceholder';
 import Questionnaire from '../Questionnaire';
 
-const sendActivationLinkPermission = new Permissions([permissions.USER_PROFILE.SEND_ACTIVATION_LINK]);
 const changePasswordPermission = new Permissions([permissions.USER_PROFILE.CHANGE_PASSWORD]);
 const resetPasswordPermission = new Permissions([permissions.OPERATORS.RESET_PASSWORD]);
 
@@ -35,10 +33,8 @@ class Header extends Component {
     onAddNoteClick: PropTypes.func.isRequired,
     onStatusChange: PropTypes.func.isRequired,
     onResetPasswordClick: PropTypes.func.isRequired,
-    onProfileActivateClick: PropTypes.func.isRequired,
     loaded: PropTypes.bool,
     onChangePasswordClick: PropTypes.func.isRequired,
-    onShareProfileClick: PropTypes.func.isRequired,
     unlockLogin: PropTypes.func.isRequired,
     loginLock: PropTypes.shape({
       lock: PropTypes.bool,
@@ -117,11 +113,9 @@ class Header extends Component {
       availableStatuses,
       onAddNoteClick,
       onResetPasswordClick,
-      onProfileActivateClick,
       isLoadingProfile,
       loaded,
       onChangePasswordClick,
-      onShareProfileClick,
       unlockLogin,
       loginLock: {
         lock,
@@ -160,7 +154,6 @@ class Header extends Component {
     const { isRunningReloadAnimation } = this.state;
 
     const fullName = [firstName, lastName].filter(i => i).join(' ');
-    const isInactive = statusType === statuses.INACTIVE;
 
     return (
       <Fragment>
@@ -229,18 +222,9 @@ class Header extends Component {
                       visible: resetPasswordPermission.check(currentPermissions),
                     },
                     {
-                      label: I18n.t('PLAYER_PROFILE.PROFILE.ACTIONS_DROPDOWN.SEND_ACTIVATION_LINK'),
-                      onClick: onProfileActivateClick,
-                      visible: sendActivationLinkPermission.check(currentPermissions) && isInactive,
-                    },
-                    {
                       label: I18n.t('PLAYER_PROFILE.PROFILE.ACTIONS_DROPDOWN.CHANGE_PASSWORD'),
                       onClick: onChangePasswordClick,
                       visible: changePasswordPermission.check(currentPermissions),
-                    },
-                    {
-                      label: I18n.t('PLAYER_PROFILE.PROFILE.ACTIONS_DROPDOWN.SHARE_PROFILE'),
-                      onClick: onShareProfileClick,
                     },
                   ]}
                 />

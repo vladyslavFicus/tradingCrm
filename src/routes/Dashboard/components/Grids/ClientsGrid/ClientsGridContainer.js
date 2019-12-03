@@ -5,6 +5,15 @@ import ClientsGrid from './ClientsGrid';
 export default compose(
   graphql(clientsQuery, {
     name: 'profiles',
-    options: variables => ({ variables }),
+    options: () => ({
+      variables: {
+        args: {
+          page: {
+            from: 0,
+            size: 10,
+          },
+        },
+      },
+    }),
   }),
 )(ClientsGrid);

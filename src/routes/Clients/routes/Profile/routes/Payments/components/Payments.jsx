@@ -1,5 +1,3 @@
-/* eslint-disable */
-
 import React, { Component, Fragment } from 'react';
 import { SubmissionError } from 'redux-form';
 import { get, flatten } from 'lodash';
@@ -45,7 +43,6 @@ class Payments extends Component {
       addPayment: PropTypes.modalType,
     }).isRequired,
     addNote: PropTypes.func.isRequired,
-    auth: PropTypes.auth.isRequired,
   };
 
   static contextTypes = {
