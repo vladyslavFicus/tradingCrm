@@ -22,10 +22,10 @@ const acquisitionStatuses = [{
 }];
 
 const assignStatuses = [{
-  value: 'ASSIGN',
+  value: 'ASSIGNED',
   label: 'COMMON.ASSIGN',
 }, {
-  value: 'UN_ASSIGN',
+  value: 'UNASSIGNED',
   label: 'COMMON.UN_ASSIGN',
 }];
 
