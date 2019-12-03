@@ -113,7 +113,7 @@ class PersonalForm extends Component {
         </div>
         <div className="row">
           <Field
-            name="language"
+            name="languageCode"
             label={attributeLabels().language}
             type="text"
             className="col-lg-4"

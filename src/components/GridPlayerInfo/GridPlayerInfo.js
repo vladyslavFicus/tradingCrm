@@ -29,7 +29,7 @@ class GridPlayerInfo extends Component {
 
   render() {
     const { profile, clickable, mainInfoClassName, id } = this.props;
-    const { uuid, firstName, lastName, language } = profile;
+    const { uuid, firstName, lastName, languageCode } = profile;
 
     return (
       <GridPlayerInfoPlaceholder ready={!!profile} firstLaunchOnly>
@@ -51,7 +51,7 @@ class GridPlayerInfo extends Component {
                 uuid={uuid}
                 uuidPrefix={uuid.indexOf('PLAYER') === -1 ? 'PL' : ''}
               />
-              {!!language && <span> - {language}</span>}
+              {!!languageCode && <span> - {languageCode}</span>}
             </div>
           </div>
         </If>

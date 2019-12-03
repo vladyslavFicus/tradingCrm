@@ -36,7 +36,6 @@ import {
 } from '../../routes';
 import Header from '../Header';
 import Information from '../Information';
-import ShareLinkModal from '../ShareLinkModal';
 import { userProfileTabs, moveField } from './constants';
 
 const NOTE_POPOVER = 'note-popover';
@@ -49,7 +48,6 @@ const MODAL_INFO = 'info-modal';
 const MODAL_UPLOAD_FILE = 'upload-modal';
 const MODAL_DELETE_FILE = 'delete-modal';
 const MODAL_CHANGE_PASSWORD = 'change-password-modal';
-const MODAL_SHARE_PROFILE = 'share-profile-modal';
 const modalInitialState = {
   name: null,
   params: {},
@@ -551,34 +549,6 @@ class Profile extends Component {
     }
   };
 
-  // # !!! Todo: Need to rebuild usin /admin/profiles/{uuid}/verification/email/link
-  handleProfileActivateClick = async () => {
-    console.info(
-      'Profile: handleProfileActivateClick => Need to rebuild usin /admin/profiles/{uuid}/verification/email/link',
-    );
-    // const { activateProfile, playerProfile: { playerProfile: { data: { playerUUID, email } } } } = this.props;
-
-    // if (playerUUID) {
-    //   const action = await activateProfile(playerUUID);
-
-    //   if (action && !action.error) {
-    //     this.handleOpenModal(MODAL_INFO, {
-    //       header: 'Send user activation link',
-    //       body: (
-    //         <span>
-    //           Activation link has been sent to <strong>{email || playerUUID}</strong>.
-    //         </span>
-    //       ),
-    //       footer: (
-    //         <button type="button" className="btn btn-default-outline mr-auto" onClick={this.handleCloseModal}>
-    //           {I18n.t('COMMON.BUTTONS.CANCEL')}
-    //         </button>
-    //       ),
-    //     });
-    //   }
-    // }
-  };
-
   handleUpdateSubscription = async (data) => {
     const { match: { params: { id: playerUUID } }, updateSubscription } = this.props;
 
@@ -633,10 +603,6 @@ class Profile extends Component {
     });
   };
 
-  handleShareProfileClick = () => {
-    this.handleOpenModal(MODAL_SHARE_PROFILE);
-  };
-
   render() {
     if (get(this.props, 'newProfile.newProfile.error')) {
       return <NotFound />;
@@ -658,9 +624,6 @@ class Profile extends Component {
       match: {
         url,
         path,
-        params: {
-          id,
-        },
       },
       getLoginLock,
       questionnaireLastData,
@@ -690,13 +653,11 @@ class Profile extends Component {
             isLoadingProfile={loading}
             onAddNoteClick={this.handleAddNoteClick(params.id)}
             onResetPasswordClick={this.handleResetPasswordClick}
-            onProfileActivateClick={this.handleProfileActivateClick}
             onRefreshClick={() => this.handleLoadProfile(true)}
             unlockLogin={this.unlockLogin}
             loginLock={loginLock}
             loaded={!loading}
             onChangePasswordClick={this.handleChangePasswordClick}
-            onShareProfileClick={this.handleShareProfileClick}
           />
           <HideDetails>
             <Information
@@ -800,15 +761,6 @@ class Profile extends Component {
               {...modal.params}
               onClose={this.handleCloseModal}
               onSubmit={this.handleSubmitNewPassword}
-            />
-          )
-        }
-        {
-          modal.name === MODAL_SHARE_PROFILE && newProfile
-          && (
-            <ShareLinkModal
-              onClose={this.handleCloseModal}
-              playerUUID={id}
             />
           )
         }

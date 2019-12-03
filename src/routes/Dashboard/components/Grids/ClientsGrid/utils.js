@@ -29,11 +29,11 @@ export default () => [{
 }, {
   name: 'country',
   header: I18n.t('CLIENTS.LIST.GRID_HEADER.COUNTRY'),
-  render: ({ country, languageCode }) => (
+  render: ({ address: { countryCode }, languageCode }) => (
     <Choose>
-      <When condition={country}>
+      <When condition={countryCode}>
         <CountryLabelWithFlag
-          code={country}
+          code={countryCode}
           height="14"
           languageCode={languageCode}
         />
@@ -48,13 +48,13 @@ export default () => [{
   header: I18n.t('CLIENTS.LIST.GRID_HEADER.BALANCE'),
   render: (data) => {
     const currency = getActiveBrandConfig().currencies.base;
-    const tradingProfile = get(data, 'tradingProfile') || {};
+    const balance = get(data, 'balance') || {};
 
     return (
       <Choose>
-        <When condition={tradingProfile.baseCurrencyBalance}>
+        <When condition={balance.amount}>
           <div className="header-block-middle">
-            {currency} {Number(tradingProfile.baseCurrencyBalance).toFixed(2)}
+            {currency} {Number(balance.amount).toFixed(2)}
           </div>
         </When>
         <Otherwise>
@@ -67,15 +67,15 @@ export default () => [{
   name: 'deposits',
   header: I18n.t('CLIENTS.LIST.GRID_HEADER.DEPOSITS'),
   render: (data) => {
-    const tradingProfile = get(data, 'tradingProfile') || {};
+    const paymentDetails = get(data, 'paymentDetails') || {};
     return (
       <Choose>
-        <When condition={tradingProfile.lastDepositDate}>
-          <div className="font-weight-700">{tradingProfile.depositCount}</div>
+        <When condition={paymentDetails.lastDepositTime}>
+          <div className="font-weight-700">{paymentDetails.depositsCount}</div>
           <div className="font-size-11">
             {I18n.t('CLIENT_PROFILE.CLIENT.BALANCES.LAST')}
             {' '}
-            {moment(tradingProfile.lastDepositDate).format('DD.MM.YYYY')}
+            {moment(paymentDetails.lastDepositTime).format('DD.MM.YYYY')}
           </div>
         </When>
         <Otherwise>
@@ -88,15 +88,15 @@ export default () => [{
   name: 'affiliate',
   header: I18n.t('CLIENTS.LIST.GRID_HEADER.AFFILIATE'),
   render: (data) => {
-    const affiliateProfile = get(data, 'tradingProfile.affiliateProfileDocument');
+    const { uuid, firstName } = get(data, 'affiliate') || {};
 
     return (
       <Choose>
-        <When condition={affiliateProfile}>
-          <If condition={affiliateProfile.affiliate}>
-            <div className="header-block-middle">{affiliateProfile.affiliate.fullName}</div>
+        <When condition={uuid}>
+          <If condition={firstName}>
+            <div className="header-block-middle">{firstName}</div>
           </If>
-          <Uuid className="header-block-small" uuid={affiliateProfile._id} />
+          <Uuid className="header-block-small" uuid={uuid} />
         </When>
         <Otherwise>
           <GridEmptyValue I18n={I18n} />
@@ -110,23 +110,23 @@ export default () => [{
   render: (data) => {
     const {
       salesStatus,
-      salesRep,
-      aquisitionStatus,
-    } = get(data, 'tradingProfile') || {};
+      salesOperator,
+      acquisitionStatus,
+    } = get(data, 'acquisition') || {};
     const colorClassName = salesStatusesColor[salesStatus];
 
     return (
       <Choose>
         <When condition={salesStatus}>
           <GridStatus
-            wrapperClassName={aquisitionStatus === 'SALES' ? `border-${colorClassName}` : ''}
+            wrapperClassName={acquisitionStatus === 'SALES' ? `border-${colorClassName}` : ''}
             colorClassName={colorClassName}
             statusLabel={I18n.t(renderLabel(salesStatus, salesStatuses))}
             info={(
-              <If condition={salesRep}>
+              <If condition={salesOperator}>
                 <GridStatusDeskTeam
-                  fullName={salesRep.fullName}
-                  hierarchy={salesRep.hierarchy}
+                  fullName={salesOperator.fullName}
+                  hierarchy={salesOperator.hierarchy}
                 />
               </If>
             )}
@@ -144,23 +144,23 @@ export default () => [{
   render: (data) => {
     const {
       retentionStatus,
-      retentionRep,
-      aquisitionStatus,
-    } = get(data, 'tradingProfile') || {};
+      retentionOperator,
+      acquisitionStatus,
+    } = get(data, 'acquisition') || {};
     const colorClassName = retentionStatusesColor[retentionStatus];
 
     return (
       <Choose>
         <When condition={retentionStatus}>
           <GridStatus
-            wrapperClassName={aquisitionStatus === 'RETENTION' ? `border-${colorClassName}` : ''}
+            wrapperClassName={acquisitionStatus === 'RETENTION' ? `border-${colorClassName}` : ''}
             colorClassName={colorClassName}
             statusLabel={I18n.t(renderLabel(retentionStatus, retentionStatuses))}
             info={(
-              <If condition={retentionRep}>
+              <If condition={retentionOperator}>
                 <GridStatusDeskTeam
-                  fullName={retentionRep.fullName}
-                  hierarchy={retentionRep.hierarchy}
+                  fullName={retentionOperator.fullName}
+                  hierarchy={retentionOperator.hierarchy}
                 />
               </If>
             )}
@@ -175,7 +175,7 @@ export default () => [{
 }, {
   name: 'registrationDate',
   header: I18n.t('CLIENTS.LIST.GRID_HEADER.REGISTRATION'),
-  render: ({ registrationDate }) => (
+  render: ({ registrationDetails: { registrationDate } }) => (
     <Fragment>
       <div className="font-weight-700">{moment.utc(registrationDate).local().format('DD.MM.YYYY')}</div>
       <div className="font-size-11">
@@ -186,11 +186,11 @@ export default () => [{
 }, {
   name: 'status',
   header: I18n.t('CLIENTS.LIST.GRID_HEADER.STATUS'),
-  render: ({ profileStatus, profileStatusDate }) => (
+  render: ({ status: { type, changedAt } }) => (
     <GridStatus
-      colorClassName={userStatusColorNames[profileStatus]}
-      statusLabel={I18n.t(renderLabel(profileStatus, userStatusesLabels))}
-      info={profileStatusDate}
+      colorClassName={userStatusColorNames[type]}
+      statusLabel={I18n.t(renderLabel(type, userStatusesLabels))}
+      info={changedAt}
       infoLabel={date => I18n.t('COMMON.SINCE', { date: moment.utc(date).local().format('DD.MM.YYYY HH:mm') })}
     />
   ),

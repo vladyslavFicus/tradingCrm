@@ -78,7 +78,7 @@ function NodeRendererDefault(props) {
       {toggleChildrenVisibility
       && node.children
       && (node.children.length > 0 || typeof node.children === 'function') && (
-        <div>
+        <>
           <button
             type="button"
             aria-label={node.expanded ? 'Collapse' : 'Expand'}
@@ -101,7 +101,7 @@ function NodeRendererDefault(props) {
               className={classNames('rst__lineChildren', rowDirectionClass)}
             />
           )}
-        </div>
+        </>
       )}
 
       <div className={classNames('rst__rowWrapper', rowDirectionClass)}>

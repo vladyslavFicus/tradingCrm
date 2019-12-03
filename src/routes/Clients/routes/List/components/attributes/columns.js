@@ -192,7 +192,7 @@ export default () => [{
 }, {
   name: 'registrationDate',
   header: I18n.t('CLIENTS.LIST.GRID_HEADER.REGISTRATION'),
-  render: ({ registrationDate }) => (
+  render: ({ registrationDetails: { registrationDate } }) => (
     <Fragment>
       <div className="font-weight-700">{moment.utc(registrationDate).local().format('DD.MM.YYYY')}</div>
       <div className="font-size-11">

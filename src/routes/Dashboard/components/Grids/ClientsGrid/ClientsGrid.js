@@ -8,7 +8,7 @@ class ClientsGrid extends PureComponent {
   static propTypes = {
     profiles: PropTypes.shape({
       profiles: PropTypes.shape({
-        data: PropTypes.pageable(PropTypes.any),
+        data: PropTypes.pageable(PropTypes.newProfile),
       }),
       loading: PropTypes.bool.isRequired,
     }).isRequired,
@@ -29,7 +29,6 @@ class ClientsGrid extends PureComponent {
           dataSource={profilesEntities}
           showNoResults={profilesEntities.length === 0}
           tableClassName="table-hovered"
-          rowClassName={({ tradingProfile }) => !tradingProfile && 'disabled'}
         >
           {columns().map(({ name, header, render }) => (
             <GridViewColumn

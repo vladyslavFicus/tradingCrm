@@ -1,9 +1,6 @@
-/* eslint-disable */
-
 import React, { PureComponent } from 'react';
 import { graphql, compose } from 'react-apollo';
 import moment from 'moment';
-import { get } from 'lodash';
 import I18n from 'i18n-js';
 import { getClickToCall } from 'config';
 import Regulated from 'components/Regulation';
@@ -24,7 +21,7 @@ import RegulatedForm from './RegulatedForm';
 
 class Personal extends PureComponent {
   static propTypes = {
-    newProfile: PropTypes.newProfile.isRequired,
+    newProfile: PropTypes.newProfile,
     operatorPhoneNumber: PropTypes.string,
     notify: PropTypes.func.isRequired,
     clickToCall: PropTypes.func.isRequired,
@@ -291,7 +288,7 @@ class Personal extends PureComponent {
 export default compose(
   withNotifications,
   graphql(clickToCall, {
-    name: 'clickToCall'
+    name: 'clickToCall',
   }),
   graphql(updateConfigurationMutation, {
     name: 'updateConfiguration',

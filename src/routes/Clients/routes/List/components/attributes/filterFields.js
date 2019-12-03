@@ -219,8 +219,8 @@ export default (
   selectOptions: assignStatuses.map(({ value, label }) => ({ value, label })),
 }, {
   type: fieldTypes.SELECT,
-  name: 'kycStatus',
-  label: filterLabels.kycStatus,
+  name: 'kycStatuses',
+  label: filterLabels.kycStatuses,
   placeholder: 'COMMON.SELECT_OPTION.ANY',
   multiple: true,
   className: fieldClassNames.MEDIUM,

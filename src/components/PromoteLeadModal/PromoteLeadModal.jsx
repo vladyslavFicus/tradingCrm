@@ -32,7 +32,6 @@ class PromoteLead extends PureComponent {
         lastName,
       },
       error,
-      supportedCurrencies,
       onSubmit,
     } = this.props;
 
@@ -68,14 +67,14 @@ class PromoteLead extends PureComponent {
                 component={InputField}
               />
               <Field
-                name="email"
+                name="contacts.email"
                 type="text"
                 label={I18n.t(attributeLabels.email)}
                 component={InputField}
                 disabled
               />
               <Field
-                name="country"
+                name="address.countryCode"
                 label={I18n.t(attributeLabels.country)}
                 component={NasSelectField}
                 placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
@@ -86,20 +85,6 @@ class PromoteLead extends PureComponent {
                   </option>
                 ))}
               </Field>
-              <If condition={supportedCurrencies.length > 1}>
-                <Field
-                  name="currency"
-                  component={NasSelectField}
-                  label={I18n.t(attributeLabels.currency)}
-                  placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
-                >
-                  {
-                    supportedCurrencies.map(currency => (
-                      <option key={currency} value={currency}>{currency}</option>
-                    ))
-                  }
-                </Field>
-              </If>
             </div>
             <div className="col-6">
               <Field
@@ -160,7 +145,6 @@ PromoteLead.propTypes = {
     lastName: PropTypes.string.isRequired,
   }).isRequired,
   handleSubmit: PropTypes.func.isRequired,
-  supportedCurrencies: PropTypes.array.isRequired,
   change: PropTypes.func.isRequired,
   onCloseModal: PropTypes.func.isRequired,
   isOpen: PropTypes.bool.isRequired,

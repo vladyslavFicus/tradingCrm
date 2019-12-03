@@ -269,9 +269,7 @@
       },
       "ACTIONS_DROPDOWN": {
         "RESET_PASSWORD": "Reset password",
-        "SEND_ACTIVATION_LINK": "Send activation link",
-        "CHANGE_PASSWORD": "Change password",
-        "SHARE_PROFILE": "Share profile"
+        "CHANGE_PASSWORD": "Change password"
       },
       "HEADER": {
         "ADD_NOTE": "Add note",
@@ -1404,7 +1402,7 @@
         "SALES_STATUS": "Sales status",
         "RETENTION_STATUS": "Retention status",
         "ASSIGN_STATUS": "Assign Status",
-        "KYC_STATUS": "KYC Status",
+        "KYC_STATUSES": "KYC Statuses",
         "FIRST_DEPOSIT": "First time deposit"
       }
     }
@@ -2343,7 +2341,6 @@
         "LAST_NAME": "Last name",
         "EMAIL": "Email",
         "COUNTRY": "Country",
-        "CURRENCY": "Currency",
         "PASSWORD": "Password",
         "LANGUAGE": "Language",
         "SALES_REP": "Assign Sales representative",

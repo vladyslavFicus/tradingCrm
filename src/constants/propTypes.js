@@ -796,7 +796,7 @@ PropTypes.newProfile = PropTypes.shape({
     reason: PropTypes.string,
     type: PropTypes.string,
   }),
-  uuid: PropTypes.string.isRequired,
+  uuid: PropTypes.string,
 });
 
 export default PropTypes;

@@ -55,7 +55,7 @@ class UserGridFilter extends Component {
     if (error) {
       notify({
         level: 'error',
-        title: I18n.t('COMMON.FAILED'),
+        title: I18n.t('COMMON.FAIL'),
         message: I18n.t('COMMON.SOMETHING_WRONG'),
       });
 

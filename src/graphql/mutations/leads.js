@@ -47,38 +47,14 @@ const updateLeadProfile = gql`mutation updateLead(
 }`;
 
 const promoteLeadToClient = gql`mutation promoteLead(
-  $password: String!,
-  $email: String!,
-  $firstName: String!,
-  $lastName: String!,
-  $country: String!,
-  $currency: String!,
-  $city: String,
-  $gender: String,
-  $birthDate: String,
-  $phone1: String!,
-  $phone2: String,
-  $languageCode: String!,
-  $leadUuid: String!
+  $args: CreateProfileInputType
 ) {
   leads {
     promote (
-      password: $password,
-      email: $email,
-      firstName: $firstName,
-      lastName: $lastName,
-      country: $country,
-      currency: $currency,
-      city: $city,
-      gender: $gender,
-      birthDate: $birthDate,
-      phone1: $phone1,
-      phone2: $phone2,
-      languageCode: $languageCode,
-      leadUuid: $leadUuid,
+      args: $args
     ) {
       data {
-        playerUUID
+        uuid
       }
       error {
         error

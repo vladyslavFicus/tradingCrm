@@ -126,7 +126,7 @@ const getClientPaymentsByUuid = gql`query ${queryNames.paymentsQuery}(
     limit: $limit
     statuses: $statuses
     paymentTypes: $paymentTypes
-    paymentAggregator: $paymentAggregator    
+    paymentAggregator: $paymentAggregator
     paymentMethods: $paymentMethods
     creationTimeFrom: $creationTimeFrom
     creationTimeTo: $creationTimeTo
