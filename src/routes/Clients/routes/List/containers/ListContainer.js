@@ -54,7 +54,7 @@ export default compose(
             ...filters,
             page: {
               from: 0,
-              size: 20,
+              size: (filters && filters.page.size) || 20,
             },
           },
         },
