@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react';
+import { uniqBy } from 'lodash';
 import I18n from 'i18n-js';
 import PropTypes from '../../../constants/propTypes';
 import CopyToClipboard from '../../CopyToClipboard';
@@ -13,6 +14,8 @@ const IpList = (props) => {
     notify,
   } = props;
 
+  const uniqueIps = uniqBy(ips, ({ ip }) => ip);
+
   return (
     <Fragment>
       <div className="account-details__personal-info">
@@ -22,8 +25,8 @@ const IpList = (props) => {
         <div className="card">
           <div className="card-body">
             <Choose>
-              <When condition={ips && ips.length > 0}>
-                {ips.map(item => (
+              <When condition={uniqueIps && uniqueIps.length > 0}>
+                {uniqueIps.map(item => (
                   <div className="ip-container" key={item.ip}>
                     <i
                       className={`fs-icon fs-${item.countryCode.toLowerCase()}`}
