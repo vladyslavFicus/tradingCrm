@@ -1,9 +1,9 @@
 import keyMirror from 'keymirror';
 
 const statuses = keyMirror({
-  INACTIVE: null,
   ACTIVE: null,
   CLOSED: null,
+  INACTIVE: null,
 });
 
 const actions = keyMirror({
@@ -12,15 +12,15 @@ const actions = keyMirror({
 });
 
 const statusesLabels = {
-  [statuses.INACTIVE]: 'OPERATORS.STATUSES.INACTIVE',
   [statuses.ACTIVE]: 'OPERATORS.STATUSES.ACTIVE',
   [statuses.CLOSED]: 'OPERATORS.STATUSES.CLOSED',
+  [statuses.INACTIVE]: 'OPERATORS.STATUSES.INACTIVE',
 };
 
 const statusColorNames = {
   [statuses.ACTIVE]: 'color-success',
-  [statuses.INACTIVE]: 'color-default',
   [statuses.CLOSED]: 'color-danger',
+  [statuses.INACTIVE]: 'color-default',
 };
 
 const closeReasons = {
@@ -53,26 +53,26 @@ const statusActions = {
 };
 
 const departments = keyMirror({
-  CS: null,
-  RFP: null,
-  MARKETING: null,
   ADMINISTRATION: null,
-  SALES: null,
-  RETENTION: null,
-  AFFILIATE_PARTNER: null,
   AFFILIATE_MANAGER: null,
+  AFFILIATE_PARTNER: null,
+  CS: null,
+  MARKETING: null,
+  RETENTION: null,
+  RFP: null,
+  SALES: null,
 });
 
 const departmentsLabels = {
-  [departments.CS]: 'CONSTANTS.OPERATORS.DEPARTMENTS.CS',
-  [departments.RFP]: 'CONSTANTS.OPERATORS.DEPARTMENTS.RFP',
-  [departments.MARKETING]: 'CONSTANTS.OPERATORS.DEPARTMENTS.MARKETING',
   [departments.ADMINISTRATION]: 'CONSTANTS.OPERATORS.DEPARTMENTS.ADMINISTRATION',
-  [departments.E2E]: 'CONSTANTS.OPERATORS.DEPARTMENTS.E2E',
   [departments.BI]: 'CONSTANTS.OPERATORS.DEPARTMENTS.BI',
+  [departments.CS]: 'CONSTANTS.OPERATORS.DEPARTMENTS.CS',
+  [departments.E2E]: 'CONSTANTS.OPERATORS.DEPARTMENTS.E2E',
   [departments.IGROMAT]: 'CONSTANTS.OPERATORS.DEPARTMENTS.IGROMAT',
-  [departments.SALES]: 'CONSTANTS.OPERATORS.DEPARTMENTS.SALES',
+  [departments.MARKETING]: 'CONSTANTS.OPERATORS.DEPARTMENTS.MARKETING',
   [departments.RETENTION]: 'CONSTANTS.OPERATORS.DEPARTMENTS.RETENTION',
+  [departments.RFP]: 'CONSTANTS.OPERATORS.DEPARTMENTS.RFP',
+  [departments.SALES]: 'CONSTANTS.OPERATORS.DEPARTMENTS.SALES',
 };
 
 const roles = keyMirror({

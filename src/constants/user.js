@@ -114,9 +114,9 @@ const unblockReasons = {
 };
 
 const statusesLabels = {
+  [statuses.BLOCKED]: 'STATUSES_LABELS.BLOCKED',
   [statuses.INACTIVE]: 'STATUSES_LABELS.INACTIVE',
   [statuses.ACTIVE]: 'STATUSES_LABELS.ACTIVE',
-  [statuses.BLOCKED]: 'STATUSES_LABELS.BLOCKED',
 };
 
 const durationUnits = keyMirror({

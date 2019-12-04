@@ -12,11 +12,6 @@ export default compose(
   withStorage(['auth']),
   graphql(operatorsQuery, {
     name: 'operators',
-    options: () => ({
-      variables: {
-        size: 2000,
-      },
-    }),
     props: ({ operators: { operators, loading: operatorsLoading } }) => ({
       operators: get(operators, 'data.content') || [],
       operatorsLoading,

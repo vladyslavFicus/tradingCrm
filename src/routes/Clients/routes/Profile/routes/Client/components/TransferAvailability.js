@@ -61,11 +61,11 @@ class TransferAvailability extends PureComponent {
               className="col-lg-6"
               normalize={value => parseInt(value, 10)}
             >
-              <option key={1} value={1}>
-                {I18n.t('COMMON.ENABLED')}
-              </option>
               <option key={2} value={0}>
                 {I18n.t('COMMON.DISABLED')}
+              </option>
+              <option key={1} value={1}>
+                {I18n.t('COMMON.ENABLED')}
               </option>
             </Field>
             <div className="col-4 mt-4">

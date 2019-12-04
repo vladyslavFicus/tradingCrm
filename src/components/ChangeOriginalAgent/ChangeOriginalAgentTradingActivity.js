@@ -102,11 +102,6 @@ export default compose(
   }),
   graphql(operatorsQuery, {
     name: 'operators',
-    options: () => ({
-      variables: {
-        size: 2000,
-      },
-    }),
   }),
   graphql(changeOriginalAgent, {
     name: 'changeOriginalAgent',
