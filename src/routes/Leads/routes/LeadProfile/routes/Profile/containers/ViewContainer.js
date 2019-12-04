@@ -4,7 +4,7 @@ import { reduxForm } from 'redux-form';
 import { get } from 'lodash';
 import { leadProfileQuery } from 'graphql/queries/leads';
 import { updateLeadProfile } from 'graphql/mutations/leads';
-import { createValidator } from 'utils/validator';
+import { createValidator, translateLabels } from 'utils/validator';
 import countryList, { getCountryCode } from 'utils/countryList';
 import { withNotifications } from 'components/HighOrder';
 import { attributeLabels } from '../constants';
@@ -85,7 +85,7 @@ export default compose(
       phone: 'string',
       mobile: 'string',
       email: 'email',
-    }, attributeLabels, false),
+    }, translateLabels(attributeLabels), false),
     enableReinitialize: true,
   }),
 )(View);
