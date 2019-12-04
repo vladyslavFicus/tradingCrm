@@ -253,8 +253,6 @@ class Header extends Component {
                   credit,
                 }}
                 tradingAccounts={tradingAccount && tradingAccount.filter(account => account.accountType !== 'DEMO')}
-                lastDeposit={null}
-                lastWithdraw={null}
                 uuid={uuid}
               />
             </If>

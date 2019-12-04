@@ -75,6 +75,10 @@ const paymentsStatisticQuery = gql`
             count
             entryDate
           }
+          itemsTotal {
+            totalAmount
+            totalCount
+          }
           additionalTotal {
             totalAmount
             totalCount

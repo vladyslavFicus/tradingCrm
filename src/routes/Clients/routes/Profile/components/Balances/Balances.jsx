@@ -48,8 +48,6 @@ class Balances extends Component {
       currency: PropTypes.string,
     }),
     tradingAccounts: PropTypes.arrayOf(PropTypes.mt4User),
-    lastDeposit: PropTypes.string,
-    lastWithdraw: PropTypes.string,
     selectValue: PropTypes.string,
   };
 
@@ -57,8 +55,6 @@ class Balances extends Component {
     balances: {},
     tradingAccounts: [],
     selectValue: null,
-    lastDeposit: null,
-    lastWithdraw: null,
   };
 
   static contextTypes = {
@@ -111,8 +107,6 @@ class Balances extends Component {
     const baseCurrency = getActiveBrandConfig().currencies.base;
 
     const {
-      lastDeposit,
-      lastWithdraw,
       depositPaymentStatistic: { statistics, loading },
       withdrawPaymentStatistic: { statistics: withdrawStat, loading: widthdrawLoading },
     } = this.props;
@@ -126,8 +120,17 @@ class Balances extends Component {
       totalCount: withdrawCount,
     } = get(withdrawStat, 'payments.data.itemsTotal') || moneyObj;
 
+    const depositItems = get(statistics, 'payments.data.items', []).filter(i => i.amount > 0);
+    const withdrawItems = get(withdrawStat, 'payments.data.items', []).filter(i => i.amount > 0);
+
+    const lastDepositItem = depositItems[depositItems.length - 1];
+    const lastWithdrawItem = withdrawItems[withdrawItems.length - 1];
+
+    const firstDepositItem = depositItems[0];
+    const firstWithdrawItem = withdrawItems[0];
+
     const depositError = get(statistics, 'payments.error');
-    const withdrawError = get(statistics, 'payments.error');
+    const withdrawError = get(withdrawStat, 'payments.error');
 
     // ======= Calculate sum of trading accounts balances by currency  ======= //
     const accountsByCurrency = groupBy(this.props.tradingAccounts, 'currency');
@@ -199,7 +202,7 @@ class Balances extends Component {
                       <div className="header-block-title">
                         {I18n.t('CLIENT_PROFILE.CLIENT.BALANCES.DEPOSIT')}
                       </div>
-                      <div className={`header-block-middle ${lastWithdraw ? '' : 'margin-bottom-15'}`}>
+                      <div className={`header-block-middle ${lastWithdrawItem ? '' : 'margin-bottom-15'}`}>
                         {depositCount}
                       </div>
                     </div>
@@ -207,23 +210,37 @@ class Balances extends Component {
                       <div className="header-block-title">
                         {I18n.t('CLIENT_PROFILE.CLIENT.BALANCES.WITHDRAWAL')}
                       </div>
-                      <div className={`header-block-middle ${lastWithdraw ? '' : 'margin-bottom-15'}`}>
+                      <div className={`header-block-middle ${lastWithdrawItem ? '' : 'margin-bottom-15'}`}>
                         {withdrawCount}
                       </div>
                     </div>
                   </div>
                   <div className="row">
                     <div className="col-6">
-                      <If condition={lastDeposit}>
+                      <If condition={firstDepositItem}>
                         <div className="header-block-small margin-bottom-15">
-                          {I18n.t('CLIENT_PROFILE.CLIENT.BALANCES.LAST')} {moment(lastDeposit).format('DD.MM.YYYY')}
+                          {I18n.t('CLIENT_PROFILE.CLIENT.BALANCES.FIRST')} {
+                            moment(firstDepositItem.entryDate).format('DD.MM.YYYY')}
+                        </div>
+                      </If>
+                      <If condition={lastDepositItem}>
+                        <div className="header-block-small margin-bottom-15">
+                          {I18n.t('CLIENT_PROFILE.CLIENT.BALANCES.LAST')} {
+                            moment(lastDepositItem.entryDate).format('DD.MM.YYYY')}
                         </div>
                       </If>
                     </div>
                     <div className="col-6">
-                      <If condition={lastWithdraw}>
+                      <If condition={firstWithdrawItem}>
                         <div className="header-block-small margin-bottom-15">
-                          {I18n.t('CLIENT_PROFILE.CLIENT.BALANCES.LAST')} {moment(lastWithdraw).format('DD.MM.YYYY')}
+                          {I18n.t('CLIENT_PROFILE.CLIENT.BALANCES.FIRST')} {
+                            moment(firstWithdrawItem.entryDate).format('DD.MM.YYYY')}
+                        </div>
+                      </If>
+                      <If condition={lastWithdrawItem}>
+                        <div className="header-block-small margin-bottom-15">
+                          {I18n.t('CLIENT_PROFILE.CLIENT.BALANCES.LAST')} {
+                            moment(lastWithdrawItem.entryDate).format('DD.MM.YYYY')}
                         </div>
                       </If>
                     </div>
