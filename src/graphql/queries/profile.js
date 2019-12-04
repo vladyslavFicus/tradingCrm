@@ -151,6 +151,7 @@ const newProfile = gql`query newProfile($playerUUID: String!){
         lastSignInSessions {
           ip
           countryCode
+          startedAt
         }
       }
       tradingAccount {
