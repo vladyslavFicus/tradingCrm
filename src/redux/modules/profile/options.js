@@ -4,6 +4,8 @@ import _ from 'lodash';
 import createReducer from '../../../utils/createReducer';
 import createRequestAction from '../../../utils/createRequestAction';
 
+const { getName: getCountryNameByCode } = countryListLib();
+
 function formatPhoneCode(phone) {
   return phone.replace(/[-\s]/g, '');
 }
@@ -87,8 +89,8 @@ const actionHandlers = {
     const countryCodes = countryList ? countryList.map(item => item.countryCode) : [];
     const countries = countryList.map(item => ({
       ...item,
-      countryName: countryListLib().getName(item.countryCode),
-    }));
+      countryName: getCountryNameByCode(item.countryCode),
+    })).sort(({ countryName: a }, { countryName: b }) => (a > b ? 1 : -1));
 
     newState.data = {
       ...state.data,
@@ -97,7 +99,7 @@ const actionHandlers = {
         .filter(i => i)
         .filter((el, i, a) => i === a.indexOf(el))
         .sort() : [],
-      currencyCodes,
+      currencyCodes: currencyCodes.sort(),
       baseCurrency,
       countries,
       countryCodes,

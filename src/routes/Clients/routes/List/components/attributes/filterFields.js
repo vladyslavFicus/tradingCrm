@@ -14,11 +14,11 @@ import {
 } from '../../../../../../components/ReduxForm/ReduxFieldsConstructor';
 
 const acquisitionStatuses = [{
-  value: 'SALES',
-  label: 'COMMON.SALES',
-}, {
   value: 'RETENTION',
   label: 'COMMON.RETENTION',
+}, {
+  value: 'SALES',
+  label: 'COMMON.SALES',
 }];
 
 const assignStatuses = [{
@@ -29,43 +29,56 @@ const assignStatuses = [{
   label: 'COMMON.UN_ASSIGN',
 }];
 
-const kycStatuses = [{
-  value: 'PENDING',
-  label: 'KYC_REQUESTS.STATUS.PENDING',
-}, {
-  value: 'NO_KYC',
-  label: 'KYC_REQUESTS.STATUS.NO_KYC',
-}, {
-  value: 'AWAITING_REVIEW',
-  label: 'KYC_REQUESTS.STATUS.AWAITING_REVIEW',
-}, {
-  value: 'PARTIAL',
-  label: 'KYC_REQUESTS.STATUS.PARTIAL',
-}, {
-  value: 'APPROVED',
-  label: 'KYC_REQUESTS.STATUS.APPROVED',
-}, {
-  value: 'APPROVED_AWAITING_REVIEW',
-  label: 'KYC_REQUESTS.STATUS.APPROVED_AWAITING_REVIEW',
-}, {
-  value: 'REJECTED',
-  label: 'KYC_REQUESTS.STATUS.REJECTED',
-}, {
-  value: 'RISK',
-  label: 'KYC_REQUESTS.STATUS.RISK',
-}, {
-  value: 'PARTIAL_KYC_CAN_TRADE',
-  label: 'KYC_REQUESTS.STATUS.PARTIAL_KYC_CAN_TRADE',
-}, {
-  value: 'FLAGGED_NON_COMPLIANT',
-  label: 'KYC_REQUESTS.STATUS.FLAGGED_NON_COMPLIANT',
-}, {
-  value: 'REFUNDED_NON_COMPLIANT',
-  label: 'KYC_REQUESTS.STATUS.REFUNDED_NON_COMPLIANT',
-}, {
-  value: 'PRIOR_TO_REFUND',
-  label: 'KYC_REQUESTS.STATUS.PRIOR_TO_REFUND',
-}];
+const kycStatuses = [
+  {
+    value: 'APPROVED',
+    label: 'KYC_REQUESTS.STATUS.APPROVED',
+  },
+  {
+    value: 'APPROVED_AWAITING_REVIEW',
+    label: 'KYC_REQUESTS.STATUS.APPROVED_AWAITING_REVIEW',
+  },
+  {
+    value: 'AWAITING_REVIEW',
+    label: 'KYC_REQUESTS.STATUS.AWAITING_REVIEW',
+  },
+  {
+    value: 'FLAGGED_NON_COMPLIANT',
+    label: 'KYC_REQUESTS.STATUS.FLAGGED_NON_COMPLIANT',
+  },
+  {
+    value: 'NO_KYC',
+    label: 'KYC_REQUESTS.STATUS.NO_KYC',
+  },
+  {
+    value: 'PARTIAL',
+    label: 'KYC_REQUESTS.STATUS.PARTIAL',
+  },
+  {
+    value: 'PARTIAL_KYC_CAN_TRADE',
+    label: 'KYC_REQUESTS.STATUS.PARTIAL_KYC_CAN_TRADE',
+  },
+  {
+    value: 'PENDING',
+    label: 'KYC_REQUESTS.STATUS.PENDING',
+  },
+  {
+    value: 'PRIOR_TO_REFUND',
+    label: 'KYC_REQUESTS.STATUS.PRIOR_TO_REFUND',
+  },
+  {
+    value: 'REFUNDED_NON_COMPLIANT',
+    label: 'KYC_REQUESTS.STATUS.REFUNDED_NON_COMPLIANT',
+  },
+  {
+    value: 'REJECTED',
+    label: 'KYC_REQUESTS.STATUS.REJECTED',
+  },
+  {
+    value: 'RISK',
+    label: 'KYC_REQUESTS.STATUS.RISK',
+  },
+];
 
 const firstDepositStatuses = [{
   value: '1',

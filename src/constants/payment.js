@@ -1,11 +1,11 @@
 import keyMirror from 'keymirror';
 
 const statuses = keyMirror({
-  REJECTED: null,
-  PENDING: null,
-  FAILED: null,
-  COMPLETED: null,
   CANCELED: null,
+  COMPLETED: null,
+  FAILED: null,
+  PENDING: null,
+  REJECTED: null,
 });
 
 const tradingStatuses = keyMirror({
@@ -37,10 +37,10 @@ const statusMapper = {
 };
 
 const methods = keyMirror({
-  SKRILL: null,
-  PAYPAL: null,
   CREDIT_CARD: null,
+  PAYPAL: null,
   PAYTRIO: null,
+  SKRILL: null,
 });
 
 const aggregators = keyMirror({
@@ -50,18 +50,18 @@ const aggregators = keyMirror({
 });
 
 const manualPaymentMethods = keyMirror({
-  SYSTEM: null,
-  CREDIT_CARD: null,
-  WIRE: null,
-  EXTERNAL: null,
-  MIGRATION: null,
-  INTERNAL_TRANSFER: null,
-  ELECTRONIC: null,
   BONUS: null,
+  CASHIER: null,
+  CHARGEBACK: null,
+  CREDIT_CARD: null,
+  ELECTRONIC: null,
+  EXTERNAL: null,
+  INTERNAL_TRANSFER: null,
+  MIGRATION: null,
   PAYRETAILERS: null,
   RECALL: null,
-  CHARGEBACK: null,
-  CASHIER: null,
+  SYSTEM: null,
+  WIRE: null,
 });
 
 const methodStatuses = keyMirror({
@@ -119,13 +119,13 @@ const hrznTypes = keyMirror({
 });
 
 const tradingTypes = keyMirror({
-  DEPOSIT: null,
-  WITHDRAW: null,
   // CONFISCATE: null,
-  TRANSFER_IN: null,
-  TRANSFER_OUT: null,
   CREDIT_IN: null,
   CREDIT_OUT: null,
+  DEPOSIT: null,
+  TRANSFER_IN: null,
+  TRANSFER_OUT: null,
+  WITHDRAW: null,
 });
 
 const tradingTypesLabelsWithColor = {

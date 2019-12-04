@@ -14,9 +14,9 @@ import countryList from 'utils/countryList';
 import { COUNTRY_SPECIFIC_IDENTIFIER_TYPES } from './constants';
 
 const genders = () => ({
-  UNDEFINED: I18n.t('COMMON.GENDERS.UNDEFINED'),
-  MALE: I18n.t('COMMON.GENDERS.MALE'),
   FEMALE: I18n.t('COMMON.GENDERS.FEMALE'),
+  MALE: I18n.t('COMMON.GENDERS.MALE'),
+  UNDEFINED: I18n.t('COMMON.GENDERS.UNDEFINED'),
 });
 
 const attributeLabels = () => ({

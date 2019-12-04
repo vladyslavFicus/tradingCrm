@@ -80,7 +80,9 @@ class Feed extends Component {
     const content = this.mapAuditEntities(feeds.content);
 
     const feedTypesList = get(feedTypes, 'data') || {};
-    const availableTypes = Object.keys(feedTypesList).filter(key => (!!feedTypesList[key] && key !== '__typename'));
+    const availableTypes = Object.keys(feedTypesList)
+      .filter(key => !!feedTypesList[key] && key !== '__typename')
+      .sort((a, b) => (a < b ? 1 : -1));
 
     return (
       <Fragment>

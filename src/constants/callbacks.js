@@ -1,13 +1,13 @@
 export const callbacksStatuses = {
-  SUCCESS: 'CONSTANTS.CALLBACKS.SUCCESS',
   PENDING: 'CONSTANTS.CALLBACKS.PENDING',
   REJECTED: 'CONSTANTS.CALLBACKS.REJECTED',
+  SUCCESS: 'CONSTANTS.CALLBACKS.SUCCESS',
 };
 
 export const callbacksStatusesColor = {
-  SUCCESS: 'color-success',
   PENDING: 'color-info',
   REJECTED: 'color-danger',
+  SUCCESS: 'color-success',
 };
 
 export const filterLabels = {

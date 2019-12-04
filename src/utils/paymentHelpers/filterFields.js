@@ -137,7 +137,8 @@ export default (
         value: method,
         label,
       });
-    }),
+    })
+    .sort(({ value: a }, { value: b }) => (a > b ? 1 : -1)),
 }, {
   type: fieldTypes.SELECT,
   name: 'statuses',
