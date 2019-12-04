@@ -13,11 +13,6 @@ export default compose(
   withApollo,
   graphql(operatorsQuery, {
     name: 'operators',
-    options: () => ({
-      variables: {
-        size: 2000,
-      },
-    }),
   }),
   graphql(tradingActivityQuery, {
     name: 'tradingActivity',

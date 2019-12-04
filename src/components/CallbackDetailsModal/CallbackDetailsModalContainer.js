@@ -24,10 +24,5 @@ export default compose(
   graphql(updateCallbackMutation, { name: 'updateCallback' }),
   graphql(operatorsQuery, {
     name: 'operators',
-    options: () => ({
-      variables: {
-        size: 2000,
-      },
-    }),
   }),
 )(CallbackDetailsModal);
