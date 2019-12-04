@@ -2051,6 +2051,7 @@
         "BALANCE": "Balance",
         "DEPOSIT": "Deposits",
         "LAST": "last",
+        "FIRST": "first",
         "DEPOSITED": "Deposited",
         "WITHDRAWAL": "Withdrawals",
         "WITHDRAWN": "Withdrawn",
