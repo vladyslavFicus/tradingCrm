@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import React, { PureComponent } from 'react';
 import { get } from 'lodash';
 import moment from 'moment';
@@ -5,6 +7,7 @@ import I18n from 'i18n-js';
 import classNames from 'classnames';
 import { graphql, compose } from 'react-apollo';
 import { getApiRoot } from 'config';
+import { withStorage } from 'providers/StorageProvider';
 import { withNotifications } from 'components/HighOrder';
 import downloadBlob from 'utils/downloadBlob';
 import PropTypes from 'constants/propTypes';
@@ -82,7 +85,7 @@ class Questionnaire extends PureComponent {
   downloadPdf = async (e) => {
     e.stopPropagation();
 
-    const { profileUUID } = this.props;
+    const { profileUUID, token } = this.props;
 
     const requestUrl = `${getApiRoot()}/questionnaire/pdf/${profileUUID}`;
 
@@ -90,6 +93,7 @@ class Questionnaire extends PureComponent {
       method: 'GET',
       headers: {
         Accept: 'application/pdf',
+        authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',
       },
     });
@@ -159,6 +163,7 @@ class Questionnaire extends PureComponent {
 
 export default compose(
   withNotifications,
+  withStorage(['token']),
   graphql(changeStatusMutation, {
     name: 'changeStatus',
   }),
