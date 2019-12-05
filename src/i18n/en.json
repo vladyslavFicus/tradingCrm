@@ -669,7 +669,7 @@
     "UNLIMITED": "Unlimited",
     "NOT_MORE_CAN_SELECTED": "Not more than %{max} can be selected",
     "LANGUAGE_NAME": {
-      "UA": "Ukrainian",
+      "UK": "Ukrainian",
       "ZH": "Chinese",
       "AR": "Arabic",
       "EN": "English",
@@ -915,7 +915,11 @@
         "IGROMAT": "Igromat",
         "SALES": "Sales",
         "RETENTION": "Retention",
-        "FINANCE": "Finance"
+        "FINANCE": "Finance",
+        "AFFILIATE_MANAGER": "Affiliate manager",
+        "AFFILIATE_PARTNER": "Affiliate partner",
+        "COMPLIANCE": "Compliance",
+        "DEALING": "Dealing"
       },
       "ROLES": {
         "ROLE1": "Executive",

@@ -100,7 +100,7 @@ const bulkLeadPromote = gql`mutation promoteToClient(
 
 const bulkLeadUpdate = gql`mutation bulkLeadUpdate(
   $teamId: String,
-  $salesRep: [String],
+  $salesRepresentative: [String],
   $salesStatus: String,
   $type: String!,
   $allRowsSelected: Boolean,
@@ -111,7 +111,7 @@ const bulkLeadUpdate = gql`mutation bulkLeadUpdate(
   leads {
     bulkLeadUpdate (
       teamId: $teamId,
-      salesRep: $salesRep
+      salesRep: $salesRepresentative
       salesStatus: $salesStatus,
       type: $type,
       allRowsSelected: $allRowsSelected,

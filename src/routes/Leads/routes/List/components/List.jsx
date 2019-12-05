@@ -233,7 +233,7 @@ class List extends Component {
       header: (
         <Fragment>
           <div>{I18n.t(`CLIENTS.MODALS.${deskTypes.SALES}_MODAL.HEADER`)}</div>
-          <div className="font-size-11 color-yellow">{selectedRows.length}{' '}{I18n.t('COMMON.LEADS_SELECTED')}</div>
+          <div className="font-size-11 color-yellow">{selectedRows.length}{' '}{I18n.t('LEADS.LEADS_SELECTED')}</div>
         </Fragment>
       ),
     });

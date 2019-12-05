@@ -25,7 +25,7 @@ const Personal = ({
     statusChangedDate,
   },
 }) => {
-  const profileLanguage = get('languageName', languageNames.find(item => item.languageCode === language))
+  const profileLanguage = get(languageNames.find(item => item.languageCode === language), 'languageName')
     || languageNames[0].languageName;
 
   return (

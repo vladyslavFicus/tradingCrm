@@ -43,7 +43,6 @@ const managementOperatorsQuery = gql`query getOperators(
   $status: String,
   $registrationDateFrom: String,
   $registrationDateTo: String,
-  $size: Int,
   $page: Int,
 ) {
   operators(
@@ -52,7 +51,6 @@ const managementOperatorsQuery = gql`query getOperators(
     status: $status,
     registrationDateFrom: $registrationDateFrom,
     registrationDateTo: $registrationDateTo,
-    size: $size,
     page: $page,
   ) {
     data {
