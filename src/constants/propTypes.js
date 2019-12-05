@@ -209,6 +209,13 @@ PropTypes.auditEntity = PropTypes.shape({
   type: PropTypes.string.isRequired,
   uuid: PropTypes.string.isRequired,
 });
+PropTypes.changedAsquissitionStatusEntity = PropTypes.shape({
+  acquisitionStatus: PropTypes.string,
+  retentionRep: PropTypes.string,
+  retentionStatus: PropTypes.string,
+  salesRep: PropTypes.string,
+  salesStatus: PropTypes.string,
+});
 PropTypes.paymentEntityStatus = PropTypes.shape({
   creationTime: PropTypes.string.isRequired,
   initiatorId: PropTypes.string.isRequired,
@@ -666,7 +673,7 @@ PropTypes.newProfile = PropTypes.shape({
     source: PropTypes.string,
     uuid: PropTypes.string,
   }),
-  age: PropTypes.number,
+  age: PropTypes.string,
   bankDetails: PropTypes.shape({
     accountHolderName: PropTypes.string,
     accountNumber: PropTypes.string,

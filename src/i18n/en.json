@@ -828,6 +828,8 @@
         "KYC_ADDRESS_VERIFIED": "KYC - Address - verified",
         "KYC_PERSONAL_REFUSED": "KYC - Identity - rejected",
         "KYC_PERSONAL_VERIFIED": "KYC - Identity - verified",
+        "PLAYER_PROFILE_KYC_CHANGED": "KYC changed",
+        "PLAYER_PROFILE_ACQUISITION_CHANGED": "Acquisition status changed",
         "PLAYER_PROFILE_REGISTERED": "Registration",
         "PLAYER_PROFILE_CHANGED": "Personal details change",
         "PLAYER_PROFILE_SEARCH": "Players' search",
@@ -857,6 +859,11 @@
         "COMPLETED": "Profile completion",
         "CONFIRMED_EMAIL": "Confirmed email",
         "COUNTRY": "Country",
+        "COUNTRY_CODE": "Country code",
+        "CLIENT_TYPE": "Client type",
+        "CURRENCY": "Currency",
+        "PHONE": "Phone",
+        "CONTACTS": "Contacts",
         "EMAIL": "E-mail",
         "FIRST_NAME": "First name",
         "GENDER": "Gender",
@@ -877,10 +884,12 @@
         "PROFILE_STATUS_REASON": "Status reason",
         "REGISTRATION_DATE": "Registration date",
         "REGISTRATION_IP": "Registration IP",
+        "STATUS": "Status",
         "SUSPEND_END_DATE": "Suspend end date",
         "TITLE": "Title",
         "TOKEN": "Token",
         "TOKEN_EXPIRATION_DATE": "Token expiration date",
+        "UPDATED_DATE": "Updated date",
         "USERNAME": "Username",
         "PLAYER_UUID": "ID",
         "CHANGE_LEVERAGE_REQUESTED": "Change leverage Request"
@@ -902,6 +911,13 @@
         "ACQUISITION_STATUS": "Acquisition status",
         "ASSIGNED_TO_UUID": "Assigned to Uuid",
         "ASSIGNED_TO_NAME": "Assigned to name"
+      },
+      "PROFILE_ASQUISSITION_CHANGED": {
+        "ACQUISITION_STATUS": "Acquisition status",
+        "RETENTION_REP": "Retention representative",
+        "RETENTION_STATUS": "Retention Status",
+        "SALES_REP": "Sales representative",
+        "SALES_STATUS": "Sales Status"
       }
     },
     "OPERATORS": {

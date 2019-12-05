@@ -16,6 +16,7 @@ import FeedInfoOperatorCreation from './FeedInfoOperatorCreation';
 import FeedInfoPlayerProfileViewed from './FeedInfoPlayerProfileViewed';
 import FeedInfoFailedLoginAttempt from './FeedInfoFailedLoginAttempt';
 import FeedInfoKycRequest from './FeedInfoKycRequest';
+import FeedInfoKYCChanged from './FeedInfoKYCChanged';
 import FeedInfoKycConfirmation from './FeedInfoKycConfirmation';
 import FeedInfoProfileBlocks from './FeedInfoProfileBlocks';
 import FeedInfoRofusVerification from './FeedInfoRofusVerification';
@@ -23,6 +24,7 @@ import FeedInfoPlayerProfileStatusChanged from './FeedInfoPlayerProfileStatusCha
 import FeedInfoTermsAccepted from './FeedInfoTermsAccepted';
 import FeedProfileAssign from './FeedProfileAssign';
 import FeedInfoChangeLeverageRequest from './FeedInfoChangeLeverageRequest';
+import FeedProfileAcquissitionStatusChanged from './FeedProfileAcquissitionStatusChanged';
 import Uuid from '../Uuid';
 import './FeedItem.scss';
 
@@ -54,6 +56,8 @@ class FeedItem extends Component {
       case types.KYC_PERSONAL_REFUSED:
       case types.KYC_PERSONAL_VERIFIED:
         return <FeedInfoKyc data={data} />;
+      case types.PLAYER_PROFILE_KYC_CHANGED:
+        return <FeedInfoKYCChanged data={data} />;
       case types.PLAYER_PROFILE_VERIFIED_EMAIL:
       case types.PLAYER_PROFILE_VERIFIED_PHONE:
       case types.PLAYER_PROFILE_CHANGED:
@@ -88,6 +92,8 @@ class FeedItem extends Component {
         return <FeedProfileAssign data={data} />;
       case types.CHANGE_LEVERAGE_REQUESTED:
         return <FeedInfoChangeLeverageRequest data={data} />;
+      case types.PLAYER_PROFILE_ACQUISITION_CHANGED:
+        return <FeedProfileAcquissitionStatusChanged data={data} />;
       default:
         return null;
     }
