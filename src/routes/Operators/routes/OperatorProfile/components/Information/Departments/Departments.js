@@ -22,7 +22,7 @@ const Departments = ({ authorities }) => (
                 authorities.map(authority => (
                   <span key={authority.id} className="badge badge-black">
                     <div className="badge-department">
-                      { renderLabel(authority.department, departmentsLabels) }
+                      { I18n.t(renderLabel(authority.department, departmentsLabels)) }
                     </div>
                     <div className="badge-role">
                       { I18n.t(renderLabel(authority.role, rolesLabels)) }
