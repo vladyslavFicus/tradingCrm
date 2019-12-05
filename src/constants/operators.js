@@ -56,6 +56,7 @@ const departments = keyMirror({
   ADMINISTRATION: null,
   AFFILIATE_MANAGER: null,
   AFFILIATE_PARTNER: null,
+  PLAYER: null,
   CS: null,
   BI: null,
   E2E: null,
@@ -73,6 +74,7 @@ const departmentsLabels = {
   [departments.ADMINISTRATION]: 'CONSTANTS.OPERATORS.DEPARTMENTS.ADMINISTRATION',
   [departments.AFFILIATE_MANAGER]: 'CONSTANTS.OPERATORS.DEPARTMENTS.AFFILIATE_MANAGER',
   [departments.AFFILIATE_PARTNER]: 'CONSTANTS.OPERATORS.DEPARTMENTS.AFFILIATE_PARTNER',
+  [departments.PLAYER]: 'CONSTANTS.OPERATORS.DEPARTMENTS.PLAYER',
   [departments.CS]: 'CONSTANTS.OPERATORS.DEPARTMENTS.CS',
   [departments.BI]: 'CONSTANTS.OPERATORS.DEPARTMENTS.BI',
   [departments.E2E]: 'CONSTANTS.OPERATORS.DEPARTMENTS.E2E',
@@ -91,6 +93,7 @@ const roles = keyMirror({
   ROLE2: null,
   ROLE3: null,
   ROLE4: null,
+  PLAYER: null,
 });
 
 const rolesLabels = {
@@ -98,6 +101,7 @@ const rolesLabels = {
   [roles.ROLE2]: 'CONSTANTS.OPERATORS.ROLES.ROLE2',
   [roles.ROLE3]: 'CONSTANTS.OPERATORS.ROLES.ROLE3',
   [roles.ROLE4]: 'CONSTANTS.OPERATORS.ROLES.ROLE4',
+  [roles.PLAYER]: 'CONSTANTS.OPERATORS.ROLES.PLAYER',
 };
 
 const operatorTypes = keyMirror({

@@ -223,7 +223,7 @@ class View extends Component {
               authorities.data ? authorities.data.map(authority => (
                 <div key={authority.id} className="margin-bottom-20">
                   <strong>
-                    {renderLabel(authority.department, departmentsLabels)}
+                    {I18n.t(renderLabel(authority.department, departmentsLabels))}
                     {' - '}
                     {I18n.t(renderLabel(authority.role, rolesLabels))}
                   </strong>

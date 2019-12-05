@@ -926,6 +926,7 @@
         "RFP": "Risk Fraud & Payment",
         "MARKETING": "Marketing",
         "ADMINISTRATION": "Administration",
+        "PLAYER": "Player",
         "E2E": "E2E",
         "BI": "Business intelligence",
         "IGROMAT": "Igromat",
@@ -941,7 +942,8 @@
         "ROLE1": "Executive",
         "ROLE2": "Team leader",
         "ROLE3": "Manager",
-        "ROLE4": "Head of department"
+        "ROLE4": "Head of department",
+        "PLAYER": "Player"
       }
     },
     "COUNTRIES": {
