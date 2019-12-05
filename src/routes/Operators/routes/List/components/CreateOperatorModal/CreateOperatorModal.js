@@ -141,7 +141,7 @@ class CreateOperatorModal extends Component {
               {':'}
               {I18n.t('OPERATORS.MODALS.NEW_OPERATOR.NOTE_MESSAGE')}
             </div>
-            <div className="col-7">
+            <div className="col-7 text-right">
               <button
                 type="button"
                 className="btn btn-default-outline"
