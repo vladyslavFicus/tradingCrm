@@ -252,7 +252,7 @@ class List extends Component {
   render() {
     const {
       auth,
-      location: { filterSetValues },
+      location: { filterSetValues, query },
       profiles: { loading, profiles },
       userBranchHierarchy: { hierarchy, loading: branchesLoading },
     } = this.props;
@@ -266,6 +266,7 @@ class List extends Component {
     const entities = get(this.props.profiles, 'profiles.data') || { content: [] };
     const teams = get(hierarchy, 'userBranchHierarchy.data.TEAM') || [];
     const desks = get(hierarchy, 'userBranchHierarchy.data.DESK') || [];
+    const searchLimit = get(query, 'filters.page.size') || null;
 
     return (
       <div className="card">
@@ -359,7 +360,7 @@ class List extends Component {
             onPageChange={this.handlePageChanged}
             activePage={entities.page}
             last={entities.last}
-            lazyLoad
+            lazyLoad={!searchLimit}
             multiselect
             selectedRows={selectedRows}
             allRowsSelected={allRowsSelected}

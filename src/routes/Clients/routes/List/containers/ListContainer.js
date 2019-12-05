@@ -29,6 +29,7 @@ export default compose(
     options: ({ location: { query } }) => {
       const filters = (query) ? query.filters : null;
       const firstTimeDeposit = get(filters, 'firstTimeDeposit', false);
+      let pageSize = 20;
 
       if (firstTimeDeposit) {
         filters.firstTimeDeposit = Boolean(parseInt(firstTimeDeposit, 10));
@@ -45,6 +46,13 @@ export default compose(
         if (filters.teams && !Array.isArray(filters.teams)) {
           filters.teams = [filters.teams];
         }
+
+        const searchLimit = get(filters, 'page.size') || null;
+        const maxPageSize = 10000; // this is max value that backend can return in one request
+
+        if (searchLimit) {
+          pageSize = searchLimit <= maxPageSize ? searchLimit : maxPageSize;
+        }
       }
 
       return {
@@ -54,7 +62,7 @@ export default compose(
             ...filters,
             page: {
               from: 0,
-              size: get(filters, 'page.size') || 20,
+              size: pageSize,
             },
           },
         },
@@ -62,13 +70,23 @@ export default compose(
     },
     props: ({ profiles: { profiles, fetchMore, ...rest }, ownProps: { location } }) => {
       const { response, currentPage } = limitItems(profiles, location);
+      const filters = get(location, 'query.filters') || null;
+      const size = get(filters, 'page.size') || 0;
 
       return {
         profiles: {
           ...rest,
           profiles: response,
-          loadMore: () => fetchMore({
-            variables: { args: { page: { from: currentPage + 1 } } },
+          loadMore: () => (!size) && fetchMore({
+            variables: {
+              args: {
+                ...filters,
+                page: {
+                  from: currentPage + 1,
+                  size: 20,
+                },
+              },
+            },
             updateQuery: (previousResult, { fetchMoreResult }) => {
               if (!fetchMoreResult) {
                 return previousResult;
