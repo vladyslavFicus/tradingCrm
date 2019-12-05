@@ -31,7 +31,6 @@ export default compose(
       variables: {
         ...query && query.filters,
         page: 0,
-        size: 20,
       },
       fetchPolicy: 'network-only',
     }),
