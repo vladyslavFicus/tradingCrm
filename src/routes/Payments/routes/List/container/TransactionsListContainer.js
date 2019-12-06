@@ -1,21 +1,15 @@
 import { compose, graphql } from 'react-apollo';
 import { get } from 'lodash';
 import { getClientPayments } from 'graphql/queries/payments';
-import { operatorsQuery } from 'graphql/queries/operators';
 import View from '../components/View';
 
 export default compose(
-  graphql(operatorsQuery, {
-    name: 'operators',
-  }),
   graphql(getClientPayments, {
     name: 'clientPayments',
-    options: ({
-      location: { query },
-    }) => ({
+    options: ({ location: { query } }) => ({
       variables: {
         accountType: 'LIVE',
-        ...query && query.filters,
+        ...(query && query.filters),
         page: 0,
         limit: 20,
       },

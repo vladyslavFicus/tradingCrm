@@ -6,7 +6,6 @@ import moment from 'moment';
 import I18n from 'i18n-js';
 import classNames from 'classnames';
 import permissions from 'config/permissions';
-import PermissionContent from 'components/PermissionContent';
 import Permissions from 'utils/permissions';
 import { withPermission } from 'providers/PermissionsProvider';
 import PropTypes from '../../constants/propTypes';
@@ -28,6 +27,7 @@ const validator = createValidator({
 }, attributeLabels, false);
 
 const updateNotePermissions = new Permissions(permissions.NOTES.UPDATE_NOTE);
+const deleteNotePermissions = new Permissions(permissions.NOTES.DELETE_NOTE);
 
 class NotePopover extends Component {
   static propTypes = {
@@ -201,7 +201,15 @@ class NotePopover extends Component {
   };
 
   renderTitle = () => {
-    const { defaultTitleLabel, item } = this.props;
+    const {
+      defaultTitleLabel,
+      item,
+      permission: {
+        permissions: currentPermissions,
+      },
+    } = this.props;
+
+    const deleteAllowed = deleteNotePermissions.check(currentPermissions);
 
     if (!item) {
       return (
@@ -248,13 +256,13 @@ class NotePopover extends Component {
             </If>
           </div>
           <div className="col-auto ml-auto">
-            <PermissionContent permissions={permissions.NOTES.DELETE_NOTE}>
+            <If condition={deleteAllowed}>
               <button
                 type="button"
                 onClick={() => this.handleRemoveNote(noteId || uuid)}
                 className="fa fa-trash color-danger note-popover__delete-btn"
               />
-            </PermissionContent>
+            </If>
           </div>
         </div>
       </PopoverHeader>
@@ -292,6 +300,8 @@ class NotePopover extends Component {
       },
     } = this.props;
 
+    const updateAllowed = updateNotePermissions.check(currentPermissions);
+
     return (
       <Popover
         placement={placement}
@@ -304,7 +314,7 @@ class NotePopover extends Component {
         <PopoverBody tag="form" onSubmit={handleSubmit(this.onSubmit)}>
           {this.renderTitle()}
           <Field
-            disabled={item && !updateNotePermissions.check(currentPermissions)}
+            disabled={item && !updateAllowed}
             name="content"
             component={TextAreaField}
             showErrorMessage={false}
@@ -317,7 +327,7 @@ class NotePopover extends Component {
                   {currentValues && currentValues.content ? currentValues.content.length : 0}
                 </span>/{MAX_CONTENT_LENGTH}
               </div>
-              <If condition={!item || updateNotePermissions.check(currentPermissions)}>
+              <If condition={!item || updateAllowed}>
                 <Field
                   name="pinned"
                   wrapperClassName="margin-top-5"
@@ -336,16 +346,14 @@ class NotePopover extends Component {
                 {I18n.t('COMMON.BUTTONS.CANCEL')}
               </button>
               <Choose>
-                <When condition={item && (item.uuid || item.noteId)}>
-                  <PermissionContent permissions={permissions.NOTES.UPDATE_NOTE}>
-                    <button
-                      type="submit"
-                      className="btn btn-primary btn-sm text-uppercase font-weight-700"
-                      disabled={pristine || submitting || invalid}
-                    >
-                      {I18n.t('COMMON.BUTTONS.UPDATE')}
-                    </button>
-                  </PermissionContent>
+                <When condition={item && (item.uuid || item.noteId) && updateAllowed}>
+                  <button
+                    type="submit"
+                    className="btn btn-primary btn-sm text-uppercase font-weight-700"
+                    disabled={pristine || submitting || invalid}
+                  >
+                    {I18n.t('COMMON.BUTTONS.UPDATE')}
+                  </button>
                 </When>
                 <Otherwise>
                   <button

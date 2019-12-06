@@ -17,7 +17,7 @@ class ModalPlayerInfo extends Component {
     renderMiddleColumn: () => {},
   };
 
-  renderPlayerInfo = ({ firstName, lastName, birthDate, username, playerUUID }) => (
+  renderPlayerInfo = ({ firstName, lastName, birthDate, username, uuid }) => (
     <Fragment>
       <div className="modal-header-tabs__label">
         {[firstName, lastName].join(' ')}
@@ -28,27 +28,24 @@ class ModalPlayerInfo extends Component {
         {username}
         {' - '}
         <Uuid
-          uuid={playerUUID}
-          uuidPrefix={playerUUID.indexOf('PLAYER') === -1 ? 'PL' : null}
+          uuid={uuid}
+          uuidPrefix={uuid.indexOf('PLAYER') === -1 ? 'PL' : null}
           className="d-inline-block"
         />
       </div>
     </Fragment>
   );
 
-  renderBalance = ({ tradingProfile: { baseCurrencyBalance, baseCurrencyCredit, baseCurrencyMargin } }) => {
+  renderBalance = ({ profileView: { balance: { amount, credit } } }) => {
     const currency = getActiveBrandConfig().currencies.base;
 
     return (
       <Fragment>
         <div className="header-block-middle">
-          {currency} {Number(baseCurrencyBalance).toFixed(2)}
+          {currency} {Number(amount).toFixed(2)}
         </div>
         <div className="header-block-small">
-          {I18n.t('CLIENT_PROFILE.PROFILE.HEADER.CREDIT')}: {currency} {Number(baseCurrencyCredit).toFixed(2)}
-        </div>
-        <div className="header-block-small">
-          {I18n.t('CLIENT_PROFILE.PROFILE.HEADER.MARGIN')}: {currency} {Number(baseCurrencyMargin).toFixed(2)}
+          {I18n.t('CLIENT_PROFILE.PROFILE.HEADER.CREDIT')}: {currency} {Number(credit).toFixed(2)}
         </div>
       </Fragment>
     );
