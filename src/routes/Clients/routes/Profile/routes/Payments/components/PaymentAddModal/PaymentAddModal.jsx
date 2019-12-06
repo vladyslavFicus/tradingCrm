@@ -81,6 +81,8 @@ class PaymentAddModal extends PureComponent {
       && [paymentMethods.CREDIT_OUT.name].includes(paymentType)
     );
 
+    console.log('mt4', mt4);
+
     return (
       <div
         key={mt4.login}

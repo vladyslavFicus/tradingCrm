@@ -16,6 +16,8 @@ const formValidation = (data, { newProfile: { tradingAccount }, currentValues })
     externalReference: 'required|string',
   };
 
+  console.log('currentValues', currentValues);
+
   if ([
     paymentMethods.WITHDRAW.name,
     paymentMethods.TRANSFER.name,
@@ -46,14 +48,16 @@ const formValidation = (data, { newProfile: { tradingAccount }, currentValues })
   if (data.paymentType === paymentMethods.TRANSFER.name) {
     rules = {
       ...rules,
-      source: 'required|numeric',
-      target: 'required|numeric',
+      source: 'required|string',
+      target: 'required|string',
     };
 
     if (currentValues
         && currentValues.source
         && currentValues.amount
-        && Number(tradingAccount.find(({ login }) => login === currentValues.source).balance) < currentValues.amount
+        && Number(tradingAccount.find(
+          ({ accountUUID }) => accountUUID === currentValues.source,
+        ).balance) < currentValues.amount
     ) {
       return { source: I18n.t('CLIENT_PROFILE.TRANSACTIONS.MODAL_CREATE.MT4_NO_MONEY') };
     }
