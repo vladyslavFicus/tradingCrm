@@ -46,10 +46,11 @@ export default compose(
       match: { params: { id: uuid } },
     }) => ({
       update: (store, { data }) => {
-        const storeData = store.readQuery({
+        // TODO: need to think about cloning and updating of the store data
+        const storeData = JSON.parse(JSON.stringify(store.readQuery({
           query: operatorQuery,
           variables: { uuid },
-        });
+        })));
         const authorities = get(data, 'operator.removeDepartment.data.authorities', []);
         set(storeData, 'operator.data.authorities.data', authorities);
         store.writeQuery({ query: operatorQuery, variables: { uuid }, data: storeData });
