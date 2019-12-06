@@ -3,7 +3,7 @@ import { Field, reduxForm, formValueSelector } from 'redux-form';
 import { connect } from 'react-redux';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import I18n from 'i18n-js';
-import { createValidator, translateLabels } from 'utils/validator';
+import { createValidator } from 'utils/validator';
 import { generate } from 'utils/password';
 import { getActiveBrandConfig } from 'config';
 import { InputField, NasSelectField } from 'components/ReduxForm';
@@ -15,7 +15,7 @@ import './TradingAccountAddModal.scss';
 class TradingAccountAddModal extends PureComponent {
   static propTypes = {
     profileId: PropTypes.string.isRequired,
-    accountType: PropTypes.string.isRequired,
+    accountType: PropTypes.string,
     error: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.string, PropTypes.object])),
     change: PropTypes.func.isRequired,
     onCloseModal: PropTypes.func.isRequired,
@@ -29,6 +29,7 @@ class TradingAccountAddModal extends PureComponent {
   };
 
   static defaultProps = {
+    accountType: 'LIVE',
     error: null,
     onConfirm: () => {},
   };
@@ -191,7 +192,7 @@ const TradingAccountAddModalRedux = reduxForm({
     currency: ['required', 'string'],
     password: ['required', `regex:${getActiveBrandConfig().password.mt4_pattern}`],
     amount: values.accountType === 'DEMO' && 'required',
-  }, translateLabels(attributeLabels))(values),
+  }, attributeLabels)(values),
 })(TradingAccountAddModal);
 
 export default connect(mapStateToProps)(TradingAccountAddModalRedux);
