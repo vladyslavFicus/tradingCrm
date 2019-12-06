@@ -163,22 +163,28 @@ class List extends Component {
   };
 
   handleAllRowsSelect = () => {
-    const { profiles: { profiles: { data: { totalElements } } }, modals: { confirmationModal } } = this.props;
+    const {
+      profiles: { profiles: { data: { totalElements } } },
+      modals: { confirmationModal },
+      location: { query },
+    } = this.props;
+
     const { allRowsSelected } = this.state;
-    const selectedRows = allRowsSelected
-      ? []
-      : [...Array.from(Array(totalElements > MAX_SELECTED_ROWS ? MAX_SELECTED_ROWS : totalElements).keys())];
+    const searchLimit = get(query, 'filters.searchLimit') || null;
 
     this.setState({
       allRowsSelected: !allRowsSelected,
       touchedRowsIds: [],
       selectedRows: allRowsSelected
         ? []
-        : [...Array(totalElements).keys()],
+        : [...Array.from(Array(
+          totalElements > MAX_SELECTED_ROWS ? MAX_SELECTED_ROWS : searchLimit || totalElements,
+        ).keys())],
     });
 
     // Check if selected all rows and total elements more than max available elements to execute action
     if (!allRowsSelected && totalElements > MAX_SELECTED_ROWS) {
+      const { selectedRows } = this.state;
       const max = selectedRows.length.toLocaleString('en');
 
       confirmationModal.show({
@@ -266,7 +272,7 @@ class List extends Component {
     const entities = get(this.props.profiles, 'profiles.data') || { content: [] };
     const teams = get(hierarchy, 'userBranchHierarchy.data.TEAM') || [];
     const desks = get(hierarchy, 'userBranchHierarchy.data.DESK') || [];
-    const searchLimit = get(query, 'filters.page.size') || null;
+    const { searchLimit } = get(query, 'filters') || {};
 
     return (
       <div className="card">
@@ -285,7 +291,7 @@ class List extends Component {
               <When condition={!!entities.totalElements}>
                 <span id="users-list-header" className="font-size-20 height-55 users-list-header">
                   <div>
-                    <strong>{entities.totalElements} </strong>
+                    <strong>{searchLimit || entities.totalElements} </strong>
                     {I18n.t('COMMON.CLIENTS_FOUND')}
                   </div>
                   <div className="font-size-14">
