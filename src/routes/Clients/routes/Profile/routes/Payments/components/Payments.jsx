@@ -1,17 +1,15 @@
 import React, { Component, Fragment } from 'react';
 import { SubmissionError } from 'redux-form';
-import { get, flatten } from 'lodash';
+import { get } from 'lodash';
 import I18n from 'i18n-js';
 import PermissionContent from 'components/PermissionContent';
 import permissions from 'config/permissions';
 import PropTypes from 'constants/propTypes';
-import GridView, { GridViewColumn } from 'components/GridView';
 import TabHeader from 'components/TabHeader';
 import { targetTypes } from 'constants/note';
-import { statusMapper } from 'constants/payment';
-import history from 'router/history';
-import { columns, filterFields } from 'utils/paymentHelpers';
-import ListFilterForm from 'components/ListFilterForm';
+import PaymentFilterFields from 'components/PaymentFilterFields';
+import GridView, { GridViewColumn } from 'components/GridView';
+import { columns } from 'utils/paymentHelpers';
 import { CONDITIONS } from 'utils/permissions';
 
 class Payments extends Component {
@@ -28,13 +26,6 @@ class Payments extends Component {
       loadMore: PropTypes.func.isRequired,
       clientPaymentsByUuid: PropTypes.shape({
         data: PropTypes.pageable(PropTypes.paymentEntity),
-        error: PropTypes.object,
-      }),
-    }).isRequired,
-    operators: PropTypes.shape({
-      loading: PropTypes.bool.isRequired,
-      operators: PropTypes.shape({
-        data: PropTypes.pageable(PropTypes.paymentOriginalAgent),
         error: PropTypes.object,
       }),
     }).isRequired,
@@ -124,27 +115,6 @@ class Payments extends Component {
     }
   };
 
-  handleFiltersChanged = (data = {}) => {
-    let statuses = null;
-
-    if (Array.isArray(data.statuses)) {
-      statuses = flatten(data.statuses.map(item => statusMapper[item]));
-    }
-
-    history.replace({
-      query: {
-        filters: {
-          ...data,
-          ...statuses && { statuses },
-        },
-      },
-    });
-  };
-
-  handleFilterReset = () => {
-    history.replace({});
-  };
-
   handleAddPayment = async (data) => {
     const { note, ...inputParams } = data;
 
@@ -200,14 +170,7 @@ class Payments extends Component {
         clientPaymentsByUuid,
         variables,
       },
-      operators: {
-        operators,
-        loading: operatorsLoading,
-      },
     } = this.props;
-
-    const originalAgents = get(operators, 'data.content') || [];
-    const disabledOriginalAgentField = get(operators, 'error') || operatorsLoading;
 
     const paymentsData = get(clientPaymentsByUuid, 'data') || { content: [] };
     const error = get(clientPaymentsByUuid, 'error');
@@ -230,18 +193,8 @@ class Payments extends Component {
             </button>
           </PermissionContent>
         </TabHeader>
-        <ListFilterForm
-          onSubmit={this.handleFiltersChanged}
-          onReset={this.handleFilterReset}
-          initialValues={{ accountType: variables.accountType }}
-          fields={filterFields(
-            {
-              originalAgents,
-              disabledOriginalAgentField,
-            },
-            true,
-          )}
-        />
+
+        <PaymentFilterFields accountType={variables.accountType} isClientView />
 
         <div className="tab-wrapper">
           <GridView

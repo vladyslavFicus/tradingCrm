@@ -828,6 +828,8 @@
         "KYC_ADDRESS_VERIFIED": "KYC - Address - verified",
         "KYC_PERSONAL_REFUSED": "KYC - Identity - rejected",
         "KYC_PERSONAL_VERIFIED": "KYC - Identity - verified",
+        "PLAYER_PROFILE_KYC_CHANGED": "KYC changed",
+        "PLAYER_PROFILE_ACQUISITION_CHANGED": "Acquisition status changed",
         "PLAYER_PROFILE_REGISTERED": "Registration",
         "PLAYER_PROFILE_CHANGED": "Personal details change",
         "PLAYER_PROFILE_SEARCH": "Players' search",
@@ -853,10 +855,16 @@
         "AFFILIATE_ID": "Affiliate ID",
         "BIRTH_DATE": "Birth date",
         "BTAG": "B-Tag",
+        "CHANGED_AT": "Changed at",
         "CITY": "City",
         "COMPLETED": "Profile completion",
         "CONFIRMED_EMAIL": "Confirmed email",
         "COUNTRY": "Country",
+        "COUNTRY_CODE": "Country code",
+        "CLIENT_TYPE": "Client type",
+        "CURRENCY": "Currency",
+        "PHONE": "Phone",
+        "CONTACTS": "Contacts",
         "EMAIL": "E-mail",
         "FIRST_NAME": "First name",
         "GENDER": "Gender",
@@ -877,10 +885,15 @@
         "PROFILE_STATUS_REASON": "Status reason",
         "REGISTRATION_DATE": "Registration date",
         "REGISTRATION_IP": "Registration IP",
+        "REGISTERED_BY": "Registered by",
+        "REASON": "Reason",
+        "STATUS": "Status",
         "SUSPEND_END_DATE": "Suspend end date",
         "TITLE": "Title",
+        "TYPE": "Type",
         "TOKEN": "Token",
         "TOKEN_EXPIRATION_DATE": "Token expiration date",
+        "UPDATED_DATE": "Updated date",
         "USERNAME": "Username",
         "PLAYER_UUID": "ID",
         "CHANGE_LEVERAGE_REQUESTED": "Change leverage Request"
@@ -902,6 +915,13 @@
         "ACQUISITION_STATUS": "Acquisition status",
         "ASSIGNED_TO_UUID": "Assigned to Uuid",
         "ASSIGNED_TO_NAME": "Assigned to name"
+      },
+      "PROFILE_ASQUISSITION_CHANGED": {
+        "ACQUISITION_STATUS": "Acquisition status",
+        "RETENTION_REP": "Retention representative",
+        "RETENTION_STATUS": "Retention Status",
+        "SALES_REP": "Sales representative",
+        "SALES_STATUS": "Sales Status"
       }
     },
     "OPERATORS": {
@@ -910,6 +930,7 @@
         "RFP": "Risk Fraud & Payment",
         "MARKETING": "Marketing",
         "ADMINISTRATION": "Administration",
+        "PLAYER": "Player",
         "E2E": "E2E",
         "BI": "Business intelligence",
         "IGROMAT": "Igromat",
@@ -925,7 +946,8 @@
         "ROLE1": "Executive",
         "ROLE2": "Team leader",
         "ROLE3": "Manager",
-        "ROLE4": "Head of department"
+        "ROLE4": "Head of department",
+        "PLAYER": "Player"
       }
     },
     "COUNTRIES": {
@@ -1021,7 +1043,11 @@
           "CREATION_DATE_RANGE": "Creation date range",
           "MODIFICATION_DATE_RANGE": "Modification date range",
           "ACCOUNT_TYPE": "Account type",
-          "ORIGINAL_AGENT": "Original Agent"
+          "ORIGINAL_AGENT": "Original Agent",
+          "TEAMS": "Teams",
+          "DESKS": "Desks",
+          "FTD": "First time deposit",
+          "OPERATORS": "Operators"
         },
         "PAYMENT_ACCOUNTS": {
           "SYSTEM": "System",
@@ -1546,7 +1572,8 @@
       "ERROR": "Update of the payment failed",
       "ERROR_STATUS": "Update of the payment status is failed",
       "ERROR_METHOD": "Update of the payment method is failed"
-    }
+    },
+    "ORIGINAL_AGENT": "Original Agent"
   },
   "TRADING_ACTIVITY_MODAL": {
     "TITLE": "Change agent",

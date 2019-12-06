@@ -27,8 +27,9 @@ export default compose(
   graphql(clientsQuery, {
     name: 'profiles',
     options: ({ location: { query } }) => {
-      const filters = (query) ? query.filters : null;
-      const firstTimeDeposit = get(filters, 'firstTimeDeposit', false);
+      const filters = (query) ? query.filters : {};
+      const firstTimeDeposit = get(filters, 'firstTimeDeposit', null);
+      const { searchLimit } = filters;
 
       if (firstTimeDeposit) {
         filters.firstTimeDeposit = Boolean(parseInt(firstTimeDeposit, 10));
@@ -54,7 +55,7 @@ export default compose(
             ...filters,
             page: {
               from: 0,
-              size: get(filters, 'page.size') || 20,
+              size: searchLimit || 20,
             },
           },
         },
@@ -62,13 +63,23 @@ export default compose(
     },
     props: ({ profiles: { profiles, fetchMore, ...rest }, ownProps: { location } }) => {
       const { response, currentPage } = limitItems(profiles, location);
+      const filters = get(location, 'query.filters') || null;
+      const searchLimit = get(filters, 'searchLimit') || 0;
 
       return {
         profiles: {
           ...rest,
           profiles: response,
-          loadMore: () => fetchMore({
-            variables: { args: { page: { from: currentPage + 1 } } },
+          loadMore: () => (!searchLimit) && fetchMore({
+            variables: {
+              args: {
+                ...filters,
+                page: {
+                  from: currentPage + 1,
+                  size: 20,
+                },
+              },
+            },
             updateQuery: (previousResult, { fetchMoreResult }) => {
               if (!fetchMoreResult) {
                 return previousResult;

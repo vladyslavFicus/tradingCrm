@@ -407,7 +407,7 @@ export default (
 }, {
   type: fieldTypes.INPUT,
   inputType: 'number',
-  name: 'page.size',
+  name: 'searchLimit',
   normalize: normalize.NUMBER,
   parse: parser.ONLY_POSITIVE,
   label: filterLabels.searchLimit,

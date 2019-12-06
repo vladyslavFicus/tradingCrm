@@ -104,7 +104,7 @@ class DepartmentsForm extends Component {
               {
                 availableDepartments.map(item => (
                   <option key={item} value={item}>
-                    {renderLabel(item, departmentsLabels)}
+                    {I18n.t(renderLabel(item, departmentsLabels))}
                   </option>
                 ))
               }
@@ -119,7 +119,7 @@ class DepartmentsForm extends Component {
               <option value="">{I18n.t('COMMON.SELECT_OPTION.DEFAULT')}</option>
               {availableRoles.map(item => (
                 <option key={item} value={item}>
-                  {renderLabel(item, rolesLabels)}
+                  {I18n.t(renderLabel(item, rolesLabels))}
                 </option>
               ))}
             </Field>

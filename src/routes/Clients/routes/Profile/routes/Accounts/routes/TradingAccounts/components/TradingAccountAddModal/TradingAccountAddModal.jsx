@@ -111,7 +111,7 @@ class TradingAccountAddModal extends PureComponent {
               >
                 {[100, 500, 1000, 5000, 10000, 50000, 100000].map(value => (
                   <option key={value} value={value}>
-                    {I18n.l('currency', value, { style: 'decimal' })}
+                    {I18n.l('number', value, { style: 'decimal' })}
                   </option>
                 ))}
               </Field>

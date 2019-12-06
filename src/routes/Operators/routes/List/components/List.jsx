@@ -94,37 +94,46 @@ class List extends Component {
         existingOperator,
       },
       submitNewOperator,
+      notify,
     } = this.props;
     const userType = getUserTypeByDepartment(department, role);
     const operatorType = this.props.operatorType.toLowerCase();
 
-    const {
-      data: operatorData,
-    } = await submitNewOperator({
-      variables: { ...data, userType, department, role, email, branchId: branch },
-    });
-
-    const newOperator = get(operatorData, `${operatorType}.create${startCase(operatorType)}.data`);
-    const newOperatorError = get(operatorData, `${operatorType}.create${startCase(operatorType)}.error`);
-    const error = get(newOperatorError, 'error', null);
-
-    if (error === EMAIL_ALREADY_EXIST) {
-      createOperator.hide();
-      existingOperator.show({
-        department,
-        role,
-        branchId: branch,
-        email,
+    try {
+      const {
+        data: operatorData,
+      } = await submitNewOperator({
+        variables: { ...data, userType, department, role, email, branchId: branch },
       });
 
-      return;
+      const newOperator = get(operatorData, `${operatorType}.create${startCase(operatorType)}.data`);
+      const newOperatorError = get(operatorData, `${operatorType}.create${startCase(operatorType)}.error`);
+      const error = get(newOperatorError, 'error', null);
+
+      if (error === EMAIL_ALREADY_EXIST) {
+        createOperator.hide();
+        existingOperator.show({
+          department,
+          role,
+          branchId: branch,
+          email,
+        });
+
+        return;
+      }
+      createOperator.hide();
+
+      const { uuid } = newOperator;
+
+      history.push(`/${operatorType.toLowerCase()}s/${uuid}/profile`);
+    } catch (e) {
+      createOperator.hide();
+      notify({
+        level: 'error',
+        title: I18n.t('COMMON.ERROR'),
+        message: I18n.t('COMMON.SOMETHING_WRONG'),
+      });
     }
-
-    createOperator.hide();
-
-    const { uuid } = newOperator;
-
-    history.push(`/${operatorType.toLowerCase()}s/${uuid}/profile`);
   };
 
   handleOpenCreateModal = async () => {

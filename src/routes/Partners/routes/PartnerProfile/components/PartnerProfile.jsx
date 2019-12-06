@@ -118,10 +118,10 @@ class PartnerProfileLayout extends Component {
   };
 
   handleChangePasswordClick = () => {
-    const { data: { partnerProfile: { firstName, lastName, uuid } } } = this.props;
+    const { data: { fullName, uuid } } = this.props;
 
     this.handleOpenModal(MODAL_CHANGE_PASSWORD, {
-      fullName: `${firstName} ${lastName}`,
+      fullName,
       operatorUUID: `${uuid}`,
     });
   };

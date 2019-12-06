@@ -3,7 +3,6 @@ import { get } from 'lodash';
 import { addNoteMutation } from 'graphql/mutations/note';
 import { addPaymentMutation } from 'graphql/mutations/payment';
 import { getClientPaymentsByUuid } from 'graphql/queries/payments';
-import { operatorsQuery } from 'graphql/queries/operators';
 import { newProfile } from 'graphql/queries/profile';
 import { withStorage } from 'providers/StorageProvider';
 import { withModals } from 'components/HighOrder';
@@ -18,9 +17,6 @@ export default compose(
   }),
   graphql(addPaymentMutation, {
     name: 'addPayment',
-  }),
-  graphql(operatorsQuery, {
-    name: 'operators',
   }),
   graphql(newProfile, {
     options: ({

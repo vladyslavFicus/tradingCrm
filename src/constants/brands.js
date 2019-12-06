@@ -51,6 +51,7 @@ const brands = keyMirror({
   mercuryo: null,
   stockfx: null,
   cmarket: null,
+  fsaeverfx: null,
 });
 
 const departments = keyMirror({
@@ -273,6 +274,10 @@ const brandsConfig = {
   [brands.cmarket]: {
     name: 'Cmarket',
     image: { src: '/img/brand/choose-brand/cmarket.svg' },
+  },
+  [brands.fsaeverfx]: {
+    name: 'FSA Everfx',
+    image: { src: '/img/brand/choose-brand/fsaeverfx.svg' },
   },
 };
 const departmentsConfig = {

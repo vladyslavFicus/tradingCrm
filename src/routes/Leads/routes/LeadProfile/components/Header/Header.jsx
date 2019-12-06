@@ -66,8 +66,8 @@ const Header = ({
         <div className="dropdown-tab">
           <div className="header-block-title">{I18n.t('COMMON.ACCOUNT_STATUS')}</div>
           <If condition={!loading}>
-            <div className={`header-block-middle text-uppercase ${leadStatuses[status].color}`}>
-              {I18n.t(leadStatuses[status].label)}
+            <div className={`header-block-middle text-uppercase ${(status) ? leadStatuses[status].color : null}`}>
+              {(status) ? I18n.t(leadStatuses[status].label) : null}
             </div>
             <If condition={statusChangedDate}>
               <div className="header-block-small">
@@ -83,19 +83,16 @@ const Header = ({
       </div>
       <div className="header-block">
         <div className="header-block-title">{I18n.t('LEAD_PROFILE.HEADER.REGISTERED')}</div>
-        {
-          registrationDate
-          && (
-            <div>
-              <div className="header-block-middle">
-                {moment.utc(registrationDate).local().fromNow()}
-              </div>
-              <div className="header-block-small">
-              on {moment.utc(registrationDate).local().format('DD.MM.YYYY HH:mm')}
-              </div>
+        <If condition={registrationDate}>
+          <div>
+            <div className="header-block-middle">
+              {moment.utc(registrationDate).local().fromNow()}
             </div>
-          )
-        }
+            <div className="header-block-small">
+            on {moment.utc(registrationDate).local().format('DD.MM.YYYY HH:mm')}
+            </div>
+          </div>
+        </If>
       </div>
     </div>
   </div>
