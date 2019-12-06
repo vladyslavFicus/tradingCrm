@@ -1,16 +1,13 @@
 import React, { Component } from 'react';
-import { TextRow } from 'react-placeholder/lib/placeholders';
-import { get, flatten } from 'lodash';
 import I18n from 'i18n-js';
-import { getActiveBrandConfig } from 'config';
-import history from 'router/history';
+import { get } from 'lodash';
+import { TextRow } from 'react-placeholder/lib/placeholders';
 import PropTypes from 'constants/propTypes';
 import { withStorage } from 'providers/StorageProvider';
-import { statusMapper } from 'constants/payment';
 import Placeholder from 'components/Placeholder';
-import ListFilterForm from 'components/ListFilterForm';
+import PaymentFilterFields from 'components/PaymentFilterFields';
 import GridView, { GridViewColumn } from 'components/GridView';
-import { columns, filterFields } from 'utils/paymentHelpers';
+import { columns } from 'utils/paymentHelpers';
 
 class View extends Component {
   static propTypes = {
@@ -25,15 +22,15 @@ class View extends Component {
       loadMore: PropTypes.func,
       refetch: PropTypes.func,
     }),
-    operators: PropTypes.shape({
-      loading: PropTypes.bool.isRequired,
-      operators: PropTypes.shape({
-        data: PropTypes.pageable(PropTypes.paymentOriginalAgent),
-        error: PropTypes.object,
-      }),
-    }).isRequired,
     location: PropTypes.object.isRequired,
     auth: PropTypes.auth.isRequired,
+  };
+
+  static defaultProps = {
+    clientPayments: {
+      clientPayments: { content: [] },
+      loading: false,
+    },
   };
 
   static contextTypes = {
@@ -51,13 +48,6 @@ class View extends Component {
     getApolloRequestState: PropTypes.func.isRequired,
   };
 
-  static defaultProps = {
-    clientPayments: {
-      clientPayments: { content: [] },
-      loading: false,
-    },
-  };
-
   getChildContext() {
     return {
       getApolloRequestState: this.handleGetRequestState,
@@ -72,48 +62,27 @@ class View extends Component {
     this.context.notes.setNoteChangedCallback(null);
   }
 
-  handleRefresh = () => this.props.clientPayments.refetch({
-    ...this.props.location.query && this.props.location.query.filters,
-    requestId: Math.random().toString(36).slice(2),
-    page: 0,
-    limit: 20,
-  });
+  handleRefresh = () => {
+    const { clientPayments, location: { query } } = this.props;
+
+    clientPayments.refetch({
+      ...(query && query.filters),
+      requestId: Math.random().toString(36).slice(2),
+      page: 0,
+      limit: 20,
+    });
+  }
 
   handleGetRequestState = () => this.props.clientPayments.loading;
 
   handlePageChanged = () => {
     const {
-      clientPayments: {
-        loadMore,
-        loading,
-      },
+      clientPayments: { loadMore, loading },
     } = this.props;
 
     if (!loading) {
       loadMore();
     }
-  };
-
-  handleFiltersChanged = (data = {}) => {
-    const filters = { ...data };
-    let statuses = null;
-
-    if (Array.isArray(filters.statuses)) {
-      statuses = flatten(filters.statuses.map(item => statusMapper[item]));
-    }
-
-    history.replace({
-      query: {
-        filters: {
-          ...filters,
-          ...statuses && { statuses },
-        },
-      },
-    });
-  };
-
-  handleFilterReset = () => {
-    history.replace({});
   };
 
   render() {
@@ -123,34 +92,27 @@ class View extends Component {
         clientPayments,
         loading,
       },
-      operators: {
-        operators,
-        loading: operatorsLoading,
-      },
     } = this.props;
 
-    const currencies = getActiveBrandConfig().currencies.supported;
-
-    const entities = get(clientPayments, 'data') || { content: [] };
-    const error = get(clientPayments, 'error');
-
-    const originalAgents = get(operators, 'data.content') || [];
-    const disabledOriginalAgentField = get(operators, 'error') || operatorsLoading;
+    const payments = get(clientPayments, 'data') || { content: [] };
+    const paymentsError = get(clientPayments, 'error');
 
     return (
       <div className="card">
         <div className="card-heading">
           <Placeholder
-            ready={!loading && !!operators}
-            className={null}
+            ready={!loading}
             customPlaceholder={(
-              <TextRow className="animated-background" style={{ width: '200px', height: '20px' }} />
+              <TextRow
+                className="animated-background"
+                style={{ width: '200px', height: '20px' }}
+              />
             )}
           >
             <Choose>
-              <When condition={!!entities.totalElements}>
+              <When condition={paymentsError && !!paymentsError.totalElements}>
                 <span className="font-size-20">
-                  <strong>{entities.totalElements} </strong>
+                  <strong>{paymentsError.totalElements} </strong>
                   {I18n.t('COMMON.PAYMENTS')}
                 </span>
               </When>
@@ -163,25 +125,16 @@ class View extends Component {
           </Placeholder>
         </div>
 
-        <ListFilterForm
-          onSubmit={this.handleFiltersChanged}
-          onReset={this.handleFilterReset}
-          initialValues={{ accountType: 'LIVE' }}
-          fields={filterFields({
-            currencies,
-            originalAgents,
-            disabledOriginalAgentField,
-          })}
-        />
+        <PaymentFilterFields />
 
         <div className="card-body">
           <GridView
-            dataSource={entities.content}
+            dataSource={payments.content}
             onPageChange={this.handlePageChanged}
-            activePage={entities.number + 1}
-            last={entities.last}
+            activePage={payments.number + 1}
+            last={payments.last}
             lazyLoad
-            showNoResults={!!error || (!loading && entities.content.length === 0)}
+            showNoResults={paymentsError || (!loading && payments.content.length === 0)}
             loading={loading}
           >
             {columns({

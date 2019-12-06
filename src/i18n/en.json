@@ -1043,7 +1043,11 @@
           "CREATION_DATE_RANGE": "Creation date range",
           "MODIFICATION_DATE_RANGE": "Modification date range",
           "ACCOUNT_TYPE": "Account type",
-          "ORIGINAL_AGENT": "Original Agent"
+          "ORIGINAL_AGENT": "Original Agent",
+          "TEAMS": "Teams",
+          "DESKS": "Desks",
+          "FTD": "First time deposit",
+          "OPERATORS": "Operators"
         },
         "PAYMENT_ACCOUNTS": {
           "SYSTEM": "System",
@@ -1568,7 +1572,8 @@
       "ERROR": "Update of the payment failed",
       "ERROR_STATUS": "Update of the payment status is failed",
       "ERROR_METHOD": "Update of the payment method is failed"
-    }
+    },
+    "ORIGINAL_AGENT": "Original Agent"
   },
   "TRADING_ACTIVITY_MODAL": {
     "TITLE": "Change agent",

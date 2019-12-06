@@ -20,6 +20,7 @@ import {
 import { createValidator, translateLabels } from 'utils/validator';
 import renderLabel from 'utils/renderLabel';
 import Permissions from 'utils/permissions';
+import { withPermission } from 'providers/PermissionsProvider';
 import ChangeOriginalAgent from 'components/ChangeOriginalAgent';
 import Amount from '../Amount';
 import { UncontrolledTooltip } from '../Reactstrap/Uncontrolled';
@@ -44,21 +45,20 @@ class PaymentDetailModal extends PureComponent {
     onCloseModal: PropTypes.func.isRequired,
     acceptPayment: PropTypes.func.isRequired,
     payment: PropTypes.object.isRequired,
-    playerProfile: PropTypes.shape({
+    newProfile: PropTypes.shape({
       loading: PropTypes.bool.isRequired,
+      newProfile: PropTypes.newProfile,
     }).isRequired,
     onSuccess: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func.isRequired,
     invalid: PropTypes.bool.isRequired,
-    pristine: PropTypes.bool.isRequired,
     submitting: PropTypes.bool.isRequired,
     notify: PropTypes.func.isRequired,
     changePaymentMethod: PropTypes.func.isRequired,
     changePaymentStatus: PropTypes.func.isRequired,
-  };
-
-  static contextTypes = {
-    permissions: PropTypes.array.isRequired,
+    permission: PropTypes.shape({
+      permissions: PropTypes.arrayOf(PropTypes.string).isRequired,
+    }).isRequired,
   };
 
   static defaultProps = {
@@ -88,7 +88,7 @@ class PaymentDetailModal extends PureComponent {
   };
 
   get readOnly() {
-    const { permissions: currentPermission } = this.context;
+    const { permission: { permissions: currentPermission } } = this.props;
     const permittedRights = [
       permissions.PAYMENT.APPROVE,
       permissions.PAYMENT.REJECT,
@@ -190,21 +190,20 @@ class PaymentDetailModal extends PureComponent {
         status,
         originalAgent,
       },
-      playerProfile: {
+      newProfile: {
         loading,
-        playerProfile,
+        newProfile,
       },
       onCloseModal,
       className,
       handleSubmit,
-      pristine,
       invalid,
       submitting,
     } = this.props;
 
     const isWithdraw = paymentType === paymentsTypes.WITHDRAW;
-    const profile = get(playerProfile, 'data') || null;
-    const error = get(playerProfile, 'error');
+    const profile = get(newProfile, 'data') || null;
+    const error = get(newProfile, 'error');
 
     return (
       <Modal isOpen toggle={onCloseModal} className={classNames(className, 'payment-detail-modal')}>
@@ -339,7 +338,7 @@ class PaymentDetailModal extends PureComponent {
                         .entries(statusMapper)
                         .filter(([item]) => item !== statuses.PENDING).map(([key, value]) => (
                           <option key={key} value={value[0]}>
-                            {renderLabel(key, statusesLabels)}
+                            {I18n.t(renderLabel(key, statusesLabels))}
                           </option>
                         ))}
                     </Field>
@@ -370,7 +369,7 @@ class PaymentDetailModal extends PureComponent {
                     <Button
                       onClick={handleSubmit(this.handleSubmit)}
                       className="margin-left-15 btn btn-primary"
-                      disabled={pristine || invalid || submitting}
+                      disabled={invalid || submitting}
                     >
                       {I18n.t('COMMON.SAVE_CHANGES')}
                     </Button>
@@ -395,4 +394,4 @@ export default reduxForm({
     paymentMethod: ['string'],
     paymentStatus: ['string'],
   }, translateLabels(attributeLabels), false)(values),
-})(PaymentDetailModal);
+})(withPermission(PaymentDetailModal));

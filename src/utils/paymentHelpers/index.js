@@ -4,6 +4,6 @@ import { getTradingStatusProps } from './utils';
 
 export {
   columns,
-  getTradingStatusProps,
   filterFields,
+  getTradingStatusProps,
 };
