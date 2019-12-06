@@ -3,6 +3,7 @@ import permissions from '../config/permissions';
 
 const attributeLabels = {
   acceptedTermsUUID: 'CONSTANTS.AUDIT.TYPES.ACCEPTED_TERMS_UUID',
+  additionalPhone: 'CONSTANTS.AUDIT.TYPES.ADDITIONAL_PHONE',
   address: 'CONSTANTS.AUDIT.TYPES.ADDRESS',
   addressKycMetaData: 'CONSTANTS.AUDIT.TYPES.ADDRESS_KYC_METADATA',
   kycAddressStatus: 'CONSTANTS.AUDIT.TYPES.KYC_ADDRESS_STATUS',
@@ -41,6 +42,7 @@ const attributeLabels = {
   registrationIp: 'CONSTANTS.AUDIT.TYPES.REGISTRATION_IP',
   reason: 'CONSTANTS.AUDIT.TYPES.REASON',
   registeredBy: 'CONSTANTS.AUDIT.TYPES.REGISTERED_BY',
+  state: 'CONSTANTS.AUDIT.TYPES.STATE',
   status: 'CONSTANTS.AUDIT.TYPES.STATUS',
   suspendEndDate: 'CONSTANTS.AUDIT.TYPES.SUSPEND_END_DATE',
   title: 'CONSTANTS.AUDIT.TYPES.TITLE',
@@ -50,6 +52,8 @@ const attributeLabels = {
   username: 'CONSTANTS.AUDIT.TYPES.USERNAME',
   updatedDate: 'CONSTANTS.AUDIT.TYPES.UPDATED_DATE',
   playerUUID: 'CONSTANTS.AUDIT.TYPES.PLAYER_UUID',
+  passportNumber: 'CONSTANTS.AUDIT.TYPES.PASSPORT_NUMBER',
+  passPortExpirationDate: 'CONSTANTS.AUDIT.TYPES.PASSPORT_EXPIRATION_DATE',
 };
 
 const filterLabels = {

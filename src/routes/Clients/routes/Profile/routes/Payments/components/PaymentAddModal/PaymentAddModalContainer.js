@@ -16,8 +16,6 @@ const formValidation = (data, { newProfile: { tradingAccount }, currentValues })
     externalReference: 'required|string',
   };
 
-  console.log('currentValues', currentValues);
-
   if ([
     paymentMethods.WITHDRAW.name,
     paymentMethods.TRANSFER.name,
