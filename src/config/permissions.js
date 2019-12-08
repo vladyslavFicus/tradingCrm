@@ -37,7 +37,7 @@ export default {
     CREATE_BRANCH: 'hierarchy-updater;POST;/branch',
   },
   SALES_RULES: {
-    GET_RULES: 'rules-profile;GET;/',
+    GET_RULES: 'rules-profile;POST;/search',
   },
   USER_PROFILE: {
     GET_RESET_PASSWORD_TOKEN: 'auth;GET;/password/reset-token?playerUUID={playerUUID}',
