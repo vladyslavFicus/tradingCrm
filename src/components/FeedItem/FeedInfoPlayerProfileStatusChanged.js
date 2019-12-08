@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import I18n from 'i18n-js';
 import renderLabel from '../../utils/renderLabel';
-import { statusesLabels } from '../../constants/user';
+import { statusesLabels, reasons } from '../../constants/user';
 
 const FeedInfoPlayerProfileStatusChanged = ({ data: { details } }) => (
   <Fragment>
@@ -12,7 +12,7 @@ const FeedInfoPlayerProfileStatusChanged = ({ data: { details } }) => (
       <span className="feed-item__content-value">
         {I18n.t('FEED_ITEM.PLAYER_PROFILE_STATUS_CHANGED.NEXT_STATUS')}{': '}
       </span>
-      {renderLabel(details.profileStatus, statusesLabels)}
+      {I18n.t(renderLabel(details.profileStatus, statusesLabels))}
       <br />
     </If>
     <If condition={details.suspendEndDate}>
@@ -40,7 +40,7 @@ const FeedInfoPlayerProfileStatusChanged = ({ data: { details } }) => (
     <If condition={details.reason}>
       <div className="feed-item__rejection">
         <b className="mr-1">{I18n.t('FEED_ITEM.PLAYER_PROFILE_STATUS_CHANGED.REASON')}:</b>
-        {details.reason}
+        {I18n.t(renderLabel(details.reason, reasons))}
       </div>
     </If>
   </Fragment>

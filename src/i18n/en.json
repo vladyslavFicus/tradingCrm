@@ -161,6 +161,8 @@
         }
       },
       "TITLE": "Profile",
+      "VERIFIED_PHONE": "Phone verified",
+      "VERIFIED_EMAIL": "E-mail verified",
       "VERIFY_PERSONAL_DATA_TITLE": "Identity",
       "VERIFY_PERSONAL_DATA_DESCRIPTION": "In order to get verified we require at least one valid proof of Identification. The ID or Passport scan need to be sharp with clear picture, readable and not expired or damaged.",
       "VERIFY_ADDRESS_DATA_TITLE": "Address",
@@ -820,6 +822,7 @@
   "CONSTANTS": {
     "AUDIT": {
       "TYPES": {
+        "AFFILIATE_ACCOUNT_CREATED": "Affiliate created",
         "LOG_IN": "Logged in",
         "LOG_OUT": "Logged out",
         "PLAYER_PROFILE_VERIFIED_EMAIL": "Contact info - Email verified",
@@ -904,7 +907,10 @@
         "PLAYER_UUID": "ID",
         "PASSPORT_NUMBER": "Passport number",
         "PASSPORT_EXPIRATION_DATE": "Passport expiration date",
-        "CHANGE_LEVERAGE_REQUESTED": "Change leverage Request"
+        "CHANGE_LEVERAGE_REQUESTED": "Change leverage Request",
+        "CHANGE_LEVERAGE_FROM": "Change leverage from",
+        "CHANGE_LEVERAGE_TO": "Change leverage to",
+        "MT4LOGIN": "Mt4login"
       },
       "KYC_CONFIRMATION": {
         "TRANSACTION": "Transaction ID",
@@ -1374,6 +1380,9 @@
       "INVITATION_SENT": "Invitation",
       "INVITATION_SENT_SUCCESS": "Successfully sent",
       "INVITATION_SENT_FAILURE": "Not sent"
+    },
+    "AFFILIATE_CREATION": {
+      "AFFILIATE_NAME": "Affiliate's name"
     },
     "LOGIN_EVENTS": {
       "REASON": "Reason",

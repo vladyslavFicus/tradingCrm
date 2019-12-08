@@ -53,7 +53,7 @@ class PlayerStatusModal extends Component {
       <option value="">{I18n.t('COMMON.SELECT_OPTION.REASON')}</option>
       {Object.keys(reasons).map(key => (
         <option key={key} value={key}>
-          {renderLabel(key, reasons)}
+          {I18n.t(renderLabel(key, reasons))}
         </option>
       ))}
     </Field>

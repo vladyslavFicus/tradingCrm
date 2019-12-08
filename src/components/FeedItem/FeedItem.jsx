@@ -6,6 +6,7 @@ import I18n from 'i18n-js';
 import PropTypes from '../../constants/propTypes';
 import LetterIcon from '../LetterIcon';
 import { types, typesLabels, typesClassNames } from '../../constants/audit';
+import FeedInfoAffiliateCreation from './FeedInfoAffiliateCreation';
 import FeedInfoLogin from './FeedInfoLogin';
 import FeedInfoLogout from './FeedInfoLogout';
 import FeedInfoKyc from './FeedInfoKyc';
@@ -45,6 +46,8 @@ class FeedItem extends Component {
 
   renderInformation = (data) => {
     switch (data.type) {
+      case types.AFFILIATE_ACCOUNT_CREATED:
+        return <FeedInfoAffiliateCreation data={data} />;
       case types.LOG_IN:
         return <FeedInfoLogin data={data} />;
       case types.LOG_OUT:
