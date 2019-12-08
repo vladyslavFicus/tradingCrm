@@ -1503,6 +1503,15 @@
       "unauthorized": "Wrong user/password"
     }
   },
+  "lead": {
+    "error": {
+      "entity": {
+        "already": {
+          "exist": "The client already exists with Email \"%{email}\""
+        }
+      }
+    }
+  },
   "NOTE_BUTTON": {
     "DEFAULT_MESSAGE": "Add note"
   },

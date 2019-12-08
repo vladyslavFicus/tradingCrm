@@ -85,8 +85,8 @@ class LeadProfile extends Component {
     });
 
     if (error) {
-      if (!error.fields_errors) {
-        throw new SubmissionError({ _error: error.error });
+      if (error.error === 'error.entity.already.exist') {
+        throw new SubmissionError({ _error: I18n.t(`lead.${error.error}`, { email: values.contacts.email }) });
       }
 
       const formError = Object
