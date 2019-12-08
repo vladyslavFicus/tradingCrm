@@ -81,6 +81,7 @@ class FeedItem extends Component {
       case types.PLAYER_PROFILE_UNBLOCKED:
         return <FeedInfoProfileBlocks data={data} />;
       case types.PLAYER_PROFILE_SELF_EXCLUDED:
+      case types.PLAYER_PROFILE_STATUS_CHANGED:
         return <FeedInfoPlayerProfileStatusChanged data={data} />;
       case types.PLAYER_PROFILE_SELF_EXCLUSION_COOLOFF:
         return <FeedInfoPlayerProfileStatusChanged data={data} />;
