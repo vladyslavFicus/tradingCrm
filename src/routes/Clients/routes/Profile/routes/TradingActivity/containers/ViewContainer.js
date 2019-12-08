@@ -19,14 +19,14 @@ export default compose(
     options: ({
       match: {
         params: {
-          id: playerUUID,
+          id: profileUUID,
         },
       },
       location: { query },
     }) => ({
       variables: {
         tradeType: 'LIVE',
-        ...query ? query.filters : { playerUUID },
+        ...(query ? query.filters : { profileUUID }),
         page: 0,
         limit: 20,
       },

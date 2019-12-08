@@ -9,6 +9,7 @@ const FeedInfoProfileRegistered = ({
     details: {
       registrationDetails,
       initialKyc,
+      affiliate,
       contacts,
       address,
       status,
@@ -16,8 +17,16 @@ const FeedInfoProfileRegistered = ({
     },
   },
 }) => {
+  const affiliateData = {
+    affiliateUuid: affiliate.uuid,
+    affiliateFirstName: affiliate.firstName,
+    affiliateReferral: affiliate.referral,
+    affiliateSource: affiliate.source,
+  };
+
   const items = {
     ...registrationDetails,
+    ...affiliateData,
     ...initialKyc,
     ...contacts,
     ...address,

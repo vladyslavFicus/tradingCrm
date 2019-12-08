@@ -106,7 +106,7 @@ class TradingActivity extends Component {
         <FilterForm
           onSubmit={this.handleFiltersChanged}
           onReset={this.handleFilterReset}
-          disabled={profileError || profileLoading}
+          disabled={profileError || profileLoading || false}
           accounts={mt4Accs}
           operators={operators}
           initialValues={{ tradeType: variables.tradeType }}
@@ -116,7 +116,7 @@ class TradingActivity extends Component {
             dataSource={clientTradingActivity.content}
             onPageChange={this.handlePageChanged}
             last={clientTradingActivity.last}
-            showNoResults={error || (!loading && clientTradingActivity.totalElements === 0)}
+            showNoResults={!!error || (!loading && clientTradingActivity.totalElements === 0)}
             lazyLoad
           >
             {columns(this.showChangeOriginalAgentModal).map(({ name, header, render }) => (

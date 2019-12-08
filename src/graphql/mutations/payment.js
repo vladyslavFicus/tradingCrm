@@ -1,7 +1,7 @@
 import gql from 'graphql-tag';
 
 const addPaymentMutation = gql`mutation createClientPayment(
-  $accountUUID: String!,
+  $accountUUID: String,
   $amount: Float!,
   $country: String,
   $externalReference: String,
@@ -10,8 +10,8 @@ const addPaymentMutation = gql`mutation createClientPayment(
   $paymentType: String!,
   $paymentMethod: String,
   $profileUUID: String,
-  $source: Int,
-  $target: Int,
+  $source: String,
+  $target: String,
 ) {
   payment {
     createClientPayment (

@@ -164,6 +164,7 @@ const newProfile = gql`query newProfile($playerUUID: String!){
         group
         login
         margin
+        name
       }
     }
     error {

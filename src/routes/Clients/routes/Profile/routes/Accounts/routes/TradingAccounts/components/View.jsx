@@ -1,5 +1,3 @@
-/* eslint-disable */
-
 import React, { PureComponent, Fragment } from 'react';
 import I18n from 'i18n-js';
 import { get } from 'lodash';
@@ -16,21 +14,23 @@ import filterFields from './filterFields';
 
 class View extends PureComponent {
   static propTypes = {
+    newProfile: PropTypes.newProfile.isRequired,
     getTradingAccount: PropTypes.shape({
       playerProfile: PropTypes.shape({
         mt4Users: PropTypes.arrayOf(PropTypes.mt4User),
       }),
+      refetch: PropTypes.func.isRequired,
     }).isRequired,
     modals: PropTypes.shape({
       tradingAccountAddModal: PropTypes.modalType,
       tradingAccountChangePasswordModal: PropTypes.modalType,
     }).isRequired,
     updateTradingAccount: PropTypes.func.isRequired,
+    permission: PropTypes.permission.isRequired,
   };
 
   static contextTypes = {
     setRenderActions: PropTypes.func.isRequired,
-    permissions: PropTypes.arrayOf(PropTypes.string).isRequired,
     registerUpdateCacheListener: PropTypes.func.isRequired,
     unRegisterUpdateCacheListener: PropTypes.func.isRequired,
   };
@@ -80,7 +80,6 @@ class View extends PureComponent {
   }).then(() => this.props.getTradingAccount.refetch());
 
   renderActions = ({ readOnly, accountType, archived, accountUUID, profileUUID, login }) => {
-
     const items = [
       {
         label: I18n.t('CLIENT_PROFILE.ACCOUNTS.ACTIONS_DROPDOWN.CHANGE_PASSWORD'),
@@ -103,14 +102,12 @@ class View extends PureComponent {
   };
 
   handleFiltersChanged = (filters = {}) => {
-    /* temporary solution  */
-    if (!filters.accountType) {
-      filters.accountType = '';
-    }
-
     history.replace({
       query: {
-        filters: { ...filters },
+        filters: {
+          ...filters,
+          accountType: filters.accountType || '',
+        },
       },
     });
   };
