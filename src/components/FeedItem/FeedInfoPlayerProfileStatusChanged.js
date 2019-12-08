@@ -40,7 +40,7 @@ const FeedInfoPlayerProfileStatusChanged = ({ data: { details } }) => (
     <If condition={details.reason}>
       <div className="feed-item__rejection">
         <b className="mr-1">{I18n.t('FEED_ITEM.PLAYER_PROFILE_STATUS_CHANGED.REASON')}:</b>
-        {I18n.t(details.reason)}
+        {details.reason}
       </div>
     </If>
   </Fragment>

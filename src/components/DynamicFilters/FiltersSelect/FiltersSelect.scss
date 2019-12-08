@@ -1,12 +1,14 @@
 .filters-select {
-  width: 39px;
-  height: 39px;
+  background-color: #fff;
   border: 1px solid #999;
   border-radius: 3px;
-  line-height: 36px;
-  background-color: #fff;
-  font-size: 21px;
   color: #4a4a4a;
+  font-size: 21px;
+  line-height: 36px;
+  padding-left: 7px;
+  height: 39px;
+  width: 39px;
+
   &_active,
   &:active,
   &:hover {
