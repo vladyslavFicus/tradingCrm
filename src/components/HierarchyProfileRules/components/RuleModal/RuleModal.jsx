@@ -67,7 +67,7 @@ class RuleModal extends PureComponent {
           onSubmit={handleSubmit(onSubmit)}
         >
           <If condition={error}>
-            <div className="mb-2 text-center color-danger">
+            <div className="mb-2 text-center color-danger sales-rules-modal-error">
               {error}
             </div>
           </If>
