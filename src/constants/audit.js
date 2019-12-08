@@ -1,6 +1,7 @@
 import keyMirror from 'keymirror';
 
 const types = keyMirror({
+  AFFILIATE_ACCOUNT_CREATED: null,
   LOG_IN: null,
   LOG_OUT: null,
   PLAYER_PROFILE_VERIFIED_EMAIL: null,
@@ -35,6 +36,7 @@ const types = keyMirror({
   CHANGE_LEVERAGE_REQUESTED: null,
 });
 const typesLabels = {
+  [types.AFFILIATE_ACCOUNT_CREATED]: 'CONSTANTS.AUDIT.TYPES.AFFILIATE_ACCOUNT_CREATED',
   [types.LOG_IN]: 'CONSTANTS.AUDIT.TYPES.LOG_IN',
   [types.LOG_OUT]: 'CONSTANTS.AUDIT.TYPES.LOG_OUT',
   [types.PLAYER_PROFILE_VERIFIED_EMAIL]: 'CONSTANTS.AUDIT.TYPES.PLAYER_PROFILE_VERIFIED_EMAIL',
@@ -69,6 +71,7 @@ const typesLabels = {
   [types.CHANGE_LEVERAGE_REQUESTED]: 'CONSTANTS.AUDIT.TYPES.CHANGE_LEVERAGE_REQUESTED',
 };
 const typesClassNames = {
+  [types.AFFILIATE_ACCOUNT_CREATED]: 'green',
   [types.LOG_IN]: 'blue',
   [types.LOG_OUT]: '',
   [types.PLAYER_PROFILE_VERIFIED_EMAIL]: 'blue',

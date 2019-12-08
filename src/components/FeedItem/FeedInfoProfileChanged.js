@@ -13,10 +13,14 @@ const FeedInfoProfileChanged = ({
     },
   },
 }) => {
-  const passportData = {
-    passportNumber: passport.number,
-    passPortExpirationDate: passport.expirationDate,
-  };
+  let passportData = {};
+
+  if (passport) {
+    passportData = {
+      passportNumber: passport.number,
+      passPortExpirationDate: passport.expirationDate,
+    };
+  }
 
   const items = {
     ...(typeof address === 'string' ? { address } : { ...address }),
