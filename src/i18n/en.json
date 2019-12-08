@@ -2612,7 +2612,8 @@
       "OPERATOR": "Operator",
       "SELECT_OPERATOR": "Select operator",
       "CALLBACK_DATE_AND_TIME": "Callback date & time",
-      "SUCCESSFULLY_UPDATED": "Callback has been successfully updated"
+      "SUCCESSFULLY_UPDATED": "Callback has been successfully updated",
+      "STATUS": "Status"
     }
   },
   "common": {
