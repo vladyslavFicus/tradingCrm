@@ -1455,6 +1455,7 @@
     }
   },
   "error": {
+    "internal": "Something went wrong",
     "validation": {
       "invalid": {
         "payment": {
