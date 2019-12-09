@@ -23,7 +23,7 @@ class HierarchyBranchTree extends PureComponent {
     }
 
     if (type === nodeTypes.BRANCH && ![branchTypes.COMPANY, branchTypes.BRAND].includes(branchType)) {
-      const _deskType = deskType || parent.deskType;
+      const _deskType = deskType || (parent && parent.deskType);
       const ruleUrl = _deskType ? `/${_deskType.toLowerCase()}-rules` : '';
       window.open(`/${branchType.toLowerCase()}s/${uuid}/rules${ruleUrl}`, '_blank');
     }
