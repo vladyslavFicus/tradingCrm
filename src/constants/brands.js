@@ -52,6 +52,7 @@ const brands = keyMirror({
   stockfx: null,
   cmarket: null,
   fsaeverfx: null,
+  '10cryptomarket': null,
 });
 
 const departments = keyMirror({
@@ -278,6 +279,10 @@ const brandsConfig = {
   [brands.fsaeverfx]: {
     name: 'FSA Everfx',
     image: { src: '/img/brand/choose-brand/fsaeverfx.svg' },
+  },
+  [brands['10cryptomarket']]: {
+    name: '10cryptomarket',
+    image: { src: '/img/brand/choose-brand/10cryptomarket.svg' },
   },
 };
 const departmentsConfig = {
