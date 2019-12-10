@@ -5,6 +5,12 @@ import I18n from 'i18n-js';
 import renderLabel from '../../utils/renderLabel';
 import { statusesLabels, reasons } from '../../constants/user';
 
+const feedReasons = {
+  'Phone verified': 'PLAYER_PROFILE.PROFILE.VERIFIED_PHONE',
+  'E-mail verified': 'PLAYER_PROFILE.PROFILE.VERIFIED_EMAIL',
+  ...reasons,
+};
+
 const FeedInfoPlayerProfileStatusChanged = ({ data: { details } }) => (
   <Fragment>
     <If condition={details.profileStatus}>
@@ -40,7 +46,7 @@ const FeedInfoPlayerProfileStatusChanged = ({ data: { details } }) => (
     <If condition={details.reason}>
       <div className="feed-item__rejection">
         <b className="mr-1">{I18n.t('FEED_ITEM.PLAYER_PROFILE_STATUS_CHANGED.REASON')}:</b>
-        {I18n.t(renderLabel(details.reason, reasons))}
+        {I18n.t(renderLabel(details.reason, feedReasons))}
       </div>
     </If>
   </Fragment>

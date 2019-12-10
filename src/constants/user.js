@@ -126,8 +126,6 @@ const reasons = {
     'PLAYER_PROFILE.PROFILE.BLOCK_REASONS.PENDING_INVESTIGATION',
   'PLAYER_PROFILE.PROFILE.BLOCK_REASONS.OTHER':
     'PLAYER_PROFILE.PROFILE.BLOCK_REASONS.OTHER',
-  'Phone verified': 'PLAYER_PROFILE.PROFILE.VERIFIED_PHONE',
-  'E-mail verified': 'PLAYER_PROFILE.PROFILE.VERIFIED_EMAIL',
 };
 
 const unblockReasons = {
@@ -153,7 +151,14 @@ const durationUnits = keyMirror({
 });
 
 const statusActions = {
-  [statuses.INACTIVE]: [],
+  [statuses.INACTIVE]: [
+    {
+      action: actions.BLOCK,
+      label: 'ACTIONS_LABELS.BLOCK',
+      reasons,
+      permission: permissions.USER_PROFILE.STATUS,
+    },
+  ],
   [statuses.ACTIVE]: [
     {
       action: actions.BLOCK,
