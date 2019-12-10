@@ -80,7 +80,9 @@ class ActionFilterModal extends PureComponent {
       });
 
       throw new SubmissionError({
-        _error: I18n.t(`FILTER_SET.${action}.FAILED_DESC`, { desc: error.error }),
+        _error: error.fields_errors === 'filter.set.not.unique'
+          ? I18n.t(`FILTER_SET.${action}.FAILED_EXIST`)
+          : I18n.t(`FILTER_SET.${action}.FAILED_DESC`, { desc: error.error }),
       });
     }
 
@@ -173,8 +175,8 @@ export default compose(
   reduxForm({
     form: FORM_NAME,
     enableReinitialize: true,
-    validate: (values, { action }) => createValidator(
-      { name: ['string', ...(action === actionTypes.UPDATE ? ['required'] : [])] },
+    validate: values => createValidator(
+      { name: ['string', 'required'] },
       {},
       false,
     )(values),
