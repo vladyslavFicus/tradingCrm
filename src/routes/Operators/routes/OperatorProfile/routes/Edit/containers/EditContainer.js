@@ -1,5 +1,5 @@
 import { compose, graphql } from 'react-apollo';
-import { get, set } from 'lodash';
+import { get, set, omit } from 'lodash';
 import { getUserHierarchyById } from 'graphql/queries/hierarchy';
 import { operatorQuery } from 'graphql/queries/operators';
 import { updateOperator, addDepartment, removeDepartment } from 'graphql/mutations/operators';
@@ -17,7 +17,7 @@ export default compose(
       const departmentsRoles = get(authoritiesOptions, 'authoritiesOptions.data.post.departmentRole', {});
 
       return {
-        departmentsRoles,
+        departmentsRoles: omit(departmentsRoles, 'PLAYER'),
       };
     },
   }),
