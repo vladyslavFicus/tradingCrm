@@ -332,10 +332,12 @@ const HierarchyProfileRules = (title, deskType, branchType) => {
               </Otherwise>
             </Choose>
           </div>
-          {partners.map(({ uuid, fullName }) => (
-            <div key={uuid}>
-              <Link to={`/partners/${uuid}/profile`}>{fullName}</Link>
-            </div>
+          {partners.map(partner => (
+            <If condition={partner}>
+              <div key={partner.uuid}>
+                <Link to={`/partners/${partner.uuid}/profile`}>{partner.fullName}</Link>
+              </div>
+            </If>
           ))}
         </When>
         <Otherwise>
