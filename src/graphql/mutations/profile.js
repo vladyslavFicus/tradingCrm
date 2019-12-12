@@ -1,4 +1,5 @@
 import gql from 'graphql-tag';
+import { ContactsFragment } from '../fragments/contacts';
 
 const updateSubscription = gql`mutation updateSubscription(
     $playerUUID: String!,
@@ -242,16 +243,25 @@ const updateContactsMutation = gql`mutation updateContacts(
 ) {
   profile {
     updateContacts(
-      playerUUID: $playerUUID,
-      phone: $phone,
       additionalPhone: $additionalPhone,
       additionalEmail: $additionalEmail,
+      playerUUID: $playerUUID,
+      phone: $phone,
       email: $email,
     ) {
-      success
+      data {
+        _id
+        contacts {
+          ...ContactsFragment
+        }
+      }
+      error {
+        error
+      }
     }
   }
-}`;
+}
+${ContactsFragment}`;
 
 const updateAddressMutation = gql`mutation updateAddress(
   $playerUUID: String!,

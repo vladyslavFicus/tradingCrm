@@ -73,7 +73,7 @@ class View extends Component {
         profile: {
           updatePersonalInformation: {
             success,
-          }
+          },
         }
       }
     }  = await updatePersonalInformation({
@@ -98,7 +98,7 @@ class View extends Component {
       data: {
         profile: {
           updateContacts: {
-            success,
+            error,
           }
         }
       }
@@ -109,12 +109,12 @@ class View extends Component {
     });
 
     this.context.addNotification({
-      level: success ? 'success' : 'error',
+      level: error ? 'error' : 'success',
       title: I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.TITLE'),
       message: `${I18n.t('COMMON.ACTIONS.UPDATED')}
-        ${success
-        ? I18n.t('COMMON.ACTIONS.SUCCESSFULLY')
-        : I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY')}`,
+        ${error
+        ? I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY')
+        : I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
     });
   };
 
@@ -228,6 +228,8 @@ class View extends Component {
               internalTransfer,
             },
             bankDetails,
+            phoneVerified,
+            emailVerified,
           }
         }
       },
@@ -307,11 +309,16 @@ class View extends Component {
               <div className="card">
                 <div className="card-body">
                   <ContactForm
-                    profile={this.props.newProfile.newProfile.data}
-                    contactData={{ phone, additionalPhone, email, additionalEmail }}
+                    verification={{ phoneVerified, emailVerified }}
                     onSubmit={this.handleUpdateContacts}
                     onVerifyPhoneClick={this.handleVerifyPhone}
                     onVerifyEmailClick={this.handleVerifyEmail}
+                    initialValues={{
+                      phone,
+                      email,
+                      additionalPhone,
+                      additionalEmail,
+                    }}
                     disabled={!updateContacts}
                   />
                 </div>

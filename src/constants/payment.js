@@ -44,14 +44,12 @@ const methods = keyMirror({
 });
 
 const aggregators = keyMirror({
-  CASHIER: null,
   MANUAL: null,
   NASPAY: null,
 });
 
 const manualPaymentMethods = keyMirror({
   BONUS: null,
-  CASHIER: null,
   CHARGEBACK: null,
   CREDIT_CARD: null,
   ELECTRONIC: null,
@@ -209,7 +207,6 @@ const methodsLabels = {
 };
 
 const aggregatorsLabels = {
-  [aggregators.CASHIER]: 'CONSTANTS.PAYMENT.PAYMENT_AGGREGATORS.CASHIER',
   [aggregators.MANUAL]: 'CONSTANTS.PAYMENT.PAYMENT_AGGREGATORS.MANUAL',
   [aggregators.NASPAY]: 'CONSTANTS.PAYMENT.PAYMENT_AGGREGATORS.NASPAY',
 };
@@ -226,7 +223,6 @@ const manualPaymentMethodsLabels = {
   [manualPaymentMethods.PAYRETAILERS]: 'CONSTANTS.TRANSACTIONS.FILTER_FORM.PAYMENT_ACCOUNTS.PAYRETAILERS',
   [manualPaymentMethods.RECALL]: 'CONSTANTS.TRANSACTIONS.FILTER_FORM.PAYMENT_ACCOUNTS.RECALL',
   [manualPaymentMethods.CHARGEBACK]: 'CONSTANTS.TRANSACTIONS.FILTER_FORM.PAYMENT_ACCOUNTS.CHARGEBACK',
-  [manualPaymentMethods.CASHIER]: 'CONSTANTS.TRANSACTIONS.FILTER_FORM.PAYMENT_ACCOUNTS.CASHIER',
 };
 
 const methodsStatusesLabels = {

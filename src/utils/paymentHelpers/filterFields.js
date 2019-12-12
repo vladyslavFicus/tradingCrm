@@ -123,8 +123,7 @@ export default ({
     label: filterLabels.paymentAggregator,
     placeholder: filterPlaceholders.paymentAggregator,
     className: fieldClassNames.MEDIUM,
-    /* no logic for now, we have just one aggregator */
-    selectOptions: [aggregators.CASHIER, aggregators.MANUAL].map(value => ({
+    selectOptions: Object.keys(aggregators).map(value => ({
       value,
       label: aggregatorsLabels[value],
     })),

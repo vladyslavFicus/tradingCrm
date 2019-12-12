@@ -2696,7 +2696,8 @@
     "CREATE": {
       "FAILED": "Creating new filter set failed",
       "FAILED_DESC": "Creating failed with error - %{desc}",
-      "SUCCESS": "Filter %{name} created successfully"
+      "SUCCESS": "Filter %{name} created successfully",
+      "FAILED_EXIST": "Filter with this name already exists."
     },
     "UPDATE_MODAL": {
       "HEADER": "Update filter set",

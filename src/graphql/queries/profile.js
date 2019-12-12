@@ -1,9 +1,11 @@
 import gql from 'graphql-tag';
 import queryNames from 'constants/apolloQueryNames';
+import { ContactsFragment } from '../fragments/contacts';
 
 const newProfile = gql`query newProfile($playerUUID: String!){
   newProfile(playerUUID: $playerUUID) {
     data {
+      _id
       age
       birthDate
       brandId
@@ -101,10 +103,7 @@ const newProfile = gql`query newProfile($playerUUID: String!){
         }
       }
       contacts {
-        additionalEmail
-        additionalPhone
-        email
-        phone
+        ...ContactsFragment
       }
       passport {
         countryOfIssue
@@ -171,7 +170,8 @@ const newProfile = gql`query newProfile($playerUUID: String!){
       error
     }
   }
-}`;
+}
+${ContactsFragment}`;
 
 const clientsQuery = gql`query ${queryNames.clientsQuery}(
   $args: ClientSearchParams
