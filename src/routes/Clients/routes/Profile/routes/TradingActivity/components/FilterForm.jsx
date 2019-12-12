@@ -7,7 +7,6 @@ import PropTypes from 'constants/propTypes';
 import { accountTypes } from 'constants/accountTypes';
 import {
   InputField,
-  SelectField,
   DateRangePicker,
   RangeGroup,
   NasSelectField,
@@ -112,11 +111,12 @@ class FilterForm extends Component {
         <Field
           name="cmd"
           label={I18n.t(filterFormAttributeLabels.type)}
-          component={SelectField}
+          placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
+          component={NasSelectField}
           className="filter-row__medium"
           disabled={disabled}
+          withAnyOption
         >
-          <option value="">{I18n.t('COMMON.ANY')}</option>
           {types.map(type => (
             <option key={type.value} value={type.value}>
               {I18n.t(type.label)}
@@ -126,11 +126,12 @@ class FilterForm extends Component {
         <Field
           name="symbol"
           label={I18n.t(filterFormAttributeLabels.symbol)}
-          component={SelectField}
+          placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
+          component={NasSelectField}
           className="filter-row__medium"
           disabled={disabled}
+          withAnyOption
         >
-          <option value="">{I18n.t('COMMON.ANY')}</option>
           {symbols.map(symbol => (
             <option key={symbol.value} value={symbol.value}>
               {I18n.t(symbol.label)}
@@ -140,8 +141,8 @@ class FilterForm extends Component {
         <Field
           name="agentIds"
           label={I18n.t(filterFormAttributeLabels.agentIds)}
-          component={NasSelectField}
           placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
+          component={NasSelectField}
           multiple
           className="filter-row__medium"
           disabled={disabledOriginalAgentField}
@@ -154,7 +155,7 @@ class FilterForm extends Component {
                 || operatorStatus === operatorsStasuses.CLOSE
                 ? 'color-inactive' : ''}
             >
-              {I18n.t(fullName)}
+              {fullName}
             </option>
           ))}
         </Field>
@@ -180,11 +181,12 @@ class FilterForm extends Component {
         <Field
           name="status"
           label={I18n.t(filterFormAttributeLabels.status)}
-          component={SelectField}
+          placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
+          component={NasSelectField}
           className="filter-row__medium"
           disabled={disabled}
+          withAnyOption
         >
-          <option value="">{I18n.t('COMMON.ANY')}</option>
           {statuses.map(status => (
             <option key={status.value} value={status.value}>
               {I18n.t(status.label)}
@@ -237,12 +239,12 @@ class FilterForm extends Component {
         <Field
           name="tradeType"
           label={I18n.t(filterFormAttributeLabels.accountType)}
-          component={SelectField}
           placeholder={I18n.t('COMMON.ALL')}
+          component={NasSelectField}
           className="filter-row__medium"
           disabled={disabled}
+          withAnyOption
         >
-          <option value="">{I18n.t('COMMON.ANY')}</option>
           {accountTypes.map(({ label, value }) => (
             <option key={value} value={value}>
               {I18n.t(label)}

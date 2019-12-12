@@ -10,9 +10,9 @@ import { columns } from '../constants';
 
 class TradingActivity extends Component {
   static propTypes = {
-    playerProfile: PropTypes.shape({
-      playerProfile: PropTypes.object,
-    }),
+    tradingAccounts: PropTypes.shape({
+      tradingAccount: PropTypes.object,
+    }).isRequired,
     tradingActivity: PropTypes.shape({
       loading: PropTypes.bool.isRequired,
       clientTradingActivity: PropTypes.shape({
@@ -23,10 +23,6 @@ class TradingActivity extends Component {
     modals: PropTypes.shape({
       changeOriginalAgentModal: PropTypes.modalType,
     }).isRequired,
-  };
-
-  static defaultProps = {
-    playerProfile: {},
   };
 
   componentWillUnmount() {
@@ -47,29 +43,17 @@ class TradingActivity extends Component {
   };
 
   handleFilterReset = () => {
-    const { playerProfile } = this.props;
-    const loginIds = get(playerProfile, 'playerProfile.data.tradingProfile.mt4Users') || [];
-
     history.replace({
-      query: {
-        filters: {
-          loginIds: loginIds.map(({ login }) => login),
-        },
-      },
+      query: { filters: {} },
     });
   }
 
   handleFiltersChanged = (filters = {}) => {
-    const { playerProfile } = this.props;
-    const loginIds = get(playerProfile, 'playerProfile.data.tradingProfile.mt4Users') || [];
-
     history.replace({
       query: {
         filters: {
           ...filters,
-          ...filters.loginIds
-            ? { loginIds: filters.loginIds }
-            : { loginIds: loginIds.map(({ login }) => login) },
+          ...filters.loginIds && { loginIds: filters.loginIds },
         },
       },
     });
@@ -89,15 +73,13 @@ class TradingActivity extends Component {
     const {
       tradingActivity,
       tradingActivity: { loading, variables },
-      playerProfile,
-      playerProfile: { loading: profileLoading },
+      tradingAccounts,
+      tradingAccounts: { loading: tradingAccountsLoading },
       operators,
     } = this.props;
 
     const clientTradingActivity = get(tradingActivity, 'clientTradingActivity.data') || { content: [] };
-    const mt4Accs = get(playerProfile, 'playerProfile.data.tradingProfile.mt4Users') || [];
-
-    const profileError = get(playerProfile, 'playerProfile.error');
+    const accounts = get(tradingAccounts, 'tradingAccount') || [];
     const error = get(tradingActivity, 'clientTradingActivity.error');
 
     return (
@@ -106,8 +88,8 @@ class TradingActivity extends Component {
         <FilterForm
           onSubmit={this.handleFiltersChanged}
           onReset={this.handleFilterReset}
-          disabled={profileError || profileLoading || false}
-          accounts={mt4Accs}
+          disabled={tradingAccountsLoading || false}
+          accounts={accounts}
           operators={operators}
           initialValues={{ tradeType: variables.tradeType }}
         />

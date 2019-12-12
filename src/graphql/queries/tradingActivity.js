@@ -46,38 +46,38 @@ const tradingActivityQuery = gql`query clientTradingActivity(
       totalElements
       size
       last
-        content {
-          id
-          tradeId
-          tradeType
-          login
-          symbol
-          digits
-          cmd
-          volume
-          openTime
-          closeTime
-          openPrice
-          closePrice
-          openRate
-          closeRate
-          stopLoss
-          takeProfit
-          expiration
-          reason
-          commission
-          commissionAgent
-          storage
-          profit
-          taxes
-          magic
-          comment
-          timestamp
-          originalAgent {
-            uuid
-            fullName
-          }
+      content {
+        id
+        tradeId
+        tradeType
+        login
+        symbol
+        digits
+        cmd
+        volume
+        openTime
+        closeTime
+        openPrice
+        closePrice
+        openRate
+        closeRate
+        stopLoss
+        takeProfit
+        expiration
+        reason
+        commission
+        commissionAgent
+        storage
+        profit
+        taxes
+        magic
+        comment
+        timestamp
+        originalAgent {
+          uuid
+          fullName
         }
+      }
     }
     error {
       error

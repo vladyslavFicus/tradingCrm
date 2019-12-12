@@ -1,16 +1,5 @@
 import gql from 'graphql-tag';
 
-const tradingAccountOptions = gql`
-  query tradingAccountOptions {
-    options {
-      tradingAccount {
-        mt4 {
-          currencies
-        }
-      }
-    }
-  }`;
-
 const getTradingAccount = gql`query getTradingAccount($uuid: String!, $accountType: String) {
     tradingAccount(uuid: $uuid, accountType: $accountType) {
       accountUUID
@@ -35,6 +24,5 @@ const getTradingAccount = gql`query getTradingAccount($uuid: String!, $accountTy
   }`;
 
 export {
-  tradingAccountOptions,
   getTradingAccount,
 };
