@@ -1,0 +1,24 @@
+svc: "backoffice"
+team: "falcon"
+secret: false
+java: false
+replicaCount: 1
+health:
+  startupProbe:
+    initial: 5
+    timeout: 5
+    period: 5
+    threshold: 60
+  livenessProbe:
+    initial: 10
+    timeout: 10
+    period: 5
+  readinessProbe:
+    initial: 10
+    timeout: 3
+    period: 5
+resources:
+  requests:
+    memory: 1Gi
+  limits:
+    memory: 4Gi
