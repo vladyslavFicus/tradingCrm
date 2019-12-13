@@ -341,7 +341,13 @@
       "UN_SET_PLAYER_AS_TEST": "Unset player as test"
     },
     "IP_LIST": {
-      "TITLE": "Last 10 ip's"
+      "TITLE": "Last 10 ip's",
+      "NOTIFICATIONS": {
+        "COPY": {
+          "TITLE": "IP copied to your clipboard",
+          "MESSAGE": "IP has been copied to clipboard"
+        }
+      }
     },
     "DEVICES": {
       "FILTER": {

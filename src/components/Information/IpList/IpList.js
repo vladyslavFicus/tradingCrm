@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import { uniqBy } from 'lodash';
-import I18n from 'i18n-js';
+// import I18n from 'i18n-js';
 import PropTypes from '../../../constants/propTypes';
 import CopyToClipboard from '../../CopyToClipboard';
 
@@ -66,8 +66,8 @@ IpList.propTypes = {
 IpList.defaultProps = {
   ips: [],
   notificationLevel: 'info',
-  notificationTitle: I18n.t('COMMON.NOTIFICATIONS.COPIED'),
-  notificationMessage: I18n.t('COMMON.NOTIFICATIONS.COPY_FULL_IP.MESSAGE'),
+  notificationTitle: 'PLAYER_PROFILE.IP_LIST.NOTIFICATIONS.COPY.TITLE',
+  notificationMessage: 'PLAYER_PROFILE.IP_LIST.NOTIFICATIONS.COPY.MESSAGE',
   notify: true,
 };
 
