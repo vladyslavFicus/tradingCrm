@@ -1,5 +1,6 @@
 import gql from 'graphql-tag';
 import { ContactsFragment } from '../fragments/contacts';
+import { ProfileStatusFragment } from '../fragments/profileStatus';
 
 const updateSubscription = gql`mutation updateSubscription(
     $playerUUID: String!,
@@ -43,10 +44,20 @@ const changeProfileStatusMutation = gql`mutation changeProfileStatus(
       comment: $comment,
       status: $status,
       ) {
-      success
+      data {
+        _id
+        status {
+          ...ProfileStatusFragment
+        }
+      }
+      error {
+        error
+        fields_errors
+      }
     }
   }
-}`;
+}
+${ProfileStatusFragment}`;
 
 const passwordResetRequest = gql`mutation passwordResetRequest($brandId: String!, $playerUUID: String!) {
   profile {

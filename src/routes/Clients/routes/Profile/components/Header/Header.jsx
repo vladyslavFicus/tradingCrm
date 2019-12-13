@@ -75,15 +75,7 @@ class Header extends Component {
     } = this.props;
 
     if (uuid) {
-      const {
-        data: {
-          profile: {
-            changeProfileStatus: {
-              success,
-            },
-          },
-        },
-      } = await onStatusChange({
+      const { error } = await onStatusChange({
         variables: {
           status: action,
           playerUUID: uuid,
@@ -93,10 +85,10 @@ class Header extends Component {
       });
 
       notify({
-        level: success ? 'success' : 'error',
-        message: success
-          ? I18n.t('COMMON.SUCCESS')
-          : I18n.t('COMMON.SOMETHING_WRONG'),
+        level: error ? 'error' : 'success',
+        message: error
+          ? I18n.t('COMMON.SOMETHING_WRONG')
+          : I18n.t('COMMON.SUCCESS'),
       });
     }
   };
