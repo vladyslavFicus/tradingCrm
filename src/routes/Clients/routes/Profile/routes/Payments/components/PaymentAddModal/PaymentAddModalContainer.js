@@ -14,6 +14,7 @@ const formValidation = (data, { newProfile: { tradingAccount }, currentValues })
     paymentType: 'required|string',
     amount: 'required|numeric',
     externalReference: 'required|string',
+    accountUUID: 'required|string',
   };
 
   if ([
