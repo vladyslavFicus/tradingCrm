@@ -166,6 +166,7 @@ class FilterForm extends Component {
           <Field
             name="volumeFrom"
             type="number"
+            parse={value => Number(value)}
             placeholder="0"
             component={InputField}
             disabled={disabled}
@@ -173,6 +174,7 @@ class FilterForm extends Component {
           <Field
             name="volumeTo"
             type="number"
+            parse={value => Number(value)}
             placeholder="0"
             component={InputField}
             disabled={disabled}
