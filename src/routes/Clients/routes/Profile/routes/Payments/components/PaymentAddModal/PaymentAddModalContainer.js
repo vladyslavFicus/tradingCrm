@@ -12,7 +12,7 @@ const FORM_NAME = 'createPaymentForm';
 const formValidation = (data, { newProfile: { tradingAccount }, currentValues }) => {
   let rules = {
     paymentType: 'required|string',
-    amount: 'required|numeric',
+    amount: ['required', 'numeric', 'greater:0'],
     externalReference: 'required|string',
     accountUUID: 'required|string',
   };
