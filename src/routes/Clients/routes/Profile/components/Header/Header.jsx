@@ -252,7 +252,7 @@ class Header extends Component {
           <Regulated>
             <Questionnaire questionnaireLastData={questionnaireLastData} profileUUID={uuid} />
           </Regulated>
-          <ProfileLastLogin lastIp={lastSignInSessions ? lastSignInSessions[0] : null} />
+          <ProfileLastLogin lastIp={lastSignInSessions ? lastSignInSessions[lastSignInSessions.length - 1] : null} />
           <div className="header-block">
             <div className="header-block-title">{I18n.t('CLIENT_PROFILE.CLIENT.REGISTERED.TITLE')}</div>
             <div className="header-block-middle">
