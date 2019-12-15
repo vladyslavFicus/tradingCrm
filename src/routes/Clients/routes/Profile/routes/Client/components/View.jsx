@@ -123,19 +123,19 @@ class View extends Component {
       data: {
         profile: {
           verifyPhone: {
-            success,
+            error,
           }
         }
       }
     } = await this.props.verifyPhone({ variables: { phone } });
 
     this.context.addNotification({
-      level: success ? 'success' : 'error',
+      level: error ? 'error' : 'success',
       title: I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.TITLE'),
       message: `${I18n.t('COMMON.ACTIONS.UPDATED')}
-        ${success
-        ? I18n.t('COMMON.ACTIONS.SUCCESSFULLY')
-        : I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY')}`,
+        ${error
+        ? I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY')
+        : I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
     });
   };
 
@@ -144,19 +144,19 @@ class View extends Component {
       data: {
         profile: {
           verifyEmail: {
-            success,
+            error,
           }
         }
       }
     } = await this.props.verifyEmail();
 
     this.context.addNotification({
-      level: success ? 'success' : 'error',
+      level: error ? 'error' : 'success',
       title: I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.TITLE'),
       message: `${I18n.t('COMMON.ACTIONS.UPDATED')}
-        ${success
-        ? I18n.t('COMMON.ACTIONS.SUCCESSFULLY')
-        : I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY')}`,
+        ${error
+        ? I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY')
+        : I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
     });
   };
 

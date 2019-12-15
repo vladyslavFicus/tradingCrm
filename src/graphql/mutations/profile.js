@@ -305,7 +305,13 @@ const verifyPhoneMutation = gql`mutation verifyPhone(
       playerUUID: $playerUUID,
       phone: $phone,
     ) {
-      success
+      data {
+        _id
+        phoneVerified  
+      }
+      error {
+        error
+      }
     }
   }
 }`;
@@ -313,7 +319,13 @@ const verifyPhoneMutation = gql`mutation verifyPhone(
 const verifyEmailMutation = gql`mutation verifyEmail($playerUUID: String!) {
   profile {
     verifyEmail(playerUUID: $playerUUID) {
-      success
+      data {
+        _id
+        emailVerified
+      }
+      error {
+        error
+      }
     }
   }
 }`;
