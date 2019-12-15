@@ -277,7 +277,6 @@ class PaymentAddModal extends PureComponent {
                 className="col-4"
                 normalize={floatNormalize}
                 inputAddon={sourceAccount && <Currency code={sourceAccount.currency} showSymbol={false} />}
-                showErrorMessage={false}
                 component={InputField}
               />
               <If condition={currentValues && currentValues.paymentType === paymentMethods.DEPOSIT.name}>
