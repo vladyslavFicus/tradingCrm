@@ -1,5 +1,6 @@
 import gql from 'graphql-tag';
 import { ContactsFragment } from '../fragments/contacts';
+import { AddressFragment } from '../fragments/address';
 import { ProfileStatusFragment } from '../fragments/profileStatus';
 
 const updateSubscription = gql`mutation updateSubscription(
@@ -208,7 +209,25 @@ const updatePersonalInformationMutation = gql`mutation updatePersonalInformation
       birthDate: $birthDate,
       passport: $passport,
     ) {
-      success
+      data {
+        _id
+        firstName
+        lastName
+        birthDate
+        languageCode
+        gender
+        passport {
+          countryOfIssue
+          countrySpecificIdentifier
+          countrySpecificIdentifierType
+          expirationDate
+          issueDate
+          number
+        }
+      }
+      error {
+        error
+      }
     }
   }
 }`;
@@ -262,6 +281,7 @@ const updateContactsMutation = gql`mutation updateContacts(
     ) {
       data {
         _id
+        phoneVerified
         contacts {
           ...ContactsFragment
         }
@@ -291,10 +311,16 @@ const updateAddressMutation = gql`mutation updateAddress(
       postCode: $postCode,
       address: $address,
     ) {
-      success
+      data {
+        _id
+        address {
+          ...AddressFragment
+        } 
+      }
     }
   }
-}`;
+}
+${AddressFragment}`;
 
 const verifyPhoneMutation = gql`mutation verifyPhone(
   $playerUUID: String!,

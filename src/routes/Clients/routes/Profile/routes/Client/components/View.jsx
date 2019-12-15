@@ -72,7 +72,7 @@ class View extends Component {
       data: {
         profile: {
           updatePersonalInformation: {
-            success,
+            error,
           },
         }
       }
@@ -85,10 +85,12 @@ class View extends Component {
     });
 
     notify({
-      level: success ? 'success' : 'error',
+      level: error ? 'error' :'success',
       title: I18n.t('PLAYER_PROFILE.PROFILE.PERSONAL.TITLE'),
-      message: `${I18n.t('COMMON.ACTIONS.UPDATED')} ${success ? I18n.t('COMMON.ACTIONS.SUCCESSFULLY')
-        : I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY')}`,
+      message: `${I18n.t('COMMON.ACTIONS.UPDATED')} 
+      ${error 
+        ? I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY')
+        : I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
     });
   }
 
@@ -165,7 +167,7 @@ class View extends Component {
       data: {
         profile: {
           updateAddress: {
-            success,
+            error,
           }
         }
       }
@@ -176,12 +178,12 @@ class View extends Component {
     });
 
     this.context.addNotification({
-      level: success ? 'success' : 'error',
+      level: error ? 'error' : 'success',
       title: I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.TITLE'),
       message: `${I18n.t('COMMON.ACTIONS.UPDATED')}
-        ${success
-        ? I18n.t('COMMON.ACTIONS.SUCCESSFULLY')
-        : I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY')}`,
+        ${error
+        ? I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY')
+        : I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
     });
   };
 

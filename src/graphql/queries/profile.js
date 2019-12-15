@@ -1,6 +1,7 @@
 import gql from 'graphql-tag';
 import queryNames from 'constants/apolloQueryNames';
 import { ContactsFragment } from '../fragments/contacts';
+import { AddressFragment } from '../fragments/address';
 
 const newProfile = gql`query newProfile($playerUUID: String!){
   newProfile(playerUUID: $playerUUID) {
@@ -57,11 +58,7 @@ const newProfile = gql`query newProfile($playerUUID: String!){
         }
       },
       address {
-        address
-        city
-        countryCode
-        postCode
-        state
+        ...AddressFragment
       }
       affiliate {
         externalId
@@ -171,7 +168,9 @@ const newProfile = gql`query newProfile($playerUUID: String!){
     }
   }
 }
-${ContactsFragment}`;
+${ContactsFragment}
+${AddressFragment}  
+`;
 
 const clientsQuery = gql`query ${queryNames.clientsQuery}(
   $args: ClientSearchParams
