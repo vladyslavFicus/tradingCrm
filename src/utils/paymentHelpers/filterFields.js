@@ -38,6 +38,7 @@ const filterLabels = {
   creationTime: 'CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.CREATION_DATE_RANGE',
   modificationTime: 'CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.MODIFICATION_DATE_RANGE',
   accountType: 'CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.ACCOUNT_TYPE',
+  firstDeposit: 'PROFILE.LIST.FILTERS.FIRST_DEPOSIT',
 };
 
 const filterPlaceholders = {
@@ -60,7 +61,16 @@ const filterPlaceholders = {
   modificationTimeFrom: 'CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.START_DATE',
   modificationTimeTo: 'CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.END_DATE',
   accountType: 'COMMON.SELECT_OPTION.ANY',
+  firstDeposit: 'COMMON.SELECT_OPTION.ANY',
 };
+
+const firstDepositStatuses = [{
+  value: '1',
+  label: 'COMMON.YES',
+}, {
+  value: '0',
+  label: 'COMMON.NO',
+}];
 
 const currencyField = currencies => ({
   type: fieldTypes.SELECT,
@@ -229,6 +239,14 @@ export default ({
     placeholder: filterPlaceholders.accountType,
     className: fieldClassNames.SMALL,
     selectOptions: accountTypes.map(({ label, value }) => ({ value, label })),
+  },
+  {
+    type: fieldTypes.SELECT,
+    name: 'firstTimeDeposit',
+    label: filterLabels.firstDeposit,
+    placeholder: filterPlaceholders.firstDeposit,
+    className: fieldClassNames.SMALL,
+    selectOptions: firstDepositStatuses.map(({ value, label }) => ({ value, label })),
   },
   {
     type: fieldTypes.RANGE,

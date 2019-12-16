@@ -117,8 +117,9 @@ class PaymentFilterFields extends PureComponent {
       query: {
         filters: {
           ...data,
-          ...(statuses && { statuses }),
-          ...(data.originalAgents && { agentIds: data.originalAgents }),
+          ...data.firstTimeDeposit && { firstTimeDeposit: !!(+data.firstTimeDeposit) },
+          ...statuses && { statuses },
+          ...data.originalAgents && { agentIds: data.originalAgents },
         },
       },
     });
