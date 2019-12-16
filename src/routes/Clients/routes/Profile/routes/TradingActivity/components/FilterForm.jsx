@@ -50,6 +50,8 @@ class FilterForm extends Component {
     const variables = {
       ...values,
       ...(values.tradeId && { tradeId: Number(values.tradeId) }),
+      ...(values.volumeFrom && { volumeFrom: Number(values.volumeFrom) }),
+      ...(values.volumeTo && { volumeTo: Number(values.volumeTo) }),
     };
 
     this.props.onSubmit(variables);
@@ -166,7 +168,6 @@ class FilterForm extends Component {
           <Field
             name="volumeFrom"
             type="number"
-            parse={value => Number(value)}
             placeholder="0"
             component={InputField}
             disabled={disabled}
@@ -174,7 +175,6 @@ class FilterForm extends Component {
           <Field
             name="volumeTo"
             type="number"
-            parse={value => Number(value)}
             placeholder="0"
             component={InputField}
             disabled={disabled}
