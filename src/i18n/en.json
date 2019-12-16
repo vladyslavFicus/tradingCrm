@@ -879,6 +879,7 @@
         "PHONE": "Phone",
         "CONTACTS": "Contacts",
         "EMAIL": "E-mail",
+        "ADDITIONAL_EMAIL": "Additional E-mail",
         "FIRST_NAME": "First name",
         "GENDER": "Gender",
         "ID": "Profile ID",
@@ -916,7 +917,8 @@
         "CHANGE_LEVERAGE_REQUESTED": "Change leverage Request",
         "CHANGE_LEVERAGE_FROM": "Change leverage from",
         "CHANGE_LEVERAGE_TO": "Change leverage to",
-        "MT4LOGIN": "Mt4login"
+        "MT4LOGIN": "Mt4login",
+        "BANK_DETAILS": "Bank details"
       },
       "KYC_CONFIRMATION": {
         "TRANSACTION": "Transaction ID",
