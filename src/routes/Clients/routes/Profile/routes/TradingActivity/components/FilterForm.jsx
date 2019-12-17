@@ -169,6 +169,7 @@ class FilterForm extends Component {
             name="volumeFrom"
             type="number"
             placeholder="0"
+            step="0.01"
             component={InputField}
             disabled={disabled}
           />
@@ -176,6 +177,7 @@ class FilterForm extends Component {
             name="volumeTo"
             type="number"
             placeholder="0"
+            step="0.01"
             component={InputField}
             disabled={disabled}
           />

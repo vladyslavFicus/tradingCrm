@@ -255,6 +255,7 @@ export default (
     name: 'balanceRange.from',
     normalize: normalize.FLOAT,
     placeholder: '0.00',
+    step: '0.01',
     withoutI18n: true,
   }, {
     type: fieldTypes.INPUT,
@@ -262,6 +263,7 @@ export default (
     name: 'balanceRange.to',
     normalize: normalize.FLOAT,
     placeholder: '0.00',
+    step: '0.01',
     withoutI18n: true,
   }],
 }, {

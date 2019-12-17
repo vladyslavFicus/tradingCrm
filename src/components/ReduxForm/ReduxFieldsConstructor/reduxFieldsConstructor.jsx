@@ -30,6 +30,7 @@ const reduxFieldsConstructor = (
       inputAddon,
       onIconClick,
       normalize,
+      step,
       // select props
       multiple,
       searchable,
@@ -68,6 +69,7 @@ const reduxFieldsConstructor = (
               {...commonProps}
               id={id}
               type={inputType || 'text'}
+              step={step}
               component={components.INPUT}
               {...inputAddon && { inputAddon }}
               {...onIconClick && { onIconClick }}

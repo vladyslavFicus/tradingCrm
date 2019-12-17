@@ -274,6 +274,7 @@ class PaymentAddModal extends PureComponent {
                 type="number"
                 step="any"
                 placeholder="0.00"
+                step="0.01"
                 className="col-4"
                 normalize={floatNormalize}
                 inputAddon={sourceAccount && <Currency code={sourceAccount.currency} showSymbol={false} />}

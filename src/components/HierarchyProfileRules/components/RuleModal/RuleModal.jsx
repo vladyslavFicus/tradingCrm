@@ -117,12 +117,14 @@ class RuleModal extends PureComponent {
                     name="depositAmountFrom"
                     type="number"
                     placeholder="0.00"
+                    step="0.01"
                     component={InputField}
                   />
                   <Field
                     name="depositAmountTo"
                     type="number"
                     placeholder="0.00"
+                    step="0.01"
                     component={InputField}
                   />
                 </RangeGroup>
