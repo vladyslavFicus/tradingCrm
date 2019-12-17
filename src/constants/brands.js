@@ -55,6 +55,7 @@ const brands = keyMirror({
   '10cryptomarket': null,
   iconinvesting: null,
   royalsfx: null,
+  capitalfunds: null,
 });
 
 const departments = keyMirror({
@@ -293,6 +294,10 @@ const brandsConfig = {
   [brands.royalsfx]: {
     name: 'Royalsfx',
     image: { src: '/img/brand/choose-brand/royalsfx.svg' },
+  },
+  [brands.capitalfunds]: {
+    name: 'Capitalfunds',
+    image: { src: '/img/brand/choose-brand/capitalfunds.svg' },
   },
 };
 const departmentsConfig = {
