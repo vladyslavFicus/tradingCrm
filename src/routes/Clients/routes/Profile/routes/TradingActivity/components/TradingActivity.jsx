@@ -4,22 +4,17 @@ import I18n from 'i18n-js';
 import PropTypes from 'constants/propTypes';
 import GridView, { GridViewColumn } from 'components/GridView';
 import TabHeader from 'components/TabHeader';
-import history from 'router/history';
-import FilterForm from './FilterForm';
+import FilterFields from './FilterFields';
 import { columns } from '../constants';
 
 class TradingActivity extends Component {
   static propTypes = {
-    tradingAccounts: PropTypes.shape({
-      tradingAccount: PropTypes.object,
-    }).isRequired,
     tradingActivity: PropTypes.shape({
       loading: PropTypes.bool.isRequired,
       clientTradingActivity: PropTypes.shape({
         data: PropTypes.pageable(PropTypes.tradingActivity),
       }),
     }).isRequired,
-    operators: PropTypes.object.isRequired,
     modals: PropTypes.shape({
       changeOriginalAgentModal: PropTypes.modalType,
     }).isRequired,
@@ -42,23 +37,6 @@ class TradingActivity extends Component {
     }
   };
 
-  handleFilterReset = () => {
-    history.replace({
-      query: { filters: {} },
-    });
-  }
-
-  handleFiltersChanged = (filters = {}) => {
-    history.replace({
-      query: {
-        filters: {
-          ...filters,
-          ...filters.loginIds && { loginIds: filters.loginIds },
-        },
-      },
-    });
-  }
-
   showChangeOriginalAgentModal = (tradeId, agentId) => {
     const { tradingActivity, modals: { changeOriginalAgentModal } } = this.props;
 
@@ -72,27 +50,16 @@ class TradingActivity extends Component {
   render() {
     const {
       tradingActivity,
-      tradingActivity: { loading, variables },
-      tradingAccounts,
-      tradingAccounts: { loading: tradingAccountsLoading },
-      operators,
+      tradingActivity: { loading },
     } = this.props;
 
     const clientTradingActivity = get(tradingActivity, 'clientTradingActivity.data') || { content: [] };
-    const accounts = get(tradingAccounts, 'tradingAccount') || [];
     const error = get(tradingActivity, 'clientTradingActivity.error');
 
     return (
       <Fragment>
         <TabHeader title={I18n.t('CONSTANTS.TRANSACTIONS.ROUTES.TRADING_ACTIVITY')} />
-        <FilterForm
-          onSubmit={this.handleFiltersChanged}
-          onReset={this.handleFilterReset}
-          disabled={tradingAccountsLoading || false}
-          accounts={accounts}
-          operators={operators}
-          initialValues={{ tradeType: variables.tradeType }}
-        />
+        <FilterFields />
         <div className="tab-wrapper">
           <GridView
             dataSource={clientTradingActivity.content}

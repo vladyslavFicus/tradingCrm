@@ -1,8 +1,6 @@
-import { graphql, compose, withApollo } from 'react-apollo';
+import { graphql, compose } from 'react-apollo';
 import { get } from 'lodash';
-import { operatorsQuery } from 'graphql/queries/operators';
 import { tradingActivityQuery } from 'graphql/queries/tradingActivity';
-import { getTradingAccount } from 'graphql/queries/tradingAccount';
 import { withModals } from 'components/HighOrder';
 import TradingActivity from '../components/TradingActivity';
 import ChangeOriginalAgentModal from '../components/ChangeOriginalAgentModal';
@@ -10,24 +8,6 @@ import ChangeOriginalAgentModal from '../components/ChangeOriginalAgentModal';
 export default compose(
   withModals({
     changeOriginalAgentModal: ChangeOriginalAgentModal,
-  }),
-  withApollo,
-  graphql(operatorsQuery, {
-    name: 'operators',
-  }),
-  graphql(getTradingAccount, {
-    name: 'tradingAccounts',
-    options: ({
-      match: {
-        params: {
-          id: profileUUID,
-        },
-      },
-    }) => ({
-      variables: {
-        uuid: profileUUID,
-      },
-    }),
   }),
   graphql(tradingActivityQuery, {
     name: 'tradingActivity',
@@ -40,7 +20,6 @@ export default compose(
       location: { query },
     }) => ({
       variables: {
-        tradeType: 'LIVE',
         profileUUID,
         ...(query && query.filters),
         page: 0,
