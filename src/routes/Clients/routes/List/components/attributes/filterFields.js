@@ -140,6 +140,7 @@ export default (
   placeholder: (!branchesLoading && desks.length === 0)
     ? 'COMMON.SELECT_OPTION.NO_ITEMS'
     : 'COMMON.SELECT_OPTION.ANY',
+  multiple: true,
   className: fieldClassNames.MEDIUM,
   customOnChange: true,
   disabled: branchesLoading || desks.length === 0,
@@ -155,6 +156,7 @@ export default (
   placeholder: (!branchesLoading && teams.length === 0)
     ? 'COMMON.SELECT_OPTION.NO_ITEMS'
     : 'COMMON.SELECT_OPTION.ANY',
+  multiple: true,
   className: fieldClassNames.MEDIUM,
   customOnChange: true,
   disabled: branchesLoading || teams.length === 0,

@@ -73,7 +73,7 @@ class UserGridFilter extends Component {
   handleFieldChange = (fieldName, value, formChange, formValues) => {
     const { teams, operators } = this.props;
 
-    if (fieldName === fieldNames.desk) {
+    if (fieldName === fieldNames.desks) {
       let deskTeams = null;
       let isDeskSelected = false;
 
@@ -89,7 +89,7 @@ class UserGridFilter extends Component {
           ...(deskTeams && { teams: deskTeams }),
           isDeskSelected,
         },
-        value ? () => formChange(fieldNames.team, null) : null,
+        value ? () => formChange(fieldNames.teams, null) : null,
       );
     }
 
@@ -99,15 +99,15 @@ class UserGridFilter extends Component {
         break;
       }
       case (fieldName === fieldNames.teams
-        && this.isValueInForm(formValues, fieldNames.desk)
+        && this.isValueInForm(formValues, fieldNames.desks)
       ): {
-        this.filterOperators(formValues[fieldNames.desk], formChange);
+        this.filterOperators(formValues[fieldNames.desks], formChange);
         break;
       }
       case (fieldName === fieldNames.desks
-        && this.isValueInForm(formValues, fieldNames.team)
+        && this.isValueInForm(formValues, fieldNames.teams)
       ): {
-        this.filterOperators(formValues[fieldNames.team], formChange);
+        this.filterOperators(formValues[fieldNames.teams], formChange);
         break;
       }
       default: this.setState({ filteredOperators: operators });
