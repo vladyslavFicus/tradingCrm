@@ -1,7 +1,8 @@
-import { compose } from 'react-apollo';
+import { compose, graphql } from 'react-apollo';
 import { connect } from 'react-redux';
 import I18n from 'i18n-js';
 import { reduxForm, getFormValues } from 'redux-form';
+import { getManualPaymentMethods } from 'graphql/queries/payments';
 import { withPermission } from 'providers/PermissionsProvider';
 import { createValidator } from 'utils/validator';
 import { paymentMethods, attributeLabels } from './constants';
@@ -91,4 +92,7 @@ export default compose(
     validate: formValidation,
   }),
   withPermission,
+  graphql(getManualPaymentMethods, {
+    name: 'manualPaymentMethods',
+  }),
 )(PaymentAddModal);

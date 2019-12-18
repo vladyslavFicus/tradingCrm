@@ -1,5 +1,4 @@
 import React from 'react';
-import { uniq } from 'lodash';
 import {
   fieldTypes,
   fieldClassNames,
@@ -8,10 +7,7 @@ import {
 } from 'components/ReduxForm/ReduxFieldsConstructor';
 import { statuses as operatorsStasuses } from 'constants/operators';
 import {
-  methods,
-  methodsLabels,
-  manualPaymentMethods,
-  manualPaymentMethodsLabels,
+  allPaymentMethodsLabels,
   tradingTypes,
   tradingTypesLabelsWithColor,
   aggregators,
@@ -97,11 +93,13 @@ const countryField = {
 
 export default ({
   currencies,
+  desks,
+  teams,
+  disabledHierarchy,
   originalAgents,
   disabledOriginalAgents,
-  disabledBranches,
-  teams,
-  desks,
+  paymentMethods,
+  disabledPaymentMethods,
 }, isClientView) => [
   {
     type: fieldTypes.INPUT,
@@ -145,25 +143,11 @@ export default ({
     placeholder: filterPlaceholders.paymentMethods,
     multiple: true,
     className: fieldClassNames.MEDIUM,
-    selectOptions: uniq([
-      ...Object.keys(methods),
-      ...Object.keys(manualPaymentMethods),
-    ]).map((method) => {
-      let label = method;
-
-      if (methodsLabels[method]) {
-        label = methodsLabels[method];
-      }
-
-      if (manualPaymentMethodsLabels[method]) {
-        label = manualPaymentMethodsLabels[method];
-      }
-
-      return {
-        value: method,
-        label,
-      };
-    }).sort(({ value: a }, { value: b }) => (a > b ? 1 : -1)),
+    disabled: disabledPaymentMethods,
+    selectOptions: paymentMethods.map(method => ({
+      value: method,
+      label: allPaymentMethodsLabels[method],
+    })),
   },
   {
     type: fieldTypes.SELECT,
@@ -182,13 +166,13 @@ export default ({
     name: 'desks',
     label: filterLabels.desks,
     placeholder:
-      !disabledBranches && desks.length === 0
+      !disabledHierarchy && desks.length === 0
         ? filterPlaceholders.desksDisabled
         : filterPlaceholders.desks,
     className: fieldClassNames.MEDIUM,
     multiple: true,
     customOnChange: true,
-    disabled: disabledBranches || desks.length === 0,
+    disabled: disabledHierarchy || desks.length === 0,
     selectOptions: desks.map(({ uuid, name }) => ({
       value: uuid,
       label: name,
@@ -200,13 +184,13 @@ export default ({
     name: 'teams',
     label: filterLabels.teams,
     placeholder:
-      !disabledBranches && teams.length === 0
+      !disabledHierarchy && teams.length === 0
         ? filterPlaceholders.teamsDisabled
         : filterPlaceholders.teams,
     className: fieldClassNames.MEDIUM,
     multiple: true,
     customOnChange: true,
-    disabled: disabledBranches || teams.length === 0,
+    disabled: disabledHierarchy || teams.length === 0,
     selectOptions: teams.map(({ uuid, name }) => ({
       value: uuid,
       label: name,

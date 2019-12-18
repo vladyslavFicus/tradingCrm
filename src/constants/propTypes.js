@@ -518,7 +518,7 @@ PropTypes.hierarchyBranch = PropTypes.shape({
   name: PropTypes.string.isRequired,
   country: PropTypes.string,
   defaultUser: PropTypes.string,
-  parentBranches: PropTypes.arrayOf(PropTypes.string),
+  parentBranches: PropTypes.arrayOf(PropTypes.string), // TODO: need check out this field
   deskType: PropTypes.string,
   language: PropTypes.string,
   defaultBranch: PropTypes.string,
@@ -805,5 +805,6 @@ PropTypes.newProfile = PropTypes.shape({
   }),
   uuid: PropTypes.string,
 });
+PropTypes.paymentMethods = PropTypes.arrayOf(PropTypes.string);
 
 export default PropTypes;

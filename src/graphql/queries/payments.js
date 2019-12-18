@@ -210,9 +210,28 @@ const getOperatorPaymentMethods = gql`query getOperatorPaymentMethods {
   } 
 }`;
 
+const getPaymentMethods = gql`query getPaymentMethods {
+  paymentMethods {
+    data
+    error {
+      error
+    }
+  }
+}`;
+
+const getManualPaymentMethods = gql` query getManualPaymentMethods {
+  manualPaymentMethods {
+    data
+    error {
+      error
+    }
+  }
+}`;
 
 export {
   getClientPayments,
   getClientPaymentsByUuid,
   getOperatorPaymentMethods,
+  getPaymentMethods,
+  getManualPaymentMethods,
 };

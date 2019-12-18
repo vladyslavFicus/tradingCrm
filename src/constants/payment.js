@@ -41,6 +41,7 @@ const methods = keyMirror({
   PAYPAL: null,
   PAYTRIO: null,
   SKRILL: null,
+  CASHIER: null,
 });
 
 const aggregators = keyMirror({
@@ -199,11 +200,11 @@ const methodsLabels = {
   [methods.PAYPAL]: 'CONSTANTS.PAYMENT.PAYMENT_METHODS.PAYPAL',
   [methods.CREDIT_CARD]: 'CONSTANTS.PAYMENT.PAYMENT_METHODS.CREDIT_CARD',
   [methods.PAYTRIO]: 'CONSTANTS.PAYMENT.PAYMENT_METHODS.PAYTRIO',
+  [methods.CASHIER]: 'CONSTANTS.PAYMENT.PAYMENT_METHODS.CASHIER',
   // [methods.B2CRYPTO]: 'CONSTANTS.PAYMENT.PAYMENT_METHODS.B2CRYPTO',
   // [methods.PAYRETAILERS]: 'CONSTANTS.PAYMENT.PAYMENT_METHODS.PAYRETAILERS',
   // [methods.WIRECAPITAL]: 'CONSTANTS.PAYMENT.PAYMENT_METHODS.WIRECAPITAL',
   // [methods.EFTPAY]: 'CONSTANTS.PAYMENT.PAYMENT_METHODS.EFTPAY',
-  // [methods.CASHIER]: 'CONSTANTS.PAYMENT.PAYMENT_METHODS.CASHIER',
 };
 
 const aggregatorsLabels = {
@@ -223,6 +224,11 @@ const manualPaymentMethodsLabels = {
   [manualPaymentMethods.PAYRETAILERS]: 'CONSTANTS.TRANSACTIONS.FILTER_FORM.PAYMENT_ACCOUNTS.PAYRETAILERS',
   [manualPaymentMethods.RECALL]: 'CONSTANTS.TRANSACTIONS.FILTER_FORM.PAYMENT_ACCOUNTS.RECALL',
   [manualPaymentMethods.CHARGEBACK]: 'CONSTANTS.TRANSACTIONS.FILTER_FORM.PAYMENT_ACCOUNTS.CHARGEBACK',
+};
+
+const allPaymentMethodsLabels = {
+  ...methodsLabels,
+  ...manualPaymentMethodsLabels,
 };
 
 const methodsStatusesLabels = {
@@ -269,6 +275,7 @@ export {
   customTypesProps,
   aggregatorsLabels,
   manualPaymentMethodsLabels,
+  allPaymentMethodsLabels,
   statusesColor,
   methodStatusesColor,
   methodStatusActions,

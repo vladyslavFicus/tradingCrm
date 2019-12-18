@@ -1014,7 +1014,8 @@
         "PAYRETAILERS": "Pay Retailers",
         "WIRECAPITAL": "Wirecapital",
         "EFTPAY": "EFTPay",
-        "PAYTRIO": "Paytrio"
+        "PAYTRIO": "Paytrio",
+        "CASHIER": "Cashier"
       },
       "PAYMENT_AGGREGATORS": {
         "CASHIER": "Cashier",

@@ -5,8 +5,7 @@ import I18n from 'i18n-js';
 import classNames from 'classnames';
 import {
   statuses,
-  methodsLabels,
-  manualPaymentMethodsLabels,
+  allPaymentMethodsLabels,
   aggregatorsLabels,
   tradingTypesLabelsWithColor,
 } from 'constants/payment';
@@ -88,18 +87,11 @@ export default onActionSuccess => [{
       <Otherwise>
         <div className="font-weight-700">
           <Choose>
-            <When condition={methodsLabels[paymentMethod]}>
-              {I18n.t(methodsLabels[paymentMethod])}
+            <When condition={allPaymentMethodsLabels[paymentMethod]}>
+              {I18n.t(allPaymentMethodsLabels[paymentMethod])}
             </When>
             <Otherwise>
-              <Choose>
-                <When condition={manualPaymentMethodsLabels[paymentMethod]}>
-                  {I18n.t(manualPaymentMethodsLabels[paymentMethod])}
-                </When>
-                <Otherwise>
-                  <div>&mdash;</div>
-                </Otherwise>
-              </Choose>
+              <div>&mdash;</div>
             </Otherwise>
           </Choose>
         </div>

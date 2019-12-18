@@ -8,9 +8,7 @@ import { Field, reduxForm } from 'redux-form';
 import permissions from 'config/permissions';
 import PropTypes from 'constants/propTypes';
 import {
-  methodsLabels,
-  manualPaymentMethodsLabels,
-  manualPaymentMethods,
+  allPaymentMethodsLabels,
   tradingTypes as paymentsTypes,
   tradingTypes,
   statusMapper,
@@ -58,6 +56,13 @@ class PaymentDetailModal extends PureComponent {
     changePaymentStatus: PropTypes.func.isRequired,
     permission: PropTypes.shape({
       permissions: PropTypes.arrayOf(PropTypes.string).isRequired,
+    }).isRequired,
+    manualPaymentMethods: PropTypes.shape({
+      manualPaymentMethods: PropTypes.shape({
+        data: PropTypes.paymentMethods,
+        error: PropTypes.object,
+      }),
+      loading: PropTypes.bool.isRequired,
     }).isRequired,
   };
 
@@ -199,7 +204,14 @@ class PaymentDetailModal extends PureComponent {
       handleSubmit,
       invalid,
       submitting,
+      manualPaymentMethods: {
+        manualPaymentMethods,
+        loading: manualMethodsLoading,
+      },
     } = this.props;
+
+    const manualMethods = get(manualPaymentMethods, 'data', []);
+    const manualMethodsError = get(manualPaymentMethods, 'error');
 
     const isWithdraw = paymentType === paymentsTypes.WITHDRAW;
     const profile = get(newProfile, 'data') || null;
@@ -294,18 +306,11 @@ class PaymentDetailModal extends PureComponent {
                   </div>
                   <div className="modal-footer-tabs__amount">
                     <Choose>
-                      <When condition={methodsLabels[paymentMethod]}>
-                        {I18n.t(methodsLabels[paymentMethod])}
+                      <When condition={allPaymentMethodsLabels[paymentMethod]}>
+                        {I18n.t(allPaymentMethodsLabels[paymentMethod])}
                       </When>
                       <Otherwise>
-                        <Choose>
-                          <When condition={manualPaymentMethodsLabels[paymentMethod]}>
-                            {I18n.t(manualPaymentMethodsLabels[paymentMethod])}
-                          </When>
-                          <Otherwise>
-                            <div>&mdash;</div>
-                          </Otherwise>
-                        </Choose>
+                        <div>&mdash;</div>
                       </Otherwise>
                     </Choose>
                   </div>
@@ -348,10 +353,14 @@ class PaymentDetailModal extends PureComponent {
                       component={NasSelectField}
                       name="paymentMethod"
                       placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
+                      disabled={manualMethodsLoading || manualMethodsError}
                     >
-                      {Object.values(manualPaymentMethods).map(item => (
+                      {manualMethods.map(item => (
                         <option key={item} value={item}>
-                          {I18n.t(manualPaymentMethodsLabels[item])}
+                          {allPaymentMethodsLabels[item]
+                            ? I18n.t(allPaymentMethodsLabels[item])
+                            : item
+                          }
                         </option>
                       ))}
                     </Field>
@@ -375,7 +384,11 @@ class PaymentDetailModal extends PureComponent {
                     </Button>
                   </If>
                   <If condition={paymentType === tradingTypes.WITHDRAW && statusMapper.PENDING.includes(status)}>
-                    <ApproveForm onSubmit={this.onSubmit} />
+                    <ApproveForm
+                      onSubmit={this.onSubmit}
+                      manualMethods={manualMethods}
+                      disabled={manualMethodsLoading || manualMethodsError}
+                    />
                     <RejectForm onSubmit={this.onSubmit} />
                   </If>
                 </div>

@@ -1,5 +1,3 @@
-/* eslint-disable */
-
 import React, { PureComponent } from 'react';
 import { Field } from 'redux-form';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
@@ -10,7 +8,7 @@ import Badge from 'components/Badge';
 import NoteButton from 'components/NoteButton';
 import PropTypes from 'constants/propTypes';
 import { targetTypes } from 'constants/note';
-import { manualPaymentMethods, manualPaymentMethodsLabels } from 'constants/payment';
+import { manualPaymentMethodsLabels } from 'constants/payment';
 import { accountTypesLabels } from 'constants/accountTypes';
 import { InputField, NasSelectField, DateTimeField } from 'components/ReduxForm';
 import Currency from 'components/Amount/Currency';
@@ -37,6 +35,16 @@ class PaymentAddModal extends PureComponent {
     error: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.string, PropTypes.object])),
     reset: PropTypes.func.isRequired,
     change: PropTypes.func.isRequired,
+    permission: PropTypes.shape({
+      permissions: PropTypes.arrayOf(PropTypes.string).isRequired,
+    }).isRequired,
+    manualPaymentMethods: PropTypes.shape({
+      manualPaymentMethods: PropTypes.shape({
+        data: PropTypes.paymentMethods,
+        error: PropTypes.object,
+      }),
+      loading: PropTypes.bool.isRequired,
+    }).isRequired,
   };
 
   static defaultProps = {
@@ -145,19 +153,17 @@ class PaymentAddModal extends PureComponent {
         singleOptionComponent={this.renderMt4SelectOption(name)}
       >
         {tradingAccount
-          .filter(
-            account => {
-              return !account.archived && !(
-                account.accountType === 'DEMO'
-                  && [
-                    paymentMethods.CREDIT_IN.name,
-                    paymentMethods.CREDIT_OUT.name,
-                    paymentMethods.TRANSFER.name,
-                    paymentMethods.WITHDRAW.name,
-                  ].includes(paymentType)
-                )
-            }
-          )
+          .filter(account => (
+            !account.archived && !(
+              account.accountType === 'DEMO'
+                && [
+                  paymentMethods.CREDIT_IN.name,
+                  paymentMethods.CREDIT_OUT.name,
+                  paymentMethods.TRANSFER.name,
+                  paymentMethods.WITHDRAW.name,
+                ].includes(paymentType)
+            )
+          ))
           .map(account => (
             <option key={account.accountUUID} value={account.accountUUID} mt4={account}>
               {`${account.login}`}
@@ -175,14 +181,21 @@ class PaymentAddModal extends PureComponent {
       submitting,
       invalid,
       newProfile: {
-        uuid
+        uuid,
       },
       permission: {
-        permissions
+        permissions,
       },
       currentValues,
       error: errors,
+      manualPaymentMethods: {
+        manualPaymentMethods,
+        loading: manualMethodsLoading,
+      },
     } = this.props;
+
+    const manualMethods = get(manualPaymentMethods, 'data', []);
+    const manualMethodsError = get(manualPaymentMethods, 'error');
 
     const sourceAccount = this.getSourceAccount(currentValues);
 
@@ -233,17 +246,21 @@ class PaymentAddModal extends PureComponent {
                     className="col select-field-wrapper"
                     searchable={false}
                     showErrorMessage={false}
+                    disabled={manualMethodsLoading || manualMethodsError}
                   >
-                    {Object.values(manualPaymentMethods).map(item => (
+                    {manualMethods.map(item => (
                       <option key={item} value={item}>
-                        {I18n.t(manualPaymentMethodsLabels[item])}
+                        {manualPaymentMethodsLabels[item]
+                          ? I18n.t(manualPaymentMethodsLabels[item])
+                          : item
+                        }
                       </option>
                     ))}
                   </Field>
                   <div className="col-auto arrow-icon-wrapper">
                     <i className="icon-arrow-down" />
                   </div>
-                  {this.renderMt4SelectField('toMt4Acc')} 
+                  {this.renderMt4SelectField('toMt4Acc')}
                 </When>
 
                 <When condition={currentValues.paymentType === paymentMethods.WITHDRAW.name}>

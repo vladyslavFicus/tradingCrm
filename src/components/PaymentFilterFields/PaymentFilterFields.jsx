@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import { get } from 'lodash';
 import PropTypes from 'constants/propTypes';
 import history from 'router/history';
 import { getActiveBrandConfig } from 'config';
@@ -9,12 +10,32 @@ import { filterFields } from 'utils/paymentHelpers';
 
 class PaymentFilterFields extends PureComponent {
   static propTypes = {
-    desks: PropTypes.arrayOf(PropTypes.hierarchyBranch).isRequired,
-    teams: PropTypes.arrayOf(PropTypes.hierarchyBranch).isRequired,
-    disabledBranches: PropTypes.bool.isRequired,
-    originalAgents: PropTypes.arrayOf(PropTypes.paymentOriginalAgent)
-      .isRequired,
-    disabledOriginalAgents: PropTypes.bool.isRequired,
+    hierarchy: PropTypes.shape({
+      hierarchy: PropTypes.shape({
+        data: PropTypes.shape({
+          TEAM: PropTypes.arrayOf(PropTypes.hierarchyBranch).isRequired,
+          DESK: PropTypes.arrayOf(PropTypes.hierarchyBranch).isRequired,
+        }),
+        error: PropTypes.object,
+      }),
+      loading: PropTypes.bool.isRequired,
+    }).isRequired,
+    operators: PropTypes.shape({
+      operators: PropTypes.shape({
+        data: PropTypes.shape({
+          content: PropTypes.operatorsList.isRequired,
+        }),
+        error: PropTypes.object,
+      }),
+      loading: PropTypes.bool.isRequired,
+    }).isRequired,
+    paymentMethods: PropTypes.shape({
+      paymentMethods: PropTypes.shape({
+        data: PropTypes.paymentMethods,
+        error: PropTypes.object,
+      }),
+      loading: PropTypes.bool.isRequired,
+    }).isRequired,
     accountType: PropTypes.string,
     isClientView: PropTypes.bool,
   };
@@ -25,24 +46,29 @@ class PaymentFilterFields extends PureComponent {
   };
 
   state = {
-    teams: null,
-    originalAgents: null,
-    disabledOriginalAgents: false,
+    filteredTeams: null,
+    filteredAgents: null,
+    disabledFilteredAgents: false,
   };
 
   filterOriginalAgents = async (value, formChange) => {
-    const { client, originalAgents } = this.props;
+    const {
+      client,
+      operators: { operators },
+    } = this.props;
+
+    const originalAgents = get(operators, 'data.content', []);
 
     formChange('originalAgents', null);
 
     this.setState({
-      disabledOriginalAgents: true,
+      disabledFilteredAgents: true,
     });
 
     const {
       data: {
         hierarchy: {
-          usersByBranch: { data, error: originalAgentsError },
+          usersByBranch: { data, error: filteredAgentsError },
         },
       },
     } = await client.query({
@@ -52,20 +78,21 @@ class PaymentFilterFields extends PureComponent {
 
     const fetchedUUIDs = (data && data.map(({ uuid }) => uuid)) || [];
 
-    const filteredOriginalAgents = originalAgents.filter(
+    const filteredAgents = originalAgents.filter(
       originalAgent => fetchedUUIDs.indexOf(originalAgent.uuid) !== -1,
     );
 
     this.setState({
-      originalAgents: filteredOriginalAgents,
-      disabledOriginalAgents: !!originalAgentsError,
+      filteredAgents,
+      disabledFilteredAgents: !!filteredAgentsError,
     });
   };
 
   isValueInForm = (formValues, field) => !!(formValues && formValues[field]);
 
   syncBranchFilter = (fieldName, value, formChange, formValues) => {
-    const { teams, originalAgents } = this.props;
+    const { hierarchy: { hierarchy } } = this.props;
+    const teams = get(hierarchy, 'userBranchHierarchy.data.TEAM', []);
 
     if (fieldName === 'desks') {
       let filteredTeams = null;
@@ -77,9 +104,7 @@ class PaymentFilterFields extends PureComponent {
       }
 
       this.setState(
-        {
-          ...(filteredTeams && { teams: filteredTeams }),
-        },
+        { filteredTeams },
         value ? () => formChange('teams', null) : null,
       );
     }
@@ -100,7 +125,7 @@ class PaymentFilterFields extends PureComponent {
         break;
       }
       default:
-        this.setState({ originalAgents });
+        this.setState({ filteredAgents: null });
     }
 
     formChange(fieldName, value || null);
@@ -128,9 +153,9 @@ class PaymentFilterFields extends PureComponent {
   handleFormReset = () => {
     this.setState(
       {
-        teams: null,
-        originalAgents: null,
-        disabledOriginalAgents: false,
+        filteredTeams: null,
+        filteredAgents: null,
+        disabledFilteredAgents: false,
       },
       () => history.replace({}),
     );
@@ -138,20 +163,38 @@ class PaymentFilterFields extends PureComponent {
 
   render() {
     const {
-      desks,
-      teams,
-      disabledBranches,
-      originalAgents,
-      disabledOriginalAgents,
+      hierarchy: {
+        hierarchy,
+        loading: hierarchyLoading,
+      },
+      operators: {
+        operators,
+        loading: originalAgentsLoading,
+      },
+      paymentMethods: {
+        paymentMethods,
+        loading: methodsLoading,
+      },
       accountType,
       isClientView,
     } = this.props;
 
     const {
-      teams: filteredTeams,
-      originalAgents: filteredOriginalAgents,
-      disabledOriginalAgents: disabledFilteredOriginalAgents,
+      filteredTeams,
+      filteredAgents,
+      disabledFilteredAgents,
     } = this.state;
+
+    const teams = get(hierarchy, 'userBranchHierarchy.data.TEAM', []);
+    const desks = get(hierarchy, 'userBranchHierarchy.data.DESK', []);
+    const hierarchyError = get(hierarchy, 'userBranchHierarchy.error');
+    const disabledHierarchy = hierarchyLoading || hierarchyError;
+    const originalAgents = get(operators, 'data.content', []);
+    const originalAgentsError = get(operators, 'error');
+    const disabledOriginalAgents = originalAgentsLoading || originalAgentsError || disabledFilteredAgents;
+    const methods = get(paymentMethods, 'data', []);
+    const methodsError = get(paymentMethods, 'error');
+    const disabledPaymentMethods = methodsLoading || methodsError;
 
     const currencies = getActiveBrandConfig().currencies.supported;
 
@@ -162,12 +205,13 @@ class PaymentFilterFields extends PureComponent {
         initialValues={{ accountType }}
         fields={filterFields({
           currencies,
-          disabledBranches,
           desks,
           teams: filteredTeams || teams,
-          originalAgents: filteredOriginalAgents || originalAgents,
-          disabledOriginalAgents:
-            disabledFilteredOriginalAgents || disabledOriginalAgents,
+          disabledHierarchy,
+          originalAgents: filteredAgents || originalAgents,
+          disabledOriginalAgents,
+          paymentMethods: methods,
+          disabledPaymentMethods,
         }, isClientView)}
         onFieldChange={this.syncBranchFilter}
       />

@@ -11,9 +11,8 @@ import GridPlayerInfo from 'components/GridPlayerInfo';
 import CountryLabelWithFlag from 'components/CountryLabelWithFlag';
 import PaymentStatus from 'components/PaymentStatus';
 import {
-  methodsLabels,
   tradingTypesLabelsWithColor,
-  manualPaymentMethodsLabels,
+  allPaymentMethodsLabels,
   aggregatorsLabels,
 } from '../../constants/payment';
 
@@ -178,18 +177,11 @@ export default ({
       <Otherwise>
         <div className="font-weight-700">
           <Choose>
-            <When condition={methodsLabels[paymentMethod]}>
-              {I18n.t(methodsLabels[paymentMethod])}
+            <When condition={allPaymentMethodsLabels[paymentMethod]}>
+              {I18n.t(allPaymentMethodsLabels[paymentMethod])}
             </When>
             <Otherwise>
-              <Choose>
-                <When condition={manualPaymentMethodsLabels[paymentMethod]}>
-                  {I18n.t(manualPaymentMethodsLabels[paymentMethod])}
-                </When>
-                <Otherwise>
-                  <div>{paymentMethod}</div>
-                </Otherwise>
-              </Choose>
+              {paymentMethod}
             </Otherwise>
           </Choose>
         </div>
