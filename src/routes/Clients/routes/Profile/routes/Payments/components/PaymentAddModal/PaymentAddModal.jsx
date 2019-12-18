@@ -289,7 +289,6 @@ class PaymentAddModal extends PureComponent {
                 name="amount"
                 label={attributeLabels.amount}
                 type="number"
-                step="any"
                 placeholder="0.00"
                 step="0.01"
                 className="col-4"
