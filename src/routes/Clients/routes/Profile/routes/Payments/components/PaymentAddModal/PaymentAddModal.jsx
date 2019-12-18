@@ -208,11 +208,9 @@ class PaymentAddModal extends PureComponent {
         <ModalBody tag="form" id="new-transaction" className="container-fluid" onSubmit={handleSubmit(this.onSubmit)}>
 
           <If condition={errors.length}>
-            <For each="error" index="index" of={errors}>
-              <div key={index} className="alert alert-warning">
-                {I18n.t(get(error, 'error') ? error.error : error)}
-              </div>
-            </For>
+            <div className="alert alert-warning">
+              {I18n.t('error.internal')}
+            </div>
           </If>
 
           <Field
