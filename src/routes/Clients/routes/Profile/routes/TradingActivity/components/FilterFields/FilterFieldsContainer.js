@@ -2,8 +2,7 @@ import { graphql, compose } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
 import { operatorsQuery } from 'graphql/queries/operators';
 import { getTradingAccount } from 'graphql/queries/tradingAccount';
-// TODO: fix issue with file extension below
-import FilterFields from './FilterFields.jsx';
+import FilterFields from './FilterFields';
 
 export default compose(
   withRouter,
