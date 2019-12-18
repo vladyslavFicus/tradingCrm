@@ -56,6 +56,7 @@ const brands = keyMirror({
   iconinvesting: null,
   royalsfx: null,
   capitalfunds: null,
+  zurichtradefinco: null,
 });
 
 const departments = keyMirror({
@@ -298,6 +299,10 @@ const brandsConfig = {
   [brands.capitalfunds]: {
     name: 'Capitalfunds',
     image: { src: '/img/brand/choose-brand/capitalfunds.svg' },
+  },
+  [brands.zurichtradefinco]: {
+    name: 'Zurichtradefinco',
+    image: { src: '/img/brand/choose-brand/zurichtradefinco.svg' },
   },
 };
 const departmentsConfig = {
