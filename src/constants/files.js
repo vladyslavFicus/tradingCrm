@@ -14,9 +14,9 @@ const categories = keyMirror({
 
 const categoriesLabels = {
   [categories.KYC_ADDRESS]: 'FILES.CATEGORIES.KYC_ADDRESS',
+  [categories.PAYMENT_ACCOUNT]: 'FILES.CATEGORIES.KYC_PAYMENT_ACCOUNT',
   [categories.KYC_PERSONAL]: 'FILES.CATEGORIES.KYC_PERSONAL',
   [categories.OTHER]: 'FILES.CATEGORIES.KYC_OTHER',
-  [categories.PAYMENT_ACCOUNT]: 'FILES.CATEGORIES.KYC_PAYMENT_ACCOUNT',
 };
 
 const statuses = keyMirror({

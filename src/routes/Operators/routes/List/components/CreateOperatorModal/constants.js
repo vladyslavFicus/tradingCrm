@@ -93,7 +93,7 @@ const formFields = ({
   searchable: false,
   className: 'col-md-6',
   selectOptions: Object
-    .keys(departmentsRoles)
+    .keys(departmentsRoles).sort()
     .map(value => ({ value, label: renderLabel(value, departmentsLabels) })),
 }, {
   type: fieldTypes.SELECT,

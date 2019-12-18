@@ -20,13 +20,13 @@ const leadStatuses = {
 };
 
 const leadAccountStatuses = {
-  [statuses.NEW]: {
-    label: 'LEADS.STATUSES.NEW',
-    value: statuses.NEW,
-  },
   [statuses.CONVERTED]: {
     label: 'LEADS.STATUSES.CONVERTED',
     value: statuses.CONVERTED,
+  },
+  [statuses.NEW]: {
+    label: 'LEADS.STATUSES.NEW',
+    value: statuses.NEW,
   },
 };
 
