@@ -20,6 +20,10 @@ class FilterForm extends Component {
     }).isRequired,
   };
 
+  componentWillUnmount() {
+    this.handleFilterReset();
+  }
+
   handleApplyFilters = (values) => {
     history.replace({
       query: {

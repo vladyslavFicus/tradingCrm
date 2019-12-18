@@ -57,7 +57,7 @@ class PaymentFilterFields extends PureComponent {
       operators: { operators },
     } = this.props;
 
-    const originalAgents = get(operators, 'data.content', []);
+    const originalAgents = get(operators, 'data.content') || [];
 
     formChange('originalAgents', null);
 
@@ -92,7 +92,7 @@ class PaymentFilterFields extends PureComponent {
 
   syncBranchFilter = (fieldName, value, formChange, formValues) => {
     const { hierarchy: { hierarchy } } = this.props;
-    const teams = get(hierarchy, 'userBranchHierarchy.data.TEAM', []);
+    const teams = get(hierarchy, 'userBranchHierarchy.data.TEAM') || [];
 
     if (fieldName === 'desks') {
       let filteredTeams = null;
@@ -185,14 +185,14 @@ class PaymentFilterFields extends PureComponent {
       disabledFilteredAgents,
     } = this.state;
 
-    const teams = get(hierarchy, 'userBranchHierarchy.data.TEAM', []);
-    const desks = get(hierarchy, 'userBranchHierarchy.data.DESK', []);
+    const teams = get(hierarchy, 'userBranchHierarchy.data.TEAM') || [];
+    const desks = get(hierarchy, 'userBranchHierarchy.data.DESK') || [];
     const hierarchyError = get(hierarchy, 'userBranchHierarchy.error');
     const disabledHierarchy = hierarchyLoading || hierarchyError;
-    const originalAgents = get(operators, 'data.content', []);
+    const originalAgents = get(operators, 'data.content') || [];
     const originalAgentsError = get(operators, 'error');
     const disabledOriginalAgents = originalAgentsLoading || originalAgentsError || disabledFilteredAgents;
-    const methods = get(paymentMethods, 'data', []);
+    const methods = get(paymentMethods, 'data') || [];
     const methodsError = get(paymentMethods, 'error');
     const disabledPaymentMethods = methodsLoading || methodsError;
 

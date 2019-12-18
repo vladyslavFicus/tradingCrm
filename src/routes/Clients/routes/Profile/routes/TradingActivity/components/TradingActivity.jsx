@@ -20,10 +20,6 @@ class TradingActivity extends Component {
     }).isRequired,
   };
 
-  componentWillUnmount() {
-    this.handleFilterReset();
-  }
-
   handlePageChanged = () => {
     const {
       tradingActivity: {

@@ -62,6 +62,12 @@ class FeedFilterForm extends Component {
       invalid,
     } = this.props;
 
+    const sortedActionTypes = availableTypes.map(type => ({
+      key: type,
+      value: I18n.t(renderLabel(type, typesLabels)),
+    }))
+      .sort(({ value: a }, { value: b }) => (a > b ? 1 : -1));
+
     return (
       <form className="filter-row" onSubmit={handleSubmit(onSubmit)}>
         <Field
@@ -80,10 +86,8 @@ class FeedFilterForm extends Component {
           className="filter-row__medium"
         >
           <option value="">{I18n.t('COMMON.ALL_ACTIONS')}</option>
-          {availableTypes.map(type => (
-            <option key={type} value={type}>
-              {I18n.t(renderLabel(type, typesLabels))}
-            </option>
+          {sortedActionTypes.map(({ key, value }) => (
+            <option key={key} value={key}>{value}</option>
           ))}
         </Field>
         <RangeGroup

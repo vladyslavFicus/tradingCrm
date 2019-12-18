@@ -194,7 +194,7 @@ class PaymentAddModal extends PureComponent {
       },
     } = this.props;
 
-    const manualMethods = get(manualPaymentMethods, 'data', []);
+    const manualMethods = get(manualPaymentMethods, 'data') || [];
     const manualMethodsError = get(manualPaymentMethods, 'error');
 
     const sourceAccount = this.getSourceAccount(currentValues);

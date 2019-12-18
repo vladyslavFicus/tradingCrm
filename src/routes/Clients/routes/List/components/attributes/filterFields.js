@@ -81,11 +81,11 @@ const kycStatuses = [
 ];
 
 const firstDepositStatuses = [{
-  value: '1',
-  label: 'COMMON.YES',
-}, {
   value: '0',
   label: 'COMMON.NO',
+}, {
+  value: '1',
+  label: 'COMMON.YES',
 }];
 
 export const fieldNames = keyMirror({
