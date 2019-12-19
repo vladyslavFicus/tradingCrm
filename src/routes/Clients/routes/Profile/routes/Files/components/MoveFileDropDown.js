@@ -8,14 +8,23 @@ class MoveFileDropDown extends Component {
     onMoveChange: PropTypes.func.isRequired,
     categories: PropTypes.object.isRequired,
     uuid: PropTypes.string.isRequired,
+    verificationType: PropTypes.string.isRequired,
+    documentType: PropTypes.string.isRequired,
   };
 
   state = {
-    currentValue: '',
+    currentValue: JSON.stringify({
+      verificationType: this.props.verificationType,
+      documentType: this.props.documentType,
+    }),
   };
 
   render() {
-    const { categories, onMoveChange, uuid } = this.props;
+    const {
+      categories,
+      onMoveChange,
+      uuid,
+    } = this.props;
     const { currentValue } = this.state;
 
     return (
@@ -32,7 +41,7 @@ class MoveFileDropDown extends Component {
           .map(([key, value]) => (value.map(item => (
             <option
               key={`${uuid}-${key}-${item}`}
-              value={JSON.stringify({ verificationType: key, documentType: item, uuid })}
+              value={JSON.stringify({ verificationType: key, documentType: item })}
             >
               {`${I18n.t(`FILES.CATEGORIES.${key}`)} > ${I18n.t(`FILES.DOCUMENT_TYPES.${item}`)}`}
             </option>

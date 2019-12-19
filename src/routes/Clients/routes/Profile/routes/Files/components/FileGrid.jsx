@@ -41,7 +41,7 @@ class FileGrid extends Component {
     this.props.onStatusActionClick(verificationType, documentType, value);
   }
 
-  onVerificationTypeChange = ({ uuid, verificationType, documentType }) => {
+  onVerificationTypeChange = uuid => ({ verificationType, documentType }) => {
     this.props.onVrificationTypeActionClick(uuid, verificationType, documentType);
   }
 
@@ -94,10 +94,16 @@ class FileGrid extends Component {
   }
 
   renderChangeVerificationType = ({ uuid }) => {
-    const { categories } = this.props;
+    const { categories, verificationType, documentType } = this.props;
 
     return (
-      <MoveFileDropDown onMoveChange={this.onVerificationTypeChange} categories={categories} uuid={uuid} />
+      <MoveFileDropDown
+        onMoveChange={this.onVerificationTypeChange(uuid)}
+        categories={categories}
+        uuid={uuid}
+        verificationType={verificationType}
+        documentType={documentType}
+      />
     );
   }
 

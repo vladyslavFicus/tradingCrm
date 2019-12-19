@@ -855,7 +855,8 @@
       "PASSPORT": "Passport",
       "RENT_AGREEMENT": "Tent agreement",
       "TAX_BILL": "Tax bill",
-      "UTILITY_BILL": "Utility bill"
+      "UTILITY_BILL": "Utility bill",
+      "OTHER": "Other"
     },
     "CATEGORY": {
       "DOCUMENT_VERIFICATION": "Document verification",
