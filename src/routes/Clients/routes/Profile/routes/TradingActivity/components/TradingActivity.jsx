@@ -5,7 +5,7 @@ import PropTypes from 'constants/propTypes';
 import GridView, { GridViewColumn } from 'components/GridView';
 import TabHeader from 'components/TabHeader';
 import FilterFields from './FilterFields';
-import { columns } from '../constants';
+import { columns } from '../attributes/constants';
 
 class TradingActivity extends Component {
   static propTypes = {

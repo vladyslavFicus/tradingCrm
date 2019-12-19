@@ -67,10 +67,8 @@ export default {
     VIEW_FILES: 'profile;GET;/files/{playerUUID}',
     VIEW_FILE: 'profile;GET;/kyc/download/{fileId}',
     KYC_LIST: 'profile;GET;/kyc/requests',
-    UPLOAD_FILE: 'profile;POST;/files',
-    VERIFY_FILE: 'profile;PUT;files/{uuid}/status/verify',
-    REFUSE_FILE: 'profile;DELETE;files/{uuid}/status/refuse',
-    DELETE_FILE: 'profile;DELETE;/files/{playerUUID}/{fileUUID}',
+    UPLOAD_FILE: 'attachments;PUT;/admin/files/{uuid}',
+    DELETE_FILE: 'attachments;DELETE;/admin/files/{uuid}',
     VERIFY_PHONE: 'profile;POST;/admin/profiles/{uuid}/verification/phone',
     VERIFY_EMAIL: 'profile;POST;/admin/profiles/{uuid}/verification/email',
     CHANGE_PASSWORD: 'auth;POST;/credentials/{uuid}/password',
@@ -79,7 +77,7 @@ export default {
     CHANGE_CONFIGURATION: 'profile;PUT;/admin/profiles/{uuid}/configuration',
   },
   FILES: {
-    UPLOAD_FILE: 'profile;POST;/files/confirm/{playerUUID}',
+    UPLOAD_FILE: 'attachments;PUT;/admin/files/{uuid}',
   },
   PAYMENT: {
     DEPOSIT: 'payment;POST;/deposit',

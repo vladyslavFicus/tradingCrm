@@ -1,160 +1,302 @@
 import React, { Component } from 'react';
-import { reduxForm } from 'redux-form';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { get } from 'lodash';
 import I18n from 'i18n-js';
-import PropTypes from '../../../constants/propTypes';
-import FileUpload from '../../FileUpload';
-import { categories } from '../../../constants/files';
-import { createValidator, translateLabels } from '../../../utils/validator';
-import UploadingFile from '../UploadingFile';
-import { targetTypes } from '../constants';
-import { shortify } from '../../../utils/uuid';
-import attributeLabels from './constants';
+import PropTypes from 'constants/propTypes';
+import FileUpload from 'components/FileUpload';
+import UploadingFile from 'components/Files/UploadingFile';
+import ShortLoader from 'components/ShortLoader';
+import { shortify } from 'utils/uuid';
+import { ALLOWED_FILE_TYPES, ALLOWED_FILE_MAX_SIZE } from './constants';
 
 class UploadModal extends Component {
   static propTypes = {
-    profile: PropTypes.object,
-    uploading: PropTypes.arrayOf(PropTypes.uploadingFile).isRequired,
-    submitting: PropTypes.bool.isRequired,
-    handleSubmit: PropTypes.func.isRequired,
+    dirty: PropTypes.bool,
+    invalid: PropTypes.bool,
+    notify: PropTypes.func.isRequired,
     onClose: PropTypes.func.isRequired,
-    onSubmit: PropTypes.func.isRequired,
-    onCancelFile: PropTypes.func.isRequired,
+    submitting: PropTypes.bool.isRequired,
     uploadFile: PropTypes.func.isRequired,
-    targetType: PropTypes.string.isRequired,
-    fileInitialValues: PropTypes.object,
-    targetUuid: PropTypes.string,
-    maxFileSize: PropTypes.number,
-    allowedFileTypes: PropTypes.arrayOf(PropTypes.string),
-  };
+    handleSubmit: PropTypes.func.isRequired,
+    newProfile: PropTypes.newProfile.isRequired,
+    getFilesCategoriesList: PropTypes.object.isRequired,
+  }
 
   static defaultProps = {
-    maxFileSize: 2,
-    allowedFileTypes: ['image/jpeg', 'image/png'],
-    profile: null,
-    fileInitialValues: null,
-    targetUuid: null,
-  };
+    invalid: true,
+    dirty: false,
+  }
 
-  handleSubmit = (data) => {
-    const { uploading, fileInitialValues } = this.props;
-    const result = uploading.reduce((res, file) => ({
-      ...res,
-      [file.fileUUID]: {
-        ...data[file.id],
-        ...fileInitialValues,
+  state = {
+    filesToUpload: [],
+    loading: false,
+  }
+
+  noteButton = null;
+
+  updateFileNote = (data) => {
+    const { filesToUpload } = this.state;
+    const { targetUUID } = data;
+
+    const updatedFilesToUpload = filesToUpload.map((file) => {
+      if (file.fileUuid === targetUUID) {
+        return {
+          ...file,
+          fileNote: data,
+        };
+      }
+
+      return file;
+    });
+
+    this.setState({ filesToUpload: updatedFilesToUpload });
+  }
+
+  removeFileNote = (targetUUID) => {
+    const { filesToUpload } = this.state;
+
+    const updatedFilesToUpload = filesToUpload.map((file) => {
+      if (file.fileUuid === targetUUID) {
+        const { fileNote, ...rest } = file;
+
+        return {
+          ...rest,
+        };
+      }
+
+      return file;
+    });
+
+    this.setState({ filesToUpload: updatedFilesToUpload });
+  }
+
+  handleUploadFiles = async (errors, files) => {
+    const {
+      uploadFile,
+      newProfile: {
+        uuid: profileUUID,
       },
-    }), {});
+    } = this.props;
 
-    return this.props.onSubmit(result);
-  };
+    this.setState({ loading: true });
 
-  handleUploadFile = (errors, files) => {
-    Object.keys(files)
-      .forEach(index => this.props.uploadFile(files[index], errors[index], this.props.targetUuid));
-  };
+    const response = await Promise.all(
+      Object.keys(files).map(fileIndex => uploadFile({
+        variables: {
+          file: files[fileIndex],
+          profileUUID,
+        },
+      })),
+    );
 
-  renderFile = (item, index) => (
-    <UploadingFile
-      key={item.id}
-      number={index + 1}
-      data={item}
-      onCancelClick={this.props.onCancelFile}
-      targetType={this.props.targetType}
-      playerUUID={this.props.profile.playerUUID}
-    />
-  );
+    const filesDataWithUuids = Object.keys(files).map(fileIndex => ({
+      fileUuid: get(response[fileIndex], 'data.file.upload.data.fileUUID'),
+      file: files[fileIndex],
+    }));
 
-  renderFilesTable = () => (
-    <table className="uploading-files">
-      <thead>
-        <tr>
-          <th className="uploading-files__header-number" />
-          <th className="uploading-files__header-name">
-            {I18n.t('FILES.UPLOAD_MODAL.FILE.TITLE')}
-          </th>
-          {
-            this.props.targetType === targetTypes.FILES
-            && (
-              <th className="uploading-files__header-category">
-                {I18n.t('FILES.UPLOAD_MODAL.FILE.CATEGORY')}
-              </th>
-            )
-          }
-          <th className="uploading-files__header-status">
-            {I18n.t('FILES.UPLOAD_MODAL.FILE.STATUS')}
-          </th>
-          <th className="uploading-files__header-note" />
-        </tr>
-      </thead>
-      <tbody>
-        {this.props.uploading.map(this.renderFile)}
-      </tbody>
-    </table>
-  );
+    this.setState(({ filesToUpload }) => ({
+      filesToUpload: [...filesToUpload, ...filesDataWithUuids],
+      loading: false,
+    }));
+  }
 
-  renderFiles = () => (
-    <Choose>
-      <When condition={this.props.uploading.length}>
-        {this.renderFilesTable()}
-      </When>
-      <Otherwise>
-        <div className="text-center text-muted font-size-12">
-          {I18n.t('FILES.UPLOAD_MODAL.NO_UPLOADED')}
-        </div>
-      </Otherwise>
-    </Choose>
-  );
+  handleRemoveFileFromList = (fileUuid) => {
+    this.setState(({ filesToUpload }) => ({
+      filesToUpload: filesToUpload.filter(item => item.fileUuid !== fileUuid),
+    }));
+  }
+
+  confirmUploadingFiles = async (data) => {
+    const {
+      onClose,
+      onSuccess,
+      addNote,
+      notify,
+      confirmUploadedFiles,
+      newProfile: {
+        uuid: profileUuid,
+      },
+    } = this.props;
+
+    const { filesToUpload } = this.state;
+
+    const documents = Object.keys(data).map(fileUuid => ({
+      fileUuid,
+      title: data[fileUuid].title,
+      documentType: data[fileUuid].documentType,
+      verificationType: data[fileUuid].category,
+    }));
+
+    const confirmationResponse = await confirmUploadedFiles({
+      variables: {
+        documents,
+        profileUuid,
+      },
+    });
+
+    const success = get(confirmationResponse, 'data.file.confirmFiles.data.success') || false;
+
+    if (success) {
+      await Promise.all(filesToUpload.map(({ fileNote }) => (
+        (fileNote)
+          ? addNote({ variables: fileNote })
+          : false
+      )));
+    }
+
+    notify({
+      level: success ? 'success' : 'error',
+      title: success ? I18n.t('COMMON.SUCCESS') : I18n.t('COMMON.FAIL'),
+      message: success
+        ? I18n.t('FILES.UPLOAD_MODAL.FILE.NOTIFICATIONS.SUCCESS')
+        : I18n.t('FILES.UPLOAD_MODAL.FILE.NOTIFICATIONS.ERROR'),
+    });
+
+    if (success) {
+      onClose();
+      onSuccess();
+    }
+  }
+
+  renderFile = (file, index) => {
+    const {
+      newProfile: {
+        uuid: profileUUID,
+      },
+      getFilesCategoriesList: {
+        filesCategoriesList: {
+          data: {
+            __typename,
+            ...categories
+          },
+        },
+      },
+    } = this.props;
+
+    return (
+      <UploadingFile
+        fileData={file}
+        number={index + 1}
+        key={file.fileUuid}
+        categories={categories}
+        profileUUID={profileUUID}
+        onRemoveFileClick={this.handleRemoveFileFromList}
+        addFileNote={this.updateFileNote}
+        updateFileNote={this.updateFileNote}
+        removeFileNote={this.removeFileNote}
+      />
+    );
+  }
 
   render() {
     const {
-      profile: {
+      onClose,
+      newProfile: {
         firstName,
         lastName,
-        playerUUID,
+        uuid: profileUUID,
       },
-      onClose,
-      uploading,
-      submitting,
       handleSubmit,
-      maxFileSize,
-      allowedFileTypes,
+      submitting,
+      invalid,
+      dirty,
     } = this.props;
 
-    const fullName = `${firstName} ${lastName}`;
+    const {
+      filesToUpload,
+      loading,
+    } = this.state;
 
     return (
-      <Modal isOpen keyboard={false} backdrop="static" className="upload-modal" toggle={onClose}>
+      <Modal
+        className="upload-modal"
+        backdrop="static"
+        keyboard={false}
+        toggle={onClose}
+        isOpen
+      >
         <ModalHeader toggle={onClose}>
           {I18n.t('FILES.UPLOAD_MODAL.TITLE')}
         </ModalHeader>
-        <ModalBody tag="form" id="upload-modal-form" onSubmit={handleSubmit(this.handleSubmit)}>
+        <ModalBody
+          tag="form"
+          id="upload-modal-form"
+          onSubmit={handleSubmit(this.confirmUploadingFiles)}
+        >
           <div
             className="text-center font-weight-700"
             dangerouslySetInnerHTML={{
               __html: I18n.t('FILES.UPLOAD_MODAL.ACTION_TEXT', {
-                fullName,
-                shortUUID: `<span class="font-weight-400">${shortify(playerUUID)}</span>`,
+                fullName: `${firstName} ${lastName}`,
+                shortUUID: `<span class="font-weight-400">(${shortify(profileUUID)})</span>`,
               }),
             }}
           />
-          <div className="my-4">
-            {this.renderFiles()}
-          </div>
-          <div className="text-center">
-            <FileUpload
-              label={I18n.t('FILES.UPLOAD_MODAL.BUTTONS.ADD_FILES')}
-              allowedSize={maxFileSize}
-              allowedTypes={allowedFileTypes}
-              onChosen={this.handleUploadFile}
-              singleMode={false}
-            />
-          </div>
+
+          <Choose>
+            <When condition={loading}>
+              <div className="uploading-files__loader">
+                <ShortLoader />
+              </div>
+            </When>
+            <Otherwise>
+              <Choose>
+                <When condition={filesToUpload.length}>
+                  <div className="my-4">
+                    <table className="uploading-files">
+                      <thead>
+                        <tr>
+                          <th className="uploading-files__col uploading-files__col-number" />
+                          <th className="uploading-files__col uploading-files__col-name">
+                            {I18n.t('FILES.UPLOAD_MODAL.FILE.TITLE')}
+                          </th>
+                          <th className="uploading-files__col uploading-files__col-info">
+                            {I18n.t('FILES.UPLOAD_MODAL.FILE.FILE_INFO')}
+                          </th>
+                          <th className="uploading-files__col uploading-files__col-category">
+                            {I18n.t('FILES.UPLOAD_MODAL.FILE.CATEGORY')}
+                          </th>
+                          <th className="uploading-files__col uploading-files__col-type">
+                            {I18n.t('FILES.UPLOAD_MODAL.FILE.DOCUMENT_TYPE')}
+                          </th>
+                          <th className="uploading-files__col uploading-files__col-status">
+                            {I18n.t('FILES.UPLOAD_MODAL.FILE.STATUS')}
+                          </th>
+                          <th className="uploading-files__col uploading-files__col-delete" />
+                          <th className="uploading-files__col uploading-files__col-note" />
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {filesToUpload.map(this.renderFile)}
+                      </tbody>
+                    </table>
+                  </div>
+                </When>
+                <Otherwise>
+                  <div className="my-4">
+                    <div className="text-center text-muted font-size-12">
+                      {I18n.t('FILES.UPLOAD_MODAL.NO_UPLOADED')}
+                    </div>
+                  </div>
+                </Otherwise>
+              </Choose>
+
+              <div className="text-center">
+                <FileUpload
+                  label={I18n.t('FILES.UPLOAD_MODAL.BUTTONS.ADD_FILES')}
+                  allowedSize={ALLOWED_FILE_MAX_SIZE}
+                  allowedTypes={ALLOWED_FILE_TYPES}
+                  onChosen={this.handleUploadFiles}
+                  singleMode={false}
+                />
+              </div>
+            </Otherwise>
+          </Choose>
         </ModalBody>
         <ModalFooter>
           <button
             type="button"
-            disabled={submitting || uploading.some(i => i.uploading)}
+            disabled={submitting}
             className="btn btn-default-outline mr-auto"
             onClick={onClose}
           >
@@ -163,7 +305,7 @@ class UploadModal extends Component {
           <button
             type="submit"
             form="upload-modal-form"
-            disabled={submitting || uploading.length === 0 || uploading.some(i => i.uploading)}
+            disabled={submitting || invalid || !dirty || filesToUpload.length === 0}
             className="btn btn-primary"
           >
             {I18n.t('COMMON.BUTTONS.CONFIRM')}
@@ -174,31 +316,4 @@ class UploadModal extends Component {
   }
 }
 
-const FORM_NAME = 'userUploadModal';
-
-export default reduxForm({
-  form: FORM_NAME,
-  enableReinitialize: true,
-  keepDirtyOnReinitialize: true,
-  validate: (data) => {
-    const translatedLabels = translateLabels(attributeLabels);
-
-    const rules = {};
-    const labels = {};
-
-    Object.keys(data).forEach((id) => {
-      // Collect rules by field id. Example: { 'asod-as12-...': { name: ['required'] } }
-      rules[id] = {
-        name: ['required', 'string', 'min:3'],
-        category: ['required', 'string', `in:${Object.keys(categories).join()}`],
-      };
-
-      // Collect labels by field id. Example: { 'asod-as12-123f.name': 'Name', 'asod-as12-123f.content': 'File' }
-      Object.keys(translatedLabels).forEach((key) => {
-        labels[`${id}.${key}`] = translatedLabels[key];
-      });
-    });
-
-    return createValidator(rules, labels, false)(data);
-  },
-})(UploadModal);
+export default UploadModal;

@@ -5,8 +5,7 @@ import moment from 'moment';
 import I18n from 'i18n-js';
 import { createValidator, translateLabels } from 'utils/validator';
 import PropTypes from 'constants/propTypes';
-import { statuses, statusesLabels } from 'constants/files';
-import { InputField, SelectField, DateTimeField, RangeGroup } from 'components/ReduxForm';
+import { InputField, DateTimeField, RangeGroup, NasSelectField } from 'components/ReduxForm';
 import { attributeLabels } from '../constants';
 
 class FileListFilterForm extends Component {
@@ -17,12 +16,21 @@ class FileListFilterForm extends Component {
     reset: PropTypes.func.isRequired,
     currentValues: PropTypes.object,
     invalid: PropTypes.bool,
+    categories: PropTypes.shape({
+      DOCUMENT_VERIFICATION: PropTypes.arrayOf(PropTypes.string),
+      ADRESS_VERIFICATION: PropTypes.arrayOf(PropTypes.string),
+    }),
   };
 
   static defaultProps = {
     currentValues: {},
     invalid: true,
+    categories: {},
   };
+
+  state = {
+    selectedCategory: null,
+  }
 
   handleReset = () => {
     this.props.reset();
@@ -32,16 +40,16 @@ class FileListFilterForm extends Component {
   startDateValidator = (current) => {
     const { currentValues } = this.props;
 
-    return currentValues && currentValues.uploadDateTo
-      ? current.isSameOrBefore(moment(currentValues.uploadDateTo))
+    return currentValues && currentValues.uploadedDateTo
+      ? current.isSameOrBefore(moment(currentValues.uploadedDateTo))
       : true;
   };
 
   endDateValidator = (current) => {
     const { currentValues } = this.props;
 
-    return currentValues && currentValues.uploadDateFrom
-      ? current.isSameOrAfter(moment(currentValues.uploadDateFrom))
+    return currentValues && currentValues.uploadedDateFrom
+      ? current.isSameOrAfter(moment(currentValues.uploadedDateFrom))
       : true;
   };
 
@@ -51,7 +59,11 @@ class FileListFilterForm extends Component {
       handleSubmit,
       onSubmit,
       invalid,
+      categories,
     } = this.props;
+
+    const { selectedCategory } = this.state;
+    const documentTypes = selectedCategory ? categories[selectedCategory] : [''];
 
     return (
       <form className="filter-row" onSubmit={handleSubmit(onSubmit)}>
@@ -65,15 +77,30 @@ class FileListFilterForm extends Component {
           className="filter-row__big"
         />
         <Field
-          name="documentStatus"
-          label={I18n.t(attributeLabels.documentStatus)}
-          component={SelectField}
-          className="filter-row__small"
+          placeholder={I18n.t('FILES.UPLOAD_MODAL.FILE.CATEGORY_DEFAULT_OPTION')}
+          name="verificationType"
+          component={NasSelectField}
+          onChange={(_, value) => this.setState({ selectedCategory: value })}
+          searchable={false}
+          label={I18n.t('FILES.UPLOAD_MODAL.FILE.CATEGORY')}
         >
-          <option value="">{I18n.t('COMMON.ANY')}</option>
-          {Object.keys(statuses).map(value => (
-            <option key={value} value={value}>
-              {I18n.t(statusesLabels[value])}
+          {Object.keys(categories).map(item => (
+            <option key={item} value={item}>
+              {I18n.t(`FILES.CATEGORIES.${item}`)}
+            </option>
+          ))}
+        </Field>
+        <Field
+          placeholder={I18n.t('FILES.UPLOAD_MODAL.FILE.DOCUMENT_TYPE_DEFAULT_OPTION')}
+          name="documentType"
+          disabled={!selectedCategory}
+          component={NasSelectField}
+          searchable={false}
+          label={I18n.t('FILES.UPLOAD_MODAL.FILE.DOCUMENT_TYPE')}
+        >
+          {documentTypes.map(item => (
+            <option key={item} value={item}>
+              {item ? I18n.t(`FILES.DOCUMENT_TYPES.${item}`) : item}
             </option>
           ))}
         </Field>
@@ -82,16 +109,16 @@ class FileListFilterForm extends Component {
           label={I18n.t('FILES.FILTER.UPLOAD_DATA_RANGE')}
         >
           <Field
-            name="uploadDateFrom"
-            placeholder={I18n.t(attributeLabels.uploadDateFrom)}
+            name="uploadedDateFrom"
+            placeholder={I18n.t(attributeLabels.uploadedDateFrom)}
             component={DateTimeField}
             isValidDate={this.startDateValidator}
             timeFormat={null}
             pickerClassName="left-side"
           />
           <Field
-            name="uploadDateTo"
-            placeholder={I18n.t(attributeLabels.uploadDateTo)}
+            name="uploadedDateTo"
+            placeholder={I18n.t(attributeLabels.uploadedDateTo)}
             component={DateTimeField}
             isValidDate={this.endDateValidator}
             timeFormat={null}
@@ -128,7 +155,7 @@ export default connect(state => ({
   touchOnChange: true,
   validate: createValidator({
     searchBy: 'string',
-    uploadDateFrom: 'regex:/^\\d{4}-\\d{2}-\\d{2}$/',
-    uploadDateTo: 'regex:/^\\d{4}-\\d{2}-\\d{2}$/',
+    uploadedDateFrom: 'regex:/^\\d{4}-\\d{2}-\\d{2}$/',
+    uploadedDateTo: 'regex:/^\\d{4}-\\d{2}-\\d{2}$/',
   }, translateLabels(attributeLabels), false),
 })(FileListFilterForm));

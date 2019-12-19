@@ -3,8 +3,8 @@ import React, { Fragment } from 'react';
 import classNames from 'classnames';
 import moment from 'moment';
 import i18n from 'i18n-js';
-import Badge from 'components/Badge';
-import Uuid from 'components/Uuid';
+import Badge from 'components/Badge/index';
+import Uuid from 'components/Uuid/index';
 import { getTypeColor } from './utils';
 
 export const filterLabels = {

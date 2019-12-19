@@ -2,15 +2,16 @@ import React, { Component, Fragment } from 'react';
 import { get } from 'lodash';
 import history from 'router/history';
 import I18n from 'i18n-js';
+import { getApiRoot } from 'config';
 import TabHeader from 'components/TabHeader';
 import { withNotifications } from 'components/HighOrder';
 import { targetTypes as fileTargetTypes } from 'components/Files/constants';
 import PermissionContent from 'components/PermissionContent';
-import { getApiRoot } from 'config';
 import permissions from 'config/permissions';
 import PropTypes from 'constants/propTypes';
-import FilesFilterForm from './FilesFilterForm';
-import CommonFileGridView from '../../../components/CommonFileGridView';
+import downloadBlob from 'utils/downloadBlob';
+import NotFoundContent from 'components/NotFoundContent';
+import FileGrid from './FileGrid';
 
 class Files extends Component {
   static contextTypes = {
@@ -20,10 +21,11 @@ class Files extends Component {
   };
 
   static propTypes = {
-    files: PropTypes.shape({
+    filesList: PropTypes.shape({
       data: PropTypes.pageable(PropTypes.fileEntity),
       refetch: PropTypes.func.isRequired,
     }).isRequired,
+    getFilesCategoriesList: PropTypes.object.isRequired,
     match: PropTypes.shape({
       params: PropTypes.shape({
         id: PropTypes.string.isRequired,
@@ -32,13 +34,13 @@ class Files extends Component {
     modals: PropTypes.shape({
       deleteModal: PropTypes.modalType,
     }).isRequired,
-    downloadFile: PropTypes.func.isRequired,
     delete: PropTypes.func.isRequired,
     updateFileStatus: PropTypes.func.isRequired,
+    updateFileMeta: PropTypes.func.isRequired,
   };
 
   componentDidMount() {
-    this.context.setFileChangedCallback(this.props.files.refetch);
+    this.context.setFileChangedCallback(this.props.filesList.refetch);
   }
 
   componentWillUnmount() {
@@ -47,7 +49,7 @@ class Files extends Component {
 
   handlePageChanged = () => {
     const {
-      files: {
+      filesList: {
         loadMore,
         loading,
       },
@@ -60,13 +62,18 @@ class Files extends Component {
 
   handleFiltersChanged = (filters = {}) => history.replace({ query: { filters } });
 
-  handleStatusActionClick = async (uuid, documentStatus) => {
-    const { files: { refetch }, notify } = this.props;
+  handleStatusActionClick = async (
+    verificationType,
+    documentType,
+    verificationStatus,
+  ) => {
+    const { filesList: { refetch }, notify } = this.props;
 
     const { data: { file: { updateFileStatus: { success } } } } = await this.props.updateFileStatus({
       variables: {
-        fileUUID: uuid,
-        documentStatus,
+        verificationType,
+        documentType,
+        verificationStatus,
       },
     });
 
@@ -83,8 +90,50 @@ class Files extends Component {
     }
   };
 
-  handleDownloadFileClick = (data) => {
-    this.props.downloadFile(data);
+  handleVerificationTypeClick = async (uuid, verificationType, documentType) => {
+    const { filesList: { refetch }, notify } = this.props;
+
+    const { data: { file: { updateFileMeta: { success } } } } = await this.props.updateFileMeta({
+      variables: {
+        uuid,
+        verificationType,
+        documentType,
+      },
+    });
+
+    notify({
+      level: success ? 'success' : 'error',
+      title: I18n.t('FILES.TITLE'),
+      message: success
+        ? I18n.t('FILES.DOCUMENT_TYPE_CHANGED')
+        : I18n.t('COMMON.SOMETHING_WRONG'),
+    });
+
+    if (success) {
+      refetch();
+    }
+  };
+
+  handleDownloadFileClick = async ({ uuid, fileName }) => {
+    const {
+      match: { params: { id } },
+      token,
+    } = this.props;
+
+    const requestUrl = `${getApiRoot()}/attachments/users/${id}/files/${uuid}`;
+
+    const response = await fetch(requestUrl, {
+      method: 'GET',
+      headers: {
+        Accept: 'image/*',
+        authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
+
+    const blobData = await response.blob();
+
+    downloadBlob(fileName, blobData);
   };
 
   handleDeleteFile = uuid => async () => {
@@ -104,7 +153,7 @@ class Files extends Component {
         message: I18n.t('FILES.CONFIRM_ACTION_MODAL.FILE_NOT_DELETED'),
       });
     } else {
-      this.props.files.refetch();
+      this.props.filesList.refetch();
       notify({
         level: 'success',
         title: I18n.t('COMMON.SUCCESS'),
@@ -127,16 +176,22 @@ class Files extends Component {
   }
 
   handlePreviewImageClick = (data) => {
-    this.context.showImages(`${getApiRoot()}/profile/files/download/${data.uuid}`, data.type);
+    this.context.showImages(data.uuid, data.type);
   };
 
   render() {
     const {
-      files,
-      files: { loading },
+      filesList,
+      getFilesCategoriesList,
+      getFilesCategoriesList: { loading },
     } = this.props;
 
-    const entities = get(files, 'files', { content: [], totalPages: 0, number: 0 });
+    const verificationData = get(filesList, 'filesByUuid.data') || [];
+    const { __typename, ...categories } = get(getFilesCategoriesList, 'filesCategoriesList.data') || {};
+
+    if (loading) {
+      return null;
+    }
 
     return (
       <Fragment>
@@ -153,25 +208,32 @@ class Files extends Component {
             </button>
           </PermissionContent>
         </TabHeader>
-        <FilesFilterForm
-          onSubmit={this.handleFiltersChanged}
-        />
-        <div className="tab-wrapper">
-          <CommonFileGridView
-            dataSource={entities.content}
-            totalPages={entities.totalPages}
-            activePage={entities.number + 1}
-            last={entities.last}
-            loading={loading && entities.content.length === 0}
-            lazyLoad
-            onPageChange={this.handlePageChanged}
-            onStatusActionClick={this.handleStatusActionClick}
-            onDownloadFileClick={this.handleDownloadFileClick}
-            onDeleteFileClick={this.handleDeleteFileClick}
-            onPreviewImageClick={this.handlePreviewImageClick}
-            showNoResults={entities.content.length === 0}
-          />
-        </div>
+        <Choose>
+          <When condition={verificationData.length}>
+            {
+              verificationData.map(({ documents, verificationType }) => (
+                documents.map(({ documentType, files, verificationStatus }) => (
+                  <FileGrid
+                    key={`${verificationType}-${documentType}`}
+                    dataSource={files}
+                    categories={categories}
+                    verificationType={verificationType}
+                    verificationStatus={verificationStatus}
+                    documentType={documentType}
+                    onPageChange={this.handlePageChanged}
+                    onStatusActionClick={this.handleStatusActionClick}
+                    onVrificationTypeActionClick={this.handleVerificationTypeClick}
+                    onDownloadFileClick={this.handleDownloadFileClick}
+                    onDeleteFileClick={this.handleDeleteFileClick}
+                    onPreviewImageClick={this.handlePreviewImageClick}
+                  />
+                ))))
+            }
+          </When>
+          <Otherwise>
+            <NotFoundContent />
+          </Otherwise>
+        </Choose>
       </Fragment>
     );
   }

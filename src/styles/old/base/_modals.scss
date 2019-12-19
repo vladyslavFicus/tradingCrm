@@ -74,29 +74,86 @@
       background-color: #ff8041;
     }
   }
+
   .upload-modal {
-    width: 735px;
+    width: 1015px;
+
     .uploading-files {
       width: 100%;
-      tr > th, tr > td {
-        vertical-align: top;
-        padding: 5px;
+
+      & td {
+        padding-bottom: 15px;
       }
 
-      &__header-number {
-        width: 50px;
+      & .form-group {
+        margin-bottom: 0;
       }
-      &__header-name {
-        width: 270px;
+
+      &__loader {
+        margin: 37px 0;
       }
-      &__header-category {
-        width: 185px;
+
+      &__col {
+        vertical-align: top;
+        padding: 5px 10px;
+
+        &-number {
+          padding-top: 14px;
+          max-width: 50px;
+        }
+
+        &-title {
+          width: 270px;
+        }
+
+        &-info {
+          max-width: 140px;
+        }
+
+        &-category {
+          min-width: 225px;
+        }
+
+        &-type {
+          min-width: 220px;
+        }
+
+        &-status {
+          width: 120px;
+        }
+
+        &-delete {
+          padding-top: 8px;
+          text-align: center;
+          width: 60px;
+        }
+
+        &-note {
+          padding-top: 9px;
+          text-align: center;
+          width: 60px;
+        }
       }
-      &__header-status {
-        width: 190px;
-      }
-      &__header-note {
-        width: 35px;
+
+      &__file {
+        &-name {
+          font-size: 13px;
+          font-weight: 700;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          height: 1.5em;
+        }
+
+        &-uuid {
+          font-size: 13px;
+        }
+
+        &-delete {
+          font-size: 16px;
+          padding-top: 2px;
+          text-align: center;
+        }
       }
     }
   }

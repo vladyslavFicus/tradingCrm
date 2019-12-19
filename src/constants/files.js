@@ -6,37 +6,51 @@ const actions = keyMirror({
 });
 
 const categories = keyMirror({
-  KYC_ADDRESS: null,
-  KYC_PERSONAL: null,
-  OTHER: null,
-  PAYMENT_ACCOUNT: null,
+  DOCUMENT_VERIFICATION: null,
+  ADDRESS_VERIFICATION: null,
 });
 
 const categoriesLabels = {
-  [categories.KYC_ADDRESS]: 'FILES.CATEGORIES.KYC_ADDRESS',
-  [categories.PAYMENT_ACCOUNT]: 'FILES.CATEGORIES.KYC_PAYMENT_ACCOUNT',
-  [categories.KYC_PERSONAL]: 'FILES.CATEGORIES.KYC_PERSONAL',
-  [categories.OTHER]: 'FILES.CATEGORIES.KYC_OTHER',
+  [categories.DOCUMENT_VERIFICATION]: 'FILES.CATEGORY.DOCUMENT_VERIFICATION',
+  [categories.ADDRESS_VERIFICATION]: 'FILES.CATEGORY.ADDRESS_VERIFICATION',
+};
+
+const documentsType = keyMirror({
+  BANK_STATEMENT: null,
+  CREDIT_OR_DEBIT_CARD: null,
+  DRIVING_LICENSE: null,
+  EMPLOYER_LETTER: null,
+  ID_CARD: null,
+  INSURANCE_AGREEMENT: null,
+  PASSPORT: null,
+  RENT_AGREEMENT: null,
+  TAX_BILL: null,
+  UTILITY_BILL: null,
+});
+
+const documentsTypeLabels = {
+  [documentsType.BANK_STATEMENT]: 'FILES.DOCUMENTS_TYPE.BANK_STATEMENT',
+  [documentsType.CREDIT_OR_DEBIT_CARD]: 'FILES.DOCUMENTS_TYPE.CREDIT_OR_DEBIT_CARD',
+  [documentsType.DRIVING_LICENSE]: 'FILES.DOCUMENTS_TYPE.DRIVING_LICENSE',
+  [documentsType.EMPLOYER_LETTER]: 'FILES.DOCUMENTS_TYPE.EMPLOYER_LETTER',
+  [documentsType.ID_CARD]: 'FILES.DOCUMENTS_TYPE.ID_CARD',
+  [documentsType.INSURANCE_AGREEMENT]: 'FILES.DOCUMENTS_TYPE.INSURANCE_AGREEMENT',
+  [documentsType.PASSPORT]: 'FILES.DOCUMENTS_TYPE.PASSPORT',
+  [documentsType.RENT_AGREEMENT]: 'FILES.DOCUMENTS_TYPE.RENT_AGREEMENT',
+  [documentsType.TAX_BILL]: 'FILES.DOCUMENTS_TYPE.TAX_BILL',
+  [documentsType.UTILITY_BILL]: 'FILES.DOCUMENTS_TYPE.UTILITY_BILL',
 };
 
 const statuses = keyMirror({
   APPROVED: null,
-  DELETED: null,
-  NEW: null,
-  NOT_VERIFIED: null,
-  NOT_VERIFIED_APPROVED: null,
-  OTHER: null,
   REJECTED: null,
+  PENDING: null,
 });
 
 const statusesLabels = {
   [statuses.APPROVED]: 'FILES.STATUSES.APPROVED',
-  [statuses.DELETED]: 'FILES.STATUSES.DELETED',
-  [statuses.NEW]: 'FILES.STATUSES.NEW',
-  [statuses.NOT_VERIFIED]: 'FILES.STATUSES.NOT_VERIFIED',
-  [statuses.NOT_VERIFIED_APPROVED]: 'FILES.STATUSES.NOT_VERIFIED_APPROVED',
-  [statuses.OTHER]: 'FILES.STATUSES.OTHER',
   [statuses.REJECTED]: 'FILES.STATUSES.REJECTED',
+  [statuses.PENDING]: 'FILES.STATUSES.PENDING',
 };
 
 export {
@@ -45,4 +59,5 @@ export {
   categoriesLabels,
   statuses,
   statusesLabels,
+  documentsTypeLabels,
 };

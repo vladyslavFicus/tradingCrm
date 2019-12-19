@@ -23,7 +23,6 @@ const updateContactsPermissions = new Permissions(permissions.USER_PROFILE.UPDAT
 
 class View extends Component {
   static propTypes = {
-    downloadFile: PropTypes.func.isRequired,
     verifyPhone: PropTypes.func.isRequired,
     verifyEmail: PropTypes.func.isRequired,
     canUpdateProfile: PropTypes.bool,

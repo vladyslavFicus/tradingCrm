@@ -1,7 +1,4 @@
 import { asyncRoute } from '../../../../../../router';
+import './files-grid.scss';
 
-export default asyncRoute(
-  () => import(/* webpackChunkName: "ProfileFileContainer" */ './containers/ViewContainer'),
-  () => import(/* webpackChunkName: "ProfileFilesReducers" */ './modules'),
-  'userFiles',
-);
+export default asyncRoute(() => import(/* webpackChunkName: "ProfileFileContainer" */ './containers/ViewContainer'));

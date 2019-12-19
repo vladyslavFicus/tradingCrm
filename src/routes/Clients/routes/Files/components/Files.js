@@ -13,6 +13,11 @@ class Files extends Component {
       data: PropTypes.pageable(PropTypes.fileEntity),
       refetch: PropTypes.func.isRequired,
     }).isRequired,
+    getFilesCategoriesList: PropTypes.shape({
+      filesCategoriesList: PropTypes.shape({
+        data: PropTypes.object,
+      }),
+    }).isRequired,
   };
 
   handleFiltersChanged = (filters = {}) => history.replace({ query: { filters } });
@@ -30,15 +35,15 @@ class Files extends Component {
     }
   };
 
-  renderFullName = ({ playerUUID, fullName }) => (
+  renderFullName = ({ clientUuid, client: { fullName } }) => (
     <div>
       <div
         className="font-weight-700 cursor-pointer"
-        onClick={() => window.open(`/clients/${playerUUID}/profile`, '_blank')}
+        onClick={() => window.open(`/clients/${clientUuid}/profile`, '_blank')}
       >
         {fullName}
       </div>
-      <Uuid className="font-size-11" uuid={playerUUID} />
+      <Uuid className="font-size-11" uuid={clientUuid} />
     </div>
   );
 
@@ -46,9 +51,11 @@ class Files extends Component {
     const {
       fileList,
       fileList: { loading },
+      getFilesCategoriesList,
     } = this.props;
 
-    const entities = get(fileList, 'fileList', { content: [], totalPages: 0, number: 0 });
+    const entities = get(fileList, 'fileList.data') || { content: [], totalPages: 0, number: 0 };
+    const { __typename, ...categories } = get(getFilesCategoriesList, 'filesCategoriesList.data') || {};
 
     return (
       <div className="card">
@@ -57,6 +64,7 @@ class Files extends Component {
         </div>
         <FilesFilterForm
           onSubmit={this.handleFiltersChanged}
+          categories={categories}
         />
         <div className="tab-wrapper">
           <FileGridView

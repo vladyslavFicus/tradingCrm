@@ -1,4 +1,3 @@
-import { connect } from 'react-redux';
 import { graphql, compose } from 'react-apollo';
 import {
   updateMutation,
@@ -12,15 +11,9 @@ import {
 import { withNotifications } from 'components/HighOrder';
 import { newProfile } from 'graphql/queries/profile';
 import { withStorage } from 'providers/StorageProvider';
-import { actionCreators as filesActionCreators } from '../../../modules/files';
 import View from '../components/View';
 
-const mapActions = {
-  downloadFile: filesActionCreators.downloadFile,
-};
-
 export default compose(
-  connect(null, mapActions),
   withNotifications,
   graphql(updatePersonalInformationMutation, {
     name: 'updatePersonalInformation',

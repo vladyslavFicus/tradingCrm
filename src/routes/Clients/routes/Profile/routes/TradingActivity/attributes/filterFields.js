@@ -3,7 +3,7 @@ import {
   fieldClassNames,
   normalize,
   validators,
-} from 'components/ReduxForm/ReduxFieldsConstructor';
+} from 'components/ReduxForm/ReduxFieldsConstructor/index';
 import { accountTypes } from 'constants/accountTypes';
 import { statuses as operatorsStasuses } from 'constants/operators';
 import {
@@ -12,7 +12,7 @@ import {
   statuses,
   filterLabels,
   filterPlaceholders,
-} from '../../constants';
+} from './constants';
 
 export default ({
   disabled,

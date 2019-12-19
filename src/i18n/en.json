@@ -747,16 +747,46 @@
     "TITLE": "Files",
     "SEARCH_PLACEHOLDER": "File name, File ID",
     "STATUS_CHANGED": "File status successfully changed",
+    "DOCUMENT_TYPE_CHANGED": "Document type successfully changed",
+    "VERIFICATION_STATUS": "Verification status",
+    "CATEGORIES": {
+      "DOCUMENT_VERIFICATION": "Document verification",
+      "ADDRESS_VERIFICATION": "Address verification"
+    },
+    "DOCUMENT_TYPES": {
+      "ID_CARD": "Id card",
+      "TAX_BILL": "Tax bill",
+      "PASSPORT": "Passport",
+      "DRIVING_LICENSE": "Driving license",
+      "UTILITY_BILL": "Utility bill",
+      "BANK_STATEMENT": "Bank statement",
+      "RENT_AGREEMENT": "Rent agreement",
+      "EMPLOYER_LETTER": "Employer letter",
+      "INSURANCE_AGREEMENT": "Insurance agreement",
+      "CREDIT_OR_DEBIT_CARD": "Credit or debit card"
+    },
     "UPLOAD_MODAL": {
       "FILE": {
         "TITLE": "Title",
-        "CATEGORY": "Category",
-        "STATUS": "Status",
         "TITLE_PLACEHOLDER": "File title (required)",
+        "FILE_INFO": "File info",
+        "CATEGORY": "Category",
+        "CATEGORY_DEFAULT_OPTION": "Choose category",
+        "DOCUMENT_TYPE": "Document type",
+        "DOCUMENT_TYPE_DEFAULT_OPTION": "Select document type",
+        "STATUS": "Status",
         "UPLOADED": "Uploaded",
         "FAILED": "Failed",
         "UPLOADING": "Uploading",
-        "CATEGORY_DEFAULT_OPTION": "Choose category"
+        "LABELS": {
+          "NAME": "'name'",
+          "CATEGORY": "'category'",
+          "DOCUMENT_TYPE": "'document type'"
+        },
+        "NOTIFICATIONS": {
+          "SUCCESS": "Files uploaded successfully",
+          "ERROR": "Files for some reason not uploaded"
+        }
       },
       "TITLE": "File upload",
       "ACTION_TEXT": "You are about to upload file(s) to %{fullName} %{shortUUID} account",
@@ -794,6 +824,7 @@
         "EXPIRATION_DATE": "Expiration date",
         "DATE_TIME": "Date & Time",
         "CATEGORY": "Category",
+        "DOCUMENT_TYPE": "Document type",
         "NOTE": "Note",
         "STATUS": "Status"
       }
@@ -810,19 +841,25 @@
       "REFUSE": "Refuse"
     },
     "STATUSES": {
-      "NEW": "New",
       "APPROVED": "Approved",
       "REJECTED": "Rejected",
-      "NOT_VERIFIED": "Not verified",
-      "NOT_VERIFIED_APPROVED": "Not verified approved",
-      "DELETED": "Deleted",
-      "OTHER": "Other"
+      "PENDING": "Pending"
     },
-    "CATEGORIES": {
-      "KYC_PAYMENT_ACCOUNT": "KYC - Payment account",
-      "KYC_PERSONAL": "KYC - Personal",
-      "KYC_ADDRESS": "KYC - Address",
-      "KYC_OTHER": "Other"
+    "DOCUMENTS_TYPE": {
+      "BANK_STATEMENT": "Bank statement",
+      "CREDIT_OR_DEBIT_CARD": "Credit or debit card ",
+      "DRIVING_LICENSE": "Driving license",
+      "EMPLOYER_LETTER": "Employer letter",
+      "ID_CARD": "Id card",
+      "INSURANCE_AGREEMENT": "Insurance agreement",
+      "PASSPORT": "Passport",
+      "RENT_AGREEMENT": "Tent agreement",
+      "TAX_BILL": "Tax bill",
+      "UTILITY_BILL": "Utility bill"
+    },
+    "CATEGORY": {
+      "DOCUMENT_VERIFICATION": "Document verification",
+      "ADDRESS_VERIFICATION": "Address verification"
     }
   },
   "CONSTANTS": {

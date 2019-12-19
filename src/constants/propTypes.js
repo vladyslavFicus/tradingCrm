@@ -75,10 +75,7 @@ PropTypes.fileEntity = PropTypes.shape({
   uuid: PropTypes.string.isRequired,
 });
 PropTypes.uploadingFile = PropTypes.shape({
-  id: PropTypes.string.isRequired,
-  uploading: PropTypes.bool.isRequired,
-  progress: PropTypes.number.isRequired,
-  fileUUID: PropTypes.string,
+  fileUuid: PropTypes.string.isRequired,
   error: PropTypes.string,
 });
 PropTypes.userProfile = PropTypes.shape({

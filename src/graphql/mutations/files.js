@@ -1,22 +1,44 @@
 import gql from 'graphql-tag';
 
-const refuseMutation = gql`mutation fileRefuseMutation(
-  $uuid: String!
-) {
-  file {
-    refuse(uuid: $uuid) {
-      data {
-        _id
-        status {
-          author
-          comment
-          editDate
-          value
+const uploadFileMutation = gql`
+  mutation uploadFileMutation(
+    $file: Upload!
+    $profileUUID: String!
+  ) {
+    file {
+      upload(
+        file: $file
+        profileUUID: $profileUUID
+      ) {
+        data {
+          fileUUID
+        }
+        error {
+          error
+          fields_errors
         }
       }
     }
   }
-}`;
+`;
+
+const confirmUploadedFilesMutation = gql`
+  mutation confirmUploadedFilesMutation(
+    $documents: [InputFileType]!
+    $profileUuid: String!
+  ) {
+    file {
+      confirmFiles(
+        documents: $documents
+        profileUuid: $profileUuid
+      ) {
+        data {
+          success
+        }
+      }
+    }
+  }
+`;
 
 const verifyMutation = gql`mutation fileVerifyMutation(
   $uuid: String!
@@ -36,12 +58,9 @@ const verifyMutation = gql`mutation fileVerifyMutation(
   }
 }`;
 
-const deleteMutation = gql`mutation fileDeleteMutation(
-  $uuid: String!
-  $playerUUID: String!
-) {
+const deleteMutation = gql`mutation fileDeleteMutation($uuid: String!) {
   file {
-    delete(uuid: $uuid, playerUUID: $playerUUID) {
+    delete(uuid: $uuid) {
       data {
         _id
       }
@@ -54,19 +73,46 @@ const deleteMutation = gql`mutation fileDeleteMutation(
 }`;
 
 const updateFileStatusMutation = gql`mutation updateFileStatusMutation(
-  $fileUUID: String!
-  $documentStatus: String!
+  $clientUuid: String!
+  $verificationType: String
+  $documentType: String
+  $verificationStatus: String
 ) {
   file {
-    updateFileStatus(fileUUID: $fileUUID, documentStatus: $documentStatus) {
+    updateFileStatus(
+      clientUuid: $clientUuid,
+      verificationType: $verificationType,
+      documentType: $documentType,
+      verificationStatus: $verificationStatus
+    ) {
+      success
+    }
+  }
+}`;
+
+const updateFileMetaMutation = gql`mutation updateFileMetaMutation(
+  $uuid: String!
+  $verificationType: String
+  $documentType: String
+) {
+  file {
+    updateFileMeta(
+      uuid: $uuid,
+      verificationType: $verificationType,
+      documentType: $documentType,
+    ) {
       success
     }
   }
 }`;
 
 export {
+  // New one
+  uploadFileMutation,
+  confirmUploadedFilesMutation,
+
   deleteMutation,
-  refuseMutation,
   verifyMutation,
   updateFileStatusMutation,
+  updateFileMetaMutation,
 };

@@ -1,3 +1,1 @@
-import UploadModal from './UploadModal';
-
-export default UploadModal;
+export { default } from './UploadModalContainer';

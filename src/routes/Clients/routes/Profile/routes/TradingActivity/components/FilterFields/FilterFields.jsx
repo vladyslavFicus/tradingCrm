@@ -3,7 +3,7 @@ import { get } from 'lodash';
 import history from 'router/history';
 import PropTypes from 'constants/propTypes';
 import ListFilterForm from 'components/ListFilterForm';
-import filterFields from './filterFields';
+import filterFields from '../../attributes/filterFields';
 
 class FilterForm extends Component {
   static propTypes = {

@@ -4,7 +4,7 @@ import { get } from 'lodash';
 import I18n from 'i18n-js';
 import { Switch, Redirect } from 'react-router-dom';
 import Helmet from 'react-helmet';
-import { withPermission } from 'providers/PermissionsProvider';
+import { getApiRoot } from 'config';
 import Permissions from 'utils/permissions';
 import getFileBlobUrl from 'utils/getFileBlobUrl';
 import {
@@ -76,13 +76,6 @@ class Profile extends Component {
       }),
     }).isRequired,
     location: PropTypes.object.isRequired,
-    // # Config Needed for files
-    config: PropTypes.shape({
-      files: PropTypes.shape({
-        maxSize: PropTypes.number.isRequired,
-        types: PropTypes.arrayOf(PropTypes.string).isRequired,
-      }).isRequired,
-    }).isRequired,
     updateSubscription: PropTypes.func.isRequired,
     addNote: PropTypes.func.isRequired,
     updateNote: PropTypes.func.isRequired,
@@ -90,14 +83,6 @@ class Profile extends Component {
       loading: PropTypes.bool.isRequired,
       questionnaire: PropTypes.object,
     }),
-    uploadModalInitialValues: PropTypes.object.isRequired,
-    cancelFile: PropTypes.func.isRequired,
-    resetUploading: PropTypes.func.isRequired,
-    uploading: PropTypes.object.isRequired,
-    fetchFiles: PropTypes.func.isRequired,
-    uploadFile: PropTypes.func.isRequired,
-    saveFiles: PropTypes.func.isRequired,
-    deleteFile: PropTypes.func.isRequired,
     modals: PropTypes.shape({
       confirmActionModal: PropTypes.modalType,
       noteModal: PropTypes.modalType,
@@ -117,13 +102,15 @@ class Profile extends Component {
     onEditModalNoteClick: PropTypes.func.isRequired,
     setNoteChangedCallback: PropTypes.func.isRequired,
     hidePopover: PropTypes.func.isRequired,
+    registerUpdateCacheListener: PropTypes.func.isRequired,
+    unRegisterUpdateCacheListener: PropTypes.func.isRequired,
+    triggerRepresentativeUpdateModal: PropTypes.func.isRequired,
+
+    // ?
     onUploadFileClick: PropTypes.func.isRequired,
     setFileChangedCallback: PropTypes.func.isRequired,
     onDeleteFileClick: PropTypes.func.isRequired,
     showImages: PropTypes.func.isRequired,
-    registerUpdateCacheListener: PropTypes.func.isRequired,
-    unRegisterUpdateCacheListener: PropTypes.func.isRequired,
-    triggerRepresentativeUpdateModal: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -150,13 +137,13 @@ class Profile extends Component {
       onEditModalNoteClick: this.handleEditModalNoteClick,
       setNoteChangedCallback: this.setNoteChangedCallback,
       hidePopover: this.handlePopoverHide,
+      registerUpdateCacheListener: this.registerUpdateCacheListener,
+      unRegisterUpdateCacheListener: this.unRegisterUpdateCacheListener,
+      triggerRepresentativeUpdateModal: this.triggerRepresentativeUpdateModal,
       onUploadFileClick: this.handleUploadFileClick,
       setFileChangedCallback: this.setFileChangedCallback,
       onDeleteFileClick: this.handleDeleteFileClick,
       showImages: this.showImages,
-      registerUpdateCacheListener: this.registerUpdateCacheListener,
-      unRegisterUpdateCacheListener: this.unRegisterUpdateCacheListener,
-      triggerRepresentativeUpdateModal: this.triggerRepresentativeUpdateModal,
     };
   }
 
@@ -232,6 +219,7 @@ class Profile extends Component {
     if (!newProfile.loading) {
       await Promise.all([
         // # !!! Todo: need to add file refetch here after attachment service will be done
+        // filesList.refetch(),
         newProfile.refetch(),
         pinnedNotes.refetch(),
         ...[questionnaireLastData && questionnaireLastData.refetch()],
@@ -279,6 +267,48 @@ class Profile extends Component {
     this.setState({ modal: { ...modalInitialState } });
   };
 
+  handleUploadFileClick = (params) => {
+    this.setState({
+      modal: {
+        name: MODAL_UPLOAD_FILE,
+        params: {
+          newProfile: get(this.props, 'newProfile.newProfile.data', {}),
+          ...params,
+          onSuccess: () => this.props.filesList.refetch(),
+        },
+      },
+    });
+  };
+
+  // #
+  handleDeleteFileClick = (e, data) => {
+    e.preventDefault();
+
+    this.setState({
+      modal: {
+        name: MODAL_DELETE_FILE,
+        params: {
+          file: data,
+          onSuccess: this.handleDelete.bind(null, data),
+        },
+      },
+    });
+  };
+
+  // # Old function
+  handleDelete = async (data) => {
+    const { deleteFile } = this.props;
+    const { fileChangedCallback } = this.state;
+
+    const action = await deleteFile(this.props.match.params.id, data.uuid);
+    if (action && !action.error) {
+      if (typeof fileChangedCallback === 'function') {
+        fileChangedCallback();
+      }
+      this.handleCloseModal();
+    }
+  };
+
   handleAddNoteClick = targetUUID => (target, params = {}) => {
     this.setState({
       popover: {
@@ -296,95 +326,6 @@ class Profile extends Component {
         },
       },
     });
-  };
-
-  // # !!! Todo: make it work after attachment api build
-  handleUploadFileClick = (params) => {
-    console.info('Profile handleUploadFileClick => Todo: make it work after ATTACHMENT api build');
-    return params;
-    // this.setState({
-    //   modal: {
-    //     name: MODAL_UPLOAD_FILE,
-    //     params: {
-    //       profile: get(this.props, 'playerProfile.playerProfile.data', {}),
-    //       ...params,
-    //     },
-    //   },
-    // });
-  };
-
-  handleCloseUploadModal = () => {
-    this.handleCloseModal();
-    this.handleResetUploading();
-  };
-
-  handleResetUploading = () => {
-    Object
-      .values(this.props.uploading)
-      .forEach((file) => {
-        this.props.cancelFile(file);
-      });
-
-    this.props.resetUploading();
-  };
-
-  handleSubmitUploadModal = async (data) => {
-    const { fileChangedCallback } = this.state;
-    const { addNote } = this.props;
-    const action = await this.props.saveFiles(this.props.match.params.id, data);
-    let hasPinnedNotes = false;
-
-    if (action && !action.error) {
-      await Promise.all(Object.values(this.props.uploading).map((file) => {
-        if (file.note !== null) {
-          if (!hasPinnedNotes && file.note.pinned) {
-            hasPinnedNotes = true;
-          }
-          return addNote({ variables: { ...file.note, targetUUID: file.fileUUID } });
-        }
-
-        return false;
-      }));
-    }
-
-    this.handleResetUploading();
-    this.handleCloseModal();
-
-    if (typeof fileChangedCallback === 'function') {
-      fileChangedCallback();
-    }
-  };
-
-  handleUploadingFileDelete = async (file) => {
-    await this.props.deleteFile(this.props.match.params.id, file.fileUUID);
-    this.props.cancelFile(file);
-  };
-
-  handleDeleteFileClick = (e, data) => {
-    e.preventDefault();
-
-    this.setState({
-      modal: {
-        name: MODAL_DELETE_FILE,
-        params: {
-          file: data,
-          onSuccess: this.handleDelete.bind(null, data),
-        },
-      },
-    });
-  };
-
-  handleDelete = async (data) => {
-    const { deleteFile } = this.props;
-    const { fileChangedCallback } = this.state;
-
-    const action = await deleteFile(this.props.match.params.id, data.uuid);
-    if (action && !action.error) {
-      if (typeof fileChangedCallback === 'function') {
-        fileChangedCallback();
-      }
-      this.handleCloseModal();
-    }
   };
 
   handleEditNoteClick = (target, item, params = {}) => {
@@ -555,12 +496,19 @@ class Profile extends Component {
     return updateSubscription({ variables: { playerUUID, ...data } });
   };
 
-  showImages = async (url, type, options = {}) => {
+  showImages = async (fileUuid, fileType, options = {}) => {
+    const {
+      match: { params: { id } },
+      token,
+    } = this.props;
+    const url = `${getApiRoot()}/attachments/users/${id}/files/${fileUuid}`;
+
     const images = [{
       src: await getFileBlobUrl(url, {
         method: 'GET',
         headers: {
-          Accept: type,
+          Accept: fileType,
+          Authorization: token ? `Bearer ${token}` : undefined,
           'Content-Type': 'application/json',
         },
       }),
@@ -608,7 +556,11 @@ class Profile extends Component {
       return <NotFound />;
     }
 
-    const { modal, popover, imageViewer: imageViewerState } = this.state;
+    const {
+      modal,
+      popover,
+      imageViewer: imageViewerState,
+    } = this.state;
     const {
       newProfile: {
         newProfile,
@@ -617,10 +569,6 @@ class Profile extends Component {
       match: { params },
       location,
       pinnedNotes: { notes },
-      uploading,
-      uploadModalInitialValues,
-      config,
-      updateNote,
       match: {
         url,
         path,
@@ -628,6 +576,7 @@ class Profile extends Component {
       getLoginLock,
       questionnaireLastData,
       changeProfileStatus,
+      filesList,
     } = this.props;
 
     const loginLock = get(getLoginLock, 'loginLock', {});
@@ -688,7 +637,13 @@ class Profile extends Component {
             <Route disableScroll path={`${path}/accounts`} component={Accounts} />
             <Route disableScroll path={`${path}/callbacks`} component={Callbacks} />
             <Route disableScroll path={`${path}/notes`} component={Notes} />
-            <Route disableScroll path={`${path}/files`} component={Files} />
+            <Route
+              disableScroll
+              path={`${path}/files`}
+              render={props => (
+                <Files filesList={filesList} {...props} />
+              )}
+            />
             <Route disableScroll path={`${path}/feed`} component={Feed} />
             <Redirect to={`${url}/profile`} />
           </Switch>
@@ -712,15 +667,7 @@ class Profile extends Component {
           && (
             <UploadFileModal
               {...modal.params}
-              onClose={this.handleCloseUploadModal}
-              uploading={Object.values(uploading)}
-              initialValues={uploadModalInitialValues}
-              uploadFile={this.props.uploadFile}
-              onCancelFile={this.handleUploadingFileDelete}
-              onSubmit={this.handleSubmitUploadModal}
-              onManageNote={updateNote}
-              maxFileSize={config.files.maxSize}
-              allowedFileTypes={config.files.types}
+              onClose={this.handleCloseModal}
             />
           )
         }
@@ -776,4 +723,4 @@ class Profile extends Component {
   }
 }
 
-export default withPermission(Profile);
+export default Profile;

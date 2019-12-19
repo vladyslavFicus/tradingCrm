@@ -1,10 +1,11 @@
 import { graphql, compose } from 'react-apollo';
 import { get } from 'lodash';
-import { fileListQuery } from 'graphql/queries/files';
+import { getFilesList, getFilesCategoriesList } from 'graphql/queries/files';
 import Files from '../components/Files';
 
 export default compose(
-  graphql(fileListQuery, {
+  graphql(getFilesCategoriesList, { name: 'getFilesCategoriesList' }),
+  graphql(getFilesList, {
     name: 'fileList',
     options: ({
       location: { query },
@@ -16,7 +17,7 @@ export default compose(
       },
       fetchPolicy: 'cache-and-network',
     }),
-    props: ({ fileList: { fileList, fetchMore, ...rest } }) => {
+    props: ({ fileList: { fileList, fetchMore, ...rest }, ownProps: { location: { query } } }) => {
       const newPage = get(fileList, 'number', 0);
 
       return {
@@ -24,7 +25,11 @@ export default compose(
           ...rest,
           fileList,
           loadMore: () => fetchMore({
-            variables: { page: newPage + 1 },
+            variables: {
+              ...query && query.filters,
+              page: newPage + 1,
+              size: 20,
+            },
             updateQuery: (previousResult, { fetchMoreResult }) => {
               if (!fetchMoreResult) {
                 return previousResult;
@@ -48,8 +53,8 @@ export default compose(
                   ...previousResult.fileList,
                   ...fetchMoreResult.fileList,
                   content: [
-                    ...previousResult.fileList.content,
-                    ...fetchMoreResult.fileList.content,
+                    ...previousResult.fileList.data.content,
+                    ...fetchMoreResult.fileList.data.content,
                   ],
                 },
               };

@@ -4,7 +4,7 @@ import moment from 'moment';
 import I18n from 'i18n-js';
 import classNames from 'classnames';
 import { shortifyInMiddle } from 'utils/stringFormat';
-import { categoriesLabels, statusesLabels } from 'constants/files';
+import { categoriesLabels, documentsTypeLabels } from 'constants/files';
 import GridView, { GridViewColumn } from 'components/GridView';
 import GridEmptyValue from 'components/GridEmptyValue';
 import Uuid from 'components/Uuid';
@@ -30,8 +30,8 @@ class CommonFileListGridView extends Component {
     const onClick = isClickable
       ? () => this.props.onPreviewImageClick(data)
       : null;
-    const playerPrefix = data.author.indexOf('PLAYER') === -1 ? 'PL' : null;
-    const uuidPrefix = data.author.indexOf('OPERATOR') === -1 ? playerPrefix : null;
+    const playerPrefix = data.clientUuid.indexOf('PLAYER') === -1 ? 'PL' : null;
+    const uuidPrefix = data.clientUuid.indexOf('OPERATOR') === -1 ? playerPrefix : null;
 
     return (
       <div>
@@ -39,16 +39,16 @@ class CommonFileListGridView extends Component {
           className={classNames('font-weight-700', { 'cursor-pointer': isClickable })}
           onClick={onClick}
         >
-          {data.fileName}
+          {data.title}
         </div>
-        <div title={data.realName} className="font-size-11">
-          {data.fileName === data.realName ? null : shortifyInMiddle(data.realName, 40)}
+        <div title={data.title} className="font-size-11">
+          {data.fileName === data.title ? null : shortifyInMiddle(data.fileName, 40)}
         </div>
         <Uuid className="font-size-11" uuid={data.uuid} />
         <div className="font-size-11">
           {'by '}
           <Uuid
-            uuid={data.author}
+            uuid={data.uploadBy}
             uuidPrefix={uuidPrefix}
           />
         </div>
@@ -72,12 +72,22 @@ class CommonFileListGridView extends Component {
     </Choose>
   );
 
-  renderCategory = data => (
+  renderCategory = ({ verificationType }) => (
     <div className="font-weight-700">
       {
-        data.documentCategory && categoriesLabels[data.documentCategory]
-          ? I18n.t(categoriesLabels[data.documentCategory])
-          : data.documentCategory
+        verificationType && categoriesLabels[verificationType]
+          ? I18n.t(categoriesLabels[verificationType])
+          : verificationType
+      }
+    </div>
+  );
+
+  renderDocumentType = ({ documentType }) => (
+    <div className="font-weight-700">
+      {
+        documentType && documentsTypeLabels[documentType]
+          ? I18n.t(documentsTypeLabels[documentType])
+          : documentType
       }
     </div>
   );
@@ -100,7 +110,7 @@ class CommonFileListGridView extends Component {
         <GridViewColumn
           name="expirationTime"
           header={I18n.t('FILES.GRID.COLUMN.EXPIRATION_DATE')}
-          render={this.renderDate('expirationTime', false)}
+          render={this.renderDate('expirationDate', false)}
         />
         <GridViewColumn
           name="date"
@@ -113,13 +123,9 @@ class CommonFileListGridView extends Component {
           render={this.renderCategory}
         />
         <GridViewColumn
-          name="status"
-          header={I18n.t('FILES.GRID.COLUMN.STATUS')}
-          render={data => (
-            <div className="text-uppercase font-weight-700">
-              {I18n.t(statusesLabels[data.statusDocument])}
-            </div>
-          )}
+          name="documentType"
+          header={I18n.t('FILES.GRID.COLUMN.DOCUMENT_TYPE')}
+          render={this.renderDocumentType}
         />
       </GridView>
     );
