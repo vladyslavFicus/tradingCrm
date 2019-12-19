@@ -42,7 +42,7 @@ class FileGrid extends Component {
   }
 
   onVerificationTypeChange = ({ uuid, verificationType, documentType }) => {
-    this.props.onVrificationTypeActionClick(uuid, verificationType, documentType);
+    this.props.onVerificationTypeActionClick(uuid, verificationType, documentType);
   }
 
   renderGridHeader = () => {
@@ -73,7 +73,7 @@ class FileGrid extends Component {
         </div>
         <div className="files-grid__header-right">
           <div className="files-grid__header-status">
-            <span className="files-grid__header-status-label">{ I18n.t('FILES.VERIFICATION_STATUS') }:</span>
+            <span className="files-grid__header-status-label">{ I18n.t('FILES.CHANGE_VERIFICATION_STATUS') }:</span>
             <Select
               value={selectedVerificationStatusValue || verificationStatus || ''}
               customClassName="files-grid__header-status-dropdown"
@@ -93,7 +93,7 @@ class FileGrid extends Component {
     );
   }
 
-  renderChangeVerificationType = ({ uuid }) => {
+  renderMoveFileDropdown = ({ uuid }) => {
     const { categories } = this.props;
 
     return (
@@ -202,8 +202,8 @@ class FileGrid extends Component {
           />
           <GridViewColumn
             name="status"
-            header={I18n.t('FILES.VERIFICATION_STATUS')}
-            render={this.renderChangeVerificationType}
+            header={I18n.t('FILES.MOVE_FILE_TO_VERIFICATION_DOCUMENT_TYPE')}
+            render={this.renderMoveFileDropdown}
           />
           <GridViewColumn
             name="date"

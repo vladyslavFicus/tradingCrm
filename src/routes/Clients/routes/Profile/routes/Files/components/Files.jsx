@@ -222,7 +222,7 @@ class Files extends Component {
                     documentType={documentType}
                     onPageChange={this.handlePageChanged}
                     onStatusActionClick={this.handleStatusActionClick}
-                    onVrificationTypeActionClick={this.handleVerificationTypeClick}
+                    onVerificationTypeActionClick={this.handleVerificationTypeClick}
                     onDownloadFileClick={this.handleDownloadFileClick}
                     onDeleteFileClick={this.handleDeleteFileClick}
                     onPreviewImageClick={this.handlePreviewImageClick}
