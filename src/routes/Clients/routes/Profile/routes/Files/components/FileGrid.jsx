@@ -110,7 +110,7 @@ class FileGrid extends Component {
     const uuidPrefix = data.clientUuid.indexOf('OPERATOR') === -1 ? playerPrefix : null;
 
     return (
-      <div>
+      <div className="files-grid__col-name">
         <div
           className={classNames('font-weight-700', { 'cursor-pointer': isClickable })}
           onClick={onClick}

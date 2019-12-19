@@ -227,7 +227,8 @@ class Files extends Component {
                     onDeleteFileClick={this.handleDeleteFileClick}
                     onPreviewImageClick={this.handlePreviewImageClick}
                   />
-                ))))
+                ))
+              ))
             }
           </When>
           <Otherwise>
