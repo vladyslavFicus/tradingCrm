@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { get } from 'lodash';
 import history from 'router/history';
 import I18n from 'i18n-js';
-import { getApiRoot } from 'config';
+import { getApiRoot, getApiVersion } from 'config';
 import TabHeader from 'components/TabHeader';
 import { withNotifications } from 'components/HighOrder';
 import { targetTypes as fileTargetTypes } from 'components/Files/constants';
@@ -127,6 +127,7 @@ class Files extends Component {
       headers: {
         Accept: 'image/*',
         authorization: `Bearer ${token}`,
+        'X-CLIENT-Version': getApiVersion(),
         'Content-Type': 'application/json',
       },
     });
@@ -169,7 +170,7 @@ class Files extends Component {
       onSubmit: this.handleDeleteFile(data.uuid),
       modalTitle: I18n.t('FILES.CONFIRM_ACTION_MODAL.TITLE'),
       actionText: I18n.t('FILES.CONFIRM_ACTION_MODAL.ACTION_TEXT', {
-        fileName: data.name,
+        fileName: data.title,
       }),
       submitButtonLabel: I18n.t('FILES.CONFIRM_ACTION_MODAL.BUTTONS.DELETE'),
     });
