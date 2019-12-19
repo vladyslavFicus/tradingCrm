@@ -76,7 +76,20 @@ class UploadModal extends Component {
       newProfile: {
         uuid: profileUUID,
       },
+      notify,
     } = this.props;
+
+    if (errors && errors[0] && errors[0].length > 0) {
+      const error = errors[0][0];
+
+      notify({
+        level: 'error',
+        title: I18n.t('COMMON.FAIL'),
+        message: I18n.t(error),
+      });
+
+      return;
+    }
 
     this.setState({ loading: true });
 
@@ -163,15 +176,10 @@ class UploadModal extends Component {
       newProfile: {
         uuid: profileUUID,
       },
-      getFilesCategoriesList: {
-        filesCategoriesList: {
-          data: {
-            __typename,
-            ...categories
-          },
-        },
-      },
+      getFilesCategoriesList,
     } = this.props;
+
+    const { __typename, ...categories } = get(getFilesCategoriesList, 'filesCategoriesList.data') || {};
 
     return (
       <UploadingFile
@@ -234,53 +242,53 @@ class UploadModal extends Component {
           />
 
           <Choose>
+            <When condition={filesToUpload.length}>
+              <div className="my-4">
+                <table className="uploading-files">
+                  <thead>
+                    <tr>
+                      <th className="uploading-files__col uploading-files__col-number" />
+                      <th className="uploading-files__col uploading-files__col-name">
+                        {I18n.t('FILES.UPLOAD_MODAL.FILE.TITLE')}
+                      </th>
+                      <th className="uploading-files__col uploading-files__col-info">
+                        {I18n.t('FILES.UPLOAD_MODAL.FILE.FILE_INFO')}
+                      </th>
+                      <th className="uploading-files__col uploading-files__col-category">
+                        {I18n.t('FILES.UPLOAD_MODAL.FILE.CATEGORY')}
+                      </th>
+                      <th className="uploading-files__col uploading-files__col-type">
+                        {I18n.t('FILES.UPLOAD_MODAL.FILE.DOCUMENT_TYPE')}
+                      </th>
+                      <th className="uploading-files__col uploading-files__col-status">
+                        {I18n.t('FILES.UPLOAD_MODAL.FILE.STATUS')}
+                      </th>
+                      <th className="uploading-files__col uploading-files__col-delete" />
+                      <th className="uploading-files__col uploading-files__col-note" />
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {filesToUpload.map(this.renderFile)}
+                  </tbody>
+                </table>
+              </div>
+            </When>
+            <Otherwise>
+              <div className="my-4">
+                <div className="text-center text-muted font-size-12">
+                  {I18n.t('FILES.UPLOAD_MODAL.NO_UPLOADED')}
+                </div>
+              </div>
+            </Otherwise>
+          </Choose>
+
+          <Choose>
             <When condition={loading}>
               <div className="uploading-files__loader">
                 <ShortLoader />
               </div>
             </When>
             <Otherwise>
-              <Choose>
-                <When condition={filesToUpload.length}>
-                  <div className="my-4">
-                    <table className="uploading-files">
-                      <thead>
-                        <tr>
-                          <th className="uploading-files__col uploading-files__col-number" />
-                          <th className="uploading-files__col uploading-files__col-name">
-                            {I18n.t('FILES.UPLOAD_MODAL.FILE.TITLE')}
-                          </th>
-                          <th className="uploading-files__col uploading-files__col-info">
-                            {I18n.t('FILES.UPLOAD_MODAL.FILE.FILE_INFO')}
-                          </th>
-                          <th className="uploading-files__col uploading-files__col-category">
-                            {I18n.t('FILES.UPLOAD_MODAL.FILE.CATEGORY')}
-                          </th>
-                          <th className="uploading-files__col uploading-files__col-type">
-                            {I18n.t('FILES.UPLOAD_MODAL.FILE.DOCUMENT_TYPE')}
-                          </th>
-                          <th className="uploading-files__col uploading-files__col-status">
-                            {I18n.t('FILES.UPLOAD_MODAL.FILE.STATUS')}
-                          </th>
-                          <th className="uploading-files__col uploading-files__col-delete" />
-                          <th className="uploading-files__col uploading-files__col-note" />
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {filesToUpload.map(this.renderFile)}
-                      </tbody>
-                    </table>
-                  </div>
-                </When>
-                <Otherwise>
-                  <div className="my-4">
-                    <div className="text-center text-muted font-size-12">
-                      {I18n.t('FILES.UPLOAD_MODAL.NO_UPLOADED')}
-                    </div>
-                  </div>
-                </Otherwise>
-              </Choose>
-
               <div className="text-center">
                 <FileUpload
                   label={I18n.t('FILES.UPLOAD_MODAL.BUTTONS.ADD_FILES')}

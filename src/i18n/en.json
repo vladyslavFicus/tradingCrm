@@ -748,7 +748,8 @@
     "SEARCH_PLACEHOLDER": "File name, File ID",
     "STATUS_CHANGED": "File status successfully changed",
     "DOCUMENT_TYPE_CHANGED": "Document type successfully changed",
-    "VERIFICATION_STATUS": "Verification status",
+    "CHANGE_VERIFICATION_STATUS": "Change verification status",
+    "MOVE_FILE_TO_VERIFICATION_DOCUMENT_TYPE": "Move to verification type > document type",
     "CATEGORIES": {
       "DOCUMENT_VERIFICATION": "Document verification",
       "ADDRESS_VERIFICATION": "Address verification"
@@ -785,7 +786,9 @@
         },
         "NOTIFICATIONS": {
           "SUCCESS": "Files uploaded successfully",
-          "ERROR": "Files for some reason not uploaded"
+          "ERROR": "Files for some reason not uploaded",
+          "SIZE_LIMIT_ERROR": "File size must be less than 16 MB",
+          "FILE_TYPE_ERROR": "File has wrong type"
         }
       },
       "TITLE": "File upload",
