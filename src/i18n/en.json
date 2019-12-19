@@ -788,7 +788,7 @@
           "SUCCESS": "Files uploaded successfully",
           "ERROR": "Files for some reason not uploaded",
           "SIZE_LIMIT_ERROR": "File size must be less than 16 MB",
-          "FILE_TYPE_ERROR": "File have wrong type"
+          "FILE_TYPE_ERROR": "File has wrong type"
         }
       },
       "TITLE": "File upload",

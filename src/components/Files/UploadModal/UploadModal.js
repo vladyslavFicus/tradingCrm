@@ -79,7 +79,7 @@ class UploadModal extends Component {
       notify,
     } = this.props;
 
-    if (errors && errors.length > 0) {
+    if (errors && errors[0] && errors[0].length > 0) {
       const error = errors[0][0];
 
       notify({
@@ -176,15 +176,10 @@ class UploadModal extends Component {
       newProfile: {
         uuid: profileUUID,
       },
-      getFilesCategoriesList: {
-        filesCategoriesList: {
-          data: {
-            __typename,
-            ...categories
-          },
-        },
-      },
+      getFilesCategoriesList,
     } = this.props;
+
+    const { __typename, ...categories } = get(getFilesCategoriesList, 'filesCategoriesList.data') || {};
 
     return (
       <UploadingFile
