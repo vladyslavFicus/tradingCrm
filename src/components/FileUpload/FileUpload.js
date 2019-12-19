@@ -13,10 +13,10 @@ class FileUpload extends Component {
   };
 
   static defaultProps = {
-    allowedSize: 2,
+    allowedSize: 16,
     allowedTypes: [],
-    incorrectFileSize: 'Incorrect file size',
-    invalidFileType: 'Invalid file type',
+    incorrectFileSize: 'FILES.UPLOAD_MODAL.FILE.NOTIFICATIONS.SIZE_LIMIT_ERROR',
+    invalidFileType: 'FILES.UPLOAD_MODAL.FILE.NOTIFICATIONS.FILE_TYPE_ERROR',
     singleMode: true,
   };
 
@@ -35,14 +35,19 @@ class FileUpload extends Component {
       return errors;
     }
 
-    const { allowedTypes, allowedSize } = this.props;
+    const {
+      incorrectFileSize,
+      invalidFileType,
+      allowedTypes,
+      allowedSize,
+    } = this.props;
 
     if (allowedTypes.length && allowedTypes.indexOf(file.type) === -1) {
-      errors.push('Invalid file type');
+      errors.push(invalidFileType);
     }
 
     if (file.size > allowedSize * (1024 * 1024)) {
-      errors.push('Incorrect file size');
+      errors.push(incorrectFileSize);
     }
 
     return errors;

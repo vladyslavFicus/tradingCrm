@@ -76,7 +76,20 @@ class UploadModal extends Component {
       newProfile: {
         uuid: profileUUID,
       },
+      notify,
     } = this.props;
+
+    if (errors && errors.length > 0) {
+      const error = errors[0][0];
+
+      notify({
+        level: 'error',
+        title: I18n.t('COMMON.FAIL'),
+        message: I18n.t(error),
+      });
+
+      return;
+    }
 
     this.setState({ loading: true });
 
