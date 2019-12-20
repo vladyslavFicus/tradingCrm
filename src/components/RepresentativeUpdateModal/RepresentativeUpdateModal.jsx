@@ -137,9 +137,7 @@ class RepresentativeUpdateModal extends Component {
       await this.handleTeamChange(teams[0].uuid);
     } else if (selectedTeam) {
       change(fieldNames.TEAM, null);
-    }
-
-    if (selectedRep) {
+    } else if (teams && teams.length >= 2 && selectedRep) {
       change(fieldNames.REPRESENTATIVE, null);
     }
 
@@ -157,7 +155,6 @@ class RepresentativeUpdateModal extends Component {
       change,
       type,
     } = this.props;
-
     const { data: { hierarchy: { usersByBranch: { data, error } } } } = await client.query({
       query: getUsersByBranch,
       variables: {
@@ -174,10 +171,18 @@ class RepresentativeUpdateModal extends Component {
     const agents = filterAgents(data || [], type);
     change(fieldNames.TEAM, selectedTeam);
 
-    if (agents && agents.length === 1) {
-      change(fieldNames.REPRESENTATIVE, [agents[0].uuid]);
-    } else if (selectedRep) {
-      change(fieldNames.REPRESENTATIVE, null);
+    if (agents && agents.length >= 1) {
+      if (selectedRep) {
+        let repIncludesAgents = false;
+        agents.forEach((agent) => {
+          if (selectedRep.includes(agent.uuid)) {
+            repIncludesAgents = true;
+          }
+        });
+        if (!repIncludesAgents) {
+          this.handleRepChange(agents[0].uuid);
+        }
+      }
     }
 
     this.setState({
