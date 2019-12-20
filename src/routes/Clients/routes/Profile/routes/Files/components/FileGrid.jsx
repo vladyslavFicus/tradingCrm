@@ -12,6 +12,7 @@ import GridEmptyValue from 'components/GridEmptyValue';
 import Select from 'components/Select';
 import Uuid from 'components/Uuid';
 import permissions from 'config/permissions';
+import { statusesCategory } from '../constants';
 import MoveFileDropDown from './MoveFileDropDown';
 
 class FileGrid extends Component {
@@ -49,21 +50,6 @@ class FileGrid extends Component {
     const { verificationStatus, documentType, verificationType } = this.props;
     const { selectedVerificationStatusValue } = this.state;
 
-    const options = [
-      {
-        value: 'APPROVED',
-        label: I18n.t('FILES.STATUSES.APPROVED'),
-      },
-      {
-        value: 'REJECTED',
-        label: I18n.t('FILES.STATUSES.REJECTED'),
-      },
-      {
-        value: 'PENDING',
-        label: I18n.t('FILES.STATUSES.PENDING'),
-      },
-    ];
-
     return (
       <div className="files-grid__header">
         <div className="files-grid__header-left">
@@ -83,8 +69,8 @@ class FileGrid extends Component {
               }}
               placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
             >
-              {options.map(({ value, label }) => (
-                <option key={`${verificationType}-${documentType}-${value}`} value={value}>{label}</option>
+              {statusesCategory.map(({ value, label }) => (
+                <option key={`${verificationType}-${documentType}-${value}`} value={value}>{I18n.t(label)}</option>
               ))}
             </Select>
           </div>
@@ -172,13 +158,13 @@ class FileGrid extends Component {
     </Choose>
   );
 
-  renderNote = data => (
+  renderNote = ({ uuid, clientUuid, note }) => (
     <NoteButton
-      key={data.uuid}
-      playerUUID={data.clientUuid}
-      targetUUID={data.uuid}
+      key={uuid}
+      playerUUID={clientUuid}
+      targetUUID={uuid}
       targetType={targetTypes.FILE}
-      note={data.note}
+      note={note}
     />
   );
 

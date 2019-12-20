@@ -28,6 +28,7 @@ const getFilesListByProfileUUID = gql`query files(
         verifiedBy
         verificationStatus
         files {
+          _id
           clientUuid
           client {
             fullName
