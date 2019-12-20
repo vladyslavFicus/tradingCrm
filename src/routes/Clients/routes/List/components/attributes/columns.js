@@ -93,7 +93,7 @@ export default () => [{
                 className="header-block-middle"
                 target="_blank"
                 rel="noopener noreferrer"
-                href={`/operators/${uuid}`}
+                href={`/partners/${uuid}/profile`}
               >
                 {firstName}
               </a>
