@@ -1,6 +1,4 @@
 // ================ MIXINS ================ //
-
-// Mixin for primary button
 @mixin btn-primary {
   border: solid 1px #154b98;
   background: #154b98 none;
@@ -15,82 +13,80 @@
   }
 }
 
-// Mixin for choice brand item
-@mixin brand-choice-item {
-  background-color: rgba(21, 75, 152, 0.9);
-  border: solid 1px #ffffff;
-  box-shadow: 0 2px 12px 0 rgba(0, 140, 254, 0.5);
-
-  &:hover {
-    box-shadow: 0 2px 12px 0 rgb(0, 101, 202);
-  }
-}
-
 // ================ Redefine AuthLayout (BlackLayout) styles ================ //
-.crm-background {
+.black-layout {
   background-color: #ffffff;
 
-  .form-page {
+  .auth {
     &__form {
       background-color: rgba(255, 255, 255, 0.77);
       border: solid 1px #154b98;
       box-shadow: none;
+    }
+  }
 
-      &_btn {
-        @include btn-primary;
-      }
+  .brands {
+    &__title {
+      color: #154b98;
     }
 
-    &__multibrand {
-      &_heading {
-        color: #154b98;
-        text-shadow: none;
-      }
-
-      &_call-to-action {
-        color: #177212;
-        text-shadow: none;
-      }
-
-      .choice-item {
-        @include brand-choice-item;
-
-        &__label {
-          color: #ffffff;
-          text-shadow: none;
-        }
-      }
-    }
-
-    &__department {
-      &_return {
-        color: #154b98;
-        text-shadow: none;
-
-        &:hover {
-          color: #1d6fdf;
-        }
-      }
-
-      .department-item {
-        @include brand-choice-item;
-      }
-
-      .department-name, .department-role {
-        color: #ffffff;
-        text-shadow: none;
-      }
-    }
-
-    &__copyright {
+    &__subtitle {
       color: #177212;
     }
+
+    &__item {
+      background-color: rgba(21, 75, 152, 0.9);
+      border: solid 1px #ffffff;
+      box-shadow: 0 2px 12px 0 rgba(0, 140, 254, 0.5);
+
+      &:hover {
+        box-shadow: 0 2px 12px 0 rgb(0, 101, 202);
+      }
+
+      &-title {
+        color: #ffffff;
+      }
+    }
+  }
+
+  .departments {
+    &__back {
+      color: #154b98;
+
+      &:hover {
+        color: #1d6fdf;
+      }
+    }
+
+    &__title {
+      color: #154b98;
+    }
+    
+    &__item {
+      background-color: rgba(21, 75, 152, 0.9);
+      border: solid 1px #ffffff;
+      box-shadow: 0 2px 12px 0 rgba(0, 140, 254, 0.5);
+
+      &:hover {
+        box-shadow: 0 2px 12px 0 rgb(0, 101, 202);
+      }
+
+      &-title,
+      &-role {
+        color: #ffffff;
+      }
+    }
+  }
+
+  .copyrights {
+    color: #177212;
   }
 }
 
 
 // ================ Redefine other styles ================ //
-.header, .sidebar {
+.header,
+.sidebar {
   background-color: #154b98;
 }
 
@@ -117,6 +113,7 @@
   background: #154b98 none;
 }
 
-.drop-down .dropdown-item.active, .drop-down .dropdown-item:active {
+.drop-down .dropdown-item.active,
+.drop-down .dropdown-item:active {
   background: #154b98 none !important;
 }
