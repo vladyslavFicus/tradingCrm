@@ -41,7 +41,7 @@ class SignInForm extends Component {
           validate={validator}
         >
           {({ isSubmitting }) => (
-            <Form className="auth__form">
+            <Form className="auth__form form-page__form">
               <If condition={formError}>
                 <div className="alert alert-warning">
                   {formError}

@@ -39,10 +39,10 @@ class Departments extends Component {
 
     return (
       <CSSTransition classNames="departments" in={startAnimation} timeout={0}>
-        <div className="departments">
+        <div className="departments form-page__multibrand">
           <Choose>
             <When condition={brands.length <= 1}>
-              <div className="departments__title">
+              <div className="departments__title form-page__multibrand_heading">
                 <Greeting />
               </div>
             </When>
@@ -56,13 +56,13 @@ class Departments extends Component {
 
           <Choose>
             <When condition={brands.length > 1}>
-              <div className="departments__back">
+              <div className="departments__back form-page__department_return">
                 <span onClick={handleOnBackClick}>All brands</span>
               </div>
             </When>
           </Choose>
 
-          <div className="departments__list">
+          <div className="departments__list form-page__department">
             {departments.map(department => (
               <DepartmentItem
                 key={department.name}

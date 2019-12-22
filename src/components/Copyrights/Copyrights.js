@@ -6,7 +6,7 @@ import './copyrights.scss';
 const year = (new Date()).getFullYear();
 
 const Copyrights = () => (
-  <div className="copyrights">
+  <div className="copyrights form-page__copyright">
     Copyright © {year} by {startCase(getBackofficeBrand().id)}
   </div>
 );

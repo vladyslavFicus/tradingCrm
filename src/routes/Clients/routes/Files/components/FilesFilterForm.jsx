@@ -35,6 +35,8 @@ class FileListFilterForm extends Component {
   handleReset = () => {
     this.props.reset();
     this.props.onSubmit();
+
+    this.setState({ selectedCategory: null });
   };
 
   startDateValidator = (current) => {
@@ -113,15 +115,18 @@ class FileListFilterForm extends Component {
             placeholder={I18n.t(attributeLabels.uploadedDateFrom)}
             component={DateTimeField}
             isValidDate={this.startDateValidator}
-            timeFormat={null}
             pickerClassName="left-side"
+            timePresets
+            withTime
           />
           <Field
             name="uploadedDateTo"
             placeholder={I18n.t(attributeLabels.uploadedDateTo)}
             component={DateTimeField}
             isValidDate={this.endDateValidator}
-            timeFormat={null}
+            isDateRangeEndValue
+            timePresets
+            withTime
           />
         </RangeGroup>
         <div className="filter-row__button-block">
@@ -155,7 +160,7 @@ export default connect(state => ({
   touchOnChange: true,
   validate: createValidator({
     searchBy: 'string',
-    uploadedDateFrom: 'regex:/^\\d{4}-\\d{2}-\\d{2}$/',
-    uploadedDateTo: 'regex:/^\\d{4}-\\d{2}-\\d{2}$/',
+    uploadedDateFrom: 'regex:/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/',
+    uploadedDateTo: 'regex:/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/',
   }, translateLabels(attributeLabels), false),
 })(FileListFilterForm));

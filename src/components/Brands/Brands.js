@@ -28,8 +28,8 @@ class Brands extends Component {
 
     return (
       <CSSTransition classNames="brands" in={startAnimation} timeout={0}>
-        <div className="brands">
-          <div className="brands__title">
+        <div className="brands form-page__multibrand">
+          <div className="brands__title form-page__multibrand_heading">
             <Greeting />
           </div>
           <div className="brands__subtitle">

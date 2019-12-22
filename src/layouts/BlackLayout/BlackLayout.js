@@ -5,7 +5,7 @@ import './BlackLayout.scss';
 
 const BlackLayout = ({ children }) => (
   <div
-    className="black-layout"
+    className="crm-background black-layout"
     style={{ backgroundImage: `url(${getBackofficeBrand().themeConfig.authBackground})` }}
   >
     {children}
