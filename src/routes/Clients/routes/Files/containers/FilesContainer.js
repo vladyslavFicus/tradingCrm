@@ -52,10 +52,14 @@ export default compose(
                 fileList: {
                   ...previousResult.fileList,
                   ...fetchMoreResult.fileList,
-                  content: [
-                    ...previousResult.fileList.data.content,
-                    ...fetchMoreResult.fileList.data.content,
-                  ],
+                  data: {
+                    ...previousResult.fileList.data,
+                    ...fetchMoreResult.fileList.data,
+                    content: [
+                      ...previousResult.fileList.data.content,
+                      ...fetchMoreResult.fileList.data.content,
+                    ],
+                  },
                 },
               };
             },
