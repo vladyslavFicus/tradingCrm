@@ -1,5 +1,5 @@
 name: falcon/backoffice
-version: 0.0.@
+version: 0.@
 extends:
 - devops/escape_docker-latest
 
