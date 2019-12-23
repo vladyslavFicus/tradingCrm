@@ -172,25 +172,30 @@ class List extends Component {
     const { allRowsSelected } = this.state;
     const searchLimit = get(query, 'filters.searchLimit') || null;
 
+    let selectedRowsLength = null;
+
+    if (searchLimit) {
+      selectedRowsLength = searchLimit;
+    } else if (totalElements > MAX_SELECTED_ROWS) {
+      selectedRowsLength = MAX_SELECTED_ROWS;
+    } else {
+      selectedRowsLength = totalElements;
+    }
+
     this.setState({
       allRowsSelected: !allRowsSelected,
       touchedRowsIds: [],
       selectedRows: allRowsSelected
         ? []
-        : [...Array.from(Array(
-          totalElements > MAX_SELECTED_ROWS ? MAX_SELECTED_ROWS : searchLimit || totalElements,
-        ).keys())],
+        : [...Array.from(Array(selectedRowsLength).keys())],
     });
 
     // Check if selected all rows and total elements more than max available elements to execute action
-    if (!allRowsSelected && totalElements > MAX_SELECTED_ROWS) {
-      const { selectedRows } = this.state;
-      const max = selectedRows.length.toLocaleString('en');
-
+    if (allRowsSelected && selectedRowsLength > MAX_SELECTED_ROWS) {
       confirmationModal.show({
         onSubmit: confirmationModal.hide,
-        modalTitle: `${max} ${I18n.t('COMMON.CLIENTS_SELECTED')}`,
-        actionText: I18n.t('COMMON.NOT_MORE_CAN_SELECTED', { max }),
+        modalTitle: `${MAX_SELECTED_ROWS} ${I18n.t('COMMON.CLIENTS_SELECTED')}`,
+        actionText: I18n.t('COMMON.NOT_MORE_CAN_SELECTED', { MAX_SELECTED_ROWS }),
         submitButtonLabel: I18n.t('COMMON.OK'),
       });
     }

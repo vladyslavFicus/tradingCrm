@@ -28,12 +28,7 @@ export default compose(
     name: 'profiles',
     options: ({ location: { query } }) => {
       const filters = (query) ? query.filters : {};
-      const firstTimeDeposit = get(filters, 'firstTimeDeposit', null);
       const { searchLimit } = filters;
-
-      if (firstTimeDeposit) {
-        filters.firstTimeDeposit = Boolean(parseInt(firstTimeDeposit, 10));
-      }
 
       // The backend expected to get desks and teams like arrays of strings
       // but for now, redux form returns just strings for desks and teams
@@ -45,6 +40,10 @@ export default compose(
 
         if (filters.teams && !Array.isArray(filters.teams)) {
           filters.teams = [filters.teams];
+        }
+
+        if (filters.firstTimeDeposit) {
+          filters.firstTimeDeposit = Boolean(filters.firstTimeDeposit);
         }
       }
 

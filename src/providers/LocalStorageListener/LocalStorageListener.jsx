@@ -11,6 +11,9 @@ class LocalStorageListener extends Component {
     auth: PropTypes.auth,
     locale: PropTypes.string,
     storage: PropTypes.storage.isRequired,
+    brand: PropTypes.shape({
+      id: PropTypes.string,
+    }).isRequired,
   };
 
   static defaultProps = {
@@ -35,13 +38,13 @@ class LocalStorageListener extends Component {
   }
 
   render() {
-    const { auth, locale } = this.props;
+    const { auth, locale, brand } = this.props;
     this.initLocale();
 
     return (
-      <IndexRoute key={`${locale}-${auth ? auth.department : ''}`} />
+      <IndexRoute key={`${locale}-${auth ? auth.department : ''}-${brand ? brand.id : ''}`} />
     );
   }
 }
 
-export default withStorage(['locale', 'auth'])(LocalStorageListener);
+export default withStorage(['locale', 'auth', 'brand'])(LocalStorageListener);
