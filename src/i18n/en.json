@@ -752,7 +752,8 @@
     "MOVE_FILE_TO_VERIFICATION_DOCUMENT_TYPE": "Move to verification type > document type",
     "CATEGORIES": {
       "DOCUMENT_VERIFICATION": "Document verification",
-      "ADDRESS_VERIFICATION": "Address verification"
+      "ADDRESS_VERIFICATION": "Address verification",
+      "OTHER": "Other"
     },
     "DOCUMENT_TYPES": {
       "ID_CARD": "Id card",
@@ -764,7 +765,8 @@
       "RENT_AGREEMENT": "Rent agreement",
       "EMPLOYER_LETTER": "Employer letter",
       "INSURANCE_AGREEMENT": "Insurance agreement",
-      "CREDIT_OR_DEBIT_CARD": "Credit or debit card"
+      "CREDIT_OR_DEBIT_CARD": "Credit or debit card",
+      "OTHER": "Other"
     },
     "UPLOAD_MODAL": {
       "FILE": {
@@ -863,7 +865,8 @@
     },
     "CATEGORY": {
       "DOCUMENT_VERIFICATION": "Document verification",
-      "ADDRESS_VERIFICATION": "Address verification"
+      "ADDRESS_VERIFICATION": "Address verification",
+      "OTHER": "Other"
     }
   },
   "CONSTANTS": {

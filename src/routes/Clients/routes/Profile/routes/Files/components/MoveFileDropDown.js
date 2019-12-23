@@ -38,6 +38,7 @@ class MoveFileDropDown extends Component {
         placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
       >
         {Object.entries(categories)
+          .filter(([category]) => category !== 'OTHER')
           .map(([key, value]) => (value.map(item => (
             <option
               key={`${uuid}-${key}-${item}`}

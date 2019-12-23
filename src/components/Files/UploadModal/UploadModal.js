@@ -13,6 +13,7 @@ class UploadModal extends Component {
   static propTypes = {
     dirty: PropTypes.bool,
     invalid: PropTypes.bool,
+    change: PropTypes.func.isRequired,
     notify: PropTypes.func.isRequired,
     onClose: PropTypes.func.isRequired,
     submitting: PropTypes.bool.isRequired,
@@ -177,12 +178,14 @@ class UploadModal extends Component {
         uuid: profileUUID,
       },
       getFilesCategoriesList,
+      change,
     } = this.props;
 
     const { __typename, ...categories } = get(getFilesCategoriesList, 'filesCategoriesList.data') || {};
 
     return (
       <UploadingFile
+        change={change}
         fileData={file}
         number={index + 1}
         key={file.fileUuid}

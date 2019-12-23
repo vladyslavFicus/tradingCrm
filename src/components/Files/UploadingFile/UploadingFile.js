@@ -22,6 +22,7 @@ class UploadingFile extends Component {
     addFileNote: PropTypes.func.isRequired,
     updateFileNote: PropTypes.func.isRequired,
     removeFileNote: PropTypes.func.isRequired,
+    change: PropTypes.func.isRequired,
   };
 
   state = {
@@ -97,7 +98,12 @@ class UploadingFile extends Component {
               placeholder={I18n.t('FILES.UPLOAD_MODAL.FILE.CATEGORY_DEFAULT_OPTION')}
               name={`${fileUuid}.category`}
               component={NasSelectField}
-              onChange={(_, value) => this.setState({ selectedCategory: value })}
+              onChange={(_, value) => {
+                this.setState({ selectedCategory: value });
+                if (value === 'OTHER') {
+                  this.props.change(`${fileUuid}.documentType`, 'OTHER');
+                }
+              }}
               searchable={false}
               label=""
             >
@@ -114,7 +120,7 @@ class UploadingFile extends Component {
             <Field
               placeholder={I18n.t('FILES.UPLOAD_MODAL.FILE.DOCUMENT_TYPE_DEFAULT_OPTION')}
               name={`${fileUuid}.documentType`}
-              disabled={!selectedCategory}
+              disabled={!selectedCategory || selectedCategory === 'OTHER'}
               component={NasSelectField}
               searchable={false}
               label=""

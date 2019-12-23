@@ -54,27 +54,31 @@ class FileGrid extends Component {
       <div className="files-grid__header">
         <div className="files-grid__header-left">
           <div className="files-grid__header-category">{ I18n.t(`FILES.CATEGORY.${verificationType}`) }</div>
-          <div className="files-grid__header-separator" />
-          <div className="files-grid__header-document-type">{ I18n.t(`FILES.DOCUMENTS_TYPE.${documentType}`) }</div>
+          <If condition={verificationType !== 'OTHER'}>
+            <div className="files-grid__header-separator" />
+            <div className="files-grid__header-document-type">{ I18n.t(`FILES.DOCUMENTS_TYPE.${documentType}`) }</div>
+          </If>
         </div>
-        <div className="files-grid__header-right">
-          <div className="files-grid__header-status">
-            <span className="files-grid__header-status-label">{ I18n.t('FILES.CHANGE_VERIFICATION_STATUS') }:</span>
-            <Select
-              value={selectedVerificationStatusValue || verificationStatus || ''}
-              customClassName="files-grid__header-status-dropdown"
-              onChange={(value) => {
-                this.setState({ selectedVerificationStatusValue: value });
-                this.onVerificationStatusChange(value);
-              }}
-              placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
-            >
-              {statusesCategory.map(({ value, label }) => (
-                <option key={`${verificationType}-${documentType}-${value}`} value={value}>{I18n.t(label)}</option>
-              ))}
-            </Select>
+        <If condition={verificationType !== 'OTHER'}>
+          <div className="files-grid__header-right">
+            <div className="files-grid__header-status">
+              <span className="files-grid__header-status-label">{ I18n.t('FILES.CHANGE_VERIFICATION_STATUS') }:</span>
+              <Select
+                value={selectedVerificationStatusValue || verificationStatus || ''}
+                customClassName="files-grid__header-status-dropdown"
+                onChange={(value) => {
+                  this.setState({ selectedVerificationStatusValue: value });
+                  this.onVerificationStatusChange(value);
+                }}
+                placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
+              >
+                {statusesCategory.map(({ value, label }) => (
+                  <option key={`${verificationType}-${documentType}-${value}`} value={value}>{I18n.t(label)}</option>
+                ))}
+              </Select>
+            </div>
           </div>
-        </div>
+        </If>
       </div>
     );
   }
@@ -192,11 +196,13 @@ class FileGrid extends Component {
             header={I18n.t('FILES.GRID.COLUMN.EXPIRATION_DATE')}
             render={this.renderDate('expirationTime', false)}
           />
-          <GridViewColumn
-            name="status"
-            header={I18n.t('FILES.MOVE_FILE_TO_VERIFICATION_DOCUMENT_TYPE')}
-            render={this.renderMoveFileDropdown}
-          />
+          <If condition={this.props.verificationType !== 'OTHER'}>
+            <GridViewColumn
+              name="status"
+              header={I18n.t('FILES.MOVE_FILE_TO_VERIFICATION_DOCUMENT_TYPE')}
+              render={this.renderMoveFileDropdown}
+            />
+          </If>
           <GridViewColumn
             name="date"
             header={I18n.t('FILES.GRID.COLUMN.DATE_TIME')}
