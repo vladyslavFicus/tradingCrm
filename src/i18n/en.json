@@ -494,6 +494,7 @@
     "ENABLED": "Enabled",
     "KYC_DOCUMENTS": "KYC documents",
     "PARTNER": "Partner",
+    "OK": "Ok",
     "UPDATE_VERSION_MODAL": {
       "TEXT": "Backoffice has been updated. To continue working with it click the button below. It will reload the page and update you Backoffice version.",
       "TITLE": "Update your client version"
