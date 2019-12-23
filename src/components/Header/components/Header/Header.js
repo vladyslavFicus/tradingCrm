@@ -16,16 +16,20 @@ class Header extends Component {
     brands: PropTypes.arrayOf(
       PropTypes.brand.isRequired,
     ).isRequired,
+    brand: PropTypes.shape({
+      brand: PropTypes.string,
+    }).isRequired,
   };
 
   render() {
-    const { departments, brands } = this.props;
+    const { departments, brands, brand: { brand } } = this.props;
 
     return (
       <header className="header">
         <Logo
           className="header__logo"
           to={brands.length > 1 ? '/brands' : '/'}
+          brand={brand}
         />
         <div className="header__body">
           <If condition={departments.length > 1}>
@@ -43,4 +47,4 @@ class Header extends Component {
   }
 }
 
-export default withStorage(['brands', 'departments'])(Header);
+export default withStorage(['brands', 'departments', 'brand'])(Header);
