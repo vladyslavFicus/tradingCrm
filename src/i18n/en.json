@@ -1056,7 +1056,10 @@
         "WIRECAPITAL": "Wirecapital",
         "EFTPAY": "EFTPay",
         "PAYTRIO": "Paytrio",
-        "CASHIER": "Cashier"
+        "CASHIER": "Cashier",
+        "CHARGEBACK": "Chargeback",
+        "CRYPTOCURRENCY_EXTERNAL": "Cryptocurrency external",
+        "VOGUEPAY": "Voguepay"
       },
       "PAYMENT_AGGREGATORS": {
         "CASHIER": "Cashier",

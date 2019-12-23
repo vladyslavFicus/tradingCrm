@@ -110,9 +110,9 @@ class View extends Component {
             )}
           >
             <Choose>
-              <When condition={paymentsError && !!paymentsError.totalElements}>
+              <When condition={payments && payments.totalElements}>
                 <span className="font-size-20">
-                  <strong>{paymentsError.totalElements} </strong>
+                  <strong>{payments.totalElements} </strong>
                   {I18n.t('COMMON.PAYMENTS')}
                 </span>
               </When>
