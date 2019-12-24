@@ -14,6 +14,7 @@ class FileListFilterForm extends Component {
     handleSubmit: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
     reset: PropTypes.func.isRequired,
+    change: PropTypes.func.isRequired,
     currentValues: PropTypes.object,
     invalid: PropTypes.bool,
     categories: PropTypes.shape({
@@ -79,10 +80,16 @@ class FileListFilterForm extends Component {
           className="filter-row__big"
         />
         <Field
+          className="filter-row__medium"
           placeholder={I18n.t('FILES.UPLOAD_MODAL.FILE.CATEGORY_DEFAULT_OPTION')}
           name="verificationType"
           component={NasSelectField}
-          onChange={(_, value) => this.setState({ selectedCategory: value })}
+          onChange={(_, value) => {
+            this.setState({ selectedCategory: value });
+            if (value === 'OTHER') {
+              this.props.change('documentType', 'OTHER');
+            }
+          }}
           searchable={false}
           label={I18n.t('FILES.UPLOAD_MODAL.FILE.CATEGORY')}
         >
@@ -93,9 +100,10 @@ class FileListFilterForm extends Component {
           ))}
         </Field>
         <Field
+          className="filter-row__medium"
           placeholder={I18n.t('FILES.UPLOAD_MODAL.FILE.DOCUMENT_TYPE_DEFAULT_OPTION')}
           name="documentType"
-          disabled={!selectedCategory}
+          disabled={!selectedCategory || selectedCategory === 'OTHER'}
           component={NasSelectField}
           searchable={false}
           label={I18n.t('FILES.UPLOAD_MODAL.FILE.DOCUMENT_TYPE')}

@@ -114,6 +114,7 @@ const getFilesCategoriesList = gql`query filesCategoriesList {
     data {
       DOCUMENT_VERIFICATION
       ADDRESS_VERIFICATION
+      OTHER
     }
   }
 }`;
