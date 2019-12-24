@@ -43,7 +43,11 @@ export default compose(
         }
 
         if (filters.firstTimeDeposit) {
-          filters.firstTimeDeposit = Boolean(filters.firstTimeDeposit);
+          if (typeof filters.firstTimeDeposit === 'string') {
+            filters.firstTimeDeposit = Boolean(parseInt(filters.firstTimeDeposit, 10));
+          } else {
+            filters.firstTimeDeposit = Boolean(filters.firstTimeDeposit);
+          }
         }
       }
 
