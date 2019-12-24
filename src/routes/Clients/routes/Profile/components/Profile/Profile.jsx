@@ -218,8 +218,7 @@ class Profile extends Component {
 
     if (!newProfile.loading) {
       await Promise.all([
-        // # !!! Todo: need to add file refetch here after attachment service will be done
-        // filesList.refetch(),
+        filesList.refetch(),
         newProfile.refetch(),
         pinnedNotes.refetch(),
         ...[questionnaireLastData && questionnaireLastData.refetch()],
