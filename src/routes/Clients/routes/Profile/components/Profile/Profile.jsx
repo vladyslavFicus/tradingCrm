@@ -211,6 +211,7 @@ class Profile extends Component {
   // #
   handleLoadProfile = async (needForceUpdate = false) => {
     const {
+      filesList,
       newProfile,
       pinnedNotes,
       questionnaireLastData,
