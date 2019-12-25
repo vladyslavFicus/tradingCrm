@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react';
 import moment from 'moment';
 import classNames from 'classnames';
 import I18n from 'i18n-js';
+import { get } from 'lodash';
 import { withPermission } from 'providers/PermissionsProvider';
 import PropTypes from 'constants/propTypes';
 import Regulated from 'components/Regulation';
@@ -141,16 +142,13 @@ class Header extends Component {
           lastSignInSessions,
         },
         tradingAccount,
-        riskQuestionnaire: {
-          data: {
-            riskCategory,
-          },
-        },
+        riskQuestionnaire,
       },
     } = this.props;
 
     const { isRunningReloadAnimation } = this.state;
 
+    const riskCategory = get(riskQuestionnaire, 'data.riskCategory') || null;
     const fullName = [firstName, lastName].filter(i => i).join(' ');
 
     return (
@@ -243,9 +241,7 @@ class Header extends Component {
               availableStatuses={availableStatuses}
             />
 
-            <RiskStatus
-              riskCategory={riskCategory}
-            />
+            <RiskStatus riskCategory={riskCategory} />
           </div>
           <div className="header-block header-block_balance" id="player-profile-balance-block">
             <If condition={uuid}>
