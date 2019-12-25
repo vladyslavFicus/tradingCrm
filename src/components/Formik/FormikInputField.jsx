@@ -1,10 +1,8 @@
-/* eslint-disable */
-
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import Input from '../Input';
 
-class InputField extends PureComponent {
+class FormikInputField extends PureComponent {
   static propTypes = {
     field: PropTypes.shape({
       name: PropTypes.string.isRequired,
@@ -18,16 +16,8 @@ class InputField extends PureComponent {
           PropTypes.arrayOf(PropTypes.string),
         ]),
       ).isRequired,
+      touched: PropTypes.objectOf(PropTypes.bool),
     }).isRequired,
-    meta: PropTypes.shape({
-      value: PropTypes.string,
-      touched: PropTypes.bool,
-      error: PropTypes.string,
-    }),
-  };
-
-  static defaultProps = {
-    meta: {},
   };
 
   render() {
@@ -37,8 +27,6 @@ class InputField extends PureComponent {
       form: {
         isSubmitting,
         errors,
-      },
-      meta: {
         touched,
       },
       ...rest
@@ -48,7 +36,7 @@ class InputField extends PureComponent {
       type,
       ...rest,
       ...field,
-      ...(touched && !isSubmitting),
+      ...(touched[field.name] && !isSubmitting),
       error: errors && errors[field.name],
     };
 
@@ -56,4 +44,4 @@ class InputField extends PureComponent {
   }
 }
 
-export default InputField;
+export default FormikInputField;

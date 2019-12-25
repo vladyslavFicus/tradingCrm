@@ -2080,7 +2080,8 @@
       "CALLBACKS": "Callbacks",
       "FILES": "Files",
       "NOTES": "Notes",
-      "FEED": "Feed"
+      "FEED": "Feed",
+      "RISK_PROFILE": "Risk Profile"
     },
     "PROFILE": {
       "TITLE": "Profile",
@@ -2312,6 +2313,31 @@
       },
       "WEB_COOKIES": {
         "TITLE": "Web Cookies"
+      }
+    },
+    "RISKS": {
+      "STATUS": {
+        "TITLE": "Risk category",
+        "STATUSES": {
+          "DEFAULT": "Not specified",
+          "HIGH_RISK": "High risk",
+          "MEDIUM_RISK": "Medium risk",
+          "LOW_RISK": "Low risk"
+        }
+      },
+      "TAB": {
+        "MODAL": {
+          "TITLE": "Risk Category Status Changing",
+          "ACTION_TEXT": "The Client has been assigned to the \"HIGH RISK\" category.",
+          "SUBMIT_TEXT": "OK"
+        },
+        "BUTTONS": {
+          "SAVE": "Save",
+          "CALCULATE": "Calculate"
+        },
+        "RESULT": {
+          "TOTAL_TITLE": "Customer Risk Total Score"
+        }
       }
     },
     "FATCA": {

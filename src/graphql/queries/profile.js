@@ -150,6 +150,11 @@ const newProfile = gql`query newProfile($playerUUID: String!){
           startedAt
         }
       }
+      riskQuestionnaire {
+        data {
+          riskCategory
+        }
+      }
       tradingAccount {
         accountUUID
         accountType

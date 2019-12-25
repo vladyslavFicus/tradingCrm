@@ -28,7 +28,11 @@ export const userProfileTabs = [{
 }, {
   label: 'CLIENT_PROFILE.TABS.FEED',
   url: '/clients/:id/feed',
-}];
+}, {
+  label: 'CLIENT_PROFILE.TABS.RISK_PROFILE',
+  url: '/clients/:id/risk',
+},
+];
 
 export const moveField = type => ({
   name: 'acquisitionStatus',

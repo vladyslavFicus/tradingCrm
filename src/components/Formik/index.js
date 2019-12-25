@@ -1,1 +1,7 @@
-export { default as InputField } from './InputField';
+import FormikInputField from './FormikInputField';
+import FormikSelectField from './FormikSelectField';
+
+export {
+  FormikInputField,
+  FormikSelectField,
+};

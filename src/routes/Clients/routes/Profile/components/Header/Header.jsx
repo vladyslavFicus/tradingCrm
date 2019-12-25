@@ -16,6 +16,7 @@ import PermissionContent from 'components/PermissionContent';
 import StickyWrapper from 'components/StickyWrapper';
 import customTimeout from 'utils/customTimeout';
 import PlayerStatus from '../PlayerStatus';
+import RiskStatus from '../RiskStatus';
 import Balances from '../Balances';
 import HeaderPlayerPlaceholder from '../HeaderPlayerPlaceholder';
 import Questionnaire from '../Questionnaire';
@@ -140,6 +141,11 @@ class Header extends Component {
           lastSignInSessions,
         },
         tradingAccount,
+        riskQuestionnaire: {
+          data: {
+            riskCategory,
+          },
+        },
       },
     } = this.props;
 
@@ -235,6 +241,10 @@ class Header extends Component {
               reason={reason}
               onChange={this.handleStatusChange}
               availableStatuses={availableStatuses}
+            />
+
+            <RiskStatus
+              riskCategory={riskCategory}
             />
           </div>
           <div className="header-block header-block_balance" id="player-profile-balance-block">

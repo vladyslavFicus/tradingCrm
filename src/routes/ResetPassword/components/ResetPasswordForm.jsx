@@ -4,7 +4,7 @@ import { CSSTransition } from 'react-transition-group';
 import { Formik, Form, Field } from 'formik';
 import I18n from 'i18n-js';
 import PropTypes from 'constants/propTypes';
-import { InputField } from 'components/Formik';
+import { FormikInputField } from 'components/Formik';
 import { createValidator } from 'utils/validator';
 
 const validator = createValidator({
@@ -72,14 +72,14 @@ class ResetPasswordForm extends Component {
                     type="password"
                     placeholder={I18n.t('RESET_PASSWORD.PASSWORD')}
                     label={I18n.t('RESET_PASSWORD.PASSWORD')}
-                    component={InputField}
+                    component={FormikInputField}
                   />
                   <Field
                     name="repeatPassword"
                     type="password"
                     placeholder={I18n.t('RESET_PASSWORD.REPEAT_PASSWORD')}
                     label={I18n.t('RESET_PASSWORD.REPEAT_PASSWORD')}
-                    component={InputField}
+                    component={FormikInputField}
                   />
                   <div className="auth__form-buttons">
                     <button

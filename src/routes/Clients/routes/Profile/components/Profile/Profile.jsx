@@ -33,6 +33,7 @@ import {
   Files,
   Feed,
   Callbacks,
+  Risks,
 } from '../../routes';
 import Header from '../Header';
 import Information from '../Information';
@@ -208,7 +209,6 @@ class Profile extends Component {
     });
   };
 
-  // #
   handleLoadProfile = async (needForceUpdate = false) => {
     const {
       filesList,
@@ -280,7 +280,6 @@ class Profile extends Component {
     });
   };
 
-  // #
   handleDeleteFileClick = (e, data) => {
     e.preventDefault();
 
@@ -295,7 +294,6 @@ class Profile extends Component {
     });
   };
 
-  // # Old function
   handleDelete = async (data) => {
     const { deleteFile } = this.props;
     const { fileChangedCallback } = this.state;
@@ -565,6 +563,7 @@ class Profile extends Component {
       newProfile: {
         newProfile,
         loading,
+        refetch,
       },
       match: { params },
       location,
@@ -645,6 +644,11 @@ class Profile extends Component {
               )}
             />
             <Route disableScroll path={`${path}/feed`} component={Feed} />
+            <Route
+              disableScroll
+              path={`${path}/risk`}
+              render={props => <Risks refetchProfile={refetch} {...props} />}
+            />
             <Redirect to={`${url}/profile`} />
           </Switch>
         </div>

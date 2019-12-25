@@ -1,0 +1,94 @@
+.risk {
+  &__columns {
+    display: flex;
+    padding: 5px 15px 10px;
+
+    &-left {
+      margin: 0 20px 10px 0;
+      flex: 2 1 auto;
+    }
+
+    &-right {
+      flex: 1 1 auto;
+      min-width: 380px;
+    }
+  }
+
+  &__group {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    flex-grow: 1;
+  }
+
+  &__subgroup {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+    & > .row {
+      flex-grow: 1;
+    }
+  }
+
+  &__form {
+    &-heading {
+      color: #333;
+      font-size: 18px;
+      margin-bottom: 18px;
+      margin-top: 3px;
+      display: block;
+    }
+
+    &-field {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    &-button {
+      margin-right: 15px;
+      height: 40px;
+
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+
+    &-buttons {
+      padding-bottom: 20px;
+
+      display: flex;
+      align-items: flex-end;
+      justify-content: flex-start;
+      flex-grow: 1;
+    }
+  }
+
+  &__result {
+    position: sticky;
+    top: 130px;
+
+    &-data {
+      font-size: 13px;
+      font-weight: 600;
+      line-height: 1.35em;
+    }
+  }
+}
+
+
+// # Modifiers
+.risk {
+  &__select {
+    &--two-levels-label {
+      & label {
+        min-height: 3em;
+      }
+    }
+
+    &--last-row {
+      margin-bottom: 0;
+    }
+  }
+}
