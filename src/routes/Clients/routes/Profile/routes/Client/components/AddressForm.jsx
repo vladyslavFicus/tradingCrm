@@ -78,6 +78,7 @@ const AddressForm = ({
       label={attributeLabels().address}
       component={TextAreaField}
       disabled={disabled}
+      maxLength="100"
       id="profile-address-textarea"
     />
   </form>

@@ -16,6 +16,7 @@ const TextAreaField = (props) => {
     meta: { touched, error },
     id,
     helpText,
+    maxLength,
   } = props;
 
   const groupClassName = classNames(
@@ -37,6 +38,7 @@ const TextAreaField = (props) => {
         disabled={disabled}
         className="form-control"
         placeholder={placeholder}
+        maxLength={maxLength}
         id={id}
       />
       <If condition={helpText || (showErrorMessage && touched && error)}>
@@ -82,6 +84,7 @@ TextAreaField.propTypes = {
   }).isRequired,
   id: PropTypes.string,
   helpText: PropTypes.node,
+  maxLength: PropTypes.string,
 };
 TextAreaField.defaultProps = {
   className: null,
@@ -93,6 +96,7 @@ TextAreaField.defaultProps = {
   disabled: false,
   id: null,
   helpText: null,
+  maxLength: null,
 };
 
 export default TextAreaField;
