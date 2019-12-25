@@ -1,5 +1,3 @@
-/* eslint-disable */
-
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
@@ -33,8 +31,8 @@ class RiskStatus extends Component {
         <div className={riskCategoryClassName}>
           {
             riskCategory
-            ? I18n.t(riskStatusTranslations[riskCategory])
-            : I18n.t('CLIENT_PROFILE.RISKS.STATUS.STATUSES.DEFAULT')
+              ? I18n.t(riskStatusTranslations[riskCategory])
+              : I18n.t('CLIENT_PROFILE.RISKS.STATUS.STATUSES.DEFAULT')
           }
         </div>
       </div>
