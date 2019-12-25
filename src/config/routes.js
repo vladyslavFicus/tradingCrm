@@ -1,6 +1,6 @@
 import permissions from './permissions';
 
-const routePermissions = {
+export const routePermissions = {
   '/players/list': permissions.USER_PROFILE.PROFILES_LIST,
   '/operators/list': permissions.OPERATORS.OPERATORS_LIST_VIEW,
   '/operators/:id': permissions.OPERATORS.PROFILE_VIEW,
@@ -13,8 +13,4 @@ const routePermissions = {
   '/desks/:id': permissions.HIERARCHY.GET_BRANCH_BY_ID,
   '/offices/list': permissions.HIERARCHY.GET_OFFICES,
   '/offices/:id': permissions.HIERARCHY.GET_BRANCH_BY_ID,
-};
-
-export default {
-  routePermissions,
 };

@@ -3,7 +3,6 @@ import I18n from 'i18n-js';
 import { get } from 'lodash';
 import { TextRow } from 'react-placeholder/lib/placeholders';
 import PropTypes from 'constants/propTypes';
-import { withStorage } from 'providers/StorageProvider';
 import Placeholder from 'components/Placeholder';
 import PaymentFilterFields from 'components/PaymentFilterFields';
 import GridView, { GridViewColumn } from 'components/GridView';
@@ -23,7 +22,6 @@ class View extends Component {
       refetch: PropTypes.func,
     }),
     location: PropTypes.object.isRequired,
-    auth: PropTypes.auth.isRequired,
   };
 
   static defaultProps = {
@@ -71,7 +69,7 @@ class View extends Component {
       page: 0,
       limit: 20,
     });
-  }
+  };
 
   handleGetRequestState = () => this.props.clientPayments.loading;
 
@@ -87,7 +85,6 @@ class View extends Component {
 
   render() {
     const {
-      auth,
       clientPayments: {
         clientPayments,
         loading,
@@ -139,7 +136,6 @@ class View extends Component {
           >
             {columns({
               paymentInfo: { onSuccess: this.handleRefresh },
-              playerInfo: { auth },
             }).map(({ name, header, render }) => (
               <GridViewColumn
                 key={name}
@@ -155,4 +151,4 @@ class View extends Component {
   }
 }
 
-export default withStorage(['auth'])(View);
+export default View;

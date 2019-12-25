@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { get } from 'lodash';
+import { withRouter } from 'react-router-dom';
 import PropTypes from 'constants/propTypes';
-import history from 'router/history';
 import { getActiveBrandConfig } from 'config';
 import { getUsersByBranch } from 'graphql/queries/hierarchy';
 import { statusMapper } from 'constants/payment';
@@ -10,6 +10,7 @@ import { filterFields } from 'utils/paymentHelpers';
 
 class PaymentFilterFields extends PureComponent {
   static propTypes = {
+    ...PropTypes.router,
     hierarchy: PropTypes.shape({
       hierarchy: PropTypes.shape({
         data: PropTypes.shape({
@@ -138,7 +139,7 @@ class PaymentFilterFields extends PureComponent {
       statuses = data.statuses.map(item => statusMapper[item]).flat(Infinity);
     }
 
-    history.replace({
+    this.props.history.replace({
       query: {
         filters: {
           ...data,
@@ -157,7 +158,7 @@ class PaymentFilterFields extends PureComponent {
         filteredAgents: null,
         disabledFilteredAgents: false,
       },
-      () => history.replace({}),
+      () => this.props.history.replace({}),
     );
   };
 
@@ -219,4 +220,4 @@ class PaymentFilterFields extends PureComponent {
   }
 }
 
-export default PaymentFilterFields;
+export default withRouter(PaymentFilterFields);

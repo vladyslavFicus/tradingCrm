@@ -1,7 +1,6 @@
 import React, { PureComponent, Fragment } from 'react';
 import I18n from 'i18n-js';
 import { get } from 'lodash';
-import history from 'router/history';
 import PropTypes from 'constants/propTypes';
 import permissions from 'config/permissions';
 import PermissionContent from 'components/PermissionContent';
@@ -14,6 +13,7 @@ import filterFields from './filterFields';
 
 class View extends PureComponent {
   static propTypes = {
+    ...PropTypes.router,
     newProfile: PropTypes.newProfile.isRequired,
     getTradingAccount: PropTypes.shape({
       playerProfile: PropTypes.shape({
@@ -102,7 +102,7 @@ class View extends PureComponent {
   };
 
   handleFiltersChanged = (filters = {}) => {
-    history.replace({
+    this.props.history.replace({
       query: {
         filters: {
           ...filters,
@@ -112,7 +112,7 @@ class View extends PureComponent {
     });
   };
 
-  handleFilterReset = () => history.replace({ query: { filters: {} } });
+  handleFilterReset = () => this.props.history.replace({ query: { filters: {} } });
 
   render() {
     const {

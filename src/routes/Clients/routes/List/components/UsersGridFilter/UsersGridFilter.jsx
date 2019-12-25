@@ -22,7 +22,7 @@ class UserGridFilter extends Component {
 
   static defaultProps = {
     initialValues: null,
-  }
+  };
 
   state = {
     teams: this.props.teams,
@@ -66,7 +66,7 @@ class UserGridFilter extends Component {
 
     const filteredOperators = operators.filter(operator => desksTeamsOperators.indexOf(operator.uuid) !== -1);
     this.setState({ filteredOperators, branchOperatorsLoading: false });
-  }
+  };
 
   isValueInForm = (formValues, field) => !!(formValues && formValues[field]);
 
@@ -114,7 +114,7 @@ class UserGridFilter extends Component {
     }
 
     formChange(fieldName, value || null);
-  }
+  };
 
   handleResetForm = () => {
     const { teams, onReset } = this.props;
@@ -123,7 +123,7 @@ class UserGridFilter extends Component {
       teams,
       filteredOperators: null,
     }, onReset);
-  }
+  };
 
   render() {
     const {

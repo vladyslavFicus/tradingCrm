@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import Validator from 'validatorjs';
 import moment from 'moment';
+import jwtDecode from 'jwt-decode';
+import { getBrandId, setBrandId, removeActiveBrand } from 'config';
 import { withStorage } from 'providers/StorageProvider';
 import PropTypes from '../../constants/propTypes';
 import IndexRoute from '../../routes/IndexRoute';
@@ -10,41 +12,51 @@ class LocalStorageListener extends Component {
   static propTypes = {
     auth: PropTypes.auth,
     locale: PropTypes.string,
-    storage: PropTypes.storage.isRequired,
-    brand: PropTypes.shape({
-      id: PropTypes.string,
-    }).isRequired,
+    token: PropTypes.string,
   };
 
   static defaultProps = {
     locale: null,
     auth: null,
+    token: null,
+  };
+
+  /**
+   * Init active brand depends on token from storage
+   */
+  initBrand() {
+    try {
+      const { brandId } = jwtDecode(this.props.token);
+
+      setBrandId(brandId);
+    } catch (e) {
+      removeActiveBrand();
+    }
   }
 
   /**
    * Set locale from storage or if it's undefined -> from brand config
    */
   initLocale() {
-    const { storage } = this.props;
     const locale = this.props.locale || 'en';
 
     if (Object.keys(I18n.translations).includes(locale)) {
       I18n.locale = locale;
     }
 
-    storage.set({ locale });
     moment.locale(I18n.locale === 'zh' ? 'zh-cn' : I18n.locale);
     Validator.useLang(I18n.locale);
   }
 
   render() {
-    const { auth, locale, brand } = this.props;
+    const { auth } = this.props;
     this.initLocale();
+    this.initBrand();
 
     return (
-      <IndexRoute key={`${locale}-${auth ? auth.department : ''}-${brand ? brand.id : ''}`} />
+      <IndexRoute key={`${I18n.locale}-${auth ? auth.department : ''}-${getBrandId()}`} />
     );
   }
 }
 
-export default withStorage(['locale', 'auth', 'brand'])(LocalStorageListener);
+export default withStorage(['locale', 'auth', 'token'])(LocalStorageListener);

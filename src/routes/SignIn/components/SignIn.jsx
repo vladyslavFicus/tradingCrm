@@ -22,16 +22,12 @@ class SignIn extends Component {
     departmentsByBrand: {},
     signInFormError: '',
     departments: [],
-    loading: true,
+    loading: false,
     brands: [],
     brand: null,
     uuid: null,
     step: 1,
   };
-
-  componentDidMount() {
-    setTimeout(() => this.setState({ loading: false }), 500);
-  }
 
   componentDidUpdate() {
     const { step, brand, brands, departments, loading } = this.state;
@@ -49,7 +45,7 @@ class SignIn extends Component {
 
   removePreloader = () => {
     this.setState({ loading: false });
-  }
+  };
 
   handleSubmit = async (data) => {
     try {
@@ -76,11 +72,9 @@ class SignIn extends Component {
         brands,
         uuid,
       }, () => {
-        this.props.storage.set({
-          token,
-          brands,
-          departmentsByBrand,
-        });
+        this.props.storage.set('token', token);
+        this.props.storage.set('brands', brands);
+        this.props.storage.set('departmentsByBrand', departmentsByBrand);
       });
 
       return null;
@@ -88,7 +82,7 @@ class SignIn extends Component {
       this.setState({ signInFormError: parseErrors(e).message });
       return null;
     }
-  }
+  };
 
   handleSelectBrand = (brand) => {
     if (brand) {
@@ -102,9 +96,11 @@ class SignIn extends Component {
         departments,
         step: 3,
         brand,
-      }, this.props.storage.set({ departments, brand }));
+      }, () => {
+        this.props.storage.set('departments', departments);
+      });
     }
-  }
+  };
 
   handleSelectDepartment = async (brand, department) => {
     const { departmentsByBrand } = this.state;
@@ -130,23 +126,21 @@ class SignIn extends Component {
     });
 
     if (!error) {
-      this.props.storage.set({
-        token,
-        auth: {
-          department,
-          role: departmentsByBrand[brand][department],
-          uuid,
-        },
+      this.props.storage.set('token', token);
+      this.props.storage.set('auth', {
+        department,
+        role: departmentsByBrand[brand][department],
+        uuid,
       });
 
       // This function need to refresh window.app object to get new data from token
       setBrandIdByUserToken();
     }
-  }
+  };
 
   handleOnBackClick = () => {
     this.setState({ step: 2 });
-  }
+  };
 
   renderSignIn = () => {
     const {

@@ -3,6 +3,7 @@ import Scrollbars from 'react-custom-scrollbars';
 import { TimelineLite as TimeLineLite } from 'gsap';
 import PropTypes from 'constants/propTypes';
 import { withStorage } from 'providers/StorageProvider';
+import { withPermission } from 'providers/PermissionsProvider';
 import SidebarNav from '../SidebarNav';
 import './Sidebar.scss';
 
@@ -13,8 +14,8 @@ class Sidebar extends Component {
     onToggleTab: PropTypes.func.isRequired,
     menuItemClick: PropTypes.func.isRequired,
     init: PropTypes.func.isRequired,
-    permissions: PropTypes.arrayOf(PropTypes.string).isRequired,
     auth: PropTypes.auth.isRequired,
+    permission: PropTypes.permission.isRequired,
   };
 
   static contextTypes = {
@@ -28,13 +29,13 @@ class Sidebar extends Component {
   };
 
   componentDidMount() {
-    const { auth: { department, role }, permissions } = this.props;
+    const { auth: { department, role }, permission } = this.props;
     const sidebarAnimation = new TimeLineLite({ paused: true });
 
     sidebarAnimation.fromTo(this.sidebar, 0.15, { width: '60px' }, { width: '240px' });
     this.sidebarAnimation = sidebarAnimation;
 
-    this.props.init(permissions, { department, role });
+    this.props.init(permission.permissions, { department, role });
   }
 
   componentDidUpdate(_prevProps, prevState) {
@@ -111,4 +112,4 @@ class Sidebar extends Component {
   }
 }
 
-export default withStorage(['auth'])(Sidebar);
+export default withPermission(withStorage(['auth'])(Sidebar));

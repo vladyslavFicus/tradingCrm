@@ -1,14 +1,12 @@
-/* eslint-disable */
-
-import React, { PureComponent, Fragment } from 'react';
-import { get } from 'lodash';
-import config from 'config';
+import React, { PureComponent } from 'react';
+import config, { getBrandId } from 'config';
 import PropTypes from 'constants/propTypes';
 import NotePopover from 'components/NotePopover';
 import Header from 'components/Header';
 import Sidebar from 'components/Sidebar';
 import UsersPanel from 'components/UsersPanel';
 import BackToTop from 'components/BackToTop';
+import PermissionProvider from 'providers/PermissionsProvider';
 import './MainLayout.scss';
 
 const NOTE_POPOVER = 'note-popover';
@@ -25,14 +23,7 @@ class MainLayout extends PureComponent {
       playerProfileViewType: PropTypes.oneOf(['page', 'frame']).isRequired,
       errorParams: PropTypes.object.isRequired,
     }).isRequired,
-    user: PropTypes.shape({
-      brandId: PropTypes.string,
-      departmentsByBrand: PropTypes.objectOf(PropTypes.objectOf(PropTypes.string)),
-      department: PropTypes.string,
-      authorities: PropTypes.arrayOf(PropTypes.authorityEntity),
-      token: PropTypes.string,
-      uuid: PropTypes.string,
-    }).isRequired,
+    auth: PropTypes.auth.isRequired,
     app: PropTypes.shape({
       sidebarTopMenu: PropTypes.arrayOf(PropTypes.shape({
         label: PropTypes.string.isRequired,
@@ -96,10 +87,6 @@ class MainLayout extends PureComponent {
       playerProfileViewType: PropTypes.oneOf(['page', 'frame']).isRequired,
       errorParams: PropTypes.object.isRequired,
     }).isRequired,
-    user: PropTypes.shape({
-      token: PropTypes.string,
-      uuid: PropTypes.string,
-    }).isRequired,
     location: PropTypes.object,
     addPanel: PropTypes.func.isRequired,
     removePanel: PropTypes.func.isRequired,
@@ -139,7 +126,6 @@ class MainLayout extends PureComponent {
 
   getChildContext() {
     const {
-      user,
       addPanel,
       removePanel,
       settings,
@@ -148,7 +134,6 @@ class MainLayout extends PureComponent {
 
     return {
       settings,
-      user,
       addPanel,
       removePanel,
       modals,
@@ -177,6 +162,11 @@ class MainLayout extends PureComponent {
 
   componentDidMount() {
     this.mounted = true;
+
+    // Redirect to logout if brand wasn't defined
+    if (!getBrandId()) {
+      this.props.history.replace('/logout');
+    }
   }
 
   componentWillUnmount() {
@@ -245,29 +235,17 @@ class MainLayout extends PureComponent {
       activeUserPanel,
       removePanel,
       app: { sidebarTopMenu, sidebarBottomMenu },
-      user,
+      auth,
       toggleMenuTab,
       menuItemClick,
       replace,
       initSidebar,
-      getPermissions: {
-        permission,
-        loading,
-      },
     } = this.props;
 
-    const isShowProductionAlert = user.department === 'ADMINISTRATION' && config.environment.includes('prod');
-
-    if (loading) {
-      return null;
-    }
-
-    const currentPermissions = get(permission, 'data') || [];
-
-    this.props.permission.set(currentPermissions);
+    const isShowProductionAlert = auth.department === 'ADMINISTRATION' && config.environment.includes('prod');
 
     return (
-      <Fragment key={user.department}>
+      <PermissionProvider key={auth.department}>
         <Choose>
           <When condition={window.isFrame}>
             {children}
@@ -281,7 +259,6 @@ class MainLayout extends PureComponent {
               bottomMenu={sidebarBottomMenu}
               menuItemClick={menuItemClick}
               onToggleTab={toggleMenuTab}
-              permissions={currentPermissions}
             />
 
             <main className="content-container">{children}</main>
@@ -313,7 +290,7 @@ class MainLayout extends PureComponent {
             {...popover.params}
           />
         </If>
-      </Fragment>
+      </PermissionProvider>
     );
   }
 }

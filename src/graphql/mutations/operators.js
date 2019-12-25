@@ -191,13 +191,11 @@ const changeStatus = gql`mutation changeStatus(
 }`;
 
 const passwordResetRequest = gql`mutation passwordResetRequest(
-  $brand: String!,
   $uuid: String!
 ) {
   profile {
     passwordResetRequest(
-      playerUUID: $uuid,
-      brandId: $brand
+      playerUUID: $uuid
     ) {
       success
     }

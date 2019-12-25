@@ -2,7 +2,6 @@ import React, { Component, Fragment } from 'react';
 import I18n from 'i18n-js';
 import { get } from 'lodash';
 import { TextRow } from 'react-placeholder/lib/placeholders';
-import history from 'router/history';
 import PropTypes from 'constants/propTypes';
 import permissions from 'config/permissions';
 import PermissionContent from 'components/PermissionContent';
@@ -14,6 +13,7 @@ import DesksGridFilter from './DesksGridFilter';
 
 class List extends Component {
   static propTypes = {
+    ...PropTypes.router,
     createDesk: PropTypes.func.isRequired,
     userBranchHierarchy: PropTypes.shape({
       hierarchy: PropTypes.shape({
@@ -51,12 +51,12 @@ class List extends Component {
     this.handleFilterReset();
   }
 
-  handleFiltersChanged = (filters = {}) => history.replace({ query: { filters } });
+  handleFiltersChanged = (filters = {}) => this.props.history.replace({ query: { filters } });
 
-  handleFilterReset = () => history.replace({ query: { filters: {} } });
+  handleFilterReset = () => this.props.history.replace({ query: { filters: {} } });
 
   handleDeskClick = ({ desk: { uuid }, desk: { deskType } }) => {
-    history.push(`/desks/${uuid}/rules/${deskType.toLowerCase()}-rules`);
+    this.props.history.push(`/desks/${uuid}/rules/${deskType.toLowerCase()}-rules`);
   };
 
   triggerOfficeModal = () => {
@@ -69,7 +69,7 @@ class List extends Component {
       onSubmit: values => this.handleAddDesk(values),
       offices: OFFICE || [],
     });
-  }
+  };
 
   handleAddDesk = async (variables) => {
     const {

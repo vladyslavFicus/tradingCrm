@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import moment from 'moment';
+import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { getFormValues } from 'redux-form';
 import I18n from 'i18n-js';
+import PropTypes from 'constants/propTypes';
 import { callbacksStatuses, filterLabels } from '../../constants/callbacks';
 import { createValidator } from '../../utils/validator';
-import history from '../../router/history';
 import createDynamicForm, {
   FilterItem,
   FilterField,
@@ -29,6 +29,7 @@ const DynamicFilters = createDynamicForm({
 
 class CallbacksGridFilter extends Component {
   static propTypes = {
+    ...PropTypes.router,
     currentValues: PropTypes.shape({
       searchKeyword: PropTypes.string,
       registrationDateStart: PropTypes.string,
@@ -67,11 +68,11 @@ class CallbacksGridFilter extends Component {
       filters.statuses = filters.statuses.join(',');
     }
 
-    history.replace({ query: { filters } });
+    this.props.history.replace({ query: { filters } });
   };
 
   onReset = () => {
-    history.replace({ query: { filters: {} } });
+    this.props.history.replace({ query: { filters: {} } });
   };
 
   startDateValidator = toAttribute => (current) => {
@@ -158,4 +159,4 @@ class CallbacksGridFilter extends Component {
 export default connect(state => ({
   form: FORM_NAME,
   currentValues: getFormValues(FORM_NAME)(state),
-}))(CallbacksGridFilter);
+}))(withRouter(CallbacksGridFilter));

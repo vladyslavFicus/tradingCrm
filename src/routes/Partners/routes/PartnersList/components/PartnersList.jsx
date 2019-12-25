@@ -3,12 +3,11 @@ import { SubmissionError } from 'redux-form';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
 import classNames from 'classnames';
-import PropTypes from 'prop-types';
 import I18n from 'i18n-js';
 import { get, startCase } from 'lodash';
+import PropTypes from 'constants/propTypes';
 import Placeholder from 'components/Placeholder';
 import { TextRow } from 'react-placeholder/lib/placeholders';
-import history from 'router/history';
 import {
   statusColorNames as operatorStatusColorNames,
   statusesLabels as operatorStatusesLabels,
@@ -26,6 +25,7 @@ const EMAIL_ALREADY_EXIST = 'Email already exists';
 
 class List extends Component {
   static propTypes = {
+    ...PropTypes.router,
     modals: PropTypes.shape({
       createOperator: PropTypes.shape({
         show: PropTypes.func.isRequired,
@@ -77,7 +77,7 @@ class List extends Component {
 
   handleFiltersChanged = (filters = {}) => {
     this.setState({ filters }, () => {
-      history.replace({
+      this.props.history.replace({
         query: {
           filters: {
             ...filters,
@@ -125,7 +125,7 @@ class List extends Component {
 
     const { uuid } = newPartner;
 
-    history.push(`/partners/${uuid}/profile`);
+    this.props.history.push(`/partners/${uuid}/profile`);
   };
 
   handleOpenCreateModal = async () => {

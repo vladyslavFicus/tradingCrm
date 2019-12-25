@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import classNames from 'classnames';
+import jwtDecode from 'jwt-decode';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import I18n from 'i18n-js';
 import { withStorage } from 'providers/StorageProvider';
@@ -11,7 +12,7 @@ class HeaderDepartments extends Component {
   static propTypes = {
     departments: PropTypes.arrayOf(PropTypes.department.isRequired).isRequired,
     auth: PropTypes.auth.isRequired,
-    brand: PropTypes.brand.isRequired,
+    token: PropTypes.string.isRequired,
   };
 
   state = {
@@ -25,11 +26,13 @@ class HeaderDepartments extends Component {
   changeDepartment = department => async () => {
     const {
       auth,
-      brand,
+      token: originalToken,
       storage,
       departmentsByBrand,
       chooseDepartmentMutation,
     } = this.props;
+
+    const { brandId } = jwtDecode(originalToken);
 
     const {
       data: {
@@ -45,26 +48,24 @@ class HeaderDepartments extends Component {
       },
     } = await chooseDepartmentMutation({
       variables: {
-        brandId: brand.brand,
+        brandId,
         uuid: auth.uuid,
         department,
       },
     });
 
     if (!error) {
-      storage.set({
-        token,
-        auth: {
-          department,
-          role: departmentsByBrand[brand.brand][department],
-          uuid,
-        },
+      storage.set('token', token);
+      storage.set('auth', {
+        department,
+        role: departmentsByBrand[brandId][department],
+        uuid,
       });
 
       // This function need to refresh window.app object to get new data from token
       setBrandIdByUserToken();
     }
-  }
+  };
 
   render() {
     const { departments, auth } = this.props;
@@ -128,4 +129,4 @@ class HeaderDepartments extends Component {
   }
 }
 
-export default withStorage(['auth', 'brand', 'departmentsByBrand', 'departments'])(HeaderDepartments);
+export default withStorage(['auth', 'departmentsByBrand', 'departments', 'token'])(HeaderDepartments);

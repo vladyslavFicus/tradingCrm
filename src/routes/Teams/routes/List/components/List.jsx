@@ -2,7 +2,6 @@ import React, { Component, Fragment } from 'react';
 import I18n from 'i18n-js';
 import { get } from 'lodash';
 import { TextRow } from 'react-placeholder/lib/placeholders';
-import history from 'router/history';
 import PropTypes from 'constants/propTypes';
 import permissions from 'config/permissions';
 import PermissionContent from 'components/PermissionContent';
@@ -13,6 +12,7 @@ import TeamsGridFilter from './TeamsGridFilter';
 
 class List extends Component {
   static propTypes = {
+    ...PropTypes.router,
     createTeam: PropTypes.func.isRequired,
     userBranchHierarchy: PropTypes.shape({
       hierarchy: PropTypes.shape({
@@ -51,12 +51,12 @@ class List extends Component {
     this.handleFilterReset();
   }
 
-  handleFiltersChanged = (filters = {}) => history.replace({ query: { filters } });
+  handleFiltersChanged = (filters = {}) => this.props.history.replace({ query: { filters } });
 
-  handleFilterReset = () => history.replace({ query: { filters: {} } });
+  handleFilterReset = () => this.props.history.replace({ query: { filters: {} } });
 
   handleTeamClick = ({ team: { uuid }, desk: { deskType } }) => {
-    history.push(`/teams/${uuid}/rules/${deskType.toLowerCase()}-rules`);
+    this.props.history.push(`/teams/${uuid}/rules/${deskType.toLowerCase()}-rules`);
   };
 
   triggerTeamModal = () => {
@@ -70,7 +70,7 @@ class List extends Component {
       offices: OFFICE || [],
       desks: DESK || [],
     });
-  }
+  };
 
   handleAddTeam = async (variables) => {
     const {

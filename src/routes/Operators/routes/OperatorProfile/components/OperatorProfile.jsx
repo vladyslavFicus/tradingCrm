@@ -10,7 +10,7 @@ import PropTypes from 'constants/propTypes';
 import { isSales } from 'constants/hierarchyTypes';
 import HideDetails from 'components/HideDetails';
 import ChangePasswordModal from 'components/ChangeOperatorPasswordModal';
-import { Route } from 'router';
+import Route from 'components/Route';
 import OperatorEdit from '../routes/Edit';
 import Feed from '../routes/Feed';
 import SalesRules from '../routes/SalesRules';
@@ -80,7 +80,6 @@ class OperatorProfileLayout extends Component {
   handleResetPasswordSubmit = async () => {
     const {
       resetPassword,
-      brand: { brand },
       match: { params: { id } },
       modals: { confirmActionModal },
     } = this.props;
@@ -88,7 +87,6 @@ class OperatorProfileLayout extends Component {
     await resetPassword({
       variables: {
         uuid: id,
-        brand,
       },
     });
 

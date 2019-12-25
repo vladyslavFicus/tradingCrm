@@ -1,8 +1,7 @@
-import { compose, graphql } from 'react-apollo';
+import { compose } from 'react-apollo';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { permissionsQuery } from 'graphql/queries/auth';
-import { withPermission } from 'providers/PermissionsProvider';
+import { withStorage } from 'providers/StorageProvider';
 import { getAvailableLanguages } from '../../config';
 import { withModals } from '../../components/HighOrder';
 import MultiCurrencyModal from '../../components/ReduxForm/MultiCurrencyModal';
@@ -29,7 +28,6 @@ const mapStateToProps = (state) => {
   return {
     app,
     settings,
-    user: auth,
     userPanels: userPanels.items,
     userPanelsByManager,
     activeUserPanel: activeUserPanel || null,
@@ -53,10 +51,8 @@ const mapActionCreators = {
 };
 
 export default compose(
+  withRouter,
+  withStorage(['auth']),
   connect(mapStateToProps, mapActionCreators),
   withModals({ multiCurrencyModal: MultiCurrencyModal }),
-  withRouter,
-  graphql(permissionsQuery, {
-    name: 'getPermissions',
-  }),
-)(withPermission(MainLayout));
+)(MainLayout);

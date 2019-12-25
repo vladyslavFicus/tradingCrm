@@ -1,11 +1,16 @@
 import React, { Component } from 'react';
-import history from 'router/history';
+import { withRouter } from 'react-router-dom';
+import PropTypes from 'constants/propTypes';
 import './header-logout.scss';
 
 class HeaderLogout extends Component {
+  static propTypes = {
+    ...PropTypes.router,
+  };
+
   handleLogoutClick = () => {
-    history.replace('/logout');
-  }
+    this.props.history.replace('/logout');
+  };
 
   render() {
     return (
@@ -20,4 +25,4 @@ class HeaderLogout extends Component {
   }
 }
 
-export default HeaderLogout;
+export default withRouter(HeaderLogout);

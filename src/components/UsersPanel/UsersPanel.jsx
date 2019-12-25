@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import classNames from 'classnames';
 import I18n from 'i18n-js';
-import { withStorage } from 'providers/StorageProvider';
 import UsersPanelItem from '../UsersPanelItem';
 import PropTypes from '../../constants/propTypes';
 import './UsersPanel.scss';
@@ -24,7 +23,6 @@ class UsersPanel extends Component {
         hide: PropTypes.func.isRequired,
       }),
     }).isRequired,
-    locale: PropTypes.string.isRequired,
   };
 
   static defaultProps = {
@@ -95,7 +93,6 @@ class UsersPanel extends Component {
       onClose,
       onRemove,
       onItemClick,
-      locale,
     } = this.props;
 
     const currentItems = items.slice(0, MAX_ACTIVE_TAB);
@@ -141,7 +138,7 @@ class UsersPanel extends Component {
             return (
               <iframe
                 id={item.uuid}
-                key={`${item.uuid}-${locale}`}
+                key={`${item.uuid}-${I18n.locale}`}
                 title={item.uuid}
                 className={className}
                 frameBorder={0}
@@ -175,4 +172,4 @@ class UsersPanel extends Component {
   }
 }
 
-export default withStorage(['locale'])(withModals({ replaceTabsModal: ReplaceTabsModal })(UsersPanel));
+export default withModals({ replaceTabsModal: ReplaceTabsModal })(UsersPanel);

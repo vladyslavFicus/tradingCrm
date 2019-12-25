@@ -61,7 +61,7 @@ class TokenRenew extends PureComponent {
     try {
       const { data: { auth: { tokenRenew: { token } } } } = await props.renew();
 
-      props.storage.set({ token });
+      props.storage.set('token', token);
 
       return token;
     } catch (e) {

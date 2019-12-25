@@ -61,7 +61,7 @@ class ExistingOperatorModal extends Component {
         message: I18n.t('OPERATORS.NOTIFICATIONS.EXISTING_OPERATOR_ERROR.MESSAGE'),
       });
     }
-  }
+  };
 
   render() {
     const {

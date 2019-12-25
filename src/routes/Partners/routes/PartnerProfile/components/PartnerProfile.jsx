@@ -8,7 +8,7 @@ import * as menu from 'config/menu';
 import PropTypes from 'constants/propTypes';
 import HideDetails from 'components/HideDetails';
 import ChangePasswordModal from 'components/ChangeOperatorPasswordModal';
-import { Route } from 'router';
+import Route from 'components/Route';
 import PartnerEdit from '../routes/Edit';
 import Feed from '../routes/Feed';
 import Information from './Information';

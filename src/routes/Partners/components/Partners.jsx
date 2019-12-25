@@ -1,7 +1,7 @@
 import React from 'react';
 import { Redirect, Switch } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { Route } from 'router';
+import Route from 'components/Route';
 import PartnersList from '../routes/PartnersList';
 import PartnerProfile from '../routes/PartnerProfile';
 

@@ -1,9 +1,8 @@
 import React, { Fragment, PureComponent } from 'react';
 import I18n from 'i18n-js';
 import { get } from 'lodash';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { TextRow } from 'react-placeholder/lib/placeholders';
-import history from 'router/history';
 import PropTypes from 'constants/propTypes';
 import countries from 'utils/countryList';
 import Uuid from 'components/Uuid';
@@ -15,6 +14,7 @@ import infoConfig from './constants';
 
 class SalesRules extends PureComponent {
   static propTypes = {
+    ...PropTypes.router,
     rules: PropTypes.shape({
       rules: PropTypes.shape({
         data: PropTypes.arrayOf(PropTypes.ruleType),
@@ -31,9 +31,9 @@ class SalesRules extends PureComponent {
     }).isRequired,
   };
 
-  handleFiltersChanged = (filters = {}) => history.replace({ query: { filters } });
+  handleFiltersChanged = (filters = {}) => this.props.history.replace({ query: { filters } });
 
-  handleFilterReset = () => history.replace({ query: { filters: {} } });
+  handleFilterReset = () => this.props.history.replace({ query: { filters: {} } });
 
   handleDeleteRule = uuid => async () => {
     const {
@@ -184,8 +184,6 @@ class SalesRules extends PureComponent {
     const entities = get(rules, 'data') || [];
     const filters = get(query, 'filters', {});
 
-    console.log('this.props', this.props);
-
     const allowActions = Object
       .keys(filters)
       .filter(i => (filters[i] && Array.isArray(filters[i]) && filters[i].length > 0) || filters[i]).length > 0;
@@ -264,4 +262,4 @@ class SalesRules extends PureComponent {
   }
 }
 
-export default SalesRules;
+export default withRouter(SalesRules);

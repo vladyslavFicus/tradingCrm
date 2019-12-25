@@ -10,9 +10,8 @@ import './header-lang.scss';
 
 class HeaderLanguages extends Component {
   static propTypes = {
-    locale: PropTypes.string.isRequired,
     storage: PropTypes.storage.isRequired,
-  }
+  };
 
   state = {
     isOpen: false,
@@ -27,14 +26,13 @@ class HeaderLanguages extends Component {
     const { storage } = this.props;
 
     this.handleToggleIsOpenState();
-    storage.set({ locale: value });
-  }
+    storage.set('locale', value);
+  };
 
   render() {
-    const { locale } = this.props;
     const { isOpen } = this.state;
 
-    const languages = Object.keys(I18n.translations).filter(lang => lang !== locale);
+    const languages = Object.keys(I18n.translations).filter(lang => lang !== I18n.locale);
 
     return (
       <Dropdown
@@ -47,8 +45,8 @@ class HeaderLanguages extends Component {
         toggle={this.handleToggleIsOpenState}
       >
         <DropdownToggle className="header-lang__toggle" tag="div">
-          <Flag className="header-lang__flag" code={getCountryCode(locale)} />
-          {locale}
+          <Flag className="header-lang__flag" code={getCountryCode(I18n.locale)} />
+          {I18n.locale}
           <i className="header-lang__caret fa fa-angle-down" />
         </DropdownToggle>
         <DropdownMenu className="header-lang__list">
@@ -69,4 +67,4 @@ class HeaderLanguages extends Component {
   }
 }
 
-export default withStorage(['locale'])(HeaderLanguages);
+export default withStorage(HeaderLanguages);

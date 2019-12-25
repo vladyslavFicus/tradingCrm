@@ -6,7 +6,6 @@ import { Link } from 'react-router-dom';
 import classNames from 'classnames';
 import { branchTypes } from 'constants/hierarchyTypes';
 import PropTypes from 'constants/propTypes';
-import history from 'router/history';
 import { actionRuleTypes, deskTypes } from 'constants/rules';
 import { UncontrolledTooltip } from '../../Reactstrap/Uncontrolled';
 import GridView, { GridViewColumn } from '../../GridView';
@@ -20,6 +19,7 @@ import './HierarchyProfileRules.scss';
 const HierarchyProfileRules = (title, deskType, branchType) => {
   class RuleList extends Component {
     static propTypes = {
+      ...PropTypes.router,
       rules: PropTypes.shape({
         rules: PropTypes.shape({
           data: PropTypes.arrayOf(PropTypes.ruleType),
@@ -52,9 +52,9 @@ const HierarchyProfileRules = (title, deskType, branchType) => {
       getBranchInfo: {},
     };
 
-    handleFiltersChanged = (filters = {}) => history.replace({ query: { filters } });
+    handleFiltersChanged = (filters = {}) => this.props.history.replace({ query: { filters } });
 
-    handleFilterReset = () => history.replace({ query: { filters: {} } });
+    handleFilterReset = () => this.props.history.replace({ query: { filters: {} } });
 
     triggerRuleModal = () => {
       const {

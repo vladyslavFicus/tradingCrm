@@ -76,10 +76,11 @@ class StorageProvider extends PureComponent {
   /**
    * Set item to storage
    *
-   * @param obj
+   * @param key
+   * @param value
    */
-  set = (obj) => {
-    this.setState({ ...obj }, () => {
+  set = (key, value) => {
+    this.setState({ [key]: value }, () => {
       window.localStorage.setItem(STORAGE_KEY, JSON.stringify(this.state));
     });
   };

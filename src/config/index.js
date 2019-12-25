@@ -78,6 +78,11 @@ function setBrandId(brandId) {
   window.app.brand = config.brands[brandId];
 }
 
+function removeActiveBrand() {
+  window.app.brand = undefined;
+  window.app.brandId = undefined;
+}
+
 function getLogo() {
   return `/img/brand/header/${getBrandId()}.svg`;
 }
@@ -119,6 +124,7 @@ export {
   getBrand,
   getBrandId,
   setBrandId,
+  removeActiveBrand,
   getEnvironment,
   getLogo,
   getActiveBrandConfig,

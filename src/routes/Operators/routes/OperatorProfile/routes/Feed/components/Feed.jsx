@@ -1,6 +1,5 @@
 import React, { Component, Fragment } from 'react';
 import { get } from 'lodash';
-import history from 'router/history';
 import parseJson from 'utils/parseJson';
 import PropTypes from 'constants/propTypes';
 import ListView from 'components/ListView';
@@ -9,6 +8,7 @@ import FeedFilterForm from './FeedFilterForm';
 
 class View extends Component {
   static propTypes = {
+    ...PropTypes.router,
     feeds: PropTypes.shape({
       refetch: PropTypes.func.isRequired,
       loading: PropTypes.bool.isRequired,
@@ -38,7 +38,7 @@ class View extends Component {
   };
 
   handleFiltersChanged = (filters = {}) => {
-    history.replace({ query: { filters } });
+    this.props.history.replace({ query: { filters } });
   };
 
   mapAuditEntities = entities => entities.map(entity => (

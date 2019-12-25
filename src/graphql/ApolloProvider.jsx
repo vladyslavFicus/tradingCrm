@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { ApolloProvider as ReactApolloProvider } from 'react-apollo';
+import { withRouter } from 'react-router-dom';
 import { ApolloClient } from 'apollo-client';
 import { from, split, ApolloLink } from 'apollo-link';
 import { setContext } from 'apollo-link-context';
@@ -13,7 +14,6 @@ import { createUploadLink } from 'apollo-upload-client';
 import { withStorage } from 'providers/StorageProvider';
 import omitTypename from 'graphql/utils/omitTypename';
 import { actionCreators as modalActionCreators } from 'redux/modules/modal';
-import { actionTypes as authActionTypes } from 'redux/modules/auth';
 import { types as modalTypes } from 'constants/modals';
 import queryNames from 'constants/apolloQueryNames';
 import { getGraphQLRoot, getApiVersion } from '../config';
@@ -46,7 +46,6 @@ class ApolloProvider extends PureComponent {
   static propTypes = {
     children: PropTypes.element.isRequired,
     triggerVersionModal: PropTypes.func.isRequired,
-    logout: PropTypes.func.isRequired,
     ...withStorage.propTypes,
   };
 
@@ -75,11 +74,16 @@ class ApolloProvider extends PureComponent {
       batchSplitLink,
     );
 
-    const errorLink = onError(({ graphQLErrors, networkError }) => {
+    const errorLink = onError(({ graphQLErrors, networkError, operation }) => {
       if (graphQLErrors) {
         graphQLErrors.forEach(({ message, locations, path, extensions }) => {
+          // Suppress next error handlers because sign in and logout can return 401 [UNAUTHENTICATED]
+          if (['SignInMutation', 'LogoutMutation'].includes(operation.operationName)) {
+            return;
+          }
+
           if (extensions && extensions.code === 'UNAUTHENTICATED') {
-            this.props.logout();
+            this.props.history.push('/logout');
 
             return;
           }
@@ -91,7 +95,7 @@ class ApolloProvider extends PureComponent {
 
       if (networkError) {
         if (networkError.statusCode === 401) {
-          this.props.logout();
+          this.props.history.push('/logout');
         }
 
         if (networkError.statusCode === 426) {
@@ -156,7 +160,6 @@ class ApolloProvider extends PureComponent {
 
 const mapDispatchToProps = dispatch => ({
   triggerVersionModal: options => dispatch(modalActionCreators.open(options)),
-  logout: () => dispatch({ type: authActionTypes.LOGOUT.SUCCESS }),
 });
 
-export default connect(null, mapDispatchToProps)(withStorage(ApolloProvider));
+export default connect(null, mapDispatchToProps)(withStorage(withRouter(ApolloProvider)));

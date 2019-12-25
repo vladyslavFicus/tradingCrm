@@ -1,5 +1,23 @@
 import PropTypes from 'prop-types';
 
+/**
+ * Router prop types
+ *
+ * @type {*}
+ */
+PropTypes.router = {
+  location: PropTypes.shape({
+    search: PropTypes.string.isRequired,
+    pathname: PropTypes.string.isRequired,
+  }).isRequired,
+
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+    replace: PropTypes.func.isRequired,
+    state: PropTypes.object,
+  }).isRequired,
+};
+
 PropTypes.price = PropTypes.shape({
   amount: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   currency: PropTypes.string,

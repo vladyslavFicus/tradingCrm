@@ -11,7 +11,7 @@ import ConfirmActionModal from 'components/Modal/ConfirmActionModal';
 import OperatorProfile from '../components/OperatorProfile';
 
 export default compose(
-  withStorage(['auth', 'brand']),
+  withStorage(['auth']),
   withNotifications,
   withModals({
     confirmActionModal: ConfirmActionModal,

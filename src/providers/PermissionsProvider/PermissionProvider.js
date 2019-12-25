@@ -1,39 +1,33 @@
 import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
+import { get } from 'lodash';
+import { withRequests } from 'apollo';
+import PropTypes from 'constants/propTypes';
+import Preloader from 'components/Preloader';
+import PermissionsQuery from './graphql/PermissionsQuery';
 
 const PermissionContext = React.createContext();
 
 class PermissionProvider extends PureComponent {
   static propTypes = {
-    children: PropTypes.element.isRequired,
-  };
-
-  constructor(props) {
-    super(props);
-
-    this.permissions = {
-      set: this.set,
-    };
-  }
-
-  state = {
-    permissions: [],
-  }
-
-  /**
-   * Set permissions to state
-   *
-   * @param value
-   */
-  set = (value) => {
-    this.setState({ permissions: value });
+    children: PropTypes.node.isRequired,
+    permissions: PropTypes.object.isRequired,
   };
 
   render() {
+    const {
+      permissions: {
+        loading,
+        data,
+      },
+    } = this.props;
+
+    if (loading) {
+      return <Preloader isVisible />;
+    }
+
     const value = {
       permission: {
-        ...this.permissions,
-        permissions: this.state.permissions,
+        permissions: get(data, 'permission.data') || [],
       },
     };
 
@@ -51,4 +45,6 @@ export const PermissionPropTypes = {
   set: PropTypes.func.isRequired,
 };
 
-export default PermissionProvider;
+export default withRequests({
+  permissions: PermissionsQuery,
+})(PermissionProvider);

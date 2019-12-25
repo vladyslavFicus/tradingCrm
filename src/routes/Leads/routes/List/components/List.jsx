@@ -4,7 +4,6 @@ import classNames from 'classnames';
 import I18n from 'i18n-js';
 import { get, omit } from 'lodash';
 import { TextRow } from 'react-placeholder/lib/placeholders';
-import history from 'router/history';
 import PropTypes from 'constants/propTypes';
 import { deskTypes, userTypes } from 'constants/hierarchyTypes';
 import GridView, { GridViewColumn } from 'components/GridView';
@@ -26,6 +25,7 @@ const MAX_SELECTED_ROWS = 10000;
 
 class List extends Component {
   static propTypes = {
+    ...PropTypes.router,
     notify: PropTypes.func.isRequired,
     leads: PropTypes.shape({
       leads: PropTypes.shape({
@@ -102,7 +102,7 @@ class List extends Component {
       allRowsSelected: false,
       selectedRows: [],
       touchedRowsIds: [],
-    }, () => history.replace({
+    }, () => this.props.history.replace({
       query: {
         filters: {
           ...filters,
@@ -121,7 +121,7 @@ class List extends Component {
       allRowsSelected: false,
       selectedRows: [],
       touchedRowsIds: [],
-    }, () => history.replace({ query: { filters: {} } }));
+    }, () => this.props.history.replace({ query: { filters: {} } }));
   };
 
   handleLeadClick = ({ uuid }) => {

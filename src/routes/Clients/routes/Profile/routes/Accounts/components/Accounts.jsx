@@ -1,11 +1,11 @@
 import React, { PureComponent, Fragment } from 'react';
 import { Switch, Redirect } from 'react-router-dom';
 import { withPermission } from 'providers/PermissionsProvider';
-import Permissions from '../../../../../../../utils/permissions';
-import { Route } from '../../../../../../../router';
-import PropTypes from '../../../../../../../constants/propTypes';
-import TradingAccounts from '../routes/TradingAccounts';
+import Permissions from 'utils/permissions';
+import Route from 'components/Route';
+import PropTypes from 'constants/propTypes';
 import StickyNavigation from '../../../components/StickyNavigation';
+import TradingAccounts from '../routes/TradingAccounts';
 import { routes } from '../constants';
 
 class Accounts extends PureComponent {

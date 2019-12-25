@@ -2,7 +2,6 @@ import React, { Component, Fragment } from 'react';
 import I18n from 'i18n-js';
 import { get } from 'lodash';
 import { TextRow } from 'react-placeholder/lib/placeholders';
-import history from 'router/history';
 import PropTypes from 'constants/propTypes';
 import permissions from 'config/permissions';
 import PermissionContent from 'components/PermissionContent';
@@ -14,6 +13,7 @@ import OfficesGridFilter from './OfficesGridFilter';
 
 class List extends Component {
   static propTypes = {
+    ...PropTypes.router,
     createOffice: PropTypes.func.isRequired,
     location: PropTypes.shape({
       query: PropTypes.shape({
@@ -40,12 +40,12 @@ class List extends Component {
     this.handleFilterReset();
   }
 
-  handleFiltersChanged = (filters = {}) => history.replace({ query: { filters } });
+  handleFiltersChanged = (filters = {}) => this.props.history.replace({ query: { filters } });
 
-  handleFilterReset = () => history.replace({ query: { filters: {} } });
+  handleFilterReset = () => this.props.history.replace({ query: { filters: {} } });
 
   handleOfficeClick = ({ office: { uuid } }) => {
-    history.push(`/offices/${uuid}`);
+    this.props.history.push(`/offices/${uuid}`);
   };
 
   triggerOfficeModal = () => {

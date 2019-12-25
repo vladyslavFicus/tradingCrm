@@ -1,15 +1,16 @@
 import React, { PureComponent, Fragment } from 'react';
-import PropTypes from 'prop-types';
 import I18n from 'i18n-js';
 import moment from 'moment';
 import { isEqual } from 'lodash';
-import history from 'router/history';
+import { withRouter } from 'react-router-dom';
+import PropTypes from 'constants/propTypes';
 import FilterSet from '../FilterSet';
 import FilterSetButtons from '../FilterSetButtons';
 import reduxFieldsConstructor from '../ReduxForm/ReduxFieldsConstructor';
 
 class ListFilters extends PureComponent {
   static propTypes = {
+    ...PropTypes.router,
     reset: PropTypes.func,
     invalid: PropTypes.bool,
     pristine: PropTypes.bool,
@@ -67,7 +68,7 @@ class ListFilters extends PureComponent {
   handleSelectFieldChange = fieldName => (value) => {
     const { change, currentValues, onFieldChange } = this.props;
     onFieldChange(fieldName, value, change, currentValues);
-  }
+  };
 
   handleReset = () => {
     const { reset, onReset, filterSetType, isFetchingProfileData } = this.props;
@@ -116,14 +117,14 @@ class ListFilters extends PureComponent {
 
   // the function needed to update filterSetValues in parent component
   handleHistoryReplace = (filterSetValues = null) => {
-    let { location: { query } } = history;
+    let { location: { query } } = this.props.history;
 
     if (!filterSetValues) {
       query = null;
     }
 
-    return history.replace({ query, filterSetValues });
-  }
+    return this.props.history.replace({ query, filterSetValues });
+  };
 
   handleToggleFiltersVisibility = () => (
     this.setState(({ isFiltersVisible }) => ({
@@ -216,4 +217,4 @@ class ListFilters extends PureComponent {
   }
 }
 
-export default ListFilters;
+export default withRouter(ListFilters);

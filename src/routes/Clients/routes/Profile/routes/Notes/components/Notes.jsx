@@ -4,12 +4,12 @@ import I18n from 'i18n-js';
 import PropTypes from 'constants/propTypes';
 import ListView from 'components/ListView';
 import TabHeader from 'components/TabHeader';
-import history from 'router/history';
 import NoteItem from 'components/NoteItem';
 import NotesGridFilter from './NotesGridFilter';
 
 class Notes extends Component {
   static propTypes = {
+    ...PropTypes.router,
     notes: PropTypes.shape({
       refetch: PropTypes.func.isRequired,
       loading: PropTypes.bool.isRequired,
@@ -66,7 +66,7 @@ class Notes extends Component {
   }
 
   handleRefresh = (filters = {}) => {
-    history.replace({ query: { filters } });
+    this.props.history.replace({ query: { filters } });
   };
 
   handleFiltersChanged = (filters = {}) => this.handleRefresh(filters);

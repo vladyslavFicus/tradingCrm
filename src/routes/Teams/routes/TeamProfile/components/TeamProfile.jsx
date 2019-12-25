@@ -2,7 +2,7 @@ import React from 'react';
 import { get } from 'lodash';
 import { Switch } from 'react-router-dom';
 import { branchTypes } from 'constants/hierarchyTypes';
-import { Route } from 'router';
+import Route from 'components/Route';
 import Tabs from 'components/Tabs';
 import HierarchyProfileRules from 'components/HierarchyProfileRules';
 import NotFound from 'routes/NotFound';

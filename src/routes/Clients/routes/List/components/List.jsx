@@ -3,7 +3,6 @@ import I18n from 'i18n-js';
 import { get, omit } from 'lodash';
 import { TextRow } from 'react-placeholder/lib/placeholders';
 import { actionTypes as windowActionTypes } from 'redux/modules/window';
-import history from 'router/history';
 import permissions from 'config/permissions';
 import PropTypes from 'constants/propTypes';
 import { deskTypes } from 'constants/hierarchyTypes';
@@ -20,6 +19,7 @@ const MAX_SELECTED_ROWS = 10000;
 
 class List extends Component {
   static propTypes = {
+    ...PropTypes.router,
     auth: PropTypes.shape({
       department: PropTypes.string.isRequired,
       role: PropTypes.string.isRequired,
@@ -127,7 +127,7 @@ class List extends Component {
       allRowsSelected: false,
       selectedRows: [],
       touchedRowsIds: [],
-    }, () => history.replace({
+    }, () => this.props.history.replace({
       // Not to rewrite form initial Values if exist
       ...(filterSetValues && { filterSetValues }),
       query: { filters },
@@ -138,7 +138,7 @@ class List extends Component {
     allRowsSelected: false,
     selectedRows: [],
     touchedRowsIds: [],
-  }, () => history.replace({ query: null }));
+  }, () => this.props.history.replace({ query: null }));
 
   handlePlayerClick = ({ uuid }) => {
     window.open(`/clients/${uuid}/profile`, '_blank');

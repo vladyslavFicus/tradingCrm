@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { get } from 'lodash';
-import history from 'router/history';
+import { withRouter } from 'react-router-dom';
 import PropTypes from 'constants/propTypes';
 import ListFilterForm from 'components/ListFilterForm';
 import filterFields from '../../attributes/filterFields';
 
 class FilterForm extends Component {
   static propTypes = {
+    ...PropTypes.router,
     tradingAccounts: PropTypes.shape({
       tradingAccount: PropTypes.array,
       loading: PropTypes.bool.isRequired,
@@ -25,7 +26,7 @@ class FilterForm extends Component {
   }
 
   handleApplyFilters = (values) => {
-    history.replace({
+    this.props.history.replace({
       query: {
         filters: {
           ...values,
@@ -35,13 +36,13 @@ class FilterForm extends Component {
         },
       },
     });
-  }
+  };
 
   handleFilterReset = () => {
-    history.replace({
+    this.props.history.replace({
       query: { filters: {} },
     });
-  }
+  };
 
   render() {
     const {
@@ -75,4 +76,4 @@ class FilterForm extends Component {
   }
 }
 
-export default FilterForm;
+export default withRouter(FilterForm);

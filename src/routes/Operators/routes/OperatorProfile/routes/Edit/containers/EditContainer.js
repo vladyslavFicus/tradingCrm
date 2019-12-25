@@ -9,7 +9,7 @@ import { withNotifications } from 'components/HighOrder';
 import Edit from '../components/Edit';
 
 export default compose(
-  withStorage(['auth', 'brand']),
+  withStorage(['auth']),
   withNotifications,
   graphql(authoritiesOptionsQuery, {
     name: 'authoritiesOptions',

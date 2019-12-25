@@ -2,13 +2,13 @@ import React, { Component } from 'react';
 import { get } from 'lodash';
 import I18n from 'i18n-js';
 import PropTypes from 'constants/propTypes';
-import history from 'router/history';
 import Uuid from 'components/Uuid';
 import FileGridView from './FileGridView';
 import FilesFilterForm from './FilesFilterForm';
 
 class Files extends Component {
   static propTypes = {
+    ...PropTypes.router,
     fileList: PropTypes.shape({
       data: PropTypes.pageable(PropTypes.fileEntity),
       refetch: PropTypes.func.isRequired,
@@ -20,7 +20,7 @@ class Files extends Component {
     }).isRequired,
   };
 
-  handleFiltersChanged = (filters = {}) => history.replace({ query: { filters } });
+  handleFiltersChanged = (filters = {}) => this.props.history.replace({ query: { filters } });
 
   handlePageChanged = () => {
     const {

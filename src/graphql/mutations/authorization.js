@@ -1,6 +1,6 @@
 import gql from 'graphql-tag';
 
-const signInMutation = gql`mutation signIn($login: String!, $password: String!) {
+const signInMutation = gql`mutation SignInMutation($login: String!, $password: String!) {
   authorization {
     signIn(login: $login, password: $password) {
       data {
@@ -16,7 +16,7 @@ const signInMutation = gql`mutation signIn($login: String!, $password: String!) 
   }
 }`;
 
-const chooseDepartmentMutation = gql`mutation chooseDepartment($brandId: String!, $department: String!) {
+const chooseDepartmentMutation = gql`mutation ChooseDepartmentMutation($brandId: String!, $department: String!) {
   authorization {
     chooseDepartment(brandId: $brandId, department: $department) {
       data {

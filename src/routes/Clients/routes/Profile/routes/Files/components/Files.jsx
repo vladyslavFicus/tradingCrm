@@ -1,6 +1,5 @@
 import React, { Component, Fragment } from 'react';
 import { get } from 'lodash';
-import history from 'router/history';
 import I18n from 'i18n-js';
 import { getApiRoot, getApiVersion } from 'config';
 import TabHeader from 'components/TabHeader';
@@ -21,6 +20,7 @@ class Files extends Component {
   };
 
   static propTypes = {
+    ...PropTypes.router,
     filesList: PropTypes.shape({
       data: PropTypes.pageable(PropTypes.fileEntity),
       refetch: PropTypes.func.isRequired,
@@ -60,7 +60,7 @@ class Files extends Component {
     }
   };
 
-  handleFiltersChanged = (filters = {}) => history.replace({ query: { filters } });
+  handleFiltersChanged = (filters = {}) => this.props.history.replace({ query: { filters } });
 
   handleStatusActionClick = async (
     verificationType,

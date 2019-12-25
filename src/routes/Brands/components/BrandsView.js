@@ -41,7 +41,7 @@ class BrandsView extends Component {
 
   removePreloader = () => {
     this.setState({ loading: false });
-  }
+  };
 
   handleSelectBrand = (brand) => {
     if (brand) {
@@ -55,9 +55,11 @@ class BrandsView extends Component {
         departments,
         step: 2,
         brand,
-      }, this.props.storage.set({ departments, brand }));
+      }, () => {
+        this.props.storage.set('departments', departments);
+      });
     }
-  }
+  };
 
   handleSelectDepartment = async (brand, department) => {
     const { departmentsByBrand, history } = this.props;
@@ -83,13 +85,11 @@ class BrandsView extends Component {
     });
 
     if (!error) {
-      this.props.storage.set({
-        token,
-        auth: {
-          department,
-          role: departmentsByBrand[brand][department],
-          uuid,
-        },
+      this.props.storage.set('token', token);
+      this.props.storage.set('auth', {
+        department,
+        role: departmentsByBrand[brand][department],
+        uuid,
       });
 
       // This function need to refresh window.app object to get new data from token
@@ -97,11 +97,11 @@ class BrandsView extends Component {
     }
 
     return history.push('/dashboard');
-  }
+  };
 
   handleOnBackClick = () => {
     this.setState({ step: 1 });
-  }
+  };
 
   renderSignIn = () => {
     const { brands } = this.props;

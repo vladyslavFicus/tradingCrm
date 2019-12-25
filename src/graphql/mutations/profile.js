@@ -60,9 +60,9 @@ const changeProfileStatusMutation = gql`mutation changeProfileStatus(
 }
 ${ProfileStatusFragment}`;
 
-const passwordResetRequest = gql`mutation passwordResetRequest($brandId: String!, $playerUUID: String!) {
+const passwordResetRequest = gql`mutation passwordResetRequest($playerUUID: String!) {
   profile {
-    passwordResetRequest(playerUUID: $playerUUID, brandId: $brandId) {
+    passwordResetRequest(playerUUID: $playerUUID) {
       success
     }
   }

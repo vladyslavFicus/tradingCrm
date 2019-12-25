@@ -10,7 +10,7 @@ import ResetPasswordForm from './ResetPasswordForm';
 class ResetPassword extends Component {
   static propTypes = {
     resetPasswordMutation: PropTypes.func.isRequired,
-  }
+  };
 
   state = {
     resetPasswordFormError: '',
@@ -30,7 +30,7 @@ class ResetPassword extends Component {
 
   removePreloader = () => {
     this.setState({ loading: false });
-  }
+  };
 
   handleSubmit = async (data) => {
     try {

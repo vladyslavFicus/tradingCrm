@@ -1,11 +1,11 @@
 import React from 'react';
 import { get } from 'lodash';
 import { Switch, Redirect } from 'react-router-dom';
-import { Route } from '../../../../../router';
-import Tabs from '../../../../../components/Tabs';
-import NotFound from '../../../../NotFound';
-import PropTypes from '../../../../../constants/propTypes';
-import HierarchyProfileRules from '../../../../../components/HierarchyProfileRules';
+import Route from 'components/Route';
+import Tabs from 'components/Tabs';
+import NotFound from 'routes/NotFound';
+import PropTypes from 'constants/propTypes';
+import HierarchyProfileRules from 'components/HierarchyProfileRules';
 import officeProfileTabs from './constants';
 import Header from './Header';
 

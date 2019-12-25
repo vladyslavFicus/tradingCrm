@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import I18n from 'i18n-js';
+import { withRouter } from 'react-router-dom';
 import { getBrandId } from 'config';
-import history from 'router/history';
+import PropTypes from 'constants/propTypes';
 
 class ExistingPartnerModal extends Component {
   static propTypes = {
+    ...PropTypes.router,
     onCloseModal: PropTypes.func.isRequired,
     isOpen: PropTypes.bool.isRequired,
     addExistingOperator: PropTypes.func.isRequired,
@@ -53,7 +54,7 @@ class ExistingPartnerModal extends Component {
     if (!error) {
       onCloseModal();
 
-      history.replace(`${uuid}/profile`);
+      this.props.history.replace(`${uuid}/profile`);
     } else {
       notify({
         level: 'error',
@@ -61,7 +62,7 @@ class ExistingPartnerModal extends Component {
         message: I18n.t('OPERATORS.NOTIFICATIONS.EXISTING_OPERATOR_ERROR.MESSAGE'),
       });
     }
-  }
+  };
 
   render() {
     const {
@@ -104,4 +105,4 @@ class ExistingPartnerModal extends Component {
   }
 }
 
-export default ExistingPartnerModal;
+export default withRouter(ExistingPartnerModal);

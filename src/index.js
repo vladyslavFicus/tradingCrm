@@ -6,7 +6,6 @@ import { getBackofficeBrand } from 'config';
 import bootstrap from './bootstrap';
 import createStore from './store/createStore';
 import AppContainer from './containers/AppContainer';
-import createWindowMessageService from './services/window-message';
 
 bootstrap();
 
@@ -24,8 +23,6 @@ createStore({}, (store) => {
       ReactDOM.render(<AppContainer store={store} />, MOUNT_NODE);
     }
   };
-
-  createWindowMessageService(store);
 
   render();
 });

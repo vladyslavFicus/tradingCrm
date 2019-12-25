@@ -3,13 +3,14 @@ import { findDOMNode } from 'react-dom';
 import classNames from 'classnames';
 import I18n from 'i18n-js';
 import TimelineLite from 'gsap/TimelineLite';
-import history from 'router/history';
+import { withRouter } from 'react-router-dom';
+import PropTypes from 'constants/propTypes';
 import SubNav from '../SubNav';
-import PropTypes from '../../constants/propTypes';
 import './SidebarNavItem.scss';
 
 class NavItem extends Component {
   static propTypes = {
+    ...PropTypes.router,
     icon: PropTypes.string,
     label: PropTypes.string.isRequired,
     url: PropTypes.string,
@@ -69,7 +70,7 @@ class NavItem extends Component {
   handleMenuItemClick = (url) => {
     this.props.onMenuItemClick();
 
-    setTimeout(() => history.push(url), 300);
+    setTimeout(() => this.props.history.push(url), 300);
   };
 
   render() {
@@ -134,4 +135,4 @@ class NavItem extends Component {
   }
 }
 
-export default NavItem;
+export default withRouter(NavItem);

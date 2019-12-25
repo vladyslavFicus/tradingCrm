@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Field, reduxForm } from 'redux-form';
 import I18n from 'i18n-js';
-import { withStorage } from 'providers/StorageProvider';
 import { createValidator } from '../../../../../../utils/validator';
 import { TextAreaField, SelectField } from '../../../../../../components/ReduxForm';
 import { actions, durationUnits } from '../../../../../../constants/user';
@@ -34,7 +33,6 @@ class PlayerStatusModal extends Component {
     onHide: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func.isRequired,
-    locale: PropTypes.string.isRequired,
     className: PropTypes.string,
   };
 
@@ -73,7 +71,7 @@ class PlayerStatusModal extends Component {
             value={`${period.durationAmount} ${period.durationUnit}`}
             key={`${period.durationAmount}-${period.durationUnit}`}
           >
-            {pluralDurationUnit(period.durationAmount, period.durationUnit, this.props.locale)}
+            {pluralDurationUnit(period.durationAmount, period.durationUnit, I18n.locale)}
           </option>
         ))
       }
@@ -129,7 +127,7 @@ class PlayerStatusModal extends Component {
   }
 }
 
-export default withStorage(['locale'])(reduxForm({
+export default reduxForm({
   form: 'playerStatusModal',
   validate: (data, props) => {
     const rules = {
@@ -143,4 +141,4 @@ export default withStorage(['locale'])(reduxForm({
 
     return createValidator(rules, attributeLabels, false)(data);
   },
-})(PlayerStatusModal));
+})(PlayerStatusModal);

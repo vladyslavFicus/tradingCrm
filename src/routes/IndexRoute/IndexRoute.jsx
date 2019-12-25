@@ -1,10 +1,10 @@
 import React, { PureComponent, Fragment } from 'react';
-import { Switch, Redirect } from 'react-router-dom';
+import { Switch, Redirect, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { parse } from 'qs';
-import { AppRoute, Route } from 'router';
 import Helmet from 'react-helmet';
 import { getBackofficeBrand } from 'config';
+import Route from 'components/Route';
 import NotFound from 'routes/NotFound';
 import CoreLayout from 'layouts/CoreLayout';
 import BlackLayout from 'layouts/BlackLayout';
@@ -49,7 +49,8 @@ class IndexRoute extends PureComponent {
     const search = parse(location.search, {
       ignoreQueryPrefix: true,
     });
-    const returnUrl = (search && search.returnUrl) ? search.returnUrl : '/';
+
+    const returnUrl = (search && search.returnUrl) ? search.returnUrl : '/dashboard';
 
     return (
       <CoreLayout>
@@ -72,32 +73,37 @@ class IndexRoute extends PureComponent {
               </Otherwise>
             </Choose>
 
-            <AppRoute path="/brands" layout={BlackLayout} component={Brands} checkAuth />
-            <AppRoute path="/dashboard" layout={MainLayout} component={Dashboard} checkAuth />
-            <AppRoute path="/personal-dashboard" layout={MainLayout} component={PersonalDashboard} checkAuth />
-            <AppRoute path="/payments" layout={MainLayout} component={Payments} checkAuth />
-            <AppRoute path="/clients" layout={MainLayout} component={Clients} checkAuth />
-            <AppRoute path="/leads" layout={MainLayout} component={Leads} checkAuth />
-            <AppRoute path="/callbacks" layout={MainLayout} component={Callbacks} checkAuth />
-            <AppRoute path="/hierarchy" layout={MainLayout} component={Hierarchy} checkAuth />
-            <AppRoute
+            {/* Private routes */}
+            <Route path="/brands" layout={BlackLayout} component={Brands} isPrivate />
+            <Route path="/dashboard" layout={MainLayout} component={Dashboard} isPrivate />
+            <Route path="/personal-dashboard" layout={MainLayout} component={PersonalDashboard} isPrivate />
+            <Route path="/payments" layout={MainLayout} component={Payments} isPrivate />
+            <Route path="/clients" layout={MainLayout} component={Clients} isPrivate />
+            <Route path="/leads" layout={MainLayout} component={Leads} isPrivate />
+            <Route path="/callbacks" layout={MainLayout} component={Callbacks} isPrivate />
+            <Route path="/hierarchy" layout={MainLayout} component={Hierarchy} isPrivate />
+            <Route
               path="/operators"
               layout={MainLayout}
               component={Operators}
               excludeAuthorities={operatorsExcludeAuthorities}
-              checkAuth
+              isPrivate
             />
-            <AppRoute path="/partners" layout={MainLayout} component={Partners} checkAuth />
-            <AppRoute path="/offices" layout={MainLayout} component={Offices} checkAuth />
-            <AppRoute path="/desks" layout={MainLayout} component={Desks} checkAuth />
-            <AppRoute path="/teams" layout={MainLayout} component={Teams} checkAuth />
-            <AppRoute path="/sales-rules" layout={MainLayout} component={SalesRules} checkAuth />
-            <AppRoute path="/release-notes" layout={MainLayout} component={ReleaseNotes} checkAuth />
-            <Route path="/logout" component={Logout} checkAuth />
-            {/* Public */}
-            <AppRoute path="/sign-in" layout={BlackLayout} component={SignIn} />
-            <AppRoute path="/reset-password" layout={BlackLayout} component={ResetPassword} />
+            <Route path="/partners" layout={MainLayout} component={Partners} isPrivate />
+            <Route path="/offices" layout={MainLayout} component={Offices} isPrivate />
+            <Route path="/desks" layout={MainLayout} component={Desks} isPrivate />
+            <Route path="/teams" layout={MainLayout} component={Teams} isPrivate />
+            <Route path="/sales-rules" layout={MainLayout} component={SalesRules} isPrivate />
+            <Route path="/release-notes" layout={MainLayout} component={ReleaseNotes} isPrivate />
+            <Route path="/logout" component={Logout} isPrivate />
+
+            {/* Public routes */}
+            <Route path="/sign-in" layout={BlackLayout} component={SignIn} isPublic />
+            <Route path="/reset-password" layout={BlackLayout} component={ResetPassword} isPublic />
+
+            {/* Not found routes */}
             <Route component={NotFound} />
+            <Redirect to="/not-found" />
           </Switch>
         </Fragment>
       </CoreLayout>
@@ -105,4 +111,4 @@ class IndexRoute extends PureComponent {
   }
 }
 
-export default withStorage(['token', 'auth'])(IndexRoute);
+export default withRouter(withStorage(['token', 'auth'])(IndexRoute));

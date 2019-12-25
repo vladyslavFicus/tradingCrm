@@ -20,7 +20,7 @@ class Departments extends Component {
 
   state = {
     startAnimation: false,
-  }
+  };
 
   componentDidMount() {
     this.setState({ startAnimation: true });
