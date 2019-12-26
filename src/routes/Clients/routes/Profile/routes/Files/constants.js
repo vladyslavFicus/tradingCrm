@@ -11,6 +11,11 @@ export const statuses = keyMirror({
   APPROVED: null,
   REJECTED: null,
   PENDING: null,
+  NEW: null,
+  NOT_VERIFIED: null,
+  NOT_VERIFIED_APPROVED: null,
+  DELETED: null,
+  OTHER: null,
 });
 
 const statusesCategory = [
@@ -28,12 +33,43 @@ const statusesCategory = [
   },
 ];
 
+const statusesFile = [
+  {
+    value: statuses.APPROVED,
+    label: 'FILES.STATUSES_FILE.APPROVED',
+  },
+  {
+    value: statuses.REJECTED,
+    label: 'FILES.STATUSES_FILE.REJECTED',
+  },
+  {
+    value: statuses.NEW,
+    label: 'FILES.STATUSES_FILE.NEW',
+  },
+  {
+    value: statuses.NOT_VERIFIED,
+    label: 'FILES.STATUSES_FILE.NOT_VERIFIED',
+  },
+  {
+    value: statuses.NOT_VERIFIED_APPROVED,
+    label: 'FILES.STATUSES_FILE.NOT_VERIFIED_APPROVED',
+  },
+  {
+    value: statuses.DELETED,
+    label: 'FILES.STATUSES_FILE.DELETED',
+  },
+  {
+    value: statuses.OTHER,
+    label: 'FILES.STATUSES_FILE.OTHER',
+  },
+];
+
 const categoryStatusesColor = {
   PENDING: 'color-info',
   REJECTED: 'color-danger',
   APPROVED: 'color-success',
 };
 
-export { attributeLabels, statusesCategory, categoryStatusesColor };
+export { attributeLabels, statusesCategory, statusesFile, categoryStatusesColor };
 
 export default attributeLabels;

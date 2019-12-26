@@ -12,7 +12,7 @@ import GridEmptyValue from 'components/GridEmptyValue';
 import Select from 'components/Select';
 import Uuid from 'components/Uuid';
 import permissions from 'config/permissions';
-import { statusesCategory } from '../constants';
+import { statusesCategory, statusesFile } from '../constants';
 import MoveFileDropDown from './MoveFileDropDown';
 
 class FileGrid extends Component {
@@ -34,6 +34,7 @@ class FileGrid extends Component {
 
   state = {
     selectedVerificationStatusValue: '',
+    selectedFileStatusValue: '',
   }
 
   onVerificationStatusChange = (value) => {
@@ -44,6 +45,10 @@ class FileGrid extends Component {
 
   onVerificationTypeChange = uuid => ({ verificationType, documentType }) => {
     this.props.onVerificationTypeActionClick(uuid, verificationType, documentType);
+  }
+
+  onFileStatusChange = (status, uuid) => {
+    this.props.onChangeFileStatusActionClick(status, uuid);
   }
 
   renderGridHeader = () => {
@@ -96,6 +101,22 @@ class FileGrid extends Component {
       />
     );
   }
+
+  renderChangeStatusFile = ({ uuid, status }) => (
+    <Select
+      value={this.state.selectedFileStatusValue || status}
+      customClassName="files-grid__header-status-dropdown filter-row__medium"
+      placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
+      onChange={(value) => {
+        this.setState({ selectedFileStatusValue: value });
+        this.onFileStatusChange(value, uuid);
+      }}
+    >
+      {statusesFile.map(({ value, label }) => (
+        <option key={`${uuid}-${value}`} value={value}>{I18n.t(label)}</option>
+      ))}
+    </Select>
+  )
 
   renderFileName = (data) => {
     const isClickable = this.props.onPreviewImageClick;
@@ -203,6 +224,11 @@ class FileGrid extends Component {
               render={this.renderMoveFileDropdown}
             />
           </If>
+          <GridViewColumn
+            name="statusFile"
+            header={I18n.t('FILES.CHANGE_FILE_STATUS')}
+            render={this.renderChangeStatusFile}
+          />
           <GridViewColumn
             name="date"
             header={I18n.t('FILES.GRID.COLUMN.DATE_TIME')}

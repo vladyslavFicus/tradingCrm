@@ -94,12 +94,14 @@ const updateFileMetaMutation = gql`mutation updateFileMetaMutation(
   $uuid: String!
   $verificationType: String
   $documentType: String
+  $status: String
 ) {
   file {
     updateFileMeta(
       uuid: $uuid,
       verificationType: $verificationType,
       documentType: $documentType,
+      status: $status
     ) {
       success
     }

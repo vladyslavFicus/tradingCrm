@@ -751,6 +751,8 @@
     "DOCUMENT_TYPE_CHANGED": "Document type successfully changed",
     "CHANGE_VERIFICATION_STATUS": "Change verification status",
     "MOVE_FILE_TO_VERIFICATION_DOCUMENT_TYPE": "Move to verification type > document type",
+    "CHANGE_FILE_STATUS": "Change file status",
+    "CHANGED_FILE_STATUS": "File status successfully changed",
     "CATEGORIES": {
       "DOCUMENT_VERIFICATION": "Document verification",
       "ADDRESS_VERIFICATION": "Address verification",
@@ -850,6 +852,15 @@
       "APPROVED": "Approved",
       "REJECTED": "Rejected",
       "PENDING": "Pending"
+    },
+    "STATUSES_FILE": {
+      "NEW": "New",
+      "APPROVED": "Approved",
+      "REJECTED": "Rejected",
+      "NOT_VERIFIED": "Not verified",
+      "NOT_VERIFIED_APPROVED": "Not verified approved",
+      "DELETED": "Deleted",
+      "OTHER": "Other"
     },
     "DOCUMENTS_TYPE": {
       "BANK_STATEMENT": "Bank statement",

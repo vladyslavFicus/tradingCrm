@@ -36,16 +36,10 @@ const getFilesListByProfileUUID = gql`query files(
           fileName
           title
           documentType
-          statusDocument
+          status
           uploadBy
           uuid
           verificationType
-          status {
-            value
-            comment
-            editDate
-            author
-          }
           type
           uploadDate
           expirationDate
@@ -91,16 +85,10 @@ const getFilesList = gql`query fileList(
         fileName
         title
         documentType
-        statusDocument
+        status
         uploadBy
         uuid
         verificationType
-        status {
-          value
-          comment
-          editDate
-          author
-        }
         type
         uploadDate
         expirationDate
