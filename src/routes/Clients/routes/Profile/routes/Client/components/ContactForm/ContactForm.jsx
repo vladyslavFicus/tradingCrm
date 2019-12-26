@@ -1,13 +1,15 @@
 import React, { Fragment, Component } from 'react';
 import I18n from 'i18n-js';
 import { Field, getFormSyncErrors, getFormValues, reduxForm } from 'redux-form';
+import { departments, roles } from 'constants/brands';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { createValidator } from 'utils/validator';
 import permissions from 'config/permissions';
 import PermissionContent from 'components/PermissionContent/PermissionContent';
 import { InputField } from 'components/ReduxForm';
-import PropTypes from '../../../../../../../../constants/propTypes';
+import { withStorage } from 'providers/StorageProvider';
+import PropTypes from 'constants/propTypes';
 
 const FORM_NAME = 'updateProfileContacts';
 const attributeLabels = {
@@ -45,6 +47,10 @@ class ContactForm extends Component {
       phoneVerified: PropTypes.bool,
       emailVerified: PropTypes.bool,
     }),
+    auth: PropTypes.shape({
+      department: PropTypes.string,
+      role: PropTypes.string,
+    }).isRequired,
   };
 
   static defaultProps = {
@@ -84,13 +90,20 @@ class ContactForm extends Component {
       initialValues,
       currentValues,
       formSyncErrors,
+      auth: {
+        department,
+        role,
+      },
     } = this.props;
-
     const { tradingOperatorAccessDisabled } = this.context;
 
     const isPhoneDirty = currentValues.phone !== initialValues.phone;
     const isPhoneValid = !formSyncErrors.phone && !formSyncErrors.phoneCode;
     const isPhoneVerifiable = isPhoneValid && (isPhoneDirty || !phoneVerified);
+    const isPhoneMutable = (department === departments.CS || department === departments.ADMINISTRATION)
+      && role === roles.ROLE4;
+    // TODO: uncomment row below after back-end will be ready
+    // const isEmailMutable = department === departments.CS && role === roles.ROLE4;
 
     return (
       <Fragment>
@@ -119,7 +132,7 @@ class ContactForm extends Component {
               type="text"
               component={InputField}
               label={attributeLabels.phone}
-              disabled={disabled || tradingOperatorAccessDisabled}
+              disabled={disabled || tradingOperatorAccessDisabled || !isPhoneMutable}
               className="col-5"
             />
             <If condition={isPhoneVerifiable}>
@@ -152,6 +165,8 @@ class ContactForm extends Component {
           <div className="form-row">
             <Field
               disabled
+              // TODO: uncomment row below after back-end will be ready
+              // disabled={!isEmailMutable}
               name="email"
               label={attributeLabels.email}
               type="text"
@@ -204,4 +219,5 @@ export default compose(
     }, attributeLabels, false),
     enableReinitialize: true,
   }),
+  withStorage(['auth']),
 )(ContactForm);
