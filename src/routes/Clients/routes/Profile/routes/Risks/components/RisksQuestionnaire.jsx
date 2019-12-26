@@ -27,22 +27,37 @@ class RisksQuestionnaire extends Component {
     hasValidationErrors: false,
   };
 
-  onCalculateClick = async () => {
+  onHandleClick = actionType => async () => {
     const {
       values,
       validateForm,
       onHandleCalculate,
+      onHandleSave,
     } = this.props;
 
     const validationResult = await validateForm(values);
     const hasValidationErrors = Object.keys(validationResult).length > 0;
 
     if (!hasValidationErrors) {
-      onHandleCalculate(values);
+      if (actionType === 'Calculate') {
+        onHandleCalculate(values);
+      } else {
+        onHandleSave(values);
+      }
     }
 
     this.setState({ hasValidationErrors });
   };
+
+  onHandleSelect = (name, value) => {
+    const { setFieldValue } = this.props;
+
+    setFieldValue(name, value);
+
+    if (name === 'questionId-1' || name === 'questionId-2') {
+      this.setState({ hasValidationErrors: false });
+    }
+  }
 
   renderQuestionnaireGroup = ({ questionSubGroups, id }) => (
     questionSubGroups.map(
@@ -77,7 +92,6 @@ class RisksQuestionnaire extends Component {
       errors,
       values,
       touched,
-      setFieldValue,
     } = this.props;
     const { hasValidationErrors } = this.state;
 
@@ -113,7 +127,7 @@ class RisksQuestionnaire extends Component {
         error={errors && errors[name]}
         disabled={disabled}
         searchable={false}
-        onChange={value => setFieldValue(name, value)}
+        onChange={value => this.onHandleSelect(name, value)}
       >
         {answers.map(({ id: answerId, title: answerTitle }) => (
           <option
@@ -154,7 +168,7 @@ class RisksQuestionnaire extends Component {
             <div className="risk__form-buttons col-6">
               <button
                 className="btn btn-primary risk__form-button"
-                onClick={this.onCalculateClick}
+                onClick={this.onHandleClick('Calculate')}
                 disabled={isSubmitting}
                 type="button"
               >
@@ -163,8 +177,9 @@ class RisksQuestionnaire extends Component {
 
               <button
                 className="btn btn-primary risk__form-button"
+                onClick={this.onHandleClick('Save')}
                 disabled={isSubmitting}
-                type="submit"
+                type="button"
               >
                 {I18n.t('CLIENT_PROFILE.RISKS.TAB.BUTTONS.SAVE')}
               </button>
@@ -201,26 +216,30 @@ export default withFormik({
   },
   validate: (values) => {
     const errors = {};
+    const errorMessage = I18n.t('ERRORS.FIELD_IS_REQUIRED');
 
     const firstQuestionValue = JSON.parse(values['questionId-1']) || {};
     const secondQuestionValue = JSON.parse(values['questionId-2']) || {};
+
+    if (!firstQuestionValue.answerId) {
+      errors['questionId-1'] = errorMessage;
+    }
+
+    if (firstQuestionValue.answerId === 3 && !secondQuestionValue.answerId) {
+      errors['questionId-2'] = errorMessage;
+    }
 
     if (firstQuestionValue.answerId === 3 && secondQuestionValue.answerId === 2) {
       Object.keys(values).forEach((questionName, key) => {
         const { answerId } = JSON.parse(values[questionName]) || {};
 
         if (key > 1 && !answerId) {
-          errors[questionName] = 'Field is requiered';
+          errors[questionName] = errorMessage;
         }
       });
     }
 
     return errors;
-  },
-  handleSubmit: (values, { setSubmitting, validateForm, props: { onHandleSave } }) => {
-    validateForm();
-    setSubmitting(false);
-    onHandleSave(values);
   },
   displayName: 'RisksQuestionnaire',
 })(RisksQuestionnaire);
