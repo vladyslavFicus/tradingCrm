@@ -92,7 +92,6 @@ const getFilesList = gql`query fileList(
         type
         uploadDate
         expirationDate
-        uploadBy
       }
     }
   }

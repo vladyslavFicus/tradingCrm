@@ -9,6 +9,11 @@ class ChangeFileStatusDropDown extends Component {
     statusesFile: PropTypes.array.isRequired,
     uuid: PropTypes.string.isRequired,
     status: PropTypes.string.isRequired,
+    disabled: PropTypes.bool,
+  };
+
+  static defaultProps = {
+    disabled: false,
   };
 
   state = {
@@ -21,11 +26,13 @@ class ChangeFileStatusDropDown extends Component {
       statusesFile,
       onChangeStatus,
       uuid,
+      disabled,
     } = this.props;
     const { currentValue } = this.state;
 
     return (
       <Select
+        disabled={disabled}
         value={currentValue || status}
         customClassName="filter-row__medium"
         placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}

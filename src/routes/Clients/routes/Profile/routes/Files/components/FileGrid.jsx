@@ -88,7 +88,7 @@ class FileGrid extends Component {
     );
   }
 
-  renderMoveFileDropdown = ({ uuid }) => {
+  renderMoveFileDropdown = ({ uuid, uploadBy }) => {
     const { categories, verificationType, documentType } = this.props;
 
     return (
@@ -96,17 +96,19 @@ class FileGrid extends Component {
         onMoveChange={this.onVerificationTypeChange(uuid)}
         categories={categories}
         uuid={uuid}
+        disabled={uploadBy.indexOf('OPERATOR') === -1}
         verificationType={verificationType}
         documentType={documentType}
       />
     );
   }
 
-  renderChangeStatusFile = ({ uuid, status }) => (
+  renderChangeStatusFile = ({ uuid, status, uploadBy }) => (
     <ChangeFileStatusDropDown
       onChangeStatus={this.onFileStatusChange}
       statusesFile={statusesFile}
       uuid={uuid}
+      disabled={uploadBy.indexOf('OPERATOR') === -1}
       status={status}
     />
   )
@@ -152,6 +154,7 @@ class FileGrid extends Component {
         <button
           type="button"
           className="btn-transparent color-danger"
+          disabled={data.uploadBy.indexOf('OPERATOR') === -1}
           onClick={() => this.props.onDeleteFileClick(data)}
         >
           <i className="fa fa-trash" />
