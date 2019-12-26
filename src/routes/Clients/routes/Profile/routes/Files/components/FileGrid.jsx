@@ -105,7 +105,7 @@ class FileGrid extends Component {
   renderChangeStatusFile = ({ uuid, status }) => (
     <Select
       value={this.state.selectedFileStatusValue || status}
-      customClassName="files-grid__header-status-dropdown filter-row__medium"
+      customClassName="filter-row__medium"
       placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
       onChange={(value) => {
         this.setState({ selectedFileStatusValue: value });
