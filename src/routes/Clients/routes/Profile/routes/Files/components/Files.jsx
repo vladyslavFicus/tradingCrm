@@ -114,6 +114,22 @@ class Files extends Component {
     }
   };
 
+  handleChangeFileStatusClick = async (status, uuid) => {
+    const { notify } = this.props;
+
+    const { data: { file: { updateFileMeta: { success } } } } = await this.props.updateFileMeta({
+      variables: { status, uuid },
+    });
+
+    notify({
+      level: success ? 'success' : 'error',
+      title: I18n.t('FILES.TITLE'),
+      message: success
+        ? I18n.t('FILES.CHANGED_FILE_STATUS')
+        : I18n.t('COMMON.SOMETHING_WRONG'),
+    });
+  };
+
   handleDownloadFileClick = async ({ uuid, fileName }) => {
     const {
       match: { params: { id } },
@@ -224,6 +240,7 @@ class Files extends Component {
                     onPageChange={this.handlePageChanged}
                     onStatusActionClick={this.handleStatusActionClick}
                     onVerificationTypeActionClick={this.handleVerificationTypeClick}
+                    onChangeFileStatusActionClick={this.handleChangeFileStatusClick}
                     onDownloadFileClick={this.handleDownloadFileClick}
                     onDeleteFileClick={this.handleDeleteFileClick}
                     onPreviewImageClick={this.handlePreviewImageClick}
