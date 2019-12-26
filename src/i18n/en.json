@@ -887,6 +887,7 @@
         "PLAYER_PROFILE_REGISTERED": "Registration",
         "PLAYER_PROFILE_CHANGED": "Personal details change",
         "PLAYER_PROFILE_SEARCH": "Players' search",
+        "RISK_PROFILE_DATA_CREATED": "Risk calculated",
         "NEW_OPERATOR_ACCOUNT_CREATED": "Operator - New operator created",
         "OPERATOR_ACCOUNT_CREATED": "Operator - Account created",
         "PLAYER_PROFILE_VIEWED": "Players' profile viewed",
@@ -963,7 +964,9 @@
         "CHANGE_LEVERAGE_FROM": "Change leverage from",
         "CHANGE_LEVERAGE_TO": "Change leverage to",
         "MT4LOGIN": "Mt4login",
-        "BANK_DETAILS": "Bank details"
+        "BANK_DETAILS": "Bank details",
+        "TOTAL_SCORE": "Total score",
+        "RISK_CATEGORY": "Risk category"
       },
       "KYC_CONFIRMATION": {
         "TRANSACTION": "Transaction ID",

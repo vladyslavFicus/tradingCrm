@@ -26,6 +26,7 @@ import FeedInfoTermsAccepted from './FeedInfoTermsAccepted';
 import FeedProfileAssign from './FeedProfileAssign';
 import FeedInfoChangeLeverageRequest from './FeedInfoChangeLeverageRequest';
 import FeedProfileAcquissitionStatusChanged from './FeedProfileAcquissitionStatusChanged';
+import FeedRiskProfileChanged from './FeedRiskProfileChanged';
 import Uuid from '../Uuid';
 import './FeedItem.scss';
 
@@ -98,6 +99,8 @@ class FeedItem extends Component {
         return <FeedInfoChangeLeverageRequest data={data} />;
       case types.PLAYER_PROFILE_ACQUISITION_CHANGED:
         return <FeedProfileAcquissitionStatusChanged data={data} />;
+      case types.RISK_PROFILE_DATA_CREATED:
+        return <FeedRiskProfileChanged data={data} />;
       default:
         return null;
     }

@@ -64,6 +64,8 @@ const attributeLabels = {
   playerUUID: 'CONSTANTS.AUDIT.TYPES.PLAYER_UUID',
   passportNumber: 'CONSTANTS.AUDIT.TYPES.PASSPORT_NUMBER',
   passPortExpirationDate: 'CONSTANTS.AUDIT.TYPES.PASSPORT_EXPIRATION_DATE',
+  totalScore: 'CONSTANTS.AUDIT.TYPES.TOTAL_SCORE',
+  riskCategory: 'CONSTANTS.AUDIT.TYPES.RISK_CATEGORY',
 };
 
 const filterLabels = {
