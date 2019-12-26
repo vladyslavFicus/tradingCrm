@@ -241,7 +241,9 @@ class Header extends Component {
               availableStatuses={availableStatuses}
             />
 
-            <RiskStatus riskCategory={riskCategory} />
+            <Regulated>
+              <RiskStatus riskCategory={riskCategory} />
+            </Regulated>
           </div>
           <div className="header-block header-block_balance" id="player-profile-balance-block">
             <If condition={uuid}>

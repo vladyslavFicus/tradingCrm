@@ -4,7 +4,7 @@ import { get } from 'lodash';
 import I18n from 'i18n-js';
 import { Switch, Redirect } from 'react-router-dom';
 import Helmet from 'react-helmet';
-import { getApiRoot } from 'config';
+import { getActiveBrandConfig, getApiRoot } from 'config';
 import Permissions from 'utils/permissions';
 import getFileBlobUrl from 'utils/getFileBlobUrl';
 import {
@@ -569,7 +569,6 @@ class Profile extends Component {
       location,
       pinnedNotes: { notes },
       match: {
-        url,
         path,
       },
       getLoginLock,
@@ -644,12 +643,14 @@ class Profile extends Component {
               )}
             />
             <Route disableScroll path={`${path}/feed`} component={Feed} />
-            <Route
-              disableScroll
-              path={`${path}/risk`}
-              render={props => <Risks refetchProfile={refetch} {...props} />}
-            />
-            <Redirect to={`${url}/profile`} />
+            <If condition={getActiveBrandConfig().regulation.isActive}>
+              <Route
+                disableScroll
+                path={`${path}/risk`}
+                render={props => <Risks refetchProfile={refetch} {...props} />}
+              />
+            </If>
+            <Redirect to={`${path}/profile`} />
           </Switch>
         </div>
         {
