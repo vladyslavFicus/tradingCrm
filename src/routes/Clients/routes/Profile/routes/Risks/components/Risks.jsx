@@ -23,25 +23,29 @@ class Risks extends Component {
   };
 
   state = {
-    calcData: [],
+    calcData: null,
   };
 
   componentDidUpdate() {
     const { calcData } = this.state;
-    const riskData = get(this.props, 'risksQuestionnaireData.riskQuestionnaire.data') || null;
+    const questionnaireData = get(this.props, 'risksQuestionnaireData.riskQuestionnaire.data') || null;
 
-    if (riskData && calcData.length === 0) {
-      return this.saveCalcDataToState(riskData);
+    if (questionnaireData && !calcData) {
+      return this.saveCalcDataToState(this.getCalcData(questionnaireData));
     }
 
     return null;
   }
 
-  saveCalcDataToState = ({ totalScore, questionnaire: { questionGroups } }) => {
+  getCalcData = ({ totalScore, questionnaire: { questionGroups } }) => {
     const totalRiskResult = { title: I18n.t('CLIENT_PROFILE.RISKS.TAB.RESULT.TOTAL_TITLE'), score: totalScore };
     const groupsRiskResults = questionGroups.map(({ title, score }) => ({ title, score }));
 
-    this.setState({ calcData: [totalRiskResult, ...groupsRiskResults] });
+    return [totalRiskResult, ...groupsRiskResults];
+  }
+
+  saveCalcDataToState = (calcData) => {
+    this.setState({ calcData });
   }
 
   buildRequestBody = (formValues) => {
@@ -122,7 +126,7 @@ class Risks extends Component {
 
             <div className="risk__columns-right">
               <div className="risk__result">
-                <RisksResult calcData={calcData} />
+                <RisksResult calcData={calcData || this.getCalcData(questionnaireData)} />
               </div>
             </div>
           </div>
