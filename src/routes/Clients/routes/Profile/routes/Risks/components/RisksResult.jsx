@@ -9,13 +9,17 @@ class RisksResult extends Component {
     })).isRequired,
   };
 
-  renderGroupCalculationResult = ({ title, score }, key) => (
-    <If condition={title}>
-      <div className="risk__result-data" key={key}>
-        {title}: {score > 0 ? score : '--'}
-      </div>
-    </If>
-  );
+  renderGroupCalculationResult = ({ title, score }, key) => {
+    const result = score !== null ? score : '--';
+
+    return (
+      <If condition={title}>
+        <div className="risk__result-data" key={key}>
+          {title}: {result}
+        </div>
+      </If>
+    );
+  };
 
   render() {
     const { calcData } = this.props;

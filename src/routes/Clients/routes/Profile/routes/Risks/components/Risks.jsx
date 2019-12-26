@@ -78,7 +78,7 @@ class Risks extends Component {
     const data = get(response, 'data.risks.calculateRisk.data') || null;
 
     if (data) {
-      this.saveCalcDataToState(data);
+      this.saveCalcDataToState(this.getCalcData(data));
     }
   }
 
@@ -101,7 +101,7 @@ class Risks extends Component {
     }
 
     if (data) {
-      this.saveCalcDataToState(data);
+      this.saveCalcDataToState(this.getCalcData(data));
       refetchProfile();
     }
   }

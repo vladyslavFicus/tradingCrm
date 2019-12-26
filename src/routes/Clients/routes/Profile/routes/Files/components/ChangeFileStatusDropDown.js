@@ -27,7 +27,7 @@ class ChangeFileStatusDropDown extends Component {
     return (
       <Select
         value={currentValue || status}
-        customClassName="files-grid__header-status-dropdown filter-row__medium"
+        customClassName="filter-row__medium"
         placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
         onChange={(value) => {
           this.setState({ currentValue: value });

@@ -1482,7 +1482,8 @@
     },
     "DATE": {
       "INVALID_DATE": "\"%{attributeName}\" is invalid"
-    }
+    },
+    "FIELD_IS_REQUIRED": "Field is required"
   },
   "PROFILE": {
     "LAST_LOGIN": {
