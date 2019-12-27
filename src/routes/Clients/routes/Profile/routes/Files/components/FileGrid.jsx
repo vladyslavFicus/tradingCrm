@@ -103,12 +103,11 @@ class FileGrid extends Component {
     );
   }
 
-  renderChangeStatusFile = ({ uuid, status, uploadBy }) => (
+  renderChangeStatusFile = ({ uuid, status }) => (
     <ChangeFileStatusDropDown
       onChangeStatus={this.onFileStatusChange}
       statusesFile={statusesFile}
       uuid={uuid}
-      disabled={uploadBy.indexOf('OPERATOR') === -1}
       status={status}
     />
   )
