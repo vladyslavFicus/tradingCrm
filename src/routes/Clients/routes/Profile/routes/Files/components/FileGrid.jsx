@@ -156,7 +156,13 @@ class FileGrid extends Component {
           disabled={data.uploadBy.indexOf('OPERATOR') === -1}
           onClick={() => this.props.onDeleteFileClick(data)}
         >
-          <i className="fa fa-trash" />
+          <i className={
+            classNames(
+              'fa fa-trash ',
+              { 'files-grid__delete-button is-disabled': data.uploadBy.indexOf('OPERATOR') === -1 },
+            )
+          }
+          />
         </button>
       </PermissionContent>
     </span>
