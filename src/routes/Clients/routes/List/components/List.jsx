@@ -2,7 +2,6 @@ import React, { Component, Fragment } from 'react';
 import I18n from 'i18n-js';
 import { get, omit } from 'lodash';
 import { TextRow } from 'react-placeholder/lib/placeholders';
-import { actionTypes as windowActionTypes } from 'redux/modules/window';
 import permissions from 'config/permissions';
 import PropTypes from 'constants/propTypes';
 import { deskTypes } from 'constants/hierarchyTypes';
@@ -82,23 +81,20 @@ class List extends Component {
   }
 
   componentDidMount() {
-    if (!window.isFrame) {
-      window.addEventListener('message', ({ data, origin }) => {
-        if (origin === window.location.origin) {
-          if (typeof data === 'string') {
-            const action = parseJson(data, null);
+    window.addEventListener('message', ({ data, origin }) => {
+      if (origin === window.location.origin) {
+        if (typeof data === 'string') {
+          const action = parseJson(data, null);
 
-            if (
-              action
-              && action.type === windowActionTypes.UPDATE_CLIENT_LIST
-              && this.props.profiles
-            ) {
-              this.props.profiles.refetch();
-            }
+          if (
+            action
+            && this.props.profiles
+          ) {
+            this.props.profiles.refetch();
           }
         }
-      });
-    }
+      }
+    });
   }
 
   componentWillUnmount() {

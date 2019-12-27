@@ -5,7 +5,6 @@ import I18n from 'i18n-js';
 import NotificationContainer from 'react-notification-system';
 import PropTypes from 'constants/propTypes';
 import { types as modalsTypes } from 'constants/modals';
-import { actionCreators as windowActionCreators, actionTypes as windowActionTypes } from 'redux/modules/window';
 import { actionCreators as notificationCreators } from 'redux/modules/notifications';
 import DebugPanel from 'components/DebugPanel';
 import UpdateVersionModal from 'components/UpdateVersionModal';
@@ -39,10 +38,6 @@ class CoreLayout extends Component {
     notifications: [],
   };
 
-  state = {
-    isFrameVersion: window.isFrame,
-  };
-
   getChildContext() {
     return {
       addNotification: this.handleNotify,
@@ -50,23 +45,21 @@ class CoreLayout extends Component {
   }
 
   componentDidMount() {
-    if (!this.state.isFrameVersion) {
-      window.addEventListener('message', ({ data, origin }) => {
-        if (origin === window.location.origin) {
-          if (typeof data === 'string') {
-            const action = parseJson(data, null);
+    window.addEventListener('message', ({ data, origin }) => {
+      if (origin === window.location.origin) {
+        if (typeof data === 'string') {
+          const action = parseJson(data, null);
 
-            if (
-              action
-              && action.type === windowActionTypes.NOTIFICATION && this.notificationNode
-              && this.notificationNode.addNotification
-            ) {
-              this.notificationNode.addNotification(action.payload);
-            }
+          if (
+            action
+            && this.notificationNode
+            && this.notificationNode.addNotification
+          ) {
+            this.notificationNode.addNotification(action.payload);
           }
         }
-      });
-    }
+      }
+    });
   }
 
   componentWillReceiveProps({ notifications: nextNotifications, modal: { name: nextModalName } }) {
@@ -96,15 +89,12 @@ class CoreLayout extends Component {
     const defaultParams = { position: 'br' };
     const mergedParams = { ...defaultParams, ...params };
 
-    if (this.state.isFrameVersion) {
-      window.dispatchAction(windowActionCreators.notify(mergedParams));
-    } else if (this.notificationNode) {
+    if (this.notificationNode) {
       this.notificationNode.addNotification(mergedParams);
     }
   };
 
   render() {
-    const { isFrameVersion } = this.state;
     const { children } = this.props;
 
     return (
@@ -115,22 +105,20 @@ class CoreLayout extends Component {
           <DebugPanel />
         </If>
 
-        <If condition={!isFrameVersion}>
-          <NotificationContainer
-            ref={(node) => {
-              this.notificationNode = node;
-            }}
-            style={{
-              Containers: {
-                DefaultStyle: { zIndex: 9999 },
-                bc: {
-                  left: 'auto',
-                  right: '0px',
-                },
+        <NotificationContainer
+          ref={(node) => {
+            this.notificationNode = node;
+          }}
+          style={{
+            Containers: {
+              DefaultStyle: { zIndex: 9999 },
+              bc: {
+                left: 'auto',
+                right: '0px',
               },
-            }}
-          />
-        </If>
+            },
+          }}
+        />
       </Fragment>
     );
   }
