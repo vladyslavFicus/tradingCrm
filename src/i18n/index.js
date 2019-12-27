@@ -5,11 +5,11 @@ import 'moment/locale/zh-cn';
 
 // Import application locales
 import en from './en.json';
-import zh from './zh.json';
+// import zh from './zh.json';
 
 I18n.translations = {
   en,
-  zh,
+  // zh,
 };
 
 I18n.defaultLocale = 'en';

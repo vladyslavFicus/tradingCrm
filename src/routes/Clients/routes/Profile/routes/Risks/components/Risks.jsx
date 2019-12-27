@@ -149,6 +149,7 @@ export default compose(
         },
       },
     }) => ({
+      fetchPolicy: 'network-only',
       variables: {
         clientUuid,
       },
