@@ -87,4 +87,10 @@
       width: 375px;
     }
   }
+
+  &__delete-button {
+    &.is-disabled {
+      opacity: 0.4;
+    }
+  }
 }
