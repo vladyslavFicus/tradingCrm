@@ -24,11 +24,11 @@ const config = _.merge({
   middlewares: {
     unauthorized: [401],
     persist: {
-      whitelist: ['auth', 'userPanels', 'language', 'settings', 'dynamicFilters'],
+      whitelist: ['auth', 'language', 'settings', 'dynamicFilters'],
       keyPrefix: 'nas:',
     },
     crossTabPersistFrame: { whitelist: ['auth'], keyPrefix: 'nas:' },
-    crossTabPersistPage: { whitelist: ['auth', 'userPanels'], keyPrefix: 'nas:' },
+    crossTabPersistPage: { whitelist: ['auth'], keyPrefix: 'nas:' },
   },
   backofficeBrands,
 }, (window.nas || {}));

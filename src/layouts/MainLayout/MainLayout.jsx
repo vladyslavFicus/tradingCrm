@@ -4,7 +4,6 @@ import PropTypes from 'constants/propTypes';
 import NotePopover from 'components/NotePopover';
 import Header from 'components/Header';
 import Sidebar from 'components/Sidebar';
-import UsersPanel from 'components/UsersPanel';
 import BackToTop from 'components/BackToTop';
 import PermissionProvider from 'providers/PermissionsProvider';
 import './MainLayout.scss';
@@ -46,20 +45,11 @@ class MainLayout extends PureComponent {
         })),
       })).isRequired,
     }).isRequired,
-    activeUserPanel: PropTypes.userPanelItem,
-    userPanels: PropTypes.arrayOf(PropTypes.userPanelItem).isRequired,
-    userPanelsByManager: PropTypes.arrayOf(PropTypes.userPanelItem).isRequired,
-    addPanel: PropTypes.func.isRequired,
-    removePanel: PropTypes.func.isRequired,
-    resetPanels: PropTypes.func.isRequired,
-    setActivePanel: PropTypes.func.isRequired,
-    replace: PropTypes.func.isRequired,
     addNote: PropTypes.func.isRequired,
     editNote: PropTypes.func.isRequired,
     deleteNote: PropTypes.func.isRequired,
     toggleMenuTab: PropTypes.func.isRequired,
     menuItemClick: PropTypes.func.isRequired,
-    activePanelIndex: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
     initSidebar: PropTypes.func.isRequired,
     modals: PropTypes.shape({
       multiCurrencyModal: PropTypes.shape({
@@ -70,11 +60,6 @@ class MainLayout extends PureComponent {
     history: PropTypes.shape({
       location: PropTypes.object.isRequired,
     }).isRequired,
-  };
-
-  static defaultProps = {
-    activeUserPanel: null,
-    activePanelIndex: null,
   };
 
   static contextTypes = {
@@ -88,8 +73,6 @@ class MainLayout extends PureComponent {
       errorParams: PropTypes.object.isRequired,
     }).isRequired,
     location: PropTypes.object,
-    addPanel: PropTypes.func.isRequired,
-    removePanel: PropTypes.func.isRequired,
     notes: PropTypes.shape({
       onAddNote: PropTypes.func.isRequired,
       onEditNote: PropTypes.func.isRequired,
@@ -112,30 +95,22 @@ class MainLayout extends PureComponent {
   constructor(props, context) {
     super(props, context);
 
-    const { userPanels, resetPanels, history: { location } } = props;
+    const { history: { location } } = props;
 
     this.state = {
       location,
       popover: { ...popoverInitialState },
     };
-
-    if (userPanels.some(panel => !panel.auth)) {
-      resetPanels();
-    }
   }
 
   getChildContext() {
     const {
-      addPanel,
-      removePanel,
       settings,
       modals,
     } = this.props;
 
     return {
       settings,
-      addPanel,
-      removePanel,
       modals,
       notes: {
         onAddNote: this.props.addNote,
@@ -219,26 +194,15 @@ class MainLayout extends PureComponent {
     this.updateState({ popover: { ...popoverInitialState } });
   };
 
-  handleCloseTabs = () => {
-    this.props.resetPanels();
-  };
-
-  handleUserPanelClick = (index) => {
-    this.props.setActivePanel(index);
-  };
 
   render() {
     const { popover } = this.state;
     const {
       children,
-      userPanelsByManager: userPanels,
-      activeUserPanel,
-      removePanel,
       app: { sidebarTopMenu, sidebarBottomMenu },
       auth,
       toggleMenuTab,
       menuItemClick,
-      replace,
       initSidebar,
     } = this.props;
 
@@ -246,42 +210,26 @@ class MainLayout extends PureComponent {
 
     return (
       <PermissionProvider key={auth.department}>
-        <Choose>
-          <When condition={window.isFrame}>
-            {children}
-          </When>
-          <Otherwise>
-            <Header />
+        <Header />
 
-            <Sidebar
-              init={initSidebar}
-              topMenu={sidebarTopMenu}
-              bottomMenu={sidebarBottomMenu}
-              menuItemClick={menuItemClick}
-              onToggleTab={toggleMenuTab}
-            />
+        <Sidebar
+          init={initSidebar}
+          topMenu={sidebarTopMenu}
+          bottomMenu={sidebarBottomMenu}
+          menuItemClick={menuItemClick}
+          onToggleTab={toggleMenuTab}
+        />
 
-            <main className="content-container">{children}</main>
+        <main className="content-container">{children}</main>
 
-            <UsersPanel
-              active={activeUserPanel}
-              items={userPanels}
-              onItemClick={this.handleUserPanelClick}
-              onRemove={removePanel}
-              onClose={this.handleCloseTabs}
-              onReplace={replace}
-            />
+        <BackToTop />
 
-            <BackToTop positionChange={userPanels.length > 0} />
-
-            {/* Notify ADMINISTRATION role if it's production environment */}
-            <If condition={isShowProductionAlert}>
-              <div className="production-footer">
-                <span role="img" aria-label="fire">==== 🔥 PRODUCTION 🔥 ====</span>
-              </div>
-            </If>
-          </Otherwise>
-        </Choose>
+        {/* Notify ADMINISTRATION role if it's production environment */}
+        <If condition={isShowProductionAlert}>
+          <div className="production-footer">
+            <span role="img" aria-label="fire">==== 🔥 PRODUCTION 🔥 ====</span>
+          </div>
+        </If>
 
         <If condition={popover.name === NOTE_POPOVER}>
           <NotePopover

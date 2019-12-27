@@ -207,11 +207,6 @@ PropTypes.navItem = PropTypes.shape({
   url: PropTypes.string,
   items: PropTypes.arrayOf(PropTypes.navSubItem),
 });
-PropTypes.userPanelItem = PropTypes.shape({
-  fullName: PropTypes.string,
-  username: PropTypes.string,
-  uuid: PropTypes.string.isRequired,
-});
 PropTypes.auditEntity = PropTypes.shape({
   authorFullName: PropTypes.string.isRequired,
   authorUuid: PropTypes.string.isRequired,

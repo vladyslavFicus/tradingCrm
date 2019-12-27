@@ -3,7 +3,6 @@ import { reducer as formReducer } from 'redux-form';
 import auth from '../redux/modules/auth';
 import authorities from '../redux/modules/auth/authorities';
 import permissions from '../redux/modules/auth/permissions';
-import userPanels from '../redux/modules/user-panels';
 import app from '../redux/modules/app';
 import settings from '../redux/modules/settings';
 import modal from '../redux/modules/modal';
@@ -14,7 +13,6 @@ export const makeRootReducer = asyncReducers => combineReducers({
   auth,
   authorities,
   permissions,
-  userPanels,
   app,
   settings,
   notifications,
