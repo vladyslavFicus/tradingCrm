@@ -14,6 +14,7 @@ import Uuid from 'components/Uuid';
 import permissions from 'config/permissions';
 import { statusesCategory, statusesFile } from '../constants';
 import MoveFileDropDown from './MoveFileDropDown';
+import ChangeFileStatusDropDown from './ChangeFileStatusDropDown';
 
 class FileGrid extends Component {
   static propTypes = {
@@ -34,7 +35,6 @@ class FileGrid extends Component {
 
   state = {
     selectedVerificationStatusValue: '',
-    selectedFileStatusValue: '',
   }
 
   onVerificationStatusChange = (value) => {
@@ -88,7 +88,7 @@ class FileGrid extends Component {
     );
   }
 
-  renderMoveFileDropdown = ({ uuid }) => {
+  renderMoveFileDropdown = ({ uuid, uploadBy }) => {
     const { categories, verificationType, documentType } = this.props;
 
     return (
@@ -96,6 +96,7 @@ class FileGrid extends Component {
         onMoveChange={this.onVerificationTypeChange(uuid)}
         categories={categories}
         uuid={uuid}
+        disabled={uploadBy.indexOf('OPERATOR') === -1}
         verificationType={verificationType}
         documentType={documentType}
       />
@@ -103,19 +104,12 @@ class FileGrid extends Component {
   }
 
   renderChangeStatusFile = ({ uuid, status }) => (
-    <Select
-      value={this.state.selectedFileStatusValue || status}
-      customClassName="filter-row__medium"
-      placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
-      onChange={(value) => {
-        this.setState({ selectedFileStatusValue: value });
-        this.onFileStatusChange(value, uuid);
-      }}
-    >
-      {statusesFile.map(({ value, label }) => (
-        <option key={`${uuid}-${value}`} value={value}>{I18n.t(label)}</option>
-      ))}
-    </Select>
+    <ChangeFileStatusDropDown
+      onChangeStatus={this.onFileStatusChange}
+      statusesFile={statusesFile}
+      uuid={uuid}
+      status={status}
+    />
   )
 
   renderFileName = (data) => {
@@ -159,6 +153,7 @@ class FileGrid extends Component {
         <button
           type="button"
           className="btn-transparent color-danger"
+          disabled={data.uploadBy.indexOf('OPERATOR') === -1}
           onClick={() => this.props.onDeleteFileClick(data)}
         >
           <i className="fa fa-trash" />

@@ -10,6 +10,11 @@ class MoveFileDropDown extends Component {
     uuid: PropTypes.string.isRequired,
     verificationType: PropTypes.string.isRequired,
     documentType: PropTypes.string.isRequired,
+    disabled: PropTypes.bool,
+  };
+
+  static defaultProps = {
+    disabled: false,
   };
 
   state = {
@@ -24,12 +29,14 @@ class MoveFileDropDown extends Component {
       categories,
       onMoveChange,
       uuid,
+      disabled,
     } = this.props;
     const { currentValue } = this.state;
 
     return (
       <Select
         value={currentValue}
+        disabled={disabled}
         customClassName="files-grid__status-dropdown"
         onChange={(value) => {
           this.setState({ currentValue: value });
