@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import I18n from 'i18n';
 import { withStorage } from 'providers/StorageProvider';
 import PropTypes from 'constants/propTypes';
 import Logo from 'components/Logo';
@@ -10,16 +11,13 @@ import './header.scss';
 
 class Header extends Component {
   static propTypes = {
-    departments: PropTypes.arrayOf(
-      PropTypes.department.isRequired,
-    ).isRequired,
     brands: PropTypes.arrayOf(
       PropTypes.brand.isRequired,
     ).isRequired,
   };
 
   render() {
-    const { departments, brands } = this.props;
+    const { brands } = this.props;
 
     return (
       <header className="header">
@@ -28,12 +26,12 @@ class Header extends Component {
           to={brands.length > 1 ? '/brands' : '/'}
         />
         <div className="header__body">
-          <If condition={departments.length > 1}>
-            <HeaderDepartments />
-          </If>
+          <HeaderDepartments />
 
           <div className="header__controls">
-            <HeaderLanguages />
+            <If condition={Object.keys(I18n.translations).length > 1}>
+              <HeaderLanguages />
+            </If>
             <HeaderCallbacksCalendarDropdown />
             <HeaderLogout />
           </div>

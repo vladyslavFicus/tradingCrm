@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
+import { graphql, compose } from 'react-apollo';
 import classNames from 'classnames';
 import jwtDecode from 'jwt-decode';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import I18n from 'i18n-js';
+import { chooseDepartmentMutation } from 'graphql/mutations/authorization';
 import { withStorage } from 'providers/StorageProvider';
 import PropTypes from 'constants/propTypes';
 import setBrandIdByUserToken from 'utils/setBrandIdByUserToken';
@@ -29,7 +31,7 @@ class HeaderDepartments extends Component {
       token: originalToken,
       storage,
       departmentsByBrand,
-      chooseDepartmentMutation,
+      chooseDepartment,
     } = this.props;
 
     const { brandId } = jwtDecode(originalToken);
@@ -46,7 +48,7 @@ class HeaderDepartments extends Component {
           },
         },
       },
-    } = await chooseDepartmentMutation({
+    } = await chooseDepartment({
       variables: {
         brandId,
         uuid: auth.uuid,
@@ -129,4 +131,7 @@ class HeaderDepartments extends Component {
   }
 }
 
-export default withStorage(['auth', 'departmentsByBrand', 'departments', 'token'])(HeaderDepartments);
+export default compose(
+  withStorage(['auth', 'departmentsByBrand', 'departments', 'token']),
+  graphql(chooseDepartmentMutation, { name: 'chooseDepartment' }),
+)(HeaderDepartments);
