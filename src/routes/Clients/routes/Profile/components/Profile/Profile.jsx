@@ -643,7 +643,12 @@ class Profile extends Component {
               )}
             />
             <Route disableScroll path={`${path}/feed`} component={Feed} />
-            <If condition={getActiveBrandConfig().regulation.isActive}>
+            <If
+              condition={
+                getActiveBrandConfig().id === 'everfxglobal'
+                && getActiveBrandConfig().regulation.isActive
+              }
+            >
               <Route
                 disableScroll
                 path={`${path}/risk`}

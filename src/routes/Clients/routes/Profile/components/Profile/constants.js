@@ -34,7 +34,7 @@ export const userProfileTabs = [
 ];
 
 // # Add risk tab if current brand is regulated
-if (getActiveBrandConfig().regulation.isActive) {
+if (getActiveBrandConfig().id === 'everfxglobal' && getActiveBrandConfig().regulation.isActive) {
   userProfileTabs.push({
     label: 'CLIENT_PROFILE.TABS.RISK_PROFILE',
     url: '/clients/:id/risk',
