@@ -113,7 +113,9 @@ class FileGrid extends Component {
   )
 
   renderFileName = (data) => {
-    const isClickable = this.props.onPreviewImageClick;
+    const availableToFullScreenFileTypes = ['image/jpeg', 'image/jpg', 'image/png'];
+    const isClickable = this.props.onPreviewImageClick
+      && availableToFullScreenFileTypes.some(fileType => fileType === data.mediaType);
     const onClick = isClickable
       ? () => this.props.onPreviewImageClick(data)
       : null;

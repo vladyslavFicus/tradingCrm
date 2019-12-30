@@ -36,6 +36,7 @@ const getFilesListByProfileUUID = gql`query files(
           fileName
           title
           documentType
+          mediaType
           status
           uploadBy
           uuid
