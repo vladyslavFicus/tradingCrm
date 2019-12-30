@@ -242,12 +242,7 @@ class Header extends Component {
               availableStatuses={availableStatuses}
             />
 
-            <If
-              condition={
-                getActiveBrandConfig().id === 'everfxglobal'
-                && getActiveBrandConfig().regulation.isActive
-              }
-            >
+            <If condition={getActiveBrandConfig().isRisksTabAvailable}>
               <RiskStatus riskCategory={riskCategory} />
             </If>
           </div>
