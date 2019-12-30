@@ -61,7 +61,7 @@ const brands = keyMirror({
   dobbycysec: null,
   dobbycima: null,
   dobbyfsa: null,
-  wexness: null
+  wexness: null,
 });
 
 const departments = keyMirror({
