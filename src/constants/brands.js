@@ -61,6 +61,7 @@ const brands = keyMirror({
   dobbycysec: null,
   dobbycima: null,
   dobbyfsa: null,
+  wexness: null
 });
 
 const departments = keyMirror({
@@ -323,6 +324,10 @@ const brandsConfig = {
   [brands.dobbyfsa]: {
     name: 'DobbyFsa',
     image: { src: '/img/brand/choose-brand/dobbyfsa.svg' },
+  },
+  [brands.wexness]: {
+    name: 'Wexness',
+    image: { src: '/img/brand/choose-brand/wexness.svg' },
   },
 };
 const departmentsConfig = {
