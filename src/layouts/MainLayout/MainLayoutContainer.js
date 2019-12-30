@@ -12,12 +12,10 @@ import MainLayout from './MainLayout';
 const mapStateToProps = (state) => {
   const {
     app,
-    settings,
   } = state;
 
   return {
     app,
-    settings,
     languages: getAvailableLanguages(),
   };
 };

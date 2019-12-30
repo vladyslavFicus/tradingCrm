@@ -17,11 +17,6 @@ const popoverInitialState = {
 class MainLayout extends PureComponent {
   static propTypes = {
     children: PropTypes.any.isRequired,
-    settings: PropTypes.shape({
-      sendMail: PropTypes.bool.isRequired,
-      playerProfileViewType: PropTypes.oneOf(['page', 'frame']).isRequired,
-      errorParams: PropTypes.object.isRequired,
-    }).isRequired,
     auth: PropTypes.auth.isRequired,
     app: PropTypes.shape({
       sidebarTopMenu: PropTypes.arrayOf(PropTypes.shape({
@@ -67,11 +62,6 @@ class MainLayout extends PureComponent {
   };
 
   static childContextTypes = {
-    settings: PropTypes.shape({
-      sendMail: PropTypes.bool.isRequired,
-      playerProfileViewType: PropTypes.oneOf(['page', 'frame']).isRequired,
-      errorParams: PropTypes.object.isRequired,
-    }).isRequired,
     location: PropTypes.object,
     notes: PropTypes.shape({
       onAddNote: PropTypes.func.isRequired,
@@ -105,12 +95,10 @@ class MainLayout extends PureComponent {
 
   getChildContext() {
     const {
-      settings,
       modals,
     } = this.props;
 
     return {
-      settings,
       modals,
       notes: {
         onAddNote: this.props.addNote,
