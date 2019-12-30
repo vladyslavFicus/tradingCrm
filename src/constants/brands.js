@@ -58,6 +58,9 @@ const brands = keyMirror({
   capitalfunds: null,
   zurichtradefinco: null,
   cmgmarkets: null,
+  dobbycysec: null,
+  dobbycima: null,
+  dobbyfsa: null,
 });
 
 const departments = keyMirror({
@@ -308,6 +311,18 @@ const brandsConfig = {
   [brands.cmgmarkets]: {
     name: 'Cmgmarkets',
     image: { src: '/img/brand/choose-brand/cmgmarkets.svg' },
+  },
+  [brands.dobbycysec]: {
+    name: 'DobbyCysec',
+    image: { src: '/img/brand/choose-brand/dobbycysec.svg' },
+  },
+  [brands.dobbycima]: {
+    name: 'DobbyCima',
+    image: { src: '/img/brand/choose-brand/dobbycima.svg' },
+  },
+  [brands.dobbyfsa]: {
+    name: 'DobbyFsa',
+    image: { src: '/img/brand/choose-brand/dobbyfsa.svg' },
   },
 };
 const departmentsConfig = {
