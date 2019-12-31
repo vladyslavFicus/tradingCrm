@@ -88,6 +88,21 @@ const firstDepositStatuses = [{
   label: 'COMMON.YES',
 }];
 
+const questionnaire = [
+  {
+    value: 'APPROVED',
+    label: 'QUESTIONNAIRE.APPROVED',
+  },
+  {
+    value: 'REJECTED',
+    label: 'QUESTIONNAIRE.REJECTED',
+  },
+  {
+    value: 'NO_QUESTIONNAIRE',
+    label: 'QUESTIONNAIRE.NO_QUESTIONNAIRE',
+  },
+];
+
 export const fieldNames = keyMirror({
   desks: null,
   teams: null,
@@ -247,6 +262,13 @@ export default (
   placeholder: 'COMMON.SELECT_OPTION.ANY',
   className: fieldClassNames.MEDIUM,
   selectOptions: firstDepositStatuses.map(({ value, label }) => ({ value, label })),
+}, {
+  type: fieldTypes.SELECT,
+  name: 'questionnaireStatus',
+  label: filterLabels.questionnaire,
+  placeholder: 'COMMON.SELECT_OPTION.ANY',
+  className: fieldClassNames.MEDIUM,
+  selectOptions: questionnaire,
 }, {
   type: fieldTypes.RANGE,
   className: fieldClassNames.MEDIUM,

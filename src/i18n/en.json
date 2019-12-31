@@ -1530,7 +1530,8 @@
         "RETENTION_STATUS": "Retention status",
         "ASSIGN_STATUS": "Assign Status",
         "KYC_STATUSES": "KYC Statuses",
-        "FIRST_DEPOSIT": "First time deposit"
+        "FIRST_DEPOSIT": "First time deposit",
+        "QUESTIONNAIRE": "Questionnaire"
       }
     }
   },
@@ -2955,5 +2956,10 @@
       "moveForbidden": "You can’t perform this action, as some of selected clients do not have assigned %{type} representatives",
       "detailedTypeError": "Some of the selected clients don’t have assigned %{type} representatives. Please unselect those users or assign %{type} agents."
     }
+  },
+  "QUESTIONNAIRE": {
+    "APPROVED": "Approved",
+    "REJECTED": "Rejected",
+    "NO_QUESTIONNAIRE": "No questionnaire"
   }
 }

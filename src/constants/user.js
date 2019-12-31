@@ -114,6 +114,7 @@ const filterLabels = {
   kycStatuses: 'PROFILE.LIST.FILTERS.KYC_STATUSES',
   firstDeposit: 'PROFILE.LIST.FILTERS.FIRST_DEPOSIT',
   searchLimit: 'COMMON.FILTERS.SEARCH_LIMIT',
+  questionnaire: 'PROFILE.LIST.FILTERS.QUESTIONNAIRE',
 };
 
 const statuses = keyMirror({
