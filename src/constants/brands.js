@@ -313,15 +313,15 @@ const brandsConfig = {
     image: { src: '/img/brand/choose-brand/cmgmarkets.svg' },
   },
   [brands.dobbycysec]: {
-    name: 'DobbyCysec',
+    name: 'Dobby Cysec',
     image: { src: '/img/brand/choose-brand/dobbycysec.svg' },
   },
   [brands.dobbycima]: {
-    name: 'DobbyCima',
+    name: 'Dobby Cima',
     image: { src: '/img/brand/choose-brand/dobbycima.svg' },
   },
   [brands.dobbyfsa]: {
-    name: 'DobbyFsa',
+    name: 'Dobby Fsa',
     image: { src: '/img/brand/choose-brand/dobbyfsa.svg' },
   },
 };

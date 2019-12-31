@@ -12,7 +12,7 @@ import './header-departments.scss';
 
 class HeaderDepartments extends Component {
   static propTypes = {
-    departments: PropTypes.arrayOf(PropTypes.department.isRequired).isRequired,
+    departments: PropTypes.arrayOf(PropTypes.department).isRequired,
     auth: PropTypes.auth.isRequired,
     token: PropTypes.string.isRequired,
   };
@@ -82,7 +82,7 @@ class HeaderDepartments extends Component {
           <div className="header-departments">
             <div className="header-department header-department--current">
               <div className="header-department__title">
-                {I18n.t(currentDepartment.name)}
+                {I18n.t(currentDepartment.name || `CONSTANTS.OPERATORS.DEPARTMENTS.${currentDepartment.id}`)}
               </div>
               <div className="header-department__role">
                 {I18n.t(currentDepartment.role)}

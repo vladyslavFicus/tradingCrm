@@ -399,9 +399,9 @@ PropTypes.brand = PropTypes.shape({
 });
 PropTypes.department = PropTypes.shape({
   id: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
+  name: PropTypes.string,
   role: PropTypes.string,
-  image: PropTypes.string.isRequired,
+  image: PropTypes.string,
 });
 PropTypes.wageringFulfillmentEntity = PropTypes.shape({
   uuid: PropTypes.string.isRequired,
