@@ -7,7 +7,6 @@ import {
 } from 'components/ReduxForm/ReduxFieldsConstructor';
 import { statuses as operatorsStasuses } from 'constants/operators';
 import {
-  allPaymentMethodsLabels,
   tradingTypes,
   tradingTypesLabelsWithColor,
   aggregators,
@@ -15,6 +14,7 @@ import {
   statuses,
   statusesLabels,
 } from 'constants/payment';
+import formatLabel from 'utils/formatLabel';
 import renderLabel from 'utils/renderLabel';
 import countries from 'utils/countryList';
 import { accountTypes } from 'constants/accountTypes';
@@ -144,9 +144,10 @@ export default ({
     multiple: true,
     className: fieldClassNames.MEDIUM,
     disabled: disabledPaymentMethods,
+    optionsWithoutI18n: true,
     selectOptions: paymentMethods.map(method => ({
       value: method,
-      label: allPaymentMethodsLabels[method],
+      label: formatLabel(method),
     })),
   },
   {

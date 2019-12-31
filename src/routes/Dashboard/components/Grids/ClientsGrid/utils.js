@@ -88,13 +88,13 @@ export default () => [{
   name: 'affiliate',
   header: I18n.t('CLIENTS.LIST.GRID_HEADER.AFFILIATE'),
   render: (data) => {
-    const { uuid, firstName } = get(data, 'affiliate') || {};
+    const { uuid, partner } = get(data, 'affiliate') || {};
 
     return (
       <Choose>
         <When condition={uuid}>
-          <If condition={firstName}>
-            <div className="header-block-middle">{firstName}</div>
+          <If condition={partner}>
+            <div className="header-block-middle">{partner.fullName}</div>
           </If>
           <Uuid className="header-block-small" uuid={uuid} />
         </When>

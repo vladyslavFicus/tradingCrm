@@ -52,12 +52,15 @@
   }
   .badge {
     &-black {
-      width: 100%;
-      margin-bottom: 7px;
-      text-align: left;
       background-color: rgba(51, 51, 51, 1);
       color: #fff;
+      margin-bottom: 7px;
+      padding: 5px;
+      text-align: left;
       white-space: normal;
+
+      display: block;
+      width: 100%;
     }
     &-department {
       font-size: 14px;

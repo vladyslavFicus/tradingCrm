@@ -61,12 +61,14 @@ const newProfile = gql`query newProfile($playerUUID: String!){
         ...AddressFragment
       }
       affiliate {
+        uuid
         externalId
-        firstName
         referral
         sms
         source
-        uuid
+        partner {
+          fullName
+        }
       }
       bankDetails {
         accountHolderName
@@ -231,9 +233,11 @@ const clientsQuery = gql`query ${queryNames.clientsQuery}(
             countryCode
           }
           affiliate {
-            firstName
-            source
             uuid
+            source
+            partner {
+              fullName
+            }
           }
           balance {
             amount

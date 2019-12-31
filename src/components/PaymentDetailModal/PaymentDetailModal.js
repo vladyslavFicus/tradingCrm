@@ -8,7 +8,6 @@ import { Field, reduxForm } from 'redux-form';
 import permissions from 'config/permissions';
 import PropTypes from 'constants/propTypes';
 import {
-  allPaymentMethodsLabels,
   tradingTypes as paymentsTypes,
   tradingTypes,
   statusMapper,
@@ -16,6 +15,7 @@ import {
   statuses,
 } from 'constants/payment';
 import { createValidator, translateLabels } from 'utils/validator';
+import formatLabel from 'utils/formatLabel';
 import renderLabel from 'utils/renderLabel';
 import Permissions from 'utils/permissions';
 import { withPermission } from 'providers/PermissionsProvider';
@@ -306,8 +306,8 @@ class PaymentDetailModal extends PureComponent {
                   </div>
                   <div className="modal-footer-tabs__amount">
                     <Choose>
-                      <When condition={allPaymentMethodsLabels[paymentMethod]}>
-                        {I18n.t(allPaymentMethodsLabels[paymentMethod])}
+                      <When condition={paymentMethod}>
+                        {formatLabel(paymentMethod)}
                       </When>
                       <Otherwise>
                         <div>&mdash;</div>
@@ -357,10 +357,7 @@ class PaymentDetailModal extends PureComponent {
                     >
                       {manualMethods.map(item => (
                         <option key={item} value={item}>
-                          {allPaymentMethodsLabels[item]
-                            ? I18n.t(allPaymentMethodsLabels[item])
-                            : item
-                          }
+                          {formatLabel(item)}
                         </option>
                       ))}
                     </Field>

@@ -182,10 +182,12 @@ class Personal extends PureComponent {
               verified={status === kycStatuses.VERIFIED}
             />
             <If condition={affiliate}>
-              <PersonalInformationItem
-                label={I18n.t('CLIENT_PROFILE.DETAILS.AFFILIATE')}
-                value={affiliate.firstName}
-              />
+              <If condition={affiliate.partner}>
+                <PersonalInformationItem
+                  label={I18n.t('CLIENT_PROFILE.DETAILS.AFFILIATE')}
+                  value={affiliate.partner.fullName}
+                />
+              </If>
               <strong>{I18n.t('CLIENT_PROFILE.DETAILS.AFFILIATE_ID')}</strong>: <Uuid uuid={affiliate.uuid} />
               <PersonalInformationItem
                 label={I18n.t('CLIENT_PROFILE.DETAILS.SOURCE')}
