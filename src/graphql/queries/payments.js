@@ -24,6 +24,7 @@ const getClientPayments = gql`query ${queryNames.paymentsQuery}(
   $agentIds: [String]
   $accountType: String
   $firstTimeDeposit: Boolean
+  $affiliateUuids: [String]
 ) {
   clientPayments (
     searchParam: $searchParam
@@ -47,6 +48,7 @@ const getClientPayments = gql`query ${queryNames.paymentsQuery}(
     agentIds: $agentIds
     accountType: $accountType
     firstTimeDeposit: $firstTimeDeposit
+    affiliateUuids: $affiliateUuids
   ) {
     data {
       page

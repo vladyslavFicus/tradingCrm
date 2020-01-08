@@ -604,6 +604,14 @@ PropTypes.operatorsList = PropTypes.arrayOf(PropTypes.shape({
   uuid: PropTypes.string,
   fullName: PropTypes.string,
 }));
+PropTypes.partnersList = PropTypes.arrayOf(PropTypes.shape({
+  uuid: PropTypes.string,
+  fullName: PropTypes.string,
+  createdAt: PropTypes.string,
+  status: PropTypes.string,
+  statusChangeDate: PropTypes.string,
+  country: PropTypes.string,
+}));
 PropTypes.questionnaireLastData = PropTypes.shape({
   uuid: PropTypes.string,
   status: PropTypes.string,

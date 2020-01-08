@@ -1532,7 +1532,8 @@
         "ASSIGN_STATUS": "Assign Status",
         "KYC_STATUSES": "KYC Statuses",
         "FIRST_DEPOSIT": "First time deposit",
-        "QUESTIONNAIRE": "Questionnaire"
+        "QUESTIONNAIRE": "Questionnaire",
+        "AFFILIATES": "Affiliates"
       }
     }
   },

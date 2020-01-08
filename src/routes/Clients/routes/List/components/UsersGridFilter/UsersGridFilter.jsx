@@ -17,6 +17,8 @@ class UserGridFilter extends Component {
     isFetchingProfileData: PropTypes.bool.isRequired,
     operators: PropTypes.operatorsList.isRequired,
     operatorsLoading: PropTypes.bool.isRequired,
+    partners: PropTypes.partnersList.isRequired,
+    partnersLoading: PropTypes.bool.isRequired,
     initialValues: PropTypes.object,
   };
 
@@ -134,6 +136,8 @@ class UserGridFilter extends Component {
       branchesLoading,
       operatorsLoading,
       isFetchingProfileData,
+      partners,
+      partnersLoading,
     } = this.props;
 
     const { teams, filteredOperators, branchOperatorsLoading } = this.state;
@@ -150,6 +154,8 @@ class UserGridFilter extends Component {
           branchesLoading,
           filteredOperators || operators,
           operatorsLoading || branchOperatorsLoading,
+          partners,
+          partnersLoading,
         )}
         onFieldChange={this.handleFieldChange}
         isFetchingProfileData={isFetchingProfileData}

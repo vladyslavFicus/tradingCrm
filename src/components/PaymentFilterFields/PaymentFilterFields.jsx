@@ -38,11 +38,15 @@ class PaymentFilterFields extends PureComponent {
       loading: PropTypes.bool.isRequired,
     }).isRequired,
     accountType: PropTypes.string,
+    partners: PropTypes.partnersList,
+    partnersLoading: PropTypes.bool,
     isClientView: PropTypes.bool,
   };
 
   static defaultProps = {
     accountType: 'LIVE',
+    partners: null,
+    partnersLoading: false,
     isClientView: false,
   };
 
@@ -175,6 +179,8 @@ class PaymentFilterFields extends PureComponent {
       operators: { operators, loading: originalAgentsLoading },
       paymentMethods: { paymentMethods, loading: methodsLoading },
       accountType,
+      partners,
+      partnersLoading,
       isClientView,
     } = this.props;
 
@@ -212,6 +218,8 @@ class PaymentFilterFields extends PureComponent {
             disabledOriginalAgents,
             paymentMethods: methods,
             disabledPaymentMethods,
+            partners,
+            partnersLoading,
           },
           isClientView,
         )}

@@ -115,6 +115,8 @@ export default (
   branchesLoading,
   operators,
   operatorsLoading,
+  partners,
+  partnersLoading,
 ) => [{
   type: fieldTypes.INPUT,
   name: 'searchByIdentifiers',
@@ -193,6 +195,21 @@ export default (
       value: uuid,
       label: fullName,
       className: operatorStatus === statuses.INACTIVE || operatorStatus === statuses.CLOSED ? 'color-inactive' : '',
+    }
+  )),
+  optionsWithoutI18n: true,
+}, {
+  type: fieldTypes.SELECT,
+  name: 'affiliateUuids',
+  label: filterLabels.partners,
+  placeholder: 'COMMON.SELECT_OPTION.DEFAULT',
+  className: fieldClassNames.MEDIUM,
+  multiple: true,
+  disabled: partnersLoading || partners.length === 0,
+  selectOptions: partners.map(({ uuid, fullName }) => (
+    {
+      value: uuid,
+      label: fullName,
     }
   )),
   optionsWithoutI18n: true,

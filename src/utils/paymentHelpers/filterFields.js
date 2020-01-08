@@ -36,6 +36,7 @@ const filterLabels = {
   statusChangedTime: 'CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.STATUS_DATE_RANGE',
   accountType: 'CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.ACCOUNT_TYPE',
   firstDeposit: 'PROFILE.LIST.FILTERS.FIRST_DEPOSIT',
+  partners: 'PROFILE.LIST.FILTERS.AFFILIATES',
 };
 
 const filterPlaceholders = {
@@ -94,6 +95,23 @@ const countryField = {
   optionsWithoutI18n: true,
 };
 
+const partnersField = (partners, partnersLoading) => ({
+  type: fieldTypes.SELECT,
+  name: 'affiliateUuids',
+  label: filterLabels.partners,
+  placeholder: 'COMMON.SELECT_OPTION.DEFAULT',
+  className: fieldClassNames.MEDIUM,
+  multiple: true,
+  disabled: partnersLoading || partners.length === 0,
+  selectOptions: partners.map(({ uuid, fullName }) => (
+    {
+      value: uuid,
+      label: fullName,
+    }
+  )),
+  optionsWithoutI18n: true,
+});
+
 export default ({
   currencies,
   desks,
@@ -103,6 +121,8 @@ export default ({
   disabledOriginalAgents,
   paymentMethods,
   disabledPaymentMethods,
+  partners,
+  partnersLoading,
 }, isClientView) => [
   {
     type: fieldTypes.INPUT,
@@ -252,6 +272,7 @@ export default ({
     })),
     optionsWithoutI18n: true,
   },
+  !isClientView && partnersField(partners, partnersLoading),
   !isClientView && currencyField(currencies),
   {
     type: fieldTypes.SELECT,

@@ -21,6 +21,8 @@ class View extends Component {
       loadMore: PropTypes.func,
       refetch: PropTypes.func,
     }),
+    partners: PropTypes.partnersList.isRequired,
+    partnersLoading: PropTypes.bool.isRequired,
     location: PropTypes.object.isRequired,
   };
 
@@ -89,6 +91,8 @@ class View extends Component {
         clientPayments,
         loading,
       },
+      partners,
+      partnersLoading,
     } = this.props;
 
     const payments = get(clientPayments, 'data') || { content: [] };
@@ -122,7 +126,10 @@ class View extends Component {
           </Placeholder>
         </div>
 
-        <PaymentFilterFields />
+        <PaymentFilterFields
+          partners={partners}
+          partnersLoading={partnersLoading}
+        />
 
         <div className="card-body">
           <GridView
