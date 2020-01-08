@@ -4,11 +4,12 @@ import { withModals } from 'components/HighOrder';
 import { withStorage } from 'providers/StorageProvider';
 import ConfirmActionModal from 'components/Modal/ConfirmActionModal';
 import RepresentativeUpdateModal from 'components/RepresentativeUpdateModal';
-import { getUserBranchHierarchy } from 'graphql/queries/hierarchy';
 import { clientsQuery } from 'graphql/queries/profile';
 import limitItems from 'utils/limitItems';
 import MoveModal from '../components/Modals';
 import List from '../components/List';
+
+const PROFILES_SIZE = 20;
 
 export default compose(
   withApollo,
@@ -18,21 +19,12 @@ export default compose(
     confirmationModal: ConfirmActionModal,
   }),
   withStorage(['auth']),
-  graphql(getUserBranchHierarchy, {
-    name: 'userBranchHierarchy',
-    options: () => ({
-      fetchPolicy: 'cache-and-network',
-    }),
-  }),
   graphql(clientsQuery, {
     name: 'profiles',
     options: ({ location: { query } }) => {
       const filters = (query) ? query.filters : {};
       const { searchLimit } = filters;
 
-      // The backend expected to get desks and teams like arrays of strings
-      // but for now, redux form returns just strings for desks and teams
-      // because selects didn't hava multivalues flag
       if (filters) {
         if (filters.desks && !Array.isArray(filters.desks)) {
           filters.desks = [filters.desks];
@@ -54,7 +46,7 @@ export default compose(
             ...filters,
             page: {
               from: 0,
-              size: searchLimit || 20,
+              size: searchLimit && searchLimit < PROFILES_SIZE ? searchLimit : PROFILES_SIZE,
             },
           },
         },
@@ -65,17 +57,23 @@ export default compose(
       const filters = get(location, 'query.filters') || null;
       const searchLimit = get(filters, 'searchLimit') || 0;
 
+      const restLimitSize = searchLimit && (searchLimit - (currentPage + 1) * PROFILES_SIZE);
+
+      const size = restLimitSize && (restLimitSize < PROFILES_SIZE)
+        ? restLimitSize
+        : PROFILES_SIZE;
+
       return {
         profiles: {
           ...rest,
           profiles: response,
-          loadMore: () => (!searchLimit) && fetchMore({
+          loadMore: () => fetchMore({
             variables: {
               args: {
                 ...filters,
                 page: {
                   from: currentPage + 1,
-                  size: 20,
+                  size,
                 },
               },
             },
@@ -84,16 +82,7 @@ export default compose(
                 return previousResult;
               }
 
-              if (fetchMoreResult.profiles.error) {
-                return {
-                  ...previousResult,
-                  ...fetchMoreResult,
-                  profiles: {
-                    ...previousResult.profiles,
-                    ...fetchMoreResult.profiles,
-                  },
-                };
-              }
+              const error = get(fetchMoreResult, 'profiles.error');
 
               return {
                 ...previousResult,
@@ -101,14 +90,16 @@ export default compose(
                 profiles: {
                   ...previousResult.profiles,
                   ...fetchMoreResult.profiles,
-                  data: {
-                    ...previousResult.profiles.data,
-                    ...fetchMoreResult.profiles.data,
-                    page: fetchMoreResult.profiles.data.page,
-                    content: [
-                      ...previousResult.profiles.data.content,
-                      ...fetchMoreResult.profiles.data.content,
-                    ],
+                  ...!error && {
+                    data: {
+                      ...previousResult.profiles.data,
+                      ...fetchMoreResult.profiles.data,
+                      page: fetchMoreResult.profiles.data.page,
+                      content: [
+                        ...previousResult.profiles.data.content,
+                        ...fetchMoreResult.profiles.data.content,
+                      ],
+                    },
                   },
                 },
               };
