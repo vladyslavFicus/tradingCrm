@@ -102,12 +102,17 @@ class RisksQuestionnaire extends Component {
     if (questionId > 1) {
       const { answerId: firstQuestionAnswerId } = JSON.parse(values['questionId-1']) || {};
       const { answerId: secondQuestionAnswerId } = JSON.parse(values['questionId-2']) || {};
+      const { answerId: sixteenQuestionAnswerId } = JSON.parse(values['questionId-16']) || {};
 
       if (firstQuestionAnswerId !== 3) {
         disabled = true;
       }
 
       if (questionId > 2 && secondQuestionAnswerId !== 2) {
+        disabled = true;
+      }
+
+      if (questionId === 17 && sixteenQuestionAnswerId === 1) {
         disabled = true;
       }
     }
