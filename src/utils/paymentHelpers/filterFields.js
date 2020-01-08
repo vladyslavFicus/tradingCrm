@@ -33,6 +33,7 @@ const filterLabels = {
   amount: 'CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.AMOUNT',
   creationTime: 'CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.CREATION_DATE_RANGE',
   modificationTime: 'CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.MODIFICATION_DATE_RANGE',
+  statusChangedTime: 'CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.STATUS_DATE_RANGE',
   accountType: 'CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.ACCOUNT_TYPE',
   firstDeposit: 'PROFILE.LIST.FILTERS.FIRST_DEPOSIT',
 };
@@ -56,6 +57,8 @@ const filterPlaceholders = {
   creationTimeTo: 'CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.END_DATE',
   modificationTimeFrom: 'CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.START_DATE',
   modificationTimeTo: 'CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.END_DATE',
+  statusChangedTimeFrom: 'CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.START_DATE',
+  statusChangedTimeTo: 'CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.END_DATE',
   accountType: 'COMMON.SELECT_OPTION.ANY',
   firstDeposit: 'COMMON.SELECT_OPTION.ANY',
 };
@@ -113,20 +116,6 @@ export default ({
   !isClientView && countryField,
   {
     type: fieldTypes.SELECT,
-    name: 'paymentTypes',
-    label: filterLabels.paymentTypes,
-    placeholder: filterPlaceholders.paymentTypes,
-    multiple: true,
-    className: fieldClassNames.MEDIUM,
-    selectOptions: Object.keys(tradingTypes)
-      .filter(i => tradingTypesLabelsWithColor[i])
-      .map(type => ({
-        value: type,
-        label: tradingTypesLabelsWithColor[type].label,
-      })),
-  },
-  {
-    type: fieldTypes.SELECT,
     name: 'paymentAggregator',
     label: filterLabels.paymentAggregator,
     placeholder: filterPlaceholders.paymentAggregator,
@@ -152,6 +141,20 @@ export default ({
   },
   {
     type: fieldTypes.SELECT,
+    name: 'paymentTypes',
+    label: filterLabels.paymentTypes,
+    placeholder: filterPlaceholders.paymentTypes,
+    multiple: true,
+    className: fieldClassNames.MEDIUM,
+    selectOptions: Object.keys(tradingTypes)
+      .filter(i => tradingTypesLabelsWithColor[i])
+      .map(type => ({
+        value: type,
+        label: tradingTypesLabelsWithColor[type].label,
+      })),
+  },
+  {
+    type: fieldTypes.SELECT,
     name: 'statuses',
     label: filterLabels.statuses,
     placeholder: filterPlaceholders.statuses,
@@ -161,6 +164,39 @@ export default ({
       value,
       label: renderLabel(value, statusesLabels),
     })),
+  },
+  {
+    type: fieldTypes.RANGE,
+    className: fieldClassNames.BIG,
+    label: filterLabels.statusChangedTime,
+    fields: [
+      {
+        type: fieldTypes.DATE,
+        name: 'statusChangedTimeFrom',
+        placeholder: filterPlaceholders.statusChangedTimeFrom,
+        dateValidator: {
+          type: validators.START_DATE,
+          fieldName: 'statusChangedTimeTo',
+        },
+        pickerClassName: 'left-side',
+        withTime: true,
+        timePresets: true,
+        closeOnSelect: false,
+      },
+      {
+        type: fieldTypes.DATE,
+        name: 'statusChangedTimeTo',
+        placeholder: filterPlaceholders.statusChangedTimeTo,
+        dateValidator: {
+          type: validators.END_DATE,
+          fieldName: 'statusChangedTimeFrom',
+        },
+        withTime: true,
+        timePresets: true,
+        isDateRangeEndValue: true,
+        closeOnSelect: false,
+      },
+    ],
   },
   {
     type: fieldTypes.SELECT,
@@ -200,7 +236,7 @@ export default ({
   },
   {
     type: fieldTypes.SELECT,
-    name: 'originalAgents',
+    name: 'agentIds',
     label: filterLabels.originalAgents,
     placeholder: filterPlaceholders.originalAgents,
     className: fieldClassNames.MEDIUM,

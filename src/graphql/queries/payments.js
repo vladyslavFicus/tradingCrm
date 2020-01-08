@@ -17,6 +17,8 @@ const getClientPayments = gql`query ${queryNames.paymentsQuery}(
   $creationTimeTo: String
   $modificationTimeFrom: String
   $modificationTimeTo: String
+  $statusChangedTimeFrom: String
+  $statusChangedTimeTo: String
   $amountFrom: Float
   $amountTo: Float
   $agentIds: [String]
@@ -38,6 +40,8 @@ const getClientPayments = gql`query ${queryNames.paymentsQuery}(
     creationTimeTo: $creationTimeTo
     modificationTimeFrom: $modificationTimeFrom
     modificationTimeTo: $modificationTimeTo
+    statusChangedTimeFrom: $statusChangedTimeFrom
+    statusChangedTimeTo: $statusChangedTimeTo
     amountFrom: $amountFrom
     amountTo: $amountTo
     agentIds: $agentIds

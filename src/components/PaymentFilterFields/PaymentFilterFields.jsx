@@ -60,7 +60,7 @@ class PaymentFilterFields extends PureComponent {
 
     const originalAgents = get(operators, 'data.content') || [];
 
-    formChange('originalAgents', null);
+    formChange('agentIds', null);
 
     this.setState({
       disabledFilteredAgents: true,
@@ -89,10 +89,18 @@ class PaymentFilterFields extends PureComponent {
     });
   };
 
-  isValueInForm = (formValues, field) => !!(formValues && formValues[field]);
+  isValueInForm = (formValues, field) => formValues && formValues[field];
+
+  handleFieldChange = (fieldName, value, formChange, formValues) => {
+    if (['desks', 'teams'].includes(fieldName)) {
+      this.syncBranchFilter(fieldName, value, formChange, formValues);
+    }
+  };
 
   syncBranchFilter = (fieldName, value, formChange, formValues) => {
-    const { hierarchy: { hierarchy } } = this.props;
+    const {
+      hierarchy: { hierarchy },
+    } = this.props;
     const teams = get(hierarchy, 'userBranchHierarchy.data.TEAM') || [];
 
     if (fieldName === 'desks') {
@@ -115,13 +123,11 @@ class PaymentFilterFields extends PureComponent {
         this.filterOriginalAgents(value, formChange);
         break;
       }
-      case fieldName === 'teams'
-        && this.isValueInForm(formValues, 'desks'): {
+      case fieldName === 'teams' && this.isValueInForm(formValues, 'desks'): {
         this.filterOriginalAgents(formValues.desks, formChange);
         break;
       }
-      case fieldName === 'desks'
-        && this.isValueInForm(formValues, 'teams'): {
+      case fieldName === 'desks' && this.isValueInForm(formValues, 'teams'): {
         this.filterOriginalAgents(formValues.teams, formChange);
         break;
       }
@@ -143,9 +149,10 @@ class PaymentFilterFields extends PureComponent {
       query: {
         filters: {
           ...data,
-          ...data.firstTimeDeposit && { firstTimeDeposit: !!(+data.firstTimeDeposit) },
-          ...statuses && { statuses },
-          ...data.originalAgents && { agentIds: data.originalAgents },
+          ...(data.firstTimeDeposit && {
+            firstTimeDeposit: !!+data.firstTimeDeposit,
+          }),
+          ...(statuses && { statuses }),
         },
       },
     });
@@ -164,18 +171,9 @@ class PaymentFilterFields extends PureComponent {
 
   render() {
     const {
-      hierarchy: {
-        hierarchy,
-        loading: hierarchyLoading,
-      },
-      operators: {
-        operators,
-        loading: originalAgentsLoading,
-      },
-      paymentMethods: {
-        paymentMethods,
-        loading: methodsLoading,
-      },
+      hierarchy: { hierarchy, loading: hierarchyLoading },
+      operators: { operators, loading: originalAgentsLoading },
+      paymentMethods: { paymentMethods, loading: methodsLoading },
       accountType,
       isClientView,
     } = this.props;
@@ -204,17 +202,20 @@ class PaymentFilterFields extends PureComponent {
         onSubmit={this.handleFormChange}
         onReset={this.handleFormReset}
         initialValues={{ accountType }}
-        fields={filterFields({
-          currencies,
-          desks,
-          teams: filteredTeams || teams,
-          disabledHierarchy,
-          originalAgents: filteredAgents || originalAgents,
-          disabledOriginalAgents,
-          paymentMethods: methods,
-          disabledPaymentMethods,
-        }, isClientView)}
-        onFieldChange={this.syncBranchFilter}
+        fields={filterFields(
+          {
+            currencies,
+            desks,
+            teams: filteredTeams || teams,
+            disabledHierarchy,
+            originalAgents: filteredAgents || originalAgents,
+            disabledOriginalAgents,
+            paymentMethods: methods,
+            disabledPaymentMethods,
+          },
+          isClientView,
+        )}
+        onFieldChange={this.handleFieldChange}
       />
     );
   }
