@@ -182,6 +182,8 @@ class RepresentativeUpdateModal extends Component {
         if (!repIncludesAgents) {
           this.handleRepChange(agents[0].uuid);
         }
+      } else {
+        this.handleRepChange(agents[0].uuid);
       }
     }
 

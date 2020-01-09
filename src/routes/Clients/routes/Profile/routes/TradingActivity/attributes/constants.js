@@ -145,19 +145,27 @@ export const columns = changeOriginalAgent => [{
   name: 'trade',
   header: i18n.t('CLIENT_PROFILE.TRADING_ACTIVITY.GRID_VIEW.TRADE'),
   render: ({ tradeId, tradeType, originalAgent }) => (
-    <Badge
-      text={i18n.t(`CONSTANTS.ACCOUNT_TYPE.${tradeType}`)}
-      info={tradeType === 'DEMO'}
-      success={tradeType === 'LIVE'}
-    >
-      <button
-        type="button"
-        className="btn-transparent-text font-weight-700"
-        onClick={() => changeOriginalAgent(tradeId, originalAgent && originalAgent.uuid)}
+    <>
+      <Badge
+        text={i18n.t(`CONSTANTS.ACCOUNT_TYPE.${tradeType}`)}
+        info={tradeType === 'DEMO'}
+        success={tradeType === 'LIVE'}
       >
-        TR-{tradeId}
-      </button>
-    </Badge>
+        <button
+          type="button"
+          className="btn-transparent-text font-weight-700"
+          onClick={() => changeOriginalAgent(tradeId, originalAgent && originalAgent.uuid)}
+        >
+          TR-{tradeId}
+        </button>
+      </Badge>
+      <div className="font-size-11">
+        <Uuid
+          uuid={`${tradeId}`}
+          uuidPrefix="TR"
+        />
+      </div>
+    </>
   ),
 }, {
   name: 'type',
