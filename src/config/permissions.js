@@ -94,7 +94,7 @@ export default {
     PLAYER_PAYMENTS_LIST: 'payment;POST;/search',
   },
   AUDIT: {
-    PLAYER_AUDIT_LOGS: 'audit;GET;/audit/logs/{playerUUID}',
+    PROFILE_AUDIT_LOGS: 'audit;POST;/logs/search',
   },
   TRADING_ACTIVITY: {
     CLIENT_TRADING_ACTIVITY: 'trading-activity;GET;/',

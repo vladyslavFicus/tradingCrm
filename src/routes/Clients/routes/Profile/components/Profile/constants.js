@@ -30,6 +30,7 @@ export const userProfileTabs = [
   }, {
     label: 'CLIENT_PROFILE.TABS.FEED',
     url: '/clients/:id/feed',
+    permissions: new Permissions(permissions.AUDIT.PROFILE_AUDIT_LOGS),
   },
 ];
 
