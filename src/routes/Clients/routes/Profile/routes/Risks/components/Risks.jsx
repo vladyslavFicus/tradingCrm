@@ -42,11 +42,11 @@ class Risks extends Component {
     const groupsRiskResults = questionGroups.map(({ title, score }) => ({ title, score }));
 
     return [totalRiskResult, ...groupsRiskResults];
-  }
+  };
 
   saveCalcDataToState = (calcData) => {
     this.setState({ calcData });
-  }
+  };
 
   buildRequestBody = (formValues) => {
     const {
@@ -69,7 +69,7 @@ class Risks extends Component {
       playerUuid,
       answers,
     };
-  }
+  };
 
   onHandleCalculate = async (values) => {
     const { calculateRisk } = this.props;
@@ -80,7 +80,7 @@ class Risks extends Component {
     if (data) {
       this.saveCalcDataToState(this.getCalcData(data));
     }
-  }
+  };
 
   onHandleSave = async (values) => {
     const {
@@ -104,7 +104,7 @@ class Risks extends Component {
       this.saveCalcDataToState(this.getCalcData(data));
       refetchProfile();
     }
-  }
+  };
 
   render() {
     const { risksQuestionnaireData } = this.props;

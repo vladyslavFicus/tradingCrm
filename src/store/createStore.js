@@ -5,8 +5,6 @@ import * as Sentry from '@sentry/browser';
 import reducers from './reducers';
 import config from '../config';
 import { actionCreators as permissionsActionCreators } from '../redux/modules/auth/permissions';
-import { actionCreators as userPanelsActionCreators } from '../redux/modules/user-panels';
-import history from '../router/history';
 
 export default (initialState = {}, onComplete) => {
   // ======================================================
@@ -41,14 +39,6 @@ export default (initialState = {}, onComplete) => {
 
     if (logged && token) {
       await store.dispatch(permissionsActionCreators.fetchPermissions(token));
-    }
-
-    if (!window.isFrame) {
-      history.listen(() => {
-        if (store.getState().userPanels.activeIndex) {
-          store.dispatch(userPanelsActionCreators.setActive(null));
-        }
-      });
     }
 
     onComplete(store);

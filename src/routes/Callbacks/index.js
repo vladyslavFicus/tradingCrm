@@ -1,3 +1,3 @@
-import { asyncRoute } from '../../router';
+import { lazy } from 'react';
 
-export default asyncRoute(() => import(/* webpackChunkName: "Callbacks" */ './components/Callbacks'));
+export default lazy(() => import('./components/Callbacks'));

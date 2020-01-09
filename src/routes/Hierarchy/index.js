@@ -1,3 +1,3 @@
-import { asyncRoute } from 'router';
+import { lazy } from 'react';
 
-export default asyncRoute(() => import(/* webpackChunkName: "Hierarchy" */ './components/Hierarchy'));
+export default lazy(() => import('./components/Hierarchy'));

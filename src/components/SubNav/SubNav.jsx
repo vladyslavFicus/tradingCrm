@@ -6,11 +6,10 @@ import './SubNav.scss';
 class SubNav extends Component {
   static propTypes = {
     items: PropTypes.arrayOf(PropTypes.navSubItem).isRequired,
-    onMenuItemClick: PropTypes.func.isRequired,
   };
 
   render() {
-    const { items, onMenuItemClick } = this.props;
+    const { items } = this.props;
 
     return (
       <div className="sub-nav">
@@ -19,7 +18,6 @@ class SubNav extends Component {
             key={item.label}
             label={item.label}
             url={item.url}
-            onMenuItemClick={onMenuItemClick}
           />
         ))}
       </div>

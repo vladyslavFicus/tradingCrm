@@ -1,5 +1,3 @@
-import { asyncRoute } from 'router';
+import { lazy } from 'react';
 
-export default asyncRoute(
-  () => import(/* webpackChunkName: "HierarchyUserBranchList" */ './components/HierarchyUserBranchList'),
-);
+export default lazy(() => import('./components/HierarchyUserBranchList'));

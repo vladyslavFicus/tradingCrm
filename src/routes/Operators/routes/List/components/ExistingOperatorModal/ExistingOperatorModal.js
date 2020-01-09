@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { withRouter } from 'react-router-dom';
+import PropTypes from 'constants/propTypes';
 import I18n from 'i18n-js';
 import { getBrandId } from 'config';
-import history from 'router/history';
 
 class ExistingOperatorModal extends Component {
   static propTypes = {
+    ...PropTypes.router,
     onCloseModal: PropTypes.func.isRequired,
     isOpen: PropTypes.bool.isRequired,
     addExistingOperator: PropTypes.func.isRequired,
@@ -27,6 +28,7 @@ class ExistingOperatorModal extends Component {
       branchId,
       onCloseModal,
       notify,
+      history,
     } = this.props;
 
     const {
@@ -104,4 +106,4 @@ class ExistingOperatorModal extends Component {
   }
 }
 
-export default ExistingOperatorModal;
+export default withRouter(ExistingOperatorModal);
