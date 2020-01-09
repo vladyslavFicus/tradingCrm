@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import { compose, graphql } from 'react-apollo';
 import { Field, reduxForm, formValueSelector } from 'redux-form';
 import { connect } from 'react-redux';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
@@ -6,7 +7,9 @@ import I18n from 'i18n-js';
 import { createValidator } from 'utils/validator';
 import { generate } from 'utils/password';
 import { getActiveBrandConfig } from 'config';
+import { createTradingAccountMutation } from 'graphql/mutations/tradingAccount';
 import { InputField, NasSelectField } from 'components/ReduxForm';
+import { withNotifications } from 'components/HighOrder';
 import PropTypes from 'constants/propTypes';
 import { accountTypes } from 'constants/accountTypes';
 import { attributeLabels } from './constants';
@@ -181,18 +184,21 @@ const mapStateToProps = state => ({
   accountType: selector(state, 'accountType'),
 });
 
-const TradingAccountAddModalRedux = reduxForm({
-  form: FORM_NAME,
-  initialValues: {
-    password: generate(),
-    accountType: 'LIVE',
-  },
-  validate: values => createValidator({
-    name: ['required', 'string', 'max:50', 'min:4'],
-    currency: ['required', 'string'],
-    password: ['required', `regex:${getActiveBrandConfig().password.mt4_pattern}`],
-    amount: values.accountType === 'DEMO' && 'required',
-  }, attributeLabels)(values),
-})(TradingAccountAddModal);
-
-export default connect(mapStateToProps)(TradingAccountAddModalRedux);
+export default compose(
+  withNotifications,
+  connect(mapStateToProps),
+  reduxForm({
+    form: FORM_NAME,
+    initialValues: {
+      password: generate(),
+      accountType: 'LIVE',
+    },
+    validate: values => createValidator({
+      name: ['required', 'string', 'max:50', 'min:4'],
+      currency: ['required', 'string'],
+      password: ['required', `regex:${getActiveBrandConfig().password.mt4_pattern}`],
+      amount: values.accountType === 'DEMO' && 'required',
+    }, attributeLabels)(values),
+  }),
+  graphql(createTradingAccountMutation, { name: 'createTradingAccount' }),
+)(TradingAccountAddModal);

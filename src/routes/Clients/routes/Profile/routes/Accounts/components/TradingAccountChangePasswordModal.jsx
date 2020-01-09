@@ -1,12 +1,20 @@
 import React, { PureComponent } from 'react';
+import { compose, graphql } from 'react-apollo';
 import PropTypes from 'prop-types';
 import I18n from 'i18n-js';
+import { get } from 'lodash';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { reduxForm, Field } from 'redux-form';
-import { InputField } from '../../../../../../../../../../components/ReduxForm';
-import { createValidator, translateLabels } from '../../../../../../../../../../utils/validator';
-import { getActiveBrandConfig } from '../../../../../../../../../../config';
-import attributeLabels from './constants';
+import { getActiveBrandConfig } from 'config';
+import { tradingAccountChangePasswordMutation } from 'graphql/mutations/tradingAccount';
+import { InputField } from 'components/ReduxForm';
+import { withNotifications } from 'components/HighOrder';
+import { createValidator, translateLabels } from 'utils/validator';
+
+const attributeLabels = {
+  newPasswordLabel: I18n.t('CLIENT_PROFILE.ACCOUNTS.MODAL_CHANGE_PASSWORD.NEW_PASSWORD'),
+  repeatPasswordLabel: I18n.t('CLIENT_PROFILE.ACCOUNTS.MODAL_CHANGE_PASSWORD.REPEAT_PASSWORD'),
+};
 
 class TradingAccountChangePasswordModal extends PureComponent {
   static propTypes = {
@@ -29,13 +37,15 @@ class TradingAccountChangePasswordModal extends PureComponent {
       tradingAccountChangePassword,
     } = this.props;
 
-    const { data: { tradingAccount: { changePassword: { success } } } } = await tradingAccountChangePassword({
+    const response = await tradingAccountChangePassword({
       variables: {
         accountUUID,
         profileUUID,
         password,
       },
     });
+
+    const success = get(response, 'data.tradingAccount.changePassword.success') || false;
 
     notify({
       level: success ? 'success' : 'error',
@@ -102,13 +112,17 @@ class TradingAccountChangePasswordModal extends PureComponent {
   }
 }
 
-export default reduxForm({
-  form: 'tradingAccountChangePassword',
-  validate: createValidator({
-    password: ['required', `regex:${getActiveBrandConfig().password.mt4_pattern}`],
-    repeatPassword: [
-      'required',
-      'same:password',
-    ],
-  }, translateLabels(attributeLabels)),
-})(TradingAccountChangePasswordModal);
+export default compose(
+  withNotifications,
+  graphql(tradingAccountChangePasswordMutation, { name: 'tradingAccountChangePassword' }),
+  reduxForm({
+    form: 'tradingAccountChangePassword',
+    validate: createValidator({
+      password: ['required', `regex:${getActiveBrandConfig().password.mt4_pattern}`],
+      repeatPassword: [
+        'required',
+        'same:password',
+      ],
+    }, translateLabels(attributeLabels)),
+  }),
+)(TradingAccountChangePasswordModal);
