@@ -1517,6 +1517,7 @@
         "REG_DATE_RANGE": "Registration date range",
         "REG_DATE_FROM": "Registered From",
         "REG_DATE_TO": "Registered To",
+        "FIRST_NOTE_DATE": "First note date",
         "LAST_NOTE_DATE": "Last note date",
         "LAST_TRADE_DATE": "Last trade date",
         "LAST_LOGIN_DATE": "Last login date",

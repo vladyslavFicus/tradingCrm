@@ -338,6 +338,34 @@ export default (
 }, {
   type: fieldTypes.RANGE,
   className: fieldClassNames.BIG,
+  label: filterLabels.firstNoteDate,
+  fields: [{
+    type: fieldTypes.DATE,
+    name: 'firstNoteDateRange.from',
+    placeholder: 'COMMON.DATE_OPTIONS.START_DATE',
+    closeOnSelect: false,
+    dateValidator: {
+      type: validators.START_DATE,
+      fieldName: 'firstNoteDateRange.to',
+    },
+    withTime: true,
+    timePresets: true,
+  }, {
+    type: fieldTypes.DATE,
+    name: 'firstNoteDateRange.to',
+    placeholder: 'COMMON.DATE_OPTIONS.END_DATE',
+    closeOnSelect: false,
+    dateValidator: {
+      type: validators.END_DATE,
+      fieldName: 'firstNoteDateRange.from',
+    },
+    withTime: true,
+    timePresets: true,
+    isDateRangeEndValue: true,
+  }],
+}, {
+  type: fieldTypes.RANGE,
+  className: fieldClassNames.BIG,
   label: filterLabels.lastNoteDate,
   fields: [{
     type: fieldTypes.DATE,
