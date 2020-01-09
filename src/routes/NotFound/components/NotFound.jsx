@@ -10,16 +10,10 @@ const NotFound = ({ token }) => {
   }
 
   return (
-    <section className="page-content">
-      <div className="page-content-inner">
-        <div className="single-page-block">
-          <div className="margin-auto text-center max-width-500">
-            <h1>{I18n.t('NOT_FOUND.TITLE')}</h1>
-            <p>{I18n.t('NOT_FOUND.DESCRIPTION')}</p>
-          </div>
-        </div>
-      </div>
-    </section>
+    <div className="error-page">
+      <h1 className="error-page__title">{I18n.t('NOT_FOUND.TITLE')}</h1>
+      <p className="error-page__subtitle">{I18n.t('NOT_FOUND.DESCRIPTION')}</p>
+    </div>
   );
 };
 
