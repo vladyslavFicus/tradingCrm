@@ -65,7 +65,7 @@ class Route extends PureComponent {
     return (
       <Layout>
         <PermissionConsumer>
-          {({ permission } = {}) => console.log(permission) || (
+          {({ permission } = {}) => (
             <Choose>
               <When condition={permission && this.isRouteForbidden(permission.permissions)}>
                 <Forbidden />
