@@ -79,6 +79,19 @@ const sidebarTopMenu = [{
   label: 'SIDEBAR.TOP_MENU.CALLBACKS',
   icon: 'icon-callbacks',
   url: '/callbacks/list',
+}, {
+  label: 'SIDEBAR.TOP_MENU.SETTINGS',
+  icon: 'icon-settings',
+  isOpen: false,
+  items: [{
+    label: 'SIDEBAR.TOP_MENU.BRAND_CONFIG_UPDATE',
+    url: '/brand-config/update',
+    permissions: new Permissions(permissions.BRAND_CONFIG.UPDATE_BRAND_CONFIG),
+  }, {
+    label: 'SIDEBAR.TOP_MENU.BRAND_CONFIG_CREATE',
+    url: '/brand-config/create',
+    permissions: new Permissions(permissions.BRAND_CONFIG.CREATE_BRAND_CONFIG),
+  }],
 }];
 
 const sidebarBottomMenu = [{

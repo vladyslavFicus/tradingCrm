@@ -109,4 +109,9 @@ export default {
     UPDATE_NOTE: 'note;PUT;/{noteId}',
     DELETE_NOTE: 'note;DELETE;/{noteId}',
   },
+  BRAND_CONFIG: {
+    GET_BRAND_CONFIG: 'brand-config-service;GET;/brand/{brandId}',
+    CREATE_BRAND_CONFIG: 'brand-config-service;POST;/brand',
+    UPDATE_BRAND_CONFIG: 'brand-config-service;PUT;/brand',
+  },
 };
