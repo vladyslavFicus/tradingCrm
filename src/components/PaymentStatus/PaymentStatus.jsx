@@ -8,29 +8,27 @@ import { getTradingStatusProps } from '../../utils/paymentHelpers';
 import Uuid from '../Uuid';
 
 const PaymentStatus = ({
-  payment: {
-    status,
-    paymentId,
-    declineReason,
-    modifiedBy,
-    modificationTime,
-  },
+  status,
+  paymentId,
+  declineReason,
+  modifiedBy,
+  statusChangedAt,
 }) => {
   const { color, label } = getTradingStatusProps(status);
   return (
     <Fragment>
       <div className={classNames(color, 'font-weight-700 text-uppercase status')}>
         {I18n.t(label)}
-        <If condition={declineReason != null}>
+        <If condition={declineReason}>
           <FailedStatusIcon id={`transaction-failure-reason-${paymentId}`}>
             {declineReason}
           </FailedStatusIcon>
         </If>
       </div>
-      <If condition={modificationTime}>
+      <If condition={statusChangedAt}>
         <div className="font-size-11">
           {I18n.t('COMMON.DATE_ON', {
-            date: moment.utc(modificationTime).local().format('DD.MM.YYYY - HH:mm:ss'),
+            date: moment.utc(statusChangedAt).local().format('DD.MM.YYYY - HH:mm:ss'),
           })}
         </div>
       </If>
@@ -46,16 +44,17 @@ const PaymentStatus = ({
 };
 
 PaymentStatus.propTypes = {
-  payment: PropTypes.shape({
-    status: PropTypes.string,
-    paymentId: PropTypes.string.isRequired,
-    modificationTime: PropTypes.string,
-    modifiedBy: PropTypes.string,
-    paymentType: PropTypes.string,
-    playerProfile: PropTypes.shape({
-      uuid: PropTypes.string.isRequired,
-    }).isRequired,
-  }).isRequired,
+  status: PropTypes.string.isRequired,
+  paymentId: PropTypes.string.isRequired,
+  statusChangedAt: PropTypes.string,
+  modifiedBy: PropTypes.string,
+  declineReason: PropTypes.string,
+};
+
+PaymentStatus.defaultProps = {
+  statusChangedAt: '',
+  modifiedBy: '',
+  declineReason: '',
 };
 
 export default PaymentStatus;
