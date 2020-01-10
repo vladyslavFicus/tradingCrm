@@ -4,6 +4,7 @@ import I18n from 'i18n-js';
 import { compose } from 'react-apollo';
 import { Button } from 'reactstrap';
 import { withRequests } from 'apollo';
+import StickyWrapper from 'components/StickyWrapper';
 import { withNotifications } from 'components/HighOrder';
 import BrandConfigEditor from './components/BrandConfigEditor';
 import {
@@ -50,22 +51,24 @@ class BrandConfigCreate extends PureComponent {
   render() {
     return (
       <div className="brand-config">
-        <div className="brand-config__actions">
-          <Button
-            color="primary"
-            onClick={this.handleReset}
-            className="brand-config__btn"
-          >
-            {I18n.t('BRAND_CONFIG.ACTIONS.DISCARD')}
-          </Button>
-          <Button
-            color="primary"
-            onClick={this.handleCreate}
-            className="brand-config__btn"
-          >
-            {I18n.t('BRAND_CONFIG.ACTIONS.CREATE')}
-          </Button>
-        </div>
+        <StickyWrapper top={48} innerZ={5}>
+          <div className="brand-config__actions">
+            <Button
+              color="primary"
+              onClick={this.handleReset}
+              className="brand-config__btn"
+            >
+              {I18n.t('BRAND_CONFIG.ACTIONS.DISCARD')}
+            </Button>
+            <Button
+              color="primary"
+              onClick={this.handleCreate}
+              className="brand-config__btn"
+            >
+              {I18n.t('BRAND_CONFIG.ACTIONS.CREATE')}
+            </Button>
+          </div>
+        </StickyWrapper>
         <BrandConfigEditor
           ref={(editor) => { this.editor = editor; }}
         />

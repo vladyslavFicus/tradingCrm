@@ -17,22 +17,12 @@ class StickyWrapper extends Component {
     activeClass: 'active',
   };
 
-  mounted = false;
-
-  componentDidMount() {
-    this.mounted = true;
-  }
-
-  componentWillUnmount() {
-    this.mounted = false;
-  }
-
   render() {
     const { children, top, innerZ, activeClass } = this.props;
 
     return (
       <Sticky
-        enabled={this.mounted}
+        enabled
         top={top}
         bottomBoundary={0}
         innerZ={innerZ}

@@ -172,7 +172,7 @@ class MainLayout extends PureComponent {
         <Sidebar />
 
         <main className="content-container">
-          <Suspense fallback={<div style={{ padding: 30 }}><ShortLoader /></div>}>
+          <Suspense fallback={<ShortLoader />}>
             {children}
           </Suspense>
         </main>
