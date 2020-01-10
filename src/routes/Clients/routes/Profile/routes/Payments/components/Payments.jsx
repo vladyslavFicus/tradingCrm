@@ -38,7 +38,6 @@ class Payments extends Component {
 
   static contextTypes = {
     onAddNoteClick: PropTypes.func.isRequired,
-    onAddNote: PropTypes.func.isRequired,
     onEditNoteClick: PropTypes.func.isRequired,
     setNoteChangedCallback: PropTypes.func.isRequired,
     registerUpdateCacheListener: PropTypes.func.isRequired,

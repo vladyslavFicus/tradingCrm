@@ -1,4 +1,6 @@
 import React, { PureComponent, Suspense } from 'react';
+import { withRouter } from 'react-router-dom';
+import { compose } from 'react-apollo';
 import config, { getBrandId } from 'config';
 import PropTypes from 'constants/propTypes';
 import NotePopover from 'components/NotePopover';
@@ -6,6 +8,9 @@ import Header from 'components/Header';
 import Sidebar from 'components/Sidebar';
 import BackToTop from 'components/BackToTop';
 import ShortLoader from 'components/ShortLoader';
+import { withModals } from 'components/HighOrder';
+import MultiCurrencyModal from 'components/ReduxForm/MultiCurrencyModal';
+import { withStorage } from 'providers/StorageProvider';
 import PermissionProvider from 'providers/PermissionsProvider';
 import './MainLayout.scss';
 
@@ -19,9 +24,6 @@ class MainLayout extends PureComponent {
   static propTypes = {
     children: PropTypes.any.isRequired,
     auth: PropTypes.auth.isRequired,
-    addNote: PropTypes.func.isRequired,
-    editNote: PropTypes.func.isRequired,
-    deleteNote: PropTypes.func.isRequired,
     modals: PropTypes.shape({
       multiCurrencyModal: PropTypes.shape({
         show: PropTypes.func.isRequired,
@@ -39,8 +41,6 @@ class MainLayout extends PureComponent {
 
   static childContextTypes = {
     notes: PropTypes.shape({
-      onAddNote: PropTypes.func.isRequired,
-      onEditNote: PropTypes.func.isRequired,
       onAddNoteClick: PropTypes.func.isRequired,
       onEditNoteClick: PropTypes.func.isRequired,
       setNoteChangedCallback: PropTypes.func.isRequired,
@@ -75,12 +75,10 @@ class MainLayout extends PureComponent {
     return {
       modals,
       notes: {
-        onAddNote: this.props.addNote,
-        onEditNote: this.props.editNote,
+        hidePopover: this.handlePopoverHide,
         onAddNoteClick: this.handleAddNoteClick,
         onEditNoteClick: this.handleEditNoteClick,
         setNoteChangedCallback: this.setNoteChangedCallback,
-        hidePopover: this.handlePopoverHide,
       },
     };
   }
@@ -198,4 +196,8 @@ class MainLayout extends PureComponent {
   }
 }
 
-export default MainLayout;
+export default compose(
+  withRouter,
+  withStorage(['auth']),
+  withModals({ multiCurrencyModal: MultiCurrencyModal }),
+)(MainLayout);

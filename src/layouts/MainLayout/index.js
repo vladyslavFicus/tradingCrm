@@ -1,3 +1,1 @@
-import MainLayoutContainer from './MainLayoutContainer';
-
-export default MainLayoutContainer;
+export { default } from './MainLayout';

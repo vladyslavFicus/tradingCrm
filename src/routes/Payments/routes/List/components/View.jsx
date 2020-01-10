@@ -35,12 +35,7 @@ class View extends Component {
 
   static contextTypes = {
     notes: PropTypes.shape({
-      onAddNote: PropTypes.func.isRequired,
-      onEditNote: PropTypes.func.isRequired,
-      onAddNoteClick: PropTypes.func.isRequired,
-      onEditNoteClick: PropTypes.func.isRequired,
       setNoteChangedCallback: PropTypes.func.isRequired,
-      hidePopover: PropTypes.func.isRequired,
     }),
   };
 

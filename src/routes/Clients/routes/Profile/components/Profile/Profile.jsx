@@ -96,8 +96,6 @@ class Profile extends Component {
   };
 
   static childContextTypes = {
-    onAddNote: PropTypes.func.isRequired,
-    onEditNote: PropTypes.func.isRequired,
     onAddNoteClick: PropTypes.func.isRequired,
     onEditNoteClick: PropTypes.func.isRequired,
     onEditModalNoteClick: PropTypes.func.isRequired,
@@ -131,8 +129,6 @@ class Profile extends Component {
 
   getChildContext() {
     return {
-      onAddNote: this.props.addNote,
-      onEditNote: this.props.updateNote,
       onAddNoteClick: this.handleAddNoteClick,
       onEditNoteClick: this.handleEditNoteClick,
       onEditModalNoteClick: this.handleEditModalNoteClick,
