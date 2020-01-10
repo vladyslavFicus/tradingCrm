@@ -84,7 +84,7 @@ class KycStatus extends Component {
                 </option>
               ))}
             </Field>
-            <div className="col-4 mt-4">
+            <div className="col-4 mt-4-profile">
               <button type="submit" className="btn btn-primary width-full">
                 {I18n.t('COMMON.BUTTONS.SAVE')}
               </button>

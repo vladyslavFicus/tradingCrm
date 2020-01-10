@@ -8,6 +8,8 @@ import permissions from 'config/permissions';
 import { withPermission } from 'providers/PermissionsProvider';
 import { roles, departments } from 'constants/brands';
 import Regulated from 'components/Regulation';
+import { hidePhone } from 'utils/hidePhone';
+import { getBrandId } from 'config';
 import PersonalForm from './PersonalForm';
 import AddressForm from './AddressForm';
 import ContactForm from './ContactForm';
@@ -27,10 +29,7 @@ class View extends Component {
     verifyEmail: PropTypes.func.isRequired,
     canUpdateProfile: PropTypes.bool,
     profileUpdate: PropTypes.func.isRequired,
-    auth: PropTypes.shape({
-      department: PropTypes.string.isRequired,
-      role: PropTypes.string.isRequired,
-    }).isRequired,
+    auth: PropTypes.auth,
     refetchProfileDataOnSave: PropTypes.func.isRequired,
   };
 
@@ -91,10 +90,27 @@ class View extends Component {
         ? I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY')
         : I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
     });
-  }
+  };
 
   handleUpdateContacts = async (data) => {
-    const { updateContacts } = this.props;
+    const {
+      newProfile: {
+        newProfile: {
+          data: {
+            contacts: {
+              additionalPhone,
+              phone,
+            },
+          },
+        },
+      },
+      updateContacts,
+    } = this.props;
+
+    const variables = this.checkPhoneToHide()
+      ? { ...data, additionalPhone, phone }
+      : data;
+
     const {
       data: {
         profile: {
@@ -104,9 +120,7 @@ class View extends Component {
         }
       }
     } = await updateContacts({
-      variables: {
-        ...data,
-      }
+      variables
     });
 
     this.context.addNotification({
@@ -184,6 +198,12 @@ class View extends Component {
         ? I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY')
         : I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
     });
+  };
+
+  checkPhoneToHide = () => {
+    const { auth: { department }} = this.props;
+
+    return getBrandId() === 'topinvestus' && department === departments.SALES;
   };
 
   render() {
@@ -315,12 +335,13 @@ class View extends Component {
                     onVerifyPhoneClick={this.handleVerifyPhone}
                     onVerifyEmailClick={this.handleVerifyEmail}
                     initialValues={{
-                      phone,
+                      phone: this.checkPhoneToHide() ? hidePhone(phone) : phone,
                       email,
-                      additionalPhone,
+                      additionalPhone: this.checkPhoneToHide() ? hidePhone(additionalPhone) : additionalPhone,
                       additionalEmail,
                     }}
                     disabled={!updateContacts}
+                    disabledAdditionalPhone={this.checkPhoneToHide()}
                   />
                 </div>
               </div>

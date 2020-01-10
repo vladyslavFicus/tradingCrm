@@ -47,10 +47,8 @@ class ContactForm extends Component {
       phoneVerified: PropTypes.bool,
       emailVerified: PropTypes.bool,
     }),
-    auth: PropTypes.shape({
-      department: PropTypes.string,
-      role: PropTypes.string,
-    }).isRequired,
+    auth: PropTypes.auth.isRequired,
+    disabledAdditionalPhone: PropTypes.bool.isRequired,
   };
 
   static defaultProps = {
@@ -78,6 +76,7 @@ class ContactForm extends Component {
 
   render() {
     const {
+      disabledAdditionalPhone,
       verification: {
         phoneVerified,
         emailVerified,
@@ -100,10 +99,8 @@ class ContactForm extends Component {
     const isPhoneDirty = currentValues.phone !== initialValues.phone;
     const isPhoneValid = !formSyncErrors.phone && !formSyncErrors.phoneCode;
     const isPhoneVerifiable = isPhoneValid && (isPhoneDirty || !phoneVerified);
-    const isPhoneMutable = (department === departments.CS || department === departments.ADMINISTRATION)
+    const areFieldsDisabled = (department === departments.CS || department === departments.ADMINISTRATION)
       && role === roles.ROLE4;
-    // TODO: uncomment row below after back-end will be ready
-    // const isEmailMutable = department === departments.CS && role === roles.ROLE4;
 
     return (
       <Fragment>
@@ -132,12 +129,12 @@ class ContactForm extends Component {
               type="text"
               component={InputField}
               label={attributeLabels.phone}
-              disabled={disabled || tradingOperatorAccessDisabled || !isPhoneMutable}
+              disabled={disabled || tradingOperatorAccessDisabled || !areFieldsDisabled}
               className="col-5"
             />
             <If condition={isPhoneVerifiable}>
               <PermissionContent permissions={permissions.USER_PROFILE.VERIFY_PHONE}>
-                <div className="col-4 mt-4">
+                <div className="col-4 mt-4-profile">
                   <button type="button" className="btn btn-primary width-full" onClick={this.handleVerifyPhoneClick}>
                     {I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.VERIFY')}
                   </button>
@@ -145,7 +142,7 @@ class ContactForm extends Component {
               </PermissionContent>
             </If>
             <If condition={!isPhoneDirty && phoneVerified}>
-              <div className="col-4 mt-4">
+              <div className="col-4 mt-4-profile">
                 <button type="button" className="btn btn-verified">
                   <i className="fa fa-check-circle-o" /> {I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.VERIFIED')}
                 </button>
@@ -154,6 +151,7 @@ class ContactForm extends Component {
           </div>
           <div className="form-row">
             <Field
+              disabled={disabledAdditionalPhone}
               type="text"
               name="additionalPhone"
               component={InputField}
@@ -166,7 +164,7 @@ class ContactForm extends Component {
             <Field
               disabled
               // TODO: uncomment row below after back-end will be ready
-              // disabled={!isEmailMutable}
+              // disabled={!areFieldsDisabled}
               name="email"
               label={attributeLabels.email}
               type="text"
@@ -175,7 +173,7 @@ class ContactForm extends Component {
             />
             <If condition={!emailVerified}>
               <PermissionContent permissions={permissions.USER_PROFILE.VERIFY_EMAIL}>
-                <div className="col-4 mt-4">
+                <div className="col-4 mt-4-profile">
                   <button type="button" className="btn btn-primary" onClick={this.handleVerifyEmailClick}>
                     {I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.VERIFY_EMAIL')}
                   </button>
@@ -183,7 +181,7 @@ class ContactForm extends Component {
               </PermissionContent>
             </If>
             <If condition={emailVerified}>
-              <div className="col-4 mt-4">
+              <div className="col-4 mt-4-profile">
                 <button type="button" className="btn btn-verified">
                   <i className="fa fa-check-circle-o" /> {I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.VERIFIED')}
                 </button>
