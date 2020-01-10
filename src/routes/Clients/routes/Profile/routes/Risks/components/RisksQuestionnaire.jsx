@@ -225,6 +225,7 @@ export default withFormik({
 
     const firstQuestionValue = JSON.parse(values['questionId-1']) || {};
     const secondQuestionValue = JSON.parse(values['questionId-2']) || {};
+    const sixteenQuestionValue = JSON.parse(values['questionId-16']) || {};
 
     if (!firstQuestionValue.answerId) {
       errors['questionId-1'] = errorMessage;
@@ -238,7 +239,11 @@ export default withFormik({
       Object.keys(values).forEach((questionName, key) => {
         const { answerId } = JSON.parse(values[questionName]) || {};
 
-        if (key > 1 && !answerId) {
+        if (
+          key > 1
+          && !answerId
+          && !(key === 16 && sixteenQuestionValue.answerId === 1)
+        ) {
           errors[questionName] = errorMessage;
         }
       });
