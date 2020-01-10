@@ -1,6 +1,4 @@
 import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { ApolloProvider as ReactApolloProvider } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
 import { ApolloClient } from 'apollo-client';
@@ -13,9 +11,10 @@ import { HttpLink } from 'apollo-link-http';
 import { createUploadLink } from 'apollo-upload-client';
 import { withStorage } from 'providers/StorageProvider';
 import omitTypename from 'graphql/utils/omitTypename';
-import { actionCreators as modalActionCreators } from 'redux/modules/modal';
-import { types as modalTypes } from 'constants/modals';
+import PropTypes from 'constants/propTypes';
 import queryNames from 'constants/apolloQueryNames';
+import { withModals } from 'components/HighOrder';
+import UpdateVersionModal from 'components/UpdateVersionModal';
 import { getGraphQLRoot, getApiVersion } from '../config';
 
 const __DEV__ = process.env.NODE_ENV === 'development';
@@ -45,7 +44,9 @@ const hasFiles = (node, found = []) => {
 class ApolloProvider extends PureComponent {
   static propTypes = {
     children: PropTypes.element.isRequired,
-    triggerVersionModal: PropTypes.func.isRequired,
+    modals: PropTypes.shape({
+      updateVersionModal: PropTypes.modalType,
+    }).isRequired,
     ...withStorage.propTypes,
   };
 
@@ -56,6 +57,8 @@ class ApolloProvider extends PureComponent {
   }
 
   createClient = () => {
+    const { modals: { updateVersionModal } } = this.props;
+
     const options = {
       uri: getGraphQLRoot(),
       batchInterval: 50,
@@ -98,8 +101,8 @@ class ApolloProvider extends PureComponent {
           this.props.history.push('/logout');
         }
 
-        if (networkError.statusCode === 426) {
-          this.props.triggerVersionModal({ name: modalTypes.NEW_API_VERSION });
+        if (networkError.statusCode === 426 && !updateVersionModal.isOpen) {
+          updateVersionModal.show();
           return;
         }
 
@@ -158,8 +161,8 @@ class ApolloProvider extends PureComponent {
   }
 }
 
-const mapDispatchToProps = dispatch => ({
-  triggerVersionModal: options => dispatch(modalActionCreators.open(options)),
-});
-
-export default connect(null, mapDispatchToProps)(withStorage(withRouter(ApolloProvider)));
+export default withStorage(
+  withRouter(
+    withModals({ updateVersionModal: UpdateVersionModal })(ApolloProvider),
+  ),
+);
