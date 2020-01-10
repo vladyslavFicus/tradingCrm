@@ -4,14 +4,12 @@ import auth from '../redux/modules/auth';
 import authorities from '../redux/modules/auth/authorities';
 import permissions from '../redux/modules/auth/permissions';
 import modal from '../redux/modules/modal';
-import notifications from '../redux/modules/notifications';
 import dynamicFilters from '../components/DynamicFilters/reduxModule';
 
 export const makeRootReducer = asyncReducers => combineReducers({
   auth,
   authorities,
   permissions,
-  notifications,
   modal,
   form: formReducer,
   dynamicFilters,

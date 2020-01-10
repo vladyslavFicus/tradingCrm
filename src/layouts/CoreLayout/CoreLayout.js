@@ -5,7 +5,6 @@ import I18n from 'i18n-js';
 import NotificationContainer from 'react-notification-system';
 import PropTypes from 'constants/propTypes';
 import { types as modalsTypes } from 'constants/modals';
-import { actionCreators as notificationCreators } from 'redux/modules/notifications';
 import DebugPanel from 'components/DebugPanel';
 import UpdateVersionModal from 'components/UpdateVersionModal';
 import { withModals } from 'components/HighOrder';
@@ -24,7 +23,6 @@ class CoreLayout extends Component {
       message: PropTypes.string,
       level: PropTypes.string,
     })),
-    removeNotification: PropTypes.func.isRequired,
     modals: PropTypes.shape({
       updateVersionModal: PropTypes.modalType,
     }).isRequired,
@@ -73,7 +71,6 @@ class CoreLayout extends Component {
     if (haveNewNotifications) {
       nextNotifications.forEach(({ message, title, ...notification }) => {
         this.handleNotify({ message: I18n.t(message), title: I18n.t(title), ...notification });
-        this.props.removeNotification(notification.id);
       });
     }
 
@@ -124,18 +121,13 @@ class CoreLayout extends Component {
   }
 }
 
-const mapStateToProps = ({ modal, notifications }) => ({
+const mapStateToProps = ({ modal }) => ({
   modal,
-  notifications,
 });
-
-const mapActions = {
-  removeNotification: notificationCreators.remove,
-};
 
 export default compose(
   withModals({
     updateVersionModal: UpdateVersionModal,
   }),
-  connect(mapStateToProps, mapActions),
+  connect(mapStateToProps),
 )(CoreLayout);
