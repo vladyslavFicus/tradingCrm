@@ -643,7 +643,7 @@ class Profile extends Component {
               )}
             />
             <Route disableScroll path={`${path}/feed`} component={Feed} />
-            <If condition={getActiveBrandConfig().regulation.isActive}>
+            <If condition={getActiveBrandConfig().isRisksTabAvailable}>
               <Route
                 disableScroll
                 path={`${path}/risk`}

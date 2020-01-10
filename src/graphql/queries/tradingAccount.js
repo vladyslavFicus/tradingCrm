@@ -11,6 +11,7 @@ const getTradingAccount = gql`query getTradingAccount($uuid: String!, $accountTy
       login
       group
       accountType
+      platformType
       archived
       leverage
       readOnlyUpdateTime

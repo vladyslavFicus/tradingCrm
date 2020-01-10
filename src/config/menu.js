@@ -47,15 +47,15 @@ const sidebarTopMenu = [{
   isOpen: false,
   items: [{
     label: 'SIDEBAR.TOP_MENU.OFFICES',
-    url: '/offices',
+    url: '/offices/list',
     permissions: new Permissions(permissions.HIERARCHY.GET_OFFICES),
   }, {
     label: 'SIDEBAR.TOP_MENU.DESKS',
-    url: '/desks',
+    url: '/desks/list',
     permissions: new Permissions(permissions.HIERARCHY.GET_DESKS),
   }, {
     label: 'SIDEBAR.TOP_MENU.TEAMS',
-    url: '/teams',
+    url: '/teams/list',
     permissions: new Permissions(permissions.HIERARCHY.GET_TEAMS),
   }, {
     label: 'SIDEBAR.TOP_MENU.SALES_RULES',
@@ -63,22 +63,35 @@ const sidebarTopMenu = [{
     permissions: new Permissions(permissions.SALES_RULES.GET_RULES),
   }, {
     label: 'SIDEBAR.TOP_MENU.OPERATORS',
-    url: '/operators',
+    url: '/operators/list',
     permissions: new Permissions(permissions.HIERARCHY.GET_OPERATORS),
     excludeAuthorities: operatorsExcludeAuthorities,
   }, {
     label: 'SIDEBAR.TOP_MENU.PARTNERS',
-    url: '/partners',
+    url: '/partners/list',
     permissions: new Permissions(permissions.HIERARCHY.GET_AFFILIATE_PARTNERS),
   }],
 }, {
   label: 'SIDEBAR.TOP_MENU.PAYMENTS',
   icon: 'icon-payments sidebar-nav-item__icon--payments',
-  url: '/payments',
+  url: '/payments/list',
 }, {
   label: 'SIDEBAR.TOP_MENU.CALLBACKS',
   icon: 'icon-callbacks',
-  url: '/callbacks',
+  url: '/callbacks/list',
+}, {
+  label: 'SIDEBAR.TOP_MENU.SETTINGS',
+  icon: 'icon-settings',
+  isOpen: false,
+  items: [{
+    label: 'SIDEBAR.TOP_MENU.BRAND_CONFIG_UPDATE',
+    url: '/brand-config/update',
+    permissions: new Permissions(permissions.BRAND_CONFIG.UPDATE_BRAND_CONFIG),
+  }, {
+    label: 'SIDEBAR.TOP_MENU.BRAND_CONFIG_CREATE',
+    url: '/brand-config/create',
+    permissions: new Permissions(permissions.BRAND_CONFIG.CREATE_BRAND_CONFIG),
+  }],
 }];
 
 const sidebarBottomMenu = [{

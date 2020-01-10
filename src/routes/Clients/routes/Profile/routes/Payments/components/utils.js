@@ -5,13 +5,13 @@ import I18n from 'i18n-js';
 import classNames from 'classnames';
 import {
   statuses,
-  allPaymentMethodsLabels,
   aggregatorsLabels,
   tradingTypesLabelsWithColor,
 } from 'constants/payment';
 import GridPaymentInfo from 'components/GridPaymentInfo';
 import Uuid from 'components/Uuid';
 import FailedStatusIcon from 'components/FailedStatusIcon';
+import formatLabel from 'utils/formatLabel';
 import { getTradingStatusProps } from 'utils/paymentHelpers';
 
 export default onActionSuccess => [{
@@ -87,8 +87,8 @@ export default onActionSuccess => [{
       <Otherwise>
         <div className="font-weight-700">
           <Choose>
-            <When condition={allPaymentMethodsLabels[paymentMethod]}>
-              {I18n.t(allPaymentMethodsLabels[paymentMethod])}
+            <When condition={paymentMethod}>
+              {formatLabel(paymentMethod)}
             </When>
             <Otherwise>
               <div>&mdash;</div>

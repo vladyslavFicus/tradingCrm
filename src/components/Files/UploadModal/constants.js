@@ -10,4 +10,11 @@ export const translatedLabels = {
 };
 
 export const ALLOWED_FILE_MAX_SIZE = 16;
-export const ALLOWED_FILE_TYPES = ['image/jpeg', 'image/jpg', 'image/png', 'image/pdf', 'image/doc', 'image/docx'];
+export const ALLOWED_FILE_TYPES = [
+  'image/jpeg',
+  'image/jpg',
+  'image/png',
+  'application/pdf',
+  'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+  'application/msword',
+];

@@ -94,7 +94,7 @@ export default {
     PLAYER_PAYMENTS_LIST: 'payment;POST;/search',
   },
   AUDIT: {
-    PLAYER_AUDIT_LOGS: 'audit;GET;/audit/logs/{playerUUID}',
+    PROFILE_AUDIT_LOGS: 'audit;POST;/logs/search',
   },
   TRADING_ACTIVITY: {
     CLIENT_TRADING_ACTIVITY: 'trading-activity;GET;/',
@@ -108,5 +108,10 @@ export default {
     VIEW_NOTES: 'note;POST;/search',
     UPDATE_NOTE: 'note;PUT;/{noteId}',
     DELETE_NOTE: 'note;DELETE;/{noteId}',
+  },
+  BRAND_CONFIG: {
+    GET_BRAND_CONFIG: 'brand-config-service;GET;/brand/{brandId}',
+    CREATE_BRAND_CONFIG: 'brand-config-service;POST;/brand',
+    UPDATE_BRAND_CONFIG: 'brand-config-service;PUT;/brand',
   },
 };

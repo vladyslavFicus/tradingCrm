@@ -1,10 +1,11 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, Suspense } from 'react';
 import config, { getBrandId } from 'config';
 import PropTypes from 'constants/propTypes';
 import NotePopover from 'components/NotePopover';
 import Header from 'components/Header';
 import Sidebar from 'components/Sidebar';
 import BackToTop from 'components/BackToTop';
+import ShortLoader from 'components/ShortLoader';
 import PermissionProvider from 'providers/PermissionsProvider';
 import './MainLayout.scss';
 
@@ -18,34 +19,9 @@ class MainLayout extends PureComponent {
   static propTypes = {
     children: PropTypes.any.isRequired,
     auth: PropTypes.auth.isRequired,
-    app: PropTypes.shape({
-      sidebarTopMenu: PropTypes.arrayOf(PropTypes.shape({
-        label: PropTypes.string.isRequired,
-        icon: PropTypes.string.isRequired,
-        url: PropTypes.string,
-        isOpen: PropTypes.bool,
-        items: PropTypes.arrayOf(PropTypes.shape({
-          label: PropTypes.string.isRequired,
-          url: PropTypes.string.isRequired,
-        })),
-      })).isRequired,
-      sidebarBottomMenu: PropTypes.arrayOf(PropTypes.shape({
-        label: PropTypes.string.isRequired,
-        icon: PropTypes.string.isRequired,
-        url: PropTypes.string,
-        isOpen: PropTypes.bool,
-        items: PropTypes.arrayOf(PropTypes.shape({
-          label: PropTypes.string.isRequired,
-          url: PropTypes.string.isRequired,
-        })),
-      })).isRequired,
-    }).isRequired,
     addNote: PropTypes.func.isRequired,
     editNote: PropTypes.func.isRequired,
     deleteNote: PropTypes.func.isRequired,
-    toggleMenuTab: PropTypes.func.isRequired,
-    menuItemClick: PropTypes.func.isRequired,
-    initSidebar: PropTypes.func.isRequired,
     modals: PropTypes.shape({
       multiCurrencyModal: PropTypes.shape({
         show: PropTypes.func.isRequired,
@@ -62,7 +38,6 @@ class MainLayout extends PureComponent {
   };
 
   static childContextTypes = {
-    location: PropTypes.object,
     notes: PropTypes.shape({
       onAddNote: PropTypes.func.isRequired,
       onEditNote: PropTypes.func.isRequired,
@@ -77,7 +52,6 @@ class MainLayout extends PureComponent {
         hide: PropTypes.func.isRequired,
       }),
     }).isRequired,
-    services: PropTypes.arrayOf(PropTypes.string),
   };
 
   mounted = false;
@@ -182,16 +156,11 @@ class MainLayout extends PureComponent {
     this.updateState({ popover: { ...popoverInitialState } });
   };
 
-
   render() {
     const { popover } = this.state;
     const {
       children,
-      app: { sidebarTopMenu, sidebarBottomMenu },
       auth,
-      toggleMenuTab,
-      menuItemClick,
-      initSidebar,
     } = this.props;
 
     const isShowProductionAlert = auth.department === 'ADMINISTRATION' && config.environment.includes('prod');
@@ -200,15 +169,13 @@ class MainLayout extends PureComponent {
       <PermissionProvider key={auth.department}>
         <Header />
 
-        <Sidebar
-          init={initSidebar}
-          topMenu={sidebarTopMenu}
-          bottomMenu={sidebarBottomMenu}
-          menuItemClick={menuItemClick}
-          onToggleTab={toggleMenuTab}
-        />
+        <Sidebar />
 
-        <main className="content-container">{children}</main>
+        <main className="content-container">
+          <Suspense fallback={<div style={{ padding: 30 }}><ShortLoader /></div>}>
+            {children}
+          </Suspense>
+        </main>
 
         <BackToTop />
 

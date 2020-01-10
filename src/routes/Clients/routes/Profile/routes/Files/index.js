@@ -1,4 +1,4 @@
-import { asyncRoute } from '../../../../../../router';
+import { lazy } from 'react';
 import './files-grid.scss';
 
-export default asyncRoute(() => import(/* webpackChunkName: "ProfileFileContainer" */ './containers/ViewContainer'));
+export default lazy(() => import('./containers/ViewContainer'));

@@ -7,7 +7,6 @@ import {
 } from 'components/ReduxForm/ReduxFieldsConstructor';
 import { statuses as operatorsStasuses } from 'constants/operators';
 import {
-  allPaymentMethodsLabels,
   tradingTypes,
   tradingTypesLabelsWithColor,
   aggregators,
@@ -15,6 +14,7 @@ import {
   statuses,
   statusesLabels,
 } from 'constants/payment';
+import formatLabel from 'utils/formatLabel';
 import renderLabel from 'utils/renderLabel';
 import countries from 'utils/countryList';
 import { accountTypes } from 'constants/accountTypes';
@@ -33,8 +33,10 @@ const filterLabels = {
   amount: 'CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.AMOUNT',
   creationTime: 'CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.CREATION_DATE_RANGE',
   modificationTime: 'CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.MODIFICATION_DATE_RANGE',
+  statusChangedTime: 'CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.STATUS_DATE_RANGE',
   accountType: 'CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.ACCOUNT_TYPE',
   firstDeposit: 'PROFILE.LIST.FILTERS.FIRST_DEPOSIT',
+  partners: 'PROFILE.LIST.FILTERS.AFFILIATES',
 };
 
 const filterPlaceholders = {
@@ -56,6 +58,8 @@ const filterPlaceholders = {
   creationTimeTo: 'CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.END_DATE',
   modificationTimeFrom: 'CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.START_DATE',
   modificationTimeTo: 'CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.END_DATE',
+  statusChangedTimeFrom: 'CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.START_DATE',
+  statusChangedTimeTo: 'CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.END_DATE',
   accountType: 'COMMON.SELECT_OPTION.ANY',
   firstDeposit: 'COMMON.SELECT_OPTION.ANY',
 };
@@ -91,6 +95,23 @@ const countryField = {
   optionsWithoutI18n: true,
 };
 
+const partnersField = (partners, partnersLoading) => ({
+  type: fieldTypes.SELECT,
+  name: 'affiliateUuids',
+  label: filterLabels.partners,
+  placeholder: 'COMMON.SELECT_OPTION.DEFAULT',
+  className: fieldClassNames.MEDIUM,
+  multiple: true,
+  disabled: partnersLoading || partners.length === 0,
+  selectOptions: partners.map(({ uuid, fullName }) => (
+    {
+      value: uuid,
+      label: fullName,
+    }
+  )),
+  optionsWithoutI18n: true,
+});
+
 export default ({
   currencies,
   desks,
@@ -100,6 +121,8 @@ export default ({
   disabledOriginalAgents,
   paymentMethods,
   disabledPaymentMethods,
+  partners,
+  partnersLoading,
 }, isClientView) => [
   {
     type: fieldTypes.INPUT,
@@ -111,20 +134,6 @@ export default ({
     className: fieldClassNames.BIG,
   },
   !isClientView && countryField,
-  {
-    type: fieldTypes.SELECT,
-    name: 'paymentTypes',
-    label: filterLabels.paymentTypes,
-    placeholder: filterPlaceholders.paymentTypes,
-    multiple: true,
-    className: fieldClassNames.MEDIUM,
-    selectOptions: Object.keys(tradingTypes)
-      .filter(i => tradingTypesLabelsWithColor[i])
-      .map(type => ({
-        value: type,
-        label: tradingTypesLabelsWithColor[type].label,
-      })),
-  },
   {
     type: fieldTypes.SELECT,
     name: 'paymentAggregator',
@@ -144,10 +153,25 @@ export default ({
     multiple: true,
     className: fieldClassNames.MEDIUM,
     disabled: disabledPaymentMethods,
+    optionsWithoutI18n: true,
     selectOptions: paymentMethods.map(method => ({
       value: method,
-      label: allPaymentMethodsLabels[method],
+      label: formatLabel(method),
     })),
+  },
+  {
+    type: fieldTypes.SELECT,
+    name: 'paymentTypes',
+    label: filterLabels.paymentTypes,
+    placeholder: filterPlaceholders.paymentTypes,
+    multiple: true,
+    className: fieldClassNames.MEDIUM,
+    selectOptions: Object.keys(tradingTypes)
+      .filter(i => tradingTypesLabelsWithColor[i])
+      .map(type => ({
+        value: type,
+        label: tradingTypesLabelsWithColor[type].label,
+      })),
   },
   {
     type: fieldTypes.SELECT,
@@ -160,6 +184,39 @@ export default ({
       value,
       label: renderLabel(value, statusesLabels),
     })),
+  },
+  {
+    type: fieldTypes.RANGE,
+    className: fieldClassNames.BIG,
+    label: filterLabels.statusChangedTime,
+    fields: [
+      {
+        type: fieldTypes.DATE,
+        name: 'statusChangedTimeFrom',
+        placeholder: filterPlaceholders.statusChangedTimeFrom,
+        dateValidator: {
+          type: validators.START_DATE,
+          fieldName: 'statusChangedTimeTo',
+        },
+        pickerClassName: 'left-side',
+        withTime: true,
+        timePresets: true,
+        closeOnSelect: false,
+      },
+      {
+        type: fieldTypes.DATE,
+        name: 'statusChangedTimeTo',
+        placeholder: filterPlaceholders.statusChangedTimeTo,
+        dateValidator: {
+          type: validators.END_DATE,
+          fieldName: 'statusChangedTimeFrom',
+        },
+        withTime: true,
+        timePresets: true,
+        isDateRangeEndValue: true,
+        closeOnSelect: false,
+      },
+    ],
   },
   {
     type: fieldTypes.SELECT,
@@ -199,7 +256,7 @@ export default ({
   },
   {
     type: fieldTypes.SELECT,
-    name: 'originalAgents',
+    name: 'agentIds',
     label: filterLabels.originalAgents,
     placeholder: filterPlaceholders.originalAgents,
     className: fieldClassNames.MEDIUM,
@@ -215,6 +272,7 @@ export default ({
     })),
     optionsWithoutI18n: true,
   },
+  !isClientView && partnersField(partners, partnersLoading),
   !isClientView && currencyField(currencies),
   {
     type: fieldTypes.SELECT,

@@ -17,11 +17,14 @@ const getClientPayments = gql`query ${queryNames.paymentsQuery}(
   $creationTimeTo: String
   $modificationTimeFrom: String
   $modificationTimeTo: String
+  $statusChangedTimeFrom: String
+  $statusChangedTimeTo: String
   $amountFrom: Float
   $amountTo: Float
   $agentIds: [String]
   $accountType: String
   $firstTimeDeposit: Boolean
+  $affiliateUuids: [String]
 ) {
   clientPayments (
     searchParam: $searchParam
@@ -38,11 +41,14 @@ const getClientPayments = gql`query ${queryNames.paymentsQuery}(
     creationTimeTo: $creationTimeTo
     modificationTimeFrom: $modificationTimeFrom
     modificationTimeTo: $modificationTimeTo
+    statusChangedTimeFrom: $statusChangedTimeFrom
+    statusChangedTimeTo: $statusChangedTimeTo
     amountFrom: $amountFrom
     amountTo: $amountTo
     agentIds: $agentIds
     accountType: $accountType
     firstTimeDeposit: $firstTimeDeposit
+    affiliateUuids: $affiliateUuids
   ) {
     data {
       page

@@ -88,6 +88,21 @@ const firstDepositStatuses = [{
   label: 'COMMON.YES',
 }];
 
+const questionnaire = [
+  {
+    value: 'APPROVED',
+    label: 'QUESTIONNAIRE.APPROVED',
+  },
+  {
+    value: 'REJECTED',
+    label: 'QUESTIONNAIRE.REJECTED',
+  },
+  {
+    value: 'NO_QUESTIONNAIRE',
+    label: 'QUESTIONNAIRE.NO_QUESTIONNAIRE',
+  },
+];
+
 export const fieldNames = keyMirror({
   desks: null,
   teams: null,
@@ -100,6 +115,8 @@ export default (
   branchesLoading,
   operators,
   operatorsLoading,
+  partners,
+  partnersLoading,
 ) => [{
   type: fieldTypes.INPUT,
   name: 'searchByIdentifiers',
@@ -183,6 +200,21 @@ export default (
   optionsWithoutI18n: true,
 }, {
   type: fieldTypes.SELECT,
+  name: 'affiliateUuids',
+  label: filterLabels.partners,
+  placeholder: 'COMMON.SELECT_OPTION.DEFAULT',
+  className: fieldClassNames.MEDIUM,
+  multiple: true,
+  disabled: partnersLoading || partners.length === 0,
+  selectOptions: partners.map(({ uuid, fullName }) => (
+    {
+      value: uuid,
+      label: fullName,
+    }
+  )),
+  optionsWithoutI18n: true,
+}, {
+  type: fieldTypes.SELECT,
   name: 'statuses',
   label: filterLabels.status,
   placeholder: 'COMMON.SELECT_OPTION.ANY',
@@ -248,6 +280,13 @@ export default (
   className: fieldClassNames.MEDIUM,
   selectOptions: firstDepositStatuses.map(({ value, label }) => ({ value, label })),
 }, {
+  type: fieldTypes.SELECT,
+  name: 'questionnaireStatus',
+  label: filterLabels.questionnaire,
+  placeholder: 'COMMON.SELECT_OPTION.ANY',
+  className: fieldClassNames.MEDIUM,
+  selectOptions: questionnaire,
+}, {
   type: fieldTypes.RANGE,
   className: fieldClassNames.MEDIUM,
   label: filterLabels.balance,
@@ -291,6 +330,62 @@ export default (
     dateValidator: {
       type: validators.END_DATE,
       fieldName: 'registrationDateFrom',
+    },
+    withTime: true,
+    timePresets: true,
+    isDateRangeEndValue: true,
+  }],
+}, {
+  type: fieldTypes.RANGE,
+  className: fieldClassNames.BIG,
+  label: filterLabels.firstDepositDateRange,
+  fields: [{
+    type: fieldTypes.DATE,
+    name: 'firstDepositDateRange.from',
+    placeholder: 'COMMON.DATE_OPTIONS.START_DATE',
+    closeOnSelect: false,
+    dateValidator: {
+      type: validators.START_DATE,
+      fieldName: 'firstDepositDateRange.to',
+    },
+    withTime: true,
+    timePresets: true,
+  }, {
+    type: fieldTypes.DATE,
+    name: 'firstDepositDateRange.to',
+    placeholder: 'COMMON.DATE_OPTIONS.END_DATE',
+    closeOnSelect: false,
+    dateValidator: {
+      type: validators.END_DATE,
+      fieldName: 'firstDepositDateRange.from',
+    },
+    withTime: true,
+    timePresets: true,
+    isDateRangeEndValue: true,
+  }],
+}, {
+  type: fieldTypes.RANGE,
+  className: fieldClassNames.BIG,
+  label: filterLabels.firstNoteDate,
+  fields: [{
+    type: fieldTypes.DATE,
+    name: 'firstNoteDateRange.from',
+    placeholder: 'COMMON.DATE_OPTIONS.START_DATE',
+    closeOnSelect: false,
+    dateValidator: {
+      type: validators.START_DATE,
+      fieldName: 'firstNoteDateRange.to',
+    },
+    withTime: true,
+    timePresets: true,
+  }, {
+    type: fieldTypes.DATE,
+    name: 'firstNoteDateRange.to',
+    placeholder: 'COMMON.DATE_OPTIONS.END_DATE',
+    closeOnSelect: false,
+    dateValidator: {
+      type: validators.END_DATE,
+      fieldName: 'firstNoteDateRange.from',
     },
     withTime: true,
     timePresets: true,

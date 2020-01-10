@@ -2,6 +2,7 @@ import permissions from './permissions';
 
 export const routePermissions = {
   '/players/list': permissions.USER_PROFILE.PROFILES_LIST,
+  '/clients/:id/feed': permissions.AUDIT.PROFILE_AUDIT_LOGS,
   '/operators/list': permissions.OPERATORS.OPERATORS_LIST_VIEW,
   '/operators/:id': permissions.OPERATORS.PROFILE_VIEW,
   '/leads/list': permissions.LEADS.GET_LEADS,

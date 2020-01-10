@@ -113,7 +113,9 @@ class FileGrid extends Component {
   )
 
   renderFileName = (data) => {
-    const isClickable = this.props.onPreviewImageClick;
+    const availableToFullScreenFileTypes = ['image/jpeg', 'image/jpg', 'image/png'];
+    const isClickable = this.props.onPreviewImageClick
+      && availableToFullScreenFileTypes.some(fileType => fileType === data.mediaType);
     const onClick = isClickable
       ? () => this.props.onPreviewImageClick(data)
       : null;
@@ -156,7 +158,13 @@ class FileGrid extends Component {
           disabled={data.uploadBy.indexOf('OPERATOR') === -1}
           onClick={() => this.props.onDeleteFileClick(data)}
         >
-          <i className="fa fa-trash" />
+          <i className={
+            classNames(
+              'fa fa-trash ',
+              { 'files-grid__delete-button is-disabled': data.uploadBy.indexOf('OPERATOR') === -1 },
+            )
+          }
+          />
         </button>
       </PermissionContent>
     </span>

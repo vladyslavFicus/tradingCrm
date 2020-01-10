@@ -20,14 +20,14 @@ const Departments = ({ authorities }) => (
             <div className="margin-top-5">
               {
                 authorities.map(authority => (
-                  <span key={authority.id} className="badge badge-black">
+                  <div key={authority.id} className="badge badge-black">
                     <div className="badge-department">
                       { I18n.t(renderLabel(authority.department, departmentsLabels)) }
                     </div>
                     <div className="badge-role">
                       { I18n.t(renderLabel(authority.role, rolesLabels)) }
                     </div>
-                  </span>
+                  </div>
                 ))
               }
             </div>

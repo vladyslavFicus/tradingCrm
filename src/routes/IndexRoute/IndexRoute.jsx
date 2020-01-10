@@ -27,6 +27,7 @@ import SalesRules from 'routes/SalesRules';
 import Callbacks from 'routes/Callbacks';
 import ReleaseNotes from 'routes/ReleaseNotes';
 import PersonalDashboard from 'routes/PersonalDashboard';
+import BrandConfig from 'routes/BrandConfig';
 import { operatorsExcludeAuthorities } from 'config/menu';
 import { withStorage } from 'providers/StorageProvider';
 
@@ -95,6 +96,7 @@ class IndexRoute extends PureComponent {
             <Route path="/teams" layout={MainLayout} component={Teams} isPrivate />
             <Route path="/sales-rules" layout={MainLayout} component={SalesRules} isPrivate />
             <Route path="/release-notes" layout={MainLayout} component={ReleaseNotes} isPrivate />
+            <Route path="/brand-config" layout={MainLayout} component={BrandConfig} isPrivate />
             <Route path="/logout" component={Logout} isPrivate />
 
             {/* Public routes */}

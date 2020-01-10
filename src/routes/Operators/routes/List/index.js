@@ -1,7 +1,3 @@
-import { asyncRoute } from '../../../../router';
+import { lazy } from 'react';
 
-export default asyncRoute(
-  () => import(/* webpackChunkName: "OperatorsListContainer" */ './containers/ListContainer'),
-  () => import(/* webpackChunkName: "OperatorsListReducers" */ './modules/list'),
-  'operatorsList',
-);
+export default lazy(() => import('./containers/ListContainer'));

@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import Scrollbars from 'react-custom-scrollbars';
+import { withRouter } from 'react-router-dom';
 import { TimelineLite as TimeLineLite } from 'gsap';
 import PropTypes from 'constants/propTypes';
+import { sidebarTopMenu, sidebarBottomMenu } from 'config/menu';
 import { withStorage } from 'providers/StorageProvider';
 import { withPermission } from 'providers/PermissionsProvider';
 import SidebarNav from '../SidebarNav';
@@ -9,11 +11,6 @@ import './Sidebar.scss';
 
 class Sidebar extends Component {
   static propTypes = {
-    topMenu: PropTypes.arrayOf(PropTypes.navItem).isRequired,
-    bottomMenu: PropTypes.arrayOf(PropTypes.navItem).isRequired,
-    onToggleTab: PropTypes.func.isRequired,
-    menuItemClick: PropTypes.func.isRequired,
-    init: PropTypes.func.isRequired,
     auth: PropTypes.auth.isRequired,
     permission: PropTypes.permission.isRequired,
   };
@@ -29,56 +26,42 @@ class Sidebar extends Component {
   };
 
   componentDidMount() {
-    const { auth: { department, role }, permission } = this.props;
     const sidebarAnimation = new TimeLineLite({ paused: true });
 
     sidebarAnimation.fromTo(this.sidebar, 0.15, { width: '60px' }, { width: '240px' });
     this.sidebarAnimation = sidebarAnimation;
-
-    this.props.init(permission.permissions, { department, role });
   }
 
   componentDidUpdate(_prevProps, prevState) {
     const { isOpen } = this.state;
 
-    if (this.props.topMenu.length && !this.navLinkAnimated) {
+    if (this.props.location.pathname !== _prevProps.location.pathname) {
+      setTimeout(this.close, 200);
+    }
+
+    if (!this.navLinkAnimated) {
       this.navLinkAnimated = true;
       this.sidebarAnimation.fromTo('.sidebar-nav-item__label', 0.15, { autoAlpha: 0 }, { autoAlpha: 1 });
     }
 
     if (!prevState.isOpen && isOpen) {
       this.sidebarAnimation.play();
-    } else if (prevState.isOpen && !isOpen) {
+    }
+
+    if (prevState.isOpen && !isOpen) {
       this.sidebarAnimation.reverse();
     }
   }
 
-  onMenuItemClick = () => {
-    this.setState({
-      isOpen: false,
-    }, this.props.menuItemClick);
-  };
-
   open = () => {
-    if (!this.state.isOpen) {
-      this.setState({ isOpen: true });
-    }
+    this.setState({ isOpen: true });
   };
 
   close = () => {
-    if (this.state.isOpen) {
-      this.setState({ isOpen: false });
-    }
-  };
-
-  toggleTab = (index) => {
-    this.open();
-
-    this.props.onToggleTab(index);
+    this.setState({ isOpen: false });
   };
 
   render() {
-    const { topMenu, bottomMenu, onToggleTab } = this.props;
     const { isOpen } = this.state;
 
     return (
@@ -96,20 +79,16 @@ class Sidebar extends Component {
         >
           <SidebarNav
             isSidebarOpen={isOpen}
-            items={topMenu}
-            onToggleTab={this.toggleTab}
-            onMenuItemClick={this.onMenuItemClick}
+            items={sidebarTopMenu}
           />
         </Scrollbars>
         <SidebarNav
           isSidebarOpen={isOpen}
-          items={bottomMenu}
-          onToggleTab={onToggleTab}
-          onMenuItemClick={this.onMenuItemClick}
+          items={sidebarBottomMenu}
         />
       </aside>
     );
   }
 }
 
-export default withPermission(withStorage(['auth'])(Sidebar));
+export default withRouter(withPermission(withStorage(['auth'])(Sidebar)));

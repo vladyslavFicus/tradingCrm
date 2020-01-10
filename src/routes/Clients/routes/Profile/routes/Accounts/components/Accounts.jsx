@@ -1,86 +1,129 @@
 import React, { PureComponent, Fragment } from 'react';
-import { Switch, Redirect } from 'react-router-dom';
-import { withPermission } from 'providers/PermissionsProvider';
-import Permissions from 'utils/permissions';
-import Route from 'components/Route';
+import { graphql, compose } from 'react-apollo';
+import I18n from 'i18n-js';
+import { get } from 'lodash';
 import PropTypes from 'constants/propTypes';
-import StickyNavigation from '../../../components/StickyNavigation';
-import TradingAccounts from '../routes/TradingAccounts';
-import { routes } from '../constants';
+import permissions from 'config/permissions';
+import { newProfile as newProfileQuery } from 'graphql/queries/profile';
+import { getTradingAccount } from 'graphql/queries/tradingAccount';
+import { withModals } from 'components/HighOrder';
+import PermissionContent from 'components/PermissionContent';
+import TabHeader from 'components/TabHeader';
+import ListFilterForm from 'components/ListFilterForm';
+import TradingAccountAddModal from './TradingAccountAddModal';
+import TradingAccountsGrid from './TradingAccountsGrid';
+import filterFields from '../filterFields';
 
 class Accounts extends PureComponent {
   static propTypes = {
-    match: PropTypes.shape({
-      params: PropTypes.shape({
-        id: PropTypes.string,
-      }).isRequired,
-      path: PropTypes.string.isRequired,
-      url: PropTypes.string.isRequired,
+    ...PropTypes.router,
+    modals: PropTypes.shape({
+      tradingAccountAddModal: PropTypes.modalType,
     }).isRequired,
-    permission: PropTypes.shape({
-      permissions: PropTypes.arrayOf(PropTypes.string),
+    tradingAccountsData: PropTypes.shape({
+      tradingAccount: PropTypes.arrayOf(PropTypes.mt4User),
+      refetch: PropTypes.func.isRequired,
     }).isRequired,
+    newProfile: PropTypes.newProfile.isRequired,
   };
 
-  static childContextTypes = {
-    setRenderActions: PropTypes.func.isRequired,
-  };
-
-  state = {
-    renderActions: null,
-  };
-
-  getChildContext() {
-    return {
-      setRenderActions: this.setRenderActions,
-    };
-  }
-
-  get tabs() {
+  showTradingAccountAddModal = () => {
     const {
-      match: { url },
-      permission: {
-        permissions,
-      },
+      modals: { tradingAccountAddModal },
+      newProfile,
+      tradingAccountsData,
     } = this.props;
 
-    return routes
-      .map(i => ({ ...i, url: `${url}${i.url}` }))
-      .filter(i => (!(i.permissions instanceof Permissions) || i.permissions.check(permissions)));
-  }
+    tradingAccountAddModal.show({
+      profileId: get(newProfile, 'newProfile.data.uuid'),
+      onConfirm: tradingAccountsData.refetch,
+    });
+  };
 
-  setRenderActions = renderActions => this.setState({ renderActions });
+  handleFiltersSubmit = filters => this.props.history.replace({ query: { filters } });
+
+  handleFilterReset = () => this.props.history.replace({ query: { filters: {} } });
 
   render() {
     const {
-      match: { path },
+      newProfile,
+      tradingAccountsData,
+      tradingAccountsData: {
+        refetch,
+        loading,
+      },
     } = this.props;
-    const { renderActions } = this.state;
-    const { tabs } = this;
-    let redirectUrl = '';
 
-    if (tabs && tabs.length) {
-      [{ url: redirectUrl }] = tabs;
-    }
-
-    if (!redirectUrl) {
-      return null;
-    }
+    const tradingAccounts = get(tradingAccountsData, 'tradingAccount') || [];
+    const accountType = get(tradingAccountsData, 'variables.accountType') || '';
+    const profileUuid = get(newProfile, 'newProfile.data.uuid') || '';
 
     return (
       <Fragment>
-        <StickyNavigation links={tabs}>
-          <If condition={renderActions}>
-            {renderActions()}
-          </If>
-        </StickyNavigation>
-        <Switch>
-          <Route disableScroll path={`${path}/trading-accounts`} component={TradingAccounts} />
-          <Redirect to={redirectUrl} />
-        </Switch>
+        <TabHeader title={I18n.t('CLIENT_PROFILE.ACCOUNTS.ROUTES.TRADING_ACC')}>
+          <PermissionContent permissions={permissions.TRADING_ACCOUNT.CREATE}>
+            <button
+              type="button"
+              className="btn btn-default-outline"
+              onClick={this.showTradingAccountAddModal}
+            >
+              {I18n.t('CLIENT_PROFILE.ACCOUNTS.ADD_TRADING_ACC')}
+            </button>
+          </PermissionContent>
+        </TabHeader>
+
+        <ListFilterForm
+          onSubmit={this.handleFiltersSubmit}
+          onReset={this.handleFilterReset}
+          initialValues={{ accountType }}
+          fields={filterFields()}
+        />
+
+        <TradingAccountsGrid
+          tradingAccounts={tradingAccounts}
+          refetchTradingAccountsList={refetch}
+          profileUuid={profileUuid}
+          isLoading={loading}
+        />
       </Fragment>
     );
   }
 }
 
-export default withPermission(Accounts);
+export default compose(
+  withModals({
+    tradingAccountAddModal: TradingAccountAddModal,
+  }),
+  graphql(getTradingAccount, {
+    options: ({
+      match: {
+        params: {
+          id: uuid,
+        },
+      },
+      location: { query },
+    }) => ({
+      variables: {
+        accountType: 'LIVE',
+        ...query && query.filters,
+        uuid,
+      },
+      fetchPolicy: 'network-only',
+    }),
+    name: 'tradingAccountsData',
+  }),
+  graphql(newProfileQuery, {
+    options: ({
+      match: {
+        params: {
+          id: playerUUID,
+        },
+      },
+    }) => ({
+      variables: {
+        playerUUID,
+      },
+    }),
+    name: 'newProfile',
+  }),
+)(Accounts);

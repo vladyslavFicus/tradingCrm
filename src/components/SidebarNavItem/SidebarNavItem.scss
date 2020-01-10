@@ -18,6 +18,11 @@
     &:hover {
       color: #fff;
     }
+
+    &--active {
+      color: #fff;
+      font-weight: 600;
+    }
   }
   &__label {
     flex: 0 0 auto;

@@ -2,12 +2,14 @@ import React, { PureComponent } from 'react';
 import { graphql, compose } from 'react-apollo';
 import moment from 'moment';
 import I18n from 'i18n-js';
-import { getClickToCall } from 'config';
+import { getClickToCall, getBrandId } from 'config';
 import Regulated from 'components/Regulation';
 import Uuid from 'components/Uuid';
 import { withNotifications } from 'components/HighOrder';
+import { withStorage } from 'providers/StorageProvider';
 import PermissionContent from 'components/PermissionContent';
 import permissions from 'config/permissions';
+import { hidePhone } from 'utils/hidePhone';
 import {
   clickToCall,
   updateConfigurationMutation,
@@ -17,6 +19,7 @@ import NotificationDetailsItem from 'components/Information/NotificationDetailsI
 import PropTypes from 'constants/propTypes';
 import { statuses as kycStatuses } from 'constants/kyc';
 import { statuses as userStatuses } from 'constants/user';
+import { departments } from 'constants/brands';
 import RegulatedForm from './RegulatedForm';
 
 class Personal extends PureComponent {
@@ -26,6 +29,7 @@ class Personal extends PureComponent {
     notify: PropTypes.func.isRequired,
     clickToCall: PropTypes.func.isRequired,
     loading: PropTypes.bool.isRequired,
+    auth: PropTypes.auth.isRequired,
   };
 
   static defaultProps = {
@@ -115,9 +119,13 @@ class Personal extends PureComponent {
         clientType,
       },
       loading,
+      auth: {
+        department,
+      },
     } = this.props;
 
     const withCall = getClickToCall().isActive;
+    const isPhoneHidden = getBrandId() === 'topinvestus' && department === departments.SALES;
 
     return (
       <div className="account-details__personal-info">
@@ -144,14 +152,14 @@ class Personal extends PureComponent {
             />
             <PersonalInformationItem
               label={I18n.t('CLIENT_PROFILE.DETAILS.PHONE')}
-              value={phone}
+              value={isPhoneHidden ? hidePhone(phone) : phone}
               verified={phoneVerified}
               withCall={withCall}
               onClickToCall={this.handleClickToCall(phone)}
             />
             <PersonalInformationItem
               label={I18n.t('CLIENT_PROFILE.DETAILS.ALT_PHONE')}
-              value={additionalPhone}
+              value={isPhoneHidden ? hidePhone(additionalPhone) : additionalPhone}
               verified={phoneVerified}
               withCall={withCall}
               onClickToCall={this.handleClickToCall(additionalPhone)}
@@ -182,10 +190,12 @@ class Personal extends PureComponent {
               verified={status === kycStatuses.VERIFIED}
             />
             <If condition={affiliate}>
-              <PersonalInformationItem
-                label={I18n.t('CLIENT_PROFILE.DETAILS.AFFILIATE')}
-                value={affiliate.firstName}
-              />
+              <If condition={affiliate.partner}>
+                <PersonalInformationItem
+                  label={I18n.t('CLIENT_PROFILE.DETAILS.AFFILIATE')}
+                  value={affiliate.partner.fullName}
+                />
+              </If>
               <strong>{I18n.t('CLIENT_PROFILE.DETAILS.AFFILIATE_ID')}</strong>: <Uuid uuid={affiliate.uuid} />
               <PersonalInformationItem
                 label={I18n.t('CLIENT_PROFILE.DETAILS.SOURCE')}
@@ -293,4 +303,5 @@ export default compose(
   graphql(updateConfigurationMutation, {
     name: 'updateConfiguration',
   }),
+  withStorage(['auth']),
 )(Personal);

@@ -50,9 +50,13 @@ class PaymentAddModal extends PureComponent {
   static defaultProps = {
     submitting: false,
     pristine: false,
-    currentValues: {},
     newProfile: {},
     error: [],
+    currentValues: {
+      paymentType: '',
+      accountUUID: '',
+      amount: null,
+    },
   };
 
   onSubmit = async (data) => {
@@ -73,6 +77,27 @@ class PaymentAddModal extends PureComponent {
 
     reset();
     change('paymentType', value);
+  };
+
+  isValidTransaction = () => {
+    const {
+      currentValues: {
+        paymentType,
+        accountUUID,
+        amount,
+      },
+      newProfile: {
+        tradingAccount,
+      },
+    } = this.props;
+
+    if (paymentType === 'WITHDRAW' && accountUUID && amount && tradingAccount.length) {
+      const { balance } = tradingAccount.find(account => account.accountUUID === accountUUID);
+
+      return balance >= amount;
+    }
+
+    return true;
   };
 
   renderMt4SelectOption = name => ({ onClick, mt4 = {} }) => {
@@ -348,7 +373,7 @@ class PaymentAddModal extends PureComponent {
                   {I18n.t('COMMON.CANCEL')}
                 </button>
                 <button
-                  disabled={pristine || submitting || invalid}
+                  disabled={pristine || submitting || invalid || !this.isValidTransaction()}
                   type="submit"
                   className="btn btn-primary text-uppercase margin-left-25"
                   form="new-transaction"

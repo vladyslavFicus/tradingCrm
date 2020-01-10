@@ -18,5 +18,6 @@ module.exports = configs => Object.entries(configs).reduce((acc, [id, config]) =
       url: get(config, 'nas.brand.clickToCall.url'),
     },
     isDemoAvailable: !!get(config, 'nas.brand.mt4.demo_groups'),
+    isRisksTabAvailable: !!get(config, 'nas.brand.backoffice.riskCalculator'),
   },
 }), {});

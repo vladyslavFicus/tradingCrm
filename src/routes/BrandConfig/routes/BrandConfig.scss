@@ -1,0 +1,9 @@
+.brand-config {
+  position: relative;
+  z-index: 1;
+
+  &__btn {
+    margin-right: 10px;
+    margin-bottom: 10px;
+  }
+}

@@ -1,5 +1,3 @@
-import { asyncRoute } from '../../../../router';
+import { lazy } from 'react';
 
-export default asyncRoute(
-  () => import(/* webpackChunkName: "TeamProfileContainer" */ './containers/TeamProfileContainer'),
-);
+export default lazy(() => import('./containers/TeamProfileContainer'));

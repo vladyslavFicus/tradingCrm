@@ -3,6 +3,7 @@ import moment from 'moment';
 import classNames from 'classnames';
 import I18n from 'i18n-js';
 import { get } from 'lodash';
+import { getActiveBrandConfig } from 'config';
 import { withPermission } from 'providers/PermissionsProvider';
 import PropTypes from 'constants/propTypes';
 import Regulated from 'components/Regulation';
@@ -241,9 +242,9 @@ class Header extends Component {
               availableStatuses={availableStatuses}
             />
 
-            <Regulated>
+            <If condition={getActiveBrandConfig().isRisksTabAvailable}>
               <RiskStatus riskCategory={riskCategory} />
-            </Regulated>
+            </If>
           </div>
           <div className="header-block header-block_balance" id="player-profile-balance-block">
             <If condition={uuid}>

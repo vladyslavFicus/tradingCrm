@@ -43,18 +43,6 @@ class List extends Component {
       representativeModal: PropTypes.modalType,
       moveModal: PropTypes.modalType,
     }).isRequired,
-    userBranchHierarchy: PropTypes.shape({
-      hierarchy: PropTypes.shape({
-        userBranchHierarchy: PropTypes.shape({
-          data: PropTypes.shape({
-            DESK: PropTypes.arrayOf(PropTypes.branchHierarchyType),
-            TEAM: PropTypes.arrayOf(PropTypes.branchHierarchyType),
-          }),
-          error: PropTypes.object,
-        }),
-      }),
-      loading: PropTypes.bool.isRequired,
-    }).isRequired,
   };
 
   static childContextTypes = {
@@ -101,6 +89,17 @@ class List extends Component {
     this.handleFilterReset();
   }
 
+  setInitialState = (cb) => {
+    this.setState(
+      {
+        selectedRows: [],
+        allRowsSelected: false,
+        touchedRowsIds: [],
+      },
+      () => cb && cb(),
+    );
+  };
+
   handleGetRequestState = () => this.props.profiles.loading;
 
   handlePageChanged = () => {
@@ -117,24 +116,25 @@ class List extends Component {
   };
 
   handleFiltersChanged = async (filters = {}) => {
-    const { location: { filterSetValues } } = this.props;
+    const {
+      history,
+      location: { filterSetValues },
+    } = this.props;
 
-    this.setState({
-      allRowsSelected: false,
-      selectedRows: [],
-      touchedRowsIds: [],
-    }, () => this.props.history.replace({
-      // Not to rewrite form initial Values if exist
-      ...(filterSetValues && { filterSetValues }),
-      query: { filters },
-    }));
+    this.setInitialState(() => {
+      history.replace({
+        // Not to rewrite form initial Values if exist
+        ...(filterSetValues && { filterSetValues }),
+        query: { filters },
+      });
+    });
   };
 
-  handleFilterReset = () => this.setState({
-    allRowsSelected: false,
-    selectedRows: [],
-    touchedRowsIds: [],
-  }, () => this.props.history.replace({ query: null }));
+  handleFilterReset = () => {
+    this.setInitialState(() => {
+      this.props.history.replace({ query: null });
+    });
+  };
 
   handlePlayerClick = ({ uuid }) => {
     window.open(`/clients/${uuid}/profile`, '_blank');
@@ -147,7 +147,9 @@ class List extends Component {
       if (isAllRowsSelected) {
         selectedRows.push(rowIndex);
       } else {
-        const unselectedRowIndex = selectedRows.findIndex(item => item === rowIndex);
+        const unselectedRowIndex = selectedRows.findIndex(
+          item => item === rowIndex,
+        );
         selectedRows.splice(unselectedRowIndex, 1);
       }
 
@@ -160,7 +162,11 @@ class List extends Component {
 
   handleAllRowsSelect = () => {
     const {
-      profiles: { profiles: { data: { totalElements } } },
+      profiles: {
+        profiles: {
+          data: { totalElements },
+        },
+      },
       modals: { confirmationModal },
       location: { query },
     } = this.props;
@@ -191,7 +197,9 @@ class List extends Component {
       confirmationModal.show({
         onSubmit: confirmationModal.hide,
         modalTitle: `${MAX_SELECTED_ROWS} ${I18n.t('COMMON.CLIENTS_SELECTED')}`,
-        actionText: I18n.t('COMMON.NOT_MORE_CAN_SELECTED', { MAX_SELECTED_ROWS }),
+        actionText: I18n.t('COMMON.NOT_MORE_CAN_SELECTED', {
+          MAX_SELECTED_ROWS,
+        }),
         submitButtonLabel: I18n.t('COMMON.OK'),
       });
     }
@@ -201,11 +209,20 @@ class List extends Component {
     const {
       modals: { representativeModal },
       location: { query },
-      profiles: { profiles: { data: { content, totalElements } } },
+      profiles: {
+        profiles: {
+          data: { content, totalElements },
+        },
+      },
     } = this.props;
     const { allRowsSelected, selectedRows } = this.state;
 
-    const clients = getClientsData(this.state, totalElements, { type }, content);
+    const clients = getClientsData(
+      this.state,
+      totalElements,
+      { type },
+      content,
+    );
 
     representativeModal.show({
       type,
@@ -214,13 +231,15 @@ class List extends Component {
         allRowsSelected,
         totalElements: selectedRows.length,
         multiAssign: true,
-        ...query && { searchParams: omit(query.filters, ['page.size']) },
+        ...(query && { searchParams: omit(query.filters, ['page.size']) }),
       },
       onSuccess: this.handleSuccessListUpdate,
       header: (
         <Fragment>
           <div>{I18n.t(`CLIENTS.MODALS.${type}_MODAL.HEADER`)}</div>
-          <div className="font-size-11 color-yellow">{selectedRows.length}{' '}{I18n.t('COMMON.CLIENTS_SELECTED')}</div>
+          <div className="font-size-11 color-yellow">
+            {selectedRows.length} {I18n.t('COMMON.CLIENTS_SELECTED')}
+          </div>
         </Fragment>
       ),
     });
@@ -230,7 +249,11 @@ class List extends Component {
     const {
       modals: { moveModal },
       location: { query },
-      profiles: { profiles: { data: { content, totalElements } } },
+      profiles: {
+        profiles: {
+          data: { content, totalElements },
+        },
+      },
     } = this.props;
 
     moveModal.show({
@@ -238,22 +261,18 @@ class List extends Component {
       configs: {
         totalElements,
         ...this.state,
-        ...query && { searchParams: omit(query.filters, ['page.size']) },
+        ...(query && { searchParams: omit(query.filters, ['page.size']) }),
       },
       onSuccess: this.handleSuccessListUpdate,
     });
   };
 
   handleSuccessListUpdate = async () => {
-    const { profiles: { refetch } } = this.props;
+    const {
+      profiles: { refetch },
+    } = this.props;
 
-    this.setState({
-      selectedRows: [],
-      allRowsSelected: false,
-      touchedRowsIds: [],
-    });
-
-    refetch();
+    this.setInitialState(() => refetch());
   };
 
   render() {
@@ -261,7 +280,6 @@ class List extends Component {
       auth,
       location: { filterSetValues, query },
       profiles: { loading, profiles },
-      userBranchHierarchy: { hierarchy, loading: branchesLoading },
     } = this.props;
 
     const {
@@ -270,9 +288,13 @@ class List extends Component {
       touchedRowsIds,
     } = this.state;
 
-    const entities = get(this.props.profiles, 'profiles.data') || { content: [] };
-    const teams = get(hierarchy, 'userBranchHierarchy.data.TEAM') || [];
-    const desks = get(hierarchy, 'userBranchHierarchy.data.DESK') || [];
+    const {
+      content,
+      page: activePage,
+      last: isLastPage,
+      totalElements,
+    } = get(this.props.profiles, 'profiles.data') || { content: [] };
+
     const { searchLimit } = get(query, 'filters') || {};
 
     return (
@@ -283,16 +305,22 @@ class List extends Component {
             className={null}
             customPlaceholder={(
               <div>
-                <TextRow className="animated-background" style={{ width: '220px', height: '20px' }} />
-                <TextRow className="animated-background" style={{ width: '220px', height: '12px' }} />
+                <TextRow
+                  className="animated-background"
+                  style={{ width: '220px', height: '20px' }}
+                />
+                <TextRow
+                  className="animated-background"
+                  style={{ width: '220px', height: '12px' }}
+                />
               </div>
             )}
           >
             <Choose>
-              <When condition={!!entities.totalElements}>
+              <When condition={!!totalElements}>
                 <span id="users-list-header" className="font-size-20 height-55 users-list-header">
                   <div>
-                    <strong>{searchLimit || entities.totalElements} </strong>
+                    <strong>{searchLimit || totalElements} </strong>
                     {I18n.t('COMMON.CLIENTS_FOUND')}
                   </div>
                   <div className="font-size-14">
@@ -309,7 +337,7 @@ class List extends Component {
             </Choose>
           </Placeholder>
 
-          <If condition={entities.totalElements !== 0 && selectedRows.length !== 0}>
+          <If condition={totalElements !== 0 && selectedRows.length !== 0}>
             <div className="grid-bulk-menu ml-auto">
               <span>{I18n.t('CLIENTS.BULK_ACTIONS')}</span>
               <PermissionContent permissions={permissions.USER_PROFILE.CHANGE_ACQUISITION_STATUS}>
@@ -317,7 +345,6 @@ class List extends Component {
                   <button
                     type="button"
                     className="btn btn-default-outline"
-                    disabled={branchesLoading}
                     onClick={this.handleTriggerRepModal(deskTypes.SALES)}
                   >
                     {I18n.t('COMMON.SALES')}
@@ -327,7 +354,6 @@ class List extends Component {
                   <button
                     type="button"
                     className="btn btn-default-outline"
-                    disabled={branchesLoading}
                     onClick={this.handleTriggerRepModal(deskTypes.RETENTION)}
                   >
                     {I18n.t('COMMON.RETENTION')}
@@ -351,32 +377,28 @@ class List extends Component {
         </div>
 
         <UserGridFilter
-          desks={desks}
-          teams={teams}
           isFetchingProfileData={loading}
           initialValues={filterSetValues}
           onReset={this.handleFilterReset}
-          branchesLoading={branchesLoading}
           onSubmit={this.handleFiltersChanged}
         />
 
         <div className="card-body card-grid-multiselect">
           <GridView
             tableClassName="table-hovered"
-            dataSource={entities.content}
+            dataSource={content}
             onPageChange={this.handlePageChanged}
-            activePage={entities.page}
-            last={entities.last}
-            lazyLoad={!searchLimit}
+            activePage={activePage}
+            last={isLastPage}
+            lazyLoad={!searchLimit || searchLimit !== content.length}
             multiselect
-            selectedRows={selectedRows}
             allRowsSelected={allRowsSelected}
             touchedRowsIds={touchedRowsIds}
             onAllRowsSelect={this.handleAllRowsSelect}
             onRowSelect={this.handleSelectRow}
-            showNoResults={!loading && entities.content.length === 0}
+            showNoResults={!loading && content.length === 0}
             onRowClick={this.handlePlayerClick}
-            loading={loading && entities.content.length === 0}
+            loading={loading && content.length === 0}
           >
             {columns().map(({ name, header, render }) => (
               <GridViewColumn

@@ -10,9 +10,9 @@ import NoteButton from 'components/NoteButton';
 import GridPlayerInfo from 'components/GridPlayerInfo';
 import CountryLabelWithFlag from 'components/CountryLabelWithFlag';
 import PaymentStatus from 'components/PaymentStatus';
+import formatLabel from 'utils/formatLabel';
 import {
   tradingTypesLabelsWithColor,
-  allPaymentMethodsLabels,
   aggregatorsLabels,
 } from '../../constants/payment';
 
@@ -177,8 +177,8 @@ export default ({
       <Otherwise>
         <div className="font-weight-700">
           <Choose>
-            <When condition={allPaymentMethodsLabels[paymentMethod]}>
-              {I18n.t(allPaymentMethodsLabels[paymentMethod])}
+            <When condition={paymentMethod}>
+              {formatLabel(paymentMethod)}
             </When>
             <Otherwise>
               {paymentMethod}

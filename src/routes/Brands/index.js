@@ -1,3 +1,3 @@
-import { asyncRoute } from '../../router';
+import { lazy } from 'react';
 
-export default asyncRoute(() => import(/* webpackChunkName: "Brands" */ './container/BrandsContainer'));
+export default lazy(() => import('./container/BrandsContainer'));

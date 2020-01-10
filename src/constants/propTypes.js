@@ -394,9 +394,9 @@ PropTypes.brand = PropTypes.shape({
 });
 PropTypes.department = PropTypes.shape({
   id: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
+  name: PropTypes.string,
   role: PropTypes.string,
-  image: PropTypes.string.isRequired,
+  image: PropTypes.string,
 });
 PropTypes.wageringFulfillmentEntity = PropTypes.shape({
   uuid: PropTypes.string.isRequired,
@@ -424,10 +424,7 @@ PropTypes.mt4User = PropTypes.shape({
   createdBy: PropTypes.string,
   isReadOnly: PropTypes.bool,
   readOnlyUpdateTime: PropTypes.string,
-  readOnlyUpdatedBy: PropTypes.shape({
-    _id: PropTypes.string,
-    fullName: PropTypes.string,
-  }),
+  readOnlyUpdatedBy: PropTypes.string,
 });
 PropTypes.tradingProfile = PropTypes.shape({
   isTestUser: PropTypes.bool,
@@ -598,6 +595,14 @@ PropTypes.callback = PropTypes.shape({
 PropTypes.operatorsList = PropTypes.arrayOf(PropTypes.shape({
   uuid: PropTypes.string,
   fullName: PropTypes.string,
+}));
+PropTypes.partnersList = PropTypes.arrayOf(PropTypes.shape({
+  uuid: PropTypes.string,
+  fullName: PropTypes.string,
+  createdAt: PropTypes.string,
+  status: PropTypes.string,
+  statusChangeDate: PropTypes.string,
+  country: PropTypes.string,
 }));
 PropTypes.questionnaireLastData = PropTypes.shape({
   uuid: PropTypes.string,

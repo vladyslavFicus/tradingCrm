@@ -1,5 +1,3 @@
-import { asyncRoute } from '../../../../router';
+import { lazy } from 'react';
 
-export default asyncRoute(
-  () => import(/* webpackChunkName: "CallbacksCalendarContainer" */ './components/CallbacksCalendar'),
-);
+export default lazy(() => import('./components/CallbacksCalendar'));

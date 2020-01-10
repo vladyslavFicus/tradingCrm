@@ -233,11 +233,6 @@ const manualPaymentMethodsLabels = {
   [manualPaymentMethods.CHARGEBACK]: 'CONSTANTS.TRANSACTIONS.FILTER_FORM.PAYMENT_ACCOUNTS.CHARGEBACK',
 };
 
-const allPaymentMethodsLabels = {
-  ...methodsLabels,
-  ...manualPaymentMethodsLabels,
-};
-
 const methodsStatusesLabels = {
   [methodStatuses.ACTIVE]: 'PAYMENT_METHODS.STATUSES.ACTIVE',
   [methodStatuses.INACTIVE]: 'PAYMENT_METHODS.STATUSES.INACTIVE',
@@ -282,7 +277,6 @@ export {
   customTypesProps,
   aggregatorsLabels,
   manualPaymentMethodsLabels,
-  allPaymentMethodsLabels,
   statusesColor,
   methodStatusesColor,
   methodStatusActions,

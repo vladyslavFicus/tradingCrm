@@ -83,35 +83,37 @@ export default () => [{
   name: 'affiliate',
   header: I18n.t('CLIENTS.LIST.GRID_HEADER.AFFILIATE'),
   render: (data) => {
-    const { uuid, firstName, source } = get(data, 'affiliate') || {};
+    const { uuid, source, partner } = get(data, 'affiliate') || {};
 
     return (
       <Choose>
         <When condition={uuid}>
-          <div>
+          <If condition={partner}>
+            <div>
               <a
                 className="header-block-middle"
                 target="_blank"
                 rel="noopener noreferrer"
                 href={`/partners/${uuid}/profile`}
               >
-                {firstName}
+                {partner.fullName}
               </a>
             </div>
-            <If condition={source}>
-              <div id={`${data.uuid}`}>
-                <Uuid className="header-block-small" uuidPostfix="..." length={12} uuid={source} />
-              </div>
-              <UncontrolledTooltip
-                placement="bottom-start"
-                target={`${data.uuid}`}
-                delay={{
-                  show: 350, hide: 250,
-                }}
-              >
-                {source}
-              </UncontrolledTooltip>
-            </If>
+          </If>
+          <If condition={source}>
+            <div id={`${data.uuid}`}>
+              <Uuid className="header-block-small" uuidPostfix="..." length={12} uuid={source} />
+            </div>
+            <UncontrolledTooltip
+              placement="bottom-start"
+              target={`${data.uuid}`}
+              delay={{
+                show: 350, hide: 250,
+              }}
+            >
+              {source}
+            </UncontrolledTooltip>
+          </If>
         </When>
         <Otherwise>
           <GridEmptyValue I18n={I18n} />
