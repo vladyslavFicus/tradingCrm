@@ -19,10 +19,11 @@ class JsonEditor extends PureComponent {
   componentDidMount() {
     const ctx = this.editor.jsonEditor.aceEditor;
 
-    ctx.setFontSize(18);
-    // this crutch needs to expand editor in 'code' mode
+    ctx.setFontSize(14);
+
     ctx.setOptions({
-      maxLines: 10000,
+      maxLines: Infinity,
+      showFoldWidgets: false,
     });
   }
 

@@ -1137,7 +1137,7 @@
           "AMOUNT": "Amount",
           "CREATION_DATE_RANGE": "Creation date range",
           "MODIFICATION_DATE_RANGE": "Modification date range",
-          "STATUS_DATE_RANGE": "Status Modification date range",
+          "STATUS_DATE_RANGE": "Status modification date range",
           "ACCOUNT_TYPE": "Account type",
           "ORIGINAL_AGENT": "Original Agent",
           "TEAMS": "Teams",

@@ -5,6 +5,8 @@ import { compose } from 'react-apollo';
 import { Button } from 'reactstrap';
 import { get } from 'lodash';
 import { withRequests } from 'apollo';
+import StickyWrapper from 'components/StickyWrapper';
+import ShortLoader from 'components/ShortLoader';
 import { withNotifications } from 'components/HighOrder';
 import BrandConfigEditor from './components/BrandConfigEditor';
 import {
@@ -62,26 +64,34 @@ class BrandConfigUpdate extends PureComponent {
   };
 
   render() {
-    const value = get(this.props.brandConfig, 'data.brandConfig.data') || {};
+    const { brandConfig } = this.props;
+
+    const value = get(brandConfig, 'data.brandConfig.data') || {};
+
+    if (brandConfig.loading) {
+      return <ShortLoader />;
+    }
 
     return (
       <div className="brand-config">
-        <div className="brand-config__actions">
-          <Button
-            color="primary"
-            onClick={this.handleReset}
-            className="brand-config__btn"
-          >
-            {I18n.t('BRAND_CONFIG.ACTIONS.DISCARD')}
-          </Button>
-          <Button
-            color="primary"
-            onClick={this.handleUpdate}
-            className="brand-config__btn"
-          >
-            {I18n.t('BRAND_CONFIG.ACTIONS.SAVE')}
-          </Button>
-        </div>
+        <StickyWrapper top={48} innerZ={5}>
+          <div className="brand-config__actions">
+            <Button
+              color="primary"
+              onClick={this.handleReset}
+              className="brand-config__btn"
+            >
+              {I18n.t('BRAND_CONFIG.ACTIONS.DISCARD')}
+            </Button>
+            <Button
+              color="primary"
+              onClick={this.handleUpdate}
+              className="brand-config__btn"
+            >
+              {I18n.t('BRAND_CONFIG.ACTIONS.SAVE')}
+            </Button>
+          </div>
+        </StickyWrapper>
         <BrandConfigEditor
           value={value}
           ref={(editor) => { this.editor = editor; }}

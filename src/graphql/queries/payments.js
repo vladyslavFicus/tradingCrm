@@ -1,54 +1,13 @@
 import gql from 'graphql-tag';
 import queryNames from 'constants/apolloQueryNames';
 import { NoteFragment } from '../fragments/notes';
+import { PaymentContentFragment } from '../fragments/payments';
 
 const getClientPayments = gql`query ${queryNames.paymentsQuery}(
-  $searchParam: String
-  $type: String
-  $page: Int
-  $limit: Int
-  $countries: [String]
-  $statuses: [String]
-  $paymentTypes: [String]
-  $paymentAggregator: String
-  $paymentMethods: [String]
-  $currency: String
-  $creationTimeFrom: String
-  $creationTimeTo: String
-  $modificationTimeFrom: String
-  $modificationTimeTo: String
-  $statusChangedTimeFrom: String
-  $statusChangedTimeTo: String
-  $amountFrom: Float
-  $amountTo: Float
-  $agentIds: [String]
-  $accountType: String
-  $firstTimeDeposit: Boolean
-  $affiliateUuids: [String]
+  $args: PaymentsInputType
 ) {
   clientPayments (
-    searchParam: $searchParam
-    type: $type
-    page: $page
-    limit: $limit
-    countries: $countries
-    statuses: $statuses
-    paymentTypes: $paymentTypes
-    paymentAggregator: $paymentAggregator
-    paymentMethods: $paymentMethods
-    currency: $currency
-    creationTimeFrom: $creationTimeFrom
-    creationTimeTo: $creationTimeTo
-    modificationTimeFrom: $modificationTimeFrom
-    modificationTimeTo: $modificationTimeTo
-    statusChangedTimeFrom: $statusChangedTimeFrom
-    statusChangedTimeTo: $statusChangedTimeTo
-    amountFrom: $amountFrom
-    amountTo: $amountTo
-    agentIds: $agentIds
-    accountType: $accountType
-    firstTimeDeposit: $firstTimeDeposit
-    affiliateUuids: $affiliateUuids
+    args: $args
   ) {
     data {
       page
@@ -57,47 +16,7 @@ const getClientPayments = gql`query ${queryNames.paymentsQuery}(
       size
       last
       content {
-        _id
-        login
-        paymentId
-        paymentType
-        status
-        currency
-        createdBy
-        creationTime
-        paymentMethod
-        paymentAggregator
-        amount
-        country
-        language
-        brandId
-        externalReference
-        paymentMigrationId
-        userMigrationId
-        normalizedAmount
-        declineReason
-        playerProfile {
-          uuid
-          firstName
-          lastName
-          fullName
-          country
-        }
-        paymentMetadata {
-          clientIp
-          isMobile
-          userAgent
-          country
-        }
-        originalAgent {
-          uuid
-          fullName
-        }
-        note {
-          ...NoteFragment,
-        }
-        modificationTime
-        modifiedBy
+        ...PaymentContentFragment
       }
     }
     error {
@@ -105,47 +24,14 @@ const getClientPayments = gql`query ${queryNames.paymentsQuery}(
     }
   } 
 }
-${NoteFragment}`;
+${NoteFragment}
+${PaymentContentFragment}`;
 
 const getClientPaymentsByUuid = gql`query ${queryNames.paymentsQuery}(
-  $playerUUID: String!
-  $searchParam: String
-  $type: String
-  $page: Int
-  $limit: Int
-  $statuses: [String]
-  $paymentTypes: [String]
-  $paymentAggregator: String  
-  $paymentMethods: [String]
-  $creationTimeFrom: String
-  $creationTimeTo: String
-  $modificationTimeFrom: String
-  $modificationTimeTo: String
-  $amountFrom: Float
-  $amountTo: Float
-  $agentIds: [String]
-  $accountType: String
-  $firstTimeDeposit: Boolean
+  $args: PaymentsByUuidInputType
 ) {
   clientPaymentsByUuid (
-    playerUUID: $playerUUID
-    searchParam: $searchParam
-    type: $type
-    page: $page
-    limit: $limit
-    statuses: $statuses
-    paymentTypes: $paymentTypes
-    paymentAggregator: $paymentAggregator
-    paymentMethods: $paymentMethods
-    creationTimeFrom: $creationTimeFrom
-    creationTimeTo: $creationTimeTo
-    modificationTimeFrom: $modificationTimeFrom
-    modificationTimeTo: $modificationTimeTo
-    amountFrom: $amountFrom
-    amountTo: $amountTo
-    agentIds: $agentIds
-    accountType: $accountType
-    firstTimeDeposit: $firstTimeDeposit
+    args: $args
   ) {
     data {
       page
@@ -154,46 +40,7 @@ const getClientPaymentsByUuid = gql`query ${queryNames.paymentsQuery}(
       size
       last
       content {
-        _id
-        login
-        paymentId
-        paymentType
-        status
-        currency
-        createdBy
-        creationTime
-        paymentMethod
-        paymentAggregator
-        amount
-        country
-        language
-        brandId
-        externalReference
-        paymentMigrationId
-        userMigrationId
-        normalizedAmount
-        declineReason
-        playerProfile {
-          uuid
-          firstName
-          lastName
-          fullName
-        }
-        paymentMetadata {
-          clientIp
-          isMobile
-          userAgent
-          country
-        }
-        originalAgent {
-          uuid
-          fullName
-        }
-        note {
-          ...NoteFragment,
-        }
-        modificationTime
-        modifiedBy
+        ...PaymentContentFragment
       }
     }
     error {
@@ -201,7 +48,8 @@ const getClientPaymentsByUuid = gql`query ${queryNames.paymentsQuery}(
     }
   } 
 }
-${NoteFragment}`;
+${NoteFragment}
+${PaymentContentFragment}`;
 
 const getOperatorPaymentMethods = gql`query getOperatorPaymentMethods {
   operatorPaymentMethods {

@@ -16,10 +16,12 @@ export default compose(
     name: 'clientPayments',
     options: ({ location: { query } }) => ({
       variables: {
-        accountType: 'LIVE',
-        ...(query && query.filters),
-        page: 0,
-        limit: 20,
+        args: {
+          accountType: 'LIVE',
+          ...(query && query.filters),
+          page: 0,
+          limit: 20,
+        },
       },
       fetchPolicy: 'network-only',
     }),
@@ -31,7 +33,7 @@ export default compose(
           ...rest,
           clientPayments,
           loadMore: () => fetchMore({
-            variables: { page: newPage + 1 },
+            variables: { args: { page: newPage + 1 } },
             updateQuery: (previousResult, { fetchMoreResult }) => {
               if (!fetchMoreResult) {
                 return previousResult;

@@ -204,7 +204,15 @@ export default ({
 }, {
   name: 'status',
   header: I18n.t('CONSTANTS.TRANSACTIONS.GRID_COLUMNS.STATUS'),
-  render: payment => <PaymentStatus payment={payment} />,
+  render: ({ status, paymentId, declineReason, modifiedBy, statusChangedAt }) => (
+    <PaymentStatus
+      status={status}
+      paymentId={paymentId}
+      declineReason={declineReason}
+      modifiedBy={modifiedBy}
+      statusChangedAt={statusChangedAt}
+    />
+  ),
 }, {
   name: 'actions',
   header: '',

@@ -39,11 +39,13 @@ export default compose(
       location: { query },
     }) => ({
       variables: {
-        accountType: 'LIVE',
-        ...query && query.filters,
-        playerUUID,
-        page: 0,
-        limit: 20,
+        args: {
+          accountType: 'LIVE',
+          ...query && query.filters,
+          playerUUID,
+          page: 0,
+          limit: 20,
+        },
       },
       fetchPolicy: 'network-only',
     }),
@@ -55,7 +57,7 @@ export default compose(
           ...rest,
           clientPaymentsByUuid,
           loadMore: () => fetchMore({
-            variables: { page: newPage + 1 },
+            variables: { args: { page: newPage + 1 } },
             updateQuery: (previousResult, { fetchMoreResult }) => {
               if (!fetchMoreResult) {
                 return previousResult;

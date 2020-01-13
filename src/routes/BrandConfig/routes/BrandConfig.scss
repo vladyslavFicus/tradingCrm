@@ -2,8 +2,15 @@
   position: relative;
   z-index: 1;
 
-  &__btn {
+  &__actions {
+    display: flex;
+    justify-content: flex-end;
+    padding: 10px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+  }
+
+  &__btn:not(:last-child) {
     margin-right: 10px;
-    margin-bottom: 10px;
   }
 }
