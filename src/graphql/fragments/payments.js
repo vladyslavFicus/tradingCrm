@@ -40,7 +40,6 @@ const PaymentContentFragment = gql`fragment PaymentContentFragment on PaymentTra
   note {
     ...NoteFragment
   }
-  modificationTime
   modifiedBy
   statusChangedAt
 }`;
