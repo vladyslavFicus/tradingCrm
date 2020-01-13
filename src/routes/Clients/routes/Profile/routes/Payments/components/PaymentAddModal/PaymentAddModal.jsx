@@ -263,8 +263,8 @@ class PaymentAddModal extends PureComponent {
                 <When condition={currentValues.paymentType === paymentMethods.DEPOSIT.name}>
                   <Field
                     name="paymentMethod"
-                    label={attributeLabels.paymentAccount}
-                    placeholder={I18n.t('PLAYER_PROFILE.TRANSACTIONS.MODAL_CREATE.CHOOSE_PAYMENT_ACCOUNT_LABEL')}
+                    label={attributeLabels.paymentMethod}
+                    placeholder={I18n.t('PLAYER_PROFILE.TRANSACTIONS.MODAL_CREATE.CHOOSE_PAYMENT_METHOD_LABEL')}
                     component={NasSelectField}
                     className="col select-field-wrapper"
                     searchable={false}
