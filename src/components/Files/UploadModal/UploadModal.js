@@ -80,16 +80,18 @@ class UploadModal extends Component {
       notify,
     } = this.props;
 
-    if (errors && errors[0] && errors[0].length > 0) {
-      const error = errors[0][0];
+    if (errors.length > 0) {
+      const flatErrorsList = errors.flat();
 
-      notify({
-        level: 'error',
-        title: I18n.t('COMMON.FAIL'),
-        message: I18n.t(error),
-      });
+      if (flatErrorsList.length > 0) {
+        notify({
+          level: 'error',
+          title: I18n.t('COMMON.FAIL'),
+          message: I18n.t(flatErrorsList[0]),
+        });
 
-      return;
+        return;
+      }
     }
 
     this.setState({ loading: true });
