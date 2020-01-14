@@ -17,4 +17,6 @@ export const ALLOWED_FILE_TYPES = [
   'application/pdf',
   'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
   'application/msword',
+  'application/vnd.oasis.opendocument.text',
+  'application/x-vnd.oasis.opendocument.text',
 ];
