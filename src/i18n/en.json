@@ -376,7 +376,7 @@
       "ADD_TRANSACTION": "+ Add transaction",
       "MODAL_CREATE": {
         "NO_PAYMENT_ACCOUNTS_LABEL": "No payment accounts",
-        "CHOOSE_PAYMENT_ACCOUNT_LABEL": "Choose payment account",
+        "CHOOSE_PAYMENT_METHOD_LABEL": "Choose payment method",
         "ACTION_TEXT_ACCOUNT": "from %{fullName} %{uuid} account",
         "TITLE": "New transaction",
         "ATTENTION_UNDONE_ACTION_LABEL": "Note",
@@ -2232,7 +2232,7 @@
       "MODAL_CREATE": {
         "TYPE": "Payment Type",
         "AMOUNT": "Amount",
-        "PAYMENT_ACCOUNT": "Payment account",
+        "PAYMENT_METHOD": "Payment method",
         "EXTERNAL_REF": "External reference ID",
         "EXPIRATION_DATE": "Expiration date & time",
         "FROM_MT4": "From MT4 Account",
