@@ -176,7 +176,7 @@ class List extends Component {
 
     let selectedRowsLength = null;
 
-    if (searchLimit) {
+    if (searchLimit && searchLimit < totalElements && searchLimit < MAX_SELECTED_ROWS) {
       selectedRowsLength = searchLimit;
     } else if (totalElements > MAX_SELECTED_ROWS) {
       selectedRowsLength = MAX_SELECTED_ROWS;
@@ -193,15 +193,27 @@ class List extends Component {
     });
 
     // Check if selected all rows and total elements more than max available elements to execute action
-    if (allRowsSelected && selectedRowsLength > MAX_SELECTED_ROWS) {
-      confirmationModal.show({
-        onSubmit: confirmationModal.hide,
-        modalTitle: `${MAX_SELECTED_ROWS} ${I18n.t('COMMON.CLIENTS_SELECTED')}`,
-        actionText: I18n.t('COMMON.NOT_MORE_CAN_SELECTED', {
-          MAX_SELECTED_ROWS,
-        }),
-        submitButtonLabel: I18n.t('COMMON.OK'),
-      });
+    if (!allRowsSelected) {
+      let showModal = false;
+
+      if (searchLimit) {
+        if (searchLimit > MAX_SELECTED_ROWS) {
+          showModal = true;
+        }
+      } else if (totalElements > MAX_SELECTED_ROWS) {
+        showModal = true;
+      }
+
+      if (showModal) {
+        confirmationModal.show({
+          onSubmit: confirmationModal.hide,
+          modalTitle: `${MAX_SELECTED_ROWS} ${I18n.t('COMMON.CLIENTS_SELECTED')}`,
+          actionText: I18n.t('COMMON.NOT_MORE_CAN_SELECTED', {
+            max: MAX_SELECTED_ROWS,
+          }),
+          submitButtonLabel: I18n.t('COMMON.OK'),
+        });
+      }
     }
   };
 
@@ -297,6 +309,10 @@ class List extends Component {
 
     const { searchLimit } = get(query, 'filters') || {};
 
+    const usersListCount = (searchLimit && searchLimit < totalElements && searchLimit < 10000)
+      ? searchLimit
+      : totalElements;
+
     return (
       <div className="card">
         <div className="card-heading">
@@ -320,7 +336,7 @@ class List extends Component {
               <When condition={!!totalElements}>
                 <span id="users-list-header" className="font-size-20 height-55 users-list-header">
                   <div>
-                    <strong>{searchLimit || totalElements} </strong>
+                    <strong>{usersListCount} </strong>
                     {I18n.t('COMMON.CLIENTS_FOUND')}
                   </div>
                   <div className="font-size-14">
