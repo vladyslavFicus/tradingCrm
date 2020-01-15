@@ -133,7 +133,7 @@ class View extends Component {
       },
     } = this.props;
 
-    const phone = getBrandId() === this.phoneAccess()
+    const phone = this.phoneAccess()
       ? initialPhone
       : currentPhone;
 
