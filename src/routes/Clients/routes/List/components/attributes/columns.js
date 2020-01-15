@@ -26,13 +26,6 @@ export default () => [{
     />
   ),
 }, {
-  name: 'lastActivity',
-  header: I18n.t('CLIENTS.LIST.GRID_HEADER.LAST_ACTIVITY'),
-  render: ({ lastActivity }) => {
-    const date = get(lastActivity, 'date');
-    return date && <div>{moment.utc(date).local().fromNow()}</div>;
-  },
-}, {
   name: 'country',
   header: I18n.t('CLIENTS.LIST.GRID_HEADER.COUNTRY'),
   render: ({ address: { countryCode }, languageCode }) => (
