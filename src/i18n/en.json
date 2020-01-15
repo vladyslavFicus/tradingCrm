@@ -2389,6 +2389,7 @@
     "LIST": {
       "GRID_HEADER": {
         "CLIENT": "Client",
+        "LAST_ACTIVITY": "Last activity",
         "COUNTRY": "Country",
         "BALANCE": "Balance",
         "DEPOSITS": "Deposits",

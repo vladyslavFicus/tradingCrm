@@ -262,6 +262,9 @@ const clientsQuery = gql`query ${queryNames.clientsQuery}(
             type
           }
           uuid
+          lastActivity {
+            date
+          }
         }
       }
     }
