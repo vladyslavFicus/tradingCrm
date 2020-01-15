@@ -309,7 +309,7 @@ class List extends Component {
 
     const { searchLimit } = get(query, 'filters') || {};
 
-    const usersListCount = (searchLimit && searchLimit < totalElements && searchLimit < 10000)
+    const usersListCount = (searchLimit && searchLimit < totalElements)
       ? searchLimit
       : totalElements;
 
