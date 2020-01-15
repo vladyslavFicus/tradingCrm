@@ -29,8 +29,8 @@ class View extends Component {
     verifyEmail: PropTypes.func.isRequired,
     canUpdateProfile: PropTypes.bool,
     profileUpdate: PropTypes.func.isRequired,
-    auth: PropTypes.auth,
     refetchProfileDataOnSave: PropTypes.func.isRequired,
+    auth: PropTypes.auth.isRequired,
   };
 
   static childContextTypes = {
@@ -50,17 +50,17 @@ class View extends Component {
   });
 
   get tradingOperatorAccessDisabled() {
-    const { auth: { department, role } } = this.props;
+    const {
+      auth: { department, role },
+    } = this.props;
 
-    return role === roles.ROLE1 && ([departments.RETENTION, departments.SALES].includes(department));
+    return role === roles.ROLE1 && [departments.RETENTION, departments.SALES].includes(department);
   }
 
-  handleUpdatePersonalInformation = async (data) => {
+  handleUpdatePersonalInformation = async data => {
     const {
       match: {
-        params: {
-          id: playerUUID
-        }
+        params: { id: playerUUID },
       },
       updatePersonalInformation,
       notify,
@@ -69,88 +69,87 @@ class View extends Component {
     const {
       data: {
         profile: {
-          updatePersonalInformation: {
-            error,
-          },
-        }
-      }
-    }  = await updatePersonalInformation({
+          updatePersonalInformation: { error },
+        },
+      },
+    } = await updatePersonalInformation({
       variables: {
         playerUUID,
         languageCode: data.language,
-        ...data
-      }
+        ...data,
+      },
     });
 
     notify({
-      level: error ? 'error' :'success',
+      level: error ? 'error' : 'success',
       title: I18n.t('PLAYER_PROFILE.PROFILE.PERSONAL.TITLE'),
       message: `${I18n.t('COMMON.ACTIONS.UPDATED')} 
-      ${error 
-        ? I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY')
-        : I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
+      ${error ? I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY') : I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
     });
   };
 
-  handleUpdateContacts = async (data) => {
+  handleUpdateContacts = async data => {
     const {
       newProfile: {
         newProfile: {
           data: {
-            contacts: {
-              additionalPhone,
-              phone,
-            },
+            contacts: { additionalPhone, phone },
           },
         },
       },
       updateContacts,
     } = this.props;
 
-    const variables = this.checkPhoneToHide()
+    const variables = this.phoneAccess()
       ? { ...data, additionalPhone, phone }
       : data;
 
     const {
       data: {
         profile: {
-          updateContacts: {
-            error,
-          }
-        }
-      }
+          updateContacts: { error },
+        },
+      },
     } = await updateContacts({
-      variables
+      variables,
     });
 
     this.context.addNotification({
       level: error ? 'error' : 'success',
       title: I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.TITLE'),
       message: `${I18n.t('COMMON.ACTIONS.UPDATED')}
-        ${error
-        ? I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY')
-        : I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
+        ${error ? I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY') : I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
     });
   };
 
-  handleVerifyPhone = async (phone) => {
+  handleVerifyPhone = async currentPhone => {
+    const {
+      newProfile: {
+        newProfile: {
+          data: {
+            contacts: { phone: initialPhone },
+          },
+        },
+      },
+    } = this.props;
+
+    const phone = getBrandId() === this.phoneAccess()
+      ? initialPhone
+      : currentPhone;
+
     const {
       data: {
         profile: {
-          verifyPhone: {
-            error,
-          }
-        }
-      }
+          verifyPhone: { error },
+        },
+      },
     } = await this.props.verifyPhone({ variables: { phone } });
 
     this.context.addNotification({
       level: error ? 'error' : 'success',
       title: I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.TITLE'),
       message: `${I18n.t('COMMON.ACTIONS.UPDATED')}
-        ${error
-        ? I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY')
-        : I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
+        ${error ? I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY') : I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
     });
   };
 
@@ -158,32 +157,26 @@ class View extends Component {
     const {
       data: {
         profile: {
-          verifyEmail: {
-            error,
-          }
-        }
-      }
+          verifyEmail: { error },
+        },
+      },
     } = await this.props.verifyEmail();
 
     this.context.addNotification({
       level: error ? 'error' : 'success',
       title: I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.TITLE'),
       message: `${I18n.t('COMMON.ACTIONS.UPDATED')}
-        ${error
-        ? I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY')
-        : I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
+        ${error ? I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY') : I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
     });
   };
 
-  handleUpdateAddress = async (data) => {
+  handleUpdateAddress = async data => {
     const {
       data: {
         profile: {
-          updateAddress: {
-            error,
-          }
-        }
-      }
+          updateAddress: { error },
+        },
+      },
     } = await this.props.updateAddress({
       variables: {
         ...data,
@@ -194,26 +187,22 @@ class View extends Component {
       level: error ? 'error' : 'success',
       title: I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.TITLE'),
       message: `${I18n.t('COMMON.ACTIONS.UPDATED')}
-        ${error
-        ? I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY')
-        : I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
+        ${error ? I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY') : I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
     });
   };
 
-  checkPhoneToHide = () => {
-    const { auth: { department }} = this.props;
+  phoneAccess = () => {
+    const {
+      auth: { department },
+    } = this.props;
 
     return getBrandId() === 'topinvestus' && department === departments.SALES;
   };
 
   render() {
     const {
-      newProfile: {
-        loading,
-      },
-      permission: {
-        permissions,
-      }
+      newProfile: { loading },
+      permission: { permissions },
     } = this.props;
 
     const canUpdatePersonalInformation = updatePersonalInformationPermissions.check(permissions);
@@ -236,23 +225,14 @@ class View extends Component {
             gender,
             address,
             languageCode,
-            contacts: {
-              additionalEmail,
-              additionalPhone,
-              email,
-              phone,
-            },
-            kyc: {
-              status: kycStatus,
-            },
-            configuration: {
-              internalTransfer,
-            },
+            contacts: { additionalEmail, additionalPhone, email, phone },
+            kyc: { status: kycStatus },
+            configuration: { internalTransfer },
             bankDetails,
             phoneVerified,
             emailVerified,
-          }
-        }
+          },
+        },
       },
     } = this.props;
 
@@ -301,10 +281,7 @@ class View extends Component {
               <Regulated>
                 <div className="card margin-right-20">
                   <div className="card-body">
-                    <BankDetailsForm
-                      initialValues={bankDetails}
-                      disabled
-                    />
+                    <BankDetailsForm initialValues={bankDetails} disabled />
                   </div>
                 </div>
               </Regulated>
@@ -315,18 +292,16 @@ class View extends Component {
                   <KycStatus initialValues={{ kycStatus }} playerUUID={uuid} />
                 </div>
               </div>
-              {/*<Regulated>*/}
-                <div className="card">
-                  <div className="card-body">
-                    <TransferAvailability
-                      initialValues={{
-                        internalTransfer: +internalTransfer,
-                      }}
-                      playerUUID={uuid}
-                    />
-                  </div>
+              <div className="card">
+                <div className="card-body">
+                  <TransferAvailability
+                    initialValues={{
+                      internalTransfer: +internalTransfer,
+                    }}
+                    playerUUID={uuid}
+                  />
                 </div>
-              {/*</Regulated>*/}
+              </div>
               <div className="card">
                 <div className="card-body">
                   <ContactForm
@@ -335,13 +310,13 @@ class View extends Component {
                     onVerifyPhoneClick={this.handleVerifyPhone}
                     onVerifyEmailClick={this.handleVerifyEmail}
                     initialValues={{
-                      phone: this.checkPhoneToHide() ? hidePhone(phone) : phone,
+                      phone: this.phoneAccess() ? hidePhone(phone) : phone,
                       email,
-                      additionalPhone: this.checkPhoneToHide() ? hidePhone(additionalPhone) : additionalPhone,
+                      additionalPhone: this.phoneAccess() ? hidePhone(additionalPhone) : additionalPhone,
                       additionalEmail,
                     }}
                     disabled={!updateContacts}
-                    disabledAdditionalPhone={this.checkPhoneToHide()}
+                    disabledAdditionalPhone={this.phoneAccess()}
                   />
                 </div>
               </div>
