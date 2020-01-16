@@ -1,5 +1,6 @@
 import { compose, graphql } from 'react-apollo';
 import { get } from 'lodash';
+import deepMerge from 'deepmerge';
 import { getClientPayments } from 'graphql/queries/payments';
 import { partnersQuery } from 'graphql/queries/partners';
 import View from '../components/View';
@@ -33,7 +34,7 @@ export default compose(
           ...rest,
           clientPayments,
           loadMore: () => fetchMore({
-            variables: { args: { page: newPage + 1 } },
+            variables: deepMerge(rest.variables, { args: { page: newPage + 1 } }),
             updateQuery: (previousResult, { fetchMoreResult }) => {
               if (!fetchMoreResult) {
                 return previousResult;
