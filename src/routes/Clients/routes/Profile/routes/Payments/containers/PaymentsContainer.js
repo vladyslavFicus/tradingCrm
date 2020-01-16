@@ -1,5 +1,6 @@
 import { graphql, compose } from 'react-apollo';
 import { get } from 'lodash';
+import deepMerge from 'deepmerge';
 import { addNoteMutation } from 'graphql/mutations/note';
 import { addPaymentMutation } from 'graphql/mutations/payment';
 import { getClientPaymentsByUuid } from 'graphql/queries/payments';
@@ -57,7 +58,7 @@ export default compose(
           ...rest,
           clientPaymentsByUuid,
           loadMore: () => fetchMore({
-            variables: { args: { page: newPage + 1 } },
+            variables: deepMerge(rest.variables, { args: { page: newPage + 1 } }),
             updateQuery: (previousResult, { fetchMoreResult }) => {
               if (!fetchMoreResult) {
                 return previousResult;
