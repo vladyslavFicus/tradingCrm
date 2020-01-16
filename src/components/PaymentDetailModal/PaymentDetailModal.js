@@ -180,7 +180,6 @@ class PaymentDetailModal extends PureComponent {
 
   render() {
     const {
-      payment,
       payment: {
         paymentId,
         paymentType,
@@ -285,7 +284,10 @@ class PaymentDetailModal extends PureComponent {
                   <div className="modal-tab-label">
                     {I18n.t('PAYMENT_DETAILS_MODAL.HEADER_STATUS')}
                   </div>
-                  <PaymentStatus payment={payment} />
+                  <PaymentStatus
+                    paymentId={paymentId}
+                    status={status}
+                  />
                 </div>
               </div>
               <div className="modal-footer-tabs">
