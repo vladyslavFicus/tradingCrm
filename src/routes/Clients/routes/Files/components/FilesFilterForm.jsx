@@ -86,9 +86,7 @@ class FileListFilterForm extends Component {
           component={NasSelectField}
           onChange={(_, value) => {
             this.setState({ selectedCategory: value });
-            if (value === 'OTHER') {
-              this.props.change('documentType', 'OTHER');
-            }
+            this.props.change('documentType', value === 'OTHER' ? 'OTHER' : '');
           }}
           searchable={false}
           label={I18n.t('FILES.UPLOAD_MODAL.FILE.CATEGORY')}
