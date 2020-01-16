@@ -197,7 +197,7 @@ class List extends Component {
       let showModal = false;
 
       if (searchLimit) {
-        if (searchLimit > MAX_SELECTED_ROWS) {
+        if (searchLimit > MAX_SELECTED_ROWS && totalElements > MAX_SELECTED_ROWS) {
           showModal = true;
         }
       } else if (totalElements > MAX_SELECTED_ROWS) {
