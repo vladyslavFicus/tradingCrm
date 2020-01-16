@@ -1,22 +1,27 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
+import { graphql, compose } from 'react-apollo';
+import { get } from 'lodash';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import I18n from 'i18n-js';
+import { getRisksCategory } from 'graphql/queries/risks';
 import { riskStatuses, riskStatusTranslations } from './constants';
 
 class RiskStatus extends Component {
   static propTypes = {
-    riskCategory: PropTypes.string,
-  };
-
-  static defaultProps = {
-    riskCategory: null,
+    riskCategoryData: PropTypes.shape({
+      riskQuestionnaire: PropTypes.shape({
+        data: PropTypes.shape({
+          riskCategory: PropTypes.string.isRequired,
+        }),
+      }),
+    }).isRequired,
   };
 
   render() {
-    const {
-      riskCategory,
-    } = this.props;
+    const { riskCategoryData } = this.props;
+    const { riskCategory } = get(riskCategoryData, 'riskQuestionnaire.data') || {};
 
     const riskCategoryClassName = classNames('header-block-middle text-uppercase', {
       'color-default': !riskCategory,
@@ -40,4 +45,20 @@ class RiskStatus extends Component {
   }
 }
 
-export default RiskStatus;
+export default compose(
+  withRouter,
+  graphql(getRisksCategory, {
+    options: ({
+      match: {
+        params: {
+          id: clientUuid,
+        },
+      },
+    }) => ({
+      variables: {
+        clientUuid,
+      },
+    }),
+    name: 'riskCategoryData',
+  }),
+)(RiskStatus);

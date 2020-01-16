@@ -818,11 +818,6 @@ PropTypes.newProfile = PropTypes.shape({
     reason: PropTypes.string,
     type: PropTypes.string,
   }),
-  riskQuestionnaire: PropTypes.shape({
-    data: PropTypes.shape({
-      riskCategory: PropTypes.string,
-    }),
-  }),
   uuid: PropTypes.string,
 });
 PropTypes.paymentMethods = PropTypes.arrayOf(PropTypes.string);
