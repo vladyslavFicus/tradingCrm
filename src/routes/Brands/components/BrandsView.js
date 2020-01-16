@@ -45,7 +45,7 @@ class BrandsView extends Component {
 
   handleSelectBrand = (brand) => {
     if (brand) {
-      const { departmentsByBrand } = this.props;
+      const { departmentsByBrand, client, storage } = this.props;
 
       const brandDepartments = departmentsByBrand[brand.brand];
       const departments = Object.keys(brandDepartments).map(mapDepartments(brandDepartments));
@@ -56,8 +56,10 @@ class BrandsView extends Component {
         step: 2,
         brand,
       }, () => {
-        this.props.storage.set('departments', departments);
+        storage.set('departments', departments);
       });
+
+      client.resetStore();
     }
   };
 
