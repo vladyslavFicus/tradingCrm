@@ -2,50 +2,64 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import I18n from 'i18n-js';
-import Select from '../Select';
+import Select from 'components/Select';
 
 class FormikSelectField extends Component {
   static propTypes = {
     children: PropTypes.node.isRequired,
     className: PropTypes.string,
-    disabled: PropTypes.bool,
-    error: PropTypes.string,
     label: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.element,
     ]),
-    name: PropTypes.string.isRequired,
-    multiple: PropTypes.bool,
-    onChange: PropTypes.func.isRequired,
     placeholder: PropTypes.string,
+    multiple: PropTypes.bool,
+    disabled: PropTypes.bool,
     searchable: PropTypes.bool,
-    showErrorMessage: PropTypes.bool,
-    singleOptionComponent: PropTypes.func,
-    touched: PropTypes.bool,
-    value: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.number,
-      PropTypes.object,
-    ]).isRequired,
     withAnyOption: PropTypes.bool,
-  };
+    showErrorMessage: PropTypes.bool,
+    customOnChange: PropTypes.func,
+    singleOptionComponent: PropTypes.func,
+    field: PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      value: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.number,
+        PropTypes.object,
+      ]),
+    }).isRequired,
+    form: PropTypes.shape({
+      errors: PropTypes.object.isRequired,
+      touched: PropTypes.object.isRequired,
+      setFieldValue: PropTypes.func.isRequired,
+    }).isRequired,
+  }
 
   static defaultProps = {
     className: '',
+    customOnChange: null,
     disabled: false,
-    error: '',
     label: null,
     multiple: false,
     placeholder: null,
-    searchable: true,
+    searchable: false,
     showErrorMessage: true,
     singleOptionComponent: null,
-    touched: false,
     withAnyOption: false,
   };
 
-  onHandleChange = (e) => {
-    this.props.onChange(e);
+  onHandleChange = (value) => {
+    const {
+      customOnChange,
+      field: { name },
+      form: { setFieldValue },
+    } = this.props;
+
+    if (customOnChange) {
+      customOnChange(value);
+    } else {
+      setFieldValue(name, value);
+    }
   }
 
   render() {
@@ -53,10 +67,14 @@ class FormikSelectField extends Component {
       children,
       className,
       disabled,
-      name,
-      value,
-      error,
-      touched,
+      field: {
+        name,
+        value,
+      },
+      form: {
+        errors,
+        touched,
+      },
       label,
       multiple,
       placeholder,
@@ -70,7 +88,7 @@ class FormikSelectField extends Component {
       <div className={classNames(
         className,
         'form-group',
-        { 'has-danger': showErrorMessage && touched && error },
+        { 'has-danger': showErrorMessage && touched[name] && errors[name] },
         { 'is-disabled': disabled },
       )}
       >
@@ -91,17 +109,17 @@ class FormikSelectField extends Component {
           >
             {
               [
-                withAnyOption && <option key="any" value={null}>{I18n.t('COMMON.ANY')}</option>,
+                withAnyOption && <option key="any" value="">{I18n.t('COMMON.ANY')}</option>,
                 ...children,
               ]
             }
           </Select>
 
-          <If condition={showErrorMessage && touched && error}>
+          <If condition={showErrorMessage && touched[name] && errors[name]}>
             <div className="form-row">
               <div className="col form-control-feedback">
                 <i className="icon icon-alert" />
-                {error}
+                {errors[name]}
               </div>
             </div>
           </If>

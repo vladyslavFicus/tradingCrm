@@ -24,6 +24,7 @@
 
   label {
     color: inherit;
+    font-size: 15px;
     font-weight: 600;
     margin-bottom: 5px;
     display: block;
@@ -377,6 +378,16 @@
     background-color: #f2f4f8;
     padding: 20px 10px 40px;
 
+    &--row {
+      display: flex;
+      justify-content: space-between;
+
+      & .input,
+      & .form-group {
+        margin-bottom: 0;
+      }
+    }
+
     &-inputs {
       display: flex;
       flex-flow: row wrap;
@@ -395,6 +406,8 @@
       display: flex;
       flex-direction: row;
       justify-content: flex-end;
+      align-items: flex-end;
+      flex-grow: 1;
 
       & .btn:not(:last-child) {
         margin-right: 15px;
@@ -406,21 +419,16 @@
         &:not(:last-child) {
           margin-right: 30px;
         }
-      }
-    }
-  }
-}
 
-// # States
-.filter {
-  &__form {
-    &-buttons {
-      &-group {
         &.is-disabled {
           pointer-events: none;
           opacity: 0.8;
         }
       }
+    }
+
+    &-button {
+      height: 40px;
     }
   }
 }
