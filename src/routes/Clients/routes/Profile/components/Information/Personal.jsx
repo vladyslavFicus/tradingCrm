@@ -209,6 +209,10 @@ class Personal extends PureComponent {
                 value={affiliate.referral
                 || <span className="color-default">{I18n.t('CLIENT_PROFILE.DETAILS.NO_REFERRAL')}</span>}
               />
+              <PersonalInformationItem
+                label={I18n.t('CLIENT_PROFILE.DETAILS.CAMPAIGN_ID')}
+                value={affiliate.campaignId}
+              />
             </If>
             <If condition={convertedFromLeadUuid}>
               <div>

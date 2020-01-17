@@ -2313,6 +2313,7 @@
       "CITY": "City",
       "AFFILIATE": "Affiliate",
       "SOURCE": "Source",
+      "CAMPAIGN_ID": "Campaign ID",
       "REFERRAL": "Referral",
       "CONVERTED_FROM_LEAD": "Converted from Lead",
       "AFFILIATE_ID": "AffiliateID",

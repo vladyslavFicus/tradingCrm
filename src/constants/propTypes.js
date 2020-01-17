@@ -686,6 +686,7 @@ PropTypes.newProfile = PropTypes.shape({
     referral: PropTypes.string,
     sms: PropTypes.string,
     source: PropTypes.string,
+    campaignId: PropTypes.string,
     uuid: PropTypes.string,
   }),
   age: PropTypes.string,

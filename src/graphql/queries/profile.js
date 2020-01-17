@@ -66,6 +66,7 @@ const newProfile = gql`query newProfile($playerUUID: String!){
         referral
         sms
         source
+        campaignId
         partner {
           fullName
         }
@@ -230,6 +231,7 @@ const clientsQuery = gql`query ${queryNames.clientsQuery}(
           affiliate {
             uuid
             source
+            campaignId
             partner {
               fullName
             }

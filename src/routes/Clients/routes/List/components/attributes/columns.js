@@ -83,7 +83,7 @@ export default () => [{
   name: 'affiliate',
   header: I18n.t('CLIENTS.LIST.GRID_HEADER.AFFILIATE'),
   render: (data) => {
-    const { uuid, source, partner } = get(data, 'affiliate') || {};
+    const { uuid, source, campaignId, partner } = get(data, 'affiliate') || {};
 
     return (
       <Choose>
@@ -112,6 +112,20 @@ export default () => [{
               }}
             >
               {source}
+            </UncontrolledTooltip>
+          </If>
+          <If condition={campaignId}>
+            <div id={`${data.uuid}-campaignId`}>
+              <Uuid className="header-block-small" uuidPostfix="..." length={12} uuid={campaignId} />
+            </div>
+            <UncontrolledTooltip
+              placement="bottom-start"
+              target={`${data.uuid}-campaignId`}
+              delay={{
+                show: 350, hide: 250,
+              }}
+            >
+              {campaignId}
             </UncontrolledTooltip>
           </If>
         </When>
@@ -207,7 +221,7 @@ export default () => [{
   header: I18n.t('CLIENTS.LIST.GRID_HEADER.LAST_NOTE'),
   render: (data) => {
     const { uuid, changedAt, content } = get(data, 'lastNote') || {};
-    
+
     return (
       <Choose>
         <When condition={uuid}>
