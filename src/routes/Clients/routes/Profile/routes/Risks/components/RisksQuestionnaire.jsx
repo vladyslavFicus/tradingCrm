@@ -2,13 +2,12 @@ import React, { Component } from 'react';
 import classNames from 'classnames';
 import I18n from 'i18n-js';
 import { get } from 'lodash';
-import { Form, withFormik } from 'formik';
+import { withFormik, Form, Field } from 'formik';
 import PropTypes from 'constants/propTypes';
 import { FormikSelectField } from 'components/Formik';
 
 class RisksQuestionnaire extends Component {
   static propTypes = {
-    errors: PropTypes.objectOf(PropTypes.string),
     values: PropTypes.objectOf(PropTypes.string),
     touched: PropTypes.objectOf(PropTypes.string),
     setFieldValue: PropTypes.func.isRequired,
@@ -18,7 +17,6 @@ class RisksQuestionnaire extends Component {
   };
 
   static defaultProps = {
-    errors: {},
     values: {},
     touched: {},
   };
@@ -89,7 +87,6 @@ class RisksQuestionnaire extends Component {
 
   renderSelectField = ({ id: questionId, title, answers }, questions) => {
     const {
-      errors,
       values,
       touched,
     } = this.props;
@@ -118,7 +115,7 @@ class RisksQuestionnaire extends Component {
     }
 
     return (
-      <FormikSelectField
+      <Field
         key={name}
         name={name}
         className={classNames('risk__form-field', {
@@ -127,12 +124,10 @@ class RisksQuestionnaire extends Component {
         })}
         label={`${questionId}. ${title}`}
         placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
-        value={values[name]}
-        touched={hasValidationErrors || touched[name]}
-        error={errors && errors[name]}
-        disabled={disabled}
-        searchable={false}
+        customTouched={hasValidationErrors || touched[name]}
         onChange={value => this.onHandleSelect(name, value)}
+        component={FormikSelectField}
+        disabled={disabled}
       >
         {answers.map(({ id: answerId, title: answerTitle }) => (
           <option
@@ -142,7 +137,7 @@ class RisksQuestionnaire extends Component {
             {answerTitle}
           </option>
         ))}
-      </FormikSelectField>
+      </Field>
     );
   }
 

@@ -19,6 +19,7 @@ class FormikSelectField extends Component {
     withAnyOption: PropTypes.bool,
     showErrorMessage: PropTypes.bool,
     customOnChange: PropTypes.func,
+    customTouched: PropTypes.bool,
     singleOptionComponent: PropTypes.func,
     field: PropTypes.shape({
       name: PropTypes.string.isRequired,
@@ -38,6 +39,7 @@ class FormikSelectField extends Component {
   static defaultProps = {
     className: '',
     customOnChange: null,
+    customTouched: false,
     disabled: false,
     label: null,
     multiple: false,
@@ -80,6 +82,7 @@ class FormikSelectField extends Component {
       placeholder,
       searchable,
       showErrorMessage,
+      customTouched,
       singleOptionComponent,
       withAnyOption,
     } = this.props;
@@ -115,7 +118,7 @@ class FormikSelectField extends Component {
             }
           </Select>
 
-          <If condition={showErrorMessage && touched[name] && errors[name]}>
+          <If condition={showErrorMessage && (touched[name] || customTouched) && errors[name]}>
             <div className="form-row">
               <div className="col form-control-feedback">
                 <i className="icon icon-alert" />
