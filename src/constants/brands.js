@@ -52,10 +52,12 @@ const brands = keyMirror({
   stockfx: null,
   cmarket: null,
   fsaeverfx: null,
-  '10cryptomarket': null,
   iconinvesting: null,
+  '10cryptomarket': null,
+  goldmanbanc: null,
   royalsfx: null,
   capitalfunds: null,
+  luxistrade: null,
   zurichtradefinco: null,
   cmgmarkets: null,
   dobbycysec: null,
@@ -262,9 +264,9 @@ const brandsConfig = {
     name: 'Globedemy',
     image: { src: '/img/brand/choose-brand/globedemy.svg' },
   },
-  [brands.skycapitals]: {
-    name: 'Skycapitals',
-    image: { src: '/img/brand/choose-brand/skycapitals.svg' },
+  [brands.skycapital]: {
+    name: 'Skycapital',
+    image: { src: '/img/brand/choose-brand/skycapital.svg' },
   },
   [brands.skycapitals]: {
     name: 'Skycapitals',
@@ -290,13 +292,17 @@ const brandsConfig = {
     name: 'FSA Everfx',
     image: { src: '/img/brand/choose-brand/fsaeverfx.svg' },
   },
+  [brands.iconinvesting]: {
+    name: 'Icon Investing',
+    image: { src: '/img/brand/choose-brand/iconinvesting.svg' },
+  },
   [brands['10cryptomarket']]: {
     name: '10cryptomarket',
     image: { src: '/img/brand/choose-brand/10cryptomarket.svg' },
   },
-  [brands.iconinvesting]: {
-    name: 'Icon Investing',
-    image: { src: '/img/brand/choose-brand/iconinvesting.svg' },
+  [brands.goldmanbanc]: {
+    name: 'Goldmanbanc',
+    image: { src: '/img/brand/choose-brand/goldmanbanc.svg' },
   },
   [brands.royalsfx]: {
     name: 'Royalsfx',
@@ -305,6 +311,10 @@ const brandsConfig = {
   [brands.capitalfunds]: {
     name: 'Capitalfunds',
     image: { src: '/img/brand/choose-brand/capitalfunds.svg' },
+  },
+  [brands.luxistrade]: {
+    name: 'LuXisTrade',
+    image: { src: '/img/brand/choose-brand/luxistrade.svg' },
   },
   [brands.zurichtradefinco]: {
     name: 'Zurichtradefinco',
