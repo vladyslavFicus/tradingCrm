@@ -472,7 +472,7 @@ PropTypes.paymentEntry = PropTypes.shape({
 });
 PropTypes.lead = PropTypes.shape({
   uuid: PropTypes.string.isRequired,
-  brandId: PropTypes.string.isRequired,
+  brandId: PropTypes.string,
   name: PropTypes.string.isRequired,
   surname: PropTypes.string.isRequired,
   phoneCode: PropTypes.string,

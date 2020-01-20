@@ -1,0 +1,43 @@
+.transaction-mini-profile {
+   &.completed {
+     border-color: #1cbb1c;
+     background-color: #e9f7e6;
+     .mini-profile-label {
+       background-image: linear-gradient(to right, #009a00, #07cd07);
+     }
+   }
+   &.pending {
+     border-color: #00d0ff;
+     background-color: #eff9fb;
+     .mini-profile-label {
+       background-image: linear-gradient(to right, #007b9e, #00d0ff);
+     }
+   }
+   &.refused {
+     border-color: #d0011b;
+     background-color: #fedcdc;
+     .mini-profile-label {
+       background-image: linear-gradient(to right, #56030d, #b70016);
+     }
+   }
+   &.failed {
+     border-color: #cc5f32;
+     background-color: #f6e2e1;
+     .mini-profile-label {
+       background-image: linear-gradient(to right, #990101, #d96620);
+     }
+   }
+   .transaction-status {
+     margin-right: 8px;
+     text-transform: uppercase;
+     font-weight: bold;
+   }
+ }
+
+.info-block-heading {
+    color: #000;
+  }
+.info-block-description {
+    font-weight: 400;
+    color: #676767;
+  }

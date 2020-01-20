@@ -1698,6 +1698,23 @@
   "CHANGE_ORIGINAL_AGENT": {
     "TITLE": "Original Agent"
   },
+  "MINI_PROFILE": {
+    "PLAYER": "Player",
+    "STATUS_REASON": "Status reason",
+    "BALANCE": "Balance",
+    "LAST_LOGIN": "Last login",
+    "DEPOSITED": "Deposited",
+    "REGISTERED": "Registered",
+    "TRANSACTION": "Transaction",
+    "OPERATOR": "Operator",
+    "LEADS": {
+        "LEAD_CREATED": "Lead created",
+        "SALES": "Sales",
+        "COUNTRY": "Country",
+        "LEAD": "Lead",
+        "PHONE": "Phone"
+      }
+  },
   "OPERATORS": {
     "HEADING": "Operators",
     "CREATE_OPERATOR_BUTTON": "+ New operator",

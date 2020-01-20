@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import classNames from 'classnames';
+import MiniProfile from 'components/MiniProfile';
 import PropTypes from '../../constants/propTypes';
 import GridPlayerInfoPlaceholder from '../GridPlayerInfoPlaceholder';
 import Uuid from '../Uuid';
@@ -47,10 +48,9 @@ class GridPlayerInfo extends Component {
               className="font-size-11"
               id={`${id ? `${id}-` : ''}players-list-${uuid}-additional`}
             >
-              <Uuid
-                uuid={uuid}
-                uuidPrefix={uuid.indexOf('PLAYER') === -1 ? 'PL' : ''}
-              />
+              <MiniProfile id={uuid} type="player">
+                <Uuid uuid={uuid} />
+              </MiniProfile>
               {!!languageCode && <span> - {languageCode}</span>}
             </div>
           </div>

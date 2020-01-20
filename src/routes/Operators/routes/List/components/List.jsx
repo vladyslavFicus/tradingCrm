@@ -18,6 +18,7 @@ import GridView, { GridViewColumn } from 'components/GridView';
 import CountryLabelWithFlag from 'components/CountryLabelWithFlag';
 import PermissionContent from 'components/PermissionContent';
 import { authoritiesOptionsQuery } from 'graphql/queries/auth';
+import MiniProfile from 'components/MiniProfile';
 import { getUserTypeByDepartment } from './utils';
 import OperatorGridFilter from './OperatorGridFilter';
 
@@ -203,7 +204,12 @@ class List extends Component {
         <Link to={`/${this.props.operatorType.toLowerCase()}s/${uuid}/profile`}>{fullName}</Link>
       </div>
       <div className="font-size-11" id={`operator-list-${uuid}-additional`}>
-        <Uuid uuid={uuid} />
+        <MiniProfile
+          type="operator"
+          id={uuid}
+        >
+          <Uuid uuid={uuid} />
+        </MiniProfile>
       </div>
     </div>
   );

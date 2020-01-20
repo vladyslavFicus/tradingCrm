@@ -15,6 +15,7 @@ import CountryLabelWithFlag from 'components/CountryLabelWithFlag';
 import GridStatusDeskTeam from 'components/GridStatusDeskTeam';
 import GridStatus from 'components/GridStatus';
 import GridEmptyValue from 'components/GridEmptyValue';
+import MiniProfile from 'components/MiniProfile';
 import renderLabel from 'utils/renderLabel';
 import ConvertedBy from '../../../components/ConvertedBy';
 import { leadStatuses } from '../../../constants';
@@ -258,7 +259,9 @@ class List extends Component {
           {name} {surname}
         </div>
         <div className="font-size-11">
-          <Uuid uuid={uuid} uuidPrefix="LE" />
+          <MiniProfile id={uuid} type="lead">
+            <Uuid uuid={uuid} uuidPrefix="LE" />
+          </MiniProfile>
         </div>
       </div>
     );
