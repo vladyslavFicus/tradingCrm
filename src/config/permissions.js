@@ -67,6 +67,7 @@ export default {
     VIEW_FILES: 'profile;GET;/files/{playerUUID}',
     VIEW_FILE: 'profile;GET;/kyc/download/{fileId}',
     KYC_LIST: 'profile;GET;/kyc/requests',
+    GET_FILES: 'attachments;GET;/verification/users/{userUuid}',
     UPLOAD_FILE: 'attachments;PUT;/admin/files/{uuid}',
     DELETE_FILE: 'attachments;DELETE;/admin/files/{uuid}',
     VERIFY_PHONE: 'profile;POST;/admin/profiles/{uuid}/verification/phone',
@@ -77,6 +78,7 @@ export default {
     CHANGE_CONFIGURATION: 'profile;PUT;/admin/profiles/{uuid}/configuration',
   },
   FILES: {
+    SEARCH_FILES: 'attachments;POST;/search',
     UPLOAD_FILE: 'attachments;PUT;/admin/files/{uuid}',
   },
   PAYMENT: {

@@ -24,6 +24,7 @@ export const userProfileTabs = [
   }, {
     label: 'CLIENT_PROFILE.TABS.FILES',
     url: '/clients/:id/files',
+    permissions: new Permissions(permissions.USER_PROFILE.GET_FILES),
   }, {
     label: 'CLIENT_PROFILE.TABS.NOTES',
     url: '/clients/:id/notes',
