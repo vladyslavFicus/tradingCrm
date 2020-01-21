@@ -1,5 +1,0 @@
-export default {
-  name: 'OFFICES.MODAL.LABELS.OFFICE_NAME',
-  country: 'OFFICES.MODAL.LABELS.COUNTRY',
-  officeManager: 'OFFICES.MODAL.LABELS.OFFICE_MANAGER',
-};

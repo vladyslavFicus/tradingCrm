@@ -2015,6 +2015,12 @@
       "TITLE": "Update your client version",
       "MESSAGE": "To update your client version, please confirm this action"
     },
+    "ADD_OFFICE_MODAL": {
+      "NOTIFICATION": {
+        "SUCCESS": "Office was successfully created",
+        "ERROR": "Failed to create new office"
+      }
+    },
     "ADD_OPERATOR_TO_BRANCH": {
       "TITLE": "Add operator",
       "ADD_TO_TEAM": "You are about to add Manager to the Team «%{branch}»",

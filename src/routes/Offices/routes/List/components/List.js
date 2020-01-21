@@ -8,20 +8,19 @@ import { createOffice } from 'graphql/mutations/hierarchy';
 import PropTypes from 'constants/propTypes';
 import { branchTypes } from 'constants/hierarchyTypes';
 import permissions from 'config/permissions';
-import { withModals } from 'components/HighOrder';
+import { withModals, withNotifications } from 'components/HighOrder';
 import PermissionContent from 'components/PermissionContent';
-import HierarchyInfoModal from 'components/HierarchyInfoModal';
 import Placeholder from 'components/Placeholder';
 import OfficesGridFilter from './OfficesGridFilter';
 import OfficesGrid from './OfficesGrid';
-import OfficeModal from './OfficeModal';
+import AddOfficeModal from './AddOfficeModal';
 
 class List extends Component {
   static propTypes = {
     ...PropTypes.router,
     createOfficeMutation: PropTypes.func.isRequired,
     modals: PropTypes.shape({
-      officeModal: PropTypes.modalType,
+      addOfficeModal: PropTypes.modalType,
       infoModal: PropTypes.modalType,
     }).isRequired,
   };
@@ -34,30 +33,34 @@ class List extends Component {
     this.props.history.replace({ query: { filters: {} } });
   };
 
-  triggerOfficeModal = () => {
-    const { modals: { officeModal } } = this.props;
+  triggerAddOfficeModal = () => {
+    const { modals: { addOfficeModal } } = this.props;
 
-    officeModal.show({ onSubmit: values => this.handleAddOffice(values) });
+    addOfficeModal.show({
+      onSubmit: values => this.handleAddOffice(values),
+    });
   };
 
   handleAddOffice = async (variables) => {
     const {
       createOfficeMutation,
       offices: { refetch },
-      modals: { officeModal, infoModal },
+      modals: { addOfficeModal },
+      notify,
     } = this.props;
 
-    const { data: { hierarchy: { createOffice: { data, error } } } } = await createOfficeMutation({ variables });
+    const { data: { hierarchy: { createOffice: { error } } } } = await createOfficeMutation({ variables });
+    const hasError = error.length;
 
     refetch();
-    officeModal.hide();
-    infoModal.show({
-      header: I18n.t('HIERARCHY.INFO_MODAL.OFFICE_BODY'),
-      status: error.length === 0
-        ? I18n.t('COMMON.SUCCESS')
-        : I18n.t('COMMON.FAIL'),
-      data,
-      error,
+    addOfficeModal.hide();
+
+    notify({
+      level: hasError ? 'error' : 'success',
+      title: hasError ? I18n.t('COMMON.FAIL') : I18n.t('COMMON.SUCCESS'),
+      message: hasError
+        ? I18n.t('MODALS.ADD_OFFICE_MODAL.NOTIFICATION.ERROR')
+        : I18n.t('MODALS.ADD_OFFICE_MODAL.NOTIFICATION.SUCCESS'),
     });
   };
 
@@ -93,7 +96,7 @@ class List extends Component {
             <div className="ml-auto">
               <button
                 className="btn btn-default-outline"
-                onClick={this.triggerOfficeModal}
+                onClick={this.triggerAddOfficeModal}
                 disabled={error}
                 type="button"
               >
@@ -118,9 +121,9 @@ class List extends Component {
 }
 
 export default compose(
+  withNotifications,
   withModals({
-    officeModal: OfficeModal,
-    infoModal: HierarchyInfoModal,
+    addOfficeModal: AddOfficeModal,
   }),
   graphql(createOffice, {
     name: 'createOfficeMutation',
