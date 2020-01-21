@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import I18n from 'i18n-js';
-import { departments } from 'constants/brands';
 import permissions from 'config/permissions';
 import Permissions from 'utils/permissions';
 import Uuid from '../Uuid';
@@ -22,11 +21,6 @@ class NoteItem extends Component {
       pinned: PropTypes.bool,
     }).isRequired,
     handleNoteClick: PropTypes.func.isRequired,
-    department: PropTypes.string,
-  };
-
-  static defaultProps = {
-    department: null,
   };
 
   get content() {
@@ -49,7 +43,6 @@ class NoteItem extends Component {
           fullName,
         },
       },
-      department,
     } = this.props;
 
     const [targetType] = targetUUID.split('-', 1);
@@ -98,7 +91,6 @@ class NoteItem extends Component {
                 {
                   label: I18n.t('COMMON.ACTIONS.DELETE'),
                   onClick: handleNoteClick(modalType.DELETE, data),
-                  ...(department && { visible: department !== departments.CS }),
                   permissions: new Permissions(permissions.NOTES.DELETE_NOTE),
                 },
               ]}

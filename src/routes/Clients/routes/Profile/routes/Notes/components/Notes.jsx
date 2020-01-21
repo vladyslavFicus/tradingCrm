@@ -22,9 +22,6 @@ class Notes extends Component {
         })),
       }),
     }).isRequired,
-    auth: PropTypes.shape({
-      department: PropTypes.string,
-    }).isRequired,
   };
 
   static contextTypes = {
@@ -87,7 +84,6 @@ class Notes extends Component {
   renderItem = data => (
     <NoteItem
       data={data}
-      department={this.props.auth.department}
       handleNoteClick={this.context.onEditModalNoteClick}
     />
   );
