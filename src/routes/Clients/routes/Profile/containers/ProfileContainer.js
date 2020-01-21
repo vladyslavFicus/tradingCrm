@@ -8,7 +8,6 @@ import ConfirmActionModal from 'components/Modal/ConfirmActionModal';
 import RepresentativeUpdateModal from 'components/RepresentativeUpdateModal';
 import NoteModal from 'components/NoteModal';
 import { getLoginLock, newProfile } from 'graphql/queries/profile';
-import { getFilesListByProfileUUID } from 'graphql/queries/files';
 import { notesQuery } from 'graphql/queries/notes';
 import { questionnaireLasDataQuery } from 'graphql/queries/questionnaire';
 import { unlockLoginMutation } from 'graphql/mutations/auth';
@@ -250,20 +249,5 @@ export default compose(
     }),
     skip: () => !getActiveBrandConfig().regulation.isActive,
     name: 'questionnaireLastData',
-  }),
-  graphql(getFilesListByProfileUUID, {
-    name: 'filesList',
-    options: ({
-      match: { params: { id: clientUUID } },
-      location: { query },
-    }) => ({
-      variables: {
-        ...query && query.filters,
-        clientUUID,
-        page: 0,
-        size: 20,
-      },
-      fetchPolicy: 'cache-and-network',
-    }),
   }),
 )(Profile);

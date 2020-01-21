@@ -207,7 +207,6 @@ class Profile extends Component {
 
   handleLoadProfile = async (needForceUpdate = false) => {
     const {
-      filesList,
       newProfile,
       pinnedNotes,
       questionnaireLastData,
@@ -215,7 +214,6 @@ class Profile extends Component {
 
     if (!newProfile.loading) {
       await Promise.all([
-        filesList.refetch(),
         newProfile.refetch(),
         pinnedNotes.refetch(),
         ...[questionnaireLastData && questionnaireLastData.refetch()],
@@ -570,7 +568,6 @@ class Profile extends Component {
       getLoginLock,
       questionnaireLastData,
       changeProfileStatus,
-      filesList,
     } = this.props;
 
     const loginLock = get(getLoginLock, 'loginLock', {});
@@ -631,13 +628,7 @@ class Profile extends Component {
             <Route disableScroll path={`${path}/accounts`} component={Accounts} />
             <Route disableScroll path={`${path}/callbacks`} component={Callbacks} />
             <Route disableScroll path={`${path}/notes`} component={Notes} />
-            <Route
-              disableScroll
-              path={`${path}/files`}
-              render={props => (
-                <Files filesList={filesList} {...props} />
-              )}
-            />
+            <Route disableScroll path={`${path}/files`} component={Files} />
             <Route disableScroll path={`${path}/feed`} component={Feed} />
             <If condition={getActiveBrandConfig().isRisksTabAvailable}>
               <Route
