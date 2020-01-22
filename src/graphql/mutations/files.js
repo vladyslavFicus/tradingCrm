@@ -11,7 +11,7 @@ const uploadFileMutation = gql`
         profileUUID: $profileUUID
       ) {
         data {
-          fileUUID
+          fileUuid
         }
         error {
           error

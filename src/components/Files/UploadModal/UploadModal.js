@@ -106,9 +106,20 @@ class UploadModal extends Component {
     );
 
     const filesDataWithUuids = Object.keys(files).map(fileIndex => ({
-      fileUuid: get(response[fileIndex], 'data.file.upload.data.fileUUID'),
+      fileUuid: get(response[fileIndex], 'data.file.upload.data.fileUuid'),
       file: files[fileIndex],
-    }));
+      error: get(response[fileIndex], 'data.file.upload.error'),
+    })).filter(({ error }) => {
+      if (error) {
+        notify({
+          level: 'error',
+          title: I18n.t('COMMON.FAIL'),
+          message: I18n.t('FILES.UPLOAD_MODAL.FILE.NOTIFICATIONS.FILE_TYPE_ERROR'),
+        });
+      }
+
+      return !error;
+    });
 
     this.setState(({ filesToUpload }) => ({
       filesToUpload: [...filesToUpload, ...filesDataWithUuids],
