@@ -160,7 +160,6 @@ class Personal extends PureComponent {
             <PersonalInformationItem
               label={I18n.t('CLIENT_PROFILE.DETAILS.ALT_PHONE')}
               value={isPhoneHidden ? hidePhone(additionalPhone) : additionalPhone}
-              verified={phoneVerified}
               withCall={withCall}
               onClickToCall={this.handleClickToCall(additionalPhone)}
             />
