@@ -5,6 +5,6 @@ import PaymentsGrid from './PaymentsGrid';
 export default compose(
   graphql(getClientPayments, {
     name: 'clientPayments',
-    options: variables => ({ variables }),
+    options: variables => ({ variables: { args: variables } }),
   }),
 )(PaymentsGrid);

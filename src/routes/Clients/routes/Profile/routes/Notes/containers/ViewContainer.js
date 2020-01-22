@@ -1,5 +1,4 @@
 import { graphql, compose } from 'react-apollo';
-import { withStorage } from 'providers/StorageProvider';
 import { createQueryPagination } from '@newage/backoffice_utils';
 import { notesQuery } from 'graphql/queries/notes';
 import Notes from '../components/Notes';
@@ -27,4 +26,4 @@ export default compose(
     }),
     name: 'notes',
   }),
-)(withStorage(['auth'])(Notes));
+)(Notes);
