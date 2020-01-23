@@ -5,11 +5,11 @@ import { get } from 'lodash';
 import { withFormik, Form, Field } from 'formik';
 import PropTypes from 'constants/propTypes';
 import { FormikSelectField } from 'components/Formik';
+import isQuestionDisabled from '../utils';
 
 class RisksQuestionnaire extends Component {
   static propTypes = {
     values: PropTypes.objectOf(PropTypes.string),
-    touched: PropTypes.objectOf(PropTypes.string),
     setFieldValue: PropTypes.func.isRequired,
     isSubmitting: PropTypes.bool.isRequired,
     handleSubmit: PropTypes.func.isRequired,
@@ -18,7 +18,6 @@ class RisksQuestionnaire extends Component {
 
   static defaultProps = {
     values: {},
-    touched: {},
   };
 
   state = {
@@ -86,47 +85,29 @@ class RisksQuestionnaire extends Component {
   }
 
   renderSelectField = ({ id: questionId, title, answers }, questions) => {
-    const {
-      values,
-      touched,
-    } = this.props;
+    const { values, questionnaireData } = this.props;
     const { hasValidationErrors } = this.state;
 
+    const disabledQuestions = get(questionnaireData, 'disabledQuestions') || [];
+
     const name = `questionId-${questionId}`;
+    const fieldClassName = classNames('risk__form-field', {
+      'col-6': questions.length > 1,
+      'col-12': questions.length === 1,
+    });
 
-    let disabled = false;
-
-    if (questionId > 1) {
-      const { answerId: firstQuestionAnswerId } = JSON.parse(values['questionId-1']) || {};
-      const { answerId: secondQuestionAnswerId } = JSON.parse(values['questionId-2']) || {};
-      const { answerId: sixteenQuestionAnswerId } = JSON.parse(values['questionId-16']) || {};
-
-      if (firstQuestionAnswerId !== 3) {
-        disabled = true;
-      }
-
-      if (questionId > 2 && secondQuestionAnswerId !== 2) {
-        disabled = true;
-      }
-
-      if (questionId === 17 && sixteenQuestionAnswerId === 1) {
-        disabled = true;
-      }
-    }
+    const disabled = isQuestionDisabled(questionId, values, disabledQuestions);
 
     return (
       <Field
         key={name}
         name={name}
-        className={classNames('risk__form-field', {
-          'col-6': questions.length > 1,
-          'col-12': questions.length === 1,
-        })}
+        className={fieldClassName}
+        component={FormikSelectField}
         label={`${questionId}. ${title}`}
         placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
-        customTouched={hasValidationErrors || touched[name]}
-        onChange={value => this.onHandleSelect(name, value)}
-        component={FormikSelectField}
+        customTouched={hasValidationErrors}
+        customOnChange={value => this.onHandleSelect(name, value)}
         disabled={disabled}
       >
         {answers.map(({ id: answerId, title: answerTitle }) => (
@@ -202,9 +183,10 @@ export default withFormik({
           ({ answers, id: questionId }) => {
             const selectedAnswers = answers.filter(answer => answer.selected);
             const key = `questionId-${questionId}`;
-            const value = selectedAnswers.length > 0
-              ? JSON.stringify({ questionId, answerId: selectedAnswers[0].id })
-              : '{}';
+            const value = JSON.stringify({
+              questionId,
+              answerId: selectedAnswers.length > 0 ? selectedAnswers[0].id : null,
+            });
 
             initialValues[key] = value;
           },
@@ -214,35 +196,19 @@ export default withFormik({
 
     return initialValues;
   },
-  validate: (values) => {
+  validate: (values, props) => {
+    const { questionnaireData: { disabledQuestions } } = props;
     const errors = {};
     const errorMessage = I18n.t('ERRORS.FIELD_IS_REQUIRED');
 
-    const firstQuestionValue = JSON.parse(values['questionId-1']) || {};
-    const secondQuestionValue = JSON.parse(values['questionId-2']) || {};
-    const sixteenQuestionValue = JSON.parse(values['questionId-16']) || {};
+    Object.keys(values).forEach((questionName) => {
+      const { questionId, answerId } = JSON.parse(values[questionName]) || {};
+      const disabled = isQuestionDisabled(questionId, values, disabledQuestions);
 
-    if (!firstQuestionValue.answerId) {
-      errors['questionId-1'] = errorMessage;
-    }
-
-    if (firstQuestionValue.answerId === 3 && !secondQuestionValue.answerId) {
-      errors['questionId-2'] = errorMessage;
-    }
-
-    if (firstQuestionValue.answerId === 3 && secondQuestionValue.answerId === 2) {
-      Object.keys(values).forEach((questionName, key) => {
-        const { answerId } = JSON.parse(values[questionName]) || {};
-
-        if (
-          key > 1
-          && !answerId
-          && !(key === 16 && sixteenQuestionValue.answerId === 1)
-        ) {
-          errors[questionName] = errorMessage;
-        }
-      });
-    }
+      if (!answerId && !disabled) {
+        errors[questionName] = errorMessage;
+      }
+    });
 
     return errors;
   },

@@ -31,6 +31,11 @@ const RisksQuestionnaireFragment = gql`
         }
       }
     }
+    disabledQuestions {
+      questionId
+      answerId
+      disabledQuestions
+    }
   }
 `;
 

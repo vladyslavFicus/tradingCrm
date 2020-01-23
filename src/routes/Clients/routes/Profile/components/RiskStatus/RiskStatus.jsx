@@ -13,7 +13,7 @@ class RiskStatus extends Component {
     riskCategoryData: PropTypes.shape({
       riskQuestionnaire: PropTypes.shape({
         data: PropTypes.shape({
-          riskCategory: PropTypes.string.isRequired,
+          riskCategory: PropTypes.string,
         }),
       }),
     }).isRequired,
