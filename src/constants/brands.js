@@ -66,7 +66,7 @@ const brands = keyMirror({
   wexness: null,
   finansa: null,
   investogo: null,
-  safedepositcentre: null
+  safedepositcentre: null,
 });
 
 const departments = keyMirror({

@@ -47,7 +47,7 @@ const PlayerMiniProfile = ({ miniProfile: { data, loading } }) => {
   const lastLogin = (lastSignInSessions && lastSignInSessions.length)
     ? lastSignInSessions[lastSignInSessions.length - 1].startedAt
     : null;
-  const lastDepositTime = get(data, 'profileView.paymentDetails.lastDepositTime', null);
+  const lastDepositTime = get(data, 'newProfile.data.profileView.paymentDetails.lastDepositTime', null);
 
   return (
     <div className={classNames('mini-profile mini-profile', userStatusNames[statusType])}>
