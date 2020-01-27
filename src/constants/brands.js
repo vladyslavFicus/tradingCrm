@@ -66,6 +66,7 @@ const brands = keyMirror({
   wexness: null,
   finansa: null,
   investogo: null,
+  safedepositcentre: null
 });
 
 const departments = keyMirror({
@@ -348,6 +349,10 @@ const brandsConfig = {
   [brands.investogo]: {
     name: 'Investogo',
     image: { src: '/img/brand/choose-brand/investogo.svg' },
+  },
+  [brands.safedepositcentre]: {
+    name: 'Safedepositcentre',
+    image: { src: '/img/brand/choose-brand/safedepositcentre.svg' },
   },
 };
 const departmentsConfig = {
