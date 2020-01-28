@@ -10,6 +10,8 @@ class Notes extends Component {
   static propTypes = {
     notes: PropTypes.shape({
       content: PropTypes.arrayOf(PropTypes.shape({
+        noteId: PropTypes.string,
+        fullName: PropTypes.string,
         changedBy: PropTypes.string,
         targetUUID: PropTypes.string,
       })),
@@ -48,8 +50,13 @@ class Notes extends Component {
               : I18n.t('COMMON.UNKNOWN_TIME')
           } {I18n.t('COMMON.TO')} {this.renderItemId(item.targetUUID)}
         </small>
-        <div className="note-content__content">
-          {item.content}
+        <div className="note-content__subject">
+          <div className="note-content__label">{I18n.t('NOTES.SUBJECT')}</div>
+          <div className="note-content__text">{item.subject}</div>
+        </div>
+        <div className="note-content__body">
+          <div className="note-content__label">{I18n.t('NOTES.BODY')}</div>
+          <div className="note-content__text">{item.content}</div>
         </div>
       </div>
     </PopoverButton>

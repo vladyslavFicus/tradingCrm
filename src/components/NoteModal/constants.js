@@ -2,7 +2,8 @@ import keyMirror from 'keymirror';
 
 const attributeLabels = {
   pin: 'NOTES.MODAL.PIN',
-  note: 'NOTES.MODAL.NOTE',
+  subject: 'NOTES.SUBJECT',
+  content: 'NOTES.BODY',
 };
 
 const modalType = keyMirror({

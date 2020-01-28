@@ -1,4 +1,3 @@
-/* eslint-disable import/prefer-default-export */
 import gql from 'graphql-tag';
 import { NoteFragment } from '../fragments/notes';
 
@@ -10,6 +9,7 @@ const notesQuery = gql`query notes(
     $changedAtTo: String
     $changedAtFrom: String
     $targetType: String
+    $department: String
   ){
   notes(
     targetUUID: $targetUUID
@@ -19,6 +19,7 @@ const notesQuery = gql`query notes(
     changedAtTo: $changedAtTo
     changedAtFrom: $changedAtFrom
     targetType: $targetType
+    department: $department
     ) {
     data {
       size

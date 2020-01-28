@@ -2795,6 +2795,8 @@
     "account": "account"
   },
   "NOTES": {
+    "SUBJECT": "Subject",
+    "BODY": "Body",
     "MODAL": {
       "DELETE_TITLE": "Delete note",
       "EDIT_TITLE": "Edit note",

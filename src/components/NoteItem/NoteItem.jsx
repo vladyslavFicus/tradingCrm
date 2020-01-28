@@ -17,6 +17,7 @@ class NoteItem extends Component {
       changedBy: PropTypes.string,
       changedAt: PropTypes.string,
       targetUUID: PropTypes.string.isRequired,
+      subject: PropTypes.string,
       content: PropTypes.string.isRequired,
       pinned: PropTypes.bool,
     }).isRequired,
@@ -38,6 +39,7 @@ class NoteItem extends Component {
         changedBy,
         targetUUID,
         pinned,
+        subject,
         content,
         operator: {
           fullName,
@@ -71,9 +73,10 @@ class NoteItem extends Component {
           <div className="row">
             <div className="col">
               <div className="note-item__body">
-                <div className="note-item__content">
-                  {content}
-                </div>
+                <If condition={subject}>
+                  <div className="note-item__subject">{subject}</div>
+                </If>
+                <div className="note-item__content">{content}</div>
                 <If condition={pinned}>
                   <span className="note-item__pinned-note-badge">
                     {I18n.t('COMMON.PINNED')}

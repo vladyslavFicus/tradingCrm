@@ -1,5 +1,3 @@
-/* eslint-disable */
-
 import React, { PureComponent } from 'react';
 import I18n from 'i18n-js';
 import IpList from 'components/Information/IpList';
@@ -27,7 +25,6 @@ class Information extends PureComponent {
 
   render() {
     const {
-      data,
       ips,
       pinnedNotes,
       onEditNoteClick,

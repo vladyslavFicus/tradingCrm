@@ -6,7 +6,7 @@ import classNames from 'classnames';
 import PropTypes from '../../constants/propTypes';
 import { createValidator, translateLabels } from '../../utils/validator';
 import './NoteModal.scss';
-import { TextAreaField, SwitchField } from '../ReduxForm';
+import { TextAreaField, SwitchField, InputField } from '../ReduxForm';
 import { attributeLabels, modalType } from './constants';
 
 const FORM_NAME = 'noteModalForm';
@@ -15,6 +15,7 @@ class NoteModal extends Component {
   static propTypes = {
     initialValues: PropTypes.shape({
       pinned: PropTypes.bool,
+      subject: PropTypes.string,
       content: PropTypes.string,
     }).isRequired,
     handleSubmit: PropTypes.func.isRequired,
@@ -44,18 +45,25 @@ class NoteModal extends Component {
   };
 
   renderFields = () => {
-    const {
-      isDeleteMode,
-    } = this;
+    const { isDeleteMode } = this;
 
     return (
       <Fragment>
         <Field
-          name="content"
-          label={I18n.t(attributeLabels.note)}
+          name="subject"
+          label={I18n.t(attributeLabels.subject)}
+          placeholder=""
+          type="text"
+          component={InputField}
+          showErrorMessage={false}
           disabled={isDeleteMode}
+        />
+        <Field
+          name="content"
+          label={I18n.t(attributeLabels.content)}
           component={TextAreaField}
           showErrorMessage={false}
+          disabled={isDeleteMode}
         />
         <Field
           name="pinned"

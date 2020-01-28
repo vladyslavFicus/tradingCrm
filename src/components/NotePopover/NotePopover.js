@@ -13,15 +13,16 @@ import { createValidator } from '../../utils/validator';
 import { entitiesPrefixes } from '../../constants/uuid';
 import './NotePopover.scss';
 import Uuid from '../Uuid';
-import { TextAreaField, SwitchField } from '../ReduxForm';
+import { TextAreaField, SwitchField, InputField } from '../ReduxForm';
 
-const MAX_CONTENT_LENGTH = 1000;
+const MAX_CONTENT_LENGTH = 10000;
 const FORM_NAME = 'notePopoverForm';
 const attributeLabels = {
   pinned: 'Pin',
   content: 'Content',
 };
 const validator = createValidator({
+  subject: 'string',
   content: ['required', 'string', `between:3,${MAX_CONTENT_LENGTH}`],
   pinned: ['required', 'boolean'],
 }, attributeLabels, false);
@@ -314,11 +315,22 @@ class NotePopover extends Component {
         <PopoverBody tag="form" onSubmit={handleSubmit(this.onSubmit)}>
           {this.renderTitle()}
           <Field
+            name="subject"
+            id={id ? `${id}-input` : null}
+            label={I18n.t('NOTES.SUBJECT')}
+            placeholder=""
+            type="text"
+            component={InputField}
+            showErrorMessage={false}
             disabled={item && !updateAllowed}
+          />
+          <Field
             name="content"
+            id={id ? `${id}-textarea` : null}
+            label={I18n.t('NOTES.BODY')}
             component={TextAreaField}
             showErrorMessage={false}
-            id={id ? `${id}-textarea` : null}
+            disabled={item && !updateAllowed}
           />
           <div className="row no-gutters align-items-center">
             <div className="col-auto">

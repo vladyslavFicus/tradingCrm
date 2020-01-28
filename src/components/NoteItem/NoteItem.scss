@@ -26,10 +26,17 @@
     border: 1px solid #ccc;
     border-radius: 3px;
   }
+  &__subject,
   &__content {
     font-size: 13px;
-    font-style: italic;
     line-height: normal;
+  }
+  &__subject {
+    font-weight: 700;
+    margin-bottom: 5px;
+  }
+  &__content {
+    font-style: italic;
   }
   &__pinned-note-badge {
     display: inline-block;

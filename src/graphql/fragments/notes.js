@@ -5,6 +5,7 @@ const NoteFragment = gql`fragment NoteFragment on Note {
   noteId
   targetUUID
   playerUUID
+  subject
   content
   pinned
   changedAt

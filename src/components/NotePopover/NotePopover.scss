@@ -4,29 +4,40 @@
   width: 320px;
   max-width: 320px;
   background-color: $yellow-color;
+
+  &__header,
+  &__title {
+    margin-bottom: 10px;
+  }
+
   &__header {
-    padding: 0;
+    background-color: transparent;
     border-bottom: 0;
     border-radius: 0;
-    background-color: transparent;
+    padding: 0;
   }
+
   &__title {
     font-size: 16px;
     line-height: normal;
   }
+
   &__subtitle {
     font-size: 11px;
   }
+
   &__author {
     font-size: 13px;
     line-height: normal;
   }
+
   &__delete-btn {
     padding: 0;
     border: 0;
     background-color: transparent;
     font-size: 14px;
   }
+
   &__pin-label {
     display: inline-block;
     padding: 0;
@@ -35,31 +46,53 @@
     vertical-align: middle;
     font-size: 12px;
   }
-  textarea {
-    height: 64px;
-    padding: 2px;
-    border-radius: 0;
-    border-color: #ccc;
-    font-size: 14px;
-    line-height: 18px;
-    background-attachment: local;
-    background-image:
-      linear-gradient(to right, white 0px, transparent 0px),
-      linear-gradient(to left, white 0px, transparent 0px),
-      repeating-linear-gradient($yellow-color, $yellow-color 20px, #dfe4ed 20px, #dfe4ed 21px, #FFFDE6 21px);
-  }
+
   .form-group {
-    margin-bottom: 0;
+    &:not(:last-child) {
+      margin-bottom: 8px;
+    }
+
+    & label {
+      font-size: 13px;
+      margin-bottom: 2px;
+    }
+
+    input,
+    textarea {
+      border-color: #ccc;
+      border-radius: 0;
+      font-size: 14px;
+      line-height: 18px;
+      padding: 2px;
+      height: 26px;
+    }
+
+    input {
+      background-color: transparent !important;
+    }
+
+    textarea {
+      height: 64px;
+      background-attachment: local;
+      background-image:
+        linear-gradient(to right, white 0px, transparent 0px),
+        linear-gradient(to left, white 0px, transparent 0px),
+        repeating-linear-gradient($yellow-color, $yellow-color 20px, #dfe4ed 20px, #dfe4ed 21px, #FFFDE6 21px);
+    }
   }
+
   &.bs-popover-top .arrow:after {
     border-top-color: $yellow-color;
   }
+
   &.bs-popover-right .arrow:after {
     border-right-color: $yellow-color;
   }
+
   &.bs-popover-bottom .arrow:after {
     border-bottom-color: $yellow-color;
   }
+
   &.bs-popover-left .arrow:after {
     border-left-color: $yellow-color;
   }

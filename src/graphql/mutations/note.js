@@ -4,8 +4,9 @@ import { notesQuery } from '../queries/notes';
 import { NoteFragment } from '../fragments/notes';
 
 const updateNoteMutation = gql`mutation updateNote(
-  $targetUUID: String!
+  $subject: String
   $content: String!
+  $targetUUID: String!
   $pinned: Boolean!
   $noteId: String!
 ) {
@@ -13,6 +14,7 @@ const updateNoteMutation = gql`mutation updateNote(
     update(
        noteId: $noteId
        targetUUID: $targetUUID
+       subject: $subject
        content: $content
        pinned: $pinned
       ) {
@@ -28,6 +30,7 @@ const updateNoteMutation = gql`mutation updateNote(
 ${NoteFragment}`;
 
 const addNoteMutation = gql`mutation addNote(
+  $subject: String
   $content: String!
   $targetUUID: String!
   $pinned: Boolean!
@@ -36,6 +39,7 @@ const addNoteMutation = gql`mutation addNote(
 ) {
   note {
     add(
+      subject: $subject
       content: $content
       targetUUID: $targetUUID
       pinned: $pinned
