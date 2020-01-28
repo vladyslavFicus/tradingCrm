@@ -1,5 +1,6 @@
 import React from 'react';
 import keyMirror from 'keymirror';
+import { getActiveBrandConfig } from 'config';
 import countries from 'utils/countryList';
 import { statuses } from 'constants/operators';
 import { statusesLabels, filterLabels } from '../../../../../../constants/user';
@@ -279,14 +280,16 @@ export default (
   placeholder: 'COMMON.SELECT_OPTION.ANY',
   className: fieldClassNames.MEDIUM,
   selectOptions: firstDepositStatuses.map(({ value, label }) => ({ value, label })),
-}, {
+},
+...[getActiveBrandConfig().regulation.isActive && {
   type: fieldTypes.SELECT,
   name: 'questionnaireStatus',
   label: filterLabels.questionnaire,
   placeholder: 'COMMON.SELECT_OPTION.ANY',
   className: fieldClassNames.MEDIUM,
   selectOptions: questionnaire,
-}, {
+}],
+{
   type: fieldTypes.RANGE,
   className: fieldClassNames.MEDIUM,
   label: filterLabels.balance,
