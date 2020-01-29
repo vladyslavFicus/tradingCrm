@@ -1,12 +1,16 @@
 import React, { Component, Fragment } from 'react';
 import { graphql, compose } from 'react-apollo';
+import classNames from 'classnames';
 import I18n from 'i18n-js';
-import PropTypes from 'prop-types';
+import PropTypes from 'constants/propTypes';
 import { Field, reduxForm } from 'redux-form';
+import permissions from 'config/permissions';
+import Permissions from 'utils/permissions';
+import { createValidator } from 'utils/validator';
+import { updateKYCStatusMutation } from 'graphql/mutations/profile';
+import { withPermission } from 'providers/PermissionsProvider';
 import { withNotifications } from 'components/HighOrder';
 import { SelectField } from 'components/ReduxForm';
-import { updateKYCStatusMutation } from 'graphql/mutations/profile';
-import { createValidator } from 'utils/validator';
 
 const FORM_NAME = 'kycStatus';
 
@@ -25,18 +29,19 @@ const statuses = () => ({
   RISK: I18n.t('KYC_REQUESTS.STATUS.RISK'),
 });
 
+const updateKycStatusPermissions = new Permissions(permissions.USER_PROFILE.KYC_UPDATE);
+
 class KycStatus extends Component {
   static propTypes = {
     initialValues: PropTypes.shape({
       kycStatus: PropTypes.string,
     }),
-    notify: PropTypes.func.isRequired,
-    disabled: PropTypes.bool,
+    permission: PropTypes.permission.isRequired,
     handleSubmit: PropTypes.func.isRequired,
+    notify: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
-    disabled: false,
     initialValues: {},
   };
 
@@ -61,8 +66,11 @@ class KycStatus extends Component {
   render() {
     const {
       handleSubmit,
-      disabled,
+      permission: {
+        permissions: currentPermissions,
+      },
     } = this.props;
+    const isAvailableToChangeKysStatus = updateKycStatusPermissions.check(currentPermissions);
 
     return (
       <Fragment>
@@ -75,8 +83,11 @@ class KycStatus extends Component {
               name="kycStatus"
               label={I18n.t('PLAYER_PROFILE.PROFILE.KYC_STATUS.CURRENT_STATUS')}
               component={SelectField}
-              disabled={disabled}
-              className="col-lg-6"
+              disabled={!isAvailableToChangeKysStatus}
+              className={classNames('', {
+                'col-lg-6': isAvailableToChangeKysStatus,
+                'col-lg-12': !isAvailableToChangeKysStatus,
+              })}
             >
               {Object.entries(statuses()).map(([key, value]) => (
                 <option key={key} value={key}>
@@ -84,11 +95,13 @@ class KycStatus extends Component {
                 </option>
               ))}
             </Field>
-            <div className="col-4 mt-4-profile">
-              <button type="submit" className="btn btn-primary width-full">
-                {I18n.t('COMMON.BUTTONS.SAVE')}
-              </button>
-            </div>
+            <If condition={isAvailableToChangeKysStatus}>
+              <div className="col-4 mt-4-profile">
+                <button type="submit" className="btn btn-primary width-full">
+                  {I18n.t('COMMON.BUTTONS.SAVE')}
+                </button>
+              </div>
+            </If>
           </div>
         </form>
       </Fragment>
@@ -97,6 +110,7 @@ class KycStatus extends Component {
 }
 
 export default compose(
+  withPermission,
   withNotifications,
   reduxForm({
     form: FORM_NAME,
