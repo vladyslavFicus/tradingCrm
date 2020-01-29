@@ -6,8 +6,9 @@ import PropTypes from 'constants/propTypes';
 import Uuid from 'components/Uuid';
 import CountryLabelWithFlag from 'components/CountryLabelWithFlag';
 import ShortLoader from 'components/ShortLoader';
-import { salesStatusesColor } from 'constants/salesStatuses';
+import { salesStatuses, salesStatusesColor } from 'constants/salesStatuses';
 import { withRequests } from 'apollo';
+import renderLabel from 'utils/renderLabel';
 import LeadMiniProfileQuery from './graphql/LeadMiniProfileQuery';
 
 const LeadMiniProfile = ({ miniProfile: { data, loading } }) => {
@@ -62,7 +63,9 @@ const LeadMiniProfile = ({ miniProfile: { data, loading } }) => {
         <div className="info-block">
           <div className="info-block-label">{I18n.t('MINI_PROFILE.LEADS.SALES')}</div>
           <div className="info-block-content">
-            <div className={classNames('font-weight-700', salesStatusesColor[salesStatus])}>{salesStatus}</div>
+            <div className={classNames('font-weight-700', salesStatusesColor[salesStatus])}>
+              {I18n.t(renderLabel(salesStatus, salesStatuses))}
+            </div>
             <div className="font-size-11">{salesAgentFullName}</div>
           </div>
         </div>
