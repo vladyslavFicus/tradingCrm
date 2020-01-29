@@ -378,24 +378,18 @@ class Profile extends Component {
       match: { params: { id: playerUUID } },
     } = this.props;
 
+    let response = null;
+
     if (data.noteId) {
-      const updatedNote = await updateNote({ variables: data });
-
-      this.handleNoteHide(viewType);
-
-      if (typeof noteChangedCallback === 'function') {
-        noteChangedCallback();
-      }
-
-      return updatedNote;
+      response = await updateNote({ variables: data });
+    } else {
+      response = await addNote({
+        variables: {
+          ...data,
+          playerUUID,
+        },
+      });
     }
-
-    const response = await addNote({
-      variables: {
-        ...data,
-        playerUUID,
-      },
-    });
 
     this.handleNoteHide(viewType);
 

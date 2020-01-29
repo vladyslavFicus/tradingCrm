@@ -62,8 +62,13 @@ class Notes extends Component {
     unRegisterUpdateCacheListener(name);
   }
 
-  handleRefresh = (filters = {}) => {
-    this.props.history.replace({ query: { filters } });
+  handleRefresh = (filters) => {
+    const { location, history } = this.props;
+    history.replace({
+      query: {
+        filters: filters || (location.query && location.query.filters) || {},
+      },
+    });
   };
 
   handleFiltersChanged = (filters = {}) => this.handleRefresh(filters);
