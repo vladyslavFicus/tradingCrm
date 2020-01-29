@@ -23,6 +23,7 @@ async function fetchBrandsConfig({ zookeeperUrl, onBrandsConfigUpdated }) {
       'nas.brand.regulation',
       'nas.brand.mt4.demo_groups',
       'nas.brand.backoffice.riskCalculator',
+      'nas.brand.backoffice.fsaRegulation',
     ],
     null,
     options,

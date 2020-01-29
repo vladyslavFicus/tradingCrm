@@ -19,5 +19,6 @@ module.exports = configs => Object.entries(configs).reduce((acc, [id, config]) =
     },
     isDemoAvailable: !!get(config, 'nas.brand.mt4.demo_groups'),
     isRisksTabAvailable: !!get(config, 'nas.brand.backoffice.riskCalculator'),
+    fsaRegulation: !!get(config, 'nas.brand.backoffice.fsaRegulation'),
   },
 }), {});
