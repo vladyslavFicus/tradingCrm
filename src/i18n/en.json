@@ -2226,10 +2226,12 @@
         "DEPOSIT": "Deposits",
         "LAST": "last",
         "FIRST": "first",
+        "NET": "Net deposit",
         "DEPOSITED": "Deposited",
         "WITHDRAWAL": "Withdrawals",
         "WITHDRAWN": "Withdrawn",
         "PERIOD_PRESETS": {
+          "ALL_TIME": "All time",
           "LAST_7_DAYS": "Last 7 days",
           "LAST_MONTH": "Last month",
           "LAST_3_MONTHS": "Last 3 month"
