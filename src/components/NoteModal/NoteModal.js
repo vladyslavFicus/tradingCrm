@@ -144,7 +144,7 @@ class NoteModal extends Component {
           </button>
           <button
             type="submit"
-            disabled={invalid || submitting || contentLength > MAX_NOTE_BODY_LENGTH}
+            disabled={invalid || submitting}
             className={classNames('btn', this.isDeleteMode ? 'btn-danger' : 'btn-primary')}
             form="note-modal-form"
           >
@@ -167,7 +167,7 @@ const NoteForm = reduxForm({
   form: FORM_NAME,
   enableReinitialize: true,
   validate: createValidator({
-    content: ['required', 'string'],
+    content: ['required', 'string', `between:3,${MAX_NOTE_BODY_LENGTH}`],
     pinned: ['required', 'boolean'],
   }, translateLabels(attributeLabels), false),
 })(NoteModal);
