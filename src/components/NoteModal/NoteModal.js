@@ -1,16 +1,15 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { reduxForm, Field } from 'redux-form';
 import I18n from 'i18n-js';
 import classNames from 'classnames';
-import PropTypes from 'constants/propTypes';
-import { createValidator, translateLabels } from 'utils/validator';
-import { TextAreaField, SwitchField, InputField } from 'components/ReduxForm';
-import { attributeLabels, modalType } from './constants';
+import PropTypes from '../../constants/propTypes';
+import { createValidator, translateLabels } from '../../utils/validator';
 import './NoteModal.scss';
+import { TextAreaField, SwitchField, InputField } from '../ReduxForm';
+import { attributeLabels, modalType } from './constants';
 
 const FORM_NAME = 'noteModalForm';
-const MAX_NOTE_BODY_LENGTH = 10000;
 
 class NoteModal extends Component {
   static propTypes = {
@@ -29,14 +28,6 @@ class NoteModal extends Component {
     onDelete: PropTypes.func.isRequired,
   };
 
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      contentLength: props.initialValues.content.length,
-    };
-  }
-
   get isDeleteMode() {
     return this.props.type === modalType.DELETE;
   }
@@ -53,30 +44,58 @@ class NoteModal extends Component {
     return type === modalType.EDIT ? onEdit(data) : onDelete(data);
   };
 
-  onHandleContentChange = ({ target: { textLength } }) => {
-    this.setState({ contentLength: textLength });
+  renderFields = () => {
+    const { isDeleteMode } = this;
+
+    return (
+      <Fragment>
+        <Field
+          name="subject"
+          label={I18n.t(attributeLabels.subject)}
+          placeholder=""
+          type="text"
+          component={InputField}
+          showErrorMessage={false}
+          disabled={isDeleteMode}
+        />
+        <Field
+          name="content"
+          label={I18n.t(attributeLabels.content)}
+          component={TextAreaField}
+          showErrorMessage={false}
+          disabled={isDeleteMode}
+        />
+        <Field
+          name="pinned"
+          wrapperClassName="margin-top-30"
+          label={I18n.t(attributeLabels.pin)}
+          component={SwitchField}
+        />
+      </Fragment>
+    );
   };
 
   render() {
     const {
-      handleSubmit,
-      onCloseModal,
-      isOpen,
-      initialValues: {
-        pinned,
-        content,
+      props: {
+        handleSubmit,
+        onCloseModal,
+        isOpen,
+        initialValues: {
+          pinned,
+          content,
+        },
+        invalid,
+        submitting,
       },
-      invalid,
-      submitting,
-    } = this.props;
-
-    const { contentLength } = this.state;
+      isDeleteMode,
+    } = this;
 
     return (
       <Modal
         toggle={onCloseModal}
         isOpen={isOpen}
-        className={classNames('note-modal', { 'modal-danger': this.isDeleteMode })}
+        className={classNames('note-modal', { 'modal-danger': isDeleteMode })}
       >
         <ModalHeader toggle={onCloseModal}>
           {this.title}
@@ -87,7 +106,7 @@ class NoteModal extends Component {
           id="note-modal-form"
         >
           <Choose>
-            <When condition={this.isDeleteMode}>
+            <When condition={isDeleteMode}>
               <div className="text-center font-weight-700">
                 {I18n.t('NOTES.MODAL.REMOVE_DESCRIPTION')}
               </div>
@@ -101,36 +120,7 @@ class NoteModal extends Component {
               </div>
             </When>
             <Otherwise>
-              <Field
-                name="subject"
-                label={I18n.t(attributeLabels.subject)}
-                placeholder=""
-                type="text"
-                component={InputField}
-                showErrorMessage={false}
-                disabled={this.isDeleteMode}
-              />
-              <Field
-                name="content"
-                label={I18n.t(attributeLabels.content)}
-                onChange={this.onHandleContentChange}
-                component={TextAreaField}
-                showErrorMessage={false}
-                disabled={this.isDeleteMode}
-              />
-              <div
-                className={classNames('', {
-                  'color-danger': contentLength > MAX_NOTE_BODY_LENGTH,
-                })}
-              >
-                {`${contentLength}/${MAX_NOTE_BODY_LENGTH}`}
-              </div>
-              <Field
-                name="pinned"
-                wrapperClassName="margin-top-20"
-                label={I18n.t(attributeLabels.pin)}
-                component={SwitchField}
-              />
+              {this.renderFields()}
             </Otherwise>
           </Choose>
         </ModalBody>
@@ -145,11 +135,11 @@ class NoteModal extends Component {
           <button
             type="submit"
             disabled={invalid || submitting}
-            className={classNames('btn', this.isDeleteMode ? 'btn-danger' : 'btn-primary')}
+            className={classNames('btn', isDeleteMode ? 'btn-danger' : 'btn-primary')}
             form="note-modal-form"
           >
             <Choose>
-              <When condition={this.isDeleteMode}>
+              <When condition={isDeleteMode}>
                 {I18n.t('COMMON.BUTTONS.DELETE')}
               </When>
               <Otherwise>
@@ -167,7 +157,7 @@ const NoteForm = reduxForm({
   form: FORM_NAME,
   enableReinitialize: true,
   validate: createValidator({
-    content: ['required', 'string', `between:3,${MAX_NOTE_BODY_LENGTH}`],
+    content: ['required', 'string'],
     pinned: ['required', 'boolean'],
   }, translateLabels(attributeLabels), false),
 })(NoteModal);

@@ -10,6 +10,7 @@ const targetTypes = keyMirror({
   LIMIT: null,
   PAYMENT_ACCOUNT: null,
   KYC_REQUEST_VERIFICATION: null,
+  KYC_VERIFY: null,
   KYC_REFUSE: null,
 });
 

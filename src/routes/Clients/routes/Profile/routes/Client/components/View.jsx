@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import React, { Component, Fragment } from 'react';
 import I18n from 'i18n-js';
 import PropTypes from 'constants/propTypes';
@@ -15,6 +17,7 @@ import KycStatus from './Kyc/KycStatus';
 import TransferAvailability from './TransferAvailability';
 import BankDetailsForm from './BankDetailsForm';
 import './View.scss';
+// import TabHeader from 'components/TabHeader';
 
 const updatePersonalInformationPermissions = new Permissions(permissions.USER_PROFILE.UPDATE_PERSONAL_INFORMATION);
 const updateAddressPermissions = new Permissions(permissions.USER_PROFILE.UPDATE_ADDRESS);
@@ -24,10 +27,10 @@ class View extends Component {
   static propTypes = {
     verifyPhone: PropTypes.func.isRequired,
     verifyEmail: PropTypes.func.isRequired,
+    canUpdateProfile: PropTypes.bool,
+    profileUpdate: PropTypes.func.isRequired,
+    refetchProfileDataOnSave: PropTypes.func.isRequired,
     auth: PropTypes.auth.isRequired,
-    updateAddress: PropTypes.func.isRequired,
-    newProfile: PropTypes.newProfile.isRequired,
-    permission: PropTypes.permission.isRequired,
   };
 
   static childContextTypes = {
@@ -36,6 +39,10 @@ class View extends Component {
 
   static contextTypes = {
     addNotification: PropTypes.func.isRequired,
+  };
+
+  static defaultProps = {
+    canUpdateProfile: false,
   };
 
   getChildContext = () => ({
@@ -50,7 +57,7 @@ class View extends Component {
     return role === roles.ROLE1 && [departments.RETENTION, departments.SALES].includes(department);
   }
 
-  handleUpdatePersonalInformation = async (data) => {
+  handleUpdatePersonalInformation = async data => {
     const {
       match: {
         params: { id: playerUUID },
@@ -81,7 +88,7 @@ class View extends Component {
     });
   };
 
-  handleUpdateContacts = async (data) => {
+  handleUpdateContacts = async data => {
     const {
       newProfile: {
         newProfile: {
@@ -115,7 +122,7 @@ class View extends Component {
     });
   };
 
-  handleVerifyPhone = async (currentPhone) => {
+  handleVerifyPhone = async currentPhone => {
     const {
       newProfile: {
         newProfile: {
@@ -163,7 +170,7 @@ class View extends Component {
     });
   };
 
-  handleUpdateAddress = async (data) => {
+  handleUpdateAddress = async data => {
     const {
       data: {
         profile: {
@@ -195,12 +202,12 @@ class View extends Component {
   render() {
     const {
       newProfile: { loading },
-      permission: { permissions: currentPermissions },
+      permission: { permissions },
     } = this.props;
 
-    const canUpdatePersonalInformation = updatePersonalInformationPermissions.check(currentPermissions);
-    const canUpdateAddress = updateAddressPermissions.check(currentPermissions);
-    const updateContacts = updateContactsPermissions.check(currentPermissions);
+    const canUpdatePersonalInformation = updatePersonalInformationPermissions.check(permissions);
+    const canUpdateAddress = updateAddressPermissions.check(permissions);
+    const updateContacts = updateContactsPermissions.check(permissions);
 
     if (loading) {
       return null;
@@ -231,6 +238,18 @@ class View extends Component {
 
     return (
       <Fragment>
+        {/* <TabHeader title={I18n.t('CLIENT_PROFILE.PROFILE.TITLE')}>
+          <PermissionContent permissions={permissions.USER_PROFILE.REQUEST_KYC}>
+            <button
+              id="request-kyc-button"
+              type="button"
+              className="btn btn-sm btn-primary-outline"
+              onClick={this.handleOpenRequestKycVerificationModal}
+            >
+              {I18n.t('PLAYER_PROFILE.PROFILE.REQUEST_KYC_VERIFICATION')}
+            </button>
+          </PermissionContent>
+        </TabHeader> */}
         <div className="tab-wrapper">
           <div className="client-flex-wrapper">
             <div className="client-big-col">

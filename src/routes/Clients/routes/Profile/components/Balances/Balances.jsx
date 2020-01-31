@@ -291,22 +291,20 @@ class Balances extends Component {
           <DropdownMenu>
             <div className="dropdown-menu__content">
               {this.renderTradingAccounts()}
-              <If condition={dropDownOpen}>
-                <div className="row margin-0 margin-bottom-15">
-                  <form className="balance-select-field">
-                    <Select
-                      onChange={this.handleDateChange}
-                      value={this.state.dateFrom}
-                    >
-                      {selectItems.map(({ value, label }) => (
-                        <option key={value} value={value}>
-                          {I18n.t(label)}
-                        </option>
-                      ))}
-                    </Select>
-                  </form>
-                </div>
-              </If>
+              <div className="row margin-0 margin-bottom-15">
+                <form className="balance-select-field">
+                  <Select
+                    onChange={this.handleDateChange}
+                    value={this.state.dateFrom}
+                  >
+                    {selectItems.map(({ value, label }) => (
+                      <option key={value} value={value}>
+                        {I18n.t(label)}
+                      </option>
+                    ))}
+                  </Select>
+                </form>
+              </div>
               {this.renderStatistics()}
             </div>
           </DropdownMenu>
