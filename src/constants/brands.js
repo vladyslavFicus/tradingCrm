@@ -68,6 +68,7 @@ const brands = keyMirror({
   investogo: null,
   safedepositcentre: null,
   primefunder: null,
+  marketsdock: null,
 });
 
 const departments = keyMirror({
@@ -358,6 +359,10 @@ const brandsConfig = {
   [brands.primefunder]: {
     name: 'Primefunder',
     image: { src: '/img/brand/choose-brand/primefunder.svg' },
+  },
+  [brands.marketsdock]: {
+    name: 'Marketsdock',
+    image: { src: '/img/brand/choose-brand/marketsdock.svg' },
   },
 };
 const departmentsConfig = {
