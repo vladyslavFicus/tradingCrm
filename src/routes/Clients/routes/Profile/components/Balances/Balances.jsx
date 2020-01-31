@@ -1,60 +1,31 @@
 import React, { Component } from 'react';
-import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
+import { Dropdown, DropdownToggle, DropdownMenu } from 'reactstrap';
 import classNames from 'classnames';
-import { Field } from 'redux-form';
 import { get, groupBy, sumBy } from 'lodash';
 import I18n from 'i18n-js';
 import moment from 'moment';
 import { getActiveBrandConfig } from 'config';
 import PropTypes from 'constants/propTypes';
-import { SelectField } from 'components/ReduxForm';
+import Select from 'components/Select';
 import ShortLoader from 'components/ShortLoader';
 import { selectItems, moneyObj } from './constants';
 import './Balances.scss';
 
 class Balances extends Component {
   static propTypes = {
-    depositPaymentStatistic: PropTypes.shape({
-      statistics: PropTypes.shape({
-        payments: PropTypes.shape({
-          data: PropTypes.shape({
-            itemsTotal: PropTypes.shape({
-              totalAmount: PropTypes.number,
-              totalCount: PropTypes.number,
-            }),
-          }),
-        }),
-      }),
-      refetch: PropTypes.func.isRequired,
-      loading: PropTypes.bool.isRequired,
-    }).isRequired,
-    withdrawPaymentStatistic: PropTypes.shape({
-      statistics: PropTypes.shape({
-        payments: PropTypes.shape({
-          data: PropTypes.shape({
-            itemsTotal: PropTypes.shape({
-              totalAmount: PropTypes.number,
-              totalCount: PropTypes.number,
-            }),
-          }),
-        }),
-      }),
-      refetch: PropTypes.func.isRequired,
-      loading: PropTypes.bool.isRequired,
-    }).isRequired,
+    depositPaymentStatistic: PropTypes.paymentsStatistic.isRequired,
+    withdrawPaymentStatistic: PropTypes.paymentsStatistic.isRequired,
     balances: PropTypes.shape({
       amount: PropTypes.string,
       credit: PropTypes.string,
       currency: PropTypes.string,
     }),
     tradingAccounts: PropTypes.arrayOf(PropTypes.mt4User),
-    selectValue: PropTypes.string,
   };
 
   static defaultProps = {
     balances: {},
     tradingAccounts: [],
-    selectValue: null,
   };
 
   static contextTypes = {
@@ -64,6 +35,7 @@ class Balances extends Component {
 
   state = {
     dropDownOpen: false,
+    dateFrom: selectItems[0].value,
   };
 
   componentDidMount() {
@@ -76,15 +48,10 @@ class Balances extends Component {
       },
     } = this;
 
-    registerUpdateCacheListener(name, () => { depositStat(); withdrawStat(); });
-  }
-
-  componentWillReceiveProps(nextProps) {
-    // INFO: when select value changed - make refetch
-    if (this.props.selectValue && nextProps.selectValue !== this.props.selectValue) {
-      this.props.depositPaymentStatistic.refetch({ dateFrom: nextProps.selectValue });
-      this.props.withdrawPaymentStatistic.refetch({ dateFrom: nextProps.selectValue });
-    }
+    registerUpdateCacheListener(name, () => {
+      depositStat();
+      withdrawStat();
+    });
   }
 
   componentWillUnmount() {
@@ -100,28 +67,98 @@ class Balances extends Component {
     }));
   };
 
-  renderDropDown = (
-    dropDownOpen,
-    { amount, credit },
-  ) => {
+  handleDateChange = (dateFrom) => {
+    const { depositPaymentStatistic, withdrawPaymentStatistic } = this.props;
+
+    this.setState({ dateFrom });
+
+    depositPaymentStatistic.refetch({ dateFrom });
+    withdrawPaymentStatistic.refetch({ dateFrom });
+  };
+
+  renderTradingAccounts = () => {
+    const accountsByCurrency = groupBy(this.props.tradingAccounts, 'currency');
+
+    const balancesByCurrency = Object.keys(accountsByCurrency).map(currency => ({
+      currency,
+      balance: sumBy(accountsByCurrency[currency], 'balance'),
+      credit: sumBy(accountsByCurrency[currency], 'credit'),
+    }));
+
+    if (balancesByCurrency.length) {
+      return (
+        <div className="row margin-0 margin-bottom-15 balance-list">
+          {balancesByCurrency.map(({ balance, credit, currency }) => (
+            <div key={currency} className="col-6 balance-item">
+              <div className="header-block-title">
+                {currency} {I18n.t('CLIENT_PROFILE.CLIENT.BALANCES.BALANCE')}
+              </div>
+              <div className="header-block-middle">
+                {currency} {Number(balance).toFixed(2)}
+              </div>
+              <div className="header-block-small">
+                {I18n.t('CLIENT_PROFILE.PROFILE.HEADER.CREDIT')}:&nbsp;
+                {currency} {Number(credit).toFixed(2)}
+              </div>
+            </div>
+          ))}
+        </div>
+      );
+    }
+
+    return null;
+  };
+
+  renderTotalBalance = () => {
+    const {
+      balances: { amount, credit },
+    } = this.props;
+    const baseCurrency = getActiveBrandConfig().currencies.base;
+
+    return (
+      <div className="dropdown-tab">
+        <div className="header-block-title">
+          {I18n.t('CLIENT_PROFILE.CLIENT.BALANCES.TOTAL_BALANCE')}
+        </div>
+        <i className="fa fa-angle-down" />
+        <div className="header-block-middle">
+          {baseCurrency} {Number(amount).toFixed(2)}
+        </div>
+        <div className="header-block-small">
+          {I18n.t('CLIENT_PROFILE.PROFILE.HEADER.CREDIT')}: {baseCurrency}{' '}
+          {Number(credit).toFixed(2)}
+        </div>
+      </div>
+    );
+  };
+
+  renderStatistics = () => {
     const baseCurrency = getActiveBrandConfig().currencies.base;
 
     const {
-      depositPaymentStatistic: { statistics, loading },
-      withdrawPaymentStatistic: { statistics: withdrawStat, loading: widthdrawLoading },
+      depositPaymentStatistic: {
+        statistics: depositStat,
+        loading: depositLoading,
+      },
+      withdrawPaymentStatistic: {
+        statistics: withdrawStat,
+        loading: widthdrawLoading,
+      },
     } = this.props;
 
     const {
       totalAmount: depositAmount,
       totalCount: depositCount,
-    } = get(statistics, 'payments.data.itemsTotal') || moneyObj;
+    } = get(depositStat, 'payments.data.itemsTotal') || moneyObj;
     const {
       totalAmount: withdrawAmount,
       totalCount: withdrawCount,
     } = get(withdrawStat, 'payments.data.itemsTotal') || moneyObj;
 
-    const depositItems = get(statistics, 'payments.data.items', []).filter(i => i.amount > 0);
-    const withdrawItems = get(withdrawStat, 'payments.data.items', []).filter(i => i.amount > 0);
+    const depositItems = get(depositStat, 'payments.data.items', [])
+      .filter(i => i.amount > 0);
+    const withdrawItems = get(withdrawStat, 'payments.data.items', [])
+      .filter(i => i.amount > 0);
 
     const lastDepositItem = depositItems[depositItems.length - 1];
     const lastWithdrawItem = withdrawItems[withdrawItems.length - 1];
@@ -129,156 +166,149 @@ class Balances extends Component {
     const firstDepositItem = depositItems[0];
     const firstWithdrawItem = withdrawItems[0];
 
-    const depositError = get(statistics, 'payments.error');
+    const depositError = get(depositStat, 'payments.error');
     const withdrawError = get(withdrawStat, 'payments.error');
 
-    // ======= Calculate sum of trading accounts balances by currency  ======= //
-    const accountsByCurrency = groupBy(this.props.tradingAccounts, 'currency');
-
-    // Sum account balances by each unique currency
-    const balancesByCurrency = Object.keys(accountsByCurrency).map(currency => ({
-      currency,
-      balance: sumBy(accountsByCurrency[currency], 'balance'),
-      credit: sumBy(accountsByCurrency[currency], 'credit'),
-    }), {});
-
     return (
-      <Dropdown isOpen={dropDownOpen} toggle={this.toggle}>
-        <DropdownToggle
-          tag="div"
-          data-toggle="dropdown"
-          aria-expanded={dropDownOpen}
-        >
-          <div className="dropdown-tab">
-            <div className="header-block-title">{I18n.t('CLIENT_PROFILE.CLIENT.BALANCES.TOTAL_BALANCE')}</div>
-            <i className="fa fa-angle-down" />
-            <div className="header-block-middle">
-              {baseCurrency} {Number(amount).toFixed(2)}
+      <Choose>
+        <When condition={!depositLoading || !widthdrawLoading || depositError || withdrawError}>
+          <div className="row">
+            <div className="col-6">
+              <div className="header-block-title">
+                {I18n.t('CLIENT_PROFILE.CLIENT.BALANCES.DEPOSIT')}
+              </div>
+              <div
+                className={classNames('header-block-middle', {
+                  'margin-bottom-15': !lastWithdrawItem,
+                })}
+              >
+                {depositCount}
+              </div>
             </div>
-            <div className="header-block-small">
-              {I18n.t('CLIENT_PROFILE.PROFILE.HEADER.CREDIT')}: {baseCurrency} {Number(credit).toFixed(2)}
+            <div className="col-6">
+              <div className="header-block-title">
+                {I18n.t('CLIENT_PROFILE.CLIENT.BALANCES.WITHDRAWAL')}
+              </div>
+              <div
+                className={classNames('header-block-middle', {
+                  'margin-bottom-15': !lastWithdrawItem,
+                })}
+              >
+                {withdrawCount}
+              </div>
             </div>
           </div>
-        </DropdownToggle>
-        <DropdownMenu>
-          <div className="dropdown-menu__content">
-            <DropdownItem toggle={false}>
-              <If condition={balancesByCurrency.length}>
-                <div className="row margin-0 margin-bottom-15 balance-list">
-                  {balancesByCurrency.map(balance => (
-                    <div key={balance.currency} className="col-6 balance-item">
-                      <div className="header-block-title">
-                        {balance.currency} {I18n.t('CLIENT_PROFILE.CLIENT.BALANCES.BALANCE')}
-                      </div>
-                      <div className="header-block-middle">
-                        {balance.currency} {Number(balance.balance).toFixed(2)}
-                      </div>
-                      <div className="header-block-small">
-                        {I18n.t('CLIENT_PROFILE.PROFILE.HEADER.CREDIT')}:&nbsp;
-                        {balance.currency} {Number(balance.credit).toFixed(2)}
-                      </div>
-                    </div>
-                  ))}
+          <div className="row">
+            <div className="col-6">
+              <If condition={firstDepositItem}>
+                <div className="header-block-small margin-bottom-15">
+                  {I18n.t('CLIENT_PROFILE.CLIENT.BALANCES.FIRST')}{' '}
+                  {moment(firstDepositItem.entryDate).format('DD.MM.YYYY')}
                 </div>
               </If>
-              <form className="balance-select-field">
-                <Field
-                  name="date"
-                  component={SelectField}
-                >
-                  {selectItems.map(({ value, label }) => (
-                    <option key={value} value={value}>
-                      {I18n.t(label)}
-                    </option>
-                  ))}
-                </Field>
-              </form>
-            </DropdownItem>
-            <Choose>
-              <When condition={!loading || !widthdrawLoading || depositError || withdrawError}>
-                <DropdownItem>
-                  <div className="row">
-                    <div className="col-6">
-                      <div className="header-block-title">
-                        {I18n.t('CLIENT_PROFILE.CLIENT.BALANCES.DEPOSIT')}
-                      </div>
-                      <div className={`header-block-middle ${lastWithdrawItem ? '' : 'margin-bottom-15'}`}>
-                        {depositCount}
-                      </div>
-                    </div>
-                    <div className="col-6">
-                      <div className="header-block-title">
-                        {I18n.t('CLIENT_PROFILE.CLIENT.BALANCES.WITHDRAWAL')}
-                      </div>
-                      <div className={`header-block-middle ${lastWithdrawItem ? '' : 'margin-bottom-15'}`}>
-                        {withdrawCount}
-                      </div>
-                    </div>
-                  </div>
-                  <div className="row">
-                    <div className="col-6">
-                      <If condition={firstDepositItem}>
-                        <div className="header-block-small margin-bottom-15">
-                          {I18n.t('CLIENT_PROFILE.CLIENT.BALANCES.FIRST')} {
-                            moment(firstDepositItem.entryDate).format('DD.MM.YYYY')}
-                        </div>
-                      </If>
-                      <If condition={lastDepositItem}>
-                        <div className="header-block-small margin-bottom-15">
-                          {I18n.t('CLIENT_PROFILE.CLIENT.BALANCES.LAST')} {
-                            moment(lastDepositItem.entryDate).format('DD.MM.YYYY')}
-                        </div>
-                      </If>
-                    </div>
-                    <div className="col-6">
-                      <If condition={firstWithdrawItem}>
-                        <div className="header-block-small margin-bottom-15">
-                          {I18n.t('CLIENT_PROFILE.CLIENT.BALANCES.FIRST')} {
-                            moment(firstWithdrawItem.entryDate).format('DD.MM.YYYY')}
-                        </div>
-                      </If>
-                      <If condition={lastWithdrawItem}>
-                        <div className="header-block-small margin-bottom-15">
-                          {I18n.t('CLIENT_PROFILE.CLIENT.BALANCES.LAST')} {
-                            moment(lastWithdrawItem.entryDate).format('DD.MM.YYYY')}
-                        </div>
-                      </If>
-                    </div>
-                  </div>
-                  <div className="row">
-                    <div className="col-6">
-                      <div className="header-block-title">{I18n.t('CLIENT_PROFILE.CLIENT.BALANCES.DEPOSITED')}</div>
-                      <div className="header-block-middle">{baseCurrency}: {Number(depositAmount).toFixed(2)}</div>
-                    </div>
-                    <div className="col-6">
-                      <div className="header-block-title">{I18n.t('CLIENT_PROFILE.CLIENT.BALANCES.WITHDRAWN')}</div>
-                      <div className="header-block-middle">{baseCurrency}: {Number(withdrawAmount).toFixed(2)}</div>
-                    </div>
-                  </div>
-                </DropdownItem>
-              </When>
-              <Otherwise condition={loading}>
-                <div className="balance-loader">
-                  <ShortLoader height={20} />
+              <If condition={lastDepositItem}>
+                <div className="header-block-small margin-bottom-15">
+                  {I18n.t('CLIENT_PROFILE.CLIENT.BALANCES.LAST')}{' '}
+                  {moment(lastDepositItem.entryDate).format('DD.MM.YYYY')}
                 </div>
-              </Otherwise>
-            </Choose>
+              </If>
+            </div>
+            <div className="col-6">
+              <If condition={firstWithdrawItem}>
+                <div className="header-block-small margin-bottom-15">
+                  {I18n.t('CLIENT_PROFILE.CLIENT.BALANCES.FIRST')}{' '}
+                  {moment(firstWithdrawItem.entryDate).format('DD.MM.YYYY')}
+                </div>
+              </If>
+              <If condition={lastWithdrawItem}>
+                <div className="header-block-small margin-bottom-15">
+                  {I18n.t('CLIENT_PROFILE.CLIENT.BALANCES.LAST')}{' '}
+                  {moment(lastWithdrawItem.entryDate).format('DD.MM.YYYY')}
+                </div>
+              </If>
+            </div>
           </div>
-        </DropdownMenu>
-      </Dropdown>
+          <div className="row margin-bottom-15">
+            <div className="col-6">
+              <div className="header-block-title">
+                {I18n.t('CLIENT_PROFILE.CLIENT.BALANCES.DEPOSITED')}
+              </div>
+              <div className="header-block-middle">
+                {baseCurrency}: {Number(depositAmount).toFixed(2)}
+              </div>
+            </div>
+            <div className="col-6">
+              <div className="header-block-title">
+                {I18n.t('CLIENT_PROFILE.CLIENT.BALANCES.WITHDRAWN')}
+              </div>
+              <div className="header-block-middle">
+                {baseCurrency}: {Number(withdrawAmount).toFixed(2)}
+              </div>
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-6">
+              <div className="header-block-title">
+                {I18n.t('CLIENT_PROFILE.CLIENT.BALANCES.NET')}
+              </div>
+              <div className="header-block-middle">
+                {baseCurrency}:{' '}
+                {(Number(depositAmount) - Number(withdrawAmount)).toFixed(2)}
+              </div>
+            </div>
+          </div>
+        </When>
+        <Otherwise condition={depositLoading}>
+          <div className="balance-loader">
+            <ShortLoader height={20} />
+          </div>
+        </Otherwise>
+      </Choose>
     );
   };
 
   render() {
     const { dropDownOpen } = this.state;
-    const { balances } = this.props;
-    const dropdownClassName = classNames('dropdown-highlight cursor-pointer', 'balance-dropdown', {
-      'dropdown-open': dropDownOpen,
-    });
+
+    const dropdownClassName = classNames(
+      'dropdown-highlight cursor-pointer',
+      'balance-dropdown',
+      {
+        'dropdown-open': dropDownOpen,
+      },
+    );
 
     return (
       <div className={dropdownClassName}>
-        {this.renderDropDown(dropDownOpen, balances)}
+        <Dropdown isOpen={dropDownOpen} toggle={this.toggle}>
+          <DropdownToggle
+            tag="div"
+            data-toggle="dropdown"
+            aria-expanded={dropDownOpen}
+          >
+            {this.renderTotalBalance()}
+          </DropdownToggle>
+          <DropdownMenu>
+            <div className="dropdown-menu__content">
+              {this.renderTradingAccounts()}
+              <div className="row margin-0 margin-bottom-15">
+                <form className="balance-select-field">
+                  <Select
+                    onChange={this.handleDateChange}
+                    value={this.state.dateFrom}
+                  >
+                    {selectItems.map(({ value, label }) => (
+                      <option key={value} value={value}>
+                        {I18n.t(label)}
+                      </option>
+                    ))}
+                  </Select>
+                </form>
+              </div>
+              {this.renderStatistics()}
+            </div>
+          </DropdownMenu>
+        </Dropdown>
       </div>
     );
   }

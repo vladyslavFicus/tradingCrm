@@ -626,19 +626,9 @@ PropTypes.storage = PropTypes.shape({
   remove: PropTypes.func.isRequired,
 });
 PropTypes.paymentsStatistic = PropTypes.shape({
-  refetch: PropTypes.func.isRequired,
-  loading: PropTypes.bool.isRequired,
   statistics: PropTypes.shape({
     payments: PropTypes.shape({
       data: PropTypes.shape({
-        additionalTotal: PropTypes.shape({
-          totalCount: PropTypes.number,
-          totalAmount: PropTypes.number,
-          monthCount: PropTypes.number,
-          monthAmount: PropTypes.number,
-          todayCount: PropTypes.number,
-          todayAmount: PropTypes.number,
-        }).isRequired,
         items: PropTypes.arrayOf(
           PropTypes.shape({
             amount: PropTypes.number,
@@ -646,10 +636,24 @@ PropTypes.paymentsStatistic = PropTypes.shape({
             entryDate: PropTypes.string,
           }).isRequired,
         ).isRequired,
+        itemsTotal: PropTypes.shape({
+          totalAmount: PropTypes.number,
+          totalCount: PropTypes.number,
+        }),
+        additionalTotal: PropTypes.shape({
+          totalCount: PropTypes.number,
+          totalAmount: PropTypes.number,
+          monthCount: PropTypes.number,
+          monthAmount: PropTypes.number,
+          todayCount: PropTypes.number,
+          todayAmount: PropTypes.number,
+        }),
       }),
       error: PropTypes.object,
     }).isRequired,
   }),
+  refetch: PropTypes.func.isRequired,
+  loading: PropTypes.bool.isRequired,
 });
 PropTypes.brand = PropTypes.shape({
   image: PropTypes.shape({

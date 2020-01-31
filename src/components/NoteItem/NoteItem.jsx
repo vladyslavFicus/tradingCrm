@@ -84,20 +84,22 @@ class NoteItem extends Component {
                 </If>
               </div>
             </div>
-            <ActionsDropDown
-              items={[
-                {
-                  label: I18n.t('COMMON.ACTIONS.EDIT'),
-                  onClick: handleNoteClick(modalType.EDIT, data),
-                  permissions: new Permissions(permissions.NOTES.UPDATE_NOTE),
-                },
-                {
-                  label: I18n.t('COMMON.ACTIONS.DELETE'),
-                  onClick: handleNoteClick(modalType.DELETE, data),
-                  permissions: new Permissions(permissions.NOTES.DELETE_NOTE),
-                },
-              ]}
-            />
+            <div className="d-inline-block">
+              <ActionsDropDown
+                items={[
+                  {
+                    label: I18n.t('COMMON.ACTIONS.EDIT'),
+                    onClick: handleNoteClick(modalType.EDIT, data),
+                    permissions: new Permissions(permissions.NOTES.UPDATE_NOTE),
+                  },
+                  {
+                    label: I18n.t('COMMON.ACTIONS.DELETE'),
+                    onClick: handleNoteClick(modalType.DELETE, data),
+                    permissions: new Permissions(permissions.NOTES.DELETE_NOTE),
+                  },
+                ]}
+              />
+            </div>
           </div>
         </div>
       </div>
