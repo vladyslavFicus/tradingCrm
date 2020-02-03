@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import backofficeBrands from '../backoffice_brands';
+import backofficeBrands from '../brands';
 
 const config = _.merge({
   components: {
