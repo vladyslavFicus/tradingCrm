@@ -149,6 +149,10 @@ const tradingTypesLabelsWithColor = {
     label: 'COMMON.PAYMENT_TYPE.FEE',
     color: 'color-success',
   },
+  INACTIVITY_FEE: {
+    label: 'COMMON.PAYMENT_TYPE.INACTIVITY_FEE',
+    color: 'color-danger',
+  },
   [tradingTypes.TRANSFER_IN]: {
     label: 'COMMON.PAYMENT_TYPE.TRANSFER_IN',
     color: 'color-info',
