@@ -1536,12 +1536,12 @@
         "ASSIGN_STATUS": "Assign Status",
         "KYC_STATUSES": "KYC Statuses",
         "FIRST_DEPOSIT": "First time deposit",
-        "FSA_MIGRATION": "Agreed to migrate to FSA",
+        "FSA_MIGRATION": "FSA migration Status",
         "QUESTIONNAIRE": "Questionnaire",
         "AFFILIATES": "Affiliates",
         "FSA_MIGRATION_STATUS": {
           "ACCEPTED": "Accepted",
-          "DECLINED": "Declined"
+          "NOT_ACCEPTED": "Not Accepted"
         }
       }
     }

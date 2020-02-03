@@ -120,7 +120,7 @@ const FSAMigrationStatuses = [
   },
   {
     value: 'MIGRATION_DECLINED',
-    label: 'PROFILE.LIST.FILTERS.FSA_MIGRATION_STATUS.DECLINED',
+    label: 'PROFILE.LIST.FILTERS.FSA_MIGRATION_STATUS.NOT_ACCEPTED',
   },
 ];
 
