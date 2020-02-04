@@ -129,6 +129,10 @@ const tradingTypes = keyMirror({
   TRANSFER_IN: null,
   TRANSFER_OUT: null,
   WITHDRAW: null,
+  MIGRATION_IN: null,
+  MIGRATION_OUT: null,
+  MIGRATION_CREDIT_IN: null,
+  MIGRATION_CREDIT_OUT: null,
 });
 
 const tradingTypesLabelsWithColor = {
@@ -167,6 +171,22 @@ const tradingTypesLabelsWithColor = {
   },
   [tradingTypes.CREDIT_OUT]: {
     label: 'COMMON.PAYMENT_TYPE.CREDIT_OUT',
+    color: 'color-warning',
+  },
+  [tradingTypes.MIGRATION_IN]: {
+    label: 'COMMON.PAYMENT_TYPE.MIGRATION_IN',
+    color: 'color-warning',
+  },
+  [tradingTypes.MIGRATION_OUT]: {
+    label: 'COMMON.PAYMENT_TYPE.MIGRATION_OUT',
+    color: 'color-warning',
+  },
+  [tradingTypes.MIGRATION_CREDIT_IN]: {
+    label: 'COMMON.PAYMENT_TYPE.MIGRATION_CREDIT_IN',
+    color: 'color-warning',
+  },
+  [tradingTypes.MIGRATION_CREDIT_OUT]: {
+    label: 'COMMON.PAYMENT_TYPE.MIGRATION_CREDIT_OUT',
     color: 'color-warning',
   },
   [hrznTypes.CONFISCATE]: {

@@ -729,7 +729,11 @@
       "TRANSFER_OUT": "Transfer Out",
       "CREDIT_IN": "Credit in",
       "CREDIT_OUT": "Credit out",
-      "TRANSFER": "Transfer"
+      "TRANSFER": "Transfer",
+      "MIGRATION_IN": "Migration in",
+      "MIGRATION_OUT": "Migration out",
+      "MIGRATION_CREDIT_IN": "Migration credit in",
+      "MIGRATION_CREDIT_OUT": "Migration credit out"
     },
     "PAYMENT_STATUS": {
       "PENDING": "Pending",
