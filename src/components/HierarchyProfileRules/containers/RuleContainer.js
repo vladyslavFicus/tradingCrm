@@ -4,9 +4,9 @@ import { getRules, getRulesRetention } from 'graphql/queries/rules';
 import { createRule, createRuleRetention, deleteRule, deleteRuleRetention } from 'graphql/mutations/rules';
 import { deskTypes } from 'constants/rules';
 import { branchTypes } from 'constants/hierarchyTypes';
+import { withNotifications, withModals } from 'components/HighOrder';
+import ConfirmActionModal from 'components/Modal/ConfirmActionModal';
 import RuleModal from '../components/RuleModal';
-import { withNotifications, withModals } from '../../HighOrder';
-import ConfirmActionModal from '../../Modal/ConfirmActionModal';
 
 export default (Component, type, branchType) => compose(
   withNotifications,

@@ -2,33 +2,47 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
+import { createValidator } from 'utils/validator';
+import countryList from 'utils/countryList';
+import languages from 'constants/languageNames';
 import { filterLabels } from 'constants/user';
-import { FormikSelectField, FormikInputField } from 'components/Formik';
+import { FormikInputField, FormikSelectField } from 'components/Formik';
 import { fieldClassNames } from 'components/Formik/constants';
-import countries from 'utils/countryList';
+import { decodeNullValues } from 'components/Formik/utils';
 
-class OfficesGridFilter extends Component {
+const validate = createValidator({
+  searchBy: 'string',
+  country: `in:,${Object.keys(countryList).join()}`,
+  language: 'string',
+}, filterLabels, false);
+
+class RulesFilters extends Component {
   static propTypes = {
     onReset: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
   }
 
-  initialValues = { keyword: '', country: '' };
+  initialValues = {
+    createdByOrUuid: '',
+    language: '',
+    country: '',
+  };
 
   onHandleSubmit = (values, { setSubmitting }) => {
-    this.props.onSubmit(values);
+    this.props.onSubmit(decodeNullValues(values));
     setSubmitting(false);
   };
 
   onHandleReset = (resetForm) => {
     resetForm(this.initialValues);
     this.props.onReset();
-  }
+  };
 
   render() {
     return (
       <Formik
         initialValues={this.initialValues}
+        validate={validate}
         onSubmit={this.onHandleSubmit}
       >
         {({
@@ -38,9 +52,9 @@ class OfficesGridFilter extends Component {
           <Form className="filter__form filter__form--row">
             <div className="filter__form-inputs">
               <Field
-                name="keyword"
+                name="createdByOrUuid"
                 className={fieldClassNames.MEDIUM}
-                placeholder={I18n.t('COMMON.NAME')}
+                placeholder={I18n.t('RULES.FILTERS.OPERATOR_OR_RULE')}
                 label={I18n.t(filterLabels.searchValue)}
                 component={FormikInputField}
               />
@@ -50,15 +64,25 @@ class OfficesGridFilter extends Component {
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 label={I18n.t(filterLabels.country)}
                 component={FormikSelectField}
-                withAnyOption
                 searchable
+                withAnyOption
               >
-                {Object.keys(countries).map(country => (
-                  <option
-                    key={`country-${country}`}
-                    value={country}
-                  >
-                    {countries[country]}
+                {Object.keys(countryList).map(key => (
+                  <option key={key} value={key}>{countryList[key]}</option>
+                ))}
+              </Field>
+              <Field
+                name="language"
+                className={fieldClassNames.MEDIUM}
+                placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
+                label={I18n.t(filterLabels.language)}
+                component={FormikSelectField}
+                searchable
+                withAnyOption
+              >
+                {languages.map(({ languageName, languageCode }) => (
+                  <option key={languageCode} value={languageCode}>
+                    {I18n.t(languageName)}
                   </option>
                 ))}
               </Field>
@@ -88,4 +112,4 @@ class OfficesGridFilter extends Component {
   }
 }
 
-export default OfficesGridFilter;
+export default RulesFilters;

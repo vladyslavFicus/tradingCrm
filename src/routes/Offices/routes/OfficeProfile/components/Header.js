@@ -1,26 +1,35 @@
 import React, { PureComponent } from 'react';
 import I18n from 'i18n-js';
-import Uuid from '../../../../../../components/Uuid';
-import PropTypes from '../../../../../../constants/propTypes';
-import ProfileHeaderPlaceholder from '../../../../../../components/ProfileHeaderPlaceholder';
+import PropTypes from 'constants/propTypes';
+import { withModals } from 'components/HighOrder';
+import AddOperatorToBranchModal from 'components/AddOperatorToBranchModal';
+import ProfileHeaderPlaceholder from 'components/ProfileHeaderPlaceholder';
+import Uuid from 'components/Uuid';
 
 class Header extends PureComponent {
   static propTypes = {
-    data: PropTypes.object,
+    data: PropTypes.shape({
+      uuid: PropTypes.string,
+      name: PropTypes.string,
+      country: PropTypes.string,
+      branchType: PropTypes.string,
+    }).isRequired,
     loading: PropTypes.bool.isRequired,
     modals: PropTypes.shape({
       addOperatorModal: PropTypes.modalType,
     }).isRequired,
   };
 
-  static defaultProps = {
-    data: {},
-  };
-
   handleOpenManagerModal = () => {
     const {
-      data: { name, uuid, branchType },
-      modals: { addOperatorModal },
+      data: {
+        uuid,
+        name,
+        branchType,
+      },
+      modals: {
+        addOperatorModal,
+      },
     } = this.props;
 
     addOperatorModal.show({
@@ -72,4 +81,6 @@ class Header extends PureComponent {
   }
 }
 
-export default Header;
+export default withModals({
+  addOperatorModal: AddOperatorToBranchModal,
+})(Header);
