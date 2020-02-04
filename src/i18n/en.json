@@ -2557,6 +2557,11 @@
       }
     }
   },
+  "RULES": {
+    "FILTERS": {
+      "OPERATOR_OR_RULE": "Operator UUID, Rule UUID"
+    }
+  },
   "OFFICES": {
     "OFFICES": "Offices",
     "ADD_OFFICE": "Add office",

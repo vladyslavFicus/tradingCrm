@@ -1,23 +1,26 @@
 import React from 'react';
 import { get } from 'lodash';
+import { graphql, compose } from 'react-apollo';
 import { Switch, Redirect } from 'react-router-dom';
+import { getBranchInfo } from 'graphql/queries/hierarchy';
+import NotFound from 'routes/NotFound';
 import Route from 'components/Route';
 import Tabs from 'components/Tabs';
-import NotFound from 'routes/NotFound';
-import PropTypes from 'constants/propTypes';
 import HierarchyProfileRules from 'components/HierarchyProfileRules';
-import officeProfileTabs from './constants';
+import PropTypes from 'constants/propTypes';
 import Header from './Header';
+
+const officeProfileTabs = [{
+  label: 'HIERARCHY.PROFILE_RULE_TAB.NAME',
+  url: '/offices/:id/rules',
+}];
 
 const Rules = HierarchyProfileRules('OFFICES.TABS.RULES.TITLE');
 
 const OfficeProfile = ({
-  officeProfile: {
-    hierarchy,
-    loading,
-  },
-  location,
+  officeProfile: { hierarchy, loading },
   match: { params, path, url },
+  location,
 }) => {
   const data = get(hierarchy, 'branchInfo.data') || {};
   const error = get(hierarchy, 'branchInfo.error');
@@ -52,13 +55,13 @@ const OfficeProfile = ({
 OfficeProfile.propTypes = {
   officeProfile: PropTypes.shape({
     loading: PropTypes.bool.isRequired,
+    refetch: PropTypes.func.isRequired,
     hierarchy: PropTypes.shape({
       branchInfo: PropTypes.shape({
         data: PropTypes.hierarchyBranch,
         error: PropTypes.object,
       }),
     }),
-    refetch: PropTypes.func.isRequired,
   }).isRequired,
   location: PropTypes.object.isRequired,
   match: PropTypes.shape({
@@ -68,4 +71,19 @@ OfficeProfile.propTypes = {
   }).isRequired,
 };
 
-export default OfficeProfile;
+export default compose(
+  graphql(getBranchInfo, {
+    options: ({
+      match: {
+        params: {
+          id: branchId,
+        },
+      },
+    }) => ({
+      variables: {
+        branchId,
+      },
+    }),
+    name: 'officeProfile',
+  }),
+)(OfficeProfile);

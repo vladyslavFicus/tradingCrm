@@ -7,14 +7,13 @@ import classNames from 'classnames';
 import { branchTypes } from 'constants/hierarchyTypes';
 import PropTypes from 'constants/propTypes';
 import { actionRuleTypes, deskTypes } from 'constants/rules';
-import { UncontrolledTooltip } from '../../Reactstrap/Uncontrolled';
-import GridView, { GridViewColumn } from '../../GridView';
-import TabHeader from '../../TabHeader';
-import Uuid from '../../Uuid';
+import { UncontrolledTooltip } from 'components/Reactstrap/Uncontrolled';
+import GridView, { GridViewColumn } from 'components/GridView';
+import TabHeader from 'components/TabHeader';
+import Uuid from 'components/Uuid';
 import withContainer from '../containers/RuleContainer';
 import RulesFilters from './RulesGridFilters';
 import infoConfig from './constants';
-import './HierarchyProfileRules.scss';
 
 const HierarchyProfileRules = (title, deskType, branchType) => {
   class RuleList extends Component {
@@ -361,7 +360,6 @@ const HierarchyProfileRules = (title, deskType, branchType) => {
           rulesRetention,
           loading,
         },
-        location: { query },
       } = this.props;
       const error = get(rules, 'error') || get(rulesRetention, 'error');
 
@@ -370,11 +368,6 @@ const HierarchyProfileRules = (title, deskType, branchType) => {
       }
 
       const entities = get(rules, 'data') || get(rulesRetention, 'data') || [];
-      const filters = get(query, 'filters', {});
-
-      const allowActions = Object
-        .keys(filters)
-        .filter(i => (filters[i] && Array.isArray(filters[i]) && filters[i].length > 0) || filters[i]).length > 0;
 
       return (
         <Fragment>
@@ -383,7 +376,6 @@ const HierarchyProfileRules = (title, deskType, branchType) => {
           <RulesFilters
             onSubmit={this.handleFiltersChanged}
             onReset={this.handleFilterReset}
-            disabled={!allowActions || error}
           />
 
           <div className="card-body">
