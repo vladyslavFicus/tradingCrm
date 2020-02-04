@@ -66,10 +66,10 @@ class PaymentAddModal extends PureComponent {
     });
   };
 
-  getSourceAccount = ({ login, source }) => {
+  getSourceAccount = ({ accountUUID, source }) => {
     const { tradingAccount } = this.props.newProfile;
 
-    return tradingAccount.find(account => [login, source].includes(account.login));
+    return tradingAccount.find(account => [accountUUID, source].includes(account.accountUUID));
   };
 
   handlePaymentTypeChanged = (value) => {

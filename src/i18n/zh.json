@@ -139,7 +139,6 @@
       "VERIFY_PERSONAL_DATA_DESCRIPTION": "为了进行验证，我们要求提供至少一种有效的身份证明文件。ID 或护照扫描件需要具有清晰度高的照片，信息可读且没有过期或损坏。",
       "VERIFY_ADDRESS_DATA_TITLE": "地址",
       "VERIFY_ADDRESS_DATA_DESCRIPTION": "住址证明可以是显示您姓名和住址的文件，其签发日期自提供之日起不超过6个月。",
-      "REQUEST_KYC_VERIFICATION": "请求KYC验证",
       "SEND_KYC_REQUEST": {
         "ACTION_TEXT": "您即将发送KYC请求至 %{fullName}",
         "BUTTON": "发送KYC请求",

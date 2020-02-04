@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import I18n from 'i18n-js';
-import { entities, entitiesPrefixes } from '../../../../../../constants/uuid';
-import PopoverButton from '../../../../../../components/PopoverButton';
-import Uuid from '../../../../../../components/Uuid/index';
+import { entities, entitiesPrefixes } from 'constants/uuid';
+import PopoverButton from 'components/PopoverButton';
+import Uuid from 'components/Uuid/index';
 
 class Notes extends Component {
   static propTypes = {
@@ -50,14 +50,8 @@ class Notes extends Component {
               : I18n.t('COMMON.UNKNOWN_TIME')
           } {I18n.t('COMMON.TO')} {this.renderItemId(item.targetUUID)}
         </small>
-        <div className="note-content__subject">
-          <div className="note-content__label">{I18n.t('NOTES.SUBJECT')}</div>
-          <div className="note-content__text">{item.subject}</div>
-        </div>
-        <div className="note-content__body">
-          <div className="note-content__label">{I18n.t('NOTES.BODY')}</div>
-          <div className="note-content__text">{item.content}</div>
-        </div>
+        <div className="note-content__subject">{item.subject}</div>
+        <div className="note-content__body">{item.content}</div>
       </div>
     </PopoverButton>
   );
