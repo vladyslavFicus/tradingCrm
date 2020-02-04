@@ -97,6 +97,12 @@ class PaymentAddModal extends PureComponent {
       return balance >= amount;
     }
 
+    if (paymentType === 'CREDIT_OUT' && accountUUID && amount && tradingAccount.length) {
+      const { credit } = tradingAccount.find(account => account.accountUUID === accountUUID);
+
+      return credit >= amount;
+    }
+
     return true;
   };
 
