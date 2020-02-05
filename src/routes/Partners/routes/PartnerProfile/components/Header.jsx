@@ -20,7 +20,6 @@ class Header extends Component {
     })).isRequired,
     onStatusChange: PropTypes.func.isRequired,
     refetchPartner: PropTypes.func.isRequired,
-    onResetPasswordClick: PropTypes.func.isRequired,
     onChangePasswordClick: PropTypes.func.isRequired,
     onSendInvitationClick: PropTypes.func.isRequired,
     unlockLogin: PropTypes.func.isRequired,
@@ -54,7 +53,6 @@ class Header extends Component {
         statusChangeAuthor,
       },
       availableStatuses,
-      onResetPasswordClick,
       onChangePasswordClick,
       onSendInvitationClick,
       unlockLogin,
@@ -96,19 +94,6 @@ class Header extends Component {
                     onClick={onSendInvitationClick}
                   >
                     {I18n.t('PARTNER_PROFILE.DETAILS.SEND_INVITATION')}
-                  </Button>
-                </PermissionContent>
-              )
-            }
-            {
-              status === statuses.ACTIVE
-              && (
-                <PermissionContent permissions={permissions.OPERATORS.RESET_PASSWORD}>
-                  <Button
-                    className="btn-sm btn-default-outline margin-right-10"
-                    onClick={onResetPasswordClick}
-                  >
-                    {I18n.t('PARTNER_PROFILE.RESET_PASSWORD')}
                   </Button>
                 </PermissionContent>
               )

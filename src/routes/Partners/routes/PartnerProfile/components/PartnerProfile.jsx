@@ -33,7 +33,6 @@ class PartnerProfileLayout extends Component {
     changeStatus: PropTypes.func.isRequired,
     changePassword: PropTypes.func.isRequired,
     refetchPartner: PropTypes.func.isRequired,
-    resetPassword: PropTypes.func.isRequired,
     sendInvitation: PropTypes.func.isRequired,
     authorities: PropTypes.object.isRequired,
     isLoading: PropTypes.bool.isRequired,
@@ -52,41 +51,6 @@ class PartnerProfileLayout extends Component {
 
   state = {
     modal: { ...modalInitialState },
-  };
-
-  handleResetPasswordClick = () => {
-    const {
-      data,
-      modals: { confirmActionModal },
-    } = this.props;
-
-    confirmActionModal.show({
-      onSubmit: this.handleResetPasswordSubmit,
-      modalTitle: I18n.t('PARTNER_PROFILE.MODALS.RESET_PASSWORD.TITLE'),
-      actionText: I18n.t('PARTNER_PROFILE.MODALS.RESET_PASSWORD.ACTION_TEXT'),
-      fullName: [data.firstName, data.lastName].join(' '),
-      uuid: data.uuid,
-      additionalText: I18n.t('PARTNER_PROFILE.MODALS.RESET_PASSWORD.ACTION_TARGET'),
-      submitButtonLabel: I18n.t('PARTNER_PROFILE.MODALS.RESET_PASSWORD.CONFIRM_ACTION'),
-    });
-  };
-
-  handleResetPasswordSubmit = async () => {
-    const {
-      resetPassword,
-      brand: { brand },
-      match: { params: { id } },
-      modals: { confirmActionModal },
-    } = this.props;
-
-    await resetPassword({
-      variables: {
-        uuid: id,
-        brand,
-      },
-    });
-
-    confirmActionModal.hide();
   };
 
   handleSendInvitationClick = async () => {
@@ -233,7 +197,6 @@ class PartnerProfileLayout extends Component {
               statusChangeAuthor,
             }}
             availableStatuses={availableStatuses}
-            onResetPasswordClick={this.handleResetPasswordClick}
             onChangePasswordClick={this.handleChangePasswordClick}
             onSendInvitationClick={this.handleSendInvitationClick}
             onStatusChange={changeStatus}
