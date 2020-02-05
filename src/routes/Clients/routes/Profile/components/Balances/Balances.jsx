@@ -13,6 +13,7 @@ import './Balances.scss';
 
 class Balances extends Component {
   static propTypes = {
+    clientRegistrationDate: PropTypes.string.isRequired,
     depositPaymentStatistic: PropTypes.paymentsStatistic.isRequired,
     withdrawPaymentStatistic: PropTypes.paymentsStatistic.isRequired,
     balances: PropTypes.shape({
@@ -67,13 +68,13 @@ class Balances extends Component {
     }));
   };
 
-  handleDateChange = (dateFrom) => {
-    const { depositPaymentStatistic, withdrawPaymentStatistic } = this.props;
+  handleDateChange = async (dateFrom) => {
+    const { depositPaymentStatistic, withdrawPaymentStatistic, clientRegistrationDate } = this.props;
 
     this.setState({ dateFrom });
 
-    depositPaymentStatistic.refetch({ dateFrom });
-    withdrawPaymentStatistic.refetch({ dateFrom });
+    await depositPaymentStatistic.refetch({ dateFrom: dateFrom || clientRegistrationDate });
+    await withdrawPaymentStatistic.refetch({ dateFrom: dateFrom || clientRegistrationDate });
   };
 
   renderTradingAccounts = () => {

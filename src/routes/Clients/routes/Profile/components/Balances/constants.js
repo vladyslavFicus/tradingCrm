@@ -30,10 +30,10 @@ export const selectItems = [
   },
 ];
 
-export const initialQueryParams = (paymentType, paymentStatus) => ({
-  dateFrom: '',
+export const initialQueryParams = (paymentType, paymentStatus, dateFrom) => ({
+  dateFrom,
   dateTo: moment()
-    .add(1, 'day')
+    .add(2, 'day')
     .startOf('day')
     .format(),
   paymentType,

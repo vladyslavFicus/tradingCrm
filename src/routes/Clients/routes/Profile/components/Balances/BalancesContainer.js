@@ -6,19 +6,19 @@ import Balances from './Balances';
 
 export default compose(
   graphql(paymentsStatisticQuery, {
-    options: ({ uuid }) => ({
+    options: ({ uuid, clientRegistrationDate }) => ({
       variables: {
         playerUUID: uuid,
-        ...initialQueryParams(tradingTypes.DEPOSIT, tradingStatuses.MT4_COMPLETED),
+        ...initialQueryParams(tradingTypes.DEPOSIT, tradingStatuses.MT4_COMPLETED, clientRegistrationDate),
       },
     }),
     name: 'depositPaymentStatistic',
   }),
   graphql(paymentsStatisticQuery, {
-    options: ({ uuid }) => ({
+    options: ({ uuid, clientRegistrationDate }) => ({
       variables: {
         playerUUID: uuid,
-        ...initialQueryParams(tradingTypes.WITHDRAW, tradingStatuses.MT4_COMPLETED),
+        ...initialQueryParams(tradingTypes.WITHDRAW, tradingStatuses.MT4_COMPLETED, clientRegistrationDate),
       },
     }),
     name: 'withdrawPaymentStatistic',

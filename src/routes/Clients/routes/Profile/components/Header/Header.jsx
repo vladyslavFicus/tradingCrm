@@ -246,6 +246,7 @@ class Header extends Component {
           <div className="header-block header-block_balance" id="player-profile-balance-block">
             <If condition={uuid}>
               <Balances
+                clientRegistrationDate={registrationDate}
                 balances={{
                   amount,
                   credit,
