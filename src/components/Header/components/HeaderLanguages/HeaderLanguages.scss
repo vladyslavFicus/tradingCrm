@@ -1,9 +1,18 @@
-.header-lang {
+.HeaderLanguages {
   margin-right: 10px;
   display: inline-block;
   vertical-align: top;
   height: 49px;
   width: 85px;
+
+  &--is-open {
+    & .HeaderLanguages {
+      &__caret {
+        opacity: 1;
+        transform: rotate(180deg);
+      }
+    }
+  }
 
   &__toggle {
     color: #fff;
@@ -13,7 +22,7 @@
     height: 100%;
 
     &:hover {
-      & .header-lang {
+      & .HeaderLanguages {
         &__caret {
           opacity: 1;
         }
@@ -58,17 +67,5 @@
     position: absolute;
     top: 18px;
     right: 6px;
-  }
-}
-
-// # States
-.header-lang {
-  &.is-open {
-    & .header-lang {
-      &__caret {
-        opacity: 1;
-        transform: rotate(180deg);
-      }
-    }
   }
 }

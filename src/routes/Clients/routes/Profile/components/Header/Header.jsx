@@ -5,7 +5,7 @@ import I18n from 'i18n-js';
 import { getActiveBrandConfig } from 'config';
 import { withPermission } from 'providers/PermissionsProvider';
 import PropTypes from 'constants/propTypes';
-import Regulated from 'components/Regulation';
+import Regulated from 'components/Regulated';
 import ActionsDropDown from 'components/ActionsDropDown';
 import PopoverButton from 'components/PopoverButton';
 import permissions from 'config/permissions';

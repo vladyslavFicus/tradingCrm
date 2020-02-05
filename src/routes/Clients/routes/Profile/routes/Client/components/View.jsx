@@ -5,7 +5,7 @@ import Permissions from 'utils/permissions';
 import permissions from 'config/permissions';
 import { withPermission } from 'providers/PermissionsProvider';
 import { roles, departments } from 'constants/brands';
-import Regulated from 'components/Regulation';
+import Regulated from 'components/Regulated';
 import { hidePhone } from 'utils/hidePhone';
 import { getBrandId } from 'config';
 import PersonalForm from './PersonalForm';

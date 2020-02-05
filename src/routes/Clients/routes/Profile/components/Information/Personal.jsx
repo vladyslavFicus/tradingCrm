@@ -3,7 +3,7 @@ import { graphql, compose } from 'react-apollo';
 import moment from 'moment';
 import I18n from 'i18n-js';
 import { getClickToCall, getBrandId } from 'config';
-import Regulated from 'components/Regulation';
+import Regulated from 'components/Regulated';
 import Uuid from 'components/Uuid';
 import { withNotifications } from 'components/HighOrder';
 import { withStorage } from 'providers/StorageProvider';

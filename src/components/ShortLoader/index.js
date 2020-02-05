@@ -1,3 +1,1 @@
-import ShortLoader from './ShortLoader';
-
-export default ShortLoader;
+export { default } from './ShortLoader';

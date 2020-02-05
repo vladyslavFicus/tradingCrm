@@ -1,4 +1,4 @@
-.header {
+.Header {
   background-color: #000;
   position: fixed;
   top: 0;
@@ -7,25 +7,9 @@
   width: 100%;
   z-index: 6;
 
-  &__logo,
   &__body {
     display: inline-block;
     vertical-align: top;
-  }
-
-  &__logo {
-    padding: 5px;
-    height: 100%;
-    width: 60px;
-
-    & img {
-      object-fit: contain;
-      height: 100%;
-      width: 100%;
-    }
-  }
-
-  &__body {
     height: 100%;
     width: calc(100% - 60px);
   }

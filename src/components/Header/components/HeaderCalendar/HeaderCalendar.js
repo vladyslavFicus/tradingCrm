@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { Popover } from 'reactstrap';
-import CallbacksCalendar from '../../../CallbacksCalendar';
-import './header-calendar.scss';
+import CallbacksCalendar from 'components/CallbacksCalendar';
+import './HeaderCalendar.scss';
 
-class HeaderCallbacksCalendarDropdown extends Component {
+class HeaderCalendar extends Component {
   state = {
     isOpen: false,
   };
@@ -18,24 +18,24 @@ class HeaderCallbacksCalendarDropdown extends Component {
     const { isOpen } = this.state;
 
     return (
-      <div className="header-calendar">
+      <div className="HeaderCalendar">
         <button
-          type="button"
-          id="header-calendar"
-          className="header-calendar__head"
+          className="HeaderCalendar__head"
           onClick={this.handleToggleState}
+          id="id-toggle-button"
+          type="button"
         >
           <i className="fa fa-calendar" />
         </button>
         <Popover
-          placement="bottom"
-          target="header-calendar"
-          className="header-calendar__popover"
+          className="HeaderCalendar__popover"
           toggle={this.handleToggleState}
+          target="id-toggle-button"
+          placement="bottom"
           isOpen={isOpen}
         >
           <CallbacksCalendar
-            calendarClassName="header-calendar__view"
+            calendarClassName="HeaderCalendar__view"
             componentRef={(ref) => { this.callbacksCalendar = ref; }}
           />
         </Popover>
@@ -44,4 +44,4 @@ class HeaderCallbacksCalendarDropdown extends Component {
   }
 }
 
-export default HeaderCallbacksCalendarDropdown;
+export default HeaderCalendar;

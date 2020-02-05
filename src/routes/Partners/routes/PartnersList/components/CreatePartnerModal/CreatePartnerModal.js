@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Field } from 'redux-form';
 import I18n from 'i18n-js';
-import Regulated from 'components/Regulation';
+import Regulated from 'components/Regulated';
 import CheckBox from 'components/ReduxForm/CheckBox';
 import reduxFieldsConstructor from 'components/ReduxForm/ReduxFieldsConstructor';
 import { generate } from 'utils/password';

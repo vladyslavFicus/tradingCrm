@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'constants/propTypes';
-import './header-logout.scss';
+import './HeaderLogout.scss';
 
 class HeaderLogout extends Component {
   static propTypes = {
@@ -15,7 +15,7 @@ class HeaderLogout extends Component {
   render() {
     return (
       <div
-        className="header-logout"
+        className="HeaderLogout"
         onClick={this.handleLogoutClick}
         title="Log out"
       >

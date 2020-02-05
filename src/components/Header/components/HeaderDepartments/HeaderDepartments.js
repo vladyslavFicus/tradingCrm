@@ -1,20 +1,24 @@
 import React, { Component } from 'react';
-import { graphql, compose } from 'react-apollo';
+import { compose } from 'react-apollo';
 import classNames from 'classnames';
 import jwtDecode from 'jwt-decode';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import I18n from 'i18n-js';
-import { chooseDepartmentMutation } from 'graphql/mutations/authorization';
+import { withRequests } from 'apollo';
 import { withStorage } from 'providers/StorageProvider';
 import PropTypes from 'constants/propTypes';
 import setBrandIdByUserToken from 'utils/setBrandIdByUserToken';
-import './header-departments.scss';
+import HeaderDepartmentsMutation from './graphql/HeaderDepartmentsMutation';
+import './HeaderDepartments.scss';
 
 class HeaderDepartments extends Component {
   static propTypes = {
+    departmentsByBrand: PropTypes.objectOf(PropTypes.objectOf(PropTypes.string)).isRequired,
     departments: PropTypes.arrayOf(PropTypes.department).isRequired,
-    auth: PropTypes.auth.isRequired,
+    chooseDepartmentMutation: PropTypes.func.isRequired,
+    storage: PropTypes.storage.isRequired,
     token: PropTypes.string.isRequired,
+    auth: PropTypes.auth.isRequired,
   };
 
   state = {
@@ -28,10 +32,10 @@ class HeaderDepartments extends Component {
   changeDepartment = department => async () => {
     const {
       auth,
-      token: originalToken,
       storage,
       departmentsByBrand,
-      chooseDepartment,
+      token: originalToken,
+      chooseDepartmentMutation,
     } = this.props;
 
     const { brandId } = jwtDecode(originalToken);
@@ -48,7 +52,7 @@ class HeaderDepartments extends Component {
           },
         },
       },
-    } = await chooseDepartment({
+    } = await chooseDepartmentMutation({
       variables: {
         brandId,
         uuid: auth.uuid,
@@ -79,46 +83,46 @@ class HeaderDepartments extends Component {
     return (
       <Choose>
         <When condition={departmentsLeft.length === 0}>
-          <div className="header-departments">
-            <div className="header-department header-department--current">
-              <div className="header-department__title">
+          <div className="HeaderDepartments">
+            <div className="HeaderDepartments-item HeaderDepartments-item--current">
+              <div className="HeaderDepartments-item__title">
                 {I18n.t(currentDepartment.name || `CONSTANTS.OPERATORS.DEPARTMENTS.${currentDepartment.id}`)}
               </div>
-              <div className="header-department__role">
+              <div className="HeaderDepartments-item__role">
                 {I18n.t(currentDepartment.role)}
               </div>
             </div>
           </div>
         </When>
         <Otherwise>
-          <Dropdown className="header-departments" isOpen={isOpen} toggle={this.handleToggleState}>
+          <Dropdown className="HeaderDepartments" isOpen={isOpen} toggle={this.handleToggleState}>
             <DropdownToggle
               className={
                 classNames(
-                  'header-department header-department--current header-department--with-arrow',
-                  { 'is-open': isOpen },
+                  'HeaderDepartments-item HeaderDepartments-item--current HeaderDepartments-item--with-arrow',
+                  { 'HeaderDepartments-item--is-open': isOpen },
                 )}
               tag="div"
             >
-              <div className="header-department__title">
+              <div className="HeaderDepartments-item__title">
                 {I18n.t(currentDepartment.name)}
               </div>
-              <div className="header-department__role">
+              <div className="HeaderDepartments-item__role">
                 {I18n.t(currentDepartment.role)}
               </div>
-              <i className="header-department__caret fa fa-angle-down" />
+              <i className="HeaderDepartments-item__caret fa fa-angle-down" />
             </DropdownToggle>
-            <DropdownMenu className="header-departments__list">
+            <DropdownMenu className="HeaderDepartments__list">
               {departmentsLeft.map(department => (
                 <DropdownItem
                   key={department.id}
-                  className="header-department"
+                  className="HeaderDepartments-item"
                   onClick={this.changeDepartment(department.id)}
                 >
-                  <div className="header-department__title">
+                  <div className="HeaderDepartments-item__title">
                     {I18n.t(department.name)}
                   </div>
-                  <div className="header-department__role">
+                  <div className="HeaderDepartments-item__role">
                     {I18n.t(department.role)}
                   </div>
                 </DropdownItem>
@@ -133,5 +137,7 @@ class HeaderDepartments extends Component {
 
 export default compose(
   withStorage(['auth', 'departmentsByBrand', 'departments', 'token']),
-  graphql(chooseDepartmentMutation, { name: 'chooseDepartment' }),
+  withRequests({
+    chooseDepartmentMutation: HeaderDepartmentsMutation,
+  }),
 )(HeaderDepartments);
