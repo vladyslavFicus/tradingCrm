@@ -1,12 +1,12 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import I18n from 'i18n-js';
 import { entities, entitiesPrefixes } from 'constants/uuid';
 import PopoverButton from 'components/PopoverButton';
-import Uuid from 'components/Uuid/index';
+import Uuid from 'components/Uuid';
 
-class Notes extends Component {
+class Notes extends PureComponent {
   static propTypes = {
     notes: PropTypes.shape({
       content: PropTypes.arrayOf(PropTypes.shape({

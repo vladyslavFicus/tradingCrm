@@ -4,10 +4,10 @@ import I18n from 'i18n-js';
 import { get } from 'lodash';
 import Flag from 'react-world-flags';
 import Uuid from 'components/Uuid';
-import PropTypes from '../../../../../../constants/propTypes';
-import languageNames from '../../../../../../constants/languageNames';
-import PersonalInformationItem from '../../../../../../components/Information/PersonalInformationItem';
-import countryList, { getCountryCode } from '../../../../../../utils/countryList';
+import PropTypes from 'constants/propTypes';
+import languageNames from 'constants/languageNames';
+import PersonalInformationItem from 'components/Information/PersonalInformationItem';
+import countryList, { getCountryCode } from 'utils/countryList';
 
 const Personal = ({
   loading,

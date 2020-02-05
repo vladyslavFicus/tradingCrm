@@ -29,7 +29,7 @@
 
 ### Features
 
-* added Leads List route ([31e3d70](https://bitbucket.org/nasio/casino_backoffice/commits/31e3d70))
+* added Leads EmailTemplatesList route ([31e3d70](https://bitbucket.org/nasio/casino_backoffice/commits/31e3d70))
 * added promoteLead functionality ([9bdce35](https://bitbucket.org/nasio/casino_backoffice/commits/9bdce35))
 * Allow to unlock deposit and withdraw for all operators ([031e358](https://bitbucket.org/nasio/casino_backoffice/commits/031e358))
 * Allow to unlock deposit and withdraw for all operators ([f909c38](https://bitbucket.org/nasio/casino_backoffice/commits/f909c38))
