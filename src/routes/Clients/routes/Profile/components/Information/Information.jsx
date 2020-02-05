@@ -4,9 +4,9 @@ import IpList from 'components/Information/IpList';
 import PermissionContent from 'components/PermissionContent';
 import permissions from 'config/permissions';
 import PropTypes from 'constants/propTypes';
-import AcquisitionStatus from './AcquisitionStatus';
-import Personal from './Personal';
-import Notes from './Notes';
+import AcquisitionStatus from './components/AcquisitionStatus';
+import Personal from './components/Personal';
+import Notes from './components/Notes';
 
 class Information extends PureComponent {
   static propTypes = {

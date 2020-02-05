@@ -16,4 +16,5 @@ export const routePermissions = {
   '/desks/:id': permissions.HIERARCHY.GET_BRANCH_BY_ID,
   '/offices/list': permissions.HIERARCHY.GET_OFFICES,
   '/offices/:id': permissions.HIERARCHY.GET_BRANCH_BY_ID,
+  '/email-templates/list': permissions.EMAIL_TEMPLATES.GET_EMAIL_TEMPLATES,
 };

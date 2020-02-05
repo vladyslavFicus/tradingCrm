@@ -30,7 +30,8 @@
       "SEARCH_CLIENTS": "Search clients",
       "KYC_DOCUMENTS": "KYC documents",
       "BRAND_CONFIG_UPDATE": "Brand config update",
-      "BRAND_CONFIG_CREATE": "Brand config create"
+      "BRAND_CONFIG_CREATE": "Brand config create",
+      "EMAIL_TEMPLATES": "Email templates"
     },
     "BOTTOM_MENU": {
       "SUPPORT": "Support",
@@ -2343,6 +2344,7 @@
       "ALT_PHONE": "Alternative phone",
       "EMAIL": "Email",
       "ALT_EMAIL": "Alternative Email",
+      "SENT_EMAILS": "Sent Emails",
       "FULL_ADDRESS": "Full address",
       "COUNTRY": "Country",
       "CITY": "City",
@@ -3023,5 +3025,58 @@
     "APPROVED": "Approved",
     "REJECTED": "Rejected",
     "NO_QUESTIONNAIRE": "No questionnaire"
+  },
+  "EMAILS": {
+    "ACTIONS": {
+      "SEND": "Send email"
+    },
+    "EMAIL_TEMPLATES":{
+      "PLACEHOLDER": "Email templates",
+      "ADD_TEMPLATE": "Add template",
+      "GRID_HEADER": {
+        "TEMPLATE": "email template",
+        "ACTION": "action",
+        "SUBJECT": "subject"
+      },
+      "CREATOR": {
+        "TITLE": "Create email template",
+        "BUTTONS": {
+          "CREATE": "Create"
+        }
+      },
+      "EDITOR": {
+        "TITLE": "Update email template",
+        "BUTTONS": {
+          "UPDATE": "Update"
+        }
+      },
+      "INPUT_NAME_LABEL": "Email Template Name",
+      "INPUT_SUBJECT_LABEL": "Subject",
+      "INPUT_EDITOR_LABEL": "Email text",
+      "INPUT_EDITOR_PLACEHOLDER": "Mariable text elements must be placed inside curly braces.\nExample: {firstName}, {lastName}",
+      "HINT": "Mariable text elements must be placed inside curly braces.\nExample: {firstName}, {lastName}",
+      "LINK_GO_TO_EMAIL_TEMPLATES": "Go to Email Templates"
+    },
+    "MODALS": {
+      "EMAIL_PREVIEW": {
+        "TITLE": "Email Preview",
+        "NAME_LABEL": "Email Template Name",
+        "SUBJECT_LABEL": "Subject",
+        "PREVIEW_LABEL": "Email text"
+      },
+      "EMAIL_SELECT": {
+        "TITLE": "Sending email",
+        "INPUT_SELECT_LABEL": "Select email template or write custom email",
+        "INPUT_SUBJECT_LABEL": "Subject",
+        "PREVIEW_LABEL": "Email text",
+        "INPUT_EDITOR_LABEL": "Email text",
+        "INPUT_EDITOR_PLACEHOLDER": "Start type your text here"
+      },
+      "BUTTONS": {
+        "SEND": "send",
+        "CREATE": "create",
+        "EDIT": "edit"
+      }
+    }
   }
 }

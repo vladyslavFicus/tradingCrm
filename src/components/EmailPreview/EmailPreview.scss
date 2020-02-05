@@ -1,0 +1,19 @@
+.EmailPreview {
+  &__label {
+    font-size: 15px;
+    font-weight: 600;
+  }
+
+  &__body {
+    margin-top: 5px;
+    padding: 5px;
+    min-height: 100px;
+    max-height: 200px;
+    background-color: #f6f6f6;
+    border: 1px solid #edeff5;
+    border-radius: 3px;
+    font-size: 16px;
+    overflow: auto;
+  }
+}
+

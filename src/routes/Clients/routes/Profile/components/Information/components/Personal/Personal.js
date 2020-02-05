@@ -5,8 +5,9 @@ import I18n from 'i18n-js';
 import { getClickToCall, getBrandId } from 'config';
 import Regulated from 'components/Regulated';
 import Uuid from 'components/Uuid';
-import { withNotifications } from 'components/HighOrder';
+import { withNotifications, withModals } from 'components/HighOrder';
 import { withStorage } from 'providers/StorageProvider';
+import { withPermission } from 'providers/PermissionsProvider';
 import PermissionContent from 'components/PermissionContent';
 import permissions from 'config/permissions';
 import { hidePhone } from 'utils/hidePhone';
@@ -14,13 +15,22 @@ import {
   clickToCall,
   updateConfigurationMutation,
 } from 'graphql/mutations/profile';
-import PersonalInformationItem from 'components/Information/PersonalInformationItem';
+import {
+  PersonalInformationItem,
+  // uncomment when email history will be rdy
+  // PersonalInformationSentEmails
+} from 'components/Information';
 import NotificationDetailsItem from 'components/Information/NotificationDetailsItem';
+// uncomment when email history will be rdy
+// import EmailPreviewModal from 'components/EmailPreviewModal';
 import PropTypes from 'constants/propTypes';
 import { statuses as kycStatuses } from 'constants/kyc';
 import { statuses as userStatuses } from 'constants/user';
 import { departments } from 'constants/brands';
-import RegulatedForm from './RegulatedForm';
+import Permissions from 'utils/permissions';
+import EmailSelectModal from '../EmailSelectModal';
+import RegulatedForm from '../RegulatedForm';
+import './Personal.scss';
 
 class Personal extends PureComponent {
   static propTypes = {
@@ -29,7 +39,12 @@ class Personal extends PureComponent {
     notify: PropTypes.func.isRequired,
     clickToCall: PropTypes.func.isRequired,
     loading: PropTypes.bool.isRequired,
+    modals: PropTypes.shape({
+      emailTemplateSelectModal: PropTypes.modalType,
+      emailPreviewModal: PropTypes.modalType,
+    }).isRequired,
     auth: PropTypes.auth.isRequired,
+    permission: PropTypes.permission.isRequired,
   };
 
   static defaultProps = {
@@ -81,6 +96,25 @@ class Personal extends PureComponent {
     }
   };
 
+  triggerEmailSelectModal = () => {
+    const {
+      newProfile: { contacts: { email }, firstName, lastName },
+      modals: { emailSelectModal } } = this.props;
+
+    emailSelectModal.show({
+      clientInfo: { firstName, lastName, email },
+    });
+  };
+
+  // uncomment when email history will be rdy
+  // triggerEmailPreviewModal = (email) => {
+  //   const { modals: { emailPreviewModal } } = this.props;
+  //
+  //   emailPreviewModal.show({
+  //     email,
+  //   });
+  // };
+
   render() {
     if (this.props.loading) {
       return null;
@@ -117,15 +151,21 @@ class Personal extends PureComponent {
         },
         affiliate,
         clientType,
+        // uncomment when email history will be rdy
+        // sentEmails,
       },
       loading,
       auth: {
         department,
       },
+      permission,
     } = this.props;
 
     const withCall = getClickToCall().isActive;
     const isPhoneHidden = getBrandId() === 'topinvestus' && department === departments.SALES;
+
+    const isSendEmailAvailable = (new Permissions(permissions, permissions.EMAIL_TEMPLATES.SEND_EMAIL))
+      .check(permission.permissions);
 
     return (
       <div className="account-details__personal-info">
@@ -156,23 +196,37 @@ class Personal extends PureComponent {
               verified={phoneVerified}
               withCall={withCall}
               onClickToCall={this.handleClickToCall(phone)}
+              className="Personal__contacts"
             />
             <PersonalInformationItem
               label={I18n.t('CLIENT_PROFILE.DETAILS.ALT_PHONE')}
               value={isPhoneHidden ? hidePhone(additionalPhone) : additionalPhone}
               withCall={withCall}
               onClickToCall={this.handleClickToCall(additionalPhone)}
+              className="Personal__contacts"
             />
             <PersonalInformationItem
               label={I18n.t('CLIENT_PROFILE.DETAILS.EMAIL')}
               value={email}
               verified={profileStatus === userStatuses.ACTIVE}
+              onClickSelectEmail={this.triggerEmailSelectModal}
+              withSendEmail={isSendEmailAvailable}
+              className="Personal__contacts"
             />
             <PersonalInformationItem
               label={I18n.t('CLIENT_PROFILE.DETAILS.ALT_EMAIL')}
               value={additionalEmail}
               verified={profileStatus === userStatuses.ACTIVE}
+              className="Personal__contacts"
             />
+            {/* uncomment rows after email history will be rdy */}
+            {/* <PermissionContent permissions={permissions.EMAIL_TEMPLATES.GET_EMAIL_TEMPLATES}> */}
+            {/*   <PersonalInformationSentEmails */}
+            {/*     label={I18n.t('CLIENT_PROFILE.DETAILS.SENT_EMAILS')} */}
+            {/*     emails={sentEmails} */}
+            {/*     onEmailClick={this.triggerEmailPreviewModal} */}
+            {/*   /> */}
+            {/* </PermissionContent> */}
             <PersonalInformationItem
               label={I18n.t('CLIENT_PROFILE.DETAILS.FULL_ADDRESS')}
               value={fullAddress}
@@ -299,6 +353,11 @@ class Personal extends PureComponent {
 }
 
 export default compose(
+  withModals({
+    emailSelectModal: EmailSelectModal,
+    // uncomment when email history will be rdy
+    // emailPreviewModal: EmailPreviewModal,
+  }),
   withNotifications,
   graphql(clickToCall, {
     name: 'clickToCall',
@@ -307,4 +366,5 @@ export default compose(
     name: 'updateConfiguration',
   }),
   withStorage(['auth']),
+  withPermission,
 )(Personal);

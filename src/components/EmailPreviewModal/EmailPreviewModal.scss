@@ -1,0 +1,18 @@
+.EmailPreviewModal {
+  &__label {
+    margin-bottom: 5px;
+    font-size: 15px;
+    font-weight: 600;
+  }
+
+  &__pseudo-input {
+    margin-bottom: 25px;
+    padding-top: 7px;
+    height: 39px;
+    border-color: #cfcfcf;
+    border-radius: 3px;
+    color: #4a4a4a;
+    font-size: 15px;
+    font-weight: 600;
+  }
+}

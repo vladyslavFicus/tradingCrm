@@ -863,5 +863,11 @@ PropTypes.risksQuestionnaireData = PropTypes.shape({
     data: PropTypes.riskQuestionnaireData,
   }),
 });
+PropTypes.email = PropTypes.shape({
+  id: PropTypes.string,
+  text: PropTypes.string,
+  subject: PropTypes.string,
+  name: PropTypes.string,
+});
 
 export default PropTypes;

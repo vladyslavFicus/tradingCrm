@@ -2,7 +2,7 @@ import { get } from 'lodash';
 import { graphql, compose } from 'react-apollo';
 import { withStorage } from 'providers/StorageProvider';
 import { unlockLoginMutation } from 'graphql/mutations/auth';
-import { changePassword, sendInvitation, passwordResetRequest } from 'graphql/mutations/operators';
+import { changePassword, sendInvitation } from 'graphql/mutations/operators';
 import { changeStatus } from 'graphql/mutations/partners';
 import { getLoginLock } from 'graphql/queries/profile';
 import { partnerQuery } from 'graphql/queries/partners';
@@ -76,9 +76,6 @@ export default compose(
   }),
   graphql(changePassword, {
     name: 'changePassword',
-  }),
-  graphql(passwordResetRequest, {
-    name: 'resetPassword',
   }),
   graphql(sendInvitation, {
     name: 'sendInvitation',

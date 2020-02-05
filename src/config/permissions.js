@@ -113,4 +113,12 @@ export default {
     CREATE_BRAND_CONFIG: 'brand-config-service;POST;/brand',
     UPDATE_BRAND_CONFIG: 'brand-config-service;PUT;/brand',
   },
+  EMAIL_TEMPLATES: {
+    SEND_EMAIL: 'email;POST;/templated-email',
+    GET_EMAIL_TEMPLATES: 'email;GET;/templates',
+    GET_EMAIL_TEMPLATE: 'email;GET;/templates/{id}',
+    CREATE_EMAIL_TEMPLATE: 'email;POST;/templates',
+    UPDATE_EMAIL_TEMPLATE: 'email;PUT;/templates',
+    DELETE_EMAIL_TEMPLATE: 'email;DELETE;/templates/{id}',
+  },
 };

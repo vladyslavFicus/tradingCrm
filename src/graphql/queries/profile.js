@@ -165,6 +165,13 @@ const newProfile = gql`query newProfile($playerUUID: String!){
         margin
         name
       }
+#      uncomment when email history will be rdy
+#      sentEmails {
+#        id
+#        name
+#        subject
+#        text
+#      }
     }
     error {
       error
