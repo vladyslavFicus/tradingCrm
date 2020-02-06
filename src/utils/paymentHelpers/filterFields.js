@@ -7,12 +7,12 @@ import {
 } from 'components/ReduxForm/ReduxFieldsConstructor';
 import { statuses as operatorsStasuses } from 'constants/operators';
 import {
-  tradingTypes,
-  tradingTypesLabelsWithColor,
   aggregators,
   aggregatorsLabels,
   statuses,
   statusesLabels,
+  tradingTypes,
+  tradingTypesLabelsWithColor,
 } from 'constants/payment';
 import formatLabel from 'utils/formatLabel';
 import renderLabel from 'utils/renderLabel';

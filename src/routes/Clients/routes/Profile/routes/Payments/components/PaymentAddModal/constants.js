@@ -14,9 +14,18 @@ export const attributeLabels = {
   toMt4Acc: I18n.t('CLIENT_PROFILE.TRANSACTIONS.MODAL_CREATE.TO_MT4'),
 };
 
-export const paymentMethods = {
+export const paymentTypes = {
   ...Object.keys(tradingTypes)
-    .filter(name => ([tradingTypes.TRANSFER_IN, tradingTypes.TRANSFER_OUT].indexOf(name) === -1))
+    .filter(
+      name => ([
+        tradingTypes.TRANSFER_IN,
+        tradingTypes.TRANSFER_OUT,
+        tradingTypes.MIGRATION_IN,
+        tradingTypes.MIGRATION_OUT,
+        tradingTypes.MIGRATION_CREDIT_IN,
+        tradingTypes.MIGRATION_CREDIT_OUT,
+      ].indexOf(name) === -1),
+    )
     .reduce(
       (acc, curr) => ({ ...acc, [curr]: { name: curr, permission: permissions.PAYMENT[curr] } }),
       {},
@@ -24,7 +33,7 @@ export const paymentMethods = {
   [TRANSFER]: { name: TRANSFER, permission: permissions.PAYMENT.TRANSFER },
 };
 
-export const paymentMethodsLabels = {
+export const paymentTypesLabels = {
   ...tradingTypesLabelsWithColor,
   [TRANSFER]: { label: 'COMMON.PAYMENT_TYPE.TRANSFER' },
 };

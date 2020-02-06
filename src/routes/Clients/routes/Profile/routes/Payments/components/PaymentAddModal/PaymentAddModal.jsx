@@ -14,7 +14,7 @@ import { InputField, NasSelectField, DateTimeField } from 'components/ReduxForm'
 import Currency from 'components/Amount/Currency';
 import Permissions from 'utils/permissions';
 import { floatNormalize } from 'utils/inputNormalize';
-import { paymentMethods, paymentMethodsLabels, attributeLabels } from './constants';
+import { paymentTypes, paymentTypesLabels, attributeLabels } from './constants';
 import './PaymentAddModal.scss';
 
 class PaymentAddModal extends PureComponent {
@@ -111,13 +111,13 @@ class PaymentAddModal extends PureComponent {
 
     const isInsufficientBalance = (
       parseFloat(mt4.balance) < amount
-      && [paymentMethods.WITHDRAW.name, paymentMethods.TRANSFER.name].includes(paymentType)
+      && [paymentTypes.WITHDRAW.name, paymentTypes.TRANSFER.name].includes(paymentType)
       && name !== 'target'
     );
 
     const isInsufficientCredit = (
       parseFloat(mt4.credit) < amount
-      && [paymentMethods.CREDIT_OUT.name].includes(paymentType)
+      && [paymentTypes.CREDIT_OUT.name].includes(paymentType)
     );
 
     return (
@@ -147,7 +147,7 @@ class PaymentAddModal extends PureComponent {
             {I18n.t('CLIENT_PROFILE.TRANSACTIONS.MODAL_CREATE.BALANCE')}: {mt4.currency} {mt4.balance}
           </div>
           <div>{I18n.t('CLIENT_PROFILE.TRANSACTIONS.MODAL_CREATE.GROUP')}: {mt4.group}</div>
-          <If condition={[paymentMethods.CREDIT_IN.name, paymentMethods.CREDIT_OUT.name].includes(paymentType)}>
+          <If condition={[paymentTypes.CREDIT_IN.name, paymentTypes.CREDIT_OUT.name].includes(paymentType)}>
             <div className={classNames({ 'color-danger': Number(mt4.credit) === 0 })}>
               {I18n.t('CLIENT_PROFILE.TRANSACTIONS.MODAL_CREATE.CREDIT')}: {mt4.currency} {mt4.credit}
             </div>
@@ -188,10 +188,10 @@ class PaymentAddModal extends PureComponent {
             !account.archived && !(
               account.accountType === 'DEMO'
                 && [
-                  paymentMethods.CREDIT_IN.name,
-                  paymentMethods.CREDIT_OUT.name,
-                  paymentMethods.TRANSFER.name,
-                  paymentMethods.WITHDRAW.name,
+                  paymentTypes.CREDIT_IN.name,
+                  paymentTypes.CREDIT_OUT.name,
+                  paymentTypes.TRANSFER.name,
+                  paymentTypes.WITHDRAW.name,
                 ].includes(paymentType)
             )
           ))
@@ -254,11 +254,11 @@ class PaymentAddModal extends PureComponent {
             showErrorMessage={false}
           >
             {Object
-              .entries(paymentMethods)
+              .entries(paymentTypes)
               .filter(([, { permission }]) => (new Permissions(permission)).check(permissions))
               .map(([key]) => (
                 <option key={key} value={key}>
-                  {I18n.t(paymentMethodsLabels[key].label)}
+                  {I18n.t(paymentTypesLabels[key].label)}
                 </option>
               ))}
           </Field>
@@ -266,7 +266,7 @@ class PaymentAddModal extends PureComponent {
             <div className="form-row align-items-center">
               <Choose>
 
-                <When condition={currentValues.paymentType === paymentMethods.DEPOSIT.name}>
+                <When condition={currentValues.paymentType === paymentTypes.DEPOSIT.name}>
                   <Field
                     name="paymentMethod"
                     label={attributeLabels.paymentMethod}
@@ -292,11 +292,11 @@ class PaymentAddModal extends PureComponent {
                   {this.renderMt4SelectField('toMt4Acc')}
                 </When>
 
-                <When condition={currentValues.paymentType === paymentMethods.WITHDRAW.name}>
+                <When condition={currentValues.paymentType === paymentTypes.WITHDRAW.name}>
                   {this.renderMt4SelectField()}
                 </When>
 
-                <When condition={currentValues.paymentType === paymentMethods.TRANSFER.name}>
+                <When condition={currentValues.paymentType === paymentTypes.TRANSFER.name}>
                   {this.renderMt4SelectField('', 'source')}
                   <div className="col-auto arrow-icon-wrapper">
                     <i className="icon-arrow-down" />
@@ -304,11 +304,11 @@ class PaymentAddModal extends PureComponent {
                   {this.renderMt4SelectField('toMt4Acc', 'target')}
                 </When>
 
-                <When condition={currentValues.paymentType === paymentMethods.CREDIT_IN.name}>
+                <When condition={currentValues.paymentType === paymentTypes.CREDIT_IN.name}>
                   {this.renderMt4SelectField('toMt4Acc')}
                 </When>
 
-                <When condition={currentValues.paymentType === paymentMethods.CREDIT_OUT.name}>
+                <When condition={currentValues.paymentType === paymentTypes.CREDIT_OUT.name}>
                   {this.renderMt4SelectField('fromMt4Acc')}
                 </When>
               </Choose>
@@ -325,7 +325,7 @@ class PaymentAddModal extends PureComponent {
                 inputAddon={sourceAccount && <Currency code={sourceAccount.currency} showSymbol={false} />}
                 component={InputField}
               />
-              <If condition={currentValues && currentValues.paymentType === paymentMethods.DEPOSIT.name}>
+              <If condition={currentValues && currentValues.paymentType === paymentTypes.DEPOSIT.name}>
                 <Field
                   name="externalReference"
                   type="text"
@@ -335,7 +335,7 @@ class PaymentAddModal extends PureComponent {
                   position="vertical"
                 />
               </If>
-              <If condition={currentValues && currentValues.paymentType === paymentMethods.CREDIT_IN.name}>
+              <If condition={currentValues && currentValues.paymentType === paymentTypes.CREDIT_IN.name}>
                 <Field
                   withTime
                   closeOnSelect={false}

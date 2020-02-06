@@ -5,7 +5,7 @@ import { reduxForm, getFormValues } from 'redux-form';
 import { getManualPaymentMethods } from 'graphql/queries/payments';
 import { withPermission } from 'providers/PermissionsProvider';
 import { createValidator } from 'utils/validator';
-import { paymentMethods, attributeLabels } from './constants';
+import { paymentTypes, attributeLabels } from './constants';
 import PaymentAddModal from './PaymentAddModal';
 
 const FORM_NAME = 'createPaymentForm';
@@ -19,8 +19,8 @@ const formValidation = (data, { newProfile: { tradingAccount }, currentValues })
   };
 
   if ([
-    paymentMethods.WITHDRAW.name,
-    paymentMethods.TRANSFER.name,
+    paymentTypes.WITHDRAW.name,
+    paymentTypes.TRANSFER.name,
   ].includes(data.paymentType)
       && currentValues.login
       && currentValues.amount
@@ -29,7 +29,7 @@ const formValidation = (data, { newProfile: { tradingAccount }, currentValues })
     return { login: I18n.t('CLIENT_PROFILE.TRANSACTIONS.MODAL_CREATE.MT4_NO_MONEY') };
   }
 
-  if ([paymentMethods.CREDIT_OUT.name].includes(data.paymentType)
+  if ([paymentTypes.CREDIT_OUT.name].includes(data.paymentType)
     && currentValues.login
     && currentValues.amount
     && Number(tradingAccount.find(({ login }) => login === currentValues.login).credit) < currentValues.amount
@@ -37,15 +37,15 @@ const formValidation = (data, { newProfile: { tradingAccount }, currentValues })
     return { login: I18n.t('CLIENT_PROFILE.TRANSACTIONS.MODAL_CREATE.MT4_NO_MONEY') };
   }
 
-  if (data.paymentType === paymentMethods.DEPOSIT.name) {
+  if (data.paymentType === paymentTypes.DEPOSIT.name) {
     rules = { ...rules, paymentMethod: 'required|string' };
   }
 
-  if (data.paymentType === paymentMethods.CREDIT_IN.name) {
+  if (data.paymentType === paymentTypes.CREDIT_IN.name) {
     rules = { ...rules, expirationDate: 'required|string' };
   }
 
-  if (data.paymentType === paymentMethods.TRANSFER.name) {
+  if (data.paymentType === paymentTypes.TRANSFER.name) {
     rules = {
       ...rules,
       source: 'required|string',

@@ -122,7 +122,6 @@ const hrznTypes = keyMirror({
 });
 
 const tradingTypes = keyMirror({
-  // CONFISCATE: null,
   CREDIT_IN: null,
   CREDIT_OUT: null,
   DEPOSIT: null,

@@ -4,6 +4,7 @@ import I18n from 'i18n-js';
 import moment from 'moment';
 import { getActiveBrandConfig } from 'config';
 import { targetTypes } from 'constants/note';
+import { aggregatorsLabels, tradingTypesLabelsWithColor } from 'constants/payment';
 import GridPaymentInfo from 'components/GridPaymentInfo';
 import Uuid from 'components/Uuid';
 import NoteButton from 'components/NoteButton';
@@ -11,10 +12,7 @@ import GridPlayerInfo from 'components/GridPlayerInfo';
 import CountryLabelWithFlag from 'components/CountryLabelWithFlag';
 import PaymentStatus from 'components/PaymentStatus';
 import formatLabel from 'utils/formatLabel';
-import {
-  tradingTypesLabelsWithColor,
-  aggregatorsLabels,
-} from '../../constants/payment';
+
 
 const clientColumn = () => ({
   name: 'profile',
