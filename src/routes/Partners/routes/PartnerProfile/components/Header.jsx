@@ -85,29 +85,24 @@ class Header extends Component {
                 {I18n.t('PARTNER_PROFILE.PROFILE.HEADER.UNLOCK')}
               </button>
             </If>
-            {
-              status === statuses.INACTIVE
-              && (
-                <PermissionContent permissions={permissions.OPERATORS.OPERATOR_SEND_INVITATION}>
-                  <Button
-                    className="btn-sm btn-default-outline margin-right-10"
-                    onClick={onSendInvitationClick}
-                  >
-                    {I18n.t('PARTNER_PROFILE.DETAILS.SEND_INVITATION')}
-                  </Button>
-                </PermissionContent>
-              )
-            }
-            {
-              <PermissionContent permissions={permissions.OPERATORS.CHANGE_PASSWORD}>
+            <If condition={status === statuses.INACTIVE}>
+              <PermissionContent permissions={permissions.OPERATORS.OPERATOR_SEND_INVITATION}>
                 <Button
-                  className="btn-sm btn-default-outline"
-                  onClick={onChangePasswordClick}
+                  className="btn-sm btn-default-outline margin-right-10"
+                  onClick={onSendInvitationClick}
                 >
-                  {I18n.t('PARTNER_PROFILE.CHANGE_PASSWORD')}
+                  {I18n.t('PARTNER_PROFILE.DETAILS.SEND_INVITATION')}
                 </Button>
               </PermissionContent>
-            }
+            </If>
+            <PermissionContent permissions={permissions.PARTNERS.CHANGE_PASSWORD}>
+              <Button
+                className="btn-sm btn-default-outline"
+                onClick={onChangePasswordClick}
+              >
+                {I18n.t('PARTNER_PROFILE.CHANGE_PASSWORD')}
+              </Button>
+            </PermissionContent>
           </div>
         </div>
         <div className="layout-quick-overview">
@@ -119,7 +114,7 @@ class Header extends Component {
                 <div className="dropdown-tab">
                   <div className="header-block-title">{I18n.t('COMMON.ACCOUNT_STATUS')}</div>
                   <If condition={availableStatuses.length > 0}>
-                    <PermissionContent permissions={permissions.OPERATORS.UPDATE_STATUS}>
+                    <PermissionContent permissions={permissions.PARTNERS.UPDATE_STATUS}>
                       <i className="fa fa-angle-down" />
                     </PermissionContent>
                   </If>

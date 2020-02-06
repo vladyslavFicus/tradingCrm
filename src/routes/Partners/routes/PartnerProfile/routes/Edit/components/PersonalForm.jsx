@@ -124,6 +124,7 @@ class PersonalForm extends PureComponent {
               label={I18n.t(attributeLabels.whiteListedIps)}
               type="text"
               component={MultiInputField}
+              disabled={disabled}
             />
           </div>
           <div className="col-xl-4">
@@ -134,6 +135,7 @@ class PersonalForm extends PureComponent {
               placeholder={I18n.t('COMMON.SELECT_OPTION.COUNTRY')}
               component={NasSelectField}
               position="vertical"
+              disabled={disabled}
               multiple
             >
               {Object
@@ -145,18 +147,21 @@ class PersonalForm extends PureComponent {
               name="showNotes"
               type="checkbox"
               component={CheckBox}
+              disabled={disabled}
               label={I18n.t('PARTNERS.SHOW_NOTES')}
             />
             <Field
               name="showSalesStatus"
               type="checkbox"
               component={CheckBox}
+              disabled={disabled}
               label={I18n.t('PARTNERS.SHOW_SALES_STATUS')}
             />
             <Field
               name="showFTDAmount"
               type="checkbox"
               component={CheckBox}
+              disabled={disabled}
               label={I18n.t('PARTNERS.SHOW_FTD_AMOUNT')}
             />
           </div>

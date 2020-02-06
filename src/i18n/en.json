@@ -1357,7 +1357,6 @@
     }
   },
   "PARTNER_PROFILE": {
-    "RESET_PASSWORD": "Reset password",
     "CHANGE_PASSWORD": "Change password",
     "TABS": {
       "PROFILE": "Profile",

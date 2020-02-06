@@ -19,6 +19,7 @@ class HierarchyProfileForm extends Component {
     pristine: PropTypes.bool.isRequired,
     submitting: PropTypes.bool.isRequired,
     initialValues: PropTypes.object,
+    allowUpdateHierarchy: PropTypes.bool.isRequired,
     branchHierarchy: PropTypes.shape({
       loading: PropTypes.bool.isRequired,
       teams: PropTypes.array,
@@ -189,6 +190,7 @@ class HierarchyProfileForm extends Component {
       submitting,
       isPartner,
       branchHierarchy,
+      allowUpdateHierarchy,
       initialValues: {
         parentBranches,
       },
@@ -216,6 +218,7 @@ class HierarchyProfileForm extends Component {
                   label={I18n.t(attributeLabels.userType)}
                   component={NasSelectField}
                   className="col-4"
+                  disabled={!allowUpdateHierarchy}
                 >
                   {Object
                     .keys(omit(userTypes, [
@@ -230,7 +233,7 @@ class HierarchyProfileForm extends Component {
                     ))
                   }
                 </Field>
-                <If condition={!pristine && !submitting}>
+                <If condition={!pristine && !submitting && allowUpdateHierarchy}>
                   <div className="col-auto">
                     <button className="btn btn-sm btn-primary" type="submit">
                       {I18n.t('COMMON.SAVE_CHANGES')}
@@ -254,7 +257,7 @@ class HierarchyProfileForm extends Component {
                           <strong>
                             {I18n.t(`COMMON.${branchType}`)}: {hierarchyTree}
                           </strong>
-                          <If condition={parentBranches.length !== 1}>
+                          <If condition={parentBranches.length !== 1 && allowUpdateHierarchy}>
                             <strong className="margin-20">
                               <i
                                 id={uuid}
@@ -277,12 +280,12 @@ class HierarchyProfileForm extends Component {
               <button
                 type="button"
                 className="btn btn-sm margin-bottom-10"
-                disabled={branchFormVisibility}
+                disabled={branchFormVisibility && !allowUpdateHierarchy}
                 onClick={this.toggleBranchForm}
               >
                 {I18n.t('OPERATORS.PROFILE.HIERARCHY.ADD_BRANCH_LABEL')}
               </button>
-              <If condition={branchFormVisibility}>
+              <If condition={branchFormVisibility && allowUpdateHierarchy}>
                 <AddBranchForm
                   branchHierarchy={branchHierarchy}
                   hierarchyTree={this.hierarchyTree}

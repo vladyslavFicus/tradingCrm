@@ -16,6 +16,8 @@ const manageDepartmentsPermission = new Permissions([
   permissions.OPERATORS.DELETE_AUTHORITY,
 ]);
 
+const updateParentBranch = new Permissions(permissions.HIERARCHY.UPDATE_USER_BRANCH);
+
 class View extends Component {
   static propTypes = {
     updateProfile: PropTypes.func.isRequired,
@@ -184,6 +186,7 @@ class View extends Component {
     } = this.props;
 
     const allowEditPermissions = manageDepartmentsPermission.check(currentPermissions) && uuid !== profile.uuid;
+    const allowUpdateHierarchy = updateParentBranch.check(currentPermissions) && uuid !== profile.uuid;
     const initialValues = get(hierarchy, 'userHierarchyById.data') || {};
     const isPartner = operatorType === operatorTypes.PARTNER;
 
@@ -247,13 +250,12 @@ class View extends Component {
             </If>
           </div>
         </div>
-        <If condition={allowEditPermissions}>
-          <HierarchyProfileForm
-            isPartner={isPartner}
-            loading={loading}
-            initialValues={initialValues}
-          />
-        </If>
+        <HierarchyProfileForm
+          isPartner={isPartner}
+          loading={loading}
+          initialValues={initialValues}
+          allowUpdateHierarchy={allowUpdateHierarchy}
+        />
       </div>
     );
   }

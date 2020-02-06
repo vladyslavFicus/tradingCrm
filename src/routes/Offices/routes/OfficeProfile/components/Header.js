@@ -1,6 +1,8 @@
 import React, { PureComponent } from 'react';
 import I18n from 'i18n-js';
 import PropTypes from 'constants/propTypes';
+import permissions from 'config/permissions';
+import PermissionContent from 'components/PermissionContent';
 import { withModals } from 'components/HighOrder';
 import AddOperatorToBranchModal from 'components/AddOperatorToBranchModal';
 import ProfileHeaderPlaceholder from 'components/ProfileHeaderPlaceholder';
@@ -66,16 +68,18 @@ class Header extends PureComponent {
             </span>
           </div>
         </ProfileHeaderPlaceholder>
-        <div className="panel-heading-row__actions">
-          <button
-            type="button"
-            className="btn btn-default-outline mx-3"
-            onClick={this.handleOpenManagerModal}
-            disabled={loading}
-          >
-            {I18n.t('COMMON.ADD_MANAGER_TO_BRANCH')}
-          </button>
-        </div>
+        <PermissionContent permissions={permissions.HIERARCHY.UPDATE_USER_BRANCH}>
+          <div className="panel-heading-row__actions">
+            <button
+              type="button"
+              className="btn btn-default-outline mx-3"
+              onClick={this.handleOpenManagerModal}
+              disabled={loading}
+            >
+              {I18n.t('COMMON.ADD_MANAGER_TO_BRANCH')}
+            </button>
+          </div>
+        </PermissionContent>
       </div>
     );
   }

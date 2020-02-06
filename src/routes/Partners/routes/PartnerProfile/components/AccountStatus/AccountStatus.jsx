@@ -67,11 +67,11 @@ class AccountStatus extends Component {
     <Dropdown isOpen={dropDownOpen} toggle={this.toggle}>
       <DropdownToggle tag="div">
         {label}
-        <PermissionContent permissions={permissions.OPERATORS.UPDATE_STATUS}>
+        <PermissionContent permissions={permissions.PARTNERS.UPDATE_STATUS}>
           <i className="fa fa-angle-down" />
         </PermissionContent>
       </DropdownToggle>
-      <PermissionContent permissions={permissions.OPERATORS.UPDATE_STATUS}>
+      <PermissionContent permissions={permissions.PARTNERS.UPDATE_STATUS}>
         <DropdownMenu>
           {
             availableStatuses.map(({ label: statusLabel, reasons, ...rest }) => (

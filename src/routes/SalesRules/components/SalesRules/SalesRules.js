@@ -5,6 +5,8 @@ import { Link, withRouter } from 'react-router-dom';
 import { TextRow } from 'react-placeholder/lib/placeholders';
 import PropTypes from 'constants/propTypes';
 import countries from 'utils/countryList';
+import permissions from 'config/permissions';
+import PermissionContent from 'components/PermissionContent';
 import Uuid from 'components/Uuid';
 import RulesFilters from 'components/HierarchyProfileRules/components/RulesGridFilters';
 import GridView from 'components/GridView';
@@ -250,11 +252,13 @@ class SalesRules extends PureComponent {
               header={I18n.t('HIERARCHY.PROFILE_RULE_TAB.GRID_HEADER.PRIORITY')}
               render={this.renderPriority}
             />
-            <GridViewColumn
-              name="delete"
-              header={I18n.t('HIERARCHY.PROFILE_RULE_TAB.GRID_HEADER.ACTION')}
-              render={this.renderRemoveIcon}
-            />
+            <PermissionContent permissions={permissions.SALES_RULES.REMOVE_RULE}>
+              <GridViewColumn
+                name="delete"
+                header={I18n.t('HIERARCHY.PROFILE_RULE_TAB.GRID_HEADER.ACTION')}
+                render={this.renderRemoveIcon}
+              />
+            </PermissionContent>
           </GridView>
         </div>
       </div>

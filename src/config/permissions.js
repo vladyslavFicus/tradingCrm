@@ -18,7 +18,6 @@ export default {
     ADD_AUTHORITY: 'auth;POST;/credentials/{uuid}/authorities',
     DELETE_AUTHORITY: 'auth;DELETE;/credentials/{uuid}/authorities',
     UPDATE_PROFILE: 'affiliate;PUT;/affiliates/{uuid}/status',
-    RESET_PASSWORD: 'auth;POST;/password/{brand}/{uuid}/reset/request',
     UPDATE_STATUS: 'affiliate;PUT;/affiliate/affiliates/status',
     CHANGE_PASSWORD: 'auth;POST;/credentials/affiliate/affiliates/{uuid}/password',
   },
@@ -35,9 +34,12 @@ export default {
     GET_AFFILIATE_PARTNERS: 'hierarchy;GET;/user/{uuid}/affiliate-partners',
     GET_BRANCH_BY_ID: 'hierarchy;GET;/branch/{uuid}',
     CREATE_BRANCH: 'hierarchy-updater;POST;/branch',
+    UPDATE_USER_BRANCH: 'hierarchy-updater;PUT;/user/{uuid}/relationship/parent-branch',
   },
   SALES_RULES: {
     GET_RULES: 'rules-profile;POST;/search',
+    CREATE_RULE: 'rules-profile;POST;/',
+    REMOVE_RULE: 'rules-profile;DELETE;/{uuid}',
   },
   USER_PROFILE: {
     GET_RESET_PASSWORD_TOKEN: 'auth;GET;/password/reset-token?playerUUID={playerUUID}',

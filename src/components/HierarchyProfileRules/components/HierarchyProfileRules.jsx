@@ -4,9 +4,11 @@ import { get } from 'lodash';
 import { SubmissionError } from 'redux-form';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames';
+import permissions from 'config/permissions';
 import { branchTypes } from 'constants/hierarchyTypes';
 import PropTypes from 'constants/propTypes';
 import { actionRuleTypes, deskTypes } from 'constants/rules';
+import PermissionContent from 'components/PermissionContent';
 import { UncontrolledTooltip } from 'components/Reactstrap/Uncontrolled';
 import GridView, { GridViewColumn } from 'components/GridView';
 import TabHeader from 'components/TabHeader';
@@ -241,7 +243,7 @@ const HierarchyProfileRules = (title, deskType, branchType) => {
     };
 
     renderButtonAddRule = ({ enabled, message }) => (
-      <Fragment>
+      <PermissionContent permissions={permissions.SALES_RULES.CREATE_RULE}>
         <TabHeader title={I18n.t(title)}>
           <button
             id="add-rule"
@@ -261,7 +263,7 @@ const HierarchyProfileRules = (title, deskType, branchType) => {
             {message}
           </UncontrolledTooltip>
         </If>
-      </Fragment>
+      </PermissionContent>
     );
 
     renderRule = ({ uuid, name, createdBy }) => (
@@ -417,11 +419,13 @@ const HierarchyProfileRules = (title, deskType, branchType) => {
                 header={I18n.t('HIERARCHY.PROFILE_RULE_TAB.GRID_HEADER.PRIORITY')}
                 render={this.renderPriority}
               />
-              <GridViewColumn
-                name="delete"
-                header={I18n.t('HIERARCHY.PROFILE_RULE_TAB.GRID_HEADER.ACTION')}
-                render={this.renderRemoveIcon}
-              />
+              <PermissionContent permissions={permissions.SALES_RULES.REMOVE_RULE}>
+                <GridViewColumn
+                  name="delete"
+                  header={I18n.t('HIERARCHY.PROFILE_RULE_TAB.GRID_HEADER.ACTION')}
+                  render={this.renderRemoveIcon}
+                />
+              </PermissionContent>
             </GridView>
           </div>
         </Fragment>
