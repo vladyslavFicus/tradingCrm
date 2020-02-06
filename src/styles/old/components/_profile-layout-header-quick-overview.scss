@@ -9,10 +9,14 @@
   min-width: 1px;
   min-height: 60px;
   position: relative;
-  padding-left: 1.2em;
   border-right: 1px solid #dfe4ed;
+
   &:last-child {
     border-right: 0;
+  }
+
+  &-inner {
+    padding-left: 1.2em;
   }
 
   &-title {
@@ -73,8 +77,6 @@
   }
 
   &_account {
-    padding-left: 0;
-
     .dropdown-menu {
       top: 110% !important;
       border: 1px solid #eee;
@@ -94,8 +96,6 @@
   }
 
   &_balance {
-    padding-left: 0;
-
     .dropdown-menu {
       padding-top: 1rem;
       padding-bottom: 1rem;
@@ -132,8 +132,6 @@
   }
 
   &_questionnaire {
-    padding-left: 0;
-
     &_link {
       font-weight: 400;
       color: #007bff;

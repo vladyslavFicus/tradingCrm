@@ -1,6 +1,6 @@
 /* eslint-disable */
 
-import React, { PureComponent } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import { get } from 'lodash';
 import moment from 'moment';
 import I18n from 'i18n-js';
@@ -141,17 +141,17 @@ class Questionnaire extends PureComponent {
     const error = get(questionnaireResponse, 'lastProfileData.error.error');
 
     return (
-      <div className="header-block header-block_questionnaire">
+      <div className="header-block header-block-inner header-block_questionnaire">
         {/* Render "NOT PASSED" status if questionnaire form not found on backend */}
         <If condition={!questionnaire && error === 'error.entity.not.found'}>
-          <div className="header-block">
+          <Fragment>
             <div className="header-block-title">{I18n.t('CLIENT_PROFILE.CLIENT.QUESTIONNAIRE.TITLE')}</div>
             <div className="header-block-middle">
               <span className="color-inactive text-uppercase">
                 {I18n.t('CLIENT_PROFILE.CLIENT.QUESTIONNAIRE.STATUSES.NOT_PASSED')}
               </span>
             </div>
-          </div>
+          </Fragment>
         </If>
         <If condition={questionnaire}>
           {this.renderLabel(questionnaire)}

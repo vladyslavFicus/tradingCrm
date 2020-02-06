@@ -153,7 +153,7 @@ class PlayerStatus extends Component {
       'dropdown-open': dropDownOpen,
     });
     const label = (
-      <div className="dropdown-tab">
+      <div className="dropdown-tab header-block-inner">
         <div className="header-block-title">{I18n.t('COMMON.ACCOUNT_STATUS')}</div>
         {availableStatuses.length > 0 && canChangeStatus && <i className="fa fa-angle-down" />}
         <div className={classNames(statusColorNames[status], 'header-block-middle text-uppercase')}>

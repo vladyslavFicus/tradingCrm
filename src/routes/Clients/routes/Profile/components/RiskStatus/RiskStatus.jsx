@@ -31,7 +31,7 @@ class RiskStatus extends Component {
     });
 
     return (
-      <div className="header-block margin-top-10">
+      <div className="header-block-inner margin-top-10">
         <div className="header-block-title">{I18n.t('CLIENT_PROFILE.RISKS.STATUS.TITLE')}</div>
         <div className={riskCategoryClassName}>
           {

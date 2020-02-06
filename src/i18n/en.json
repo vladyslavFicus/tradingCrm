@@ -2418,6 +2418,25 @@
     "WILL_BE_BLOCKED": "Temporary account - will be blocked on %{date}",
     "BLOCKED": "Temporary account has been blocked on %{date}"
   },
+  "MIGRATE": {
+    "MIGRATION_STATUS": "Migration status",
+    "BUTTON": "Migrate to FSA",
+    "MODAL": {
+      "TITLE": "Bulk action - migration",
+      "TEXT": "Are you sure, that you want to migrate selected clients?"
+    },
+    "NOTIFICATION": {
+      "SUCCESS_TEXT": "Сlients are successfully prepared for migration",
+      "ERROR_TEXT": "Bulk migration failed for some reasons"
+    },
+    "STATUSES": {
+      "MIGRATION_ACCEPTED": "Migration accepted",
+      "MIGRATION_DECLINED": "Migration declined",
+      "MIGRATION_STARTED": "Migration started",
+      "MIGRATION_FINISHED": "Migration finished",
+      "MIGRATION_FAILED": "Migration failed"
+    }
+  },
   "CLIENTS": {
     "BULK_ACTIONS": "Bulk actions",
     "RETENTION_INFO_UPDATED": "Clients retention info updated",

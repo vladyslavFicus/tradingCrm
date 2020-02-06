@@ -6,6 +6,7 @@ import I18n from 'i18n-js';
 import { get } from 'lodash';
 import { getActiveBrandConfig } from 'config';
 import { statusColorNames, statusesLabels } from 'constants/user';
+import { fsaStatusColorNames, fsaStatusesLabels } from 'constants/fsaMigration';
 import { salesStatuses, salesStatusesColor } from 'constants/salesStatuses';
 import { retentionStatuses, retentionStatusesColor } from 'constants/retentionStatuses';
 import GridPlayerInfo from 'components/GridPlayerInfo';
@@ -251,14 +252,25 @@ export default () => [{
   header: I18n.t('CLIENTS.LIST.GRID_HEADER.STATUS'),
   render: (data) => {
     const { changedAt, type } = get(data, 'status') || {};
+    const { agreedToFsaMigrationDate, fsaMigrationStatus } = get(data, 'fsaMigrationInfo') || {};
 
     return (
-      <GridStatus
-        colorClassName={statusColorNames[type]}
-        statusLabel={I18n.t(renderLabel(type, statusesLabels))}
-        info={changedAt}
-        infoLabel={date => I18n.t('COMMON.SINCE', { date: moment.utc(date).local().format('DD.MM.YYYY HH:mm') })}
-      />
-    )
+      <Fragment>
+        <GridStatus
+          colorClassName={statusColorNames[type]}
+          statusLabel={I18n.t(renderLabel(type, statusesLabels))}
+          info={changedAt}
+          infoLabel={date => I18n.t('COMMON.SINCE', { date: moment.utc(date).local().format('DD.MM.YYYY HH:mm') })}
+        />
+        <If condition={getActiveBrandConfig().fsaRegulation && fsaMigrationStatus}>
+          <GridStatus
+            colorClassName={`${fsaStatusColorNames[fsaMigrationStatus]} margin-top-5`}
+            statusLabel={I18n.t(renderLabel(fsaMigrationStatus, fsaStatusesLabels))}
+            info={agreedToFsaMigrationDate}
+            infoLabel={date => I18n.t('COMMON.SINCE', { date: moment.utc(date).local().format('DD.MM.YYYY HH:mm') })}
+          />
+        </If>
+      </Fragment>
+    );
   },
 }];

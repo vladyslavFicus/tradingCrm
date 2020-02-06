@@ -10,7 +10,7 @@ class ProfileLastLogin extends PureComponent {
   };
 
   static defaultProps = {
-    className: 'header-block',
+    className: 'header-block header-block-inner',
     lastIp: null,
   };
 

@@ -1,24 +1,16 @@
 import { withApollo, graphql, compose } from 'react-apollo';
 import { get } from 'lodash';
 import { withModals } from 'components/HighOrder';
-import { withStorage } from 'providers/StorageProvider';
 import ConfirmActionModal from 'components/Modal/ConfirmActionModal';
-import RepresentativeUpdateModal from 'components/RepresentativeUpdateModal';
 import { clientsQuery } from 'graphql/queries/profile';
 import limitItems from 'utils/limitItems';
-import MoveModal from '../components/Modals';
 import List from '../components/List';
 
 const PROFILES_SIZE = 20;
 
 export default compose(
   withApollo,
-  withModals({
-    representativeModal: RepresentativeUpdateModal,
-    moveModal: MoveModal,
-    confirmationModal: ConfirmActionModal,
-  }),
-  withStorage(['auth']),
+  withModals({ confirmationModal: ConfirmActionModal }),
   graphql(clientsQuery, {
     name: 'profiles',
     options: ({ location: { query } }) => {

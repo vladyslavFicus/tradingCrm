@@ -165,6 +165,10 @@ const newProfile = gql`query newProfile($playerUUID: String!){
         margin
         name
       }
+      fsaMigrationInfo {
+        agreedToFsaMigrationDate
+        fsaMigrationStatus
+      }
 #      uncomment when email history will be rdy
 #      sentEmails {
 #        id
@@ -247,6 +251,10 @@ const clientsQuery = gql`query ${queryNames.clientsQuery}(
             amount
           }
           firstName
+          fsaMigrationInfo {
+            agreedToFsaMigrationDate
+            fsaMigrationStatus
+          }
           languageCode
           lastName
           lastNote {

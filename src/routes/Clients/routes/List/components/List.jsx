@@ -1,37 +1,30 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import I18n from 'i18n-js';
-import { get, omit } from 'lodash';
-import { TextRow } from 'react-placeholder/lib/placeholders';
-import permissions from 'config/permissions';
+import { get } from 'lodash';
 import PropTypes from 'constants/propTypes';
-import { deskTypes } from 'constants/hierarchyTypes';
-import { departments, roles } from 'constants/brands';
 import GridView, { GridViewColumn } from 'components/GridView';
-import PermissionContent from 'components/PermissionContent';
-import Placeholder from 'components/Placeholder';
-import parseJson from 'utils/parseJson';
 import UserGridFilter from './UsersGridFilter';
+import ClientsGridHeader from './ClientsGridHeader';
 import { columns } from './attributes';
-import { getClientsData } from './utils';
 
 const MAX_SELECTED_ROWS = 10000;
 
 class List extends Component {
   static propTypes = {
     ...PropTypes.router,
-    auth: PropTypes.shape({
-      department: PropTypes.string.isRequired,
-      role: PropTypes.string.isRequired,
-      uuid: PropTypes.string.isRequired,
-    }).isRequired,
     profiles: PropTypes.shape({
       profiles: PropTypes.shape({
-        data: PropTypes.pageable(PropTypes.any),
+        data: PropTypes.pageable(PropTypes.shape({
+          totalElements: PropTypes.number,
+          page: PropTypes.number,
+          last: PropTypes.bool,
+          content: PropTypes.profileView,
+        })),
       }),
       refetch: PropTypes.func.isRequired,
       loadMore: PropTypes.func,
       loading: PropTypes.bool.isRequired,
-    }),
+    }).isRequired,
     location: PropTypes.shape({
       query: PropTypes.shape({
         filters: PropTypes.object,
@@ -45,51 +38,13 @@ class List extends Component {
     }).isRequired,
   };
 
-  static childContextTypes = {
-    getApolloRequestState: PropTypes.func.isRequired,
-  };
-
-  static defaultProps = {
-    profiles: {
-      profiles: {},
-      loading: false,
-    },
-  };
-
   state = {
     selectedRows: [],
     allRowsSelected: false,
     touchedRowsIds: [],
   };
 
-  getChildContext() {
-    return {
-      getApolloRequestState: this.handleGetRequestState,
-    };
-  }
-
-  componentDidMount() {
-    window.addEventListener('message', ({ data, origin }) => {
-      if (origin === window.location.origin) {
-        if (typeof data === 'string') {
-          const action = parseJson(data, null);
-
-          if (
-            action
-            && this.props.profiles
-          ) {
-            this.props.profiles.refetch();
-          }
-        }
-      }
-    });
-  }
-
-  componentWillUnmount() {
-    this.handleFilterReset();
-  }
-
-  setInitialState = (cb) => {
+  resetClientsGridInitialState = (cb) => {
     this.setState(
       {
         selectedRows: [],
@@ -99,8 +54,6 @@ class List extends Component {
       () => cb && cb(),
     );
   };
-
-  handleGetRequestState = () => this.props.profiles.loading;
 
   handlePageChanged = () => {
     const {
@@ -121,9 +74,8 @@ class List extends Component {
       location: { filterSetValues },
     } = this.props;
 
-    this.setInitialState(() => {
+    this.resetClientsGridInitialState(() => {
       history.replace({
-        // Not to rewrite form initial Values if exist
         ...(filterSetValues && { filterSetValues }),
         query: { filters },
       });
@@ -131,12 +83,12 @@ class List extends Component {
   };
 
   handleFilterReset = () => {
-    this.setInitialState(() => {
+    this.resetClientsGridInitialState(() => {
       this.props.history.replace({ query: null });
     });
   };
 
-  handlePlayerClick = ({ uuid }) => {
+  handleClientClick = ({ uuid }) => {
     window.open(`/clients/${uuid}/profile`, '_blank');
   };
 
@@ -162,17 +114,14 @@ class List extends Component {
 
   handleAllRowsSelect = () => {
     const {
-      profiles: {
-        profiles: {
-          data: { totalElements },
-        },
-      },
-      modals: { confirmationModal },
+      profiles,
       location: { query },
+      modals: { confirmationModal },
     } = this.props;
 
     const { allRowsSelected } = this.state;
-    const searchLimit = get(query, 'filters.searchLimit') || null;
+    const { totalElements } = get(profiles, 'profiles.data') || {};
+    const { searchLimit } = get(query, 'filters') || {};
 
     let selectedRowsLength = null;
 
@@ -217,81 +166,11 @@ class List extends Component {
     }
   };
 
-  handleTriggerRepModal = type => () => {
-    const {
-      modals: { representativeModal },
-      location: { query },
-      profiles: {
-        profiles: {
-          data: { content, totalElements },
-        },
-      },
-    } = this.props;
-    const { allRowsSelected, selectedRows } = this.state;
-
-    const clients = getClientsData(
-      this.state,
-      totalElements,
-      { type },
-      content,
-    );
-
-    representativeModal.show({
-      type,
-      clients,
-      configs: {
-        allRowsSelected,
-        totalElements: selectedRows.length,
-        multiAssign: true,
-        ...(query && { searchParams: omit(query.filters, ['page.size']) }),
-      },
-      onSuccess: this.handleSuccessListUpdate,
-      header: (
-        <Fragment>
-          <div>{I18n.t(`CLIENTS.MODALS.${type}_MODAL.HEADER`)}</div>
-          <div className="font-size-11 color-yellow">
-            {selectedRows.length} {I18n.t('COMMON.CLIENTS_SELECTED')}
-          </div>
-        </Fragment>
-      ),
-    });
-  };
-
-  handleTriggerMoveModal = () => {
-    const {
-      modals: { moveModal },
-      location: { query },
-      profiles: {
-        profiles: {
-          data: { content, totalElements },
-        },
-      },
-    } = this.props;
-
-    moveModal.show({
-      content,
-      configs: {
-        totalElements,
-        ...this.state,
-        ...(query && { searchParams: omit(query.filters, ['page.size']) }),
-      },
-      onSuccess: this.handleSuccessListUpdate,
-    });
-  };
-
-  handleSuccessListUpdate = async () => {
-    const {
-      profiles: { refetch },
-    } = this.props;
-
-    this.setInitialState(() => refetch());
-  };
-
   render() {
     const {
-      auth,
+      profiles,
+      profiles: { loading },
       location: { filterSetValues, query },
-      profiles: { loading, profiles },
     } = this.props;
 
     const {
@@ -304,93 +183,20 @@ class List extends Component {
       content,
       page: activePage,
       last: isLastPage,
-      totalElements,
-    } = get(this.props.profiles, 'profiles.data') || { content: [] };
+    } = get(profiles, 'profiles.data') || { content: [] };
 
     const { searchLimit } = get(query, 'filters') || {};
 
-    const usersListCount = (searchLimit && searchLimit < totalElements)
-      ? searchLimit
-      : totalElements;
-
     return (
       <div className="card">
-        <div className="card-heading">
-          <Placeholder
-            ready={!loading && !!profiles}
-            className={null}
-            customPlaceholder={(
-              <div>
-                <TextRow
-                  className="animated-background"
-                  style={{ width: '220px', height: '20px' }}
-                />
-                <TextRow
-                  className="animated-background"
-                  style={{ width: '220px', height: '12px' }}
-                />
-              </div>
-            )}
-          >
-            <Choose>
-              <When condition={!!totalElements}>
-                <span id="users-list-header" className="font-size-20 height-55 users-list-header">
-                  <div>
-                    <strong>{usersListCount} </strong>
-                    {I18n.t('COMMON.CLIENTS_FOUND')}
-                  </div>
-                  <div className="font-size-14">
-                    <strong>{selectedRows.length} </strong>
-                    {I18n.t('COMMON.CLIENTS_SELECTED')}
-                  </div>
-                </span>
-              </When>
-              <Otherwise>
-                <span className="font-size-20" id="users-list-header">
-                  {I18n.t('COMMON.CLIENTS')}
-                </span>
-              </Otherwise>
-            </Choose>
-          </Placeholder>
-
-          <If condition={totalElements !== 0 && selectedRows.length !== 0}>
-            <div className="grid-bulk-menu ml-auto">
-              <span>{I18n.t('CLIENTS.BULK_ACTIONS')}</span>
-              <PermissionContent permissions={permissions.USER_PROFILE.CHANGE_ACQUISITION_STATUS}>
-                <If condition={auth.department !== departments.RETENTION}>
-                  <button
-                    type="button"
-                    className="btn btn-default-outline"
-                    onClick={this.handleTriggerRepModal(deskTypes.SALES)}
-                  >
-                    {I18n.t('COMMON.SALES')}
-                  </button>
-                </If>
-                <If condition={auth.department !== departments.SALES}>
-                  <button
-                    type="button"
-                    className="btn btn-default-outline"
-                    onClick={this.handleTriggerRepModal(deskTypes.RETENTION)}
-                  >
-                    {I18n.t('COMMON.RETENTION')}
-                  </button>
-                </If>
-                <If condition={(auth.role === roles.ROLE4
-                  && [departments.ADMINISTRATION, departments.SALES, departments.RETENTION].includes(auth.department))
-                  || auth.department === departments.CS}
-                >
-                  <button
-                    type="button"
-                    className="btn btn-default-outline"
-                    onClick={this.handleTriggerMoveModal}
-                  >
-                    {I18n.t('COMMON.MOVE')}
-                  </button>
-                </If>
-              </PermissionContent>
-            </div>
-          </If>
-        </div>
+        <ClientsGridHeader
+          profiles={profiles}
+          searchLimit={searchLimit}
+          selectedRows={selectedRows}
+          touchedRowsIds={touchedRowsIds}
+          allRowsSelected={allRowsSelected}
+          resetClientsGridInitialState={this.resetClientsGridInitialState}
+        />
 
         <UserGridFilter
           isFetchingProfileData={loading}
@@ -413,7 +219,7 @@ class List extends Component {
             onAllRowsSelect={this.handleAllRowsSelect}
             onRowSelect={this.handleSelectRow}
             showNoResults={!loading && content.length === 0}
-            onRowClick={this.handlePlayerClick}
+            onRowClick={this.handleClientClick}
             loading={loading && content.length === 0}
           >
             {columns().map(({ name, header, render }) => (

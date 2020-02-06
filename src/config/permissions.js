@@ -73,6 +73,7 @@ export default {
     MARK_IS_TEST: 'profile;POST;/profiles/{playerUUID}/is-test',
     CHANGE_ACQUISITION_STATUS: 'hierarchy-updater;PUT;/bulk/user/relationship/parent-user',
     CHANGE_CONFIGURATION: 'profile;PUT;/admin/profiles/{uuid}/configuration',
+    MIGRATE_TO_FSA: 'migrationorchestrator;POST;/brand-migrations',
   },
   FILES: {
     SEARCH_FILES: 'attachments;POST;/search',

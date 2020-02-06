@@ -9,8 +9,8 @@ PropTypes.router = {
   location: PropTypes.shape({
     search: PropTypes.string.isRequired,
     pathname: PropTypes.string.isRequired,
+    query: PropTypes.object,
   }).isRequired,
-
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
     replace: PropTypes.func.isRequired,

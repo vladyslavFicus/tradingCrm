@@ -8,10 +8,17 @@
     border-radius: 0;
   }
   &-heading {
+    background-color: #fff;
+    border-bottom: 1px solid #dfe4ed;
+    padding: 25px;
     display: flex;
     align-items: center;
-    padding: 25px;
-    border-bottom: 1px solid #dfe4ed;
+
+    &--is-sticky {
+      position: sticky;
+      top: 48px;
+      z-index: 5;
+    }
   }
   &-body {
     padding: 25px;
