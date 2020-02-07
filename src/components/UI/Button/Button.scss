@@ -1,0 +1,107 @@
+.Button {
+  padding: 8px 16px;
+  transition: all 0.1s ease-in-out;
+  font-size: 14px;
+  font-weight: 600;
+  color: #827ca1;
+  background-color: #fff;
+  border: 1px solid #dfe4ed;
+  cursor: pointer;
+
+  &:disabled, [disabled], :disabled:hover, [disabled]:hover {
+    background: #D3D3D3;
+    color: #fff;
+  }
+
+  &--common {
+    padding-top: 9px;
+    padding-bottom: 9px;
+    border: none;
+    border-radius: 3px;
+    background-image: linear-gradient(to left, #bdbdbd, #979797);
+    color: #fff;
+
+    &:hover,
+    &:not(:disabled):not(.disabled):active {
+      background-image: linear-gradient(to left, #B0B0B0, #858585);
+    }
+
+    &:disabled, [disabled], &:disabled:hover, [disabled]:hover {
+      background: #D3D3D3;
+      color: #fff;
+    }
+  }
+
+  &--common-outline {
+    border-radius: 3px;
+    border-color: #9b9b9b;
+    color: #9b9b9b;
+
+    &:hover,
+    &:not(:disabled):not(.disabled):active {
+      background-color: #F4F4F4;
+      color: #bdbdbd;
+    }
+
+    &:disabled, [disabled], :disabled, [disabled] {
+      background: #fff;
+      color: #CDCDCD;
+      border-color: #CDCDCD;
+    }
+  }
+
+  &--primary {
+    padding-top: 9px;
+    padding-bottom: 9px;
+    border: none;
+    border-radius: 3px;
+    background-image: linear-gradient(to left, #24bdee, #4a90e2);
+    color: #fff;
+
+    &:hover,
+    &:not(:disabled):not(.disabled):active {
+      background-image: linear-gradient(to left, #1DB8ED, #297BDC);
+    }
+
+    &:disabled, [disabled], :disabled:hover, [disabled]:hover {
+      background: #D3D3D3;
+      color: #fff;
+    }
+  }
+
+  &--primary-outline {
+    border-color: #4990e2;
+    color: #4990e2;
+
+    &:hover,
+    &:not(:disabled):not(.disabled):active {
+      border-color: #4990e2;
+      background-color: #F4F4F4;
+      color: #4990e2;
+    }
+
+    &:disabled, [disabled], :disabled:hover, [disabled]:hover {
+      background: #D3D3D3;
+      color: #fff;
+      border-color: #CDCDCD;
+    }
+  }
+
+  &--danger-outline {
+    border-color: #d0011b;
+    color: #d0011b;
+
+    &:hover,
+    &:not(:disabled):not(.disabled):active {
+      background-color: #F4F4F4;
+      border-color: #d0011b;
+      color: #d0011b;
+    }
+
+    &:disabled, [disabled] {
+      background: #fff;
+      color: #CDCDCD;
+      border-color: #CDCDCD;
+    }
+  }
+}
