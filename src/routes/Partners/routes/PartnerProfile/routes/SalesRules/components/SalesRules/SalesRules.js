@@ -7,11 +7,13 @@ import { TextRow } from 'react-placeholder/lib/placeholders';
 import permissions from 'config/permissions';
 import PropTypes from 'constants/propTypes';
 import { actionRuleTypes, deskTypes } from 'constants/rules';
+import { withPermission } from 'providers/PermissionsProvider';
 import PermissionContent from 'components/PermissionContent';
 import Uuid from 'components/Uuid';
 import GridView from 'components/GridView';
 import GridViewColumn from 'components/GridView/GridViewColumn';
 import Placeholder from 'components/Placeholder';
+import Permissions from 'utils/permissions';
 import infoConfig from './constants';
 
 class SalesRules extends PureComponent {
@@ -27,6 +29,7 @@ class SalesRules extends PureComponent {
     modals: PropTypes.shape({
       deleteModal: PropTypes.modalType,
     }).isRequired,
+    permission: PropTypes.permission.isRequired,
   };
 
   triggerRuleModal = () => {
@@ -239,9 +242,14 @@ class SalesRules extends PureComponent {
         rules,
         loading,
       },
+      permission: {
+        permissions: currentPermissions,
+      },
     } = this.props;
 
     const entities = get(rules, 'data') || [];
+
+    const isDeleteRuleAvailable = (new Permissions(permissions.SALES_RULES.REMOVE_RULE)).check(currentPermissions);
 
     return (
       <div className="card">
@@ -310,11 +318,13 @@ class SalesRules extends PureComponent {
               header={I18n.t('HIERARCHY.PROFILE_RULE_TAB.GRID_HEADER.PRIORITY')}
               render={this.renderPriority}
             />
-            <GridViewColumn
-              name="delete"
-              header={I18n.t('HIERARCHY.PROFILE_RULE_TAB.GRID_HEADER.ACTION')}
-              render={this.renderRemoveIcon}
-            />
+            <If condition={isDeleteRuleAvailable}>
+              <GridViewColumn
+                name="delete"
+                header={I18n.t('HIERARCHY.PROFILE_RULE_TAB.GRID_HEADER.ACTION')}
+                render={this.renderRemoveIcon}
+              />
+            </If>
           </GridView>
         </div>
       </div>
@@ -322,4 +332,4 @@ class SalesRules extends PureComponent {
   }
 }
 
-export default SalesRules;
+export default withPermission(SalesRules);

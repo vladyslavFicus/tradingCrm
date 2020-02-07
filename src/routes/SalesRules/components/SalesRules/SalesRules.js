@@ -6,12 +6,13 @@ import { TextRow } from 'react-placeholder/lib/placeholders';
 import PropTypes from 'constants/propTypes';
 import countries from 'utils/countryList';
 import permissions from 'config/permissions';
-import PermissionContent from 'components/PermissionContent';
+import { withPermission } from 'providers/PermissionsProvider';
 import Uuid from 'components/Uuid';
 import RulesFilters from 'components/HierarchyProfileRules/components/RulesGridFilters';
 import GridView from 'components/GridView';
 import GridViewColumn from 'components/GridView/GridViewColumn';
 import Placeholder from 'components/Placeholder';
+import Permissions from 'utils/permissions';
 import infoConfig from './constants';
 
 class SalesRules extends PureComponent {
@@ -31,6 +32,7 @@ class SalesRules extends PureComponent {
     location: PropTypes.shape({
       query: PropTypes.object,
     }).isRequired,
+    permission: PropTypes.permission.isRequired,
   };
 
   handleFiltersChanged = (filters = {}) => this.props.history.replace({ query: { filters } });
@@ -181,6 +183,9 @@ class SalesRules extends PureComponent {
         loading,
       },
       location: { query },
+      permission: {
+        permissions: currentPermissions,
+      },
     } = this.props;
 
     const entities = get(rules, 'data') || [];
@@ -189,6 +194,8 @@ class SalesRules extends PureComponent {
     const allowActions = Object
       .keys(filters)
       .filter(i => (filters[i] && Array.isArray(filters[i]) && filters[i].length > 0) || filters[i]).length > 0;
+
+    const isDeleteRuleAvailable = (new Permissions(permissions.SALES_RULES.REMOVE_RULE)).check(currentPermissions);
 
     return (
       <div className="card">
@@ -252,13 +259,13 @@ class SalesRules extends PureComponent {
               header={I18n.t('HIERARCHY.PROFILE_RULE_TAB.GRID_HEADER.PRIORITY')}
               render={this.renderPriority}
             />
-            <PermissionContent permissions={permissions.SALES_RULES.REMOVE_RULE}>
+            <If condition={isDeleteRuleAvailable}>
               <GridViewColumn
                 name="delete"
                 header={I18n.t('HIERARCHY.PROFILE_RULE_TAB.GRID_HEADER.ACTION')}
                 render={this.renderRemoveIcon}
               />
-            </PermissionContent>
+            </If>
           </GridView>
         </div>
       </div>
@@ -266,4 +273,4 @@ class SalesRules extends PureComponent {
   }
 }
 
-export default withRouter(SalesRules);
+export default withRouter(withPermission(SalesRules));

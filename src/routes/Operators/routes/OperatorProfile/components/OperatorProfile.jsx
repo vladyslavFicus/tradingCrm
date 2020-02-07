@@ -6,11 +6,13 @@ import Tabs from 'components/Tabs';
 import NotFound from 'routes/NotFound';
 import { operatorTypes } from 'constants/operators';
 import * as menu from 'config/menu';
+import permissions from 'config/permissions';
 import PropTypes from 'constants/propTypes';
 import { isSales } from 'constants/hierarchyTypes';
 import HideDetails from 'components/HideDetails';
 import ChangePasswordModal from 'components/ChangeOperatorPasswordModal';
 import Route from 'components/Route';
+import Permissions from 'utils/permissions';
 import OperatorEdit from '../routes/Edit';
 import Feed from '../routes/Feed';
 import SalesRules from '../routes/SalesRules';
@@ -211,6 +213,7 @@ class OperatorProfileLayout extends Component {
       tabs.splice(1, 0, {
         label: 'OPERATOR_PROFILE.TABS.SALES_RULES',
         url: '/operators/:id/sales-rules',
+        permissions: new Permissions(permissions.SALES_RULES.GET_RULES),
       });
     }
 
