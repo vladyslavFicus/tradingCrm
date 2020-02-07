@@ -4,8 +4,10 @@ import { get } from 'lodash';
 import { Link } from 'react-router-dom';
 import { SubmissionError } from 'redux-form';
 import { TextRow } from 'react-placeholder/lib/placeholders';
+import permissions from 'config/permissions';
 import PropTypes from 'constants/propTypes';
 import { actionRuleTypes, deskTypes } from 'constants/rules';
+import PermissionContent from 'components/PermissionContent';
 import Uuid from 'components/Uuid';
 import GridView from 'components/GridView';
 import GridViewColumn from 'components/GridView/GridViewColumn';
@@ -257,16 +259,18 @@ class SalesRules extends PureComponent {
               {entities.length} {I18n.t('SALES_RULES.TITLE')}
             </span>
           </Placeholder>
-          <div className="ml-auto">
-            <button
-              id="add-rule"
-              type="submit"
-              className="btn btn-sm btn-outline"
-              onClick={this.triggerRuleModal}
-            >
-              + {I18n.t('HIERARCHY.PROFILE_RULE_TAB.ADD_RULE')}
-            </button>
-          </div>
+          <PermissionContent permissions={permissions.SALES_RULES.CREATE_RULE}>
+            <div className="ml-auto">
+              <button
+                id="add-rule"
+                type="submit"
+                className="btn btn-sm btn-outline"
+                onClick={this.triggerRuleModal}
+              >
+                + {I18n.t('HIERARCHY.PROFILE_RULE_TAB.ADD_RULE')}
+              </button>
+            </div>
+          </PermissionContent>
         </div>
 
         <div className="card-body">
