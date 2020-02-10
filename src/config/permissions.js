@@ -19,7 +19,7 @@ export default {
     DELETE_AUTHORITY: 'auth;DELETE;/credentials/{uuid}/authorities',
     UPDATE_PROFILE: 'affiliate;PUT;/affiliates/{uuid}/status',
     UPDATE_STATUS: 'affiliate;PUT;/affiliate/affiliates/status',
-    CHANGE_PASSWORD: 'auth;POST;/credentials/affiliate/affiliates/{uuid}/password',
+    CHANGE_PASSWORD: 'auth;POST;/credentials/operator/{uuid}/password',
   },
   LEADS: {
     GET_LEADS: 'lead;POST;/leads/search',
@@ -39,7 +39,7 @@ export default {
   SALES_RULES: {
     GET_RULES: 'rules-profile;POST;/search',
     CREATE_RULE: 'rules-profile;POST;/',
-    REMOVE_RULE: 'rules-profile;DELETE;/{uuid}',
+    REMOVE_RULE: '',
   },
   USER_PROFILE: {
     GET_RESET_PASSWORD_TOKEN: 'auth;GET;/password/reset-token?playerUUID={playerUUID}',
