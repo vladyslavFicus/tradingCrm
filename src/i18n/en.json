@@ -248,12 +248,6 @@
         "TITLE": "Transfer Availability",
         "LABEL": "Transfer"
       },
-      "CHANGE_PASSWORD_MODAL": {
-        "TITLE": "Change player`s password",
-        "WARNING_HEADER": "You are about to change password",
-        "NEW_PASSWORD": "New password",
-        "REPEAT_PASSWORD": "Repeat password"
-      },
       "BLOCK_REASONS": {
         "USER_REQUEST": "User request",
         "BONUS_ABUSE": "Bonus abuse",
@@ -1311,12 +1305,6 @@
         "TITLE": "Send invitation to operator - Confirmation",
         "ACTION_TEXT": "You are about to send an invitation to operator",
         "CONFIRM_ACTION": "Send invitation"
-      },
-      "CHANGE_PASSWORD": {
-        "TITLE": "Change operator`s password",
-        "WARNING_HEADER": "You are about to change password",
-        "NEW_PASSWORD": "New password",
-        "REPEAT_PASSWORD": "Repeat password"
       }
     },
     "IP_LIST": {
@@ -2060,6 +2048,12 @@
           "PARTNER_ADDED_DESC": "Operator %{operator} added to %{branchType} %{branchName}"
         }
       }
+    },
+    "CHANGE_PASSWORD_MODAL": {
+      "TITLE": "Change password",
+      "SUBTITLE": "You are about to change password",
+      "NEW_PASSWORD": "New password",
+      "REPEAT_PASSWORD": "Repeat password"
     }
   },
   "FILE_DROPZONE": {

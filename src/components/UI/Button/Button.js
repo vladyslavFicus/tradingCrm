@@ -15,6 +15,7 @@ class Button extends PureComponent {
     commonOutline: PropTypes.bool,
     primary: PropTypes.bool,
     primaryOutline: PropTypes.bool,
+    danger: PropTypes.bool,
     dangerOutline: PropTypes.bool,
     onClick: PropTypes.func,
   };
@@ -29,6 +30,7 @@ class Button extends PureComponent {
     primary: false,
     primaryOutline: false,
     dangerOutline: false,
+    danger: false,
     onClick: () => {},
   };
 
@@ -50,6 +52,7 @@ class Button extends PureComponent {
       commonOutline,
       primary,
       primaryOutline,
+      danger,
       dangerOutline,
       ...props
     } = this.props;
@@ -69,6 +72,7 @@ class Button extends PureComponent {
               'Button--primary': primary,
               'Button--primary-outline': primaryOutline,
               'Button--danger-outline': dangerOutline,
+              'Button--danger': danger,
             },
           )
         }

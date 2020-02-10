@@ -9,8 +9,8 @@ import * as menu from 'config/menu';
 import permissions from 'config/permissions';
 import PropTypes from 'constants/propTypes';
 import { isSales } from 'constants/hierarchyTypes';
+import ChangePasswordModal from 'modals/ChangePasswordModal';
 import HideDetails from 'components/HideDetails';
-import ChangePasswordModal from 'components/ChangeOperatorPasswordModal';
 import Route from 'components/Route';
 import Permissions from 'utils/permissions';
 import OperatorEdit from '../routes/Edit';
@@ -124,11 +124,11 @@ class OperatorProfileLayout extends Component {
   };
 
   handleChangePasswordClick = () => {
-    const { data: operatorProfile } = this.props;
+    const { data: { firstName, lastName, uuid } } = this.props;
 
     this.handleOpenModal(MODAL_CHANGE_PASSWORD, {
-      fullName: `${operatorProfile.firstName} ${operatorProfile.lastName}`,
-      operatorUUID: `${operatorProfile.uuid}`,
+      fullName: `${firstName} ${lastName}`,
+      uuid,
     });
   };
 

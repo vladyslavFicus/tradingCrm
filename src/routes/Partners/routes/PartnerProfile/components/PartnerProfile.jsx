@@ -6,8 +6,8 @@ import Tabs from 'components/Tabs';
 import NotFound from 'routes/NotFound';
 import * as menu from 'config/menu';
 import PropTypes from 'constants/propTypes';
+import ChangePasswordModal from 'modals/ChangePasswordModal';
 import HideDetails from 'components/HideDetails';
-import ChangePasswordModal from 'components/ChangeOperatorPasswordModal';
 import Route from 'components/Route';
 import PartnerEdit from '../routes/Edit';
 import Feed from '../routes/Feed';
@@ -86,7 +86,7 @@ class PartnerProfileLayout extends Component {
 
     this.handleOpenModal(MODAL_CHANGE_PASSWORD, {
       fullName,
-      operatorUUID: `${uuid}`,
+      uuid,
     });
   };
 

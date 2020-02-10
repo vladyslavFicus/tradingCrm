@@ -19,7 +19,7 @@ import {
   UploadModal as UploadFileModal,
   DeleteModal as DeleteFileModal,
 } from 'components/Files';
-import ChangePasswordModal from 'components/ChangePasswordModal';
+import ChangePasswordModal from 'modals/ChangePasswordModal';
 import BackToTop from 'components/BackToTop';
 import HideDetails from 'components/HideDetails';
 import Route from 'components/Route';
@@ -533,7 +533,7 @@ class Profile extends Component {
 
     this.handleOpenModal(MODAL_CHANGE_PASSWORD, {
       fullName: `${firstName} ${lastName}`,
-      playerUUID: uuid,
+      uuid,
     });
   };
 

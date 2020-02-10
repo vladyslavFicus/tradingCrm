@@ -1,12 +1,12 @@
 .Button {
-  padding: 8px 16px;
-  transition: all 0.1s ease-in-out;
-  font-size: 14px;
-  font-weight: 600;
-  color: #827ca1;
   background-color: #fff;
   border: 1px solid #dfe4ed;
+  color: #827ca1;
   cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 8px 16px;
+  transition: all 0.1s ease-in-out;
 
   &:disabled, [disabled], :disabled:hover, [disabled]:hover {
     background: #D3D3D3;
@@ -14,12 +14,12 @@
   }
 
   &--common {
-    padding-top: 9px;
-    padding-bottom: 9px;
+    background-image: linear-gradient(to left, #bdbdbd, #979797);
     border: none;
     border-radius: 3px;
-    background-image: linear-gradient(to left, #bdbdbd, #979797);
     color: #fff;
+    padding-bottom: 9px;
+    padding-top: 9px;
 
     &:hover,
     &:not(:disabled):not(.disabled):active {
@@ -45,18 +45,18 @@
 
     &:disabled, [disabled], :disabled, [disabled] {
       background: #fff;
-      color: #CDCDCD;
       border-color: #CDCDCD;
+      color: #CDCDCD;
     }
   }
 
   &--primary {
-    padding-top: 9px;
-    padding-bottom: 9px;
+    background-image: linear-gradient(to left, #24bdee, #4a90e2);
     border: none;
     border-radius: 3px;
-    background-image: linear-gradient(to left, #24bdee, #4a90e2);
     color: #fff;
+    padding-bottom: 9px;
+    padding-top: 9px;
 
     &:hover,
     &:not(:disabled):not(.disabled):active {
@@ -82,8 +82,27 @@
 
     &:disabled, [disabled], :disabled:hover, [disabled]:hover {
       background: #D3D3D3;
-      color: #fff;
       border-color: #CDCDCD;
+      color: #fff;
+    }
+  }
+
+  &--danger {
+    background-image: linear-gradient(to left, #f99939, #f76b1c);
+    border: none;
+    border-radius: 3px;
+    color: #fff;
+    padding-bottom: 9px;
+    padding-top: 9px;
+
+    &:hover,
+    &:not(:disabled):not(.disabled):active {
+      background-image: linear-gradient(to left, #F78717, #F55000);
+    }
+
+    &:disabled, [disabled], :disabled:hover, [disabled]:hover {
+      background: #D3D3D3;
+      color: #fff;
     }
   }
 
@@ -100,8 +119,8 @@
 
     &:disabled, [disabled] {
       background: #fff;
-      color: #CDCDCD;
       border-color: #CDCDCD;
+      color: #CDCDCD;
     }
   }
 }
