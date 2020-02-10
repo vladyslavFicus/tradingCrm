@@ -39,7 +39,7 @@ export default {
   SALES_RULES: {
     GET_RULES: 'rules-profile;POST;/search',
     CREATE_RULE: 'rules-profile;POST;/',
-    REMOVE_RULE: '',
+    REMOVE_RULE: 'rules-profile;DELETE;/{uuid}',
   },
   USER_PROFILE: {
     GET_RESET_PASSWORD_TOKEN: 'auth;GET;/password/reset-token?playerUUID={playerUUID}',
