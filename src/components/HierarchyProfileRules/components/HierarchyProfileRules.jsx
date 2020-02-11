@@ -8,11 +8,13 @@ import permissions from 'config/permissions';
 import { branchTypes } from 'constants/hierarchyTypes';
 import PropTypes from 'constants/propTypes';
 import { actionRuleTypes, deskTypes } from 'constants/rules';
+import { withPermission } from 'providers/PermissionsProvider';
 import PermissionContent from 'components/PermissionContent';
 import { UncontrolledTooltip } from 'components/Reactstrap/Uncontrolled';
 import GridView, { GridViewColumn } from 'components/GridView';
 import TabHeader from 'components/TabHeader';
 import Uuid from 'components/Uuid';
+import Permissions from 'utils/permissions';
 import withContainer from '../containers/RuleContainer';
 import RulesFilters from './RulesGridFilters';
 import infoConfig from './constants';
@@ -46,6 +48,7 @@ const HierarchyProfileRules = (title, deskType, branchType) => {
       }).isRequired,
       getBranchChildren: PropTypes.object,
       getBranchInfo: PropTypes.object,
+      permission: PropTypes.permission.isRequired,
     };
 
     static defaultProps = {
@@ -362,7 +365,11 @@ const HierarchyProfileRules = (title, deskType, branchType) => {
           rulesRetention,
           loading,
         },
+        permission: {
+          permissions: currentPermissions,
+        },
       } = this.props;
+
       const error = get(rules, 'error') || get(rulesRetention, 'error');
 
       if (error) {
@@ -370,6 +377,8 @@ const HierarchyProfileRules = (title, deskType, branchType) => {
       }
 
       const entities = get(rules, 'data') || get(rulesRetention, 'data') || [];
+
+      const isDeleteRuleAvailable = (new Permissions(permissions.SALES_RULES.REMOVE_RULE)).check(currentPermissions);
 
       return (
         <Fragment>
@@ -419,13 +428,13 @@ const HierarchyProfileRules = (title, deskType, branchType) => {
                 header={I18n.t('HIERARCHY.PROFILE_RULE_TAB.GRID_HEADER.PRIORITY')}
                 render={this.renderPriority}
               />
-              <PermissionContent permissions={permissions.SALES_RULES.REMOVE_RULE}>
+              <If condition={isDeleteRuleAvailable}>
                 <GridViewColumn
                   name="delete"
                   header={I18n.t('HIERARCHY.PROFILE_RULE_TAB.GRID_HEADER.ACTION')}
                   render={this.renderRemoveIcon}
                 />
-              </PermissionContent>
+              </If>
             </GridView>
           </div>
         </Fragment>
@@ -433,7 +442,7 @@ const HierarchyProfileRules = (title, deskType, branchType) => {
     }
   }
 
-  return withContainer(RuleList, deskType, branchType);
+  return withPermission(withContainer(RuleList, deskType, branchType));
 };
 
 export default HierarchyProfileRules;
