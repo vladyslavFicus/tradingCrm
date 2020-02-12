@@ -13,7 +13,10 @@ class OfficesGridFilter extends Component {
     onSubmit: PropTypes.func.isRequired,
   }
 
-  initialValues = { keyword: '', country: '' };
+  initialValues = {
+    keyword: '',
+    country: '',
+  };
 
   onHandleSubmit = (values, { setSubmitting }) => {
     this.props.onSubmit(values);
@@ -23,7 +26,7 @@ class OfficesGridFilter extends Component {
   onHandleReset = (resetForm) => {
     resetForm(this.initialValues);
     this.props.onReset();
-  }
+  };
 
   render() {
     return (

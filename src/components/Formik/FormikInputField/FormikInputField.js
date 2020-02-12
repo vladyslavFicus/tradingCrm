@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import Input from '../Input';
+import Input from 'components/Input';
 
 class FormikInputField extends PureComponent {
   static propTypes = {
