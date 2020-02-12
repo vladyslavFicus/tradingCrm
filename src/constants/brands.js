@@ -71,6 +71,7 @@ const brands = keyMirror({
   firstfinancialbanc: null,
   marketsdock: null,
   primotrade: null,
+  solidinvesting: null,
 });
 
 const departments = keyMirror({
@@ -373,6 +374,10 @@ const brandsConfig = {
   [brands.primotrade]: {
     name: 'Primotrade',
     image: { src: '/img/brand/choose-brand/primotrade.svg' },
+  },
+  [brands.solidinvesting]: {
+    name: 'Solidinvesting',
+    image: { src: '/img/brand/choose-brand/solidinvesting.svg' },
   },
 };
 const departmentsConfig = {
