@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import { graphql, compose } from 'react-apollo';
 import moment from 'moment';
 import I18n from 'i18n-js';
-import { getClickToCall, getBrandId } from 'config';
+import { getClickToCall, getBrand } from 'config';
 import Regulated from 'components/Regulated';
 import Uuid from 'components/Uuid';
 import { withNotifications, withModals } from 'components/HighOrder';
@@ -26,7 +26,6 @@ import NotificationDetailsItem from 'components/Information/NotificationDetailsI
 import PropTypes from 'constants/propTypes';
 import { statuses as kycStatuses } from 'constants/kyc';
 import { statuses as userStatuses } from 'constants/user';
-import { departments } from 'constants/brands';
 import Permissions from 'utils/permissions';
 import EmailSelectModal from '../EmailSelectModal';
 import RegulatedForm from '../RegulatedForm';
@@ -162,8 +161,7 @@ class Personal extends PureComponent {
     } = this.props;
 
     const withCall = getClickToCall().isActive;
-    const isPhoneHidden = getBrandId() === 'topinvestus' && department === departments.SALES;
-
+    const isPhoneHidden = getBrand().privatePhoneByDepartment.includes(department);
     const isSendEmailAvailable = (new Permissions(permissions, permissions.EMAIL_TEMPLATES.SEND_EMAIL))
       .check(permission.permissions);
 
