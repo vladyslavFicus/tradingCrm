@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import moment from 'moment';
 import classNames from 'classnames';
 import I18n from 'i18n-js';
@@ -24,11 +24,12 @@ import RiskStatus from '../RiskStatus';
 import Balances from '../Balances';
 import HeaderPlayerPlaceholder from '../HeaderPlayerPlaceholder';
 import Questionnaire from '../Questionnaire';
+import './ProfileHeader.scss';
 
 const changePasswordPermission = new Permissions([permissions.USER_PROFILE.CHANGE_PASSWORD]);
 const resetPasswordPermission = new Permissions([permissions.OPERATORS.RESET_PASSWORD]);
 
-class Header extends Component {
+class ProfileHeader extends Component {
   static propTypes = {
     newProfile: PropTypes.newProfile,
     questionnaireLastData: PropTypes.object,
@@ -156,8 +157,16 @@ class Header extends Component {
     const fullName = [firstName, lastName].filter(i => i).join(' ');
 
     return (
-      <Fragment>
+      <div className="ProfileHeader">
         <StickyWrapper top={48} innerZ={3} activeClass="heading-fixed">
+          <If condition={
+            getActiveBrandConfig().fsaRegulation
+            && fsaMigrationStatus === fsaStatuses.MIGRATION_FINISHED}
+          >
+            <div className="panel-heading-row ProfileHeader__migration-notification">
+              {I18n.t('PLAYER_PROFILE.PROFILE.HEADER.MIGRATED_NOTIFICATION')}
+            </div>
+          </If>
           <div className="panel-heading-row">
             <HeaderPlayerPlaceholder ready={loaded}>
               <div className="panel-heading-row__info">
@@ -182,7 +191,10 @@ class Header extends Component {
               </div>
             </HeaderPlayerPlaceholder>
             <div className="panel-heading-row__actions">
-              <If condition={lock}>
+              <If condition={
+                lock
+                && !(getActiveBrandConfig().fsaRegulation && fsaMigrationStatus === fsaStatuses.MIGRATION_FINISHED)}
+              >
                 <button
                   onClick={unlockLogin}
                   type="button"
@@ -195,7 +207,6 @@ class Header extends Component {
               <If
                 condition={
                   getActiveBrandConfig().fsaRegulation
-                  && fsaMigrationStatus
                   && fsaMigrationStatus === fsaStatuses.MIGRATION_ACCEPTED
                 }
               >
@@ -304,9 +315,9 @@ class Header extends Component {
             </div>
           </div>
         </div>
-      </Fragment>
+      </div>
     );
   }
 }
 
-export default withPermission(withNotifications(Header));
+export default withPermission(withNotifications(ProfileHeader));

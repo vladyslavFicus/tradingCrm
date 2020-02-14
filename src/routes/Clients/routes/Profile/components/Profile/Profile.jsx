@@ -35,7 +35,7 @@ import {
   Callbacks,
   Risks,
 } from '../../routes';
-import Header from '../Header';
+import ProfileHeader from '../ProfileHeader';
 import Information from '../Information';
 import { userProfileTabs, moveField } from './constants';
 
@@ -579,7 +579,7 @@ class Profile extends Component {
           <Helmet title={`${newProfileData.firstName} ${newProfileData.lastName}`} />
         </If>
         <div className="profile__info">
-          <Header
+          <ProfileHeader
             newProfile={newProfileData}
             questionnaireLastData={questionnaireLastData}
             availableStatuses={this.availableStatuses}

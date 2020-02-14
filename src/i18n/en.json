@@ -272,7 +272,8 @@
       "HEADER": {
         "ADD_NOTE": "Add note",
         "NO_FULLNAME": "No name",
-        "UNLOCK": "Unlock login"
+        "UNLOCK": "Unlock login",
+        "MIGRATED_NOTIFICATION": "CLIENT MIGRATED"
       },
       "RESET_PASSWORD_MODAL": {
         "TITLE": "Password reset - Confirmation",

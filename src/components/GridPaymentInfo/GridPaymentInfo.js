@@ -1,7 +1,9 @@
 import React, { PureComponent } from 'react';
 import I18n from 'i18n-js';
 import { compose } from 'react-apollo';
+import { getActiveBrandConfig } from 'config';
 import PropTypes from 'constants/propTypes';
+import { tradingTypes } from 'constants/payment';
 import Badge from 'components/Badge';
 import { shortify } from 'utils/uuid';
 import { withModals } from '../HighOrder';
@@ -38,6 +40,18 @@ class GridPaymentInfo extends PureComponent {
       },
       onSuccess,
     } = this.props;
+
+    if (
+      getActiveBrandConfig().fsaRegulation
+      && [
+        tradingTypes.MIGRATION_IN,
+        tradingTypes.MIGRATION_OUT,
+        tradingTypes.MIGRATION_CREDIT_IN,
+        tradingTypes.MIGRATION_CREDIT_OUT,
+      ].includes(paymentType)
+    ) {
+      return;
+    }
 
     paymentDetail.show({
       payment: {
