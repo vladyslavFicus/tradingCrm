@@ -273,6 +273,7 @@ class ProfileHeader extends Component {
               reason={reason}
               onChange={this.handleStatusChange}
               availableStatuses={availableStatuses}
+              fsaMigrationStatus={fsaMigrationStatus}
             />
 
             <If condition={getActiveBrandConfig().isRisksTabAvailable}>
