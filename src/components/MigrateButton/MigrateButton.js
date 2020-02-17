@@ -25,11 +25,13 @@ class MigrateButton extends PureComponent {
       totalElements: PropTypes.number,
       allRowsSelected: PropTypes.bool,
     }).isRequired,
+    submitCallback: PropTypes.func,
   };
 
   static defaultProps = {
     className: 'MigrateButton',
-  }
+    submitCallback: () => {},
+  };
 
   handleTriggerConfirmationModalToMigrate = () => {
     const {
@@ -37,11 +39,16 @@ class MigrateButton extends PureComponent {
     } = this.props;
 
     confirmationModal.show({
-      onSubmit: this.bulkMigrate,
+      onSubmit: this.handleSubmitConfirmationModal,
       modalTitle: I18n.t('MIGRATE.MODAL.TITLE'),
       actionText: I18n.t('MIGRATE.MODAL.TEXT'),
       submitButtonLabel: I18n.t('COMMON.OK'),
     });
+  }
+
+  handleSubmitConfirmationModal = async () => {
+    await this.bulkMigrate();
+    this.props.submitCallback();
   }
 
   bulkMigrate = async () => {

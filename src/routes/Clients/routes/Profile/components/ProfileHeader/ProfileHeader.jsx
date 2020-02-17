@@ -111,6 +111,7 @@ class ProfileHeader extends Component {
       availableStatuses,
       onAddNoteClick,
       onResetPasswordClick,
+      onRefreshClick,
       isLoadingProfile,
       loaded,
       onChangePasswordClick,
@@ -217,6 +218,7 @@ class ProfileHeader extends Component {
                       totalElements: 1,
                       allRowsSelected: false,
                     }}
+                    submitCallback={onRefreshClick}
                   />
                 </PermissionContent>
               </If>
