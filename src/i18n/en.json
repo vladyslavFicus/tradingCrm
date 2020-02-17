@@ -491,6 +491,8 @@
     "ENABLED": "Enabled",
     "KYC_DOCUMENTS": "KYC documents",
     "PARTNER": "Partner",
+    "PARTNER_TYPE": "Partner Type",
+    "EXTERNAL_AFILIATE_ID": "External ID",
     "OK": "Ok",
     "UPDATE_VERSION_MODAL": {
       "TEXT": "Backoffice has been updated. To continue working with it click the button below. It will reload the page and update you Backoffice version.",
@@ -587,7 +589,8 @@
       "DEFAULT_MULTISELECT": "-- Select one or multiple options --",
       "LOADING": "Loading...",
       "ANY": "Any",
-      "SELECT_BRANCH_TYPE": "Select branch type first"
+      "SELECT_BRANCH_TYPE": "Select branch type first",
+      "SELECT_PARTNER_TYPE": "Select partner type"
     },
     "SEARCH_BY": {
       "CLIENT": "Name, Email, Phone, ID, MT4 ID",
@@ -1873,7 +1876,9 @@
         "TITLE": "New partner",
         "SEND_INVITATION": "Send invitation",
         "NOTE": "Note",
-        "NOTE_MESSAGE": "You will be able to set additional departments in partner`s profile once it`s created"
+        "NOTE_MESSAGE": "You will be able to set additional departments in partner`s profile once it`s created",
+        "CELLEXPERT_CHECKBOX": "Allow to to transmit data to CellExpert",
+        "PUBLIC_CHECKBOX": "Allow to create Clients through public API"
       },
       "EXISTING_PARTNER": {
         "TITLE": "Existing partner",
@@ -1951,6 +1956,14 @@
       "EXISTING_PARTNER_ERROR": {
         "TITLE": "Failure on adding",
         "MESSAGE": "Assign in the current brand is failed"
+      },
+      "EXISTING_PARTNER_EXTERNAL_ID": {
+        "TITLE": "Failure on adding",
+        "MESSAGE": "This External ID already exists"
+      },
+      "EXISTING_PARTNER_EMAIL": {
+        "TITLE": "Failure on adding",
+        "MESSAGE": "Partner with typed email already exists"
       }
     }
   },

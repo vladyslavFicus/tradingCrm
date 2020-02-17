@@ -1,6 +1,7 @@
 import React from 'react';
 import keyMirror from 'keymirror';
 import { fieldTypes } from 'components/ReduxForm/ReduxFieldsConstructor';
+import { affiliateTypeLabels } from '../../../../constants';
 
 const attributeLabels = {
   firstName: 'COMMON.FIRST_NAME',
@@ -11,6 +12,8 @@ const attributeLabels = {
   role: 'COMMON.ROLE',
   branch: 'COMMON.BRANCH',
   password: 'COMMON.PASSWORD',
+  affiliateType: 'COMMON.PARTNER_TYPE',
+  externalAffiliateId: 'COMMON.EXTERNAL_AFILIATE_ID',
 };
 
 const fieldNames = keyMirror({
@@ -40,25 +43,25 @@ const branchField = (
   };
 };
 
-const formFields = handleGeneratePassword => [{
+const formFields = (handleGeneratePassword, handleGenerateExternalId) => [{
   type: fieldTypes.INPUT,
   name: 'firstName',
   label: attributeLabels.firstName,
-  id: 'create-new-operator-first-name',
+  id: 'create-new-partner-first-name',
   className: 'col-md-6',
   showErrorMessage: true,
 }, {
   type: fieldTypes.INPUT,
   name: 'lastName',
   label: attributeLabels.lastName,
-  id: 'create-new-operator-last-name',
+  id: 'create-new-partner-last-name',
   className: 'col-md-6',
   showErrorMessage: true,
 }, {
   type: fieldTypes.INPUT,
   name: 'email',
   label: attributeLabels.email,
-  id: 'create-new-operator-email',
+  id: 'create-new-partner-email',
   className: 'col-md-6',
   showErrorMessage: true,
 }, {
@@ -74,7 +77,30 @@ const formFields = handleGeneratePassword => [{
   type: fieldTypes.INPUT,
   name: 'phone',
   label: attributeLabels.phone,
-  id: 'create-new-operator-phone',
+  id: 'create-new-partner-phone',
+  className: 'col-md-6',
+  showErrorMessage: true,
+}, {
+  type: fieldTypes.SELECT,
+  name: 'affiliateType',
+  label: attributeLabels.affiliateType,
+  id: 'create-new-partner-affiliateType',
+  placeholder: 'COMMON.SELECT_OPTION.SELECT_PARTNER_TYPE',
+  className: 'col-md-6',
+  showErrorMessage: true,
+  disabled: Object.keys(affiliateTypeLabels).length === 1,
+  selectOptions: Object.keys(affiliateTypeLabels).map(value => ({
+    value,
+    label: affiliateTypeLabels[value],
+  })),
+  withAnyOption: false,
+  searchable: false,
+}, {
+  type: fieldTypes.INPUT,
+  name: 'externalAffiliateId',
+  label: attributeLabels.externalAffiliateId,
+  onIconClick: handleGenerateExternalId,
+  inputAddon: <span className="icon-generate-password" />,
   className: 'col-md-6',
   showErrorMessage: true,
 }];

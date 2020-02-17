@@ -1,21 +1,27 @@
 import gql from 'graphql-tag';
 
 const createPartner = gql`mutation createPartner(
-  $email: String!,
-  $firstName: String!,
-  $lastName: String!,
-  $password: String!,
-  $phone: String,
-  $affiliateType: String,
+  $email: String!
+  $firstName: String!
+  $lastName: String!
+  $phone: String
+  $password: String!
+  $affiliateType: String!
+  $externalAffiliateId: String!
+  $public: Boolean
+  $cellexpert: Boolean
 ) {
   partner {
     createPartner(
-      email: $email,
-      firstName: $firstName,
-      lastName: $lastName,
-      phone: $phone,
-      password: $password,
-      affiliateType: $affiliateType,
+      email: $email
+      firstName: $firstName
+      lastName: $lastName
+      phone: $phone
+      password: $password
+      affiliateType: $affiliateType
+      externalAffiliateId: $externalAffiliateId
+      public: $public
+      cellexpert: $cellexpert
     ) {
       data {
         uuid

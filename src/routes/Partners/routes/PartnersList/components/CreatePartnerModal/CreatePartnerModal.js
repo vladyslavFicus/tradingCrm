@@ -33,6 +33,10 @@ class CreatePartnerModal extends Component {
     this.props.change('password', generate());
   };
 
+  handleGenerateExternalId = () => {
+    this.props.change('externalAffiliateId', `${Math.random().toString(36)}`.substr(0, 16));
+  };
+
   render() {
     const {
       handleSubmit,
@@ -48,17 +52,25 @@ class CreatePartnerModal extends Component {
       <Modal className="create-operator-modal" toggle={onCloseModal} isOpen={isOpen}>
         <ModalHeader toggle={onCloseModal}>{I18n.t('PARTNERS.NEW_PARTNER')}</ModalHeader>
         <ModalBody id="create-operator-modal-form" tag="form" onSubmit={handleSubmit(onSubmit)}>
-          <div className="row row__margin-bottom">
+          <div className="row">
             {reduxFieldsConstructor(
-              formFields(this.handleGeneratePassword),
+              formFields(this.handleGeneratePassword, this.handleGenerateExternalId),
             )}
           </div>
+          <Field
+            name="public"
+            className="col-6"
+            component={CheckBox}
+            type="checkbox"
+            label={I18n.t('PARTNERS.MODALS.NEW_PARTNER.PUBLIC_CHECKBOX')}
+          />
           <Regulated>
             <Field
-              name="isIB"
+              name="cellexpert"
+              className="col-6"
               component={CheckBox}
               type="checkbox"
-              label="Is IB?"
+              label={I18n.t('PARTNERS.MODALS.NEW_PARTNER.CELLEXPERT_CHECKBOX')}
             />
           </Regulated>
         </ModalBody>
