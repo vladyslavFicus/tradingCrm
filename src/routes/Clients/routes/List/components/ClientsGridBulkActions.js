@@ -74,7 +74,7 @@ class ClientsGridBulkActions extends PureComponent {
         multiAssign: true,
         ...(query && { searchParams: omit(query.filters, ['page.size']) }),
       },
-      onSuccess: this.onSuccessListUpdate,
+      onSuccess: this.onSubmitSuccess,
       header: (
         <Fragment>
           <div>{I18n.t(`CLIENTS.MODALS.${type}_MODAL.HEADER`)}</div>
@@ -109,11 +109,11 @@ class ClientsGridBulkActions extends PureComponent {
         allRowsSelected,
         ...(query && { searchParams: omit(query.filters, ['page.size']) }),
       },
-      onSuccess: this.onSuccessListUpdate,
+      onSuccess: this.onSubmitSuccess,
     });
   };
 
-  onSuccessListUpdate = async () => {
+  onSubmitSuccess = async () => {
     const {
       resetClientsGridInitialState,
       profiles: { refetch },
@@ -157,6 +157,7 @@ class ClientsGridBulkActions extends PureComponent {
               totalElements,
               allRowsSelected,
             }}
+            submitCallback={this.onSubmitSuccess}
           />
         </PermissionContent>
       </If>
