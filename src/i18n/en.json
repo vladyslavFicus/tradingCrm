@@ -2422,8 +2422,8 @@
     "MIGRATION_STATUS": "Migration status",
     "BUTTON": "Migrate to FSA",
     "MODAL": {
-      "TITLE": "Migrate to FSA",
-      "TEXT": "Are you sure, that you want to migrate selected client(s)?"
+      "TITLE": "Bulk action - migration",
+      "TEXT": "Are you sure, that you want to migrate selected clients?"
     },
     "NOTIFICATION": {
       "SUCCESS_TEXT": "Сlients are successfully prepared for migration",
