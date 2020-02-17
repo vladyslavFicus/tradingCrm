@@ -185,6 +185,7 @@ PropTypes.operatorProfile = PropTypes.shape({
   statusChangeDate: PropTypes.any,
   uuid: PropTypes.string,
 });
+// # This one can be removed after PartnerProfile page will be refactored
 PropTypes.partnerProfile = PropTypes.shape({
   country: PropTypes.string,
   email: PropTypes.string,
@@ -193,6 +194,21 @@ PropTypes.partnerProfile = PropTypes.shape({
   status: PropTypes.string,
   phone: PropTypes.string,
   createdAt: PropTypes.string,
+  statusChangeAuthor: PropTypes.string,
+  statusChangeDate: PropTypes.string,
+  uuid: PropTypes.string,
+});
+PropTypes.partner = PropTypes.shape({
+  country: PropTypes.string,
+  createdAt: PropTypes.string,
+  email: PropTypes.string,
+  externalAffiliateId: PropTypes.string,
+  firstName: PropTypes.string,
+  fullName: PropTypes.string,
+  lastName: PropTypes.string,
+  partnerType: PropTypes.string,
+  phone: PropTypes.string,
+  status: PropTypes.string,
   statusChangeAuthor: PropTypes.string,
   statusChangeDate: PropTypes.string,
   uuid: PropTypes.string,
@@ -596,10 +612,13 @@ PropTypes.operatorsList = PropTypes.arrayOf(PropTypes.shape({
   uuid: PropTypes.string,
   fullName: PropTypes.string,
 }));
+// # This one can be removed after ClientProfile page will be refactored
 PropTypes.partnersList = PropTypes.arrayOf(PropTypes.shape({
   uuid: PropTypes.string,
   fullName: PropTypes.string,
   createdAt: PropTypes.string,
+  externalAffiliateId: PropTypes.string,
+  partnerType: PropTypes.string,
   status: PropTypes.string,
   statusChangeDate: PropTypes.string,
   country: PropTypes.string,

@@ -1,43 +1,46 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import I18n from 'i18n-js';
 import Flag from 'react-world-flags';
-import languageNames from '../../constants/languageNames';
-import { getCountryCode } from '../../utils/countryList';
+import languageNames from 'constants/languageNames';
+import { getCountryCode } from 'utils/countryList';
 import './CountryLabelWithFlag.scss';
 
-const getLanguage = (languageCode) => {
-  const lang = languageNames.find(item => item.languageCode === languageCode);
+class CountryLabelWithFlag extends PureComponent {
+  static propTypes = {
+    languageCode: PropTypes.string,
+    code: PropTypes.string.isRequired,
+    height: PropTypes.string.isRequired,
+    width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  };
 
-  return lang ? I18n.t(lang.languageName) : I18n.t('COMMON.LANGUAGE_NAME.EN');
-};
+  static defaultProps = {
+    languageCode: null,
+    width: 20,
+  };
 
-const CountryLabelWithFlag = ({ height, width, code, languageCode }) => (
-  <div className="grid-country-flag">
-    <div className="grid-country-flag__icon">
-      <Flag height={height} width={width} code={getCountryCode(code)} />
-    </div>
-    <div className="grid-country-flag__description">
-      <div className="font-weight-600 text-uppercase">{code}</div>
-      <If condition={languageCode}>
-        <div className="font-size-11">
-          {getLanguage(languageCode)}
+  getLanguage = (languageCode) => {
+    const lang = languageNames.find(item => item.languageCode === languageCode);
+    return lang ? I18n.t(lang.languageName) : I18n.t('COMMON.LANGUAGE_NAME.EN');
+  }
+
+  render() {
+    const { height, width, code, languageCode } = this.props;
+
+    return (
+      <div className="CountryLabelWithFlag">
+        <div className="CountryLabelWithFlag__flag">
+          <Flag height={height} width={width} code={getCountryCode(code)} />
         </div>
-      </If>
-    </div>
-  </div>
-);
-
-CountryLabelWithFlag.propTypes = {
-  code: PropTypes.string.isRequired,
-  width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  height: PropTypes.string.isRequired,
-  languageCode: PropTypes.string,
-};
-
-CountryLabelWithFlag.defaultProps = {
-  width: 20,
-  languageCode: null,
-};
+        <div className="CountryLabelWithFlag__codes">
+          <div className="CountryLabelWithFlag__country-code">{code}</div>
+          <If condition={languageCode}>
+            <div className="CountryLabelWithFlag__language-code">{this.getLanguage(languageCode)}</div>
+          </If>
+        </div>
+      </div>
+    );
+  }
+}
 
 export default CountryLabelWithFlag;

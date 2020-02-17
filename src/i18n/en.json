@@ -1842,11 +1842,27 @@
       "INACTIVE": "Inactive",
       "CLOSED": "Closed"
     },
+    "TYPES": {
+      "NULLPOINT": "Nullpoint",
+      "AFFILIATE": "Affiliate"
+    },
     "GRID_HEADER": {
       "PARTNER": "Partner",
+      "PARTNER_TYPE": "Partner Type",
+      "EXTERNAL_ID": "External ID",
       "COUNTRY": "Country",
       "REGISTERED": "Registered",
       "STATUS": "Status"
+    },
+    "GRID_FILTERS": {
+      "STATUS": "Status",
+      "COUNTRY": "Country",
+      "PARTNER_TYPE": "Partner type",
+      "SEARCH_BY": "Search by",
+      "SEARCH_BY_PLACEHOLDER": "Name, Phone, Email, UUID...",
+      "REGISTRATION_DATE_FROM": "Date from",
+      "REGISTRATION_DATE_TO": "Date to",
+      "REGISTRATION_DATE_RANGE": "Registration Date Range"
     },
     "SHOW_NOTES": "Show notes",
     "SHOW_SALES_STATUS": "Show sales status",
@@ -1899,6 +1915,10 @@
       }
     },
     "NOTIFICATIONS": {
+      "CREATE_PARTNER_SUCCESS": {
+        "TITLE": "Creating succeed",
+        "MESSAGE": "The partner was successfully created"
+      },
       "UPDATE_PARTNER_ERROR": {
         "TITLE": "Failure on updating",
         "MESSAGE": "Updating of partner has failed"
@@ -1930,21 +1950,6 @@
       "EXISTING_PARTNER_ERROR": {
         "TITLE": "Failure on adding",
         "MESSAGE": "Assign in the current brand is failed"
-      }
-    },
-    "LIST": {
-      "FILTER_FORM": {
-        "LABEL": {
-          "KEYWORD": "Name, Phone, Email, UUID...",
-          "COUNTRY": "Country",
-          "STATUS": "Status",
-          "DEPARTMENT": "Department",
-          "ROLE": "Role",
-          "REGISTRATION_DATE_FROM": "Registration Date From",
-          "REGISTRATION_DATE_TO": "Registration Date To",
-          "REGISTRATION_DATE_RANGE": "Registration Date Range",
-          "SEARCH_BY": "Search by"
-        }
       }
     }
   },

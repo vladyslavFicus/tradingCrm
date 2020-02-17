@@ -24,16 +24,26 @@ $input-height: 40px;
     margin-top: 5px;
     padding: 0 8px;
     text-overflow: ellipsis;
+    transition: border-color 0.2s ease;
     display: block;
     height: $input-height;
     width: 100%;
 
     &:focus {
       border-color: #4990e2;
+
+      & + .input__addition {
+        border-color: #4990e2;
+        color: #aaa;
+      }
     }
 
     &:disabled {
       background-color: #f6f6f6;
+
+      & + .input__addition {
+        border-color: #f6f6f6;
+      }
     }
 
     @include placeholder {
@@ -67,19 +77,19 @@ $input-height: 40px;
   }
 
   &__addition {
-    background-color: #eee;
+    background-color: transparent;
+    border: 1px solid #cfcfcf;
     border-radius: 3px 0 0 3px;
-    border-right: solid 1px #cfcfcf;
-    box-sizing: border-box;
-    color: #9b9b9b;
-    font-size: 15px;
-    line-height: $input-height;
+    color: #cfcfcf;
+    line-height: 42px;
     text-align: center;
+    transition: border-color 0.2s ease, color 0.2s ease;
+    pointer-events: none;
     position: absolute;
-    top: 22px;
-    left: 1px;
-    height: $input-height - 2px;
-    width: 48px;
+    bottom: 0;
+    left: 0;
+    height: 40px;
+    width: 40px;
   }
 
   &__verified-message {
@@ -108,7 +118,7 @@ $input-height: 40px;
 
   &--has-addition {
     .input__control {
-      padding-left: 64px;
+      padding-left: 55px;
     }
   }
 

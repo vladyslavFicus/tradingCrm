@@ -1,0 +1,61 @@
+$color-red: #fb434a;
+$color-gray: #666;
+$color-green: #46be8a;
+
+.PartnersGrid {
+  background-color: #fff;
+  padding: 25px;
+
+  &__name {
+    font-weight: 700;
+  }
+
+  &__uuid {
+    font-size: 12px;
+  }
+
+  &__partner-type {
+    font-weight: 700;
+
+    &--nullpoint {
+      color: $color-gray;
+    }
+
+    &--affiliate {
+      color: $color-green;
+    }
+  }
+
+  &__registration {
+    &-date {
+      font-weight: 700;
+    }
+
+    &-time {
+      font-size: 12px;
+    }
+  }
+
+  &__status {
+    &-name {
+      font-weight: 700;
+      text-transform: uppercase;
+
+      &--active {
+        color: $color-green;
+      }
+
+      &--inactive {
+        color: $color-gray;
+      }
+
+      &--closed {
+        color: $color-red;
+      }
+    }
+
+    &-date {
+      font-size: 12px;
+    }
+  }
+}

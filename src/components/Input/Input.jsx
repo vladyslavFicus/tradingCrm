@@ -18,8 +18,8 @@ class Input extends PureComponent {
     onMaxLengthEntered: PropTypes.func,
     onTruncated: PropTypes.func,
     onChange: PropTypes.func,
-    containerClassName: PropTypes.string,
-    leftAddition: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
+    className: PropTypes.string,
+    addition: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
     validateInput: PropTypes.func,
     onEnterPress: PropTypes.func,
     mobileType: PropTypes.oneOf(['tel', 'number']),
@@ -37,8 +37,8 @@ class Input extends PureComponent {
     onMaxLengthEntered: () => {},
     onTruncated: () => {},
     onChange: () => {},
-    containerClassName: null,
-    leftAddition: null,
+    className: null,
+    addition: null,
     validateInput: () => true,
     onEnterPress: () => true,
     mobileType: undefined,
@@ -124,8 +124,8 @@ class Input extends PureComponent {
       type,
       icon,
       error,
-      containerClassName,
-      leftAddition,
+      className,
+      addition,
       mobileType,
       verified,
       verifiedText,
@@ -148,11 +148,11 @@ class Input extends PureComponent {
 
     return (
       <div
-        className={classNames('input', containerClassName, {
+        className={classNames('input', className, {
           'input--has-icon': icon,
           'input--has-error': !!error,
           'input--is-disabled': !verified && props.disabled,
-          'input--has-addition': leftAddition,
+          'input--has-addition': addition,
           'input--verified': verified,
         })}
       >
@@ -160,7 +160,7 @@ class Input extends PureComponent {
           {label && <label className="input__label">{label}</label>}
           <input {...props} />
           {icon && <i className={classNames(icon, 'input__icon')} />}
-          {!!leftAddition && <div className="input__addition">{leftAddition}</div>}
+          {!!addition && <div className="input__addition">{addition}</div>}
         </div>
         {error && (
           <div className="input__footer">
