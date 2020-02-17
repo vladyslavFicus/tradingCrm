@@ -3,16 +3,16 @@ import keyMirror from 'keymirror';
 import { getActiveBrandConfig } from 'config';
 import countries from 'utils/countryList';
 import { statuses } from 'constants/operators';
-import { statusesLabels, filterLabels } from '../../../../../../constants/user';
-import { salesStatuses } from '../../../../../../constants/salesStatuses';
-import { retentionStatuses } from '../../../../../../constants/retentionStatuses';
+import { statusesLabels, filterLabels } from 'constants/user';
+import { salesStatuses } from 'constants/salesStatuses';
+import { retentionStatuses } from 'constants/retentionStatuses';
 import {
   fieldTypes,
   fieldClassNames,
   normalize,
   validators,
   parser,
-} from '../../../../../../components/ReduxForm/ReduxFieldsConstructor';
+} from 'components/ReduxForm/ReduxFieldsConstructor';
 
 const acquisitionStatuses = [
   {
