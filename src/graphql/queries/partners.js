@@ -37,6 +37,7 @@ const partnersQuery = gql`query getPartners(
   }
 }`;
 
+// # TODO: remove after PartnerProfile page will be refactored
 const partnerQuery = gql`query getPartnerByUUID(
   $uuid: String!,
 ) {
@@ -56,6 +57,10 @@ const partnerQuery = gql`query getPartnerByUUID(
       statusReason
       createdBy
       createdAt
+      externalAffiliateId
+      affiliateType
+      cellexpert
+      public
       permission {
         allowedIpAddresses
         forbiddenCountries

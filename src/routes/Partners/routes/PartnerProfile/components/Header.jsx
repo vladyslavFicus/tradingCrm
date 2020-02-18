@@ -111,7 +111,7 @@ class Header extends Component {
               profileStatus={status}
               onStatusChange={this.handleStatusChange}
               label={(
-                <div className="dropdown-tab">
+                <div className="dropdown-tab header-block-inner">
                   <div className="header-block-title">{I18n.t('COMMON.ACCOUNT_STATUS')}</div>
                   <If condition={availableStatuses.length > 0}>
                     <PermissionContent permissions={permissions.PARTNERS.UPDATE_STATUS}>
@@ -157,7 +157,7 @@ class Header extends Component {
               availableStatuses={availableStatuses}
             />
           </div>
-          <div className="header-block">
+          <div className="header-block header-block-inner">
             <div className="header-block-title">{I18n.t('OPERATORS.GRID_HEADER.REGISTERED')}</div>
             {
               createdAt

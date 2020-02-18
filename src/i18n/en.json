@@ -1556,6 +1556,9 @@
       },
       "email": {
         "exists": "Email already exists"
+      },
+      "externalId": {
+        "exists": "This External ID already exists"
       }
     },
     "payment": {
@@ -1902,7 +1905,9 @@
           "COUNTRY": "Country",
           "PHONE": "Phone",
           "WHITE_LISTED_IP": "White listed IPs",
-          "RESTRICTED_COUNTRIES": "Restricted countries"
+          "RESTRICTED_COUNTRIES": "Restricted countries",
+          "CELLEXPERT_CHECKBOX": "Allow to to transmit data to CellExpert",
+          "PUBLIC_CHECKBOX": "Allow to create Clients through public API"
         }
       },
       "HIERARCHY": {

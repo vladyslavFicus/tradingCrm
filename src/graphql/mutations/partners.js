@@ -35,23 +35,31 @@ const createPartner = gql`mutation createPartner(
 }`;
 
 const updatePartner = gql`mutation updatePartner(
-  $uuid: String!,
-  $firstName: String!,
-  $lastName: String!,
-  $phone: String,
-  $country: String,
-  $email: String,
-  $permission: PartnerPermissionUpdate,
+  $uuid: String!
+  $firstName: String!
+  $lastName: String!
+  $phone: String
+  $country: String
+  $email: String
+  $permission: PartnerPermissionUpdate
+  $affiliateType: String!
+  $externalAffiliateId: String
+  $public: Boolean
+  $cellexpert: Boolean
 ) {
   partner {
     updatePartner(
-      uuid: $uuid,
-      firstName: $firstName,
-      lastName: $lastName,
-      phone: $phone,
-      country: $country,
-      email: $email,
-      permission: $permission,
+      uuid: $uuid
+      firstName: $firstName
+      lastName: $lastName
+      phone: $phone
+      country: $country
+      email: $email
+      permission: $permission
+      affiliateType: $affiliateType
+      externalAffiliateId: $externalAffiliateId
+      public: $public
+      cellexpert: $cellexpert
     ) {
       data {
         _id
@@ -62,6 +70,10 @@ const updatePartner = gql`mutation updatePartner(
         lastName
         status
         phone
+        affiliateType
+        externalAffiliateId
+        public
+        cellexpert
         createdBy
         createdAt
         statusChangeAuthor

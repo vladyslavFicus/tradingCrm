@@ -15,7 +15,8 @@ const Departments = ({ authorities }) => (
           {I18n.t('PARTNER_PROFILE.DETAILS.LABEL.DEPARTMENTS')}
         </span>
         {
-          !!authorities.length
+          authorities
+          && !!authorities.length
           && (
             <div className="margin-top-5">
               {

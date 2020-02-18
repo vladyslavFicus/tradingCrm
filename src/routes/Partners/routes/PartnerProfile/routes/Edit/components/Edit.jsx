@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import I18n from 'i18n-js';
-// import { get } from 'lodash';
 import PropTypes from 'constants/propTypes';
 import Permissions from 'utils/permissions';
 import permissions from 'config/permissions';
@@ -41,6 +40,10 @@ class View extends Component {
     forbiddenCountries: [],
   };
 
+  state = {
+    serverError: '',
+  };
+
   get readOnly() {
     const permittedRights = [permissions.PARTNERS.UPDATE_PROFILE];
 
@@ -48,10 +51,14 @@ class View extends Component {
   }
 
   handleSubmit = async ({
+    externalAffiliateId,
     forbiddenCountries,
+    affiliateType,
+    cellexpert,
     firstName,
     lastName,
     country,
+    public: allowedPublicApi,
     phone,
     email,
     ...submittedPermissions
@@ -65,11 +72,15 @@ class View extends Component {
     const { data: { partner: { updatePartner: { error } } } } = await updateProfile({
       variables: {
         uuid: operatorUUID,
+        externalAffiliateId,
+        affiliateType,
+        cellexpert,
         firstName,
         lastName,
         country,
         phone,
         email,
+        public: allowedPublicApi,
         permission: {
           forbiddenCountries: forbiddenCountries || [],
           ...submittedPermissions,
@@ -86,11 +97,25 @@ class View extends Component {
         ? I18n.t('PARTNERS.NOTIFICATIONS.UPDATE_PARTNER_ERROR.MESSAGE')
         : I18n.t('PARTNERS.NOTIFICATIONS.UPDATE_PARTNER_SUCCESS.MESSAGE'),
     });
+
+    this.setState({ serverError: error ? error.error : '' });
   };
 
   render() {
     const {
-      profile: { data: { firstName, lastName, country, email, phone } },
+      profile: {
+        data: {
+          public: allowedPublicApi,
+          externalAffiliateId,
+          affiliateType,
+          cellexpert,
+          firstName,
+          lastName,
+          country,
+          email,
+          phone,
+        },
+      },
       allowedIpAddresses,
       forbiddenCountries,
       showNotes,
@@ -98,23 +123,30 @@ class View extends Component {
       showFTDAmount,
     } = this.props;
 
+    const { serverError } = this.state;
+
     return (
       <div className="card-body">
         <div className="card">
           <div className="card-body">
             <PersonalForm
               initialValues={{
+                externalAffiliateId,
                 allowedIpAddresses,
                 forbiddenCountries,
                 showSalesStatus,
                 showFTDAmount,
+                affiliateType,
+                cellexpert,
                 firstName,
                 showNotes,
                 lastName,
                 country,
+                public: allowedPublicApi,
                 email,
                 phone,
               }}
+              serverError={serverError}
               disabled={this.readOnly}
               onSubmit={this.handleSubmit}
             />
