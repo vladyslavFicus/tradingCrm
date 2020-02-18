@@ -11,7 +11,7 @@ import { affiliateTypes } from '../../../../constants';
 export default compose(
   connect(() => ({
     initialValues: {
-      affiliateType: !getActiveBrandConfig().regulation.isActive ? affiliateTypes.NULLPOINT : '',
+      affiliateType: !getActiveBrandConfig().regulation.isActive ? affiliateTypes.AFFILIATE : '',
     },
   })),
   reduxForm({
