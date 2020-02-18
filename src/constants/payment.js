@@ -125,13 +125,14 @@ const tradingTypes = keyMirror({
   CREDIT_IN: null,
   CREDIT_OUT: null,
   DEPOSIT: null,
-  TRANSFER_IN: null,
-  TRANSFER_OUT: null,
-  WITHDRAW: null,
+  INACTIVITY_FEE: null,
   MIGRATION_IN: null,
   MIGRATION_OUT: null,
   MIGRATION_CREDIT_IN: null,
   MIGRATION_CREDIT_OUT: null,
+  TRANSFER_IN: null,
+  TRANSFER_OUT: null,
+  WITHDRAW: null,
 });
 
 const tradingTypesLabelsWithColor = {
@@ -152,7 +153,7 @@ const tradingTypesLabelsWithColor = {
     label: 'COMMON.PAYMENT_TYPE.FEE',
     color: 'color-success',
   },
-  INACTIVITY_FEE: {
+  [tradingTypes.INACTIVITY_FEE]: {
     label: 'COMMON.PAYMENT_TYPE.INACTIVITY_FEE',
     color: 'color-danger',
   },

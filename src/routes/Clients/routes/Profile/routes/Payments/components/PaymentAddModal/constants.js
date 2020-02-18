@@ -20,6 +20,7 @@ export const paymentTypes = {
       name => ([
         tradingTypes.TRANSFER_IN,
         tradingTypes.TRANSFER_OUT,
+        tradingTypes.INACTIVITY_FEE,
         tradingTypes.MIGRATION_IN,
         tradingTypes.MIGRATION_OUT,
         tradingTypes.MIGRATION_CREDIT_IN,
