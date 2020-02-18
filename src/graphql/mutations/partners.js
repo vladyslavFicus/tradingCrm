@@ -7,7 +7,7 @@ const createPartner = gql`mutation createPartner(
   $phone: String
   $password: String!
   $affiliateType: String!
-  $externalAffiliateId: String!
+  $externalAffiliateId: String
   $public: Boolean
   $cellexpert: Boolean
 ) {
