@@ -72,13 +72,15 @@ class PartnersList extends PureComponent {
       modals: { createPartnerModal },
       createNewPartner,
       notify,
+      history,
     } = this.props;
 
     const newPartnerData = await createNewPartner({
       variables: data,
     });
 
-    const serverError = get(newPartnerData, 'data.partner.createPartner.error.error');
+    const serverError = get(newPartnerData, 'data.partner.createPartner.error.error') || null;
+    const partnerUuid = get(newPartnerData, 'data.partner.createPartner.data.uuid') || null;
 
     if (serverError) {
       if (serverError === 'error.entity.already.exists') {
@@ -111,6 +113,10 @@ class PartnersList extends PureComponent {
     });
 
     createPartnerModal.hide();
+
+    if (partnerUuid) {
+      history.push(`/partners/${partnerUuid}/profile`);
+    }
   };
 
   // will be rewriten with AddPartnerModal refactoring
