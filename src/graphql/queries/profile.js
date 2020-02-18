@@ -152,6 +152,9 @@ const newProfile = gql`query newProfile($playerUUID: String!){
           countryCode
           startedAt
         }
+        lastActivity {
+          date
+        }
       }
       tradingAccount {
         accountUUID
@@ -274,6 +277,9 @@ const clientsQuery = gql`query ${queryNames.clientsQuery}(
             type
           }
           uuid
+          lastActivity {
+            date
+          }
         }
       }
     }

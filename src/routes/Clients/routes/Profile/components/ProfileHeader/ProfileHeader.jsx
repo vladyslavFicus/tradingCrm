@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import moment from 'moment';
 import classNames from 'classnames';
 import I18n from 'i18n-js';
+import { get } from 'lodash';
 import { getActiveBrandConfig } from 'config';
 import { withPermission } from 'providers/PermissionsProvider';
 import { fsaStatuses, fsaStatusColorNames, fsaStatusesLabels } from 'constants/fsaMigration';
@@ -145,6 +146,7 @@ class ProfileHeader extends Component {
             credit,
           },
           lastSignInSessions,
+          lastActivity,
         },
         fsaMigrationInfo: {
           fsaMigrationStatus,
@@ -154,6 +156,7 @@ class ProfileHeader extends Component {
     } = this.props;
 
     const { isRunningReloadAnimation } = this.state;
+    const lastActivityDate = get(lastActivity, 'date');
 
     const fullName = [firstName, lastName].filter(i => i).join(' ');
 
@@ -308,6 +311,17 @@ class ProfileHeader extends Component {
             <Questionnaire questionnaireLastData={questionnaireLastData} profileUUID={uuid} />
           </Regulated>
           <ProfileLastLogin lastIp={lastSignInSessions ? lastSignInSessions[lastSignInSessions.length - 1] : null} />
+          {lastActivityDate && (
+            <div className="header-block header-block-inner">
+              <div className="header-block-title">{I18n.t('PROFILE.LAST_ACTIVITY.TITLE')}</div>
+              <div className="header-block-middle">
+                {moment.utc(lastActivityDate).local().fromNow()}
+              </div>
+              <div className="header-block-small">
+                {I18n.t('COMMON.ON')} {moment.utc(lastActivityDate).local().format('DD.MM.YYYY')}
+              </div>
+            </div>
+          )}
           <div className="header-block header-block-inner">
             <div className="header-block-title">{I18n.t('CLIENT_PROFILE.CLIENT.REGISTERED.TITLE')}</div>
             <div className="header-block-middle">

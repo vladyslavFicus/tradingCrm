@@ -1498,6 +1498,9 @@
       "TITLE": "Last login",
       "FROM_COUNTRY": " from %{country}"
     },
+    "LAST_ACTIVITY": {
+      "TITLE": "Last activity"
+    },
     "LIST": {
       "FILTERS": {
         "SEARCH": "Search by",
@@ -2463,6 +2466,7 @@
     "LIST": {
       "GRID_HEADER": {
         "CLIENT": "Client",
+        "LAST_ACTIVITY": "Last activity",
         "COUNTRY": "Country",
         "BALANCE": "Balance",
         "DEPOSITS": "Deposits",
