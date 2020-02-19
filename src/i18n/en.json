@@ -1539,6 +1539,7 @@
         "FSA_MIGRATION": "FSA migration Status",
         "QUESTIONNAIRE": "Questionnaire",
         "AFFILIATES": "Affiliates",
+        "PARTNER_TYPE": "Partner type",
         "FSA_MIGRATION_STATUS": {
           "ACCEPTED": "Accepted",
           "NOT_ACCEPTED": "Not Accepted"
@@ -1854,7 +1855,8 @@
     },
     "TYPES": {
       "NULLPOINT": "Nullpoint",
-      "AFFILIATE": "Affiliate"
+      "AFFILIATE": "Affiliate",
+      "DIRECT": "Direct"
     },
     "GRID_HEADER": {
       "PARTNER": "Partner",

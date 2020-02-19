@@ -13,6 +13,7 @@ import {
   validators,
   parser,
 } from 'components/ReduxForm/ReduxFieldsConstructor';
+import { affiliateTypeLabels } from '../constants';
 
 const acquisitionStatuses = [
   {
@@ -246,6 +247,19 @@ export default (
     })),
     optionsWithoutI18n: true,
   },
+  ...[
+    getActiveBrandConfig().regulation.isActive && {
+      type: fieldTypes.SELECT,
+      name: 'affiliateType',
+      label: filterLabels.affiliateType,
+      placeholder: 'COMMON.SELECT_OPTION.ANY',
+      className: fieldClassNames.MEDIUM,
+      selectOptions: Object.keys(affiliateTypeLabels).map(affiliateType => ({
+        value: affiliateType,
+        label: affiliateTypeLabels[affiliateType],
+      })),
+    },
+  ],
   {
     type: fieldTypes.SELECT,
     name: 'statuses',
