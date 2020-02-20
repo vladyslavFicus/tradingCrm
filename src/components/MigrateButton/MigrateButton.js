@@ -55,6 +55,7 @@ class MigrateButton extends PureComponent {
     const {
       notify,
       variables,
+      variables: { allRowsSelected },
       migrateClientsMutation,
       location: { query },
       modals: { confirmationModal },
@@ -63,7 +64,11 @@ class MigrateButton extends PureComponent {
     const response = await migrateClientsMutation({
       variables: {
         ...variables,
-        ...(query && { searchParams: omit(query.filters, ['page.size']) }),
+        ...(
+          query
+          && allRowsSelected
+          && { searchParams: omit(query.filters, ['page.size']) }
+        ),
       },
     });
 
