@@ -20,6 +20,7 @@ export default compose(
       location: { query },
     }) => ({
       variables: {
+        tradeType: 'LIVE',
         profileUUID,
         ...(query && query.filters),
         page: 0,
