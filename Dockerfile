@@ -1,4 +1,4 @@
-FROM registry.flcn.pro/addons/frontend:1.0.0
+FROM registry.flcn.pro/addons/frontend:latest
 
 RUN mkdir /etc/nginx/logs && touch /etc/nginx/logs/static.log
 
