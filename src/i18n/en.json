@@ -2454,7 +2454,7 @@
     },
     "STATUSES": {
       "MIGRATION_ACCEPTED": "Migration accepted",
-      "MIGRATION_DECLINED": "Migration declined",
+      "MIGRATION_NOT_ACCEPTED": "Migration not accepted",
       "MIGRATION_STARTED": "Migration started",
       "MIGRATION_FINISHED": "Migration finished",
       "MIGRATION_FAILED": "Migration failed"

@@ -6,6 +6,7 @@ import { statuses } from 'constants/operators';
 import { statusesLabels, filterLabels } from 'constants/user';
 import { salesStatuses } from 'constants/salesStatuses';
 import { retentionStatuses } from 'constants/retentionStatuses';
+import { fsaStatuses, fsaStatusesLabels } from 'constants/fsaMigration';
 import {
   fieldTypes,
   fieldClassNames,
@@ -111,17 +112,6 @@ const questionnaire = [
   {
     value: 'NO_QUESTIONNAIRE',
     label: 'QUESTIONNAIRE.NO_QUESTIONNAIRE',
-  },
-];
-
-const FSAMigrationStatuses = [
-  {
-    value: 'MIGRATION_ACCEPTED',
-    label: 'PROFILE.LIST.FILTERS.FSA_MIGRATION_STATUS.ACCEPTED',
-  },
-  {
-    value: 'MIGRATION_DECLINED',
-    label: 'PROFILE.LIST.FILTERS.FSA_MIGRATION_STATUS.NOT_ACCEPTED',
   },
 ];
 
@@ -328,7 +318,10 @@ export default (
       label: filterLabels.FSAMigration,
       placeholder: 'COMMON.SELECT_OPTION.ANY',
       className: fieldClassNames.MEDIUM,
-      selectOptions: FSAMigrationStatuses,
+      selectOptions: Object.keys(fsaStatuses).map(status => ({
+        value: status,
+        label: fsaStatusesLabels[status],
+      })),
       searchable: false,
     },
   ],

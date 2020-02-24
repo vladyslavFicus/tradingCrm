@@ -1,14 +1,13 @@
 import React, { PureComponent, Fragment } from 'react';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'react-apollo';
-import { get, omit } from 'lodash';
+import { omit } from 'lodash';
 import I18n from 'i18n-js';
 import { getActiveBrandConfig } from 'config';
 import permissions from 'config/permissions';
 import PropTypes from 'constants/propTypes';
 import { deskTypes } from 'constants/hierarchyTypes';
 import { departments, roles } from 'constants/brands';
-import { fsaStatuses } from 'constants/fsaMigration';
 import { withStorage } from 'providers/StorageProvider';
 import { withModals, withNotifications } from 'components/HighOrder';
 import PermissionContent from 'components/PermissionContent';
@@ -127,18 +126,12 @@ class ClientsGridBulkActions extends PureComponent {
       selectedRows,
       touchedRowsIds,
       allRowsSelected,
-      location: { query },
       profiles: {
         profiles: {
           data: { content, totalElements },
         },
       },
     } = this.props;
-
-    const { fsaMigrationStatus } = get(query, 'filters') || {};
-
-    const showMigrateButton = getActiveBrandConfig().fsaRegulation
-      && fsaMigrationStatus === fsaStatuses.MIGRATION_ACCEPTED;
 
     const clients = getClientsData(
       { selectedRows, touchedRowsIds, allRowsSelected },
@@ -148,7 +141,7 @@ class ClientsGridBulkActions extends PureComponent {
     ).map(client => ({ uuid: client.uuid }));
 
     return (
-      <If condition={showMigrateButton}>
+      <If condition={getActiveBrandConfig().fsaRegulation}>
         <PermissionContent permissions={permissions.USER_PROFILE.MIGRATE_TO_FSA}>
           <MigrateButton
             className="btn btn-default-outline"

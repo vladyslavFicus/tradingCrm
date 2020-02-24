@@ -209,9 +209,8 @@ class ProfileHeader extends Component {
               </If>
 
               <If
-                condition={
-                  getActiveBrandConfig().fsaRegulation
-                  && fsaMigrationStatus === fsaStatuses.MIGRATION_ACCEPTED
+                condition={getActiveBrandConfig().fsaRegulation
+                  && (!fsaMigrationStatus || fsaMigrationStatus === fsaStatuses.MIGRATION_ACCEPTED)
                 }
               >
                 <PermissionContent permissions={permissions.USER_PROFILE.MIGRATE_TO_FSA}>
