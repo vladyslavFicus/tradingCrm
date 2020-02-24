@@ -261,14 +261,14 @@ class Profile extends Component {
     this.setState({ modal: { ...modalInitialState } });
   };
 
-  handleUploadFileClick = (params) => {
+  handleUploadFileClick = (params, refetch) => {
     this.setState({
       modal: {
         name: MODAL_UPLOAD_FILE,
         params: {
           newProfile: get(this.props, 'newProfile.newProfile.data', {}),
           ...params,
-          onSuccess: () => this.props.filesList.refetch(),
+          onSuccess: () => refetch(),
         },
       },
     });

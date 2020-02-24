@@ -217,9 +217,13 @@ class Files extends Component {
             <button
               type="button"
               className="btn btn-sm btn-primary-outline"
-              onClick={() => this.context.onUploadFileClick({
-                targetType: fileTargetTypes.FILES,
-              })}
+              onClick={() => this.context.onUploadFileClick(
+                {
+                  targetType: fileTargetTypes.FILES,
+                },
+                filesList.refetch,
+              )
+              }
             >
               {I18n.t('COMMON.BUTTONS.UPLOAD_FILE')}
             </button>
