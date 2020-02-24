@@ -1,0 +1,21 @@
+.MigrateToFsaModal {
+  &__header {
+    background-color: #ff8041;
+  }
+
+  &__message {
+    color: #333;
+    font-size: 15px;
+    font-weight: 700;
+    text-align: center;
+  }
+
+  &__loader {
+    &-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 82px;
+    }
+  }
+}
