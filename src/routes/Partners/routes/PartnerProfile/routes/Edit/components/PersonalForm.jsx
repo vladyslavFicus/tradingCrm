@@ -111,23 +111,24 @@ class PersonalForm extends PureComponent {
               }
             </Field>
           </div>
+          <div className="col-xl-4">
+            <Field
+              name="externalAffiliateId"
+              label={I18n.t('COMMON.EXTERNAL_AFILIATE_ID')}
+              type="text"
+              component={InputField}
+              showErrorMessage
+              position="vertical"
+              disabled={affiliateType === affiliateTypes.NULLPOINT}
+              meta={{
+                error: serverError === 'error.affiliate.externalId.already.exists'
+                  ? I18n.t('error.validation.externalId.exists')
+                  : '',
+                touched: true,
+              }}
+            />
+          </div>
           <If condition={affiliateType !== affiliateTypes.NULLPOINT}>
-            <div className="col-xl-4">
-              <Field
-                name="externalAffiliateId"
-                label={I18n.t('COMMON.EXTERNAL_AFILIATE_ID')}
-                type="text"
-                component={InputField}
-                showErrorMessage
-                position="vertical"
-                meta={{
-                  error: serverError === 'error.affiliate.externalId.already.exists'
-                    ? I18n.t('error.validation.externalId.exists')
-                    : '',
-                  touched: true,
-                }}
-              />
-            </div>
             <Field
               name="public"
               className="col-12 padding-left-35"
