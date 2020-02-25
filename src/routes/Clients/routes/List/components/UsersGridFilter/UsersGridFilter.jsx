@@ -3,6 +3,7 @@ import { isEqual } from 'lodash';
 import I18n from 'i18n-js';
 import { getUsersByBranch } from 'graphql/queries/hierarchy';
 import PropTypes from 'constants/propTypes';
+import { withStorage } from 'providers/StorageProvider';
 import { filterSetTypes } from 'constants/filterSet';
 import ListFilterForm from 'components/ListFilterForm';
 import { filterFields, fieldNames } from '../attributes';
@@ -20,6 +21,7 @@ class UserGridFilter extends Component {
     partners: PropTypes.partnersList.isRequired,
     partnersLoading: PropTypes.bool.isRequired,
     initialValues: PropTypes.object,
+    auth: PropTypes.auth.isRequired,
   };
 
   static defaultProps = {
@@ -138,6 +140,7 @@ class UserGridFilter extends Component {
       isFetchingProfileData,
       partners,
       partnersLoading,
+      auth,
     } = this.props;
 
     const { teams, filteredOperators, branchOperatorsLoading } = this.state;
@@ -156,6 +159,7 @@ class UserGridFilter extends Component {
           operatorsLoading || branchOperatorsLoading,
           partners,
           partnersLoading,
+          auth,
         )}
         onFieldChange={this.handleFieldChange}
         isFetchingProfileData={isFetchingProfileData}
@@ -164,4 +168,4 @@ class UserGridFilter extends Component {
   }
 }
 
-export default UserGridFilter;
+export default withStorage(['auth'])(UserGridFilter);

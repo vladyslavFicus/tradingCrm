@@ -129,6 +129,10 @@ export default (
   operatorsLoading,
   partners,
   partnersLoading,
+  {
+    department,
+    role,
+  },
 ) => [
   {
     type: fieldTypes.INPUT,
@@ -294,14 +298,16 @@ export default (
       label: retentionStatuses[value],
     })),
   },
-  {
-    type: fieldTypes.SELECT,
-    name: 'assignStatus',
-    label: filterLabels.assignStatus,
-    placeholder: 'COMMON.SELECT_OPTION.ANY',
-    className: fieldClassNames.MEDIUM,
-    selectOptions: assignStatuses,
-  },
+  ...[
+    ['ADMINISTRATION', 'CS'].includes(department) && role === 'ROLE4' && {
+      type: fieldTypes.SELECT,
+      name: 'assignStatus',
+      label: filterLabels.assignStatus,
+      placeholder: 'COMMON.SELECT_OPTION.ANY',
+      className: fieldClassNames.MEDIUM,
+      selectOptions: assignStatuses,
+    },
+  ],
   {
     type: fieldTypes.SELECT,
     name: 'kycStatuses',
