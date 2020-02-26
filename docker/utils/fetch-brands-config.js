@@ -22,6 +22,7 @@ async function fetchBrandsConfig({ zookeeperUrl, onBrandsConfigUpdated }) {
       'nas.brand.clickToCall',
       'nas.brand.regulation',
       'nas.brand.mt4.demo_groups',
+      'nas.brand.email.sendgrid.crm_templated_emails',
       'nas.brand.backoffice.riskCalculator',
       'nas.brand.backoffice.fsaRegulation',
       'nas.brand.backoffice.privatePhoneByDepartment',

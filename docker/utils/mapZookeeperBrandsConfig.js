@@ -17,6 +17,9 @@ module.exports = configs => Object.entries(configs).reduce((acc, [id, config]) =
       isActive: get(config, 'nas.brand.clickToCall.isActive', false),
       url: get(config, 'nas.brand.clickToCall.url'),
     },
+    email: {
+      templatedEmails: get(config, 'nas.brand.email.sendgrid.crm_templated_emails'),
+    },
     isDemoAvailable: !!get(config, 'nas.brand.mt4.demo_groups'),
     isRisksTabAvailable: !!get(config, 'nas.brand.backoffice.riskCalculator'),
     fsaRegulation: !!get(config, 'nas.brand.backoffice.fsaRegulation'),

@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import { graphql, compose } from 'react-apollo';
+import { get } from 'lodash';
 import moment from 'moment';
 import I18n from 'i18n-js';
 import { getClickToCall, getBrand } from 'config';
@@ -163,7 +164,8 @@ class Personal extends PureComponent {
     const withCall = getClickToCall().isActive;
     const isPhoneHidden = getBrand().privatePhoneByDepartment.includes(department);
     const isSendEmailAvailable = (new Permissions(permissions, permissions.EMAIL_TEMPLATES.SEND_EMAIL))
-      .check(permission.permissions);
+      .check(permission.permissions)
+      && !!get(getBrand(), 'email.templatedEmails', false);
 
     return (
       <div className="account-details__personal-info">
