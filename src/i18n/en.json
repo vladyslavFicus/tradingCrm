@@ -2796,8 +2796,8 @@
     "MANUAL_COOLOFF": "Manual Cooloff"
   },
   "STATUSES_LABELS": {
-    "INACTIVE": "Email Not Verified",
-    "ACTIVE": "Email Verified",
+    "NOT_VERIFIED": "Email Not Verified",
+    "VERIFIED": "Email Verified",
     "BLOCKED": "Blocked"
   },
   "CALLBACKS": {

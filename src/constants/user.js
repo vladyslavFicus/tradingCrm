@@ -123,8 +123,8 @@ const filterLabels = {
 };
 
 const statuses = keyMirror({
-  INACTIVE: null,
-  ACTIVE: null,
+  NOT_VERIFIED: null,
+  VERIFIED: null,
   BLOCKED: null,
 });
 
@@ -156,8 +156,8 @@ const unblockReasons = {
 
 const statusesLabels = {
   [statuses.BLOCKED]: 'STATUSES_LABELS.BLOCKED',
-  [statuses.INACTIVE]: 'STATUSES_LABELS.INACTIVE',
-  [statuses.ACTIVE]: 'STATUSES_LABELS.ACTIVE',
+  [statuses.NOT_VERIFIED]: 'STATUSES_LABELS.NOT_VERIFIED',
+  [statuses.VERIFIED]: 'STATUSES_LABELS.VERIFIED',
 };
 
 const durationUnits = keyMirror({
@@ -169,7 +169,7 @@ const durationUnits = keyMirror({
 });
 
 const statusActions = {
-  [statuses.INACTIVE]: [
+  [statuses.NOT_VERIFIED]: [
     {
       action: actions.BLOCK,
       label: 'ACTIONS_LABELS.BLOCK',
@@ -177,7 +177,7 @@ const statusActions = {
       permission: permissions.USER_PROFILE.STATUS,
     },
   ],
-  [statuses.ACTIVE]: [
+  [statuses.VERIFIED]: [
     {
       action: actions.BLOCK,
       label: 'ACTIONS_LABELS.BLOCK',
@@ -196,8 +196,8 @@ const statusActions = {
 };
 
 const statusColorNames = {
-  [statuses.ACTIVE]: 'color-success',
-  [statuses.INACTIVE]: 'color-warning',
+  [statuses.VERIFIED]: 'color-success',
+  [statuses.NOT_VERIFIED]: 'color-warning',
   [statuses.BLOCKED]: 'color-danger',
 };
 

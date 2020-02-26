@@ -207,7 +207,7 @@ class Personal extends PureComponent {
             <PersonalInformationItem
               label={I18n.t('CLIENT_PROFILE.DETAILS.EMAIL')}
               value={email}
-              verified={profileStatus === userStatuses.ACTIVE}
+              verified={profileStatus === userStatuses.VERIFIED}
               onClickSelectEmail={this.triggerEmailSelectModal}
               withSendEmail={isSendEmailAvailable}
               className="Personal__contacts"
@@ -215,7 +215,7 @@ class Personal extends PureComponent {
             <PersonalInformationItem
               label={I18n.t('CLIENT_PROFILE.DETAILS.ALT_EMAIL')}
               value={additionalEmail}
-              verified={profileStatus === userStatuses.ACTIVE}
+              verified={profileStatus === userStatuses.VERIFIED}
               className="Personal__contacts"
             />
             {/* uncomment rows after email history will be rdy */}
