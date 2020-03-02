@@ -772,9 +772,9 @@
       "DRIVING_LICENSE": "Driving license",
       "UTILITY_BILL": "Utility bill",
       "BANK_STATEMENT": "Bank statement",
-      "RENT_AGREEMENT": "Rent agreement",
+      "RENT_AGREEMENT": "Rental Agreement",
       "EMPLOYER_LETTER": "Employer letter",
-      "INSURANCE_AGREEMENT": "Insurance agreement",
+      "INSURANCE_AGREEMENT": "Health or Life Insurance statement/certificate",
       "CREDIT_OR_DEBIT_CARD": "Credit or debit card",
       "OTHER": "Other"
     },
@@ -875,9 +875,9 @@
       "DRIVING_LICENSE": "Driving license",
       "EMPLOYER_LETTER": "Employer letter",
       "ID_CARD": "Id card",
-      "INSURANCE_AGREEMENT": "Insurance agreement",
+      "INSURANCE_AGREEMENT": "Health or Life Insurance statement/certificate",
       "PASSPORT": "Passport",
-      "RENT_AGREEMENT": "Rent agreement",
+      "RENT_AGREEMENT": "Rental Agreement",
       "TAX_BILL": "Tax bill",
       "UTILITY_BILL": "Utility bill",
       "OTHER": "Other"
