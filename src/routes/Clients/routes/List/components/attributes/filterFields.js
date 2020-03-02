@@ -7,6 +7,7 @@ import { statusesLabels, filterLabels } from 'constants/user';
 import { salesStatuses } from 'constants/salesStatuses';
 import { retentionStatuses } from 'constants/retentionStatuses';
 import { fsaStatuses, fsaStatusesLabels } from 'constants/fsaMigration';
+import { kycStatusesLabels } from 'constants/kycStatuses';
 import {
   fieldTypes,
   fieldClassNames,
@@ -35,57 +36,6 @@ const assignStatuses = [
   {
     value: 'UNASSIGNED',
     label: 'COMMON.UN_ASSIGN',
-  },
-];
-
-const kycStatuses = [
-  {
-    value: 'APPROVED',
-    label: 'KYC_REQUESTS.STATUS.APPROVED',
-  },
-  {
-    value: 'APPROVED_AWAITING_REVIEW',
-    label: 'KYC_REQUESTS.STATUS.APPROVED_AWAITING_REVIEW',
-  },
-  {
-    value: 'AWAITING_REVIEW',
-    label: 'KYC_REQUESTS.STATUS.AWAITING_REVIEW',
-  },
-  {
-    value: 'FLAGGED_NON_COMPLIANT',
-    label: 'KYC_REQUESTS.STATUS.FLAGGED_NON_COMPLIANT',
-  },
-  {
-    value: 'NO_KYC',
-    label: 'KYC_REQUESTS.STATUS.NO_KYC',
-  },
-  {
-    value: 'PARTIAL',
-    label: 'KYC_REQUESTS.STATUS.PARTIAL',
-  },
-  {
-    value: 'PARTIAL_KYC_CAN_TRADE',
-    label: 'KYC_REQUESTS.STATUS.PARTIAL_KYC_CAN_TRADE',
-  },
-  {
-    value: 'PENDING',
-    label: 'KYC_REQUESTS.STATUS.PENDING',
-  },
-  {
-    value: 'PRIOR_TO_REFUND',
-    label: 'KYC_REQUESTS.STATUS.PRIOR_TO_REFUND',
-  },
-  {
-    value: 'REFUNDED_NON_COMPLIANT',
-    label: 'KYC_REQUESTS.STATUS.REFUNDED_NON_COMPLIANT',
-  },
-  {
-    value: 'REJECTED',
-    label: 'KYC_REQUESTS.STATUS.REJECTED',
-  },
-  {
-    value: 'RISK',
-    label: 'KYC_REQUESTS.STATUS.RISK',
   },
 ];
 
@@ -315,7 +265,10 @@ export default (
     placeholder: 'COMMON.SELECT_OPTION.ANY',
     multiple: true,
     className: fieldClassNames.MEDIUM,
-    selectOptions: kycStatuses,
+    selectOptions: Object.keys(kycStatusesLabels).map(value => ({
+      value,
+      label: kycStatusesLabels[value],
+    })),
   },
   ...[
     getActiveBrandConfig().fsaRegulation && {
