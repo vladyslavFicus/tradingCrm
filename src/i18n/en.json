@@ -468,6 +468,7 @@
     "CLIENT": "Client",
     "OFFICE": "Office",
     "BRAND": "Brand",
+    "COMPANY": "Company",
     "SAVE_CHANGES": "Save changes",
     "STATUS": "Status",
     "RESET": "Reset",
