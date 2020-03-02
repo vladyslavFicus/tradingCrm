@@ -198,6 +198,7 @@ export default (
       label: filterLabels.affiliateType,
       placeholder: 'COMMON.SELECT_OPTION.ANY',
       className: fieldClassNames.MEDIUM,
+      multiple: true,
       selectOptions: Object.keys(affiliateTypeLabels).map(affiliateType => ({
         value: affiliateType,
         label: affiliateTypeLabels[affiliateType],
