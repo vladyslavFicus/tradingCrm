@@ -198,6 +198,7 @@ const updatePersonalInformationMutation = gql`mutation updatePersonalInformation
   $gender: String,
   $birthDate: String,
   $passport: PassportInput,
+  $identificationNumber: String,
 ) {
   profile {
     updatePersonalInformation(
@@ -208,6 +209,7 @@ const updatePersonalInformationMutation = gql`mutation updatePersonalInformation
       gender: $gender,
       birthDate: $birthDate,
       passport: $passport,
+      identificationNumber: $identificationNumber,
     ) {
       data {
         _id

@@ -25,6 +25,7 @@ const attributeLabels = () => ({
   language: I18n.t('PLAYER_PROFILE.PROFILE.PERSONAL.LABEL.LANGUAGE'),
   birthDate: I18n.t('PLAYER_PROFILE.PROFILE.PERSONAL.LABEL.DATE_OF_BIRTH'),
   gender: I18n.t('PLAYER_PROFILE.PROFILE.PERSONAL.LABEL.GENDER'),
+  identificationNumber: I18n.t('PLAYER_PROFILE.PROFILE.PERSONAL.LABEL.IDENTIFICATION_NUMBER'),
   passportNumber: I18n.t('PLAYER_PROFILE.PROFILE.PERSONAL.LABEL.PASSPORT_NUMBER'),
   expirationDate: I18n.t('PLAYER_PROFILE.PROFILE.PERSONAL.LABEL.PASSPORT_EXPARATION_DATE'),
   countryOfIssue: I18n.t('PLAYER_PROFILE.PROFILE.PERSONAL.LABEL.PASSPORT_ISSUE_COUNTRY'),
@@ -154,6 +155,14 @@ class PersonalForm extends Component {
               </option>
             ))}
           </Field>
+          <Field
+            name="identificationNumber"
+            label={attributeLabels().identificationNumber}
+            type="text"
+            component={InputField}
+            disabled={disabled}
+            className="col-lg-3"
+          />
         </div>
         <div className="row">
           <Field

@@ -224,6 +224,7 @@ class View extends Component {
             bankDetails,
             phoneVerified,
             emailVerified,
+            identificationNumber,
           },
         },
       },
@@ -244,6 +245,7 @@ class View extends Component {
                       birthDate,
                       gender,
                       languageCode,
+                      identificationNumber,
                     }}
                     onSubmit={this.handleUpdatePersonalInformation}
                     disabled={!canUpdatePersonalInformation}

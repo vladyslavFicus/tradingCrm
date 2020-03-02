@@ -102,6 +102,7 @@
           "LANGUAGE": "Language",
           "DATE_OF_BIRTH": "Date of birth",
           "GENDER": "Gender",
+          "IDENTIFICATION_NUMBER": "Identification Number",
           "IDENTIFIER": "ID Number",
           "PASSPORT_NUMBER": "Passport/ID number",
           "PASSPORT_EXPARATION_DATE": "Passport/ID expiration date",
