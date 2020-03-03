@@ -73,6 +73,7 @@ const brands = keyMirror({
   primotrade: null,
   solidinvesting: null,
   finlay: null,
+  'bsb-global': null,
 });
 
 const departments = keyMirror({
@@ -383,6 +384,10 @@ const brandsConfig = {
   [brands.finlay]: {
     name: 'Finlay',
     image: { src: '/img/brand/choose-brand/finlay.svg' },
+  },
+  [brands['bsb-global']]: {
+    name: 'bsb-global',
+    image: { src: '/img/brand/choose-brand/bsb-global.svg' },
   },
 };
 const departmentsConfig = {
