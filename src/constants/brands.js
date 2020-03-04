@@ -74,6 +74,7 @@ const brands = keyMirror({
   solidinvesting: null,
   finlay: null,
   'bsb-global': null,
+  fxrevolution: null,
 });
 
 const departments = keyMirror({
@@ -388,6 +389,10 @@ const brandsConfig = {
   [brands['bsb-global']]: {
     name: 'bsb-global',
     image: { src: '/img/brand/choose-brand/bsb-global.svg' },
+  },
+  [brands.fxrevolution]: {
+    name: 'Fxrevolution',
+    image: { src: '/img/brand/choose-brand/fxrevolution.svg' },
   },
 };
 const departmentsConfig = {
