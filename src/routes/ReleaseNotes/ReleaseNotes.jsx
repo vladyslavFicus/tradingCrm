@@ -1,11 +1,327 @@
 /* eslint-disable */
 import React, { Fragment } from 'react';
 import { startCase } from 'lodash';
-import { getBackofficeBrand } from 'config';
+import { getActiveBrandConfig, getBackofficeBrand } from '../../config';
 
 const ReleaseNotes = () => (
   <Fragment>
-    <h1>{startCase(getBackofficeBrand().id)} CRM<br />Release notes</h1>
+    <h1>{startCase(getBackofficeBrand().id)} CRM<br/>Release notes</h1>
+
+    <h1 id="26/Feb/20---Version-33">26/Feb/20 - Version 33</h1>
+    <h2 id="What-has-been-done">What has been done</h2>
+    <ul className="ak-ul">
+      <If condition={getActiveBrandConfig().regulation.isActive}>
+        <li>
+          <p>Social Trading integration for EverFX Int Client Portal</p>
+        </li>
+        <li>
+          <p>Inactivity fee </p>
+        </li>
+        <li>
+          <p>CIMA to FSA Migration</p>
+        </li>
+        <li>
+          <p>Automated creation of the MT4 Trading Account</p>
+        </li>
+      </If>
+      <li>
+        <p>New (updated) Partners (Affiliates) creation flow</p>
+      </li>
+      <If condition={getActiveBrandConfig().regulation.isActive}>
+        <li>
+          <p>Automated email sending once the MT4 Trading Account has been created</p>
+        </li>
+        <li>
+          <p>Hiding of &lsquo;Hierarchy&rsquo; and &lsquo;Management&rsquo; items in the EverFX Int Backoffice</p>
+        </li>
+        <li>
+          <p>Enabling of &lsquo;PAMM&rsquo;, &lsquo;Trading Central&rsquo; and &lsquo;Social Trading&rsquo; features for
+            the EverFX Int Client Portal</p>
+        </li>
+      </If>
+      <li>
+        <p>BCC generation to the brand support on templated email sending event</p>
+      </li>
+      <If condition={getActiveBrandConfig().regulation.isActive}>
+        <li>
+          <p>Adding of GTM Support to the EverFX Int Client Portal</p>
+        </li>
+        <li>
+          <p>Integration of the BiGWPay payment system to the EverFX Int Client Portal</p>
+        </li>
+        <li>
+          <p>Disable of &lsquo;Social Trading&rsquo; feature for those Client&rsquo;s whose KYC Status is
+            not &lsquo;APPROVED&rsquo;</p>
+        </li>
+      </If>
+    </ul>
+    <div className="heading-anchor-wrapper">&nbsp;</div>
+    <h2 id="Bugs-and-Fixes">Bugs and Fixes</h2>
+    <ul className="ak-ul">
+      <li>
+        <p>Disable of the &lsquo;Confirm&rsquo; button in Credit out transaction modal in the Backoffice if the credit
+          funds are insufficient</p>
+      </li>
+      <li>
+        <p>Disable of &lsquo;Reset password&rsquo; function for Partners (Affiliates)</p>
+      </li>
+      <If condition={getActiveBrandConfig().regulation.isActive}>
+        <li>
+          <p>Fix of selecting the Trading Activity details depending on the Trading Account type ('LIVE'/'DEMO')</p>
+        </li>
+      </If>
+    </ul>
+    <div className="heading-anchor-wrapper">&nbsp;</div>
+    <h1 id="13/Feb/20---Version-32">13/Feb/20 - Version 32</h1>
+    <div className="heading-anchor-wrapper">&nbsp;</div>
+    <h2 id="What-has-been-done.1">What has been done</h2>
+    <ul className="ak-ul">
+      <If condition={getActiveBrandConfig().regulation.isActive}>
+        <li>
+          <p>Close permissions to edit in Management and Hierarchy tabs ONLY for EverFX Global</p>
+        </li>
+        <li>
+          <p>Templated emails functionality</p>
+        </li>
+        <li>
+          <p>Block the SignUp function for multiple EverFX brands</p>
+        </li>
+      </If>
+      <li>
+        <p>Disable specific fields in the "Personal Info" subitem</p>
+      </li>
+    </ul>
+    <div className="heading-anchor-wrapper">&nbsp;</div>
+    <h3 id="Bugs-and-Fixes.1">Bugs and Fixes</h3>
+    <ul className="ak-ul">
+      <li>
+        <p>&nbsp;Fix support service for mt4 account archiving</p>
+      </li>
+    </ul>
+
+    <div className="heading-anchor-wrapper">&nbsp;</div>
+    <h1 id="05/Feb/20---Version-31">05/Feb/20 - Version 31</h1>
+    <div className="heading-anchor-wrapper">&nbsp;</div>
+    <h2 id="What-has-been-done.2">What has been done</h2>
+    <ul className="ak-ul">
+      <li>
+        <p>Hide Subject and Body field names from pinned notes area on profile</p>
+      </li>
+      <If condition={getActiveBrandConfig().regulation.isActive}>
+        <li>
+          <p>Disable "Address Verification" category call to ShuftiPro and modify request.</p>
+        </li>
+      </If>
+      <li>
+        <p>"Total deposit"/"Total withdrawal"/"Net deposit" parameters values</p>
+      </li>
+      <If condition={getActiveBrandConfig().regulation.isActive}>
+        <li>
+          <p>Send automatically the email when Questionnaire score is low</p>
+        </li>
+        <li>
+          <p>CIMA to FSA Migration Proposal</p>
+        </li>
+      </If>
+    </ul>
+    <div className="heading-anchor-wrapper">&nbsp;</div>
+    <h2 id="Bugs-and-Fixes.2">Bugs and Fixes</h2>
+    <ul className="ak-ul">
+      <li>
+        <p>Show correct error message when Client try to upload file in the wrong format</p>
+      </li>
+      <li>
+        <p>Fix an error that breaks Profile page when clicking on different Profile tabs</p>
+      </li>
+    </ul>
+    <div className="heading-anchor-wrapper">&nbsp;</div>
+    <h1 id="31/Jan/20---Version-30">31/Jan/20 - Version 30</h1>
+    <div className="heading-anchor-wrapper">&nbsp;</div>
+    <h2 id="What-has-been-done.3">What has been done</h2>
+    <ul className="ak-ul">
+      <li>
+        <p>Add ability to copy Trade ID in trade update modal</p>
+      </li>
+      <li>
+        <p>Fix permission for operators</p>
+      </li>
+      <li>
+        <p>Affiliate flow refactoring</p>
+      </li>
+      <li>
+        <p>Forbid to move files uploaded by a Client on FE</p>
+      </li>
+      <li>
+        <p>Extend max length for affiliate source field for profile service</p>
+      </li>
+      <If condition={getActiveBrandConfig().regulation.isActive}>
+        <li>
+          <p>Add trigger to send an email after PAMM Investor account creation</p>
+        </li>
+      </If>
+      <li>
+        <p>Build new MiniProfile component</p>
+      </li>
+      <li>
+        <p>Filter "FTD date range" to Clients search</p>
+      </li>
+      <If condition={getActiveBrandConfig().regulation.isActive}>
+        <li>
+          <p>Risk Calculator</p>
+        </li>
+      </If>
+      <li>
+        <p>Add "Other" category to the "Files" tab in the Backoffice FE Application</p>
+      </li>
+      <li>
+        <p>"First date note" filter</p>
+      </li>
+      <li>
+        <p>New filters ("Desks"/"Teams"/"FTD") to the Payments page</p>
+      </li>
+    </ul>
+    <div className="heading-anchor-wrapper">&nbsp;</div>
+    <h2 id="Bugs-and-Fixes.3">Bugs and Fixes</h2>
+    <ul className="ak-ul">
+      <li>
+        <p>Wrong modificationTime update logic for payments</p>
+      </li>
+      <li>
+        <p>Fix of the Payments page filters - when country was specified in lower case payment wasn&rsquo;t displayed on
+          grid.</p>
+      </li>
+      <li>
+        <p>Fix of the Client&rsquo;s page - "Verified" icon appears for alternative phone in Personal information
+          section</p>
+      </li>
+      <li>
+        <p>Operator with role CS Role4 `has been granted permission on BO delete note</p>
+      </li>
+      <li>
+        <p>KYC Documents Fix. Filter doesnt work after Other &rarr; Other category choose</p>
+      </li>
+      <li>
+        <p>Operator shall not be allowed to upload file in wrong format but in correct file extension</p>
+      </li>
+      <li>
+        <p>Problem with multi assign and update sales status</p>
+      </li>
+      <li>
+        <p>Fix the dashboard in BO, Latest 10 Deposits/Withdrawals/Registrations</p>
+      </li>
+      <li>
+        <p>FIle Upload button has been disabled if file verification status is APPROVED</p>
+      </li>
+      <li>
+        <p>Profile notes menu has been placed under the dropdown instead of note&rsquo;s footer.</p>
+      </li>
+      <li>
+        <p>Operators who have no permissions to change KYC status were banned from doing so.</p>
+      </li>
+    </ul>
+
+    <div className="heading-anchor-wrapper">&nbsp;</div>
+    <h1 id="22/Dec/19---Version-29">22/Dec/19 - Version 29</h1>
+    <div className="heading-anchor-wrapper">&nbsp;</div>
+    <h2 id="What-has-been-done.4">What has been done</h2>
+    <ul className="ak-ul">
+      <If condition={getActiveBrandConfig().regulation.isActive}>
+        <li>
+          <p>Demo trading account implementation</p>
+        </li>
+      </If>
+      <li>
+        <p>Save filters for Operators</p>
+      </li>
+      <li>
+        <p>Allow clients to cancel withdrawal requests in CP</p>
+      </li>
+      <li>
+        <p>Change Original agent of specific transaction</p>
+      </li>
+      <li>
+        <p>Documents section in Backoffice</p>
+      </li>
+      <If condition={getActiveBrandConfig().regulation.isActive}>
+        <li>
+          <p>GDPR Cookies and SPAM links</p>
+        </li>
+        <li>
+          <p>Allow clients to request leverage change on CP</p>
+        </li>
+      </If>
+      <li>
+        <p>Send an email notification to the Client and Backoffice operators when a Client creates the Withdrawal
+          request</p>
+      </li>
+      <If condition={getActiveBrandConfig().regulation.isActive}>
+        <li>
+          <p>Client has been allowed to create DEMO Trading Account if Questionnaire has not been filled</p>
+        </li>
+        <li>
+          <p>Automated Emails - Deposit/Withdrawal Completion/Failure notifications</p>
+        </li>
+        <li>
+          <p>Automated Emails 3 - KYC Document Upload</p>
+        </li>
+        <li>
+          <p>Automated Email 6 - Trigger Email - Clients above 10K</p>
+        </li>
+      </If>
+      <li>
+        <p>Display notification before documents deleting.</p>
+      </li>
+      <li>
+        <p>Send client's phone and gender in deposit request to NasPay</p>
+      </li>
+      <li>
+        <p>Email notifications functionality has been implemented for the Clients and Backoffice operators for the
+          following event: Client changes MT4 Trading account password</p>
+      </li>
+      <li>
+        <p>Function for Operator to change the MT4 trading account password without restrictions</p>
+      </li>
+      <li>
+        <p>Add MT4 comment for Transfer transactions</p>
+      </li>
+    </ul>
+    <div className="heading-anchor-wrapper">&nbsp;</div>
+    <h2 id="Bugs-and-Fixes.4">Bugs and Fixes</h2>
+    <ul className="ak-ul">
+      <li>
+        <p>Message if a Client has requested to transfer more funds that he has on his Trading Account</p>
+      </li>
+      <li>
+        <p>Fix of internal transfer</p>
+      </li>
+      <li>
+        <p>Fix of the KYC documents upload from CP</p>
+      </li>
+      <li>
+        <p>Displaying transaction date/ time / operator</p>
+      </li>
+      <li>
+        <p>Payment status update after transaction completion</p>
+      </li>
+      <li>
+        <p>Fix of the &lsquo;Save changes&rsquo; button (when changes have been applied)</p>
+      </li>
+      <li>
+        <p>More Live trading accounts creation has been allowed</p>
+      </li>
+      <li>
+        <p>Operator has been givena function to change the Client's password</p>
+      </li>
+      <If condition={getActiveBrandConfig().regulation.isActive}>
+        <li>
+          <p>Increase of the number of characters to comment column (Service-trading_activity,table-trade_record)</p>
+        </li>
+      </If>
+      <li>
+        <p>Fix of the last trade date filter</p>
+      </li>
+    </ul>
+
     <h1 id="18/Sep/19---Version-28">18/Sep/19 - Version 28</h1>
     <h2 id="What-has-been-done">What has been done</h2>
     <ul className="ak-ul">
@@ -192,7 +508,8 @@ const ReleaseNotes = () => (
         <p>Removed currency on client portal signup</p>
       </li>
       <li>
-        <p>Date, time and operator who have made status update of the transaction is being stored and displayed in Backoffice</p>
+        <p>Date, time and operator who have made status update of the transaction is being stored and displayed in
+          Backoffice</p>
       </li>
     </ul>
     <h2>Bugs &amp; Fixes</h2>
@@ -223,7 +540,8 @@ const ReleaseNotes = () => (
         <p>Script created for automatic creation of daily - clients reports</p>
       </li>
       <li>
-        <p>Link added "new trading account" on deposit page of client portal in case if client does not have trading accounts</p>
+        <p>Link added "new trading account" on deposit page of client portal in case if client does not have trading
+          accounts</p>
       </li>
       <li>
         <p>FATCA form provided toggle in clients profile added</p>
@@ -331,7 +649,8 @@ const ReleaseNotes = () => (
         <p>Applications &amp; Webtrader buttons on client portal redesigned</p>
       </li>
       <li>
-        <p>Leads will be assigned to a current operator if a non-existing operator was specified in the uploaded CSV file</p>
+        <p>Leads will be assigned to a current operator if a non-existing operator was specified in the uploaded CSV
+          file</p>
       </li>
       <li>
         <p>Terms &amp; Condition link on Client portal signup page added</p>
@@ -355,7 +674,7 @@ const ReleaseNotes = () => (
         <p>Email validation on the Signin page fixed</p>
       </li>
     </ul>
-    <hr />
+    <hr/>
     <h1>09/Apr/19 - Version 18</h1>
     <h2>What has been done</h2>
     <ul>
@@ -369,12 +688,14 @@ const ReleaseNotes = () => (
         <p>Migrated clients' password recovery flow has been implemented</p>
         <ul>
           <li>
-            <p>Client who tries to login to client portal with his old password is asked to reset it for security reasons</p>
+            <p>Client who tries to login to client portal with his old password is asked to reset it for security
+              reasons</p>
           </li>
         </ul>
       </li>
       <li>
-        <p>Client search - Operators in status "inactive" and "closed" are highlighted with gray color in drop-down list on "Operator" filter</p>
+        <p>Client search - Operators in status "inactive" and "closed" are highlighted with gray color in drop-down list
+          on "Operator" filter</p>
       </li>
       <li>
         <p>Operators in status "inactive" and "closed" are hidden in assignment popup</p>
@@ -404,7 +725,7 @@ const ReleaseNotes = () => (
         <p>Client's personal info update fixed</p>
       </li>
     </ul>
-    <hr />
+    <hr/>
     <h1>2/Apr/19 - Version 17</h1>
     <h2>What has been done</h2>
     <ul>
@@ -433,7 +754,7 @@ const ReleaseNotes = () => (
         <p>Fixed - Payment doesn&rsquo;t have original agent</p>
       </li>
     </ul>
-    <hr />
+    <hr/>
     <h1>19/Mar/19 - Version 16</h1>
     <h2>What has been done</h2>
     <ul>
@@ -474,7 +795,8 @@ const ReleaseNotes = () => (
         <p>Operator profile visibility is fixed</p>
       </li>
       <li>
-        <p>Default operator will be removed or reassigned from hierarchy branch if this operator was removed from hierarchy branch</p>
+        <p>Default operator will be removed or reassigned from hierarchy branch if this operator was removed from
+          hierarchy branch</p>
       </li>
       <li>
         <p>Operators with the same email can't be created on the same environment</p>
@@ -492,7 +814,7 @@ const ReleaseNotes = () => (
         <p>Fix on affiliate detail information</p>
       </li>
     </ul>
-    <hr />
+    <hr/>
     <h1>12/Mar/19 - Version 15</h1>
     <h2>What has been done</h2>
     <ul>
@@ -518,7 +840,7 @@ const ReleaseNotes = () => (
         <p>Clients search by email improved</p>
       </li>
     </ul>
-    <hr />
+    <hr/>
     <h1>05/Mar/19 - Version 14</h1>
     <h2>What has been done</h2>
     <ul>
@@ -544,7 +866,7 @@ const ReleaseNotes = () => (
         <p>Problem with feed search by action types if solved</p>
       </li>
     </ul>
-    <hr />
+    <hr/>
     <h1>26/Feb/19 - Version 13</h1>
     <h2>What has been done</h2>
     <ul>
@@ -566,7 +888,8 @@ const ReleaseNotes = () => (
         </ul>
       </li>
       <li>
-        <p>Clients and Operators who has been blocked by "too many attempts" can now be unblocked in corresponding profile</p>
+        <p>Clients and Operators who has been blocked by "too many attempts" can now be unblocked in corresponding
+          profile</p>
       </li>
       <li>
         <p>Simple passwords are allowed for clients</p>
@@ -583,7 +906,8 @@ const ReleaseNotes = () => (
         <p>Client search - Search by email was improved</p>
       </li>
       <li>
-        <p>Clients are being redirected to finance page of the Client portal after autologin (For registrations via affiliate API)</p>
+        <p>Clients are being redirected to finance page of the Client portal after autologin (For registrations via
+          affiliate API)</p>
       </li>
       <li>
         <p>Sales and Retention agents are not allowed to make manual transaction</p>
@@ -628,7 +952,7 @@ const ReleaseNotes = () => (
         <p>Office creation is fixed</p>
       </li>
     </ul>
-    <hr />
+    <hr/>
     <h1>19/Feb/19 - Version 12</h1>
     <h2>What has been done</h2>
     <ul>
@@ -645,7 +969,7 @@ const ReleaseNotes = () => (
         <p>Password generator improved</p>
       </li>
     </ul>
-    <hr />
+    <hr/>
     <h1>12/Feb/19 - Version 11</h1>
     <h2>What has been done</h2>
     <ul>
@@ -662,10 +986,12 @@ const ReleaseNotes = () => (
         <p>Clients search - Limit filter allow to limit an amount of found clients</p>
       </li>
       <li>
-        <p>On client creation rules will be ignored if lead with the same email has assigned sales agent, so that client will get the same sales agent assigned</p>
+        <p>On client creation rules will be ignored if lead with the same email has assigned sales agent, so that client
+          will get the same sales agent assigned</p>
       </li>
       <li>
-        <p>Affiliate API - Allows to register clients via API, get clients of the affiliate and get client's details by email or UUID</p>
+        <p>Affiliate API - Allows to register clients via API, get clients of the affiliate and get client's details by
+          email or UUID</p>
       </li>
       <li>
         <p>Affiliate API - Autologin link will be sent in response to successful client signup via API</p>
@@ -683,7 +1009,8 @@ const ReleaseNotes = () => (
         <p>Hierarchy - Operators' assigned Brands / Desks / Teams can be reviewed and changed in operators profile</p>
       </li>
       <li>
-        <p>Temporary solution on Multi-Currency - client can choose currency on sign up, but can have MT4 trading accounts in his profiles currency only.</p>
+        <p>Temporary solution on Multi-Currency - client can choose currency on sign up, but can have MT4 trading
+          accounts in his profiles currency only.</p>
       </li>
       <li>
         <p>The ability to have a MT4 accounts in different currencies by creating multiple client profiles</p>
@@ -710,7 +1037,8 @@ const ReleaseNotes = () => (
         <p>Client Portal - Russian, Chinise, Italian, Arabic, German and Spanish languages has been added</p>
       </li>
       <li>
-        <p>"Backoffice has been updated" and "Client portal has been updated" popups has been added to prevent users of using old version of application.</p>
+        <p>"Backoffice has been updated" and "Client portal has been updated" popups has been added to prevent users of
+          using old version of application.</p>
       </li>
       <li>
         <p>Payments - Payment method filter got multiselect option</p>
@@ -740,7 +1068,7 @@ const ReleaseNotes = () => (
         <p>Client portal - Deposit flow has been simplified. Client does not have to select payment method.</p>
       </li>
     </ul>
-    <hr />
+    <hr/>
     <h1>05/Feb/19 - Version 10</h1>
     <h2>What has been done</h2>
     <ul>
@@ -760,12 +1088,13 @@ const ReleaseNotes = () => (
         <p>Hierarchy - Operators are being shown based on Hierarchy</p>
       </li>
     </ul>
-    <hr />
+    <hr/>
     <h1>29/Jan/19 - Version 9</h1>
     <h2>What has been done</h2>
     <ul>
       <li>
-        <p>Emails will convert to lowercase on search and email change. Old emails on production are migrated to lowercase.</p>
+        <p>Emails will convert to lowercase on search and email change. Old emails on production are migrated to
+          lowercase.</p>
       </li>
       <li>
         <p>Retention manager is able to change retention status in clients grid and profile</p>
@@ -777,7 +1106,7 @@ const ReleaseNotes = () => (
         <p>Leads - Sales status filter fixed</p>
       </li>
     </ul>
-    <hr />
+    <hr/>
     <h1>22/Jan/19 - Version 8</h1>
     <h2>What has been done</h2>
     <ul>
@@ -827,7 +1156,7 @@ const ReleaseNotes = () => (
         <p>Error messages are improved on leads CSV file uploads</p>
       </li>
     </ul>
-    <hr />
+    <hr/>
     <h1>15/Jan/19 - Version 7</h1>
     <h2>What has been done</h2>
     <ul>
@@ -898,7 +1227,7 @@ const ReleaseNotes = () => (
         <p>Leads - Promotion of lead to client is fixed</p>
       </li>
     </ul>
-    <hr />
+    <hr/>
     <h1>08/Jan/19 - Version 6</h1>
     <h2>What has been done</h2>
     <ul>
@@ -912,7 +1241,7 @@ const ReleaseNotes = () => (
         <p>Payments - Deposit has been fixed</p>
       </li>
     </ul>
-    <hr />
+    <hr/>
     <h1>01/Jan/19 - Version 5</h1>
     <h2>What has been done</h2>
     <ul>
@@ -950,7 +1279,7 @@ const ReleaseNotes = () => (
         <p>Payments - Manual transactions can now be filtered</p>
       </li>
     </ul>
-    <hr />
+    <hr/>
     <h1>25/Dec/18 - Version 4</h1>
     <h2>What has been done</h2>
     <ul>
@@ -985,7 +1314,7 @@ const ReleaseNotes = () => (
         <p>Credit out validation has been fixed</p>
       </li>
     </ul>
-    <hr />
+    <hr/>
     <h1>18/Dec/18 - Version 3</h1>
     <h2>What has been done</h2>
     <ul>
@@ -1029,7 +1358,7 @@ const ReleaseNotes = () => (
         <p>Client search - Filter Assigned/Unassigned has been improvement</p>
       </li>
     </ul>
-    <hr />
+    <hr/>
     <h1>11/Dec/18 - Version 2</h1>
     <h2>What has been done</h2>
     <ul>
@@ -1043,7 +1372,7 @@ const ReleaseNotes = () => (
         <p>You can filter clients by choosing Assigned or Unassigned to an agent</p>
       </li>
     </ul>
-    <hr />
+    <hr/>
     <h1>04/Dec/18 - Version 1</h1>
     <h2>What has been done</h2>
     <ul>
@@ -1072,7 +1401,7 @@ const ReleaseNotes = () => (
         <p>Bugs on Hierarchy has been fixed</p>
       </li>
     </ul>
-    <hr />
+    <hr/>
     <h1>Release notes - Version Alpha MVP</h1>
     <h2>What has been done</h2>
     <ul>

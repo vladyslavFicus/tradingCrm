@@ -73,6 +73,7 @@ const brands = keyMirror({
   primotrade: null,
   solidinvesting: null,
   finlay: null,
+  thecapitalstocks: null,
   'bsb-global': null,
   fxrevolution: null,
 });
@@ -385,6 +386,10 @@ const brandsConfig = {
   [brands.finlay]: {
     name: 'Finlay',
     image: { src: '/img/brand/choose-brand/finlay.svg' },
+  },
+  [brands.thecapitalstocks]: {
+    name: 'Thecapitalstocks',
+    image: { src: '/img/brand/choose-brand/thecapitalstocks.svg' },
   },
   [brands['bsb-global']]: {
     name: 'bsb-global',
