@@ -1,0 +1,12 @@
+.GridRowCell {
+  color: #333;
+  padding: 12px;
+  vertical-align: top;
+}
+
+// # Modifiers
+.GridRowCell {
+  &--with-checkbox {
+    padding-left: 30px;
+  }
+}

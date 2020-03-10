@@ -28,7 +28,7 @@
     "react/jsx-no-undef": [2, { "allowGlobals": true }],
     "react/jsx-one-expression-per-line": 0,
     "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }],
-
+    
     // TODO: Remove when is https://github.com/babel/babel-eslint/issues/530 fixed
     "template-curly-spacing" : "off",
     "indent": ["error", 2, {
@@ -41,7 +41,6 @@
     "document": false,
     "fetch": false
   },
-
   "settings": {
     "import/resolver": {
       "node": {

@@ -6,7 +6,7 @@ import { get, omit } from 'lodash';
 import { TextRow } from 'react-placeholder/lib/placeholders';
 import PropTypes from 'constants/propTypes';
 import { deskTypes, userTypes } from 'constants/hierarchyTypes';
-import GridView, { GridViewColumn } from 'components/GridView';
+import Grid, { GridColumn } from 'components/Grid';
 import Placeholder from 'components/Placeholder';
 import { salesStatuses, salesStatusesColor } from 'constants/salesStatuses';
 import { UncontrolledTooltip } from 'components/Reactstrap/Uncontrolled';
@@ -129,16 +129,17 @@ class List extends Component {
     window.open(`/leads/${uuid}`, '_blank');
   };
 
-  handleSelectRow = (condition, index, touchedRowsIds) => {
-    const { leads: { leads: { data: { content } } } } = this.props;
-
+  handleSelectRow = (isAllRowsSelected, rowIndex, touchedRowsIds) => {
     this.setState((state) => {
       const selectedRows = [...state.selectedRows];
 
-      if (condition) {
-        selectedRows.push(content[index].uuid);
+      if (isAllRowsSelected) {
+        selectedRows.push(rowIndex);
       } else {
-        selectedRows.splice(index, 1);
+        const unselectedRowIndex = selectedRows.findIndex(
+          item => item === rowIndex,
+        );
+        selectedRows.splice(unselectedRowIndex, 1);
       }
 
       return {
@@ -163,12 +164,10 @@ class List extends Component {
 
     // Check if selected all rows and total elements more than max available elements to execute action
     if (!allRowsSelected && totalElements > MAX_SELECTED_ROWS) {
-      const max = selectedRows.length.toLocaleString('en');
-
       confirmationModal.show({
         onSubmit: confirmationModal.hide,
-        modalTitle: `${max} ${I18n.t('LEADS.LEADS_SELECTED')}`,
-        actionText: I18n.t('COMMON.NOT_MORE_CAN_SELECTED', { max }),
+        modalTitle: `${selectedRows.lenght} ${I18n.t('LEADS.LEADS_SELECTED')}`,
+        actionText: I18n.t('COMMON.NOT_MORE_CAN_SELECTED', { max: MAX_SELECTED_ROWS }),
         submitButtonLabel: I18n.t('COMMON.OK'),
       });
     }
@@ -439,54 +438,65 @@ class List extends Component {
           setDesksTeamsOperators={this.setDesksTeamsOperators}
           isFetchingProfileData={loading}
         />
+
         <div className="card-body card-grid-multiselect">
-          <GridView
-            tableClassName="table-hovered"
-            dataSource={entities.content}
-            onPageChange={this.handlePageChanged}
-            activePage={entities.page}
-            last={entities.last}
-            lazyLoad
-            loading={loading && entities.content.length === 0}
-            multiselect
+          <Grid
+            data={entities.content} // <- dataSource
             allRowsSelected={allRowsSelected}
             touchedRowsIds={touchedRowsIds}
-            onAllRowsSelect={this.handleAllRowsSelect}
-            onRowSelect={this.handleSelectRow}
-            showNoResults={entities.content.length === 0}
-            onRowClick={this.handleLeadClick}
+            // handleSort={sortData => console.log(sortData)} // your sorting handle function here
+            handleRowClick={this.handleLeadClick} // <- onRowClick
+            handleSelectRow={this.handleSelectRow} // <- onRowSelect
+            handleAllRowsSelect={this.handleAllRowsSelect} // <- onAllRowsSelect
+            handlePageChanged={this.handlePageChanged} // <- onPageChange
+            isLoading={loading && entities.content.length === 0} // <- loading
+            isLastPage={entities.last} // <- last
+            withMultiSelect // <- multiselect
+            withRowsHover // <- className="table-hovered"
+            withLazyLoad // <- lazyLoad
+            withNoResults={entities.content.length === 0} // <- showNoResults
+            // Example (will be removed later)
+            // rowsClassNames={
+            //   rowData => classNames({
+            //     'Block__row--green': rowData.status === 'CONVERTED',
+            //     'Block__row--blue': rowData.status === 'NEW',
+            //   })
+            // }
+            // or
+            // rowsClassNames="Block__row--green"
           >
-            <GridViewColumn
+            <GridColumn
               name="lead"
+              // sortBy="lead"
               header={I18n.t('LEADS.GRID_HEADER.LEAD')}
               render={this.renderLead}
             />
-            <GridViewColumn
+            <GridColumn
               name="country"
               header={I18n.t('LEADS.GRID_HEADER.COUNTRY')}
               render={this.renderCountry}
             />
-            <GridViewColumn
+            <GridColumn
               name="sales"
               header={I18n.t('LEADS.GRID_HEADER.SALES')}
               render={this.renderSales}
             />
-            <GridViewColumn
+            <GridColumn
               name="registrationDate"
               header={I18n.t('LEADS.GRID_HEADER.REGISTRATION')}
               render={this.renderRegistrationDate}
             />
-            <GridViewColumn
+            <GridColumn
               name="lastNote"
               header={I18n.t('LEADS.GRID_HEADER.LAST_NOTE')}
               render={this.renderLastNote}
             />
-            <GridViewColumn
+            <GridColumn
               name="status"
               header={I18n.t('LEADS.GRID_HEADER.STATUS')}
               render={this.renderStatus}
             />
-          </GridView>
+          </Grid>
         </div>
       </div>
     );

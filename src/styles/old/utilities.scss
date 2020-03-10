@@ -88,6 +88,7 @@ small {
   background-color: rgba(242, 242, 242, 1) !important;
 }
 
+// # TODO: Remove after GridView component will be removed
 .data-grid-layout {
   thead th {
     font-size: 12px;
@@ -114,6 +115,7 @@ small {
   a {
     color: #000;
   }
+
   &__big-column {
     width: 30%;
   }
@@ -152,6 +154,7 @@ small {
   border-right: 1px solid rgba(0, 0, 0, 0.1);
 }
 
+// # TODO: Remove after GridView component will be removed
 .table-hovered tbody tr:hover {
   background-color: #fcfcfc;
   cursor: pointer;
@@ -208,6 +211,7 @@ table {
   }
 }
 
+// # TODO: Remove after GridView component will be removed
 .grid-select-checkbox {
   position: absolute;
   cursor: pointer;

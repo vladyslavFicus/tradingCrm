@@ -1,0 +1,83 @@
+.GridCheckbox {
+  background-color: white;
+  border-radius: 3px;
+  border: 1px solid #ccc;
+  cursor: pointer;
+  transition: border-color 0.1s ease;
+  position: absolute;
+  left: -13px;
+  height: 25px;
+  width: 25px;
+
+  &:not(.GridCheckbox--is-active) {
+    &:hover {
+      border-color: #9b9b9b;
+  
+      &:before,
+      &:after {
+        background-color: #9b9b9b;
+      }
+    }
+  }
+
+  &:before,
+  &:after {
+    content: '';
+    background-color: #ccc;
+    border-radius: 1px;
+    transition: background-color 0.1s ease, transform 0.1s ease;
+    position: absolute;
+    bottom: 5px;
+    width: 2px;
+  }
+
+  &:before {
+    transform: rotate(35deg);
+    height: 15px;
+    left: 12px;
+  }
+
+  &:after {
+    transform: rotate(-35deg);
+    height: 7px;
+    left: 6px;
+  }
+}
+
+// # Modifiers
+.GridCheckbox {
+  &--is-active {
+    border-color: #5287bd;
+
+    &:before,
+    &:after {
+      background-color: #5287bd;
+    }
+
+    &:hover {
+      border-color: #3f8edd;
+
+      &:before,
+      &:after {
+        background-color: #3f8edd;
+      }
+    }
+  }
+
+  &--without-check {
+    &:before {
+      transform: rotate(90deg) translateY(2px);
+    }
+
+    &:after {
+      background-color: transparent;
+      transform: rotate(90deg);
+    }
+
+    &:hover {
+      &:after {
+        background-color: transparent;
+      }
+    }
+  }
+}

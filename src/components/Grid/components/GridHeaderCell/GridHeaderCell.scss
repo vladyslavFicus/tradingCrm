@@ -1,0 +1,101 @@
+.GridHeaderCell {
+  padding: 12px;
+  
+  &__title {
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 1.4em;
+    text-transform: uppercase;
+    transition: color 0.2s ease;
+  }
+
+  &__content {
+    color: #666;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+
+    width: 100%;
+  }
+
+  &__sort {
+    position: relative;
+    margin-left: 10px;
+    flex-basis: 5px;
+    top: 3px;
+
+    & svg {
+      transition: transform 0.2s ease;
+      display: block;
+      height: 10px;
+      width: 5px;
+    }
+
+    & path {
+      fill: #cfcfcf;
+      transition: fill 0.2s ease;
+    }
+  }
+}
+
+// # Modifiers
+.GridHeaderCell {
+  &--with-multiselect {
+    padding-left: 30px;
+  }
+
+  &__content {
+    &--with-sorting {
+      cursor: pointer;
+
+      &:hover {
+        color: #333;
+  
+        & path {
+          fill: #333;
+        }
+      }
+    }
+
+    &--sorted-by-asc,
+    &--sorted-by-desc {
+      color: #0190DA;
+
+      & path {
+        fill: #0190DA;
+      }
+
+      &:hover {
+        color: #0190DA;
+
+        & path {
+          fill: #0190DA;
+        }
+      }
+    }
+
+    &--sorted-by-asc {
+      & svg {
+        transform: translateY(-3px);
+      }
+
+      & path {
+        &:first-child {
+          fill: transparent;
+        }
+      }
+    }
+
+    &--sorted-by-desc {
+      & svg {
+        transform: translateY(3px);
+      }
+
+      & path {
+        &:last-child {
+          fill: transparent;
+        }
+      }
+    }
+  }
+}

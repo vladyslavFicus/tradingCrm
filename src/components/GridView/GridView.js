@@ -57,6 +57,7 @@ class GridView extends Component {
     onRowSelect: null,
   };
 
+  // -> Don't use in Grid component
   state = {
     filters: this.props.defaultFilters || {},
   };
@@ -75,6 +76,7 @@ class GridView extends Component {
       || nextProps.last !== this.props.last;
   }
 
+  // -> Don't use in Grid component
   onFiltersChanged = () => {
     this.props.onFiltersChanged(this.state.filters);
   };
@@ -86,6 +88,7 @@ class GridView extends Component {
     },
   }), this.onFiltersChanged);
 
+  // -> will be implemented later in Grid component
   getRowClassName = (data) => {
     let className = this.props.rowClassName;
 
@@ -96,6 +99,7 @@ class GridView extends Component {
     return className;
   };
 
+  // -> Implemented into Grid component
   getRowState = (rowId) => {
     const {
       touchedRowsIds,
@@ -111,6 +115,7 @@ class GridView extends Component {
     return allRowsSelected ? isRowTouched === -1 : isRowTouched !== -1;
   };
 
+  // -> Don't use in Grid component
   recognizeHeaders = grids => grids.map((child) => {
     const gridColumn = getGridColumn(child);
 
@@ -131,6 +136,7 @@ class GridView extends Component {
     return config;
   });
 
+  // -> Don't use in Grid component
   recognizeFilters = grids => grids.map((child) => {
     const gridColumn = getGridColumn(child);
 
@@ -151,6 +157,7 @@ class GridView extends Component {
     return null;
   });
 
+  // -> Implemented into Grid component
   handleSelectRow = (e) => {
     e.stopPropagation();
 
@@ -169,6 +176,7 @@ class GridView extends Component {
     }
   };
 
+  // -> Implemented into Grid component
   handlePageChange = (eventKey) => {
     const {
       totalPages,
@@ -184,6 +192,7 @@ class GridView extends Component {
     }
   };
 
+  // -> Implemented into Grid component
   renderHead = columns => (
     <tr>
       {columns.map((item, key) => (
@@ -209,6 +218,7 @@ class GridView extends Component {
     </tr>
   );
 
+  // -> Don't use in Grid component
   renderFilters = columns => (
     <If condition={columns.some(column => !!column)}>
       <tr>
@@ -226,10 +236,12 @@ class GridView extends Component {
     </If>
   );
 
+  // -> Implemented into Grid component
   renderLoading = columns => (
     <GridViewLoader key="loading" className="infinite-preloader no-border-bottom" colSpan={columns.length} />
   );
 
+  // -> Implemented into Grid component
   renderBody = (columns) => {
     const {
       dataSource,
@@ -263,6 +275,7 @@ class GridView extends Component {
     return <tbody>{rows}</tbody>;
   };
 
+  // -> Implemented into Grid component
   renderRow = (key, columns, data) => {
     const { onRowClick } = this.props;
 
@@ -284,6 +297,7 @@ class GridView extends Component {
     );
   };
 
+  // -> Implemented into Grid component
   renderColumn(key, column, data) {
     const { multiselect } = this.props;
 
@@ -320,6 +334,7 @@ class GridView extends Component {
     );
   }
 
+  // -> Don't use in Grid component
   renderFooter(columns) {
     const { summaryRow } = this.props;
 
@@ -338,6 +353,7 @@ class GridView extends Component {
     );
   }
 
+  // -> Don't use in Grid component
   renderPagination() {
     const { activePage, totalPages } = this.props;
 
@@ -364,6 +380,7 @@ class GridView extends Component {
     );
   }
 
+  // -> Implemented into Grid component
   render() {
     const {
       tableClassName,
