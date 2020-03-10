@@ -2,28 +2,19 @@ import React, { Component } from 'react';
 import I18n from 'i18n-js';
 import { get } from 'lodash';
 import PropTypes from 'constants/propTypes';
-import GridView, { GridViewColumn } from 'components/GridView';
-import UserGridFilter from './UsersGridFilter';
+import ClientsGridFilter from './ClientsGridFilter';
+import ClientsGrid from './ClientsGrid';
 import ClientsGridHeader from './ClientsGridHeader';
-import { columns } from './attributes';
 
 const MAX_SELECTED_ROWS = 10000;
 
 class List extends Component {
   static propTypes = {
     ...PropTypes.router,
-    profiles: PropTypes.shape({
+    profiles: PropTypes.query({
       profiles: PropTypes.shape({
-        data: PropTypes.pageable(PropTypes.shape({
-          totalElements: PropTypes.number,
-          page: PropTypes.number,
-          last: PropTypes.bool,
-          content: PropTypes.profileView,
-        })),
+        data: PropTypes.pageable(PropTypes.profileView),
       }),
-      refetch: PropTypes.func.isRequired,
-      loadMore: PropTypes.func,
-      loading: PropTypes.bool.isRequired,
     }).isRequired,
     location: PropTypes.shape({
       query: PropTypes.shape({
@@ -55,19 +46,6 @@ class List extends Component {
     );
   };
 
-  handlePageChanged = () => {
-    const {
-      profiles: {
-        loadMore,
-        loading,
-      },
-    } = this.props;
-
-    if (!loading) {
-      loadMore();
-    }
-  };
-
   handleFiltersChanged = async (filters = {}) => {
     const {
       history,
@@ -86,10 +64,6 @@ class List extends Component {
     this.resetClientsGridInitialState(() => {
       this.props.history.replace({ query: null });
     });
-  };
-
-  handleClientClick = ({ uuid }) => {
-    window.open(`/clients/${uuid}/profile`, '_blank');
   };
 
   handleSelectRow = (isAllRowsSelected, rowIndex, touchedRowsIds) => {
@@ -179,12 +153,6 @@ class List extends Component {
       touchedRowsIds,
     } = this.state;
 
-    const {
-      content,
-      page: activePage,
-      last: isLastPage,
-    } = get(profiles, 'profiles.data') || { content: [] };
-
     const { searchLimit } = get(query, 'filters') || {};
 
     return (
@@ -198,7 +166,7 @@ class List extends Component {
           resetClientsGridInitialState={this.resetClientsGridInitialState}
         />
 
-        <UserGridFilter
+        <ClientsGridFilter
           isFetchingProfileData={loading}
           initialValues={filterSetValues}
           onReset={this.handleFilterReset}
@@ -206,31 +174,14 @@ class List extends Component {
         />
 
         <div className="card-body card-grid-multiselect">
-          <GridView
-            tableClassName="table-hovered"
-            dataSource={content}
-            onPageChange={this.handlePageChanged}
-            activePage={activePage}
-            last={isLastPage}
-            lazyLoad={!searchLimit || searchLimit !== content.length}
-            multiselect
-            allRowsSelected={allRowsSelected}
+          <ClientsGrid
+            profiles={profiles}
+            searchLimit={searchLimit}
             touchedRowsIds={touchedRowsIds}
+            allRowsSelected={allRowsSelected}
             onAllRowsSelect={this.handleAllRowsSelect}
             onRowSelect={this.handleSelectRow}
-            showNoResults={!loading && content.length === 0}
-            onRowClick={this.handleClientClick}
-            loading={loading && content.length === 0}
-          >
-            {columns().map(({ name, header, render }) => (
-              <GridViewColumn
-                key={name}
-                name={name}
-                header={header}
-                render={render}
-              />
-            ))}
-          </GridView>
+          />
         </div>
       </div>
     );

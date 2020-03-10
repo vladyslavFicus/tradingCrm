@@ -18,6 +18,7 @@ import formatLabel from 'utils/formatLabel';
 import renderLabel from 'utils/renderLabel';
 import countries from 'utils/countryList';
 import { accountTypes } from 'constants/accountTypes';
+import { warningValues, warningLabels } from 'constants/warnings';
 
 const filterLabels = {
   searchParam: 'CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.KEYWORD',
@@ -37,6 +38,7 @@ const filterLabels = {
   accountType: 'CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.ACCOUNT_TYPE',
   firstDeposit: 'PROFILE.LIST.FILTERS.FIRST_DEPOSIT',
   partners: 'PROFILE.LIST.FILTERS.AFFILIATES',
+  warning: 'CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.WARNING',
 };
 
 const filterPlaceholders = {
@@ -62,6 +64,7 @@ const filterPlaceholders = {
   statusChangedTimeTo: 'CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.END_DATE',
   accountType: 'COMMON.SELECT_OPTION.ANY',
   firstDeposit: 'COMMON.SELECT_OPTION.ANY',
+  warning: 'COMMON.SELECT_OPTION.ANY',
 };
 
 const firstDepositStatuses = [{
@@ -280,7 +283,8 @@ export default ({
     label: filterLabels.accountType,
     placeholder: filterPlaceholders.accountType,
     className: fieldClassNames.SMALL,
-    selectOptions: accountTypes.map(({ label, value }) => ({ value, label })),
+    selectOptions: accountTypes,
+    searchable: false,
   },
   {
     type: fieldTypes.SELECT,
@@ -288,8 +292,21 @@ export default ({
     label: filterLabels.firstDeposit,
     placeholder: filterPlaceholders.firstDeposit,
     className: fieldClassNames.SMALL,
-    selectOptions: firstDepositStatuses.map(({ value, label }) => ({ value, label })),
+    selectOptions: firstDepositStatuses,
+    searchable: false,
   },
+  !isClientView && ({
+    type: fieldTypes.SELECT,
+    name: 'warnings',
+    label: filterLabels.warning,
+    placeholder: 'COMMON.SELECT_OPTION.ANY',
+    className: fieldClassNames.MEDIUM,
+    selectOptions: Object.keys(warningValues).map(value => ({
+      value,
+      label: warningLabels[value],
+    })),
+    searchable: false,
+  }),
   {
     type: fieldTypes.RANGE,
     className: fieldClassNames.MEDIUM,

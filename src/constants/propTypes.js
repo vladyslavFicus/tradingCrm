@@ -269,6 +269,7 @@ PropTypes.paymentEntity = PropTypes.shape({
   playerProfile: PropTypes.paymentPlayer,
   paymentMetadata: PropTypes.paymentMetadata,
   originalAgent: PropTypes.paymentOriginalAgent,
+  warnings: PropTypes.arrayOf(PropTypes.string),
 });
 PropTypes.paymentPlayer = PropTypes.shape({
   uuid: PropTypes.string.isRequired,
@@ -686,6 +687,49 @@ PropTypes.brand = PropTypes.shape({
   isActive: PropTypes.bool,
   onClick: PropTypes.func,
 });
+PropTypes.profileView = PropTypes.shape({
+  balance: PropTypes.shape({
+    amount: PropTypes.string,
+    credit: PropTypes.string,
+  }),
+  lastSignInSessions: PropTypes.arrayOf(PropTypes.shape({
+    countryCode: PropTypes.string,
+    ip: PropTypes.string,
+    startedAt: PropTypes.string,
+  })),
+  registrationDetails: PropTypes.shape({
+    deviceDetails: PropTypes.shape({
+      deviceType: PropTypes.string,
+      operatingSystem: PropTypes.string,
+    }),
+    inetDetails: PropTypes.shape({
+      host: PropTypes.string,
+      ipAddress: PropTypes.string,
+      referer: PropTypes.string,
+    }),
+    locationDetails: PropTypes.shape({
+      city: PropTypes.string,
+      countryCode: PropTypes.string,
+      region: PropTypes.string,
+    }),
+    registeredBy: PropTypes.string,
+    registrationDate: PropTypes.string,
+    userAgent: PropTypes.string,
+  }),
+  status: PropTypes.shape({
+    changedAt: PropTypes.string,
+    changedBy: PropTypes.string,
+    comment: PropTypes.string,
+    reason: PropTypes.string,
+    type: PropTypes.string,
+  }),
+  tradingAccount: PropTypes.arrayOf(PropTypes.object),
+  uuid: PropTypes.string,
+  lastActivity: PropTypes.shape({
+    date: PropTypes.string,
+  }),
+  warnings: PropTypes.arrayOf(PropTypes.string),
+});
 PropTypes.newProfile = PropTypes.shape({
   acquisition: PropTypes.shape({
     acquisitionStatus: PropTypes.string,
@@ -777,45 +821,7 @@ PropTypes.newProfile = PropTypes.shape({
   }),
   phoneVerified: PropTypes.bool,
   profileVerified: PropTypes.bool,
-  profileView: PropTypes.shape({
-    balance: PropTypes.shape({
-      amount: PropTypes.string,
-      credit: PropTypes.string,
-    }),
-    lastSignInSessions: PropTypes.arrayOf(PropTypes.shape({
-      countryCode: PropTypes.string,
-      ip: PropTypes.string,
-      startedAt: PropTypes.string,
-    })),
-    registrationDetails: PropTypes.shape({
-      deviceDetails: PropTypes.shape({
-        deviceType: PropTypes.string,
-        operatingSystem: PropTypes.string,
-      }),
-      inetDetails: PropTypes.shape({
-        host: PropTypes.string,
-        ipAddress: PropTypes.string,
-        referer: PropTypes.string,
-      }),
-      locationDetails: PropTypes.shape({
-        city: PropTypes.string,
-        countryCode: PropTypes.string,
-        region: PropTypes.string,
-      }),
-      registeredBy: PropTypes.string,
-      registrationDate: PropTypes.string,
-      userAgent: PropTypes.string,
-    }),
-    status: PropTypes.shape({
-      changedAt: PropTypes.string,
-      changedBy: PropTypes.string,
-      comment: PropTypes.string,
-      reason: PropTypes.string,
-      type: PropTypes.string,
-    }),
-    tradingAccount: PropTypes.arrayOf(PropTypes.object),
-    uuid: PropTypes.string,
-  }),
+  profileView: PropTypes.profileView,
   registrationDetails: PropTypes.shape({
     deviceDetails: PropTypes.shape({
       deviceType: PropTypes.string,
@@ -887,6 +893,12 @@ PropTypes.email = PropTypes.shape({
   text: PropTypes.string,
   subject: PropTypes.string,
   name: PropTypes.string,
+});
+PropTypes.query = content => PropTypes.shape({
+  ...content,
+  loading: PropTypes.bool,
+  loadMore: PropTypes.func,
+  refetch: PropTypes.func,
 });
 
 export default PropTypes;

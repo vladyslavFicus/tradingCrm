@@ -5,6 +5,7 @@ import moment from 'moment';
 import { getActiveBrandConfig } from 'config';
 import { targetTypes } from 'constants/note';
 import { aggregatorsLabels, tradingTypesLabelsWithColor } from 'constants/payment';
+import { warningLabels } from 'constants/warnings';
 import GridPaymentInfo from 'components/GridPaymentInfo';
 import Uuid from 'components/Uuid';
 import NoteButton from 'components/NoteButton';
@@ -12,7 +13,7 @@ import GridPlayerInfo from 'components/GridPlayerInfo';
 import CountryLabelWithFlag from 'components/CountryLabelWithFlag';
 import PaymentStatus from 'components/PaymentStatus';
 import formatLabel from 'utils/formatLabel';
-
+import renderLabel from 'utils/renderLabel';
 
 const clientColumn = () => ({
   name: 'profile',
@@ -77,6 +78,16 @@ export default ({
   ),
 },
 ...(!clientView ? [clientColumn()] : []),
+...(!clientView ? [{
+  name: 'warning',
+  header: I18n.t('CONSTANTS.TRANSACTIONS.GRID_COLUMNS.WARNING'),
+  render: ({ warnings }) => (
+    (warnings && warnings.length) ? warnings.map(warning => (
+      <div key={warning}>{I18n.t(renderLabel(warning, warningLabels))}</div>
+    )) : null
+  ),
+}] : []
+),
 {
   name: 'originalAgent',
   header: I18n.t('CONSTANTS.TRANSACTIONS.GRID_COLUMNS.ORIGINAL_AGENT'),

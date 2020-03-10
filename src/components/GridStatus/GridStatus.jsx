@@ -30,7 +30,7 @@ const GridStatus = ({
 
 GridStatus.propTypes = {
   wrapperClassName: PropTypes.string,
-  colorClassName: PropTypes.string.isRequired,
+  colorClassName: PropTypes.string,
   statusLabel: PropTypes.string.isRequired,
   info: PropTypes.oneOfType([
     PropTypes.string,
@@ -40,6 +40,7 @@ GridStatus.propTypes = {
 };
 
 GridStatus.defaultProps = {
+  colorClassName: null,
   wrapperClassName: null,
   info: null,
   infoLabel: null,

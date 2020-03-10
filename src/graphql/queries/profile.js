@@ -280,6 +280,7 @@ const clientsQuery = gql`query ${queryNames.clientsQuery}(
           lastActivity {
             date
           }
+          warnings
         }
       }
     }

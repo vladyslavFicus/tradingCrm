@@ -1113,6 +1113,7 @@
     "TRANSACTIONS": {
       "GRID_COLUMNS": {
         "TRANSACTION": "Transaction",
+        "WARNING": "Warning",
         "CLIENT": "Client",
         "ORIGINAL_AGENT": "Original Agent",
         "COUNTRY": "Country",
@@ -1148,7 +1149,8 @@
           "TEAMS": "Teams",
           "DESKS": "Desks",
           "FTD": "First time deposit",
-          "OPERATORS": "Operators"
+          "OPERATORS": "Operators",
+          "WARNING": "Warning"
         },
         "PAYMENT_ACCOUNTS": {
           "SYSTEM": "System",
@@ -1545,7 +1547,8 @@
         "FSA_MIGRATION_STATUS": {
           "ACCEPTED": "Accepted",
           "NOT_ACCEPTED": "Not Accepted"
-        }
+        },
+        "WARNING": "Warning"
       }
     }
   },
@@ -2471,6 +2474,7 @@
     "LIST": {
       "GRID_HEADER": {
         "CLIENT": "Client",
+        "WARNING": "Warning",
         "LAST_ACTIVITY": "Last activity",
         "COUNTRY": "Country",
         "BALANCE": "Balance",
@@ -3124,5 +3128,8 @@
         "EDIT": "edit"
       }
     }
+  },
+  "WARNINGS": {
+    "CARDHOLDER_INVALID": "Cardholder invalid"
   }
 }

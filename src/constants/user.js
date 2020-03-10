@@ -120,6 +120,7 @@ const filterLabels = {
   FSAMigration: 'PROFILE.LIST.FILTERS.FSA_MIGRATION',
   searchLimit: 'COMMON.FILTERS.SEARCH_LIMIT',
   questionnaire: 'PROFILE.LIST.FILTERS.QUESTIONNAIRE',
+  warning: 'PROFILE.LIST.FILTERS.WARNING',
 };
 
 const statuses = keyMirror({

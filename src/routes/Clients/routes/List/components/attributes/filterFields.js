@@ -7,6 +7,7 @@ import { statusesLabels, filterLabels } from 'constants/user';
 import { salesStatuses } from 'constants/salesStatuses';
 import { retentionStatuses } from 'constants/retentionStatuses';
 import { fsaStatuses, fsaStatusesLabels } from 'constants/fsaMigration';
+import { warningValues, warningLabels } from 'constants/warnings';
 import { kycStatusesLabels } from 'constants/kycStatuses';
 import {
   fieldTypes,
@@ -71,19 +72,19 @@ export const fieldNames = keyMirror({
   operators: null,
 });
 
-export default (
+export default ({
   desks,
   teams,
-  branchesLoading,
+  hierarchyLoading,
   operators,
   operatorsLoading,
   partners,
   partnersLoading,
-  {
+  auth: {
     department,
     role,
   },
-) => [
+}) => [
   {
     type: fieldTypes.INPUT,
     name: 'searchByIdentifiers',
@@ -127,13 +128,13 @@ export default (
     name: fieldNames.desks,
     label: filterLabels.desks,
     placeholder:
-      !branchesLoading && desks.length === 0
+      !hierarchyLoading && desks.length === 0
         ? 'COMMON.SELECT_OPTION.NO_ITEMS'
         : 'COMMON.SELECT_OPTION.ANY',
     multiple: true,
     className: fieldClassNames.MEDIUM,
     customOnChange: true,
-    disabled: branchesLoading || desks.length === 0,
+    disabled: hierarchyLoading || desks.length === 0,
     selectOptions: desks.map(({ uuid, name }) => ({
       value: uuid,
       label: name,
@@ -145,13 +146,13 @@ export default (
     name: fieldNames.teams,
     label: filterLabels.teams,
     placeholder:
-      !branchesLoading && teams.length === 0
+      !hierarchyLoading && teams.length === 0
         ? 'COMMON.SELECT_OPTION.NO_ITEMS'
         : 'COMMON.SELECT_OPTION.ANY',
     multiple: true,
     className: fieldClassNames.MEDIUM,
     customOnChange: true,
-    disabled: branchesLoading || teams.length === 0,
+    disabled: hierarchyLoading || teams.length === 0,
     selectOptions: teams.map(({ uuid, name }) => ({
       value: uuid,
       label: name,
@@ -292,6 +293,19 @@ export default (
     placeholder: 'COMMON.SELECT_OPTION.ANY',
     className: fieldClassNames.MEDIUM,
     selectOptions: firstDepositStatuses,
+    searchable: false,
+  },
+  {
+    type: fieldTypes.SELECT,
+    name: 'warnings',
+    label: filterLabels.warning,
+    placeholder: 'COMMON.SELECT_OPTION.ANY',
+    className: fieldClassNames.MEDIUM,
+    selectOptions: Object.keys(warningValues).map(value => ({
+      value,
+      label: warningLabels[value],
+    })),
+    searchable: false,
   },
   ...[
     getActiveBrandConfig().regulation.isActive && {
