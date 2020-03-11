@@ -1504,7 +1504,11 @@
       "FROM_COUNTRY": " from %{country}"
     },
     "LAST_ACTIVITY": {
-      "TITLE": "Last activity"
+      "TITLE": "Last activity",
+      "STATUS": {
+        "ONLINE": "Online",
+        "OFFLINE": "Offline"
+      }
     },
     "LIST": {
       "FILTERS": {

@@ -6,6 +6,7 @@ import { get } from 'lodash';
 import { getActiveBrandConfig } from 'config';
 import { withPermission } from 'providers/PermissionsProvider';
 import { fsaStatuses, fsaStatusColorNames, fsaStatusesLabels } from 'constants/fsaMigration';
+import { lastActivityStatusesLabels, lastActivityStatusesColors } from 'constants/lastActivity';
 import PropTypes from 'constants/propTypes';
 import Regulated from 'components/Regulated';
 import ActionsDropDown from 'components/ActionsDropDown';
@@ -19,6 +20,7 @@ import { withNotifications } from 'components/HighOrder';
 import PermissionContent from 'components/PermissionContent';
 import StickyWrapper from 'components/StickyWrapper';
 import MigrateButton from 'components/MigrateButton';
+import GridStatus from 'components/GridStatus';
 import customTimeout from 'utils/customTimeout';
 import PlayerStatus from '../PlayerStatus';
 import RiskStatus from '../RiskStatus';
@@ -157,6 +159,9 @@ class ProfileHeader extends Component {
 
     const { isRunningReloadAnimation } = this.state;
     const lastActivityDate = get(lastActivity, 'date');
+    const lastActivityDateLocal = lastActivityDate && moment.utc(lastActivityDate).local();
+    const lastActivityType = lastActivityDateLocal
+      && moment().diff(lastActivityDateLocal, 'minutes') < 5 ? 'ONLINE' : 'OFFLINE';
 
     const fullName = [firstName, lastName].filter(i => i).join(' ');
 
@@ -310,17 +315,20 @@ class ProfileHeader extends Component {
             <Questionnaire questionnaireLastData={questionnaireLastData} profileUUID={uuid} />
           </Regulated>
           <ProfileLastLogin lastIp={lastSignInSessions ? lastSignInSessions[lastSignInSessions.length - 1] : null} />
-          {lastActivityDate && (
-            <div className="header-block header-block-inner">
-              <div className="header-block-title">{I18n.t('PROFILE.LAST_ACTIVITY.TITLE')}</div>
-              <div className="header-block-middle">
-                {moment.utc(lastActivityDate).local().fromNow()}
-              </div>
+          <div className="header-block header-block-inner">
+            <div className="header-block-title">{I18n.t('PROFILE.LAST_ACTIVITY.TITLE')}</div>
+            <GridStatus
+              colorClassName={lastActivityStatusesColors[lastActivityType]}
+              statusLabel={I18n.t(lastActivityStatusesLabels[lastActivityType])}
+              info={lastActivityDateLocal}
+              infoLabel={date => date.fromNow()}
+            />
+            {lastActivityDateLocal && (
               <div className="header-block-small">
-                {I18n.t('COMMON.ON')} {moment.utc(lastActivityDate).local().format('DD.MM.YYYY')}
+                {I18n.t('COMMON.ON')} {lastActivityDateLocal.format('DD.MM.YYYY')}
               </div>
-            </div>
-          )}
+            )}
+          </div>
           <div className="header-block header-block-inner">
             <div className="header-block-title">{I18n.t('CLIENT_PROFILE.CLIENT.REGISTERED.TITLE')}</div>
             <div className="header-block-middle">

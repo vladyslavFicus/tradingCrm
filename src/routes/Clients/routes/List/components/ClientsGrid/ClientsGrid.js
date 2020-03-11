@@ -11,6 +11,10 @@ import {
   retentionStatuses,
   retentionStatusesColor,
 } from 'constants/retentionStatuses';
+import {
+  lastActivityStatusesLabels,
+  lastActivityStatusesColors,
+} from 'constants/lastActivity';
 import { warningLabels } from 'constants/warnings';
 import GridView, { GridViewColumn } from 'components/GridView';
 import GridPlayerInfo from 'components/GridPlayerInfo';
@@ -102,15 +106,18 @@ class ClientsGrid extends PureComponent {
           name="lastActivity"
           header={I18n.t('CLIENTS.LIST.GRID_HEADER.LAST_ACTIVITY')}
           render={({ lastActivity }) => {
-            const date = get(lastActivity, 'date');
-            return (date && (
-              <div>
-                {moment
-                  .utc(date)
-                  .local()
-                  .fromNow()}
-              </div>
-            ));
+            const lastActivityDate = get(lastActivity, 'date');
+            const localTime = lastActivityDate && moment.utc(lastActivityDate).local();
+            const type = localTime && (moment().diff(localTime, 'minutes') < 5) ? 'ONLINE' : 'OFFLINE';
+
+            return (
+              <GridStatus
+                colorClassName={lastActivityStatusesColors[type]}
+                statusLabel={I18n.t(lastActivityStatusesLabels[type])}
+                info={localTime}
+                infoLabel={date => date.fromNow()}
+              />
+            );
           }}
         />
         <GridViewColumn
