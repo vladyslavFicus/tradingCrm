@@ -295,7 +295,7 @@ export default ({
     selectOptions: firstDepositStatuses,
     searchable: false,
   },
-  !isClientView && ({
+  {
     type: fieldTypes.SELECT,
     name: 'warnings',
     label: filterLabels.warning,
@@ -306,7 +306,7 @@ export default ({
       label: warningLabels[value],
     })),
     searchable: false,
-  }),
+  },
   {
     type: fieldTypes.RANGE,
     className: fieldClassNames.MEDIUM,

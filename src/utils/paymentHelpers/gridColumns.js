@@ -78,7 +78,7 @@ export default ({
   ),
 },
 ...(!clientView ? [clientColumn()] : []),
-...(!clientView ? [{
+{
   name: 'warning',
   header: I18n.t('CONSTANTS.TRANSACTIONS.GRID_COLUMNS.WARNING'),
   render: ({ warnings }) => (
@@ -86,8 +86,7 @@ export default ({
       <div key={warning}>{I18n.t(renderLabel(warning, warningLabels))}</div>
     )) : null
   ),
-}] : []
-),
+},
 {
   name: 'originalAgent',
   header: I18n.t('CONSTANTS.TRANSACTIONS.GRID_COLUMNS.ORIGINAL_AGENT'),

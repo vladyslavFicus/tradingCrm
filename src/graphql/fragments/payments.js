@@ -42,6 +42,7 @@ const PaymentContentFragment = gql`fragment PaymentContentFragment on PaymentTra
   }
   modifiedBy
   statusChangedAt
+  warnings
 }`;
 
 export {

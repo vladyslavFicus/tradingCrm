@@ -17,7 +17,6 @@ const getClientPayments = gql`query ${queryNames.paymentsQuery}(
       last
       content {
         ...PaymentContentFragment
-        warnings
       }
     }
     error {
