@@ -62,7 +62,7 @@ export default {
     UPDATE_PERSONAL_INFORMATION: 'profile;PUT;/admin/profiles/{uuid}/personal-information',
     UPDATE_ADDRESS: 'profile;PUT;/admin/profiles/{uuid}/address',
     UPDATE_CONTACTS: 'profile;PUT;/admin/profiles/{uuid}/contacts',
-    UPDATE_EMAIL: 'profile;PUT;/profiles/{playerUUID}/email',
+    UPDATE_EMAIL: 'profile;PUT;/admin/profiles/{uuid}/contacts/email',
     VIEW_FILES: 'profile;GET;/files/{playerUUID}',
     VIEW_FILE: 'profile;GET;/kyc/download/{fileId}',
     KYC_LIST: 'profile;GET;/kyc/requests',

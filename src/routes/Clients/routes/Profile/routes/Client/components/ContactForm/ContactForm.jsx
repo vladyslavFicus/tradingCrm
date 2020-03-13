@@ -17,7 +17,6 @@ const attributeLabels = {
   phoneCode: I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.LABEL.PHONE_CODE'),
   altPhone: I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.LABEL.ALT_PHONE'),
   altPhoneCode: I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.LABEL.YOUR_ALT_PHONE'),
-  email: I18n.t('COMMON.EMAIL'),
   additionalEmail: I18n.t('COMMON.EMAIL_ALT'),
 };
 
@@ -26,7 +25,6 @@ class ContactForm extends Component {
     disabled: PropTypes.bool,
     onSubmit: PropTypes.func.isRequired,
     onVerifyPhoneClick: PropTypes.func.isRequired,
-    onVerifyEmailClick: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func,
     formSyncErrors: PropTypes.object,
     dirty: PropTypes.bool,
@@ -34,18 +32,15 @@ class ContactForm extends Component {
     initialValues: PropTypes.shape({
       phone: PropTypes.string,
       additionalPhone: PropTypes.string,
-      email: PropTypes.string,
       additionalEmail: PropTypes.string,
     }),
     currentValues: PropTypes.shape({
       phone: PropTypes.string,
       additionalPhone: PropTypes.string,
-      email: PropTypes.string,
       additionalEmail: PropTypes.string,
     }),
     verification: PropTypes.shape({
       phoneVerified: PropTypes.bool,
-      emailVerified: PropTypes.bool,
     }),
     auth: PropTypes.auth.isRequired,
     disabledAdditionalPhone: PropTypes.bool.isRequired,
@@ -68,18 +63,11 @@ class ContactForm extends Component {
     return onVerifyPhoneClick(currentValues.phone, currentValues.phoneCode);
   };
 
-  handleVerifyEmailClick = () => {
-    const { currentValues, onVerifyEmailClick } = this.props;
-
-    return onVerifyEmailClick(currentValues.email);
-  };
-
   render() {
     const {
       disabledAdditionalPhone,
       verification: {
         phoneVerified,
-        emailVerified,
       },
       disabled,
       onSubmit,
@@ -159,34 +147,6 @@ class ContactForm extends Component {
               placeholder={attributeLabels.altPhoneCode}
               className="col-5"
             />
-          </div>
-          <div className="form-row">
-            <Field
-              disabled
-              // TODO: uncomment row below after back-end will be ready
-              // disabled={!areFieldsDisabled}
-              name="email"
-              label={attributeLabels.email}
-              type="text"
-              component={InputField}
-              className="col-8"
-            />
-            <If condition={!emailVerified}>
-              <PermissionContent permissions={permissions.USER_PROFILE.VERIFY_EMAIL}>
-                <div className="col-4 mt-4-profile">
-                  <button type="button" className="btn btn-primary" onClick={this.handleVerifyEmailClick}>
-                    {I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.VERIFY_EMAIL')}
-                  </button>
-                </div>
-              </PermissionContent>
-            </If>
-            <If condition={emailVerified}>
-              <div className="col-4 mt-4-profile">
-                <button type="button" className="btn btn-verified">
-                  <i className="fa fa-check-circle-o" /> {I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.VERIFIED')}
-                </button>
-              </div>
-            </If>
             <Field
               name="additionalEmail"
               label={attributeLabels.additionalEmail}
@@ -212,8 +172,6 @@ export default compose(
     validate: createValidator({
       phone: 'required|string',
       additionalPhone: 'string',
-      email: 'required|email',
-      additionalEmail: 'email',
     }, attributeLabels, false),
     enableReinitialize: true,
   }),

@@ -234,6 +234,20 @@ const updatePersonalInformationMutation = gql`mutation updatePersonalInformation
   }
 }`;
 
+const updateEmailMutation = gql`mutation updateEmail(
+  $playerUUID: String!,
+  $email: String,
+) {
+  profile {
+    updateEmail(
+      playerUUID: $playerUUID,
+      email: $email,
+    ) {
+      success,
+    }
+  }
+}`;
+
 const updateKYCStatusMutation = gql`mutation updateKYCStatus(
   $playerUUID: String!,
   $kycStatus: String,
@@ -374,4 +388,5 @@ export {
   verifyEmailMutation,
   updateAddressMutation,
   changeProfileStatusMutation,
+  updateEmailMutation,
 };

@@ -7,14 +7,17 @@ import {
   updateAddressMutation,
   verifyPhoneMutation,
   verifyEmailMutation,
+  updateEmailMutation,
 } from 'graphql/mutations/profile';
-import { withNotifications } from 'components/HighOrder';
+import { withNotifications, withModals } from 'components/HighOrder';
 import { newProfile } from 'graphql/queries/profile';
 import { withStorage } from 'providers/StorageProvider';
+import ConfirmActionModal from 'components/Modal/ConfirmActionModal';
 import View from '../components/View';
 
 export default compose(
   withNotifications,
+  withModals({ confirmationModal: ConfirmActionModal }),
   graphql(updatePersonalInformationMutation, {
     name: 'updatePersonalInformation',
   }),
@@ -44,6 +47,10 @@ export default compose(
   }),
   graphql(newProfile, {
     name: 'newProfile',
+    options: ({ match: { params: { id: playerUUID } } }) => ({ variables: { playerUUID } }),
+  }),
+  graphql(updateEmailMutation, {
+    name: 'updateEmail',
     options: ({ match: { params: { id: playerUUID } } }) => ({ variables: { playerUUID } }),
   }),
 )(withStorage(['auth'])(View));

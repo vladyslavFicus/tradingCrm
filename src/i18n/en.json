@@ -286,7 +286,11 @@
       },
       "EMAIL": {
         "TITLE": "Email",
-        "ALT_EMAIL": "Alt Email"
+        "ALT_EMAIL": "Alt Email",
+        "EMAIL_CHANGE": {
+          "TITLE": "Update email",
+          "TEXT": "Do you really want to change email?"
+        }
       },
       "SELF_EXCLUSION_REASONS": {
         "USER_REQUEST": "User request",

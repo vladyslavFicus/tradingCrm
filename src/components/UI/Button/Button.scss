@@ -123,4 +123,12 @@
       color: #CDCDCD;
     }
   }
+
+  &--verified {
+    border-radius: 3px;
+    border: solid 1px rgba(37, 154, 53, 0.15);
+    color: #259a35;
+    width: 100%;
+    white-space: nowrap;
+  }
 }
