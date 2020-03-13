@@ -14,6 +14,7 @@ import ContactForm from './ContactForm';
 import KycStatus from './Kyc/KycStatus';
 import TransferAvailability from './TransferAvailability';
 import BankDetailsForm from './BankDetailsForm';
+import EmailForm from './EmailForm';
 import './View.scss';
 
 const updatePersonalInformationPermissions = new Permissions(permissions.USER_PROFILE.UPDATE_PERSONAL_INFORMATION);
@@ -26,8 +27,12 @@ class View extends Component {
     verifyEmail: PropTypes.func.isRequired,
     auth: PropTypes.auth.isRequired,
     updateAddress: PropTypes.func.isRequired,
+    updateEmail: PropTypes.func.isRequired,
     newProfile: PropTypes.newProfile.isRequired,
     permission: PropTypes.permission.isRequired,
+    modals: PropTypes.shape({
+      confirmationModal: PropTypes.modalType,
+    }).isRequired,
   };
 
   static childContextTypes = {
@@ -184,6 +189,39 @@ class View extends Component {
     });
   };
 
+  handleUpdateEmail = (data) => {
+    this.props.modals.confirmationModal.show({
+      onSubmit: this.updateEmail(data),
+      modalTitle: I18n.t('PLAYER_PROFILE.PROFILE.EMAIL.EMAIL_CHANGE.TITLE'),
+      actionText: I18n.t('PLAYER_PROFILE.PROFILE.EMAIL.EMAIL_CHANGE.TEXT'),
+      submitButtonLabel: I18n.t('COMMON.OK'),
+    });
+  };
+
+  updateEmail = data => async () => {
+    this.props.modals.confirmationModal.hide();
+
+    const {
+      data: {
+        profile: {
+          updateEmail: {
+            success,
+          },
+        },
+      },
+    } = await this.props.updateEmail({
+      variables: {
+        ...data,
+      },
+    });
+
+    this.context.addNotification({
+      level: success ? 'success' : 'error',
+      title: I18n.t('COMMON.EMAIL'),
+      message: I18n.t('COMMON.SAVE_CHANGES'),
+    });
+  }
+
   phoneAccess = () => {
     const {
       auth: { department },
@@ -288,18 +326,26 @@ class View extends Component {
               <div className="card">
                 <div className="card-body">
                   <ContactForm
-                    verification={{ phoneVerified, emailVerified }}
+                    verification={{ phoneVerified }}
                     onSubmit={this.handleUpdateContacts}
                     onVerifyPhoneClick={this.handleVerifyPhone}
-                    onVerifyEmailClick={this.handleVerifyEmail}
                     initialValues={{
                       phone: this.phoneAccess() ? hidePhone(phone) : phone,
-                      email,
                       additionalPhone: this.phoneAccess() ? hidePhone(additionalPhone) : additionalPhone,
                       additionalEmail,
                     }}
                     disabled={!updateContacts}
                     disabledAdditionalPhone={this.phoneAccess()}
+                  />
+                </div>
+              </div>
+              <div className="card">
+                <div className="card-body">
+                  <EmailForm
+                    verification={{ emailVerified }}
+                    email={email}
+                    onSubmit={this.handleUpdateEmail}
+                    onVerifyEmailClick={this.handleVerifyEmail}
                   />
                 </div>
               </div>
