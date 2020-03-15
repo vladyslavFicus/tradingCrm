@@ -115,6 +115,7 @@ const newProfile = gql`query newProfile($playerUUID: String!){
       }
       kyc {
         status
+        uuid
       }
       registrationDetails {
         deviceDetails {

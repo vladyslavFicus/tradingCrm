@@ -782,6 +782,21 @@
       "CREDIT_OR_DEBIT_CARD": "Credit or debit card",
       "OTHER": "Other"
     },
+    "KYC_NOTE": {
+      "TITLE": "KYC Note",
+      "NOTIFICATIONS": {
+        "CREATE": {
+          "TITLE": "KYC Note creation",
+          "SUCCESS": "KYC Note created successfully",
+          "ERROR": "KYC Note was not created for some reason"
+        },
+        "UPDATE": {
+          "TITLE": "KYC Note updating",
+          "SUCCESS": "KYC Note updated successfully",
+          "ERROR": "KYC Note was not updated for some reason"
+        }
+      }
+    },
     "UPLOAD_MODAL": {
       "FILE": {
         "TITLE": "Title",

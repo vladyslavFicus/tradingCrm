@@ -10,6 +10,7 @@ import permissions from 'config/permissions';
 import PropTypes from 'constants/propTypes';
 import downloadBlob from 'utils/downloadBlob';
 import NotFoundContent from 'components/NotFoundContent';
+import KYCNote from './KYCNote';
 import FileGrid from './FileGrid';
 
 class Files extends Component {
@@ -201,6 +202,7 @@ class Files extends Component {
       filesList,
       getFilesCategoriesList,
       getFilesCategoriesList: { loading },
+      match: { params: { id } },
     } = this.props;
 
     const verificationData = get(filesList, 'filesByUuid.data') || [];
@@ -229,6 +231,7 @@ class Files extends Component {
             </button>
           </PermissionContent>
         </TabHeader>
+        <KYCNote playerUUID={id} />
         <Choose>
           <When condition={verificationData.length}>
             {
