@@ -632,7 +632,7 @@ class Profile extends Component {
                 render={props => <Risks refetchProfile={refetch} {...props} />}
               />
             </If>
-            <If condition={!getActiveBrandConfig().socialTrading}>
+            <If condition={getActiveBrandConfig().socialTrading}>
               <Route disableScroll path={`${path}/social-trading`} component={SocialTrading} />
             </If>
             <Redirect to={`${path}/profile`} />
