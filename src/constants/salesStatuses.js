@@ -27,6 +27,11 @@ export const salesStatuses = {
   VOICEMAIL: 'CONSTANTS.SALES_STATUSES.VOICEMAIL',
   WRONG_INFO: 'CONSTANTS.SALES_STATUSES.WRONG_INFO',
   WRONG_NUMBER: 'CONSTANTS.SALES_STATUSES.WRONG_NUMBER',
+  DIALER_NA: 'CONSTANTS.SALES_STATUSES.DIALER_NA',
+  DIALER_NEW: 'CONSTANTS.SALES_STATUSES.DIALER_NEW',
+  DIALER_ASSIGNED: 'CONSTANTS.SALES_STATUSES.DIALER_ASSIGNED',
+  DIALER_FAILED: 'CONSTANTS.SALES_STATUSES.DIALER_FAILED',
+  DIALER_DROP: 'CONSTANTS.SALES_STATUSES.DIALER_DROP',
 };
 
 export const salesStatusesColor = {
@@ -56,6 +61,10 @@ export const salesStatusesColor = {
   DEPOSITOR: 'color-success',
   DO_NOT_CALL: 'color-danger',
   INVALID_COUNTRY: 'color-danger',
+  DIALER_NEW: 'color-info',
+  DIALER_ASSIGNED: 'color-success',
+  DIALER_FAILED: 'color-danger',
+  DIALER_DROP: 'color-danger',
 };
 
 export const salesStatusValues = keyMirror({

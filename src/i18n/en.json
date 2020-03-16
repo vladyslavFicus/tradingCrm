@@ -1227,7 +1227,12 @@
       "TEST": "Test",
       "DEPOSITOR": "Depositor",
       "DO_NOT_CALL": "Do not call",
-      "INVALID_COUNTRY": "Invalid country"
+      "INVALID_COUNTRY": "Invalid country",
+      "DIALER_NA": "Dialer NA",
+      "DIALER_NEW": "Dialer New",
+      "DIALER_ASSIGNED": "Dialer Assigned",
+      "DIALER_FAILED": "Dialer Failed",
+      "DIALER_DROP": "Dialer Drop"
     },
     "RETENTION_STATUSES": {
       "NEW": "New",
