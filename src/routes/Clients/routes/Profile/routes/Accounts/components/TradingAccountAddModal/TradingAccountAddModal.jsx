@@ -1,17 +1,18 @@
 import React, { PureComponent } from 'react';
 import { compose, graphql } from 'react-apollo';
+import { get } from 'lodash';
 import { Field, reduxForm, formValueSelector } from 'redux-form';
 import { connect } from 'react-redux';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import I18n from 'i18n-js';
 import { createValidator } from 'utils/validator';
 import { generate } from 'utils/password';
+import { getAvailablePlatformTypes, getAvailableAccountTypes } from 'utils/tradingAccount';
 import { getActiveBrandConfig } from 'config';
 import { createTradingAccountMutation } from 'graphql/mutations/tradingAccount';
 import { InputField, NasSelectField } from 'components/ReduxForm';
 import { withNotifications } from 'components/HighOrder';
 import PropTypes from 'constants/propTypes';
-import { accountTypes } from 'constants/accountTypes';
 import { attributeLabels } from './constants';
 import './TradingAccountAddModal.scss';
 
@@ -19,6 +20,7 @@ class TradingAccountAddModal extends PureComponent {
   static propTypes = {
     profileId: PropTypes.string.isRequired,
     accountType: PropTypes.string,
+    platformType: PropTypes.string,
     error: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.string, PropTypes.object])),
     change: PropTypes.func.isRequired,
     onCloseModal: PropTypes.func.isRequired,
@@ -32,13 +34,26 @@ class TradingAccountAddModal extends PureComponent {
   };
 
   static defaultProps = {
-    accountType: 'LIVE',
+    accountType: null,
+    platformType: null,
     error: null,
     onConfirm: () => {},
   };
 
+  constructor(props) {
+    super(props);
+
+    // Set first platformType to form from list and set LIVE accountType if it exist for chosen platformType
+    const platformType = get(getAvailablePlatformTypes(), '0.value');
+    const accountTypes = getAvailableAccountTypes(platformType);
+    const accountType = accountTypes.find(type => get(type, 'value') === 'LIVE') ? 'LIVE' : 'DEMO';
+
+    this.props.change('platformType', platformType);
+    this.props.change('accountType', accountType);
+  }
+
   onSubmit = async (data) => {
-    const { profileId, createTradingAccount, notify, onCloseModal, onConfirm } = this.props;
+    const { profileId, createTradingAccount, notify, onCloseModal, onConfirm } = this.props; // eslint-disable-line
 
     const { data: { tradingAccount: { create: { success, error } } } } = await createTradingAccount({
       variables: {
@@ -73,7 +88,12 @@ class TradingAccountAddModal extends PureComponent {
       submitting,
       invalid,
       error,
+      accountType,
+      platformType,
     } = this.props;
+
+    const platformTypes = getAvailablePlatformTypes();
+    const accountTypes = getAvailableAccountTypes(platformType);
 
     return (
       <Modal contentClassName="trading-account-modal" toggle={onCloseModal} isOpen={isOpen}>
@@ -90,11 +110,34 @@ class TradingAccountAddModal extends PureComponent {
               {error}
             </div>
           </If>
-          <If condition={getActiveBrandConfig().isDemoAvailable}>
+          <If condition={platformTypes.length > 1}>
+            <Field
+              name="platformType"
+              component={NasSelectField}
+              label={attributeLabels.platformType}
+              placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
+              searchable={false}
+              onFieldChange={(value) => {
+                this.props.change('platformType', value);
+
+                const availableAccountTypes = getAvailableAccountTypes(value);
+
+                // If previous accountType not found for new chosen platformType --> choose first from list
+                if (!availableAccountTypes.find(type => get(type, 'value') === accountType)) {
+                  this.props.change('accountType', get(availableAccountTypes, '0.value'));
+                }
+              }}
+            >
+              {platformTypes.map(({ value, label }) => (
+                <option key={value} value={value}>{label}</option>
+              ))}
+            </Field>
+          </If>
+          <If condition={accountTypes.length > 1}>
             <Field
               name="accountType"
               component={NasSelectField}
-              label="Account Type"
+              label={attributeLabels.accountType}
               placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
               searchable={false}
               onFieldChange={(value) => {
@@ -105,21 +148,21 @@ class TradingAccountAddModal extends PureComponent {
                 <option key={value} value={value}>{I18n.t(label)}</option>
               ))}
             </Field>
-            <If condition={this.props.accountType === 'DEMO'}>
-              <Field
-                name="amount"
-                component={NasSelectField}
-                label="Amount"
-                placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
-                searchable={false}
-              >
-                {[100, 500, 1000, 5000, 10000, 50000, 100000].map(value => (
-                  <option key={value} value={value}>
-                    {I18n.toNumber(value, { precision: 0 })}
-                  </option>
-                ))}
-              </Field>
-            </If>
+          </If>
+          <If condition={accountType === 'DEMO'}>
+            <Field
+              name="amount"
+              component={NasSelectField}
+              label={attributeLabels.amount}
+              placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
+              searchable={false}
+            >
+              {[100, 500, 1000, 5000, 10000, 50000, 100000].map(value => (
+                <option key={value} value={value}>
+                  {I18n.toNumber(value, { precision: 0 })}
+                </option>
+              ))}
+            </Field>
           </If>
           <Field
             name="name"
@@ -182,6 +225,7 @@ const selector = formValueSelector(FORM_NAME);
 
 const mapStateToProps = state => ({
   accountType: selector(state, 'accountType'),
+  platformType: selector(state, 'platformType'),
 });
 
 export default compose(
@@ -191,7 +235,6 @@ export default compose(
     form: FORM_NAME,
     initialValues: {
       password: generate(),
-      accountType: 'LIVE',
     },
     validate: values => createValidator({
       name: ['required', 'string', 'max:50', 'min:4'],

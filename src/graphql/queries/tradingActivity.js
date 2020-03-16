@@ -7,7 +7,7 @@ const tradingActivityQuery = gql`query clientTradingActivity(
   $openTimeEnd: String,
   $closeTimeStart: String,
   $closeTimeEnd: String,
-  $cmd: tradingActivityCommand,
+  $operationType: operationTypes,
   $symbol: String,
   $volumeFrom: Float,
   $volumeTo: Float,
@@ -27,7 +27,7 @@ const tradingActivityQuery = gql`query clientTradingActivity(
     openTimeEnd: $openTimeEnd,
     closeTimeStart: $closeTimeStart,
     closeTimeEnd: $closeTimeEnd,
-    cmd: $cmd,
+    operationType: $operationType,
     symbol: $symbol,
     volumeFrom: $volumeFrom,
     volumeTo: $volumeTo,
@@ -51,9 +51,10 @@ const tradingActivityQuery = gql`query clientTradingActivity(
         tradeId
         tradeType
         login
+        platformType
         symbol
         digits
-        cmd
+        operationType
         volume
         openTime
         closeTime
@@ -67,12 +68,13 @@ const tradingActivityQuery = gql`query clientTradingActivity(
         reason
         commission
         commissionAgent
-        storage
+        swap
         profit
         taxes
         magic
         comment
         timestamp
+        tradeStatus
         originalAgent {
           uuid
           fullName

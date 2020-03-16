@@ -21,7 +21,7 @@ class Accounts extends PureComponent {
       tradingAccountAddModal: PropTypes.modalType,
     }).isRequired,
     tradingAccountsData: PropTypes.shape({
-      tradingAccount: PropTypes.arrayOf(PropTypes.mt4User),
+      tradingAccount: PropTypes.arrayOf(PropTypes.tradingAccount),
       refetch: PropTypes.func.isRequired,
     }).isRequired,
     newProfile: PropTypes.newProfile.isRequired,

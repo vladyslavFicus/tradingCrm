@@ -21,7 +21,7 @@ class Balances extends Component {
       credit: PropTypes.string,
       currency: PropTypes.string,
     }),
-    tradingAccounts: PropTypes.arrayOf(PropTypes.mt4User),
+    tradingAccounts: PropTypes.arrayOf(PropTypes.tradingAccount),
   };
 
   static defaultProps = {

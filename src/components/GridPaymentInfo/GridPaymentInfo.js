@@ -79,16 +79,16 @@ class GridPaymentInfo extends PureComponent {
       payment: {
         paymentId,
         createdBy,
-        paymentType,
+        accountType,
       },
     } = this.props;
 
     return (
       <div id={`payment-${paymentId}`}>
         <Badge
-          text={I18n.t(`CONSTANTS.ACCOUNT_TYPE.${paymentType === 'DEMO_DEPOSIT' ? 'DEMO' : 'LIVE'}`)}
-          info={paymentType === 'DEMO_DEPOSIT'}
-          success={paymentType !== 'DEMO_DEPOSIT'}
+          text={I18n.t(`CONSTANTS.ACCOUNT_TYPE.${accountType}`)}
+          info={accountType === 'DEMO'}
+          success={accountType === 'LIVE'}
         >
           <button
             type="button"

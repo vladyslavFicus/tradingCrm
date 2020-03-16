@@ -16,21 +16,17 @@ const tradingStatuses = keyMirror({
   PAYMENT_COMPLETED: null,
   TRANSACTION_FAILED: null,
   TRANSACTION_COMPLETED: null,
-  MT4_FAILED: null,
-  MT4_COMPLETED: null,
   PAYMENT_CANCELED: null,
 });
 
 const statusMapper = {
-  [statuses.COMPLETED]: [tradingStatuses.MT4_COMPLETED],
+  [statuses.COMPLETED]: [tradingStatuses.PAYMENT_COMPLETED],
   [statuses.FAILED]: [
-    tradingStatuses.MT4_FAILED,
     tradingStatuses.PAYMENT_FAILED,
     tradingStatuses.TRANSACTION_FAILED,
   ],
   [statuses.PENDING]: [
     tradingStatuses.PAYMENT_PENDING,
-    tradingStatuses.PAYMENT_COMPLETED,
   ],
   [statuses.REJECTED]: [tradingStatuses.PAYMENT_REFUSED],
   [statuses.CANCELED]: [tradingStatuses.PAYMENT_CANCELED],

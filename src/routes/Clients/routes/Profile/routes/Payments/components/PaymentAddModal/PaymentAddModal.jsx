@@ -12,6 +12,7 @@ import { manualPaymentMethodsLabels } from 'constants/payment';
 import { accountTypesLabels } from 'constants/accountTypes';
 import { InputField, NasSelectField, DateTimeField } from 'components/ReduxForm';
 import Currency from 'components/Amount/Currency';
+import PlatformTypeBadge from 'components/PlatformTypeBadge';
 import Permissions from 'utils/permissions';
 import { floatNormalize } from 'utils/inputNormalize';
 import { paymentTypes, paymentTypesLabels, attributeLabels } from './constants';
@@ -28,8 +29,8 @@ class PaymentAddModal extends PureComponent {
     currentValues: PropTypes.shape({
       paymentType: PropTypes.string,
       amount: PropTypes.number,
-      fromMt4Acc: PropTypes.string,
-      toMt4Acc: PropTypes.string,
+      fromAcc: PropTypes.string,
+      toAcc: PropTypes.string,
     }),
     newProfile: PropTypes.newProfile,
     error: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.string, PropTypes.object])),
@@ -106,58 +107,60 @@ class PaymentAddModal extends PureComponent {
     return true;
   };
 
-  renderMt4SelectOption = name => ({ onClick, mt4 = {} }) => {
+  renderAccountSelectOption = name => ({ onClick, account = {} }) => {
     const { currentValues: { paymentType, amount } } = this.props;
 
     const isInsufficientBalance = (
-      parseFloat(mt4.balance) < amount
+      parseFloat(account.balance) < amount
       && [paymentTypes.WITHDRAW.name, paymentTypes.TRANSFER.name].includes(paymentType)
       && name !== 'target'
     );
 
     const isInsufficientCredit = (
-      parseFloat(mt4.credit) < amount
+      parseFloat(account.credit) < amount
       && [paymentTypes.CREDIT_OUT.name].includes(paymentType)
     );
 
     return (
       <div
-        key={mt4.login}
+        key={account.login}
         className="value-wrapper"
         onClick={isInsufficientBalance || isInsufficientCredit ? () => {} : onClick}
       >
         <div className="header-block-middle">
           <Badge
             center
-            text={I18n.t(accountTypesLabels[mt4.accountType].label)}
-            info={mt4.accountType === 'DEMO'}
-            success={mt4.accountType === 'LIVE'}
+            text={I18n.t(accountTypesLabels[account.accountType].label)}
+            info={account.accountType === 'DEMO'}
+            success={account.accountType === 'LIVE'}
           >
-            {mt4.name}
+            {account.name}
           </Badge>
-          <If condition={isInsufficientBalance || isInsufficientCredit}>
-            <span className="color-danger ml-2">
-              {I18n.t('CLIENT_PROFILE.TRANSACTIONS.MODAL_CREATE.MT4_NO_MONEY')}
-            </span>
-          </If>
         </div>
         <div className="header-block-small">
-          <div>MT4-ID {mt4.login}</div>
-          <div className={classNames({ 'color-danger': Number(mt4.balance) === 0 })}>
-            {I18n.t('CLIENT_PROFILE.TRANSACTIONS.MODAL_CREATE.BALANCE')}: {mt4.currency} {mt4.balance}
+          <PlatformTypeBadge center platformType={account.platformType}>
+            {account.login}
+          </PlatformTypeBadge>
+          <div className={classNames({ 'color-danger': Number(account.balance) === 0 })}>
+            {I18n.t('CLIENT_PROFILE.TRANSACTIONS.MODAL_CREATE.BALANCE')}: {account.currency} {account.balance}
           </div>
-          <div>{I18n.t('CLIENT_PROFILE.TRANSACTIONS.MODAL_CREATE.GROUP')}: {mt4.group}</div>
+          <div>{I18n.t('CLIENT_PROFILE.TRANSACTIONS.MODAL_CREATE.GROUP')}: {account.group}</div>
           <If condition={[paymentTypes.CREDIT_IN.name, paymentTypes.CREDIT_OUT.name].includes(paymentType)}>
-            <div className={classNames({ 'color-danger': Number(mt4.credit) === 0 })}>
-              {I18n.t('CLIENT_PROFILE.TRANSACTIONS.MODAL_CREATE.CREDIT')}: {mt4.currency} {mt4.credit}
+            <div className={classNames({ 'color-danger': Number(account.credit) === 0 })}>
+              {I18n.t('CLIENT_PROFILE.TRANSACTIONS.MODAL_CREATE.CREDIT')}: {account.currency} {account.credit}
             </div>
           </If>
         </div>
+        <If condition={isInsufficientBalance || isInsufficientCredit}>
+          <div className="color-danger">
+            {I18n.t('CLIENT_PROFILE.TRANSACTIONS.MODAL_CREATE.NO_MONEY')}
+          </div>
+        </If>
       </div>
     );
   };
 
-  renderMt4SelectField = (label, name, className) => {
+  renderAccountSelectField = (label, name, className) => {
     const {
       newProfile: {
         tradingAccount,
@@ -171,7 +174,7 @@ class PaymentAddModal extends PureComponent {
       <Field
         key={name || 'accountUUID'}
         name={name || 'accountUUID'}
-        label={attributeLabels[label || 'fromMt4Acc']}
+        label={attributeLabels[label || 'fromAcc']}
         component={NasSelectField}
         placeholder={tradingAccount.length === 0
           ? I18n.t('COMMON.SELECT_OPTION.NO_ITEMS')
@@ -181,7 +184,7 @@ class PaymentAddModal extends PureComponent {
         className={`${className || 'col'} select-field-wrapper`}
         searchable={false}
         showErrorMessage={false}
-        singleOptionComponent={this.renderMt4SelectOption(name)}
+        singleOptionComponent={this.renderAccountSelectOption(name)}
       >
         {tradingAccount
           .filter(account => (
@@ -196,7 +199,7 @@ class PaymentAddModal extends PureComponent {
             )
           ))
           .map(account => (
-            <option key={account.accountUUID} value={account.accountUUID} mt4={account}>
+            <option key={account.accountUUID} value={account.accountUUID} account={account}>
               {`${account.login}`}
             </option>
           ))}
@@ -289,27 +292,27 @@ class PaymentAddModal extends PureComponent {
                   <div className="col-auto arrow-icon-wrapper">
                     <i className="icon-arrow-down" />
                   </div>
-                  {this.renderMt4SelectField('toMt4Acc')}
+                  {this.renderAccountSelectField('toAcc')}
                 </When>
 
                 <When condition={currentValues.paymentType === paymentTypes.WITHDRAW.name}>
-                  {this.renderMt4SelectField()}
+                  {this.renderAccountSelectField()}
                 </When>
 
                 <When condition={currentValues.paymentType === paymentTypes.TRANSFER.name}>
-                  {this.renderMt4SelectField('', 'source')}
+                  {this.renderAccountSelectField('', 'source')}
                   <div className="col-auto arrow-icon-wrapper">
                     <i className="icon-arrow-down" />
                   </div>
-                  {this.renderMt4SelectField('toMt4Acc', 'target')}
+                  {this.renderAccountSelectField('toAcc', 'target')}
                 </When>
 
                 <When condition={currentValues.paymentType === paymentTypes.CREDIT_IN.name}>
-                  {this.renderMt4SelectField('toMt4Acc')}
+                  {this.renderAccountSelectField('toAcc')}
                 </When>
 
                 <When condition={currentValues.paymentType === paymentTypes.CREDIT_OUT.name}>
-                  {this.renderMt4SelectField('fromMt4Acc')}
+                  {this.renderAccountSelectField('fromAcc')}
                 </When>
               </Choose>
             </div>

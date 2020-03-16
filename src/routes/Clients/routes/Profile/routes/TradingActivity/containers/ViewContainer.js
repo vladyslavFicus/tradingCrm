@@ -19,9 +19,10 @@ export default compose(
       },
       location: { query },
     }) => ({
+      fetchPolicy: 'cache-and-network',
       variables: {
-        tradeType: 'LIVE',
         profileUUID,
+        tradeType: 'LIVE',
         ...(query && query.filters),
         page: 0,
         limit: 20,

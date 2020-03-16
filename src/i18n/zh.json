@@ -567,7 +567,7 @@
       "SELECT_BRANCH_TYPE": "先选择分支类型"
     },
     "SEARCH_BY": {
-      "CLIENT": "姓名、邮箱、手机、ID、MT4 ID",
+      "CLIENT": "姓名、邮箱、手机、ID、MT ID",
       "LEAD": "姓名、邮箱、手机、ID, source",
       "AFFILIATE": "联营 ID，来源",
       "NAME": "姓名",
@@ -1860,9 +1860,9 @@
         "PAYMENT_ACCOUNT": "支付账户",
         "EXTERNAL_REF": "外部参考 ID",
         "EXPIRATION_DATE": "过期日期与时间",
-        "FROM_MT4": "从 MT4 账户",
-        "TO_MT4": "至 MT4 账户",
-        "MT4_NO_MONEY": "资金不足",
+        "FROM_ACC": "从 账户",
+        "TO_ACC": "至 账户",
+        "NO_MONEY": "资金不足",
         "CREDIT": "存款金额",
         "BALANCE": "余额",
         "GROUP": "小组"

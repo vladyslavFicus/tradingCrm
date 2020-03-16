@@ -428,7 +428,7 @@ PropTypes.modalType = PropTypes.shape({
   show: PropTypes.func.isRequired,
   hide: PropTypes.func.isRequired,
 });
-PropTypes.mt4User = PropTypes.shape({
+PropTypes.tradingAccount = PropTypes.shape({
   login: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
   balance: PropTypes.number,
   credit: PropTypes.number,
@@ -442,23 +442,6 @@ PropTypes.mt4User = PropTypes.shape({
   isReadOnly: PropTypes.bool,
   readOnlyUpdateTime: PropTypes.string,
   readOnlyUpdatedBy: PropTypes.string,
-});
-PropTypes.tradingProfile = PropTypes.shape({
-  isTestUser: PropTypes.bool,
-  aquisitionRep: PropTypes.tradingRepresentative,
-  aquisitionStatus: PropTypes.string,
-  kycStatus: PropTypes.string,
-  salesRep: PropTypes.tradingRepresentative,
-  salesStatus: PropTypes.string,
-  retentionRep: PropTypes.tradingRepresentative,
-  retentionStatus: PropTypes.string,
-  kycRep: PropTypes.tradingRepresentative,
-  balance: PropTypes.string,
-  credit: PropTypes.string,
-  equity: PropTypes.string,
-  baseCurrencyBalance: PropTypes.string,
-  baseCurrencyEquity: PropTypes.string,
-  mt4Users: PropTypes.arrayOf(PropTypes.mt4User),
 });
 PropTypes.tradingRepresentative = PropTypes.shape({
   country: PropTypes.string,

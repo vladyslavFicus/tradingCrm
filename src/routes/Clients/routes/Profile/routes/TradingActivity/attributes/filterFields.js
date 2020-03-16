@@ -1,9 +1,11 @@
+import React from 'react';
 import {
   fieldTypes,
   fieldClassNames,
   normalize,
   validators,
-} from 'components/ReduxForm/ReduxFieldsConstructor/index';
+} from 'components/ReduxForm/ReduxFieldsConstructor';
+import PlatformTypeBadge from 'components/PlatformTypeBadge';
 import { accountTypes } from 'constants/accountTypes';
 import { statuses as operatorsStasuses } from 'constants/operators';
 import {
@@ -37,18 +39,22 @@ export default ({
     placeholder: filterPlaceholders.loginIds,
     multiple: true,
     className: fieldClassNames.MEDIUM,
-    selectOptions: accounts.map(({ login }) => ({
+    selectOptions: accounts.map(({ login, platformType }) => ({
       value: login,
-      label: String(login),
+      label: (
+        <PlatformTypeBadge center platformType={platformType}>
+          {login}
+        </PlatformTypeBadge>
+      ),
     })),
     optionsWithoutI18n: true,
     disabled,
   },
   {
-    name: 'cmd',
+    name: 'operationType',
     type: fieldTypes.SELECT,
-    label: filterLabels.cmd,
-    placeholder: filterPlaceholders.cmd,
+    label: filterLabels.operationType,
+    placeholder: filterPlaceholders.operationType,
     className: fieldClassNames.MEDIUM,
     selectOptions: types.map(({ value, label }) => ({
       value,

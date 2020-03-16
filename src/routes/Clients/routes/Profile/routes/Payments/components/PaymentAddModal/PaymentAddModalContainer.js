@@ -26,7 +26,7 @@ const formValidation = (data, { newProfile: { tradingAccount }, currentValues })
       && currentValues.amount
       && Number(tradingAccount.find(({ login }) => login === currentValues.login).balance) < currentValues.amount
   ) {
-    return { login: I18n.t('CLIENT_PROFILE.TRANSACTIONS.MODAL_CREATE.MT4_NO_MONEY') };
+    return { login: I18n.t('CLIENT_PROFILE.TRANSACTIONS.MODAL_CREATE.NO_MONEY') };
   }
 
   if ([paymentTypes.CREDIT_OUT.name].includes(data.paymentType)
@@ -34,7 +34,7 @@ const formValidation = (data, { newProfile: { tradingAccount }, currentValues })
     && currentValues.amount
     && Number(tradingAccount.find(({ login }) => login === currentValues.login).credit) < currentValues.amount
   ) {
-    return { login: I18n.t('CLIENT_PROFILE.TRANSACTIONS.MODAL_CREATE.MT4_NO_MONEY') };
+    return { login: I18n.t('CLIENT_PROFILE.TRANSACTIONS.MODAL_CREATE.NO_MONEY') };
   }
 
   if (data.paymentType === paymentTypes.DEPOSIT.name) {
@@ -59,7 +59,7 @@ const formValidation = (data, { newProfile: { tradingAccount }, currentValues })
           ({ accountUUID }) => accountUUID === currentValues.source,
         ).balance) < currentValues.amount
     ) {
-      return { source: I18n.t('CLIENT_PROFILE.TRANSACTIONS.MODAL_CREATE.MT4_NO_MONEY') };
+      return { source: I18n.t('CLIENT_PROFILE.TRANSACTIONS.MODAL_CREATE.NO_MONEY') };
     }
 
     if (currentValues

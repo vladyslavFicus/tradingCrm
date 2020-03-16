@@ -3,6 +3,8 @@ import gql from 'graphql-tag';
 const PaymentContentFragment = gql`fragment PaymentContentFragment on PaymentTrading {
   _id
   login
+  platformType
+  accountType
   paymentId
   paymentType
   status

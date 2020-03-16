@@ -12,6 +12,8 @@ class Badge extends PureComponent {
     danger: PropTypes.bool,
     center: PropTypes.bool,
     info: PropTypes.bool,
+    color: PropTypes.string,
+    backgroundColor: PropTypes.string,
   };
 
   static defaultProps = {
@@ -20,6 +22,8 @@ class Badge extends PureComponent {
     danger: false,
     center: false,
     info: false,
+    color: null,
+    backgroundColor: null,
   };
 
   render() {
@@ -31,18 +35,22 @@ class Badge extends PureComponent {
       center,
       text,
       info,
+      color,
+      backgroundColor,
     } = this.props;
 
     return (
       <div className="badge">
         <div className="badge__children">{children}</div>
-        <div className={classNames('badge__item', {
-          'badge__item--info': info,
-          'badge__item--warning': warning,
-          'badge__item--danger': danger,
-          'badge__item--success': success,
-          'badge__item--center': center,
-        })}
+        <div
+          className={classNames('badge__item', {
+            'badge__item--info': info,
+            'badge__item--warning': warning,
+            'badge__item--danger': danger,
+            'badge__item--success': success,
+            'badge__item--center': center,
+          })}
+          style={{ backgroundColor, color }}
         >
           {text}
         </div>

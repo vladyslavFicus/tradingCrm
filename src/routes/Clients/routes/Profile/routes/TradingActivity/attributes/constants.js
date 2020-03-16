@@ -3,14 +3,21 @@ import React, { Fragment } from 'react';
 import classNames from 'classnames';
 import moment from 'moment';
 import i18n from 'i18n-js';
-import Badge from 'components/Badge/index';
-import Uuid from 'components/Uuid/index';
+import Badge from 'components/Badge';
+import PlatformTypeBadge from 'components/PlatformTypeBadge';
+import Uuid from 'components/Uuid';
 import { getTypeColor } from './utils';
+
+const tradeStatusesColor = {
+  PENDING: 'color-info',
+  CLOSED: 'color-danger',
+  OPEN: 'color-success',
+};
 
 export const filterLabels = {
   tradeId: 'CLIENT_PROFILE.TRADING_ACTIVITY.FILTER_FORM.TRADE_LABEL',
   loginIds: 'CLIENT_PROFILE.TRADING_ACTIVITY.FILTER_FORM.LOGIN_IDS',
-  cmd: 'CLIENT_PROFILE.TRADING_ACTIVITY.FILTER_FORM.TYPE_LABEL',
+  operationType: 'CLIENT_PROFILE.TRADING_ACTIVITY.FILTER_FORM.TYPE_LABEL',
   symbol: 'CLIENT_PROFILE.TRADING_ACTIVITY.FILTER_FORM.SYMBOL_LABEL',
   volume: 'CLIENT_PROFILE.TRADING_ACTIVITY.FILTER_FORM.VOLUME_LABEL',
   status: 'CLIENT_PROFILE.TRADING_ACTIVITY.FILTER_FORM.STATUS_LABEL',
@@ -23,7 +30,7 @@ export const filterLabels = {
 export const filterPlaceholders = {
   tradeId: 'CLIENT_PROFILE.TRADING_ACTIVITY.FILTER_FORM.TRADE_PLACEHOLDER',
   loginIds: 'COMMON.ALL',
-  cmd: 'COMMON.SELECT_OPTION.ANY',
+  operationType: 'COMMON.SELECT_OPTION.ANY',
   symbol: 'COMMON.SELECT_OPTION.ANY',
   agentIds: 'COMMON.SELECT_OPTION.ANY',
   volumeFrom: '0',
@@ -46,6 +53,12 @@ export const types = [{
   value: 'OP_BUY_LIMIT',
   label: 'CLIENT_PROFILE.TRADING_ACTIVITY.FILTER_FORM.TYPES.BUY_LIMIT',
 }, {
+  value: 'OP_BUY_STOP_LIMIT',
+  label: 'CLIENT_PROFILE.TRADING_ACTIVITY.FILTER_FORM.TYPES.BUY_STOP_LIMIT',
+}, {
+  value: 'OP_BUY_MARKET',
+  label: 'CLIENT_PROFILE.TRADING_ACTIVITY.FILTER_FORM.TYPES.BUY_MARKET',
+}, {
   value: 'OP_BUY_STOP',
   label: 'CLIENT_PROFILE.TRADING_ACTIVITY.FILTER_FORM.TYPES.BUY_STOP',
 }, {
@@ -57,6 +70,12 @@ export const types = [{
 }, {
   value: 'OP_SELL_LIMIT',
   label: 'CLIENT_PROFILE.TRADING_ACTIVITY.FILTER_FORM.TYPES.SELL_LIMIT',
+}, {
+  value: 'OP_SELL_STOP_LIMIT',
+  label: 'CLIENT_PROFILE.TRADING_ACTIVITY.FILTER_FORM.TYPES.SELL_STOP_LIMIT',
+}, {
+  value: 'OP_SELL_MARKET',
+  label: 'CLIENT_PROFILE.TRADING_ACTIVITY.FILTER_FORM.TYPES.SELL_MARKET',
 }, {
   value: 'OP_SELL_STOP',
   label: 'CLIENT_PROFILE.TRADING_ACTIVITY.FILTER_FORM.TYPES.SELL_STOP',
@@ -139,6 +158,9 @@ export const statuses = [{
 }, {
   value: 'OPEN',
   label: 'CLIENT_PROFILE.TRADING_ACTIVITY.FILTER_FORM.STATUSES.OPEN',
+}, {
+  value: 'PENDING',
+  label: 'CLIENT_PROFILE.TRADING_ACTIVITY.FILTER_FORM.STATUSES.PENDING',
 }];
 
 export const columns = changeOriginalAgent => [{
@@ -170,22 +192,24 @@ export const columns = changeOriginalAgent => [{
 }, {
   name: 'type',
   header: i18n.t('CLIENT_PROFILE.TRADING_ACTIVITY.GRID_VIEW.TYPE'),
-  render: ({ cmd }) => (
+  render: ({ operationType }) => (
     <div
       className={classNames(
-        getTypeColor(types.find(item => item.value === cmd).value),
+        getTypeColor(types.find(item => item.value === operationType).value),
         'font-weight-700',
       )}
     >
-      {i18n.t(types.find(item => item.value === cmd).label)}
+      {i18n.t(types.find(item => item.value === operationType).label)}
     </div>
   ),
 }, {
   name: 'tradingAcc',
   header: i18n.t('CLIENT_PROFILE.TRADING_ACTIVITY.GRID_VIEW.TRADING_ACC'),
-  render: ({ login, symbol }) => (
+  render: ({ login, symbol, platformType }) => (
     <Fragment>
-      <div className="font-weight-700">{login}</div>
+      <PlatformTypeBadge platformType={platformType}>
+        <div className="font-weight-700">{login}</div>
+      </PlatformTypeBadge>
       <div className="font-size-11">{symbol}</div>
     </Fragment>
   ),
@@ -228,7 +252,7 @@ export const columns = changeOriginalAgent => [{
 }, {
   name: 'swap',
   header: i18n.t('CLIENT_PROFILE.TRADING_ACTIVITY.GRID_VIEW.SWAP'),
-  render: ({ storage }) => <div className="font-weight-700">{storage}</div>,
+  render: ({ swap }) => <div className="font-weight-700">{swap}</div>,
 }, {
   name: 'p&l',
   header: i18n.t('CLIENT_PROFILE.TRADING_ACTIVITY.GRID_VIEW.P&L'),
@@ -265,22 +289,14 @@ export const columns = changeOriginalAgent => [{
 }, {
   name: 'status',
   header: i18n.t('CLIENT_PROFILE.TRADING_ACTIVITY.GRID_VIEW.STATUS'),
-  render: ({ closeTime }) => (
+  render: ({ tradeStatus }) => (
     <div
       className={classNames(
-        { 'color-danger': closeTime },
-        { 'color-success': !closeTime },
+        tradeStatusesColor[`${tradeStatus}`],
         'font-weight-700 text-uppercase',
       )}
     >
-      <Choose>
-        <When condition={closeTime}>
-          {i18n.t('CLIENT_PROFILE.TRADING_ACTIVITY.FILTER_FORM.STATUSES.CLOSED')}
-        </When>
-        <Otherwise>
-          {i18n.t('CLIENT_PROFILE.TRADING_ACTIVITY.FILTER_FORM.STATUSES.OPEN')}
-        </Otherwise>
-      </Choose>
+      {i18n.t(`CLIENT_PROFILE.TRADING_ACTIVITY.FILTER_FORM.STATUSES.${tradeStatus}`)}
     </div>
   ),
 }];

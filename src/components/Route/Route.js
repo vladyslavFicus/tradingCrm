@@ -27,7 +27,7 @@ class Route extends PureComponent {
   };
 
   componentDidUpdate(prevProps) {
-    if (!this.props.disableScroll && this.props.location !== prevProps.location) {
+    if (!this.props.disableScroll && this.props.location.pathname !== prevProps.location.pathname) {
       window.scrollTo(0, 0);
     }
   }

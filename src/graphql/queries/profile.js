@@ -168,6 +168,7 @@ const newProfile = gql`query newProfile($playerUUID: String!){
         login
         margin
         name
+        platformType
       }
       fsaMigrationInfo {
         agreedToFsaMigrationDate

@@ -8,6 +8,7 @@ import { aggregatorsLabels, tradingTypesLabelsWithColor } from 'constants/paymen
 import { warningLabels } from 'constants/warnings';
 import GridPaymentInfo from 'components/GridPaymentInfo';
 import Uuid from 'components/Uuid';
+import PlatformTypeBadge from 'components/PlatformTypeBadge';
 import NoteButton from 'components/NoteButton';
 import GridPlayerInfo from 'components/GridPlayerInfo';
 import CountryLabelWithFlag from 'components/CountryLabelWithFlag';
@@ -142,22 +143,17 @@ export default ({
 }, {
   name: 'tradingAcc',
   header: I18n.t('CONSTANTS.TRANSACTIONS.GRID_COLUMNS.TRADING_ACC'),
-  render: ({ login, currency }) => (
-    <Choose>
-      <When condition={login}>
-        <div className="font-weight-700">
+  render: ({ login, platformType, currency }) => (
+    <>
+      <div className="font-weight-700">
+        <PlatformTypeBadge platformType={platformType}>
           {login}
-        </div>
-        <div className="font-size-11">
-          {currency}
-        </div>
-      </When>
-      <Otherwise>
-        <div className="font-weight-700">
-          <span>&mdash;</span>
-        </div>
-      </Otherwise>
-    </Choose>
+        </PlatformTypeBadge>
+      </div>
+      <div className="font-size-11">
+        {currency}
+      </div>
+    </>
   ),
 }, {
   name: 'paymentAggregator',

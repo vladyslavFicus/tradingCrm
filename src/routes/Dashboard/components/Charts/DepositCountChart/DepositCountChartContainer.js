@@ -13,7 +13,7 @@ export default compose(
           'dateTo',
           {
             paymentType: tradingTypes.DEPOSIT,
-            paymentStatus: tradingStatuses.MT4_COMPLETED,
+            paymentStatus: tradingStatuses.COMPLETED,
           },
         ),
       },

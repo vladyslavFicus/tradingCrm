@@ -9,7 +9,7 @@ export default compose(
     options: ({ uuid, clientRegistrationDate }) => ({
       variables: {
         playerUUID: uuid,
-        ...initialQueryParams(tradingTypes.DEPOSIT, tradingStatuses.MT4_COMPLETED, clientRegistrationDate),
+        ...initialQueryParams(tradingTypes.DEPOSIT, tradingStatuses.COMPLETED, clientRegistrationDate),
       },
     }),
     name: 'depositPaymentStatistic',
@@ -18,7 +18,7 @@ export default compose(
     options: ({ uuid, clientRegistrationDate }) => ({
       variables: {
         playerUUID: uuid,
-        ...initialQueryParams(tradingTypes.WITHDRAW, tradingStatuses.MT4_COMPLETED, clientRegistrationDate),
+        ...initialQueryParams(tradingTypes.WITHDRAW, tradingStatuses.COMPLETED, clientRegistrationDate),
       },
     }),
     name: 'withdrawPaymentStatistic',

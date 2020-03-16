@@ -14,6 +14,8 @@ import { withModals } from 'components/HighOrder';
 import GridView, { GridViewColumn } from 'components/GridView';
 import ActionsDropDown from 'components/ActionsDropDown';
 import Badge from 'components/Badge';
+import PlatformTypeBadge from 'components/PlatformTypeBadge';
+import Uuid from 'components/Uuid';
 import TradingAccountChangePasswordModal from './TradingAccountChangePasswordModal';
 
 class TradingAccountsGrid extends PureComponent {
@@ -21,7 +23,7 @@ class TradingAccountsGrid extends PureComponent {
     modals: PropTypes.shape({
       TradingAccountChangePasswordModal: PropTypes.modalType,
     }).isRequired,
-    tradingAccounts: PropTypes.arrayOf(PropTypes.mt4User).isRequired,
+    tradingAccounts: PropTypes.arrayOf(PropTypes.tradingAccount).isRequired,
     updateTradingAccount: PropTypes.func.isRequired,
     refetchTradingAccountsList: PropTypes.func.isRequired,
     permission: PropTypes.permission.isRequired,
@@ -45,7 +47,7 @@ class TradingAccountsGrid extends PureComponent {
     }).then(refetchTradingAccountsList);
   };
 
-  renderTradingAccountColumn = ({ name, login, group, accountType, platformType, archived }) => (
+  renderTradingAccountColumn = ({ accountUUID, name, accountType, platformType, archived }) => (
     <Fragment>
       <Badge
         text={I18n.t(archived ? 'CONSTANTS.ARCHIVED' : accountTypesLabels[accountType].label)}
@@ -58,7 +60,17 @@ class TradingAccountsGrid extends PureComponent {
         </div>
       </Badge>
       <div className="font-size-11">
-        {platformType}ID - {login}
+        <Uuid uuid={accountUUID} uuidPrefix={platformType} />
+      </div>
+    </Fragment>
+  );
+
+  renderLoginColumn = ({ login, group, platformType }) => (
+    <Fragment>
+      <div className="font-weight-700">
+        <PlatformTypeBadge platformType={platformType}>
+          {login}
+        </PlatformTypeBadge>
       </div>
       <div className="font-size-11">
         {group}
@@ -156,6 +168,12 @@ class TradingAccountsGrid extends PureComponent {
             name="tradingAcc"
             header={I18n.t('CLIENT_PROFILE.ACCOUNTS.GRID_COLUMNS.TRADING_ACC')}
             render={this.renderTradingAccountColumn}
+          />
+          <GridViewColumn
+            key="login"
+            name="login"
+            header={I18n.t('CLIENT_PROFILE.ACCOUNTS.GRID_COLUMNS.LOGIN')}
+            render={this.renderLoginColumn}
           />
           <GridViewColumn
             key="balance"

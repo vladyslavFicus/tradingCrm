@@ -599,7 +599,7 @@
       "SELECT_PARTNER_TYPE": "Select partner type"
     },
     "SEARCH_BY": {
-      "CLIENT": "Name, Email, Phone, ID, MT4 ID",
+      "CLIENT": "Name, Email, Phone, ID, MT ID",
       "LEAD": "Name, Email, Phone, ID, source",
       "AFFILIATE": "Affiliate ID, source",
       "NAME": "Name",
@@ -2235,7 +2235,7 @@
         "STATUS_LABEL": "Status",
         "OPEN_TIME_RANGE_LABEL": "Open time range",
         "CLOSE_TIME_RANGE_LABEL": "Close time range",
-        "LOGIN_IDS": "MT4 accounts",
+        "LOGIN_IDS": "Accounts",
         "TYPES": {
           "BUY": "Buy",
           "SELL": "Sell",
@@ -2243,6 +2243,10 @@
           "SELL_LIMIT": "Sell limit",
           "BUY_STOP": "Buy stop",
           "SELL_STOP": "Sell stop",
+          "BUY_MARKET": "Buy market",
+          "SELL_MARKET": "Sell market",
+          "BUY_STOP_LIMIT": "Buy stop limit",
+          "SELL_STOP_LIMIT": "Sell stop limit",
           "BALANCE": "Balance",
           "CREDIT": "Credit"
         },
@@ -2273,7 +2277,8 @@
         },
         "STATUSES": {
           "OPEN": "Open",
-          "CLOSED": "Closed"
+          "CLOSED": "Closed",
+          "PENDING": "Pending"
         }
       }
     },
@@ -2323,9 +2328,9 @@
         "PAYMENT_METHOD": "Payment method",
         "EXTERNAL_REF": "External reference ID",
         "EXPIRATION_DATE": "Expiration date & time",
-        "FROM_MT4": "From MT4 Account",
-        "TO_MT4": "To MT4 Account",
-        "MT4_NO_MONEY": "Insufficient funds",
+        "FROM_ACC": "From account",
+        "TO_ACC": "To account",
+        "NO_MONEY": "Insufficient funds",
         "CREDIT": "Credit",
         "BALANCE": "Balance",
         "GROUP": "Group"
@@ -2348,6 +2353,7 @@
       "ADD_TRADING_ACC": "+ Add trading account",
       "GRID_COLUMNS": {
         "TRADING_ACC": "Trading acc",
+        "LOGIN": "Login",
         "SERVER": "Server",
         "BALANCE/EQUITY": "Balance",
         "LEVERAGE": "Leverage",
@@ -2369,7 +2375,9 @@
       "MODAL_CREATE": {
         "TITLE": "New trading account",
         "NAME_LABEL": "Account name",
-        "MODE_LABEL": "Account type",
+        "ACCOUNT_TYPE_LABEL": "Account type",
+        "PLATFORM_TYPE_LABEL": "Account type",
+        "AMOUNT_LABEL": "Amount",
         "CURRENCY_LABEL": "Currency",
         "PASSWORD_LABEL": "Password",
         "SUCCESSFULLY_CREATED": "Trading account have been successfully created"

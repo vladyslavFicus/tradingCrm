@@ -5,7 +5,8 @@ const createTradingAccountMutation = gql`mutation createTradingAccount(
   $currency: String!
   $password: String!
   $profileId: String!
-  $accountType: String
+  $accountType: String!
+  $platformType: String!
   $amount: Float
 ) {
   tradingAccount {
@@ -15,6 +16,7 @@ const createTradingAccountMutation = gql`mutation createTradingAccount(
       currency: $currency,
       password: $password,
       accountType: $accountType,
+      platformType: $platformType,
       amount: $amount,
     ) {
       success
