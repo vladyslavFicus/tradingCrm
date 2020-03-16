@@ -2197,7 +2197,8 @@
       "FILES": "Files",
       "NOTES": "Notes",
       "FEED": "Feed",
-      "RISK_PROFILE": "Risk Profile"
+      "RISK_PROFILE": "Risk Profile",
+      "SOCIAL_TRADING": "Social Trading"
     },
     "PROFILE": {
       "TITLE": "Profile",
@@ -3158,6 +3159,72 @@
         "SEND": "send",
         "CREATE": "create",
         "EDIT": "edit"
+      }
+    }
+  },
+  "SOCIAL_TRADING": {
+    "TITLE": "Social trading",
+    "SUBSCRIBERS": {
+      "TITLE": "Subscribers",
+      "GRID": {
+        "HEADERS": {
+          "SUBSCRIBER": "Subscriber",
+          "PROVIDER": "Provider",
+          "SYMBOLS": "Symbols",
+          "PRICE_MODE": "Price mode",
+          "PERFORMANCE_FEE": "Performance Fee",
+          "SHARING": "Sharing",
+          "PROFIT": "Profit",
+          "MULTIPLICATOR": "Multiplicator",
+          "STOP_LOSS": "Stop loss",
+          "MIN_MAX_LOT": "Min / Max lot",
+          "MAX_DEVIATION": "Max deviation",
+          "CREATED": "Created",
+          "UPDATED": "Updated"
+        },
+        "COLUMNS": {
+          "ID": "Id",
+          "STATUS": "Status",
+          "SHARING": "Sharing",
+          "REVERSE": "Reverse",
+          "MULTIPLICATOR": "Multiplicator",
+          "ARCHIEVED": "Archieved"
+        }
+      }
+    },
+    "PROVIDERS": {
+      "TITLE": "Providers",
+      "GRID": {
+        "HEADERS": {
+          "PROVIDER": "Provider",
+          "MIN_JOIN_BALANCE": "Min join balance",
+          "PERFORMANCE_FEE": "Performance Fee",
+          "FEE_RECEIVER": "Fee receiver",
+          "COMPANY_FEE": "Company receiver fee",
+          "CURRENCY": "Currency",
+          "DESCRIPTION": "Description",
+          "STATUSES": "Statuses"
+        },
+        "COLUMNS": {
+          "ID": "Id",
+          "PUBLIC": "Public",
+          "ACTIVE": "Active",
+          "STATUS": "Status"
+        }
+      }
+    },
+    "SUBSCRIPTION_ON_PROVIDER": {
+      "TITLE": "Subscriptions on providers",
+      "GRID": {
+        "HEADERS": {
+          "SUBSCRIPTION": "Subscription",
+          "PROVIDER": "Provider",
+          "SHARING_TYPE": "Sharing type",
+          "REVERSE": "Reverse"
+        },
+        "COLUMNS": {
+          "ID": "Id"
+        }
       }
     }
   },

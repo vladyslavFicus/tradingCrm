@@ -1,0 +1,55 @@
+.ProvidersGrid {
+  &__grid {
+    padding: 25px;
+
+    &-header {
+      font-size: 16px;
+      margin-bottom: 8px;
+    }
+  }
+
+  &__provider {
+    &-name {
+      font-weight: 700;
+      max-width: 200px;
+    }
+
+    &-id,
+    &-status {
+      font-size: 11px;
+    }
+  }
+
+  &__statuses {
+    font-size: 13px;
+    line-height: 1.7em;
+  }
+
+  &__status {
+    text-transform: uppercase;
+    font-weight: 700;
+    
+    &--public {
+      color: #0267cc;
+    }
+
+    &--active {
+      color: #46be8a;
+    }
+
+    &--private,
+    &--disabled {
+      color: #666;
+    }
+  }
+
+  &__summary {
+    font-weight: 700;
+    max-width: 250px;
+  }
+
+  &__description {
+    font-size: 12px;
+    max-width: 250px;
+  }  
+}

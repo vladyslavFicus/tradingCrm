@@ -1,0 +1,22 @@
+.SubscriptionsOnProviderGrid {
+  &__grid {
+    padding: 25px;
+
+    &-header {
+      font-size: 16px;
+      margin-bottom: 8px;
+    }
+  }
+
+  &__subscriber,
+  &__provider {
+    &-name {
+      font-weight: 700;
+      max-width: 200px;
+    }
+
+    &-id {
+      font-size: 11px;
+    }
+  }
+}
