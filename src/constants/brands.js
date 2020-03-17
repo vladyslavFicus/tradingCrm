@@ -76,6 +76,8 @@ const brands = keyMirror({
   thecapitalstocks: null,
   'bsb-global': null,
   fxrevolution: null,
+  royaltyfinance: null,
+  investactive: null,
 });
 
 const departments = keyMirror({
@@ -398,6 +400,14 @@ const brandsConfig = {
   [brands.fxrevolution]: {
     name: 'Fxrevolution',
     image: { src: '/img/brand/choose-brand/fxrevolution.svg' },
+  },
+  [brands.royaltyfinance]: {
+    name: 'Royaltyfinance',
+    image: { src: '/img/brand/choose-brand/royaltyfinance.svg' },
+  },
+  [brands.investactive]: {
+    name: 'Investactive',
+    image: { src: '/img/brand/choose-brand/investactive.svg' },
   },
 };
 const departmentsConfig = {
