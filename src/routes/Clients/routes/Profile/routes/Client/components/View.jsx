@@ -7,7 +7,7 @@ import { withPermission } from 'providers/PermissionsProvider';
 import { roles, departments } from 'constants/brands';
 import Regulated from 'components/Regulated';
 import { hidePhone } from 'utils/hidePhone';
-import { getBrandId } from 'config';
+import { getBrand } from 'config';
 import PersonalForm from './PersonalForm';
 import AddressForm from './AddressForm';
 import ContactForm from './ContactForm';
@@ -227,7 +227,7 @@ class View extends Component {
       auth: { department },
     } = this.props;
 
-    return getBrandId() === 'topinvestus' && department === departments.SALES;
+    return getBrand().privatePhoneByDepartment.includes(department);
   };
 
   render() {
