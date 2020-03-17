@@ -234,8 +234,20 @@ export const columns = changeOriginalAgent => [{
 }, {
   name: 'openPrice',
   header: i18n.t('CLIENT_PROFILE.TRADING_ACTIVITY.GRID_VIEW.OPEN_PRICE'),
-  render: ({ openPrice }) => (
-    <div className="font-weight-700">{openPrice}</div>
+  render: ({ openPrice, stopLoss, takeProfit }) => (
+    <Fragment>
+      <div className="font-weight-700">{openPrice}</div>
+      <If condition={stopLoss}>
+        <div className="font-size-11">
+          S/L {parseFloat(stopLoss).toLocaleString('en-EN', { minimumFractionDigits: 5 })}
+        </div>
+      </If>
+      <If condition={takeProfit}>
+        <div className="font-size-11">
+          T/P {parseFloat(takeProfit).toLocaleString('en-EN', { minimumFractionDigits: 5 })}
+        </div>
+      </If>
+    </Fragment>
   ),
 }, {
   name: 'closePrice',
