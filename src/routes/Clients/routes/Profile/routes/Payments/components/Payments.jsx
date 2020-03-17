@@ -203,7 +203,7 @@ class Payments extends Component {
             last={paymentsData.last}
             lazyLoad
             showNoResults={!!error || (!loading && paymentsData.content.length === 0)}
-            loading={loading}
+            loading={loading && !paymentsData.content.length}
           >
             {columns({
               paymentInfo: { onSuccess: this.handleModalActionSuccess },

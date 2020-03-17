@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import I18n from 'i18n-js';
 import { get } from 'lodash';
 import { TextRow } from 'react-placeholder/lib/placeholders';
@@ -8,7 +8,7 @@ import PaymentFilterFields from 'components/PaymentFilterFields';
 import GridView, { GridViewColumn } from 'components/GridView';
 import { columns } from 'utils/paymentHelpers';
 
-class View extends Component {
+class View extends PureComponent {
   static propTypes = {
     clientPayments: PropTypes.shape({
       clientPayments: PropTypes.shape({
@@ -134,7 +134,7 @@ class View extends Component {
             last={payments.last}
             lazyLoad
             showNoResults={paymentsError || (!loading && payments.content.length === 0)}
-            loading={loading}
+            loading={loading && !payments.content.length}
           >
             {columns({
               paymentInfo: { onSuccess: this.handleRefresh },

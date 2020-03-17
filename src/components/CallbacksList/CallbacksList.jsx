@@ -123,7 +123,7 @@ class CallbacksList extends Component {
 
     return (
       <GridView
-        loading={loading}
+        loading={loading && !entities.content.length}
         tableClassName="table-hovered"
         dataSource={entities.content}
         onPageChange={this.onPageChange}
