@@ -72,7 +72,7 @@ class GridRow extends PureComponent {
     return (
       <tr
         key={rowIndex}
-        onClick={handleRowClick}
+        onClick={() => handleRowClick(gridRowData)}
         className={
           classNames(
             'GridRow',
