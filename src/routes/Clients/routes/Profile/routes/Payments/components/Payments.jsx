@@ -8,12 +8,13 @@ import PropTypes from 'constants/propTypes';
 import TabHeader from 'components/TabHeader';
 import { targetTypes } from 'constants/note';
 import PaymentFilterFields from 'components/PaymentFilterFields';
-import GridView, { GridViewColumn } from 'components/GridView';
+import Grid, { GridColumn } from 'components/Grid';
 import { columns } from 'utils/paymentHelpers';
 import { CONDITIONS } from 'utils/permissions';
 
 class Payments extends Component {
   static propTypes = {
+    ...PropTypes.router,
     match: PropTypes.shape({
       params: PropTypes.shape({
         id: PropTypes.string,
@@ -162,6 +163,25 @@ class Payments extends Component {
 
   handleModalActionSuccess = () => this.props.clientPayments.refetch();
 
+  handleSort = (sortData) => {
+    const { history } = this.props;
+    const query = get(history, 'location.query') || {};
+
+    const sorts = Object.keys(sortData)
+      .filter(sortingKey => sortData[sortingKey])
+      .map(sortingKey => ({
+        column: sortingKey,
+        direction: sortData[sortingKey],
+      }));
+
+    history.replace({
+      query: {
+        ...query,
+        sorts,
+      },
+    });
+  };
+
   render() {
     const {
       clientPayments: {
@@ -171,7 +191,7 @@ class Payments extends Component {
       },
     } = this.props;
 
-    const paymentsData = get(clientPaymentsByUuid, 'data') || { content: [] };
+    const payments = get(clientPaymentsByUuid, 'data') || { content: [] };
     const error = get(clientPaymentsByUuid, 'error');
 
     return (
@@ -196,27 +216,29 @@ class Payments extends Component {
         <PaymentFilterFields accountType={variables.accountType} isClientView />
 
         <div className="tab-wrapper">
-          <GridView
-            dataSource={paymentsData.content}
-            onPageChange={this.handlePageChanged}
-            activePage={paymentsData.number + 1}
-            last={paymentsData.last}
+          <Grid
+            data={payments.content}
+            handleSort={this.handleSort}
+            handlePageChanged={this.handlePageChanged}
+            isLoading={loading && !payments.content.length}
+            isLastPage={payments.last}
+            withLazyLoad
             lazyLoad
-            showNoResults={!!error || (!loading && paymentsData.content.length === 0)}
-            loading={loading && !paymentsData.content.length}
+            withNoResults={!!error || (!loading && payments.content.length === 0)}
           >
             {columns({
               paymentInfo: { onSuccess: this.handleModalActionSuccess },
               clientView: true,
-            }).map(({ name, header, render }) => (
-              <GridViewColumn
+            }).map(({ name, header, sortBy, render }) => (
+              <GridColumn
                 key={name}
                 name={name}
+                sortBy={sortBy}
                 header={header}
                 render={render}
               />
             ))}
-          </GridView>
+          </Grid>
         </div>
       </Fragment>
     );

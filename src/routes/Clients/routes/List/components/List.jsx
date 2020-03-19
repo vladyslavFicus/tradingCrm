@@ -179,8 +179,8 @@ class List extends Component {
             searchLimit={searchLimit}
             touchedRowsIds={touchedRowsIds}
             allRowsSelected={allRowsSelected}
-            onAllRowsSelect={this.handleAllRowsSelect}
-            onRowSelect={this.handleSelectRow}
+            handleAllRowsSelect={this.handleAllRowsSelect}
+            handleSelectRow={this.handleSelectRow}
           />
         </div>
       </div>

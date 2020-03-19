@@ -1,4 +1,5 @@
 import { compose, graphql } from 'react-apollo';
+import { withRouter } from 'react-router-dom';
 import { get } from 'lodash';
 import deepMerge from 'deepmerge';
 import { getClientPayments } from 'graphql/queries/payments';
@@ -6,6 +7,7 @@ import { partnersQuery } from 'graphql/queries/partners';
 import View from '../components/View';
 
 export default compose(
+  withRouter,
   graphql(partnersQuery, {
     name: 'partners',
     props: ({ partners: { partners, loading: partnersLoading } }) => ({
@@ -20,8 +22,11 @@ export default compose(
         args: {
           accountType: 'LIVE',
           ...(query && query.filters),
-          page: 0,
-          limit: 20,
+          page: {
+            from: 0,
+            size: 20,
+            sorts: get(query, 'sorts') || [],
+          },
         },
       },
       fetchPolicy: 'network-only',
@@ -34,7 +39,7 @@ export default compose(
           ...rest,
           clientPayments,
           loadMore: () => fetchMore({
-            variables: deepMerge(rest.variables, { args: { page: newPage + 1 } }),
+            variables: deepMerge(rest.variables, { args: { page: { from: newPage + 1 } } }),
             updateQuery: (previousResult, { fetchMoreResult }) => {
               if (!fetchMoreResult) {
                 return previousResult;

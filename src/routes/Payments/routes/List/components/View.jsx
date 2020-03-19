@@ -5,11 +5,12 @@ import { TextRow } from 'react-placeholder/lib/placeholders';
 import PropTypes from 'constants/propTypes';
 import Placeholder from 'components/Placeholder';
 import PaymentFilterFields from 'components/PaymentFilterFields';
-import GridView, { GridViewColumn } from 'components/GridView';
+import Grid, { GridColumn } from 'components/Grid';
 import { columns } from 'utils/paymentHelpers';
 
 class View extends PureComponent {
   static propTypes = {
+    ...PropTypes.router,
     clientPayments: PropTypes.shape({
       clientPayments: PropTypes.shape({
         data: PropTypes.pageable(PropTypes.paymentEntity),
@@ -63,8 +64,11 @@ class View extends PureComponent {
     clientPayments.refetch({
       ...(query && query.filters),
       requestId: Math.random().toString(36).slice(2),
-      page: 0,
-      limit: 20,
+      page: {
+        from: 0,
+        size: 20,
+        sorts: [...(query && query.sorts)],
+      },
     });
   };
 
@@ -78,6 +82,25 @@ class View extends PureComponent {
     if (!loading) {
       loadMore();
     }
+  };
+
+  handleSort = (sortData) => {
+    const { history } = this.props;
+    const query = get(history, 'location.query') || {};
+
+    const sorts = Object.keys(sortData)
+      .filter(sortingKey => sortData[sortingKey])
+      .map(sortingKey => ({
+        column: sortingKey,
+        direction: sortData[sortingKey],
+      }));
+
+    history.replace({
+      query: {
+        ...query,
+        sorts,
+      },
+    });
   };
 
   render() {
@@ -127,26 +150,27 @@ class View extends PureComponent {
         />
 
         <div className="card-body">
-          <GridView
-            dataSource={payments.content}
-            onPageChange={this.handlePageChanged}
-            activePage={payments.number + 1}
-            last={payments.last}
-            lazyLoad
-            showNoResults={paymentsError || (!loading && payments.content.length === 0)}
-            loading={loading && !payments.content.length}
+          <Grid
+            data={payments.content}
+            handleSort={this.handleSort}
+            handlePageChanged={this.handlePageChanged}
+            isLoading={loading && !payments.content.length}
+            isLastPage={payments.last}
+            withLazyLoad
+            withNoResults={!!paymentsError || (!loading && payments.content.length === 0)}
           >
             {columns({
               paymentInfo: { onSuccess: this.handleRefresh },
-            }).map(({ name, header, render }) => (
-              <GridViewColumn
+            }).map(({ name, header, sortBy, render }) => (
+              <GridColumn
                 key={name}
                 name={name}
+                sortBy={sortBy}
                 header={header}
                 render={render}
               />
             ))}
-          </GridView>
+          </Grid>
         </div>
       </div>
     );

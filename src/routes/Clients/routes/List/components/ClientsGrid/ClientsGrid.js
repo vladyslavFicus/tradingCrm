@@ -1,4 +1,5 @@
 import React, { PureComponent, Fragment } from 'react';
+import { withRouter } from 'react-router-dom';
 import moment from 'moment';
 import I18n from 'i18n-js';
 import { get } from 'lodash';
@@ -16,7 +17,7 @@ import {
   lastActivityStatusesColors,
 } from 'constants/lastActivity';
 import { warningLabels } from 'constants/warnings';
-import GridView, { GridViewColumn } from 'components/GridView';
+import Grid, { GridColumn } from 'components/Grid';
 import GridPlayerInfo from 'components/GridPlayerInfo';
 import GridStatusDeskTeam from 'components/GridStatusDeskTeam';
 import GridEmptyValue from 'components/GridEmptyValue';
@@ -28,6 +29,7 @@ import renderLabel from 'utils/renderLabel';
 
 class ClientsGrid extends PureComponent {
   static propTypes = {
+    ...PropTypes.router,
     profiles: PropTypes.query({
       profiles: PropTypes.shape({
         data: PropTypes.pageable(PropTypes.profileView),
@@ -37,13 +39,19 @@ class ClientsGrid extends PureComponent {
       PropTypes.string,
       PropTypes.number,
     ]),
+    allRowsSelected: PropTypes.bool,
+    touchedRowsIds: PropTypes.arrayOf(PropTypes.number),
+    handleAllRowsSelect: PropTypes.func.isRequired,
+    handleSelectRow: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
+    allRowsSelected: false,
+    touchedRowsIds: [],
     searchLimit: null,
   };
 
-  handleClientClick = ({ uuid }) => {
+  handleRowClick = ({ uuid }) => {
     window.open(`/clients/${uuid}/profile`, '_blank');
   };
 
@@ -60,40 +68,62 @@ class ClientsGrid extends PureComponent {
     }
   };
 
+  handleSort = (sortData) => {
+    const { history } = this.props;
+    const query = get(history, 'location.query') || {};
+
+    const sorts = Object.keys(sortData)
+      .filter(sortingKey => sortData[sortingKey])
+      .map(sortingKey => ({
+        column: sortingKey,
+        direction: sortData[sortingKey],
+      }));
+
+    history.replace({
+      query: {
+        ...query,
+        sorts,
+      },
+    });
+  };
+
   render() {
     const {
       profiles,
       profiles: { loading },
       searchLimit,
-      ...props
+      allRowsSelected,
+      touchedRowsIds,
+      handleSelectRow,
+      handleAllRowsSelect,
     } = this.props;
 
-    const {
-      content: gridData,
-      page: activePage,
-      last: isLastPage,
-    } = get(profiles, 'profiles.data') || { content: [] };
+    const { content: gridData, last } = get(profiles, 'profiles.data') || { content: [] };
 
     return (
-      <GridView
-        tableClassName="table-hovered"
-        dataSource={gridData}
-        activePage={activePage}
-        last={isLastPage}
-        lazyLoad={!searchLimit || searchLimit !== gridData.length}
-        showNoResults={!loading && gridData.length === 0}
-        loading={loading && gridData.length === 0}
-        multiselect
-        onPageChange={this.handlePageChanged}
-        onRowClick={this.handleClientClick}
-        {...props}
+      <Grid
+        data={gridData}
+        allRowsSelected={allRowsSelected}
+        touchedRowsIds={touchedRowsIds}
+        handleSort={this.handleSort}
+        handleRowClick={this.handleRowClick}
+        handleSelectRow={handleSelectRow}
+        handleAllRowsSelect={handleAllRowsSelect}
+        handlePageChanged={this.handlePageChanged}
+        isLoading={loading && gridData.length === 0}
+        isLastPage={last}
+        withMultiSelect
+        withRowsHover
+        withLazyLoad={!searchLimit || searchLimit !== gridData.length}
+        withNoResults={!loading && gridData.length === 0}
       >
-        <GridViewColumn
+        <GridColumn
           name="client"
           header={I18n.t('CLIENTS.LIST.GRID_HEADER.CLIENT')}
+          sortBy="firstName"
           render={data => <GridPlayerInfo profile={data} />}
         />
-        <GridViewColumn
+        <GridColumn
           name="warning"
           header={I18n.t('CLIENTS.LIST.GRID_HEADER.WARNING')}
           render={({ warnings }) => (
@@ -102,7 +132,7 @@ class ClientsGrid extends PureComponent {
             )) : null
           )}
         />
-        <GridViewColumn
+        <GridColumn
           name="lastActivity"
           header={I18n.t('CLIENTS.LIST.GRID_HEADER.LAST_ACTIVITY')}
           render={({ lastActivity }) => {
@@ -120,8 +150,9 @@ class ClientsGrid extends PureComponent {
             );
           }}
         />
-        <GridViewColumn
+        <GridColumn
           name="country"
+          sortBy="address.countryCode"
           header={I18n.t('CLIENTS.LIST.GRID_HEADER.COUNTRY')}
           render={({ address: { countryCode }, languageCode }) => (
             <Choose>
@@ -138,8 +169,9 @@ class ClientsGrid extends PureComponent {
             </Choose>
           )}
         />
-        <GridViewColumn
+        <GridColumn
           name="balance"
+          sortBy="balance.amount"
           header={I18n.t('CLIENTS.LIST.GRID_HEADER.BALANCE')}
           render={(data) => {
             const currency = getActiveBrandConfig().currencies.base;
@@ -154,8 +186,9 @@ class ClientsGrid extends PureComponent {
             );
           }}
         />
-        <GridViewColumn
+        <GridColumn
           name="deposits"
+          sortBy="paymentDetails.depositsCount"
           header={I18n.t('CLIENTS.LIST.GRID_HEADER.DEPOSITS')}
           render={(data) => {
             const { depositsCount, lastDepositTime } = get(data, 'paymentDetails') || {};
@@ -176,7 +209,7 @@ class ClientsGrid extends PureComponent {
             );
           }}
         />
-        <GridViewColumn
+        <GridColumn
           name="affiliate"
           header={I18n.t('CLIENTS.LIST.GRID_HEADER.AFFILIATE')}
           render={(data) => {
@@ -245,7 +278,7 @@ class ClientsGrid extends PureComponent {
             );
           }}
         />
-        <GridViewColumn
+        <GridColumn
           name="sales"
           header={I18n.t('CLIENTS.LIST.GRID_HEADER.SALES')}
           render={(data) => {
@@ -281,7 +314,7 @@ class ClientsGrid extends PureComponent {
             );
           }}
         />
-        <GridViewColumn
+        <GridColumn
           name="retention"
           header={I18n.t('CLIENTS.LIST.GRID_HEADER.RETENTION')}
           render={(data) => {
@@ -317,8 +350,9 @@ class ClientsGrid extends PureComponent {
             );
           }}
         />
-        <GridViewColumn
+        <GridColumn
           name="registrationDate"
+          sortBy="registrationDetails.registrationDate"
           header={I18n.t('CLIENTS.LIST.GRID_HEADER.REGISTRATION')}
           render={({ registrationDetails: { registrationDate } }) => (
             <Fragment>
@@ -337,8 +371,9 @@ class ClientsGrid extends PureComponent {
             </Fragment>
           )}
         />
-        <GridViewColumn
+        <GridColumn
           name="lastNote"
+          sortBy="lastNote.changedAt"
           header={I18n.t('CLIENTS.LIST.GRID_HEADER.LAST_NOTE')}
           render={(data) => {
             const { uuid, changedAt, content } = get(data, 'lastNote') || {};
@@ -384,7 +419,7 @@ class ClientsGrid extends PureComponent {
             );
           }}
         />
-        <GridViewColumn
+        <GridColumn
           name="status"
           header={I18n.t('CLIENTS.LIST.GRID_HEADER.STATUS')}
           render={(data) => {
@@ -429,9 +464,9 @@ class ClientsGrid extends PureComponent {
             );
           }}
         />
-      </GridView>
+      </Grid>
     );
   }
 }
 
-export default ClientsGrid;
+export default withRouter(ClientsGrid);

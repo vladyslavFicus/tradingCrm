@@ -22,23 +22,27 @@ class GridHeader extends PureComponent {
 
     const { handleSort } = this.props;
     const { sortList } = this.state;
-    const sortingData = {};
+    const newSortList = { ...sortList };
 
     // Sorting steps 'ASC' => 'DESC' => without sorting
-    if (sortList[sortBy] === 'ASC') {
-      sortingData[sortBy] = 'DESC';
-    } else if (sortList[sortBy] === 'DESC') {
-      sortingData[sortBy] = undefined;
-    } else {
-      sortingData[sortBy] = 'ASC';
+    // where 'ASC' - sorting from A-Z
+    // 'DESC' - sorting from Z-A
+    switch (sortList[sortBy]) {
+      case 'ASC': {
+        newSortList[sortBy] = 'DESC';
+        break;
+      }
+      case 'DESC': {
+        delete newSortList[sortBy];
+        break;
+      }
+      default: {
+        newSortList[sortBy] = 'ASC';
+        break;
+      }
     }
 
-    this.setState({
-      sortList: {
-        ...sortList,
-        ...sortingData,
-      },
-    }, () => handleSort(this.state.sortList));
+    this.setState({ sortList: { ...newSortList } }, () => handleSort(this.state.sortList));
   };
 
   render() {

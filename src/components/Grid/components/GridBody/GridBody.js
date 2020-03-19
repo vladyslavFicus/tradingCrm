@@ -43,7 +43,7 @@ class GridBody extends PureComponent {
 
     return (
       <GridRow
-        key={`grid-row-${key}`}
+        key={key}
         rowIndex={key}
         allRowsSelected={allRowsSelected}
         touchedRowsIds={touchedRowsIds}

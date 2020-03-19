@@ -40,6 +40,7 @@ const clientColumn = () => ({
 
 const countryColumn = () => ({
   name: 'country',
+  sortBy: 'playerProfileDocument.country',
   header: I18n.t('CONSTANTS.TRANSACTIONS.GRID_COLUMNS.COUNTRY'),
   render: ({ playerProfile: { country } }) => (
     <Choose>
@@ -90,6 +91,7 @@ export default ({
 },
 {
   name: 'originalAgent',
+  sortBy: 'agentName',
   header: I18n.t('CONSTANTS.TRANSACTIONS.GRID_COLUMNS.ORIGINAL_AGENT'),
   render: ({ originalAgent }) => (
     <Choose>
@@ -131,6 +133,7 @@ export default ({
   },
 }, {
   name: 'amount',
+  sortBy: 'amount',
   header: I18n.t('CONSTANTS.TRANSACTIONS.GRID_COLUMNS.AMOUNT'),
   render: ({ currency, amount, normalizedAmount }) => (
     <Fragment>
@@ -142,6 +145,7 @@ export default ({
   ),
 }, {
   name: 'tradingAcc',
+  sortBy: 'login',
   header: I18n.t('CONSTANTS.TRANSACTIONS.GRID_COLUMNS.TRADING_ACC'),
   render: ({ login, platformType, currency }) => (
     <>
@@ -194,6 +198,7 @@ export default ({
   ),
 }, {
   name: 'creationTime',
+  sortBy: 'creationTime',
   header: I18n.t('CONSTANTS.TRANSACTIONS.GRID_COLUMNS.DATE_TIME'),
   render: ({ creationTime }) => (
     <Fragment>

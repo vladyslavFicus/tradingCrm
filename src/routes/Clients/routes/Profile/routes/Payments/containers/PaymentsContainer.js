@@ -44,8 +44,11 @@ export default compose(
           accountType: 'LIVE',
           ...query && query.filters,
           playerUUID,
-          page: 0,
-          limit: 20,
+          page: {
+            from: 0,
+            size: 20,
+            sorts: get(query, 'sorts') || [],
+          },
         },
       },
       fetchPolicy: 'network-only',

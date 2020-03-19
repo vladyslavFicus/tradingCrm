@@ -87,7 +87,7 @@ class GridRow extends PureComponent {
         {
           gridColumns.map((columnData, columnKey) => (
             <GridRowCell
-              key={`grid-cell-${rowIndex}-${columnKey}`}
+              key={`${rowIndex}-${columnKey}`}
               columnData={columnData}
               gridRowData={gridRowData}
               isCheckboxActive={isSelected}

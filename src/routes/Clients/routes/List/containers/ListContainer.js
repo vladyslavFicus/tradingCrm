@@ -14,8 +14,9 @@ export default compose(
   graphql(clientsQuery, {
     name: 'profiles',
     options: ({ location: { query } }) => {
-      const filters = (query) ? query.filters : {};
-      const { searchLimit } = filters;
+      const filters = (query) ? query.filters : [];
+      const sorts = (query) ? query.sorts : [];
+      const searchLimit = get(filters, 'searchLimit') || 0;
 
       if (filters) {
         if (filters.desks && !Array.isArray(filters.desks)) {
@@ -39,6 +40,7 @@ export default compose(
             page: {
               from: 0,
               size: searchLimit && searchLimit < PROFILES_SIZE ? searchLimit : PROFILES_SIZE,
+              sorts,
             },
           },
         },
@@ -46,7 +48,8 @@ export default compose(
     },
     props: ({ profiles: { profiles, fetchMore, ...rest }, ownProps: { location } }) => {
       const { response, currentPage } = limitItems(profiles, location);
-      const filters = get(location, 'query.filters') || null;
+      const filters = get(location, 'query.filters') || [];
+      const sorts = get(location, 'query.sorts') || [];
       const searchLimit = get(filters, 'searchLimit') || 0;
 
       const restLimitSize = searchLimit && (searchLimit - (currentPage + 1) * PROFILES_SIZE);
@@ -66,6 +69,7 @@ export default compose(
                 page: {
                   from: currentPage + 1,
                   size,
+                  sorts,
                 },
               },
             },
