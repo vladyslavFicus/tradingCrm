@@ -1,6 +1,6 @@
 import { graphql, compose } from 'react-apollo';
 import { reduxForm } from 'redux-form';
-import { withNotifications } from 'components/HighOrder';
+import { withNotifications } from 'hoc';
 import { clientsBulkRepresentativeUpdate } from 'graphql/mutations/profile';
 import { createValidator } from 'utils/validator';
 import MoveModal from './MoveModal';

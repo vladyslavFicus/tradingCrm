@@ -1,9 +1,9 @@
 import { graphql, compose } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
 import { getActiveBrandConfig, getBrandId } from 'config';
+import { withNotifications, withModals } from 'hoc';
 import { withPermission } from 'providers/PermissionsProvider';
 import { withStorage } from 'providers/StorageProvider';
-import { withNotifications, withModals } from 'components/HighOrder';
 import ConfirmActionModal from 'components/Modal/ConfirmActionModal';
 import RepresentativeUpdateModal from 'components/RepresentativeUpdateModal';
 import NoteModal from 'components/NoteModal';

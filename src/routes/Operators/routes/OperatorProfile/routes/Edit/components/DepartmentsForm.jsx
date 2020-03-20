@@ -2,13 +2,13 @@ import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import I18n from 'i18n-js';
 import { compose } from 'redux';
+import { withReduxFormValues } from 'hoc';
 import { SelectField } from 'components/ReduxForm';
 import PropTypes from 'constants/propTypes';
 import { createValidator, translateLabels } from 'utils/validator';
 import { departmentsLabels, rolesLabels } from 'constants/operators';
 import renderLabel from 'utils/renderLabel';
 import shallowEqual from 'utils/shallowEqual';
-import { withReduxFormValues } from 'components/HighOrder';
 import { attributeLabels } from './constants';
 
 class DepartmentsForm extends Component {

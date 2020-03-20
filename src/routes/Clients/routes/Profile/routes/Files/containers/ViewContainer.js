@@ -1,7 +1,7 @@
 import { graphql, compose } from 'react-apollo';
+import { withNotifications, withModals } from 'hoc';
 import { getFilesCategoriesList, getFilesListByProfileUUID } from 'graphql/queries/files';
 import { updateFileStatusMutation, updateFileMetaMutation, deleteMutation } from 'graphql/mutations/files';
-import { withNotifications, withModals } from 'components/HighOrder';
 import { withStorage } from 'providers/StorageProvider';
 import ConfirmActionModal from 'components/Modal/ConfirmActionModal';
 import Files from '../components/Files';

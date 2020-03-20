@@ -1,9 +1,9 @@
 import { compose, graphql } from 'react-apollo';
 import { connect } from 'react-redux';
 import { change } from 'redux-form';
-import { currencyQuery } from '../../../graphql/queries/options';
+import { withMultiCurrencyModal, withReduxFormValues } from 'hoc';
+import { currencyQuery } from 'graphql/queries/options';
 import MultiCurrencyValue from './MultiCurrencyValue';
-import { withMultiCurrencyModal, withReduxFormValues } from '../../HighOrder';
 
 export default compose(
   withReduxFormValues,

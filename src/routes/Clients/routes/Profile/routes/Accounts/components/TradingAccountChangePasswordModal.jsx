@@ -6,9 +6,9 @@ import { get } from 'lodash';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { reduxForm, Field } from 'redux-form';
 import { getActiveBrandConfig } from 'config';
+import { withNotifications } from 'hoc';
 import { tradingAccountChangePasswordMutation } from 'graphql/mutations/tradingAccount';
 import { InputField } from 'components/ReduxForm';
-import { withNotifications } from 'components/HighOrder';
 import { createValidator, translateLabels } from 'utils/validator';
 
 const attributeLabels = {

@@ -2,6 +2,7 @@ import { reduxForm, formValueSelector } from 'redux-form';
 import { connect } from 'react-redux';
 import { withApollo, graphql, compose } from 'react-apollo';
 import { get } from 'lodash';
+import { withNotifications } from 'hoc';
 import { withStorage } from 'providers/StorageProvider';
 import { createValidator, translateLabels } from '../../utils/validator';
 import { salesStatusValues } from '../../constants/salesStatuses';
@@ -10,7 +11,6 @@ import { userTypes } from '../../constants/hierarchyTypes';
 import { clientsBulkRepresentativeUpdate } from '../../graphql/mutations/profile';
 import { bulkLeadUpdate } from '../../graphql/mutations/leads';
 import { getHierarchyUsersByType, getUserBranchHierarchy } from '../../graphql/queries/hierarchy';
-import { withNotifications } from '../HighOrder';
 import RepresentativeUpdateModal from './RepresentativeUpdateModal';
 import { attributeLabels, getAgents, fieldNames } from './constants';
 

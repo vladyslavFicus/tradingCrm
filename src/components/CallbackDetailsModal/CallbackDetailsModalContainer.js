@@ -1,6 +1,6 @@
 import { compose, graphql } from 'react-apollo';
 import { get } from 'lodash';
-import { withNotifications } from '../HighOrder';
+import { withNotifications } from 'hoc';
 import { operatorsQuery } from '../../graphql/queries/operators';
 import { callbackQuery } from '../../graphql/queries/callbacks';
 import { updateCallbackMutation } from '../../graphql/mutations/callbacks';

@@ -2,14 +2,14 @@ import React, { Component, Fragment } from 'react';
 import { graphql, compose } from 'react-apollo';
 import classNames from 'classnames';
 import I18n from 'i18n-js';
-import PropTypes from 'constants/propTypes';
 import { Field, reduxForm } from 'redux-form';
+import { withNotifications } from 'hoc';
+import PropTypes from 'constants/propTypes';
 import permissions from 'config/permissions';
 import Permissions from 'utils/permissions';
 import { createValidator } from 'utils/validator';
 import { updateKYCStatusMutation } from 'graphql/mutations/profile';
 import { withPermission } from 'providers/PermissionsProvider';
-import { withNotifications } from 'components/HighOrder';
 import { SelectField } from 'components/ReduxForm';
 import { kycStatusesLabels } from 'constants/kycStatuses';
 

@@ -1,10 +1,10 @@
 import { graphql, compose } from 'react-apollo';
+import { withNotifications, withModals } from 'hoc';
 import { getBranchChildren, getBranchInfo } from 'graphql/queries/hierarchy';
 import { getRules, getRulesRetention } from 'graphql/queries/rules';
 import { createRule, createRuleRetention, deleteRule, deleteRuleRetention } from 'graphql/mutations/rules';
 import { deskTypes } from 'constants/rules';
 import { branchTypes } from 'constants/hierarchyTypes';
-import { withNotifications, withModals } from 'components/HighOrder';
 import ConfirmActionModal from 'components/Modal/ConfirmActionModal';
 import RuleModal from '../components/RuleModal';
 

@@ -1,6 +1,6 @@
 import { withApollo, graphql, compose } from 'react-apollo';
 import { get } from 'lodash';
-import { withModals } from 'components/HighOrder';
+import { withModals } from 'hoc';
 import ConfirmActionModal from 'components/Modal/ConfirmActionModal';
 import { clientsQuery } from 'graphql/queries/profile';
 import limitItems from 'utils/limitItems';

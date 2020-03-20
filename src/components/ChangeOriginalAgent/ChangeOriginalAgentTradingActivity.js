@@ -4,10 +4,11 @@ import { compose, graphql } from 'react-apollo';
 import { Field, reduxForm } from 'redux-form';
 import { get } from 'lodash';
 import I18n from 'i18n-js';
+import { withNotifications } from 'hoc';
 import { operatorsQuery } from 'graphql/queries/operators';
 import { changeOriginalAgent } from 'graphql/mutations/tradingActivity';
 import { NasSelectField } from '../ReduxForm/index';
-import { withNotifications } from '../HighOrder';
+
 
 class ChangeOriginalAgent extends PureComponent {
   static propTypes = {

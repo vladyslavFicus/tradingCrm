@@ -4,8 +4,8 @@ import I18n from 'i18n-js';
 import { compose } from 'react-apollo';
 import { Button } from 'reactstrap';
 import { withRequests } from 'apollo';
+import { withNotifications } from 'hoc';
 import StickyWrapper from 'components/StickyWrapper';
-import { withNotifications } from 'components/HighOrder';
 import BrandConfigEditor from './components/BrandConfigEditor';
 import {
   BrandConfigCreateMutation,

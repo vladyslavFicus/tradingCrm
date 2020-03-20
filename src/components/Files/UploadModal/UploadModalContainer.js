@@ -1,9 +1,9 @@
 import { graphql, compose } from 'react-apollo';
 import { reduxForm } from 'redux-form';
+import { withNotifications } from 'hoc';
 import { uploadFileMutation, confirmUploadedFilesMutation } from 'graphql/mutations/files';
 import { getFilesCategoriesList } from 'graphql/queries/files';
 import { addNoteMutation } from 'graphql/mutations/note';
-import { withNotifications } from 'components/HighOrder';
 import { createValidator, translateLabels } from 'utils/validator';
 import { translatedLabels } from './constants';
 import UploadModal from './UploadModal';

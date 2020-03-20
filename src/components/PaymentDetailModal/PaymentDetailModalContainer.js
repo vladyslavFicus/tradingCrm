@@ -1,5 +1,5 @@
 import { graphql, compose } from 'react-apollo';
-import { withNotifications } from 'components/HighOrder';
+import { withNotifications } from 'hoc';
 import { newProfile as newProfileQuery } from 'graphql/queries/profile';
 import { getManualPaymentMethods } from 'graphql/queries/payments';
 import { acceptPayment, changePaymentMethod, changePaymentStatus } from '../../graphql/mutations/payment';

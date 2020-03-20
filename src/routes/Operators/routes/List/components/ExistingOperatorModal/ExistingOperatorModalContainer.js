@@ -1,6 +1,6 @@
 import { compose, graphql } from 'react-apollo';
+import { withNotifications } from 'hoc';
 import { addExistingOperator } from 'graphql/mutations/operators';
-import { withNotifications } from 'components/HighOrder';
 import ExistingOperatorModal from './ExistingOperatorModal';
 
 export default compose(

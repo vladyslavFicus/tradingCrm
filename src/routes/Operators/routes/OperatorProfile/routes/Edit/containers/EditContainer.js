@@ -1,11 +1,11 @@
 import { compose, graphql } from 'react-apollo';
 import { get, set, omit } from 'lodash';
+import { withNotifications } from 'hoc';
 import { getUserHierarchyById } from 'graphql/queries/hierarchy';
 import { operatorQuery } from 'graphql/queries/operators';
 import { updateOperator, addDepartment, removeDepartment } from 'graphql/mutations/operators';
 import { authoritiesOptionsQuery } from 'graphql/queries/auth';
 import { withStorage } from 'providers/StorageProvider';
-import { withNotifications } from 'components/HighOrder';
 import Edit from '../components/Edit';
 
 export default compose(

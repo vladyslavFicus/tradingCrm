@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import I18n from 'i18n-js';
+import { withModals } from 'hoc';
 import PropTypes from 'constants/propTypes';
-import { withModals } from 'components/HighOrder';
 import MigrateToFsaModal from 'modals/MigrateToFsaModal';
 import './MigrateButton.scss';
 

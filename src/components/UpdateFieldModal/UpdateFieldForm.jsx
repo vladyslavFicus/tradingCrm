@@ -4,7 +4,7 @@ import { reduxForm, Field } from 'redux-form';
 import { ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import I18n from 'i18n-js';
 import { get } from 'lodash';
-import { withNotifications } from '../HighOrder';
+import { withNotifications } from 'hoc';
 import { createValidator, translateLabels } from '../../utils/validator';
 import PropTypes from '../../constants/propTypes';
 import { TextAreaField } from '../ReduxForm';

@@ -1,9 +1,9 @@
 import { compose, graphql } from 'react-apollo';
 import { get } from 'lodash';
-import { withModals } from '../../../../../../../../components/HighOrder';
+import { withModals } from 'hoc';
+import { callbacksQuery } from 'graphql/queries/callbacks';
 import CallbackAddModal from '../CallbackAddModal';
 import Callbacks from './Callbacks';
-import { callbacksQuery } from '../../../../../../../../graphql/queries/callbacks';
 
 export default compose(
   withModals({

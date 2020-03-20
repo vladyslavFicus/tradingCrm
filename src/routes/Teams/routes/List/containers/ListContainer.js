@@ -1,5 +1,5 @@
 import { graphql, compose } from 'react-apollo';
-import { withModals } from 'components/HighOrder';
+import { withModals } from 'hoc';
 import HierarchyInfoModal from 'components/HierarchyInfoModal';
 import { getUserBranchHierarchy, getBranchHierarchy } from 'graphql/queries/hierarchy';
 import { createTeam } from 'graphql/mutations/hierarchy';

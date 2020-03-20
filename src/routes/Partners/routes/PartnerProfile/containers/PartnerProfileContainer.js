@@ -1,5 +1,6 @@
 import { get } from 'lodash';
 import { graphql, compose } from 'react-apollo';
+import { withModals, withNotifications } from 'hoc';
 import { withStorage } from 'providers/StorageProvider';
 import { unlockLoginMutation } from 'graphql/mutations/auth';
 import { changePassword, sendInvitation } from 'graphql/mutations/operators';
@@ -7,7 +8,6 @@ import { changeStatus } from 'graphql/mutations/partners';
 import { getLoginLock } from 'graphql/queries/profile';
 import { partnerQuery } from 'graphql/queries/partners';
 import { statusActions } from 'constants/partners';
-import { withModals, withNotifications } from 'components/HighOrder';
 import ConfirmActionModal from 'components/Modal/ConfirmActionModal';
 import PartnerProfile from '../components/PartnerProfile';
 

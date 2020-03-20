@@ -1,9 +1,9 @@
 import { compose, graphql } from 'react-apollo';
 import { get } from 'lodash';
+import { withNotifications } from 'hoc';
 import { updatePartner } from 'graphql/mutations/partners';
 import { partnerQuery } from 'graphql/queries/partners';
 import { withStorage } from 'providers/StorageProvider';
-import { withNotifications } from 'components/HighOrder';
 import Edit from '../components/Edit';
 
 export default compose(

@@ -1,7 +1,7 @@
 import { graphql, compose } from 'react-apollo';
 import { get } from 'lodash';
+import { withModals } from 'hoc';
 import { tradingActivityQuery } from 'graphql/queries/tradingActivity';
-import { withModals } from 'components/HighOrder';
 import TradingActivity from '../components/TradingActivity';
 import ChangeOriginalAgentModal from '../components/ChangeOriginalAgentModal';
 

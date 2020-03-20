@@ -1,6 +1,6 @@
 import { graphql, compose, withApollo } from 'react-apollo';
+import { withNotifications, withModals } from 'hoc';
 import Modal from 'components/Modal';
-import { withNotifications, withModals } from 'components/HighOrder';
 import ConfirmActionModal from 'components/Modal/ConfirmActionModal';
 import RepresentativeUpdateModal from 'components/RepresentativeUpdateModal';
 import limitItems from 'utils/limitItems';

@@ -2,11 +2,11 @@ import React, { PureComponent } from 'react';
 import I18n from 'i18n-js';
 import { compose } from 'react-apollo';
 import { getActiveBrandConfig } from 'config';
+import { withModals } from 'hoc';
 import PropTypes from 'constants/propTypes';
 import { tradingTypes } from 'constants/payment';
 import Badge from 'components/Badge';
 import { shortify } from 'utils/uuid';
-import { withModals } from '../HighOrder';
 import PaymentDetailModal from '../PaymentDetailModal';
 import Uuid from '../Uuid';
 

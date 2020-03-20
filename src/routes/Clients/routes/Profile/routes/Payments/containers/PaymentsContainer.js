@@ -1,12 +1,12 @@
 import { graphql, compose } from 'react-apollo';
 import { get } from 'lodash';
 import deepMerge from 'deepmerge';
+import { withModals } from 'hoc';
 import { addNoteMutation } from 'graphql/mutations/note';
 import { addPaymentMutation } from 'graphql/mutations/payment';
 import { getClientPaymentsByUuid } from 'graphql/queries/payments';
 import { newProfile } from 'graphql/queries/profile';
 import { withStorage } from 'providers/StorageProvider';
-import { withModals } from 'components/HighOrder';
 import Payments from '../components/Payments';
 import PaymentAddModal from '../components/PaymentAddModal';
 

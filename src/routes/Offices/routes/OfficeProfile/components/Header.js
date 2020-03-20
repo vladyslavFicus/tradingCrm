@@ -1,9 +1,9 @@
 import React, { PureComponent } from 'react';
 import I18n from 'i18n-js';
+import { withModals } from 'hoc';
 import PropTypes from 'constants/propTypes';
 import permissions from 'config/permissions';
 import PermissionContent from 'components/PermissionContent';
-import { withModals } from 'components/HighOrder';
 import AddOperatorToBranchModal from 'components/AddOperatorToBranchModal';
 import ProfileHeaderPlaceholder from 'components/ProfileHeaderPlaceholder';
 import Uuid from 'components/Uuid';

@@ -1,4 +1,5 @@
 import { graphql, compose } from 'react-apollo';
+import { withModals, withNotifications } from 'hoc';
 import { notesQuery } from 'graphql/queries/notes';
 import {
   addNoteMutation,
@@ -8,12 +9,11 @@ import {
   updateNoteMutation,
 } from 'graphql/mutations/note';
 import NoteModal from 'components/NoteModal';
+import { leadProfileQuery } from 'graphql/queries/leads';
+import { promoteLeadToClient } from 'graphql/mutations/leads';
+import PromoteLeadModal from 'components/PromoteLeadModal';
+import RepresentativeUpdateModal from 'components/RepresentativeUpdateModal';
 import LeadProfile from '../components/LeadProfile';
-import { withModals, withNotifications } from '../../../../../components/HighOrder';
-import { leadProfileQuery } from '../../../../../graphql/queries/leads';
-import { promoteLeadToClient } from '../../../../../graphql/mutations/leads';
-import PromoteLeadModal from '../../../../../components/PromoteLeadModal';
-import RepresentativeUpdateModal from '../../../../../components/RepresentativeUpdateModal';
 
 const PINNED_NOTES_SIZE = 100;
 

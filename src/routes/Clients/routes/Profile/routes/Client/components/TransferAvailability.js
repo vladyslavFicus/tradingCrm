@@ -3,7 +3,7 @@ import { graphql, compose } from 'react-apollo';
 import I18n from 'i18n-js';
 import PropTypes from 'prop-types';
 import { Field, reduxForm } from 'redux-form';
-import { withNotifications } from 'components/HighOrder';
+import { withNotifications } from 'hoc';
 import { SelectField } from 'components/ReduxForm';
 import { updateConfigurationMutation } from 'graphql/mutations/profile';
 

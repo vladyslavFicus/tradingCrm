@@ -1,12 +1,12 @@
 import { get } from 'lodash';
 import { graphql, compose } from 'react-apollo';
+import { withModals, withNotifications } from 'hoc';
 import { withStorage } from 'providers/StorageProvider';
 import { unlockLoginMutation } from 'graphql/mutations/auth';
 import { changePassword, sendInvitation, passwordResetRequest, changeStatus } from 'graphql/mutations/operators';
 import { getLoginLock } from 'graphql/queries/profile';
 import { operatorQuery } from 'graphql/queries/operators';
 import { statusActions } from 'constants/operators';
-import { withModals, withNotifications } from 'components/HighOrder';
 import ConfirmActionModal from 'components/Modal/ConfirmActionModal';
 import OperatorProfile from '../components/OperatorProfile';
 

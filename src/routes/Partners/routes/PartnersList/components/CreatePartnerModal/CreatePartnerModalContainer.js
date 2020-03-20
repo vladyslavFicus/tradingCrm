@@ -1,8 +1,8 @@
 import { reduxForm } from 'redux-form';
 import { compose } from 'react-apollo';
 import { connect } from 'react-redux';
+import { withReduxFormValues } from 'hoc';
 import { createValidator, translateLabels } from 'utils/validator';
-import { withReduxFormValues } from 'components/HighOrder';
 import { getActiveBrandConfig } from 'config';
 import CreatePartnerModal from './CreatePartnerModal';
 import { attributeLabels } from './constants';

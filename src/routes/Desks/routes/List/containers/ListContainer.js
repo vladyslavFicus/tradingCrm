@@ -1,9 +1,9 @@
 import { graphql, compose } from 'react-apollo';
-import { withModals } from '../../../../../components/HighOrder';
-import HierarchyInfoModal from '../../../../../components/HierarchyInfoModal';
-import { getUserBranchHierarchy, getBranchHierarchy } from '../../../../../graphql/queries/hierarchy';
-import { createDesk } from '../../../../../graphql/mutations/hierarchy';
-import { branchTypes } from '../../../../../constants/hierarchyTypes';
+import { withModals } from 'hoc';
+import HierarchyInfoModal from 'components/HierarchyInfoModal';
+import { getUserBranchHierarchy, getBranchHierarchy } from 'graphql/queries/hierarchy';
+import { createDesk } from 'graphql/mutations/hierarchy';
+import { branchTypes } from 'constants/hierarchyTypes';
 import DeskModal from '../components/DeskModal';
 import List from '../components/List';
 

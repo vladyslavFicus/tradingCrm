@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { graphql, compose, withApollo } from 'react-apollo';
 import { get } from 'lodash';
-import { withNotifications } from 'components/HighOrder';
+import { withNotifications } from 'hoc';
 import { getUserBranchHierarchy } from 'graphql/queries/hierarchy';
 import countries from 'utils/countryList';
 import { operatorsQuery } from 'graphql/queries/operators';

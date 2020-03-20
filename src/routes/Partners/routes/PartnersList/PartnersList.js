@@ -4,6 +4,7 @@ import { withRequests } from 'apollo';
 import I18n from 'i18n-js';
 import { get } from 'lodash';
 import { TextRow } from 'react-placeholder/lib/placeholders';
+import { withModals, withNotifications } from 'hoc';
 
 // will be removed with AddPartnerModal refactoring
 import { authoritiesOptionsQuery } from 'graphql/queries/auth';
@@ -11,7 +12,6 @@ import { createPartner } from 'graphql/mutations/partners';
 
 import permissions from 'config/permissions';
 import PropTypes from 'constants/propTypes';
-import { withModals, withNotifications } from 'components/HighOrder';
 import PermissionContent from 'components/PermissionContent';
 import Placeholder from 'components/Placeholder';
 import { Button } from 'components/UI';

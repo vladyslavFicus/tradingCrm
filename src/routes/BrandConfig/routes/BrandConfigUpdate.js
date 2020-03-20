@@ -5,9 +5,9 @@ import { compose } from 'react-apollo';
 import { Button } from 'reactstrap';
 import { get } from 'lodash';
 import { withRequests } from 'apollo';
+import { withNotifications } from 'hoc';
 import StickyWrapper from 'components/StickyWrapper';
 import ShortLoader from 'components/ShortLoader';
-import { withNotifications } from 'components/HighOrder';
 import BrandConfigEditor from './components/BrandConfigEditor';
 import {
   BrandConfigGetQuery,

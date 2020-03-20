@@ -1,4 +1,6 @@
 import { graphql, compose } from 'react-apollo';
+import { withNotifications, withModals } from 'hoc';
+import { withStorage } from 'providers/StorageProvider';
 import {
   updateMutation,
   updateLimitProfileMutation,
@@ -9,9 +11,7 @@ import {
   verifyEmailMutation,
   updateEmailMutation,
 } from 'graphql/mutations/profile';
-import { withNotifications, withModals } from 'components/HighOrder';
 import { newProfile } from 'graphql/queries/profile';
-import { withStorage } from 'providers/StorageProvider';
 import ConfirmActionModal from 'components/Modal/ConfirmActionModal';
 import View from '../components/View';
 

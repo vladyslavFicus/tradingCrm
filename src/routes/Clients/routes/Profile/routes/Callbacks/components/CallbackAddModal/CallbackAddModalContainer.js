@@ -1,5 +1,5 @@
 import { compose, graphql } from 'react-apollo';
-import { withNotifications } from 'components/HighOrder';
+import { withNotifications } from 'hoc';
 import { addNoteMutation } from 'graphql/mutations/note';
 import { operatorsQuery } from 'graphql/queries/operators';
 import { createCallbackMutation } from 'graphql/mutations/callbacks';

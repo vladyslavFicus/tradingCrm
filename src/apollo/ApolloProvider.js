@@ -9,11 +9,11 @@ import { InMemoryCache } from 'apollo-cache-inmemory';
 import { BatchHttpLink } from 'apollo-link-batch-http';
 import { HttpLink } from 'apollo-link-http';
 import { createUploadLink } from 'apollo-upload-client';
+import { withModals } from 'hoc';
 import { withStorage } from 'providers/StorageProvider';
 import omitTypename from 'graphql/utils/omitTypename';
 import PropTypes from 'constants/propTypes';
 import queryNames from 'constants/apolloQueryNames';
-import { withModals } from 'components/HighOrder';
 import UpdateVersionModal from 'components/UpdateVersionModal';
 import { getGraphQLRoot, getApiVersion } from '../config';
 

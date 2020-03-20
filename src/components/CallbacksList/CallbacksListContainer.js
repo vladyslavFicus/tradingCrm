@@ -1,6 +1,6 @@
 import { compose } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
-import { withModals } from '../HighOrder';
+import { withModals } from 'hoc';
 import CallbackDetailsModal from '../CallbackDetailsModal';
 import CallbacksList from './CallbacksList';
 

@@ -1,9 +1,9 @@
 import { graphql, compose, withApollo } from 'react-apollo';
 import { get } from 'lodash';
+import { withNotifications } from 'hoc';
 import { filterSetByUserIdQuery } from 'graphql/queries/filterSet';
 import { updateFavourite } from 'graphql/mutations/filterSet';
 import { filterSetTypes } from 'constants/filterSet';
-import { withNotifications } from 'components/HighOrder';
 import FilterSet from './FilterSet';
 
 export default compose(

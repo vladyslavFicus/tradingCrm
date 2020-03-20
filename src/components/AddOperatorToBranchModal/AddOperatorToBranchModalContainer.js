@@ -1,10 +1,10 @@
 import { reduxForm } from 'redux-form';
 import { get } from 'lodash';
 import { withApollo, graphql, compose } from 'react-apollo';
+import { withNotifications } from 'hoc';
 import { createValidator, translateLabels } from '../../utils/validator';
 import { operatorsQuery } from '../../graphql/queries/operators';
 import { addOperatorToBranch } from '../../graphql/mutations/hierarchy';
-import { withNotifications } from '../HighOrder';
 import AddOperatorToBranchModal from './AddOperatorToBranchModal';
 import { attributeLabels } from './formFields';
 

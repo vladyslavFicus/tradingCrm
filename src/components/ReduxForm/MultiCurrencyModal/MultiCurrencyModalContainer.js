@@ -2,10 +2,10 @@ import { compose, graphql } from 'react-apollo';
 import { reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
 import { get } from 'lodash';
+import { withReduxFormValues } from 'hoc';
 import { createValidator } from '../../../utils/validator';
 import { currencyQuery } from '../../../graphql/queries/options';
 import MultiCurrencyModal from './MultiCurrencyModal';
-import withReduxFormValues from '../../HighOrder/withReduxFormValues';
 
 const FORM_NAME = 'multiCurrencyModal';
 
