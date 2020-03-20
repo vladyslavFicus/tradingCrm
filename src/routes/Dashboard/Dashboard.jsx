@@ -46,13 +46,13 @@ const Dashboard = () => (
 
     {/* Latest deposits */}
     <div className="dashboard__topic">
-      {I18n.t('DASHBOARD.LATEST_DEPOSITS', { count: options.DEPOSITS.limit })}
+      {I18n.t('DASHBOARD.LATEST_DEPOSITS', { count: options.DEPOSITS.page.size })}
     </div>
     <PaymentsGrid {...options.DEPOSITS} />
 
     {/* Latest withdrawals */}
     <div className="dashboard__topic">
-      {I18n.t('DASHBOARD.LATEST_WITHDRAWALS', { count: options.WITHDRAWALS.limit })}
+      {I18n.t('DASHBOARD.LATEST_WITHDRAWALS', { count: options.WITHDRAWALS.page.size })}
     </div>
     <PaymentsGrid {...options.WITHDRAWALS} />
 
