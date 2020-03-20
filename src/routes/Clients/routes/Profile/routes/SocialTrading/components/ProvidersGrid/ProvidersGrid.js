@@ -106,6 +106,7 @@ class ProvidersGrid extends PureComponent {
           data={providers}
           handleRowClick={handleRowClick}
           isLoading={loading}
+          withRowsHover
           withNoResults={providers.length === 0}
         >
           <GridColumn
