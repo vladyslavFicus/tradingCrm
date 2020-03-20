@@ -11,8 +11,10 @@ import { tradingTypes, statuses, statusMapper } from '../../constants/payment';
 import './dashboard.scss';
 
 const defaultChartProps = {
-  page: 0,
-  limit: 10,
+  page: {
+    from: 0,
+    size: 10,
+  },
   statuses: statusMapper[statuses.COMPLETED],
 };
 
