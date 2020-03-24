@@ -29,6 +29,32 @@ const defaultAdditionalStatistics = [{
     .format(),
 }];
 
+const defaultAdditionalRegistrationStatistics = [{
+  from: moment()
+    .startOf('day')
+    .utc()
+    .format(),
+  to: moment()
+    .add(1, 'day')
+    .startOf('day')
+    .utc()
+    .format(),
+}, {
+  from: moment()
+    .startOf('month')
+    .utc()
+    .format(),
+  to: moment()
+    .endOf('month')
+    .utc()
+    .format(),
+}, {
+  to: moment()
+    .endOf('day')
+    .utc()
+    .format(),
+}];
+
 export const initialDateQueryParams = (fromName, toName) => ({
   [fromName]: moment()
     .subtract(6, 'days')
@@ -40,10 +66,30 @@ export const initialDateQueryParams = (fromName, toName) => ({
     .format(),
 });
 
+export const initialDateQueryParamsUTC = (fromName, toName) => ({
+  [fromName]: moment()
+    .subtract(6, 'days')
+    .startOf('day')
+    .utc()
+    .format(),
+  [toName]: moment()
+    .add(1, 'day')
+    .startOf('day')
+    .utc()
+    .format(),
+});
+
 export const initialPaymentQueryParams = (from, to, args) => ({
   ...initialDateQueryParams(from, to),
   detalization: detalization.PER_DAYS,
   additionalStatistics: defaultAdditionalStatistics,
+  ...args,
+});
+
+export const initialRegistrationQueryParams = (from, to, args) => ({
+  ...initialDateQueryParamsUTC(from, to),
+  detalization: detalization.PER_DAYS,
+  additionalStatistics: defaultAdditionalRegistrationStatistics,
   ...args,
 });
 
@@ -53,20 +99,24 @@ export const getChartSelectOptions = [
     value: moment()
       .subtract(6, 'days')
       .startOf('day')
+      .utc()
       .format(),
     endDate: moment()
       .add(1, 'day')
       .startOf('day')
+      .utc()
       .format(),
   },
   {
     label: I18n.t('DASHBOARD.CHART_SELECT_OPTIONS.CURRENT_WEEK'),
     value: moment()
       .startOf('week')
+      .utc()
       .format(),
     endDate: moment()
       .add(1, 'day')
       .startOf('day')
+      .utc()
       .format(),
   },
   {
@@ -74,9 +124,11 @@ export const getChartSelectOptions = [
     value: moment()
       .subtract(1, 'week')
       .startOf('week')
+      .utc()
       .format(),
     endDate: moment()
       .startOf('week')
+      .utc()
       .format(),
   },
   {
@@ -85,10 +137,12 @@ export const getChartSelectOptions = [
       .subtract(1, 'month')
       .add(1, 'days')
       .startOf('day')
+      .utc()
       .format(),
     endDate: moment()
       .add(1, 'day')
       .startOf('day')
+      .utc()
       .format(),
   },
   {
@@ -96,9 +150,11 @@ export const getChartSelectOptions = [
     value: moment()
       .subtract(1, 'month')
       .startOf('month')
+      .utc()
       .format(),
     endDate: moment()
       .startOf('month')
+      .utc()
       .format(),
   },
 ];

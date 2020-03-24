@@ -1,1 +1,1 @@
-export { default } from './WithdrawsCountChartContainer';
+export { default } from './WithdrawsCountChart';

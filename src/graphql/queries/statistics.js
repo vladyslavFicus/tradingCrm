@@ -1,51 +1,5 @@
 import gql from 'graphql-tag';
 
-const registeredUsersQuery = gql`
-  query getRegUsersStat(
-    $dateFrom: String!,
-    $dateTo: String!,
-    $clientIds: [String],
-  ) {
-    statistics {
-      registrations(
-        registrationDateFrom: $dateFrom,
-        registrationDateTo: $dateTo,
-        clientIds: $clientIds,
-      ) {
-        error {
-          error
-        }
-        data {
-          items {
-            entries
-            entryDate
-          }
-          total
-        }
-      }
-    }
-  }
-`;
-
-const registeredUsersTotalsQuery = gql`query getRegUsersStat($timezone: Int!) {
-  statistics {
-    registrationTotals(timezone: $timezone) {
-      today {
-        value
-        error
-      }
-      month {
-        value
-        error
-      }
-      total {
-        value
-        error
-      }
-    }
-  }
-}`;
-
 const paymentsStatisticQuery = gql`
   query getPaymentsStat(
     $dateFrom: String,
@@ -94,7 +48,5 @@ const paymentsStatisticQuery = gql`
 `;
 
 export {
-  registeredUsersQuery,
   paymentsStatisticQuery,
-  registeredUsersTotalsQuery,
 };

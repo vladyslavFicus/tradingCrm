@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'constants/propTypes';
 import I18n from 'i18n-js';
-import { ResponsiveContainer, LineChart, Line, YAxis, CartesianGrid, Tooltip } from 'recharts';
+import { ResponsiveContainer, LineChart, Line, YAxis, CartesianGrid, Tooltip, XAxis } from 'recharts';
 import { getActiveBrandConfig } from 'config';
 import Select from 'components/Select';
 import ShortLoader from 'components/ShortLoader';
 import CustomTooltip from './CustomTooltip';
-import './chart.scss';
+import './Chart.scss';
 
 const totalColumns = [{
   label: 'COMMON.CHART_FOOTER.TOTAL',
@@ -29,6 +29,7 @@ class Chart extends Component {
     onSelectChange: PropTypes.func.isRequired,
     chartAndTextColor: PropTypes.string.isRequired,
     data: PropTypes.arrayOf(PropTypes.object).isRequired,
+    xDataKey: PropTypes.string,
     selectOptions: PropTypes.arrayOf(PropTypes.shape({
       label: PropTypes.string,
       value: PropTypes.string,
@@ -40,16 +41,17 @@ class Chart extends Component {
       today: PropTypes.chartTotal,
     }).isRequired,
     lineDataKey: PropTypes.string.isRequired,
-  }
+  };
 
   static defaultProps = {
     tooltipTitle: '',
     withCurrency: false,
-  }
+    xDataKey: '',
+  };
 
   state = {
     selectedOption: this.props.selectOptions[0],
-  }
+  };
 
   handleSelectChange = (value) => {
     const { selectOptions, onSelectChange } = this.props;
@@ -70,6 +72,7 @@ class Chart extends Component {
       title,
       totals,
       loading,
+      xDataKey,
       hasResults,
       lineDataKey,
       withCurrency,
@@ -80,12 +83,12 @@ class Chart extends Component {
     const { selectedOption } = this.state;
 
     return (
-      <div className="chart">
-        <div className="chart__header">
-          <div className="chart__title">{title}</div>
+      <div className="Chart">
+        <div className="Chart__header">
+          <div className="Chart__title">{title}</div>
           <Select
             value={selectedOption.value}
-            customClassName="chart__select"
+            customClassName="Chart__select"
             onChange={this.handleSelectChange}
           >
             {selectOptions.map(({ value, label }) => (
@@ -94,18 +97,21 @@ class Chart extends Component {
           </Select>
         </div>
 
-        <div className="chart__body">
+        <div className="Chart__body">
           <Choose>
             <When condition={loading}>
-              <div className="chart__loader">
+              <div className="Chart__loader">
                 <ShortLoader />
               </div>
             </When>
             <Otherwise>
               <Choose>
                 <When condition={hasResults}>
-                  <ResponsiveContainer className="chart__grapfic" height={200} width="108%">
+                  <ResponsiveContainer className="Chart__grapfic" height={200} width="108%">
                     <LineChart data={data}>
+                      <If condition={xDataKey}>
+                        <XAxis dataKey={xDataKey} />
+                      </If>
                       <YAxis minTickGap={40} axisLine={false} />
                       <CartesianGrid stroke="#eee" horizontal={false} />
                       <Tooltip {...(tooltipTitle && { content: CustomTooltip(tooltipTitle) })} />
@@ -119,18 +125,18 @@ class Chart extends Component {
                   </ResponsiveContainer>
                 </When>
                 <Otherwise>
-                  <div className="chart__error">{I18n.t('DASHBOARD.CHART.NO_RESULTS_TEXT')}</div>
+                  <div className="Chart__error">{I18n.t('DASHBOARD.CHART.NO_RESULTS_TEXT')}</div>
                 </Otherwise>
               </Choose>
             </Otherwise>
           </Choose>
         </div>
 
-        <div className="chart__footer">
+        <div className="Chart__footer">
           {totalColumns.map(({ key, label }) => (
-            <div key={key} className="chart__footer-item">
-              <div className="chart__footer-item-title">{I18n.t(label)}</div>
-              <div className="chart__footer-item-value" style={{ color: chartAndTextColor }}>
+            <div key={key} className="Chart__footer-item">
+              <div className="Chart__footer-item-title">{I18n.t(label)}</div>
+              <div className="Chart__footer-item-value" style={{ color: chartAndTextColor }}>
                 <Choose>
                   <When condition={totals && (!totals[key] || totals[key].error)}>
                     <Choose>

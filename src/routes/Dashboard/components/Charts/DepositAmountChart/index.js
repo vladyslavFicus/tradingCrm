@@ -1,1 +1,1 @@
-export { default } from './DepositAmountChartContainer';
+export { default } from './DepositAmountChart';

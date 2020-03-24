@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { Fragment } from 'react';
 import I18n from 'i18n-js';
 import RegistrationsChart from './components/Charts/RegistrationsChart';
@@ -8,7 +9,7 @@ import WithdrawsCountChart from './components/Charts/WithdrawsCountChart';
 import PaymentsGrid from './components/Grids/PaymentsGrid';
 import ClientsGrid from './components/Grids/ClientsGrid';
 import { tradingTypes, statuses, statusMapper } from '../../constants/payment';
-import './dashboard.scss';
+import './Dashboard.scss';
 
 const defaultChartProps = {
   page: {
@@ -34,9 +35,9 @@ const options = {
 
 const Dashboard = () => (
   <Fragment>
-    <div className="dashboard__topic">{I18n.t('COMMON.DASHBOARD')}</div>
+    <div className="Dashboard__topic">{I18n.t('COMMON.DASHBOARD')}</div>
 
-    <div className="dashboard__charts">
+    <div className="Dashboard__charts">
       <RegistrationsChart />
       <DepositAmountChart />
       <DepositCountChart />
@@ -45,19 +46,19 @@ const Dashboard = () => (
     </div>
 
     {/* Latest deposits */}
-    <div className="dashboard__topic">
+    <div className="Dashboard__topic">
       {I18n.t('DASHBOARD.LATEST_DEPOSITS', { count: options.DEPOSITS.page.size })}
     </div>
     <PaymentsGrid {...options.DEPOSITS} />
 
     {/* Latest withdrawals */}
-    <div className="dashboard__topic">
+    <div className="Dashboard__topic">
       {I18n.t('DASHBOARD.LATEST_WITHDRAWALS', { count: options.WITHDRAWALS.page.size })}
     </div>
     <PaymentsGrid {...options.WITHDRAWALS} />
 
     {/* Latest registrations */}
-    <div className="dashboard__topic">
+    <div className="Dashboard__topic">
       {I18n.t('DASHBOARD.LATEST_REGISTRATIONS', { count: options.REGISTRATIONS.size })}
     </div>
     <ClientsGrid {...options.REGISTRATIONS} />

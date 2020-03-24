@@ -470,6 +470,9 @@ PropTypes.paymentEntry = PropTypes.shape({
   count: PropTypes.number.isRequired,
   entryDate: PropTypes.string.isRequired,
 });
+PropTypes.RegisteredUsersAdditionalStatField = PropTypes.shape({
+  value: PropTypes.number.isRequired,
+});
 PropTypes.lead = PropTypes.shape({
   uuid: PropTypes.string.isRequired,
   brandId: PropTypes.string,

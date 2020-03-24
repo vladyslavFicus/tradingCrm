@@ -1,1 +1,1 @@
-export { default } from './RegistrationsChartContainer';
+export { default } from './RegistrationsChart';
