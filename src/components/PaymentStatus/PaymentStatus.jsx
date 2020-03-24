@@ -12,6 +12,7 @@ const PaymentStatus = ({
   paymentId,
   declineReason,
   modifiedBy,
+  creationTime,
   statusChangedAt,
 }) => {
   const { color, label } = getTradingStatusProps(status);
@@ -25,13 +26,22 @@ const PaymentStatus = ({
           </FailedStatusIcon>
         </If>
       </div>
-      <If condition={statusChangedAt}>
-        <div className="font-size-11">
-          {I18n.t('COMMON.DATE_ON', {
-            date: moment.utc(statusChangedAt).local().format('DD.MM.YYYY - HH:mm:ss'),
-          })}
-        </div>
-      </If>
+      <Choose>
+        <When condition={statusChangedAt}>
+          <div className="font-size-11">
+            {I18n.t('COMMON.DATE_ON', {
+              date: moment.utc(statusChangedAt).local().format('DD.MM.YYYY - HH:mm:ss'),
+            })}
+          </div>
+        </When>
+        <Otherwise>
+          <div className="font-size-11">
+            {I18n.t('COMMON.DATE_ON', {
+              date: moment.utc(creationTime).local().format('DD.MM.YYYY - HH:mm:ss'),
+            })}
+          </div>
+        </Otherwise>
+      </Choose>
       <If condition={modifiedBy}>
         <div className="font-size-11">
           {I18n.t('COMMON.AUTHOR_BY')}
@@ -49,12 +59,14 @@ PaymentStatus.propTypes = {
   statusChangedAt: PropTypes.string,
   modifiedBy: PropTypes.string,
   declineReason: PropTypes.string,
+  creationTime: PropTypes.string,
 };
 
 PaymentStatus.defaultProps = {
   statusChangedAt: '',
   modifiedBy: '',
   declineReason: '',
+  creationTime: '',
 };
 
 export default PaymentStatus;
