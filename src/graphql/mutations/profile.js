@@ -243,7 +243,9 @@ const updateEmailMutation = gql`mutation updateEmail(
       playerUUID: $playerUUID,
       email: $email,
     ) {
-      success,
+      error {
+        error,
+      }
     }
   }
 }`;

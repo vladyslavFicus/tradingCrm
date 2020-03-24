@@ -205,7 +205,7 @@ class View extends Component {
       data: {
         profile: {
           updateEmail: {
-            success,
+            error,
           },
         },
       },
@@ -215,11 +215,21 @@ class View extends Component {
       },
     });
 
-    this.context.addNotification({
-      level: success ? 'success' : 'error',
-      title: I18n.t('COMMON.EMAIL'),
-      message: I18n.t('COMMON.SAVE_CHANGES'),
-    });
+    if (!error) {
+      this.context.addNotification({
+        level: error ? 'error' : 'success',
+        title: I18n.t('COMMON.EMAIL'),
+        message: error
+          ? I18n.t('COMMON.SOMETHING_WRONG')
+          : I18n.t('COMMON.SAVE_CHANGES'),
+      });
+    } else if (error && error.error === 'error.entity.already.exist') {
+      this.context.addNotification({
+        level: 'error',
+        title: I18n.t('COMMON.EMAIL'),
+        message: I18n.t('error.validation.email.exists'),
+      });
+    }
   }
 
   phoneAccess = () => {
