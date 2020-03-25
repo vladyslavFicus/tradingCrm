@@ -61,7 +61,16 @@ export default compose(
           ...rest,
           clientPaymentsByUuid,
           loadMore: () => fetchMore({
-            variables: deepMerge(rest.variables, { args: { page: newPage + 1 } }),
+            variables: deepMerge(
+              rest.variables,
+              {
+                args: {
+                  page: {
+                    from: newPage + 1,
+                  },
+                },
+              },
+            ),
             updateQuery: (previousResult, { fetchMoreResult }) => {
               if (!fetchMoreResult) {
                 return previousResult;
