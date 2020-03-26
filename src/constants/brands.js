@@ -80,6 +80,7 @@ const brands = keyMirror({
   investactive: null,
   traderking: null,
   fxwlbrands: null,
+  axedo: null,
 });
 
 const departments = keyMirror({
@@ -418,6 +419,10 @@ const brandsConfig = {
   [brands.fxwlbrands]: {
     name: 'FXwlbrands',
     image: { src: '/img/brand/choose-brand/fxwlbrands.svg' },
+  },
+  [brands.investactive]: {
+    name: 'Axedo',
+    image: { src: '/img/brand/choose-brand/axedo.svg' },
   },
 };
 const departmentsConfig = {
