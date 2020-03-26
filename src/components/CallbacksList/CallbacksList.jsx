@@ -7,9 +7,9 @@ import PropTypes from 'constants/propTypes';
 import { targetTypes } from 'constants/note';
 import { callbacksStatusesColor } from 'constants/callbacks';
 import NoteButton from 'components/NoteButton';
+import Grid, { GridColumn } from 'components/Grid';
+import Uuid from 'components/Uuid';
 import { shortify } from 'utils/uuid';
-import GridView, { GridViewColumn } from '../GridView';
-import Uuid from '../Uuid';
 
 class CallbacksList extends Component {
   static propTypes = {
@@ -122,62 +122,59 @@ class CallbacksList extends Component {
     const entities = get(callbacks, 'callbacks.data') || { content: [] };
 
     return (
-      <GridView
-        loading={loading && !entities.content.length}
-        tableClassName="table-hovered"
-        dataSource={entities.content}
-        onPageChange={this.onPageChange}
-        activePage={entities.number + 1}
-        onRowClick={this.handleOpenDetailModal}
-        last={entities.last}
-        lazyLoad
-        showNoResults={entities.content.length === 0}
+      <Grid
+        data={entities.content}
+        handleRowClick={this.handleOpenDetailModal}
+        handlePageChanged={this.onPageChange}
+        isLoading={loading && !entities.content.length}
+        isLastPage={entities.last}
+        withRowsHover
+        withLazyLoad
+        withNoResults={entities.content.length === 0}
       >
-        <GridViewColumn
+        <GridColumn
           name="id"
           header={I18n.t('CALLBACKS.GRID_HEADER.ID')}
           render={this.renderId}
         />
-        <GridViewColumn
+        <GridColumn
           name="operatorId"
           header={I18n.t('CALLBACKS.GRID_HEADER.OPERATOR')}
           render={this.renderOperator}
         />
-        {!withoutClientColumn
-          && (
-            <GridViewColumn
-              name="userId"
-              header={I18n.t('CALLBACKS.GRID_HEADER.CLIENT')}
-              render={this.renderUser}
-            />
-          )
-        }
-        <GridViewColumn
+        <If condition={!withoutClientColumn}>
+          <GridColumn
+            name="userId"
+            header={I18n.t('CALLBACKS.GRID_HEADER.CLIENT')}
+            render={this.renderUser}
+          />
+        </If>
+        <GridColumn
           name="callbackTime"
           header={I18n.t('CALLBACKS.GRID_HEADER.TIME')}
           render={data => this.renderDateTime(data, 'callbackTime')}
         />
-        <GridViewColumn
+        <GridColumn
           name="creationTime"
           header={I18n.t('CALLBACKS.GRID_HEADER.CREATED')}
           render={data => this.renderDateTime(data, 'creationTime')}
         />
-        <GridViewColumn
+        <GridColumn
           name="updateTime"
           header={I18n.t('CALLBACKS.GRID_HEADER.MODIFIED')}
           render={data => this.renderDateTime(data, 'updateTime')}
         />
-        <GridViewColumn
+        <GridColumn
           name="status"
           header={I18n.t('CALLBACKS.GRID_HEADER.STATUS')}
           render={this.renderStatus}
         />
-        <GridViewColumn
+        <GridColumn
           name="actions"
           header=""
           render={this.renderActions}
         />
-      </GridView>
+      </Grid>
     );
   }
 }

@@ -54,7 +54,7 @@ class Files extends Component {
       getFilesCategoriesList,
     } = this.props;
 
-    const entities = get(fileList, 'fileList.data') || { content: [], totalPages: 0, number: 0 };
+    const entities = get(fileList, 'fileList.data') || { content: [] };
     const { __typename, ...categories } = get(getFilesCategoriesList, 'filesCategoriesList.data') || {};
 
     return (
@@ -68,16 +68,12 @@ class Files extends Component {
         />
         <div className="tab-wrapper">
           <FileGridView
-            dataSource={entities.content}
-            totalPages={entities.totalPages}
-            activePage={entities.number + 1}
-            last={entities.last}
-            onPageChange={this.handlePageChanged}
-            loading={loading && entities.content.length === 0}
-            lazyLoad
-            showNoResults={entities.content.length === 0}
-            withActions={false}
-            withNotes={false}
+            data={entities.content}
+            isLoading={loading && entities.content.length === 0}
+            isLastPage={entities.last || false}
+            handlePageChanged={this.handlePageChanged}
+            withLazyLoad
+            withNoResults={entities.content.length === 0}
             renderFullName={this.renderFullName}
           />
         </div>

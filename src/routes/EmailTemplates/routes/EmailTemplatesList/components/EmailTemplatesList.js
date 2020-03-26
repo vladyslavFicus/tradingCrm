@@ -7,7 +7,7 @@ import { withNotifications } from 'hoc';
 import PropTypes from 'constants/propTypes';
 import permissions from 'config/permissions';
 import PermissionContent from 'components/PermissionContent';
-import GridView, { GridViewColumn } from 'components/GridView';
+import Grid, { GridColumn } from 'components/Grid';
 import Placeholder from 'components/Placeholder';
 import EmailTemplatesQuery from '../graphql/EmailTemplatesQuery';
 import EmailTemplateDeleteMutation from '../graphql/EmailTemplateDeleteMutation';
@@ -106,29 +106,28 @@ class EmailTemplatesList extends PureComponent {
           </PermissionContent>
         </div>
         <div className="EmailTemplatesList__body">
-          <GridView
-            dataSource={entities}
-            showNoResults={!loading && entities.length === 0}
-            onRowClick={this.handleTemplateClick}
-            last
+          <Grid
+            data={entities}
+            handleRowClick={this.handleTemplateClick}
+            isLastPage
+            withNoResults={!loading && entities.length === 0}
           >
-            <GridViewColumn
+            <GridColumn
               name="template"
               header={I18n.t('EMAILS.EMAIL_TEMPLATES.GRID_HEADER.TEMPLATE')}
               render={this.renderTemplate}
             />
-            <GridViewColumn
+            <GridColumn
               name="subject"
               header={I18n.t('EMAILS.EMAIL_TEMPLATES.GRID_HEADER.SUBJECT')}
               render={this.renderSubject}
             />
-            <GridViewColumn
+            <GridColumn
               name="delete"
               header={I18n.t('EMAILS.EMAIL_TEMPLATES.GRID_HEADER.ACTION')}
               render={this.renderRemoveIcon}
-              headerClassName="EmailTemplatesList__body-delete-col"
             />
-          </GridView>
+          </Grid>
         </div>
       </div>
     );

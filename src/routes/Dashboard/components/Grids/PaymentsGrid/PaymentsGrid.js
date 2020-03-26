@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { get } from 'lodash';
 import PropTypes from 'constants/propTypes';
-import GridView, { GridViewColumn } from 'components/GridView';
+import Grid, { GridColumn } from 'components/Grid';
 import { columns } from 'utils/paymentHelpers';
 
 class PaymentsGrid extends PureComponent {
@@ -26,23 +26,23 @@ class PaymentsGrid extends PureComponent {
 
     return (
       <div className="card card-body">
-        <GridView
-          loading={loading}
-          dataSource={payments}
-          showNoResults={error || (!loading && payments.length === 0)}
-          tableClassName="table-hovered"
+        <Grid
+          data={payments}
+          isLoading={loading}
+          withRowsHover
+          withNoResults={!!error || (!loading && payments.length === 0)}
         >
           {columns({
             paymentInfo: { onSuccess: this.handleModalActionSuccess },
           }).map(({ name, header, render }) => (
-            <GridViewColumn
+            <GridColumn
               key={name}
               name={name}
               header={header}
               render={render}
             />
           ))}
-        </GridView>
+        </Grid>
       </div>
     );
   }

@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { get } from 'lodash';
 import I18n from 'i18n-js';
 import PropTypes from 'constants/propTypes';
-import GridView, { GridViewColumn } from 'components/GridView';
+import Grid, { GridColumn } from 'components/Grid';
 import TabHeader from 'components/TabHeader';
 import FilterFields from './FilterFields';
 import { columns } from '../attributes/constants';
@@ -57,22 +57,22 @@ class TradingActivity extends Component {
         <TabHeader title={I18n.t('CONSTANTS.TRANSACTIONS.ROUTES.TRADING_ACTIVITY')} />
         <FilterFields />
         <div className="tab-wrapper">
-          <GridView
-            dataSource={clientTradingActivity.content}
-            onPageChange={this.handlePageChanged}
-            last={clientTradingActivity.last}
-            showNoResults={!!error || (!loading && clientTradingActivity.totalElements === 0)}
-            lazyLoad
+          <Grid
+            data={clientTradingActivity.content}
+            handlePageChanged={this.handlePageChanged}
+            isLastPage={clientTradingActivity.last}
+            withLazyLoad
+            withNoResults={!!error || (!loading && clientTradingActivity.totalElements === 0)}
           >
             {columns(this.showChangeOriginalAgentModal).map(({ name, header, render }) => (
-              <GridViewColumn
+              <GridColumn
                 key={name}
                 name={name}
                 header={header}
                 render={render}
               />
             ))}
-          </GridView>
+          </Grid>
         </div>
       </Fragment>
     );

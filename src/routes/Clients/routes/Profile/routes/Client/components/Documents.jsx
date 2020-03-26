@@ -2,15 +2,15 @@ import React, { Component, Fragment } from 'react';
 import moment from 'moment';
 import classNames from 'classnames';
 import I18n from 'i18n-js';
-import PropTypes from '../../../../../../../constants/propTypes';
-import FileUpload from '../../../../../../../components/FileUpload';
-import GridView, { GridViewColumn } from '../../../../../../../components/GridView';
-import { shortifyInMiddle } from '../../../../../../../utils/stringFormat';
-import StatusDropDown from '../../../../../../../components/FileStatusDropDown';
-import PermissionContent from '../../../../../../../components/PermissionContent';
-import permissions from '../../../../../../../config/permissions';
-import Permissions from '../../../../../../../utils/permissions';
-import Uuid from '../../../../../../../components/Uuid';
+import PropTypes from 'constants/propTypes';
+import permissions from 'config/permissions';
+import Permissions from 'utils/permissions';
+import { shortifyInMiddle } from 'utils/stringFormat';
+import PermissionContent from 'components/PermissionContent';
+import Grid, { GridColumn } from 'components/Grid';
+import StatusDropDown from 'components/FileStatusDropDown';
+import FileUpload from 'components/FileUpload';
+import Uuid from 'components/Uuid';
 
 const viewFilePermission = new Permissions(permissions.USER_PROFILE.VIEW_FILE);
 
@@ -110,26 +110,26 @@ class Documents extends Component {
       <Fragment>
         <If condition={files.length > 0}>
           <PermissionContent permissions={permissions.USER_PROFILE.VIEW_FILES}>
-            <GridView
-              dataSource={files}
-              totalPages={0}
+            <Grid
+              data={files}
+              isLastPage
             >
-              <GridViewColumn
+              <GridColumn
                 name="realName"
                 header="File"
                 render={data => this.renderFile(data, canViewFile)}
               />
-              <GridViewColumn
+              <GridColumn
                 name="uploadDate"
                 header="Date & Time"
                 render={this.renderDateTime}
               />
-              <GridViewColumn
+              <GridColumn
                 name="status"
                 header="Status"
                 render={this.renderStatus}
               />
-            </GridView>
+            </Grid>
           </PermissionContent>
         </If>
         <PermissionContent permissions={permissions.USER_PROFILE.UPLOAD_FILE}>

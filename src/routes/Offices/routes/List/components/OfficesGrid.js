@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { withRouter } from 'react-router-dom';
 import I18n from 'i18n-js';
 import PropTypes from 'constants/propTypes';
-import GridView, { GridViewColumn } from 'components/GridView';
+import Grid, { GridColumn } from 'components/Grid';
 import Uuid from 'components/Uuid';
 import CountryLabelWithFlag from 'components/CountryLabelWithFlag';
 
@@ -50,23 +50,23 @@ class OfficesGrid extends Component {
 
     return (
       <div className="card-body">
-        <GridView
-          dataSource={officesList}
-          last
-          showNoResults={!isLoading && officesList.length === 0}
-          onRowClick={this.handleOfficeClick}
+        <Grid
+          data={officesList}
+          handleRowClick={this.handleOfficeClick}
+          isLastPage
+          withNoResults={!isLoading && officesList.length === 0}
         >
-          <GridViewColumn
+          <GridColumn
             name="office"
             header={I18n.t('OFFICES.GRID_HEADER.OFFICE')}
             render={this.renderOfficeColumn}
           />
-          <GridViewColumn
+          <GridColumn
             name="country"
             header={I18n.t('OFFICES.GRID_HEADER.COUNTRY')}
             render={this.renderCountryColumn}
           />
-        </GridView>
+        </Grid>
       </div>
     );
   }

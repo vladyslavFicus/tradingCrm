@@ -2,45 +2,30 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import I18n from 'i18n-js';
-import classNames from 'classnames';
 import { shortifyInMiddle } from 'utils/stringFormat';
 import { categoriesLabels, documentsTypeLabels } from 'constants/files';
-import GridView, { GridViewColumn } from 'components/GridView';
+import Grid, { GridColumn } from 'components/Grid';
 import GridEmptyValue from 'components/GridEmptyValue';
 import Uuid from 'components/Uuid';
 
-class CommonFileListGridView extends Component {
+class FileGridView extends Component {
   static propTypes = {
-    headerClassName: PropTypes.string,
-    tableClassName: PropTypes.string,
-    dataSource: PropTypes.array.isRequired,
-    onPreviewImageClick: PropTypes.func,
-    renderFullName: PropTypes.func,
-  };
-
-  static defaultProps = {
-    headerClassName: null,
-    tableClassName: null,
-    onPreviewImageClick: null,
-    renderFullName: () => {},
+    data: PropTypes.arrayOf(PropTypes.object).isRequired,
+    isLoading: PropTypes.bool.isRequired,
+    isLastPage: PropTypes.bool.isRequired,
+    handlePageChanged: PropTypes.func.isRequired,
+    withLazyLoad: PropTypes.bool.isRequired,
+    withNoResults: PropTypes.bool.isRequired,
+    renderFullName: PropTypes.func.isRequired,
   };
 
   renderFileName = (data) => {
-    const isClickable = /image/.test(data.type) && this.props.onPreviewImageClick;
-    const onClick = isClickable
-      ? () => this.props.onPreviewImageClick(data)
-      : null;
     const playerPrefix = data.clientUuid.indexOf('PLAYER') === -1 ? 'PL' : null;
     const uuidPrefix = data.clientUuid.indexOf('OPERATOR') === -1 ? playerPrefix : null;
 
     return (
       <div>
-        <div
-          className={classNames('font-weight-700', { 'cursor-pointer': isClickable })}
-          onClick={onClick}
-        >
-          {data.title}
-        </div>
+        <div className="font-weight-700">{data.title}</div>
         <div title={data.title} className="font-size-11">
           {data.fileName === data.title ? null : shortifyInMiddle(data.fileName, 40)}
         </div>
@@ -93,43 +78,57 @@ class CommonFileListGridView extends Component {
   );
 
   render() {
+    const {
+      data,
+      isLoading,
+      isLastPage,
+      handlePageChanged,
+      withLazyLoad,
+      withNoResults,
+    } = this.props;
+
     return (
-      <GridView
-        {...this.props}
+      <Grid
+        data={data}
+        isLoading={isLoading}
+        isLastPage={isLastPage}
+        handlePageChanged={handlePageChanged}
+        withLazyLoad={withLazyLoad}
+        withNoResults={withNoResults}
       >
-        <GridViewColumn
+        <GridColumn
           name="fullName"
           header={I18n.t('FILES.GRID.COLUMN.CLIENT')}
           render={this.props.renderFullName}
         />
-        <GridViewColumn
+        <GridColumn
           name="fileName"
           header={I18n.t('FILES.GRID.COLUMN.NAME')}
           render={this.renderFileName}
         />
-        <GridViewColumn
+        <GridColumn
           name="expirationTime"
           header={I18n.t('FILES.GRID.COLUMN.EXPIRATION_DATE')}
           render={this.renderDate('expirationDate', false)}
         />
-        <GridViewColumn
+        <GridColumn
           name="date"
           header={I18n.t('FILES.GRID.COLUMN.DATE_TIME')}
           render={this.renderDate('uploadDate')}
         />
-        <GridViewColumn
+        <GridColumn
           name="category"
           header={I18n.t('FILES.GRID.COLUMN.CATEGORY')}
           render={this.renderCategory}
         />
-        <GridViewColumn
+        <GridColumn
           name="documentType"
           header={I18n.t('FILES.GRID.COLUMN.DOCUMENT_TYPE')}
           render={this.renderDocumentType}
         />
-      </GridView>
+      </Grid>
     );
   }
 }
 
-export default CommonFileListGridView;
+export default FileGridView;

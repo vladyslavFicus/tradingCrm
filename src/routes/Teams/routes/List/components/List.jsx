@@ -5,7 +5,7 @@ import { TextRow } from 'react-placeholder/lib/placeholders';
 import PropTypes from 'constants/propTypes';
 import permissions from 'config/permissions';
 import PermissionContent from 'components/PermissionContent';
-import GridView, { GridViewColumn } from 'components/GridView';
+import Grid, { GridColumn } from 'components/Grid';
 import Placeholder from 'components/Placeholder';
 import Uuid from 'components/Uuid';
 import TeamsGridFilter from './TeamsGridFilter';
@@ -197,28 +197,28 @@ class List extends Component {
         />
 
         <div className="card-body">
-          <GridView
-            dataSource={entities}
-            last
-            showNoResults={!loading && entities.length === 0}
-            onRowClick={this.handleTeamClick}
+          <Grid
+            data={entities}
+            handleRowClick={this.handleTeamClick}
+            isLastPage
+            withNoResults={!loading && entities.length === 0}
           >
-            <GridViewColumn
+            <GridColumn
               name="desk"
               header={I18n.t('TEAMS.GRID_HEADER.TEAM')}
               render={this.renderTeam}
             />
-            <GridViewColumn
+            <GridColumn
               name="office"
               header={I18n.t('TEAMS.GRID_HEADER.OFFICE')}
               render={this.renderOffice}
             />
-            <GridViewColumn
+            <GridColumn
               name="deskType"
               header={I18n.t('TEAMS.GRID_HEADER.DESK')}
               render={this.renderDesk}
             />
-          </GridView>
+          </Grid>
         </div>
       </div>
     );

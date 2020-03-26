@@ -88,44 +88,6 @@ small {
   background-color: rgba(242, 242, 242, 1) !important;
 }
 
-// # TODO: Remove after GridView component will be removed
-.data-grid-layout {
-  thead th {
-    font-size: 12px;
-    color: #666;
-    font-weight: 400;
-  }
-
-  tbody tr {
-    color: #333;
-    border-bottom: solid 1px #eee;
-    &:first-child {
-      border-top: solid 1px #eee;
-    }
-
-    &.no-border-bottom {
-      border-bottom: unset;
-    }
-  }
-
-  th {
-    border: none;
-  }
-
-  a {
-    color: #000;
-  }
-
-  &__big-column {
-    width: 30%;
-  }
-}
-
-.table thead th,
-.table td {
-  border: none;
-}
-
 .round-rollback-row td {
   color: #FF0000;
 }
@@ -152,12 +114,6 @@ small {
 
 .with-right-border {
   border-right: 1px solid rgba(0, 0, 0, 0.1);
-}
-
-// # TODO: Remove after GridView component will be removed
-.table-hovered tbody tr:hover {
-  background-color: #fcfcfc;
-  cursor: pointer;
 }
 
 .multi-currency-icon {
@@ -208,32 +164,6 @@ table {
     padding-left: 25px;
     padding-right: 25px;
     position: relative;
-  }
-}
-
-// # TODO: Remove after GridView component will be removed
-.grid-select-checkbox {
-  position: absolute;
-  cursor: pointer;
-  left: -11px;
-  top: 7px;
-  display: inline-block;
-  width: 25px;
-  height: 25px;
-  background-image: url('/img/sprite.svg');
-  background-repeat: no-repeat;
-  background-position: -50px 0;
-  &:hover {
-    background-position-x: -25px;
-  }
-  &.active {
-    background-position-x: 0;
-  }
-  &.header-unselect {
-    background-position-x: -100px;
-    &:hover {
-      background-position-x: -75px;
-    }
   }
 }
 

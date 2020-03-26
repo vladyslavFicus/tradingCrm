@@ -11,7 +11,7 @@ import permissions from 'config/permissions';
 import Permissions from 'utils/permissions';
 import PropTypes from 'constants/propTypes';
 import { accountTypesLabels } from 'constants/accountTypes';
-import GridView, { GridViewColumn } from 'components/GridView';
+import Grid, { GridColumn } from 'components/Grid';
 import ActionsDropDown from 'components/ActionsDropDown';
 import Badge from 'components/Badge';
 import PlatformTypeBadge from 'components/PlatformTypeBadge';
@@ -158,62 +158,62 @@ class TradingAccountsGrid extends PureComponent {
 
     return (
       <div className="tab-wrapper">
-        <GridView
-          tableClassName="table-hovered"
-          dataSource={tradingAccounts}
-          showNoResults={!isLoading && tradingAccounts.length === 0}
+        <Grid
+          data={tradingAccounts}
+          withRowsHover
+          withNoResults={!isLoading && tradingAccounts.length === 0}
         >
-          <GridViewColumn
+          <GridColumn
             key="tradingAcc"
             name="tradingAcc"
             header={I18n.t('CLIENT_PROFILE.ACCOUNTS.GRID_COLUMNS.TRADING_ACC')}
             render={this.renderTradingAccountColumn}
           />
-          <GridViewColumn
+          <GridColumn
             key="login"
             name="login"
             header={I18n.t('CLIENT_PROFILE.ACCOUNTS.GRID_COLUMNS.LOGIN')}
             render={this.renderLoginColumn}
           />
-          <GridViewColumn
+          <GridColumn
             key="balance"
             name="balance"
             header={I18n.t('CLIENT_PROFILE.ACCOUNTS.GRID_COLUMNS.BALANCE/EQUITY')}
             render={this.renderBalanceColumn}
           />
-          <GridViewColumn
+          <GridColumn
             key="credit"
             name="credit"
             header={I18n.t('CLIENT_PROFILE.ACCOUNTS.GRID_COLUMNS.CREDIT')}
             render={this.renderCreditColumn}
           />
-          <GridViewColumn
+          <GridColumn
             key="leverage"
             name="leverage"
             header={I18n.t('CLIENT_PROFILE.ACCOUNTS.GRID_COLUMNS.LEVERAGE')}
             render={this.renderLeverageColumn}
           />
-          <GridViewColumn
+          <GridColumn
             key="tradingStatus"
             name="tradingStatus"
             header={I18n.t('CLIENT_PROFILE.ACCOUNTS.GRID_COLUMNS.TRADING_STATUS')}
             render={this.renderTradingStatusColumn}
           />
-          <GridViewColumn
+          <GridColumn
             key="server"
             name="server"
             header={I18n.t('CLIENT_PROFILE.ACCOUNTS.GRID_COLUMNS.SERVER')}
             render={this.renderServerColumn}
           />
           <If condition={updatePasswordPermission}>
-            <GridViewColumn
+            <GridColumn
               key="actions"
               name="actions"
               headerStyle={{ width: '5%' }}
               render={this.renderActionsColumn}
             />
           </If>
-        </GridView>
+        </Grid>
       </div>
     );
   }

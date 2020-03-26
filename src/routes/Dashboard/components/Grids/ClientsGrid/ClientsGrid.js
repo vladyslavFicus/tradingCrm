@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { get } from 'lodash';
 import PropTypes from 'constants/propTypes';
-import GridView, { GridViewColumn } from 'components/GridView';
+import Grid, { GridColumn } from 'components/Grid';
 import columns from './utils';
 
 class ClientsGrid extends PureComponent {
@@ -24,21 +24,21 @@ class ClientsGrid extends PureComponent {
 
     return (
       <div className="card card-body">
-        <GridView
-          loading={loading}
-          dataSource={profilesEntities}
-          showNoResults={profilesEntities.length === 0}
-          tableClassName="table-hovered"
+        <Grid
+          data={profilesEntities}
+          isLoading={loading}
+          withRowsHover
+          withNoResults={profilesEntities.length === 0}
         >
           {columns().map(({ name, header, render }) => (
-            <GridViewColumn
+            <GridColumn
               key={name}
               name={name}
               header={header}
               render={render}
             />
           ))}
-        </GridView>
+        </Grid>
       </div>
     );
   }

@@ -9,8 +9,7 @@ import permissions from 'config/permissions';
 import { withPermission } from 'providers/PermissionsProvider';
 import Uuid from 'components/Uuid';
 import RulesFilters from 'components/HierarchyProfileRules/components/RulesGridFilters';
-import GridView from 'components/GridView';
-import GridViewColumn from 'components/GridView/GridViewColumn';
+import Grid, { GridColumn } from 'components/Grid';
 import Placeholder from 'components/Placeholder';
 import Permissions from 'utils/permissions';
 import infoConfig from './constants';
@@ -223,50 +222,50 @@ class SalesRules extends PureComponent {
         />
 
         <div className="card-body">
-          <GridView
-            dataSource={entities}
-            last
-            showNoResults={!loading && entities.length === 0}
-            onRowClick={this.handleOfficeClick}
+          <Grid
+            data={entities}
+            handleRowClick={this.handleOfficeClick}
+            isLastPage
+            withNoResults={!loading && entities.length === 0}
           >
-            <GridViewColumn
+            <GridColumn
               name="rule"
               header={I18n.t('HIERARCHY.PROFILE_RULE_TAB.GRID_HEADER.RULE')}
               render={this.renderRule}
             />
-            <GridViewColumn
+            <GridColumn
               name="countries"
               header={I18n.t('HIERARCHY.PROFILE_RULE_TAB.GRID_HEADER.COUNTRY')}
               render={this.renderRuleInfo(infoConfig.countries)}
             />
-            <GridViewColumn
+            <GridColumn
               name="languages"
               header={I18n.t('HIERARCHY.PROFILE_RULE_TAB.GRID_HEADER.LANGUAGE')}
               render={this.renderRuleInfo(infoConfig.languages)}
             />
-            <GridViewColumn
+            <GridColumn
               name="partners"
               header={I18n.t('HIERARCHY.PROFILE_RULE_TAB.GRID_HEADER.PARTNER')}
               render={this.renderPartner}
             />
-            <GridViewColumn
+            <GridColumn
               name="sources"
               header={I18n.t('HIERARCHY.PROFILE_RULE_TAB.GRID_HEADER.SOURCE')}
               render={this.renderRuleInfo(infoConfig.sources)}
             />
-            <GridViewColumn
+            <GridColumn
               name="priority"
               header={I18n.t('HIERARCHY.PROFILE_RULE_TAB.GRID_HEADER.PRIORITY')}
               render={this.renderPriority}
             />
             <If condition={isDeleteRuleAvailable}>
-              <GridViewColumn
+              <GridColumn
                 name="delete"
                 header={I18n.t('HIERARCHY.PROFILE_RULE_TAB.GRID_HEADER.ACTION')}
                 render={this.renderRemoveIcon}
               />
             </If>
-          </GridView>
+          </Grid>
         </div>
       </div>
     );

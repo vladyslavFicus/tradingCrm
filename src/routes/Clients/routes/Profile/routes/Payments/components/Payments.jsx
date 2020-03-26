@@ -223,7 +223,6 @@ class Payments extends Component {
             isLoading={loading && !payments.content.length}
             isLastPage={payments.last}
             withLazyLoad
-            lazyLoad
             withNoResults={!!error || (!loading && payments.content.length === 0)}
           >
             {columns({

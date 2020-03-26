@@ -6,7 +6,7 @@ import classNames from 'classnames';
 import { shortifyInMiddle } from 'utils/stringFormat';
 import { targetTypes } from 'constants/note';
 import PermissionContent from 'components/PermissionContent';
-import GridView, { GridViewColumn } from 'components/GridView';
+import Grid, { GridColumn } from 'components/Grid';
 import NoteButton from 'components/NoteButton';
 import GridEmptyValue from 'components/GridEmptyValue';
 import Select from 'components/Select';
@@ -18,19 +18,18 @@ import ChangeFileStatusDropDown from './ChangeFileStatusDropDown';
 
 class FileGrid extends Component {
   static propTypes = {
-    headerClassName: PropTypes.string,
-    tableClassName: PropTypes.string,
-    dataSource: PropTypes.array.isRequired,
+    data: PropTypes.arrayOf(PropTypes.object).isRequired,
+    categories: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.string)).isRequired,
+    verificationType: PropTypes.string.isRequired,
+    verificationStatus: PropTypes.string.isRequired,
+    documentType: PropTypes.string.isRequired,
+    handlePageChanged: PropTypes.func.isRequired,
     onStatusActionClick: PropTypes.func.isRequired,
+    onVerificationTypeActionClick: PropTypes.func.isRequired,
+    onChangeFileStatusActionClick: PropTypes.func.isRequired,
     onDownloadFileClick: PropTypes.func.isRequired,
     onDeleteFileClick: PropTypes.func.isRequired,
-    onPreviewImageClick: PropTypes.func,
-  }
-
-  static defaultProps = {
-    headerClassName: null,
-    tableClassName: null,
-    onPreviewImageClick: null,
+    onPreviewImageClick: PropTypes.func.isRequired,
   }
 
   state = {
@@ -197,52 +196,55 @@ class FileGrid extends Component {
   );
 
   render() {
+    const { data, handlePageChanged } = this.props;
+
     return (
       <div className="files-grid">
         {this.renderGridHeader()}
 
-        <GridView
-          {...this.props}
+        <Grid
+          data={data}
+          handlePageChanged={handlePageChanged}
         >
-          <GridViewColumn
+          <GridColumn
             name="fileName"
             header={I18n.t('FILES.GRID.COLUMN.NAME')}
             render={this.renderFileName}
           />
-          <GridViewColumn
+          <GridColumn
             name="actions"
             header=""
             headerClassName="width-60"
             render={this.renderActions}
           />
-          <GridViewColumn
+          <GridColumn
             name="expirationTime"
             header={I18n.t('FILES.GRID.COLUMN.EXPIRATION_DATE')}
             render={this.renderDate('expirationTime', false)}
           />
           <If condition={this.props.verificationType !== 'OTHER'}>
-            <GridViewColumn
+            <GridColumn
               name="status"
               header={I18n.t('FILES.MOVE_FILE_TO_VERIFICATION_DOCUMENT_TYPE')}
               render={this.renderMoveFileDropdown}
             />
           </If>
-          <GridViewColumn
+          <GridColumn
             name="statusFile"
             header={I18n.t('FILES.CHANGE_FILE_STATUS')}
             render={this.renderChangeStatusFile}
           />
-          <GridViewColumn
+          <GridColumn
             name="date"
             header={I18n.t('FILES.GRID.COLUMN.DATE_TIME')}
             render={this.renderDate('uploadDate')}
           />
-          <GridViewColumn
+          <GridColumn
             name="note"
             header={I18n.t('FILES.GRID.COLUMN.NOTE')}
             render={this.renderNote}
           />
-        </GridView>
+        </Grid>
       </div>
     );
   }

@@ -5,7 +5,7 @@ import { TextRow } from 'react-placeholder/lib/placeholders';
 import PropTypes from 'constants/propTypes';
 import permissions from 'config/permissions';
 import PermissionContent from 'components/PermissionContent';
-import GridView, { GridViewColumn } from 'components/GridView';
+import Grid, { GridColumn } from 'components/Grid';
 import Placeholder from 'components/Placeholder';
 import Uuid from 'components/Uuid';
 import { deskTypes } from './constants';
@@ -190,33 +190,33 @@ class List extends Component {
         />
 
         <div className="card-body">
-          <GridView
-            dataSource={entities}
-            last
-            showNoResults={!loading && entities.length === 0}
-            onRowClick={this.handleDeskClick}
+          <Grid
+            data={entities}
+            handleRowClick={this.handleDeskClick}
+            isLastPage
+            withNoResults={!loading && entities.length === 0}
           >
-            <GridViewColumn
+            <GridColumn
               name="desk"
               header={I18n.t('DESKS.GRID_HEADER.DESK')}
               render={this.renderDesk}
             />
-            <GridViewColumn
+            <GridColumn
               name="office"
               header={I18n.t('DESKS.GRID_HEADER.OFFICE')}
               render={this.renderOffice}
             />
-            <GridViewColumn
+            <GridColumn
               name="deskType"
               header={I18n.t('DESKS.GRID_HEADER.DESK_TYPE')}
               render={this.renderDeskType}
             />
-            <GridViewColumn
+            <GridColumn
               name="defaultDesk"
               header={I18n.t('DESKS.GRID_HEADER.DEFAULT_DESK')}
               render={this.renderDefaultDesk}
             />
-          </GridView>
+          </Grid>
         </div>
       </div>
     );

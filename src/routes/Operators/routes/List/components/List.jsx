@@ -14,7 +14,7 @@ import {
 } from 'constants/operators';
 import permissions from 'config/permissions';
 import Uuid from 'components/Uuid';
-import GridView, { GridViewColumn } from 'components/GridView';
+import Grid, { GridColumn } from 'components/Grid';
 import CountryLabelWithFlag from 'components/CountryLabelWithFlag';
 import PermissionContent from 'components/PermissionContent';
 import { authoritiesOptionsQuery } from 'graphql/queries/auth';
@@ -298,36 +298,35 @@ class List extends Component {
         />
 
         <div className="card-body">
-          <GridView
-            dataSource={entities.content}
-            onPageChange={this.handlePageChanged}
-            activePage={entities.page}
-            last={entities.last}
-            lazyLoad
-            showNoResults={!loading && entities.content.length === 0}
-            loading={loading}
+          <Grid
+            data={entities.content}
+            handlePageChanged={this.handlePageChanged}
+            isLoading={loading}
+            isLastPage={entities.last}
+            withLazyLoad
+            withNoResults={!loading && entities.content.length === 0}
           >
-            <GridViewColumn
+            <GridColumn
               name="uuid"
               header={I18n.t('OPERATORS.GRID_HEADER.OPERATOR')}
               render={this.renderOperator}
             />
-            <GridViewColumn
+            <GridColumn
               name="country"
               header={I18n.t('OPERATORS.GRID_HEADER.COUNTRY')}
               render={this.renderCountry}
             />
-            <GridViewColumn
+            <GridColumn
               name="registered"
               header={I18n.t('OPERATORS.GRID_HEADER.REGISTERED')}
               render={this.renderRegistered}
             />
-            <GridViewColumn
+            <GridColumn
               name="status"
               header={I18n.t('OPERATORS.GRID_HEADER.STATUS')}
               render={this.renderStatus}
             />
-          </GridView>
+          </Grid>
         </div>
       </div>
     );

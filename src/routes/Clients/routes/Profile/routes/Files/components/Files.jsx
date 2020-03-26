@@ -239,12 +239,12 @@ class Files extends Component {
                 documents.map(({ documentType, files, verificationStatus }) => (
                   <FileGrid
                     key={`${verificationType}-${documentType}`}
-                    dataSource={files}
+                    data={files}
                     categories={categories}
                     verificationType={verificationType}
                     verificationStatus={verificationStatus}
                     documentType={documentType}
-                    onPageChange={this.handlePageChanged}
+                    handlePageChanged={this.handlePageChanged}
                     onStatusActionClick={this.handleStatusActionClick}
                     onVerificationTypeActionClick={this.handleVerificationTypeClick}
                     onChangeFileStatusActionClick={this.handleChangeFileStatusClick}

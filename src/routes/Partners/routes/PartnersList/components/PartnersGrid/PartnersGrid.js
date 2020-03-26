@@ -5,7 +5,7 @@ import moment from 'moment';
 import I18n from 'i18n-js';
 import { getActiveBrandConfig } from 'config';
 import PropTypes from 'constants/propTypes';
-import GridView, { GridViewColumn } from 'components/GridView';
+import Grid, { GridColumn } from 'components/Grid';
 import CountryLabelWithFlag from 'components/CountryLabelWithFlag';
 import Uuid from 'components/Uuid';
 import './PartnersGrid.scss';
@@ -97,48 +97,48 @@ class PartnersGrid extends PureComponent {
 
     return (
       <div className="PartnersGrid">
-        <GridView
-          dataSource={partners}
-          showNoResults={!isLoading && partners.length === 0}
-          onPageChange={onPageChange}
-          onRowClick={this.handleOfficeClick}
-          loading={isLoading}
-          last={isLastPage}
-          lazyLoad
+        <Grid
+          data={partners}
+          handleRowClick={this.handleOfficeClick}
+          handlePageChanged={onPageChange}
+          isLoading={isLoading}
+          isLastPage={isLastPage}
+          withLazyLoad
+          withNoResults={!isLoading && partners.length === 0}
         >
-          <GridViewColumn
+          <GridColumn
             name="uuid"
             header={I18n.t('PARTNERS.GRID_HEADER.PARTNER')}
             render={this.renderPartnerColumn}
           />
           <If condition={getActiveBrandConfig().regulation.isActive}>
-            <GridViewColumn
+            <GridColumn
               name="affiliateType"
               header={I18n.t('PARTNERS.GRID_HEADER.PARTNER_TYPE')}
               render={this.renderPartnerTypeColumn}
             />
           </If>
-          <GridViewColumn
+          <GridColumn
             name="externalAffiliateId"
             header={I18n.t('PARTNERS.GRID_HEADER.EXTERNAL_ID')}
             render={this.renderExternalAffiliateIdColumn}
           />
-          <GridViewColumn
+          <GridColumn
             name="country"
             header={I18n.t('PARTNERS.GRID_HEADER.COUNTRY')}
             render={this.renderCountryColumn}
           />
-          <GridViewColumn
+          <GridColumn
             name="registered"
             header={I18n.t('PARTNERS.GRID_HEADER.REGISTERED')}
             render={this.renderRegisteredColumn}
           />
-          <GridViewColumn
+          <GridColumn
             name="status"
             header={I18n.t('PARTNERS.GRID_HEADER.STATUS')}
             render={this.renderStatusColumn}
           />
-        </GridView>
+        </Grid>
       </div>
     );
   }
