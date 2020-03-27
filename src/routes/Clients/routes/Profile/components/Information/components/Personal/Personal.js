@@ -10,7 +10,7 @@ import { withStorage } from 'providers/StorageProvider';
 import { withPermission } from 'providers/PermissionsProvider';
 import PermissionContent from 'components/PermissionContent';
 import permissions from 'config/permissions';
-import { hidePhone } from 'utils/hidePhone';
+import { hideText } from 'utils/hideText';
 import {
   clickToCall,
   updateConfigurationMutation,
@@ -162,6 +162,7 @@ class Personal extends PureComponent {
 
     const withCall = getClickToCall().isActive;
     const isPhoneHidden = getBrand().privatePhoneByDepartment.includes(department);
+    const isEmailHidden = getBrand().privateEmailByDepartment.includes(department);
     const isSendEmailAvailable = (new Permissions(permissions, permissions.EMAIL_TEMPLATES.SEND_EMAIL))
       .check(permission.permissions)
       && getBrand().email.templatedEmails;
@@ -191,7 +192,7 @@ class Personal extends PureComponent {
             />
             <PersonalInformationItem
               label={I18n.t('CLIENT_PROFILE.DETAILS.PHONE')}
-              value={isPhoneHidden ? hidePhone(phone) : phone}
+              value={isPhoneHidden ? hideText(phone) : phone}
               verified={phoneVerified}
               withCall={withCall}
               onClickToCall={this.handleClickToCall(phone)}
@@ -199,14 +200,14 @@ class Personal extends PureComponent {
             />
             <PersonalInformationItem
               label={I18n.t('CLIENT_PROFILE.DETAILS.ALT_PHONE')}
-              value={isPhoneHidden ? hidePhone(additionalPhone) : additionalPhone}
+              value={isPhoneHidden ? hideText(additionalPhone) : additionalPhone}
               withCall={withCall}
               onClickToCall={this.handleClickToCall(additionalPhone)}
               className="Personal__contacts"
             />
             <PersonalInformationItem
               label={I18n.t('CLIENT_PROFILE.DETAILS.EMAIL')}
-              value={email}
+              value={isEmailHidden ? hideText(email) : email}
               verified={profileStatus === userStatuses.VERIFIED}
               onClickSelectEmail={this.triggerEmailSelectModal}
               withSendEmail={isSendEmailAvailable}
@@ -214,7 +215,7 @@ class Personal extends PureComponent {
             />
             <PersonalInformationItem
               label={I18n.t('CLIENT_PROFILE.DETAILS.ALT_EMAIL')}
-              value={additionalEmail}
+              value={isEmailHidden ? hideText(additionalEmail) : additionalEmail}
               verified={profileStatus === userStatuses.VERIFIED}
               className="Personal__contacts"
             />

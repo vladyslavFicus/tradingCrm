@@ -1,10 +1,11 @@
 import React, { PureComponent } from 'react';
 import { Formik, Form, Field } from 'formik';
 import I18n from 'i18n-js';
+import { getBrand } from 'config';
 import { Button } from 'components/UI';
+import { hideText } from 'utils/hideText';
 import permissions from 'config/permissions';
 import PropTypes from 'constants/propTypes';
-import { departments, roles } from 'constants/brands';
 import { FormikInputField } from 'components/Formik';
 import { createValidator } from 'utils/validator';
 import { withStorage } from 'providers/StorageProvider';
@@ -22,13 +23,14 @@ class EmailForm extends PureComponent {
     verification: PropTypes.shape({
       emailVerified: PropTypes.bool,
     }),
-    email: PropTypes.string.isRequired,
+    email: PropTypes.string,
     onVerifyEmailClick: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
     formError: '',
     verification: {},
+    email: '',
   }
 
   onHandleSubmit = (values, { resetForm }) => {
@@ -46,22 +48,20 @@ class EmailForm extends PureComponent {
   render() {
     const {
       formError,
-      auth: {
-        department,
-        role,
-      },
       verification: {
         emailVerified,
       },
       email,
+      auth: {
+        department,
+      },
     } = this.props;
 
-    const areFieldsDisabled = (department === departments.CS || department === departments.ADMINISTRATION)
-      && role === roles.ROLE4;
+    const emailAccess = getBrand().privateEmailByDepartment.includes(department);
 
     return (
       <Formik
-        initialValues={{ email: email || '' }}
+        initialValues={{ email: emailAccess ? hideText(email) : email }}
         onSubmit={this.onHandleSubmit}
         validate={validator}
       >
@@ -74,14 +74,14 @@ class EmailForm extends PureComponent {
             </If>
             <div className="form-row">
               <Field
-                disabled={!areFieldsDisabled}
+                disabled={emailAccess}
                 name="email"
                 label={I18n.t('COMMON.EMAIL')}
                 type="text"
                 component={FormikInputField}
                 className="col-8"
               />
-              <If condition={!emailVerified}>
+              <If condition={!emailVerified && !emailAccess}>
                 <PermissionContent permissions={permissions.USER_PROFILE.VERIFY_EMAIL}>
                   <div className="col-4 mt-4-profile">
                     <Button

@@ -6,7 +6,7 @@ import permissions from 'config/permissions';
 import { withPermission } from 'providers/PermissionsProvider';
 import { roles, departments } from 'constants/brands';
 import Regulated from 'components/Regulated';
-import { hidePhone } from 'utils/hidePhone';
+import { hideText } from 'utils/hideText';
 import { getBrand } from 'config';
 import PersonalForm from './PersonalForm';
 import AddressForm from './AddressForm';
@@ -91,7 +91,7 @@ class View extends Component {
       newProfile: {
         newProfile: {
           data: {
-            contacts: { additionalPhone, phone },
+            contacts: { additionalPhone, additionalEmail, phone },
           },
         },
       },
@@ -99,7 +99,7 @@ class View extends Component {
     } = this.props;
 
     const variables = this.phoneAccess()
-      ? { ...data, additionalPhone, phone }
+      ? { ...data, additionalPhone, additionalEmail, phone }
       : data;
 
     const {
@@ -120,21 +120,7 @@ class View extends Component {
     });
   };
 
-  handleVerifyPhone = async (currentPhone) => {
-    const {
-      newProfile: {
-        newProfile: {
-          data: {
-            contacts: { phone: initialPhone },
-          },
-        },
-      },
-    } = this.props;
-
-    const phone = this.phoneAccess()
-      ? initialPhone
-      : currentPhone;
-
+  handleVerifyPhone = async (phone) => {
     const {
       data: {
         profile: {
@@ -340,12 +326,11 @@ class View extends Component {
                     onSubmit={this.handleUpdateContacts}
                     onVerifyPhoneClick={this.handleVerifyPhone}
                     initialValues={{
-                      phone: this.phoneAccess() ? hidePhone(phone) : phone,
-                      additionalPhone: this.phoneAccess() ? hidePhone(additionalPhone) : additionalPhone,
+                      phone: this.phoneAccess() ? hideText(phone) : phone,
+                      additionalPhone: this.phoneAccess() ? hideText(additionalPhone) : additionalPhone,
                       additionalEmail,
                     }}
                     disabled={!updateContacts}
-                    disabledAdditionalPhone={this.phoneAccess()}
                   />
                 </div>
               </div>

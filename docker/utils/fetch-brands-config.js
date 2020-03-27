@@ -30,6 +30,7 @@ async function fetchBrandsConfig({ zookeeperUrl, onBrandsConfigUpdated }) {
       'nas.brand.backoffice.socialTrading',
       'nas.brand.backoffice.fsaRegulation',
       'nas.brand.backoffice.privatePhoneByDepartment',
+      'nas.brand.backoffice.privateEmailByDepartment',
     ],
     null,
     options,

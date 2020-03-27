@@ -28,5 +28,6 @@ module.exports = configs => Object.entries(configs).reduce((acc, [id, config]) =
     isRisksTabAvailable: !!get(config, 'nas.brand.backoffice.riskCalculator'),
     fsaRegulation: !!get(config, 'nas.brand.backoffice.fsaRegulation'),
     privatePhoneByDepartment: get(config, 'nas.brand.backoffice.privatePhoneByDepartment', []),
+    privateEmailByDepartment: get(config, 'nas.brand.backoffice.privateEmailByDepartment', []),
   },
 }), {});

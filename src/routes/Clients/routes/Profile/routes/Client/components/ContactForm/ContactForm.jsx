@@ -1,7 +1,7 @@
 import React, { Fragment, Component } from 'react';
 import I18n from 'i18n-js';
 import { Field, getFormSyncErrors, getFormValues, reduxForm } from 'redux-form';
-import { departments, roles } from 'constants/brands';
+import { getBrand } from 'config';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { createValidator } from 'utils/validator';
@@ -43,7 +43,6 @@ class ContactForm extends Component {
       phoneVerified: PropTypes.bool,
     }),
     auth: PropTypes.auth.isRequired,
-    disabledAdditionalPhone: PropTypes.bool.isRequired,
   };
 
   static defaultProps = {
@@ -65,7 +64,6 @@ class ContactForm extends Component {
 
   render() {
     const {
-      disabledAdditionalPhone,
       verification: {
         phoneVerified,
       },
@@ -79,16 +77,15 @@ class ContactForm extends Component {
       formSyncErrors,
       auth: {
         department,
-        role,
       },
     } = this.props;
     const { tradingOperatorAccessDisabled } = this.context;
+    const phoneAccess = getBrand().privatePhoneByDepartment.includes(department);
+    const emailAccess = getBrand().privateEmailByDepartment.includes(department);
 
     const isPhoneDirty = currentValues.phone !== initialValues.phone;
     const isPhoneValid = !formSyncErrors.phone && !formSyncErrors.phoneCode;
     const isPhoneVerifiable = isPhoneValid && (isPhoneDirty || !phoneVerified);
-    const areFieldsDisabled = (department === departments.CS || department === departments.ADMINISTRATION)
-      && role === roles.ROLE4;
 
     return (
       <Fragment>
@@ -117,10 +114,10 @@ class ContactForm extends Component {
               type="text"
               component={InputField}
               label={attributeLabels.phone}
-              disabled={disabled || tradingOperatorAccessDisabled || !areFieldsDisabled}
+              disabled={disabled || tradingOperatorAccessDisabled || phoneAccess}
               className="col-5"
             />
-            <If condition={isPhoneVerifiable}>
+            <If condition={isPhoneVerifiable && !phoneAccess}>
               <PermissionContent permissions={permissions.USER_PROFILE.VERIFY_PHONE}>
                 <div className="col-4 mt-4-profile">
                   <button type="button" className="btn btn-primary width-full" onClick={this.handleVerifyPhoneClick}>
@@ -139,7 +136,7 @@ class ContactForm extends Component {
           </div>
           <div className="form-row">
             <Field
-              disabled={disabledAdditionalPhone}
+              disabled={phoneAccess}
               type="text"
               name="additionalPhone"
               component={InputField}
@@ -148,6 +145,7 @@ class ContactForm extends Component {
               className="col-5"
             />
             <Field
+              disabled={emailAccess}
               name="additionalEmail"
               label={attributeLabels.additionalEmail}
               type="text"
