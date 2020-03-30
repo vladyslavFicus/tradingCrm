@@ -15,8 +15,8 @@ export const getLeadsData = ({ allRowsSelected, touchedRowsIds, selectedRows }, 
   }
 
   return selectedRows
-    .map((uuid, index) => ({
-      uuid,
+    .map(index => ({
+      uuid: leads[index].uuid,
       unassignFromOperator: get(leads[touchedRowsIds[index]], 'salesAgent.uuid') || null,
     }));
 };
