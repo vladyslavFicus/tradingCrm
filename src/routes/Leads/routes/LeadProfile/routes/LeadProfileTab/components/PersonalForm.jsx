@@ -1,9 +1,13 @@
 import React, { PureComponent, Fragment } from 'react';
-import { Field } from 'redux-form';
+import { Field } from 'formik';
 import I18n from 'i18n-js';
 import moment from 'moment';
 import PropTypes from 'constants/propTypes';
-import { InputField, NasSelectField, DateTimeField } from 'components/ReduxForm';
+import {
+  FormikInputField,
+  FormikSelectField,
+  FormikDatePicker,
+} from 'components/Formik';
 import { attributeLabels, genders, AGE_YEARS_CONSTRAINT } from '../constants';
 
 class PersonalForm extends PureComponent {
@@ -36,7 +40,7 @@ class PersonalForm extends PureComponent {
             name="name"
             label={I18n.t(attributeLabels.name)}
             type="text"
-            component={InputField}
+            component={FormikInputField}
             disabled={disabled}
             className="col-lg"
           />
@@ -44,30 +48,27 @@ class PersonalForm extends PureComponent {
             name="surname"
             label={I18n.t(attributeLabels.surname)}
             type="text"
-            component={InputField}
+            component={FormikInputField}
             disabled={disabled}
             className="col-lg"
           />
         </div>
         <div className="row">
-          <Field
+          <FormikDatePicker
             name="birthDate"
             label={I18n.t(attributeLabels.birthDate)}
-            component={DateTimeField}
-            timeFormat={null}
             disabled={disabled}
+            timeFormat={null}
             isValidDate={this.ageValidator}
             className="col-lg"
           />
           <Field
             name="gender"
             label={I18n.t(attributeLabels.gender)}
-            type="text"
-            component={NasSelectField}
+            component={FormikSelectField}
             disabled={disabled}
             placeholder="UNDEFINED"
             className="col-lg"
-            searchable={false}
           >
             {genders.map(item => (
               <option key={item} value={item}>

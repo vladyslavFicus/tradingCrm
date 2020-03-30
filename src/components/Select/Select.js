@@ -3,6 +3,7 @@ import I18n from 'i18n-js';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import onClickOutside from 'react-onclickoutside';
+import { isObject } from 'lodash';
 import shallowEqual from '../../utils/shallowEqual';
 import SelectSearchBox, { filterOptionsByQuery } from './SelectSearchBox';
 import SelectSingleOptions from './SelectSingleOptions';
@@ -122,10 +123,7 @@ class Select extends PureComponent {
   };
 
   shallowEqual = (current, next) => {
-    const currentType = typeof current;
-    const nextType = typeof next;
-
-    if (currentType !== 'object' && nextType !== 'object') {
+    if (!isObject(current) && !isObject(next)) {
       return current === next;
     }
 

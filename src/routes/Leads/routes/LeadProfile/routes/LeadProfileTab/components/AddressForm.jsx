@@ -1,9 +1,9 @@
 import React, { Fragment } from 'react';
-import { Field } from 'redux-form';
+import { Field } from 'formik';
 import I18n from 'i18n-js';
-import { InputField, NasSelectField } from '../../../../../../../components/ReduxForm';
-import PropTypes from '../../../../../../../constants/propTypes';
-import countryList from '../../../../../../../utils/countryList';
+import { FormikInputField, FormikSelectField } from 'components/Formik';
+import PropTypes from 'constants/propTypes';
+import countryList from 'utils/countryList';
 import { attributeLabels } from '../constants';
 
 const AddressForm = ({ disabled }) => (
@@ -20,7 +20,7 @@ const AddressForm = ({ disabled }) => (
         type="text"
         placeholder="UNDEFINED"
         className="col-lg-6"
-        component={NasSelectField}
+        component={FormikSelectField}
         disabled={disabled}
       >
         {Object.entries(countryList).map(([code, name]) => (
@@ -33,7 +33,7 @@ const AddressForm = ({ disabled }) => (
         name="city"
         label={I18n.t(attributeLabels.city)}
         type="text"
-        component={InputField}
+        component={FormikInputField}
         disabled={disabled}
         className="col-lg-6"
       />

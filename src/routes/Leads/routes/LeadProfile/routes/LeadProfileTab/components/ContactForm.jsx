@@ -1,8 +1,8 @@
 import React, { Fragment } from 'react';
+import { Field } from 'formik';
 import I18n from 'i18n-js';
-import { Field } from 'redux-form';
-import PropTypes from '../../../../../../../constants/propTypes';
-import { InputField } from '../../../../../../../components/ReduxForm';
+import PropTypes from 'constants/propTypes';
+import { FormikInputField } from 'components/Formik';
 import { attributeLabels } from '../constants';
 
 const PhoneForm = ({
@@ -18,7 +18,7 @@ const PhoneForm = ({
       <Field
         name="phone"
         type="text"
-        component={InputField}
+        component={FormikInputField}
         label={I18n.t(attributeLabels.phone)}
         disabled={disabled}
         className="col-4"
@@ -28,7 +28,7 @@ const PhoneForm = ({
       <Field
         name="mobile"
         type="text"
-        component={InputField}
+        component={FormikInputField}
         label={I18n.t(attributeLabels.mobile)}
         disabled={disabled}
         className="col-4"
@@ -39,7 +39,7 @@ const PhoneForm = ({
         name="email"
         type="email"
         label={I18n.t(attributeLabels.email)}
-        component={InputField}
+        component={FormikInputField}
         className="col-4"
       />
     </div>

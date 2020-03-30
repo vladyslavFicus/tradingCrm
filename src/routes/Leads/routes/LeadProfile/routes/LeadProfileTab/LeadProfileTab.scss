@@ -1,0 +1,10 @@
+$color-danger: #fb434a;
+
+.Profile {
+  &__error {
+    margin-bottom: .5rem;
+    font-weight: 700;
+    color: $color-danger;
+    text-align: center;
+  }
+}
