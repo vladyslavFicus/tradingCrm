@@ -18,6 +18,15 @@ export const fieldNames = keyMirror({
   salesAgents: null,
 });
 
+const {
+  DIALER_NA,
+  DIALER_NEW,
+  DIALER_ASSIGNED,
+  DIALER_FAILED,
+  DIALER_DROP,
+  ...leadsSalesStatuses
+} = salesStatuses;
+
 export default (
   countries,
   desks,
@@ -108,7 +117,7 @@ export default (
   className: fieldClassNames.MEDIUM,
   multiple: true,
   selectOptions: Object
-    .keys(salesStatuses)
+    .keys(leadsSalesStatuses)
     .map(value => ({
       value,
       label: salesStatuses[value],
