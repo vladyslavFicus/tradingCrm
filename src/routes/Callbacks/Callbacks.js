@@ -2,13 +2,13 @@ import React from 'react';
 import { Redirect, Switch } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Route from 'components/Route';
-import List from '../routes/List';
-import Calendar from '../routes/Calendar';
+import CallbacksList from './routes/CallbacksList';
+import CallbacksCalendar from './routes/CallbacksCalendar';
 
 const Callbacks = ({ match: { path, url } }) => (
   <Switch>
-    <Route path={`${path}/list`} component={List} />
-    <Route path={`${path}/calendar`} component={Calendar} />
+    <Route path={`${path}/list`} component={CallbacksList} />
+    <Route path={`${path}/calendar`} component={CallbacksCalendar} />
     <Redirect to={`${url}/list`} />
   </Switch>
 );

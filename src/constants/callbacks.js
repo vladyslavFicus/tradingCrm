@@ -4,6 +4,7 @@ export const callbacksStatuses = {
   SUCCESS: 'CONSTANTS.CALLBACKS.SUCCESS',
 };
 
+// # Remove after client's callbacks tab will be refactored
 export const callbacksStatusesColor = {
   PENDING: 'color-info',
   REJECTED: 'color-danger',

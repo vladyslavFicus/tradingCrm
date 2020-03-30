@@ -1,8 +1,8 @@
 import { compose } from 'react-apollo';
 import { withModals } from 'hoc';
+import CallbackDetailsModal from 'modals/CallbackDetailsModal';
 import { callbacksQuery } from '../../graphql/queries/callbacks';
 import { graphql } from '../../graphql/utils';
-import CallbackDetailsModal from '../CallbackDetailsModal';
 import Calendar from '../Calendar';
 import CallbacksCalendar from './CallbacksCalendar';
 

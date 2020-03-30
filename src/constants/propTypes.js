@@ -926,6 +926,10 @@ PropTypes.socialTradingSubscriptionOnProvider = PropTypes.shape({
     reverse: PropTypes.bool,
   }),
 });
+PropTypes.response = content => PropTypes.shape({
+  data: PropTypes.shape(content),
+  error: PropTypes.object,
+});
 PropTypes.query = content => PropTypes.shape({
   ...content,
   loading: PropTypes.bool,

@@ -1,7 +1,7 @@
 import { compose } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
 import { withModals } from 'hoc';
-import CallbackDetailsModal from '../CallbackDetailsModal';
+import CallbackDetailsModal from 'modals/CallbackDetailsModal';
 import CallbacksList from './CallbacksList';
 
 export default compose(

@@ -1,0 +1,50 @@
+.CallbacksGridFilter {
+  &__form {
+    background-color: #f2f4f8;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding: 20px 25px 35px;
+  }
+
+  &__fields {
+    display: flex;
+    flex-grow: 1;
+  }
+
+  &__field {
+    display: inline-block;
+    vertical-align: top;
+    margin-bottom: 0;
+    margin-right: 15px;
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+
+  &__search {
+    flex-grow: 0.6;
+    flex-basis: 350px;
+    min-width: 350px;
+  }
+
+  &__status {
+    flex-basis: 250px;
+    min-width: 250px;
+  }
+
+  &__dates {
+    flex-basis: 300px;
+    min-width: 300px;
+  }
+
+  &__button {
+    margin-right: 15px;
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+}

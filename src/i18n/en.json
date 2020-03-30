@@ -2858,9 +2858,12 @@
       "STATUS": "Status"
     },
     "FILTER": {
-      "CALLBACK_OR_OPERATOR": "Callback ID, Operator ID",
-      "CALLBACK_OR_PLAYER_OR_OPERATOR": "Callback ID, Player ID, Operator ID",
-      "DATE_RANGE": "Date & time range"
+      "SEARCH_BY": "Search by",
+      "SEARCH_BY_PLACEHOLDER": "Callback ID, Player ID, Operator ID",
+      "STATUS": "Status",
+      "DATE_RANGE": "Date & time range",
+      "DATE_RANGE_START": "Start date",
+      "DATE_RANGE_END": "End date"
     },
     "CREATE_MODAL": {
       "TITLE": "New callback",
@@ -2874,8 +2877,9 @@
       "OPERATOR": "Operator",
       "SELECT_OPERATOR": "Select operator",
       "CALLBACK_DATE_AND_TIME": "Callback date & time",
-      "SUCCESSFULLY_UPDATED": "Callback has been successfully updated",
-      "STATUS": "Status"
+      "STATUS": "Status",
+      "SELECT_STATUS": "Select status",
+      "SUCCESSFULLY_UPDATED": "Callback has been successfully updated"
     }
   },
   "common": {
