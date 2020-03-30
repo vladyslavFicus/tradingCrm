@@ -6,6 +6,7 @@ import permissions from 'config/permissions';
 import { withPermission } from 'providers/PermissionsProvider';
 import { roles, departments } from 'constants/brands';
 import Regulated from 'components/Regulated';
+import { decodeNullValues } from 'components/Formik/utils';
 import { hideText } from 'utils/hideText';
 import { getBrand } from 'config';
 import PersonalForm from './PersonalForm';
@@ -74,7 +75,7 @@ class View extends Component {
       variables: {
         playerUUID,
         languageCode: data.language,
-        ...data,
+        ...decodeNullValues(data),
       },
     });
 

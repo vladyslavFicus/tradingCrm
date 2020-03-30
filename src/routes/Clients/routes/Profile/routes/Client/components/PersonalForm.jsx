@@ -13,7 +13,7 @@ import languageNames from 'constants/languageNames';
 import countryList from 'utils/countryList';
 import { COUNTRY_SPECIFIC_IDENTIFIER_TYPES } from './constants';
 
-const genders = () => ({
+export const genders = () => ({
   FEMALE: I18n.t('COMMON.GENDERS.FEMALE'),
   MALE: I18n.t('COMMON.GENDERS.MALE'),
   UNDEFINED: I18n.t('COMMON.GENDERS.UNDEFINED'),

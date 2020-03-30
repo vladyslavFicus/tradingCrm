@@ -1,0 +1,21 @@
+.FeedContent {
+  &__label {
+    margin-right: 5px;
+  }
+
+  &__value {
+    &-from {
+      margin-right: 5px;
+    }
+
+    &-to {
+      font-weight: 700;
+      margin-left: 5px;
+    }
+  }
+
+  &__arrow {
+    color: #46BE8A;
+    font-weight: bolder;
+  }
+}

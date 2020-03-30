@@ -6,27 +6,7 @@ import I18n from 'i18n-js';
 import PropTypes from '../../constants/propTypes';
 import LetterIcon from '../LetterIcon';
 import { types, typesLabels, typesClassNames } from '../../constants/audit';
-import FeedInfoAffiliateCreation from './FeedInfoAffiliateCreation';
-import FeedInfoLogin from './FeedInfoLogin';
-import FeedInfoLogout from './FeedInfoLogout';
-import FeedInfoKyc from './FeedInfoKyc';
-import FeedInfoPlayerProfileSearch from './FeedInfoPlayerProfileSearch';
-import FeedInfoProfileChanged from './FeedInfoProfileChanged';
-import FeedInfoProfileRegistered from './FeedInfoProfileRegistered';
-import FeedInfoOperatorCreation from './FeedInfoOperatorCreation';
-import FeedInfoPlayerProfileViewed from './FeedInfoPlayerProfileViewed';
-import FeedInfoFailedLoginAttempt from './FeedInfoFailedLoginAttempt';
-import FeedInfoKycRequest from './FeedInfoKycRequest';
-import FeedInfoKYCChanged from './FeedInfoKYCChanged';
-import FeedInfoKycConfirmation from './FeedInfoKycConfirmation';
-import FeedInfoProfileBlocks from './FeedInfoProfileBlocks';
-import FeedInfoRofusVerification from './FeedInfoRofusVerification';
-import FeedInfoPlayerProfileStatusChanged from './FeedInfoPlayerProfileStatusChanged';
-import FeedInfoTermsAccepted from './FeedInfoTermsAccepted';
-import FeedProfileAssign from './FeedProfileAssign';
-import FeedInfoChangeLeverageRequest from './FeedInfoChangeLeverageRequest';
-import FeedProfileAcquissitionStatusChanged from './FeedProfileAcquissitionStatusChanged';
-import FeedRiskProfileChanged from './FeedRiskProfileChanged';
+import FeedContent from './FeedContent';
 import Uuid from '../Uuid';
 import './FeedItem.scss';
 
@@ -45,73 +25,11 @@ class FeedItem extends Component {
     this.setState(({ opened }) => ({ opened: !opened }));
   };
 
-  renderInformation = (data) => {
-    switch (data.type) {
-      case types.AFFILIATE_ACCOUNT_CREATED:
-        return <FeedInfoAffiliateCreation data={data} />;
-      case types.LOG_IN:
-        return <FeedInfoLogin data={data} />;
-      case types.LOG_OUT:
-        return <FeedInfoLogout data={data} />;
-      case types.PLAYER_PROFILE_SEARCH:
-        return <FeedInfoPlayerProfileSearch data={data} />;
-      case types.KYC_ADDRESS_REFUSED:
-      case types.KYC_ADDRESS_VERIFIED:
-      case types.KYC_PERSONAL_REFUSED:
-      case types.KYC_PERSONAL_VERIFIED:
-        return <FeedInfoKyc data={data} />;
-      case types.PLAYER_PROFILE_KYC_CHANGED:
-        return <FeedInfoKYCChanged data={data} />;
-      case types.PLAYER_PROFILE_VERIFIED_EMAIL:
-      case types.PLAYER_PROFILE_VERIFIED_PHONE:
-      case types.PLAYER_PROFILE_CHANGED:
-        return <FeedInfoProfileChanged data={data} />;
-      case types.PLAYER_PROFILE_REGISTERED:
-        return <FeedInfoProfileRegistered data={data} />;
-      case types.NEW_OPERATOR_ACCOUNT_CREATED:
-      case types.OPERATOR_ACCOUNT_CREATED:
-        return <FeedInfoOperatorCreation data={data} />;
-      case types.PLAYER_PROFILE_VIEWED:
-        return <FeedInfoPlayerProfileViewed data={data} />;
-      case types.FAILED_LOGIN_ATTEMPT:
-        return <FeedInfoFailedLoginAttempt data={data} />;
-      case types.KYC_REQUESTED:
-        return <FeedInfoKycRequest data={data} />;
-      case types.KYC_CONFIRMATION:
-        return <FeedInfoKycConfirmation data={data} />;
-      case types.ROFUS_VERIFICATION:
-        return <FeedInfoRofusVerification data={data} />;
-      case types.PLAYER_PROFILE_BLOCKED:
-      case types.PLAYER_PROFILE_UNBLOCKED:
-        return <FeedInfoProfileBlocks data={data} />;
-      case types.PLAYER_PROFILE_SELF_EXCLUDED:
-      case types.PLAYER_PROFILE_STATUS_CHANGED:
-        return <FeedInfoPlayerProfileStatusChanged data={data} />;
-      case types.PLAYER_PROFILE_SELF_EXCLUSION_COOLOFF:
-        return <FeedInfoPlayerProfileStatusChanged data={data} />;
-      case types.PLAYER_PROFILE_RESUMED:
-        return <FeedInfoPlayerProfileStatusChanged data={data} />;
-      case types.ACCEPTED_TERMS:
-        return <FeedInfoTermsAccepted data={data} />;
-      case types.PROFILE_ASSIGN:
-        return <FeedProfileAssign data={data} />;
-      case types.CHANGE_LEVERAGE_REQUESTED:
-        return <FeedInfoChangeLeverageRequest data={data} />;
-      case types.PLAYER_PROFILE_ACQUISITION_CHANGED:
-        return <FeedProfileAcquissitionStatusChanged data={data} />;
-      case types.RISK_PROFILE_DATA_CREATED:
-        return <FeedRiskProfileChanged data={data} />;
-      default:
-        return null;
-    }
-  };
-
   render() {
     const { opened } = this.state;
     const {
       letter,
       color,
-      data,
       data: {
         details,
         type,
@@ -170,7 +88,7 @@ class FeedItem extends Component {
           </div>
           <If condition={hasInformation && opened}>
             <div className="feed-item__content">
-              {this.renderInformation(data)}
+              <FeedContent details={details} />
             </div>
           </If>
         </div>
