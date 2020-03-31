@@ -193,13 +193,13 @@ class List extends Component {
     const {
       modals: { representativeModal },
       location: { query },
-      leads: { leads: { data: { content, totalElements } } },
+      leads: { leads: { data: { content } } },
     } = this.props;
 
-    const { allRowsSelected, touchedRowsIds } = this.state;
+    const { allRowsSelected } = this.state;
     const leads = getLeadsData(this.state, content);
 
-    const selectedRowsLength = allRowsSelected ? totalElements - touchedRowsIds.length : touchedRowsIds.length;
+    const selectedRowsLength = this.getSelectedRowLength();
 
     representativeModal.show({
       leads,
@@ -331,6 +331,23 @@ class List extends Component {
     </Fragment>
   );
 
+  getSelectedRowLength = () => {
+    const { leads } = this.props;
+    const { allRowsSelected, touchedRowsIds } = this.state;
+
+    const totalElements = get(leads, 'leads.data.totalElements');
+
+    let selectedRowsLength = touchedRowsIds.length;
+
+    if (allRowsSelected) {
+      selectedRowsLength = (totalElements - selectedRowsLength > MAX_SELECTED_ROWS)
+        ? MAX_SELECTED_ROWS - selectedRowsLength
+        : totalElements - selectedRowsLength;
+    }
+
+    return selectedRowsLength;
+  };
+
   render() {
     const {
       leads: {
@@ -347,9 +364,7 @@ class List extends Component {
     const entities = get(leads, 'data') || { content: [] };
     const filters = get(query, 'filters', {});
 
-    const selectedRowsLength = allRowsSelected
-      ? entities.totalElements - touchedRowsIds.length
-      : touchedRowsIds.length;
+    const selectedRowsLength = this.getSelectedRowLength();
 
     const allowActions = Object
       .keys(filters)
