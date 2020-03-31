@@ -70,6 +70,7 @@
   }
 
   &--primary-outline {
+    border-radius: 3px;
     border-color: #4990e2;
     color: #4990e2;
 
@@ -130,5 +131,11 @@
     color: #259a35;
     width: 100%;
     white-space: nowrap;
+  }
+
+  &--small {
+    padding-top: 4px;
+    padding-bottom: 4px;
+    font-size: 13px;
   }
 }

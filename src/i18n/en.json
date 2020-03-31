@@ -2400,6 +2400,24 @@
         "SUCCESSFULLY_CHANGED": "Password has been successfully changed",
         "NEW_PASSWORD": "New password",
         "REPEAT_PASSWORD": "Repeat new password"
+      },
+      "MODAL_CHANGE_LEVERAGE": {
+        "TITLE": "Request to change leverage",
+        "TRADING_ACCOUNT": "Trading account",
+        "LEVERAGE_CHANGED": "Request to change leverage sent successfully",
+        "FORBIDDEN_CHANGE_LEVERAGE": "You've already made a 'Change leverage' request which is in 'PENDING' status. You can not create any more requests until this status changes",
+        "FORM": {
+          "CHANGE_LEVERAGE": "Change leverage",
+          "MESSAGE": "Please note that leverage changes affect open positions. Lowering leverage may result in a margin closeout."
+        }
+      },
+      "LEVERAGE":{
+        "FROM": "from",
+        "TO": "to",
+        "SINCE": "since",
+        "CHANGE_LEVERAGE": "Change leverage",
+        "CANCEL_NOTIFICATION": "Cancellation of change leverage request was successfully",
+        "APPROVE_NOTIFICATION": "Approve of change leverage request was successfully"
       }
     },
     "MODALS": {

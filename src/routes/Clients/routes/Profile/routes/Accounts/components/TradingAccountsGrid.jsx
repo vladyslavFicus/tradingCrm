@@ -1,22 +1,28 @@
 import React, { PureComponent, Fragment } from 'react';
-import { compose, graphql } from 'react-apollo';
+import { compose } from 'react-apollo';
 import { Link } from 'react-router-dom';
 import I18n from 'i18n-js';
 import moment from 'moment';
+import { get } from 'lodash';
 import classNames from 'classnames';
-import { withModals } from 'hoc';
+import { withRequests } from 'apollo';
+import { withModals, withNotifications } from 'hoc';
 import { withPermission } from 'providers/PermissionsProvider';
-import { updateTradingAccountMutation } from 'graphql/mutations/tradingAccount';
 import permissions from 'config/permissions';
 import Permissions from 'utils/permissions';
 import PropTypes from 'constants/propTypes';
-import { accountTypesLabels } from 'constants/accountTypes';
+import { Button } from 'components/UI';
+import { accountTypesLabels, leverageStatusesColor } from 'constants/accountTypes';
 import Grid, { GridColumn } from 'components/Grid';
 import ActionsDropDown from 'components/ActionsDropDown';
 import Badge from 'components/Badge';
 import PlatformTypeBadge from 'components/PlatformTypeBadge';
 import Uuid from 'components/Uuid';
+import updateTradingAccountMutation from './graphql/updateTradingAccountMutation';
+import approveChangeLeverageRequestMutation from './graphql/approveChangeLeverageRequestMutation';
+import rejectChangeLeverageRequestMutation from './graphql/rejectChangeLeverageRequestMutation';
 import TradingAccountChangePasswordModal from './TradingAccountChangePasswordModal';
+import ChangeLeverageModal from './ChangeLeverageModal';
 
 class TradingAccountsGrid extends PureComponent {
   static propTypes = {
@@ -45,6 +51,54 @@ class TradingAccountsGrid extends PureComponent {
         readOnly,
       },
     }).then(refetchTradingAccountsList);
+  };
+
+  handleRejectChangeLeverage = accountUUID => async () => {
+    const { notify, rejectChangeLeverage, refetchTradingAccountsList } = this.props;
+
+    const {
+      data: {
+        tradingAccount: {
+          rejectChangeLeverageRequest: {
+            success,
+          },
+        },
+      },
+    } = await rejectChangeLeverage({ variables: { accountUUID } });
+
+    refetchTradingAccountsList();
+
+    notify({
+      level: success ? 'success' : 'error',
+      title: I18n.t('CLIENT_PROFILE.ACCOUNTS.LEVERAGE.CHANGE_LEVERAGE'),
+      message: success
+        ? I18n.t('CLIENT_PROFILE.ACCOUNTS.LEVERAGE.CANCEL_NOTIFICATION')
+        : I18n.t('COMMON.SOMETHING_WRONG'),
+    });
+  };
+
+  handleApproveChangeLeverage = accountUUID => async () => {
+    const { notify, approveChangeLeverage, refetchTradingAccountsList } = this.props;
+
+    const {
+      data: {
+        tradingAccount: {
+          approveChangeLeverageRequest: {
+            success,
+          },
+        },
+      },
+    } = await approveChangeLeverage({ variables: { accountUUID } });
+
+    refetchTradingAccountsList();
+
+    notify({
+      level: success ? 'success' : 'error',
+      title: I18n.t('CLIENT_PROFILE.ACCOUNTS.LEVERAGE.CHANGE_LEVERAGE'),
+      message: success
+        ? I18n.t('CLIENT_PROFILE.ACCOUNTS.LEVERAGE.APPROVE_NOTIFICATION')
+        : I18n.t('COMMON.SOMETHING_WRONG'),
+    });
   };
 
   renderTradingAccountColumn = ({ accountUUID, name, accountType, platformType, archived }) => (
@@ -90,9 +144,73 @@ class TradingAccountsGrid extends PureComponent {
     <div className="font-weight-700">{symbol} {Number(credit).toFixed(2)}</div>
   );
 
-  renderLeverageColumn = ({ leverage }) => (
-    <div className="font-weight-700">{leverage}</div>
-  );
+  renderLeverageColumn = (tradingAccount) => {
+    const { leverage, accountUUID } = tradingAccount;
+
+    const {
+      changeLeverageFrom,
+      changeLeverageTo,
+      status,
+      createDate,
+    } = get(tradingAccount, 'lastLeverageChangeRequest') || {};
+
+    return (
+      <Fragment>
+        <Choose>
+          <When condition={tradingAccount.lastLeverageChangeRequest}>
+            <Choose>
+              <When condition={status !== 'PENDING'}>
+                <div>
+                  <div className="font-weight-700">{changeLeverageTo}</div>
+                  <div className="font-size-11">
+                    {I18n.t('CLIENT_PROFILE.ACCOUNTS.LEVERAGE.FROM')} {changeLeverageFrom}
+                  </div>
+                </div>
+              </When>
+              <Otherwise>
+                <div>
+                  <div className="font-weight-700">{changeLeverageFrom}</div>
+                  <div className="font-size-11">
+                    {I18n.t('CLIENT_PROFILE.ACCOUNTS.LEVERAGE.TO')} {changeLeverageTo}
+                  </div>
+                </div>
+              </Otherwise>
+            </Choose>
+          </When>
+          <Otherwise>
+            <div className="font-weight-700">{leverage}</div>
+          </Otherwise>
+        </Choose>
+        <div className={classNames('font-weight-700 text-uppercase', leverageStatusesColor[status])}>
+          {status}
+        </div>
+        <If condition={createDate}>
+          <div className="font-size-11 margin-bottom-5">
+            {`${I18n.t('CLIENT_PROFILE.ACCOUNTS.LEVERAGE.SINCE')} ${
+              moment.utc(createDate).local().format('DD.MM.YYYY HH:mm')
+              }`}
+          </div>
+        </If>
+        <If condition={status === 'PENDING'}>
+          <Button
+            small
+            commonOutline
+            className="margin-right-10"
+            onClick={this.handleRejectChangeLeverage(accountUUID)}
+          >
+            {I18n.t('COMMON.REJECT')}
+          </Button>
+          <Button
+            small
+            primaryOutline
+            onClick={this.handleApproveChangeLeverage(accountUUID)}
+          >
+            {I18n.t('COMMON.APPROVE')}
+          </Button>
+        </If>
+      </Fragment>
+    );
+  };
 
   renderTradingStatusColumn = ({ readOnly, readOnlyUpdateTime, readOnlyUpdatedBy, operator }) => (
     <Fragment>
@@ -124,13 +242,42 @@ class TradingAccountsGrid extends PureComponent {
     <div className="font-weight-700">{platformType} {accountType}</div>
   );
 
-  renderActionsColumn = ({ readOnly, accountType, archived, accountUUID, profileUUID, login }) => {
-    const { modals: { tradingAccountChangePasswordModal } } = this.props;
+  renderActionsColumn = (
+    {
+      readOnly,
+      accountType,
+      archived,
+      accountUUID,
+      profileUUID,
+      login,
+      name,
+      group,
+      leverage,
+      platformType,
+    },
+  ) => {
+    const { modals: { tradingAccountChangePasswordModal, changeLeverageModal } } = this.props;
 
-    const dropDownActions = [{
-      label: I18n.t('CLIENT_PROFILE.ACCOUNTS.ACTIONS_DROPDOWN.CHANGE_PASSWORD'),
-      onClick: () => tradingAccountChangePasswordModal.show({ accountUUID, profileUUID, login }),
-    }];
+    const dropDownActions = [
+      {
+        label: I18n.t('CLIENT_PROFILE.ACCOUNTS.ACTIONS_DROPDOWN.CHANGE_PASSWORD'),
+        onClick: () => tradingAccountChangePasswordModal.show({ accountUUID, profileUUID, login }),
+      },
+      {
+        label: I18n.t('CLIENT_PROFILE.ACCOUNTS.LEVERAGE.CHANGE_LEVERAGE'),
+        onClick: () => changeLeverageModal.show({
+          name,
+          login,
+          group,
+          leverage,
+          accountType,
+          platformType,
+          archived,
+          accountUUID,
+          refetchTradingAccountsList: this.props.refetchTradingAccountsList,
+        }),
+      },
+    ];
 
     if (accountType !== 'DEMO') {
       dropDownActions.push({
@@ -221,8 +368,14 @@ class TradingAccountsGrid extends PureComponent {
 
 export default compose(
   withPermission,
+  withNotifications,
   withModals({
     tradingAccountChangePasswordModal: TradingAccountChangePasswordModal,
+    changeLeverageModal: ChangeLeverageModal,
   }),
-  graphql(updateTradingAccountMutation, { name: 'updateTradingAccount' }),
+  withRequests({
+    updateTradingAccount: updateTradingAccountMutation,
+    approveChangeLeverage: approveChangeLeverageRequestMutation,
+    rejectChangeLeverage: rejectChangeLeverageRequestMutation,
+  }),
 )(TradingAccountsGrid);

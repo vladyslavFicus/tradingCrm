@@ -21,6 +21,12 @@ const getTradingAccount = gql`query getTradingAccount($uuid: String!, $accountTy
       operator {
         fullName
       }
+      lastLeverageChangeRequest {
+        changeLeverageFrom
+        changeLeverageTo
+        status
+        createDate
+      }
     }
   }`;
 

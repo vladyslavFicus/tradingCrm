@@ -19,6 +19,7 @@ class Button extends PureComponent {
     verified: PropTypes.bool,
     dangerOutline: PropTypes.bool,
     onClick: PropTypes.func,
+    small: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -34,6 +35,7 @@ class Button extends PureComponent {
     danger: false,
     verified: false,
     onClick: () => {},
+    small: false,
   };
 
   /**
@@ -57,6 +59,7 @@ class Button extends PureComponent {
       danger,
       dangerOutline,
       verified,
+      small,
       ...props
     } = this.props;
 
@@ -77,6 +80,7 @@ class Button extends PureComponent {
               'Button--danger-outline': dangerOutline,
               'Button--danger': danger,
               'Button--verified': verified,
+              'Button--small': small,
             },
           )
         }
