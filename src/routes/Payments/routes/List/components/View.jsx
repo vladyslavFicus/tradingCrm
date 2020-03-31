@@ -154,7 +154,7 @@ class View extends PureComponent {
             data={payments.content}
             handleSort={this.handleSort}
             handlePageChanged={this.handlePageChanged}
-            isLoading={loading && !payments.content.length}
+            isLoading={loading}
             isLastPage={payments.last}
             withLazyLoad
             withNoResults={!!paymentsError || (!loading && payments.content.length === 0)}

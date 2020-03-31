@@ -1,14 +1,17 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import { withGridContext } from '../GridProvider';
 import GridRowCell from '../GridRowCell';
 import './GridRow.scss';
 
 class GridRow extends PureComponent {
   static propTypes = {
+    gridData: PropTypes.arrayOf(PropTypes.object).isRequired,
     gridRowData: PropTypes.object,
     gridColumns: PropTypes.arrayOf(PropTypes.object),
-    rowsClassNames: PropTypes.oneOfType([PropTypes.string, PropTypes.func]).isRequired,
+    rowsClassNames: PropTypes.oneOfType([PropTypes.string, PropTypes.func])
+      .isRequired,
     rowIndex: PropTypes.number.isRequired,
     handleRowClick: PropTypes.func.isRequired,
     handleSelectRow: PropTypes.func.isRequired,
@@ -25,6 +28,7 @@ class GridRow extends PureComponent {
 
   handleCheckboxChange = () => {
     const {
+      gridData,
       handleSelectRow,
       allRowsSelected,
       touchedRowsIds,
@@ -36,11 +40,16 @@ class GridRow extends PureComponent {
 
     if (index === -1) {
       touchedRows.push(rowIndex);
-      handleSelectRow(!allRowsSelected, rowIndex, touchedRows);
     } else {
       touchedRows.splice(index, 1);
-      handleSelectRow(allRowsSelected, rowIndex, touchedRows);
     }
+
+    const selectedAll = gridData.length === touchedRows.length;
+
+    handleSelectRow(
+      allRowsSelected || selectedAll,
+      selectedAll && !allRowsSelected ? [] : touchedRows,
+    );
   };
 
   checkIsRowSelected = (rowId) => {
@@ -50,9 +59,9 @@ class GridRow extends PureComponent {
       return allRowsSelected;
     }
 
-    const isRowTouched = touchedRowsIds.findIndex(item => item === rowId);
-
-    return allRowsSelected ? isRowTouched === -1 : isRowTouched !== -1;
+    return allRowsSelected
+      ? !touchedRowsIds.includes(rowId)
+      : touchedRowsIds.includes(rowId);
   };
 
   render() {
@@ -67,38 +76,36 @@ class GridRow extends PureComponent {
     } = this.props;
 
     const isSelected = this.checkIsRowSelected(rowIndex);
-    const rowClassName = typeof rowsClassNames === 'function' ? rowsClassNames(gridRowData) : rowsClassNames;
+    const rowClassName = typeof rowsClassNames === 'function'
+      ? rowsClassNames(gridRowData)
+      : rowsClassNames;
 
     return (
       <tr
         key={rowIndex}
         onClick={() => handleRowClick(gridRowData)}
-        className={
-          classNames(
-            'GridRow',
-            {
-              'GridRow--with-hover': withRowsHover,
-              'GridRow--is-selected': isSelected,
-            },
-            rowClassName,
-          )
-        }
+        className={classNames(
+          'GridRow',
+          {
+            'GridRow--with-hover': withRowsHover,
+            'GridRow--is-selected': isSelected,
+          },
+          rowClassName,
+        )}
       >
-        {
-          gridColumns.map((columnData, columnKey) => (
-            <GridRowCell
-              key={`${rowIndex}-${columnKey}`}
-              columnData={columnData}
-              gridRowData={gridRowData}
-              isCheckboxActive={isSelected}
-              handleCheckboxChange={this.handleCheckboxChange}
-              withCheckbox={withMultiSelect && columnKey === 0}
-            />
-          ))
-        }
+        {gridColumns.map((columnData, index) => (
+          <GridRowCell
+            key={index}
+            columnData={columnData}
+            gridRowData={gridRowData}
+            isCheckboxActive={isSelected}
+            handleCheckboxChange={this.handleCheckboxChange}
+            withCheckbox={withMultiSelect && index === 0}
+          />
+        ))}
       </tr>
     );
   }
 }
 
-export default GridRow;
+export default withGridContext(GridRow);

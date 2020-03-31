@@ -58,13 +58,18 @@ class GridHeaderCell extends PureComponent {
     );
   }
 
+  handleAllRowsSelect = () => {
+    const { allRowsSelected, handleAllRowsSelect } = this.props;
+
+    handleAllRowsSelect(!allRowsSelected);
+  };
+
   render() {
     const {
       columnIndex,
       withMultiSelect,
       touchedRowsIds,
       allRowsSelected,
-      handleAllRowsSelect,
     } = this.props;
 
     return (
@@ -74,7 +79,7 @@ class GridHeaderCell extends PureComponent {
             <GridCheckbox
               isActive={allRowsSelected}
               withoutCheckIcon={allRowsSelected && touchedRowsIds.length > 0}
-              onChange={handleAllRowsSelect}
+              onChange={this.handleAllRowsSelect}
             />
             {this.renderHeaderCellContent()}
           </th>

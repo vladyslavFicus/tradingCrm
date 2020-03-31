@@ -1,24 +1,26 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import InfiniteScroll from 'react-infinite-scroller';
+import { withGridContext } from '../GridProvider';
 import GridLoader from '../GridLoader';
 import GridRow from '../GridRow';
 
 class GridBody extends PureComponent {
   static propTypes = {
-    data: PropTypes.arrayOf(PropTypes.object).isRequired,
-    gridColumns: PropTypes.arrayOf(PropTypes.object).isRequired,
+    gridData: PropTypes.arrayOf(PropTypes.object).isRequired,
     isLoading: PropTypes.bool.isRequired,
     isLastPage: PropTypes.bool.isRequired,
-    touchedRowsIds: PropTypes.arrayOf(PropTypes.number).isRequired,
-    allRowsSelected: PropTypes.bool.isRequired,
-    rowsClassNames: PropTypes.oneOfType([PropTypes.string, PropTypes.func]).isRequired,
-    handleRowClick: PropTypes.func.isRequired,
-    handleSelectRow: PropTypes.func.isRequired,
     handlePageChanged: PropTypes.func.isRequired,
-    withRowsHover: PropTypes.bool.isRequired,
-    withMultiSelect: PropTypes.bool.isRequired,
     withLazyLoad: PropTypes.bool.isRequired,
+    scrollParentRef: PropTypes.object,
+    initialLoad: PropTypes.bool,
+    threshold: PropTypes.number,
+  };
+
+  static defaultProps = {
+    scrollParentRef: null,
+    initialLoad: false,
+    threshold: 250,
   };
 
   handlePageChanged = () => {
@@ -29,68 +31,48 @@ class GridBody extends PureComponent {
     }
   };
 
-  renderRow = (key, gridRowData) => {
-    const {
-      gridColumns,
-      touchedRowsIds,
-      allRowsSelected,
-      rowsClassNames,
-      handleRowClick,
-      handleSelectRow,
-      withRowsHover,
-      withMultiSelect,
-    } = this.props;
-
-    return (
-      <GridRow
-        key={key}
-        rowIndex={key}
-        allRowsSelected={allRowsSelected}
-        touchedRowsIds={touchedRowsIds}
-        gridRowData={gridRowData}
-        gridColumns={gridColumns}
-        handleRowClick={handleRowClick}
-        handleSelectRow={handleSelectRow}
-        rowsClassNames={rowsClassNames}
-        withMultiSelect={withMultiSelect}
-        withRowsHover={withRowsHover}
-      />
-    );
-  };
-
   render() {
     const {
-      data,
+      gridData,
       isLoading,
       isLastPage,
       withLazyLoad,
+      scrollParentRef,
+      initialLoad,
+      threshold,
     } = this.props;
 
-    const gridRows = data.map((gridRowData, key) => this.renderRow(key, gridRowData));
+    const gridRows = gridData.map((gridRowData, index) => (
+      <GridRow key={index} rowIndex={index} gridRowData={gridRowData} />
+    ));
 
-    if (isLoading) {
-      return (
-        <tbody>
-          <GridLoader />
-        </tbody>
-      );
-    }
-
-    if (withLazyLoad) {
-      return (
-        <InfiniteScroll
-          element="tbody"
-          hasMore={!isLastPage}
-          loader={<GridLoader key="grid-loader" />}
-          loadMore={this.handlePageChanged}
-        >
-          {gridRows}
-        </InfiniteScroll>
-      );
-    }
-
-    return <tbody>{gridRows}</tbody>;
+    return (
+      <Choose>
+        <When condition={isLoading && !gridData.length}>
+          <tbody>
+            <GridLoader />
+          </tbody>
+        </When>
+        <When condition={withLazyLoad}>
+          <InfiniteScroll
+            element="tbody"
+            hasMore={!isLastPage}
+            loader={<GridLoader key="grid-loader" />}
+            loadMore={this.handlePageChanged}
+            initialLoad={initialLoad}
+            useWindow={!scrollParentRef}
+            getScrollParent={scrollParentRef && (() => scrollParentRef)}
+            threshold={threshold}
+          >
+            {gridRows}
+          </InfiniteScroll>
+        </When>
+        <Otherwise>
+          <tbody>{gridRows}</tbody>
+        </Otherwise>
+      </Choose>
+    );
   }
 }
 
-export default GridBody;
+export default withGridContext(GridBody);

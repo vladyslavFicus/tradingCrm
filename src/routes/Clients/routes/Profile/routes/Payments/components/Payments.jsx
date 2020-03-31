@@ -220,7 +220,7 @@ class Payments extends Component {
             data={payments.content}
             handleSort={this.handleSort}
             handlePageChanged={this.handlePageChanged}
-            isLoading={loading && !payments.content.length}
+            isLoading={loading}
             isLastPage={payments.last}
             withLazyLoad
             withNoResults={!!error || (!loading && payments.content.length === 0)}

@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { withGridContext } from '../GridProvider';
 import GridHeaderCell from '../GridHeaderCell';
 import './GridHeader.scss';
 
@@ -59,14 +60,14 @@ class GridHeader extends PureComponent {
     return (
       <thead className="GridHeader">
         <tr>
-          {gridColumns.map(({ props: { header, sortBy } }, key) => (
+          {gridColumns.map(({ props: { header, sortBy } }, index) => (
             <GridHeaderCell
-              key={`${header}-${key}`}
+              key={index}
               header={header}
               onHandleSort={() => this.handleSortBy(sortBy)}
               sortingName={sortBy}
               sortingDirection={sortList[sortBy]}
-              columnIndex={key}
+              columnIndex={index}
               touchedRowsIds={touchedRowsIds}
               allRowsSelected={allRowsSelected}
               withMultiSelect={withMultiSelect}
@@ -79,4 +80,4 @@ class GridHeader extends PureComponent {
   }
 }
 
-export default GridHeader;
+export default withGridContext(GridHeader);

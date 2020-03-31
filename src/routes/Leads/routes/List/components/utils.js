@@ -1,22 +1,10 @@
 import { get } from 'lodash';
 
-export const getLeadsData = ({ allRowsSelected, touchedRowsIds, selectedRows }, totalElements, leads) => {
-  if (allRowsSelected) {
-    if (!touchedRowsIds.length && leads.length === totalElements) {
-      return selectedRows
-        .map((_, index) => ({
-          uuid: leads[index].uuid,
-          unassignFromOperator: get(leads[index], 'salesAgent.uuid') || null,
-        }));
-    }
+export const getLeadsData = ({ touchedRowsIds }, content) => {
+  const selectedContent = content.filter((_, i) => touchedRowsIds.includes(i));
 
-    return touchedRowsIds
-      .map(index => ({ uuid: leads[index].uuid }));
-  }
-
-  return selectedRows
-    .map(index => ({
-      uuid: leads[index].uuid,
-      unassignFromOperator: get(leads[touchedRowsIds[index]], 'salesAgent.uuid') || null,
-    }));
+  return selectedContent.map(item => ({
+    uuid: item.uuid,
+    unassignFromOperator: get(item, 'salesAgent.uuid') || null,
+  }));
 };

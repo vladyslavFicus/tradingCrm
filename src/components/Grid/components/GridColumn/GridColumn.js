@@ -10,14 +10,12 @@ import PropTypes from 'prop-types';
  */
 class GridColumn extends PureComponent {
   static propTypes = {
-    name: PropTypes.string, // eslint-disable-line
     header: PropTypes.string, // eslint-disable-line
     isHidden: PropTypes.bool, // eslint-disable-line
     render: PropTypes.oneOfType([PropTypes.func, PropTypes.string]), // eslint-disable-line
   };
 
   static defaultProps = {
-    name: '',
     header: '',
     render: () => null,
     isHidden: false,

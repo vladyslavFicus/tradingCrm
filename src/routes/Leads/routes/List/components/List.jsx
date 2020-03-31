@@ -61,9 +61,8 @@ class List extends Component {
   };
 
   state = {
-    selectedRows: [],
-    allRowsSelected: false,
     touchedRowsIds: [],
+    allRowsSelected: false,
     hierarchyOperators: [],
   };
 
@@ -101,7 +100,6 @@ class List extends Component {
 
     this.setState({
       allRowsSelected: false,
-      selectedRows: [],
       touchedRowsIds: [],
     }, () => this.props.history.replace({
       query: {
@@ -120,7 +118,6 @@ class List extends Component {
   handleFilterReset = () => {
     this.setState({
       allRowsSelected: false,
-      selectedRows: [],
       touchedRowsIds: [],
     }, () => this.props.history.replace({ query: { filters: {} } }));
   };
@@ -129,47 +126,30 @@ class List extends Component {
     window.open(`/leads/${uuid}`, '_blank');
   };
 
-  handleSelectRow = (isAllRowsSelected, rowIndex, touchedRowsIds) => {
-    this.setState((state) => {
-      const selectedRows = [...state.selectedRows];
-
-      if (isAllRowsSelected) {
-        selectedRows.push(rowIndex);
-      } else {
-        const unselectedRowIndex = selectedRows.findIndex(
-          item => item === rowIndex,
-        );
-        selectedRows.splice(unselectedRowIndex, 1);
-      }
-
-      return {
-        selectedRows,
-        touchedRowsIds,
-      };
+  handleSelectRow = (allRowsSelected, touchedRowsIds) => {
+    this.setState({
+      touchedRowsIds,
+      allRowsSelected,
     });
   };
 
-  handleAllRowsSelect = () => {
-    const { leads: { leads: { data: { totalElements } } }, modals: { confirmationModal } } = this.props;
-    const { allRowsSelected } = this.state;
-    const selectedRows = allRowsSelected
-      ? []
-      : [...Array.from(Array(totalElements > MAX_SELECTED_ROWS ? MAX_SELECTED_ROWS : totalElements).keys())];
+  handleAllRowsSelect = (allRowsSelected) => {
+    this.setState({ allRowsSelected, touchedRowsIds: [] });
 
-    this.setState({
-      allRowsSelected: !allRowsSelected,
-      touchedRowsIds: [],
-      selectedRows,
-    });
+    if (allRowsSelected) {
+      const {
+        leads: { leads: { data: { totalElements } } },
+        modals: { confirmationModal },
+      } = this.props;
 
-    // Check if selected all rows and total elements more than max available elements to execute action
-    if (!allRowsSelected && totalElements > MAX_SELECTED_ROWS) {
-      confirmationModal.show({
-        onSubmit: confirmationModal.hide,
-        modalTitle: `${selectedRows.lenght} ${I18n.t('LEADS.LEADS_SELECTED')}`,
-        actionText: I18n.t('COMMON.NOT_MORE_CAN_SELECTED', { max: MAX_SELECTED_ROWS }),
-        submitButtonLabel: I18n.t('COMMON.OK'),
-      });
+      if (totalElements > MAX_SELECTED_ROWS) {
+        confirmationModal.show({
+          onSubmit: confirmationModal.hide,
+          modalTitle: `${MAX_SELECTED_ROWS} ${I18n.t('LEADS.LEADS_SELECTED')}`,
+          actionText: I18n.t('COMMON.NOT_MORE_CAN_SELECTED', { max: MAX_SELECTED_ROWS }),
+          submitButtonLabel: I18n.t('COMMON.OK'),
+        });
+      }
     }
   };
 
@@ -216,8 +196,10 @@ class List extends Component {
       leads: { leads: { data: { content, totalElements } } },
     } = this.props;
 
-    const { allRowsSelected, selectedRows } = this.state;
-    const leads = getLeadsData(this.state, totalElements, content);
+    const { allRowsSelected, touchedRowsIds } = this.state;
+    const leads = getLeadsData(this.state, content);
+
+    const selectedRowsLength = allRowsSelected ? totalElements - touchedRowsIds.length : touchedRowsIds.length;
 
     representativeModal.show({
       leads,
@@ -225,7 +207,7 @@ class List extends Component {
       type: deskTypes.SALES,
       configs: {
         allRowsSelected,
-        totalElements: selectedRows.length,
+        totalElements: selectedRowsLength,
         multiAssign: true,
         ...query && { searchParams: { ...omit(query.filters, ['size', 'teams', 'desks']) } },
       },
@@ -233,7 +215,7 @@ class List extends Component {
       header: (
         <Fragment>
           <div>{I18n.t(`CLIENTS.MODALS.${deskTypes.SALES}_MODAL.HEADER`)}</div>
-          <div className="font-size-11 color-yellow">{selectedRows.length}{' '}{I18n.t('LEADS.LEADS_SELECTED')}</div>
+          <div className="font-size-11 color-yellow">{selectedRowsLength}{' '}{I18n.t('LEADS.LEADS_SELECTED')}</div>
         </Fragment>
       ),
     });
@@ -243,9 +225,8 @@ class List extends Component {
     this.props.leads.refetch();
 
     this.setState({
-      selectedRows: [],
-      allRowsSelected: false,
       touchedRowsIds: [],
+      allRowsSelected: false,
     });
   };
 
@@ -361,12 +342,14 @@ class List extends Component {
 
     const {
       allRowsSelected,
-      selectedRows,
       touchedRowsIds,
     } = this.state;
-
     const entities = get(leads, 'data') || { content: [] };
     const filters = get(query, 'filters', {});
+
+    const selectedRowsLength = allRowsSelected
+      ? entities.totalElements - touchedRowsIds.length
+      : touchedRowsIds.length;
 
     const allowActions = Object
       .keys(filters)
@@ -393,7 +376,7 @@ class List extends Component {
                     {I18n.t('LEADS.LEADS_FOUND')}
                   </div>
                   <div className="font-size-14">
-                    <strong>{selectedRows.length} </strong>
+                    <strong>{selectedRowsLength} </strong>
                     {I18n.t('LEADS.LEADS_SELECTED')}
                   </div>
                 </span>
@@ -406,7 +389,7 @@ class List extends Component {
             </Choose>
           </Placeholder>
 
-          <If condition={entities.totalElements !== 0 && selectedRows.length !== 0}>
+          <If condition={entities.totalElements !== 0 && selectedRowsLength !== 0}>
             <div className="grid-bulk-menu ml-auto">
               <span>Bulk actions</span>
               <button
@@ -418,7 +401,7 @@ class List extends Component {
               </button>
             </div>
           </If>
-          <If condition={selectedRows.length === 0}>
+          <If condition={selectedRowsLength === 0}>
             <div className="ml-auto">
               <button
                 type="button"
@@ -449,7 +432,7 @@ class List extends Component {
             handleSelectRow={this.handleSelectRow} // <- onRowSelect
             handleAllRowsSelect={this.handleAllRowsSelect} // <- onAllRowsSelect
             handlePageChanged={this.handlePageChanged} // <- onPageChange
-            isLoading={loading && entities.content.length === 0} // <- loading
+            isLoading={loading}
             isLastPage={entities.last} // <- last
             withMultiSelect // <- multiselect
             withRowsHover // <- className="table-hovered"

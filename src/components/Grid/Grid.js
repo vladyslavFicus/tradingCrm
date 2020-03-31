@@ -1,14 +1,14 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import shallowEqual from 'utils/shallowEqual';
 import NotFoundContent from 'components/NotFoundContent';
 import GridColumn from './components/GridColumn';
 import GridHeader from './components/GridHeader';
 import GridBody from './components/GridBody';
+import GridProvider from './components/GridProvider';
 import './Grid.scss';
 
-class Grid extends Component {
+class Grid extends PureComponent {
   static propTypes = {
     data: PropTypes.arrayOf(PropTypes.object).isRequired,
     isLoading: PropTypes.bool,
@@ -47,38 +47,14 @@ class Grid extends Component {
     handleAllRowsSelect: () => {},
   };
 
-  shouldComponentUpdate(nextProps) {
-    if (!nextProps.withLazyLoad) {
-      return true;
-    }
-
-    return !shallowEqual(nextProps.data, this.props.data)
-      || nextProps.withNoResults !== this.props.withNoResults
-      || nextProps.touchedRowsIds.length !== this.props.touchedRowsIds.length
-      || nextProps.allRowsSelected !== this.props.allRowsSelected
-      || nextProps.isLoading !== this.props.isLoading
-      || nextProps.isLastPage !== this.props.isLastPage;
-  }
-
   render() {
     const {
       data,
       children,
       className,
       isLoading,
-      isLastPage,
-      touchedRowsIds,
-      allRowsSelected,
-      rowsClassNames,
-      handleSort,
-      handleRowClick,
-      handleSelectRow,
-      handlePageChanged,
-      handleAllRowsSelect,
-      withLazyLoad,
       withNoResults,
-      withRowsHover,
-      withMultiSelect,
+      ...props
     } = this.props;
 
     if (!isLoading && !data.length) {
@@ -93,33 +69,19 @@ class Grid extends Component {
       .toArray(children)
       .filter(child => child.type === GridColumn && !child.props.isHidden);
 
-    return (
-      <table className={classNames('Grid', className)}>
-        <GridHeader
-          gridColumns={gridColumns}
-          touchedRowsIds={touchedRowsIds}
-          allRowsSelected={allRowsSelected}
-          withMultiSelect={withMultiSelect}
-          handleSort={handleSort}
-          handleAllRowsSelect={handleAllRowsSelect}
-        />
+    const providerProps = {
+      ...props,
+      gridData: data,
+      gridColumns,
+    };
 
-        <GridBody
-          data={data}
-          gridColumns={gridColumns}
-          isLoading={isLoading}
-          isLastPage={isLastPage}
-          withLazyLoad={withLazyLoad}
-          touchedRowsIds={touchedRowsIds}
-          allRowsSelected={allRowsSelected}
-          rowsClassNames={rowsClassNames}
-          handleRowClick={handleRowClick}
-          handleSelectRow={handleSelectRow}
-          handlePageChanged={handlePageChanged}
-          withRowsHover={withRowsHover}
-          withMultiSelect={withMultiSelect}
-        />
-      </table>
+    return (
+      <GridProvider {...providerProps}>
+        <table className={classNames('Grid', className)}>
+          <GridHeader />
+          <GridBody isLoading={isLoading} />
+        </table>
+      </GridProvider>
     );
   }
 }

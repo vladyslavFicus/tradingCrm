@@ -110,7 +110,7 @@ class ClientsGrid extends PureComponent {
         handleSelectRow={handleSelectRow}
         handleAllRowsSelect={handleAllRowsSelect}
         handlePageChanged={this.handlePageChanged}
-        isLoading={loading && gridData.length === 0}
+        isLoading={loading}
         isLastPage={last}
         withMultiSelect
         withRowsHover
