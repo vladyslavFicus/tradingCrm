@@ -11,21 +11,26 @@ const detalization = keyMirror({
 const defaultAdditionalStatistics = [{
   dateFrom: moment()
     .startOf('day')
+    .utc()
     .format(),
   dateTo: moment()
     .add(1, 'day')
     .startOf('day')
+    .utc()
     .format(),
 }, {
   dateFrom: moment()
     .startOf('month')
+    .utc()
     .format(),
   dateTo: moment()
     .endOf('month')
+    .utc()
     .format(),
 }, {
   dateTo: moment()
     .endOf('day')
+    .utc()
     .format(),
 }];
 
@@ -55,16 +60,6 @@ const defaultAdditionalRegistrationStatistics = [{
     .format(),
 }];
 
-export const initialDateQueryParams = (fromName, toName) => ({
-  [fromName]: moment()
-    .subtract(6, 'days')
-    .startOf('day')
-    .format(),
-  [toName]: moment()
-    .add(1, 'day')
-    .startOf('day')
-    .format(),
-});
 
 export const initialDateQueryParamsUTC = (fromName, toName) => ({
   [fromName]: moment()
@@ -80,7 +75,7 @@ export const initialDateQueryParamsUTC = (fromName, toName) => ({
 });
 
 export const initialPaymentQueryParams = (from, to, args) => ({
-  ...initialDateQueryParams(from, to),
+  ...initialDateQueryParamsUTC(from, to),
   detalization: detalization.PER_DAYS,
   additionalStatistics: defaultAdditionalStatistics,
   ...args,
