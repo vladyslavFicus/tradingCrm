@@ -6,6 +6,7 @@ import moment from 'moment';
 import { get } from 'lodash';
 import classNames from 'classnames';
 import { withRequests } from 'apollo';
+import { getActiveBrandConfig } from 'config';
 import { withModals, withNotifications } from 'hoc';
 import { withPermission } from 'providers/PermissionsProvider';
 import permissions from 'config/permissions';
@@ -257,13 +258,17 @@ class TradingAccountsGrid extends PureComponent {
     },
   ) => {
     const { modals: { tradingAccountChangePasswordModal, changeLeverageModal } } = this.props;
+    const brand = getActiveBrandConfig();
 
     const dropDownActions = [
       {
         label: I18n.t('CLIENT_PROFILE.ACCOUNTS.ACTIONS_DROPDOWN.CHANGE_PASSWORD'),
         onClick: () => tradingAccountChangePasswordModal.show({ accountUUID, profileUUID, login }),
       },
-      {
+    ];
+
+    if (brand[`leveragesChangingRequest${platformType}`]) {
+      dropDownActions.push({
         label: I18n.t('CLIENT_PROFILE.ACCOUNTS.LEVERAGE.CHANGE_LEVERAGE'),
         onClick: () => changeLeverageModal.show({
           name,
@@ -276,8 +281,8 @@ class TradingAccountsGrid extends PureComponent {
           accountUUID,
           refetchTradingAccountsList: this.props.refetchTradingAccountsList,
         }),
-      },
-    ];
+      });
+    }
 
     if (accountType !== 'DEMO') {
       dropDownActions.push({
