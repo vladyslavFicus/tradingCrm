@@ -1,0 +1,128 @@
+$color-error: #d0011b;
+$color-primary: #3f8edd;
+$color-checked: #5287bd;
+$color-disable: #cfcfcf;
+
+.Checkbox {
+  margin-bottom: 12px;
+
+  &__container {
+    cursor: pointer;
+
+    &:hover {
+      & .Checkbox {
+        &__icon {
+          border-color: #9b9b9b;
+        }
+
+        &__input:checked ~ &__icon {
+          border-color: $color-primary;
+
+          &:before,
+          &:after {
+            background-color: $color-primary;
+          }
+        }
+
+        &__label {
+          color: #000;
+        }
+      }
+    }
+  }
+
+  &__icon {
+    background-color: white;
+    border-radius: 3px;
+    border: 1px solid #ccc;
+    transition: border-color 0.1s ease;
+    display: inline-block;
+    vertical-align: top;
+    height: 20px;
+    width: 20px;
+
+    &:before,
+    &:after {
+      content: '';
+      background-color: transparent;
+      border-radius: 1px;
+      transition: background-color 0.1s ease, transform 0.1s ease;
+      position: absolute;
+      bottom: 4px;
+      width: 2px;
+    }
+
+    &:before {
+      transform: rotate(35deg);
+      height: 11px;
+      left: 10px;
+    }
+
+    &:after {
+      transform: rotate(-35deg);
+      height: 6px;
+      left: 5px;
+    }
+  }
+
+  &__input {
+    display: none;
+  }
+
+  &__input:checked ~ &__icon {
+    border-color: $color-checked;
+
+    &:before,
+    &:after {
+      background-color: $color-checked;
+    }
+  }
+
+  &__label {
+    font-size: 15px;
+    margin-left: 10px;
+    transition: color 0.1s ease;
+  }
+
+  &__error {
+    color: $color-error;
+    font-size: 12px;
+    margin-top: 3px;
+
+    & i {
+      font-size: 16px;
+      margin-right: 5px;
+      position: relative;
+      top: 2px;
+    }
+  }
+}
+
+// # Modifiers
+.Checkbox {
+  &--has-error {
+    & .Checkbox {
+      &__icon {
+        border-color: $color-error;
+      }
+
+      &__label {
+        color: $color-error;
+      }
+    }
+  }
+
+  &--disabled {
+    pointer-events: none;
+
+    & .Checkbox {
+      &__icon {
+        border-color: $color-disable;
+      }
+
+      &__label {
+        color: $color-disable;
+      }
+    }
+  }
+}

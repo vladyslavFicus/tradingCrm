@@ -1,3 +1,1 @@
-import CreatePartnerModalContainer from './CreatePartnerModalContainer';
-
-export default CreatePartnerModalContainer;
+export { default } from './CreatePartnerModal';

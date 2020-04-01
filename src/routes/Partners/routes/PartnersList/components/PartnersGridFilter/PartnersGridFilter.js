@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import { withRouter } from 'react-router-dom';
 import { Formik, Form, Field } from 'formik';
 import I18n from 'i18n-js';
 import { getActiveBrandConfig } from 'config';
@@ -13,8 +14,7 @@ import './PartnersGridFilter.scss';
 
 class PartnersGridFilter extends PureComponent {
   static propTypes = {
-    onSubmit: PropTypes.func.isRequired,
-    onReset: PropTypes.func.isRequired,
+    ...PropTypes.router,
   };
 
   initialValues = {
@@ -27,13 +27,17 @@ class PartnersGridFilter extends PureComponent {
   };
 
   onHandleSubmit = (values, { setSubmitting }) => {
-    this.props.onSubmit(decodeNullValues(values));
+    this.props.history.replace({
+      query: {
+        filters: decodeNullValues(values),
+      },
+    });
     setSubmitting(false);
   };
 
   onHandleReset = (resetForm) => {
+    this.props.history.replace({ query: { filters: {} } });
     resetForm(this.initialValues);
-    this.props.onReset();
   };
 
   render() {
@@ -147,4 +151,4 @@ class PartnersGridFilter extends PureComponent {
   }
 }
 
-export default PartnersGridFilter;
+export default withRouter(PartnersGridFilter);

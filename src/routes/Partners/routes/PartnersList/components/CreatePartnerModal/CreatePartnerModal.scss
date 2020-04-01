@@ -1,7 +1,23 @@
-.modal-footer__create-partner {
-  display: block;
-}
+.CreatePartnerModal {
+  width: 655px;
 
-.row__margin-bottom {
-  margin-bottom: 10px;
+  &__field {
+    display: inline-block;
+    vertical-align: top;
+
+    margin-right: 15px;
+    width: calc(50% - 7.5px);
+
+    &:nth-child(2n) {
+      margin-right: 0;
+    }
+  }
+
+  &__button {
+    margin: 0;
+
+    &:first-child {
+      margin-right: 15px;
+    }
+  }
 }

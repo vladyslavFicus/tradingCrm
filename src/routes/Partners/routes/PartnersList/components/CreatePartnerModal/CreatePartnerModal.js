@@ -1,188 +1,288 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import { Field } from 'redux-form';
+import React, { PureComponent } from 'react';
+import { withRouter } from 'react-router-dom';
+import { compose } from 'react-apollo';
+import { get } from 'lodash';
 import I18n from 'i18n-js';
-import { InputField, NasSelectField } from 'components/ReduxForm';
+import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { Formik, Form, Field } from 'formik';
+import { withRequests } from 'apollo';
+import { getActiveBrandConfig } from 'config';
+import { withNotifications } from 'hoc';
+import PropTypes from 'constants/propTypes';
+import { FormikInputField, FormikSelectField, FormikCheckbox } from 'components/Formik';
 import Regulated from 'components/Regulated';
-import CheckBox from 'components/ReduxForm/CheckBox';
+import { Button } from 'components/UI';
+import { createValidator, translateLabels } from 'utils/validator';
 import { generate } from 'utils/password';
 import { affiliateTypeLabels, affiliateTypes } from '../../../../constants';
+import CreatePartnerMutation from './graphql/CreatePartnerMutation';
 import './CreatePartnerModal.scss';
 
-class CreatePartnerModal extends Component {
+const attributeLabels = {
+  firstName: 'COMMON.FIRST_NAME',
+  lastName: 'COMMON.LAST_NAME',
+  email: 'COMMON.EMAIL',
+  password: 'COMMON.PASSWORD',
+  phone: 'COMMON.PHONE',
+  affiliateType: 'COMMON.PARTNER_TYPE',
+  externalAffiliateId: 'COMMON.EXTERNAL_AFILIATE_ID',
+  public: 'PARTNERS.MODALS.NEW_PARTNER.PUBLIC_CHECKBOX',
+  cellexpert: 'PARTNERS.MODALS.NEW_PARTNER.CELLEXPERT_CHECKBOX',
+};
+
+const validate = createValidator({
+  firstName: ['required', 'string', 'min:3'],
+  lastName: ['required', 'string', 'min:3'],
+  email: ['required', 'email'],
+  password: ['required', `regex:${getActiveBrandConfig().password.pattern}`],
+  phone: ['required', 'min:3'],
+  affiliateType: ['string'],
+  externalAffiliateId: ['min:3'],
+  public: ['boolean'],
+  cellexpert: ['boolean'],
+}, translateLabels(attributeLabels), false);
+
+class CreatePartnerModal extends PureComponent {
   static propTypes = {
+    ...PropTypes.router,
+    createPartner: PropTypes.func.isRequired,
     onCloseModal: PropTypes.func.isRequired,
-    onSubmit: PropTypes.func.isRequired,
-    handleSubmit: PropTypes.func.isRequired,
-    change: PropTypes.func,
-    pristine: PropTypes.bool,
-    submitting: PropTypes.bool,
-    valid: PropTypes.bool,
     isOpen: PropTypes.bool.isRequired,
-    formValues: PropTypes.objectOf(PropTypes.oneOfType(['string', 'boolean'])),
+    notify: PropTypes.func.isRequired,
   };
 
-  static defaultProps = {
-    pristine: false,
-    submitting: false,
-    valid: false,
-    change: null,
-    formValues: {},
+  initialValues = {
+    firstName: '',
+    lastName: '',
+    email: '',
+    password: '',
+    phone: '',
+    affiliateType: !getActiveBrandConfig().regulation.isActive ? affiliateTypes.AFFILIATE : '',
+    externalAffiliateId: '',
+    public: false,
+    cellexpert: false,
   };
 
-  handleGeneratePassword = () => {
-    this.props.change('password', generate());
-  };
+  handleGeneratePassword = () => generate();
 
-  handleGenerateExternalId = () => {
-    this.props.change('externalAffiliateId', Math.random().toString(36).substr(2));
+  handleGenerateExternalId = () => Math.random().toString(36).substr(2);
+
+  handleSubmit = async (values, { setSubmitting, validateForm }) => {
+    const {
+      createPartner,
+      onCloseModal,
+      history,
+      notify,
+    } = this.props;
+
+    const validationResult = await validateForm(values);
+    const hasValidationErrors = Object.keys(validationResult).length > 0;
+
+    if (!hasValidationErrors) {
+      const newPartnerData = await createPartner({
+        variables: values,
+      });
+
+      const serverError = get(newPartnerData, 'data.partner.createPartner.error.error') || null;
+      const partnerUuid = get(newPartnerData, 'data.partner.createPartner.data.uuid') || null;
+
+      if (serverError) {
+        switch (serverError) {
+          case 'error.entity.already.exists': {
+            notify({
+              level: 'error',
+              title: I18n.t('PARTNERS.NOTIFICATIONS.EXISTING_PARTNER_EMAIL.TITLE'),
+              message: I18n.t('PARTNERS.NOTIFICATIONS.EXISTING_PARTNER_EMAIL.MESSAGE'),
+            });
+
+            return;
+          }
+          case 'error.affiliate.externalId.already.exists': {
+            notify({
+              level: 'error',
+              title: I18n.t('PARTNERS.NOTIFICATIONS.EXISTING_PARTNER_EXTERNAL_ID.TITLE'),
+              message: I18n.t('PARTNERS.NOTIFICATIONS.EXISTING_PARTNER_EXTERNAL_ID.MESSAGE'),
+            });
+
+            return;
+          }
+          default: {
+            notify({
+              level: 'error',
+              title: I18n.t('PARTNERS.NOTIFICATIONS.EXISTING_PARTNER_EXTERNAL_ID.TITLE'),
+              message: I18n.t('COMMON.SOMETHING_WRONG'),
+            });
+
+            return;
+          }
+        }
+      }
+
+      notify({
+        level: 'success',
+        title: I18n.t('PARTNERS.NOTIFICATIONS.CREATE_PARTNER_SUCCESS.TITLE'),
+        message: I18n.t('PARTNERS.NOTIFICATIONS.CREATE_PARTNER_SUCCESS.MESSAGE'),
+      });
+
+      onCloseModal();
+
+      if (partnerUuid) {
+        history.push(`/partners/${partnerUuid}/profile`);
+      }
+    }
+
+    setSubmitting(false);
   };
 
   render() {
     const {
-      handleSubmit,
       onCloseModal,
-      formValues,
-      submitting,
-      onSubmit,
-      pristine,
       isOpen,
-      valid,
     } = this.props;
 
     return (
-      <Modal className="create-operator-modal" toggle={onCloseModal} isOpen={isOpen}>
-        <ModalHeader toggle={onCloseModal}>{I18n.t('PARTNERS.NEW_PARTNER')}</ModalHeader>
-        <ModalBody id="create-operator-modal-form" tag="form" onSubmit={handleSubmit(onSubmit)}>
-          <div className="row">
-            <Field
-              name="firstName"
-              className="col-md-6"
-              component={InputField}
-              label={I18n.t('COMMON.FIRST_NAME')}
-              type="text"
-              showErrorMessage
-            />
-            <Field
-              name="lastName"
-              className="col-md-6"
-              component={InputField}
-              label={I18n.t('COMMON.LAST_NAME')}
-              type="text"
-              showErrorMessage
-            />
-            <Field
-              name="email"
-              className="col-md-6"
-              component={InputField}
-              label={I18n.t('COMMON.EMAIL')}
-              type="text"
-              showErrorMessage
-            />
-            <Field
-              name="password"
-              className="col-md-6"
-              component={InputField}
-              label={I18n.t('COMMON.PASSWORD')}
-              inputAddon={<span className="icon-generate-password" />}
-              inputAddonPosition="right"
-              onIconClick={this.handleGeneratePassword}
-              type="text"
-              showErrorMessage
-            />
-            <Field
-              name="phone"
-              className="col-md-6"
-              component={InputField}
-              label={I18n.t('COMMON.PHONE')}
-              type="text"
-              showErrorMessage
-            />
-            <Regulated>
-              <Field
-                name="affiliateType"
-                label={I18n.t('COMMON.PARTNER_TYPE')}
-                className="col-md-6"
-                placeholder={I18n.t('COMMON.SELECT_OPTION.SELECT_PARTNER_TYPE')}
-                component={NasSelectField}
-                searchable={false}
-                withAnyOption={false}
-                showErrorMessage
-              >
-                {Object.keys(affiliateTypeLabels).map(value => (
-                  <option key={value} value={value}>{I18n.t(affiliateTypeLabels[value])}</option>
-                ))}
-              </Field>
-            </Regulated>
-            <If
-              condition={
-                formValues.affiliateType
-                && formValues.affiliateType !== affiliateTypes.NULLPOINT
-              }
-            >
-              <Field
-                name="externalAffiliateId"
-                className="col-md-6"
-                component={InputField}
-                label={I18n.t('COMMON.EXTERNAL_AFILIATE_ID')}
-                inputAddon={<span className="icon-generate-password" />}
-                inputAddonPosition="right"
-                onIconClick={this.handleGenerateExternalId}
-                type="text"
-                showErrorMessage
-              />
-            </If>
-          </div>
-          <If
-            condition={
-              formValues.affiliateType
-              && formValues.affiliateType !== affiliateTypes.NULLPOINT
-            }
-          >
-            <Field
-              name="public"
-              className="col-6"
-              component={CheckBox}
-              type="checkbox"
-              label={I18n.t('PARTNERS.MODALS.NEW_PARTNER.PUBLIC_CHECKBOX')}
-            />
-            <Regulated>
-              <Field
-                name="cellexpert"
-                className="col-6"
-                component={CheckBox}
-                type="checkbox"
-                label={I18n.t('PARTNERS.MODALS.NEW_PARTNER.CELLEXPERT_CHECKBOX')}
-              />
-            </Regulated>
-          </If>
-        </ModalBody>
-        <ModalFooter className="modal-footer__create-partner">
-          <div className="row">
-            <div className="col-7">
-              <button
-                type="button"
-                className="btn btn-default-outline"
-                onClick={onCloseModal}
-              >
-                {I18n.t('COMMON.BUTTONS.CANCEL')}
-              </button>
-              <button
-                type="submit"
-                disabled={pristine || submitting || !valid}
-                className="btn btn-primary ml-2"
-                id="create-new-operator-submit-button"
-                form="create-operator-modal-form"
-              >
-                {I18n.t('COMMON.BUTTONS.CREATE_AND_OPEN')}
-              </button>
-            </div>
-          </div>
-        </ModalFooter>
+      <Modal className="CreatePartnerModal" toggle={onCloseModal} isOpen={isOpen}>
+        <Formik
+          initialValues={this.initialValues}
+          validate={validate}
+          validateOnChange={false}
+          validateOnBlur={false}
+          onSubmit={this.handleSubmit}
+        >
+          {({
+            values,
+            isSubmitting,
+            setFieldValue,
+          }) => (
+            <Form>
+              <ModalHeader toggle={onCloseModal}>{I18n.t('PARTNERS.NEW_PARTNER')}</ModalHeader>
+              <ModalBody>
+                <div>
+                  <Field
+                    name="firstName"
+                    className="CreatePartnerModal__field"
+                    label={I18n.t(attributeLabels.firstName)}
+                    placeholder={I18n.t(attributeLabels.firstName)}
+                    component={FormikInputField}
+                    disabled={isSubmitting}
+                  />
+                  <Field
+                    name="lastName"
+                    className="CreatePartnerModal__field"
+                    label={I18n.t(attributeLabels.lastName)}
+                    placeholder={I18n.t(attributeLabels.lastName)}
+                    component={FormikInputField}
+                    disabled={isSubmitting}
+                  />
+                  <Field
+                    name="email"
+                    className="CreatePartnerModal__field"
+                    label={I18n.t(attributeLabels.email)}
+                    placeholder={I18n.t(attributeLabels.email)}
+                    component={FormikInputField}
+                    disabled={isSubmitting}
+                  />
+                  <Field
+                    name="password"
+                    className="CreatePartnerModal__field"
+                    label={I18n.t(attributeLabels.password)}
+                    placeholder={I18n.t(attributeLabels.password)}
+                    addition={<span className="icon-generate-password" />}
+                    onAdditionClick={() => setFieldValue('password', this.handleGeneratePassword())}
+                    component={FormikInputField}
+                    disabled={isSubmitting}
+                  />
+                  <Field
+                    name="phone"
+                    className="CreatePartnerModal__field"
+                    label={I18n.t(attributeLabels.phone)}
+                    placeholder={I18n.t(attributeLabels.phone)}
+                    component={FormikInputField}
+                    disabled={isSubmitting}
+                  />
+                  <Regulated>
+                    <Field
+                      name="affiliateType"
+                      className="CreatePartnerModal__field"
+                      component={FormikSelectField}
+                      label={I18n.t(attributeLabels.affiliateType)}
+                      placeholder={I18n.t('COMMON.SELECT_OPTION.SELECT_PARTNER_TYPE')}
+                      disabled={isSubmitting}
+                    >
+                      {Object.keys(affiliateTypeLabels).map(value => (
+                        <option key={value} value={value}>{I18n.t(affiliateTypeLabels[value])}</option>
+                      ))}
+                    </Field>
+                  </Regulated>
+                  <If
+                    condition={
+                      values.affiliateType
+                      && values.affiliateType !== affiliateTypes.NULLPOINT
+                    }
+                  >
+                    <Field
+                      name="externalAffiliateId"
+                      className="CreatePartnerModal__field"
+                      label={I18n.t(attributeLabels.externalAffiliateId)}
+                      placeholder={I18n.t(attributeLabels.externalAffiliateId)}
+                      addition={<span className="icon-generate-password" />}
+                      onAdditionClick={() => setFieldValue('externalAffiliateId', this.handleGenerateExternalId())}
+                      component={FormikInputField}
+                      disabled={isSubmitting}
+                    />
+                  </If>
+                </div>
+
+                <If
+                  condition={
+                    values.affiliateType
+                    && values.affiliateType !== affiliateTypes.NULLPOINT
+                  }
+                >
+                  <Field
+                    name="public"
+                    component={FormikCheckbox}
+                    label={I18n.t(attributeLabels.public)}
+                  />
+                  <Regulated>
+                    <Field
+                      name="cellexpert"
+                      component={FormikCheckbox}
+                      label={I18n.t(attributeLabels.cellexpert)}
+                    />
+                  </Regulated>
+                </If>
+              </ModalBody>
+              <ModalFooter>
+                <Button
+                  onClick={onCloseModal}
+                  className="CreatePartnerModal__button"
+                  commonOutline
+                >
+                  {I18n.t('COMMON.BUTTONS.CANCEL')}
+                </Button>
+
+                <Button
+                  className="CreatePartnerModal__button"
+                  primary
+                  disabled={isSubmitting}
+                  type="submit"
+                >
+                  {I18n.t('COMMON.BUTTONS.CREATE_AND_OPEN')}
+                </Button>
+              </ModalFooter>
+            </Form>
+          )}
+        </Formik>
       </Modal>
     );
   }
 }
 
-export default CreatePartnerModal;
+export default compose(
+  withRouter,
+  withNotifications,
+  withRequests({
+    createPartner: CreatePartnerMutation,
+  }),
+)(CreatePartnerModal);

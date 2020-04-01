@@ -81,15 +81,19 @@ $input-height: 40px;
     border: 1px solid #cfcfcf;
     border-radius: 3px 0 0 3px;
     color: #cfcfcf;
+    cursor: pointer;
     line-height: 42px;
     text-align: center;
-    transition: border-color 0.2s ease, color 0.2s ease;
-    pointer-events: none;
+    transition: border-color 0.1s ease, color 0.1s ease;
     position: absolute;
     bottom: 0;
     left: 0;
     height: 40px;
     width: 40px;
+
+    &:hover {
+      color: #9b9b9b;
+    }
   }
 
   &__verified-message {
@@ -111,8 +115,22 @@ $input-height: 40px;
   }
 
   &--has-error {
-    .input__control {
-      border-color: #d0011b;
+    .input {
+      &__control,
+      &__addition {
+        border-color: #d0011b;
+      }
+
+      &__control {
+        &:focus {
+          border-color: #4990e2;
+
+          & + .input__addition {
+            border-color: #4990e2;
+            color: #aaa;
+          }
+        }
+      }
     }
   }
 

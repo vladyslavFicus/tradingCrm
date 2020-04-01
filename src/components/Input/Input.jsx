@@ -20,6 +20,7 @@ class Input extends PureComponent {
     onChange: PropTypes.func,
     className: PropTypes.string,
     addition: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
+    onAdditionClick: PropTypes.func,
     validateInput: PropTypes.func,
     onEnterPress: PropTypes.func,
     mobileType: PropTypes.oneOf(['tel', 'number']),
@@ -39,6 +40,7 @@ class Input extends PureComponent {
     onChange: () => {},
     className: null,
     addition: null,
+    onAdditionClick: () => {},
     validateInput: () => true,
     onEnterPress: () => true,
     mobileType: undefined,
@@ -126,6 +128,7 @@ class Input extends PureComponent {
       error,
       className,
       addition,
+      onAdditionClick,
       mobileType,
       verified,
       verifiedText,
@@ -157,26 +160,37 @@ class Input extends PureComponent {
         })}
       >
         <div className="input__body">
-          {label && <label className="input__label">{label}</label>}
+          <If condition={label}>
+            <label className="input__label">{label}</label>
+          </If>
           <input {...props} />
-          {icon && <i className={classNames(icon, 'input__icon')} />}
-          {!!addition && <div className="input__addition">{addition}</div>}
+          <If condition={icon}>
+            <i className={classNames(icon, 'input__icon')} />
+          </If>
+          <If condition={addition}>
+            <div
+              className="input__addition"
+              onClick={onAdditionClick}
+            >
+              {addition}
+            </div>
+          </If>
         </div>
-        {error && (
+        <If condition={error}>
           <div className="input__footer">
             <div className="input__error">
               <i className="input__error-icon icon-alert" />
               {error}
             </div>
           </div>
-        )}
-        {verified && (
+        </If>
+        <If condition={verified}>
           <div className="input__footer">
             <div className="input__verified-message">
               {verifiedText || 'Verified'}
             </div>
           </div>
-        )}
+        </If>
       </div>
     );
   }
