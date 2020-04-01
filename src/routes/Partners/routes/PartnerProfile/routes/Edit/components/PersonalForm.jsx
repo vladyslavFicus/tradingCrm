@@ -111,11 +111,11 @@ class PersonalForm extends PureComponent {
               }
             </Field>
           </div>
-          <Regulated>
+          <If condition={satelliteOptions}>
             <div className="col-xl-4">
               <Field
                 name="satellite"
-                label={I18n.t('PARTNERS.SATELLITE.TITLE')}
+                label={I18n.t('COMMON.SATELLITE')}
                 placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
                 component={NasSelectField}
                 withAnyOption={false}
@@ -123,20 +123,12 @@ class PersonalForm extends PureComponent {
                 position="vertical"
                 showErrorMessage
               >
-                {Object
-                  .keys(satelliteOptions)
-                  .map(key => (
-                    <option
-                      key={key}
-                      value={satelliteOptions[key].value}
-                    >
-                      {I18n.t(satelliteOptions[key].label)}
-                    </option>
-                  ))
-                }
+                {satelliteOptions.map((satellite, key) => (
+                  <option key={key} value={satellite.value}>{satellite.label}</option>
+                ))}
               </Field>
             </div>
-          </Regulated>
+          </If>
           <div className="col-xl-4">
             <Field
               name="externalAffiliateId"

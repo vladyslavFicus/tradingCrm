@@ -1,5 +1,6 @@
 import keyMirror from 'keymirror';
 import { getActiveBrandConfig } from 'config';
+import { getSatelliteOptions } from './utils';
 
 const statuses = keyMirror({
   ACTIVE: null,
@@ -25,16 +26,7 @@ const affiliateTypeLabels = {
   [affiliateTypes.AFFILIATE]: 'PARTNERS.TYPES.AFFILIATE',
 };
 
-const satelliteOptions = {
-  TRAILBLAZE: {
-    label: 'PARTNERS.SATELLITE.OPTIONS.TRAILBLAZE',
-    value: 'TRAILBLAZE',
-  },
-  NONE: {
-    label: 'PARTNERS.SATELLITE.OPTIONS.NONE',
-    value: '',
-  },
-};
+const satelliteOptions = getSatelliteOptions();
 
 export {
   statuses,

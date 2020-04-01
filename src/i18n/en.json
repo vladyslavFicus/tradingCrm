@@ -488,6 +488,7 @@
     "ROLE": "Role",
     "PLAYER": "Player",
     "DEPARTMENTS": "Departments",
+    "SATELLITE": "Satellite",
     "ANY": "Any",
     "ROLLBACK": "Rollback",
     "FOR": "for",
@@ -1894,13 +1895,6 @@
       "ACTIVE": "Active",
       "INACTIVE": "Inactive",
       "CLOSED": "Closed"
-    },
-    "SATELLITE": {
-      "TITLE": "Satellite",
-      "OPTIONS": {
-        "TRAILBLAZE": "Trailblaze",
-        "NONE": "None"
-      }
     },
     "TYPES": {
       "NULLPOINT": "Nullpoint",

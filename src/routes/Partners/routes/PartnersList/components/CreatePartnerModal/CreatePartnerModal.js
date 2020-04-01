@@ -32,7 +32,7 @@ const attributeLabels = {
   externalAffiliateId: 'COMMON.EXTERNAL_AFILIATE_ID',
   public: 'PARTNERS.MODALS.NEW_PARTNER.PUBLIC_CHECKBOX',
   cellexpert: 'PARTNERS.MODALS.NEW_PARTNER.CELLEXPERT_CHECKBOX',
-  satellite: 'PARTNERS.SATELLITE.TITLE',
+  satellite: 'COMMON.SATELLITE',
 };
 
 const validate = createValidator({
@@ -207,7 +207,7 @@ class CreatePartnerModal extends PureComponent {
                     component={FormikInputField}
                     disabled={isSubmitting}
                   />
-                  <Regulated>
+                  <If condition={satelliteOptions}>
                     <Field
                       name="satellite"
                       className="CreatePartnerModal__field"
@@ -216,15 +216,12 @@ class CreatePartnerModal extends PureComponent {
                       placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
                       disabled={isSubmitting}
                     >
-                      {Object.keys(satelliteOptions).map(key => (
-                        <option
-                          key={key}
-                          value={satelliteOptions[key].value}
-                        >
-                          {I18n.t(satelliteOptions[key].label)}
-                        </option>
+                      {satelliteOptions.map((satellite, key) => (
+                        <option key={key} value={satellite.value}>{satellite.label}</option>
                       ))}
                     </Field>
+                  </If>
+                  <Regulated>
                     <Field
                       name="affiliateType"
                       className="CreatePartnerModal__field"
