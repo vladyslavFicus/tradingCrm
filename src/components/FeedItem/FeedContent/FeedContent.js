@@ -2,13 +2,25 @@ import React, { PureComponent, Fragment } from 'react';
 import I18n from 'i18n-js';
 import { isObject } from 'lodash';
 import PropTypes from 'constants/propTypes';
-import { attributeLabels } from 'constants/user';
-import { prepareValue } from './utils';
+import { prepareValue, renderLabel } from './utils';
 import './FeedContent.scss';
 
 class FeedContent extends PureComponent {
   static propTypes = {
     details: PropTypes.object.isRequired,
+  };
+
+  handleFeedObjDetail = (acc, { value }) => {
+    Object.entries(value).forEach(([detailKey, detailValue]) => {
+      acc.push(
+        <div key={detailKey}>
+          <span className="FeedContent__label">{I18n.t(renderLabel(detailKey))}:</span>
+          <span className="FeedContent__value-to">{prepareValue(detailKey, detailValue)}</span>
+        </div>,
+      );
+    });
+
+    return null;
   };
 
   // define details as mixed(outdated with newest) or newest and handle them
@@ -21,15 +33,20 @@ class FeedContent extends PureComponent {
 
   handleMixedDetails = (details, acc) => {
     Object.entries(details).forEach(([detailKey, detailValue]) => {
-      // for nested objects or updated feeds
       if (isObject(detailValue)) {
         const { value, changeType, from, to } = detailValue;
 
         switch (changeType) {
           case 'ADDED': {
+            if (isObject(detailValue.value)) {
+              this.handleFeedObjDetail(acc, detailValue);
+
+              break;
+            }
+
             acc.push(
               <div key={detailKey}>
-                <span className="FeedContent__label">{I18n.t(attributeLabels[detailKey])}:</span>
+                <span className="FeedContent__label">{I18n.t(renderLabel(detailKey))}:</span>
                 <span className="FeedContent__value-to">{prepareValue(detailKey, value)}</span>
               </div>,
             );
@@ -40,7 +57,7 @@ class FeedContent extends PureComponent {
           case 'CHANGED': {
             acc.push(
               <div key={detailKey}>
-                <span className="FeedContent__label">{I18n.t(attributeLabels[detailKey])}:</span>
+                <span className="FeedContent__label">{I18n.t(renderLabel(detailKey))}:</span>
                 <span className="FeedContent__value-from">{prepareValue(detailKey, from)}</span>
                 <span className="FeedContent__arrow">&#8594;</span>
                 <span className="FeedContent__value-to">{prepareValue(detailKey, to)}</span>
@@ -53,7 +70,7 @@ class FeedContent extends PureComponent {
           case 'REMOVED': {
             acc.push(
               <div key={detailKey}>
-                <span className="FeedContent__label">{I18n.t(attributeLabels[detailKey])}:</span>
+                <span className="FeedContent__label">{I18n.t(renderLabel(detailKey))}:</span>
                 <span className="FeedContent__value-from">{prepareValue(detailKey, value)}</span>
                 <span className="FeedContent__arrow">&#8594;</span>
                 <span className="FeedContent__value-to">&laquo; &raquo;</span>
@@ -79,7 +96,7 @@ class FeedContent extends PureComponent {
       } if (detailValue) {
         acc.push(
           <div key={detailKey}>
-            <span className="FeedContent__label">{I18n.t(attributeLabels[detailKey])}:</span>
+            <span className="FeedContent__label">{I18n.t(renderLabel(detailKey))}:</span>
             <span className="FeedContent__value-to">{prepareValue(detailKey, detailValue)}</span>
           </div>,
         );

@@ -1012,13 +1012,16 @@
         "TOTAL_SCORE": "Total score",
         "RISK_CATEGORY": "Risk category",
         "BANK_DETAILS": "Bank details",
-        "BANK_NAME": "Bank name",
-        "PROVINCE": "Province",
-        "SWIFT_CODE": "Swift code",
-        "ACCOUNT_NUMBER": "Account number",
-        "ACCOUNT_HOLDER_NAME": "Account holder name",
-        "BRANCH_NAME": "Branch name",
-        "WITHDRAWAL_AREA": "Withdrawal area"
+        "BANK_NAME": "Bank details - Bank name",
+        "PROVINCE": "Bank details - Province",
+        "SWIFT_CODE": "Bank details - Swift code",
+        "ACCOUNT_NUMBER": "Bank details - Account number",
+        "ACCOUNT_HOLDER_NAME": "Bank details - Account holder name",
+        "BRANCH_NAME": "Bank details - Branch name",
+        "WITHDRAWAL_AREA": "Bank details - Withdrawal area",
+        "ACCOUNT_CREATED": "Account created",
+        "SHUFTIPRO_SENT": "Shuftipro sent",
+        "ATTACHMENT_ADDED": "Attachment added"
       },
       "KYC_CONFIRMATION": {
         "TRANSACTION": "Transaction ID",

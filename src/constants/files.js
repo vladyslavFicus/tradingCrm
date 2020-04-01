@@ -58,6 +58,7 @@ export {
   categories,
   categoriesLabels,
   statuses,
+  documentsType,
   statusesLabels,
   documentsTypeLabels,
 };
