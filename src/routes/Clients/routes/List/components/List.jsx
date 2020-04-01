@@ -30,7 +30,6 @@ class List extends Component {
   };
 
   state = {
-    selectedRows: [],
     allRowsSelected: false,
     touchedRowsIds: [],
   };
@@ -38,7 +37,6 @@ class List extends Component {
   resetClientsGridInitialState = (cb) => {
     this.setState(
       {
-        selectedRows: [],
         allRowsSelected: false,
         touchedRowsIds: [],
       },
@@ -66,78 +64,62 @@ class List extends Component {
     });
   };
 
-  handleSelectRow = (isAllRowsSelected, rowIndex, touchedRowsIds) => {
-    this.setState((state) => {
-      const selectedRows = [...state.selectedRows];
-
-      if (isAllRowsSelected) {
-        selectedRows.push(rowIndex);
-      } else {
-        const unselectedRowIndex = selectedRows.findIndex(
-          item => item === rowIndex,
-        );
-        selectedRows.splice(unselectedRowIndex, 1);
-      }
-
-      return {
-        selectedRows,
-        touchedRowsIds,
-      };
+  handleSelectRow = (allRowsSelected, touchedRowsIds) => {
+    this.setState({
+      touchedRowsIds,
+      allRowsSelected,
     });
   };
 
-  handleAllRowsSelect = () => {
-    const {
-      profiles,
-      location: { query },
-      modals: { confirmationModal },
-    } = this.props;
+  handleAllRowsSelect = (allRowsSelected) => {
+    this.setState({ allRowsSelected, touchedRowsIds: [] });
 
-    const { allRowsSelected } = this.state;
-    const { totalElements } = get(profiles, 'profiles.data') || {};
-    const { searchLimit } = get(query, 'filters') || {};
+    if (allRowsSelected) {
+      const {
+        profiles,
+        location,
+        modals: { confirmationModal },
+      } = this.props;
 
-    let selectedRowsLength = null;
+      const totalElements = get(profiles, 'profiles.data.totalElements');
+      const searchLimit = get(location, 'query.filters.searchLimit');
 
-    if (searchLimit && searchLimit < totalElements && searchLimit < MAX_SELECTED_ROWS) {
-      selectedRowsLength = searchLimit;
-    } else if (totalElements > MAX_SELECTED_ROWS) {
-      selectedRowsLength = MAX_SELECTED_ROWS;
-    } else {
-      selectedRowsLength = totalElements;
-    }
+      let selectedLimit = totalElements > MAX_SELECTED_ROWS;
 
-    this.setState({
-      allRowsSelected: !allRowsSelected,
-      touchedRowsIds: [],
-      selectedRows: allRowsSelected
-        ? []
-        : [...Array.from(Array(selectedRowsLength).keys())],
-    });
-
-    // Check if selected all rows and total elements more than max available elements to execute action
-    if (!allRowsSelected) {
-      let showModal = false;
-
-      if (searchLimit) {
-        if (searchLimit > MAX_SELECTED_ROWS && totalElements > MAX_SELECTED_ROWS) {
-          showModal = true;
-        }
-      } else if (totalElements > MAX_SELECTED_ROWS) {
-        showModal = true;
+      if (searchLimit && (searchLimit < totalElements)) {
+        selectedLimit = searchLimit > MAX_SELECTED_ROWS;
       }
 
-      if (showModal) {
+      if (selectedLimit) {
         confirmationModal.show({
           onSubmit: confirmationModal.hide,
           modalTitle: `${MAX_SELECTED_ROWS} ${I18n.t('COMMON.CLIENTS_SELECTED')}`,
-          actionText: I18n.t('COMMON.NOT_MORE_CAN_SELECTED', {
-            max: MAX_SELECTED_ROWS,
-          }),
+          actionText: I18n.t('COMMON.NOT_MORE_CAN_SELECTED', { max: MAX_SELECTED_ROWS }),
           submitButtonLabel: I18n.t('COMMON.OK'),
         });
       }
     }
+  };
+
+  getSelectedRowLength = () => {
+    const { allRowsSelected, touchedRowsIds } = this.state;
+
+    let selectedRowsLength = touchedRowsIds.length;
+
+    if (allRowsSelected) {
+      const { profiles, location } = this.props;
+
+      const totalElements = get(profiles, 'profiles.data.totalElements');
+      const searchLimit = get(location, 'query.filters.searchLimit');
+
+      const selectedLimit = searchLimit && (searchLimit < totalElements) ? searchLimit : totalElements;
+
+      selectedRowsLength = selectedLimit > MAX_SELECTED_ROWS
+        ? MAX_SELECTED_ROWS - selectedRowsLength
+        : selectedLimit - selectedRowsLength;
+    }
+
+    return selectedRowsLength;
   };
 
   render() {
@@ -149,20 +131,21 @@ class List extends Component {
 
     const {
       allRowsSelected,
-      selectedRows,
       touchedRowsIds,
     } = this.state;
 
-    const { searchLimit } = get(query, 'filters') || {};
+    const searchLimit = get(query, 'filters.searchLimit');
+
+    const selectedRowsLength = this.getSelectedRowLength();
 
     return (
       <div className="card">
         <ClientsGridHeader
           profiles={profiles}
           searchLimit={searchLimit}
-          selectedRows={selectedRows}
           touchedRowsIds={touchedRowsIds}
           allRowsSelected={allRowsSelected}
+          selectedRowsLength={selectedRowsLength}
           resetClientsGridInitialState={this.resetClientsGridInitialState}
         />
 

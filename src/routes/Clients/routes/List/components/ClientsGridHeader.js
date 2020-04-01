@@ -10,8 +10,8 @@ class ClientsGridHeader extends Component {
   static propTypes = {
     searchLimit: PropTypes.number,
     allRowsSelected: PropTypes.bool.isRequired,
-    selectedRows: PropTypes.arrayOf(PropTypes.number).isRequired,
-    touchedRowsIds: PropTypes.arrayOf(PropTypes.string).isRequired,
+    touchedRowsIds: PropTypes.arrayOf(PropTypes.number).isRequired,
+    selectedRowsLength: PropTypes.number.isRequired,
     resetClientsGridInitialState: PropTypes.func.isRequired,
     profiles: PropTypes.shape({
       profiles: PropTypes.shape({
@@ -35,9 +35,9 @@ class ClientsGridHeader extends Component {
       profiles,
       profiles: { loading },
       searchLimit,
-      selectedRows,
       touchedRowsIds,
       allRowsSelected,
+      selectedRowsLength,
       resetClientsGridInitialState,
     } = this.props;
 
@@ -74,7 +74,7 @@ class ClientsGridHeader extends Component {
                   {I18n.t('COMMON.CLIENTS_FOUND')}
                 </div>
                 <div className="font-size-14">
-                  <strong>{selectedRows.length} </strong>
+                  <strong>{selectedRowsLength} </strong>
                   {I18n.t('COMMON.CLIENTS_SELECTED')}
                 </div>
               </span>
@@ -88,12 +88,12 @@ class ClientsGridHeader extends Component {
         </Placeholder>
 
         {/* Right header part */}
-        <If condition={totalElements && selectedRows.length}>
+        <If condition={totalElements && selectedRowsLength}>
           <ClientsGridBulkActions
             profiles={profiles}
-            selectedRows={selectedRows}
             touchedRowsIds={touchedRowsIds}
             allRowsSelected={allRowsSelected}
+            selectedRowsLength={selectedRowsLength}
             resetClientsGridInitialState={resetClientsGridInitialState}
           />
         </If>

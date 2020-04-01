@@ -22,8 +22,8 @@ class ClientsGridBulkActions extends PureComponent {
     notify: PropTypes.func.isRequired,
     allRowsSelected: PropTypes.bool.isRequired,
     resetClientsGridInitialState: PropTypes.func.isRequired,
-    selectedRows: PropTypes.arrayOf(PropTypes.number).isRequired,
-    touchedRowsIds: PropTypes.arrayOf(PropTypes.string).isRequired,
+    touchedRowsIds: PropTypes.arrayOf(PropTypes.number).isRequired,
+    selectedRowsLength: PropTypes.number.isRequired,
     auth: PropTypes.auth.isRequired,
     modals: PropTypes.shape({
       representativeModal: PropTypes.modalType,
@@ -45,9 +45,9 @@ class ClientsGridBulkActions extends PureComponent {
 
   handleTriggerRepModal = type => () => {
     const {
-      selectedRows,
       touchedRowsIds,
       allRowsSelected,
+      selectedRowsLength,
       location: { query },
       modals: { representativeModal },
       profiles: {
@@ -58,7 +58,7 @@ class ClientsGridBulkActions extends PureComponent {
     } = this.props;
 
     const clients = getClientsData(
-      { selectedRows, touchedRowsIds, allRowsSelected },
+      { touchedRowsIds, allRowsSelected },
       totalElements,
       { type },
       content,
@@ -69,7 +69,7 @@ class ClientsGridBulkActions extends PureComponent {
       clients,
       configs: {
         allRowsSelected,
-        totalElements: selectedRows.length,
+        totalElements: selectedRowsLength,
         multiAssign: true,
         ...(query && { searchParams: omit(query.filters, ['page.size']) }),
       },
@@ -78,7 +78,7 @@ class ClientsGridBulkActions extends PureComponent {
         <Fragment>
           <div>{I18n.t(`CLIENTS.MODALS.${type}_MODAL.HEADER`)}</div>
           <div className="font-size-11 color-yellow">
-            {selectedRows.length} {I18n.t('COMMON.CLIENTS_SELECTED')}
+            {selectedRowsLength} {I18n.t('COMMON.CLIENTS_SELECTED')}
           </div>
         </Fragment>
       ),
@@ -87,9 +87,9 @@ class ClientsGridBulkActions extends PureComponent {
 
   handleTriggerMoveModal = () => {
     const {
-      selectedRows,
       touchedRowsIds,
       allRowsSelected,
+      selectedRowsLength,
       location: { query },
       modals: { moveModal },
       profiles: {
@@ -103,9 +103,9 @@ class ClientsGridBulkActions extends PureComponent {
       content,
       configs: {
         totalElements,
-        selectedRows,
         touchedRowsIds,
         allRowsSelected,
+        selectedRowsLength,
         ...(query && { searchParams: omit(query.filters, ['page.size']) }),
       },
       onSuccess: this.onSubmitSuccess,
@@ -123,7 +123,6 @@ class ClientsGridBulkActions extends PureComponent {
 
   renderMigrateToFsaButton = () => {
     const {
-      selectedRows,
       touchedRowsIds,
       allRowsSelected,
       profiles: {
@@ -134,7 +133,7 @@ class ClientsGridBulkActions extends PureComponent {
     } = this.props;
 
     const clients = getClientsData(
-      { selectedRows, touchedRowsIds, allRowsSelected },
+      { touchedRowsIds, allRowsSelected },
       totalElements,
       {},
       content,
