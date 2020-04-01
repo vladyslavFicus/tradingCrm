@@ -7,7 +7,7 @@ import { InputField, MultiInputField, NasSelectField, CheckBox } from 'component
 import { createValidator, translateLabels } from 'utils/validator';
 import countries from 'utils/countryList';
 import { personalFormAttributeLabels as attributeLabels } from './constants';
-import { affiliateTypes, affiliateTypeLabels } from '../../../../../constants';
+import { affiliateTypes, affiliateTypeLabels, satelliteOptions } from '../../../../../constants';
 
 class PersonalForm extends PureComponent {
   static propTypes = {
@@ -111,6 +111,32 @@ class PersonalForm extends PureComponent {
               }
             </Field>
           </div>
+          <Regulated>
+            <div className="col-xl-4">
+              <Field
+                name="satellite"
+                label={I18n.t('PARTNERS.SATELLITE.TITLE')}
+                placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
+                component={NasSelectField}
+                withAnyOption={false}
+                searchable={false}
+                position="vertical"
+                showErrorMessage
+              >
+                {Object
+                  .keys(satelliteOptions)
+                  .map(key => (
+                    <option
+                      key={key}
+                      value={satelliteOptions[key].value}
+                    >
+                      {I18n.t(satelliteOptions[key].label)}
+                    </option>
+                  ))
+                }
+              </Field>
+            </div>
+          </Regulated>
           <div className="col-xl-4">
             <Field
               name="externalAffiliateId"
@@ -241,6 +267,7 @@ export default reduxForm({
     country: [`in:,${Object.keys(countries).join()}`],
     phone: 'string',
     affiliateType: ['required', 'string'],
+    satellite: 'string',
     externalAffiliateId: 'string',
     public: 'boolean',
     cellexpert: 'boolean',

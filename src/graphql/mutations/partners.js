@@ -12,6 +12,7 @@ const updatePartner = gql`mutation updatePartner(
   $externalAffiliateId: String
   $public: Boolean
   $cellexpert: Boolean
+  $satellite: String
 ) {
   partner {
     updatePartner(
@@ -26,6 +27,7 @@ const updatePartner = gql`mutation updatePartner(
       externalAffiliateId: $externalAffiliateId
       public: $public
       cellexpert: $cellexpert
+      satellite: $satellite
     ) {
       data {
         _id
@@ -45,6 +47,7 @@ const updatePartner = gql`mutation updatePartner(
         statusChangeAuthor
         statusChangeDate
         statusReason
+        satellite
         uuid
         permission {
           allowedIpAddresses

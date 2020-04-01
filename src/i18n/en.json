@@ -1895,6 +1895,13 @@
       "INACTIVE": "Inactive",
       "CLOSED": "Closed"
     },
+    "SATELLITE": {
+      "TITLE": "Satellite",
+      "OPTIONS": {
+        "TRAILBLAZE": "Trailblaze",
+        "NONE": "None"
+      }
+    },
     "TYPES": {
       "NULLPOINT": "Nullpoint",
       "AFFILIATE": "Affiliate",

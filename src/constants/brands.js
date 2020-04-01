@@ -81,7 +81,7 @@ const brands = keyMirror({
   traderking: null,
   fxwlbrands: null,
   axedo: null,
-  dax100fx: null
+  dax100fx: null,
 });
 
 const departments = keyMirror({

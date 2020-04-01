@@ -11,6 +11,7 @@ const REQUEST = gql`
     $phone: String
     $password: String!
     $affiliateType: String!
+    $satellite: String
     $externalAffiliateId: String
     $public: Boolean
     $cellexpert: Boolean
@@ -23,6 +24,7 @@ const REQUEST = gql`
         phone: $phone
         password: $password
         affiliateType: $affiliateType
+        satellite: $satellite
         externalAffiliateId: $externalAffiliateId
         public: $public
         cellexpert: $cellexpert

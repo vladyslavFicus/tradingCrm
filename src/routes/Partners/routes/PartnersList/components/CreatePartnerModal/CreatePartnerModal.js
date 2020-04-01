@@ -14,7 +14,11 @@ import Regulated from 'components/Regulated';
 import { Button } from 'components/UI';
 import { createValidator, translateLabels } from 'utils/validator';
 import { generate } from 'utils/password';
-import { affiliateTypeLabels, affiliateTypes } from '../../../../constants';
+import {
+  affiliateTypeLabels,
+  satelliteOptions,
+  affiliateTypes,
+} from '../../../../constants';
 import CreatePartnerMutation from './graphql/CreatePartnerMutation';
 import './CreatePartnerModal.scss';
 
@@ -28,6 +32,7 @@ const attributeLabels = {
   externalAffiliateId: 'COMMON.EXTERNAL_AFILIATE_ID',
   public: 'PARTNERS.MODALS.NEW_PARTNER.PUBLIC_CHECKBOX',
   cellexpert: 'PARTNERS.MODALS.NEW_PARTNER.CELLEXPERT_CHECKBOX',
+  satellite: 'PARTNERS.SATELLITE.TITLE',
 };
 
 const validate = createValidator({
@@ -40,6 +45,7 @@ const validate = createValidator({
   externalAffiliateId: ['min:3'],
   public: ['boolean'],
   cellexpert: ['boolean'],
+  satellite: ['string'],
 }, translateLabels(attributeLabels), false);
 
 class CreatePartnerModal extends PureComponent {
@@ -57,10 +63,11 @@ class CreatePartnerModal extends PureComponent {
     email: '',
     password: '',
     phone: '',
-    affiliateType: !getActiveBrandConfig().regulation.isActive ? affiliateTypes.AFFILIATE : '',
+    affiliateType: getActiveBrandConfig().regulation.isActive ? '' : affiliateTypes.AFFILIATE,
     externalAffiliateId: '',
     public: false,
     cellexpert: false,
+    satellite: '',
   };
 
   handleGeneratePassword = () => generate();
@@ -201,6 +208,23 @@ class CreatePartnerModal extends PureComponent {
                     disabled={isSubmitting}
                   />
                   <Regulated>
+                    <Field
+                      name="satellite"
+                      className="CreatePartnerModal__field"
+                      component={FormikSelectField}
+                      label={I18n.t(attributeLabels.satellite)}
+                      placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
+                      disabled={isSubmitting}
+                    >
+                      {Object.keys(satelliteOptions).map(key => (
+                        <option
+                          key={key}
+                          value={satelliteOptions[key].value}
+                        >
+                          {I18n.t(satelliteOptions[key].label)}
+                        </option>
+                      ))}
+                    </Field>
                     <Field
                       name="affiliateType"
                       className="CreatePartnerModal__field"

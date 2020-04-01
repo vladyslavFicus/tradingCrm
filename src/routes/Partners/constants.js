@@ -25,9 +25,21 @@ const affiliateTypeLabels = {
   [affiliateTypes.AFFILIATE]: 'PARTNERS.TYPES.AFFILIATE',
 };
 
+const satelliteOptions = {
+  TRAILBLAZE: {
+    label: 'PARTNERS.SATELLITE.OPTIONS.TRAILBLAZE',
+    value: 'TRAILBLAZE',
+  },
+  NONE: {
+    label: 'PARTNERS.SATELLITE.OPTIONS.NONE',
+    value: '',
+  },
+};
+
 export {
   statuses,
   statusLabels,
   affiliateTypes,
   affiliateTypeLabels,
+  satelliteOptions,
 };
