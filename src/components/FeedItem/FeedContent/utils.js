@@ -72,13 +72,21 @@ const isValueMomentValid = (value) => {
     : value;
 };
 
+const handleDate = (date) => {
+  if (moment(date, 'YYYY-MM-DDTHH:mm:ss.SSS', true).isValid()) {
+    return moment.utc(new Date(date)).local().format('DD.MM.YYYY \\a\\t HH:mm:ss');
+  }
+
+  return 'Invalid date';
+};
+
 const transformBoolToString = bool => (bool === true
   ? 'true'
   : 'false');
 
 const prepareCommonValue = (value) => {
   const date = isValueMomentValid(value)
-    ? moment.utc(new Date(value)).local().format('DD.MM.YYYY \\a\\t HH:mm:ss')
+    ? handleDate(value)
     : 'Invalid date';
 
   // If value is not a date then conduct it through next transform chain step
