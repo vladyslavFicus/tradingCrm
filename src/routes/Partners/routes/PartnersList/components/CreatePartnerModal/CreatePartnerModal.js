@@ -86,8 +86,26 @@ class CreatePartnerModal extends PureComponent {
     const hasValidationErrors = Object.keys(validationResult).length > 0;
 
     if (!hasValidationErrors) {
+      const {
+        affiliateType,
+        cellexpert,
+        public: isPublic, // 'public' is reserved JS word and we cant use it for naming variable
+        externalAffiliateId,
+        satellite,
+        ...restValues
+      } = values;
+
       const newPartnerData = await createPartner({
-        variables: values,
+        variables: {
+          affiliateType,
+          ...(affiliateType !== affiliateTypes.NULLPOINT && {
+            externalAffiliateId,
+            public: isPublic,
+            cellexpert,
+          }),
+          ...(satelliteOptions && { satellite }),
+          ...restValues,
+        },
       });
 
       const serverError = get(newPartnerData, 'data.partner.createPartner.error.error') || null;
