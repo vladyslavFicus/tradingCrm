@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import { graphql, compose } from 'react-apollo';
 import moment from 'moment';
 import I18n from 'i18n-js';
-import { getClickToCall, getBrand } from 'config';
+import { getBrand, getClickToCall } from 'config';
 import { withNotifications, withModals } from 'hoc';
 import Regulated from 'components/Regulated';
 import Uuid from 'components/Uuid';
@@ -34,7 +34,6 @@ import './Personal.scss';
 class Personal extends PureComponent {
   static propTypes = {
     newProfile: PropTypes.newProfile,
-    operatorPhoneNumber: PropTypes.string,
     notify: PropTypes.func.isRequired,
     clickToCall: PropTypes.func.isRequired,
     loading: PropTypes.bool.isRequired,
@@ -48,7 +47,6 @@ class Personal extends PureComponent {
 
   static defaultProps = {
     newProfile: {},
-    operatorPhoneNumber: null,
   };
 
   handleRegulatedChanged = async (variables) => {
@@ -75,13 +73,12 @@ class Personal extends PureComponent {
   };
 
   handleClickToCall = number => async () => {
-    const { notify, operatorPhoneNumber } = this.props;
+    const { notify } = this.props;
 
     const { data: { profile: { clickToCall: { success } } } } = await this.props.clickToCall(
       {
         variables: {
           number,
-          agent: operatorPhoneNumber,
         },
       },
     );

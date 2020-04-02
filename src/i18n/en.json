@@ -2657,7 +2657,8 @@
         "PHONE_CODE": "Code",
         "MOBILE": "Mobile",
         "MOBILE_CODE": "Code"
-      }
+      },
+      "CLICK_TO_CALL_FAILED": "Call failed"
     },
     "PROMOTE_MODAL": {
       "HEADER": "Promote to client",
