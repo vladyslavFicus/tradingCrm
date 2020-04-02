@@ -267,7 +267,7 @@ class TradingAccountsGrid extends PureComponent {
       },
     ];
 
-    if (brand[`leveragesChangingRequest${platformType}`]) {
+    if (brand[`leveragesChangingRequest${platformType}`].length) {
       dropDownActions.push({
         label: I18n.t('CLIENT_PROFILE.ACCOUNTS.LEVERAGE.CHANGE_LEVERAGE'),
         onClick: () => changeLeverageModal.show({
