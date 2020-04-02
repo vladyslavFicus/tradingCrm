@@ -13,7 +13,7 @@ export const getSatelliteOptions = () => {
 
   satelliteOptions.push({
     label: I18n.t('COMMON.NONE'),
-    value: '',
+    value: null,
   });
 
   return satelliteOptions;

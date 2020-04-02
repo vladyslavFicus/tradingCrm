@@ -116,7 +116,7 @@ class PersonalForm extends PureComponent {
               <Field
                 name="satellite"
                 label={I18n.t('COMMON.SATELLITE')}
-                placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
+                placeholder={I18n.t('COMMON.NONE')}
                 component={NasSelectField}
                 withAnyOption={false}
                 searchable={false}
