@@ -62,7 +62,7 @@ const DepositPaymentsStatistic = ({ children }) => (
         'dateTo',
         {
           paymentType: tradingTypes.DEPOSIT,
-          paymentStatus: tradingStatuses.MT4_COMPLETED,
+          paymentStatus: tradingStatuses.COMPLETED,
         },
       ),
     }}
