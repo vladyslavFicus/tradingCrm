@@ -3205,7 +3205,7 @@
   "SOCIAL_TRADING": {
     "TITLE": "Social trading",
     "SUBSCRIBERS": {
-      "TITLE": "Subscribers",
+      "TITLE": "Client's Subscriptions",
       "GRID": {
         "HEADERS": {
           "SUBSCRIBER": "Subscriber",
@@ -3233,7 +3233,7 @@
       }
     },
     "PROVIDERS": {
-      "TITLE": "Providers",
+      "TITLE": "Client is Providing",
       "GRID": {
         "HEADERS": {
           "PROVIDER": "Provider",
@@ -3254,7 +3254,7 @@
       }
     },
     "SUBSCRIPTION_ON_PROVIDER": {
-      "TITLE": "Subscriptions on providers",
+      "TITLE": "Subscribers",
       "GRID": {
         "HEADERS": {
           "SUBSCRIPTION": "Subscription",
