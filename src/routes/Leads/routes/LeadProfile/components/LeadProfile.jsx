@@ -14,7 +14,7 @@ import { userTypes } from 'constants/hierarchyTypes';
 import Route from 'components/Route';
 import { leadProfileTabs } from '../../../constants';
 import LeadProfileTab from '../routes/LeadProfileTab';
-import Notes from '../routes/Notes';
+import LeadNotesTab from '../routes/LeadNotesTab';
 import Information from './Information';
 import Header from './Header';
 
@@ -311,7 +311,7 @@ class LeadProfile extends Component {
         <div className="card no-borders">
           <Switch>
             <Route path={`${path}/profile`} component={LeadProfileTab} />
-            <Route disableScroll path={`${path}/notes`} component={Notes} />
+            <Route disableScroll path={`${path}/notes`} component={LeadNotesTab} />
             <Redirect to={`${url}/profile`} />
           </Switch>
         </div>

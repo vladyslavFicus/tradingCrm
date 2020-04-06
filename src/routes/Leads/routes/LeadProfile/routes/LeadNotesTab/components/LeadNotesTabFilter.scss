@@ -1,0 +1,19 @@
+.LeadNotesTabFilter {
+  display: flex;
+
+  &__field {
+    width: 200px;
+  }
+
+  &__button-group {
+    display: flex;
+  }
+
+  &__button {
+    margin-right: 15px;
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+}
