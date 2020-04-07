@@ -212,6 +212,7 @@ export default compose(
         },
       },
     }) => ({
+      fetchPolicy: 'cache-and-network',
       variables: {
         playerUUID,
       },
