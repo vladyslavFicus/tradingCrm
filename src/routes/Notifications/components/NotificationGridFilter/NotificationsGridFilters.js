@@ -185,6 +185,7 @@ class NotificationsFilters extends PureComponent {
                   start: 'creationDateFrom',
                   end: 'creationDateTo',
                 }}
+                withTime
               />
               <Field
                 name="notificationTypes"

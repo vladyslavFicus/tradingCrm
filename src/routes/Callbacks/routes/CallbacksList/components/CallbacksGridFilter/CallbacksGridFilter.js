@@ -77,6 +77,7 @@ class CallbacksGridFilter extends PureComponent {
                   start: 'callbackTimeFrom',
                   end: 'callbackTimeTo',
                 }}
+                withTime
               />
             </div>
 
