@@ -31,7 +31,8 @@
       "KYC_DOCUMENTS": "KYC documents",
       "BRAND_CONFIG_UPDATE": "Brand config update",
       "BRAND_CONFIG_CREATE": "Brand config create",
-      "EMAIL_TEMPLATES": "Email templates"
+      "EMAIL_TEMPLATES": "Email templates",
+      "NOTIFICATIONS": "Notifications"
     },
     "BOTTOM_MENU": {
       "SUPPORT": "Support",
@@ -2793,6 +2794,49 @@
   },
   "SALES_RULES": {
     "TITLE": "Sales rules"
+  },
+  "NOTIFICATION_CENTER": {
+    "TITLE": "Notifications",
+    "FILTERS": {
+      "PLACEHOLDERS": {
+        "NOTIFICATION_OR_PLAYER": "Notification ID, Player UUID"
+      },
+      "LABELS": {
+        "AGENTS": "Agents",
+        "CREATION_RANGE": "Notification creation date range",
+        "NOTIFICATION_TYPE": "Notification type",
+        "NOTIFICATION_TYPE_DETAILS": "Notification type details"
+      }
+    },
+    "GRID_HEADER": {
+      "NOTIFICATION_ID": "notification id",
+      "PRIORITY": "priority",
+      "AGENT": "agent",
+      "CLIENT": "client",
+      "NOTIFICATION_DATE": "notification date",
+      "NOTIFICATION_TYPE": "notification type",
+      "NOTIFICATION_TYPE_DETAILS": "notification type details"
+    },
+    "TYPES": {
+      "WITHDRAWAL_REQUEST_STATUS_FINANCE_TO_EXECUTE": "Withdrawal request status finance to execute",
+      "WITHDRAWAL_REQUEST_STATUS_DEALING_REVIEW": "Withdrawal request status dealing review",
+      "WITHDRAWAL_REQUEST_STATUS_SALES_REVIEW": "Withdrawal request status sales review",
+      "ACCOUNT_PASSWORD_RESET_REQUEST": "Account password reset request",
+      "WITHDRAWAL_REQUEST_CANCELLED": "Withdrawal request cancelled",
+      "WITHDRAWAL_REQUEST_APPROVED": "Withdrawal request approved",
+      "WITHDRAWAL_REQUEST_ATTEMPT": "Withdrawal request attempt",
+      "WITHDRAWAL_REQUEST_CREATED": "Withdrawal request created",
+      "KYC_DOCUMENT_UPLOADED": "Kyc document uploaded",
+      "KYC_DOCUMENT_EXPIRED": "Kyc document expired",
+      "ACCOUNT_MARGIN_CALL": "Account margin call",
+      "DEPOSIT_SUCCESSFUL": "Deposit successful",
+      "ACCOUNT_ARCHIVED": "Account archived",
+      "ACCOUNT_DISABLED": "Account disabled",
+      "DEPOSIT_CREATED": " Deposit created",
+      "ACCOUNT_CREATED": "Account created",
+      "DEPOSIT_FAILED": "Deposit failed",
+      "KYC_APPROVED": "Kyc approved"
+    }
   },
   "HIERARCHY": {
     "ERROR_LOADING_BRANCHES": "Error occured while loading branches",

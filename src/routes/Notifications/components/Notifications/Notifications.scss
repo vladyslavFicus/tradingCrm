@@ -1,0 +1,43 @@
+.Notifications {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  border-radius: 5px;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  background-clip: border-box;
+  background-color: #fff;
+  word-wrap: break-word;
+
+  &__columns {
+
+    &-color {
+
+      &--high {
+        background-color: #FFF8F6;
+      }
+
+      &--medium {
+        background-color: #FFFCF2;
+      }
+
+      &--low {
+        background-color: #F8FFFA;
+      }
+    }
+
+    &-priority-text {
+
+      &--high {
+        color: #FB434A;
+      }
+
+      &--medium {
+        color: #F39834;
+      }
+
+      &--low {
+        color: #46BE8A;
+      }
+    }
+  }
+}

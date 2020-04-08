@@ -81,6 +81,10 @@ const sidebarTopMenu = [{
   icon: 'icon-callbacks',
   url: '/callbacks/list',
 }, {
+  label: 'SIDEBAR.TOP_MENU.NOTIFICATIONS',
+  icon: 'icon-notifications',
+  url: '/notifications',
+}, {
   label: 'SIDEBAR.TOP_MENU.SETTINGS',
   icon: 'icon-settings',
   isOpen: false,

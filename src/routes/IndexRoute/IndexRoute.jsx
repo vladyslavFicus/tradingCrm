@@ -29,6 +29,7 @@ import ReleaseNotes from 'routes/ReleaseNotes';
 import PersonalDashboard from 'routes/PersonalDashboard';
 import BrandConfig from 'routes/BrandConfig';
 import EmailTemplates from 'routes/EmailTemplates';
+import Notifications from 'routes/Notifications';
 import { operatorsExcludeAuthorities } from 'config/menu';
 import { withStorage } from 'providers/StorageProvider';
 
@@ -96,6 +97,7 @@ class IndexRoute extends PureComponent {
             <Route path="/desks" layout={MainLayout} component={Desks} isPrivate />
             <Route path="/teams" layout={MainLayout} component={Teams} isPrivate />
             <Route path="/sales-rules" layout={MainLayout} component={SalesRules} isPrivate />
+            <Route path="/notifications" layout={MainLayout} component={Notifications} isPrivate />
             <Route path="/release-notes" layout={MainLayout} component={ReleaseNotes} isPrivate />
             <Route path="/brand-config" layout={MainLayout} component={BrandConfig} isPrivate />
             <Route path="/email-templates" layout={MainLayout} component={EmailTemplates} isPrivate />
