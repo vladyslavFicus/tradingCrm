@@ -1,5 +1,6 @@
 import { graphql, compose } from 'react-apollo';
 import { partnersQuery } from 'graphql/queries/partners';
+import { operatorsQuery } from 'graphql/queries/operators';
 import RuleModal from './RuleModal';
 
 export default compose(
@@ -11,5 +12,8 @@ export default compose(
       },
       fetchPolicy: 'network-only',
     }),
+  }),
+  graphql(operatorsQuery, {
+    name: 'operators',
   }),
 )(RuleModal);

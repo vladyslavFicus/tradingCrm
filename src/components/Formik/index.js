@@ -4,6 +4,7 @@ import FormikSelectField from './FormikSelectField';
 import FormikTextEditorField from './FormikTextEditorField';
 import FormikDateRangePicker from './FormikDateRangePicker';
 import FormikDatePicker from './FormikDatePicker';
+import FormikMultiInputField from './FormikMultiInputField';
 
 export {
   FormikCheckbox,
@@ -12,4 +13,5 @@ export {
   FormikDateRangePicker,
   FormikTextEditorField,
   FormikDatePicker,
+  FormikMultiInputField,
 };

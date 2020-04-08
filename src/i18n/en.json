@@ -2682,7 +2682,9 @@
   },
   "RULES": {
     "FILTERS": {
-      "OPERATOR_OR_RULE": "Operator UUID, Rule UUID"
+      "OPERATOR_OR_RULE": "Operator UUID, Rule UUID",
+      "OPERATOR": "Operator",
+      "PARTNER": "Partner"
     }
   },
   "OFFICES": {
@@ -2822,7 +2824,9 @@
         "SOURCE": "Source",
         "SOURCES": "Sources",
         "PARTNER": "Partner",
-        "PARTNERS": "Partners"
+        "PARTNERS": "Partners",
+        "OPERATOR": "Operator",
+        "OPERATORS": "Operators"
       },
       "GRID_HEADER": {
         "RULE": "Rule",
@@ -2832,7 +2836,9 @@
         "AFFILIATE": "Affiliate",
         "PARTNER": "Partner",
         "PRIORITY": "Priority",
-        "ACTION": "Action"
+        "ACTION": "Action",
+        "OPERATOR": "Operator",
+        "RATIO": "Ratio"
       },
       "MODAL": {
         "HEADER": "Create new rule",
@@ -2847,7 +2853,9 @@
           "AMOUNT": "Deposit amount range",
           "DISTRIBUTION": "Client distribution",
           "PARTNER": "Partner",
-          "SOURCE": "Source"
+          "SOURCE": "Source",
+          "OPERATOR": "Operator",
+          "RATIO": "Ratio"
         }
       },
       "DELETE_MODAL": {

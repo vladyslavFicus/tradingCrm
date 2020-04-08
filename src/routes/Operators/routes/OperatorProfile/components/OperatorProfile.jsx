@@ -12,10 +12,10 @@ import { isSales } from 'constants/hierarchyTypes';
 import ChangePasswordModal from 'modals/ChangePasswordModal';
 import HideDetails from 'components/HideDetails';
 import Route from 'components/Route';
+import SalesRules from 'components/SalesRules';
 import Permissions from 'utils/permissions';
 import OperatorEdit from '../routes/Edit';
 import Feed from '../routes/Feed';
-import SalesRules from '../routes/SalesRules';
 import Information from './Information';
 import Header from './Header';
 

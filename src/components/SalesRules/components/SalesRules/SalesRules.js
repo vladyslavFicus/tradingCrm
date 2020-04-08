@@ -2,18 +2,32 @@ import React, { Fragment, PureComponent } from 'react';
 import I18n from 'i18n-js';
 import { get } from 'lodash';
 import { Link } from 'react-router-dom';
-import { SubmissionError } from 'redux-form';
+import { compose } from 'react-apollo';
+import { withRequests } from 'apollo';
+import { withModals, withNotifications } from 'hoc';
 import { TextRow } from 'react-placeholder/lib/placeholders';
 import permissions from 'config/permissions';
 import PropTypes from 'constants/propTypes';
+import countries from 'utils/countryList';
 import { actionRuleTypes, deskTypes } from 'constants/rules';
 import { withPermission } from 'providers/PermissionsProvider';
 import PermissionContent from 'components/PermissionContent';
 import Uuid from 'components/Uuid';
+import { Button } from 'components/UI';
 import Grid, { GridColumn } from 'components/Grid';
 import Placeholder from 'components/Placeholder';
 import Permissions from 'utils/permissions';
+import ConfirmActionModal from 'components/Modal/ConfirmActionModal';
+import RuleModal from 'components/HierarchyProfileRules/components/RuleModal';
+import RulesFilters from 'components/HierarchyProfileRules/components/RulesGridFilters';
 import infoConfig from './constants';
+import {
+  OperatorsQuery,
+  PartnersQuery,
+  GetRulesQuery,
+  DeleteRuleMutation,
+  CreateRuleMutation,
+} from '../graphql';
 
 class SalesRules extends PureComponent {
   static propTypes = {
@@ -28,8 +42,32 @@ class SalesRules extends PureComponent {
     modals: PropTypes.shape({
       deleteModal: PropTypes.modalType,
     }).isRequired,
+    location: PropTypes.shape({
+      query: PropTypes.object,
+    }).isRequired,
+    history: PropTypes.shape({
+      replace: PropTypes.func.isRequired,
+    }).isRequired,
+    operators: PropTypes.query({
+      operators: PropTypes.shape({
+        data: PropTypes.shape({
+          content: PropTypes.operatorsList,
+        }),
+      }),
+    }).isRequired,
+    partners: PropTypes.query({
+      partners: PropTypes.shape({
+        data: PropTypes.shape({
+          content: PropTypes.partnersList,
+        }),
+      }),
+    }).isRequired,
     permission: PropTypes.permission.isRequired,
   };
+
+  handleFiltersChanged = (filters = {}) => this.props.history.replace({ query: { filters } });
+
+  handleFilterReset = () => this.props.history.replace({ query: { filters: {} } });
 
   triggerRuleModal = () => {
     const {
@@ -37,12 +75,13 @@ class SalesRules extends PureComponent {
     } = this.props;
 
     ruleModal.show({
-      onSubmit: values => this.handleAddRule(values),
+      onSubmit: (values, setErrors) => this.handleAddRule(values, setErrors),
       deskType: deskTypes.SALES,
+      withOperatorSpreads: true,
     });
   };
 
-  handleAddRule = async (variables) => {
+  handleAddRule = async ({ operatorSpreads, ...rest }, setErrors) => {
     const {
       notify,
       createRule,
@@ -57,8 +96,12 @@ class SalesRules extends PureComponent {
           actions: [{
             parentUser: id,
             ruleType: actionRuleTypes.ROUND_ROBIN,
+            operatorSpreads: [
+              // filter need for delete empty value in array
+              ...operatorSpreads.filter(item => item && item.percentage),
+            ],
           }],
-          ...variables,
+          ...rest,
         },
       },
     );
@@ -72,7 +115,7 @@ class SalesRules extends PureComponent {
 
       let _error = error.error;
 
-      if (error.error === 'error.entity.already.exist') {
+      if (_error === 'error.entity.already.exist') {
         _error = (
           <>
             <div>
@@ -90,7 +133,7 @@ class SalesRules extends PureComponent {
         );
       }
 
-      throw new SubmissionError({ _error });
+      setErrors({ submit: _error });
     } else {
       await refetch();
       ruleModal.hide();
@@ -133,11 +176,15 @@ class SalesRules extends PureComponent {
   handleDeleteRuleClick = (uuid) => {
     const {
       modals: { deleteModal },
-      rules: { rules, rulesRetention },
+      rules: {
+        data: {
+          rules,
+          rulesRetention,
+        },
+      },
     } = this.props;
 
     const data = get(rules, 'data') || get(rulesRetention, 'data') || [];
-
     const { name } = data.find(({ uuid: ruleId }) => ruleId === uuid);
 
     deleteModal.show({
@@ -235,18 +282,97 @@ class SalesRules extends PureComponent {
     />
   );
 
+  renderOperator = ({ actions }) => {
+    const [{ operatorSpreads }] = actions;
+
+    return (
+      <Choose>
+        <When condition={operatorSpreads && operatorSpreads.length > 0}>
+          <div className="font-weight-700">
+            {`${operatorSpreads.length} `}
+            <Choose>
+              <When condition={operatorSpreads.length === 1}>
+                {I18n.t('HIERARCHY.PROFILE_RULE_TAB.GRID.OPERATOR')}
+              </When>
+              <Otherwise>
+                {I18n.t('HIERARCHY.PROFILE_RULE_TAB.GRID.OPERATORS')}
+              </Otherwise>
+            </Choose>
+          </div>
+          {operatorSpreads.map(({ operator }) => (
+            <If condition={operator}>
+              <div key={operator.uuid}>
+                <Link to={`/operators/${operator.uuid}/profile`}>{operator.fullName}</Link>
+              </div>
+            </If>
+          ))}
+        </When>
+        <Otherwise>
+          <span>&mdash;</span>
+        </Otherwise>
+      </Choose>
+    );
+  }
+
+  renderRatio = ({ actions }) => {
+    const [{ operatorSpreads }] = actions;
+
+    return (
+      <Choose>
+        <When condition={operatorSpreads && operatorSpreads.length > 0}>
+          <div className="margin-top-20">
+            {operatorSpreads.map(({ operator, percentage }) => (
+              <If condition={operator}>
+                <div key={operator.uuid}>
+                  <div className="font-weight-700">
+                    <Choose>
+                      <When condition={percentage}>
+                        <span>{percentage} &#37;</span>
+                      </When>
+                      <Otherwise>
+                        <span>&mdash;</span>
+                      </Otherwise>
+                    </Choose>
+                  </div>
+                </div>
+              </If>
+            ))}
+          </div>
+        </When>
+        <Otherwise>
+          <span>&mdash;</span>
+        </Otherwise>
+      </Choose>
+    );
+  }
+
   render() {
     const {
       rules: {
-        rules,
+        data,
         loading,
       },
+      location: { query },
       permission: {
         permissions: currentPermissions,
       },
+      operators: {
+        data: operatorsData,
+      },
+      partners: {
+        data: partnersData,
+      },
     } = this.props;
 
-    const entities = get(rules, 'data') || [];
+    const entities = get(data, 'rules.data') || [];
+    const filters = get(query, 'filters', {});
+
+    const operators = get(operatorsData, 'operators.data.content') || [];
+    const partners = get(partnersData, 'partners.data.content') || [];
+
+    const allowActions = Object
+      .keys(filters)
+      .filter(i => (filters[i] && Array.isArray(filters[i]) && filters[i].length > 0) || filters[i]).length > 0;
 
     const isDeleteRuleAvailable = (new Permissions(permissions.SALES_RULES.REMOVE_RULE)).check(currentPermissions);
 
@@ -268,17 +394,26 @@ class SalesRules extends PureComponent {
           </Placeholder>
           <PermissionContent permissions={permissions.SALES_RULES.CREATE_RULE}>
             <div className="ml-auto">
-              <button
+              <Button
                 id="add-rule"
                 type="submit"
-                className="btn btn-sm btn-outline"
+                small
+                commonOutline
                 onClick={this.triggerRuleModal}
               >
                 + {I18n.t('HIERARCHY.PROFILE_RULE_TAB.ADD_RULE')}
-              </button>
+              </Button>
             </div>
           </PermissionContent>
         </div>
+        <RulesFilters
+          onSubmit={this.handleFiltersChanged}
+          onReset={this.handleFilterReset}
+          disabled={!allowActions}
+          countries={countries}
+          partners={partners}
+          operators={operators}
+        />
 
         <div className="card-body">
           <Grid
@@ -298,6 +433,11 @@ class SalesRules extends PureComponent {
               render={this.renderRuleInfo(infoConfig.countries)}
             />
             <GridColumn
+              name="priority"
+              header={I18n.t('HIERARCHY.PROFILE_RULE_TAB.GRID_HEADER.PRIORITY')}
+              render={this.renderPriority}
+            />
+            <GridColumn
               name="languages"
               header={I18n.t('HIERARCHY.PROFILE_RULE_TAB.GRID_HEADER.LANGUAGE')}
               render={this.renderRuleInfo(infoConfig.languages)}
@@ -308,14 +448,19 @@ class SalesRules extends PureComponent {
               render={this.renderPartner}
             />
             <GridColumn
+              name="operators"
+              header={I18n.t('HIERARCHY.PROFILE_RULE_TAB.GRID_HEADER.OPERATOR')}
+              render={this.renderOperator}
+            />
+            <GridColumn
+              name="ratio"
+              header={I18n.t('HIERARCHY.PROFILE_RULE_TAB.GRID_HEADER.RATIO')}
+              render={this.renderRatio}
+            />
+            <GridColumn
               name="sources"
               header={I18n.t('HIERARCHY.PROFILE_RULE_TAB.GRID_HEADER.SOURCE')}
               render={this.renderRuleInfo(infoConfig.sources)}
-            />
-            <GridColumn
-              name="priority"
-              header={I18n.t('HIERARCHY.PROFILE_RULE_TAB.GRID_HEADER.PRIORITY')}
-              render={this.renderPriority}
             />
             <If condition={isDeleteRuleAvailable}>
               <GridColumn
@@ -331,4 +476,18 @@ class SalesRules extends PureComponent {
   }
 }
 
-export default withPermission(SalesRules);
+export default compose(
+  withPermission,
+  withModals({
+    deleteModal: ConfirmActionModal,
+    ruleModal: RuleModal,
+  }),
+  withNotifications,
+  withRequests({
+    operators: OperatorsQuery,
+    partners: PartnersQuery,
+    createRule: CreateRuleMutation,
+    deleteRule: DeleteRuleMutation,
+    rules: GetRulesQuery,
+  }),
+)(SalesRules);

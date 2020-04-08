@@ -16,7 +16,7 @@ class FormikInputField extends PureComponent {
           PropTypes.arrayOf(PropTypes.string),
         ]),
       ).isRequired,
-      touched: PropTypes.objectOf(PropTypes.bool),
+      touched: PropTypes.object.isRequired,
     }).isRequired,
   };
 

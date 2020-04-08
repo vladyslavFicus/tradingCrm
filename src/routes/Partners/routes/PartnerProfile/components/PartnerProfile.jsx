@@ -9,6 +9,7 @@ import PropTypes from 'constants/propTypes';
 import ChangePasswordModal from 'modals/ChangePasswordModal';
 import HideDetails from 'components/HideDetails';
 import Route from 'components/Route';
+import SalesRules from 'components/SalesRules';
 import PartnerEdit from '../routes/Edit';
 import Feed from '../routes/Feed';
 import Information from './Information';
@@ -226,6 +227,7 @@ class PartnerProfileLayout extends Component {
         <div className="card no-borders">
           <Switch>
             <Route path={`${path}/profile`} component={PartnerEdit} />
+            <Route path={`${path}/sales-rules`} component={SalesRules} />
             <Route path={`${path}/feed`} component={Feed} />
             <Redirect to={`${url}/profile`} />
           </Switch>

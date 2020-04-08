@@ -23,7 +23,7 @@ import Hierarchy from 'routes/Hierarchy';
 import Offices from 'routes/Offices';
 import Desks from 'routes/Desks';
 import Teams from 'routes/Teams';
-import SalesRules from 'routes/SalesRules';
+import SalesRules from 'components/SalesRules';
 import Callbacks from 'routes/Callbacks';
 import ReleaseNotes from 'routes/ReleaseNotes';
 import PersonalDashboard from 'routes/PersonalDashboard';
