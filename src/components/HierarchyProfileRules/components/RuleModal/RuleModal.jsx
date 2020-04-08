@@ -306,6 +306,7 @@ class RuleModal extends PureComponent {
                               <If condition={selectedOperators.length > 0 && selectedOperators.length !== index}>
                                 <Button
                                   transparent
+                                  className="RuleModal__button"
                                   onClick={() => {
                                     arrayHelpers.remove(index);
                                     selectedOperators.splice(selectedOperators.indexOf(parentUser), 1);
