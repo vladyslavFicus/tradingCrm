@@ -8,60 +8,48 @@ const detalization = keyMirror({
   PER_MINUTES: null,
 });
 
-const defaultAdditionalStatistics = [{
-  dateFrom: moment()
+const defaultAdditionalStatistics = (fromName, toName) => [
+  {
+    [fromName]: moment()
+      .startOf('day')
+      .utc()
+      .format(),
+    [toName]: moment()
+      .add(1, 'day')
+      .startOf('day')
+      .utc()
+      .format(),
+  },
+  {
+    [fromName]: moment()
+      .startOf('month')
+      .utc()
+      .format(),
+    [toName]: moment()
+      .endOf('month')
+      .utc()
+      .format(),
+  },
+  {
+    [toName]: moment()
+      .endOf('day')
+      .utc()
+      .format(),
+  },
+];
+
+const initialDateQueryParams = (fromName, toName) => ({
+  [fromName]: moment()
+    .subtract(6, 'days')
     .startOf('day')
-    .utc()
     .format(),
-  dateTo: moment()
+  [toName]: moment()
     .add(1, 'day')
     .startOf('day')
-    .utc()
     .format(),
-}, {
-  dateFrom: moment()
-    .startOf('month')
-    .utc()
-    .format(),
-  dateTo: moment()
-    .endOf('month')
-    .utc()
-    .format(),
-}, {
-  dateTo: moment()
-    .endOf('day')
-    .utc()
-    .format(),
-}];
+});
 
-const defaultAdditionalRegistrationStatistics = [{
-  from: moment()
-    .startOf('day')
-    .utc()
-    .format(),
-  to: moment()
-    .add(1, 'day')
-    .startOf('day')
-    .utc()
-    .format(),
-}, {
-  from: moment()
-    .startOf('month')
-    .utc()
-    .format(),
-  to: moment()
-    .endOf('month')
-    .utc()
-    .format(),
-}, {
-  to: moment()
-    .endOf('day')
-    .utc()
-    .format(),
-}];
-
-
-export const initialDateQueryParamsUTC = (fromName, toName) => ({
+const initialDateQueryParamsUTC = (fromName, toName) => ({
   [fromName]: moment()
     .subtract(6, 'days')
     .startOf('day')
@@ -75,16 +63,16 @@ export const initialDateQueryParamsUTC = (fromName, toName) => ({
 });
 
 export const initialPaymentQueryParams = (from, to, args) => ({
-  ...initialDateQueryParamsUTC(from, to),
+  ...initialDateQueryParams(from, to),
   detalization: detalization.PER_DAYS,
-  additionalStatistics: defaultAdditionalStatistics,
+  additionalStatistics: defaultAdditionalStatistics('dateFrom', 'dateTo'),
   ...args,
 });
 
 export const initialRegistrationQueryParams = (from, to, args) => ({
   ...initialDateQueryParamsUTC(from, to),
   detalization: detalization.PER_DAYS,
-  additionalStatistics: defaultAdditionalRegistrationStatistics,
+  additionalStatistics: defaultAdditionalStatistics('from', 'to'),
   ...args,
 });
 

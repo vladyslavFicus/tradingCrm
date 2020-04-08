@@ -14,9 +14,9 @@ class MoveModal extends PureComponent {
     configs: PropTypes.shape({
       allRowsSelected: PropTypes.bool,
       totalElements: PropTypes.number,
-      selectedRows: PropTypes.arrayOf(PropTypes.number),
-      touchedRowsIds: PropTypes.arrayOf(PropTypes.string),
+      touchedRowsIds: PropTypes.arrayOf(PropTypes.number),
       searchParams: PropTypes.object,
+      selectedRowsLength: PropTypes.number,
     }).isRequired,
     notify: PropTypes.func.isRequired,
     isOpen: PropTypes.bool.isRequired,
@@ -115,7 +115,7 @@ class MoveModal extends PureComponent {
       submitting,
       onCloseModal,
       handleSubmit,
-      configs: { selectedRows },
+      configs: { selectedRowsLength },
     } = this.props;
 
     return (
@@ -125,7 +125,7 @@ class MoveModal extends PureComponent {
       >
         <ModalHeader toggle={onCloseModal}>
           <div>{I18n.t('CLIENTS.MODALS.MOVE_MODAL.MOVE_HEADER')}</div>
-          <div className="font-size-11 color-yellow">{selectedRows.length}{' '}{I18n.t('COMMON.CLIENTS_SELECTED')}</div>
+          <div className="font-size-11 color-yellow">{selectedRowsLength}{' '}{I18n.t('COMMON.CLIENTS_SELECTED')}</div>
         </ModalHeader>
         <ModalBody
           tag="form"

@@ -124,6 +124,7 @@ export {
   getBrand,
   getBrandId,
   setBrandId,
+  getClickToCall,
   removeActiveBrand,
   getEnvironment,
   getLogo,
@@ -134,7 +135,6 @@ export {
   getDomain,
   getGraphQLRoot,
   getPaymentReason,
-  getClickToCall,
   getBackofficeBrand,
   setBackofficeBrand,
 };

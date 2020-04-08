@@ -1,3 +1,4 @@
+/* eslint-disable */ 
 import React, { PureComponent } from 'react';
 import { compose } from 'react-apollo';
 import I18n from 'i18n-js';
@@ -5,9 +6,12 @@ import { get } from 'lodash';
 import { Formik, Form } from 'formik';
 import { withRequests } from 'apollo';
 import { withNotifications } from 'hoc';
+import { withStorage } from 'providers/StorageProvider';
 import PropTypes from 'constants/propTypes';
 import TabHeader from 'components/TabHeader';
 import Button from 'components/UI/Button';
+import { getBrand } from 'config';
+import { hideText } from 'utils/hideText';
 import { createValidator, translateLabels } from 'utils/validator';
 import countryList, { getCountryCode } from 'utils/countryList';
 import PersonalForm from './components/PersonalForm';
@@ -30,16 +34,32 @@ class Profile extends PureComponent {
     }).isRequired,
     updateLead: PropTypes.func.isRequired,
     notify: PropTypes.func.isRequired,
+    auth: PropTypes.auth.isRequired,
   };
 
   state = {
     submitError: null,
   };
+  
+  phoneAccessDenied = () => {
+    const {
+      auth: {
+        department,
+      },
+    } = this.props;
+    
+    return getBrand().privatePhoneByDepartment.includes(department);
+  };
 
   handleUpdateLead = async (variables) => {
-    const { notify, updateLead } = this.props;
+    const { notify, updateLead, leadProfile  } = this.props;
+    const { phone, mobile } = get(leadProfile, 'data.leadProfile.data') || {};
+    const requestData = this.phoneAccessDenied()
+      ? { ...variables, phone, mobile }
+      : variables;
+
     const { data: { leads: { update: { error } } } } = await updateLead({
-      variables,
+      variables: requestData
     });
 
     if (error) {
@@ -61,13 +81,17 @@ class Profile extends PureComponent {
   };
 
   render() {
-    const { leadProfile } = this.props;
+    const {
+      leadProfile,
+    } = this.props;
 
     const error = get(leadProfile, 'data.leadProfile.error');
 
     if (error) {
       return null;
     }
+
+    const isPhoneHidden = this.phoneAccessDenied();
 
     const {
       uuid,
@@ -90,8 +114,8 @@ class Profile extends PureComponent {
           brandId,
           name,
           surname,
-          phone,
-          mobile,
+          phone: isPhoneHidden ? hideText(phone) : phone,
+          mobile: isPhoneHidden ? hideText(mobile) : mobile,
           email,
           country: getCountryCode(country),
           birthDate,
@@ -129,15 +153,27 @@ class Profile extends PureComponent {
               </div>
             </If>
             <div className="tab-wrapper">
-              {[PersonalForm, AddressForm, ContactForm].map(Card => (
-                <div className="card" key={Card.name}>
-                  <div className="card-body row">
-                    <div className="col">
-                      <Card />
-                    </div>
+              <div className="card">
+                <div className="card-body row">
+                  <div className="col">
+                    <PersonalForm />
                   </div>
                 </div>
-              ))}
+              </div>
+              <div className="card">
+                <div className="card-body row">
+                  <div className="col">
+                    <AddressForm />
+                  </div>
+                </div>
+              </div>
+              <div className="card">
+                <div className="card-body row">
+                  <div className="col">
+                    <ContactForm isPhoneDisabled={isPhoneHidden} />
+                  </div>
+                </div>
+              </div>
             </div>
           </Form>
         )}
@@ -147,6 +183,7 @@ class Profile extends PureComponent {
 }
 
 export default compose(
+  withStorage(['auth']),
   withNotifications,
   withRequests({
     leadProfile: LeadProfileQuery,

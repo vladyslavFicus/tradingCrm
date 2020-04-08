@@ -7,7 +7,8 @@ import { genders } from 'routes/Clients/routes/Profile/routes/Client/components/
 import { riskStatuses } from 'routes/Clients/routes/Profile/components/RiskStatus/constants';
 import { departments, roles } from 'constants/operators';
 import { kycStatuses } from 'constants/kycStatuses';
-import { statuses } from 'constants/user';
+import { statuses, attributeLabels } from 'constants/user';
+import { documentsType } from 'constants/files';
 
 const humanizeDurationConfig = {
   language: 'en',
@@ -22,6 +23,7 @@ const departmentsPath = 'CONSTANTS.OPERATORS.DEPARTMENTS';
 const kycStatusesPath = 'KYC_REQUESTS.STATUS';
 const rolesPath = 'CONSTANTS.OPERATORS.ROLES';
 const statusesPath = 'STATUSES_LABELS';
+const filesPath = 'FILES.DOCUMENTS_TYPE';
 
 const transformConstFromArr = (arr, path) => arr.reduce((acc, value) => ({
   ...acc,
@@ -41,6 +43,7 @@ const translateValue = (value) => {
     ...(transformConstFromObj(departments, departmentsPath)),
     ...(transformConstFromObj(roles, rolesPath)),
     ...(transformConstFromObj(riskStatuses, riskStatusesPath)),
+    ...(transformConstFromObj(documentsType, filesPath)),
     ...(genders()),
     INDIVIDUAL_RETAIL: i18n.t('CLIENT_PROFILE.DETAILS.INDIVIDUAL_RETAIL'),
     INDIVIDUAL_PROFESSIONAL: i18n.t('CLIENT_PROFILE.DETAILS.INDIVIDUAL_PROFESSIONAL'),
@@ -69,13 +72,21 @@ const isValueMomentValid = (value) => {
     : value;
 };
 
+const handleDate = (date) => {
+  if (moment(date, ['YYYY-MM-DDTHH:mm:ss.SSS', 'YYYY-MM-DDTHH:mm:ss'], true).isValid()) {
+    return moment.utc(new Date(date)).local().format('DD.MM.YYYY \\a\\t HH:mm:ss');
+  }
+
+  return 'Invalid date';
+};
+
 const transformBoolToString = bool => (bool === true
   ? 'true'
   : 'false');
 
 const prepareCommonValue = (value) => {
   const date = isValueMomentValid(value)
-    ? moment.utc(new Date(value)).local().format('DD.MM.YYYY \\a\\t HH:mm:ss')
+    ? handleDate(value)
     : 'Invalid date';
 
   // If value is not a date then conduct it through next transform chain step
@@ -96,3 +107,5 @@ export const prepareValue = (key, value) => {
 
   return customValues[key] || prepareCommonValue(value);
 };
+
+export const renderLabel = label => attributeLabels[label] || label;

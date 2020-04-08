@@ -340,7 +340,7 @@ class List extends Component {
     let selectedRowsLength = touchedRowsIds.length;
 
     if (allRowsSelected) {
-      selectedRowsLength = (totalElements - selectedRowsLength > MAX_SELECTED_ROWS)
+      selectedRowsLength = totalElements > MAX_SELECTED_ROWS
         ? MAX_SELECTED_ROWS - selectedRowsLength
         : totalElements - selectedRowsLength;
     }

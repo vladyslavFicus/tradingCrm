@@ -1,5 +1,5 @@
 export const getClientsData = (
-  { allRowsSelected, touchedRowsIds, selectedRows },
+  { allRowsSelected, touchedRowsIds },
   totalElements,
   { type, isMoveAction },
   clients,
@@ -11,10 +11,10 @@ export const getClientsData = (
   }
 
   if (isMoveAction) {
-    filteredArr = selectedRows.filter(index => clients[index].acquisition.acquisitionStatus !== type);
+    filteredArr = touchedRowsIds.filter(index => clients[index].acquisition.acquisitionStatus !== type);
   }
 
-  return (filteredArr || selectedRows)
+  return (filteredArr || touchedRowsIds)
     .map(index => (
       index || !Number.isNaN(index)
         ? {
