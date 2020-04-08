@@ -159,7 +159,7 @@ class TradingAccountsGrid extends PureComponent {
         <Choose>
           <When condition={tradingAccount.lastLeverageChangeRequest}>
             <Choose>
-              <When condition={status !== 'PENDING'}>
+              <When condition={status === 'COMPLETED'}>
                 <div>
                   <div className="font-weight-700">{changeLeverageTo}</div>
                   <div className="font-size-11">
