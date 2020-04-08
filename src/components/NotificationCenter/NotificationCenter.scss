@@ -1,0 +1,14 @@
+.NotificationCenter {
+  &__popover {
+    max-width: none;
+    width: 75vw;
+    height: 60vh;
+    min-height: 400px;
+    z-index: 1000;
+  }
+
+  &__popover-inner {
+    width: 100%;
+    height: 100%;
+  }
+}

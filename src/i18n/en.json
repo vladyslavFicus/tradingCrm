@@ -478,6 +478,7 @@
     "STATUS": "Status",
     "RESET": "Reset",
     "APPLY": "Apply",
+    "MARK_AS_READ": "Mark as read",
     "EXPORT": "Export",
     "FROM": "from",
     "EMAIL": "Email",
@@ -2826,6 +2827,7 @@
       "WITHDRAWAL_REQUEST_APPROVED": "Withdrawal request approved",
       "WITHDRAWAL_REQUEST_ATTEMPT": "Withdrawal request attempt",
       "WITHDRAWAL_REQUEST_CREATED": "Withdrawal request created",
+      "ACCOUNT_PASSWORD_UPDATED": "Account password updated",
       "KYC_DOCUMENT_UPLOADED": "Kyc document uploaded",
       "KYC_DOCUMENT_EXPIRED": "Kyc document expired",
       "ACCOUNT_MARGIN_CALL": "Account margin call",
@@ -2836,6 +2838,12 @@
       "ACCOUNT_CREATED": "Account created",
       "DEPOSIT_FAILED": "Deposit failed",
       "KYC_APPROVED": "Kyc approved"
+    },
+    "TOOLTIP": {
+      "HEADLINE": "Notifications found",
+      "SUBLINE": "Notifications selected",
+      "MAX_ITEM_SELECTED": "Notifications selected",
+      "UPDATE_FAILED": "Failed update"
     }
   },
   "HIERARCHY": {

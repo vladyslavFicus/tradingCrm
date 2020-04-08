@@ -25,22 +25,25 @@ class ConfirmActionModal extends Component {
     fullName: '',
     uuid: null,
     additionalText: null,
-    onCloseCallback: null,
+    onCloseCallback: () => {},
   };
 
   handleClose = () => {
     const { onCloseModal, onCloseCallback } = this.props;
 
     onCloseModal();
-
-    if (typeof onCloseCallback === 'function') {
-      onCloseCallback();
-    }
+    onCloseCallback();
   };
+
+  onSubmit = () => {
+    const { onSubmit, onCloseCallback } = this.props;
+
+    onSubmit();
+    onCloseCallback();
+  }
 
   render() {
     const {
-      onSubmit,
       modalTitle,
       actionText,
       fullName,
@@ -75,7 +78,7 @@ class ConfirmActionModal extends Component {
           <button
             type="submit"
             className="btn btn-danger-outline"
-            onClick={onSubmit}
+            onClick={this.onSubmit}
           >
             {submitButtonLabel}
           </button>

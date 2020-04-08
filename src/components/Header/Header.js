@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import I18n from 'i18n';
+import NotificationCenter from 'components/NotificationCenter';
 import HeaderDepartments from './components/HeaderDepartments';
 import HeaderLanguages from './components/HeaderLanguages';
 import HeaderCalendar from './components/HeaderCalendar';
@@ -21,6 +22,7 @@ class Header extends PureComponent {
               <HeaderLanguages />
             </If>
 
+            <NotificationCenter />
             <HeaderCalendar />
             <HeaderLogout />
           </div>

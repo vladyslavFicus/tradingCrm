@@ -25,7 +25,7 @@ class Grid extends PureComponent {
     touchedRowsIds: PropTypes.arrayOf(PropTypes.number),
     withLazyLoad: PropTypes.bool,
     withRowsHover: PropTypes.bool,
-    withNoResults: PropTypes.bool,
+    withNoResults: PropTypes.any,
     withMultiSelect: PropTypes.bool,
   };
 
@@ -38,7 +38,7 @@ class Grid extends PureComponent {
     isLastPage: true,
     withLazyLoad: true,
     withRowsHover: false,
-    withNoResults: false,
+    withNoResults: null,
     withMultiSelect: false,
     handleSort: () => {},
     handleRowClick: () => {},

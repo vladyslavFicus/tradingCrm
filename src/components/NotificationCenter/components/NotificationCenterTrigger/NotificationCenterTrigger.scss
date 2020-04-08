@@ -1,0 +1,46 @@
+.NotificationCenterTrigger {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: none;
+  outline: none;
+  width: 40px;
+  background-color: transparent;
+  box-sizing: border-box;
+  font-size: inherit;
+  color: #cccccc;
+  cursor: pointer;
+  transition: 0.2s ease;
+
+  &:hover {
+    color: #ffffff;
+  }
+
+  &:after {
+    display: none;
+    content: attr(counter);
+    position: absolute;
+    top: 10px;
+    right: 5px;
+    z-index: 1;
+    padding: 2px 4px;
+    min-width: 14px;
+    border-radius: 6px;
+    background-color: #ff0000;
+    text-align: center;
+    font: bold 10px/1 'Open Sans', Arial, sans-serif;
+    color: #fff;
+  }
+
+  &--beep:after {
+    display: block;
+  }
+
+  &__icon {
+    pointer-events: none;
+    stroke: currentColor;
+    fill: currentColor;
+  }
+}
