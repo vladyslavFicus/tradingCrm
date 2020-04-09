@@ -1,3 +1,1 @@
-import CopyToClipboard from './CopyToClipboard';
-
-export default CopyToClipboard;
+export { default } from './CopyToClipboard';

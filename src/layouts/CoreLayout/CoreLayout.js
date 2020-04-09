@@ -2,7 +2,6 @@ import React, { Component, Fragment } from 'react';
 import I18n from 'i18n-js';
 import NotificationContainer from 'react-notification-system';
 import PropTypes from 'constants/propTypes';
-import DebugPanel from 'components/DebugPanel';
 import parseJson from 'utils/parseJson';
 import 'styles/main.scss';
 
@@ -77,10 +76,6 @@ class CoreLayout extends Component {
     return (
       <Fragment>
         {children}
-
-        <If condition={window.showDebugPanel}>
-          <DebugPanel />
-        </If>
 
         <NotificationContainer
           ref={(node) => {

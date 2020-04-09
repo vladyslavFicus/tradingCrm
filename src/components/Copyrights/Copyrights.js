@@ -1,14 +1,18 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { startCase } from 'lodash';
 import { getBackofficeBrand } from 'config';
-import './copyrights.scss';
+import './Copyrights.scss';
 
-const year = (new Date()).getFullYear();
+class Copyrights extends PureComponent {
+  render() {
+    const year = (new Date()).getFullYear();
 
-const Copyrights = () => (
-  <div className="copyrights">
-    Copyright © {year} by {startCase(getBackofficeBrand().id)}
-  </div>
-);
+    return (
+      <div className="Copyrights">
+        Copyright © {year} by {startCase(getBackofficeBrand().id)}
+      </div>
+    );
+  }
+}
 
 export default Copyrights;

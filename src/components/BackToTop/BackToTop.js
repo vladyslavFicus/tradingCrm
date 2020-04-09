@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import './BackToTop.scss';
 
-class BackToTop extends Component {
+class BackToTop extends PureComponent {
   static propTypes = {
     positionChange: PropTypes.bool,
   };
@@ -60,9 +60,9 @@ class BackToTop extends Component {
       <button
         type="button"
         className={classNames(
-          'back-to-top fa fa-caret-up',
-          { 'is-visible': isVisible },
-          { 'has-changed-position': positionChange },
+          'BackToTop fa fa-caret-up',
+          { 'BackToTop--visible': isVisible },
+          { 'BackToTop--has-changed-position': positionChange },
         )}
         onClick={this.scrollToTop}
       />

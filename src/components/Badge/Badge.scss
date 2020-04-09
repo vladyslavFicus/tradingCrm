@@ -1,4 +1,4 @@
-.badge {
+.Badge {
   display: flex;
   padding-left: 0;
   padding-right: 0;
@@ -23,7 +23,7 @@
 }
 
 // # Modifiers
-.badge {
+.Badge {
   &__item {
     &--info {
       background-color: #2aa6e0;;

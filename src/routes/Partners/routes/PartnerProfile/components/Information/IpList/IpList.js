@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import I18n from 'i18n-js';
-import PropTypes from '../../../../../../../constants/propTypes';
-import CopyToClipboard from '../../../../../../../components/CopyToClipboard';
+import PropTypes from 'constants/propTypes';
+import CopyToClipboard from 'components/CopyToClipboard';
 
 const IpList = (props) => {
   const {

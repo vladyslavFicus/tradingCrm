@@ -1,4 +1,4 @@
-.back-to-top {
+.BackToTop {
   background-color: #ccc;
   border: none;
   border-radius: 50%;
@@ -19,11 +19,11 @@
     background-color: #333;
   }
 
-  &.is-visible {
+  &--visible {
     transform: translateX(0);
   }
 
-  &.has-changed-position {
+  &--has-changed-position {
     bottom: 65px;
   }
 }
