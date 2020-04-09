@@ -30,7 +30,7 @@ const validate = createValidator({
   priority: ['required', `in:,${priorities.join()}`],
   countries: [`in:,${Object.keys(countryList).join()}`],
   languages: [`in:,${languages.map(({ languageCode }) => languageCode).join()}`],
-  type: ['required', `in:,${ruleTypes.map(({ value }) => value).join()}`],
+  type: [`in:,${ruleTypes.map(({ value }) => value).join()}`],
 }, attributeLabels, false);
 
 class RuleModal extends PureComponent {
