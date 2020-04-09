@@ -29,6 +29,7 @@ class NotificationsFilters extends PureComponent {
     userBranchHierarchy: PropTypes.any.isRequired,
     typesQuery: PropTypes.any.isRequired,
     subtypesQuery: PropTypes.any.isRequired,
+    disabled: PropTypes.bool.isRequired,
   };
 
   initialValues = {
@@ -99,6 +100,7 @@ class NotificationsFilters extends PureComponent {
         data: subtypesData,
         loading: notificationCenterSubtypesLoading,
       },
+      disabled,
     } = this.props;
 
     const operators = get(operatorsData, 'operators.data.content') || [];
@@ -121,7 +123,6 @@ class NotificationsFilters extends PureComponent {
             notificationSubtypes,
             notificationTypes,
           },
-          dirty,
         }) => (
           <Form className="NotificationsGridFilter__form">
             <div className="NotificationsGridFilter__inputs">
@@ -221,7 +222,7 @@ class NotificationsFilters extends PureComponent {
             <div className="NotificationsGridFilter__buttons">
               <Button
                 className="NotificationsGridFilter__button"
-                disabled={isSubmitting || !dirty}
+                disabled={isSubmitting || disabled}
                 onClick={() => this.onHandleReset(handleReset)}
                 type="button"
                 common
@@ -229,7 +230,7 @@ class NotificationsFilters extends PureComponent {
                 {I18n.t('COMMON.RESET')}
               </Button>
               <Button
-                disabled={isSubmitting || !dirty}
+                disabled={isSubmitting || disabled}
                 type="submit"
                 primary
               >

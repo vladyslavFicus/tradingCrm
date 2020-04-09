@@ -19,14 +19,12 @@ class NotificationCenterForm extends PureComponent {
 
   state = {
     selectedTypes: [],
-    pristine: true,
   };
 
   onSubmit = (e) => {
     const { selectedTypes } = this.state;
 
     this.props.onSubmit(selectedTypes);
-    this.setState({ pristine: true });
     this.appliedTypes = selectedTypes;
 
     e.preventDefault();
@@ -35,16 +33,11 @@ class NotificationCenterForm extends PureComponent {
   onChange = (value) => {
     const selectedTypes = !value ? [] : value;
 
-    const pristine = NotificationCenterForm.equalSelectedTypes(
-      selectedTypes,
-      this.appliedTypes || [],
-    );
-
-    this.setState({ selectedTypes, pristine });
+    this.setState({ selectedTypes });
   };
 
   onReset = () => {
-    this.setState({ selectedTypes: [], pristine: true }, () => {
+    this.setState({ selectedTypes: [] }, () => {
       if (this.appliedTypes && this.appliedTypes.length) {
         this.props.onSubmit([]);
       }
@@ -54,7 +47,7 @@ class NotificationCenterForm extends PureComponent {
 
   render() {
     const { className, notificationsTypes } = this.props;
-    const { selectedTypes, pristine } = this.state;
+    const { selectedTypes } = this.state;
 
     return (
       <form
@@ -82,7 +75,6 @@ class NotificationCenterForm extends PureComponent {
           <Button
             className="NotificationCenterForm__button"
             onClick={this.onReset}
-            disabled={pristine && !selectedTypes.length}
             common
           >
             {I18n.t('COMMON.RESET')}
@@ -90,7 +82,6 @@ class NotificationCenterForm extends PureComponent {
           <Button
             className="NotificationCenterForm__button"
             type="submit"
-            disabled={pristine}
             primary
           >
             {I18n.t('COMMON.APPLY')}

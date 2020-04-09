@@ -105,7 +105,7 @@ class Notifications extends PureComponent {
       .filter(i => (filters[i] && Array.isArray(filters[i]) && filters[i].length > 0) || filters[i]).length > 0;
 
     const entities = get(data, 'notificationCenter.data.content', []);
-    const searchLimit = get(data, 'notificationCenter.data.totalElements', 0);
+    const totalEntities = get(data, 'notificationCenter.data.totalElements', 0);
     const isLastPage = get(data, 'notificationCenter.data.last', false);
 
     return (
@@ -124,7 +124,7 @@ class Notifications extends PureComponent {
             )}
           >
             <span className="font-size-20">
-              {entities.length} {I18n.t('NOTIFICATION_CENTER.TITLE')}
+              {totalEntities} {I18n.t('NOTIFICATION_CENTER.TITLE')}
             </span>
           </Placeholder>
         </div>
@@ -139,7 +139,7 @@ class Notifications extends PureComponent {
           <NotificationsGrid
             entities={entities}
             handlePageChanged={this.handlePageChanged}
-            searchLimit={searchLimit}
+            searchLimit={totalEntities}
             isLastPage={isLastPage}
             loading={loading}
           />

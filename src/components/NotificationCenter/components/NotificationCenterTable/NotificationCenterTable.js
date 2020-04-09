@@ -99,57 +99,15 @@ class NotificationCenterTable extends PureComponent {
           withLazyLoad
         >
           <GridColumn
-            header={I18n.t('NOTIFICATION_CENTER.GRID_HEADER.NOTIFICATION_ID')}
-            render={({ uuid }) => (
-              <Uuid
-                uuid={uuid}
-                className={classNames('NotificationCenterTable__text-highlight', 'NotificationCenterTable__uuid')}
-              />
-            )}
-          />
-          <GridColumn
-            header={I18n.t('NOTIFICATION_CENTER.GRID_HEADER.PRIORITY')}
-            render={({ priority }) => priority && (
-              <div
-                className={classNames(
-                  'NotificationCenterTable__text-priority',
-                  `NotificationCenterTable__text-priority--${priority.toLowerCase()}`,
-                  'NotificationCenterTable__text-highlight',
-                )}
-              >
-                {priority.toLowerCase()}
-              </div>
-            )}
-          />
-          <GridColumn
-            header={I18n.t('NOTIFICATION_CENTER.GRID_HEADER.CLIENT')}
-            render={({ client }) => client
-              && <GridPlayerInfo profile={client} mainInfoClassName="NotificationCenterTable__text-highlight" />}
-          />
-          <GridColumn
-            header={I18n.t('NOTIFICATION_CENTER.GRID_HEADER.NOTIFICATION_DATE')}
-            render={({ createdAt }) => {
-              if (!createdAt) {
-                return null;
-              }
-
-              const [date, time] = moment
-                .utc(createdAt)
-                .local()
-                .format('DD.MM.YYYY HH:mm:ss')
-                .split(' ');
-
-              return (
-                <Fragment>
-                  <div className="NotificationCenterTable__text-highlight">{date}</div>
-                  <div className="font-size-11">{time}</div>
-                </Fragment>
-              );
-            }}
-          />
-          <GridColumn
             header={I18n.t('NOTIFICATION_CENTER.GRID_HEADER.NOTIFICATION_TYPE')}
-            render={({ type }) => type && <div className="NotificationCenterTable__text-highlight">{type}</div>}
+            render={({ type, uuid }) => type && (
+              <Fragment>
+                <div>
+                  <span className="NotificationCenterTable__text-highlight">{type}</span>
+                </div>
+                <Uuid uuid={uuid} className="font-size-11" />
+              </Fragment>
+            )}
           />
           <GridColumn
             header={I18n.t('NOTIFICATION_CENTER.GRID_HEADER.NOTIFICATION_TYPE_DETAILS')}
@@ -184,6 +142,46 @@ class NotificationCenterTable extends PureComponent {
                 </Fragment>
               );
             }}
+          />
+          <GridColumn
+            header={I18n.t('NOTIFICATION_CENTER.GRID_HEADER.CLIENT')}
+            render={({ client }) => client
+              && <GridPlayerInfo profile={client} mainInfoClassName="NotificationCenterTable__text-highlight" />}
+          />
+          <GridColumn
+            header={I18n.t('NOTIFICATION_CENTER.GRID_HEADER.NOTIFICATION_DATE')}
+            render={({ createdAt }) => {
+              if (!createdAt) {
+                return null;
+              }
+
+              const [date, time] = moment
+                .utc(createdAt)
+                .local()
+                .format('DD.MM.YYYY HH:mm:ss')
+                .split(' ');
+
+              return (
+                <Fragment>
+                  <div className="NotificationCenterTable__text-highlight">{date}</div>
+                  <div className="font-size-11">{time}</div>
+                </Fragment>
+              );
+            }}
+          />
+          <GridColumn
+            header={I18n.t('NOTIFICATION_CENTER.GRID_HEADER.PRIORITY')}
+            render={({ priority }) => priority && (
+              <div
+                className={classNames(
+                  'NotificationCenterTable__text-priority',
+                  `NotificationCenterTable__text-priority--${priority.toLowerCase()}`,
+                  'NotificationCenterTable__text-highlight',
+                )}
+              >
+                {priority.toLowerCase()}
+              </div>
+            )}
           />
         </Grid>
       </div>

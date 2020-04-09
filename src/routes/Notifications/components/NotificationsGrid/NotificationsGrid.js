@@ -1,8 +1,8 @@
 import React, { Fragment, PureComponent } from 'react';
 import I18n from 'i18n-js';
 import moment from 'moment';
-import { Link } from 'react-router-dom';
 import classNames from 'classnames';
+import { Link } from 'react-router-dom';
 import PropTypes from 'constants/propTypes';
 import Uuid from 'components/Uuid';
 import Grid, { GridColumn } from 'components/Grid';
@@ -39,7 +39,7 @@ class NotificationsGrid extends PureComponent {
           platformType: PropTypes.string,
           amount: PropTypes.string,
           currency: PropTypes.string,
-          login: PropTypes.string,
+          login: PropTypes.number,
         }),
         subtype: PropTypes.string.isRequired,
       }),
@@ -47,76 +47,13 @@ class NotificationsGrid extends PureComponent {
     loading: PropTypes.bool.isRequired,
   };
 
-  renderNotificationId = ({ uuid }) => (
-    <div>
-      <span className="font-weight-700">{ uuid }</span>
-    </div>
-  );
-
-  renderPriority = ({ priority }) => (
-    <div className={classNames(
-      prioritiesColor[priority],
-      'font-weight-700 text-uppercase',
-    )}
-    >
-      {priority}
-    </div>
-  );
-
-  renderAgent = ({ agent }) => (
-    <Choose>
-      <When condition={agent}>
-        <div className="font-weight-700">
-          {agent.fullName}
-        </div>
-        <div className="font-size-11">
-          <MiniProfile id={agent.uuid} type="operator">
-            <Uuid uuid={agent.uuid} />
-          </MiniProfile>
-        </div>
-      </When>
-      <Otherwise>
-        <div>&mdash;</div>
-      </Otherwise>
-    </Choose>
-  );
-
-  renderClient = ({ client }) => (
-    <Choose>
-      <When condition={client}>
-        <Link to={`/clients/${client.uuid}/profile`}>
-          <div className="font-weight-700">
-            {client.fullName}
-          </div>
-          <div className="font-size-11">
-            <MiniProfile id={client.uuid} type="player">
-              <Uuid uuid={client.uuid} />
-            </MiniProfile>
-            {!!client.languageCode && <span> - {client.languageCode}</span>}
-          </div>
-        </Link>
-      </When>
-      <Otherwise>
-        <div>&mdash;</div>
-      </Otherwise>
-    </Choose>
-  );
-
-  renderNotificationDate = ({ createdAt }) => (
+  renderNotificationTypeAndId = ({ type, uuid }) => (
     <Fragment>
-      <div className="font-weight-700">
-        {moment.utc(createdAt).local().format('DD.MM.YYYY')}
+      <div>
+        <span className="font-weight-700">{type}</span>
       </div>
-      <div className="font-size-11">
-        {moment.utc(createdAt).local().format('HH:mm:ss')}
-      </div>
+      <Uuid uuid={uuid} className="font-size-11" />
     </Fragment>
-  );
-
-  renderNotificationType = ({ type }) => (
-    <div>
-      <span className="font-weight-700">{type}</span>
-    </div>
   );
 
   renderNotificationTypeDetails = ({ type, details, subtype }) => (
@@ -145,6 +82,70 @@ class NotificationsGrid extends PureComponent {
     </Fragment>
   );
 
+  renderAgent = ({ agent }) => (
+    <Choose>
+      <When condition={agent}>
+        <div className="font-weight-700">
+          {agent.fullName}
+        </div>
+        <div className="font-size-11">
+          <MiniProfile id={agent.uuid} type="operator">
+            <Uuid uuid={agent.uuid} />
+          </MiniProfile>
+        </div>
+      </When>
+      <Otherwise>
+        <div>&mdash;</div>
+      </Otherwise>
+    </Choose>
+  );
+
+  renderClient = ({ client: { uuid, fullName, languageCode } }) => (
+    <Choose>
+      <When condition={uuid}>
+        <Link
+          className="font-weight-700"
+          to={`/clients/${uuid}/profile`}
+          target="_blank"
+        >
+          {fullName}
+        </Link>
+        <div className="font-size-11">
+          <MiniProfile id={uuid} type="player">
+            <Uuid uuid={uuid} />
+          </MiniProfile>
+          <If condition={languageCode}>
+            <span> - {languageCode}</span>
+          </If>
+        </div>
+      </When>
+      <Otherwise>
+        <div>&mdash;</div>
+      </Otherwise>
+    </Choose>
+  );
+
+  renderPriority = ({ priority }) => (
+    <div className={classNames(
+      prioritiesColor[priority],
+      'font-weight-700 text-uppercase',
+    )}
+    >
+      {priority}
+    </div>
+  );
+
+  renderNotificationDate = ({ createdAt }) => (
+    <Fragment>
+      <div className="font-weight-700">
+        {moment.utc(createdAt).local().format('DD.MM.YYYY')}
+      </div>
+      <div className="font-size-11">
+        {moment.utc(createdAt).local().format('HH:mm:ss')}
+      </div>
+    </Fragment>
+  );
+
   render() {
     const {
       handlePageChanged,
@@ -170,12 +171,12 @@ class NotificationsGrid extends PureComponent {
         }
       >
         <GridColumn
-          header={I18n.t('NOTIFICATION_CENTER.GRID_HEADER.NOTIFICATION_ID')}
-          render={this.renderNotificationId}
+          header={I18n.t('NOTIFICATION_CENTER.GRID_HEADER.NOTIFICATION_TYPE')}
+          render={this.renderNotificationTypeAndId}
         />
         <GridColumn
-          header={I18n.t('NOTIFICATION_CENTER.GRID_HEADER.PRIORITY')}
-          render={this.renderPriority}
+          header={I18n.t('NOTIFICATION_CENTER.GRID_HEADER.NOTIFICATION_TYPE_DETAILS')}
+          render={this.renderNotificationTypeDetails}
         />
         <GridColumn
           header={I18n.t('NOTIFICATION_CENTER.GRID_HEADER.AGENT')}
@@ -190,12 +191,8 @@ class NotificationsGrid extends PureComponent {
           render={this.renderNotificationDate}
         />
         <GridColumn
-          header={I18n.t('NOTIFICATION_CENTER.GRID_HEADER.NOTIFICATION_TYPE')}
-          render={this.renderNotificationType}
-        />
-        <GridColumn
-          header={I18n.t('NOTIFICATION_CENTER.GRID_HEADER.NOTIFICATION_TYPE_DETAILS')}
-          render={this.renderNotificationTypeDetails}
+          header={I18n.t('NOTIFICATION_CENTER.GRID_HEADER.PRIORITY')}
+          render={this.renderPriority}
         />
       </Grid>
     );
