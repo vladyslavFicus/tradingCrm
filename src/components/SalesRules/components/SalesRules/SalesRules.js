@@ -16,6 +16,7 @@ import Uuid from 'components/Uuid';
 import { Button } from 'components/UI';
 import Grid, { GridColumn } from 'components/Grid';
 import Placeholder from 'components/Placeholder';
+import { decodeNullValues } from 'components/Formik/utils';
 import Permissions from 'utils/permissions';
 import ConfirmActionModal from 'components/Modal/ConfirmActionModal';
 import RuleModal from 'components/HierarchyProfileRules/components/RuleModal';
@@ -106,7 +107,7 @@ class SalesRules extends PureComponent {
               ...operatorSpreads.filter(item => item && item.percentage),
             ],
           }],
-          ...rest,
+          ...decodeNullValues(rest),
         },
       },
     );
