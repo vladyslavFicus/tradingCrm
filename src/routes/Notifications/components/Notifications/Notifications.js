@@ -99,11 +99,6 @@ class Notifications extends PureComponent {
     } = this.props;
 
     const filters = get(query, 'filters', {});
-
-    const allowActions = Object
-      .keys(filters)
-      .filter(i => (filters[i] && Array.isArray(filters[i]) && filters[i].length > 0) || filters[i]).length > 0;
-
     const entities = get(data, 'notificationCenter.data.content', []);
     const totalEntities = get(data, 'notificationCenter.data.totalElements', 0);
     const isLastPage = get(data, 'notificationCenter.data.last', false);
@@ -132,7 +127,6 @@ class Notifications extends PureComponent {
           initialValues={filters}
           onSubmit={this.handleFiltersChanged}
           onReset={this.handleFilterReset}
-          disabled={!allowActions}
           countries={countries}
         />
         <div className="card-body">

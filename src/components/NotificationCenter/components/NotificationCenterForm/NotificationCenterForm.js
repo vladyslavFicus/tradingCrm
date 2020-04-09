@@ -75,6 +75,7 @@ class NotificationCenterForm extends PureComponent {
           <Button
             className="NotificationCenterForm__button"
             onClick={this.onReset}
+            disabled={!selectedTypes.length}
             common
           >
             {I18n.t('COMMON.RESET')}
