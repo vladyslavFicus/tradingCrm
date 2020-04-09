@@ -2,6 +2,7 @@ import React, { Fragment, PureComponent } from 'react';
 import { Popover } from 'reactstrap';
 import { get } from 'lodash';
 import { withRequests } from 'apollo';
+import StorageProvider from 'providers/StorageProvider';
 import PropTypes from 'constants/propTypes';
 import NotificationCenterUnreadQuery from './graphql/NotificationCenterUnreadQuery ';
 import NotificationCenterContent from './components/NotificationCenterContent';
@@ -77,7 +78,9 @@ class NotificationCenter extends PureComponent {
           className="NotificationCenter__popover"
           innerClassName="NotificationCenter__popover-inner"
         >
-          <NotificationCenterContent onCloseModal={this.onCloseModal} />
+          <StorageProvider>
+            <NotificationCenterContent onCloseModal={this.onCloseModal} />
+          </StorageProvider>
         </Popover>
       </Fragment>
     );

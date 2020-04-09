@@ -4,6 +4,8 @@ import I18n from 'i18n-js';
 import classNames from 'classnames';
 import { Button } from 'components/UI';
 import Select from 'components/Select';
+import { notificationCenterTypesLabels } from 'constants/notificationCenter';
+import renderLabel from 'utils/renderLabel';
 import './NotificationCenterForm.scss';
 
 class NotificationCenterForm extends PureComponent {
@@ -66,7 +68,7 @@ class NotificationCenterForm extends PureComponent {
           >
             {notificationsTypes.map(value => (
               <option key={value} value={value}>
-                {value[0] + value.slice(1).toLowerCase()}
+                {I18n.t(renderLabel(value, notificationCenterTypesLabels))}
               </option>
             ))}
           </Select>

@@ -2819,6 +2819,12 @@
       "NOTIFICATION_TYPE_DETAILS": "notification type details"
     },
     "TYPES": {
+      "WITHDRAWAL": "Withdrawal",
+      "DEPOSIT": "Deposit",
+      "ACCOUNT": "Account",
+      "KYC": "KYC"
+    },
+    "SUBTYPES": {
       "WITHDRAWAL_REQUEST_STATUS_FINANCE_TO_EXECUTE": "Withdrawal request status finance to execute",
       "WITHDRAWAL_REQUEST_STATUS_DEALING_REVIEW": "Withdrawal request status dealing review",
       "WITHDRAWAL_REQUEST_STATUS_SALES_REVIEW": "Withdrawal request status sales review",
