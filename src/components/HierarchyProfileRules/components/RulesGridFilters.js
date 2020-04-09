@@ -22,9 +22,16 @@ class RulesFilters extends Component {
   static propTypes = {
     onReset: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
-    partners: PropTypes.partnersList.isRequired,
-    operators: PropTypes.operatorsList.isRequired,
+    partners: PropTypes.partnersList,
+    operators: PropTypes.operatorsList,
+    type: PropTypes.string,
   }
+
+  static defaultProps = {
+    type: null,
+    partners: [],
+    operators: [],
+  };
 
   initialValues = {
     createdByOrUuid: '',
@@ -48,6 +55,7 @@ class RulesFilters extends Component {
     const {
       partners,
       operators,
+      type,
     } = this.props;
 
     return (
@@ -97,7 +105,7 @@ class RulesFilters extends Component {
                   </option>
                 ))}
               </Field>
-              <If condition={partners}>
+              <If condition={partners && type !== 'PARTNER'}>
                 <Field
                   name="affiliateId"
                   className={fieldClassNames.MEDIUM}
@@ -114,7 +122,7 @@ class RulesFilters extends Component {
                   ))}
                 </Field>
               </If>
-              <If condition={operators}>
+              <If condition={operators && type !== 'OPERATOR'}>
                 <Field
                   name="operatorUuids"
                   className={fieldClassNames.MEDIUM}

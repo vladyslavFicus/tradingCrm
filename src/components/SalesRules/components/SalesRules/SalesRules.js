@@ -63,6 +63,11 @@ class SalesRules extends PureComponent {
       }),
     }).isRequired,
     permission: PropTypes.permission.isRequired,
+    type: PropTypes.string,
+  };
+
+  static defaultProps = {
+    type: null,
   };
 
   handleFiltersChanged = (filters = {}) => this.props.history.replace({ query: { filters } });
@@ -362,6 +367,7 @@ class SalesRules extends PureComponent {
       partners: {
         data: partnersData,
       },
+      type,
     } = this.props;
 
     const entities = get(data, 'rules.data') || [];
@@ -413,6 +419,7 @@ class SalesRules extends PureComponent {
           countries={countries}
           partners={partners}
           operators={operators}
+          type={type}
         />
 
         <div className="card-body">
