@@ -227,7 +227,7 @@ class PartnerProfileLayout extends Component {
         <div className="card no-borders">
           <Switch>
             <Route path={`${path}/profile`} component={PartnerEdit} />
-            <Route path={`${path}/sales-rules`} component={SalesRules} />
+            <Route path={`${path}/sales-rules`} render={props => <SalesRules {...props} type="PARTNER" />} />
             <Route path={`${path}/feed`} component={Feed} />
             <Redirect to={`${url}/profile`} />
           </Switch>

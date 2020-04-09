@@ -255,7 +255,7 @@ class OperatorProfileLayout extends Component {
           <Switch>
             <Route path={`${path}/profile`} component={OperatorEdit} />
             <If condition={isSales(userType)}>
-              <Route path={`${path}/sales-rules`} component={SalesRules} />
+              <Route path={`${path}/sales-rules`} render={props => <SalesRules {...props} type="OPERATOR" />} />
             </If>
             <Route path={`${path}/feed`} component={Feed} />
             <Redirect to={`${url}/profile`} />
