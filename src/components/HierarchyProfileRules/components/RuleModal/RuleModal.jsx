@@ -212,6 +212,7 @@ class RuleModal extends PureComponent {
                   label={I18n.t(attributeLabels.country)}
                   component={FormikSelectField}
                   disabled={isSubmitting}
+                  searchable
                   multiple
                   placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT_MULTISELECT')}
                 >

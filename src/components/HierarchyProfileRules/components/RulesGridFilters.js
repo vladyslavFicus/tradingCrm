@@ -130,7 +130,6 @@ class RulesFilters extends Component {
                   label={I18n.t('RULES.FILTERS.OPERATOR')}
                   component={FormikSelectField}
                   searchable
-                  withAnyOption
                   multiple
                 >
                   {operators.map(({ uuid, fullName }) => (
