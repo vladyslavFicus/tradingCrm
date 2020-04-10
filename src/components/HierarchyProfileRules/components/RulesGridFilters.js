@@ -73,7 +73,7 @@ class RulesFilters extends Component {
               <Field
                 name="createdByOrUuid"
                 className={fieldClassNames.MEDIUM}
-                placeholder={I18n.t('RULES.FILTERS.OPERATOR_OR_RULE')}
+                placeholder={I18n.t('RULES.FILTERS.RULE')}
                 label={I18n.t(filterLabels.searchValue)}
                 component={FormikInputField}
               />

@@ -2694,7 +2694,7 @@
   },
   "RULES": {
     "FILTERS": {
-      "OPERATOR_OR_RULE": "Operator UUID, Rule UUID",
+      "RULE": "Rule UUID",
       "OPERATOR": "Operator",
       "PARTNER": "Partner"
     }

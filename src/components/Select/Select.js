@@ -243,7 +243,7 @@ class Select extends PureComponent {
           selectedOptions: [...originalSelectedOptions],
         }, () => {
           if (!shallowEqual(previousValue, newValue)) {
-            newValue = Array.isArray(newValue) && !newValue.length ? null : newValue;
+            newValue = Array.isArray(newValue) && !newValue.length ? '' : newValue;
 
             if (multiple) {
               this.props.onChange(newValue);
