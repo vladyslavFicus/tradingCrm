@@ -1,12 +1,19 @@
 import React, { PureComponent } from 'react';
-import { Field, reduxForm } from 'redux-form';
+import { connect } from 'react-redux';
+import { Field, reduxForm, getFormValues } from 'redux-form';
 import I18n from 'i18n-js';
+import { getBrand } from 'config';
 import PropTypes from 'constants/propTypes';
+import { platformTypes } from 'constants/platformTypes';
 import Regulated from 'components/Regulated';
 import { InputField, MultiInputField, NasSelectField, CheckBox } from 'components/ReduxForm';
 import { createValidator, translateLabels } from 'utils/validator';
+import { getAvailablePlatformTypes } from 'utils/tradingAccount';
 import countries from 'utils/countryList';
-import { personalFormAttributeLabels as attributeLabels } from './constants';
+import {
+  personalFormAttributeLabels as attributeLabels,
+  autoCreationOptions,
+} from './constants';
 import { affiliateTypes, affiliateTypeLabels, satelliteOptions } from '../../../../../constants';
 
 class PersonalForm extends PureComponent {
@@ -19,6 +26,9 @@ class PersonalForm extends PureComponent {
     initialValues: PropTypes.shape({
       affiliateType: PropTypes.string.isRequired,
     }).isRequired,
+    currentValues: PropTypes.shape({
+      tradingAccountAutocreation: PropTypes.string,
+    }),
     serverError: PropTypes.string.isRequired,
   };
 
@@ -26,11 +36,13 @@ class PersonalForm extends PureComponent {
     handleSubmit: null,
     pristine: false,
     submitting: false,
+    currentValues: {},
   };
 
   render() {
     const {
       initialValues: { affiliateType },
+      currentValues,
       handleSubmit,
       serverError,
       submitting,
@@ -146,6 +158,64 @@ class PersonalForm extends PureComponent {
               }}
             />
           </div>
+        </div>
+        <div className="row">
+          <Regulated>
+            <div className="col-xl-4">
+              <Field
+                name="tradingAccountAutocreation"
+                label={I18n.t('PARTNERS.PROFILE.PERSONAL_FORM.LABELS.GENERATE_TRADING_ACCOUNT')}
+                placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
+                component={NasSelectField}
+                withAnyOption={false}
+                searchable={false}
+                position="vertical"
+                showErrorMessage
+              >
+                {Object.keys(autoCreationOptions).map(key => (
+                  <option key={key} value={autoCreationOptions[key].value}>
+                    {I18n.t(autoCreationOptions[key].label)}
+                  </option>
+                ))}
+              </Field>
+            </div>
+
+            <If condition={currentValues.tradingAccountAutocreation === 'ALLOW'}>
+              <div className="col-xl-4">
+                <Field
+                  name="tradingAccountType"
+                  label={I18n.t('PARTNERS.PROFILE.PERSONAL_FORM.LABELS.CHOOSE_TRADING_ACCOUNT_PLATFORM')}
+                  placeholder={I18n.t('COMMON.SELECT_OPTION.PLATFORM')}
+                  component={NasSelectField}
+                  withAnyOption={false}
+                  searchable={false}
+                  position="vertical"
+                  showErrorMessage
+                >
+                  {getAvailablePlatformTypes().map(({ label, value }) => (
+                    <option key={label} value={value}>{label}</option>
+                  ))}
+                </Field>
+              </div>
+
+              <div className="col-xl-4">
+                <Field
+                  name="tradingAccountCurrency"
+                  label={I18n.t('PARTNERS.PROFILE.PERSONAL_FORM.LABELS.CHOOSE_TRADING_ACCOUNT_CURRENCY')}
+                  placeholder={I18n.t('COMMON.SELECT_OPTION.CURRENCY')}
+                  component={NasSelectField}
+                  withAnyOption={false}
+                  searchable={false}
+                  position="vertical"
+                  showErrorMessage
+                >
+                  {getBrand().currencies.supported.map(currency => (
+                    <option key={currency} value={currency}>{currency}</option>
+                  ))}
+                </Field>
+              </div>
+            </If>
+          </Regulated>
           <If condition={affiliateType !== affiliateTypes.NULLPOINT}>
             <Field
               name="public"
@@ -250,8 +320,12 @@ class PersonalForm extends PureComponent {
   }
 }
 
-export default reduxForm({
-  form: 'updatePartnerProfilePersonal',
+const FORM_NAME = 'updatePartnerProfilePersonal';
+
+export default connect(state => ({
+  currentValues: getFormValues(FORM_NAME)(state),
+}))(reduxForm({
+  form: FORM_NAME,
   validate: createValidator({
     firstName: ['required', 'string'],
     lastName: ['required', 'string'],
@@ -264,6 +338,9 @@ export default reduxForm({
     public: 'boolean',
     cellexpert: 'boolean',
     allowedIpAddresses: 'listedIP\'s',
+    tradingAccountAutocreation: [`in:,${Object.keys(autoCreationOptions).join()}`],
+    tradingAccountType: [`in:,${platformTypes.map(type => type.value).join()}`],
+    tradingAccountCurrency: [`in:,${getBrand().currencies.supported.join()}`],
   }, translateLabels(attributeLabels), false),
   enableReinitialize: true,
-})(PersonalForm);
+})(PersonalForm));

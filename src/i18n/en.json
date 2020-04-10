@@ -593,6 +593,8 @@
       "PERIOD": "-- Select period --",
       "COUNTRY": "-- Select country --",
       "STATUS": "-- Select status --",
+      "PLATFORM": "-- Select platform --",
+      "CURRENCY": "-- Select currency --",
       "UPLOAD_ACTION": "-- Select upload action --",
       "NO_ITEMS": "-- No items --",
       "DEFAULT_MULTISELECT": "-- Select one or multiple options --",
@@ -1960,7 +1962,15 @@
           "WHITE_LISTED_IP": "White listed IPs",
           "RESTRICTED_COUNTRIES": "Restricted countries",
           "CELLEXPERT_CHECKBOX": "Allow to to transmit data to CellExpert",
-          "PUBLIC_CHECKBOX": "Allow to create Clients through public API"
+          "PUBLIC_CHECKBOX": "Allow to create Clients through public API",
+          "GENERATE_TRADING_ACCOUNT": "Allow to generate Trading Account",
+          "CHOOSE_TRADING_ACCOUNT_PLATFORM": "Choose trading account platform",
+          "CHOOSE_TRADING_ACCOUNT_CURRENCY": "Choose trading account currency"
+        },
+        "AUTOCREATION_TRADING_ACCOUNT_OPTIONS": {
+          "ALLOW": "Allow",
+          "DENIED": "Denied",
+          "DEPENDS_ON_BRAND": "Depends on brand"
         }
       },
       "HIERARCHY": {

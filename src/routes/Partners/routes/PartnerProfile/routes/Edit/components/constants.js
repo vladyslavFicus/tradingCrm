@@ -17,8 +17,24 @@ const personalFormAttributeLabels = {
   cellexpert: 'PARTNERS.PROFILE.PERSONAL_FORM.CELLEXPERT_CHECKBOX',
 };
 
+const autoCreationOptions = {
+  ALLOW: {
+    label: 'PARTNERS.PROFILE.PERSONAL_FORM.AUTOCREATION_TRADING_ACCOUNT_OPTIONS.ALLOW',
+    value: 'ALLOW',
+  },
+  DENIED: {
+    label: 'PARTNERS.PROFILE.PERSONAL_FORM.AUTOCREATION_TRADING_ACCOUNT_OPTIONS.DENIED',
+    value: 'DENIED',
+  },
+  DEPENDS_ON_BRAND_COFIG: {
+    label: 'PARTNERS.PROFILE.PERSONAL_FORM.AUTOCREATION_TRADING_ACCOUNT_OPTIONS.DEPENDS_ON_BRAND',
+    value: 'DEPENDS_ON_BRAND_COFIG',
+  },
+};
+
 export {
   attributeLabels,
+  autoCreationOptions,
   personalFormAttributeLabels,
 };
 

@@ -12,6 +12,9 @@ const updatePartner = gql`mutation updatePartner(
   $externalAffiliateId: String
   $public: Boolean
   $cellexpert: Boolean
+  $tradingAccountAutocreation: String
+  $tradingAccountType: String
+  $tradingAccountCurrency: String
   $satellite: String
 ) {
   partner {
@@ -27,6 +30,9 @@ const updatePartner = gql`mutation updatePartner(
       externalAffiliateId: $externalAffiliateId
       public: $public
       cellexpert: $cellexpert
+      tradingAccountAutocreation: $tradingAccountAutocreation
+      tradingAccountType: $tradingAccountType
+      tradingAccountCurrency: $tradingAccountCurrency
       satellite: $satellite
     ) {
       data {
@@ -44,6 +50,9 @@ const updatePartner = gql`mutation updatePartner(
         cellexpert
         createdBy
         createdAt
+        tradingAccountAutocreation
+        tradingAccountType
+        tradingAccountCurrency
         statusChangeAuthor
         statusChangeDate
         statusReason
