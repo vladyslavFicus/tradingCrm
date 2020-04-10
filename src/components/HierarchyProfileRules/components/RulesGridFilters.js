@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import PropTypes from 'constants/propTypes';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
 import { createValidator } from 'utils/validator';
@@ -14,18 +14,31 @@ const validate = createValidator({
   searchBy: 'string',
   country: `in:,${Object.keys(countryList).join()}`,
   language: 'string',
+  operators: 'string',
+  partners: 'string',
 }, filterLabels, false);
 
 class RulesFilters extends Component {
   static propTypes = {
     onReset: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
+    partners: PropTypes.partnersList,
+    operators: PropTypes.operatorsList,
+    type: PropTypes.string,
   }
+
+  static defaultProps = {
+    type: null,
+    partners: [],
+    operators: [],
+  };
 
   initialValues = {
     createdByOrUuid: '',
     language: '',
     country: '',
+    operatorUuids: '',
+    affiliateId: '',
   };
 
   onHandleSubmit = (values, { setSubmitting }) => {
@@ -39,6 +52,12 @@ class RulesFilters extends Component {
   };
 
   render() {
+    const {
+      partners,
+      operators,
+      type,
+    } = this.props;
+
     return (
       <Formik
         initialValues={this.initialValues}
@@ -54,7 +73,7 @@ class RulesFilters extends Component {
               <Field
                 name="createdByOrUuid"
                 className={fieldClassNames.MEDIUM}
-                placeholder={I18n.t('RULES.FILTERS.OPERATOR_OR_RULE')}
+                placeholder={I18n.t('RULES.FILTERS.RULE')}
                 label={I18n.t(filterLabels.searchValue)}
                 component={FormikInputField}
               />
@@ -86,6 +105,40 @@ class RulesFilters extends Component {
                   </option>
                 ))}
               </Field>
+              <If condition={partners && type !== 'PARTNER'}>
+                <Field
+                  name="affiliateId"
+                  className={fieldClassNames.MEDIUM}
+                  placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
+                  label={I18n.t('RULES.FILTERS.PARTNER')}
+                  component={FormikSelectField}
+                  searchable
+                  withAnyOption
+                >
+                  {partners.map(({ uuid, fullName }) => (
+                    <option key={uuid} value={uuid}>
+                      {I18n.t(fullName)}
+                    </option>
+                  ))}
+                </Field>
+              </If>
+              <If condition={operators && type !== 'OPERATOR'}>
+                <Field
+                  name="operatorUuids"
+                  className={fieldClassNames.MEDIUM}
+                  placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
+                  label={I18n.t('RULES.FILTERS.OPERATOR')}
+                  component={FormikSelectField}
+                  searchable
+                  multiple
+                >
+                  {operators.map(({ uuid, fullName }) => (
+                    <option key={uuid} value={uuid}>
+                      {I18n.t(fullName)}
+                    </option>
+                  ))}
+                </Field>
+              </If>
             </div>
 
             <div className="filter__form-buttons">

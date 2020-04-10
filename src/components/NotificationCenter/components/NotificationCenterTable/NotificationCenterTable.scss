@@ -1,0 +1,55 @@
+.NotificationCenterTable {
+  font: 400 14px/19px 'Open Sans', Arial, sans-serif;
+
+  &__row {
+    &--high {
+      background-color: #fff8f7;
+    }
+
+    &--medium {
+      background-color: #fffcf2;
+    }
+
+    &--low {
+      background-color: #f8fffa;
+    }
+  }
+
+  &__text-highlight {
+    font-weight: bold;
+  }
+
+  &__row--read &__text-highlight {
+    font-weight: normal;
+  }
+
+  &__text-priority {
+    text-transform: capitalize;
+
+    &--high {
+      color: #FB434A;
+    }
+
+    &--medium {
+      color: #F39834;
+    }
+
+    &--low {
+      color: #46BE8A;
+    }
+  }
+
+  &__uuid {
+    white-space: nowrap;
+  }
+
+  .GridHeaderCell--with-multiselect,
+  .GridRowCell--with-checkbox {
+    padding-left: 55px;
+  }
+
+  .GridCheckbox {
+    top: 7px;
+    left: 20px;
+  }
+}

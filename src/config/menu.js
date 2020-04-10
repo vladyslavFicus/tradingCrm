@@ -81,6 +81,10 @@ const sidebarTopMenu = [{
   icon: 'icon-callbacks',
   url: '/callbacks/list',
 }, {
+  label: 'SIDEBAR.TOP_MENU.NOTIFICATIONS',
+  icon: 'icon-notifications',
+  url: '/notifications',
+}, {
   label: 'SIDEBAR.TOP_MENU.SETTINGS',
   icon: 'icon-settings',
   isOpen: false,
@@ -112,6 +116,7 @@ const operatorProfileTabs = [
 const partnerProfileTabs = [
   { label: 'OPERATOR_PROFILE.TABS.PROFILE', url: '/partners/:id/profile' },
   { label: 'OPERATOR_PROFILE.TABS.FEED', url: '/partners/:id/feed' },
+  { label: 'OPERATOR_PROFILE.TABS.SALES_RULES', url: '/partners/:id/sales-rules' },
 ];
 
 export {

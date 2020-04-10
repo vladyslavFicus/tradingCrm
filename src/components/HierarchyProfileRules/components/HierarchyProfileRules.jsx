@@ -1,12 +1,12 @@
 import React, { Component, Fragment } from 'react';
 import I18n from 'i18n-js';
 import { get } from 'lodash';
-import { SubmissionError } from 'redux-form';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames';
 import permissions from 'config/permissions';
 import { branchTypes } from 'constants/hierarchyTypes';
 import PropTypes from 'constants/propTypes';
+import { decodeNullValues } from 'components/Formik/utils';
 import { actionRuleTypes, deskTypes } from 'constants/rules';
 import { withPermission } from 'providers/PermissionsProvider';
 import PermissionContent from 'components/PermissionContent';
@@ -66,7 +66,7 @@ const HierarchyProfileRules = (title, deskType, branchType) => {
       } = this.props;
 
       ruleModal.show({
-        onSubmit: values => this.handleAddRule(values),
+        onSubmit: (values, setErrors) => this.handleAddRule(values, setErrors),
         deskType,
       });
     };
@@ -107,7 +107,7 @@ const HierarchyProfileRules = (title, deskType, branchType) => {
       return this.renderButtonAddRule(data);
     };
 
-    handleAddRule = async (variables) => {
+    handleAddRule = async (variables, setErrors) => {
       const {
         notify,
         createRule,
@@ -130,7 +130,7 @@ const HierarchyProfileRules = (title, deskType, branchType) => {
                 parentBranch: id,
                 ruleType,
               }],
-              ...data,
+              ...decodeNullValues(data),
             },
           },
         );
@@ -142,7 +142,7 @@ const HierarchyProfileRules = (title, deskType, branchType) => {
                 parentBranch: id,
                 ruleType: actionRuleTypes.ROUND_ROBIN,
               }],
-              ...variables,
+              ...decodeNullValues(variables),
             },
           },
         );
@@ -177,7 +177,7 @@ const HierarchyProfileRules = (title, deskType, branchType) => {
           );
         }
 
-        throw new SubmissionError({ _error });
+        setErrors({ submit: _error });
       } else {
         await refetch();
         ruleModal.hide();

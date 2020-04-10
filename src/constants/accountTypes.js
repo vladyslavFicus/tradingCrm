@@ -29,7 +29,7 @@ const leverageStatusesColor = {
   [leverageStatuses.PENDING]: 'color-info',
   [leverageStatuses.COMPLETED]: 'color-success',
   [leverageStatuses.FAILED]: 'color-danger',
-  [leverageStatuses.COMPLETED]: 'color-warning',
+  [leverageStatuses.CANCELED]: 'color-warning',
   [leverageStatuses.REJECTED]: 'color-danger',
 };
 

@@ -203,6 +203,11 @@ class FormikDateRangePicker extends PureComponent {
       initialStartDate,
       endDatePlaceholderText,
       startDatePlaceholderText,
+      form: { values },
+      periodKeys: {
+        start: startKey,
+        end: endKey,
+      },
       ...rest
     } = this.props;
 
@@ -212,7 +217,11 @@ class FormikDateRangePicker extends PureComponent {
       ]),
     };
 
-    const { startDate, endDate, focusedInput } = this.state;
+    const {
+      endDate,
+      startDate,
+      focusedInput,
+    } = this.state;
 
     return (
       <div
@@ -235,8 +244,8 @@ class FormikDateRangePicker extends PureComponent {
           onDatesChange={this.onDatesChange}
           onFocusChange={this.onFocusChange}
           focusedInput={focusedInput}
-          startDate={startDate || initialStartDate || null}
-          endDate={endDate || initialEndDate || null}
+          startDate={(values[startKey] && startDate) || initialStartDate || null}
+          endDate={(values[endKey] && endDate) || initialEndDate || null}
           navPrev={<i className="fa fa-angle-left" />}
           navNext={<i className="fa fa-angle-right" />}
           customInputIcon={<i className="icon icon-calendar" />}

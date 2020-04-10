@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import I18n from 'i18n-js';
 import ClipboardContainer from 'react-copy-to-clipboard';
 import classNames from 'classnames';
 import './CopyToClipboard.scss';
 
-class CopyToClipboard extends Component {
+class CopyToClipboard extends PureComponent {
   static propTypes = {
     className: PropTypes.string,
     text: PropTypes.string.isRequired,

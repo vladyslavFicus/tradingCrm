@@ -1,10 +1,11 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { CSSTransition } from 'react-transition-group';
-import PropTypes from '../../constants/propTypes';
-import BrandItem from './BrandItem';
-import Greeting from '../Greeting';
+import PropTypes from 'constants/propTypes';
+import Greeting from 'components/Greeting';
+import BrandItem from './components/BrandItem';
+import './Brands.scss';
 
-class Brands extends Component {
+class Brands extends PureComponent {
   static propTypes = {
     brands: PropTypes.arrayOf(PropTypes.brand).isRequired,
     onSelect: PropTypes.func.isRequired,
@@ -27,15 +28,15 @@ class Brands extends Component {
     const { startAnimation } = this.state;
 
     return (
-      <CSSTransition classNames="brands" in={startAnimation} timeout={0}>
-        <div className="brands">
-          <div className="brands__title">
+      <CSSTransition classNames="Brands" in={startAnimation} timeout={0}>
+        <div className="Brands">
+          <div className="Brands__title">
             <Greeting />
           </div>
-          <div className="brands__subtitle">
+          <div className="Brands__subtitle">
             Please, choose the brand
           </div>
-          <div className="brands__list">
+          <div className="Brands__list">
             {brands.map(brand => (
               <BrandItem
                 key={brand.id}

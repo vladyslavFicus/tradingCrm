@@ -40,15 +40,15 @@ class Badge extends PureComponent {
     } = this.props;
 
     return (
-      <div className="badge">
-        <div className="badge__children">{children}</div>
+      <div className="Badge">
+        <div className="Badge__children">{children}</div>
         <div
-          className={classNames('badge__item', {
-            'badge__item--info': info,
-            'badge__item--warning': warning,
-            'badge__item--danger': danger,
-            'badge__item--success': success,
-            'badge__item--center': center,
+          className={classNames('Badge__item', {
+            'Badge__item--info': info,
+            'Badge__item--warning': warning,
+            'Badge__item--danger': danger,
+            'Badge__item--success': success,
+            'Badge__item--center': center,
           })}
           style={{ backgroundColor, color }}
         >

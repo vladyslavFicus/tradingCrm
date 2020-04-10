@@ -1,11 +1,12 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { CSSTransition } from 'react-transition-group';
-import PropTypes from '../../constants/propTypes';
-import Greeting from '../Greeting';
-import DepartmentItem from './DepartmentItem';
-import { BrandItem } from '../Brands';
+import PropTypes from 'constants/propTypes';
+import Greeting from 'components/Greeting';
+import BrandItem from 'components/Brands/components/BrandItem';
+import DepartmentItem from './components/DepartmentItem';
+import './Departments.scss';
 
-class Departments extends Component {
+class Departments extends PureComponent {
   static propTypes = {
     departments: PropTypes.arrayOf(PropTypes.department).isRequired,
     brands: PropTypes.arrayOf(PropTypes.brand),
@@ -38,31 +39,31 @@ class Departments extends Component {
     const { startAnimation } = this.state;
 
     return (
-      <CSSTransition classNames="departments" in={startAnimation} timeout={0}>
-        <div className="departments">
+      <CSSTransition classNames="Departments" in={startAnimation} timeout={0}>
+        <div className="Departments">
           <Choose>
             <When condition={brands.length <= 1}>
-              <div className="departments__title">
+              <div className="Departments__title">
                 <Greeting />
               </div>
             </When>
           </Choose>
 
           <If condition={brand}>
-            <div className="departments__brand">
+            <div className="Departments__brand">
               <BrandItem isActive {...brand} />
             </div>
           </If>
 
           <Choose>
             <When condition={brands.length > 1}>
-              <div className="departments__back">
+              <div className="Departments__back">
                 <span onClick={handleOnBackClick}>All brands</span>
               </div>
             </When>
           </Choose>
 
-          <div className="departments__list">
+          <div className="Departments__list">
             {departments.map(department => (
               <DepartmentItem
                 key={department.name}

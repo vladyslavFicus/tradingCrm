@@ -931,10 +931,28 @@ PropTypes.response = content => PropTypes.shape({
   error: PropTypes.object,
 });
 PropTypes.query = content => PropTypes.shape({
-  ...content,
+  data: PropTypes.shape(content),
   loading: PropTypes.bool,
   loadMore: PropTypes.func,
   refetch: PropTypes.func,
+});
+PropTypes.notificationCenter = PropTypes.shape({
+  read: PropTypes.bool,
+  uuid: PropTypes.string,
+  priority: PropTypes.string,
+  client: PropTypes.shape({
+    uuid: PropTypes.string,
+    firstName: PropTypes.string,
+    lastName: PropTypes.string,
+    languageCode: PropTypes.string,
+  }),
+  createdAt: PropTypes.string,
+  type: PropTypes.string,
+  subtype: PropTypes.string,
+  details: PropTypes.shape({
+    amount: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    currency: PropTypes.string,
+  }),
 });
 
 export default PropTypes;

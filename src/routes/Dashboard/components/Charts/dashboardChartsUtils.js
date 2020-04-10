@@ -38,7 +38,18 @@ const defaultAdditionalStatistics = (fromName, toName) => [
   },
 ];
 
-export const initialDateQueryParamsUTC = (fromName, toName) => ({
+const initialDateQueryParams = (fromName, toName) => ({
+  [fromName]: moment()
+    .subtract(6, 'days')
+    .startOf('day')
+    .format(),
+  [toName]: moment()
+    .add(1, 'day')
+    .startOf('day')
+    .format(),
+});
+
+const initialDateQueryParamsUTC = (fromName, toName) => ({
   [fromName]: moment()
     .subtract(6, 'days')
     .startOf('day')
@@ -52,7 +63,7 @@ export const initialDateQueryParamsUTC = (fromName, toName) => ({
 });
 
 export const initialPaymentQueryParams = (from, to, args) => ({
-  ...initialDateQueryParamsUTC(from, to),
+  ...initialDateQueryParams(from, to),
   detalization: detalization.PER_DAYS,
   additionalStatistics: defaultAdditionalStatistics('dateFrom', 'dateTo'),
   ...args,

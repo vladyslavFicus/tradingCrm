@@ -31,7 +31,8 @@
       "KYC_DOCUMENTS": "KYC documents",
       "BRAND_CONFIG_UPDATE": "Brand config update",
       "BRAND_CONFIG_CREATE": "Brand config create",
-      "EMAIL_TEMPLATES": "Email templates"
+      "EMAIL_TEMPLATES": "Email templates",
+      "NOTIFICATIONS": "Notifications"
     },
     "BOTTOM_MENU": {
       "SUPPORT": "Support",
@@ -477,6 +478,7 @@
     "STATUS": "Status",
     "RESET": "Reset",
     "APPLY": "Apply",
+    "MARK_AS_READ": "Mark as read",
     "EXPORT": "Export",
     "FROM": "from",
     "EMAIL": "Email",
@@ -591,6 +593,8 @@
       "PERIOD": "-- Select period --",
       "COUNTRY": "-- Select country --",
       "STATUS": "-- Select status --",
+      "PLATFORM": "-- Select platform --",
+      "CURRENCY": "-- Select currency --",
       "UPLOAD_ACTION": "-- Select upload action --",
       "NO_ITEMS": "-- No items --",
       "DEFAULT_MULTISELECT": "-- Select one or multiple options --",
@@ -1958,7 +1962,15 @@
           "WHITE_LISTED_IP": "White listed IPs",
           "RESTRICTED_COUNTRIES": "Restricted countries",
           "CELLEXPERT_CHECKBOX": "Allow to to transmit data to CellExpert",
-          "PUBLIC_CHECKBOX": "Allow to create Clients through public API"
+          "PUBLIC_CHECKBOX": "Allow to create Clients through public API",
+          "GENERATE_TRADING_ACCOUNT": "Allow to generate Trading Account",
+          "CHOOSE_TRADING_ACCOUNT_PLATFORM": "Choose trading account platform",
+          "CHOOSE_TRADING_ACCOUNT_CURRENCY": "Choose trading account currency"
+        },
+        "AUTOCREATION_TRADING_ACCOUNT_OPTIONS": {
+          "ALLOW": "Allow",
+          "DENIED": "Denied",
+          "DEPENDS_ON_BRAND": "Depends on brand"
         }
       },
       "HIERARCHY": {
@@ -2682,7 +2694,9 @@
   },
   "RULES": {
     "FILTERS": {
-      "OPERATOR_OR_RULE": "Operator UUID, Rule UUID"
+      "RULE": "Rule UUID",
+      "OPERATOR": "Operator",
+      "PARTNER": "Partner"
     }
   },
   "OFFICES": {
@@ -2792,6 +2806,62 @@
   "SALES_RULES": {
     "TITLE": "Sales rules"
   },
+  "NOTIFICATION_CENTER": {
+    "TITLE": "Notifications",
+    "FILTERS": {
+      "PLACEHOLDERS": {
+        "NOTIFICATION_OR_PLAYER": "Notification ID, Player UUID"
+      },
+      "LABELS": {
+        "AGENTS": "Agents",
+        "CREATION_RANGE": "Notification creation date range",
+        "NOTIFICATION_TYPE": "Notification type",
+        "NOTIFICATION_TYPE_DETAILS": "Notification type details"
+      }
+    },
+    "GRID_HEADER": {
+      "NOTIFICATION_ID": "notification id",
+      "PRIORITY": "priority",
+      "AGENT": "agent",
+      "CLIENT": "client",
+      "NOTIFICATION_DATE": "notification date",
+      "NOTIFICATION_TYPE": "notification type",
+      "NOTIFICATION_TYPE_DETAILS": "notification type details"
+    },
+    "TYPES": {
+      "WITHDRAWAL": "Withdrawal",
+      "DEPOSIT": "Deposit",
+      "ACCOUNT": "Account",
+      "KYC": "KYC"
+    },
+    "SUBTYPES": {
+      "WITHDRAWAL_REQUEST_STATUS_FINANCE_TO_EXECUTE": "Withdrawal request status finance to execute",
+      "WITHDRAWAL_REQUEST_STATUS_DEALING_REVIEW": "Withdrawal request status dealing review",
+      "WITHDRAWAL_REQUEST_STATUS_SALES_REVIEW": "Withdrawal request status sales review",
+      "ACCOUNT_PASSWORD_RESET_REQUEST": "Account password reset request",
+      "WITHDRAWAL_REQUEST_CANCELLED": "Withdrawal request cancelled",
+      "WITHDRAWAL_REQUEST_APPROVED": "Withdrawal request approved",
+      "WITHDRAWAL_REQUEST_ATTEMPT": "Withdrawal request attempt",
+      "WITHDRAWAL_REQUEST_CREATED": "Withdrawal request created",
+      "ACCOUNT_PASSWORD_UPDATED": "Account password updated",
+      "KYC_DOCUMENT_UPLOADED": "Kyc document uploaded",
+      "KYC_DOCUMENT_EXPIRED": "Kyc document expired",
+      "ACCOUNT_MARGIN_CALL": "Account margin call",
+      "DEPOSIT_SUCCESSFUL": "Deposit successful",
+      "ACCOUNT_ARCHIVED": "Account archived",
+      "ACCOUNT_DISABLED": "Account disabled",
+      "DEPOSIT_CREATED": " Deposit created",
+      "ACCOUNT_CREATED": "Account created",
+      "DEPOSIT_FAILED": "Deposit failed",
+      "KYC_APPROVED": "Kyc approved"
+    },
+    "TOOLTIP": {
+      "HEADLINE": "Notifications found",
+      "SUBLINE": "Notifications selected",
+      "MAX_ITEM_SELECTED": "Notifications selected",
+      "UPDATE_FAILED": "Failed update"
+    }
+  },
   "HIERARCHY": {
     "ERROR_LOADING_BRANCHES": "Error occured while loading branches",
     "TREE": {
@@ -2822,7 +2892,9 @@
         "SOURCE": "Source",
         "SOURCES": "Sources",
         "PARTNER": "Partner",
-        "PARTNERS": "Partners"
+        "PARTNERS": "Partners",
+        "OPERATOR": "Operator",
+        "OPERATORS": "Operators"
       },
       "GRID_HEADER": {
         "RULE": "Rule",
@@ -2832,7 +2904,9 @@
         "AFFILIATE": "Affiliate",
         "PARTNER": "Partner",
         "PRIORITY": "Priority",
-        "ACTION": "Action"
+        "ACTION": "Action",
+        "OPERATOR": "Operator",
+        "RATIO": "Ratio"
       },
       "MODAL": {
         "HEADER": "Create new rule",
@@ -2847,7 +2921,9 @@
           "AMOUNT": "Deposit amount range",
           "DISTRIBUTION": "Client distribution",
           "PARTNER": "Partner",
-          "SOURCE": "Source"
+          "SOURCE": "Source",
+          "OPERATOR": "Operator",
+          "RATIO": "Ratio"
         }
       },
       "DELETE_MODAL": {
@@ -3205,7 +3281,7 @@
   "SOCIAL_TRADING": {
     "TITLE": "Social trading",
     "SUBSCRIBERS": {
-      "TITLE": "Subscribers",
+      "TITLE": "Client's Subscriptions",
       "GRID": {
         "HEADERS": {
           "SUBSCRIBER": "Subscriber",
@@ -3233,7 +3309,7 @@
       }
     },
     "PROVIDERS": {
-      "TITLE": "Providers",
+      "TITLE": "Client is Providing",
       "GRID": {
         "HEADERS": {
           "PROVIDER": "Provider",
@@ -3254,7 +3330,7 @@
       }
     },
     "SUBSCRIPTION_ON_PROVIDER": {
-      "TITLE": "Subscriptions on providers",
+      "TITLE": "Subscribers",
       "GRID": {
         "HEADERS": {
           "SUBSCRIPTION": "Subscription",

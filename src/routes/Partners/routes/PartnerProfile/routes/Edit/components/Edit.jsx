@@ -62,6 +62,9 @@ class View extends Component {
     public: allowedPublicApi,
     phone,
     email,
+    tradingAccountAutocreation,
+    tradingAccountType,
+    tradingAccountCurrency,
     ...submittedPermissions
   }) => {
     const {
@@ -83,6 +86,11 @@ class View extends Component {
         phone,
         email,
         public: allowedPublicApi,
+        tradingAccountAutocreation,
+        ...(tradingAccountAutocreation === 'ALLOW' && {
+          tradingAccountType,
+          tradingAccountCurrency,
+        }),
         permission: {
           forbiddenCountries: forbiddenCountries || [],
           ...submittedPermissions,

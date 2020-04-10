@@ -51,8 +51,8 @@ const createRuleRetention = gql`mutation createRuleRetention(
   $countries: [String],
   $languages: [String],
   $actions: [RuleActionsInputType]!,
-  $depositAmountFrom: String!,
-  $depositAmountTo: String!,
+  $depositAmountFrom: Int!,
+  $depositAmountTo: Int!,
 ) {
   rules {
     createRuleRetention (

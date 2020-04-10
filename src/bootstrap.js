@@ -14,10 +14,6 @@ export default () => {
   }
 
   if (window) {
-    window.showDebugPanel = false;
-    window.reduxLocked = false;
-    window.reduxLockedQueue = [];
-    window.activeConnections = [];
     window.app = {
       brandId: null,
     };
@@ -25,12 +21,6 @@ export default () => {
     if (typeof window.location.origin === 'undefined') {
       window.location.origin = `${window.location.protocol}//${window.location.host}`;
     }
-
-    window.dispatchAction = (action) => {
-      if (window.isFrame) {
-        window.parent.postMessage(JSON.stringify(action), window.location.origin);
-      }
-    };
   }
 
   // Set brand for application instance

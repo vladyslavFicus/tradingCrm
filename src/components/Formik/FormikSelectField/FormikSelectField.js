@@ -27,6 +27,7 @@ class FormikSelectField extends Component {
         PropTypes.string,
         PropTypes.number,
         PropTypes.object,
+        PropTypes.array,
       ]),
     }).isRequired,
     form: PropTypes.shape({

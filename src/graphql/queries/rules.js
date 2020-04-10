@@ -28,6 +28,14 @@ const getRules = gql`query getRules(
         parentBranch
         parentUser
         ruleType
+        operatorSpreads {
+          id,
+          operator {
+            fullName,
+            uuid,
+          },
+          percentage,
+        },
       }
       uuid
       countries

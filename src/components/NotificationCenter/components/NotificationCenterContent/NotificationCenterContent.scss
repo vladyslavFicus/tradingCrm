@@ -1,0 +1,35 @@
+.NotificationCenterContent {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+
+  &__header {
+    padding: 24px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+  }
+
+  &__headline {
+    font: 600 20px/27px 'Open Sans', Arial, sans-serif;
+    color: #333333;
+  }
+
+  &__subline {
+    font: 600 14px/19px 'Open Sans', Arial, sans-serif;
+    color: #5187bd;
+  }
+
+  &__form {
+    flex-shrink: 0;
+    padding: 35px 20px 30px;
+    background-color: #f0f2f7;
+  }
+
+  &__table {
+    padding: 25px 0;
+    overflow: auto;
+    flex-grow: 1;
+  }
+}

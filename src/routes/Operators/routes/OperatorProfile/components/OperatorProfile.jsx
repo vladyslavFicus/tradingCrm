@@ -12,10 +12,10 @@ import { isSales } from 'constants/hierarchyTypes';
 import ChangePasswordModal from 'modals/ChangePasswordModal';
 import HideDetails from 'components/HideDetails';
 import Route from 'components/Route';
+import SalesRules from 'components/SalesRules';
 import Permissions from 'utils/permissions';
 import OperatorEdit from '../routes/Edit';
 import Feed from '../routes/Feed';
-import SalesRules from '../routes/SalesRules';
 import Information from './Information';
 import Header from './Header';
 
@@ -255,7 +255,7 @@ class OperatorProfileLayout extends Component {
           <Switch>
             <Route path={`${path}/profile`} component={OperatorEdit} />
             <If condition={isSales(userType)}>
-              <Route path={`${path}/sales-rules`} component={SalesRules} />
+              <Route path={`${path}/sales-rules`} render={props => <SalesRules {...props} type="OPERATOR" />} />
             </If>
             <Route path={`${path}/feed`} component={Feed} />
             <Redirect to={`${url}/profile`} />

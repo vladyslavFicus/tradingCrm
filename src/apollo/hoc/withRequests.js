@@ -15,8 +15,10 @@ const loadMore = ({ fetchMore }) => {
     if (!loading) {
       loading = true;
 
+      const variables = typeof page === 'number' ? { page } : page;
+
       await fetchMore({
-        variables: { page },
+        variables,
         updateQuery: (prev, { fetchMoreResult }) => deepMerge(prev, fetchMoreResult),
       });
 
