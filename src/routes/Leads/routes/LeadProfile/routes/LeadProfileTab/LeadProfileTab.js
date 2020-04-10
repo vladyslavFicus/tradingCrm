@@ -1,4 +1,3 @@
-/* eslint-disable */ 
 import React, { PureComponent } from 'react';
 import { compose } from 'react-apollo';
 import I18n from 'i18n-js';
@@ -40,26 +39,26 @@ class Profile extends PureComponent {
   state = {
     submitError: null,
   };
-  
+
   phoneAccessDenied = () => {
     const {
       auth: {
         department,
       },
     } = this.props;
-    
+
     return getBrand().privatePhoneByDepartment.includes(department);
   };
 
   handleUpdateLead = async (variables) => {
-    const { notify, updateLead, leadProfile  } = this.props;
+    const { notify, updateLead, leadProfile } = this.props;
     const { phone, mobile } = get(leadProfile, 'data.leadProfile.data') || {};
     const requestData = this.phoneAccessDenied()
       ? { ...variables, phone, mobile }
       : variables;
 
     const { data: { leads: { update: { error } } } } = await updateLead({
-      variables: requestData
+      variables: requestData,
     });
 
     if (error) {
