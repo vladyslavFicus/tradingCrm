@@ -14,7 +14,7 @@ const LeadNotesTabQuery = ({
     query={REQUEST}
     variables={{
       targetUUID: id,
-      size: 20,
+      size: 5,
       page: 0,
       ...(query ? query.filters : {}),
     }}

@@ -4,6 +4,7 @@ import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
 import Button from 'components/UI/Button';
 import FormikDateRangePicker from 'components/Formik/FormikDateRangePicker';
+import './LeadNotesTabFilter.scss';
 
 class LeadNotesTabFilter extends PureComponent {
   static propTypes = {
@@ -22,7 +23,7 @@ class LeadNotesTabFilter extends PureComponent {
         onSubmit={handleApplyFilters}
         onReset={handleApplyFilters}
       >
-        {({ dirty, isValid, handleReset }) => (
+        {({ dirty, handleReset }) => (
           <Form className="LeadNotesTabFilter">
             <Field
               className="LeadNotesTabFilter__field"
@@ -32,19 +33,20 @@ class LeadNotesTabFilter extends PureComponent {
                 start: 'changedAtFrom',
                 end: 'changedAtTo',
               }}
+              withTime // TODO: it should be removed after FormikDateRangePicker if fixed
               anchorDirection="left"
             />
             <div className="LeadNotesTabFilter__button-group">
               <Button
                 className="LeadNotesTabFilter__button"
                 onClick={handleReset}
+                disabled={!dirty}
                 common
               >
                 {I18n.t('COMMON.RESET')}
               </Button>
               <Button
                 className="LeadNotesTabFilter__button"
-                disabled={!isValid || !dirty}
                 type="submit"
                 primary
               >
