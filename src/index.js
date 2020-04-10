@@ -1,23 +1,26 @@
+// # remove - Redux part that must be removed after reduxForm will be removed
+
 import 'styles/old/vendor.scss';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { createStore, combineReducers } from 'redux'; // # remove
+import { reducer as formReducer } from 'redux-form'; // # remove
 import { getBackofficeBrand } from 'config';
 import bootstrap from './bootstrap';
-import createStore from './store/createStore';
-import AppContainer from './App';
+import App from './App';
 
 bootstrap();
 
-createStore({}, (store) => {
-  const MOUNT_NODE = document.getElementById('root');
+const store = createStore(combineReducers({ form: formReducer })); // #remove
 
-  if (!getBackofficeBrand()) {
-    ReactDOM.render(
-      'Brand not found in cookie: brand=BRAND_NAME or in process.env.NAS_BRAND or in local brand configuration',
-      MOUNT_NODE,
-    );
-  } else {
-    ReactDOM.render(<AppContainer store={store} />, MOUNT_NODE);
-  }
-});
+const MOUNT_NODE = document.getElementById('root');
+
+if (!getBackofficeBrand()) {
+  ReactDOM.render(
+    'Brand not found in cookie: brand=BRAND_NAME or in process.env.NAS_BRAND or in local brand configuration',
+    MOUNT_NODE,
+  );
+} else {
+  ReactDOM.render(<App store={store} />, MOUNT_NODE); // # remove -> store
+}
