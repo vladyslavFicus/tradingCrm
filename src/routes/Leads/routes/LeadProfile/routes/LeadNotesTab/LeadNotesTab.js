@@ -13,7 +13,9 @@ class LeadNotesTab extends PureComponent {
   static propTypes = {
     ...PropTypes.router,
     notes: PropTypes.query({
-      notes: PropTypes.pageable(PropTypes.object),
+      notes: PropTypes.shape({
+        data: PropTypes.pageable(PropTypes.object),
+      }),
     }).isRequired,
   };
 
