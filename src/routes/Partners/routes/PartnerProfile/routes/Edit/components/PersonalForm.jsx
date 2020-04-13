@@ -51,6 +51,8 @@ class PersonalForm extends PureComponent {
       disabled,
     } = this.props;
 
+    const availablePlatformTypes = getAvailablePlatformTypes();
+
     return (
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="row margin-bottom-20">
@@ -189,10 +191,11 @@ class PersonalForm extends PureComponent {
                   component={NasSelectField}
                   withAnyOption={false}
                   searchable={false}
+                  disabled={availablePlatformTypes.length === 1}
                   position="vertical"
                   showErrorMessage
                 >
-                  {getAvailablePlatformTypes().map(({ label, value }) => (
+                  {availablePlatformTypes.map(({ label, value }) => (
                     <option key={label} value={value}>{label}</option>
                   ))}
                 </Field>
