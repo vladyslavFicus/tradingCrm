@@ -7,7 +7,6 @@ import './GridRow.scss';
 
 class GridRow extends PureComponent {
   static propTypes = {
-    gridData: PropTypes.arrayOf(PropTypes.object).isRequired,
     gridRowData: PropTypes.object,
     gridColumns: PropTypes.arrayOf(PropTypes.object),
     rowsClassNames: PropTypes.oneOfType([PropTypes.string, PropTypes.func])
@@ -28,7 +27,6 @@ class GridRow extends PureComponent {
 
   handleCheckboxChange = () => {
     const {
-      gridData,
       handleSelectRow,
       allRowsSelected,
       touchedRowsIds,
@@ -44,11 +42,9 @@ class GridRow extends PureComponent {
       touchedRows.splice(index, 1);
     }
 
-    const selectedAll = gridData.length === touchedRows.length;
-
     handleSelectRow(
-      allRowsSelected || selectedAll,
-      selectedAll && !allRowsSelected ? [] : touchedRows,
+      allRowsSelected,
+      touchedRows,
     );
   };
 
