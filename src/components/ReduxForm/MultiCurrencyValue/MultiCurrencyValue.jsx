@@ -5,7 +5,6 @@ import { get } from 'lodash';
 import MultiCurrencyField from './MultiCurrencyField';
 import { floatNormalize } from '../../../utils/inputNormalize';
 import MultiCurrencyTooltip from '../../MultiCurrencyTooltip';
-import preventDefault from '../../../utils/preventDefault';
 
 class MultiCurrencyValue extends Component {
   static propTypes = {
@@ -179,7 +178,7 @@ class MultiCurrencyValue extends Component {
           showErrorMessage={showErrorMessage}
           disabled={disabled || loading}
           currency={baseCurrency}
-          onBlur={preventDefault}
+          onBlur={e => e.preventDefault()}
           onChange={this.handleChangeBaseCurrencyAmount}
           inputAddon={<i className="icon icon-currencies multi-currency-icon" />}
           inputAddonPosition="right"
