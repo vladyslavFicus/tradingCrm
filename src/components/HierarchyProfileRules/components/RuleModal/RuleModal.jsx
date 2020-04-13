@@ -256,8 +256,9 @@ class RuleModal extends PureComponent {
                     disabled={isSubmitting || partnersList.length === 0}
                     multiple
                     placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT_MULTISELECT')}
+                    searchable
                   >
-                    {partnersList.map(partner => (
+                    {partnersList.sort((a, b) => a.fullName.localeCompare(b.fullName)).map(partner => (
                       <option key={partner.uuid} value={partner.uuid}>
                         {partner.fullName}
                       </option>
@@ -292,6 +293,7 @@ class RuleModal extends PureComponent {
                                 className="col-7"
                                 disabled={isSubmitting}
                                 placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
+                                searchable
                               >
                                 {operatorsList
                                   .filter(({ hierarchy: { userType } }) => isSales(userType))
