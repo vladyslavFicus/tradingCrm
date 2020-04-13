@@ -57,7 +57,7 @@ class RuleModal extends PureComponent {
   };
 
   onHandleSubmit = (values, { setSubmitting, setErrors }) => {
-    if (values.operatorSpreads.reduce((a, b) => a + (b.percentage || 0), 0) !== 100) {
+    if (this.props.withOperatorSpreads && values.operatorSpreads.reduce((a, b) => a + (b.percentage || 0), 0) !== 100) {
       this.setState({ percentageLimitError: true });
     } else {
       this.setState({ percentageLimitError: false });
