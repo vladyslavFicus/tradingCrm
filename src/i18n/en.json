@@ -718,6 +718,8 @@
     "BULK_UPDATE_FAILED": "Bulk update failed",
     "CHOOSE_OPERATOR": "Choose an operator",
     "ADD_MANAGER_TO_BRANCH": "+ Add Manager",
+    "CHANGE_BRANCH_MANAGER": "Change Manager",
+    "REMOVE_BRANCH_MANAGER": "Remove Manager",
     "AQUISITION_STATUSES": {
       "SALES": "Sales",
       "RETENTION": "Retention"
@@ -2107,18 +2109,39 @@
         "ERROR": "Failed to create new office"
       }
     },
-    "ADD_OPERATOR_TO_BRANCH": {
-      "TITLE": "Add operator",
+    "ADD_BRANCH_MANAGER_MODAL": {
+      "ADD_TITLE": "Add manager",
+      "CHANGE_TITLE": "Change manager",
       "ADD_TO_TEAM": "You are about to add Manager to the Team «%{branch}»",
       "ADD_TO_DESK": "You are about to add Manager to the Desk «%{branch}». He will be able to see and manage all teams and operators inside this desk",
       "ADD_TO_OFFICE": "You are about to add Manager to the Office «%{branch}». He will be able to see and manage all desks, teams and operators inside this office",
+      "CHANGE_TO_TEAM": "You are about to change Manager for the Team «%{branch}»",
+      "CHANGE_TO_DESK": "You are about to change Manager for the Desk «%{branch}». He will be able to see and manage all teams and operators inside this desk",
+      "CHANGE_TO_OFFICE": "You are about to change Manager for the Office «%{branch}». He will be able to see and manage all desks, teams and operators inside this office",
+      "REMOVE_MANAGER": "You are about to remove Manager from branch",
+      "NO_OPERATORS_WARNING": "Here is no operators pre-assigned to current branch",
       "NOTIFICATION": {
         "FAILED": {
-          "OPERATOR_ADDED": "Operation failed"
+          "TITLE": "Operation failed",
+          "ADDITION_FAILED": "Unable to add manager to current branch, operator should be pre-assigned to it"
         },
         "SUCCEED": {
-          "OPERATOR_ADDED": "Operator added successfully",
-          "OPERATOR_ADDED_DESC": "Operator %{operator} added to %{branchType} %{branchName}"
+          "TITLE": "Manager added successfully",
+          "DESC": "Operator %{operatorName} added to %{branchType} %{branchName} as manager"
+        }
+      }
+    },
+    "REMOVE_BRANCH_MANAGER_MODAL": {
+      "TITLE": "Confirm to remove manager",
+      "DESCRIPTION": "Are you sure you want to remove manager from current branch?",
+      "NOTIFICATIONS": {
+        "FAILED": {
+          "TITLE": "Remove manager",
+          "DESC": "Operation was failed for some reason"
+        },
+        "SUCCEED": {
+          "TITLE": "Remove manager",
+          "DESC": "Manager was successfully removed"
         }
       }
     },
@@ -3346,5 +3369,9 @@
   },
   "WARNINGS": {
     "CARDHOLDER_INVALID": "Cardholder invalid"
+  },
+  "BRANCH_MANAGER_INFO": {
+    "MANAGED_BY": "Managed by",
+    "NO_MANAGER": "Current branch does not have a manager"
   }
 }

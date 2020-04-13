@@ -35,6 +35,8 @@ export default {
     GET_BRANCH_BY_ID: 'hierarchy;GET;/branch/{uuid}',
     CREATE_BRANCH: 'hierarchy-updater;POST;/branch',
     UPDATE_USER_BRANCH: 'hierarchy-updater;PUT;/user/{uuid}/relationship/parent-branch',
+    ADD_BRAND_MANAGER: 'hierarchy-updater;POST;/branch/{uuid}/manager',
+    REMOVE_BRAND_MANAGER: 'hierarchy-updater;DELETE;/branch/{uuid}/manager',
   },
   SALES_RULES: {
     GET_RULES: 'rules-profile;POST;/search',

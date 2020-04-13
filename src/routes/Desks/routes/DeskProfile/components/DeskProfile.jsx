@@ -1,15 +1,15 @@
 import React from 'react';
 import { get } from 'lodash';
 import { Switch } from 'react-router-dom';
+import PropTypes from 'constants/propTypes';
 import { branchTypes } from 'constants/hierarchyTypes';
+import { deskTypes } from 'constants/rules';
+import NotFound from 'routes/NotFound';
 import Route from 'components/Route';
 import Tabs from 'components/Tabs';
 import HierarchyProfileRules from 'components/HierarchyProfileRules';
-import NotFound from 'routes/NotFound';
-import PropTypes from 'constants/propTypes';
-import { deskTypes } from 'constants/rules';
+import BranchHeader from 'components/BranchHeader';
 import deskProfileTabs from './constants';
-import Header from './Header';
 
 const RulesRetention = HierarchyProfileRules('DESKS.TABS.RULES.TITLE', deskTypes.RETENTION, branchTypes.DESK);
 const RulesSales = HierarchyProfileRules('DESKS.TABS.RULES.TITLE', deskTypes.SALES, branchTypes.DESK);
@@ -32,8 +32,9 @@ const DeskProfile = ({
   return (
     <div className="profile">
       <div className="profile__info">
-        <Header
-          data={data}
+        <BranchHeader
+          branchData={data}
+          branchId={params.id}
           loading={loading}
         />
       </div>
