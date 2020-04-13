@@ -26,7 +26,7 @@ class BrandsView extends Component {
   };
 
   componentDidMount() {
-    setTimeout(() => this.setState({ loading: false }), 500);
+    this.timerID = setTimeout(() => this.setState({ loading: false }), 500);
   }
 
   componentDidUpdate() {
@@ -36,7 +36,15 @@ class BrandsView extends Component {
       return this.handleSelectDepartment(brand.brand, departments[0].id);
     }
 
+    if (step === 3) {
+      return null;
+    }
+
     return loading === true ? this.removePreloader() : null;
+  }
+
+  componentWillUnmount() {
+    clearTimeout(this.timerID);
   }
 
   removePreloader = () => {
@@ -63,42 +71,45 @@ class BrandsView extends Component {
     }
   };
 
-  handleSelectDepartment = async (brand, department) => {
+  handleSelectDepartment = (brand, department) => {
     const { departmentsByBrand, history } = this.props;
 
-    const {
-      data: {
-        authorization: {
-          chooseDepartment: {
-            data: {
-              token,
-              uuid,
+    // Should be covered as callback because this method called from componentDidUpdate several times and make logout
+    this.setState({ step: 3, loading: true }, async () => {
+      const {
+        data: {
+          authorization: {
+            chooseDepartment: {
+              data: {
+                token,
+                uuid,
+              },
+              error,
             },
-            error,
           },
         },
-      },
-    } = await this.props.chooseDepartmentMutation({
-      variables: {
-        brandId: brand,
-        department,
-        uuid: this.state.uuid,
-      },
-    });
-
-    if (!error) {
-      this.props.storage.set('token', token);
-      this.props.storage.set('auth', {
-        department,
-        role: departmentsByBrand[brand][department],
-        uuid,
+      } = await this.props.chooseDepartmentMutation({
+        variables: {
+          brandId: brand,
+          department,
+          uuid: this.state.uuid,
+        },
       });
 
-      // This function need to refresh window.app object to get new data from token
-      setBrandIdByUserToken();
-    }
+      if (!error) {
+        this.props.storage.set('token', token);
+        this.props.storage.set('auth', {
+          department,
+          role: departmentsByBrand[brand][department],
+          uuid,
+        });
 
-    return history.push('/dashboard');
+        // This function need to refresh window.app object to get new data from token
+        setBrandIdByUserToken();
+      }
+
+      history.push('/dashboard');
+    });
   };
 
   handleOnBackClick = () => {

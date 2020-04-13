@@ -17,9 +17,13 @@ class Preloader extends React.Component {
       if (nextProps.isVisible) {
         this.setState({ display: 'block' });
       } else {
-        setTimeout(() => this.setState({ display: 'none' }), 200);
+        this.timerID = setTimeout(() => this.setState({ display: 'none' }), 200);
       }
     }
+  }
+
+  componentWillUnmount() {
+    clearTimeout(this.timerID);
   }
 
   render() {
