@@ -8,7 +8,6 @@ import FilterItem from './FilterItem';
 import { InputField, SelectField, DateTimeField, NasSelectField, RangeGroup } from '../ReduxForm';
 import { TYPES } from './constants';
 import AvailableFiltersSelect from './FiltersSelect';
-import { actionCreators } from './reduxModule';
 import { mapFilter, getCurrentFilters } from './utils';
 
 const TYPES_COMPONENTS = {
@@ -288,8 +287,5 @@ export default (options) => {
     selectedFilters: state.dynamicFilters && state.dynamicFilters[options.form]
       ? state.dynamicFilters[options.form]
       : [],
-  }), {
-    addItem: actionCreators.addItem,
-    removeItem: actionCreators.removeItem,
-  })(Form);
+  }))(Form);
 };
