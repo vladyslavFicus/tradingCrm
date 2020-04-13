@@ -8,6 +8,7 @@ import PropTypes from 'constants/propTypes';
 import { createValidator } from 'utils/validator';
 import countryList from 'utils/countryList';
 import { Button } from 'components/UI';
+import { isSales } from 'constants/hierarchyTypes';
 import RangeGroup from 'components/RangeGroup';
 import {
   FormikInputField,
@@ -292,19 +293,21 @@ class RuleModal extends PureComponent {
                                 disabled={isSubmitting}
                                 placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
                               >
-                                {operatorsList.map(({ uuid, fullName }) => (
-                                  <option
-                                    key={uuid}
-                                    value={uuid}
-                                    className={
-                                      classNames('select-block__options-item', {
-                                        'RuleModal--is-disabled': selectedOperators.indexOf(uuid) !== -1,
-                                      })
-                                    }
-                                  >
-                                    {fullName}
-                                  </option>
-                                ))
+                                {operatorsList
+                                  .filter(({ hierarchy: { userType } }) => isSales(userType))
+                                  .map(({ uuid, fullName }) => (
+                                    <option
+                                      key={uuid}
+                                      value={uuid}
+                                      className={
+                                        classNames('select-block__options-item', {
+                                          'RuleModal--is-disabled': selectedOperators.indexOf(uuid) !== -1,
+                                        })
+                                      }
+                                    >
+                                      {fullName}
+                                    </option>
+                                  ))
                                 }
                               </Field>
                               <Field

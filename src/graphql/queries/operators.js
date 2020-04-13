@@ -24,11 +24,15 @@ const operatorsQuery = gql`query getOperators(
       totalElements
       size
       last
-        content {
+      content {
+        uuid
+        fullName
+        operatorStatus
+        hierarchy {
           uuid
-          fullName
-          operatorStatus
+          userType
         }
+      }
     }
     error {
       error
