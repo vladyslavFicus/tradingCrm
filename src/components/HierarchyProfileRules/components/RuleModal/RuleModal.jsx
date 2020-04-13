@@ -52,10 +52,18 @@ class RuleModal extends PureComponent {
 
   state = {
     selectedOperators: [],
+    percentageLimitError: false,
   };
 
   onHandleSubmit = (values, { setSubmitting, setErrors }) => {
-    this.props.onSubmit(values, setErrors);
+    if (values.operatorSpreads.reduce((a, b) => a + (b.percentage || 0), 0) !== 100) {
+      this.setState({ percentageLimitError: true });
+    } else {
+      this.setState({ percentageLimitError: false });
+
+      this.props.onSubmit(values, setErrors);
+    }
+
     setSubmitting(false);
   };
 
@@ -82,7 +90,10 @@ class RuleModal extends PureComponent {
 
     const partnersList = get(partners, 'partners.data.content', []);
     const operatorsList = get(operators, 'operators.data.content', []);
-    const { selectedOperators } = this.state;
+    const {
+      selectedOperators,
+      percentageLimitError,
+    } = this.state;
 
     return (
       <Modal
@@ -303,6 +314,11 @@ class RuleModal extends PureComponent {
                                 label={index === 0 ? I18n.t(attributeLabels.ratio) : ''}
                                 disabled={isSubmitting || !operatorSpreads[index]}
                                 component={FormikInputField}
+                                className={
+                                  classNames({
+                                    'input--has-error': percentageLimitError,
+                                  })
+                                }
                               />
                               <If condition={selectedOperators.length > 0 && selectedOperators.length !== index}>
                                 <Button
@@ -325,6 +341,13 @@ class RuleModal extends PureComponent {
                         </Fragment>
                       )}
                     />
+                    <If condition={percentageLimitError}>
+                      <div className="RuleModal__percentage-error color-danger">
+                        <div className="col-7">
+                          {I18n.t('HIERARCHY.PROFILE_RULE_TAB.MODAL.PERCENTAGE_LIMIT_ERROR')}
+                        </div>
+                      </div>
+                    </If>
                   </div>
                 </If>
               </ModalBody>
