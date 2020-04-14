@@ -8,6 +8,7 @@ const getRules = gql`query getRules(
   $name: String,
   $type: RuleTypeEnum,
   $parentId: String,
+  $branchUuid: String,
 ) {
   rules (
     uuid: $uuid,
@@ -17,6 +18,7 @@ const getRules = gql`query getRules(
     name: $name,
     type: $type,
     parentId: $parentId,
+    branchUuid: $branchUuid,
   ) {
     error {
       error
