@@ -4,18 +4,19 @@ import { useFormikContext } from 'formik';
 import DateRangePicker from 'components/DateRangePicker';
 
 const FormikDateRangePicker = ({ periodKeys, ...props }) => {
-  const { values: ctxValues, setFieldValue } = useFormikContext();
+  const { values: formValues, setFieldValue } = useFormikContext();
 
   const { start: startKey, end: endKey } = periodKeys;
 
   return (
     <DateRangePicker
-      values={[ctxValues[startKey], ctxValues[endKey]]}
+      {...props}
       setValues={(values) => {
+        console.log(values);
         setFieldValue([startKey], values[0]);
         setFieldValue([endKey], values[1]);
       }}
-      {...props}
+      values={[formValues[startKey], formValues[endKey]]}
     />
   );
 };

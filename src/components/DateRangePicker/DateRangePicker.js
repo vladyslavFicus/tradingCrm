@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import I18n from 'i18n-js';
+import moment from 'moment';
 import { omit } from 'lodash';
 import classNames from 'classnames';
 import { isSameDay } from 'react-dates/lib';
@@ -59,36 +60,28 @@ class DateRangePicker extends PureComponent {
     isOutsideRange: () => false,
   };
 
+  static getDerivedStateFromProps({ values: [startDate, endDate] }) {
+    return {
+      startDate: startDate ? moment(startDate) : null,
+      endDate: endDate ? moment(endDate) : null,
+    };
+  }
+
   state = {
     focusedInput: null,
     startDate: null,
     endDate: null,
   };
 
-  componentDidUpdate({ values: prevValues }) {
-    const { values } = this.props;
-
-    const { startDate, endDate } = this.state;
-
-    if (values[0] !== prevValues[0] || values[1] !== prevValues[1]) {
-      this.setState({ // eslint-disable-line
-        startDate: values[0] ? startDate : null,
-        endDate: values[1] ? endDate : null,
-      });
-    }
-  }
-
   onFocusChange = focusedInput => this.setState({ focusedInput });
 
   onDatesChange = ({ startDate, endDate }) => {
     const { setValues, dateFormat } = this.props;
 
-    this.setState({ startDate, endDate }, () => {
-      setValues([
-        startDate && startDate.format(dateFormat),
-        endDate && endDate.format(dateFormat),
-      ]);
-    });
+    setValues([
+      startDate && startDate.format(dateFormat),
+      endDate && endDate.format(dateFormat),
+    ]);
   };
 
   renderDatePresets = () => {
