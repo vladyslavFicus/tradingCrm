@@ -2947,7 +2947,8 @@
           "SOURCE": "Source",
           "OPERATOR": "Operator",
           "RATIO": "Ratio"
-        }
+        },
+        "PERCENTAGE_LIMIT_ERROR": "Sum of ratios should be equal to 100%. Please, change ratios correspondinly."
       },
       "DELETE_MODAL": {
         "HEADER": "Delete confirmation",

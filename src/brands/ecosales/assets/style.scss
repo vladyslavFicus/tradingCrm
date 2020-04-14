@@ -25,7 +25,7 @@
     }
   }
 
-  .brands {
+  .Brands {
     &__title {
       color: #154b98;
     }
@@ -49,7 +49,7 @@
     }
   }
 
-  .departments {
+  .Departments {
     &__back {
       color: #154b98;
 
@@ -61,7 +61,7 @@
     &__title {
       color: #154b98;
     }
-    
+
     &__item {
       background-color: rgba(21, 75, 152, 0.9);
       border: solid 1px #ffffff;
@@ -78,14 +78,14 @@
     }
   }
 
-  .copyrights {
+  .Copyrights {
     color: #177212;
   }
 }
 
 
 // ================ Redefine other styles ================ //
-.header,
+.Header,
 .sidebar {
   background-color: #154b98;
 }

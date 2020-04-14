@@ -116,6 +116,9 @@ class View extends Component {
       profile: {
         data: {
           public: allowedPublicApi,
+          tradingAccountAutocreation,
+          tradingAccountCurrency,
+          tradingAccountType,
           externalAffiliateId,
           affiliateType,
           cellexpert,
@@ -142,6 +145,9 @@ class View extends Component {
           <div className="card-body">
             <PersonalForm
               initialValues={{
+                tradingAccountAutocreation,
+                tradingAccountCurrency,
+                tradingAccountType,
                 externalAffiliateId,
                 allowedIpAddresses,
                 forbiddenCountries,

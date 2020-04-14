@@ -61,14 +61,14 @@ export default (Component, type, branchType) => compose(
       options: ({
         match: {
           params: {
-            id: parentId,
+            id: branchUuid,
           },
         },
         location: { query },
       }) => ({
         variables: {
           ...query && query.filters,
-          parentId,
+          branchUuid,
         },
       }),
       name: 'rules',
@@ -77,14 +77,14 @@ export default (Component, type, branchType) => compose(
       options: ({
         match: {
           params: {
-            id: parentId,
+            id: branchUuid,
           },
         },
         location: { query },
       }) => ({
         variables: {
           ...query && query.filters,
-          parentId,
+          branchUuid,
         },
       }),
       name: 'rules',
