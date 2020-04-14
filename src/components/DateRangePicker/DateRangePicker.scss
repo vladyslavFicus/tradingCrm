@@ -1,4 +1,6 @@
-.FormikDateRangePicker {
+.DateRangePicker {
+  width: 250px;
+
   &__label {
     font-size: 15px;
     font-weight: 600;
@@ -48,41 +50,50 @@
   /*
     DateRange library stylization
   */
-  & .DateRangePickerInput {
+  .DateRangePickerInput {
     height: 40px;
-    transition: border-color 0.2s ease;
+    align-items: stretch;
+    transition: 0.2s ease;
 
     &:hover {
       border-color: #7aaae1;
-
-      & .DateRangePickerInput {
-        &_calendarIcon {
-          border-color: #7aaae1;
-          color: #9b9b9b;
-        }
-      }
     }
 
-    &_calendarIcon {
-      border-left: 1px solid #cfcfcf;
-      border-radius: 0 3px 3px 0;
-      color: #afafaf;
-      margin-right: 0;
-      text-align: center;
-      transition: border-color 0.1s ease, color 0.1s ease;
-      height: 38px;
-      width: 40px;
+    &:hover .DateRangePickerInput_calendarIcon {
+      border-color: #7aaae1;
+      color: #9b9b9b;
     }
   }
 
-  & .DateInput_input {
+  .DateRangePickerInput_calendarIcon {
+    width: 40px;
+    margin: 0 0 0 auto;
+    border-left: 1px solid #cfcfcf;
+    border-radius: 0 3px 3px 0;
+    text-align: center;
+    color: #afafaf;
+    transition: 0.1s;
+  }
+
+  .DateInput {
+    background: pink;
+    flex-grow: 1;
+  }
+
+  .DateInput_input {
+    height: 100%;
     border-color: #cfcfcf;
+    cursor: pointer;
+  }
+
+  .DateRangePickerInput_arrow {
+    display: flex;
+    align-items: center;
   }
 }
 
-
 // # Modifiers
-.FormikDateRangePicker {
+.DateRangePicker {
   &--focused {
     & .DateRangePickerInput {
       border-color: #4990e2;
@@ -97,7 +108,7 @@
   &__presets {
     &-item {
       &--active {
-        background-image: linear-gradient(270deg,#25bdee,#4a90e2);
+        background-image: linear-gradient(270deg, #25bdee, #4a90e2);
         border: none;
         color: #fff;
         padding-bottom: 7px;

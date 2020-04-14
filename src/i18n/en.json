@@ -2088,6 +2088,7 @@
   },
   "DATE_PICKER": {
     "PERIOD_RESETS": {
+      "TODAY": "Today",
       "PREVIOUS_WEEK": "Previous week",
       "THIS_WEEK": "This week",
       "PREVIOUS_MONTH": "Previous month",
