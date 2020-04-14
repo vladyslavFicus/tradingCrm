@@ -2,9 +2,6 @@ import {
   statusMapper,
   statusesColor,
   statusesLabels,
-  withdrawStatuses,
-  withdrawStatusesLabels,
-  withdrawStatusesColors,
 } from 'constants/payment';
 import renderLabel from '../renderLabel';
 
@@ -27,14 +24,5 @@ export const getTradingStatusProps = (status) => {
     status: statusName,
     label: renderLabel(statusName, statusesLabels),
     color: statusesColor[statusName],
-  };
-};
-
-export const getWithdrawStatusProps = (status) => {
-  if (!status || !withdrawStatuses[status]) return null;
-
-  return {
-    label: withdrawStatusesLabels[status],
-    color: withdrawStatusesColors[status],
   };
 };

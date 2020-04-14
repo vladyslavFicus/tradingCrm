@@ -286,21 +286,33 @@ const initiatorsLabels = {
 };
 
 const withdrawStatuses = keyMirror({
+  CREATED: null,
   DEALING_REVIEW: null,
   SALES_REVIEW: null,
   FINANCE_TO_EXECUTE: null,
+  CANCELED: null,
+  REJECTED: null,
+  EXECUTED: null,
 });
 
 const withdrawStatusesLabels = {
+  [withdrawStatuses.CREATED]: 'COMMON.WITHDRAWAL_STATUSES.CREATED',
   [withdrawStatuses.DEALING_REVIEW]: 'COMMON.WITHDRAWAL_STATUSES.DEALING_REVIEW',
   [withdrawStatuses.SALES_REVIEW]: 'COMMON.WITHDRAWAL_STATUSES.SALES_REVIEW',
   [withdrawStatuses.FINANCE_TO_EXECUTE]: 'COMMON.WITHDRAWAL_STATUSES.FINANCE_TO_EXECUTE',
+  [withdrawStatuses.CANCELED]: 'COMMON.WITHDRAWAL_STATUSES.CANCELED',
+  [withdrawStatuses.REJECTED]: 'COMMON.WITHDRAWAL_STATUSES.REJECTED',
+  [withdrawStatuses.EXECUTED]: 'COMMON.WITHDRAWAL_STATUSES.EXECUTED',
 };
 
 const withdrawStatusesColors = {
+  [withdrawStatuses.CREATED]: 'color-success',
   [withdrawStatuses.DEALING_REVIEW]: 'color-warning',
   [withdrawStatuses.SALES_REVIEW]: 'color-warning',
   [withdrawStatuses.FINANCE_TO_EXECUTE]: 'color-success',
+  [withdrawStatuses.CANCELED]: 'color-error',
+  [withdrawStatuses.REJECTED]: 'color-error',
+  [withdrawStatuses.EXECUTED]: 'color-success',
 };
 
 export {

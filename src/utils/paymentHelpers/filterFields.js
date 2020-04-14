@@ -188,10 +188,9 @@ export default ({
     multiple: true,
     className: fieldClassNames.MEDIUM,
     selectOptions: Object.keys(withdrawStatuses)
-      .filter(i => withdrawStatusesLabels[i])
       .map(withdrawStatus => ({
         value: withdrawStatus,
-        label: withdrawStatusesLabels[withdrawStatus],
+        label: withdrawStatusesLabels[withdrawStatus] || withdrawStatus,
       })),
   },
   {

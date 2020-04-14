@@ -67,7 +67,7 @@ class View extends PureComponent {
       page: {
         from: 0,
         size: 20,
-        sorts: [...(query && query.sorts)],
+        sorts: (query && query.sorts) || [],
       },
     });
   };
