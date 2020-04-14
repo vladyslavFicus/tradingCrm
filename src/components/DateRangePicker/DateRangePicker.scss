@@ -1,3 +1,8 @@
+$borderColor: #cfcfcf;
+$borderColorHover: #7aaae1;
+$iconColor: #cfcfcf;
+$iconColorHover: #9b9b9b;
+
 .DateRangePicker {
   width: 250px;
 
@@ -5,21 +10,19 @@
     font-size: 15px;
     font-weight: 600;
     margin-bottom: 5px;
-    display: block;
   }
 
   &__presets {
-    border-left: 1px solid #eee;
     width: 190px;
+    border-left: 1px solid $borderColor;
 
     &-title {
-      color: #9b9b9b;
-      font-size: 14px;
-      font-weight: 400;
-      padding: 22px 0 0 25px;
-      text-transform: uppercase;
-      line-height: 0.8em;
       height: 50px;
+      padding: 22px 0 0 25px;
+      font-size: 14px;
+      line-height: 0.8em;
+      color: #9b9b9b;
+      text-transform: uppercase;
     }
 
     &-list {
@@ -39,74 +42,12 @@
       margin-top: 3px;
       margin-bottom: 3px;
       padding: 6px 15px;
+      cursor: pointer;
 
       &:hover {
         border-color: #e0e0e0;
-        cursor: pointer;
       }
-    }
-  }
 
-  /*
-    DateRange library stylization
-  */
-  .DateRangePickerInput {
-    height: 40px;
-    align-items: stretch;
-    transition: 0.2s ease;
-
-    &:hover {
-      border-color: #7aaae1;
-    }
-
-    &:hover .DateRangePickerInput_calendarIcon {
-      border-color: #7aaae1;
-      color: #9b9b9b;
-    }
-  }
-
-  .DateRangePickerInput_calendarIcon {
-    width: 40px;
-    margin: 0 0 0 auto;
-    border-left: 1px solid #cfcfcf;
-    border-radius: 0 3px 3px 0;
-    text-align: center;
-    color: #afafaf;
-    transition: 0.1s;
-  }
-
-  .DateInput {
-    background: pink;
-    flex-grow: 1;
-  }
-
-  .DateInput_input {
-    height: 100%;
-    border-color: #cfcfcf;
-    cursor: pointer;
-  }
-
-  .DateRangePickerInput_arrow {
-    display: flex;
-    align-items: center;
-  }
-}
-
-// # Modifiers
-.DateRangePicker {
-  &--focused {
-    & .DateRangePickerInput {
-      border-color: #4990e2;
-
-      &_calendarIcon {
-        color: #999;
-        border-color: #4990e2;
-      }
-    }
-  }
-
-  &__presets {
-    &-item {
       &--active {
         background-image: linear-gradient(270deg, #25bdee, #4a90e2);
         border: none;
@@ -117,6 +58,71 @@
         &:hover {
           border-color: transparent;
         }
+      }
+    }
+  }
+}
+
+// Customized DRP
+.DateRangePicker {
+  .DateInput_fang {
+    top: 40px !important;
+    z-index: 2;
+  }
+
+  .DateRangePicker_picker {
+    top: 50px !important;
+  }
+
+  .DateRangePickerInput {
+    height: 40px;
+    align-items: stretch;
+    border: 1px solid $borderColor;
+    transition: 0.2s ease;
+
+    &:hover {
+      border-color: $borderColorHover;
+    }
+
+    &:hover .DateRangePickerInput_calendarIcon {
+      border-color: $borderColorHover;
+      color: $iconColorHover;
+    }
+
+    &_calendarIcon {
+      width: 40px;
+      margin: 0 0 0 auto;
+      border-left: 1px solid $borderColor;
+      text-align: center;
+      color: $iconColor;
+      transition: 0.1s;
+    }
+
+    &_arrow {
+      display: flex;
+      align-items: center;
+    }
+  }
+
+  &--focused .DateRangePickerInput {
+    border-color: $borderColorHover;
+
+    &_calendarIcon {
+      
+      border-color: $borderColorHover;
+      color: $iconColorHover;
+    }
+  }
+
+  .DateInput {
+    flex-grow: 1;
+
+    &_input {
+      height: 100%;
+      cursor: pointer;
+
+      &__focused {
+        background-color: rgba(lightskyblue, .2);
       }
     }
   }

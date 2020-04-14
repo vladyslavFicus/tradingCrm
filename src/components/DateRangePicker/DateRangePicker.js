@@ -10,6 +10,9 @@ import { PRESETS } from './constants';
 import 'react-dates/lib/css/_datepicker.css';
 import './DateRangePicker.scss';
 
+/**
+ * the initial values should come in UTC format
+ */
 class DateRangePicker extends PureComponent {
   static propTypes = {
     setValues: PropTypes.func.isRequired,
@@ -62,8 +65,8 @@ class DateRangePicker extends PureComponent {
 
   static getDerivedStateFromProps({ values: [startDate, endDate] }) {
     return {
-      startDate: startDate ? moment(startDate) : null,
-      endDate: endDate ? moment(endDate) : null,
+      startDate: startDate ? moment.utc(startDate) : null,
+      endDate: endDate ? moment.utc(endDate) : null,
     };
   }
 
@@ -79,8 +82,8 @@ class DateRangePicker extends PureComponent {
     const { setValues, dateFormat } = this.props;
 
     setValues([
-      startDate && startDate.format(dateFormat),
-      endDate && endDate.format(dateFormat),
+      startDate && startDate.utc().set({ hour: '00', minute: '00', second: '00' }).format(dateFormat),
+      endDate && endDate.utc().set({ hour: '23', minute: '59', second: '59' }).format(dateFormat),
     ]);
   };
 
@@ -134,7 +137,7 @@ class DateRangePicker extends PureComponent {
       <div
         className={classNames(
           'DateRangePicker',
-          { 'DateRangePicker--focused': focusedInput !== null },
+          { 'DateRangePicker--focused': focusedInput },
           className,
         )}
       >

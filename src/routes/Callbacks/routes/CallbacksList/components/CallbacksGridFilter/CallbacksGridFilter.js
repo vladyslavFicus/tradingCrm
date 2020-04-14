@@ -17,8 +17,8 @@ class CallbacksGridFilter extends PureComponent {
   initialValues = {
     searchKeyword: '',
     statuses: '',
-    callbackTimeFrom: '2020-04-12',
-    callbackTimeTo: '2020-04-14',
+    callbackTimeFrom: '',
+    callbackTimeTo: '',
   };
 
   onHandleSubmit = (values, { setSubmitting }) => {

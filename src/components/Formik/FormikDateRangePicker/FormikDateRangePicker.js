@@ -12,7 +12,6 @@ const FormikDateRangePicker = ({ periodKeys, ...props }) => {
     <DateRangePicker
       {...props}
       setValues={(values) => {
-        console.log(values);
         setFieldValue([startKey], values[0]);
         setFieldValue([endKey], values[1]);
       }}
