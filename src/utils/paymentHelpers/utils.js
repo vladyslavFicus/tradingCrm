@@ -1,4 +1,11 @@
-import { statusMapper, statusesLabels, statusesColor } from '../../constants/payment';
+import {
+  statusMapper,
+  statusesColor,
+  statusesLabels,
+  withdrawStatuses,
+  withdrawStatusesLabels,
+  withdrawStatusesColors,
+} from 'constants/payment';
 import renderLabel from '../renderLabel';
 
 const revertedMapper = Object.entries(statusMapper);
@@ -20,5 +27,14 @@ export const getTradingStatusProps = (status) => {
     status: statusName,
     label: renderLabel(statusName, statusesLabels),
     color: statusesColor[statusName],
+  };
+};
+
+export const getWithdrawStatusProps = (status) => {
+  if (!status || !withdrawStatuses[status]) return null;
+
+  return {
+    label: withdrawStatusesLabels[status],
+    color: withdrawStatusesColors[status],
   };
 };

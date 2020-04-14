@@ -754,6 +754,12 @@
       "FAILED": "Failed",
       "CANCELED": "Canceled"
     },
+    "WITHDRAWAL_STATUS": "Withdraw status",
+    "WITHDRAWAL_STATUSES": {
+      "DEALING_REVIEW": "Dealing review",
+      "SALES_REVIEW": "Sales review",
+      "FINANCE_TO_EXECUTE": "Finance to execute"
+    },
     "FILTERS": {
       "SEARCH_LIMIT": "Search limit"
     },

@@ -285,6 +285,24 @@ const initiatorsLabels = {
   [initiators.OPERATOR]: 'Operator',
 };
 
+const withdrawStatuses = keyMirror({
+  DEALING_REVIEW: null,
+  SALES_REVIEW: null,
+  FINANCE_TO_EXECUTE: null,
+});
+
+const withdrawStatusesLabels = {
+  [withdrawStatuses.DEALING_REVIEW]: 'COMMON.WITHDRAWAL_STATUSES.DEALING_REVIEW',
+  [withdrawStatuses.SALES_REVIEW]: 'COMMON.WITHDRAWAL_STATUSES.SALES_REVIEW',
+  [withdrawStatuses.FINANCE_TO_EXECUTE]: 'COMMON.WITHDRAWAL_STATUSES.FINANCE_TO_EXECUTE',
+};
+
+const withdrawStatusesColors = {
+  [withdrawStatuses.DEALING_REVIEW]: 'color-warning',
+  [withdrawStatuses.SALES_REVIEW]: 'color-warning',
+  [withdrawStatuses.FINANCE_TO_EXECUTE]: 'color-success',
+};
+
 export {
   statuses,
   tradingStatuses,
@@ -312,4 +330,7 @@ export {
   accountStatusActions,
   tradingTypes,
   tradingTypesLabelsWithColor,
+  withdrawStatuses,
+  withdrawStatusesLabels,
+  withdrawStatusesColors,
 };

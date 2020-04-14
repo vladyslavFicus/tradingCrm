@@ -3,9 +3,9 @@ import I18n from 'i18n-js';
 import classNames from 'classnames';
 import moment from 'moment';
 import FailedStatusIcon from 'components/FailedStatusIcon';
-import PropTypes from '../../constants/propTypes';
-import { getTradingStatusProps } from '../../utils/paymentHelpers';
-import Uuid from '../Uuid';
+import PropTypes from 'constants/propTypes';
+import { getTradingStatusProps, getWithdrawStatusProps } from 'utils/paymentHelpers';
+import Uuid from 'components/Uuid';
 
 const PaymentStatus = ({
   status,
@@ -14,8 +14,11 @@ const PaymentStatus = ({
   modifiedBy,
   creationTime,
   statusChangedAt,
+  withdrawStatus,
 }) => {
   const { color, label } = getTradingStatusProps(status);
+  const withdrawStatusProps = getWithdrawStatusProps(withdrawStatus);
+
   return (
     <Fragment>
       <div className={classNames(color, 'font-weight-700 text-uppercase status')}>
@@ -26,6 +29,11 @@ const PaymentStatus = ({
           </FailedStatusIcon>
         </If>
       </div>
+      <If condition={withdrawStatusProps}>
+        <div className={classNames(withdrawStatusProps.color, 'font-size-11 text-uppercase')}>
+          {I18n.t(withdrawStatusProps.label)}
+        </div>
+      </If>
       <Choose>
         <When condition={statusChangedAt}>
           <div className="font-size-11">
@@ -59,6 +67,7 @@ PaymentStatus.propTypes = {
   statusChangedAt: PropTypes.string,
   modifiedBy: PropTypes.string,
   declineReason: PropTypes.string,
+  withdrawStatus: PropTypes.string,
   creationTime: PropTypes.string,
 };
 
@@ -66,6 +75,7 @@ PaymentStatus.defaultProps = {
   statusChangedAt: '',
   modifiedBy: '',
   declineReason: '',
+  withdrawStatus: '',
   creationTime: '',
 };
 

@@ -1,9 +1,10 @@
 import columns from './gridColumns';
 import filterFields from './filterFields';
-import { getTradingStatusProps } from './utils';
+import { getTradingStatusProps, getWithdrawStatusProps } from './utils';
 
 export {
   columns,
   filterFields,
   getTradingStatusProps,
+  getWithdrawStatusProps,
 };
