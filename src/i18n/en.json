@@ -489,6 +489,7 @@
     "DEPARTMENT": "Department",
     "ROLE": "Role",
     "PLAYER": "Player",
+    "OPERATOR": "Operator",
     "DEPARTMENTS": "Departments",
     "SATELLITE": "Satellite",
     "ANY": "Any",
