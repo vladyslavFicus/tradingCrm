@@ -18,7 +18,7 @@ export default {
     ADD_AUTHORITY: 'auth;POST;/credentials/{uuid}/authorities',
     DELETE_AUTHORITY: 'auth;DELETE;/credentials/{uuid}/authorities',
     UPDATE_PROFILE: 'affiliate;PUT;/affiliates/{uuid}/status',
-    UPDATE_STATUS: 'affiliate;PUT;/affiliate/affiliates/status',
+    UPDATE_STATUS: 'affiliate;PUT;/affiliates/{uuid}/status',
     CHANGE_PASSWORD: 'auth;POST;/credentials/operator/{uuid}/password',
   },
   LEADS: {
