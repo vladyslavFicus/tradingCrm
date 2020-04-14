@@ -410,7 +410,7 @@ PropTypes.brand = PropTypes.shape({
   }).isRequired,
 });
 PropTypes.department = PropTypes.shape({
-  id: PropTypes.string.isRequired,
+  id: PropTypes.number,
   name: PropTypes.string,
   role: PropTypes.string,
   image: PropTypes.string,
