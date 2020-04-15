@@ -26,7 +26,7 @@ export default compose(
         showNotes: get(permission, 'showNotes') || false,
         showSalesStatus: get(permission, 'showSalesStatus') || false,
         showFTDAmount: get(permission, 'showFTDAmount') || false,
-        showKYCStatus: get(permission, 'showKYCStatus') || false,
+        showKycStatus: get(permission, 'showKycStatus') || false,
         profile: {
           data: {
             ...partnerProfile,

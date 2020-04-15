@@ -68,7 +68,7 @@ const partnerQuery = gql`query getPartnerByUUID(
         showNotes
         showSalesStatus
         showFTDAmount
-        showKYCStatus
+        showKycStatus
       }
       authorities {
         data {
