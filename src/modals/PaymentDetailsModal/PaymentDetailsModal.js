@@ -181,6 +181,14 @@ class PaymentDetailsModal extends PureComponent {
       },
     } = this.props;
 
+    /**
+     * some payment types have uuid name without prefix like `PAYMENT`
+     * and our awesome ReactStrap lib can't find element in DOM if
+     * it's id name begins with digit character.
+     * So we need make a crutch with adding literal prefix to id
+     */
+    const tooltipId = `tooltip-${paymentId}`;
+
     return (
       <div className="PaymentDetailsModal__block PaymentDetailsModal__one-fifth">
         <div className="PaymentDetailsModal__block-title">
@@ -188,12 +196,12 @@ class PaymentDetailsModal extends PureComponent {
         </div>
         <div className="PaymentDetailsModal__block-device-info">
           <i
-            id={paymentId}
+            id={tooltipId}
             className={`fa ${isMobile ? 'fa-mobile' : 'fa-desktop'}`}
           />
           <UncontrolledTooltip
             placement="bottom"
-            target={paymentId}
+            target={tooltipId}
             delay={{ show: 350, hide: 250 }}
           >
             {userAgent || 'User agent not defined'}
