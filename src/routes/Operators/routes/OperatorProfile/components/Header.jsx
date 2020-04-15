@@ -90,6 +90,7 @@ class Header extends Component {
             {
               operatorStatus === statuses.INACTIVE
               && (
+                // Запроса как и прав у юзера на SEND_INVITATION в API больше нет
                 <PermissionContent permissions={permissions.OPERATORS.OPERATOR_SEND_INVITATION}>
                   <Button
                     className="btn-sm btn-default-outline margin-right-10"
@@ -103,6 +104,7 @@ class Header extends Component {
             {
               operatorStatus === statuses.ACTIVE
               && (
+                // Запроса как и прав у юзера на RESET_PASSWORD в API больше нет
                 <PermissionContent permissions={permissions.OPERATORS.RESET_PASSWORD}>
                   <Button
                     className="btn-sm btn-default-outline margin-right-10"

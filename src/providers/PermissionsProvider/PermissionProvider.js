@@ -27,7 +27,7 @@ class PermissionProvider extends PureComponent {
 
     const value = {
       permission: {
-        permissions: get(data, 'permission.data') || [],
+        permissions: get(data, 'permission.data.actions') || [],
       },
     };
 
