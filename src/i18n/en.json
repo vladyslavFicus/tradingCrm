@@ -1953,6 +1953,7 @@
     "SHOW_NOTES": "Show notes",
     "SHOW_SALES_STATUS": "Show sales status",
     "SHOW_FTD_AMOUNT": "Show FTD Amount",
+    "SHOW_KYC_STATUS": "Show KYC status",
     "MODALS": {
       "NEW_PARTNER": {
         "TITLE": "New partner",

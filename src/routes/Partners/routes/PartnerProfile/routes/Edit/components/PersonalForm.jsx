@@ -316,6 +316,13 @@ class PersonalForm extends PureComponent {
               disabled={disabled}
               label={I18n.t('PARTNERS.SHOW_FTD_AMOUNT')}
             />
+            <Field
+              name="showKycStatus"
+              type="checkbox"
+              component={CheckBox}
+              disabled={disabled}
+              label={I18n.t('PARTNERS.SHOW_KYC_STATUS')}
+            />
           </div>
         </div>
       </form>
