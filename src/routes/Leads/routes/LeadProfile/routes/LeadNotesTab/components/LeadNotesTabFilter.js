@@ -1,9 +1,9 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import I18n from 'i18n-js';
-import { Formik, Form, Field } from 'formik';
+import { Formik, Form } from 'formik';
+import { FormikDateRangePicker } from 'components/Formik';
 import Button from 'components/UI/Button';
-import FormikDateRangePicker from 'components/Formik/FormikDateRangePicker';
 import './LeadNotesTabFilter.scss';
 
 class LeadNotesTabFilter extends PureComponent {
@@ -25,15 +25,13 @@ class LeadNotesTabFilter extends PureComponent {
       >
         {({ dirty, handleReset }) => (
           <Form className="LeadNotesTabFilter">
-            <Field
+            <FormikDateRangePicker
               className="LeadNotesTabFilter__field"
               label={I18n.t('LEAD_PROFILE.NOTES.FILTER.LABELS.CREATION_DATE_RANGE')}
-              component={FormikDateRangePicker}
               periodKeys={{
                 start: 'changedAtFrom',
                 end: 'changedAtTo',
               }}
-              withTime // TODO: it should be removed after FormikDateRangePicker if fixed
               anchorDirection="left"
             />
             <div className="LeadNotesTabFilter__button-group">
