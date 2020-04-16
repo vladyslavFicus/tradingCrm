@@ -100,30 +100,34 @@ class NotificationsGrid extends PureComponent {
     </Choose>
   );
 
-  renderClient = ({ client: { uuid, fullName, languageCode } }) => (
-    <Choose>
-      <When condition={uuid}>
-        <Link
-          className="font-weight-700"
-          to={`/clients/${uuid}/profile`}
-          target="_blank"
-        >
-          {fullName}
-        </Link>
-        <div className="font-size-11">
-          <MiniProfile id={uuid} type="player">
-            <Uuid uuid={uuid} />
-          </MiniProfile>
-          <If condition={languageCode}>
-            <span> - {languageCode}</span>
-          </If>
-        </div>
-      </When>
-      <Otherwise>
-        <div>&mdash;</div>
-      </Otherwise>
-    </Choose>
-  );
+  renderClient = ({ client }) => {
+    const { uuid, fullName, languageCode } = client || {};
+
+    return (
+      <Choose>
+        <When condition={uuid}>
+          <Link
+            className="font-weight-700"
+            to={`/clients/${uuid}/profile`}
+            target="_blank"
+          >
+            {fullName}
+          </Link>
+          <div className="font-size-11">
+            <MiniProfile id={uuid} type="player">
+              <Uuid uuid={uuid} />
+            </MiniProfile>
+            <If condition={languageCode}>
+              <span> - {languageCode}</span>
+            </If>
+          </div>
+        </When>
+        <Otherwise>
+          <div>&mdash;</div>
+        </Otherwise>
+      </Choose>
+    );
+  };
 
   renderPriority = ({ priority }) => (
     <div className={classNames(

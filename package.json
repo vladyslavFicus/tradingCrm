@@ -7,6 +7,7 @@
     "start:rewired": "NODE_PATH=src NODE_ENV=development react-app-rewired start",
     "start": "env-cmd .env npm run start:rewired",
     "start:dev": "env-cmd .env.development npm run start:rewired",
+    "start:qa": "env-cmd .env.qa npm run start:rewired",
     "start:staging": "env-cmd .env.staging npm run start:rewired",
     "start:production": "env-cmd .env.production npm run start:rewired",
     "build": "NODE_PATH=src react-app-rewired build",

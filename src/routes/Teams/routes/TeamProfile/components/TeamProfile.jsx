@@ -5,11 +5,11 @@ import { branchTypes } from 'constants/hierarchyTypes';
 import Route from 'components/Route';
 import Tabs from 'components/Tabs';
 import HierarchyProfileRules from 'components/HierarchyProfileRules';
+import BranchHeader from 'components/BranchHeader';
 import NotFound from 'routes/NotFound';
 import PropTypes from 'constants/propTypes';
 import { deskTypes } from 'constants/rules';
 import teamProfileTabs from './constants';
-import Header from './Header';
 
 const RulesRetention = HierarchyProfileRules('TEAMS.TABS.RULES.TITLE', deskTypes.RETENTION, branchTypes.TEAM);
 const RulesSales = HierarchyProfileRules('TEAMS.TABS.RULES.TITLE', deskTypes.SALES, branchTypes.TEAM);
@@ -32,8 +32,9 @@ const TeamProfile = ({
   return (
     <div className="profile">
       <div className="profile__info">
-        <Header
-          data={data}
+        <BranchHeader
+          branchData={data}
+          branchId={params.id}
           loading={loading}
         />
       </div>

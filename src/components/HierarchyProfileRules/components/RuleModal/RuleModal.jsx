@@ -8,6 +8,7 @@ import PropTypes from 'constants/propTypes';
 import { createValidator } from 'utils/validator';
 import countryList from 'utils/countryList';
 import { Button } from 'components/UI';
+import { isSales } from 'constants/hierarchyTypes';
 import RangeGroup from 'components/RangeGroup';
 import {
   FormikInputField,
@@ -52,10 +53,18 @@ class RuleModal extends PureComponent {
 
   state = {
     selectedOperators: [],
+    percentageLimitError: false,
   };
 
   onHandleSubmit = (values, { setSubmitting, setErrors }) => {
-    this.props.onSubmit(values, setErrors);
+    if (this.props.withOperatorSpreads && values.operatorSpreads.reduce((a, b) => a + (b.percentage || 0), 0) !== 100) {
+      this.setState({ percentageLimitError: true });
+    } else {
+      this.setState({ percentageLimitError: false });
+
+      this.props.onSubmit(values, setErrors);
+    }
+
     setSubmitting(false);
   };
 
@@ -82,7 +91,10 @@ class RuleModal extends PureComponent {
 
     const partnersList = get(partners, 'partners.data.content', []);
     const operatorsList = get(operators, 'operators.data.content', []);
-    const { selectedOperators } = this.state;
+    const {
+      selectedOperators,
+      percentageLimitError,
+    } = this.state;
 
     return (
       <Modal
@@ -244,8 +256,9 @@ class RuleModal extends PureComponent {
                     disabled={isSubmitting || partnersList.length === 0}
                     multiple
                     placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT_MULTISELECT')}
+                    searchable
                   >
-                    {partnersList.map(partner => (
+                    {partnersList.sort((a, b) => a.fullName.localeCompare(b.fullName)).map(partner => (
                       <option key={partner.uuid} value={partner.uuid}>
                         {partner.fullName}
                       </option>
@@ -280,20 +293,23 @@ class RuleModal extends PureComponent {
                                 className="col-7"
                                 disabled={isSubmitting}
                                 placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
+                                searchable
                               >
-                                {operatorsList.map(({ uuid, fullName }) => (
-                                  <option
-                                    key={uuid}
-                                    value={uuid}
-                                    className={
-                                      classNames('select-block__options-item', {
-                                        'RuleModal--is-disabled': selectedOperators.indexOf(uuid) !== -1,
-                                      })
-                                    }
-                                  >
-                                    {fullName}
-                                  </option>
-                                ))
+                                {operatorsList
+                                  .filter(({ hierarchy: { userType } }) => isSales(userType))
+                                  .map(({ uuid, fullName }) => (
+                                    <option
+                                      key={uuid}
+                                      value={uuid}
+                                      className={
+                                        classNames('select-block__options-item', {
+                                          'RuleModal--is-disabled': selectedOperators.indexOf(uuid) !== -1,
+                                        })
+                                      }
+                                    >
+                                      {fullName}
+                                    </option>
+                                  ))
                                 }
                               </Field>
                               <Field
@@ -303,6 +319,11 @@ class RuleModal extends PureComponent {
                                 label={index === 0 ? I18n.t(attributeLabels.ratio) : ''}
                                 disabled={isSubmitting || !operatorSpreads[index]}
                                 component={FormikInputField}
+                                className={
+                                  classNames({
+                                    'input--has-error': percentageLimitError,
+                                  })
+                                }
                               />
                               <If condition={selectedOperators.length > 0 && selectedOperators.length !== index}>
                                 <Button
@@ -325,6 +346,13 @@ class RuleModal extends PureComponent {
                         </Fragment>
                       )}
                     />
+                    <If condition={percentageLimitError}>
+                      <div className="RuleModal__percentage-error color-danger">
+                        <div className="col-7">
+                          {I18n.t('HIERARCHY.PROFILE_RULE_TAB.MODAL.PERCENTAGE_LIMIT_ERROR')}
+                        </div>
+                      </div>
+                    </If>
                   </div>
                 </If>
               </ModalBody>

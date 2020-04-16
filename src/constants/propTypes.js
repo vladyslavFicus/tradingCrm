@@ -255,11 +255,13 @@ PropTypes.paymentEntity = PropTypes.shape({
   paymentId: PropTypes.string.isRequired,
   paymentType: PropTypes.string.isRequired,
   status: PropTypes.string.isRequired,
+  withdrawalStatus: PropTypes.string,
   currency: PropTypes.string.isRequired,
   createdBy: PropTypes.string.isRequired,
   creationTime: PropTypes.string.isRequired,
   paymentMethod: PropTypes.string,
   paymentAccount: PropTypes.string,
+  platformType: PropTypes.string,
   accountType: PropTypes.string,
   amount: PropTypes.string,
   country: PropTypes.string,
@@ -925,6 +927,14 @@ PropTypes.socialTradingSubscriptionOnProvider = PropTypes.shape({
     typeSharing: PropTypes.string,
     reverse: PropTypes.bool,
   }),
+});
+PropTypes.manualPaymentMethods = PropTypes.shape({
+  data: PropTypes.shape({
+    manualPaymentMethods: PropTypes.shape({
+      data: PropTypes.arrayOf(PropTypes.string),
+    }),
+  }),
+  loading: PropTypes.bool.isRequired,
 });
 PropTypes.response = content => PropTypes.shape({
   data: PropTypes.shape(content),
