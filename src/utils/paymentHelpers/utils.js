@@ -1,4 +1,8 @@
-import { statusMapper, statusesLabels, statusesColor } from '../../constants/payment';
+import {
+  statusMapper,
+  statusesColor,
+  statusesLabels,
+} from 'constants/payment';
 import renderLabel from '../renderLabel';
 
 const revertedMapper = Object.entries(statusMapper);

@@ -7,38 +7,23 @@ import PropTypes from 'constants/propTypes';
 import { tradingTypes } from 'constants/payment';
 import Badge from 'components/Badge';
 import { shortify } from 'utils/uuid';
-import PaymentDetailModal from '../PaymentDetailModal';
+import PaymentDetailsModal from 'modals/PaymentDetailsModal';
 import Uuid from '../Uuid';
 
 class GridPaymentInfo extends PureComponent {
   static propTypes = {
     payment: PropTypes.paymentEntity.isRequired,
     modals: PropTypes.shape({
-      paymentDetail: PropTypes.modalType,
+      paymentDetails: PropTypes.modalType,
     }).isRequired,
     onSuccess: PropTypes.func.isRequired,
   };
 
   handleOpenDetailModal = () => {
     const {
-      modals: { paymentDetail },
-      payment: {
-        paymentId,
-        paymentType,
-        paymentMethod,
-        creationTime,
-        mobile,
-        clientIp,
-        country,
-        userAgent,
-        status,
-        createdBy,
-        amount,
-        currency,
-        playerProfile: { uuid },
-        originalAgent,
-      },
+      payment,
       onSuccess,
+      modals: { paymentDetails },
     } = this.props;
 
     if (
@@ -48,30 +33,12 @@ class GridPaymentInfo extends PureComponent {
         tradingTypes.MIGRATION_OUT,
         tradingTypes.MIGRATION_CREDIT_IN,
         tradingTypes.MIGRATION_CREDIT_OUT,
-      ].includes(paymentType)
+      ].includes(payment.paymentType)
     ) {
       return;
     }
 
-    paymentDetail.show({
-      payment: {
-        paymentId,
-        paymentType,
-        paymentMethod,
-        creationTime,
-        mobile,
-        clientIp,
-        country,
-        userAgent,
-        status,
-        createdBy,
-        amount,
-        currency,
-        playerProfile: { uuid },
-        originalAgent,
-      },
-      onSuccess,
-    });
+    paymentDetails.show({ payment, onSuccess });
   };
 
   render() {
@@ -110,6 +77,6 @@ class GridPaymentInfo extends PureComponent {
 
 export default compose(
   withModals({
-    paymentDetail: PaymentDetailModal,
+    paymentDetails: PaymentDetailsModal,
   }),
 )(GridPaymentInfo);
