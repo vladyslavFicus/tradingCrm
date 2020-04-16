@@ -1,8 +1,6 @@
-/* eslint-disable */
 import React, { PureComponent } from 'react';
 import I18n from 'i18n-js';
 import { get } from 'lodash';
-import { SubmissionError } from 'redux-form';
 import { Switch, Redirect } from 'react-router-dom';
 import { compose } from 'react-apollo';
 import { withRequests } from 'apollo';
@@ -21,7 +19,7 @@ import PromoteLeadModal from 'components/PromoteLeadModal';
 import RepresentativeUpdateModal from 'components/RepresentativeUpdateModal';
 import { leadProfileTabs } from '../../constants';
 import LeadProfileTab from './routes/LeadProfileTab';
-import LeadNotesTab from './routes/Notes';
+import LeadNotesTab from './routes/LeadNotesTab';
 import Information from './components/Information';
 import Header from './components/Header';
 import {
@@ -38,13 +36,13 @@ const NOTE_POPOVER = 'note-popover';
 class LeadProfile extends PureComponent {
   static propTypes = {
     ...PropTypes.router,
-    leadProfile: PropTypes.query({
+    leadProfileQuery: PropTypes.query({
       leadProfile: PropTypes.shape({
         data: PropTypes.lead,
         error: PropTypes.object,
       }),
     }).isRequired,
-    pinnedNotes: PropTypes.query({
+    pinnedNotesQuery: PropTypes.query({
       notes: PropTypes.shape({
         data: PropTypes.shape({
           content: PropTypes.arrayOf(
@@ -52,7 +50,7 @@ class LeadProfile extends PureComponent {
               author: PropTypes.string,
               lastEditorUUID: PropTypes.string,
               targetUUID: PropTypes.string,
-            })
+            }),
           ),
         }),
       }),
@@ -86,7 +84,7 @@ class LeadProfile extends PureComponent {
     const {
       notify,
       promoteLead,
-      leadProfile: { refetch },
+      leadProfileQuery: { refetch },
       modals: { promoteLeadModal },
     } = this.props;
 
@@ -101,19 +99,25 @@ class LeadProfile extends PureComponent {
     });
 
     if (error) {
+      let errorMessage = '';
+
       if (error.error === 'error.entity.already.exist') {
-        throw new SubmissionError({
-          _error: I18n.t(`lead.${error.error}`, {
-            email: values.contacts.email,
-          }),
+        errorMessage = I18n.t(`lead.${error.error}`, {
+          email: values.contacts.email,
         });
+      } else if (error.fields_errors) {
+        errorMessage = Object.entries(error.fields_errors).map(
+          ([key, { error: err }]) => `${key}: ${err}`,
+        ).join(', ');
+      } else {
+        errorMessage = 'COMMON.SOMETHING_WRONG';
       }
 
-      const formError = Object.entries(error.fields_errors).map(
-        ([key, { error: err }]) => `${key}: ${err}`
-      );
-
-      throw new SubmissionError({ _error: formError.join(', ') });
+      notify({
+        level: 'error',
+        title: I18n.t('COMMON.FAIL'),
+        message: errorMessage,
+      });
     } else {
       await refetch();
       promoteLeadModal.hide();
@@ -128,14 +132,13 @@ class LeadProfile extends PureComponent {
   triggerRepresentativeUpdateModal = () => {
     const {
       modals: { representativeModal },
-      leadProfile: { refetch, data },
+      leadProfileQuery: { refetch, data },
       match: {
         params: { id },
       },
     } = this.props;
 
-    const unassignFromOperator =
-      get(data, 'leadProfile.data.salesAgent.uuid') || null;
+    const unassignFromOperator = get(data, 'leadProfile.data.salesAgent.uuid') || null;
 
     representativeModal.show({
       type: aquisitionStatusesNames.SALES,
@@ -156,7 +159,7 @@ class LeadProfile extends PureComponent {
 
   triggerLeadModal = () => {
     const {
-      leadProfile,
+      leadProfileQuery,
       modals: { promoteLeadModal },
     } = this.props;
 
@@ -170,10 +173,10 @@ class LeadProfile extends PureComponent {
       country: countryCode,
       language: languageCode,
       mobile: additionalPhone,
-    } = get(leadProfile, 'data.leadProfile.data');
+    } = get(leadProfileQuery, 'data.leadProfile.data');
 
     promoteLeadModal.show({
-      onSubmit: (values) => this.handlePromoteLead(values),
+      onSubmit: values => this.handlePromoteLead(values),
       initialValues: {
         address: {
           countryCode,
@@ -199,9 +202,8 @@ class LeadProfile extends PureComponent {
 
     noteModal.show({
       type,
-      onEdit: (data) => this.handleSubmitNoteClick(noteViewType.MODAL, data),
-      onDelete: () =>
-        this.handleDeleteNoteClick(noteViewType.MODAL, item.noteId),
+      onEdit: data => this.handleSubmitNoteClick(noteViewType.MODAL, data),
+      onDelete: () => this.handleDeleteNoteClick(noteViewType.MODAL, item.noteId),
       tagType: item.tagType,
       initialValues: {
         ...item,
@@ -297,8 +299,8 @@ class LeadProfile extends PureComponent {
 
   render() {
     const {
-      leadProfile: { loading: leadProfileLoading, data: leadProfile },
-      pinnedNotes: { data: pinnedNotes },
+      leadProfileQuery: { loading: leadProfileLoading, data: leadProfile },
+      pinnedNotesQuery: { data: pinnedNotes },
       location,
       match: { params, path, url },
     } = this.props;
@@ -349,15 +351,9 @@ class LeadProfile extends PureComponent {
             isOpen
             manual
             toggle={() => this.handleNoteHide(noteViewType.POPOVER)}
-            onAddSuccess={(data) =>
-              this.handleSubmitNoteClick(noteViewType.POPOVER, data)
-            }
-            onUpdateSuccess={(data) =>
-              this.handleSubmitNoteClick(noteViewType.POPOVER, data)
-            }
-            onDeleteSuccess={(data) =>
-              this.handleDeleteNoteClick(noteViewType.POPOVER, data)
-            }
+            onAddSuccess={data => this.handleSubmitNoteClick(noteViewType.POPOVER, data)}
+            onUpdateSuccess={data => this.handleSubmitNoteClick(noteViewType.POPOVER, data)}
+            onDeleteSuccess={data => this.handleDeleteNoteClick(noteViewType.POPOVER, data)}
             {...popover.params}
           />
         )}
@@ -374,11 +370,11 @@ export default compose(
     representativeModal: RepresentativeUpdateModal,
   }),
   withRequests({
-    pinnedNotes: GetNotes,
-    leadProfile: GetLeadProfile,
+    pinnedNotesQuery: GetNotes,
+    leadProfileQuery: GetLeadProfile,
     promoteLead: PromoteLeadProfile,
     addNote: AddLeadProfileNote,
     updateNote: UpdateLeadProfileNote,
     removeNote: RemoveLeadProfileNote,
-  })
+  }),
 )(LeadProfile);
