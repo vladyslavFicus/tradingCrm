@@ -23,7 +23,7 @@ import './LeadProfileTab.scss';
 
 const countryCodes = Object.keys(countryList);
 
-class Profile extends PureComponent {
+class LeadProfileTab extends PureComponent {
   static propTypes = {
     leadProfile: PropTypes.query({
       leadProfile: PropTypes.shape({
@@ -138,7 +138,7 @@ class Profile extends PureComponent {
         enableReinitialize
       >
         {({ isValid, isSubmitting, dirty }) => (
-          <Form className="Profile">
+          <Form className="LeadProfileTab">
             <TabHeader title={I18n.t('PLAYER_PROFILE.PROFILE.TITLE')}>
               <If condition={dirty && !isSubmitting && isValid}>
                 <Button type="submit" primaryOutline>
@@ -147,7 +147,7 @@ class Profile extends PureComponent {
               </If>
             </TabHeader>
             <If condition={this.state.submitError}>
-              <div className="Profile__error">
+              <div className="LeadProfileTab__error">
                 {this.state.submitError}
               </div>
             </If>
@@ -188,4 +188,4 @@ export default compose(
     leadProfile: LeadProfileQuery,
     updateLead: LeadProfileUpdate,
   }),
-)(Profile);
+)(LeadProfileTab);

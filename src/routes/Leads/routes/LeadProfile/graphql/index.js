@@ -1,13 +1,13 @@
-import GetNotes from './GetNotes';
-import GetLeadProfile from './GetLeadProfile';
+import NotesQuery from './NotesQuery';
+import LeadProfileQuery from './LeadProfileQuery';
 import PromoteLeadProfile from './PromoteLeadProfile';
 import AddLeadProfileNote from './AddLeadProfileNote';
 import RemoveLeadProfileNote from './RemoveLeadProfileNote';
 import UpdateLeadProfileNote from './UpdateLeadProfileNote';
 
 export {
-  GetNotes,
-  GetLeadProfile,
+  NotesQuery,
+  LeadProfileQuery,
   PromoteLeadProfile,
   AddLeadProfileNote,
   RemoveLeadProfileNote,

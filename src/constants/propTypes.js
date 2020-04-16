@@ -497,7 +497,7 @@ PropTypes.lead = PropTypes.shape({
   gender: PropTypes.string,
   city: PropTypes.string,
   language: PropTypes.string,
-  registrationDate: PropTypes.string.isRequired,
+  registrationDate: PropTypes.string,
   statusChangeDate: PropTypes.string,
 });
 PropTypes.branchHierarchyType = PropTypes.shape({

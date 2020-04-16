@@ -23,8 +23,8 @@ import LeadNotesTab from './routes/LeadNotesTab';
 import Information from './components/Information';
 import Header from './components/Header';
 import {
-  GetNotes,
-  GetLeadProfile,
+  NotesQuery,
+  LeadProfileQuery,
   PromoteLeadProfile,
   AddLeadProfileNote,
   RemoveLeadProfileNote,
@@ -44,15 +44,7 @@ class LeadProfile extends PureComponent {
     }).isRequired,
     pinnedNotesQuery: PropTypes.query({
       notes: PropTypes.shape({
-        data: PropTypes.shape({
-          content: PropTypes.arrayOf(
-            PropTypes.shape({
-              author: PropTypes.string,
-              lastEditorUUID: PropTypes.string,
-              targetUUID: PropTypes.string,
-            }),
-          ),
-        }),
+        data: PropTypes.object,
       }),
     }).isRequired,
     promoteLead: PropTypes.func.isRequired,
@@ -370,8 +362,8 @@ export default compose(
     representativeModal: RepresentativeUpdateModal,
   }),
   withRequests({
-    pinnedNotesQuery: GetNotes,
-    leadProfileQuery: GetLeadProfile,
+    pinnedNotesQuery: NotesQuery,
+    leadProfileQuery: LeadProfileQuery,
     promoteLead: PromoteLeadProfile,
     addNote: AddLeadProfileNote,
     updateNote: UpdateLeadProfileNote,
