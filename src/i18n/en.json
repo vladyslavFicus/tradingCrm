@@ -1946,8 +1946,6 @@
       "PARTNER_TYPE": "Partner type",
       "SEARCH_BY": "Search by",
       "SEARCH_BY_PLACEHOLDER": "Name, Phone, Email, UUID...",
-      "REGISTRATION_DATE_FROM": "Date from",
-      "REGISTRATION_DATE_TO": "Date to",
       "REGISTRATION_DATE_RANGE": "Registration Date Range"
     },
     "SHOW_NOTES": "Show notes",
@@ -3016,9 +3014,7 @@
       "SEARCH_BY_PLACEHOLDER": "Callback ID, Player ID, Operator ID",
       "CALLBACK_OR_OPERATOR": "Callback or Operator ID",
       "STATUS": "Status",
-      "DATE_RANGE": "Date & time range",
-      "DATE_RANGE_START": "Start date",
-      "DATE_RANGE_END": "End date"
+      "DATE_RANGE": "Date & time range"
     },
     "CREATE_MODAL": {
       "TITLE": "New callback",
