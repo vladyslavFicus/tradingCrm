@@ -174,18 +174,13 @@ class NotificationsFilters extends PureComponent {
                   <option key={uuid} value={uuid}>{name}</option>
                 ))}
               </Field>
-              <Field
-                name="creationDateRange"
+              <FormikDateRangePicker
                 className="NotificationsGridFilter__input NotificationsGridFilter__dates"
                 label={I18n.t('NOTIFICATION_CENTER.FILTERS.LABELS.CREATION_RANGE')}
-                startDatePlaceholderText={I18n.t('COMMON.DATE_OPTIONS.START_DATE')}
-                endDatePlaceholderText={I18n.t('COMMON.DATE_OPTIONS.END_DATE')}
-                component={FormikDateRangePicker}
                 periodKeys={{
                   start: 'creationDateFrom',
                   end: 'creationDateTo',
                 }}
-                withTime
               />
               <Field
                 name="notificationTypes"

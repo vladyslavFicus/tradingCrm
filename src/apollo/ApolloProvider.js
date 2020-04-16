@@ -149,6 +149,11 @@ class ApolloProvider extends PureComponent {
       link: from([createOmitTypenameLink, errorLink, authLink, httpLink]),
       cache,
       connectToDevTools: __DEV__,
+
+      // Query deduplication should be turned off because request cancellation not working with turned it on
+      // It isn't good way, but no any solution to cancel *-ALL-* pending requests for this time
+      // https://github.com/apollographql/apollo-client/issues/4150#issuecomment-487412557
+      queryDeduplication: false,
     });
   };
 

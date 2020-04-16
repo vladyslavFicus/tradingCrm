@@ -489,6 +489,7 @@
     "DEPARTMENT": "Department",
     "ROLE": "Role",
     "PLAYER": "Player",
+    "OPERATOR": "Operator",
     "DEPARTMENTS": "Departments",
     "SATELLITE": "Satellite",
     "ANY": "Any",
@@ -718,6 +719,8 @@
     "BULK_UPDATE_FAILED": "Bulk update failed",
     "CHOOSE_OPERATOR": "Choose an operator",
     "ADD_MANAGER_TO_BRANCH": "+ Add Manager",
+    "CHANGE_BRANCH_MANAGER": "Change Manager",
+    "REMOVE_BRANCH_MANAGER": "Remove Manager",
     "AQUISITION_STATUSES": {
       "SALES": "Sales",
       "RETENTION": "Retention"
@@ -751,6 +754,16 @@
       "REJECTED": "Rejected",
       "FAILED": "Failed",
       "CANCELED": "Canceled"
+    },
+    "WITHDRAWAL_STATUS": "Withdraw status",
+    "WITHDRAWAL_STATUSES": {
+      "CREATED": "Created",
+      "DEALING_REVIEW": "Dealing review",
+      "SALES_REVIEW": "Sales review",
+      "FINANCE_TO_EXECUTE": "Finance to execute",
+      "REJECTED": "Rejected",
+      "CANCELED": "Canceled",
+      "EXECUTED": "Executed"
     },
     "FILTERS": {
       "SEARCH_LIMIT": "Search limit"
@@ -1732,7 +1745,14 @@
     "CHANGE_PAYMENT_METHOD": "Change payment method",
     "CHANGE_STATUS": "Change status",
     "ACTIONS": {
-      "MARK_AS_CHARGEBACK": "Mark as chargeback"
+      "MARK_AS_CHARGEBACK": "Mark as chargeback",
+      "REJECT": "Reject",
+      "APPROVE": {
+        "DEFAULT": "Move to next status",
+        "MOVE_TO_SALES_REVIEW": "Move to Sales review",
+        "MOVE_TO_FINANCE_TO_EXECUTE": "Move to Finance to execute",
+        "APPROVE_WITHDRAW": "Approve withdraw"
+      }
     },
     "PLAYER_NOT_FOUND": {
       "TITLE": "Player not found!",
@@ -1744,7 +1764,11 @@
       "SUCCESSFULLY": "Payment updated successfully",
       "ERROR": "Update of the payment failed",
       "ERROR_STATUS": "Update of the payment status is failed",
-      "ERROR_METHOD": "Update of the payment method is failed"
+      "ERROR_METHOD": "Update of the payment method is failed",
+      "REJECT_FAILED": "Failed to reject payment",
+      "REJECT_SUCCESS": "Payment successfully rejected",
+      "APPROVE_FAILED": "Failed to approve payment",
+      "APPROVE_SUCCESS": "Payment successfully approved"
     },
     "ORIGINAL_AGENT": "Original Agent"
   },
@@ -1922,13 +1946,12 @@
       "PARTNER_TYPE": "Partner type",
       "SEARCH_BY": "Search by",
       "SEARCH_BY_PLACEHOLDER": "Name, Phone, Email, UUID...",
-      "REGISTRATION_DATE_FROM": "Date from",
-      "REGISTRATION_DATE_TO": "Date to",
       "REGISTRATION_DATE_RANGE": "Registration Date Range"
     },
     "SHOW_NOTES": "Show notes",
     "SHOW_SALES_STATUS": "Show sales status",
     "SHOW_FTD_AMOUNT": "Show FTD Amount",
+    "SHOW_KYC_STATUS": "Show KYC status",
     "MODALS": {
       "NEW_PARTNER": {
         "TITLE": "New partner",
@@ -2086,6 +2109,7 @@
   },
   "DATE_PICKER": {
     "PERIOD_RESETS": {
+      "TODAY": "Today",
       "PREVIOUS_WEEK": "Previous week",
       "THIS_WEEK": "This week",
       "PREVIOUS_MONTH": "Previous month",
@@ -2107,18 +2131,39 @@
         "ERROR": "Failed to create new office"
       }
     },
-    "ADD_OPERATOR_TO_BRANCH": {
-      "TITLE": "Add operator",
+    "ADD_BRANCH_MANAGER_MODAL": {
+      "ADD_TITLE": "Add manager",
+      "CHANGE_TITLE": "Change manager",
       "ADD_TO_TEAM": "You are about to add Manager to the Team «%{branch}»",
       "ADD_TO_DESK": "You are about to add Manager to the Desk «%{branch}». He will be able to see and manage all teams and operators inside this desk",
       "ADD_TO_OFFICE": "You are about to add Manager to the Office «%{branch}». He will be able to see and manage all desks, teams and operators inside this office",
+      "CHANGE_TO_TEAM": "You are about to change Manager for the Team «%{branch}»",
+      "CHANGE_TO_DESK": "You are about to change Manager for the Desk «%{branch}». He will be able to see and manage all teams and operators inside this desk",
+      "CHANGE_TO_OFFICE": "You are about to change Manager for the Office «%{branch}». He will be able to see and manage all desks, teams and operators inside this office",
+      "REMOVE_MANAGER": "You are about to remove Manager from branch",
+      "NO_OPERATORS_WARNING": "Here is no operators pre-assigned to current branch",
       "NOTIFICATION": {
         "FAILED": {
-          "OPERATOR_ADDED": "Operation failed"
+          "TITLE": "Operation failed",
+          "ADDITION_FAILED": "Unable to add manager to current branch, operator should be pre-assigned to it"
         },
         "SUCCEED": {
-          "OPERATOR_ADDED": "Operator added successfully",
-          "OPERATOR_ADDED_DESC": "Operator %{operator} added to %{branchType} %{branchName}"
+          "TITLE": "Manager added successfully",
+          "DESC": "Operator %{operatorName} added to %{branchType} %{branchName} as manager"
+        }
+      }
+    },
+    "REMOVE_BRANCH_MANAGER_MODAL": {
+      "TITLE": "Confirm to remove manager",
+      "DESCRIPTION": "Are you sure you want to remove manager from current branch?",
+      "NOTIFICATIONS": {
+        "FAILED": {
+          "TITLE": "Remove manager",
+          "DESC": "Operation was failed for some reason"
+        },
+        "SUCCEED": {
+          "TITLE": "Remove manager",
+          "DESC": "Manager was successfully removed"
         }
       }
     },
@@ -2924,7 +2969,8 @@
           "SOURCE": "Source",
           "OPERATOR": "Operator",
           "RATIO": "Ratio"
-        }
+        },
+        "PERCENTAGE_LIMIT_ERROR": "Sum of ratios should be equal to 100%. Please, change ratios correspondinly."
       },
       "DELETE_MODAL": {
         "HEADER": "Delete confirmation",
@@ -2968,9 +3014,7 @@
       "SEARCH_BY_PLACEHOLDER": "Callback ID, Player ID, Operator ID",
       "CALLBACK_OR_OPERATOR": "Callback or Operator ID",
       "STATUS": "Status",
-      "DATE_RANGE": "Date & time range",
-      "DATE_RANGE_START": "Start date",
-      "DATE_RANGE_END": "End date"
+      "DATE_RANGE": "Date & time range"
     },
     "CREATE_MODAL": {
       "TITLE": "New callback",
@@ -3346,5 +3390,9 @@
   },
   "WARNINGS": {
     "CARDHOLDER_INVALID": "Cardholder invalid"
+  },
+  "BRANCH_MANAGER_INFO": {
+    "MANAGED_BY": "Managed by",
+    "NO_MANAGER": "Current branch does not have a manager"
   }
 }

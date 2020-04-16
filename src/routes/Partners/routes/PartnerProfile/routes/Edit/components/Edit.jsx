@@ -23,6 +23,7 @@ class View extends Component {
     showNotes: PropTypes.bool,
     showSalesStatus: PropTypes.bool,
     showFTDAmount: PropTypes.bool,
+    showKycStatus: PropTypes.bool,
     auth: PropTypes.shape({
       uuid: PropTypes.string,
     }).isRequired,
@@ -36,6 +37,7 @@ class View extends Component {
     showNotes: false,
     showSalesStatus: false,
     showFTDAmount: false,
+    showKycStatus: false,
     allowedIpAddresses: [],
     forbiddenCountries: [],
   };
@@ -116,6 +118,9 @@ class View extends Component {
       profile: {
         data: {
           public: allowedPublicApi,
+          tradingAccountAutocreation,
+          tradingAccountCurrency,
+          tradingAccountType,
           externalAffiliateId,
           affiliateType,
           cellexpert,
@@ -132,6 +137,7 @@ class View extends Component {
       showNotes,
       showSalesStatus,
       showFTDAmount,
+      showKycStatus,
     } = this.props;
 
     const { serverError } = this.state;
@@ -142,11 +148,15 @@ class View extends Component {
           <div className="card-body">
             <PersonalForm
               initialValues={{
+                tradingAccountAutocreation,
+                tradingAccountCurrency,
+                tradingAccountType,
                 externalAffiliateId,
                 allowedIpAddresses,
                 forbiddenCountries,
                 showSalesStatus,
                 showFTDAmount,
+                showKycStatus,
                 affiliateType,
                 cellexpert,
                 satellite,

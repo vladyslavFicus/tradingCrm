@@ -1,3 +1,3 @@
 import { lazy } from 'react';
 
-export default lazy(() => import('./components/OfficeProfile'));
+export default lazy(() => import('./OfficeProfile'));
