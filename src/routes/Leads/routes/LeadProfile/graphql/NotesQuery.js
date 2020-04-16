@@ -4,6 +4,21 @@ import { Query } from 'react-apollo';
 import PropTypes from 'constants/propTypes';
 import { PINNED_NOTES_SIZE } from '../constants';
 
+export const NoteFragment = gql`fragment NoteFragment on Note {
+  _id
+  noteId
+  targetUUID
+  playerUUID
+  subject
+  content
+  pinned
+  changedAt
+  changedBy
+  operator {
+    fullName
+  }
+}`;
+
 export const REQUEST = gql`query NotesQuery(
     $targetUUID: String!
     $pinned: Boolean
@@ -16,21 +31,15 @@ export const REQUEST = gql`query NotesQuery(
     ) {
     data {
       content {
-        _id
-        noteId
-        targetUUID
-        playerUUID
-        content
-        pinned
-        changedAt
-        changedBy
+        ...NoteFragment
       }
     }
     error {
       error
     }
   }
-}`;
+}
+${NoteFragment}`;
 
 const NotesQuery = ({
   match: {

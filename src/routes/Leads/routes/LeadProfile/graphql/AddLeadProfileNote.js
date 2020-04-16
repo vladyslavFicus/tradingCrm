@@ -2,7 +2,7 @@ import React from 'react';
 import gql from 'graphql-tag';
 import { Mutation } from 'react-apollo';
 import PropTypes from 'constants/propTypes';
-import { REQUEST as notesQuery } from './NotesQuery';
+import { REQUEST as notesQuery, NoteFragment } from './NotesQuery';
 import { PINNED_NOTES_SIZE } from '../constants';
 
 const REQUEST = gql`mutation AddLeadProfileNote(
@@ -23,25 +23,15 @@ const REQUEST = gql`mutation AddLeadProfileNote(
       targetType: $targetType
     ) {
       data {
-        _id
-        noteId
-        targetUUID
-        playerUUID
-        subject
-        content
-        pinned
-        changedAt
-        changedBy
-        operator {
-          fullName
-        }
+        ...NoteFragment
       }
       error {
         error
       }
     }
   }
-}`;
+}
+${NoteFragment}`;
 
 const AddLeadProfileNote = ({
   match: {
