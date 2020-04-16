@@ -1,11 +1,27 @@
 import React from 'react';
 import { get } from 'lodash';
+import gql from 'graphql-tag';
 import { Mutation } from 'react-apollo';
 import PropTypes from 'constants/propTypes';
-import { removeNote, removeNoteMutation } from 'graphql/mutations/note';
+import { removeNote } from 'graphql/mutations/note';
 import { PINNED_NOTES_SIZE } from '../constants';
 
-const REQUEST = removeNoteMutation;
+const REQUEST = gql`mutation RemoveLeadProfileNote(
+  $noteId: String!,
+) {
+  note {
+    remove(
+      noteId: $noteId,
+      ) {
+      data {
+        noteId
+      }
+      error {
+        error
+      }
+    }
+  }
+}`;
 
 const RemoveLeadProfileNote = ({
   match: {

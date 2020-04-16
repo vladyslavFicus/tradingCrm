@@ -1,11 +1,47 @@
 import React from 'react';
+import gql from 'graphql-tag';
 import { Mutation } from 'react-apollo';
 import PropTypes from 'constants/propTypes';
-import { addNoteMutation } from 'graphql/mutations/note';
-import { notesQuery } from 'graphql/queries/notes';
+import { REQUEST as notesQuery } from './NotesQuery';
 import { PINNED_NOTES_SIZE } from '../constants';
 
-const REQUEST = addNoteMutation;
+const REQUEST = gql`mutation AddLeadProfileNote(
+  $subject: String
+  $content: String!
+  $targetUUID: String!
+  $pinned: Boolean!
+  $playerUUID: String!
+  $targetType: String!
+) {
+  note {
+    add(
+      subject: $subject
+      content: $content
+      targetUUID: $targetUUID
+      pinned: $pinned
+      playerUUID: $playerUUID
+      targetType: $targetType
+    ) {
+      data {
+        _id
+        noteId
+        targetUUID
+        playerUUID
+        subject
+        content
+        pinned
+        changedAt
+        changedBy
+        operator {
+          fullName
+        }
+      }
+      error {
+        error
+      }
+    }
+  }
+}`;
 
 const AddLeadProfileNote = ({
   match: {

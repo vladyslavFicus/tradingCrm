@@ -4,7 +4,7 @@ import { Query } from 'react-apollo';
 import PropTypes from 'constants/propTypes';
 import { PINNED_NOTES_SIZE } from '../constants';
 
-const REQUEST = gql`query notes(
+export const REQUEST = gql`query NotesQuery(
     $targetUUID: String!
     $pinned: Boolean
     $size: Int

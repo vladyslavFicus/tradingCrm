@@ -46,24 +46,6 @@ const updateLeadProfile = gql`mutation updateLead(
   }
 }`;
 
-const promoteLeadToClient = gql`mutation promoteLead(
-  $args: CreateProfileInputType
-) {
-  leads {
-    promote (
-      args: $args
-    ) {
-      data {
-        uuid
-      }
-      error {
-        error
-        fields_errors
-      }
-    }
-  }
-}`;
-
 const bulkLeadPromote = gql`mutation promoteToClient(
   $allRecords: Boolean,
   $leadIds: [String],
@@ -134,7 +116,6 @@ const bulkLeadUpdate = gql`mutation bulkLeadUpdate(
 
 export {
   updateLeadProfile,
-  promoteLeadToClient,
   bulkLeadPromote,
   bulkLeadUpdate,
 };
