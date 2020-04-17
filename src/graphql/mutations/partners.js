@@ -64,6 +64,7 @@ const updatePartner = gql`mutation updatePartner(
           showNotes
           showSalesStatus
           showFTDAmount
+          showKycStatus
         }
       }
       error {
