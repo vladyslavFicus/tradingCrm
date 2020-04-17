@@ -1,4 +1,6 @@
-export default {
+import I18n from 'i18n-js';
+
+export const attributeLabels = {
   name: 'HIERARCHY.PROFILE_RULE_TAB.MODAL.LABELS.RULE_NAME',
   country: 'HIERARCHY.PROFILE_RULE_TAB.MODAL.LABELS.COUNTRY',
   language: 'HIERARCHY.PROFILE_RULE_TAB.MODAL.LABELS.LANGUAGE',
@@ -11,4 +13,8 @@ export default {
   operator: 'HIERARCHY.PROFILE_RULE_TAB.MODAL.LABELS.OPERATOR',
   source: 'HIERARCHY.PROFILE_RULE_TAB.MODAL.LABELS.SOURCE',
   ratio: 'HIERARCHY.PROFILE_RULE_TAB.MODAL.LABELS.RATIO',
+};
+
+export const customErrors = {
+  'between.operatorSpreads.*.percentage': I18n.t('HIERARCHY.PROFILE_RULE_TAB.MODAL.ERRORS.BETWEEN_RATIO'),
 };

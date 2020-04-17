@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import { Formik, Form, Field, FieldArray } from 'formik';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import PropTypes from 'constants/propTypes';
-import { createValidator } from 'utils/validator';
+import { createValidator, translateLabels } from 'utils/validator';
 import countryList from 'utils/countryList';
 import { Button } from 'components/UI';
 import { isSales } from 'constants/hierarchyTypes';
@@ -23,16 +23,19 @@ import {
   depositCount,
   deskTypes,
 } from 'constants/rules';
-import attributeLabels from './constants';
+import { attributeLabels, customErrors } from './constants';
 import './RuleModal.scss';
 
-const validate = createValidator({
-  name: ['string'],
+const validate = deskType => createValidator({
+  name: ['required', 'string'],
   priority: ['required', `in:,${priorities.join()}`],
   countries: [`in:,${Object.keys(countryList).join()}`],
   languages: [`in:,${languages.map(({ languageCode }) => languageCode).join()}`],
-  type: [`in:,${ruleTypes.map(({ value }) => value).join()}`],
-}, attributeLabels, false);
+  'operatorSpreads.*.percentage': ['between:1,100'],
+  ...(deskType !== deskTypes.RETENTION) && {
+    type: ['required', `in:,${ruleTypes.map(({ value }) => value).join()}`],
+  },
+}, translateLabels(attributeLabels), false, customErrors);
 
 class RuleModal extends PureComponent {
   static propTypes = {
@@ -76,7 +79,7 @@ class RuleModal extends PureComponent {
     arrayHelpers.insert(index, '');
 
     setFieldValue(name, value);
-  }
+  };
 
   render() {
     const {
@@ -115,7 +118,7 @@ class RuleModal extends PureComponent {
             affiliateUUIDs: '',
             operatorSpreads: [''],
           }}
-          validate={validate}
+          validate={validate(deskType)}
           onSubmit={this.onHandleSubmit}
         >
           {({ errors, dirty, isValid, isSubmitting, values: { operatorSpreads }, setFieldValue }) => (
@@ -320,7 +323,7 @@ class RuleModal extends PureComponent {
                                 disabled={isSubmitting || !operatorSpreads[index]}
                                 component={FormikInputField}
                                 className={
-                                  classNames({
+                                  classNames('col-4', {
                                     'input--has-error': percentageLimitError,
                                   })
                                 }
