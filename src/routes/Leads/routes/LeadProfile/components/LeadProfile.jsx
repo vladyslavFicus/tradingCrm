@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Suspense } from 'react';
 import I18n from 'i18n-js';
 import { get } from 'lodash';
 import { SubmissionError } from 'redux-form';
@@ -309,11 +309,13 @@ class LeadProfile extends Component {
           params={params}
         />
         <div className="card no-borders">
-          <Switch>
-            <Route path={`${path}/profile`} component={LeadProfileTab} />
-            <Route disableScroll path={`${path}/notes`} component={Notes} />
-            <Redirect to={`${url}/profile`} />
-          </Switch>
+          <Suspense fallback={null}>
+            <Switch>
+              <Route path={`${path}/profile`} component={LeadProfileTab} />
+              <Route disableScroll path={`${path}/notes`} component={Notes} />
+              <Redirect to={`${url}/profile`} />
+            </Switch>
+          </Suspense>
         </div>
         {
           popover.name === NOTE_POPOVER
