@@ -18,4 +18,13 @@
     color: #46BE8A;
     font-weight: bolder;
   }
+
+   &__changes {
+     width: 150px;
+     margin: 5px 0;
+     padding: 2px;
+     text-align: center;
+     border: 2px dashed #46BE8A;
+     text-transform: uppercase;
+   }
 }

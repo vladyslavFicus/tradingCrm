@@ -34,6 +34,16 @@ class FeedContent extends PureComponent {
   handleMixedDetails = (details, acc) => {
     Object.entries(details).forEach(([detailKey, detailValue]) => {
       if (isObject(detailValue)) {
+        if (detailKey === 'changes') {
+          acc.push(
+            <div key={detailKey} className="FeedContent__changes">
+              <span className="FeedContent__arrow">&#8595;</span>
+              <span>{I18n.t('COMMON.CHANGES')}</span>
+              <span className="FeedContent__arrow">&#8595;</span>
+            </div>,
+          );
+        }
+
         const { value, changeType, from, to } = detailValue;
 
         switch (changeType) {
