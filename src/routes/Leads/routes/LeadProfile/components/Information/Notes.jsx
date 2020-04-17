@@ -47,9 +47,8 @@ class Notes extends Component {
               : I18n.t('COMMON.UNKNOWN_TIME')
           } {I18n.t('COMMON.TO')} {this.renderItemId(item.targetUUID)}
         </small>
-        <div className="note-content__content">
-          {item.content}
-        </div>
+        <div className="note-content__subject">{item.subject}</div>
+        <div className="note-content__content">{item.content}</div>
       </div>
     </PopoverButton>
   );
