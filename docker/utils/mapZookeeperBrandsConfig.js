@@ -15,7 +15,10 @@ module.exports = configs => Object.entries(configs).reduce((acc, [id, config]) =
     },
     clickToCall: {
       isActive: get(config, 'nas.brand.clickToCall.isActive', false),
-      url: get(config, 'nas.brand.clickToCall.url'),
+      asterisk: {
+        isActive: get(config, 'nas.brand.clickToCall.asterisk.isActive', false),
+        prefixes: get(config, 'nas.brand.clickToCall.asterisk.prefixes', {}),
+      },
     },
     isMT4LiveAvailable: !!get(config, 'nas.brand.mt4.groups'),
     isMT4DemoAvailable: !!get(config, 'nas.brand.mt4.demo_groups'),

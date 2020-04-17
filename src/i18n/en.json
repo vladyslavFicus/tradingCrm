@@ -1906,6 +1906,7 @@
           "LAST_NAME": "Last name",
           "COUNTRY": "Country",
           "PHONE": "Phone",
+          "SIP": "SIP",
           "WHITE_LISTED_IP": "White listed IPs",
           "RESTRICTED_COUNTRIES": "Restricted countries"
         }
@@ -2712,6 +2713,7 @@
       "EMAIL": "Email",
       "COUNTRY": "Country",
       "PHONE": "Phone",
+      "MOBILE": "Mobile",
       "DATE_OF_BIRTH": "Date of birth",
       "GENDER": "Gender",
       "CITY": "City",

@@ -206,6 +206,7 @@ class View extends Component {
                 country: profile.country,
                 email: profile.email,
                 phoneNumber: profile.phoneNumber,
+                sip: profile.sip,
                 allowedIpAddresses,
                 forbiddenCountries,
                 showNotes,

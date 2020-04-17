@@ -76,6 +76,7 @@
     "react-notification-system": "^0.2.15",
     "react-onclickoutside": "^6.5.0",
     "react-placeholder": "^1.0.6",
+    "react-portal-tooltip": "^2.4.7",
     "react-redux": "^5.0.6",
     "react-router-dom": "^5.0.0",
     "react-rte": "^0.16.1",

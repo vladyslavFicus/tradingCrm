@@ -2,17 +2,17 @@ import React, { PureComponent } from 'react';
 import { graphql, compose } from 'react-apollo';
 import moment from 'moment';
 import I18n from 'i18n-js';
-import { getBrand, getClickToCall } from 'config';
+import { getBrand } from 'config';
 import { withNotifications, withModals } from 'hoc';
 import Regulated from 'components/Regulated';
 import Uuid from 'components/Uuid';
+import Click2Call from 'components/Click2Call';
 import { withStorage } from 'providers/StorageProvider';
 import { withPermission } from 'providers/PermissionsProvider';
 import PermissionContent from 'components/PermissionContent';
 import permissions from 'config/permissions';
 import { hideText } from 'utils/hideText';
 import {
-  clickToCall,
   updateConfigurationMutation,
 } from 'graphql/mutations/profile';
 import {
@@ -35,7 +35,6 @@ class Personal extends PureComponent {
   static propTypes = {
     newProfile: PropTypes.newProfile,
     notify: PropTypes.func.isRequired,
-    clickToCall: PropTypes.func.isRequired,
     loading: PropTypes.bool.isRequired,
     modals: PropTypes.shape({
       emailTemplateSelectModal: PropTypes.modalType,
@@ -70,26 +69,6 @@ class Personal extends PureComponent {
         ? I18n.t('COMMON.ACTIONS.SUCCESSFULLY')
         : I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY'),
     });
-  };
-
-  handleClickToCall = number => async () => {
-    const { notify } = this.props;
-
-    const { data: { profile: { clickToCall: { success } } } } = await this.props.clickToCall(
-      {
-        variables: {
-          number,
-        },
-      },
-    );
-
-    if (!success) {
-      notify({
-        level: 'error',
-        title: I18n.t('COMMON.FAIL'),
-        message: I18n.t('PLAYER_PROFILE.PROFILE.CLICK_TO_CALL_FAILED'),
-      });
-    }
   };
 
   triggerEmailSelectModal = () => {
@@ -157,7 +136,6 @@ class Personal extends PureComponent {
       permission,
     } = this.props;
 
-    const withCall = getClickToCall().isActive;
     const isPhoneHidden = getBrand().privatePhoneByDepartment.includes(department);
     const isEmailHidden = getBrand().privateEmailByDepartment.includes(department);
     const isSendEmailAvailable = (new Permissions(permissions, permissions.EMAIL_TEMPLATES.SEND_EMAIL))
@@ -191,15 +169,13 @@ class Personal extends PureComponent {
               label={I18n.t('CLIENT_PROFILE.DETAILS.PHONE')}
               value={isPhoneHidden ? hideText(phone) : phone}
               verified={phoneVerified}
-              withCall={withCall}
-              onClickToCall={this.handleClickToCall(phone)}
+              additional={<Click2Call number={phone} />}
               className="Personal__contacts"
             />
             <PersonalInformationItem
               label={I18n.t('CLIENT_PROFILE.DETAILS.ALT_PHONE')}
               value={isPhoneHidden ? hideText(additionalPhone) : additionalPhone}
-              withCall={withCall}
-              onClickToCall={this.handleClickToCall(additionalPhone)}
+              additional={<Click2Call number={additionalPhone} />}
               className="Personal__contacts"
             />
             <PersonalInformationItem
@@ -356,9 +332,6 @@ export default compose(
     // emailPreviewModal: EmailPreviewModal,
   }),
   withNotifications,
-  graphql(clickToCall, {
-    name: 'clickToCall',
-  }),
   graphql(updateConfigurationMutation, {
     name: 'updateConfiguration',
   }),

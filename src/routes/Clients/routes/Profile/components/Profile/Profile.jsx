@@ -570,7 +570,7 @@ class Profile extends Component {
     const acquisitionData = get(newProfileData, 'acquisition') || {};
     const lastSignInSessions = get(newProfileData, 'profileView.lastSignInSessions') || [];
 
-    if (loading) {
+    if (loading && !newProfile) {
       return null;
     }
 
@@ -602,7 +602,7 @@ class Profile extends Component {
               onEditNoteClick={this.handleEditNoteClick}
               pinnedNotes={get(notes, 'data') || {}}
               acquisitionData={acquisitionData}
-              loading={loading}
+              loading={loading && !newProfile}
             />
           </HideDetails>
         </div>
