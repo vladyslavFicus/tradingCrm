@@ -3,22 +3,25 @@ team: "falcon"
 secret: false
 java: false
 replicaCount: 1
+hpa: true
 health:
   startupProbe:
     initial: 5
-    timeout: 5
-    period: 5
+    timeout: 3
+    period: 3
     threshold: 60
   livenessProbe:
-    initial: 10
-    timeout: 10
-    period: 5
+    initial: 5
+    timeout: 2
+    period: 2
   readinessProbe:
-    initial: 10
-    timeout: 3
-    period: 5
+    initial: 5
+    timeout: 2
+    period: 2
 resources:
   requests:
-    memory: 1Gi
+    cpu: '0.2'
+    memory: 256Mi
   limits:
-    memory: 4Gi
+    cpu: '1'
+    memory: 1Gi
