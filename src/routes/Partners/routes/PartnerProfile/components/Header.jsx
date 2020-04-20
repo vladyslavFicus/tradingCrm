@@ -86,7 +86,7 @@ class Header extends Component {
               </button>
             </If>
             <If condition={status === statuses.INACTIVE}>
-              {/* Запроса как и прав у юзера на SEND_INVITATION в API больше нет */}
+              {/* Here is no API functional to SEND_INVITATION anymore */}
               <PermissionContent permissions={permissions.OPERATORS.OPERATOR_SEND_INVITATION}>
                 <Button
                   className="btn-sm btn-default-outline margin-right-10"
