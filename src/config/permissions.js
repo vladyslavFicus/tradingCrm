@@ -9,6 +9,7 @@ export default {
     UPDATE_PROFILE: 'operator.editOperatorProfile',
     UPDATE_STATUS: 'operator.changeOperatorStatus',
     CHANGE_PASSWORD: 'auth2.operator.changePassword',
+    RESET_PASSWORD: 'auth2.resetPassword',
   },
   PARTNERS: {
     PARTNERS_LIST_VIEW: 'affiliate.searchAffiliate',
@@ -52,6 +53,7 @@ export default {
     UPDATE_EMAIL: 'profile.admin.updateProfileEmail',
     VERIFY_PHONE: 'profile.admin.verifyPhone',
     VERIFY_EMAIL: 'profile.admin.verifyEmail',
+    RESET_PASSWORD: 'auth2.resetPassword',
     CHANGE_PASSWORD: 'auth2.client.changePassword',
     CHANGE_ACQUISITION_STATUS: 'hierarchy-updater.user.bulkUpdateUserParents',
     CHANGE_CONFIGURATION: 'profile.admin.updateProfileConfiguration',
@@ -59,12 +61,12 @@ export default {
     VIEW_FILES: 'attachments.getUserAttachments',
     VIEW_FILE: 'attachments.downloadFile',
     GET_FILES: 'attachments.getUserVerificationStatus',
-    UPLOAD_FILE: 'attachments.updateAttachment', // || attachments.uploadFile
+    UPLOAD_FILE: 'attachments.updateAttachment',
     DELETE_FILE: 'attachments.deleteAttachment',
   },
   FILES: {
     SEARCH_FILES: 'attachments.searchAttachments',
-    UPLOAD_FILE: 'attachments.updateAttachment', // || attachments.uploadFile
+    UPLOAD_FILE: 'attachments.updateAttachment',
   },
   PAYMENT: {
     DEPOSIT: 'payment.deposit',

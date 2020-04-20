@@ -27,9 +27,7 @@ class NotesGridFilter extends Component {
     authoritiesOptions: PropTypes.shape({
       authoritiesOptions: PropTypes.shape({
         data: PropTypes.shape({
-          post: PropTypes.shape({
-            departmentRole: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.string)),
-          }),
+          authoritiesOptions: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.string)),
         }),
       }),
       loading: PropTypes.bool.isRequired,
@@ -73,8 +71,8 @@ class NotesGridFilter extends Component {
       invalid,
     } = this.props;
 
-    const allDepartmentRoles = get(authoritiesOptions, 'data.post.departmentRole') || {};
-    const departmentRoles = omit(allDepartmentRoles, 'PLAYER');
+    const allDepartmentRoles = get(authoritiesOptions, 'data.authoritiesOptions') || {};
+    const departmentRoles = omit(allDepartmentRoles, ['PLAYER', 'AFFILIATE']);
 
     return (
       <form className="filter-row" onSubmit={handleSubmit(onSubmit)}>

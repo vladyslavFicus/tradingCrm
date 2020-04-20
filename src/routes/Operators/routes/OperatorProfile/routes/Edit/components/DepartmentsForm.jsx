@@ -115,6 +115,7 @@ class DepartmentsForm extends Component {
               type="text"
               component={SelectField}
               className="filter-row__medium"
+              disabled={!formValues.department}
             >
               <option value="">{I18n.t('COMMON.SELECT_OPTION.DEFAULT')}</option>
               {availableRoles.map(item => (

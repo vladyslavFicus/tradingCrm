@@ -136,7 +136,7 @@ class OperatorProfileLayout extends Component {
     const { changePassword, notify, match: { params: { id: playerUUID } } } = this.props;
 
     const response = await changePassword({ variables: { password, playerUUID } });
-    const success = get(response, 'data.profile.changePassword.success');
+    const success = get(response, 'data.operator.changeOperatorPassword.success');
 
     notify({
       level: !success ? 'error' : 'success',

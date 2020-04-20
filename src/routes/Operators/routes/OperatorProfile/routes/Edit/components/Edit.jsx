@@ -190,10 +190,6 @@ class View extends Component {
     const initialValues = get(hierarchy, 'userHierarchyById.data') || {};
     const isPartner = operatorType === operatorTypes.PARTNER;
 
-    if (!isPartner && departmentsRoles) {
-      delete departmentsRoles.AFFILIATE_PARTNER;
-    }
-
     return (
       <div className="card-body">
         <div className="card">

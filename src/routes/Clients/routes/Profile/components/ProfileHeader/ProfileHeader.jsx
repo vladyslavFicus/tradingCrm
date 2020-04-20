@@ -30,9 +30,7 @@ import Questionnaire from '../Questionnaire';
 import './ProfileHeader.scss';
 
 const changePasswordPermission = new Permissions([permissions.USER_PROFILE.CHANGE_PASSWORD]);
-
-// The permissions.OPERATORS.RESET_PASSWORD does not supports by API anymore
-const resetPasswordPermission = new Permissions([permissions.OPERATORS.RESET_PASSWORD]);
+const resetPasswordPermission = new Permissions([permissions.USER_PROFILE.RESET_PASSWORD]);
 
 class ProfileHeader extends Component {
   static propTypes = {

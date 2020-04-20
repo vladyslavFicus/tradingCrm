@@ -104,7 +104,6 @@ class Header extends Component {
             {
               operatorStatus === statuses.ACTIVE
               && (
-                // Запроса как и прав у юзера на RESET_PASSWORD в API больше нет
                 <PermissionContent permissions={permissions.OPERATORS.RESET_PASSWORD}>
                   <Button
                     className="btn-sm btn-default-outline margin-right-10"
