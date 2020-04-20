@@ -1,37 +1,33 @@
 import React, { PureComponent } from 'react';
 import I18n from 'i18n-js';
-import { get } from 'lodash';
+import { get, set, cloneDeep } from 'lodash';
+import { compose } from 'react-apollo';
+import { withRouter } from 'react-router-dom';
+import { withRequests } from 'apollo';
 import { TextRow } from 'react-placeholder/lib/placeholders';
 import PropTypes from 'constants/propTypes';
 import Placeholder from 'components/Placeholder';
 import PaymentFilterFields from 'components/PaymentFilterFields';
 import Grid, { GridColumn } from 'components/Grid';
 import { columns } from 'utils/paymentHelpers';
+import { PartnersQuery, PaymentsQuery } from './graphql';
 
-class View extends PureComponent {
+class PaymentsList extends PureComponent {
   static propTypes = {
     ...PropTypes.router,
-    clientPayments: PropTypes.shape({
+    payments: PropTypes.query({
       clientPayments: PropTypes.shape({
         data: PropTypes.pageable(PropTypes.paymentEntity),
         error: PropTypes.shape({
           error: PropTypes.any,
         }),
       }),
-      loading: PropTypes.bool.isRequired,
-      loadMore: PropTypes.func,
-      refetch: PropTypes.func,
-    }),
-    partners: PropTypes.partnersList.isRequired,
-    partnersLoading: PropTypes.bool.isRequired,
-    location: PropTypes.object.isRequired,
-  };
-
-  static defaultProps = {
-    clientPayments: {
-      clientPayments: { content: [] },
-      loading: false,
-    },
+    }).isRequired,
+    partners: PropTypes.query({
+      partners: PropTypes.shape({
+        data: PropTypes.pageable(PropTypes.partner),
+      }),
+    }).isRequired,
   };
 
   static contextTypes = {
@@ -59,9 +55,12 @@ class View extends PureComponent {
   }
 
   handleRefresh = () => {
-    const { clientPayments, location: { query } } = this.props;
+    const {
+      payments,
+      location: { query },
+    } = this.props;
 
-    clientPayments.refetch({
+    payments.refetch({
       ...(query && query.filters),
       requestId: Math.random().toString(36).slice(2),
       page: {
@@ -72,16 +71,20 @@ class View extends PureComponent {
     });
   };
 
-  handleGetRequestState = () => this.props.clientPayments.loading;
+  handleGetRequestState = () => this.props.payments.loading;
 
   handlePageChanged = () => {
     const {
-      clientPayments: { loadMore, loading },
+      payments: {
+        variables: { args },
+        loadMore,
+        data,
+      },
     } = this.props;
 
-    if (!loading) {
-      loadMore();
-    }
+    const page = get(data, 'clientPayments.data.number') || 0;
+
+    loadMore(set({ args: cloneDeep(args) }, 'args.page.from', page + 1));
   };
 
   handleSort = (sortData) => {
@@ -105,22 +108,21 @@ class View extends PureComponent {
 
   render() {
     const {
-      clientPayments: {
-        clientPayments,
-        loading,
-      },
-      partners,
-      partnersLoading,
+      payments: { data: paymentsData, loading: paymentsLoading },
+      partners: { data: partnersData, loading: partnersLoading },
     } = this.props;
 
-    const payments = get(clientPayments, 'data') || { content: [] };
-    const paymentsError = get(clientPayments, 'error');
+    const partners = get(partnersData, 'partners.data') || [];
+    const payments = get(paymentsData, 'clientPayments.data') || {
+      content: [],
+    };
+    const paymentsError = get(paymentsData, 'clientPayments.error');
 
     return (
       <div className="card">
         <div className="card-heading">
           <Placeholder
-            ready={!loading}
+            ready={!paymentsLoading}
             customPlaceholder={(
               <TextRow
                 className="animated-background"
@@ -154,10 +156,10 @@ class View extends PureComponent {
             data={payments.content}
             handleSort={this.handleSort}
             handlePageChanged={this.handlePageChanged}
-            isLoading={loading}
+            isLoading={paymentsLoading}
             isLastPage={payments.last}
             withLazyLoad
-            withNoResults={!!paymentsError || (!loading && payments.content.length === 0)}
+            withNoResults={paymentsError}
           >
             {columns({
               paymentInfo: { onSuccess: this.handleRefresh },
@@ -177,4 +179,10 @@ class View extends PureComponent {
   }
 }
 
-export default View;
+export default compose(
+  withRouter,
+  withRequests({
+    partners: PartnersQuery,
+    payments: PaymentsQuery,
+  }),
+)(PaymentsList);
