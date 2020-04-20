@@ -92,6 +92,7 @@ const operatorQuery = gql`query getOperatorByUUID(
       lastName
       operatorStatus
       phoneNumber
+      sip
       registeredBy
       registrationDate
       statusChangeAuthor

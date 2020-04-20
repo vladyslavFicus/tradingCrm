@@ -7,11 +7,7 @@ import './GridHeader.scss';
 class GridHeader extends PureComponent {
   static propTypes = {
     gridColumns: PropTypes.arrayOf(PropTypes.object).isRequired,
-    touchedRowsIds: PropTypes.arrayOf(PropTypes.number).isRequired,
-    allRowsSelected: PropTypes.bool.isRequired,
-    withMultiSelect: PropTypes.bool.isRequired,
     handleSort: PropTypes.func.isRequired,
-    handleAllRowsSelect: PropTypes.func.isRequired,
   };
 
   state = {
@@ -49,10 +45,6 @@ class GridHeader extends PureComponent {
   render() {
     const {
       gridColumns,
-      touchedRowsIds,
-      allRowsSelected,
-      withMultiSelect,
-      handleAllRowsSelect,
     } = this.props;
 
     const { sortList } = this.state;
@@ -68,10 +60,6 @@ class GridHeader extends PureComponent {
               sortingName={sortBy}
               sortingDirection={sortList[sortBy]}
               columnIndex={index}
-              touchedRowsIds={touchedRowsIds}
-              allRowsSelected={allRowsSelected}
-              withMultiSelect={withMultiSelect}
-              handleAllRowsSelect={handleAllRowsSelect}
             />
           ))}
         </tr>

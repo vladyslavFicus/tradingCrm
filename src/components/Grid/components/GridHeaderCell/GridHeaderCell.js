@@ -1,12 +1,14 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import { withGridContext } from '../GridProvider';
 import GridCheckbox from '../GridCheckbox';
 import { ReactComponent as SortingArrows } from './SortingArrows.svg';
 import './GridHeaderCell.scss';
 
 class GridHeaderCell extends PureComponent {
   static propTypes = {
+    gridData: PropTypes.arrayOf(PropTypes.object).isRequired,
     columnIndex: PropTypes.number.isRequired,
     header: PropTypes.oneOfType([PropTypes.func, PropTypes.string]).isRequired,
     withMultiSelect: PropTypes.bool.isRequired,
@@ -66,6 +68,7 @@ class GridHeaderCell extends PureComponent {
 
   render() {
     const {
+      gridData,
       columnIndex,
       withMultiSelect,
       touchedRowsIds,
@@ -74,7 +77,7 @@ class GridHeaderCell extends PureComponent {
 
     return (
       <Choose>
-        <When condition={withMultiSelect && columnIndex === 0}>
+        <When condition={withMultiSelect && gridData.length && columnIndex === 0}>
           <th className="GridHeaderCell GridHeaderCell--with-multiselect">
             <GridCheckbox
               isActive={allRowsSelected}
@@ -94,4 +97,4 @@ class GridHeaderCell extends PureComponent {
   }
 }
 
-export default GridHeaderCell;
+export default withGridContext(GridHeaderCell);

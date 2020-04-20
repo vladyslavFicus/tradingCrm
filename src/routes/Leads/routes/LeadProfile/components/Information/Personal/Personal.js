@@ -2,7 +2,6 @@ import React, { Fragment, PureComponent } from 'react';
 import moment from 'moment';
 import I18n from 'i18n-js';
 import { get } from 'lodash';
-import { withRequests } from 'apollo';
 import { compose } from 'react-apollo';
 import Flag from 'react-world-flags';
 import Uuid from 'components/Uuid';
@@ -12,42 +11,20 @@ import { withStorage } from 'providers/StorageProvider';
 import PropTypes from 'constants/propTypes';
 import languageNames from 'constants/languageNames';
 import { PersonalInformationItem } from 'components/Information';
+import Click2Call from 'components/Click2Call';
 import countryList, { getCountryCode } from 'utils/countryList';
-import { getBrand, getClickToCall } from 'config';
-import ClickToCallMutation from './graphql/ClickToCallMutation';
+import { getBrand } from 'config';
 import './Personal.scss';
 
 class Personal extends PureComponent {
   static propTypes = {
     data: PropTypes.object,
     loading: PropTypes.bool.isRequired,
-    notify: PropTypes.func.isRequired,
-    clickToCall: PropTypes.func.isRequired,
     auth: PropTypes.auth.isRequired,
   };
 
   static defaultProps = {
     data: {},
-  };
-
-  handleClickToCall = async (number) => {
-    const { notify, clickToCall } = this.props;
-
-    const { data: { profile: { clickToCall: { success } } } } = await clickToCall(
-      {
-        variables: {
-          number,
-        },
-      },
-    );
-
-    if (!success) {
-      notify({
-        level: 'error',
-        title: I18n.t('COMMON.FAIL'),
-        message: I18n.t('LEAD_PROFILE.PERSONAL.CLICK_TO_CALL_FAILED'),
-      });
-    }
   };
 
   render() {
@@ -57,6 +34,7 @@ class Personal extends PureComponent {
         birthDate,
         gender,
         phone,
+        mobile,
         email,
         country,
         city,
@@ -71,7 +49,6 @@ class Personal extends PureComponent {
       },
     } = this.props;
 
-    const withCall = getClickToCall().isActive;
     const isPhoneHidden = getBrand().privatePhoneByDepartment.includes(department);
     const profileLanguage = get(languageNames.find(item => item.languageCode === language), 'languageName')
       || languageNames[0].languageName;
@@ -103,9 +80,14 @@ class Personal extends PureComponent {
               />
               <PersonalInformationItem
                 label={I18n.t('LEAD_PROFILE.DETAILS.PHONE')}
-                withCall={withCall}
-                onClickToCall={() => this.handleClickToCall(phone)}
                 value={isPhoneHidden ? hideText(phone) : phone}
+                additional={<Click2Call number={phone} />}
+                className="Personal__contacts"
+              />
+              <PersonalInformationItem
+                label={I18n.t('LEAD_PROFILE.DETAILS.MOBILE')}
+                value={isPhoneHidden ? hideText(mobile) : mobile}
+                additional={<Click2Call number={mobile} />}
                 className="Personal__contacts"
               />
               <PersonalInformationItem
@@ -165,9 +147,6 @@ class Personal extends PureComponent {
 }
 
 export default compose(
-  withRequests({
-    clickToCall: ClickToCallMutation,
-  }),
   withNotifications,
   withStorage(['auth']),
 )(Personal);

@@ -178,7 +178,7 @@ class Header extends Component {
               availableStatuses={availableStatuses}
             />
           </div>
-          <div className="header-block">
+          <div className="header-block header-block-inner">
             <div className="header-block-title">{I18n.t('OPERATORS.GRID_HEADER.REGISTERED')}</div>
             {
               registrationDate

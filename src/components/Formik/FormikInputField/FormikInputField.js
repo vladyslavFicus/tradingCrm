@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { get } from 'lodash';
 import Input from 'components/Input';
 
 class FormikInputField extends PureComponent {
@@ -14,6 +15,12 @@ class FormikInputField extends PureComponent {
         PropTypes.oneOfType([
           PropTypes.string,
           PropTypes.arrayOf(PropTypes.string),
+          PropTypes.arrayOf(PropTypes.objectOf(
+            PropTypes.oneOfType([
+              PropTypes.string,
+              PropTypes.arrayOf(PropTypes.string),
+            ]),
+          ).isRequired),
         ]),
       ).isRequired,
       touched: PropTypes.object.isRequired,
@@ -37,7 +44,7 @@ class FormikInputField extends PureComponent {
       ...rest,
       ...field,
       ...(touched[field.name] && !isSubmitting),
-      error: errors && errors[field.name],
+      error: errors && get(errors, field.name),
     };
 
     return <Input {...props} />;

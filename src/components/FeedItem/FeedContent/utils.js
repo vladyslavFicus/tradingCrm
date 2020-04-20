@@ -9,6 +9,7 @@ import { departments, roles } from 'constants/operators';
 import { kycStatuses } from 'constants/kycStatuses';
 import { statuses, attributeLabels } from 'constants/user';
 import { documentsType } from 'constants/files';
+import { manualPaymentMethodsLabels } from 'constants/payment';
 
 const humanizeDurationConfig = {
   language: 'en',
@@ -24,6 +25,7 @@ const kycStatusesPath = 'KYC_REQUESTS.STATUS';
 const rolesPath = 'CONSTANTS.OPERATORS.ROLES';
 const statusesPath = 'STATUSES_LABELS';
 const filesPath = 'FILES.DOCUMENTS_TYPE';
+const manualPaymentMethodsPath = 'CONSTANTS.PAYMENT.PAYMENT_METHODS';
 
 const transformConstFromArr = (arr, path) => arr.reduce((acc, value) => ({
   ...acc,
@@ -44,6 +46,7 @@ const translateValue = (value) => {
     ...(transformConstFromObj(roles, rolesPath)),
     ...(transformConstFromObj(riskStatuses, riskStatusesPath)),
     ...(transformConstFromObj(documentsType, filesPath)),
+    ...(transformConstFromObj(manualPaymentMethodsLabels, manualPaymentMethodsPath)),
     ...(genders()),
     INDIVIDUAL_RETAIL: i18n.t('CLIENT_PROFILE.DETAILS.INDIVIDUAL_RETAIL'),
     INDIVIDUAL_PROFESSIONAL: i18n.t('CLIENT_PROFILE.DETAILS.INDIVIDUAL_PROFESSIONAL'),
@@ -51,6 +54,8 @@ const translateValue = (value) => {
     CORPORATE_PROFESSIONAL: i18n.t('CLIENT_PROFILE.DETAILS.CORPORATE_PROFESSIONAL'),
     'Phone verified': i18n.t('PLAYER_PROFILE.PROFILE.VERIFIED_PHONE'),
     'E-mail verified': i18n.t('PLAYER_PROFILE.PROFILE.VERIFIED_EMAIL'),
+    PAYMENT_COMPLETED: i18n.t('FEED_ITEM.PAYMENTS.PAYMENT_COMPLETED'),
+    PAYMENT_APPROVED: i18n.t('FEED_ITEM.PAYMENTS.PAYMENT_APPROVED'),
   };
   // 'FEED_ITEM.OPERATOR_CREATION.INVITATION_SENT_SUCCESS',
   // 'FEED_ITEM.OPERATOR_CREATION.INVITATION_SENT_FAILURE',

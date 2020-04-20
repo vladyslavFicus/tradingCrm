@@ -13,6 +13,8 @@ import {
   statusesLabels,
   tradingTypes,
   tradingTypesLabelsWithColor,
+  withdrawStatuses,
+  withdrawStatusesLabels,
 } from 'constants/payment';
 import formatLabel from 'utils/formatLabel';
 import renderLabel from 'utils/renderLabel';
@@ -39,6 +41,7 @@ const filterLabels = {
   firstDeposit: 'PROFILE.LIST.FILTERS.FIRST_DEPOSIT',
   partners: 'PROFILE.LIST.FILTERS.AFFILIATES',
   warning: 'CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.WARNING',
+  withdrawStatus: 'COMMON.WITHDRAWAL_STATUS',
 };
 
 const filterPlaceholders = {
@@ -65,6 +68,7 @@ const filterPlaceholders = {
   accountType: 'COMMON.SELECT_OPTION.ANY',
   firstDeposit: 'COMMON.SELECT_OPTION.ANY',
   warning: 'COMMON.SELECT_OPTION.ANY',
+  withdrawStatus: 'COMMON.SELECT_OPTION.ANY',
 };
 
 const firstDepositStatuses = [{
@@ -174,6 +178,19 @@ export default ({
       .map(type => ({
         value: type,
         label: tradingTypesLabelsWithColor[type].label,
+      })),
+  },
+  {
+    type: fieldTypes.SELECT,
+    name: 'withdrawStatuses',
+    label: filterLabels.withdrawStatus,
+    placeholder: filterPlaceholders.withdrawStatus,
+    multiple: true,
+    className: fieldClassNames.MEDIUM,
+    selectOptions: Object.keys(withdrawStatuses)
+      .map(withdrawStatus => ({
+        value: withdrawStatus,
+        label: withdrawStatusesLabels[withdrawStatus] || withdrawStatus,
       })),
   },
   {

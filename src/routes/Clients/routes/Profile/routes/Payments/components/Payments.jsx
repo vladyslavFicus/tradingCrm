@@ -161,8 +161,6 @@ class Payments extends Component {
     });
   };
 
-  handleModalActionSuccess = () => this.props.clientPayments.refetch();
-
   handleSort = (sortData) => {
     const { history } = this.props;
     const query = get(history, 'location.query') || {};
@@ -226,7 +224,7 @@ class Payments extends Component {
             withNoResults={!!error || (!loading && payments.content.length === 0)}
           >
             {columns({
-              paymentInfo: { onSuccess: this.handleModalActionSuccess },
+              paymentInfo: { onSuccess: this.handleRefresh },
               clientView: true,
             }).map(({ name, header, sortBy, render }) => (
               <GridColumn

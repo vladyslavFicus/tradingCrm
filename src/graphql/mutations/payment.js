@@ -39,58 +39,6 @@ const addPaymentMutation = gql`mutation createClientPayment(
   }
 }`;
 
-const acceptPayment = gql`mutation acceptPayment(
-  $paymentId: String!,
-  $paymentMethod: String,
-  $declineReason: String,
-  $typeAcc: String,  
-) {
-  payment {
-    acceptPayment (
-      paymentId: $paymentId,
-      paymentMethod: $paymentMethod,
-      declineReason: $declineReason,
-      typeAcc: $typeAcc,
-    ) {
-      data {
-        success
-      }
-    }
-  }
-}`;
-
-const changePaymentMethod = gql`mutation changePaymentMethod(
-  $paymentId: String!,
-  $paymentMethod: String,
-) {
-  payment {
-    changePaymentMethod (
-      paymentId: $paymentId,
-      paymentMethod: $paymentMethod,
-    ) {
-      data {
-        success
-      }
-    }
-  }
-}`;
-
-const changePaymentStatus = gql`mutation changePaymentStatus(
-  $paymentId: String!,
-  $paymentStatus: String,
-) {
-  payment {
-    changePaymentStatus (
-      paymentId: $paymentId,
-      paymentStatus: $paymentStatus,
-    ) {
-      data {
-        success
-      }
-    }
-  }
-}`;
-
 const changeOriginalAgent = gql`mutation changeOriginalAgent(
   $paymentId: String!,
   $agentId: String,
@@ -109,8 +57,5 @@ const changeOriginalAgent = gql`mutation changeOriginalAgent(
 
 export {
   addPaymentMutation,
-  acceptPayment,
-  changePaymentStatus,
-  changePaymentMethod,
   changeOriginalAgent,
 };

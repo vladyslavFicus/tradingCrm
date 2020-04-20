@@ -10,13 +10,13 @@ import { withNotifications } from 'hoc';
 import PropTypes from 'constants/propTypes';
 import { Button } from 'components/UI';
 import { FormikSelectField } from 'components/Formik';
-import { createValidator } from 'utils/validator';
+import { createValidator, translateLabels } from 'utils/validator';
 import getBranchHierarchyTreeQuery from './graphql/getBranchHierarchyTreeQuery';
 import addBranchManagerMutation from './graphql/addBranchManagerMutation';
 import './AddBranchManagerModal.scss';
 
 const attributeLabels = {
-  operators: 'COMMON.CHOOSE_OPERATOR',
+  operatorUuid: 'COMMON.OPERATOR',
 };
 
 class AddBranchManagerModal extends PureComponent {
@@ -116,7 +116,7 @@ class AddBranchManagerModal extends PureComponent {
           initialValues={{ operatorUuid: '' }}
           validate={createValidator({
             operatorUuid: ['required', 'string'],
-          }, attributeLabels, false)}
+          }, translateLabels(attributeLabels), false)}
           onSubmit={this.handleSubmit}
           validateOnBlur={false}
           validateOnChange={false}
@@ -140,7 +140,7 @@ class AddBranchManagerModal extends PureComponent {
                 <Field
                   name="operatorUuid"
                   className="AddBranchManagerModal__select"
-                  label={I18n.t(attributeLabels.operators)}
+                  label={I18n.t('COMMON.CHOOSE_OPERATOR')}
                   placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
                   component={FormikSelectField}
                   disabled={isSubmitting || operators.length === 0}

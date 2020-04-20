@@ -1,0 +1,56 @@
+.Click2Call {
+  &__submenu-item {
+    padding: 5px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #eee;
+    }
+
+    &:not(:last-child) {
+      border-bottom: 1px solid #dfe4ed;
+    }
+  }
+
+  &__didlogic {
+    text-align: center;
+  }
+
+  &__asterisk {
+    text-align: center;
+  }
+
+  &__asterisk-image {
+    display: block;
+    width: 60px;
+    margin: 5px auto;
+  }
+
+  &__asterisk-prefixes {
+    width: 200px;
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  &__asterisk-prefix {
+    padding: 6px 0;
+    margin: 5px 0;
+    width: 33%;
+    text-align: center;
+    cursor: pointer;
+    font-weight: 700;
+    color: #6c757d;
+
+    &:not(:nth-child(3n)) {
+      border-right: 1px solid #dfe4ed;
+    }
+
+    &:last-child {
+      border: none;
+    }
+
+    &:hover {
+      background-color: #eee;
+    }
+  }
+}

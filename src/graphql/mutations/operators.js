@@ -51,6 +51,7 @@ const updateOperator = gql`mutation updateOperator(
   $firstName: String!,
   $lastName: String!,
   $phoneNumber: String,
+  $sip: String,
   $country: String,
 ) {
   operator {
@@ -59,7 +60,8 @@ const updateOperator = gql`mutation updateOperator(
       firstName: $firstName,
       lastName: $lastName,
       phoneNumber: $phoneNumber
-      country: $country,
+      sip: $sip
+      country: $country
     ) {
       data {
         _id
@@ -70,6 +72,7 @@ const updateOperator = gql`mutation updateOperator(
         lastName
         operatorStatus
         phoneNumber
+        sip
         registeredBy
         registrationDate
         statusChangeAuthor

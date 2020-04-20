@@ -107,6 +107,18 @@ class PersonalForm extends PureComponent {
           </div>
           <div className="col-xl-4">
             <Field
+              name="sip"
+              label={I18n.t(attributeLabels.sip)}
+              type="text"
+              component={InputField}
+              showErrorMessage
+              disabled={disabled}
+              position="vertical"
+              id="operators-profile-sip-number"
+            />
+          </div>
+          <div className="col-xl-4">
+            <Field
               name="country"
               label={I18n.t(attributeLabels.country)}
               type="text"
@@ -180,6 +192,7 @@ export default reduxForm({
     email: ['required', 'email'],
     country: [`in:,${Object.keys(countries).join()}`],
     phoneNumber: 'string',
+    sip: 'string',
   }, translateLabels(attributeLabels), false),
   enableReinitialize: true,
 })(PersonalForm);

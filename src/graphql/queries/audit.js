@@ -44,9 +44,6 @@ const feedsQuery = gql`query getFeeds(
         targetUuid
         type
         uuid
-        operator {
-          fullName
-        }
       } 
     }
   } 

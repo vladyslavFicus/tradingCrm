@@ -213,7 +213,15 @@ export default ({
 }, {
   name: 'status',
   header: I18n.t('CONSTANTS.TRANSACTIONS.GRID_COLUMNS.STATUS'),
-  render: ({ status, paymentId, declineReason, modifiedBy, statusChangedAt, creationTime }) => (
+  render: ({
+    status,
+    paymentId,
+    modifiedBy,
+    creationTime,
+    declineReason,
+    withdrawStatus,
+    statusChangedAt,
+  }) => (
     <PaymentStatus
       status={status}
       paymentId={paymentId}
@@ -221,6 +229,7 @@ export default ({
       modifiedBy={modifiedBy}
       creationTime={creationTime}
       statusChangedAt={statusChangedAt}
+      withdrawStatus={withdrawStatus}
     />
   ),
 }, {
