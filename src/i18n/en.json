@@ -1040,7 +1040,7 @@
         "ACCOUNT_CREATED": "Account created",
         "SHUFTIPRO_SENT": "Shuftipro sent",
         "ATTACHMENT_ADDED": "Attachment added",
-        "TRADING_ACCOUNT_READ_ONLY_UPDATED": "Trading account read only updated",
+        "TRADING_ACCOUNT_READ_ONLY_UPDATED": "“Read only” attribute was updated for trading account",
         "NOTE_PROFILE_CREATED": "Note profile created",
         "NOTE_PROFILE_REMOVED": "Note profile removed",
         "NOTE_PROFILE_UPDATED": "Note profile updated",
@@ -1055,7 +1055,8 @@
         "TRANSFER_IN": "Transfer in",
         "TRANSFER_OUT":  "Transfer out",
         "FEE": "Fee",
-        "INACTIVITY_FEE":  "Inactivity fee"
+        "INACTIVITY_FEE":  "Inactivity fee",
+        "TRADING_ACCOUNT_ARCHIVED": "Trading account archived"
       },
       "KYC_CONFIRMATION": {
         "TRANSACTION": "Transaction ID",
@@ -1160,7 +1161,8 @@
         "CASHIER": "Cashier",
         "CHARGEBACK": "Chargeback",
         "CRYPTOCURRENCY_EXTERNAL": "Cryptocurrency external",
-        "VOGUEPAY": "Voguepay"
+        "VOGUEPAY": "Voguepay",
+        "INTERNAL_TRANSFER": "Internal transfer"
       },
       "PAYMENT_AGGREGATORS": {
         "CASHIER": "Cashier",
@@ -1518,6 +1520,11 @@
       "REJECT_REASON": "Rejection reason",
       "LOGIN_EVENTS": {
         "REASON": "Reason"
+      },
+      "TYPES": {
+        "VERIFICATION_TYPE": "Verification type",
+        "DOCUMENT_TYPE": "Document type",
+        "FILE_TYPE": "File type"
       }
     },
     "LOG_OUT": {
@@ -1571,9 +1578,30 @@
     },
     "PAYMENTS": {
       "AMOUNT": "Amount",
-      "AGENT_ID": "Agent id",
+      "AGENT_ID": "Agent id"
+    },
+    "TRADING_STATUSES": {
+      "PAYMENT_PENDING": "Payment pending",
+      "PAYMENT_FAILED": "Payment failed",
+      "PAYMENT_REFUSED": "Payment refused",
+      "PAYMENT_CHARGEBACK": "Payment chargeback",
       "PAYMENT_COMPLETED": "Payment completed",
+      "TRANSACTION_FAILED": "Transaction failed",
+      "TRANSACTION_COMPLETED": "Transaction completed",
+      "PAYMENT_CANCELED": "Payment canceled",
       "PAYMENT_APPROVED": "Payment approved"
+    },
+    "QUESTIONNAIRE": {
+      "LEVELS": {
+        "BELOW_LOW": "Below low",
+        "LOW": "Low",
+        "UPPER_MEDIUM": "Upper medium",
+        "HIGH": "High"
+      },
+      "PASSED": "Questionnaire passed",
+      "LEVEL": "Questionnaire level",
+      "SCORE": "Score",
+      "STATUS": "Questionnaire status"
     }
   },
   "ERRORS": {
