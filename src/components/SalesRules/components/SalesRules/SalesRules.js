@@ -65,6 +65,11 @@ class SalesRules extends PureComponent {
     }).isRequired,
     permission: PropTypes.permission.isRequired,
     type: PropTypes.string,
+    match: PropTypes.shape({
+      params: PropTypes.shape({
+        id: PropTypes.string,
+      }),
+    }).isRequired,
   };
 
   static defaultProps = {
@@ -77,10 +82,18 @@ class SalesRules extends PureComponent {
 
   triggerRuleModal = () => {
     const {
+      type,
       modals: { ruleModal },
+      match: {
+        params: {
+          id: currentUuid,
+        },
+      },
     } = this.props;
 
     ruleModal.show({
+      currentUuid,
+      type,
       onSubmit: (values, setErrors) => this.handleAddRule(values, setErrors),
       deskType: deskTypes.SALES,
       withOperatorSpreads: true,

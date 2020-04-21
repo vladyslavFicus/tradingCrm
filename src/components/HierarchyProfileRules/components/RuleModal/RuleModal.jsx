@@ -46,28 +46,34 @@ class RuleModal extends PureComponent {
     deskType: PropTypes.string.isRequired,
     partners: PropTypes.object.isRequired,
     operators: PropTypes.object.isRequired,
+    type: PropTypes.string,
+    currentUuid: PropTypes.string,
     withOperatorSpreads: PropTypes.bool,
   };
 
   static defaultProps = {
+    currentUuid: null,
+    type: null,
     formError: '',
     withOperatorSpreads: false,
   };
 
   state = {
-    selectedOperators: [],
+    ...(this.props.type === 'OPERATOR' ? { selectedOperators: [this.props.currentUuid] } : { selectedOperators: [] }),
     percentageLimitError: false,
   };
 
   onHandleSubmit = (values, { setSubmitting, setErrors }) => {
-    if (this.props.withOperatorSpreads && values.operatorSpreads.reduce((a, b) => a + (b.percentage || 0), 0) !== 100) {
+    if (this.props.withOperatorSpreads
+      && values.operatorSpreads.reduce((a, b) => a + (b.percentage || 0), 0) !== 100
+      && this.state.selectedOperators.length !== 0
+    ) {
       this.setState({ percentageLimitError: true });
     } else {
       this.setState({ percentageLimitError: false });
 
       this.props.onSubmit(values, setErrors);
     }
-
     setSubmitting(false);
   };
 
@@ -84,6 +90,8 @@ class RuleModal extends PureComponent {
   render() {
     const {
       onCloseModal,
+      currentUuid,
+      type,
       isOpen,
       deskType,
       partners,
@@ -115,8 +123,10 @@ class RuleModal extends PureComponent {
             countries: '',
             languages: '',
             type: '',
-            affiliateUUIDs: '',
-            operatorSpreads: [''],
+            affiliateUUIDs: type === 'PARTNER' ? [currentUuid] : '',
+            ...(type === 'OPERATOR'
+              ? { operatorSpreads: [{ parentUser: currentUuid, percentage: 100 }, ''] }
+              : { operatorSpreads: [''] }),
           }}
           validate={validate(deskType)}
           onSubmit={this.onHandleSubmit}
