@@ -103,7 +103,7 @@ class Feed extends Component {
                 if (item.authorUuid) {
                   options.color = 'orange';
                 } else {
-                  options.color = '';
+                  options.color = 'green';
                   options.letter = 's';
                 }
               }
