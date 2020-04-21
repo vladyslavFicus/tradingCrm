@@ -214,6 +214,7 @@ class PaymentDetailsModal extends PureComponent {
   renderStatusBlock = () => {
     const {
       payment: {
+        withdrawalScheduledTime,
         withdrawStatus,
         paymentId,
         status,
@@ -227,6 +228,7 @@ class PaymentDetailsModal extends PureComponent {
         </div>
         <div className="PaymentDetailsModal__block-status">
           <PaymentStatus
+            withdrawalScheduledTime={withdrawalScheduledTime}
             withdrawStatus={withdrawStatus}
             paymentId={paymentId}
             status={status}

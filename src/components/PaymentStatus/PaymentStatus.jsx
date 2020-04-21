@@ -4,6 +4,7 @@ import moment from 'moment';
 import classNames from 'classnames';
 import PropTypes from 'constants/propTypes';
 import {
+  withdrawStatuses,
   withdrawStatusesLabels,
   withdrawStatusesColors,
 } from 'constants/payment';
@@ -13,6 +14,7 @@ import Uuid from 'components/Uuid';
 
 class PaymentStatus extends PureComponent {
   static propTypes = {
+    withdrawalScheduledTime: PropTypes.string,
     paymentId: PropTypes.string.isRequired,
     status: PropTypes.string.isRequired,
     statusChangedAt: PropTypes.string,
@@ -28,6 +30,7 @@ class PaymentStatus extends PureComponent {
     declineReason: '',
     withdrawStatus: '',
     statusChangedAt: '',
+    withdrawalScheduledTime: null,
   };
 
   render() {
@@ -39,9 +42,14 @@ class PaymentStatus extends PureComponent {
       declineReason,
       withdrawStatus,
       statusChangedAt,
+      withdrawalScheduledTime,
     } = this.props;
 
     const { color, label } = getTradingStatusProps(status);
+
+    const isWithdrawStatusRed = withdrawStatus === withdrawStatuses.FINANCE_TO_EXECUTE
+      && withdrawalScheduledTime
+      && moment() > moment(withdrawalScheduledTime);
 
     return (
       <Fragment>
@@ -56,7 +64,12 @@ class PaymentStatus extends PureComponent {
         <If condition={withdrawStatus}>
           <div
             className={
-              classNames(withdrawStatusesColors[withdrawStatus], 'font-size-11 text-uppercase')
+              classNames(
+                'font-size-11 text-uppercase',
+                isWithdrawStatusRed
+                  ? 'color-danger'
+                  : withdrawStatusesColors[withdrawStatus],
+              )
             }
           >
             {I18n.t(withdrawStatusesLabels[withdrawStatus])}
