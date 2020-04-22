@@ -3130,6 +3130,7 @@
   "NOTES": {
     "SUBJECT": "Subject",
     "BODY": "Body",
+    "CONTENT": "Content",
     "MODAL": {
       "DELETE_TITLE": "Delete note",
       "EDIT_TITLE": "Edit note",

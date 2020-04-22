@@ -127,6 +127,9 @@ const attributeLabels = {
   questionnaireLevel: 'FEED_ITEM.QUESTIONNAIRE.LEVEL',
   score: 'FEED_ITEM.QUESTIONNAIRE.SCORE',
   questionnaireStatus: 'FEED_ITEM.QUESTIONNAIRE.STATUS',
+  pinned: 'COMMON.PINNED',
+  subject: 'NOTES.SUBJECT',
+  content: 'NOTES.CONTENT',
 };
 
 const filterLabels = {
