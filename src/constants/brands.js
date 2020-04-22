@@ -78,6 +78,7 @@ const brands = keyMirror({
   fxrevolution: null,
   royaltyfinance: null,
   investactive: null,
+  axedo: null,
   traderking: null,
   fxwlbrands: null,
   axedo: null,
@@ -413,6 +414,10 @@ const brandsConfig = {
   [brands.investactive]: {
     name: 'Investactive',
     image: { src: '/img/brand/choose-brand/investactive.svg' },
+  },
+  [brands.axedo]: {
+    name: 'Axedo',
+    image: { src: '/img/brand/choose-brand/axedo.svg' },
   },
   [brands.traderking]: {
     name: 'Traderking',

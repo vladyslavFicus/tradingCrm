@@ -6,7 +6,69 @@ import { getActiveBrandConfig, getBackofficeBrand } from '../../config';
 const ReleaseNotes = () => (
   <Fragment>
     <h1>{startCase(getBackofficeBrand().id)} CRM<br/>Release notes</h1>
-
+    <If condition={getActiveBrandConfig().regulation.isActive}>
+      <h2 id="12/Mar/20---Version-35">12/Mar/20 - Version 35</h2>
+      <h2>&nbsp;</h2>
+      <h2 id="What-has-been-done">What has been done</h2>
+      <ul className="ak-ul">
+        <li>
+          <p>Reconciliation of credit card name vs player name</p>
+        </li>
+        <li>
+          <p>Ability to see Client&rsquo;s last activity and current state (Online or Offline)</p>
+        </li>
+        <li>
+          <p>Ability to create/update Partners for CellXpert</p>
+        </li>
+        <li>
+          <p>Added 'Do not call' select option to 'Retention Status' filter</p>
+        </li>
+        <li>
+          <p>Added 'Created by' filter to 'Search Clients' page</p>
+        </li>
+        <li>
+          <p>Added CIMA/FSA different logos for BO</p>
+        </li>
+        <li>
+          <p>Update Status button on CP</p>
+          <p>&nbsp;</p>
+        </li>
+      </ul>
+      <h3 id="Bugs-and-Fixes">Bugs and Fixes</h3>
+      <ul className="ak-ul">
+        <li>
+          <p>Rename "Passport"-related filters in the "Profile" tab</p>
+        </li>
+        <li>
+          <p>Fixed bug with &ldquo;Search by country&rdquo; filter dropdown</p>
+        </li>
+        <li>
+          <p>Added 'Identification Number' field to the 'Profile' tab in the BO</p>
+        </li>
+        <li>
+          <p>Fixed GDPR -&gt; SMS checkbox issues after sign-up</p>
+        </li>
+      </ul>
+    </If>
+    <div className="heading-anchor-wrapper">&nbsp;</div>
+    <h2 id="5/Mar/20---Version-34">5/Mar/20 - Version 34</h2>
+    <div className="heading-anchor-wrapper">&nbsp;</div>
+    <h2 id="What-has-been-done.1">What has been done</h2>
+    <ul className="ak-ul">
+      <li>
+        <p>Ability to create Clients through public API</p>
+      </li>
+      <li>
+        <p>Created API For DidLogic integration</p>
+      </li>
+    </ul>
+    <div className="heading-anchor-wrapper">&nbsp;</div>
+    <h3 id="Bugs-and-Fixes.1">Bugs and Fixes</h3>
+    <ul className="ak-ul">
+      <li>
+        <p>Changed texts on KYC verification pages</p>
+      </li>
+    </ul>
     <h1 id="26/Feb/20---Version-33">26/Feb/20 - Version 33</h1>
     <h2 id="What-has-been-done">What has been done</h2>
     <ul className="ak-ul">
