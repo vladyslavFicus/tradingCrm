@@ -109,7 +109,7 @@ class FormikSelectField extends Component {
             placeholder={placeholder}
             showSearch={searchable}
             singleOptionComponent={singleOptionComponent}
-            value={value}
+            value={!value && multiple ? [] : value}
           >
             {
               [

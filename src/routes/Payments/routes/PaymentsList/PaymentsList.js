@@ -1,29 +1,26 @@
 import React, { PureComponent } from 'react';
 import I18n from 'i18n-js';
-import { get, set, cloneDeep } from 'lodash';
+import { get } from 'lodash';
 import { compose } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
 import { withRequests } from 'apollo';
 import { TextRow } from 'react-placeholder/lib/placeholders';
 import PropTypes from 'constants/propTypes';
 import Placeholder from 'components/Placeholder';
-import PaymentFilterFields from 'components/PaymentFilterFields';
-import Grid, { GridColumn } from 'components/Grid';
-import { columns } from 'utils/paymentHelpers';
+// import PaymentFilterFields from 'components/PaymentFilterFields';
+import PaymentsListFilters from 'components/PaymentsListFilters';
+import PaymentsListGrid from 'components/PaymentsListGrid';
 import { PartnersQuery, PaymentsQuery } from './graphql';
 
 class PaymentsList extends PureComponent {
   static propTypes = {
     ...PropTypes.router,
-    payments: PropTypes.query({
+    paymentsQuery: PropTypes.query({
       clientPayments: PropTypes.shape({
         data: PropTypes.pageable(PropTypes.paymentEntity),
-        error: PropTypes.shape({
-          error: PropTypes.any,
-        }),
       }),
     }).isRequired,
-    partners: PropTypes.query({
+    partnersQuery: PropTypes.query({
       partners: PropTypes.shape({
         data: PropTypes.pageable(PropTypes.partner),
       }),
@@ -54,13 +51,15 @@ class PaymentsList extends PureComponent {
     this.context.notes.setNoteChangedCallback(null);
   }
 
+  handleGetRequestState = () => this.props.paymentsQuery.loading;
+
   handleRefresh = () => {
     const {
-      payments,
+      paymentsQuery,
       location: { query },
     } = this.props;
 
-    payments.refetch({
+    paymentsQuery.refetch({
       ...(query && query.filters),
       requestId: Math.random().toString(36).slice(2),
       page: {
@@ -69,22 +68,6 @@ class PaymentsList extends PureComponent {
         sorts: (query && query.sorts) || [],
       },
     });
-  };
-
-  handleGetRequestState = () => this.props.payments.loading;
-
-  handlePageChanged = () => {
-    const {
-      payments: {
-        variables: { args },
-        loadMore,
-        data,
-      },
-    } = this.props;
-
-    const page = get(data, 'clientPayments.data.number') || 0;
-
-    loadMore(set({ args: cloneDeep(args) }, 'args.page.from', page + 1));
   };
 
   handleSort = (sortData) => {
@@ -108,15 +91,13 @@ class PaymentsList extends PureComponent {
 
   render() {
     const {
-      payments: { data: paymentsData, loading: paymentsLoading },
-      partners: { data: partnersData, loading: partnersLoading },
+      paymentsQuery,
+      paymentsQuery: { data: paymentsData, loading: paymentsLoading },
+      partnersQuery: { data: partnersData, loading: partnersLoading },
     } = this.props;
 
-    const partners = get(partnersData, 'partners.data') || [];
-    const payments = get(paymentsData, 'clientPayments.data') || {
-      content: [],
-    };
-    const paymentsError = get(paymentsData, 'clientPayments.error');
+    const partners = get(partnersData, 'partners.data.content') || [];
+    const payments = get(paymentsData, 'clientPayments.data');
 
     return (
       <div className="card">
@@ -146,34 +127,20 @@ class PaymentsList extends PureComponent {
           </Placeholder>
         </div>
 
-        <PaymentFilterFields
+        {/* <PaymentFilterFields
+          partners={partners}
+          partnersLoading={partnersLoading}
+        /> */}
+
+        <PaymentsListFilters
           partners={partners}
           partnersLoading={partnersLoading}
         />
-
-        <div className="card-body">
-          <Grid
-            data={payments.content}
-            handleSort={this.handleSort}
-            handlePageChanged={this.handlePageChanged}
-            isLoading={paymentsLoading}
-            isLastPage={payments.last}
-            withLazyLoad
-            withNoResults={paymentsError}
-          >
-            {columns({
-              paymentInfo: { onSuccess: this.handleRefresh },
-            }).map(({ name, header, sortBy, render }) => (
-              <GridColumn
-                key={name}
-                name={name}
-                sortBy={sortBy}
-                header={header}
-                render={render}
-              />
-            ))}
-          </Grid>
-        </div>
+        <PaymentsListGrid
+          paymentsQuery={paymentsQuery}
+          handleSort={this.handleSort}
+          handleRefresh={this.handleRefresh}
+        />
       </div>
     );
   }
@@ -182,7 +149,7 @@ class PaymentsList extends PureComponent {
 export default compose(
   withRouter,
   withRequests({
-    partners: PartnersQuery,
-    payments: PaymentsQuery,
+    partnersQuery: PartnersQuery,
+    paymentsQuery: PaymentsQuery,
   }),
 )(PaymentsList);
