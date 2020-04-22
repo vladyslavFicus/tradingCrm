@@ -53,7 +53,7 @@ class BrandsView extends Component {
 
   handleSelectBrand = (brand) => {
     if (brand) {
-      const { brandToAuthorities, storage, client } = this.props;
+      const { brandToAuthorities, client, storage } = this.props;
 
       const brandDepartments = brandToAuthorities[brand.brand];
       const departments = brandDepartments.map(brandDepartment => mapDepartments(brandDepartment));

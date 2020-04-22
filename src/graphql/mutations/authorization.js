@@ -17,7 +17,6 @@ const signInMutation = gql`
         }
         error {
           error
-          fields_errors
         }
       }
     }
@@ -42,7 +41,6 @@ const chooseDepartmentMutation = gql`
         }
         error {
           error
-          fields_errors
         }
       }
     }
