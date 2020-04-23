@@ -130,6 +130,7 @@ const attributeLabels = {
   pinned: 'COMMON.PINNED',
   subject: 'NOTES.SUBJECT',
   content: 'NOTES.CONTENT',
+  lastUpdatedDate: 'FEED_ITEM.LAST_UPDATED_DATE',
 };
 
 const filterLabels = {
