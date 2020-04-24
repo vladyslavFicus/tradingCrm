@@ -29,6 +29,7 @@ import {
   FormikSelectField,
   FormikDateRangeGroup,
 } from 'components/Formik';
+import { RangeGroup } from 'components/Forms';
 import { Button } from 'components/UI';
 import {
   HierarchyQuery,
@@ -72,6 +73,7 @@ class PaymentsListFilters extends PureComponent {
     accountType: PropTypes.string,
     partners: PropTypes.partnersList,
     partnersLoading: PropTypes.bool,
+    isGridLoading: PropTypes.bool,
     clientView: PropTypes.bool,
   };
 
@@ -79,6 +81,7 @@ class PaymentsListFilters extends PureComponent {
     accountType: 'LIVE',
     partners: null,
     partnersLoading: false,
+    isGridLoading: false,
     clientView: false,
   };
 
@@ -157,20 +160,21 @@ class PaymentsListFilters extends PureComponent {
   };
 
   handleFormChange = (data = {}) => {
+    const { firstTimeDeposit, amountFrom, amountTo, ...filters } = data;
     let statuses = null;
 
-    if (Array.isArray(data.statuses)) {
-      statuses = data.statuses.map(item => statusMapper[item]).flat(Infinity);
+    if (Array.isArray(filters.statuses)) {
+      statuses = filters.statuses.map(item => statusMapper[item]).flat(Infinity);
     }
 
     this.props.history.replace({
       query: {
         filters: {
-          ...data,
-          ...(data.firstTimeDeposit && {
-            firstTimeDeposit: !!+data.firstTimeDeposit,
-          }),
+          ...filters,
+          ...(firstTimeDeposit && { firstTimeDeposit: !!+firstTimeDeposit }),
           ...(statuses && { statuses }),
+          ...(amountFrom && { amountFrom }),
+          ...(amountTo && { amountTo }),
         },
       },
     });
@@ -198,6 +202,7 @@ class PaymentsListFilters extends PureComponent {
       accountType,
       partners,
       partnersLoading,
+      isGridLoading,
       clientView,
     } = this.props;
 
@@ -335,7 +340,6 @@ class PaymentsListFilters extends PureComponent {
                   </option>
                 ))}
               </Field>
-
               <FormikDateRangeGroup
                 className="form-group filter-row__big"
                 label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.STATUS_DATE_RANGE')}
@@ -344,7 +348,6 @@ class PaymentsListFilters extends PureComponent {
                   end: 'statusChangedTimeTo',
                 }}
               />
-
               <Field
                 name="desks"
                 className="form-group filter-row__medium"
@@ -490,9 +493,27 @@ class PaymentsListFilters extends PureComponent {
                   </option>
                 ))}
               </Field>
-
-              {/* amount */}
-
+              <RangeGroup
+                className="form-group filter-row__medium"
+                label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.AMOUNT')}
+              >
+                <Field
+                  name="amountFrom"
+                  type="number"
+                  step="0.01"
+                  min={0}
+                  placeholder="0.0"
+                  component={FormikInputField}
+                />
+                <Field
+                  name="amountTo"
+                  type="number"
+                  step="0.01"
+                  min={0}
+                  placeholder="0.0"
+                  component={FormikInputField}
+                />
+              </RangeGroup>
               <FormikDateRangeGroup
                 className="form-group filter-row__big"
                 label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.CREATION_DATE_RANGE')}
@@ -515,7 +536,7 @@ class PaymentsListFilters extends PureComponent {
                 <Button
                   className="btn"
                   onClick={handleReset}
-                  disabled={!dirty}
+                  disabled={isGridLoading || !dirty}
                   common
                 >
                   {I18n.t('COMMON.RESET')}
@@ -523,6 +544,7 @@ class PaymentsListFilters extends PureComponent {
                 <Button
                   className="btn"
                   type="submit"
+                  disabled={isGridLoading}
                   primary
                 >
                   {I18n.t('COMMON.APPLY')}

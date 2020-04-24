@@ -7,47 +7,22 @@ class FormikInputField extends PureComponent {
   static propTypes = {
     field: PropTypes.shape({
       name: PropTypes.string.isRequired,
-      value: PropTypes.any,
     }).isRequired,
     form: PropTypes.shape({
-      isSubmitting: PropTypes.bool.isRequired,
-      errors: PropTypes.objectOf(
-        PropTypes.oneOfType([
-          PropTypes.string,
-          PropTypes.arrayOf(PropTypes.string),
-          PropTypes.arrayOf(PropTypes.objectOf(
-            PropTypes.oneOfType([
-              PropTypes.string,
-              PropTypes.arrayOf(PropTypes.string),
-            ]),
-          ).isRequired),
-        ]),
-      ).isRequired,
-      touched: PropTypes.object.isRequired,
+      errors: PropTypes.object.isRequired,
     }).isRequired,
   };
 
   render() {
     const {
-      type,
       field,
       form: {
-        isSubmitting,
         errors,
-        touched,
       },
-      ...rest
+      ...input
     } = this.props;
 
-    const props = {
-      type,
-      ...rest,
-      ...field,
-      ...(touched[field.name] && !isSubmitting),
-      error: errors && get(errors, field.name),
-    };
-
-    return <Input {...props} />;
+    return <Input field={field} error={get(errors, field.name)} {...input} />;
   }
 }
 

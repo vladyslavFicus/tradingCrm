@@ -1,28 +1,19 @@
 import gql from 'graphql-tag';
 
 export default gql`query usersByBranchQuery(
-  $uuids: [String]!,
-  $onlyActive: Boolean,
+  $uuids: [String]!
 ) {
   hierarchy {
     usersByBranch (
-      uuids: $uuids,
-      onlyActive: $onlyActive,
+      uuids: $uuids
     ) {
+      data {
+        uuid
+        fullName
+      }
       error {
         error
         fields_errors
-      }
-      data {
-        uuid
-        userType
-        fullName
-        parentUsers {
-          uuid
-        }
-        parentBranches {
-          uuid
-        }
       }
     } 
   }

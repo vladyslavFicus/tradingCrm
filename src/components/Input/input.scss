@@ -5,6 +5,10 @@ $input-height: 40px;
 .input {
   margin-bottom: 20px;
 
+  .range-group & {
+    margin-bottom: 0;
+  }
+
   &__body {
     margin: 0 auto;
     width: 100%;
@@ -21,7 +25,6 @@ $input-height: 40px;
     box-sizing: border-box;
     color: #000000;
     font-size: 15px;
-    margin-top: 5px;
     padding: 0 8px;
     text-overflow: ellipsis;
     transition: border-color 0.2s ease;
@@ -95,15 +98,6 @@ $input-height: 40px;
       color: #9b9b9b;
     }
   }
-
-  &__verified-message {
-    color: #3bb477;
-    font-size: 15px;
-    font-weight: 500;
-    line-height: 1.5;
-    display: flex;
-    justify-content: flex-end;
-  }
 }
 
 // # Modifiers
@@ -153,18 +147,6 @@ $input-height: 40px;
           border-color: #edeff5;
         }
       }
-    }
-  }
-
-  &--verified {
-    margin-bottom: -5px;
-  }
-
-  &__control {
-    &--verified,
-    &--verified:disabled {
-      background-color: #f0faf5;
-      border-color: #3bb477;
     }
   }
 }

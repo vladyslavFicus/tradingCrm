@@ -7,7 +7,6 @@ import { withRequests } from 'apollo';
 import { TextRow } from 'react-placeholder/lib/placeholders';
 import PropTypes from 'constants/propTypes';
 import Placeholder from 'components/Placeholder';
-// import PaymentFilterFields from 'components/PaymentFilterFields';
 import PaymentsListFilters from 'components/PaymentsListFilters';
 import PaymentsListGrid from 'components/PaymentsListGrid';
 import { PartnersQuery, PaymentsQuery } from './graphql';
@@ -127,14 +126,10 @@ class PaymentsList extends PureComponent {
           </Placeholder>
         </div>
 
-        {/* <PaymentFilterFields
-          partners={partners}
-          partnersLoading={partnersLoading}
-        /> */}
-
         <PaymentsListFilters
           partners={partners}
           partnersLoading={partnersLoading}
+          isGridLoading={paymentsLoading}
         />
         <PaymentsListGrid
           paymentsQuery={paymentsQuery}

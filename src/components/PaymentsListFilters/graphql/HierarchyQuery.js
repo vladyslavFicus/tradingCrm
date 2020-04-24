@@ -3,67 +3,25 @@ import PropTypes from 'prop-types';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 
-const REQUEST = gql`query HierarchyQuery(
-  $withoutBrandFilter: Boolean,
-) {
+const REQUEST = gql`query HierarchyQuery {
   hierarchy {
-    userBranchHierarchy (
-      withoutBrandFilter: $withoutBrandFilter,
-    ) {
-      error {
-        error
-        fields_errors
-      }
+    userBranchHierarchy {
       data {
-        OFFICE {
-          name
-          uuid
-          branchType
-          defaultUser
-          defaultBranch
-          country
-          brandId
-          parentBranch {
-            uuid
-          }
-        }
         DESK {
           name
           uuid
-          branchType
-          defaultUser
-          defaultBranch
-          deskType
-          language
-          brandId
-          parentBranch {
-            uuid
-          }
-          isDefault
         }
         TEAM {
           name
           uuid
-          branchType
-          defaultUser
-          defaultBranch
-          brandId
           parentBranch {
             uuid
           }
         }
-        BRAND {
-          name
-          uuid
-          branchType
-          defaultUser
-          defaultBranch
-          country
-          parentBranch {
-            uuid
-          }
-          isDefault
-        }
+      }
+      error {
+        error
+        fields_errors
       }
     } 
   }
