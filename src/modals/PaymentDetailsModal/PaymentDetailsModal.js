@@ -215,6 +215,7 @@ class PaymentDetailsModal extends PureComponent {
     const {
       payment: {
         withdrawalScheduledTime,
+        creationTime,
         withdrawStatus,
         paymentId,
         status,
@@ -230,6 +231,7 @@ class PaymentDetailsModal extends PureComponent {
           <PaymentStatus
             withdrawalScheduledTime={withdrawalScheduledTime}
             withdrawStatus={withdrawStatus}
+            creationTime={creationTime}
             paymentId={paymentId}
             status={status}
           />
