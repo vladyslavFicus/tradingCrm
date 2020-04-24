@@ -9,7 +9,7 @@ import { createValidator, translateLabels } from 'utils/validator';
 import countryList from 'utils/countryList';
 import { Button } from 'components/UI';
 import { isSales } from 'constants/hierarchyTypes';
-import RangeGroup from 'components/RangeGroup';
+import { RangeGroup } from 'components/Forms';
 import {
   FormikInputField,
   FormikSelectField,

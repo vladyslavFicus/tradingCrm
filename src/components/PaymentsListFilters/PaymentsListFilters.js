@@ -27,6 +27,7 @@ import countries from 'utils/countryList';
 import {
   FormikInputField,
   FormikSelectField,
+  FormikDateRangeGroup,
 } from 'components/Formik';
 import { Button } from 'components/UI';
 import {
@@ -335,7 +336,14 @@ class PaymentsListFilters extends PureComponent {
                 ))}
               </Field>
 
-              {/* statusChangeRange */}
+              <FormikDateRangeGroup
+                className="form-group filter-row__big"
+                label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.STATUS_DATE_RANGE')}
+                periodKeys={{
+                  start: 'statusChangedTimeFrom',
+                  end: 'statusChangedTimeTo',
+                }}
+              />
 
               <Field
                 name="desks"
@@ -439,7 +447,7 @@ class PaymentsListFilters extends PureComponent {
               </If>
               <Field
                 name="accountType"
-                className="form-group filter-row__small"
+                className="form-group filter-row__medium"
                 label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.TYPE')}
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 component={FormikSelectField}
@@ -453,7 +461,7 @@ class PaymentsListFilters extends PureComponent {
               </Field>
               <Field
                 name="firstTimeDeposit"
-                className="form-group filter-row__small"
+                className="form-group filter-row__medium"
                 label={I18n.t('PROFILE.LIST.FILTERS.FIRST_DEPOSIT')}
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 component={FormikSelectField}
@@ -482,6 +490,25 @@ class PaymentsListFilters extends PureComponent {
                   </option>
                 ))}
               </Field>
+
+              {/* amount */}
+
+              <FormikDateRangeGroup
+                className="form-group filter-row__big"
+                label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.CREATION_DATE_RANGE')}
+                periodKeys={{
+                  start: 'creationTimeFrom',
+                  end: 'creationTimeTo',
+                }}
+              />
+              <FormikDateRangeGroup
+                className="form-group filter-row__big"
+                label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.MODIFICATION_DATE_RANGE')}
+                periodKeys={{
+                  start: 'modificationTimeFrom',
+                  end: 'modificationTimeTo',
+                }}
+              />
             </div>
             <div className="filter__form-buttons">
               <div className="filter__form-buttons-group">
