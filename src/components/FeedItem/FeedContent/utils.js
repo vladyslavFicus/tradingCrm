@@ -9,7 +9,7 @@ import { departments, roles } from 'constants/operators';
 import { kycStatuses } from 'constants/kycStatuses';
 import { statuses, attributeLabels, reasons as blockReasons, unblockReasons } from 'constants/user';
 import { documentsType, categories } from 'constants/files';
-import { manualPaymentMethodsLabels, tradingStatuses } from 'constants/payment';
+import { manualPaymentMethodsLabels, tradingStatuses, statuses as paymentStatuses } from 'constants/payment';
 import { questionnaireLevel } from 'constants/questionnaire';
 
 const humanizeDurationConfig = {
@@ -30,6 +30,7 @@ const documentCategoriesPath = 'FILES.CATEGORIES';
 const manualPaymentMethodsPath = 'CONSTANTS.PAYMENT.PAYMENT_METHODS';
 const tradingStatusesPath = 'FEED_ITEM.TRADING_STATUSES';
 const questionnaireLevelPath = 'FEED_ITEM.QUESTIONNAIRE.LEVELS';
+const paymentStatusesPath = 'COMMON.PAYMENT_STATUS';
 
 const transformConstFromArr = (arr, path) => arr.reduce((acc, value) => ({
   ...acc,
@@ -59,6 +60,7 @@ const translateValue = (value) => {
     ...(transformConstFromObj(manualPaymentMethodsLabels, manualPaymentMethodsPath)),
     ...(transformConstFromObj(tradingStatuses, tradingStatusesPath)),
     ...(transformConstFromObj(questionnaireLevel, questionnaireLevelPath)),
+    ...(transformConstFromObj(paymentStatuses, paymentStatusesPath)),
     ...(translateReasons(blockReasons)),
     ...(translateReasons(unblockReasons)),
     ...(genders()),

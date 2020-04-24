@@ -131,6 +131,7 @@ const attributeLabels = {
   subject: 'NOTES.SUBJECT',
   content: 'NOTES.CONTENT',
   lastUpdatedDate: 'FEED_ITEM.LAST_UPDATED_DATE',
+  leverage: 'FEED_ITEM.LEVERAGE',
 };
 
 const filterLabels = {
