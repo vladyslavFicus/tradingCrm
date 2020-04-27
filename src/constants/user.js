@@ -120,6 +120,18 @@ const attributeLabels = {
   answer: 'CONSTANTS.AUDIT.RISK_PROFILE.ANSWER',
   agentId: 'FEED_ITEM.PAYMENTS.AGENT_ID',
   amount: 'FEED_ITEM.PAYMENTS.AMOUNT',
+  verificationType: 'FEED_ITEM.KYC.TYPES.VERIFICATION_TYPE',
+  documentType: 'FEED_ITEM.KYC.TYPES.DOCUMENT_TYPE',
+  fileType: 'FEED_ITEM.KYC.TYPES.FILE_TYPE',
+  questionnairePassed: 'FEED_ITEM.QUESTIONNAIRE.PASSED',
+  questionnaireLevel: 'FEED_ITEM.QUESTIONNAIRE.LEVEL',
+  score: 'FEED_ITEM.QUESTIONNAIRE.SCORE',
+  questionnaireStatus: 'FEED_ITEM.QUESTIONNAIRE.STATUS',
+  pinned: 'COMMON.PINNED',
+  subject: 'NOTES.SUBJECT',
+  content: 'NOTES.CONTENT',
+  lastUpdatedDate: 'FEED_ITEM.LAST_UPDATED_DATE',
+  leverage: 'FEED_ITEM.LEVERAGE',
 };
 
 const filterLabels = {
