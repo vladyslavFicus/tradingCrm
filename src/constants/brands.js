@@ -83,6 +83,7 @@ const brands = keyMirror({
   fxwlbrands: null,
   dax100fx: null,
   atlasfx: null,
+  advinvesment: null,
 });
 
 const departments = keyMirror({
@@ -437,6 +438,10 @@ const brandsConfig = {
   [brands.atlasfx]: {
     name: 'AtlasFX',
     image: { src: '/img/brand/choose-brand/atlasfx.svg' },
+  },
+  [brands.advinvesment]: {
+    name: 'Adv-Invesment',
+    image: { src: '/img/brand/choose-brand/advinvesment.svg' },
   },
 };
 const departmentsConfig = {
