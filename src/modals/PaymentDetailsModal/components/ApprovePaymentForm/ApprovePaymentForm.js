@@ -7,7 +7,7 @@ import { withRequests } from 'apollo';
 import { withNotifications } from 'hoc';
 import { withStorage } from 'providers/StorageProvider';
 import PropTypes from 'constants/propTypes';
-import { departments } from 'constants/brands';
+import { departments, roles } from 'constants/brands';
 import { withdrawStatuses, manualPaymentMethodsLabels } from 'constants/payment';
 import { createValidator, translateLabels } from 'utils/validator';
 import formatLabel from 'utils/formatLabel';
@@ -102,7 +102,7 @@ class ApprovePaymentForm extends PureComponent {
   render() {
     const {
       manualPaymentMethods,
-      auth: { department },
+      auth: { department, role },
       withdrawStatus,
     } = this.props;
 
@@ -110,6 +110,7 @@ class ApprovePaymentForm extends PureComponent {
 
     const isAvailableToApprove = (withdrawStatus === withdrawStatuses.FINANCE_TO_EXECUTE)
       ? [departments.ADMINISTRATION, departments.FINANCE].includes(department)
+        || ([departments.CS].includes(department) && [roles.ROLE4].includes(role))
       : true;
 
     if (!isAvailableToApprove) return null;
