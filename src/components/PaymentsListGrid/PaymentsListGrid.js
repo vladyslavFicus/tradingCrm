@@ -315,6 +315,7 @@ class PaymentsListGrid extends PureComponent {
               creationTime,
               declineReason,
               withdrawStatus,
+              withdrawalScheduledTime,
               statusChangedAt,
             }) => (
               <PaymentStatus
@@ -325,6 +326,7 @@ class PaymentsListGrid extends PureComponent {
                 creationTime={creationTime}
                 statusChangedAt={statusChangedAt}
                 withdrawStatus={withdrawStatus}
+                withdrawalScheduledTime={withdrawalScheduledTime}
               />
             )}
           />
