@@ -308,6 +308,11 @@
     padding-right: 1rem;
     padding-left: 1rem;
   }
+  &__date-range {
+    flex-grow: 1;
+    flex-basis: 500px;
+    min-width: 500px;
+  }
   &__big {
     flex-grow: 1;
     flex-basis: 415px;

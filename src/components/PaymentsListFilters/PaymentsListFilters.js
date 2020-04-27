@@ -341,7 +341,7 @@ class PaymentsListFilters extends PureComponent {
                 ))}
               </Field>
               <FormikDateRangeGroup
-                className="form-group filter-row__big"
+                className="form-group filter-row__date-range"
                 label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.STATUS_DATE_RANGE')}
                 periodKeys={{
                   start: 'statusChangedTimeFrom',
@@ -515,7 +515,7 @@ class PaymentsListFilters extends PureComponent {
                 />
               </RangeGroup>
               <FormikDateRangeGroup
-                className="form-group filter-row__big"
+                className="form-group filter-row__date-range"
                 label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.CREATION_DATE_RANGE')}
                 periodKeys={{
                   start: 'creationTimeFrom',
@@ -523,7 +523,7 @@ class PaymentsListFilters extends PureComponent {
                 }}
               />
               <FormikDateRangeGroup
-                className="form-group filter-row__big"
+                className="form-group filter-row__date-range"
                 label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.MODIFICATION_DATE_RANGE')}
                 periodKeys={{
                   start: 'modificationTimeFrom',
