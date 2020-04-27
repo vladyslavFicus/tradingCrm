@@ -69,25 +69,6 @@ class PaymentsList extends PureComponent {
     });
   };
 
-  handleSort = (sortData) => {
-    const { history } = this.props;
-    const query = get(history, 'location.query') || {};
-
-    const sorts = Object.keys(sortData)
-      .filter(sortingKey => sortData[sortingKey])
-      .map(sortingKey => ({
-        column: sortingKey,
-        direction: sortData[sortingKey],
-      }));
-
-    history.replace({
-      query: {
-        ...query,
-        sorts,
-      },
-    });
-  };
-
   render() {
     const {
       paymentsQuery,
@@ -96,7 +77,8 @@ class PaymentsList extends PureComponent {
     } = this.props;
 
     const partners = get(partnersData, 'partners.data.content') || [];
-    const payments = get(paymentsData, 'clientPayments.data');
+    const payments = get(paymentsData, 'clientPayments') || {};
+    const totalPayments = get(payments, 'data.totalElements');
 
     return (
       <div className="card">
@@ -111,9 +93,9 @@ class PaymentsList extends PureComponent {
             )}
           >
             <Choose>
-              <When condition={payments && payments.totalElements}>
+              <When condition={totalPayments}>
                 <span className="font-size-20">
-                  <strong>{payments.totalElements} </strong>
+                  <strong>{totalPayments} </strong>
                   {I18n.t('COMMON.PAYMENTS')}
                 </span>
               </When>
@@ -129,11 +111,11 @@ class PaymentsList extends PureComponent {
         <PaymentsListFilters
           partners={partners}
           partnersLoading={partnersLoading}
-          isGridLoading={paymentsLoading}
+          paymentsLoading={paymentsLoading}
         />
         <PaymentsListGrid
+          payments={payments}
           paymentsQuery={paymentsQuery}
-          handleSort={this.handleSort}
           handleRefresh={this.handleRefresh}
         />
       </div>

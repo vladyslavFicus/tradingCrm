@@ -1,9 +1,10 @@
 import React, { PureComponent, Fragment } from 'react';
-import PropTypes from 'prop-types';
 import I18n from 'i18n-js';
 import moment from 'moment';
 import { get, set, cloneDeep } from 'lodash';
+import { withRouter } from 'react-router-dom';
 import { getActiveBrandConfig } from 'config';
+import PropTypes from 'constants/propTypes';
 import { targetTypes } from 'constants/note';
 import {
   aggregatorsLabels,
@@ -23,15 +24,18 @@ import renderLabel from 'utils/renderLabel';
 
 class PaymentsListGrid extends PureComponent {
   static propTypes = {
-    paymentsQuery: PropTypes.query({
-      clientPayments: PropTypes.shape({
-        data: PropTypes.pageable(PropTypes.paymentEntity),
-        error: PropTypes.shape({
-          error: PropTypes.any,
-        }),
+    ...PropTypes.router,
+    paymentsQuery: PropTypes.shape({
+      loading: PropTypes.bool,
+      loadMore: PropTypes.func,
+      variables: PropTypes.object,
+    }).isRequired,
+    payments: PropTypes.shape({
+      data: PropTypes.pageable(PropTypes.paymentEntity),
+      error: PropTypes.shape({
+        error: PropTypes.any,
       }),
     }).isRequired,
-    handleSort: PropTypes.func.isRequired,
     handleRefresh: PropTypes.func.isRequired,
     clientView: PropTypes.bool,
   };
@@ -45,42 +49,56 @@ class PaymentsListGrid extends PureComponent {
       paymentsQuery: {
         variables: { args },
         loadMore,
-        data,
       },
+      payments,
     } = this.props;
 
-    const page = get(data, 'clientPayments.data.number') || 0;
+    const page = get(payments, 'data.number') || 0;
 
     loadMore(set({ args: cloneDeep(args) }, 'args.page.from', page + 1));
+  };
+
+  handleSort = (sortData) => {
+    const { history } = this.props;
+    const query = get(history, 'location.query') || {};
+
+    const sorts = Object.keys(sortData)
+      .filter(sortingKey => sortData[sortingKey])
+      .map(sortingKey => ({
+        column: sortingKey,
+        direction: sortData[sortingKey],
+      }));
+
+    history.replace({
+      query: {
+        ...query,
+        sorts,
+      },
+    });
   };
 
   render() {
     const {
       clientView,
-      handleSort,
       handleRefresh,
       paymentsQuery: {
-        data: paymentsData,
-        loading: paymentsLoading,
+        loading,
       },
+      payments,
     } = this.props;
 
-    const payments = get(paymentsData, 'clientPayments.data') || {
-      content: [],
-    };
-
-    const paymentsError = get(paymentsData, 'clientPayments.error');
+    const { content, last } = get(payments, 'data') || { content: [] };
 
     return (
       <div className="card-body">
         <Grid
-          data={payments.content}
-          handleSort={handleSort}
+          data={content}
+          handleSort={this.handleSort}
           handlePageChanged={this.handlePageChanged}
-          isLoading={paymentsLoading}
-          isLastPage={payments.last}
+          isLoading={loading}
+          isLastPage={last}
           withLazyLoad
-          withNoResults={paymentsError}
+          withNoResults={payments.error}
         >
           <GridColumn
             header={I18n.t('CONSTANTS.TRANSACTIONS.GRID_COLUMNS.TRANSACTIONS')}
@@ -331,4 +349,4 @@ class PaymentsListGrid extends PureComponent {
   }
 }
 
-export default PaymentsListGrid;
+export default withRouter(PaymentsListGrid);

@@ -1,0 +1,60 @@
+.payment-modal {
+  .modal-header {
+    background-color: #4990e2;
+    .modal-title {
+      color: white;
+    }
+  }
+  .modal-body {
+    .payment-fields {
+      visibility: hidden;
+      &.visible {
+        visibility: visible;
+      }
+    }
+    .input-group-addon {
+      background-color: #fffbe5;
+      color: #4a4a4a;
+    }
+  }
+  .select-field-wrapper {
+    .select-block__label {
+      height: auto;
+      padding-top: 10px;
+      padding-bottom: 10px;
+      .value-wrapper {
+        position: relative;
+      }
+    }
+    .select-block__content {
+      .value-wrapper {
+        padding-top: 5px;
+        padding-bottom: 5px;
+        cursor: pointer;
+        &:not(:last-child) {
+          border-bottom: 1px solid grey;
+        }
+      }
+    }
+    .select-icon {
+      top: 50%;
+      transform: translateY(-50%);
+    }
+  }
+  .arrow-icon-wrapper {
+    text-align: center;
+    margin-top: 3px;
+    .icon-arrow-down {
+      transform: rotate(270deg);
+      display: inline-block;
+      font-size: 20px;
+      color: #4a4a4a;
+    }
+  }
+  .modal-footer {
+    .btn-default-outline {
+      border-color: #4a4a4a;
+      color: #4a4a4a;
+    }
+  }
+}

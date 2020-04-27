@@ -73,7 +73,7 @@ class PaymentsListFilters extends PureComponent {
     accountType: PropTypes.string,
     partners: PropTypes.partnersList,
     partnersLoading: PropTypes.bool,
-    isGridLoading: PropTypes.bool,
+    paymentsLoading: PropTypes.bool,
     clientView: PropTypes.bool,
   };
 
@@ -81,7 +81,7 @@ class PaymentsListFilters extends PureComponent {
     accountType: 'LIVE',
     partners: null,
     partnersLoading: false,
-    isGridLoading: false,
+    paymentsLoading: false,
     clientView: false,
   };
 
@@ -202,7 +202,7 @@ class PaymentsListFilters extends PureComponent {
       accountType,
       partners,
       partnersLoading,
-      isGridLoading,
+      paymentsLoading,
       clientView,
     } = this.props;
 
@@ -536,7 +536,7 @@ class PaymentsListFilters extends PureComponent {
                 <Button
                   className="btn"
                   onClick={handleReset}
-                  disabled={isGridLoading || !dirty}
+                  disabled={paymentsLoading || !dirty}
                   common
                 >
                   {I18n.t('COMMON.RESET')}
@@ -544,7 +544,7 @@ class PaymentsListFilters extends PureComponent {
                 <Button
                   className="btn"
                   type="submit"
-                  disabled={isGridLoading}
+                  disabled={paymentsLoading}
                   primary
                 >
                   {I18n.t('COMMON.APPLY')}
