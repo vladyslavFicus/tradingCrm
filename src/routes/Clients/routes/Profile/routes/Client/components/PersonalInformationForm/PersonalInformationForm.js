@@ -129,6 +129,7 @@ class PersonalInformationForm extends PureComponent {
               <Field
                 name="languageCode"
                 label={attributeLabels.language}
+                placeholder={attributeLabels.language}
                 className="col-lg-4"
                 component={FormikSelectField}
                 disabled={disabled}
@@ -169,7 +170,7 @@ class PersonalInformationForm extends PureComponent {
               <Field
                 name="timeZone"
                 label={attributeLabels.timeZone}
-                placeholder={attributeLabels.timeZone}
+                placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
                 component={FormikSelectField}
                 disabled={disabled}
                 className="col-lg-2"
@@ -245,7 +246,7 @@ class PersonalInformationForm extends PureComponent {
               <Field
                 name="passport.countrySpecificIdentifierType"
                 label={attributeLabels.countrySpecificIdentifierType}
-                placeholder={attributeLabels.countrySpecificIdentifierType}
+                placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
                 component={FormikSelectField}
                 disabled={disabled}
                 className="col-lg-4"
