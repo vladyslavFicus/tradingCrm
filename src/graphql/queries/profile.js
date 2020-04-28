@@ -289,44 +289,6 @@ const clientsQuery = gql`query ${queryNames.clientsQuery}(
     }
 }`;
 
-const realBaseCurrencyQuery = gql`query realBaseCurrency($playerUUID: String!){
-  playerProfile(playerUUID: $playerUUID) {
-    data {
-      realMoneyBalance {
-        currency
-      }
-    }
-    error {
-      error
-    }
-  }
-}`;
-
-const clientPaymentsStatistic = gql`query clientPaymentsStatistic(
-  $limit: Int,
-  $playerUUID: String!,
-  $startDate: String,
-  $endDate: String,
-) {
-  clientPaymentsStatistic(
-    limit: $limit,
-    playerUUID: $playerUUID,
-    startDate: $startDate,
-    endDate: $endDate,
-  ) {
-    depositCount
-    depositAmount {
-      amount
-      currency
-    }
-    withdrawCount
-    withdrawAmount {
-      amount
-      currency
-    }
-  }
-}`;
-
 const getLoginLock = gql`query getLoginLock($playerUUID: String!) {
   loginLock(playerUUID: $playerUUID) {
     lock
@@ -334,8 +296,6 @@ const getLoginLock = gql`query getLoginLock($playerUUID: String!) {
 }`;
 
 export {
-  realBaseCurrencyQuery,
-  clientPaymentsStatistic,
   clientsQuery,
   getLoginLock,
   newProfile,
