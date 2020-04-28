@@ -24,6 +24,7 @@ const newProfile = gql`query newProfile($playerUUID: String!){
       emailVerified
       phoneVerified
       profileVerified
+      timeZone
       acquisition {
         acquisitionStatus
         retentionRepresentative

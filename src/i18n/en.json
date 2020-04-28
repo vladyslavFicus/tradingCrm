@@ -134,7 +134,8 @@
             "TAX_IDENTIFICATION_NUMBER": "Tax identification number",
             "TAX_NUMBER": "Tax number",
             "UK_NATIONAL_INSURANCE_NUMBER": "UK National Insurance number"
-          }
+          },
+          "TIMEZONE": "Time zone"
         },
         "TEST_PLAYER": "Test player"
       },
