@@ -341,17 +341,22 @@ class PaymentDetailsModal extends PureComponent {
                 </div>
               </If>
 
-              <If condition={canApprove && canReject && isWithdraw && inPendingStatus}>
+              <If condition={(canApprove || canReject) && isWithdraw && inPendingStatus}>
                 <div className="PaymentDetailsModal__row">
-                  <RejectPaymentForm
-                    paymentId={paymentId}
-                    onSuccess={this.onAcceptSuccess}
-                  />
-                  <ApprovePaymentForm
-                    paymentId={paymentId}
-                    withdrawStatus={withdrawStatus}
-                    onSuccess={this.onAcceptSuccess}
-                  />
+                  <If condition={canReject}>
+                    <RejectPaymentForm
+                      paymentId={paymentId}
+                      onSuccess={this.onAcceptSuccess}
+                    />
+                  </If>
+
+                  <If condition={canApprove}>
+                    <ApprovePaymentForm
+                      paymentId={paymentId}
+                      withdrawStatus={withdrawStatus}
+                      onSuccess={this.onAcceptSuccess}
+                    />
+                  </If>
                 </div>
               </If>
             </Otherwise>
