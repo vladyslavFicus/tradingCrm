@@ -3,9 +3,8 @@ import I18n from 'i18n-js';
 import { get } from 'lodash';
 import { compose } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
-import { SubmissionError } from 'redux-form'; // TODO
 import { withRequests } from 'apollo';
-import { withModals } from 'hoc';
+import { withModals, withNotifications } from 'hoc';
 import permissions from 'config/permissions';
 import PropTypes from 'constants/propTypes';
 import { targetTypes } from 'constants/note';
@@ -45,6 +44,7 @@ class Payments extends PureComponent {
     modals: PropTypes.shape({
       addPaymentModal: PropTypes.modalType,
     }).isRequired,
+    notify: PropTypes.func.isRequired,
   };
 
   static contextTypes = {
@@ -118,6 +118,7 @@ class Payments extends PureComponent {
       paymentsQuery,
       profileQuery,
       modals: { addPaymentModal },
+      notify,
     } = this.props;
 
     const variables = {
@@ -128,7 +129,11 @@ class Payments extends PureComponent {
     const { data: { payment: { createClientPayment: { data: payment, error } } } } = await addPayment({ variables });
 
     if (error) {
-      throw new SubmissionError({ _error: [error] });
+      notify({
+        level: 'error',
+        title: I18n.t('COMMON.FAIL'),
+        message: I18n.t('PLAYER_PROFILE.TRANSACTIONS.ADD_TRANSACTION_FAIL'),
+      });
     } else {
       if (note) {
         await addNote({ variables: { ...note, targetUUID: payment.paymentId } });
@@ -203,6 +208,7 @@ class Payments extends PureComponent {
 }
 
 export default compose(
+  withNotifications,
   withRouter,
   withModals({
     addPaymentModal: PaymentAddModal,

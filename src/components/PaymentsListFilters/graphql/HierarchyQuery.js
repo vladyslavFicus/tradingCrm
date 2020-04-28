@@ -21,7 +21,6 @@ const REQUEST = gql`query HierarchyQuery {
       }
       error {
         error
-        fields_errors
       }
     } 
   }

@@ -13,7 +13,6 @@ export default gql`query usersByBranchQuery(
       }
       error {
         error
-        fields_errors
       }
     } 
   }

@@ -14,7 +14,6 @@ const REQUEST = gql`query OperatorsQuery {
     }
     error {
       error
-      fields_errors
     }
   }
 }`;
