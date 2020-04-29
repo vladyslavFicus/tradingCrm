@@ -1,9 +1,9 @@
 import React, { PureComponent, Fragment } from 'react';
 import { compose } from 'react-apollo';
-import { withRequests } from 'apollo';
 import I18n from 'i18n-js';
 import { get } from 'lodash';
 import { TextRow } from 'react-placeholder/lib/placeholders';
+import { withRequests } from 'apollo';
 import { withModals } from 'hoc';
 import permissions from 'config/permissions';
 import PropTypes from 'constants/propTypes';
@@ -18,36 +18,14 @@ import './PartnersList.scss';
 
 class PartnersList extends PureComponent {
   static propTypes = {
-    partnersQueryResult: PropTypes.shape({
-      data: PropTypes.shape({
-        partners: PropTypes.shape({
-          data: PropTypes.pageable(PropTypes.partner),
-        }),
+    partnersQuery: PropTypes.query({
+      partners: PropTypes.shape({
+        data: PropTypes.pageable(PropTypes.partner),
       }),
-    }),
+    }).isRequired,
     modals: PropTypes.shape({
       createPartnerModal: PropTypes.modalType,
     }).isRequired,
-  };
-
-  static defaultProps = {
-    partnersQueryResult: {},
-  };
-
-  handlePageChanged = () => {
-    const {
-      partnersQueryResult,
-      partnersQueryResult: {
-        loadMore,
-        loading,
-      },
-    } = this.props;
-
-    const partnersDataPage = get(partnersQueryResult, 'data.partners.data.page') || {}; // ?
-
-    if (!loading) {
-      loadMore(partnersDataPage);
-    }
   };
 
   handleOpenCreatePartnerModal = () => {
@@ -55,11 +33,10 @@ class PartnersList extends PureComponent {
   };
 
   render() {
-    const { partnersQueryResult } = this.props;
+    const { partnersQuery } = this.props;
 
-    const partnersData = get(partnersQueryResult, 'data.partners.data') || {};
-    const isLoading = get(partnersQueryResult, 'loading') || false;
-    const isLastPage = get(partnersQueryResult, 'last') || true;
+    const totalElements = get(partnersQuery, 'data.partners.data.totalElements');
+    const isLoading = get(partnersQuery, 'loading');
 
     return (
       <div className="PartnersList">
@@ -75,9 +52,9 @@ class PartnersList extends PureComponent {
               )}
             >
               <Choose>
-                <When condition={!!partnersData.totalElements}>
+                <When condition={totalElements}>
                   <div className="PartnersList__total">
-                    <strong>{partnersData.totalElements} </strong>
+                    <strong>{totalElements} </strong>
                     {I18n.t('COMMON.PARTNERS_FOUND')}
                   </div>
                 </When>
@@ -87,7 +64,6 @@ class PartnersList extends PureComponent {
               </Choose>
             </Placeholder>
           </div>
-
           <PermissionContent permissions={permissions.PARTNERS.CREATE}>
             <div className="PartnersList__header-right">
               <Button
@@ -99,15 +75,8 @@ class PartnersList extends PureComponent {
             </div>
           </PermissionContent>
         </div>
-
         <PartnersGridFilter />
-
-        <PartnersGrid
-          onPageChange={this.handlePageChanged}
-          partners={partnersData.content || []}
-          isLastPage={isLastPage}
-          isLoading={isLoading}
-        />
+        <PartnersGrid partnersQuery={partnersQuery} />
       </div>
     );
   }
@@ -115,5 +84,5 @@ class PartnersList extends PureComponent {
 
 export default compose(
   withModals({ createPartnerModal: CreatePartnerModal }),
-  withRequests({ partnersQueryResult: getPartnersQuery }),
+  withRequests({ partnersQuery: getPartnersQuery }),
 )(PartnersList);

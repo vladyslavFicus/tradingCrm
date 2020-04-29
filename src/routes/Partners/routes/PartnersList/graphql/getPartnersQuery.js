@@ -5,6 +5,8 @@ import { Query } from 'react-apollo';
 
 const REQUEST = gql`
   query PartnersList_getPartners(
+    $page: Int
+    $size: Int
     $searchBy: String
     $country: String
     $status: String
@@ -13,6 +15,8 @@ const REQUEST = gql`
     $registrationDateTo: String
   ) {
     partners (
+      page: $page
+      size: $size
       searchBy: $searchBy
       country: $country
       status: $status
@@ -49,6 +53,7 @@ const getPartnersQuery = ({ children, location: { query } }) => (
     query={REQUEST}
     variables={{
       ...query && query.filters,
+      ...query && query.sorts ? { sorts: query.sorts } : {},
       size: 20,
       page: 0,
     }}
@@ -62,14 +67,8 @@ getPartnersQuery.propTypes = {
   children: PropTypes.func.isRequired,
   location: PropTypes.shape({
     query: PropTypes.shape({
-      filters: PropTypes.shape({
-        searchBy: PropTypes.string,
-        country: PropTypes.string,
-        status: PropTypes.string,
-        affiliateType: PropTypes.string,
-        registrationDateFrom: PropTypes.string,
-        registrationDateTo: PropTypes.string,
-      }),
+      filters: PropTypes.object,
+      sorts: PropTypes.array,
     }),
   }).isRequired,
 };

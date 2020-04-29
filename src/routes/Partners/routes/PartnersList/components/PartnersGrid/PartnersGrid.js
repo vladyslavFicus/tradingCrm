@@ -3,6 +3,7 @@ import { withRouter, Link } from 'react-router-dom';
 import classNames from 'classnames';
 import moment from 'moment';
 import I18n from 'i18n-js';
+import { get } from 'lodash';
 import { getActiveBrandConfig } from 'config';
 import PropTypes from 'constants/propTypes';
 import Grid, { GridColumn } from 'components/Grid';
@@ -13,10 +14,44 @@ import { statuses, affiliateTypes } from '../../../../constants';
 
 class PartnersGrid extends PureComponent {
   static propTypes = {
-    isLoading: PropTypes.bool.isRequired,
-    isLastPage: PropTypes.bool.isRequired,
-    partners: PropTypes.partnersList.isRequired,
-    onPageChange: PropTypes.func.isRequired,
+    ...PropTypes.router,
+    partnersQuery: PropTypes.query({
+      partners: PropTypes.shape({
+        data: PropTypes.pageable(PropTypes.partner),
+      }),
+    }).isRequired,
+  };
+
+  handlePageChanged = () => {
+    const {
+      partnersQuery: {
+        loadMore,
+        data,
+      },
+    } = this.props;
+
+    const page = get(data, 'partners.data.number') || 0;
+
+    loadMore(page + 1);
+  };
+
+  handleSort = (sortData) => {
+    const { history } = this.props;
+    const query = get(history, 'location.query') || {};
+
+    const sorts = Object.keys(sortData)
+      .filter(sortingKey => sortData[sortingKey])
+      .map(sortingKey => ({
+        column: sortingKey,
+        direction: sortData[sortingKey],
+      }));
+
+    history.replace({
+      query: {
+        ...query,
+        sorts,
+      },
+    });
   };
 
   renderPartnerColumn = ({ uuid, fullName }) => (
@@ -93,48 +128,53 @@ class PartnersGrid extends PureComponent {
   );
 
   render() {
-    const { partners, isLoading, isLastPage, onPageChange } = this.props;
+    const {
+      partnersQuery: {
+        loading,
+        data: partnersData,
+      },
+    } = this.props;
+
+    const { last, content } = get(partnersData, 'partners.data') || { content: [] };
 
     return (
       <div className="PartnersGrid">
         <Grid
-          data={partners}
+          data={content}
+          handleSort={this.handleSort}
           handleRowClick={this.handleOfficeClick}
-          handlePageChanged={onPageChange}
-          isLoading={isLoading}
-          isLastPage={isLastPage}
+          handlePageChanged={this.handlePageChanged}
+          isLoading={loading}
+          isLastPage={last}
           withLazyLoad
-          withNoResults={!isLoading && partners.length === 0}
         >
           <GridColumn
-            name="uuid"
+            sortBy="name"
             header={I18n.t('PARTNERS.GRID_HEADER.PARTNER')}
             render={this.renderPartnerColumn}
           />
           <If condition={getActiveBrandConfig().regulation.isActive}>
             <GridColumn
-              name="affiliateType"
               header={I18n.t('PARTNERS.GRID_HEADER.PARTNER_TYPE')}
               render={this.renderPartnerTypeColumn}
             />
           </If>
           <GridColumn
-            name="externalAffiliateId"
             header={I18n.t('PARTNERS.GRID_HEADER.EXTERNAL_ID')}
             render={this.renderExternalAffiliateIdColumn}
           />
           <GridColumn
-            name="country"
+            sortBy="country"
             header={I18n.t('PARTNERS.GRID_HEADER.COUNTRY')}
             render={this.renderCountryColumn}
           />
           <GridColumn
-            name="registered"
+            sortBy="createdAt"
             header={I18n.t('PARTNERS.GRID_HEADER.REGISTERED')}
             render={this.renderRegisteredColumn}
           />
           <GridColumn
-            name="status"
+            sortBy="status"
             header={I18n.t('PARTNERS.GRID_HEADER.STATUS')}
             render={this.renderStatusColumn}
           />
