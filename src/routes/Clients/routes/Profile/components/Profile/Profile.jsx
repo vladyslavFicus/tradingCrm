@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component, Fragment, Suspense } from 'react';
 import ImageViewer from 'react-images';
 import { get } from 'lodash';
 import I18n from 'i18n-js';
@@ -570,7 +570,7 @@ class Profile extends Component {
     const acquisitionData = get(newProfileData, 'acquisition') || {};
     const lastSignInSessions = get(newProfileData, 'profileView.lastSignInSessions') || [];
 
-    if (loading) {
+    if (loading && !newProfile) {
       return null;
     }
 
@@ -602,7 +602,7 @@ class Profile extends Component {
               onEditNoteClick={this.handleEditNoteClick}
               pinnedNotes={get(notes, 'data') || {}}
               acquisitionData={acquisitionData}
-              loading={loading}
+              loading={loading && !newProfile}
             />
           </HideDetails>
         </div>
@@ -612,31 +612,35 @@ class Profile extends Component {
           params={params}
         />
         <div className="card no-borders">
-          <Switch>
-            <Route
-              disableScroll
-              path={`${path}/profile`}
-              render={props => <ClientView refetchProfileDataOnSave={() => this.handleLoadProfile(true)} {...props} />}
-            />
-            <Route disableScroll path={`${path}/payments`} component={Payments} />
-            <Route disableScroll path={`${path}/trading-activity`} component={TradingActivity} />
-            <Route disableScroll path={`${path}/accounts`} component={Accounts} />
-            <Route disableScroll path={`${path}/callbacks`} component={Callbacks} />
-            <Route disableScroll path={`${path}/notes`} component={Notes} />
-            <Route disableScroll path={`${path}/files`} component={Files} />
-            <Route disableScroll path={`${path}/feed`} component={Feed} />
-            <If condition={getActiveBrandConfig().isRisksTabAvailable}>
+          <Suspense fallback={null}>
+            <Switch>
               <Route
                 disableScroll
-                path={`${path}/risk`}
-                render={props => <Risks refetchProfile={refetch} {...props} />}
+                path={`${path}/profile`}
+                render={props => (
+                  <ClientView refetchProfileDataOnSave={() => this.handleLoadProfile(true)} {...props} />
+                )}
               />
-            </If>
-            <If condition={getActiveBrandConfig().socialTrading}>
-              <Route disableScroll path={`${path}/social-trading`} component={SocialTrading} />
-            </If>
-            <Redirect to={`${path}/profile`} />
-          </Switch>
+              <Route disableScroll path={`${path}/payments`} component={Payments} />
+              <Route disableScroll path={`${path}/trading-activity`} component={TradingActivity} />
+              <Route disableScroll path={`${path}/accounts`} component={Accounts} />
+              <Route disableScroll path={`${path}/callbacks`} component={Callbacks} />
+              <Route disableScroll path={`${path}/notes`} component={Notes} />
+              <Route disableScroll path={`${path}/files`} component={Files} />
+              <Route disableScroll path={`${path}/feed`} component={Feed} />
+              <If condition={getActiveBrandConfig().isRisksTabAvailable}>
+                <Route
+                  disableScroll
+                  path={`${path}/risk`}
+                  render={props => <Risks refetchProfile={refetch} {...props} />}
+                />
+              </If>
+              <If condition={getActiveBrandConfig().socialTrading}>
+                <Route disableScroll path={`${path}/social-trading`} component={SocialTrading} />
+              </If>
+              <Redirect to={`${path}/profile`} />
+            </Switch>
+          </Suspense>
         </div>
         {
           popover.name === NOTE_POPOVER

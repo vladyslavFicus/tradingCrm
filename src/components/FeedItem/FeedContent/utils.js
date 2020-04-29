@@ -2,13 +2,15 @@ import i18n from 'i18n-js';
 import moment from 'moment';
 import { toNumber } from 'lodash';
 import humanizeDuration from 'humanize-duration';
-import { COUNTRY_SPECIFIC_IDENTIFIER_TYPES } from 'routes/Clients/routes/Profile/routes/Client/components/constants';
-import { genders } from 'routes/Clients/routes/Profile/routes/Client/components/PersonalForm';
+import { COUNTRY_SPECIFIC_IDENTIFIER_TYPES, genders } from
+  'routes/Clients/routes/Profile/routes/Client/components/PersonalInformationForm/constants';
 import { riskStatuses } from 'routes/Clients/routes/Profile/components/RiskStatus/constants';
 import { departments, roles } from 'constants/operators';
 import { kycStatuses } from 'constants/kycStatuses';
-import { statuses, attributeLabels } from 'constants/user';
-import { documentsType } from 'constants/files';
+import { statuses, attributeLabels, reasons as blockReasons, unblockReasons } from 'constants/user';
+import { documentsType, categories } from 'constants/files';
+import { manualPaymentMethodsLabels, tradingStatuses, statuses as paymentStatuses } from 'constants/payment';
+import { questionnaireLevel } from 'constants/questionnaire';
 
 const humanizeDurationConfig = {
   language: 'en',
@@ -23,7 +25,12 @@ const departmentsPath = 'CONSTANTS.OPERATORS.DEPARTMENTS';
 const kycStatusesPath = 'KYC_REQUESTS.STATUS';
 const rolesPath = 'CONSTANTS.OPERATORS.ROLES';
 const statusesPath = 'STATUSES_LABELS';
-const filesPath = 'FILES.DOCUMENTS_TYPE';
+const documentTypesPath = 'FILES.DOCUMENTS_TYPE';
+const documentCategoriesPath = 'FILES.CATEGORIES';
+const manualPaymentMethodsPath = 'CONSTANTS.PAYMENT.PAYMENT_METHODS';
+const tradingStatusesPath = 'FEED_ITEM.TRADING_STATUSES';
+const questionnaireLevelPath = 'FEED_ITEM.QUESTIONNAIRE.LEVELS';
+const paymentStatusesPath = 'COMMON.PAYMENT_STATUS';
 
 const transformConstFromArr = (arr, path) => arr.reduce((acc, value) => ({
   ...acc,
@@ -35,6 +42,11 @@ const transformConstFromObj = (obj, path) => Object.keys(obj).reduce((acc, key) 
   [key]: i18n.t(`${path}.${key}`),
 }), {});
 
+const translateReasons = reasons => Object.keys(reasons).reduce((acc, key) => ({
+  ...acc,
+  [key]: i18n.t(key),
+}), {});
+
 const translateValue = (value) => {
   const detailsValues = {
     ...(transformConstFromArr(COUNTRY_SPECIFIC_IDENTIFIER_TYPES, countryIdentifierTypesPath)),
@@ -43,8 +55,15 @@ const translateValue = (value) => {
     ...(transformConstFromObj(departments, departmentsPath)),
     ...(transformConstFromObj(roles, rolesPath)),
     ...(transformConstFromObj(riskStatuses, riskStatusesPath)),
-    ...(transformConstFromObj(documentsType, filesPath)),
-    ...(genders()),
+    ...(transformConstFromObj(documentsType, documentTypesPath)),
+    ...(transformConstFromObj(categories, documentCategoriesPath)),
+    ...(transformConstFromObj(manualPaymentMethodsLabels, manualPaymentMethodsPath)),
+    ...(transformConstFromObj(tradingStatuses, tradingStatusesPath)),
+    ...(transformConstFromObj(questionnaireLevel, questionnaireLevelPath)),
+    ...(transformConstFromObj(paymentStatuses, paymentStatusesPath)),
+    ...(translateReasons(blockReasons)),
+    ...(translateReasons(unblockReasons)),
+    ...(genders),
     INDIVIDUAL_RETAIL: i18n.t('CLIENT_PROFILE.DETAILS.INDIVIDUAL_RETAIL'),
     INDIVIDUAL_PROFESSIONAL: i18n.t('CLIENT_PROFILE.DETAILS.INDIVIDUAL_PROFESSIONAL'),
     CORPORATE_RETAIL: i18n.t('CLIENT_PROFILE.DETAILS.CORPORATE_RETAIL'),

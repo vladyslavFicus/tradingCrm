@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, Suspense } from 'react';
 import I18n from 'i18n-js';
 import { get } from 'lodash';
 import { Switch, Redirect } from 'react-router-dom';
@@ -328,15 +328,13 @@ class LeadProfile extends PureComponent {
         </div>
         <Tabs items={leadProfileTabs} location={location} params={params} />
         <div className="card no-borders">
-          <Switch>
-            <Route path={`${path}/profile`} component={LeadProfileTab} />
-            <Route
-              disableScroll
-              path={`${path}/notes`}
-              component={LeadNotesTab}
-            />
-            <Redirect to={`${url}/profile`} />
-          </Switch>
+          <Suspense fallback={null}>
+            <Switch>
+              <Route path={`${path}/profile`} component={LeadProfileTab} />
+              <Route disableScroll path={`${path}/notes`} component={LeadNotesTab} />
+              <Redirect to={`${url}/profile`} />
+            </Switch>
+          </Suspense>
         </div>
         {popover.name === NOTE_POPOVER && (
           <NotePopover

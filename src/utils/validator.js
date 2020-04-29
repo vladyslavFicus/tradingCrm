@@ -203,8 +203,8 @@ const getFirstErrors = errors => Object.keys(errors).reduce((result, current) =>
   [current]: errors[current][0],
 }), {});
 
-const createValidator = (rules, attributeLabels = {}, multipleErrors = true) => (data) => {
-  const validation = new Validator(data, rules);
+const createValidator = (rules, attributeLabels = {}, multipleErrors = true, customErrors = {}) => (data) => {
+  const validation = new Validator(data, rules, customErrors);
   validation.setAttributeNames(attributeLabels);
 
   if (validation.fails()) {

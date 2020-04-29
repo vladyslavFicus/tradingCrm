@@ -134,7 +134,8 @@
             "TAX_IDENTIFICATION_NUMBER": "Tax identification number",
             "TAX_NUMBER": "Tax number",
             "UK_NATIONAL_INSURANCE_NUMBER": "UK National Insurance number"
-          }
+          },
+          "TIMEZONE": "Time zone"
         },
         "TEST_PLAYER": "Test player"
       },
@@ -495,6 +496,7 @@
     "ANY": "Any",
     "ROLLBACK": "Rollback",
     "FOR": "for",
+    "CHANGES": "Changes",
     "FIRST_NAME": "First name",
     "LAST_NAME": "Last name",
     "DISABLED": "Disabled",
@@ -1038,7 +1040,25 @@
         "WITHDRAWAL_AREA": "Bank details - Withdrawal area",
         "ACCOUNT_CREATED": "Account created",
         "SHUFTIPRO_SENT": "Shuftipro sent",
-        "ATTACHMENT_ADDED": "Attachment added"
+        "ATTACHMENT_ADDED": "Attachment added",
+        "TRADING_ACCOUNT_READ_ONLY_UPDATED": "“Read only” attribute was updated for trading account",
+        "NOTE_PROFILE_CREATED": "Note profile created",
+        "NOTE_PROFILE_REMOVED": "Note profile removed",
+        "NOTE_PROFILE_UPDATED": "Note profile updated",
+        "CREDIT_IN": "Credit in",
+        "CREDIT_OUT": "Credit out",
+        "DEPOSIT": "Deposit",
+        "QUESTIONNAIRE_COMPLETED": "Questionnaire completed",
+        "TRADING_ACCOUNT_CREATED": "Trading account created",
+        "CHANGE_LEVERAGE_REQUEST_CREATED": "Change leverage request created",
+        "CHANGE_LEVERAGE_REQUEST_UPDATED": "Change leverage request updated",
+        "WITHDRAW": "Withdraw",
+        "TRANSFER_IN": "Transfer in",
+        "TRANSFER_OUT":  "Transfer out",
+        "FEE": "Fee",
+        "INACTIVITY_FEE":  "Inactivity fee",
+        "TRADING_ACCOUNT_ARCHIVED": "Trading account archived",
+        "TRADING_ACCOUNT_LEVERAGE_UPDATED": "Trading account leverage updated"
       },
       "KYC_CONFIRMATION": {
         "TRANSACTION": "Transaction ID",
@@ -1052,18 +1072,21 @@
         "RESULT": "Result"
       },
       "PROFILE_ASSIGN": {
-        "ASSIGNED_BY_NAME": "Assigned by Name",
-        "ASSIGNED_BY_UUID": "Assigned by Uuid",
+        "ASSIGNED_BY_NAME": "Assigned by name",
+        "ASSIGNED_BY_UUID": "Assigned by uuid",
         "ACQUISITION_STATUS": "Acquisition status",
-        "ASSIGNED_TO_UUID": "Assigned to Uuid",
+        "ASSIGNED_TO_UUID": "Assigned to uuid",
         "ASSIGNED_TO_NAME": "Assigned to name"
       },
       "PROFILE_ASQUISSITION_CHANGED": {
         "ACQUISITION_STATUS": "Acquisition status",
         "RETENTION_REP": "Retention representative",
-        "RETENTION_STATUS": "Retention Status",
+        "RETENTION_STATUS": "Retention status",
         "SALES_REP": "Sales representative",
-        "SALES_STATUS": "Sales Status"
+        "SALES_STATUS": "Sales status"
+      },
+      "RISK_PROFILE": {
+        "ANSWER": "Answer"
       }
     },
     "OPERATORS": {
@@ -1140,7 +1163,9 @@
         "CASHIER": "Cashier",
         "CHARGEBACK": "Chargeback",
         "CRYPTOCURRENCY_EXTERNAL": "Cryptocurrency external",
-        "VOGUEPAY": "Voguepay"
+        "VOGUEPAY": "Voguepay",
+        "INTERNAL_TRANSFER": "Internal transfer",
+        "BONUS": "Bonus"
       },
       "PAYMENT_AGGREGATORS": {
         "CASHIER": "Cashier",
@@ -1498,6 +1523,11 @@
       "REJECT_REASON": "Rejection reason",
       "LOGIN_EVENTS": {
         "REASON": "Reason"
+      },
+      "TYPES": {
+        "VERIFICATION_TYPE": "Verification type",
+        "DOCUMENT_TYPE": "Document type",
+        "FILE_TYPE": "File type"
       }
     },
     "LOG_OUT": {
@@ -1538,7 +1568,46 @@
     },
     "ACCEPTED_TERMS": {
       "TERMS_UUID": "UUID"
-    }
+    },
+    "ACCOUNTS": {
+      "PLATFORM_TYPE": "Platform type",
+      "ACCOUNT_TYPE": "Account type",
+      "ACCOUNT_UUID": "Account uuid",
+      "PAYMENT_METHOD": "Payment Method",
+      "LOGIN": "Login",
+      "UUID": "Uiid",
+      "READ_ONLY": "Read only",
+      "ARCHIVED": "Archived"
+    },
+    "PAYMENTS": {
+      "AMOUNT": "Amount",
+      "AGENT_ID": "Agent id"
+    },
+    "TRADING_STATUSES": {
+      "PAYMENT_PENDING": "Payment pending",
+      "PAYMENT_FAILED": "Payment failed",
+      "PAYMENT_REFUSED": "Payment refused",
+      "PAYMENT_CHARGEBACK": "Payment chargeback",
+      "PAYMENT_COMPLETED": "Payment completed",
+      "TRANSACTION_FAILED": "Transaction failed",
+      "TRANSACTION_COMPLETED": "Transaction completed",
+      "PAYMENT_CANCELED": "Payment canceled",
+      "PAYMENT_APPROVED": "Payment approved"
+    },
+    "QUESTIONNAIRE": {
+      "LEVELS": {
+        "BELOW_LOW": "Below low",
+        "LOW": "Low",
+        "UPPER_MEDIUM": "Upper medium",
+        "HIGH": "High"
+      },
+      "PASSED": "Questionnaire passed",
+      "LEVEL": "Questionnaire level",
+      "SCORE": "Score",
+      "STATUS": "Questionnaire status"
+    },
+    "LAST_UPDATED_DATE": "Last updated date",
+    "LEVERAGE": "Leverage"
   },
   "ERRORS": {
     "FILE": {
@@ -1870,6 +1939,7 @@
           "LAST_NAME": "Last name",
           "COUNTRY": "Country",
           "PHONE": "Phone",
+          "SIP": "SIP",
           "WHITE_LISTED_IP": "White listed IPs",
           "RESTRICTED_COUNTRIES": "Restricted countries"
         }
@@ -2675,6 +2745,7 @@
       "EMAIL": "Email",
       "COUNTRY": "Country",
       "PHONE": "Phone",
+      "MOBILE": "Mobile",
       "DATE_OF_BIRTH": "Date of birth",
       "GENDER": "Gender",
       "CITY": "City",
@@ -2970,6 +3041,9 @@
           "OPERATOR": "Operator",
           "RATIO": "Ratio"
         },
+        "ERRORS": {
+          "BETWEEN_RATIO": "Ratio must be between :min% and :max%"
+        },
         "PERCENTAGE_LIMIT_ERROR": "Sum of ratios should be equal to 100%. Please, change ratios correspondinly."
       },
       "DELETE_MODAL": {
@@ -3058,6 +3132,7 @@
   "NOTES": {
     "SUBJECT": "Subject",
     "BODY": "Body",
+    "CONTENT": "Content",
     "MODAL": {
       "DELETE_TITLE": "Delete note",
       "EDIT_TITLE": "Edit note",

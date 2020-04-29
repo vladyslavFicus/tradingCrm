@@ -180,6 +180,7 @@ PropTypes.operatorProfile = PropTypes.shape({
   lastName: PropTypes.string,
   operatorStatus: PropTypes.string,
   phoneNumber: PropTypes.string,
+  sip: PropTypes.string,
   registrationDate: PropTypes.string,
   statusChangeAuthor: PropTypes.any,
   statusChangeDate: PropTypes.any,

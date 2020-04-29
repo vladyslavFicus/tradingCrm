@@ -96,7 +96,7 @@ class Header extends PureComponent {
               </If>
             </div>
           </div>
-          <div className="header-block">
+          <div className="header-block header-block-inner">
             <div className="header-block-title">{I18n.t('LEAD_PROFILE.HEADER.REGISTERED')}</div>
             <If condition={registrationDate}>
               <div>

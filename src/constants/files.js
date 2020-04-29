@@ -8,11 +8,13 @@ const actions = keyMirror({
 const categories = keyMirror({
   DOCUMENT_VERIFICATION: null,
   ADDRESS_VERIFICATION: null,
+  OTHER: null,
 });
 
 const categoriesLabels = {
   [categories.DOCUMENT_VERIFICATION]: 'FILES.CATEGORY.DOCUMENT_VERIFICATION',
   [categories.ADDRESS_VERIFICATION]: 'FILES.CATEGORY.ADDRESS_VERIFICATION',
+  [categories.OTHER]: 'FILES.CATEGORY.OTHER',
 };
 
 const documentsType = keyMirror({

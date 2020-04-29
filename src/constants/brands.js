@@ -78,10 +78,13 @@ const brands = keyMirror({
   fxrevolution: null,
   royaltyfinance: null,
   investactive: null,
+  axedo: null,
   traderking: null,
   fxwlbrands: null,
-  axedo: null,
   dax100fx: null,
+  atlasfx: null,
+  advinvesment: null,
+  adamantfx: null,
 });
 
 const departments = keyMirror({
@@ -413,6 +416,10 @@ const brandsConfig = {
     name: 'Investactive',
     image: { src: '/img/brand/choose-brand/investactive.svg' },
   },
+  [brands.axedo]: {
+    name: 'Axedo',
+    image: { src: '/img/brand/choose-brand/axedo.svg' },
+  },
   [brands.traderking]: {
     name: 'Traderking',
     image: { src: '/img/brand/choose-brand/traderking.svg' },
@@ -428,6 +435,18 @@ const brandsConfig = {
   [brands.dax100fx]: {
     name: 'Dax100fx',
     image: { src: '/img/brand/choose-brand/dax100fx.svg' },
+  },
+  [brands.atlasfx]: {
+    name: 'AtlasFX',
+    image: { src: '/img/brand/choose-brand/atlasfx.svg' },
+  },
+  [brands.advinvesment]: {
+    name: 'Adv-Invesment',
+    image: { src: '/img/brand/choose-brand/advinvesment.svg' },
+  },
+  [brands.adamantfx]: {
+    name: 'Adamantfx',
+    image: { src: '/img/brand/choose-brand/adamantfx.svg' },
   },
 };
 const departmentsConfig = {

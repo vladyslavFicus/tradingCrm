@@ -1,31 +1,37 @@
 import React from 'react';
-import { reduxForm, Field } from 'redux-form';
+import PropTypes from 'prop-types';
+import { Formik, Form, Field } from 'formik';
 import I18n from 'i18n-js';
-import { SwitchField } from 'components/ReduxForm';
+import { FormikSwitchField } from 'components/Formik';
 
-const FORM_NAME = 'regulatedForm';
-
-const RegulatedForm = () => (
-  <form>
-    <Field
-      name="fatca"
-      label={I18n.t('CLIENT_PROFILE.FATCA.TITLE')}
-      component={SwitchField}
-    />
-    <Field
-      name="crs"
-      label={I18n.t('CLIENT_PROFILE.CRS.TITLE')}
-      component={SwitchField}
-    />
-  </form>
+const RegulatedForm = ({ initialValues, handleChange }) => (
+  <Formik
+    enableReinitialize
+    initialValues={initialValues}
+    onSubmit={handleChange}
+  >
+    {({ submitForm }) => (
+      <Form>
+        <Field
+          name="fatca"
+          label={I18n.t('CLIENT_PROFILE.FATCA.TITLE')}
+          component={FormikSwitchField}
+          onChange={submitForm}
+        />
+        <Field
+          name="crs"
+          label={I18n.t('CLIENT_PROFILE.CRS.TITLE')}
+          component={FormikSwitchField}
+          onChange={submitForm}
+        />
+      </Form>
+    )}
+  </Formik>
 );
 
-const RegualtedReduxForm = reduxForm({
-  form: FORM_NAME,
-  onChange: (values, dispatch, props) => {
-    props.handleChange(values);
-  },
-  enableReinitialize: true,
-})(RegulatedForm);
+RegulatedForm.propTypes = {
+  initialValues: PropTypes.object.isRequired,
+  handleChange: PropTypes.func.isRequired,
+};
 
-export default RegualtedReduxForm;
+export default RegulatedForm;

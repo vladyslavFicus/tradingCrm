@@ -8,7 +8,7 @@ export default compose(
   graphql(paymentsStatisticQuery, {
     options: ({ uuid, clientRegistrationDate }) => ({
       variables: {
-        playerUUID: uuid,
+        profileId: uuid,
         ...initialQueryParams(tradingTypes.DEPOSIT, tradingStatuses.COMPLETED, clientRegistrationDate),
       },
     }),
@@ -17,7 +17,7 @@ export default compose(
   graphql(paymentsStatisticQuery, {
     options: ({ uuid, clientRegistrationDate }) => ({
       variables: {
-        playerUUID: uuid,
+        profileId: uuid,
         ...initialQueryParams(tradingTypes.WITHDRAW, tradingStatuses.COMPLETED, clientRegistrationDate),
       },
     }),

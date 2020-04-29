@@ -13,7 +13,7 @@ import './FeedItem.scss';
 class FeedItem extends Component {
   static propTypes = {
     letter: PropTypes.string.isRequired,
-    color: PropTypes.oneOf(['orange', 'blue']).isRequired,
+    color: PropTypes.oneOf(['orange', 'blue', 'green']).isRequired,
     data: PropTypes.auditEntity.isRequired,
   };
 

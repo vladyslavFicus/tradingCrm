@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Suspense } from 'react';
 import I18n from 'i18n-js';
 import { Switch, Redirect } from 'react-router-dom';
 import { get } from 'lodash';
@@ -52,7 +52,7 @@ class OperatorProfileLayout extends Component {
     notify: PropTypes.func.isRequired,
   };
 
-  static defaultProps={
+  static defaultProps = {
     error: null,
 
     operatorType: operatorTypes.OPERATOR,
@@ -252,14 +252,16 @@ class OperatorProfileLayout extends Component {
           params={params}
         />
         <div className="card no-borders">
-          <Switch>
-            <Route path={`${path}/profile`} component={OperatorEdit} />
-            <If condition={isSales(userType)}>
-              <Route path={`${path}/sales-rules`} render={props => <SalesRules {...props} type="OPERATOR" />} />
-            </If>
-            <Route path={`${path}/feed`} component={Feed} />
-            <Redirect to={`${url}/profile`} />
-          </Switch>
+          <Suspense fallback={null}>
+            <Switch>
+              <Route path={`${path}/profile`} component={OperatorEdit} />
+              <If condition={isSales(userType)}>
+                <Route path={`${path}/sales-rules`} render={props => <SalesRules {...props} type="OPERATOR" />} />
+              </If>
+              <Route path={`${path}/feed`} component={Feed} />
+              <Redirect to={`${url}/profile`} />
+            </Switch>
+          </Suspense>
         </div>
         {
           modal.name === MODAL_CHANGE_PASSWORD

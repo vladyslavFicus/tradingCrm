@@ -40,7 +40,7 @@ class FormikSelectField extends Component {
   static defaultProps = {
     className: '',
     customOnChange: null,
-    customTouched: false,
+    customTouched: true,
     disabled: false,
     label: null,
     multiple: false,
@@ -76,7 +76,6 @@ class FormikSelectField extends Component {
       },
       form: {
         errors,
-        touched,
       },
       label,
       multiple,
@@ -92,7 +91,7 @@ class FormikSelectField extends Component {
       <div className={classNames(
         className,
         'form-group',
-        { 'has-danger': showErrorMessage && touched[name] && errors[name] },
+        { 'has-danger': showErrorMessage && errors[name] },
         { 'is-disabled': disabled },
       )}
       >
@@ -119,7 +118,7 @@ class FormikSelectField extends Component {
             }
           </Select>
 
-          <If condition={showErrorMessage && (touched[name] || customTouched) && errors[name]}>
+          <If condition={showErrorMessage && customTouched && errors[name]}>
             <div className="form-row">
               <div className="col form-control-feedback">
                 <i className="icon icon-alert" />

@@ -1,6 +1,7 @@
 import React, { PureComponent, Fragment } from 'react';
 import I18n from 'i18n-js';
 import { isObject } from 'lodash';
+import { v4 as uuidv4 } from 'uuid';
 import PropTypes from 'constants/propTypes';
 import { prepareValue, renderLabel } from './utils';
 import './FeedContent.scss';
@@ -13,7 +14,7 @@ class FeedContent extends PureComponent {
   handleFeedObjDetail = (acc, { value }) => {
     Object.entries(value).forEach(([detailKey, detailValue]) => {
       acc.push(
-        <div key={detailKey}>
+        <div key={uuidv4()}>
           <span className="FeedContent__label">{I18n.t(renderLabel(detailKey))}:</span>
           <span className="FeedContent__value-to">{prepareValue(detailKey, detailValue)}</span>
         </div>,
@@ -34,6 +35,16 @@ class FeedContent extends PureComponent {
   handleMixedDetails = (details, acc) => {
     Object.entries(details).forEach(([detailKey, detailValue]) => {
       if (isObject(detailValue)) {
+        if (detailKey === 'changes') {
+          acc.push(
+            <div key={uuidv4()} className="FeedContent__changes">
+              <span className="FeedContent__arrow">&#8595;</span>
+              <span>{I18n.t('COMMON.CHANGES')}</span>
+              <span className="FeedContent__arrow">&#8595;</span>
+            </div>,
+          );
+        }
+
         const { value, changeType, from, to } = detailValue;
 
         switch (changeType) {
@@ -43,9 +54,8 @@ class FeedContent extends PureComponent {
 
               break;
             }
-
             acc.push(
-              <div key={detailKey}>
+              <div key={uuidv4()}>
                 <span className="FeedContent__label">{I18n.t(renderLabel(detailKey))}:</span>
                 <span className="FeedContent__value-to">{prepareValue(detailKey, value)}</span>
               </div>,
@@ -56,7 +66,7 @@ class FeedContent extends PureComponent {
 
           case 'CHANGED': {
             acc.push(
-              <div key={detailKey}>
+              <div key={uuidv4()}>
                 <span className="FeedContent__label">{I18n.t(renderLabel(detailKey))}:</span>
                 <span className="FeedContent__value-from">{prepareValue(detailKey, from)}</span>
                 <span className="FeedContent__arrow">&#8594;</span>
@@ -69,7 +79,7 @@ class FeedContent extends PureComponent {
 
           case 'REMOVED': {
             acc.push(
-              <div key={detailKey}>
+              <div key={uuidv4()}>
                 <span className="FeedContent__label">{I18n.t(renderLabel(detailKey))}:</span>
                 <span className="FeedContent__value-from">{prepareValue(detailKey, value)}</span>
                 <span className="FeedContent__arrow">&#8594;</span>
@@ -95,7 +105,7 @@ class FeedContent extends PureComponent {
       // for outdated types
       } if (detailValue) {
         acc.push(
-          <div key={detailKey}>
+          <div key={uuidv4()}>
             <span className="FeedContent__label">{I18n.t(renderLabel(detailKey))}:</span>
             <span className="FeedContent__value-to">{prepareValue(detailKey, detailValue)}</span>
           </div>,
@@ -108,7 +118,7 @@ class FeedContent extends PureComponent {
 
   handleNewestDetails = ({ from, to }, acc) => {
     acc.push(
-      <div key={`${from} ${to}`}>
+      <div key={uuidv4()}>
         <span className="FeedContent__value-from">{prepareValue(undefined, from)}</span>
         <span className="FeedContent__arrow">&#8594;</span>
         <span className="FeedContent__value-to">{prepareValue(undefined, to)}</span>

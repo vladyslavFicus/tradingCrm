@@ -4,13 +4,13 @@ import I18n from 'i18n-js';
 import PropTypes from 'constants/propTypes';
 import ListFilterForm from 'components/ListFilterForm';
 import { getUsersByBranch } from 'graphql/queries/hierarchy';
+import countries from 'utils/countryList';
 import filterFields, { fieldNames } from '../attributes/filterFields';
 
 class LeadsGridFilter extends Component {
   static propTypes = {
     onReset: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
-    countries: PropTypes.object.isRequired,
     teams: PropTypes.arrayOf(PropTypes.hierarchyBranch).isRequired,
     desks: PropTypes.arrayOf(PropTypes.hierarchyBranch).isRequired,
     operators: PropTypes.operatorsList.isRequired,
@@ -127,7 +127,6 @@ class LeadsGridFilter extends Component {
       onSubmit,
       desks,
       branchesLoading,
-      countries,
       operatorsLoading,
       isFetchingProfileData,
       operators,

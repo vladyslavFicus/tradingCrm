@@ -57,6 +57,7 @@ class NotePopover extends Component {
     submitting: PropTypes.bool,
     invalid: PropTypes.bool,
     pristine: PropTypes.bool,
+    dirty: PropTypes.bool,
     toggle: PropTypes.func,
     hideArrow: PropTypes.bool,
     className: PropTypes.string,
@@ -75,6 +76,7 @@ class NotePopover extends Component {
     submitting: false,
     invalid: false,
     pristine: false,
+    dirty: false,
     toggle: null,
     hideArrow: false,
     className: null,
@@ -182,19 +184,10 @@ class NotePopover extends Component {
     const {
       isOpen,
       toggle,
-      currentValues,
-      item,
+      dirty,
     } = this.props;
 
-    const shouldClose = isOpen && (
-      ignoreChanges || (
-        !item
-        || (
-          currentValues && currentValues.content === item.content
-          && currentValues && currentValues.pinned === item.pinned
-        )
-      )
-    );
+    const shouldClose = isOpen && (ignoreChanges || !dirty);
 
     if (shouldClose) {
       toggle();
@@ -307,7 +300,7 @@ class NotePopover extends Component {
       <Popover
         placement={placement}
         isOpen={isOpen}
-        toggle={this.handleHide}
+        toggle={() => this.handleHide()}
         target={target}
         className={classNames('note-popover', className)}
         hideArrow={hideArrow}

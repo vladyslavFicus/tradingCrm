@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import { Formik, Form, Field, FieldArray } from 'formik';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import PropTypes from 'constants/propTypes';
-import { createValidator } from 'utils/validator';
+import { createValidator, translateLabels } from 'utils/validator';
 import countryList from 'utils/countryList';
 import { Button } from 'components/UI';
 import { isSales } from 'constants/hierarchyTypes';
@@ -23,16 +23,19 @@ import {
   depositCount,
   deskTypes,
 } from 'constants/rules';
-import attributeLabels from './constants';
+import { attributeLabels, customErrors } from './constants';
 import './RuleModal.scss';
 
-const validate = createValidator({
-  name: ['string'],
+const validate = deskType => createValidator({
+  name: ['required', 'string'],
   priority: ['required', `in:,${priorities.join()}`],
   countries: [`in:,${Object.keys(countryList).join()}`],
   languages: [`in:,${languages.map(({ languageCode }) => languageCode).join()}`],
-  type: [`in:,${ruleTypes.map(({ value }) => value).join()}`],
-}, attributeLabels, false);
+  'operatorSpreads.*.percentage': ['between:1,100'],
+  ...(deskType !== deskTypes.RETENTION) && {
+    type: ['required', `in:,${ruleTypes.map(({ value }) => value).join()}`],
+  },
+}, translateLabels(attributeLabels), false, customErrors);
 
 class RuleModal extends PureComponent {
   static propTypes = {
@@ -43,28 +46,34 @@ class RuleModal extends PureComponent {
     deskType: PropTypes.string.isRequired,
     partners: PropTypes.object.isRequired,
     operators: PropTypes.object.isRequired,
+    type: PropTypes.string,
+    currentUuid: PropTypes.string,
     withOperatorSpreads: PropTypes.bool,
   };
 
   static defaultProps = {
+    currentUuid: null,
+    type: null,
     formError: '',
     withOperatorSpreads: false,
   };
 
   state = {
-    selectedOperators: [],
+    ...(this.props.type === 'OPERATOR' ? { selectedOperators: [this.props.currentUuid] } : { selectedOperators: [] }),
     percentageLimitError: false,
   };
 
   onHandleSubmit = (values, { setSubmitting, setErrors }) => {
-    if (this.props.withOperatorSpreads && values.operatorSpreads.reduce((a, b) => a + (b.percentage || 0), 0) !== 100) {
+    if (this.props.withOperatorSpreads
+      && values.operatorSpreads.reduce((a, b) => a + (b.percentage || 0), 0) !== 100
+      && this.state.selectedOperators.length !== 0
+    ) {
       this.setState({ percentageLimitError: true });
     } else {
       this.setState({ percentageLimitError: false });
 
       this.props.onSubmit(values, setErrors);
     }
-
     setSubmitting(false);
   };
 
@@ -76,11 +85,13 @@ class RuleModal extends PureComponent {
     arrayHelpers.insert(index, '');
 
     setFieldValue(name, value);
-  }
+  };
 
   render() {
     const {
       onCloseModal,
+      currentUuid,
+      type,
       isOpen,
       deskType,
       partners,
@@ -112,10 +123,12 @@ class RuleModal extends PureComponent {
             countries: '',
             languages: '',
             type: '',
-            affiliateUUIDs: '',
-            operatorSpreads: [''],
+            affiliateUUIDs: type === 'PARTNER' ? [currentUuid] : '',
+            ...(type === 'OPERATOR'
+              ? { operatorSpreads: [{ parentUser: currentUuid, percentage: 100 }, ''] }
+              : { operatorSpreads: [''] }),
           }}
-          validate={validate}
+          validate={validate(deskType)}
           onSubmit={this.onHandleSubmit}
         >
           {({ errors, dirty, isValid, isSubmitting, values: { operatorSpreads }, setFieldValue }) => (
@@ -320,7 +333,7 @@ class RuleModal extends PureComponent {
                                 disabled={isSubmitting || !operatorSpreads[index]}
                                 component={FormikInputField}
                                 className={
-                                  classNames({
+                                  classNames('col-4', {
                                     'input--has-error': percentageLimitError,
                                   })
                                 }

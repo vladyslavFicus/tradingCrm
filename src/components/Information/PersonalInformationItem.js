@@ -1,26 +1,23 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'constants/propTypes';
-import { ReactComponent as PhoneSVG } from './icons/phone.svg';
 import { ReactComponent as EmailSVG } from './icons/email.svg';
 
 class PersonalInformationItem extends PureComponent {
   static propTypes = {
     label: PropTypes.string.isRequired,
     value: PropTypes.any,
+    additional: PropTypes.any,
     verified: PropTypes.bool,
     className: PropTypes.string,
-    withCall: PropTypes.bool,
-    onClickToCall: PropTypes.func,
     withSendEmail: PropTypes.bool,
     onClickSelectEmail: PropTypes.func,
   };
 
   static defaultProps = {
     value: null,
+    additional: null,
     verified: false,
     className: '',
-    withCall: false,
-    onClickToCall: () => {},
     withSendEmail: false,
     onClickSelectEmail: () => {},
   };
@@ -29,10 +26,9 @@ class PersonalInformationItem extends PureComponent {
     const {
       label,
       value,
-      withCall,
+      additional,
       verified,
       className,
-      onClickToCall,
       withSendEmail,
       onClickSelectEmail,
     } = this.props;
@@ -45,9 +41,7 @@ class PersonalInformationItem extends PureComponent {
           <If condition={verified}>
             <i className="fa fa-check text-success" />
           </If>
-          <If condition={withCall}>
-            <PhoneSVG onClick={onClickToCall} />
-          </If>
+          {additional}
           <If condition={withSendEmail}>
             <EmailSVG onClick={onClickSelectEmail} />
           </If>
