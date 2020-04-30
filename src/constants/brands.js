@@ -86,6 +86,7 @@ const brands = keyMirror({
   advinvesment: null,
   adamantfx: null,
   paragonfinance: null,
+  'insure-trade': null,
 });
 
 const departments = keyMirror({
@@ -452,6 +453,10 @@ const brandsConfig = {
   [brands.paragonfinance]: {
     name: 'Paragon-Finance',
     image: { src: '/img/brand/choose-brand/paragonfinance.svg' },
+  },
+  [brands['insure-trade']]: {
+    name: 'insure-trade',
+    image: { src: '/img/brand/choose-brand/insure-trade.svg' },
   },
 };
 const departmentsConfig = {
