@@ -2,10 +2,10 @@ import React from 'react';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { reduxForm, Field } from 'redux-form';
 import I18n from 'i18n-js';
-import PropTypes from '../../../../../../constants/propTypes';
-import { createValidator, translateLabels } from '../../../../../../utils/validator';
-import { InputField, NasSelectField } from '../../../../../../components/ReduxForm';
-import languages from '../../../../../../constants/languageNames';
+import { getAvailableLanguages } from 'config';
+import PropTypes from 'constants/propTypes';
+import { createValidator, translateLabels } from 'utils/validator';
+import { InputField, NasSelectField } from 'components/ReduxForm';
 import { deskModalAttributeLabels, deskTypes } from '../constants';
 
 const FORM_NAME = 'deskModalForm';
@@ -82,9 +82,9 @@ const DeskForm = ({
         disabled={submitting}
         placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
       >
-        {languages.map(({ languageName, languageCode }) => (
-          <option key={languageCode} value={languageCode}>
-            {I18n.t(languageName)}
+        {getAvailableLanguages().map(locale => (
+          <option key={locale} value={locale}>
+            {I18n.t(`COMMON.LANGUAGE_NAME.${locale.toUpperCase()}`, { defaultValue: locale.toUpperCase() })}
           </option>
         ))}
       </Field>

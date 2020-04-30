@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react';
 import I18n from 'i18n-js';
-import { get } from 'lodash';
 import moment from 'moment';
 import { Formik, Form, Field } from 'formik';
 import PermissionContent from 'components/PermissionContent';
@@ -15,7 +14,6 @@ import permissions from 'config/permissions';
 import { createValidator } from 'utils/validator';
 import countryList from 'utils/countryList';
 import PropTypes from 'constants/propTypes';
-import languageNames from 'constants/languageNames';
 import {
   COUNTRY_SPECIFIC_IDENTIFIER_TYPES,
   attributeLabels,
@@ -134,16 +132,11 @@ class PersonalInformationForm extends PureComponent {
                 component={FormikSelectField}
                 disabled={disabled}
               >
-                {
-                  getAvailableLanguages().map(languageCode => (
-                    <option key={languageCode} value={languageCode}>
-                      {I18n.t(
-                        get(languageNames.find(item => item.languageCode === languageCode),
-                          'languageName', languageCode),
-                      )}
-                    </option>
-                  ))
-                }
+                {getAvailableLanguages().map(locale => (
+                  <option key={locale} value={locale}>
+                    {I18n.t(`COMMON.LANGUAGE_NAME.${locale.toUpperCase()}`, { defaultValue: locale.toUpperCase() })}
+                  </option>
+                ))}
               </Field>
               <FormikDatePicker
                 name="birthDate"
