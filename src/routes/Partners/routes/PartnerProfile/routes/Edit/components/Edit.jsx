@@ -5,6 +5,7 @@ import Permissions from 'utils/permissions';
 import permissions from 'config/permissions';
 import { withPermission } from 'providers/PermissionsProvider';
 import PersonalForm from './PersonalForm';
+import Schedule from './Schedule';
 
 class View extends Component {
   static propTypes = {
@@ -174,6 +175,7 @@ class View extends Component {
             />
           </div>
         </div>
+        <Schedule />
       </div>
     );
   }

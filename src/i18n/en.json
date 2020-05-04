@@ -2019,6 +2019,17 @@
       "REGISTRATION_DATE_TO": "Date to",
       "REGISTRATION_DATE_RANGE": "Registration Date Range"
     },
+    "SCHEDULE": {
+      "GRID_HEADER": {
+        "ACTIVATE": "Activate",
+        "DAY": "DAY",
+        "WORKING_HOURS": "Working hours",
+        "TOTAL_LEADS_LIMIT": "Total leads limit",
+        "COUNTRY_LIMIT": "Country limit"
+      },
+      "FROM": "from",
+      "TO": "to"
+    },
     "SHOW_NOTES": "Show notes",
     "SHOW_SALES_STATUS": "Show sales status",
     "SHOW_FTD_AMOUNT": "Show FTD Amount",
@@ -2036,6 +2047,16 @@
         "TITLE": "Existing partner",
         "MESSAGE": "Partner exits in another brand. Would you like to add permissions for this partner to have access to",
         "BRAND": "%{brand}?"
+      },
+      "SCHEDULE": {
+        "TITLE": "API Settings",
+        "LABELS": {
+          "COUNTRY": "Country",
+          "LEADS_LIMIT": "Total leads limit",
+          "COUNTRY_LIMIT": "Country limit",
+          "WORKING_HOURS_FROM": "Working Hours From",
+          "WORKING_HOURS_TO": "Working Hours To"
+        }
       }
     },
     "PROFILE": {
