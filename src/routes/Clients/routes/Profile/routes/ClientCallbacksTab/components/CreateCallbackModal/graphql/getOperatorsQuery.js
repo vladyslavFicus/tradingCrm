@@ -4,16 +4,13 @@ import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 
 const REQUEST = gql`
-  query CallbackDetailsModal_getOperators {
+  query CreateCallbackModal_getOperatorsQuery {
     operators {
       data {
         content {
           uuid
           fullName
         }
-      }
-      error {
-        error
       }
     }
   }

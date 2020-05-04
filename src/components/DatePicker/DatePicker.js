@@ -213,7 +213,7 @@ class DatePicker extends Component {
     const {
       label,
       className,
-      field: { touched, error },
+      field: { error },
       showErrorMessage,
       helpText,
       disabled,
@@ -222,7 +222,7 @@ class DatePicker extends Component {
     const groupClassName = classNames(
       'form-group',
       className,
-      { 'has-danger': touched && error },
+      { 'has-danger': error },
       { 'is-disabled': disabled },
     );
 
@@ -232,9 +232,9 @@ class DatePicker extends Component {
           <label>{label}</label>
         </If>
         {this.renderInput(props)}
-        <If condition={helpText || (showErrorMessage && touched && error)}>
+        <If condition={helpText || (showErrorMessage && error)}>
           <div className="form-row">
-            <If condition={showErrorMessage && touched && error}>
+            <If condition={showErrorMessage && error}>
               <div className="col form-control-feedback">
                 <i className="icon icon-alert" />
                 {error}
@@ -255,7 +255,7 @@ class DatePicker extends Component {
     const {
       label,
       className,
-      field: { touched, error },
+      field: { error },
       showErrorMessage,
       helpText,
       disabled,
@@ -264,7 +264,7 @@ class DatePicker extends Component {
     const groupClassName = classNames(
       'form-group row',
       className,
-      { 'has-danger': touched && error },
+      { 'has-danger': error },
       { 'is-disabled': disabled },
     );
 
@@ -273,10 +273,10 @@ class DatePicker extends Component {
         <label className="col-md-3">{label}</label>
         <div className="col-md-9">
           {this.renderInput(props)}
-          <If condition={helpText || (showErrorMessage && touched && error)}>
+          <If condition={helpText || (showErrorMessage && error)}>
             <div className="col-12">
               <div className="form-row">
-                <If condition={showErrorMessage && touched && error}>
+                <If condition={showErrorMessage && error}>
                   <div className="col form-control-feedback">
                     <i className="icon icon-alert" />
                     {error}

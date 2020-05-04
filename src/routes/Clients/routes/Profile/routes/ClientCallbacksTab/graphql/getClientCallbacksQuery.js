@@ -5,7 +5,7 @@ import { Query } from 'react-apollo';
 import { NoteFragment } from 'graphql/fragments/notes';
 
 const REQUEST = gql`
-  query CallbacksList_getCallbacks(
+  query ClientsCallbacksTab_getClientCallbacksQuery(
     $id: String,
     $userId: String,
     $statuses: [CallbackStatusEnum],
@@ -29,39 +29,41 @@ const REQUEST = gql`
         totalElements
         size
         last
-          content {
-            _id
-            operatorId
-            userId
-            callbackId
-            callbackTime
-            status
-            creationTime
-            updateTime
-            operator {
-              fullName
-            }
-            client {
-              fullName
-            }
-            note {
-              ...NoteFragment,
-            }
+        content {
+          _id
+          operatorId
+          userId
+          callbackId
+          callbackTime
+          status
+          creationTime
+          updateTime
+          operator {
+            fullName
           }
-      }
-      error {
-        error
+          client {
+            fullName
+          }
+          note {
+            ...NoteFragment,
+          }
+        }
       }
     }
   }
   ${NoteFragment}
 `;
 
-const getCallbacksQuery = ({ children, location: { query = {} } }) => (
+const getClientCallbacksQuery = ({
+  children,
+  location: { query = {} },
+  match: { params: { id } },
+}) => (
   <Query
     query={REQUEST}
     variables={{
       ...query.filters,
+      userId: id,
       limit: 20,
     }}
     fetchPolicy="network-only"
@@ -70,18 +72,18 @@ const getCallbacksQuery = ({ children, location: { query = {} } }) => (
   </Query>
 );
 
-getCallbacksQuery.propTypes = {
+getClientCallbacksQuery.propTypes = {
   children: PropTypes.func.isRequired,
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      id: PropTypes.string,
+    }),
+  }).isRequired,
   location: PropTypes.shape({
     query: PropTypes.shape({
-      filters: PropTypes.shape({
-        searchKeyword: PropTypes.string,
-        status: PropTypes.string,
-        registrationDateStart: PropTypes.string,
-        registrationDateEnd: PropTypes.string,
-      }),
+      filters: PropTypes.object,
     }),
   }).isRequired,
 };
 
-export default getCallbacksQuery;
+export default getClientCallbacksQuery;
