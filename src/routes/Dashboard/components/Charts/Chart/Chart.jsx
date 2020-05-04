@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import PropTypes from 'constants/propTypes';
+import moment from 'moment';
 import I18n from 'i18n-js';
 import { ResponsiveContainer, LineChart, Line, YAxis, CartesianGrid, Tooltip, XAxis } from 'recharts';
+import PropTypes from 'constants/propTypes';
 import { getActiveBrandConfig } from 'config';
 import Select from 'components/Select';
 import ShortLoader from 'components/ShortLoader';
@@ -82,6 +83,11 @@ class Chart extends Component {
     } = this.props;
     const { selectedOption } = this.state;
 
+    const chartData = data.map(chartPointData => ({
+      ...chartPointData,
+      entryDate: moment(chartPointData.entryDate).format('DD.MM'),
+    }));
+
     return (
       <div className="Chart">
         <div className="Chart__header">
@@ -108,7 +114,7 @@ class Chart extends Component {
               <Choose>
                 <When condition={hasResults}>
                   <ResponsiveContainer className="Chart__grapfic" height={200} width="108%">
-                    <LineChart data={data}>
+                    <LineChart data={chartData}>
                       <If condition={xDataKey}>
                         <XAxis dataKey={xDataKey} />
                       </If>
