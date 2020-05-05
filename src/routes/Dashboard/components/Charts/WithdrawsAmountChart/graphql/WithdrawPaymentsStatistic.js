@@ -12,7 +12,6 @@ export const REQUEST = gql`
     $detalization: DetalizationEnum
     $paymentStatus: String
     $paymentType: String
-    $playerUUID: String
     $additionalStatistics: [AdditionalStatisticInput]
   ) {
     statistics {
@@ -22,7 +21,6 @@ export const REQUEST = gql`
         detalization: $detalization
         paymentStatus: $paymentStatus
         paymentType: $paymentType
-        playerUUID: $playerUUID
         additionalStatistics: $additionalStatistics
       ) {
         error {

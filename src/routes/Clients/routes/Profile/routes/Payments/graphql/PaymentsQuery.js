@@ -82,7 +82,7 @@ const REQUEST = gql`
 const PaymentsQuery = ({
   children,
   location: { query },
-  match: { params: { id: playerUUID } },
+  match: { params: { id: profileId } },
 }) => (
   <Query
     query={REQUEST}
@@ -90,7 +90,7 @@ const PaymentsQuery = ({
       args: {
         accountType: 'LIVE',
         ...(query && query.filters),
-        playerUUID,
+        profileId,
         page: {
           from: 0,
           size: 20,

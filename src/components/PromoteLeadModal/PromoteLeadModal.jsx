@@ -1,10 +1,8 @@
 import React, { PureComponent } from 'react';
-import { get } from 'lodash';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { reduxForm, Field } from 'redux-form';
 import I18n from 'i18n-js';
 import PropTypes from 'constants/propTypes';
-import languages from 'constants/languageNames';
 import { getActiveBrandConfig, getAvailableLanguages } from 'config';
 import { createValidator, translateLabels } from 'utils/validator';
 import countryList from 'utils/countryList';
@@ -108,9 +106,9 @@ class PromoteLead extends PureComponent {
                 component={NasSelectField}
                 placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
               >
-                {getAvailableLanguages().map(languageCode => (
-                  <option key={languageCode} value={languageCode}>
-                    {I18n.t(get(languages.find(item => item.languageCode === languageCode), 'languageName'))}
+                {getAvailableLanguages().map(locale => (
+                  <option key={locale} value={locale}>
+                    {I18n.t(`COMMON.LANGUAGE_NAME.${locale.toUpperCase()}`, { defaultValue: locale.toUpperCase() })}
                   </option>
                 ))}
               </Field>

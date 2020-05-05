@@ -585,10 +585,12 @@ PropTypes.tradingActivity = PropTypes.shape({
 });
 PropTypes.callback = PropTypes.shape({
   _id: PropTypes.string.isRequired,
+  callbackId: PropTypes.string,
   status: PropTypes.string,
   callbackTime: PropTypes.string,
   creationTime: PropTypes.string,
   updateTime: PropTypes.string,
+  note: PropTypes.object,
   userId: PropTypes.string,
   operatorId: PropTypes.string,
   client: PropTypes.shape({

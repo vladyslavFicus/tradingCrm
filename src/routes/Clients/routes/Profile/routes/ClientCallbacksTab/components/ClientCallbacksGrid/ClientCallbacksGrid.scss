@@ -1,0 +1,38 @@
+.ClientCallbacksGrid {
+  padding: 25px;
+
+  &__info {
+    &-main {
+      font-weight: 700;
+    }
+
+    &-secondary {
+      font-size: 11px;
+    }
+  }
+
+  &__client {
+    max-width: 250px;
+  }
+
+  &__status {
+    text-transform: uppercase;
+  }
+}
+
+// # Modifiers
+.ClientCallbacksGrid {
+  &__status {
+    &--pending {
+      color: #0190da;
+    }
+
+    &--rejected {
+      color: #fb434a;
+    }
+
+    &--success {
+      color: #46be8a;
+    }
+  }
+}

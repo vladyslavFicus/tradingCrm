@@ -42,19 +42,6 @@ class PaymentDetailsModal extends PureComponent {
     }).isRequired,
   };
 
-  get readOnly() {
-    const { permission: { permissions: currentPermission } } = this.props;
-    const permittedRights = [
-      permissions.PAYMENT.APPROVE,
-      permissions.PAYMENT.REJECT,
-      permissions.PAYMENT.CHANGE_STATUS,
-      permissions.PAYMENT.CHANGE_METHOD,
-    ];
-
-    // INFO: if have permission return false
-    return !(new Permissions(permittedRights).check(currentPermission));
-  }
-
   onAcceptSuccess = () => {
     this.props.onSuccess();
     this.props.onCloseModal();
@@ -296,10 +283,18 @@ class PaymentDetailsModal extends PureComponent {
         paymentType,
         withdrawStatus,
       },
+      permission: {
+        permissions: currentPermission,
+      },
     } = this.props;
 
     const inPendingStatus = statusMapper.PENDING.includes(status);
     const isWithdraw = paymentType === tradingTypes.WITHDRAW;
+
+    const canApprove = new Permissions(permissions.PAYMENT.APPROVE).check(currentPermission);
+    const canReject = new Permissions(permissions.PAYMENT.REJECT).check(currentPermission);
+    const canChangeStatus = new Permissions(permissions.PAYMENT.CHANGE_STATUS).check(currentPermission);
+    const canChangeMethod = new Permissions(permissions.PAYMENT.CHANGE_METHOD).check(currentPermission);
 
     return (
       <Modal
@@ -336,7 +331,7 @@ class PaymentDetailsModal extends PureComponent {
                 {this.renderPaymentMethodBlock()}
               </div>
 
-              <If condition={!this.readOnly && !inPendingStatus}>
+              <If condition={canChangeMethod && canChangeStatus && !inPendingStatus}>
                 <div className="PaymentDetailsModal__row">
                   <ChangePaymentStatusForm
                     onSuccess={onSuccess}
@@ -346,17 +341,22 @@ class PaymentDetailsModal extends PureComponent {
                 </div>
               </If>
 
-              <If condition={!this.readOnly && isWithdraw && inPendingStatus}>
+              <If condition={(canApprove || canReject) && isWithdraw && inPendingStatus}>
                 <div className="PaymentDetailsModal__row">
-                  <RejectPaymentForm
-                    paymentId={paymentId}
-                    onSuccess={this.onAcceptSuccess}
-                  />
-                  <ApprovePaymentForm
-                    paymentId={paymentId}
-                    withdrawStatus={withdrawStatus}
-                    onSuccess={this.onAcceptSuccess}
-                  />
+                  <If condition={canReject}>
+                    <RejectPaymentForm
+                      paymentId={paymentId}
+                      onSuccess={this.onAcceptSuccess}
+                    />
+                  </If>
+
+                  <If condition={canApprove}>
+                    <ApprovePaymentForm
+                      paymentId={paymentId}
+                      withdrawStatus={withdrawStatus}
+                      onSuccess={this.onAcceptSuccess}
+                    />
+                  </If>
                 </div>
               </If>
             </Otherwise>

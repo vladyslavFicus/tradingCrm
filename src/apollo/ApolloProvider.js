@@ -1,82 +1,51 @@
 import React, { PureComponent } from 'react';
-import { ApolloProvider as ReactApolloProvider } from 'react-apollo';
-import { withRouter } from 'react-router-dom';
 import { ApolloClient } from 'apollo-client';
-import { from, split, ApolloLink } from 'apollo-link';
-import { setContext } from 'apollo-link-context';
-import { onError } from 'apollo-link-error';
 import { InMemoryCache } from 'apollo-cache-inmemory';
+import { split, from, ApolloLink } from 'apollo-link';
+import { createHttpLink } from 'apollo-link-http';
 import { BatchHttpLink } from 'apollo-link-batch-http';
-import { HttpLink } from 'apollo-link-http';
 import { createUploadLink } from 'apollo-upload-client';
+import { onError } from 'apollo-link-error';
+import { setContext } from 'apollo-link-context';
+import { ApolloProvider as OriginalApolloProvider, compose } from 'react-apollo';
+import { withRouter } from 'react-router-dom';
 import { withModals } from 'hoc';
+import { isUpload } from 'apollo/utils/isUpload';
+import omitTypename from 'apollo/utils/omitTypename';
 import { withStorage } from 'providers/StorageProvider';
-import omitTypename from 'graphql/utils/omitTypename';
+import UpdateVersionModal from 'components/UpdateVersionModal';
 import PropTypes from 'constants/propTypes';
 import queryNames from 'constants/apolloQueryNames';
-import UpdateVersionModal from 'components/UpdateVersionModal';
 import { getGraphQLRoot, getApiVersion } from '../config';
-
-const __DEV__ = process.env.NODE_ENV === 'development';
-
-const isObject = node => typeof node === 'object' && node !== null;
-
-const hasFiles = (node, found = []) => {
-  Object.keys(node).forEach((key) => {
-    if (!isObject(node[key]) || found.length > 0) {
-      return;
-    }
-
-    if (
-      (typeof File !== 'undefined' && node[key] instanceof window.File)
-      || (typeof Blob !== 'undefined' && node[key] instanceof window.Blob)
-    ) {
-      found.push(node[key]);
-      return;
-    }
-
-    hasFiles(node[key], found);
-  });
-
-  return found.length > 0;
-};
 
 class ApolloProvider extends PureComponent {
   static propTypes = {
-    children: PropTypes.element.isRequired,
+    children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.element), PropTypes.element]).isRequired,
     modals: PropTypes.shape({
       updateVersionModal: PropTypes.modalType,
     }).isRequired,
-    ...withStorage.propTypes,
   };
 
-  constructor(props) {
-    super(props);
-
-    this.constructor.client = this.createClient();
-  }
-
-  createClient = () => {
-    const { modals: { updateVersionModal } } = this.props;
-
-    const options = {
+  static createClient({ history, storage, modals }) {
+    // ========= Batch http link with upload link ========= //
+    const httpLinkOptions = {
       uri: getGraphQLRoot(),
-      batchInterval: 50,
     };
 
-    // INFO: move heavy request out of batching, so other data don`t hangout
-    const batchSplitLink = split(
+    const batchHttpLink = split(
+      // Custom link to exclude some queries from batching
       ({ operationName }) => Object.values(queryNames).includes(operationName),
-      new HttpLink(options),
-      new BatchHttpLink(options),
+      createHttpLink(httpLinkOptions),
+      new BatchHttpLink(httpLinkOptions),
     );
 
     const httpLink = split(
-      ({ variables }) => hasFiles(variables),
-      createUploadLink(options),
-      batchSplitLink,
+      isUpload,
+      createUploadLink(httpLinkOptions),
+      batchHttpLink,
     );
 
+    // ========= Error link ========= //
     const errorLink = onError(({ graphQLErrors, networkError, operation }) => {
       if (graphQLErrors) {
         graphQLErrors.forEach(({ message, locations, path, extensions }) => {
@@ -86,39 +55,43 @@ class ApolloProvider extends PureComponent {
           }
 
           if (extensions && extensions.code === 'UNAUTHENTICATED') {
-            this.props.history.push('/logout');
+            history.push('/logout');
 
             return;
           }
 
           // eslint-disable-next-line
-          console.log(`[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`);
+          console.warn(`[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`);
         });
       }
 
       if (networkError) {
         if (networkError.statusCode === 401) {
-          this.props.history.push('/logout');
+          history.push('/logout');
+
+          return;
         }
 
-        if (networkError.statusCode === 426 && !updateVersionModal.isOpen) {
-          updateVersionModal.show();
+        if (networkError.statusCode === 426) {
+          modals.updateVersionModal.show();
+
           return;
         }
 
         // eslint-disable-next-line
-        console.log(`[Network error]: ${networkError}`);
+        console.error(`[Network error]: ${networkError}`);
       }
     });
 
-    const authLink = setContext((_, { headers }) => {
-      const token = this.props.storage.get('token');
+    // ========= Context link ========= //
+    const contextLink = setContext((_, { headers }) => {
+      const token = storage.get('token');
 
       return {
         headers: {
           ...headers,
           authorization: token ? `Bearer ${token}` : undefined,
-          'X-CLIENT-Version': getApiVersion(),
+          'x-client-version': getApiVersion(),
         },
       };
     });
@@ -132,42 +105,36 @@ class ApolloProvider extends PureComponent {
       return forward(operation);
     });
 
-    const cache = new InMemoryCache({
-      dataIdFromObject: (object) => {
-        switch (object.__typename) {
-          case 'PlayerProfile':
-            return object.playerUUID ? `${object.__typename}:${object.playerUUID}` : null;
-          case 'HierarchyUserType':
-            return object.uuid ? `${object.__typename}:${object.uuid}` : null;
-          default:
-            return object._id ? `${object.__typename}:${object._id}` : null;
-        }
-      },
-    });
-
     return new ApolloClient({
-      link: from([createOmitTypenameLink, errorLink, authLink, httpLink]),
-      cache,
-      connectToDevTools: __DEV__,
+      link: from([createOmitTypenameLink, errorLink, contextLink, httpLink]),
+      cache: new InMemoryCache(),
 
       // Query deduplication should be turned off because request cancellation not working with turned it on
       // It isn't good way, but no any solution to cancel *-ALL-* pending requests for this time
       // https://github.com/apollographql/apollo-client/issues/4150#issuecomment-487412557
       queryDeduplication: false,
     });
-  };
+  }
+
+  client = this.constructor.createClient(this.props);
 
   render() {
+    const { modals } = this.props;
+
+    if (modals.updateVersionModal.isOpen) {
+      return null;
+    }
+
     return (
-      <ReactApolloProvider client={this.constructor.client}>
+      <OriginalApolloProvider client={this.client}>
         {this.props.children}
-      </ReactApolloProvider>
+      </OriginalApolloProvider>
     );
   }
 }
 
-export default withStorage(
-  withRouter(
-    withModals({ updateVersionModal: UpdateVersionModal })(ApolloProvider),
-  ),
-);
+export default compose(
+  withRouter,
+  withStorage,
+  withModals({ updateVersionModal: UpdateVersionModal }),
+)(ApolloProvider);

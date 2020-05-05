@@ -9,7 +9,7 @@ import Regulated from 'components/Regulated';
 import { decodeNullValues } from 'components/Formik/utils';
 import { hideText } from 'utils/hideText';
 import { getBrand } from 'config';
-import PersonalForm from './PersonalForm';
+import PersonalInformationForm from './PersonalInformationForm';
 import AddressForm from './AddressForm';
 import ContactForm from './ContactForm';
 import KycStatus from './Kyc/KycStatus';
@@ -217,7 +217,7 @@ class View extends Component {
         message: I18n.t('error.validation.email.exists'),
       });
     }
-  }
+  };
 
   phoneAccess = () => {
     const {
@@ -260,6 +260,7 @@ class View extends Component {
             phoneVerified,
             emailVerified,
             identificationNumber,
+            timeZone,
           },
         },
       },
@@ -272,7 +273,7 @@ class View extends Component {
             <div className="client-big-col">
               <div className="card margin-right-20">
                 <div className="card-body">
-                  <PersonalForm
+                  <PersonalInformationForm
                     initialValues={{
                       passport,
                       firstName,
@@ -281,6 +282,7 @@ class View extends Component {
                       gender,
                       languageCode,
                       identificationNumber,
+                      timeZone,
                     }}
                     onSubmit={this.handleUpdatePersonalInformation}
                     disabled={!canUpdatePersonalInformation}
