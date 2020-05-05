@@ -4,14 +4,14 @@ import gql from 'graphql-tag';
 import { Mutation } from 'react-apollo';
 
 const REQUEST = gql`
-  mutation PaymentApproveButton_approvePaymentMutation(
+  mutation PaymentApproveButton_approvePaymentFinalMutation(
     $paymentId: String!
-    $typeAcc: String
+    $paymentMethod: String
   ) {
     payment {
-      acceptPayment (
+      acceptPaymentFinal (
         paymentId: $paymentId
-        typeAcc: $typeAcc
+        paymentMethod: $paymentMethod
       ) {
         data {
           success
@@ -21,14 +21,14 @@ const REQUEST = gql`
   }
 `;
 
-const approvePaymentMutation = ({ children }) => (
+const approvePaymentFinalMutation = ({ children }) => (
   <Mutation mutation={REQUEST}>
     {children}
   </Mutation>
 );
 
-approvePaymentMutation.propTypes = {
+approvePaymentFinalMutation.propTypes = {
   children: PropTypes.func.isRequired,
 };
 
-export default approvePaymentMutation;
+export default approvePaymentFinalMutation;
