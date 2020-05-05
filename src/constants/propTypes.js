@@ -165,9 +165,9 @@ PropTypes.userProfile = PropTypes.shape({
   uuid: PropTypes.string.isRequired,
 });
 PropTypes.authorityEntity = PropTypes.shape({
-  id: PropTypes.number.isRequired,
-  department: PropTypes.string.isRequired,
-  role: PropTypes.string.isRequired,
+  id: PropTypes.number,
+  department: PropTypes.string,
+  role: PropTypes.string,
 });
 PropTypes.dropDownOption = PropTypes.shape({
   label: PropTypes.string.isRequired,
@@ -200,19 +200,38 @@ PropTypes.partnerProfile = PropTypes.shape({
   uuid: PropTypes.string,
 });
 PropTypes.partner = PropTypes.shape({
+  affiliateType: PropTypes.string,
+  authorities: PropTypes.shape({
+    data: PropTypes.arrayOf(PropTypes.authorityEntity),
+  }),
+  cellexpert: PropTypes.bool,
   country: PropTypes.string,
   createdAt: PropTypes.string,
+  createdBy: PropTypes.string,
   email: PropTypes.string,
   externalAffiliateId: PropTypes.string,
   firstName: PropTypes.string,
   fullName: PropTypes.string,
   lastName: PropTypes.string,
-  partnerType: PropTypes.string,
+  permission: PropTypes.shape({
+    allowedIpAddresses: PropTypes.arrayOf(PropTypes.string),
+    forbiddenCountries: PropTypes.arrayOf(PropTypes.string),
+    showFTDAmount: PropTypes.bool,
+    showKycStatus: PropTypes.bool,
+    showNotes: PropTypes.bool,
+    showSalesStatus: PropTypes.bool,
+  }),
   phone: PropTypes.string,
+  public: PropTypes.bool,
+  satellite: PropTypes.string,
   status: PropTypes.string,
   statusChangeAuthor: PropTypes.string,
   statusChangeDate: PropTypes.string,
-  uuid: PropTypes.string,
+  statusReason: PropTypes.string,
+  tradingAccountAutocreation: PropTypes.string,
+  tradingAccountCurrency: PropTypes.string,
+  tradingAccountType: PropTypes.string,
+  uuid: PropTypes.uuid,
 });
 PropTypes.navSubItem = PropTypes.shape({
   label: PropTypes.string.isRequired,

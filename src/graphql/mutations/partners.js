@@ -75,32 +75,6 @@ const updatePartner = gql`mutation updatePartner(
   }
 }`;
 
-const changePassword = gql`mutation changePassword($playerUUID: String!, $password: String!) {
-  profile {
-    changePassword(playerUUID: $playerUUID, password: $password) {
-      success
-    }
-  }
-}`;
-
-const changeStatus = gql`mutation changeStatus(
-  $uuid: String!,
-  $reason: String!,
-  $status: String!
-) {
-  partner {
-    changeStatus(
-      uuid: $uuid,
-      reason: $reason,
-      status: $status
-    ) {
-      success
-    }
-  }
-}`;
-
 export {
-  changeStatus,
   updatePartner,
-  changePassword,
 };

@@ -3,7 +3,7 @@ import { Redirect, Switch } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Route from 'components/Route';
 import PartnersList from './routes/PartnersList';
-import PartnerProfile from './routes/PartnerProfile';
+import Partner from './routes/Partner';
 
 class Partners extends PureComponent {
   static propTypes = {
@@ -21,7 +21,7 @@ class Partners extends PureComponent {
     return (
       <Switch>
         <Route path={`${path}/list`} component={PartnersList} />
-        <Route path={`${path}/:id`} component={PartnerProfile} />
+        <Route path={`${path}/:id`} component={Partner} />
         <Redirect to={`${url}/list`} />
       </Switch>
     );
