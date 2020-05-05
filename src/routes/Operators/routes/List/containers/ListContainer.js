@@ -30,7 +30,9 @@ export default compose(
     options: ({ location: { query } }) => ({
       variables: {
         ...query && query.filters,
+        ...query && query.sorts ? { sorts: query.sorts } : {},
         page: 0,
+        size: 20,
       },
       fetchPolicy: 'network-only',
     }),
