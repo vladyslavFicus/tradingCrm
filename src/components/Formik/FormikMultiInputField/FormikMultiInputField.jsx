@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import FieldLabel from './FieldLabel';
+import { FieldLabel } from 'components/Forms';
 import MultiInput from '../../MultiInput';
 
 class FormikMultiInputField extends PureComponent {

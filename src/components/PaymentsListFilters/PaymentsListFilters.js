@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import I18n from 'i18n-js';
 import { get } from 'lodash';
+import classNames from 'classnames';
 import { Formik, Form, Field } from 'formik';
 import { compose, withApollo } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
@@ -51,20 +52,17 @@ class PaymentsListFilters extends PureComponent {
       }),
     }).isRequired,
     operatorsQuery: PropTypes.query({
-      operators: PropTypes.shape({
-        data: PropTypes.shape({
-          content: PropTypes.arrayOf(
-            PropTypes.shape({
-              uuid: PropTypes.string,
-              fullName: PropTypes.string,
-              operatorStatus: PropTypes.string,
-            }),
-          ),
-        }),
-        error: PropTypes.object,
+      operators: PropTypes.response({
+        content: PropTypes.arrayOf(
+          PropTypes.shape({
+            uuid: PropTypes.string,
+            fullName: PropTypes.string,
+            operatorStatus: PropTypes.string,
+          }),
+        ),
       }),
     }).isRequired,
-    paymentMethodsQuery: PropTypes.shape({
+    paymentMethodsQuery: PropTypes.query({
       paymentMethods: PropTypes.shape({
         data: PropTypes.paymentMethods,
         error: PropTypes.object,
@@ -404,11 +402,10 @@ class PaymentsListFilters extends PureComponent {
                   <option
                     key={uuid}
                     value={uuid}
-                    className={operatorStatus === operatorsStasuses.INACTIVE
-                      || operatorStatus === operatorsStasuses.CLOSED
-                      ? 'color-inactive'
-                      : ''
-                    }
+                    className={classNames({
+                      'color-inactive': operatorStatus === operatorsStasuses.INACTIVE
+                      || operatorStatus === operatorsStasuses.CLOSED,
+                    })}
                   >
                     {fullName}
                   </option>
@@ -431,8 +428,6 @@ class PaymentsListFilters extends PureComponent {
                     </option>
                   ))}
                 </Field>
-              </If>
-              <If condition={!clientView}>
                 <Field
                   name="currency"
                   className="form-group filter-row__medium"
