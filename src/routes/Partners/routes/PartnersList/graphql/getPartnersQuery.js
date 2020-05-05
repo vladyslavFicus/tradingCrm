@@ -7,6 +7,7 @@ const REQUEST = gql`
   query PartnersList_getPartners(
     $page: Int
     $size: Int
+    $sorts: [SortInputType]
     $searchBy: String
     $country: String
     $status: String
@@ -17,6 +18,7 @@ const REQUEST = gql`
     partners (
       page: $page
       size: $size
+      sorts: $sorts
       searchBy: $searchBy
       country: $country
       status: $status
