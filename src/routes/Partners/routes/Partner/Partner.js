@@ -11,7 +11,7 @@ import Route from 'components/Route';
 import SalesRules from 'components/SalesRules';
 import HideDetails from 'components/HideDetails';
 import PartnerEdit from './routes/Edit';
-import Feed from './routes/Feed';
+import PartnerFeedsTab from './routes/PartnerFeedsTab';
 import PartnerHeader from './components/PartnerHeader';
 import PartnerAccountStatus from './components/PartnerAccountStatus';
 import PartnerRegistrationInfo from './components/PartnerRegistrationInfo';
@@ -76,7 +76,7 @@ class Partner extends PureComponent {
             <Switch>
               <Route path={`${path}/profile`} component={PartnerEdit} />
               <Route path={`${path}/sales-rules`} render={props => <SalesRules {...props} type="PARTNER" />} />
-              <Route path={`${path}/feed`} component={Feed} />
+              <Route path={`${path}/feed`} component={PartnerFeedsTab} />
               <Redirect to={`${url}/profile`} />
             </Switch>
           </Suspense>

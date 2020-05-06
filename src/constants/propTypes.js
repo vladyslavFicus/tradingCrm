@@ -247,7 +247,7 @@ PropTypes.auditEntity = PropTypes.shape({
   authorFullName: PropTypes.string.isRequired,
   authorUuid: PropTypes.string.isRequired,
   creationDate: PropTypes.string.isRequired,
-  details: PropTypes.object,
+  details: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
   id: PropTypes.number.isRequired,
   ip: PropTypes.string,
   targetFullName: PropTypes.string.isRequired,
@@ -632,6 +632,18 @@ PropTypes.partnersList = PropTypes.arrayOf(PropTypes.shape({
   statusChangeDate: PropTypes.string,
   country: PropTypes.string,
 }));
+PropTypes.feed = PropTypes.shape({
+  authorFullName: PropTypes.string,
+  authorUuid: PropTypes.string,
+  brandId: PropTypes.string,
+  creationDate: PropTypes.string,
+  details: PropTypes.string,
+  id: PropTypes.number,
+  ip: PropTypes.string,
+  targetFullName: PropTypes.string,
+  tragetUuid: PropTypes.string,
+  uuid: PropTypes.string,
+});
 PropTypes.questionnaireLastData = PropTypes.shape({
   uuid: PropTypes.string,
   status: PropTypes.string,

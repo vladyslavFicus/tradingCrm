@@ -3,9 +3,10 @@ import classNames from 'classnames';
 import { size } from 'lodash';
 import moment from 'moment';
 import I18n from 'i18n-js';
-import PropTypes from '../../constants/propTypes';
-import LetterIcon from '../LetterIcon';
-import { types, typesLabels, typesClassNames } from '../../constants/audit';
+import PropTypes from 'constants/propTypes';
+import { types, typesLabels, typesClassNames } from 'constants/audit';
+import LetterIcon from 'components/LetterIcon';
+import parseJson from 'utils/parseJson';
 import FeedContent from './FeedContent';
 import Uuid from '../Uuid';
 import './FeedItem.scss';
@@ -41,7 +42,8 @@ class FeedItem extends Component {
       },
     } = this.props;
 
-    const hasInformation = size(details) > 0;
+    const parsedDetails = typeof details === 'string' ? parseJson(details) : details;
+    const hasInformation = size(parsedDetails) > 0;
 
     return (
       <div className="feed-item">
@@ -88,7 +90,7 @@ class FeedItem extends Component {
           </div>
           <If condition={hasInformation && opened}>
             <div className="feed-item__content">
-              <FeedContent details={details} />
+              <FeedContent details={parsedDetails} />
             </div>
           </If>
         </div>

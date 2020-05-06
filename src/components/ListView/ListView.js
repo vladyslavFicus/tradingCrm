@@ -20,7 +20,7 @@ class ListView extends Component {
 
   static defaultProps = {
     defaultFilters: {},
-    lazyLoad: false,
+    lazyLoad: true,
     showNoResults: false,
     onPageChange: null,
     activePage: 0,
