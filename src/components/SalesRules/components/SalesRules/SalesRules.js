@@ -1,8 +1,9 @@
 import React, { Fragment, PureComponent } from 'react';
 import I18n from 'i18n-js';
 import { get } from 'lodash';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { compose } from 'react-apollo';
+import classNames from 'classnames';
 import { withRequests } from 'apollo';
 import { withModals, withNotifications } from 'hoc';
 import { TextRow } from 'react-placeholder/lib/placeholders';
@@ -70,10 +71,12 @@ class SalesRules extends PureComponent {
         id: PropTypes.string,
       }),
     }).isRequired,
+    isTab: PropTypes.bool,
   };
 
   static defaultProps = {
     type: null,
+    isTab: false,
   };
 
   handleFiltersChanged = (filters = {}) => this.props.history.replace({ query: { filters } });
@@ -382,6 +385,7 @@ class SalesRules extends PureComponent {
         data: partnersData,
       },
       type,
+      isTab,
     } = this.props;
 
     const entities = get(data, 'rules.data') || [];
@@ -397,7 +401,7 @@ class SalesRules extends PureComponent {
     const isDeleteRuleAvailable = (new Permissions(permissions.SALES_RULES.REMOVE_RULE)).check(currentPermissions);
 
     return (
-      <div className="card">
+      <div className={classNames('card', { 'no-borders': isTab })}>
         <div className="card-heading">
           <Placeholder
             ready={!loading}
@@ -499,6 +503,7 @@ class SalesRules extends PureComponent {
 
 export default compose(
   withPermission,
+  withRouter,
   withModals({
     deleteModal: ConfirmActionModal,
     ruleModal: RuleModal,

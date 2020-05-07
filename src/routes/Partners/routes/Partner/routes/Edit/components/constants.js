@@ -1,8 +1,3 @@
-const attributeLabels = {
-  department: 'PARTNERS.PROFILE.DEPARTMENTS.LABELS.DEPARTMENT',
-  role: 'PARTNERS.PROFILE.DEPARTMENTS.LABELS.ROLE',
-};
-
 const personalFormAttributeLabels = {
   firstName: 'PARTNERS.PROFILE.PERSONAL_FORM.LABELS.FIRST_NAME',
   lastName: 'PARTNERS.PROFILE.PERSONAL_FORM.LABELS.LAST_NAME',
@@ -33,9 +28,6 @@ const autoCreationOptions = {
 };
 
 export {
-  attributeLabels,
   autoCreationOptions,
   personalFormAttributeLabels,
 };
-
-export default attributeLabels;
