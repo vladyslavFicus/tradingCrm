@@ -1,3 +1,2 @@
-import RepresentativeUpdateModalContainer from './RepresentativeUpdateModalContainer';
-
-export default RepresentativeUpdateModalContainer;
+// export { default } from './RepresentativeUpdateModalContainer';
+export { default } from './New';

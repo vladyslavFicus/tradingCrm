@@ -22,7 +22,7 @@ export const fieldNames = {
 };
 
 export const getAgents = (apolloResponse, userType) => {
-  const users = get(apolloResponse, 'hierarchy.hierarchyUsersByType.data');
+  const users = get(apolloResponse, 'data.hierarchy.hierarchyUsersByType.data');
 
   if (users) {
     return [
