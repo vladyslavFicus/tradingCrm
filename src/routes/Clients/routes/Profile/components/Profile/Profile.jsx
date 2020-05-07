@@ -337,17 +337,14 @@ class Profile extends Component {
 
   handleEditModalNoteClick = (type, item) => () => {
     const { modals: { noteModal } } = this.props;
-    const { content, subject, pinned } = item;
 
     noteModal.show({
       type,
-      onEdit: data => this.handleSubmitNoteClick(noteViewType.MODAL, { ...item, ...data }),
+      onEdit: data => this.handleSubmitNoteClick(noteViewType.MODAL, data),
       onDelete: () => this.handleDeleteNoteClick(noteViewType.MODAL, item.noteId),
       tagType: item.tagType,
       initialValues: {
-        content,
-        subject,
-        pinned,
+        ...item,
       },
     });
   };

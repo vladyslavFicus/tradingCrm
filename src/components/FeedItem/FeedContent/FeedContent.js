@@ -11,27 +11,12 @@ class FeedContent extends PureComponent {
     details: PropTypes.object.isRequired,
   };
 
-  handleFeedObjDetailAdd = (acc, { value }) => {
+  handleFeedObjDetail = (acc, { value }) => {
     Object.entries(value).forEach(([detailKey, detailValue]) => {
       acc.push(
         <div key={uuidv4()}>
           <span className="FeedContent__label">{I18n.t(renderLabel(detailKey))}:</span>
           <span className="FeedContent__value-to">{prepareValue(detailKey, detailValue)}</span>
-        </div>,
-      );
-    });
-
-    return null;
-  };
-
-  handleFeedObjDetailRemove = (acc, { value }) => {
-    Object.entries(value).forEach(([detailKey, detailValue]) => {
-      acc.push(
-        <div key={uuidv4()}>
-          <span className="FeedContent__label">{I18n.t(renderLabel(detailKey))}:</span>
-          <span className="FeedContent__value-to">{prepareValue(detailKey, detailValue)}</span>
-          <span className="FeedContent__arrow">&#8594;</span>
-          <span className="FeedContent__value-to">&laquo; &raquo;</span>
         </div>,
       );
     });
@@ -65,7 +50,7 @@ class FeedContent extends PureComponent {
         switch (changeType) {
           case 'ADDED': {
             if (isObject(detailValue.value)) {
-              this.handleFeedObjDetailAdd(acc, detailValue);
+              this.handleFeedObjDetail(acc, detailValue);
 
               break;
             }
@@ -93,11 +78,6 @@ class FeedContent extends PureComponent {
           }
 
           case 'REMOVED': {
-            if (isObject(detailValue.value)) {
-              this.handleFeedObjDetailRemove(acc, detailValue);
-
-              break;
-            }
             acc.push(
               <div key={uuidv4()}>
                 <span className="FeedContent__label">{I18n.t(renderLabel(detailKey))}:</span>

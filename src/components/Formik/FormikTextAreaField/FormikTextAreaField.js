@@ -105,7 +105,6 @@ class FormikTextAreaField extends PureComponent {
               'FormikTextAreaField__textarea-resize--both': resize === 'both',
               'FormikTextAreaField__textarea-resize--horizontal': resize === 'horizontal',
               'FormikTextAreaField__textarea-resize--vertical': resize === 'vertical',
-              'FormikTextAreaField__textarea--error': errors[name],
             },
           )}
           onChange={e => setFieldValue(name, e.target.value)}
@@ -119,7 +118,7 @@ class FormikTextAreaField extends PureComponent {
         <If condition={helpText || (showErrorMessage && touched && errors[name])}>
           <div>
             <If condition={showErrorMessage && touched && errors[name]}>
-              <div className="FormikTextAreaField__error-wrapper">
+              <div className="FormikTextAreaField_error-wrapper">
                 <i className="FormikTextAreaField__error-icon icon-alert" />
                 {errors[name]}
               </div>
