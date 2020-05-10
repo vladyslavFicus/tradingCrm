@@ -127,7 +127,6 @@ class OperatorsGrid extends PureComponent {
           handlePageChanged={this.handlePageChanged}
           isLoading={loading}
           isLastPage={last}
-          withLazyLoad
         >
           <GridColumn
             sortBy="name"

@@ -4,7 +4,6 @@ import { get, startCase } from 'lodash';
 import PropTypes from 'constants/propTypes';
 import Placeholder from 'components/Placeholder';
 import { TextRow } from 'react-placeholder/lib/placeholders';
-import { operatorTypes } from 'constants/operators';
 import permissions from 'config/permissions';
 import PermissionContent from 'components/PermissionContent';
 import { authoritiesOptionsQuery } from 'graphql/queries/auth';
@@ -46,7 +45,7 @@ class List extends Component {
       operators: {},
       loading: false,
     },
-    operatorType: operatorTypes.OPERATOR,
+    operatorType: '',
   };
 
   state = {
