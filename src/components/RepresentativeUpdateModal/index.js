@@ -1,2 +1,1 @@
-// export { default } from './RepresentativeUpdateModalContainer';
-export { default } from './New';
+export { default } from './RepresentativeUpdateModal';

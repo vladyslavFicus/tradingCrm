@@ -1,6 +1,4 @@
-/* eslint-disable */
 import React, { PureComponent } from 'react';
-// import { Field, SubmissionError } from 'redux-form';
 import I18n from 'i18n-js';
 import { get } from 'lodash';
 import { withApollo, compose } from 'react-apollo';
@@ -18,7 +16,6 @@ import {
 } from 'constants/retentionStatuses';
 import { Button } from 'components/UI';
 import { FormikSelectField } from 'components/Formik';
-// import { NasSelectField } from 'components/ReduxForm';
 import { getUsersByBranch, getBranchChildren } from 'graphql/queries/hierarchy';
 import renderLabel from 'utils/renderLabel';
 import {
@@ -34,7 +31,6 @@ import {
   ClientBulkRepresUpdate,
   LeadBulkRepresUpdate,
 } from './graphql';
-
 
 class RepresentativeUpdateModal extends PureComponent {
   static propTypes = {
@@ -72,13 +68,16 @@ class RepresentativeUpdateModal extends PureComponent {
   };
 
   static defaultProps = {
-    initialValues: null,
+    initialValues: {},
     additionalFields: null,
     configs: {},
     currentInactiveOperator: null,
   };
 
-  static getDerivedStateFromProps({ hierarchyUsersByTypeQuery, type }, prevState) {
+  static getDerivedStateFromProps(
+    { hierarchyUsersByTypeQuery, type },
+    prevState,
+  ) {
     const agents = getAgents(hierarchyUsersByTypeQuery, type);
 
     if (agents && !prevState.agents) {
@@ -96,10 +95,10 @@ class RepresentativeUpdateModal extends PureComponent {
   };
 
   handleDeskChange = async (selectedDesk, formikAPI) => {
-    const { setFieldValue, values } = formikAPI;
+    const { setFieldValue, setFieldError, setSubmitting, values } = formikAPI;
 
     this.setState({ teamsLoading: true });
-    
+
     if (!selectedDesk) {
       this.setState({
         teams: [],
@@ -112,6 +111,8 @@ class RepresentativeUpdateModal extends PureComponent {
       return;
     }
 
+    setSubmitting(true);
+
     const {
       data: {
         hierarchy: {
@@ -123,20 +124,23 @@ class RepresentativeUpdateModal extends PureComponent {
       variables: { uuid: selectedDesk },
     });
 
+    setSubmitting(false);
+
     if (error) {
       this.setState({ teamsLoading: false });
-      // throw new SubmissionError({ _error: error.error });
-      console.log('getBranchChildren error');
+      setFieldError(fieldNames.TEAM, error.error);
       return;
     }
 
     setFieldValue(fieldNames.DESK, selectedDesk);
 
     if (teams && teams.length === 1) {
-      await this.handleTeamChange(teams[0].uuid);
+      await this.handleTeamChange(teams[0].uuid, formikAPI);
     } else if (values[fieldNames.TEAM]) {
       setFieldValue(fieldNames.TEAM, null);
-    } else if (teams && teams.length >= 2 && values[fieldNames.REPRESENTATIVE]) {
+    } else if (teams && teams.length >= 2
+      && values[fieldNames.REPRESENTATIVE]
+    ) {
       setFieldValue(fieldNames.REPRESENTATIVE, null);
     }
 
@@ -148,10 +152,12 @@ class RepresentativeUpdateModal extends PureComponent {
 
   handleTeamChange = async (selectedTeam, formikAPI) => {
     const { client, type } = this.props;
-    const { setFieldValue, values } = formikAPI;
+    const { setFieldValue, setFieldError, setSubmitting, values } = formikAPI;
 
     this.setState({ agentsLoading: true });
-    
+
+    setSubmitting(true);
+
     const {
       data: {
         hierarchy: {
@@ -166,10 +172,11 @@ class RepresentativeUpdateModal extends PureComponent {
       },
     });
 
+    setSubmitting(false);
+
     if (error) {
       this.setState({ agentsLoading: false });
-      // throw new SubmissionError({ _error: error.error });
-      console.log('getUsersByBranch error');
+      setFieldError(fieldNames.REPRESENTATIVE, error.error);
       return;
     }
 
@@ -186,10 +193,10 @@ class RepresentativeUpdateModal extends PureComponent {
           }
         });
         if (!repIncludesAgents) {
-          this.handleRepChange(agents[0].uuid);
+          this.handleRepChange(agents[0].uuid, formikAPI);
         }
       } else {
-        this.handleRepChange(agents[0].uuid);
+        this.handleRepChange(agents[0].uuid, formikAPI);
       }
     }
 
@@ -212,15 +219,15 @@ class RepresentativeUpdateModal extends PureComponent {
     acquisitionStatus,
   }) => {
     const {
-      leads, // TODO
+      leads,
       type,
       configs,
-      notify, // TODO
-      userType, // TODO
+      notify,
+      userType,
       onSuccess,
       onCloseModal,
-      bulkRepresentativeUpdate, // TODO
-      bulkLeadRepresentativeUpdate, // TODO
+      bulkClientRepresentativeUpdate,
+      bulkLeadRepresentativeUpdate,
     } = this.props;
 
     let representative = null;
@@ -250,7 +257,7 @@ class RepresentativeUpdateModal extends PureComponent {
 
       error = responseError;
     } else {
-      const { clients, currentInactiveOperator } = this.props; // TODO
+      const { clients, currentInactiveOperator } = this.props;
 
       /* INFO
        * when move performed on client profile and rep selected
@@ -265,7 +272,7 @@ class RepresentativeUpdateModal extends PureComponent {
         variables.isMoveAction = true;
       }
 
-      const { error: responseError } = await bulkRepresentativeUpdate({
+      const { error: responseError } = await bulkClientRepresentativeUpdate({
         variables: { ...variables, clients },
       });
 
@@ -299,10 +306,8 @@ class RepresentativeUpdateModal extends PureComponent {
         loading: deskLoading,
         data: userBranchHierarchyData,
       },
-      hierarchyUsersByTypeQuery,
-      hierarchyUsersByTypeQuery: {
-        loading: initAgentsLoading,
-      },
+      hierarchyUsersByTypeQuery: { loading: initAgentsLoading },
+      initialValues,
       onCloseModal,
       isOpen,
       type,
@@ -314,44 +319,30 @@ class RepresentativeUpdateModal extends PureComponent {
     const { agentsLoading, teamsLoading, agents, teams } = this.state;
 
     const desks = get(userBranchHierarchyData, 'hierarchy.userBranchHierarchy.data.DESK') || [];
-    const filteredDesks = desks.filter(
-      ({ deskType }) => deskType === deskTypes[type]
-    );
+    const filteredDesks = desks.filter(({ deskType }) => deskType === deskTypes[type]);
 
-    const users = getAgents(hierarchyUsersByTypeQuery, type) || [];
+    const agentsDisabled = (
+      agentsLoading || initAgentsLoading || (Array.isArray(agents) && agents.length === 0)
+    );
 
     return (
       <Modal toggle={onCloseModal} isOpen={isOpen}>
         <Formik
-          initialValues={{}}
+          initialValues={initialValues}
           onSubmit={this.handleUpdateRepresentative}
-          validate={values => (
-            createValidator(
-              {
-                deskId: [`in:,${desks.map(({ uuid }) => uuid).join()}`],
-                repId: [`in:,${users.map(({ uuid }) => uuid).join()}`],
-                teamId: ['string'],
-                acquisitionStatus: ['string'],
-                status: [
-                  `in:,${[
-                    ...Object.values(salesStatusValues),
-                    ...Object.values(retentionStatusValues),
-                  ].join()}`,
-                ],
-              },
-              translateLabels(attributeLabels(type)),
-              false
-            )(values)
-          )}
           enableReinitialize
         >
-          {({ values, setFieldValue, }) => (
+          {formikAPI => (
             <Form>
               <ModalHeader toggle={onCloseModal}>{header}</ModalHeader>
               <ModalBody>
-                {/* <If condition={error}>
-                  <div className="mb-2 text-center color-danger">{error}</div>
-                </If> */}
+                <If condition={Object.values(formikAPI.errors).length}>
+                  {Object.values(formikAPI.errors).map(error => (
+                    <div key={error} className="mb-2 text-center color-danger">
+                      {error}
+                    </div>
+                  ))}
+                </If>
                 <Field
                   name={fieldNames.DESK}
                   label={I18n.t(attributeLabels(type).desk)}
@@ -362,7 +353,7 @@ class RepresentativeUpdateModal extends PureComponent {
                   }
                   disabled={filteredDesks.length === 0}
                   component={FormikSelectField}
-                  customOnChange={value => this.handleDeskChange(value, { values, setFieldValue })}
+                  customOnChange={value => this.handleDeskChange(value, formikAPI)}
                   withAnyOption
                 >
                   {filteredDesks.map(({ name, uuid }) => (
@@ -375,17 +366,19 @@ class RepresentativeUpdateModal extends PureComponent {
                   name={fieldNames.TEAM}
                   label={I18n.t(attributeLabels(type).team)}
                   placeholder={
-                    values[fieldNames.DESK] && !teamsLoading && teams.length === 0
+                    formikAPI.values[fieldNames.DESK] && !teamsLoading
+                    && teams.length === 0
                       ? I18n.t('COMMON.SELECT_OPTION.NO_ITEMS')
                       : I18n.t('COMMON.SELECT_OPTION.DEFAULT')
                   }
                   component={FormikSelectField}
                   disabled={
-                    !values[fieldNames.DESK] ||
-                    teamsLoading ||
-                    teams.length === 0
+                    !formikAPI.values[fieldNames.DESK]
+                    || teamsLoading
+                    || teams.length === 0
+                    || formikAPI.isSubmitting
                   }
-                  customOnChange={value => this.handleTeamChange(value, { values, setFieldValue })}
+                  customOnChange={value => this.handleTeamChange(value, formikAPI)}
                 >
                   {teams.map(({ name, uuid }) => (
                     <option key={uuid} value={uuid}>
@@ -396,22 +389,16 @@ class RepresentativeUpdateModal extends PureComponent {
                 <Field
                   name={fieldNames.REPRESENTATIVE}
                   label={I18n.t(attributeLabels(type).representative)}
-                  placeholder={
-                    !agentsLoading &&
-                    !initAgentsLoading &&
-                    agents &&
-                    agents.length === 0
-                      ? I18n.t('COMMON.SELECT_OPTION.NO_ITEMS')
-                      : I18n.t('COMMON.SELECT_OPTION.DEFAULT')
+                  placeholder={!agentsLoading && !initAgentsLoading
+                    && agents
+                    && agents.length === 0
+                    ? I18n.t('COMMON.SELECT_OPTION.NO_ITEMS')
+                    : I18n.t('COMMON.SELECT_OPTION.DEFAULT')
                   }
                   component={FormikSelectField}
                   multiple={multiAssign}
-                  customOnChange={value => this.handleRepChange(value, { values, setFieldValue })}
-                  disabled={
-                    agentsLoading ||
-                    initAgentsLoading ||
-                    (agents && agents.length === 0)
-                  }
+                  customOnChange={value => this.handleRepChange(value, formikAPI)}
+                  disabled={agentsDisabled || formikAPI.isSubmitting}
                 >
                   {(agents || []).map(({ fullName, uuid }) => (
                     <option key={uuid} value={uuid}>
@@ -423,24 +410,23 @@ class RepresentativeUpdateModal extends PureComponent {
                   name={fieldNames.STATUS}
                   label={I18n.t(attributeLabels(type).status)}
                   component={FormikSelectField}
+                  disabled={formikAPI.isSubmitting}
                   placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
                 >
                   <Choose>
                     <When condition={type === deskTypes.SALES}>
-                      {Object.entries(salesStatusValues).map(([, value]) => (
+                      {Object.values(salesStatusValues).map(value => (
                         <option key={value} value={value}>
                           {I18n.t(renderLabel(value, salesStatuses))}
                         </option>
                       ))}
                     </When>
                     <Otherwise>
-                      {Object.entries(retentionStatusValues).map(
-                        ([, value]) => (
-                          <option key={value} value={value}>
-                            {I18n.t(renderLabel(value, retentionStatuses))}
-                          </option>
-                        )
-                      )}
+                      {Object.values(retentionStatusValues).map(value => (
+                        <option key={value} value={value}>
+                          {I18n.t(renderLabel(value, retentionStatuses))}
+                        </option>
+                      ))}
                     </Otherwise>
                   </Choose>
                 </Field>
@@ -453,7 +439,7 @@ class RepresentativeUpdateModal extends PureComponent {
                           name={name}
                           label={I18n.t(attributeLabels(type)[labelName])}
                           component={FormikSelectField}
-                          disabled={disabled}
+                          disabled={disabled || formikAPI.isSubmitting}
                           placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
                         >
                           {data.map(({ value, label }) => (
@@ -463,7 +449,7 @@ class RepresentativeUpdateModal extends PureComponent {
                           ))}
                         </Field>
                       </If>
-                    )
+                    ),
                   )}
                 </If>
               </ModalBody>
@@ -474,9 +460,7 @@ class RepresentativeUpdateModal extends PureComponent {
                 <Button
                   className="btn"
                   type="submit"
-                  disabled={
-                    (Array.isArray(agents) && agents.length === 0)
-                  }
+                  disabled={!formikAPI.isValid || deskLoading || agentsDisabled}
                   primary
                 >
                   {I18n.t('CLIENTS.MODALS.SUBMIT')}
@@ -497,7 +481,7 @@ export default compose(
   withRequests({
     hierarchyUsersByTypeQuery: HierarchyUsersByTypeQuery,
     userBranchHierarchyQuery: UserBranchHierarchyQuery,
-    clientBulkRepresUpdate: ClientBulkRepresUpdate,
-    LeadBulkRepresUpdate: LeadBulkRepresUpdate,
+    bulkClientRepresentativeUpdate: ClientBulkRepresUpdate,
+    bulkLeadRepresentativeUpdate: LeadBulkRepresUpdate,
   }),
 )(RepresentativeUpdateModal);
