@@ -73,6 +73,10 @@ const sidebarTopMenu = [{
     permissions: new Permissions(permissions.HIERARCHY.GET_AFFILIATE_PARTNERS),
   }],
 }, {
+  label: 'SIDEBAR.TOP_MENU.TRADING_ACCOUNTS',
+  icon: 'icon-trading-accounts sidebar-nav-item__icon--trading-accounts',
+  url: '/trading-accounts/list',
+}, {
   label: 'SIDEBAR.TOP_MENU.PAYMENTS',
   icon: 'icon-payments sidebar-nav-item__icon--payments',
   url: '/payments/list',

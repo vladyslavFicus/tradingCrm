@@ -446,6 +446,23 @@ PropTypes.tradingAccount = PropTypes.shape({
   readOnlyUpdateTime: PropTypes.string,
   readOnlyUpdatedBy: PropTypes.string,
 });
+PropTypes.tradingAccountsList = PropTypes.shape({
+  uuid: PropTypes.string,
+  platformType: PropTypes.string,
+  profile: PropTypes.shape({
+    uuid: PropTypes.string,
+    fullName: PropTypes.string,
+  }),
+  affiliate: PropTypes.shape({
+    affiliateType: PropTypes.string,
+    source: PropTypes.string,
+  }),
+  createdAt: PropTypes.string,
+  leverage: PropTypes.number,
+  balance: PropTypes.number,
+  archived: PropTypes.bool,
+  accountType: PropTypes.string,
+});
 PropTypes.tradingRepresentative = PropTypes.shape({
   country: PropTypes.string,
   email: PropTypes.string,

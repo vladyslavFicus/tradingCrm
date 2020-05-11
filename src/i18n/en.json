@@ -32,6 +32,7 @@
       "BRAND_CONFIG_UPDATE": "Brand config update",
       "BRAND_CONFIG_CREATE": "Brand config create",
       "EMAIL_TEMPLATES": "Email templates",
+      "TRADING_ACCOUNTS": "Trading accounts",
       "NOTIFICATIONS": "Notifications"
     },
     "BOTTOM_MENU": {
@@ -1861,12 +1862,12 @@
     "TRANSACTION": "Transaction",
     "OPERATOR": "Operator",
     "LEADS": {
-        "LEAD_CREATED": "Lead created",
-        "SALES": "Sales",
-        "COUNTRY": "Country",
-        "LEAD": "Lead",
-        "PHONE": "Phone"
-      }
+      "LEAD_CREATED": "Lead created",
+      "SALES": "Sales",
+      "COUNTRY": "Country",
+      "LEAD": "Lead",
+      "PHONE": "Phone"
+    }
   },
   "OPERATORS": {
     "HEADING": "Operators",
@@ -3315,7 +3316,7 @@
     "ACTIONS": {
       "SEND": "Send email"
     },
-    "EMAIL_TEMPLATES":{
+    "EMAIL_TEMPLATES": {
       "PLACEHOLDER": "Email templates",
       "ADD_TEMPLATE": "Add template",
       "GRID_HEADER": {
@@ -3432,6 +3433,43 @@
   },
   "WARNINGS": {
     "CARDHOLDER_INVALID": "Cardholder invalid"
+  },
+  "TRADING_ACCOUNTS": {
+    "HEADLINE": "Trading accounts",
+    "FORM": {
+      "FIELDS": {
+        "SEARCH_BY": "Search by",
+        "SEARCH_BY_PLACEHOLDER": "UUID, Player's Full Name, Source Name.",
+        "ACCOUNT_TYPE": "Account type",
+        "STATUS": "Status",
+        "AFFILIATE_TYPE": "Affiliate type"
+      },
+      "ACCOUNT_TYPE": {
+        "DEMO": "Demo",
+        "LIVE": "Live"
+      },
+      "STATUS": {
+        "ARCHIVED": "Archived",
+        "NOT_ARCHIVED": "Not archived"
+      },
+      "AFFILIATE_TYPE": {
+        "AFFILIATE": "Affiliate",
+        "IB": "IB",
+        "DIRECT": "Direct"
+      }
+    },
+    "GRID": {
+      "ACCOUNT_ID": "Account ID",
+      "PLATFORM_TYPE": "Platform type",
+      "PROFILE": "Client",
+      "AFFILIATE_TYPE": "Affiliate type",
+      "SOURCE_NAME": "Source name",
+      "DATE": "Date",
+      "LEVERAGE": "Leverage",
+      "BALANCE": "Balance",
+      "STATUS": "Status",
+      "ACCOUNT_TYPE": "Account type"
+    }
   },
   "BRANCH_MANAGER_INFO": {
     "MANAGED_BY": "Managed by",
