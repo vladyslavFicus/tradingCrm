@@ -32,16 +32,6 @@ class PaymentsList extends PureComponent {
     }),
   };
 
-  static childContextTypes = {
-    getApolloRequestState: PropTypes.func.isRequired,
-  };
-
-  getChildContext() {
-    return {
-      getApolloRequestState: this.handleGetRequestState,
-    };
-  }
-
   componentDidMount() {
     this.context.notes.setNoteChangedCallback(this.handleRefresh);
   }
@@ -49,8 +39,6 @@ class PaymentsList extends PureComponent {
   componentWillUnmount() {
     this.context.notes.setNoteChangedCallback(null);
   }
-
-  handleGetRequestState = () => this.props.paymentsQuery.loading;
 
   handleRefresh = () => {
     const {

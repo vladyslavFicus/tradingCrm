@@ -160,7 +160,7 @@ class PaymentsListGrid extends PureComponent {
           <GridColumn
             header={I18n.t('CONSTANTS.TRANSACTIONS.GRID_COLUMNS.WARNING')}
             render={({ warnings }) => (
-              <If condition={warnings && warnings.length}>
+              <If condition={warnings}>
                 {warnings.map(warning => (
                   <div key={warning}>
                     {I18n.t(renderLabel(warning, warningLabels))}

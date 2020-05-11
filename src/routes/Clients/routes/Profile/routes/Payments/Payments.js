@@ -55,16 +55,6 @@ class Payments extends PureComponent {
     unRegisterUpdateCacheListener: PropTypes.func.isRequired,
   };
 
-  static childContextTypes = {
-    getApolloRequestState: PropTypes.func.isRequired,
-  };
-
-  getChildContext() {
-    return {
-      getApolloRequestState: this.handleGetRequestState,
-    };
-  }
-
   componentDidMount() {
     const {
       context: {
@@ -105,8 +95,6 @@ class Payments extends PureComponent {
   };
 
   handleRefresh = () => this.props.paymentsQuery.refetch();
-
-  handleGetRequestState = () => this.props.paymentsQuery.loading;
 
   handleAddPayment = async (data) => {
     const { note, ...inputParams } = data;
