@@ -36,6 +36,7 @@ GridStatus.propTypes = {
     PropTypes.string,
     PropTypes.object,
     PropTypes.element,
+    PropTypes.object,
   ]),
   infoLabel: PropTypes.func,
 };

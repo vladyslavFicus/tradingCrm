@@ -176,6 +176,7 @@ class CallbackDetailsModal extends Component {
                       name="callbackTime"
                       label={I18n.t('CALLBACKS.MODAL.CALLBACK_DATE_AND_TIME')}
                       isValidDate={() => moment(values.callbackTime, 'YYYY-MM-DD HH:mm').isValid()}
+                      closeOnSelect={false}
                       withTime
                     />
 

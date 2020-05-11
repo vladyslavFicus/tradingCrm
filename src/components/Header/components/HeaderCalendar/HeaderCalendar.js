@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { Popover } from 'reactstrap';
 import CallbacksCalendar from 'components/CallbacksCalendar';
 import './HeaderCalendar.scss';
 
-class HeaderCalendar extends Component {
+class HeaderCalendar extends PureComponent {
   state = {
     isOpen: false,
   };

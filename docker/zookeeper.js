@@ -1,7 +1,7 @@
 const getBrandsConfig = require('@hrzn/brands-config');
-const mapZookeeperBrandsConfig = require('./mapZookeeperBrandsConfig');
+const mapZookeeperBrandsConfig = require('./utils/mapZookeeperBrandsConfig');
 
-async function fetchBrandsConfig({ zookeeperUrl, onBrandsConfigUpdated }) {
+async function load({ zookeeperUrl, onBrandsConfigUpdated }) {
   const timerId = setInterval(() => {
     console.log('\x1b[31m', '❌ Zookeeper configuration can not be loaded in 10 sec... Check your VPN!', '\x1b[31m');
   }, 10000);
@@ -46,4 +46,4 @@ async function fetchBrandsConfig({ zookeeperUrl, onBrandsConfigUpdated }) {
   return mapZookeeperBrandsConfig(brandsConfig);
 }
 
-module.exports = fetchBrandsConfig;
+module.exports = { load };

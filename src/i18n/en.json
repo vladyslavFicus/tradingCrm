@@ -3263,42 +3263,6 @@
           }
         }
       }
-    },
-    "conditionalTags": {
-      "component": {
-        "ConditionalTagsList": {
-          "title": "Conditional tags",
-          "status": "Status",
-          "addTags": "+ Add condition",
-          "name": "Condition",
-          "count": "Entries",
-          "tag": "Tag"
-        },
-        "FilterForm": {
-          "status": "Status",
-          "conditionStatus": {
-            "DISABLED": "Disabled",
-            "ACTIVE": "Active"
-          }
-        },
-        "StatusDropDown": {
-          "DISABLED": "Disabled",
-          "DISABLE": "Disable",
-          "ACTIVE": "Active"
-        },
-        "AddTagsModal": {
-          "title": "New condition",
-          "namePlaceholder": "Enter title",
-          "tagsPlaceholder": "Enter tag",
-          "name": "Title",
-          "tag": "Tag",
-          "file": "CSV file",
-          "filePlaceholder": ""
-        },
-        "AddTagModal": {
-          "title": ""
-        }
-      }
     }
   },
   "rules": {

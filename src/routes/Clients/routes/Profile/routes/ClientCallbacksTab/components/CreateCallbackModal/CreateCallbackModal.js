@@ -155,6 +155,7 @@ class CreateCallbackModal extends PureComponent {
                 <FormikDatePicker
                   name="callbackTime"
                   label={I18n.t(attributeLabels.callbackTime)}
+                  closeOnSelect={false}
                   withTime
                 />
 

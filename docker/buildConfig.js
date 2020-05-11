@@ -1,8 +1,7 @@
-const fetchBrandsConfig = require('./utils/fetch-brands-config');
-const platformConfig = require('./utils/platform-config');
+const zookeeper = require('./zookeeper');
+const platform = require('./platform');
 
 const {
-  NAS_PROJECT,
   NAS_BRAND = 'falcon',
   APP_VERSION = 'dev',
   GRAPHQL_ROOT,
@@ -16,14 +15,16 @@ const {
  * @return Promise
  */
 module.exports = async (onBrandsConfigUpdated) => {
-  const brandsConfig = await fetchBrandsConfig({ zookeeperUrl: platformConfig.zookeeper.url, onBrandsConfigUpdated });
+  const platformConfig = await platform.load();
+
+  const brandsConfig = await zookeeper.load({ zookeeperUrl: platformConfig.zookeeper.url, onBrandsConfigUpdated });
 
   return {
     version: APP_VERSION,
     apiRoot: platformConfig.hrzn.api_url,
     graphqlRoot: GRAPHQL_ROOT || '/api/backoffice-graphql/gql',
     brands: brandsConfig,
-    environment: NAS_PROJECT,
+    environment: platformConfig.env,
     defaultBackofficeBrand: NAS_BRAND,
   };
 };
