@@ -1752,7 +1752,7 @@
     "error": {
       "entity": {
         "already": {
-          "exist": "The client already exists with Email \"%{email}\""
+          "exist": "The lead or client with Email \"%{email}\" already exists"
         }
       },
       "validation": {
