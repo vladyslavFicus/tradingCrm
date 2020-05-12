@@ -10,6 +10,7 @@ class ChangeOriginalAgentModal extends PureComponent {
     className: PropTypes.string,
     tradeId: PropTypes.number.isRequired,
     agentId: PropTypes.string,
+    platformType: PropTypes.string,
     onCloseModal: PropTypes.func.isRequired,
     onSuccess: PropTypes.func.isRequired,
   };
@@ -17,6 +18,7 @@ class ChangeOriginalAgentModal extends PureComponent {
   static defaultProps = {
     className: '',
     agentId: '',
+    platformType: '',
   };
 
   render() {
@@ -24,6 +26,7 @@ class ChangeOriginalAgentModal extends PureComponent {
       className,
       tradeId,
       agentId,
+      platformType,
       onCloseModal,
       onSuccess,
     } = this.props;
@@ -40,7 +43,8 @@ class ChangeOriginalAgentModal extends PureComponent {
         <ModalBody>
           <ChangeOriginalAgent
             tradeId={tradeId}
-            initialValues={{ agentId }}
+            agentId={agentId}
+            platformType={platformType}
             onSuccess={onSuccess}
             onCloseModal={onCloseModal}
           />
