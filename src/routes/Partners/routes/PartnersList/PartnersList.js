@@ -13,7 +13,7 @@ import { Button } from 'components/UI';
 import CreatePartnerModal from './components/CreatePartnerModal';
 import PartnersGridFilter from './components/PartnersGridFilter';
 import PartnersGrid from './components/PartnersGrid';
-import getPartnersQuery from './graphql/getPartnersQuery';
+import PartnersQuery from './graphql/PartnersQuery';
 import './PartnersList.scss';
 
 class PartnersList extends PureComponent {
@@ -84,5 +84,5 @@ class PartnersList extends PureComponent {
 
 export default compose(
   withModals({ createPartnerModal: CreatePartnerModal }),
-  withRequests({ partnersQuery: getPartnersQuery }),
+  withRequests({ partnersQuery: PartnersQuery }),
 )(PartnersList);

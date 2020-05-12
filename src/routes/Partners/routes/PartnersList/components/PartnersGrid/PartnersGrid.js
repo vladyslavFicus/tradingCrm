@@ -25,6 +25,7 @@ class PartnersGrid extends PureComponent {
   handlePageChanged = () => {
     const {
       partnersQuery: {
+        variables,
         loadMore,
         data,
       },
@@ -32,19 +33,50 @@ class PartnersGrid extends PureComponent {
 
     const page = get(data, 'partners.data.number') || 0;
 
-    loadMore(page + 1);
+    loadMore({
+      ...variables,
+      page: {
+        ...variables.page,
+        from: page + 1,
+      },
+    });
   };
 
   handleSort = (sortData) => {
     const { history } = this.props;
     const query = get(history, 'location.query') || {};
 
-    const sorts = Object.keys(sortData)
+    let nameDirection = null;
+
+    let sorts = Object.keys(sortData)
       .filter(sortingKey => sortData[sortingKey])
-      .map(sortingKey => ({
-        column: sortingKey,
-        direction: sortData[sortingKey],
-      }));
+      .map((sortingKey) => {
+        if (sortingKey === 'name') {
+          nameDirection = sortData[sortingKey];
+        }
+
+        return {
+          column: sortingKey,
+          direction: sortData[sortingKey],
+        };
+      });
+
+    if (nameDirection) {
+      sorts = sorts
+        .filter(({ column }) => column !== 'name')
+        .concat([
+          {
+            column: 'firstName',
+            direction: nameDirection,
+          },
+          {
+            column: 'lastName',
+            direction: nameDirection,
+          },
+        ]);
+    } else {
+      sorts = sorts.filter(({ column }) => column !== 'firstName' && column !== 'lastName');
+    }
 
     history.replace({
       query: {
