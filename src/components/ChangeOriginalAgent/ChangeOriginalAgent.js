@@ -75,8 +75,10 @@ class ChangeOriginalAgent extends Component {
             className="filter-row__small"
             disabled={loading}
           >
-            {operatorsList.map(item => (
-              <option key={item.uuid} value={item.uuid}>{item.fullName}</option>
+            {operatorsList.map(({ uuid, fullName, operatorStatus }) => (
+              <option key={uuid} value={uuid} disabled={operatorStatus !== 'ACTIVE'}>
+                {fullName}
+              </option>
             ))}
           </Field>
           <button

@@ -1,6 +1,5 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { Pagination } from 'react-bootstrap';
 import InfiniteScroll from 'react-infinite-scroller';
 import shallowEqual from '../../utils/shallowEqual';
 import NotFoundContent from '../NotFoundContent';
@@ -8,7 +7,6 @@ import NotFoundContent from '../NotFoundContent';
 class ListView extends Component {
   static propTypes = {
     render: PropTypes.func.isRequired,
-    lazyLoad: PropTypes.bool,
     dataSource: PropTypes.array.isRequired,
     defaultFilters: PropTypes.object,
     onPageChange: PropTypes.func,
@@ -20,7 +18,6 @@ class ListView extends Component {
 
   static defaultProps = {
     defaultFilters: {},
-    lazyLoad: true,
     showNoResults: false,
     onPageChange: null,
     activePage: 0,
@@ -34,14 +31,9 @@ class ListView extends Component {
 
   shouldComponentUpdate(nextProps) {
     const {
-      lazyLoad,
       dataSource,
       showNoResults,
     } = this.props;
-
-    if (!lazyLoad) {
-      return true;
-    }
 
     return !shallowEqual(nextProps.dataSource, dataSource)
       || nextProps.showNoResults !== showNoResults;
@@ -65,7 +57,6 @@ class ListView extends Component {
   renderItems = () => {
     const {
       dataSource,
-      lazyLoad,
       totalPages,
       activePage,
       last,
@@ -75,19 +66,12 @@ class ListView extends Component {
     const hasMore = totalPages && activePage ? totalPages > activePage : !last;
 
     return (
-      <Choose>
-        <When condition={lazyLoad}>
-          <InfiniteScroll
-            loadMore={() => this.handlePageChange(activePage + 1)}
-            hasMore={hasMore}
-          >
-            {items}
-          </InfiniteScroll>
-        </When>
-        <Otherwise>
-          {items}
-        </Otherwise>
-      </Choose>
+      <InfiniteScroll
+        loadMore={() => this.handlePageChange(activePage + 1)}
+        hasMore={hasMore}
+      >
+        {items}
+      </InfiniteScroll>
     );
   };
 
@@ -105,46 +89,14 @@ class ListView extends Component {
     );
   };
 
-  renderPagination() {
-    const { activePage, totalPages } = this.props;
-
-    if (totalPages < 2) {
-      return null;
-    }
-
-    return (
-      <Pagination
-        prev
-        next
-        first
-        last
-        ellipsis
-        boundaryLinks
-        items={totalPages}
-        maxButtons={5}
-        activePage={activePage}
-        onSelect={this.handlePageChange}
-        className="b3-pagination"
-      />
-    );
-  }
-
   render() {
-    const {
-      showNoResults,
-      lazyLoad,
-    } = this.props;
+    const { showNoResults } = this.props;
 
     if (showNoResults) {
       return <NotFoundContent />;
     }
 
-    return (
-      <Fragment>
-        {this.renderItems()}
-        {!lazyLoad && this.renderPagination()}
-      </Fragment>
-    );
+    return this.renderItems();
   }
 }
 

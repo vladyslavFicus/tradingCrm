@@ -33,12 +33,13 @@ class TradingActivity extends Component {
     }
   };
 
-  showChangeOriginalAgentModal = (tradeId, agentId) => {
+  showChangeOriginalAgentModal = (tradeId, agentId, platformType) => {
     const { tradingActivity, modals: { changeOriginalAgentModal } } = this.props;
 
     changeOriginalAgentModal.show({
       tradeId,
       agentId,
+      platformType,
       onSuccess: tradingActivity.refetch,
     });
   }

@@ -110,12 +110,14 @@ class Personal extends PureComponent {
                 label={I18n.t('LEAD_PROFILE.DETAILS.CITY')}
                 value={city}
               />
-              <PersonalInformationItem
-                label={I18n.t('LEAD_PROFILE.DETAILS.LANGUAGE')}
-                value={I18n.t(`COMMON.LANGUAGE_NAME.${language.toUpperCase()}`, {
-                  defaultValue: language.toUpperCase(),
-                })}
-              />
+              <If condition={language}>
+                <PersonalInformationItem
+                  label={I18n.t('LEAD_PROFILE.DETAILS.LANGUAGE')}
+                  value={I18n.t(`COMMON.LANGUAGE_NAME.${language.toUpperCase()}`, {
+                    defaultValue: language.toUpperCase(),
+                  })}
+                />
+              </If>
               <PersonalInformationItem
                 label={I18n.t('LEAD_PROFILE.DETAILS.SOURCE')}
                 value={source}

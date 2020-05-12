@@ -53,6 +53,7 @@ class SelectSingleOptions extends PureComponent {
             key: option.key,
             className: classNames(optionClassName, {
               'is-selected': isActive,
+              'is-disabled': option.props.disabled,
             }),
             ...option.props,
           };

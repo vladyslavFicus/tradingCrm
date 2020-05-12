@@ -1,19 +1,34 @@
-@import 'old/style';
+@import '~@newage/backoffice_ui/dist/main.css';
 
 @import 'helpers/variables';
 @import 'helpers/mixins';
 
-@import 'base/typography';
+@import 'typography/fonts';
+@import 'typography/icon';
+
 @import 'base/reset';
 @import 'base/base';
 
-@import 'utilities';
+@import 'utilities/color';
+@import 'utilities/fade';
 
 @import 'layouts/layouts';
 
+@import 'components/account-details';
+@import 'components/alerts';
 @import 'components/auth';
-@import 'components/error-page';
-@import 'components/fa';
-@import 'components/icon';
+@import 'components/buttons';
+@import 'components/card';
+@import 'components/checkbox';
+@import 'components/dropdowns';
+@import 'components/form';
+@import 'components/modals';
+@import 'components/placeholder';
+@import 'components/profile-layout-header-quick-overview';
+@import 'components/profile-layout-header-title';
+@import 'components/profile';
+@import 'components/status-dropdown';
+@import 'components/tab';
+@import 'components/transaction-failed-icon';
 
 @import 'shame';

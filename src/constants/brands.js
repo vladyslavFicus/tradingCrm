@@ -87,6 +87,7 @@ const brands = keyMirror({
   adamantfx: null,
   paragonfinance: null,
   'insure-trade': null,
+  fxactiv: null,
 });
 
 const departments = keyMirror({
@@ -457,6 +458,10 @@ const brandsConfig = {
   [brands['insure-trade']]: {
     name: 'insure-trade',
     image: { src: '/img/brand/choose-brand/insure-trade.svg' },
+  },
+  [brands.fxactiv]: {
+    name: 'fxactiv',
+    image: { src: '/img/brand/choose-brand/fxactiv.svg' },
   },
 };
 const departmentsConfig = {

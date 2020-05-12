@@ -118,7 +118,6 @@ class Notes extends Component {
             activePage={notes.number + 1}
             totalPages={notes.totalPages}
             last={notes.last}
-            lazyLoad
             showNoResults={!loading && !notes.content.length}
           />
         </div>

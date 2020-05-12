@@ -1,5 +1,0 @@
-export default {
-  name: 'TEAMS.MODAL.LABELS.TEAM_NAME',
-  office: 'TEAMS.MODAL.LABELS.OFFICE_NAME',
-  desk: 'TEAMS.MODAL.LABELS.DESK_NAME',
-};

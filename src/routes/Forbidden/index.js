@@ -1,3 +1,1 @@
-import Forbidden from './components/Forbidden';
-
-export default Forbidden;
+export { default } from './Forbidden';
