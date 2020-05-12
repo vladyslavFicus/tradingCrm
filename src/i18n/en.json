@@ -1741,6 +1741,11 @@
     },
     "access": {
       "unauthorized": "Wrong user/password"
+    },
+    "multipart": {
+      "max-file-size": {
+        "exceeded": "File must be less than %{size} MB"
+      }
     }
   },
   "lead": {
