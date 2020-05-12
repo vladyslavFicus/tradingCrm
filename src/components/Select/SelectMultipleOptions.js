@@ -88,7 +88,10 @@ class SelectMultipleOptions extends PureComponent {
             className: classNames(
               option.props.className,
               'custom-control custom-checkbox select-block-option',
-              { 'is-selected': isActive },
+              {
+                'is-selected': isActive,
+                'is-disabled': option.props.disabled,
+              },
             ),
           };
 
@@ -104,6 +107,7 @@ class SelectMultipleOptions extends PureComponent {
                 id={`${uniq}-${option.value}`}
                 checked={isActive}
                 onChange={e => this.handleChange(e, option)}
+                disabled={option.props.disabled}
               />
               <label className="custom-control-label" htmlFor={`${uniq}-${option.value}`}>
                 {option.label}

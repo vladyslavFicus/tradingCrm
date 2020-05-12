@@ -78,11 +78,22 @@
   font-size: 15px;
   font-weight: 600;
   color: #4a4a4a;
-  &:hover label {
+  &:hover:not(.is-disabled) label {
     color: #000;
   }
   &.is-selected label {
     color: #4990e2;
+  }
+  &.is-disabled {
+    cursor: default;
+    & label {
+      color: #d6d6d6 !important;
+      cursor: default !important;
+      &:before,
+      &:after {
+        display: none;
+      }
+    }
   }
 }
 
@@ -157,6 +168,11 @@
       font-size: 15px;
       font-weight: 600;
       color: #4a4a4a;
+      &:hover:not(.is-disabled) {
+        border-radius: 5px;
+        border-color: #e1e1e1;
+        color: #000;
+      }
       &.is-selected {
         padding: 4px 7px 5px;
         color: #fff;
@@ -169,11 +185,10 @@
         border-radius: 3px;
         color: #fff;
       }
-    }
-    &-item:hover {
-      border-radius: 5px;
-      border-color: #e1e1e1;
-      color: #000;
+      &.is-disabled {
+        cursor: default;
+        color: #d6d6d6;
+      }
     }
   }
   &__heading {

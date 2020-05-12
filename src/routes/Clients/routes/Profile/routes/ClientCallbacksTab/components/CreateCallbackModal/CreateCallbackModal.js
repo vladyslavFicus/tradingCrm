@@ -147,8 +147,8 @@ class CreateCallbackModal extends PureComponent {
                   }
                   disabled={isSubmitting || isOperatorsLoading}
                 >
-                  {operators.map(({ uuid, fullName }) => (
-                    <option key={uuid} value={uuid}>{fullName}</option>
+                  {operators.map(({ uuid, fullName, operatorStatus }) => (
+                    <option key={uuid} value={uuid} disabled={operatorStatus !== 'ACTIVE'}>{fullName}</option>
                   ))}
                 </Field>
 

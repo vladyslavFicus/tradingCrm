@@ -17,6 +17,7 @@ const REQUEST = gql`
             userType
             operator {
               fullName
+              operatorStatus
             }
           }
         }

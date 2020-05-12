@@ -73,8 +73,10 @@ class ChangeOriginalAgent extends PureComponent {
                 component={FormikSelectField}
                 disabled={loading}
               >
-                {operatorsList.map(({ uuid, fullName }) => (
-                  <option key={uuid} value={uuid}>{fullName}</option>
+                {operatorsList.map(({ uuid, fullName, operatorStatus }) => (
+                  <option key={uuid} value={uuid} disabled={operatorStatus !== 'ACTIVE'}>
+                    {fullName}
+                  </option>
                 ))}
               </Field>
               <Button
