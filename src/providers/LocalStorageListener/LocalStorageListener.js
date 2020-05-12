@@ -1,14 +1,14 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import Validator from 'validatorjs';
 import moment from 'moment';
 import jwtDecode from 'jwt-decode';
+import I18n from 'i18n';
+import IndexRoute from 'routes/IndexRoute';
 import { getBrandId, setBrandId, removeActiveBrand } from 'config';
 import { withStorage } from 'providers/StorageProvider';
-import PropTypes from '../../constants/propTypes';
-import IndexRoute from '../../routes/IndexRoute';
-import I18n from '../../i18n';
+import PropTypes from 'constants/propTypes';
 
-class LocalStorageListener extends Component {
+class LocalStorageListener extends PureComponent {
   static propTypes = {
     auth: PropTypes.auth,
     locale: PropTypes.string,

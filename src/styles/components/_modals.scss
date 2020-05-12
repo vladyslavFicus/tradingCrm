@@ -116,7 +116,6 @@
 
         &-type {
           min-width: 220px;
-          max-width: 220px;
         }
 
         &-status {
@@ -234,7 +233,7 @@
   &__amount {
     font-size: 20px;
     line-height: 1.1;
-    color: $dark-blue-color;
+    color: #36c;
   }
 }
 

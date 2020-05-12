@@ -1,7 +1,7 @@
 .account-details {
   padding: 10px 15px;
   .card-body {
-    height: $account-details-panel-height;
+    height: 200px;
     padding: 7px;
     font-size: 13px;
     overflow-y: auto;
@@ -25,10 +25,6 @@
       text-transform: uppercase;
       color: #999;
     }
-    &_disabled-triggers {
-      opacity: 0.2;
-      pointer-events: none;
-    }
   }
   &__pinned-notes {
     .card {
@@ -38,25 +34,21 @@
   }
   .note-content {
     padding: 7px;
-    background-color: $yellow-color;
-    
+    background-color: $color-paper;
     &__author {
       font-size: 13px;
       line-height: 1;
       color: #666;
     }
-
     &__subject,
     &__body {
       font-size: 13px;
       margin-bottom: 0;
     }
-
     &__subject {
       font-weight: 700;
       margin-top: 5px;
     }
-
     &__body {
       font-style: italic;
     }

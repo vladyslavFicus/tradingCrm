@@ -120,7 +120,6 @@ class Feed extends Component {
             activePage={feeds.number + 1}
             totalPages={feeds.totalPages}
             last={feeds.last}
-            lazyLoad
             showNoResults={!loading && !content.length}
           />
         </div>

@@ -180,7 +180,7 @@ class MultiCurrencyValue extends Component {
           currency={baseCurrency}
           onBlur={e => e.preventDefault()}
           onChange={this.handleChangeBaseCurrencyAmount}
-          inputAddon={<i className="icon icon-currencies multi-currency-icon" />}
+          inputAddon={<i className="icon icon-currencies font-size-20" />}
           inputAddonPosition="right"
           onIconClick={disabled ? null : this.handleOpenModal}
           id={this.id}
