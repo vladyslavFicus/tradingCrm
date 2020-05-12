@@ -34,7 +34,6 @@ class PartnersGrid extends PureComponent {
     const page = get(data, 'partners.data.number') || 0;
 
     loadMore({
-      ...variables,
       page: {
         ...variables.page,
         from: page + 1,

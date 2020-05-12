@@ -47,9 +47,7 @@ const managementOperatorsQuery = gql`query getOperators(
   $status: String,
   $registrationDateFrom: String,
   $registrationDateTo: String,
-  $page: Int,
-  $size: Int,
-  $sorts: [SortInputType],
+  $page: PageInputType,
 ) {
   operators(
     searchBy: $searchBy,
@@ -58,8 +56,6 @@ const managementOperatorsQuery = gql`query getOperators(
     registrationDateFrom: $registrationDateFrom,
     registrationDateTo: $registrationDateTo,
     page: $page,
-    size: $size,
-    sorts: $sorts,
   ) {
     data {
       page
