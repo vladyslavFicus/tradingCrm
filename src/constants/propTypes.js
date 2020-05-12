@@ -1,10 +1,5 @@
 import PropTypes from 'prop-types';
 
-/**
- * Router prop types
- *
- * @type {*}
- */
 PropTypes.router = {
   location: PropTypes.shape({
     search: PropTypes.string.isRequired,
@@ -17,7 +12,6 @@ PropTypes.router = {
     state: PropTypes.object,
   }).isRequired,
 };
-
 PropTypes.price = PropTypes.shape({
   amount: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   currency: PropTypes.string,
@@ -544,7 +538,7 @@ PropTypes.userHierarchyType = PropTypes.shape({
 });
 PropTypes.hierarchyBranch = PropTypes.shape({
   uuid: PropTypes.string.isRequired,
-  branchType: PropTypes.string.isRequired,
+  branchType: PropTypes.string,
   name: PropTypes.string.isRequired,
   country: PropTypes.string,
   defaultUser: PropTypes.string,
@@ -965,6 +959,31 @@ PropTypes.query = content => PropTypes.shape({
   loading: PropTypes.bool,
   loadMore: PropTypes.func,
   refetch: PropTypes.func,
+});
+PropTypes.branchHierarchyResponse = PropTypes.query({
+  hierarchy: PropTypes.shape({
+    branchHierarchy: PropTypes.shape({
+      data: PropTypes.arrayOf(PropTypes.shape({
+        office: PropTypes.hierarchyBranch,
+        desk: PropTypes.hierarchyBranch,
+        team: PropTypes.hierarchyBranch,
+      })),
+      error: PropTypes.object,
+    }),
+  }),
+});
+PropTypes.userBranchHierarchyResponse = PropTypes.query({
+  hierarchy: PropTypes.shape({
+    userBranchHierarchy: PropTypes.shape({
+      data: PropTypes.shape({
+        OFFICE: PropTypes.arrayOf(PropTypes.hierarchyBranch),
+        DESK: PropTypes.arrayOf(PropTypes.hierarchyBranch),
+        TEAM: PropTypes.arrayOf(PropTypes.hierarchyBranch),
+        BRAND: PropTypes.arrayOf(PropTypes.hierarchyBranch),
+      }),
+      error: PropTypes.object,
+    }),
+  }),
 });
 PropTypes.notificationCenter = PropTypes.shape({
   read: PropTypes.bool,

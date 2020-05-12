@@ -1,3 +1,3 @@
 import { lazy } from 'react';
 
-export default lazy(() => import('./components/Teams'));
+export default lazy(() => import('./Teams'));
