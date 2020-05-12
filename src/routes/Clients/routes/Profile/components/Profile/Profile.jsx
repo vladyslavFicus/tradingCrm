@@ -32,7 +32,7 @@ import {
   Notes,
   Files,
   Feed,
-  Callbacks,
+  ClientCallbacksTab,
   Risks,
   SocialTrading,
 } from '../../routes';
@@ -337,14 +337,17 @@ class Profile extends Component {
 
   handleEditModalNoteClick = (type, item) => () => {
     const { modals: { noteModal } } = this.props;
+    const { content, subject, pinned } = item;
 
     noteModal.show({
       type,
-      onEdit: data => this.handleSubmitNoteClick(noteViewType.MODAL, data),
+      onEdit: data => this.handleSubmitNoteClick(noteViewType.MODAL, { ...item, ...data }),
       onDelete: () => this.handleDeleteNoteClick(noteViewType.MODAL, item.noteId),
       tagType: item.tagType,
       initialValues: {
-        ...item,
+        content,
+        subject,
+        pinned,
       },
     });
   };
@@ -624,7 +627,7 @@ class Profile extends Component {
               <Route disableScroll path={`${path}/payments`} component={Payments} />
               <Route disableScroll path={`${path}/trading-activity`} component={TradingActivity} />
               <Route disableScroll path={`${path}/accounts`} component={Accounts} />
-              <Route disableScroll path={`${path}/callbacks`} component={Callbacks} />
+              <Route disableScroll path={`${path}/callbacks`} component={ClientCallbacksTab} />
               <Route disableScroll path={`${path}/notes`} component={Notes} />
               <Route disableScroll path={`${path}/files`} component={Files} />
               <Route disableScroll path={`${path}/feed`} component={Feed} />

@@ -20,6 +20,7 @@
   "license": "MIT",
   "dependencies": {
     "@hrzn/brands-config": "1.0.10",
+    "@hrzn/k8s-configmap": "^1.0.1",
     "@hrzn/react-big-calendar": "^0.20.3",
     "@newage/backoffice_ui": "0.0.52",
     "@newage/backoffice_utils": "0.0.32",
@@ -44,7 +45,7 @@
     "graphql-tag": "^2.9.2",
     "gsap": "^2.1.3",
     "history": "^4.7.2",
-    "http-proxy-middleware": "^0.20.0",
+    "http-proxy-middleware": "^1.0.3",
     "humanize-duration": "^3.10.1",
     "i18n-js": "^3.3.0",
     "immutability-helper": "^2.9.0",

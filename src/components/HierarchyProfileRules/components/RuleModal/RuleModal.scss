@@ -1,9 +1,4 @@
 .RuleModal {
-  &--is-disabled {
-    color: #d6d6d6;
-    pointer-events: none;
-  }
-
   &__message-error {
     & > div {
       text-align: center;

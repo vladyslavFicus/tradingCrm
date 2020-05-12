@@ -73,7 +73,9 @@ class ResetPassword extends Component {
         <Preloader isVisible={loading} />
 
         <div className="auth__logo">
-          <img src={getBackofficeBrand().themeConfig.logo} alt="logo" />
+          <If condition={getBackofficeBrand().themeConfig.logo}>
+            <img src={getBackofficeBrand().themeConfig.logo} alt="logo" />
+          </If>
         </div>
 
         <div className="auth__page">

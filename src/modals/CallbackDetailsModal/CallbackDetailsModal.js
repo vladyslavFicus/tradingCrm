@@ -167,8 +167,10 @@ class CallbackDetailsModal extends Component {
                       disabled={isLoadingOperatorsList}
                       searchable
                     >
-                      {operators.map(({ uuid, fullName }) => (
-                        <option key={uuid} value={uuid}>{fullName}</option>
+                      {operators.map(({ uuid, fullName, operatorStatus }) => (
+                        <option key={uuid} value={uuid} disabled={operatorStatus !== 'ACTIVE'}>
+                          {fullName}
+                        </option>
                       ))}
                     </Field>
 
@@ -176,6 +178,7 @@ class CallbackDetailsModal extends Component {
                       name="callbackTime"
                       label={I18n.t('CALLBACKS.MODAL.CALLBACK_DATE_AND_TIME')}
                       isValidDate={() => moment(values.callbackTime, 'YYYY-MM-DD HH:mm').isValid()}
+                      closeOnSelect={false}
                       withTime
                     />
 

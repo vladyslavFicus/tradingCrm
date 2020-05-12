@@ -1,29 +1,14 @@
-@mixin full-size() {
-  height: 100%;
-  width: 100%;
-}
-
-@mixin inline-block() {
-  display: inline-block;
-  vertical-align: top;
-}
-
-// Removes margins between inline-block elements
-@mixin magic-margin-reset() {
-  font-size: 0;
-}
-
 @mixin placeholder() {
-  &::-webkit-input-placeholder { 
+  &::-webkit-input-placeholder {
     @content;
   }
-  &::-moz-placeholder { 
+  &::-moz-placeholder {
     @content;
   }
   &:-ms-input-placeholder {
     @content;
   }
-  &:-moz-placeholder { 
+  &:-moz-placeholder {
     @content;
   }
 }

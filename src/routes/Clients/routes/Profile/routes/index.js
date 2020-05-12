@@ -5,7 +5,7 @@ import Feed from './Feed';
 import Payments from './Payments';
 import TradingActivity from './TradingActivity';
 import Accounts from './Accounts';
-import Callbacks from './Callbacks';
+import ClientCallbacksTab from './ClientCallbacksTab';
 import Risks from './Risks';
 import SocialTrading from './SocialTrading';
 
@@ -17,7 +17,7 @@ export {
   Payments,
   TradingActivity,
   Accounts,
-  Callbacks,
+  ClientCallbacksTab,
   Risks,
   SocialTrading,
 };
