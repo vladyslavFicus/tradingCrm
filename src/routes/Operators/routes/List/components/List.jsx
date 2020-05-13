@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import I18n from 'i18n-js';
-import { get, startCase } from 'lodash';
+import { get } from 'lodash';
 import PropTypes from 'constants/propTypes';
 import Placeholder from 'components/Placeholder';
 import { TextRow } from 'react-placeholder/lib/placeholders';
@@ -35,7 +35,6 @@ class List extends Component {
       loadMore: PropTypes.func,
       loading: PropTypes.bool.isRequired,
     }),
-    operatorType: PropTypes.string,
     notify: PropTypes.func.isRequired,
   };
 
@@ -45,7 +44,6 @@ class List extends Component {
       operators: {},
       loading: false,
     },
-    operatorType: '',
   };
 
   state = {
@@ -74,7 +72,6 @@ class List extends Component {
       notify,
     } = this.props;
     const userType = getUserTypeByDepartment(department, role);
-    const operatorType = this.props.operatorType.toLowerCase();
 
     try {
       const {
@@ -83,8 +80,8 @@ class List extends Component {
         variables: { ...data, userType, department, role, email, branchId: branch },
       });
 
-      const newOperator = get(operatorData, `${operatorType}.create${startCase(operatorType)}.data`);
-      const newOperatorError = get(operatorData, `${operatorType}.create${startCase(operatorType)}.error`);
+      const newOperator = get(operatorData, 'operator.createOperator.data');
+      const newOperatorError = get(operatorData, 'operator.createOperator.error');
       const error = get(newOperatorError, 'error', null);
 
       if (error === EMAIL_ALREADY_EXIST) {
@@ -102,7 +99,7 @@ class List extends Component {
 
       const { uuid } = newOperator;
 
-      this.props.history.push(`/${operatorType.toLowerCase()}s/${uuid}/profile`);
+      this.props.history.push(`/operators/${uuid}/profile`);
     } catch (e) {
       createOperator.hide();
       notify({
@@ -160,7 +157,6 @@ class List extends Component {
       operators,
       operators: { loading },
       filterValues,
-      operatorType,
     } = this.props;
 
     const totalElements = get(operators, 'operators.data.totalElements');
@@ -183,13 +179,13 @@ class List extends Component {
                 <span className="font-size-20 height-55">
                   <div>
                     <strong>{totalElements} </strong>
-                    {I18n.t(`COMMON.${operatorType}S_FOUND`)}
+                    {I18n.t('COMMON.OPERATORS_FOUND')}
                   </div>
                 </span>
               </When>
               <Otherwise>
                 <span className="font-size-20">
-                  {I18n.t(`${operatorType}S.HEADING`)}
+                  {I18n.t('OPERATORS.HEADING')}
                 </span>
               </Otherwise>
             </Choose>
@@ -201,7 +197,7 @@ class List extends Component {
               onClick={this.handleOpenCreateModal}
               id="create-new-operator-button"
             >
-              {I18n.t(`${operatorType}S.CREATE_OPERATOR_BUTTON`)}
+              {I18n.t('OPERATORS.CREATE_OPERATOR_BUTTON')}
             </button>
           </PermissionContent>
         </div>
@@ -211,7 +207,7 @@ class List extends Component {
           initialValues={filters}
           filterValues={filterValues}
         />
-        <OperatorsGrid operatorsQuery={operators} operatorType={operatorType} />
+        <OperatorsGrid operatorsQuery={operators} />
       </div>
     );
   }
