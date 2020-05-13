@@ -104,7 +104,9 @@ class ContactForm extends PureComponent {
     const {
       data: {
         profile: {
-          updateContacts: { error },
+          updateContacts: {
+            error,
+          },
         },
       },
     } = await updateContacts({
