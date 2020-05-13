@@ -31,6 +31,10 @@ const sidebarTopMenu = [{
     label: 'SIDEBAR.TOP_MENU.KYC_DOCUMENTS',
     url: '/clients/kyc-documents',
     permissions: new Permissions(permissions.FILES.SEARCH_FILES),
+  }, {
+    label: 'SIDEBAR.TOP_MENU.TRADING_ACCOUNTS',
+    url: '/trading-accounts/list',
+    permissions: new Permissions(permissions.TRADING_ACCOUNTS.GET_TRADING_ACCOUNTS),
   }],
 }, {
   label: 'SIDEBAR.TOP_MENU.LEADS',
@@ -72,10 +76,6 @@ const sidebarTopMenu = [{
     url: '/partners/list',
     permissions: new Permissions(permissions.HIERARCHY.GET_AFFILIATE_PARTNERS),
   }],
-}, {
-  label: 'SIDEBAR.TOP_MENU.TRADING_ACCOUNTS',
-  icon: 'icon-trading-accounts sidebar-nav-item__icon--trading-accounts',
-  url: '/trading-accounts/list',
 }, {
   label: 'SIDEBAR.TOP_MENU.PAYMENTS',
   icon: 'icon-payments sidebar-nav-item__icon--payments',
