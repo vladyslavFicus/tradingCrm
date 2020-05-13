@@ -26,6 +26,7 @@ class Input extends PureComponent {
     mobileType: PropTypes.oneOf(['tel', 'number']),
     verified: PropTypes.bool,
     verifiedText: PropTypes.string,
+    type: PropTypes.string,
   };
 
   static defaultProps = {
@@ -46,6 +47,7 @@ class Input extends PureComponent {
     mobileType: undefined,
     verified: false,
     verifiedText: null,
+    type: undefined,
   };
 
   state = {

@@ -109,7 +109,7 @@ const PlayerMiniProfile = ({ miniProfile: { data, loading } }) => {
 PlayerMiniProfile.propTypes = {
   miniProfile: PropTypes.shape({
     data: PropTypes.shape({
-      playerMiniProfile: PropTypes.shape({
+      newProfile: PropTypes.shape({
         data: PropTypes.newProfile,
       }),
     }),

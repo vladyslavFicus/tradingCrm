@@ -16,6 +16,9 @@ class ChangeOriginalAgent extends PureComponent {
     operators: PropTypes.object.isRequired,
     onCloseModal: PropTypes.func.isRequired,
     onSuccess: PropTypes.func.isRequired,
+    notify: PropTypes.func.isRequired,
+    tradeId: PropTypes.string.isRequired,
+    platformType: PropTypes.string.isRequired,
     agentId: PropTypes.string,
   };
 

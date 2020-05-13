@@ -29,10 +29,18 @@ class View extends Component {
     auth: PropTypes.auth.isRequired,
     updateAddress: PropTypes.func.isRequired,
     updateEmail: PropTypes.func.isRequired,
+    notify: PropTypes.func.isRequired,
+    updateContacts: PropTypes.func.isRequired,
+    updatePersonalInformation: PropTypes.func.isRequired,
     newProfile: PropTypes.newProfile.isRequired,
     permission: PropTypes.permission.isRequired,
     modals: PropTypes.shape({
       confirmationModal: PropTypes.modalType,
+    }).isRequired,
+    match: PropTypes.shape({
+      params: PropTypes.shape({
+        id: PropTypes.string,
+      }),
     }).isRequired,
   };
 

@@ -51,6 +51,7 @@ class CreateCallbackModal extends PureComponent {
     onCloseModal: PropTypes.func.isRequired,
     onSuccess: PropTypes.func.isRequired,
     addNote: PropTypes.func.isRequired,
+    notify: PropTypes.func.isRequired,
     isOpen: PropTypes.bool.isRequired,
   };
 

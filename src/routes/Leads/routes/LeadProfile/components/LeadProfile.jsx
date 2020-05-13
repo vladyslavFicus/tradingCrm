@@ -43,8 +43,13 @@ class LeadProfile extends Component {
         })),
       }),
     }).isRequired,
+    addNote: PropTypes.func.isRequired,
+    updateNote: PropTypes.func.isRequired,
+    removeNote: PropTypes.func.isRequired,
     modals: PropTypes.shape({
       promoteLeadModal: PropTypes.modalType,
+      representativeModal: PropTypes.modalType,
+      noteModal: PropTypes.modalType,
     }).isRequired,
     location: PropTypes.object.isRequired,
     match: PropTypes.shape({
@@ -52,6 +57,7 @@ class LeadProfile extends Component {
       path: PropTypes.string.isRequired,
       url: PropTypes.string.isRequired,
     }).isRequired,
+    notify: PropTypes.func.isRequired,
   };
 
   static childContextTypes = {

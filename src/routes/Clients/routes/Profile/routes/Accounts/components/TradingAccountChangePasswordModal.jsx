@@ -25,6 +25,9 @@ class TradingAccountChangePasswordModal extends PureComponent {
     submitting: PropTypes.bool.isRequired,
     handleSubmit: PropTypes.func.isRequired,
     tradingAccountChangePassword: PropTypes.func.isRequired,
+    notify: PropTypes.func.isRequired,
+    accountUUID: PropTypes.string.isRequired,
+    profileUUID: PropTypes.string.isRequired,
   };
 
   onSubmit = async ({ password }) => {

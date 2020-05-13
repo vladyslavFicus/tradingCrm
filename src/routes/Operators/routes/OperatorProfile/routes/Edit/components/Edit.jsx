@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import I18n from 'i18n-js';
 import { get } from 'lodash';
 import PropTypes from 'constants/propTypes';
-import { departmentsLabels, rolesLabels, operatorTypes } from 'constants/operators';
+import { departmentsLabels, rolesLabels } from 'constants/operators';
 import renderLabel from 'utils/renderLabel';
 import Permissions from 'utils/permissions';
 import permissions from 'config/permissions';
@@ -58,7 +58,7 @@ class View extends Component {
   };
 
   static defaultProps = {
-    operatorType: operatorTypes.OPERATOR,
+    operatorType: '',
     showNotes: false,
     showSalesStatus: false,
     showFTDAmount: false,
@@ -188,7 +188,7 @@ class View extends Component {
     const allowEditPermissions = manageDepartmentsPermission.check(currentPermissions) && uuid !== profile.uuid;
     const allowUpdateHierarchy = updateParentBranch.check(currentPermissions) && uuid !== profile.uuid;
     const initialValues = get(hierarchy, 'userHierarchyById.data') || {};
-    const isPartner = operatorType === operatorTypes.PARTNER;
+    const isPartner = operatorType === 'PARTNER';
 
     if (!isPartner && departmentsRoles) {
       delete departmentsRoles.AFFILIATE_PARTNER;

@@ -23,6 +23,7 @@ class ApprovePaymentForm extends PureComponent {
   static propTypes = {
     manualPaymentMethods: PropTypes.manualPaymentMethods.isRequired,
     approvePayment: PropTypes.func.isRequired,
+    approvePaymentFinal: PropTypes.func.isRequired,
     paymentId: PropTypes.string.isRequired,
     onSuccess: PropTypes.func.isRequired,
     notify: PropTypes.func.isRequired,

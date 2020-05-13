@@ -19,7 +19,6 @@ import './EmailTemplatesEditor.scss';
 class EmailTemplatesEditor extends PureComponent {
   static propTypes = {
     loading: PropTypes.bool,
-    error: PropTypes.bool,
     emailTemplateQuery: PropTypes.object.isRequired,
     emailTemplateUpdateMutation: PropTypes.func.isRequired,
     ...PropTypes.router,
@@ -27,7 +26,6 @@ class EmailTemplatesEditor extends PureComponent {
 
   static defaultProps = {
     loading: false,
-    error: false,
   };
 
   editTemplate = async (values) => {

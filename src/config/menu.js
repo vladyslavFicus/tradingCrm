@@ -34,7 +34,6 @@ const sidebarTopMenu = [{
   }, {
     label: 'SIDEBAR.TOP_MENU.TRADING_ACCOUNTS',
     url: '/trading-accounts/list',
-    permissions: new Permissions(permissions.TRADING_ACCOUNTS.GET_TRADING_ACCOUNTS),
   }],
 }, {
   label: 'SIDEBAR.TOP_MENU.LEADS',

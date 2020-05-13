@@ -15,6 +15,8 @@ class ChangeOriginalAgent extends Component {
     changeOriginalAgent: PropTypes.func.isRequired,
     operators: PropTypes.object.isRequired,
     handleSubmit: PropTypes.func.isRequired,
+    notify: PropTypes.func.isRequired,
+    paymentId: PropTypes.string.isRequired,
     error: PropTypes.any,
     submitting: PropTypes.bool.isRequired,
     valid: PropTypes.bool.isRequired,

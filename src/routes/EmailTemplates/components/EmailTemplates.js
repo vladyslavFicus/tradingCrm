@@ -7,7 +7,7 @@ import EmailTemplatesCreator from '../routes/EmailTemplatesCreator';
 import EmailTemplatesEditor from '../routes/EmailTemplatesEditor';
 
 class EmailTemplates extends PureComponent {
-  propTypes = {
+  static propTypes = {
     match: PropTypes.shape({
       path: PropTypes.string.isRequired,
       url: PropTypes.string.isRequired,
