@@ -23,13 +23,13 @@ class ApprovePaymentForm extends PureComponent {
   static propTypes = {
     manualPaymentMethods: PropTypes.manualPaymentMethods.isRequired,
     approvePayment: PropTypes.func.isRequired,
-    approvePaymentFinal: PropTypes.func.isRequired,
+    onCloseModal: PropTypes.func.isRequired,
     paymentId: PropTypes.string.isRequired,
     onSuccess: PropTypes.func.isRequired,
     notify: PropTypes.func.isRequired,
   };
 
-  handleApprovePayment = async (values) => {
+  handleApprovePayment = async ({ paymentMethod }) => {
     const {
       approvePayment,
       onCloseModal,
@@ -51,8 +51,8 @@ class ApprovePaymentForm extends PureComponent {
     } = await approvePayment({
       variables: {
         paymentId,
+        paymentMethod,
         typeAcc: 'approve',
-        paymentMethod: values.paymentMethod,
       },
     });
 

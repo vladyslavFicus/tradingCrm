@@ -17,9 +17,6 @@ const REQUEST = gql`
       ) {
         data {
           success
-          error {
-            error
-          }
         }
       }
     }
