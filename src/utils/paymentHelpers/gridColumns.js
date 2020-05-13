@@ -220,7 +220,6 @@ export default ({
     creationTime,
     declineReason,
     withdrawStatus,
-    withdrawalScheduledTime,
     statusChangedAt,
   }) => (
     <PaymentStatus
@@ -231,7 +230,6 @@ export default ({
       creationTime={creationTime}
       statusChangedAt={statusChangedAt}
       withdrawStatus={withdrawStatus}
-      withdrawalScheduledTime={withdrawalScheduledTime}
     />
   ),
 }, {
