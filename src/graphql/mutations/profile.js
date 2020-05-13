@@ -313,26 +313,6 @@ const updateAddressMutation = gql`mutation updateAddress(
 }
 ${AddressFragment}`;
 
-const verifyPhoneMutation = gql`mutation verifyPhone(
-  $playerUUID: String!,
-  $phone: String,
-) {
-  profile {
-    verifyPhone(
-      playerUUID: $playerUUID,
-      phone: $phone,
-    ) {
-      data {
-        _id
-        phoneVerified  
-      }
-      error {
-        error
-      }
-    }
-  }
-}`;
-
 const verifyEmailMutation = gql`mutation verifyEmail($playerUUID: String!) {
   profile {
     verifyEmail(playerUUID: $playerUUID) {
@@ -358,7 +338,6 @@ export {
   updatePersonalInformationMutation,
   updateKYCStatusMutation,
   updateConfigurationMutation,
-  verifyPhoneMutation,
   verifyEmailMutation,
   updateAddressMutation,
   changeProfileStatusMutation,

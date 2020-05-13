@@ -6,7 +6,6 @@ import {
   updateLimitProfileMutation,
   updatePersonalInformationMutation,
   updateAddressMutation,
-  verifyPhoneMutation,
   verifyEmailMutation,
   updateEmailMutation,
 } from 'graphql/mutations/profile';
@@ -26,10 +25,6 @@ export default compose(
   }),
   graphql(updateAddressMutation, {
     name: 'updateAddress',
-    options: ({ match: { params: { id: playerUUID } } }) => ({ variables: { playerUUID } }),
-  }),
-  graphql(verifyPhoneMutation, {
-    name: 'verifyPhone',
     options: ({ match: { params: { id: playerUUID } } }) => ({ variables: { playerUUID } }),
   }),
   graphql(verifyEmailMutation, {

@@ -7,8 +7,6 @@ import { withPermission } from 'providers/PermissionsProvider';
 import { roles, departments } from 'constants/brands';
 import Regulated from 'components/Regulated';
 import { decodeNullValues } from 'components/Formik/utils';
-import { hideText } from 'utils/hideText';
-import { getBrand } from 'config';
 import PersonalInformationForm from './PersonalInformationForm';
 import AddressForm from './AddressForm';
 import ContactForm from './ContactForm';
@@ -24,7 +22,6 @@ const updateContactsPermissions = new Permissions(permissions.USER_PROFILE.UPDAT
 
 class View extends Component {
   static propTypes = {
-    verifyPhone: PropTypes.func.isRequired,
     verifyEmail: PropTypes.func.isRequired,
     auth: PropTypes.auth.isRequired,
     updateAddress: PropTypes.func.isRequired,
@@ -84,23 +81,6 @@ class View extends Component {
       title: I18n.t('PLAYER_PROFILE.PROFILE.PERSONAL.TITLE'),
       message: `${I18n.t('COMMON.ACTIONS.UPDATED')} 
       ${error ? I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY') : I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
-    });
-  };
-
-  handleVerifyPhone = async (phone) => {
-    const {
-      data: {
-        profile: {
-          verifyPhone: { error },
-        },
-      },
-    } = await this.props.verifyPhone({ variables: { phone } });
-
-    this.context.addNotification({
-      level: error ? 'error' : 'success',
-      title: I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.TITLE'),
-      message: `${I18n.t('COMMON.ACTIONS.UPDATED')}
-        ${error ? I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY') : I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
     });
   };
 
@@ -183,14 +163,6 @@ class View extends Component {
         message: I18n.t('error.validation.email.exists'),
       });
     }
-  };
-
-  phoneAccess = () => {
-    const {
-      auth: { department },
-    } = this.props;
-
-    return getBrand().privatePhoneByDepartment.includes(department);
   };
 
   render() {
@@ -291,11 +263,10 @@ class View extends Component {
               <div className="card">
                 <div className="card-body">
                   <ContactForm
-                    verification={{ phoneVerified }}
-                    onVerifyPhoneClick={this.handleVerifyPhone}
+                    isPhoneVerified={phoneVerified}
                     initialValues={{
-                      phone: this.phoneAccess() ? hideText(phone) : phone,
-                      additionalPhone: this.phoneAccess() ? hideText(additionalPhone) : additionalPhone,
+                      phone,
+                      additionalPhone,
                       additionalEmail,
                     }}
                     disabled={!updateContacts}

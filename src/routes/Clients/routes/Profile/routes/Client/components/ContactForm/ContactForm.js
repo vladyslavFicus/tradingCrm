@@ -13,7 +13,7 @@ import { FormikInputField } from 'components/Formik';
 import { Button } from 'components/UI';
 import { createValidator } from 'utils/validator';
 import { hideText } from 'utils/hideText';
-import UpdateContactsMutation from './graphql/UpdateContactsMutation';
+import { UpdateContactsMutation, VerifyPhoneMutation } from './graphql';
 
 const attributeLabels = {
   phone: I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.LABEL.PHONE'),
@@ -30,18 +30,16 @@ const validator = createValidator({
 class ContactForm extends PureComponent {
   static propTypes = {
     disabled: PropTypes.bool.isRequired,
-    onVerifyPhoneClick: PropTypes.func.isRequired,
     initialValues: PropTypes.shape({
       phone: PropTypes.string,
       additionalPhone: PropTypes.string,
       additionalEmail: PropTypes.string,
     }).isRequired,
-    verification: PropTypes.shape({
-      phoneVerified: PropTypes.bool,
-    }).isRequired,
+    isPhoneVerified: PropTypes.bool.isRequired,
     auth: PropTypes.auth.isRequired,
     updateContacts: PropTypes.func.isRequired,
     notify: PropTypes.func.isRequired,
+    verifyPhone: PropTypes.func.isRequired,
   };
 
   phoneAccess = () => {
@@ -52,7 +50,39 @@ class ContactForm extends PureComponent {
     return getBrand().privatePhoneByDepartment.includes(department);
   };
 
-  onSubmit = async (values) => {
+  emailAccess = () => {
+    const {
+      auth: { department },
+    } = this.props;
+
+    return getBrand().privateEmailByDepartment.includes(department);
+  };
+
+  handleVerifyPhone = async (phone) => {
+    const { verifyPhone, notify } = this.props;
+
+    const {
+      data: {
+        profile: {
+          verifyPhone: { error },
+        },
+      },
+    } = await verifyPhone({ variables: { phone } });
+
+    notify({
+      level: error ? 'error' : 'success',
+      title: I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.TITLE'),
+      message: `${I18n.t('COMMON.ACTIONS.UPDATED')}
+        ${error ? I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY') : I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
+    });
+  };
+
+
+  onSubmit = async ({
+    additionalPhone: currentAdditionalPhone,
+    additionalEmail: currentAdditionalEmail,
+    phone: currentPhone,
+  }) => {
     const {
       initialValues: {
         additionalPhone,
@@ -63,9 +93,11 @@ class ContactForm extends PureComponent {
       notify,
     } = this.props;
 
-    const variables = this.phoneAccess()
-      ? { ...values, additionalPhone, additionalEmail, phone }
-      : values;
+    const variables = {
+      phone: this.phoneAccess() ? currentPhone : phone,
+      additionalPhone: this.phoneAccess() ? currentAdditionalPhone : additionalPhone,
+      additionalEmail: this.emailAccess() ? currentAdditionalEmail : additionalEmail,
+    };
 
     const {
       data: {
@@ -87,29 +119,22 @@ class ContactForm extends PureComponent {
 
   render() {
     const {
-      verification: {
-        phoneVerified,
-      },
+      isPhoneVerified,
       disabled,
       initialValues: {
         additionalPhone,
         additionalEmail,
         phone,
       },
-      onVerifyPhoneClick,
-      auth: {
-        department,
-      },
     } = this.props;
     const { tradingOperatorAccessDisabled } = this.context;
-    const emailAccess = getBrand().privateEmailByDepartment.includes(department);
 
     return (
       <Formik
         initialValues={{
           phone: this.phoneAccess() ? hideText(phone) : phone,
           additionalPhone: this.phoneAccess() ? hideText(additionalPhone) : additionalPhone,
-          additionalEmail,
+          additionalEmail: this.emailAccess() ? hideText(additionalEmail) : additionalEmail,
         }}
         onSubmit={this.onSubmit}
         validate={validator}
@@ -143,27 +168,27 @@ class ContactForm extends PureComponent {
                 name="phone"
                 component={FormikInputField}
                 label={attributeLabels.phone}
-                disabled={disabled || tradingOperatorAccessDisabled || this.phoneAccess()}
+                disabled={disabled || tradingOperatorAccessDisabled || !this.phoneAccess()}
                 className="col-5"
               />
               <If condition={
                 !errors.phone
-                  && !this.phoneAccess()
-                  && !phoneVerified}
+                && !this.phoneAccess()
+                && !isPhoneVerified}
               >
                 <PermissionContent permissions={permissions.USER_PROFILE.VERIFY_PHONE}>
                   <div className="col-4 mt-4-profile">
                     <Button
                       primary
                       className="width-full"
-                      onClick={() => onVerifyPhoneClick(currentPhoneValue)}
+                      onClick={() => this.handleVerifyPhone(currentPhoneValue)}
                     >
                       {I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.VERIFY')}
                     </Button>
                   </div>
                 </PermissionContent>
               </If>
-              <If condition={(phone === currentPhoneValue) && phoneVerified}>
+              <If condition={(phone === currentPhoneValue) && isPhoneVerified}>
                 <div className="col-4 mt-4-profile">
                   <div className="btn-verified btn">
                     <i className="fa fa-check-circle-o margin-right-3 " />
@@ -176,7 +201,7 @@ class ContactForm extends PureComponent {
               <Field
                 name="additionalPhone"
                 label={attributeLabels.altPhone}
-                disabled={this.phoneAccess()}
+                disabled={!this.phoneAccess()}
                 placeholder={attributeLabels.altPhone}
                 className="col-5"
                 component={FormikInputField}
@@ -184,7 +209,8 @@ class ContactForm extends PureComponent {
               <Field
                 name="additionalEmail"
                 label={attributeLabels.additionalEmail}
-                disabled={emailAccess}
+                placeholder={attributeLabels.additionalEmail}
+                disabled={!this.emailAccess()}
                 className="col-8"
                 component={FormikInputField}
               />
@@ -201,5 +227,6 @@ export default compose(
   withNotifications,
   withRequests({
     updateContacts: UpdateContactsMutation,
+    verifyPhone: VerifyPhoneMutation,
   }),
 )(ContactForm);
