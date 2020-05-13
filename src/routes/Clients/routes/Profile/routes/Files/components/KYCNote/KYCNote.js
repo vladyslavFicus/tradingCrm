@@ -24,6 +24,7 @@ class KYCNote extends PureComponent {
   static propTypes = {
     permission: PropTypes.permission.isRequired,
     createKYCNote: PropTypes.func.isRequired,
+    updateKYCNote: PropTypes.func.isRequired,
     playerUUID: PropTypes.string.isRequired,
     KYCNoteQuery: PropTypes.any.isRequired,
     notify: PropTypes.func.isRequired,

@@ -955,7 +955,7 @@ PropTypes.response = content => PropTypes.shape({
   error: PropTypes.object,
 });
 PropTypes.query = content => PropTypes.shape({
-  data: PropTypes.shape(content),
+  data: PropTypes.oneOfType([PropTypes.shape(content), PropTypes.object]),
   loading: PropTypes.bool,
   loadMore: PropTypes.func,
   refetch: PropTypes.func,
@@ -1002,6 +1002,17 @@ PropTypes.notificationCenter = PropTypes.shape({
     amount: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     currency: PropTypes.string,
   }),
+});
+PropTypes.treeData = PropTypes.shape({
+  branchType: PropTypes.string,
+  deskType: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+  expanded: PropTypes.bool,
+  subtitle: PropTypes.string,
+  title: PropTypes.string,
+  type: PropTypes.string,
+  uuid: PropTypes.string,
+  userType: PropTypes.string,
+  children: PropTypes.arrayOf(PropTypes.object),
 });
 
 export default PropTypes;

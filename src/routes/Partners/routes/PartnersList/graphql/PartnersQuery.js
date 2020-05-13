@@ -68,6 +68,7 @@ PartnersQuery.propTypes = {
   location: PropTypes.shape({
     query: PropTypes.shape({
       filters: PropTypes.object,
+      sorts: PropTypes.object,
     }),
   }).isRequired,
 };

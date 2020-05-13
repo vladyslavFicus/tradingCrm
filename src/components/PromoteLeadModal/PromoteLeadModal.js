@@ -32,6 +32,7 @@ class PromoteLeadModal extends PureComponent {
     isOpen: PropTypes.bool.isRequired,
     size: PropTypes.string,
     notify: PropTypes.func.isRequired,
+    promoteLead: PropTypes.func.isRequired,
   };
 
   static defaultProps = {

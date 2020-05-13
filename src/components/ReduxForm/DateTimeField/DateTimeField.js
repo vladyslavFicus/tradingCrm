@@ -207,7 +207,7 @@ class DateTimeField extends Component {
     );
   };
 
-  renderVertical = (props) => {
+  renderVertical = () => {
     const {
       label,
       labelClassName,
@@ -217,7 +217,7 @@ class DateTimeField extends Component {
       showErrorMessage,
       helpText,
       disabled,
-    } = props;
+    } = this.props;
 
     const groupClassName = classNames(
       'form-group',
@@ -233,7 +233,7 @@ class DateTimeField extends Component {
           addon={labelAddon}
           className={labelClassName}
         />
-        {this.renderInput(props)}
+        {this.renderInput()}
         <If condition={helpText || (showErrorMessage && touched && error)}>
           <div className="form-row">
             <If condition={showErrorMessage && touched && error}>
@@ -253,7 +253,7 @@ class DateTimeField extends Component {
     );
   };
 
-  renderHorizontal = (props) => {
+  renderHorizontal = () => {
     const {
       label,
       className,
@@ -261,7 +261,7 @@ class DateTimeField extends Component {
       showErrorMessage,
       helpText,
       disabled,
-    } = props;
+    } = this.props;
 
     const groupClassName = classNames(
       'form-group row',
@@ -274,7 +274,7 @@ class DateTimeField extends Component {
       <div className={groupClassName}>
         <label className="col-md-3">{label}</label>
         <div className="col-md-9">
-          {this.renderInput(props)}
+          {this.renderInput()}
           <If condition={helpText || (showErrorMessage && touched && error)}>
             <div className="col-12">
               <div className="form-row">
@@ -299,8 +299,8 @@ class DateTimeField extends Component {
 
   render() {
     return this.props.position === 'vertical'
-      ? this.renderVertical(this.props)
-      : this.renderHorizontal(this.props);
+      ? this.renderVertical()
+      : this.renderHorizontal();
   }
 }
 

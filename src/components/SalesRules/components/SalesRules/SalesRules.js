@@ -32,15 +32,12 @@ import {
 
 class SalesRules extends PureComponent {
   static propTypes = {
-    rules: PropTypes.shape({
-      rules: PropTypes.shape({
-        data: PropTypes.arrayOf(PropTypes.ruleType),
-        error: PropTypes.object,
-      }),
-      refetch: PropTypes.func.isRequired,
-    }).isRequired,
+    rules: PropTypes.query(PropTypes.arrayOf(PropTypes.ruleType)).isRequired,
+    createRule: PropTypes.func.isRequired,
     deleteRule: PropTypes.func.isRequired,
+    notify: PropTypes.func.isRequired,
     modals: PropTypes.shape({
+      ruleModal: PropTypes.modalType,
       deleteModal: PropTypes.modalType,
     }).isRequired,
     location: PropTypes.shape({
@@ -421,7 +418,7 @@ class SalesRules extends PureComponent {
                 commonOutline
                 onClick={this.triggerRuleModal}
               >
-                + {I18n.t('HIERARCHY.PROFILE_RULE_TAB.ADD_RULE')}
+                {`+ ${I18n.t('HIERARCHY.PROFILE_RULE_TAB.ADD_RULE')}`}
               </Button>
             </div>
           </PermissionContent>

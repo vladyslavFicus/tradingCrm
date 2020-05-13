@@ -27,6 +27,7 @@ class PaymentAddModal extends PureComponent {
     submitting: PropTypes.bool,
     invalid: PropTypes.bool.isRequired,
     currentValues: PropTypes.shape({
+      accountUUID: PropTypes.string,
       paymentType: PropTypes.string,
       amount: PropTypes.number,
       fromAcc: PropTypes.string,

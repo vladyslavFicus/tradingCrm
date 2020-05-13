@@ -12,6 +12,7 @@ class AddBranchForm extends Component {
     submitting: PropTypes.bool.isRequired,
     pristine: PropTypes.bool.isRequired,
     handleSubmit: PropTypes.func.isRequired,
+    notify: PropTypes.func.isRequired,
     addOperatorToBranch: PropTypes.func.isRequired,
     currentBranches: PropTypes.array.isRequired,
     branchHierarchy: PropTypes.shape({
@@ -22,6 +23,12 @@ class AddBranchForm extends Component {
       brands: PropTypes.array,
       branchTypes: PropTypes.array,
     }).isRequired,
+    match: PropTypes.shape({
+      params: PropTypes.shape({
+        id: PropTypes.string,
+      }),
+    }).isRequired,
+    hierarchyTree: PropTypes.func.isRequired,
   };
 
   static contextTypes = {
