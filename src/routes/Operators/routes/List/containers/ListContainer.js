@@ -30,19 +30,28 @@ export default compose(
     options: ({ location: { query } }) => ({
       variables: {
         ...query && query.filters,
-        page: 0,
+        page: {
+          from: 0,
+          size: 20,
+          ...query && query.sorts ? { sorts: query.sorts } : { sorts: [] },
+        },
       },
       fetchPolicy: 'network-only',
     }),
-    props: ({ operators: { operators, fetchMore, ...rest } }) => {
-      const newPage = get(operators, 'data.page') || 0;
+    props: ({ operators: { operators, fetchMore, variables, ...rest } }) => {
+      const newPage = get(operators, 'data.number') || 0;
 
       return {
         operators: {
           ...rest,
           operators,
           loadMore: () => fetchMore({
-            variables: { page: newPage + 1 },
+            variables: {
+              page: {
+                ...variables.page,
+                from: newPage + 1,
+              },
+            },
             updateQuery: (previousResult, { fetchMoreResult }) => {
               if (!fetchMoreResult) {
                 return previousResult;

@@ -4,7 +4,6 @@ import { Switch, Redirect } from 'react-router-dom';
 import { get } from 'lodash';
 import Tabs from 'components/Tabs';
 import NotFound from 'routes/NotFound';
-import { operatorTypes } from 'constants/operators';
 import * as menu from 'config/menu';
 import permissions from 'config/permissions';
 import PropTypes from 'constants/propTypes';
@@ -55,7 +54,7 @@ class OperatorProfileLayout extends Component {
   static defaultProps = {
     error: null,
 
-    operatorType: operatorTypes.OPERATOR,
+    operatorType: '',
   };
 
   state = {
