@@ -1,5 +1,6 @@
 import React from 'react';
 import keyMirror from 'keymirror';
+import I18n from 'i18n-js';
 import { getActiveBrandConfig } from 'config';
 import countries from 'utils/countryList';
 import { statuses } from 'constants/operators';
@@ -186,7 +187,7 @@ export default ({
     className: fieldClassNames.MEDIUM,
     multiple: true,
     disabled: partnersLoading || partners.length === 0,
-    selectOptions: partners.map(({ uuid, fullName }) => ({
+    selectOptions: [{ uuid: 'NONE', fullName: I18n.t('COMMON.NONE') }, ...partners].map(({ uuid, fullName }) => ({
       value: uuid,
       label: fullName,
     })),

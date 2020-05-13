@@ -32,6 +32,7 @@
       "BRAND_CONFIG_UPDATE": "Brand config update",
       "BRAND_CONFIG_CREATE": "Brand config create",
       "EMAIL_TEMPLATES": "Email templates",
+      "TRADING_ACCOUNTS": "Trading accounts",
       "NOTIFICATIONS": "Notifications"
     },
     "BOTTOM_MENU": {
@@ -592,6 +593,8 @@
     "BRANCH_TYPE": "Branch type",
     "BRANCH": "Branch",
     "SELECT_OPTION": {
+      "ANY": "Any",
+      "LOADING": "Loading...",
       "DEFAULT": "-- Select --",
       "REASON": "-- Select reason --",
       "PERIOD": "-- Select period --",
@@ -600,12 +603,12 @@
       "PLATFORM": "-- Select platform --",
       "CURRENCY": "-- Select currency --",
       "UPLOAD_ACTION": "-- Select upload action --",
-      "NO_ITEMS": "-- No items --",
       "DEFAULT_MULTISELECT": "-- Select one or multiple options --",
-      "LOADING": "Loading...",
-      "ANY": "Any",
       "SELECT_BRANCH_TYPE": "Select branch type first",
-      "SELECT_PARTNER_TYPE": "Select partner type"
+      "SELECT_PARTNER_TYPE": "Select partner type",
+      "SELECT_OFFICE": "-- Select office --",
+      "SELECT_TEAM": "-- Select team --",
+      "NO_ITEMS": "-- No items --"
     },
     "SEARCH_BY": {
       "CLIENT": "Name, Email, Phone, ID, MT ID",
@@ -741,6 +744,7 @@
       "CONFISCATE": "Confiscate",
       "FEE": "Fee",
       "INACTIVITY_FEE": "Inactivity fee",
+      "INTEREST_RATE": "Interest rate",
       "TRANSFER_IN": "Transfer in",
       "TRANSFER_OUT": "Transfer Out",
       "CREDIT_IN": "Credit in",
@@ -1739,13 +1743,23 @@
     },
     "access": {
       "unauthorized": "Wrong user/password"
+    },
+    "multipart": {
+      "max-file-size": {
+        "exceeded": "File must be less than %{size} MB"
+      }
     }
   },
   "lead": {
     "error": {
       "entity": {
         "already": {
-          "exist": "The client already exists with Email \"%{email}\""
+          "exist": "The lead or client with Email \"%{email}\" already exists"
+        }
+      },
+      "validation": {
+        "country": {
+          "restricted": "Restricted country"
         }
       }
     }
@@ -1862,12 +1876,12 @@
     "TRANSACTION": "Transaction",
     "OPERATOR": "Operator",
     "LEADS": {
-        "LEAD_CREATED": "Lead created",
-        "SALES": "Sales",
-        "COUNTRY": "Country",
-        "LEAD": "Lead",
-        "PHONE": "Phone"
-      }
+      "LEAD_CREATED": "Lead created",
+      "SALES": "Sales",
+      "COUNTRY": "Country",
+      "LEAD": "Lead",
+      "PHONE": "Phone"
+    }
   },
   "OPERATORS": {
     "HEADING": "Operators",
@@ -2898,7 +2912,14 @@
   },
   "TEAMS": {
     "TEAMS": "Teams",
-    "ADD_TEAM": "Add team",
+    "ADD_TEAM": "+ Add team",
+    "GRID_FILTERS": {
+      "SEARCH_BY": "Search by",
+      "SEARCH_BY_PLACEHOLDER": "Team name",
+      "OFFICE": "Office",
+      "DESK": "Desk",
+      "DESK_ERROR_PLACEHOLDER": "-- No desk for current office --"
+    },
     "GRID_HEADER": {
       "TEAM": "Team",
       "OFFICE": "Office",
@@ -2907,12 +2928,25 @@
     "MODAL": {
       "HEADER": "New team",
       "CREATE_BUTTON": "Create team",
-      "NO_OFFICE_DESK": "-- No desk for current office --",
-      "SELECT_OFFICE_FIRST": "-- Select office first --",
       "LABELS": {
         "TEAM_NAME": "Team name",
-        "DESK_NAME": "Desk",
-        "OFFICE_NAME": "Office"
+        "OFFICE": "Office",
+        "DESK": "Desk"
+      },
+      "PLACEHOLDERS": {
+        "TYPE_IN_TEAM_NAME": "Type in team name",
+        "NO_OFFICE_DESK": "-- No desk for current office --",
+        "SELECT_OFFICE_FIRST": "-- Select office first --"
+      }
+    },
+    "NOTIFICATIONS": {
+      "SUCCESS": {
+        "TITLE": "Creating succeed",
+        "MESSAGE": "The team was successfully created"
+      },
+      "ERROR": {
+        "TITLE": "Failure on creating",
+        "MESSAGE": "Creating of team has failed"
       }
     },
     "TABS": {
@@ -3316,7 +3350,7 @@
     "ACTIONS": {
       "SEND": "Send email"
     },
-    "EMAIL_TEMPLATES":{
+    "EMAIL_TEMPLATES": {
       "PLACEHOLDER": "Email templates",
       "ADD_TEMPLATE": "Add template",
       "GRID_HEADER": {
@@ -3433,6 +3467,43 @@
   },
   "WARNINGS": {
     "CARDHOLDER_INVALID": "Cardholder invalid"
+  },
+  "TRADING_ACCOUNTS": {
+    "HEADLINE": "Trading accounts",
+    "FORM": {
+      "FIELDS": {
+        "SEARCH_BY": "Search by",
+        "SEARCH_BY_PLACEHOLDER": "UUID, Player's Full Name, Source Name.",
+        "ACCOUNT_TYPE": "Account type",
+        "STATUS": "Status",
+        "AFFILIATE_TYPE": "Affiliate type"
+      },
+      "ACCOUNT_TYPE": {
+        "DEMO": "Demo",
+        "LIVE": "Live"
+      },
+      "STATUS": {
+        "ARCHIVED": "Archived",
+        "NOT_ARCHIVED": "Not archived"
+      },
+      "AFFILIATE_TYPE": {
+        "AFFILIATE": "Affiliate",
+        "IB": "IB",
+        "DIRECT": "Direct"
+      }
+    },
+    "GRID": {
+      "ACCOUNT_ID": "Account ID",
+      "PLATFORM_TYPE": "Platform type",
+      "PROFILE": "Client",
+      "AFFILIATE_TYPE": "Affiliate type",
+      "SOURCE_NAME": "Source name",
+      "DATE": "Date",
+      "LEVERAGE": "Leverage",
+      "BALANCE": "Balance",
+      "STATUS": "Status",
+      "ACCOUNT_TYPE": "Account type"
+    }
   },
   "BRANCH_MANAGER_INFO": {
     "MANAGED_BY": "Managed by",

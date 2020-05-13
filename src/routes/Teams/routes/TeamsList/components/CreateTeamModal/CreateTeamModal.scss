@@ -1,0 +1,21 @@
+.CreateTeamModal {
+  width: 550px;
+
+  &__select {
+    display: inline-block;
+    vertical-align: top;
+    width: calc(50% - 10px);
+
+    &:nth-child(2n) {
+      margin-left: 20px;
+    }
+  }
+
+  &__button {
+    margin: 0;
+
+    &:first-child {
+      margin-right: 15px;
+    }
+  }
+}

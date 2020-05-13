@@ -1,4 +1,4 @@
-/* eslint-disable */ 
+/* eslint-disable */
 import React, { PureComponent } from 'react';
 import { compose } from 'react-apollo';
 import I18n from 'i18n-js';
@@ -40,14 +40,14 @@ class Profile extends PureComponent {
   state = {
     submitError: null,
   };
-  
+
   phoneAccessDenied = () => {
     const {
       auth: {
         department,
       },
     } = this.props;
-    
+
     return getBrand().privatePhoneByDepartment.includes(department);
   };
 
@@ -66,10 +66,14 @@ class Profile extends PureComponent {
       notify({
         level: 'error',
         title: I18n.t('LEAD_PROFILE.NOTIFICATION_FAILURE'),
-        message: I18n.t('COMMON.SOMETHING_WRONG'),
+        message: error.error === 'error.entity.already.exist'
+          ? I18n.t('lead.error.entity.already.exist', { email: variables.email })
+          : I18n.t('COMMON.SOMETHING_WRONG')
       });
       this.setState({
-        submitError: error.error,
+        submitError: error.error === 'error.entity.already.exist'
+          ? I18n.t('lead.error.entity.already.exist', { email: variables.email })
+          : error.error,
       });
     } else {
       notify({

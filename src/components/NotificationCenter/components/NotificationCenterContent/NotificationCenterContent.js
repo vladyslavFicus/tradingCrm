@@ -34,6 +34,7 @@ class NotificationCenterContent extends PureComponent {
     }).isRequired,
     notify: PropTypes.func.isRequired,
     onCloseModal: PropTypes.func.isRequired,
+    bulkUpdate: PropTypes.func.isRequired,
   };
 
   state = {

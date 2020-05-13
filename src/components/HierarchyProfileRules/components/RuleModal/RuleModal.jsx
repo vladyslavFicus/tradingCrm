@@ -310,15 +310,11 @@ class RuleModal extends PureComponent {
                               >
                                 {operatorsList
                                   .filter(({ hierarchy: { userType } }) => isSales(userType))
-                                  .map(({ uuid, fullName }) => (
+                                  .map(({ uuid, fullName, operatorStatus }) => (
                                     <option
                                       key={uuid}
                                       value={uuid}
-                                      className={
-                                        classNames('select-block__options-item', {
-                                          'RuleModal--is-disabled': selectedOperators.indexOf(uuid) !== -1,
-                                        })
-                                      }
+                                      disabled={selectedOperators.indexOf(uuid) !== -1 || operatorStatus !== 'ACTIVE'}
                                     >
                                       {fullName}
                                     </option>

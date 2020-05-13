@@ -1,7 +1,6 @@
 import React, { Component, Suspense } from 'react';
 import I18n from 'i18n-js';
 import { get } from 'lodash';
-import { SubmissionError } from 'redux-form';
 import { Switch, Redirect } from 'react-router-dom';
 import NotePopover from 'components/NotePopover';
 import { viewType as noteViewType, targetTypes } from 'constants/note';
@@ -44,9 +43,13 @@ class LeadProfile extends Component {
         })),
       }),
     }).isRequired,
-    promoteLead: PropTypes.func.isRequired,
+    addNote: PropTypes.func.isRequired,
+    updateNote: PropTypes.func.isRequired,
+    removeNote: PropTypes.func.isRequired,
     modals: PropTypes.shape({
       promoteLeadModal: PropTypes.modalType,
+      representativeModal: PropTypes.modalType,
+      noteModal: PropTypes.modalType,
     }).isRequired,
     location: PropTypes.object.isRequired,
     match: PropTypes.shape({
@@ -54,6 +57,7 @@ class LeadProfile extends Component {
       path: PropTypes.string.isRequired,
       url: PropTypes.string.isRequired,
     }).isRequired,
+    notify: PropTypes.func.isRequired,
   };
 
   static childContextTypes = {
@@ -71,39 +75,6 @@ class LeadProfile extends Component {
       triggerRepresentativeUpdateModal: this.triggerRepresentativeUpdateModal,
     };
   }
-
-  handlePromoteLead = async (values) => {
-    const {
-      notify,
-      promoteLead,
-      leadProfile: { refetch },
-      modals: { promoteLeadModal },
-    } = this.props;
-
-    const { data: { leads: { promote: { data, error } } } } = await promoteLead({
-      variables: { args: values },
-    });
-
-    if (error) {
-      if (error.error === 'error.entity.already.exist') {
-        throw new SubmissionError({ _error: I18n.t(`lead.${error.error}`, { email: values.contacts.email }) });
-      }
-
-      const formError = Object
-        .entries(error.fields_errors)
-        .map(([key, { error: err }]) => `${key}: ${err}`);
-
-      throw new SubmissionError({ _error: formError.join(', ') });
-    } else {
-      await refetch();
-      promoteLeadModal.hide();
-      notify({
-        level: 'success',
-        title: I18n.t('COMMON.SUCCESS'),
-        message: I18n.t('LEADS.SUCCESS_PROMOTED', { id: data.uuid }),
-      });
-    }
-  };
 
   triggerRepresentativeUpdateModal = () => {
     const {
@@ -132,54 +103,28 @@ class LeadProfile extends Component {
 
   triggerLeadModal = () => {
     const {
-      leadProfile: {
-        leadProfile: {
-          data: {
-            email,
-            phone,
-            gender,
-            birthDate,
-            name: firstName,
-            surname: lastName,
-            country: countryCode,
-            language: languageCode,
-            mobile: additionalPhone,
-          },
-        },
-      },
+      leadProfile,
       modals: { promoteLeadModal },
     } = this.props;
 
     promoteLeadModal.show({
-      onSubmit: values => this.handlePromoteLead(values),
-      initialValues: {
-        address: {
-          countryCode,
-        },
-        contacts: {
-          email,
-          phone,
-          additionalPhone,
-        },
-        gender,
-        lastName,
-        firstName,
-        birthDate,
-        languageCode,
-      },
+      leadProfile,
     });
   };
 
   handleEditModalNoteClick = (type, item) => () => {
     const { modals: { noteModal } } = this.props;
+    const { content, subject, pinned } = item;
 
     noteModal.show({
       type,
-      onEdit: data => this.handleSubmitNoteClick(noteViewType.MODAL, data),
+      onEdit: data => this.handleSubmitNoteClick(noteViewType.MODAL, { ...item, ...data }),
       onDelete: () => this.handleDeleteNoteClick(noteViewType.MODAL, item.noteId),
       tagType: item.tagType,
       initialValues: {
-        ...item,
+        content,
+        subject,
+        pinned,
       },
     });
   };

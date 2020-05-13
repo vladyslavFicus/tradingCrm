@@ -19,6 +19,9 @@ class LeadsGridFilter extends Component {
     setDesksTeamsOperators: PropTypes.func.isRequired,
     notify: PropTypes.func.isRequired,
     isFetchingProfileData: PropTypes.bool.isRequired,
+    client: PropTypes.shape({
+      query: PropTypes.func.isRequired,
+    }).isRequired,
   };
 
   state = {

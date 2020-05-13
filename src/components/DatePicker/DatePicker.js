@@ -210,7 +210,7 @@ class DatePicker extends Component {
     );
   };
 
-  renderVertical = (props) => {
+  renderVertical = () => {
     const {
       label,
       className,
@@ -218,7 +218,7 @@ class DatePicker extends Component {
       showErrorMessage,
       helpText,
       disabled,
-    } = props;
+    } = this.props;
 
     const groupClassName = classNames(
       'form-group',
@@ -232,7 +232,7 @@ class DatePicker extends Component {
         <If condition={label}>
           <label>{label}</label>
         </If>
-        {this.renderInput(props)}
+        {this.renderInput()}
         <If condition={helpText || (showErrorMessage && error)}>
           <div className="form-row">
             <If condition={showErrorMessage && error}>
@@ -252,7 +252,7 @@ class DatePicker extends Component {
     );
   };
 
-  renderHorizontal = (props) => {
+  renderHorizontal = () => {
     const {
       label,
       className,
@@ -260,7 +260,7 @@ class DatePicker extends Component {
       showErrorMessage,
       helpText,
       disabled,
-    } = props;
+    } = this.props;
 
     const groupClassName = classNames(
       'form-group row',
@@ -273,7 +273,7 @@ class DatePicker extends Component {
       <div className={groupClassName}>
         <label className="col-md-3">{label}</label>
         <div className="col-md-9">
-          {this.renderInput(props)}
+          {this.renderInput(this.props)}
           <If condition={helpText || (showErrorMessage && error)}>
             <div className="col-12">
               <div className="form-row">
@@ -298,8 +298,8 @@ class DatePicker extends Component {
 
   render() {
     return this.props.position === 'vertical'
-      ? this.renderVertical(this.props)
-      : this.renderHorizontal(this.props);
+      ? this.renderVertical()
+      : this.renderHorizontal();
   }
 }
 

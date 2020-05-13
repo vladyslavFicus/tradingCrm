@@ -51,6 +51,7 @@ class CreateCallbackModal extends PureComponent {
     onCloseModal: PropTypes.func.isRequired,
     onSuccess: PropTypes.func.isRequired,
     addNote: PropTypes.func.isRequired,
+    notify: PropTypes.func.isRequired,
     isOpen: PropTypes.bool.isRequired,
   };
 
@@ -147,8 +148,8 @@ class CreateCallbackModal extends PureComponent {
                   }
                   disabled={isSubmitting || isOperatorsLoading}
                 >
-                  {operators.map(({ uuid, fullName }) => (
-                    <option key={uuid} value={uuid}>{fullName}</option>
+                  {operators.map(({ uuid, fullName, operatorStatus }) => (
+                    <option key={uuid} value={uuid} disabled={operatorStatus !== 'ACTIVE'}>{fullName}</option>
                   ))}
                 </Field>
 

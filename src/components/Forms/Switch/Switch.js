@@ -26,7 +26,7 @@ class Switch extends Component {
     return null;
   }
 
-  revert = _.debounce(this.toggle, 301);
+  revert = _.debounce(this.toggle, 301); // eslint-ignore-line
 
   toggle = () => {
     this.setState(({ active }) => ({

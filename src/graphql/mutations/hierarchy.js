@@ -53,21 +53,6 @@ const createDesk = gql`mutation createDesk(
   }
 }`;
 
-const createTeam = gql`mutation createTeam(
-  $name: String!,
-  $deskId: String!,
-) {
-  hierarchy {
-    createTeam (
-      name: $name,
-      deskId: $deskId,
-    ) {
-      data
-      error
-    }
-  }
-}`;
-
 const addOperatorToBranch = gql`mutation addOperatorToBranch(
   $branchId: String!
   $operatorId: String!
@@ -125,7 +110,6 @@ export {
   createHierarchyUser,
   createOffice,
   createDesk,
-  createTeam,
   addOperatorToBranch,
   removeOperatorFromBranch,
   updateUser,

@@ -19,6 +19,7 @@ class Select extends PureComponent {
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.array, PropTypes.object]),
     showSearch: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
     searchPlaceholder: PropTypes.string,
+    name: PropTypes.string,
     optionsHeader: PropTypes.func,
     singleOptionComponent: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
     disabled: PropTypes.bool,
@@ -29,6 +30,7 @@ class Select extends PureComponent {
   };
 
   static defaultProps = {
+    name: undefined,
     onChange: null,
     showSearch: null,
     placeholder: 'Any',
@@ -157,6 +159,8 @@ class Select extends PureComponent {
   };
 
   handleSelectSingleOption = (option) => {
+    if (option.props.disabled) return;
+
     this.updateState({ toSelectOptions: [option] }, this.handleClose);
   };
 
@@ -175,13 +179,11 @@ class Select extends PureComponent {
 
   toggleSelectAllOptions = () => {
     const { toSelectOptions, options } = this.state;
+    const notDisabledOptions = options.filter(option => !option.props.disabled);
 
     // If not all options selected --> select all
-    if (toSelectOptions.length !== options.length) {
-      this.updateState({
-        toSelectOptions: [...options],
-        options: [...options],
-      });
+    if (toSelectOptions.length !== notDisabledOptions.length) {
+      this.updateState({ toSelectOptions: notDisabledOptions });
     } else {
       this.updateState({ toSelectOptions: [] });
     }
@@ -305,6 +307,7 @@ class Select extends PureComponent {
         key,
         props,
       }))
+      .sort((currentOption, nextOption) => +currentOption.props.disabled - +nextOption.props.disabled)
     : []
   );
 
