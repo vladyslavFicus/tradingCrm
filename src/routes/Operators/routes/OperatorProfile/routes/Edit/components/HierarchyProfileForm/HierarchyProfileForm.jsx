@@ -16,6 +16,10 @@ class HierarchyProfileForm extends Component {
     loading: PropTypes.bool.isRequired,
     isPartner: PropTypes.bool.isRequired,
     handleSubmit: PropTypes.func.isRequired,
+    reset: PropTypes.func.isRequired,
+    notify: PropTypes.func.isRequired,
+    updateOperatorHierarchy: PropTypes.func.isRequired,
+    removeOperatorFromBranch: PropTypes.func.isRequired,
     pristine: PropTypes.bool.isRequired,
     submitting: PropTypes.bool.isRequired,
     initialValues: PropTypes.object,
@@ -27,6 +31,11 @@ class HierarchyProfileForm extends Component {
       offices: PropTypes.array,
       brands: PropTypes.array,
       branchTypes: PropTypes.array,
+    }).isRequired,
+    match: PropTypes.shape({
+      params: PropTypes.shape({
+        id: PropTypes.string,
+      }),
     }).isRequired,
   };
 

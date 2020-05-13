@@ -63,12 +63,14 @@ class Profile extends Component {
   static propTypes = {
     notify: PropTypes.func.isRequired,
     match: PropTypes.shape({
+      path: PropTypes.string,
       params: PropTypes.shape({
         id: PropTypes.string.isRequired,
       }).isRequired,
     }).isRequired,
     pinnedNotes: PropTypes.shape({
       loading: PropTypes.bool.isRequired,
+      refetch: PropTypes.func.isRequired,
       notes: PropTypes.shape({
         content: PropTypes.arrayOf(PropTypes.shape({
           author: PropTypes.string,
@@ -77,23 +79,30 @@ class Profile extends Component {
         })),
       }),
     }).isRequired,
+    newProfile: PropTypes.query(PropTypes.newProfile).isRequired,
     location: PropTypes.object.isRequired,
     updateSubscription: PropTypes.func.isRequired,
     addNote: PropTypes.func.isRequired,
     updateNote: PropTypes.func.isRequired,
     questionnaireLastData: PropTypes.shape({
       loading: PropTypes.bool.isRequired,
+      refetch: PropTypes.func.isRequired,
       questionnaire: PropTypes.object,
     }),
     modals: PropTypes.shape({
       confirmActionModal: PropTypes.modalType,
       noteModal: PropTypes.modalType,
+      representativeModal: PropTypes.modalType,
     }).isRequired,
     getLoginLock: PropTypes.object.isRequired,
     passwordResetRequest: PropTypes.func.isRequired,
     removeNote: PropTypes.func.isRequired,
+    deleteFile: PropTypes.func,
+    changePassword: PropTypes.func.isRequired,
+    changeProfileStatus: PropTypes.func.isRequired,
     unlockLoginMutation: PropTypes.func.isRequired,
     permission: PropTypes.permission.isRequired,
+    token: PropTypes.string.isRequired,
   };
 
   static childContextTypes = {
@@ -116,6 +125,8 @@ class Profile extends Component {
   static defaultProps = {
     // Can be null for unregulated brands
     questionnaireLastData: null,
+
+    deleteFile: () => {},
   };
 
   cacheChildrenComponents = [];

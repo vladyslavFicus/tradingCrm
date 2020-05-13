@@ -26,7 +26,7 @@ class FormikTextAreaField extends PureComponent {
     labelClassName: PropTypes.string,
     showErrorMessage: PropTypes.bool,
     placeholder: PropTypes.string,
-    maxLength: PropTypes.string,
+    maxLength: PropTypes.number,
     className: PropTypes.string,
     label: PropTypes.oneOfType([
       PropTypes.string,

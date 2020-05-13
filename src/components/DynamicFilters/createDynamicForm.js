@@ -29,15 +29,18 @@ class DynamicForm extends Component {
     submitting: PropTypes.bool,
     pristine: PropTypes.bool,
     handleSubmit: PropTypes.func,
+    change: PropTypes.func.isRequired,
     reset: PropTypes.func,
     invalid: PropTypes.bool.isRequired,
     formName: PropTypes.string.isRequired,
     selectedFilters: PropTypes.arrayOf(PropTypes.string).isRequired,
-    addItem: PropTypes.func.isRequired,
-    removeItem: PropTypes.func.isRequired,
+    addItem: PropTypes.func,
+    removeItem: PropTypes.func,
   };
 
   static defaultProps = {
+    addItem: () => {},
+    removeItem: () => {},
     className: 'filter-row',
     allowSubmit: false,
     allowReset: false,

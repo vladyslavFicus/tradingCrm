@@ -19,12 +19,8 @@ class NotificationsFilters extends PureComponent {
   static propTypes = {
     onReset: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
-    operators: PropTypes.shape({
-      operators: PropTypes.shape({
-        data: PropTypes.pageable(PropTypes.operatorProfile),
-      }),
-      loadMore: PropTypes.func,
-      loading: PropTypes.bool.isRequired,
+    operators: PropTypes.query({
+      operators: PropTypes.pageable(PropTypes.operatorProfile),
     }).isRequired,
     userBranchHierarchy: PropTypes.any.isRequired,
     typesQuery: PropTypes.any.isRequired,

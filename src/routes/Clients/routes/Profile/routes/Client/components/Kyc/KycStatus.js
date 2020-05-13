@@ -25,6 +25,8 @@ class KycStatus extends Component {
     permission: PropTypes.permission.isRequired,
     handleSubmit: PropTypes.func.isRequired,
     notify: PropTypes.func.isRequired,
+    updateKycStatus: PropTypes.func.isRequired,
+    playerUUID: PropTypes.string.isRequired,
   };
 
   static defaultProps = {

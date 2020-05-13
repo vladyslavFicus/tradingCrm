@@ -26,19 +26,26 @@ class View extends Component {
     auth: PropTypes.auth.isRequired,
     updateAddress: PropTypes.func.isRequired,
     updateEmail: PropTypes.func.isRequired,
+    notify: PropTypes.func.isRequired,
+    updatePersonalInformation: PropTypes.func.isRequired,
     newProfile: PropTypes.newProfile.isRequired,
     permission: PropTypes.permission.isRequired,
     modals: PropTypes.shape({
       confirmationModal: PropTypes.modalType,
     }).isRequired,
-  };
-
-  static childContextTypes = {
-    tradingOperatorAccessDisabled: PropTypes.bool.isRequired,
+    match: PropTypes.shape({
+      params: PropTypes.shape({
+        id: PropTypes.string,
+      }),
+    }).isRequired,
   };
 
   static contextTypes = {
     addNotification: PropTypes.func.isRequired,
+  };
+
+  static childContextTypes = {
+    tradingOperatorAccessDisabled: PropTypes.bool.isRequired,
   };
 
   getChildContext = () => ({

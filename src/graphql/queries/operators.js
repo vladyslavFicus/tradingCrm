@@ -47,7 +47,7 @@ const managementOperatorsQuery = gql`query getOperators(
   $status: String,
   $registrationDateFrom: String,
   $registrationDateTo: String,
-  $page: Int,
+  $page: PageInputType,
 ) {
   operators(
     searchBy: $searchBy,

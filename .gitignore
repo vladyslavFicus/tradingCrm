@@ -9,8 +9,8 @@ build
 coverage
 
 .vscode/
-jsconfig.json
 .idea/
 package-lock.json
 .env
 .prettierrc
+.eslintcache

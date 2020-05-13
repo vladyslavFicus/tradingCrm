@@ -741,6 +741,7 @@
       "CONFISCATE": "Confiscate",
       "FEE": "Fee",
       "INACTIVITY_FEE": "Inactivity fee",
+      "INTEREST_RATE": "Interest rate",
       "TRANSFER_IN": "Transfer in",
       "TRANSFER_OUT": "Transfer Out",
       "CREDIT_IN": "Credit in",

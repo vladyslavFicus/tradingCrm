@@ -137,8 +137,7 @@ class CreateOperatorModal extends Component {
         <ModalFooter>
           <div className="row">
             <div className="col-5 text-muted font-size-12 text-left">
-              <b>{I18n.t('OPERATORS.MODALS.NEW_OPERATOR.NOTE')}</b>
-              {':'}
+              <b>{I18n.t('OPERATORS.MODALS.NEW_OPERATOR.NOTE')}</b>:
               {I18n.t('OPERATORS.MODALS.NEW_OPERATOR.NOTE_MESSAGE')}
             </div>
             <div className="col-7 text-right">

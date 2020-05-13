@@ -64,7 +64,9 @@ class ContactForm extends PureComponent {
     const {
       data: {
         profile: {
-          verifyPhone: { error },
+          verifyPhone: {
+            error,
+          },
         },
       },
     } = await verifyPhone({ variables: { phone } });
@@ -149,15 +151,13 @@ class ContactForm extends PureComponent {
                 <If condition={dirty && isValid && !disabled}>
                   <PermissionContent permissions={permissions.USER_PROFILE.UPDATE_CONTACTS}>
                     <div className="text-right">
-                      <If condition={dirty && isValid && !disabled}>
-                        <Button
-                          small
-                          primary
-                          type="submit"
-                        >
-                          {I18n.t('COMMON.SAVE_CHANGES')}
-                        </Button>
-                      </If>
+                      <Button
+                        small
+                        primary
+                        type="submit"
+                      >
+                        {I18n.t('COMMON.SAVE_CHANGES')}
+                      </Button>
                     </div>
                   </PermissionContent>
                 </If>

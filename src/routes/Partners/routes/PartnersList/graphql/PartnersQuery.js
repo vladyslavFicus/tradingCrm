@@ -4,7 +4,8 @@ import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 
 const REQUEST = gql`
-  query PartnersList_getPartners(
+  query PartnersQuery(
+    $page: PageInputType
     $searchBy: String
     $country: String
     $status: String
@@ -13,6 +14,7 @@ const REQUEST = gql`
     $registrationDateTo: String
   ) {
     partners (
+      page: $page
       searchBy: $searchBy
       country: $country
       status: $status
@@ -44,13 +46,16 @@ const REQUEST = gql`
   }
 `;
 
-const getPartnersQuery = ({ children, location: { query } }) => (
+const PartnersQuery = ({ children, location: { query } }) => (
   <Query
     query={REQUEST}
     variables={{
       ...query && query.filters,
-      size: 20,
-      page: 0,
+      page: {
+        from: 0,
+        size: 20,
+        ...query && query.sorts ? { sorts: query.sorts } : { sorts: [] },
+      },
     }}
     fetchPolicy="network-only"
   >
@@ -58,20 +63,14 @@ const getPartnersQuery = ({ children, location: { query } }) => (
   </Query>
 );
 
-getPartnersQuery.propTypes = {
+PartnersQuery.propTypes = {
   children: PropTypes.func.isRequired,
   location: PropTypes.shape({
     query: PropTypes.shape({
-      filters: PropTypes.shape({
-        searchBy: PropTypes.string,
-        country: PropTypes.string,
-        status: PropTypes.string,
-        affiliateType: PropTypes.string,
-        registrationDateFrom: PropTypes.string,
-        registrationDateTo: PropTypes.string,
-      }),
+      filters: PropTypes.object,
+      sorts: PropTypes.object,
     }),
   }).isRequired,
 };
 
-export default getPartnersQuery;
+export default PartnersQuery;

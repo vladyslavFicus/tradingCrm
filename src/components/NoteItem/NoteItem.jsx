@@ -15,11 +15,16 @@ class NoteItem extends Component {
   static propTypes = {
     data: PropTypes.shape({
       changedBy: PropTypes.string,
+      tagType: PropTypes.string,
+      tagName: PropTypes.string,
       changedAt: PropTypes.string,
       targetUUID: PropTypes.string.isRequired,
       subject: PropTypes.string,
       content: PropTypes.string.isRequired,
       pinned: PropTypes.bool,
+      operator: PropTypes.shape({
+        fullName: PropTypes.string,
+      }),
     }).isRequired,
     handleNoteClick: PropTypes.func.isRequired,
   };
