@@ -1,1 +1,1 @@
-export { default } from './KYCStatus';
+export { default } from './KycStatusForm';

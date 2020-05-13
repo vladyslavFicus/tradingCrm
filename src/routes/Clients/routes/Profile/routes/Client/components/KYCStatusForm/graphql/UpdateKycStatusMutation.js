@@ -4,7 +4,7 @@ import gql from 'graphql-tag';
 import { Mutation } from 'react-apollo';
 
 const REQUEST = gql`
-  mutation UpdateKYCStatusMutation_KYCStatus(
+  mutation UpdateKycStatusMutation_KycStatusForm(
     $playerUUID: String!,
     $kycStatus: String,
   ) {
@@ -18,14 +18,14 @@ const REQUEST = gql`
     }
   }`;
 
-const UpdateKYCStatusMutation = ({ children }) => (
+const UpdateKycStatusMutation = ({ children }) => (
   <Mutation mutation={REQUEST}>
     {children}
   </Mutation>
 );
 
-UpdateKYCStatusMutation.propTypes = {
+UpdateKycStatusMutation.propTypes = {
   children: PropTypes.func.isRequired,
 };
 
-export default UpdateKYCStatusMutation;
+export default UpdateKycStatusMutation;

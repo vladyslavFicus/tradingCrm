@@ -13,7 +13,7 @@ import { FormikSelectField } from 'components/Formik';
 import { Button } from 'components/UI';
 import { kycStatusesLabels } from 'constants/kycStatuses';
 import PropTypes from 'constants/propTypes';
-import UpdateKYCStatusMutation from './graphql/UpdateKYCStatusMutation';
+import UpdateKycStatusMutation from './graphql/UpdateKycStatusMutation';
 
 const validator = createValidator({
   kycStatus: `in:${Object.keys(kycStatusesLabels).join()}`,
@@ -21,19 +21,19 @@ const validator = createValidator({
 
 const updateKycStatusPermissions = new Permissions(permissions.USER_PROFILE.KYC_UPDATE);
 
-class KycStatus extends PureComponent {
+class KycStatusForm extends PureComponent {
   static propTypes = {
     initialValues: PropTypes.shape({
       kycStatus: PropTypes.string,
     }).isRequired,
     permission: PropTypes.permission.isRequired,
     notify: PropTypes.func.isRequired,
-    updateKYCStatus: PropTypes.func.isRequired,
+    updateKycStatus: PropTypes.func.isRequired,
     playerUUID: PropTypes.string.isRequired,
   };
 
   handleChangeKycStatus = async ({ kycStatus }, { resetForm }) => {
-    const { playerUUID, updateKYCStatus, notify } = this.props;
+    const { playerUUID, updateKycStatus, notify } = this.props;
     const {
       data: {
         profile: {
@@ -42,7 +42,7 @@ class KycStatus extends PureComponent {
           },
         },
       },
-    } = await updateKYCStatus({
+    } = await updateKycStatus({
       variables: {
         playerUUID,
         kycStatus,
@@ -123,6 +123,6 @@ export default compose(
   withPermission,
   withNotifications,
   withRequests({
-    updateKYCStatus: UpdateKYCStatusMutation,
+    updateKycStatus: UpdateKycStatusMutation,
   }),
-)(KycStatus);
+)(KycStatusForm);
