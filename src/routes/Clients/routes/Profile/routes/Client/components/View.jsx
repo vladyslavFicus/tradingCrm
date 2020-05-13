@@ -87,40 +87,6 @@ class View extends Component {
     });
   };
 
-  handleUpdateContacts = async (data) => {
-    const {
-      newProfile: {
-        newProfile: {
-          data: {
-            contacts: { additionalPhone, additionalEmail, phone },
-          },
-        },
-      },
-      updateContacts,
-    } = this.props;
-
-    const variables = this.phoneAccess()
-      ? { ...data, additionalPhone, additionalEmail, phone }
-      : data;
-
-    const {
-      data: {
-        profile: {
-          updateContacts: { error },
-        },
-      },
-    } = await updateContacts({
-      variables,
-    });
-
-    this.context.addNotification({
-      level: error ? 'error' : 'success',
-      title: I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.TITLE'),
-      message: `${I18n.t('COMMON.ACTIONS.UPDATED')}
-        ${error ? I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY') : I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
-    });
-  };
-
   handleVerifyPhone = async (phone) => {
     const {
       data: {
@@ -326,7 +292,6 @@ class View extends Component {
                 <div className="card-body">
                   <ContactForm
                     verification={{ phoneVerified }}
-                    onSubmit={this.handleUpdateContacts}
                     onVerifyPhoneClick={this.handleVerifyPhone}
                     initialValues={{
                       phone: this.phoneAccess() ? hideText(phone) : phone,
@@ -334,6 +299,7 @@ class View extends Component {
                       additionalEmail,
                     }}
                     disabled={!updateContacts}
+                    playerUUID={uuid}
                   />
                 </div>
               </div>

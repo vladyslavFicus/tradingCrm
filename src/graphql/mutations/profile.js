@@ -1,5 +1,4 @@
 import gql from 'graphql-tag';
-import { ContactsFragment } from '../fragments/contacts';
 import { AddressFragment } from '../fragments/address';
 import { ProfileStatusFragment } from '../fragments/profileStatus';
 
@@ -286,36 +285,6 @@ const updateConfigurationMutation = gql`mutation updateConfiguration(
   }
 }`;
 
-const updateContactsMutation = gql`mutation updateContacts(
-  $playerUUID: String!,
-  $phone: String,
-  $additionalPhone: String,
-  $additionalEmail: String,
-  $email: String,
-) {
-  profile {
-    updateContacts(
-      additionalPhone: $additionalPhone,
-      additionalEmail: $additionalEmail,
-      playerUUID: $playerUUID,
-      phone: $phone,
-      email: $email,
-    ) {
-      data {
-        _id
-        phoneVerified
-        contacts {
-          ...ContactsFragment
-        }
-      }
-      error {
-        error
-      }
-    }
-  }
-}
-${ContactsFragment}`;
-
 const updateAddressMutation = gql`mutation updateAddress(
   $playerUUID: String!,
   $countryCode: String,
@@ -389,7 +358,6 @@ export {
   updatePersonalInformationMutation,
   updateKYCStatusMutation,
   updateConfigurationMutation,
-  updateContactsMutation,
   verifyPhoneMutation,
   verifyEmailMutation,
   updateAddressMutation,
