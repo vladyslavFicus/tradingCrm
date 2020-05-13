@@ -168,7 +168,7 @@ class OperatorsGrid extends PureComponent {
             render={this.renderRegistered}
           />
           <GridColumn
-            sortBy="status"
+            sortBy="operatorStatus"
             header={I18n.t('OPERATORS.GRID_HEADER.STATUS')}
             render={this.renderStatus}
           />
