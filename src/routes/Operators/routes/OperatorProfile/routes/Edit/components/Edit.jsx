@@ -56,6 +56,10 @@ class View extends Component {
     permission: PropTypes.permission.isRequired,
   };
 
+  static childContextTypes = {
+    refetchHierarchy: PropTypes.func.isRequired,
+  };
+
   static defaultProps = {
     showNotes: false,
     showSalesStatus: false,
@@ -63,10 +67,6 @@ class View extends Component {
     authorities: [],
     allowedIpAddresses: [],
     forbiddenCountries: [],
-  };
-
-  static childContextTypes = {
-    refetchHierarchy: PropTypes.func.isRequired,
   };
 
   getChildContext() {
