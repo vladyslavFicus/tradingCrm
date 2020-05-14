@@ -51,7 +51,6 @@ const REQUEST = gql`
       }
       error {
         error
-        fields_errors
       }
     }
   }
@@ -64,7 +63,6 @@ const getCallbacksQuery = ({ children, location: { query = {} } }) => (
     variables={{
       ...query.filters,
       limit: 20,
-      page: 0,
     }}
     fetchPolicy="network-only"
   >

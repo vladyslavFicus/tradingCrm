@@ -14,8 +14,11 @@ import './HierarchyProfileForm.scss';
 class HierarchyProfileForm extends Component {
   static propTypes = {
     loading: PropTypes.bool.isRequired,
-    isPartner: PropTypes.bool.isRequired,
     handleSubmit: PropTypes.func.isRequired,
+    reset: PropTypes.func.isRequired,
+    notify: PropTypes.func.isRequired,
+    updateOperatorHierarchy: PropTypes.func.isRequired,
+    removeOperatorFromBranch: PropTypes.func.isRequired,
     pristine: PropTypes.bool.isRequired,
     submitting: PropTypes.bool.isRequired,
     initialValues: PropTypes.object,
@@ -28,14 +31,19 @@ class HierarchyProfileForm extends Component {
       brands: PropTypes.array,
       branchTypes: PropTypes.array,
     }).isRequired,
-  };
-
-  static defaultProps = {
-    initialValues: {},
+    match: PropTypes.shape({
+      params: PropTypes.shape({
+        id: PropTypes.string,
+      }),
+    }).isRequired,
   };
 
   static contextTypes = {
     refetchHierarchy: PropTypes.func.isRequired,
+  };
+
+  static defaultProps = {
+    initialValues: {},
   };
 
   state = {
@@ -188,7 +196,6 @@ class HierarchyProfileForm extends Component {
       handleSubmit,
       pristine,
       submitting,
-      isPartner,
       branchHierarchy,
       allowUpdateHierarchy,
       initialValues: {
@@ -224,7 +231,7 @@ class HierarchyProfileForm extends Component {
                     .keys(omit(userTypes, [
                       userTypes.CUSTOMER,
                       userTypes.LEAD_CUSTOMER,
-                      !isPartner && userTypes.AFFILIATE_PARTNER,
+                      userTypes.AFFILIATE_PARTNER,
                     ]))
                     .map(value => (
                       <option key={value} value={value}>

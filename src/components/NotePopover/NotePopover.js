@@ -45,6 +45,9 @@ class NotePopover extends Component {
     onUpdateFailure: PropTypes.func,
     onDeleteSuccess: PropTypes.func,
     onDeleteFailure: PropTypes.func,
+    addNote: PropTypes.func.isRequired,
+    updateNote: PropTypes.func.isRequired,
+    removeNote: PropTypes.func.isRequired,
     defaultTitleLabel: PropTypes.string,
     handleSubmit: PropTypes.func,
     currentValues: PropTypes.shape({

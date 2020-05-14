@@ -67,6 +67,13 @@ class RepresentativeUpdateModal extends Component {
       searchParams: PropTypes.object,
     }),
     currentInactiveOperator: PropTypes.string,
+    agents: PropTypes.array,
+    leads: PropTypes.array,
+    clients: PropTypes.array.isRequired,
+    notify: PropTypes.func.isRequired,
+    bulkRepresentativeUpdate: PropTypes.func.isRequired,
+    bulkLeadRepresentativeUpdate: PropTypes.func.isRequired,
+    userType: PropTypes.string,
   };
 
   static defaultProps = {
@@ -80,6 +87,9 @@ class RepresentativeUpdateModal extends Component {
     currentStatus: null,
     configs: {},
     currentInactiveOperator: null,
+    agents: null,
+    leads: null,
+    userType: null,
   };
 
   state = {

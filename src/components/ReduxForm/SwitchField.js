@@ -31,6 +31,7 @@ SwitchField.propTypes = {
   input: PropTypes.shape({
     name: PropTypes.string,
     value: PropTypes.any,
+    onChange: PropTypes.func,
   }).isRequired,
   label: PropTypes.oneOfType([
     PropTypes.string,

@@ -5,11 +5,16 @@ body {
   width: 100%;
 }
 
+html {
+  font-size: 14px;
+}
+
 body {
   background-color: #f2f2f2;
   color: #333;
-  font-family: $font-open-sans;
+  font-family: "Open Sans", sans-serif;
   font-weight: 400;
+  line-height: 1.5;
   overflow-x: auto;
   position: relative;
   -webkit-font-smoothing: antialiased;
@@ -24,4 +29,9 @@ body {
 
 a, i {
   position: relative;
+}
+
+small {
+  font-size: 11px;
+  color: $color-default;
 }

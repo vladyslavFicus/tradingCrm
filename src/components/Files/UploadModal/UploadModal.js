@@ -16,9 +16,12 @@ class UploadModal extends Component {
     change: PropTypes.func.isRequired,
     notify: PropTypes.func.isRequired,
     onClose: PropTypes.func.isRequired,
+    onSuccess: PropTypes.func.isRequired,
     submitting: PropTypes.bool.isRequired,
     uploadFile: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func.isRequired,
+    addNote: PropTypes.func.isRequired,
+    confirmUploadedFiles: PropTypes.func.isRequired,
     newProfile: PropTypes.newProfile.isRequired,
     getFilesCategoriesList: PropTypes.object.isRequired,
   }

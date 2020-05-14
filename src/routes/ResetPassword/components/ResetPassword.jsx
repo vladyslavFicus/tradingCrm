@@ -10,6 +10,9 @@ import ResetPasswordForm from './ResetPasswordForm';
 class ResetPassword extends Component {
   static propTypes = {
     resetPasswordMutation: PropTypes.func.isRequired,
+    location: PropTypes.shape({
+      search: PropTypes.string.isRequired,
+    }).isRequired,
   };
 
   state = {
@@ -73,7 +76,9 @@ class ResetPassword extends Component {
         <Preloader isVisible={loading} />
 
         <div className="auth__logo">
-          <img src={getBackofficeBrand().themeConfig.logo} alt="logo" />
+          <If condition={getBackofficeBrand().themeConfig.logo}>
+            <img src={getBackofficeBrand().themeConfig.logo} alt="logo" />
+          </If>
         </div>
 
         <div className="auth__page">

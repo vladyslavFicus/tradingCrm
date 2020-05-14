@@ -4,7 +4,7 @@ import authBackground from './assets/auth-background.svg';
 
 export default {
   importStyle() {
-    import('./assets/style.scss');
+    return import('./assets/style.scss');
   },
   themeConfig: {
     logo,

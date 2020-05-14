@@ -15,6 +15,7 @@ import { FormikSelectField } from 'components/Formik';
 import { Button } from 'components/UI';
 import getManualPaymentMethodsQuery from './graphql/getManualPaymentMethodsQuery';
 import approvePaymentMutation from './graphql/approvePaymentMutation';
+import approvePaymentFinalMutation from './graphql/approvePaymentFinalMutation';
 import './ApprovePaymentForm.scss';
 
 const attributeLabels = {
@@ -26,26 +27,57 @@ class ApprovePaymentForm extends PureComponent {
     manualPaymentMethods: PropTypes.manualPaymentMethods.isRequired,
     withdrawStatus: PropTypes.string.isRequired,
     approvePayment: PropTypes.func.isRequired,
+    approvePaymentFinal: PropTypes.func.isRequired,
     paymentId: PropTypes.string.isRequired,
     onSuccess: PropTypes.func.isRequired,
     notify: PropTypes.func.isRequired,
     auth: PropTypes.auth.isRequired,
   };
 
-  handleApprovePayment = async (values, { setSubmitting, validateForm }) => {
+  handleFinalApprovePayment = async (values, { setSubmitting, validateForm }) => {
     setSubmitting(false);
 
     const {
-      approvePayment,
+      approvePaymentFinal,
       paymentId,
       onSuccess,
-      notify,
     } = this.props;
 
     const validationResult = await validateForm(values);
     const hasValidationErrors = Object.keys(validationResult).length > 0;
 
     if (hasValidationErrors) return;
+
+    const {
+      data: {
+        payment: {
+          acceptPaymentFinal: {
+            data: {
+              success,
+            },
+          },
+        },
+      },
+    } = await approvePaymentFinal({
+      variables: {
+        paymentId,
+        paymentMethod: values.paymentMethod,
+      },
+    });
+
+    this.showNotification(success);
+
+    if (success) {
+      onSuccess();
+    }
+  };
+
+  handleMiddleApprovePayment = async () => {
+    const {
+      approvePayment,
+      paymentId,
+      onSuccess,
+    } = this.props;
 
     const {
       data: {
@@ -61,9 +93,18 @@ class ApprovePaymentForm extends PureComponent {
       variables: {
         paymentId,
         typeAcc: 'approve',
-        paymentMethod: values.paymentMethod,
       },
     });
+
+    this.showNotification(success);
+
+    if (success) {
+      onSuccess();
+    }
+  }
+
+  showNotification = (success) => {
+    const { notify } = this.props;
 
     notify({
       level: success ? 'success' : 'error',
@@ -74,11 +115,7 @@ class ApprovePaymentForm extends PureComponent {
           : 'PAYMENT_DETAILS_MODAL.NOTIFICATIONS.APPROVE_FAILED',
       ),
     });
-
-    if (success) {
-      onSuccess();
-    }
-  };
+  }
 
   getButtonLabel = () => {
     const { withdrawStatus } = this.props;
@@ -110,51 +147,66 @@ class ApprovePaymentForm extends PureComponent {
 
     const isAvailableToApprove = (withdrawStatus === withdrawStatuses.FINANCE_TO_EXECUTE)
       ? [departments.ADMINISTRATION, departments.FINANCE].includes(department)
-        || ([departments.CS].includes(department) && [roles.ROLE4].includes(role))
+      || ([departments.CS].includes(department) && [roles.ROLE4].includes(role))
       : true;
 
     if (!isAvailableToApprove) return null;
 
-    return (
-      <Formik
-        initialValues={{ paymentMethod: '' }}
-        validate={
-          createValidator({
-            paymentMethod: ['string', 'required'],
-          }, translateLabels(attributeLabels), false)
-        }
-        validateOnBlur={false}
-        validateOnChange={false}
-        onSubmit={this.handleApprovePayment}
-      >
-        {({ values, isSubmitting }) => (
-          <Form className="ApprovePaymentForm">
-            <Field
-              name="paymentMethod"
-              label={I18n.t(attributeLabels.paymentMethod)}
-              placeholder={I18n.t(I18n.t('COMMON.SELECT_OPTION.DEFAULT'))}
-              component={FormikSelectField}
-            >
-              {manualMethods.map(item => (
-                <option key={item} value={item}>
-                  {manualPaymentMethodsLabels[item]
-                    ? I18n.t(manualPaymentMethodsLabels[item])
-                    : formatLabel(item)
-                  }
-                </option>
-              ))}
-            </Field>
+    const isFinanceToExecute = withdrawStatus === withdrawStatuses.FINANCE_TO_EXECUTE;
 
-            <Button
-              primary
-              type="submit"
-              disabled={!values.paymentMethod || isSubmitting}
-            >
-              {I18n.t(this.getButtonLabel())}
-            </Button>
-          </Form>
-        )}
-      </Formik>
+    return (
+      <Choose>
+        <When condition={isFinanceToExecute}>
+          <Formik
+            initialValues={{ paymentMethod: '' }}
+            validate={
+              createValidator({
+                paymentMethod: ['string', 'required'],
+              }, translateLabels(attributeLabels), false)
+            }
+            validateOnBlur={false}
+            validateOnChange={false}
+            onSubmit={this.handleFinalApprovePayment}
+          >
+            {({ values, isSubmitting }) => (
+              <Form className="ApprovePaymentForm">
+                <Field
+                  name="paymentMethod"
+                  label={I18n.t(attributeLabels.paymentMethod)}
+                  placeholder={I18n.t(I18n.t('COMMON.SELECT_OPTION.DEFAULT'))}
+                  component={FormikSelectField}
+                >
+                  {manualMethods.map(item => (
+                    <option key={item} value={item}>
+                      {manualPaymentMethodsLabels[item]
+                        ? I18n.t(manualPaymentMethodsLabels[item])
+                        : formatLabel(item)
+                      }
+                    </option>
+                  ))}
+                </Field>
+
+                <Button
+                  primary
+                  type="submit"
+                  disabled={!values.paymentMethod || isSubmitting}
+                >
+                  {I18n.t(this.getButtonLabel())}
+                </Button>
+              </Form>
+            )}
+          </Formik>
+        </When>
+        <Otherwise>
+          <Button
+            primary
+            className="ApprovePaymentForm__approve-button"
+            onClick={this.handleMiddleApprovePayment}
+          >
+            {I18n.t(this.getButtonLabel())}
+          </Button>
+        </Otherwise>
+      </Choose>
     );
   }
 }
@@ -164,6 +216,7 @@ export default compose(
   withStorage(['auth']),
   withRequests({
     approvePayment: approvePaymentMutation,
+    approvePaymentFinal: approvePaymentFinalMutation,
     manualPaymentMethods: getManualPaymentMethodsQuery,
   }),
 )(ApprovePaymentForm);

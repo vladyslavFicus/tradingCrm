@@ -4,7 +4,6 @@ import { Switch, Redirect } from 'react-router-dom';
 import { get } from 'lodash';
 import Tabs from 'components/Tabs';
 import NotFound from 'routes/NotFound';
-import { operatorTypes } from 'constants/operators';
 import * as menu from 'config/menu';
 import permissions from 'config/permissions';
 import PropTypes from 'constants/propTypes';
@@ -28,6 +27,8 @@ const modalInitialState = {
 class OperatorProfileLayout extends Component {
   static propTypes = {
     match: PropTypes.shape({
+      path: PropTypes.string.isRequired,
+      url: PropTypes.string.isRequired,
       params: PropTypes.shape({
         id: PropTypes.string,
       }).isRequired,
@@ -46,7 +47,6 @@ class OperatorProfileLayout extends Component {
     modals: PropTypes.shape({
       confirmActionModal: PropTypes.modalType,
     }).isRequired,
-    operatorType: PropTypes.string,
     getLoginLock: PropTypes.object.isRequired,
     unlockLoginMutation: PropTypes.func.isRequired,
     notify: PropTypes.func.isRequired,
@@ -54,8 +54,6 @@ class OperatorProfileLayout extends Component {
 
   static defaultProps = {
     error: null,
-
-    operatorType: operatorTypes.OPERATOR,
   };
 
   state = {
@@ -200,13 +198,12 @@ class OperatorProfileLayout extends Component {
       changeStatus,
       refetchOperator,
       authorities: { data: authorities },
-      operatorType,
       getLoginLock,
     } = this.props;
 
     const loginLock = get(getLoginLock, 'loginLock', {});
     const userType = get(data, 'hierarchy.userType');
-    const tabs = [...menu[`${operatorType.toLowerCase()}ProfileTabs`]];
+    const tabs = [...menu.operatorProfileTabs];
 
     // Check if operator is SALES to show sales rules tab
     if (isSales(userType)) {

@@ -126,4 +126,7 @@ export default {
     UPDATE_EMAIL_TEMPLATE: 'email;PUT;/templates',
     DELETE_EMAIL_TEMPLATE: 'email;DELETE;/templates/{id}',
   },
+  TRADING_ACCOUNTS: {
+    GET_TRADING_ACCOUNTS: 'accountview;POST;/search',
+  },
 };

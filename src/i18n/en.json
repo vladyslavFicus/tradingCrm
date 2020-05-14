@@ -32,6 +32,7 @@
       "BRAND_CONFIG_UPDATE": "Brand config update",
       "BRAND_CONFIG_CREATE": "Brand config create",
       "EMAIL_TEMPLATES": "Email templates",
+      "TRADING_ACCOUNTS": "Trading accounts",
       "NOTIFICATIONS": "Notifications"
     },
     "BOTTOM_MENU": {
@@ -134,7 +135,8 @@
             "TAX_IDENTIFICATION_NUMBER": "Tax identification number",
             "TAX_NUMBER": "Tax number",
             "UK_NATIONAL_INSURANCE_NUMBER": "UK National Insurance number"
-          }
+          },
+          "TIMEZONE": "Time zone"
         },
         "TEST_PLAYER": "Test player"
       },
@@ -590,6 +592,8 @@
     "BRANCH_TYPE": "Branch type",
     "BRANCH": "Branch",
     "SELECT_OPTION": {
+      "ANY": "Any",
+      "LOADING": "Loading...",
       "DEFAULT": "-- Select --",
       "REASON": "-- Select reason --",
       "PERIOD": "-- Select period --",
@@ -598,12 +602,12 @@
       "PLATFORM": "-- Select platform --",
       "CURRENCY": "-- Select currency --",
       "UPLOAD_ACTION": "-- Select upload action --",
-      "NO_ITEMS": "-- No items --",
       "DEFAULT_MULTISELECT": "-- Select one or multiple options --",
-      "LOADING": "Loading...",
-      "ANY": "Any",
       "SELECT_BRANCH_TYPE": "Select branch type first",
-      "SELECT_PARTNER_TYPE": "Select partner type"
+      "SELECT_PARTNER_TYPE": "Select partner type",
+      "SELECT_OFFICE": "-- Select office --",
+      "SELECT_TEAM": "-- Select team --",
+      "NO_ITEMS": "-- No items --"
     },
     "SEARCH_BY": {
       "CLIENT": "Name, Email, Phone, ID, MT ID",
@@ -739,6 +743,7 @@
       "CONFISCATE": "Confiscate",
       "FEE": "Fee",
       "INACTIVITY_FEE": "Inactivity fee",
+      "INTEREST_RATE": "Interest rate",
       "TRANSFER_IN": "Transfer in",
       "TRANSFER_OUT": "Transfer Out",
       "CREDIT_IN": "Credit in",
@@ -1057,7 +1062,8 @@
         "FEE": "Fee",
         "INACTIVITY_FEE":  "Inactivity fee",
         "TRADING_ACCOUNT_ARCHIVED": "Trading account archived",
-        "TRADING_ACCOUNT_LEVERAGE_UPDATED": "Trading account leverage updated"
+        "TRADING_ACCOUNT_LEVERAGE_UPDATED": "Trading account leverage updated",
+        "INTEREST_RATE": "Interest rate"
       },
       "KYC_CONFIRMATION": {
         "TRANSACTION": "Transaction ID",
@@ -1737,13 +1743,23 @@
     },
     "access": {
       "unauthorized": "Wrong user/password"
+    },
+    "multipart": {
+      "max-file-size": {
+        "exceeded": "File must be less than %{size} MB"
+      }
     }
   },
   "lead": {
     "error": {
       "entity": {
         "already": {
-          "exist": "The client already exists with Email \"%{email}\""
+          "exist": "The lead or client with Email \"%{email}\" already exists"
+        }
+      },
+      "validation": {
+        "country": {
+          "restricted": "Restricted country"
         }
       }
     }
@@ -1860,12 +1876,12 @@
     "TRANSACTION": "Transaction",
     "OPERATOR": "Operator",
     "LEADS": {
-        "LEAD_CREATED": "Lead created",
-        "SALES": "Sales",
-        "COUNTRY": "Country",
-        "LEAD": "Lead",
-        "PHONE": "Phone"
-      }
+      "LEAD_CREATED": "Lead created",
+      "SALES": "Sales",
+      "COUNTRY": "Country",
+      "LEAD": "Lead",
+      "PHONE": "Phone"
+    }
   },
   "OPERATORS": {
     "HEADING": "Operators",
@@ -2015,8 +2031,6 @@
       "PARTNER_TYPE": "Partner type",
       "SEARCH_BY": "Search by",
       "SEARCH_BY_PLACEHOLDER": "Name, Phone, Email, UUID...",
-      "REGISTRATION_DATE_FROM": "Date from",
-      "REGISTRATION_DATE_TO": "Date to",
       "REGISTRATION_DATE_RANGE": "Registration Date Range"
     },
     "SCHEDULE": {
@@ -2201,6 +2215,7 @@
   },
   "DATE_PICKER": {
     "PERIOD_RESETS": {
+      "TODAY": "Today",
       "PREVIOUS_WEEK": "Previous week",
       "THIS_WEEK": "This week",
       "PREVIOUS_MONTH": "Previous month",
@@ -2866,7 +2881,7 @@
   },
   "DESKS": {
     "DESKS": "Desks",
-    "ADD_DESK": "Add desk",
+    "ADD_DESK": "+ Add desk",
     "GRID_HEADER": {
       "DESK": "Desk",
       "OFFICE": "Office",
@@ -2874,12 +2889,11 @@
       "DEFAULT_DESK": "Default desk"
     },
     "GRID_FILTERS": {
-      "DESK_TYPE_LABEL": "Desk type",
-      "DESK_TYPE": {
-        "ANY": "Any",
-        "YES": "Yes",
-        "NO": "No"
-      }
+      "SEARCH_BY": "Search by",
+      "SEARCH_BY_PLACEHOLDER": "Desk name",
+      "OFFICE": "Office",
+      "DESK_TYPE": "Desk type",
+      "DEFAULT_DESK": "Default desk"
     },
     "MODAL": {
       "HEADER": "New desk",
@@ -2893,6 +2907,10 @@
           "RETENTION": "Retention",
           "SALES": "Sales"
         }
+      },
+      "NOTIFICATIONS": {
+        "SUCCESS": "Desk was successfully created",
+        "ERROR": "Desk creation failed"
       }
     },
     "FILTERS": {
@@ -2917,7 +2935,14 @@
   },
   "TEAMS": {
     "TEAMS": "Teams",
-    "ADD_TEAM": "Add team",
+    "ADD_TEAM": "+ Add team",
+    "GRID_FILTERS": {
+      "SEARCH_BY": "Search by",
+      "SEARCH_BY_PLACEHOLDER": "Team name",
+      "OFFICE": "Office",
+      "DESK": "Desk",
+      "DESK_ERROR_PLACEHOLDER": "-- No desk for current office --"
+    },
     "GRID_HEADER": {
       "TEAM": "Team",
       "OFFICE": "Office",
@@ -2926,12 +2951,25 @@
     "MODAL": {
       "HEADER": "New team",
       "CREATE_BUTTON": "Create team",
-      "NO_OFFICE_DESK": "-- No desk for current office --",
-      "SELECT_OFFICE_FIRST": "-- Select office first --",
       "LABELS": {
         "TEAM_NAME": "Team name",
-        "DESK_NAME": "Desk",
-        "OFFICE_NAME": "Office"
+        "OFFICE": "Office",
+        "DESK": "Desk"
+      },
+      "PLACEHOLDERS": {
+        "TYPE_IN_TEAM_NAME": "Type in team name",
+        "NO_OFFICE_DESK": "-- No desk for current office --",
+        "SELECT_OFFICE_FIRST": "-- Select office first --"
+      }
+    },
+    "NOTIFICATIONS": {
+      "SUCCESS": {
+        "TITLE": "Creating succeed",
+        "MESSAGE": "The team was successfully created"
+      },
+      "ERROR": {
+        "TITLE": "Failure on creating",
+        "MESSAGE": "Creating of team has failed"
       }
     },
     "TABS": {
@@ -3019,6 +3057,8 @@
       "ADD_RULE": "Add Rule",
       "RULE_NOT_CREATED": "Error while creating rule",
       "RULE_CREATED": "Rule created with id %{id}",
+      "RULE_NOT_UPDATED": "Error while updating rule",
+      "RULE_UPDATED": "The rule was successfully updated",
       "RULE_NOT_DELETED": "Error while deleting rule",
       "RULE_DELETED": "Rule with id %{id} deleted successfully",
       "GRID": {
@@ -3067,6 +3107,10 @@
         },
         "PERCENTAGE_LIMIT_ERROR": "Sum of ratios should be equal to 100%. Please, change ratios correspondinly."
       },
+      "EDIT_MODAL": {
+        "HEADER": "Edit rule",
+        "SAVE_CHANGES": "Save changes"
+      },
       "DELETE_MODAL": {
         "HEADER": "Delete confirmation",
         "ACTION_TEXT": "Are you sure you want to delete rule %{name}",
@@ -3109,9 +3153,7 @@
       "SEARCH_BY_PLACEHOLDER": "Callback ID, Player ID, Operator ID",
       "CALLBACK_OR_OPERATOR": "Callback or Operator ID",
       "STATUS": "Status",
-      "DATE_RANGE": "Date & time range",
-      "DATE_RANGE_START": "Start date",
-      "DATE_RANGE_END": "End date"
+      "DATE_RANGE": "Date & time range"
     },
     "CREATE_MODAL": {
       "TITLE": "New callback",
@@ -3282,42 +3324,6 @@
           }
         }
       }
-    },
-    "conditionalTags": {
-      "component": {
-        "ConditionalTagsList": {
-          "title": "Conditional tags",
-          "status": "Status",
-          "addTags": "+ Add condition",
-          "name": "Condition",
-          "count": "Entries",
-          "tag": "Tag"
-        },
-        "FilterForm": {
-          "status": "Status",
-          "conditionStatus": {
-            "DISABLED": "Disabled",
-            "ACTIVE": "Active"
-          }
-        },
-        "StatusDropDown": {
-          "DISABLED": "Disabled",
-          "DISABLE": "Disable",
-          "ACTIVE": "Active"
-        },
-        "AddTagsModal": {
-          "title": "New condition",
-          "namePlaceholder": "Enter title",
-          "tagsPlaceholder": "Enter tag",
-          "name": "Title",
-          "tag": "Tag",
-          "file": "CSV file",
-          "filePlaceholder": ""
-        },
-        "AddTagModal": {
-          "title": ""
-        }
-      }
     }
   },
   "rules": {
@@ -3371,7 +3377,7 @@
     "ACTIONS": {
       "SEND": "Send email"
     },
-    "EMAIL_TEMPLATES":{
+    "EMAIL_TEMPLATES": {
       "PLACEHOLDER": "Email templates",
       "ADD_TEMPLATE": "Add template",
       "GRID_HEADER": {
@@ -3488,6 +3494,43 @@
   },
   "WARNINGS": {
     "CARDHOLDER_INVALID": "Cardholder invalid"
+  },
+  "TRADING_ACCOUNTS": {
+    "HEADLINE": "Trading accounts",
+    "FORM": {
+      "FIELDS": {
+        "SEARCH_BY": "Search by",
+        "SEARCH_BY_PLACEHOLDER": "UUID, Player's Full Name, Source Name.",
+        "ACCOUNT_TYPE": "Account type",
+        "STATUS": "Status",
+        "AFFILIATE_TYPE": "Affiliate type"
+      },
+      "ACCOUNT_TYPE": {
+        "DEMO": "Demo",
+        "LIVE": "Live"
+      },
+      "STATUS": {
+        "ARCHIVED": "Archived",
+        "NOT_ARCHIVED": "Not archived"
+      },
+      "AFFILIATE_TYPE": {
+        "AFFILIATE": "Affiliate",
+        "IB": "IB",
+        "DIRECT": "Direct"
+      }
+    },
+    "GRID": {
+      "ACCOUNT_ID": "Account ID",
+      "PLATFORM_TYPE": "Platform type",
+      "PROFILE": "Client",
+      "AFFILIATE_TYPE": "Affiliate type",
+      "SOURCE_NAME": "Source name",
+      "DATE": "Date",
+      "LEVERAGE": "Leverage",
+      "BALANCE": "Balance",
+      "STATUS": "Status",
+      "ACCOUNT_TYPE": "Account type"
+    }
   },
   "BRANCH_MANAGER_INFO": {
     "MANAGED_BY": "Managed by",
