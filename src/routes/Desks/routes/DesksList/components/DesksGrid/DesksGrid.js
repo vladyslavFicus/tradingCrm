@@ -43,17 +43,23 @@ class DesksGrid extends PureComponent {
     </div>
   );
 
-  renderDefaultDeskCell = ({ desk: { isDefault } }) => (
-    <div className="DesksGrid__cell-primary">
-      {isDefault ? I18n.t('COMMON.YES') : I18n.t('COMMON.NO')}
-    </div>
-  );
+  renderDefaultDeskCell = ({ desk: { isDefault } }) => {
+    console.log('isDefault', isDefault);
+
+    return (
+      <div className="DesksGrid__cell-primary">
+        {isDefault ? I18n.t('COMMON.YES') : I18n.t('COMMON.NO')}
+      </div>
+    );
+  };
 
   render() {
     const { desksData } = this.props;
 
     const isLoading = desksData.loading;
     const desks = get(desksData, 'data.hierarchy.branchHierarchy.data') || [];
+
+    console.log('desks', desks);
 
     return (
       <div className="DesksGrid">

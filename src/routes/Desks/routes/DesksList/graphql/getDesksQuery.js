@@ -28,6 +28,7 @@ const REQUEST = gql`
             uuid
             name
             deskType
+            isDefault
           }
           team {
             uuid

@@ -37,10 +37,12 @@ class SalesRules extends PureComponent {
     rules: PropTypes.query(PropTypes.arrayOf(PropTypes.ruleType)).isRequired,
     createRule: PropTypes.func.isRequired,
     deleteRule: PropTypes.func.isRequired,
+    updateRule: PropTypes.func.isRequired,
     notify: PropTypes.func.isRequired,
     modals: PropTypes.shape({
       ruleModal: PropTypes.modalType,
       deleteModal: PropTypes.modalType,
+      editRuleModal: PropTypes.modalType,
     }).isRequired,
     location: PropTypes.shape({
       query: PropTypes.object,
