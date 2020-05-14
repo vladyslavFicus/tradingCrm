@@ -1,3 +1,2 @@
-@Library("forex_jenkins") _
-
+@Library("orchestra") _
 yarnStaticPipeline promoteTo: 'hrzn01_dev'
