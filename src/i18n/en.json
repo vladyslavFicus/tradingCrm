@@ -2861,7 +2861,7 @@
   },
   "DESKS": {
     "DESKS": "Desks",
-    "ADD_DESK": "Add desk",
+    "ADD_DESK": "+ Add desk",
     "GRID_HEADER": {
       "DESK": "Desk",
       "OFFICE": "Office",
@@ -2869,12 +2869,11 @@
       "DEFAULT_DESK": "Default desk"
     },
     "GRID_FILTERS": {
-      "DESK_TYPE_LABEL": "Desk type",
-      "DESK_TYPE": {
-        "ANY": "Any",
-        "YES": "Yes",
-        "NO": "No"
-      }
+      "SEARCH_BY": "Search by",
+      "SEARCH_BY_PLACEHOLDER": "Desk name",
+      "OFFICE": "Office",
+      "DESK_TYPE": "Desk type",
+      "DEFAULT_DESK": "Default desk"
     },
     "MODAL": {
       "HEADER": "New desk",
@@ -2888,6 +2887,10 @@
           "RETENTION": "Retention",
           "SALES": "Sales"
         }
+      },
+      "NOTIFICATIONS": {
+        "SUCCESS": "Desk was successfully created",
+        "ERROR": "Desk creation failed"
       }
     },
     "FILTERS": {
