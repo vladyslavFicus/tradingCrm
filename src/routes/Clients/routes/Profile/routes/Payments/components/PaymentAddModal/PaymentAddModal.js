@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { PureComponent } from 'react';
+import React, { Fragment, PureComponent } from 'react';
 import { get } from 'lodash';
 import classNames from 'classnames';
 import I18n from 'i18n-js';
@@ -224,7 +224,7 @@ class PaymentAddModal extends PureComponent {
             resetForm,
           }) => {
             const sourceAccount = this.getSourceAccount(values);
-
+            console.log(errors);
             return (
               <Form>
                 <ModalHeader toggle={onCloseModal}>
@@ -259,38 +259,42 @@ class PaymentAddModal extends PureComponent {
                     <div className="form-row align-items-center">
                       <Choose>
                         <When condition={values.paymentType === paymentTypes.DEPOSIT.name}>
-                          <Field
-                            className="col select-field-wrapper"
-                            name="paymentMethod"
-                            label={attributeLabels.paymentMethod}
-                            placeholder={I18n.t('PLAYER_PROFILE.TRANSACTIONS.MODAL_CREATE.CHOOSE_PAYMENT_METHOD_LABEL')}
-                            showErrorMessage={false}
-                            disabled={manualMethodsLoading || manualMethodsError}
-                            component={FormikSelectField}
-                          >
-                            {manualMethods.map(item => (
-                              <option key={item} value={item}>
-                                {manualPaymentMethodsLabels[item]
-                                  ? I18n.t(manualPaymentMethodsLabels[item])
-                                  : item
-                                }
-                              </option>
-                            ))}
-                          </Field>
-                          <div className="col-auto arrow-icon-wrapper">
-                            <i className="icon-arrow-down" />
-                          </div>
-                          {this.renderAccountSelectField({ label: 'toAcc', values })}
+                          <Fragment>
+                            <Field
+                              className="col select-field-wrapper"
+                              name="paymentMethod"
+                              label={attributeLabels.paymentMethod}
+                              placeholder={I18n.t('PLAYER_PROFILE.TRANSACTIONS.MODAL_CREATE.CHOOSE_PAYMENT_METHOD_LABEL')}
+                              showErrorMessage={false}
+                              disabled={manualMethodsLoading || manualMethodsError}
+                              component={FormikSelectField}
+                            >
+                              {manualMethods.map(item => (
+                                <option key={item} value={item}>
+                                  {manualPaymentMethodsLabels[item]
+                                    ? I18n.t(manualPaymentMethodsLabels[item])
+                                    : item
+                                  }
+                                </option>
+                              ))}
+                            </Field>
+                            <div className="col-auto arrow-icon-wrapper">
+                              <i className="icon-arrow-down" />
+                            </div>
+                            {this.renderAccountSelectField({ label: 'toAcc', values })}
+                          </Fragment>
                         </When>
                         <When condition={values.paymentType === paymentTypes.WITHDRAW.name}>
                           {this.renderAccountSelectField({ values })}
                         </When>
                         <When condition={values.paymentType === paymentTypes.TRANSFER.name}>
-                          {this.renderAccountSelectField({ name: 'source', values })}
-                          <div className="col-auto arrow-icon-wrapper">
-                            <i className="icon-arrow-down" />
-                          </div>
-                          {this.renderAccountSelectField({ label: 'toAcc', name: 'target', values })}
+                          <Fragment>
+                            {this.renderAccountSelectField({ name: 'source', values })}
+                            <div className="col-auto arrow-icon-wrapper">
+                              <i className="icon-arrow-down" />
+                            </div>
+                            {this.renderAccountSelectField({ label: 'toAcc', name: 'target', values })}
+                          </Fragment>
                         </When>
                         <When condition={values.paymentType === paymentTypes.CREDIT_IN.name}>
                           {this.renderAccountSelectField({ label: 'toAcc', values })}
