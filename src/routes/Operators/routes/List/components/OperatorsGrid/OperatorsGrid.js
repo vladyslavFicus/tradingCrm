@@ -163,7 +163,7 @@ class OperatorsGrid extends PureComponent {
             render={this.renderCountry}
           />
           <GridColumn
-            sortBy="createdAt"
+            sortBy="registrationDate"
             header={I18n.t('OPERATORS.GRID_HEADER.REGISTERED')}
             render={this.renderRegistered}
           />
