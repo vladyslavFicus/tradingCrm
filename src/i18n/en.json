@@ -1062,7 +1062,8 @@
         "FEE": "Fee",
         "INACTIVITY_FEE":  "Inactivity fee",
         "TRADING_ACCOUNT_ARCHIVED": "Trading account archived",
-        "TRADING_ACCOUNT_LEVERAGE_UPDATED": "Trading account leverage updated"
+        "TRADING_ACCOUNT_LEVERAGE_UPDATED": "Trading account leverage updated",
+        "INTEREST_RATE": "Interest rate"
       },
       "KYC_CONFIRMATION": {
         "TRANSACTION": "Transaction ID",
