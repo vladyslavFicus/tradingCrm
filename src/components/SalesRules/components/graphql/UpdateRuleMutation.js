@@ -12,6 +12,7 @@ const REQUEST = gql`mutation createRule(
   $sources: [String],
   $type: RuleTypeEnum!,
   $actions: [RuleActionsInputType]!,
+  $uuid: String,
 ) {
   rules {
     createRule (
@@ -23,6 +24,7 @@ const REQUEST = gql`mutation createRule(
       sources: $sources,
       type: $type,
       actions: $actions,
+      uuid: $uuid,
     ) {
       data {
         actions {
@@ -48,14 +50,14 @@ const REQUEST = gql`mutation createRule(
 }
 `;
 
-const CreateRuleMutation = ({ children }) => (
+const UpdateRuleMutation = ({ children }) => (
   <Mutation mutation={REQUEST}>
     {children}
   </Mutation>
 );
 
-CreateRuleMutation.propTypes = {
+UpdateRuleMutation.propTypes = {
   children: PropTypes.func.isRequired,
 };
 
-export default CreateRuleMutation;
+export default UpdateRuleMutation;

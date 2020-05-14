@@ -3,19 +3,23 @@ import PropTypes from 'prop-types';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 
-const REQUEST = gql`query PartnersQuery(
+const REQUEST = gql`query OperatorsQuery(
   $searchBy: String,
   $country: String,
+  $phone: String,
   $status: String,
   $registrationDateFrom: String,
   $registrationDateTo: String,
+  $page: Int,
 ) {
-  partners (
+  operators(
     searchBy: $searchBy,
     country: $country,
+    phone: $phone,
     status: $status,
     registrationDateFrom: $registrationDateFrom,
     registrationDateTo: $registrationDateTo,
+    page: $page,
   ) {
     data {
       page
@@ -23,14 +27,15 @@ const REQUEST = gql`query PartnersQuery(
       totalElements
       size
       last
-      content {
-        uuid
-        fullName
-        createdAt
-        status
-        statusChangeDate
-        country
-      }
+        content {
+          uuid
+          fullName
+          operatorStatus
+          hierarchy {
+            uuid
+            userType
+          }
+        }
     }
     error {
       error
@@ -38,14 +43,14 @@ const REQUEST = gql`query PartnersQuery(
   }
 }`;
 
-const PartnersQuery = ({ children }) => (
+const OperatorsQuery = ({ children }) => (
   <Query query={REQUEST}>
     {children}
   </Query>
 );
 
-PartnersQuery.propTypes = {
+OperatorsQuery.propTypes = {
   children: PropTypes.func.isRequired,
 };
 
-export default PartnersQuery;
+export default OperatorsQuery;

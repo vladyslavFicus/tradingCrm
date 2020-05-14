@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import gql from 'graphql-tag';
-import { get } from 'lodash';
 import { Query } from 'react-apollo';
 
 const REQUEST = gql`query getRules(
@@ -14,6 +13,7 @@ const REQUEST = gql`query getRules(
   $parentId: String,
   $operatorUuids: [String],
   $affiliateId: String,
+  $uuids: [String],
 ) {
   rules (
     uuid: $uuid,
@@ -25,6 +25,7 @@ const REQUEST = gql`query getRules(
     parentId: $parentId,
     operatorUuids: $operatorUuids,
     affiliateId: $affiliateId,
+    uuids: $uuids,
     
   ) {
     error {
@@ -42,6 +43,7 @@ const REQUEST = gql`query getRules(
             fullName,
             uuid,
           },
+          parentUser,
           percentage,
         },
       }
@@ -63,14 +65,10 @@ const REQUEST = gql`query getRules(
 }
 `;
 
-const GetRulesQuery = ({ children, match: { params: { id } }, location: { query }, type }) => (
+const GetRulesQuery = ({ children, uuid }) => (
   <Query
     query={REQUEST}
-    variables={{
-      ...query && query.filters,
-      ...(type === 'PARTNER' && { affiliateId: get(query, 'filters.affiliateId') || id }),
-      ...(type === 'OPERATOR' && { operatorUuids: [...get(query, 'filters.operatorUuids') || '', id] }),
-    }}
+    variables={{ uuids: [uuid] }}
     fetchPolicy="cache-and-network"
   >
     {children}
@@ -79,19 +77,7 @@ const GetRulesQuery = ({ children, match: { params: { id } }, location: { query 
 
 GetRulesQuery.propTypes = {
   children: PropTypes.func.isRequired,
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      id: PropTypes.string,
-    }).isRequired,
-  }).isRequired,
-  location: PropTypes.shape({
-    query: PropTypes.object,
-  }).isRequired,
-  type: PropTypes.string,
-};
-
-GetRulesQuery.defaultProps = {
-  type: '',
+  uuid: PropTypes.string.isRequired,
 };
 
 export default GetRulesQuery;

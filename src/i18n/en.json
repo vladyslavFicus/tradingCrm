@@ -3037,6 +3037,8 @@
       "ADD_RULE": "Add Rule",
       "RULE_NOT_CREATED": "Error while creating rule",
       "RULE_CREATED": "Rule created with id %{id}",
+      "RULE_NOT_UPDATED": "Error while updating rule",
+      "RULE_UPDATED": "The rule was successfully updated",
       "RULE_NOT_DELETED": "Error while deleting rule",
       "RULE_DELETED": "Rule with id %{id} deleted successfully",
       "GRID": {
@@ -3084,6 +3086,10 @@
           "BETWEEN_RATIO": "Ratio must be between :min% and :max%"
         },
         "PERCENTAGE_LIMIT_ERROR": "Sum of ratios should be equal to 100%. Please, change ratios correspondinly."
+      },
+      "EDIT_MODAL": {
+        "HEADER": "Edit rule",
+        "SAVE_CHANGES": "Save changes"
       },
       "DELETE_MODAL": {
         "HEADER": "Delete confirmation",

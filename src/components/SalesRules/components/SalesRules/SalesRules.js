@@ -20,6 +20,7 @@ import { decodeNullValues } from 'components/Formik/utils';
 import Permissions from 'utils/permissions';
 import ConfirmActionModal from 'components/Modal/ConfirmActionModal';
 import RuleModal from 'components/HierarchyProfileRules/components/RuleModal';
+import EditRuleModal from 'components/HierarchyProfileRules/components/EditRuleModal';
 import RulesFilters from 'components/HierarchyProfileRules/components/RulesGridFilters';
 import infoConfig from './constants';
 import {
@@ -28,6 +29,7 @@ import {
   GetRulesQuery,
   DeleteRuleMutation,
   CreateRuleMutation,
+  UpdateRuleMutation,
 } from '../graphql';
 
 class SalesRules extends PureComponent {
@@ -94,6 +96,55 @@ class SalesRules extends PureComponent {
       onSubmit: (values, setErrors) => this.handleAddRule(values, setErrors),
       deskType: deskTypes.SALES,
       withOperatorSpreads: true,
+    });
+  };
+
+  triggerEditRuleModal = (uuid) => {
+    const {
+      modals: { editRuleModal },
+    } = this.props;
+
+    editRuleModal.show({
+      onSubmit: values => this.handleEditRule(values, uuid),
+      withOperatorSpreads: true,
+      uuid,
+    });
+  };
+
+  handleEditRule = async ({ operatorSpreads, ...rest }, uuid) => {
+    const {
+      notify,
+      updateRule,
+      modals: { editRuleModal },
+      match: { params: { id } },
+      rules: { refetch },
+    } = this.props;
+
+    const { data: { rules: { createRule: { error } } } } = await updateRule(
+      {
+        variables: {
+          actions: [{
+            parentUser: id,
+            ruleType: actionRuleTypes.ROUND_ROBIN,
+            operatorSpreads: [
+              // filter need for delete empty value in array
+              ...operatorSpreads.filter(item => item && item.percentage),
+            ],
+          }],
+          uuid,
+          ...decodeNullValues(rest),
+        },
+      },
+    );
+
+    await refetch();
+    editRuleModal.hide();
+    notify({
+      level: error ? 'error' : 'success',
+      title: error ? I18n.t('COMMON.FAIL') : I18n.t('COMMON.SUCCESS'),
+      message: error
+        ? I18n.t('HIERARCHY.PROFILE_RULE_TAB.RULE_NOT_UPDATED')
+        : I18n.t('HIERARCHY.PROFILE_RULE_TAB.RULE_UPDATED'),
     });
   };
 
@@ -290,12 +341,23 @@ class SalesRules extends PureComponent {
     </Choose>
   );
 
-  renderRemoveIcon = ({ uuid }) => (
-    <button
-      type="button"
-      className="fa fa-trash btn-transparent color-danger"
-      onClick={() => this.handleDeleteRuleClick(uuid)}
-    />
+  renderActions = ({ uuid }) => (
+    <>
+      <Button
+        transparent
+        onClick={() => this.handleDeleteRuleClick(uuid)}
+      >
+        <i className="fa fa-trash btn-transparent color-danger" />
+      </Button>
+      <Button
+        transparent
+      >
+        <i
+          onClick={() => this.triggerEditRuleModal(uuid)}
+          className="font-size-16 cursor-pointer fa fa-edit float-right"
+        />
+      </Button>
+    </>
   );
 
   renderOperator = ({ actions }) => {
@@ -484,7 +546,7 @@ class SalesRules extends PureComponent {
               <GridColumn
                 name="delete"
                 header={I18n.t('HIERARCHY.PROFILE_RULE_TAB.GRID_HEADER.ACTION')}
-                render={this.renderRemoveIcon}
+                render={this.renderActions}
               />
             </If>
           </Grid>
@@ -499,6 +561,7 @@ export default compose(
   withModals({
     deleteModal: ConfirmActionModal,
     ruleModal: RuleModal,
+    editRuleModal: EditRuleModal,
   }),
   withNotifications,
   withRequests({
@@ -507,5 +570,6 @@ export default compose(
     createRule: CreateRuleMutation,
     deleteRule: DeleteRuleMutation,
     rules: GetRulesQuery,
+    updateRule: UpdateRuleMutation,
   }),
 )(SalesRules);
