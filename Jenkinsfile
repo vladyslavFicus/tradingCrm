@@ -1,2 +1,2 @@
 @Library("orchestra") _
-yarnStaticPipeline promoteTo: 'hrzn01_dev'
+yarnStaticPipeline promoteTo: 'dev01'
