@@ -16,6 +16,9 @@ import './ChangeLeverageModal.scss';
 class ChangeLeverageModal extends PureComponent {
   static propTypes = {
     onCloseModal: PropTypes.func.isRequired,
+    changeLeverage: PropTypes.func.isRequired,
+    notify: PropTypes.func.isRequired,
+    refetchTradingAccountsList: PropTypes.func.isRequired,
     isOpen: PropTypes.bool.isRequired,
     accountType: PropTypes.string,
     name: PropTypes.string,
@@ -24,6 +27,7 @@ class ChangeLeverageModal extends PureComponent {
     platformType: PropTypes.string,
     archived: PropTypes.bool,
     leverage: PropTypes.string,
+    accountUUID: PropTypes.string.isRequired,
   };
 
   static defaultProps = {

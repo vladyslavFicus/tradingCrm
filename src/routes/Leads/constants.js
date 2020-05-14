@@ -39,7 +39,7 @@ const leadProfileTabs = [{
 }];
 
 const fileConfig = {
-  maxSize: 20,
+  maxSize: 10,
   types: [
     // We should use exactly (not mime-type) .csv extension (because mime-type isn't recognized on Windows OS)
     '.csv',

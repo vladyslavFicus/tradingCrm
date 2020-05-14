@@ -15,6 +15,8 @@ class TransferAvailability extends PureComponent {
     notify: PropTypes.func.isRequired,
     disabled: PropTypes.bool,
     handleSubmit: PropTypes.func.isRequired,
+    updateConfiguration: PropTypes.func.isRequired,
+    playerUUID: PropTypes.string.isRequired,
   };
 
   static defaultProps = {

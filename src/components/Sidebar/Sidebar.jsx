@@ -13,6 +13,9 @@ class Sidebar extends Component {
   static propTypes = {
     auth: PropTypes.auth.isRequired,
     permission: PropTypes.permission.isRequired,
+    location: PropTypes.shape({
+      pathname: PropTypes.string.isRequired,
+    }).isRequired,
   };
 
   static contextTypes = {

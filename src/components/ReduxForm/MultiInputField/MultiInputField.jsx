@@ -20,6 +20,11 @@ class MultiInputField extends Component {
       PropTypes.string,
       PropTypes.node,
     ]),
+    inputAddon: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.node,
+    ]),
+    inputAddonPosition: PropTypes.string,
     position: PropTypes.oneOf(['horizontal', 'vertical']),
     showErrorMessage: PropTypes.bool,
     disabled: PropTypes.bool,
@@ -28,21 +33,35 @@ class MultiInputField extends Component {
       error: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
     }).isRequired,
     labelClassName: PropTypes.string,
+    placeholder: PropTypes.string,
+    id: PropTypes.string,
+    maxLength: PropTypes.number,
     helpText: PropTypes.node,
+    onIconClick: PropTypes.func,
+    loadOptions: PropTypes.func,
+    async: PropTypes.bool,
   };
 
   static defaultProps = {
     className: null,
     label: null,
     labelAddon: null,
+    inputAddon: null,
+    inputAddonPosition: null,
+    placeholder: null,
+    id: null,
+    maxLength: undefined,
     position: 'vertical',
     showErrorMessage: true,
     disabled: false,
     labelClassName: null,
     helpText: null,
+    onIconClick: () => {},
+    loadOptions: () => {},
+    async: undefined,
   };
 
-  renderInput = (props) => {
+  renderInput = () => {
     const {
       inputAddon,
       inputAddonPosition,
@@ -55,7 +74,7 @@ class MultiInputField extends Component {
       async,
       input: { onChange, value },
       loadOptions,
-    } = props;
+    } = this.props;
 
     let inputField = (
       <MultiInput
@@ -111,7 +130,7 @@ class MultiInputField extends Component {
     return inputField;
   };
 
-  renderHorizontal = (props) => {
+  renderHorizontal = () => {
     const {
       label,
       className,
@@ -119,7 +138,7 @@ class MultiInputField extends Component {
       showErrorMessage,
       helpText,
       disabled,
-    } = props;
+    } = this.props;
 
     const groupClassName = classNames(
       'form-group row',
@@ -132,7 +151,7 @@ class MultiInputField extends Component {
       <div className={groupClassName}>
         <label className="col-md-3">{label}</label>
         <div className="col-md-9">
-          {this.renderInput(props)}
+          {this.renderInput()}
         </div>
         <If condition={helpText || (showErrorMessage && touched && error)}>
           <div className="col-12">
@@ -155,7 +174,7 @@ class MultiInputField extends Component {
     );
   };
 
-  renderVertical = (props) => {
+  renderVertical = () => {
     const {
       label,
       labelClassName,
@@ -165,7 +184,7 @@ class MultiInputField extends Component {
       showErrorMessage,
       helpText,
       disabled,
-    } = props;
+    } = this.props;
 
     const groupClassName = classNames(
       'form-group',
@@ -181,7 +200,7 @@ class MultiInputField extends Component {
           addon={labelAddon}
           className={labelClassName}
         />
-        {this.renderInput(props)}
+        {this.renderInput()}
         <If condition={helpText || (showErrorMessage && touched && error)}>
           <div className="form-row">
             <If condition={showErrorMessage && touched && error}>
@@ -203,8 +222,8 @@ class MultiInputField extends Component {
 
   render() {
     return this.props.position === 'vertical'
-      ? this.renderVertical(this.props)
-      : this.renderHorizontal(this.props);
+      ? this.renderVertical()
+      : this.renderHorizontal();
   }
 }
 

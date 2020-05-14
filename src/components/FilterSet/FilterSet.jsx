@@ -23,6 +23,8 @@ class FilterSet extends PureComponent {
     client: PropTypes.object.isRequired,
     errorLoading: PropTypes.object,
     selectValue: PropTypes.string,
+    notify: PropTypes.func.isRequired,
+    updateFavourite: PropTypes.func.isRequired,
   };
 
   static defaultProps = {

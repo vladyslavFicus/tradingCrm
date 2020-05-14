@@ -13,9 +13,11 @@ class DateRangeGroup extends PureComponent {
     label: PropTypes.string,
     startField: PropTypes.shape({
       name: PropTypes.string.isRequired,
+      value: PropTypes.string,
     }).isRequired,
     endField: PropTypes.shape({
       name: PropTypes.string.isRequired,
+      value: PropTypes.string,
     }).isRequired,
     utc: PropTypes.bool,
     withTime: PropTypes.bool,

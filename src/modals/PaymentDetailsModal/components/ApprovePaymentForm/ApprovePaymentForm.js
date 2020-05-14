@@ -27,6 +27,7 @@ class ApprovePaymentForm extends PureComponent {
     manualPaymentMethods: PropTypes.manualPaymentMethods.isRequired,
     withdrawStatus: PropTypes.string.isRequired,
     approvePayment: PropTypes.func.isRequired,
+    approvePaymentFinal: PropTypes.func.isRequired,
     paymentId: PropTypes.string.isRequired,
     onSuccess: PropTypes.func.isRequired,
     notify: PropTypes.func.isRequired,

@@ -166,7 +166,7 @@ export const statuses = [{
 export const columns = changeOriginalAgent => [{
   name: 'trade',
   header: i18n.t('CLIENT_PROFILE.TRADING_ACTIVITY.GRID_VIEW.TRADE'),
-  render: ({ tradeId, tradeType, originalAgent }) => (
+  render: ({ tradeId, tradeType, originalAgent, platformType }) => (
     <>
       <Badge
         text={i18n.t(`CONSTANTS.ACCOUNT_TYPE.${tradeType}`)}
@@ -176,7 +176,7 @@ export const columns = changeOriginalAgent => [{
         <button
           type="button"
           className="btn-transparent-text font-weight-700"
-          onClick={() => changeOriginalAgent(tradeId, originalAgent && originalAgent.uuid)}
+          onClick={() => changeOriginalAgent(tradeId, originalAgent && originalAgent.uuid, platformType)}
         >
           TR-{tradeId}
         </button>

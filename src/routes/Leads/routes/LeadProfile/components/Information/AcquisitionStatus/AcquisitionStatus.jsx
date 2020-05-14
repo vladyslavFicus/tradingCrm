@@ -102,6 +102,9 @@ AcquisitionStatus.propTypes = {
     salesAgent: PropTypes.shape({
       fullName: PropTypes.string,
       uuid: PropTypes.string,
+      hierarchy: PropTypes.shape({
+        parentBranches: PropTypes.array,
+      }),
     }),
   }),
   permission: PropTypes.shape({

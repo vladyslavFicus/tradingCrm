@@ -29,7 +29,6 @@ const REQUEST = gql`query getRules(
   ) {
     error {
       error
-      fields_errors
     }
     data {
       actions {

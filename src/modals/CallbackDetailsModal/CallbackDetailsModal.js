@@ -167,8 +167,10 @@ class CallbackDetailsModal extends Component {
                       disabled={isLoadingOperatorsList}
                       searchable
                     >
-                      {operators.map(({ uuid, fullName }) => (
-                        <option key={uuid} value={uuid}>{fullName}</option>
+                      {operators.map(({ uuid, fullName, operatorStatus }) => (
+                        <option key={uuid} value={uuid} disabled={operatorStatus !== 'ACTIVE'}>
+                          {fullName}
+                        </option>
                       ))}
                     </Field>
 

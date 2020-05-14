@@ -35,9 +35,10 @@ class Personal extends PureComponent {
   static propTypes = {
     newProfile: PropTypes.newProfile,
     notify: PropTypes.func.isRequired,
+    updateConfiguration: PropTypes.func.isRequired,
     loading: PropTypes.bool.isRequired,
     modals: PropTypes.shape({
-      emailTemplateSelectModal: PropTypes.modalType,
+      emailSelectModal: PropTypes.modalType,
       emailPreviewModal: PropTypes.modalType,
     }).isRequired,
     auth: PropTypes.auth.isRequired,

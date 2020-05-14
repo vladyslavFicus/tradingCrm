@@ -8,9 +8,14 @@ class FormikInputField extends PureComponent {
     field: PropTypes.shape({
       name: PropTypes.string.isRequired,
     }).isRequired,
+    type: PropTypes.string,
     form: PropTypes.shape({
       errors: PropTypes.object.isRequired,
     }).isRequired,
+  };
+
+  static defaultProps = {
+    type: undefined,
   };
 
   render() {

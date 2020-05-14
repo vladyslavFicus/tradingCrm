@@ -1,9 +1,9 @@
-@import "../../styles/old/variables";
+@import "../../styles/helpers/variables";
 
 .note-popover {
   width: 320px;
   max-width: 320px;
-  background-color: $yellow-color;
+  background-color: $color-paper;
 
   &__header,
   &__title {
@@ -77,23 +77,23 @@
       background-image:
         linear-gradient(to right, white 0px, transparent 0px),
         linear-gradient(to left, white 0px, transparent 0px),
-        repeating-linear-gradient($yellow-color, $yellow-color 20px, #dfe4ed 20px, #dfe4ed 21px, #FFFDE6 21px);
+        repeating-linear-gradient($color-paper, $color-paper 20px, #dfe4ed 20px, #dfe4ed 21px, #FFFDE6 21px);
     }
   }
 
   &.bs-popover-top .arrow:after {
-    border-top-color: $yellow-color;
+    border-top-color: $color-paper;
   }
 
   &.bs-popover-right .arrow:after {
-    border-right-color: $yellow-color;
+    border-right-color: $color-paper;
   }
 
   &.bs-popover-bottom .arrow:after {
-    border-bottom-color: $yellow-color;
+    border-bottom-color: $color-paper;
   }
 
   &.bs-popover-left .arrow:after {
-    border-left-color: $yellow-color;
+    border-left-color: $color-paper;
   }
 }

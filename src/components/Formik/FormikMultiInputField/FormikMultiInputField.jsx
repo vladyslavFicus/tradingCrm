@@ -26,6 +26,7 @@ class FormikMultiInputField extends PureComponent {
     form: PropTypes.shape({
       touched: PropTypes.object.isRequired,
       errors: PropTypes.oneOfType([PropTypes.string, PropTypes.array, PropTypes.object]),
+      setFieldValue: PropTypes.func.isRequired,
     }).isRequired,
     labelClassName: PropTypes.string,
     helpText: PropTypes.node,

@@ -32,6 +32,7 @@ class MainLayout extends PureComponent {
     }).isRequired,
     history: PropTypes.shape({
       location: PropTypes.object.isRequired,
+      replace: PropTypes.func.isRequired,
     }).isRequired,
   };
 
