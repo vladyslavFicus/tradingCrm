@@ -4,7 +4,7 @@ import { compose } from 'react-apollo';
 import { omit } from 'lodash';
 import I18n from 'i18n-js';
 import { getActiveBrandConfig } from 'config';
-import { withModals, withNotifications } from 'hoc';
+import { withModals } from 'hoc';
 import permissions from 'config/permissions';
 import PropTypes from 'constants/propTypes';
 import { deskTypes } from 'constants/hierarchyTypes';
@@ -19,7 +19,6 @@ import { getClientsData } from './utils';
 class ClientsGridBulkActions extends PureComponent {
   static propTypes = {
     ...PropTypes.router,
-    notify: PropTypes.func.isRequired,
     allRowsSelected: PropTypes.bool.isRequired,
     resetClientsGridInitialState: PropTypes.func.isRequired,
     touchedRowsIds: PropTypes.arrayOf(PropTypes.number).isRequired,
@@ -210,7 +209,6 @@ class ClientsGridBulkActions extends PureComponent {
 export default compose(
   withRouter,
   withStorage(['auth']),
-  withNotifications,
   withModals({
     representativeModal: RepresentativeUpdateModal,
     moveModal: MoveModal,

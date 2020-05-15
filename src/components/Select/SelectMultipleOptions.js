@@ -6,7 +6,7 @@ import deleteFromArray from 'utils/deleteFromArray';
 
 const OptionPropType = PropTypes.shape({
   key: PropTypes.string.isRequired,
-  label: PropTypes.string.isRequired,
+  label: PropTypes.oneOfType([PropTypes.string, PropTypes.element]).isRequired,
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
 });
 
@@ -88,7 +88,10 @@ class SelectMultipleOptions extends PureComponent {
             className: classNames(
               option.props.className,
               'custom-control custom-checkbox select-block-option',
-              { 'is-selected': isActive },
+              {
+                'is-selected': isActive,
+                'is-disabled': option.props.disabled,
+              },
             ),
           };
 
@@ -104,6 +107,7 @@ class SelectMultipleOptions extends PureComponent {
                 id={`${uniq}-${option.value}`}
                 checked={isActive}
                 onChange={e => this.handleChange(e, option)}
+                disabled={option.props.disabled}
               />
               <label className="custom-control-label" htmlFor={`${uniq}-${option.value}`}>
                 {option.label}

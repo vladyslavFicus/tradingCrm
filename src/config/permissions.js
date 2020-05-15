@@ -110,4 +110,7 @@ export default {
     UPDATE_EMAIL_TEMPLATE: 'email.updateTemplate',
     DELETE_EMAIL_TEMPLATE: 'email.deleteTemplate',
   },
+  TRADING_ACCOUNTS: {
+    GET_TRADING_ACCOUNTS: 'accountview;POST;/search',
+  },
 };

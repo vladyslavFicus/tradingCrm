@@ -19,12 +19,8 @@ class NotificationsFilters extends PureComponent {
   static propTypes = {
     onReset: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
-    operators: PropTypes.shape({
-      operators: PropTypes.shape({
-        data: PropTypes.pageable(PropTypes.operatorProfile),
-      }),
-      loadMore: PropTypes.func,
-      loading: PropTypes.bool.isRequired,
+    operators: PropTypes.query({
+      operators: PropTypes.pageable(PropTypes.operatorProfile),
     }).isRequired,
     userBranchHierarchy: PropTypes.any.isRequired,
     typesQuery: PropTypes.any.isRequired,
@@ -174,18 +170,13 @@ class NotificationsFilters extends PureComponent {
                   <option key={uuid} value={uuid}>{name}</option>
                 ))}
               </Field>
-              <Field
-                name="creationDateRange"
+              <FormikDateRangePicker
                 className="NotificationsGridFilter__input NotificationsGridFilter__dates"
                 label={I18n.t('NOTIFICATION_CENTER.FILTERS.LABELS.CREATION_RANGE')}
-                startDatePlaceholderText={I18n.t('COMMON.DATE_OPTIONS.START_DATE')}
-                endDatePlaceholderText={I18n.t('COMMON.DATE_OPTIONS.END_DATE')}
-                component={FormikDateRangePicker}
                 periodKeys={{
                   start: 'creationDateFrom',
                   end: 'creationDateTo',
                 }}
-                withTime
               />
               <Field
                 name="notificationTypes"

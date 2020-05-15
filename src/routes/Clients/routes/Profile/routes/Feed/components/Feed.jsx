@@ -102,8 +102,9 @@ class Feed extends Component {
               if (item.authorUuid !== item.targetUuid) {
                 if (item.authorUuid) {
                   options.color = 'orange';
-                } else {
-                  options.color = '';
+                }
+                if (item.authorFullName === 'System') {
+                  options.color = 'green';
                   options.letter = 's';
                 }
               }
@@ -119,7 +120,6 @@ class Feed extends Component {
             activePage={feeds.number + 1}
             totalPages={feeds.totalPages}
             last={feeds.last}
-            lazyLoad
             showNoResults={!loading && !content.length}
           />
         </div>

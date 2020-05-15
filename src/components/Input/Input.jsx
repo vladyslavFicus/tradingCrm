@@ -26,13 +26,14 @@ class Input extends PureComponent {
     mobileType: PropTypes.oneOf(['tel', 'number']),
     verified: PropTypes.bool,
     verifiedText: PropTypes.string,
+    type: PropTypes.string,
   };
 
   static defaultProps = {
     label: null,
     icon: null,
     error: null,
-    value: undefined,
+    value: '',
     defaultValue: undefined,
     maxLength: null,
     onMaxLengthEntered: () => {},
@@ -46,6 +47,7 @@ class Input extends PureComponent {
     mobileType: undefined,
     verified: false,
     verifiedText: null,
+    type: undefined,
   };
 
   state = {
@@ -66,14 +68,6 @@ class Input extends PureComponent {
 
     return null;
   }
-
-  getValue = () => this.state.value;
-
-  focus = () => this._input.focus();
-
-  blur = () => this._input.blur();
-
-  clear = () => this.setState({ value: '' });
 
   onChange = (e) => {
     const { value, type, validity: { valid } } = e.target;

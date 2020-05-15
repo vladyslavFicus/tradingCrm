@@ -4,6 +4,7 @@ import I18n from 'i18n-js';
 import classNames from 'classnames';
 import { Formik, Form, Field, FieldArray } from 'formik';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { getAvailableLanguages } from 'config';
 import PropTypes from 'constants/propTypes';
 import { createValidator, translateLabels } from 'utils/validator';
 import countryList from 'utils/countryList';
@@ -15,7 +16,6 @@ import {
   FormikSelectField,
   FormikMultiInputField,
 } from 'components/Formik';
-import languages from 'constants/languageNames';
 import {
   ruleTypes,
   priorities,
@@ -28,12 +28,12 @@ import './RuleModal.scss';
 
 const validate = deskType => createValidator({
   name: ['required', 'string'],
-  priority: ['required', `in:,${priorities.join()}`],
-  countries: [`in:,${Object.keys(countryList).join()}`],
-  languages: [`in:,${languages.map(({ languageCode }) => languageCode).join()}`],
+  priority: ['required', `in:${priorities.join()}`],
+  countries: [`in:${Object.keys(countryList).join()}`],
+  languages: [`in:${getAvailableLanguages().join()}`],
   'operatorSpreads.*.percentage': ['between:1,100'],
   ...(deskType !== deskTypes.RETENTION) && {
-    type: ['required', `in:,${ruleTypes.map(({ value }) => value).join()}`],
+    type: ['required', `in:${ruleTypes.map(({ value }) => value).join()}`],
   },
 }, translateLabels(attributeLabels), false, customErrors);
 
@@ -46,28 +46,34 @@ class RuleModal extends PureComponent {
     deskType: PropTypes.string.isRequired,
     partners: PropTypes.object.isRequired,
     operators: PropTypes.object.isRequired,
+    type: PropTypes.string,
+    currentUuid: PropTypes.string,
     withOperatorSpreads: PropTypes.bool,
   };
 
   static defaultProps = {
+    currentUuid: null,
+    type: null,
     formError: '',
     withOperatorSpreads: false,
   };
 
   state = {
-    selectedOperators: [],
+    ...(this.props.type === 'OPERATOR' ? { selectedOperators: [this.props.currentUuid] } : { selectedOperators: [] }),
     percentageLimitError: false,
   };
 
   onHandleSubmit = (values, { setSubmitting, setErrors }) => {
-    if (this.props.withOperatorSpreads && values.operatorSpreads.reduce((a, b) => a + (b.percentage || 0), 0) !== 100) {
+    if (this.props.withOperatorSpreads
+      && values.operatorSpreads.reduce((a, b) => a + (b.percentage || 0), 0) !== 100
+      && this.state.selectedOperators.length !== 0
+    ) {
       this.setState({ percentageLimitError: true });
     } else {
       this.setState({ percentageLimitError: false });
 
       this.props.onSubmit(values, setErrors);
     }
-
     setSubmitting(false);
   };
 
@@ -84,6 +90,8 @@ class RuleModal extends PureComponent {
   render() {
     const {
       onCloseModal,
+      currentUuid,
+      type,
       isOpen,
       deskType,
       partners,
@@ -115,8 +123,10 @@ class RuleModal extends PureComponent {
             countries: '',
             languages: '',
             type: '',
-            affiliateUUIDs: '',
-            operatorSpreads: [''],
+            affiliateUUIDs: type === 'PARTNER' ? [currentUuid] : '',
+            ...(type === 'OPERATOR'
+              ? { operatorSpreads: [{ parentUser: currentUuid, percentage: 100 }, ''] }
+              : { operatorSpreads: [''] }),
           }}
           validate={validate(deskType)}
           onSubmit={this.onHandleSubmit}
@@ -245,9 +255,9 @@ class RuleModal extends PureComponent {
                   multiple
                   placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT_MULTISELECT')}
                 >
-                  {languages.map(({ languageName, languageCode }) => (
-                    <option key={languageCode} value={languageCode}>
-                      {I18n.t(languageName)}
+                  {getAvailableLanguages().map(locale => (
+                    <option key={locale} value={locale}>
+                      {I18n.t(`COMMON.LANGUAGE_NAME.${locale.toUpperCase()}`, { defaultValue: locale.toUpperCase() })}
                     </option>
                   ))}
                 </Field>
@@ -300,15 +310,11 @@ class RuleModal extends PureComponent {
                               >
                                 {operatorsList
                                   .filter(({ hierarchy: { userType } }) => isSales(userType))
-                                  .map(({ uuid, fullName }) => (
+                                  .map(({ uuid, fullName, operatorStatus }) => (
                                     <option
                                       key={uuid}
                                       value={uuid}
-                                      className={
-                                        classNames('select-block__options-item', {
-                                          'RuleModal--is-disabled': selectedOperators.indexOf(uuid) !== -1,
-                                        })
-                                      }
+                                      disabled={selectedOperators.indexOf(uuid) !== -1 || operatorStatus !== 'ACTIVE'}
                                     >
                                       {fullName}
                                     </option>

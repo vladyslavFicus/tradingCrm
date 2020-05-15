@@ -143,12 +143,11 @@ class Header extends Component {
                         )
                         }
                         {
-                          statusChangeDate
-                        && (
-                          <div className="header-block-small">
-                          on {moment.utc(statusChangeDate).local().format('DD.MM.YYYY')}
-                          </div>
-                        )
+                          statusChangeDate && (
+                            <div className="header-block-small">
+                              on {moment.utc(statusChangeDate).local().format('DD.MM.YYYY')}
+                            </div>
+                          )
                         }
                       </div>
                     )

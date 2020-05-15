@@ -45,6 +45,7 @@ class ProfileHeader extends Component {
     loaded: PropTypes.bool,
     onChangePasswordClick: PropTypes.func.isRequired,
     unlockLogin: PropTypes.func.isRequired,
+    notify: PropTypes.func.isRequired,
     loginLock: PropTypes.shape({
       lock: PropTypes.bool,
     }).isRequired,

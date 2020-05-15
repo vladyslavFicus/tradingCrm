@@ -1,19 +1,17 @@
 import React, { Fragment, PureComponent } from 'react';
 import moment from 'moment';
 import I18n from 'i18n-js';
-import { get } from 'lodash';
 import { compose } from 'react-apollo';
 import Flag from 'react-world-flags';
+import { getBrand } from 'config';
 import Uuid from 'components/Uuid';
 import { hideText } from 'utils/hideText';
 import { withNotifications } from 'hoc';
 import { withStorage } from 'providers/StorageProvider';
 import PropTypes from 'constants/propTypes';
-import languageNames from 'constants/languageNames';
 import { PersonalInformationItem } from 'components/Information';
 import Click2Call from 'components/Click2Call';
 import countryList, { getCountryCode } from 'utils/countryList';
-import { getBrand } from 'config';
 import './Personal.scss';
 
 class Personal extends PureComponent {
@@ -50,8 +48,6 @@ class Personal extends PureComponent {
     } = this.props;
 
     const isPhoneHidden = getBrand().privatePhoneByDepartment.includes(department);
-    const profileLanguage = get(languageNames.find(item => item.languageCode === language), 'languageName')
-      || languageNames[0].languageName;
 
     return (
       <Fragment>
@@ -114,10 +110,14 @@ class Personal extends PureComponent {
                 label={I18n.t('LEAD_PROFILE.DETAILS.CITY')}
                 value={city}
               />
-              <PersonalInformationItem
-                label={I18n.t('LEAD_PROFILE.DETAILS.LANGUAGE')}
-                value={I18n.t(profileLanguage)}
-              />
+              <If condition={language}>
+                <PersonalInformationItem
+                  label={I18n.t('LEAD_PROFILE.DETAILS.LANGUAGE')}
+                  value={I18n.t(`COMMON.LANGUAGE_NAME.${language.toUpperCase()}`, {
+                    defaultValue: language.toUpperCase(),
+                  })}
+                />
+              </If>
               <PersonalInformationItem
                 label={I18n.t('LEAD_PROFILE.DETAILS.SOURCE')}
                 value={source}

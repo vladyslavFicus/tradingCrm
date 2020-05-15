@@ -1,9 +1,13 @@
 import React, { PureComponent, Fragment } from 'react';
 import { withRouter } from 'react-router-dom';
+import { compose } from 'react-apollo';
 import moment from 'moment';
 import I18n from 'i18n-js';
 import { get } from 'lodash';
+import { withPermission } from 'providers/PermissionsProvider';
 import { getActiveBrandConfig } from 'config';
+import permissions from 'config/permissions';
+import Permissions from 'utils/permissions';
 import PropTypes from 'constants/propTypes';
 import { statusColorNames, statusesLabels } from 'constants/user';
 import { fsaStatusColorNames, fsaStatusesLabels } from 'constants/fsaMigration';
@@ -27,6 +31,9 @@ import { UncontrolledTooltip } from 'components/Reactstrap/Uncontrolled';
 import Uuid from 'components/Uuid';
 import renderLabel from 'utils/renderLabel';
 
+const changeAsquisitionStatusPermission = new Permissions(permissions.USER_PROFILE.CHANGE_ACQUISITION_STATUS);
+const migrateToFSAPermission = new Permissions(permissions.USER_PROFILE.MIGRATE_TO_FSA);
+
 class ClientsGrid extends PureComponent {
   static propTypes = {
     ...PropTypes.router,
@@ -41,6 +48,7 @@ class ClientsGrid extends PureComponent {
     ]),
     allRowsSelected: PropTypes.bool,
     touchedRowsIds: PropTypes.arrayOf(PropTypes.number),
+    permission: PropTypes.permission.isRequired,
     handleAllRowsSelect: PropTypes.func.isRequired,
     handleSelectRow: PropTypes.func.isRequired,
   };
@@ -96,9 +104,15 @@ class ClientsGrid extends PureComponent {
       touchedRowsIds,
       handleSelectRow,
       handleAllRowsSelect,
+      permission: {
+        permissions: currentPermissions,
+      },
     } = this.props;
 
     const { content: gridData, last } = get(profiles, 'profiles.data') || { content: [] };
+
+    const isAvailableMultySelect = changeAsquisitionStatusPermission.check(currentPermissions)
+      || migrateToFSAPermission.check(currentPermissions);
 
     return (
       <Grid
@@ -112,7 +126,7 @@ class ClientsGrid extends PureComponent {
         handlePageChanged={this.handlePageChanged}
         isLoading={loading}
         isLastPage={last}
-        withMultiSelect
+        withMultiSelect={isAvailableMultySelect}
         withRowsHover
         withLazyLoad={!searchLimit || searchLimit !== gridData.length}
         withNoResults={!loading && gridData.length === 0}
@@ -398,7 +412,11 @@ class ClientsGrid extends PureComponent {
                       className="text-truncate-2-lines max-height-35 font-size-11"
                       id={`${uuid}-note`}
                     >
-                      {content}
+                      {
+                        (content && content.length > 100)
+                          ? `${content.slice(0, 100)}...`
+                          : content
+                      }
                     </div>
                     <UncontrolledTooltip
                       placement="bottom-start"
@@ -469,4 +487,7 @@ class ClientsGrid extends PureComponent {
   }
 }
 
-export default withRouter(ClientsGrid);
+export default compose(
+  withPermission,
+  withRouter,
+)(ClientsGrid);

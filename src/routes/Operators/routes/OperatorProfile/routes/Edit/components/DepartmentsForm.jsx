@@ -16,6 +16,7 @@ class DepartmentsForm extends Component {
     handleSubmit: PropTypes.func,
     change: PropTypes.func,
     onSubmit: PropTypes.func.isRequired,
+    reset: PropTypes.func.isRequired,
     submitting: PropTypes.bool,
     invalid: PropTypes.bool.isRequired,
     departmentsRoles: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.string)).isRequired,

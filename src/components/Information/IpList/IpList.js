@@ -24,30 +24,25 @@ const IpList = (props) => {
         </span>
         <div className="card">
           <div className="card-body">
-            <Choose>
-              <When condition={uniqueIps && uniqueIps.length > 0}>
-                {uniqueIps.map(item => (
-                  <div className="ip-container" key={item.ip}>
-                    <i
-                      className={`fs-icon fs-${item.countryCode.toLowerCase()}`}
-                      style={{ marginRight: 10 }}
-                    />
-                    <CopyToClipboard
-                      text={item.ip}
-                      notify={notify}
-                      notificationLevel={notificationLevel}
-                      notificationTitle={notificationTitle}
-                      notificationMessage={notificationMessage}
-                    >
-                      <span>{item.ip}</span>
-                    </CopyToClipboard>
-                  </div>
-                ))}
-              </When>
-              <Otherwise>
-                {''}
-              </Otherwise>
-            </Choose>
+            <If condition={uniqueIps && uniqueIps.length > 0}>
+              {uniqueIps.map(item => (
+                <div className="ip-container" key={item.ip}>
+                  <i
+                    className={`fs-icon fs-${item.countryCode.toLowerCase()}`}
+                    style={{ marginRight: 10 }}
+                  />
+                  <CopyToClipboard
+                    text={item.ip}
+                    notify={notify}
+                    notificationLevel={notificationLevel}
+                    notificationTitle={notificationTitle}
+                    notificationMessage={notificationMessage}
+                  >
+                    <span>{item.ip}</span>
+                  </CopyToClipboard>
+                </div>
+              ))}
+            </If>
           </div>
         </div>
       </div>

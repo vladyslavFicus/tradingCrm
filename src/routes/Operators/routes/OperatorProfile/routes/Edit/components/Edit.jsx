@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import I18n from 'i18n-js';
 import { get } from 'lodash';
 import PropTypes from 'constants/propTypes';
-import { departmentsLabels, rolesLabels, operatorTypes } from 'constants/operators';
+import { departmentsLabels, rolesLabels } from 'constants/operators';
 import renderLabel from 'utils/renderLabel';
 import Permissions from 'utils/permissions';
 import permissions from 'config/permissions';
@@ -47,7 +47,6 @@ class View extends Component {
     showFTDAmount: PropTypes.bool,
     deleteAuthority: PropTypes.func.isRequired,
     addAuthority: PropTypes.func.isRequired,
-    operatorType: PropTypes.string,
     authorities: PropTypes.oneOfType([PropTypes.authorityEntity, PropTypes.object]),
     departmentsRoles: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.string)).isRequired,
     auth: PropTypes.shape({
@@ -57,18 +56,17 @@ class View extends Component {
     permission: PropTypes.permission.isRequired,
   };
 
+  static childContextTypes = {
+    refetchHierarchy: PropTypes.func.isRequired,
+  };
+
   static defaultProps = {
-    operatorType: operatorTypes.OPERATOR,
     showNotes: false,
     showSalesStatus: false,
     showFTDAmount: false,
     authorities: [],
     allowedIpAddresses: [],
     forbiddenCountries: [],
-  };
-
-  static childContextTypes = {
-    refetchHierarchy: PropTypes.func.isRequired,
   };
 
   getChildContext() {
@@ -179,7 +177,6 @@ class View extends Component {
         loading,
         hierarchy,
       },
-      operatorType,
       permission: {
         permissions: currentPermissions,
       },
@@ -188,14 +185,16 @@ class View extends Component {
     const allowEditPermissions = manageDepartmentsPermission.check(currentPermissions) && uuid !== profile.uuid;
     const allowUpdateHierarchy = updateParentBranch.check(currentPermissions) && uuid !== profile.uuid;
     const initialValues = get(hierarchy, 'userHierarchyById.data') || {};
-    const isPartner = operatorType === operatorTypes.PARTNER;
+
+    if (departmentsRoles) {
+      delete departmentsRoles.AFFILIATE_PARTNER;
+    }
 
     return (
       <div className="card-body">
         <div className="card">
           <div className="card-body">
             <PersonalForm
-              isPartner={isPartner}
               initialValues={{
                 firstName: profile.firstName,
                 lastName: profile.lastName,
@@ -248,7 +247,6 @@ class View extends Component {
           </div>
         </div>
         <HierarchyProfileForm
-          isPartner={isPartner}
           loading={loading}
           initialValues={initialValues}
           allowUpdateHierarchy={allowUpdateHierarchy}

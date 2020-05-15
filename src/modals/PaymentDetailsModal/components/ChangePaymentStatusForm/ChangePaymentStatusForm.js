@@ -30,6 +30,7 @@ class ChangePaymentStatusForm extends PureComponent {
     onCloseModal: PropTypes.func.isRequired,
     onSuccess: PropTypes.func.isRequired,
     notify: PropTypes.func.isRequired,
+    paymentId: PropTypes.string.isRequired,
   };
 
   handleSubmit = async (values, { setSubmitting, validateForm }) => {

@@ -146,8 +146,8 @@ class AddBranchManagerModal extends PureComponent {
                   disabled={isSubmitting || operators.length === 0}
                   searchable
                 >
-                  {operators.map(({ uuid, operator: { fullName } }) => (
-                    <option key={uuid} value={uuid}>
+                  {operators.map(({ uuid, operator: { fullName, operatorStatus } }) => (
+                    <option key={uuid} value={uuid} disabled={operatorStatus !== 'ACTIVE'}>
                       {fullName}
                     </option>
                   ))}

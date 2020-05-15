@@ -32,7 +32,7 @@ import {
   Notes,
   Files,
   Feed,
-  Callbacks,
+  ClientCallbacksTab,
   Risks,
   SocialTrading,
 } from '../../routes';
@@ -63,12 +63,14 @@ class Profile extends Component {
   static propTypes = {
     notify: PropTypes.func.isRequired,
     match: PropTypes.shape({
+      path: PropTypes.string,
       params: PropTypes.shape({
         id: PropTypes.string.isRequired,
       }).isRequired,
     }).isRequired,
     pinnedNotes: PropTypes.shape({
       loading: PropTypes.bool.isRequired,
+      refetch: PropTypes.func.isRequired,
       notes: PropTypes.shape({
         content: PropTypes.arrayOf(PropTypes.shape({
           author: PropTypes.string,
@@ -77,23 +79,30 @@ class Profile extends Component {
         })),
       }),
     }).isRequired,
+    newProfile: PropTypes.query(PropTypes.newProfile).isRequired,
     location: PropTypes.object.isRequired,
     updateSubscription: PropTypes.func.isRequired,
     addNote: PropTypes.func.isRequired,
     updateNote: PropTypes.func.isRequired,
     questionnaireLastData: PropTypes.shape({
       loading: PropTypes.bool.isRequired,
+      refetch: PropTypes.func.isRequired,
       questionnaire: PropTypes.object,
     }),
     modals: PropTypes.shape({
       confirmActionModal: PropTypes.modalType,
       noteModal: PropTypes.modalType,
+      representativeModal: PropTypes.modalType,
     }).isRequired,
     getLoginLock: PropTypes.object.isRequired,
     passwordResetRequest: PropTypes.func.isRequired,
     removeNote: PropTypes.func.isRequired,
+    deleteFile: PropTypes.func,
+    changePassword: PropTypes.func.isRequired,
+    changeProfileStatus: PropTypes.func.isRequired,
     unlockLoginMutation: PropTypes.func.isRequired,
     permission: PropTypes.permission.isRequired,
+    token: PropTypes.string.isRequired,
   };
 
   static childContextTypes = {
@@ -116,6 +125,8 @@ class Profile extends Component {
   static defaultProps = {
     // Can be null for unregulated brands
     questionnaireLastData: null,
+
+    deleteFile: () => {},
   };
 
   cacheChildrenComponents = [];
@@ -337,14 +348,17 @@ class Profile extends Component {
 
   handleEditModalNoteClick = (type, item) => () => {
     const { modals: { noteModal } } = this.props;
+    const { content, subject, pinned } = item;
 
     noteModal.show({
       type,
-      onEdit: data => this.handleSubmitNoteClick(noteViewType.MODAL, data),
+      onEdit: data => this.handleSubmitNoteClick(noteViewType.MODAL, { ...item, ...data }),
       onDelete: () => this.handleDeleteNoteClick(noteViewType.MODAL, item.noteId),
       tagType: item.tagType,
       initialValues: {
-        ...item,
+        content,
+        subject,
+        pinned,
       },
     });
   };
@@ -624,7 +638,7 @@ class Profile extends Component {
               <Route disableScroll path={`${path}/payments`} component={Payments} />
               <Route disableScroll path={`${path}/trading-activity`} component={TradingActivity} />
               <Route disableScroll path={`${path}/accounts`} component={Accounts} />
-              <Route disableScroll path={`${path}/callbacks`} component={Callbacks} />
+              <Route disableScroll path={`${path}/callbacks`} component={ClientCallbacksTab} />
               <Route disableScroll path={`${path}/notes`} component={Notes} />
               <Route disableScroll path={`${path}/files`} component={Files} />
               <Route disableScroll path={`${path}/feed`} component={Feed} />

@@ -67,7 +67,7 @@ class CreatePartnerModal extends PureComponent {
     externalAffiliateId: '',
     public: false,
     cellexpert: false,
-    satellite: '',
+    satellite: null,
   };
 
   handleGeneratePassword = () => generate();

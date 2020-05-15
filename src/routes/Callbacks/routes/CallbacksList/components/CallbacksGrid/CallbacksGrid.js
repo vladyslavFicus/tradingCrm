@@ -12,12 +12,15 @@ import Grid, { GridColumn } from 'components/Grid';
 import NoteButton from 'components/NoteButton';
 import Uuid from 'components/Uuid';
 import { shortify } from 'utils/uuid';
-
 import './CallbacksGrid.scss';
 
 class CallbacksGrid extends PureComponent {
   static propTypes = {
-    callbacksData: PropTypes.object.isRequired,
+    callbacksData: PropTypes.query({
+      callbacks: PropTypes.shape({
+        data: PropTypes.pageable(PropTypes.callback),
+      }),
+    }).isRequired,
     modals: PropTypes.shape({
       callbackDetailsModal: PropTypes.modalType,
     }).isRequired,
@@ -25,14 +28,17 @@ class CallbacksGrid extends PureComponent {
 
   handlePageChanged = () => {
     const {
+      callbacksData,
       callbacksData: {
         loadMore,
         loading,
       },
     } = this.props;
 
+    const currentPage = get(callbacksData, 'data.callbacks.data.page') || 0;
+
     if (!loading) {
-      loadMore();
+      loadMore(currentPage + 1);
     }
   };
 
@@ -121,6 +127,28 @@ class CallbacksGrid extends PureComponent {
     />
   );
 
+  renderReminder = ({ reminder, callbackTime }) => {
+    if (reminder) {
+      // Reminder format: ISO 8601('PT5M'), get milliseconds via moment.duration
+      const reminderMilliseconds = moment.duration(reminder).asMilliseconds();
+      const callbackTimeMilliseconds = new Date(callbackTime).getTime();
+      const reminderDate = callbackTimeMilliseconds - reminderMilliseconds;
+
+      return (
+        <Fragment>
+          <div className="CallbacksGrid__info-main">
+            {moment(reminderDate).format('DD.MM.YYYY')}
+          </div>
+          <div className="CallbacksGrid__info-secondary">
+            {moment(reminderDate).format('HH:mm:ss')}
+          </div>
+        </Fragment>
+      );
+    }
+
+    return (<div>&mdash;</div>);
+  }
+
   render() {
     const {
       callbacksData,
@@ -176,6 +204,10 @@ class CallbacksGrid extends PureComponent {
             name="status"
             header={I18n.t('CALLBACKS.GRID_HEADER.STATUS')}
             render={this.renderStatus}
+          />
+          <GridColumn
+            header={I18n.t('CALLBACKS.GRID_HEADER.REMINDER')}
+            render={this.renderReminder}
           />
           <GridColumn
             name="actions"

@@ -46,6 +46,10 @@ class ClientsGridFilter extends PureComponent {
         }),
       }),
     }).isRequired,
+    notify: PropTypes.func.isRequired,
+    client: PropTypes.shape({
+      query: PropTypes.func.isRequired,
+    }).isRequired,
   };
 
   static defaultProps = {
