@@ -1,14 +1,20 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import classNames from 'classnames';
 import MiniProfile from 'components/MiniProfile';
 import PropTypes from '../../constants/propTypes';
 import GridPlayerInfoPlaceholder from '../GridPlayerInfoPlaceholder';
 import Uuid from '../Uuid';
 
-class GridPlayerInfo extends Component {
+class GridPlayerInfo extends PureComponent {
   static propTypes = {
     id: PropTypes.string,
-    profile: PropTypes.userProfile.isRequired,
+    profile: PropTypes.shape({
+      uuid: PropTypes.string.isRequired,
+      fullName: PropTypes.string,
+      firstName: PropTypes.string,
+      lastName: PropTypes.string,
+      languageCode: PropTypes.string,
+    }).isRequired,
     mainInfoClassName: PropTypes.string,
     clickable: PropTypes.bool,
   };
@@ -32,6 +38,8 @@ class GridPlayerInfo extends Component {
     const { profile, clickable, mainInfoClassName, id } = this.props;
     const { uuid, firstName, lastName, languageCode } = profile;
 
+    const fullName = profile.fullName || `${firstName} ${lastName}`;
+
     return (
       <GridPlayerInfoPlaceholder ready={!!profile} firstLaunchOnly>
         <If condition={!!profile}>
@@ -41,7 +49,7 @@ class GridPlayerInfo extends Component {
               id={`${id ? `${id}-` : ''}players-list-${uuid}-main`}
               onClick={this.handleClick}
             >
-              {firstName} {lastName}
+              {fullName}
             </div>
 
             <div

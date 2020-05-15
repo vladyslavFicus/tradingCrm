@@ -89,7 +89,7 @@ const Header = ({
               {moment.utc(registrationDate).local().fromNow()}
             </div>
             <div className="header-block-small">
-            on {moment.utc(registrationDate).local().format('DD.MM.YYYY HH:mm')}
+              on {moment.utc(registrationDate).local().format('DD.MM.YYYY HH:mm')}
             </div>
           </div>
         </If>

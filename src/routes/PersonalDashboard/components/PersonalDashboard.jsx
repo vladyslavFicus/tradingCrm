@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import ShortLoader from 'components/ShortLoader';
 
 const METABASE_SITE_URL = 'https://metabase.flcn.pro';
@@ -25,5 +26,14 @@ const NewDashboard = React.memo(
     </Choose>
   ),
 );
+
+NewDashboard.propTypes = {
+  metabaseToken: PropTypes.shape({
+    loading: PropTypes.bool,
+    getMetabaseToken: PropTypes.shape({
+      token: PropTypes.string,
+    }),
+  }).isRequired,
+};
 
 export default NewDashboard;

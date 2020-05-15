@@ -6,6 +6,7 @@ import classNames from 'classnames';
 import permissions from 'config/permissions';
 import { branchTypes } from 'constants/hierarchyTypes';
 import PropTypes from 'constants/propTypes';
+import { Button } from 'components/UI';
 import { decodeNullValues } from 'components/Formik/utils';
 import { actionRuleTypes, deskTypes } from 'constants/rules';
 import { withPermission } from 'providers/PermissionsProvider';
@@ -105,6 +106,58 @@ const HierarchyProfileRules = (title, deskType, branchType) => {
       }
 
       return this.renderButtonAddRule(data);
+    };
+
+    triggerEditRuleModal = (uuid) => {
+      const {
+        modals: { editRuleModal },
+      } = this.props;
+
+      editRuleModal.show({
+        onSubmit: values => this.handleEditRule(values, uuid),
+        uuid,
+      });
+    };
+
+    handleEditRule = async (variables, uuid) => {
+      const {
+        notify,
+        createRule,
+        modals: { editRuleModal },
+        match: { params: { id } },
+        rules: { refetch },
+      } = this.props;
+
+      const {
+        data: {
+          rules: {
+            createRule: {
+              error,
+            },
+          },
+        },
+      } = await createRule(
+        {
+          variables: {
+            actions: [{
+              parentBranch: id,
+              ruleType: actionRuleTypes.ROUND_ROBIN,
+            }],
+            uuid,
+            ...decodeNullValues(variables),
+          },
+        },
+      );
+
+      await refetch();
+      editRuleModal.hide();
+      notify({
+        level: error ? 'error' : 'success',
+        title: error ? I18n.t('COMMON.FAIL') : I18n.t('COMMON.SUCCESS'),
+        message: error
+          ? I18n.t('HIERARCHY.PROFILE_RULE_TAB.RULE_NOT_UPDATED')
+          : I18n.t('HIERARCHY.PROFILE_RULE_TAB.RULE_UPDATED'),
+      });
     };
 
     handleAddRule = async (variables, setErrors) => {
@@ -350,12 +403,25 @@ const HierarchyProfileRules = (title, deskType, branchType) => {
       </Choose>
     );
 
-    renderRemoveIcon = ({ uuid }) => (
-      <button
-        type="button"
-        className="fa fa-trash btn-transparent color-danger"
-        onClick={() => this.handleDeleteRuleClick(uuid)}
-      />
+    renderActions = ({ uuid }) => (
+      <>
+        <Button
+          transparent
+          onClick={() => this.handleDeleteRuleClick(uuid)}
+        >
+          <i className="fa fa-trash btn-transparent color-danger" />
+        </Button>
+        <If condition={deskType !== deskTypes.RETENTION}>
+          <Button
+            transparent
+          >
+            <i
+              onClick={() => this.triggerEditRuleModal(uuid)}
+              className="font-size-16 cursor-pointer fa fa-edit float-right"
+            />
+          </Button>
+        </If>
+      </>
     );
 
     render() {
@@ -432,7 +498,7 @@ const HierarchyProfileRules = (title, deskType, branchType) => {
                 <GridColumn
                   name="delete"
                   header={I18n.t('HIERARCHY.PROFILE_RULE_TAB.GRID_HEADER.ACTION')}
-                  render={this.renderRemoveIcon}
+                  render={this.renderActions}
                 />
               </If>
             </Grid>

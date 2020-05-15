@@ -65,6 +65,12 @@ class RepresentativeUpdateModal extends PureComponent {
       searchParams: PropTypes.object,
     }),
     currentInactiveOperator: PropTypes.string,
+    leads: PropTypes.array,
+    clients: PropTypes.array.isRequired,
+    notify: PropTypes.func.isRequired,
+    bulkClientRepresentativeUpdate: PropTypes.func.isRequired,
+    bulkLeadRepresentativeUpdate: PropTypes.func.isRequired,
+    userType: PropTypes.string,
   };
 
   static defaultProps = {
@@ -72,6 +78,8 @@ class RepresentativeUpdateModal extends PureComponent {
     additionalFields: null,
     configs: {},
     currentInactiveOperator: null,
+    leads: null,
+    userType: null,
   };
 
   static getDerivedStateFromProps(

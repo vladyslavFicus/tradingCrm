@@ -9,12 +9,7 @@ import { columns } from '../attributes/constants';
 
 class TradingActivity extends Component {
   static propTypes = {
-    tradingActivity: PropTypes.shape({
-      loading: PropTypes.bool.isRequired,
-      clientTradingActivity: PropTypes.shape({
-        data: PropTypes.pageable(PropTypes.tradingActivity),
-      }),
-    }).isRequired,
+    tradingActivity: PropTypes.query(PropTypes.pageable(PropTypes.tradingActivity)).isRequired,
     modals: PropTypes.shape({
       changeOriginalAgentModal: PropTypes.modalType,
     }).isRequired,
@@ -33,12 +28,13 @@ class TradingActivity extends Component {
     }
   };
 
-  showChangeOriginalAgentModal = (tradeId, agentId) => {
+  showChangeOriginalAgentModal = (tradeId, agentId, platformType) => {
     const { tradingActivity, modals: { changeOriginalAgentModal } } = this.props;
 
     changeOriginalAgentModal.show({
       tradeId,
       agentId,
+      platformType,
       onSuccess: tradingActivity.refetch,
     });
   }

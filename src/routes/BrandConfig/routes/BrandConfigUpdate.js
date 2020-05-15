@@ -18,6 +18,7 @@ import './BrandConfig.scss';
 class BrandConfigUpdate extends PureComponent {
   static propTypes = {
     brandConfig: PropTypes.shape({
+      loading: PropTypes.bool.isRequired,
       data: PropTypes.shape({
         brandConfig: PropTypes.shape({
           data: PropTypes.shape({

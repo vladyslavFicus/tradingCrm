@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import PropTypes from 'constants/propTypes';
 import classNames from 'classnames';
 import { isDescendant } from './utils';
 import './NodeContentRenderer.scss';
@@ -194,10 +194,11 @@ NodeRendererDefault.defaultProps = {
   title: null,
   subtitle: null,
   rowDirection: 'ltr',
+  node: null,
 };
 
 NodeRendererDefault.propTypes = {
-  node: PropTypes.shape({}).isRequired,
+  node: PropTypes.treeData,
   title: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
   subtitle: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
   path: PropTypes.arrayOf(

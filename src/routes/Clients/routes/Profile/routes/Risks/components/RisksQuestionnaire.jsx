@@ -13,6 +13,9 @@ class RisksQuestionnaire extends Component {
     setFieldValue: PropTypes.func.isRequired,
     isSubmitting: PropTypes.bool.isRequired,
     handleSubmit: PropTypes.func.isRequired,
+    validateForm: PropTypes.func.isRequired,
+    onHandleCalculate: PropTypes.func.isRequired,
+    onHandleSave: PropTypes.func.isRequired,
     questionnaireData: PropTypes.riskQuestionnaireData.isRequired,
   };
 

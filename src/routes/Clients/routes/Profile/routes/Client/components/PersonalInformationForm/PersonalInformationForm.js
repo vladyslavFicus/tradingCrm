@@ -169,7 +169,7 @@ class PersonalInformationForm extends PureComponent {
               >
                 {timeZoneOffsets.map(timeZone => (
                   <option key={timeZone} value={timeZone}>
-                    {timeZone}
+                    {`UTC ${timeZone}`}
                   </option>
                 ))}
               </Field>

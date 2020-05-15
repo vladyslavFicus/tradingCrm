@@ -37,6 +37,10 @@
       color: #bec2d5;
       background-color: #f6f6f6;
     }
+
+    &--error {
+      border-color: #d0011b;
+    }
   }
 
   &__error {
@@ -46,14 +50,12 @@
       align-items: center;
       color: #d0021b;
       font-size: 12px;
-      margin-top: 4px;
+      margin: 4px 0;
     }
 
     &-icon {
-      position: relative;
       margin-right: 5px;
       font-size: 16px;
-      top: 2px;
     }
   }
 
@@ -66,9 +68,5 @@
     text-align: right;
     font-size: 12px;
     color: #999;
-  }
-
-  &--error {
-    border-color: #d0011b;
   }
 }

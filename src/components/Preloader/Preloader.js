@@ -1,49 +1,33 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import './preloader.scss';
+import './Preloader.scss';
 
-class Preloader extends React.Component {
-  constructor(props) {
-    super(props);
+class Preloader extends PureComponent {
+  static propTypes = {
+    isVisible: PropTypes.bool,
+  };
 
-    this.state = {
-      display: props.isVisible ? 'block' : 'none',
-    };
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (this.props.isVisible !== nextProps.isVisible) {
-      if (nextProps.isVisible) {
-        this.setState({ display: 'block' });
-      } else {
-        this.timerID = setTimeout(() => this.setState({ display: 'none' }), 200);
-      }
-    }
-  }
-
-  componentWillUnmount() {
-    clearTimeout(this.timerID);
-  }
+  static defaultProps = {
+    isVisible: false,
+  };
 
   render() {
-    const { display } = this.state;
     const { isVisible } = this.props;
 
     return (
-      <div className={classNames('preloader', { 'is-fading': !isVisible })} style={{ display }}>
-        <div className="preloader__item" />
+      <div
+        className={
+          classNames('Preloader', {
+            'Preloader--fading': !isVisible,
+            'Preloader--invisible': !isVisible,
+          })
+        }
+      >
+        <div className="Preloader__item" />
       </div>
     );
   }
 }
-
-Preloader.propTypes = {
-  isVisible: PropTypes.bool,
-};
-
-Preloader.defaultProps = {
-  isVisible: false,
-};
 
 export default Preloader;

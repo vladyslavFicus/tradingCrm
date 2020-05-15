@@ -1,7 +1,5 @@
 const fs = require('fs');
 
-const { APP_VERSION } = process.env;
-
 function saveConfig(config) {
   return new Promise((resolve, reject) => {
     fs.writeFile('/opt/build/config.js', `window.nas = ${JSON.stringify(config)};`, { encoding: 'utf8' }, (error) => {
@@ -22,18 +20,7 @@ function writeRandomConfigSrcPath(htmlPath) {
   fs.writeFileSync(htmlPath, result);
 }
 
-function buildNginxConfig() {
-  let config = fs.readFileSync(process.env.NGINX_CONF_OUTPUT, { encoding: 'UTF8' });
-
-  if (config) {
-    config = config.replace('{{version}}', APP_VERSION);
-  }
-
-  fs.writeFileSync(process.env.NGINX_CONF_OUTPUT, config);
-}
-
 module.exports = {
-  buildNginxConfig,
   saveConfig,
   writeRandomConfigSrcPath,
 };

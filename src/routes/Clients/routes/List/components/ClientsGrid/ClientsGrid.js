@@ -412,7 +412,11 @@ class ClientsGrid extends PureComponent {
                       className="text-truncate-2-lines max-height-35 font-size-11"
                       id={`${uuid}-note`}
                     >
-                      {content}
+                      {
+                        (content && content.length > 100)
+                          ? `${content.slice(0, 100)}...`
+                          : content
+                      }
                     </div>
                     <UncontrolledTooltip
                       placement="bottom-start"

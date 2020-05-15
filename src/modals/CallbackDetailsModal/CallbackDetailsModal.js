@@ -8,7 +8,7 @@ import I18n from 'i18n-js';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Formik, Form, Field } from 'formik';
 import { withNotifications } from 'hoc';
-import { callbacksStatuses } from 'constants/callbacks';
+import { callbacksStatuses, reminderValues } from 'constants/callbacks';
 import { FormikSelectField, FormikDatePicker } from 'components/Formik';
 import { Button } from 'components/UI';
 import ShortLoader from 'components/ShortLoader';
@@ -24,6 +24,7 @@ const attributeLabels = {
   operatorId: I18n.t('CALLBACKS.MODAL.OPERATOR'),
   callbackTime: I18n.t('CALLBACKS.MODAL.CALLBACK_DATE_AND_TIME'),
   status: I18n.t('CALLBACKS.MODAL.STATUS'),
+  reminder: 'CALLBACKS.CREATE_MODAL.REMINDER',
 };
 
 class CallbackDetailsModal extends Component {
@@ -96,6 +97,7 @@ class CallbackDetailsModal extends Component {
       callbackTime,
       callbackId,
       operatorId,
+      reminder,
       client,
       status,
       userId,
@@ -125,6 +127,7 @@ class CallbackDetailsModal extends Component {
                 callbackTime,
                 operatorId,
                 status,
+                reminder,
               }}
               validate={
                 createValidator({
@@ -167,8 +170,10 @@ class CallbackDetailsModal extends Component {
                       disabled={isLoadingOperatorsList}
                       searchable
                     >
-                      {operators.map(({ uuid, fullName }) => (
-                        <option key={uuid} value={uuid}>{fullName}</option>
+                      {operators.map(({ uuid, fullName, operatorStatus }) => (
+                        <option key={uuid} value={uuid} disabled={operatorStatus !== 'ACTIVE'}>
+                          {fullName}
+                        </option>
                       ))}
                     </Field>
 
@@ -176,6 +181,7 @@ class CallbackDetailsModal extends Component {
                       name="callbackTime"
                       label={I18n.t('CALLBACKS.MODAL.CALLBACK_DATE_AND_TIME')}
                       isValidDate={() => moment(values.callbackTime, 'YYYY-MM-DD HH:mm').isValid()}
+                      closeOnSelect={false}
                       withTime
                     />
 
@@ -189,6 +195,19 @@ class CallbackDetailsModal extends Component {
                       {Object.keys(callbacksStatuses).map(callbackStatus => (
                         <option key={callbackStatus} value={callbackStatus}>
                           {I18n.t(callbacksStatuses[callbackStatus])}
+                        </option>
+                      ))}
+                    </Field>
+
+                    <Field
+                      name="reminder"
+                      placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
+                      label={I18n.t(attributeLabels.reminder)}
+                      component={FormikSelectField}
+                    >
+                      {reminderValues.map(({ value, label }) => (
+                        <option key={value} value={value}>
+                          {label}
                         </option>
                       ))}
                     </Field>

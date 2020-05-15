@@ -14,6 +14,7 @@ class Route extends PureComponent {
     isPublic: PropTypes.bool,
     isPrivate: PropTypes.bool,
     token: PropTypes.string,
+    path: PropTypes.string.isRequired,
     auth: PropTypes.object,
   };
 

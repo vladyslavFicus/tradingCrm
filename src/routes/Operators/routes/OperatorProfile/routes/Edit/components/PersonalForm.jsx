@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import I18n from 'i18n-js';
 import PropTypes from 'constants/propTypes';
-import { InputField, SelectField, MultiInputField, NasSelectField, CheckBox } from 'components/ReduxForm';
+import { InputField, SelectField } from 'components/ReduxForm';
 import { createValidator, translateLabels } from 'utils/validator';
 import countries from 'utils/countryList';
 import { personalFormAttributeLabels as attributeLabels } from './constants';
@@ -10,7 +10,6 @@ import { personalFormAttributeLabels as attributeLabels } from './constants';
 class PersonalForm extends PureComponent {
   static propTypes = {
     handleSubmit: PropTypes.func,
-    isPartner: PropTypes.bool.isRequired,
     onSubmit: PropTypes.func.isRequired,
     pristine: PropTypes.bool,
     submitting: PropTypes.bool,
@@ -29,7 +28,6 @@ class PersonalForm extends PureComponent {
       onSubmit,
       pristine,
       submitting,
-      isPartner,
       disabled,
     } = this.props;
 
@@ -133,50 +131,6 @@ class PersonalForm extends PureComponent {
               }
             </Field>
           </div>
-          <If condition={isPartner}>
-            <div className="col-xl-4">
-              <Field
-                name="allowedIpAddresses"
-                label={I18n.t(attributeLabels.whiteListedIps)}
-                type="text"
-                component={MultiInputField}
-              />
-            </div>
-            <div className="col-xl-4">
-              <Field
-                name="forbiddenCountries"
-                label={I18n.t(attributeLabels.restrictedCountries)}
-                type="text"
-                placeholder={I18n.t('COMMON.SELECT_OPTION.COUNTRY')}
-                component={NasSelectField}
-                position="vertical"
-                multiple
-              >
-                {Object
-                  .keys(countries)
-                  .map(key => <option key={key} value={key}>{countries[key]}</option>)
-                }
-              </Field>
-              <Field
-                name="showNotes"
-                type="checkbox"
-                component={CheckBox}
-                label={I18n.t('PARTNERS.SHOW_NOTES')}
-              />
-              <Field
-                name="showSalesStatus"
-                type="checkbox"
-                component={CheckBox}
-                label={I18n.t('PARTNERS.SHOW_SALES_STATUS')}
-              />
-              <Field
-                name="showFTDAmount"
-                type="checkbox"
-                component={CheckBox}
-                label={I18n.t('PARTNERS.SHOW_FTD_AMOUNT')}
-              />
-            </div>
-          </If>
         </div>
       </form>
     );
