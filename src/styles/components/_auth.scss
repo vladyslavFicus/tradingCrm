@@ -48,8 +48,18 @@
       background: none;
       border: solid 1px #fff;
       border-radius: 3px;
+      color: #fff;
+      padding: 9px 0;
+      text-align: center;
       text-transform: uppercase;
       min-width: 110px;
+
+      &:hover {
+        background-image: linear-gradient(to left, #1DB8ED, #297BDC);
+        background-color: #0069d9;
+        border-color: #0062cc;
+        color: #fff;
+      }
     }
   }
 }
