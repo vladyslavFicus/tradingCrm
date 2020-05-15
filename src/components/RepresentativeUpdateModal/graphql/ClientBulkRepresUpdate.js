@@ -34,7 +34,6 @@ const MUTATION = gql`
         data
         error {
           error
-          fields_errors
         }
       }
     }

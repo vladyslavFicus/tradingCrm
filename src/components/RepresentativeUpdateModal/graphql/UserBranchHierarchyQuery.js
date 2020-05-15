@@ -4,26 +4,13 @@ import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 
 const REQUEST = gql`
-  query UserBranchHierarchyQuery($withoutBrandFilter: Boolean) {
+  query UserBranchHierarchyQuery {
     hierarchy {
-      userBranchHierarchy(withoutBrandFilter: $withoutBrandFilter) {
+      userBranchHierarchy {
         error {
           error
-          fields_errors
         }
         data {
-          OFFICE {
-            name
-            uuid
-            branchType
-            defaultUser
-            defaultBranch
-            country
-            brandId
-            parentBranch {
-              uuid
-            }
-          }
           DESK {
             name
             uuid
@@ -38,46 +25,20 @@ const REQUEST = gql`
             }
             isDefault
           }
-          TEAM {
-            name
-            uuid
-            branchType
-            defaultUser
-            defaultBranch
-            brandId
-            parentBranch {
-              uuid
-            }
-          }
-          BRAND {
-            name
-            uuid
-            branchType
-            defaultUser
-            defaultBranch
-            country
-            parentBranch {
-              uuid
-            }
-            isDefault
-          }
         }
       }
     }
   }
 `;
 
-const UserBranchHierarchyQuery = ({ children, auth: { uuid: userId } }) => (
-  <Query query={REQUEST} variables={{ userId }} fetchPolicy="network-only">
+const UserBranchHierarchyQuery = ({ children }) => (
+  <Query query={REQUEST} fetchPolicy="network-only">
     {children}
   </Query>
 );
 
 UserBranchHierarchyQuery.propTypes = {
   children: PropTypes.func.isRequired,
-  auth: PropTypes.shape({
-    uuid: PropTypes.string,
-  }).isRequired,
 };
 
 export default UserBranchHierarchyQuery;

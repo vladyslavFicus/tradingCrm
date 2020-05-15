@@ -28,11 +28,6 @@ const MUTATION = gql`
         data
         error {
           error
-          fields_errors
-        }
-        errors {
-          error
-          fields_errors
         }
       }
     }

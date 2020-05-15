@@ -6,7 +6,6 @@ import { Formik, Field, Form } from 'formik';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { withNotifications } from 'hoc';
 import { withRequests } from 'apollo';
-import { withStorage } from 'providers/StorageProvider';
 import PropTypes from 'constants/propTypes';
 import { deskTypes, userTypes } from 'constants/hierarchyTypes';
 import { salesStatuses, salesStatusValues } from 'constants/salesStatuses';
@@ -39,6 +38,12 @@ class RepresentativeUpdateModal extends PureComponent {
       hierarchy: PropTypes.shape({
         hierarchyUsersByType: PropTypes.response({
           SALES_AGENT: PropTypes.arrayOf(PropTypes.userHierarchyType),
+          SALES_HOD: PropTypes.arrayOf(PropTypes.userHierarchyType),
+          SALES_MANAGER: PropTypes.arrayOf(PropTypes.userHierarchyType),
+          SALES_LEAD: PropTypes.arrayOf(PropTypes.userHierarchyType),
+          RETENTION_HOD: PropTypes.arrayOf(PropTypes.userHierarchyType),
+          RETENTION_MANAGER: PropTypes.arrayOf(PropTypes.userHierarchyType),
+          RETENTION_LEAD: PropTypes.arrayOf(PropTypes.userHierarchyType),
           RETENTION_AGENT: PropTypes.arrayOf(PropTypes.userHierarchyType),
         }),
       }),
@@ -514,7 +519,6 @@ class RepresentativeUpdateModal extends PureComponent {
 export default compose(
   withApollo,
   withNotifications,
-  withStorage(['auth']),
   withRequests({
     hierarchyUsersByTypeQuery: HierarchyUsersByTypeQuery,
     userBranchHierarchyQuery: UserBranchHierarchyQuery,

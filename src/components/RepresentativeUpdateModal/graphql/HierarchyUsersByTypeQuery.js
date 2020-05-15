@@ -10,28 +10,9 @@ const REQUEST = gql`
       hierarchyUsersByType(userTypes: $userTypes, onlyActive: $onlyActive) {
         error {
           error
-          fields_errors
         }
         data {
-          COMPANY_ADMIN {
-            uuid
-            userType
-            fullName
-            operatorStatus
-          }
-          BRAND_ADMIN {
-            uuid
-            userType
-            fullName
-            operatorStatus
-          }
           SALES_AGENT {
-            uuid
-            userType
-            fullName
-            operatorStatus
-          }
-          RETENTION_AGENT {
             uuid
             userType
             fullName
@@ -50,6 +31,12 @@ const REQUEST = gql`
             operatorStatus
           }
           SALES_LEAD {
+            uuid
+            userType
+            fullName
+            operatorStatus
+          }
+          RETENTION_AGENT {
             uuid
             userType
             fullName
