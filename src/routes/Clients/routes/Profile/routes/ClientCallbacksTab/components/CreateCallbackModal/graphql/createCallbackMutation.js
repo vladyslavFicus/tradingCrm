@@ -6,12 +6,14 @@ import { Mutation } from 'react-apollo';
 const REQUEST = gql`
   mutation CreateCallbackModal_createCallbackMutation(
     $userId: String!,
+    $reminder: String,
     $operatorId: String!,
     $callbackTime: String!,
   ) {
     callback {
       create(
         userId: $userId,
+        reminder: $reminder,
         operatorId: $operatorId,
         callbackTime: $callbackTime,
       ) {

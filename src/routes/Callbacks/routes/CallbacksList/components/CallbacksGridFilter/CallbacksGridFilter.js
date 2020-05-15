@@ -67,7 +67,6 @@ class CallbacksGridFilter extends PureComponent {
                 ))}
               </Field>
 
-
               <FormikDateRangePicker
                 className="CallbacksGridFilter__field CallbacksGridFilter__dates"
                 label={I18n.t('CALLBACKS.FILTER.DATE_RANGE')}

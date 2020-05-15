@@ -85,7 +85,7 @@ class ResetPasswordForm extends Component {
                     <button
                       type="submit"
                       id="set-password-submit-button"
-                      className="btn btn-primary auth__form-button"
+                      className="auth__form-button"
                       disabled={isSubmitting}
                     >
                       {I18n.t('COMMON.SUBMIT')}

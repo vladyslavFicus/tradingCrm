@@ -2986,7 +2986,8 @@
       "WITHDRAWAL": "Withdrawal",
       "DEPOSIT": "Deposit",
       "ACCOUNT": "Account",
-      "KYC": "KYC"
+      "KYC": "KYC",
+      "CALLBACK": "Callback"
     },
     "SUBTYPES": {
       "WITHDRAWAL_REQUEST_STATUS_FINANCE_TO_EXECUTE": "Withdrawal request status finance to execute",
@@ -3007,7 +3008,9 @@
       "DEPOSIT_CREATED": " Deposit created",
       "ACCOUNT_CREATED": "Account created",
       "DEPOSIT_FAILED": "Deposit failed",
-      "KYC_APPROVED": "Kyc approved"
+      "KYC_APPROVED": "Kyc approved",
+      "CALLBACK_NAME": "Callback to %{name}",
+      "CALLBACK_TIME": "Time: %{time}"
     },
     "TOOLTIP": {
       "HEADLINE": "Notifications found",
@@ -3125,7 +3128,8 @@
       "TIME": "Callback time",
       "CREATED": "Created",
       "MODIFIED": "Modified",
-      "STATUS": "Status"
+      "STATUS": "Status",
+      "REMINDER": "Reminder"
     },
     "FILTER": {
       "SEARCH_BY": "Search by",
@@ -3139,7 +3143,8 @@
       "OPERATOR": "Operator",
       "SELECT_OPERATOR": "Select operator",
       "CALLBACK_DATE_AND_TIME": "Callback date & time",
-      "SUCCESSFULLY_CREATED": "Callback has been successfully created"
+      "SUCCESSFULLY_CREATED": "Callback has been successfully created",
+      "REMINDER": "Reminder"
     },
     "MODAL": {
       "TITLE": "Callback details",
