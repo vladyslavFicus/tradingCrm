@@ -24,7 +24,6 @@ class OperatorsGrid extends PureComponent {
       loadMore: PropTypes.func,
       loading: PropTypes.bool.isRequired,
     }).isRequired,
-    operatorType: PropTypes.string.isRequired,
   };
 
   handlePageChanged = () => {
@@ -98,7 +97,7 @@ class OperatorsGrid extends PureComponent {
   renderOperator = ({ uuid, fullName }) => (
     <div>
       <div className="font-weight-700" id={`operator-list-${uuid}-main`}>
-        <Link to={`/${this.props.operatorType.toLowerCase()}s/${uuid}/profile`}>{fullName}</Link>
+        <Link to={`/operators/${uuid}/profile`}>{fullName}</Link>
       </div>
       <div className="font-size-11" id={`operator-list-${uuid}-additional`}>
         <MiniProfile
@@ -164,12 +163,12 @@ class OperatorsGrid extends PureComponent {
             render={this.renderCountry}
           />
           <GridColumn
-            sortBy="createdAt"
+            sortBy="registrationDate"
             header={I18n.t('OPERATORS.GRID_HEADER.REGISTERED')}
             render={this.renderRegistered}
           />
           <GridColumn
-            sortBy="status"
+            sortBy="operatorStatus"
             header={I18n.t('OPERATORS.GRID_HEADER.STATUS')}
             render={this.renderStatus}
           />
