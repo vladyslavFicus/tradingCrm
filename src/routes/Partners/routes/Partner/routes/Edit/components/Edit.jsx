@@ -31,6 +31,7 @@ class View extends Component {
       permissions: PropTypes.arrayOf(PropTypes.string),
       set: PropTypes.func,
     }).isRequired,
+    notify: PropTypes.func.isRequired,
   };
 
   static defaultProps = {

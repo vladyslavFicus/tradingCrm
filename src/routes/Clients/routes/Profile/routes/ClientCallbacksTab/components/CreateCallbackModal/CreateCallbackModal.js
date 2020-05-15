@@ -12,6 +12,7 @@ import { targetTypes } from 'constants/note';
 import { FormikSelectField, FormikDatePicker } from 'components/Formik';
 import { Button } from 'components/UI';
 import NoteButton from 'components/NoteButton';
+import { reminderValues } from 'constants/callbacks';
 import { createValidator, translateLabels } from 'utils/validator';
 import getOperatorsQuery from './graphql/getOperatorsQuery';
 import createCallbackMutation from './graphql/createCallbackMutation';
@@ -21,6 +22,7 @@ import './CreateCallbackModal.scss';
 const attributeLabels = {
   operatorId: 'CALLBACKS.CREATE_MODAL.OPERATOR',
   callbackTime: 'CALLBACKS.CREATE_MODAL.CALLBACK_DATE_AND_TIME',
+  reminder: 'CALLBACKS.CREATE_MODAL.REMINDER',
 };
 
 const validate = createValidator({
@@ -51,6 +53,7 @@ class CreateCallbackModal extends PureComponent {
     onCloseModal: PropTypes.func.isRequired,
     onSuccess: PropTypes.func.isRequired,
     addNote: PropTypes.func.isRequired,
+    notify: PropTypes.func.isRequired,
     isOpen: PropTypes.bool.isRequired,
   };
 
@@ -158,6 +161,19 @@ class CreateCallbackModal extends PureComponent {
                   closeOnSelect={false}
                   withTime
                 />
+
+                <Field
+                  name="reminder"
+                  placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
+                  label={I18n.t(attributeLabels.reminder)}
+                  component={FormikSelectField}
+                >
+                  {reminderValues.map(({ value, label }) => (
+                    <option key={value} value={value}>
+                      {label}
+                    </option>
+                  ))}
+                </Field>
 
                 <div className="CreateCallbackModal__note">
                   <NoteButton

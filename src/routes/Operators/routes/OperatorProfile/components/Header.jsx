@@ -113,16 +113,14 @@ class Header extends Component {
                 </PermissionContent>
               )
             }
-            {
-              <PermissionContent permissions={permissions.OPERATORS.CHANGE_PASSWORD}>
-                <Button
-                  className="btn-sm btn-default-outline"
-                  onClick={onChangePasswordClick}
-                >
-                  {I18n.t('OPERATOR_PROFILE.CHANGE_PASSWORD')}
-                </Button>
-              </PermissionContent>
-            }
+            <PermissionContent permissions={permissions.OPERATORS.CHANGE_PASSWORD}>
+              <Button
+                className="btn-sm btn-default-outline"
+                onClick={onChangePasswordClick}
+              >
+                {I18n.t('OPERATOR_PROFILE.CHANGE_PASSWORD')}
+              </Button>
+            </PermissionContent>
           </div>
         </div>
         <div className="layout-quick-overview">
@@ -165,7 +163,7 @@ class Header extends Component {
                           statusChangeDate
                         && (
                           <div className="header-block-small">
-                          on {moment.utc(statusChangeDate).local().format('DD.MM.YYYY')}
+                            on {moment.utc(statusChangeDate).local().format('DD.MM.YYYY')}
                           </div>
                         )
                         }

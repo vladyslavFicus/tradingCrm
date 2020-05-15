@@ -28,6 +28,7 @@ class PartnerAccountStatus extends PureComponent {
     modals: PropTypes.shape({
       changeAccountStatusModal: PropTypes.modalType,
     }).isRequired,
+    notify: PropTypes.func.isRequired,
   };
 
   state = {

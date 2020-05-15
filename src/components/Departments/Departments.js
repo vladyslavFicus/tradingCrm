@@ -11,6 +11,7 @@ class Departments extends PureComponent {
     departments: PropTypes.arrayOf(PropTypes.department).isRequired,
     brands: PropTypes.arrayOf(PropTypes.brand),
     onSelect: PropTypes.func.isRequired,
+    handleOnBackClick: PropTypes.func.isRequired,
     brand: PropTypes.brand,
   };
 

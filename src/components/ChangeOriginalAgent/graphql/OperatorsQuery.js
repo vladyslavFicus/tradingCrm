@@ -1,50 +1,27 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import gql from 'graphql-tag';
+import PropTypes from 'constants/propTypes';
 import { Query } from 'react-apollo';
 
-const REQUEST = gql`query OperatorsQuery(
-  $searchBy: String,
-  $country: String,
-  $phone: String,
-  $status: String,
-  $registrationDateFrom: String,
-  $registrationDateTo: String,
-  $page: Int,
-) {
-  operators(
-    searchBy: $searchBy,
-    country: $country,
-    phone: $phone,
-    status: $status,
-    registrationDateFrom: $registrationDateFrom,
-    registrationDateTo: $registrationDateTo,
-    page: $page,
-  ) {
+export const REQUEST = gql`query ChangeOriginalAgent_getOperators {
+  operators {
     data {
       page
       number
       totalElements
       size
       last
-        content {
-          uuid
-          fullName
-          operatorStatus
-          hierarchy {
-            uuid
-            userType
-          }
-        }
-    }
-    error {
-      error
+      content {
+        uuid
+        fullName
+        operatorStatus
+      }
     }
   }
 }`;
 
 const OperatorsQuery = ({ children }) => (
-  <Query query={REQUEST}>
+  <Query query={REQUEST} fetchPolicy="cache-and-network">
     {children}
   </Query>
 );

@@ -9,6 +9,7 @@ const createRule = gql`mutation createRule(
   $sources: [String],
   $type: RuleTypeEnum!,
   $actions: [RuleActionsInputType]!,
+  $uuid: String,
 ) {
   rules {
     createRule (
@@ -20,6 +21,7 @@ const createRule = gql`mutation createRule(
       sources: $sources,
       type: $type,
       actions: $actions,
+      uuid: $uuid,
     ) {
       data {
         actions {
@@ -53,6 +55,7 @@ const createRuleRetention = gql`mutation createRuleRetention(
   $actions: [RuleActionsInputType]!,
   $depositAmountFrom: Int!,
   $depositAmountTo: Int!,
+  $uuid: String,
 ) {
   rules {
     createRuleRetention (
@@ -63,6 +66,7 @@ const createRuleRetention = gql`mutation createRuleRetention(
       actions: $actions,
       depositAmountFrom: $depositAmountFrom,
       depositAmountTo: $depositAmountTo,
+      uuid: $uuid,
     ) {
       data {
         actions {

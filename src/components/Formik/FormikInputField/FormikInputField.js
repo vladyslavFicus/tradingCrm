@@ -9,6 +9,7 @@ class FormikInputField extends PureComponent {
       name: PropTypes.string.isRequired,
       value: PropTypes.any,
     }).isRequired,
+    type: PropTypes.string,
     form: PropTypes.shape({
       isSubmitting: PropTypes.bool.isRequired,
       errors: PropTypes.objectOf(
@@ -25,6 +26,10 @@ class FormikInputField extends PureComponent {
       ).isRequired,
       touched: PropTypes.object.isRequired,
     }).isRequired,
+  };
+
+  static defaultProps = {
+    type: undefined,
   };
 
   render() {

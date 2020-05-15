@@ -10,6 +10,9 @@ import ResetPasswordForm from './ResetPasswordForm';
 class ResetPassword extends Component {
   static propTypes = {
     resetPasswordMutation: PropTypes.func.isRequired,
+    location: PropTypes.shape({
+      search: PropTypes.string.isRequired,
+    }).isRequired,
   };
 
   state = {

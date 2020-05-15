@@ -21,9 +21,13 @@ class ActionFilterModal extends PureComponent {
     submitting: PropTypes.bool.isRequired,
     error: PropTypes.any,
     notify: PropTypes.func.isRequired,
+    createFilterSetMutation: PropTypes.func.isRequired,
+    updateFilterSetMutation: PropTypes.func.isRequired,
+    onSuccess: PropTypes.func.isRequired,
     action: PropTypes.string.isRequired,
     filterId: PropTypes.string,
     client: PropTypes.object.isRequired,
+    fields: PropTypes.object.isRequired,
   };
 
   static defaultProps = {

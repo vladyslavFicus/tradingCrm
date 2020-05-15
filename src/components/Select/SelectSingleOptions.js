@@ -13,6 +13,7 @@ class SelectSingleOptions extends PureComponent {
     className: PropTypes.string,
     optionClassName: PropTypes.string,
     onChange: PropTypes.func.isRequired,
+    handleSelectHide: PropTypes.func.isRequired,
     options: PropTypes.arrayOf(OptionPropType),
     selectedOption: OptionPropType,
     bindActiveOption: PropTypes.func,
