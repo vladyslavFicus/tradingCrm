@@ -50,7 +50,7 @@ class Header extends PureComponent {
                 {`${name} ${surname}`}
               </div>
               <span className="panel-heading-row__info-ids">
-                {!!uuid && <Uuid uuid={uuid} uuidPrefix="LE" />} {country && ` - ${country}`}
+                {uuid && <Uuid uuid={uuid} uuidPrefix="LE" />} {country && ` - ${country}`}
               </span>
             </div>
           </ProfileHeaderPlaceholder>

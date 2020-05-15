@@ -266,7 +266,7 @@ class LeadProfile extends PureComponent {
             </Switch>
           </Suspense>
         </div>
-        {popover.name === NOTE_POPOVER && (
+        <If condition={popover.name === NOTE_POPOVER}>
           <NotePopover
             isOpen
             manual
@@ -276,7 +276,7 @@ class LeadProfile extends PureComponent {
             onDeleteSuccess={data => this.handleDeleteNoteClick(noteViewType.POPOVER, data)}
             {...popover.params}
           />
-        )}
+        </If>
       </div>
     );
   }
