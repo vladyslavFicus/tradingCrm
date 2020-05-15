@@ -62,7 +62,9 @@ ${ProfileStatusFragment}`;
 
 const passwordResetRequest = gql`mutation passwordResetRequest($playerUUID: String!) {
   profile {
-    passwordResetRequest(playerUUID: $playerUUID) {
+    passwordResetRequest(
+      userUuid: $playerUUID
+    ) {
       success
     }
   }
@@ -70,7 +72,10 @@ const passwordResetRequest = gql`mutation passwordResetRequest($playerUUID: Stri
 
 const changePassword = gql`mutation changePassword($playerUUID: String!, $password: String!) {
   profile {
-    changePassword(playerUUID: $playerUUID, password: $password) {
+    changePassword(
+      clientUuid: $playerUUID
+      newPassword: $password
+    ) {
       success
     }
   }
@@ -337,7 +342,7 @@ const updateAddressMutation = gql`mutation updateAddress(
         _id
         address {
           ...AddressFragment
-        } 
+        }
       }
     }
   }
@@ -355,7 +360,7 @@ const verifyPhoneMutation = gql`mutation verifyPhone(
     ) {
       data {
         _id
-        phoneVerified  
+        phoneVerified
       }
       error {
         error
