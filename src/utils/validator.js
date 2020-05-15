@@ -45,7 +45,7 @@ function daysRangeBetweenValidator(value, requirement, attribute) {
     if (daysDifferenceValue >= daysDifferenceCriteria) {
       this.validator.errors.add(
         attribute,
-        `The difference between "${currentAttributeLabel}" and "${targetAttributeLabel}" 
+        `The difference between "${currentAttributeLabel}" and "${targetAttributeLabel}"
         must not be greater than ${daysDifferenceCriteria} days`,
       );
 
@@ -187,10 +187,15 @@ function listedIPsValidator(listOfIPs) {
   }, true);
 }
 
+function dateWithTime(inputValue) {
+  return moment(inputValue, 'YYYY-MM-DD HH:mm').isValid();
+}
+
 Validator.register('nextDate', nextDateValidator, 'The :attribute must be equal or bigger');
 Validator.register('lessThan', lessThanValidator, 'The :attribute must be less');
 Validator.register('greaterThan', greaterThanValidator, 'The :attribute must be greater');
 Validator.register('daysRangeBetween', daysRangeBetweenValidator, '');
+Validator.register('dateWithTime', dateWithTime, 'The date must be valid: Example: 01.01.2020 00:00');
 Validator.register('greater', greaterValidator, 'The :attribute must be greater than :greater');
 Validator.register('lessOrSame', lessOrSameValidator, 'The :attribute must be less');
 Validator.register('greaterOrSame', greaterOrSameValidator, 'The :attribute must be greater');

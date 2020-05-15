@@ -31,6 +31,9 @@ const sidebarTopMenu = [{
     label: 'SIDEBAR.TOP_MENU.KYC_DOCUMENTS',
     url: '/clients/kyc-documents',
     permissions: new Permissions(permissions.FILES.SEARCH_FILES),
+  }, {
+    label: 'SIDEBAR.TOP_MENU.TRADING_ACCOUNTS',
+    url: '/trading-accounts/list',
   }],
 }, {
   label: 'SIDEBAR.TOP_MENU.LEADS',

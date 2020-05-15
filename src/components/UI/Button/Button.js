@@ -54,7 +54,6 @@ class Button extends PureComponent {
       submitting,
       disabled,
       common,
-      commonSmall,
       commonOutline,
       primary,
       primaryOutline,

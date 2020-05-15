@@ -25,7 +25,6 @@ import Header from './components/Header';
 import {
   NotesQuery,
   LeadProfileQuery,
-  PromoteLeadProfile,
   AddLeadProfileNote,
   RemoveLeadProfileNote,
   UpdateLeadProfileNote,
@@ -37,20 +36,26 @@ class LeadProfile extends PureComponent {
   static propTypes = {
     ...PropTypes.router,
     leadProfileQuery: PropTypes.query({
-      leadProfile: PropTypes.shape({
-        data: PropTypes.lead,
-        error: PropTypes.object,
-      }),
+      leadProfile: PropTypes.response(PropTypes.lead),
     }).isRequired,
     pinnedNotesQuery: PropTypes.query({
-      notes: PropTypes.shape({
-        data: PropTypes.object,
-      }),
+      notes: PropTypes.response(PropTypes.object),
     }).isRequired,
-    promoteLead: PropTypes.func.isRequired,
+    addNote: PropTypes.func.isRequired,
+    updateNote: PropTypes.func.isRequired,
+    removeNote: PropTypes.func.isRequired,
     modals: PropTypes.shape({
       promoteLeadModal: PropTypes.modalType,
+      representativeModal: PropTypes.modalType,
+      noteModal: PropTypes.modalType,
     }).isRequired,
+    location: PropTypes.object.isRequired,
+    match: PropTypes.shape({
+      params: PropTypes.object.isRequired,
+      path: PropTypes.string.isRequired,
+      url: PropTypes.string.isRequired,
+    }).isRequired,
+    notify: PropTypes.func.isRequired,
   };
 
   static childContextTypes = {
@@ -71,55 +76,6 @@ class LeadProfile extends PureComponent {
       triggerRepresentativeUpdateModal: this.triggerRepresentativeUpdateModal,
     };
   }
-
-  handlePromoteLead = async (values) => {
-    const {
-      notify,
-      promoteLead,
-      leadProfileQuery: { refetch },
-      modals: { promoteLeadModal },
-    } = this.props;
-
-    const {
-      data: {
-        leads: {
-          promote: { data, error },
-        },
-      },
-    } = await promoteLead({
-      variables: { args: values },
-    });
-
-    if (error) {
-      let errorMessage = '';
-
-      if (error.error === 'error.entity.already.exist') {
-        errorMessage = I18n.t(`lead.${error.error}`, {
-          email: values.contacts.email,
-        });
-      } else if (error.fields_errors) {
-        errorMessage = Object.entries(error.fields_errors).map(
-          ([key, { error: err }]) => `${key}: ${err}`,
-        ).join(', ');
-      } else {
-        errorMessage = 'COMMON.SOMETHING_WRONG';
-      }
-
-      notify({
-        level: 'error',
-        title: I18n.t('COMMON.FAIL'),
-        message: errorMessage,
-      });
-    } else {
-      await refetch();
-      promoteLeadModal.hide();
-      notify({
-        level: 'success',
-        title: I18n.t('COMMON.SUCCESS'),
-        message: I18n.t('LEADS.SUCCESS_PROMOTED', { id: data.uuid }),
-      });
-    }
-  };
 
   triggerRepresentativeUpdateModal = () => {
     const {
@@ -155,50 +111,24 @@ class LeadProfile extends PureComponent {
       modals: { promoteLeadModal },
     } = this.props;
 
-    const {
-      email,
-      phone,
-      gender,
-      birthDate,
-      name: firstName,
-      surname: lastName,
-      country: countryCode,
-      language: languageCode,
-      mobile: additionalPhone,
-    } = get(leadProfileQuery, 'data.leadProfile.data');
-
     promoteLeadModal.show({
-      onSubmit: values => this.handlePromoteLead(values),
-      initialValues: {
-        address: {
-          countryCode,
-        },
-        contacts: {
-          email,
-          phone,
-          additionalPhone,
-        },
-        gender,
-        lastName,
-        firstName,
-        birthDate,
-        languageCode,
-      },
+      leadProfileQuery,
     });
   };
 
   handleEditModalNoteClick = (type, item) => () => {
-    const {
-      modals: { noteModal },
-    } = this.props;
+    const { modals: { noteModal } } = this.props;
+    const { content, subject, pinned } = item;
 
     noteModal.show({
       type,
-      onEdit: data => this.handleSubmitNoteClick(noteViewType.MODAL, data),
+      onEdit: data => this.handleSubmitNoteClick(noteViewType.MODAL, { ...item, ...data }),
       onDelete: () => this.handleDeleteNoteClick(noteViewType.MODAL, item.noteId),
       tagType: item.tagType,
       initialValues: {
-        ...item,
+        content,
+        subject,
+        pinned,
       },
     });
   };
@@ -362,7 +292,6 @@ export default compose(
   withRequests({
     pinnedNotesQuery: NotesQuery,
     leadProfileQuery: LeadProfileQuery,
-    promoteLead: PromoteLeadProfile,
     addNote: AddLeadProfileNote,
     updateNote: UpdateLeadProfileNote,
     removeNote: RemoveLeadProfileNote,

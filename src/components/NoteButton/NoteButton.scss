@@ -1,11 +1,11 @@
-@import "../../styles/old/variables";
+@import "../../styles/helpers/variables";
 
 .note-preview {
   display: block;
   padding: 3px 10px;
   border: 1px solid #aeaeae;
   border-radius: 5px;
-  background-color: $yellow-color;
+  background-color: $color-paper;
   text-align: left;
   text-overflow: ellipsis;
   white-space: nowrap;

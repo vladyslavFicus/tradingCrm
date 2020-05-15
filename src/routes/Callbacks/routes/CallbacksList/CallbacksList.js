@@ -11,12 +11,9 @@ import './CallbacksList.scss';
 
 class CallbacksList extends PureComponent {
   static propTypes = {
-    callbacksData: PropTypes.shape({
-      loading: PropTypes.bool.isRequired,
-      data: PropTypes.shape({
-        callbacks: PropTypes.shape({
-          data: PropTypes.pageable(PropTypes.callback),
-        }),
+    callbacksData: PropTypes.query({
+      callbacks: PropTypes.shape({
+        data: PropTypes.pageable(PropTypes.callback),
       }),
     }).isRequired,
   };

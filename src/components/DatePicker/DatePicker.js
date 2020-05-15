@@ -17,7 +17,7 @@ class DatePicker extends Component {
       error: PropTypes.string,
       setValue: PropTypes.func,
     }).isRequired,
-    isValidDate: PropTypes.func.isRequired,
+    isValidDate: PropTypes.func,
     id: PropTypes.string,
     className: PropTypes.string,
     pickerClassName: PropTypes.string,
@@ -44,6 +44,7 @@ class DatePicker extends Component {
     dateFormat: 'DD.MM.YYYY',
     timeFormat: 'HH:mm',
     position: 'vertical',
+    isValidDate: () => true,
     utc: false,
     disabled: false,
     placeholder: '',
@@ -209,20 +210,20 @@ class DatePicker extends Component {
     );
   };
 
-  renderVertical = (props) => {
+  renderVertical = () => {
     const {
       label,
       className,
-      field: { touched, error },
+      field: { error },
       showErrorMessage,
       helpText,
       disabled,
-    } = props;
+    } = this.props;
 
     const groupClassName = classNames(
       'form-group',
       className,
-      { 'has-danger': touched && error },
+      { 'has-danger': error },
       { 'is-disabled': disabled },
     );
 
@@ -231,10 +232,10 @@ class DatePicker extends Component {
         <If condition={label}>
           <label>{label}</label>
         </If>
-        {this.renderInput(props)}
-        <If condition={helpText || (showErrorMessage && touched && error)}>
+        {this.renderInput()}
+        <If condition={helpText || (showErrorMessage && error)}>
           <div className="form-row">
-            <If condition={showErrorMessage && touched && error}>
+            <If condition={showErrorMessage && error}>
               <div className="col form-control-feedback">
                 <i className="icon icon-alert" />
                 {error}
@@ -251,20 +252,20 @@ class DatePicker extends Component {
     );
   };
 
-  renderHorizontal = (props) => {
+  renderHorizontal = () => {
     const {
       label,
       className,
-      field: { touched, error },
+      field: { error },
       showErrorMessage,
       helpText,
       disabled,
-    } = props;
+    } = this.props;
 
     const groupClassName = classNames(
       'form-group row',
       className,
-      { 'has-danger': touched && error },
+      { 'has-danger': error },
       { 'is-disabled': disabled },
     );
 
@@ -272,11 +273,11 @@ class DatePicker extends Component {
       <div className={groupClassName}>
         <label className="col-md-3">{label}</label>
         <div className="col-md-9">
-          {this.renderInput(props)}
-          <If condition={helpText || (showErrorMessage && touched && error)}>
+          {this.renderInput(this.props)}
+          <If condition={helpText || (showErrorMessage && error)}>
             <div className="col-12">
               <div className="form-row">
-                <If condition={showErrorMessage && touched && error}>
+                <If condition={showErrorMessage && error}>
                   <div className="col form-control-feedback">
                     <i className="icon icon-alert" />
                     {error}
@@ -297,8 +298,8 @@ class DatePicker extends Component {
 
   render() {
     return this.props.position === 'vertical'
-      ? this.renderVertical(this.props)
-      : this.renderHorizontal(this.props);
+      ? this.renderVertical()
+      : this.renderHorizontal();
   }
 }
 

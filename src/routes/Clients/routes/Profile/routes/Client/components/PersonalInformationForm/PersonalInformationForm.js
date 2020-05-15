@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react';
 import I18n from 'i18n-js';
-import { get } from 'lodash';
 import moment from 'moment';
 import { Formik, Form, Field } from 'formik';
 import PermissionContent from 'components/PermissionContent';
@@ -15,7 +14,6 @@ import permissions from 'config/permissions';
 import { createValidator } from 'utils/validator';
 import countryList from 'utils/countryList';
 import PropTypes from 'constants/propTypes';
-import languageNames from 'constants/languageNames';
 import {
   COUNTRY_SPECIFIC_IDENTIFIER_TYPES,
   attributeLabels,
@@ -129,21 +127,15 @@ class PersonalInformationForm extends PureComponent {
               <Field
                 name="languageCode"
                 label={attributeLabels.language}
-                placeholder={attributeLabels.language}
                 className="col-lg-4"
                 component={FormikSelectField}
                 disabled={disabled}
               >
-                {
-                  getAvailableLanguages().map(languageCode => (
-                    <option key={languageCode} value={languageCode}>
-                      {I18n.t(
-                        get(languageNames.find(item => item.languageCode === languageCode),
-                          'languageName', languageCode),
-                      )}
-                    </option>
-                  ))
-                }
+                {getAvailableLanguages().map(locale => (
+                  <option key={locale} value={locale}>
+                    {I18n.t(`COMMON.LANGUAGE_NAME.${locale.toUpperCase()}`, { defaultValue: locale.toUpperCase() })}
+                  </option>
+                ))}
               </Field>
               <FormikDatePicker
                 name="birthDate"
@@ -170,14 +162,14 @@ class PersonalInformationForm extends PureComponent {
               <Field
                 name="timeZone"
                 label={attributeLabels.timeZone}
-                placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
+                placeholder={attributeLabels.timeZone}
                 component={FormikSelectField}
                 disabled={disabled}
                 className="col-lg-2"
               >
                 {timeZoneOffsets.map(timeZone => (
                   <option key={timeZone} value={timeZone}>
-                    {timeZone}
+                    {`UTC ${timeZone}`}
                   </option>
                 ))}
               </Field>
@@ -246,7 +238,7 @@ class PersonalInformationForm extends PureComponent {
               <Field
                 name="passport.countrySpecificIdentifierType"
                 label={attributeLabels.countrySpecificIdentifierType}
-                placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
+                placeholder={attributeLabels.countrySpecificIdentifierType}
                 component={FormikSelectField}
                 disabled={disabled}
                 className="col-lg-4"

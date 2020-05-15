@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import SortableTree, { toggleExpandedForAll, changeNodeAtPath, defaultGetNodeKey } from 'react-sortable-tree';
-import PropTypes from 'prop-types';
+import PropTypes from 'constants/propTypes';
 import 'react-sortable-tree/style.css';
 import NodeContentRenderer from './NodeContentRenderer';
 
@@ -10,6 +10,8 @@ import NodeContentRenderer from './NodeContentRenderer';
 class Tree extends PureComponent {
   static propTypes = {
     onChange: PropTypes.func,
+    generateNodeProps: PropTypes.func.isRequired,
+    treeData: PropTypes.arrayOf(PropTypes.treeData).isRequired,
   };
 
   static defaultProps = {

@@ -28,6 +28,7 @@ class BranchHeader extends PureComponent {
     loading: PropTypes.bool.isRequired,
     branchId: PropTypes.string.isRequired,
     branchData: PropTypes.shape({
+      uuid: PropTypes.string,
       name: PropTypes.string,
       country: PropTypes.string,
       branchType: PropTypes.string,
@@ -52,11 +53,12 @@ class BranchHeader extends PureComponent {
       removeManagerConfirmModal: PropTypes.modalType,
     }).isRequired,
     removeBranchManager: PropTypes.func.isRequired,
+    notify: PropTypes.func.isRequired,
   };
 
   refetchBranchManagerInfo = () => {
     this.props.branchManager.refetch();
-  }
+  };
 
   removeManager = async () => {
     const {

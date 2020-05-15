@@ -126,6 +126,7 @@ const tradingTypes = keyMirror({
   CREDIT_OUT: null,
   DEPOSIT: null,
   INACTIVITY_FEE: null,
+  INTEREST_RATE: null,
   MIGRATION_IN: null,
   MIGRATION_OUT: null,
   MIGRATION_CREDIT_IN: null,
@@ -143,6 +144,10 @@ const tradingTypesLabelsWithColor = {
   [tradingTypes.WITHDRAW]: {
     label: 'COMMON.PAYMENT_TYPE.WITHDRAW',
     color: 'color-danger',
+  },
+  [tradingTypes.INTEREST_RATE]: {
+    label: 'COMMON.PAYMENT_TYPE.INTEREST_RATE',
+    color: 'color-info',
   },
   DEMO_DEPOSIT: {
     label: 'COMMON.PAYMENT_TYPE.DEPOSIT',

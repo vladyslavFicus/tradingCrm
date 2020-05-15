@@ -22,6 +22,7 @@ class RejectPaymentForm extends PureComponent {
     onSuccess: PropTypes.func.isRequired,
     paymentId: PropTypes.string.isRequired,
     notify: PropTypes.func.isRequired,
+    rejectPayment: PropTypes.func.isRequired,
   };
 
   handleRejectPayment = async (values, { setSubmitting, validateForm }) => {

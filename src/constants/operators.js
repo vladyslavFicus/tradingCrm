@@ -108,11 +108,6 @@ const rolesLabels = {
   [roles.PLAYER]: 'CONSTANTS.OPERATORS.ROLES.PLAYER',
 };
 
-const operatorTypes = keyMirror({
-  OPERATOR: null,
-  PARTNER: null,
-});
-
 export {
   actions,
   statuses,
@@ -123,5 +118,4 @@ export {
   departmentsLabels,
   roles,
   rolesLabels,
-  operatorTypes,
 };

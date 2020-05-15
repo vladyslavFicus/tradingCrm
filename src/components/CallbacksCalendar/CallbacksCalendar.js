@@ -34,7 +34,7 @@ class CallbacksCalendar extends PureComponent {
   }
 
   getCalendarEvents = entities => entities.map(callback => ({
-    title: `${moment(callback.callbackTime).format('HH:mm')} ${callback.client.fullName}`,
+    title: `${moment(callback.callbackTime).format('HH:mm')} ${callback.client && callback.client.fullName}`,
     start: new Date(callback.callbackTime),
     end: new Date(callback.callbackTime),
     callback,

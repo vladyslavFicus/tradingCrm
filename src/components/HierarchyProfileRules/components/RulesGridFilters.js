@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'constants/propTypes';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
+import { getAvailableLanguages } from 'config';
 import { createValidator } from 'utils/validator';
 import countryList from 'utils/countryList';
-import languages from 'constants/languageNames';
 import { filterLabels } from 'constants/user';
 import { FormikInputField, FormikSelectField } from 'components/Formik';
 import { fieldClassNames } from 'components/Formik/constants';
@@ -99,9 +99,9 @@ class RulesFilters extends Component {
                 searchable
                 withAnyOption
               >
-                {languages.map(({ languageName, languageCode }) => (
-                  <option key={languageCode} value={languageCode}>
-                    {I18n.t(languageName)}
+                {getAvailableLanguages().map(locale => (
+                  <option key={locale} value={locale}>
+                    {I18n.t(`COMMON.LANGUAGE_NAME.${locale.toUpperCase()}`, { defaultValue: locale.toUpperCase() })}
                   </option>
                 ))}
               </Field>

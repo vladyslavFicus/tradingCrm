@@ -1,0 +1,51 @@
+.color-default {
+  color: $color-default !important;
+}
+
+.color-inactive {
+  color: $color-inactive !important;
+}
+
+.color-primary {
+  color: $color-primary !important;
+}
+
+.color-secondary {
+  color: $color-secondary !important;
+}
+
+.color-success {
+  color: $color-success !important;
+}
+
+.color-info {
+  color: $color-info !important;
+}
+
+.color-warning {
+  color: $color-warning !important;
+}
+
+.color-danger {
+  color: $color-danger !important;
+}
+
+.color-yellow {
+  color: $color-yellow !important;
+}
+
+.border-color-success {
+  border-color: $color-success;
+}
+
+.border-color-info {
+  border-color: $color-info;
+}
+
+.border-color-warning {
+  border-color: $color-warning;
+}
+
+.border-color-danger {
+  border-color: $color-danger;
+}

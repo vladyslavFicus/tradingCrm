@@ -28,14 +28,18 @@ import ChangeLeverageModal from './ChangeLeverageModal';
 class TradingAccountsGrid extends PureComponent {
   static propTypes = {
     modals: PropTypes.shape({
-      TradingAccountChangePasswordModal: PropTypes.modalType,
+      tradingAccountChangePasswordModal: PropTypes.modalType,
+      changeLeverageModal: PropTypes.modalType,
     }).isRequired,
     tradingAccounts: PropTypes.arrayOf(PropTypes.tradingAccount).isRequired,
     updateTradingAccount: PropTypes.func.isRequired,
+    approveChangeLeverage: PropTypes.func.isRequired,
+    rejectChangeLeverage: PropTypes.func.isRequired,
     refetchTradingAccountsList: PropTypes.func.isRequired,
     permission: PropTypes.permission.isRequired,
     profileUuid: PropTypes.string.isRequired,
     isLoading: PropTypes.bool.isRequired,
+    notify: PropTypes.func.isRequired,
   };
 
   handleSetTradingAccountReadonly = (accountUUID, readOnly) => () => {
