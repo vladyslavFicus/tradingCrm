@@ -127,6 +127,28 @@ class CallbacksGrid extends PureComponent {
     />
   );
 
+  renderReminder = ({ reminder, callbackTime }) => {
+    if (reminder) {
+      // Reminder format: ISO 8601('PT5M'), get milliseconds via moment.duration
+      const reminderMilliseconds = moment.duration(reminder).asMilliseconds();
+      const callbackTimeMilliseconds = new Date(callbackTime).getTime();
+      const reminderDate = callbackTimeMilliseconds - reminderMilliseconds;
+
+      return (
+        <Fragment>
+          <div className="CallbacksGrid__info-main">
+            {moment(reminderDate).format('DD.MM.YYYY')}
+          </div>
+          <div className="CallbacksGrid__info-secondary">
+            {moment(reminderDate).format('HH:mm:ss')}
+          </div>
+        </Fragment>
+      );
+    }
+
+    return (<div>&mdash;</div>);
+  }
+
   render() {
     const {
       callbacksData,
@@ -182,6 +204,10 @@ class CallbacksGrid extends PureComponent {
             name="status"
             header={I18n.t('CALLBACKS.GRID_HEADER.STATUS')}
             render={this.renderStatus}
+          />
+          <GridColumn
+            header={I18n.t('CALLBACKS.GRID_HEADER.REMINDER')}
+            render={this.renderReminder}
           />
           <GridColumn
             name="actions"

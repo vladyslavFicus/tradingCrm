@@ -3128,7 +3128,8 @@
       "TIME": "Callback time",
       "CREATED": "Created",
       "MODIFIED": "Modified",
-      "STATUS": "Status"
+      "STATUS": "Status",
+      "REMINDER": "Reminder"
     },
     "FILTER": {
       "SEARCH_BY": "Search by",
@@ -3142,7 +3143,8 @@
       "OPERATOR": "Operator",
       "SELECT_OPERATOR": "Select operator",
       "CALLBACK_DATE_AND_TIME": "Callback date & time",
-      "SUCCESSFULLY_CREATED": "Callback has been successfully created"
+      "SUCCESSFULLY_CREATED": "Callback has been successfully created",
+      "REMINDER": "Reminder"
     },
     "MODAL": {
       "TITLE": "Callback details",
