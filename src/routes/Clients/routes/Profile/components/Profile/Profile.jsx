@@ -38,7 +38,7 @@ import {
 } from '../../routes';
 import ProfileHeader from '../ProfileHeader';
 import Information from '../Information';
-import { userProfileTabs, moveField } from './constants';
+import { userProfileTabs } from './constants';
 
 const NOTE_POPOVER = 'note-popover';
 const popoverInitialState = {
@@ -212,7 +212,7 @@ class Profile extends Component {
       }],
       currentInactiveOperator: assignToOperator,
       header: I18n.t('CLIENT_PROFILE.MODALS.REPRESENTATIVE_UPDATE.HEADER', { type: type.toLowerCase() }),
-      additionalFields: [moveField(type)],
+      isAvailableToMove: true,
       onSuccess: () => refetch(),
     });
   };

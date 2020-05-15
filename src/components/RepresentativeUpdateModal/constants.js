@@ -1,4 +1,3 @@
-import keyMirror from 'keymirror';
 import { get } from 'lodash';
 
 export const attributeLabels = type => ({
@@ -7,10 +6,6 @@ export const attributeLabels = type => ({
   representative: `CLIENTS.MODALS.${type}_MODAL.REPRESENTATIVE`,
   status: `CLIENTS.MODALS.${type}_MODAL.STATUS`,
   move: 'CLIENTS.MODALS.MOVE_MODAL.MOVE_LABEL',
-});
-
-export const components = keyMirror({
-  select: null,
 });
 
 export const fieldNames = {

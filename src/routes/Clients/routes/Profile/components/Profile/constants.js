@@ -1,4 +1,3 @@
-import { aquisitionStatuses } from 'constants/aquisitionStatuses';
 import { getActiveBrandConfig } from 'config';
 import Permissions from 'utils/permissions';
 import permissions from 'config/permissions';
@@ -50,10 +49,3 @@ if (getActiveBrandConfig().socialTrading) {
     url: '/clients/:id/social-trading',
   });
 }
-
-export const moveField = type => ({
-  name: 'acquisitionStatus',
-  labelName: 'move',
-  component: 'select',
-  data: [aquisitionStatuses.find(({ value }) => type === value)],
-});
