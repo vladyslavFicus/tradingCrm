@@ -39,6 +39,7 @@ class AddressForm extends PureComponent {
     }),
     updateAddress: PropTypes.func.isRequired,
     playerUUID: PropTypes.string.isRequired,
+    notify: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -51,12 +52,19 @@ class AddressForm extends PureComponent {
   };
 
   handleUpdateAddress = () => {
-    const { updateAddress, playerUUID } = this.props;
+    const { updateAddress, playerUUID, notify } = this.props;
 
-    updateAddress({
+    const { error } = updateAddress({
       variables: {
         playerUUID,
       },
+    });
+
+    notify({
+      level: error ? 'error' : 'success',
+      title: I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.TITLE'),
+      message: `${I18n.t('COMMON.ACTIONS.UPDATED')}
+        ${error ? I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY') : I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
     });
   };
 
