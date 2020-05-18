@@ -78,7 +78,7 @@ class PaymentDetailsModal extends PureComponent {
       <div className="PaymentDetailsModal__block PaymentDetailsModal__one-third">
         <ChangeOriginalAgent
           paymentId={paymentId}
-          initialValues={{ agentId: originalAgent ? originalAgent.uuid : null }}
+          agentId={originalAgent ? originalAgent.uuid : ''}
         />
       </div>
     );
