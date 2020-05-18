@@ -12,7 +12,7 @@ import setBrandIdByUserToken from 'utils/setBrandIdByUserToken';
 class BrandsView extends Component {
   static propTypes = {
     history: PropTypes.object.isRequired,
-    brandToAuthorities: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.string)).isRequired,
+    departmentsByBrand: PropTypes.object.isRequired,
     chooseDepartmentMutation: PropTypes.func.isRequired,
     brands: PropTypes.arrayOf(PropTypes.brand).isRequired,
     ...withStorage.propTypes,
@@ -33,7 +33,7 @@ class BrandsView extends Component {
     const { step, brand, departments, loading } = this.state;
 
     if (step === 2 && departments.length === 1) {
-      return this.handleSelectDepartment(brand.brand, departments[0]);
+      return this.handleSelectDepartment(brand.brand, departments[0].id);
     }
 
     if (step === 3) {
@@ -53,10 +53,10 @@ class BrandsView extends Component {
 
   handleSelectBrand = (brand) => {
     if (brand) {
-      const { brandToAuthorities, client, storage } = this.props;
+      const { departmentsByBrand, client, storage } = this.props;
 
-      const brandDepartments = brandToAuthorities[brand.brand];
-      const departments = brandDepartments.map(brandDepartment => mapDepartments(brandDepartment));
+      const brandDepartments = departmentsByBrand[brand.brand];
+      const departments = Object.keys(brandDepartments).map(mapDepartments(brandDepartments));
 
       this.setState({
         loading: true,
@@ -71,8 +71,8 @@ class BrandsView extends Component {
     }
   };
 
-  handleSelectDepartment = async (brand, { department, role }) => {
-    const { chooseDepartmentMutation, history, storage } = this.props;
+  handleSelectDepartment = (brand, department) => {
+    const { departmentsByBrand, history } = this.props;
 
     // Should be covered as callback because this method called from componentDidUpdate several times and make logout
     this.setState({ step: 3, loading: true }, async () => {
@@ -88,13 +88,21 @@ class BrandsView extends Component {
             },
           },
         },
-      } = await chooseDepartmentMutation({
-        variables: { brand, department, role },
+      } = await this.props.chooseDepartmentMutation({
+        variables: {
+          brandId: brand,
+          department,
+          uuid: this.state.uuid,
+        },
       });
 
       if (!error) {
-        storage.set('token', token);
-        storage.set('auth', { department, role, uuid });
+        this.props.storage.set('token', token);
+        this.props.storage.set('auth', {
+          department,
+          role: departmentsByBrand[brand][department],
+          uuid,
+        });
 
         // This function need to refresh window.app object to get new data from token
         setBrandIdByUserToken();
@@ -130,7 +138,7 @@ class BrandsView extends Component {
             brand={brand}
             brands={brands}
             departments={departments}
-            onSelect={department => this.handleSelectDepartment(brand.brand, department)}
+            onSelect={({ id }) => this.handleSelectDepartment(brand.brand, id)}
             handleOnBackClick={this.handleOnBackClick}
           />
         );
@@ -160,4 +168,4 @@ class BrandsView extends Component {
   }
 }
 
-export default withStorage(['brands', 'brandToAuthorities'])(BrandsView);
+export default withStorage(['brands', 'departmentsByBrand'])(BrandsView);

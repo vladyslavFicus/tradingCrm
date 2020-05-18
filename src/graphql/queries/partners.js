@@ -1,5 +1,6 @@
 import gql from 'graphql-tag';
 
+// # TODO: remove after Payments will be refactored
 const partnersQuery = gql`query getPartners(
   $searchBy: String,
   $country: String,
@@ -73,7 +74,7 @@ const partnerQuery = gql`query getPartnerByUUID(
       }
       authorities {
         data {
-          brand
+          brandId
           department
           id
           role

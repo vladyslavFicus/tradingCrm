@@ -9,6 +9,11 @@ class DepartmentItem extends PureComponent {
     role: PropTypes.string.isRequired,
     image: PropTypes.string.isRequired,
     onClick: PropTypes.func.isRequired,
+    id: PropTypes.string,
+  };
+
+  static defaultProps = {
+    id: '',
   };
 
   render() {
@@ -17,11 +22,13 @@ class DepartmentItem extends PureComponent {
       role,
       image,
       onClick,
+      id,
     } = this.props;
 
     return (
       <div className="DepartmentItem" onClick={onClick}>
         <img
+          id={id}
           src={image}
           className="DepartmentItem__image"
           alt={`${I18n.t(name)} / ${I18n.t(role)}`}
