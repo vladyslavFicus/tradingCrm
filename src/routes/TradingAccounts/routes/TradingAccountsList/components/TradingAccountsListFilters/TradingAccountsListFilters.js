@@ -85,9 +85,9 @@ class TradingAccountsListFilters extends PureComponent {
                 component={FormikSelectField}
                 withAnyOption
               >
-                {Object.keys(affiliateTypes).map(key => (
-                  <option key={key} value={key}>
-                    {I18n.t(affiliateTypes[key])}
+                {affiliateTypes.map(({ label, value }) => (
+                  <option key={value} value={value}>
+                    {I18n.t(label)}
                   </option>
                 ))}
               </Field>
