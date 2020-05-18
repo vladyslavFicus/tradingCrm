@@ -76,11 +76,8 @@ const updatePartner = gql`mutation updatePartner(
 }`;
 
 const changePassword = gql`mutation changePassword($playerUUID: String!, $password: String!) {
-  operator {
-    changePassword(
-      operatorUuid: $playerUUID,
-      password: $password
-    ) {
+  profile {
+    changePassword(playerUUID: $playerUUID, password: $password) {
       success
     }
   }

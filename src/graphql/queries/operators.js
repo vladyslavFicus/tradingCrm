@@ -101,7 +101,7 @@ const operatorQuery = gql`query getOperatorByUUID(
       uuid
       authorities {
         data {
-          brand
+          brandId
           department
           id
           role

@@ -10,10 +10,9 @@ const mapBrands = brands => brands
   }))
   .filter(brand => !!brand);
 
-const mapDepartments = ({ id, role, department }) => ({
-  id,
-  department,
-  role: rolesConfig[role] || role,
+const mapDepartments = brandDepartments => department => ({
+  id: department,
+  role: rolesConfig[brandDepartments[department]],
   ...departmentsConfig[department],
 });
 

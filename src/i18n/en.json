@@ -1115,15 +1115,10 @@
         "DEALING": "Dealing"
       },
       "ROLES": {
-        "EXECUTIVE": "Executive",
-        "TEAM_LEADER": "Team leader",
-        "MANAGER": "Manager",
-        "HEAD_OF_DEPARTMENT": "Head of department",
-        "MARKETING": "Marketing",
-        "COMPLIANCE": "Compliance",
-        "E2E": "E2E",
-        "BI": "Business intelligence",
-        "AFFILIATE": "Affiliate",
+        "ROLE1": "Executive",
+        "ROLE2": "Team leader",
+        "ROLE3": "Manager",
+        "ROLE4": "Head of department",
         "PLAYER": "Player"
       }
     },

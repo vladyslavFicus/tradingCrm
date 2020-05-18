@@ -1,5 +1,5 @@
 import { compose, graphql } from 'react-apollo';
-import { get, omit } from 'lodash';
+import { get, set, omit } from 'lodash';
 import { withNotifications } from 'hoc';
 import { getUserHierarchyById } from 'graphql/queries/hierarchy';
 import { operatorQuery } from 'graphql/queries/operators';
@@ -14,18 +14,49 @@ export default compose(
   graphql(authoritiesOptionsQuery, {
     name: 'authoritiesOptions',
     props: ({ authoritiesOptions }) => {
-      const departmentsRoles = get(authoritiesOptions, 'authoritiesOptions.data.authoritiesOptions', {});
+      const departmentsRoles = get(authoritiesOptions, 'authoritiesOptions.data.post.departmentRole', {});
 
       return {
-        departmentsRoles: omit(departmentsRoles, ['PLAYER', 'AFFILIATE']),
+        departmentsRoles: omit(departmentsRoles, 'PLAYER'),
       };
     },
   }),
   graphql(updateOperator, {
     name: 'updateProfile',
   }),
-  graphql(addDepartment, { name: 'addAuthority' }),
-  graphql(removeDepartment, { name: 'deleteAuthority' }),
+  graphql(addDepartment, {
+    name: 'addAuthority',
+    options: ({
+      match: { params: { id: uuid } },
+    }) => ({
+      update: (store, { data }) => {
+        const storeData = store.readQuery({
+          query: operatorQuery,
+          variables: { uuid },
+        });
+        const authorities = get(data, 'operator.addDepartment.data.authorities', []);
+        set(storeData, 'operator.data.authorities.data', authorities);
+        store.writeQuery({ query: operatorQuery, variables: { uuid }, data: storeData });
+      },
+    }),
+  }),
+  graphql(removeDepartment, {
+    name: 'deleteAuthority',
+    options: ({
+      match: { params: { id: uuid } },
+    }) => ({
+      update: (store, { data }) => {
+        // TODO: need to think about cloning and updating of the store data
+        const storeData = JSON.parse(JSON.stringify(store.readQuery({
+          query: operatorQuery,
+          variables: { uuid },
+        })));
+        const authorities = get(data, 'operator.removeDepartment.data.authorities', []);
+        set(storeData, 'operator.data.authorities.data', authorities);
+        store.writeQuery({ query: operatorQuery, variables: { uuid }, data: storeData });
+      },
+    }),
+  }),
   graphql(getUserHierarchyById, {
     name: 'userHierarchy',
     options: ({

@@ -117,7 +117,9 @@ class List extends Component {
       data: {
         authoritiesOptions: {
           data: {
-            authoritiesOptions,
+            post: {
+              departmentRole,
+            },
           },
           error,
         },
@@ -125,20 +127,20 @@ class List extends Component {
     } = await client.query({ query: authoritiesOptionsQuery });
 
     if (!error) {
-      delete authoritiesOptions.PLAYER;
-      delete authoritiesOptions.AFFILIATE;
+      delete departmentRole.PLAYER;
+      delete departmentRole.AFFILIATE_PARTNER;
 
-      const [department] = Object.keys(authoritiesOptions);
+      const [department] = Object.keys(departmentRole);
 
       const initialValues = {
         department,
-        role: department ? authoritiesOptions[department][0] : null,
+        role: department ? departmentRole[department][0] : null,
       };
 
       modals.createOperator.show({
         onSubmit: this.handleSubmitNewOperator,
         initialValues,
-        departmentsRoles: authoritiesOptions || {},
+        departmentsRoles: departmentRole || {},
       });
     } else {
       notify({
