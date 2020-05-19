@@ -3499,8 +3499,7 @@
       },
       "AFFILIATE_TYPE": {
         "AFFILIATE": "Affiliate",
-        "IB": "IB",
-        "DIRECT": "Direct"
+        "NONE": "None"
       }
     },
     "GRID": {
