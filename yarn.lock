@@ -1386,7 +1386,7 @@
 
 "@hrzn/brands-config@1.0.10":
   version "1.0.10"
-  resolved "https://nexus.flcn.pro/repository/hrzn-npm/@hrzn/brands-config/-/brands-config-1.0.10.tgz#11e2f43d4c5eb65aac45600b518b08372f2ed85f"
+  resolved "https://nexus.etep.io/repository/hrzn-npm/@hrzn/brands-config/-/brands-config-1.0.10.tgz#11e2f43d4c5eb65aac45600b518b08372f2ed85f"
   integrity sha512-D9eg1duSXc578tTcbH5/HDwT4tOmRji/vTiv8DsnTQW2XwgfbX9ulJb36KFrXw5phuIZN4OUZx6zeHgegPvgGQ==
   dependencies:
     "@hrzn/zookeeper" "^1.0.15"
@@ -1395,7 +1395,7 @@
 
 "@hrzn/k8s-configmap@^1.0.1":
   version "1.0.1"
-  resolved "https://nexus.flcn.pro/repository/hrzn-npm/@hrzn/k8s-configmap/-/k8s-configmap-1.0.1.tgz#c45f693100fb2c89f7d97a829d397e3a82196480"
+  resolved "https://nexus.etep.io/repository/hrzn-npm/@hrzn/k8s-configmap/-/k8s-configmap-1.0.1.tgz#c45f693100fb2c89f7d97a829d397e3a82196480"
   integrity sha512-Slwww966N5B6aUgHAcm0iPDk4AmdsPbunPqAPnqcz81a+i/bN73SVfD9NYd6mW81Ah3Ig9gYNsIj23WHcFylBA==
   dependencies:
     kubernetes-client "^9.0.0"
@@ -1403,7 +1403,7 @@
 
 "@hrzn/react-big-calendar@^0.20.3":
   version "0.20.3"
-  resolved "https://nexus.flcn.pro/repository/hrzn-npm/@hrzn/react-big-calendar/-/react-big-calendar-0.20.3.tgz#a01b8471d371fde6244652694c935ca765b4c28f"
+  resolved "https://nexus.etep.io/repository/hrzn-npm/@hrzn/react-big-calendar/-/react-big-calendar-0.20.3.tgz#a01b8471d371fde6244652694c935ca765b4c28f"
   integrity sha512-vHbM8vGzVv/9so8QVJI6LfaT/KKu1OdPa0ynNGrpIEGfSoo7CggyDL0jXyn61AnOAs8xrSvqa0602Rfv1QLgBQ==
   dependencies:
     "@babel/runtime" "^7.1.5"
@@ -1421,7 +1421,7 @@
 
 "@hrzn/zookeeper@^1.0.15":
   version "1.0.15"
-  resolved "https://nexus.flcn.pro/repository/hrzn-npm/@hrzn/zookeeper/-/zookeeper-1.0.15.tgz#92a36d3bf002f5b310917b54fda2f8231eb3d6e9"
+  resolved "https://nexus.etep.io/repository/hrzn-npm/@hrzn/zookeeper/-/zookeeper-1.0.15.tgz#92a36d3bf002f5b310917b54fda2f8231eb3d6e9"
   integrity sha512-YjEf/EofbriPupSFv9CQreu62SN+JvdyWdzJSFrQ0kh7R9rAntK/dXFvk+wP6lIIaQqGj+2WzYt9CW05YJ89dA==
   dependencies:
     events "^3.0.0"
@@ -1653,7 +1653,7 @@
 
 "@newage/backoffice_ui@0.0.52":
   version "0.0.52"
-  resolved "https://nexus.flcn.pro/repository/hrzn-npm/@newage/backoffice_ui/-/backoffice_ui-0.0.52.tgz#74ae4f62c0d8a767e433212a3df38477b9579875"
+  resolved "https://nexus.etep.io/repository/hrzn-npm/@newage/backoffice_ui/-/backoffice_ui-0.0.52.tgz#74ae4f62c0d8a767e433212a3df38477b9579875"
   integrity sha512-75M1/+Hla3XAEH4D0XNHvARcSXMEh2KQ9K+9tptOhAz9BUsjavwpQNWxYm/bSmvrdwF95yTIVFfmCskahQGidA==
   dependencies:
     "@newage/casino_backoffice_utils" "^0.0.7"
@@ -1690,7 +1690,7 @@
 
 "@newage/backoffice_utils@0.0.32":
   version "0.0.32"
-  resolved "https://nexus.flcn.pro/repository/hrzn-npm/@newage/backoffice_utils/-/backoffice_utils-0.0.32.tgz#e656acc7957b6ff5b01cdcf7fc30bdfe30775a62"
+  resolved "https://nexus.etep.io/repository/hrzn-npm/@newage/backoffice_utils/-/backoffice_utils-0.0.32.tgz#e656acc7957b6ff5b01cdcf7fc30bdfe30775a62"
   integrity sha512-j9aOTVsSda4bm2+OI8UIOk29567igLkIllgh3AJWnlEgyj3aIFoj+KCj2ve0qXEoZG4jhBDWuCikZDHt6Nbu1A==
   dependencies:
     babel-polyfill "^6.26.0"
@@ -1704,7 +1704,7 @@
 
 "@newage/casino_backoffice_utils@^0.0.7":
   version "0.0.7"
-  resolved "https://nexus.flcn.pro/repository/hrzn-npm/@newage/casino_backoffice_utils/-/casino_backoffice_utils-0.0.7.tgz#2b227de030de9b360d451439ac3cd470d61343c2"
+  resolved "https://nexus.etep.io/repository/hrzn-npm/@newage/casino_backoffice_utils/-/casino_backoffice_utils-0.0.7.tgz#2b227de030de9b360d451439ac3cd470d61343c2"
   integrity sha512-4TM3Bwj9TNzuIrOTjASVK0sY8BQb/eSaF2QnmTISU8BezdlHQZ7oZRYYEZQX5E+BHURmICY2QEVPfxTZ8Wnt2w==
   dependencies:
     fingerprintjs2 "^1.8.1"
