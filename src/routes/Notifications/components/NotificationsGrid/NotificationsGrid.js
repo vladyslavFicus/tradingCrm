@@ -47,13 +47,12 @@ class NotificationsGrid extends PureComponent {
     loading: PropTypes.bool.isRequired,
   };
 
-  renderNotificationTypeAndId = ({ type, uuid }) => (
-    <Fragment>
-      <div>
-        <span className="font-weight-700">{type}</span>
-      </div>
-      <Uuid uuid={uuid} className="font-size-11" />
-    </Fragment>
+  renderNotificationUuid = ({ uuid }) => (
+    <Uuid uuid={uuid} className="font-weight-700" />
+  );
+
+  renderNotificationType = ({ type }) => (
+    <span className="font-weight-700">{type}</span>
   );
 
   renderNotificationTypeDetails = ({ type, details, subtype, client }) => (
@@ -189,7 +188,7 @@ class NotificationsGrid extends PureComponent {
       >
         <GridColumn
           header={I18n.t('NOTIFICATION_CENTER.GRID_HEADER.NOTIFICATION_TYPE')}
-          render={this.renderNotificationTypeAndId}
+          render={this.renderNotificationUuid}
         />
         <GridColumn
           header={I18n.t('NOTIFICATION_CENTER.GRID_HEADER.PRIORITY')}
@@ -206,6 +205,10 @@ class NotificationsGrid extends PureComponent {
         <GridColumn
           header={I18n.t('NOTIFICATION_CENTER.GRID_HEADER.NOTIFICATION_DATE')}
           render={this.renderNotificationDate}
+        />
+        <GridColumn
+          header={I18n.t('NOTIFICATION_CENTER.GRID_HEADER.NOTIFICATION_TYPE')}
+          render={this.renderNotificationType}
         />
         <GridColumn
           header={I18n.t('NOTIFICATION_CENTER.GRID_HEADER.NOTIFICATION_TYPE_DETAILS')}
