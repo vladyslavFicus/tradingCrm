@@ -204,7 +204,6 @@ class NotificationsFilters extends PureComponent {
                   className="NotificationsGridFilter__button"
                   disabled={isSubmitting || !dirty}
                   onClick={() => this.onHandleReset(handleReset)}
-                  type="button"
                   common
                 >
                   {I18n.t('COMMON.RESET')}
