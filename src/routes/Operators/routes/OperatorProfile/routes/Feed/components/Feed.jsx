@@ -4,7 +4,7 @@ import parseJson from 'utils/parseJson';
 import PropTypes from 'constants/propTypes';
 import ListView from 'components/ListView';
 import FeedItem from 'components/FeedItem';
-import FeedFilterForm from './FeedFilterForm';
+import OperatorsFeedFilter from './OperatorsFeedFilter';
 
 class View extends Component {
   static propTypes = {
@@ -37,7 +37,10 @@ class View extends Component {
     }
   };
 
-  handleFiltersChanged = (filters = {}) => {
+  handleFiltersChanged = (filterFields = {}) => {
+    const filters = Object.keys(filterFields).reduce((acc, key) => (
+      filterFields[key] ? { ...acc, [key]: filterFields[key] } : acc
+    ), {});
     this.props.history.replace({ query: { filters } });
   };
 
@@ -61,7 +64,7 @@ class View extends Component {
 
     return (
       <Fragment>
-        <FeedFilterForm
+        <OperatorsFeedFilter
           availableTypes={availableTypes}
           onSubmit={this.handleFiltersChanged}
         />
