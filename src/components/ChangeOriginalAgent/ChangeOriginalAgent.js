@@ -8,7 +8,7 @@ import { withNotifications } from 'hoc';
 import { FormikSelectField } from 'components/Formik';
 import Button from 'components/UI/Button';
 import PropTypes from 'constants/propTypes';
-import ChangeOriginalAgentMutation from './graphql/ChangeOriginalAgentMutation';
+import { ChangeOriginalAgentMutation } from './graphql';
 import OperatorsQuery from './graphql/OperatorsQuery';
 import './OriginalAgent.scss';
 
