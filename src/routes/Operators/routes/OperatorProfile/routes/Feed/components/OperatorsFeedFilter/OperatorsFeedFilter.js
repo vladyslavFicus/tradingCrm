@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
 import { createValidator, translateLabels } from 'utils/validator';
@@ -16,7 +16,7 @@ const validate = createValidator({
   creationDateTo: 'string',
 }, translateLabels(attributeLabels), false);
 
-class OperatorsFeedFilter extends Component {
+class OperatorsFeedFilter extends PureComponent {
   static propTypes = {
     onSubmit: PropTypes.func.isRequired,
     availableTypes: PropTypes.arrayOf(PropTypes.string),
@@ -24,16 +24,6 @@ class OperatorsFeedFilter extends Component {
 
   static defaultProps = {
     availableTypes: [],
-  };
-
-  onHandleSubmit = (values, { setSubmitting }) => {
-    this.props.onSubmit(values);
-    setSubmitting(false);
-  };
-
-  onHandleReset = (resetForm) => {
-    resetForm(this.initialValues);
-    this.props.onSubmit();
   };
 
   render() {
@@ -48,10 +38,11 @@ class OperatorsFeedFilter extends Component {
           creationDateFrom: '',
           creationDateTo: '',
         }}
-        onSubmit={this.onHandleSubmit}
+        onSubmit={this.props.onSubmit}
+        onReset={this.props.onSubmit}
         validate={validate}
       >
-        {({ isSubmitting, resetForm }) => (
+        {({ resetForm }) => (
           <Form className="OperatorsFeedFilter__form">
             <Field
               name="searchBy"
@@ -93,8 +84,7 @@ class OperatorsFeedFilter extends Component {
             <div className="OperatorsFeedFilter__buttons">
               <Button
                 className="OperatorsFeedFilter__button"
-                onClick={() => this.onHandleReset(resetForm)}
-                disabled={isSubmitting}
+                onClick={resetForm}
                 common
               >
                 {I18n.t('COMMON.RESET')}
@@ -102,7 +92,6 @@ class OperatorsFeedFilter extends Component {
 
               <Button
                 className="OperatorsFeedFilter__button"
-                disabled={isSubmitting}
                 type="submit"
                 primary
               >
