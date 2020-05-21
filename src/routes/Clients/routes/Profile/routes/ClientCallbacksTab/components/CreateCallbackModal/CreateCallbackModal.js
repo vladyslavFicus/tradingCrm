@@ -160,6 +160,7 @@ class CreateCallbackModal extends PureComponent {
                   label={I18n.t(attributeLabels.callbackTime)}
                   closeOnSelect={false}
                   withTime
+                  utc
                 />
 
                 <Field

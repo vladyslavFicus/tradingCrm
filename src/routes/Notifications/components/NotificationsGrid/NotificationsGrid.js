@@ -86,7 +86,7 @@ class NotificationsGrid extends PureComponent {
           </div>
           <div className="font-weight-700">
             {I18n.t(notificationCenterSubTypesLabels.CALLBACK_TIME, {
-              time: moment.utc(details.callbackTime).format('HH:mm'),
+              time: moment.utc(details.callbackTime).local().format('HH:mm'),
             })}
           </div>
         </When>
