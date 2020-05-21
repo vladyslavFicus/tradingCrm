@@ -1,52 +1,129 @@
-/* eslint-disable */
-
 import React, { PureComponent, Fragment } from 'react';
+import { compose } from 'react-apollo';
 import I18n from 'i18n-js';
 import classNames from 'classnames';
 import { Formik, Form, Field, FieldArray } from 'formik';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { withRequests } from 'apollo';
+import { withNotifications } from 'hoc';
 import PropTypes from 'constants/propTypes';
 import { createValidator, translateLabels } from 'utils/validator';
+import { decodeNullValues } from 'components/Formik/utils';
 import countryList from 'utils/countryList';
 import { Button } from 'components/UI';
 import {
   FormikInputField,
   FormikSelectField,
 } from 'components/Formik';
-import { attributeLabels, customErrors } from './constants';
+import { attributeLabels } from './constants';
+import createScheduleMutation from './graphql/createScheduleMutation';
 import './ScheduleModal.scss';
 
 const validate = createValidator({
   workingHoursFrom: ['required', 'string'],
   workingHoursTo: ['required', 'string'],
-  totalLimit: ['string'],
 }, translateLabels(attributeLabels), false);
 
 class ScheduleModal extends PureComponent {
   static propTypes = {
-    onSubmit: PropTypes.func.isRequired,
     onCloseModal: PropTypes.func.isRequired,
+    refetch: PropTypes.func.isRequired,
+    notify: PropTypes.func.isRequired,
+    createSchedule: PropTypes.func.isRequired,
     isOpen: PropTypes.bool.isRequired,
+    activated: PropTypes.bool.isRequired,
+    day: PropTypes.string.isRequired,
+    affiliateUuid: PropTypes.string.isRequired,
     formError: PropTypes.string,
-    currentDay: PropTypes.string,
+    workingHoursFrom: PropTypes.string,
+    workingHoursTo: PropTypes.string,
+    totalLimit: PropTypes.number,
+    countrySpreads: PropTypes.arrayOf(PropTypes.shape({
+      country: PropTypes.string,
+      limit: PropTypes.number,
+    })).isRequired,
+  };
+
+  static defaultProps = {
+    workingHoursFrom: '',
+    workingHoursTo: '',
+    formError: '',
+    totalLimit: 0,
   };
 
   state = {
     selectedCountries: [],
     limitError: false,
+    mounted: false, // eslint-disable-line
   };
 
-  onHandleSubmit = ({ totalLimit, countrySpreads }, { setSubmitting, setErrors }) => {
+  static getDerivedStateFromProps({ countrySpreads }, { mounted }) {
+    if (!mounted) {
+      const currentCountry = countrySpreads.map(({ country }) => country);
+
+      return {
+        selectedCountries: currentCountry,
+        mounted: true,
+      };
+    }
+
+    return null;
+  }
+
+  onHandleSubmit = async ({ totalLimit, countrySpreads, ...rest }, { setSubmitting }) => {
+    const {
+      activated,
+      day,
+      affiliateUuid,
+      onCloseModal,
+      refetch,
+      notify,
+    } = this.props;
+
     if (totalLimit
-      && countrySpreads.reduce((a, b) => a + (b.countryLimit || 0), 0) > totalLimit
+      && countrySpreads.reduce((a, b) => a + (b.limit || 0), 0) > totalLimit
       && this.state.selectedCountries.length !== 0
     ) {
       this.setState({ limitError: true });
     } else {
       this.setState({ limitError: false });
 
-      // this.props.onSubmit(values, setErrors);
+      const {
+        data: {
+          schedule: {
+            createSchedule: {
+              success,
+            },
+          },
+        },
+      } = await this.props.createSchedule({
+        variables: {
+          day,
+          activated,
+          totalLimit,
+          affiliateUuid,
+          countrySpreads: [
+            // filter need for delete empty value in array
+            ...countrySpreads.filter(item => item && item.limit),
+          ],
+          ...decodeNullValues(rest),
+        },
+      });
+
+      if (success) {
+        refetch();
+        onCloseModal();
+      }
+
+      notify({
+        level: success ? 'success' : 'error',
+        title: I18n.t('PARTNERS.MODALS.SCHEDULE.NOTIFICATIONS.CREATE.TITLE'),
+        message: success
+          ? I18n.t('COMMON.SUCCESS')
+          : I18n.t('COMMON.ERROR'),
+      });
     }
+
     setSubmitting(false);
   };
 
@@ -70,7 +147,10 @@ class ScheduleModal extends PureComponent {
       onCloseModal,
       isOpen,
       formError,
-      currentDay,
+      day,
+      workingHoursFrom,
+      workingHoursTo,
+      totalLimit,
     } = this.props;
 
     return (
@@ -80,10 +160,10 @@ class ScheduleModal extends PureComponent {
       >
         <Formik
           initialValues={{
-            workingHoursFrom: '00:00',
-            workingHoursTo: '00:00',
-            totalLimit: '',
-            countrySpreads: [''],
+            workingHoursFrom: workingHoursFrom || '00:00',
+            workingHoursTo: workingHoursTo || '00:00',
+            totalLimit,
+            countrySpreads: [...this.props.countrySpreads, ''],
           }}
           validate={validate}
           onSubmit={this.onHandleSubmit}
@@ -91,7 +171,7 @@ class ScheduleModal extends PureComponent {
           {({ errors, dirty, isValid, isSubmitting, values: { countrySpreads }, setFieldValue }) => (
             <Form className="ScheduleModal">
               <ModalHeader toggle={onCloseModal}>
-                {`${currentDay} ${I18n.t('PARTNERS.MODALS.SCHEDULE.TITLE')}`}
+                {`${I18n.t(`PARTNERS.SCHEDULE.WEEK.${day}`)} ${I18n.t('PARTNERS.MODALS.SCHEDULE.TITLE')}`}
               </ModalHeader>
               <ModalBody>
                 <If condition={formError || (errors && errors.submit)}>
@@ -116,9 +196,10 @@ class ScheduleModal extends PureComponent {
                     className="col-lg"
                     component={FormikInputField}
                   />
-                  </div>
+                </div>
                 <Field
                   name="totalLimit"
+                  type="number"
                   label={I18n.t(attributeLabels.leadsLimit)}
                   placeholder={I18n.t(attributeLabels.leadsLimit)}
                   component={FormikInputField}
@@ -147,22 +228,22 @@ class ScheduleModal extends PureComponent {
                               searchable
                             >
                               {Object.entries(countryList).map(([key, value]) => (
-                                  <option
-                                    key={key}
-                                    value={value}
-                                    className={
-                                      classNames('select-block__options-item', {
-                                        'ScheduleModal--is-disabled': selectedCountries.indexOf(value) !== -1,
-                                      })
-                                    }
-                                  >
-                                    {value}
-                                  </option>
-                                ))
+                                <option
+                                  key={key}
+                                  value={key}
+                                  className={
+                                    classNames('select-block__options-item', {
+                                      'ScheduleModal--is-disabled': selectedCountries.indexOf(key) !== -1,
+                                    })
+                                  }
+                                >
+                                  {value}
+                                </option>
+                              ))
                               }
                             </Field>
                             <Field
-                              name={`countrySpreads[${index}].countryLimit`}
+                              name={`countrySpreads[${index}].limit`}
                               type="number"
                               placeholder={I18n.t(attributeLabels.countryLimit)}
                               label={index === 0 ? I18n.t(attributeLabels.countryLimit) : ''}
@@ -227,4 +308,9 @@ class ScheduleModal extends PureComponent {
   }
 }
 
-export default ScheduleModal;
+export default compose(
+  withNotifications,
+  withRequests({
+    createSchedule: createScheduleMutation,
+  }),
+)(ScheduleModal);

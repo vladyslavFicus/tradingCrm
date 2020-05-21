@@ -72,14 +72,14 @@ class View extends Component {
     ...submittedPermissions
   }) => {
     const {
-      match: { params: { id: operatorUUID } },
+      match: { params: { id: affiliateUuid } },
       updateProfile,
       notify,
     } = this.props;
 
     const { data: { partner: { updatePartner: { error } } } } = await updateProfile({
       variables: {
-        uuid: operatorUUID,
+        uuid: affiliateUuid,
         externalAffiliateId,
         affiliateType,
         cellexpert,
@@ -140,6 +140,7 @@ class View extends Component {
       showSalesStatus,
       showFTDAmount,
       showKycStatus,
+      match: { params: { id: affiliateUuid } },
     } = this.props;
 
     const { serverError } = this.state;
@@ -176,7 +177,7 @@ class View extends Component {
             />
           </div>
         </div>
-        <Schedule />
+        <Schedule affiliateUuid={affiliateUuid} />
       </div>
     );
   }

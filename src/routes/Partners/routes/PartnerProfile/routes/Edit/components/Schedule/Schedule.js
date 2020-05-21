@@ -1,118 +1,89 @@
-/* eslint-disable */
-import React, { Fragment, PureComponent } from 'react';
+import React, { PureComponent } from 'react';
 import I18n from 'i18n-js';
 import { get } from 'lodash';
 import { Formik, Form, Field } from 'formik';
 import { compose } from 'react-apollo';
 import { withRequests } from 'apollo';
 import classNames from 'classnames';
-import { withModals } from 'hoc';
+import { withModals, withNotifications } from 'hoc';
 import PropTypes from 'constants/propTypes';
 import countryList from 'utils/countryList';
 import { Button } from 'components/UI';
 import Grid, { GridColumn } from 'components/Grid';
 import { FormikCheckbox } from 'components/Formik';
-import { decodeNullValues } from 'components/Formik/utils';
 import ScheduleModal from 'modals/ScheduleModal';
-// import {
-//   GetRulesQuery,
-// } from '../graphql';
+import getSchedule from './graphql/getScheduleQuery';
+import changeScheduleStatusMutation from './graphql/changeScheduleStatusMutation';
 import './Schedule.scss';
-
-const entities = [
-  {
-    day: 'Monday',
-    hours: {
-      from: '10:00',
-      to: '14: 00',
-    },
-    limit: 300,
-    country: ['ru', 'az'],
-  },
-  {
-    day: 'Tuesday',
-    limit: 300,
-    country: ['ru', 'az'],
-  },
-  {
-    day: 'Wednesday',
-    hours: {
-      from: '10:00',
-      to: '14: 00',
-    },
-    limit: 300,
-    country: ['ru', 'az'],
-  },
-  {
-    day: 'Thursday',
-    hours: {
-      from: '10:00',
-      to: '14: 00',
-    },
-    limit: 300,
-    country: ['ru', 'az'],
-  },
-  {
-    day: 'Friday',
-    limit: 300,
-    country: ['ru', 'az'],
-  },
-  {
-    day: 'Saturday',
-  },
-  {
-    day: 'Sunday',
-  },
-];
 
 class Schedule extends PureComponent {
   static propTypes = {
-    rules: PropTypes.shape({
-      rules: PropTypes.shape({
-        data: PropTypes.arrayOf(PropTypes.ruleType),
-        error: PropTypes.object,
-      }),
-      refetch: PropTypes.func.isRequired,
-    }).isRequired,
-    deleteRule: PropTypes.func.isRequired,
     modals: PropTypes.shape({
-      deleteModal: PropTypes.modalType,
+      scheduleModal: PropTypes.modalType,
     }).isRequired,
-    location: PropTypes.shape({
-      query: PropTypes.object,
-    }).isRequired,
-    history: PropTypes.shape({
-      replace: PropTypes.func.isRequired,
-    }).isRequired,
-    operators: PropTypes.query({
-      operators: PropTypes.shape({
-        data: PropTypes.shape({
-          content: PropTypes.operatorsList,
-        }),
+    notify: PropTypes.func.isRequired,
+    affiliateUuid: PropTypes.string.isRequired,
+    schedule: PropTypes.query({
+      schedule: PropTypes.shape({
+        data: PropTypes.object.isRequired,
       }),
     }).isRequired,
-    partners: PropTypes.query({
-      partners: PropTypes.shape({
-        data: PropTypes.shape({
-          content: PropTypes.partnersList,
-        }),
-      }),
-    }).isRequired,
-    permission: PropTypes.permission.isRequired,
-    type: PropTypes.string,
-    match: PropTypes.shape({
-      params: PropTypes.shape({
-        id: PropTypes.string,
-      }),
-    }).isRequired,
-  };
-
-  static defaultProps = {
-    type: null,
+    changeScheduleStatus: PropTypes.func.isRequired,
+    refetch: PropTypes.func.isRequired,
+    loading: PropTypes.bool.isRequired,
   };
 
   state = {
     checkedCountries: {},
+  }
+
+  static getDerivedStateFromProps({ schedule: { data } }, { checkedCountries }) {
+    const scheduleWeek = get(data, 'schedule.data') || [];
+
+    return {
+      checkedCountries: {
+        ...scheduleWeek.reduce((acc, { day, activated }) => ({ ...acc, [day]: activated }), {}),
+        ...checkedCountries,
+      },
+    };
+  }
+
+  handleSubmit = async (value) => {
+    const {
+      changeScheduleStatus,
+      affiliateUuid,
+      notify,
+      schedule: {
+        refetch,
+      },
+    } = this.props;
+
+    const {
+      data: {
+        schedule: {
+          changeScheduleStatus: {
+            success,
+          },
+        },
+      },
+    } = await changeScheduleStatus({
+      variables: {
+        affiliateUuid,
+        data: Object.keys(value).map(day => ({ day, activated: value[day] })),
+      },
+    });
+
+    if (success) {
+      refetch();
+    }
+
+    notify({
+      level: success ? 'success' : 'error',
+      title: I18n.t('PARTNERS.MODALS.SCHEDULE.NOTIFICATIONS.UPDATE_STATUS.TITLE'),
+      message: success
+        ? I18n.t('COMMON.SUCCESS')
+        : I18n.t('COMMON.ERROR'),
+    });
   }
 
   handleChange = setFieldValue => (e) => {
@@ -123,25 +94,27 @@ class Schedule extends PureComponent {
     setFieldValue(name, checked);
   }
 
-  handleSubmit = (value) => {
-    console.log('GOOD', value);
-  }
-
-  triggerEditScheduleModal = (currentDay) => {
+  triggerEditScheduleModal = (value) => {
     const {
       modals: { scheduleModal },
+      affiliateUuid,
+      schedule: {
+        refetch,
+      },
     } = this.props;
 
     scheduleModal.show({
-      onSubmit: (values, setErrors) => this.handleAddRule(values, setErrors),
-      currentDay,
+      ...value,
+      activated: this.state.checkedCountries[value.day],
+      affiliateUuid,
+      refetch,
     });
   };
 
   renderDay = ({ day }) => (
     <Choose>
       <When condition={day}>
-        <div className="font-weight-700">{day}</div>
+        <div className="font-weight-700">{I18n.t(`PARTNERS.SCHEDULE.WEEK.${day}`)}</div>
       </When>
       <Otherwise>
         <span>&mdash;</span>
@@ -149,11 +122,14 @@ class Schedule extends PureComponent {
     </Choose>
   )
 
-  renderHours = ({ hours }) => (
+  renderHours = ({ workingHoursFrom, workingHoursTo }) => (
     <Choose>
-      <When condition={hours}>
+      <When condition={workingHoursFrom && workingHoursTo}>
         <div className="font-weight-700">
-          {`${I18n.t('PARTNERS.SCHEDULE.FROM')} ${hours.from} ${I18n.t('PARTNERS.SCHEDULE.TO')} ${hours.to}`}
+          {`
+            ${I18n.t('PARTNERS.SCHEDULE.FROM')} ${workingHoursFrom}
+            ${I18n.t('PARTNERS.SCHEDULE.TO')} ${workingHoursTo}
+          `}
         </div>
       </When>
       <Otherwise>
@@ -162,10 +138,10 @@ class Schedule extends PureComponent {
     </Choose>
   )
 
-  renderLimit = ({ limit }) => (
+  renderLimit = ({ totalLimit }) => (
     <Choose>
-      <When condition={limit}>
-        <div className="font-weight-700">{limit}</div>
+      <When condition={totalLimit}>
+        <div className="font-weight-700">{totalLimit}</div>
       </When>
       <Otherwise>
         <span>&mdash;</span>
@@ -173,11 +149,16 @@ class Schedule extends PureComponent {
     </Choose>
   )
 
-  renderCountry = ({ country }) => (
+  renderCountry = ({ countrySpreads }) => (
     <Choose>
-      <When condition={country}>
+      <When condition={countrySpreads}>
         <div className="font-weight-700">
-          {country.map(item => <div>{countryList[item.toUpperCase()]}</div>)}
+          {countrySpreads.map(({ country, limit }) => (
+            <div className="Schedule__countrySpreads">
+              <span>{countryList[country.toUpperCase()]}</span>
+              <span className="margin-right-50">{limit}</span>
+            </div>
+          ))}
         </div>
       </When>
       <Otherwise>
@@ -194,33 +175,36 @@ class Schedule extends PureComponent {
     />
   )
 
-  renderActions = ({ day }) => (
+  renderActions = value => (
     <Button
       transparent
     >
       <i
-        onClick={() => this.triggerEditScheduleModal(day)}
+        onClick={() => this.triggerEditScheduleModal(value)}
         className="font-size-16 cursor-pointer fa fa-edit float-right"
       />
     </Button>
   )
 
   render() {
+    const {
+      schedule: {
+        data,
+        loading,
+      },
+    } = this.props;
     const { checkedCountries } = this.state;
+
+    const scheduleWeek = get(data, 'schedule.data') || [];
 
     return (
       <div className="Schedule card">
         <div className="card-body">
           <Formik
             initialValues={{
-              Monday: false,
-              Tuesday: false,
-              Wednesday: false,
-              Thursday: false,
-              Friday: false,
+              ...scheduleWeek.reduce((acc, { day, activated }) => ({ ...acc, [day]: activated }), {}),
             }}
-            // validateOnChange={false}
-            // validateOnBlur={false}
+            enableReinitialize
             onSubmit={this.handleSubmit}
           >
             {({ dirty, isSubmitting, setFieldValue }) => (
@@ -234,15 +218,17 @@ class Schedule extends PureComponent {
                     {I18n.t('COMMON.SAVE_CHANGES')}
                   </Button>
                 </If>
+                <div className="Schedule__heading">{I18n.t('PARTNERS.SCHEDULE.TITLE')}</div>
                 <Grid
-                  rowsClassNames={({ day }) =>
+                  rowsClassNames={({ day }) => (
                     classNames({
                       'Schedule--is-disabled': !checkedCountries[day],
-                  })}
-                  data={entities}
+                    }))
+                  }
+                  data={scheduleWeek}
                   handleRowClick={this.handleOfficeClick}
                   isLastPage
-                  // withNoResults={!loading && entities.length === 0}
+                  withNoResults={!loading && scheduleWeek.length === 0}
                 >
                   <GridColumn
                     name="activate"
@@ -287,8 +273,9 @@ export default compose(
   withModals({
     scheduleModal: ScheduleModal,
   }),
-  // withNotifications,
-  // withRequests({
-  //   rules: GetRulesQuery,
-  // }),
+  withNotifications,
+  withRequests({
+    schedule: getSchedule,
+    changeScheduleStatus: changeScheduleStatusMutation,
+  }),
 )(Schedule);

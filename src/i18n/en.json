@@ -2042,7 +2042,17 @@
         "COUNTRY_LIMIT": "Country limit"
       },
       "FROM": "from",
-      "TO": "to"
+      "TO": "to",
+      "TITLE": "Api Sending Schedule",
+      "WEEK": {
+        "MONDAY": "Monday",
+        "TUESDAY": "Tuesday",
+        "WEDNESDAY": "Wednesday",
+        "THURSDAY": "Thursday",
+        "FRIDAY": "Friday",
+        "SATURDAY": "Saturday",
+        "SUNDAY": "Sunday"
+      }
     },
     "SHOW_NOTES": "Show notes",
     "SHOW_SALES_STATUS": "Show sales status",
@@ -2070,6 +2080,14 @@
           "COUNTRY_LIMIT": "Country limit",
           "WORKING_HOURS_FROM": "Working Hours From",
           "WORKING_HOURS_TO": "Working Hours To"
+        },
+        "NOTIFICATIONS": {
+          "CREATE": {
+            "TITLE": "Schedule creation"
+          },
+          "UPDATE_STATUS": {
+            "TITLE": "Update status"
+          }
         }
       }
     },
