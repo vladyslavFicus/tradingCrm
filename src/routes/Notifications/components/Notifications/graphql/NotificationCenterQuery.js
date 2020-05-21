@@ -33,6 +33,7 @@ const REQUEST = gql`query NotificationCenterQuery(
           currency
           login
           platformType
+          callbackTime
         }
       }
       last
