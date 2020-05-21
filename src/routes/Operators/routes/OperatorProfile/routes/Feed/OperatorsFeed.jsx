@@ -1,12 +1,15 @@
 import React, { Component, Fragment } from 'react';
 import { get } from 'lodash';
+import { compose } from 'react-apollo';
+import { withRequests } from 'apollo';
 import parseJson from 'utils/parseJson';
 import PropTypes from 'constants/propTypes';
 import ListView from 'components/ListView';
 import FeedItem from 'components/FeedItem';
-import OperatorsFeedFilter from './OperatorsFeedFilter';
+import OperatorsFeedFilter from './components/OperatorsFeedFilter';
+import { FeedsQuery } from './graphql';
 
-class View extends Component {
+class OperatorsFeed extends Component {
   static propTypes = {
     ...PropTypes.router,
     feeds: PropTypes.shape({
@@ -18,9 +21,6 @@ class View extends Component {
           targetUUID: PropTypes.string,
         })),
       }),
-    }).isRequired,
-    feedTypes: PropTypes.shape({
-      data: PropTypes.arrayOf(PropTypes.string),
     }).isRequired,
   };
 
@@ -52,20 +52,19 @@ class View extends Component {
 
   render() {
     const {
-      feeds: { feeds: data, loading },
-      feedTypes: { feedTypes },
+      feeds: { data: { feeds: data }, loading },
+      match: { params: { id } },
     } = this.props;
 
-    const feeds = get(data, 'data') || { content: [] };
+    const feeds = get(data, 'data.feeds.data') || { content: [] };
     const content = this.mapAuditEntities(feeds.content);
 
-    const feedTypesList = get(feedTypes, 'data') || {};
-    const availableTypes = Object.keys(feedTypesList).filter(key => (!!feedTypesList[key] && key !== '__typename'));
-
+    console.log('feeds', this.props);
+    console.log('feeds feeds', feeds);
     return (
       <Fragment>
         <OperatorsFeedFilter
-          availableTypes={availableTypes}
+          playerUUID={id}
           onSubmit={this.handleFiltersChanged}
         />
 
@@ -108,4 +107,8 @@ class View extends Component {
   }
 }
 
-export default View;
+export default compose(
+  withRequests({
+    feeds: FeedsQuery,
+  }),
+)(OperatorsFeed);

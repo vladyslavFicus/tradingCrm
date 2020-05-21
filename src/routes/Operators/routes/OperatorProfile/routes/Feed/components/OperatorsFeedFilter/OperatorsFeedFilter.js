@@ -1,12 +1,17 @@
 import React, { PureComponent } from 'react';
 import I18n from 'i18n-js';
+import { compose } from 'react-apollo';
+import { withRequests } from 'apollo';
 import { Formik, Form, Field } from 'formik';
+import { get } from 'lodash';
 import { createValidator, translateLabels } from 'utils/validator';
 import { FormikInputField, FormikSelectField, FormikDateRangePicker } from 'components/Formik';
 import { Button } from 'components/UI';
 import PropTypes from 'constants/propTypes';
 import { typesLabels } from 'constants/audit';
+import { FeedTypesQuery } from './graphql';
 import { filterFormAttributeLabels as attributeLabels } from '../../constants';
+
 import './OperatorsFeedFilter.scss';
 
 const validate = createValidator({
@@ -19,15 +24,16 @@ const validate = createValidator({
 class OperatorsFeedFilter extends PureComponent {
   static propTypes = {
     onSubmit: PropTypes.func.isRequired,
-    availableTypes: PropTypes.arrayOf(PropTypes.string),
-  };
-
-  static defaultProps = {
-    availableTypes: [],
+    feedTypes: PropTypes.shape({
+      data: PropTypes.arrayOf(PropTypes.string),
+    }).isRequired,
   };
 
   render() {
-    const { availableTypes } = this.props;
+    const { feedTypes } = this.props;
+
+    const feedTypesList = get(feedTypes, 'data.feedTypes.data') || {};
+    const availableTypes = Object.keys(feedTypesList).filter(key => (!!feedTypesList[key] && key !== '__typename'));
 
     return (
       <Formik
@@ -105,4 +111,9 @@ class OperatorsFeedFilter extends PureComponent {
   }
 }
 
-export default OperatorsFeedFilter;
+
+export default compose(
+  withRequests({
+    feedTypes: FeedTypesQuery,
+  }),
+)(OperatorsFeedFilter);
