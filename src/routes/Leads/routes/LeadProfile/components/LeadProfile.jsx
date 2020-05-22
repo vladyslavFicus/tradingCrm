@@ -156,6 +156,8 @@ class LeadProfile extends Component {
             targetUUID: leadUUID,
             playerUUID: `PLAYER-${leadUUID}`,
             pinned: false,
+            content: '',
+            subject: '',
           },
         },
       },

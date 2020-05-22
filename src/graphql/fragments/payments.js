@@ -9,7 +9,6 @@ const PaymentContentFragment = gql`fragment PaymentContentFragment on PaymentTra
   paymentType
   status
   withdrawStatus
-  withdrawalScheduledTime
   currency
   createdBy
   creationTime

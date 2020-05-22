@@ -60,17 +60,13 @@ class ClientCallbacksGridFilter extends PureComponent {
                 ))}
               </Field>
 
-              <Field
+              <FormikDateRangePicker
                 className="ClientCallbacksGridFilter__field ClientCallbacksGridFilter__dates"
                 label={I18n.t('CALLBACKS.FILTER.DATE_RANGE')}
-                startDatePlaceholderText={I18n.t('CALLBACKS.FILTER.DATE_RANGE_START')}
-                endDatePlaceholderText={I18n.t('CALLBACKS.FILTER.DATE_RANGE_END')}
-                component={FormikDateRangePicker}
                 periodKeys={{
                   start: 'callbackTimeFrom',
                   end: 'callbackTimeTo',
                 }}
-                withTime
               />
             </div>
 

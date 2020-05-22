@@ -7,11 +7,13 @@ import { deskTypes } from 'constants/rules';
 import { branchTypes } from 'constants/hierarchyTypes';
 import ConfirmActionModal from 'components/Modal/ConfirmActionModal';
 import RuleModal from '../components/RuleModal';
+import EditRuleModal from '../components/EditRuleModal';
 
 export default (Component, type, branchType) => compose(
   withNotifications,
   withModals({
     ruleModal: RuleModal,
+    editRuleModal: EditRuleModal,
     deleteModal: ConfirmActionModal,
   }),
   graphql(createRule, {
