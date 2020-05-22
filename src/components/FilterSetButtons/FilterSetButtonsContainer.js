@@ -4,7 +4,7 @@ import { withNotifications, withModals } from 'hoc';
 import { deleteFilterSet } from 'graphql/mutations/filterSet';
 import { filterSetByUserIdQuery } from 'graphql/queries/filterSet';
 import { filterSetTypes } from 'constants/filterSet';
-import ActionFilterModal from './ActionFilterModal';
+import ActionFilterModal from 'modals/ActionFilterModal';
 import ConfirmActionModal from '../Modal/ConfirmActionModal';
 import FilterSetButtons from './FilterSetButtons';
 
