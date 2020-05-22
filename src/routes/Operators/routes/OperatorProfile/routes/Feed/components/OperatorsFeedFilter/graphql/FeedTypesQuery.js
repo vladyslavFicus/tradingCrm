@@ -3,11 +3,10 @@ import PropTypes from 'prop-types';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 
-const REQUEST = gql`query getFeedTypes($playerUUID: String!) {
+const REQUEST = gql`query OperatorFeeds_getFeedTypes($playerUUID: String!) {
   feedTypes (playerUUID: $playerUUID) {
     error {
       error
-      fields_errors
     }
     data {
       PLAYER_PROFILE_CHANGED

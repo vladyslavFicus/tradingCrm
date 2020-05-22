@@ -9,7 +9,7 @@ import { FormikInputField, FormikSelectField, FormikDateRangePicker } from 'comp
 import { Button } from 'components/UI';
 import PropTypes from 'constants/propTypes';
 import { typesLabels } from 'constants/audit';
-import { FeedTypesQuery } from './graphql';
+import FeedTypesQuery from './graphql/FeedTypesQuery';
 import { filterFormAttributeLabels as attributeLabels } from '../../constants';
 
 import './OperatorsFeedFilter.scss';
@@ -25,14 +25,17 @@ class OperatorsFeedFilter extends PureComponent {
   static propTypes = {
     onSubmit: PropTypes.func.isRequired,
     feedTypes: PropTypes.shape({
-      data: PropTypes.arrayOf(PropTypes.string),
+      data: PropTypes.shape({
+        feedTypes: PropTypes.shape({
+          data: PropTypes.obj,
+        }),
+      }),
     }).isRequired,
   };
 
   render() {
-    const { feedTypes } = this.props;
-
-    const feedTypesList = get(feedTypes, 'data.feedTypes.data') || {};
+    const { feedTypes: { data } } = this.props;
+    const feedTypesList = get(data, 'feedTypes.data') || {};
     const availableTypes = Object.keys(feedTypesList).filter(key => (!!feedTypesList[key] && key !== '__typename'));
 
     return (

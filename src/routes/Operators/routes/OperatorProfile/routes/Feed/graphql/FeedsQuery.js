@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 
-const REQUEST = gql`query getFeeds(
+const REQUEST = gql`query OperatorFeeds_getFeeds(
   $searchBy: String,
   $creationDateFrom: String,
   $creationDateTo: String,
@@ -27,7 +27,6 @@ const REQUEST = gql`query getFeeds(
   ) {
     error {
       error
-      fields_errors
     }
     data {
       page
@@ -52,14 +51,32 @@ const REQUEST = gql`query getFeeds(
   } 
 }`;
 
-const FeedsQuery = ({ children }) => (
-  <Query query={REQUEST}>
+const FeedsQuery = ({ children, location: { query }, match: { params: { id } } }) => (
+  <Query
+    query={REQUEST}
+    fetchPolicy="network-only"
+    variables={{
+      ...query && query.filters,
+      targetUUID: id,
+      limit: 20,
+    }}
+  >
     {children}
   </Query>
 );
 
 FeedsQuery.propTypes = {
   children: PropTypes.func.isRequired,
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      id: PropTypes.string,
+    }),
+  }).isRequired,
+  location: PropTypes.shape({
+    query: PropTypes.shape({
+      filters: PropTypes.object,
+    }),
+  }).isRequired,
 };
 
 export default FeedsQuery;

@@ -7,34 +7,33 @@ import PropTypes from 'constants/propTypes';
 import ListView from 'components/ListView';
 import FeedItem from 'components/FeedItem';
 import OperatorsFeedFilter from './components/OperatorsFeedFilter';
-import { FeedsQuery } from './graphql';
+import FeedsQuery from './graphql/FeedsQuery';
 
 class OperatorsFeed extends Component {
   static propTypes = {
     ...PropTypes.router,
     feeds: PropTypes.shape({
-      refetch: PropTypes.func.isRequired,
       loading: PropTypes.bool.isRequired,
-      loadMoreFeeds: PropTypes.func.isRequired,
-      feeds: PropTypes.shape({
-        content: PropTypes.arrayOf(PropTypes.shape({
-          targetUUID: PropTypes.string,
-        })),
+      loadMore: PropTypes.func.isRequired,
+      data: PropTypes.shape({
+        feeds: PropTypes.shape({
+          data: PropTypes.shape({
+            content: PropTypes.arrayOf(PropTypes.shape({
+              targetUUID: PropTypes.string,
+              authorUuid: PropTypes.string,
+              authorFullName: PropTypes.string,
+            })),
+          }),
+        }),
       }),
     }).isRequired,
   };
 
   handlePageChanged = () => {
-    const {
-      feeds: {
-        loading,
-        loadMoreFeeds,
-      },
-    } = this.props;
+    const { feeds: { data, loadMore } } = this.props;
+    const currentPage = get(data, 'feeds.data.number') || 0;
 
-    if (!loading) {
-      loadMoreFeeds();
-    }
+    loadMore(currentPage + 1);
   };
 
   handleFiltersChanged = (filterFields = {}) => {
@@ -50,54 +49,54 @@ class OperatorsFeed extends Component {
       : entity
   ));
 
+  renderFeedItem = (feed, key) => {
+    const { authorUuid, targetUuid, authorFullName } = feed;
+
+    const options = {
+      color: 'blue',
+      letter: authorFullName.split(' ').splice(0, 2).map(word => word[0]).join(''),
+    };
+
+    if (authorUuid !== targetUuid) {
+      if (authorUuid) {
+        options.color = 'orange';
+      } else {
+        options.color = '';
+        options.letter = 's';
+      }
+    }
+
+    return (
+      <FeedItem
+        key={key}
+        data={feed}
+        {...options}
+      />
+    );
+  }
+
   render() {
     const {
-      feeds: { data: { feeds: data }, loading },
+      feeds: { data, loading },
       match: { params: { id } },
     } = this.props;
 
-    const feeds = get(data, 'data.feeds.data') || { content: [] };
-    const content = this.mapAuditEntities(feeds.content);
+    const { content, totalPages, last } = get(data, 'feeds.data') || { content: [] };
+    const contentWitAuditEntities = this.mapAuditEntities(content);
 
-    console.log('feeds', this.props);
-    console.log('feeds feeds', feeds);
     return (
       <Fragment>
         <OperatorsFeedFilter
           playerUUID={id}
           onSubmit={this.handleFiltersChanged}
         />
-
         <div className="tab-wrapper">
           <ListView
-            dataSource={content}
+            dataSource={contentWitAuditEntities}
             onPageChange={this.handlePageChanged}
-            render={(item, key) => {
-              const options = {
-                color: 'blue',
-                letter: item.authorFullName.split(' ').splice(0, 2).map(word => word[0]).join(''),
-              };
-
-              if (item.authorUuid !== item.targetUuid) {
-                if (item.authorUuid) {
-                  options.color = 'orange';
-                } else {
-                  options.color = '';
-                  options.letter = 's';
-                }
-              }
-
-              return (
-                <FeedItem
-                  key={key}
-                  data={item}
-                  {...options}
-                />
-              );
-            }}
-            activePage={feeds.number + 1}
-            totalPages={feeds.totalPages}
-            last={feeds.last}
+            render={this.renderFeedItem}
+            totalPages={totalPages}
+            last={last}
             lazyLoad
             showNoResults={!loading && !content.length}
           />
