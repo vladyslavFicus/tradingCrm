@@ -40,9 +40,7 @@ class AccountStatus extends Component {
       modal: {
         show: true,
         params: {
-          initialValues: {
-            status: action.action,
-          },
+          status: action.action,
           ...action,
         },
       },
