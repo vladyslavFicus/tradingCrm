@@ -89,6 +89,7 @@ const brands = keyMirror({
   'insure-trade': null,
   fxactiv: null,
   'energy-markets': null,
+  lionstock: null,
 });
 
 const departments = keyMirror({
@@ -467,6 +468,10 @@ const brandsConfig = {
   [brands['energy-markets']]: {
     name: 'energy-markets',
     image: { src: '/img/brand/choose-brand/energy-markets.svg' },
+  },
+  [brands.lionstock]: {
+    name: 'lionstock',
+    image: { src: '/img/brand/choose-brand/lionstock.svg' },
   },
 };
 const departmentsConfig = {
