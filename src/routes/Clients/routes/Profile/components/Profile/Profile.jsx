@@ -34,7 +34,6 @@ import {
   Feed,
   ClientCallbacksTab,
   Risks,
-  SocialTrading,
 } from '../../routes';
 import ProfileHeader from '../ProfileHeader';
 import Information from '../Information';
@@ -650,9 +649,6 @@ class Profile extends Component {
                   path={`${path}/risk`}
                   render={props => <Risks refetchProfile={refetch} {...props} />}
                 />
-              </If>
-              <If condition={getActiveBrandConfig().socialTrading}>
-                <Route disableScroll path={`${path}/social-trading`} component={SocialTrading} />
               </If>
               <Redirect to={`${path}/profile`} />
             </Switch>
