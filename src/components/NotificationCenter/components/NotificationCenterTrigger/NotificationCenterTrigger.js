@@ -1,28 +1,35 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import { get } from 'lodash';
+import { withRequests } from 'apollo';
+import NotificationCenterUnreadQuery from '../../graphql/NotificationCenterUnreadQuery';
 import { ReactComponent as Icon } from './icon.svg';
 import './NotificationCenterTrigger.scss';
 
 class NotificationCenterTrigger extends PureComponent {
   static propTypes = {
-    counter: PropTypes.number.isRequired,
-    className: PropTypes.string,
-  };
-
-  static defaultProps = {
-    className: '',
+    notificationCenterUnread: PropTypes.query({
+      notificationCenterUnread: PropTypes.shape({
+        data: PropTypes.number,
+      }),
+    }).isRequired,
   };
 
   render() {
-    const { className, counter, ...props } = this.props;
+    const { notificationCenterUnread, ...props } = this.props;
+
+    const unreadAmount = get(
+      notificationCenterUnread,
+      'data.notificationCenterUnread.data',
+    ) || 0;
 
     return (
       <button
         type="button"
-        counter={counter}
-        className={classNames(className, 'NotificationCenterTrigger', {
-          'NotificationCenterTrigger--beep': counter,
+        counter={unreadAmount}
+        className={classNames('NotificationCenterTrigger', {
+          'NotificationCenterTrigger--beep': unreadAmount,
         })}
         {...props}
       >
@@ -32,4 +39,6 @@ class NotificationCenterTrigger extends PureComponent {
   }
 }
 
-export default NotificationCenterTrigger;
+export default withRequests({
+  notificationCenterUnread: NotificationCenterUnreadQuery,
+})(NotificationCenterTrigger);
