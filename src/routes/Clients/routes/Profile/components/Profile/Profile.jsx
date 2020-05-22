@@ -33,7 +33,6 @@ import {
   Files,
   Feed,
   ClientCallbacksTab,
-  Risks,
   SocialTrading,
 } from '../../routes';
 import ProfileHeader from '../ProfileHeader';
@@ -568,7 +567,6 @@ class Profile extends Component {
       newProfile: {
         newProfile,
         loading,
-        refetch,
       },
       match: { params },
       location,
@@ -644,13 +642,6 @@ class Profile extends Component {
               <Route disableScroll path={`${path}/notes`} component={Notes} />
               <Route disableScroll path={`${path}/files`} component={Files} />
               <Route disableScroll path={`${path}/feed`} component={Feed} />
-              <If condition={getActiveBrandConfig().isRisksTabAvailable}>
-                <Route
-                  disableScroll
-                  path={`${path}/risk`}
-                  render={props => <Risks refetchProfile={refetch} {...props} />}
-                />
-              </If>
               <If condition={getActiveBrandConfig().socialTrading}>
                 <Route disableScroll path={`${path}/social-trading`} component={SocialTrading} />
               </If>

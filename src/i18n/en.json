@@ -951,7 +951,6 @@
         "PLAYER_PROFILE_REGISTERED": "Registration",
         "PLAYER_PROFILE_CHANGED": "Personal details change",
         "PLAYER_PROFILE_SEARCH": "Players' search",
-        "RISK_PROFILE_DATA_CREATED": "Risk calculated",
         "NEW_OPERATOR_ACCOUNT_CREATED": "Operator - New operator created",
         "OPERATOR_ACCOUNT_CREATED": "Operator - Account created",
         "PLAYER_PROFILE_VIEWED": "Players' profile viewed",
@@ -1033,7 +1032,6 @@
         "CHANGE_LEVERAGE_TO": "Change leverage to",
         "MT4LOGIN": "Mt4login",
         "TOTAL_SCORE": "Total score",
-        "RISK_CATEGORY": "Risk category",
         "BANK_DETAILS": "Bank details",
         "BANK_NAME": "Bank details - Bank name",
         "PROVINCE": "Bank details - Province",
@@ -2354,7 +2352,6 @@
       "FILES": "Files",
       "NOTES": "Notes",
       "FEED": "Feed",
-      "RISK_PROFILE": "Risk Profile",
       "SOCIAL_TRADING": "Social Trading"
     },
     "PROFILE": {
@@ -2617,31 +2614,6 @@
       },
       "WEB_COOKIES": {
         "TITLE": "Web Cookies"
-      }
-    },
-    "RISKS": {
-      "STATUS": {
-        "TITLE": "Risk category",
-        "STATUSES": {
-          "DEFAULT": "Not specified",
-          "HIGH_RISK": "High risk",
-          "MEDIUM_RISK": "Medium risk",
-          "LOW_RISK": "Low risk"
-        }
-      },
-      "TAB": {
-        "MODAL": {
-          "TITLE": "Risk Category Status Changing",
-          "ACTION_TEXT": "The Client has been assigned to the \"HIGH RISK\" category.",
-          "SUBMIT_TEXT": "OK"
-        },
-        "BUTTONS": {
-          "SAVE": "Save",
-          "CALCULATE": "Calculate"
-        },
-        "RESULT": {
-          "TOTAL_TITLE": "Customer Risk Total Score"
-        }
       }
     },
     "FATCA": {

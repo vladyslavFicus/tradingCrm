@@ -35,14 +35,6 @@ export const userProfileTabs = [
   },
 ];
 
-// # Add risk tab if 'isRisksTabAvailable = true' for current brand
-if (getActiveBrandConfig().isRisksTabAvailable) {
-  userProfileTabs.push({
-    label: 'CLIENT_PROFILE.TABS.RISK_PROFILE',
-    url: '/clients/:id/risk',
-  });
-}
-
 // # Add socialTrading tab if 'socialTrading = true' for current brand
 if (getActiveBrandConfig().socialTrading) {
   userProfileTabs.push({

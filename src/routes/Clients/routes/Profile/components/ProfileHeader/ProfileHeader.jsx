@@ -23,7 +23,6 @@ import MigrateButton from 'components/MigrateButton';
 import GridStatus from 'components/GridStatus';
 import customTimeout from 'utils/customTimeout';
 import PlayerStatus from '../PlayerStatus';
-import RiskStatus from '../RiskStatus';
 import Balances from '../Balances';
 import HeaderPlayerPlaceholder from '../HeaderPlayerPlaceholder';
 import Questionnaire from '../Questionnaire';
@@ -285,10 +284,6 @@ class ProfileHeader extends Component {
               availableStatuses={availableStatuses}
               fsaMigrationStatus={fsaMigrationStatus}
             />
-
-            <If condition={getActiveBrandConfig().isRisksTabAvailable}>
-              <RiskStatus />
-            </If>
 
             <If condition={getActiveBrandConfig().fsaRegulation && fsaMigrationStatus}>
               <div className="header-block-inner margin-top-10">
