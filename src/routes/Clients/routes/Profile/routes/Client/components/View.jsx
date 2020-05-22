@@ -12,7 +12,7 @@ import { getBrand } from 'config';
 import PersonalInformationForm from './PersonalInformationForm';
 import AddressForm from './AddressForm';
 import ContactForm from './ContactForm';
-import KycStatus from './Kyc/KycStatus';
+import KycStatusForm from './KYCStatusForm';
 import TransferAvailability from './TransferAvailability';
 import BankDetailsForm from './BankDetailsForm';
 import EmailForm from './EmailForm';
@@ -317,7 +317,7 @@ class View extends Component {
             <div className="client-small-col">
               <div className="card">
                 <div className="card-body">
-                  <KycStatus initialValues={{ kycStatus }} playerUUID={uuid} />
+                  <KycStatusForm kycStatus={kycStatus} playerUUID={uuid} />
                 </div>
               </div>
               <div className="card">
