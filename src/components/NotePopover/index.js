@@ -1,1 +1,1 @@
-export { default } from './NotePopoverContainer';
+export { default } from './NotePopover';
