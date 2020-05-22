@@ -12,8 +12,8 @@ import { getBrand } from 'config';
 import PersonalInformationForm from './PersonalInformationForm';
 import AddressForm from './AddressForm';
 import ContactForm from './ContactForm';
-import KycStatus from './Kyc/KycStatus';
-import TransferAvailability from './TransferAvailability';
+import KycStatusForm from './KYCStatusForm';
+import TransferAvailabilityForm from './TransferAvailabilityForm';
 import BankDetailsForm from './BankDetailsForm';
 import EmailForm from './EmailForm';
 import './View.scss';
@@ -317,15 +317,13 @@ class View extends Component {
             <div className="client-small-col">
               <div className="card">
                 <div className="card-body">
-                  <KycStatus initialValues={{ kycStatus }} playerUUID={uuid} />
+                  <KycStatusForm kycStatus={kycStatus} playerUUID={uuid} />
                 </div>
               </div>
               <div className="card">
                 <div className="card-body">
-                  <TransferAvailability
-                    initialValues={{
-                      internalTransfer: +internalTransfer,
-                    }}
+                  <TransferAvailabilityForm
+                    internalTransfer={+internalTransfer}
                     playerUUID={uuid}
                   />
                 </div>

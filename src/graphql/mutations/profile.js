@@ -259,20 +259,6 @@ const updateEmailMutation = gql`mutation updateEmail(
   }
 }`;
 
-const updateKYCStatusMutation = gql`mutation updateKYCStatus(
-  $playerUUID: String!,
-  $kycStatus: String,
-) {
-  profile {
-    updateKYCStatus(
-      playerUUID: $playerUUID,
-      kycStatus: $kycStatus,
-    ) {
-      success
-    }
-  }
-}`;
-
 const updateConfigurationMutation = gql`mutation updateConfiguration(
   $playerUUID: String!,
   $internalTransfer: Boolean,
@@ -392,7 +378,6 @@ export {
   clickToCall,
   updateLimitProfileMutation,
   updatePersonalInformationMutation,
-  updateKYCStatusMutation,
   updateConfigurationMutation,
   updateContactsMutation,
   verifyPhoneMutation,
