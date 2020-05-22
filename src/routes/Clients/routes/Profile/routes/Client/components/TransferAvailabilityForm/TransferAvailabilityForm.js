@@ -11,7 +11,7 @@ import UpdateTransferAvailabilityMutation from './graphql/UpdateTransferAvailabi
 
 class TransferAvailabilityForm extends PureComponent {
   static propTypes = {
-    internalTransfer: PropTypes.bool.isRequired,
+    internalTransfer: PropTypes.number.isRequired,
     notify: PropTypes.func.isRequired,
     disabled: PropTypes.bool,
     updateTransferAvailability: PropTypes.func.isRequired,
@@ -61,7 +61,7 @@ class TransferAvailabilityForm extends PureComponent {
     return (
       <Formik
         initialValues={{
-          internalTransfer: Number(internalTransfer),
+          internalTransfer,
         }}
         onSubmit={this.handleChangeTransfer}
       >

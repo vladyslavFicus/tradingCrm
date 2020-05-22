@@ -13,7 +13,7 @@ import PersonalInformationForm from './PersonalInformationForm';
 import AddressForm from './AddressForm';
 import ContactForm from './ContactForm';
 import KycStatus from './Kyc/KycStatus';
-import TransferAvailability from './TransferAvailabilityForm';
+import TransferAvailabilityForm from './TransferAvailabilityForm';
 import BankDetailsForm from './BankDetailsForm';
 import EmailForm from './EmailForm';
 import './View.scss';
@@ -322,8 +322,8 @@ class View extends Component {
               </div>
               <div className="card">
                 <div className="card-body">
-                  <TransferAvailability
-                    internalTransfer={internalTransfer}
+                  <TransferAvailabilityForm
+                    internalTransfer={+internalTransfer}
                     playerUUID={uuid}
                   />
                 </div>
