@@ -90,6 +90,7 @@ const brands = keyMirror({
   fxactiv: null,
   'energy-markets': null,
   lionstock: null,
+  'bid-broker-stocks': null,
 });
 
 const departments = keyMirror({
@@ -472,6 +473,10 @@ const brandsConfig = {
   [brands.lionstock]: {
     name: 'lionstock',
     image: { src: '/img/brand/choose-brand/lionstock.svg' },
+  },
+  [brands['bid-broker-stocks']]: {
+    name: 'bid-broker-stocks',
+    image: { src: '/img/brand/choose-brand/bid-broker-stocks.svg' },
   },
 };
 const departmentsConfig = {
