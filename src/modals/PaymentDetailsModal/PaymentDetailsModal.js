@@ -161,12 +161,11 @@ class PaymentDetailsModal extends PureComponent {
     const {
       payment: {
         paymentId,
-        paymentMetadata: {
-          isMobile,
-          userAgent,
-        },
+        paymentMetadata,
       },
     } = this.props;
+
+    const { isMobile, userAgent } = paymentMetadata || {};
 
     /**
      * some payment types have uuid name without prefix like `PAYMENT`
@@ -201,7 +200,6 @@ class PaymentDetailsModal extends PureComponent {
   renderStatusBlock = () => {
     const {
       payment: {
-        withdrawalScheduledTime,
         creationTime,
         withdrawStatus,
         paymentId,
@@ -216,7 +214,6 @@ class PaymentDetailsModal extends PureComponent {
         </div>
         <div className="PaymentDetailsModal__block-status">
           <PaymentStatus
-            withdrawalScheduledTime={withdrawalScheduledTime}
             withdrawStatus={withdrawStatus}
             creationTime={creationTime}
             paymentId={paymentId}
