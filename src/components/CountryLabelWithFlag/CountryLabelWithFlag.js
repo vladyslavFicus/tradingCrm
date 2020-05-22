@@ -2,7 +2,6 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import I18n from 'i18n-js';
 import Flag from 'react-world-flags';
-import languageNames from 'constants/languageNames';
 import { getCountryCode } from 'utils/countryList';
 import './CountryLabelWithFlag.scss';
 
@@ -19,11 +18,6 @@ class CountryLabelWithFlag extends PureComponent {
     width: 20,
   };
 
-  getLanguage = (languageCode) => {
-    const lang = languageNames.find(item => item.languageCode === languageCode);
-    return lang ? I18n.t(lang.languageName) : I18n.t('COMMON.LANGUAGE_NAME.EN');
-  }
-
   render() {
     const { height, width, code, languageCode } = this.props;
 
@@ -35,7 +29,11 @@ class CountryLabelWithFlag extends PureComponent {
         <div className="CountryLabelWithFlag__codes">
           <div className="CountryLabelWithFlag__country-code">{code}</div>
           <If condition={languageCode}>
-            <div className="CountryLabelWithFlag__language-code">{this.getLanguage(languageCode)}</div>
+            <div className="CountryLabelWithFlag__language-code">
+              {I18n.t(`COMMON.LANGUAGE_NAME.${languageCode.toUpperCase()}`, {
+                defaultValue: languageCode.toUpperCase(),
+              })}
+            </div>
           </If>
         </div>
       </div>

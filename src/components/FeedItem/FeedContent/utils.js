@@ -2,8 +2,8 @@ import i18n from 'i18n-js';
 import moment from 'moment';
 import { toNumber } from 'lodash';
 import humanizeDuration from 'humanize-duration';
-import { COUNTRY_SPECIFIC_IDENTIFIER_TYPES } from 'routes/Clients/routes/Profile/routes/Client/components/constants';
-import { genders } from 'routes/Clients/routes/Profile/routes/Client/components/PersonalForm';
+import { COUNTRY_SPECIFIC_IDENTIFIER_TYPES, genders } from
+  'routes/Clients/routes/Profile/routes/Client/components/PersonalInformationForm/constants';
 import { riskStatuses } from 'routes/Clients/routes/Profile/components/RiskStatus/constants';
 import { departments, roles } from 'constants/operators';
 import { kycStatuses } from 'constants/kycStatuses';
@@ -63,7 +63,7 @@ const translateValue = (value) => {
     ...(transformConstFromObj(paymentStatuses, paymentStatusesPath)),
     ...(translateReasons(blockReasons)),
     ...(translateReasons(unblockReasons)),
-    ...(genders()),
+    ...(genders),
     INDIVIDUAL_RETAIL: i18n.t('CLIENT_PROFILE.DETAILS.INDIVIDUAL_RETAIL'),
     INDIVIDUAL_PROFESSIONAL: i18n.t('CLIENT_PROFILE.DETAILS.INDIVIDUAL_PROFESSIONAL'),
     CORPORATE_RETAIL: i18n.t('CLIENT_PROFILE.DETAILS.CORPORATE_RETAIL'),

@@ -30,7 +30,7 @@ import Questionnaire from '../Questionnaire';
 import './ProfileHeader.scss';
 
 const changePasswordPermission = new Permissions([permissions.USER_PROFILE.CHANGE_PASSWORD]);
-const resetPasswordPermission = new Permissions([permissions.OPERATORS.RESET_PASSWORD]);
+const resetPasswordPermission = new Permissions([permissions.USER_PROFILE.RESET_PASSWORD]);
 
 class ProfileHeader extends Component {
   static propTypes = {
@@ -45,6 +45,7 @@ class ProfileHeader extends Component {
     loaded: PropTypes.bool,
     onChangePasswordClick: PropTypes.func.isRequired,
     unlockLogin: PropTypes.func.isRequired,
+    notify: PropTypes.func.isRequired,
     loginLock: PropTypes.shape({
       lock: PropTypes.bool,
     }).isRequired,

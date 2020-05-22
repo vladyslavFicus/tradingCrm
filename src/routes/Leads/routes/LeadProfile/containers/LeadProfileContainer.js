@@ -10,7 +10,6 @@ import {
 } from 'graphql/mutations/note';
 import NoteModal from 'components/NoteModal';
 import { leadProfileQuery } from 'graphql/queries/leads';
-import { promoteLeadToClient } from 'graphql/mutations/leads';
 import PromoteLeadModal from 'components/PromoteLeadModal';
 import RepresentativeUpdateModal from 'components/RepresentativeUpdateModal';
 import LeadProfile from '../components/LeadProfile';
@@ -23,9 +22,6 @@ export default compose(
     promoteLeadModal: PromoteLeadModal,
     noteModal: NoteModal,
     representativeModal: RepresentativeUpdateModal,
-  }),
-  graphql(promoteLeadToClient, {
-    name: 'promoteLead',
   }),
   graphql(leadProfileQuery, {
     options: ({

@@ -18,7 +18,7 @@ import GridEmptyValue from 'components/GridEmptyValue';
 import MiniProfile from 'components/MiniProfile';
 import renderLabel from 'utils/renderLabel';
 import ConvertedBy from '../../../components/ConvertedBy';
-import { leadStatuses } from '../../../constants';
+import { leadStatuses, fileConfig } from '../../../constants';
 import { getLeadsData } from './utils';
 import LeadsGridFilter from './LeadsGridFilter';
 
@@ -153,6 +153,18 @@ class List extends Component {
     }
   };
 
+  handleRejectUpload = ([file]) => {
+    const { notify } = this.props;
+
+    if (file.size > fileConfig.maxSize) {
+      notify({
+        level: 'error',
+        title: I18n.t('COMMON.UPLOAD_FAILED'),
+        message: I18n.t('error.multipart.max-file-size.exceeded', { size: fileConfig.maxSize }),
+      });
+    }
+  }
+
   handleUploadCSV = async ([file]) => {
     const {
       notify,
@@ -166,7 +178,7 @@ class List extends Component {
       notify({
         level: 'error',
         title: I18n.t('COMMON.UPLOAD_FAILED'),
-        message: error.error || error.fields_errors || I18n.t('COMMON.SOMETHING_WRONG'),
+        message: error.error ? I18n.t(error.error, { size: fileConfig.maxSize }) : I18n.t('COMMON.SOMETHING_WRONG'),
       });
 
       return;
@@ -186,6 +198,7 @@ class List extends Component {
   handleLeadsUploadModalClick = () => {
     this.props.modals.leadsUploadModal.show({
       onDropAccepted: this.handleUploadCSV,
+      onDropRejected: this.handleRejectUpload,
     });
   };
 

@@ -26,6 +26,7 @@ class Click2Call extends PureComponent {
     notify: PropTypes.func.isRequired,
     clickToCall: PropTypes.func.isRequired,
     asteriskCreateCall: PropTypes.func.isRequired,
+    number: PropTypes.string.isRequired,
   };
 
   state = {

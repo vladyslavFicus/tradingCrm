@@ -5,10 +5,8 @@ import { get } from 'lodash';
 import { Formik, Form, Field } from 'formik';
 import { withRequests } from 'apollo';
 import { withNotifications } from 'hoc';
-import { withStorage } from 'providers/StorageProvider';
 import PropTypes from 'constants/propTypes';
-import { departments, roles } from 'constants/brands';
-import { withdrawStatuses, manualPaymentMethodsLabels } from 'constants/payment';
+import { manualPaymentMethodsLabels } from 'constants/payment';
 import { createValidator, translateLabels } from 'utils/validator';
 import formatLabel from 'utils/formatLabel';
 import { FormikSelectField } from 'components/Formik';
@@ -24,28 +22,21 @@ const attributeLabels = {
 class ApprovePaymentForm extends PureComponent {
   static propTypes = {
     manualPaymentMethods: PropTypes.manualPaymentMethods.isRequired,
-    withdrawStatus: PropTypes.string.isRequired,
     approvePayment: PropTypes.func.isRequired,
+    onCloseModal: PropTypes.func.isRequired,
     paymentId: PropTypes.string.isRequired,
     onSuccess: PropTypes.func.isRequired,
     notify: PropTypes.func.isRequired,
-    auth: PropTypes.auth.isRequired,
   };
 
-  handleApprovePayment = async (values, { setSubmitting, validateForm }) => {
-    setSubmitting(false);
-
+  handleApprovePayment = async ({ paymentMethod }) => {
     const {
       approvePayment,
+      onCloseModal,
       paymentId,
       onSuccess,
       notify,
     } = this.props;
-
-    const validationResult = await validateForm(values);
-    const hasValidationErrors = Object.keys(validationResult).length > 0;
-
-    if (hasValidationErrors) return;
 
     const {
       data: {
@@ -60,8 +51,8 @@ class ApprovePaymentForm extends PureComponent {
     } = await approvePayment({
       variables: {
         paymentId,
+        paymentMethod,
         typeAcc: 'approve',
-        paymentMethod: values.paymentMethod,
       },
     });
 
@@ -77,47 +68,18 @@ class ApprovePaymentForm extends PureComponent {
 
     if (success) {
       onSuccess();
+      onCloseModal();
     }
-  };
-
-  getButtonLabel = () => {
-    const { withdrawStatus } = this.props;
-
-    switch (withdrawStatus) {
-      case withdrawStatuses.DEALING_REVIEW: {
-        return 'PAYMENT_DETAILS_MODAL.ACTIONS.APPROVE.MOVE_TO_SALES_REVIEW';
-      }
-      case withdrawStatuses.SALES_REVIEW: {
-        return 'PAYMENT_DETAILS_MODAL.ACTIONS.APPROVE.MOVE_TO_FINANCE_TO_EXECUTE';
-      }
-      case withdrawStatuses.FINANCE_TO_EXECUTE: {
-        return 'PAYMENT_DETAILS_MODAL.ACTIONS.APPROVE.APPROVE_WITHDRAW';
-      }
-      default: {
-        return 'PAYMENT_DETAILS_MODAL.ACTIONS.APPROVE.DEFAULT';
-      }
-    }
-  };
+  }
 
   render() {
-    const {
-      manualPaymentMethods,
-      auth: { department, role },
-      withdrawStatus,
-    } = this.props;
+    const { manualPaymentMethods } = this.props;
 
     const manualMethods = get(manualPaymentMethods, 'data.manualPaymentMethods.data') || [];
 
-    const isAvailableToApprove = (withdrawStatus === withdrawStatuses.FINANCE_TO_EXECUTE)
-      ? [departments.ADMINISTRATION, departments.FINANCE].includes(department)
-        || ([departments.CS].includes(department) && [roles.ROLE4].includes(role))
-      : true;
-
-    if (!isAvailableToApprove) return null;
-
     return (
       <Formik
-        initialValues={{ paymentMethod: '' }}
+        initialValues={{}}
         validate={
           createValidator({
             paymentMethod: ['string', 'required'],
@@ -150,7 +112,7 @@ class ApprovePaymentForm extends PureComponent {
               type="submit"
               disabled={!values.paymentMethod || isSubmitting}
             >
-              {I18n.t(this.getButtonLabel())}
+              {I18n.t('PAYMENT_DETAILS_MODAL.ACTIONS.APPROVE')}
             </Button>
           </Form>
         )}
@@ -161,7 +123,6 @@ class ApprovePaymentForm extends PureComponent {
 
 export default compose(
   withNotifications,
-  withStorage(['auth']),
   withRequests({
     approvePayment: approvePaymentMutation,
     manualPaymentMethods: getManualPaymentMethodsQuery,

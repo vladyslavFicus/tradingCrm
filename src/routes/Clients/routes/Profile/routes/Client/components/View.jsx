@@ -9,7 +9,7 @@ import Regulated from 'components/Regulated';
 import { decodeNullValues } from 'components/Formik/utils';
 import { hideText } from 'utils/hideText';
 import { getBrand } from 'config';
-import PersonalForm from './PersonalForm';
+import PersonalInformationForm from './PersonalInformationForm';
 import AddressForm from './AddressForm';
 import ContactForm from './ContactForm';
 import KycStatus from './Kyc/KycStatus';
@@ -29,10 +29,18 @@ class View extends Component {
     auth: PropTypes.auth.isRequired,
     updateAddress: PropTypes.func.isRequired,
     updateEmail: PropTypes.func.isRequired,
+    notify: PropTypes.func.isRequired,
+    updateContacts: PropTypes.func.isRequired,
+    updatePersonalInformation: PropTypes.func.isRequired,
     newProfile: PropTypes.newProfile.isRequired,
     permission: PropTypes.permission.isRequired,
     modals: PropTypes.shape({
       confirmationModal: PropTypes.modalType,
+    }).isRequired,
+    match: PropTypes.shape({
+      params: PropTypes.shape({
+        id: PropTypes.string,
+      }),
     }).isRequired,
   };
 
@@ -217,7 +225,7 @@ class View extends Component {
         message: I18n.t('error.validation.email.exists'),
       });
     }
-  }
+  };
 
   phoneAccess = () => {
     const {
@@ -260,6 +268,7 @@ class View extends Component {
             phoneVerified,
             emailVerified,
             identificationNumber,
+            timeZone,
           },
         },
       },
@@ -272,7 +281,7 @@ class View extends Component {
             <div className="client-big-col">
               <div className="card margin-right-20">
                 <div className="card-body">
-                  <PersonalForm
+                  <PersonalInformationForm
                     initialValues={{
                       passport,
                       firstName,
@@ -281,6 +290,7 @@ class View extends Component {
                       gender,
                       languageCode,
                       identificationNumber,
+                      timeZone,
                     }}
                     onSubmit={this.handleUpdatePersonalInformation}
                     disabled={!canUpdatePersonalInformation}

@@ -26,11 +26,15 @@ const validate = createValidator({
 class ActionFilterModal extends PureComponent {
   static propTypes = {
     onCloseModal: PropTypes.func.isRequired,
+    createFilterSet: PropTypes.func.isRequired,
+    updateFilterSet: PropTypes.func.isRequired,
+    onSuccess: PropTypes.func.isRequired,
     isOpen: PropTypes.bool.isRequired,
     formError: PropTypes.string,
     notify: PropTypes.func.isRequired,
     action: PropTypes.string.isRequired,
     filterId: PropTypes.string,
+    fields: PropTypes.array.isRequired,
     client: PropTypes.object.isRequired,
     name: PropTypes.string,
   };

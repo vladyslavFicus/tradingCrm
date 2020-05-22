@@ -1,7 +1,4 @@
 // # remove - Redux part that must be removed after reduxForm will be removed
-
-import 'styles/old/vendor.scss';
-
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { createStore, combineReducers } from 'redux'; // # remove

@@ -20,12 +20,15 @@ class FilterSetButtons extends Component {
       actionFilterModal: PropTypes.modalType,
       confirmActionModal: PropTypes.modalType,
     }).isRequired,
+    filtersRefetch: PropTypes.func.isRequired,
+    deleteFilter: PropTypes.func.isRequired,
+    notify: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
     currentValues: null,
     errorLoading: false,
-  }
+  };
 
   handleSaveNewFilter = () => {
     const {

@@ -13,6 +13,7 @@ class MultiCurrencyModal extends PureComponent {
     change: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func.isRequired,
     optionCurrencies: PropTypes.shape({
+      loading: PropTypes.bool.isRequired,
       options: PropTypes.shape({
         signUp: PropTypes.shape({
           currency: PropTypes.shape({

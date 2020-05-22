@@ -42,7 +42,7 @@ class ResetPasswordForm extends Component {
             <div className="auth__form-title">
               {I18n.t('RESET_PASSWORD.PASSWORD_SETTLED')}
             </div>
-            <div className="u-center">
+            <div className="text-center">
               <Link className="btn btn-primary auth__form-button" to="/logout">
                 {I18n.t('RESET_PASSWORD.LOGIN')}
               </Link>
@@ -85,7 +85,7 @@ class ResetPasswordForm extends Component {
                     <button
                       type="submit"
                       id="set-password-submit-button"
-                      className="btn btn-primary auth__form-button"
+                      className="auth__form-button"
                       disabled={isSubmitting}
                     >
                       {I18n.t('COMMON.SUBMIT')}

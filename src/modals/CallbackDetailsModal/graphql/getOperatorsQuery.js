@@ -7,20 +7,14 @@ const REQUEST = gql`
   query CallbackDetailsModal_getOperators {
     operators {
       data {
-        page
-        number
-        totalElements
-        size
-        last
-          content {
-            uuid
-            fullName
-            operatorStatus
-          }
+        content {
+          uuid
+          fullName
+          operatorStatus
+        }
       }
       error {
         error
-        fields_errors
       }
     }
   }

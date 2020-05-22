@@ -10,6 +10,7 @@ const revertedMapper = Object.entries(statusMapper);
 // find correspond status and return Object in following structure - { color, label }
 export const getTradingStatusProps = (status) => {
   let statusName = null;
+
   revertedMapper.some(([key, array]) => {
     if (array.find(item => item === status)) {
       statusName = key;

@@ -36,14 +36,14 @@ export default compose(
   graphql(getClientPaymentsByUuid, {
     name: 'clientPayments',
     options: ({
-      match: { params: { id: playerUUID } },
+      match: { params: { id: profileId } },
       location: { query },
     }) => ({
       variables: {
         args: {
           accountType: 'LIVE',
           ...query && query.filters,
-          playerUUID,
+          profileId,
           page: {
             from: 0,
             size: 20,

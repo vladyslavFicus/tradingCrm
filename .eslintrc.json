@@ -8,6 +8,36 @@
     "jsx-control-statements"
   ],
   "rules": {
+    // START: Workaround for babel-eslint https://github.com/babel/babel-eslint/issues/799
+    "indent": [
+      "error",
+      2,
+      {
+        "SwitchCase": 1,
+        "VariableDeclarator": 1,
+        "outerIIFEBody": 1,
+        "FunctionDeclaration": {
+          "parameters": 1,
+          "body": 1
+        },
+        "FunctionExpression": {
+          "parameters": 1,
+          "body": 1
+        },
+        "CallExpression": {
+          "arguments": 1
+        },
+        "ArrayExpression": 1,
+        "ObjectExpression": 1,
+        "ImportDeclaration": 1,
+        "flatTernaryExpressions": false,
+        "ignoredNodes": ["TemplateLiteral", "JSXElement", "JSXElement > *", "JSXAttribute", "JSXIdentifier", "JSXNamespacedName", "JSXMemberExpression", "JSXSpreadAttribute", "JSXExpressionContainer", "JSXOpeningElement", "JSXClosingElement", "JSXFragment", "JSXOpeningFragment", "JSXClosingFragment", "JSXText", "JSXEmptyExpression", "JSXSpreadChild"],
+        "ignoreComments": false
+      }
+    ],
+    "template-curly-spacing": "off",
+    // END: Workaround
+
     "max-len": [2, 120],
     "react/prefer-stateless-function": 0,
     "react/forbid-foreign-prop-types": 0,
@@ -28,13 +58,8 @@
     "react/jsx-no-undef": [2, { "allowGlobals": true }],
     "react/jsx-one-expression-per-line": 0,
     "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }],
-    
-    // TODO: Remove when is https://github.com/babel/babel-eslint/issues/530 fixed
-    "template-curly-spacing" : "off",
-    "indent": ["error", 2, {
-      "ignoredNodes": ["TemplateLiteral"],
-      "SwitchCase": 1
-    }]
+    "react/sort-comp": 0,
+    "import/no-cycle": 0
   },
   "globals": {
     "window": false,

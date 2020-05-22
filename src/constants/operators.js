@@ -93,25 +93,30 @@ const departmentsLabels = {
 };
 
 const roles = keyMirror({
-  ROLE1: null,
-  ROLE2: null,
-  ROLE3: null,
-  ROLE4: null,
+  EXECUTIVE: null,
+  TEAM_LEADER: null,
+  MANAGER: null,
+  HEAD_OF_DEPARTMENT: null,
+  MARKETING: null,
+  COMPLIANCE: null,
+  E2E: null,
+  BI: null,
+  AFFILIATE: null,
   PLAYER: null,
 });
 
 const rolesLabels = {
-  [roles.ROLE1]: 'CONSTANTS.OPERATORS.ROLES.ROLE1',
-  [roles.ROLE2]: 'CONSTANTS.OPERATORS.ROLES.ROLE2',
-  [roles.ROLE3]: 'CONSTANTS.OPERATORS.ROLES.ROLE3',
-  [roles.ROLE4]: 'CONSTANTS.OPERATORS.ROLES.ROLE4',
+  [roles.EXECUTIVE]: 'CONSTANTS.OPERATORS.ROLES.EXECUTIVE',
+  [roles.TEAM_LEADER]: 'CONSTANTS.OPERATORS.ROLES.TEAM_LEADER',
+  [roles.MANAGER]: 'CONSTANTS.OPERATORS.ROLES.MANAGER',
+  [roles.HEAD_OF_DEPARTMENT]: 'CONSTANTS.OPERATORS.ROLES.HEAD_OF_DEPARTMENT',
+  [roles.MARKETING]: 'CONSTANTS.OPERATORS.ROLES.MARKETING',
+  [roles.COMPLIANCE]: 'CONSTANTS.OPERATORS.ROLES.COMPLIANCE',
+  [roles.E2E]: 'CONSTANTS.OPERATORS.ROLES.E2E',
+  [roles.BI]: 'CONSTANTS.OPERATORS.ROLES.BI',
+  [roles.AFFILIATE]: 'CONSTANTS.OPERATORS.ROLES.AFFILIATE',
   [roles.PLAYER]: 'CONSTANTS.OPERATORS.ROLES.PLAYER',
 };
-
-const operatorTypes = keyMirror({
-  OPERATOR: null,
-  PARTNER: null,
-});
 
 export {
   actions,
@@ -123,5 +128,4 @@ export {
   departmentsLabels,
   roles,
   rolesLabels,
-  operatorTypes,
 };

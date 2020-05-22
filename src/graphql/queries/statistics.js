@@ -7,7 +7,7 @@ const paymentsStatisticQuery = gql`
     $detalization: DetalizationEnum,
     $paymentStatus: String,
     $paymentType: String,
-    $playerUUID: String,
+    $profileId: String,
     $additionalStatistics: [AdditionalStatisticInput]
   ) {
     statistics {
@@ -17,7 +17,7 @@ const paymentsStatisticQuery = gql`
         detalization: $detalization,
         paymentStatus: $paymentStatus,
         paymentType: $paymentType,
-        playerUUID: $playerUUID
+        profileId: $profileId
         additionalStatistics: $additionalStatistics
       ) {
         error {

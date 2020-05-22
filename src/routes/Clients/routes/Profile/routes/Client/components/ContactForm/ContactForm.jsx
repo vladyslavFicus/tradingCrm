@@ -36,6 +36,7 @@ class ContactForm extends Component {
     }),
     currentValues: PropTypes.shape({
       phone: PropTypes.string,
+      phoneCode: PropTypes.string,
       additionalPhone: PropTypes.string,
       additionalEmail: PropTypes.string,
     }),
