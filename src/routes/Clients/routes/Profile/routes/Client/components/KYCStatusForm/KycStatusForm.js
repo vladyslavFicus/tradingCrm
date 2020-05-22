@@ -23,9 +23,7 @@ const updateKycStatusPermissions = new Permissions(permissions.USER_PROFILE.KYC_
 
 class KycStatusForm extends PureComponent {
   static propTypes = {
-    initialValues: PropTypes.shape({
-      kycStatus: PropTypes.string,
-    }).isRequired,
+    kycStatus: PropTypes.string.isRequired,
     permission: PropTypes.permission.isRequired,
     notify: PropTypes.func.isRequired,
     updateKycStatus: PropTypes.func.isRequired,
@@ -64,17 +62,17 @@ class KycStatusForm extends PureComponent {
 
   render() {
     const {
-      initialValues,
       permission: {
         permissions: currentPermissions,
       },
+      kycStatus,
     } = this.props;
 
     const isAvailableToChangeKysStatus = updateKycStatusPermissions.check(currentPermissions);
 
     return (
       <Formik
-        initialValues={initialValues}
+        initialValues={{ kycStatus }}
         onSubmit={this.handleChangeKycStatus}
         validate={validator}
       >

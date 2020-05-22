@@ -317,7 +317,7 @@ class View extends Component {
             <div className="client-small-col">
               <div className="card">
                 <div className="card-body">
-                  <KycStatusForm initialValues={{ kycStatus }} playerUUID={uuid} />
+                  <KycStatusForm kycStatus={kycStatus} playerUUID={uuid} />
                 </div>
               </div>
               <div className="card">
