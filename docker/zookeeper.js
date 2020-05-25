@@ -29,7 +29,6 @@ async function load({ zookeeperUrl, onBrandsConfigUpdated }) {
       'nas.brand.satellites',
       'nas.brand.backoffice.riskCalculator',
       'nas.brand.backoffice.socialTrading',
-      'nas.brand.backoffice.fsaRegulation',
       'nas.brand.backoffice.privatePhoneByDepartment',
       'nas.brand.mt4.leverages_changing_request',
       'nas.brand.mt5.leverages_changing_request',
