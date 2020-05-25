@@ -30,6 +30,7 @@ import CountryLabelWithFlag from 'components/CountryLabelWithFlag';
 import { UncontrolledTooltip } from 'components/Reactstrap/Uncontrolled';
 import Uuid from 'components/Uuid';
 import renderLabel from 'utils/renderLabel';
+import './ClientsGrid.scss';
 
 const changeAsquisitionStatusPermission = new Permissions(permissions.USER_PROFILE.CHANGE_ACQUISITION_STATUS);
 const migrateToFSAPermission = new Permissions(permissions.USER_PROFILE.MIGRATE_TO_FSA);
@@ -409,14 +410,10 @@ class ClientsGrid extends PureComponent {
                         .format('HH:mm:ss')}
                     </div>
                     <div
-                      className="text-truncate-2-lines max-height-35 font-size-11"
+                      className="max-height-35 font-size-11 ClientsGrid__notes"
                       id={`${uuid}-note`}
                     >
-                      {
-                        (content && content.length > 100)
-                          ? `${content.slice(0, 100)}...`
-                          : content
-                      }
+                      {content}
                     </div>
                     <UncontrolledTooltip
                       placement="bottom-start"
