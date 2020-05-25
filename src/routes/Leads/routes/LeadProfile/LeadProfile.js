@@ -1,47 +1,45 @@
-import React, { Component, Suspense } from 'react';
+import React, { PureComponent, Suspense } from 'react';
 import I18n from 'i18n-js';
 import { get } from 'lodash';
 import { Switch, Redirect } from 'react-router-dom';
-import NotePopover from 'components/NotePopover';
-import { viewType as noteViewType, targetTypes } from 'constants/note';
-import Tabs from 'components/Tabs';
+import { compose } from 'react-apollo';
+import { withRequests } from 'apollo';
+import { withModals, withNotifications } from 'hoc';
 import NotFound from 'routes/NotFound';
 import PropTypes from 'constants/propTypes';
-import HideDetails from 'components/HideDetails';
 import { aquisitionStatusesNames } from 'constants/aquisitionStatuses';
 import { userTypes } from 'constants/hierarchyTypes';
+import { viewType as noteViewType, targetTypes } from 'constants/note';
+import NotePopover from 'components/NotePopover';
+import Tabs from 'components/Tabs';
 import Route from 'components/Route';
-import { leadProfileTabs } from '../../../constants';
-import LeadProfileTab from '../routes/LeadProfileTab';
-import Notes from '../routes/Notes';
-import Information from './Information';
-import Header from './Header';
+import HideDetails from 'components/HideDetails';
+import NoteModal from 'components/NoteModal';
+import PromoteLeadModal from 'components/PromoteLeadModal';
+import RepresentativeUpdateModal from 'components/RepresentativeUpdateModal';
+import { leadProfileTabs } from '../../constants';
+import LeadProfileTab from './routes/LeadProfileTab';
+import LeadNotesTab from './routes/LeadNotesTab';
+import Information from './components/Information';
+import Header from './components/Header';
+import {
+  NotesQuery,
+  LeadProfileQuery,
+  AddLeadProfileNote,
+  RemoveLeadProfileNote,
+  UpdateLeadProfileNote,
+} from './graphql';
 
 const NOTE_POPOVER = 'note-popover';
-const popoverInitialState = {
-  name: null,
-  params: {},
-};
 
-class LeadProfile extends Component {
+class LeadProfile extends PureComponent {
   static propTypes = {
-    leadProfile: PropTypes.shape({
-      loading: PropTypes.bool.isRequired,
-      leadProfile: PropTypes.shape({
-        data: PropTypes.lead,
-        error: PropTypes.object,
-      }),
-      refetch: PropTypes.func.isRequired,
+    ...PropTypes.router,
+    leadProfileQuery: PropTypes.query({
+      leadProfile: PropTypes.response(PropTypes.lead),
     }).isRequired,
-    pinnedNotes: PropTypes.shape({
-      loading: PropTypes.bool.isRequired,
-      notes: PropTypes.shape({
-        content: PropTypes.arrayOf(PropTypes.shape({
-          author: PropTypes.string,
-          lastEditorUUID: PropTypes.string,
-          targetUUID: PropTypes.string,
-        })),
-      }),
+    pinnedNotesQuery: PropTypes.query({
+      notes: PropTypes.response(PropTypes.object),
     }).isRequired,
     addNote: PropTypes.func.isRequired,
     updateNote: PropTypes.func.isRequired,
@@ -66,7 +64,10 @@ class LeadProfile extends Component {
   };
 
   state = {
-    popover: { ...popoverInitialState },
+    popover: {
+      name: null,
+      params: {},
+    },
   };
 
   getChildContext() {
@@ -79,36 +80,39 @@ class LeadProfile extends Component {
   triggerRepresentativeUpdateModal = () => {
     const {
       modals: { representativeModal },
-      leadProfile: { refetch, leadProfile: { data } },
-      match: { params: { id } },
+      leadProfileQuery: { refetch, data },
+      match: {
+        params: { id },
+      },
     } = this.props;
 
-    const unassignFromOperator = get(data, 'salesAgent.uuid') || null;
+    const unassignFromOperator = get(data, 'leadProfile.data.salesAgent.uuid') || null;
 
     representativeModal.show({
       type: aquisitionStatusesNames.SALES,
       userType: userTypes.LEAD_CUSTOMER,
-      leads: [{
-        uuid: id,
-        ...(unassignFromOperator && { unassignFromOperator }),
-      }],
+      leads: [
+        {
+          uuid: id,
+          ...(unassignFromOperator && { unassignFromOperator }),
+        },
+      ],
       initialValues: { aquisitionStatus: aquisitionStatusesNames.SALES },
-      header: I18n.t(
-        'LEAD_PROFILE.MODALS.REPRESENTATIVE_UPDATE.HEADER',
-        { type: aquisitionStatusesNames.SALES.toLowerCase() },
-      ),
+      header: I18n.t('LEAD_PROFILE.MODALS.REPRESENTATIVE_UPDATE.HEADER', {
+        type: aquisitionStatusesNames.SALES.toLowerCase(),
+      }),
       onSuccess: () => refetch(),
     });
   };
 
   triggerLeadModal = () => {
     const {
-      leadProfile,
+      leadProfileQuery,
       modals: { promoteLeadModal },
     } = this.props;
 
     promoteLeadModal.show({
-      leadProfile,
+      leadProfileQuery,
     });
   };
 
@@ -130,7 +134,9 @@ class LeadProfile extends Component {
   };
 
   handleNoteHide = (type) => {
-    const { modals: { noteModal } } = this.props;
+    const {
+      modals: { noteModal },
+    } = this.props;
 
     if (type === noteViewType.POPOVER) {
       this.setState({ popover: { name: null, params: {} } });
@@ -141,7 +147,9 @@ class LeadProfile extends Component {
 
   handleAddNoteClick = (target, params = {}) => {
     const {
-      match: { params: { id: leadUUID } },
+      match: {
+        params: { id: leadUUID },
+      },
     } = this.props;
 
     this.setState({
@@ -182,7 +190,9 @@ class LeadProfile extends Component {
     const {
       updateNote,
       addNote,
-      match: { params: { id: leadUUID } },
+      match: {
+        params: { id: leadUUID },
+      },
     } = this.props;
 
     if (data.noteId) {
@@ -206,29 +216,27 @@ class LeadProfile extends Component {
   };
 
   handleDeleteNoteClick = async (viewType, noteId) => {
-    const { removeNote } = this.props;
+    await this.props.removeNote({ variables: { noteId } });
 
-    await removeNote({ variables: { noteId } });
     this.handleNoteHide(viewType);
   };
 
   render() {
     const {
-      leadProfile: {
-        loading,
-        leadProfile,
-      },
-      pinnedNotes: { notes },
+      leadProfileQuery: { loading: leadProfileLoading, data: leadProfile },
+      pinnedNotesQuery: { data: pinnedNotes },
       location,
       match: { params, path, url },
     } = this.props;
 
     const { popover } = this.state;
 
-    const lead = get(leadProfile, 'data') || {};
-    const error = get(leadProfile, 'error');
+    const leadProfileData = get(leadProfile, 'leadProfile.data') || {};
+    const leadProfileError = get(leadProfile, 'leadProfile.error');
 
-    if (error) {
+    const pinnedNotesData = get(pinnedNotes, 'notes.data') || {};
+
+    if (leadProfileError) {
       return <NotFound />;
     }
 
@@ -236,51 +244,58 @@ class LeadProfile extends Component {
       <div className="profile">
         <div className="profile__info">
           <Header
-            data={lead}
-            loading={loading}
+            data={leadProfileData}
+            loading={leadProfileLoading}
             onPromoteLeadClick={this.triggerLeadModal}
             onAddNoteClick={this.handleAddNoteClick}
           />
           <HideDetails>
             <Information
-              data={lead}
-              loading={loading}
-              pinnedNotes={get(notes, 'data') || {}}
+              data={leadProfileData}
+              loading={leadProfileLoading}
+              pinnedNotes={pinnedNotesData}
               onEditNoteClick={this.handleEditNoteClick}
             />
           </HideDetails>
         </div>
-        <Tabs
-          items={leadProfileTabs}
-          location={location}
-          params={params}
-        />
+        <Tabs items={leadProfileTabs} location={location} params={params} />
         <div className="card no-borders">
           <Suspense fallback={null}>
             <Switch>
               <Route path={`${path}/profile`} component={LeadProfileTab} />
-              <Route disableScroll path={`${path}/notes`} component={Notes} />
+              <Route disableScroll path={`${path}/notes`} component={LeadNotesTab} />
               <Redirect to={`${url}/profile`} />
             </Switch>
           </Suspense>
         </div>
-        {
-          popover.name === NOTE_POPOVER
-          && (
-            <NotePopover
-              isOpen
-              manual
-              toggle={() => this.handleNoteHide(noteViewType.POPOVER)}
-              onAddSuccess={data => this.handleSubmitNoteClick(noteViewType.POPOVER, data)}
-              onUpdateSuccess={data => this.handleSubmitNoteClick(noteViewType.POPOVER, data)}
-              onDeleteSuccess={data => this.handleDeleteNoteClick(noteViewType.POPOVER, data)}
-              {...popover.params}
-            />
-          )
-        }
+        <If condition={popover.name === NOTE_POPOVER}>
+          <NotePopover
+            isOpen
+            manual
+            toggle={() => this.handleNoteHide(noteViewType.POPOVER)}
+            onAddSuccess={data => this.handleSubmitNoteClick(noteViewType.POPOVER, data)}
+            onUpdateSuccess={data => this.handleSubmitNoteClick(noteViewType.POPOVER, data)}
+            onDeleteSuccess={data => this.handleDeleteNoteClick(noteViewType.POPOVER, data)}
+            {...popover.params}
+          />
+        </If>
       </div>
     );
   }
 }
 
-export default LeadProfile;
+export default compose(
+  withNotifications,
+  withModals({
+    promoteLeadModal: PromoteLeadModal,
+    noteModal: NoteModal,
+    representativeModal: RepresentativeUpdateModal,
+  }),
+  withRequests({
+    pinnedNotesQuery: NotesQuery,
+    leadProfileQuery: LeadProfileQuery,
+    addNote: AddLeadProfileNote,
+    updateNote: UpdateLeadProfileNote,
+    removeNote: RemoveLeadProfileNote,
+  }),
+)(LeadProfile);
