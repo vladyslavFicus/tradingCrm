@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import { get } from 'lodash';
 import { compose } from 'react-apollo';
 import { withRequests } from 'apollo';
@@ -9,23 +9,15 @@ import FeedItem from 'components/FeedItem';
 import OperatorsFeedFilter from './components/OperatorsFeedFilter';
 import FeedsQuery from './graphql/FeedsQuery';
 
-class OperatorsFeed extends Component {
+class OperatorsFeed extends PureComponent {
   static propTypes = {
     ...PropTypes.router,
-    feeds: PropTypes.shape({
-      loading: PropTypes.bool.isRequired,
-      loadMore: PropTypes.func.isRequired,
-      data: PropTypes.shape({
-        feeds: PropTypes.shape({
-          data: PropTypes.shape({
-            content: PropTypes.arrayOf(PropTypes.shape({
-              targetUUID: PropTypes.string,
-              authorUuid: PropTypes.string,
-              authorFullName: PropTypes.string,
-            })),
-          }),
-        }),
-      }),
+    feeds: PropTypes.query({
+      content: PropTypes.arrayOf(PropTypes.shape({
+        targetUUID: PropTypes.string,
+        authorUuid: PropTypes.string,
+        authorFullName: PropTypes.string,
+      })),
     }).isRequired,
   };
 

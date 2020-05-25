@@ -11,7 +11,6 @@ import PropTypes from 'constants/propTypes';
 import { typesLabels } from 'constants/audit';
 import FeedTypesQuery from './graphql/FeedTypesQuery';
 import { filterFormAttributeLabels as attributeLabels } from '../../constants';
-
 import './OperatorsFeedFilter.scss';
 
 const validate = createValidator({
@@ -24,12 +23,8 @@ const validate = createValidator({
 class OperatorsFeedFilter extends PureComponent {
   static propTypes = {
     onSubmit: PropTypes.func.isRequired,
-    feedTypes: PropTypes.shape({
-      data: PropTypes.shape({
-        feedTypes: PropTypes.shape({
-          data: PropTypes.obj,
-        }),
-      }),
+    feedTypes: PropTypes.query({
+      data: PropTypes.obj,
     }).isRequired,
   };
 
