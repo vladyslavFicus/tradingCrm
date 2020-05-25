@@ -1,51 +1,15 @@
 import React, { Fragment, PureComponent } from 'react';
 import { Popover } from 'reactstrap';
-import { get } from 'lodash';
-import { withRequests } from 'apollo';
 import StorageProvider from 'providers/StorageProvider';
-import PropTypes from 'constants/propTypes';
-import NotificationCenterUnreadQuery from './graphql/NotificationCenterUnreadQuery ';
 import NotificationCenterContent from './components/NotificationCenterContent';
 import NotificationCenterTrigger from './components/NotificationCenterTrigger';
 import './NotificationCenter.scss';
 
-const UNREAD_AMOUNT_POLL_TIMEOUT = 10000;
-
 class NotificationCenter extends PureComponent {
-  static propTypes = {
-    notificationCenterUnread: PropTypes.query({
-      notificationCenterUnread: PropTypes.shape({
-        data: PropTypes.number,
-      }),
-    }).isRequired,
-  };
-
-  static getDerivedStateFromProps({ notificationCenterUnread }) {
-    const unreadAmount = get(
-      notificationCenterUnread,
-      'data.notificationCenterUnread.data',
-    );
-
-    if (typeof unreadAmount === 'number') {
-      return { unreadAmount };
-    }
-
-    return null;
-  }
-
   state = {
     isOpen: false,
-    unreadAmount: 0,
     enableToggle: true,
   };
-
-  componentDidMount() {
-    this.props.notificationCenterUnread.startPolling(UNREAD_AMOUNT_POLL_TIMEOUT);
-  }
-
-  componentWillUnmount() {
-    this.props.notificationCenterUnread.stopPolling();
-  }
 
   toggle = () => this.setState(({ isOpen }) => ({ isOpen: !isOpen }));
 
@@ -63,7 +27,7 @@ class NotificationCenter extends PureComponent {
   };
 
   render() {
-    const { unreadAmount, isOpen, enableToggle } = this.state;
+    const { isOpen, enableToggle } = this.state;
     const id = 'NotificationCenterTrigger';
 
     return (
@@ -71,7 +35,6 @@ class NotificationCenter extends PureComponent {
         <NotificationCenterTrigger
           id={id}
           onClick={this.toggle}
-          counter={unreadAmount}
         />
         <Popover
           target={id}
@@ -90,6 +53,4 @@ class NotificationCenter extends PureComponent {
   }
 }
 
-export default withRequests({
-  notificationCenterUnread: NotificationCenterUnreadQuery,
-})(NotificationCenter);
+export default NotificationCenter;
