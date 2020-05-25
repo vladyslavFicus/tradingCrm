@@ -191,7 +191,7 @@
       },
       "KYC_STATUS": {
         "TITLE": "KYC status",
-        "CURRENT_STATUS": "Current KYC status",
+        "CURRENT_STATUS": "Status",
         "SUCCESS_RESPONSE": "Successfully updated KYC status"
       },
       "KYC_STATUS_TITLE": {
@@ -1060,7 +1060,8 @@
         "FEE": "Fee",
         "INACTIVITY_FEE":  "Inactivity fee",
         "TRADING_ACCOUNT_ARCHIVED": "Trading account archived",
-        "TRADING_ACCOUNT_LEVERAGE_UPDATED": "Trading account leverage updated"
+        "TRADING_ACCOUNT_LEVERAGE_UPDATED": "Trading account leverage updated",
+        "INTEREST_RATE": "Interest rate"
       },
       "KYC_CONFIRMATION": {
         "TRANSACTION": "Transaction ID",
@@ -1112,10 +1113,15 @@
         "DEALING": "Dealing"
       },
       "ROLES": {
-        "ROLE1": "Executive",
-        "ROLE2": "Team leader",
-        "ROLE3": "Manager",
-        "ROLE4": "Head of department",
+        "EXECUTIVE": "Executive",
+        "TEAM_LEADER": "Team leader",
+        "MANAGER": "Manager",
+        "HEAD_OF_DEPARTMENT": "Head of department",
+        "MARKETING": "Marketing",
+        "COMPLIANCE": "Compliance",
+        "E2E": "E2E",
+        "BI": "Business intelligence",
+        "AFFILIATE": "Affiliate",
         "PLAYER": "Player"
       }
     },
@@ -1828,12 +1834,7 @@
     "ACTIONS": {
       "MARK_AS_CHARGEBACK": "Mark as chargeback",
       "REJECT": "Reject",
-      "APPROVE": {
-        "DEFAULT": "Move to next status",
-        "MOVE_TO_SALES_REVIEW": "Move to Sales review",
-        "MOVE_TO_FINANCE_TO_EXECUTE": "Move to Finance to execute",
-        "APPROVE_WITHDRAW": "Approve withdraw"
-      }
+      "APPROVE": "Approve"
     },
     "PLAYER_NOT_FOUND": {
       "TITLE": "Player not found!",
@@ -2010,7 +2011,6 @@
       "CLOSED": "Closed"
     },
     "TYPES": {
-      "NULLPOINT": "Nullpoint",
       "AFFILIATE": "Affiliate",
       "DIRECT": "Direct"
     },
@@ -2028,8 +2028,6 @@
       "PARTNER_TYPE": "Partner type",
       "SEARCH_BY": "Search by",
       "SEARCH_BY_PLACEHOLDER": "Name, Phone, Email, UUID...",
-      "REGISTRATION_DATE_FROM": "Date from",
-      "REGISTRATION_DATE_TO": "Date to",
       "REGISTRATION_DATE_RANGE": "Registration Date Range"
     },
     "SHOW_NOTES": "Show notes",
@@ -2193,6 +2191,7 @@
   },
   "DATE_PICKER": {
     "PERIOD_RESETS": {
+      "TODAY": "Today",
       "PREVIOUS_WEEK": "Previous week",
       "THIS_WEEK": "This week",
       "PREVIOUS_MONTH": "Previous month",
@@ -2858,7 +2857,7 @@
   },
   "DESKS": {
     "DESKS": "Desks",
-    "ADD_DESK": "Add desk",
+    "ADD_DESK": "+ Add desk",
     "GRID_HEADER": {
       "DESK": "Desk",
       "OFFICE": "Office",
@@ -2866,12 +2865,11 @@
       "DEFAULT_DESK": "Default desk"
     },
     "GRID_FILTERS": {
-      "DESK_TYPE_LABEL": "Desk type",
-      "DESK_TYPE": {
-        "ANY": "Any",
-        "YES": "Yes",
-        "NO": "No"
-      }
+      "SEARCH_BY": "Search by",
+      "SEARCH_BY_PLACEHOLDER": "Desk name",
+      "OFFICE": "Office",
+      "DESK_TYPE": "Desk type",
+      "DEFAULT_DESK": "Default desk"
     },
     "MODAL": {
       "HEADER": "New desk",
@@ -2885,6 +2883,10 @@
           "RETENTION": "Retention",
           "SALES": "Sales"
         }
+      },
+      "NOTIFICATIONS": {
+        "SUCCESS": "Desk was successfully created",
+        "ERROR": "Desk creation failed"
       }
     },
     "FILTERS": {
@@ -2981,7 +2983,8 @@
       "WITHDRAWAL": "Withdrawal",
       "DEPOSIT": "Deposit",
       "ACCOUNT": "Account",
-      "KYC": "KYC"
+      "KYC": "KYC",
+      "CALLBACK": "Callback"
     },
     "SUBTYPES": {
       "WITHDRAWAL_REQUEST_STATUS_FINANCE_TO_EXECUTE": "Withdrawal request status finance to execute",
@@ -3002,7 +3005,9 @@
       "DEPOSIT_CREATED": " Deposit created",
       "ACCOUNT_CREATED": "Account created",
       "DEPOSIT_FAILED": "Deposit failed",
-      "KYC_APPROVED": "Kyc approved"
+      "KYC_APPROVED": "Kyc approved",
+      "CALLBACK_NAME": "Callback to %{name}",
+      "CALLBACK_TIME": "Time: %{time}"
     },
     "TOOLTIP": {
       "HEADLINE": "Notifications found",
@@ -3031,6 +3036,8 @@
       "ADD_RULE": "Add Rule",
       "RULE_NOT_CREATED": "Error while creating rule",
       "RULE_CREATED": "Rule created with id %{id}",
+      "RULE_NOT_UPDATED": "Error while updating rule",
+      "RULE_UPDATED": "The rule was successfully updated",
       "RULE_NOT_DELETED": "Error while deleting rule",
       "RULE_DELETED": "Rule with id %{id} deleted successfully",
       "GRID": {
@@ -3079,6 +3086,10 @@
         },
         "PERCENTAGE_LIMIT_ERROR": "Sum of ratios should be equal to 100%. Please, change ratios correspondinly."
       },
+      "EDIT_MODAL": {
+        "HEADER": "Edit rule",
+        "SAVE_CHANGES": "Save changes"
+      },
       "DELETE_MODAL": {
         "HEADER": "Delete confirmation",
         "ACTION_TEXT": "Are you sure you want to delete rule %{name}",
@@ -3114,23 +3125,23 @@
       "TIME": "Callback time",
       "CREATED": "Created",
       "MODIFIED": "Modified",
-      "STATUS": "Status"
+      "STATUS": "Status",
+      "REMINDER": "Reminder"
     },
     "FILTER": {
       "SEARCH_BY": "Search by",
       "SEARCH_BY_PLACEHOLDER": "Callback ID, Player ID, Operator ID",
       "CALLBACK_OR_OPERATOR": "Callback or Operator ID",
       "STATUS": "Status",
-      "DATE_RANGE": "Date & time range",
-      "DATE_RANGE_START": "Start date",
-      "DATE_RANGE_END": "End date"
+      "DATE_RANGE": "Date & time range"
     },
     "CREATE_MODAL": {
       "TITLE": "New callback",
       "OPERATOR": "Operator",
       "SELECT_OPERATOR": "Select operator",
       "CALLBACK_DATE_AND_TIME": "Callback date & time",
-      "SUCCESSFULLY_CREATED": "Callback has been successfully created"
+      "SUCCESSFULLY_CREATED": "Callback has been successfully created",
+      "REMINDER": "Reminder"
     },
     "MODAL": {
       "TITLE": "Callback details",
@@ -3485,8 +3496,7 @@
       },
       "AFFILIATE_TYPE": {
         "AFFILIATE": "Affiliate",
-        "IB": "IB",
-        "DIRECT": "Direct"
+        "NONE": "None"
       }
     },
     "GRID": {

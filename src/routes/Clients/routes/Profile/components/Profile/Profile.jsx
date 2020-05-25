@@ -326,6 +326,8 @@ class Profile extends Component {
             targetUUID,
             playerUUID: targetUUID,
             pinned: false,
+            subject: '',
+            content: '',
           },
         },
       },

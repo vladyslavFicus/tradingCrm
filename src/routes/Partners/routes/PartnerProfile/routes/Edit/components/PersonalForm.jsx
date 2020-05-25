@@ -14,7 +14,7 @@ import {
   personalFormAttributeLabels as attributeLabels,
   autoCreationOptions,
 } from './constants';
-import { affiliateTypes, affiliateTypeLabels, satelliteOptions } from '../../../../../constants';
+import { affiliateTypeLabels, satelliteOptions } from '../../../../../constants';
 
 class PersonalForm extends PureComponent {
   static propTypes = {
@@ -23,9 +23,6 @@ class PersonalForm extends PureComponent {
     pristine: PropTypes.bool,
     submitting: PropTypes.bool,
     disabled: PropTypes.bool.isRequired,
-    initialValues: PropTypes.shape({
-      affiliateType: PropTypes.string.isRequired,
-    }).isRequired,
     currentValues: PropTypes.shape({
       tradingAccountAutocreation: PropTypes.string,
     }),
@@ -41,7 +38,6 @@ class PersonalForm extends PureComponent {
 
   render() {
     const {
-      initialValues: { affiliateType },
       currentValues,
       handleSubmit,
       serverError,
@@ -151,7 +147,6 @@ class PersonalForm extends PureComponent {
               component={InputField}
               showErrorMessage
               position="vertical"
-              disabled={affiliateType === affiliateTypes.NULLPOINT}
               meta={{
                 error: serverError === 'error.affiliate.externalId.already.exists'
                   ? I18n.t('error.validation.externalId.exists')
@@ -219,24 +214,22 @@ class PersonalForm extends PureComponent {
               </div>
             </If>
           </Regulated>
-          <If condition={affiliateType !== affiliateTypes.NULLPOINT}>
+          <Field
+            name="public"
+            className="col-12 padding-left-35"
+            component={CheckBox}
+            type="checkbox"
+            label={I18n.t('PARTNERS.MODALS.NEW_PARTNER.PUBLIC_CHECKBOX')}
+          />
+          <Regulated>
             <Field
-              name="public"
+              name="cellexpert"
               className="col-12 padding-left-35"
               component={CheckBox}
               type="checkbox"
-              label={I18n.t('PARTNERS.MODALS.NEW_PARTNER.PUBLIC_CHECKBOX')}
+              label={I18n.t('PARTNERS.MODALS.NEW_PARTNER.CELLEXPERT_CHECKBOX')}
             />
-            <Regulated>
-              <Field
-                name="cellexpert"
-                className="col-12 padding-left-35"
-                component={CheckBox}
-                type="checkbox"
-                label={I18n.t('PARTNERS.MODALS.NEW_PARTNER.CELLEXPERT_CHECKBOX')}
-              />
-            </Regulated>
-          </If>
+          </Regulated>
         </div>
         <hr />
         <div className="personal-form-heading margin-bottom-20">

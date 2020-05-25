@@ -10,7 +10,6 @@ const REQUEST = gql`
     $phone: String,
     $additionalPhone: String,
     $additionalEmail: String,
-    $email: String,
   ) {
     profile {
       updateContacts(
@@ -18,7 +17,6 @@ const REQUEST = gql`
         additionalEmail: $additionalEmail,
         playerUUID: $playerUUID,
         phone: $phone,
-        email: $email,
       ) {
         data {
           _id

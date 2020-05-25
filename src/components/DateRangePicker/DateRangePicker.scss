@@ -1,0 +1,129 @@
+$borderColor: #cfcfcf;
+$borderColorHover: #7aaae1;
+$iconColor: #cfcfcf;
+$iconColorHover: #9b9b9b;
+
+.DateRangePicker {
+  width: 250px;
+
+  &__label {
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 5px;
+  }
+
+  &__presets {
+    width: 190px;
+    border-left: 1px solid $borderColor;
+
+    &-title {
+      height: 50px;
+      padding: 22px 0 0 25px;
+      font-size: 14px;
+      line-height: 0.8em;
+      color: #9b9b9b;
+      text-transform: uppercase;
+    }
+
+    &-list {
+      margin: 0;
+      max-height: 278px;
+      overflow-y: auto;
+      padding: 0 10px 10px;
+    }
+
+    &-item {
+      color: #4a4a4a;
+      border: 1px solid transparent;
+      border-radius: 3px;
+      font-size: 16px;
+      font-weight: 500;
+      line-height: 1;
+      margin-top: 3px;
+      margin-bottom: 3px;
+      padding: 6px 15px;
+      cursor: pointer;
+
+      &:hover {
+        border-color: #e0e0e0;
+      }
+
+      &--active {
+        background-image: linear-gradient(270deg, #25bdee, #4a90e2);
+        border: none;
+        color: #fff;
+        padding-bottom: 7px;
+        padding-top: 7px;
+
+        &:hover {
+          border-color: transparent;
+        }
+      }
+    }
+  }
+}
+
+// Customized DRP
+.DateRangePicker {
+  .DateInput_fang {
+    top: 40px !important;
+    z-index: 2;
+  }
+
+  .DateRangePicker_picker {
+    top: 50px !important;
+  }
+
+  .DateRangePickerInput {
+    height: 40px;
+    align-items: stretch;
+    border: 1px solid $borderColor;
+    transition: 0.2s ease;
+
+    &:hover {
+      border-color: $borderColorHover;
+    }
+
+    &:hover .DateRangePickerInput_calendarIcon {
+      border-color: $borderColorHover;
+      color: $iconColorHover;
+    }
+
+    &_calendarIcon {
+      width: 40px;
+      margin: 0 0 0 auto;
+      border-left: 1px solid $borderColor;
+      text-align: center;
+      color: $iconColor;
+      transition: 0.1s;
+    }
+
+    &_arrow {
+      display: flex;
+      align-items: center;
+    }
+  }
+
+  &--focused .DateRangePickerInput {
+    border-color: $borderColorHover;
+
+    &_calendarIcon {
+      
+      border-color: $borderColorHover;
+      color: $iconColorHover;
+    }
+  }
+
+  .DateInput {
+    flex-grow: 1;
+
+    &_input {
+      height: 100%;
+      cursor: pointer;
+
+      &__focused {
+        background-color: rgba(lightskyblue, .2);
+      }
+    }
+  }
+}

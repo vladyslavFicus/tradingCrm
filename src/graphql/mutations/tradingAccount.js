@@ -22,23 +22,31 @@ const createTradingAccountMutation = gql`mutation createTradingAccount(
       success
       error {
         error
-        fields_errors
       }
     }
   }
 }`;
 
-const tradingAccountChangePasswordMutation = gql`mutation tradingAccountChangePassword(
-  $profileUUID: String!
-  $password: String!
+const updateTradingAccountMutation = gql`mutation updateTradingAccount(
+  $name: String
+  $mode: String
+  $currency: String
+  $readOnly: Boolean
+  $profileId: String!
   $accountUUID: String!
 ) {
   tradingAccount {
-    changePassword(profileUUID: $profileUUID, password: $password, accountUUID: $accountUUID) {
+    update(
+      profileId: $profileId,
+      accountUUID: $accountUUID,
+      name: $name,
+      mode: $mode,
+      currency: $currency,
+      readOnly: $readOnly,
+    ) {
       success
       error {
         error
-        fields_errors
       }
     }
   }
@@ -46,5 +54,5 @@ const tradingAccountChangePasswordMutation = gql`mutation tradingAccountChangePa
 
 export {
   createTradingAccountMutation,
-  tradingAccountChangePasswordMutation,
+  updateTradingAccountMutation,
 };

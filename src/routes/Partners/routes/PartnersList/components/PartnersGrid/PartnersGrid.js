@@ -99,7 +99,6 @@ class PartnersGrid extends PureComponent {
       className={
         classNames(
           'PartnersGrid__partner-type',
-          { 'PartnersGrid__partner-type--nullpoint': affiliateType === affiliateTypes.NULLPOINT },
           { 'PartnersGrid__partner-type--affiliate': affiliateType === affiliateTypes.AFFILIATE },
         )
       }

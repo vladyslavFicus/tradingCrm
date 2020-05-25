@@ -83,7 +83,6 @@ class ContactForm extends PureComponent {
     });
   };
 
-
   onSubmit = async ({
     additionalPhone: currentAdditionalPhone,
     additionalEmail: currentAdditionalEmail,

@@ -19,7 +19,6 @@ const REQUEST = gql`
         }
         error {
           error
-          fields_errors
         }
       }
     }

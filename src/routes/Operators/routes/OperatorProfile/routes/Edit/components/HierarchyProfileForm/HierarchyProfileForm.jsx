@@ -38,12 +38,12 @@ class HierarchyProfileForm extends Component {
     }).isRequired,
   };
 
-  static defaultProps = {
-    initialValues: {},
-  };
-
   static contextTypes = {
     refetchHierarchy: PropTypes.func.isRequired,
+  };
+
+  static defaultProps = {
+    initialValues: {},
   };
 
   state = {

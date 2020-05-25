@@ -52,6 +52,9 @@ class NotificationCenter extends PureComponent {
   onCloseModal = () => {
     this.setState(({ enableToggle: false }));
 
+    /**
+     * this trick needs to prevent popover closing after closing of modal opened in popover
+     */
     return () => {
       setTimeout(() => {
         this.setState(({ enableToggle: true }));

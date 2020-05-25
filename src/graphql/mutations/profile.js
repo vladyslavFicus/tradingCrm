@@ -61,7 +61,9 @@ ${ProfileStatusFragment}`;
 
 const passwordResetRequest = gql`mutation passwordResetRequest($playerUUID: String!) {
   profile {
-    passwordResetRequest(playerUUID: $playerUUID) {
+    passwordResetRequest(
+      userUuid: $playerUUID
+    ) {
       success
     }
   }
@@ -69,7 +71,10 @@ const passwordResetRequest = gql`mutation passwordResetRequest($playerUUID: Stri
 
 const changePassword = gql`mutation changePassword($playerUUID: String!, $password: String!) {
   profile {
-    changePassword(playerUUID: $playerUUID, password: $password) {
+    changePassword(
+      clientUuid: $playerUUID
+      newPassword: $password
+    ) {
       success
     }
   }
@@ -253,20 +258,6 @@ const updateEmailMutation = gql`mutation updateEmail(
   }
 }`;
 
-const updateKYCStatusMutation = gql`mutation updateKYCStatus(
-  $playerUUID: String!,
-  $kycStatus: String,
-) {
-  profile {
-    updateKYCStatus(
-      playerUUID: $playerUUID,
-      kycStatus: $kycStatus,
-    ) {
-      success
-    }
-  }
-}`;
-
 const updateConfigurationMutation = gql`mutation updateConfiguration(
   $playerUUID: String!,
   $internalTransfer: Boolean,
@@ -306,7 +297,7 @@ const updateAddressMutation = gql`mutation updateAddress(
         _id
         address {
           ...AddressFragment
-        } 
+        }
       }
     }
   }
@@ -336,7 +327,6 @@ export {
   clickToCall,
   updateLimitProfileMutation,
   updatePersonalInformationMutation,
-  updateKYCStatusMutation,
   updateConfigurationMutation,
   verifyEmailMutation,
   updateAddressMutation,

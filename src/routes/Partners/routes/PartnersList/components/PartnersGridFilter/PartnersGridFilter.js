@@ -112,12 +112,9 @@ class PartnersGridFilter extends PureComponent {
                   ))}
                 </Field>
               </If>
-              <Field
+              <FormikDateRangePicker
                 className="PartnersGridFilter__input PartnersGridFilter__dates"
                 label={I18n.t('PARTNERS.GRID_FILTERS.REGISTRATION_DATE_RANGE')}
-                startDatePlaceholderText={I18n.t('PARTNERS.GRID_FILTERS.REGISTRATION_DATE_FROM')}
-                endDatePlaceholderText={I18n.t('PARTNERS.GRID_FILTERS.REGISTRATION_DATE_TO')}
-                component={FormikDateRangePicker}
                 periodKeys={{
                   start: 'registrationDateFrom',
                   end: 'registrationDateTo',
