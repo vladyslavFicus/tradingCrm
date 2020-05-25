@@ -1,3 +1,3 @@
 import { lazy } from 'react';
 
-export default lazy(() => import('./components/Payments'));
+export default lazy(() => import('./Payments'));

@@ -12,33 +12,28 @@ class FieldLabel extends PureComponent {
   static defaultProps = {
     label: null,
     addon: null,
-    className: '',
+    className: null,
   };
 
   render() {
     const { label, addon, className } = this.props;
 
     return (
-      <Choose>
-        <When condition={label}>
-          <Choose>
-            <When condition={addon}>
-              <div className={classNames('row no-gutters', className)}>
-                <label className="col">{label}</label>
-                <div className="col-auto pl-1">
-                  {addon}
-                </div>
+      <If condition={label}>
+        <Choose>
+          <When condition={addon}>
+            <div className={classNames('row no-gutters', className)}>
+              <label className="col">{label}</label>
+              <div className="col-auto pl-1">
+                {addon}
               </div>
-            </When>
-            <Otherwise>
-              <label>{label}</label>
-            </Otherwise>
-          </Choose>
-        </When>
-        <Otherwise>
-          {null}
-        </Otherwise>
-      </Choose>
+            </div>
+          </When>
+          <Otherwise>
+            <label>{label}</label>
+          </Otherwise>
+        </Choose>
+      </If>
     );
   }
 }

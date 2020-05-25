@@ -2,11 +2,11 @@ import React from 'react';
 import { Redirect, Switch } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Route from 'components/Route';
-import List from '../routes/List';
+import PaymentsList from './routes/PaymentsList';
 
 const Payments = ({ match: { path, url } }) => (
   <Switch>
-    <Route path={`${path}/list`} component={List} />
+    <Route path={`${path}/list`} component={PaymentsList} />
     <Redirect to={`${url}/list`} />
   </Switch>
 );
