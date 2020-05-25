@@ -271,11 +271,9 @@ class View extends Component {
                 <div className="card-body">
                   <ContactForm
                     isPhoneVerified={phoneVerified}
-                    initialValues={{
-                      phone,
-                      additionalPhone,
-                      additionalEmail,
-                    }}
+                    phone={phone}
+                    additionalPhone={additionalPhone}
+                    additionalEmail={additionalEmail}
                     disabled={!updateContacts}
                     playerUUID={uuid}
                   />

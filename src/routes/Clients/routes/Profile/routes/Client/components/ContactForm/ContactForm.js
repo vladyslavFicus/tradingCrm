@@ -30,11 +30,9 @@ const validator = createValidator({
 class ContactForm extends PureComponent {
   static propTypes = {
     disabled: PropTypes.bool.isRequired,
-    initialValues: PropTypes.shape({
-      phone: PropTypes.string,
-      additionalPhone: PropTypes.string,
-      additionalEmail: PropTypes.string,
-    }).isRequired,
+    phone: PropTypes.string,
+    additionalPhone: PropTypes.string,
+    additionalEmail: PropTypes.string,
     isPhoneVerified: PropTypes.bool.isRequired,
     auth: PropTypes.auth.isRequired,
     updateContacts: PropTypes.func.isRequired,
@@ -42,12 +40,18 @@ class ContactForm extends PureComponent {
     verifyPhone: PropTypes.func.isRequired,
   };
 
+  static defaultProps = {
+    phone: '',
+    additionalPhone: '',
+    additionalEmail: '',
+  };
+
   phoneAccess = () => {
     const {
       auth: { department },
     } = this.props;
 
-    return getBrand().privatePhoneByDepartment.includes(department);
+    return !getBrand().privatePhoneByDepartment.includes(department);
   };
 
   emailAccess = () => {
@@ -55,7 +59,7 @@ class ContactForm extends PureComponent {
       auth: { department },
     } = this.props;
 
-    return getBrand().privateEmailByDepartment.includes(department);
+    return !getBrand().privateEmailByDepartment.includes(department);
   };
 
   handleVerifyPhone = async (phone) => {
@@ -86,13 +90,11 @@ class ContactForm extends PureComponent {
     phone: currentPhone,
   }) => {
     const {
-      initialValues: {
-        additionalPhone,
-        additionalEmail,
-        phone,
-      },
+      additionalPhone,
+      additionalEmail,
       updateContacts,
       notify,
+      phone,
     } = this.props;
 
     const variables = {
@@ -124,21 +126,19 @@ class ContactForm extends PureComponent {
   render() {
     const {
       isPhoneVerified,
+      additionalPhone,
+      additionalEmail,
       disabled,
-      initialValues: {
-        additionalPhone,
-        additionalEmail,
-        phone,
-      },
+      phone,
     } = this.props;
     const { tradingOperatorAccessDisabled } = this.context;
 
     return (
       <Formik
         initialValues={{
-          phone: this.phoneAccess() ? hideText(phone) : phone,
-          additionalPhone: this.phoneAccess() ? hideText(additionalPhone) : additionalPhone,
-          additionalEmail: this.emailAccess() ? hideText(additionalEmail) : additionalEmail,
+          phone: this.phoneAccess() ? phone : hideText(phone),
+          additionalPhone: this.phoneAccess() ? additionalPhone : hideText(additionalPhone),
+          additionalEmail: this.emailAccess() ? additionalEmail : hideText(additionalEmail),
         }}
         onSubmit={this.onSubmit}
         validate={validator}
