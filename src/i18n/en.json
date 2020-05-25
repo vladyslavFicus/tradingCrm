@@ -86,9 +86,7 @@
         "VERIFY_EMAIL": "Verify email",
         "LABEL": {
           "PHONE": "Phone",
-          "PHONE_CODE": "Code",
-          "ALT_PHONE": "Alt phone",
-          "YOUR_ALT_PHONE": "Your alternative phone"
+          "ALT_PHONE": "Alt phone"
         }
       },
       "PERSONAL": {
@@ -193,7 +191,7 @@
       },
       "KYC_STATUS": {
         "TITLE": "KYC status",
-        "CURRENT_STATUS": "Current KYC status",
+        "CURRENT_STATUS": "Status",
         "SUCCESS_RESPONSE": "Successfully updated KYC status"
       },
       "KYC_STATUS_TITLE": {
@@ -377,6 +375,7 @@
     },
     "TRANSACTIONS": {
       "ADD_TRANSACTION": "+ Add transaction",
+      "ADD_TRANSACTION_FAIL": "Failed to add transaction",
       "MODAL_CREATE": {
         "NO_PAYMENT_ACCOUNTS_LABEL": "No payment accounts",
         "CHOOSE_PAYMENT_METHOD_LABEL": "Choose payment method",
@@ -1115,10 +1114,15 @@
         "DEALING": "Dealing"
       },
       "ROLES": {
-        "ROLE1": "Executive",
-        "ROLE2": "Team leader",
-        "ROLE3": "Manager",
-        "ROLE4": "Head of department",
+        "EXECUTIVE": "Executive",
+        "TEAM_LEADER": "Team leader",
+        "MANAGER": "Manager",
+        "HEAD_OF_DEPARTMENT": "Head of department",
+        "MARKETING": "Marketing",
+        "COMPLIANCE": "Compliance",
+        "E2E": "E2E",
+        "BI": "Business intelligence",
+        "AFFILIATE": "Affiliate",
         "PLAYER": "Player"
       }
     },
@@ -1831,12 +1835,7 @@
     "ACTIONS": {
       "MARK_AS_CHARGEBACK": "Mark as chargeback",
       "REJECT": "Reject",
-      "APPROVE": {
-        "DEFAULT": "Move to next status",
-        "MOVE_TO_SALES_REVIEW": "Move to Sales review",
-        "MOVE_TO_FINANCE_TO_EXECUTE": "Move to Finance to execute",
-        "APPROVE_WITHDRAW": "Approve withdraw"
-      }
+      "APPROVE": "Approve"
     },
     "PLAYER_NOT_FOUND": {
       "TITLE": "Player not found!",
@@ -2013,7 +2012,6 @@
       "CLOSED": "Closed"
     },
     "TYPES": {
-      "NULLPOINT": "Nullpoint",
       "AFFILIATE": "Affiliate",
       "DIRECT": "Direct"
     },
@@ -3499,8 +3497,7 @@
       },
       "AFFILIATE_TYPE": {
         "AFFILIATE": "Affiliate",
-        "IB": "IB",
-        "DIRECT": "Direct"
+        "NONE": "None"
       }
     },
     "GRID": {

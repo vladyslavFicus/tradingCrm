@@ -67,7 +67,7 @@ class NotificationCenterTable extends PureComponent {
       </div>
       <div className="font-size-11">
         {I18n.t(notificationCenterSubTypesLabels.CALLBACK_TIME, {
-          time: moment.utc(callbackTime).format('HH:mm'),
+          time: moment.utc(callbackTime).local().format('HH:mm'),
         })}
       </div>
     </Fragment>

@@ -164,6 +164,8 @@ class LeadProfile extends PureComponent {
             targetUUID: leadUUID,
             playerUUID: `PLAYER-${leadUUID}`,
             pinned: false,
+            content: '',
+            subject: '',
           },
         },
       },
