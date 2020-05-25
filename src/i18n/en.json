@@ -86,9 +86,7 @@
         "VERIFY_EMAIL": "Verify email",
         "LABEL": {
           "PHONE": "Phone",
-          "PHONE_CODE": "Code",
-          "ALT_PHONE": "Alt phone",
-          "YOUR_ALT_PHONE": "Your alternative phone"
+          "ALT_PHONE": "Alt phone"
         }
       },
       "PERSONAL": {
@@ -193,7 +191,7 @@
       },
       "KYC_STATUS": {
         "TITLE": "KYC status",
-        "CURRENT_STATUS": "Current KYC status",
+        "CURRENT_STATUS": "Status",
         "SUCCESS_RESPONSE": "Successfully updated KYC status"
       },
       "KYC_STATUS_TITLE": {
@@ -1116,10 +1114,15 @@
         "DEALING": "Dealing"
       },
       "ROLES": {
-        "ROLE1": "Executive",
-        "ROLE2": "Team leader",
-        "ROLE3": "Manager",
-        "ROLE4": "Head of department",
+        "EXECUTIVE": "Executive",
+        "TEAM_LEADER": "Team leader",
+        "MANAGER": "Manager",
+        "HEAD_OF_DEPARTMENT": "Head of department",
+        "MARKETING": "Marketing",
+        "COMPLIANCE": "Compliance",
+        "E2E": "E2E",
+        "BI": "Business intelligence",
+        "AFFILIATE": "Affiliate",
         "PLAYER": "Player"
       }
     },
@@ -1832,12 +1835,7 @@
     "ACTIONS": {
       "MARK_AS_CHARGEBACK": "Mark as chargeback",
       "REJECT": "Reject",
-      "APPROVE": {
-        "DEFAULT": "Move to next status",
-        "MOVE_TO_SALES_REVIEW": "Move to Sales review",
-        "MOVE_TO_FINANCE_TO_EXECUTE": "Move to Finance to execute",
-        "APPROVE_WITHDRAW": "Approve withdraw"
-      }
+      "APPROVE": "Approve"
     },
     "PLAYER_NOT_FOUND": {
       "TITLE": "Player not found!",
@@ -2014,7 +2012,6 @@
       "CLOSED": "Closed"
     },
     "TYPES": {
-      "NULLPOINT": "Nullpoint",
       "AFFILIATE": "Affiliate",
       "DIRECT": "Direct"
     },
@@ -2987,7 +2984,8 @@
       "WITHDRAWAL": "Withdrawal",
       "DEPOSIT": "Deposit",
       "ACCOUNT": "Account",
-      "KYC": "KYC"
+      "KYC": "KYC",
+      "CALLBACK": "Callback"
     },
     "SUBTYPES": {
       "WITHDRAWAL_REQUEST_STATUS_FINANCE_TO_EXECUTE": "Withdrawal request status finance to execute",
@@ -3008,7 +3006,9 @@
       "DEPOSIT_CREATED": " Deposit created",
       "ACCOUNT_CREATED": "Account created",
       "DEPOSIT_FAILED": "Deposit failed",
-      "KYC_APPROVED": "Kyc approved"
+      "KYC_APPROVED": "Kyc approved",
+      "CALLBACK_NAME": "Callback to %{name}",
+      "CALLBACK_TIME": "Time: %{time}"
     },
     "TOOLTIP": {
       "HEADLINE": "Notifications found",
@@ -3126,7 +3126,8 @@
       "TIME": "Callback time",
       "CREATED": "Created",
       "MODIFIED": "Modified",
-      "STATUS": "Status"
+      "STATUS": "Status",
+      "REMINDER": "Reminder"
     },
     "FILTER": {
       "SEARCH_BY": "Search by",
@@ -3140,7 +3141,8 @@
       "OPERATOR": "Operator",
       "SELECT_OPERATOR": "Select operator",
       "CALLBACK_DATE_AND_TIME": "Callback date & time",
-      "SUCCESSFULLY_CREATED": "Callback has been successfully created"
+      "SUCCESSFULLY_CREATED": "Callback has been successfully created",
+      "REMINDER": "Reminder"
     },
     "MODAL": {
       "TITLE": "Callback details",
@@ -3495,8 +3497,7 @@
       },
       "AFFILIATE_TYPE": {
         "AFFILIATE": "Affiliate",
-        "IB": "IB",
-        "DIRECT": "Direct"
+        "NONE": "None"
       }
     },
     "GRID": {

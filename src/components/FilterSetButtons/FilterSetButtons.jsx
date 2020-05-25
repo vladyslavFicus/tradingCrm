@@ -66,11 +66,9 @@ class FilterSetButtons extends Component {
       action: actionTypes.UPDATE,
       fields: currentValues,
       filterId: selectValue,
-      initialValues: {
-        name: [...favourite, ...common].find(
-          ({ uuid }) => uuid === selectValue,
-        ).name,
-      },
+      name: [...favourite, ...common].find(
+        ({ uuid }) => uuid === selectValue,
+      ).name,
     });
   };
 

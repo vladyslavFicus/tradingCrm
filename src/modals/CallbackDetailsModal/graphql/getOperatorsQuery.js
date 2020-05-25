@@ -10,6 +10,7 @@ const REQUEST = gql`
         content {
           uuid
           fullName
+          operatorStatus
         }
       }
       error {

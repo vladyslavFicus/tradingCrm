@@ -20,6 +20,7 @@ const REQUEST = gql`
         status
         creationTime
         updateTime
+        reminder
         operator {
           fullName
         }
