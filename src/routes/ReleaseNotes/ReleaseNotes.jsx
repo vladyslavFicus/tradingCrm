@@ -331,11 +331,6 @@ const ReleaseNotes = () => (
   <li>
     <p>Filter "FTD date range" to Clients search</p>
   </li>
-  <If condition={getActiveBrandConfig().regulation.isActive}>
-    <li>
-      <p>Risk Calculator</p>
-    </li>
-  </If>
   <li>
     <p>Add "Other" category to the "Files" tab in the Backoffice FE Application</p>
   </li>

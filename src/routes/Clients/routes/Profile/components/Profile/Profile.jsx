@@ -4,7 +4,7 @@ import { get } from 'lodash';
 import I18n from 'i18n-js';
 import { Switch, Redirect } from 'react-router-dom';
 import Helmet from 'react-helmet';
-import { getActiveBrandConfig, getApiRoot } from 'config';
+import { getApiRoot } from 'config';
 import Permissions from 'utils/permissions';
 import getFileBlobUrl from 'utils/getFileBlobUrl';
 import {
@@ -33,7 +33,6 @@ import {
   Files,
   Feed,
   ClientCallbacksTab,
-  Risks,
 } from '../../routes';
 import ProfileHeader from '../ProfileHeader';
 import Information from '../Information';
@@ -567,7 +566,6 @@ class Profile extends Component {
       newProfile: {
         newProfile,
         loading,
-        refetch,
       },
       match: { params },
       location,
@@ -643,13 +641,6 @@ class Profile extends Component {
               <Route disableScroll path={`${path}/notes`} component={Notes} />
               <Route disableScroll path={`${path}/files`} component={Files} />
               <Route disableScroll path={`${path}/feed`} component={Feed} />
-              <If condition={getActiveBrandConfig().isRisksTabAvailable}>
-                <Route
-                  disableScroll
-                  path={`${path}/risk`}
-                  render={props => <Risks refetchProfile={refetch} {...props} />}
-                />
-              </If>
               <Redirect to={`${path}/profile`} />
             </Switch>
           </Suspense>

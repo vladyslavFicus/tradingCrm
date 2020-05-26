@@ -1,5 +1,4 @@
 import { aquisitionStatuses } from 'constants/aquisitionStatuses';
-import { getActiveBrandConfig } from 'config';
 import Permissions from 'utils/permissions';
 import permissions from 'config/permissions';
 
@@ -34,14 +33,6 @@ export const userProfileTabs = [
     permissions: new Permissions(permissions.AUDIT.PROFILE_AUDIT_LOGS),
   },
 ];
-
-// # Add risk tab if 'isRisksTabAvailable = true' for current brand
-if (getActiveBrandConfig().isRisksTabAvailable) {
-  userProfileTabs.push({
-    label: 'CLIENT_PROFILE.TABS.RISK_PROFILE',
-    url: '/clients/:id/risk',
-  });
-}
 
 export const moveField = type => ({
   name: 'acquisitionStatus',

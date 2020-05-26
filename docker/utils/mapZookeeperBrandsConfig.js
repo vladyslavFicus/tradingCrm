@@ -28,7 +28,6 @@ module.exports = configs => Object.entries(configs).reduce((acc, [id, config]) =
       templatedEmails: !!get(config, 'nas.brand.email.sendgrid.crm_templated_emails'),
     },
     satellites: get(config, 'nas.brand.satellites'),
-    isRisksTabAvailable: !!get(config, 'nas.brand.backoffice.riskCalculator'),
     privatePhoneByDepartment: get(config, 'nas.brand.backoffice.privatePhoneByDepartment', []),
     leveragesChangingRequestMT4: get(config, 'nas.brand.mt4.leverages_changing_request', []),
     leveragesChangingRequestMT5: get(config, 'nas.brand.mt5.leverages_changing_request', []),

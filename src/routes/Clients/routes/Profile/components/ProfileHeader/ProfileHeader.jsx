@@ -3,7 +3,6 @@ import moment from 'moment';
 import classNames from 'classnames';
 import I18n from 'i18n-js';
 import { get } from 'lodash';
-import { getActiveBrandConfig } from 'config';
 import { withNotifications } from 'hoc';
 import { withPermission } from 'providers/PermissionsProvider';
 import { lastActivityStatusesLabels, lastActivityStatusesColors } from 'constants/lastActivity';
@@ -20,7 +19,6 @@ import StickyWrapper from 'components/StickyWrapper';
 import GridStatus from 'components/GridStatus';
 import customTimeout from 'utils/customTimeout';
 import PlayerStatus from '../PlayerStatus';
-import RiskStatus from '../RiskStatus';
 import Balances from '../Balances';
 import HeaderPlayerPlaceholder from '../HeaderPlayerPlaceholder';
 import Questionnaire from '../Questionnaire';
@@ -248,10 +246,6 @@ class ProfileHeader extends Component {
               onChange={this.handleStatusChange}
               availableStatuses={availableStatuses}
             />
-
-            <If condition={getActiveBrandConfig().isRisksTabAvailable}>
-              <RiskStatus />
-            </If>
           </div>
           <div className="header-block header-block-inner header-block_balance" id="player-profile-balance-block">
             <If condition={uuid}>
