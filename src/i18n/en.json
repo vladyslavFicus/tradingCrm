@@ -86,9 +86,7 @@
         "VERIFY_EMAIL": "Verify email",
         "LABEL": {
           "PHONE": "Phone",
-          "PHONE_CODE": "Code",
-          "ALT_PHONE": "Alt phone",
-          "YOUR_ALT_PHONE": "Your alternative phone"
+          "ALT_PHONE": "Alt phone"
         }
       },
       "PERSONAL": {
@@ -193,7 +191,7 @@
       },
       "KYC_STATUS": {
         "TITLE": "KYC status",
-        "CURRENT_STATUS": "Current KYC status",
+        "CURRENT_STATUS": "Status",
         "SUCCESS_RESPONSE": "Successfully updated KYC status"
       },
       "KYC_STATUS_TITLE": {
@@ -377,6 +375,7 @@
     },
     "TRANSACTIONS": {
       "ADD_TRANSACTION": "+ Add transaction",
+      "ADD_TRANSACTION_FAIL": "Failed to add transaction",
       "MODAL_CREATE": {
         "NO_PAYMENT_ACCOUNTS_LABEL": "No payment accounts",
         "CHOOSE_PAYMENT_METHOD_LABEL": "Choose payment method",
@@ -1676,14 +1675,9 @@
         "ASSIGN_STATUS": "Assign Status",
         "KYC_STATUSES": "KYC Statuses",
         "FIRST_DEPOSIT": "First time deposit",
-        "FSA_MIGRATION": "FSA migration Status",
         "QUESTIONNAIRE": "Questionnaire",
         "AFFILIATES": "Affiliates",
         "PARTNER_TYPE": "Created by",
-        "FSA_MIGRATION_STATUS": {
-          "ACCEPTED": "Accepted",
-          "NOT_ACCEPTED": "Not Accepted"
-        },
         "WARNING": "Warning"
       }
     }
@@ -2656,11 +2650,6 @@
   },
   "MIGRATE": {
     "MIGRATION_STATUS": "Migration status",
-    "BUTTON": "Migrate to FSA",
-    "MODAL": {
-      "TITLE": "Migrate to FSA",
-      "TEXT": "Are you sure, that you want to migrate selected client(s)?"
-    },
     "NOTIFICATION": {
       "SUCCESS_TEXT": "Сlients are successfully prepared for migration",
       "ERROR_TEXT": "Bulk migration failed for some reasons"

@@ -56,7 +56,6 @@ export default {
     CHANGE_PASSWORD: 'auth2.client.changePassword',
     CHANGE_ACQUISITION_STATUS: 'hierarchy-updater.user.bulkUpdateUserParents',
     CHANGE_CONFIGURATION: 'profile.admin.updateProfileConfiguration',
-    MIGRATE_TO_FSA: 'migrationorchestrator.startBrandMigration',
     VIEW_FILES: 'attachments.getUserAttachments',
     VIEW_FILE: 'attachments.downloadFile',
     GET_FILES: 'attachments.getUserVerificationStatus',

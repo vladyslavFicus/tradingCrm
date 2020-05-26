@@ -4,10 +4,8 @@ import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap
 import classNames from 'classnames';
 import moment from 'moment';
 import I18n from 'i18n-js';
-import { getActiveBrandConfig } from 'config';
 import { withPermission } from 'providers/PermissionsProvider';
 import FailureReasonIcon from 'components/FailureReasonIcon';
-import { fsaStatuses } from 'constants/fsaMigration';
 import { statuses, statusColorNames, statusesLabels, durationUnits } from 'constants/user';
 import Uuid from 'components/Uuid';
 import renderLabel from 'utils/renderLabel';
@@ -36,7 +34,6 @@ class PlayerStatus extends Component {
     permission: PropTypes.shape({
       permissions: PropTypes.arrayOf(PropTypes.string).isRequired,
     }).isRequired,
-    fsaMigrationStatus: PropTypes.string,
   };
 
   static defaultProps = {
@@ -45,16 +42,11 @@ class PlayerStatus extends Component {
     statusDate: null,
     statusAuthor: null,
     profileStatusComment: '',
-    fsaMigrationStatus: '',
   };
 
   state = { ...initialState };
 
   toggle = () => {
-    if (getActiveBrandConfig().fsaRegulation && this.props.fsaMigrationStatus === fsaStatuses.MIGRATION_FINISHED) {
-      return;
-    }
-
     this.setState(({ dropDownOpen }) => ({
       dropDownOpen: !dropDownOpen,
     }));

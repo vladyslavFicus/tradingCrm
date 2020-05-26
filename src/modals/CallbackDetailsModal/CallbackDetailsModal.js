@@ -183,6 +183,7 @@ class CallbackDetailsModal extends Component {
                       isValidDate={() => moment(values.callbackTime, 'YYYY-MM-DD HH:mm').isValid()}
                       closeOnSelect={false}
                       withTime
+                      utc
                     />
 
                     <Field
