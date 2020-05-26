@@ -250,6 +250,9 @@
         "TITLE": "Transfer Availability",
         "LABEL": "Transfer"
       },
+      "STATUS_MODAL": {
+        "TITLE": "Change account status"
+      },
       "BLOCK_REASONS": {
         "USER_REQUEST": "User request",
         "BONUS_ABUSE": "Bonus abuse",

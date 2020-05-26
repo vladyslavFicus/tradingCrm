@@ -1,6 +1,5 @@
 import gql from 'graphql-tag';
 import { AddressFragment } from '../fragments/address';
-import { ProfileStatusFragment } from '../fragments/profileStatus';
 
 const updateSubscription = gql`mutation updateSubscription(
     $playerUUID: String!,
@@ -30,34 +29,6 @@ const updateSubscription = gql`mutation updateSubscription(
     }
   }
 }`;
-
-const changeProfileStatusMutation = gql`mutation changeProfileStatus(
-  $playerUUID: String!,
-  $reason: String!,
-  $comment: String,
-  $status: String!,
-) {
-  profile {
-    changeProfileStatus(
-      playerUUID: $playerUUID,
-      reason: $reason,
-      comment: $comment,
-      status: $status,
-      ) {
-      data {
-        _id
-        status {
-          ...ProfileStatusFragment
-        }
-      }
-      error {
-        error
-        fields_errors
-      }
-    }
-  }
-}
-${ProfileStatusFragment}`;
 
 const passwordResetRequest = gql`mutation passwordResetRequest($playerUUID: String!) {
   profile {
@@ -330,6 +301,5 @@ export {
   updateConfigurationMutation,
   verifyEmailMutation,
   updateAddressMutation,
-  changeProfileStatusMutation,
   updateEmailMutation,
 };
