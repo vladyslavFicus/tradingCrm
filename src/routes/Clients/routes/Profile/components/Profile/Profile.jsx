@@ -99,7 +99,6 @@ class Profile extends Component {
     removeNote: PropTypes.func.isRequired,
     deleteFile: PropTypes.func,
     changePassword: PropTypes.func.isRequired,
-    changeProfileStatus: PropTypes.func.isRequired,
     unlockLoginMutation: PropTypes.func.isRequired,
     permission: PropTypes.permission.isRequired,
     token: PropTypes.string.isRequired,
@@ -576,7 +575,6 @@ class Profile extends Component {
       },
       getLoginLock,
       questionnaireLastData,
-      changeProfileStatus,
     } = this.props;
 
     const loginLock = get(getLoginLock, 'loginLock', {});
@@ -598,7 +596,6 @@ class Profile extends Component {
             newProfile={newProfileData}
             questionnaireLastData={questionnaireLastData}
             availableStatuses={this.availableStatuses}
-            onStatusChange={changeProfileStatus}
             isLoadingProfile={loading}
             onAddNoteClick={this.handleAddNoteClick(params.id)}
             onResetPasswordClick={this.handleResetPasswordClick}

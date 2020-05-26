@@ -4,7 +4,6 @@ import classNames from 'classnames';
 import I18n from 'i18n-js';
 import { get } from 'lodash';
 import { getActiveBrandConfig } from 'config';
-import { withNotifications } from 'hoc';
 import { withPermission } from 'providers/PermissionsProvider';
 import { fsaStatuses, fsaStatusColorNames, fsaStatusesLabels } from 'constants/fsaMigration';
 import { lastActivityStatusesLabels, lastActivityStatusesColors } from 'constants/lastActivity';
@@ -40,12 +39,10 @@ class ProfileHeader extends Component {
     isLoadingProfile: PropTypes.bool.isRequired,
     availableStatuses: PropTypes.array,
     onAddNoteClick: PropTypes.func.isRequired,
-    onStatusChange: PropTypes.func.isRequired,
     onResetPasswordClick: PropTypes.func.isRequired,
     loaded: PropTypes.bool,
     onChangePasswordClick: PropTypes.func.isRequired,
     unlockLogin: PropTypes.func.isRequired,
-    notify: PropTypes.func.isRequired,
     loginLock: PropTypes.shape({
       lock: PropTypes.bool,
     }).isRequired,
@@ -74,34 +71,6 @@ class ProfileHeader extends Component {
       }, 1000);
     }
   }
-
-  handleStatusChange = async ({ action, comment, reason }) => {
-    const {
-      newProfile: {
-        uuid,
-      },
-      onStatusChange,
-      notify,
-    } = this.props;
-
-    if (uuid) {
-      const { error } = await onStatusChange({
-        variables: {
-          status: action,
-          playerUUID: uuid,
-          comment,
-          reason,
-        },
-      });
-
-      notify({
-        level: error ? 'error' : 'success',
-        message: error
-          ? I18n.t('COMMON.SOMETHING_WRONG')
-          : I18n.t('COMMON.SUCCESS'),
-      });
-    }
-  };
 
   onHandeReloadClick = () => {
     const { onRefreshClick } = this.props;
@@ -276,6 +245,7 @@ class ProfileHeader extends Component {
         <div className="layout-quick-overview">
           <div className="header-block header-block_account">
             <PlayerStatus
+              playerUUID={uuid}
               statusDate={changedAt}
               statusAuthor={changedBy}
               profileStatusComment={comment}
@@ -345,4 +315,4 @@ class ProfileHeader extends Component {
   }
 }
 
-export default withPermission(withNotifications(ProfileHeader));
+export default withPermission(ProfileHeader);
