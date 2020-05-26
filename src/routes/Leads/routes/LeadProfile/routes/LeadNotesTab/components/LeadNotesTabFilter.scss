@@ -1,0 +1,28 @@
+.LeadNotesTabFilter {
+  display: flex;
+  flex-flow: row wrap;
+  padding: 20px 10px;
+  background-color: #f2f4f8;
+
+  &__field {
+    flex-basis: 280px;
+    padding: 0 15px;
+    margin-bottom: 20px;
+  }
+
+  &__button-group {
+    display: flex;
+    margin-left: auto;
+    align-self: flex-end;
+    padding: 0 15px;
+    margin-bottom: 20px;
+  }
+
+  &__button {
+    margin-right: 15px;
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+}
