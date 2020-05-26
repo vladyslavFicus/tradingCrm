@@ -1914,7 +1914,9 @@
           "REGISTRATION_DATE_FROM": "Registration Date From",
           "REGISTRATION_DATE_TO": "Registration Date To",
           "REGISTRATION_DATE_RANGE": "Registration Date Range",
-          "SEARCH_BY": "Search by"
+          "SEARCH_BY": "Search by",
+          "DATE_FROM": "Date From",
+          "DATE_TO": "Date To"
         }
       }
     },

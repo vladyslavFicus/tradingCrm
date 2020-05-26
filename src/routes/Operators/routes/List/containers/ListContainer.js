@@ -1,6 +1,4 @@
-import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { getFormValues } from 'redux-form';
 import { graphql, withApollo } from 'react-apollo';
 import { get } from 'lodash';
 import { withModals, withNotifications } from 'hoc';
@@ -10,12 +8,7 @@ import CreateOperatorModalContainer from '../components/CreateOperatorModal';
 import ExistingOperatorModal from '../components/ExistingOperatorModal';
 import List from '../components/List';
 
-const mapStateToProps = state => ({
-  filterValues: getFormValues('operatorsListGridFilter')(state) || {},
-});
-
 export default compose(
-  connect(mapStateToProps, null),
   withApollo,
   withModals({
     createOperator: CreateOperatorModalContainer,
