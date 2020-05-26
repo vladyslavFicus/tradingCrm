@@ -1675,14 +1675,9 @@
         "ASSIGN_STATUS": "Assign Status",
         "KYC_STATUSES": "KYC Statuses",
         "FIRST_DEPOSIT": "First time deposit",
-        "FSA_MIGRATION": "FSA migration Status",
         "QUESTIONNAIRE": "Questionnaire",
         "AFFILIATES": "Affiliates",
         "PARTNER_TYPE": "Created by",
-        "FSA_MIGRATION_STATUS": {
-          "ACCEPTED": "Accepted",
-          "NOT_ACCEPTED": "Not Accepted"
-        },
         "WARNING": "Warning"
       }
     }
@@ -2656,11 +2651,6 @@
   },
   "MIGRATE": {
     "MIGRATION_STATUS": "Migration status",
-    "BUTTON": "Migrate to FSA",
-    "MODAL": {
-      "TITLE": "Migrate to FSA",
-      "TEXT": "Are you sure, that you want to migrate selected client(s)?"
-    },
     "NOTIFICATION": {
       "SUCCESS_TEXT": "Сlients are successfully prepared for migration",
       "ERROR_TEXT": "Bulk migration failed for some reasons"
