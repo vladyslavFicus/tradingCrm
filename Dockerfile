@@ -1,4 +1,4 @@
-FROM registry.flcn.pro/addons/frontend:latest
+FROM registry.etep.io/k8s/frontend:latest
 
 RUN mkdir /etc/nginx/logs && touch /etc/nginx/logs/static.log
 

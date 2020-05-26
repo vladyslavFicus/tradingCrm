@@ -53,28 +53,15 @@ class NotificationsFilters extends PureComponent {
   };
 
   renderSubtypesOptions = (types, subtypes) => {
-    if (!types) return [];
+    if (!types || !types.length) return [];
 
-    const subtypeJSX = value => (
-      <option key={value} value={value}>
-        {I18n.t(notificationCenterSubTypesLabels[value])}
-      </option>
-    );
-    const typesLength = types.length;
-
-    switch (true) {
-      case typesLength === 0:
-        return [];
-
-      case typesLength === 1:
-        return subtypes[types].map(subtypeJSX);
-
-      case typesLength > 1:
-        return subtypesOfChosenTypes(subtypes, types).map(subtypeJSX);
-
-      default:
-        return [];
-    }
+    return subtypesOfChosenTypes(subtypes, types)
+      .filter(value => notificationCenterSubTypesLabels[value])
+      .map(value => (
+        <option key={value} value={value}>
+          {I18n.t(notificationCenterSubTypesLabels[value])}
+        </option>
+      ));
   };
 
   render() {
@@ -118,122 +105,120 @@ class NotificationsFilters extends PureComponent {
             notificationTypes,
           },
           dirty,
-        }) => (
-          <Form className="NotificationsGridFilter__form">
-            <div className="NotificationsGridFilter__inputs">
-              <Field
-                name="searchKeyword"
-                className="NotificationsGridFilter__input NotificationsGridFilter__search"
-                placeholder={I18n.t('NOTIFICATION_CENTER.FILTERS.PLACEHOLDERS.NOTIFICATION_OR_PLAYER')}
-                label={I18n.t(filterLabels.searchValue)}
-                component={FormikInputField}
-              />
-              <Field
-                name="operators"
-                className="NotificationsGridFilter__input NotificationsGridFilter__select"
-                placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
-                label={I18n.t('NOTIFICATION_CENTER.FILTERS.LABELS.AGENTS')}
-                component={FormikSelectField}
-                searchable
-                multiple
-                disabled={operatorsLoading}
-              >
-                {operators.map(({ uuid, fullName }) => (
-                  <option key={uuid} value={uuid}>{fullName}</option>
-                ))}
-              </Field>
-              <Field
-                name="operatorTeams"
-                className="NotificationsGridFilter__input NotificationsGridFilter__select"
-                placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
-                label={I18n.t(filterLabels.teams)}
-                component={FormikSelectField}
-                searchable
-                multiple
-                disabled={hierarchyLoading}
-              >
-                {teams.map(({ uuid, name }) => (
-                  <option key={uuid} value={uuid}>{name}</option>
-                ))}
-              </Field>
-              <Field
-                name="operatorDesks"
-                className="NotificationsGridFilter__input NotificationsGridFilter__select"
-                placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
-                label={I18n.t(filterLabels.desks)}
-                component={FormikSelectField}
-                searchable
-                multiple
-                disabled={hierarchyLoading}
-              >
-                {desks.map(({ uuid, name }) => (
-                  <option key={uuid} value={uuid}>{name}</option>
-                ))}
-              </Field>
-              <Field
-                name="creationDateRange"
-                className="NotificationsGridFilter__input NotificationsGridFilter__dates"
-                label={I18n.t('NOTIFICATION_CENTER.FILTERS.LABELS.CREATION_RANGE')}
-                startDatePlaceholderText={I18n.t('COMMON.DATE_OPTIONS.START_DATE')}
-                endDatePlaceholderText={I18n.t('COMMON.DATE_OPTIONS.END_DATE')}
-                component={FormikDateRangePicker}
-                periodKeys={{
-                  start: 'creationDateFrom',
-                  end: 'creationDateTo',
-                }}
-                withTime
-              />
-              <Field
-                name="notificationTypes"
-                className="NotificationsGridFilter__input NotificationsGridFilter__select--L"
-                placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
-                label={I18n.t('NOTIFICATION_CENTER.FILTERS.LABELS.NOTIFICATION_TYPE')}
-                component={FormikSelectField}
-                searchable
-                multiple
-                customOnChange={(value) => {
-                  setFieldValue('notificationTypes', value || '');
-                  if (notificationSubtypes) setFieldValue('notificationSubtypes', '');
-                }}
-                disabled={notificationCenterTypesLoading}
-              >
-                {types.map(key => (
-                  <option key={key} value={key}>{key}</option>
-                ))}
-              </Field>
-              <Field
-                name="notificationSubtypes"
-                className="NotificationsGridFilter__input NotificationsGridFilter__select--L"
-                placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
-                label={I18n.t('NOTIFICATION_CENTER.FILTERS.LABELS.NOTIFICATION_TYPE_DETAILS')}
-                component={FormikSelectField}
-                searchable
-                multiple
-                disabled={notificationCenterSubtypesLoading || !notificationTypes}
-              >
-                {this.renderSubtypesOptions(notificationTypes, subtypes)}
-              </Field>
-            </div>
-            <div className="NotificationsGridFilter__buttons">
-              <Button
-                className="NotificationsGridFilter__button"
-                disabled={isSubmitting || !dirty}
-                onClick={() => this.onHandleReset(handleReset)}
-                type="button"
-                common
-              >
-                {I18n.t('COMMON.RESET')}
-              </Button>
-              <Button
-                disabled={isSubmitting}
-                type="submit"
-                primary
-              >
-                {I18n.t('COMMON.APPLY')}
-              </Button>
-            </div>
-          </Form>
-        )}
+        }) => {
+          const subtypesOptions = this.renderSubtypesOptions(notificationTypes, subtypes);
+
+          return (
+            <Form className="NotificationsGridFilter__form">
+              <div className="NotificationsGridFilter__inputs">
+                <Field
+                  name="searchKeyword"
+                  className="NotificationsGridFilter__input NotificationsGridFilter__search"
+                  placeholder={I18n.t('NOTIFICATION_CENTER.FILTERS.PLACEHOLDERS.NOTIFICATION_OR_PLAYER')}
+                  label={I18n.t(filterLabels.searchValue)}
+                  component={FormikInputField}
+                />
+                <Field
+                  name="operators"
+                  className="NotificationsGridFilter__input NotificationsGridFilter__select"
+                  placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
+                  label={I18n.t('NOTIFICATION_CENTER.FILTERS.LABELS.AGENTS')}
+                  component={FormikSelectField}
+                  searchable
+                  multiple
+                  disabled={operatorsLoading}
+                >
+                  {operators.map(({ uuid, fullName }) => (
+                    <option key={uuid} value={uuid}>{fullName}</option>
+                  ))}
+                </Field>
+                <Field
+                  name="operatorTeams"
+                  className="NotificationsGridFilter__input NotificationsGridFilter__select"
+                  placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
+                  label={I18n.t(filterLabels.teams)}
+                  component={FormikSelectField}
+                  searchable
+                  multiple
+                  disabled={hierarchyLoading}
+                >
+                  {teams.map(({ uuid, name }) => (
+                    <option key={uuid} value={uuid}>{name}</option>
+                  ))}
+                </Field>
+                <Field
+                  name="operatorDesks"
+                  className="NotificationsGridFilter__input NotificationsGridFilter__select"
+                  placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
+                  label={I18n.t(filterLabels.desks)}
+                  component={FormikSelectField}
+                  searchable
+                  multiple
+                  disabled={hierarchyLoading}
+                >
+                  {desks.map(({ uuid, name }) => (
+                    <option key={uuid} value={uuid}>{name}</option>
+                  ))}
+                </Field>
+                <FormikDateRangePicker
+                  className="NotificationsGridFilter__input NotificationsGridFilter__dates"
+                  label={I18n.t('NOTIFICATION_CENTER.FILTERS.LABELS.CREATION_RANGE')}
+                  periodKeys={{
+                    start: 'creationDateFrom',
+                    end: 'creationDateTo',
+                  }}
+                />
+                <Field
+                  name="notificationTypes"
+                  className="NotificationsGridFilter__input NotificationsGridFilter__select--L"
+                  placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
+                  label={I18n.t('NOTIFICATION_CENTER.FILTERS.LABELS.NOTIFICATION_TYPE')}
+                  component={FormikSelectField}
+                  searchable
+                  multiple
+                  customOnChange={(value) => {
+                    setFieldValue('notificationTypes', value || '');
+                    if (notificationSubtypes) setFieldValue('notificationSubtypes', '');
+                  }}
+                  disabled={notificationCenterTypesLoading}
+                >
+                  {types.map(key => (
+                    <option key={key} value={key}>{key}</option>
+                  ))}
+                </Field>
+                <Field
+                  name="notificationSubtypes"
+                  className="NotificationsGridFilter__input NotificationsGridFilter__select--L"
+                  placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
+                  label={I18n.t('NOTIFICATION_CENTER.FILTERS.LABELS.NOTIFICATION_TYPE_DETAILS')}
+                  component={FormikSelectField}
+                  searchable
+                  multiple
+                  disabled={notificationCenterSubtypesLoading || !subtypesOptions.length}
+                >
+                  {subtypesOptions}
+                </Field>
+              </div>
+              <div className="NotificationsGridFilter__buttons">
+                <Button
+                  className="NotificationsGridFilter__button"
+                  disabled={isSubmitting || !dirty}
+                  onClick={() => this.onHandleReset(handleReset)}
+                  common
+                >
+                  {I18n.t('COMMON.RESET')}
+                </Button>
+                <Button
+                  disabled={isSubmitting}
+                  type="submit"
+                  primary
+                >
+                  {I18n.t('COMMON.APPLY')}
+                </Button>
+              </div>
+            </Form>
+          );
+        }}
       </Formik>
     );
   }

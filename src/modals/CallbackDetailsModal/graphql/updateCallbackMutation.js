@@ -9,6 +9,7 @@ const REQUEST = gql`
     $callbackTime: String,
     $operatorId: String,
     $status: CallbackStatusEnum,
+    $reminder: String,
   ) {
     callback {
       update(
@@ -16,12 +17,14 @@ const REQUEST = gql`
         callbackTime: $callbackTime,
         operatorId: $operatorId,
         status: $status,
+        reminder: $reminder,
       ) {
         data {
           _id
           callbackTime
           operatorId
           status
+          reminder
           operator {
             fullName
           }

@@ -542,7 +542,7 @@ PropTypes.hierarchyBranch = PropTypes.shape({
   name: PropTypes.string.isRequired,
   country: PropTypes.string,
   defaultUser: PropTypes.string,
-  parentBranches: PropTypes.arrayOf(PropTypes.string), // TODO: need check out this field
+  parentBranches: PropTypes.arrayOf(PropTypes.string),
   deskType: PropTypes.string,
   language: PropTypes.string,
   defaultBranch: PropTypes.string,

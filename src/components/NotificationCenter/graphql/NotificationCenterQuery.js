@@ -29,6 +29,7 @@ const REQUEST = gql`
             currency
             login
             platformType
+            callbackTime
           }
         }
         last

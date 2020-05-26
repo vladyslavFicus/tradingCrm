@@ -89,10 +89,10 @@ class ClientCallbacksGrid extends PureComponent {
   renderDateTime = (callback, field) => (
     <div>
       <div className="ClientCallbacksGrid__info-main">
-        {moment(callback[field]).format('DD.MM.YYYY')}
+        {moment.utc(callback[field]).local().format('DD.MM.YYYY')}
       </div>
       <div className="ClientCallbacksGrid__info-secondary">
-        {moment(callback[field]).format('HH:mm:ss')}
+        {moment.utc(callback[field]).local().format('HH:mm:ss')}
       </div>
     </div>
   );
@@ -119,6 +119,27 @@ class ClientCallbacksGrid extends PureComponent {
       note={note}
     />
   );
+
+  renderReminder = ({ reminder, callbackTime }) => {
+    if (reminder) {
+      // Reminder format: ISO 8601('PT5M'), get milliseconds via moment.duration
+      const reminderMilliseconds = moment.duration(reminder).asMilliseconds();
+      const reminderDate = moment.utc(callbackTime).local().subtract(reminderMilliseconds, 'ms');
+
+      return (
+        <div>
+          <div className="ClientCallbacksGrid__info-main">
+            {moment(reminderDate).format('DD.MM.YYYY')}
+          </div>
+          <div className="ClientCallbacksGrid__info-secondary">
+            {moment(reminderDate).format('HH:mm:ss')}
+          </div>
+        </div>
+      );
+    }
+
+    return (<div>&mdash;</div>);
+  }
 
   render() {
     const {
@@ -164,6 +185,10 @@ class ClientCallbacksGrid extends PureComponent {
           <GridColumn
             header={I18n.t('CALLBACKS.GRID_HEADER.STATUS')}
             render={this.renderStatus}
+          />
+          <GridColumn
+            header={I18n.t('CALLBACKS.GRID_HEADER.REMINDER')}
+            render={this.renderReminder}
           />
           <GridColumn
             header=""

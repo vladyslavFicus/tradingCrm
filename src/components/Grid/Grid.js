@@ -57,11 +57,9 @@ class Grid extends PureComponent {
       ...props
     } = this.props;
 
-    if (!isLoading && !data.length) {
+    if (withNoResults || (!isLoading && !data.length)) {
       return (
-        <If condition={withNoResults}>
-          <NotFoundContent />
-        </If>
+        <NotFoundContent />
       );
     }
 

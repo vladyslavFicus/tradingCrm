@@ -64,8 +64,7 @@ class SignInForm extends Component {
               <div className="auth__form-buttons">
                 <button
                   type="submit"
-                  id="sign-in-submit-button"
-                  className="btn btn-primary auth__form-button"
+                  className="auth__form-button"
                   disabled={isSubmitting}
                 >
                   {I18n.t('SIGN_IN.LOGIN')}
