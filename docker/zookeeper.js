@@ -26,7 +26,6 @@ async function load({ zookeeperUrl, onBrandsConfigUpdated }) {
       'nas.brand.mt5.groups',
       'nas.brand.mt5.demo_groups',
       'nas.brand.email.sendgrid.crm_templated_emails',
-      'nas.brand.satellites',
       'nas.brand.backoffice.privatePhoneByDepartment',
       'nas.brand.mt4.leverages_changing_request',
       'nas.brand.mt5.leverages_changing_request',

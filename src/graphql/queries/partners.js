@@ -53,12 +53,10 @@ const partnerQuery = gql`query getPartnerByUUID(
       statusChangeDate
       statusChangeAuthor
       statusReason
-      satellite
       createdBy
       createdAt
       externalAffiliateId
       affiliateType
-      cellexpert
       public
       tradingAccountAutocreation
       tradingAccountType

@@ -11,11 +11,9 @@ const updatePartner = gql`mutation updatePartner(
   $affiliateType: String!
   $externalAffiliateId: String
   $public: Boolean
-  $cellexpert: Boolean
   $tradingAccountAutocreation: String
   $tradingAccountType: String
   $tradingAccountCurrency: String
-  $satellite: String
 ) {
   partner {
     updatePartner(
@@ -29,11 +27,9 @@ const updatePartner = gql`mutation updatePartner(
       affiliateType: $affiliateType
       externalAffiliateId: $externalAffiliateId
       public: $public
-      cellexpert: $cellexpert
       tradingAccountAutocreation: $tradingAccountAutocreation
       tradingAccountType: $tradingAccountType
       tradingAccountCurrency: $tradingAccountCurrency
-      satellite: $satellite
     ) {
       data {
         _id
@@ -47,7 +43,6 @@ const updatePartner = gql`mutation updatePartner(
         affiliateType
         externalAffiliateId
         public
-        cellexpert
         createdBy
         createdAt
         tradingAccountAutocreation
@@ -56,7 +51,6 @@ const updatePartner = gql`mutation updatePartner(
         statusChangeAuthor
         statusChangeDate
         statusReason
-        satellite
         uuid
         permission {
           allowedIpAddresses
