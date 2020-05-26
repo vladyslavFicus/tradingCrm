@@ -98,11 +98,9 @@ class CreatePartnerModal extends PureComponent {
       const newPartnerData = await createPartner({
         variables: {
           affiliateType,
-          ...(affiliateType !== affiliateTypes.NULLPOINT && {
-            externalAffiliateId,
-            public: isPublic,
-            cellexpert,
-          }),
+          externalAffiliateId,
+          public: isPublic,
+          cellexpert,
           ...(satelliteOptions && { satellite }),
           ...restValues,
         },
@@ -175,7 +173,6 @@ class CreatePartnerModal extends PureComponent {
           onSubmit={this.handleSubmit}
         >
           {({
-            values,
             isSubmitting,
             setFieldValue,
           }) => (
@@ -253,44 +250,29 @@ class CreatePartnerModal extends PureComponent {
                       ))}
                     </Field>
                   </Regulated>
-                  <If
-                    condition={
-                      values.affiliateType
-                      && values.affiliateType !== affiliateTypes.NULLPOINT
-                    }
-                  >
-                    <Field
-                      name="externalAffiliateId"
-                      className="CreatePartnerModal__field"
-                      label={I18n.t(attributeLabels.externalAffiliateId)}
-                      placeholder={I18n.t(attributeLabels.externalAffiliateId)}
-                      addition={<span className="icon-generate-password" />}
-                      onAdditionClick={() => setFieldValue('externalAffiliateId', this.handleGenerateExternalId())}
-                      component={FormikInputField}
-                      disabled={isSubmitting}
-                    />
-                  </If>
-                </div>
-
-                <If
-                  condition={
-                    values.affiliateType
-                    && values.affiliateType !== affiliateTypes.NULLPOINT
-                  }
-                >
                   <Field
-                    name="public"
-                    component={FormikCheckbox}
-                    label={I18n.t(attributeLabels.public)}
+                    name="externalAffiliateId"
+                    className="CreatePartnerModal__field"
+                    label={I18n.t(attributeLabels.externalAffiliateId)}
+                    placeholder={I18n.t(attributeLabels.externalAffiliateId)}
+                    addition={<span className="icon-generate-password" />}
+                    onAdditionClick={() => setFieldValue('externalAffiliateId', this.handleGenerateExternalId())}
+                    component={FormikInputField}
+                    disabled={isSubmitting}
                   />
-                  <Regulated>
-                    <Field
-                      name="cellexpert"
-                      component={FormikCheckbox}
-                      label={I18n.t(attributeLabels.cellexpert)}
-                    />
-                  </Regulated>
-                </If>
+                </div>
+                <Field
+                  name="public"
+                  component={FormikCheckbox}
+                  label={I18n.t(attributeLabels.public)}
+                />
+                <Regulated>
+                  <Field
+                    name="cellexpert"
+                    component={FormikCheckbox}
+                    label={I18n.t(attributeLabels.cellexpert)}
+                  />
+                </Regulated>
               </ModalBody>
               <ModalFooter>
                 <Button

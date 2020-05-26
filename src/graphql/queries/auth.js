@@ -9,12 +9,7 @@ const permissionsQuery = gql`query getPermission {
 const authoritiesOptionsQuery = gql`query authoritiesOptions {
   authoritiesOptions {
     data {
-      delete {
-        departmentRole
-      }
-      post {
-        departmentRole
-      }
+      authoritiesOptions
     }
   }
 }`;

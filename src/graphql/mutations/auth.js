@@ -31,13 +31,11 @@ const tokenRenew = gql`mutation tokenRenew {
 
 const resetPasswordMutation = gql`mutation resetPassword(
   $password: String!
-  $repeatPassword: String!
   $token: String!
 ) {
   auth {
     resetPassword(
       password: $password
-      repeatPassword: $repeatPassword
       token: $token
     ) {
       success

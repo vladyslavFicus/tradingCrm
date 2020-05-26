@@ -14,10 +14,6 @@ class Switch extends Component {
     disabled: false,
   };
 
-  state = {
-    active: this.props.active,
-  };
-
   static getDerivedStateFromProps(nextProps, prevState) {
     if (prevState.active !== nextProps.active) {
       return { active: nextProps.active };
@@ -26,7 +22,15 @@ class Switch extends Component {
     return null;
   }
 
-  revert = _.debounce(this.toggle, 301); // eslint-ignore-line
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      active: this.props.active,
+    };
+
+    this.revert = _.debounce(this.toggle, 301);
+  }
 
   toggle = () => {
     this.setState(({ active }) => ({

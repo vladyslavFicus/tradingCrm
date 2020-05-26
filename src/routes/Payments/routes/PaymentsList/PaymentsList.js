@@ -26,20 +26,6 @@ class PaymentsList extends PureComponent {
     }).isRequired,
   };
 
-  static contextTypes = {
-    notes: PropTypes.shape({
-      setNoteChangedCallback: PropTypes.func.isRequired,
-    }),
-  };
-
-  componentDidMount() {
-    this.context.notes.setNoteChangedCallback(this.handleRefresh);
-  }
-
-  componentWillUnmount() {
-    this.context.notes.setNoteChangedCallback(null);
-  }
-
   handleRefresh = () => {
     const {
       paymentsQuery,
