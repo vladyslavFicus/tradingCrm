@@ -853,94 +853,11 @@ PropTypes.newProfile = PropTypes.shape({
   uuid: PropTypes.string,
 });
 PropTypes.paymentMethods = PropTypes.arrayOf(PropTypes.string);
-PropTypes.riskAnswer = PropTypes.shape({
-  id: PropTypes.number,
-  title: PropTypes.string,
-  selected: PropTypes.bool,
-});
-PropTypes.riskQuestion = PropTypes.shape({
-  id: PropTypes.number,
-  title: PropTypes.string,
-  answers: PropTypes.arrayOf(PropTypes.riskAnswer),
-});
-PropTypes.riskQuestionSubGroup = PropTypes.shape({
-  id: PropTypes.number,
-  title: PropTypes.string,
-  questions: PropTypes.arrayOf(PropTypes.riskQuestion),
-});
-PropTypes.riskQuestionnaireGroup = PropTypes.shape({
-  id: PropTypes.number,
-  title: PropTypes.string,
-  score: PropTypes.number,
-  questionSubGroups: PropTypes.arrayOf(PropTypes.riskQuestionSubGroup),
-});
-PropTypes.riskQuestionnaire = PropTypes.shape({
-  id: PropTypes.number.isRequired,
-  questionGroups: PropTypes.arrayOf(PropTypes.riskQuestionnaireGroup),
-});
-PropTypes.riskQuestionnaireData = PropTypes.shape({
-  uuid: PropTypes.string,
-  playerUuid: PropTypes.string,
-  totalScore: PropTypes.number,
-  riskCategory: PropTypes.string,
-  questionnaire: PropTypes.riskQuestionnaire,
-});
-PropTypes.risksQuestionnaireData = PropTypes.shape({
-  riskQuestionnaireData: PropTypes.shape({
-    data: PropTypes.riskQuestionnaireData,
-  }),
-});
 PropTypes.email = PropTypes.shape({
   id: PropTypes.string,
   text: PropTypes.string,
   subject: PropTypes.string,
   name: PropTypes.string,
-});
-PropTypes.socialTradingSubscriber = PropTypes.shape({
-  priceMode: PropTypes.string,
-  stopLoss: PropTypes.number,
-  takeProfit: PropTypes.number,
-  subscriberId: PropTypes.number,
-  shareAction: PropTypes.shape({
-    typeSharing: PropTypes.string,
-    multiplicator: PropTypes.number,
-    reverse: PropTypes.bool,
-  }),
-  status: PropTypes.string,
-  minimumLot: PropTypes.number,
-  maximumLot: PropTypes.number,
-  maxDeviation: PropTypes.number,
-  symbols: PropTypes.string,
-  isArchive: PropTypes.bool,
-  totalPerformanceFee: PropTypes.number,
-  sourceId: PropTypes.number,
-  sourceName: PropTypes.string,
-  created: PropTypes.string,
-  updated: PropTypes.string,
-});
-PropTypes.socialTradingProvider = PropTypes.shape({
-  id: PropTypes.number,
-  joinMinBalance: PropTypes.number,
-  name: PropTypes.string,
-  currency: PropTypes.string,
-  performanceFee: PropTypes.number,
-  feeReceiver: PropTypes.number,
-  companyFee: PropTypes.number,
-  isPublic: PropTypes.bool,
-  isActive: PropTypes.bool,
-  status: PropTypes.string,
-  description: PropTypes.string,
-  summary: PropTypes.string,
-});
-PropTypes.socialTradingSubscriptionOnProvider = PropTypes.shape({
-  subscriberId: PropTypes.number,
-  subscriberName: PropTypes.string,
-  sourceId: PropTypes.number,
-  sourceName: PropTypes.string,
-  shareAction: PropTypes.shape({
-    typeSharing: PropTypes.string,
-    reverse: PropTypes.bool,
-  }),
 });
 PropTypes.manualPaymentMethods = PropTypes.shape({
   data: PropTypes.shape({

@@ -4,7 +4,6 @@ import { toNumber } from 'lodash';
 import humanizeDuration from 'humanize-duration';
 import { COUNTRY_SPECIFIC_IDENTIFIER_TYPES, genders } from
   'routes/Clients/routes/Profile/routes/Client/components/PersonalInformationForm/constants';
-import { riskStatuses } from 'routes/Clients/routes/Profile/components/RiskStatus/constants';
 import { departments, roles } from 'constants/operators';
 import { kycStatuses } from 'constants/kycStatuses';
 import { statuses, attributeLabels, reasons as blockReasons, unblockReasons } from 'constants/user';
@@ -20,7 +19,6 @@ const humanizeDurationConfig = {
 };
 
 const countryIdentifierTypesPath = 'PLAYER_PROFILE.PROFILE.PERSONAL.LABEL.COUNTRY_SPECIFIC_IDENTIFIER_TYPES';
-const riskStatusesPath = 'CLIENT_PROFILE.RISKS.STATUS.STATUSES';
 const departmentsPath = 'CONSTANTS.OPERATORS.DEPARTMENTS';
 const kycStatusesPath = 'KYC_REQUESTS.STATUS';
 const rolesPath = 'CONSTANTS.OPERATORS.ROLES';
@@ -54,7 +52,6 @@ const translateValue = (value) => {
     ...(transformConstFromObj(kycStatuses, kycStatusesPath)),
     ...(transformConstFromObj(departments, departmentsPath)),
     ...(transformConstFromObj(roles, rolesPath)),
-    ...(transformConstFromObj(riskStatuses, riskStatusesPath)),
     ...(transformConstFromObj(documentsType, documentTypesPath)),
     ...(transformConstFromObj(categories, documentCategoriesPath)),
     ...(transformConstFromObj(manualPaymentMethodsLabels, manualPaymentMethodsPath)),
