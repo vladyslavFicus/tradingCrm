@@ -1,42 +1,37 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React, { PureComponent } from 'react';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import classNames from 'classnames';
 import moment from 'moment';
 import I18n from 'i18n-js';
-import { getActiveBrandConfig } from 'config';
+import { compose } from 'react-apollo';
 import { withPermission } from 'providers/PermissionsProvider';
+import { withModals } from 'hoc';
+import PropTypes from 'constants/propTypes';
+import { statuses, statusColorNames, statusesLabels } from 'constants/user';
 import FailureReasonIcon from 'components/FailureReasonIcon';
-import { fsaStatuses } from 'constants/fsaMigration';
-import { statuses, statusColorNames, statusesLabels, durationUnits } from 'constants/user';
 import Uuid from 'components/Uuid';
 import renderLabel from 'utils/renderLabel';
 import Permissions from 'utils/permissions';
 import permissions from 'config/permissions';
 import PlayerStatusModal from './PlayerStatusModal';
 
-const initialState = {
-  dropDownOpen: false,
-  modal: {
-    show: false,
-    params: {},
-  },
-};
 const changeStatusPermissions = new Permissions(permissions.USER_PROFILE.STATUS);
 
-class PlayerStatus extends Component {
+class PlayerStatus extends PureComponent {
   static propTypes = {
+    playerUUID: PropTypes.string.isRequired,
     status: PropTypes.oneOf(Object.keys(statuses)),
     reason: PropTypes.string,
     availableStatuses: PropTypes.array.isRequired,
-    onChange: PropTypes.func.isRequired,
     statusDate: PropTypes.string,
     profileStatusComment: PropTypes.string,
     statusAuthor: PropTypes.string,
     permission: PropTypes.shape({
       permissions: PropTypes.arrayOf(PropTypes.string).isRequired,
     }).isRequired,
-    fsaMigrationStatus: PropTypes.string,
+    modals: PropTypes.shape({
+      playerStatusModal: PropTypes.modalType,
+    }).isRequired,
   };
 
   static defaultProps = {
@@ -45,59 +40,34 @@ class PlayerStatus extends Component {
     statusDate: null,
     statusAuthor: null,
     profileStatusComment: '',
-    fsaMigrationStatus: '',
   };
 
-  state = { ...initialState };
+  state = {
+    dropDownOpen: false,
+  };
 
   toggle = () => {
-    if (getActiveBrandConfig().fsaRegulation && this.props.fsaMigrationStatus === fsaStatuses.MIGRATION_FINISHED) {
-      return;
-    }
-
     this.setState(({ dropDownOpen }) => ({
       dropDownOpen: !dropDownOpen,
     }));
   };
 
   handleStatusClick = (action) => {
-    this.setState({
-      modal: {
-        show: true,
-        params: {
-          initialValues: {
-            action: action.action,
-            reasons: action.reasons,
-          },
-          ...action,
-        },
+    const {
+      availableStatuses,
+      playerUUID,
+      modals: {
+        playerStatusModal,
       },
-    });
-  };
+    } = this.props;
 
-  handleModalHide = (e, callback) => {
-    this.setState({
-      modal: { ...initialState.modal },
-    }, () => {
-      if (typeof callback === 'function') {
-        callback();
-      }
-    });
-  };
-
-  handleSubmit = ({ period, reasons, ...data }) => {
-    this.handleModalHide(null, () => {
-      let statusData = { ...data };
-
-      if (period === durationUnits.PERMANENT) {
-        statusData.permanent = true;
-      } else if (period) {
-        const [durationAmount, durationUnit] = period.split(' ');
-        statusData = { ...statusData, durationAmount, durationUnit };
-      }
-
-      return this.props.onChange(statusData);
-    });
+    if (availableStatuses.length) {
+      playerStatusModal.show({
+        reasons: action.reasons,
+        action: action.action,
+        playerUUID,
+      });
+    }
   };
 
   renderDropDown = (label, availableStatuses, dropDownOpen) => (
@@ -186,20 +156,14 @@ class PlayerStatus extends Component {
             profileStatusComment={profileStatusComment}
           />
         </If>
-        {
-          availableStatuses.length > 0 && modal.show
-          && (
-            <PlayerStatusModal
-              title="Change account status"
-              {...modal.params}
-              onSubmit={this.handleSubmit}
-              onHide={this.handleModalHide}
-            />
-          )
-        }
       </div>
     );
   }
 }
 
-export default withPermission(PlayerStatus);
+export default compose(
+  withPermission,
+  withModals({
+    playerStatusModal: PlayerStatusModal,
+  }),
+)(PlayerStatus);

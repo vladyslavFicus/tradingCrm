@@ -7,13 +7,11 @@ import { withPermission } from 'providers/PermissionsProvider';
 import { roles, departments } from 'constants/brands';
 import Regulated from 'components/Regulated';
 import { decodeNullValues } from 'components/Formik/utils';
-import { hideText } from 'utils/hideText';
-import { getBrand } from 'config';
 import PersonalInformationForm from './PersonalInformationForm';
 import AddressForm from './AddressForm';
 import ContactForm from './ContactForm';
-import KycStatus from './Kyc/KycStatus';
-import TransferAvailability from './TransferAvailability';
+import KycStatusForm from './KYCStatusForm';
+import TransferAvailabilityForm from './TransferAvailabilityForm';
 import BankDetailsForm from './BankDetailsForm';
 import EmailForm from './EmailForm';
 import './View.scss';
@@ -24,13 +22,11 @@ const updateContactsPermissions = new Permissions(permissions.USER_PROFILE.UPDAT
 
 class View extends Component {
   static propTypes = {
-    verifyPhone: PropTypes.func.isRequired,
     verifyEmail: PropTypes.func.isRequired,
     auth: PropTypes.auth.isRequired,
     updateAddress: PropTypes.func.isRequired,
     updateEmail: PropTypes.func.isRequired,
     notify: PropTypes.func.isRequired,
-    updateContacts: PropTypes.func.isRequired,
     updatePersonalInformation: PropTypes.func.isRequired,
     newProfile: PropTypes.newProfile.isRequired,
     permission: PropTypes.permission.isRequired,
@@ -44,12 +40,12 @@ class View extends Component {
     }).isRequired,
   };
 
-  static childContextTypes = {
-    tradingOperatorAccessDisabled: PropTypes.bool.isRequired,
-  };
-
   static contextTypes = {
     addNotification: PropTypes.func.isRequired,
+  };
+
+  static childContextTypes = {
+    tradingOperatorAccessDisabled: PropTypes.bool.isRequired,
   };
 
   getChildContext = () => ({
@@ -92,57 +88,6 @@ class View extends Component {
       title: I18n.t('PLAYER_PROFILE.PROFILE.PERSONAL.TITLE'),
       message: `${I18n.t('COMMON.ACTIONS.UPDATED')} 
       ${error ? I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY') : I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
-    });
-  };
-
-  handleUpdateContacts = async (data) => {
-    const {
-      newProfile: {
-        newProfile: {
-          data: {
-            contacts: { additionalPhone, additionalEmail, phone },
-          },
-        },
-      },
-      updateContacts,
-    } = this.props;
-
-    const variables = this.phoneAccess()
-      ? { ...data, additionalPhone, additionalEmail, phone }
-      : data;
-
-    const {
-      data: {
-        profile: {
-          updateContacts: { error },
-        },
-      },
-    } = await updateContacts({
-      variables,
-    });
-
-    this.context.addNotification({
-      level: error ? 'error' : 'success',
-      title: I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.TITLE'),
-      message: `${I18n.t('COMMON.ACTIONS.UPDATED')}
-        ${error ? I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY') : I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
-    });
-  };
-
-  handleVerifyPhone = async (phone) => {
-    const {
-      data: {
-        profile: {
-          verifyPhone: { error },
-        },
-      },
-    } = await this.props.verifyPhone({ variables: { phone } });
-
-    this.context.addNotification({
-      level: error ? 'error' : 'success',
-      title: I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.TITLE'),
-      message: `${I18n.t('COMMON.ACTIONS.UPDATED')}
-        ${error ? I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY') : I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
     });
   };
 
@@ -227,14 +172,6 @@ class View extends Component {
     }
   };
 
-  phoneAccess = () => {
-    const {
-      auth: { department },
-    } = this.props;
-
-    return getBrand().privatePhoneByDepartment.includes(department);
-  };
-
   render() {
     const {
       newProfile: { loading },
@@ -317,15 +254,13 @@ class View extends Component {
             <div className="client-small-col">
               <div className="card">
                 <div className="card-body">
-                  <KycStatus initialValues={{ kycStatus }} playerUUID={uuid} />
+                  <KycStatusForm kycStatus={kycStatus} playerUUID={uuid} />
                 </div>
               </div>
               <div className="card">
                 <div className="card-body">
-                  <TransferAvailability
-                    initialValues={{
-                      internalTransfer: +internalTransfer,
-                    }}
+                  <TransferAvailabilityForm
+                    internalTransfer={+internalTransfer}
                     playerUUID={uuid}
                   />
                 </div>
@@ -333,15 +268,12 @@ class View extends Component {
               <div className="card">
                 <div className="card-body">
                   <ContactForm
-                    verification={{ phoneVerified }}
-                    onSubmit={this.handleUpdateContacts}
-                    onVerifyPhoneClick={this.handleVerifyPhone}
-                    initialValues={{
-                      phone: this.phoneAccess() ? hideText(phone) : phone,
-                      additionalPhone: this.phoneAccess() ? hideText(additionalPhone) : additionalPhone,
-                      additionalEmail,
-                    }}
+                    isPhoneVerified={phoneVerified}
+                    phone={phone}
+                    additionalPhone={additionalPhone}
+                    additionalEmail={additionalEmail}
                     disabled={!updateContacts}
+                    playerUUID={uuid}
                   />
                 </div>
               </div>

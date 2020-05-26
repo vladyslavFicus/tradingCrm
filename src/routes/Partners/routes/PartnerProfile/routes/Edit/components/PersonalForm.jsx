@@ -14,7 +14,7 @@ import {
   personalFormAttributeLabels as attributeLabels,
   autoCreationOptions,
 } from './constants';
-import { affiliateTypes, affiliateTypeLabels, satelliteOptions } from '../../../../../constants';
+import { affiliateTypeLabels } from '../../../../../constants';
 
 class PersonalForm extends PureComponent {
   static propTypes = {
@@ -23,9 +23,6 @@ class PersonalForm extends PureComponent {
     pristine: PropTypes.bool,
     submitting: PropTypes.bool,
     disabled: PropTypes.bool.isRequired,
-    initialValues: PropTypes.shape({
-      affiliateType: PropTypes.string.isRequired,
-    }).isRequired,
     currentValues: PropTypes.shape({
       tradingAccountAutocreation: PropTypes.string,
     }),
@@ -41,7 +38,6 @@ class PersonalForm extends PureComponent {
 
   render() {
     const {
-      initialValues: { affiliateType },
       currentValues,
       handleSubmit,
       serverError,
@@ -125,24 +121,6 @@ class PersonalForm extends PureComponent {
               }
             </Field>
           </div>
-          <If condition={satelliteOptions}>
-            <div className="col-xl-4">
-              <Field
-                name="satellite"
-                label={I18n.t('COMMON.SATELLITE')}
-                placeholder={I18n.t('COMMON.NONE')}
-                component={NasSelectField}
-                withAnyOption={false}
-                searchable={false}
-                position="vertical"
-                showErrorMessage
-              >
-                {satelliteOptions.map((satellite, key) => (
-                  <option key={key} value={satellite.value}>{satellite.label}</option>
-                ))}
-              </Field>
-            </div>
-          </If>
           <div className="col-xl-4">
             <Field
               name="externalAffiliateId"
@@ -151,7 +129,6 @@ class PersonalForm extends PureComponent {
               component={InputField}
               showErrorMessage
               position="vertical"
-              disabled={affiliateType === affiliateTypes.NULLPOINT}
               meta={{
                 error: serverError === 'error.affiliate.externalId.already.exists'
                   ? I18n.t('error.validation.externalId.exists')
@@ -219,24 +196,13 @@ class PersonalForm extends PureComponent {
               </div>
             </If>
           </Regulated>
-          <If condition={affiliateType !== affiliateTypes.NULLPOINT}>
-            <Field
-              name="public"
-              className="col-12 padding-left-35"
-              component={CheckBox}
-              type="checkbox"
-              label={I18n.t('PARTNERS.MODALS.NEW_PARTNER.PUBLIC_CHECKBOX')}
-            />
-            <Regulated>
-              <Field
-                name="cellexpert"
-                className="col-12 padding-left-35"
-                component={CheckBox}
-                type="checkbox"
-                label={I18n.t('PARTNERS.MODALS.NEW_PARTNER.CELLEXPERT_CHECKBOX')}
-              />
-            </Regulated>
-          </If>
+          <Field
+            name="public"
+            className="col-12 padding-left-35"
+            component={CheckBox}
+            type="checkbox"
+            label={I18n.t('PARTNERS.MODALS.NEW_PARTNER.PUBLIC_CHECKBOX')}
+          />
         </div>
         <hr />
         <div className="personal-form-heading margin-bottom-20">
@@ -343,10 +309,8 @@ export default connect(state => ({
     country: [`in:,${Object.keys(countries).join()}`],
     phone: 'string',
     affiliateType: ['required', 'string'],
-    satellite: 'string',
     externalAffiliateId: 'string',
     public: 'boolean',
-    cellexpert: 'boolean',
     allowedIpAddresses: 'listedIP\'s',
     tradingAccountAutocreation: [`in:,${Object.keys(autoCreationOptions).join()}`],
     tradingAccountType: [`in:,${platformTypes.map(type => type.value).join()}`],

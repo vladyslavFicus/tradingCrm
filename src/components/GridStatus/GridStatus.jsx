@@ -34,6 +34,7 @@ GridStatus.propTypes = {
   statusLabel: PropTypes.string.isRequired,
   info: PropTypes.oneOfType([
     PropTypes.string,
+    PropTypes.object,
     PropTypes.element,
     PropTypes.object,
   ]),

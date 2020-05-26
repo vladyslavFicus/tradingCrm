@@ -21,35 +21,11 @@ const REQUEST = gql`query leadProfileQuery(
       surname
       phone
       mobile
-      status
       email
       country
-      source
-      salesAgent {
-        fullName
-        uuid
-        hierarchy {
-          parentBranches {
-            name
-            branchType
-            parentBranch {
-              name
-              branchType
-            }
-          }
-        }
-      }
-      salesStatus
       birthDate
-      affiliate
       gender
       city
-      language
-      registrationDate
-      statusChangedDate
-      convertedByOperatorUuid
-      convertedToClientUuid
-      migrationId
     }
   } 
 }`;

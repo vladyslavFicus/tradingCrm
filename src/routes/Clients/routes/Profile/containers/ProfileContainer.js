@@ -13,7 +13,6 @@ import { questionnaireLasDataQuery } from 'graphql/queries/questionnaire';
 import { unlockLoginMutation } from 'graphql/mutations/auth';
 import {
   updateSubscription,
-  changeProfileStatusMutation,
   passwordResetRequest,
   changePassword,
 } from 'graphql/mutations/profile';
@@ -37,9 +36,6 @@ export default compose(
     confirmActionModal: ConfirmActionModal,
     noteModal: NoteModal,
     representativeModal: RepresentativeUpdateModal,
-  }),
-  graphql(changeProfileStatusMutation, {
-    name: 'changeProfileStatus',
   }),
   graphql(unlockLoginMutation, {
     options: ({

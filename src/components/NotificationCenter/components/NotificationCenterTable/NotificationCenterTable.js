@@ -60,6 +60,41 @@ class NotificationCenterTable extends PureComponent {
     },
   );
 
+  renderCallbackDetails = ({ firstName, lastName }, { callbackTime }) => (
+    <Fragment>
+      <div className="NotificationCenterTable__text-highlight">
+        {I18n.t(notificationCenterSubTypesLabels.CALLBACK_NAME, { name: `${firstName} ${lastName}` })}
+      </div>
+      <div className="font-size-11">
+        {I18n.t(notificationCenterSubTypesLabels.CALLBACK_TIME, {
+          time: moment.utc(callbackTime).local().format('HH:mm'),
+        })}
+      </div>
+    </Fragment>
+  );
+
+  renderPaymentDetails = (subtype, { amount, currency }) => (
+    <Fragment>
+      <div className="NotificationCenterTable__text-highlight">
+        {I18n.t(notificationCenterSubTypesLabels[subtype])}
+      </div>
+      <div className="font-size-11">
+        {amount} {currency}
+      </div>
+    </Fragment>
+  );
+
+  renderAccountDetails = (subtype, { platformType, login }) => (
+    <Fragment>
+      <div className="NotificationCenterTable__text-highlight">
+        {I18n.t(notificationCenterSubTypesLabels[subtype])}
+      </div>
+      <div className="font-size-11">
+        {platformType} - {login}
+      </div>
+    </Fragment>
+  );
+
   render() {
     const {
       className,
@@ -94,59 +129,52 @@ class NotificationCenterTable extends PureComponent {
           isLoading={loading}
           isLastPage={last}
           threshold={0}
-          withNoResults={error || (!loading && !content.length)}
+          withNoResults={error}
           withMultiSelect
-          withLazyLoad
         >
           <GridColumn
             header={I18n.t('NOTIFICATION_CENTER.GRID_HEADER.NOTIFICATION_TYPE')}
-            render={({ type, uuid }) => type && (
-              <Fragment>
+            render={({ type, uuid }) => (
+              <If condition={type}>
                 <div>
                   <span className="NotificationCenterTable__text-highlight">{type}</span>
                 </div>
                 <Uuid uuid={uuid} className="font-size-11" />
-              </Fragment>
+              </If>
             )}
           />
           <GridColumn
             header={I18n.t('NOTIFICATION_CENTER.GRID_HEADER.NOTIFICATION_TYPE_DETAILS')}
-            render={({ type, subtype, details }) => {
-              if (!details && !subtype) {
-                return null;
-              }
-
-              const { amount, currency, platformType, login } = details || {};
-
-              return (
-                <Fragment>
-                  <If condition={subtype}>
-                    <div className="NotificationCenterTable__text-highlight">
-                      {I18n.t(notificationCenterSubTypesLabels[subtype])}
-                    </div>
-                  </If>
-                  <If condition={details}>
-                    <div className="font-size-11">
-                      <Choose>
-                        <When
-                          condition={type === 'WITHDRAWAL' || type === 'DEPOSIT'}
-                        >
-                          {amount} {currency}
-                        </When>
-                        <When condition={type === 'ACCOUNT'}>
-                          {platformType} - {login}
-                        </When>
-                      </Choose>
-                    </div>
-                  </If>
-                </Fragment>
-              );
-            }}
+            render={({ type, subtype, details, client }) => (
+              <If condition={subtype || details}>
+                <Choose>
+                  <When condition={type === 'CALLBACK'}>
+                    {this.renderCallbackDetails(client, details)}
+                  </When>
+                  <When condition={type === 'WITHDRAWAL' || type === 'DEPOSIT'}>
+                    {this.renderPaymentDetails(subtype, details)}
+                  </When>
+                  <When condition={type === 'ACCOUNT'}>
+                    {this.renderAccountDetails(subtype, details)}
+                  </When>
+                  <Otherwise>
+                    <If condition={subtype}>
+                      <div className="NotificationCenterTable__text-highlight">
+                        {I18n.t(notificationCenterSubTypesLabels[subtype])}
+                      </div>
+                    </If>
+                  </Otherwise>
+                </Choose>
+              </If>
+            )}
           />
           <GridColumn
             header={I18n.t('NOTIFICATION_CENTER.GRID_HEADER.CLIENT')}
-            render={({ client }) => client
-              && <GridPlayerInfo profile={client} mainInfoClassName="NotificationCenterTable__text-highlight" />}
+            render={({ client }) => (
+              <If condition={client}>
+                <GridPlayerInfo profile={client} mainInfoClassName="NotificationCenterTable__text-highlight" />
+              </If>
+            )}
           />
           <GridColumn
             header={I18n.t('NOTIFICATION_CENTER.GRID_HEADER.NOTIFICATION_DATE')}
@@ -171,16 +199,18 @@ class NotificationCenterTable extends PureComponent {
           />
           <GridColumn
             header={I18n.t('NOTIFICATION_CENTER.GRID_HEADER.PRIORITY')}
-            render={({ priority }) => priority && (
-              <div
-                className={classNames(
-                  'NotificationCenterTable__text-priority',
-                  `NotificationCenterTable__text-priority--${priority.toLowerCase()}`,
-                  'NotificationCenterTable__text-highlight',
-                )}
-              >
-                {priority.toLowerCase()}
-              </div>
+            render={({ priority }) => (
+              <If condition={priority}>
+                <div
+                  className={classNames(
+                    'NotificationCenterTable__text-priority',
+                    `NotificationCenterTable__text-priority--${priority.toLowerCase()}`,
+                    'NotificationCenterTable__text-highlight',
+                  )}
+                >
+                  {priority.toLowerCase()}
+                </div>
+              </If>
             )}
           />
         </Grid>
