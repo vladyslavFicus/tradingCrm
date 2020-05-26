@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 
-const REQUEST = gql`query getSchedule($affiliateUuid: String!) {
+const REQUEST = gql`query GetSchedule($affiliateUuid: String!) {
   schedule (affiliateUuid: $affiliateUuid) {
     data {
       activated
@@ -23,7 +23,7 @@ const REQUEST = gql`query getSchedule($affiliateUuid: String!) {
 }
 `;
 
-const getSchedule = ({ children, affiliateUuid }) => (
+const GetSchedule = ({ children, affiliateUuid }) => (
   <Query
     query={REQUEST}
     variables={{ affiliateUuid }}
@@ -33,9 +33,9 @@ const getSchedule = ({ children, affiliateUuid }) => (
   </Query>
 );
 
-getSchedule.propTypes = {
+GetSchedule.propTypes = {
   children: PropTypes.func.isRequired,
   affiliateUuid: PropTypes.string.isRequired,
 };
 
-export default getSchedule;
+export default GetSchedule;

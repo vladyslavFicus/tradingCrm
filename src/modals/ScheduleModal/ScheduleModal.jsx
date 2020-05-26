@@ -59,10 +59,10 @@ class ScheduleModal extends PureComponent {
 
   static getDerivedStateFromProps({ countrySpreads }, { mounted }) {
     if (!mounted) {
-      const currentCountry = countrySpreads.map(({ country }) => country);
+      const selectedCountries = countrySpreads.map(({ country }) => country);
 
       return {
-        selectedCountries: currentCountry,
+        selectedCountries,
         mounted: true,
       };
     }
@@ -80,8 +80,10 @@ class ScheduleModal extends PureComponent {
       notify,
     } = this.props;
 
+    const limitSum = countrySpreads.reduce((a, b) => a + (b.limit || 0), 0);
+
     if (totalLimit
-      && countrySpreads.reduce((a, b) => a + (b.limit || 0), 0) > totalLimit
+      && limitSum > totalLimit
       && this.state.selectedCountries.length !== 0
     ) {
       this.setState({ limitError: true });
