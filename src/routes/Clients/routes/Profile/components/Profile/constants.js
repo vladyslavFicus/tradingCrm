@@ -43,14 +43,6 @@ if (getActiveBrandConfig().isRisksTabAvailable) {
   });
 }
 
-// # Add socialTrading tab if 'socialTrading = true' for current brand
-if (getActiveBrandConfig().socialTrading) {
-  userProfileTabs.push({
-    label: 'CLIENT_PROFILE.TABS.SOCIAL_TRADING',
-    url: '/clients/:id/social-trading',
-  });
-}
-
 export const moveField = type => ({
   name: 'acquisitionStatus',
   labelName: 'move',

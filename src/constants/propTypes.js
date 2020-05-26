@@ -896,52 +896,6 @@ PropTypes.email = PropTypes.shape({
   subject: PropTypes.string,
   name: PropTypes.string,
 });
-PropTypes.socialTradingSubscriber = PropTypes.shape({
-  priceMode: PropTypes.string,
-  stopLoss: PropTypes.number,
-  takeProfit: PropTypes.number,
-  subscriberId: PropTypes.number,
-  shareAction: PropTypes.shape({
-    typeSharing: PropTypes.string,
-    multiplicator: PropTypes.number,
-    reverse: PropTypes.bool,
-  }),
-  status: PropTypes.string,
-  minimumLot: PropTypes.number,
-  maximumLot: PropTypes.number,
-  maxDeviation: PropTypes.number,
-  symbols: PropTypes.string,
-  isArchive: PropTypes.bool,
-  totalPerformanceFee: PropTypes.number,
-  sourceId: PropTypes.number,
-  sourceName: PropTypes.string,
-  created: PropTypes.string,
-  updated: PropTypes.string,
-});
-PropTypes.socialTradingProvider = PropTypes.shape({
-  id: PropTypes.number,
-  joinMinBalance: PropTypes.number,
-  name: PropTypes.string,
-  currency: PropTypes.string,
-  performanceFee: PropTypes.number,
-  feeReceiver: PropTypes.number,
-  companyFee: PropTypes.number,
-  isPublic: PropTypes.bool,
-  isActive: PropTypes.bool,
-  status: PropTypes.string,
-  description: PropTypes.string,
-  summary: PropTypes.string,
-});
-PropTypes.socialTradingSubscriptionOnProvider = PropTypes.shape({
-  subscriberId: PropTypes.number,
-  subscriberName: PropTypes.string,
-  sourceId: PropTypes.number,
-  sourceName: PropTypes.string,
-  shareAction: PropTypes.shape({
-    typeSharing: PropTypes.string,
-    reverse: PropTypes.bool,
-  }),
-});
 PropTypes.manualPaymentMethods = PropTypes.shape({
   data: PropTypes.shape({
     manualPaymentMethods: PropTypes.shape({
