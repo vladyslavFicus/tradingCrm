@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, { PureComponent } from 'react';
 import { compose } from 'react-apollo';
 import I18n from 'i18n-js';
@@ -24,7 +23,7 @@ import './LeadProfileTab.scss';
 
 const countryCodes = Object.keys(countryList);
 
-class Profile extends PureComponent {
+class LeadProfileTab extends PureComponent {
   static propTypes = {
     leadProfile: PropTypes.query({
       leadProfile: PropTypes.shape({
@@ -52,14 +51,14 @@ class Profile extends PureComponent {
   };
 
   handleUpdateLead = async (variables) => {
-    const { notify, updateLead, leadProfile  } = this.props;
+    const { notify, updateLead, leadProfile } = this.props;
     const { phone, mobile } = get(leadProfile, 'data.leadProfile.data') || {};
     const requestData = this.phoneAccessDenied()
       ? { ...variables, phone, mobile }
       : variables;
 
     const { data: { leads: { update: { error } } } } = await updateLead({
-      variables: requestData
+      variables: requestData,
     });
 
     if (error) {
@@ -68,7 +67,7 @@ class Profile extends PureComponent {
         title: I18n.t('LEAD_PROFILE.NOTIFICATION_FAILURE'),
         message: error.error === 'error.entity.already.exist'
           ? I18n.t('lead.error.entity.already.exist', { email: variables.email })
-          : I18n.t('COMMON.SOMETHING_WRONG')
+          : I18n.t('COMMON.SOMETHING_WRONG'),
       });
       this.setState({
         submitError: error.error === 'error.entity.already.exist'
@@ -143,7 +142,7 @@ class Profile extends PureComponent {
         enableReinitialize
       >
         {({ isValid, isSubmitting, dirty }) => (
-          <Form className="Profile">
+          <Form className="LeadProfileTab">
             <TabHeader title={I18n.t('PLAYER_PROFILE.PROFILE.TITLE')}>
               <If condition={dirty && !isSubmitting && isValid}>
                 <Button type="submit" primaryOutline>
@@ -152,7 +151,7 @@ class Profile extends PureComponent {
               </If>
             </TabHeader>
             <If condition={this.state.submitError}>
-              <div className="Profile__error">
+              <div className="LeadProfileTab__error">
                 {this.state.submitError}
               </div>
             </If>
@@ -193,4 +192,4 @@ export default compose(
     leadProfile: LeadProfileQuery,
     updateLead: LeadProfileUpdate,
   }),
-)(Profile);
+)(LeadProfileTab);

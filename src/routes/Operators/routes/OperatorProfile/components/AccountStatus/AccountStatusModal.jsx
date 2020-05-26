@@ -1,77 +1,98 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import I18n from 'i18n-js';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import { Field, reduxForm } from 'redux-form';
+import { Formik, Form, Field } from 'formik';
 import { createValidator, translateLabels } from 'utils/validator';
 import renderLabel from 'utils/renderLabel';
-import { SelectField } from 'components/ReduxForm';
+import { Button } from 'components/UI';
+import { FormikSelectField } from 'components/Formik';
 import { attributeLabels } from './constants';
 
-const AccountStatusModal = ({
-  action, reasons, title, onHide, onSubmit, handleSubmit, invalid,
-}) => (
-  <Modal isOpen toggle={onHide}>
-    <form onSubmit={handleSubmit(onSubmit)}>
-      {
-        !!title
-        && (
-          <ModalHeader toggle={onHide}>
-            {title}
-          </ModalHeader>
-        )
-      }
-      <ModalBody>
-        <Field
-          name="reason"
-          label={I18n.t(attributeLabels.reason)}
-          component={SelectField}
-          position="vertical"
+const validate = reasons => createValidator({
+  reason: `required|string|in:${Object.keys(reasons).join()}`,
+}, translateLabels(attributeLabels), false);
+
+class AccountStatusModal extends PureComponent {
+  static propTypes = {
+    action: PropTypes.string,
+    reasons: PropTypes.object.isRequired,
+    title: PropTypes.string,
+    status: PropTypes.string.isRequired,
+    onHide: PropTypes.func.isRequired,
+    onSubmit: PropTypes.func.isRequired,
+  }
+
+  static defaultProps = {
+    action: null,
+    title: '',
+  };
+
+  onHandleSubmit = (values, { setSubmitting }) => {
+    this.props.onSubmit({ ...values, status: this.props.status });
+
+    setSubmitting(false);
+  };
+
+  render() {
+    const {
+      onHide,
+      action,
+      title,
+      reasons,
+    } = this.props;
+
+    return (
+      <Modal isOpen toggle={onHide}>
+        <Formik
+          initialValues={{ reason: '' }}
+          validate={validate(reasons)}
+          onSubmit={this.onHandleSubmit}
         >
-          <option>{I18n.t('COMMON.SELECT_OPTION.REASON')}</option>
-          {Object.keys(reasons).map(key => (
-            <option key={key} value={key}>
-              {I18n.t(renderLabel(key, reasons))}
-            </option>
-          ))}
-        </Field>
-      </ModalBody>
+          {({ dirty }) => (
+            <Form>
+              <If condition={title}>
+                <ModalHeader toggle={onHide}>
+                  {title}
+                </ModalHeader>
+              </If>
+              <ModalBody>
+                <Field
+                  name="reason"
+                  label={I18n.t(attributeLabels.reason)}
+                  component={FormikSelectField}
+                  placeholder={I18n.t('COMMON.SELECT_OPTION.REASON')}
+                >
+                  {Object.keys(reasons).map(key => (
+                    <option key={key} value={key}>
+                      {I18n.t(renderLabel(key, reasons))}
+                    </option>
+                  ))}
+                </Field>
+              </ModalBody>
 
-      <ModalFooter>
-        <button type="button" className="btn btn-default-outline mr-auto" onClick={onHide}>
-          {I18n.t('COMMON.BUTTONS.CANCEL')}
-        </button>
-        <button
-          className="btn btn-danger"
-          type="submit"
-          disabled={invalid}
-        >
-          {action}
-        </button>
-      </ModalFooter>
-    </form>
-  </Modal>
-);
+              <ModalFooter>
+                <Button
+                  className="mr-auto"
+                  commonOutline
+                  onClick={onHide}
+                >
+                  {I18n.t('COMMON.BUTTONS.CANCEL')}
+                </Button>
+                <Button
+                  danger
+                  type="submit"
+                  disabled={!dirty}
+                >
+                  {action}
+                </Button>
+              </ModalFooter>
+            </Form>
+          )}
+        </Formik>
+      </Modal>
+    );
+  }
+}
 
-AccountStatusModal.propTypes = {
-  action: PropTypes.string,
-  reasons: PropTypes.object.isRequired,
-  title: PropTypes.string,
-  onHide: PropTypes.func.isRequired,
-  onSubmit: PropTypes.func.isRequired,
-  handleSubmit: PropTypes.func,
-  invalid: PropTypes.bool.isRequired,
-};
-
-AccountStatusModal.defaultProps = {
-  action: null,
-  title: '',
-  handleSubmit: null,
-};
-
-export default reduxForm({
-  form: 'accountStatusModal',
-  validate: (values, props) => createValidator({
-    reason: `required|string|in:${Object.keys(props.reasons).join()}`,
-  }, translateLabels(attributeLabels), false)(values),
-})(AccountStatusModal);
+export default AccountStatusModal;

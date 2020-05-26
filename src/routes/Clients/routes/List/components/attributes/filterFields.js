@@ -7,7 +7,6 @@ import { statuses } from 'constants/operators';
 import { statusesLabels, filterLabels } from 'constants/user';
 import { salesStatuses } from 'constants/salesStatuses';
 import { retentionStatuses } from 'constants/retentionStatuses';
-import { fsaStatuses, fsaStatusesLabels } from 'constants/fsaMigration';
 import { warningValues, warningLabels } from 'constants/warnings';
 import { kycStatusesLabels } from 'constants/kycStatuses';
 import {
@@ -258,20 +257,6 @@ export default ({
       label: kycStatusesLabels[value],
     })),
   },
-  ...[
-    getActiveBrandConfig().fsaRegulation && {
-      type: fieldTypes.SELECT,
-      name: 'fsaMigrationStatus',
-      label: filterLabels.FSAMigration,
-      placeholder: 'COMMON.SELECT_OPTION.ANY',
-      className: fieldClassNames.MEDIUM,
-      selectOptions: Object.keys(fsaStatuses).map(status => ({
-        value: status,
-        label: fsaStatusesLabels[status],
-      })),
-      searchable: false,
-    },
-  ],
   {
     type: fieldTypes.SELECT,
     name: 'firstTimeDeposit',

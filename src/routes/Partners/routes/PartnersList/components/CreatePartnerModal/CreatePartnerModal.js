@@ -240,7 +240,6 @@ class CreatePartnerModal extends PureComponent {
                     disabled={isSubmitting}
                   />
                 </div>
-
                 <Field
                   name="public"
                   component={FormikCheckbox}

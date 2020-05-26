@@ -196,6 +196,22 @@ class PersonalForm extends PureComponent {
               </div>
             </If>
           </Regulated>
+          <Field
+            name="public"
+            className="col-12 padding-left-35"
+            component={CheckBox}
+            type="checkbox"
+            label={I18n.t('PARTNERS.MODALS.NEW_PARTNER.PUBLIC_CHECKBOX')}
+          />
+          <Regulated>
+            <Field
+              name="cellexpert"
+              className="col-12 padding-left-35"
+              component={CheckBox}
+              type="checkbox"
+              label={I18n.t('PARTNERS.MODALS.NEW_PARTNER.CELLEXPERT_CHECKBOX')}
+            />
+          </Regulated>
         </div>
         <hr />
         <div className="personal-form-heading margin-bottom-20">
