@@ -6,7 +6,6 @@ import Payments from './Payments';
 import TradingActivity from './TradingActivity';
 import Accounts from './Accounts';
 import ClientCallbacksTab from './ClientCallbacksTab';
-import SocialTrading from './SocialTrading';
 
 export {
   ClientView,
@@ -17,5 +16,4 @@ export {
   TradingActivity,
   Accounts,
   ClientCallbacksTab,
-  SocialTrading,
 };

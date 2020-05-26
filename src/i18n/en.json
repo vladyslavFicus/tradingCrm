@@ -86,9 +86,7 @@
         "VERIFY_EMAIL": "Verify email",
         "LABEL": {
           "PHONE": "Phone",
-          "PHONE_CODE": "Code",
-          "ALT_PHONE": "Alt phone",
-          "YOUR_ALT_PHONE": "Your alternative phone"
+          "ALT_PHONE": "Alt phone"
         }
       },
       "PERSONAL": {
@@ -193,7 +191,7 @@
       },
       "KYC_STATUS": {
         "TITLE": "KYC status",
-        "CURRENT_STATUS": "Current KYC status",
+        "CURRENT_STATUS": "Status",
         "SUCCESS_RESPONSE": "Successfully updated KYC status"
       },
       "KYC_STATUS_TITLE": {
@@ -377,6 +375,7 @@
     },
     "TRANSACTIONS": {
       "ADD_TRANSACTION": "+ Add transaction",
+      "ADD_TRANSACTION_FAIL": "Failed to add transaction",
       "MODAL_CREATE": {
         "NO_PAYMENT_ACCOUNTS_LABEL": "No payment accounts",
         "CHOOSE_PAYMENT_METHOD_LABEL": "Choose payment method",
@@ -1674,14 +1673,9 @@
         "ASSIGN_STATUS": "Assign Status",
         "KYC_STATUSES": "KYC Statuses",
         "FIRST_DEPOSIT": "First time deposit",
-        "FSA_MIGRATION": "FSA migration Status",
         "QUESTIONNAIRE": "Questionnaire",
         "AFFILIATES": "Affiliates",
         "PARTNER_TYPE": "Created by",
-        "FSA_MIGRATION_STATUS": {
-          "ACCEPTED": "Accepted",
-          "NOT_ACCEPTED": "Not Accepted"
-        },
         "WARNING": "Warning"
       }
     }
@@ -2351,8 +2345,7 @@
       "CALLBACKS": "Callbacks",
       "FILES": "Files",
       "NOTES": "Notes",
-      "FEED": "Feed",
-      "SOCIAL_TRADING": "Social Trading"
+      "FEED": "Feed"
     },
     "PROFILE": {
       "TITLE": "Profile",
@@ -2629,11 +2622,6 @@
   },
   "MIGRATE": {
     "MIGRATION_STATUS": "Migration status",
-    "BUTTON": "Migrate to FSA",
-    "MODAL": {
-      "TITLE": "Migrate to FSA",
-      "TEXT": "Are you sure, that you want to migrate selected client(s)?"
-    },
     "NOTIFICATION": {
       "SUCCESS_TEXT": "Сlients are successfully prepared for migration",
       "ERROR_TEXT": "Bulk migration failed for some reasons"
@@ -3378,72 +3366,6 @@
         "SEND": "send",
         "CREATE": "create",
         "EDIT": "edit"
-      }
-    }
-  },
-  "SOCIAL_TRADING": {
-    "TITLE": "Social trading",
-    "SUBSCRIBERS": {
-      "TITLE": "Client's Subscriptions",
-      "GRID": {
-        "HEADERS": {
-          "SUBSCRIBER": "Subscriber",
-          "PROVIDER": "Provider",
-          "SYMBOLS": "Symbols",
-          "PRICE_MODE": "Price mode",
-          "PERFORMANCE_FEE": "Performance Fee",
-          "SHARING": "Sharing",
-          "PROFIT": "Profit",
-          "MULTIPLICATOR": "Multiplicator",
-          "STOP_LOSS": "Stop loss",
-          "MIN_MAX_LOT": "Min / Max lot",
-          "MAX_DEVIATION": "Max deviation",
-          "CREATED": "Created",
-          "UPDATED": "Updated"
-        },
-        "COLUMNS": {
-          "ID": "Id",
-          "STATUS": "Status",
-          "SHARING": "Sharing",
-          "REVERSE": "Reverse",
-          "MULTIPLICATOR": "Multiplicator",
-          "ARCHIEVED": "Archieved"
-        }
-      }
-    },
-    "PROVIDERS": {
-      "TITLE": "Client is Providing",
-      "GRID": {
-        "HEADERS": {
-          "PROVIDER": "Provider",
-          "MIN_JOIN_BALANCE": "Min join balance",
-          "PERFORMANCE_FEE": "Performance Fee",
-          "FEE_RECEIVER": "Fee receiver",
-          "COMPANY_FEE": "Company receiver fee",
-          "CURRENCY": "Currency",
-          "DESCRIPTION": "Description",
-          "STATUSES": "Statuses"
-        },
-        "COLUMNS": {
-          "ID": "Id",
-          "PUBLIC": "Public",
-          "ACTIVE": "Active",
-          "STATUS": "Status"
-        }
-      }
-    },
-    "SUBSCRIPTION_ON_PROVIDER": {
-      "TITLE": "Subscribers",
-      "GRID": {
-        "HEADERS": {
-          "SUBSCRIPTION": "Subscription",
-          "PROVIDER": "Provider",
-          "SHARING_TYPE": "Sharing type",
-          "REVERSE": "Reverse"
-        },
-        "COLUMNS": {
-          "ID": "Id"
-        }
       }
     }
   },
