@@ -1,5 +1,4 @@
 import keyMirror from 'keymirror';
-import { getActiveBrandConfig } from 'config';
 import { getSatelliteOptions } from './utils';
 
 const statuses = keyMirror({
@@ -14,24 +13,10 @@ const statusLabels = {
   [statuses.INACTIVE]: 'PARTNERS.STATUSES.INACTIVE',
 };
 
-const isActiveRegulation = getActiveBrandConfig().regulation.isActive;
-
-const affiliateTypes = keyMirror({
-  ...(isActiveRegulation && { NULLPOINT: null }),
-  AFFILIATE: null,
-});
-
-const affiliateTypeLabels = {
-  ...(isActiveRegulation && { [affiliateTypes.NULLPOINT]: 'PARTNERS.TYPES.NULLPOINT' }),
-  [affiliateTypes.AFFILIATE]: 'PARTNERS.TYPES.AFFILIATE',
-};
-
 const satelliteOptions = getSatelliteOptions();
 
 export {
   statuses,
   statusLabels,
-  affiliateTypes,
-  affiliateTypeLabels,
   satelliteOptions,
 };

@@ -3481,8 +3481,7 @@
         "SEARCH_BY": "Search by",
         "SEARCH_BY_PLACEHOLDER": "UUID, Player's Full Name, Source Name.",
         "ACCOUNT_TYPE": "Account type",
-        "STATUS": "Status",
-        "AFFILIATE_TYPE": "Affiliate type"
+        "STATUS": "Status"
       },
       "ACCOUNT_TYPE": {
         "DEMO": "Demo",
@@ -3491,17 +3490,12 @@
       "STATUS": {
         "ARCHIVED": "Archived",
         "NOT_ARCHIVED": "Not archived"
-      },
-      "AFFILIATE_TYPE": {
-        "AFFILIATE": "Affiliate",
-        "NONE": "None"
       }
     },
     "GRID": {
       "ACCOUNT_ID": "Account ID",
       "PLATFORM_TYPE": "Platform type",
       "PROFILE": "Client",
-      "AFFILIATE_TYPE": "Affiliate type",
       "SOURCE_NAME": "Source name",
       "DATE": "Date",
       "LEVERAGE": "Leverage",

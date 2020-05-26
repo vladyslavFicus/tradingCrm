@@ -15,9 +15,7 @@ import { Button } from 'components/UI';
 import { createValidator, translateLabels } from 'utils/validator';
 import { generate } from 'utils/password';
 import {
-  affiliateTypeLabels,
   satelliteOptions,
-  affiliateTypes,
 } from '../../../../constants';
 import CreatePartnerMutation from './graphql/CreatePartnerMutation';
 import './CreatePartnerModal.scss';
@@ -28,7 +26,6 @@ const attributeLabels = {
   email: 'COMMON.EMAIL',
   password: 'COMMON.PASSWORD',
   phone: 'COMMON.PHONE',
-  affiliateType: 'COMMON.PARTNER_TYPE',
   externalAffiliateId: 'COMMON.EXTERNAL_AFILIATE_ID',
   public: 'PARTNERS.MODALS.NEW_PARTNER.PUBLIC_CHECKBOX',
   cellexpert: 'PARTNERS.MODALS.NEW_PARTNER.CELLEXPERT_CHECKBOX',
@@ -41,7 +38,6 @@ const validate = createValidator({
   email: ['required', 'email'],
   password: ['required', `regex:${getActiveBrandConfig().password.pattern}`],
   phone: ['required', 'min:3'],
-  affiliateType: ['string'],
   externalAffiliateId: ['min:3'],
   public: ['boolean'],
   cellexpert: ['boolean'],
@@ -63,7 +59,6 @@ class CreatePartnerModal extends PureComponent {
     email: '',
     password: '',
     phone: '',
-    affiliateType: getActiveBrandConfig().regulation.isActive ? '' : affiliateTypes.AFFILIATE,
     externalAffiliateId: '',
     public: false,
     cellexpert: false,
@@ -87,7 +82,6 @@ class CreatePartnerModal extends PureComponent {
 
     if (!hasValidationErrors) {
       const {
-        affiliateType,
         cellexpert,
         public: isPublic, // 'public' is reserved JS word and we cant use it for naming variable
         externalAffiliateId,
@@ -97,12 +91,9 @@ class CreatePartnerModal extends PureComponent {
 
       const newPartnerData = await createPartner({
         variables: {
-          affiliateType,
-          ...(affiliateType !== affiliateTypes.NULLPOINT && {
-            externalAffiliateId,
-            public: isPublic,
-            cellexpert,
-          }),
+          externalAffiliateId,
+          public: isPublic,
+          cellexpert,
           ...(satelliteOptions && { satellite }),
           ...restValues,
         },
@@ -175,7 +166,6 @@ class CreatePartnerModal extends PureComponent {
           onSubmit={this.handleSubmit}
         >
           {({
-            values,
             isSubmitting,
             setFieldValue,
           }) => (
@@ -239,58 +229,30 @@ class CreatePartnerModal extends PureComponent {
                       ))}
                     </Field>
                   </If>
-                  <Regulated>
-                    <Field
-                      name="affiliateType"
-                      className="CreatePartnerModal__field"
-                      component={FormikSelectField}
-                      label={I18n.t(attributeLabels.affiliateType)}
-                      placeholder={I18n.t('COMMON.SELECT_OPTION.SELECT_PARTNER_TYPE')}
-                      disabled={isSubmitting}
-                    >
-                      {Object.keys(affiliateTypeLabels).map(value => (
-                        <option key={value} value={value}>{I18n.t(affiliateTypeLabels[value])}</option>
-                      ))}
-                    </Field>
-                  </Regulated>
-                  <If
-                    condition={
-                      values.affiliateType
-                      && values.affiliateType !== affiliateTypes.NULLPOINT
-                    }
-                  >
-                    <Field
-                      name="externalAffiliateId"
-                      className="CreatePartnerModal__field"
-                      label={I18n.t(attributeLabels.externalAffiliateId)}
-                      placeholder={I18n.t(attributeLabels.externalAffiliateId)}
-                      addition={<span className="icon-generate-password" />}
-                      onAdditionClick={() => setFieldValue('externalAffiliateId', this.handleGenerateExternalId())}
-                      component={FormikInputField}
-                      disabled={isSubmitting}
-                    />
-                  </If>
+                  <Field
+                    name="externalAffiliateId"
+                    className="CreatePartnerModal__field"
+                    label={I18n.t(attributeLabels.externalAffiliateId)}
+                    placeholder={I18n.t(attributeLabels.externalAffiliateId)}
+                    addition={<span className="icon-generate-password" />}
+                    onAdditionClick={() => setFieldValue('externalAffiliateId', this.handleGenerateExternalId())}
+                    component={FormikInputField}
+                    disabled={isSubmitting}
+                  />
                 </div>
 
-                <If
-                  condition={
-                    values.affiliateType
-                    && values.affiliateType !== affiliateTypes.NULLPOINT
-                  }
-                >
+                <Field
+                  name="public"
+                  component={FormikCheckbox}
+                  label={I18n.t(attributeLabels.public)}
+                />
+                <Regulated>
                   <Field
-                    name="public"
+                    name="cellexpert"
                     component={FormikCheckbox}
-                    label={I18n.t(attributeLabels.public)}
+                    label={I18n.t(attributeLabels.cellexpert)}
                   />
-                  <Regulated>
-                    <Field
-                      name="cellexpert"
-                      component={FormikCheckbox}
-                      label={I18n.t(attributeLabels.cellexpert)}
-                    />
-                  </Regulated>
-                </If>
+                </Regulated>
               </ModalBody>
               <ModalFooter>
                 <Button

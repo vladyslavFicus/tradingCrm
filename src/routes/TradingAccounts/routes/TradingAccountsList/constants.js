@@ -8,19 +8,7 @@ const accountStatuses = {
   1: 'TRADING_ACCOUNTS.FORM.STATUS.ARCHIVED',
 };
 
-const affiliateTypes = [
-  {
-    label: 'TRADING_ACCOUNTS.FORM.AFFILIATE_TYPE.AFFILIATE',
-    value: 'AFFILIATE',
-  },
-  {
-    label: 'TRADING_ACCOUNTS.FORM.AFFILIATE_TYPE.NONE',
-    value: 'NONE',
-  },
-];
-
 export {
   accountTypes,
   accountStatuses,
-  affiliateTypes,
 };

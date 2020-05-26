@@ -8,7 +8,6 @@ const updatePartner = gql`mutation updatePartner(
   $country: String
   $email: String
   $permission: PartnerPermissionUpdate
-  $affiliateType: String!
   $externalAffiliateId: String
   $public: Boolean
   $cellexpert: Boolean
@@ -26,7 +25,6 @@ const updatePartner = gql`mutation updatePartner(
       country: $country
       email: $email
       permission: $permission
-      affiliateType: $affiliateType
       externalAffiliateId: $externalAffiliateId
       public: $public
       cellexpert: $cellexpert
@@ -44,7 +42,6 @@ const updatePartner = gql`mutation updatePartner(
         lastName
         status
         phone
-        affiliateType
         externalAffiliateId
         public
         cellexpert

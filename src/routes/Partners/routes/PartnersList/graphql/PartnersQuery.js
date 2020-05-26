@@ -9,7 +9,6 @@ const REQUEST = gql`
     $searchBy: String
     $country: String
     $status: String
-    $affiliateType: String
     $registrationDateFrom: String
     $registrationDateTo: String
   ) {
@@ -18,7 +17,6 @@ const REQUEST = gql`
       searchBy: $searchBy
       country: $country
       status: $status
-      affiliateType: $affiliateType
       registrationDateFrom: $registrationDateFrom
       registrationDateTo: $registrationDateTo
     ) {
@@ -32,7 +30,6 @@ const REQUEST = gql`
           uuid
           fullName
           createdAt
-          affiliateType
           externalAffiliateId
           status
           statusChangeDate

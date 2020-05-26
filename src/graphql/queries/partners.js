@@ -58,7 +58,6 @@ const partnerQuery = gql`query getPartnerByUUID(
       createdBy
       createdAt
       externalAffiliateId
-      affiliateType
       cellexpert
       public
       tradingAccountAutocreation

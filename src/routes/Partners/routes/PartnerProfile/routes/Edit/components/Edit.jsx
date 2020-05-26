@@ -56,7 +56,6 @@ class View extends Component {
   handleSubmit = async ({
     externalAffiliateId,
     forbiddenCountries,
-    affiliateType,
     cellexpert,
     satellite,
     firstName,
@@ -80,7 +79,6 @@ class View extends Component {
       variables: {
         uuid: operatorUUID,
         externalAffiliateId,
-        affiliateType,
         cellexpert,
         satellite,
         firstName,
@@ -123,7 +121,6 @@ class View extends Component {
           tradingAccountCurrency,
           tradingAccountType,
           externalAffiliateId,
-          affiliateType,
           cellexpert,
           satellite,
           firstName,
@@ -158,7 +155,6 @@ class View extends Component {
                 showSalesStatus,
                 showFTDAmount,
                 showKycStatus,
-                affiliateType,
                 cellexpert,
                 satellite,
                 firstName,
