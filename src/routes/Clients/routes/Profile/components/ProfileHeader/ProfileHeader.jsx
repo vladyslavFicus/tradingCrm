@@ -3,9 +3,7 @@ import moment from 'moment';
 import classNames from 'classnames';
 import I18n from 'i18n-js';
 import { get } from 'lodash';
-import { getActiveBrandConfig } from 'config';
 import { withPermission } from 'providers/PermissionsProvider';
-import { fsaStatuses, fsaStatusColorNames, fsaStatusesLabels } from 'constants/fsaMigration';
 import { lastActivityStatusesLabels, lastActivityStatusesColors } from 'constants/lastActivity';
 import PropTypes from 'constants/propTypes';
 import Regulated from 'components/Regulated';
@@ -13,23 +11,20 @@ import ActionsDropDown from 'components/ActionsDropDown';
 import PopoverButton from 'components/PopoverButton';
 import permissions from 'config/permissions';
 import Permissions from 'utils/permissions';
-import renderLabel from 'utils/renderLabel';
 import ProfileLastLogin from 'components/ProfileLastLogin';
 import Uuid from 'components/Uuid';
 import PermissionContent from 'components/PermissionContent';
 import StickyWrapper from 'components/StickyWrapper';
-import MigrateButton from 'components/MigrateButton';
 import GridStatus from 'components/GridStatus';
 import customTimeout from 'utils/customTimeout';
 import PlayerStatus from '../PlayerStatus';
-import RiskStatus from '../RiskStatus';
 import Balances from '../Balances';
 import HeaderPlayerPlaceholder from '../HeaderPlayerPlaceholder';
 import Questionnaire from '../Questionnaire';
 import './ProfileHeader.scss';
 
 const changePasswordPermission = new Permissions([permissions.USER_PROFILE.CHANGE_PASSWORD]);
-const resetPasswordPermission = new Permissions([permissions.OPERATORS.RESET_PASSWORD]);
+const resetPasswordPermission = new Permissions([permissions.USER_PROFILE.RESET_PASSWORD]);
 
 class ProfileHeader extends Component {
   static propTypes = {
@@ -84,7 +79,6 @@ class ProfileHeader extends Component {
       availableStatuses,
       onAddNoteClick,
       onResetPasswordClick,
-      onRefreshClick,
       isLoadingProfile,
       loaded,
       onChangePasswordClick,
@@ -120,9 +114,6 @@ class ProfileHeader extends Component {
           lastSignInSessions,
           lastActivity,
         },
-        fsaMigrationInfo: {
-          fsaMigrationStatus,
-        },
         tradingAccount,
       },
     } = this.props;
@@ -138,14 +129,6 @@ class ProfileHeader extends Component {
     return (
       <div className="ProfileHeader">
         <StickyWrapper top={48} innerZ={3} activeClass="heading-fixed">
-          <If condition={
-            getActiveBrandConfig().fsaRegulation
-            && fsaMigrationStatus === fsaStatuses.MIGRATION_FINISHED}
-          >
-            <div className="panel-heading-row ProfileHeader__migration-notification">
-              {I18n.t('PLAYER_PROFILE.PROFILE.HEADER.MIGRATED_NOTIFICATION')}
-            </div>
-          </If>
           <div className="panel-heading-row">
             <HeaderPlayerPlaceholder ready={loaded}>
               <div className="panel-heading-row__info">
@@ -170,10 +153,7 @@ class ProfileHeader extends Component {
               </div>
             </HeaderPlayerPlaceholder>
             <div className="panel-heading-row__actions">
-              <If condition={
-                lock
-                && !(getActiveBrandConfig().fsaRegulation && fsaMigrationStatus === fsaStatuses.MIGRATION_FINISHED)}
-              >
+              <If condition={lock}>
                 <button
                   onClick={unlockLogin}
                   type="button"
@@ -182,24 +162,6 @@ class ProfileHeader extends Component {
                   {I18n.t('PLAYER_PROFILE.PROFILE.HEADER.UNLOCK')}
                 </button>
               </If>
-
-              <If
-                condition={getActiveBrandConfig().fsaRegulation
-                  && (!fsaMigrationStatus || fsaMigrationStatus === fsaStatuses.MIGRATION_ACCEPTED)
-                }
-              >
-                <PermissionContent permissions={permissions.USER_PROFILE.MIGRATE_TO_FSA}>
-                  <MigrateButton
-                    variables={{
-                      clients: [{ uuid }],
-                      totalElements: 1,
-                      allRowsSelected: false,
-                    }}
-                    submitCallback={onRefreshClick}
-                  />
-                </PermissionContent>
-              </If>
-
               <PermissionContent permissions={permissions.NOTES.ADD_NOTE}>
                 <PopoverButton
                   id="header-add-note-button"
@@ -253,21 +215,7 @@ class ProfileHeader extends Component {
               reason={reason}
               onChange={this.handleStatusChange}
               availableStatuses={availableStatuses}
-              fsaMigrationStatus={fsaMigrationStatus}
             />
-
-            <If condition={getActiveBrandConfig().isRisksTabAvailable}>
-              <RiskStatus />
-            </If>
-
-            <If condition={getActiveBrandConfig().fsaRegulation && fsaMigrationStatus}>
-              <div className="header-block-inner margin-top-10">
-                <div className="header-block-title">{I18n.t('MIGRATE.MIGRATION_STATUS')}</div>
-                <div className={`${fsaStatusColorNames[fsaMigrationStatus]} header-block-middle text-uppercase`}>
-                  {I18n.t(renderLabel(fsaMigrationStatus, fsaStatusesLabels))}
-                </div>
-              </div>
-            </If>
           </div>
           <div className="header-block header-block-inner header-block_balance" id="player-profile-balance-block">
             <If condition={uuid}>

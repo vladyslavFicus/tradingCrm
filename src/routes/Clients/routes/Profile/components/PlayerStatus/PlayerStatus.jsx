@@ -4,11 +4,9 @@ import classNames from 'classnames';
 import moment from 'moment';
 import I18n from 'i18n-js';
 import { compose } from 'react-apollo';
-import { getActiveBrandConfig } from 'config';
 import { withPermission } from 'providers/PermissionsProvider';
 import { withModals } from 'hoc';
 import PropTypes from 'constants/propTypes';
-import { fsaStatuses } from 'constants/fsaMigration';
 import { statuses, statusColorNames, statusesLabels } from 'constants/user';
 import FailureReasonIcon from 'components/FailureReasonIcon';
 import Uuid from 'components/Uuid';
@@ -31,7 +29,6 @@ class PlayerStatus extends PureComponent {
     permission: PropTypes.shape({
       permissions: PropTypes.arrayOf(PropTypes.string).isRequired,
     }).isRequired,
-    fsaMigrationStatus: PropTypes.string,
     modals: PropTypes.shape({
       playerStatusModal: PropTypes.modalType,
     }).isRequired,
@@ -43,7 +40,6 @@ class PlayerStatus extends PureComponent {
     statusDate: null,
     statusAuthor: null,
     profileStatusComment: '',
-    fsaMigrationStatus: '',
   };
 
   state = {
@@ -51,10 +47,6 @@ class PlayerStatus extends PureComponent {
   };
 
   toggle = () => {
-    if (getActiveBrandConfig().fsaRegulation && this.props.fsaMigrationStatus === fsaStatuses.MIGRATION_FINISHED) {
-      return;
-    }
-
     this.setState(({ dropDownOpen }) => ({
       dropDownOpen: !dropDownOpen,
     }));

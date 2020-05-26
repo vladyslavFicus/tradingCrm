@@ -89,10 +89,10 @@ class ClientCallbacksGrid extends PureComponent {
   renderDateTime = (callback, field) => (
     <div>
       <div className="ClientCallbacksGrid__info-main">
-        {moment(callback[field]).format('DD.MM.YYYY')}
+        {moment.utc(callback[field]).local().format('DD.MM.YYYY')}
       </div>
       <div className="ClientCallbacksGrid__info-secondary">
-        {moment(callback[field]).format('HH:mm:ss')}
+        {moment.utc(callback[field]).local().format('HH:mm:ss')}
       </div>
     </div>
   );
@@ -124,8 +124,7 @@ class ClientCallbacksGrid extends PureComponent {
     if (reminder) {
       // Reminder format: ISO 8601('PT5M'), get milliseconds via moment.duration
       const reminderMilliseconds = moment.duration(reminder).asMilliseconds();
-      const callbackTimeMilliseconds = new Date(callbackTime).getTime();
-      const reminderDate = callbackTimeMilliseconds - reminderMilliseconds;
+      const reminderDate = moment.utc(callbackTime).local().subtract(reminderMilliseconds, 'ms');
 
       return (
         <div>
