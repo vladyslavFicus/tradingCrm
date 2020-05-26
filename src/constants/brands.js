@@ -91,6 +91,7 @@ const brands = keyMirror({
   'energy-markets': null,
   lionstock: null,
   'bid-broker-stocks': null,
+  bridgefund: null,
 });
 
 const departments = keyMirror({
@@ -477,6 +478,10 @@ const brandsConfig = {
   [brands['bid-broker-stocks']]: {
     name: 'bid-broker-stocks',
     image: { src: '/img/brand/choose-brand/bid-broker-stocks.svg' },
+  },
+  [brands.bridgefund]: {
+    name: 'bridgefund',
+    image: { src: '/img/brand/choose-brand/bridgefund.svg' },
   },
 };
 const departmentsConfig = {
