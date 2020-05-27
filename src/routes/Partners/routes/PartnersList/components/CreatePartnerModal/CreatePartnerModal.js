@@ -9,14 +9,10 @@ import { withRequests } from 'apollo';
 import { getActiveBrandConfig } from 'config';
 import { withNotifications } from 'hoc';
 import PropTypes from 'constants/propTypes';
-import { FormikInputField, FormikSelectField, FormikCheckbox } from 'components/Formik';
-import Regulated from 'components/Regulated';
+import { FormikInputField, FormikCheckbox } from 'components/Formik';
 import { Button } from 'components/UI';
 import { createValidator, translateLabels } from 'utils/validator';
 import { generate } from 'utils/password';
-import {
-  satelliteOptions,
-} from '../../../../constants';
 import CreatePartnerMutation from './graphql/CreatePartnerMutation';
 import './CreatePartnerModal.scss';
 
@@ -28,8 +24,6 @@ const attributeLabels = {
   phone: 'COMMON.PHONE',
   externalAffiliateId: 'COMMON.EXTERNAL_AFILIATE_ID',
   public: 'PARTNERS.MODALS.NEW_PARTNER.PUBLIC_CHECKBOX',
-  cellexpert: 'PARTNERS.MODALS.NEW_PARTNER.CELLEXPERT_CHECKBOX',
-  satellite: 'COMMON.SATELLITE',
 };
 
 const validate = createValidator({
@@ -40,8 +34,6 @@ const validate = createValidator({
   phone: ['required', 'min:3'],
   externalAffiliateId: ['min:3'],
   public: ['boolean'],
-  cellexpert: ['boolean'],
-  satellite: ['string'],
 }, translateLabels(attributeLabels), false);
 
 class CreatePartnerModal extends PureComponent {
@@ -61,8 +53,6 @@ class CreatePartnerModal extends PureComponent {
     phone: '',
     externalAffiliateId: '',
     public: false,
-    cellexpert: false,
-    satellite: null,
   };
 
   handleGeneratePassword = () => generate();
@@ -82,10 +72,8 @@ class CreatePartnerModal extends PureComponent {
 
     if (!hasValidationErrors) {
       const {
-        cellexpert,
         public: isPublic, // 'public' is reserved JS word and we cant use it for naming variable
         externalAffiliateId,
-        satellite,
         ...restValues
       } = values;
 
@@ -93,8 +81,6 @@ class CreatePartnerModal extends PureComponent {
         variables: {
           externalAffiliateId,
           public: isPublic,
-          cellexpert,
-          ...(satelliteOptions && { satellite }),
           ...restValues,
         },
       });
@@ -215,20 +201,6 @@ class CreatePartnerModal extends PureComponent {
                     component={FormikInputField}
                     disabled={isSubmitting}
                   />
-                  <If condition={satelliteOptions}>
-                    <Field
-                      name="satellite"
-                      className="CreatePartnerModal__field"
-                      component={FormikSelectField}
-                      label={I18n.t(attributeLabels.satellite)}
-                      placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
-                      disabled={isSubmitting}
-                    >
-                      {satelliteOptions.map((satellite, key) => (
-                        <option key={key} value={satellite.value}>{satellite.label}</option>
-                      ))}
-                    </Field>
-                  </If>
                   <Field
                     name="externalAffiliateId"
                     className="CreatePartnerModal__field"
@@ -245,13 +217,6 @@ class CreatePartnerModal extends PureComponent {
                   component={FormikCheckbox}
                   label={I18n.t(attributeLabels.public)}
                 />
-                <Regulated>
-                  <Field
-                    name="cellexpert"
-                    component={FormikCheckbox}
-                    label={I18n.t(attributeLabels.cellexpert)}
-                  />
-                </Regulated>
               </ModalBody>
               <ModalFooter>
                 <Button

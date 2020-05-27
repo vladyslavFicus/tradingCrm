@@ -13,7 +13,6 @@ const personalFormAttributeLabels = {
   restrictedCountries: 'PARTNERS.PROFILE.PERSONAL_FORM.LABELS.RESTRICTED_COUNTRIES',
   externalAffiliateId: 'COMMON.EXTERNAL_AFILIATE_ID',
   public: 'PARTNERS.PROFILE.PERSONAL_FORM.PUBLIC_CHECKBOX',
-  cellexpert: 'PARTNERS.PROFILE.PERSONAL_FORM.CELLEXPERT_CHECKBOX',
 };
 
 const autoCreationOptions = {

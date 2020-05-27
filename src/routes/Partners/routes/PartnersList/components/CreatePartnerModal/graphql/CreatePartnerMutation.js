@@ -10,10 +10,8 @@ const REQUEST = gql`
     $lastName: String!
     $phone: String
     $password: String!
-    $satellite: String
     $externalAffiliateId: String
     $public: Boolean
-    $cellexpert: Boolean
   ) {
     partner {
       createPartner(
@@ -22,10 +20,8 @@ const REQUEST = gql`
         lastName: $lastName
         phone: $phone
         password: $password
-        satellite: $satellite
         externalAffiliateId: $externalAffiliateId
         public: $public
-        cellexpert: $cellexpert
       ) {
         data {
           uuid

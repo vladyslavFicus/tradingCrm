@@ -27,7 +27,6 @@ class List extends Component {
       }),
     }).isRequired,
     submitNewOperator: PropTypes.func.isRequired,
-    filterValues: PropTypes.object,
     operators: PropTypes.shape({
       operators: PropTypes.shape({
         data: PropTypes.pageable(PropTypes.any),
@@ -39,27 +38,31 @@ class List extends Component {
   };
 
   static defaultProps = {
-    filterValues: null,
     operators: {
       operators: {},
       loading: false,
     },
   };
 
-  state = {
-    filters: {},
+  handlePageChanged = () => {
+    const {
+      operators: {
+        loadMore,
+        loading,
+      },
+    } = this.props;
+
+    if (!loading) {
+      loadMore();
+    }
   };
 
   handleFiltersChanged = (filters = {}) => {
-    this.setState({ filters }, () => {
-      this.props.history.replace({
-        query: {
-          filters: {
-            ...filters,
-          },
-        },
-      });
-    });
+    this.props.history.replace({ query: { filters } });
+  };
+
+  handleFilterReset = () => {
+    this.props.history.replace({ query: { filters: {} } });
   };
 
   handleSubmitNewOperator = async ({ department, role, branch, email, ...data }) => {
@@ -150,11 +153,9 @@ class List extends Component {
   };
 
   render() {
-    const { filters } = this.state;
     const {
       operators,
       operators: { loading },
-      filterValues,
     } = this.props;
 
     const totalElements = get(operators, 'operators.data.totalElements');
@@ -202,8 +203,7 @@ class List extends Component {
 
         <OperatorGridFilter
           onSubmit={this.handleFiltersChanged}
-          initialValues={filters}
-          filterValues={filterValues}
+          onReset={this.handleFilterReset}
         />
         <OperatorsGrid operatorsQuery={operators} />
       </div>

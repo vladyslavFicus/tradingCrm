@@ -14,7 +14,6 @@ import {
   personalFormAttributeLabels as attributeLabels,
   autoCreationOptions,
 } from './constants';
-import { satelliteOptions } from '../../../../../constants';
 
 class PersonalForm extends PureComponent {
   static propTypes = {
@@ -103,24 +102,6 @@ class PersonalForm extends PureComponent {
               position="vertical"
             />
           </div>
-          <If condition={satelliteOptions}>
-            <div className="col-xl-4">
-              <Field
-                name="satellite"
-                label={I18n.t('COMMON.SATELLITE')}
-                placeholder={I18n.t('COMMON.NONE')}
-                component={NasSelectField}
-                withAnyOption={false}
-                searchable={false}
-                position="vertical"
-                showErrorMessage
-              >
-                {satelliteOptions.map((satellite, key) => (
-                  <option key={key} value={satellite.value}>{satellite.label}</option>
-                ))}
-              </Field>
-            </div>
-          </If>
           <div className="col-xl-4">
             <Field
               name="externalAffiliateId"
@@ -203,15 +184,6 @@ class PersonalForm extends PureComponent {
             type="checkbox"
             label={I18n.t('PARTNERS.MODALS.NEW_PARTNER.PUBLIC_CHECKBOX')}
           />
-          <Regulated>
-            <Field
-              name="cellexpert"
-              className="col-12 padding-left-35"
-              component={CheckBox}
-              type="checkbox"
-              label={I18n.t('PARTNERS.MODALS.NEW_PARTNER.CELLEXPERT_CHECKBOX')}
-            />
-          </Regulated>
         </div>
         <hr />
         <div className="personal-form-heading margin-bottom-20">
@@ -317,10 +289,8 @@ export default connect(state => ({
     email: ['required', 'email'],
     country: [`in:,${Object.keys(countries).join()}`],
     phone: 'string',
-    satellite: 'string',
     externalAffiliateId: 'string',
     public: 'boolean',
-    cellexpert: 'boolean',
     allowedIpAddresses: 'listedIP\'s',
     tradingAccountAutocreation: [`in:,${Object.keys(autoCreationOptions).join()}`],
     tradingAccountType: [`in:,${platformTypes.map(type => type.value).join()}`],
