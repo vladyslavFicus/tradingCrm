@@ -6,7 +6,6 @@ import { get } from 'lodash';
 import { withPermission } from 'providers/PermissionsProvider';
 import { lastActivityStatusesLabels, lastActivityStatusesColors } from 'constants/lastActivity';
 import PropTypes from 'constants/propTypes';
-import Regulated from 'components/Regulated';
 import ActionsDropDown from 'components/ActionsDropDown';
 import PopoverButton from 'components/PopoverButton';
 import permissions from 'config/permissions';
@@ -20,7 +19,6 @@ import customTimeout from 'utils/customTimeout';
 import PlayerStatus from '../PlayerStatus';
 import Balances from '../Balances';
 import HeaderPlayerPlaceholder from '../HeaderPlayerPlaceholder';
-import Questionnaire from '../Questionnaire';
 import './ProfileHeader.scss';
 
 const changePasswordPermission = new Permissions([permissions.USER_PROFILE.CHANGE_PASSWORD]);
@@ -29,7 +27,6 @@ const resetPasswordPermission = new Permissions([permissions.USER_PROFILE.RESET_
 class ProfileHeader extends Component {
   static propTypes = {
     newProfile: PropTypes.newProfile,
-    questionnaireLastData: PropTypes.object,
     onRefreshClick: PropTypes.func.isRequired,
     isLoadingProfile: PropTypes.bool.isRequired,
     availableStatuses: PropTypes.array,
@@ -48,9 +45,6 @@ class ProfileHeader extends Component {
     newProfile: {},
     availableStatuses: [],
     loaded: false,
-
-    // Can be null when brand is unregulated
-    questionnaireLastData: null,
   };
 
   state = {
@@ -86,7 +80,6 @@ class ProfileHeader extends Component {
       loginLock: {
         lock,
       },
-      questionnaireLastData,
       permission: {
         permissions: currentPermissions,
       },
@@ -228,9 +221,6 @@ class ProfileHeader extends Component {
               />
             </If>
           </div>
-          <Regulated>
-            <Questionnaire questionnaireLastData={questionnaireLastData} profileUUID={uuid} />
-          </Regulated>
           <ProfileLastLogin lastIp={lastSignInSessions ? lastSignInSessions[lastSignInSessions.length - 1] : null} />
           <div className="header-block header-block-inner">
             <div className="header-block-title">{I18n.t('PROFILE.LAST_ACTIVITY.TITLE')}</div>

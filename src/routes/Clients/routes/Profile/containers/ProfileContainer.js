@@ -1,6 +1,6 @@
 import { graphql, compose } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
-import { getActiveBrandConfig, getBrandId } from 'config';
+import { getBrandId } from 'config';
 import { withNotifications, withModals } from 'hoc';
 import { withPermission } from 'providers/PermissionsProvider';
 import { withStorage } from 'providers/StorageProvider';
@@ -9,7 +9,6 @@ import RepresentativeUpdateModal from 'components/RepresentativeUpdateModal';
 import NoteModal from 'components/NoteModal';
 import { getLoginLock, newProfile } from 'graphql/queries/profile';
 import { notesQuery } from 'graphql/queries/notes';
-import { questionnaireLasDataQuery } from 'graphql/queries/questionnaire';
 import { unlockLoginMutation } from 'graphql/mutations/auth';
 import {
   updateSubscription,
@@ -230,21 +229,5 @@ export default compose(
       },
     }),
     name: 'pinnedNotes',
-  }),
-  graphql(questionnaireLasDataQuery, {
-    options: ({
-      match: {
-        params: {
-          id: playerUUID,
-        },
-      },
-    }) => ({
-      fetchPolicy: 'cache-and-network',
-      variables: {
-        profileUUID: playerUUID,
-      },
-    }),
-    skip: () => !getActiveBrandConfig().regulation.isActive,
-    name: 'questionnaireLastData',
   }),
 )(Profile);

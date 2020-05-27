@@ -1,7 +1,6 @@
 import React from 'react';
 import keyMirror from 'keymirror';
 import I18n from 'i18n-js';
-import { getActiveBrandConfig } from 'config';
 import countries from 'utils/countryList';
 import { statuses } from 'constants/operators';
 import { statusesLabels, filterLabels } from 'constants/user';
@@ -47,21 +46,6 @@ const firstDepositStatuses = [
   {
     value: '1',
     label: 'COMMON.YES',
-  },
-];
-
-const questionnaire = [
-  {
-    value: 'APPROVED',
-    label: 'QUESTIONNAIRE.APPROVED',
-  },
-  {
-    value: 'REJECTED',
-    label: 'QUESTIONNAIRE.REJECTED',
-  },
-  {
-    value: 'NO_QUESTIONNAIRE',
-    label: 'QUESTIONNAIRE.NO_QUESTIONNAIRE',
   },
 ];
 
@@ -278,16 +262,6 @@ export default ({
     })),
     searchable: false,
   },
-  ...[
-    getActiveBrandConfig().regulation.isActive && {
-      type: fieldTypes.SELECT,
-      name: 'questionnaireStatus',
-      label: filterLabels.questionnaire,
-      placeholder: 'COMMON.SELECT_OPTION.ANY',
-      className: fieldClassNames.MEDIUM,
-      selectOptions: questionnaire,
-    },
-  ],
   {
     type: fieldTypes.RANGE,
     className: fieldClassNames.MEDIUM,

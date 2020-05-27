@@ -123,10 +123,6 @@ const attributeLabels = {
   verificationType: 'FEED_ITEM.KYC.TYPES.VERIFICATION_TYPE',
   documentType: 'FEED_ITEM.KYC.TYPES.DOCUMENT_TYPE',
   fileType: 'FEED_ITEM.KYC.TYPES.FILE_TYPE',
-  questionnairePassed: 'FEED_ITEM.QUESTIONNAIRE.PASSED',
-  questionnaireLevel: 'FEED_ITEM.QUESTIONNAIRE.LEVEL',
-  score: 'FEED_ITEM.QUESTIONNAIRE.SCORE',
-  questionnaireStatus: 'FEED_ITEM.QUESTIONNAIRE.STATUS',
   pinned: 'COMMON.PINNED',
   subject: 'NOTES.SUBJECT',
   content: 'NOTES.CONTENT',
@@ -175,7 +171,6 @@ const filterLabels = {
   kycStatuses: 'PROFILE.LIST.FILTERS.KYC_STATUSES',
   firstDeposit: 'PROFILE.LIST.FILTERS.FIRST_DEPOSIT',
   searchLimit: 'COMMON.FILTERS.SEARCH_LIMIT',
-  questionnaire: 'PROFILE.LIST.FILTERS.QUESTIONNAIRE',
   warning: 'PROFILE.LIST.FILTERS.WARNING',
 };
 

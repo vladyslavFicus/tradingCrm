@@ -1043,7 +1043,6 @@
         "CREDIT_IN": "Credit in",
         "CREDIT_OUT": "Credit out",
         "DEPOSIT": "Deposit",
-        "QUESTIONNAIRE_COMPLETED": "Questionnaire completed",
         "TRADING_ACCOUNT_CREATED": "Trading account created",
         "CHANGE_LEVERAGE_REQUEST_CREATED": "Change leverage request created",
         "CHANGE_LEVERAGE_REQUEST_UPDATED": "Change leverage request updated",
@@ -1586,18 +1585,6 @@
       "PAYMENT_CANCELED": "Payment canceled",
       "PAYMENT_APPROVED": "Payment approved"
     },
-    "QUESTIONNAIRE": {
-      "LEVELS": {
-        "BELOW_LOW": "Below low",
-        "LOW": "Low",
-        "UPPER_MEDIUM": "Upper medium",
-        "HIGH": "High"
-      },
-      "PASSED": "Questionnaire passed",
-      "LEVEL": "Questionnaire level",
-      "SCORE": "Score",
-      "STATUS": "Questionnaire status"
-    },
     "LAST_UPDATED_DATE": "Last updated date",
     "LEVERAGE": "Leverage"
   },
@@ -1658,7 +1645,6 @@
         "ASSIGN_STATUS": "Assign Status",
         "KYC_STATUSES": "KYC Statuses",
         "FIRST_DEPOSIT": "First time deposit",
-        "QUESTIONNAIRE": "Questionnaire",
         "AFFILIATES": "Affiliates",
         "PARTNER_TYPE": "Created by",
         "WARNING": "Warning"
@@ -2443,19 +2429,6 @@
       },
       "REGISTERED": {
         "TITLE": "Registered"
-      },
-      "QUESTIONNAIRE": {
-        "TITLE": "Questionnaire",
-        "VERSION": "Version",
-        "SCORE": "Score",
-        "DOWNLOAD_PDF": "Download PDF",
-        "STATUS_CHANGED": "Questionnaire status successfully changed",
-        "STATUSES": {
-          "NOT_PASSED": "Not passed",
-          "PASSED": "Passed",
-          "APPROVED": "Approved",
-          "REJECTED": "Rejected"
-        }
       }
     },
     "TRANSACTIONS": {
@@ -3299,11 +3272,6 @@
       "CREATE": "CREATE",
       "SAVE": "SAVE"
     }
-  },
-  "QUESTIONNAIRE": {
-    "APPROVED": "Approved",
-    "REJECTED": "Rejected",
-    "NO_QUESTIONNAIRE": "No questionnaire"
   },
   "EMAILS": {
     "ACTIONS": {
