@@ -14,7 +14,7 @@ import { withModals } from 'hoc';
 import { isUpload } from 'apollo/utils/isUpload';
 import omitTypename from 'apollo/utils/omitTypename';
 import { withStorage } from 'providers/StorageProvider';
-import UpdateVersionModal from 'components/UpdateVersionModal';
+import UpdateVersionModal from 'modals/UpdateVersionModal';
 import PropTypes from 'constants/propTypes';
 import queryNames from 'constants/apolloQueryNames';
 import { getGraphQLRoot, getApiVersion } from '../config';
