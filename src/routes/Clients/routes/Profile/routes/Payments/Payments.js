@@ -144,7 +144,7 @@ class Payments extends PureComponent {
 
     addPaymentModal.show({
       onSubmit: this.handleAddPayment,
-      newProfile: get(profileQuery, 'data.newProfile.data'),
+      newProfile: get(profileQuery, 'data.newProfile.data') || {},
     });
   };
 
