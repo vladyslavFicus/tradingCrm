@@ -10,7 +10,6 @@ const REQUEST = gql`
     $lastName: String!
     $phone: String
     $password: String!
-    $affiliateType: String!
     $externalAffiliateId: String
     $public: Boolean
   ) {
@@ -21,7 +20,6 @@ const REQUEST = gql`
         lastName: $lastName
         phone: $phone
         password: $password
-        affiliateType: $affiliateType
         externalAffiliateId: $externalAffiliateId
         public: $public
       ) {

@@ -56,7 +56,6 @@ const partnerQuery = gql`query getPartnerByUUID(
       createdBy
       createdAt
       externalAffiliateId
-      affiliateType
       public
       tradingAccountAutocreation
       tradingAccountType

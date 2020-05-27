@@ -201,7 +201,6 @@ PropTypes.partner = PropTypes.shape({
   firstName: PropTypes.string,
   fullName: PropTypes.string,
   lastName: PropTypes.string,
-  partnerType: PropTypes.string,
   phone: PropTypes.string,
   status: PropTypes.string,
   statusChangeAuthor: PropTypes.string,
@@ -448,7 +447,6 @@ PropTypes.tradingAccountsList = PropTypes.shape({
     fullName: PropTypes.string,
   }),
   affiliate: PropTypes.shape({
-    affiliateType: PropTypes.string,
     source: PropTypes.string,
   }),
   createdAt: PropTypes.string,
@@ -621,7 +619,6 @@ PropTypes.partnersList = PropTypes.arrayOf(PropTypes.shape({
   fullName: PropTypes.string,
   createdAt: PropTypes.string,
   externalAffiliateId: PropTypes.string,
-  partnerType: PropTypes.string,
   status: PropTypes.string,
   statusChangeDate: PropTypes.string,
   country: PropTypes.string,

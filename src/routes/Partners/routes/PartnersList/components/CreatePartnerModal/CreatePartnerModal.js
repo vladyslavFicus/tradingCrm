@@ -9,15 +9,10 @@ import { withRequests } from 'apollo';
 import { getActiveBrandConfig } from 'config';
 import { withNotifications } from 'hoc';
 import PropTypes from 'constants/propTypes';
-import { FormikInputField, FormikSelectField, FormikCheckbox } from 'components/Formik';
-import Regulated from 'components/Regulated';
+import { FormikInputField, FormikCheckbox } from 'components/Formik';
 import { Button } from 'components/UI';
 import { createValidator, translateLabels } from 'utils/validator';
 import { generate } from 'utils/password';
-import {
-  affiliateTypeLabels,
-  affiliateTypes,
-} from '../../../../constants';
 import CreatePartnerMutation from './graphql/CreatePartnerMutation';
 import './CreatePartnerModal.scss';
 
@@ -27,7 +22,6 @@ const attributeLabels = {
   email: 'COMMON.EMAIL',
   password: 'COMMON.PASSWORD',
   phone: 'COMMON.PHONE',
-  affiliateType: 'COMMON.PARTNER_TYPE',
   externalAffiliateId: 'COMMON.EXTERNAL_AFILIATE_ID',
   public: 'PARTNERS.MODALS.NEW_PARTNER.PUBLIC_CHECKBOX',
 };
@@ -38,7 +32,6 @@ const validate = createValidator({
   email: ['required', 'email'],
   password: ['required', `regex:${getActiveBrandConfig().password.pattern}`],
   phone: ['required', 'min:3'],
-  affiliateType: ['string'],
   externalAffiliateId: ['min:3'],
   public: ['boolean'],
 }, translateLabels(attributeLabels), false);
@@ -58,7 +51,6 @@ class CreatePartnerModal extends PureComponent {
     email: '',
     password: '',
     phone: '',
-    affiliateType: getActiveBrandConfig().regulation.isActive ? '' : affiliateTypes.AFFILIATE,
     externalAffiliateId: '',
     public: false,
   };
@@ -80,7 +72,6 @@ class CreatePartnerModal extends PureComponent {
 
     if (!hasValidationErrors) {
       const {
-        affiliateType,
         public: isPublic, // 'public' is reserved JS word and we cant use it for naming variable
         externalAffiliateId,
         ...restValues
@@ -88,7 +79,6 @@ class CreatePartnerModal extends PureComponent {
 
       const newPartnerData = await createPartner({
         variables: {
-          affiliateType,
           externalAffiliateId,
           public: isPublic,
           ...restValues,
@@ -211,20 +201,6 @@ class CreatePartnerModal extends PureComponent {
                     component={FormikInputField}
                     disabled={isSubmitting}
                   />
-                  <Regulated>
-                    <Field
-                      name="affiliateType"
-                      className="CreatePartnerModal__field"
-                      component={FormikSelectField}
-                      label={I18n.t(attributeLabels.affiliateType)}
-                      placeholder={I18n.t('COMMON.SELECT_OPTION.SELECT_PARTNER_TYPE')}
-                      disabled={isSubmitting}
-                    >
-                      {Object.keys(affiliateTypeLabels).map(value => (
-                        <option key={value} value={value}>{I18n.t(affiliateTypeLabels[value])}</option>
-                      ))}
-                    </Field>
-                  </Regulated>
                   <Field
                     name="externalAffiliateId"
                     className="CreatePartnerModal__field"

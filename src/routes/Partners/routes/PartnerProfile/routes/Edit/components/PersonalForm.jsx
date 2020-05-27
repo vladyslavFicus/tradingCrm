@@ -14,7 +14,6 @@ import {
   personalFormAttributeLabels as attributeLabels,
   autoCreationOptions,
 } from './constants';
-import { affiliateTypeLabels } from '../../../../../constants';
 
 class PersonalForm extends PureComponent {
   static propTypes = {
@@ -102,24 +101,6 @@ class PersonalForm extends PureComponent {
               showErrorMessage
               position="vertical"
             />
-          </div>
-          <div className="col-xl-4">
-            <Field
-              name="affiliateType"
-              label={I18n.t('COMMON.PARTNER_TYPE')}
-              placeholder={I18n.t('COMMON.SELECT_OPTION.SELECT_PARTNER_TYPE')}
-              disabled
-              component={NasSelectField}
-              withAnyOption={false}
-              searchable={false}
-              position="vertical"
-              showErrorMessage
-            >
-              {Object
-                .keys(affiliateTypeLabels)
-                .map(label => <option key={label} value={label}>{I18n.t(affiliateTypeLabels[label])}</option>)
-              }
-            </Field>
           </div>
           <div className="col-xl-4">
             <Field
@@ -308,7 +289,6 @@ export default connect(state => ({
     email: ['required', 'email'],
     country: [`in:,${Object.keys(countries).join()}`],
     phone: 'string',
-    affiliateType: ['required', 'string'],
     externalAffiliateId: 'string',
     public: 'boolean',
     allowedIpAddresses: 'listedIP\'s',

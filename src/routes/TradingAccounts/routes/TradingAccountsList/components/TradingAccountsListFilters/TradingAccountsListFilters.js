@@ -5,7 +5,7 @@ import { Formik, Form, Field } from 'formik';
 import PropTypes from 'constants/propTypes';
 import { FormikInputField, FormikSelectField } from 'components/Formik';
 import { Button } from 'components/UI';
-import { accountTypes, accountStatuses, affiliateTypes } from '../../constants';
+import { accountTypes, accountStatuses } from '../../constants';
 
 class TradingAccountsListFilters extends PureComponent {
   static propTypes = {
@@ -74,20 +74,6 @@ class TradingAccountsListFilters extends PureComponent {
                 {Object.keys(accountStatuses).map(key => (
                   <option key={key} value={key}>
                     {I18n.t(accountStatuses[key])}
-                  </option>
-                ))}
-              </Field>
-              <Field
-                name="affiliateType"
-                label={I18n.t('TRADING_ACCOUNTS.FORM.FIELDS.AFFILIATE_TYPE')}
-                placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
-                className="form-group filter-row__medium"
-                component={FormikSelectField}
-                withAnyOption
-              >
-                {affiliateTypes.map(({ label, value }) => (
-                  <option key={value} value={value}>
-                    {I18n.t(label)}
                   </option>
                 ))}
               </Field>
