@@ -21,6 +21,7 @@ import ConvertedBy from '../../../components/ConvertedBy';
 import { leadStatuses, fileConfig } from '../../../constants';
 import { getLeadsData } from './utils';
 import LeadsGridFilter from './LeadsGridFilter';
+import './List.scss';
 
 const MAX_SELECTED_ROWS = 10000;
 
@@ -309,7 +310,7 @@ class List extends Component {
         <div className="max-width-200">
           <div className="font-weight-700">{moment.utc(lastNote.changedAt).local().format('DD.MM.YYYY')}</div>
           <div className="font-size-11">{moment.utc(lastNote.changedAt).local().format('HH:mm:ss')}</div>
-          <div className="text-truncate-2-lines max-height-35 font-size-11" id={`${id}-note`}>{lastNote.content}</div>
+          <div className="max-height-35 font-size-11 List__notes" id={`${id}-note`}>{lastNote.content}</div>
           <UncontrolledTooltip
             placement="bottom-start"
             target={`${id}-note`}
