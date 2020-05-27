@@ -4,6 +4,7 @@ import FormikSelectField from './FormikSelectField';
 import FormikTextEditorField from './FormikTextEditorField';
 import FormikDateRangePicker from './FormikDateRangePicker';
 import FormikDatePicker from './FormikDatePicker';
+import FormikDateRangeGroup from './FormikDateRangeGroup';
 import FormikMultiInputField from './FormikMultiInputField';
 import FormikSwitchField from './FormikSwitchField';
 import FormikTextAreaField from './FormikTextAreaField';
@@ -15,6 +16,7 @@ export {
   FormikDateRangePicker,
   FormikTextEditorField,
   FormikDatePicker,
+  FormikDateRangeGroup,
   FormikMultiInputField,
   FormikSwitchField,
   FormikTextAreaField,

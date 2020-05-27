@@ -68,7 +68,7 @@
     margin-top: 7px;
     color: #9b9b9b;
   }
-  .form-group {
+  .form-group, .input {
     margin-bottom: 0;
   }
 }
@@ -322,6 +322,11 @@
     min-height: 1px;
     padding-right: 1rem;
     padding-left: 1rem;
+  }
+  &__date-range {
+    flex-grow: 1;
+    flex-basis: 500px;
+    min-width: 500px;
   }
   &__big {
     flex-grow: 1;

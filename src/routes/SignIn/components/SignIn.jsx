@@ -19,25 +19,30 @@ class SignIn extends Component {
   };
 
   state = {
-    departmentsByBrand: {},
+    brandToAuthorities: {},
     signInFormError: '',
     departments: [],
     loading: false,
     brands: [],
     brand: null,
-    uuid: null,
     step: 1,
   };
 
   componentDidUpdate() {
-    const { step, brand, brands, departments, loading } = this.state;
+    const {
+      step,
+      brand,
+      brands,
+      loading,
+      departments,
+    } = this.state;
 
     if (step === 2 && brands.length === 1) {
       return this.handleSelectBrand(brands[0]);
     }
 
     if (step === 3 && departments.length === 1) {
-      return this.handleSelectDepartment(brand.brand, departments[0].id);
+      return this.handleSelectDepartment(brand.brand, departments[0]);
     }
 
     return loading === true ? this.removePreloader() : null;
@@ -48,33 +53,33 @@ class SignIn extends Component {
   };
 
   handleSubmit = async (data) => {
+    const { signInMutation, storage } = this.props;
+
     try {
       const {
         data: {
           authorization: {
             signIn: {
               data: {
-                departmentsByBrand,
+                brandToAuthorities,
                 token,
-                uuid,
               },
             },
           },
         },
-      } = await this.props.signInMutation({ variables: { ...data } });
+      } = await signInMutation({ variables: { ...data } });
 
-      const brands = mapBrands(Object.keys(departmentsByBrand));
+      const brands = mapBrands(Object.keys(brandToAuthorities));
 
       this.setState({
         signInFormError: '',
-        departmentsByBrand,
+        brandToAuthorities,
         step: 2,
         brands,
-        uuid,
       }, () => {
-        this.props.storage.set('token', token);
-        this.props.storage.set('brands', brands);
-        this.props.storage.set('departmentsByBrand', departmentsByBrand);
+        storage.set('token', token);
+        storage.set('brands', brands);
+        storage.set('brandToAuthorities', brandToAuthorities);
       });
 
       return null;
@@ -86,10 +91,11 @@ class SignIn extends Component {
 
   handleSelectBrand = (brand) => {
     if (brand) {
-      const { departmentsByBrand } = this.state;
+      const { storage } = this.props;
+      const { brandToAuthorities } = this.state;
 
-      const brandDepartments = departmentsByBrand[brand.brand];
-      const departments = Object.keys(brandDepartments).map(mapDepartments(brandDepartments));
+      const brandDepartments = brandToAuthorities[brand.brand];
+      const departments = brandDepartments.map(brandDepartment => mapDepartments(brandDepartment));
 
       this.setState({
         loading: true,
@@ -97,13 +103,13 @@ class SignIn extends Component {
         step: 3,
         brand,
       }, () => {
-        this.props.storage.set('departments', departments);
+        storage.set('departments', departments);
       });
     }
   };
 
-  handleSelectDepartment = async (brand, department) => {
-    const { departmentsByBrand } = this.state;
+  handleSelectDepartment = async (brand, { department, role }) => {
+    const { chooseDepartmentMutation, storage } = this.props;
 
     const {
       data: {
@@ -117,21 +123,13 @@ class SignIn extends Component {
           },
         },
       },
-    } = await this.props.chooseDepartmentMutation({
-      variables: {
-        brandId: brand,
-        department,
-        uuid: this.state.uuid,
-      },
+    } = await chooseDepartmentMutation({
+      variables: { brand, department, role },
     });
 
     if (!error) {
-      this.props.storage.set('token', token);
-      this.props.storage.set('auth', {
-        department,
-        role: departmentsByBrand[brand][department],
-        uuid,
-      });
+      storage.set('token', token);
+      storage.set('auth', { department, role, uuid });
 
       // This function need to refresh window.app object to get new data from token
       setBrandIdByUserToken();
@@ -173,7 +171,7 @@ class SignIn extends Component {
             brand={brand}
             brands={brands}
             departments={departments}
-            onSelect={({ id }) => this.handleSelectDepartment(brand.brand, id)}
+            onSelect={department => this.handleSelectDepartment(brand.brand, department)}
             handleOnBackClick={this.handleOnBackClick}
           />
         );
@@ -184,9 +182,7 @@ class SignIn extends Component {
   };
 
   render() {
-    const {
-      loading,
-    } = this.state;
+    const { loading } = this.state;
 
     return (
       <div className="auth">

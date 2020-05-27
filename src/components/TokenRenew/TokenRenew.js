@@ -9,9 +9,6 @@ import { withStorage } from 'providers/StorageProvider';
 import Preloader from 'components/Preloader';
 import { tokenRenew } from 'graphql/mutations/auth';
 
-// Offset in seconds to renew token before it will be expired
-const EXPIRE_TIME_OFFSET_SEC = 60;
-
 /**
  * Working example step by step:
  *
@@ -107,14 +104,14 @@ class TokenRenew extends PureComponent {
 
       const jwt = jwtDecode(props.token);
 
-      const timeout = jwt.exp - jwt.iat - EXPIRE_TIME_OFFSET_SEC;
+      const timeout = (jwt.exp - jwt.iat) * 0.8;
 
-      // Start timer to renew token before EXPIRE_TIME_OFFSET_SEC seconds before token will be expired
+      // Start timer to renew token after 80% of token ttl before token will be expired
       const timerID = setTimeout(() => TokenRenew.tokenRenew(props), timeout * 1000);
 
       // Set user scope for Sentry exceptions
       Sentry.configureScope((scope) => {
-        scope.setUser({ id: jwt.user_uuid, email: jwt.sub });
+        scope.setUser({ id: jwt.uuid, email: jwt.sub });
       });
 
       // Set new token and timerID to state for future timeout clearing

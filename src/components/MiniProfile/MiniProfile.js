@@ -92,6 +92,7 @@ class MiniProfile extends PureComponent {
             className="mini-profile-popover"
             container={this.target}
             hideArrow
+            trigger="legacy"
           >
             <PopoverBody>{this.popoverView()}</PopoverBody>
           </Popover>

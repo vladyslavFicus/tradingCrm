@@ -86,9 +86,7 @@
         "VERIFY_EMAIL": "Verify email",
         "LABEL": {
           "PHONE": "Phone",
-          "PHONE_CODE": "Code",
-          "ALT_PHONE": "Alt phone",
-          "YOUR_ALT_PHONE": "Your alternative phone"
+          "ALT_PHONE": "Alt phone"
         }
       },
       "PERSONAL": {
@@ -193,7 +191,7 @@
       },
       "KYC_STATUS": {
         "TITLE": "KYC status",
-        "CURRENT_STATUS": "Current KYC status",
+        "CURRENT_STATUS": "Status",
         "SUCCESS_RESPONSE": "Successfully updated KYC status"
       },
       "KYC_STATUS_TITLE": {
@@ -251,6 +249,9 @@
       "TRANSFER_AVAILABILITY": {
         "TITLE": "Transfer Availability",
         "LABEL": "Transfer"
+      },
+      "STATUS_MODAL": {
+        "TITLE": "Change account status"
       },
       "BLOCK_REASONS": {
         "USER_REQUEST": "User request",
@@ -377,6 +378,7 @@
     },
     "TRANSACTIONS": {
       "ADD_TRANSACTION": "+ Add transaction",
+      "ADD_TRANSACTION_FAIL": "Failed to add transaction",
       "MODAL_CREATE": {
         "NO_PAYMENT_ACCOUNTS_LABEL": "No payment accounts",
         "CHOOSE_PAYMENT_METHOD_LABEL": "Choose payment method",
@@ -493,13 +495,13 @@
     "PLAYER": "Player",
     "OPERATOR": "Operator",
     "DEPARTMENTS": "Departments",
-    "SATELLITE": "Satellite",
     "ANY": "Any",
     "ROLLBACK": "Rollback",
     "FOR": "for",
     "CHANGES": "Changes",
     "FIRST_NAME": "First name",
     "LAST_NAME": "Last name",
+    "USER_TYPE": "User Type",
     "DISABLED": "Disabled",
     "ENABLED": "Enabled",
     "KYC_DOCUMENTS": "KYC documents",
@@ -953,7 +955,6 @@
         "PLAYER_PROFILE_REGISTERED": "Registration",
         "PLAYER_PROFILE_CHANGED": "Personal details change",
         "PLAYER_PROFILE_SEARCH": "Players' search",
-        "RISK_PROFILE_DATA_CREATED": "Risk calculated",
         "NEW_OPERATOR_ACCOUNT_CREATED": "Operator - New operator created",
         "OPERATOR_ACCOUNT_CREATED": "Operator - Account created",
         "PLAYER_PROFILE_VIEWED": "Players' profile viewed",
@@ -1035,7 +1036,6 @@
         "CHANGE_LEVERAGE_TO": "Change leverage to",
         "MT4LOGIN": "Mt4login",
         "TOTAL_SCORE": "Total score",
-        "RISK_CATEGORY": "Risk category",
         "BANK_DETAILS": "Bank details",
         "BANK_NAME": "Bank details - Bank name",
         "PROVINCE": "Bank details - Province",
@@ -1112,15 +1112,19 @@
         "AFFILIATE_MANAGER": "Affiliate manager",
         "AFFILIATE_PARTNER": "Affiliate partner",
         "DIDLOGIC_OPERATOR": "DID Logic operator",
-        "CELLEXPERT_OPERATOR": "Cellexpert operator",
         "COMPLIANCE": "Compliance",
         "DEALING": "Dealing"
       },
       "ROLES": {
-        "ROLE1": "Executive",
-        "ROLE2": "Team leader",
-        "ROLE3": "Manager",
-        "ROLE4": "Head of department",
+        "EXECUTIVE": "Executive",
+        "TEAM_LEADER": "Team leader",
+        "MANAGER": "Manager",
+        "HEAD_OF_DEPARTMENT": "Head of department",
+        "MARKETING": "Marketing",
+        "COMPLIANCE": "Compliance",
+        "E2E": "E2E",
+        "BI": "Business intelligence",
+        "AFFILIATE": "Affiliate",
         "PLAYER": "Player"
       }
     },
@@ -1665,14 +1669,9 @@
         "ASSIGN_STATUS": "Assign Status",
         "KYC_STATUSES": "KYC Statuses",
         "FIRST_DEPOSIT": "First time deposit",
-        "FSA_MIGRATION": "FSA migration Status",
         "QUESTIONNAIRE": "Questionnaire",
         "AFFILIATES": "Affiliates",
         "PARTNER_TYPE": "Created by",
-        "FSA_MIGRATION_STATUS": {
-          "ACCEPTED": "Accepted",
-          "NOT_ACCEPTED": "Not Accepted"
-        },
         "WARNING": "Warning"
       }
     }
@@ -1825,12 +1824,7 @@
     "ACTIONS": {
       "MARK_AS_CHARGEBACK": "Mark as chargeback",
       "REJECT": "Reject",
-      "APPROVE": {
-        "DEFAULT": "Move to next status",
-        "MOVE_TO_SALES_REVIEW": "Move to Sales review",
-        "MOVE_TO_FINANCE_TO_EXECUTE": "Move to Finance to execute",
-        "APPROVE_WITHDRAW": "Approve withdraw"
-      }
+      "APPROVE": "Approve"
     },
     "PLAYER_NOT_FOUND": {
       "TITLE": "Player not found!",
@@ -1915,7 +1909,9 @@
           "REGISTRATION_DATE_FROM": "Registration Date From",
           "REGISTRATION_DATE_TO": "Registration Date To",
           "REGISTRATION_DATE_RANGE": "Registration Date Range",
-          "SEARCH_BY": "Search by"
+          "SEARCH_BY": "Search by",
+          "DATE_FROM": "Date From",
+          "DATE_TO": "Date To"
         }
       }
     },
@@ -2007,7 +2003,6 @@
       "CLOSED": "Closed"
     },
     "TYPES": {
-      "NULLPOINT": "Nullpoint",
       "AFFILIATE": "Affiliate",
       "DIRECT": "Direct"
     },
@@ -2037,7 +2032,6 @@
         "SEND_INVITATION": "Send invitation",
         "NOTE": "Note",
         "NOTE_MESSAGE": "You will be able to set additional departments in partner`s profile once it`s created",
-        "CELLEXPERT_CHECKBOX": "Allow to to transmit data to CellExpert",
         "PUBLIC_CHECKBOX": "Allow to create Clients through public API"
       },
       "EXISTING_PARTNER": {
@@ -2063,7 +2057,6 @@
           "PHONE": "Phone",
           "WHITE_LISTED_IP": "White listed IPs",
           "RESTRICTED_COUNTRIES": "Restricted countries",
-          "CELLEXPERT_CHECKBOX": "Allow to to transmit data to CellExpert",
           "PUBLIC_CHECKBOX": "Allow to create Clients through public API",
           "GENERATE_TRADING_ACCOUNT": "Allow to generate Trading Account",
           "CHOOSE_TRADING_ACCOUNT_PLATFORM": "Choose trading account platform",
@@ -2352,9 +2345,7 @@
       "CALLBACKS": "Callbacks",
       "FILES": "Files",
       "NOTES": "Notes",
-      "FEED": "Feed",
-      "RISK_PROFILE": "Risk Profile",
-      "SOCIAL_TRADING": "Social Trading"
+      "FEED": "Feed"
     },
     "PROFILE": {
       "TITLE": "Profile",
@@ -2618,31 +2609,6 @@
         "TITLE": "Web Cookies"
       }
     },
-    "RISKS": {
-      "STATUS": {
-        "TITLE": "Risk category",
-        "STATUSES": {
-          "DEFAULT": "Not specified",
-          "HIGH_RISK": "High risk",
-          "MEDIUM_RISK": "Medium risk",
-          "LOW_RISK": "Low risk"
-        }
-      },
-      "TAB": {
-        "MODAL": {
-          "TITLE": "Risk Category Status Changing",
-          "ACTION_TEXT": "The Client has been assigned to the \"HIGH RISK\" category.",
-          "SUBMIT_TEXT": "OK"
-        },
-        "BUTTONS": {
-          "SAVE": "Save",
-          "CALCULATE": "Calculate"
-        },
-        "RESULT": {
-          "TOTAL_TITLE": "Customer Risk Total Score"
-        }
-      }
-    },
     "FATCA": {
       "TITLE": "FATCA"
     },
@@ -2656,11 +2622,6 @@
   },
   "MIGRATE": {
     "MIGRATION_STATUS": "Migration status",
-    "BUTTON": "Migrate to FSA",
-    "MODAL": {
-      "TITLE": "Migrate to FSA",
-      "TEXT": "Are you sure, that you want to migrate selected client(s)?"
-    },
     "NOTIFICATION": {
       "SUCCESS_TEXT": "Сlients are successfully prepared for migration",
       "ERROR_TEXT": "Bulk migration failed for some reasons"
@@ -3408,72 +3369,6 @@
       }
     }
   },
-  "SOCIAL_TRADING": {
-    "TITLE": "Social trading",
-    "SUBSCRIBERS": {
-      "TITLE": "Client's Subscriptions",
-      "GRID": {
-        "HEADERS": {
-          "SUBSCRIBER": "Subscriber",
-          "PROVIDER": "Provider",
-          "SYMBOLS": "Symbols",
-          "PRICE_MODE": "Price mode",
-          "PERFORMANCE_FEE": "Performance Fee",
-          "SHARING": "Sharing",
-          "PROFIT": "Profit",
-          "MULTIPLICATOR": "Multiplicator",
-          "STOP_LOSS": "Stop loss",
-          "MIN_MAX_LOT": "Min / Max lot",
-          "MAX_DEVIATION": "Max deviation",
-          "CREATED": "Created",
-          "UPDATED": "Updated"
-        },
-        "COLUMNS": {
-          "ID": "Id",
-          "STATUS": "Status",
-          "SHARING": "Sharing",
-          "REVERSE": "Reverse",
-          "MULTIPLICATOR": "Multiplicator",
-          "ARCHIEVED": "Archieved"
-        }
-      }
-    },
-    "PROVIDERS": {
-      "TITLE": "Client is Providing",
-      "GRID": {
-        "HEADERS": {
-          "PROVIDER": "Provider",
-          "MIN_JOIN_BALANCE": "Min join balance",
-          "PERFORMANCE_FEE": "Performance Fee",
-          "FEE_RECEIVER": "Fee receiver",
-          "COMPANY_FEE": "Company receiver fee",
-          "CURRENCY": "Currency",
-          "DESCRIPTION": "Description",
-          "STATUSES": "Statuses"
-        },
-        "COLUMNS": {
-          "ID": "Id",
-          "PUBLIC": "Public",
-          "ACTIVE": "Active",
-          "STATUS": "Status"
-        }
-      }
-    },
-    "SUBSCRIPTION_ON_PROVIDER": {
-      "TITLE": "Subscribers",
-      "GRID": {
-        "HEADERS": {
-          "SUBSCRIPTION": "Subscription",
-          "PROVIDER": "Provider",
-          "SHARING_TYPE": "Sharing type",
-          "REVERSE": "Reverse"
-        },
-        "COLUMNS": {
-          "ID": "Id"
-        }
-      }
-    }
-  },
   "WARNINGS": {
     "CARDHOLDER_INVALID": "Cardholder invalid"
   },
@@ -3484,8 +3379,7 @@
         "SEARCH_BY": "Search by",
         "SEARCH_BY_PLACEHOLDER": "UUID, Player's Full Name, Source Name.",
         "ACCOUNT_TYPE": "Account type",
-        "STATUS": "Status",
-        "AFFILIATE_TYPE": "Affiliate type"
+        "STATUS": "Status"
       },
       "ACCOUNT_TYPE": {
         "DEMO": "Demo",
@@ -3494,18 +3388,12 @@
       "STATUS": {
         "ARCHIVED": "Archived",
         "NOT_ARCHIVED": "Not archived"
-      },
-      "AFFILIATE_TYPE": {
-        "AFFILIATE": "Affiliate",
-        "IB": "IB",
-        "DIRECT": "Direct"
       }
     },
     "GRID": {
       "ACCOUNT_ID": "Account ID",
       "PLATFORM_TYPE": "Platform type",
       "PROFILE": "Client",
-      "AFFILIATE_TYPE": "Affiliate type",
       "SOURCE_NAME": "Source name",
       "DATE": "Date",
       "LEVERAGE": "Leverage",

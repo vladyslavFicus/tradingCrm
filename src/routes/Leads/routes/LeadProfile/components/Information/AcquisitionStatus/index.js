@@ -1,3 +1,1 @@
-import AcquisitionStatus from './AcquisitionStatus';
-
-export default AcquisitionStatus;
+export { default } from './AcquisitionStatus';

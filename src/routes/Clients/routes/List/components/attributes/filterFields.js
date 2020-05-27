@@ -7,7 +7,6 @@ import { statuses } from 'constants/operators';
 import { statusesLabels, filterLabels } from 'constants/user';
 import { salesStatuses } from 'constants/salesStatuses';
 import { retentionStatuses } from 'constants/retentionStatuses';
-import { fsaStatuses, fsaStatusesLabels } from 'constants/fsaMigration';
 import { warningValues, warningLabels } from 'constants/warnings';
 import { kycStatusesLabels } from 'constants/kycStatuses';
 import {
@@ -17,7 +16,6 @@ import {
   validators,
   parser,
 } from 'components/ReduxForm/ReduxFieldsConstructor';
-import { affiliateTypeLabels } from '../constants';
 
 const acquisitionStatuses = [
   {
@@ -193,20 +191,6 @@ export default ({
     })),
     optionsWithoutI18n: true,
   },
-  ...[
-    getActiveBrandConfig().regulation.isActive && {
-      type: fieldTypes.SELECT,
-      name: 'affiliateType',
-      label: filterLabels.affiliateType,
-      placeholder: 'COMMON.SELECT_OPTION.ANY',
-      className: fieldClassNames.MEDIUM,
-      multiple: true,
-      selectOptions: Object.keys(affiliateTypeLabels).map(affiliateType => ({
-        value: affiliateType,
-        label: affiliateTypeLabels[affiliateType],
-      })),
-    },
-  ],
   {
     type: fieldTypes.SELECT,
     name: 'statuses',
@@ -273,20 +257,6 @@ export default ({
       label: kycStatusesLabels[value],
     })),
   },
-  ...[
-    getActiveBrandConfig().fsaRegulation && {
-      type: fieldTypes.SELECT,
-      name: 'fsaMigrationStatus',
-      label: filterLabels.FSAMigration,
-      placeholder: 'COMMON.SELECT_OPTION.ANY',
-      className: fieldClassNames.MEDIUM,
-      selectOptions: Object.keys(fsaStatuses).map(status => ({
-        value: status,
-        label: fsaStatusesLabels[status],
-      })),
-      searchable: false,
-    },
-  ],
   {
     type: fieldTypes.SELECT,
     name: 'firstTimeDeposit',

@@ -8,7 +8,6 @@ const REQUEST = gql`
   query TradingAccountsListQuery(
     $searchKeyword: String
     $accountType: String
-    $affiliateType: String
     $archived: Boolean
     $size: Int
     $page: Int
@@ -16,7 +15,6 @@ const REQUEST = gql`
     tradingAccountsList (
       searchKeyword: $searchKeyword
       accountType: $accountType
-      affiliateType: $affiliateType
       archived: $archived
       size: $size
       page: $page
@@ -30,7 +28,6 @@ const REQUEST = gql`
             fullName
           }
           affiliate {
-            affiliateType
             source
           }
           createdAt

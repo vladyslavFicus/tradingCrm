@@ -73,14 +73,6 @@ class TradingAccountsListGrid extends PureComponent {
             )}
           />
           <GridColumn
-            header={I18n.t('TRADING_ACCOUNTS.GRID.AFFILIATE_TYPE')}
-            render={({ affiliate }) => (
-              <If condition={affiliate && affiliate.affiliateType}>
-                <div>{affiliate.affiliateType}</div>
-              </If>
-            )}
-          />
-          <GridColumn
             header={I18n.t('TRADING_ACCOUNTS.GRID.SOURCE_NAME')}
             render={({ affiliate }) => (
               <If condition={affiliate && affiliate.source}>

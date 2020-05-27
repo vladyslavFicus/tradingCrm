@@ -8,9 +8,9 @@ const REQUEST = gql`
     $uuid: String!,
     $password: String!
   ) {
-    profile {
+    operator {
       changePassword(
-        playerUUID: $uuid
+        operatorUuid: $uuid
         password: $password
       ) {
         success

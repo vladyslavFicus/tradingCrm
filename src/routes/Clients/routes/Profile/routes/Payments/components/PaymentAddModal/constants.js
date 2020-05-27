@@ -25,6 +25,7 @@ export const paymentTypes = {
         tradingTypes.MIGRATION_OUT,
         tradingTypes.MIGRATION_CREDIT_IN,
         tradingTypes.MIGRATION_CREDIT_OUT,
+        tradingTypes.INTEREST_RATE,
       ].indexOf(name) === -1),
     )
     .reduce(
