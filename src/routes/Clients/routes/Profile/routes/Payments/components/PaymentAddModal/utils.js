@@ -69,8 +69,6 @@ const validation = (values, tradingAccount) => {
         target: I18n.t('COMMON.SOMETHING_WRONG'),
       };
     }
-  } else {
-    rules = { ...rules, login: 'required|numeric' };
   }
 
   return createValidator(rules, attributeLabels, false)(values);

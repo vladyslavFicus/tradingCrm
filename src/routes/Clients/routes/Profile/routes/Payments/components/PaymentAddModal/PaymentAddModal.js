@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, { Fragment, PureComponent } from 'react';
 import { get } from 'lodash';
 import classNames from 'classnames';
@@ -255,7 +254,9 @@ class PaymentAddModal extends PureComponent {
                               className="col select-field-wrapper"
                               name="paymentMethod"
                               label={attributeLabels.paymentMethod}
-                              placeholder={I18n.t('PLAYER_PROFILE.TRANSACTIONS.MODAL_CREATE.CHOOSE_PAYMENT_METHOD_LABEL')}
+                              placeholder={I18n.t(
+                                'PLAYER_PROFILE.TRANSACTIONS.MODAL_CREATE.CHOOSE_PAYMENT_METHOD_LABEL',
+                              )}
                               showErrorMessage={false}
                               disabled={manualMethodsLoading || manualMethodsError}
                               component={FormikSelectField}
