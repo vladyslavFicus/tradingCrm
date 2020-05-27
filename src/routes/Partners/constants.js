@@ -1,5 +1,4 @@
 import keyMirror from 'keymirror';
-import { getSatelliteOptions } from './utils';
 
 const statuses = keyMirror({
   ACTIVE: null,
@@ -21,12 +20,9 @@ const affiliateTypeLabels = {
   [affiliateTypes.AFFILIATE]: 'PARTNERS.TYPES.AFFILIATE',
 };
 
-const satelliteOptions = getSatelliteOptions();
-
 export {
   statuses,
   statusLabels,
   affiliateTypes,
   affiliateTypeLabels,
-  satelliteOptions,
 };

@@ -495,7 +495,6 @@
     "PLAYER": "Player",
     "OPERATOR": "Operator",
     "DEPARTMENTS": "Departments",
-    "SATELLITE": "Satellite",
     "ANY": "Any",
     "ROLLBACK": "Rollback",
     "FOR": "for",
@@ -1110,7 +1109,6 @@
         "AFFILIATE_MANAGER": "Affiliate manager",
         "AFFILIATE_PARTNER": "Affiliate partner",
         "DIDLOGIC_OPERATOR": "DID Logic operator",
-        "CELLEXPERT_OPERATOR": "Cellexpert operator",
         "COMPLIANCE": "Compliance",
         "DEALING": "Dealing"
       },
@@ -1916,7 +1914,9 @@
           "REGISTRATION_DATE_FROM": "Registration Date From",
           "REGISTRATION_DATE_TO": "Registration Date To",
           "REGISTRATION_DATE_RANGE": "Registration Date Range",
-          "SEARCH_BY": "Search by"
+          "SEARCH_BY": "Search by",
+          "DATE_FROM": "Date From",
+          "DATE_TO": "Date To"
         }
       }
     },
@@ -2037,7 +2037,6 @@
         "SEND_INVITATION": "Send invitation",
         "NOTE": "Note",
         "NOTE_MESSAGE": "You will be able to set additional departments in partner`s profile once it`s created",
-        "CELLEXPERT_CHECKBOX": "Allow to to transmit data to CellExpert",
         "PUBLIC_CHECKBOX": "Allow to create Clients through public API"
       },
       "EXISTING_PARTNER": {
@@ -2063,7 +2062,6 @@
           "PHONE": "Phone",
           "WHITE_LISTED_IP": "White listed IPs",
           "RESTRICTED_COUNTRIES": "Restricted countries",
-          "CELLEXPERT_CHECKBOX": "Allow to to transmit data to CellExpert",
           "PUBLIC_CHECKBOX": "Allow to create Clients through public API",
           "GENERATE_TRADING_ACCOUNT": "Allow to generate Trading Account",
           "CHOOSE_TRADING_ACCOUNT_PLATFORM": "Choose trading account platform",

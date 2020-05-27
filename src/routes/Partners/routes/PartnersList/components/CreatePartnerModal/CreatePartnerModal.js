@@ -16,7 +16,6 @@ import { createValidator, translateLabels } from 'utils/validator';
 import { generate } from 'utils/password';
 import {
   affiliateTypeLabels,
-  satelliteOptions,
   affiliateTypes,
 } from '../../../../constants';
 import CreatePartnerMutation from './graphql/CreatePartnerMutation';
@@ -31,8 +30,6 @@ const attributeLabels = {
   affiliateType: 'COMMON.PARTNER_TYPE',
   externalAffiliateId: 'COMMON.EXTERNAL_AFILIATE_ID',
   public: 'PARTNERS.MODALS.NEW_PARTNER.PUBLIC_CHECKBOX',
-  cellexpert: 'PARTNERS.MODALS.NEW_PARTNER.CELLEXPERT_CHECKBOX',
-  satellite: 'COMMON.SATELLITE',
 };
 
 const validate = createValidator({
@@ -44,8 +41,6 @@ const validate = createValidator({
   affiliateType: ['string'],
   externalAffiliateId: ['min:3'],
   public: ['boolean'],
-  cellexpert: ['boolean'],
-  satellite: ['string'],
 }, translateLabels(attributeLabels), false);
 
 class CreatePartnerModal extends PureComponent {
@@ -66,8 +61,6 @@ class CreatePartnerModal extends PureComponent {
     affiliateType: getActiveBrandConfig().regulation.isActive ? '' : affiliateTypes.AFFILIATE,
     externalAffiliateId: '',
     public: false,
-    cellexpert: false,
-    satellite: null,
   };
 
   handleGeneratePassword = () => generate();
@@ -88,10 +81,8 @@ class CreatePartnerModal extends PureComponent {
     if (!hasValidationErrors) {
       const {
         affiliateType,
-        cellexpert,
         public: isPublic, // 'public' is reserved JS word and we cant use it for naming variable
         externalAffiliateId,
-        satellite,
         ...restValues
       } = values;
 
@@ -100,8 +91,6 @@ class CreatePartnerModal extends PureComponent {
           affiliateType,
           externalAffiliateId,
           public: isPublic,
-          cellexpert,
-          ...(satelliteOptions && { satellite }),
           ...restValues,
         },
       });
@@ -222,20 +211,6 @@ class CreatePartnerModal extends PureComponent {
                     component={FormikInputField}
                     disabled={isSubmitting}
                   />
-                  <If condition={satelliteOptions}>
-                    <Field
-                      name="satellite"
-                      className="CreatePartnerModal__field"
-                      component={FormikSelectField}
-                      label={I18n.t(attributeLabels.satellite)}
-                      placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
-                      disabled={isSubmitting}
-                    >
-                      {satelliteOptions.map((satellite, key) => (
-                        <option key={key} value={satellite.value}>{satellite.label}</option>
-                      ))}
-                    </Field>
-                  </If>
                   <Regulated>
                     <Field
                       name="affiliateType"
@@ -266,13 +241,6 @@ class CreatePartnerModal extends PureComponent {
                   component={FormikCheckbox}
                   label={I18n.t(attributeLabels.public)}
                 />
-                <Regulated>
-                  <Field
-                    name="cellexpert"
-                    component={FormikCheckbox}
-                    label={I18n.t(attributeLabels.cellexpert)}
-                  />
-                </Regulated>
               </ModalBody>
               <ModalFooter>
                 <Button
