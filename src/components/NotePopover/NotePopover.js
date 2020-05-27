@@ -324,6 +324,7 @@ class NotePopover extends PureComponent {
         target={target}
         className={classNames('NotePopover', className)}
         hideArrow={hideArrow}
+        trigger="legacy"
       >
         <Formik
           initialValues={{

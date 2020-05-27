@@ -110,6 +110,7 @@ class PaymentMethodLimitPopover extends Component {
         className={classNames('payment-limit-popover', className)}
         hideArrow
         container={target}
+        trigger="legacy"
       >
         <PopoverBody tag="form" onSubmit={handleSubmit(this.handleSubmit)}>
           <div className="payment-limit-popover__title">

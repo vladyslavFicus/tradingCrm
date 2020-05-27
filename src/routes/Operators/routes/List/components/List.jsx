@@ -7,7 +7,6 @@ import { TextRow } from 'react-placeholder/lib/placeholders';
 import permissions from 'config/permissions';
 import PermissionContent from 'components/PermissionContent';
 import { authoritiesOptionsQuery } from 'graphql/queries/auth';
-import { getUserTypeByDepartment } from './utils';
 import OperatorGridFilter from './OperatorGridFilter';
 import OperatorsGrid from './OperatorsGrid';
 
@@ -74,13 +73,12 @@ class List extends Component {
       submitNewOperator,
       notify,
     } = this.props;
-    const userType = getUserTypeByDepartment(department, role);
 
     try {
       const {
         data: operatorData,
       } = await submitNewOperator({
-        variables: { ...data, userType, department, role, email, branchId: branch },
+        variables: { ...data, department, role, email, branchId: branch },
       });
 
       const newOperator = get(operatorData, 'operator.createOperator.data');

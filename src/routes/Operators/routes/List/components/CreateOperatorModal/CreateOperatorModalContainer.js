@@ -49,6 +49,7 @@ export default compose(
       password: ['required', `regex:${getActiveBrandConfig().password.pattern}`],
       phone: 'min:3',
       department: 'required',
+      userType: 'required',
       role: 'required',
       branch: 'required',
     }, translateLabels(attributeLabels), false),

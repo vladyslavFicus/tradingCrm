@@ -183,23 +183,21 @@ class ProfileHeader extends Component {
                   )}
                 />
               </button>
-              <If condition={!isLoadingProfile}>
-                <ActionsDropDown
-                  items={[
-                    {
-                      id: 'reset-password-option',
-                      label: I18n.t('PLAYER_PROFILE.PROFILE.ACTIONS_DROPDOWN.RESET_PASSWORD'),
-                      onClick: onResetPasswordClick,
-                      visible: resetPasswordPermission.check(currentPermissions),
-                    },
-                    {
-                      label: I18n.t('PLAYER_PROFILE.PROFILE.ACTIONS_DROPDOWN.CHANGE_PASSWORD'),
-                      onClick: onChangePasswordClick,
-                      visible: changePasswordPermission.check(currentPermissions),
-                    },
-                  ]}
-                />
-              </If>
+              <ActionsDropDown
+                items={[
+                  {
+                    id: 'reset-password-option',
+                    label: I18n.t('PLAYER_PROFILE.PROFILE.ACTIONS_DROPDOWN.RESET_PASSWORD'),
+                    onClick: onResetPasswordClick,
+                    visible: resetPasswordPermission.check(currentPermissions),
+                  },
+                  {
+                    label: I18n.t('PLAYER_PROFILE.PROFILE.ACTIONS_DROPDOWN.CHANGE_PASSWORD'),
+                    onClick: onChangePasswordClick,
+                    visible: changePasswordPermission.check(currentPermissions),
+                  },
+                ]}
+              />
             </div>
           </div>
         </StickyWrapper>
