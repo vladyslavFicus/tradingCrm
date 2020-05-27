@@ -4,18 +4,18 @@ import gql from 'graphql-tag';
 import { Mutation } from 'react-apollo';
 
 const REQUEST = gql`mutation UpdateOperatorPersonalFormMutation_updateOperator(
-  $uuid: String!,
-  $firstName: String!,
-  $lastName: String!,
-  $phoneNumber: String,
-  $sip: String,
-  $country: String,
+  $uuid: String!
+  $firstName: String!
+  $lastName: String!
+  $phoneNumber: String
+  $sip: String
+  $country: String
 ) {
   operator {
     updateOperator(
-      uuid: $uuid,
-      firstName: $firstName,
-      lastName: $lastName,
+      uuid: $uuid
+      firstName: $firstName
+      lastName: $lastName
       phoneNumber: $phoneNumber
       sip: $sip
       country: $country
@@ -39,7 +39,6 @@ const REQUEST = gql`mutation UpdateOperatorPersonalFormMutation_updateOperator(
       }
       error {
         error
-        fields_errors
       }
     }
   }

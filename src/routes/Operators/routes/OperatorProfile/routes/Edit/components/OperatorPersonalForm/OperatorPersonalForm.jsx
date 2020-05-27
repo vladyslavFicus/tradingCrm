@@ -1,12 +1,12 @@
 import React, { PureComponent } from 'react';
 import { compose } from 'react-apollo';
-import { withRequests } from 'apollo';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
+import { withRequests } from 'apollo';
 import PropTypes from 'constants/propTypes';
 import withNotifications from 'hoc/withNotifications';
 import { FormikSelectField, FormikInputField } from 'components/Formik';
-import Button from 'components/UI/Button';
+import { Button } from 'components/UI';
 import { createValidator, translateLabels } from 'utils/validator';
 import countries from 'utils/countryList';
 import { attributeLabels } from '../constants';
@@ -30,9 +30,7 @@ class OperatorPersonalForm extends PureComponent {
   };
 
   onSubmit = async (data) => {
-    const { updateOperator, notify, operatorProfile } = this.props;
-    const { uuid } = operatorProfile;
-
+    const { updateOperator, notify, operatorProfile: { uuid } } = this.props;
     const { data: { operator: { updateOperator: { error } } } } = await updateOperator({
       variables: {
         uuid,
@@ -52,8 +50,10 @@ class OperatorPersonalForm extends PureComponent {
   };
 
   render() {
-    const { disabled, operatorProfile } = this.props;
-    const { firstName, lastName, country, email, phoneNumber, sip } = operatorProfile;
+    const {
+      disabled,
+      operatorProfile: { firstName, lastName, country, email, phoneNumber, sip },
+    } = this.props;
 
     return (
       <Formik
