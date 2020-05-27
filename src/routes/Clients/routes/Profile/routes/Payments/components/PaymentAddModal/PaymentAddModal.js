@@ -49,25 +49,21 @@ class PaymentAddModal extends PureComponent {
     return tradingAccount.find(account => [accountUUID, source].includes(account.accountUUID));
   };
 
-  handlePaymentTypeChanged = (value, formikAPI) => {
-    const { setFieldValue, resetForm } = formikAPI;
-
+  handlePaymentTypeChanged = (value, { setFieldValue, resetForm }) => {
     resetForm();
     setFieldValue('paymentType', value);
   };
 
-  isValidTransaction = (values) => {
+  isValidTransaction = ({
+    paymentType,
+    accountUUID,
+    amount,
+  }) => {
     const {
       newProfile: {
         tradingAccount,
       },
     } = this.props;
-
-    const {
-      paymentType,
-      accountUUID,
-      amount,
-    } = values;
 
     if (paymentType === 'WITHDRAW' && accountUUID && amount && tradingAccount.length) {
       const { balance } = tradingAccount.find(account => account.accountUUID === accountUUID);
@@ -84,9 +80,7 @@ class PaymentAddModal extends PureComponent {
     return true;
   };
 
-  renderAccountSelectOption = (name, values) => ({ onClick, account = {} }) => {
-    const { paymentType, amount } = values;
-
+  renderAccountSelectOption = (name, { paymentType, amount }) => ({ onClick, account = {} }) => {
     const isInsufficientBalance = (
       parseFloat(account.balance) < amount
       && [paymentTypes.WITHDRAW.name, paymentTypes.TRANSFER.name].includes(paymentType)
