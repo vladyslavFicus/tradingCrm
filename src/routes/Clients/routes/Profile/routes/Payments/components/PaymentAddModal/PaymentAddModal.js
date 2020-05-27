@@ -19,18 +19,15 @@ import { FormikInputField, FormikSelectField, FormikDatePicker } from 'component
 import Currency from 'components/Amount/Currency';
 import PlatformTypeBadge from 'components/PlatformTypeBadge';
 import Permissions from 'utils/permissions';
-import { paymentTypes, paymentTypesLabels, attributeLabels } from './constants';
 import { validation } from './utils';
+import { paymentTypes, paymentTypesLabels, attributeLabels } from './constants';
 import { ManualPaymentMethodsQuery } from './graphql';
 import './PaymentAddModal.scss';
 
 class PaymentAddModal extends PureComponent {
   static propTypes = {
     manualPaymentMethods: PropTypes.query({
-      manualPaymentMethods: PropTypes.shape({
-        data: PropTypes.paymentMethods,
-        error: PropTypes.object,
-      }),
+      manualPaymentMethods: PropTypes.response(PropTypes.paymentMethods),
     }).isRequired,
     permission: PropTypes.shape({
       permissions: PropTypes.arrayOf(PropTypes.string).isRequired,
@@ -211,31 +208,25 @@ class PaymentAddModal extends PureComponent {
           initialValues={{
             paymentType: '',
           }}
-          onSubmit={this.onSubmit}
           validate={values => validation(values, tradingAccount)}
+          onSubmit={this.onSubmit}
         >
           {({
             isSubmitting,
-            isValid,
-            errors,
             pristine,
+            isValid,
             values,
             setFieldValue,
             resetForm,
           }) => {
             const sourceAccount = this.getSourceAccount(values);
-            console.log(errors);
+
             return (
               <Form>
                 <ModalHeader toggle={onCloseModal}>
                   {I18n.t('PLAYER_PROFILE.TRANSACTIONS.MODAL_CREATE.TITLE')}
                 </ModalHeader>
                 <ModalBody className="container-fluid">
-                  <If condition={Object.keys(errors).length}>
-                    <div className="alert alert-warning">
-                      {I18n.t('error.internal')}
-                    </div>
-                  </If>
                   <Field
                     name="paymentType"
                     label={attributeLabels.paymentType}
@@ -313,6 +304,7 @@ class PaymentAddModal extends PureComponent {
                         placeholder="0.00"
                         step="0.01"
                         min={0}
+                        max={999999}
                         addition={sourceAccount && <Currency code={sourceAccount.currency} showSymbol={false} />}
                         component={FormikInputField}
                       />
@@ -365,7 +357,7 @@ class PaymentAddModal extends PureComponent {
                           {I18n.t('COMMON.CANCEL')}
                         </Button>
                         <Button
-                          className="btn"
+                          className="btn margin-left-25"
                           disabled={pristine || isSubmitting || !isValid || !this.isValidTransaction(values)}
                           type="submit"
                           primary
