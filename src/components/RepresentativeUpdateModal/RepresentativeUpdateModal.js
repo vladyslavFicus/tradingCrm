@@ -17,6 +17,7 @@ import { aquisitionStatuses } from 'constants/aquisitionStatuses';
 import { Button } from 'components/UI';
 import { FormikSelectField } from 'components/Formik';
 import renderLabel from 'utils/renderLabel';
+import { createValidator, translateLabels } from 'utils/validator';
 import {
   attributeLabels,
   getAgents,
@@ -31,6 +32,16 @@ import {
   getBranchChildren,
   getUsersByBranch,
 } from './graphql';
+
+const validate = (values, { desks, users, type }) => (
+  createValidator({
+    deskId: [`in:,${desks.map(({ uuid }) => uuid).join()}`],
+    repId: [`in:,${users.map(({ uuid }) => uuid).join()}`],
+    teamId: ['string'],
+    acquisitionStatus: ['string'],
+    status: [`in:,${[...Object.values(salesStatusValues), ...Object.values(retentionStatusValues)].join()}`],
+  }, translateLabels(attributeLabels(type)), false)(values)
+);
 
 class RepresentativeUpdateModal extends PureComponent {
   static propTypes = {
@@ -333,6 +344,7 @@ class RepresentativeUpdateModal extends PureComponent {
         loading: deskLoading,
         data: userBranchHierarchyData,
       },
+      hierarchyUsersByTypeQuery,
       hierarchyUsersByTypeQuery: { loading: initAgentsLoading },
       initialValues,
       onCloseModal,
@@ -348,6 +360,8 @@ class RepresentativeUpdateModal extends PureComponent {
     const desks = get(userBranchHierarchyData, 'hierarchy.userBranchHierarchy.data.DESK') || [];
     const filteredDesks = desks.filter(({ deskType }) => deskType === deskTypes[type]);
 
+    const users = getAgents(hierarchyUsersByTypeQuery, type) || [];
+
     const agentsDisabled = (
       agentsLoading || initAgentsLoading || (Array.isArray(agents) && agents.length === 0)
     );
@@ -357,6 +371,7 @@ class RepresentativeUpdateModal extends PureComponent {
         <Formik
           initialValues={initialValues}
           onSubmit={this.handleUpdateRepresentative}
+          validate={values => validate(values, { desks, users, type })}
           enableReinitialize
         >
           {({
@@ -367,6 +382,7 @@ class RepresentativeUpdateModal extends PureComponent {
             errors,
             isSubmitting,
             isValid,
+            dirty,
           }) => (
             <Form>
               <ModalHeader toggle={onCloseModal}>{header}</ModalHeader>
@@ -496,13 +512,12 @@ class RepresentativeUpdateModal extends PureComponent {
                 </If>
               </ModalBody>
               <ModalFooter>
-                <Button className="btn" onClick={onCloseModal} commonOutline>
+                <Button onClick={onCloseModal} commonOutline>
                   {I18n.t('COMMON.BUTTONS.CANCEL')}
                 </Button>
                 <Button
-                  className="btn"
                   type="submit"
-                  disabled={!isValid || deskLoading || agentsDisabled}
+                  disabled={!dirty || !isValid || deskLoading || agentsDisabled}
                   primary
                 >
                   {I18n.t('CLIENTS.MODALS.SUBMIT')}
