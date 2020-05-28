@@ -17,30 +17,26 @@ const fieldLabels = {
 
 class ChangePasswordModal extends PureComponent {
   static propTypes = {
-    onClose: PropTypes.func.isRequired,
+    onCloseModal: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
     fullName: PropTypes.string.isRequired,
     uuid: PropTypes.string.isRequired,
   };
 
-  onHandleSubmit = async (values, { setSubmitting, validateForm }) => {
-    const validationResult = await validateForm(values);
-    const hasValidationErrors = Object.keys(validationResult).length > 0;
+  onHandleSubmit = async (values, { setSubmitting }) => {
+    const { onSubmit } = this.props;
 
-    if (!hasValidationErrors) {
-      this.props.onSubmit(values);
-    }
-
+    onSubmit(values);
     setSubmitting(false);
   };
 
   render() {
-    const { onClose, fullName, uuid } = this.props;
+    const { onCloseModal, fullName, uuid } = this.props;
 
     return (
-      <Modal className="ChangePasswordModal" toggle={onClose} isOpen>
+      <Modal className="ChangePasswordModal" toggle={onCloseModal} isOpen>
         <Formik
-          initialValues={{ password: '', repeatPassword: '' }}
+          initialValues={{}}
           validate={
             createValidator(
               {
@@ -57,7 +53,7 @@ class ChangePasswordModal extends PureComponent {
             <Form>
               <ModalHeader
                 className="ChangePasswordModal__header"
-                toggle={onClose}
+                toggle={onCloseModal}
               >
                 {I18n.t('MODALS.CHANGE_PASSWORD_MODAL.TITLE')}
               </ModalHeader>
@@ -90,7 +86,7 @@ class ChangePasswordModal extends PureComponent {
               </ModalBody>
               <ModalFooter>
                 <Button
-                  onClick={onClose}
+                  onClick={onCloseModal}
                   commonOutline
                 >
                   {I18n.t('COMMON.BUTTONS.CANCEL')}

@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import { compose } from 'react-apollo';
+import { get } from 'lodash';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Formik, Form, Field } from 'formik';
 import I18n from 'i18n-js';
@@ -26,7 +27,9 @@ const validate = createValidator({
 
 class PromoteLeadModal extends PureComponent {
   static propTypes = {
-    leadProfile: PropTypes.object,
+    leadProfileQuery: PropTypes.query({
+      leadProfile: PropTypes.response(PropTypes.lead),
+    }).isRequired,
     formError: PropTypes.string,
     onCloseModal: PropTypes.func.isRequired,
     isOpen: PropTypes.bool.isRequired,
@@ -36,7 +39,6 @@ class PromoteLeadModal extends PureComponent {
   };
 
   static defaultProps = {
-    leadProfile: {},
     size: null,
     formError: '',
   };
@@ -45,7 +47,7 @@ class PromoteLeadModal extends PureComponent {
     const {
       notify,
       promoteLead,
-      leadProfile: { refetch },
+      leadProfileQuery: { refetch },
       onCloseModal,
     } = this.props;
 
@@ -74,26 +76,24 @@ class PromoteLeadModal extends PureComponent {
 
   render() {
     const {
-      leadProfile: {
-        leadProfile: {
-          data: {
-            email,
-            phone,
-            gender,
-            birthDate,
-            name: firstName,
-            surname: lastName,
-            country: countryCode,
-            language: languageCode,
-            mobile: additionalPhone,
-          },
-        },
-      },
+      leadProfileQuery,
       onCloseModal,
       isOpen,
       size,
       formError,
     } = this.props;
+
+    const {
+      email,
+      phone,
+      gender,
+      birthDate,
+      name: firstName,
+      surname: lastName,
+      country: countryCode,
+      language: languageCode,
+      mobile: additionalPhone,
+    } = get(leadProfileQuery, 'data.leadProfile.data');
 
     return (
       <Modal
@@ -173,7 +173,6 @@ class PromoteLeadModal extends PureComponent {
                       name="password"
                       onAdditionClick={() => setFieldValue('password', generate())}
                       addition={<span className="icon-generate-password" />}
-                      inputAddonPosition="right"
                       label={I18n.t(attributeLabels.password)}
                       component={FormikInputField}
                     />

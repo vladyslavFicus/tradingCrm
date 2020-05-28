@@ -13,7 +13,6 @@ import './HeaderDepartments.scss';
 
 class HeaderDepartments extends Component {
   static propTypes = {
-    departmentsByBrand: PropTypes.objectOf(PropTypes.objectOf(PropTypes.string)).isRequired,
     departments: PropTypes.arrayOf(PropTypes.department).isRequired,
     chooseDepartmentMutation: PropTypes.func.isRequired,
     storage: PropTypes.storage.isRequired,
@@ -29,11 +28,9 @@ class HeaderDepartments extends Component {
     this.setState(({ isOpen }) => ({ isOpen: !isOpen }));
   };
 
-  changeDepartment = department => async () => {
+  changeDepartment = ({ department, role }) => async () => {
     const {
-      auth,
       storage,
-      departmentsByBrand,
       token: originalToken,
       chooseDepartmentMutation,
     } = this.props;
@@ -53,20 +50,12 @@ class HeaderDepartments extends Component {
         },
       },
     } = await chooseDepartmentMutation({
-      variables: {
-        brandId,
-        uuid: auth.uuid,
-        department,
-      },
+      variables: { brand: brandId, department, role },
     });
 
     if (!error) {
       storage.set('token', token);
-      storage.set('auth', {
-        department,
-        role: departmentsByBrand[brandId][department],
-        uuid,
-      });
+      storage.set('auth', { department, role, uuid });
 
       // This function need to refresh window.app object to get new data from token
       setBrandIdByUserToken();
@@ -77,8 +66,8 @@ class HeaderDepartments extends Component {
     const { departments, auth } = this.props;
     const { isOpen } = this.state;
 
-    const currentDepartment = departments.find(department => auth.department === department.id);
-    const departmentsLeft = departments.filter(department => auth.department !== department.id);
+    const currentDepartment = departments.find(({ department }) => auth.department === department);
+    const departmentsLeft = departments.filter(({ department }) => auth.department !== department);
 
     return (
       <Choose>
@@ -86,7 +75,7 @@ class HeaderDepartments extends Component {
           <div className="HeaderDepartments">
             <div className="HeaderDepartments-item HeaderDepartments-item--current">
               <div className="HeaderDepartments-item__title">
-                {I18n.t(currentDepartment.name || `CONSTANTS.OPERATORS.DEPARTMENTS.${currentDepartment.id}`)}
+                {I18n.t(currentDepartment.name || `CONSTANTS.OPERATORS.DEPARTMENTS.${currentDepartment.department}`)}
               </div>
               <div className="HeaderDepartments-item__role">
                 {I18n.t(currentDepartment.role)}
@@ -117,7 +106,7 @@ class HeaderDepartments extends Component {
                 <DropdownItem
                   key={department.id}
                   className="HeaderDepartments-item"
-                  onClick={this.changeDepartment(department.id)}
+                  onClick={this.changeDepartment(department)}
                 >
                   <div className="HeaderDepartments-item__title">
                     {I18n.t(department.name)}
@@ -136,7 +125,7 @@ class HeaderDepartments extends Component {
 }
 
 export default compose(
-  withStorage(['auth', 'departmentsByBrand', 'departments', 'token']),
+  withStorage(['auth', 'departments', 'token']),
   withRequests({
     chooseDepartmentMutation: HeaderDepartmentsMutation,
   }),

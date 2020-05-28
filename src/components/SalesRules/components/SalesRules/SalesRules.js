@@ -1,13 +1,14 @@
 import React, { Fragment, PureComponent } from 'react';
 import I18n from 'i18n-js';
 import { get } from 'lodash';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { compose } from 'react-apollo';
+import classNames from 'classnames';
 import { withRequests } from 'apollo';
 import { withModals, withNotifications } from 'hoc';
 import { TextRow } from 'react-placeholder/lib/placeholders';
-import permissions from 'config/permissions';
 import PropTypes from 'constants/propTypes';
+import permissions from 'config/permissions';
 import countries from 'utils/countryList';
 import { actionRuleTypes, deskTypes } from 'constants/rules';
 import { withPermission } from 'providers/PermissionsProvider';
@@ -71,10 +72,12 @@ class SalesRules extends PureComponent {
         id: PropTypes.string,
       }),
     }).isRequired,
+    isTab: PropTypes.bool,
   };
 
   static defaultProps = {
     type: null,
+    isTab: false,
   };
 
   handleFiltersChanged = (filters = {}) => this.props.history.replace({ query: { filters } });
@@ -107,13 +110,13 @@ class SalesRules extends PureComponent {
     } = this.props;
 
     editRuleModal.show({
-      onSubmit: values => this.handleEditRule(values, uuid),
+      onSubmit: (values, setErrors) => this.handleEditRule(values, uuid, setErrors),
       withOperatorSpreads: true,
       uuid,
     });
   };
 
-  handleEditRule = async ({ operatorSpreads, ...rest }, uuid) => {
+  handleEditRule = async ({ operatorSpreads, ...rest }, uuid, setErrors) => {
     const {
       notify,
       updateRule,
@@ -139,15 +142,44 @@ class SalesRules extends PureComponent {
       },
     );
 
-    await refetch();
-    editRuleModal.hide();
-    notify({
-      level: error ? 'error' : 'success',
-      title: error ? I18n.t('COMMON.FAIL') : I18n.t('COMMON.SUCCESS'),
-      message: error
-        ? I18n.t('HIERARCHY.PROFILE_RULE_TAB.RULE_NOT_UPDATED')
-        : I18n.t('HIERARCHY.PROFILE_RULE_TAB.RULE_UPDATED'),
-    });
+    if (error) {
+      notify({
+        level: 'error',
+        title: I18n.t('COMMON.FAIL'),
+        message: I18n.t('HIERARCHY.PROFILE_RULE_TAB.RULE_NOT_CREATED'),
+      });
+
+      let _error = error.error;
+
+      if (_error === 'error.entity.already.exist') {
+        _error = (
+          <>
+            <div>
+              <Link
+                to={{
+                  pathname: '/sales-rules',
+                  query: { filters: { createdByOrUuid: error.errorParameters.ruleUuid } },
+                }}
+              >
+                {I18n.t(`rules.${error.error}`, error.errorParameters)}
+              </Link>
+            </div>
+            <Uuid uuid={error.errorParameters.ruleUuid} uuidPrefix="RL" />
+          </>
+        );
+      }
+      setErrors({ submit: _error });
+    } else {
+      await refetch();
+      editRuleModal.hide();
+      notify({
+        level: error ? 'error' : 'success',
+        title: error ? I18n.t('COMMON.FAIL') : I18n.t('COMMON.SUCCESS'),
+        message: error
+          ? I18n.t('HIERARCHY.PROFILE_RULE_TAB.RULE_NOT_UPDATED')
+          : I18n.t('HIERARCHY.PROFILE_RULE_TAB.RULE_UPDATED'),
+      });
+    }
   };
 
   handleAddRule = async ({ operatorSpreads, ...rest }, setErrors) => {
@@ -443,6 +475,7 @@ class SalesRules extends PureComponent {
         data: partnersData,
       },
       type,
+      isTab,
     } = this.props;
 
     const entities = get(data, 'rules.data') || [];
@@ -458,7 +491,7 @@ class SalesRules extends PureComponent {
     const isDeleteRuleAvailable = (new Permissions(permissions.SALES_RULES.REMOVE_RULE)).check(currentPermissions);
 
     return (
-      <div className="card">
+      <div className={classNames('card', { 'no-borders': isTab })}>
         <div className="card-heading">
           <Placeholder
             ready={!loading}
@@ -560,6 +593,7 @@ class SalesRules extends PureComponent {
 
 export default compose(
   withPermission,
+  withRouter,
   withModals({
     deleteModal: ConfirmActionModal,
     ruleModal: RuleModal,

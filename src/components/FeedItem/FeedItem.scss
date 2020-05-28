@@ -5,6 +5,9 @@
   align-items: flex-start;
   padding: 10px 0;
   border-bottom: solid 1px #eee;
+  &:last-child {
+    border-bottom: none;
+  }
   &__content-wrapper {
     flex: 1;
   }

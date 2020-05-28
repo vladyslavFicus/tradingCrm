@@ -4,13 +4,12 @@ import classNames from 'classnames';
 import moment from 'moment';
 import I18n from 'i18n-js';
 import { get } from 'lodash';
-import { getActiveBrandConfig } from 'config';
 import PropTypes from 'constants/propTypes';
 import Grid, { GridColumn } from 'components/Grid';
 import CountryLabelWithFlag from 'components/CountryLabelWithFlag';
 import Uuid from 'components/Uuid';
 import './PartnersGrid.scss';
-import { statuses, affiliateTypes } from '../../../../constants';
+import { statuses } from '../../../../constants';
 
 class PartnersGrid extends PureComponent {
   static propTypes = {
@@ -94,20 +93,6 @@ class PartnersGrid extends PureComponent {
     </Fragment>
   );
 
-  renderPartnerTypeColumn = ({ affiliateType }) => (
-    <div
-      className={
-        classNames(
-          'PartnersGrid__partner-type',
-          { 'PartnersGrid__partner-type--nullpoint': affiliateType === affiliateTypes.NULLPOINT },
-          { 'PartnersGrid__partner-type--affiliate': affiliateType === affiliateTypes.AFFILIATE },
-        )
-      }
-    >
-      {affiliateType ? I18n.t(`PARTNERS.TYPES.${affiliateType}`) : null}
-    </div>
-  );
-
   renderExternalAffiliateIdColumn = ({ externalAffiliateId }) => (
     <If condition={externalAffiliateId}>
       <div>{externalAffiliateId}</div>
@@ -184,12 +169,6 @@ class PartnersGrid extends PureComponent {
             header={I18n.t('PARTNERS.GRID_HEADER.PARTNER')}
             render={this.renderPartnerColumn}
           />
-          <If condition={getActiveBrandConfig().regulation.isActive}>
-            <GridColumn
-              header={I18n.t('PARTNERS.GRID_HEADER.PARTNER_TYPE')}
-              render={this.renderPartnerTypeColumn}
-            />
-          </If>
           <GridColumn
             header={I18n.t('PARTNERS.GRID_HEADER.EXTERNAL_ID')}
             render={this.renderExternalAffiliateIdColumn}

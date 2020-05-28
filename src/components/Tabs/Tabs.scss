@@ -1,29 +1,41 @@
-.tabs {
-  display: flex;
+$color-blue: #01a8fe;
+$color-gray: #495057;
+
+.Tabs {
   margin: -45px 25px 0;
   padding-left: 0;
-  list-style: none;
+  display: flex;
+
   &__item {
-    display: inline-block;
-    padding: 10px 20px;
     border-top: 3px solid transparent;
+    color: $color-gray;
     font-size: 15px;
     font-weight: 700;
-    color: #495057;
+    padding: 10px 20px;
+    display: inline-block;
+
     &:focus {
       outline: none;
-      color: #01a8fe;
+      color: $color-blue;
     }
-    &:hover {
-      color: #495057;
+
+    &:not(&--active):hover {
+      color: $color-gray;
     }
-    &.active {
-      border-top-color: #01a8fe;
+  }
+}
+
+// # Modifiers
+.Tabs {
+  &__item {
+    &--active {
       background-color: #fff;
-      color: #01a8fe;
+      border-top-color: $color-blue;
       box-shadow: 0 15px 0 0 #fff, 0 0 0 0 #fff, 0 0 15px -4px rgba(0,0,0,.15), 0 0 15px -4px rgba(0,0,0,.15);
+      color: $color-blue;
+
       &:hover {
-        color: #01a8fe;
+        color: $color-blue;
       }
     }
   }

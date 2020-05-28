@@ -1,4 +1,4 @@
-import { getActiveBrandConfig } from 'config';
+import { aquisitionStatuses } from 'constants/aquisitionStatuses';
 import Permissions from 'utils/permissions';
 import permissions from 'config/permissions';
 
@@ -34,18 +34,9 @@ export const userProfileTabs = [
   },
 ];
 
-// # Add risk tab if 'isRisksTabAvailable = true' for current brand
-if (getActiveBrandConfig().isRisksTabAvailable) {
-  userProfileTabs.push({
-    label: 'CLIENT_PROFILE.TABS.RISK_PROFILE',
-    url: '/clients/:id/risk',
-  });
-}
-
-// # Add socialTrading tab if 'socialTrading = true' for current brand
-if (getActiveBrandConfig().socialTrading) {
-  userProfileTabs.push({
-    label: 'CLIENT_PROFILE.TABS.SOCIAL_TRADING',
-    url: '/clients/:id/social-trading',
-  });
-}
+export const moveField = type => ({
+  name: 'acquisitionStatus',
+  labelName: 'move',
+  component: 'select',
+  data: [aquisitionStatuses.find(({ value }) => type === value)],
+});

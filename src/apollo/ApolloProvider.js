@@ -4,6 +4,7 @@ import { InMemoryCache } from 'apollo-cache-inmemory';
 import { split, from, ApolloLink } from 'apollo-link';
 import { createHttpLink } from 'apollo-link-http';
 import { BatchHttpLink } from 'apollo-link-batch-http';
+import { createPersistedQueryLink } from 'apollo-link-persisted-queries';
 import { createUploadLink } from 'apollo-upload-client';
 import { onError } from 'apollo-link-error';
 import { setContext } from 'apollo-link-context';
@@ -13,7 +14,7 @@ import { withModals } from 'hoc';
 import { isUpload } from 'apollo/utils/isUpload';
 import omitTypename from 'apollo/utils/omitTypename';
 import { withStorage } from 'providers/StorageProvider';
-import UpdateVersionModal from 'components/UpdateVersionModal';
+import UpdateVersionModal from 'modals/UpdateVersionModal';
 import PropTypes from 'constants/propTypes';
 import queryNames from 'constants/apolloQueryNames';
 import { getGraphQLRoot, getApiVersion } from '../config';
@@ -106,7 +107,7 @@ class ApolloProvider extends PureComponent {
     });
 
     return new ApolloClient({
-      link: from([createOmitTypenameLink, errorLink, contextLink, httpLink]),
+      link: from([createOmitTypenameLink, errorLink, contextLink, createPersistedQueryLink(), httpLink]),
       cache: new InMemoryCache(),
 
       // Query deduplication should be turned off because request cancellation not working with turned it on

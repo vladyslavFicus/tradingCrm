@@ -116,10 +116,11 @@ const operatorProfileTabs = [
   { label: 'OPERATOR_PROFILE.TABS.PROFILE', url: '/operators/:id/profile' },
   { label: 'OPERATOR_PROFILE.TABS.FEED', url: '/operators/:id/feed' },
 ];
+
 const partnerProfileTabs = [
-  { label: 'OPERATOR_PROFILE.TABS.PROFILE', url: '/partners/:id/profile' },
-  { label: 'OPERATOR_PROFILE.TABS.FEED', url: '/partners/:id/feed' },
-  { label: 'OPERATOR_PROFILE.TABS.SALES_RULES', url: '/partners/:id/sales-rules' },
+  { label: 'PARTNER_PROFILE.TABS.PROFILE', url: '/partners/:id/profile' },
+  { label: 'PARTNER_PROFILE.TABS.FEED', url: '/partners/:id/feed' },
+  { label: 'PARTNER_PROFILE.TABS.SALES_RULES', url: '/partners/:id/sales-rules' },
 ];
 
 export {

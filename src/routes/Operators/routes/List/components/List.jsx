@@ -7,7 +7,6 @@ import { TextRow } from 'react-placeholder/lib/placeholders';
 import permissions from 'config/permissions';
 import PermissionContent from 'components/PermissionContent';
 import { authoritiesOptionsQuery } from 'graphql/queries/auth';
-import { getUserTypeByDepartment } from './utils';
 import OperatorGridFilter from './OperatorGridFilter';
 import OperatorsGrid from './OperatorsGrid';
 
@@ -27,7 +26,6 @@ class List extends Component {
       }),
     }).isRequired,
     submitNewOperator: PropTypes.func.isRequired,
-    filterValues: PropTypes.object,
     operators: PropTypes.shape({
       operators: PropTypes.shape({
         data: PropTypes.pageable(PropTypes.any),
@@ -39,27 +37,31 @@ class List extends Component {
   };
 
   static defaultProps = {
-    filterValues: null,
     operators: {
       operators: {},
       loading: false,
     },
   };
 
-  state = {
-    filters: {},
+  handlePageChanged = () => {
+    const {
+      operators: {
+        loadMore,
+        loading,
+      },
+    } = this.props;
+
+    if (!loading) {
+      loadMore();
+    }
   };
 
   handleFiltersChanged = (filters = {}) => {
-    this.setState({ filters }, () => {
-      this.props.history.replace({
-        query: {
-          filters: {
-            ...filters,
-          },
-        },
-      });
-    });
+    this.props.history.replace({ query: { filters } });
+  };
+
+  handleFilterReset = () => {
+    this.props.history.replace({ query: { filters: {} } });
   };
 
   handleSubmitNewOperator = async ({ department, role, branch, email, ...data }) => {
@@ -71,13 +73,12 @@ class List extends Component {
       submitNewOperator,
       notify,
     } = this.props;
-    const userType = getUserTypeByDepartment(department, role);
 
     try {
       const {
         data: operatorData,
       } = await submitNewOperator({
-        variables: { ...data, userType, department, role, email, branchId: branch },
+        variables: { ...data, department, role, email, branchId: branch },
       });
 
       const newOperator = get(operatorData, 'operator.createOperator.data');
@@ -117,9 +118,7 @@ class List extends Component {
       data: {
         authoritiesOptions: {
           data: {
-            post: {
-              departmentRole,
-            },
+            authoritiesOptions,
           },
           error,
         },
@@ -127,20 +126,20 @@ class List extends Component {
     } = await client.query({ query: authoritiesOptionsQuery });
 
     if (!error) {
-      delete departmentRole.PLAYER;
-      delete departmentRole.AFFILIATE_PARTNER;
+      delete authoritiesOptions.PLAYER;
+      delete authoritiesOptions.AFFILIATE;
 
-      const [department] = Object.keys(departmentRole);
+      const [department] = Object.keys(authoritiesOptions);
 
       const initialValues = {
         department,
-        role: department ? departmentRole[department][0] : null,
+        role: department ? authoritiesOptions[department][0] : null,
       };
 
       modals.createOperator.show({
         onSubmit: this.handleSubmitNewOperator,
         initialValues,
-        departmentsRoles: departmentRole || {},
+        departmentsRoles: authoritiesOptions || {},
       });
     } else {
       notify({
@@ -152,11 +151,9 @@ class List extends Component {
   };
 
   render() {
-    const { filters } = this.state;
     const {
       operators,
       operators: { loading },
-      filterValues,
     } = this.props;
 
     const totalElements = get(operators, 'operators.data.totalElements');
@@ -204,8 +201,7 @@ class List extends Component {
 
         <OperatorGridFilter
           onSubmit={this.handleFiltersChanged}
-          initialValues={filters}
-          filterValues={filterValues}
+          onReset={this.handleFilterReset}
         />
         <OperatorsGrid operatorsQuery={operators} />
       </div>

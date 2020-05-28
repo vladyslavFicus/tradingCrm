@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import { compose } from 'react-apollo';
 import { Formik, Form, Field, FieldArray } from 'formik';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import { createValidator } from 'utils/validator';
+import { createValidator, translateLabels } from 'utils/validator';
 import countryList from 'utils/countryList';
 import { Button } from 'components/UI';
 import {
@@ -30,13 +30,13 @@ import {
 import './EditRuleModal.scss';
 
 const validate = createValidator({
-  name: ['string'],
+  name: ['required', 'string'],
   priority: ['required', `in:,${priorities.join()}`],
   countries: [`in:,${Object.keys(countryList).join()}`],
   languages: [`in:${getAvailableLanguages().join()}`],
   'operatorSpreads.*.percentage': ['between:1,100'],
   type: [`in:,${ruleTypes.map(({ value }) => value).join()}`],
-}, attributeLabels, false, customErrors);
+}, translateLabels(attributeLabels), false, customErrors);
 
 class EditRuleModal extends PureComponent {
   static propTypes = {
@@ -116,6 +116,7 @@ class EditRuleModal extends PureComponent {
 
     const partnersList = get(partners, 'data.partners.data.content', []);
     const operatorsList = get(operators, 'data.operators.data.content', []);
+
     const {
       name,
       priority,
@@ -280,15 +281,11 @@ class EditRuleModal extends PureComponent {
                               >
                                 {operatorsList
                                   .filter(({ hierarchy: { userType } }) => isSales(userType))
-                                  .map(({ uuid, fullName }) => (
+                                  .map(({ uuid, fullName, operatorStatus }) => (
                                     <option
                                       key={uuid}
                                       value={uuid}
-                                      className={
-                                        classNames('select-block__options-item', {
-                                          'RuleModal--is-disabled': selectedOperators.indexOf(uuid) !== -1,
-                                        })
-                                      }
+                                      disabled={selectedOperators.indexOf(uuid) !== -1 || operatorStatus !== 'ACTIVE'}
                                     >
                                       {fullName}
                                     </option>

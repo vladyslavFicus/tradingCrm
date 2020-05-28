@@ -1,6 +1,5 @@
 import gql from 'graphql-tag';
 
-// # TODO: remove after Payments will be refactored
 const partnersQuery = gql`query getPartners(
   $searchBy: String,
   $country: String,
@@ -37,6 +36,7 @@ const partnersQuery = gql`query getPartners(
   }
 }`;
 
+// Remove after 'Edit' component (Partner -> ProfileTab) will be refactored
 const partnerQuery = gql`query getPartnerByUUID(
   $uuid: String!,
 ) {
@@ -54,12 +54,9 @@ const partnerQuery = gql`query getPartnerByUUID(
       statusChangeDate
       statusChangeAuthor
       statusReason
-      satellite
       createdBy
       createdAt
       externalAffiliateId
-      affiliateType
-      cellexpert
       public
       tradingAccountAutocreation
       tradingAccountType
@@ -74,7 +71,7 @@ const partnerQuery = gql`query getPartnerByUUID(
       }
       authorities {
         data {
-          brandId
+          brand
           department
           id
           role
