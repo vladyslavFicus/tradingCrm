@@ -497,6 +497,7 @@
     "ANY": "Any",
     "ROLLBACK": "Rollback",
     "FOR": "for",
+    "BY": "by",
     "CHANGES": "Changes",
     "FIRST_NAME": "First name",
     "LAST_NAME": "Last name",
@@ -2721,7 +2722,7 @@
     "LEADS": "Leads",
     "LEADS_FOUND": "Leads found",
     "LEADS_SELECTED": "Leads selected",
-    "SALES_INFO_UPDATED": "Leads sales info updated",
+    "BULK_ACTIONS": "Bulk actions",
     "GRID_HEADER": {
       "LEAD": "Lead",
       "COUNTRY": "Country",
@@ -2730,9 +2731,11 @@
       "STATUS": "Status",
       "LAST_NOTE": "Last note"
     },
-    "PROMOTE_INFO_MODAL": {
-      "HEADER": "Promoted leads information",
-      "BODY": "Promoted %{successAmount} of %{total}"
+    "FILTER": {
+      "SEARCH": "Search by",
+      "COUNTRY": "Country",
+      "ACCOUNT_STATUS": "Account Status",
+      "REGISTRATION_DATE_RANGE": "Registration date range"
     },
     "STATUSES": {
       "NEW": "New",

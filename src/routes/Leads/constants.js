@@ -1,5 +1,7 @@
 import { statuses } from 'constants/leads';
 
+const MAX_SELECTED_LEADS = 10000;
+
 const leadStatuses = {
   [statuses.NEW]: {
     label: 'LEADS.STATUSES.NEW',
@@ -38,17 +40,9 @@ const leadProfileTabs = [{
   url: '/leads/:id/notes',
 }];
 
-const fileConfig = {
-  maxSize: 10,
-  types: [
-    // We should use exactly (not mime-type) .csv extension (because mime-type isn't recognized on Windows OS)
-    '.csv',
-  ],
-};
-
 export {
+  MAX_SELECTED_LEADS,
   leadStatuses,
   leadAccountStatuses,
-  fileConfig,
   leadProfileTabs,
 };

@@ -5,7 +5,7 @@ import './GridEmptyValue.scss';
 class GridEmptyValue extends PureComponent {
   render() {
     return (
-      <span className="grid-empty-value">{I18n.t('COMMON.NONE')}</span>
+      <span className="GridEmptyValue">{I18n.t('COMMON.NONE')}</span>
     );
   }
 }
