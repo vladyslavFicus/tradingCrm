@@ -655,14 +655,6 @@ PropTypes.feed = PropTypes.shape({
   tragetUuid: PropTypes.string,
   uuid: PropTypes.string,
 });
-PropTypes.questionnaireLastData = PropTypes.shape({
-  uuid: PropTypes.string,
-  status: PropTypes.string,
-  score: PropTypes.number,
-  version: PropTypes.number,
-  reviewedBy: PropTypes.string,
-  updatedAt: PropTypes.string,
-});
 PropTypes.auth = PropTypes.shape({
   department: PropTypes.string.isRequired,
   role: PropTypes.string.isRequired,
