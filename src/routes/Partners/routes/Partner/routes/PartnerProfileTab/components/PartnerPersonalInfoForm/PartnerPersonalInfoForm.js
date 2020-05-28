@@ -10,6 +10,7 @@ import PropTypes from 'constants/propTypes';
 import permissions from 'config/permissions';
 import Permissions from 'utils/permissions';
 import countryList from 'utils/countryList';
+import { createValidator, translateLabels } from 'utils/validator';
 import { FormikInputField, FormikSelectField, FormikCheckbox, FormikMultiInputField } from 'components/Formik';
 import { Button } from 'components/UI';
 import updatePartnerMutation from './graphql/UpdatePartnerMutation';
@@ -48,32 +49,14 @@ class PartnerPersonalInfoForm extends PureComponent {
     return !(new Permissions(permittedRights).check(this.props.permission.permissions));
   }
 
-  get initialValues() {
-    const { partnerData } = this.props;
-    const {
-      firstName,
-      lastName,
-      email,
-      externalAffiliateId,
-      public: partnerPublic,
-      phone,
-      country,
-      permission: partnerPermissions,
-    } = get(partnerData, 'data.partner.data') || {};
-
-    return {
-      firstName,
-      lastName,
-      email,
-      externalAffiliateId,
-      public: partnerPublic,
-      phone,
-      country,
-      permission: partnerPermissions,
-    };
-  }
-
-  handleSubmit = async (values, { setSubmitting }) => {
+  handleSubmit = async ({
+    allowedIpAddresses,
+    restrictedCountries,
+    showNotes,
+    showFTDAmount,
+    showKycStatus,
+    ...rest
+  }, { setSubmitting }) => {
     const { updatePartner, partnerData, notify } = this.props;
     const { uuid } = get(partnerData, 'data.partner.data') || {};
 
@@ -82,7 +65,14 @@ class PartnerPersonalInfoForm extends PureComponent {
     const { data: { partner: { updatePartner: { error } } } } = await updatePartner({
       variables: {
         uuid,
-        ...values,
+        permission: {
+          allowedIpAddresses,
+          restrictedCountries,
+          showNotes,
+          showFTDAmount,
+          showKycStatus,
+        },
+        ...rest,
       },
     });
 
@@ -102,10 +92,45 @@ class PartnerPersonalInfoForm extends PureComponent {
   };
 
   render() {
+    const { partnerData } = this.props;
+    const {
+      firstName,
+      lastName,
+      email,
+      externalAffiliateId,
+      public: partnerPublic,
+      phone,
+      country,
+      permission: partnerPermissions,
+    } = get(partnerData, 'data.partner.data') || {};
+
     return (
       <div className="PartnerPersonalInfoForm">
         <Formik
-          initialValues={this.initialValues}
+          initialValues={{
+            firstName,
+            lastName,
+            email,
+            externalAffiliateId,
+            public: partnerPublic,
+            phone,
+            country,
+            ...partnerPermissions,
+          }}
+          validate={createValidator({
+            firstName: ['required', 'string'],
+            lastName: ['required', 'string'],
+            email: ['required', 'email'],
+            country: [`in:,${Object.keys(countryList).join()}`],
+            phone: 'string',
+            externalAffiliateId: 'string',
+            public: 'boolean',
+            allowedIpAddresses: 'listedIP\'s',
+            restrictedCountries: ['array', `in:,${Object.keys(countryList).join()}`],
+            showNotes: 'boolean',
+            showFTDAmount: 'boolean',
+            showKycStatus: 'boolean',
+          }, translateLabels(attributeLabels), false)}
           onSubmit={this.handleSubmit}
           enableReinitialize
         >
@@ -209,7 +234,7 @@ class PartnerPersonalInfoForm extends PureComponent {
                 </Field>
 
                 <Field
-                  name="permission.allowedIpAddresses"
+                  name="allowedIpAddresses"
                   className="PartnerPersonalInfoForm__field"
                   label={I18n.t(attributeLabels.allowedIpAddresses)}
                   placeholder={I18n.t(attributeLabels.allowedIpAddresses)}
@@ -218,7 +243,7 @@ class PartnerPersonalInfoForm extends PureComponent {
                 />
 
                 <Field
-                  name="permission.forbiddenCountries"
+                  name="forbiddenCountries"
                   className="PartnerPersonalInfoForm__field"
                   label={I18n.t(attributeLabels.restrictedCountries)}
                   placeholder={I18n.t('COMMON.SELECT_OPTION.COUNTRY')}
@@ -235,21 +260,21 @@ class PartnerPersonalInfoForm extends PureComponent {
                 </Field>
 
                 <Field
-                  name="permission.showNotes"
+                  name="showNotes"
                   component={FormikCheckbox}
                   label={I18n.t(attributeLabels.showNotes)}
                   disabled={isSubmitting || this.isReadOnly}
                 />
 
                 <Field
-                  name="permission.showFTDAmount"
+                  name="showFTDAmount"
                   component={FormikCheckbox}
                   label={I18n.t(attributeLabels.showFTDAmount)}
                   disabled={isSubmitting || this.isReadOnly}
                 />
 
                 <Field
-                  name="permission.showKycStatus"
+                  name="showKycStatus"
                   component={FormikCheckbox}
                   label={I18n.t(attributeLabels.showKycStatus)}
                   disabled={isSubmitting || this.isReadOnly}
