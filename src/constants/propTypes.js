@@ -198,7 +198,6 @@ PropTypes.partner = PropTypes.shape({
   authorities: PropTypes.shape({
     data: PropTypes.arrayOf(PropTypes.authorityEntity),
   }),
-  cellexpert: PropTypes.bool,
   country: PropTypes.string,
   createdAt: PropTypes.string,
   createdBy: PropTypes.string,
@@ -217,14 +216,10 @@ PropTypes.partner = PropTypes.shape({
   }),
   phone: PropTypes.string,
   public: PropTypes.bool,
-  satellite: PropTypes.string,
   status: PropTypes.string,
   statusChangeAuthor: PropTypes.string,
   statusChangeDate: PropTypes.string,
   statusReason: PropTypes.string,
-  tradingAccountAutocreation: PropTypes.string,
-  tradingAccountCurrency: PropTypes.string,
-  tradingAccountType: PropTypes.string,
   uuid: PropTypes.uuid,
 });
 PropTypes.navSubItem = PropTypes.shape({
