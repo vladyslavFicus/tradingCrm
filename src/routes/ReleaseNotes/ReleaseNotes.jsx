@@ -86,9 +86,6 @@ const ReleaseNotes = () => (
       <p>Added &lsquo;KYC Note&rsquo; field to the "Files" tab on the "Client's details" page in BO</p>
     </li>
     <li>
-      <p>Implemented autosaving function for the Questionnaire and progress bar displaying</p>
-    </li>
-    <li>
       <p>Implemented search by partial parameters on &lsquo;Client&rsquo;s Search' and 'Lead&rsquo; pages</p>
     </li>
     <li>
@@ -284,11 +281,6 @@ const ReleaseNotes = () => (
   <li>
     <p>"Total deposit"/"Total withdrawal"/"Net deposit" parameters values</p>
   </li>
-  <If condition={getActiveBrandConfig().regulation.isActive}>
-    <li>
-      <p>Send automatically the email when Questionnaire score is low</p>
-    </li>
-  </If>
 </ul>
 <div className="heading-anchor-wrapper">&nbsp;</div>;
 <h2 id="Bugs-and-Fixes.2">Bugs and Fixes</h2>;
@@ -416,9 +408,6 @@ const ReleaseNotes = () => (
       request</p>
   </li>
   <If condition={getActiveBrandConfig().regulation.isActive}>
-    <li>
-      <p>Client has been allowed to create DEMO Trading Account if Questionnaire has not been filled</p>
-    </li>
     <li>
       <p>Automated Emails - Deposit/Withdrawal Completion/Failure notifications</p>
     </li>

@@ -82,11 +82,6 @@ class Profile extends Component {
     updateSubscription: PropTypes.func.isRequired,
     addNote: PropTypes.func.isRequired,
     updateNote: PropTypes.func.isRequired,
-    questionnaireLastData: PropTypes.shape({
-      loading: PropTypes.bool.isRequired,
-      refetch: PropTypes.func.isRequired,
-      questionnaire: PropTypes.object,
-    }),
     modals: PropTypes.shape({
       confirmActionModal: PropTypes.modalType,
       noteModal: PropTypes.modalType,
@@ -120,9 +115,6 @@ class Profile extends Component {
   };
 
   static defaultProps = {
-    // Can be null for unregulated brands
-    questionnaireLastData: null,
-
     deleteFile: () => {},
   };
 
@@ -218,14 +210,12 @@ class Profile extends Component {
     const {
       newProfile,
       pinnedNotes,
-      questionnaireLastData,
     } = this.props;
 
     if (!newProfile.loading) {
       await Promise.all([
         newProfile.refetch(),
         pinnedNotes.refetch(),
-        ...[questionnaireLastData && questionnaireLastData.refetch()],
       ]);
 
       if (needForceUpdate) {
@@ -573,7 +563,6 @@ class Profile extends Component {
         path,
       },
       getLoginLock,
-      questionnaireLastData,
     } = this.props;
 
     const loginLock = get(getLoginLock, 'loginLock', {});
@@ -593,7 +582,6 @@ class Profile extends Component {
         <div className="profile__info">
           <ProfileHeader
             newProfile={newProfileData}
-            questionnaireLastData={questionnaireLastData}
             availableStatuses={this.availableStatuses}
             isLoadingProfile={loading}
             onAddNoteClick={this.handleAddNoteClick(params.id)}
