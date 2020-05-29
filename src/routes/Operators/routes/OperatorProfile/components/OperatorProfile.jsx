@@ -47,7 +47,6 @@ class OperatorProfileLayout extends Component {
     modals: PropTypes.shape({
       confirmActionModal: PropTypes.modalType,
     }).isRequired,
-    operatorType: PropTypes.string,
     getLoginLock: PropTypes.object.isRequired,
     unlockLoginMutation: PropTypes.func.isRequired,
     notify: PropTypes.func.isRequired,
@@ -55,8 +54,6 @@ class OperatorProfileLayout extends Component {
 
   static defaultProps = {
     error: null,
-
-    operatorType: '',
   };
 
   state = {
@@ -137,7 +134,7 @@ class OperatorProfileLayout extends Component {
     const { changePassword, notify, match: { params: { id: playerUUID } } } = this.props;
 
     const response = await changePassword({ variables: { password, playerUUID } });
-    const success = get(response, 'data.profile.changePassword.success');
+    const success = get(response, 'data.operator.changeOperatorPassword.success');
 
     notify({
       level: !success ? 'error' : 'success',
@@ -201,13 +198,12 @@ class OperatorProfileLayout extends Component {
       changeStatus,
       refetchOperator,
       authorities: { data: authorities },
-      operatorType,
       getLoginLock,
     } = this.props;
 
     const loginLock = get(getLoginLock, 'loginLock', {});
     const userType = get(data, 'hierarchy.userType');
-    const tabs = [...menu[`${operatorType.toLowerCase()}ProfileTabs`]];
+    const tabs = [...menu.operatorProfileTabs];
 
     // Check if operator is SALES to show sales rules tab
     if (isSales(userType)) {

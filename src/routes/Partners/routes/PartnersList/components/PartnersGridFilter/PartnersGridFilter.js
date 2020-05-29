@@ -2,14 +2,13 @@ import React, { PureComponent } from 'react';
 import { withRouter } from 'react-router-dom';
 import { Formik, Form, Field } from 'formik';
 import I18n from 'i18n-js';
-import { getActiveBrandConfig } from 'config';
 import PropTypes from 'constants/propTypes';
 import { FormikInputField, FormikSelectField, FormikDateRangePicker } from 'components/Formik';
 import { decodeNullValues } from 'components/Formik/utils';
 import { Button } from 'components/UI';
 import countryList from 'utils/countryList';
 import { createValidator } from 'utils/validator';
-import { statusLabels, statuses, affiliateTypeLabels, affiliateTypes } from '../../../../constants';
+import { statusLabels, statuses } from '../../../../constants';
 import './PartnersGridFilter.scss';
 
 class PartnersGridFilter extends PureComponent {
@@ -21,7 +20,6 @@ class PartnersGridFilter extends PureComponent {
     searchBy: '',
     country: '',
     status: '',
-    affiliateType: '',
     registrationDateFrom: '',
     registrationDateTo: '',
   };
@@ -49,7 +47,6 @@ class PartnersGridFilter extends PureComponent {
           searchBy: 'string',
           country: ['string', `in:${Object.keys(countryList).join()}`],
           status: ['string', `in:${Object.keys(statuses).join()}`],
-          affiliateType: ['string', `in:${Object.keys(affiliateTypes).join()}`],
           registrationDateFrom: 'regex:/^\\d{4}-\\d{2}-\\d{2}$/',
           registrationDateTo: 'regex:/^\\d{4}-\\d{2}-\\d{2}$/',
         })}
@@ -95,29 +92,9 @@ class PartnersGridFilter extends PureComponent {
                   <option key={status} value={status}>{I18n.t(statusLabels[status])}</option>
                 ))}
               </Field>
-              <If condition={getActiveBrandConfig().regulation.isActive}>
-                <Field
-                  name="affiliateType"
-                  className="PartnersGridFilter__input PartnersGridFilter__select"
-                  placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
-                  label={I18n.t('PARTNERS.GRID_FILTERS.PARTNER_TYPE')}
-                  component={FormikSelectField}
-                  searchable
-                  withAnyOption
-                >
-                  {Object.keys(affiliateTypeLabels).map(affiliateType => (
-                    <option key={affiliateType} value={affiliateType}>
-                      {I18n.t(affiliateTypeLabels[affiliateType])}
-                    </option>
-                  ))}
-                </Field>
-              </If>
-              <Field
+              <FormikDateRangePicker
                 className="PartnersGridFilter__input PartnersGridFilter__dates"
                 label={I18n.t('PARTNERS.GRID_FILTERS.REGISTRATION_DATE_RANGE')}
-                startDatePlaceholderText={I18n.t('PARTNERS.GRID_FILTERS.REGISTRATION_DATE_FROM')}
-                endDatePlaceholderText={I18n.t('PARTNERS.GRID_FILTERS.REGISTRATION_DATE_TO')}
-                component={FormikDateRangePicker}
                 periodKeys={{
                   start: 'registrationDateFrom',
                   end: 'registrationDateTo',

@@ -1,6 +1,8 @@
 import React from 'react';
+import { omit } from 'lodash';
 import keyMirror from 'keymirror';
 import { fieldTypes } from 'components/ReduxForm/ReduxFieldsConstructor';
+import { userTypes, userTypeLabels } from 'constants/hierarchyTypes';
 import renderLabel from 'utils/renderLabel';
 
 const attributeLabels = {
@@ -10,6 +12,7 @@ const attributeLabels = {
   phone: 'COMMON.PHONE',
   department: 'COMMON.DEPARTMENT',
   role: 'COMMON.ROLE',
+  userType: 'COMMON.USER_TYPE',
   branch: 'COMMON.BRANCH',
   password: 'COMMON.PASSWORD',
 };
@@ -84,6 +87,7 @@ const formFields = ({
   id: 'create-new-operator-phone',
   className: 'col-md-6',
   showErrorMessage: true,
+  br: true,
 }, {
   type: fieldTypes.SELECT,
   name: fieldNames.department,
@@ -105,6 +109,20 @@ const formFields = ({
   className: 'col-md-6',
   selectOptions: formValues.department && departmentsRoles[formValues.department]
     .map(value => ({ value, label: renderLabel(value, rolesLabels) })),
+}, {
+  type: fieldTypes.SELECT,
+  name: 'userType',
+  label: attributeLabels.userType,
+  withAnyOption: false,
+  searchable: true,
+  className: 'col-md-6',
+  selectOptions: Object.keys(
+    omit(userTypes, [
+      userTypes.CUSTOMER,
+      userTypes.LEAD_CUSTOMER,
+      userTypes.AFFILIATE_PARTNER,
+    ]),
+  ).map(value => ({ value, label: renderLabel(value, userTypeLabels) })),
 }];
 
 export {

@@ -7,7 +7,7 @@ const operatorsQuery = gql`query getOperators(
   $status: String,
   $registrationDateFrom: String,
   $registrationDateTo: String,
-  $page: Int,
+  $page: PageInputType,
 ) {
   operators(
     searchBy: $searchBy,
@@ -101,7 +101,7 @@ const operatorQuery = gql`query getOperatorByUUID(
       uuid
       authorities {
         data {
-          brandId
+          brand
           department
           id
           role

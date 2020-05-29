@@ -105,7 +105,7 @@ class FormikTextAreaField extends PureComponent {
               'FormikTextAreaField__textarea-resize--both': resize === 'both',
               'FormikTextAreaField__textarea-resize--horizontal': resize === 'horizontal',
               'FormikTextAreaField__textarea-resize--vertical': resize === 'vertical',
-              'FormikTextAreaField__textarea--error': errors[name],
+              'FormikTextAreaField__textarea--error': showErrorMessage && errors[name],
             },
           )}
           onChange={e => setFieldValue(name, e.target.value)}

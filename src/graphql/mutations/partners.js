@@ -8,14 +8,11 @@ const updatePartner = gql`mutation updatePartner(
   $country: String
   $email: String
   $permission: PartnerPermissionUpdate
-  $affiliateType: String!
   $externalAffiliateId: String
   $public: Boolean
-  $cellexpert: Boolean
   $tradingAccountAutocreation: String
   $tradingAccountType: String
   $tradingAccountCurrency: String
-  $satellite: String
 ) {
   partner {
     updatePartner(
@@ -26,14 +23,11 @@ const updatePartner = gql`mutation updatePartner(
       country: $country
       email: $email
       permission: $permission
-      affiliateType: $affiliateType
       externalAffiliateId: $externalAffiliateId
       public: $public
-      cellexpert: $cellexpert
       tradingAccountAutocreation: $tradingAccountAutocreation
       tradingAccountType: $tradingAccountType
       tradingAccountCurrency: $tradingAccountCurrency
-      satellite: $satellite
     ) {
       data {
         _id
@@ -44,10 +38,8 @@ const updatePartner = gql`mutation updatePartner(
         lastName
         status
         phone
-        affiliateType
         externalAffiliateId
         public
-        cellexpert
         createdBy
         createdAt
         tradingAccountAutocreation
@@ -56,7 +48,6 @@ const updatePartner = gql`mutation updatePartner(
         statusChangeAuthor
         statusChangeDate
         statusReason
-        satellite
         uuid
         permission {
           allowedIpAddresses
@@ -75,32 +66,6 @@ const updatePartner = gql`mutation updatePartner(
   }
 }`;
 
-const changePassword = gql`mutation changePassword($playerUUID: String!, $password: String!) {
-  profile {
-    changePassword(playerUUID: $playerUUID, password: $password) {
-      success
-    }
-  }
-}`;
-
-const changeStatus = gql`mutation changeStatus(
-  $uuid: String!,
-  $reason: String!,
-  $status: String!
-) {
-  partner {
-    changeStatus(
-      uuid: $uuid,
-      reason: $reason,
-      status: $status
-    ) {
-      success
-    }
-  }
-}`;
-
 export {
-  changeStatus,
   updatePartner,
-  changePassword,
 };

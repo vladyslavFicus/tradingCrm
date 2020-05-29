@@ -1170,6 +1170,13 @@
   dependencies:
     regenerator-runtime "^0.12.0"
 
+"@babel/runtime@^7.2.0", "@babel/runtime@^7.7.2", "@babel/runtime@^7.8.4", "@babel/runtime@^7.9.2":
+  version "7.9.6"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.9.6.tgz#a9102eb5cadedf3f31d08a9ecf294af7827ea29f"
+  integrity sha512-64AF1xY3OAkFHqOb9s4jpgk1Mm5vDZ4L3acHvAml+53nO1XbXLuDodsVpO4OIUsmemlUHMxNdYMNJmsvOwLrvQ==
+  dependencies:
+    regenerator-runtime "^0.13.4"
+
 "@babel/runtime@^7.3.4":
   version "7.5.5"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.5.5.tgz#74fba56d35efbeca444091c7850ccd494fd2f132"
@@ -1190,13 +1197,6 @@
   integrity sha512-kq6anf9JGjW8Nt5rYfEuGRaEAaH1mkv3Bbu6rYvLOpPh/RusSJXuKPEAoZ7L7gybZkchE8+NV5g9vKF4AGAtsA==
   dependencies:
     regenerator-runtime "^0.13.2"
-
-"@babel/runtime@^7.7.2", "@babel/runtime@^7.8.4", "@babel/runtime@^7.9.2":
-  version "7.9.6"
-  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.9.6.tgz#a9102eb5cadedf3f31d08a9ecf294af7827ea29f"
-  integrity sha512-64AF1xY3OAkFHqOb9s4jpgk1Mm5vDZ4L3acHvAml+53nO1XbXLuDodsVpO4OIUsmemlUHMxNdYMNJmsvOwLrvQ==
-  dependencies:
-    regenerator-runtime "^0.13.4"
 
 "@babel/template@^7.1.0", "@babel/template@^7.4.0", "@babel/template@^7.4.4":
   version "7.4.4"
@@ -1386,7 +1386,7 @@
 
 "@hrzn/brands-config@1.0.10":
   version "1.0.10"
-  resolved "https://nexus.flcn.pro/repository/hrzn-npm/@hrzn/brands-config/-/brands-config-1.0.10.tgz#11e2f43d4c5eb65aac45600b518b08372f2ed85f"
+  resolved "https://nexus.etep.io/repository/hrzn-npm/@hrzn/brands-config/-/brands-config-1.0.10.tgz#11e2f43d4c5eb65aac45600b518b08372f2ed85f"
   integrity sha512-D9eg1duSXc578tTcbH5/HDwT4tOmRji/vTiv8DsnTQW2XwgfbX9ulJb36KFrXw5phuIZN4OUZx6zeHgegPvgGQ==
   dependencies:
     "@hrzn/zookeeper" "^1.0.15"
@@ -1395,7 +1395,7 @@
 
 "@hrzn/k8s-configmap@^1.0.1":
   version "1.0.1"
-  resolved "https://nexus.flcn.pro/repository/hrzn-npm/@hrzn/k8s-configmap/-/k8s-configmap-1.0.1.tgz#c45f693100fb2c89f7d97a829d397e3a82196480"
+  resolved "https://nexus.etep.io/repository/hrzn-npm/@hrzn/k8s-configmap/-/k8s-configmap-1.0.1.tgz#c45f693100fb2c89f7d97a829d397e3a82196480"
   integrity sha512-Slwww966N5B6aUgHAcm0iPDk4AmdsPbunPqAPnqcz81a+i/bN73SVfD9NYd6mW81Ah3Ig9gYNsIj23WHcFylBA==
   dependencies:
     kubernetes-client "^9.0.0"
@@ -1403,7 +1403,7 @@
 
 "@hrzn/react-big-calendar@^0.20.3":
   version "0.20.3"
-  resolved "https://nexus.flcn.pro/repository/hrzn-npm/@hrzn/react-big-calendar/-/react-big-calendar-0.20.3.tgz#a01b8471d371fde6244652694c935ca765b4c28f"
+  resolved "https://nexus.etep.io/repository/hrzn-npm/@hrzn/react-big-calendar/-/react-big-calendar-0.20.3.tgz#a01b8471d371fde6244652694c935ca765b4c28f"
   integrity sha512-vHbM8vGzVv/9so8QVJI6LfaT/KKu1OdPa0ynNGrpIEGfSoo7CggyDL0jXyn61AnOAs8xrSvqa0602Rfv1QLgBQ==
   dependencies:
     "@babel/runtime" "^7.1.5"
@@ -1421,7 +1421,7 @@
 
 "@hrzn/zookeeper@^1.0.15":
   version "1.0.15"
-  resolved "https://nexus.flcn.pro/repository/hrzn-npm/@hrzn/zookeeper/-/zookeeper-1.0.15.tgz#92a36d3bf002f5b310917b54fda2f8231eb3d6e9"
+  resolved "https://nexus.etep.io/repository/hrzn-npm/@hrzn/zookeeper/-/zookeeper-1.0.15.tgz#92a36d3bf002f5b310917b54fda2f8231eb3d6e9"
   integrity sha512-YjEf/EofbriPupSFv9CQreu62SN+JvdyWdzJSFrQ0kh7R9rAntK/dXFvk+wP6lIIaQqGj+2WzYt9CW05YJ89dA==
   dependencies:
     events "^3.0.0"
@@ -1653,7 +1653,7 @@
 
 "@newage/backoffice_ui@0.0.52":
   version "0.0.52"
-  resolved "https://nexus.flcn.pro/repository/hrzn-npm/@newage/backoffice_ui/-/backoffice_ui-0.0.52.tgz#74ae4f62c0d8a767e433212a3df38477b9579875"
+  resolved "https://nexus.etep.io/repository/hrzn-npm/@newage/backoffice_ui/-/backoffice_ui-0.0.52.tgz#74ae4f62c0d8a767e433212a3df38477b9579875"
   integrity sha512-75M1/+Hla3XAEH4D0XNHvARcSXMEh2KQ9K+9tptOhAz9BUsjavwpQNWxYm/bSmvrdwF95yTIVFfmCskahQGidA==
   dependencies:
     "@newage/casino_backoffice_utils" "^0.0.7"
@@ -1690,7 +1690,7 @@
 
 "@newage/backoffice_utils@0.0.32":
   version "0.0.32"
-  resolved "https://nexus.flcn.pro/repository/hrzn-npm/@newage/backoffice_utils/-/backoffice_utils-0.0.32.tgz#e656acc7957b6ff5b01cdcf7fc30bdfe30775a62"
+  resolved "https://nexus.etep.io/repository/hrzn-npm/@newage/backoffice_utils/-/backoffice_utils-0.0.32.tgz#e656acc7957b6ff5b01cdcf7fc30bdfe30775a62"
   integrity sha512-j9aOTVsSda4bm2+OI8UIOk29567igLkIllgh3AJWnlEgyj3aIFoj+KCj2ve0qXEoZG4jhBDWuCikZDHt6Nbu1A==
   dependencies:
     babel-polyfill "^6.26.0"
@@ -1704,7 +1704,7 @@
 
 "@newage/casino_backoffice_utils@^0.0.7":
   version "0.0.7"
-  resolved "https://nexus.flcn.pro/repository/hrzn-npm/@newage/casino_backoffice_utils/-/casino_backoffice_utils-0.0.7.tgz#2b227de030de9b360d451439ac3cd470d61343c2"
+  resolved "https://nexus.etep.io/repository/hrzn-npm/@newage/casino_backoffice_utils/-/casino_backoffice_utils-0.0.7.tgz#2b227de030de9b360d451439ac3cd470d61343c2"
   integrity sha512-4TM3Bwj9TNzuIrOTjASVK0sY8BQb/eSaF2QnmTISU8BezdlHQZ7oZRYYEZQX5E+BHURmICY2QEVPfxTZ8Wnt2w==
   dependencies:
     fingerprintjs2 "^1.8.1"
@@ -2668,6 +2668,14 @@ apollo-link-http@^1.5.17:
     apollo-link-http-common "^0.2.16"
     tslib "^1.9.3"
 
+apollo-link-persisted-queries@^0.2.2:
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/apollo-link-persisted-queries/-/apollo-link-persisted-queries-0.2.2.tgz#156597cb259b7bb56cf4e967a7be0312954f4591"
+  integrity sha512-YL7XBu/5QsSbbYaWUXgm87T2Hn/2AQZk5Wr8CLXGDr3Wl3E/TRhBhKgQQTly9xhaTi7jgBO+AeIyTH5wCBHA9w==
+  dependencies:
+    apollo-link "^1.2.1"
+    hash.js "^1.1.3"
+
 apollo-link@^1.0.0:
   version "1.2.4"
   resolved "https://registry.yarnpkg.com/apollo-link/-/apollo-link-1.2.4.tgz#ab4d21d2e428db848e88b5e8f4adc717b19c954b"
@@ -2675,6 +2683,16 @@ apollo-link@^1.0.0:
   dependencies:
     apollo-utilities "^1.0.0"
     zen-observable-ts "^0.8.11"
+
+apollo-link@^1.2.1, apollo-link@^1.2.14:
+  version "1.2.14"
+  resolved "https://registry.yarnpkg.com/apollo-link/-/apollo-link-1.2.14.tgz#3feda4b47f9ebba7f4160bef8b977ba725b684d9"
+  integrity sha512-p67CMEFP7kOG1JZ0ZkYZwRDa369w5PIjtMjvrQd/HnIV8FRsHRqLqK+oAZQnFa1DDdZtOtHTi+aMIW6EatC2jg==
+  dependencies:
+    apollo-utilities "^1.3.0"
+    ts-invariant "^0.4.0"
+    tslib "^1.9.3"
+    zen-observable-ts "^0.8.21"
 
 apollo-link@^1.2.11:
   version "1.2.11"
@@ -2685,16 +2703,6 @@ apollo-link@^1.2.11:
     ts-invariant "^0.3.2"
     tslib "^1.9.3"
     zen-observable-ts "^0.8.18"
-
-apollo-link@^1.2.14:
-  version "1.2.14"
-  resolved "https://registry.yarnpkg.com/apollo-link/-/apollo-link-1.2.14.tgz#3feda4b47f9ebba7f4160bef8b977ba725b684d9"
-  integrity sha512-p67CMEFP7kOG1JZ0ZkYZwRDa369w5PIjtMjvrQd/HnIV8FRsHRqLqK+oAZQnFa1DDdZtOtHTi+aMIW6EatC2jg==
-  dependencies:
-    apollo-utilities "^1.3.0"
-    ts-invariant "^0.4.0"
-    tslib "^1.9.3"
-    zen-observable-ts "^0.8.21"
 
 apollo-link@^1.2.6, apollo-link@^1.2.8:
   version "1.2.8"
@@ -7007,7 +7015,7 @@ hash-base@^3.0.0:
     inherits "^2.0.1"
     safe-buffer "^5.0.1"
 
-hash.js@^1.0.0, hash.js@^1.0.3:
+hash.js@^1.0.0, hash.js@^1.0.3, hash.js@^1.1.3:
   version "1.1.7"
   resolved "https://registry.yarnpkg.com/hash.js/-/hash.js-1.1.7.tgz#0babca538e8d4ee4a0f8988d68866537a003cf42"
   integrity sha512-taOaskGt4z4SOANNseOviYDvjEJinIkRgmp7LbKP2YTTmVxWBl87s/uzK9r+44BclBSp2X7K1hqeNfz9JbBeXA==
@@ -12446,11 +12454,26 @@ react@^16.8.6:
     prop-types "^15.6.2"
     scheduler "^0.13.6"
 
-reactstrap@^6.0.1, reactstrap@^6.4.0:
+reactstrap@^6.4.0:
   version "6.5.0"
   resolved "https://registry.yarnpkg.com/reactstrap/-/reactstrap-6.5.0.tgz#ba655e32646e2621829f61faa033e607ec6624e5"
   integrity sha512-dWb3fB/wBAiQloteKlf+j9Nl2VLe6BMZgTEt6hpeTt0t9TwtkeU+2v2NBYONZaF4FZATfMiIKozhWpc2HmLW1g==
   dependencies:
+    classnames "^2.2.3"
+    lodash.isfunction "^3.0.9"
+    lodash.isobject "^3.0.2"
+    lodash.tonumber "^4.0.3"
+    prop-types "^15.5.8"
+    react-lifecycles-compat "^3.0.4"
+    react-popper "^0.10.4"
+    react-transition-group "^2.3.1"
+
+reactstrap@^7.0.0:
+  version "7.1.0"
+  resolved "https://registry.yarnpkg.com/reactstrap/-/reactstrap-7.1.0.tgz#fd7125901737a3001c8564c0f8b40e319eec23b2"
+  integrity sha512-wtc4RkgnGn1TsZ0AxOZ2OqT+b8YmCWZj/tErPujWLepxzlEEhveZGC+uDerdaHVSAzJUP2DTk605iper7hutQQ==
+  dependencies:
+    "@babel/runtime" "^7.2.0"
     classnames "^2.2.3"
     lodash.isfunction "^3.0.9"
     lodash.isobject "^3.0.2"

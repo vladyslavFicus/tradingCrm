@@ -12,5 +12,6 @@ coverage
 .idea/
 package-lock.json
 .env
+.env.development
 .prettierrc
 .eslintcache

@@ -1838,19 +1838,6 @@
       },
       "REGISTERED": {
         "TITLE": "已注册"
-      },
-      "QUESTIONNAIRE": {
-        "TITLE": "问卷",
-        "VERSION": "版本",
-        "SCORE": "得分",
-        "DOWNLOAD_PDF": "下载PDF",
-        "STATUS_CHANGED": "问卷状态已成功更新",
-        "STATUSES": {
-          "NOT_PASSED": "未通过",
-          "PASSED": "已通过",
-          "APPROVED": "已批准",
-          "REJECTED": "已拒绝"
-        }
       }
     },
     "TRANSACTIONS": {

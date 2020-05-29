@@ -72,16 +72,6 @@ const newProfile = gql`query newProfile($playerUUID: String!){
           fullName
         }
       }
-      bankDetails {
-        accountHolderName
-        accountNumber
-        branchName
-        city
-        name
-        province
-        swiftCode
-        withdrawalArea
-      }
       configuration {
         crs
         fatca
@@ -171,10 +161,6 @@ const newProfile = gql`query newProfile($playerUUID: String!){
         name
         platformType
       }
-      fsaMigrationInfo {
-        agreedToFsaMigrationDate
-        fsaMigrationStatus
-      }
 #      uncomment when email history will be rdy
 #      sentEmails {
 #        id
@@ -257,10 +243,6 @@ const clientsQuery = gql`query ${queryNames.clientsQuery}(
             amount
           }
           firstName
-          fsaMigrationInfo {
-            agreedToFsaMigrationDate
-            fsaMigrationStatus
-          }
           languageCode
           lastName
           lastNote {

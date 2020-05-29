@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import I18n from 'i18n-js';
-import { get, startCase } from 'lodash';
+import { get } from 'lodash';
 import PropTypes from 'constants/propTypes';
 import Placeholder from 'components/Placeholder';
 import { TextRow } from 'react-placeholder/lib/placeholders';
 import permissions from 'config/permissions';
 import PermissionContent from 'components/PermissionContent';
 import { authoritiesOptionsQuery } from 'graphql/queries/auth';
-import { getUserTypeByDepartment } from './utils';
 import OperatorGridFilter from './OperatorGridFilter';
 import OperatorsGrid from './OperatorsGrid';
 
@@ -27,7 +26,6 @@ class List extends Component {
       }),
     }).isRequired,
     submitNewOperator: PropTypes.func.isRequired,
-    filterValues: PropTypes.object,
     operators: PropTypes.shape({
       operators: PropTypes.shape({
         data: PropTypes.pageable(PropTypes.any),
@@ -35,33 +33,35 @@ class List extends Component {
       loadMore: PropTypes.func,
       loading: PropTypes.bool.isRequired,
     }),
-    operatorType: PropTypes.string,
     notify: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
-    filterValues: null,
     operators: {
       operators: {},
       loading: false,
     },
-    operatorType: '',
   };
 
-  state = {
-    filters: {},
+  handlePageChanged = () => {
+    const {
+      operators: {
+        loadMore,
+        loading,
+      },
+    } = this.props;
+
+    if (!loading) {
+      loadMore();
+    }
   };
 
   handleFiltersChanged = (filters = {}) => {
-    this.setState({ filters }, () => {
-      this.props.history.replace({
-        query: {
-          filters: {
-            ...filters,
-          },
-        },
-      });
-    });
+    this.props.history.replace({ query: { filters } });
+  };
+
+  handleFilterReset = () => {
+    this.props.history.replace({ query: { filters: {} } });
   };
 
   handleSubmitNewOperator = async ({ department, role, branch, email, ...data }) => {
@@ -73,18 +73,16 @@ class List extends Component {
       submitNewOperator,
       notify,
     } = this.props;
-    const userType = getUserTypeByDepartment(department, role);
-    const operatorType = this.props.operatorType.toLowerCase();
 
     try {
       const {
         data: operatorData,
       } = await submitNewOperator({
-        variables: { ...data, userType, department, role, email, branchId: branch },
+        variables: { ...data, department, role, email, branchId: branch },
       });
 
-      const newOperator = get(operatorData, `${operatorType}.create${startCase(operatorType)}.data`);
-      const newOperatorError = get(operatorData, `${operatorType}.create${startCase(operatorType)}.error`);
+      const newOperator = get(operatorData, 'operator.createOperator.data');
+      const newOperatorError = get(operatorData, 'operator.createOperator.error');
       const error = get(newOperatorError, 'error', null);
 
       if (error === EMAIL_ALREADY_EXIST) {
@@ -102,7 +100,7 @@ class List extends Component {
 
       const { uuid } = newOperator;
 
-      this.props.history.push(`/${operatorType.toLowerCase()}s/${uuid}/profile`);
+      this.props.history.push(`/operators/${uuid}/profile`);
     } catch (e) {
       createOperator.hide();
       notify({
@@ -120,9 +118,7 @@ class List extends Component {
       data: {
         authoritiesOptions: {
           data: {
-            post: {
-              departmentRole,
-            },
+            authoritiesOptions,
           },
           error,
         },
@@ -130,20 +126,20 @@ class List extends Component {
     } = await client.query({ query: authoritiesOptionsQuery });
 
     if (!error) {
-      delete departmentRole.PLAYER;
-      delete departmentRole.AFFILIATE_PARTNER;
+      delete authoritiesOptions.PLAYER;
+      delete authoritiesOptions.AFFILIATE;
 
-      const [department] = Object.keys(departmentRole);
+      const [department] = Object.keys(authoritiesOptions);
 
       const initialValues = {
         department,
-        role: department ? departmentRole[department][0] : null,
+        role: department ? authoritiesOptions[department][0] : null,
       };
 
       modals.createOperator.show({
         onSubmit: this.handleSubmitNewOperator,
         initialValues,
-        departmentsRoles: departmentRole || {},
+        departmentsRoles: authoritiesOptions || {},
       });
     } else {
       notify({
@@ -155,12 +151,9 @@ class List extends Component {
   };
 
   render() {
-    const { filters } = this.state;
     const {
       operators,
       operators: { loading },
-      filterValues,
-      operatorType,
     } = this.props;
 
     const totalElements = get(operators, 'operators.data.totalElements');
@@ -183,13 +176,13 @@ class List extends Component {
                 <span className="font-size-20 height-55">
                   <div>
                     <strong>{totalElements} </strong>
-                    {I18n.t(`COMMON.${operatorType}S_FOUND`)}
+                    {I18n.t('COMMON.OPERATORS_FOUND')}
                   </div>
                 </span>
               </When>
               <Otherwise>
                 <span className="font-size-20">
-                  {I18n.t(`${operatorType}S.HEADING`)}
+                  {I18n.t('OPERATORS.HEADING')}
                 </span>
               </Otherwise>
             </Choose>
@@ -201,17 +194,16 @@ class List extends Component {
               onClick={this.handleOpenCreateModal}
               id="create-new-operator-button"
             >
-              {I18n.t(`${operatorType}S.CREATE_OPERATOR_BUTTON`)}
+              {I18n.t('OPERATORS.CREATE_OPERATOR_BUTTON')}
             </button>
           </PermissionContent>
         </div>
 
         <OperatorGridFilter
           onSubmit={this.handleFiltersChanged}
-          initialValues={filters}
-          filterValues={filterValues}
+          onReset={this.handleFilterReset}
         />
-        <OperatorsGrid operatorsQuery={operators} operatorType={operatorType} />
+        <OperatorsGrid operatorsQuery={operators} />
       </div>
     );
   }

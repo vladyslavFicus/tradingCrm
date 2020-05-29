@@ -51,6 +51,9 @@ const loadMore = ({ fetchMore }) => {
  * @return {*}
  */
 export default requests => (Component) => {
+  // Generate memoized request components on fly to prevent query or mutation re-render when parent re-rendered
+  const memoizedRequests = Object.keys(requests).map(key => [key, React.memo(requests[key])]);
+
   const WrappedComponent = (props) => {
     const traverseRequests = (remainRequests, requestsProps = {}) => {
       if (remainRequests.length) {
@@ -73,10 +76,10 @@ export default requests => (Component) => {
       return <Component {...props} {...requestsProps} />;
     };
 
-    return traverseRequests(Object.entries(requests));
+    return traverseRequests(memoizedRequests);
   };
 
   WrappedComponent.displayName = `withRequests(${(Component.displayName || Component.name)})`;
 
-  return WrappedComponent;
+  return React.memo(WrappedComponent);
 };

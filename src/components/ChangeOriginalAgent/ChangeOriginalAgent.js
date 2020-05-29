@@ -1,43 +1,46 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { compose, graphql } from 'react-apollo';
-import { Field, reduxForm } from 'redux-form';
+import React, { PureComponent } from 'react';
+import { compose } from 'react-apollo';
 import { get } from 'lodash';
 import I18n from 'i18n-js';
+import { Formik, Form, Field } from 'formik';
+import { withRequests } from 'apollo';
 import { withNotifications } from 'hoc';
-import { operatorsQuery } from 'graphql/queries/operators';
-import { changeOriginalAgent } from 'graphql/mutations/payment';
-import { NasSelectField } from '../ReduxForm/index';
+import { FormikSelectField } from 'components/Formik';
+import Button from 'components/UI/Button';
+import PropTypes from 'constants/propTypes';
+import { ChangeOriginalAgentMutation } from './graphql';
+import OperatorsQuery from './graphql/OperatorsQuery';
+import './OriginalAgent.scss';
 
-
-class ChangeOriginalAgent extends Component {
+class ChangeOriginalAgent extends PureComponent {
   static propTypes = {
-    changeOriginalAgent: PropTypes.func.isRequired,
-    operators: PropTypes.object.isRequired,
-    handleSubmit: PropTypes.func.isRequired,
-    notify: PropTypes.func.isRequired,
+    agentId: PropTypes.string.isRequired,
     paymentId: PropTypes.string.isRequired,
-    error: PropTypes.any,
-    submitting: PropTypes.bool.isRequired,
-    valid: PropTypes.bool.isRequired,
-    pristine: PropTypes.bool.isRequired,
+    changeOriginalAgent: PropTypes.func.isRequired,
+    operators: PropTypes.query({
+      operators: PropTypes.shape({
+        content: PropTypes.arrayOf(
+          PropTypes.shape({
+            uuid: PropTypes.string.isRequired,
+            fullName: PropTypes.string.isRequired,
+          }),
+        ),
+      }),
+    }).isRequired,
+    notify: PropTypes.func.isRequired,
   };
 
-  static defaultProps = {
-    error: null,
-  };
+  handleChangeOriginalAgent = async ({ agentId }, { resetForm }) => {
+    const { paymentId, notify, operators, changeOriginalAgent } = this.props;
+    const operatorsList = get(operators, 'data.operators.data.content') || [];
 
-  handleChangeOriginalAgent = async ({ agentId }) => {
-    const { paymentId, notify, operators } = this.props;
-    const operatorsList = get(operators, 'operators.data.content', []);
+    const { fullName: agentName } = operatorsList.find(({ uuid }) => uuid === agentId);
 
-    const currentOperator = operatorsList.find(item => item.uuid === agentId);
-
-    const { data: { payment: { changeOriginalAgent: { success } } } } = await this.props.changeOriginalAgent({
+    const { data: { payment: { changeOriginalAgent: { success } } } } = await changeOriginalAgent({
       variables: {
         paymentId,
+        agentName,
         agentId,
-        agentName: currentOperator.fullName,
       },
     });
 
@@ -48,49 +51,54 @@ class ChangeOriginalAgent extends Component {
         ? I18n.t('PAYMENT_DETAILS_MODAL.NOTIFICATIONS.SUCCESSFULLY')
         : I18n.t('COMMON.SOMETHING_WRONG'),
     });
-  }
+
+    if (success) {
+      resetForm({ values: { agentId } });
+    }
+  };
 
   render() {
     const {
+      operators: { loading, error },
       operators,
-      operators: { loading },
-      handleSubmit,
-      error,
-      submitting,
-      valid,
-      pristine,
+      agentId,
     } = this.props;
-    const operatorsList = get(operators, 'operators.data.content', []);
+
+    const operatorsList = get(operators, 'data.operators.data.content', []);
 
     return (
-      <div className="col">
-        <div className="modal-tab-label">
+      <div className="ChangeOriginalAgent">
+        <div className="ChangeOriginalAgent__label">
           {I18n.t('CHANGE_ORIGINAL_AGENT.TITLE')}
         </div>
-        <form
-          onSubmit={handleSubmit(this.handleChangeOriginalAgent)}
+        <Formik
+          initialValues={{ agentId }}
+          onSubmit={this.handleChangeOriginalAgent}
         >
-          <Field
-            name="agentId"
-            label=""
-            component={NasSelectField}
-            className="filter-row__small"
-            disabled={loading}
-          >
-            {operatorsList.map(({ uuid, fullName, operatorStatus }) => (
-              <option key={uuid} value={uuid} disabled={operatorStatus !== 'ACTIVE'}>
-                {fullName}
-              </option>
-            ))}
-          </Field>
-          <button
-            className="btn btn-sm btn-primary pull-right"
-            type="submit"
-            disabled={pristine || submitting || !!error || !valid}
-          >
-            {I18n.t('COMMON.SAVE')}
-          </button>
-        </form>
+          {({ isSubmitting, dirty }) => (
+            <Form>
+              <Field
+                name="agentId"
+                component={FormikSelectField}
+                className="ChangeOriginalAgent__select"
+                disabled={loading}
+              >
+                {operatorsList.map(({ uuid, fullName }) => (
+                  <option key={uuid} value={uuid}>{fullName}</option>
+                ))}
+              </Field>
+              <Button
+                disabled={!dirty || !!error || isSubmitting}
+                className="ChangeOriginalAgent__button"
+                type="submit"
+                primary
+                small
+              >
+                {I18n.t('COMMON.SAVE')}
+              </Button>
+            </Form>
+          )}
+        </Formik>
       </div>
     );
   }
@@ -98,13 +106,8 @@ class ChangeOriginalAgent extends Component {
 
 export default compose(
   withNotifications,
-  reduxForm({
-    form: 'ChangeOriginalAgentForm',
-  }),
-  graphql(operatorsQuery, {
-    name: 'operators',
-  }),
-  graphql(changeOriginalAgent, {
-    name: 'changeOriginalAgent',
+  withRequests({
+    operators: OperatorsQuery,
+    changeOriginalAgent: ChangeOriginalAgentMutation,
   }),
 )(ChangeOriginalAgent);
