@@ -198,15 +198,13 @@ class PaymentAddModal extends PureComponent {
     return (
       <Modal contentClassName="payment-modal" toggle={onCloseModal} isOpen>
         <Formik
-          initialValues={{
-            paymentType: '',
-          }}
+          initialValues={{}}
           validate={values => validation(values, tradingAccount)}
           onSubmit={this.onSubmit}
         >
           {({
             isSubmitting,
-            pristine,
+            dirty,
             isValid,
             values,
             setFieldValue,
@@ -320,6 +318,7 @@ class PaymentAddModal extends PureComponent {
                           name="expirationDate"
                           label={attributeLabels.expirationDate}
                           closeOnSelect={false}
+                          showErrorMessage={false}
                           withTime
                         />
                       </If>
@@ -354,7 +353,7 @@ class PaymentAddModal extends PureComponent {
                         </Button>
                         <Button
                           className="margin-left-25"
-                          disabled={pristine || isSubmitting || !isValid || !this.isValidTransaction(values)}
+                          disabled={!dirty || isSubmitting || !isValid || !this.isValidTransaction(values)}
                           type="submit"
                           primary
                         >

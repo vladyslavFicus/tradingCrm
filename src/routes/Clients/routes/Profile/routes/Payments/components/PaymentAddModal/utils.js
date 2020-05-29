@@ -14,7 +14,6 @@ const validation = (values, tradingAccount) => {
   let rules = {
     paymentType: 'required|string',
     amount: ['required', 'numeric', 'greater:0', 'max:999999'],
-    externalReference: 'required|string',
     accountUUID: 'required|string',
   };
 
@@ -38,7 +37,11 @@ const validation = (values, tradingAccount) => {
   }
 
   if (paymentType === paymentTypes.DEPOSIT.name) {
-    rules = { ...rules, paymentMethod: 'required|string' };
+    rules = {
+      ...rules,
+      paymentMethod: 'required|string',
+      externalReference: 'required|string',
+    };
   }
 
   if (paymentType === paymentTypes.CREDIT_IN.name) {
@@ -47,7 +50,8 @@ const validation = (values, tradingAccount) => {
 
   if (paymentType === paymentTypes.TRANSFER.name) {
     rules = {
-      ...rules,
+      paymentType: rules.paymentType,
+      amount: rules.amount,
       source: 'required|string',
       target: 'required|string',
     };
