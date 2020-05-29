@@ -302,6 +302,7 @@ class PaymentAddModal extends PureComponent {
                         max={999999}
                         addition={sourceAccount && <Currency code={sourceAccount.currency} showSymbol={false} />}
                         component={FormikInputField}
+                        showErrorMessage={false}
                       />
                       <If condition={values && values.paymentType === paymentTypes.DEPOSIT.name}>
                         <Field
@@ -310,6 +311,7 @@ class PaymentAddModal extends PureComponent {
                           type="text"
                           label={attributeLabels.externalReference}
                           component={FormikInputField}
+                          showErrorMessage={false}
                         />
                       </If>
                       <If condition={values && values.paymentType === paymentTypes.CREDIT_IN.name}>
@@ -345,14 +347,13 @@ class PaymentAddModal extends PureComponent {
                       </div>
                       <div className="col">
                         <Button
-                          className="btn"
                           onClick={onCloseModal}
                           commonOutline
                         >
                           {I18n.t('COMMON.CANCEL')}
                         </Button>
                         <Button
-                          className="btn margin-left-25"
+                          className="margin-left-25"
                           disabled={pristine || isSubmitting || !isValid || !this.isValidTransaction(values)}
                           type="submit"
                           primary
