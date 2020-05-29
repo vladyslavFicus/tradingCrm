@@ -2173,6 +2173,12 @@
       "MESSAGE": "To update your client version, please confirm this action"
     },
     "ADD_OFFICE_MODAL": {
+      "TITLE": "New office",
+      "CREATE_BUTTON": "Create office",
+      "LABELS": {
+        "OFFICE_NAME": "Office name",
+        "COUNTRY": "Country"
+      },
       "NOTIFICATION": {
         "SUCCESS": "Office was successfully created",
         "ERROR": "Failed to create new office"
@@ -2753,19 +2759,10 @@
   },
   "OFFICES": {
     "OFFICES": "Offices",
-    "ADD_OFFICE": "Add office",
+    "ADD_OFFICE": "+ Add office",
     "GRID_HEADER": {
       "OFFICE": "Office",
       "COUNTRY": "Country"
-    },
-    "MODAL": {
-      "HEADER": "New office",
-      "CREATE_BUTTON": "Create office",
-      "LABELS": {
-        "OFFICE_NAME": "Office name",
-        "COUNTRY": "Country",
-        "OFFICE_MANAGER": "Office manager"
-      }
     },
     "TABS": {
       "RULES": {
