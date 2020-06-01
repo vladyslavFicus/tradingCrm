@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react';
+import { Link } from 'react-router-dom';
 import moment from 'moment';
 import classNames from 'classnames';
 import I18n from 'i18n-js';
@@ -123,10 +124,6 @@ class List extends Component {
     }, () => this.props.history.replace({ query: { filters: {} } }));
   };
 
-  handleLeadClick = ({ uuid }) => {
-    window.open(`/leads/${uuid}`, '_blank');
-  };
-
   handleSelectRow = (allRowsSelected, touchedRowsIds) => {
     this.setState({
       touchedRowsIds,
@@ -249,9 +246,13 @@ class List extends Component {
 
     return (
       <div id={uuid}>
-        <div className="font-weight-700">
+        <Link
+          className="font-weight-700"
+          to={`/leads/${uuid}`}
+          target="_blank"
+        >
           {name} {surname}
-        </div>
+        </Link>
         <div className="font-size-11">
           <MiniProfile id={uuid} type="lead">
             <Uuid uuid={uuid} uuidPrefix="LE" />
@@ -457,14 +458,12 @@ class List extends Component {
             allRowsSelected={allRowsSelected}
             touchedRowsIds={touchedRowsIds}
             // handleSort={sortData => console.log(sortData)} // your sorting handle function here
-            handleRowClick={this.handleLeadClick} // <- onRowClick
             handleSelectRow={this.handleSelectRow} // <- onRowSelect
             handleAllRowsSelect={this.handleAllRowsSelect} // <- onAllRowsSelect
             handlePageChanged={this.handlePageChanged} // <- onPageChange
             isLoading={loading}
             isLastPage={entities.last} // <- last
             withMultiSelect // <- multiselect
-            withRowsHover // <- className="table-hovered"
             withLazyLoad // <- lazyLoad
             withNoResults={entities.content.length === 0} // <- showNoResults
             // Example (will be removed later)
