@@ -19,21 +19,6 @@ const createHierarchyUser = gql`mutation createUser(
   }
 }`;
 
-const createOffice = gql`mutation createOffice(
-  $name: String!,
-  $country: String!,
-) {
-  hierarchy {
-    createOffice (
-      name: $name,
-      country: $country,
-    ) {
-      data
-      error
-    }
-  }
-}`;
-
 const createTeam = gql`mutation createTeam(
   $name: String!,
   $deskId: String!,
@@ -123,7 +108,6 @@ const updateUser = gql`mutation updateUser(
 
 export {
   createHierarchyUser,
-  createOffice,
   createTeam,
   createDesk,
   addOperatorToBranch,
