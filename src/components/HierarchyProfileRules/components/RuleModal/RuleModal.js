@@ -47,12 +47,12 @@ class RuleModal extends PureComponent {
     deskType: PropTypes.string.isRequired,
     partnersQuery: PropTypes.response({
       partners: PropTypes.shape({
-        data: PropTypes.partnersList,
+        data: PropTypes.pageable(PropTypes.partnersListEntity),
       }),
     }).isRequired,
     operatorsQuery: PropTypes.response({
       operators: PropTypes.shape({
-        data: PropTypes.operatorsList,
+        data: PropTypes.pageable(PropTypes.operatorsListEntity),
       }),
     }).isRequired,
     type: PropTypes.string,

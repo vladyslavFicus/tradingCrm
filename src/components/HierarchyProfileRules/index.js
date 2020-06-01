@@ -1,1 +1,1 @@
-export { default } from './components/HierarchyProfileRules';
+export { default } from './HierarchyProfileRules';

@@ -629,7 +629,8 @@ PropTypes.callback = PropTypes.shape({
     fullName: PropTypes.string,
   }),
 });
-PropTypes.operatorsList = PropTypes.arrayOf(PropTypes.shape({
+
+PropTypes.operatorsListEntity = PropTypes.shape({
   uuid: PropTypes.string,
   fullName: PropTypes.string,
   operatorStatus: PropTypes.string,
@@ -637,9 +638,10 @@ PropTypes.operatorsList = PropTypes.arrayOf(PropTypes.shape({
     uuid: PropTypes.string,
     userType: PropTypes.string,
   }),
-}));
+});
+PropTypes.operatorsList = PropTypes.arrayOf(PropTypes.operatorsListEntity);
 // # This one can be removed after ClientProfile page will be refactored
-PropTypes.partnersList = PropTypes.arrayOf(PropTypes.shape({
+PropTypes.partnersListEntity = PropTypes.shape({
   uuid: PropTypes.string,
   fullName: PropTypes.string,
   createdAt: PropTypes.string,
@@ -647,7 +649,8 @@ PropTypes.partnersList = PropTypes.arrayOf(PropTypes.shape({
   status: PropTypes.string,
   statusChangeDate: PropTypes.string,
   country: PropTypes.string,
-}));
+});
+PropTypes.partnersList = PropTypes.arrayOf(PropTypes.partnersListEntity);
 PropTypes.feed = PropTypes.shape({
   authorFullName: PropTypes.string,
   authorUuid: PropTypes.string,

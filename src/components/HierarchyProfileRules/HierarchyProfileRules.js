@@ -341,7 +341,7 @@ class HierarchyProfileRules extends PureComponent {
           className={classNames(!enabled && 'disabled', 'btn btn-sm btn-outline')}
           onClick={enabled ? this.triggerRuleModal : null}
         >
-          + {I18n.t('HIERARCHY.PROFILE_RULE_TAB.ADD_RULE')}
+          {`+ ${I18n.t('HIERARCHY.PROFILE_RULE_TAB.ADD_RULE')}`}
         </Button>
       </TabHeader>
 
@@ -513,6 +513,8 @@ class HierarchyProfileRules extends PureComponent {
                 header={I18n.t('HIERARCHY.PROFILE_RULE_TAB.GRID_HEADER.PARTNER')}
                 render={this.renderPartner}
               />
+            </If>
+            <If condition={deskType === deskTypes.SALES}>
               <GridColumn
                 header={I18n.t('HIERARCHY.PROFILE_RULE_TAB.GRID_HEADER.SOURCE')}
                 render={this.renderRuleInfo(infoConfig.sources)}
