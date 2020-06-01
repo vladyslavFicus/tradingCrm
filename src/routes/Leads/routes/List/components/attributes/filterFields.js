@@ -171,4 +171,32 @@ export default (
   label: 'COMMON.FILTERS.SEARCH_LIMIT',
   placeholder: 'COMMON.UNLIMITED',
   className: fieldClassNames.SMALL,
+}, {
+  type: fieldTypes.RANGE,
+  className: fieldClassNames.MEDIUM,
+  label: filterLabels.lastNoteDate,
+  fields: [{
+    type: fieldTypes.DATE,
+    name: 'lastNoteDateFrom',
+    placeholder: 'COMMON.DATE_OPTIONS.START_DATE',
+    closeOnSelect: false,
+    dateValidator: {
+      type: validators.START_DATE,
+      fieldName: 'lastNoteDateFromTo',
+    },
+    withTime: true,
+    timePresets: true,
+  }, {
+    type: fieldTypes.DATE,
+    name: 'lastNoteDateFromTo',
+    placeholder: 'COMMON.DATE_OPTIONS.END_DATE',
+    closeOnSelect: false,
+    dateValidator: {
+      type: validators.END_DATE,
+      fieldName: 'lastNoteDateFrom',
+    },
+    withTime: true,
+    timePresets: true,
+    isDateRangeEndValue: true,
+  }],
 }];
