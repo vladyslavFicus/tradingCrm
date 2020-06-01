@@ -189,6 +189,7 @@ class View extends Component {
                 onSubmit={this.handleAddAuthority}
                 authorities={authorities.data ? authorities.data : []}
                 departmentsRoles={departmentsRoles}
+                operatorUuid={profile.uuid}
               />
             </If>
           </div>
