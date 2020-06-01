@@ -65,7 +65,7 @@ class OperatorsFeedFilter extends PureComponent {
               {
                 [
                   <option value="" key="any">
-                    {I18n.t('PARTNER_PROFILE.FEED.FILTER_FORM.ACTION_TYPE_EMPTY_OPTION')}
+                    {I18n.t('OPERATOR_PROFILE.FEED.FILTER_FORM.ACTION_TYPE_EMPTY_OPTION')}
                   </option>,
                   ...availableTypes.map(type => (
                     <option key={type} value={type}>
