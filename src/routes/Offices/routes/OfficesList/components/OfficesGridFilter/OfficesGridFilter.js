@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { withRouter } from 'react-router-dom';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
@@ -11,7 +11,7 @@ import { createValidator } from 'utils/validator';
 import countryList from 'utils/countryList';
 import './OfficesGridFilter.scss';
 
-class OfficesGridFilter extends Component {
+class OfficesGridFilter extends PureComponent {
   static propTypes = {
     ...PropTypes.router,
   };
