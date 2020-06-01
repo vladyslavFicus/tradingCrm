@@ -43,7 +43,6 @@ class EditRuleModal extends PureComponent {
     onSubmit: PropTypes.func.isRequired,
     onCloseModal: PropTypes.func.isRequired,
     isOpen: PropTypes.bool.isRequired,
-    formError: PropTypes.string,
     partners: PropTypes.object.isRequired,
     operators: PropTypes.object.isRequired,
     withOperatorSpreads: PropTypes.bool,
@@ -55,7 +54,6 @@ class EditRuleModal extends PureComponent {
   };
 
   static defaultProps = {
-    formError: '',
     withOperatorSpreads: false,
   };
 
@@ -110,7 +108,6 @@ class EditRuleModal extends PureComponent {
       },
       partners,
       operators,
-      formError,
       withOperatorSpreads,
     } = this.props;
 
@@ -163,9 +160,9 @@ class EditRuleModal extends PureComponent {
                 {I18n.t('HIERARCHY.PROFILE_RULE_TAB.EDIT_MODAL.HEADER')}
               </ModalHeader>
               <ModalBody>
-                <If condition={formError || (errors && errors.submit)}>
+                <If condition={errors && errors.submit}>
                   <div className="mb-2 text-center color-danger RuleModal__message-error">
-                    {formError || errors.submit}
+                    {errors.submit}
                   </div>
                 </If>
                 <Field
