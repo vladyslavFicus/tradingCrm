@@ -56,6 +56,7 @@ class TradingActivity extends Component {
           <Grid
             data={clientTradingActivity.content}
             handlePageChanged={this.handlePageChanged}
+            isLoading={loading}
             isLastPage={clientTradingActivity.last}
             withLazyLoad
             withNoResults={!!error || (!loading && clientTradingActivity.totalElements === 0)}
