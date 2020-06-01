@@ -12,7 +12,6 @@ const REQUEST = gql`mutation DeleteRule(
     ) {
       error {
         error
-        fields_errors
       }
       data {
         uuid

@@ -41,7 +41,6 @@ const REQUEST = gql`mutation CreateRuleRetention(
       }
       error {
         error
-        fields_errors
       }
     }
   }

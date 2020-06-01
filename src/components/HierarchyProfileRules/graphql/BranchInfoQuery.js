@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 import { branchTypes } from 'constants/hierarchyTypes';
-import { HierarchyBranchFragment } from 'graphql/fragments/hierarchy';
 
 const REQUEST = gql`query BranchInfoQuery(
   $branchId: String!,
@@ -12,20 +11,12 @@ const REQUEST = gql`query BranchInfoQuery(
     branchInfo (
       branchId: $branchId,
     ) {
-      error {
-        error
-        fields_errors
-      }
       data {
-        ...HierarchyBranchFragment
-        parentBranch {
-          ...HierarchyBranchFragment
-        }
+        defaultUser
       }
     } 
   }
-}
-${HierarchyBranchFragment}`;
+}`;
 
 const BranchInfoQuery = ({
   children,

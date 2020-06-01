@@ -43,7 +43,6 @@ const REQUEST = gql`mutation CreateRule(
       }
       error {
         error
-        fields_errors
         errorParameters
       }
     }

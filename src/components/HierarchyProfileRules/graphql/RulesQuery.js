@@ -26,7 +26,6 @@ const RulesRequest = gql`query RulesQuery(
   ) {
     error {
       error
-      fields_errors
     }
     data {
       actions {
@@ -78,7 +77,6 @@ const RetentionRulesRequest = gql`query RetentionRulesQuery(
   ) {
     error {
       error
-      fields_errors
     }
     data {
       actions {
