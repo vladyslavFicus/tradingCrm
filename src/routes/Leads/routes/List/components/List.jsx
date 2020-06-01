@@ -453,33 +453,22 @@ class List extends Component {
 
         <div className="card-body card-grid-multiselect">
           <Grid
-            data={entities.content} // <- dataSource
+            data={entities.content}
             allRowsSelected={allRowsSelected}
             touchedRowsIds={touchedRowsIds}
-            // handleSort={sortData => console.log(sortData)} // your sorting handle function here
-            handleRowClick={this.handleLeadClick} // <- onRowClick
-            handleSelectRow={this.handleSelectRow} // <- onRowSelect
-            handleAllRowsSelect={this.handleAllRowsSelect} // <- onAllRowsSelect
-            handlePageChanged={this.handlePageChanged} // <- onPageChange
+            handleRowClick={this.handleLeadClick}
+            handleSelectRow={this.handleSelectRow}
+            handleAllRowsSelect={this.handleAllRowsSelect}
+            handlePageChanged={this.handlePageChanged}
             isLoading={loading}
-            isLastPage={entities.last} // <- last
-            withMultiSelect // <- multiselect
-            withRowsHover // <- className="table-hovered"
-            withLazyLoad // <- lazyLoad
-            withNoResults={entities.content.length === 0} // <- showNoResults
-            // Example (will be removed later)
-            // rowsClassNames={
-            //   rowData => classNames({
-            //     'Block__row--green': rowData.status === 'CONVERTED',
-            //     'Block__row--blue': rowData.status === 'NEW',
-            //   })
-            // }
-            // or
-            // rowsClassNames="Block__row--green"
+            isLastPage={entities.last}
+            withMultiSelect
+            withRowsHover
+            withLazyLoad
+            withNoResults={entities.content.length === 0}
           >
             <GridColumn
               name="lead"
-              // sortBy="lead"
               header={I18n.t('LEADS.GRID_HEADER.LEAD')}
               render={this.renderLead}
             />

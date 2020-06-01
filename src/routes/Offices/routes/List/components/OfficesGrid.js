@@ -53,6 +53,7 @@ class OfficesGrid extends Component {
         <Grid
           data={officesList}
           handleRowClick={this.handleOfficeClick}
+          isLoading={isLoading}
           isLastPage
           withNoResults={!isLoading && officesList.length === 0}
         >
