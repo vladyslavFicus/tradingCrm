@@ -49,6 +49,17 @@ const firstDepositStatuses = [
   },
 ];
 
+const onlineStatuses = [
+  {
+    value: 'ONLINE',
+    label: 'PROFILE.LAST_ACTIVITY.STATUS.ONLINE',
+  },
+  {
+    value: 'OFFLINE',
+    label: 'PROFILE.LAST_ACTIVITY.STATUS.OFFLINE',
+  },
+];
+
 export const fieldNames = keyMirror({
   desks: null,
   teams: null,
@@ -105,6 +116,15 @@ export default ({
       label: countries[value],
     })),
     optionsWithoutI18n: true,
+  },
+  {
+    type: fieldTypes.SELECT,
+    name: 'onlineStatuses',
+    label: filterLabels.onlineStatus,
+    placeholder: 'COMMON.SELECT_OPTION.ANY',
+    className: fieldClassNames.MEDIUM,
+    selectOptions: onlineStatuses,
+    searchable: false,
   },
   {
     type: fieldTypes.SELECT,
