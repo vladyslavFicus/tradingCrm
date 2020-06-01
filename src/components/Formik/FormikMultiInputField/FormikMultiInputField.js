@@ -24,7 +24,6 @@ class FormikMultiInputField extends PureComponent {
     showErrorMessage: PropTypes.bool,
     disabled: PropTypes.bool,
     form: PropTypes.shape({
-      touched: PropTypes.object.isRequired,
       errors: PropTypes.oneOfType([PropTypes.string, PropTypes.array, PropTypes.object]),
       setFieldValue: PropTypes.func.isRequired,
     }).isRequired,
@@ -99,7 +98,6 @@ class FormikMultiInputField extends PureComponent {
         name,
       },
       form: {
-        touched,
         errors,
       },
       showErrorMessage,
@@ -110,7 +108,7 @@ class FormikMultiInputField extends PureComponent {
     const groupClassName = classNames(
       'form-group',
       className,
-      { 'has-danger': touched && errors },
+      { 'has-danger': errors },
       { 'is-disabled': disabled },
     );
 
@@ -122,9 +120,9 @@ class FormikMultiInputField extends PureComponent {
           className={labelClassName}
         />
         {this.renderInput()}
-        <If condition={helpText || (showErrorMessage && touched[name] && errors[name])}>
+        <If condition={helpText || (showErrorMessage && errors[name])}>
           <div className="form-row">
-            <If condition={showErrorMessage && touched[name] && errors[name]}>
+            <If condition={showErrorMessage && errors[name]}>
               <div className="col form-control-feedback">
                 <i className="icon icon-alert" />
                 {errors[name]}
