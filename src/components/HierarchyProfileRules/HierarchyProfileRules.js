@@ -335,14 +335,14 @@ class HierarchyProfileRules extends PureComponent {
   renderButtonAddRule = ({ enabled, message }) => (
     <PermissionContent permissions={permissions.SALES_RULES.CREATE_RULE}>
       <TabHeader title={I18n.t(this.props.title)}>
-        <button
+        <Button
           id="add-rule"
           type="submit"
           className={classNames(!enabled && 'disabled', 'btn btn-sm btn-outline')}
           onClick={enabled ? this.triggerRuleModal : null}
         >
           + {I18n.t('HIERARCHY.PROFILE_RULE_TAB.ADD_RULE')}
-        </button>
+        </Button>
       </TabHeader>
 
       <If condition={!enabled && message}>
@@ -493,9 +493,8 @@ class HierarchyProfileRules extends PureComponent {
         <div className="card-body">
           <Grid
             data={entities}
-            handleRowClick={this.handleOfficeClick}
             isLoading={loading}
-            isLastPage
+            handleRowClick={this.handleOfficeClick}
           >
             <GridColumn
               header={I18n.t('HIERARCHY.PROFILE_RULE_TAB.GRID_HEADER.RULE')}

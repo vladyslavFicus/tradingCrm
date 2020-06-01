@@ -632,6 +632,11 @@ PropTypes.callback = PropTypes.shape({
 PropTypes.operatorsList = PropTypes.arrayOf(PropTypes.shape({
   uuid: PropTypes.string,
   fullName: PropTypes.string,
+  operatorStatus: PropTypes.string,
+  hierarchy: PropTypes.shape({
+    uuid: PropTypes.string,
+    userType: PropTypes.string,
+  }),
 }));
 // # This one can be removed after ClientProfile page will be refactored
 PropTypes.partnersList = PropTypes.arrayOf(PropTypes.shape({

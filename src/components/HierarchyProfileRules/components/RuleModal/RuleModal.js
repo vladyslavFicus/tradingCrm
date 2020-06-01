@@ -5,6 +5,7 @@ import classNames from 'classnames';
 import { Formik, Form, Field, FieldArray } from 'formik';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { getAvailableLanguages } from 'config';
+import { withRequests } from 'apollo';
 import PropTypes from 'constants/propTypes';
 import { createValidator, translateLabels } from 'utils/validator';
 import countryList from 'utils/countryList';
@@ -23,6 +24,7 @@ import {
   depositCount,
   deskTypes,
 } from 'constants/rules';
+import { OperatorsQuery, PartnersQuery } from './graphql';
 import { attributeLabels, customErrors } from './constants';
 import './RuleModal.scss';
 
@@ -42,10 +44,17 @@ class RuleModal extends PureComponent {
     onSubmit: PropTypes.func.isRequired,
     onCloseModal: PropTypes.func.isRequired,
     isOpen: PropTypes.bool.isRequired,
-    formError: PropTypes.string,
     deskType: PropTypes.string.isRequired,
-    partners: PropTypes.object.isRequired,
-    operators: PropTypes.object.isRequired,
+    partnersQuery: PropTypes.response({
+      partners: PropTypes.shape({
+        data: PropTypes.partnersList,
+      }),
+    }).isRequired,
+    operatorsQuery: PropTypes.response({
+      operators: PropTypes.shape({
+        data: PropTypes.operatorsList,
+      }),
+    }).isRequired,
     type: PropTypes.string,
     currentUuid: PropTypes.string,
     withOperatorSpreads: PropTypes.bool,
@@ -54,7 +63,6 @@ class RuleModal extends PureComponent {
   static defaultProps = {
     currentUuid: null,
     type: null,
-    formError: '',
     withOperatorSpreads: false,
   };
 
@@ -94,14 +102,17 @@ class RuleModal extends PureComponent {
       type,
       isOpen,
       deskType,
-      partners,
-      operators,
-      formError,
+      operatorsQuery: {
+        data: operatorsQueryData,
+      },
+      partnersQuery: {
+        data: partnersQueryData,
+      },
       withOperatorSpreads,
     } = this.props;
 
-    const partnersList = get(partners, 'partners.data.content', []);
-    const operatorsList = get(operators, 'operators.data.content', []);
+    const partnersList = get(partnersQueryData, 'data.partners.data.content', []);
+    const operatorsList = get(operatorsQueryData, 'data.operators.data.content', []);
     const {
       selectedOperators,
       percentageLimitError,
@@ -137,9 +148,9 @@ class RuleModal extends PureComponent {
                 {I18n.t('HIERARCHY.PROFILE_RULE_TAB.MODAL.HEADER')}
               </ModalHeader>
               <ModalBody>
-                <If condition={formError || (errors && errors.submit)}>
+                <If condition={errors && errors.submit}>
                   <div className="mb-2 text-center color-danger RuleModal__message-error">
-                    {formError || errors.submit}
+                    {errors.submit}
                   </div>
                 </If>
                 <Field
@@ -388,4 +399,7 @@ class RuleModal extends PureComponent {
   }
 }
 
-export default RuleModal;
+export default withRequests({
+  operatorsQuery: OperatorsQuery,
+  partnersQuery: PartnersQuery,
+})(RuleModal);
