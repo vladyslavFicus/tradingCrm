@@ -7,7 +7,6 @@ import { filterLabels } from 'constants/user';
 import { FormikSelectField, FormikInputField } from 'components/Formik';
 import { decodeNullValues } from 'components/Formik/utils';
 import { Button } from 'components/UI';
-import { createValidator } from 'utils/validator';
 import countryList from 'utils/countryList';
 import './OfficesGridFilter.scss';
 
@@ -34,10 +33,6 @@ class OfficesGridFilter extends PureComponent {
     return (
       <Formik
         initialValues={{}}
-        validate={createValidator({
-          keyword: 'string',
-          country: ['string', `in:${Object.keys(countryList).join()}`],
-        })}
         onSubmit={this.handleSubmit}
         onReset={this.handleReset}
       >
