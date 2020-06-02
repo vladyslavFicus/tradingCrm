@@ -26,6 +26,7 @@ class HierarchyProfileForm extends Component {
     userBranchesTreeUp: PropTypes.shape({
       refetch: PropTypes.func,
       loading: PropTypes.bool,
+      error: PropTypes.string,
       hierarchy: PropTypes.shape({
         userBranchesTreeUp: PropTypes.shape({
           data: PropTypes.arrayOf(PropTypes.shape({
@@ -139,10 +140,11 @@ class HierarchyProfileForm extends Component {
       userBranchesTreeUp: {
         hierarchy,
         loading,
+        error,
       },
     } = this.props;
 
-    if (loading) {
+    if (loading || error) {
       return null;
     }
 

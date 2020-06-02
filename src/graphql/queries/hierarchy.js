@@ -127,7 +127,6 @@ const getUserBranchesTreeUp = gql`query getUserBranchesTreeUp(
     ) {
       error {
         error
-        fields_errors
       }
       data {
         ...HierarchyUserBranchFragment
