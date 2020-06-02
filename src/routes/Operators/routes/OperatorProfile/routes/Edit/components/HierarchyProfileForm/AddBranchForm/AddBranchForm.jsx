@@ -62,7 +62,7 @@ class AddBranchForm extends Component {
 
         hierarchyTree = (
           <div className="hierarchy__tree">
-            &nbsp;{brandId} &rarr; {officeName} &rarr; {deskName} &rarr;&nbsp;
+            {brandId} &rarr; {officeName} &rarr; {deskName} &rarr;&nbsp;
             <span className="color-info">{name}</span>
           </div>
         );
@@ -80,7 +80,7 @@ class AddBranchForm extends Component {
 
         hierarchyTree = (
           <div className="hierarchy__tree">
-            &nbsp;{brandId} &rarr; {officeName} &rarr; <span className="color-info">{name}</span>
+            {brandId} &rarr; {officeName} &rarr; <span className="color-info">{name}</span>
           </div>
         );
 
@@ -89,14 +89,14 @@ class AddBranchForm extends Component {
       case branchNames.OFFICE: {
         hierarchyTree = (
           <div className="hierarchy__tree">
-            &nbsp;{brandId} &rarr; <span className="color-info">{name}</span>
+            {brandId} &rarr; <span className="color-info">{name}</span>
           </div>
         );
 
         break;
       }
       default: {
-        hierarchyTree = <div className="hierarchy__tree">&nbsp;{name}</div>;
+        hierarchyTree = <div className="hierarchy__tree">{name}</div>;
       }
     }
 

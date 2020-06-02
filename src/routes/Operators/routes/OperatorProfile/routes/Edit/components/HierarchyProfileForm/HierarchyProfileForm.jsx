@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import I18n from 'i18n-js';
 import { Field } from 'redux-form';
-import { omit } from 'lodash';
+import { omit, get } from 'lodash';
 import classNames from 'classnames';
 import PropTypes from 'constants/propTypes';
 import { userTypes, userTypeLabels } from 'constants/hierarchyTypes';
@@ -23,7 +23,20 @@ class HierarchyProfileForm extends Component {
     submitting: PropTypes.bool.isRequired,
     initialValues: PropTypes.object,
     allowUpdateHierarchy: PropTypes.bool.isRequired,
-    userBranchesTreeUp: PropTypes.object.isRequired,
+    userBranchesTreeUp: PropTypes.shape({
+      refetch: PropTypes.func,
+      loading: PropTypes.bool,
+      hierarchy: PropTypes.shape({
+        userBranchesTreeUp: PropTypes.shape({
+          data: PropTypes.arrayOf(PropTypes.shape({
+            uuid: PropTypes.string,
+            name: PropTypes.string,
+            branchType: PropTypes.string,
+            parent: PropTypes.object,
+          })),
+        }),
+      }),
+    }).isRequired,
     match: PropTypes.shape({
       params: PropTypes.shape({
         id: PropTypes.string,
@@ -50,9 +63,7 @@ class HierarchyProfileForm extends Component {
       notify,
       updateOperatorHierarchy,
       match: { params: { id } },
-      userBranchesTreeUp: {
-        refetch,
-      },
+      reset,
     } = this.props;
 
     const { data: { hierarchy: { updateUser: { error } } } } = await updateOperatorHierarchy({
@@ -74,7 +85,8 @@ class HierarchyProfileForm extends Component {
         title: I18n.t('COMMON.SUCCESS'),
         message: I18n.t('OPERATORS.PROFILE.HIERARCHY.SUCCESS_UPDATE_TYPE'),
       });
-      refetch();
+      this.props.userBranchesTreeUp.refetch();
+      reset();
     }
   };
 
@@ -83,9 +95,6 @@ class HierarchyProfileForm extends Component {
       notify,
       removeOperatorFromBranch,
       match: { params: { id } },
-      userBranchesTreeUp: {
-        refetch,
-      },
       reset,
     } = this.props;
 
@@ -109,14 +118,14 @@ class HierarchyProfileForm extends Component {
         message: I18n.t('OPERATORS.PROFILE.HIERARCHY.SUCCESS_REMOVE_BRANCH', { name }),
       });
 
-      await refetch();
+      await this.props.userBranchesTreeUp.refetch();
       reset();
     }
   };
 
   buildUserBranchChain = ({ name, parent }, branchChain) => {
-    // eslint-disable-next-line no-param-reassign
     const _branchChain = `${name} → ${branchChain}`;
+
     if (parent.branchType !== 'COMPANY') {
       return this.buildUserBranchChain(parent, _branchChain);
     }
@@ -128,11 +137,7 @@ class HierarchyProfileForm extends Component {
     const {
       allowUpdateHierarchy,
       userBranchesTreeUp: {
-        hierarchy: {
-          userBranchesTreeUp: {
-            data: userBranchesTreeUp = [],
-          },
-        },
+        hierarchy,
         loading,
       },
     } = this.props;
@@ -140,6 +145,8 @@ class HierarchyProfileForm extends Component {
     if (loading) {
       return null;
     }
+
+    const userBranchesTreeUp = get(hierarchy, 'userBranchesTreeUp.data') || [];
 
     if (userBranchesTreeUp.length) {
       return userBranchesTreeUp.map(({ uuid, parent, branchType, name }) => {
