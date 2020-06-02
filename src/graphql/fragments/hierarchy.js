@@ -11,6 +11,14 @@ const HierarchyBranchFragment = gql`fragment HierarchyBranchFragment on Hierarch
   defaultBranch
 }`;
 
+const HierarchyUserBranchFragment = gql`fragment HierarchyUserBranchFragment on UserBranchesTreeUpType {
+  uuid
+  name
+  brandId
+  branchType
+}`;
+
 export {
   HierarchyBranchFragment,
+  HierarchyUserBranchFragment,
 };

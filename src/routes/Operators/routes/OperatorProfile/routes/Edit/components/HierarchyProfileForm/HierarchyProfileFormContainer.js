@@ -1,13 +1,10 @@
 import { reduxForm } from 'redux-form';
 import { graphql, compose } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
-import { get } from 'lodash';
 import { withNotifications } from 'hoc';
 import { updateUser, removeOperatorFromBranch } from 'graphql/mutations/hierarchy';
-import { getUserBranchHierarchy } from 'graphql/queries/hierarchy';
-import { branchTypes as branchNames } from 'constants/hierarchyTypes';
+import { getUserBranchesTreeUp } from 'graphql/queries/hierarchy';
 import HierarchyProfileForm from './HierarchyProfileForm';
-import { getBranchOption } from './AddBranchForm/utils';
 
 const FORM_NAME = 'HierarchyOperatorProfileForm';
 
@@ -20,36 +17,12 @@ export default compose(
   graphql(removeOperatorFromBranch, {
     name: 'removeOperatorFromBranch',
   }),
-  graphql(getUserBranchHierarchy, {
-    name: 'branchHierarchy',
-    options: () => ({
-      variables: { withoutBrandFilter: true },
+  graphql(getUserBranchesTreeUp, {
+    name: 'userBranchesTreeUp',
+    options: ({ operatorUUID }) => ({
+      variables: { operatorUUID },
       fetchPolicy: 'network-only',
     }),
-    props: ({ branchHierarchy: { hierarchy, loading } }) => {
-      const TEAM = get(hierarchy, 'userBranchHierarchy.data.TEAM') || [];
-      const DESK = get(hierarchy, 'userBranchHierarchy.data.DESK') || [];
-      const OFFICE = get(hierarchy, 'userBranchHierarchy.data.OFFICE') || [];
-      const BRAND = get(hierarchy, 'userBranchHierarchy.data.BRAND') || [];
-
-      const branchTypes = [
-        ...(TEAM.length ? getBranchOption(branchNames.TEAM) : []),
-        ...(DESK.length ? getBranchOption(branchNames.DESK) : []),
-        ...(OFFICE.length ? getBranchOption(branchNames.OFFICE) : []),
-        ...(BRAND.length ? getBranchOption(branchNames.BRAND) : []),
-      ];
-
-      return {
-        branchHierarchy: {
-          loading,
-          TEAM,
-          DESK,
-          OFFICE,
-          BRAND,
-          branchTypes,
-        },
-      };
-    },
   }),
   reduxForm({
     form: FORM_NAME,

@@ -1,5 +1,5 @@
 import gql from 'graphql-tag';
-import { HierarchyBranchFragment } from '../fragments/hierarchy';
+import { HierarchyBranchFragment, HierarchyUserBranchFragment } from '../fragments/hierarchy';
 
 const getUserHierarchy = gql`query getUserHierarchy {
   hierarchy {
@@ -113,9 +113,41 @@ const getUserBranchHierarchy = gql`query getUserBranchHierarchy(
           isDefault
         }
       }
-    } 
+    }
   }
 }`;
+
+const getUserBranchesTreeUp = gql`query getUserBranchesTreeUp(
+  $operatorUUID: String,
+) {
+  hierarchy {
+    # Maximum nested branches == 5 [COMPANY, BRAND, OFFICE, DESK, TEAM]
+    userBranchesTreeUp (
+      operatorUUID: $operatorUUID,
+    ) {
+      error {
+        error
+        fields_errors
+      }
+      data {
+        ...HierarchyUserBranchFragment
+        parent {
+          ...HierarchyUserBranchFragment
+          parent {
+            ...HierarchyUserBranchFragment
+            parent {
+              ...HierarchyUserBranchFragment
+              parent {
+                ...HierarchyUserBranchFragment
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+${HierarchyUserBranchFragment}`;
 
 const getHierarchyUsersByType = gql`query getHierarchyUsersByType(
   $userTypes: [String]!,
@@ -387,4 +419,5 @@ export {
   getBranchHierarchyTree,
   getUsersByBranch,
   getBranchChildren,
+  getUserBranchesTreeUp,
 };
