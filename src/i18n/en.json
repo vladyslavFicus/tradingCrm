@@ -2886,7 +2886,8 @@
       "DEPOSIT": "Deposit",
       "ACCOUNT": "Account",
       "KYC": "KYC",
-      "CALLBACK": "Callback"
+      "CALLBACK": "Callback",
+      "CLIENT": "Client"
     },
     "SUBTYPES": {
       "WITHDRAWAL_REQUEST_STATUS_FINANCE_TO_EXECUTE": "Withdrawal request status finance to execute",
@@ -2909,7 +2910,8 @@
       "DEPOSIT_FAILED": "Deposit failed",
       "KYC_APPROVED": "Kyc approved",
       "CALLBACK_NAME": "Callback to %{name}",
-      "CALLBACK_TIME": "Time: %{time}"
+      "CALLBACK_TIME": "Time: %{time}",
+      "CLIENT_NEW": "New Client"
     },
     "TOOLTIP": {
       "HEADLINE": "Notifications found",
