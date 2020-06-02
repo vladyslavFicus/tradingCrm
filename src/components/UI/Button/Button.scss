@@ -142,4 +142,17 @@
     padding-bottom: 4px;
     font-size: 13px;
   }
+
+  &--nowrap {
+    white-space: nowrap;
+  }
+
+  &--offset-left {
+    margin-left: 15px;
+  }
+
+  &--offset-right {
+    margin-right: 15px;
+  }
+ 
 }

@@ -404,7 +404,7 @@ class PaymentsListFilters extends PureComponent {
                     value={uuid}
                     className={classNames({
                       'color-inactive': operatorStatus === operatorsStasuses.INACTIVE
-                      || operatorStatus === operatorsStasuses.CLOSED,
+                        || operatorStatus === operatorsStasuses.CLOSED,
                     })}
                   >
                     {fullName}
@@ -529,7 +529,6 @@ class PaymentsListFilters extends PureComponent {
             <div className="filter__form-buttons">
               <div className="filter__form-buttons-group">
                 <Button
-                  className="btn"
                   onClick={handleReset}
                   disabled={paymentsLoading || !dirty}
                   common
@@ -537,10 +536,10 @@ class PaymentsListFilters extends PureComponent {
                   {I18n.t('COMMON.RESET')}
                 </Button>
                 <Button
-                  className="btn"
                   type="submit"
                   disabled={paymentsLoading}
                   primary
+                  offsetLeft
                 >
                   {I18n.t('COMMON.APPLY')}
                 </Button>

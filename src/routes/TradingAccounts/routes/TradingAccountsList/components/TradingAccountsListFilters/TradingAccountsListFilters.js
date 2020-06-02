@@ -81,7 +81,6 @@ class TradingAccountsListFilters extends PureComponent {
             <div className="filter__form-buttons">
               <div className="filter__form-buttons-group">
                 <Button
-                  className="btn"
                   onClick={resetForm}
                   disabled={loading || !dirty}
                   common
@@ -89,10 +88,10 @@ class TradingAccountsListFilters extends PureComponent {
                   {I18n.t('COMMON.RESET')}
                 </Button>
                 <Button
-                  className="btn"
                   type="submit"
                   disabled={loading}
                   primary
+                  offsetLeft
                 >
                   {I18n.t('COMMON.APPLY')}
                 </Button>
