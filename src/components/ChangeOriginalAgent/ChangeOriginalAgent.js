@@ -79,6 +79,7 @@ class ChangeOriginalAgent extends PureComponent {
             <Form>
               <Field
                 name="agentId"
+                searchable
                 component={FormikSelectField}
                 className="ChangeOriginalAgent__select"
                 disabled={loading}
