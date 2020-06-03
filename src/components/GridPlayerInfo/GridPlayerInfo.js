@@ -29,7 +29,7 @@ class GridPlayerInfo extends PureComponent {
     const fullName = profile.fullName || `${firstName} ${lastName}`;
 
     return (
-      <If condition={!!profile}>
+      <If condition={profile}>
         <div className="max-width-200">
           <Link
             className={mainInfoClassName}
