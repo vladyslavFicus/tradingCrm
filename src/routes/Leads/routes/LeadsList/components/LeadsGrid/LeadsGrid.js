@@ -80,7 +80,7 @@ class LeadsGrid extends PureComponent {
         modals: { confirmationModal },
       } = this.props;
 
-      const { totalElements } = get(leadsData, 'data.leads.data') || {};
+      const totalElements = get(leadsData, 'data.leads.data.totalElements');
       const searchLimit = get(location, 'query.filters.size') || null;
 
       const selectedLimit = (searchLimit && searchLimit < totalElements)
