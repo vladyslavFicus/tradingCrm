@@ -3,6 +3,7 @@ import { get } from 'lodash';
 import I18n from 'i18n-js';
 import { withRequests } from 'apollo';
 import PropTypes from 'constants/propTypes';
+import EventEmitter, { NOTE_ADDED, NOTE_REMOVED } from 'utils/EventEmitter';
 import ListView from 'components/ListView';
 import TabHeader from 'components/TabHeader';
 import NoteItem from 'components/NoteItem';
@@ -14,34 +15,38 @@ class LeadNotesTab extends PureComponent {
     ...PropTypes.router,
     notes: PropTypes.query({
       notes: PropTypes.shape({
-        data: PropTypes.pageable(PropTypes.object),
+        data: PropTypes.pageable(PropTypes.noteEntity),
       }),
     }).isRequired,
   };
 
-  static contextTypes = {
-    onEditModalNoteClick: PropTypes.func.isRequired,
+  componentDidMount() {
+    EventEmitter.on(NOTE_ADDED, this.onNoteEvent);
+    EventEmitter.on(NOTE_REMOVED, this.onNoteEvent);
+  }
+
+  componentWillUnmount() {
+    EventEmitter.off(NOTE_ADDED, this.onNoteEvent);
+    EventEmitter.off(NOTE_REMOVED, this.onNoteEvent);
+  }
+
+  onNoteEvent = () => {
+    this.props.notes.refetch();
   };
 
   handleApplyFilters = (filters) => {
     this.props.history.replace({ query: { filters } });
   };
 
-  handlePageChanged = () => {
-    const {
-      notes: { data, loading, loadMore, variables },
-    } = this.props;
+  loadMore = () => {
+    const { notes } = this.props;
 
-    const number = get(data, 'notes.data.number') || 0;
+    const page = notes.data.notes.data.number + 1;
 
-    if (!loading) {
-      loadMore({ ...variables, page: number + 1 });
-    }
+    notes.loadMore(page);
   };
 
-  renderItem = data => (
-    <NoteItem data={data} handleNoteClick={this.context.onEditModalNoteClick} />
-  );
+  renderItem = note => <NoteItem note={note} />;
 
   render() {
     const {
@@ -59,7 +64,7 @@ class LeadNotesTab extends PureComponent {
         <div className="tab-wrapper">
           <ListView
             dataSource={content}
-            onPageChange={this.handlePageChanged}
+            onPageChange={this.loadMore}
             render={this.renderItem}
             activePage={number + 1}
             totalPages={totalPages}

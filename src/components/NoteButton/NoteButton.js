@@ -1,24 +1,15 @@
 import React, { PureComponent } from 'react';
 import I18n from 'i18n-js';
 import classNames from 'classnames';
-import { omit } from 'lodash';
-import PropTypes from '../../constants/propTypes';
-import PopoverButton from '../PopoverButton';
+import PropTypes from 'constants/propTypes';
+import NotePopover from 'components/NotePopover';
 import NoteIcon from '../NoteIcon';
 import './NoteButton.scss';
 
 class NoteButton extends PureComponent {
-  static contextTypes = {
-    notes: PropTypes.shape({
-      onAddNoteClick: PropTypes.func.isRequired,
-      onEditNoteClick: PropTypes.func.isRequired,
-    }),
-  };
-
   static propTypes = {
-    id: PropTypes.string,
-    targetUUID: PropTypes.string,
     playerUUID: PropTypes.string.isRequired,
+    targetUUID: PropTypes.string,
     targetType: PropTypes.string,
     note: PropTypes.noteEntity,
     className: PropTypes.string,
@@ -33,9 +24,8 @@ class NoteButton extends PureComponent {
   };
 
   static defaultProps = {
-    id: null,
     targetUUID: null,
-    targetType: '',
+    targetType: null,
     className: 'cursor-pointer',
     message: null,
     note: null,
@@ -84,54 +74,22 @@ class NoteButton extends PureComponent {
    */
   getNote = () => this.state.note;
 
-  handleClick = (id) => {
-    const { notes: { onEditNoteClick, onAddNoteClick } } = this.context;
-    const {
-      manual,
-      placement,
-      targetUUID,
-      playerUUID,
-      targetType,
-    } = this.props;
-    const { note } = this.state;
-
-    const params = {
-      manual,
-      placement,
-      onAddSuccess: this.onAddSuccess,
-      onUpdateSuccess: this.onUpdateSuccess,
-      onDeleteSuccess: this.onDeleteSuccess,
-    };
-
-    if (note) {
-      onEditNoteClick(id, note, params);
-    } else {
-      onAddNoteClick(id, targetUUID, playerUUID, targetType, params);
-    }
-  };
-
   render() {
     const {
-      id,
+      manual,
+      placement,
       withMessage,
       message,
       preview,
       className,
       targetUUID,
+      targetType,
       playerUUID,
-      ...rest
     } = this.props;
     const { note } = this.state;
 
     const compiledClassName = classNames(className, { 'note-preview': preview && !!note });
-    const buttonProps = omit(rest, [
-      'manual',
-      'note',
-      'targetType',
-      'onAddSuccess',
-      'onUpdateSuccess',
-      'onDeleteSuccess',
-    ]);
+
     let msg = null;
 
     if (withMessage) {
@@ -139,22 +97,29 @@ class NoteButton extends PureComponent {
     }
 
     return (
-      <PopoverButton
-        id={id || `note-button-${playerUUID}-${targetUUID}`}
-        onClick={this.handleClick}
-        className={compiledClassName}
-        {...buttonProps}
+      <NotePopover
+        note={note}
+        manual={manual}
+        placement={placement}
+        playerUUID={playerUUID}
+        targetUUID={targetUUID}
+        targetType={targetType}
+        onAddSuccess={this.onAddSuccess}
+        onUpdateSuccess={this.onUpdateSuccess}
+        onDeleteSuccess={this.onDeleteSuccess}
       >
-        <Choose>
-          <When condition={note}>
-            <NoteIcon type={`${note.pinned ? 'pinned' : 'filled'}`} className="note-preview__icon" />
-          </When>
-          <Otherwise>
-            <NoteIcon type="new" />
-          </Otherwise>
-        </Choose>
-        {preview && note && note.content} {preview && !note && msg}
-      </PopoverButton>
+        <span className={compiledClassName}>
+          <Choose>
+            <When condition={note}>
+              <NoteIcon type={`${note.pinned ? 'pinned' : 'filled'}`} className="note-preview__icon" />
+            </When>
+            <Otherwise>
+              <NoteIcon type="new" />
+            </Otherwise>
+          </Choose>
+          {preview && note && note.content} {preview && !note && msg}
+        </span>
+      </NotePopover>
     );
   }
 }

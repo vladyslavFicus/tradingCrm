@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import moment from 'moment';
 import I18n from 'i18n-js';
 import classNames from 'classnames';
+import { getApiRoot } from 'config';
+import { compose } from 'react-apollo';
+import { withModals } from 'hoc';
+import PropTypes from 'constants/propTypes';
 import { shortifyInMiddle } from 'utils/stringFormat';
 import { targetTypes } from 'constants/note';
 import PermissionContent from 'components/PermissionContent';
@@ -11,13 +14,18 @@ import NoteButton from 'components/NoteButton';
 import GridEmptyValue from 'components/GridEmptyValue';
 import Select from 'components/Select';
 import Uuid from 'components/Uuid';
+import { withImages } from 'components/ImageViewer';
+import { DeleteModal } from 'components/Files';
+import { withStorage } from 'providers/StorageProvider';
 import permissions from 'config/permissions';
+import getFileBlobUrl from 'utils/getFileBlobUrl';
 import { statusesCategory, statusesFile } from '../constants';
 import MoveFileDropDown from './MoveFileDropDown';
 import ChangeFileStatusDropDown from './ChangeFileStatusDropDown';
 
 class FileGrid extends Component {
   static propTypes = {
+    ...withImages.propTypes,
     data: PropTypes.arrayOf(PropTypes.object).isRequired,
     categories: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.string)).isRequired,
     verificationType: PropTypes.string.isRequired,
@@ -28,8 +36,10 @@ class FileGrid extends Component {
     onVerificationTypeActionClick: PropTypes.func.isRequired,
     onChangeFileStatusActionClick: PropTypes.func.isRequired,
     onDownloadFileClick: PropTypes.func.isRequired,
-    onDeleteFileClick: PropTypes.func.isRequired,
-    onPreviewImageClick: PropTypes.func.isRequired,
+    token: PropTypes.string.isRequired,
+    modals: PropTypes.shape({
+      deleteFileModal: PropTypes.modalType,
+    }).isRequired,
   }
 
   state = {
@@ -49,6 +59,29 @@ class FileGrid extends Component {
   onFileStatusChange = (status, uuid) => {
     this.props.onChangeFileStatusActionClick(status, uuid);
   }
+
+  onPreviewClick = async ({ uuid, clientUuid, mediaType }) => {
+    const { token } = this.props;
+
+    const url = `${getApiRoot()}/attachments/users/${clientUuid}/files/${uuid}`;
+
+    const imageUrl = await getFileBlobUrl(url, {
+      method: 'GET',
+      headers: {
+        Accept: mediaType,
+        Authorization: token ? `Bearer ${token}` : undefined,
+        'Content-Type': 'application/json',
+      },
+    });
+
+    this.props.images.show([{ src: imageUrl }]);
+  };
+
+  onDeleteClick = (file) => {
+    const { modals: { deleteFileModal } } = this.props;
+
+    deleteFileModal.show({ file });
+  };
 
   renderGridHeader = () => {
     const { verificationStatus, documentType, verificationType } = this.props;
@@ -113,11 +146,8 @@ class FileGrid extends Component {
 
   renderFileName = (data) => {
     const availableToFullScreenFileTypes = ['image/jpeg', 'image/jpg', 'image/png'];
-    const isClickable = this.props.onPreviewImageClick
-      && availableToFullScreenFileTypes.some(fileType => fileType === data.mediaType);
-    const onClick = isClickable
-      ? () => this.props.onPreviewImageClick(data)
-      : null;
+    const isClickable = availableToFullScreenFileTypes.some(fileType => fileType === data.mediaType);
+    const onClick = isClickable ? () => this.onPreviewClick(data) : null;
     const playerPrefix = data.clientUuid.indexOf('PLAYER') === -1 ? 'PL' : null;
     const uuidPrefix = data.clientUuid.indexOf('OPERATOR') === -1 ? playerPrefix : null;
 
@@ -155,7 +185,7 @@ class FileGrid extends Component {
           type="button"
           className="btn-transparent color-danger"
           disabled={data.uploadBy.indexOf('OPERATOR') === -1}
-          onClick={() => this.props.onDeleteFileClick(data)}
+          onClick={() => this.onDeleteClick(data)}
         >
           <i className={
             classNames(
@@ -250,4 +280,10 @@ class FileGrid extends Component {
   }
 }
 
-export default FileGrid;
+export default compose(
+  withImages,
+  withStorage(['token']),
+  withModals({
+    deleteFileModal: DeleteModal,
+  }),
+)(FileGrid);
