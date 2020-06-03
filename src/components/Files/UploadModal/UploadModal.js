@@ -7,6 +7,7 @@ import FileUpload from 'components/FileUpload';
 import UploadingFile from 'components/Files/UploadingFile';
 import ShortLoader from 'components/ShortLoader';
 import { shortify } from 'utils/uuid';
+import EventEmitter, { FILE_UPLOADED } from 'utils/EventEmitter';
 import { ALLOWED_FILE_TYPES, ALLOWED_FILE_MAX_SIZE } from './constants';
 
 class UploadModal extends Component {
@@ -15,15 +16,14 @@ class UploadModal extends Component {
     invalid: PropTypes.bool,
     change: PropTypes.func.isRequired,
     notify: PropTypes.func.isRequired,
-    onClose: PropTypes.func.isRequired,
-    onSuccess: PropTypes.func.isRequired,
+    onCloseModal: PropTypes.func.isRequired,
     submitting: PropTypes.bool.isRequired,
     uploadFile: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func.isRequired,
     addNote: PropTypes.func.isRequired,
     confirmUploadedFiles: PropTypes.func.isRequired,
-    newProfile: PropTypes.newProfile.isRequired,
     getFilesCategoriesList: PropTypes.object.isRequired,
+    profileUUID: PropTypes.string.isRequired,
   }
 
   static defaultProps = {
@@ -76,10 +76,8 @@ class UploadModal extends Component {
 
   handleUploadFiles = async (errors, files) => {
     const {
+      profileUUID,
       uploadFile,
-      newProfile: {
-        uuid: profileUUID,
-      },
       notify,
     } = this.props;
 
@@ -138,14 +136,11 @@ class UploadModal extends Component {
 
   confirmUploadingFiles = async (data) => {
     const {
-      onClose,
-      onSuccess,
+      onCloseModal,
       addNote,
       notify,
       confirmUploadedFiles,
-      newProfile: {
-        uuid: profileUuid,
-      },
+      profileUUID,
     } = this.props;
 
     const { filesToUpload } = this.state;
@@ -160,7 +155,7 @@ class UploadModal extends Component {
     const confirmationResponse = await confirmUploadedFiles({
       variables: {
         documents,
-        profileUuid,
+        profileUuid: profileUUID,
       },
     });
 
@@ -183,16 +178,14 @@ class UploadModal extends Component {
     });
 
     if (success) {
-      onClose();
-      onSuccess();
+      EventEmitter.emit(FILE_UPLOADED, documents);
+      onCloseModal();
     }
   }
 
   renderFile = (file, index) => {
     const {
-      newProfile: {
-        uuid: profileUUID,
-      },
+      profileUUID,
       getFilesCategoriesList,
       change,
     } = this.props;
@@ -217,12 +210,8 @@ class UploadModal extends Component {
 
   render() {
     const {
-      onClose,
-      newProfile: {
-        firstName,
-        lastName,
-        uuid: profileUUID,
-      },
+      onCloseModal,
+      profileUUID,
       handleSubmit,
       submitting,
       invalid,
@@ -239,10 +228,10 @@ class UploadModal extends Component {
         className="upload-modal"
         backdrop="static"
         keyboard={false}
-        toggle={onClose}
+        toggle={onCloseModal}
         isOpen
       >
-        <ModalHeader toggle={onClose}>
+        <ModalHeader toggle={onCloseModal}>
           {I18n.t('FILES.UPLOAD_MODAL.TITLE')}
         </ModalHeader>
         <ModalBody
@@ -254,7 +243,6 @@ class UploadModal extends Component {
             className="text-center font-weight-700"
             dangerouslySetInnerHTML={{
               __html: I18n.t('FILES.UPLOAD_MODAL.ACTION_TEXT', {
-                fullName: `${firstName} ${lastName}`,
                 shortUUID: `<span class="font-weight-400">(${shortify(profileUUID)})</span>`,
               }),
             }}
@@ -325,7 +313,7 @@ class UploadModal extends Component {
             type="button"
             disabled={submitting}
             className="btn btn-default-outline mr-auto"
-            onClick={onClose}
+            onClick={onCloseModal}
           >
             {I18n.t('COMMON.BUTTONS.CANCEL')}
           </button>

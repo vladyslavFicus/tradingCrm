@@ -7,6 +7,7 @@ import classNames from 'classnames';
 import { isSameDay } from 'react-dates/lib';
 import DateRangePickerController from 'react-dates/lib/components/DateRangePicker';
 import { PRESETS } from './constants';
+import 'react-dates/initialize';
 import 'react-dates/lib/css/_datepicker.css';
 import './DateRangePicker.scss';
 
@@ -91,19 +92,19 @@ class DateRangePicker extends PureComponent {
     const { values } = this.props;
 
     return (
-      <div className="DateRangePicker__presets">
-        <div className="DateRangePicker__presets-title">
+      <div className="DateRangePickerWrapper__presets">
+        <div className="DateRangePickerWrapper__presets-title">
           {I18n.t('DATE_PICKER.PERIOD_RESETS.TITLE')}
         </div>
-        <div className="DateRangePicker__presets-list">
+        <div className="DateRangePickerWrapper__presets-list">
           {PRESETS.map(({ title, startDate, endDate }) => {
             const isSelected = isSameDay(startDate, values[0]) && isSameDay(endDate, values[1]);
 
             return (
               <div
                 key={title}
-                className={classNames('DateRangePicker__presets-item', {
-                  'DateRangePicker__presets-item--is-active': isSelected,
+                className={classNames('DateRangePickerWrapper__presets-item', {
+                  'DateRangePickerWrapper__presets-item--is-active': isSelected,
                 })}
                 onClick={this.onDatesChange.bind(this, { startDate, endDate })}
               >
@@ -136,13 +137,13 @@ class DateRangePicker extends PureComponent {
     return (
       <div
         className={classNames(
-          'DateRangePicker',
-          { 'DateRangePicker--focused': focusedInput },
+          'DateRangePickerWrapper',
+          { 'DateRangePickerWrapper--focused': focusedInput },
           className,
         )}
       >
         <If condition={label}>
-          <div className="DateRangePicker__label">{label}</div>
+          <div className="DateRangePickerWrapper__label">{label}</div>
         </If>
         <DateRangePickerController
           {...dateRangePickerProps}

@@ -134,6 +134,7 @@ class ContactForm extends PureComponent {
 
     return (
       <Formik
+        enableReinitialize
         initialValues={{
           phone: this.phoneAccess() ? phone : hideText(phone),
           additionalPhone: this.phoneAccess() ? additionalPhone : hideText(additionalPhone),

@@ -1,25 +1,19 @@
-import React, { Component, Fragment } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import { get } from 'lodash';
 import I18n from 'i18n-js';
 import { getApiRoot, getApiVersion } from 'config';
 import { withNotifications } from 'hoc';
 import TabHeader from 'components/TabHeader';
-import { targetTypes as fileTargetTypes } from 'components/Files/constants';
 import PermissionContent from 'components/PermissionContent';
 import permissions from 'config/permissions';
 import PropTypes from 'constants/propTypes';
 import downloadBlob from 'utils/downloadBlob';
+import EventEmitter, { PROFILE_RELOAD, FILE_REMOVED, FILE_UPLOADED } from 'utils/EventEmitter';
 import NotFoundContent from 'components/NotFoundContent';
 import KYCNote from './KYCNote';
 import FileGrid from './FileGrid';
 
-class Files extends Component {
-  static contextTypes = {
-    showImages: PropTypes.func.isRequired,
-    onUploadFileClick: PropTypes.func.isRequired,
-    setFileChangedCallback: PropTypes.func.isRequired,
-  };
-
+class Files extends PureComponent {
   static propTypes = {
     ...PropTypes.router,
     filesList: PropTypes.shape({
@@ -33,20 +27,31 @@ class Files extends Component {
       }).isRequired,
     }).isRequired,
     modals: PropTypes.shape({
-      deleteModal: PropTypes.modalType,
+      uploadModal: PropTypes.modalType,
     }).isRequired,
-    delete: PropTypes.func.isRequired,
     updateFileStatus: PropTypes.func.isRequired,
     updateFileMeta: PropTypes.func.isRequired,
   };
 
   componentDidMount() {
-    this.context.setFileChangedCallback(this.props.filesList.refetch);
+    EventEmitter.on(PROFILE_RELOAD, this.onProfileEvent);
+    EventEmitter.on(FILE_UPLOADED, this.onFileEvent);
+    EventEmitter.on(FILE_REMOVED, this.onFileEvent);
   }
 
   componentWillUnmount() {
-    this.context.setFileChangedCallback(null);
+    EventEmitter.off(PROFILE_RELOAD, this.onProfileEvent);
+    EventEmitter.off(FILE_UPLOADED, this.onFileEvent);
+    EventEmitter.off(FILE_REMOVED, this.onFileEvent);
   }
+
+  onProfileEvent = () => {
+    this.props.filesList.refetch();
+  };
+
+  onFileEvent = () => {
+    this.props.filesList.refetch();
+  };
 
   handlePageChanged = () => {
     const {
@@ -154,47 +159,13 @@ class Files extends Component {
     downloadBlob(fileName, blobData);
   };
 
-  handleDeleteFile = uuid => async () => {
+  handleUploadFileClick = () => {
     const {
-      notify,
-      modals: { deleteModal },
+      match: { params: { id: profileUUID } },
+      modals: { uploadModal },
     } = this.props;
 
-    const { data: { file: { delete: { error } } } } = await this.props.delete({ variables: { uuid } });
-
-    deleteModal.hide();
-
-    if (error) {
-      notify({
-        level: 'error',
-        title: I18n.t('COMMON.FAIL'),
-        message: I18n.t('FILES.CONFIRM_ACTION_MODAL.FILE_NOT_DELETED'),
-      });
-    } else {
-      this.props.filesList.refetch();
-      notify({
-        level: 'success',
-        title: I18n.t('COMMON.SUCCESS'),
-        message: I18n.t('FILES.CONFIRM_ACTION_MODAL.FILE_DELETED'),
-      });
-    }
-  }
-
-  handleDeleteFileClick = (data) => {
-    const { deleteModal } = this.props.modals;
-
-    deleteModal.show({
-      onSubmit: this.handleDeleteFile(data.uuid),
-      modalTitle: I18n.t('FILES.CONFIRM_ACTION_MODAL.TITLE'),
-      actionText: I18n.t('FILES.CONFIRM_ACTION_MODAL.ACTION_TEXT', {
-        fileName: data.title,
-      }),
-      submitButtonLabel: I18n.t('FILES.CONFIRM_ACTION_MODAL.BUTTONS.DELETE'),
-    });
-  }
-
-  handlePreviewImageClick = (data) => {
-    this.context.showImages(data.uuid, data.type);
+    uploadModal.show({ profileUUID });
   };
 
   render() {
@@ -219,13 +190,7 @@ class Files extends Component {
             <button
               type="button"
               className="btn btn-sm btn-primary-outline"
-              onClick={() => this.context.onUploadFileClick(
-                {
-                  targetType: fileTargetTypes.FILES,
-                },
-                filesList.refetch,
-              )
-              }
+              onClick={this.handleUploadFileClick}
             >
               {I18n.t('COMMON.BUTTONS.UPLOAD_FILE')}
             </button>
@@ -249,8 +214,6 @@ class Files extends Component {
                     onVerificationTypeActionClick={this.handleVerificationTypeClick}
                     onChangeFileStatusActionClick={this.handleChangeFileStatusClick}
                     onDownloadFileClick={this.handleDownloadFileClick}
-                    onDeleteFileClick={this.handleDeleteFileClick}
-                    onPreviewImageClick={this.handlePreviewImageClick}
                   />
                 ))
               ))

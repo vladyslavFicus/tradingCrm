@@ -17,6 +17,7 @@ import { aquisitionStatuses } from 'constants/aquisitionStatuses';
 import { Button } from 'components/UI';
 import { FormikSelectField } from 'components/Formik';
 import renderLabel from 'utils/renderLabel';
+import EventEmitter, { ACQUISITION_STATUS_CHANGED } from 'utils/EventEmitter';
 import { createValidator, translateLabels } from 'utils/validator';
 import {
   attributeLabels,
@@ -69,7 +70,6 @@ class RepresentativeUpdateModal extends PureComponent {
     }).isRequired,
     header: PropTypes.oneOfType([PropTypes.node, PropTypes.string]).isRequired,
     type: PropTypes.string.isRequired,
-    onSuccess: PropTypes.func.isRequired,
     onCloseModal: PropTypes.func.isRequired,
     isOpen: PropTypes.bool.isRequired,
     client: PropTypes.object.isRequired,
@@ -265,7 +265,6 @@ class RepresentativeUpdateModal extends PureComponent {
       configs,
       notify,
       userType,
-      onSuccess,
       onCloseModal,
       bulkClientRepresentativeUpdate,
       bulkLeadRepresentativeUpdate,
@@ -334,7 +333,8 @@ class RepresentativeUpdateModal extends PureComponent {
       });
 
       onCloseModal();
-      onSuccess();
+
+      EventEmitter.emit(ACQUISITION_STATUS_CHANGED);
     }
   };
 

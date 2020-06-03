@@ -76,15 +76,15 @@ PropTypes.noteEntity = PropTypes.shape({
   targetUUID: PropTypes.string,
 });
 PropTypes.fileEntity = PropTypes.shape({
-  author: PropTypes.string.isRequired,
-  category: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  playerUuid: PropTypes.string.isRequired,
-  realName: PropTypes.string.isRequired,
-  status: PropTypes.status.isRequired,
-  type: PropTypes.string.isRequired,
-  uploadDate: PropTypes.string.isRequired,
-  uuid: PropTypes.string.isRequired,
+  author: PropTypes.string,
+  category: PropTypes.string,
+  name: PropTypes.string,
+  playerUuid: PropTypes.string,
+  realName: PropTypes.string,
+  status: PropTypes.string,
+  type: PropTypes.string,
+  uploadDate: PropTypes.string,
+  uuid: PropTypes.string,
 });
 PropTypes.uploadingFile = PropTypes.shape({
   fileUuid: PropTypes.string.isRequired,
