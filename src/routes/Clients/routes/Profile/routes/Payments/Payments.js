@@ -84,6 +84,12 @@ class Payments extends PureComponent {
         message: I18n.t('PLAYER_PROFILE.TRANSACTIONS.ADD_TRANSACTION_FAIL'),
       });
     } else {
+      notify({
+        level: 'success',
+        title: I18n.t('COMMON.SUCCESS'),
+        message: I18n.t('PLAYER_PROFILE.TRANSACTIONS.ADD_TRANSACTION_SUCCESS'),
+      });
+
       if (note) {
         await addNote({ variables: { ...note, targetUUID: payment.paymentId } });
       }
