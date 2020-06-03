@@ -172,7 +172,7 @@ const filterLabels = {
   firstDeposit: 'PROFILE.LIST.FILTERS.FIRST_DEPOSIT',
   searchLimit: 'COMMON.FILTERS.SEARCH_LIMIT',
   warning: 'PROFILE.LIST.FILTERS.WARNING',
-  onlineStatus: 'PROFILE.LAST_ACTIVITY.STATUS.ONLINE',
+  activity: 'PROFILE.LIST.FILTERS.ACTIVITY',
 };
 
 const statuses = keyMirror({

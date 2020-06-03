@@ -1648,7 +1648,8 @@
         "FIRST_DEPOSIT": "First time deposit",
         "AFFILIATES": "Affiliates",
         "PARTNER_TYPE": "Created by",
-        "WARNING": "Warning"
+        "WARNING": "Warning",
+        "ACTIVITY": "Activity"
       }
     }
   },

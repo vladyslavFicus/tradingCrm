@@ -49,7 +49,7 @@ const firstDepositStatuses = [
   },
 ];
 
-const onlineStatuses = [
+const activityStatuses = [
   {
     value: 'ONLINE',
     label: 'PROFILE.LAST_ACTIVITY.STATUS.ONLINE',
@@ -119,11 +119,11 @@ export default ({
   },
   {
     type: fieldTypes.SELECT,
-    name: 'onlineStatuses',
-    label: filterLabels.onlineStatus,
+    name: 'activityStatus',
+    label: filterLabels.activity,
     placeholder: 'COMMON.SELECT_OPTION.ANY',
     className: fieldClassNames.MEDIUM,
-    selectOptions: onlineStatuses,
+    selectOptions: activityStatuses,
     searchable: false,
   },
   {
