@@ -2126,8 +2126,7 @@
       "CREATE_BUTTON": "创建办公室",
       "LABELS": {
         "OFFICE_NAME": "办公室名称",
-        "COUNTRY": "国家",
-        "OFFICE_MANAGER": "办公室经理"
+        "COUNTRY": "国家"
       }
     },
     "TABS": {
