@@ -1097,6 +1097,7 @@
         "SALES": "Sales",
         "RETENTION": "Retention",
         "FINANCE": "Finance",
+        "AFFILIATE": "Affiliate",
         "AFFILIATE_MANAGER": "Affiliate manager",
         "AFFILIATE_PARTNER": "Affiliate partner",
         "DIDLOGIC_OPERATOR": "DID Logic operator",
@@ -1969,7 +1970,7 @@
     }
   },
   "PARTNERS": {
-    "HEADING": "PARTNERS",
+    "HEADING": "Partners",
     "NEW_PARTNER": "New partner",
     "CREATE_PARTNER_BUTTON": "+ New partner",
     "STATUSES": {
@@ -1997,10 +1998,6 @@
       "SEARCH_BY_PLACEHOLDER": "Name, Phone, Email, UUID...",
       "REGISTRATION_DATE_RANGE": "Registration Date Range"
     },
-    "SHOW_NOTES": "Show notes",
-    "SHOW_SALES_STATUS": "Show sales status",
-    "SHOW_FTD_AMOUNT": "Show FTD Amount",
-    "SHOW_KYC_STATUS": "Show KYC status",
     "MODALS": {
       "NEW_PARTNER": {
         "TITLE": "New partner",
@@ -2016,45 +2013,29 @@
       }
     },
     "PROFILE": {
-      "DEPARTMENTS": {
-        "LABELS": {
-          "DEPARTMENT": "Department",
-          "ROLE": "Role"
-        },
-        "LABEL": "Departments",
-        "ADD_BUTTON_LABEL": "+ADD"
-      },
-      "PERSONAL_FORM": {
-        "LABELS": {
-          "FIRST_NAME": "First name",
-          "LAST_NAME": "Last name",
-          "COUNTRY": "Country",
-          "PHONE": "Phone",
-          "WHITE_LISTED_IP": "White listed IPs",
-          "RESTRICTED_COUNTRIES": "Restricted countries",
-          "PUBLIC_CHECKBOX": "Allow to create Clients through public API",
-          "GENERATE_TRADING_ACCOUNT": "Allow to generate Trading Account",
-          "CHOOSE_TRADING_ACCOUNT_PLATFORM": "Choose trading account platform",
-          "CHOOSE_TRADING_ACCOUNT_CURRENCY": "Choose trading account currency"
-        },
-        "AUTOCREATION_TRADING_ACCOUNT_OPTIONS": {
-          "ALLOW": "Allow",
-          "DENIED": "Denied",
-          "DEPENDS_ON_BRAND": "Depends on brand"
+      "PERSONAL_INFORMATION": {
+        "TITLE": "Personal information",
+        "FORM": {
+          "LABELS": {
+            "FIRST_NAME": "First name",
+            "LAST_NAME": "Last name",
+            "PUBLIC_CHECKBOX": "Allow to create Clients through public API"
+          }
         }
       },
-      "HIERARCHY": {
-        "LABEL": "Hierarchy",
-        "BRANCHES": "Branches",
-        "NO_BRANCHES": "This user has no branches yet",
-        "ADD_BRANCH_LABEL": "Add Branch",
-        "BRANCH_ADDED": "Branch %{name} successfully added",
-        "ERROR_UPDATE_TYPE": "Update partner's user type failed. Please try again later",
-        "SUCCESS_UPDATE_TYPE": "Successfully updated partner's user type",
-        "ERROR_REMOVE_BRANCH": "Remove branch failed. Please try again later",
-        "SUCCESS_REMOVE_BRANCH": "Successfully removed branch %{name}",
-        "FORM_LABEL": {
-          "USER_TYPE": "User Type"
+      "CONTACTS": {
+        "TITLE": "Contacts",
+        "FORM": {
+          "LABELS": {
+            "COUNTRY": "Country",
+            "PHONE": "Phone",
+            "WHITE_LISTED_IP": "White listed IPs",
+            "RESTRICTED_COUNTRIES": "Restricted countries",
+            "SHOW_NOTES": "Show notes",
+            "SHOW_SALES_STATUS": "Show sales status",
+            "SHOW_FTD_AMOUNT": "Show FTD Amount",
+            "SHOW_KYC_STATUS": "Show KYC status"
+          }
         }
       }
     },
@@ -2173,6 +2154,12 @@
       "MESSAGE": "To update your client version, please confirm this action"
     },
     "ADD_OFFICE_MODAL": {
+      "TITLE": "New office",
+      "CREATE_BUTTON": "Create office",
+      "LABELS": {
+        "OFFICE_NAME": "Office name",
+        "COUNTRY": "Country"
+      },
       "NOTIFICATION": {
         "SUCCESS": "Office was successfully created",
         "ERROR": "Failed to create new office"
@@ -2753,19 +2740,10 @@
   },
   "OFFICES": {
     "OFFICES": "Offices",
-    "ADD_OFFICE": "Add office",
+    "ADD_OFFICE": "+ Add office",
     "GRID_HEADER": {
       "OFFICE": "Office",
       "COUNTRY": "Country"
-    },
-    "MODAL": {
-      "HEADER": "New office",
-      "CREATE_BUTTON": "Create office",
-      "LABELS": {
-        "OFFICE_NAME": "Office name",
-        "COUNTRY": "Country",
-        "OFFICE_MANAGER": "Office manager"
-      }
     },
     "TABS": {
       "RULES": {

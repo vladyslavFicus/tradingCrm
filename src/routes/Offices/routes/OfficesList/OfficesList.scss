@@ -1,0 +1,18 @@
+.OfficesList {
+  background-color: #fff;
+  border: 1px solid rgba(0,0,0,.125);
+  border-radius: 5px;
+
+  &__header {
+    border-bottom: 1px solid #dfe4ed;
+    padding: 25px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__title {
+    font-size: 20px;
+  }
+}

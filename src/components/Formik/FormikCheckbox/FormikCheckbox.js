@@ -16,7 +16,6 @@ class FormikCheckbox extends PureComponent {
           PropTypes.arrayOf(PropTypes.string),
         ]),
       ).isRequired,
-      touched: PropTypes.objectOf(PropTypes.bool),
       setFieldValue: PropTypes.func.isRequired,
     }).isRequired,
   };
@@ -30,7 +29,6 @@ class FormikCheckbox extends PureComponent {
       form: {
         isSubmitting,
         errors,
-        touched,
         setFieldValue,
       },
       ...rest
@@ -41,7 +39,7 @@ class FormikCheckbox extends PureComponent {
       value,
       onChange: () => setFieldValue(name, !value),
       ...rest,
-      ...(touched[name] && !isSubmitting),
+      ...!isSubmitting,
       error: errors && errors[name],
     };
 

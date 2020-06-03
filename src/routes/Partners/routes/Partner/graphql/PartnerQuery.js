@@ -4,7 +4,7 @@ import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 
 const REQUEST = gql`
-  query Partner_getPartnerByUUID(
+  query Partner_PartnerQuery(
     $uuid: String!
   ) {
     partner(
@@ -17,6 +17,8 @@ const REQUEST = gql`
         lastName
         fullName
         email
+        externalAffiliateId
+        public
         phone
         country
         status
@@ -24,6 +26,13 @@ const REQUEST = gql`
         statusChangeAuthor
         createdBy
         createdAt
+        permission {
+          allowedIpAddresses
+          forbiddenCountries
+          showFTDAmount
+          showKycStatus
+          showNotes
+        }
         authorities {
           data {
             department
@@ -39,13 +48,13 @@ const REQUEST = gql`
   }
 `;
 
-const getPartnerQuery = ({ children, match: { params: { id } } }) => (
+const PartnerQuery = ({ children, match: { params: { id } } }) => (
   <Query query={REQUEST} variables={{ uuid: id }} fetchPolicy="network-only">
     {children}
   </Query>
 );
 
-getPartnerQuery.propTypes = {
+PartnerQuery.propTypes = {
   children: PropTypes.func.isRequired,
   match: PropTypes.shape({
     params: PropTypes.shape({
@@ -54,4 +63,4 @@ getPartnerQuery.propTypes = {
   }).isRequired,
 };
 
-export default getPartnerQuery;
+export default PartnerQuery;

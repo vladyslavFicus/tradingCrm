@@ -1,28 +1,28 @@
-import React, { Component, Fragment } from 'react';
-import { withRouter } from 'react-router-dom';
+import React, { PureComponent, Fragment } from 'react';
+import { withRouter, Link } from 'react-router-dom';
 import I18n from 'i18n-js';
+import { get } from 'lodash';
 import PropTypes from 'constants/propTypes';
 import Grid, { GridColumn } from 'components/Grid';
 import Uuid from 'components/Uuid';
 import CountryLabelWithFlag from 'components/CountryLabelWithFlag';
+import './OfficesGrid.scss';
 
-class OfficesGrid extends Component {
+class OfficesGrid extends PureComponent {
   static propTypes = {
     ...PropTypes.router,
-    isLoading: PropTypes.bool.isRequired,
-    officesList: PropTypes.arrayOf(PropTypes.object).isRequired,
-  };
-
-  handleOfficeClick = ({ office: { uuid } }) => {
-    this.props.history.push(`/offices/${uuid}`);
+    officesData: PropTypes.branchHierarchyResponse.isRequired,
   };
 
   renderOfficeColumn = ({ office: { name, uuid } }) => (
     <Fragment>
-      <div className="font-weight-700 cursor-pointer">
+      <Link
+        className="OfficesGrid__cell-primary"
+        to={`/offices/${uuid}`}
+      >
         {name}
-      </div>
-      <div className="font-size-11">
+      </Link>
+      <div className="OfficesGrid__cell-secondary">
         <Uuid uuid={uuid} uuidPrefix="OF" />
       </div>
     </Fragment>
@@ -43,17 +43,16 @@ class OfficesGrid extends Component {
   );
 
   render() {
-    const {
-      isLoading,
-      officesList,
-    } = this.props;
+    const { officesData } = this.props;
+
+    const officesList = get(officesData, 'data.hierarchy.branchHierarchy.data') || [];
+    const isLoading = officesData.loading;
 
     return (
-      <div className="card-body">
+      <div className="OfficesGrid">
         <Grid
           data={officesList}
-          handleRowClick={this.handleOfficeClick}
-          isLastPage
+          isLoading={isLoading}
           withNoResults={!isLoading && officesList.length === 0}
         >
           <GridColumn

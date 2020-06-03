@@ -174,6 +174,7 @@ class NotificationsGrid extends PureComponent {
     return (
       <Grid
         data={entities}
+        isLoading={loading}
         isLastPage={isLastPage}
         withNoResults={!loading && entities.length === 0}
         withLazyLoad={!searchLimit || searchLimit !== entities.length}
