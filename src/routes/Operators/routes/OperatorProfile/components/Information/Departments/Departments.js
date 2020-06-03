@@ -43,11 +43,7 @@ Departments.propTypes = {
     department: PropTypes.string,
     id: PropTypes.number,
     role: PropTypes.string,
-  })),
-};
-
-Departments.defaultProps = {
-  authorities: [],
+  })).isRequired,
 };
 
 export default Departments;
