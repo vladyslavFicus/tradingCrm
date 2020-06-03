@@ -1,18 +1,18 @@
 .LeadsGridFilter {
   &__form {
     background-color: #f2f4f8;
+    padding: 20px 25px 35px;
     display: flex;
+    align-items: flex-end;
     flex-flow: row wrap;
     justify-content: space-between;
-    align-items: flex-end;
-    padding: 20px 25px 35px;
   }
 
   &__fields {
+    margin-right: -15px;
     display: flex;
     flex-wrap: wrap;
     flex-grow: 1;
-    margin-right: -15px;
   }
 
   &__field {

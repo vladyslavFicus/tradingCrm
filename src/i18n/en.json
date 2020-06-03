@@ -2672,6 +2672,9 @@
       "SELF_CONVETED": "self-converted"
     },
     "SUCCESS_PROMOTED": "Lead was promoted to id %{id}",
+    "LEADS_BULK_MODAL": {
+      "HEADER": "Bulk action - Sales"
+    },
     "LEADS_UPLOAD_MODAL": {
       "TITLE": "Leads upload",
       "UPLOAD_CSV_TO_IMPORT_LEADS": "Upload a CSV file to import new Leads",

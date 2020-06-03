@@ -36,9 +36,6 @@ class LeadsGridFilter extends PureComponent {
     ...PropTypes.router,
     isSubmitting: PropTypes.bool.isRequired,
     resetForm: PropTypes.func.isRequired,
-    initialValues: PropTypes.objectOf(
-      PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.array]),
-    ).isRequired,
     values: PropTypes.objectOf(
       PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.array]),
     ).isRequired,
@@ -78,13 +75,11 @@ class LeadsGridFilter extends PureComponent {
     ]);
   }
 
-  filterOperatorsByBranch = ({ operators, branchType, uuids }) => (
+  filterOperatorsByBranch = ({ operators, uuids }) => (
     operators.filter((operator) => {
       const branches = get(operator, 'hierarchy.parentBranches') || [];
 
-      return branches.reduce((_, currentBranch) => (
-        currentBranch.branchType === branchType && uuids.includes(currentBranch.uuid)
-      ), false);
+      return branches.reduce((_, currentBranch) => uuids.includes(currentBranch.uuid), false);
     })
   )
 
@@ -97,21 +92,21 @@ class LeadsGridFilter extends PureComponent {
     const operators = get(operatorsData, 'data.operators.data.content') || [];
 
     if (teams && teams.length) {
-      return this.filterOperatorsByBranch({ operators, branchType: 'TEAM', uuids: teams });
+      return this.filterOperatorsByBranch({ operators, uuids: teams });
     }
 
     if (desks && desks.length) {
-      return this.filterOperatorsByBranch({ operators, branchType: 'DESK', uuids: desks });
+      return this.filterOperatorsByBranch({ operators, uuids: desks });
     }
 
     return operators;
   }
 
   handleReset = () => {
-    const { history, initialValues, resetForm } = this.props;
+    const { history, resetForm } = this.props;
 
     history.replace({ query: { filters: {} } });
-    resetForm(initialValues);
+    resetForm({});
   };
 
   render() {

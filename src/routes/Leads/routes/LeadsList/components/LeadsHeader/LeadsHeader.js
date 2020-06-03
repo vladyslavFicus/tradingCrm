@@ -1,14 +1,12 @@
 import React, { PureComponent } from 'react';
-import { compose } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
-import { TextRow } from 'react-placeholder/lib/placeholders';
+import { compose } from 'react-apollo';
 import I18n from 'i18n-js';
 import { get, omit } from 'lodash';
 import { withNotifications, withModals } from 'hoc';
 import PropTypes from 'constants/propTypes';
 import { userTypes, deskTypes } from 'constants/hierarchyTypes';
 import { Button } from 'components/UI';
-import Placeholder from 'components/Placeholder';
 import RepresentativeUpdateModal from 'components/RepresentativeUpdateModal';
 import { MAX_SELECTED_LEADS } from '../../constants';
 import LeadsUploadModal from '../LeadsUploadModal';
@@ -92,7 +90,7 @@ class LeadsHeader extends PureComponent {
       },
       header: (
         <>
-          <div>{I18n.t('CLIENTS.MODALS.SALES_MODAL.HEADER')}</div>
+          <div>{I18n.t('LEADS.LEADS_BULK_MODAL.HEADER')}</div>
           <div className="font-size-11 color-yellow">
             {this.selectedRowsLength} {I18n.t('LEADS.LEADS_SELECTED')}
           </div>
@@ -124,7 +122,6 @@ class LeadsHeader extends PureComponent {
 
     const totalElements = get(leadsData, 'data.leads.data.totalElements') || null;
     const searchLimit = get(query, 'filters.size');
-    const isLoading = leadsData.loading;
 
     const leadsListCount = (searchLimit && searchLimit < totalElements)
       ? searchLimit
@@ -132,16 +129,7 @@ class LeadsHeader extends PureComponent {
 
     return (
       <div className="LeadsHeader">
-        <Placeholder
-          ready={!isLoading}
-          className="LeadsHeader__left"
-          customPlaceholder={(
-            <div>
-              <TextRow className="animated-background" style={{ width: '220px', height: '20px' }} />
-              <TextRow className="animated-background" style={{ width: '220px', height: '12px' }} />
-            </div>
-          )}
-        >
+        <div className="LeadsHeader__left">
           <Choose>
             <When condition={leadsListCount}>
               <div>
@@ -160,7 +148,7 @@ class LeadsHeader extends PureComponent {
               </div>
             </Otherwise>
           </Choose>
-        </Placeholder>
+        </div>
 
         <div className="LeadsHeader__right">
           <If condition={totalElements !== 0 && this.selectedRowsLength !== 0}>

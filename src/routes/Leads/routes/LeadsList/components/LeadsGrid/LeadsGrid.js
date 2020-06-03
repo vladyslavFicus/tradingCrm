@@ -5,8 +5,8 @@ import I18n from 'i18n-js';
 import moment from 'moment';
 import { get } from 'lodash';
 import classNames from 'classnames';
-import PropTypes from 'constants/propTypes';
 import { withModals } from 'hoc';
+import PropTypes from 'constants/propTypes';
 import { salesStatuses, salesStatusesColor } from 'constants/salesStatuses';
 import ConfirmActionModal from 'components/Modal/ConfirmActionModal';
 import CountryLabelWithFlag from 'components/CountryLabelWithFlag';
@@ -83,11 +83,9 @@ class LeadsGrid extends PureComponent {
       const { totalElements } = get(leadsData, 'data.leads.data') || {};
       const searchLimit = get(location, 'query.filters.size') || null;
 
-      let selectedLimit = totalElements > MAX_SELECTED_LEADS;
-
-      if (searchLimit && (searchLimit < totalElements)) {
-        selectedLimit = searchLimit > MAX_SELECTED_LEADS;
-      }
+      const selectedLimit = (searchLimit && searchLimit < totalElements)
+        ? searchLimit > MAX_SELECTED_LEADS
+        : totalElements > MAX_SELECTED_LEADS;
 
       if (selectedLimit) {
         confirmationModal.show({
@@ -199,9 +197,7 @@ class LeadsGrid extends PureComponent {
 
       <If condition={statusChangedDate}>
         <div className="LeadsGrid__status-converted">
-          {I18n.t('COMMON.SINCE', {
-            date: moment.utc(statusChangedDate).local().format('DD.MM.YYYY HH:mm:ss'),
-          })}
+          {I18n.t('COMMON.SINCE', { date: moment.utc(statusChangedDate).local().format('DD.MM.YYYY HH:mm:ss') })}
         </div>
       </If>
 
@@ -213,9 +209,7 @@ class LeadsGrid extends PureComponent {
             </div>
           </When>
           <Otherwise>
-            <small>
-              {I18n.t('LEADS.STATUSES.SELF_CONVETED')}
-            </small>
+            <small>{I18n.t('LEADS.STATUSES.SELF_CONVETED')}</small>
           </Otherwise>
         </Choose>
       </If>

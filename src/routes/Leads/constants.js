@@ -1,7 +1,5 @@
 import keyMirror from 'keymirror';
 
-const leadAccountStatuses = null;
-
 const statuses = keyMirror({
   NEW: null,
   NEVER_ANSWER: null,
@@ -38,7 +36,6 @@ const leadProfileTabs = [{
 
 export {
   statuses,
-  leadAccountStatuses,
   leadStatuses,
   leadProfileTabs,
 };
