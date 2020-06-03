@@ -15,7 +15,7 @@ class FilterSet extends PureComponent {
     handleSelectFilterDropdownItem: PropTypes.func.isRequired,
     handleToggleFiltersVisibility: PropTypes.func.isRequired,
     common: PropTypes.arrayOf(PropTypes.object).isRequired,
-    isFetchingProfileData: PropTypes.bool.isRequired,
+    isDataLoading: PropTypes.bool.isRequired,
     handleHistoryReplace: PropTypes.func.isRequired,
     filtersLoading: PropTypes.bool.isRequired,
     filtersRefetch: PropTypes.func.isRequired,
@@ -139,7 +139,7 @@ class FilterSet extends PureComponent {
       selectValue,
       errorLoading,
       filtersLoading,
-      isFetchingProfileData,
+      isDataLoading,
     } = this.props;
 
     const {
@@ -170,7 +170,7 @@ class FilterSet extends PureComponent {
         <div className="filter-favorites__dropdown-container">
           <Dropdown
             className={
-              classNames('filter-favorites__dropdown', { 'is-disabled': isDisabledDropdown || isFetchingProfileData })
+              classNames('filter-favorites__dropdown', { 'is-disabled': isDisabledDropdown || isDataLoading })
             }
             toggle={this.handleToggleDropdown}
             isOpen={isOpenDropdown}

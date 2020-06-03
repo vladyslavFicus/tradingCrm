@@ -244,7 +244,7 @@ class ClientsGridFilter extends PureComponent {
           auth,
         })}
         onFieldChange={this.handleFieldChange}
-        isFetchingProfileData={isFetchingProfileData}
+        isDataLoading={isFetchingProfileData}
       />
     );
   }
