@@ -8,6 +8,7 @@ import { targetTypes } from 'constants/note';
 import ListView from 'components/ListView';
 import TabHeader from 'components/TabHeader';
 import NoteItem from 'components/NoteItem';
+import { decodeNullValues } from 'components/Formik/utils';
 import ClientNotesQuery from './graphql/ClientNotesQuery';
 import NotesGridFilter from './NotesGridFilter';
 
@@ -51,7 +52,7 @@ class Notes extends Component {
     const { location, history } = this.props;
     history.replace({
       query: {
-        filters: filters || (location.query && location.query.filters) || {},
+        filters: decodeNullValues(filters) || (location.query && location.query.filters) || {},
       },
     });
   };
