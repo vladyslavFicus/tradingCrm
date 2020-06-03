@@ -89,8 +89,8 @@ const getLeadsQuery = ({ children, location: { query } }) => (
     query={REQUEST}
     variables={{
       ...query && query.filters,
-      size: 20,
       page: 0,
+      limit: 20,
     }}
     fetchPolicy="network-only"
   >

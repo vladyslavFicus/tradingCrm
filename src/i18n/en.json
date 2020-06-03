@@ -2644,6 +2644,7 @@
     "LEADS_FOUND": "Leads found",
     "LEADS_SELECTED": "Leads selected",
     "BULK_ACTIONS": "Bulk actions",
+    "UPDATED": "Leads updated successfully",
     "GRID_HEADER": {
       "LEAD": "Lead",
       "COUNTRY": "Country",
@@ -2654,9 +2655,14 @@
     },
     "FILTER": {
       "SEARCH": "Search by",
-      "COUNTRY": "Country",
+      "COUNTRIES": "Countries",
+      "DESKS": "Desks",
+      "TEAMS": "Teams",
+      "SALES_AGENTS": "Sales agents",
+      "SALES_STATUS": "Sales status",
       "ACCOUNT_STATUS": "Account Status",
-      "REGISTRATION_DATE_RANGE": "Registration date range"
+      "REGISTRATION_DATE_RANGE": "Registration date range",
+      "LAST_NOTE_DATE_RANGE": "Last note date range"
     },
     "STATUSES": {
       "NEW": "New",

@@ -10,7 +10,7 @@ import { userTypes, deskTypes } from 'constants/hierarchyTypes';
 import { Button } from 'components/UI';
 import Placeholder from 'components/Placeholder';
 import RepresentativeUpdateModal from 'components/RepresentativeUpdateModal';
-import { MAX_SELECTED_LEADS } from '../../../../constants';
+import { MAX_SELECTED_LEADS } from '../../constants';
 import LeadsUploadModal from '../LeadsUploadModal';
 import './LeadsHeader.scss';
 
@@ -43,7 +43,7 @@ class LeadsHeader extends PureComponent {
 
     if (allRowsSelected) {
       const totalElements = get(leadsData, 'data.leads.data.totalElements') || null;
-      const searchLimit = get(location, 'query.filters.searchLimit');
+      const searchLimit = get(location, 'query.filters.size');
 
       const selectedLimit = searchLimit && (searchLimit < totalElements) ? searchLimit : totalElements;
 
@@ -60,7 +60,6 @@ class LeadsHeader extends PureComponent {
       leadsData,
       touchedRowsIds,
       allRowsSelected,
-      selectedRowsLength,
       location: { query },
       updateLeadsListState,
       modals: { representativeUpdateModal },
@@ -81,7 +80,7 @@ class LeadsHeader extends PureComponent {
       type: deskTypes.SALES,
       configs: {
         allRowsSelected,
-        totalElements: selectedRowsLength,
+        totalElements: this.selectedRowsLength,
         multiAssign: true,
         ...query && {
           searchParams: omit(query.filters, ['size', 'teams', 'desks']),
@@ -116,10 +115,20 @@ class LeadsHeader extends PureComponent {
   };
 
   render() {
-    const { leadsData } = this.props;
+    const {
+      leadsData,
+      location: {
+        query,
+      },
+    } = this.props;
 
     const totalElements = get(leadsData, 'data.leads.data.totalElements') || null;
+    const searchLimit = get(query, 'filters.size');
     const isLoading = leadsData.loading;
+
+    const leadsListCount = (searchLimit && searchLimit < totalElements)
+      ? searchLimit
+      : totalElements;
 
     return (
       <div className="LeadsHeader">
@@ -134,10 +143,10 @@ class LeadsHeader extends PureComponent {
           )}
         >
           <Choose>
-            <When condition={totalElements}>
+            <When condition={leadsListCount}>
               <div>
                 <div className="LeadsHeader__title">
-                  <b>{totalElements} </b> {I18n.t('LEADS.LEADS_FOUND')}
+                  <b>{leadsListCount} </b> {I18n.t('LEADS.LEADS_FOUND')}
                 </div>
 
                 <div className="LeadsHeader__selected">

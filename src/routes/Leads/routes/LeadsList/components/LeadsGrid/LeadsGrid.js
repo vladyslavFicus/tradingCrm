@@ -1,6 +1,5 @@
-/* eslint-disable */
 import React, { PureComponent } from 'react';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import { compose } from 'react-apollo';
 import I18n from 'i18n-js';
 import moment from 'moment';
@@ -19,7 +18,9 @@ import Uuid from 'components/Uuid';
 import MiniProfile from 'components/MiniProfile';
 import { UncontrolledTooltip } from 'components/Reactstrap/Uncontrolled';
 import renderLabel from 'utils/renderLabel';
-import { leadStatuses, MAX_SELECTED_LEADS } from '../../../../constants';
+import limitItems from 'utils/limitItems';
+import { leadStatuses } from '../../../../constants';
+import { MAX_SELECTED_LEADS } from '../../constants';
 import './LeadsGrid.scss';
 
 class LeadsGrid extends PureComponent {
@@ -30,7 +31,7 @@ class LeadsGrid extends PureComponent {
     allRowsSelected: PropTypes.bool.isRequired,
     modals: PropTypes.shape({
       confirmationModal: PropTypes.modalType,
-    }),
+    }).isRequired,
     leadsData: PropTypes.query({
       leads: PropTypes.shape({
         data: PropTypes.pageable(PropTypes.lead),
@@ -38,22 +39,29 @@ class LeadsGrid extends PureComponent {
     }).isRequired,
   };
 
-  // # Check this out
   handlePageChanged = () => {
     const {
-      leads: {
+      location,
+      leadsData,
+      leadsData: {
         loadMore,
         loading,
       },
     } = this.props;
 
-    if (!loading) {
-      loadMore();
-    }
-  };
+    const defaultSize = 20;
+    const { currentPage } = limitItems(leadsData.data.leads, location);
 
-  handleLeadClick = ({ uuid }) => {
-    window.open(`/leads/${uuid}`, '_blank');
+    const searchLimit = get(location, 'query.filters.size');
+    const restLimitSize = searchLimit && (searchLimit - (currentPage + 1) * defaultSize);
+    const limit = restLimitSize && (restLimitSize < defaultSize) ? Math.abs(restLimitSize) : defaultSize;
+
+    if (!loading) {
+      loadMore({
+        page: currentPage + 1,
+        limit,
+      });
+    }
   };
 
   handleSelectRow = (allRowsSelected, touchedRowsIds) => {
@@ -73,12 +81,12 @@ class LeadsGrid extends PureComponent {
       } = this.props;
 
       const { totalElements } = get(leadsData, 'data.leads.data') || {};
-      const searchLimit = get(location, 'query.filters.searchLimit') || null;
+      const searchLimit = get(location, 'query.filters.size') || null;
 
-      let selectedLimit = totalElements > MAX_SELECTED_ROWS;
+      let selectedLimit = totalElements > MAX_SELECTED_LEADS;
 
       if (searchLimit && (searchLimit < totalElements)) {
-        selectedLimit = searchLimit > MAX_SELECTED_ROWS;
+        selectedLimit = searchLimit > MAX_SELECTED_LEADS;
       }
 
       if (selectedLimit) {
@@ -94,7 +102,13 @@ class LeadsGrid extends PureComponent {
 
   renderLead = ({ uuid, name, surname }) => (
     <>
-      <div className="LeadsGrid__primary">{name} {surname}</div>
+      <Link
+        className="LeadsGrid__primary"
+        to={`/leads/${uuid}`}
+        target="_blank"
+      >
+        {name} {surname}
+      </Link>
 
       <div className="LeadsGrid__secondary">
         <MiniProfile id={uuid} type="lead">
@@ -209,9 +223,16 @@ class LeadsGrid extends PureComponent {
   );
 
   render() {
-    const { leadsData, touchedRowsIds, allRowsSelected } = this.props;
+    const {
+      location,
+      leadsData,
+      touchedRowsIds,
+      allRowsSelected,
+    } = this.props;
 
-    const { content, last } = get(leadsData, 'data.leads.data') || {};
+    const { response } = limitItems(leadsData.data.leads, location);
+    const { content, last } = get(response, 'data') || {};
+
     const isLoading = leadsData.loading;
 
     return (
@@ -220,14 +241,12 @@ class LeadsGrid extends PureComponent {
           data={content || []}
           touchedRowsIds={touchedRowsIds}
           allRowsSelected={allRowsSelected}
-          handleRowClick={this.handleLeadClick}
           handleSelectRow={this.handleSelectRow}
           handleAllRowsSelect={this.handleAllRowsSelect}
           handlePageChanged={this.handlePageChanged}
           isLoading={isLoading}
           isLastPage={last}
           withMultiSelect
-          withRowsHover
           withNoResults={content && content.length === 0}
         >
           <GridColumn

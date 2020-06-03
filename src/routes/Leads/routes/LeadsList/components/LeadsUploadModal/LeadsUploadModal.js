@@ -100,12 +100,9 @@ class LeadsUploadModal extends PureComponent {
               <img src="/img/upload-icon.svg" className="LeadsUploadModal__dropzone-upload-image" alt="" />
               <div className="LeadsUploadModal__dropzone-info">
                 <p>{I18n.t('FILE_DROPZONE.DRAG_HERE_OR')}</p>
-                <button
-                  type="button"
-                  className="LeadsUploadModal__dropzone-button"
-                >
+                <Button className="LeadsUploadModal__dropzone-button">
                   {I18n.t('FILE_DROPZONE.BROWSE_FILES')}
-                </button>
+                </Button>
               </div>
             </div>
           </Dropzone>

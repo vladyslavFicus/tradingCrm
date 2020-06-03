@@ -2,14 +2,13 @@ import React, { PureComponent } from 'react';
 import moment from 'moment';
 import I18n from 'i18n-js';
 import PropTypes from 'constants/propTypes';
-import { statuses } from 'constants/leads';
 import permissions from 'config/permissions';
 import PermissionContent from 'components/PermissionContent';
 import Uuid from 'components/Uuid';
 import PopoverButton from 'components/PopoverButton';
 import ProfileHeaderPlaceholder from 'components/ProfileHeaderPlaceholder';
-import { leadStatuses } from '../../../../constants';
 import ConvertedBy from '../../../../components/ConvertedBy';
+import { leadStatuses, statuses } from '../../../../constants';
 
 class Header extends PureComponent {
   static propTypes = {

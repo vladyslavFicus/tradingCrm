@@ -329,7 +329,7 @@ class RepresentativeUpdateModal extends PureComponent {
         title: I18n.t('COMMON.SUCCESS'),
         message:
           userType === userTypes.LEAD_CUSTOMER
-            ? I18n.t(`LEADS.${type}_INFO_UPDATED`)
+            ? I18n.t('LEADS.UPDATED')
             : I18n.t(`CLIENTS.${type}_INFO_UPDATED`),
       });
 

@@ -1,6 +1,13 @@
-import { statuses } from 'constants/leads';
+import keyMirror from 'keymirror';
 
-const MAX_SELECTED_LEADS = 10000;
+const leadAccountStatuses = null;
+
+const statuses = keyMirror({
+  NEW: null,
+  NEVER_ANSWER: null,
+  VOICE_MAIL: null,
+  CONVERTED: null,
+});
 
 const leadStatuses = {
   [statuses.NEW]: {
@@ -21,17 +28,6 @@ const leadStatuses = {
   },
 };
 
-const leadAccountStatuses = {
-  [statuses.CONVERTED]: {
-    label: 'LEADS.STATUSES.CONVERTED',
-    value: statuses.CONVERTED,
-  },
-  [statuses.NEW]: {
-    label: 'LEADS.STATUSES.NEW',
-    value: statuses.NEW,
-  },
-};
-
 const leadProfileTabs = [{
   label: 'LEAD_PROFILE.TABS.PROFILE',
   url: '/leads/:id/profile',
@@ -41,8 +37,8 @@ const leadProfileTabs = [{
 }];
 
 export {
-  MAX_SELECTED_LEADS,
-  leadStatuses,
+  statuses,
   leadAccountStatuses,
+  leadStatuses,
   leadProfileTabs,
 };
