@@ -36,12 +36,12 @@ class PaymentAddModal extends PureComponent {
     onCloseModal: PropTypes.func.isRequired,
   };
 
-  onSubmit = async (data) => {
-    await this.props.onSubmit({
+  onSubmit = data => (
+    this.props.onSubmit({
       ...data,
       note: this.noteButton.getNote(),
-    });
-  };
+    })
+  );
 
   getSourceAccount = ({ accountUUID, source }) => {
     const { tradingAccount } = this.props.newProfile;

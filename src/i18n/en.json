@@ -368,6 +368,7 @@
     "TRANSACTIONS": {
       "ADD_TRANSACTION": "+ Add transaction",
       "ADD_TRANSACTION_FAIL": "Failed to add transaction",
+      "ADD_TRANSACTION_SUCCESS": "Transaction was added successfully",
       "MODAL_CREATE": {
         "NO_PAYMENT_ACCOUNTS_LABEL": "No payment accounts",
         "CHOOSE_PAYMENT_METHOD_LABEL": "Choose payment method",
