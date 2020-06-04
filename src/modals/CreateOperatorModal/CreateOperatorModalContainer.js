@@ -1,15 +1,19 @@
-import { reduxForm } from 'redux-form';
 import { get } from 'lodash';
 import { compose, graphql } from 'react-apollo';
-import { getActiveBrandConfig } from 'config';
-import { withReduxFormValues } from 'hoc';
-import { createValidator, translateLabels } from 'utils/validator';
+import { withRouter } from 'react-router-dom';
+import { withNotifications } from 'hoc';
 import { branchTypes as branchNames } from 'constants/hierarchyTypes';
 import { getUserBranchHierarchy } from 'graphql/queries/hierarchy';
+import { createOperator } from 'graphql/mutations/operators';
 import CreateOperatorModal from './CreateOperatorModal';
-import { attributeLabels, getBranchOption } from './constants';
+import { getBranchOption } from './constants';
 
 export default compose(
+  withRouter,
+  withNotifications,
+  graphql(createOperator, {
+    name: 'submitNewOperator',
+  }),
   graphql(getUserBranchHierarchy, {
     name: 'branchHierarchy',
     options: () => ({
@@ -40,19 +44,4 @@ export default compose(
       };
     },
   }),
-  reduxForm({
-    form: 'operatorCreateForm',
-    validate: createValidator({
-      firstName: ['required', 'string', 'min:2'],
-      lastName: ['required', 'string', 'min:2'],
-      email: ['required', 'email'],
-      password: ['required', `regex:${getActiveBrandConfig().password.pattern}`],
-      phone: 'min:3',
-      department: 'required',
-      userType: 'required',
-      role: 'required',
-      branch: 'required',
-    }, translateLabels(attributeLabels), false),
-  }),
-  withReduxFormValues,
 )(CreateOperatorModal);
