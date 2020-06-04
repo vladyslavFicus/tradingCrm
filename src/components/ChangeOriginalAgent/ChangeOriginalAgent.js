@@ -5,6 +5,9 @@ import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
 import { withRequests } from 'apollo';
 import { withNotifications } from 'hoc';
+import { withPermission } from 'providers/PermissionsProvider';
+import permissions from 'config/permissions';
+import Permissions from 'utils/permissions';
 import { FormikSelectField } from 'components/Formik';
 import Button from 'components/UI/Button';
 import PropTypes from 'constants/propTypes';
@@ -28,6 +31,9 @@ class ChangeOriginalAgent extends PureComponent {
       }),
     }).isRequired,
     notify: PropTypes.func.isRequired,
+    permission: PropTypes.shape({
+      permissions: PropTypes.arrayOf(PropTypes.string).isRequired,
+    }).isRequired,
   };
 
   handleChangeOriginalAgent = async ({ agentId }, { resetForm }) => {
@@ -62,9 +68,13 @@ class ChangeOriginalAgent extends PureComponent {
       operators: { loading, error },
       operators,
       agentId,
+      permission: {
+        permissions: currentPermission,
+      },
     } = this.props;
 
     const operatorsList = get(operators, 'data.operators.data.content', []);
+    const canChangeOriginalAgent = new Permissions(permissions.PAYMENT.CHANGE_ORIGINAL_AGENT).check(currentPermission);
 
     return (
       <div className="ChangeOriginalAgent">
@@ -81,21 +91,23 @@ class ChangeOriginalAgent extends PureComponent {
                 name="agentId"
                 component={FormikSelectField}
                 className="ChangeOriginalAgent__select"
-                disabled={loading}
+                disabled={!canChangeOriginalAgent || loading}
               >
                 {operatorsList.map(({ uuid, fullName }) => (
                   <option key={uuid} value={uuid}>{fullName}</option>
                 ))}
               </Field>
-              <Button
-                disabled={!dirty || !!error || isSubmitting}
-                className="ChangeOriginalAgent__button"
-                type="submit"
-                primary
-                small
-              >
-                {I18n.t('COMMON.SAVE')}
-              </Button>
+              <If condition={canChangeOriginalAgent}>
+                <Button
+                  disabled={!dirty || !error || isSubmitting}
+                  className="ChangeOriginalAgent__button"
+                  type="submit"
+                  primary
+                  small
+                >
+                  {I18n.t('COMMON.SAVE')}
+                </Button>
+              </If>
             </Form>
           )}
         </Formik>
@@ -105,6 +117,7 @@ class ChangeOriginalAgent extends PureComponent {
 }
 
 export default compose(
+  withPermission,
   withNotifications,
   withRequests({
     operators: OperatorsQuery,
