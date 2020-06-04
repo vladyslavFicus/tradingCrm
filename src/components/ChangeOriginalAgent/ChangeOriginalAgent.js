@@ -99,7 +99,7 @@ class ChangeOriginalAgent extends PureComponent {
               </Field>
               <If condition={canChangeOriginalAgent}>
                 <Button
-                  disabled={!dirty || !!error || isSubmitting}
+                  disabled={!dirty || !error || isSubmitting}
                   className="ChangeOriginalAgent__button"
                   type="submit"
                   primary
