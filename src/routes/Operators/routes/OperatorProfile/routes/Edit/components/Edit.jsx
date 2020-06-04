@@ -9,7 +9,7 @@ import permissions from 'config/permissions';
 import { withPermission } from 'providers/PermissionsProvider';
 import HierarchyProfileForm from './HierarchyProfileForm';
 import OperatorPersonalForm from './OperatorPersonalForm';
-import DepartmentsForm from './DepartmentsForm/DepartmentsForm';
+import DepartmentsForm from './DepartmentsForm';
 
 const manageDepartmentsPermission = new Permissions([
   permissions.OPERATORS.ADD_AUTHORITY,
@@ -188,7 +188,7 @@ class View extends Component {
                 onSubmit={this.handleAddAuthority}
                 authorities={authorities.data ? authorities.data : []}
                 departmentsRoles={departmentsRoles}
-                operatorUuid={profile._id}
+                operatorUuid={profile.uuid}
               />
             </If>
           </div>

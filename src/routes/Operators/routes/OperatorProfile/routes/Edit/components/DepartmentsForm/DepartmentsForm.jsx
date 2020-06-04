@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
 import { compose } from 'react-apollo';
@@ -21,14 +21,13 @@ const validate = (values, availableDepartments, departmentsRoles) => (
     role: ['required', `in:${departmentsRoles[values.department].join()}`],
   }, translateLabels(attributeLabels), false)(values));
 
-class DepartmentsForm extends Component {
+class DepartmentsForm extends PureComponent {
   static propTypes = {
     addDepartment: PropTypes.func.isRequired,
     operatorUuid: PropTypes.string.isRequired,
     notify: PropTypes.func.isRequired,
     departmentsRoles: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.string)).isRequired,
     authorities: PropTypes.arrayOf(PropTypes.authorityEntity),
-
   };
 
   static defaultProps = {
@@ -48,7 +47,7 @@ class DepartmentsForm extends Component {
   handleAddDepartment = async ({ department, role }) => {
     const { operatorUuid: uuid, addDepartment, notify } = this.props;
     const response = await addDepartment({ variables: { uuid, department, role } });
-    const error = get(response, 'data.operator.addDepartment.error', false);
+    const error = get(response, 'data.operator.addDepartment.error');
 
     notify({
       level: error ? 'error' : 'success',
@@ -80,7 +79,7 @@ class DepartmentsForm extends Component {
 
   render() {
     const { departmentsRoles, authorities } = this.props;
-    const { availableRoles } = this.state;
+    const { availableRoles, show } = this.state;
 
     const operatorDepartments = authorities.map(item => item.department);
     const availableDepartments = Object.keys(departmentsRoles)
@@ -88,13 +87,13 @@ class DepartmentsForm extends Component {
 
     return (
       <div>
-        <If condition={!this.state.show && !!availableDepartments.length}>
-          <button type="button" className="btn btn-sm" onClick={this.toggleShow}>
+        <If condition={!show && !!availableDepartments.length}>
+          <Button type="button" className="btn btn-sm" onClick={this.toggleShow}>
             {I18n.t('OPERATORS.PROFILE.DEPARTMENTS.ADD_BUTTON_LABEL')}
-          </button>
+          </Button>
         </If>
 
-        <If condition={this.state.show}>
+        <If condition={show}>
           <Formik
             initialValues={this.initialValues}
             onSubmit={this.handleAddDepartment}
@@ -108,15 +107,13 @@ class DepartmentsForm extends Component {
                   className="DepartmentsForm__input"
                   component={FormikSelectField}
                   customOnChange={value => this.handleChangeDepartment(value, setValues)}
+                  withAnyOption
                 >
-                  {[
-                    <option value="" key="any">{I18n.t('COMMON.SELECT_OPTION.DEFAULT')}</option>,
-                    ...availableDepartments.map(item => (
-                      <option key={item} value={item}>
-                        {I18n.t(renderLabel(item, departmentsLabels))}
-                      </option>
-                    )),
-                  ]}
+                  {availableDepartments.map(item => (
+                    <option key={item} value={item}>
+                      {I18n.t(renderLabel(item, departmentsLabels))}
+                    </option>
+                  ))}
                 </Field>
                 <Field
                   name="role"
@@ -124,15 +121,13 @@ class DepartmentsForm extends Component {
                   className="DepartmentsForm__input"
                   component={FormikSelectField}
                   disabled={!department}
+                  withAnyOption
                 >
-                  {[
-                    <option value="" key="any">{I18n.t('COMMON.SELECT_OPTION.DEFAULT')}</option>,
-                    ...availableRoles.map(item => (
-                      <option key={item} value={item}>
-                        {I18n.t(renderLabel(item, rolesLabels))}
-                      </option>
-                    )),
-                  ]}
+                  {availableRoles.map(item => (
+                    <option key={item} value={item}>
+                      {I18n.t(renderLabel(item, rolesLabels))}
+                    </option>
+                  ))}
                 </Field>
                 <div className="DepartmentsForm__buttons">
                   <Button
