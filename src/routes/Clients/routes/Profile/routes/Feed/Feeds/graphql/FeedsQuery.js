@@ -1,6 +1,9 @@
+import React from 'react';
 import gql from 'graphql-tag';
+import { Query } from 'react-apollo';
+import PropTypes from 'constants/propTypes';
 
-const feedsQuery = gql`query getFeeds(
+const REQUEST = gql`query FeedsQuery_Feeds(
   $searchBy: String,
   $creationDateFrom: String,
   $creationDateTo: String,
@@ -44,9 +47,42 @@ const feedsQuery = gql`query getFeeds(
         targetUuid
         type
         uuid
-      } 
+      }
     }
-  } 
+  }
 }`;
 
-export { feedsQuery };
+const FeedsQuery = ({
+  children,
+  location: { query },
+  match: {
+    params: {
+      id: targetUUID,
+    },
+  },
+}) => (
+  <Query
+    query={REQUEST}
+    variables={{
+      ...query ? query.filters : {},
+      targetUUID,
+      limit: 20,
+      page: 0,
+    }}
+    fetchPolicy="cache-and-network"
+  >
+    {children}
+  </Query>
+);
+
+FeedsQuery.propTypes = {
+  children: PropTypes.func.isRequired,
+  location: PropTypes.shape({
+    query: PropTypes.object,
+  }).isRequired,
+  match: PropTypes.shape({
+    params: PropTypes.object.isRequired,
+  }).isRequired,
+};
+
+export default FeedsQuery;

@@ -1,30 +1,42 @@
-/* eslint-disable */
 import React, { PureComponent } from 'react';
 import I18n from 'i18n-js';
+import { get } from 'lodash';
+import { withRouter } from 'react-router-dom';
+import { compose } from 'react-apollo';
 import { Formik, Form, Field } from 'formik';
-import { withRequests} from 'apollo';
+import { withRequests } from 'apollo';
+import { FormikInputField, FormikSelectField, FormikDateRangeGroup } from 'components/Formik';
+import { Button } from 'components/UI';
+import { decodeNullValues } from 'components/Formik/utils';
 import { createValidator, translateLabels } from 'utils/validator';
 import renderLabel from 'utils/renderLabel';
 import PropTypes from 'constants/propTypes';
 import { typesLabels } from 'constants/audit';
-import { FormikInputField, FormikSelectField, FormikDateRangeGroup } from 'components/Formik';
-import { Button } from 'components/UI';
-import { attributeLabels } from '../constants';
+import { attributeLabels } from './constants';
 import FeedTypesQuery from './graphql/FeedTypesQuery';
 
 class FeedFilterForm extends PureComponent {
   static propTypes = {
-    onSubmit: PropTypes.func.isRequired,
-    availableTypes: PropTypes.arrayOf(PropTypes.string),
+    ...PropTypes.router,
+    feedTypes: PropTypes.query({
+      feedTypes: PropTypes.shape({
+        data: PropTypes.objectOf(PropTypes.string),
+      }),
+    }).isRequired,
+  };
+
+  handleFiltersChanged = (filters) => {
+    this.props.history.replace({ query: { filters: decodeNullValues(filters) } });
   };
 
   render() {
     const {
-      onSubmit,
-      availableTypes,
+      feedTypes,
     } = this.props;
 
-    const sortedActionTypes = availableTypes
+    const feedTypesList = get(feedTypes, 'data.feedTypes.data') || [];
+    const availableTypes = Object.keys(feedTypesList)
+      .filter(key => !!feedTypesList[key] && key !== '__typename')
       .map(type => ({
         key: type,
         value: I18n.t(renderLabel(type, typesLabels)),
@@ -39,74 +51,72 @@ class FeedFilterForm extends PureComponent {
           creationDateFrom: '',
           creationDateTo: '',
         }}
-        onSubmit={onSubmit}
-        onReset={onSubmit}
+        onSubmit={this.handleFiltersChanged}
+        onReset={this.handleFiltersChanged}
         validate={
           createValidator({
             searchBy: 'string',
-            auditLogType: ['string', `in:${Object.keys(sortedActionTypes).join()}`],
+            auditLogType: ['string', `in:${Object.keys(feedTypesList).join()}`],
             creationDateFrom: 'string',
             creationDateTo: 'string',
           }, translateLabels(attributeLabels), false)
         }
       >
-        {({ values, isValid, resetForm }) => {
-          console.log('values: ', values);
-          return (
-            <Form className="filter-row">
-              <Field
-                name="searchBy"
-                label={I18n.t(attributeLabels.searchBy)}
-                placeholder={I18n.t('PLAYER_PROFILE.FEED.FILTER_FORM.LABELS.SEARCH_BY_PLACEHOLDER')}
-                component={FormikInputField}
-                inputAddon={<i className="icon icon-search" />}
-                className="filter-row__medium"
-              />
-              <Field
-                name="auditLogType"
-                label={I18n.t(attributeLabels.actionType)}
-                component={FormikSelectField}
-                className="filter-row__medium"
+        {({ isValid, resetForm }) => (
+          <Form className="filter-row">
+            <Field
+              name="searchBy"
+              label={I18n.t(attributeLabels.searchBy)}
+              placeholder={I18n.t('PLAYER_PROFILE.FEED.FILTER_FORM.LABELS.SEARCH_BY_PLACEHOLDER')}
+              component={FormikInputField}
+              inputAddon={<i className="icon icon-search" />}
+              className="filter-row__medium"
+            />
+            <Field
+              name="auditLogType"
+              label={I18n.t(attributeLabels.actionType)}
+              component={FormikSelectField}
+              className="filter-row__medium"
+              withAnyOption
+            >
+              {availableTypes.map(({ key, value }) => (
+                <option key={key} value={key}>{value}</option>
+              ))}
+            </Field>
+            <FormikDateRangeGroup
+              className="filter-row__date-range"
+              label={I18n.t('PLAYER_PROFILE.FEED.FILTER_FORM.LABELS.ACTION_DATE_RANGE')}
+              periodKeys={{
+                start: 'creationDateFrom',
+                end: 'creationDateTo',
+              }}
+            />
+            <div className="filter-row__button-block">
+              <Button
+                className="margin-right-15"
+                onClick={resetForm}
+                common
               >
-                <option value="">{I18n.t('COMMON.ALL_ACTIONS')}</option>
-                {sortedActionTypes.map(({ key, value }) => (
-                  <option key={key} value={key}>{value}</option>
-                ))}
-              </Field>
-              <FormikDateRangeGroup
-                className="filter-row__date-range"
-                label={I18n.t('PLAYER_PROFILE.FEED.FILTER_FORM.LABELS.ACTION_DATE_RANGE')}
-                periodKeys={{
-                  start: 'creationDateFrom',
-                  end: 'creationDateTo',
-                }}
-              />
-              <div className="filter-row__button-block">
-                <Button
-                  className="margin-right-15"
-                  onClick={resetForm}
-                  common
-                >
-                  {I18n.t('COMMON.RESET')}
-                </Button>
-                <Button
-                  disabled={!isValid}
-                  primary
-                  type="submit"
-                >
-                  {I18n.t('COMMON.APPLY')}
-                </Button>
-              </div>
-            </Form>
-          )
-        }
-        }
-        } }
+                {I18n.t('COMMON.RESET')}
+              </Button>
+              <Button
+                disabled={!isValid}
+                primary
+                type="submit"
+              >
+                {I18n.t('COMMON.APPLY')}
+              </Button>
+            </div>
+          </Form>
+        )}
       </Formik>
     );
   }
 }
 
-export default withRequests({
-  feedTypes: FeedTypesQuery,
-})(FeedFilterForm);
+export default compose(
+  withRouter,
+  withRequests({
+    feedTypes: FeedTypesQuery,
+  }),
+)(FeedFilterForm);

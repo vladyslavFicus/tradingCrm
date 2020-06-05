@@ -1,27 +1,28 @@
-import React, { Component, Fragment } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import { get } from 'lodash';
-import parseJson from 'utils/parseJson';
-import EventEmitter, { PROFILE_RELOAD } from 'utils/EventEmitter';
-import PropTypes from 'constants/propTypes';
+import { withRouter } from 'react-router-dom';
+import { compose } from 'react-apollo';
+import { withRequests } from 'apollo';
 import ListView from 'components/ListView';
 import FeedItem from 'components/FeedItem';
-import FeedFilterForm from './FeedFilterForm';
+import parseJson from 'utils/parseJson';
+import EventEmitter, { PROFILE_RELOAD } from 'utils/EventEmitter';
+import limitItems from 'utils/limitItems';
+import PropTypes from 'constants/propTypes';
+import FeedFilterForm from '../FeedFilterForm';
+import FeedsQuery from './graphql/FeedsQuery';
 
-class Feed extends Component {
+class Feed extends PureComponent {
   static propTypes = {
     ...PropTypes.router,
     feeds: PropTypes.shape({
       refetch: PropTypes.func.isRequired,
       loading: PropTypes.bool.isRequired,
-      loadMoreFeeds: PropTypes.func.isRequired,
       feeds: PropTypes.shape({
         content: PropTypes.arrayOf(PropTypes.shape({
           targetUUID: PropTypes.string,
         })),
       }),
-    }).isRequired,
-    feedTypes: PropTypes.shape({
-      data: PropTypes.arrayOf(PropTypes.string),
     }).isRequired,
   };
 
@@ -39,19 +40,28 @@ class Feed extends Component {
 
   handlePageChanged = () => {
     const {
+      location,
       feeds: {
+        data,
         loading,
-        loadMoreFeeds,
+        loadMore,
       },
     } = this.props;
 
-    if (!loading) {
-      loadMoreFeeds();
-    }
-  };
+    const defaultSize = 20;
 
-  handleFiltersChanged = (filters = {}) => {
-    this.props.history.replace({ query: { filters } });
+    const { currentPage } = limitItems(data.feeds, location);
+
+    const searchLimit = get(location, 'query.filters.size');
+    const restLimitSize = searchLimit && (searchLimit - (currentPage + 1) * defaultSize);
+    const limit = restLimitSize && (restLimitSize < defaultSize) ? Math.abs(restLimitSize) : defaultSize;
+
+    if (!loading) {
+      loadMore({
+        page: currentPage + 1,
+        limit,
+      });
+    }
   };
 
   mapAuditEntities = entities => entities.map(entity => (
@@ -62,26 +72,18 @@ class Feed extends Component {
 
   render() {
     const {
-      feeds: { feeds: data, loading },
-      feedTypes: { feedTypes },
+      feeds: { data, loading },
     } = this.props;
 
-    const feeds = get(data, 'data') || { content: [] };
-    const content = this.mapAuditEntities(feeds.content);
-
-    const feedTypesList = get(feedTypes, 'data') || {};
-    const availableTypes = Object.keys(feedTypesList)
-      .filter(key => !!feedTypesList[key] && key !== '__typename');
+    const { content, last, number } = get(data, 'feeds.data') || { content: [] };
+    const parsedContent = this.mapAuditEntities(content);
 
     return (
       <Fragment>
-        <FeedFilterForm
-          availableTypes={availableTypes}
-          onSubmit={this.handleFiltersChanged}
-        />
+        <FeedFilterForm />
         <div className="tab-wrapper">
           <ListView
-            dataSource={content}
+            dataSource={parsedContent}
             onPageChange={this.handlePageChanged}
             render={(item, key) => {
               const options = {
@@ -107,10 +109,9 @@ class Feed extends Component {
                 />
               );
             }}
-            activePage={feeds.number + 1}
-            totalPages={feeds.totalPages}
-            last={feeds.last}
-            showNoResults={!loading && !content.length}
+            activePage={number + 1}
+            last={last}
+            showNoResults={!loading && !parsedContent.length}
           />
         </div>
       </Fragment>
@@ -118,4 +119,9 @@ class Feed extends Component {
   }
 }
 
-export default Feed;
+export default compose(
+  withRouter,
+  withRequests({
+    feeds: FeedsQuery,
+  }),
+)(Feed);
