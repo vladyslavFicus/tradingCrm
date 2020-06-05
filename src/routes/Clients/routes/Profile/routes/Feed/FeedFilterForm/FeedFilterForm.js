@@ -70,6 +70,7 @@ class FeedFilterForm extends PureComponent {
               placeholder={I18n.t('PLAYER_PROFILE.FEED.FILTER_FORM.LABELS.SEARCH_BY_PLACEHOLDER')}
               component={FormikInputField}
               className="filter-row__medium"
+              addition={<i className="icon icon-search" />}
             />
             <Field
               name="auditLogType"
