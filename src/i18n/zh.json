@@ -564,7 +564,8 @@
       "DEFAULT_MULTISELECT": "-- 选择一个或多个选项 --",
       "LOADING": "加载......",
       "ANY": "任何",
-      "SELECT_BRANCH_TYPE": "先选择分支类型"
+      "SELECT_BRANCH_TYPE": "先选择分支类型",
+      "SELECT_DEPARTMENT": "Select department first"
     },
     "SEARCH_BY": {
       "CLIENT": "姓名、邮箱、手机、ID、MT ID",
