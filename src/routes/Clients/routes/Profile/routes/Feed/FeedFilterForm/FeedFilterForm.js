@@ -69,7 +69,6 @@ class FeedFilterForm extends PureComponent {
               label={I18n.t(attributeLabels.searchBy)}
               placeholder={I18n.t('PLAYER_PROFILE.FEED.FILTER_FORM.LABELS.SEARCH_BY_PLACEHOLDER')}
               component={FormikInputField}
-              inputAddon={<i className="icon icon-search" />}
               className="filter-row__medium"
             />
             <Field
