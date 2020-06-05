@@ -290,7 +290,7 @@ class HierarchyProfileForm extends Component {
                 <button
                   type="button"
                   className="btn btn-sm margin-bottom-10"
-                  disabled={branchFormVisibility}
+                  disabled={branchFormVisibility && !allowUpdateHierarchy}
                   onClick={this.toggleBranchForm}
                 >
                   {I18n.t('OPERATORS.PROFILE.HIERARCHY.ADD_BRANCH_LABEL')}
