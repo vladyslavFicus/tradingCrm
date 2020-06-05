@@ -3,7 +3,6 @@ import moment from 'moment';
 import I18n from 'i18n-js';
 import { withModals } from 'hoc';
 import PropTypes from 'constants/propTypes';
-import { statuses } from 'constants/leads';
 import { targetTypes } from 'constants/note';
 import permissions from 'config/permissions';
 import { Button } from 'components/UI';
@@ -12,8 +11,8 @@ import PromoteLeadModal from 'components/PromoteLeadModal';
 import PermissionContent from 'components/PermissionContent';
 import Uuid from 'components/Uuid';
 import ProfileHeaderPlaceholder from 'components/ProfileHeaderPlaceholder';
-import { leadStatuses } from '../../../../constants';
 import ConvertedBy from '../../../../components/ConvertedBy';
+import { leadStatuses, statuses } from '../../../../constants';
 
 class Header extends PureComponent {
   static propTypes = {

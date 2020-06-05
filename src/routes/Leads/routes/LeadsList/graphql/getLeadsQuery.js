@@ -1,7 +1,9 @@
+import React from 'react';
+import PropTypes from 'prop-types';
 import gql from 'graphql-tag';
-import queryNames from 'constants/apolloQueryNames';
+import { Query } from 'react-apollo';
 
-const leadsQuery = gql`query ${queryNames.leadsQuery}(
+const REQUEST = gql`query LeadsList_getLeadsQuery(
   $uuids: [String]
   $searchKeyword: String
   $registrationDateStart: String
@@ -31,10 +33,6 @@ const leadsQuery = gql`query ${queryNames.leadsQuery}(
     status: $status
     migrationId: $migrationId
   ) {
-    error {
-      error
-      fields_errors
-    }
     data {
       page
       size
@@ -84,9 +82,33 @@ const leadsQuery = gql`query ${queryNames.leadsQuery}(
         }
       }
     }
+    error {
+      error
+    }
   }
 }`;
 
-export {
-  leadsQuery,
+const getLeadsQuery = ({ children, location: { query } }) => (
+  <Query
+    query={REQUEST}
+    variables={{
+      ...query && query.filters,
+      page: 0,
+      limit: 20,
+    }}
+    fetchPolicy="network-only"
+  >
+    {children}
+  </Query>
+);
+
+getLeadsQuery.propTypes = {
+  children: PropTypes.func.isRequired,
+  location: PropTypes.shape({
+    query: PropTypes.shape({
+      filters: PropTypes.object,
+    }),
+  }).isRequired,
 };
+
+export default getLeadsQuery;

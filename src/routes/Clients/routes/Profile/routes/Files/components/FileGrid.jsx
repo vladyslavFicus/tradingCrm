@@ -210,7 +210,7 @@ class FileGrid extends Component {
         </div>
       </When>
       <Otherwise>
-        <GridEmptyValue I18n={I18n} />
+        <GridEmptyValue />
       </Otherwise>
     </Choose>
   );
