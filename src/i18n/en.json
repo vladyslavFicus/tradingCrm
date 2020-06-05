@@ -2911,7 +2911,7 @@
       "KYC_APPROVED": "Kyc approved",
       "CALLBACK_NAME": "Callback to %{name}",
       "CALLBACK_TIME": "Time: %{time}",
-      "CLIENT_NEW": "New Client"
+      "CLIENT_ASSIGNED": "Client assigned"
     },
     "TOOLTIP": {
       "HEADLINE": "Notifications found",
