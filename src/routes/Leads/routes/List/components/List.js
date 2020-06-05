@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react';
+import { Link } from 'react-router-dom';
 import moment from 'moment';
 import classNames from 'classnames';
 import I18n from 'i18n-js';
@@ -109,10 +110,6 @@ class List extends Component {
       allRowsSelected: false,
       touchedRowsIds: [],
     }, () => this.props.history.replace({ query: { filters: {} } }));
-  };
-
-  handleLeadClick = ({ uuid }) => {
-    window.open(`/leads/${uuid}`, '_blank');
   };
 
   handleSelectRow = (allRowsSelected, touchedRowsIds) => {
@@ -237,9 +234,13 @@ class List extends Component {
 
     return (
       <div id={uuid}>
-        <div className="font-weight-700">
+        <Link
+          className="font-weight-700"
+          to={`/leads/${uuid}`}
+          target="_blank"
+        >
           {name} {surname}
-        </div>
+        </Link>
         <div className="font-size-11">
           <MiniProfile id={uuid} type="lead">
             <Uuid uuid={uuid} uuidPrefix="LE" />
@@ -444,14 +445,12 @@ class List extends Component {
             data={entities.content}
             allRowsSelected={allRowsSelected}
             touchedRowsIds={touchedRowsIds}
-            handleRowClick={this.handleLeadClick}
             handleSelectRow={this.handleSelectRow}
             handleAllRowsSelect={this.handleAllRowsSelect}
             handlePageChanged={this.handlePageChanged}
             isLoading={loading}
             isLastPage={entities.last}
             withMultiSelect
-            withRowsHover
             withLazyLoad
             withNoResults={entities.content.length === 0}
           >
