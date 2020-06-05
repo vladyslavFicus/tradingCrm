@@ -21,9 +21,6 @@ class Button extends PureComponent {
     dangerOutline: PropTypes.bool,
     onClick: PropTypes.func,
     small: PropTypes.bool,
-    nowrap: PropTypes.bool,
-    offsetLeft: PropTypes.bool,
-    offsetRight: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -39,11 +36,8 @@ class Button extends PureComponent {
     danger: false,
     verified: false,
     transparent: false,
-    onClick: () => { },
+    onClick: () => {},
     small: false,
-    nowrap: false,
-    offsetLeft: false,
-    offsetRight: false,
   };
 
   /**
@@ -68,9 +62,6 @@ class Button extends PureComponent {
       verified,
       transparent,
       small,
-      nowrap,
-      offsetLeft,
-      offsetRight,
       ...props
     } = this.props;
 
@@ -93,9 +84,6 @@ class Button extends PureComponent {
               'Button--verified': verified,
               'Button--transparent': transparent,
               'Button--small': small,
-              'Button--nowrap': nowrap,
-              'Button--offset-left': offsetLeft,
-              'Button--offset-right': offsetRight,
             },
           )
         }

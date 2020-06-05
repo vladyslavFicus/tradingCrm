@@ -86,7 +86,6 @@ class EmailForm extends PureComponent {
                   <div className="col-4 mt-4-profile">
                     <Button
                       onClick={this.handleVerifyEmailClick}
-                      nowrap
                       primary
                     >
                       {I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.VERIFY_EMAIL')}

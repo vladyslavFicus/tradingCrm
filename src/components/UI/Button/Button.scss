@@ -7,6 +7,7 @@
   font-weight: 600;
   padding: 8px 16px;
   transition: all 0.1s ease-in-out;
+  white-space: nowrap;
 
   &:disabled, [disabled], :disabled:hover, [disabled]:hover {
     background: #D3D3D3;
@@ -130,7 +131,6 @@
     border: solid 1px rgba(37, 154, 53, 0.15);
     color: #259a35;
     width: 100%;
-    white-space: nowrap;
   }
 
   &--transparent {
@@ -142,17 +142,4 @@
     padding-bottom: 4px;
     font-size: 13px;
   }
-
-  &--nowrap {
-    white-space: nowrap;
-  }
-
-  &--offset-left {
-    margin-left: 15px;
-  }
-
-  &--offset-right {
-    margin-right: 15px;
-  }
- 
 }

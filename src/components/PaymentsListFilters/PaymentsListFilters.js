@@ -38,6 +38,7 @@ import {
   PaymentMethodsQuery,
   usersByBranchQuery,
 } from './graphql';
+import './PaymentsListFilters.scss';
 
 class PaymentsListFilters extends PureComponent {
   static propTypes = {
@@ -526,24 +527,23 @@ class PaymentsListFilters extends PureComponent {
                 }}
               />
             </div>
-            <div className="filter__form-buttons">
-              <div className="filter__form-buttons-group">
-                <Button
-                  onClick={handleReset}
-                  disabled={paymentsLoading || !dirty}
-                  common
-                >
-                  {I18n.t('COMMON.RESET')}
-                </Button>
-                <Button
-                  type="submit"
-                  disabled={paymentsLoading}
-                  primary
-                  offsetLeft
-                >
-                  {I18n.t('COMMON.APPLY')}
-                </Button>
-              </div>
+            <div className="PaymentsListFilters__buttons">
+              <Button
+                className="PaymentsListFilters__button"
+                onClick={handleReset}
+                disabled={paymentsLoading || !dirty}
+                common
+              >
+                {I18n.t('COMMON.RESET')}
+              </Button>
+              <Button
+                className="PaymentsListFilters__button"
+                type="submit"
+                disabled={paymentsLoading}
+                primary
+              >
+                {I18n.t('COMMON.APPLY')}
+              </Button>
             </div>
           </Form>
         )}
