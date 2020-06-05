@@ -1,4 +1,11 @@
-import { statuses } from 'constants/leads';
+import keyMirror from 'keymirror';
+
+const statuses = keyMirror({
+  NEW: null,
+  NEVER_ANSWER: null,
+  VOICE_MAIL: null,
+  CONVERTED: null,
+});
 
 const leadStatuses = {
   [statuses.NEW]: {
@@ -19,17 +26,6 @@ const leadStatuses = {
   },
 };
 
-const leadAccountStatuses = {
-  [statuses.CONVERTED]: {
-    label: 'LEADS.STATUSES.CONVERTED',
-    value: statuses.CONVERTED,
-  },
-  [statuses.NEW]: {
-    label: 'LEADS.STATUSES.NEW',
-    value: statuses.NEW,
-  },
-};
-
 const leadProfileTabs = [{
   label: 'LEAD_PROFILE.TABS.PROFILE',
   url: '/leads/:id/profile',
@@ -38,17 +34,8 @@ const leadProfileTabs = [{
   url: '/leads/:id/notes',
 }];
 
-const fileConfig = {
-  maxSize: 10,
-  types: [
-    // We should use exactly (not mime-type) .csv extension (because mime-type isn't recognized on Windows OS)
-    '.csv',
-  ],
-};
-
 export {
+  statuses,
   leadStatuses,
-  leadAccountStatuses,
-  fileConfig,
   leadProfileTabs,
 };

@@ -37,7 +37,7 @@ export default () => [{
         />
       </When>
       <Otherwise>
-        <GridEmptyValue I18n={I18n} />
+        <GridEmptyValue />
       </Otherwise>
     </Choose>
   ),
@@ -56,7 +56,7 @@ export default () => [{
           </div>
         </When>
         <Otherwise>
-          <GridEmptyValue I18n={I18n} />
+          <GridEmptyValue />
         </Otherwise>
       </Choose>
     );
@@ -77,7 +77,7 @@ export default () => [{
           </div>
         </When>
         <Otherwise>
-          <GridEmptyValue I18n={I18n} />
+          <GridEmptyValue />
         </Otherwise>
       </Choose>
     );
@@ -97,7 +97,7 @@ export default () => [{
           <Uuid className="header-block-small" uuid={uuid} />
         </When>
         <Otherwise>
-          <GridEmptyValue I18n={I18n} />
+          <GridEmptyValue />
         </Otherwise>
       </Choose>
     );
@@ -131,7 +131,7 @@ export default () => [{
           />
         </When>
         <Otherwise>
-          <GridEmptyValue I18n={I18n} />
+          <GridEmptyValue />
         </Otherwise>
       </Choose>
     );
@@ -165,7 +165,7 @@ export default () => [{
           />
         </When>
         <Otherwise>
-          <GridEmptyValue I18n={I18n} />
+          <GridEmptyValue />
         </Otherwise>
       </Choose>
     );

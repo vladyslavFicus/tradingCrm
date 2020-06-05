@@ -170,7 +170,7 @@ class ClientsGrid extends PureComponent {
                 />
               </When>
               <Otherwise>
-                <GridEmptyValue I18n={I18n} />
+                <GridEmptyValue />
               </Otherwise>
             </Choose>
           )}
@@ -209,7 +209,7 @@ class ClientsGrid extends PureComponent {
                   </div>
                 </When>
                 <Otherwise>
-                  <GridEmptyValue I18n={I18n} />
+                  <GridEmptyValue />
                 </Otherwise>
               </Choose>
             );
@@ -278,7 +278,7 @@ class ClientsGrid extends PureComponent {
                   </If>
                 </When>
                 <Otherwise>
-                  <GridEmptyValue I18n={I18n} />
+                  <GridEmptyValue />
                 </Otherwise>
               </Choose>
             );
@@ -314,7 +314,7 @@ class ClientsGrid extends PureComponent {
                   />
                 </When>
                 <Otherwise>
-                  <GridEmptyValue I18n={I18n} />
+                  <GridEmptyValue />
                 </Otherwise>
               </Choose>
             );
@@ -350,7 +350,7 @@ class ClientsGrid extends PureComponent {
                   />
                 </When>
                 <Otherwise>
-                  <GridEmptyValue I18n={I18n} />
+                  <GridEmptyValue />
                 </Otherwise>
               </Choose>
             );
@@ -419,7 +419,7 @@ class ClientsGrid extends PureComponent {
                   </div>
                 </When>
                 <Otherwise>
-                  <GridEmptyValue I18n={I18n} />
+                  <GridEmptyValue />
                 </Otherwise>
               </Choose>
             );
