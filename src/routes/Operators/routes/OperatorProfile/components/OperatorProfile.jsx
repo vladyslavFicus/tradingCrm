@@ -24,7 +24,7 @@ const modalInitialState = {
   params: {},
 };
 
-class OperatorProfileLayout extends Component {
+class OperatorProfile extends Component {
   static propTypes = {
     match: PropTypes.shape({
       path: PropTypes.string.isRequired,
@@ -41,7 +41,7 @@ class OperatorProfileLayout extends Component {
     refetchOperator: PropTypes.func.isRequired,
     resetPassword: PropTypes.func.isRequired,
     sendInvitation: PropTypes.func.isRequired,
-    authorities: PropTypes.object.isRequired,
+    authorities: PropTypes.object,
     isLoading: PropTypes.bool.isRequired,
     error: PropTypes.any,
     modals: PropTypes.shape({
@@ -54,6 +54,7 @@ class OperatorProfileLayout extends Component {
 
   static defaultProps = {
     error: null,
+    authorities: {},
   };
 
   state = {
@@ -197,11 +198,12 @@ class OperatorProfileLayout extends Component {
       availableStatuses,
       changeStatus,
       refetchOperator,
-      authorities: { data: authorities },
+      authorities,
       getLoginLock,
     } = this.props;
 
-    const loginLock = get(getLoginLock, 'loginLock', {});
+    const authoritiesData = get(authorities, 'data') || [];
+    const loginLock = get(getLoginLock, 'loginLock') || {};
     const userType = get(data, 'hierarchy.userType');
     const tabs = [...menu.operatorProfileTabs];
 
@@ -239,7 +241,7 @@ class OperatorProfileLayout extends Component {
           <HideDetails>
             <Information
               data={data}
-              authorities={authorities}
+              authorities={authoritiesData}
             />
           </HideDetails>
         </div>
@@ -275,4 +277,4 @@ class OperatorProfileLayout extends Component {
   }
 }
 
-export default OperatorProfileLayout;
+export default OperatorProfile;

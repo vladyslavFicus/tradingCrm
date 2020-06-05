@@ -134,6 +134,7 @@ class ContactForm extends PureComponent {
 
     return (
       <Formik
+        enableReinitialize
         initialValues={{
           phone: this.phoneAccess() ? phone : hideText(phone),
           additionalPhone: this.phoneAccess() ? additionalPhone : hideText(additionalPhone),
@@ -182,7 +183,7 @@ class ContactForm extends PureComponent {
                     <Button
                       primary
                       className="width-full"
-                      onClick={() => this.handleVerifyPhone(currentPhoneValue)}
+                      onClick={() => this.handleVerifyPhone(phone)}
                     >
                       {I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.VERIFY')}
                     </Button>

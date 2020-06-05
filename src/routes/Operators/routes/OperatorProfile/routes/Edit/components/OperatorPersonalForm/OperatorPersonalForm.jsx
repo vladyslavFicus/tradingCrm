@@ -93,6 +93,7 @@ class OperatorPersonalForm extends PureComponent {
                   label={I18n.t(attributeLabels.firstName)}
                   placeholder={I18n.t(attributeLabels.firstName)}
                   component={FormikInputField}
+                  disabled={disabled}
                 />
               </div>
               <div className="col-xl-4">
@@ -101,6 +102,7 @@ class OperatorPersonalForm extends PureComponent {
                   label={I18n.t(attributeLabels.lastName)}
                   placeholder={I18n.t(attributeLabels.lastName)}
                   component={FormikInputField}
+                  disabled={disabled}
                 />
               </div>
               <div className="col-xl-4">
@@ -141,7 +143,7 @@ class OperatorPersonalForm extends PureComponent {
                   name="country"
                   label={I18n.t(attributeLabels.country)}
                   component={FormikSelectField}
-                  disabled={isSubmitting}
+                  disabled={isSubmitting || disabled}
                   searchable
                 >
                   {[

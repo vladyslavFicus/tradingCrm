@@ -22,9 +22,7 @@ export default () => [{
   name: 'client',
   header: I18n.t('CLIENTS.LIST.GRID_HEADER.CLIENT'),
   render: data => (
-    <GridPlayerInfo
-      profile={data}
-    />
+    <GridPlayerInfo profile={data} />
   ),
 }, {
   name: 'country',

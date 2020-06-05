@@ -76,6 +76,7 @@ export default {
     REJECT: 'payment.rejectPayment',
     CHANGE_STATUS: 'payment.changePaymentStatus',
     CHANGE_METHOD: 'payment.changePaymentMethod',
+    CHANGE_ORIGINAL_AGENT: 'payment.changePaymentAgent',
   },
   PAYMENTS: {
     PLAYER_PAYMENTS_LIST: 'payment.searchPayments',

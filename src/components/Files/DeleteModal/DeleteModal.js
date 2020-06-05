@@ -1,56 +1,77 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import I18n from 'i18n-js';
-import PropTypes from '../../../constants/propTypes';
-import { shortify } from '../../../utils/uuid';
+import { withRequests } from 'apollo';
+import PropTypes from 'constants/propTypes';
+import EventEmitter, { FILE_REMOVED } from 'utils/EventEmitter';
+import DeleteFileMutation from './graphql/DeleteFileMutation';
 
-const DeleteModal = ({ newProfile, file, onSuccess, onClose }) => {
-  const {
-    data: {
-      firstName,
-      lastName,
-      username,
-      uuid,
-    },
-  } = newProfile;
+class DeleteModal extends PureComponent {
+  static propTypes = {
+    file: PropTypes.fileEntity.isRequired,
+    onCloseModal: PropTypes.func.isRequired,
+    deleteFile: PropTypes.func.isRequired,
+  };
 
-  const player = firstName || lastName ? [firstName, lastName].join(' ') : username;
+  handleDelete = async () => {
+    const {
+      file,
+      deleteFile,
+      onCloseModal,
+    } = this.props;
 
-  return (
-    <Modal className="modal-danger" toggle={onClose} isOpen>
-      <ModalHeader toggle={onClose}>
-        {I18n.t('FILES.DELETE_MODAL.TITLE')}
-      </ModalHeader>
-      <ModalBody className="text-center">
-        <div
-          className="margin-bottom-20 font-weight-700"
-          dangerouslySetInnerHTML={{
-            __html: I18n.t('FILES.DELETE_MODAL.ACTION_TEXT', {
-              fileName: file.name,
-              player,
-              shortUUID: `<span class="font-weight-100">${shortify(uuid)}</span>`,
-            }),
-          }}
-        />
-        <div className="margin-bottom-20"> {I18n.t('FILES.DELETE_MODAL.WARNING_TEXT')} </div>
-      </ModalBody>
-      <ModalFooter>
-        <button type="button" className="btn btn-default-outline mr-auto" onClick={onClose}>
-          {I18n.t('COMMON.BUTTONS.CANCEL')}
-        </button>
-        <button type="button" className="btn btn-danger" onClick={onSuccess}>
-          {I18n.t('FILES.DELETE_MODAL.BUTTONS.DELETE')}
-        </button>
-      </ModalFooter>
-    </Modal>
-  );
-};
+    const {
+      data: {
+        file: {
+          delete: {
+            error,
+          },
+        },
+      },
+    } = await deleteFile({ variables: { uuid: file.uuid } });
 
-DeleteModal.propTypes = {
-  newProfile: PropTypes.object.isRequired,
-  file: PropTypes.fileEntity.isRequired,
-  onSuccess: PropTypes.func.isRequired,
-  onClose: PropTypes.func.isRequired,
-};
+    if (!error) {
+      EventEmitter.emit(FILE_REMOVED, file);
 
-export default DeleteModal;
+      onCloseModal();
+    }
+  };
+
+  render() {
+    const {
+      file,
+      onCloseModal,
+    } = this.props;
+
+    return (
+      <Modal className="modal-danger" toggle={onCloseModal} isOpen>
+        <ModalHeader toggle={onCloseModal}>
+          {I18n.t('FILES.DELETE_MODAL.TITLE')}
+        </ModalHeader>
+        <ModalBody className="text-center">
+          <div
+            className="margin-bottom-20 font-weight-700"
+            dangerouslySetInnerHTML={{
+              __html: I18n.t('FILES.DELETE_MODAL.ACTION_TEXT', {
+                fileName: file.fileName,
+              }),
+            }}
+          />
+          <div className="margin-bottom-20"> {I18n.t('FILES.DELETE_MODAL.WARNING_TEXT')} </div>
+        </ModalBody>
+        <ModalFooter>
+          <button type="button" className="btn btn-default-outline mr-auto" onClick={onCloseModal}>
+            {I18n.t('COMMON.BUTTONS.CANCEL')}
+          </button>
+          <button type="button" className="btn btn-danger" onClick={this.handleDelete}>
+            {I18n.t('FILES.DELETE_MODAL.BUTTONS.DELETE')}
+          </button>
+        </ModalFooter>
+      </Modal>
+    );
+  }
+}
+
+export default withRequests({
+  deleteFile: DeleteFileMutation,
+})(DeleteModal);

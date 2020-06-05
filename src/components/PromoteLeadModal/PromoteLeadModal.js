@@ -9,11 +9,14 @@ import { getActiveBrandConfig, getAvailableLanguages } from 'config';
 import { createValidator, translateLabels } from 'utils/validator';
 import countryList from 'utils/countryList';
 import { generate } from 'utils/password';
+import EventEmitter, { LEAD_PROMOTED } from 'utils/EventEmitter';
+import ShortLoader from 'components/ShortLoader';
 import { Button } from 'components/UI';
 import { withNotifications } from 'hoc';
 import { withRequests } from 'apollo';
 import { FormikInputField, FormikSelectField } from 'components/Formik';
 import PromoteLeadMutation from './graphql/PromoteLeadMutation';
+import PromoteLeadModalQuery from './graphql/PromoteLeadModalQuery';
 import attributeLabels from './constants';
 
 const validate = createValidator({
@@ -27,7 +30,7 @@ const validate = createValidator({
 
 class PromoteLeadModal extends PureComponent {
   static propTypes = {
-    leadProfileQuery: PropTypes.query({
+    lead: PropTypes.query({
       leadProfile: PropTypes.response(PropTypes.lead),
     }).isRequired,
     formError: PropTypes.string,
@@ -45,9 +48,9 @@ class PromoteLeadModal extends PureComponent {
 
   handlePromoteLead = async (values, { setSubmitting, setErrors }) => {
     const {
+      lead,
       notify,
       promoteLead,
-      leadProfileQuery: { refetch },
       onCloseModal,
     } = this.props;
 
@@ -62,7 +65,8 @@ class PromoteLeadModal extends PureComponent {
         setErrors({ submit: I18n.t(`lead.${error.error}`) });
       }
     } else {
-      await refetch();
+      EventEmitter.emit(LEAD_PROMOTED, lead.data.leadProfile.data);
+
       onCloseModal();
       notify({
         level: 'success',
@@ -74,12 +78,10 @@ class PromoteLeadModal extends PureComponent {
     setSubmitting(false);
   };
 
-  render() {
+  renderForm() {
     const {
-      leadProfileQuery,
+      lead,
       onCloseModal,
-      isOpen,
-      size,
       formError,
     } = this.props;
 
@@ -93,7 +95,123 @@ class PromoteLeadModal extends PureComponent {
       country: countryCode,
       language: languageCode,
       mobile: additionalPhone,
-    } = get(leadProfileQuery, 'data.leadProfile.data');
+    } = get(lead, 'data.leadProfile.data');
+
+    return (
+      <Formik
+        initialValues={{
+          address: {
+            countryCode,
+          },
+          contacts: {
+            email,
+            phone,
+            additionalPhone,
+          },
+          gender,
+          lastName,
+          firstName,
+          birthDate,
+          languageCode,
+        }}
+        validate={validate}
+        onSubmit={this.handlePromoteLead}
+      >
+        {({ errors, isValid, isSubmitting, dirty, setFieldValue }) => (
+          <Form>
+            <div className="mb-3 font-weight-700 text-center">
+              {I18n.t('LEAD_PROFILE.PROMOTE_MODAL.BODY_HEADER', { fullName: `${firstName} ${lastName}` })}
+            </div>
+            <If condition={formError || (errors && errors.submit)}>
+              <div
+                className="mb-2 text-center color-danger"
+              >
+                {formError || errors.submit}
+              </div>
+            </If>
+            <div className="row">
+              <div className="col-6">
+                <Field
+                  name="firstName"
+                  label={I18n.t(attributeLabels.firstName)}
+                  component={FormikInputField}
+                />
+                <Field
+                  name="contacts.email"
+                  label={I18n.t(attributeLabels.email)}
+                  component={FormikInputField}
+                  disabled
+                />
+                <Field
+                  name="address.countryCode"
+                  label={I18n.t(attributeLabels.country)}
+                  component={FormikSelectField}
+                  placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
+                >
+                  {Object.entries(countryList).map(([key, value]) => (
+                    <option key={key} value={key}>
+                      {value}
+                    </option>
+                  ))}
+                </Field>
+              </div>
+              <div className="col-6">
+                <Field
+                  name="lastName"
+                  label={I18n.t(attributeLabels.lastName)}
+                  component={FormikInputField}
+                />
+                <Field
+                  name="password"
+                  onAdditionClick={() => setFieldValue('password', generate())}
+                  addition={<span className="icon-generate-password" />}
+                  label={I18n.t(attributeLabels.password)}
+                  component={FormikInputField}
+                />
+                <Field
+                  name="languageCode"
+                  label={I18n.t(attributeLabels.language)}
+                  component={FormikSelectField}
+                  placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
+                >
+                  {getAvailableLanguages().map(locale => (
+                    <option key={locale} value={locale}>
+                      {I18n.t(`COMMON.LANGUAGE_NAME.${locale.toUpperCase()}`, {
+                        defaultValue: locale.toUpperCase(),
+                      })}
+                    </option>
+                  ))}
+                </Field>
+              </div>
+            </div>
+            <ModalFooter>
+              <Button
+                commonOutline
+                onClick={onCloseModal}
+              >
+                {I18n.t('COMMON.BUTTONS.CANCEL')}
+              </Button>
+              <Button
+                primary
+                type="submit"
+                disabled={!dirty || !isValid || isSubmitting}
+              >
+                {I18n.t('COMMON.BUTTONS.CONFIRM')}
+              </Button>
+            </ModalFooter>
+          </Form>
+        )}
+      </Formik>
+    );
+  }
+
+  render() {
+    const {
+      lead,
+      onCloseModal,
+      isOpen,
+      size,
+    } = this.props;
 
     return (
       <Modal
@@ -102,115 +220,19 @@ class PromoteLeadModal extends PureComponent {
         size={size}
         className="promote-lead-modal"
       >
-        <Formik
-          initialValues={{
-            address: {
-              countryCode,
-            },
-            contacts: {
-              email,
-              phone,
-              additionalPhone,
-            },
-            gender,
-            lastName,
-            firstName,
-            birthDate,
-            languageCode,
-          }}
-          validate={validate}
-          onSubmit={this.handlePromoteLead}
-        >
-          {({ errors, isValid, isSubmitting, dirty, setFieldValue }) => (
-            <Form>
-              <ModalHeader toggle={onCloseModal}>
-                {I18n.t('LEAD_PROFILE.PROMOTE_MODAL.HEADER')}
-              </ModalHeader>
-              <ModalBody>
-                <div className="mb-3 font-weight-700 text-center">
-                  {I18n.t('LEAD_PROFILE.PROMOTE_MODAL.BODY_HEADER', { fullName: `${firstName} ${lastName}` })}
-                </div>
-                <If condition={formError || (errors && errors.submit)}>
-                  <div
-                    className="mb-2 text-center color-danger"
-                  >
-                    {formError || errors.submit}
-                  </div>
-                </If>
-                <div className="row">
-                  <div className="col-6">
-                    <Field
-                      name="firstName"
-                      label={I18n.t(attributeLabels.firstName)}
-                      component={FormikInputField}
-                    />
-                    <Field
-                      name="contacts.email"
-                      label={I18n.t(attributeLabels.email)}
-                      component={FormikInputField}
-                      disabled
-                    />
-                    <Field
-                      name="address.countryCode"
-                      label={I18n.t(attributeLabels.country)}
-                      component={FormikSelectField}
-                      placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
-                    >
-                      {Object.entries(countryList).map(([key, value]) => (
-                        <option key={key} value={key}>
-                          {value}
-                        </option>
-                      ))}
-                    </Field>
-                  </div>
-                  <div className="col-6">
-                    <Field
-                      name="lastName"
-                      label={I18n.t(attributeLabels.lastName)}
-                      component={FormikInputField}
-                    />
-                    <Field
-                      name="password"
-                      onAdditionClick={() => setFieldValue('password', generate())}
-                      addition={<span className="icon-generate-password" />}
-                      label={I18n.t(attributeLabels.password)}
-                      component={FormikInputField}
-                    />
-                    <Field
-                      name="languageCode"
-                      label={I18n.t(attributeLabels.language)}
-                      component={FormikSelectField}
-                      placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
-                    >
-                      {getAvailableLanguages().map(locale => (
-                        <option key={locale} value={locale}>
-                          {I18n.t(`COMMON.LANGUAGE_NAME.${locale.toUpperCase()}`, {
-                            defaultValue: locale.toUpperCase(),
-                          })}
-                        </option>
-                      ))}
-                    </Field>
-                  </div>
-                </div>
-              </ModalBody>
-              <ModalFooter>
-                <Button
-                  commonOutline
-                  onClick={onCloseModal}
-                >
-                  {I18n.t('COMMON.BUTTONS.CANCEL')}
-                </Button>
-                <Button
-                  primary
-                  type="submit"
-                  disabled={!dirty || !isValid || isSubmitting}
-                >
-                  {I18n.t('COMMON.BUTTONS.CONFIRM')}
-                </Button>
-              </ModalFooter>
-            </Form>
-          )}
-        </Formik>
+        <ModalHeader toggle={onCloseModal}>
+          {I18n.t('LEAD_PROFILE.PROMOTE_MODAL.HEADER')}
+        </ModalHeader>
+        <ModalBody>
+          <Choose>
+            <When condition={lead.loading}>
+              <ShortLoader />
+            </When>
+            <Otherwise>
+              {this.renderForm()}
+            </Otherwise>
+          </Choose>
+        </ModalBody>
       </Modal>
     );
   }
@@ -219,6 +241,7 @@ class PromoteLeadModal extends PureComponent {
 export default compose(
   withNotifications,
   withRequests({
+    lead: PromoteLeadModalQuery,
     promoteLead: PromoteLeadMutation,
   }),
 )(PromoteLeadModal);

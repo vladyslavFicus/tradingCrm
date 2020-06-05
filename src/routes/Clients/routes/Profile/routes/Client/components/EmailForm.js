@@ -61,6 +61,7 @@ class EmailForm extends PureComponent {
 
     return (
       <Formik
+        enableReinitialize
         initialValues={{ email: emailAccess ? hideText(email) : email }}
         onSubmit={this.onHandleSubmit}
         validate={validator}

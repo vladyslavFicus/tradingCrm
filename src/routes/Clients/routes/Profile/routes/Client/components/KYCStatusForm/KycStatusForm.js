@@ -72,6 +72,7 @@ class KycStatusForm extends PureComponent {
 
     return (
       <Formik
+        enableReinitialize
         initialValues={{ kycStatus }}
         onSubmit={this.handleChangeKycStatus}
         validate={validator}

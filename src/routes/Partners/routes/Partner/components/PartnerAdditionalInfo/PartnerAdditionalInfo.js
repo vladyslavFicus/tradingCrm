@@ -7,11 +7,7 @@ import './PartnerAdditionalInfo.scss';
 
 class PartnerAdditionalInfo extends PureComponent {
   static propTypes = {
-    authorities: PropTypes.arrayOf(PropTypes.authorityEntity),
-  };
-
-  static defaultProps = {
-    authorities: [],
+    authorities: PropTypes.arrayOf(PropTypes.authorityEntity).isRequired,
   };
 
   render() {

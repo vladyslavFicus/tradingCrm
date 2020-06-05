@@ -1,11 +1,15 @@
 import React, { PureComponent } from 'react';
 import moment from 'moment';
 import I18n from 'i18n-js';
+import { withModals } from 'hoc';
 import PropTypes from 'constants/propTypes';
+import { targetTypes } from 'constants/note';
 import permissions from 'config/permissions';
+import { Button } from 'components/UI';
+import NotePopover from 'components/NotePopover';
+import PromoteLeadModal from 'components/PromoteLeadModal';
 import PermissionContent from 'components/PermissionContent';
 import Uuid from 'components/Uuid';
-import PopoverButton from 'components/PopoverButton';
 import ProfileHeaderPlaceholder from 'components/ProfileHeaderPlaceholder';
 import ConvertedBy from '../../../../components/ConvertedBy';
 import { leadStatuses, statuses } from '../../../../constants';
@@ -14,12 +18,22 @@ class Header extends PureComponent {
   static propTypes = {
     data: PropTypes.object,
     loading: PropTypes.bool.isRequired,
-    onPromoteLeadClick: PropTypes.func.isRequired,
-    onAddNoteClick: PropTypes.func.isRequired,
+    modals: PropTypes.shape({
+      promoteLeadModal: PropTypes.modalType,
+    }).isRequired,
   };
 
   static defaultProps = {
     data: {},
+  };
+
+  handlePromoteLead = () => {
+    const {
+      modals: { promoteLeadModal },
+      data: { uuid },
+    } = this.props;
+
+    promoteLeadModal.show({ uuid });
   };
 
   render() {
@@ -36,8 +50,6 @@ class Header extends PureComponent {
         convertedToClientUuid,
       },
       loading,
-      onPromoteLeadClick,
-      onAddNoteClick,
     } = this.props;
 
     return (
@@ -55,23 +67,25 @@ class Header extends PureComponent {
           </ProfileHeaderPlaceholder>
           <div className="col-auto panel-heading-row__actions">
             <PermissionContent permissions={permissions.NOTES.ADD_NOTE}>
-              <PopoverButton
-                id="header-add-note-button"
-                className="btn btn-sm btn-default-outline"
-                onClick={onAddNoteClick}
+              <NotePopover
+                playerUUID={uuid}
+                targetUUID={uuid}
+                targetType={targetTypes.LEAD}
               >
-                {I18n.t('PLAYER_PROFILE.PROFILE.HEADER.ADD_NOTE')}
-              </PopoverButton>
+                <Button small commonOutline>
+                  {I18n.t('PLAYER_PROFILE.PROFILE.HEADER.ADD_NOTE')}
+                </Button>
+              </NotePopover>
             </PermissionContent>
             <If condition={status && status !== statuses.CONVERTED}>
-              <PopoverButton
-                id="lead-promote-to-client"
-                className="btn btn-sm btn-default-outline ml-3"
-                onClick={onPromoteLeadClick}
-                disabled={loading}
+              <Button
+                small
+                commonOutline
+                className="ml-3"
+                onClick={this.handlePromoteLead}
               >
                 {I18n.t('LEAD_PROFILE.HEADER.PROMOTE_TO_CLIENT')}
-              </PopoverButton>
+              </Button>
             </If>
           </div>
         </div>
@@ -114,4 +128,6 @@ class Header extends PureComponent {
   }
 }
 
-export default Header;
+export default withModals({
+  promoteLeadModal: PromoteLeadModal,
+})(Header);

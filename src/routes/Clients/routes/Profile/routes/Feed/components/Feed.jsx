@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { get } from 'lodash';
 import parseJson from 'utils/parseJson';
+import EventEmitter, { PROFILE_RELOAD } from 'utils/EventEmitter';
 import PropTypes from 'constants/propTypes';
 import ListView from 'components/ListView';
 import FeedItem from 'components/FeedItem';
@@ -24,28 +25,17 @@ class Feed extends Component {
     }).isRequired,
   };
 
-  static contextTypes = {
-    registerUpdateCacheListener: PropTypes.func.isRequired,
-    unRegisterUpdateCacheListener: PropTypes.func.isRequired,
-  };
-
   componentDidMount() {
-    const {
-      context: { registerUpdateCacheListener },
-      constructor: { name },
-    } = this;
-
-    registerUpdateCacheListener(name, this.props.feeds.refetch);
+    EventEmitter.on(PROFILE_RELOAD, this.onProfileEvent);
   }
 
   componentWillUnmount() {
-    const {
-      context: { unRegisterUpdateCacheListener },
-      constructor: { name },
-    } = this;
-
-    unRegisterUpdateCacheListener(name);
+    EventEmitter.off(PROFILE_RELOAD, this.onProfileEvent);
   }
+
+  onProfileEvent = () => {
+    this.props.feeds.refetch();
+  };
 
   handlePageChanged = () => {
     const {

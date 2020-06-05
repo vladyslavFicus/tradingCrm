@@ -368,6 +368,7 @@
     "TRANSACTIONS": {
       "ADD_TRANSACTION": "+ Add transaction",
       "ADD_TRANSACTION_FAIL": "Failed to add transaction",
+      "ADD_TRANSACTION_SUCCESS": "Transaction was added successfully",
       "MODAL_CREATE": {
         "NO_PAYMENT_ACCOUNTS_LABEL": "No payment accounts",
         "CHOOSE_PAYMENT_METHOD_LABEL": "Choose payment method",
@@ -841,7 +842,7 @@
         }
       },
       "TITLE": "File upload",
-      "ACTION_TEXT": "You are about to upload file(s) to %{fullName} %{shortUUID} account",
+      "ACTION_TEXT": "You are about to upload file(s) to %{shortUUID} profile",
       "NO_UPLOADED": "There are no uploaded files",
       "BUTTONS": {
         "ADD_FILES": "+ Add files"
@@ -857,7 +858,7 @@
         "DELETE": "Delete File"
       },
       "WARNING_TEXT": "This action can not be undone!",
-      "ACTION_TEXT": "You are about to delete file %{fileName} from %{player} - %{shortUUID} - account"
+      "ACTION_TEXT": "You are about to delete file %{fileName}"
     },
     "CONFIRM_ACTION_MODAL": {
       "TITLE": "Delete file - Confirmation",

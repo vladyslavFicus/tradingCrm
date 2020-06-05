@@ -1,3 +1,6 @@
+const { whenDev } = require('@craco/craco');
+const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
+
 module.exports = {
   babel: {
     plugins: ['module:jsx-control-statements'],
@@ -9,5 +12,10 @@ module.exports = {
 
       return options;
     },
+  },
+  webpack: {
+    plugins: [
+      ...whenDev(() => [new HardSourceWebpackPlugin()], []),
+    ],
   },
 };

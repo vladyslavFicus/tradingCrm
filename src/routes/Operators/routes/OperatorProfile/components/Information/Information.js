@@ -18,7 +18,11 @@ const Information = ({ data, authorities }) => (
 
 Information.propTypes = {
   data: PropTypes.operatorProfile.isRequired,
-  authorities: PropTypes.arrayOf(PropTypes.authorityEntity).isRequired,
+  authorities: PropTypes.arrayOf(PropTypes.authorityEntity),
+};
+
+Information.defaultProps = {
+  authorities: [],
 };
 
 export default Information;

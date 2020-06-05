@@ -41,6 +41,7 @@ class Partner extends PureComponent {
 
     const partner = get(partnerData, 'data.partner.data') || {};
     const partnerError = get(partnerData, 'data.partner.error') || false;
+    const authorities = get(partner, 'authorities.data') || [];
     const isLoading = partnerData.loading;
 
     if (partnerError) {
@@ -64,7 +65,7 @@ class Partner extends PureComponent {
           <HideDetails>
             <div className="Partner__details">
               <PartnerPersonalInfo partner={partner} />
-              <PartnerAdditionalInfo authorities={partner.authorities && partner.authorities.data} />
+              <PartnerAdditionalInfo authorities={authorities} />
             </div>
           </HideDetails>
         </div>

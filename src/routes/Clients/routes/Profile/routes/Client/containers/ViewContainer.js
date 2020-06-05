@@ -15,6 +15,7 @@ import View from '../components/View';
 
 export default compose(
   withNotifications,
+  withStorage(['auth']),
   withModals({ confirmationModal: ConfirmActionModal }),
   graphql(updatePersonalInformationMutation, {
     name: 'updatePersonalInformation',
@@ -43,4 +44,4 @@ export default compose(
     name: 'updateEmail',
     options: ({ match: { params: { id: playerUUID } } }) => ({ variables: { playerUUID } }),
   }),
-)(withStorage(['auth'])(View));
+)(View);
