@@ -7,17 +7,17 @@ import { BatchHttpLink } from 'apollo-link-batch-http';
 import { createUploadLink } from 'apollo-upload-client';
 import { createPersistedQueryLink } from 'apollo-link-persisted-queries';
 import { onError } from 'apollo-link-error';
-import { setContext } from 'apollo-link-context';
 import { ApolloProvider as OriginalApolloProvider, compose } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
+import { getGraphQLRoot, getApiVersion } from 'config';
 import { withModals } from 'hoc';
 import { isUpload } from 'apollo/utils/isUpload';
 import omitTypename from 'apollo/utils/omitTypename';
+import AuthLink from 'apollo/links/AuthLink';
 import { withStorage } from 'providers/StorageProvider';
 import UpdateVersionModal from 'modals/UpdateVersionModal';
 import PropTypes from 'constants/propTypes';
 import queryNames from 'constants/apolloQueryNames';
-import { getGraphQLRoot, getApiVersion } from '../config';
 
 class ApolloProvider extends PureComponent {
   static propTypes = {
@@ -49,15 +49,9 @@ class ApolloProvider extends PureComponent {
     // ========= Error link ========= //
     const errorLink = onError(({ graphQLErrors, networkError, operation }) => {
       if (graphQLErrors) {
-        graphQLErrors.forEach(({ message, locations, path, extensions }) => {
+        graphQLErrors.forEach(({ message, locations, path }) => {
           // Suppress next error handlers because sign in and logout can return 401 [UNAUTHENTICATED]
           if (['SignInMutation', 'LogoutMutation'].includes(operation.operationName)) {
-            return;
-          }
-
-          if (extensions && extensions.code === 'UNAUTHENTICATED') {
-            history.push('/logout');
-
             return;
           }
 
@@ -67,12 +61,6 @@ class ApolloProvider extends PureComponent {
       }
 
       if (networkError) {
-        if (networkError.statusCode === 401) {
-          history.push('/logout');
-
-          return;
-        }
-
         if (networkError.statusCode === 426) {
           modals.updateVersionModal.show();
 
@@ -84,19 +72,6 @@ class ApolloProvider extends PureComponent {
       }
     });
 
-    // ========= Context link ========= //
-    const contextLink = setContext((_, { headers }) => {
-      const token = storage.get('token');
-
-      return {
-        headers: {
-          ...headers,
-          authorization: token ? `Bearer ${token}` : undefined,
-          'x-client-version': getApiVersion(),
-        },
-      };
-    });
-
     const createOmitTypenameLink = new ApolloLink((data, forward) => {
       const operation = data;
 
@@ -106,8 +81,21 @@ class ApolloProvider extends PureComponent {
       return forward(operation);
     });
 
-    return new ApolloClient({
-      link: from([createOmitTypenameLink, errorLink, contextLink, createPersistedQueryLink(), httpLink]),
+    // ========= Auth link ========= //
+    const authLink = new AuthLink({
+      getToken: () => storage.get('token'),
+      onRefresh: token => storage.set('token', token),
+      onLogout: () => history.push('/logout'),
+      headers: {
+        'x-client-version': getApiVersion(),
+      },
+    });
+
+    // ========= Persisted query link ========= //
+    const persistedQueryLink = createPersistedQueryLink();
+
+    const client = new ApolloClient({
+      link: from([createOmitTypenameLink, errorLink, authLink, persistedQueryLink, httpLink]),
       cache: new InMemoryCache(),
 
       // Query deduplication should be turned off because request cancellation not working with turned it on
@@ -115,6 +103,10 @@ class ApolloProvider extends PureComponent {
       // https://github.com/apollographql/apollo-client/issues/4150#issuecomment-487412557
       queryDeduplication: false,
     });
+
+    authLink.injectClient(client);
+
+    return client;
   }
 
   client = this.constructor.createClient(this.props);
