@@ -14,7 +14,7 @@ import PropTypes from 'constants/propTypes';
 import ChangeAccountStatusModal from 'modals/ChangeAccountStatusModal';
 import Uuid from 'components/Uuid';
 import { statuses, statusesLabels, statusActions, statusColorNames } from '../../constants';
-import changeAccountStatusMutation from './graphql/changeAccountStatusMutation';
+import PartnerAccountStatusMutation from './graphql/PartnerAccountStatusMutation';
 import './PartnerAccountStatus.scss';
 
 const updateAccountStatusPermissions = new Permissions(permissions.PARTNERS.UPDATE_STATUS);
@@ -56,7 +56,7 @@ class PartnerAccountStatus extends PureComponent {
       },
     });
 
-    const success = get(response, 'data.partner.changeStatus.success') || false;
+    const success = get(response, 'data.partner.changePartnerAccountStatus.success') || false;
 
     notify({
       level: success ? 'success' : 'error',
@@ -185,7 +185,7 @@ export default compose(
   withPermission,
   withNotifications,
   withRequests({
-    changeAccountStatus: changeAccountStatusMutation,
+    changeAccountStatus: PartnerAccountStatusMutation,
   }),
   withModals({
     changeAccountStatusModal: ChangeAccountStatusModal,

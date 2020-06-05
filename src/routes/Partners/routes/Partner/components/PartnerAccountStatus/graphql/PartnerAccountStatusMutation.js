@@ -4,13 +4,13 @@ import gql from 'graphql-tag';
 import { Mutation } from 'react-apollo';
 
 const REQUEST = gql`
-  mutation PartnerAccountStatus_changeAccountStatus(
+  mutation PartnerAccountStatus_PartnerAccountStatus(
     $uuid: String!
     $reason: String!
     $status: String!
   ) {
     partner {
-      changeStatus(
+      changePartnerAccountStatus(
         uuid: $uuid
         reason: $reason
         status: $status
@@ -21,14 +21,14 @@ const REQUEST = gql`
   }
 `;
 
-const changeAccountStatusMutation = ({ children }) => (
+const PartnerAccountStatusMutation = ({ children }) => (
   <Mutation mutation={REQUEST}>
     {children}
   </Mutation>
 );
 
-changeAccountStatusMutation.propTypes = {
+PartnerAccountStatusMutation.propTypes = {
   children: PropTypes.func.isRequired,
 };
 
-export default changeAccountStatusMutation;
+export default PartnerAccountStatusMutation;
