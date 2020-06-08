@@ -29,9 +29,7 @@ const deleteFilterSet = gql`mutation deleteFilterSet(
         error
         fields_errors
       }
-      data {
-        uuid
-      }
+      success
     }
   }
 }`;

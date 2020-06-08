@@ -117,26 +117,17 @@ class FilterSetButtons extends Component {
     const {
       data: {
         filterSet: {
-          delete: { error },
+          delete: { success },
         },
       },
     } = await deleteFilter({ variables: { uuid: selectValue } });
 
-    if (error) {
-      notify({
-        level: 'error',
-        title: I18n.t('FILTER_SET.REMOVE_FILTER.ERROR'),
-        message:
-          error.error || error.fields_errors || I18n.t('COMMON.SOMETHING_WRONG'),
-      });
-
-      return;
-    }
-
     notify({
-      level: 'success',
-      title: I18n.t('COMMON.SUCCESS'),
-      message: I18n.t('FILTER_SET.REMOVE_FILTER.SUCCESS'),
+      level: success ? 'success' : 'error',
+      title: success ? I18n.t('COMMON.SUCCESS') : I18n.t('FILTER_SET.REMOVE_FILTER.ERROR'),
+      message: success
+        ? I18n.t('FILTER_SET.REMOVE_FILTER.SUCCESS')
+        : I18n.t('COMMON.SOMETHING_WRONG'),
     });
 
     confirmActionModal.hide();
