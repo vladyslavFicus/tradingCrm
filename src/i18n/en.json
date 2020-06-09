@@ -1608,9 +1608,12 @@
     },
     "LAST_ACTIVITY": {
       "TITLE": "Last activity",
+      "LOCATION": "Location",
       "STATUS": {
         "ONLINE": "Online",
-        "OFFLINE": "Offline"
+        "OFFLINE": "Offline",
+        "ON_STATUS": "on Status website",
+        "ON_WEBTRADER": "on WebTrader"
       }
     },
     "LIST": {

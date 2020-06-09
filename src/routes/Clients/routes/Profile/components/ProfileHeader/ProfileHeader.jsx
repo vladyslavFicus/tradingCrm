@@ -231,7 +231,11 @@ class ProfileHeader extends Component {
             credit,
           },
           lastSignInSessions,
-          lastActivity,
+          lastActivity: {
+            date: lastActivityDate,
+            location,
+            application,
+          },
         },
         tradingAccount,
       },
@@ -239,7 +243,6 @@ class ProfileHeader extends Component {
 
     const { isRunningReloadAnimation } = this.state;
     const lock = get(loginLock, 'data.loginLock.lock');
-    const lastActivityDate = get(lastActivity, 'date');
     const lastActivityDateLocal = lastActivityDate && moment.utc(lastActivityDate).local();
     const lastActivityType = lastActivityDateLocal
       && moment().diff(lastActivityDateLocal, 'minutes') < 5 ? 'ONLINE' : 'OFFLINE';
@@ -364,6 +367,25 @@ class ProfileHeader extends Component {
                 {I18n.t('COMMON.ON')} {lastActivityDateLocal.format('DD.MM.YYYY')}
               </div>
             )}
+            <If condition={lastActivityType === 'ONLINE'
+              && location !== 'webtrader'
+              && application !== 'status-client'}
+            >
+              <div className="header-block-small">
+                <div className="header-block-middle">{I18n.t('PROFILE.LAST_ACTIVITY.LOCATION')}: </div>
+                {location}
+              </div>
+            </If>
+            <If condition={application === 'status-client'}>
+              <div className="header-block-middle">
+                {I18n.t('PROFILE.LAST_ACTIVITY.STATUS.ON_STATUS')}
+              </div>
+            </If>
+            <If condition={location === 'webtrader'}>
+              <div className="header-block-middle">
+                {I18n.t('PROFILE.LAST_ACTIVITY.STATUS.ON_WEBTRADER')}
+              </div>
+            </If>
           </div>
           <div className="header-block header-block-inner">
             <div className="header-block-title">{I18n.t('CLIENT_PROFILE.CLIENT.REGISTERED.TITLE')}</div>
