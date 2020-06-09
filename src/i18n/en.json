@@ -1363,7 +1363,7 @@
       "FILTER_FORM": {
         "SEARCH_BY_LABEL": "Search by",
         "SEARCH_BY_PLACEHOLDER": "Action ID, Operator ID, IP",
-        "ACTION_TYPE_EMPTY_OPTION": "Any action",
+        "ACTION_TYPES": "Action types",
         "ACTION_DATE_RANGE": "Action date range"
       },
       "TITLE": "Feed"
