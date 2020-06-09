@@ -71,6 +71,7 @@ class RepresentativeUpdateModal extends PureComponent {
     header: PropTypes.oneOfType([PropTypes.node, PropTypes.string]).isRequired,
     type: PropTypes.string.isRequired,
     onCloseModal: PropTypes.func.isRequired,
+    onSuccess: PropTypes.func.isRequired,
     isOpen: PropTypes.bool.isRequired,
     client: PropTypes.object.isRequired,
     initialValues: PropTypes.object,
@@ -266,6 +267,7 @@ class RepresentativeUpdateModal extends PureComponent {
       notify,
       userType,
       onCloseModal,
+      onSuccess,
       bulkClientRepresentativeUpdate,
       bulkLeadRepresentativeUpdate,
     } = this.props;
@@ -333,6 +335,7 @@ class RepresentativeUpdateModal extends PureComponent {
       });
 
       onCloseModal();
+      onSuccess();
 
       EventEmitter.emit(ACQUISITION_STATUS_CHANGED);
     }
