@@ -488,6 +488,10 @@ const brandsConfig = {
     name: 'investfd',
     image: { src: '/img/brand/choose-brand/investfd.svg' },
   },
+  [brands.finocapital]: {
+    name: 'finocapital',
+    image: { src: '/img/brand/choose-brand/finocapital.svg' },
+  },
 };
 const departmentsConfig = {
   [departments.CS]: {
