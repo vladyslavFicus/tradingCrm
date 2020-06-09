@@ -22,9 +22,7 @@ export default () => [{
   name: 'client',
   header: I18n.t('CLIENTS.LIST.GRID_HEADER.CLIENT'),
   render: data => (
-    <GridPlayerInfo
-      profile={data}
-    />
+    <GridPlayerInfo profile={data} />
   ),
 }, {
   name: 'country',
@@ -39,7 +37,7 @@ export default () => [{
         />
       </When>
       <Otherwise>
-        <GridEmptyValue I18n={I18n} />
+        <GridEmptyValue />
       </Otherwise>
     </Choose>
   ),
@@ -58,7 +56,7 @@ export default () => [{
           </div>
         </When>
         <Otherwise>
-          <GridEmptyValue I18n={I18n} />
+          <GridEmptyValue />
         </Otherwise>
       </Choose>
     );
@@ -79,7 +77,7 @@ export default () => [{
           </div>
         </When>
         <Otherwise>
-          <GridEmptyValue I18n={I18n} />
+          <GridEmptyValue />
         </Otherwise>
       </Choose>
     );
@@ -99,7 +97,7 @@ export default () => [{
           <Uuid className="header-block-small" uuid={uuid} />
         </When>
         <Otherwise>
-          <GridEmptyValue I18n={I18n} />
+          <GridEmptyValue />
         </Otherwise>
       </Choose>
     );
@@ -133,7 +131,7 @@ export default () => [{
           />
         </When>
         <Otherwise>
-          <GridEmptyValue I18n={I18n} />
+          <GridEmptyValue />
         </Otherwise>
       </Choose>
     );
@@ -167,7 +165,7 @@ export default () => [{
           />
         </When>
         <Otherwise>
-          <GridEmptyValue I18n={I18n} />
+          <GridEmptyValue />
         </Otherwise>
       </Choose>
     );

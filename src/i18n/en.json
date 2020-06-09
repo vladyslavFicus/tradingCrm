@@ -368,6 +368,7 @@
     "TRANSACTIONS": {
       "ADD_TRANSACTION": "+ Add transaction",
       "ADD_TRANSACTION_FAIL": "Failed to add transaction",
+      "ADD_TRANSACTION_SUCCESS": "Transaction was added successfully",
       "MODAL_CREATE": {
         "NO_PAYMENT_ACCOUNTS_LABEL": "No payment accounts",
         "CHOOSE_PAYMENT_METHOD_LABEL": "Choose payment method",
@@ -487,6 +488,7 @@
     "ANY": "Any",
     "ROLLBACK": "Rollback",
     "FOR": "for",
+    "BY": "by",
     "CHANGES": "Changes",
     "FIRST_NAME": "First name",
     "LAST_NAME": "Last name",
@@ -2629,7 +2631,8 @@
     "LEADS": "Leads",
     "LEADS_FOUND": "Leads found",
     "LEADS_SELECTED": "Leads selected",
-    "SALES_INFO_UPDATED": "Leads sales info updated",
+    "BULK_ACTIONS": "Bulk actions",
+    "UPDATED": "Leads updated successfully",
     "GRID_HEADER": {
       "LEAD": "Lead",
       "COUNTRY": "Country",
@@ -2638,9 +2641,16 @@
       "STATUS": "Status",
       "LAST_NOTE": "Last note"
     },
-    "PROMOTE_INFO_MODAL": {
-      "HEADER": "Promoted leads information",
-      "BODY": "Promoted %{successAmount} of %{total}"
+    "FILTER": {
+      "SEARCH": "Search by",
+      "COUNTRIES": "Countries",
+      "DESKS": "Desks",
+      "TEAMS": "Teams",
+      "SALES_AGENTS": "Sales agents",
+      "SALES_STATUS": "Sales status",
+      "ACCOUNT_STATUS": "Account Status",
+      "REGISTRATION_DATE_RANGE": "Registration date range",
+      "LAST_NOTE_DATE_RANGE": "Last note date range"
     },
     "STATUSES": {
       "NEW": "New",
@@ -2650,6 +2660,9 @@
       "SELF_CONVETED": "self-converted"
     },
     "SUCCESS_PROMOTED": "Lead was promoted to id %{id}",
+    "LEADS_BULK_MODAL": {
+      "HEADER": "Bulk action - Sales"
+    },
     "LEADS_UPLOAD_MODAL": {
       "TITLE": "Leads upload",
       "UPLOAD_CSV_TO_IMPORT_LEADS": "Upload a CSV file to import new Leads",

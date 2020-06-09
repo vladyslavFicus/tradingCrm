@@ -39,6 +39,7 @@ import {
   PaymentMethodsQuery,
   usersByBranchQuery,
 } from './graphql';
+import './PaymentsListFilters.scss';
 
 class PaymentsListFilters extends PureComponent {
   static propTypes = {
