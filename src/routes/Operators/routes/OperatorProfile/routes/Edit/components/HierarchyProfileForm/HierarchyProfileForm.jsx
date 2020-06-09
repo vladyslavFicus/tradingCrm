@@ -286,7 +286,7 @@ class HierarchyProfileForm extends Component {
                   </div>
                 </Otherwise>
               </Choose>
-              <PermissionContent permissions={permissions.UPDATE_USER_BRANCH}>
+              <PermissionContent permissions={permissions.HIERARCHY.UPDATE_USER_BRANCH}>
                 <button
                   type="button"
                   className="btn btn-sm margin-bottom-10"
