@@ -82,13 +82,12 @@ class ExtendedForm extends PureComponent {
 
   // the function needed to update filterSetValues in parent component
   handleHistoryReplace = (filterSetValues = null) => {
-    let { location: { query } } = this.props.history;
+    const { location: { query }, replace } = this.props.history;
 
-    if (!filterSetValues) {
-      query = null;
-    }
-
-    return this.props.history.replace({ query, filterSetValues });
+    return replace({
+      query: filterSetValues ? query : null,
+      filterSetValues,
+    });
   };
 
   handleToggleFiltersVisibility = () => (
