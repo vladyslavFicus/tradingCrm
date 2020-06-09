@@ -249,6 +249,7 @@ const clientsQuery = gql`query ${queryNames.clientsQuery}(
             changedAt
             content
             uuid
+            authorFullName
           }
           paymentDetails {
             depositsCount
