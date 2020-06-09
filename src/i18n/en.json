@@ -414,6 +414,8 @@
           "SEARCH_BY": "Search by",
           "SEARCH_BY_PLACEHOLDER": "Action ID, Operator ID, IP",
           "ACTION_TYPES": "Action types",
+          "CREATION_DATE_FROM": "Creation date from",
+          "CREATION_DATE_TO": "Creation date to",
           "ACTION_DATE_RANGE": "Action date range"
         }
       }
@@ -1362,7 +1364,9 @@
         "SEARCH_BY_LABEL": "Search by",
         "SEARCH_BY_PLACEHOLDER": "Action ID, Operator ID, IP",
         "ACTION_TYPES": "Action types",
-        "ACTION_DATE_RANGE": "Action date range"
+        "ACTION_DATE_RANGE": "Action date range",
+        "CREATION_DATE_FROM": "Creation date from",
+        "CREATION_DATE_TO": "Creation date to"
       },
       "TITLE": "Feed"
     },
