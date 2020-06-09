@@ -25,7 +25,7 @@ class RejectPaymentForm extends PureComponent {
     rejectPayment: PropTypes.func.isRequired,
   };
 
-  handleRejectPayment = async (values, { setSubmitting, validateForm }) => {
+  handleRejectPayment = async (values, { setSubmitting }) => {
     setSubmitting(false);
 
     const {
@@ -35,41 +35,28 @@ class RejectPaymentForm extends PureComponent {
       notify,
     } = this.props;
 
-    const validationResult = await validateForm(values);
-    const hasValidationErrors = Object.keys(validationResult).length > 0;
-
-    if (hasValidationErrors) return;
-
-    const {
-      data: {
-        payment: {
-          acceptPayment: {
-            data: {
-              success,
-            },
-          },
+    try {
+      await rejectPayment({
+        variables: {
+          paymentId,
+          declineReason: values.declineReason,
+          typeAcc: 'reject',
         },
-      },
-    } = await rejectPayment({
-      variables: {
-        paymentId,
-        declineReason: values.declineReason,
-        typeAcc: 'reject',
-      },
-    });
+      });
 
-    notify({
-      level: success ? 'success' : 'error',
-      title: I18n.t(success ? 'COMMON.SUCCESS' : 'COMMON.FAIL'),
-      message: I18n.t(
-        success
-          ? 'PAYMENT_DETAILS_MODAL.NOTIFICATIONS.REJECT_FAILED'
-          : 'PAYMENT_DETAILS_MODAL.NOTIFICATIONS.REJECT_SUCCESS',
-      ),
-    });
+      notify({
+        level: 'success',
+        title: I18n.t('COMMON.SUCCESS'),
+        message: I18n.t('PAYMENT_DETAILS_MODAL.NOTIFICATIONS.REJECT_SUCCESS'),
+      });
 
-    if (success) {
       onSuccess();
+    } catch {
+      notify({
+        level: 'error',
+        title: I18n.t('COMMON.FAIL'),
+        message: I18n.t('PAYMENT_DETAILS_MODAL.NOTIFICATIONS.REJECT_FAILED'),
+      });
     }
   };
 

@@ -5,8 +5,8 @@ import { Query } from 'react-apollo';
 import PropTypes from 'constants/propTypes';
 
 const REQUEST = gql`
-  query PaymentsQuery($args: PaymentsInputType) {
-    clientPayments(args: $args) {
+  query PaymentsQuery($args: PaymentInputType) {
+    payments(args: $args) {
       data {
         page
         number
@@ -40,12 +40,11 @@ const REQUEST = gql`
             uuid
             firstName
             lastName
-            fullName
             country
           }
           paymentMetadata {
             clientIp
-            isMobile
+            mobile
             userAgent
             country
           }

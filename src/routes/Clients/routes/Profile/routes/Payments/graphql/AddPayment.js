@@ -18,7 +18,7 @@ const REQUEST = gql`
     $target: String
   ) {
     payment {
-      createClientPayment(
+      createPayment(
         accountUUID: $accountUUID
         amount: $amount
         paymentType: $paymentType
@@ -33,11 +33,6 @@ const REQUEST = gql`
       ) {
         data {
           paymentId
-          redirectLink
-          generationDate
-        }
-        error {
-          error
         }
       }
     }

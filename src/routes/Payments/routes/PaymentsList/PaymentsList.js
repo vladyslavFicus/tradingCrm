@@ -15,7 +15,7 @@ class PaymentsList extends PureComponent {
   static propTypes = {
     ...PropTypes.router,
     paymentsQuery: PropTypes.query({
-      clientPayments: PropTypes.shape({
+      payments: PropTypes.shape({
         data: PropTypes.pageable(PropTypes.paymentEntity),
       }),
     }).isRequired,
@@ -51,7 +51,7 @@ class PaymentsList extends PureComponent {
     } = this.props;
 
     const partners = get(partnersData, 'partners.data.content') || [];
-    const payments = get(paymentsData, 'clientPayments') || {};
+    const payments = get(paymentsData, 'payments') || {};
     const totalPayments = get(payments, 'data.totalElements');
 
     return (

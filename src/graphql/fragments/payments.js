@@ -27,12 +27,11 @@ const PaymentContentFragment = gql`fragment PaymentContentFragment on PaymentTra
     uuid
     firstName
     lastName
-    fullName
     country
   }
   paymentMetadata {
     clientIp
-    isMobile
+    mobile
     userAgent
     country
   }

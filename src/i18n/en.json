@@ -661,7 +661,6 @@
         "CASH_BACK": "Cashback",
         "DEPOSIT": "Deposit",
         "WITHDRAW": "Withdraw",
-        "CONFISCATE": "Confiscate",
         "TRANSFER": "Transfer",
         "CREDIT_IN": "Credit In",
         "CREDIT_OUT": "Credit Out"
@@ -735,7 +734,6 @@
     "PAYMENT_TYPE": {
       "DEPOSIT": "Deposit",
       "WITHDRAW": "Withdraw",
-      "CONFISCATE": "Confiscate",
       "FEE": "Fee",
       "INACTIVITY_FEE": "Inactivity fee",
       "INTEREST_RATE": "Interest rate",
@@ -743,11 +741,7 @@
       "TRANSFER_OUT": "Transfer Out",
       "CREDIT_IN": "Credit in",
       "CREDIT_OUT": "Credit out",
-      "TRANSFER": "Transfer",
-      "MIGRATION_IN": "Migration Starting Balance",
-      "MIGRATION_OUT": "Migration Ending Balance",
-      "MIGRATION_CREDIT_IN": "Migration Credit In",
-      "MIGRATION_CREDIT_OUT": "Migration Credit Out"
+      "TRANSFER": "Transfer"
     },
     "PAYMENT_STATUS": {
       "PENDING": "Pending",

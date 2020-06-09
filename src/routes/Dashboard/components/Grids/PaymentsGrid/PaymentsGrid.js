@@ -6,23 +6,23 @@ import { columns } from 'utils/paymentHelpers';
 
 class PaymentsGrid extends PureComponent {
   static propTypes = {
-    clientPayments: PropTypes.shape({
-      clientPayments: PropTypes.object,
+    paymentsData: PropTypes.shape({
+      payments: PropTypes.object,
       loading: PropTypes.bool.isRequired,
       refetch: PropTypes.func.isRequired,
     }).isRequired,
   };
 
-  handleModalActionSuccess = () => this.props.clientPayments.refetch();
+  handleModalActionSuccess = () => this.props.paymentsData.refetch();
 
   render() {
     const {
-      clientPayments,
-      clientPayments: { loading },
+      paymentsData,
+      paymentsData: { loading },
     } = this.props;
 
-    const payments = get(clientPayments, 'clientPayments.data.content', []);
-    const error = get(clientPayments, 'clientPayments.error.content');
+    const payments = get(paymentsData, 'payments.data.content', []);
+    const error = get(paymentsData, 'payments.error.content');
 
     return (
       <div className="card card-body">

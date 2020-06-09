@@ -290,7 +290,7 @@ PropTypes.paymentPlayer = PropTypes.shape({
 });
 PropTypes.paymentMetadata = PropTypes.shape({
   clientIp: PropTypes.string,
-  isMobile: PropTypes.bool,
+  mobile: PropTypes.bool,
   userAgent: PropTypes.string.isRequired,
   country: PropTypes.string,
 });

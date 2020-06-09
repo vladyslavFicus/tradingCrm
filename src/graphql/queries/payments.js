@@ -3,8 +3,32 @@ import queryNames from 'constants/apolloQueryNames';
 import { NoteFragment } from '../fragments/notes';
 import { PaymentContentFragment } from '../fragments/payments';
 
+const getPayments = gql`query ${queryNames.paymentsQuery}(
+  $args: PaymentInputType
+) {
+  payments (
+    args: $args
+  ) {
+    data {
+      page
+      number
+      totalElements
+      size
+      last
+      content {
+        ...PaymentContentFragment
+      }
+    }
+    error {
+      error
+    }
+  }
+}
+${NoteFragment}
+${PaymentContentFragment}`;
+
 const getClientPayments = gql`query ${queryNames.paymentsQuery}(
-  $args: PaymentsInputType
+  $args: PaymentInputType
 ) {
   clientPayments (
     args: $args
@@ -22,47 +46,10 @@ const getClientPayments = gql`query ${queryNames.paymentsQuery}(
     error {
       error
     }
-  } 
+  }
 }
 ${NoteFragment}
 ${PaymentContentFragment}`;
-
-const getClientPaymentsByUuid = gql`query ${queryNames.paymentsQuery}(
-  $args: PaymentsByUuidInputType
-) {
-  clientPaymentsByUuid (
-    args: $args
-  ) {
-    data {
-      page
-      number
-      totalElements
-      size
-      last
-      content {
-        ...PaymentContentFragment
-      }
-    }
-    error {
-      error
-    }
-  } 
-}
-${NoteFragment}
-${PaymentContentFragment}`;
-
-const getOperatorPaymentMethods = gql`query getOperatorPaymentMethods {
-  operatorPaymentMethods {
-    data {
-      _id
-      methodName
-      uuid
-    }
-    error {
-      error
-    }
-  } 
-}`;
 
 const getPaymentMethods = gql`query getPaymentMethods {
   paymentMethods {
@@ -83,9 +70,8 @@ const getManualPaymentMethods = gql` query getManualPaymentMethods {
 }`;
 
 export {
+  getPayments,
   getClientPayments,
-  getClientPaymentsByUuid,
-  getOperatorPaymentMethods,
   getPaymentMethods,
   getManualPaymentMethods,
 };

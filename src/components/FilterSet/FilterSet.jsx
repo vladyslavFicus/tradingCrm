@@ -82,30 +82,28 @@ class FilterSet extends PureComponent {
 
     this.setState({ filterSetLoading: true });
 
-    const { data: { filterSet: { updateFavourite: { error } } } } = await updateFavourite({
-      variables: {
-        uuid,
-        favourite: newValue,
-      },
-    });
+    try {
+      await updateFavourite({
+        variables: {
+          uuid,
+          favourite: newValue,
+        },
+      });
 
-    if (error) {
+      await filtersRefetch();
+
+      notify({
+        level: 'success',
+        title: I18n.t('COMMON.SUCCESS'),
+        message: I18n.t('FILTER_SET.UPDATE_FAVOURITE.SUCCESS'),
+      });
+    } catch {
       notify({
         level: 'error',
         title: I18n.t('FILTER_SET.UPDATE_FAVOURITE.ERROR'),
-        message: error.error || error.fields_errors || I18n.t('COMMON.SOMETHING_WRONG'),
+        message: I18n.t('COMMON.SOMETHING_WRONG'),
       });
-
-      return;
     }
-
-    await filtersRefetch();
-
-    notify({
-      level: 'success',
-      title: I18n.t('COMMON.SUCCESS'),
-      message: I18n.t('FILTER_SET.UPDATE_FAVOURITE.SUCCESS'),
-    });
 
     this.setState({ filterSetLoading: false });
   };

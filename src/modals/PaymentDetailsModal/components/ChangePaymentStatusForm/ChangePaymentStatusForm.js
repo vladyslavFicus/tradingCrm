@@ -33,7 +33,7 @@ class ChangePaymentStatusForm extends PureComponent {
     paymentId: PropTypes.string.isRequired,
   };
 
-  handleSubmit = async (values, { setSubmitting, validateForm }) => {
+  handleSubmit = async (values, { setSubmitting }) => {
     setSubmitting(false);
 
     const {
@@ -48,47 +48,18 @@ class ChangePaymentStatusForm extends PureComponent {
     const { paymentStatus, paymentMethod } = values;
     const errors = [];
 
-    const validationResult = await validateForm(values);
-    const hasValidationErrors = Object.keys(validationResult).length > 0;
-
-    if (hasValidationErrors) return;
-
     if (paymentStatus) {
-      const {
-        data: {
-          payment: {
-            changePaymentStatus: {
-              data: {
-                success,
-              },
-            },
-          },
-        },
-      } = await updatePaymentStatus({
-        variables: { paymentId, paymentStatus },
-      });
-
-      if (!success) {
+      try {
+        await updatePaymentStatus({ variables: { paymentId, paymentStatus } });
+      } catch {
         errors.push('ERROR_STATUS');
       }
     }
 
     if (paymentMethod) {
-      const {
-        data: {
-          payment: {
-            changePaymentMethod: {
-              data: {
-                success,
-              },
-            },
-          },
-        },
-      } = await updatePaymentMethod({
-        variables: { paymentId, paymentMethod },
-      });
-
-      if (!success) {
+      try {
+        await updatePaymentMethod({ variables: { paymentId, paymentMethod } });
+      } catch {
         errors.push('ERROR_METHOD');
       }
     }

@@ -623,7 +623,6 @@
         "CASH_BACK": "返现",
         "DEPOSIT": "入金",
         "WITHDRAW": "提款",
-        "CONFISCATE": "没收",
         "TRANSFER": "转账",
         "CREDIT_IN": "存入",
         "CREDIT_OUT": "取出"
@@ -695,7 +694,6 @@
     "PAYMENT_TYPE": {
       "DEPOSIT": "入金",
       "WITHDRAW": "提款",
-      "CONFISCATE": "没收",
       "FEE": "费用",
       "TRANSFER_IN": "转入",
       "TRANSFER_OUT": "转出",
