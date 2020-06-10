@@ -61,19 +61,13 @@ class OperatorsFeedFilter extends PureComponent {
               className="OperatorsFeedFilter__input OperatorsFeedFilter__select"
               label={I18n.t(attributeLabels.actionType)}
               component={FormikSelectField}
+              withAnyOption
             >
-              {
-                [
-                  <option value="" key="any">
-                    {I18n.t('PARTNER_PROFILE.FEED.FILTER_FORM.ACTION_TYPE_EMPTY_OPTION')}
-                  </option>,
-                  ...availableTypes.map(type => (
-                    <option key={type} value={type}>
-                      {typesLabels[type] ? I18n.t(typesLabels[type]) : type}
-                    </option>
-                  )),
-                ]
-              }
+              {availableTypes.map(type => (
+                <option key={type} value={type}>
+                  {typesLabels[type] ? I18n.t(typesLabels[type]) : type}
+                </option>
+              ))}
             </Field>
 
             <FormikDateRangePicker
