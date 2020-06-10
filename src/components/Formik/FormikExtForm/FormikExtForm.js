@@ -1,7 +1,6 @@
 import React, { PureComponent, Fragment } from 'react';
 import I18n from 'i18n-js';
 import { isEqual } from 'lodash';
-import { withRouter } from 'react-router-dom';
 import { Formik, Form } from 'formik';
 import PropTypes from 'constants/propTypes';
 import { Button } from 'components/UI';
@@ -10,7 +9,6 @@ import FilterSetButtons from 'components/FilterSetButtons';
 
 class ExtendedForm extends PureComponent {
   static propTypes = {
-    ...PropTypes.router,
     initialValues: PropTypes.object,
     handleSubmit: PropTypes.func.isRequired,
     handleReset: PropTypes.func,
@@ -27,41 +25,31 @@ class ExtendedForm extends PureComponent {
 
   state = {
     prevValues: null,
-    resetDisabled: true,
     isFiltersVisible: true,
     selectedFilterDropdownItem: '',
   };
 
-  resetFilterSet = () => {
-    this.setState({ selectedFilterDropdownItem: '' });
-  };
-
   handleSubmit = (values) => {
-    const { prevValues, resetDisabled } = this.state;
-    const { isDataLoading } = this.props;
-
-    let requestId = null;
+    const { prevValues } = this.state;
+    const { isDataLoading, handleSubmit } = this.props;
 
     if (isDataLoading) {
       return;
     }
 
     // Hack to make refetch if APPLY clicked and filters remained same
+    let requestId = null;
     if (isEqual(prevValues, values)) {
       requestId = Math.random().toString(36).slice(2);
     }
 
-    this.props.handleSubmit({ ...values, ...(requestId && { requestId }) });
+    handleSubmit({ ...values, ...(requestId && { requestId }) });
 
     this.setState({ prevValues: values });
-
-    if (resetDisabled) {
-      this.setState({ resetDisabled: false });
-    }
   };
 
   handleReset = () => {
-    const { handleReset, filterSetType, isDataLoading } = this.props;
+    const { handleReset, isDataLoading } = this.props;
 
     if (isDataLoading) {
       return;
@@ -69,25 +57,11 @@ class ExtendedForm extends PureComponent {
 
     handleReset();
 
-    if (filterSetType) {
-      this.resetFilterSet();
-    }
-
-    this.setState({ resetDisabled: true });
+    this.setState({ selectedFilterDropdownItem: '' });
   };
 
   handleSelectFilterDropdownItem = (uuid) => {
     this.setState({ selectedFilterDropdownItem: uuid });
-  };
-
-  // the function needed to update filterSetValues in parent component
-  handleHistoryReplace = (filterSetValues = null) => {
-    const { location: { query }, replace } = this.props.history;
-
-    return replace({
-      query: filterSetValues ? query : null,
-      filterSetValues,
-    });
   };
 
   handleToggleFiltersVisibility = () => (
@@ -106,7 +80,6 @@ class ExtendedForm extends PureComponent {
 
     const {
       isFiltersVisible,
-      resetDisabled,
       selectedFilterDropdownItem,
     } = this.state;
 
@@ -119,6 +92,7 @@ class ExtendedForm extends PureComponent {
         {({
           values,
           dirty,
+          setValues,
           handleReset,
           ...formikBag
         }) => (
@@ -128,7 +102,7 @@ class ExtendedForm extends PureComponent {
               selectValue={selectedFilterDropdownItem}
               isDataLoading={isDataLoading}
               submitFilters={this.handleSubmit}
-              handleHistoryReplace={this.handleHistoryReplace}
+              handleHistoryReplace={query => setValues(query)}
               handleToggleFiltersVisibility={this.handleToggleFiltersVisibility}
               handleSelectFilterDropdownItem={this.handleSelectFilterDropdownItem}
             />
@@ -138,25 +112,24 @@ class ExtendedForm extends PureComponent {
                   {children({
                     values,
                     dirty,
+                    setValues,
                     handleReset,
                     ...formikBag,
                   })}
                 </div>
                 <div className="filter__form-buttons">
-                  <If condition={filterSetType}>
-                    <FilterSetButtons
-                      resetForm={handleReset}
-                      filterSetType={filterSetType}
-                      currentValues={dirty ? values : null}
-                      selectValue={selectedFilterDropdownItem}
-                      handleHistoryReplace={this.handleHistoryReplace}
-                      handleSelectFilterDropdownItem={this.handleSelectFilterDropdownItem}
-                    />
-                  </If>
+                  <FilterSetButtons
+                    resetForm={handleReset}
+                    filterSetType={filterSetType}
+                    currentValues={dirty ? values : null}
+                    selectValue={selectedFilterDropdownItem}
+                    handleHistoryReplace={handleReset}
+                    handleSelectFilterDropdownItem={this.handleSelectFilterDropdownItem}
+                  />
 
                   <div className="filter__form-buttons-group">
                     <Button
-                      disabled={!dirty || resetDisabled || isDataLoading}
+                      disabled={!dirty || isDataLoading}
                       onClick={handleReset}
                       common
                     >
@@ -182,4 +155,4 @@ class ExtendedForm extends PureComponent {
   }
 }
 
-export default withRouter(ExtendedForm);
+export default ExtendedForm;
