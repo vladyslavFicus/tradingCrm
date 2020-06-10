@@ -13,6 +13,7 @@ import { getGraphQLRoot, getApiVersion } from 'config';
 import { withModals } from 'hoc';
 import { isUpload } from 'apollo/utils/isUpload';
 import omitTypename from 'apollo/utils/omitTypename';
+import onRefreshToken from 'apollo/utils/onRefreshToken';
 import AuthLink from 'apollo/links/AuthLink';
 import { withStorage } from 'providers/StorageProvider';
 import UpdateVersionModal from 'modals/UpdateVersionModal';
@@ -83,8 +84,9 @@ class ApolloProvider extends PureComponent {
 
     // ========= Auth link ========= //
     const authLink = new AuthLink({
+      uri: getGraphQLRoot(),
       getToken: () => storage.get('token'),
-      onRefresh: token => storage.set('token', token),
+      onRefresh: onRefreshToken(storage),
       onLogout: () => history.push('/logout'),
       headers: {
         'x-client-version': getApiVersion(),
@@ -94,8 +96,8 @@ class ApolloProvider extends PureComponent {
     // ========= Persisted query link ========= //
     const persistedQueryLink = createPersistedQueryLink();
 
-    const client = new ApolloClient({
-      link: from([createOmitTypenameLink, errorLink, authLink, persistedQueryLink, httpLink]),
+    return new ApolloClient({
+      link: from([createOmitTypenameLink, authLink, errorLink, persistedQueryLink, httpLink]),
       cache: new InMemoryCache(),
 
       // Query deduplication should be turned off because request cancellation not working with turned it on
@@ -103,10 +105,6 @@ class ApolloProvider extends PureComponent {
       // https://github.com/apollographql/apollo-client/issues/4150#issuecomment-487412557
       queryDeduplication: false,
     });
-
-    authLink.injectClient(client);
-
-    return client;
   }
 
   client = this.constructor.createClient(this.props);
