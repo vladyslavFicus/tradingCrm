@@ -67,12 +67,11 @@ class DepartmentsForm extends PureComponent {
   handleChangeDepartment = (department, setValues) => {
     const { departmentsRoles } = this.props;
     const roles = departmentsRoles[department];
-    const isRolesExist = roles && roles.length;
     setValues({
       department,
-      role: isRolesExist ? roles[0] : '',
+      role: roles ? roles[0] : '',
     });
-    this.setState({ availableRoles: isRolesExist ? roles : [] });
+    this.setState({ availableRoles: roles || [] });
   }
 
   toggleShow = () => (this.setState(({ show }) => ({ show: !show })));
@@ -81,13 +80,13 @@ class DepartmentsForm extends PureComponent {
     const { departmentsRoles, authorities } = this.props;
     const { availableRoles, show } = this.state;
 
-    const operatorDepartments = authorities.map(item => item.department);
+    const operatorDepartments = authorities.map(({ department }) => department);
     const availableDepartments = Object.keys(departmentsRoles)
       .filter(item => !operatorDepartments.includes(item));
 
     return (
       <div>
-        <If condition={!show && !!availableDepartments.length}>
+        <If condition={!show && availableDepartments.length}>
           <Button type="button" className="btn btn-sm" onClick={this.toggleShow}>
             {I18n.t('OPERATORS.PROFILE.DEPARTMENTS.ADD_BUTTON_LABEL')}
           </Button>
