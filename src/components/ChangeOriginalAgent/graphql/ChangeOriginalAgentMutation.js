@@ -14,7 +14,9 @@ const REQUEST = gql`
         paymentId: $paymentId,
         agentId: $agentId,
         agentName: $agentName,
-      )
+      ) {
+        success
+      }
     }
   }`;
 

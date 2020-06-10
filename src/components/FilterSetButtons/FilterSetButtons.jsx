@@ -114,27 +114,37 @@ class FilterSetButtons extends Component {
       notify,
     } = this.props;
 
-    try {
-      await deleteFilter({ variables: { uuid: selectValue } });
+    const {
+      data: {
+        filterSet: {
+          delete: { error },
+        },
+      },
+    } = await deleteFilter({ variables: { uuid: selectValue } });
 
-      notify({
-        level: 'success',
-        title: I18n.t('COMMON.SUCCESS'),
-        message: I18n.t('FILTER_SET.REMOVE_FILTER.SUCCESS'),
-      });
-
-      confirmActionModal.hide();
-      await filtersRefetch();
-      handleSelectFilterDropdownItem('');
-      resetForm();
-      handleHistoryReplace();
-    } catch {
+    if (error) {
       notify({
         level: 'error',
         title: I18n.t('FILTER_SET.REMOVE_FILTER.ERROR'),
-        message: I18n.t('COMMON.SOMETHING_WRONG'),
+        message:
+          error.error || error.fields_errors || I18n.t('COMMON.SOMETHING_WRONG'),
       });
+
+      return;
     }
+
+    notify({
+      level: 'success',
+      title: I18n.t('COMMON.SUCCESS'),
+      message: I18n.t('FILTER_SET.REMOVE_FILTER.SUCCESS'),
+    });
+
+    confirmActionModal.hide();
+    await filtersRefetch();
+
+    handleSelectFilterDropdownItem('');
+    resetForm();
+    handleHistoryReplace();
   };
 
   render() {

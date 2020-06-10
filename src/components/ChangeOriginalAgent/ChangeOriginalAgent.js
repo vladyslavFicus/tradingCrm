@@ -42,28 +42,24 @@ class ChangeOriginalAgent extends PureComponent {
 
     const { fullName: agentName } = operatorsList.find(({ uuid }) => uuid === agentId);
 
-    try {
-      await changeOriginalAgent({
-        variables: {
-          paymentId,
-          agentName,
-          agentId,
-        },
-      });
+    const { data: { payment: { changeOriginalAgent: { success } } } } = await changeOriginalAgent({
+      variables: {
+        paymentId,
+        agentName,
+        agentId,
+      },
+    });
 
-      notify({
-        level: 'success',
-        title: I18n.t('PAYMENT_DETAILS_MODAL.ORIGINAL_AGENT'),
-        message: I18n.t('PAYMENT_DETAILS_MODAL.NOTIFICATIONS.SUCCESSFULLY'),
-      });
+    notify({
+      level: success ? 'success' : 'error',
+      title: I18n.t('PAYMENT_DETAILS_MODAL.ORIGINAL_AGENT'),
+      message: success
+        ? I18n.t('PAYMENT_DETAILS_MODAL.NOTIFICATIONS.SUCCESSFULLY')
+        : I18n.t('COMMON.SOMETHING_WRONG'),
+    });
 
+    if (success) {
       resetForm({ values: { agentId } });
-    } catch {
-      notify({
-        level: 'error',
-        title: I18n.t('PAYMENT_DETAILS_MODAL.ORIGINAL_AGENT'),
-        message: I18n.t('COMMON.SOMETHING_WRONG'),
-      });
     }
   };
 

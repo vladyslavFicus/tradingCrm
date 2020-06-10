@@ -14,7 +14,11 @@ const REQUEST = gql`
         paymentId: $paymentId
         paymentMethod: $paymentMethod
         typeAcc: $typeAcc
-      )
+      ) {
+        data {
+          success
+        }
+      }
     }
   }
 `;

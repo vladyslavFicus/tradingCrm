@@ -30,7 +30,7 @@ class Payments extends PureComponent {
       }).isRequired,
     }).isRequired,
     paymentsQuery: PropTypes.query({
-      clientPayments: PropTypes.shape({
+      clientPaymentsByUuid: PropTypes.shape({
         data: PropTypes.pageable(PropTypes.paymentEntity),
       }),
     }).isRequired,
@@ -75,9 +75,15 @@ class Payments extends PureComponent {
       profileUUID: uuid,
     };
 
-    try {
-      const { data: { payment: { createPayment: { data: payment } } } } = await addPayment({ variables });
+    const { data: { payment: { createClientPayment: { data: payment, error } } } } = await addPayment({ variables });
 
+    if (error) {
+      notify({
+        level: 'error',
+        title: I18n.t('COMMON.FAIL'),
+        message: I18n.t('PLAYER_PROFILE.TRANSACTIONS.ADD_TRANSACTION_FAIL'),
+      });
+    } else {
       notify({
         level: 'success',
         title: I18n.t('COMMON.SUCCESS'),
@@ -94,12 +100,6 @@ class Payments extends PureComponent {
       ]);
 
       addPaymentModal.hide();
-    } catch {
-      notify({
-        level: 'error',
-        title: I18n.t('COMMON.FAIL'),
-        message: I18n.t('PLAYER_PROFILE.TRANSACTIONS.ADD_TRANSACTION_FAIL'),
-      });
     }
   };
 
@@ -123,7 +123,7 @@ class Payments extends PureComponent {
       },
     } = this.props;
 
-    const payments = get(data, 'clientPayments') || {};
+    const payments = get(data, 'clientPaymentsByUuid') || {};
 
     return (
       <Fragment>

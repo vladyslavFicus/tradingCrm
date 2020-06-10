@@ -12,7 +12,11 @@ const REQUEST = gql`
       changePaymentMethod (
         paymentId: $paymentId,
         paymentMethod: $paymentMethod,
-      )
+      ) {
+        data {
+          success
+        }
+      }
     }
   }
 `;

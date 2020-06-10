@@ -14,7 +14,11 @@ const REQUEST = gql`
         typeAcc: $typeAcc
         paymentId: $paymentId
         declineReason: $declineReason
-      )
+      ) {
+        data {
+          success
+        }
+      }
     }
   }
 `;

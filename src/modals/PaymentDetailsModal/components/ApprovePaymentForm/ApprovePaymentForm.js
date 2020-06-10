@@ -38,29 +38,37 @@ class ApprovePaymentForm extends PureComponent {
       notify,
     } = this.props;
 
-    try {
-      await approvePayment({
-        variables: {
-          paymentId,
-          paymentMethod,
-          typeAcc: 'approve',
+    const {
+      data: {
+        payment: {
+          acceptPayment: {
+            data: {
+              success,
+            },
+          },
         },
-      });
+      },
+    } = await approvePayment({
+      variables: {
+        paymentId,
+        paymentMethod,
+        typeAcc: 'approve',
+      },
+    });
 
-      notify({
-        level: 'success',
-        title: I18n.t('COMMON.SUCCESS'),
-        message: I18n.t('PAYMENT_DETAILS_MODAL.NOTIFICATIONS.APPROVE_SUCCESS'),
-      });
+    notify({
+      level: success ? 'success' : 'error',
+      title: I18n.t(success ? 'COMMON.SUCCESS' : 'COMMON.FAIL'),
+      message: I18n.t(
+        success
+          ? 'PAYMENT_DETAILS_MODAL.NOTIFICATIONS.APPROVE_SUCCESS'
+          : 'PAYMENT_DETAILS_MODAL.NOTIFICATIONS.APPROVE_FAILED',
+      ),
+    });
 
+    if (success) {
       onSuccess();
       onCloseModal();
-    } catch {
-      notify({
-        level: 'error',
-        title: 'COMMON.FAIL',
-        message: I18n.t('PAYMENT_DETAILS_MODAL.NOTIFICATIONS.APPROVE_FAILED'),
-      });
     }
   }
 

@@ -12,7 +12,11 @@ const REQUEST = gql`
       changePaymentStatus (
         paymentId: $paymentId,
         paymentStatus: $paymentStatus,
-      )
+      ) {
+        data {
+          success
+        }
+      }
     }
   }
 `;
