@@ -173,11 +173,7 @@ class ContactForm extends PureComponent {
                 disabled={disabled || tradingOperatorAccessDisabled || !this.phoneAccess()}
                 className="col-5"
               />
-              <If condition={
-                !errors.phone
-                && !this.phoneAccess()
-                && !isPhoneVerified}
-              >
+              <If condition={!errors.phone && !isPhoneVerified}>
                 <PermissionContent permissions={permissions.USER_PROFILE.VERIFY_PHONE}>
                   <div className="col-4 mt-4-profile">
                     <Button
