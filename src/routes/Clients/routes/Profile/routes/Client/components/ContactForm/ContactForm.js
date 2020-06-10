@@ -178,7 +178,6 @@ class ContactForm extends PureComponent {
                   <div className="col-4 mt-4-profile">
                     <Button
                       primary
-                      className="width-full"
                       onClick={() => this.handleVerifyPhone(phone)}
                     >
                       {I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.VERIFY')}
