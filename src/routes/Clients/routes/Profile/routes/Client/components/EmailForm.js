@@ -86,7 +86,6 @@ class EmailForm extends PureComponent {
                 <PermissionContent permissions={permissions.USER_PROFILE.VERIFY_EMAIL}>
                   <div className="col-4 mt-4-profile">
                     <Button
-                      className="btn"
                       onClick={this.handleVerifyEmailClick}
                       primary
                     >
