@@ -25,8 +25,10 @@ class FeedFilterForm extends PureComponent {
     }).isRequired,
   };
 
-  handleFiltersChanged = (filters) => {
+  handleFiltersChanged = (filters, { setSubmitting }) => {
     this.props.history.replace({ query: { filters: decodeNullValues(filters) } });
+
+    setSubmitting(false);
   };
 
   render() {
@@ -36,7 +38,7 @@ class FeedFilterForm extends PureComponent {
 
     const feedTypesList = get(feedTypes, 'data.feedTypes.data') || [];
     const availableTypes = Object.keys(feedTypesList)
-      .filter(key => !!feedTypesList[key] && key !== '__typename')
+      .filter(key => feedTypesList[key] && key !== '__typename')
       .map(type => ({
         key: type,
         value: I18n.t(renderLabel(type, typesLabels)),
@@ -62,7 +64,7 @@ class FeedFilterForm extends PureComponent {
           }, translateLabels(attributeLabels), false)
         }
       >
-        {({ isValid, resetForm }) => (
+        {({ isValid, resetForm, isSubmitting }) => (
           <Form className="filter-row">
             <Field
               name="searchBy"
@@ -100,7 +102,7 @@ class FeedFilterForm extends PureComponent {
                 {I18n.t('COMMON.RESET')}
               </Button>
               <Button
-                disabled={!isValid}
+                disabled={!isValid || isSubmitting}
                 primary
                 type="submit"
               >

@@ -27,7 +27,6 @@ const REQUEST = gql`query FeedsQuery_Feeds(
   ) {
     error {
       error
-      fields_errors
     }
     data {
       page
