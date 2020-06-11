@@ -7,13 +7,13 @@ import { withRequests } from 'apollo';
 import { withModals, withNotifications } from 'hoc';
 import permissions from 'config/permissions';
 import PropTypes from 'constants/propTypes';
-import { targetTypes } from 'constants/note';
 import { Button } from 'components/UI';
 import PaymentsListFilters from 'components/PaymentsListFilters';
 import PaymentsListGrid from 'components/PaymentsListGrid';
 import TabHeader from 'components/TabHeader';
 import PermissionContent from 'components/PermissionContent';
 import { CONDITIONS } from 'utils/permissions';
+import EventEmitter, { PROFILE_RELOAD } from 'utils/EventEmitter';
 import PaymentAddModal from './components/PaymentAddModal';
 import {
   PaymentsQuery,
@@ -47,52 +47,13 @@ class Payments extends PureComponent {
     notify: PropTypes.func.isRequired,
   };
 
-  static contextTypes = {
-    onAddNoteClick: PropTypes.func.isRequired,
-    onEditNoteClick: PropTypes.func.isRequired,
-    setNoteChangedCallback: PropTypes.func.isRequired,
-    registerUpdateCacheListener: PropTypes.func.isRequired,
-    unRegisterUpdateCacheListener: PropTypes.func.isRequired,
-  };
-
   componentDidMount() {
-    const {
-      context: {
-        registerUpdateCacheListener,
-        setNoteChangedCallback,
-      },
-      constructor: { name },
-      handleRefresh,
-    } = this;
-
-    handleRefresh();
-    registerUpdateCacheListener(name, handleRefresh);
-    setNoteChangedCallback(handleRefresh);
+    EventEmitter.on(PROFILE_RELOAD, this.handleRefresh);
   }
 
   componentWillUnmount() {
-    const {
-      context: {
-        unRegisterUpdateCacheListener,
-        setNoteChangedCallback,
-      },
-      constructor: { name },
-    } = this;
-
-    setNoteChangedCallback(null);
-    unRegisterUpdateCacheListener(name);
+    EventEmitter.off(PROFILE_RELOAD, this.handleRefresh);
   }
-
-  handleNoteClick = (target, note, data) => {
-    if (note) {
-      this.context.onEditNoteClick(target, note, { placement: 'left' });
-    } else {
-      this.context.onAddNoteClick(data.paymentId, targetTypes.PAYMENT)(target, {
-        placement: 'left',
-        id: data.paymentId,
-      });
-    }
-  };
 
   handleRefresh = () => this.props.paymentsQuery.refetch();
 
@@ -123,6 +84,12 @@ class Payments extends PureComponent {
         message: I18n.t('PLAYER_PROFILE.TRANSACTIONS.ADD_TRANSACTION_FAIL'),
       });
     } else {
+      notify({
+        level: 'success',
+        title: I18n.t('COMMON.SUCCESS'),
+        message: I18n.t('PLAYER_PROFILE.TRANSACTIONS.ADD_TRANSACTION_SUCCESS'),
+      });
+
       if (note) {
         await addNote({ variables: { ...note, targetUUID: payment.paymentId } });
       }
@@ -144,7 +111,7 @@ class Payments extends PureComponent {
 
     addPaymentModal.show({
       onSubmit: this.handleAddPayment,
-      newProfile: get(profileQuery, 'data.newProfile.data'),
+      newProfile: get(profileQuery, 'data.newProfile.data') || {},
     });
   };
 

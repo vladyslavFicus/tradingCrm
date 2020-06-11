@@ -180,6 +180,7 @@ class CreateCallbackModal extends PureComponent {
                   <NoteButton
                     manual
                     playerUUID={id}
+                    targetType={targetTypes.CALLBACK}
                     placement="bottom"
                     ref={(ref) => { this.noteButton = ref; }}
                   />

@@ -1,3 +1,1 @@
-import GridStatusDeskTeam from './GridStatusDeskTeam';
-
-export default GridStatusDeskTeam;
+export { default } from './GridStatusDeskTeam';

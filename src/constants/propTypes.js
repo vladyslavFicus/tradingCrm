@@ -76,15 +76,15 @@ PropTypes.noteEntity = PropTypes.shape({
   targetUUID: PropTypes.string,
 });
 PropTypes.fileEntity = PropTypes.shape({
-  author: PropTypes.string.isRequired,
-  category: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  playerUuid: PropTypes.string.isRequired,
-  realName: PropTypes.string.isRequired,
-  status: PropTypes.status.isRequired,
-  type: PropTypes.string.isRequired,
-  uploadDate: PropTypes.string.isRequired,
-  uuid: PropTypes.string.isRequired,
+  author: PropTypes.string,
+  category: PropTypes.string,
+  name: PropTypes.string,
+  playerUuid: PropTypes.string,
+  realName: PropTypes.string,
+  status: PropTypes.string,
+  type: PropTypes.string,
+  uploadDate: PropTypes.string,
+  uuid: PropTypes.string,
 });
 PropTypes.uploadingFile = PropTypes.shape({
   fileUuid: PropTypes.string.isRequired,
@@ -159,9 +159,9 @@ PropTypes.userProfile = PropTypes.shape({
   uuid: PropTypes.string.isRequired,
 });
 PropTypes.authorityEntity = PropTypes.shape({
-  id: PropTypes.number.isRequired,
-  department: PropTypes.string.isRequired,
-  role: PropTypes.string.isRequired,
+  id: PropTypes.number,
+  department: PropTypes.string,
+  role: PropTypes.string,
 });
 PropTypes.dropDownOption = PropTypes.shape({
   label: PropTypes.string.isRequired,
@@ -194,18 +194,33 @@ PropTypes.partnerProfile = PropTypes.shape({
   uuid: PropTypes.string,
 });
 PropTypes.partner = PropTypes.shape({
+  affiliateType: PropTypes.string,
+  authorities: PropTypes.shape({
+    data: PropTypes.arrayOf(PropTypes.authorityEntity),
+  }),
   country: PropTypes.string,
   createdAt: PropTypes.string,
+  createdBy: PropTypes.string,
   email: PropTypes.string,
   externalAffiliateId: PropTypes.string,
   firstName: PropTypes.string,
   fullName: PropTypes.string,
   lastName: PropTypes.string,
+  permission: PropTypes.shape({
+    allowedIpAddresses: PropTypes.arrayOf(PropTypes.string),
+    forbiddenCountries: PropTypes.arrayOf(PropTypes.string),
+    showFTDAmount: PropTypes.bool,
+    showKycStatus: PropTypes.bool,
+    showNotes: PropTypes.bool,
+    showSalesStatus: PropTypes.bool,
+  }),
   phone: PropTypes.string,
+  public: PropTypes.bool,
   status: PropTypes.string,
   statusChangeAuthor: PropTypes.string,
   statusChangeDate: PropTypes.string,
-  uuid: PropTypes.string,
+  statusReason: PropTypes.string,
+  uuid: PropTypes.uuid,
 });
 PropTypes.navSubItem = PropTypes.shape({
   label: PropTypes.string.isRequired,
@@ -221,7 +236,7 @@ PropTypes.auditEntity = PropTypes.shape({
   authorFullName: PropTypes.string.isRequired,
   authorUuid: PropTypes.string.isRequired,
   creationDate: PropTypes.string.isRequired,
-  details: PropTypes.object,
+  details: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
   id: PropTypes.number.isRequired,
   ip: PropTypes.string,
   targetFullName: PropTypes.string.isRequired,
@@ -623,13 +638,17 @@ PropTypes.partnersList = PropTypes.arrayOf(PropTypes.shape({
   statusChangeDate: PropTypes.string,
   country: PropTypes.string,
 }));
-PropTypes.questionnaireLastData = PropTypes.shape({
+PropTypes.feed = PropTypes.shape({
+  authorFullName: PropTypes.string,
+  authorUuid: PropTypes.string,
+  brandId: PropTypes.string,
+  creationDate: PropTypes.string,
+  details: PropTypes.string,
+  id: PropTypes.number,
+  ip: PropTypes.string,
+  targetFullName: PropTypes.string,
+  tragetUuid: PropTypes.string,
   uuid: PropTypes.string,
-  status: PropTypes.string,
-  score: PropTypes.number,
-  version: PropTypes.number,
-  reviewedBy: PropTypes.string,
-  updatedAt: PropTypes.string,
 });
 PropTypes.auth = PropTypes.shape({
   department: PropTypes.string.isRequired,
@@ -756,16 +775,6 @@ PropTypes.newProfile = PropTypes.shape({
     uuid: PropTypes.string,
   }),
   age: PropTypes.string,
-  bankDetails: PropTypes.shape({
-    accountHolderName: PropTypes.string,
-    accountNumber: PropTypes.string,
-    branchName: PropTypes.string,
-    city: PropTypes.string,
-    name: PropTypes.string,
-    province: PropTypes.string,
-    swiftCode: PropTypes.string,
-    withdrawalArea: PropTypes.string,
-  }),
   birthDate: PropTypes.string,
   brandId: PropTypes.string,
   clientType: PropTypes.string,

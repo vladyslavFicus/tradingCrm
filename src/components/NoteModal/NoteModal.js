@@ -3,14 +3,18 @@ import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import I18n from 'i18n-js';
 import classNames from 'classnames';
 import { Formik, Form, Field } from 'formik';
+import { withRequests } from 'apollo';
 import PropTypes from 'constants/propTypes';
 import { createValidator, translateLabels } from 'utils/validator';
+import EventEmitter, { NOTE_UPDATED } from 'utils/EventEmitter';
 import { FormikInputField, FormikSwitchField, FormikTextAreaField } from 'components/Formik';
 import { Button } from 'components/UI';
-import { attributeLabels, modalType } from './constants';
+import UpdateNoteMutation from './graphql/UpdateNoteMutation';
+import { attributeLabels } from './constants';
 import './NoteModal.scss';
 
 const MAX_NOTE_BODY_LENGTH = 10000;
+
 const validator = createValidator({
   subject: 'string',
   content: ['required', 'string', `between:3,${MAX_NOTE_BODY_LENGTH}`],
@@ -19,41 +23,25 @@ const validator = createValidator({
 
 class NoteModal extends PureComponent {
   static propTypes = {
-    initialValues: PropTypes.shape({
-      pinned: PropTypes.bool,
-      subject: PropTypes.string,
-      content: PropTypes.string,
-    }).isRequired,
+    note: PropTypes.noteEntity.isRequired,
     onCloseModal: PropTypes.func.isRequired,
+    updateNote: PropTypes.func.isRequired,
     isOpen: PropTypes.bool.isRequired,
-    type: PropTypes.oneOf(Object.keys(modalType)).isRequired,
-    onEdit: PropTypes.func.isRequired,
-    onDelete: PropTypes.func.isRequired,
   };
 
-  get isDeleteMode() {
-    return this.props.type === modalType.DELETE;
-  }
+  handleSubmit = async (variables) => {
+    const { updateNote, onCloseModal } = this.props;
 
-  get title() {
-    return this.isDeleteMode
-      ? I18n.t('NOTES.MODAL.DELETE_TITLE')
-      : I18n.t('NOTES.MODAL.EDIT_TITLE');
-  }
+    await updateNote({ variables });
 
-  handleSubmit = (values) => {
-    const { type, onEdit, onDelete } = this.props;
+    EventEmitter.emit(NOTE_UPDATED, variables);
 
-    return type === modalType.EDIT ? onEdit(values) : onDelete(values);
+    onCloseModal();
   };
 
   render() {
     const {
-      initialValues: {
-        pinned,
-        subject,
-        content,
-      },
+      note,
       onCloseModal,
       isOpen,
     } = this.props;
@@ -62,65 +50,42 @@ class NoteModal extends PureComponent {
       <Modal
         toggle={onCloseModal}
         isOpen={isOpen}
-        className={classNames('note-modal', { 'modal-danger': this.isDeleteMode })}
+        className="note-modal"
       >
         <Formik
-          initialValues={{
-            pinned,
-            subject,
-            content,
-          }}
+          initialValues={note}
           validate={validator}
           onSubmit={this.handleSubmit}
         >
-          {({ isSubmitting, isValid, values: { content: currentContent } }) => (
+          {({ isSubmitting, isValid, values: { content } }) => (
             <Form>
               <ModalHeader toggle={onCloseModal}>
-                {this.title}
+                {I18n.t('NOTES.MODAL.EDIT_TITLE')}
               </ModalHeader>
               <ModalBody>
-                <Choose>
-                  <When condition={this.isDeleteMode}>
-                    <div className="text-center font-weight-700">
-                      {I18n.t('NOTES.MODAL.REMOVE_DESCRIPTION')}
-                    </div>
-                    <div className="remove-container card">
-                      <div>{content}</div>
-                      <If condition={pinned}>
-                        <span className="note-item__pinned-note-badge note-badge">
-                          {I18n.t('COMMON.PINNED')}
-                        </span>
-                      </If>
-                    </div>
-                  </When>
-                  <Otherwise>
-                    <Field
-                      name="subject"
-                      label={I18n.t(attributeLabels.subject)}
-                      component={FormikInputField}
-                      disabled={this.isDeleteMode}
-                    />
-                    <Field
-                      name="content"
-                      label={I18n.t(attributeLabels.content)}
-                      component={FormikTextAreaField}
-                      disabled={this.isDeleteMode}
-                    />
-                    <div
-                      className={classNames({
-                        'color-danger': currentContent && currentContent.length > MAX_NOTE_BODY_LENGTH,
-                      })}
-                    >
-                      {`${(currentContent && currentContent.length) || 0}/${MAX_NOTE_BODY_LENGTH}`}
-                    </div>
-                    <Field
-                      name="pinned"
-                      wrapperClassName="margin-top-20"
-                      label={I18n.t(attributeLabels.pin)}
-                      component={FormikSwitchField}
-                    />
-                  </Otherwise>
-                </Choose>
+                <Field
+                  name="subject"
+                  label={I18n.t(attributeLabels.subject)}
+                  component={FormikInputField}
+                />
+                <Field
+                  name="content"
+                  label={I18n.t(attributeLabels.content)}
+                  component={FormikTextAreaField}
+                />
+                <div
+                  className={classNames({
+                    'color-danger': content && content.length > MAX_NOTE_BODY_LENGTH,
+                  })}
+                >
+                  {`${(content && content.length) || 0}/${MAX_NOTE_BODY_LENGTH}`}
+                </div>
+                <Field
+                  name="pinned"
+                  wrapperClassName="margin-top-20"
+                  label={I18n.t(attributeLabels.pin)}
+                  component={FormikSwitchField}
+                />
               </ModalBody>
               <ModalFooter>
                 <Button
@@ -129,26 +94,13 @@ class NoteModal extends PureComponent {
                 >
                   {I18n.t('COMMON.BUTTONS.CANCEL')}
                 </Button>
-                <Choose>
-                  <When condition={this.isDeleteMode}>
-                    <Button
-                      type="submit"
-                      danger
-                      disabled={isSubmitting || !isValid}
-                    >
-                      {I18n.t('COMMON.BUTTONS.DELETE')}
-                    </Button>
-                  </When>
-                  <Otherwise>
-                    <Button
-                      type="submit"
-                      primary
-                      disabled={isSubmitting || !isValid}
-                    >
-                      {I18n.t('COMMON.BUTTONS.CONFIRM')}
-                    </Button>
-                  </Otherwise>
-                </Choose>
+                <Button
+                  type="submit"
+                  primary
+                  disabled={isSubmitting || !isValid}
+                >
+                  {I18n.t('COMMON.BUTTONS.CONFIRM')}
+                </Button>
               </ModalFooter>
             </Form>
           )}
@@ -158,4 +110,6 @@ class NoteModal extends PureComponent {
   }
 }
 
-export default NoteModal;
+export default withRequests({
+  updateNote: UpdateNoteMutation,
+})(NoteModal);

@@ -1,6 +1,6 @@
 // queries which should skip batching
 export default {
   clientsQuery: 'getProfiles',
-  leadsQuery: 'getLeads',
+  leadsQuery: 'LeadsList_getLeadsQuery',
   paymentsQuery: 'getClientPayments',
 };

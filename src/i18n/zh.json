@@ -564,7 +564,8 @@
       "DEFAULT_MULTISELECT": "-- 选择一个或多个选项 --",
       "LOADING": "加载......",
       "ANY": "任何",
-      "SELECT_BRANCH_TYPE": "先选择分支类型"
+      "SELECT_BRANCH_TYPE": "先选择分支类型",
+      "SELECT_DEPARTMENT": "Select department first"
     },
     "SEARCH_BY": {
       "CLIENT": "姓名、邮箱、手机、ID、MT ID",
@@ -1838,19 +1839,6 @@
       },
       "REGISTERED": {
         "TITLE": "已注册"
-      },
-      "QUESTIONNAIRE": {
-        "TITLE": "问卷",
-        "VERSION": "版本",
-        "SCORE": "得分",
-        "DOWNLOAD_PDF": "下载PDF",
-        "STATUS_CHANGED": "问卷状态已成功更新",
-        "STATUSES": {
-          "NOT_PASSED": "未通过",
-          "PASSED": "已通过",
-          "APPROVED": "已批准",
-          "REJECTED": "已拒绝"
-        }
       }
     },
     "TRANSACTIONS": {
@@ -2139,8 +2127,7 @@
       "CREATE_BUTTON": "创建办公室",
       "LABELS": {
         "OFFICE_NAME": "办公室名称",
-        "COUNTRY": "国家",
-        "OFFICE_MANAGER": "办公室经理"
+        "COUNTRY": "国家"
       }
     },
     "TABS": {

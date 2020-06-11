@@ -5,8 +5,10 @@ import { omit, get } from 'lodash';
 import classNames from 'classnames';
 import PropTypes from 'constants/propTypes';
 import { userTypes, userTypeLabels } from 'constants/hierarchyTypes';
+import permissions from 'config/permissions';
 import ShortLoader from 'components/ShortLoader';
 import { NasSelectField } from 'components/ReduxForm';
+import PermissionContent from 'components/PermissionContent';
 import AddBranchForm from './AddBranchForm';
 import { attributeLabels, fieldNames } from './constants';
 import './HierarchyProfileForm.scss';
@@ -252,14 +254,16 @@ class HierarchyProfileForm extends Component {
                 {I18n.t('OPERATORS.PROFILE.HIERARCHY.BRANCHES')}
               </div>
               {this.renderHierarchyTree()}
-              <button
-                type="button"
-                className="btn btn-sm margin-bottom-10"
-                disabled={branchFormVisibility && !allowUpdateHierarchy}
-                onClick={this.toggleBranchForm}
-              >
-                {I18n.t('OPERATORS.PROFILE.HIERARCHY.ADD_BRANCH_LABEL')}
-              </button>
+              <PermissionContent permissions={permissions.HIERARCHY.UPDATE_USER_BRANCH}>
+                <button
+                  type="button"
+                  className="btn btn-sm margin-bottom-10"
+                  disabled={branchFormVisibility && !allowUpdateHierarchy}
+                  onClick={this.toggleBranchForm}
+                >
+                  {I18n.t('OPERATORS.PROFILE.HIERARCHY.ADD_BRANCH_LABEL')}
+                </button>
+              </PermissionContent>
               <If condition={branchFormVisibility && allowUpdateHierarchy}>
                 <AddBranchForm
                   refetchUserBranchesTreeUp={refetch}
