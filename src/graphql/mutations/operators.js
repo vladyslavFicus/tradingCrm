@@ -168,12 +168,12 @@ const addExistingOperator = gql`mutation addExistingOperator(
 
 const changePassword = gql`mutation changeOperatorPassword(
   $playerUUID: String!,
-  $password: String!
+  $newPassword: String!
 ) {
   operator {
     changeOperatorPassword(
       operatorUuid: $playerUUID,
-      newPassword: $password
+      newPassword: $newPassword
     ) {
       success
     }
