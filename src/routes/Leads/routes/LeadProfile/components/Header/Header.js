@@ -77,16 +77,18 @@ class Header extends PureComponent {
                 </Button>
               </NotePopover>
             </PermissionContent>
-            <If condition={status && status !== statuses.CONVERTED}>
-              <Button
-                small
-                commonOutline
-                className="ml-3"
-                onClick={this.handlePromoteLead}
-              >
-                {I18n.t('LEAD_PROFILE.HEADER.PROMOTE_TO_CLIENT')}
-              </Button>
-            </If>
+            <PermissionContent permissions={permissions.LEADS.PROMOTE_LEAD}>
+              <If condition={status && status !== statuses.CONVERTED}>
+                <Button
+                  small
+                  commonOutline
+                  className="ml-3"
+                  onClick={this.handlePromoteLead}
+                >
+                  {I18n.t('LEAD_PROFILE.HEADER.PROMOTE_TO_CLIENT')}
+                </Button>
+              </If>
+            </PermissionContent>
           </div>
         </div>
         <div className="layout-quick-overview">

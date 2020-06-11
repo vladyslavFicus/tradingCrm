@@ -23,6 +23,7 @@ export default {
   LEADS: {
     GET_LEADS: 'lead.searchLeads',
     GET_LEAD_BY_ID: 'lead.getLeadById',
+    PROMOTE_LEAD: 'profile.admin.createProfile',
   },
   HIERARCHY: {
     GET_TREE: 'hierarchy.branch.getBranchTree',
