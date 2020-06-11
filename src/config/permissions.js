@@ -8,7 +8,7 @@ export default {
     UPDATE_PROFILE: 'operator.editOperatorProfile',
     UPDATE_STATUS: 'operator.changeOperatorStatus',
     CHANGE_PASSWORD: 'auth2.operator.changePassword',
-    RESET_PASSWORD: 'auth2.resetPassword',
+    RESET_PASSWORD: 'auth2.user.resetPassword',
   },
   PARTNERS: {
     PARTNERS_LIST_VIEW: 'affiliate.searchAffiliate',
@@ -52,7 +52,7 @@ export default {
     UPDATE_EMAIL: 'profile.admin.updateProfileEmail',
     VERIFY_PHONE: 'profile.admin.verifyPhone',
     VERIFY_EMAIL: 'profile.admin.verifyEmail',
-    RESET_PASSWORD: 'auth2.resetPassword',
+    RESET_PASSWORD: 'auth2.user.resetPassword',
     CHANGE_PASSWORD: 'auth2.client.changePassword',
     CHANGE_ACQUISITION_STATUS: 'hierarchy-updater.user.bulkUpdateUserParents',
     CHANGE_CONFIGURATION: 'profile.admin.updateProfileConfiguration',
