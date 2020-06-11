@@ -267,7 +267,7 @@ class OperatorProfile extends Component {
           && (
             <ChangePasswordModal
               {...modal.params}
-              onClose={this.handleCloseModal}
+              onCloseModal={this.handleCloseModal}
               onSubmit={this.handleSubmitNewPassword}
             />
           )
