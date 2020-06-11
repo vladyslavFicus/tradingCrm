@@ -93,6 +93,7 @@ const brands = keyMirror({
   'bid-broker-stocks': null,
   bridgefund: null,
   investfd: null,
+  finocapital: null,
 });
 
 const departments = keyMirror({
