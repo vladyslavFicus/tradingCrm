@@ -11,7 +11,6 @@ import RangeGroup from './RangeGroup';
 import FileInput from './FileInput';
 import SwitchField from './SwitchField';
 import MultiInputField from './MultiInputField';
-import PeriodUnitField from './PeriodUnitField';
 
 export {
   CustomValueField,
@@ -27,5 +26,4 @@ export {
   FileInput,
   SwitchField,
   MultiInputField,
-  PeriodUnitField,
 };
