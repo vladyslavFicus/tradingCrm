@@ -93,6 +93,8 @@ const brands = keyMirror({
   'bid-broker-stocks': null,
   bridgefund: null,
   investfd: null,
+  '24fintime': null,
+
 });
 
 const departments = keyMirror({
@@ -487,6 +489,10 @@ const brandsConfig = {
   [brands.investfd]: {
     name: 'investfd',
     image: { src: '/img/brand/choose-brand/investfd.svg' },
+  },
+  [brands['24fintime']]: {
+    name: '24fintime',
+    image: { src: '/img/brand/choose-brand/24fintime.svg' },
   },
 };
 const departmentsConfig = {
