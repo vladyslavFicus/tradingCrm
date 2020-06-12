@@ -6,12 +6,12 @@ import { Mutation } from 'react-apollo';
 const REQUEST = gql`
   mutation PartnerHeader_changePartnerPasswordMutation(
     $uuid: String!,
-    $password: String!
+    $newPassword: String!
   ) {
     operator {
-      changePassword(
+      changeOperatorPassword(
         operatorUuid: $uuid
-        password: $password
+        newPassword: $newPassword
       ) {
         success
       }

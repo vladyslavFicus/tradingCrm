@@ -148,7 +148,7 @@ class ProfileHeader extends Component {
     });
   };
 
-  handleChangePassword = async ({ password }) => {
+  handleChangePassword = async ({ newPassword }) => {
     const {
       notify,
       changePassword,
@@ -156,7 +156,7 @@ class ProfileHeader extends Component {
       modals: { changePasswordModal },
     } = this.props;
 
-    const response = await changePassword({ variables: { password, playerUUID: uuid } });
+    const response = await changePassword({ variables: { newPassword, playerUUID: uuid } });
     const success = get(response, 'data.profile.changePassword.success');
 
     notify({

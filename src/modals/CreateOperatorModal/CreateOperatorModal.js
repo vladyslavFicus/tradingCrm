@@ -23,6 +23,7 @@ const validator = createValidator({
   department: 'required',
   userType: 'required',
   role: 'required',
+  branchType: 'required',
   branch: 'required',
 }, translateLabels(attributeLabels), false);
 
@@ -134,7 +135,12 @@ class CreateOperatorModal extends PureComponent {
       branches,
     } = this.state;
 
-    const placeholder = (!Array.isArray(branches) || branches.length === 0)
+    const placeholderRole = (departmentsRoles[selectedDepartment]
+      && departmentsRoles[selectedDepartment].length)
+      ? I18n.t('COMMON.SELECT_OPTION.DEFAULT')
+      : I18n.t('COMMON.SELECT_OPTION.NO_ITEMS');
+
+    const placeholderBranchType = (!Array.isArray(branches) || branches.length === 0)
       ? I18n.t('COMMON.SELECT_OPTION.NO_ITEMS')
       : I18n.t('COMMON.SELECT_OPTION.DEFAULT');
 
@@ -236,9 +242,10 @@ class CreateOperatorModal extends PureComponent {
                     name="role"
                     className="col-md-6"
                     label={I18n.t(attributeLabels.role)}
-                    placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
+                    placeholder={selectedDepartment
+                      ? placeholderRole
+                      : I18n.t('COMMON.SELECT_OPTION.SELECT_DEPARTMENT')}
                     component={FormikSelectField}
-                    withAnyOption
                     disabled={!selectedDepartment}
                   >
                     {
@@ -273,7 +280,9 @@ class CreateOperatorModal extends PureComponent {
                     searchable
                     label={I18n.t(attributeLabels.branch)}
                     component={FormikSelectField}
-                    placeholder={selectedBranchType ? placeholder : I18n.t('COMMON.SELECT_OPTION.SELECT_BRANCH_TYPE')}
+                    placeholder={selectedBranchType
+                      ? placeholderBranchType
+                      : I18n.t('COMMON.SELECT_OPTION.SELECT_BRANCH_TYPE')}
                     disabled={!selectedBranchType || !branches}
                   >
                     {(branches || []).map(({ value, label }) => (

@@ -131,10 +131,10 @@ class OperatorProfile extends Component {
     });
   };
 
-  handleSubmitNewPassword = async ({ password }) => {
+  handleSubmitNewPassword = async ({ newPassword }) => {
     const { changePassword, notify, match: { params: { id: playerUUID } } } = this.props;
 
-    const response = await changePassword({ variables: { password, playerUUID } });
+    const response = await changePassword({ variables: { newPassword, playerUUID } });
     const success = get(response, 'data.operator.changeOperatorPassword.success');
 
     notify({
@@ -267,7 +267,7 @@ class OperatorProfile extends Component {
           && (
             <ChangePasswordModal
               {...modal.params}
-              onClose={this.handleCloseModal}
+              onCloseModal={this.handleCloseModal}
               onSubmit={this.handleSubmitNewPassword}
             />
           )
