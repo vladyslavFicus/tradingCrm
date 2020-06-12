@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, forwardRef } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
@@ -29,6 +29,16 @@ class SelectSingleOptions extends PureComponent {
     bindActiveOption: null,
   };
 
+  withRef = (Component) => {
+    if (Component.prototype && Component.prototype.isReactComponent) {
+      return Component;
+    }
+
+    return forwardRef(
+      (funcProps, ref) => <Component forwardedRef={ref} {...funcProps} />,
+    );
+  };
+
   render() {
     const {
       options,
@@ -40,7 +50,7 @@ class SelectSingleOptions extends PureComponent {
       bindActiveOption,
       optionComponent,
     } = this.props;
-    const OptionCustomComponent = optionComponent;
+    const OptionCustomComponent = optionComponent && this.withRef(optionComponent);
 
     if (options.length === 0) {
       return null;
