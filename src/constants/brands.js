@@ -94,7 +94,6 @@ const brands = keyMirror({
   bridgefund: null,
   investfd: null,
   '24fintime': null,
-
 });
 
 const departments = keyMirror({
