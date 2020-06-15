@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import { Link } from 'react-router-dom';
 import I18n from 'i18n-js';
 import { shortifyInMiddle } from 'utils/stringFormat';
 import { categoriesLabels, documentsTypeLabels } from 'constants/files';
@@ -17,22 +16,8 @@ class FileGridView extends Component {
     handlePageChanged: PropTypes.func.isRequired,
     withLazyLoad: PropTypes.bool.isRequired,
     withNoResults: PropTypes.bool.isRequired,
+    renderFullName: PropTypes.func.isRequired,
   };
-
-  renderFullName = ({ clientUuid, client: { fullName } }) => (
-    <>
-      <Link
-        className="font-weight-700 cursor-pointer"
-        to={`/clients/${clientUuid}/profile`}
-        target="_blank"
-      >
-        {fullName}
-      </Link>
-      <div>
-        <Uuid className="font-size-11" uuid={clientUuid} />
-      </div>
-    </>
-  );
 
   renderFileName = (data) => {
     const playerPrefix = data.clientUuid.indexOf('PLAYER') === -1 ? 'PL' : null;
@@ -67,7 +52,7 @@ class FileGridView extends Component {
         </div>
       </When>
       <Otherwise>
-        <GridEmptyValue />
+        <GridEmptyValue I18n={I18n} />
       </Otherwise>
     </Choose>
   );
@@ -114,7 +99,7 @@ class FileGridView extends Component {
         <GridColumn
           name="fullName"
           header={I18n.t('FILES.GRID.COLUMN.CLIENT')}
-          render={this.renderFullName}
+          render={this.props.renderFullName}
         />
         <GridColumn
           name="fileName"

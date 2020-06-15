@@ -1,8 +1,9 @@
 import React, { PureComponent } from 'react';
-import { Link } from 'react-router-dom';
-import PropTypes from 'constants/propTypes';
+import classNames from 'classnames';
 import MiniProfile from 'components/MiniProfile';
-import Uuid from 'components/Uuid';
+import PropTypes from '../../constants/propTypes';
+import GridPlayerInfoPlaceholder from '../GridPlayerInfoPlaceholder';
+import Uuid from '../Uuid';
 
 class GridPlayerInfo extends PureComponent {
   static propTypes = {
@@ -15,41 +16,54 @@ class GridPlayerInfo extends PureComponent {
       languageCode: PropTypes.string,
     }).isRequired,
     mainInfoClassName: PropTypes.string,
+    clickable: PropTypes.bool,
   };
 
   static defaultProps = {
     id: null,
     mainInfoClassName: 'font-weight-700',
+    clickable: true,
+  };
+
+  handleClick = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    const { profile: { uuid } } = this.props;
+
+    window.open(`/clients/${uuid}/profile`, '_blank');
   };
 
   render() {
-    const { profile, mainInfoClassName, id } = this.props;
+    const { profile, clickable, mainInfoClassName, id } = this.props;
     const { uuid, firstName, lastName, languageCode } = profile;
 
     const fullName = profile.fullName || `${firstName} ${lastName}`;
 
     return (
-      <If condition={profile}>
-        <div className="max-width-200">
-          <Link
-            className={mainInfoClassName}
-            to={`/clients/${uuid}/profile`}
-            target="_blank"
-          >
-            {fullName}
-          </Link>
+      <GridPlayerInfoPlaceholder ready={!!profile} firstLaunchOnly>
+        <If condition={!!profile}>
+          <div className="max-width-200">
+            <div
+              className={classNames(mainInfoClassName, { 'cursor-pointer': !!clickable })}
+              id={`${id ? `${id}-` : ''}players-list-${uuid}-main`}
+              onClick={this.handleClick}
+            >
+              {fullName}
+            </div>
 
-          <div
-            className="font-size-11"
-            id={`${id ? `${id}-` : ''}players-list-${uuid}-additional`}
-          >
-            <MiniProfile id={uuid} type="player">
-              <Uuid uuid={uuid} />
-            </MiniProfile>
-            {!!languageCode && <span> - {languageCode}</span>}
+            <div
+              className="font-size-11"
+              id={`${id ? `${id}-` : ''}players-list-${uuid}-additional`}
+            >
+              <MiniProfile id={uuid} type="player">
+                <Uuid uuid={uuid} />
+              </MiniProfile>
+              {!!languageCode && <span> - {languageCode}</span>}
+            </div>
           </div>
-        </div>
-      </If>
+        </If>
+      </GridPlayerInfoPlaceholder>
     );
   }
 }

@@ -368,7 +368,6 @@
     "TRANSACTIONS": {
       "ADD_TRANSACTION": "+ Add transaction",
       "ADD_TRANSACTION_FAIL": "Failed to add transaction",
-      "ADD_TRANSACTION_SUCCESS": "Transaction was added successfully",
       "MODAL_CREATE": {
         "NO_PAYMENT_ACCOUNTS_LABEL": "No payment accounts",
         "CHOOSE_PAYMENT_METHOD_LABEL": "Choose payment method",
@@ -488,7 +487,6 @@
     "ANY": "Any",
     "ROLLBACK": "Rollback",
     "FOR": "for",
-    "BY": "by",
     "CHANGES": "Changes",
     "FIRST_NAME": "First name",
     "LAST_NAME": "Last name",
@@ -599,7 +597,6 @@
       "UPLOAD_ACTION": "-- Select upload action --",
       "DEFAULT_MULTISELECT": "-- Select one or multiple options --",
       "SELECT_BRANCH_TYPE": "Select branch type first",
-      "SELECT_DEPARTMENT": "Select department first",
       "SELECT_PARTNER_TYPE": "Select partner type",
       "SELECT_OFFICE": "-- Select office --",
       "SELECT_TEAM": "-- Select team --",
@@ -843,7 +840,7 @@
         }
       },
       "TITLE": "File upload",
-      "ACTION_TEXT": "You are about to upload file(s) to %{shortUUID} profile",
+      "ACTION_TEXT": "You are about to upload file(s) to %{fullName} %{shortUUID} account",
       "NO_UPLOADED": "There are no uploaded files",
       "BUTTONS": {
         "ADD_FILES": "+ Add files"
@@ -859,7 +856,7 @@
         "DELETE": "Delete File"
       },
       "WARNING_TEXT": "This action can not be undone!",
-      "ACTION_TEXT": "You are about to delete file %{fileName}"
+      "ACTION_TEXT": "You are about to delete file %{fileName} from %{player} - %{shortUUID} - account"
     },
     "CONFIRM_ACTION_MODAL": {
       "TITLE": "Delete file - Confirmation",
@@ -1051,9 +1048,9 @@
         "CHANGE_LEVERAGE_REQUEST_UPDATED": "Change leverage request updated",
         "WITHDRAW": "Withdraw",
         "TRANSFER_IN": "Transfer in",
-        "TRANSFER_OUT": "Transfer out",
+        "TRANSFER_OUT":  "Transfer out",
         "FEE": "Fee",
-        "INACTIVITY_FEE": "Inactivity fee",
+        "INACTIVITY_FEE":  "Inactivity fee",
         "TRADING_ACCOUNT_ARCHIVED": "Trading account archived",
         "TRADING_ACCOUNT_LEVERAGE_UPDATED": "Trading account leverage updated",
         "INTEREST_RATE": "Interest rate"
@@ -1100,7 +1097,6 @@
         "SALES": "Sales",
         "RETENTION": "Retention",
         "FINANCE": "Finance",
-        "AFFILIATE": "Affiliate",
         "AFFILIATE_MANAGER": "Affiliate manager",
         "AFFILIATE_PARTNER": "Affiliate partner",
         "DIDLOGIC_OPERATOR": "DID Logic operator",
@@ -1364,10 +1360,8 @@
       "FILTER_FORM": {
         "SEARCH_BY_LABEL": "Search by",
         "SEARCH_BY_PLACEHOLDER": "Action ID, Operator ID, IP",
-        "ACTION_TYPES": "Action types",
-        "ACTION_DATE_RANGE": "Action date range",
-        "CREATION_DATE_FROM": "Creation date from",
-        "CREATION_DATE_TO": "Creation date to"
+        "ACTION_TYPE_EMPTY_OPTION": "Any action",
+        "ACTION_DATE_RANGE": "Action date range"
       },
       "TITLE": "Feed"
     },
@@ -1975,7 +1969,7 @@
     }
   },
   "PARTNERS": {
-    "HEADING": "Partners",
+    "HEADING": "PARTNERS",
     "NEW_PARTNER": "New partner",
     "CREATE_PARTNER_BUTTON": "+ New partner",
     "STATUSES": {
@@ -2003,6 +1997,10 @@
       "SEARCH_BY_PLACEHOLDER": "Name, Phone, Email, UUID...",
       "REGISTRATION_DATE_RANGE": "Registration Date Range"
     },
+    "SHOW_NOTES": "Show notes",
+    "SHOW_SALES_STATUS": "Show sales status",
+    "SHOW_FTD_AMOUNT": "Show FTD Amount",
+    "SHOW_KYC_STATUS": "Show KYC status",
     "MODALS": {
       "NEW_PARTNER": {
         "TITLE": "New partner",
@@ -2018,29 +2016,45 @@
       }
     },
     "PROFILE": {
-      "PERSONAL_INFORMATION": {
-        "TITLE": "Personal information",
-        "FORM": {
-          "LABELS": {
-            "FIRST_NAME": "First name",
-            "LAST_NAME": "Last name",
-            "PUBLIC_CHECKBOX": "Allow to create Clients through public API"
-          }
+      "DEPARTMENTS": {
+        "LABELS": {
+          "DEPARTMENT": "Department",
+          "ROLE": "Role"
+        },
+        "LABEL": "Departments",
+        "ADD_BUTTON_LABEL": "+ADD"
+      },
+      "PERSONAL_FORM": {
+        "LABELS": {
+          "FIRST_NAME": "First name",
+          "LAST_NAME": "Last name",
+          "COUNTRY": "Country",
+          "PHONE": "Phone",
+          "WHITE_LISTED_IP": "White listed IPs",
+          "RESTRICTED_COUNTRIES": "Restricted countries",
+          "PUBLIC_CHECKBOX": "Allow to create Clients through public API",
+          "GENERATE_TRADING_ACCOUNT": "Allow to generate Trading Account",
+          "CHOOSE_TRADING_ACCOUNT_PLATFORM": "Choose trading account platform",
+          "CHOOSE_TRADING_ACCOUNT_CURRENCY": "Choose trading account currency"
+        },
+        "AUTOCREATION_TRADING_ACCOUNT_OPTIONS": {
+          "ALLOW": "Allow",
+          "DENIED": "Denied",
+          "DEPENDS_ON_BRAND": "Depends on brand"
         }
       },
-      "CONTACTS": {
-        "TITLE": "Contacts",
-        "FORM": {
-          "LABELS": {
-            "COUNTRY": "Country",
-            "PHONE": "Phone",
-            "WHITE_LISTED_IP": "White listed IPs",
-            "RESTRICTED_COUNTRIES": "Restricted countries",
-            "SHOW_NOTES": "Show notes",
-            "SHOW_SALES_STATUS": "Show sales status",
-            "SHOW_FTD_AMOUNT": "Show FTD Amount",
-            "SHOW_KYC_STATUS": "Show KYC status"
-          }
+      "HIERARCHY": {
+        "LABEL": "Hierarchy",
+        "BRANCHES": "Branches",
+        "NO_BRANCHES": "This user has no branches yet",
+        "ADD_BRANCH_LABEL": "Add Branch",
+        "BRANCH_ADDED": "Branch %{name} successfully added",
+        "ERROR_UPDATE_TYPE": "Update partner's user type failed. Please try again later",
+        "SUCCESS_UPDATE_TYPE": "Successfully updated partner's user type",
+        "ERROR_REMOVE_BRANCH": "Remove branch failed. Please try again later",
+        "SUCCESS_REMOVE_BRANCH": "Successfully removed branch %{name}",
+        "FORM_LABEL": {
+          "USER_TYPE": "User Type"
         }
       }
     },
@@ -2159,12 +2173,6 @@
       "MESSAGE": "To update your client version, please confirm this action"
     },
     "ADD_OFFICE_MODAL": {
-      "TITLE": "New office",
-      "CREATE_BUTTON": "Create office",
-      "LABELS": {
-        "OFFICE_NAME": "Office name",
-        "COUNTRY": "Country"
-      },
       "NOTIFICATION": {
         "SUCCESS": "Office was successfully created",
         "ERROR": "Failed to create new office"
@@ -2500,7 +2508,7 @@
           "MESSAGE": "Please note that leverage changes affect open positions. Lowering leverage may result in a margin closeout."
         }
       },
-      "LEVERAGE": {
+      "LEVERAGE":{
         "FROM": "from",
         "TO": "to",
         "SINCE": "since",
@@ -2634,8 +2642,7 @@
     "LEADS": "Leads",
     "LEADS_FOUND": "Leads found",
     "LEADS_SELECTED": "Leads selected",
-    "BULK_ACTIONS": "Bulk actions",
-    "UPDATED": "Leads updated successfully",
+    "SALES_INFO_UPDATED": "Leads sales info updated",
     "GRID_HEADER": {
       "LEAD": "Lead",
       "COUNTRY": "Country",
@@ -2644,16 +2651,9 @@
       "STATUS": "Status",
       "LAST_NOTE": "Last note"
     },
-    "FILTER": {
-      "SEARCH": "Search by",
-      "COUNTRIES": "Countries",
-      "DESKS": "Desks",
-      "TEAMS": "Teams",
-      "SALES_AGENTS": "Sales agents",
-      "SALES_STATUS": "Sales status",
-      "ACCOUNT_STATUS": "Account Status",
-      "REGISTRATION_DATE_RANGE": "Registration date range",
-      "LAST_NOTE_DATE_RANGE": "Last note date range"
+    "PROMOTE_INFO_MODAL": {
+      "HEADER": "Promoted leads information",
+      "BODY": "Promoted %{successAmount} of %{total}"
     },
     "STATUSES": {
       "NEW": "New",
@@ -2663,9 +2663,6 @@
       "SELF_CONVETED": "self-converted"
     },
     "SUCCESS_PROMOTED": "Lead was promoted to id %{id}",
-    "LEADS_BULK_MODAL": {
-      "HEADER": "Bulk action - Sales"
-    },
     "LEADS_UPLOAD_MODAL": {
       "TITLE": "Leads upload",
       "UPLOAD_CSV_TO_IMPORT_LEADS": "Upload a CSV file to import new Leads",
@@ -2756,10 +2753,19 @@
   },
   "OFFICES": {
     "OFFICES": "Offices",
-    "ADD_OFFICE": "+ Add office",
+    "ADD_OFFICE": "Add office",
     "GRID_HEADER": {
       "OFFICE": "Office",
       "COUNTRY": "Country"
+    },
+    "MODAL": {
+      "HEADER": "New office",
+      "CREATE_BUTTON": "Create office",
+      "LABELS": {
+        "OFFICE_NAME": "Office name",
+        "COUNTRY": "Country",
+        "OFFICE_MANAGER": "Office manager"
+      }
     },
     "TABS": {
       "RULES": {
@@ -3076,11 +3082,7 @@
       "default": "--Select--",
       "default_placeholder": "Search",
       "available_options": "Available options",
-      "options_not_found": "Options by query \"%{query}\" not found...",
-      "selected_options_not_found": "Selected options by query \"%{query}\" not found...",
-      "selected_options": "selected options",
-      "clear": "Clear",
-      "options_selected": "options selected"
+      "options_not_found": "Options by query \"%{query}\" not found..."
     },
     "any": "Any",
     "reset": "Reset",

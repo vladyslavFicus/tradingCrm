@@ -2,7 +2,6 @@ import React from 'react';
 import classNames from 'classnames';
 import moment from 'moment';
 import I18n from 'i18n-js';
-import { get } from 'lodash';
 import { withRequests } from 'apollo';
 import Uuid from 'components/Uuid';
 import { departmentsLabels, rolesLabels } from 'constants/operators';
@@ -24,7 +23,7 @@ const OperatorMiniProfile = ({ miniProfile: { data, loading } }) => {
   const {
     operator: {
       data: {
-        authorities,
+        authorities: { data: authoritiesData },
         registrationDate,
         operatorStatus,
         fullName,
@@ -33,8 +32,6 @@ const OperatorMiniProfile = ({ miniProfile: { data, loading } }) => {
       },
     },
   } = data;
-
-  const authoritiesData = get(authorities, 'data') || [];
 
   return (
     <div className={classNames('mini-profile', operatorStatusNames[operatorStatus])}>
@@ -48,7 +45,7 @@ const OperatorMiniProfile = ({ miniProfile: { data, loading } }) => {
           <Uuid uuid={uuid} />
           {country && <span>{` - ${country}`}</span>}
         </div>
-        {authoritiesData.length && (
+        {!!authoritiesData.length && (
           <div className="mini-profile-departments">
             {authoritiesData.map(authority => (
               <div className="mini-profile-department" key={authority.id}>

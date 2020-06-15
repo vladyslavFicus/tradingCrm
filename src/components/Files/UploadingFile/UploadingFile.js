@@ -152,8 +152,8 @@ class UploadingFile extends Component {
               <NoteButton
                 manual
                 note={fileNote || null}
-                playerUUID={profileUUID}
                 targetUUID={fileUuid}
+                playerUUID={profileUUID}
                 targetType={targetTypes.FILE}
                 onAddSuccess={addFileNote}
                 onUpdateSuccess={updateFileNote}

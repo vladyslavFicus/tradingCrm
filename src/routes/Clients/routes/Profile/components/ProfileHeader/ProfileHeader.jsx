@@ -3,15 +3,11 @@ import moment from 'moment';
 import classNames from 'classnames';
 import I18n from 'i18n-js';
 import { get } from 'lodash';
-import { compose } from 'react-apollo';
-import { withRequests } from 'apollo';
-import { withNotifications, withModals } from 'hoc';
 import { withPermission } from 'providers/PermissionsProvider';
 import { lastActivityStatusesLabels, lastActivityStatusesColors } from 'constants/lastActivity';
 import PropTypes from 'constants/propTypes';
-import { targetTypes } from 'constants/note';
 import ActionsDropDown from 'components/ActionsDropDown';
-import NotePopover from 'components/NotePopover';
+import PopoverButton from 'components/PopoverButton';
 import permissions from 'config/permissions';
 import Permissions from 'utils/permissions';
 import ProfileLastLogin from 'components/ProfileLastLogin';
@@ -19,18 +15,10 @@ import Uuid from 'components/Uuid';
 import PermissionContent from 'components/PermissionContent';
 import StickyWrapper from 'components/StickyWrapper';
 import GridStatus from 'components/GridStatus';
-import ConfirmActionModal from 'components/Modal/ConfirmActionModal';
-import ChangePasswordModal from 'modals/ChangePasswordModal';
-import { Button } from 'components/UI';
 import customTimeout from 'utils/customTimeout';
-import EventEmitter, { PROFILE_RELOAD } from 'utils/EventEmitter';
 import PlayerStatus from '../PlayerStatus';
 import Balances from '../Balances';
 import HeaderPlayerPlaceholder from '../HeaderPlayerPlaceholder';
-import LoginLockQuery from './graphql/LoginLockQuery';
-import PasswordResetRequestMutation from './graphql/PasswordResetRequestMutation';
-import ChangePasswordMutation from './graphql/ChangePasswordMutation';
-import UnlockLoginMutation from './graphql/UnlockLoginMutation';
 import './ProfileHeader.scss';
 
 const changePasswordPermission = new Permissions([permissions.USER_PROFILE.CHANGE_PASSWORD]);
@@ -39,22 +27,18 @@ const resetPasswordPermission = new Permissions([permissions.USER_PROFILE.RESET_
 class ProfileHeader extends Component {
   static propTypes = {
     newProfile: PropTypes.newProfile,
+    onRefreshClick: PropTypes.func.isRequired,
+    isLoadingProfile: PropTypes.bool.isRequired,
     availableStatuses: PropTypes.array,
+    onAddNoteClick: PropTypes.func.isRequired,
+    onResetPasswordClick: PropTypes.func.isRequired,
     loaded: PropTypes.bool,
-    loginLock: PropTypes.query(
-      PropTypes.shape({
-        lock: PropTypes.bool,
-      }),
-    ).isRequired,
-    permission: PropTypes.permission.isRequired,
-    modals: PropTypes.shape({
-      confirmActionModal: PropTypes.modalType,
-      changePasswordModal: PropTypes.modalType,
-    }).isRequired,
-    notify: PropTypes.func.isRequired,
-    passwordResetRequest: PropTypes.func.isRequired,
-    changePassword: PropTypes.func.isRequired,
+    onChangePasswordClick: PropTypes.func.isRequired,
     unlockLogin: PropTypes.func.isRequired,
+    loginLock: PropTypes.shape({
+      lock: PropTypes.bool,
+    }).isRequired,
+    permission: PropTypes.permission.isRequired,
   };
 
   static defaultProps = {
@@ -77,135 +61,25 @@ class ProfileHeader extends Component {
     }
   }
 
-  onHandleReloadClick = () => {
+  onHandeReloadClick = () => {
+    const { onRefreshClick } = this.props;
+
     this.setState({ isRunningReloadAnimation: true });
-
-    EventEmitter.emit(PROFILE_RELOAD);
+    onRefreshClick();
   }
-
-  handleResetPasswordClick = () => {
-    const {
-      newProfile: {
-        uuid,
-        firstName,
-        lastName,
-      },
-      modals: { confirmActionModal },
-    } = this.props;
-
-    confirmActionModal.show({
-      uuid,
-      onSubmit: this.handleResetPassword,
-      modalTitle: I18n.t('PLAYER_PROFILE.PROFILE.RESET_PASSWORD_MODAL.TITLE'),
-      actionText: I18n.t('PLAYER_PROFILE.PROFILE.RESET_PASSWORD_MODAL.TEXT'),
-      fullName: `${firstName} ${lastName}`,
-      submitButtonLabel: I18n.t('PLAYER_PROFILE.PROFILE.RESET_PASSWORD_MODAL.BUTTON_ACTION'),
-    });
-  };
-
-  handleResetPassword = async () => {
-    const {
-      notify,
-      passwordResetRequest,
-      modals: { confirmActionModal },
-      newProfile: { uuid },
-    } = this.props;
-
-    const response = await passwordResetRequest({ variables: { playerUUID: uuid } });
-    const success = get(response, 'data.profile.passwordResetRequest.success');
-
-    if (success) {
-      notify({
-        level: 'success',
-        title: I18n.t('PLAYER_PROFILE.PROFILE.RESET_PASSWORD_MODAL.NOTIFICATION_TITLE'),
-        message: I18n.t('PLAYER_PROFILE.PROFILE.RESET_PASSWORD_MODAL.SUCCESS_NOTIFICATION_TEXT'),
-      });
-
-      confirmActionModal.hide();
-    } else {
-      notify({
-        level: 'error',
-        title: I18n.t('PLAYER_PROFILE.PROFILE.RESET_PASSWORD_MODAL.NOTIFICATION_TITLE'),
-        message: I18n.t('PLAYER_PROFILE.PROFILE.RESET_PASSWORD_MODAL.ERROR_NOTIFICATION_TEXT'),
-      });
-    }
-  };
-
-  handleChangePasswordClick = () => {
-    const {
-      newProfile: {
-        uuid,
-        firstName,
-        lastName,
-      },
-      modals: { changePasswordModal },
-    } = this.props;
-
-    changePasswordModal.show({
-      fullName: `${firstName} ${lastName}`,
-      uuid,
-      onSubmit: this.handleChangePassword,
-    });
-  };
-
-  handleChangePassword = async ({ newPassword }) => {
-    const {
-      notify,
-      changePassword,
-      newProfile: { uuid },
-      modals: { changePasswordModal },
-    } = this.props;
-
-    const response = await changePassword({ variables: { newPassword, playerUUID: uuid } });
-    const success = get(response, 'data.profile.changePassword.success');
-
-    notify({
-      level: !success ? 'error' : 'success',
-      title: !success
-        ? I18n.t('PLAYER_PROFILE.NOTIFICATIONS.ERROR_SET_NEW_PASSWORD.TITLE')
-        : I18n.t('PLAYER_PROFILE.NOTIFICATIONS.SUCCESS_SET_NEW_PASSWORD.TITLE'),
-      message: !success
-        ? I18n.t('PLAYER_PROFILE.NOTIFICATIONS.ERROR_SET_NEW_PASSWORD.MESSAGE')
-        : I18n.t('PLAYER_PROFILE.NOTIFICATIONS.SUCCESS_SET_NEW_PASSWORD.MESSAGE'),
-    });
-
-    if (success) {
-      changePasswordModal.hide();
-    }
-  };
-
-  handleUnlockLogin = async () => {
-    const {
-      notify,
-      unlockLogin,
-      loginLock,
-      newProfile: { uuid },
-    } = this.props;
-    const response = await unlockLogin({ variables: { playerUUID: uuid } });
-    const success = get(response, 'data.auth.unlockLogin.success');
-
-    if (success) {
-      notify({
-        level: 'success',
-        title: I18n.t('PLAYER_PROFILE.NOTIFICATIONS.SUCCESS_UNLOCK.TITLE'),
-        message: I18n.t('PLAYER_PROFILE.NOTIFICATIONS.SUCCESS_UNLOCK.MESSAGE'),
-      });
-
-      loginLock.refetch();
-    } else {
-      notify({
-        level: 'error',
-        title: I18n.t('PLAYER_PROFILE.NOTIFICATIONS.ERROR_UNLOCK.TITLE'),
-        message: I18n.t('PLAYER_PROFILE.NOTIFICATIONS.ERROR_UNLOCK.MESSAGE'),
-      });
-    }
-  };
 
   render() {
     const {
       availableStatuses,
+      onAddNoteClick,
+      onResetPasswordClick,
+      isLoadingProfile,
       loaded,
-      loginLock,
+      onChangePasswordClick,
+      unlockLogin,
+      loginLock: {
+        lock,
+      },
       permission: {
         permissions: currentPermissions,
       },
@@ -238,7 +112,6 @@ class ProfileHeader extends Component {
     } = this.props;
 
     const { isRunningReloadAnimation } = this.state;
-    const lock = get(loginLock, 'data.loginLock.lock');
     const lastActivityDate = get(lastActivity, 'date');
     const lastActivityDateLocal = lastActivityDate && moment.utc(lastActivityDate).local();
     const lastActivityType = lastActivityDateLocal
@@ -275,7 +148,7 @@ class ProfileHeader extends Component {
             <div className="panel-heading-row__actions">
               <If condition={lock}>
                 <button
-                  onClick={this.handleUnlockLogin}
+                  onClick={unlockLogin}
                   type="button"
                   className="btn btn-sm mx-3 btn-primary"
                 >
@@ -283,39 +156,37 @@ class ProfileHeader extends Component {
                 </button>
               </If>
               <PermissionContent permissions={permissions.NOTES.ADD_NOTE}>
-                <NotePopover
-                  playerUUID={uuid}
-                  targetUUID={uuid}
-                  targetType={targetTypes.PLAYER}
+                <PopoverButton
+                  id="header-add-note-button"
+                  className="btn btn-sm btn-default-outline"
+                  onClick={onAddNoteClick}
                 >
-                  <Button small commonOutline>
-                    {I18n.t('PLAYER_PROFILE.PROFILE.HEADER.ADD_NOTE')}
-                  </Button>
-                </NotePopover>
+                  {I18n.t('PLAYER_PROFILE.PROFILE.HEADER.ADD_NOTE')}
+                </PopoverButton>
               </PermissionContent>
-              <Button
-                small
-                commonOutline
-                className="mx-3"
-                onClick={this.onHandleReloadClick}
+              <button
+                type="button"
+                className="btn btn-sm btn-default-outline mx-3"
+                onClick={this.onHandeReloadClick}
+                id="refresh-page-button"
               >
                 <i
                   className={classNames(
-                    'fa fa-refresh', { 'fa-spin': isRunningReloadAnimation },
+                    'fa fa-refresh', { 'fa-spin': isRunningReloadAnimation || isLoadingProfile },
                   )}
                 />
-              </Button>
+              </button>
               <ActionsDropDown
                 items={[
                   {
                     id: 'reset-password-option',
                     label: I18n.t('PLAYER_PROFILE.PROFILE.ACTIONS_DROPDOWN.RESET_PASSWORD'),
-                    onClick: this.handleResetPasswordClick,
+                    onClick: onResetPasswordClick,
                     visible: resetPasswordPermission.check(currentPermissions),
                   },
                   {
                     label: I18n.t('PLAYER_PROFILE.PROFILE.ACTIONS_DROPDOWN.CHANGE_PASSWORD'),
-                    onClick: this.handleChangePasswordClick,
+                    onClick: onChangePasswordClick,
                     visible: changePasswordPermission.check(currentPermissions),
                   },
                 ]}
@@ -380,17 +251,4 @@ class ProfileHeader extends Component {
   }
 }
 
-export default compose(
-  withNotifications,
-  withPermission,
-  withModals({
-    confirmActionModal: ConfirmActionModal,
-    changePasswordModal: ChangePasswordModal,
-  }),
-  withRequests({
-    loginLock: LoginLockQuery,
-    passwordResetRequest: PasswordResetRequestMutation,
-    changePassword: ChangePasswordMutation,
-    unlockLogin: UnlockLoginMutation,
-  }),
-)(ProfileHeader);
+export default withPermission(ProfileHeader);

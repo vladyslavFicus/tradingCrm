@@ -61,7 +61,6 @@ class EmailForm extends PureComponent {
 
     return (
       <Formik
-        enableReinitialize
         initialValues={{ email: emailAccess ? hideText(email) : email }}
         onSubmit={this.onHandleSubmit}
         validate={validator}
@@ -82,30 +81,29 @@ class EmailForm extends PureComponent {
                 component={FormikInputField}
                 className="col-8"
               />
-              <Choose>
-                <When condition={!emailVerified}>
-                  <PermissionContent permissions={permissions.USER_PROFILE.VERIFY_EMAIL}>
-                    <div className="col-4 mt-4-profile">
-                      <Button
-                        onClick={this.handleVerifyEmailClick}
-                        primary
-                      >
-                        {I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.VERIFY_EMAIL')}
-                      </Button>
-                    </div>
-                  </PermissionContent>
-                </When>
-                <Otherwise>
+              <If condition={!emailVerified && !emailAccess}>
+                <PermissionContent permissions={permissions.USER_PROFILE.VERIFY_EMAIL}>
                   <div className="col-4 mt-4-profile">
                     <Button
-                      type="button"
-                      verified
+                      className="btn"
+                      onClick={this.handleVerifyEmailClick}
+                      primary
                     >
-                      <i className="fa fa-check-circle-o" /> {I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.VERIFIED')}
+                      {I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.VERIFY_EMAIL')}
                     </Button>
                   </div>
-                </Otherwise>
-              </Choose>
+                </PermissionContent>
+              </If>
+              <If condition={emailVerified}>
+                <div className="col-4 mt-4-profile">
+                  <Button
+                    type="button"
+                    verified
+                  >
+                    <i className="fa fa-check-circle-o" /> {I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.VERIFIED')}
+                  </Button>
+                </div>
+              </If>
             </div>
             <If condition={!(!dirty || !isValid || isSubmitting)}>
               <PermissionContent permissions={permissions.USER_PROFILE.UPDATE_EMAIL}>

@@ -8,7 +8,7 @@ export default {
     UPDATE_PROFILE: 'operator.editOperatorProfile',
     UPDATE_STATUS: 'operator.changeOperatorStatus',
     CHANGE_PASSWORD: 'auth2.operator.changePassword',
-    RESET_PASSWORD: 'auth2.user.resetPassword',
+    RESET_PASSWORD: 'auth2.resetPassword',
   },
   PARTNERS: {
     PARTNERS_LIST_VIEW: 'affiliate.searchAffiliate',
@@ -23,7 +23,6 @@ export default {
   LEADS: {
     GET_LEADS: 'lead.searchLeads',
     GET_LEAD_BY_ID: 'lead.getLeadById',
-    PROMOTE_LEAD: 'profile.admin.createProfile',
   },
   HIERARCHY: {
     GET_TREE: 'hierarchy.branch.getBranchTree',
@@ -53,7 +52,7 @@ export default {
     UPDATE_EMAIL: 'profile.admin.updateProfileEmail',
     VERIFY_PHONE: 'profile.admin.verifyPhone',
     VERIFY_EMAIL: 'profile.admin.verifyEmail',
-    RESET_PASSWORD: 'auth2.user.resetPassword',
+    RESET_PASSWORD: 'auth2.resetPassword',
     CHANGE_PASSWORD: 'auth2.client.changePassword',
     CHANGE_ACQUISITION_STATUS: 'hierarchy-updater.user.bulkUpdateUserParents',
     CHANGE_CONFIGURATION: 'profile.admin.updateProfileConfiguration',
@@ -77,7 +76,6 @@ export default {
     REJECT: 'payment.rejectPayment',
     CHANGE_STATUS: 'payment.changePaymentStatus',
     CHANGE_METHOD: 'payment.changePaymentMethod',
-    CHANGE_ORIGINAL_AGENT: 'payment.changePaymentAgent',
   },
   PAYMENTS: {
     PLAYER_PAYMENTS_LIST: 'payment.searchPayments',

@@ -57,7 +57,7 @@ export default compose(
       const { authorities, ...operatorProfile } = get(getOperator, 'operator.data') || {};
       return {
         isLoading: get(getOperator, 'loading', true),
-        authorities,
+        authorities: authorities || {},
         data: {
           ...operatorProfile,
         },

@@ -5,7 +5,6 @@ import { get } from 'lodash';
 import { withModals } from 'hoc';
 import PropTypes from 'constants/propTypes';
 import permissions from 'config/permissions';
-import EventEmitter, { PROFILE_RELOAD } from 'utils/EventEmitter';
 import { newProfile as newProfileQuery } from 'graphql/queries/profile';
 import { getTradingAccount } from 'graphql/queries/tradingAccount';
 import PermissionContent from 'components/PermissionContent';
@@ -26,18 +25,6 @@ class Accounts extends PureComponent {
       refetch: PropTypes.func.isRequired,
     }).isRequired,
     newProfile: PropTypes.newProfile.isRequired,
-  };
-
-  componentDidMount() {
-    EventEmitter.on(PROFILE_RELOAD, this.onProfileEvent);
-  }
-
-  componentWillUnmount() {
-    EventEmitter.off(PROFILE_RELOAD, this.onProfileEvent);
-  }
-
-  onProfileEvent = () => {
-    this.props.tradingAccountsData.refetch();
   };
 
   showTradingAccountAddModal = () => {

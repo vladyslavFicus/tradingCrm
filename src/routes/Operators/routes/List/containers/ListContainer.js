@@ -1,18 +1,23 @@
-import { graphql, withApollo, compose } from 'react-apollo';
+import { compose } from 'redux';
+import { graphql, withApollo } from 'react-apollo';
 import { get } from 'lodash';
 import { withModals, withNotifications } from 'hoc';
+import { createOperator } from 'graphql/mutations/operators';
 import { managementOperatorsQuery } from 'graphql/queries/operators';
-import CreateOperatorModal from 'modals/CreateOperatorModal';
-import ExistingOperatorModal from 'modals/ExistingOperatorModal';
+import CreateOperatorModalContainer from '../components/CreateOperatorModal';
+import ExistingOperatorModal from '../components/ExistingOperatorModal';
 import List from '../components/List';
 
 export default compose(
   withApollo,
   withModals({
-    createOperator: CreateOperatorModal,
+    createOperator: CreateOperatorModalContainer,
     existingOperator: ExistingOperatorModal,
   }),
   withNotifications,
+  graphql(createOperator, {
+    name: 'submitNewOperator',
+  }),
   graphql(managementOperatorsQuery, {
     name: 'operators',
     options: ({ location: { query } }) => ({

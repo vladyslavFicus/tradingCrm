@@ -117,7 +117,7 @@ const operatorProfileTabs = [
   { label: 'OPERATOR_PROFILE.TABS.FEED', url: '/operators/:id/feed' },
 ];
 
-const partnerTabs = [
+const partnerProfileTabs = [
   { label: 'PARTNER_PROFILE.TABS.PROFILE', url: '/partners/:id/profile' },
   { label: 'PARTNER_PROFILE.TABS.FEED', url: '/partners/:id/feed' },
   { label: 'PARTNER_PROFILE.TABS.SALES_RULES', url: '/partners/:id/sales-rules' },
@@ -125,7 +125,7 @@ const partnerTabs = [
 
 export {
   operatorProfileTabs,
-  partnerTabs,
+  partnerProfileTabs,
   sidebarTopMenu,
   sidebarBottomMenu,
   operatorsExcludeAuthorities,

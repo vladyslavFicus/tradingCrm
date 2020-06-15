@@ -98,7 +98,7 @@ const PaymentsQuery = ({
         },
       },
     }}
-    fetchPolicy="cache-and-network"
+    fetchPolicy="network-only"
   >
     {children}
   </Query>

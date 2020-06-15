@@ -93,9 +93,6 @@ const brands = keyMirror({
   'bid-broker-stocks': null,
   bridgefund: null,
   investfd: null,
-  stocklux: null,
-  unitestock: null,
-  finocapital: null,
 });
 
 const departments = keyMirror({
@@ -490,18 +487,6 @@ const brandsConfig = {
   [brands.investfd]: {
     name: 'investfd',
     image: { src: '/img/brand/choose-brand/investfd.svg' },
-  },
-  [brands.stocklux]: {
-    name: 'stocklux',
-    image: { src: '/img/brand/choose-brand/stocklux.svg' },
-  },
-  [brands.unitestock]: {
-    name: 'unitestock',
-    image: { src: '/img/brand/choose-brand/unitestock.svg' },
-  },
-  [brands.finocapital]: {
-    name: 'finocapital',
-    image: { src: '/img/brand/choose-brand/finocapital.svg' },
   },
 };
 const departmentsConfig = {

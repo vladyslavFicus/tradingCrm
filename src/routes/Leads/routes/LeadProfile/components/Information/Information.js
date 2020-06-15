@@ -1,24 +1,26 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'constants/propTypes';
-import { targetTypes } from 'constants/note';
 import permissions from 'config/permissions';
 import PermissionContent from 'components/PermissionContent';
-import PinnedNotesList from 'components/PinnedNotesList';
 import AcquisitionStatus from './AcquisitionStatus';
 import Personal from './Personal';
+import Notes from './Notes';
 
 class Information extends PureComponent {
   static propTypes = {
     data: PropTypes.object,
     loading: PropTypes.bool.isRequired,
+    pinnedNotes: PropTypes.object,
+    onEditNoteClick: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
     data: {},
+    pinnedNotes: {},
   };
 
   render() {
-    const { data, loading } = this.props;
+    const { pinnedNotes, onEditNoteClick, data, loading } = this.props;
 
     return (
       <div className="account-details">
@@ -37,7 +39,10 @@ class Information extends PureComponent {
           </div>
           <PermissionContent permissions={permissions.NOTES.VIEW_NOTES}>
             <div className="col">
-              <PinnedNotesList targetUUID={data.uuid} targetType={targetTypes.LEAD} />
+              <Notes
+                notes={pinnedNotes}
+                onEditNoteClick={onEditNoteClick}
+              />
             </div>
           </PermissionContent>
         </div>

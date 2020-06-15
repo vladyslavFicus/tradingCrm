@@ -9,7 +9,6 @@ import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Formik, Form, Field } from 'formik';
 import { withNotifications } from 'hoc';
 import { callbacksStatuses, reminderValues } from 'constants/callbacks';
-import { targetTypes } from 'constants/note';
 import { FormikSelectField, FormikDatePicker } from 'components/Formik';
 import { Button } from 'components/UI';
 import ShortLoader from 'components/ShortLoader';
@@ -217,9 +216,8 @@ class CallbackDetailsModal extends Component {
                     <div className="CallbackDetailsModal__notes">
                       <NoteButton
                         id={`callback-details-note-${callbackId}`}
-                        playerUUID={userId}
                         targetUUID={callbackId}
-                        targetType={targetTypes.CALLBACK}
+                        playerUUID={userId}
                         note={note}
                       />
                     </div>

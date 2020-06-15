@@ -60,7 +60,6 @@ class TransferAvailabilityForm extends PureComponent {
 
     return (
       <Formik
-        enableReinitialize
         initialValues={{
           internalTransfer,
         }}

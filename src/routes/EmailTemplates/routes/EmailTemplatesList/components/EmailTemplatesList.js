@@ -109,7 +109,6 @@ class EmailTemplatesList extends PureComponent {
           <Grid
             data={entities}
             handleRowClick={this.handleTemplateClick}
-            isLoading={loading}
             isLastPage
             withNoResults={!loading && entities.length === 0}
           >

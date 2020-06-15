@@ -21,7 +21,6 @@ class Input extends PureComponent {
     icon: PropTypes.string,
     addition: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
     onAdditionClick: PropTypes.func,
-    showErrorMessage: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -32,7 +31,6 @@ class Input extends PureComponent {
     icon: null,
     addition: null,
     onAdditionClick: () => {},
-    showErrorMessage: true,
   };
 
   render() {
@@ -48,7 +46,6 @@ class Input extends PureComponent {
       icon,
       addition,
       onAdditionClick,
-      showErrorMessage,
       ...input
     } = this.props;
 
@@ -63,7 +60,7 @@ class Input extends PureComponent {
       <div
         className={classNames('input', className, {
           'input--has-icon': icon,
-          'input--has-error': error && showErrorMessage,
+          'input--has-error': error,
           'input--is-disabled': disabled,
           'input--has-addition': addition,
         })}
@@ -85,7 +82,7 @@ class Input extends PureComponent {
             </div>
           </If>
         </div>
-        <If condition={error && showErrorMessage}>
+        <If condition={error}>
           <div className="input__footer">
             <div className="input__error">
               <i className="input__error-icon icon-alert" />

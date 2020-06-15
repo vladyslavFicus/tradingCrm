@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { get } from 'lodash';
 import I18n from 'i18n-js';
 import PropTypes from 'constants/propTypes';
+import Uuid from 'components/Uuid';
 import FileGridView from './FileGridView';
 import FilesFilterForm from './FilesFilterForm';
 
@@ -34,6 +35,18 @@ class Files extends Component {
     }
   };
 
+  renderFullName = ({ clientUuid, client: { fullName } }) => (
+    <div>
+      <div
+        className="font-weight-700 cursor-pointer"
+        onClick={() => window.open(`/clients/${clientUuid}/profile`, '_blank')}
+      >
+        {fullName}
+      </div>
+      <Uuid className="font-size-11" uuid={clientUuid} />
+    </div>
+  );
+
   render() {
     const {
       fileList,
@@ -61,6 +74,7 @@ class Files extends Component {
             handlePageChanged={this.handlePageChanged}
             withLazyLoad
             withNoResults={entities.content.length === 0}
+            renderFullName={this.renderFullName}
           />
         </div>
       </div>

@@ -38,7 +38,7 @@ const MUTATION = gql`mutation removeNote(
   }
 }`;
 
-const RemoveNoteMutation = ({ children, targetUUID }) => (
+const RemoveNoteMutation = ({ children, initialValues: { targetUUID } }) => (
   <Mutation mutation={MUTATION} update={removeFromApolloCache(targetUUID)}>
     {children}
   </Mutation>
@@ -46,11 +46,9 @@ const RemoveNoteMutation = ({ children, targetUUID }) => (
 
 RemoveNoteMutation.propTypes = {
   children: PropTypes.func.isRequired,
-  targetUUID: PropTypes.string,
-};
-
-RemoveNoteMutation.defaultProps = {
-  targetUUID: null,
+  initialValues: PropTypes.shape({
+    targetUUID: PropTypes.string,
+  }).isRequired,
 };
 
 export default RemoveNoteMutation;

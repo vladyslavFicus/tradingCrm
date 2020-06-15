@@ -83,7 +83,6 @@ class PersonalInformationForm extends PureComponent {
 
     return (
       <Formik
-        enableReinitialize
         initialValues={initialValues}
         validate={validator}
         onSubmit={onSubmit}

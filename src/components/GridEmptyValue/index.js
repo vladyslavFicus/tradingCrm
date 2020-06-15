@@ -1,1 +1,3 @@
-export { default } from './GridEmptyValue';
+import GridEmptyValue from './GridEmptyValue';
+
+export default GridEmptyValue;

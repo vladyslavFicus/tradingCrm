@@ -10,6 +10,8 @@ import { authoritiesOptionsQuery } from 'graphql/queries/auth';
 import OperatorGridFilter from './OperatorGridFilter';
 import OperatorsGrid from './OperatorsGrid';
 
+const EMAIL_ALREADY_EXIST = 'error.validation.email.exists';
+
 class List extends Component {
   static propTypes = {
     ...PropTypes.router,
@@ -18,7 +20,12 @@ class List extends Component {
         show: PropTypes.func.isRequired,
         hide: PropTypes.func.isRequired,
       }),
+      existingOperator: PropTypes.shape({
+        show: PropTypes.func.isRequired,
+        hide: PropTypes.func.isRequired,
+      }),
     }).isRequired,
+    submitNewOperator: PropTypes.func.isRequired,
     operators: PropTypes.shape({
       operators: PropTypes.shape({
         data: PropTypes.pageable(PropTypes.any),
@@ -57,15 +64,55 @@ class List extends Component {
     this.props.history.replace({ query: { filters: {} } });
   };
 
-  handleOpenCreateModal = async () => {
+  handleSubmitNewOperator = async ({ department, role, branch, email, ...data }) => {
     const {
       modals: {
         createOperator,
         existingOperator,
       },
+      submitNewOperator,
       notify,
-      client,
     } = this.props;
+
+    try {
+      const {
+        data: operatorData,
+      } = await submitNewOperator({
+        variables: { ...data, department, role, email, branchId: branch },
+      });
+
+      const newOperator = get(operatorData, 'operator.createOperator.data');
+      const newOperatorError = get(operatorData, 'operator.createOperator.error');
+      const error = get(newOperatorError, 'error', null);
+
+      if (error === EMAIL_ALREADY_EXIST) {
+        createOperator.hide();
+        existingOperator.show({
+          department,
+          role,
+          branchId: branch,
+          email,
+        });
+
+        return;
+      }
+      createOperator.hide();
+
+      const { uuid } = newOperator;
+
+      this.props.history.push(`/operators/${uuid}/profile`);
+    } catch (e) {
+      createOperator.hide();
+      notify({
+        level: 'error',
+        title: I18n.t('COMMON.ERROR'),
+        message: I18n.t('COMMON.SOMETHING_WRONG'),
+      });
+    }
+  };
+
+  handleOpenCreateModal = async () => {
+    const { modals, notify, client } = this.props;
 
     const {
       data: {
@@ -89,14 +136,10 @@ class List extends Component {
         role: department ? authoritiesOptions[department][0] : null,
       };
 
-      createOperator.show({
+      modals.createOperator.show({
+        onSubmit: this.handleSubmitNewOperator,
         initialValues,
         departmentsRoles: authoritiesOptions || {},
-        onExist: (value) => {
-          existingOperator.show({
-            ...value,
-          });
-        },
       });
     } else {
       notify({

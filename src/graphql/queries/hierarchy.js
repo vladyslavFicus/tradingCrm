@@ -113,7 +113,7 @@ const getUserBranchHierarchy = gql`query getUserBranchHierarchy(
           isDefault
         }
       }
-    }
+    } 
   }
 }`;
 
@@ -192,7 +192,7 @@ const getHierarchyUsersByType = gql`query getHierarchyUsersByType(
           operatorStatus
         }
       }
-    }
+    } 
   }
 }`;
 
@@ -213,12 +213,72 @@ const getBranchInfo = gql`query getBranchInfo(
           ...HierarchyBranchFragment
         }
       }
-    }
+    } 
   }
 }
 ${HierarchyBranchFragment}`;
 
-const getBranchHierarchyTree = gql`
+const getBranchHierarchy = gql`query getBranchHierarchy (
+  $branchType: String!,
+  $keyword: String,
+  $officeUuid: String,
+  $deskUuid: String,
+  $deskType: DeskTypeEnum,
+  $defaultDeskFlag: DeskDefaultFlagEnum,
+  $country: String,
+) {
+  hierarchy {
+    branchHierarchy (
+      branchType: $branchType,
+      keyword: $keyword,
+      officeUuid: $officeUuid,
+      deskUuid: $deskUuid,
+      deskType: $deskType,
+      defaultDeskFlag: $defaultDeskFlag,
+      country: $country,
+    ) {
+      data {
+        office {
+          uuid
+          name
+          country
+          defaultUser
+          defaultBranch
+          parentBranch {
+            uuid
+          }
+        }
+        desk {
+          uuid
+          name
+          language
+          deskType
+          defaultUser
+          defaultBranch
+          parentBranch {
+            uuid
+          }
+          isDefault
+        }
+        team {
+          uuid
+          name
+          defaultUser
+          defaultBranch
+          parentBranch {
+            uuid
+          }
+        }
+      }
+      error {
+        error
+        fields_errors
+      }
+    }
+  }
+}`;
+
+const getBranchHierarchyTree = gql`  
   fragment BranchTreeItem on HierarchyBranchTreeType {
     uuid
     name
@@ -232,7 +292,7 @@ const getBranchHierarchyTree = gql`
       }
     }
   }
-
+  
   query getBranchHierarchyTree($branchUUID: String!) {
     hierarchy {
       # Maximum nested branches == 5 [COMPANY, BRAND, OFFICE, DESK, TEAM]
@@ -285,7 +345,7 @@ const getUsersByBranch = gql`query getUsersByBranch(
           uuid
         }
       }
-    }
+    } 
   }
 }`;
 
@@ -323,6 +383,7 @@ export {
   getUserBranchHierarchy,
   getHierarchyUsersByType,
   getBranchInfo,
+  getBranchHierarchy,
   getBranchHierarchyTree,
   getUsersByBranch,
   getBranchChildren,

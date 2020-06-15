@@ -220,8 +220,7 @@ export default ({
     })),
   },
   ...[
-    ['ADMINISTRATION', 'CS'].includes(department)
-    && ['ADMINISTRATION', 'HEAD_OF_DEPARTMENT'].includes(role) && {
+    ['ADMINISTRATION', 'CS'].includes(department) && role === 'ROLE4' && {
       type: fieldTypes.SELECT,
       name: 'assignStatus',
       label: filterLabels.assignStatus,

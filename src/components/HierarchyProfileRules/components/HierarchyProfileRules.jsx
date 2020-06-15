@@ -459,7 +459,6 @@ const HierarchyProfileRules = (title, deskType, branchType) => {
             <Grid
               data={entities}
               handleRowClick={this.handleOfficeClick}
-              isLoading={loading}
               isLastPage
               withNoResults={!loading && entities.length === 0}
             >

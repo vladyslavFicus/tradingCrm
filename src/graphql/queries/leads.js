@@ -2,34 +2,30 @@ import gql from 'graphql-tag';
 import queryNames from 'constants/apolloQueryNames';
 
 const leadsQuery = gql`query ${queryNames.leadsQuery}(
-  $uuids: [String]
-  $searchKeyword: String
-  $registrationDateStart: String
-  $registrationDateEnd: String
-  $page: Int
-  $limit: Int
-  $countries: [String]
-  $salesAgents: [String]
-  $status: String
-  $salesStatuses: [tradingProfileSalesStatus]
-  $migrationId: String
-  $lastNoteDateFrom: String
-  $lastNoteDateTo: String
+  $uuids: [String],
+  $searchKeyword: String,
+  $registrationDateStart: String,
+  $registrationDateEnd: String,
+  $page: Int,
+  $limit: Int,
+  $countries: [String],
+  $salesAgents: [String],
+  $status: String,
+  $salesStatuses: [tradingProfileSalesStatus],
+  $migrationId: String,
 ) {
   leads (
-    uuids: $uuids
-    searchKeyword: $searchKeyword
-    registrationDateStart: $registrationDateStart
-    registrationDateEnd: $registrationDateEnd
-    lastNoteDateFrom: $lastNoteDateFrom
-    lastNoteDateTo: $lastNoteDateTo
-    limit: $limit
-    page: $page
-    countries: $countries
-    salesStatuses: $salesStatuses
-    salesAgents: $salesAgents
-    status: $status
-    migrationId: $migrationId
+    uuids: $uuids,
+    searchKeyword: $searchKeyword,
+    registrationDateStart: $registrationDateStart,
+    registrationDateEnd: $registrationDateEnd,
+    limit: $limit,
+    page: $page, 
+    countries: $countries,
+    salesStatuses: $salesStatuses,
+    salesAgents: $salesAgents,
+    status: $status,
+    migrationId: $migrationId,
   ) {
     error {
       error
@@ -82,9 +78,9 @@ const leadsQuery = gql`query ${queryNames.leadsQuery}(
           changedAt
           content
         }
-      }
+      } 
     }
-  }
+  } 
 }`;
 
 export {

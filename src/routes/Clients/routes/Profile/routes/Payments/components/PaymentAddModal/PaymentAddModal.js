@@ -36,12 +36,12 @@ class PaymentAddModal extends PureComponent {
     onCloseModal: PropTypes.func.isRequired,
   };
 
-  onSubmit = data => (
-    this.props.onSubmit({
+  onSubmit = async (data) => {
+    await this.props.onSubmit({
       ...data,
       note: this.noteButton.getNote(),
-    })
-  );
+    });
+  };
 
   getSourceAccount = ({ accountUUID, source }) => {
     const { tradingAccount } = this.props.newProfile;
@@ -198,13 +198,15 @@ class PaymentAddModal extends PureComponent {
     return (
       <Modal contentClassName="payment-modal" toggle={onCloseModal} isOpen>
         <Formik
-          initialValues={{}}
+          initialValues={{
+            paymentType: '',
+          }}
           validate={values => validation(values, tradingAccount)}
           onSubmit={this.onSubmit}
         >
           {({
             isSubmitting,
-            dirty,
+            pristine,
             isValid,
             values,
             setFieldValue,
@@ -298,9 +300,8 @@ class PaymentAddModal extends PureComponent {
                         step="0.01"
                         min={0}
                         max={999999}
-                        addition={sourceAccount && <Currency code={sourceAccount.currency} showSymbol />}
+                        addition={sourceAccount && <Currency code={sourceAccount.currency} showSymbol={false} />}
                         component={FormikInputField}
-                        showErrorMessage={false}
                       />
                       <If condition={values && values.paymentType === paymentTypes.DEPOSIT.name}>
                         <Field
@@ -309,7 +310,6 @@ class PaymentAddModal extends PureComponent {
                           type="text"
                           label={attributeLabels.externalReference}
                           component={FormikInputField}
-                          showErrorMessage={false}
                         />
                       </If>
                       <If condition={values && values.paymentType === paymentTypes.CREDIT_IN.name}>
@@ -318,7 +318,6 @@ class PaymentAddModal extends PureComponent {
                           name="expirationDate"
                           label={attributeLabels.expirationDate}
                           closeOnSelect={false}
-                          showErrorMessage={false}
                           withTime
                         />
                       </If>
@@ -329,7 +328,6 @@ class PaymentAddModal extends PureComponent {
                         ref={(ref) => { this.noteButton = ref; }}
                         placement="bottom"
                         playerUUID={uuid}
-                        targetUUID={uuid}
                         targetType={targetTypes.PAYMENT}
                       />
                     </div>
@@ -347,14 +345,15 @@ class PaymentAddModal extends PureComponent {
                       </div>
                       <div className="col">
                         <Button
+                          className="btn"
                           onClick={onCloseModal}
                           commonOutline
                         >
                           {I18n.t('COMMON.CANCEL')}
                         </Button>
                         <Button
-                          className="margin-left-25"
-                          disabled={!dirty || isSubmitting || !isValid || !this.isValidTransaction(values)}
+                          className="btn margin-left-25"
+                          disabled={pristine || isSubmitting || !isValid || !this.isValidTransaction(values)}
                           type="submit"
                           primary
                         >

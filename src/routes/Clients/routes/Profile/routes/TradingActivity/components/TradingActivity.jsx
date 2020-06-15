@@ -1,7 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { get } from 'lodash';
 import I18n from 'i18n-js';
-import EventEmitter, { PROFILE_RELOAD } from 'utils/EventEmitter';
 import PropTypes from 'constants/propTypes';
 import Grid, { GridColumn } from 'components/Grid';
 import TabHeader from 'components/TabHeader';
@@ -14,18 +13,6 @@ class TradingActivity extends Component {
     modals: PropTypes.shape({
       changeOriginalAgentModal: PropTypes.modalType,
     }).isRequired,
-  };
-
-  componentDidMount() {
-    EventEmitter.on(PROFILE_RELOAD, this.onProfileEvent);
-  }
-
-  componentWillUnmount() {
-    EventEmitter.off(PROFILE_RELOAD, this.onProfileEvent);
-  }
-
-  onProfileEvent = () => {
-    this.props.tradingActivity.refetch();
   };
 
   handlePageChanged = () => {
@@ -69,7 +56,6 @@ class TradingActivity extends Component {
           <Grid
             data={clientTradingActivity.content}
             handlePageChanged={this.handlePageChanged}
-            isLoading={loading}
             isLastPage={clientTradingActivity.last}
             withLazyLoad
             withNoResults={!!error || (!loading && clientTradingActivity.totalElements === 0)}

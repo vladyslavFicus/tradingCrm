@@ -24,7 +24,7 @@ const modalInitialState = {
   params: {},
 };
 
-class OperatorProfile extends Component {
+class OperatorProfileLayout extends Component {
   static propTypes = {
     match: PropTypes.shape({
       path: PropTypes.string.isRequired,
@@ -41,7 +41,7 @@ class OperatorProfile extends Component {
     refetchOperator: PropTypes.func.isRequired,
     resetPassword: PropTypes.func.isRequired,
     sendInvitation: PropTypes.func.isRequired,
-    authorities: PropTypes.object,
+    authorities: PropTypes.object.isRequired,
     isLoading: PropTypes.bool.isRequired,
     error: PropTypes.any,
     modals: PropTypes.shape({
@@ -54,7 +54,6 @@ class OperatorProfile extends Component {
 
   static defaultProps = {
     error: null,
-    authorities: {},
   };
 
   state = {
@@ -131,10 +130,10 @@ class OperatorProfile extends Component {
     });
   };
 
-  handleSubmitNewPassword = async ({ newPassword }) => {
+  handleSubmitNewPassword = async ({ password }) => {
     const { changePassword, notify, match: { params: { id: playerUUID } } } = this.props;
 
-    const response = await changePassword({ variables: { newPassword, playerUUID } });
+    const response = await changePassword({ variables: { password, playerUUID } });
     const success = get(response, 'data.operator.changeOperatorPassword.success');
 
     notify({
@@ -198,12 +197,11 @@ class OperatorProfile extends Component {
       availableStatuses,
       changeStatus,
       refetchOperator,
-      authorities,
+      authorities: { data: authorities },
       getLoginLock,
     } = this.props;
 
-    const authoritiesData = get(authorities, 'data') || [];
-    const loginLock = get(getLoginLock, 'loginLock') || {};
+    const loginLock = get(getLoginLock, 'loginLock', {});
     const userType = get(data, 'hierarchy.userType');
     const tabs = [...menu.operatorProfileTabs];
 
@@ -241,7 +239,7 @@ class OperatorProfile extends Component {
           <HideDetails>
             <Information
               data={data}
-              authorities={authoritiesData}
+              authorities={authorities}
             />
           </HideDetails>
         </div>
@@ -267,7 +265,7 @@ class OperatorProfile extends Component {
           && (
             <ChangePasswordModal
               {...modal.params}
-              onCloseModal={this.handleCloseModal}
+              onClose={this.handleCloseModal}
               onSubmit={this.handleSubmitNewPassword}
             />
           )
@@ -277,4 +275,4 @@ class OperatorProfile extends Component {
   }
 }
 
-export default OperatorProfile;
+export default OperatorProfileLayout;

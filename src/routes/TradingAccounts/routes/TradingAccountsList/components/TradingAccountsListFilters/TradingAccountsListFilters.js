@@ -6,7 +6,6 @@ import PropTypes from 'constants/propTypes';
 import { FormikInputField, FormikSelectField } from 'components/Formik';
 import { Button } from 'components/UI';
 import { accountTypes, accountStatuses } from '../../constants';
-import './TradingAccountsListFilters.scss';
 
 class TradingAccountsListFilters extends PureComponent {
   static propTypes = {
@@ -79,23 +78,25 @@ class TradingAccountsListFilters extends PureComponent {
                 ))}
               </Field>
             </div>
-            <div className="TradingAccountsListFilters__buttons">
-              <Button
-                className="TradingAccountsListFilters__button"
-                onClick={resetForm}
-                disabled={loading || !dirty}
-                common
-              >
-                {I18n.t('COMMON.RESET')}
-              </Button>
-              <Button
-                className="TradingAccountsListFilters__button"
-                type="submit"
-                disabled={loading}
-                primary
-              >
-                {I18n.t('COMMON.APPLY')}
-              </Button>
+            <div className="filter__form-buttons">
+              <div className="filter__form-buttons-group">
+                <Button
+                  className="btn"
+                  onClick={resetForm}
+                  disabled={loading || !dirty}
+                  common
+                >
+                  {I18n.t('COMMON.RESET')}
+                </Button>
+                <Button
+                  className="btn"
+                  type="submit"
+                  disabled={loading}
+                  primary
+                >
+                  {I18n.t('COMMON.APPLY')}
+                </Button>
+              </div>
             </div>
           </Form>
         )}

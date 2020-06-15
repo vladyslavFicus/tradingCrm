@@ -3,7 +3,6 @@ import { compose } from 'react-apollo';
 import I18n from 'i18n-js';
 import { withRequests } from 'apollo';
 import { withModals } from 'hoc';
-import EventEmitter, { PROFILE_RELOAD } from 'utils/EventEmitter';
 import PropTypes from 'constants/propTypes';
 import TabHeader from 'components/TabHeader';
 import { Button } from 'components/UI';
@@ -24,18 +23,6 @@ class ClientCallbacksTab extends PureComponent {
     modals: PropTypes.shape({
       createCallbackModal: PropTypes.modalType,
     }).isRequired,
-  };
-
-  componentDidMount() {
-    EventEmitter.on(PROFILE_RELOAD, this.onProfileEvent);
-  }
-
-  componentWillUnmount() {
-    EventEmitter.off(PROFILE_RELOAD, this.onProfileEvent);
-  }
-
-  onProfileEvent = () => {
-    this.props.clientCallbacksData.refetch();
   };
 
   handleOpenAddCallbackModal = () => {

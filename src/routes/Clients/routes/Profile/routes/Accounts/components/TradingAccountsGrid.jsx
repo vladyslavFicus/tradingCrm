@@ -315,7 +315,6 @@ class TradingAccountsGrid extends PureComponent {
     return (
       <div className="tab-wrapper">
         <Grid
-          isLoading={isLoading}
           data={tradingAccounts}
           withRowsHover
           withNoResults={!isLoading && tradingAccounts.length === 0}

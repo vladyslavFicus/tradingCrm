@@ -534,7 +534,6 @@ class SalesRules extends PureComponent {
           <Grid
             data={entities}
             handleRowClick={this.handleOfficeClick}
-            isLoading={loading}
             isLastPage
             withNoResults={!loading && entities.length === 0}
           >

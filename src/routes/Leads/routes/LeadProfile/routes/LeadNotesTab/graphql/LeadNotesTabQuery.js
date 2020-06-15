@@ -2,41 +2,44 @@ import React from 'react';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 import PropTypes from 'constants/propTypes';
-import { NoteFragment } from 'graphql/fragments/notes';
 
-const REQUEST = gql`
-  query LeadNotesQuery(
+const REQUEST = gql`query NotesQuery(
     $targetUUID: String!
     $pinned: Boolean
     $size: Int
-    $changedAtTo: String
-    $changedAtFrom: String
-  ) {
-    notes(
-      targetUUID: $targetUUID
-      pinned: $pinned
-      size: $size
-      changedAtTo: $changedAtTo
-      changedAtFrom: $changedAtFrom
+  ){
+  notes(
+    targetUUID: $targetUUID
+    pinned: $pinned
+    size: $size
     ) {
-      data {
-        size
-        page
-        totalElements
-        totalPages
-        number
-        last
-        content {
-          ...NoteFragment
+    data {
+      size
+      page
+      totalElements
+      totalPages
+      number
+      last
+      content {
+        _id
+        noteId
+        targetUUID
+        playerUUID
+        subject
+        content
+        pinned
+        changedAt
+        changedBy
+        operator {
+          fullName
         }
       }
-      error {
-        error
-      }
+    }
+    error {
+      error
     }
   }
-  ${NoteFragment}
-`;
+}`;
 
 const LeadNotesTabQuery = ({
   match: {

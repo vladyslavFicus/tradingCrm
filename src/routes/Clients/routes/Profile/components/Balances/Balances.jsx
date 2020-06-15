@@ -6,7 +6,6 @@ import I18n from 'i18n-js';
 import moment from 'moment';
 import { getActiveBrandConfig } from 'config';
 import PropTypes from 'constants/propTypes';
-import EventEmitter, { PROFILE_RELOAD } from 'utils/EventEmitter';
 import Select from 'components/Select';
 import ShortLoader from 'components/ShortLoader';
 import { selectItems, moneyObj } from './constants';
@@ -30,23 +29,38 @@ class Balances extends Component {
     tradingAccounts: [],
   };
 
+  static contextTypes = {
+    registerUpdateCacheListener: PropTypes.func.isRequired,
+    unRegisterUpdateCacheListener: PropTypes.func.isRequired,
+  };
+
   state = {
     dropDownOpen: false,
     dateFrom: selectItems[0].value,
   };
 
   componentDidMount() {
-    EventEmitter.on(PROFILE_RELOAD, this.onProfileEvent);
+    const {
+      context: { registerUpdateCacheListener },
+      constructor: { name },
+      props: {
+        depositPaymentStatistic: { refetch: depositStat },
+        withdrawPaymentStatistic: { refetch: withdrawStat },
+      },
+    } = this;
+
+    registerUpdateCacheListener(name, () => {
+      depositStat();
+      withdrawStat();
+    });
   }
 
   componentWillUnmount() {
-    EventEmitter.off(PROFILE_RELOAD, this.onProfileEvent);
-  }
+    const { unRegisterUpdateCacheListener } = this.context;
+    const { name: componentName } = this.constructor;
 
-  onProfileEvent = () => {
-    this.props.depositPaymentStatistic.refetch();
-    this.props.withdrawPaymentStatistic.refetch();
-  };
+    unRegisterUpdateCacheListener(componentName);
+  }
 
   toggle = () => {
     this.setState(({ dropDownOpen }) => ({

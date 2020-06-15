@@ -40,8 +40,8 @@ class ChangePasswordModal extends PureComponent {
           validate={
             createValidator(
               {
-                newPassword: ['required', `regex:${getActiveBrandConfig().password.pattern}`],
-                repeatPassword: ['required', 'same:newPassword'],
+                password: ['required', `regex:${getActiveBrandConfig().password.pattern}`],
+                repeatPassword: ['required', 'same:password'],
               },
               fieldLabels,
               false,
@@ -70,7 +70,7 @@ class ChangePasswordModal extends PureComponent {
                   </div>
                 </div>
                 <Field
-                  name="newPassword"
+                  name="password"
                   type="password"
                   label={I18n.t(fieldLabels.newPasswordLabel)}
                   component={FormikInputField}

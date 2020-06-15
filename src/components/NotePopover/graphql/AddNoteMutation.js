@@ -30,7 +30,7 @@ const addToApolloCache = targetUUID => (cache, { data: { note: { add: { data } }
   }
 };
 
-const MUTATION = gql`mutation AddNoteMutation(
+const MUTATION = gql`mutation addNote(
   $subject: String
   $content: String!
   $targetUUID: String!
@@ -58,22 +58,17 @@ const MUTATION = gql`mutation AddNoteMutation(
 }
 ${NoteFragment}`;
 
-const AddNoteMutation = ({ children, targetUUID }) => (
-  <Mutation
-    mutation={MUTATION}
-    update={addToApolloCache(targetUUID)}
-  >
+const AddNoteMutation = ({ children, initialValues: { targetUUID } }) => (
+  <Mutation mutation={MUTATION} update={addToApolloCache(targetUUID)}>
     {children}
   </Mutation>
 );
 
 AddNoteMutation.propTypes = {
   children: PropTypes.func.isRequired,
-  targetUUID: PropTypes.string,
-};
-
-AddNoteMutation.defaultProps = {
-  targetUUID: null,
+  initialValues: PropTypes.shape({
+    targetUUID: PropTypes.string,
+  }).isRequired,
 };
 
 export default AddNoteMutation;

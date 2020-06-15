@@ -48,7 +48,6 @@ class Personal extends PureComponent {
     } = this.props;
 
     const isPhoneHidden = getBrand().privatePhoneByDepartment.includes(department);
-    const isEmailHidden = getBrand().privateEmailByDepartment.includes(department);
 
     return (
       <Fragment>
@@ -89,7 +88,7 @@ class Personal extends PureComponent {
               />
               <PersonalInformationItem
                 label={I18n.t('LEAD_PROFILE.DETAILS.EMAIL')}
-                value={isEmailHidden ? hideText(email) : email}
+                value={email}
               />
               <PersonalInformationItem
                 label={I18n.t('LEAD_PROFILE.DETAILS.COUNTRY')}

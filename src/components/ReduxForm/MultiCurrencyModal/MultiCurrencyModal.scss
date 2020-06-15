@@ -1,0 +1,54 @@
+.currency-calc-modal {
+  &__title {
+    display: inline-block;
+    margin-left: 5px;
+    font-size: 20px;
+    font-weight: 700;
+  }
+  &__input-wrapper {
+    padding: 15px 30px;
+    border-top: 1px solid #e5e5e5;
+    border-bottom: 1px solid #e5e5e5;
+  }
+  &__input-label {
+    margin-bottom: 5px;
+    font-size: 15px;
+    font-weight: 700;
+  }
+  &__input-currency {
+    margin-top: 5px;
+    font-size: 18px;
+    font-weight: 700;
+  }
+  &__output-wrapper {
+    padding: 5px 21px 15px;
+  }
+  .table {
+    margin-bottom: 0;
+  }
+  .table thead th {
+    text-transform: uppercase;
+    font-size: 13px;
+    font-weight: 400;
+    color: #999;
+  }
+  .table tbody td {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    vertical-align: middle;
+    font-size: 18px;
+  }
+  .table tbody tr td:first-child {
+    font-weight: 700;
+  }
+  input {
+    font-size: 18px;
+    color: #0099CC;
+    &:focus {
+      color: #0099CC;
+    }
+  }
+  .modal-body {
+    padding: 0;
+  }
+}

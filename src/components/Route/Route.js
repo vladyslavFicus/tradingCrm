@@ -11,7 +11,6 @@ class Route extends PureComponent {
     layout: PropTypes.func,
     disableScroll: PropTypes.bool,
     location: PropTypes.object.isRequired,
-    computedMatch: PropTypes.object.isRequired,
     isPublic: PropTypes.bool,
     isPrivate: PropTypes.bool,
     token: PropTypes.string,
@@ -29,13 +28,7 @@ class Route extends PureComponent {
   };
 
   componentDidUpdate(prevProps) {
-    const {
-      disableScroll,
-      location: { pathname },
-      computedMatch: { isExact },
-    } = this.props;
-
-    if (!disableScroll && pathname !== prevProps.location.pathname && isExact) {
+    if (!this.props.disableScroll && this.props.location.pathname !== prevProps.location.pathname) {
       window.scrollTo(0, 0);
     }
   }

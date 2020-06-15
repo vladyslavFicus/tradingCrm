@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { currencySettings as currencies } from './constants';
-import './Currency.scss';
 
 const Currency = ({ code, showSymbol, ...rest }) => {
   let symbol = code;
@@ -9,7 +8,7 @@ const Currency = ({ code, showSymbol, ...rest }) => {
     ({ symbol } = currencies[code]);
   }
 
-  return <span className="Currency__symbol" {...rest}>{symbol}</span>;
+  return <span {...rest}>{symbol}</span>;
 };
 
 Currency.propTypes = {

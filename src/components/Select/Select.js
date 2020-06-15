@@ -258,23 +258,18 @@ class Select extends PureComponent {
     });
   };
 
-  handleSearch = (event) => {
-    const { originalOptions, originalSelectedOptions } = this.state;
-
-    if (event === null) {
+  handleSearch = (e) => {
+    if (e === null) {
       this.updateState({
         query: '',
-        options: originalOptions,
-        selectedOptions: originalSelectedOptions,
+        options: this.state.originalOptions,
+        selectedOptions: this.state.originalSelectedOptions,
       });
     } else {
-      const { multiple, value: propsValue } = this.props;
-      const { target: { value } } = event;
-
       this.updateState({
-        query: value,
-        ...(!(multiple && propsValue.length) && { options: filterOptionsByQuery(value, originalOptions) }),
-        selectedOptions: filterOptionsByQuery(value, originalSelectedOptions),
+        query: e.target.value,
+        options: filterOptionsByQuery(e.target.value, this.state.originalOptions),
+        selectedOptions: filterOptionsByQuery(e.target.value, this.state.originalSelectedOptions),
       });
     }
   };
@@ -322,16 +317,16 @@ class Select extends PureComponent {
       : options
   );
 
-  renderSelectedOptions = (originalSelectedOptions, selectedOptions) => (
+  renderSelectedOptions = (options, selectedOptions) => (
     <SelectMultipleOptions
       className="select-block__selected-options"
-      headerText={I18n.t('common.select.selected_options')}
+      headerText="selected options"
       headerButtonClassName="clear-selected-options"
       headerButtonIconClassName="icon icon-times"
-      headerButtonText={I18n.t('common.select.clear')}
+      headerButtonText="Clear"
       headerButtonOnClick={this.handleResetSelectedOptions}
-      options={selectedOptions}
-      selectedOptions={originalSelectedOptions}
+      options={options}
+      selectedOptions={selectedOptions}
       onChange={this.handleDeleteSelectedOption}
     />
   );
@@ -354,7 +349,7 @@ class Select extends PureComponent {
       if (mergedOptions.length) {
         placeholder = mergedOptions.length === 1
           ? mergedOptions[0].label
-          : `${mergedOptions.length} ${I18n.t('common.select.options_selected')}`;
+          : `${mergedOptions.length} options selected`;
       }
     } else {
       const OptionCustomComponent = singleOptionComponent;
@@ -458,7 +453,6 @@ class Select extends PureComponent {
       customClassName,
       id,
       name,
-      value,
     } = this.props;
 
     const OptionsHeaderComponent = optionsHeader;
@@ -494,17 +488,10 @@ class Select extends PureComponent {
             {OptionsHeaderComponent && <OptionsHeaderComponent />}
             {multiple && this.renderSelectedOptions(originalSelectedOptions, selectedOptions)}
             {
-              !!query
-              // 'not found options' for multiple and with props to state    for multiple and without props to state
-              && ((multiple && ((value.length && !selectedOptions.length) || (!value.length && options.length === 0)))
-                // for single option select
-                || (!multiple && options.length === 0))
+              !!query && options.length === 0
               && (
                 <div className="text-muted font-size-10 margin-10">
-                  {I18n.t(`${multiple && (value.length && !selectedOptions.length)
-                    ? 'common.select.selected_options_not_found'
-                    : 'common.select.options_not_found'
-                  }`, { query })}
+                  {I18n.t('common.select.options_not_found', { query })}
                 </div>
               )
             }
