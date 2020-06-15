@@ -7,7 +7,7 @@ const REQUEST = gql`
   query LoginLockQuery(
     $playerUUID: String!
   ) {
-    loginLock(playerUUID: $playerUUID) {
+    loginLock(uuid: $playerUUID) {
       lock
     }
   }`;

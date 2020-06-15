@@ -75,7 +75,7 @@ class Payments extends PureComponent {
       profileUUID: uuid,
     };
 
-    const { data: { payment: { createClientPayment: { data: payment, error } } } } = await addPayment({ variables });
+    const { data: { payment: { createPayment: { data: payment, error } } } } = await addPayment({ variables });
 
     if (error) {
       notify({
@@ -123,7 +123,7 @@ class Payments extends PureComponent {
       },
     } = this.props;
 
-    const payments = get(data, 'clientPaymentsByUuid') || {};
+    const payments = get(data, 'clientPayments') || {};
 
     return (
       <Fragment>
