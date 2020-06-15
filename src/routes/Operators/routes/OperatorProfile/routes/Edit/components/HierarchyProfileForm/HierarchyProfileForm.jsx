@@ -155,11 +155,9 @@ class HierarchyProfileForm extends Component {
     if (userBranchesTreeUp.length) {
       return userBranchesTreeUp.map(({ uuid, parent, branchType, name }) => {
         const isParentBranchTypeCompany = parent.branchType === 'COMPANY';
-        let branchChain = '';
+
         // There is no need to view Company of operator
-        if (!isParentBranchTypeCompany) {
-          branchChain = this.buildUserBranchChain(parent, branchChain);
-        }
+        const branchChain = !isParentBranchTypeCompany ? this.buildUserBranchChain(parent, '') : '';
 
         return (
           <div className="margin-bottom-10" key={uuid}>
@@ -257,7 +255,7 @@ class HierarchyProfileForm extends Component {
               <PermissionContent permissions={permissions.HIERARCHY.UPDATE_USER_BRANCH}>
                 <button
                   type="button"
-                  className="btn btn-sm margin-bottom-10"
+                  className="btn btn-sm margin-top-10 margin-bottom-10"
                   disabled={branchFormVisibility && !allowUpdateHierarchy}
                   onClick={this.toggleBranchForm}
                 >

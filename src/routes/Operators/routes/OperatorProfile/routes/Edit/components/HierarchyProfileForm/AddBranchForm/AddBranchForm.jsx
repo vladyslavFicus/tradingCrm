@@ -40,7 +40,6 @@ class AddBranchForm extends Component {
   hierarchyTree = (type, parentBranch, name, brandId) => {
     const { branchHierarchy } = this.props;
     const parentBranchUuid = parentBranch && parentBranch.uuid;
-    let hierarchyTree;
 
     switch (type) {
       case branchNames.TEAM: {
@@ -58,16 +57,12 @@ class AddBranchForm extends Component {
           return null;
         }
 
-        const { name: officeName } = office;
-
-        hierarchyTree = (
+        return (
           <div className="hierarchy__tree">
-            {brandId} &rarr; {officeName} &rarr; {deskName} &rarr;&nbsp;
+            {brandId} &rarr; {office.name} &rarr; {deskName} &rarr;&nbsp;
             <span className="color-info">{name}</span>
           </div>
         );
-
-        break;
       }
       case branchNames.DESK: {
         const office = branchHierarchy[branchNames.OFFICE].find(({ uuid }) => (uuid === parentBranchUuid));
@@ -76,31 +71,23 @@ class AddBranchForm extends Component {
           return null;
         }
 
-        const { name: officeName } = office;
-
-        hierarchyTree = (
+        return (
           <div className="hierarchy__tree">
-            {brandId} &rarr; {officeName} &rarr; <span className="color-info">{name}</span>
+            {brandId} &rarr; {office.name} &rarr; <span className="color-info">{name}</span>
           </div>
         );
-
-        break;
       }
       case branchNames.OFFICE: {
-        hierarchyTree = (
+        return (
           <div className="hierarchy__tree">
             {brandId} &rarr; <span className="color-info">{name}</span>
           </div>
         );
-
-        break;
       }
       default: {
-        hierarchyTree = <div className="hierarchy__tree">{name}</div>;
+        return <div className="hierarchy__tree">{name}</div>;
       }
     }
-
-    return hierarchyTree;
   };
 
   handleAddBranch = async ({ [fieldNames.BRANCH]: branchId }) => {
