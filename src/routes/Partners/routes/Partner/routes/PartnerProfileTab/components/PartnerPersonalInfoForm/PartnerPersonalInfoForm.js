@@ -25,7 +25,7 @@ const attributeLabels = {
   country: 'PARTNERS.PROFILE.CONTACTS.FORM.LABELS.COUNTRY',
   phone: 'PARTNERS.PROFILE.CONTACTS.FORM.LABELS.PHONE',
   allowedIpAddresses: 'PARTNERS.PROFILE.CONTACTS.FORM.LABELS.WHITE_LISTED_IP',
-  restrictedCountries: 'PARTNERS.PROFILE.CONTACTS.FORM.LABELS.RESTRICTED_COUNTRIES',
+  forbiddenCountries: 'PARTNERS.PROFILE.CONTACTS.FORM.LABELS.RESTRICTED_COUNTRIES',
   showNotes: 'PARTNERS.PROFILE.CONTACTS.FORM.LABELS.SHOW_NOTES',
   showFTDAmount: 'PARTNERS.PROFILE.CONTACTS.FORM.LABELS.SHOW_FTD_AMOUNT',
   showKycStatus: 'PARTNERS.PROFILE.CONTACTS.FORM.LABELS.SHOW_KYC_STATUS',
@@ -51,7 +51,7 @@ class PartnerPersonalInfoForm extends PureComponent {
 
   handleSubmit = async ({
     allowedIpAddresses,
-    restrictedCountries,
+    forbiddenCountries,
     showNotes,
     showFTDAmount,
     showKycStatus,
@@ -67,7 +67,7 @@ class PartnerPersonalInfoForm extends PureComponent {
         uuid,
         permission: {
           allowedIpAddresses,
-          restrictedCountries,
+          forbiddenCountries: forbiddenCountries || [],
           showNotes,
           showFTDAmount,
           showKycStatus,
@@ -126,7 +126,7 @@ class PartnerPersonalInfoForm extends PureComponent {
             externalAffiliateId: 'string',
             public: 'boolean',
             allowedIpAddresses: 'listedIP\'s',
-            restrictedCountries: ['array', `in:,${Object.keys(countryList).join()}`],
+            forbiddenCountries: ['array', `in:,${Object.keys(countryList).join()}`],
             showNotes: 'boolean',
             showFTDAmount: 'boolean',
             showKycStatus: 'boolean',
@@ -245,7 +245,7 @@ class PartnerPersonalInfoForm extends PureComponent {
                 <Field
                   name="forbiddenCountries"
                   className="PartnerPersonalInfoForm__field"
-                  label={I18n.t(attributeLabels.restrictedCountries)}
+                  label={I18n.t(attributeLabels.forbiddenCountries)}
                   placeholder={I18n.t('COMMON.SELECT_OPTION.COUNTRY')}
                   component={FormikSelectField}
                   searchable

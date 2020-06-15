@@ -55,7 +55,7 @@ class PartnerHeader extends PureComponent {
     });
   };
 
-  handleChangePassword = async ({ password }) => {
+  handleChangePassword = async ({ newPassword }) => {
     const {
       modals: { changePasswordModal },
       partner: { uuid },
@@ -63,8 +63,8 @@ class PartnerHeader extends PureComponent {
       notify,
     } = this.props;
 
-    const response = await changePassword({ variables: { password, uuid } });
-    const success = get(response, 'data.profile.changePassword.success') || false;
+    const response = await changePassword({ variables: { newPassword, uuid } });
+    const success = get(response, 'data.operator.changeOperatorPassword.success') || false;
 
     notify({
       level: success ? 'success' : 'error',

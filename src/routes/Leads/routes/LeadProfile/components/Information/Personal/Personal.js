@@ -3,11 +3,9 @@ import moment from 'moment';
 import I18n from 'i18n-js';
 import { compose } from 'react-apollo';
 import Flag from 'react-world-flags';
-import { getBrand } from 'config';
 import Uuid from 'components/Uuid';
 import { hideText } from 'utils/hideText';
 import { withNotifications } from 'hoc';
-import { withStorage } from 'providers/StorageProvider';
 import PropTypes from 'constants/propTypes';
 import { PersonalInformationItem } from 'components/Information';
 import Click2Call from 'components/Click2Call';
@@ -18,7 +16,8 @@ class Personal extends PureComponent {
   static propTypes = {
     data: PropTypes.object,
     loading: PropTypes.bool.isRequired,
-    auth: PropTypes.auth.isRequired,
+    isPhoneHidden: PropTypes.bool.isRequired,
+    isEmailHidden: PropTypes.bool.isRequired,
   };
 
   static defaultProps = {
@@ -42,12 +41,9 @@ class Personal extends PureComponent {
         convertedToClientUuid,
         statusChangedDate,
       },
-      auth: {
-        department,
-      },
+      isPhoneHidden,
+      isEmailHidden,
     } = this.props;
-
-    const isPhoneHidden = getBrand().privatePhoneByDepartment.includes(department);
 
     return (
       <Fragment>
@@ -88,7 +84,7 @@ class Personal extends PureComponent {
               />
               <PersonalInformationItem
                 label={I18n.t('LEAD_PROFILE.DETAILS.EMAIL')}
-                value={email}
+                value={isEmailHidden ? hideText(email) : email}
               />
               <PersonalInformationItem
                 label={I18n.t('LEAD_PROFILE.DETAILS.COUNTRY')}
@@ -148,5 +144,4 @@ class Personal extends PureComponent {
 
 export default compose(
   withNotifications,
-  withStorage(['auth']),
 )(Personal);

@@ -599,6 +599,7 @@
       "UPLOAD_ACTION": "-- Select upload action --",
       "DEFAULT_MULTISELECT": "-- Select one or multiple options --",
       "SELECT_BRANCH_TYPE": "Select branch type first",
+      "SELECT_DEPARTMENT": "Select department first",
       "SELECT_PARTNER_TYPE": "Select partner type",
       "SELECT_OFFICE": "-- Select office --",
       "SELECT_TEAM": "-- Select team --",
@@ -1050,9 +1051,9 @@
         "CHANGE_LEVERAGE_REQUEST_UPDATED": "Change leverage request updated",
         "WITHDRAW": "Withdraw",
         "TRANSFER_IN": "Transfer in",
-        "TRANSFER_OUT":  "Transfer out",
+        "TRANSFER_OUT": "Transfer out",
         "FEE": "Fee",
-        "INACTIVITY_FEE":  "Inactivity fee",
+        "INACTIVITY_FEE": "Inactivity fee",
         "TRADING_ACCOUNT_ARCHIVED": "Trading account archived",
         "TRADING_ACCOUNT_LEVERAGE_UPDATED": "Trading account leverage updated",
         "INTEREST_RATE": "Interest rate"
@@ -1363,8 +1364,10 @@
       "FILTER_FORM": {
         "SEARCH_BY_LABEL": "Search by",
         "SEARCH_BY_PLACEHOLDER": "Action ID, Operator ID, IP",
-        "ACTION_TYPE_EMPTY_OPTION": "Any action",
-        "ACTION_DATE_RANGE": "Action date range"
+        "ACTION_TYPES": "Action types",
+        "ACTION_DATE_RANGE": "Action date range",
+        "CREATION_DATE_FROM": "Creation date from",
+        "CREATION_DATE_TO": "Creation date to"
       },
       "TITLE": "Feed"
     },
@@ -2497,7 +2500,7 @@
           "MESSAGE": "Please note that leverage changes affect open positions. Lowering leverage may result in a margin closeout."
         }
       },
-      "LEVERAGE":{
+      "LEVERAGE": {
         "FROM": "from",
         "TO": "to",
         "SINCE": "since",
@@ -3073,7 +3076,11 @@
       "default": "--Select--",
       "default_placeholder": "Search",
       "available_options": "Available options",
-      "options_not_found": "Options by query \"%{query}\" not found..."
+      "options_not_found": "Options by query \"%{query}\" not found...",
+      "selected_options_not_found": "Selected options by query \"%{query}\" not found...",
+      "selected_options": "selected options",
+      "clear": "Clear",
+      "options_selected": "options selected"
     },
     "any": "Any",
     "reset": "Reset",
