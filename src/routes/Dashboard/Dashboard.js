@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import I18n from 'i18n-js';
 import { tradingTypes } from 'constants/payment';
 import RegistrationsChart from './components/Charts/RegistrationsChart';
@@ -12,39 +12,43 @@ import './Dashboard.scss';
 
 const GRID_SIZE = 10;
 
-const Dashboard = () => (
-  <Fragment>
-    <div className="Dashboard__topic">{I18n.t('COMMON.DASHBOARD')}</div>
+class Dashboard extends PureComponent {
+  render() {
+    return (
+      <Fragment>
+        <div className="Dashboard__topic">{I18n.t('COMMON.DASHBOARD')}</div>
 
-    <div className="Dashboard__charts">
-      <RegistrationsChart />
-      <DepositAmountChart />
-      <DepositCountChart />
-      <WithdrawsAmountChart />
-      <WithdrawsCountChart />
-    </div>
+        <div className="Dashboard__charts">
+          <RegistrationsChart />
+          <DepositAmountChart />
+          <DepositCountChart />
+          <WithdrawsAmountChart />
+          <WithdrawsCountChart />
+        </div>
 
-    <div className="Dashboard__topic">
-      {I18n.t('DASHBOARD.LATEST_DEPOSITS', { count: GRID_SIZE })}
-    </div>
-    <PaymentsGrid
-      size={GRID_SIZE}
-      paymentTypes={[tradingTypes.DEPOSIT]}
-    />
+        <div className="Dashboard__topic">
+          {I18n.t('DASHBOARD.LATEST_DEPOSITS', { count: GRID_SIZE })}
+        </div>
+        <PaymentsGrid
+          size={GRID_SIZE}
+          paymentTypes={[tradingTypes.DEPOSIT]}
+        />
 
-    <div className="Dashboard__topic">
-      {I18n.t('DASHBOARD.LATEST_WITHDRAWALS', { count: GRID_SIZE })}
-    </div>
-    <PaymentsGrid
-      size={GRID_SIZE}
-      paymentTypes={[tradingTypes.WITHDRAW]}
-    />
+        <div className="Dashboard__topic">
+          {I18n.t('DASHBOARD.LATEST_WITHDRAWALS', { count: GRID_SIZE })}
+        </div>
+        <PaymentsGrid
+          size={GRID_SIZE}
+          paymentTypes={[tradingTypes.WITHDRAW]}
+        />
 
-    <div className="Dashboard__topic">
-      {I18n.t('DASHBOARD.LATEST_REGISTRATIONS', { count: GRID_SIZE })}
-    </div>
-    <ClientsGrid size={GRID_SIZE} />
-  </Fragment>
-);
+        <div className="Dashboard__topic">
+          {I18n.t('DASHBOARD.LATEST_REGISTRATIONS', { count: GRID_SIZE })}
+        </div>
+        <ClientsGrid size={GRID_SIZE} />
+      </Fragment>
+    );
+  }
+}
 
 export default Dashboard;

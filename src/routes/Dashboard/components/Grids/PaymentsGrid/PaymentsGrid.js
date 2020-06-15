@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react';
 import { get } from 'lodash';
-// import { compose } from 'react-apollo';
 import { withRequests } from 'apollo';
 import PropTypes from 'constants/propTypes';
 import PaymentsListGrid from 'components/PaymentsListGrid';

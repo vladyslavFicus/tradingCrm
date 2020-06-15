@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'constants/propTypes';
 import { get } from 'lodash';
 import I18n from 'i18n-js';
@@ -7,7 +7,7 @@ import Chart from '../Chart';
 import { getChartSelectOptions, mapTotalObject } from '../dashboardChartsUtils';
 import DepositPaymentsStatistic from './graphql/DepositPaymentsStatistic';
 
-class DepositAmountChart extends Component {
+class DepositAmountChart extends PureComponent {
   static propTypes = {
     depositPaymentsStatistic: PropTypes.paymentsStatistic.isRequired,
   };
