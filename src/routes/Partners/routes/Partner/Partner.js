@@ -4,12 +4,12 @@ import { compose } from 'react-apollo';
 import { get } from 'lodash';
 import { withRequests } from 'apollo';
 import PropTypes from 'constants/propTypes';
-import { partnerProfileTabs } from 'config/menu';
+import { partnerTabs } from 'config/menu';
 import NotFound from 'routes/NotFound';
 import Tabs from 'components/Tabs';
 import Route from 'components/Route';
 import HideDetails from 'components/HideDetails';
-import PartnerEdit from './routes/Edit';
+import PartnerProfileTab from './routes/PartnerProfileTab';
 import PartnerFeedsTab from './routes/PartnerFeedsTab';
 import PartnerSalesRulesTab from './routes/PartnerSalesRulesTab';
 import PartnerHeader from './components/PartnerHeader';
@@ -17,7 +17,7 @@ import PartnerAccountStatus from './components/PartnerAccountStatus';
 import PartnerRegistrationInfo from './components/PartnerRegistrationInfo';
 import PartnerPersonalInfo from './components/PartnerPersonalInfo';
 import PartnerAdditionalInfo from './components/PartnerAdditionalInfo';
-import getPartnerQuery from './graphql/getPartnerQuery';
+import PartnerQuery from './graphql/PartnerQuery';
 import './Partner.scss';
 
 class Partner extends PureComponent {
@@ -41,6 +41,7 @@ class Partner extends PureComponent {
 
     const partner = get(partnerData, 'data.partner.data') || {};
     const partnerError = get(partnerData, 'data.partner.error') || false;
+    const authorities = get(partner, 'authorities.data') || [];
     const isLoading = partnerData.loading;
 
     if (partnerError) {
@@ -64,17 +65,17 @@ class Partner extends PureComponent {
           <HideDetails>
             <div className="Partner__details">
               <PartnerPersonalInfo partner={partner} />
-              <PartnerAdditionalInfo authorities={partner.authorities && partner.authorities.data} />
+              <PartnerAdditionalInfo authorities={authorities} />
             </div>
           </HideDetails>
         </div>
 
-        <Tabs items={partnerProfileTabs} />
+        <Tabs items={partnerTabs} />
 
         <div className="Partner__tab-content">
           <Suspense fallback={null}>
             <Switch>
-              <Route path={`${path}/profile`} component={PartnerEdit} />
+              <Route path={`${path}/profile`} render={() => <PartnerProfileTab partnerData={partnerData} />} />
               <Route path={`${path}/sales-rules`} component={PartnerSalesRulesTab} />
               <Route path={`${path}/feed`} component={PartnerFeedsTab} />
               <Redirect to={`${url}/profile`} />
@@ -88,6 +89,6 @@ class Partner extends PureComponent {
 
 export default compose(
   withRequests({
-    partnerData: getPartnerQuery,
+    partnerData: PartnerQuery,
   }),
 )(Partner);

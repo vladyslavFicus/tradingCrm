@@ -38,6 +38,7 @@ import {
   PaymentMethodsQuery,
   usersByBranchQuery,
 } from './graphql';
+import './PaymentsListFilters.scss';
 
 class PaymentsListFilters extends PureComponent {
   static propTypes = {
@@ -404,7 +405,7 @@ class PaymentsListFilters extends PureComponent {
                     value={uuid}
                     className={classNames({
                       'color-inactive': operatorStatus === operatorsStasuses.INACTIVE
-                      || operatorStatus === operatorsStasuses.CLOSED,
+                        || operatorStatus === operatorsStasuses.CLOSED,
                     })}
                   >
                     {fullName}
@@ -526,25 +527,23 @@ class PaymentsListFilters extends PureComponent {
                 }}
               />
             </div>
-            <div className="filter__form-buttons">
-              <div className="filter__form-buttons-group">
-                <Button
-                  className="btn"
-                  onClick={handleReset}
-                  disabled={paymentsLoading || !dirty}
-                  common
-                >
-                  {I18n.t('COMMON.RESET')}
-                </Button>
-                <Button
-                  className="btn"
-                  type="submit"
-                  disabled={paymentsLoading}
-                  primary
-                >
-                  {I18n.t('COMMON.APPLY')}
-                </Button>
-              </div>
+            <div className="PaymentsListFilters__buttons">
+              <Button
+                className="PaymentsListFilters__button"
+                onClick={handleReset}
+                disabled={paymentsLoading || !dirty}
+                common
+              >
+                {I18n.t('COMMON.RESET')}
+              </Button>
+              <Button
+                className="PaymentsListFilters__button"
+                type="submit"
+                disabled={paymentsLoading}
+                primary
+              >
+                {I18n.t('COMMON.APPLY')}
+              </Button>
             </div>
           </Form>
         )}

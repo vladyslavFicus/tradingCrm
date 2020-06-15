@@ -1,0 +1,38 @@
+.LeadsGrid {
+  padding: 25px 0;
+
+  &__primary {
+    font-weight: 700;
+  }
+
+  &__secondary {
+    font-size: 11px;
+  }
+
+  &__last-note {
+    max-width: 200px;
+
+    &-content {
+      margin-top: 10px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+
+  &__status {
+    &-title {
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    &-converted {
+      color: #333;
+    }
+
+    &-converted,
+    &-operator {
+      font-size: 11px;
+    }
+  }
+}

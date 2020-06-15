@@ -3,9 +3,11 @@ import I18n from 'i18n-js';
 import { Field } from 'redux-form';
 import { omit } from 'lodash';
 import PropTypes from 'constants/propTypes';
+import permissions from 'config/permissions';
 import { userTypes, userTypeLabels, branchTypes as branchNames } from 'constants/hierarchyTypes';
 import ShortLoader from 'components/ShortLoader';
 import { NasSelectField } from 'components/ReduxForm';
+import PermissionContent from 'components/PermissionContent';
 import AddBranchForm from './AddBranchForm';
 import { attributeLabels, fieldNames } from './constants';
 
@@ -284,14 +286,18 @@ class HierarchyProfileForm extends Component {
                   </div>
                 </Otherwise>
               </Choose>
-              <button
-                type="button"
-                className="btn btn-sm margin-bottom-10"
-                disabled={branchFormVisibility && !allowUpdateHierarchy}
-                onClick={this.toggleBranchForm}
-              >
-                {I18n.t('OPERATORS.PROFILE.HIERARCHY.ADD_BRANCH_LABEL')}
-              </button>
+              <PermissionContent permissions={permissions.HIERARCHY.UPDATE_USER_BRANCH}>
+                <If condition={allowUpdateHierarchy}>
+                  <button
+                    type="button"
+                    className="btn btn-sm margin-bottom-10"
+                    disabled={branchFormVisibility}
+                    onClick={this.toggleBranchForm}
+                  >
+                    {I18n.t('OPERATORS.PROFILE.HIERARCHY.ADD_BRANCH_LABEL')}
+                  </button>
+                </If>
+              </PermissionContent>
               <If condition={branchFormVisibility && allowUpdateHierarchy}>
                 <AddBranchForm
                   branchHierarchy={branchHierarchy}

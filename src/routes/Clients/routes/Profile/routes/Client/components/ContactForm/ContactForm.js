@@ -134,6 +134,7 @@ class ContactForm extends PureComponent {
 
     return (
       <Formik
+        enableReinitialize
         initialValues={{
           phone: this.phoneAccess() ? phone : hideText(phone),
           additionalPhone: this.phoneAccess() ? additionalPhone : hideText(additionalPhone),
@@ -172,17 +173,12 @@ class ContactForm extends PureComponent {
                 disabled={disabled || tradingOperatorAccessDisabled || !this.phoneAccess()}
                 className="col-5"
               />
-              <If condition={
-                !errors.phone
-                && !this.phoneAccess()
-                && !isPhoneVerified}
-              >
+              <If condition={!errors.phone && !isPhoneVerified}>
                 <PermissionContent permissions={permissions.USER_PROFILE.VERIFY_PHONE}>
                   <div className="col-4 mt-4-profile">
                     <Button
                       primary
-                      className="width-full"
-                      onClick={() => this.handleVerifyPhone(currentPhoneValue)}
+                      onClick={() => this.handleVerifyPhone(phone)}
                     >
                       {I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.VERIFY')}
                     </Button>

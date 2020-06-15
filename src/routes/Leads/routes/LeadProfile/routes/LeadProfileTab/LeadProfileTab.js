@@ -50,6 +50,16 @@ class LeadProfileTab extends PureComponent {
     return getBrand().privatePhoneByDepartment.includes(department);
   };
 
+  emailAccessDenied = () => {
+    const {
+      auth: {
+        department,
+      },
+    } = this.props;
+
+    return getBrand().privateEmailByDepartment.includes(department);
+  };
+
   handleUpdateLead = async (variables) => {
     const { notify, updateLead, leadProfile } = this.props;
     const { phone, mobile } = get(leadProfile, 'data.leadProfile.data') || {};
@@ -95,6 +105,7 @@ class LeadProfileTab extends PureComponent {
     }
 
     const isPhoneHidden = this.phoneAccessDenied();
+    const isEmailHidden = this.emailAccessDenied();
 
     const {
       uuid,
@@ -119,7 +130,7 @@ class LeadProfileTab extends PureComponent {
           surname,
           phone: isPhoneHidden ? hideText(phone) : phone,
           mobile: isPhoneHidden ? hideText(mobile) : mobile,
-          email,
+          email: isEmailHidden ? hideText(email) : email,
           country: getCountryCode(country),
           birthDate,
           gender,
@@ -173,7 +184,10 @@ class LeadProfileTab extends PureComponent {
               <div className="card">
                 <div className="card-body row">
                   <div className="col">
-                    <ContactForm isPhoneDisabled={isPhoneHidden} />
+                    <ContactForm
+                      isPhoneDisabled={isPhoneHidden}
+                      isEmailDisabled={isEmailHidden}
+                    />
                   </div>
                 </div>
               </div>

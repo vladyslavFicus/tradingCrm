@@ -76,15 +76,15 @@ PropTypes.noteEntity = PropTypes.shape({
   targetUUID: PropTypes.string,
 });
 PropTypes.fileEntity = PropTypes.shape({
-  author: PropTypes.string.isRequired,
-  category: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  playerUuid: PropTypes.string.isRequired,
-  realName: PropTypes.string.isRequired,
-  status: PropTypes.status.isRequired,
-  type: PropTypes.string.isRequired,
-  uploadDate: PropTypes.string.isRequired,
-  uuid: PropTypes.string.isRequired,
+  author: PropTypes.string,
+  category: PropTypes.string,
+  name: PropTypes.string,
+  playerUuid: PropTypes.string,
+  realName: PropTypes.string,
+  status: PropTypes.string,
+  type: PropTypes.string,
+  uploadDate: PropTypes.string,
+  uuid: PropTypes.string,
 });
 PropTypes.uploadingFile = PropTypes.shape({
   fileUuid: PropTypes.string.isRequired,
@@ -198,7 +198,6 @@ PropTypes.partner = PropTypes.shape({
   authorities: PropTypes.shape({
     data: PropTypes.arrayOf(PropTypes.authorityEntity),
   }),
-  cellexpert: PropTypes.bool,
   country: PropTypes.string,
   createdAt: PropTypes.string,
   createdBy: PropTypes.string,
@@ -217,14 +216,10 @@ PropTypes.partner = PropTypes.shape({
   }),
   phone: PropTypes.string,
   public: PropTypes.bool,
-  satellite: PropTypes.string,
   status: PropTypes.string,
   statusChangeAuthor: PropTypes.string,
   statusChangeDate: PropTypes.string,
   statusReason: PropTypes.string,
-  tradingAccountAutocreation: PropTypes.string,
-  tradingAccountCurrency: PropTypes.string,
-  tradingAccountType: PropTypes.string,
   uuid: PropTypes.uuid,
 });
 PropTypes.navSubItem = PropTypes.shape({

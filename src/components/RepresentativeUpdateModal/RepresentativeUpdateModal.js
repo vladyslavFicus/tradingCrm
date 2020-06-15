@@ -17,6 +17,7 @@ import { aquisitionStatuses } from 'constants/aquisitionStatuses';
 import { Button } from 'components/UI';
 import { FormikSelectField } from 'components/Formik';
 import renderLabel from 'utils/renderLabel';
+import EventEmitter, { ACQUISITION_STATUS_CHANGED } from 'utils/EventEmitter';
 import { createValidator, translateLabels } from 'utils/validator';
 import {
   attributeLabels,
@@ -69,8 +70,8 @@ class RepresentativeUpdateModal extends PureComponent {
     }).isRequired,
     header: PropTypes.oneOfType([PropTypes.node, PropTypes.string]).isRequired,
     type: PropTypes.string.isRequired,
-    onSuccess: PropTypes.func.isRequired,
     onCloseModal: PropTypes.func.isRequired,
+    onSuccess: PropTypes.func.isRequired,
     isOpen: PropTypes.bool.isRequired,
     client: PropTypes.object.isRequired,
     initialValues: PropTypes.object,
@@ -265,8 +266,8 @@ class RepresentativeUpdateModal extends PureComponent {
       configs,
       notify,
       userType,
-      onSuccess,
       onCloseModal,
+      onSuccess,
       bulkClientRepresentativeUpdate,
       bulkLeadRepresentativeUpdate,
     } = this.props;
@@ -329,12 +330,14 @@ class RepresentativeUpdateModal extends PureComponent {
         title: I18n.t('COMMON.SUCCESS'),
         message:
           userType === userTypes.LEAD_CUSTOMER
-            ? I18n.t(`LEADS.${type}_INFO_UPDATED`)
+            ? I18n.t('LEADS.UPDATED')
             : I18n.t(`CLIENTS.${type}_INFO_UPDATED`),
       });
 
       onCloseModal();
       onSuccess();
+
+      EventEmitter.emit(ACQUISITION_STATUS_CHANGED);
     }
   };
 

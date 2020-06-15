@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import { v4 } from 'uuid';
 import { compose } from 'react-apollo';
 import { Popover, PopoverHeader, PopoverBody } from 'reactstrap';
 import { Formik, Form, Field } from 'formik';
@@ -11,6 +12,7 @@ import { FormikInputField, FormikSwitchField, FormikTextAreaField } from 'compon
 import { Button } from 'components/UI';
 import permissions from 'config/permissions';
 import Permissions from 'utils/permissions';
+import EventEmitter, { NOTE_ADDED, NOTE_UPDATED, NOTE_REMOVED } from 'utils/EventEmitter';
 import { createValidator, translateLabels } from 'utils/validator';
 import { entitiesPrefixes } from 'constants/uuid';
 import PropTypes from 'constants/propTypes';
@@ -24,6 +26,12 @@ import './NotePopover.scss';
 
 const MAX_CONTENT_LENGTH = 10000;
 
+const INITIAL_VALUES = {
+  subject: '',
+  content: '',
+  pinnned: false,
+};
+
 const attributeLabels = {
   pin: 'NOTES.MODAL.PIN',
   subject: 'NOTES.SUBJECT',
@@ -33,7 +41,6 @@ const attributeLabels = {
 const validator = createValidator({
   subject: 'string',
   content: ['required', 'string', `between:3,${MAX_CONTENT_LENGTH}`],
-  pinned: ['required', 'boolean'],
 }, translateLabels(attributeLabels), false);
 
 const updateNotePermissions = new Permissions(permissions.NOTES.UPDATE_NOTE);
@@ -41,10 +48,8 @@ const deleteNotePermissions = new Permissions(permissions.NOTES.DELETE_NOTE);
 
 class NotePopover extends PureComponent {
   static propTypes = {
-    item: PropTypes.noteEntity,
-    target: PropTypes.string.isRequired,
+    note: PropTypes.noteEntity,
     placement: PropTypes.string,
-    isOpen: PropTypes.bool,
     // Used for custom requests processing (will be emit on(*)Success event)
     manual: PropTypes.bool,
     onAddSuccess: PropTypes.func,
@@ -57,21 +62,20 @@ class NotePopover extends PureComponent {
     updateNote: PropTypes.func.isRequired,
     removeNote: PropTypes.func.isRequired,
     defaultTitleLabel: PropTypes.string,
-    initialValues: PropTypes.object.isRequired,
-    targetType: PropTypes.string,
-    toggle: PropTypes.func,
+    playerUUID: PropTypes.string.isRequired,
+    targetUUID: PropTypes.string,
+    targetType: PropTypes.string.isRequired,
     hideArrow: PropTypes.bool,
     className: PropTypes.string,
     permission: PropTypes.permission.isRequired,
+    children: PropTypes.element,
   };
 
   static defaultProps = {
-    item: null,
+    targetUUID: null,
+    note: null,
     defaultTitleLabel: null,
     placement: 'bottom',
-    isOpen: false,
-    targetType: '',
-    toggle: null,
     hideArrow: false,
     className: null,
     manual: false,
@@ -81,36 +85,43 @@ class NotePopover extends PureComponent {
     onUpdateFailure: () => {},
     onDeleteSuccess: () => {},
     onDeleteFailure: () => {},
+    children: null,
   };
 
+  id = `note-${v4()}`;
+
   state = {
+    isOpen: false,
     isDirty: false,
   };
 
   onSubmit = async (data) => {
-    const { item, targetType } = this.props;
+    const { note, targetUUID, targetType } = this.props;
 
-    if (item) {
+    if (note) {
       await this.handleUpdateNote(data);
     } else {
-      await this.handleAddNote({ ...data, targetType });
+      await this.handleAddNote({ ...data, targetUUID, targetType });
     }
   };
 
   handleAddNote = async (currentValues) => {
     const {
       addNote,
-      toggle,
       manual,
       onAddSuccess,
       onAddFailure,
-      initialValues,
+      playerUUID,
+      targetUUID,
+      targetType,
     } = this.props;
+
+    const variables = { pinned: false, playerUUID, targetUUID, targetType, ...currentValues };
 
     // If manual request processing --> emit successful event
     if (manual) {
-      onAddSuccess({ ...initialValues, ...currentValues });
-      toggle();
+      onAddSuccess(variables);
+      this.handleClose(true);
     } else {
       const {
         data: {
@@ -121,31 +132,31 @@ class NotePopover extends PureComponent {
             },
           },
         },
-      } = await addNote({ variables: { ...initialValues, ...currentValues } });
+      } = await addNote({ variables });
 
       if (error) {
         onAddFailure(error);
       } else {
         onAddSuccess(data);
-        toggle();
+        EventEmitter.emit(NOTE_ADDED, data);
+
+        this.handleClose(true);
       }
     }
   };
 
-  handleUpdateNote = async (currentValues) => {
+  handleUpdateNote = async (variables) => {
     const {
       updateNote,
-      toggle,
       manual,
       onUpdateSuccess,
       onUpdateFailure,
-      initialValues,
     } = this.props;
 
     // If manual request processing --> emit successful event
     if (manual) {
-      onUpdateSuccess({ ...initialValues, ...currentValues });
-      toggle();
+      onUpdateSuccess(variables);
+      this.handleClose(true);
     } else {
       const {
         data: {
@@ -156,21 +167,23 @@ class NotePopover extends PureComponent {
             },
           },
         },
-      } = await updateNote({ variables: { ...initialValues, ...currentValues } });
+      } = await updateNote({ variables });
 
       if (error) {
         onUpdateFailure(error);
       } else {
         onUpdateSuccess(data);
-        toggle();
+        EventEmitter.emit(NOTE_UPDATED, data);
+
+        this.handleClose(true);
       }
     }
   };
 
   handleRemoveNote = async (noteId) => {
     const {
+      note,
       removeNote,
-      toggle,
       manual,
       onDeleteSuccess,
       onDeleteFailure,
@@ -179,7 +192,7 @@ class NotePopover extends PureComponent {
     // If manual request processing --> emit successful event
     if (manual) {
       onDeleteSuccess(noteId);
-      toggle();
+      this.handleClose(true);
     } else {
       const { data: { note: { remove: { error } } } } = await removeNote({ variables: { noteId } });
 
@@ -187,29 +200,39 @@ class NotePopover extends PureComponent {
         onDeleteFailure(error);
       } else {
         onDeleteSuccess(noteId);
-        toggle();
+        EventEmitter.emit(NOTE_REMOVED, note);
+
+        this.handleClose(true);
       }
     }
   };
 
-  handleHide = (ignoreChanges = false) => {
-    const {
-      isOpen,
-      toggle,
-    } = this.props;
-    const { isDirty } = this.state;
+  handleOpen = (e) => {
+    if (e) {
+      e.stopPropagation();
+    }
+
+    this.setState({ isOpen: true });
+  };
+
+  handleClose = (ignoreChanges = false) => {
+    const { isOpen, isDirty } = this.state;
 
     const shouldClose = isOpen && (ignoreChanges || !isDirty);
 
     if (shouldClose) {
-      toggle();
+      this.setState({ isOpen: false });
     }
+  };
+
+  handlePopoverClick = (e) => {
+    e.stopPropagation();
   };
 
   renderTitle = () => {
     const {
       defaultTitleLabel,
-      item,
+      note,
       permission: {
         permissions: currentPermissions,
       },
@@ -217,7 +240,7 @@ class NotePopover extends PureComponent {
 
     const deleteAllowed = deleteNotePermissions.check(currentPermissions);
 
-    if (!item) {
+    if (!note) {
       return (
         <div className="NotePopover__title">
           {defaultTitleLabel || I18n.t('COMMON.NOTE')}
@@ -226,7 +249,7 @@ class NotePopover extends PureComponent {
     }
 
     const {
-      item: {
+      note: {
         noteId,
         uuid,
         changedAt,
@@ -294,17 +317,10 @@ class NotePopover extends PureComponent {
     );
   };
 
-  render() {
+  renderPopover = () => {
     const {
-      item,
+      note,
       placement,
-      target,
-      isOpen,
-      initialValues: {
-        subject,
-        content,
-        pinned,
-      },
       hideArrow,
       className,
       permission: {
@@ -312,26 +328,23 @@ class NotePopover extends PureComponent {
       },
     } = this.props;
 
-    const { isDirty } = this.state;
+    const { isOpen, isDirty } = this.state;
 
     const updateAllowed = updateNotePermissions.check(currentPermissions);
 
     return (
       <Popover
-        placement={placement}
+        target={this.id}
         isOpen={isOpen}
-        toggle={() => this.handleHide()}
-        target={target}
+        placement={placement}
+        toggle={() => this.handleClose()}
+        onClick={this.handlePopoverClick}
         className={classNames('NotePopover', className)}
         hideArrow={hideArrow}
         trigger="legacy"
       >
         <Formik
-          initialValues={{
-            subject,
-            content,
-            pinned,
-          }}
+          initialValues={note || INITIAL_VALUES}
           validate={validator}
           onSubmit={this.onSubmit}
         >
@@ -348,14 +361,14 @@ class NotePopover extends PureComponent {
                     name="subject"
                     label={I18n.t(attributeLabels.subject)}
                     component={FormikInputField}
-                    disabled={item && !updateAllowed}
+                    disabled={note && !updateAllowed}
                   />
                   <Field
                     name="content"
                     label={I18n.t(attributeLabels.content)}
                     component={FormikTextAreaField}
                     showErrorMessage={false}
-                    disabled={item && !updateAllowed}
+                    disabled={note && !updateAllowed}
                   />
                   <div className="row no-gutters align-items-center">
                     <div className="col-auto">
@@ -364,7 +377,7 @@ class NotePopover extends PureComponent {
                           {values && values.content ? values.content.length : 0}
                         </span>/{MAX_CONTENT_LENGTH}
                       </div>
-                      <If condition={!item || updateAllowed}>
+                      <If condition={!note || updateAllowed}>
                         <Field
                           name="pinned"
                           wrapperClassName="margin-top-5"
@@ -378,12 +391,12 @@ class NotePopover extends PureComponent {
                         commonOutline
                         small
                         className="margin-right-10"
-                        onClick={() => this.handleHide(true)}
+                        onClick={() => this.handleClose(true)}
                       >
                         {I18n.t('COMMON.BUTTONS.CANCEL')}
                       </Button>
                       <Choose>
-                        <When condition={item && (item.uuid || item.noteId) && updateAllowed}>
+                        <When condition={note && (note.uuid || note.noteId) && updateAllowed}>
                           <Button
                             type="submit"
                             primary
@@ -414,6 +427,19 @@ class NotePopover extends PureComponent {
           }}
         </Formik>
       </Popover>
+    );
+  };
+
+  render() {
+    const { children } = this.props;
+
+    return (
+      <If condition={children}>
+        <>
+          {React.cloneElement(children, { id: this.id, onClick: this.handleOpen })}
+          {this.renderPopover()}
+        </>
+      </If>
     );
   }
 }
