@@ -1,6 +1,6 @@
-/* eslint-disable */
 import React, { Fragment } from 'react';
 import I18n from 'i18n-js';
+import { tradingTypes } from 'constants/payment';
 import RegistrationsChart from './components/Charts/RegistrationsChart';
 import DepositAmountChart from './components/Charts/DepositAmountChart';
 import DepositCountChart from './components/Charts/DepositCountChart';
@@ -8,30 +8,9 @@ import WithdrawsAmountChart from './components/Charts/WithdrawsAmountChart';
 import WithdrawsCountChart from './components/Charts/WithdrawsCountChart';
 import PaymentsGrid from './components/Grids/PaymentsGrid';
 import ClientsGrid from './components/Grids/ClientsGrid';
-import { tradingTypes, statuses, statusMapper } from '../../constants/payment';
 import './Dashboard.scss';
 
-const defaultChartProps = {
-  page: {
-    from: 0,
-    size: 10,
-  },
-  statuses: statusMapper[statuses.COMPLETED],
-};
-
-const options = {
-  DEPOSITS: {
-    paymentTypes: [tradingTypes.DEPOSIT],
-    ...defaultChartProps,
-  },
-  WITHDRAWALS: {
-    paymentTypes: [tradingTypes.WITHDRAW],
-    ...defaultChartProps,
-  },
-  REGISTRATIONS: {
-    size: 10,
-  },
-};
+const GRID_SIZE = 10;
 
 const Dashboard = () => (
   <Fragment>
@@ -45,23 +24,26 @@ const Dashboard = () => (
       <WithdrawsCountChart />
     </div>
 
-    {/* Latest deposits */}
     <div className="Dashboard__topic">
-      {I18n.t('DASHBOARD.LATEST_DEPOSITS', { count: options.DEPOSITS.page.size })}
+      {I18n.t('DASHBOARD.LATEST_DEPOSITS', { count: GRID_SIZE })}
     </div>
-    <PaymentsGrid {...options.DEPOSITS} />
+    <PaymentsGrid
+      size={GRID_SIZE}
+      paymentTypes={[tradingTypes.DEPOSIT]}
+    />
 
-    {/* Latest withdrawals */}
     <div className="Dashboard__topic">
-      {I18n.t('DASHBOARD.LATEST_WITHDRAWALS', { count: options.WITHDRAWALS.page.size })}
+      {I18n.t('DASHBOARD.LATEST_WITHDRAWALS', { count: GRID_SIZE })}
     </div>
-    <PaymentsGrid {...options.WITHDRAWALS} />
+    <PaymentsGrid
+      size={GRID_SIZE}
+      paymentTypes={[tradingTypes.WITHDRAW]}
+    />
 
-    {/* Latest registrations */}
     <div className="Dashboard__topic">
-      {I18n.t('DASHBOARD.LATEST_REGISTRATIONS', { count: options.REGISTRATIONS.size })}
+      {I18n.t('DASHBOARD.LATEST_REGISTRATIONS', { count: GRID_SIZE })}
     </div>
-    <ClientsGrid {...options.REGISTRATIONS} />
+    <ClientsGrid size={GRID_SIZE} />
   </Fragment>
 );
 

@@ -38,10 +38,12 @@ class PaymentsListGrid extends PureComponent {
     }).isRequired,
     handleRefresh: PropTypes.func.isRequired,
     clientView: PropTypes.bool,
+    withLazyLoad: PropTypes.bool,
   };
 
   static defaultProps = {
     clientView: false,
+    withLazyLoad: true,
   };
 
   handlePageChanged = () => {
@@ -85,19 +87,20 @@ class PaymentsListGrid extends PureComponent {
         loading,
       },
       payments,
+      withLazyLoad,
     } = this.props;
 
     const { content, last } = get(payments, 'data') || { content: [] };
 
     return (
-      <div className="card-body">
+      <div className="card card-body">
         <Grid
           data={content}
           handleSort={this.handleSort}
           handlePageChanged={this.handlePageChanged}
           isLoading={loading}
           isLastPage={last}
-          withLazyLoad
+          withLazyLoad={withLazyLoad}
           withNoResults={payments.error}
         >
           <GridColumn
