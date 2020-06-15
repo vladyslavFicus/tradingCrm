@@ -8,7 +8,7 @@ const REQUEST = gql`
   query ClientsCallbacksTab_getClientCallbacksQuery(
     $id: String,
     $userId: String,
-    $statuses: [CallbackStatusEnum],
+    $statuses: [Callback__StatusEnum],
     $callbackTimeFrom: String,
     $callbackTimeTo: String,
     $limit: Int,

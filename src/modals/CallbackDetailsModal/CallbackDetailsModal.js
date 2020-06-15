@@ -49,7 +49,7 @@ class CallbackDetailsModal extends Component {
       notify,
     } = this.props;
 
-    const { callbackId } = get(callbackData, 'data.callback.data') || {};
+    const { callbackId } = get(callbackData, 'data.callback') || {};
 
     setSubmitting(false);
 
@@ -65,17 +65,17 @@ class CallbackDetailsModal extends Component {
       },
     });
 
-    const error = get(response, 'data.callback.update.error') || false;
+    const success = get(response, 'data.callback.update.success') || false;
 
     notify({
-      level: error ? 'error' : 'success',
+      level: success ? 'success' : 'error',
       title: I18n.t('CALLBACKS.MODAL.TITLE'),
-      message: error
-        ? I18n.t('COMMON.SOMETHING_WRONG')
-        : I18n.t('CALLBACKS.MODAL.SUCCESSFULLY_UPDATED'),
+      message: success
+        ? I18n.t('CALLBACKS.MODAL.SUCCESSFULLY_UPDATED')
+        : I18n.t('COMMON.SOMETHING_WRONG'),
     });
 
-    if (!error) {
+    if (success) {
       onCloseModal();
     }
   }
@@ -103,7 +103,7 @@ class CallbackDetailsModal extends Component {
       status,
       userId,
       note,
-    } = get(callbackData, 'data.callback.data') || {};
+    } = get(callbackData, 'data.callback') || {};
 
     const { content: operators } = get(operatorsData, 'data.operators.data') || {};
 

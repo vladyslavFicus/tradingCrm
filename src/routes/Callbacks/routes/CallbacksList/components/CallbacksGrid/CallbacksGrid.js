@@ -167,7 +167,7 @@ class CallbacksGrid extends PureComponent {
           withRowsHover
           withLazyLoad
           lazyLoad
-          withNoResults={callbacks.content.length === 0}
+          withNoResults={callbacks.content.length === 0 && !loading}
         >
           <GridColumn
             name="id"

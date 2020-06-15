@@ -8,7 +8,7 @@ const REQUEST = gql`
     $callbackId: String!,
     $callbackTime: String,
     $operatorId: String,
-    $status: CallbackStatusEnum,
+    $status: Callback__StatusEnum,
     $reminder: String,
   ) {
     callback {
@@ -19,20 +19,7 @@ const REQUEST = gql`
         status: $status,
         reminder: $reminder,
       ) {
-        data {
-          _id
-          callbackTime
-          operatorId
-          status
-          reminder
-          operator {
-            fullName
-          }
-        }
-        error {
-          error
-          fields_errors
-        }
+        success
       }
     }
   }

@@ -160,7 +160,7 @@ class ClientCallbacksGrid extends PureComponent {
           withRowsHover
           withLazyLoad
           lazyLoad
-          withNoResults={callbacks.content.length === 0}
+          withNoResults={callbacks.content.length === 0 && !loading}
         >
           <GridColumn
             header={I18n.t('CALLBACKS.GRID_HEADER.ID')}
