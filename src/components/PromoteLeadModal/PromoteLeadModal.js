@@ -10,6 +10,7 @@ import { createValidator, translateLabels } from 'utils/validator';
 import countryList from 'utils/countryList';
 import { generate } from 'utils/password';
 import EventEmitter, { LEAD_PROMOTED } from 'utils/EventEmitter';
+import { hideText } from 'utils/hideText';
 import ShortLoader from 'components/ShortLoader';
 import { Button } from 'components/UI';
 import { withNotifications } from 'hoc';
@@ -39,6 +40,7 @@ class PromoteLeadModal extends PureComponent {
     size: PropTypes.string,
     notify: PropTypes.func.isRequired,
     promoteLead: PropTypes.func.isRequired,
+    isEmailHidden: PropTypes.bool.isRequired,
   };
 
   static defaultProps = {
@@ -83,6 +85,7 @@ class PromoteLeadModal extends PureComponent {
       lead,
       onCloseModal,
       formError,
+      isEmailHidden,
     } = this.props;
 
     const {
@@ -104,7 +107,7 @@ class PromoteLeadModal extends PureComponent {
             countryCode,
           },
           contacts: {
-            email,
+            email: isEmailHidden ? hideText(email) : email,
             phone,
             additionalPhone,
           },

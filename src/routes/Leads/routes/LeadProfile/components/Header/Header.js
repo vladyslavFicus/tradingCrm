@@ -21,6 +21,7 @@ class Header extends PureComponent {
     modals: PropTypes.shape({
       promoteLeadModal: PropTypes.modalType,
     }).isRequired,
+    isEmailHidden: PropTypes.bool.isRequired,
   };
 
   static defaultProps = {
@@ -31,9 +32,13 @@ class Header extends PureComponent {
     const {
       modals: { promoteLeadModal },
       data: { uuid },
+      isEmailHidden,
     } = this.props;
 
-    promoteLeadModal.show({ uuid });
+    promoteLeadModal.show({
+      uuid,
+      isEmailHidden,
+    });
   };
 
   render() {
