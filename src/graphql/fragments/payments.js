@@ -1,6 +1,6 @@
 import gql from 'graphql-tag';
 
-const PaymentContentFragment = gql`fragment PaymentContentFragment on PaymentTrading {
+const PaymentContentFragment = gql`fragment PaymentContentFragment on Payment {
   _id
   login
   platformType
