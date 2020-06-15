@@ -5,21 +5,20 @@ import { compose } from 'react-apollo';
 import { withRequests } from 'apollo';
 import { withNotifications } from 'hoc';
 import get from 'lodash/get';
+import PropTypes from 'constants/propTypes';
+import { departmentsLabels, rolesLabels } from 'constants/operators';
 import { FormikSelectField } from 'components/Formik';
 import { Button } from 'components/UI';
-import PropTypes from 'constants/propTypes';
 import { createValidator, translateLabels } from 'utils/validator';
-import { departmentsLabels, rolesLabels } from 'constants/operators';
 import renderLabel from 'utils/renderLabel';
 import { attributeLabels } from '../constants';
 import UpdateOperatorDepartmentsFormMutation from './graphql/UpdateOperatorDepartmentsFormMutation';
 import './DepartmentsForm.scss';
 
-const validate = (values, availableDepartments, departmentsRoles) => (
-  createValidator({
-    department: ['required', `in:${availableDepartments.join()}`],
-    role: ['required', `in:${departmentsRoles[values.department].join()}`],
-  }, translateLabels(attributeLabels), false)(values));
+const validate = createValidator({
+  department: ['required'],
+  role: ['required'],
+}, translateLabels(attributeLabels));
 
 class DepartmentsForm extends PureComponent {
   static propTypes = {
@@ -27,22 +26,11 @@ class DepartmentsForm extends PureComponent {
     operatorUuid: PropTypes.string.isRequired,
     notify: PropTypes.func.isRequired,
     departmentsRoles: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.string)).isRequired,
-    authorities: PropTypes.arrayOf(PropTypes.authorityEntity),
-
-  };
-
-  static defaultProps = {
-    authorities: [],
+    authorities: PropTypes.arrayOf(PropTypes.authorityEntity).isRequired,
   };
 
   state = {
     show: false,
-    availableRoles: [],
-  };
-
-  initialValues = {
-    department: '',
-    role: '',
   };
 
   handleAddDepartment = async ({ department, role }) => {
@@ -61,25 +49,15 @@ class DepartmentsForm extends PureComponent {
     });
 
     if (!error) {
-      this.toggleShow();
+      this.toggleDepartmentForm();
     }
   };
 
-  handleChangeDepartment = (department, setValues) => {
-    const { departmentsRoles } = this.props;
-    const roles = departmentsRoles[department];
-    setValues({
-      department,
-      role: roles ? roles[0] : '',
-    });
-    this.setState({ availableRoles: roles || [] });
-  }
-
-  toggleShow = () => (this.setState(({ show }) => ({ show: !show })));
+  toggleDepartmentForm = () => (this.setState(({ show }) => ({ show: !show })));
 
   render() {
     const { departmentsRoles, authorities } = this.props;
-    const { availableRoles, show } = this.state;
+    const { show } = this.state;
 
     const operatorDepartments = authorities.map(({ department }) => department);
     const availableDepartments = Object.keys(departmentsRoles)
@@ -88,26 +66,28 @@ class DepartmentsForm extends PureComponent {
     return (
       <div>
         <If condition={!show && availableDepartments.length}>
-          <Button type="button" className="btn btn-sm" onClick={this.toggleShow}>
+          <Button type="button" className="btn btn-sm" onClick={this.toggleDepartmentForm}>
             {I18n.t('OPERATORS.PROFILE.DEPARTMENTS.ADD_BUTTON_LABEL')}
           </Button>
         </If>
 
         <If condition={show}>
           <Formik
-            initialValues={this.initialValues}
+            initialValues={{
+              department: '',
+              role: '',
+            }}
             onSubmit={this.handleAddDepartment}
-            validate={values => validate(values, availableDepartments, departmentsRoles)}
+            validate={validate}
           >
-            {({ dirty, isValid, isSubmitting, setValues, values: { department } }) => (
+            {({ dirty, isValid, isSubmitting, values: { department } }) => (
               <Form className="DepartmentsForm__form">
                 <Field
                   name="department"
                   label={I18n.t(attributeLabels.department)}
                   className="DepartmentsForm__input"
                   component={FormikSelectField}
-                  customOnChange={value => this.handleChangeDepartment(value, setValues)}
-                  withAnyOption
+                  placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
                 >
                   {availableDepartments.map(item => (
                     <option key={item} value={item}>
@@ -120,10 +100,10 @@ class DepartmentsForm extends PureComponent {
                   label={I18n.t(attributeLabels.role)}
                   className="DepartmentsForm__input"
                   component={FormikSelectField}
-                  disabled={!department}
-                  withAnyOption
+                  placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
+                  disabled={!department || !departmentsRoles[department]}
                 >
-                  {availableRoles.map(item => (
+                  {(departmentsRoles[department] || []).map(item => (
                     <option key={item} value={item}>
                       {I18n.t(renderLabel(item, rolesLabels))}
                     </option>
@@ -139,7 +119,7 @@ class DepartmentsForm extends PureComponent {
                   </Button>
                   <Button
                     common
-                    onClick={this.toggleShow}
+                    onClick={this.toggleDepartmentForm}
                   >
                     {I18n.t('COMMON.CANCEL')}
                   </Button>
@@ -152,6 +132,7 @@ class DepartmentsForm extends PureComponent {
     );
   }
 }
+
 export default compose(
   withNotifications,
   withRequests({

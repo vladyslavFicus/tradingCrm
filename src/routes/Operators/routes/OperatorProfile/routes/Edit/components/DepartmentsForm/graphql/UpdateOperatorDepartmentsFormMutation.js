@@ -14,14 +14,6 @@ const REQUEST = gql`mutation UpdateOperatorDepartmentsFormMutation_addDepartment
       department: $department,
       role: $role,
     ) {
-      data {
-        authorities {
-          brand
-          department
-          id
-          role
-        }
-      }
       error {
         error
       }
