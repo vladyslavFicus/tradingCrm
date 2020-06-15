@@ -3076,7 +3076,11 @@
       "default": "--Select--",
       "default_placeholder": "Search",
       "available_options": "Available options",
-      "options_not_found": "Options by query \"%{query}\" not found..."
+      "options_not_found": "Options by query \"%{query}\" not found...",
+      "selected_options_not_found": "Selected options by query \"%{query}\" not found...",
+      "selected_options": "selected options",
+      "clear": "Clear",
+      "options_selected": "options selected"
     },
     "any": "Any",
     "reset": "Reset",

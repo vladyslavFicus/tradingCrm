@@ -147,6 +147,7 @@ class View extends Component {
 
     if (departmentsRoles) {
       delete departmentsRoles.AFFILIATE_PARTNER;
+      delete departmentsRoles.E2E;
     }
 
     return (
