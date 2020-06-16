@@ -6,12 +6,11 @@ import parseJson from 'utils/parseJson';
 import PropTypes from 'constants/propTypes';
 import ListView from 'components/ListView';
 import FeedItem from 'components/FeedItem';
-import OperatorsFeedFilter from './components/OperatorsFeedFilter';
+import OperatorFeedFilterForm from './components/OperatorFeedFilterForm';
 import FeedsQuery from './graphql/FeedsQuery';
 
 class OperatorsFeed extends PureComponent {
   static propTypes = {
-    ...PropTypes.router,
     feeds: PropTypes.query({
       content: PropTypes.arrayOf(PropTypes.shape({
         targetUUID: PropTypes.string,
@@ -26,13 +25,6 @@ class OperatorsFeed extends PureComponent {
     const currentPage = get(data, 'feeds.data.number') || 0;
 
     loadMore(currentPage + 1);
-  };
-
-  handleFiltersChanged = (filterFields = {}) => {
-    const filters = Object.keys(filterFields).reduce((acc, key) => (
-      filterFields[key] ? { ...acc, [key]: filterFields[key] } : acc
-    ), {});
-    this.props.history.replace({ query: { filters } });
   };
 
   mapAuditEntities = entities => entities.map(entity => (
@@ -68,20 +60,14 @@ class OperatorsFeed extends PureComponent {
   }
 
   render() {
-    const {
-      feeds: { data, loading },
-      match: { params: { id } },
-    } = this.props;
+    const { feeds: { data, loading } } = this.props;
 
     const { content, totalPages, last } = get(data, 'feeds.data') || { content: [] };
     const contentWitAuditEntities = this.mapAuditEntities(content);
 
     return (
       <Fragment>
-        <OperatorsFeedFilter
-          playerUUID={id}
-          onSubmit={this.handleFiltersChanged}
-        />
+        <OperatorFeedFilterForm />
         <div className="tab-wrapper">
           <ListView
             dataSource={contentWitAuditEntities}

@@ -1,19 +1,19 @@
 import React, { PureComponent } from 'react';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'react-apollo';
-import { Formik, Form, Field } from 'formik';
 import I18n from 'i18n-js';
 import { get } from 'lodash';
+import { Formik, Form, Field } from 'formik';
 import { withRequests } from 'apollo';
 import PropTypes from 'constants/propTypes';
 import { typesLabels } from 'constants/audit';
 import { Button } from 'components/UI';
 import { FormikInputField, FormikSelectField, FormikDateRangePicker } from 'components/Formik';
 import { decodeNullValues } from 'components/Formik/utils';
-import FeedsTypesQuery from './graphql/FeedTypesQuery';
-import './PartnerFeedsFilterForm.scss';
+import FeedTypesQuery from './graphql/FeedTypesQuery';
+import './OperatorFeedFilterForm.scss';
 
-class PartnerFeedsFilterForm extends PureComponent {
+class OperatorFeedFilterForm extends PureComponent {
   static propTypes = {
     ...PropTypes.router,
     feedTypesData: PropTypes.shape({
@@ -42,7 +42,7 @@ class PartnerFeedsFilterForm extends PureComponent {
 
     return (
       <Formik
-        className="PartnerFeedsFilterForm"
+        className="OperatorFeedFilterForm"
         initialValues={{}}
         onSubmit={this.onHandleSubmit}
         onReset={this.onHandleReset}
@@ -51,24 +51,22 @@ class PartnerFeedsFilterForm extends PureComponent {
           isSubmitting,
           resetForm,
         }) => (
-          <Form className="PartnerFeedsFilterForm__form">
-            <div className="PartnerFeedsFilterForm__fields">
+          <Form className="OperatorFeedFilterForm__form">
+            <div className="OperatorFeedFilterForm__fields">
               <Field
                 name="searchBy"
-                className="PartnerFeedsFilterForm__field PartnerFeedsFilterForm__search"
-                label={I18n.t('PARTNER_PROFILE.FEED.FILTER_FORM.SEARCH_BY')}
-                placeholder={I18n.t('PARTNER_PROFILE.FEED.FILTER_FORM.SEARCH_BY_PLACEHOLDER')}
-                addition={<i className="icon icon-search" />}
+                className="OperatorFeedFilterForm__field OperatorFeedFilterForm__search"
+                label={I18n.t('OPERATOR_PROFILE.FEED.FILTER_FORM.SEARCH_BY_LABEL')}
+                placeholder={I18n.t('PARTNERS.GRID_FILTERS.SEARCH_BY_PLACEHOLDER')}
                 component={FormikInputField}
               />
 
               <Field
                 name="auditLogType"
-                className="PartnerFeedsFilterForm__field PartnerFeedsFilterForm__types"
-                label={I18n.t('PARTNER_PROFILE.FEED.FILTER_FORM.ACTION_TYPE')}
+                className="OperatorFeedFilterForm__field OperatorFeedFilterForm__types"
+                label={I18n.t('OPERATOR_PROFILE.FEED.FILTER_FORM.ACTION_TYPES')}
                 placeholder={I18n.t('COMMON.ANY')}
                 component={FormikSelectField}
-                searchable
                 withAnyOption
               >
                 {availableFeedTypes.map(type => (
@@ -78,21 +76,19 @@ class PartnerFeedsFilterForm extends PureComponent {
                 ))}
               </Field>
 
-              <Field
-                className="PartnerFeedsFilterForm__field PartnerFeedsFilterForm__dates"
-                label={I18n.t('PARTNER_PROFILE.FEED.FILTER_FORM.ACTION_DATE_RANGE')}
-                component={FormikDateRangePicker}
+              <FormikDateRangePicker
+                className="OperatorFeedFilterForm__field OperatorFeedFilterForm__dates"
+                label={I18n.t('OPERATOR_PROFILE.FEED.FILTER_FORM.ACTION_DATE_RANGE')}
                 periodKeys={{
                   start: 'creationDateFrom',
                   end: 'creationDateTo',
                 }}
-                withTime
               />
             </div>
 
-            <div className="PartnerFeedsFilterForm__buttons">
+            <div className="OperatorFeedFilterForm__buttons">
               <Button
-                className="PartnerFeedsFilterForm__button"
+                className="OperatorFeedFilterForm__button"
                 onClick={resetForm}
                 disabled={isSubmitting}
                 common
@@ -101,7 +97,7 @@ class PartnerFeedsFilterForm extends PureComponent {
               </Button>
 
               <Button
-                className="PartnerFeedsFilterForm__button"
+                className="OperatorFeedFilterForm__button"
                 disabled={isSubmitting}
                 type="submit"
                 primary
@@ -119,6 +115,6 @@ class PartnerFeedsFilterForm extends PureComponent {
 export default compose(
   withRouter,
   withRequests({
-    feedTypesData: FeedsTypesQuery,
+    feedTypesData: FeedTypesQuery,
   }),
-)(PartnerFeedsFilterForm);
+)(OperatorFeedFilterForm);
