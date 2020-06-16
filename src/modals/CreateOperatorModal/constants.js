@@ -9,7 +9,7 @@ const attributeLabels = {
   role: 'COMMON.ROLE',
   userType: 'COMMON.USER_TYPE',
   branch: 'COMMON.BRANCH',
-  branchType: 'COMMON.BRANCH',
+  branchType: 'COMMON.BRANCH_TYPE',
   password: 'COMMON.PASSWORD',
 };
 

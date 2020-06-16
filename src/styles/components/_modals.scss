@@ -103,7 +103,9 @@
         }
 
         &-title {
-          width: 270px;
+          width: 220px;
+          min-width: 220px;
+          max-width: 220px;
         }
 
         &-info {
@@ -112,10 +114,12 @@
 
         &-category {
           min-width: 225px;
+          max-width: 225px;
         }
 
         &-type {
           min-width: 220px;
+          max-width: 220px;
         }
 
         &-status {

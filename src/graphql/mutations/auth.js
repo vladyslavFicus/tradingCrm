@@ -21,14 +21,6 @@ const logout = gql`mutation logout {
   }
 }`;
 
-const tokenRenew = gql`mutation tokenRenew {
-  auth {
-    tokenRenew {
-      token
-    }
-  }
-}`;
-
 const resetPasswordMutation = gql`mutation resetPassword(
   $password: String!
   $token: String!
@@ -49,6 +41,5 @@ const resetPasswordMutation = gql`mutation resetPassword(
 export {
   resetPasswordMutation,
   unlockLoginMutation,
-  tokenRenew,
   logout,
 };

@@ -49,24 +49,4 @@ const feedsQuery = gql`query getFeeds(
   } 
 }`;
 
-const feedTypesQuery = gql`query getFeedTypes($playerUUID: String!) {
-  feedTypes (playerUUID: $playerUUID) {
-    error {
-      error
-      fields_errors
-    }
-    data {
-      PLAYER_PROFILE_CHANGED
-      RESET_PASSWORD
-      LOG_IN
-      CHANGE_PASSWORD
-      PLAYER_PROFILE_REGISTERED
-      LOG_OUT
-      FAILED_LOGIN_ATTEMPT
-      PROFILE_ASSIGN
-      CHANGE_LEVERAGE_REQUESTED
-    } 
-  }
-}`;
-
-export { feedsQuery, feedTypesQuery };
+export { feedsQuery };
