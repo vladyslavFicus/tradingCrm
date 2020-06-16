@@ -5,39 +5,26 @@ import { Query } from 'react-apollo';
 
 const REQUEST = gql`
   query PartnerFeedsFiltersForm_getFeedsTypesQuery(
-    $id: String!
+    $uuid: String!
   ) {
     feedTypes (
-      playerUUID: $id
+      uuid: $uuid
     ) {
-      data {
-        PLAYER_PROFILE_CHANGED
-        RESET_PASSWORD
-        LOG_IN
-        CHANGE_PASSWORD
-        PLAYER_PROFILE_REGISTERED
-        LOG_OUT
-        FAILED_LOGIN_ATTEMPT
-        PROFILE_ASSIGN
-        CHANGE_LEVERAGE_REQUESTED
-      }
-      error {
-        error
-      }
+      data
     }
   }
 `;
 
-const getFeedsTypesQuery = ({
+const FeedsTypesQuery = ({
   children,
   match: { params: { id } },
 }) => (
-  <Query query={REQUEST} variables={{ id }}>
+  <Query query={REQUEST} variables={{ uuid: id }}>
     {children}
   </Query>
 );
 
-getFeedsTypesQuery.propTypes = {
+FeedsTypesQuery.propTypes = {
   children: PropTypes.func.isRequired,
   match: PropTypes.shape({
     params: PropTypes.shape({
@@ -46,4 +33,4 @@ getFeedsTypesQuery.propTypes = {
   }).isRequired,
 };
 
-export default getFeedsTypesQuery;
+export default FeedsTypesQuery;

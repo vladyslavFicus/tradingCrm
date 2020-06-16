@@ -4,24 +4,27 @@ import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 
 const REQUEST = gql`
-  query Partner_getPartnerLockStatus(
+  query OperatorFeeds_getFeedTypes(
     $uuid: String!
   ) {
-    loginLock(
+    feedTypes (
       uuid: $uuid
     ) {
-      lock
+      data
     }
   }
 `;
 
-const getPartnerLockStatusQuery = ({ children, match: { params: { id } } }) => (
-  <Query query={REQUEST} variables={{ uuid: id }} fetchPolicy="network-only">
+const FeedTypesQuery = ({
+  children,
+  match: { params: { id } },
+}) => (
+  <Query query={REQUEST} variables={{ uuid: id }}>
     {children}
   </Query>
 );
 
-getPartnerLockStatusQuery.propTypes = {
+FeedTypesQuery.propTypes = {
   children: PropTypes.func.isRequired,
   match: PropTypes.shape({
     params: PropTypes.shape({
@@ -30,4 +33,4 @@ getPartnerLockStatusQuery.propTypes = {
   }).isRequired,
 };
 
-export default getPartnerLockStatusQuery;
+export default FeedTypesQuery;

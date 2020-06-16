@@ -1,27 +1,6 @@
 import gql from 'graphql-tag';
 import { AddressFragment } from '../fragments/address';
 
-const passwordResetRequest = gql`mutation passwordResetRequest($playerUUID: String!) {
-  profile {
-    passwordResetRequest(
-      userUuid: $playerUUID
-    ) {
-      success
-    }
-  }
-}`;
-
-const changePassword = gql`mutation changePassword($playerUUID: String!, $password: String!) {
-  profile {
-    changePassword(
-      clientUuid: $playerUUID
-      newPassword: $password
-    ) {
-      success
-    }
-  }
-}`;
-
 const clientsBulkRepresentativeUpdate = gql`mutation bulkRepresentativeUpdate(
   $teamId: String,
   $salesRepresentative: [String],
@@ -261,8 +240,6 @@ const verifyEmailMutation = gql`mutation verifyEmail($playerUUID: String!) {
 }`;
 
 export {
-  passwordResetRequest,
-  changePassword,
   clientsBulkRepresentativeUpdate,
   updateMutation,
   clickToCall,

@@ -175,7 +175,7 @@ const newProfile = gql`query newProfile($playerUUID: String!){
   }
 }
 ${ContactsFragment}
-${AddressFragment}  
+${AddressFragment}
 `;
 
 const clientsQuery = gql`query ${queryNames.clientsQuery}(
@@ -272,7 +272,7 @@ const clientsQuery = gql`query ${queryNames.clientsQuery}(
 }`;
 
 const getLoginLock = gql`query getLoginLock($playerUUID: String!) {
-  loginLock(playerUUID: $playerUUID) {
+  loginLock(uuid: $playerUUID) {
     lock
   }
 }`;

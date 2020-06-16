@@ -143,7 +143,7 @@ const changePassword = gql`mutation changeOperatorPassword(
   $playerUUID: String!,
   $newPassword: String!
 ) {
-  operator {
+  auth {
     changeOperatorPassword(
       operatorUuid: $playerUUID,
       newPassword: $newPassword
@@ -156,8 +156,8 @@ const changePassword = gql`mutation changeOperatorPassword(
 const passwordResetRequest = gql`mutation resetOperatorPassword(
   $uuid: String!
 ) {
-  operator {
-    resetOperatorPassword(
+  auth {
+    resetUserPassword(
       userUuid: $uuid
     ) {
       success

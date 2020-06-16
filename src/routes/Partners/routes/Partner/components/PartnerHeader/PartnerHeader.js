@@ -64,7 +64,7 @@ class PartnerHeader extends PureComponent {
     } = this.props;
 
     const response = await changePassword({ variables: { newPassword, uuid } });
-    const success = get(response, 'data.operator.changeOperatorPassword.success') || false;
+    const success = get(response, 'data.auth.changeOperatorPassword.success') || false;
 
     notify({
       level: success ? 'success' : 'error',

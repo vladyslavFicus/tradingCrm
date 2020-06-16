@@ -84,7 +84,10 @@ class CreateCallbackModal extends PureComponent {
       notify,
     } = this.props;
 
-    const { data: { callback: { create: { data, error } } } } = await createCallback({
+    const {
+      data: { callback: { create: { data } } },
+      error,
+    } = await createCallback({
       variables: {
         userId: id,
         ...values,

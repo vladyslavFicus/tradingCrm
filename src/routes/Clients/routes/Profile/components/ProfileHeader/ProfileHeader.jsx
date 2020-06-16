@@ -112,7 +112,7 @@ class ProfileHeader extends Component {
     } = this.props;
 
     const response = await passwordResetRequest({ variables: { playerUUID: uuid } });
-    const success = get(response, 'data.profile.passwordResetRequest.success');
+    const success = get(response, 'data.auth.resetUserPassword.success');
 
     if (success) {
       notify({
@@ -157,7 +157,7 @@ class ProfileHeader extends Component {
     } = this.props;
 
     const response = await changePassword({ variables: { newPassword, playerUUID: uuid } });
-    const success = get(response, 'data.profile.changePassword.success');
+    const success = get(response, 'data.auth.changePassword.success');
 
     notify({
       level: !success ? 'error' : 'success',

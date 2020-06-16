@@ -8,7 +8,7 @@ const REQUEST = gql`
     $playerUUID: String!
     $newPassword: String!
   ) {
-    profile {
+    auth {
       changePassword(
         clientUuid: $playerUUID
         newPassword: $newPassword
