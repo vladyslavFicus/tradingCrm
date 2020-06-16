@@ -115,33 +115,6 @@ const removeDepartment = gql`mutation removeDepartment(
   }
 }`;
 
-const addDepartment = gql`mutation addDepartment(
-  $uuid: String!,
-  $department: String!,
-  $role: String!,
-) {
-  operator {
-    addDepartment(
-      uuid: $uuid,
-      department: $department,
-      role: $role,
-    ) {
-      data {
-        authorities {
-          brand
-          department
-          id
-          role
-        }
-      }
-      error {
-        error
-        fields_errors
-      }
-    }
-  }
-}`;
-
 const addExistingOperator = gql`mutation addExistingOperator(
   $email: String!,
   $department: String!,
@@ -219,7 +192,6 @@ const sendInvitation = gql`mutation sendInvitation(
 }`;
 
 export {
-  addDepartment,
   removeDepartment,
   createOperator,
   updateOperator,

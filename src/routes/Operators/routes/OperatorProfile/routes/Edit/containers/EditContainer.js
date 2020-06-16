@@ -3,7 +3,7 @@ import { get, omit } from 'lodash';
 import { withNotifications } from 'hoc';
 import { getUserHierarchyById } from 'graphql/queries/hierarchy';
 import { operatorQuery } from 'graphql/queries/operators';
-import { updateOperator, addDepartment, removeDepartment } from 'graphql/mutations/operators';
+import { updateOperator, removeDepartment } from 'graphql/mutations/operators';
 import { authoritiesOptionsQuery } from 'graphql/queries/auth';
 import { withStorage } from 'providers/StorageProvider';
 import Edit from '../components/Edit';
@@ -24,7 +24,6 @@ export default compose(
   graphql(updateOperator, {
     name: 'updateProfile',
   }),
-  graphql(addDepartment, { name: 'addAuthority' }),
   graphql(removeDepartment, { name: 'deleteAuthority' }),
   graphql(getUserHierarchyById, {
     name: 'userHierarchy',
