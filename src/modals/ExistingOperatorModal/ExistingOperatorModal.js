@@ -31,32 +31,30 @@ class ExistingOperatorModal extends Component {
       history,
     } = this.props;
 
-    const {
-      data: {
-        operator: {
-          addExistingOperator: {
-            data: {
-              uuid,
+    try {
+      const {
+        data: {
+          operator: {
+            addExistingOperator: {
+              data: {
+                uuid,
+              },
             },
-            error,
           },
         },
-      },
-    } = await addExistingOperator({
-      variables: {
-        addExistingOperator,
-        email,
-        department,
-        role,
-        branchId,
-      },
-    });
+      } = await addExistingOperator({
+        variables: {
+          email,
+          department,
+          role,
+          branchId,
+        },
+      });
 
-    if (!error) {
       onCloseModal();
 
       history.replace(`${uuid}/profile`);
-    } else {
+    } catch (_) {
       notify({
         level: 'error',
         title: I18n.t('OPERATORS.NOTIFICATIONS.EXISTING_OPERATOR_ERROR.TITLE'),

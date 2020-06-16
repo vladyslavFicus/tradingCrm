@@ -93,24 +93,13 @@ const removeDepartment = gql`mutation removeDepartment(
   $department: String!,
   $role: String!,
 ) {
-  operator {
-    removeDepartment(
-      uuid: $uuid,
-      department: $department,
-      role: $role,
+  auth {
+    removeAuthority(
+      uuid: $uuid
+      department: $department
+      role: $role
     ) {
-      data {
-        authorities {
-          brand
-          department
-          id
-          role
-        }
-      }
-      error {
-        error
-        fields_errors
-      }
+      success
     }
   }
 }`;
@@ -140,12 +129,12 @@ const addExistingOperator = gql`mutation addExistingOperator(
 }`;
 
 const changePassword = gql`mutation changeOperatorPassword(
-  $playerUUID: String!,
+  $operatorUuid: String!
   $newPassword: String!
 ) {
   auth {
     changeOperatorPassword(
-      operatorUuid: $playerUUID,
+      operatorUuid: $operatorUuid
       newPassword: $newPassword
     ) {
       success
@@ -157,9 +146,7 @@ const passwordResetRequest = gql`mutation resetOperatorPassword(
   $uuid: String!
 ) {
   auth {
-    resetUserPassword(
-      userUuid: $uuid
-    ) {
+    resetUserPassword(userUuid: $uuid) {
       success
     }
   }
@@ -181,16 +168,6 @@ const changeStatus = gql`mutation changeStatus(
   }
 }`;
 
-const sendInvitation = gql`mutation sendInvitation(
-  $uuid: String!
-) {
-  operator {
-    sendInvitation(uuid: $uuid) {
-      success
-    }
-  }
-}`;
-
 export {
   removeDepartment,
   createOperator,
@@ -198,6 +175,5 @@ export {
   addExistingOperator,
   changePassword,
   passwordResetRequest,
-  sendInvitation,
   changeStatus,
 };

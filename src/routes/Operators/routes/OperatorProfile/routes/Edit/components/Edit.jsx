@@ -76,23 +76,27 @@ class View extends Component {
       match: { params: { id: operatorUUID } }, deleteAuthority, notify,
     } = this.props;
 
-    const { data: { operator: { removeDepartment: { error } } } } = await deleteAuthority({
-      variables: {
-        uuid: operatorUUID,
-        department,
-        role,
-      },
-    });
+    try {
+      await deleteAuthority({
+        variables: {
+          uuid: operatorUUID,
+          department,
+          role,
+        },
+      });
 
-    notify({
-      level: error ? 'error' : 'success',
-      title: error
-        ? I18n.t('OPERATORS.NOTIFICATIONS.DELETE_AUTHORITY_ERROR.TITLE')
-        : I18n.t('OPERATORS.NOTIFICATIONS.DELETE_AUTHORITY_SUCCESS.TITLE'),
-      message: error
-        ? I18n.t('OPERATORS.NOTIFICATIONS.DELETE_AUTHORITY_ERROR.MESSAGE')
-        : I18n.t('OPERATORS.NOTIFICATIONS.DELETE_AUTHORITY_SUCCESS.MESSAGE'),
-    });
+      notify({
+        level: 'success',
+        title: I18n.t('OPERATORS.NOTIFICATIONS.DELETE_AUTHORITY_SUCCESS.TITLE'),
+        message: I18n.t('OPERATORS.NOTIFICATIONS.DELETE_AUTHORITY_SUCCESS.MESSAGE'),
+      });
+    } catch (e) {
+      notify({
+        level: 'error',
+        title: I18n.t('OPERATORS.NOTIFICATIONS.DELETE_AUTHORITY_ERROR.TITLE'),
+        message: I18n.t('OPERATORS.NOTIFICATIONS.DELETE_AUTHORITY_ERROR.MESSAGE'),
+      });
+    }
   };
 
   render() {

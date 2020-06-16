@@ -271,8 +271,8 @@ const clientsQuery = gql`query ${queryNames.clientsQuery}(
     }
 }`;
 
-const getLoginLock = gql`query getLoginLock($playerUUID: String!) {
-  loginLock(uuid: $playerUUID) {
+const getLoginLock = gql`query getLoginLock($uuid: String!) {
+  loginLock(uuid: $uuid) {
     lock
   }
 }`;
