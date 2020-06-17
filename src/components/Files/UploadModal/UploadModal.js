@@ -366,7 +366,6 @@ class UploadModal extends PureComponent {
                 </Button>
                 <Button
                   type="submit"
-                  form="upload-modal-form"
                   disabled={isSubmitting || !dirty || !isValid || filesToUpload.length === 0}
                   primary
                 >
