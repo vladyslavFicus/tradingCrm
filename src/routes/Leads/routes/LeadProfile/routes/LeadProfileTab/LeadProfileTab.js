@@ -62,10 +62,14 @@ class LeadProfileTab extends PureComponent {
 
   handleUpdateLead = async (variables) => {
     const { notify, updateLead, leadProfile } = this.props;
-    const { phone, mobile } = get(leadProfile, 'data.leadProfile.data') || {};
-    const requestData = this.phoneAccessDenied()
-      ? { ...variables, phone, mobile }
-      : variables;
+    const { email, phone, mobile } = get(leadProfile, 'data.leadProfile.data') || {};
+
+    const requestData = {
+      ...variables,
+      email: this.emailAccessDenied() ? email : variables.email,
+      phone: this.phoneAccessDenied() ? phone : variables.phone,
+      mobile: this.phoneAccessDenied() ? mobile : variables.mobile,
+    };
 
     const { data: { leads: { update: { error } } } } = await updateLead({
       variables: requestData,
@@ -148,7 +152,7 @@ class LeadProfileTab extends PureComponent {
           address: 'string',
           phone: 'string',
           mobile: 'string',
-          email: 'email',
+          email: isEmailHidden ? 'string' : 'email',
         }, translateLabels(attributeLabels), false)}
         enableReinitialize
       >
