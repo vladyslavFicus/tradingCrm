@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import I18n from 'i18n-js';
+import { differenceWith, isEqual } from 'lodash';
 import './SelectSearchBox.scss';
 
 class SelectSearchBox extends Component {
@@ -50,6 +51,12 @@ const filterOptionsByQuery = (query, options) => {
   });
 };
 
-export { filterOptionsByQuery };
+const filterOptionsByQueryWithMultiple = (query, options, originalSelectedOptions) => {
+  const _filterOptionsByQuery = filterOptionsByQuery(query, options);
+
+  return differenceWith(_filterOptionsByQuery, originalSelectedOptions, isEqual);
+};
+
+export { filterOptionsByQuery, filterOptionsByQueryWithMultiple };
 
 export default SelectSearchBox;
