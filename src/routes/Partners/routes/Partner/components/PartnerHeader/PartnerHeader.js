@@ -42,7 +42,7 @@ class PartnerHeader extends PureComponent {
     } = this.props;
 
     const response = await unlockPartnerLogin({ variables: { uuid } });
-    const success = get(response, 'data.auth.unlockLogin.data.success') || false;
+    const success = get(response, 'data.auth.unlockLogin.success') || false;
 
     notify({
       level: success ? 'success' : 'error',
