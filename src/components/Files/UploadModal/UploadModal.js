@@ -206,14 +206,23 @@ class UploadModal extends PureComponent {
       filesCategoriesQuery,
     } = this.props;
 
+    const fileKey = file.fileUuid;
     const { __typename, ...categories } = get(filesCategoriesQuery, 'data.filesCategoriesList.data') || {};
 
     return (
       <UploadingFile
-        customFieldChange={field => setValues({ ...values, ...field })}
+        customFieldChange={fields => (
+          setValues({
+            ...values,
+            [fileKey]: {
+              ...values[fileKey],
+              ...fields,
+            },
+          })
+        )}
         fileData={file}
         number={index + 1}
-        key={file.fileUuid}
+        key={fileKey}
         categories={categories}
         profileUUID={profileUUID}
         onRemoveFileClick={fileUuid => this.handleRemoveFileFromList(fileUuid, setValues, values)}

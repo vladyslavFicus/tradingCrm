@@ -102,10 +102,8 @@ class UploadingFile extends PureComponent {
               customOnChange={(value) => {
                 this.setState({ selectedCategory: value });
                 customFieldChange({
-                  [fileUuid]: {
-                    category: value,
-                    documentType: value === 'OTHER' ? 'OTHER' : '',
-                  },
+                  category: value,
+                  documentType: value === 'OTHER' ? 'OTHER' : '',
                 });
               }}
             >
