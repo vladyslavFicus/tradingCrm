@@ -4,8 +4,8 @@ import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 
 const REQUEST = gql`
-  query newProfile($playerUUID: String!){
-    newProfile(playerUUID: $playerUUID) {
+  query profile($playerUUID: String!){
+    profile(playerUUID: $playerUUID) {
       data {
         uuid
         firstName

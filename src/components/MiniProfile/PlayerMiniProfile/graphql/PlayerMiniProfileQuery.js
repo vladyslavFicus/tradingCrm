@@ -5,7 +5,7 @@ import { Query } from 'react-apollo';
 
 const REQUEST = gql`
   query getPlayerMiniProfile($playerUUID: String!) {
-    newProfile(playerUUID: $playerUUID) {
+    profile(playerUUID: $playerUUID) {
       data {
         _id
         age

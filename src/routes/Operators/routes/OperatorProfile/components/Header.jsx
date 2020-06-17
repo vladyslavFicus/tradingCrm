@@ -22,7 +22,6 @@ class Header extends Component {
     refetchOperator: PropTypes.func.isRequired,
     onResetPasswordClick: PropTypes.func.isRequired,
     onChangePasswordClick: PropTypes.func.isRequired,
-    onSendInvitationClick: PropTypes.func.isRequired,
     unlockLogin: PropTypes.func.isRequired,
     loginLock: PropTypes.shape({
       lock: PropTypes.bool,
@@ -56,7 +55,6 @@ class Header extends Component {
       availableStatuses,
       onResetPasswordClick,
       onChangePasswordClick,
-      onSendInvitationClick,
       unlockLogin,
       loginLock: {
         lock,
@@ -87,20 +85,6 @@ class Header extends Component {
                 {I18n.t('OPERATOR_PROFILE.PROFILE.HEADER.UNLOCK')}
               </button>
             </If>
-            {
-              operatorStatus === statuses.INACTIVE
-              && (
-                // Here is no API functional to SEND_INVITATION anymore
-                <PermissionContent permissions={permissions.OPERATORS.OPERATOR_SEND_INVITATION}>
-                  <Button
-                    className="btn-sm btn-default-outline margin-right-10"
-                    onClick={onSendInvitationClick}
-                  >
-                    {I18n.t('OPERATOR_PROFILE.DETAILS.SEND_INVITATION')}
-                  </Button>
-                </PermissionContent>
-              )
-            }
             {
               operatorStatus === statuses.ACTIVE
               && (

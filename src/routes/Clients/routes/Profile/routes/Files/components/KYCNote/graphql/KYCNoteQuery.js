@@ -5,7 +5,7 @@ import { Query } from 'react-apollo';
 
 export const REQUEST = gql`
   query KYCNote_KYCNoteQuery($playerUUID: String!) {
-    newProfile(playerUUID: $playerUUID) {
+    profile(playerUUID: $playerUUID) {
       data {
         _id
         kycNote {

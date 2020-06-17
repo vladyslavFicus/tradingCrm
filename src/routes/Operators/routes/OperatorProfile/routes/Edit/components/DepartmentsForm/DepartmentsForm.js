@@ -4,7 +4,6 @@ import { Formik, Form, Field } from 'formik';
 import { compose } from 'react-apollo';
 import { withRequests } from 'apollo';
 import { withNotifications } from 'hoc';
-import get from 'lodash/get';
 import PropTypes from 'constants/propTypes';
 import { departmentsLabels, rolesLabels } from 'constants/operators';
 import { FormikSelectField } from 'components/Formik';
@@ -35,21 +34,29 @@ class DepartmentsForm extends PureComponent {
 
   handleAddDepartment = async ({ department, role }) => {
     const { operatorUuid: uuid, addDepartment, notify } = this.props;
-    const response = await addDepartment({ variables: { uuid, department, role } });
-    const error = get(response, 'data.operator.addDepartment.error');
 
-    notify({
-      level: error ? 'error' : 'success',
-      title: error
-        ? I18n.t('OPERATORS.NOTIFICATIONS.ADD_AUTHORITY_ERROR.TITLE')
-        : I18n.t('OPERATORS.NOTIFICATIONS.ADD_AUTHORITY_SUCCESS.TITLE'),
-      message: error
-        ? I18n.t('OPERATORS.NOTIFICATIONS.ADD_AUTHORITY_ERROR.MESSAGE')
-        : I18n.t('OPERATORS.NOTIFICATIONS.ADD_AUTHORITY_SUCCESS.MESSAGE'),
-    });
+    try {
+      await addDepartment({
+        variables: {
+          uuid,
+          department,
+          role,
+        },
+      });
 
-    if (!error) {
+      notify({
+        level: 'success',
+        title: I18n.t('OPERATORS.NOTIFICATIONS.ADD_AUTHORITY_SUCCESS.TITLE'),
+        message: I18n.t('OPERATORS.NOTIFICATIONS.ADD_AUTHORITY_SUCCESS.MESSAGE'),
+      });
+
       this.toggleDepartmentForm();
+    } catch (e) {
+      notify({
+        level: 'error',
+        title: I18n.t('OPERATORS.NOTIFICATIONS.ADD_AUTHORITY_ERROR.TITLE'),
+        message: I18n.t('OPERATORS.NOTIFICATIONS.ADD_AUTHORITY_ERROR.MESSAGE'),
+      });
     }
   };
 

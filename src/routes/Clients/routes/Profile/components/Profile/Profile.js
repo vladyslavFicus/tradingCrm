@@ -36,7 +36,7 @@ class Profile extends Component {
     match: PropTypes.shape({
       path: PropTypes.string,
     }).isRequired,
-    newProfile: PropTypes.query(PropTypes.newProfile).isRequired,
+    profile: PropTypes.query(PropTypes.profile).isRequired,
     permission: PropTypes.permission.isRequired,
   };
 
@@ -51,16 +51,16 @@ class Profile extends Component {
   }
 
   onProfileEvent = () => {
-    this.props.newProfile.refetch();
+    this.props.profile.refetch();
   };
 
   onAcquisitionStatusChangedEvent = () => {
-    this.props.newProfile.refetch();
+    this.props.profile.refetch();
   };
 
   get availableStatuses() {
-    const { newProfile, permission: { permissions } } = this.props;
-    const profileStatus = get(newProfile, 'data.newProfile.data.status.type');
+    const { profile, permission: { permissions } } = this.props;
+    const profileStatus = get(profile, 'data.profile.data.status.type');
 
     if (!profileStatus) {
       return [];
@@ -72,43 +72,43 @@ class Profile extends Component {
   }
 
   render() {
-    if (get(this.props, 'newProfile.data.newProfile.error')) {
+    if (get(this.props, 'profile.data.profile.error')) {
       return <NotFound />;
     }
 
     const {
-      newProfile: {
+      profile: {
         data,
         loading,
       },
       match: { path },
     } = this.props;
 
-    const newProfileData = get(data, 'newProfile.data');
-    const acquisitionData = get(newProfileData, 'acquisition') || {};
-    const lastSignInSessions = get(newProfileData, 'profileView.lastSignInSessions') || [];
+    const profileData = get(data, 'profile.data');
+    const acquisitionData = get(profileData, 'acquisition') || {};
+    const lastSignInSessions = get(profileData, 'profileView.lastSignInSessions') || [];
 
-    if (loading && !newProfileData) {
+    if (loading && !profileData) {
       return null;
     }
 
     return (
       <Fragment>
-        <If condition={newProfileData}>
-          <Helmet title={`${newProfileData.firstName} ${newProfileData.lastName}`} />
+        <If condition={profileData}>
+          <Helmet title={`${profileData.firstName} ${profileData.lastName}`} />
         </If>
         <div className="profile__info">
           <ProfileHeader
-            newProfile={newProfileData}
+            profile={profileData}
             availableStatuses={this.availableStatuses}
             loaded={!loading}
           />
           <HideDetails>
             <Information
-              newProfile={newProfileData}
+              profile={profileData}
               ips={lastSignInSessions}
               acquisitionData={acquisitionData}
-              loading={loading && !newProfileData}
+              loading={loading && !profileData}
             />
           </HideDetails>
         </div>
@@ -140,6 +140,6 @@ export default compose(
   withRouter,
   withPermission,
   withRequests({
-    newProfile: ProfileQuery,
+    profile: ProfileQuery,
   }),
 )(Profile);

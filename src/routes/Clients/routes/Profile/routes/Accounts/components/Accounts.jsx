@@ -6,7 +6,7 @@ import { withModals } from 'hoc';
 import PropTypes from 'constants/propTypes';
 import permissions from 'config/permissions';
 import EventEmitter, { PROFILE_RELOAD } from 'utils/EventEmitter';
-import { newProfile as newProfileQuery } from 'graphql/queries/profile';
+import { profile as profileQuery } from 'graphql/queries/profile';
 import { getTradingAccount } from 'graphql/queries/tradingAccount';
 import PermissionContent from 'components/PermissionContent';
 import TabHeader from 'components/TabHeader';
@@ -25,7 +25,7 @@ class Accounts extends PureComponent {
       tradingAccount: PropTypes.arrayOf(PropTypes.tradingAccount),
       refetch: PropTypes.func.isRequired,
     }).isRequired,
-    newProfile: PropTypes.newProfile.isRequired,
+    profile: PropTypes.profile.isRequired,
   };
 
   componentDidMount() {
@@ -43,12 +43,12 @@ class Accounts extends PureComponent {
   showTradingAccountAddModal = () => {
     const {
       modals: { tradingAccountAddModal },
-      newProfile,
+      profile,
       tradingAccountsData,
     } = this.props;
 
     tradingAccountAddModal.show({
-      profileId: get(newProfile, 'newProfile.data.uuid'),
+      profileId: get(profile, 'profile.data.uuid'),
       onConfirm: tradingAccountsData.refetch,
     });
   };
@@ -59,7 +59,7 @@ class Accounts extends PureComponent {
 
   render() {
     const {
-      newProfile,
+      profile,
       tradingAccountsData,
       tradingAccountsData: {
         refetch,
@@ -69,7 +69,7 @@ class Accounts extends PureComponent {
 
     const tradingAccounts = get(tradingAccountsData, 'tradingAccount') || [];
     const accountType = get(tradingAccountsData, 'variables.accountType') || '';
-    const profileUuid = get(newProfile, 'newProfile.data.uuid') || '';
+    const profileUuid = get(profile, 'profile.data.uuid') || '';
 
     return (
       <Fragment>
@@ -125,7 +125,7 @@ export default compose(
     }),
     name: 'tradingAccountsData',
   }),
-  graphql(newProfileQuery, {
+  graphql(profileQuery, {
     options: ({
       match: {
         params: {
@@ -137,6 +137,6 @@ export default compose(
         playerUUID,
       },
     }),
-    name: 'newProfile',
+    name: 'profile',
   }),
 )(Accounts);

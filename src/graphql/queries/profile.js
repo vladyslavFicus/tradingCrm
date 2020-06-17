@@ -3,8 +3,8 @@ import queryNames from 'constants/apolloQueryNames';
 import { ContactsFragment } from '../fragments/contacts';
 import { AddressFragment } from '../fragments/address';
 
-const newProfile = gql`query newProfile($playerUUID: String!){
-  newProfile(playerUUID: $playerUUID) {
+const profile = gql`query profile($playerUUID: String!){
+  profile(playerUUID: $playerUUID) {
     data {
       _id
       age
@@ -271,8 +271,8 @@ const clientsQuery = gql`query ${queryNames.clientsQuery}(
     }
 }`;
 
-const getLoginLock = gql`query getLoginLock($playerUUID: String!) {
-  loginLock(uuid: $playerUUID) {
+const getLoginLock = gql`query getLoginLock($uuid: String!) {
+  loginLock(uuid: $uuid) {
     lock
   }
 }`;
@@ -280,5 +280,5 @@ const getLoginLock = gql`query getLoginLock($playerUUID: String!) {
 export {
   clientsQuery,
   getLoginLock,
-  newProfile,
+  profile,
 };

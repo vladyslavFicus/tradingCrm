@@ -56,10 +56,23 @@ class PromoteLeadModal extends PureComponent {
       notify,
       promoteLead,
       onCloseModal,
+      isEmailHidden,
     } = this.props;
 
+    let variables = values;
+    if (isEmailHidden) {
+      const { email } = get(lead, 'data.leadProfile.data');
+      variables = {
+        ...values,
+        contacts: {
+          ...values.contacts,
+          email,
+        },
+      };
+    }
+
     const { data: { leads: { promote: { data, error } } } } = await promoteLead({
-      variables: { args: values },
+      variables: { args: variables },
     });
 
     if (error) {

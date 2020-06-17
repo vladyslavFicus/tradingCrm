@@ -8,15 +8,13 @@ const REQUEST = gql`mutation UpdateOperatorDepartmentsFormMutation_addDepartment
   $department: String!,
   $role: String!,
 ) {
-  operator {
-    addDepartment(
-      uuid: $uuid,
-      department: $department,
-      role: $role,
+  auth {
+    addAuthority(
+      uuid: $uuid
+      department: $department
+      role: $role
     ) {
-      error {
-        error
-      }
+      success
     }
   }
 }`;

@@ -25,7 +25,7 @@ const PlayerMiniProfile = ({ miniProfile: { data, loading } }) => {
   }
 
   const {
-    newProfile: {
+    profile: {
       data: {
         registrationDetails: { registrationDate },
         profileView: {
@@ -47,7 +47,7 @@ const PlayerMiniProfile = ({ miniProfile: { data, loading } }) => {
   const lastLogin = (lastSignInSessions && lastSignInSessions.length)
     ? lastSignInSessions[lastSignInSessions.length - 1].startedAt
     : null;
-  const lastDepositTime = get(data, 'newProfile.data.profileView.paymentDetails.lastDepositTime', null);
+  const lastDepositTime = get(data, 'profile.data.profileView.paymentDetails.lastDepositTime', null);
 
   return (
     <div className={classNames('mini-profile mini-profile', userStatusNames[statusType])}>
@@ -109,8 +109,8 @@ const PlayerMiniProfile = ({ miniProfile: { data, loading } }) => {
 PlayerMiniProfile.propTypes = {
   miniProfile: PropTypes.shape({
     data: PropTypes.shape({
-      newProfile: PropTypes.shape({
-        data: PropTypes.newProfile,
+      profile: PropTypes.shape({
+        data: PropTypes.profile,
       }),
     }),
     loading: PropTypes.bool.isRequired,

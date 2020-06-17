@@ -8,7 +8,7 @@ class ClientsGrid extends PureComponent {
   static propTypes = {
     profiles: PropTypes.shape({
       profiles: PropTypes.shape({
-        data: PropTypes.pageable(PropTypes.newProfile),
+        data: PropTypes.pageable(PropTypes.profile),
       }),
       loading: PropTypes.bool.isRequired,
     }).isRequired,

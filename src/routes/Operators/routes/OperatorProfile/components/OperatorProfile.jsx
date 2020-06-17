@@ -40,7 +40,6 @@ class OperatorProfile extends Component {
     changePassword: PropTypes.func.isRequired,
     refetchOperator: PropTypes.func.isRequired,
     resetPassword: PropTypes.func.isRequired,
-    sendInvitation: PropTypes.func.isRequired,
     authorities: PropTypes.object,
     isLoading: PropTypes.bool.isRequired,
     error: PropTypes.any,
@@ -94,34 +93,6 @@ class OperatorProfile extends Component {
     confirmActionModal.hide();
   };
 
-  handleSendInvitationClick = async () => {
-    const {
-      data,
-      modals: { confirmActionModal },
-    } = this.props;
-
-    confirmActionModal.show({
-      onSubmit: this.handleSendInvitationSubmit,
-      modalTitle: I18n.t('OPERATOR_PROFILE.MODALS.SEND_INVITATION.TITLE'),
-      actionText: I18n.t('OPERATOR_PROFILE.MODALS.SEND_INVITATION.ACTION_TEXT'),
-      fullName: [data.firstName, data.lastName].join(' '),
-      uuid: data.uuid,
-      submitButtonLabel: I18n.t('OPERATOR_PROFILE.MODALS.SEND_INVITATION.CONFIRM_ACTION'),
-    });
-  };
-
-  handleSendInvitationSubmit = async () => {
-    const {
-      data: { uuid },
-      sendInvitation,
-      modals: { confirmActionModal },
-    } = this.props;
-
-    await sendInvitation({ variables: { uuid } });
-
-    confirmActionModal.hide();
-  };
-
   handleChangePasswordClick = () => {
     const { data: { firstName, lastName, uuid } } = this.props;
 
@@ -132,9 +103,9 @@ class OperatorProfile extends Component {
   };
 
   handleSubmitNewPassword = async ({ newPassword }) => {
-    const { changePassword, notify, match: { params: { id: playerUUID } } } = this.props;
+    const { changePassword, notify, match: { params: { id: operatorUuid } } } = this.props;
 
-    const response = await changePassword({ variables: { newPassword, playerUUID } });
+    const response = await changePassword({ variables: { newPassword, operatorUuid } });
     const success = get(response, 'data.auth.changeOperatorPassword.success');
 
     notify({
@@ -167,9 +138,9 @@ class OperatorProfile extends Component {
   };
 
   unlockLogin = async () => {
-    const { unlockLoginMutation, match: { params: { id: playerUUID } }, notify } = this.props;
-    const response = await unlockLoginMutation({ variables: { playerUUID } });
-    const success = get(response, 'data.auth.unlockLogin.success');
+    const { unlockLoginMutation, match: { params: { id: uuid } }, notify } = this.props;
+    const response = await unlockLoginMutation({ variables: { uuid } });
+    const success = get(response, 'data.auth.unlockLogin.data.success');
 
     if (success) {
       notify({
@@ -202,6 +173,14 @@ class OperatorProfile extends Component {
       getLoginLock,
     } = this.props;
 
+    if (error) {
+      return <NotFound />;
+    }
+
+    if (isLoading) {
+      return null;
+    }
+
     const authoritiesData = get(authorities, 'data') || [];
     const loginLock = get(getLoginLock, 'loginLock') || {};
     const userType = get(data, 'hierarchy.userType');
@@ -216,14 +195,6 @@ class OperatorProfile extends Component {
       });
     }
 
-    if (error) {
-      return <NotFound />;
-    }
-
-    if (isLoading) {
-      return null;
-    }
-
     return (
       <div className="profile">
         <div className="profile__info">
@@ -232,7 +203,6 @@ class OperatorProfile extends Component {
             availableStatuses={availableStatuses}
             onResetPasswordClick={this.handleResetPasswordClick}
             onChangePasswordClick={this.handleChangePasswordClick}
-            onSendInvitationClick={this.handleSendInvitationClick}
             onStatusChange={changeStatus}
             refetchOperator={refetchOperator}
             unlockLogin={this.unlockLogin}
