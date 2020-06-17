@@ -26,7 +26,7 @@ class View extends Component {
     updateEmail: PropTypes.func.isRequired,
     notify: PropTypes.func.isRequired,
     updatePersonalInformation: PropTypes.func.isRequired,
-    newProfile: PropTypes.newProfile.isRequired,
+    profile: PropTypes.profile.isRequired,
     permission: PropTypes.permission.isRequired,
     modals: PropTypes.shape({
       confirmationModal: PropTypes.modalType,
@@ -172,7 +172,7 @@ class View extends Component {
 
   render() {
     const {
-      newProfile: { loading },
+      profile: { loading },
       permission: { permissions: currentPermissions },
     } = this.props;
 
@@ -185,8 +185,8 @@ class View extends Component {
     }
 
     const {
-      newProfile: {
-        newProfile: {
+      profile: {
+        profile: {
           data: {
             passport,
             firstName,

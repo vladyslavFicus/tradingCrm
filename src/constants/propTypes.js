@@ -748,7 +748,7 @@ PropTypes.profileView = PropTypes.shape({
   }),
   warnings: PropTypes.arrayOf(PropTypes.string),
 });
-PropTypes.newProfile = PropTypes.shape({
+PropTypes.profile = PropTypes.shape({
   acquisition: PropTypes.shape({
     acquisitionStatus: PropTypes.string,
     retentionRepresentative: PropTypes.string,

@@ -36,7 +36,7 @@ class PaymentDetailsModal extends PureComponent {
     isOpen: PropTypes.bool.isRequired,
     profile: PropTypes.shape({
       data: PropTypes.shape({
-        newProfile: PropTypes.newProfile,
+        profile: PropTypes.profile,
       }),
       loading: PropTypes.bool,
     }).isRequired,
@@ -88,7 +88,7 @@ class PaymentDetailsModal extends PureComponent {
   renderProfileBalanceBlock = () => {
     const { profile } = this.props;
 
-    const { amount, credit } = get(profile, 'data.newProfile.data.profileView.balance') || {};
+    const { amount, credit } = get(profile, 'data.profile.data.profileView.balance') || {};
     const currency = getActiveBrandConfig().currencies.base;
 
     return (

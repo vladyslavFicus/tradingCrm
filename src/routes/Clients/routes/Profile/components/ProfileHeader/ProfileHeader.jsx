@@ -38,7 +38,7 @@ const resetPasswordPermission = new Permissions([permissions.USER_PROFILE.RESET_
 
 class ProfileHeader extends Component {
   static propTypes = {
-    newProfile: PropTypes.newProfile,
+    profile: PropTypes.profile,
     availableStatuses: PropTypes.array,
     loaded: PropTypes.bool,
     loginLock: PropTypes.query(
@@ -58,7 +58,7 @@ class ProfileHeader extends Component {
   };
 
   static defaultProps = {
-    newProfile: {},
+    profile: {},
     availableStatuses: [],
     loaded: false,
   };
@@ -85,7 +85,7 @@ class ProfileHeader extends Component {
 
   handleResetPasswordClick = () => {
     const {
-      newProfile: {
+      profile: {
         uuid,
         firstName,
         lastName,
@@ -108,7 +108,7 @@ class ProfileHeader extends Component {
       notify,
       passwordResetRequest,
       modals: { confirmActionModal },
-      newProfile: { uuid },
+      profile: { uuid },
     } = this.props;
 
     const response = await passwordResetRequest({ variables: { playerUUID: uuid } });
@@ -133,7 +133,7 @@ class ProfileHeader extends Component {
 
   handleChangePasswordClick = () => {
     const {
-      newProfile: {
+      profile: {
         uuid,
         firstName,
         lastName,
@@ -152,7 +152,7 @@ class ProfileHeader extends Component {
     const {
       notify,
       changePassword,
-      newProfile: { uuid },
+      profile: { uuid },
       modals: { changePasswordModal },
     } = this.props;
 
@@ -179,7 +179,7 @@ class ProfileHeader extends Component {
       notify,
       unlockLogin,
       loginLock,
-      newProfile: { uuid },
+      profile: { uuid },
     } = this.props;
     const response = await unlockLogin({ variables: { playerUUID: uuid } });
     const success = get(response, 'data.auth.unlockLogin.success');
@@ -209,7 +209,7 @@ class ProfileHeader extends Component {
       permission: {
         permissions: currentPermissions,
       },
-      newProfile: {
+      profile: {
         age,
         firstName,
         lastName,

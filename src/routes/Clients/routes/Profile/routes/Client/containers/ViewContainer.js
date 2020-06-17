@@ -9,7 +9,7 @@ import {
   verifyEmailMutation,
   updateEmailMutation,
 } from 'graphql/mutations/profile';
-import { newProfile } from 'graphql/queries/profile';
+import { profile } from 'graphql/queries/profile';
 import ConfirmActionModal from 'components/Modal/ConfirmActionModal';
 import View from '../components/View';
 
@@ -36,8 +36,8 @@ export default compose(
     name: 'profileLimitedUpdate',
     options: ({ match: { params: { id: profileId } } }) => ({ variables: { profileId } }),
   }),
-  graphql(newProfile, {
-    name: 'newProfile',
+  graphql(profile, {
+    name: 'profile',
     options: ({ match: { params: { id: playerUUID } } }) => ({ variables: { playerUUID } }),
   }),
   graphql(updateEmailMutation, {

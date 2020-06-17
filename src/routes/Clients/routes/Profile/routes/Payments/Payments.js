@@ -35,8 +35,8 @@ class Payments extends PureComponent {
       }),
     }).isRequired,
     profileQuery: PropTypes.query({
-      newProfile: PropTypes.shape({
-        data: PropTypes.newProfile,
+      profile: PropTypes.shape({
+        data: PropTypes.profile,
       }),
     }).isRequired,
     addPayment: PropTypes.func.isRequired,
@@ -111,7 +111,7 @@ class Payments extends PureComponent {
 
     addPaymentModal.show({
       onSubmit: this.handleAddPayment,
-      newProfile: get(profileQuery, 'data.newProfile.data') || {},
+      profile: get(profileQuery, 'data.profile.data') || {},
     });
   };
 

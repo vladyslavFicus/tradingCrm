@@ -31,7 +31,7 @@ class PaymentAddModal extends PureComponent {
     permission: PropTypes.shape({
       permissions: PropTypes.arrayOf(PropTypes.string).isRequired,
     }).isRequired,
-    newProfile: PropTypes.newProfile.isRequired,
+    profile: PropTypes.profile.isRequired,
     onSubmit: PropTypes.func.isRequired,
     onCloseModal: PropTypes.func.isRequired,
   };
@@ -44,7 +44,7 @@ class PaymentAddModal extends PureComponent {
   );
 
   getSourceAccount = ({ accountUUID, source }) => {
-    const { tradingAccount } = this.props.newProfile;
+    const { tradingAccount } = this.props.profile;
 
     return tradingAccount.find(account => [accountUUID, source].includes(account.accountUUID));
   };
@@ -60,7 +60,7 @@ class PaymentAddModal extends PureComponent {
     amount,
   }) => {
     const {
-      newProfile: {
+      profile: {
         tradingAccount,
       },
     } = this.props;
@@ -132,7 +132,7 @@ class PaymentAddModal extends PureComponent {
 
   renderAccountSelectField = ({ label, name, className, values }) => {
     const {
-      newProfile: {
+      profile: {
         tradingAccount,
       },
     } = this.props;
@@ -179,7 +179,7 @@ class PaymentAddModal extends PureComponent {
   render() {
     const {
       onCloseModal,
-      newProfile: {
+      profile: {
         uuid,
         tradingAccount,
       },
