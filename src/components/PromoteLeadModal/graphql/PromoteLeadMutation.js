@@ -6,16 +6,11 @@ import { Mutation } from 'react-apollo';
 const REQUEST = gql`mutation promoteLead(
   $args: CreateProfileInputType
 ) {
-  leads {
-    promote (
+  profile {
+    createProfile (
       args: $args
     ) {
-      data {
-        uuid
-      }
-      error {
-        error
-      }
+      uuid
     }
   }
 }

@@ -4,8 +4,10 @@ import { get } from 'lodash';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Formik, Form, Field } from 'formik';
 import I18n from 'i18n-js';
-import PropTypes from 'constants/propTypes';
+import { withNotifications } from 'hoc';
+import { withRequests, parseErrors } from 'apollo';
 import { getActiveBrandConfig, getAvailableLanguages } from 'config';
+import PropTypes from 'constants/propTypes';
 import { createValidator, translateLabels } from 'utils/validator';
 import countryList from 'utils/countryList';
 import { generate } from 'utils/password';
@@ -13,8 +15,6 @@ import EventEmitter, { LEAD_PROMOTED } from 'utils/EventEmitter';
 import { hideText } from 'utils/hideText';
 import ShortLoader from 'components/ShortLoader';
 import { Button } from 'components/UI';
-import { withNotifications } from 'hoc';
-import { withRequests } from 'apollo';
 import { FormikInputField, FormikSelectField } from 'components/Formik';
 import PromoteLeadMutation from './graphql/PromoteLeadMutation';
 import PromoteLeadModalQuery from './graphql/PromoteLeadModalQuery';
@@ -71,25 +71,27 @@ class PromoteLeadModal extends PureComponent {
       };
     }
 
-    const { data: { leads: { promote: { data, error } } } } = await promoteLead({
-      variables: { args: variables },
-    });
+    try {
+      const { data: { profile: { createProfile: { uuid } } } } = await promoteLead({
+        variables: { args: variables },
+      });
 
-    if (error) {
-      if (error.error === 'error.entity.already.exist') {
-        setErrors({ submit: I18n.t(`lead.${error.error}`, { email: values.contacts.email }) });
-      } else {
-        setErrors({ submit: I18n.t(`lead.${error.error}`) });
-      }
-    } else {
       EventEmitter.emit(LEAD_PROMOTED, lead.data.leadProfile.data);
 
       onCloseModal();
       notify({
         level: 'success',
         title: I18n.t('COMMON.SUCCESS'),
-        message: I18n.t('LEADS.SUCCESS_PROMOTED', { id: data.uuid }),
+        message: I18n.t('LEADS.SUCCESS_PROMOTED', { id: uuid }),
       });
+    } catch (e) {
+      const { error } = parseErrors(e);
+
+      if (error === 'error.entity.already.exist') {
+        setErrors({ submit: I18n.t(`lead.${error}`, { email: values.contacts.email }) });
+      } else {
+        setErrors({ submit: I18n.t(`lead.${error}`) });
+      }
     }
 
     setSubmitting(false);
