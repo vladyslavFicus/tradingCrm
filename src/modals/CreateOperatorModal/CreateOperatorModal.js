@@ -75,7 +75,9 @@ class CreateOperatorModal extends PureComponent {
 
       const newOperator = get(operatorData, 'operator.createOperator.data');
       const newOperatorError = get(operatorData, 'operator.createOperator.error');
-      const error = get(newOperatorError, 'error', null);
+      const error = get(newOperatorError, 'error') || false;
+
+      console.log('error', error);
 
       if (error === 'error.validation.email.exists') {
         onExist({
@@ -86,10 +88,14 @@ class CreateOperatorModal extends PureComponent {
         });
       }
 
-      const { uuid } = newOperator;
+      if (!error) {
+        const { uuid } = newOperator;
 
-      this.props.history.push(`/operators/${uuid}/profile`);
+        this.props.history.push(`/operators/${uuid}/profile`);
+      }
     } catch (e) {
+      console.log('error', e);
+
       notify({
         level: 'error',
         title: I18n.t('COMMON.ERROR'),
