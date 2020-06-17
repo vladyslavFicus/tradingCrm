@@ -25,6 +25,7 @@ class PartnerHeader extends PureComponent {
           lock: PropTypes.bool,
         }),
       }),
+      refetch: PropTypes.func.isRequired,
     }).isRequired,
     modals: PropTypes.shape({
       changePasswordModal: PropTypes.modalType,
@@ -36,13 +37,14 @@ class PartnerHeader extends PureComponent {
 
   handleUnlockPartnerLogin = async () => {
     const {
+      partnerLockStatus,
       unlockPartnerLogin,
       partner: { uuid },
       notify,
     } = this.props;
 
     const response = await unlockPartnerLogin({ variables: { uuid } });
-    const success = get(response, 'data.auth.unlockLogin.data.success') || false;
+    const success = get(response, 'data.auth.unlockLogin.success') || false;
 
     notify({
       level: success ? 'success' : 'error',
@@ -53,6 +55,10 @@ class PartnerHeader extends PureComponent {
         ? I18n.t('PARTNER_PROFILE.NOTIFICATIONS.SUCCESS_UNLOCK.MESSAGE')
         : I18n.t('PARTNER_PROFILE.NOTIFICATIONS.ERROR_UNLOCK.MESSAGE'),
     });
+
+    if (success) {
+      partnerLockStatus.refetch();
+    }
   };
 
   handleChangePassword = async ({ newPassword }) => {

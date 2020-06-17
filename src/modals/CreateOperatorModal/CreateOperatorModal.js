@@ -79,6 +79,7 @@ class CreateOperatorModal extends PureComponent {
       this.props.history.push(`/operators/${uuid}/profile`);
     } catch (e) {
       const { error } = parseErrors(e);
+
       if (error === 'error.validation.email.exists') {
         onExist({
           department,
