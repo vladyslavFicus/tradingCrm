@@ -169,7 +169,7 @@ class OperatorProfile extends Component {
   unlockLogin = async () => {
     const { unlockLoginMutation, match: { params: { id: playerUUID } }, notify } = this.props;
     const response = await unlockLoginMutation({ variables: { playerUUID } });
-    const success = get(response, 'data.auth.unlockLogin.data.success');
+    const success = get(response, 'data.auth.unlockLogin.success');
 
     if (success) {
       notify({

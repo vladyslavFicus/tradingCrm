@@ -11,9 +11,7 @@ const REQUEST = gql`
       unlockLogin(
         playerUUID: $uuid
       ) {
-        data {
-          success
-        }
+        success
         error {
           error
         }
