@@ -48,16 +48,14 @@ class ApolloProvider extends PureComponent {
     );
 
     // ========= Error link ========= //
-    const errorLink = onError(({ graphQLErrors, networkError, operation }) => {
+    const errorLink = onError(({ graphQLErrors, networkError }) => {
       if (graphQLErrors) {
-        graphQLErrors.forEach(({ message, locations, path }) => {
-          // Suppress next error handlers because sign in and logout can return 401 [UNAUTHENTICATED]
-          if (['SignInMutation', 'LogoutMutation'].includes(operation.operationName)) {
-            return;
+        graphQLErrors.forEach(({ message, locations, path, extensions }) => {
+          // Logging all errors except 401 [UNAUTHENTICATED]
+          if (extensions?.code !== 'UNAUTHENTICATED') {
+            // eslint-disable-next-line
+            console.error(`[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`);
           }
-
-          // eslint-disable-next-line
-          console.warn(`[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`);
         });
       }
 
@@ -91,6 +89,7 @@ class ApolloProvider extends PureComponent {
       headers: {
         'x-client-version': getApiVersion(),
       },
+      skip: ['SignInMutation', 'LogoutMutation'],
     });
 
     // ========= Persisted query link ========= //

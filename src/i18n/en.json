@@ -1699,17 +1699,6 @@
       },
       "locked": "User is locked, please contact customer support"
     },
-    "campaign": {
-      "command": {
-        "byPromoCode": {
-          "alreadyPresent": "Promo code already added to this player",
-          "notAllow": "Invalid promo code"
-        },
-        "activate": {
-          "notAllow": "Not allow"
-        }
-      }
-    },
     "template": {
       "name": {
         "already-exists": "Name already exist"
