@@ -293,11 +293,11 @@ class RepresentativeUpdateModal extends PureComponent {
     let error = null;
 
     if (userType === userTypes.LEAD_CUSTOMER) {
-      const { error: responseError } = await bulkLeadRepresentativeUpdate({
-        variables: { ...variables, leads },
-      });
-
-      error = responseError;
+      try {
+        await bulkLeadRepresentativeUpdate({ variables: { ...variables, leads } });
+      } catch {
+        error = true;
+      }
     } else {
       const { clients, currentInactiveOperator } = this.props;
 

@@ -60,35 +60,39 @@ class LeadProfileTab extends PureComponent {
     return getBrand().privateEmailByDepartment.includes(department);
   };
 
-  handleUpdateLead = async (variables) => {
+  handleUpdateLead = async (variables, { setSubmitting }) => {
     const { notify, updateLead, leadProfile } = this.props;
     const { phone, mobile } = get(leadProfile, 'data.leadProfile.data') || {};
     const requestData = this.phoneAccessDenied()
       ? { ...variables, phone, mobile }
       : variables;
 
-    const { data: { leads: { update: { error } } } } = await updateLead({
-      variables: requestData,
-    });
+    setSubmitting(false);
 
-    if (error) {
-      notify({
-        level: 'error',
-        title: I18n.t('LEAD_PROFILE.NOTIFICATION_FAILURE'),
-        message: error.error === 'error.entity.already.exist'
-          ? I18n.t('lead.error.entity.already.exist', { email: variables.email })
-          : I18n.t('COMMON.SOMETHING_WRONG'),
-      });
-      this.setState({
-        submitError: error.error === 'error.entity.already.exist'
-          ? I18n.t('lead.error.entity.already.exist', { email: variables.email })
-          : error.error,
-      });
-    } else {
+    try {
+      await updateLead({ variables: requestData });
+
       notify({
         level: 'success',
         title: I18n.t('COMMON.SUCCESS'),
         message: I18n.t('LEAD_PROFILE.UPDATED'),
+      });
+
+      leadProfile.refetch();
+    } catch (responseError) {
+      const error = get(responseError, 'graphQLErrors[0].extensions.response.body.error') || true;
+
+      notify({
+        level: 'error',
+        title: I18n.t('LEAD_PROFILE.NOTIFICATION_FAILURE'),
+        message: error === 'error.entity.already.exist'
+          ? I18n.t('lead.error.entity.already.exist', { email: variables.email })
+          : I18n.t('COMMON.SOMETHING_WRONG'),
+      });
+      this.setState({
+        submitError: error === 'error.entity.already.exist'
+          ? I18n.t('lead.error.entity.already.exist', { email: variables.email })
+          : error.error,
       });
     }
   };

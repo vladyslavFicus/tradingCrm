@@ -32,7 +32,9 @@ const validate = createValidator({
 class PromoteLeadModal extends PureComponent {
   static propTypes = {
     lead: PropTypes.query({
-      leadProfile: PropTypes.response(PropTypes.lead),
+      data: PropTypes.shape({
+        leadProfile: PropTypes.response(PropTypes.lead),
+      }),
     }).isRequired,
     formError: PropTypes.string,
     onCloseModal: PropTypes.func.isRequired,
