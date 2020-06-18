@@ -72,7 +72,7 @@ class NotificationsGrid extends PureComponent {
           </span>
           <div className="font-size-11">{details.platformType} - {details.login}</div>
         </When>
-        <When condition={type === 'KYC'}>
+        <When condition={type === 'KYC' || type === 'CLIENT'}>
           <span className="font-weight-700">
             {I18n.t(notificationCenterSubTypesLabels[subtype])}
           </span>
