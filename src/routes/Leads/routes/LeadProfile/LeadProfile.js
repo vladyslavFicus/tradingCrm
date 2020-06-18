@@ -24,8 +24,8 @@ import {
 class LeadProfile extends PureComponent {
   static propTypes = {
     ...PropTypes.router,
-    leadProfileQuery: PropTypes.query({
-      leadProfile: PropTypes.response(PropTypes.lead),
+    leadData: PropTypes.query({
+      lead: PropTypes.response(PropTypes.lead),
     }).isRequired,
     location: PropTypes.object.isRequired,
     match: PropTypes.shape({
@@ -47,31 +47,30 @@ class LeadProfile extends PureComponent {
   }
 
   onLeadEvent = () => {
-    this.props.leadProfileQuery.refetch();
+    this.props.leadData.refetch();
   }
 
   onAcquisitionStatusChangedEvent = () => {
-    this.props.leadProfileQuery.refetch();
+    this.props.leadData.refetch();
   }
 
   render() {
     const {
-      leadProfileQuery: { loading: leadProfileLoading, data: leadProfile },
       location,
+      leadData,
+      leadData: { loading: isLoading },
       match: { params, path, url },
-      auth: {
-        department,
-      },
+      auth: { department },
     } = this.props;
 
-    const leadProfileData = get(leadProfile, 'leadProfile.data') || {};
-    const leadProfileError = get(leadProfile, 'leadProfile.error');
+    const lead = get(leadData, 'data.lead.data') || {};
+    const leadError = get(leadData, 'data.lead.error');
 
-    if (leadProfileError) {
+    if (leadError) {
       return <NotFound />;
     }
 
-    if (leadProfileLoading) {
+    if (isLoading) {
       return null;
     }
 
@@ -82,14 +81,14 @@ class LeadProfile extends PureComponent {
       <div className="profile">
         <div className="profile__info">
           <Header
-            data={leadProfileData}
-            loading={leadProfileLoading}
+            data={lead}
+            loading={isLoading}
             isEmailHidden={isEmailHidden}
           />
           <HideDetails>
             <Information
-              data={leadProfileData}
-              loading={leadProfileLoading}
+              data={lead}
+              loading={isLoading}
               isPhoneHidden={isPhoneHidden}
               isEmailHidden={isEmailHidden}
             />
@@ -114,6 +113,6 @@ export default compose(
   withNotifications,
   withStorage(['auth']),
   withRequests({
-    leadProfileQuery: LeadProfileQuery,
+    leadData: LeadProfileQuery,
   }),
 )(LeadProfile);

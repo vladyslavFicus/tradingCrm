@@ -26,7 +26,7 @@ const countryCodes = Object.keys(countryList);
 class LeadProfileTab extends PureComponent {
   static propTypes = {
     leadProfile: PropTypes.query({
-      leadProfile: PropTypes.shape({
+      lead: PropTypes.shape({
         data: PropTypes.lead,
         error: PropTypes.any,
       }),
@@ -62,7 +62,7 @@ class LeadProfileTab extends PureComponent {
 
   handleUpdateLead = async (variables, { setSubmitting }) => {
     const { notify, updateLead, leadProfile } = this.props;
-    const { email, phone, mobile } = get(leadProfile, 'data.leadProfile.data') || {};
+    const { email, phone, mobile } = get(leadProfile, 'data.lead.data') || {};
 
     const requestData = {
       ...variables,
@@ -106,7 +106,7 @@ class LeadProfileTab extends PureComponent {
       leadProfile,
     } = this.props;
 
-    const error = get(leadProfile, 'data.leadProfile.error');
+    const error = get(leadProfile, 'data.lead.error');
 
     if (error) {
       return null;
@@ -127,7 +127,7 @@ class LeadProfileTab extends PureComponent {
       birthDate,
       gender,
       city,
-    } = get(leadProfile, 'data.leadProfile.data') || {};
+    } = get(leadProfile, 'data.lead.data') || {};
 
     return (
       <Formik

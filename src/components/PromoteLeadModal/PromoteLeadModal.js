@@ -33,7 +33,7 @@ class PromoteLeadModal extends PureComponent {
   static propTypes = {
     lead: PropTypes.query({
       data: PropTypes.shape({
-        leadProfile: PropTypes.response(PropTypes.lead),
+        lead: PropTypes.response(PropTypes.lead),
       }),
     }).isRequired,
     formError: PropTypes.string,
@@ -61,7 +61,7 @@ class PromoteLeadModal extends PureComponent {
 
     let variables = values;
     if (isEmailHidden) {
-      const { email } = get(lead, 'data.leadProfile.data');
+      const { email } = get(lead, 'data.lead.data');
       variables = {
         ...values,
         contacts: {
@@ -76,7 +76,7 @@ class PromoteLeadModal extends PureComponent {
         variables: { args: variables },
       });
 
-      EventEmitter.emit(LEAD_PROMOTED, lead.data.leadProfile.data);
+      EventEmitter.emit(LEAD_PROMOTED, lead.data.lead.data);
 
       onCloseModal();
       notify({
@@ -115,7 +115,7 @@ class PromoteLeadModal extends PureComponent {
       country: countryCode,
       language: languageCode,
       mobile: additionalPhone,
-    } = get(lead, 'data.leadProfile.data');
+    } = get(lead, 'data.lead.data');
 
     return (
       <Formik

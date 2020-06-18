@@ -4,10 +4,10 @@ import gql from 'graphql-tag';
 import PropTypes from 'constants/propTypes';
 
 const REQUEST = gql`query LeadProfileQuery(
-  $leadId: String!,
+  $uuid: String!,
 ) {
-  leadProfile (
-    leadId: $leadId,
+  lead (
+    uuid: $uuid,
   ) {
     error {
       error
@@ -51,16 +51,16 @@ const REQUEST = gql`query LeadProfileQuery(
       convertedToClientUuid
       migrationId
     }
-  } 
+  }
 }`;
 
 const LeadProfileQuery = ({
   match: {
-    params: { id: leadId },
+    params: { id: uuid },
   },
   children,
 }) => (
-  <Query query={REQUEST} variables={{ leadId }} fetchPolicy="network-only">
+  <Query query={REQUEST} variables={{ uuid }} fetchPolicy="network-only">
     {children}
   </Query>
 );

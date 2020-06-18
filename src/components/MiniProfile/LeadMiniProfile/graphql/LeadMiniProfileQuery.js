@@ -4,8 +4,8 @@ import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 
 const REQUEST = gql`
-  query getLeadMiniProfile($leadId: String!) {
-    leadProfile(leadId: $leadId) {
+  query getLeadMiniProfile($uuid: String!) {
+    lead(uuid: $uuid) {
       data {
         _id
         uuid
@@ -40,15 +40,15 @@ const REQUEST = gql`
   }
 `;
 
-const LeadMiniProfileQuery = ({ leadId, children }) => (
-  <Query query={REQUEST} variables={{ leadId }} fetchPolicy="cache-and-network">
+const LeadMiniProfileQuery = ({ uuid, children }) => (
+  <Query query={REQUEST} variables={{ uuid }} fetchPolicy="cache-and-network">
     {children}
   </Query>
 );
 
 LeadMiniProfileQuery.propTypes = {
   children: PropTypes.func.isRequired,
-  leadId: PropTypes.string.isRequired,
+  uuid: PropTypes.string.isRequired,
 };
 
 export default LeadMiniProfileQuery;

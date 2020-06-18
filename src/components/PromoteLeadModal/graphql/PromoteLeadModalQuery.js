@@ -5,9 +5,9 @@ import { Query } from 'react-apollo';
 
 const REQUEST = gql`
   query PromoteLeadModalQuery(
-    $leadId: String!
+    $uuid: String!
   ) {
-    leadProfile (leadId: $leadId) {
+    lead (uuid: $uuid) {
       data {
         _id
         email
@@ -27,7 +27,7 @@ const REQUEST = gql`
 const PromoteLeadModalQuery = ({ children, uuid }) => (
   <Query
     query={REQUEST}
-    variables={{ leadId: uuid }}
+    variables={{ uuid }}
     fetchPolicy="cache-and-network"
   >
     {children}

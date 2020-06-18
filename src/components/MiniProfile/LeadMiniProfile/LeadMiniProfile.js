@@ -24,7 +24,7 @@ const LeadMiniProfile = ({ miniProfile: { data, loading }, department }) => {
   }
 
   const {
-    leadProfile: {
+    lead: {
       data: {
         registrationDate,
         salesStatus,
@@ -97,7 +97,7 @@ const LeadMiniProfile = ({ miniProfile: { data, loading }, department }) => {
 LeadMiniProfile.propTypes = {
   miniProfile: PropTypes.shape({
     data: PropTypes.shape({
-      leadProfile: PropTypes.shape({
+      lead: PropTypes.shape({
         data: PropTypes.lead,
       }),
     }),

@@ -4,10 +4,10 @@ import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 
 const REQUEST = gql`query leadProfileQuery(
-  $leadId: String!,
+  $uuid: String!,
 ) {
-  leadProfile (
-    leadId: $leadId,
+  lead (
+    uuid: $uuid,
   ) {
     error {
       error
@@ -27,11 +27,11 @@ const REQUEST = gql`query leadProfileQuery(
       gender
       city
     }
-  } 
+  }
 }`;
 
-const LeadProfileQuery = ({ match: { params: { id: leadId } }, children }) => (
-  <Query query={REQUEST} variables={{ leadId }}>
+const LeadProfileQuery = ({ match: { params: { id: uuid } }, children }) => (
+  <Query query={REQUEST} variables={{ uuid }}>
     {children}
   </Query>
 );
