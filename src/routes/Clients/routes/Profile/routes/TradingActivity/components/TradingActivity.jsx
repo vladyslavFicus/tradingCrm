@@ -58,8 +58,7 @@ class TradingActivity extends Component {
       tradingActivity: { loading },
     } = this.props;
 
-    const clientTradingActivity = get(tradingActivity, 'clientTradingActivity.data') || { content: [] };
-    const error = get(tradingActivity, 'clientTradingActivity.error');
+    const { content, totalElements, last } = get(tradingActivity, 'tradingActivity.data') || { content: [] };
 
     return (
       <Fragment>
@@ -67,12 +66,12 @@ class TradingActivity extends Component {
         <FilterFields />
         <div className="tab-wrapper">
           <Grid
-            data={clientTradingActivity.content}
+            data={content}
             handlePageChanged={this.handlePageChanged}
             isLoading={loading}
-            isLastPage={clientTradingActivity.last}
+            isLastPage={last}
             withLazyLoad
-            withNoResults={!!error || (!loading && clientTradingActivity.totalElements === 0)}
+            withNoResults={!loading && totalElements === 0}
           >
             {columns(this.showChangeOriginalAgentModal).map(({ name, header, render }) => (
               <GridColumn

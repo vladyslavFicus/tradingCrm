@@ -13,9 +13,7 @@ const REQUEST = gql`mutation changeOriginalAgent(
         tradeId: $tradeId
         agentId: $agentId
         platformType: $platformType
-      ) {
-        success
-      }
+      )
     }
   }
 `;
