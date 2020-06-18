@@ -2,7 +2,7 @@ import { get } from 'lodash';
 import I18n from 'i18n-js';
 
 export default (error) => {
-  const errorResponse = get(error, 'graphQLErrors.0.extensions.response.body');
+  const errorResponse = get(error, 'graphQLErrors.0.extensions.exception.response.body');
   const fieldsErrors = get(errorResponse, 'fields_errors', {});
 
   // Collect errors from { email: { error: 'some.error' } } object to { email: 'some.error' }
