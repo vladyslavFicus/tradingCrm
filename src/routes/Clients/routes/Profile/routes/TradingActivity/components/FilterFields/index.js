@@ -1,1 +1,1 @@
-export { default } from './FilterFieldsContainer';
+export { default } from './FilterFields';

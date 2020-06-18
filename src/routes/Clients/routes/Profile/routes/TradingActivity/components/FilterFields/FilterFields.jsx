@@ -1,23 +1,29 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { get } from 'lodash';
 import { withRouter } from 'react-router-dom';
+import { compose } from 'react-apollo';
+import { withRequests } from 'apollo';
 import PropTypes from 'constants/propTypes';
+
 import ListFilterForm from 'components/ListFilterForm';
 import filterFields from '../../attributes/filterFields';
 
-class FilterForm extends Component {
+import {
+  TradingAccountsQuery,
+  OperatorsQuery,
+} from './graphql';
+
+class FilterForm extends PureComponent {
   static propTypes = {
     ...PropTypes.router,
-    tradingAccounts: PropTypes.shape({
-      tradingAccount: PropTypes.array,
-      loading: PropTypes.bool.isRequired,
+    tradingAccountsQuery: PropTypes.query({
+      tradingAccount: PropTypes.array, // ?
     }).isRequired,
-    operators: PropTypes.shape({
+    operatorsQuery: PropTypes.query({
       operators: PropTypes.shape({
         data: PropTypes.pageable(PropTypes.tradingActivityOriginalAgent),
         error: PropTypes.object,
       }),
-      loading: PropTypes.bool.isRequired,
     }).isRequired,
   };
 
@@ -46,19 +52,19 @@ class FilterForm extends Component {
 
   render() {
     const {
-      operators: {
-        operators,
+      operatorsQuery: {
+        data: operatorsData,
         loading: operatorsLoading,
       },
-      tradingAccounts,
-      tradingAccounts: {
+      tradingAccountsQuery: {
+        data: tradingAccountsData,
         loading: tradingAccountsLoading,
       },
     } = this.props;
 
-    const accounts = get(tradingAccounts, 'tradingAccount') || [];
-    const originalAgents = get(operators, 'data.content') || [];
-    const disabledOriginalAgentField = get(operators, 'error') || operatorsLoading;
+    const accounts = get(tradingAccountsData, 'tradingAccount') || [];
+    const originalAgents = get(operatorsData, 'operators.data.content') || [];
+    const disabledOriginalAgentField = get(operatorsData, 'operators.error') || operatorsLoading;
 
     return (
       <ListFilterForm
@@ -76,4 +82,10 @@ class FilterForm extends Component {
   }
 }
 
-export default withRouter(FilterForm);
+export default compose(
+  withRouter,
+  withRequests({
+    tradingAccountsQuery: TradingAccountsQuery,
+    operatorsQuery: OperatorsQuery,
+  }),
+)(FilterForm);
