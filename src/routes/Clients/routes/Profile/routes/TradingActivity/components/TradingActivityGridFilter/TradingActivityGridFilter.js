@@ -26,11 +26,11 @@ import {
   OperatorsQuery,
 } from './graphql';
 
-class FilterForm extends PureComponent {
+class TradingActivityGridFilter extends PureComponent {
   static propTypes = {
     ...PropTypes.router,
     tradingAccountsQuery: PropTypes.query({
-      tradingAccount: PropTypes.array, // ?
+      tradingAccount: PropTypes.arrayOf(PropTypes.tradingAccount),
     }).isRequired,
     operatorsQuery: PropTypes.query({
       operators: PropTypes.shape({
@@ -268,4 +268,4 @@ export default compose(
     tradingAccountsQuery: TradingAccountsQuery,
     operatorsQuery: OperatorsQuery,
   }),
-)(FilterForm);
+)(TradingActivityGridFilter);
