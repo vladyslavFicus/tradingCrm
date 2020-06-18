@@ -34,12 +34,12 @@ class AuthLink extends ApolloLink {
 
 
   request(operation, forward) {
-    // Skip this link for list of operations
+    this.injectTokenLink.request(operation, forward);
+
+    // Skip refresh link for list of operations
     if (this.skip.includes(operation.operationName)) {
       return forward(operation);
     }
-
-    this.injectTokenLink.request(operation, forward);
 
     return this.refreshTokenLink.request(operation, forward);
   }
