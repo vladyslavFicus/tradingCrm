@@ -588,6 +588,7 @@
     "BRANCH": "Branch",
     "SELECT_OPTION": {
       "ANY": "Any",
+      "ALL": "All",
       "LOADING": "Loading...",
       "DEFAULT": "-- Select --",
       "REASON": "-- Select reason --",
