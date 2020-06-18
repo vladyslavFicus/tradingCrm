@@ -454,7 +454,7 @@ PropTypes.tradingAccount = PropTypes.shape({
   readOnlyUpdateTime: PropTypes.string,
   readOnlyUpdatedBy: PropTypes.string,
 });
-PropTypes.tradingAccountsList = PropTypes.shape({
+PropTypes.tradingAccountsItem = PropTypes.shape({
   uuid: PropTypes.string,
   platformType: PropTypes.string,
   profile: PropTypes.shape({

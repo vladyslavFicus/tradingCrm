@@ -10,37 +10,35 @@ import { accountStatuses } from '../../constants';
 
 class TradingAccountsListGrid extends PureComponent {
   static propTypes = {
-    tradingAccounts: PropTypes.query({
-      tradingAccountsList: PropTypes.shape({
-        data: PropTypes.pageable(PropTypes.tradingAccountsList),
-        error: PropTypes.any,
+    tradingAccountsData: PropTypes.query({
+      tradingAccounts: PropTypes.shape({
+        data: PropTypes.pageable(PropTypes.tradingAccountsItem),
       }),
     }).isRequired,
   };
 
   handlePageChanged = () => {
     const {
-      tradingAccounts: {
+      tradingAccountsData,
+      tradingAccountsData: {
         loadMore,
-        data,
       },
     } = this.props;
 
-    const page = get(data, 'tradingAccountsList.data.number') || 0;
+    const page = get(tradingAccountsData, 'data.tradingAccounts.data.number') || 0;
 
     loadMore(page + 1);
   };
 
   render() {
     const {
-      tradingAccounts: {
-        data,
+      tradingAccountsData,
+      tradingAccountsData: {
         loading,
       },
     } = this.props;
 
-    const { content, last } = get(data, 'tradingAccountsList.data') || { content: [] };
-    const error = get(data, 'tradingAccountsList.error');
+    const { content, last } = get(tradingAccountsData, 'data.tradingAccounts.data') || { content: [] };
 
     return (
       <div className="card-body">
@@ -49,7 +47,7 @@ class TradingAccountsListGrid extends PureComponent {
           handlePageChanged={this.handlePageChanged}
           isLoading={loading}
           isLastPage={last}
-          withNoResults={error}
+          withNoResults={!loading && content.length === 0}
           withLazyLoad
         >
           <GridColumn
