@@ -55,6 +55,7 @@ class AcquisitionStatus extends PureComponent {
       header: I18n.t('LEAD_PROFILE.MODALS.REPRESENTATIVE_UPDATE.HEADER', {
         type: aquisitionStatusesNames.SALES.toLowerCase(),
       }),
+      onSuccess: () => {},
     });
   };
 
