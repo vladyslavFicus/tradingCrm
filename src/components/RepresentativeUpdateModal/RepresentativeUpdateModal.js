@@ -416,6 +416,7 @@ class RepresentativeUpdateModal extends PureComponent {
                     })
                   )}
                   withAnyOption
+                  searchable
                 >
                   {filteredDesks.map(({ name, uuid }) => (
                     <option key={uuid} value={uuid}>
@@ -447,6 +448,7 @@ class RepresentativeUpdateModal extends PureComponent {
                       values,
                     })
                   )}
+                  searchable
                 >
                   {teams.map(({ name, uuid }) => (
                     <option key={uuid} value={uuid}>
@@ -467,6 +469,7 @@ class RepresentativeUpdateModal extends PureComponent {
                   multiple={multiAssign}
                   customOnChange={value => setFieldValue(fieldNames.REPRESENTATIVE, value)}
                   disabled={agentsDisabled || isSubmitting}
+                  searchable
                 >
                   {(agents || []).map(({ fullName, uuid }) => (
                     <option key={uuid} value={uuid}>
@@ -480,6 +483,7 @@ class RepresentativeUpdateModal extends PureComponent {
                   component={FormikSelectField}
                   disabled={isSubmitting}
                   placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
+                  searchable
                 >
                   <Choose>
                     <When condition={type === deskTypes.SALES}>
