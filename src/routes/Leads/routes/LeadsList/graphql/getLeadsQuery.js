@@ -79,6 +79,8 @@ const REQUEST = gql`query LeadsList_getLeadsQuery(
         lastNote {
           changedAt
           content
+          authorFullName
+          uuid
         }
       }
     }

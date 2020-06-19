@@ -382,7 +382,7 @@ class ClientsGrid extends PureComponent {
           sortBy="lastNote.changedAt"
           header={I18n.t('CLIENTS.LIST.GRID_HEADER.LAST_NOTE')}
           render={(data) => {
-            const { uuid, changedAt, content } = get(data, 'lastNote') || {};
+            const { uuid, changedAt, content, authorFullName } = get(data, 'lastNote') || {};
 
             return (
               <Choose>
@@ -400,6 +400,9 @@ class ClientsGrid extends PureComponent {
                         .local()
                         .format('HH:mm:ss')}
                     </div>
+                    <span className="ClientsGrid__noteAuthor">
+                      {authorFullName}
+                    </span>
                     <div
                       className="max-height-35 font-size-11 ClientsGrid__notes"
                       id={`${uuid}-note`}

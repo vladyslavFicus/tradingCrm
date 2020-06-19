@@ -12,8 +12,13 @@
   &__last-note {
     max-width: 200px;
 
+    &-author {
+      display: block;
+      font-weight: bolder;
+    }
+
     &-content {
-      margin-top: 10px;
+      margin-top: 5px;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;

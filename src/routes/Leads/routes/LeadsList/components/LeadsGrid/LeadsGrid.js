@@ -159,36 +159,45 @@ class LeadsGrid extends PureComponent {
     </>
   );
 
-  renderLastNote = ({ id, lastNote }) => (
-    <Choose>
-      <When condition={lastNote && lastNote.content && lastNote.changedAt}>
-        <div className="LeadsGrid__last-note">
-          <div className="LeadsGrid__primary">
-            {moment.utc(lastNote.changedAt).local().format('DD.MM.YYYY')}
-          </div>
+  renderLastNote = (lead) => {
+    const lastNote = get(lead, 'lastNote') || {};
+    const { content, changedAt, authorFullName, uuid } = lastNote;
 
-          <div className="LeadsGrid__secondary">
-            {moment.utc(lastNote.changedAt).local().format('HH:mm:ss')}
-          </div>
+    return (
+      <Choose>
+        <When condition={content && changedAt}>
+          <div className="LeadsGrid__last-note">
+            <div className="LeadsGrid__primary">
+              {moment.utc(changedAt).local().format('DD.MM.YYYY')}
+            </div>
 
-          <div className="LeadsGrid__last-note-content" id={`${id}-note`}>
-            {lastNote.content}
-          </div>
+            <div className="LeadsGrid__secondary">
+              {moment.utc(changedAt).local().format('HH:mm:ss')}
+            </div>
 
-          <UncontrolledTooltip
-            target={`${id}-note`}
-            placement="bottom-start"
-            delay={{ show: 350, hide: 250 }}
-          >
-            {lastNote.content}
-          </UncontrolledTooltip>
-        </div>
-      </When>
-      <Otherwise>
-        <GridEmptyValue />
-      </Otherwise>
-    </Choose>
-  );
+            <span className="LeadsGrid__last-note-author">
+              {authorFullName}
+            </span>
+
+            <div className="LeadsGrid__last-note-content" id={`${uuid}-note`}>
+              {content}
+            </div>
+
+            <UncontrolledTooltip
+              target={`${uuid}-note`}
+              placement="bottom-start"
+              delay={{ show: 350, hide: 250 }}
+            >
+              {content}
+            </UncontrolledTooltip>
+          </div>
+        </When>
+        <Otherwise>
+          <GridEmptyValue />
+        </Otherwise>
+      </Choose>
+    );
+  }
 
   renderStatus = ({ status, statusChangedDate, convertedByOperatorUuid, convertedToClientUuid }) => (
     <>
