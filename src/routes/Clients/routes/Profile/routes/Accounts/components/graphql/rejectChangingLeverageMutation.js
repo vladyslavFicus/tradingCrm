@@ -4,11 +4,13 @@ import gql from 'graphql-tag';
 import { Mutation } from 'react-apollo';
 
 const MUTATION = gql`
-  mutation RejectChangeLeverageRequestMutation($accountUUID: String!) {
+  mutation RejectChangingLeverageMutation(
+    $accountUUID: String!
+  ) {
     tradingAccount {
-      rejectChangeLeverageRequest(accountUUID: $accountUUID) {
-        success
-      }
+      rejectChangingLeverage(
+        accountUUID: $accountUUID
+      )
     }
   }
 `;

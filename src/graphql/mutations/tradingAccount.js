@@ -18,12 +18,7 @@ const createTradingAccountMutation = gql`mutation createTradingAccount(
       accountType: $accountType,
       platformType: $platformType,
       amount: $amount,
-    ) {
-      success
-      error {
-        error
-      }
-    }
+    )
   }
 }`;
 
@@ -43,12 +38,7 @@ const updateTradingAccountMutation = gql`mutation updateTradingAccount(
       mode: $mode,
       currency: $currency,
       readOnly: $readOnly,
-    ) {
-      success
-      error {
-        error
-      }
-    }
+    )
   }
 }`;
 

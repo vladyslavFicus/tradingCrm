@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import { compose, graphql } from 'react-apollo';
+import { parseErrors } from 'apollo';
 import { get } from 'lodash';
 import { Field, reduxForm, formValueSelector } from 'redux-form';
 import { connect } from 'react-redux';
@@ -55,24 +56,30 @@ class TradingAccountAddModal extends PureComponent {
   onSubmit = async (data) => {
     const { profileId, createTradingAccount, notify, onCloseModal, onConfirm } = this.props; // eslint-disable-line
 
-    const { data: { tradingAccount: { create: { success, error } } } } = await createTradingAccount({
-      variables: {
-        ...data,
-        profileId,
-      },
-    });
+    try {
+      await createTradingAccount({
+        variables: {
+          ...data,
+          profileId,
+        },
+      });
 
-    notify({
-      level: success ? 'success' : 'error',
-      title: I18n.t('CLIENT_PROFILE.ACCOUNTS.MODAL_CREATE.TITLE'),
-      message: success
-        ? I18n.t('CLIENT_PROFILE.ACCOUNTS.MODAL_CREATE.SUCCESSFULLY_CREATED')
-        : I18n.t(error.error) || I18n.t('COMMON.SOMETHING_WRONG'),
-    });
+      notify({
+        level: 'success',
+        title: I18n.t('CLIENT_PROFILE.ACCOUNTS.MODAL_CREATE.TITLE'),
+        message: I18n.t('CLIENT_PROFILE.ACCOUNTS.MODAL_CREATE.SUCCESSFULLY_CREATED'),
+      });
 
-    if (success) {
       onCloseModal();
       onConfirm();
+    } catch (e) {
+      const error = parseErrors(e);
+
+      notify({
+        level: 'error',
+        title: I18n.t('CLIENT_PROFILE.ACCOUNTS.MODAL_CREATE.TITLE'),
+        message: error.message || I18n.t('COMMON.SOMETHING_WRONG'),
+      });
     }
   };
 

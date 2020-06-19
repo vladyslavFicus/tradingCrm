@@ -1,7 +1,7 @@
 import { graphql, compose } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
 import { operatorsQuery } from 'graphql/queries/operators';
-import { getTradingAccount } from 'graphql/queries/tradingAccount';
+import { getClientTradingAccounts } from 'graphql/queries/tradingAccount';
 import FilterFields from './FilterFields';
 
 export default compose(
@@ -9,8 +9,8 @@ export default compose(
   graphql(operatorsQuery, {
     name: 'operators',
   }),
-  graphql(getTradingAccount, {
-    name: 'tradingAccounts',
+  graphql(getClientTradingAccounts, {
+    name: 'clientTradingAccounts',
     options: ({
       match: {
         params: {
@@ -19,7 +19,7 @@ export default compose(
       },
     }) => ({
       variables: {
-        uuid: profileUUID,
+        profileUUID,
       },
     }),
   }),

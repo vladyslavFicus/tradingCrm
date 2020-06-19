@@ -7,7 +7,7 @@ import PropTypes from 'constants/propTypes';
 import permissions from 'config/permissions';
 import EventEmitter, { PROFILE_RELOAD } from 'utils/EventEmitter';
 import { profile as profileQuery } from 'graphql/queries/profile';
-import { getTradingAccount } from 'graphql/queries/tradingAccount';
+import { getClientTradingAccounts } from 'graphql/queries/tradingAccount';
 import PermissionContent from 'components/PermissionContent';
 import TabHeader from 'components/TabHeader';
 import ListFilterForm from 'components/ListFilterForm';
@@ -21,8 +21,8 @@ class Accounts extends PureComponent {
     modals: PropTypes.shape({
       tradingAccountAddModal: PropTypes.modalType,
     }).isRequired,
-    tradingAccountsData: PropTypes.shape({
-      tradingAccount: PropTypes.arrayOf(PropTypes.tradingAccount),
+    clientTradingAccountsData: PropTypes.shape({
+      clientTradingAccounts: PropTypes.arrayOf(PropTypes.tradingAccount),
       refetch: PropTypes.func.isRequired,
     }).isRequired,
     profile: PropTypes.profile.isRequired,
@@ -37,19 +37,19 @@ class Accounts extends PureComponent {
   }
 
   onProfileEvent = () => {
-    this.props.tradingAccountsData.refetch();
+    this.props.clientTradingAccountsData.refetch();
   };
 
   showTradingAccountAddModal = () => {
     const {
       modals: { tradingAccountAddModal },
       profile,
-      tradingAccountsData,
+      clientTradingAccountsData,
     } = this.props;
 
     tradingAccountAddModal.show({
       profileId: get(profile, 'profile.data.uuid'),
-      onConfirm: tradingAccountsData.refetch,
+      onConfirm: clientTradingAccountsData.refetch,
     });
   };
 
@@ -60,15 +60,15 @@ class Accounts extends PureComponent {
   render() {
     const {
       profile,
-      tradingAccountsData,
-      tradingAccountsData: {
+      clientTradingAccountsData,
+      clientTradingAccountsData: {
         refetch,
         loading,
       },
     } = this.props;
 
-    const tradingAccounts = get(tradingAccountsData, 'tradingAccount') || [];
-    const accountType = get(tradingAccountsData, 'variables.accountType') || '';
+    const tradingAccounts = get(clientTradingAccountsData, 'clientTradingAccounts') || [];
+    const accountType = get(clientTradingAccountsData, 'variables.accountType') || '';
     const profileUuid = get(profile, 'profile.data.uuid') || '';
 
     return (
@@ -107,11 +107,11 @@ export default compose(
   withModals({
     tradingAccountAddModal: TradingAccountAddModal,
   }),
-  graphql(getTradingAccount, {
+  graphql(getClientTradingAccounts, {
     options: ({
       match: {
         params: {
-          id: uuid,
+          id: profileUUID,
         },
       },
       location: { query },
@@ -119,11 +119,11 @@ export default compose(
       variables: {
         accountType: 'LIVE',
         ...query && query.filters,
-        uuid,
+        profileUUID,
       },
       fetchPolicy: 'network-only',
     }),
-    name: 'tradingAccountsData',
+    name: 'clientTradingAccountsData',
   }),
   graphql(profileQuery, {
     options: ({
