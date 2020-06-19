@@ -1,3 +1,1 @@
-import HierarchyProfileRules from './components/HierarchyProfileRules';
-
-export default HierarchyProfileRules;
+export { default } from './HierarchyProfileRules';
