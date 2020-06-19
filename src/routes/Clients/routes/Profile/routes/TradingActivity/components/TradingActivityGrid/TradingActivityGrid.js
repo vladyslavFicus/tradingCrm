@@ -3,6 +3,7 @@ import { get } from 'lodash';
 import classNames from 'classnames';
 import moment from 'moment';
 import I18n from 'i18n-js';
+import { withRouter } from 'react-router-dom';
 import { compose } from 'react-apollo';
 import { withRequests } from 'apollo';
 import { withModals } from 'hoc';
@@ -249,6 +250,7 @@ class TradingActivityGrid extends PureComponent {
   }
 }
 export default compose(
+  withRouter,
   withModals({
     changeOriginalAgentModal: ChangeOriginalAgentModal,
   }),
