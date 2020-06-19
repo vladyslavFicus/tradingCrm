@@ -38,7 +38,7 @@ class Input extends PureComponent {
   render() {
     const {
       field: {
-        value = '',
+        value,
         ...field
       },
       error,
@@ -53,6 +53,7 @@ class Input extends PureComponent {
     } = this.props;
 
     const inputProps = {
+      value: value || '',
       ...input,
       ...field,
       disabled,
@@ -72,7 +73,7 @@ class Input extends PureComponent {
           <If condition={label}>
             <label className="input__label">{label}</label>
           </If>
-          <input value={value} {...inputProps} />
+          <input {...inputProps} />
           <If condition={icon}>
             <i className={classNames(icon, 'input__icon')} />
           </If>
