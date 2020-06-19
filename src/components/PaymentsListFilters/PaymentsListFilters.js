@@ -26,6 +26,7 @@ import { filterSetTypes } from 'constants/filterSet';
 import formatLabel from 'utils/formatLabel';
 import renderLabel from 'utils/renderLabel';
 import countries from 'utils/countryList';
+import { decodeNullValues } from 'components/Formik/utils';
 import {
   FormikExtForm,
   FormikInputField,
@@ -169,13 +170,13 @@ class PaymentsListFilters extends PureComponent {
 
     this.props.history.replace({
       query: {
-        filters: {
+        filters: decodeNullValues({
           ...filters,
           ...(firstTimeDeposit && { firstTimeDeposit: !!+firstTimeDeposit }),
           ...(statuses && { statuses }),
           ...(amountFrom && { amountFrom }),
           ...(amountTo && { amountTo }),
-        },
+        }),
       },
     });
   };
