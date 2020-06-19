@@ -48,7 +48,6 @@ class AcquisitionStatus extends PureComponent {
       currentInactiveOperator: assignToOperator,
       header: I18n.t('CLIENT_PROFILE.MODALS.REPRESENTATIVE_UPDATE.HEADER', { type: type.toLowerCase() }),
       isAvailableToMove: true,
-      onSuccess: () => {},
     });
   };
 
