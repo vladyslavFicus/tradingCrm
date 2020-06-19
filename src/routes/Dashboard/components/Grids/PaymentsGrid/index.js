@@ -1,1 +1,1 @@
-export { default } from './PaymentsGridContainer';
+export { default } from './PaymentsGrid';

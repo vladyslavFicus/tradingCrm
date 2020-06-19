@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'constants/propTypes';
 import { get } from 'lodash';
 import I18n from 'i18n-js';
@@ -7,7 +7,7 @@ import RegisteredUsersStatistic from './graphql/RegisteredUsersStatistic';
 import Chart from '../Chart';
 import { getChartSelectOptions } from '../dashboardChartsUtils';
 
-class RegistrationsChart extends Component {
+class RegistrationsChart extends PureComponent {
   static propTypes = {
     registeredUsersStatistic: PropTypes.shape({
       loading: PropTypes.bool.isRequired,

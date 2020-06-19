@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import moment from 'moment';
 import I18n from 'i18n-js';
 import { ResponsiveContainer, LineChart, Line, YAxis, CartesianGrid, Tooltip, XAxis } from 'recharts';
@@ -6,7 +6,7 @@ import PropTypes from 'constants/propTypes';
 import { getActiveBrandConfig } from 'config';
 import Select from 'components/Select';
 import ShortLoader from 'components/ShortLoader';
-import CustomTooltip from './CustomTooltip';
+import createCustomTooltip from './createCustomTooltip';
 import './Chart.scss';
 
 const totalColumns = [{
@@ -20,7 +20,7 @@ const totalColumns = [{
   key: 'today',
 }];
 
-class Chart extends Component {
+class Chart extends PureComponent {
   static propTypes = {
     withCurrency: PropTypes.bool,
     tooltipTitle: PropTypes.string,
@@ -120,7 +120,7 @@ class Chart extends Component {
                       </If>
                       <YAxis minTickGap={40} axisLine={false} />
                       <CartesianGrid stroke="#eee" horizontal={false} />
-                      <Tooltip {...(tooltipTitle && { content: CustomTooltip(tooltipTitle) })} />
+                      <Tooltip {...(tooltipTitle && { content: createCustomTooltip(tooltipTitle) })} />
                       <Line
                         type="monotone"
                         key={lineDataKey}
