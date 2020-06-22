@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { Query } from 'react-apollo';
 
 const REQUEST = gql`
-  query TradingAccountsQuery($uuid: String!) {
+  query TradingAccountsQuery_TradingActivityGridFilter($uuid: String!) {
     tradingAccount(uuid: $uuid) {
       login
       platformType

@@ -3,7 +3,7 @@ import gql from 'graphql-tag';
 import PropTypes from 'prop-types';
 import { Query } from 'react-apollo';
 
-const REQUEST = gql`query OperatorsQuery {
+const REQUEST = gql`query OperatorsQuery_TradingActivityGridFilter {
   operators {
     data {
       content {

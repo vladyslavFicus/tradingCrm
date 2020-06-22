@@ -85,7 +85,7 @@ class TradingActivityGridFilter extends PureComponent {
         onSubmit={this.handleApplyFilters}
         onReset={this.handleFilterReset}
       >
-        {({ handleReset, dirty }) => (
+        {({ handleReset, dirty, isSubmitting }) => (
           <Form className="filter__form">
             <div className="filter__form-inputs">
               <Field
@@ -243,13 +243,14 @@ class TradingActivityGridFilter extends PureComponent {
               <Button
                 className="margin-right-15"
                 onClick={handleReset}
-                disabled={!dirty}
+                disabled={!dirty || isSubmitting}
                 common
               >
                 {I18n.t('COMMON.RESET')}
               </Button>
               <Button
                 type="submit"
+                disabled={isSubmitting}
                 primary
               >
                 {I18n.t('COMMON.APPLY')}
