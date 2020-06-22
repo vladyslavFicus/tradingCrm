@@ -171,7 +171,7 @@ class ActionFilterModal extends PureComponent {
                 <Button
                   primary
                   type="submit"
-                  disabled={!isValid || !dirty || isSubmitting}
+                  disabled={!isValid || (!name && !dirty) || isSubmitting}
                 >
                   {I18n.t('COMMON.SUBMIT')}
                 </Button>
