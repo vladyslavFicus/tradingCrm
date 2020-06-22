@@ -21,8 +21,8 @@ class UploadModal extends Component {
     uploadFile: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func.isRequired,
     addNote: PropTypes.func.isRequired,
-    confirmUploadedFiles: PropTypes.func.isRequired,
-    getFilesCategoriesList: PropTypes.object.isRequired,
+    confirmFilesUploading: PropTypes.func.isRequired,
+    filesCategoriesData: PropTypes.object.isRequired,
     profileUUID: PropTypes.string.isRequired,
   }
 
@@ -101,7 +101,7 @@ class UploadModal extends Component {
       Object.keys(files).map(fileIndex => uploadFile({
         variables: {
           file: files[fileIndex],
-          profileUUID,
+          uuid: profileUUID,
         },
       })),
     );
@@ -139,7 +139,7 @@ class UploadModal extends Component {
       onCloseModal,
       addNote,
       notify,
-      confirmUploadedFiles,
+      confirmFilesUploading,
       profileUUID,
     } = this.props;
 
@@ -152,45 +152,46 @@ class UploadModal extends Component {
       verificationType: data[fileUuid].category,
     }));
 
-    const confirmationResponse = await confirmUploadedFiles({
-      variables: {
-        documents,
-        profileUuid: profileUUID,
-      },
-    });
 
-    const success = get(confirmationResponse, 'data.file.confirmFiles.data.success') || false;
+    try {
+      await confirmFilesUploading({
+        variables: {
+          documents,
+          profileUuid: profileUUID,
+        },
+      });
 
-    if (success) {
       await Promise.all(filesToUpload.map(({ fileNote }) => (
         (fileNote)
           ? addNote({ variables: fileNote })
           : false
       )));
-    }
 
-    notify({
-      level: success ? 'success' : 'error',
-      title: success ? I18n.t('COMMON.SUCCESS') : I18n.t('COMMON.FAIL'),
-      message: success
-        ? I18n.t('FILES.UPLOAD_MODAL.FILE.NOTIFICATIONS.SUCCESS')
-        : I18n.t('FILES.UPLOAD_MODAL.FILE.NOTIFICATIONS.ERROR'),
-    });
-
-    if (success) {
       EventEmitter.emit(FILE_UPLOADED, documents);
       onCloseModal();
+
+      notify({
+        level: 'success',
+        title: I18n.t('COMMON.SUCCESS'),
+        message: I18n.t('FILES.UPLOAD_MODAL.FILE.NOTIFICATIONS.SUCCESS'),
+      });
+    } catch {
+      notify({
+        level: 'error',
+        title: I18n.t('COMMON.FAIL'),
+        message: I18n.t('FILES.UPLOAD_MODAL.FILE.NOTIFICATIONS.ERROR'),
+      });
     }
   }
 
   renderFile = (file, index) => {
     const {
       profileUUID,
-      getFilesCategoriesList,
+      filesCategoriesData,
       change,
     } = this.props;
 
-    const { __typename, ...categories } = get(getFilesCategoriesList, 'filesCategoriesList.data') || {};
+    const { __typename, ...categories } = get(filesCategoriesData, 'filesCategories.data') || {};
 
     return (
       <UploadingFile

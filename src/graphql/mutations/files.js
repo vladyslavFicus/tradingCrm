@@ -3,12 +3,12 @@ import gql from 'graphql-tag';
 const uploadFileMutation = gql`
   mutation uploadFileMutation(
     $file: Upload!
-    $profileUUID: String!
+    $uuid: String!
   ) {
     file {
       upload(
         file: $file
-        profileUUID: $profileUUID
+        uuid: $uuid
       ) {
         data {
           fileUuid
@@ -22,71 +22,33 @@ const uploadFileMutation = gql`
   }
 `;
 
-const confirmUploadedFilesMutation = gql`
-  mutation confirmUploadedFilesMutation(
-    $documents: [InputFileType]!
+const confirmFilesUploadingMutation = gql`
+  mutation confirmFilesUploadingMutation(
+    $documents: [FileToUpload]!
     $profileUuid: String!
   ) {
     file {
-      confirmFiles(
+      confirmFilesUploading(
         documents: $documents
         profileUuid: $profileUuid
-      ) {
-        data {
-          success
-        }
-      }
+      )
     }
   }
 `;
 
-const verifyMutation = gql`mutation fileVerifyMutation(
-  $uuid: String!
-) {
-  file {
-    verify(uuid: $uuid) {
-      data {
-        _id
-        status {
-          author
-          comment
-          editDate
-          value
-        }
-      }
-    }
-  }
-}`;
-
-const deleteMutation = gql`mutation fileDeleteMutation($uuid: String!) {
-  file {
-    delete(uuid: $uuid) {
-      data {
-        _id
-      }
-      error {
-        error
-        fields_errors
-      }
-    }
-  }
-}`;
-
 const updateFileStatusMutation = gql`mutation updateFileStatusMutation(
-  $clientUuid: String!
+  $uuid: String!
   $verificationType: String
   $documentType: String
   $verificationStatus: String
 ) {
   file {
     updateFileStatus(
-      clientUuid: $clientUuid,
+      uuid: $uuid,
       verificationType: $verificationType,
       documentType: $documentType,
       verificationStatus: $verificationStatus
-    ) {
-      success
-    }
+    )
   }
 }`;
 
@@ -102,19 +64,13 @@ const updateFileMetaMutation = gql`mutation updateFileMetaMutation(
       verificationType: $verificationType,
       documentType: $documentType,
       status: $status
-    ) {
-      success
-    }
+    )
   }
 }`;
 
 export {
-  // New one
   uploadFileMutation,
-  confirmUploadedFilesMutation,
-
-  deleteMutation,
-  verifyMutation,
-  updateFileStatusMutation,
   updateFileMetaMutation,
+  updateFileStatusMutation,
+  confirmFilesUploadingMutation,
 };

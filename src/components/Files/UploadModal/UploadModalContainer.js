@@ -1,8 +1,8 @@
 import { graphql, compose } from 'react-apollo';
 import { reduxForm } from 'redux-form';
 import { withNotifications } from 'hoc';
-import { uploadFileMutation, confirmUploadedFilesMutation } from 'graphql/mutations/files';
-import { getFilesCategoriesList } from 'graphql/queries/files';
+import { uploadFileMutation, confirmFilesUploadingMutation } from 'graphql/mutations/files';
+import { getFilesCategories } from 'graphql/queries/files';
 import { addNoteMutation } from 'graphql/mutations/note';
 import { createValidator, translateLabels } from 'utils/validator';
 import { translatedLabels } from './constants';
@@ -14,8 +14,8 @@ export default compose(
   withNotifications,
   graphql(addNoteMutation, { name: 'addNote' }),
   graphql(uploadFileMutation, { name: 'uploadFile' }),
-  graphql(getFilesCategoriesList, { name: 'getFilesCategoriesList' }),
-  graphql(confirmUploadedFilesMutation, { name: 'confirmUploadedFiles' }),
+  graphql(getFilesCategories, { name: 'filesCategoriesData' }),
+  graphql(confirmFilesUploadingMutation, { name: 'confirmFilesUploading' }),
   reduxForm({
     form: FORM_NAME,
     enableReinitialize: true,

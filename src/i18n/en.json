@@ -852,6 +852,11 @@
       "BUTTONS": {
         "DELETE": "Delete File"
       },
+      "NOTIFICATIONS": {
+        "TITLE": "Delete file action",
+        "SUCCESS": "File successfully deleted",
+        "ERROR": "File did not delete for some reasons"
+      },
       "WARNING_TEXT": "This action can not be undone!",
       "ACTION_TEXT": "You are about to delete file %{fileName}"
     },
@@ -881,8 +886,11 @@
       "DOCUMENT_STATUS": "Document Status",
       "UPLOAD_DATA_RANGE": "Upload data range",
       "SEARCH_BY": "Search by",
-      "DATE_FROM": "Start date",
-      "DATE_TO": "End date"
+      "SEARCH_BY_PLACEHOLDER": "Name, UUID",
+      "CATEGORY": "Category",
+      "CATEGORY_PLACEHOLDER": "Choose category",
+      "DOCUMENT_TYPE": "Document type",
+      "DOCUMENT_TYPE_PLACEHOLDER": "Select document type"
     },
     "ACTIONS": {
       "VERIFY": "Verify",
