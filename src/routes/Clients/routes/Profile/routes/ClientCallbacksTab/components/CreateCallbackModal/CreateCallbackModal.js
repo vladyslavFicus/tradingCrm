@@ -160,6 +160,7 @@ class CreateCallbackModal extends PureComponent {
                   label={I18n.t(attributeLabels.callbackTime)}
                   closeOnSelect={false}
                   withTime
+                  utc
                 />
 
                 <Field
@@ -179,6 +180,7 @@ class CreateCallbackModal extends PureComponent {
                   <NoteButton
                     manual
                     playerUUID={id}
+                    targetType={targetTypes.CALLBACK}
                     placement="bottom"
                     ref={(ref) => { this.noteButton = ref; }}
                   />

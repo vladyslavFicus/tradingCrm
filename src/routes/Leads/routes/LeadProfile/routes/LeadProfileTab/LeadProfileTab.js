@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, { PureComponent } from 'react';
 import { compose } from 'react-apollo';
 import I18n from 'i18n-js';
@@ -24,7 +23,7 @@ import './LeadProfileTab.scss';
 
 const countryCodes = Object.keys(countryList);
 
-class Profile extends PureComponent {
+class LeadProfileTab extends PureComponent {
   static propTypes = {
     leadProfile: PropTypes.query({
       leadProfile: PropTypes.shape({
@@ -51,15 +50,29 @@ class Profile extends PureComponent {
     return getBrand().privatePhoneByDepartment.includes(department);
   };
 
+  emailAccessDenied = () => {
+    const {
+      auth: {
+        department,
+      },
+    } = this.props;
+
+    return getBrand().privateEmailByDepartment.includes(department);
+  };
+
   handleUpdateLead = async (variables) => {
-    const { notify, updateLead, leadProfile  } = this.props;
-    const { phone, mobile } = get(leadProfile, 'data.leadProfile.data') || {};
-    const requestData = this.phoneAccessDenied()
-      ? { ...variables, phone, mobile }
-      : variables;
+    const { notify, updateLead, leadProfile } = this.props;
+    const { email, phone, mobile } = get(leadProfile, 'data.leadProfile.data') || {};
+
+    const requestData = {
+      ...variables,
+      email: this.emailAccessDenied() ? email : variables.email,
+      phone: this.phoneAccessDenied() ? phone : variables.phone,
+      mobile: this.phoneAccessDenied() ? mobile : variables.mobile,
+    };
 
     const { data: { leads: { update: { error } } } } = await updateLead({
-      variables: requestData
+      variables: requestData,
     });
 
     if (error) {
@@ -68,7 +81,7 @@ class Profile extends PureComponent {
         title: I18n.t('LEAD_PROFILE.NOTIFICATION_FAILURE'),
         message: error.error === 'error.entity.already.exist'
           ? I18n.t('lead.error.entity.already.exist', { email: variables.email })
-          : I18n.t('COMMON.SOMETHING_WRONG')
+          : I18n.t('COMMON.SOMETHING_WRONG'),
       });
       this.setState({
         submitError: error.error === 'error.entity.already.exist'
@@ -96,6 +109,7 @@ class Profile extends PureComponent {
     }
 
     const isPhoneHidden = this.phoneAccessDenied();
+    const isEmailHidden = this.emailAccessDenied();
 
     const {
       uuid,
@@ -120,7 +134,7 @@ class Profile extends PureComponent {
           surname,
           phone: isPhoneHidden ? hideText(phone) : phone,
           mobile: isPhoneHidden ? hideText(mobile) : mobile,
-          email,
+          email: isEmailHidden ? hideText(email) : email,
           country: getCountryCode(country),
           birthDate,
           gender,
@@ -138,12 +152,12 @@ class Profile extends PureComponent {
           address: 'string',
           phone: 'string',
           mobile: 'string',
-          email: 'email',
+          email: isEmailHidden ? 'string' : 'email',
         }, translateLabels(attributeLabels), false)}
         enableReinitialize
       >
         {({ isValid, isSubmitting, dirty }) => (
-          <Form className="Profile">
+          <Form className="LeadProfileTab">
             <TabHeader title={I18n.t('PLAYER_PROFILE.PROFILE.TITLE')}>
               <If condition={dirty && !isSubmitting && isValid}>
                 <Button type="submit" primaryOutline>
@@ -152,7 +166,7 @@ class Profile extends PureComponent {
               </If>
             </TabHeader>
             <If condition={this.state.submitError}>
-              <div className="Profile__error">
+              <div className="LeadProfileTab__error">
                 {this.state.submitError}
               </div>
             </If>
@@ -174,7 +188,10 @@ class Profile extends PureComponent {
               <div className="card">
                 <div className="card-body row">
                   <div className="col">
-                    <ContactForm isPhoneDisabled={isPhoneHidden} />
+                    <ContactForm
+                      isPhoneDisabled={isPhoneHidden}
+                      isEmailDisabled={isEmailHidden}
+                    />
                   </div>
                 </div>
               </div>
@@ -193,4 +210,4 @@ export default compose(
     leadProfile: LeadProfileQuery,
     updateLead: LeadProfileUpdate,
   }),
-)(Profile);
+)(LeadProfileTab);

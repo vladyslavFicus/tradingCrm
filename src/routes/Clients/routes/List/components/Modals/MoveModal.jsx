@@ -1,16 +1,21 @@
 import React, { PureComponent } from 'react';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import { Field, SubmissionError } from 'redux-form';
 import I18n from 'i18n-js';
+import { Formik, Form, Field } from 'formik';
 import PropTypes from 'constants/propTypes';
-import { NasSelectField } from 'components/ReduxForm';
 import { aquisitionStatuses } from 'constants/aquisitionStatuses';
+import { FormikSelectField } from 'components/Formik';
+import { Button } from 'components/UI';
+import { createValidator } from 'utils/validator';
 import { checkMovePermission } from './utils';
 import { getClientsData } from '../utils';
 
+const validate = createValidator({
+  acquisitionStatus: ['required', 'string'],
+});
+
 class MoveModal extends PureComponent {
   static propTypes = {
-    error: PropTypes.any,
     configs: PropTypes.shape({
       allRowsSelected: PropTypes.bool,
       totalElements: PropTypes.number,
@@ -20,21 +25,13 @@ class MoveModal extends PureComponent {
     }).isRequired,
     notify: PropTypes.func.isRequired,
     isOpen: PropTypes.bool.isRequired,
-    invalid: PropTypes.bool.isRequired,
-    pristine: PropTypes.bool.isRequired,
     onSuccess: PropTypes.func.isRequired,
-    submitting: PropTypes.bool.isRequired,
     onCloseModal: PropTypes.func.isRequired,
-    handleSubmit: PropTypes.func.isRequired,
     content: PropTypes.arrayOf(PropTypes.object).isRequired,
     bulkRepresentativeUpdate: PropTypes.func.isRequired,
   };
 
-  static defaultProps = {
-    error: null,
-  };
-
-  handleMoveSubmit = async ({ acquisitionStatus }) => {
+  handleMoveSubmit = async ({ acquisitionStatus }, { setSubmitting, setErrors }) => {
     const {
       notify,
       configs,
@@ -48,6 +45,7 @@ class MoveModal extends PureComponent {
     } = this.props;
 
     const actionForbidden = checkMovePermission({ ...configs, content, acquisitionStatus });
+
     const type = acquisitionStatus;
 
     if (actionForbidden) {
@@ -57,10 +55,11 @@ class MoveModal extends PureComponent {
         title: I18n.t('COMMON.BULK_UPDATE_FAILED'),
         message: I18n.t('clients.bulkUpdate.moveForbidden', { type: typeLowercased }),
       });
-
-      throw new SubmissionError({
-        _error: I18n.t('clients.bulkUpdate.detailedTypeError', { type: typeLowercased }),
+      setErrors({
+        submit: I18n.t('clients.bulkUpdate.detailedTypeError', { type: typeLowercased }),
       });
+      setSubmitting(false);
+      return;
     }
 
     const isMoveAction = true;
@@ -90,9 +89,10 @@ class MoveModal extends PureComponent {
       });
 
       if (condition) {
-        throw new SubmissionError({
-          _error: I18n.t('clients.bulkUpdate.detailedTypeError', { type }),
+        setErrors({
+          submit: I18n.t('clients.bulkUpdate.detailedTypeError', { type }),
         });
+        setSubmitting(false);
       }
     } else {
       notify({
@@ -108,13 +108,8 @@ class MoveModal extends PureComponent {
 
   render() {
     const {
-      error,
       isOpen,
-      invalid,
-      pristine,
-      submitting,
       onCloseModal,
-      handleSubmit,
       configs: { selectedRowsLength },
     } = this.props;
 
@@ -123,51 +118,58 @@ class MoveModal extends PureComponent {
         toggle={onCloseModal}
         isOpen={isOpen}
       >
-        <ModalHeader toggle={onCloseModal}>
-          <div>{I18n.t('CLIENTS.MODALS.MOVE_MODAL.MOVE_HEADER')}</div>
-          <div className="font-size-11 color-yellow">{selectedRowsLength}{' '}{I18n.t('COMMON.CLIENTS_SELECTED')}</div>
-        </ModalHeader>
-        <ModalBody
-          tag="form"
-          id="move-modal-form"
-          onSubmit={handleSubmit(this.handleMoveSubmit)}
+        <Formik
+          initialValues={{ acquisitionStatus: '' }}
+          onSubmit={this.handleMoveSubmit}
+          validate={validate}
         >
-          <If condition={error}>
-            <div className="mb-2 text-center color-danger">
-              {error}
-            </div>
-          </If>
-          <Field
-            name="acquisitionStatus"
-            label={I18n.t('CLIENTS.MODALS.MOVE_MODAL.MOVE_LABEL')}
-            component={NasSelectField}
-            disabled={submitting}
-            placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
-          >
-            {aquisitionStatuses.map(({ value, label }) => (
-              <option key={value} value={value}>
-                {I18n.t(label)}
-              </option>
-            ))}
-          </Field>
-        </ModalBody>
-        <ModalFooter>
-          <button
-            type="button"
-            className="btn btn-default-outline"
-            onClick={onCloseModal}
-          >
-            {I18n.t('COMMON.BUTTONS.CANCEL')}
-          </button>
-          <button
-            type="submit"
-            disabled={invalid || pristine || submitting}
-            className="btn btn-primary"
-            form="move-modal-form"
-          >
-            {I18n.t('CLIENTS.MODALS.SUBMIT')}
-          </button>
-        </ModalFooter>
+          {({ errors, isValid, isSubmitting, dirty }) => (
+            <Form>
+              <ModalHeader toggle={onCloseModal}>
+                <div>{I18n.t('CLIENTS.MODALS.MOVE_MODAL.MOVE_HEADER')}</div>
+                <div className="font-size-11 color-yellow">
+                  {selectedRowsLength}{' '}{I18n.t('COMMON.CLIENTS_SELECTED')}
+                </div>
+              </ModalHeader>
+              <ModalBody>
+                <If condition={errors && errors.submit}>
+                  <div className="mb-2 text-center color-danger">
+                    {errors.submit}
+                  </div>
+                </If>
+                <Field
+                  name="acquisitionStatus"
+                  label={I18n.t('CLIENTS.MODALS.MOVE_MODAL.MOVE_LABEL')}
+                  component={FormikSelectField}
+                  placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
+                  disabled={isSubmitting}
+                >
+                  {aquisitionStatuses.map(({ value, label }) => (
+                    <option key={value} value={value}>
+                      {I18n.t(label)}
+                    </option>
+                  ))}
+                </Field>
+              </ModalBody>
+              <ModalFooter>
+                <Button
+                  default
+                  commonOutline
+                  onClick={onCloseModal}
+                >
+                  {I18n.t('COMMON.BUTTONS.CANCEL')}
+                </Button>
+                <Button
+                  primary
+                  type="submit"
+                  disabled={!dirty || !isValid || isSubmitting}
+                >
+                  {I18n.t('CLIENTS.MODALS.SUBMIT')}
+                </Button>
+              </ModalFooter>
+            </Form>
+          )}
+        </Formik>
       </Modal>
     );
   }

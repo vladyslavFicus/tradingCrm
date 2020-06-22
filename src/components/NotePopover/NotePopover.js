@@ -1,44 +1,57 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, { PureComponent } from 'react';
+import { v4 } from 'uuid';
+import { compose } from 'react-apollo';
 import { Popover, PopoverHeader, PopoverBody } from 'reactstrap';
-import { reduxForm, Field, getFormValues } from 'redux-form';
+import { Formik, Form, Field } from 'formik';
 import moment from 'moment';
 import I18n from 'i18n-js';
+import { withRequests } from 'apollo';
 import classNames from 'classnames';
+import { withPermission } from 'providers/PermissionsProvider';
+import { FormikInputField, FormikSwitchField, FormikTextAreaField } from 'components/Formik';
+import { Button } from 'components/UI';
 import permissions from 'config/permissions';
 import Permissions from 'utils/permissions';
-import { withPermission } from 'providers/PermissionsProvider';
-import PropTypes from '../../constants/propTypes';
-import { createValidator } from '../../utils/validator';
-import { entitiesPrefixes } from '../../constants/uuid';
-import './NotePopover.scss';
+import EventEmitter, { NOTE_ADDED, NOTE_UPDATED, NOTE_REMOVED } from 'utils/EventEmitter';
+import { createValidator, translateLabels } from 'utils/validator';
+import { entitiesPrefixes } from 'constants/uuid';
+import PropTypes from 'constants/propTypes';
 import Uuid from '../Uuid';
-import { TextAreaField, SwitchField, InputField } from '../ReduxForm';
+import {
+  RemoveNoteMutation,
+  UpdateNoteMutation,
+  AddNoteMutation,
+} from './graphql';
+import './NotePopover.scss';
 
 const MAX_CONTENT_LENGTH = 10000;
-const FORM_NAME = 'notePopoverForm';
-const attributeLabels = {
-  pinned: 'Pin',
-  content: 'Content',
+
+const INITIAL_VALUES = {
+  subject: '',
+  content: '',
+  pinnned: false,
 };
+
+const attributeLabels = {
+  pin: 'NOTES.MODAL.PIN',
+  subject: 'NOTES.SUBJECT',
+  content: 'NOTES.BODY',
+};
+
 const validator = createValidator({
   subject: 'string',
   content: ['required', 'string', `between:3,${MAX_CONTENT_LENGTH}`],
-  pinned: ['required', 'boolean'],
-}, attributeLabels, false);
+}, translateLabels(attributeLabels), false);
 
 const updateNotePermissions = new Permissions(permissions.NOTES.UPDATE_NOTE);
 const deleteNotePermissions = new Permissions(permissions.NOTES.DELETE_NOTE);
 
-class NotePopover extends Component {
+class NotePopover extends PureComponent {
   static propTypes = {
-    item: PropTypes.noteEntity,
-    target: PropTypes.string.isRequired,
+    note: PropTypes.noteEntity,
     placement: PropTypes.string,
-    isOpen: PropTypes.bool,
     // Used for custom requests processing (will be emit on(*)Success event)
     manual: PropTypes.bool,
-
     onAddSuccess: PropTypes.func,
     onAddFailure: PropTypes.func,
     onUpdateSuccess: PropTypes.func,
@@ -49,41 +62,22 @@ class NotePopover extends Component {
     updateNote: PropTypes.func.isRequired,
     removeNote: PropTypes.func.isRequired,
     defaultTitleLabel: PropTypes.string,
-    handleSubmit: PropTypes.func,
-    currentValues: PropTypes.shape({
-      pinned: PropTypes.bool,
-      content: PropTypes.string,
-      targetUUID: PropTypes.string,
-      playerUUID: PropTypes.string,
-    }),
-    targetType: PropTypes.string,
-    submitting: PropTypes.bool,
-    invalid: PropTypes.bool,
-    pristine: PropTypes.bool,
-    dirty: PropTypes.bool,
-    toggle: PropTypes.func,
+    playerUUID: PropTypes.string.isRequired,
+    targetUUID: PropTypes.string,
+    targetType: PropTypes.string.isRequired,
     hideArrow: PropTypes.bool,
     className: PropTypes.string,
-    id: PropTypes.string,
     permission: PropTypes.permission.isRequired,
+    children: PropTypes.element,
   };
 
   static defaultProps = {
-    item: null,
+    targetUUID: null,
+    note: null,
     defaultTitleLabel: null,
     placement: 'bottom',
-    isOpen: false,
-    handleSubmit: null,
-    currentValues: null,
-    targetType: '',
-    submitting: false,
-    invalid: false,
-    pristine: false,
-    dirty: false,
-    toggle: null,
     hideArrow: false,
     className: null,
-    id: null,
     manual: false,
     onAddSuccess: () => {},
     onAddFailure: () => {},
@@ -91,44 +85,62 @@ class NotePopover extends Component {
     onUpdateFailure: () => {},
     onDeleteSuccess: () => {},
     onDeleteFailure: () => {},
+    children: null,
   };
 
-  /**
-   * Should return promise to resolve submitting property from redux-form
-   * @param data
-   * @return {Promise<void>}
-   */
-  onSubmit = async (data) => {
-    const { item, targetType } = this.props;
+  id = `note-${v4()}`;
 
-    if (item) {
+  state = {
+    isOpen: false,
+    isDirty: false,
+  };
+
+  onSubmit = async (data) => {
+    const { note, targetUUID, targetType } = this.props;
+
+    if (note) {
       await this.handleUpdateNote(data);
     } else {
-      await this.handleAddNote({ ...data, targetType });
+      await this.handleAddNote({ ...data, targetUUID, targetType });
     }
   };
 
-  handleAddNote = async (variables) => {
+  handleAddNote = async (currentValues) => {
     const {
       addNote,
-      toggle,
       manual,
       onAddSuccess,
       onAddFailure,
+      playerUUID,
+      targetUUID,
+      targetType,
     } = this.props;
+
+    const variables = { pinned: false, playerUUID, targetUUID, targetType, ...currentValues };
 
     // If manual request processing --> emit successful event
     if (manual) {
       onAddSuccess(variables);
-      toggle();
+      this.handleClose(true);
     } else {
-      const { data: { note: { add: { data, error } } } } = await addNote({ variables });
+      const {
+        data: {
+          note: {
+            add: {
+              data,
+              error,
+            },
+          },
+        },
+      } = await addNote({ variables });
 
       if (error) {
         onAddFailure(error);
       } else {
         onAddSuccess(data);
-        toggle();
+        EventEmitter.emit(NOTE_ADDED, data);
+
+        this.handleClose(true);
       }
     }
   };
@@ -136,7 +148,6 @@ class NotePopover extends Component {
   handleUpdateNote = async (variables) => {
     const {
       updateNote,
-      toggle,
       manual,
       onUpdateSuccess,
       onUpdateFailure,
@@ -145,23 +156,34 @@ class NotePopover extends Component {
     // If manual request processing --> emit successful event
     if (manual) {
       onUpdateSuccess(variables);
-      toggle();
+      this.handleClose(true);
     } else {
-      const { data: { note: { update: { data, error } } } } = await updateNote({ variables });
+      const {
+        data: {
+          note: {
+            update: {
+              error,
+              data,
+            },
+          },
+        },
+      } = await updateNote({ variables });
 
       if (error) {
         onUpdateFailure(error);
       } else {
         onUpdateSuccess(data);
-        toggle();
+        EventEmitter.emit(NOTE_UPDATED, data);
+
+        this.handleClose(true);
       }
     }
   };
 
   handleRemoveNote = async (noteId) => {
     const {
+      note,
       removeNote,
-      toggle,
       manual,
       onDeleteSuccess,
       onDeleteFailure,
@@ -170,7 +192,7 @@ class NotePopover extends Component {
     // If manual request processing --> emit successful event
     if (manual) {
       onDeleteSuccess(noteId);
-      toggle();
+      this.handleClose(true);
     } else {
       const { data: { note: { remove: { error } } } } = await removeNote({ variables: { noteId } });
 
@@ -178,29 +200,39 @@ class NotePopover extends Component {
         onDeleteFailure(error);
       } else {
         onDeleteSuccess(noteId);
-        toggle();
+        EventEmitter.emit(NOTE_REMOVED, note);
+
+        this.handleClose(true);
       }
     }
   };
 
-  handleHide = (ignoreChanges = false) => {
-    const {
-      isOpen,
-      toggle,
-      dirty,
-    } = this.props;
+  handleOpen = (e) => {
+    if (e) {
+      e.stopPropagation();
+    }
 
-    const shouldClose = isOpen && (ignoreChanges || !dirty);
+    this.setState({ isOpen: true });
+  };
+
+  handleClose = (ignoreChanges = false) => {
+    const { isOpen, isDirty } = this.state;
+
+    const shouldClose = isOpen && (ignoreChanges || !isDirty);
 
     if (shouldClose) {
-      toggle();
+      this.setState({ isOpen: false });
     }
+  };
+
+  handlePopoverClick = (e) => {
+    e.stopPropagation();
   };
 
   renderTitle = () => {
     const {
       defaultTitleLabel,
-      item,
+      note,
       permission: {
         permissions: currentPermissions,
       },
@@ -208,16 +240,16 @@ class NotePopover extends Component {
 
     const deleteAllowed = deleteNotePermissions.check(currentPermissions);
 
-    if (!item) {
+    if (!note) {
       return (
-        <div className="note-popover__title">
+        <div className="NotePopover__title">
           {defaultTitleLabel || I18n.t('COMMON.NOTE')}
         </div>
       );
     }
 
     const {
-      item: {
+      note: {
         noteId,
         uuid,
         changedAt,
@@ -227,16 +259,16 @@ class NotePopover extends Component {
     } = this.props;
 
     return (
-      <PopoverHeader tag="div" className="note-popover__header">
-        <div className="note-popover__subtitle">
+      <PopoverHeader tag="div" className="NotePopover__header">
+        <div className="NotePopover__subtitle">
           {I18n.t('COMMON.LAST_CHANGED')}
         </div>
         <If condition={changedBy}>
-          <div className="note-popover__author">
+          <div className="NotePopover__author">
             {I18n.t('COMMON.AUTHOR_BY')} {' '} <Uuid uuid={changedBy} className="font-weight-700" />
           </div>
         </If>
-        <div className="row no-gutters note-popover__subtitle">
+        <div className="row no-gutters NotePopover__subtitle">
           <div className="col-auto">
             <If condition={changedAt}>
               <Choose>
@@ -254,16 +286,23 @@ class NotePopover extends Component {
           </div>
           <div className="col-auto ml-auto">
             <If condition={deleteAllowed}>
-              <button
-                type="button"
+              <Button
                 onClick={() => this.handleRemoveNote(noteId || uuid)}
-                className="fa fa-trash color-danger note-popover__delete-btn"
-              />
+                className="NotePopover__delete-btn"
+              >
+                <i className="fa fa-trash color-danger" />
+              </Button>
             </If>
           </div>
         </div>
       </PopoverHeader>
     );
+  };
+
+  setIsDirty = (dirty) => {
+    this.setState({
+      isDirty: dirty,
+    });
   };
 
   renderItemId = (targetUUID) => {
@@ -278,114 +317,138 @@ class NotePopover extends Component {
     );
   };
 
-  render() {
+  renderPopover = () => {
     const {
-      item,
+      note,
       placement,
-      target,
-      isOpen,
-      handleSubmit,
-      currentValues,
-      submitting,
-      invalid,
-      pristine,
       hideArrow,
       className,
-      id,
       permission: {
         permissions: currentPermissions,
       },
     } = this.props;
 
+    const { isOpen, isDirty } = this.state;
+
     const updateAllowed = updateNotePermissions.check(currentPermissions);
 
     return (
       <Popover
-        placement={placement}
+        target={this.id}
         isOpen={isOpen}
-        toggle={() => this.handleHide()}
-        target={target}
-        className={classNames('note-popover', className)}
+        placement={placement}
+        toggle={() => this.handleClose()}
+        onClick={this.handlePopoverClick}
+        className={classNames('NotePopover', className)}
         hideArrow={hideArrow}
+        trigger="legacy"
       >
-        <PopoverBody tag="form" onSubmit={handleSubmit(this.onSubmit)}>
-          {this.renderTitle()}
-          <Field
-            name="subject"
-            id={id ? `${id}-input` : null}
-            label={I18n.t('NOTES.SUBJECT')}
-            placeholder=""
-            type="text"
-            component={InputField}
-            showErrorMessage={false}
-            disabled={item && !updateAllowed}
-          />
-          <Field
-            name="content"
-            id={id ? `${id}-textarea` : null}
-            label={I18n.t('NOTES.BODY')}
-            component={TextAreaField}
-            showErrorMessage={false}
-            disabled={item && !updateAllowed}
-          />
-          <div className="row no-gutters align-items-center">
-            <div className="col-auto">
-              <div className="font-size-11">
-                <span className="font-weight-700">
-                  {currentValues && currentValues.content ? currentValues.content.length : 0}
-                </span>/{MAX_CONTENT_LENGTH}
-              </div>
-              <If condition={!item || updateAllowed}>
-                <Field
-                  name="pinned"
-                  wrapperClassName="margin-top-5"
-                  label={I18n.t('NOTES.MODAL.PIN')}
-                  component={SwitchField}
-                  id={id ? `${id}-pin-btn` : null}
-                />
-              </If>
-            </div>
-            <div className="col text-right">
-              <button
-                type="button"
-                className="btn btn-default-outline btn-sm margin-right-10"
-                onClick={() => this.handleHide(true)}
-              >
-                {I18n.t('COMMON.BUTTONS.CANCEL')}
-              </button>
-              <Choose>
-                <When condition={item && (item.uuid || item.noteId) && updateAllowed}>
-                  <button
-                    type="submit"
-                    className="btn btn-primary btn-sm text-uppercase font-weight-700"
-                    disabled={pristine || submitting || invalid}
-                  >
-                    {I18n.t('COMMON.BUTTONS.UPDATE')}
-                  </button>
-                </When>
-                <Otherwise>
-                  <button
-                    type="submit"
-                    className="btn btn-primary btn-sm text-uppercase font-weight-700"
-                    disabled={pristine || submitting || invalid}
-                  >
-                    {I18n.t('COMMON.BUTTONS.SAVE')}
-                  </button>
-                </Otherwise>
-              </Choose>
-            </div>
-          </div>
-        </PopoverBody>
+        <Formik
+          initialValues={note || INITIAL_VALUES}
+          validate={validator}
+          onSubmit={this.onSubmit}
+        >
+          {({ isSubmitting, isValid, dirty, values }) => {
+            if (dirty !== isDirty) {
+              this.setIsDirty(dirty);
+            }
+
+            return (
+              <Form>
+                <PopoverBody>
+                  {this.renderTitle()}
+                  <Field
+                    name="subject"
+                    label={I18n.t(attributeLabels.subject)}
+                    component={FormikInputField}
+                    disabled={note && !updateAllowed}
+                  />
+                  <Field
+                    name="content"
+                    label={I18n.t(attributeLabels.content)}
+                    component={FormikTextAreaField}
+                    showErrorMessage={false}
+                    disabled={note && !updateAllowed}
+                  />
+                  <div className="row no-gutters align-items-center">
+                    <div className="col-auto">
+                      <div className="font-size-11">
+                        <span className="font-weight-700">
+                          {values && values.content ? values.content.length : 0}
+                        </span>/{MAX_CONTENT_LENGTH}
+                      </div>
+                      <If condition={!note || updateAllowed}>
+                        <Field
+                          name="pinned"
+                          wrapperClassName="margin-top-5"
+                          label={I18n.t(attributeLabels.pin)}
+                          component={FormikSwitchField}
+                        />
+                      </If>
+                    </div>
+                    <div className="col text-right">
+                      <Button
+                        commonOutline
+                        small
+                        className="margin-right-10"
+                        onClick={() => this.handleClose(true)}
+                      >
+                        {I18n.t('COMMON.BUTTONS.CANCEL')}
+                      </Button>
+                      <Choose>
+                        <When condition={note && (note.uuid || note.noteId) && updateAllowed}>
+                          <Button
+                            type="submit"
+                            primary
+                            small
+                            className="text-uppercase font-weight-700"
+                            disabled={!dirty || isSubmitting || !isValid}
+                          >
+                            {I18n.t('COMMON.BUTTONS.UPDATE')}
+                          </Button>
+                        </When>
+                        <Otherwise>
+                          <Button
+                            type="submit"
+                            primary
+                            small
+                            className="text-uppercase font-weight-700"
+                            disabled={!dirty || isSubmitting || !isValid}
+                          >
+                            {I18n.t('COMMON.BUTTONS.SAVE')}
+                          </Button>
+                        </Otherwise>
+                      </Choose>
+                    </div>
+                  </div>
+                </PopoverBody>
+              </Form>
+            );
+          }}
+        </Formik>
       </Popover>
+    );
+  };
+
+  render() {
+    const { children } = this.props;
+
+    return (
+      <If condition={children}>
+        <>
+          {React.cloneElement(children, { id: this.id, onClick: this.handleOpen })}
+          {this.renderPopover()}
+        </>
+      </If>
     );
   }
 }
 
-const NoteForm = reduxForm({
-  form: FORM_NAME,
-  validate: validator,
-})(NotePopover);
-
-export default connect(state => ({
-  currentValues: getFormValues(FORM_NAME)(state),
-}))(withPermission(NoteForm));
+export default compose(
+  withPermission,
+  withRequests({
+    updateNote: UpdateNoteMutation,
+    removeNote: RemoveNoteMutation,
+    addNote: AddNoteMutation,
+  }),
+)(NotePopover);

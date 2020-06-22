@@ -8,7 +8,7 @@ import Permissions from 'utils/permissions';
 import permissions from 'config/permissions';
 import { withPermission } from 'providers/PermissionsProvider';
 import HierarchyProfileForm from './HierarchyProfileForm';
-import PersonalForm from './PersonalForm';
+import OperatorPersonalForm from './OperatorPersonalForm';
 import DepartmentsForm from './DepartmentsForm';
 
 const manageDepartmentsPermission = new Permissions([
@@ -20,7 +20,6 @@ const updateParentBranch = new Permissions(permissions.HIERARCHY.UPDATE_USER_BRA
 
 class View extends Component {
   static propTypes = {
-    updateProfile: PropTypes.func.isRequired,
     match: PropTypes.shape({
       params: PropTypes.shape({
         id: PropTypes.string.isRequired,
@@ -40,13 +39,7 @@ class View extends Component {
       }),
       loading: PropTypes.bool.isRequired,
     }).isRequired,
-    allowedIpAddresses: PropTypes.arrayOf(PropTypes.string),
-    forbiddenCountries: PropTypes.arrayOf(PropTypes.string),
-    showNotes: PropTypes.bool,
-    showSalesStatus: PropTypes.bool,
-    showFTDAmount: PropTypes.bool,
     deleteAuthority: PropTypes.func.isRequired,
-    addAuthority: PropTypes.func.isRequired,
     authorities: PropTypes.oneOfType([PropTypes.authorityEntity, PropTypes.object]),
     departmentsRoles: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.string)).isRequired,
     auth: PropTypes.shape({
@@ -61,12 +54,7 @@ class View extends Component {
   };
 
   static defaultProps = {
-    showNotes: false,
-    showSalesStatus: false,
-    showFTDAmount: false,
     authorities: [],
-    allowedIpAddresses: [],
-    forbiddenCountries: [],
   };
 
   getChildContext() {
@@ -82,31 +70,6 @@ class View extends Component {
   }
 
   handleRefetchHierarchy = () => this.props.userHierarchy.refetch();
-
-  handleSubmit = async (data) => {
-    const {
-      match: { params: { id: operatorUUID } },
-      updateProfile,
-      notify,
-    } = this.props;
-
-    const { data: { operator: { updateOperator: { error } } } } = await updateProfile({
-      variables: {
-        uuid: operatorUUID,
-        ...data,
-      },
-    });
-
-    notify({
-      level: error ? 'error' : 'success',
-      title: error
-        ? I18n.t('OPERATORS.NOTIFICATIONS.UPDATE_OPERATOR_ERROR.TITLE')
-        : I18n.t('OPERATORS.NOTIFICATIONS.UPDATE_OPERATOR_SUCCESS.TITLE'),
-      message: error
-        ? I18n.t('OPERATORS.NOTIFICATIONS.UPDATE_OPERATOR_ERROR.MESSAGE')
-        : I18n.t('OPERATORS.NOTIFICATIONS.UPDATE_OPERATOR_SUCCESS.MESSAGE'),
-    });
-  };
 
   handleDeleteAuthority = async (department, role) => {
     const {
@@ -132,44 +95,9 @@ class View extends Component {
     });
   };
 
-  handleAddAuthority = async ({
-    department,
-    role,
-  }) => {
-    const {
-      match: { params: { id: operatorUUID } }, addAuthority, notify,
-    } = this.props;
-
-    const addedAuthority = await addAuthority({
-      variables: {
-        uuid: operatorUUID,
-        department,
-        role,
-      },
-    });
-    const { data: { operator: { addDepartment: { error } } } } = addedAuthority;
-
-    notify({
-      level: error ? 'error' : 'success',
-      title: error
-        ? I18n.t('OPERATORS.NOTIFICATIONS.ADD_AUTHORITY_ERROR.TITLE')
-        : I18n.t('OPERATORS.NOTIFICATIONS.ADD_AUTHORITY_SUCCESS.TITLE'),
-      message: error
-        ? I18n.t('OPERATORS.NOTIFICATIONS.ADD_AUTHORITY_ERROR.MESSAGE')
-        : I18n.t('OPERATORS.NOTIFICATIONS.ADD_AUTHORITY_SUCCESS.MESSAGE'),
-    });
-
-    return addedAuthority;
-  };
-
   render() {
     const {
       profile: { data: profile },
-      allowedIpAddresses,
-      forbiddenCountries,
-      showNotes,
-      showSalesStatus,
-      showFTDAmount,
       authorities,
       auth: { uuid },
       departmentsRoles,
@@ -188,28 +116,16 @@ class View extends Component {
 
     if (departmentsRoles) {
       delete departmentsRoles.AFFILIATE_PARTNER;
+      delete departmentsRoles.E2E;
     }
 
     return (
       <div className="card-body">
         <div className="card">
           <div className="card-body">
-            <PersonalForm
-              initialValues={{
-                firstName: profile.firstName,
-                lastName: profile.lastName,
-                country: profile.country,
-                email: profile.email,
-                phoneNumber: profile.phoneNumber,
-                sip: profile.sip,
-                allowedIpAddresses,
-                forbiddenCountries,
-                showNotes,
-                showSalesStatus,
-                showFTDAmount,
-              }}
+            <OperatorPersonalForm
+              operatorProfile={profile}
               disabled={this.readOnly}
-              onSubmit={this.handleSubmit}
             />
           </div>
         </div>
@@ -239,9 +155,9 @@ class View extends Component {
             }
             <If condition={allowEditPermissions && departmentsRoles}>
               <DepartmentsForm
-                onSubmit={this.handleAddAuthority}
-                authorities={authorities.data ? authorities.data : []}
+                authorities={authorities.data || []}
                 departmentsRoles={departmentsRoles}
+                operatorUuid={profile.uuid}
               />
             </If>
           </div>

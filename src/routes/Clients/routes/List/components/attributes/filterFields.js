@@ -1,13 +1,11 @@
 import React from 'react';
 import keyMirror from 'keymirror';
 import I18n from 'i18n-js';
-import { getActiveBrandConfig } from 'config';
 import countries from 'utils/countryList';
 import { statuses } from 'constants/operators';
 import { statusesLabels, filterLabels } from 'constants/user';
 import { salesStatuses } from 'constants/salesStatuses';
 import { retentionStatuses } from 'constants/retentionStatuses';
-import { fsaStatuses, fsaStatusesLabels } from 'constants/fsaMigration';
 import { warningValues, warningLabels } from 'constants/warnings';
 import { kycStatusesLabels } from 'constants/kycStatuses';
 import {
@@ -17,7 +15,6 @@ import {
   validators,
   parser,
 } from 'components/ReduxForm/ReduxFieldsConstructor';
-import { affiliateTypeLabels } from '../constants';
 
 const acquisitionStatuses = [
   {
@@ -52,18 +49,14 @@ const firstDepositStatuses = [
   },
 ];
 
-const questionnaire = [
+const activityStatuses = [
   {
-    value: 'APPROVED',
-    label: 'QUESTIONNAIRE.APPROVED',
+    value: 'ONLINE',
+    label: 'PROFILE.LAST_ACTIVITY.STATUS.ONLINE',
   },
   {
-    value: 'REJECTED',
-    label: 'QUESTIONNAIRE.REJECTED',
-  },
-  {
-    value: 'NO_QUESTIONNAIRE',
-    label: 'QUESTIONNAIRE.NO_QUESTIONNAIRE',
+    value: 'OFFLINE',
+    label: 'PROFILE.LAST_ACTIVITY.STATUS.OFFLINE',
   },
 ];
 
@@ -123,6 +116,15 @@ export default ({
       label: countries[value],
     })),
     optionsWithoutI18n: true,
+  },
+  {
+    type: fieldTypes.SELECT,
+    name: 'activityStatus',
+    label: filterLabels.activity,
+    placeholder: 'COMMON.SELECT_OPTION.ANY',
+    className: fieldClassNames.MEDIUM,
+    selectOptions: activityStatuses,
+    searchable: false,
   },
   {
     type: fieldTypes.SELECT,
@@ -193,20 +195,6 @@ export default ({
     })),
     optionsWithoutI18n: true,
   },
-  ...[
-    getActiveBrandConfig().regulation.isActive && {
-      type: fieldTypes.SELECT,
-      name: 'affiliateType',
-      label: filterLabels.affiliateType,
-      placeholder: 'COMMON.SELECT_OPTION.ANY',
-      className: fieldClassNames.MEDIUM,
-      multiple: true,
-      selectOptions: Object.keys(affiliateTypeLabels).map(affiliateType => ({
-        value: affiliateType,
-        label: affiliateTypeLabels[affiliateType],
-      })),
-    },
-  ],
   {
     type: fieldTypes.SELECT,
     name: 'statuses',
@@ -252,7 +240,8 @@ export default ({
     })),
   },
   ...[
-    ['ADMINISTRATION', 'CS'].includes(department) && role === 'ROLE4' && {
+    ['ADMINISTRATION', 'CS'].includes(department)
+    && ['ADMINISTRATION', 'HEAD_OF_DEPARTMENT'].includes(role) && {
       type: fieldTypes.SELECT,
       name: 'assignStatus',
       label: filterLabels.assignStatus,
@@ -273,20 +262,6 @@ export default ({
       label: kycStatusesLabels[value],
     })),
   },
-  ...[
-    getActiveBrandConfig().fsaRegulation && {
-      type: fieldTypes.SELECT,
-      name: 'fsaMigrationStatus',
-      label: filterLabels.FSAMigration,
-      placeholder: 'COMMON.SELECT_OPTION.ANY',
-      className: fieldClassNames.MEDIUM,
-      selectOptions: Object.keys(fsaStatuses).map(status => ({
-        value: status,
-        label: fsaStatusesLabels[status],
-      })),
-      searchable: false,
-    },
-  ],
   {
     type: fieldTypes.SELECT,
     name: 'firstTimeDeposit',
@@ -308,16 +283,6 @@ export default ({
     })),
     searchable: false,
   },
-  ...[
-    getActiveBrandConfig().regulation.isActive && {
-      type: fieldTypes.SELECT,
-      name: 'questionnaireStatus',
-      label: filterLabels.questionnaire,
-      placeholder: 'COMMON.SELECT_OPTION.ANY',
-      className: fieldClassNames.MEDIUM,
-      selectOptions: questionnaire,
-    },
-  ],
   {
     type: fieldTypes.RANGE,
     className: fieldClassNames.MEDIUM,

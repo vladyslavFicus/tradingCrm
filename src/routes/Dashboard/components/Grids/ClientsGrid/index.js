@@ -1,1 +1,1 @@
-export { default } from './ClientsGridContainer';
+export { default } from './ClientsGrid';

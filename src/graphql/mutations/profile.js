@@ -1,64 +1,5 @@
 import gql from 'graphql-tag';
-import { ContactsFragment } from '../fragments/contacts';
 import { AddressFragment } from '../fragments/address';
-import { ProfileStatusFragment } from '../fragments/profileStatus';
-
-const updateSubscription = gql`mutation updateSubscription(
-    $playerUUID: String!,
-    $marketingMail: Boolean!,
-    $marketingSMS: Boolean!,
-    $tailorMadeEmail: Boolean!,
-    $tailorMadeSMS: Boolean!
-) {
-  profile {
-    updateSubscription(
-      playerUUID: $playerUUID,
-      marketingSMS: $marketingSMS,
-      marketingMail: $marketingMail,
-      tailorMadeEmail: $tailorMadeEmail,
-      tailorMadeSMS: $tailorMadeSMS
-      ) {
-      data {
-        playerUUID
-        marketingMail
-        marketingSMS
-        tailorMadeEmail
-        tailorMadeSMS
-      }
-      error {
-        error
-      }
-    }
-  }
-}`;
-
-const changeProfileStatusMutation = gql`mutation changeProfileStatus(
-  $playerUUID: String!,
-  $reason: String!,
-  $comment: String,
-  $status: String!,
-) {
-  profile {
-    changeProfileStatus(
-      playerUUID: $playerUUID,
-      reason: $reason,
-      comment: $comment,
-      status: $status,
-      ) {
-      data {
-        _id
-        status {
-          ...ProfileStatusFragment
-        }
-      }
-      error {
-        error
-        fields_errors
-      }
-    }
-  }
-}
-${ProfileStatusFragment}`;
 
 const passwordResetRequest = gql`mutation passwordResetRequest($playerUUID: String!) {
   profile {
@@ -259,20 +200,6 @@ const updateEmailMutation = gql`mutation updateEmail(
   }
 }`;
 
-const updateKYCStatusMutation = gql`mutation updateKYCStatus(
-  $playerUUID: String!,
-  $kycStatus: String,
-) {
-  profile {
-    updateKYCStatus(
-      playerUUID: $playerUUID,
-      kycStatus: $kycStatus,
-    ) {
-      success
-    }
-  }
-}`;
-
 const updateConfigurationMutation = gql`mutation updateConfiguration(
   $playerUUID: String!,
   $internalTransfer: Boolean,
@@ -290,36 +217,6 @@ const updateConfigurationMutation = gql`mutation updateConfiguration(
     }
   }
 }`;
-
-const updateContactsMutation = gql`mutation updateContacts(
-  $playerUUID: String!,
-  $phone: String,
-  $additionalPhone: String,
-  $additionalEmail: String,
-  $email: String,
-) {
-  profile {
-    updateContacts(
-      additionalPhone: $additionalPhone,
-      additionalEmail: $additionalEmail,
-      playerUUID: $playerUUID,
-      phone: $phone,
-      email: $email,
-    ) {
-      data {
-        _id
-        phoneVerified
-        contacts {
-          ...ContactsFragment
-        }
-      }
-      error {
-        error
-      }
-    }
-  }
-}
-${ContactsFragment}`;
 
 const updateAddressMutation = gql`mutation updateAddress(
   $playerUUID: String!,
@@ -349,26 +246,6 @@ const updateAddressMutation = gql`mutation updateAddress(
 }
 ${AddressFragment}`;
 
-const verifyPhoneMutation = gql`mutation verifyPhone(
-  $playerUUID: String!,
-  $phone: String,
-) {
-  profile {
-    verifyPhone(
-      playerUUID: $playerUUID,
-      phone: $phone,
-    ) {
-      data {
-        _id
-        phoneVerified
-      }
-      error {
-        error
-      }
-    }
-  }
-}`;
-
 const verifyEmailMutation = gql`mutation verifyEmail($playerUUID: String!) {
   profile {
     verifyEmail(playerUUID: $playerUUID) {
@@ -384,7 +261,6 @@ const verifyEmailMutation = gql`mutation verifyEmail($playerUUID: String!) {
 }`;
 
 export {
-  updateSubscription,
   passwordResetRequest,
   changePassword,
   clientsBulkRepresentativeUpdate,
@@ -392,12 +268,8 @@ export {
   clickToCall,
   updateLimitProfileMutation,
   updatePersonalInformationMutation,
-  updateKYCStatusMutation,
   updateConfigurationMutation,
-  updateContactsMutation,
-  verifyPhoneMutation,
   verifyEmailMutation,
   updateAddressMutation,
-  changeProfileStatusMutation,
   updateEmailMutation,
 };

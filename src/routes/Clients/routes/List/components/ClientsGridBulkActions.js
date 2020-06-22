@@ -3,16 +3,14 @@ import { withRouter } from 'react-router-dom';
 import { compose } from 'react-apollo';
 import { omit } from 'lodash';
 import I18n from 'i18n-js';
-import { getActiveBrandConfig } from 'config';
 import { withModals } from 'hoc';
 import permissions from 'config/permissions';
 import PropTypes from 'constants/propTypes';
 import { deskTypes } from 'constants/hierarchyTypes';
-import { departments, roles } from 'constants/brands';
+import { departments } from 'constants/brands';
 import { withStorage } from 'providers/StorageProvider';
 import PermissionContent from 'components/PermissionContent';
 import RepresentativeUpdateModal from 'components/RepresentativeUpdateModal';
-import MigrateButton from 'components/MigrateButton';
 import MoveModal from './Modals';
 import { getClientsData } from './utils';
 
@@ -120,41 +118,6 @@ class ClientsGridBulkActions extends PureComponent {
     resetClientsGridInitialState(() => refetch());
   };
 
-  renderMigrateToFsaButton = () => {
-    const {
-      touchedRowsIds,
-      allRowsSelected,
-      profiles: {
-        profiles: {
-          data: { content, totalElements },
-        },
-      },
-    } = this.props;
-
-    const clients = getClientsData(
-      { touchedRowsIds, allRowsSelected },
-      totalElements,
-      {},
-      content,
-    ).map(client => ({ uuid: client.uuid }));
-
-    return (
-      <If condition={getActiveBrandConfig().fsaRegulation}>
-        <PermissionContent permissions={permissions.USER_PROFILE.MIGRATE_TO_FSA}>
-          <MigrateButton
-            className="btn btn-default-outline"
-            variables={{
-              clients,
-              totalElements,
-              allRowsSelected,
-            }}
-            submitCallback={this.onSubmitSuccess}
-          />
-        </PermissionContent>
-      </If>
-    );
-  };
-
   renderBulkAssignButtons = () => {
     const { auth: { department, role } } = this.props;
 
@@ -178,7 +141,7 @@ class ClientsGridBulkActions extends PureComponent {
             {I18n.t('COMMON.RETENTION')}
           </button>
         </If>
-        <If condition={(role === roles.ROLE4
+        <If condition={(['ADMINISTRATION', 'HEAD_OF_DEPARTMENT'].includes(role)
           && [departments.ADMINISTRATION, departments.SALES, departments.RETENTION].includes(department))
           || department === departments.CS}
         >
@@ -198,8 +161,6 @@ class ClientsGridBulkActions extends PureComponent {
     return (
       <div className="grid-bulk-menu ml-auto">
         <span>{I18n.t('CLIENTS.BULK_ACTIONS')}</span>
-
-        {this.renderMigrateToFsaButton()}
         {this.renderBulkAssignButtons()}
       </div>
     );

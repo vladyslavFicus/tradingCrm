@@ -23,6 +23,7 @@ class FilterSetButtons extends Component {
     filtersRefetch: PropTypes.func.isRequired,
     deleteFilter: PropTypes.func.isRequired,
     notify: PropTypes.func.isRequired,
+    filterSetType: PropTypes.string.isRequired,
   };
 
   static defaultProps = {
@@ -32,11 +33,13 @@ class FilterSetButtons extends Component {
 
   handleSaveNewFilter = () => {
     const {
+      filterSetType,
       currentValues,
       modals: { actionFilterModal },
     } = this.props;
 
     actionFilterModal.show({
+      filterSetType,
       fields: currentValues,
       action: actionTypes.CREATE,
       onSuccess: this.handleApplyNewFilter,
@@ -66,11 +69,9 @@ class FilterSetButtons extends Component {
       action: actionTypes.UPDATE,
       fields: currentValues,
       filterId: selectValue,
-      initialValues: {
-        name: [...favourite, ...common].find(
-          ({ uuid }) => uuid === selectValue,
-        ).name,
-      },
+      name: [...favourite, ...common].find(
+        ({ uuid }) => uuid === selectValue,
+      ).name,
     });
   };
 

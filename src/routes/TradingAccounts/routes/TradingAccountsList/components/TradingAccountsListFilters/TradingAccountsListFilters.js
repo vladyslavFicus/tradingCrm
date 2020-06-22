@@ -5,7 +5,8 @@ import { Formik, Form, Field } from 'formik';
 import PropTypes from 'constants/propTypes';
 import { FormikInputField, FormikSelectField } from 'components/Formik';
 import { Button } from 'components/UI';
-import { accountTypes, accountStatuses, affiliateTypes } from '../../constants';
+import { accountTypes, accountStatuses } from '../../constants';
+import './TradingAccountsListFilters.scss';
 
 class TradingAccountsListFilters extends PureComponent {
   static propTypes = {
@@ -77,40 +78,24 @@ class TradingAccountsListFilters extends PureComponent {
                   </option>
                 ))}
               </Field>
-              <Field
-                name="affiliateType"
-                label={I18n.t('TRADING_ACCOUNTS.FORM.FIELDS.AFFILIATE_TYPE')}
-                placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
-                className="form-group filter-row__medium"
-                component={FormikSelectField}
-                withAnyOption
-              >
-                {Object.keys(affiliateTypes).map(key => (
-                  <option key={key} value={key}>
-                    {I18n.t(affiliateTypes[key])}
-                  </option>
-                ))}
-              </Field>
             </div>
-            <div className="filter__form-buttons">
-              <div className="filter__form-buttons-group">
-                <Button
-                  className="btn"
-                  onClick={resetForm}
-                  disabled={loading || !dirty}
-                  common
-                >
-                  {I18n.t('COMMON.RESET')}
-                </Button>
-                <Button
-                  className="btn"
-                  type="submit"
-                  disabled={loading}
-                  primary
-                >
-                  {I18n.t('COMMON.APPLY')}
-                </Button>
-              </div>
+            <div className="TradingAccountsListFilters__buttons">
+              <Button
+                className="TradingAccountsListFilters__button"
+                onClick={resetForm}
+                disabled={loading || !dirty}
+                common
+              >
+                {I18n.t('COMMON.RESET')}
+              </Button>
+              <Button
+                className="TradingAccountsListFilters__button"
+                type="submit"
+                disabled={loading}
+                primary
+              >
+                {I18n.t('COMMON.APPLY')}
+              </Button>
             </div>
           </Form>
         )}

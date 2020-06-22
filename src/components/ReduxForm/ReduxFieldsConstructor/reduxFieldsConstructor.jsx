@@ -45,6 +45,7 @@ const reduxFieldsConstructor = (
       withTime,
       timePresets,
       isDateRangeEndValue,
+      br,
       // rangeProps
       fields: rangeFields,
     }) => {
@@ -152,6 +153,9 @@ const reduxFieldsConstructor = (
       return (
         <Fragment key={name || label}>
           {filter}
+          <If condition={br}>
+            <div style={{ width: '100%' }} />
+          </If>
         </Fragment>
       );
     })

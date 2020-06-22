@@ -86,9 +86,7 @@
         "VERIFY_EMAIL": "Verify email",
         "LABEL": {
           "PHONE": "Phone",
-          "PHONE_CODE": "Code",
-          "ALT_PHONE": "Alt phone",
-          "YOUR_ALT_PHONE": "Your alternative phone"
+          "ALT_PHONE": "Alt phone"
         }
       },
       "PERSONAL": {
@@ -140,17 +138,6 @@
         },
         "TEST_PLAYER": "Test player"
       },
-      "BANK_DETAILS": {
-        "TITLE": "Bank Details",
-        "ACCOUNT_HOLDER_NAME": "Name of Account Holder",
-        "ACCOUNT_NUMBER": "Bank Account number",
-        "BRANCH_NAME": "Branch Name",
-        "CITY": "Bank City",
-        "NAME": "Bank Name",
-        "PROVINCE": "Bank Province",
-        "SWIFT_CODE": "Bank Code/SWIFT",
-        "WITHDRAW_AREA": "Withdrawal Bank Area"
-      },
       "ADDITIONAL": {
         "TITLE": "Additional information"
       },
@@ -193,7 +180,7 @@
       },
       "KYC_STATUS": {
         "TITLE": "KYC status",
-        "CURRENT_STATUS": "Current KYC status",
+        "CURRENT_STATUS": "Status",
         "SUCCESS_RESPONSE": "Successfully updated KYC status"
       },
       "KYC_STATUS_TITLE": {
@@ -251,6 +238,9 @@
       "TRANSFER_AVAILABILITY": {
         "TITLE": "Transfer Availability",
         "LABEL": "Transfer"
+      },
+      "STATUS_MODAL": {
+        "TITLE": "Change account status"
       },
       "BLOCK_REASONS": {
         "USER_REQUEST": "User request",
@@ -377,6 +367,8 @@
     },
     "TRANSACTIONS": {
       "ADD_TRANSACTION": "+ Add transaction",
+      "ADD_TRANSACTION_FAIL": "Failed to add transaction",
+      "ADD_TRANSACTION_SUCCESS": "Transaction was added successfully",
       "MODAL_CREATE": {
         "NO_PAYMENT_ACCOUNTS_LABEL": "No payment accounts",
         "CHOOSE_PAYMENT_METHOD_LABEL": "Choose payment method",
@@ -493,13 +485,14 @@
     "PLAYER": "Player",
     "OPERATOR": "Operator",
     "DEPARTMENTS": "Departments",
-    "SATELLITE": "Satellite",
     "ANY": "Any",
     "ROLLBACK": "Rollback",
     "FOR": "for",
+    "BY": "by",
     "CHANGES": "Changes",
     "FIRST_NAME": "First name",
     "LAST_NAME": "Last name",
+    "USER_TYPE": "User Type",
     "DISABLED": "Disabled",
     "ENABLED": "Enabled",
     "KYC_DOCUMENTS": "KYC documents",
@@ -542,6 +535,8 @@
     "CANCEL": "Cancel",
     "SAVE": "Save",
     "ACCOUNT_STATUS": "Account Status",
+    "REGISTERED": "Registered",
+    "ACTIVATE": "Activate",
     "BALANCE": "Balance",
     "NOTIFICATIONS": {
       "COPIED": "Copied",
@@ -604,6 +599,7 @@
       "UPLOAD_ACTION": "-- Select upload action --",
       "DEFAULT_MULTISELECT": "-- Select one or multiple options --",
       "SELECT_BRANCH_TYPE": "Select branch type first",
+      "SELECT_DEPARTMENT": "Select department first",
       "SELECT_PARTNER_TYPE": "Select partner type",
       "SELECT_OFFICE": "-- Select office --",
       "SELECT_TEAM": "-- Select team --",
@@ -847,7 +843,7 @@
         }
       },
       "TITLE": "File upload",
-      "ACTION_TEXT": "You are about to upload file(s) to %{fullName} %{shortUUID} account",
+      "ACTION_TEXT": "You are about to upload file(s) to %{shortUUID} profile",
       "NO_UPLOADED": "There are no uploaded files",
       "BUTTONS": {
         "ADD_FILES": "+ Add files"
@@ -863,7 +859,7 @@
         "DELETE": "Delete File"
       },
       "WARNING_TEXT": "This action can not be undone!",
-      "ACTION_TEXT": "You are about to delete file %{fileName} from %{player} - %{shortUUID} - account"
+      "ACTION_TEXT": "You are about to delete file %{fileName}"
     },
     "CONFIRM_ACTION_MODAL": {
       "TITLE": "Delete file - Confirmation",
@@ -951,7 +947,6 @@
         "PLAYER_PROFILE_REGISTERED": "Registration",
         "PLAYER_PROFILE_CHANGED": "Personal details change",
         "PLAYER_PROFILE_SEARCH": "Players' search",
-        "RISK_PROFILE_DATA_CREATED": "Risk calculated",
         "NEW_OPERATOR_ACCOUNT_CREATED": "Operator - New operator created",
         "OPERATOR_ACCOUNT_CREATED": "Operator - Account created",
         "PLAYER_PROFILE_VIEWED": "Players' profile viewed",
@@ -1033,7 +1028,6 @@
         "CHANGE_LEVERAGE_TO": "Change leverage to",
         "MT4LOGIN": "Mt4login",
         "TOTAL_SCORE": "Total score",
-        "RISK_CATEGORY": "Risk category",
         "BANK_DETAILS": "Bank details",
         "BANK_NAME": "Bank details - Bank name",
         "PROVINCE": "Bank details - Province",
@@ -1052,15 +1046,14 @@
         "CREDIT_IN": "Credit in",
         "CREDIT_OUT": "Credit out",
         "DEPOSIT": "Deposit",
-        "QUESTIONNAIRE_COMPLETED": "Questionnaire completed",
         "TRADING_ACCOUNT_CREATED": "Trading account created",
         "CHANGE_LEVERAGE_REQUEST_CREATED": "Change leverage request created",
         "CHANGE_LEVERAGE_REQUEST_UPDATED": "Change leverage request updated",
         "WITHDRAW": "Withdraw",
         "TRANSFER_IN": "Transfer in",
-        "TRANSFER_OUT":  "Transfer out",
+        "TRANSFER_OUT": "Transfer out",
         "FEE": "Fee",
-        "INACTIVITY_FEE":  "Inactivity fee",
+        "INACTIVITY_FEE": "Inactivity fee",
         "TRADING_ACCOUNT_ARCHIVED": "Trading account archived",
         "TRADING_ACCOUNT_LEVERAGE_UPDATED": "Trading account leverage updated",
         "INTEREST_RATE": "Interest rate"
@@ -1107,10 +1100,10 @@
         "SALES": "Sales",
         "RETENTION": "Retention",
         "FINANCE": "Finance",
+        "AFFILIATE": "Affiliate",
         "AFFILIATE_MANAGER": "Affiliate manager",
         "AFFILIATE_PARTNER": "Affiliate partner",
         "DIDLOGIC_OPERATOR": "DID Logic operator",
-        "CELLEXPERT_OPERATOR": "Cellexpert operator",
         "COMPLIANCE": "Compliance",
         "DEALING": "Dealing"
       },
@@ -1371,8 +1364,10 @@
       "FILTER_FORM": {
         "SEARCH_BY_LABEL": "Search by",
         "SEARCH_BY_PLACEHOLDER": "Action ID, Operator ID, IP",
-        "ACTION_TYPE_EMPTY_OPTION": "Any action",
-        "ACTION_DATE_RANGE": "Action date range"
+        "ACTION_TYPES": "Action types",
+        "ACTION_DATE_RANGE": "Action date range",
+        "CREATION_DATE_FROM": "Creation date from",
+        "CREATION_DATE_TO": "Creation date to"
       },
       "TITLE": "Feed"
     },
@@ -1450,9 +1445,9 @@
     },
     "FEED": {
       "FILTER_FORM": {
-        "SEARCH_BY_LABEL": "Search by",
+        "SEARCH_BY": "Search by",
         "SEARCH_BY_PLACEHOLDER": "Action ID, Partner ID, IP",
-        "ACTION_TYPE_EMPTY_OPTION": "Any action",
+        "ACTION_TYPE": "Action type",
         "ACTION_DATE_RANGE": "Action date range"
       },
       "TITLE": "Feed"
@@ -1468,7 +1463,6 @@
       "TITLE": "Personal information"
     },
     "DETAILS": {
-      "SEND_INVITATION": "Send invitation",
       "LABEL": {
         "ADDITIONAL_INFORMATION": "Additional information",
         "DEPARTMENTS": "Departments",
@@ -1482,25 +1476,6 @@
         "REGISTRATION_DATE": "Registration date"
       }
     },
-    "MODALS": {
-      "RESET_PASSWORD": {
-        "TITLE": "Partners password reset - Confirmation",
-        "ACTION_TEXT": "You are about to reset password for",
-        "ACTION_TARGET": "partner account",
-        "CONFIRM_ACTION": "Reset password"
-      },
-      "SEND_INVITATION": {
-        "TITLE": "Send invitation to partner - Confirmation",
-        "ACTION_TEXT": "You are about to send an invitation to partner",
-        "CONFIRM_ACTION": "Send invitation"
-      },
-      "CHANGE_PASSWORD": {
-        "TITLE": "Change partners`s password",
-        "WARNING_HEADER": "You are about to change password",
-        "NEW_PASSWORD": "New password",
-        "REPEAT_PASSWORD": "Repeat password"
-      }
-    },
     "PROFILE": {
       "HEADER": {
         "UNLOCK": "Unlock login"
@@ -1511,13 +1486,25 @@
         "TITLE": "success",
         "MESSAGE": "Partner unlocked successfully"
       },
-      "ERROR_SET_NEW_PASSWORD": {
-        "TITLE": "Error",
-        "MESSAGE": "Failed to change password"
+      "SET_NEW_PASSWORD": {
+        "SUCCESS": {
+          "TITLE": "Success",
+          "MESSAGE": "Password changed successfully"
+        },
+        "ERROR": {
+          "TITLE": "Error",
+          "MESSAGE": "Failed to change password"
+        }
       },
-      "SUCCESS_SET_NEW_PASSWORD": {
-        "TITLE": "Success",
-        "MESSAGE": "Password changed successfully"
+      "CHANGE_ACCOUNT_STATUS": {
+        "SUCCESS": {
+          "TITLE": "Success",
+          "MESSAGE": "Account status changed successfully"
+        },
+        "ERROR": {
+          "TITLE": "Error",
+          "MESSAGE": "Failed to change account status"
+        }
       }
     }
   },
@@ -1604,18 +1591,6 @@
       "PAYMENT_CANCELED": "Payment canceled",
       "PAYMENT_APPROVED": "Payment approved"
     },
-    "QUESTIONNAIRE": {
-      "LEVELS": {
-        "BELOW_LOW": "Below low",
-        "LOW": "Low",
-        "UPPER_MEDIUM": "Upper medium",
-        "HIGH": "High"
-      },
-      "PASSED": "Questionnaire passed",
-      "LEVEL": "Questionnaire level",
-      "SCORE": "Score",
-      "STATUS": "Questionnaire status"
-    },
     "LAST_UPDATED_DATE": "Last updated date",
     "LEVERAGE": "Leverage"
   },
@@ -1676,15 +1651,10 @@
         "ASSIGN_STATUS": "Assign Status",
         "KYC_STATUSES": "KYC Statuses",
         "FIRST_DEPOSIT": "First time deposit",
-        "FSA_MIGRATION": "FSA migration Status",
-        "QUESTIONNAIRE": "Questionnaire",
         "AFFILIATES": "Affiliates",
         "PARTNER_TYPE": "Created by",
-        "FSA_MIGRATION_STATUS": {
-          "ACCEPTED": "Accepted",
-          "NOT_ACCEPTED": "Not Accepted"
-        },
-        "WARNING": "Warning"
+        "WARNING": "Warning",
+        "ACTIVITY": "Activity"
       }
     }
   },
@@ -1729,17 +1699,6 @@
         }
       },
       "locked": "User is locked, please contact customer support"
-    },
-    "campaign": {
-      "command": {
-        "byPromoCode": {
-          "alreadyPresent": "Promo code already added to this player",
-          "notAllow": "Invalid promo code"
-        },
-        "activate": {
-          "notAllow": "Not allow"
-        }
-      }
     },
     "template": {
       "name": {
@@ -1836,12 +1795,7 @@
     "ACTIONS": {
       "MARK_AS_CHARGEBACK": "Mark as chargeback",
       "REJECT": "Reject",
-      "APPROVE": {
-        "DEFAULT": "Move to next status",
-        "MOVE_TO_SALES_REVIEW": "Move to Sales review",
-        "MOVE_TO_FINANCE_TO_EXECUTE": "Move to Finance to execute",
-        "APPROVE_WITHDRAW": "Approve withdraw"
-      }
+      "APPROVE": "Approve"
     },
     "PLAYER_NOT_FOUND": {
       "TITLE": "Player not found!",
@@ -1926,7 +1880,9 @@
           "REGISTRATION_DATE_FROM": "Registration Date From",
           "REGISTRATION_DATE_TO": "Registration Date To",
           "REGISTRATION_DATE_RANGE": "Registration Date Range",
-          "SEARCH_BY": "Search by"
+          "SEARCH_BY": "Search by",
+          "DATE_FROM": "Date From",
+          "DATE_TO": "Date To"
         }
       }
     },
@@ -2009,7 +1965,7 @@
     }
   },
   "PARTNERS": {
-    "HEADING": "PARTNERS",
+    "HEADING": "Partners",
     "NEW_PARTNER": "New partner",
     "CREATE_PARTNER_BUTTON": "+ New partner",
     "STATUSES": {
@@ -2018,7 +1974,6 @@
       "CLOSED": "Closed"
     },
     "TYPES": {
-      "NULLPOINT": "Nullpoint",
       "AFFILIATE": "Affiliate",
       "DIRECT": "Direct"
     },
@@ -2038,17 +1993,12 @@
       "SEARCH_BY_PLACEHOLDER": "Name, Phone, Email, UUID...",
       "REGISTRATION_DATE_RANGE": "Registration Date Range"
     },
-    "SHOW_NOTES": "Show notes",
-    "SHOW_SALES_STATUS": "Show sales status",
-    "SHOW_FTD_AMOUNT": "Show FTD Amount",
-    "SHOW_KYC_STATUS": "Show KYC status",
     "MODALS": {
       "NEW_PARTNER": {
         "TITLE": "New partner",
         "SEND_INVITATION": "Send invitation",
         "NOTE": "Note",
         "NOTE_MESSAGE": "You will be able to set additional departments in partner`s profile once it`s created",
-        "CELLEXPERT_CHECKBOX": "Allow to to transmit data to CellExpert",
         "PUBLIC_CHECKBOX": "Allow to create Clients through public API"
       },
       "EXISTING_PARTNER": {
@@ -2058,46 +2008,29 @@
       }
     },
     "PROFILE": {
-      "DEPARTMENTS": {
-        "LABELS": {
-          "DEPARTMENT": "Department",
-          "ROLE": "Role"
-        },
-        "LABEL": "Departments",
-        "ADD_BUTTON_LABEL": "+ADD"
-      },
-      "PERSONAL_FORM": {
-        "LABELS": {
-          "FIRST_NAME": "First name",
-          "LAST_NAME": "Last name",
-          "COUNTRY": "Country",
-          "PHONE": "Phone",
-          "WHITE_LISTED_IP": "White listed IPs",
-          "RESTRICTED_COUNTRIES": "Restricted countries",
-          "CELLEXPERT_CHECKBOX": "Allow to to transmit data to CellExpert",
-          "PUBLIC_CHECKBOX": "Allow to create Clients through public API",
-          "GENERATE_TRADING_ACCOUNT": "Allow to generate Trading Account",
-          "CHOOSE_TRADING_ACCOUNT_PLATFORM": "Choose trading account platform",
-          "CHOOSE_TRADING_ACCOUNT_CURRENCY": "Choose trading account currency"
-        },
-        "AUTOCREATION_TRADING_ACCOUNT_OPTIONS": {
-          "ALLOW": "Allow",
-          "DENIED": "Denied",
-          "DEPENDS_ON_BRAND": "Depends on brand"
+      "PERSONAL_INFORMATION": {
+        "TITLE": "Personal information",
+        "FORM": {
+          "LABELS": {
+            "FIRST_NAME": "First name",
+            "LAST_NAME": "Last name",
+            "PUBLIC_CHECKBOX": "Allow to create Clients through public API"
+          }
         }
       },
-      "HIERARCHY": {
-        "LABEL": "Hierarchy",
-        "BRANCHES": "Branches",
-        "NO_BRANCHES": "This user has no branches yet",
-        "ADD_BRANCH_LABEL": "Add Branch",
-        "BRANCH_ADDED": "Branch %{name} successfully added",
-        "ERROR_UPDATE_TYPE": "Update partner's user type failed. Please try again later",
-        "SUCCESS_UPDATE_TYPE": "Successfully updated partner's user type",
-        "ERROR_REMOVE_BRANCH": "Remove branch failed. Please try again later",
-        "SUCCESS_REMOVE_BRANCH": "Successfully removed branch %{name}",
-        "FORM_LABEL": {
-          "USER_TYPE": "User Type"
+      "CONTACTS": {
+        "TITLE": "Contacts",
+        "FORM": {
+          "LABELS": {
+            "COUNTRY": "Country",
+            "PHONE": "Phone",
+            "WHITE_LISTED_IP": "White listed IPs",
+            "RESTRICTED_COUNTRIES": "Restricted countries",
+            "SHOW_NOTES": "Show notes",
+            "SHOW_SALES_STATUS": "Show sales status",
+            "SHOW_FTD_AMOUNT": "Show FTD Amount",
+            "SHOW_KYC_STATUS": "Show KYC status"
+          }
         }
       }
     },
@@ -2216,6 +2149,12 @@
       "MESSAGE": "To update your client version, please confirm this action"
     },
     "ADD_OFFICE_MODAL": {
+      "TITLE": "New office",
+      "CREATE_BUTTON": "Create office",
+      "LABELS": {
+        "OFFICE_NAME": "Office name",
+        "COUNTRY": "Country"
+      },
       "NOTIFICATION": {
         "SUCCESS": "Office was successfully created",
         "ERROR": "Failed to create new office"
@@ -2277,6 +2216,10 @@
       "SUBTITLE": "You are about to change password",
       "NEW_PASSWORD": "New password",
       "REPEAT_PASSWORD": "Repeat password"
+    },
+    "CHANGE_ACCOUNT_STATUS_MODAL": {
+      "TITLE": "Change account status",
+      "SUBMIT_BUTTON": "Change status"
     }
   },
   "FILE_DROPZONE": {
@@ -2359,9 +2302,7 @@
       "CALLBACKS": "Callbacks",
       "FILES": "Files",
       "NOTES": "Notes",
-      "FEED": "Feed",
-      "RISK_PROFILE": "Risk Profile",
-      "SOCIAL_TRADING": "Social Trading"
+      "FEED": "Feed"
     },
     "PROFILE": {
       "TITLE": "Profile",
@@ -2470,19 +2411,6 @@
       },
       "REGISTERED": {
         "TITLE": "Registered"
-      },
-      "QUESTIONNAIRE": {
-        "TITLE": "Questionnaire",
-        "VERSION": "Version",
-        "SCORE": "Score",
-        "DOWNLOAD_PDF": "Download PDF",
-        "STATUS_CHANGED": "Questionnaire status successfully changed",
-        "STATUSES": {
-          "NOT_PASSED": "Not passed",
-          "PASSED": "Passed",
-          "APPROVED": "Approved",
-          "REJECTED": "Rejected"
-        }
       }
     },
     "TRANSACTIONS": {
@@ -2562,7 +2490,7 @@
           "MESSAGE": "Please note that leverage changes affect open positions. Lowering leverage may result in a margin closeout."
         }
       },
-      "LEVERAGE":{
+      "LEVERAGE": {
         "FROM": "from",
         "TO": "to",
         "SINCE": "since",
@@ -2625,31 +2553,6 @@
         "TITLE": "Web Cookies"
       }
     },
-    "RISKS": {
-      "STATUS": {
-        "TITLE": "Risk category",
-        "STATUSES": {
-          "DEFAULT": "Not specified",
-          "HIGH_RISK": "High risk",
-          "MEDIUM_RISK": "Medium risk",
-          "LOW_RISK": "Low risk"
-        }
-      },
-      "TAB": {
-        "MODAL": {
-          "TITLE": "Risk Category Status Changing",
-          "ACTION_TEXT": "The Client has been assigned to the \"HIGH RISK\" category.",
-          "SUBMIT_TEXT": "OK"
-        },
-        "BUTTONS": {
-          "SAVE": "Save",
-          "CALCULATE": "Calculate"
-        },
-        "RESULT": {
-          "TOTAL_TITLE": "Customer Risk Total Score"
-        }
-      }
-    },
     "FATCA": {
       "TITLE": "FATCA"
     },
@@ -2663,11 +2566,6 @@
   },
   "MIGRATE": {
     "MIGRATION_STATUS": "Migration status",
-    "BUTTON": "Migrate to FSA",
-    "MODAL": {
-      "TITLE": "Migrate to FSA",
-      "TEXT": "Are you sure, that you want to migrate selected client(s)?"
-    },
     "NOTIFICATION": {
       "SUCCESS_TEXT": "Сlients are successfully prepared for migration",
       "ERROR_TEXT": "Bulk migration failed for some reasons"
@@ -2726,7 +2624,8 @@
     "LEADS": "Leads",
     "LEADS_FOUND": "Leads found",
     "LEADS_SELECTED": "Leads selected",
-    "SALES_INFO_UPDATED": "Leads sales info updated",
+    "BULK_ACTIONS": "Bulk actions",
+    "UPDATED": "Leads updated successfully",
     "GRID_HEADER": {
       "LEAD": "Lead",
       "COUNTRY": "Country",
@@ -2735,9 +2634,16 @@
       "STATUS": "Status",
       "LAST_NOTE": "Last note"
     },
-    "PROMOTE_INFO_MODAL": {
-      "HEADER": "Promoted leads information",
-      "BODY": "Promoted %{successAmount} of %{total}"
+    "FILTER": {
+      "SEARCH": "Search by",
+      "COUNTRIES": "Countries",
+      "DESKS": "Desks",
+      "TEAMS": "Teams",
+      "SALES_AGENTS": "Sales agents",
+      "SALES_STATUS": "Sales status",
+      "ACCOUNT_STATUS": "Account Status",
+      "REGISTRATION_DATE_RANGE": "Registration date range",
+      "LAST_NOTE_DATE_RANGE": "Last note date range"
     },
     "STATUSES": {
       "NEW": "New",
@@ -2747,6 +2653,9 @@
       "SELF_CONVETED": "self-converted"
     },
     "SUCCESS_PROMOTED": "Lead was promoted to id %{id}",
+    "LEADS_BULK_MODAL": {
+      "HEADER": "Bulk action - Sales"
+    },
     "LEADS_UPLOAD_MODAL": {
       "TITLE": "Leads upload",
       "UPLOAD_CSV_TO_IMPORT_LEADS": "Upload a CSV file to import new Leads",
@@ -2837,19 +2746,10 @@
   },
   "OFFICES": {
     "OFFICES": "Offices",
-    "ADD_OFFICE": "Add office",
+    "ADD_OFFICE": "+ Add office",
     "GRID_HEADER": {
       "OFFICE": "Office",
       "COUNTRY": "Country"
-    },
-    "MODAL": {
-      "HEADER": "New office",
-      "CREATE_BUTTON": "Create office",
-      "LABELS": {
-        "OFFICE_NAME": "Office name",
-        "COUNTRY": "Country",
-        "OFFICE_MANAGER": "Office manager"
-      }
     },
     "TABS": {
       "RULES": {
@@ -2992,7 +2892,8 @@
       "DEPOSIT": "Deposit",
       "ACCOUNT": "Account",
       "KYC": "KYC",
-      "CALLBACK": "Callback"
+      "CALLBACK": "Callback",
+      "CLIENT": "Client"
     },
     "SUBTYPES": {
       "WITHDRAWAL_REQUEST_STATUS_FINANCE_TO_EXECUTE": "Withdrawal request status finance to execute",
@@ -3015,7 +2916,8 @@
       "DEPOSIT_FAILED": "Deposit failed",
       "KYC_APPROVED": "Kyc approved",
       "CALLBACK_NAME": "Callback to %{name}",
-      "CALLBACK_TIME": "Time: %{time}"
+      "CALLBACK_TIME": "Time: %{time}",
+      "CLIENT_ASSIGNED": "Client assigned"
     },
     "TOOLTIP": {
       "HEADLINE": "Notifications found",
@@ -3166,7 +3068,10 @@
       "default": "--Select--",
       "default_placeholder": "Search",
       "available_options": "Available options",
-      "options_not_found": "Options by query \"%{query}\" not found..."
+      "options_not_found": "Available options by query \"%{query}\" not found...",
+      "selected_options": "selected options",
+      "clear": "Clear",
+      "options_selected": "options selected"
     },
     "any": "Any",
     "reset": "Reset",
@@ -3357,11 +3262,6 @@
       "SAVE": "SAVE"
     }
   },
-  "QUESTIONNAIRE": {
-    "APPROVED": "Approved",
-    "REJECTED": "Rejected",
-    "NO_QUESTIONNAIRE": "No questionnaire"
-  },
   "EMAILS": {
     "ACTIONS": {
       "SEND": "Send email"
@@ -3415,72 +3315,6 @@
       }
     }
   },
-  "SOCIAL_TRADING": {
-    "TITLE": "Social trading",
-    "SUBSCRIBERS": {
-      "TITLE": "Client's Subscriptions",
-      "GRID": {
-        "HEADERS": {
-          "SUBSCRIBER": "Subscriber",
-          "PROVIDER": "Provider",
-          "SYMBOLS": "Symbols",
-          "PRICE_MODE": "Price mode",
-          "PERFORMANCE_FEE": "Performance Fee",
-          "SHARING": "Sharing",
-          "PROFIT": "Profit",
-          "MULTIPLICATOR": "Multiplicator",
-          "STOP_LOSS": "Stop loss",
-          "MIN_MAX_LOT": "Min / Max lot",
-          "MAX_DEVIATION": "Max deviation",
-          "CREATED": "Created",
-          "UPDATED": "Updated"
-        },
-        "COLUMNS": {
-          "ID": "Id",
-          "STATUS": "Status",
-          "SHARING": "Sharing",
-          "REVERSE": "Reverse",
-          "MULTIPLICATOR": "Multiplicator",
-          "ARCHIEVED": "Archieved"
-        }
-      }
-    },
-    "PROVIDERS": {
-      "TITLE": "Client is Providing",
-      "GRID": {
-        "HEADERS": {
-          "PROVIDER": "Provider",
-          "MIN_JOIN_BALANCE": "Min join balance",
-          "PERFORMANCE_FEE": "Performance Fee",
-          "FEE_RECEIVER": "Fee receiver",
-          "COMPANY_FEE": "Company receiver fee",
-          "CURRENCY": "Currency",
-          "DESCRIPTION": "Description",
-          "STATUSES": "Statuses"
-        },
-        "COLUMNS": {
-          "ID": "Id",
-          "PUBLIC": "Public",
-          "ACTIVE": "Active",
-          "STATUS": "Status"
-        }
-      }
-    },
-    "SUBSCRIPTION_ON_PROVIDER": {
-      "TITLE": "Subscribers",
-      "GRID": {
-        "HEADERS": {
-          "SUBSCRIPTION": "Subscription",
-          "PROVIDER": "Provider",
-          "SHARING_TYPE": "Sharing type",
-          "REVERSE": "Reverse"
-        },
-        "COLUMNS": {
-          "ID": "Id"
-        }
-      }
-    }
-  },
   "WARNINGS": {
     "CARDHOLDER_INVALID": "Cardholder invalid"
   },
@@ -3491,8 +3325,7 @@
         "SEARCH_BY": "Search by",
         "SEARCH_BY_PLACEHOLDER": "UUID, Player's Full Name, Source Name.",
         "ACCOUNT_TYPE": "Account type",
-        "STATUS": "Status",
-        "AFFILIATE_TYPE": "Affiliate type"
+        "STATUS": "Status"
       },
       "ACCOUNT_TYPE": {
         "DEMO": "Demo",
@@ -3501,18 +3334,12 @@
       "STATUS": {
         "ARCHIVED": "Archived",
         "NOT_ARCHIVED": "Not archived"
-      },
-      "AFFILIATE_TYPE": {
-        "AFFILIATE": "Affiliate",
-        "IB": "IB",
-        "DIRECT": "Direct"
       }
     },
     "GRID": {
       "ACCOUNT_ID": "Account ID",
       "PLATFORM_TYPE": "Platform type",
       "PROFILE": "Client",
-      "AFFILIATE_TYPE": "Affiliate type",
       "SOURCE_NAME": "Source name",
       "DATE": "Date",
       "LEVERAGE": "Leverage",

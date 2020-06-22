@@ -31,10 +31,10 @@ PropTypes.kycStatus = PropTypes.shape({
 });
 PropTypes.pageable = content => PropTypes.shape({
   first: PropTypes.bool,
-  last: PropTypes.bool.isRequired,
+  last: PropTypes.bool,
   number: PropTypes.number,
   numberOfElements: PropTypes.number,
-  size: PropTypes.number.isRequired,
+  size: PropTypes.number,
   sort: PropTypes.arrayOf(PropTypes.shape({
     ascending: PropTypes.bool.isRequired,
     direction: PropTypes.string.isRequired,
@@ -42,7 +42,7 @@ PropTypes.pageable = content => PropTypes.shape({
     nullHandling: PropTypes.string.isRequired,
     property: PropTypes.string.isRequired,
   })),
-  totalElements: PropTypes.number.isRequired,
+  totalElements: PropTypes.number,
   totalPages: PropTypes.number,
   content: PropTypes.arrayOf(content).isRequired,
 });
@@ -76,15 +76,15 @@ PropTypes.noteEntity = PropTypes.shape({
   targetUUID: PropTypes.string,
 });
 PropTypes.fileEntity = PropTypes.shape({
-  author: PropTypes.string.isRequired,
-  category: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  playerUuid: PropTypes.string.isRequired,
-  realName: PropTypes.string.isRequired,
-  status: PropTypes.status.isRequired,
-  type: PropTypes.string.isRequired,
-  uploadDate: PropTypes.string.isRequired,
-  uuid: PropTypes.string.isRequired,
+  author: PropTypes.string,
+  category: PropTypes.string,
+  name: PropTypes.string,
+  playerUuid: PropTypes.string,
+  realName: PropTypes.string,
+  status: PropTypes.string,
+  type: PropTypes.string,
+  uploadDate: PropTypes.string,
+  uuid: PropTypes.string,
 });
 PropTypes.uploadingFile = PropTypes.shape({
   fileUuid: PropTypes.string.isRequired,
@@ -159,9 +159,9 @@ PropTypes.userProfile = PropTypes.shape({
   uuid: PropTypes.string.isRequired,
 });
 PropTypes.authorityEntity = PropTypes.shape({
-  id: PropTypes.number.isRequired,
-  department: PropTypes.string.isRequired,
-  role: PropTypes.string.isRequired,
+  id: PropTypes.number,
+  department: PropTypes.string,
+  role: PropTypes.string,
 });
 PropTypes.dropDownOption = PropTypes.shape({
   label: PropTypes.string.isRequired,
@@ -194,19 +194,33 @@ PropTypes.partnerProfile = PropTypes.shape({
   uuid: PropTypes.string,
 });
 PropTypes.partner = PropTypes.shape({
+  affiliateType: PropTypes.string,
+  authorities: PropTypes.shape({
+    data: PropTypes.arrayOf(PropTypes.authorityEntity),
+  }),
   country: PropTypes.string,
   createdAt: PropTypes.string,
+  createdBy: PropTypes.string,
   email: PropTypes.string,
   externalAffiliateId: PropTypes.string,
   firstName: PropTypes.string,
   fullName: PropTypes.string,
   lastName: PropTypes.string,
-  partnerType: PropTypes.string,
+  permission: PropTypes.shape({
+    allowedIpAddresses: PropTypes.arrayOf(PropTypes.string),
+    forbiddenCountries: PropTypes.arrayOf(PropTypes.string),
+    showFTDAmount: PropTypes.bool,
+    showKycStatus: PropTypes.bool,
+    showNotes: PropTypes.bool,
+    showSalesStatus: PropTypes.bool,
+  }),
   phone: PropTypes.string,
+  public: PropTypes.bool,
   status: PropTypes.string,
   statusChangeAuthor: PropTypes.string,
   statusChangeDate: PropTypes.string,
-  uuid: PropTypes.string,
+  statusReason: PropTypes.string,
+  uuid: PropTypes.uuid,
 });
 PropTypes.navSubItem = PropTypes.shape({
   label: PropTypes.string.isRequired,
@@ -222,7 +236,7 @@ PropTypes.auditEntity = PropTypes.shape({
   authorFullName: PropTypes.string.isRequired,
   authorUuid: PropTypes.string.isRequired,
   creationDate: PropTypes.string.isRequired,
-  details: PropTypes.object,
+  details: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
   id: PropTypes.number.isRequired,
   ip: PropTypes.string,
   targetFullName: PropTypes.string.isRequired,
@@ -448,7 +462,6 @@ PropTypes.tradingAccountsList = PropTypes.shape({
     fullName: PropTypes.string,
   }),
   affiliate: PropTypes.shape({
-    affiliateType: PropTypes.string,
     source: PropTypes.string,
   }),
   createdAt: PropTypes.string,
@@ -511,7 +524,7 @@ PropTypes.lead = PropTypes.shape({
   gender: PropTypes.string,
   city: PropTypes.string,
   language: PropTypes.string,
-  registrationDate: PropTypes.string.isRequired,
+  registrationDate: PropTypes.string,
   statusChangeDate: PropTypes.string,
 });
 PropTypes.branchHierarchyType = PropTypes.shape({
@@ -611,28 +624,39 @@ PropTypes.callback = PropTypes.shape({
     fullName: PropTypes.string,
   }),
 });
-PropTypes.operatorsList = PropTypes.arrayOf(PropTypes.shape({
+
+PropTypes.operatorsListEntity = PropTypes.shape({
   uuid: PropTypes.string,
   fullName: PropTypes.string,
-}));
+  operatorStatus: PropTypes.string,
+  hierarchy: PropTypes.shape({
+    uuid: PropTypes.string,
+    userType: PropTypes.string,
+  }),
+});
+PropTypes.operatorsList = PropTypes.arrayOf(PropTypes.operatorsListEntity);
 // # This one can be removed after ClientProfile page will be refactored
-PropTypes.partnersList = PropTypes.arrayOf(PropTypes.shape({
+PropTypes.partnersListEntity = PropTypes.shape({
   uuid: PropTypes.string,
   fullName: PropTypes.string,
   createdAt: PropTypes.string,
   externalAffiliateId: PropTypes.string,
-  partnerType: PropTypes.string,
   status: PropTypes.string,
   statusChangeDate: PropTypes.string,
   country: PropTypes.string,
-}));
-PropTypes.questionnaireLastData = PropTypes.shape({
+});
+PropTypes.partnersList = PropTypes.arrayOf(PropTypes.partnersListEntity);
+PropTypes.feed = PropTypes.shape({
+  authorFullName: PropTypes.string,
+  authorUuid: PropTypes.string,
+  brandId: PropTypes.string,
+  creationDate: PropTypes.string,
+  details: PropTypes.string,
+  id: PropTypes.number,
+  ip: PropTypes.string,
+  targetFullName: PropTypes.string,
+  tragetUuid: PropTypes.string,
   uuid: PropTypes.string,
-  status: PropTypes.string,
-  score: PropTypes.number,
-  version: PropTypes.number,
-  reviewedBy: PropTypes.string,
-  updatedAt: PropTypes.string,
 });
 PropTypes.auth = PropTypes.shape({
   department: PropTypes.string.isRequired,
@@ -759,16 +783,6 @@ PropTypes.newProfile = PropTypes.shape({
     uuid: PropTypes.string,
   }),
   age: PropTypes.string,
-  bankDetails: PropTypes.shape({
-    accountHolderName: PropTypes.string,
-    accountNumber: PropTypes.string,
-    branchName: PropTypes.string,
-    city: PropTypes.string,
-    name: PropTypes.string,
-    province: PropTypes.string,
-    swiftCode: PropTypes.string,
-    withdrawalArea: PropTypes.string,
-  }),
   birthDate: PropTypes.string,
   brandId: PropTypes.string,
   clientType: PropTypes.string,
@@ -853,94 +867,11 @@ PropTypes.newProfile = PropTypes.shape({
   uuid: PropTypes.string,
 });
 PropTypes.paymentMethods = PropTypes.arrayOf(PropTypes.string);
-PropTypes.riskAnswer = PropTypes.shape({
-  id: PropTypes.number,
-  title: PropTypes.string,
-  selected: PropTypes.bool,
-});
-PropTypes.riskQuestion = PropTypes.shape({
-  id: PropTypes.number,
-  title: PropTypes.string,
-  answers: PropTypes.arrayOf(PropTypes.riskAnswer),
-});
-PropTypes.riskQuestionSubGroup = PropTypes.shape({
-  id: PropTypes.number,
-  title: PropTypes.string,
-  questions: PropTypes.arrayOf(PropTypes.riskQuestion),
-});
-PropTypes.riskQuestionnaireGroup = PropTypes.shape({
-  id: PropTypes.number,
-  title: PropTypes.string,
-  score: PropTypes.number,
-  questionSubGroups: PropTypes.arrayOf(PropTypes.riskQuestionSubGroup),
-});
-PropTypes.riskQuestionnaire = PropTypes.shape({
-  id: PropTypes.number.isRequired,
-  questionGroups: PropTypes.arrayOf(PropTypes.riskQuestionnaireGroup),
-});
-PropTypes.riskQuestionnaireData = PropTypes.shape({
-  uuid: PropTypes.string,
-  playerUuid: PropTypes.string,
-  totalScore: PropTypes.number,
-  riskCategory: PropTypes.string,
-  questionnaire: PropTypes.riskQuestionnaire,
-});
-PropTypes.risksQuestionnaireData = PropTypes.shape({
-  riskQuestionnaireData: PropTypes.shape({
-    data: PropTypes.riskQuestionnaireData,
-  }),
-});
 PropTypes.email = PropTypes.shape({
   id: PropTypes.string,
   text: PropTypes.string,
   subject: PropTypes.string,
   name: PropTypes.string,
-});
-PropTypes.socialTradingSubscriber = PropTypes.shape({
-  priceMode: PropTypes.string,
-  stopLoss: PropTypes.number,
-  takeProfit: PropTypes.number,
-  subscriberId: PropTypes.number,
-  shareAction: PropTypes.shape({
-    typeSharing: PropTypes.string,
-    multiplicator: PropTypes.number,
-    reverse: PropTypes.bool,
-  }),
-  status: PropTypes.string,
-  minimumLot: PropTypes.number,
-  maximumLot: PropTypes.number,
-  maxDeviation: PropTypes.number,
-  symbols: PropTypes.string,
-  isArchive: PropTypes.bool,
-  totalPerformanceFee: PropTypes.number,
-  sourceId: PropTypes.number,
-  sourceName: PropTypes.string,
-  created: PropTypes.string,
-  updated: PropTypes.string,
-});
-PropTypes.socialTradingProvider = PropTypes.shape({
-  id: PropTypes.number,
-  joinMinBalance: PropTypes.number,
-  name: PropTypes.string,
-  currency: PropTypes.string,
-  performanceFee: PropTypes.number,
-  feeReceiver: PropTypes.number,
-  companyFee: PropTypes.number,
-  isPublic: PropTypes.bool,
-  isActive: PropTypes.bool,
-  status: PropTypes.string,
-  description: PropTypes.string,
-  summary: PropTypes.string,
-});
-PropTypes.socialTradingSubscriptionOnProvider = PropTypes.shape({
-  subscriberId: PropTypes.number,
-  subscriberName: PropTypes.string,
-  sourceId: PropTypes.number,
-  sourceName: PropTypes.string,
-  shareAction: PropTypes.shape({
-    typeSharing: PropTypes.string,
-    reverse: PropTypes.bool,
-  }),
 });
 PropTypes.manualPaymentMethods = PropTypes.shape({
   data: PropTypes.shape({

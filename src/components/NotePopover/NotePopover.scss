@@ -1,6 +1,6 @@
 @import "../../styles/helpers/variables";
 
-.note-popover {
+.NotePopover {
   width: 320px;
   max-width: 320px;
   background-color: $color-paper;
@@ -47,38 +47,33 @@
     font-size: 12px;
   }
 
-  .form-group {
-    &:not(:last-child) {
-      margin-bottom: 8px;
-    }
+  & label {
+    font-size: 13px;
+    margin-bottom: 2px;
+  }
 
-    & label {
-      font-size: 13px;
-      margin-bottom: 2px;
-    }
+  input,
+  textarea {
+    border-color: #ccc;
+    border-radius: 0;
+    font-size: 14px;
+    line-height: 18px;
+    padding: 2px;
+    height: 26px;
+  }
 
-    input,
-    textarea {
-      border-color: #ccc;
-      border-radius: 0;
-      font-size: 14px;
-      line-height: 18px;
-      padding: 2px;
-      height: 26px;
-    }
+  input {
+    background-color: transparent !important;
+  }
 
-    input {
-      background-color: transparent !important;
-    }
-
-    textarea {
-      height: 64px;
-      background-attachment: local;
-      background-image:
-        linear-gradient(to right, white 0px, transparent 0px),
-        linear-gradient(to left, white 0px, transparent 0px),
-        repeating-linear-gradient($color-paper, $color-paper 20px, #dfe4ed 20px, #dfe4ed 21px, #FFFDE6 21px);
-    }
+  textarea {
+    margin-bottom: 8px;
+    height: 64px;
+    background-attachment: local;
+    background-image:
+      linear-gradient(to right, white 0px, transparent 0px),
+      linear-gradient(to left, white 0px, transparent 0px),
+      repeating-linear-gradient($color-paper, $color-paper 20px, #dfe4ed 20px, #dfe4ed 21px, #FFFDE6 21px);
   }
 
   &.bs-popover-top .arrow:after {

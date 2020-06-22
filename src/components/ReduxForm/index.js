@@ -6,8 +6,6 @@ import TextAreaField from './TextAreaField';
 import DateTimeField from './DateTimeField';
 import NasSelectField from './NasSelectField';
 import DateRangePicker from './DateRangePicker';
-import MultiCurrencyValue from './MultiCurrencyValue';
-import TypeValueField from './TypeValueField';
 import CheckBox from './CheckBox';
 import RangeGroup from './RangeGroup';
 import FileInput from './FileInput';
@@ -24,8 +22,6 @@ export {
   DateTimeField,
   NasSelectField,
   DateRangePicker,
-  MultiCurrencyValue,
-  TypeValueField,
   CheckBox,
   RangeGroup,
   FileInput,

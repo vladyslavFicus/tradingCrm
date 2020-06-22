@@ -1,3 +1,3 @@
 import { lazy } from 'react';
 
-export default lazy(() => import('./containers/ProfileContainer'));
+export default lazy(() => import('./components/Profile'));

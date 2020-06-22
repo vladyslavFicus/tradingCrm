@@ -10,7 +10,6 @@ import permissions from 'config/permissions';
 import Permissions from 'utils/permissions';
 import PropTypes from 'constants/propTypes';
 import { statusColorNames, statusesLabels } from 'constants/user';
-import { fsaStatusColorNames, fsaStatusesLabels } from 'constants/fsaMigration';
 import { salesStatuses, salesStatusesColor } from 'constants/salesStatuses';
 import {
   retentionStatuses,
@@ -30,9 +29,9 @@ import CountryLabelWithFlag from 'components/CountryLabelWithFlag';
 import { UncontrolledTooltip } from 'components/Reactstrap/Uncontrolled';
 import Uuid from 'components/Uuid';
 import renderLabel from 'utils/renderLabel';
+import './ClientsGrid.scss';
 
 const changeAsquisitionStatusPermission = new Permissions(permissions.USER_PROFILE.CHANGE_ACQUISITION_STATUS);
-const migrateToFSAPermission = new Permissions(permissions.USER_PROFILE.MIGRATE_TO_FSA);
 
 class ClientsGrid extends PureComponent {
   static propTypes = {
@@ -57,10 +56,6 @@ class ClientsGrid extends PureComponent {
     allRowsSelected: false,
     touchedRowsIds: [],
     searchLimit: null,
-  };
-
-  handleRowClick = ({ uuid }) => {
-    window.open(`/clients/${uuid}/profile`, '_blank');
   };
 
   handlePageChanged = () => {
@@ -111,8 +106,7 @@ class ClientsGrid extends PureComponent {
 
     const { content: gridData, last } = get(profiles, 'profiles.data') || { content: [] };
 
-    const isAvailableMultySelect = changeAsquisitionStatusPermission.check(currentPermissions)
-      || migrateToFSAPermission.check(currentPermissions);
+    const isAvailableMultySelect = changeAsquisitionStatusPermission.check(currentPermissions);
 
     return (
       <Grid
@@ -120,14 +114,12 @@ class ClientsGrid extends PureComponent {
         allRowsSelected={allRowsSelected}
         touchedRowsIds={touchedRowsIds}
         handleSort={this.handleSort}
-        handleRowClick={this.handleRowClick}
         handleSelectRow={handleSelectRow}
         handleAllRowsSelect={handleAllRowsSelect}
         handlePageChanged={this.handlePageChanged}
         isLoading={loading}
         isLastPage={last}
         withMultiSelect={isAvailableMultySelect}
-        withRowsHover
         withLazyLoad={!searchLimit || searchLimit !== gridData.length}
         withNoResults={!loading && gridData.length === 0}
       >
@@ -178,7 +170,7 @@ class ClientsGrid extends PureComponent {
                 />
               </When>
               <Otherwise>
-                <GridEmptyValue I18n={I18n} />
+                <GridEmptyValue />
               </Otherwise>
             </Choose>
           )}
@@ -217,7 +209,7 @@ class ClientsGrid extends PureComponent {
                   </div>
                 </When>
                 <Otherwise>
-                  <GridEmptyValue I18n={I18n} />
+                  <GridEmptyValue />
                 </Otherwise>
               </Choose>
             );
@@ -286,7 +278,7 @@ class ClientsGrid extends PureComponent {
                   </If>
                 </When>
                 <Otherwise>
-                  <GridEmptyValue I18n={I18n} />
+                  <GridEmptyValue />
                 </Otherwise>
               </Choose>
             );
@@ -322,7 +314,7 @@ class ClientsGrid extends PureComponent {
                   />
                 </When>
                 <Otherwise>
-                  <GridEmptyValue I18n={I18n} />
+                  <GridEmptyValue />
                 </Otherwise>
               </Choose>
             );
@@ -358,7 +350,7 @@ class ClientsGrid extends PureComponent {
                   />
                 </When>
                 <Otherwise>
-                  <GridEmptyValue I18n={I18n} />
+                  <GridEmptyValue />
                 </Otherwise>
               </Choose>
             );
@@ -390,7 +382,7 @@ class ClientsGrid extends PureComponent {
           sortBy="lastNote.changedAt"
           header={I18n.t('CLIENTS.LIST.GRID_HEADER.LAST_NOTE')}
           render={(data) => {
-            const { uuid, changedAt, content } = get(data, 'lastNote') || {};
+            const { uuid, changedAt, content, authorFullName } = get(data, 'lastNote') || {};
 
             return (
               <Choose>
@@ -408,15 +400,14 @@ class ClientsGrid extends PureComponent {
                         .local()
                         .format('HH:mm:ss')}
                     </div>
+                    <span className="ClientsGrid__noteAuthor">
+                      {authorFullName}
+                    </span>
                     <div
-                      className="text-truncate-2-lines max-height-35 font-size-11"
+                      className="max-height-35 font-size-11 ClientsGrid__notes"
                       id={`${uuid}-note`}
                     >
-                      {
-                        (content && content.length > 100)
-                          ? `${content.slice(0, 100)}...`
-                          : content
-                      }
+                      {content}
                     </div>
                     <UncontrolledTooltip
                       placement="bottom-start"
@@ -431,7 +422,7 @@ class ClientsGrid extends PureComponent {
                   </div>
                 </When>
                 <Otherwise>
-                  <GridEmptyValue I18n={I18n} />
+                  <GridEmptyValue />
                 </Otherwise>
               </Choose>
             );
@@ -442,7 +433,6 @@ class ClientsGrid extends PureComponent {
           header={I18n.t('CLIENTS.LIST.GRID_HEADER.STATUS')}
           render={(data) => {
             const { changedAt, type } = get(data, 'status') || {};
-            const { agreedToFsaMigrationDate, fsaMigrationStatus } = get(data, 'fsaMigrationInfo') || {};
 
             return (
               <Fragment>
@@ -459,25 +449,6 @@ class ClientsGrid extends PureComponent {
                     })
                   )}
                 />
-                <If
-                  condition={
-                    getActiveBrandConfig().fsaRegulation && fsaMigrationStatus
-                  }
-                >
-                  <GridStatus
-                    colorClassName={`${fsaStatusColorNames[fsaMigrationStatus]} margin-top-5`}
-                    statusLabel={I18n.t(renderLabel(fsaMigrationStatus, fsaStatusesLabels))}
-                    info={agreedToFsaMigrationDate}
-                    infoLabel={date => (
-                      I18n.t('COMMON.SINCE', {
-                        date: moment
-                          .utc(date)
-                          .local()
-                          .format('DD.MM.YYYY HH:mm'),
-                      })
-                    )}
-                  />
-                </If>
               </Fragment>
             );
           }}

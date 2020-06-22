@@ -47,16 +47,15 @@ class NotificationsGrid extends PureComponent {
     loading: PropTypes.bool.isRequired,
   };
 
-  renderNotificationTypeAndId = ({ type, uuid }) => (
-    <Fragment>
-      <div>
-        <span className="font-weight-700">{type}</span>
-      </div>
-      <Uuid uuid={uuid} className="font-size-11" />
-    </Fragment>
+  renderNotificationUuid = ({ uuid }) => (
+    <Uuid uuid={uuid} className="font-weight-700" />
   );
 
-  renderNotificationTypeDetails = ({ type, details, subtype }) => (
+  renderNotificationType = ({ type }) => (
+    <span className="font-weight-700">{type}</span>
+  );
+
+  renderNotificationTypeDetails = ({ type, details, subtype, client }) => (
     <Fragment>
       <Choose>
         <When
@@ -73,10 +72,23 @@ class NotificationsGrid extends PureComponent {
           </span>
           <div className="font-size-11">{details.platformType} - {details.login}</div>
         </When>
-        <When condition={type === 'KYC'}>
+        <When condition={type === 'KYC' || type === 'CLIENT'}>
           <span className="font-weight-700">
             {I18n.t(notificationCenterSubTypesLabels[subtype])}
           </span>
+        </When>
+        <When condition={type === 'CALLBACK'}>
+          <div className="font-weight-700">
+            {I18n.t(
+              notificationCenterSubTypesLabels.CALLBACK_NAME,
+              { name: client.fullName },
+            )}
+          </div>
+          <div className="font-weight-700">
+            {I18n.t(notificationCenterSubTypesLabels.CALLBACK_TIME, {
+              time: moment.utc(details.callbackTime).local().format('HH:mm'),
+            })}
+          </div>
         </When>
       </Choose>
     </Fragment>
@@ -162,6 +174,7 @@ class NotificationsGrid extends PureComponent {
     return (
       <Grid
         data={entities}
+        isLoading={loading}
         isLastPage={isLastPage}
         withNoResults={!loading && entities.length === 0}
         withLazyLoad={!searchLimit || searchLimit !== entities.length}
@@ -176,11 +189,11 @@ class NotificationsGrid extends PureComponent {
       >
         <GridColumn
           header={I18n.t('NOTIFICATION_CENTER.GRID_HEADER.NOTIFICATION_TYPE')}
-          render={this.renderNotificationTypeAndId}
+          render={this.renderNotificationUuid}
         />
         <GridColumn
-          header={I18n.t('NOTIFICATION_CENTER.GRID_HEADER.NOTIFICATION_TYPE_DETAILS')}
-          render={this.renderNotificationTypeDetails}
+          header={I18n.t('NOTIFICATION_CENTER.GRID_HEADER.PRIORITY')}
+          render={this.renderPriority}
         />
         <GridColumn
           header={I18n.t('NOTIFICATION_CENTER.GRID_HEADER.AGENT')}
@@ -195,8 +208,12 @@ class NotificationsGrid extends PureComponent {
           render={this.renderNotificationDate}
         />
         <GridColumn
-          header={I18n.t('NOTIFICATION_CENTER.GRID_HEADER.PRIORITY')}
-          render={this.renderPriority}
+          header={I18n.t('NOTIFICATION_CENTER.GRID_HEADER.NOTIFICATION_TYPE')}
+          render={this.renderNotificationType}
+        />
+        <GridColumn
+          header={I18n.t('NOTIFICATION_CENTER.GRID_HEADER.NOTIFICATION_TYPE_DETAILS')}
+          render={this.renderNotificationTypeDetails}
         />
       </Grid>
     );

@@ -4,13 +4,11 @@ import { toNumber } from 'lodash';
 import humanizeDuration from 'humanize-duration';
 import { COUNTRY_SPECIFIC_IDENTIFIER_TYPES, genders } from
   'routes/Clients/routes/Profile/routes/Client/components/PersonalInformationForm/constants';
-import { riskStatuses } from 'routes/Clients/routes/Profile/components/RiskStatus/constants';
 import { departments, roles } from 'constants/operators';
 import { kycStatuses } from 'constants/kycStatuses';
 import { statuses, attributeLabels, reasons as blockReasons, unblockReasons } from 'constants/user';
 import { documentsType, categories } from 'constants/files';
 import { manualPaymentMethodsLabels, tradingStatuses, statuses as paymentStatuses } from 'constants/payment';
-import { questionnaireLevel } from 'constants/questionnaire';
 
 const humanizeDurationConfig = {
   language: 'en',
@@ -20,7 +18,6 @@ const humanizeDurationConfig = {
 };
 
 const countryIdentifierTypesPath = 'PLAYER_PROFILE.PROFILE.PERSONAL.LABEL.COUNTRY_SPECIFIC_IDENTIFIER_TYPES';
-const riskStatusesPath = 'CLIENT_PROFILE.RISKS.STATUS.STATUSES';
 const departmentsPath = 'CONSTANTS.OPERATORS.DEPARTMENTS';
 const kycStatusesPath = 'KYC_REQUESTS.STATUS';
 const rolesPath = 'CONSTANTS.OPERATORS.ROLES';
@@ -29,7 +26,6 @@ const documentTypesPath = 'FILES.DOCUMENTS_TYPE';
 const documentCategoriesPath = 'FILES.CATEGORIES';
 const manualPaymentMethodsPath = 'CONSTANTS.PAYMENT.PAYMENT_METHODS';
 const tradingStatusesPath = 'FEED_ITEM.TRADING_STATUSES';
-const questionnaireLevelPath = 'FEED_ITEM.QUESTIONNAIRE.LEVELS';
 const paymentStatusesPath = 'COMMON.PAYMENT_STATUS';
 
 const transformConstFromArr = (arr, path) => arr.reduce((acc, value) => ({
@@ -54,12 +50,10 @@ const translateValue = (value) => {
     ...(transformConstFromObj(kycStatuses, kycStatusesPath)),
     ...(transformConstFromObj(departments, departmentsPath)),
     ...(transformConstFromObj(roles, rolesPath)),
-    ...(transformConstFromObj(riskStatuses, riskStatusesPath)),
     ...(transformConstFromObj(documentsType, documentTypesPath)),
     ...(transformConstFromObj(categories, documentCategoriesPath)),
     ...(transformConstFromObj(manualPaymentMethodsLabels, manualPaymentMethodsPath)),
     ...(transformConstFromObj(tradingStatuses, tradingStatusesPath)),
-    ...(transformConstFromObj(questionnaireLevel, questionnaireLevelPath)),
     ...(transformConstFromObj(paymentStatuses, paymentStatusesPath)),
     ...(translateReasons(blockReasons)),
     ...(translateReasons(unblockReasons)),

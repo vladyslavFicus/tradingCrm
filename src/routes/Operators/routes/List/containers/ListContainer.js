@@ -1,30 +1,18 @@
-import { connect } from 'react-redux';
-import { compose } from 'redux';
-import { getFormValues } from 'redux-form';
-import { graphql, withApollo } from 'react-apollo';
+import { graphql, withApollo, compose } from 'react-apollo';
 import { get } from 'lodash';
 import { withModals, withNotifications } from 'hoc';
-import { createOperator } from 'graphql/mutations/operators';
 import { managementOperatorsQuery } from 'graphql/queries/operators';
-import CreateOperatorModalContainer from '../components/CreateOperatorModal';
-import ExistingOperatorModal from '../components/ExistingOperatorModal';
+import CreateOperatorModal from 'modals/CreateOperatorModal';
+import ExistingOperatorModal from 'modals/ExistingOperatorModal';
 import List from '../components/List';
 
-const mapStateToProps = state => ({
-  filterValues: getFormValues('operatorsListGridFilter')(state) || {},
-});
-
 export default compose(
-  connect(mapStateToProps, null),
   withApollo,
   withModals({
-    createOperator: CreateOperatorModalContainer,
+    createOperator: CreateOperatorModal,
     existingOperator: ExistingOperatorModal,
   }),
   withNotifications,
-  graphql(createOperator, {
-    name: 'submitNewOperator',
-  }),
   graphql(managementOperatorsQuery, {
     name: 'operators',
     options: ({ location: { query } }) => ({
