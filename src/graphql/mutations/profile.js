@@ -37,80 +37,12 @@ const clientsBulkRepresentativeUpdate = gql`mutation bulkRepresentativeUpdate(
   }
 }`;
 
-const updateMutation = gql`mutation update(
-  $playerUUID: String!,
-  $phone1: String,
-  $phone2: String,
-  $languageCode: String,
-  $passportNumber: String,
-  $expirationDate: String,
-  $countryOfIssue: String,
-  $passportIssueDate: String,
-  $kycStatus: String,
-  $countrySpecificIdentifier: String,
-  $countrySpecificIdentifierType: String,
-  $enableInternalTransfer: Boolean,
-){
-  profile {
-    update(
-      playerUUID: $playerUUID,
-      phone1: $phone1,
-      phone2: $phone2,
-      languageCode: $languageCode,
-      passportNumber: $passportNumber,
-      expirationDate: $expirationDate,
-      countryOfIssue: $countryOfIssue,
-      passportIssueDate: $passportIssueDate,
-      kycStatus: $kycStatus,
-      countrySpecificIdentifier: $countrySpecificIdentifier,
-      countrySpecificIdentifierType: $countrySpecificIdentifierType,
-      enableInternalTransfer: $enableInternalTransfer,
-    ) {
-      data {
-        playerUUID
-        tradingProfile {
-          phone1
-          phone2
-          languageCode
-          kycStatus
-          passport {
-            passportNumber
-            expirationDate
-            countryOfIssue
-            passportIssueDate
-          }
-          countrySpecificIdentifier
-          countrySpecificIdentifierType
-          enableInternalTransfer
-        }
-      }
-      error {
-        error
-      }
-    }
-  }
-}`;
-
-const updateLimitProfileMutation = gql`mutation update(
-  $profileId: String!,
-  $phone2: String,
-  $email2: String
-){
-  profile {
-    limitedUpdate(
-      profileId: $profileId,
-      phone2: $phone2,
-      email2: $email2
-    ) {
-      success,
-    }
-  }
-}`;
-
 const clickToCall = gql`mutation clickToCall($number: String!) {
-  profile {
-    clickToCall(number: $number) {
-      success
+  clickToCall {
+    didlogic {
+      createCall(number: $number) {
+        success
+      }
     }
   }
 }`;
@@ -172,8 +104,9 @@ const updateEmailMutation = gql`mutation updateEmail(
       playerUUID: $playerUUID,
       email: $email,
     ) {
-      error {
-        error,
+      _id
+      contacts {
+        email
       }
     }
   }
@@ -241,9 +174,7 @@ const verifyEmailMutation = gql`mutation verifyEmail($playerUUID: String!) {
 
 export {
   clientsBulkRepresentativeUpdate,
-  updateMutation,
   clickToCall,
-  updateLimitProfileMutation,
   updatePersonalInformationMutation,
   updateConfigurationMutation,
   verifyEmailMutation,
